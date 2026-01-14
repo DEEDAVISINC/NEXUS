@@ -1277,26 +1277,565 @@ Close: "Based on what you've shared, I believe we can help you achieve 90-minute
               </div>
             )}
 
-            {/* Other sectors would follow same pattern - truncated for brevity */}
-            {selectedSector && selectedSector !== 'emergency-logistics' && (
+            {/* NEMT SECTOR */}
+            {selectedSector === 'nemt' && (
               <div>
                 <div className="mb-6">
-                  <h2 className="text-3xl font-bold mb-2">
-                    {selectedSector === 'nemt' && '🚑 NEMT (DEPOINTE System)'}
-                    {selectedSector === 'freight-brokerage' && '🚚 Freight Brokerage (FleetFlow™)'}
-                    {selectedSector === 'valet-services' && '🏥 Valet Services (DEPOINTE Valet)'}
-                    {selectedSector === 'federal-compliance' && '🔍 Federal Compliance (LiveCompliance)'}
-                    {selectedSector === 'nonprofit' && '💚 Nonprofit (CAUSE WE CARE)'}
-                  </h2>
-                  <p className="text-gray-400">Complete sector system</p>
+                  <h2 className="text-3xl font-bold mb-2">🚑 NEMT (DEPOINTE System)</h2>
+                  <p className="text-gray-400">Complete system for healthcare/Medicaid transportation</p>
                 </div>
-                <div className="bg-gray-800 rounded-xl p-8 text-center">
-                  <p className="text-gray-400">Sector detail pages coming soon. Emergency Logistics sector is fully functional above!</p>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">👤 Client Avatar</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Target Title</p>
+                        <p className="text-white">Medicaid Director, MCO Manager, Hospital CFO</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Company Size</p>
+                        <p className="text-white">Healthcare systems, 500-5000 patients/month</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Pain Points</p>
+                        <p className="text-white">22% patient no-shows, $200K+ lost revenue, compliance issues</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Goals</p>
+                        <p className="text-white">Reduce no-shows to 5%, recover lost revenue, improve HEDIS scores</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-purple-400">🛤️ Success Path</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                        <h4 className="font-bold text-red-400 mb-2">Point A: Current State</h4>
+                        <p className="text-gray-300 text-sm">22% no-show rate, fragmented transportation, lost revenue</p>
+                      </div>
+                      <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-bold text-green-400 mb-2">Point B: Desired State</h4>
+                        <p className="text-gray-300 text-sm">5% no-show rate, integrated NEMT system, $200K+ recovered annually</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-green-400">💰 Pricing</h3>
+                    <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                      <p className="text-3xl font-bold text-green-400 mb-2">$100K Annual</p>
+                      <p className="text-gray-300">$16.7K monthly • Full NEMT program</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">📧 Email Sequence (7 emails)</h3>
+                    <div className="space-y-3">
+                      {[
+                        { title: 'Email 1: Problem Hook', subject: 'Are 22% no-shows killing your revenue?' },
+                        { title: 'Email 2: Cost Analysis', subject: 'You\'re losing $200K+ annually (here\'s how)' },
+                        { title: 'Email 3: Solution Intro', subject: 'How to cut no-shows to 5% in 90 days' },
+                        { title: 'Email 4: Social Proof', subject: 'Case study: Hospital X recovered $300K year 1' },
+                        { title: 'Email 5: ROI Calculator', subject: 'Calculate YOUR potential savings' },
+                        { title: 'Email 6: Urgency', subject: 'Limited Q2 implementation slots' },
+                        { title: 'Email 7: Soft Close', subject: 'Free 15-min assessment call?' }
+                      ].map((email, idx) => (
+                        <div key={idx} className="bg-gray-700/50 p-4 rounded-lg">
+                          <p className="font-semibold mb-2">{email.title}</p>
+                          <p className="text-sm text-gray-400">{email.subject}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-yellow-400">🎤 Discovery Script</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+{`Opening: "Hi [Name], thanks for taking time. I help healthcare systems reduce patient no-shows from 22% to 5%. What's your current no-show rate?"
+
+Discovery Questions:
+1. What's your current patient no-show rate?
+2. What's the financial impact of no-shows?
+3. What transportation challenges do your patients face?
+4. How much would recovering $200K annually mean to your organization?
+5. What's preventing you from solving this now?
+
+Close: "Based on what you've shared, I believe we can help you reduce no-shows to 5% and recover significant revenue. Would a 15-minute strategy call make sense?"`}
+                      </p>
+                    </div>
+                  </div>
+
                   <button 
-                    onClick={() => setSelectedSector('emergency-logistics')}
-                    className="mt-4 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
+                    onClick={() => {
+                      setAvatarFormData({
+                        avatarName: 'Medicaid Director / MCO Manager',
+                        companySize: 'Healthcare systems, 500-5000 patients/month',
+                        industry: 'Healthcare, Medicaid, MCO',
+                        painPoints: '22% patient no-shows, $200K+ lost revenue, compliance issues',
+                        goals: 'Reduce no-shows to 5%, recover lost revenue, improve HEDIS scores',
+                        budget: '$100K',
+                        decisionMakers: 'Medicaid Director, CFO, Operations VP',
+                        prospectId: ''
+                      });
+                      setActiveTab('client-avatar');
+                      showNotification('✅ NEMT avatar loaded!', 'success');
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition"
                   >
-                    View Emergency Logistics →
+                    🚀 Load This Avatar into Builder
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* FREIGHT BROKERAGE SECTOR */}
+            {selectedSector === 'freight-brokerage' && (
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold mb-2">🚚 Freight Brokerage (FleetFlow™)</h2>
+                  <p className="text-gray-400">Complete system for manufacturing freight optimization</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">👤 Client Avatar</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Target Title</p>
+                        <p className="text-white">Supply Chain VP, Logistics Director, Operations Manager</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Company Size</p>
+                        <p className="text-white">Manufacturers, $2M-$10M annual freight spend</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Pain Points</p>
+                        <p className="text-white">High freight costs, inconsistent service, lack of visibility</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Goals</p>
+                        <p className="text-white">Save 25% on freight, improve delivery times, gain supply chain visibility</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-purple-400">🛤️ Success Path</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                        <h4 className="font-bold text-red-400 mb-2">Point A: Current State</h4>
+                        <p className="text-gray-300 text-sm">$2.4M freight spend, 15% waste, fragmented carriers</p>
+                      </div>
+                      <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-bold text-green-400 mb-2">Point B: Desired State</h4>
+                        <p className="text-gray-300 text-sm">Save $600K annually, integrated TMS, reliable carrier network</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-green-400">💰 Pricing</h3>
+                    <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                      <p className="text-3xl font-bold text-green-400 mb-2">$80K Annual</p>
+                      <p className="text-gray-300">$13.3K monthly • Full optimization program</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">📧 Email Sequence (6 emails)</h3>
+                    <div className="space-y-3">
+                      {[
+                        { title: 'Email 1: Cost Hook', subject: 'Wasting 25% of your freight budget?' },
+                        { title: 'Email 2: ROI Case Study', subject: 'How Manufacturer X saved $600K on freight' },
+                        { title: 'Email 3: Solution Preview', subject: 'Cut freight costs 25% in 4 months' },
+                        { title: 'Email 4: Risk Reversal', subject: 'Guaranteed $200K savings or we refund' },
+                        { title: 'Email 5: Social Proof', subject: '12 manufacturers using FleetFlow™' },
+                        { title: 'Email 6: Call Invitation', subject: 'Free freight audit ($5K value)' }
+                      ].map((email, idx) => (
+                        <div key={idx} className="bg-gray-700/50 p-4 rounded-lg">
+                          <p className="font-semibold mb-2">{email.title}</p>
+                          <p className="text-sm text-gray-400">{email.subject}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-yellow-400">🎤 Discovery Script</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+{`Opening: "Hi [Name], I help manufacturers save 25% on freight spend. What's your annual freight budget?"
+
+Discovery Questions:
+1. What's your current annual freight spend?
+2. What percentage do you think you're wasting?
+3. What are your biggest freight challenges? (cost, service, visibility)
+4. What would saving $600K annually mean for your P&L?
+5. What's preventing you from optimizing freight now?
+
+Close: "Based on $2.4M spend, we can likely save you $600K annually. Would a free freight audit make sense?"`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      setAvatarFormData({
+                        avatarName: 'Supply Chain VP / Logistics Director',
+                        companySize: 'Manufacturers, $2M-$10M annual freight spend',
+                        industry: 'Manufacturing, Supply Chain',
+                        painPoints: 'High freight costs, inconsistent service, lack of visibility',
+                        goals: 'Save 25% on freight, improve delivery times, gain supply chain visibility',
+                        budget: '$80K',
+                        decisionMakers: 'VP Supply Chain, CFO, Operations Director',
+                        prospectId: ''
+                      });
+                      setActiveTab('client-avatar');
+                      showNotification('✅ Freight Brokerage avatar loaded!', 'success');
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition"
+                  >
+                    🚀 Load This Avatar into Builder
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* VALET SERVICES SECTOR */}
+            {selectedSector === 'valet-services' && (
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold mb-2">🏥 Valet Services (DEPOINTE Valet)</h2>
+                  <p className="text-gray-400">Complete system for hospital parking revenue</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">👤 Client Avatar</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Target Title</p>
+                        <p className="text-white">Hospital CFO, Patient Experience Director, Facilities Manager</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Company Size</p>
+                        <p className="text-white">Hospitals, 200-1000 beds, urban locations</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Pain Points</p>
+                        <p className="text-white">Limited parking, poor patient experience, lost revenue opportunity</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Goals</p>
+                        <p className="text-white">Increase parking revenue 35%, improve patient satisfaction scores</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-purple-400">🛤️ Success Path</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                        <h4 className="font-bold text-red-400 mb-2">Point A: Current State</h4>
+                        <p className="text-gray-300 text-sm">$250K parking revenue, poor patient experience, missed opportunity</p>
+                      </div>
+                      <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-bold text-green-400 mb-2">Point B: Desired State</h4>
+                        <p className="text-gray-300 text-sm">$350K+ annual revenue, improved HCAHPS scores, premium service</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-green-400">💰 Pricing</h3>
+                    <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                      <p className="text-3xl font-bold text-green-400 mb-2">$60K Annual</p>
+                      <p className="text-gray-300">$10K monthly • Full valet program launch</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">📧 Email Sequence (5 emails)</h3>
+                    <div className="space-y-3">
+                      {[
+                        { title: 'Email 1: Opportunity Hook', subject: 'Missing $350K in parking revenue?' },
+                        { title: 'Email 2: Patient Experience', subject: 'How valet improved our HCAHPS by 12%' },
+                        { title: 'Email 3: ROI Breakdown', subject: '$100K additional revenue with $60K investment' },
+                        { title: 'Email 4: Case Study', subject: 'Hospital Y added $400K parking revenue year 1' },
+                        { title: 'Email 5: Call Invitation', subject: 'Free parking revenue assessment' }
+                      ].map((email, idx) => (
+                        <div key={idx} className="bg-gray-700/50 p-4 rounded-lg">
+                          <p className="font-semibold mb-2">{email.title}</p>
+                          <p className="text-sm text-gray-400">{email.subject}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-yellow-400">🎤 Discovery Script</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+{`Opening: "Hi [Name], I help hospitals increase parking revenue by 35% while improving patient experience. What's your current parking revenue?"
+
+Discovery Questions:
+1. What's your current parking capacity and revenue?
+2. What parking challenges do patients complain about?
+3. How important is patient experience to your organization?
+4. What would $350K additional annual revenue mean?
+5. What's preventing you from maximizing parking revenue now?
+
+Close: "Based on what you've shared, we can help you add $100K+ annually. Would a free parking assessment make sense?"`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      setAvatarFormData({
+                        avatarName: 'Hospital CFO / Patient Experience Director',
+                        companySize: 'Hospitals, 200-1000 beds, urban locations',
+                        industry: 'Healthcare, Hospital Services',
+                        painPoints: 'Limited parking, poor patient experience, lost revenue opportunity',
+                        goals: 'Increase parking revenue 35%, improve patient satisfaction scores',
+                        budget: '$60K',
+                        decisionMakers: 'CFO, Patient Experience Director, Facilities Manager',
+                        prospectId: ''
+                      });
+                      setActiveTab('client-avatar');
+                      showNotification('✅ Valet Services avatar loaded!', 'success');
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition"
+                  >
+                    🚀 Load This Avatar into Builder
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* FEDERAL COMPLIANCE SECTOR */}
+            {selectedSector === 'federal-compliance' && (
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold mb-2">🔍 Federal Compliance (LiveCompliance)</h2>
+                  <p className="text-gray-400">Complete system for HR onboarding optimization</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">👤 Client Avatar</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Target Title</p>
+                        <p className="text-white">HR Director, Compliance Manager, Operations VP</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Company Size</p>
+                        <p className="text-white">Companies with 200+ employees, regulated industries</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Pain Points</p>
+                        <p className="text-white">18-day onboarding, compliance risk, $195K in lost productivity</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Goals</p>
+                        <p className="text-white">Cut onboarding to 5 days, ensure compliance, save $195K annually</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-purple-400">🛤️ Success Path</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                        <h4 className="font-bold text-red-400 mb-2">Point A: Current State</h4>
+                        <p className="text-gray-300 text-sm">18-day onboarding, manual compliance checks, productivity loss</p>
+                      </div>
+                      <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-bold text-green-400 mb-2">Point B: Desired State</h4>
+                        <p className="text-gray-300 text-sm">5-day onboarding, automated compliance, $195K savings annually</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-green-400">💰 Pricing</h3>
+                    <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                      <p className="text-3xl font-bold text-green-400 mb-2">$25K Annual</p>
+                      <p className="text-gray-300">$4.2K monthly • Complete compliance package</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">📧 Email Sequence (5 emails)</h3>
+                    <div className="space-y-3">
+                      {[
+                        { title: 'Email 1: Cost Hook', subject: 'Is 18-day onboarding costing you $195K?' },
+                        { title: 'Email 2: Compliance Risk', subject: 'One failed audit could cost you millions' },
+                        { title: 'Email 3: Solution Intro', subject: 'Cut onboarding to 5 days (guaranteed)' },
+                        { title: 'Email 4: Social Proof', subject: 'Company X saved $200K with LiveCompliance' },
+                        { title: 'Email 5: Call Invitation', subject: 'Free compliance assessment' }
+                      ].map((email, idx) => (
+                        <div key={idx} className="bg-gray-700/50 p-4 rounded-lg">
+                          <p className="font-semibold mb-2">{email.title}</p>
+                          <p className="text-sm text-gray-400">{email.subject}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-yellow-400">🎤 Discovery Script</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+{`Opening: "Hi [Name], I help companies cut onboarding from 18 days to 5 days. How long is your current onboarding process?"
+
+Discovery Questions:
+1. What's your current onboarding timeline?
+2. What compliance requirements do you need to track?
+3. What's the cost of slow onboarding? (productivity, compliance risk)
+4. What would saving $195K annually mean to your organization?
+5. What's preventing you from optimizing onboarding now?
+
+Close: "Based on what you've shared, we can help you cut onboarding to 5 days and save $195K. Would a free compliance assessment make sense?"`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      setAvatarFormData({
+                        avatarName: 'HR Director / Compliance Manager',
+                        companySize: 'Companies with 200+ employees, regulated industries',
+                        industry: 'HR, Compliance, Regulated Industries',
+                        painPoints: '18-day onboarding, compliance risk, $195K in lost productivity',
+                        goals: 'Cut onboarding to 5 days, ensure compliance, save $195K annually',
+                        budget: '$25K',
+                        decisionMakers: 'HR Director, Compliance Manager, Operations VP',
+                        prospectId: ''
+                      });
+                      setActiveTab('client-avatar');
+                      showNotification('✅ Federal Compliance avatar loaded!', 'success');
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition"
+                  >
+                    🚀 Load This Avatar into Builder
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* NONPROFIT SECTOR */}
+            {selectedSector === 'nonprofit' && (
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold mb-2">💚 Nonprofit (CAUSE WE CARE)</h2>
+                  <p className="text-gray-400">Complete system for nonprofit earned revenue</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">👤 Client Avatar</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Target Title</p>
+                        <p className="text-white">Executive Director, Development Director, Board President</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Company Size</p>
+                        <p className="text-white">Nonprofits with $500K-$5M budgets</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Pain Points</p>
+                        <p className="text-white">Grant dependency, restricted funding, revenue sustainability concerns</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-400 mb-1">Goals</p>
+                        <p className="text-white">Build $150K+ earned revenue stream, reduce grant dependency, unrestricted funding</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-purple-400">🛤️ Success Path</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                        <h4 className="font-bold text-red-400 mb-2">Point A: Current State</h4>
+                        <p className="text-gray-300 text-sm">90% grant-dependent, restricted funding, sustainability risk</p>
+                      </div>
+                      <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                        <h4 className="font-bold text-green-400 mb-2">Point B: Desired State</h4>
+                        <p className="text-gray-300 text-sm">$150K+ annual earned revenue, sustainable operations, unrestricted funding</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-green-400">💰 Pricing</h3>
+                    <div className="bg-green-900/30 border border-green-700 rounded-lg p-4">
+                      <p className="text-3xl font-bold text-green-400 mb-2">$50K Annual</p>
+                      <p className="text-gray-300">$8.3K monthly • Social enterprise build</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-blue-400">📧 Email Sequence (6 emails)</h3>
+                    <div className="space-y-3">
+                      {[
+                        { title: 'Email 1: Sustainability Hook', subject: 'Are you too grant-dependent?' },
+                        { title: 'Email 2: Revenue Opportunity', subject: 'Build $150K earned revenue stream' },
+                        { title: 'Email 3: Social Enterprise', subject: 'How nonprofits build sustainable revenue' },
+                        { title: 'Email 4: Case Study', subject: 'Nonprofit X built $200K social enterprise' },
+                        { title: 'Email 5: ROI', subject: '$50K investment → $150K+ annual revenue' },
+                        { title: 'Email 6: Call Invitation', subject: 'Free revenue assessment call' }
+                      ].map((email, idx) => (
+                        <div key={idx} className="bg-gray-700/50 p-4 rounded-lg">
+                          <p className="font-semibold mb-2">{email.title}</p>
+                          <p className="text-sm text-gray-400">{email.subject}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 text-yellow-400">🎤 Discovery Script</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap">
+{`Opening: "Hi [Name], I help nonprofits build $150K+ earned revenue streams. What percentage of your budget is grant-funded?"
+
+Discovery Questions:
+1. What's your current budget breakdown? (grants vs earned revenue)
+2. What are your biggest sustainability concerns?
+3. What assets/services could you monetize?
+4. What would $150K unrestricted annual revenue mean?
+5. What's preventing you from building earned revenue now?
+
+Close: "Based on what you've shared, we can help you build a $150K+ social enterprise. Would a free revenue assessment make sense?"`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      setAvatarFormData({
+                        avatarName: 'Executive Director / Development Director',
+                        companySize: 'Nonprofits with $500K-$5M budgets',
+                        industry: 'Nonprofit, Social Sector',
+                        painPoints: 'Grant dependency, restricted funding, revenue sustainability concerns',
+                        goals: 'Build $150K+ earned revenue stream, reduce grant dependency, unrestricted funding',
+                        budget: '$50K',
+                        decisionMakers: 'Executive Director, Board President, Development Director',
+                        prospectId: ''
+                      });
+                      setActiveTab('client-avatar');
+                      showNotification('✅ Nonprofit avatar loaded!', 'success');
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition"
+                  >
+                    🚀 Load This Avatar into Builder
                   </button>
                 </div>
               </div>
