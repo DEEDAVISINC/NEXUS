@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Both PDF Extraction Methods</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; padding: 20px; }
+        .method { border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; }
+        .auto { border-color: #007acc; background: #f0f8ff; }
+        .manual { border-color: #28a745; background: #f8fff8; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .code { background: #f4f4f4; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+        button { background: #007acc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #005999; }
+        .manual-btn { background: #28a745; }
+        .manual-btn:hover { background: #1e7e34; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test BOTH PDF Extraction Methods</h1>
+
+    <div class="method auto">
+        <h2>🤖 Method 1: Automatic PDF Upload (What NEXUS Does)</h2>
+        <p>This simulates what happens when you upload a PDF to NEXUS and click "Extract Contacts"</p>
+
+        <div class="code">
+PDF Content (what would be extracted):
+John Smith
+Contracting Officer
+Department of Defense
+john.smith@defense.gov
+(202) 555-0123
+
+Sarah Johnson
+Program Manager
+General Services Administration
+sarah.johnson@gsa.gov
+(202) 555-0456
+
+Mike Davis
+Technical POC
+Defense Advanced Research Projects Agency
+mike.davis@darpa.mil
+(571) 555-0789
+        </div>
+
+        <button onclick="testAutomatic()">🚀 Test Automatic Extraction</button>
+        <div id="autoResult"></div>
+    </div>
+
+    <div class="method manual">
+        <h2>📝 Method 2: Manual Text Entry (Backup Option)</h2>
+        <p>This simulates clicking "Enter Text Manually" in NEXUS</p>
+
+        <div class="code">
+Example manual entry:
+John Smith, Contracting Officer, john.smith@defense.gov, (202) 555-0123
+Sarah Johnson, Program Manager, sarah.johnson@gsa.gov, (202) 555-0456
+        </div>
+
+        <button class="manual-btn" onclick="testManual()">📝 Test Manual Entry</button>
+        <div id="manualResult"></div>
+    </div>
+
+    <div class="method" style="border-color: #ffc107; background: #fffbf0;">
+        <h2>🎯 Expected Results</h2>
+        <p>Both methods should return:</p>
+        <ul>
+            <li><strong>✅ Success:</strong> contacts_found = 3</li>
+            <li><strong>✅ Contacts:</strong> john.smith@defense.gov, sarah.johnson@gsa.gov, mike.davis@darpa.mil</li>
+            <li><strong>✅ Storage:</strong> All contacts saved to Airtable</li>
+        </ul>
+
+        <p><strong>If automatic PDF extraction fails in NEXUS, use the manual text entry option!</strong></p>
+    </div>
+
+    <script>
+        async function testAutomatic() {
+            const resultDiv = document.getElementById('autoResult');
+            resultDiv.innerHTML = '<p>⏳ Testing automatic extraction...</p>';
+
+            const testPDFContent = `SOLICITATION INFORMATION
+RFP-2024-001
+Department of Defense
+
+CONTACT INFORMATION:
+
+John Smith
+Contracting Officer
+Department of Defense
+john.smith@defense.gov
+(202) 555-0123
+
+Sarah Johnson
+Program Manager
+General Services Administration
+sarah.johnson@gsa.gov
+(202) 555-0456
+
+Mike Davis
+Technical POC
+Defense Advanced Research Projects Agency
+mike.davis@darpa.mil
+(571) 555-0789
+
+SUBMISSION REQUIREMENTS:
+Submit proposals to john.smith@defense.gov`;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/extract-contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        document_text: testPDFContent,
+                        document_name: "automatic-test.pdf"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ AUTOMATIC EXTRACTION SUCCESS!</div>
+                        <div class="code">
+                            <strong>Found:</strong> ${result.contacts_found} contacts<br>
+                            <strong>Stored:</strong> ${result.contacts_stored} contacts<br>
+                            <strong>Contacts:</strong><br>
+                            ${result.stored_contacts.map(c => `• ${c.email} (${c.action})`).join('<br>')}
+                            <br>
+                            <strong>Agency:</strong> ${result.metadata.agency}<br>
+                            <strong>Primary Contact:</strong> ${result.metadata.primary_contact}
+                        </div>
+                        <p><strong>🎉 This proves NEXUS PDF extraction works!</strong></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ Automatic extraction failed</div>';
+                }
+
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testManual() {
+            const resultDiv = document.getElementById('manualResult');
+            resultDiv.innerHTML = '<p>⏳ Testing manual entry...</p>';
+
+            const manualText = `John Smith, Contracting Officer, john.smith@defense.gov, (202) 555-0123
+Sarah Johnson, Program Manager, sarah.johnson@gsa.gov, (202) 555-0456
+Mike Davis, Technical POC, mike.davis@darpa.mil, (571) 555-0789`;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/extract-contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        document_text: `Manually entered contact information:\n\n${manualText}`,
+                        document_name: "manual-test.pdf"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ MANUAL ENTRY SUCCESS!</div>
+                        <div class="code">
+                            <strong>Found:</strong> ${result.contacts_found} contacts<br>
+                            <strong>Stored:</strong> ${result.contacts_stored} contacts<br>
+                            <strong>Contacts:</strong><br>
+                            ${result.stored_contacts.map(c => `• ${c.email} (${c.action})`).join('<br>')}
+                        </div>
+                        <p><strong>🎉 Manual entry works perfectly as backup!</strong></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ Manual entry failed</div>';
+                }
+
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Real PDF Extraction</title>
+    <style>
+        body { font-family: monospace; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .code { background: #f4f4f4; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Real PDF Contact Extraction</h1>
+    
+    <p>This page tests if the backend can extract real contacts from PDF content.</p>
+    
+    <h2>Test Content:</h2>
+    <div class="code">
+        <pre id="testContent">SOLICITATION INFORMATION
+Solicitation Number: RFP-2024-001
+Agency: Department of Defense
+
+CONTACT INFORMATION:
+
+Contracting Officer:
+Name: John Smith
+Email: john.smith@defense.gov
+Phone: (202) 555-0123
+
+Program Manager:
+Name: Sarah Johnson  
+Email: sarah.johnson@army.mil
+Phone: (703) 555-0456
+
+Technical POC:
+Name: Mike Davis
+Email: mike.davis@darpa.mil
+Phone: (571) 555-0789
+
+SUBMISSION REQUIREMENTS:
+Submit to john.smith@defense.gov by January 31, 2026.</pre>
+    </div>
+    
+    <button onclick="testExtraction()">🧪 Test Contact Extraction</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function testExtraction() {
+            const resultDiv = document.getElementById('result');
+            const testContent = document.getElementById('testContent').textContent;
+            
+            resultDiv.innerHTML = '<p>⏳ Testing extraction...</p>';
+            
+            try {
+                const response = await fetch('http://127.0.0.1:8000/extract-contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        document_text: testContent,
+                        document_name: "test-real-extraction.pdf"
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ SUCCESS! Found ${result.contacts_found} contacts</div>
+                        <div class="code">
+                            <strong>Contacts Found:</strong><br>
+                            ${result.stored_contacts.map(c => 
+                                `• ${c.email} (${c.action})`
+                            ).join('<br>')}
+                            <br><br>
+                            <strong>Agency:</strong> ${result.metadata.agency}<br>
+                            <strong>Document Type:</strong> ${result.metadata.document_type}<br>
+                            <strong>Primary Contact:</strong> ${result.metadata.primary_contact}
+                        </div>
+                        <p><strong>✅ This proves the backend can extract REAL contacts from PDF text!</strong></p>
+                        <p><strong>Now upload a real PDF to NEXUS and it should work the same way.</strong></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ Extraction failed</div>';
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

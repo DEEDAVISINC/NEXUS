@@ -1,0 +1,46 @@
+{
+  "manifest": {
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Voice assistant for NEXUS government contracting system",
+          "examplePhrases": [
+            "Alexa, tell ALEXIS NEXUS to create opportunity",
+            "Alexa, ask ALEXIS NEXUS to add contact John Smith",
+            "Alexa, ask ALEXIS NEXUS what's my status"
+          ],
+          "name": "NEXUS ALEXIS",
+          "description": "Manage your government contracting opportunities, contacts, and projects with voice commands through your NEXUS system."
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Say 'Alexa, open ALEXIS NEXUS' to start managing your government contracting system.",
+      "category": "PRODUCTIVITY",
+      "distributionCountries": ["US"]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda",
+          "uri": "lambda_function.lambda_handler"
+        },
+        "interfaces": []
+      }
+    },
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "en-US": {
+          "privacyPolicyUrl": "https://your-nexus-domain.com/privacy",
+          "termsOfUseUrl": "https://your-nexus-domain.com/terms"
+        }
+      }
+    }
+  }
+}

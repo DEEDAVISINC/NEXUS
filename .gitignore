@@ -1,0 +1,7 @@
+# NEXUS - Do not commit these files
+.env
+*.pyc
+__pycache__/
+.DS_Store
+.vscode/
+*.log

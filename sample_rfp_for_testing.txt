@@ -1,0 +1,85 @@
+SAMPLE RFP FOR TESTING NEXUS CONTACT EXTRACTION
+================================================
+
+This is a sample RFP document you can use to test NEXUS contact extraction.
+
+Copy this text, paste it into a word processor, and save as PDF to test the upload functionality.
+
+CONTACT INFORMATION:
+===================
+
+PRIMARY CONTRACTING OFFICER:
+Name: Sarah Martinez
+Title: Senior Contracting Officer
+Email: sarah.martinez@defense.gov
+Phone: (703) 555-0123
+Agency: Department of Defense
+Office: Defense Logistics Agency
+
+TECHNICAL POINT OF CONTACT:
+Name: Dr. Michael Chen
+Title: Technical Program Manager
+Email: michael.chen@darpa.mil
+Phone: (571) 555-0456
+Agency: Defense Advanced Research Projects Agency
+Division: Tactical Technology Office
+
+PROGRAM MANAGER:
+Name: Jennifer Rodriguez
+Title: Program Manager
+Email: jennifer.rodriguez@army.mil
+Phone: (703) 555-0789
+Agency: U.S. Army
+Office: Program Executive Office
+
+CONTRACT ADMINISTRATOR:
+Name: Robert Thompson
+Title: Contract Administrator
+Email: robert.thompson@dla.mil
+Phone: (703) 555-0321
+Agency: Defense Logistics Agency
+Division: Procurement Operations
+
+SECURITY OFFICER:
+Name: Lisa Park
+Title: Information Security Officer
+Email: lisa.park@defense.gov
+Phone: (703) 555-0654
+Agency: Department of Defense
+Clearance Required: Secret
+
+SUBMISSION INSTRUCTIONS:
+=======================
+All proposals must be submitted electronically to:
+sarah.martinez@defense.gov
+
+Questions should be directed to:
+Dr. Michael Chen at michael.chen@darpa.mil
+
+PERIOD OF PERFORMANCE:
+=====================
+Base Year: 12 months
+Option Year 1: 12 months
+Option Year 2: 12 months
+Option Year 3: 12 months
+Option Year 4: 12 months
+
+DELIVERABLES:
+============
+Phase 1: System Design Document (90 days)
+Phase 2: Prototype Development (180 days)
+Phase 3: Testing and Evaluation (270 days)
+Phase 4: Final Delivery (365 days)
+
+EVALUATION CRITERIA:
+===================
+Technical Approach: 40%
+Past Performance: 25%
+Price: 20%
+Small Business Participation: 15%
+
+POINT OF CONTACT FOR QUESTIONS:
+==============================
+All questions must be submitted in writing to:
+Jennifer Rodriguez
+jennifer.rodriguez@army.mil

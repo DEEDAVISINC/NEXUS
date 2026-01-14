@@ -1,0 +1,119 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "alexis nexus",
+      "intents": [
+        {
+          "name": "CreateOpportunityIntent",
+          "slots": [
+            {
+              "name": "title",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{title}",
+                "called {title}",
+                "titled {title}",
+                "for {title}"
+              ]
+            },
+            {
+              "name": "value",
+              "type": "AMAZON.Number",
+              "samples": [
+                "worth {value} dollars",
+                "valued at {value}",
+                "value {value}",
+                "{value} dollars"
+              ]
+            },
+            {
+              "name": "agency",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "for {agency}",
+                "with {agency}",
+                "agency {agency}"
+              ]
+            }
+          ],
+          "samples": [
+            "create opportunity {title}",
+            "create opportunity {title} worth {value} dollars",
+            "create opportunity {title} for {agency}",
+            "create opportunity {title} worth {value} dollars for {agency}",
+            "add opportunity {title}",
+            "add opportunity {title} value {value}",
+            "new opportunity {title}",
+            "new opportunity {title} for {agency}"
+          ]
+        },
+        {
+          "name": "CreateContactIntent",
+          "slots": [
+            {
+              "name": "name",
+              "type": "AMAZON.Person",
+              "samples": [
+                "{name}",
+                "named {name}",
+                "called {name}"
+              ]
+            },
+            {
+              "name": "email",
+              "type": "AMAZON.EmailAddress",
+              "samples": [
+                "email {email}",
+                "at {email}",
+                "{email}"
+              ]
+            },
+            {
+              "name": "phone",
+              "type": "AMAZON.PhoneNumber",
+              "samples": [
+                "phone {phone}",
+                "{phone}"
+              ]
+            }
+          ],
+          "samples": [
+            "add contact {name}",
+            "add contact {name} email {email}",
+            "add contact {name} phone {phone}",
+            "add contact {name} email {email} phone {phone}",
+            "create contact {name}",
+            "create contact {name} at {email}",
+            "new contact {name} {email}"
+          ]
+        },
+        {
+          "name": "GetStatusIntent",
+          "samples": [
+            "what's my status",
+            "give me a status update",
+            "how am I doing",
+            "what's my pipeline status",
+            "tell me my status",
+            "status update",
+            "how are things going",
+            "what's happening"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}

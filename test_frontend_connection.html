@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend-Backend Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .code { background: #f4f4f4; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        button { background: #007acc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #005999; }
+    </style>
+</head>
+<body>
+    <h1>🔗 Test Frontend-Backend Connection</h1>
+    
+    <p>This tests if the frontend can connect to the backend API (simulating what NEXUS does)</p>
+    
+    <button onclick="testConnection()">🔗 Test Connection</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>⏳ Testing connection...</p>';
+            
+            try {
+                // This simulates what the NEXUS frontend does
+                const response = await fetch('http://127.0.0.1:8000/extract-contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        document_text: 'Frontend connection test: jane.smith@agency.gov (202) 555-7890',
+                        document_name: 'frontend-test.pdf'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ CONNECTION SUCCESSFUL!</div>
+                        <div class="code">
+                            <strong>API Response:</strong><br>
+                            Contacts Found: ${result.contacts_found}<br>
+                            Contacts Stored: ${result.contacts_stored}<br>
+                            Primary Contact: ${result.metadata.primary_contact}<br>
+                            Agency: ${result.metadata.agency}<br><br>
+                            <strong>Stored Contacts:</strong><br>
+                            ${result.stored_contacts.map(c => `• ${c.email} (${c.action})`).join('<br>')}
+                        </div>
+                        <p><strong>🎉 Frontend can connect to backend perfectly!</strong></p>
+                        <p><strong>The issue must be in the PDF text extraction, not the connection.</strong></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ API call succeeded but returned error</div>';
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ CONNECTION FAILED</div>
+                    <div class="code">
+                        Error: ${error.message}
+                    </div>
+                    <p><strong>Possible issues:</strong></p>
+                    <ul>
+                        <li>Backend server not running (port 8000)</li>
+                        <li>CORS issues</li>
+                        <li>Firewall blocking connection</li>
+                        <li>Wrong API endpoint URL</li>
+                    </ul>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
