@@ -362,6 +362,21 @@ END:VCALENDAR`;
       lastUsed: 'Just now'
     },
     {
+      id: 'gbis' as ViewType,
+      name: 'GBIS',
+      fullName: 'Grant Business Intelligence System',
+      icon: '🎁',
+      description: 'Grant Discovery • AI Applications • ROI Tracking',
+      stats: [
+        '0 Active Grants',
+        '0 Applications',
+        '$0 Awarded'
+      ],
+      gradient: 'from-yellow-600 to-orange-600',
+      status: 'online',
+      lastUsed: 'New!'
+    },
+    {
       id: 'lbpc' as ViewType,
       name: 'LBPC',
       fullName: 'Lancaster Banques P.C.',

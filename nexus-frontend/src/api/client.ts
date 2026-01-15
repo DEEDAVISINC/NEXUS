@@ -231,4 +231,35 @@ export const api = {
   updateConversation: (sessionId: string, data: any) => ApiClient.put(`/ai/conversations/${sessionId}`, data),
   getConversation: (sessionId: string) => ApiClient.get(`/ai/conversations/${sessionId}`),
   getAllConversations: () => ApiClient.get('/ai/conversations'),
+
+  // GBIS (Grant Business Intelligence System)
+  getGbisOpportunities: (filters?: {
+    priorityLevel?: string;
+    funderType?: string;
+    division?: string;
+    status?: string;
+  }) => {
+    const params = new URLSearchParams();
+    if (filters?.priorityLevel && filters.priorityLevel !== 'all') params.append('priority_level', filters.priorityLevel);
+    if (filters?.funderType && filters.funderType !== 'all') params.append('funder_type', filters.funderType);
+    if (filters?.division && filters.division !== 'all') params.append('division', filters.division);
+    if (filters?.status && filters.status !== 'all') params.append('status', filters.status);
+    const query = params.toString();
+    return ApiClient.get(`/gbis/opportunities${query ? `?${query}` : ''}`);
+  },
+  getGbisApplications: (filters?: {status?: string}) => {
+    const params = new URLSearchParams();
+    if (filters?.status) params.append('status', filters.status);
+    const query = params.toString();
+    return ApiClient.get(`/gbis/applications${query ? `?${query}` : ''}`);
+  },
+  getGbisPipeline: () => ApiClient.get('/gbis/pipeline'),
+  getGbisStoryLibrary: () => ApiClient.get('/gbis/story-library'),
+  getGbisStats: () => ApiClient.get('/gbis/stats'),
+  calculateGrantScore: (opportunityData: any) =>
+    ApiClient.post('/gbis/calculate-score', opportunityData),
+  generateGrantApplication: (opportunityId: string) =>
+    ApiClient.post('/gbis/generate-application', {opportunity_id: opportunityId}),
+  mineGrantSource: (sourceId: string) =>
+    ApiClient.post('/gbis/mine-source', {target_id: sourceId}),
 };
