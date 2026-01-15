@@ -1,119 +1,1245 @@
 {
-  "interactionModel": {
-    "languageModel": {
-      "invocationName": "alexis nexus",
-      "intents": [
-        {
-          "name": "CreateOpportunityIntent",
-          "slots": [
-            {
-              "name": "title",
-              "type": "AMAZON.SearchQuery",
-              "samples": [
-                "{title}",
-                "called {title}",
-                "titled {title}",
-                "for {title}"
-              ]
-            },
-            {
-              "name": "value",
-              "type": "AMAZON.Number",
-              "samples": [
-                "worth {value} dollars",
-                "valued at {value}",
-                "value {value}",
-                "{value} dollars"
-              ]
-            },
-            {
-              "name": "agency",
-              "type": "AMAZON.SearchQuery",
-              "samples": [
-                "for {agency}",
-                "with {agency}",
-                "agency {agency}"
-              ]
-            }
-          ],
-          "samples": [
-            "create opportunity {title}",
-            "create opportunity {title} worth {value} dollars",
-            "create opportunity {title} for {agency}",
-            "create opportunity {title} worth {value} dollars for {agency}",
-            "add opportunity {title}",
-            "add opportunity {title} value {value}",
-            "new opportunity {title}",
-            "new opportunity {title} for {agency}"
-          ]
-        },
-        {
-          "name": "CreateContactIntent",
-          "slots": [
-            {
-              "name": "name",
-              "type": "AMAZON.Person",
-              "samples": [
-                "{name}",
-                "named {name}",
-                "called {name}"
-              ]
-            },
-            {
-              "name": "email",
-              "type": "AMAZON.EmailAddress",
-              "samples": [
-                "email {email}",
-                "at {email}",
-                "{email}"
-              ]
-            },
-            {
-              "name": "phone",
-              "type": "AMAZON.PhoneNumber",
-              "samples": [
-                "phone {phone}",
-                "{phone}"
-              ]
-            }
-          ],
-          "samples": [
-            "add contact {name}",
-            "add contact {name} email {email}",
-            "add contact {name} phone {phone}",
-            "add contact {name} email {email} phone {phone}",
-            "create contact {name}",
-            "create contact {name} at {email}",
-            "new contact {name} {email}"
-          ]
-        },
-        {
-          "name": "GetStatusIntent",
-          "samples": [
-            "what's my status",
-            "give me a status update",
-            "how am I doing",
-            "what's my pipeline status",
-            "tell me my status",
-            "status update",
-            "how are things going",
-            "what's happening"
-          ]
-        },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "alexis nexus",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "cancel that",
+                        "nevermind",
+                        "stop",
+                        "cancel"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "HelloWorldIntent",
+                    "slots": [],
+                    "samples": [
+                        "hello",
+                        "how are you",
+                        "say hi world",
+                        "say hi",
+                        "hi",
+                        "say hello world",
+                        "say hello"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "GetProjectStatus",
+                    "slots": [],
+                    "samples": [
+                        "show me bottlenecks across the command center",
+                        "which ATLAS PM projects are tied to government opportunities",
+                        "what DDCSS problems are matched to active GPSS contracts",
+                        "show me the government opportunity pipeline",
+                        "what high-priority items need attention right now",
+                        "what's the current operational status in NEXUS",
+                        "give me a system-wide briefing from NEXUS",
+                        "show me the executive dashboard across all systems"
+                    ]
+                },
+                {
+                    "name": "DictateMeetingNotes",
+                    "slots": [],
+                    "samples": [
+                        "add notes from the performance review meeting",
+                        "record decisions made in the quarterly business call",
+                        "dictate follow-ups from the project planning meeting",
+                        "capture discussion points from the compliance review",
+                        "log notes from the executive leadership call",
+                        "add meeting notes for the strategic planning session",
+                        "dictate action items from today's briefing",
+                        "record a meeting note for the operations discussion"
+                    ]
+                },
+                {
+                    "name": "GetComplianceLandscape",
+                    "slots": [],
+                    "samples": [
+                        "give me critical compliance alerts across the organization",
+                        "list all active regulatory requirements",
+                        "what's the status on my business certifications",
+                        "show me outstanding compliance documentation needs",
+                        "give me the compliance status for my operations",
+                        "what certifications need renewal",
+                        "show me regulatory requirements across all divisions",
+                        "what are my upcoming compliance deadlines"
+                    ]
+                },
+                {
+                    "name": "GetInvoiceStatus",
+                    "slots": [],
+                    "samples": [
+                        " show me invoices due in the next thirty days",
+                        "what's the status of the contract invoicing",
+                        "show me paid vs unpaid invoices by division",
+                        "give me invoices awaiting approval",
+                        "what's the total accounts receivable",
+                        "which clients have outstanding payments",
+                        "give me invoice status across all divisions",
+                        "what invoices are past due",
+                        "show me pending invoices"
+                    ]
+                },
+                {
+                    "name": "AMAZON.ReadAction<object@Calendar>",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.SearchAction<object@Calendar>",
+                    "samples": []
+                },
+                {
+                    "name": "GetFinancialMetrics",
+                    "slots": [],
+                    "samples": [
+                        "give me financial alerts and thresholds",
+                        "what divisions are most profitable",
+                        "show me revenue trends month over month",
+                        "what's my total government contract revenue",
+                        "give me financial health status",
+                        "show me profit margins across operations",
+                        "what's the current contract revenue pipeline",
+                        "give me year-to-date financial performance",
+                        "show me revenue by division"
+                    ]
+                },
+                {
+                    "name": "ExplainNexusFeature",
+                    "slots": [],
+                    "samples": [
+                        "how do I set up calendar reminders in the system",
+                        "explain the meeting dictation workflow",
+                        "what NEXUS features are available for project tracking",
+                        "how do I generate a financial report",
+                        "explain the government opportunity pipeline",
+                        "show me how to access division metrics",
+                        "how does the compliance tracking work",
+                        "explain the reporting features",
+                        "how do I use the invoicing module in NEXUS"
+                    ]
+                },
+                {
+                    "name": "GetReminders",
+                    "slots": [],
+                    "samples": [
+                        "what critical reminders are pending",
+                        "give me a reminder summary",
+                        "what am I supposed to be reminded about",
+                        "show me reminders for this week",
+                        "do I have any reminders for today",
+                        "when is my next reminder",
+                        "list all active reminders",
+                        "show me my upcoming reminders",
+                        "what reminders do I have"
+                    ]
+                },
+                {
+                    "name": "ManageContacts",
+                    "slots": [],
+                    "samples": [
+                        "who should I contact for this issue",
+                        "show me team member contact information",
+                        "list my government buyer contacts",
+                        "find the contact details for my vendors",
+                        "show me all contacts in my organization",
+                        "update contact information",
+                        "add a new contact to my system",
+                        "who is the primary contact for this project",
+                        "show me contact information for my team"
+                    ]
+                },
+                {
+                    "name": "CreateTask",
+                    "slots": [],
+                    "samples": [
+                        "create a task for project completion",
+                        "set a task priority",
+                        "create a recurring task",
+                        "add a follow-up task",
+                        "assign this task to a team member",
+                        "create a task with a deadline",
+                        "add an action item to my list",
+                        "assign me a task for tomorrow",
+                        "create a task for the team"
+                    ]
+                },
+                {
+                    "name": "GetNotifications",
+                    "slots": [],
+                    "samples": [
+                        "what system alerts are active",
+                        "do I have any urgent notifications",
+                        "show me notifications from today",
+                        "list critical notifications",
+                        "what alerts are waiting for me",
+                        "show me unread notifications",
+                        "give me a notification summary",
+                        "what notifications do I have",
+                        "show me my notifications"
+                    ]
+                },
+                {
+                    "name": "SendMessage",
+                    "slots": [],
+                    "samples": [
+                        "message the operations team",
+                        "send a message with attachments",
+                        "create a communication about this",
+                        "send an update to stakeholders",
+                        "draft a message for my contacts",
+                        "send a notification to the group",
+                        "create a message to my manager",
+                        "send an email about this project",
+                        "send a message to the team"
+                    ]
+                },
+                {
+                    "name": "UpdateCalendar",
+                    "slots": [],
+                    "samples": [
+                        "add notes to the calendar event",
+                        "move this meeting to a different time",
+                        "update the event details",
+                        "add a recurring calendar event",
+                        "block time for this project",
+                        "modify the meeting time",
+                        "add a meeting to the schedule",
+                        "update my calendar for tomorrow",
+                        "add an event to my calendar"
+                    ]
+                },
+                {
+                    "name": "GenerateReport",
+                    "slots": [],
+                    "samples": [
+                        "generate a compliance report",
+                        "create a dashboard report",
+                        "show me an analytics report",
+                        "generate a progress report",
+                        "create a financial report",
+                        "generate a metrics report",
+                        "show me a summary report",
+                        "create a performance report",
+                        "generate a status report"
+                    ]
+                },
+                {
+                    "name": "TrackExpenses",
+                    "slots": [],
+                    "samples": [
+                        "show me expenses for this month",
+                        "track departmental spending",
+                        "add a reimbursement request",
+                        "show expenses by category",
+                        "what are my total expenses",
+                        "track project expenses",
+                        "show me current expenses",
+                        "add a business expense",
+                        "log an expense"
+                    ]
+                },
+                {
+                    "name": "RequestApproval",
+                    "slots": [],
+                    "samples": [
+                        "request approval from the team lead",
+                        "submit for management review",
+                        "ask for executive approval",
+                        "request authorization for this action",
+                        "send a proposal for approval",
+                        "request budget approval",
+                        "ask for sign-off on this",
+                        "send an approval request to management",
+                        "request approval for this item"
+                    ]
+                },
+                {
+                    "name": "LogActivity",
+                    "slots": [],
+                    "samples": [
+                        "document this decision",
+                        "log this accomplishment",
+                        "add activity notes",
+                        "record this meeting",
+                        "log time spent on this task",
+                        "document this action",
+                        "log this activity",
+                        "add an activity entry",
+                        "record what I just completed"
+                    ]
+                },
+                {
+                    "name": "ManageVendorRelationships",
+                    "slots": [],
+                    "samples": [
+                        "list preferred vendors by division",
+                        "show me vendor invoices",
+                        "manage vendor compliance status",
+                        "update vendor contact information",
+                        "track vendor delivery performance",
+                        "show me vendor agreements",
+                        "list all active vendors",
+                        "what's the status of my partner relationships",
+                        "show me vendor performance metrics"
+                    ]
+                },
+                {
+                    "name": "GetBudgetStatus",
+                    "slots": [],
+                    "samples": [
+                        "what budget thresholds have been exceeded",
+                        "show me contract budget tracking",
+                        "give me division budget overview",
+                        "show me budget alerts",
+                        "what's my total budget utilization",
+                        "show me spending by project",
+                        "how much budget remains",
+                        "what's the budget for this contract",
+                        "show me project budget status"
+                    ]
+                },
+                {
+                    "name": "SearchGovernmentContracts",
+                    "slots": [],
+                    "samples": [
+                        "what new federal opportunities are available",
+                        "search contracts by agency",
+                        "show me available contract categories",
+                        "find government contracts for my divisions",
+                        "search for federal buyer opportunities",
+                        "show me active contract opportunities",
+                        "what government contracts match my criteria",
+                        "search for federal opportunities",
+                        "show me available government contracts"
+                    ]
+                },
+                {
+                    "name": "GetContractorRequirements",
+                    "slots": [],
+                    "samples": [
+                        "what experience requirements are needed",
+                        "show me contractor qualification requirements",
+                        "what insurance is required",
+                        "show me past performance requirements",
+                        "what are the security clearance requirements",
+                        "show me bonding requirements",
+                        "what certifications do I need",
+                        "show me compliance requirements for this opportunity",
+                        "what are the contractor requirements for this bid"
+                    ]
+                },
+                {
+                    "name": "TrackFederalContractProgress",
+                    "slots": [],
+                    "samples": [
+                        "what's the status of my active contracts",
+                        "show me contract completion timeline",
+                        "give me deliverable progress",
+                        "show me contract schedule status",
+                        "what's the status of my performance obligations",
+                        "show me contract delivery status",
+                        "give me a contract milestone update",
+                        "what's the progress on my current contracts",
+                        "show me my federal contract status"
+                    ]
+                },
+                {
+                    "name": "AnalyzeGPSSPipeline",
+                    "slots": [],
+                    "samples": [
+                        "show me pipeline aging",
+                        "what's the total pipeline revenue",
+                        "give me pipeline forecast",
+                        "show me pipeline stage distribution",
+                        "what's my win probability across the pipeline",
+                        "show me pipeline by agency",
+                        "analyze my contract opportunities",
+                        "what's my pipeline value",
+                        "show me my contract pipeline"
+                    ]
+                },
+                {
+                    "name": "GetContractDetails",
+                    "slots": [],
+                    "samples": [
+                        "show me contracts easiest for us to win",
+                        "show me contract location and requirements",
+                        "what's included in this contract",
+                        "give me the contract schedule",
+                        "show me contract performance metrics",
+                        "what are the contract deliverables",
+                        "show me contract terms and conditions",
+                        "give me the scope of work details",
+                        "what are the contract specifications",
+                        "show me details for this contract"
+                    ]
+                },
+                {
+                    "name": "IdentifyBidOpportunities",
+                    "slots": [],
+                    "samples": [
+                        "which opportunities should I prioritize",
+                        "show me bid deadlines",
+                        "what opportunities align with my certifications",
+                        "which bids have the best win probability",
+                        "show me hot bid opportunities",
+                        "what opportunities are right for my divisions",
+                        "which contracts should I pursue",
+                        "show me upcoming bid opportunities",
+                        "what bid opportunities match my capabilities"
+                    ]
+                },
+                {
+                    "name": "GetFederalBuyerInfo",
+                    "slots": [],
+                    "samples": [
+                        "show me contract under two hunded and fifty thousand dollar that are urgent",
+                        "show me buyer performance preferences",
+                        "who should I connect with at this agency",
+                        "show me buyer contact relationships",
+                        "what's the buyer procurement strategy",
+                        "show me buyer contract history",
+                        "what are the buyer requirements",
+                        "show me buyer agency information",
+                        "who are the key buyers for my services",
+                        "show me federal buyer contact information"
+                    ]
+                },
+                {
+                    "name": "GetContractComplianceRequirements",
+                    "slots": [],
+                    "samples": [
+                        "what audit requirements are mandatory",
+                        "show me compliance standards",
+                        "what reporting requirements apply",
+                        "show me security and clearance requirements",
+                        "what compliance documentation is needed",
+                        "show me required certifications",
+                        "what regulations govern this contract",
+                        "show me federal compliance obligations",
+                        "what compliance requirements apply to this contract"
+                    ]
+                },
+                {
+                    "name": "GetContractDeadlines",
+                    "slots": [],
+                    "samples": [
+                        "what critical dates apply to this contract",
+                        "when is the contract completion date",
+                        "show me reporting deadlines",
+                        "what are the payment terms deadlines",
+                        "when must I submit compliance documentation",
+                        "show me delivery deadlines",
+                        "what are my contract milestones",
+                        "when is the proposal due",
+                        "show me contract deadlines"
+                    ]
+                },
+                {
+                    "name": "AnalyzeBidWinProbability",
+                    "slots": [],
+                    "samples": [
+                        "what's my competitive advantage",
+                        "analyze competition for this opportunity",
+                        "what's my likelihood of success",
+                        "show me historical bid performance",
+                        "compare my capabilities to competitors",
+                        "what factors affect my win probability",
+                        "show me my win rate for similar contracts",
+                        "analyze my competitive position",
+                        "what's my win probability on this bid"
+                    ]
+                },
+                {
+                    "name": "GetContractModifications",
+                    "slots": [],
+                    "samples": [
+                        "show me contract revision history",
+                        "what supplemental terms apply",
+                        "show me recent contract updates",
+                        "what modifications impact pricing",
+                        "show me contract change orders",
+                        "what changes affect my obligations",
+                        "show me modified contract terms",
+                        "what amendments have been issued",
+                        "show me contract changes or modifications"
+                    ]
+                },
+                {
+                    "name": "TrackContractPerformance",
+                    "slots": [],
+                    "samples": [
+                        "what's my overall performance rating",
+                        "are there any performance issues",
+                        "show me performance against targets",
+                        "what's my compliance status",
+                        "show me customer satisfaction ratings",
+                        "what's my on-time delivery rate",
+                        "show me quality performance data",
+                        "am I meeting performance requirements",
+                        "show me my contract performance metrics"
+                    ]
+                },
+                {
+                    "name": "GetSubcontractorOpportunities",
+                    "slots": [],
+                    "samples": [
+                        "show me framework agreement opportunities",
+                        "show me prime contractors that need to partner with EDWOSB subcontractor",
+                        "what roles need to be filled",
+                        "show me subcontract potential",
+                        "what teaming partners should I target",
+                        "show me subcontract partnerships",
+                        "what prime contracts are looking for subcontractors",
+                        "show me teaming opportunities",
+                        "who needs subcontractors for this work",
+                        "show me subcontracting opportunities"
+                    ]
+                },
+                {
+                    "name": "ManageProjectTasks",
+                    "slots": [],
+                    "samples": [
+                        "add a task to the project plan",
+                        "reassign a task to someone else",
+                        "what tasks need completion",
+                        "show me overdue tasks",
+                        "update task status",
+                        "assign this task to a team member",
+                        "create a new task for the project",
+                        "what tasks are assigned to my team",
+                        "show me project tasks for this contract"
+                    ]
+                },
+                {
+                    "name": "UpdateProjectStatus",
+                    "slots": [],
+                    "samples": [
+                        "update project completion percentage",
+                        "change project priority",
+                        "update deliverable status",
+                        "change task assignment",
+                        "modify the project timeline",
+                        "update task progress",
+                        "change the project phase",
+                        "mark this task as complete",
+                        "update the project status"
+                    ]
+                },
+                {
+                    "name": "GetProjectMetrics",
+                    "slots": [],
+                    "samples": [
+                        "what's the project efficiency rating",
+                        "give me project quality metrics",
+                        "show me project productivity metrics",
+                        "what's the schedule variance",
+                        "show me resource utilization",
+                        "what's the budget variance",
+                        "show me task completion rate",
+                        "what's the project health status",
+                        "show me project performance metrics"
+                    ]
+                },
+                {
+                    "name": "AssignResources",
+                    "slots": [],
+                    "samples": [
+                        "update resource assignments",
+                        "who should I assign to this role",
+                        "show me resource skills and availability",
+                        "reallocate resources",
+                        "assign multiple resources",
+                        "what's the team capacity",
+                        "allocate resources for this project",
+                        "show me available team members",
+                        "assign a resource to this task"
+                    ]
+                },
+                {
+                    "name": "TrackProjectBudget",
+                    "slots": [],
+                    "samples": [
+                        "show me budget allocation",
+                        "what costs are over budget",
+                        "give me a budget forecast",
+                        "show me spending trends",
+                        "what's the budget variance",
+                        "show me budget by task",
+                        "how much budget is remaining",
+                        "what's my budget utilization",
+                        "show me the project budget"
+                    ]
+                },
+                {
+                    "name": "ManageDependencies",
+                    "slots": [],
+                    "samples": [
+                        "identify dependency conflicts",
+                        "what predecessor tasks are needed",
+                        "show me dependency chains",
+                        "resolve task dependencies",
+                        "what's blocking this task",
+                        "show me critical path dependencies",
+                        "create a task dependency",
+                        "what tasks depend on this task",
+                        "show me task dependencies"
+                    ]
+                },
+                {
+                    "name": "GetMilestoneStatus",
+                    "slots": [],
+                    "samples": [
+                        "show me milestone dependencies",
+                        "what's required for milestone completion",
+                        "are we on track for the milestone",
+                        "show me milestone progress",
+                        "what deliverables are due at this milestone",
+                        "show me completed milestones",
+                        "when is the milestone due",
+                        "what's the status of the next milestone",
+                        "show me project milestones"
+                    ]
+                },
+                {
+                    "name": "TrackProjectRisks",
+                    "slots": [],
+                    "samples": [
+                        "show me risk owner assignments",
+                        "what's the risk status",
+                        "identify potential project risks",
+                        "show me active risks",
+                        "what's the risk impact level",
+                        "show me risk mitigation plans",
+                        "how likely is this risk",
+                        "what risks could impact the project",
+                        "show me project risks"
+                    ]
+                },
+                {
+                    "name": "GetTeamCapacity",
+                    "slots": [],
+                    "samples": [
+                        "identify capacity constraints",
+                        "what's the team bandwidth",
+                        "who is underutilized",
+                        "show me upcoming capacity",
+                        "how much capacity do we have",
+                        "show me resource allocation",
+                        "what's the team workload",
+                        "who has availability for this project",
+                        "show me team capacity"
+                    ]
+                },
+                {
+                    "name": "LogProjectTime",
+                    "slots": [],
+                    "samples": [
+                        "show me time estimates vs actual",
+                        "update time entries",
+                        "show me time tracking summary",
+                        "what hours have been logged",
+                        "show me time by task",
+                        "log time for the team",
+                        "add timesheet entry",
+                        "record hours worked",
+                        "log time on this task"
+                    ]
+                },
+                {
+                    "name": "GetProjectDocumentation",
+                    "slots": [],
+                    "samples": [
+                        "where is the risk register",
+                        "show me project meeting notes",
+                        "find the contract documentation",
+                        "show me project reports",
+                        "get the requirements document",
+                        "show me project specifications",
+                        "find the scope of work document",
+                        "where is the project plan",
+                        "show me project documents"
+                    ]
+                },
+                {
+                    "name": "ManageProjectCommunications",
+                    "slots": [],
+                    "samples": [
+                        "send a client update",
+                        "create a team notification",
+                        "send a project announcement",
+                        "broadcast to the project team",
+                        "communicate a project change",
+                        "send a status report",
+                        "notify the team about this",
+                        "create a project communication",
+                        "send a project update"
+                    ]
+                },
+                {
+                    "name": "GetProjectHealth",
+                    "slots": [],
+                    "samples": [
+                        "give me a health assessment",
+                        "is the project at risk",
+                        "what's the project risk level",
+                        "show me project health metrics",
+                        "are there any project issues",
+                        "what's the project status",
+                        "show me project health status",
+                        "is the project on track",
+                        "what's the overall project health"
+                    ]
+                },
+                {
+                    "name": "SearchMarketProblems",
+                    "slots": [],
+                    "samples": [
+                        "what market inefficiencies exist",
+                        "search for revenue-generating problems",
+                        "show me unsolved business challenges",
+                        "what pain points exist in my target market",
+                        "find high-value problems in the market",
+                        "show me emerging market gaps",
+                        "what problems are businesses facing",
+                        "search for business problems to solve",
+                        "show me profitable market problems"
+                    ]
+                },
+                {
+                    "name": "GetMVPStatus",
+                    "slots": [],
+                    "samples": [
+                        "give me MVP scorecard",
+                        "show me MVP validation status",
+                        "which MVPs should I prioritize",
+                        "show me MVP revenue potential",
+                        "what's the status of my MVPs",
+                        "show me MVP rankings",
+                        "give me MVP analysis",
+                        "what are my top MVPs",
+                        "show me my most valuable problems"
+                    ]
+                },
+                {
+                    "name": "AnalyzeProblemSolution",
+                    "slots": [],
+                    "samples": [
+                        "analyze the solution approach",
+                        "what's the time to solve this problem",
+                        "show me solution complexity",
+                        "is this a solvable problem",
+                        "analyze the problem-solution match",
+                        "what's the solution feasibility",
+                        "show me solution validation data",
+                        "is there a viable solution for this problem",
+                        "analyze this problem and solution fit"
+                    ]
+                },
+                {
+                    "name": "GetMarketOpportunityAnalysis",
+                    "slots": [],
+                    "samples": [
+                        "analyze competitive market dynamics",
+                        "show me market entry strategy",
+                        "what's the market timing",
+                        "show me market growth projections",
+                        "what's the total market potential",
+                        "show me addressable market",
+                        "analyze the market opportunity",
+                        "what's the opportunity size for this problem",
+                        "show me market opportunity analysis"
+                    ]
+                },
+                {
+                    "name": "ValidateProblemHypothesis",
+                    "slots": [],
+                    "samples": [
+                        "what assumptions need validation",
+                        "show me customer validation data",
+                        "what validation methods were used",
+                        "show me problem validation results",
+                        "have I validated the problem",
+                        "what evidence supports this problem",
+                        "show me validation data",
+                        "is this problem real",
+                        "validate this problem hypothesis"
+                    ]
+                },
+                {
+                    "name": "GetMarketSize",
+                    "slots": [],
+                    "samples": [
+                        "what's the realistic market size",
+                        "show me market penetration potential",
+                        "what's the market TAM",
+                        "show me revenue potential",
+                        "how large is the opportunity",
+                        "show me market sizing analysis",
+                        "what's the serviceable market",
+                        "show me total addressable market",
+                        "what's the market size for this problem"
+                    ]
+                },
+                {
+                    "name": "GetCompetitorAnalysis",
+                    "slots": [],
+                    "samples": [
+                        "analyze the competitive environment",
+                        "show me competitive pricing",
+                        "what's the competition level",
+                        "show me competitor strengths and weaknesses",
+                        "how do I differentiate",
+                        "show me competitive landscape",
+                        "what's my competitive advantage",
+                        "who are my competitors for this solution",
+                        "show me competitor analysis"
+                    ]
+                },
+                {
+                    "name": "GetProblemSeverityRating",
+                    "slots": [],
+                    "samples": [
+                        "how does this compare to other problems",
+                        "what's the problem priority",
+                        "rate this problem's importance",
+                        "show me severity assessment",
+                        "how critical is this issue",
+                        "what's the impact level",
+                        "show me problem severity scoring",
+                        "how urgent is this problem",
+                        "what's the severity of this problem"
+                    ]
+                },
+                {
+                    "name": "IdentifyTargetAudience",
+                    "slots": [],
+                    "samples": [
+                        "show me customer persona analysis",
+                        "identify high-value customer segments",
+                        "who would pay for this solution",
+                        "show me market segments",
+                        "who has this problem most acutely",
+                        "what's the ideal customer demographic",
+                        "identify the customer profile",
+                        "show me target market segments",
+                        "who should I target for this solution"
+                    ]
+                },
+                {
+                    "name": "GetSolutionFeasibility",
+                    "slots": [],
+                    "samples": [
+                        "analyze the solution viability",
+                        "what's the risk of implementation",
+                        "show me time to market",
+                        "how much would this cost to build",
+                        "what resources are required",
+                        "show me implementation feasibility",
+                        "what's the technical feasibility",
+                        "show me feasibility analysis",
+                        "is this solution feasible"
+                    ]
+                },
+                {
+                    "name": "GetProblemTrends",
+                    "slots": [],
+                    "samples": [
+                        "what future trends matter",
+                        "show me seasonal trends",
+                        "what's driving problem growth",
+                        "show me trend projections",
+                        "how is this problem evolving",
+                        "show me market trend analysis",
+                        "is this problem growing",
+                        "what trends affect this problem",
+                        "show me problem trends"
+                    ]
+                },
+                {
+                    "name": "AnalyzeProblemToRevenuePotential",
+                    "slots": [],
+                    "samples": [
+                        "what's the financial upside",
+                        "show me revenue forecast",
+                        "how much could we charge",
+                        "show me profit margin potential",
+                        "what's the revenue model",
+                        "show me pricing potential",
+                        "how much revenue could this generate",
+                        "show me monetization potential",
+                        "what's the revenue potential for solving this"
+                    ]
+                },
+                {
+                    "name": "RankProblemsByOpportunity",
+                    "slots": [],
+                    "samples": [
+                        "show me opportunity recommendations",
+                        "rank by market size",
+                        "show me problems by revenue potential",
+                        "what's the priority ranking",
+                        "show me opportunity scoring",
+                        "which problems should I tackle first",
+                        "show me problems ranked by potential",
+                        "what are my top opportunities",
+                        "rank my problems by opportunity"
+                    ]
+                },
+                {
+                    "name": "GetFederalComplianceConsulting",
+                    "slots": [],
+                    "samples": [
+                        "show me consulting client satisfaction",
+                        "what deliverables are pending",
+                        "show me compliance consulting metrics",
+                        "how many organizations are we consulting",
+                        "show me compliance consulting revenue",
+                        "what's the scope of consulting engagements",
+                        "show me consulting project status",
+                        "what clients are we serving",
+                        "show me federal compliance consulting projects"
+                    ]
+                },
+                {
+                    "name": "GetFactoringConsultation",
+                    "slots": [],
+                    "samples": [
+                        "what factoring services are being used",
+                        "show me factoring metrics",
+                        "how many factoring clients are active",
+                        "show me factoring revenue",
+                        "show me factoring service status",
+                        "what factoring clients do we have",
+                        "show me factoring consultation engagements"
+                    ]
+                },
+                {
+                    "name": "GetExecutiveBriefing",
+                    "slots": [],
+                    "samples": [
+                        "summarize the state of all divisions",
+                        "what's the status of my top initiatives",
+                        "give me a full operational briefing",
+                        "what are the strategic priorities",
+                        "show me today's key metrics",
+                        "give me a ten minute briefing",
+                        "what needs my attention right now",
+                        "show me critical alerts and actions",
+                        "what are my top priorities today",
+                        "give me my daily executive briefing"
+                    ]
+                },
+                {
+                    "name": "GetContractOpportunitiesAlert",
+                    "slots": [],
+                    "samples": [
+                        "what agencies are seeking my services",
+                        "show me high-value opportunities",
+                        "what contracts align with my business lines",
+                        "show me emerging federal opportunities",
+                        "notify me of contract deadlines",
+                        "what contracts are available for my certifications",
+                        "show me hot bid opportunities",
+                        "what federal contracts match my divisions",
+                        "show me new government contract opportunities"
+                    ]
+                },
+                {
+                    "name": "GetStrategicInitiativeStatus",
+                    "slots": [],
+                    "samples": [
+                        "are we meeting strategic objectives",
+                        "show me strategic timeline",
+                        "what's the progress on proprietary systems",
+                        "show me milestones for key projects",
+                        "what initiatives need attention",
+                        "what strategic initiatives are on track",
+                        "show me technology platform roadmap",
+                        "what's the status of IP protection documentation",
+                        "how is ATLAS PM implementation progressing",
+                        "what's the status of FleetFlow development"
+                    ]
+                },
+                {
+                    "name": "PrepareForMeeting",
+                    "slots": [],
+                    "samples": [
+                        "show me the meeting context and history",
+                        "prepare a talking points brief",
+                        "pull the contract details for this meeting",
+                        "what should I know before this call",
+                        "show me relevant emails for this meeting",
+                        "get me ready for my strategy session",
+                        "compile information for this contract discussion",
+                        "show me background on this federal buyer",
+                        "pull all data for my two pm call",
+                        "prepare me for my next meeting"
+                    ]
+                },
+                {
+                    "name": "GetGovernmentContractPipeline",
+                    "slots": [],
+                    "samples": [
+                        "give me a full pipeline briefing",
+                        "show me next steps on each contract",
+                        "what's my win probability across contracts",
+                        "show me pipeline value by agency",
+                        "what contracts are close to completion",
+                        "show me the proposal status for",
+                        "what's happening with FEMA opportunities",
+                        "show me the contract progress for",
+                        "what's the status of Medicaid contract",
+                        "show me my complete contract pipeline"
+                    ]
+                },
+                {
+                    "name": "ReadEmails",
+                    "slots": [],
+                    "samples": [
+                        "reading filtering summarizing emails"
+                    ]
+                },
+                {
+                    "name": "ContextAwareDecisionSupport",
+                    "slots": [],
+                    "samples": [
+                        "should I pursue this supplier relationship",
+                        "recommend division restructuring",
+                        "is this acquisition worth considering",
+                        "recommend budget allocation",
+                        "should I pivot the strategy",
+                        "recommend hiring for this role",
+                        "should I invest in this technology",
+                        "is this partnership worth pursuing",
+                        "recommend whether to expand to this market",
+                        "should I pursue this government contract"
+                    ]
+                },
+                {
+                    "name": "AutonomousReportGeneration",
+                    "slots": [],
+                    "samples": [
+                        "create a competitive analysis",
+                        "create a profitability analysis",
+                        "generate a strategic initiative update",
+                        "generate a market opportunity report",
+                        "create a compliance status report",
+                        "generate a staffing report",
+                        "create a financial performance summary",
+                        "generate a contract pipeline analysis",
+                        "create a monthly division performance report",
+                        "generate my weekly executive report"
+                    ]
+                },
+                {
+                    "name": "ProactiveInsightsGeneration",
+                    "slots": [],
+                    "samples": [
+                        "what should I focus on next",
+                        "what could derail my strategy",
+                        "what's the biggest opportunity right now",
+                        "what data contradicts my assumptions",
+                        "what should I do differently",
+                        "what risks should I be aware of",
+                        "what opportunities am I missing",
+                        "what patterns are emerging in my data",
+                        "what's the most important business insight",
+                        "what should I know about this market right now"
+                    ]
+                },
+                {
+                    "name": "ContractAnalysisIntelligence",
+                    "slots": [],
+                    "samples": [
+                        "analyze my competitive advantage",
+                        "recommend contract improvements",
+                        "identify contract red flags",
+                        "analyze contract profitability potential",
+                        "recommend subcontracting strategy",
+                        "identify contract compliance gaps",
+                        "analyze competitor positioning on this contract",
+                        "recommend contract pricing strategy",
+                        "identify contract clauses I should negotiate",
+                        "analyze this contract for hidden risks"
+                    ]
+                },
+                {
+                    "name": "RevenueOptimizationRecommendations",
+                    "slots": [],
+                    "samples": [
+                        "identify pricing optimization",
+                        "recommend customer segmentation strategy",
+                        "identify contract expansion opportunities",
+                        "recommend revenue stream diversification",
+                        "identify margin improvement opportunities",
+                        "recommend which customers to focus on",
+                        "identify cross-selling opportunities",
+                        "recommend service bundle strategy",
+                        "identify upsell opportunities",
+                        "recommend pricing adjustments to increase revenue"
+                    ]
+                },
+                {
+                    "name": "DocumentIntelligenceExtraction",
+                    "slots": [],
+                    "samples": [
+                        "identify key contacts from documents",
+                        "extract payment terms",
+                        "identify performance metrics",
+                        "extract insurance requirements",
+                        "identify compliance requirements",
+                        "extract pricing from this quote",
+                        "identify risks in this proposal",
+                        "extract deadlines from documents",
+                        "identify obligations in this agreement",
+                        "extract key terms from this contract"
+                    ]
+                },
+                {
+                    "name": "TeachAlexisAboutBusiness",
+                    "slots": [],
+                    "samples": [
+                        "learn this business process",
+                        "remember this competitive advantage",
+                        "understand this strategic decision",
+                        "learn this market problem we solve",
+                        "remember this vendor relationship",
+                        "understand my government contracting approach",
+                        "learn this supplier strategy",
+                        "remember this about how we operate",
+                        "update your knowledge about our divisions",
+                        "let me teach you about my business"
+                    ]
+                },
+                {
+                    "name": "SearchForProductsOrServices",
+                    "slots": [],
+                    "samples": [
+                        "find alternatives to my current supplier",
+                        "show me vendors that support government contracts",
+                        "search for companies with this expertise",
+                        "find government-eligible suppliers for this",
+                        "show me service providers in this category",
+                        "search for manufacturers of this product",
+                        "find companies that can deliver this",
+                        "show me vendors that offer this capability",
+                        "search for providers of this service",
+                        "find suppliers for modular housing manufacturers"
+                    ]
+                },
+                {
+                    "name": "ContextualBusinessQuestion",
+                    "slots": [],
+                    "samples": [
+                        "what should we do about this",
+                        "what's our track record with this",
+                        "how does this fit our model",
+                        "should we pursue this opportunity",
+                        "what's our positioning on this",
+                        "who are our competitors in this space",
+                        "what division should handle this",
+                        "how does this align with our goals",
+                        "what's our strategy for this market",
+                        "who should we partner with for this"
+                    ]
+                },
+                {
+                    "name": "LearnFromOutcomes",
+                    "slots": [],
+                    "samples": [
+                        "this is what we learned this quarter",
+                        "remember what led to this failure",
+                        "we succeeded with this approach",
+                        "this competitor move was significant",
+                        "remember this lesson from the market",
+                        "we should avoid doing this again",
+                        "this strategy worked well for us",
+                        "we decided not to pursue this here's why",
+                        "that partnership was successful remember why",
+                        "remember this supplier didn't work out"
+                    ]
+                },
+                {
+                    "name": "UnderstandBusinessContex",
+                    "slots": [],
+                    "samples": [
+                        "this is our market positioning",
+                        "here's our ideal customer profile",
+                        "explain our government contracting strategy",
+                        "this is how NEXUS integrates our business",
+                        "understand our eight divisions",
+                        "this is our competitive advantage",
+                        "here's what makes us different",
+                        "explain our business model to someone",
+                        "this is how our federal compliance consulting works",
+                        "here's how DEPOINTE operations work"
+                    ]
+                },
+                {
+                    "name": "RememberStrategicDecision",
+                    "slots": [],
+                    "samples": [
+                        "we're doubling down on this division",
+                        "we're exiting this market",
+                        "we're investing in this technology",
+                        "we're targeting this government agency",
+                        "we're prioritizing federal compliance consulting",
+                        "we're expanding NEMT services to this region",
+                        "FleetFlow is launching mid year",
+                        "we're pursuing Choice Partners aggressively",
+                        "we decided to pivot to container housing"
+                    ]
+                },
+                {
+                    "name": "ApplyBusinessKnowledge",
+                    "slots": [],
+                    "samples": [
+                        "based on our learnings what should we avoid",
+                        "knowing our constraints and what's possible",
+                        "given our resources and can we do this",
+                        "based on our positioning and what message should we use",
+                        "knowing our divisions and who should handle this",
+                        "given our goals what should we prioritize",
+                        "based on our track record recommend a supplier",
+                        "knowing our capabilities what market should we enter",
+                        "given our strategy what's the next move",
+                        "based on what you know about us what should we do"
+                    ]
+                },
+                {
+                    "name": "SearchGrantOpportunities",
+                    "slots": [],
+                    "samples": [
+                        "find grants for nonprofit operations",
+                        "search for transportation service grants",
+                        "show me grants available to women-owned businesses",
+                        "find grants for small business contractors",
+                        "search for government grants matching our eligibility",
+                        "show me grants available for my divisions",
+                        "find federal grants for NEMT services"
+                    ]
+                }
+            ],
+            "types": []
         }
-      ],
-      "types": []
     }
-  }
 }

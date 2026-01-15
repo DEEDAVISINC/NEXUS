@@ -1,1 +1,1 @@
-requests==2.31.0
+# No third-party dependencies required (stdlib + boto3 available in AWS Lambda runtime).

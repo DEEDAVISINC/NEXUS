@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Alexis Nexus - Comprehensive AI Executive Assistant (86 Intents)
+
+Parameters:
+  SkillId:
+    Type: String
+    Default: "amzn1.ask.skill.REPLACE_ME"
+    Description: Alexa Skill ID from Amazon Developer Console
+  NexusApiUrl:
+    Type: String
+    Default: "https://nexus-backend.onrender.com"
+    Description: NEXUS backend base URL (must expose /auth/alexa and /alexa/command)
+
+Resources:
+  AlexisKnowledgeTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: AlexisKnowledge
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+
+  AlexisApiKeysSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: alexis-nexus/api-keys
+      Description: API keys for Alexis Nexus integrations
+      SecretString: "{}"
+
+  AlexisNexusLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: alexis-nexus-skill-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: alexis-nexus-ddb-secrets
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                Resource: !GetAtt AlexisKnowledgeTable.Arn
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref AlexisApiKeysSecret
+
+  AlexisNexusSkillFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: alexis-nexus-skill
+      Runtime: python3.12
+      Handler: index.lambda_handler
+      Role: !GetAtt AlexisNexusLambdaRole.Arn
+      Timeout: 12
+      MemorySize: 256
+      Environment:
+        Variables:
+          NEXUS_API_URL: !Ref NexusApiUrl
+          ALEXA_SKILL_ID: !Ref SkillId
+          ALEXIS_DDB_TABLE: !Ref AlexisKnowledgeTable
+          ALEXIS_SECRET_ARN: !Ref AlexisApiKeysSecret
+      Code:
+        ZipFile: |
+          import json,logging,os,time,urllib.error,urllib.request,boto3
+          L=logging.getLogger();L.setLevel(logging.INFO)
+          API=os.environ.get("NEXUS_API_URL","https://nexus-backend.onrender.com")
+          SKILL=os.environ.get("ALEXA_SKILL_ID","")
+          TBL=os.environ.get("ALEXIS_DDB_TABLE","")
+          _tok=None
+          _ddb=boto3.resource("dynamodb").Table(TBL) if TBL else None
+          def _r(t,end=True):return{"version":"1.0","response":{"outputSpeech":{"type":"PlainText","text":t},"shouldEndSession":end}}
+          def _post(path,h=None,b=None,to=10):
+           url=API+path;d=json.dumps(b or{}).encode();hd={"Content-Type":"application/json"};hd.update(h or{})
+           req=urllib.request.Request(url,data=d,headers=hd,method="POST")
+           try:
+            with urllib.request.urlopen(req,timeout=to) as r:return r.getcode(),json.loads(r.read().decode() or"{}")
+           except urllib.error.HTTPError as e:
+            try:dt=e.read().decode("utf-8","ignore")
+            except:dt=""
+            return e.code,{"error":dt}
+           except Exception as e:return 0,{"error":str(e)}
+          def _jwt():
+           global _tok
+           if _tok:return _tok
+           c,d=_post("/auth/alexa",h={"Alexa-Skill-Id":SKILL})
+           if c==200:_tok=d.get("token");return _tok
+           return None
+          def _nx(cmd):
+           t=_jwt()
+           if not t:return"Sorry, I couldn't authenticate with NEXUS."
+           c,d=_post("/alexa/command",h={"Authorization":f"Bearer {t}"},b={"command":cmd,"source":"alexa"})
+           return d.get("response") or"Done." if c==200 else"Sorry, I had trouble connecting to NEXUS."
+          def _log(i,s):
+           if not _ddb:return
+           try:_ddb.put_item(Item={"pk":"alexa","sk":str(int(time.time()*1000)),"intent":i,"slots":json.dumps({k:(v or{}).get("value") for k,v in(s or{}).items()})})
+           except Exception as e:L.error("ddb:%s",e)
+          def _h(i):
+           m={"HelloWorldIntent":"hello","GetProjectStatus":"nexus: system-wide status","DictateMeetingNotes":"meeting notes: dictate","GetComplianceLandscape":"compliance: landscape overview","GetInvoiceStatus":"invoices: status all divisions","GetFinancialMetrics":"financial: metrics dashboard","ExplainNexusFeature":"nexus: explain features","GetReminders":"reminders: list all","ManageContacts":"contacts: manage","CreateTask":"task: create new","GetNotifications":"notifications: show all","SendMessage":"message: send","UpdateCalendar":"calendar: update event","GenerateReport":"report: generate","TrackExpenses":"expenses: track","RequestApproval":"approval: request","LogActivity":"activity: log","ManageVendorRelationships":"vendors: manage relationships","GetBudgetStatus":"budget: status overview","SearchGovernmentContracts":"gpss: search contracts","GetContractorRequirements":"gpss: contractor requirements","TrackFederalContractProgress":"gpss: track contract progress","AnalyzeGPSSPipeline":"gpss: analyze pipeline","GetContractDetails":"gpss: contract details","IdentifyBidOpportunities":"gpss: identify bid opportunities","GetFederalBuyerInfo":"gpss: federal buyer info","GetContractComplianceRequirements":"gpss: compliance requirements","GetContractDeadlines":"gpss: contract deadlines","AnalyzeBidWinProbability":"gpss: analyze win probability","GetContractModifications":"gpss: contract modifications","TrackContractPerformance":"gpss: track performance","GetSubcontractorOpportunities":"gpss: subcontractor opportunities","ManageProjectTasks":"atlas: manage tasks","UpdateProjectStatus":"atlas: update status","GetProjectMetrics":"atlas: project metrics","AssignResources":"atlas: assign resources","TrackProjectBudget":"atlas: track budget","ManageDependencies":"atlas: manage dependencies","GetMilestoneStatus":"atlas: milestone status","TrackProjectRisks":"atlas: track risks","GetTeamCapacity":"atlas: team capacity","LogProjectTime":"atlas: log time","GetProjectDocumentation":"atlas: project documentation","ManageProjectCommunications":"atlas: project communications","GetProjectHealth":"atlas: project health","SearchMarketProblems":"ddcss: search market problems","GetMVPStatus":"ddcss: mvp status","AnalyzeProblemSolution":"ddcss: analyze problem solution","GetMarketOpportunityAnalysis":"ddcss: market opportunity analysis","ValidateProblemHypothesis":"ddcss: validate problem hypothesis","GetMarketSize":"ddcss: market size","GetCompetitorAnalysis":"ddcss: competitor analysis","GetProblemSeverityRating":"ddcss: problem severity rating","IdentifyTargetAudience":"ddcss: identify target audience","GetSolutionFeasibility":"ddcss: solution feasibility","GetProblemTrends":"ddcss: problem trends","AnalyzeProblemToRevenuePotential":"ddcss: revenue potential","RankProblemsByOpportunity":"ddcss: rank problems by opportunity","GetFederalComplianceConsulting":"division: federal compliance consulting status","GetFactoringConsultation":"division: factoring consultation status","GetExecutiveBriefing":"executive: daily briefing","GetContractOpportunitiesAlert":"executive: contract opportunities alert","GetStrategicInitiativeStatus":"executive: strategic initiative status","PrepareForMeeting":"executive: prepare for meeting","GetGovernmentContractPipeline":"executive: government contract pipeline","ReadEmails":"email: read and summarize","ContextAwareDecisionSupport":"ai: decision support","AutonomousReportGeneration":"ai: generate report","ProactiveInsightsGeneration":"ai: proactive insights","ContractAnalysisIntelligence":"ai: contract analysis","RevenueOptimizationRecommendations":"ai: revenue optimization","DocumentIntelligenceExtraction":"ai: document extraction","TeachAlexisAboutBusiness":"ai: learn business context","SearchForProductsOrServices":"ai: search products services","ContextualBusinessQuestion":"ai: contextual business question","LearnFromOutcomes":"ai: learn from outcomes","UnderstandBusinessContex":"ai: understand business context","RememberStrategicDecision":"ai: remember strategic decision","ApplyBusinessKnowledge":"ai: apply business knowledge","SearchGrantOpportunities":"grants: search opportunities"}
+           return _nx(m.get(i)) if i in m else f"Intent {i} not configured yet."
+          def lambda_handler(event,context):
+           req=event.get("request") or{};typ=req.get("type")
+           if typ=="LaunchRequest":return _r("Welcome to Alexis Nexus, your comprehensive executive assistant for DEE DAVIS INC. I can help with government contracts, projects, compliance, financials, and strategic intelligence. What would you like to know?",end=False)
+           if typ=="IntentRequest":
+            i=req.get("intent") or{};nm=i.get("name","");sl=i.get("slots") or{}
+            _log(nm,sl)
+            if nm=="AMAZON.HelpIntent":return _r("I'm Alexis Nexus, your comprehensive executive assistant. I can help with government contracts, project management, market intelligence, compliance tracking, financial metrics, meeting notes, strategic briefings, and much more. Try asking: give me my executive briefing, show me contract opportunities, what's my project status, or search for market problems.",end=False)
+            if nm in("AMAZON.StopIntent","AMAZON.CancelIntent"):return _r("Goodbye. I'm here whenever you need me.")
+            if nm=="AMAZON.FallbackIntent":return _r("I didn't quite catch that. Try asking about contracts, projects, compliance, or financial metrics.",end=False)
+            return _r(_h(nm))
+           return _r("OK.")
+
+  AlexaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt AlexisNexusSkillFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: alexa-appkit.amazon.com
+      EventSourceToken: !Ref SkillId
+
+Outputs:
+  LambdaArn:
+    Description: ARN to paste into Alexa Developer Console endpoint
+    Value: !GetAtt AlexisNexusSkillFunction.Arn
+  DynamoTableName:
+    Description: DynamoDB table for intent logging (learning system)
+    Value: !Ref AlexisKnowledgeTable
+  SecretArn:
+    Description: Secrets Manager ARN for API keys
+    Value: !Ref AlexisApiKeysSecret

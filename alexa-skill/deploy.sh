@@ -27,9 +27,13 @@ mkdir -p lambda
 cp lambda_function.py lambda/
 cp requirements.txt lambda/
 
-# Install dependencies
+# Install dependencies (if any)
 cd lambda
-pip install -r requirements.txt -t .
+if grep -Eq '^[^#[:space:]]' requirements.txt; then
+    pip install -r requirements.txt -t .
+else
+    echo "ℹ️  No dependencies to install (requirements.txt is empty)"
+fi
 
 # Create ZIP file
 zip -r ../nexus-alexa-skill.zip .
@@ -42,11 +46,12 @@ echo "✅ Deployment package created: nexus-alexa-skill.zip"
 echo ""
 echo "📤 Next steps:"
 echo "1. Go to AWS Lambda Console: https://console.aws.amazon.com/lambda/"
-echo "2. Create new function: nexus-alexa-skill (Python 3.9)"
+echo "2. Create new function: nexus-alexa-skill (Python 3.12)"
 echo "3. Upload nexus-alexa-skill.zip"
 echo "4. Set environment variables:"
 echo "   - NEXUS_API_URL: https://your-nexus-backend.onrender.com"
 echo "   - ALEXA_SKILL_ID: amzn1.ask.skill.YOUR_SKILL_ID"
+echo "   - ALEXIS_DDB_TABLE: (optional - DynamoDB table name for logging)"
 echo "5. Copy the Lambda ARN to Alexa Developer Console"
 
 echo ""
