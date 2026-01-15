@@ -12,7 +12,10 @@
   status = 200
 
 [context.production.environment]
-  REACT_APP_API_BASE = "https://your-backend-app.onrender.com"
+  # UPDATE THIS with your actual backend URL:
+  # PythonAnywhere: https://yourusername.pythonanywhere.com
+  # Render: https://your-backend-app.onrender.com
+  REACT_APP_API_BASE = "https://your-backend-url-here.com"
 
 [context.deploy-preview.environment]
-  REACT_APP_API_BASE = "https://your-backend-app.onrender.com"
+  REACT_APP_API_BASE = "https://your-backend-url-here.com"

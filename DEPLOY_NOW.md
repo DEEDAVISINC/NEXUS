@@ -4,13 +4,53 @@
 
 ---
 
-## ⚡ FASTEST PATH TO DEPLOYMENT
+## 🎯 FIRST: Choose Your Backend Platform
 
-### Option 1: Quick Start (10 minutes)
+### Option A: PythonAnywhere (Recommended)
+**Best for:** Python developers, more control, lower cost
+
+📄 **Quick Start:** `PYTHONANYWHERE_QUICK_START.md` (15 minutes)  
+📄 **Complete Guide:** `PYTHONANYWHERE_DEPLOYMENT_GUIDE.md` (30 minutes)
+
+**Cost:** $0-5/month | **Setup:** 15 minutes
+
+---
+
+### Option B: Render
+**Best for:** Auto-deployment, git workflows, less hands-on
+
+📄 **Quick Start:** `NETLIFY_QUICK_START.md` (10 minutes)  
+📄 **Complete Guide:** `NETLIFY_DEPLOYMENT_GUIDE.md` (30 minutes)
+
+**Cost:** $0-7/month | **Setup:** 10 minutes
+
+---
+
+### 🤔 Not Sure Which to Choose?
+
+📄 **Read:** `BACKEND_COMPARISON.md` - Compare both options
+
+**Quick answer:**
+- Want lower cost + more control? → PythonAnywhere
+- Want auto-deploy + simplicity? → Render
+
+---
+
+## ⚡ DEPLOYMENT PATHS
+
+### Path 1: Quick Start (10-15 minutes)
 **Best for:** Getting live ASAP
 
-📄 **Open:** `NETLIFY_QUICK_START.md`
+**PythonAnywhere:**
+📄 **Open:** `PYTHONANYWHERE_QUICK_START.md`
+```
+1. Deploy backend to PythonAnywhere (10 min)
+2. Deploy frontend to Netlify (5 min)
+✅ Done!
+```
 
+**Render:**
+📄 **Open:** `NETLIFY_QUICK_START.md`
 ```
 1. Deploy backend to Render (5 min)
 2. Update config (2 min)
@@ -21,9 +61,13 @@
 
 ---
 
-### Option 2: Complete Guide (30 minutes)
+### Path 2: Complete Guide (30 minutes)
 **Best for:** First-time deployment, want details
 
+**PythonAnywhere:**
+📄 **Open:** `PYTHONANYWHERE_DEPLOYMENT_GUIDE.md`
+
+**Render:**
 📄 **Open:** `NETLIFY_DEPLOYMENT_GUIDE.md`
 
 ```
@@ -37,7 +81,7 @@
 
 ---
 
-### Option 3: Visual Roadmap (20 minutes)
+### Path 3: Visual Roadmap (20 minutes)
 **Best for:** Visual learners, want to see the big picture
 
 📄 **Open:** `DEPLOYMENT_ROADMAP.md`
@@ -157,18 +201,30 @@ Total: ~25 minutes
 
 ## 💰 COST
 
-### Free Tier (Perfect for Testing)
+### PythonAnywhere Option
 ```
-Netlify:  $0/month
-Render:   $0/month (with 15-min spin-down)
-Total:    $0/month
+Free Tier:
+  Netlify:         $0/month
+  PythonAnywhere:  $0/month (with CPU limits)
+  Total:           $0/month
+
+Production Tier:
+  Netlify:         $0/month (still free!)
+  PythonAnywhere:  $5/month (Hacker account)
+  Total:           $5/month
 ```
 
-### Production Tier (Recommended)
+### Render Option
 ```
-Netlify:  $0/month (still free!)
-Render:   $7/month (always-on)
-Total:    $7/month
+Free Tier:
+  Netlify:  $0/month
+  Render:   $0/month (with 15-min spin-down)
+  Total:    $0/month
+
+Production Tier:
+  Netlify:  $0/month (still free!)
+  Render:   $7/month (always-on)
+  Total:    $7/month
 ```
 
 **Start free, upgrade when you land your first contract!**
@@ -207,10 +263,19 @@ After deployment:
 
 ## 🚀 READY? CHOOSE YOUR PATH
 
-### I Want Speed
+### I Want to Compare Backends First
+👉 **Open:** `BACKEND_COMPARISON.md`
+
+### I Want PythonAnywhere + Speed
+👉 **Open:** `PYTHONANYWHERE_QUICK_START.md`
+
+### I Want PythonAnywhere + Details
+👉 **Open:** `PYTHONANYWHERE_DEPLOYMENT_GUIDE.md`
+
+### I Want Render + Speed
 👉 **Open:** `NETLIFY_QUICK_START.md`
 
-### I Want Details
+### I Want Render + Details
 👉 **Open:** `NETLIFY_DEPLOYMENT_GUIDE.md`
 
 ### I Want Visuals
