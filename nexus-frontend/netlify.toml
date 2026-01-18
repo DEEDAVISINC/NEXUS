@@ -13,15 +13,13 @@
   status = 200
 
 [context.production.environment]
-  # UPDATE THIS with your actual backend URL:
-  # Render: https://your-backend-app.onrender.com
-  # PythonAnywhere: https://yourusername.pythonanywhere.com
-  REACT_APP_API_BASE = "https://your-backend-url-here.com"
+  # PythonAnywhere Backend
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
 
 [context.deploy-preview.environment]
-  # UPDATE THIS with your actual backend URL:
-  REACT_APP_API_BASE = "https://your-backend-url-here.com"
+  # PythonAnywhere Backend
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
 
 [context.branch-deploy.environment]
-  # For branch deployments (optional)
-  REACT_APP_API_BASE = "https://your-backend-url-here.com"
+  # PythonAnywhere Backend
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
