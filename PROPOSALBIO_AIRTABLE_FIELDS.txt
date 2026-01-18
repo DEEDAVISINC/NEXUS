@@ -1,0 +1,50 @@
+STEP 1: ADD TO "GPSS PROPOSALS" TABLE
+========================================
+1	ProposalBio Composite Score	Number	Precision: 2 decimals
+2	ProposalBio Status	Single select	Options: APPROVED, REVISE, REDRAFT, REJECT
+3	ProposalBio Last Analyzed	Date	Include time, GMT
+4	ProposalBio Gate	Single select	Options: LOCKED, UNLOCKED
+5	ProposalBio Biohack Scores JSON	Long text	Rich text OFF
+6	ProposalBio Critical Issues JSON	Long text	Rich text OFF
+7	ProposalBio Priority Improvements JSON	Long text	Rich text OFF
+8	ProposalBio Revision Count	Number	Integer, Default: 0
+9	ProposalBio Approved By	Single line text	
+10	ProposalBio Approved Date	Date	Include time, GMT
+11	Agency Type	Single select	Options: Federal, State, Local, Cooperative (if not already there)
+12	Region	Single select	Options: Northeast, Mid_Atlantic, Southeast, Midwest, Southwest, West_Coast (if not already there)
+
+
+STEP 2: CREATE "GPSS PROPOSALBIO SCORES" TABLE
+===============================================
+1	Score ID	Autonumber	(Rename the default first field)
+2	Proposal	Link to another record	Link to GPSS Proposals
+3	Revision	Number	Integer
+4	Biohack Number	Number	Integer (1-10)
+5	Biohack Name	Single line text	
+6	Score	Number	Precision: 2 decimals (0-10)
+7	PassFail	Single select	Options: Pass, Fail
+8	Details JSON	Long text	Rich text OFF (optional)
+9	Recommendations	Long text	Rich text OFF (optional)
+10	Analyzed Date	Date	Include time, GMT
+
+
+STEP 3: CREATE "GPSS PROPOSALBIO LEARNING" TABLE
+=================================================
+1	Learning ID	Autonumber	(Rename the default first field)
+2	Proposal	Link to another record	Link to GPSS Proposals
+3	Outcome	Single select	Options: Won, Lost, No Decision
+4	Win Value	Currency	Format: USD
+5	Agency Type	Single select	Options: Federal, State, Local, Cooperative
+6	Region	Single select	Options: Northeast, Mid_Atlantic, Southeast, Midwest, Southwest, West_Coast
+7	Composite Score	Number	Precision: 2 decimals
+8	Biohack 1 Score	Number	Precision: 2 decimals (Mirror Neuron)
+9	Biohack 2 Score	Number	Precision: 2 decimals (Cognitive Ease)
+10	Biohack 3 Score	Number	Precision: 2 decimals (Story Arc)
+11	Biohack 4 Score	Number	Precision: 2 decimals (Reciprocity)
+12	Biohack 5 Score	Number	Precision: 2 decimals (Yes Stacking)
+13	Biohack 6 Score	Number	Precision: 2 decimals (Familiarity)
+14	Biohack 7 Score	Number	Precision: 2 decimals (Name Recognition)
+15	Biohack 8 Score	Number	Precision: 2 decimals (Sensory Language)
+16	Biohack 9 Score	Number	Precision: 2 decimals (Rhythm)
+17	Biohack 10 Score	Number	Precision: 2 decimals (Eye Tracking)
+18	Recorded Date	Date	Include time, GMT

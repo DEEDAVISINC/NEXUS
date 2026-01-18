@@ -5,6 +5,7 @@ import GPSSSystem from './components/systems/GPSSSystem';
 import DDCSSSystem from './components/systems/DDCSSSystem';
 import ATLASSystem from './components/systems/ATLASSystem';
 import GBISSystem from './components/systems/GBISSystem';
+import VERTEXSystem from './components/systems/VERTEXSystem';
 import { LBPCSystem } from './components/systems/LBPCSystem';
 import { InvoiceDashboard } from './components/InvoiceDashboard';
 import { FloatingAICopilot } from './components/FloatingAICopilot';
@@ -32,6 +33,8 @@ function App() {
         return <ATLASSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'gbis':
         return <GBISSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'vertex':
+        return <VERTEXSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'lbpc':
         return <LBPCSystem />;
       case 'invoices':

@@ -20,3 +20,7 @@ services:
         sync: false
       - key: GOOGLE_CSE_ID
         sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ALEXA_SKILL_ID
+        sync: false

@@ -85,7 +85,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
         api.getDashboardAlerts()
       ]);
 
-      setStats(statsData);
+      // Merge with defaults to ensure all fields exist
+      setStats({ ...defaultStats, ...statsData });
       setActivities(activityData.activities || []);
       setAlerts(alertsData.alerts || []);
       setLastUpdated(new Date());
@@ -275,7 +276,7 @@ END:VCALENDAR`;
   const statCards = [
     { 
       label: 'Active Opportunities', 
-      value: stats.active_opportunities.toString(), 
+      value: (stats.active_opportunities || 0).toString(), 
       change: '+3', 
       icon: '🎯', 
       gradient: 'from-blue-600 to-blue-800',
@@ -285,7 +286,7 @@ END:VCALENDAR`;
     },
     { 
       label: 'Total Contacts', 
-      value: stats.total_contacts.toString(), 
+      value: (stats.total_contacts || 0).toString(), 
       change: '+6', 
       icon: '👥', 
       gradient: 'from-green-600 to-green-800',
@@ -295,7 +296,7 @@ END:VCALENDAR`;
     },
     { 
       label: 'Active Projects', 
-      value: stats.active_projects.toString(), 
+      value: (stats.active_projects || 0).toString(), 
       change: '→', 
       icon: '📋', 
       gradient: 'from-purple-600 to-purple-800',
@@ -305,7 +306,7 @@ END:VCALENDAR`;
     },
     { 
       label: 'Revenue Pipeline', 
-      value: formatNumber(stats.revenue_pipeline), 
+      value: formatNumber(stats.revenue_pipeline || 0), 
       change: '+$2.4M', 
       icon: '💰', 
       gradient: 'from-yellow-600 to-yellow-800',
@@ -377,10 +378,25 @@ END:VCALENDAR`;
       lastUsed: 'New!'
     },
     {
+      id: 'vertex' as ViewType,
+      name: 'VERTEX',
+      fullName: 'Financial Command Center',
+      icon: '💎',
+      description: 'Invoices • Expenses • Revenue • AI Intelligence • QB Export',
+      stats: [
+        '$0 Total Revenue',
+        '$0 Net Income',
+        '$0 A/R Outstanding'
+      ],
+      gradient: 'from-purple-600 to-pink-600',
+      status: 'online',
+      lastUsed: 'NEW! 🔥'
+    },
+    {
       id: 'lbpc' as ViewType,
       name: 'LBPC',
       fullName: 'Lancaster Banques P.C.',
-      icon: '💎',
+      icon: '💰',
       description: 'Surplus Recovery • All 50 States • Automated Workflows',
       stats: [
         '0 Active Leads',

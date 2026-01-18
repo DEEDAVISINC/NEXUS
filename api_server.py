@@ -55,6 +55,10 @@ from nexus_backend import (
 from datetime import datetime, timedelta
 import jwt
 from functools import wraps
+import json
+
+# ProposalBio™ Quality Assurance Module
+from proposalbio_module import ProposalBioService
 
 
 app = Flask(__name__)
@@ -140,12 +144,12 @@ def get_dashboard_stats():
         airtable_client = AirtableClient()
         
         # Get data from all tables
-        opportunities = airtable_client.get_all_records('Opportunities')
-        contacts = airtable_client.get_all_records('Contacts')
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        contacts = airtable_client.get_all_records('GPSS CONTACTS')
         
         # Try to get ATLAS projects (might not exist yet)
         try:
-            atlas_projects = airtable_client.get_all_records('ATLAS Projects')
+            atlas_projects = airtable_client.get_all_records('ATLAS PROJECTS')
         except:
             atlas_projects = []
         
@@ -210,7 +214,7 @@ def get_dashboard_activity():
         
         # Get recent contacts
         try:
-            contacts = airtable_client.get_all_records('Contacts', sort=['Created'])
+            contacts = airtable_client.get_all_records('GPSS CONTACTS', sort=['Created'])
             for contact in contacts[-5:]:  # Last 5 contacts
                 fields = contact['fields']
                 activities.append({
@@ -227,7 +231,7 @@ def get_dashboard_activity():
         
         # Get recent opportunities
         try:
-            opportunities = airtable_client.get_all_records('Opportunities', sort=['Created Date'])
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES', sort=['Created Date'])
             for opp in opportunities[-5:]:  # Last 5 opportunities
                 fields = opp['fields']
                 activities.append({
@@ -244,7 +248,7 @@ def get_dashboard_activity():
         
         # Get recent ATLAS projects
         try:
-            projects = airtable_client.get_all_records('ATLAS Projects', sort=['Created Date'])
+            projects = airtable_client.get_all_records('ATLAS PROJECTS', sort=['Created Date'])
             for proj in projects[-5:]:  # Last 5 projects
                 fields = proj['fields']
                 activities.append({
@@ -280,7 +284,7 @@ def get_dashboard_alerts():
         
         # Check for upcoming RFP deadlines (within 7 days)
         try:
-            opportunities = airtable_client.get_all_records('Opportunities')
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
             now = datetime.now()
             
             for opp in opportunities:
@@ -306,7 +310,7 @@ def get_dashboard_alerts():
         
         # Check for pending change orders
         try:
-            change_orders = airtable_client.get_all_records('ATLAS Change Orders')
+            change_orders = airtable_client.get_all_records('ATLAS CHANGE ORDERS')
             pending = [co for co in change_orders if co['fields'].get('Status') == 'Pending']
             
             for co in pending[:3]:  # Top 3 pending
@@ -536,7 +540,7 @@ def get_atlas_projects():
     """Get all projects with optional filtering"""
     try:
         airtable_client = AirtableClient()
-        records = airtable_client.get_all_records('ATLAS Projects')
+        records = airtable_client.get_all_records('ATLAS PROJECTS')
 
         # Transform records for frontend
         projects = []
@@ -584,9 +588,201 @@ def create_atlas_project():
             'Created Date': datetime.now().isoformat()
         }
 
-        result = airtable_client.create_record('ATLAS Projects', fields)
+        result = airtable_client.create_record('ATLAS PROJECTS', fields)
         return jsonify({'project': {'id': result['id'], **fields}})
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def create_atlas_project_from_opportunity(opportunity_id: str, airtable_client=None) -> dict:
+    """
+    🎯 AUTO-CREATE ATLAS PROJECT FROM WON GPSS OPPORTUNITY
+    This is the 90% automation bridge!
+    """
+    if not airtable_client:
+        airtable_client = AirtableClient()
+    
+    # Get opportunity details
+    opportunity = airtable_client.get_record('GPSS OPPORTUNITIES', opportunity_id)
+    opp_fields = opportunity['fields']
+    
+    # Extract key information
+    project_name = opp_fields.get('Title', 'Untitled Project')
+    client_name = opp_fields.get('Agency Name', 'Unknown Agency')
+    contract_value = opp_fields.get('Value', 0)
+    rfp_number = opp_fields.get('RFP Number', '')
+    due_date = opp_fields.get('Due Date', '')
+    description = opp_fields.get('Description', '')
+    requirements = opp_fields.get('Requirements', '')
+    category = opp_fields.get('Category', 'General')
+    
+    # Build comprehensive project scope from opportunity data
+    project_scope = f"""
+CONTRACT: {rfp_number}
+AGENCY: {client_name}
+CATEGORY: {category}
+
+DESCRIPTION:
+{description}
+
+REQUIREMENTS:
+{requirements}
+    """.strip()
+    
+    # Calculate project timeline (default 6 months or based on contract)
+    start_date = datetime.now().isoformat()
+    
+    # Determine project type based on category
+    project_type_mapping = {
+        'Healthcare': 'Healthcare Services',
+        'Logistics': 'Logistics & Transportation',
+        'IT': 'Technology Services',
+        'Construction': 'Construction',
+        'Consulting': 'Professional Services',
+        'Products': 'Product Delivery',
+        'Supplies': 'Product Delivery'
+    }
+    project_type = project_type_mapping.get(category, 'Government Contract')
+    
+    # Create ATLAS project record
+    project_fields = {
+        'Project Name': f"{project_name} ({client_name})",
+        'Client Name': client_name,
+        'Project Type': project_type,
+        'Budget': contract_value,
+        'Project Scope': project_scope[:10000],  # Airtable field limit
+        'Start Date': start_date,
+        'Status': 'Planning',
+        'Priority': 'High',
+        'Completion Percentage': 0,
+        'Created Date': datetime.now().isoformat(),
+        'Source System': 'GPSS',
+        'Source Opportunity ID': opportunity_id,
+        'Contract Number': rfp_number
+    }
+    
+    # Create the project in Airtable
+    project_record = airtable_client.create_record('ATLAS PROJECTS', project_fields)
+    project_id = project_record['id']
+    
+    # Link opportunity to ATLAS project (bidirectional)
+    try:
+        airtable_client.update_record('GPSS OPPORTUNITIES', opportunity_id, {
+            'ATLAS Project': [project_id]
+        })
+    except Exception as link_error:
+        print(f"Warning: Could not link opportunity to ATLAS project: {link_error}")
+    
+    # 🤖 AUTO-GENERATE WBS using ATLAS Agent 2
+    wbs_generated = False
+    try:
+        from nexus_backend import ATLASAgent2
+        atlas_agent = ATLASAgent2()
+        wbs_result = atlas_agent.generate_wbs(project_id)
+        wbs_generated = 'error' not in wbs_result
+    except Exception as wbs_error:
+        print(f"Warning: WBS generation failed: {wbs_error}")
+    
+    return {
+        'success': True,
+        'project_id': project_id,
+        'project_name': project_fields['Project Name'],
+        'wbs_generated': wbs_generated,
+        'message': f'✅ ATLAS project created: {project_fields["Project Name"]}'
+    }
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/create-atlas-project', methods=['POST'])
+def manual_create_atlas_project_from_opportunity(opportunity_id):
+    """
+    Manual endpoint to create ATLAS project from opportunity
+    Used if auto-creation failed or for retroactive project creation
+    """
+    try:
+        result = create_atlas_project_from_opportunity(opportunity_id)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def create_invoice_from_atlas_project(project_id: str, airtable_client=None) -> dict:
+    """
+    🎯 AUTO-CREATE INVOICE FROM COMPLETED ATLAS PROJECT
+    Universal invoicing for all revenue-generating systems!
+    """
+    if not airtable_client:
+        airtable_client = AirtableClient()
+    
+    # Get project details
+    project = airtable_client.get_record('ATLAS PROJECTS', project_id)
+    project_fields = project['fields']
+    
+    # Extract key information
+    project_name = project_fields.get('Project Name', 'Untitled Project')
+    client_name = project_fields.get('Client Name', 'Unknown Client')
+    budget = project_fields.get('Budget', 0)
+    project_type = project_fields.get('Project Type', 'General')
+    source_system = project_fields.get('Source System', 'ATLAS')
+    start_date = project_fields.get('Start Date', '')
+    completion_date = project_fields.get('End Date') or datetime.now().isoformat()
+    
+    # Generate invoice number
+    # Format: INV-YYYYMM-XXXX
+    invoice_number = f"INV-{datetime.now().strftime('%Y%m')}-{datetime.now().strftime('%d%H%M')}"
+    
+    # Build invoice description
+    invoice_description = f"""
+PROJECT: {project_name}
+CLIENT: {client_name}
+PROJECT TYPE: {project_type}
+PERIOD: {start_date[:10] if start_date else 'N/A'} to {completion_date[:10]}
+
+Project completed and delivered as per agreement.
+All deliverables submitted and accepted.
+    """.strip()
+    
+    # Create invoice record
+    invoice_fields = {
+        'Invoice Number': invoice_number,
+        'Client Name': client_name,
+        'Invoice Date': datetime.now().isoformat(),
+        'Due Date': (datetime.now() + timedelta(days=30)).isoformat(),  # Net 30
+        'Amount': budget,
+        'Status': 'Draft',
+        'Description': invoice_description,
+        'Project': [project_id],  # Link to ATLAS project
+        'Source System': source_system,
+        'Created Date': datetime.now().isoformat()
+    }
+    
+    # Create the invoice
+    invoice_record = airtable_client.create_record('INVOICES', invoice_fields)
+    invoice_id = invoice_record['id']
+    
+    # Link project to invoice
+    try:
+        airtable_client.update_record('ATLAS PROJECTS', project_id, {
+            'Invoice': [invoice_id]
+        })
+    except Exception as link_error:
+        print(f"Warning: Could not link project to invoice: {link_error}")
+    
+    return {
+        'success': True,
+        'invoice_id': invoice_id,
+        'invoice_number': invoice_number,
+        'invoice_amount': budget,
+        'message': f'✅ Invoice created: {invoice_number} for ${budget:,.2f}'
+    }
+
+
+@app.route('/atlas/projects/<project_id>/create-invoice', methods=['POST'])
+def manual_create_invoice_from_project(project_id):
+    """Manual endpoint to create invoice from project"""
+    try:
+        result = create_invoice_from_atlas_project(project_id)
+        return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -596,7 +792,7 @@ def get_atlas_project(project_id):
     """Get specific project details"""
     try:
         airtable_client = AirtableClient()
-        records = airtable_client.get_all_records('ATLAS Projects')
+        records = airtable_client.get_all_records('ATLAS PROJECTS')
 
         project = next((r for r in records if r['id'] == project_id), None)
         if not project:
@@ -616,10 +812,15 @@ def get_atlas_project(project_id):
 
 @app.route('/atlas/projects/<project_id>', methods=['PUT'])
 def update_atlas_project(project_id):
-    """Update project details"""
+    """Update project details - with auto-INVOICE generation when completed"""
     try:
         data = request.json
         airtable_client = AirtableClient()
+        
+        # Get current project to check status change
+        current_project = airtable_client.get_record('ATLAS PROJECTS', project_id)
+        old_status = current_project['fields'].get('Status', '')
+        old_completion = current_project['fields'].get('Completion Percentage', 0)
 
         update_fields = {}
         field_mapping = {
@@ -640,7 +841,46 @@ def update_atlas_project(project_id):
 
         update_fields['Last Updated'] = datetime.now().isoformat()
 
-        airtable_client.update_record('ATLAS Projects', project_id, update_fields)
+        # Update the project
+        airtable_client.update_record('ATLAS PROJECTS', project_id, update_fields)
+        
+        # 🎯 AUTO-CREATE INVOICE IF PROJECT COMPLETED
+        new_status = update_fields.get('Status', old_status)
+        new_completion = update_fields.get('Completion Percentage', old_completion)
+        
+        # Trigger invoice creation if:
+        # 1. Status changed to "Completed" OR
+        # 2. Completion percentage reached 100%
+        should_create_invoice = (
+            (new_status == 'Completed' and old_status != 'Completed') or
+            (new_completion == 100 and old_completion < 100)
+        )
+        
+        if should_create_invoice:
+            # Check if invoice already exists for this project
+            existing_invoice = current_project['fields'].get('Invoice')
+            
+            if not existing_invoice:
+                try:
+                    # Auto-create invoice!
+                    invoice_result = create_invoice_from_atlas_project(project_id, airtable_client)
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': '✅ Project completed! Invoice created automatically!',
+                        'invoice_created': True,
+                        'invoice_id': invoice_result['invoice_id'],
+                        'invoice_number': invoice_result['invoice_number'],
+                        'invoice_amount': invoice_result['invoice_amount']
+                    })
+                except Exception as invoice_error:
+                    print(f"Error creating invoice from project: {invoice_error}")
+                    return jsonify({
+                        'success': True,
+                        'message': 'Project updated. Invoice creation failed - please create manually.',
+                        'invoice_error': str(invoice_error)
+                    })
+        
         return jsonify({'success': True})
 
     except Exception as e:
@@ -655,7 +895,7 @@ def get_atlas_rfps():
         project_id = request.args.get('project_id')
         airtable_client = AirtableClient()
 
-        records = airtable_client.get_all_records('ATLAS RFPs')
+        records = airtable_client.get_all_records('ATLAS RFPS')
 
         # Filter by project if specified
         if project_id:
@@ -710,7 +950,7 @@ def create_atlas_rfp():
             'Created Date': datetime.now().isoformat()
         }
 
-        result = airtable_client.create_record('ATLAS RFPs', fields)
+        result = airtable_client.create_record('ATLAS RFPS', fields)
         return jsonify({'rfp': {'id': result['id'], **fields}})
 
     except Exception as e:
@@ -725,7 +965,7 @@ def get_atlas_change_orders():
         project_id = request.args.get('project_id')
         airtable_client = AirtableClient()
 
-        records = airtable_client.get_all_records('ATLAS Change Orders')
+        records = airtable_client.get_all_records('ATLAS CHANGE ORDERS')
 
         change_orders = []
         for record in records:
@@ -772,7 +1012,7 @@ def create_atlas_change_order():
             'Created Date': datetime.now().isoformat()
         }
 
-        result = airtable_client.create_record('ATLAS Change Orders', fields)
+        result = airtable_client.create_record('ATLAS CHANGE ORDERS', fields)
         return jsonify({'change_order': {'id': result['id'], **fields}})
 
     except Exception as e:
@@ -871,7 +1111,7 @@ def get_tasks():
         
         # Try to get tasks from Airtable (create table if doesn't exist)
         try:
-            records = airtable_client.get_all_records('ATLAS Tasks')
+            records = airtable_client.get_all_records('ATLAS TASKS')
         except:
             # Table doesn't exist yet, return empty
             return jsonify({'tasks': []})
@@ -923,7 +1163,7 @@ def create_task():
             'Created Date': datetime.now().isoformat()
         }
         
-        result = airtable_client.create_record('ATLAS Tasks', fields)
+        result = airtable_client.create_record('ATLAS TASKS', fields)
         return jsonify({'task': {'id': result['id'], **fields}})
     
     except Exception as e:
@@ -956,7 +1196,7 @@ def update_task(task_id):
         
         update_fields['Last Updated'] = datetime.now().isoformat()
         
-        airtable_client.update_record('ATLAS Tasks', task_id, update_fields)
+        airtable_client.update_record('ATLAS TASKS', task_id, update_fields)
         return jsonify({'success': True})
     
     except Exception as e:
@@ -968,7 +1208,7 @@ def delete_task(task_id):
     """Delete a task"""
     try:
         airtable_client = AirtableClient()
-        table = airtable_client.get_table('ATLAS Tasks')
+        table = airtable_client.get_table('ATLAS TASKS')
         table.delete(task_id)
         return jsonify({'success': True})
     
@@ -1297,7 +1537,7 @@ def get_vendor_portals():
         airtable_client = AirtableClient()
         
         try:
-            records = airtable_client.get_all_records('Vendor Portals')
+            records = airtable_client.get_all_records('VENDOR PORTALS')
         except:
             # Table doesn't exist yet, return empty
             return jsonify({'portals': []})
@@ -1361,7 +1601,7 @@ def create_vendor_portal():
             'Added Date': datetime.now().isoformat()
         }
         
-        result = airtable_client.create_record('Vendor Portals', fields)
+        result = airtable_client.create_record('VENDOR PORTALS', fields)
         return jsonify({'portal': {'id': result['id'], **data}})
     
     except Exception as e:
@@ -1398,7 +1638,7 @@ def update_vendor_portal(portal_id):
         if data.get('updateLastAccessed'):
             update_fields['Last Accessed'] = datetime.now().isoformat()
         
-        airtable_client.update_record('Vendor Portals', portal_id, update_fields)
+        airtable_client.update_record('VENDOR PORTALS', portal_id, update_fields)
         return jsonify({'success': True})
     
     except Exception as e:
@@ -1410,7 +1650,7 @@ def delete_vendor_portal(portal_id):
     """Delete a vendor portal"""
     try:
         airtable_client = AirtableClient()
-        table = airtable_client.get_table('Vendor Portals')
+        table = airtable_client.get_table('VENDOR PORTALS')
         table.delete(portal_id)
         return jsonify({'success': True})
     
@@ -1436,7 +1676,7 @@ def get_gpss_opportunities():
         airtable_client = AirtableClient()
         
         try:
-            records = airtable_client.get_all_records('Opportunities')
+            records = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         except:
             # Table doesn't exist yet, return empty
             return jsonify({'opportunities': []})
@@ -1541,7 +1781,7 @@ def create_gpss_opportunity():
             'Created Date': datetime.now().isoformat()
         }
         
-        result = airtable_client.create_record('Opportunities', fields)
+        result = airtable_client.create_record('GPSS OPPORTUNITIES', fields)
         return jsonify({'opportunity': {'id': result['id'], **fields}})
     
     except Exception as e:
@@ -1550,10 +1790,14 @@ def create_gpss_opportunity():
 
 @app.route('/gpss/opportunities/<opportunity_id>', methods=['PUT'])
 def update_gpss_opportunity(opportunity_id):
-    """Update an opportunity"""
+    """Update an opportunity - with auto-ATLAS integration when won"""
     try:
         data = request.json
         airtable_client = AirtableClient()
+        
+        # Get current opportunity to check status change
+        current_opp = airtable_client.get_record('GPSS OPPORTUNITIES', opportunity_id)
+        old_status = current_opp['fields'].get('Status', '')
         
         update_fields = {}
         field_mapping = {
@@ -1572,14 +1816,45 @@ def update_gpss_opportunity(opportunity_id):
             'internalStatus': 'Internal Status',
             'pipelineStage': 'Pipeline Stage',
             'assignedTo': 'Assigned To',
-            'notes': 'Notes'
+            'notes': 'Notes',
+            'status': 'Status'  # Add status mapping
         }
         
         for key, airtable_field in field_mapping.items():
             if key in data:
                 update_fields[airtable_field] = data[key]
         
-        airtable_client.update_record('Opportunities', opportunity_id, update_fields)
+        # Update the opportunity
+        airtable_client.update_record('GPSS OPPORTUNITIES', opportunity_id, update_fields)
+        
+        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "WON"
+        new_status = update_fields.get('Status', old_status)
+        if new_status == 'Won' and old_status != 'Won':
+            # Check if ATLAS project already exists for this opportunity
+            existing_atlas_link = current_opp['fields'].get('ATLAS Project')
+            
+            if not existing_atlas_link:
+                try:
+                    # Auto-create ATLAS project!
+                    atlas_result = create_atlas_project_from_opportunity(opportunity_id, airtable_client)
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': '🎉 Contract Won! ATLAS project created automatically!',
+                        'atlas_project_created': True,
+                        'atlas_project_id': atlas_result['project_id'],
+                        'atlas_project_name': atlas_result['project_name'],
+                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                    })
+                except Exception as atlas_error:
+                    print(f"Error creating ATLAS project: {atlas_error}")
+                    # Still return success for opportunity update
+                    return jsonify({
+                        'success': True,
+                        'message': 'Opportunity updated. ATLAS project creation failed - please create manually.',
+                        'atlas_error': str(atlas_error)
+                    })
+        
         return jsonify({'success': True})
     
     except Exception as e:
@@ -1593,7 +1868,7 @@ def get_gpss_stats():
         airtable_client = AirtableClient()
         
         try:
-            opportunities = airtable_client.get_all_records('Opportunities')
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         except:
             opportunities = []
         
@@ -1626,6 +1901,105 @@ def get_gpss_stats():
         return jsonify({"error": str(e)}), 500
 
 
+# ============================================================================
+# D&I ADVANTAGE ANALYTICS (NEW - ADDITIVE ONLY)
+# ============================================================================
+
+@app.route('/gpss/analytics/di-advantage', methods=['GET'])
+def get_di_advantage_analytics():
+    """NEW ENDPOINT: Track D&I competitive advantage metrics - NO CHANGES TO EXISTING CODE"""
+    try:
+        airtable_client = AirtableClient()
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        
+        # Company certifications (from existing system)
+        YOUR_CERTIFICATIONS = ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'Small Business']
+        
+        # Initialize analytics
+        analytics = {
+            'set_aside_breakdown': {
+                'edwosb': {'total': 0, 'value': 0, 'avg_competitors': '10-20', 'win_rate_range': '30-50%'},
+                'wosb': {'total': 0, 'value': 0, 'avg_competitors': '20-40', 'win_rate_range': '20-35%'},
+                'small_business': {'total': 0, 'value': 0, 'avg_competitors': '40-80', 'win_rate_range': '10-20%'},
+                'unrestricted': {'total': 0, 'value': 0, 'avg_competitors': '100-300', 'win_rate_range': '3-8%'}
+            },
+            'eligible_opportunities': 0,
+            'eligible_value': 0,
+            'competitive_advantage': {
+                'fewer_competitors': True,
+                'higher_win_rate': True,
+                'evaluation_preference': True
+            },
+            'recommendations': []
+        }
+        
+        # Analyze each opportunity
+        for opp in opportunities:
+            fields = opp.get('fields', {})
+            set_aside = fields.get('Set-Aside Type', 'Unrestricted')
+            value = fields.get('Value', 0) if isinstance(fields.get('Value'), (int, float)) else 0
+            
+            # Categorize by set-aside type
+            if 'EDWOSB' in set_aside:
+                analytics['set_aside_breakdown']['edwosb']['total'] += 1
+                analytics['set_aside_breakdown']['edwosb']['value'] += value
+                analytics['eligible_opportunities'] += 1
+                analytics['eligible_value'] += value
+            elif 'WOSB' in set_aside or 'Women-Owned' in set_aside:
+                analytics['set_aside_breakdown']['wosb']['total'] += 1
+                analytics['set_aside_breakdown']['wosb']['value'] += value
+                analytics['eligible_opportunities'] += 1
+                analytics['eligible_value'] += value
+            elif 'Small Business' in set_aside:
+                analytics['set_aside_breakdown']['small_business']['total'] += 1
+                analytics['set_aside_breakdown']['small_business']['value'] += value
+                analytics['eligible_opportunities'] += 1
+                analytics['eligible_value'] += value
+            else:
+                analytics['set_aside_breakdown']['unrestricted']['total'] += 1
+                analytics['set_aside_breakdown']['unrestricted']['value'] += value
+        
+        # Generate smart recommendations
+        total_opps = len(opportunities)
+        eligible_pct = (analytics['eligible_opportunities'] / total_opps * 100) if total_opps > 0 else 0
+        
+        if analytics['set_aside_breakdown']['edwosb']['total'] > 0:
+            analytics['recommendations'].append({
+                'type': 'high_priority',
+                'icon': '🎯',
+                'message': f"You have {analytics['set_aside_breakdown']['edwosb']['total']} EDWOSB-only opportunities worth ${analytics['set_aside_breakdown']['edwosb']['value']:,.0f}. These have 30-50% win rates vs 3-8% unrestricted!",
+                'action': 'Focus on EDWOSB set-asides first'
+            })
+        
+        if analytics['set_aside_breakdown']['wosb']['total'] > 0:
+            analytics['recommendations'].append({
+                'type': 'medium_priority',
+                'icon': '💼',
+                'message': f"{analytics['set_aside_breakdown']['wosb']['total']} WOSB opportunities available worth ${analytics['set_aside_breakdown']['wosb']['value']:,.0f}. Win rate: 20-35%.",
+                'action': 'Prioritize after EDWOSB'
+            })
+        
+        if eligible_pct < 50:
+            analytics['recommendations'].append({
+                'type': 'opportunity',
+                'icon': '🔍',
+                'message': f"Only {eligible_pct:.0f}% of your pipeline is set-asides. Search SAM.gov for more WOSB/EDWOSB opportunities to increase win rate.",
+                'action': 'Add more set-aside opportunities'
+            })
+        
+        analytics['summary'] = {
+            'total_opportunities': total_opps,
+            'eligible_count': analytics['eligible_opportunities'],
+            'eligible_percentage': round(eligible_pct, 1),
+            'competitive_edge': 'HIGH' if eligible_pct > 50 else 'MEDIUM' if eligible_pct > 25 else 'LOW'
+        }
+        
+        return jsonify(analytics)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/gpss/proposals', methods=['GET'])
 def get_gpss_proposals():
     """Get all GPSS proposals"""
@@ -1643,9 +2017,9 @@ def get_gpss_proposals():
                 
                 # Parse JSON fields
                 try:
-                    pricing_breakdown = eval(fields.get('Pricing Breakdown', '{}')) if isinstance(fields.get('Pricing Breakdown'), str) else {}
-                    compliance_checklist = eval(fields.get('Compliance Checklist', '{}')) if isinstance(fields.get('Compliance Checklist'), str) else {}
-                    recipients = eval(fields.get('Recipients', '{}')) if isinstance(fields.get('Recipients'), str) else {}
+                    pricing_breakdown = eval(fields.get('PRICING-BREAKDOWN', '{}')) if isinstance(fields.get('PRICING-BREAKDOWN'), str) else {}
+                    compliance_checklist = eval(fields.get('COMPLIANCE CHECKLIST', '{}')) if isinstance(fields.get('COMPLIANCE CHECKLIST'), str) else {}
+                    recipients = eval(fields.get('PRIMARY RECIPIENT EMAIL', '{}')) if isinstance(fields.get('PRIMARY RECIPIENT EMAIL'), str) else {}
                 except:
                     pricing_breakdown = {}
                     compliance_checklist = {}
@@ -1653,22 +2027,22 @@ def get_gpss_proposals():
                 
                 proposals.append({
                     'id': record['id'],
-                    'proposalName': fields.get('Proposal Name', ''),
-                    'opportunityId': fields.get('Opportunity', [''])[0] if fields.get('Opportunity') else '',
-                    'rfpNumber': fields.get('RFP Number', ''),
-                    'agency': fields.get('Agency', ''),
+                    'proposalName': fields.get('PROPOSAL NAME', ''),
+                    'opportunityId': fields.get('GPSS OPPORTUNITY', [''])[0] if fields.get('GPSS OPPORTUNITY') else '',
+                    'rfpNumber': fields.get('RFP NUMBER', ''),
+                    'agency': fields.get('AGENCY NAME', ''),
                     'value': fields.get('Total Value', 0),
                     'status': fields.get('Status', 'Draft'),
-                    'generatedDate': fields.get('Generated Date', ''),
-                    'sentDate': fields.get('Sent Date'),
-                    'dueDate': fields.get('Due Date', ''),
-                    'executiveSummary': fields.get('Executive Summary', ''),
-                    'technicalApproach': fields.get('Technical Approach', ''),
-                    'staffingPlan': fields.get('Staffing Plan', ''),
-                    'pastPerformance': fields.get('Past Performance', ''),
-                    'pricingTotal': fields.get('Total Value', 0),
+                    'generatedDate': fields.get('GENERATED DATE', ''),
+                    'sentDate': fields.get('SENT DATE'),
+                    'dueDate': fields.get('DUE DATE', ''),
+                    'executiveSummary': fields.get('EXECUTIVE SUMMARY', ''),
+                    'technicalApproach': fields.get('TECHNICAL APPROACH', ''),
+                    'staffingPlan': fields.get('STAFFING PLAN ', ''),
+                    'pastPerformance': fields.get('PAST PERFORMANCE', ''),
+                    'pricingTotal': fields.get('PRICING-TOTAL', 0),
                     'pricingBreakdown': pricing_breakdown,
-                    'pricingJustification': fields.get('Pricing Justification', ''),
+                    'pricingJustification': fields.get('PRICING-JUSTIFICATION', ''),
                     'complianceChecklist': compliance_checklist,
                     'recipients': recipients
                 })
@@ -1693,26 +2067,29 @@ def create_gpss_proposal():
         
         # Prepare fields for Airtable
         fields = {
-            'Proposal Name': data.get('proposalName', ''),
-            'RFP Number': data.get('rfpNumber', ''),
-            'Agency': data.get('agency', ''),
-            'Status': data.get('status', 'Draft'),
-            'Executive Summary': data.get('executiveSummary', ''),
-            'Technical Approach': data.get('technicalApproach', ''),
-            'Staffing Plan': data.get('staffingPlan', ''),
-            'Past Performance': data.get('pastPerformance', ''),
-            'Total Value': data.get('pricingTotal', 0),
-            'Pricing Breakdown': str(data.get('pricingBreakdown', {})),
-            'Pricing Justification': data.get('pricingJustification', ''),
-            'Compliance Checklist': str(data.get('complianceChecklist', {})),
-            'Recipients': str(data.get('recipients', {})),
-            'Generated Date': data.get('generatedDate', datetime.now().isoformat()),
-            'Due Date': data.get('dueDate', '')
+            'PROPOSAL NAME': data.get('proposalName', ''),
+            'RFP NUMBER': data.get('rfpNumber', ''),
+            'AGENCY NAME': data.get('agency', ''),
+            'STATUS': data.get('status', 'DRAFT'),
+            'EXECUTIVE SUMMARY': data.get('executiveSummary', ''),
+            'TECHNICAL APPROACH': data.get('technicalApproach', ''),
+            'STAFFING PLAN ': data.get('staffingPlan', ''),
+            'PAST PERFORMANCE': data.get('pastPerformance', ''),
+            'PRICING-TOTAL': data.get('pricingTotal', 0),
+            'PRICING-BREAKDOWN': str(data.get('pricingBreakdown', {})),
+            'PRICING-JUSTIFICATION': data.get('pricingJustification', ''),
+            'COMPLIANCE CHECKLIST': str(data.get('complianceChecklist', {})),
+            'PRIMARY RECIPIENT EMAIL': str(data.get('recipients', {})),
+            'GENERATED DATE': data.get('generatedDate', datetime.now().isoformat())
         }
+        
+        # Add optional date field only if provided
+        if data.get('dueDate'):
+            fields['DUE DATE'] = data.get('dueDate')
         
         # Add opportunity link if provided
         if data.get('opportunityId'):
-            fields['Opportunity'] = [data.get('opportunityId')]
+            fields['GPSS OPPORTUNITY'] = [data.get('opportunityId')]
         
         # Create record in Airtable
         record = airtable_client.create_record('GPSS Proposals', fields)
@@ -2253,7 +2630,7 @@ def get_gpss_contacts():
     """Get all contacts with optional filtering"""
     try:
         airtable_client = AirtableClient()
-        records = airtable_client.get_all_records('Contacts')
+        records = airtable_client.get_all_records('GPSS CONTACTS')
         
         contacts = []
         for record in records:
@@ -2304,7 +2681,7 @@ def create_gpss_contact():
             'Created': datetime.now().isoformat()
         }
         
-        result = airtable_client.create_record('Contacts', fields)
+        result = airtable_client.create_record('GPSS CONTACTS', fields)
         return jsonify({'contact': {'id': result['id'], **fields}})
     
     except Exception as e:
@@ -2340,7 +2717,7 @@ def update_gpss_contact(contact_id):
         
         update_fields['Last Modified'] = datetime.now().isoformat()
         
-        airtable_client.update_record('Contacts', contact_id, update_fields)
+        airtable_client.update_record('GPSS CONTACTS', contact_id, update_fields)
         return jsonify({'success': True})
     
     except Exception as e:
@@ -2352,7 +2729,7 @@ def delete_gpss_contact(contact_id):
     """Delete a contact"""
     try:
         airtable_client = AirtableClient()
-        table = airtable_client.get_table('Contacts')
+        table = airtable_client.get_table('GPSS CONTACTS')
         table.delete(contact_id)
         return jsonify({'success': True})
     
@@ -2464,6 +2841,415 @@ def delete_gpss_product(product_id):
 
 
 # =====================================================================
+# GPSS SUPPLIER MINING & AUTOMATED QUOTING ENDPOINTS
+# =====================================================================
+
+@app.route('/gpss/suppliers', methods=['GET'])
+def get_gpss_suppliers():
+    """Get all suppliers with optional filters"""
+    try:
+        from nexus_backend import handle_search_suppliers
+        
+        # Get filter parameters
+        filters = {
+            'category': request.args.get('category'),
+            'keywords': request.args.getlist('keywords'),
+            'min_rating': float(request.args.get('min_rating', 0))
+        }
+        
+        suppliers = handle_search_suppliers(filters)
+        return jsonify({'suppliers': suppliers})
+    
+    except Exception as e:
+        print(f"Error getting suppliers: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers', methods=['POST'])
+def create_gpss_supplier():
+    """Create a new supplier"""
+    try:
+        from nexus_backend import handle_create_supplier
+        
+        data = request.json
+        result = handle_create_supplier(data)
+        
+        if result.get('error'):
+            return jsonify(result), 400
+        
+        return jsonify({'supplier': result})
+    
+    except Exception as e:
+        print(f"Error creating supplier: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/<supplier_id>', methods=['GET'])
+def get_gpss_supplier(supplier_id):
+    """Get single supplier details"""
+    try:
+        from nexus_backend import handle_get_supplier
+        
+        supplier = handle_get_supplier(supplier_id)
+        
+        if not supplier:
+            return jsonify({"error": "Supplier not found"}), 404
+        
+        return jsonify({'supplier': supplier})
+    
+    except Exception as e:
+        print(f"Error getting supplier: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/<supplier_id>', methods=['PUT'])
+def update_gpss_supplier(supplier_id):
+    """Update supplier"""
+    try:
+        from nexus_backend import handle_update_supplier
+        
+        data = request.json
+        result = handle_update_supplier(supplier_id, data)
+        
+        if result.get('error'):
+            return jsonify(result), 400
+        
+        return jsonify({'success': True, 'supplier': result})
+    
+    except Exception as e:
+        print(f"Error updating supplier: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/find-for-product', methods=['POST'])
+def find_suppliers_for_product():
+    """Find suppliers for a specific product"""
+    try:
+        from nexus_backend import handle_find_suppliers_for_product
+        
+        data = request.json
+        product = data.get('product')
+        category = data.get('category')
+        
+        if not product:
+            return jsonify({"error": "product is required"}), 400
+        
+        suppliers = handle_find_suppliers_for_product(product, category)
+        return jsonify({'suppliers': suppliers})
+    
+    except Exception as e:
+        print(f"Error finding suppliers: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/mine', methods=['POST'])
+def mine_suppliers():
+    """Mine suppliers from online sources (GSA, Google, etc.)"""
+    try:
+        data = request.json
+        product = data.get('product')
+        category = data.get('category')
+        
+        if not product:
+            return jsonify({"error": "product is required"}), 400
+        
+        # Note: Actual mining implementation would go here
+        # For now, return placeholder
+        return jsonify({
+            'success': True,
+            'message': 'Supplier mining initiated',
+            'product': product,
+            'category': category,
+            'suppliers_found': 0,
+            'note': 'Mining implementation coming soon'
+        })
+    
+    except Exception as e:
+        print(f"Error mining suppliers: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/auto-quote/process-opportunity', methods=['POST'])
+def auto_quote_process_opportunity():
+    """
+    Process opportunity with automated supplier finding and quote generation
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXXX",
+      "max_suppliers": 5
+    }
+    """
+    try:
+        from nexus_backend import handle_process_opportunity_for_suppliers
+        
+        data = request.json
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        result = handle_process_opportunity_for_suppliers(opportunity_id)
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        print(f"Error processing opportunity: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/auto-quote/find-suppliers', methods=['POST'])
+def auto_quote_find_suppliers():
+    """
+    Find matching suppliers for an opportunity
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXXX"
+    }
+    """
+    try:
+        from nexus_backend import handle_find_suppliers_for_opportunity
+        
+        data = request.json
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        suppliers = handle_find_suppliers_for_opportunity(opportunity_id)
+        
+        return jsonify({
+            'success': True,
+            'opportunity_id': opportunity_id,
+            'suppliers': suppliers
+        })
+    
+    except Exception as e:
+        print(f"Error finding suppliers for opportunity: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/supplier-quotes', methods=['GET'])
+def get_supplier_quotes():
+    """Get supplier quotes with optional filters"""
+    try:
+        airtable_client = AirtableClient()
+        
+        # Get filter parameters
+        opportunity_id = request.args.get('opportunity_id')
+        supplier_id = request.args.get('supplier_id')
+        status = request.args.get('status')
+        
+        # Build formula for filtering
+        formulas = []
+        if opportunity_id:
+            formulas.append(f"{{Opportunity}}='{opportunity_id}'")
+        if supplier_id:
+            formulas.append(f"{{Supplier}}='{supplier_id}'")
+        if status:
+            formulas.append(f"{{Request Status}}='{status}'")
+        
+        # Fetch quotes
+        if formulas:
+            formula = f"AND({','.join(formulas)})"
+            records = airtable_client.search_records('GPSS Supplier Quotes', formula)
+        else:
+            records = airtable_client.get_all_records('GPSS Supplier Quotes')
+        
+        # Format quotes
+        quotes = []
+        for record in records:
+            fields = record.get('fields', {})
+            quotes.append({
+                'id': record.get('id'),
+                'opportunity_id': fields.get('Opportunity', [None])[0],
+                'supplier_id': fields.get('Supplier', [None])[0],
+                'product_requested': fields.get('Product/Service Requested', ''),
+                'quantity': fields.get('Quantity', ''),
+                'supplier_quote_amount': fields.get('Supplier Quote Amount', 0),
+                'our_proposed_price': fields.get('Our Proposed Price', 0),
+                'net_profit': fields.get('Net Profit After Factoring ($)', 0),
+                'request_status': fields.get('Request Status', ''),
+                'quote_received_date': fields.get('Quote Received Date', ''),
+                'selected': fields.get('Selected for Quote', False)
+            })
+        
+        return jsonify({'quotes': quotes})
+    
+    except Exception as e:
+        print(f"Error getting supplier quotes: {e}")
+        return jsonify({"error": str(e), "quotes": []}), 500
+
+
+@app.route('/gpss/supplier-quotes/<quote_id>', methods=['PUT'])
+def update_supplier_quote(quote_id):
+    """Update supplier quote (e.g., when supplier responds)"""
+    try:
+        airtable_client = AirtableClient()
+        data = request.json
+        
+        # Build update fields
+        update_fields = {}
+        if 'supplier_quote_amount' in data:
+            update_fields['Supplier Quote Amount'] = data['supplier_quote_amount']
+        if 'quoted_lead_time' in data:
+            update_fields['Quoted Lead Time (Days)'] = data['quoted_lead_time']
+        if 'request_status' in data:
+            update_fields['Request Status'] = data['request_status']
+        if 'quote_received_date' in data:
+            update_fields['Quote Received Date'] = data['quote_received_date']
+        if 'selected' in data:
+            update_fields['Selected for Quote'] = data['selected']
+        
+        result = airtable_client.update_record('GPSS Supplier Quotes', quote_id, update_fields)
+        
+        return jsonify({'success': True, 'quote': result})
+    
+    except Exception as e:
+        print(f"Error updating supplier quote: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
+# GPSS PROPOSALBIO™ QUALITY ASSURANCE ENDPOINTS
+# =====================================================================
+
+@app.route('/gpss/proposalbio/analyze', methods=['POST'])
+def gpss_proposalbio_analyze():
+    """
+    Run ProposalBio™ 10-biohack analysis on a proposal
+    
+    Expected JSON:
+    {
+      "proposal_id": "recXXXXX",
+      "metadata": {
+        "agency_type": "Federal|State|Local|Cooperative",
+        "region": "Northeast|Mid_Atlantic|Southeast|Midwest|Southwest|West_Coast",
+        "rfp_text": "Full RFP text for familiarity analysis (optional)"
+      }
+    }
+    """
+    try:
+        data = request.json or {}
+        proposal_id = data.get('proposal_id')
+        metadata = data.get('metadata') or {}
+
+        if not proposal_id:
+            return jsonify({"error": "proposal_id is required"}), 400
+
+        svc = ProposalBioService()
+        result = svc.analyze_proposal(proposal_id, metadata_override=metadata)
+
+        if 'error' in result:
+            return jsonify(result), 400
+
+        return jsonify(result)
+
+    except Exception as e:
+        print(f"ProposalBio analysis error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/proposalbio/score/<proposal_id>', methods=['GET'])
+def gpss_proposalbio_score(proposal_id):
+    """Get existing ProposalBio™ scores for a proposal"""
+    try:
+        airtable_client = AirtableClient()
+        recs = airtable_client.search_records('GPSS Proposals', f"RECORD_ID()='{proposal_id}'")
+        if not recs:
+            return jsonify({"error": "Proposal not found"}), 404
+
+        fields = recs[0].get('fields', {})
+        
+        return jsonify({
+            "proposal_id": proposal_id,
+            "composite_score": fields.get("ProposalBio Composite Score"),
+            "status": fields.get("ProposalBio Status"),
+            "submission_gate": fields.get("ProposalBio Gate"),
+            "last_analyzed": fields.get("ProposalBio Last Analyzed"),
+            "revision_count": fields.get("ProposalBio Revision Count", 0),
+            "approved_by": fields.get("ProposalBio Approved By"),
+            "approved_date": fields.get("ProposalBio Approved Date"),
+            "biohack_scores": json.loads(fields.get("ProposalBio Biohack Scores JSON") or "[]"),
+            "critical_issues": json.loads(fields.get("ProposalBio Critical Issues JSON") or "[]"),
+            "priority_improvements": json.loads(fields.get("ProposalBio Priority Improvements JSON") or "[]"),
+        })
+    except Exception as e:
+        print(f"ProposalBio score retrieval error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/proposalbio/approve', methods=['POST'])
+def gpss_proposalbio_approve():
+    """
+    Approve proposal for submission (unlocks quality gate)
+    
+    Expected JSON:
+    {
+      "proposal_id": "recXXXXX",
+      "approved_by": "Dee Davis",
+      "override_warnings": false
+    }
+    """
+    try:
+        data = request.json or {}
+        proposal_id = data.get('proposal_id')
+        approved_by = data.get('approved_by', 'Alexis Nexus')
+        override_warnings = bool(data.get('override_warnings', False))
+
+        if not proposal_id:
+            return jsonify({"error": "proposal_id is required"}), 400
+
+        svc = ProposalBioService()
+        result = svc.approve(proposal_id, approved_by=approved_by, override_warnings=override_warnings)
+
+        if 'error' in result:
+            return jsonify(result), 400
+
+        return jsonify(result)
+    except Exception as e:
+        print(f"ProposalBio approval error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/proposalbio/outcome', methods=['POST'])
+def gpss_proposalbio_outcome():
+    """
+    Record win/loss outcome for adaptive learning
+    
+    Expected JSON:
+    {
+      "proposal_id": "recXXXXX",
+      "outcome": "Won|Lost|No Decision",
+      "win_value": 1500000
+    }
+    """
+    try:
+        data = request.json or {}
+        proposal_id = data.get('proposal_id')
+        outcome = data.get('outcome')
+        win_value = float(data.get('win_value', 0))
+
+        if not proposal_id or not outcome:
+            return jsonify({"error": "proposal_id and outcome are required"}), 400
+
+        svc = ProposalBioService()
+        result = svc.record_outcome(proposal_id, outcome, win_value)
+
+        if 'error' in result:
+            return jsonify(result), 400
+
+        return jsonify(result)
+    except Exception as e:
+        print(f"ProposalBio outcome recording error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
 # DDCSS PROSPECTS & TOOLS ENDPOINTS
 # =====================================================================
 
@@ -2526,6 +3312,184 @@ def create_ddcss_prospect():
         result = airtable_client.create_record('DDCSS Prospects', fields)
         return jsonify({'prospect': {'id': result['id'], **fields}})
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/ddcss/prospects/<prospect_id>', methods=['PUT'])
+def update_ddcss_prospect(prospect_id):
+    """Update DDCSS prospect - with auto-ATLAS integration when client won"""
+    try:
+        data = request.json
+        airtable_client = AirtableClient()
+        
+        # Get current prospect to check status change
+        current_prospect = airtable_client.get_record('DDCSS Prospects', prospect_id)
+        old_status = current_prospect['fields'].get('Status', '')
+        
+        update_fields = {}
+        field_mapping = {
+            'companyName': 'Company Name',
+            'industry': 'Industry',
+            'companySize': 'Company Size',
+            'location': 'Location',
+            'contactName': 'Contact Name',
+            'contactTitle': 'Contact Title',
+            'contactEmail': 'Contact Email',
+            'contactPhone': 'Contact Phone',
+            'linkedinProfile': 'LinkedIn Profile',
+            'website': 'Website',
+            'pipelineStage': 'Pipeline Stage',
+            'status': 'Status',
+            'budgetRange': 'Budget Range',
+            'timeline': 'Timeline',
+            'painPoints': 'Pain Points',
+            'qualificationScore': 'Qualification Score',
+            'icpFitScore': 'ICP Fit Score',
+            'winProbability': 'Win Probability',
+            'notes': 'Notes'
+        }
+        
+        for key, airtable_field in field_mapping.items():
+            if key in data:
+                update_fields[airtable_field] = data[key]
+        
+        # Update the prospect
+        airtable_client.update_record('DDCSS Prospects', prospect_id, update_fields)
+        
+        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "CLIENT WON"
+        new_status = update_fields.get('Status', old_status)
+        if new_status == 'Client Won' and old_status != 'Client Won':
+            # Check if ATLAS project already exists
+            existing_atlas_link = current_prospect['fields'].get('ATLAS Project')
+            
+            if not existing_atlas_link:
+                try:
+                    # Auto-create ATLAS project for corporate engagement!
+                    atlas_result = create_atlas_project_from_prospect(prospect_id, airtable_client)
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': '🎉 Client Won! ATLAS project created automatically!',
+                        'atlas_project_created': True,
+                        'atlas_project_id': atlas_result['project_id'],
+                        'atlas_project_name': atlas_result['project_name'],
+                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                    })
+                except Exception as atlas_error:
+                    print(f"Error creating ATLAS project from prospect: {atlas_error}")
+                    return jsonify({
+                        'success': True,
+                        'message': 'Prospect updated. ATLAS project creation failed - please create manually.',
+                        'atlas_error': str(atlas_error)
+                    })
+        
+        return jsonify({'success': True})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def create_atlas_project_from_prospect(prospect_id: str, airtable_client=None) -> dict:
+    """
+    🎯 AUTO-CREATE ATLAS PROJECT FROM WON DDCSS PROSPECT
+    """
+    if not airtable_client:
+        airtable_client = AirtableClient()
+    
+    # Get prospect details
+    prospect = airtable_client.get_record('DDCSS Prospects', prospect_id)
+    prospect_fields = prospect['fields']
+    
+    # Extract key information
+    company_name = prospect_fields.get('Company Name', 'Unknown Company')
+    contact_name = prospect_fields.get('Contact Name', '')
+    industry = prospect_fields.get('Industry', 'Unknown')
+    budget = prospect_fields.get('Budget Range', '').replace('$', '').replace(',', '').replace('+', '').split('-')[0] if prospect_fields.get('Budget Range') else 0
+    
+    try:
+        budget_value = float(budget) if budget else 50000  # Default to $50K
+    except:
+        budget_value = 50000
+    
+    pain_points = prospect_fields.get('Pain Points', '')
+    timeline = prospect_fields.get('Timeline', '')
+    recommended_service = prospect_fields.get('Primary Service', 'Corporate Consulting')
+    
+    # Build comprehensive project scope
+    project_scope = f"""
+CLIENT: {company_name}
+CONTACT: {contact_name}
+INDUSTRY: {industry}
+
+ENGAGEMENT TYPE: {recommended_service}
+
+PAIN POINTS & OBJECTIVES:
+{pain_points}
+
+TIMELINE: {timeline}
+
+DELIVERABLES:
+- Discovery & Assessment
+- Strategic Recommendations
+- Implementation Plan
+- Follow-up Support
+    """.strip()
+    
+    # Create ATLAS project record
+    project_fields = {
+        'Project Name': f"{recommended_service} - {company_name}",
+        'Client Name': company_name,
+        'Project Type': 'Corporate Consulting',
+        'Industry': industry,
+        'Budget': budget_value,
+        'Project Scope': project_scope[:10000],
+        'Start Date': datetime.now().isoformat(),
+        'Status': 'Planning',
+        'Priority': 'High',
+        'Completion Percentage': 0,
+        'Created Date': datetime.now().isoformat(),
+        'Source System': 'DDCSS',
+        'Source Prospect ID': prospect_id
+    }
+    
+    # Create the project
+    project_record = airtable_client.create_record('ATLAS PROJECTS', project_fields)
+    project_id = project_record['id']
+    
+    # Link prospect to ATLAS project
+    try:
+        airtable_client.update_record('DDCSS Prospects', prospect_id, {
+            'ATLAS Project': [project_id]
+        })
+    except Exception as link_error:
+        print(f"Warning: Could not link prospect to ATLAS project: {link_error}")
+    
+    # Auto-generate WBS
+    wbs_generated = False
+    try:
+        from nexus_backend import ATLASAgent2
+        atlas_agent = ATLASAgent2()
+        wbs_result = atlas_agent.generate_wbs(project_id)
+        wbs_generated = 'error' not in wbs_result
+    except Exception as wbs_error:
+        print(f"Warning: WBS generation failed: {wbs_error}")
+    
+    return {
+        'success': True,
+        'project_id': project_id,
+        'project_name': project_fields['Project Name'],
+        'wbs_generated': wbs_generated,
+        'message': f'✅ ATLAS project created: {project_fields["Project Name"]}'
+    }
+
+
+@app.route('/ddcss/prospects/<prospect_id>/create-atlas-project', methods=['POST'])
+def manual_create_atlas_project_from_prospect(prospect_id):
+    """Manual endpoint to create ATLAS project from prospect"""
+    try:
+        result = create_atlas_project_from_prospect(prospect_id)
+        return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -3104,7 +4068,7 @@ def process_alexa_command(command):
                     'Source': 'Alexa Voice Assistant'
                 }
 
-                result = airtable_client.create_record('Contacts', contact_fields)
+                result = airtable_client.create_record('GPSS CONTACTS', contact_fields)
                 return f"Contact {first_name} {last_name} has been added to your NEXUS database."
 
             except Exception as e:
@@ -3130,7 +4094,7 @@ def process_alexa_command(command):
                 'Source': 'Alexa Voice Assistant'
             }
 
-            result = airtable_client.create_record('Opportunities', opp_fields)
+            result = airtable_client.create_record('GPSS OPPORTUNITIES', opp_fields)
             return f"New opportunity has been created in your NEXUS system. You can add details via the web interface."
 
         except Exception as e:
@@ -3142,8 +4106,8 @@ def process_alexa_command(command):
             airtable_client = AirtableClient()
 
             # Get basic stats
-            opportunities = airtable_client.get_all_records('Opportunities')
-            contacts = airtable_client.get_all_records('Contacts')
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+            contacts = airtable_client.get_all_records('GPSS CONTACTS')
 
             opp_count = len(opportunities) if opportunities else 0
             contact_count = len(contacts) if contacts else 0
@@ -3168,8 +4132,8 @@ def get_nexus_system_status():
     """Get system-wide NEXUS status"""
     try:
         airtable_client = AirtableClient()
-        opportunities = airtable_client.get_all_records('Opportunities')
-        contacts = airtable_client.get_all_records('Contacts')
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        contacts = airtable_client.get_all_records('GPSS CONTACTS')
         
         opp_count = len(opportunities) if opportunities else 0
         contact_count = len(contacts) if contacts else 0
@@ -3198,7 +4162,7 @@ def get_contacts_summary():
     """Get contacts summary"""
     try:
         airtable_client = AirtableClient()
-        contacts = airtable_client.get_all_records('Contacts')
+        contacts = airtable_client.get_all_records('GPSS CONTACTS')
         count = len(contacts) if contacts else 0
         return f"You have {count} contacts in your NEXUS database. Contact management is ready."
     except:
@@ -3209,7 +4173,7 @@ def get_gpss_pipeline_analysis():
     """Get GPSS pipeline analysis"""
     try:
         airtable_client = AirtableClient()
-        opportunities = airtable_client.get_all_records('Opportunities')
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         count = len(opportunities) if opportunities else 0
         return f"Government contract pipeline: {count} opportunities tracked. Pipeline analysis is ready."
     except:
@@ -3225,8 +4189,8 @@ def get_executive_briefing():
     """Get daily executive briefing"""
     try:
         airtable_client = AirtableClient()
-        opportunities = airtable_client.get_all_records('Opportunities')
-        contacts = airtable_client.get_all_records('Contacts')
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        contacts = airtable_client.get_all_records('GPSS CONTACTS')
         
         opp_count = len(opportunities) if opportunities else 0
         contact_count = len(contacts) if contacts else 0
@@ -3245,7 +4209,7 @@ def get_government_contract_pipeline():
     """Get government contract pipeline overview"""
     try:
         airtable_client = AirtableClient()
-        opportunities = airtable_client.get_all_records('Opportunities')
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         count = len(opportunities) if opportunities else 0
         return f"Government contract pipeline: {count} opportunities in various stages. Pipeline health is good."
     except:
@@ -3394,7 +4358,7 @@ def handle_contact_creation(message):
             'Source': 'AI Copilot'
         }
 
-        result = airtable_client.create_record('Contacts', contact_fields)
+        result = airtable_client.create_record('GPSS CONTACTS', contact_fields)
 
         return jsonify({
             'success': True,
@@ -3433,7 +4397,7 @@ def handle_contact_search(message):
             })
 
         airtable_client = AirtableClient()
-        contacts = airtable_client.get_all_records('Contacts')
+        contacts = airtable_client.get_all_records('GPSS CONTACTS')
 
         matches = []
         for contact in contacts:
@@ -3520,7 +4484,7 @@ def handle_opportunity_creation(message):
             'Source': 'AI Copilot'
         }
 
-        result = airtable_client.create_record('Opportunities', opp_fields)
+        result = airtable_client.create_record('GPSS OPPORTUNITIES', opp_fields)
 
         return jsonify({
             'success': True,
@@ -3559,7 +4523,7 @@ def handle_project_creation(message):
             'Completion Percentage': 0
         }
 
-        result = airtable_client.create_record('ATLAS Projects', project_fields)
+        result = airtable_client.create_record('ATLAS PROJECTS', project_fields)
 
         return jsonify({
             'success': True,
@@ -3844,7 +4808,7 @@ def gbis_generate_application():
         
         # Get Grant Story Library modules (active only)
         try:
-            story_modules = airtable.get_all_records('Grant Story Library')
+            story_modules = airtable.get_all_records('GRANT STORY LIBRARY')
             active_modules = [m for m in story_modules if m.get('fields', {}).get('Status') == 'Active']
         except Exception as e:
             print(f"Warning: Could not fetch Grant Story Library: {e}")
@@ -3952,7 +4916,7 @@ Return ONLY valid JSON with section names as keys and content as values.
             if story_module_ids:
                 application_fields['Story Modules Used'] = story_module_ids
             
-            application_record = airtable.create_record('Grant Applications', application_fields)
+            application_record = airtable.create_record('GRANT APPLICATIONS', application_fields)
             
             return jsonify({
                 'success': True,
@@ -4235,7 +5199,7 @@ def get_gbis_opportunities():
         status = request.args.get('status')
         
         # Fetch all opportunities from Airtable
-        opportunities = airtable.get_all_records('Grant Opportunities')
+        opportunities = airtable.get_all_records('GRANT OPPORTUNITIES')
         
         # Apply filters
         filtered = []
@@ -4301,7 +5265,7 @@ def get_gbis_applications():
         status = request.args.get('status')
         
         # Fetch all applications from Airtable
-        applications = airtable.get_all_records('Grant Applications')
+        applications = airtable.get_all_records('GRANT APPLICATIONS')
         
         # Format and filter
         formatted = []
@@ -4348,7 +5312,7 @@ def get_gbis_pipeline():
         airtable = AirtableClient()
         
         # Fetch pipeline from Airtable
-        pipeline = airtable.get_all_records('Grant Pipeline')
+        pipeline = airtable.get_all_records('GRANT PIPELINE')
         
         # Format pipeline items
         formatted = []
@@ -4383,7 +5347,7 @@ def get_gbis_story_library():
         airtable = AirtableClient()
         
         # Fetch story modules
-        modules = airtable.get_all_records('Grant Story Library')
+        modules = airtable.get_all_records('GRANT STORY LIBRARY')
         
         # Format modules
         formatted = []
@@ -4421,9 +5385,9 @@ def get_gbis_stats():
         airtable = AirtableClient()
         
         # Fetch data from all tables
-        opportunities = airtable.get_all_records('Grant Opportunities')
-        applications = airtable.get_all_records('Grant Applications')
-        outcomes = airtable.get_all_records('Grant Outcomes')
+        opportunities = airtable.get_all_records('GRANT OPPORTUNITIES')
+        applications = airtable.get_all_records('GRANT APPLICATIONS')
+        outcomes = airtable.get_all_records('GRANT OUTCOMES')
         
         # Calculate stats
         active_opportunities = len([o for o in opportunities 
@@ -4467,6 +5431,1090 @@ def get_gbis_stats():
             'avgTimeInvested': 0,
             'error': str(e)
         }), 500
+
+
+@app.route('/gbis/opportunities/<opportunity_id>', methods=['PUT'])
+def update_gbis_opportunity(opportunity_id):
+    """Update GBIS opportunity - with auto-ATLAS integration when grant awarded"""
+    try:
+        data = request.json
+        airtable_client = AirtableClient()
+        
+        # Get current opportunity to check status change
+        current_opp = airtable_client.get_record('GRANT OPPORTUNITIES', opportunity_id)
+        old_status = current_opp['fields'].get('Status', '')
+        
+        update_fields = {}
+        field_mapping = {
+            'grantName': 'Grant Name',
+            'funderName': 'Funder Name',
+            'funderType': 'Funder Type',
+            'grantAmount': 'Grant Amount',
+            'maxAward': 'Max Award Amount',
+            'deadline': 'Deadline',
+            'status': 'Status',
+            'priorityLevel': 'Priority Level',
+            'divisionFit': 'Division Fit',
+            'eligibilityMatch': 'Eligibility Match Score',
+            'totalScore': 'Total Score',
+            'focusAreas': 'Focus Areas',
+            'requirements': 'Requirements',
+            'notes': 'Notes'
+        }
+        
+        for key, airtable_field in field_mapping.items():
+            if key in data:
+                update_fields[airtable_field] = data[key]
+        
+        # Update the opportunity
+        airtable_client.update_record('GRANT OPPORTUNITIES', opportunity_id, update_fields)
+        
+        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "AWARDED"
+        new_status = update_fields.get('Status', old_status)
+        if new_status == 'Awarded' and old_status != 'Awarded':
+            # Check if ATLAS project already exists
+            existing_atlas_link = current_opp['fields'].get('ATLAS Project')
+            
+            if not existing_atlas_link:
+                try:
+                    # Auto-create ATLAS project for grant management!
+                    atlas_result = create_atlas_project_from_grant(opportunity_id, airtable_client)
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': '🎉 Grant Awarded! ATLAS project created automatically!',
+                        'atlas_project_created': True,
+                        'atlas_project_id': atlas_result['project_id'],
+                        'atlas_project_name': atlas_result['project_name'],
+                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                    })
+                except Exception as atlas_error:
+                    print(f"Error creating ATLAS project from grant: {atlas_error}")
+                    return jsonify({
+                        'success': True,
+                        'message': 'Grant updated. ATLAS project creation failed - please create manually.',
+                        'atlas_error': str(atlas_error)
+                    })
+        
+        return jsonify({'success': True})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def create_atlas_project_from_grant(grant_id: str, airtable_client=None) -> dict:
+    """
+    🎯 AUTO-CREATE ATLAS PROJECT FROM AWARDED GRANT
+    """
+    if not airtable_client:
+        airtable_client = AirtableClient()
+    
+    # Get grant details
+    grant = airtable_client.get_record('GRANT OPPORTUNITIES', grant_id)
+    grant_fields = grant['fields']
+    
+    # Extract key information
+    grant_name = grant_fields.get('Grant Name', 'Untitled Grant')
+    funder_name = grant_fields.get('Funder Name', 'Unknown Funder')
+    grant_amount = grant_fields.get('Grant Amount', 0)
+    focus_areas = grant_fields.get('Focus Areas', '')
+    requirements = grant_fields.get('Requirements', '')
+    division_fit = grant_fields.get('Division Fit', [])
+    divisions_str = ', '.join(division_fit) if isinstance(division_fit, list) else str(division_fit)
+    
+    # Build comprehensive project scope
+    project_scope = f"""
+GRANT: {grant_name}
+FUNDER: {funder_name}
+AWARD AMOUNT: ${grant_amount:,.2f}
+
+DIVISIONS INVOLVED: {divisions_str}
+
+FOCUS AREAS:
+{focus_areas}
+
+GRANT REQUIREMENTS:
+{requirements}
+
+DELIVERABLES:
+- Grant compliance & reporting
+- Program implementation
+- Impact measurement
+- Final report submission
+    """.strip()
+    
+    # Create ATLAS project record
+    project_fields = {
+        'Project Name': f"GRANT: {grant_name}",
+        'Client Name': funder_name,
+        'Project Type': 'Grant Management',
+        'Budget': grant_amount,
+        'Project Scope': project_scope[:10000],
+        'Start Date': datetime.now().isoformat(),
+        'Status': 'Planning',
+        'Priority': 'High',
+        'Completion Percentage': 0,
+        'Created Date': datetime.now().isoformat(),
+        'Source System': 'GBIS',
+        'Source Grant ID': grant_id
+    }
+    
+    # Create the project
+    project_record = airtable_client.create_record('ATLAS PROJECTS', project_fields)
+    project_id = project_record['id']
+    
+    # Link grant to ATLAS project
+    try:
+        airtable_client.update_record('GRANT OPPORTUNITIES', grant_id, {
+            'ATLAS Project': [project_id]
+        })
+    except Exception as link_error:
+        print(f"Warning: Could not link grant to ATLAS project: {link_error}")
+    
+    # Auto-generate WBS
+    wbs_generated = False
+    try:
+        from nexus_backend import ATLASAgent2
+        atlas_agent = ATLASAgent2()
+        wbs_result = atlas_agent.generate_wbs(project_id)
+        wbs_generated = 'error' not in wbs_result
+    except Exception as wbs_error:
+        print(f"Warning: WBS generation failed: {wbs_error}")
+    
+    return {
+        'success': True,
+        'project_id': project_id,
+        'project_name': project_fields['Project Name'],
+        'wbs_generated': wbs_generated,
+        'message': f'✅ ATLAS project created: {project_fields["Project Name"]}'
+    }
+
+
+@app.route('/gbis/opportunities/<opportunity_id>/create-atlas-project', methods=['POST'])
+def manual_create_atlas_project_from_grant(opportunity_id):
+    """Manual endpoint to create ATLAS project from grant"""
+    try:
+        result = create_atlas_project_from_grant(opportunity_id)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
+# 💎 VERTEX FINANCIAL SYSTEM ENDPOINTS
+# =====================================================================
+
+# -------------------- VERTEX INVOICES --------------------
+
+@app.route('/vertex/invoices', methods=['GET'])
+def get_vertex_invoices():
+    """Get all VERTEX invoices with optional filters"""
+    try:
+        airtable = AirtableClient()
+        
+        # Get query parameters
+        payment_status = request.args.get('payment_status')
+        source_system = request.args.get('source_system')
+        client_name = request.args.get('client_name')
+        aging_category = request.args.get('aging_category')
+        factoring_status = request.args.get('factoring_status')
+        
+        # Build Airtable formula
+        formulas = []
+        if payment_status:
+            formulas.append(f"{{Payment Status}}='{payment_status}'")
+        if source_system:
+            formulas.append(f"{{Source System}}='{source_system}'")
+        if client_name:
+            formulas.append(f"FIND('{client_name}',{{Client Name}})>0")
+        if aging_category:
+            formulas.append(f"{{Aging Category}}='{aging_category}'")
+        if factoring_status:
+            formulas.append(f"{{Factoring Status}}='{factoring_status}'")
+        
+        formula = "AND(" + ",".join(formulas) + ")" if formulas else None
+        
+        invoices = airtable.search_records('VERTEX INVOICES', formula) if formula else airtable.get_all_records('VERTEX INVOICES')
+        
+        return jsonify({'invoices': invoices})
+    except Exception as e:
+        print(f"Error getting VERTEX invoices: {e}")
+        return jsonify({'error': str(e), 'invoices': []}), 500
+
+
+@app.route('/vertex/invoices', methods=['POST'])
+def create_vertex_invoice():
+    """Create a new VERTEX invoice"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        # Create invoice record
+        invoice_fields = {
+            'Invoice Number': data.get('invoice_number', f"INV-{datetime.now().strftime('%Y%m%d-%H%M%S')}"),
+            'Invoice Date': data.get('invoice_date', datetime.now().isoformat()),
+            'Due Date': data.get('due_date'),
+            'Client Name': data.get('client_name'),
+            'Source System': data.get('source_system', 'Other'),
+            'Source Record ID': data.get('source_record_id'),
+            'Invoice Type': data.get('invoice_type', 'Standard'),
+            'Line Items': data.get('line_items', '[]'),
+            'Subtotal': data.get('subtotal', 0),
+            'Tax Rate (%)': data.get('tax_rate', 0),
+            'Total Amount': data.get('total_amount', 0),
+            'Payment Status': data.get('payment_status', 'Unpaid'),
+            'Payment Terms': data.get('payment_terms', 'Net 30'),
+            'Notes': data.get('notes', ''),
+        }
+        
+        # Add government contract fields if applicable
+        if data.get('contract_number'):
+            invoice_fields['Contract Number'] = data['contract_number']
+        if data.get('government_agency'):
+            invoice_fields['Government Agency'] = data['government_agency']
+        
+        # Add factoring fields if applicable
+        if data.get('factoring_status'):
+            invoice_fields['Factoring Status'] = data['factoring_status']
+            if data.get('factoring_company'):
+                invoice_fields['Factoring Company'] = data['factoring_company']
+            if data.get('factoring_fee_percent'):
+                invoice_fields['Factoring Fee (%)'] = data['factoring_fee_percent']
+            if data.get('advance_rate_percent'):
+                invoice_fields['Advance Rate (%)'] = data['advance_rate_percent']
+        
+        invoice = airtable.create_record('VERTEX INVOICES', invoice_fields)
+        
+        return jsonify({'success': True, 'invoice': invoice})
+    except Exception as e:
+        print(f"Error creating VERTEX invoice: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/<invoice_id>', methods=['GET'])
+def get_vertex_invoice(invoice_id):
+    """Get a specific VERTEX invoice"""
+    try:
+        airtable = AirtableClient()
+        invoice = airtable.get_record('VERTEX INVOICES', invoice_id)
+        return jsonify({'invoice': invoice})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/<invoice_id>', methods=['PUT'])
+def update_vertex_invoice(invoice_id):
+    """Update a VERTEX invoice"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        # Filter out read-only fields
+        update_fields = {k: v for k, v in data.items() if k not in ['id', 'createdTime']}
+        
+        invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update_fields)
+        return jsonify({'success': True, 'invoice': invoice})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/<invoice_id>/factor', methods=['POST'])
+def submit_invoice_to_factoring(invoice_id):
+    """Submit invoice to factoring company"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        # Update invoice with factoring details
+        update_fields = {
+            'Factoring Status': 'Submitted',
+            'Factoring Company': data.get('factoring_company'),
+            'Factoring Fee (%)': data.get('factoring_fee_percent', 3),
+            'Advance Rate (%)': data.get('advance_rate_percent', 85),
+            'Factoring Submitted Date': datetime.now().isoformat()
+        }
+        
+        invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update_fields)
+        return jsonify({'success': True, 'invoice': invoice, 'message': 'Invoice submitted to factoring'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/aging', methods=['GET'])
+def get_ar_aging_report():
+    """Get Accounts Receivable aging report"""
+    try:
+        airtable = AirtableClient()
+        
+        # Get all unpaid/partial invoices
+        formula = "OR({Payment Status}='Unpaid',{Payment Status}='Partial',{Payment Status}='Overdue')"
+        invoices = airtable.search_records('VERTEX INVOICES', formula)
+        
+        # Group by aging category
+        aging = {
+            'Current': {'count': 0, 'total': 0, 'invoices': []},
+            '31-60 Days': {'count': 0, 'total': 0, 'invoices': []},
+            '61-90 Days': {'count': 0, 'total': 0, 'invoices': []},
+            '90+ Days': {'count': 0, 'total': 0, 'invoices': []}
+        }
+        
+        for invoice in invoices:
+            fields = invoice.get('fields', {})
+            category = fields.get('Aging Category', 'Current')
+            balance = fields.get('Balance Due', 0)
+            
+            if category in aging:
+                aging[category]['count'] += 1
+                aging[category]['total'] += balance
+                aging[category]['invoices'].append(invoice)
+        
+        return jsonify({'aging_report': aging})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------- VERTEX EXPENSES --------------------
+
+@app.route('/vertex/expenses', methods=['GET'])
+def get_vertex_expenses():
+    """Get all VERTEX expenses"""
+    try:
+        airtable = AirtableClient()
+        
+        category = request.args.get('category')
+        payment_status = request.args.get('payment_status')
+        
+        formula = None
+        if category or payment_status:
+            formulas = []
+            if category:
+                formulas.append(f"{{Category}}='{category}'")
+            if payment_status:
+                formulas.append(f"{{Payment Status}}='{payment_status}'")
+            formula = "AND(" + ",".join(formulas) + ")"
+        
+        expenses = airtable.search_records('VERTEX EXPENSES', formula) if formula else airtable.get_all_records('VERTEX EXPENSES')
+        
+        return jsonify({'expenses': expenses})
+    except Exception as e:
+        return jsonify({'error': str(e), 'expenses': []}), 500
+
+
+@app.route('/vertex/expenses', methods=['POST'])
+def create_vertex_expense():
+    """Create a new VERTEX expense"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        expense_fields = {
+            'Expense Date': data.get('expense_date', datetime.now().isoformat()),
+            'Vendor/Payee': data.get('vendor'),
+            'Description': data.get('description'),
+            'Category': data.get('category', 'Other'),
+            'Amount': data.get('amount', 0),
+            'Payment Method': data.get('payment_method', 'Credit Card'),
+            'Payment Status': data.get('payment_status', 'Paid'),
+            'Tax Deductible': data.get('tax_deductible', True),
+            'Billable': data.get('billable', False),
+            'Notes': data.get('notes', '')
+        }
+        
+        expense = airtable.create_record('VERTEX EXPENSES', expense_fields)
+        
+        return jsonify({'success': True, 'expense': expense})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/expenses/<expense_id>', methods=['PUT'])
+def update_vertex_expense(expense_id):
+    """Update a VERTEX expense"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        update_fields = {k: v for k, v in data.items() if k not in ['id', 'createdTime']}
+        
+        expense = airtable.update_record('VERTEX EXPENSES', expense_id, update_fields)
+        return jsonify({'success': True, 'expense': expense})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/expenses/categorize', methods=['POST'])
+def ai_categorize_expense():
+    """Use AI to categorize an expense"""
+    try:
+        data = request.json
+        description = data.get('description', '')
+        vendor = data.get('vendor', '')
+        
+        from nexus_backend import AnthropicClient
+        ai = AnthropicClient()
+        
+        prompt = f"""Categorize this business expense:
+Vendor: {vendor}
+Description: {description}
+
+Return ONLY the category name from this list:
+- Payroll
+- Software/Tools
+- Marketing
+- Office Supplies
+- Travel
+- Meals
+- Equipment
+- Rent/Utilities
+- Professional Services
+- Insurance
+- Taxes
+- Other
+
+Category:"""
+        
+        category = ai.complete(prompt, max_tokens=50).strip()
+        tax_deductible = category not in ['Personal', 'Non-Deductible']
+        
+        return jsonify({
+            'category': category,
+            'tax_deductible': tax_deductible,
+            'confidence': 0.9
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------- VERTEX REVENUE --------------------
+
+@app.route('/vertex/revenue', methods=['GET'])
+def get_vertex_revenue():
+    """Get all VERTEX revenue records"""
+    try:
+        airtable = AirtableClient()
+        
+        revenue_type = request.args.get('revenue_type')
+        source_system = request.args.get('source_system')
+        
+        formula = None
+        if revenue_type or source_system:
+            formulas = []
+            if revenue_type:
+                formulas.append(f"{{Revenue Type}}='{revenue_type}'")
+            if source_system:
+                formulas.append(f"{{Source System}}='{source_system}'")
+            formula = "AND(" + ",".join(formulas) + ")"
+        
+        revenue_records = airtable.search_records('VERTEX REVENUE', formula) if formula else airtable.get_all_records('VERTEX REVENUE')
+        
+        return jsonify({'revenue': revenue_records})
+    except Exception as e:
+        return jsonify({'error': str(e), 'revenue': []}), 500
+
+
+@app.route('/vertex/revenue', methods=['POST'])
+def create_vertex_revenue():
+    """Create a new VERTEX revenue record"""
+    try:
+        data = request.json
+        airtable = AirtableClient()
+        
+        revenue_fields = {
+            'Revenue Date': data.get('revenue_date', datetime.now().isoformat()),
+            'Source': data.get('source'),
+            'Revenue Type': data.get('revenue_type', 'Invoice Payment'),
+            'Source System': data.get('source_system', 'Other'),
+            'Amount': data.get('amount', 0),
+            'Payment Method': data.get('payment_method', 'ACH'),
+            'Taxable': data.get('taxable', True),
+            'Recurring': data.get('recurring', False),
+            'Notes': data.get('notes', '')
+        }
+        
+        revenue = airtable.create_record('VERTEX REVENUE', revenue_fields)
+        
+        return jsonify({'success': True, 'revenue': revenue})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/revenue/summary', methods=['GET'])
+def get_revenue_summary():
+    """Get revenue summary statistics"""
+    try:
+        airtable = AirtableClient()
+        
+        # Get date range from query params
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        
+        formula = None
+        if start_date and end_date:
+            formula = f"AND(IS_AFTER({{Revenue Date}},'{start_date}'),IS_BEFORE({{Revenue Date}},'{end_date}'))"
+        
+        revenue_records = airtable.search_records('VERTEX REVENUE', formula) if formula else airtable.get_all_records('VERTEX REVENUE')
+        
+        # Calculate totals
+        total_revenue = sum(r.get('fields', {}).get('Amount', 0) for r in revenue_records)
+        
+        # Group by type
+        by_type = {}
+        for record in revenue_records:
+            fields = record.get('fields', {})
+            rev_type = fields.get('Revenue Type', 'Other')
+            amount = fields.get('Amount', 0)
+            by_type[rev_type] = by_type.get(rev_type, 0) + amount
+        
+        # Group by system
+        by_system = {}
+        for record in revenue_records:
+            fields = record.get('fields', {})
+            system = fields.get('Source System', 'Other')
+            amount = fields.get('Amount', 0)
+            by_system[system] = by_system.get(system, 0) + amount
+        
+        return jsonify({
+            'total_revenue': total_revenue,
+            'by_type': by_type,
+            'by_system': by_system,
+            'record_count': len(revenue_records)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------- VERTEX DASHBOARD & REPORTS --------------------
+
+@app.route('/vertex/dashboard', methods=['GET'])
+def get_vertex_dashboard():
+    """Get VERTEX dashboard statistics"""
+    try:
+        airtable = AirtableClient()
+        
+        # Get all invoices
+        invoices = airtable.get_all_records('VERTEX INVOICES')
+        
+        # Calculate invoice metrics
+        total_invoiced = sum(inv.get('fields', {}).get('Total Amount', 0) for inv in invoices)
+        total_paid = sum(inv.get('fields', {}).get('Amount Paid', 0) for inv in invoices)
+        total_outstanding = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue'])
+        
+        unpaid_count = len([inv for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue']])
+        
+        # Get expenses
+        expenses = airtable.get_all_records('VERTEX EXPENSES')
+        total_expenses = sum(exp.get('fields', {}).get('Amount', 0) for exp in expenses)
+        
+        # Get revenue
+        revenue_records = airtable.get_all_records('VERTEX REVENUE')
+        total_revenue = sum(rev.get('fields', {}).get('Amount', 0) for rev in revenue_records)
+        
+        # Calculate metrics
+        net_income = total_revenue - total_expenses
+        profit_margin = (net_income / total_revenue * 100) if total_revenue > 0 else 0
+        
+        # Revenue by system
+        revenue_by_system = {}
+        for inv in invoices:
+            fields = inv.get('fields', {})
+            system = fields.get('Source System', 'Other')
+            amount = fields.get('Total Amount', 0)
+            revenue_by_system[system] = revenue_by_system.get(system, 0) + amount
+        
+        # Calculate cash flow forecast (simple: outstanding AR)
+        cash_flow_forecast = {
+            'current_cash': total_paid - total_expenses,
+            'pending_receivables': total_outstanding,
+            'projected_30_days': total_paid - total_expenses + (total_outstanding * 0.7),  # Assume 70% collection
+            'projected_60_days': total_paid - total_expenses + (total_outstanding * 0.9),  # Assume 90% collection
+            'projected_90_days': total_paid - total_expenses + total_outstanding  # Assume 100% collection
+        }
+        
+        return jsonify({
+            'total_revenue': total_revenue,
+            'total_expenses': total_expenses,
+            'net_income': net_income,
+            'profit_margin': round(profit_margin, 2),
+            'total_invoiced': total_invoiced,
+            'total_paid': total_paid,
+            'accounts_receivable': total_outstanding,
+            'unpaid_invoice_count': unpaid_count,
+            'revenue_by_system': revenue_by_system,
+            'cash_flow_forecast': cash_flow_forecast
+        })
+    except Exception as e:
+        print(f"Error getting VERTEX dashboard: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/reports/pl', methods=['GET'])
+def get_profit_loss_statement():
+    """Get Profit & Loss statement"""
+    try:
+        airtable = AirtableClient()
+        
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        
+        # Get revenue
+        revenue_formula = None
+        if start_date and end_date:
+            revenue_formula = f"AND(IS_AFTER({{Revenue Date}},'{start_date}'),IS_BEFORE({{Revenue Date}},'{end_date}'))"
+        
+        revenue_records = airtable.search_records('VERTEX REVENUE', revenue_formula) if revenue_formula else airtable.get_all_records('VERTEX REVENUE')
+        
+        # Group revenue by system
+        revenue_by_system = {}
+        total_revenue = 0
+        for record in revenue_records:
+            fields = record.get('fields', {})
+            system = fields.get('Source System', 'Other')
+            amount = fields.get('Amount', 0)
+            revenue_by_system[system] = revenue_by_system.get(system, 0) + amount
+            total_revenue += amount
+        
+        # Get expenses
+        expense_formula = None
+        if start_date and end_date:
+            expense_formula = f"AND(IS_AFTER({{Expense Date}},'{start_date}'),IS_BEFORE({{Expense Date}},'{end_date}'))"
+        
+        expenses = airtable.search_records('VERTEX EXPENSES', expense_formula) if expense_formula else airtable.get_all_records('VERTEX EXPENSES')
+        
+        # Group expenses by category
+        expenses_by_category = {}
+        total_expenses = 0
+        for record in expenses:
+            fields = record.get('fields', {})
+            category = fields.get('Category', 'Other')
+            amount = fields.get('Amount', 0)
+            expenses_by_category[category] = expenses_by_category.get(category, 0) + amount
+            total_expenses += amount
+        
+        # Calculate net income
+        net_income = total_revenue - total_expenses
+        profit_margin = (net_income / total_revenue * 100) if total_revenue > 0 else 0
+        
+        return jsonify({
+            'revenue': {
+                'by_system': revenue_by_system,
+                'total': total_revenue
+            },
+            'expenses': {
+                'by_category': expenses_by_category,
+                'total': total_expenses
+            },
+            'net_income': net_income,
+            'profit_margin': round(profit_margin, 2),
+            'period': {
+                'start_date': start_date,
+                'end_date': end_date
+            }
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ai/financial-health', methods=['GET'])
+def get_financial_health_score():
+    """Get AI-powered financial health score and insights"""
+    try:
+        airtable = AirtableClient()
+        
+        # Get financial data
+        invoices = airtable.get_all_records('VERTEX INVOICES')
+        expenses = airtable.get_all_records('VERTEX EXPENSES')
+        revenue_records = airtable.get_all_records('VERTEX REVENUE')
+        
+        # Calculate metrics
+        total_revenue = sum(r.get('fields', {}).get('Amount', 0) for r in revenue_records)
+        total_expenses = sum(e.get('fields', {}).get('Amount', 0) for e in expenses)
+        total_ar = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue'])
+        
+        overdue_ar = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Days Outstanding', 0) > 30)
+        
+        # Calculate scores (0-100)
+        cash_score = min(100, (total_revenue - total_expenses) / total_expenses * 100) if total_expenses > 0 else 50
+        ar_score = max(0, 100 - (overdue_ar / total_ar * 100)) if total_ar > 0 else 100
+        profit_score = min(100, ((total_revenue - total_expenses) / total_revenue * 100)) if total_revenue > 0 else 0
+        
+        # Overall score
+        overall_score = (cash_score + ar_score + profit_score) / 3
+        
+        # Get AI insights
+        from nexus_backend import AnthropicClient
+        ai = AnthropicClient()
+        
+        prompt = f"""Analyze this financial data and provide brief insights:
+
+Total Revenue: ${total_revenue:,.2f}
+Total Expenses: ${total_expenses:,.2f}
+Net Income: ${total_revenue - total_expenses:,.2f}
+Accounts Receivable: ${total_ar:,.2f}
+Overdue AR: ${overdue_ar:,.2f}
+
+Financial Health Score: {overall_score:.1f}/100
+
+Provide:
+1. Overall assessment (1 sentence)
+2. Top 3 strengths
+3. Top 3 concerns
+4. Top 3 recommendations
+
+Be concise and actionable."""
+        
+        insights = ai.complete(prompt, max_tokens=500)
+        
+        return jsonify({
+            'overall_score': round(overall_score, 1),
+            'component_scores': {
+                'cash_flow': round(cash_score, 1),
+                'ar_management': round(ar_score, 1),
+                'profitability': round(profit_score, 1)
+            },
+            'metrics': {
+                'total_revenue': total_revenue,
+                'total_expenses': total_expenses,
+                'net_income': total_revenue - total_expenses,
+                'accounts_receivable': total_ar,
+                'overdue_ar': overdue_ar
+            },
+            'ai_insights': insights
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------- VERTEX EXPORTS --------------------
+
+@app.route('/vertex/export/quickbooks', methods=['POST'])
+def export_to_quickbooks():
+    """Export VERTEX data to QuickBooks CSV format"""
+    try:
+        data = request.json
+        start_date = data.get('start_date')
+        end_date = data.get('end_date')
+        
+        airtable = AirtableClient()
+        
+        # Get invoices
+        inv_formula = None
+        if start_date and end_date:
+            inv_formula = f"AND(IS_AFTER({{Invoice Date}},'{start_date}'),IS_BEFORE({{Invoice Date}},'{end_date}'))"
+        
+        invoices = airtable.search_records('VERTEX INVOICES', inv_formula) if inv_formula else airtable.get_all_records('VERTEX INVOICES')
+        
+        # Get expenses
+        exp_formula = None
+        if start_date and end_date:
+            exp_formula = f"AND(IS_AFTER({{Expense Date}},'{start_date}'),IS_BEFORE({{Expense Date}},'{end_date}'))"
+        
+        expenses = airtable.search_records('VERTEX EXPENSES', exp_formula) if exp_formula else airtable.get_all_records('VERTEX EXPENSES')
+        
+        # Format for QuickBooks CSV
+        qb_data = []
+        
+        # Add invoices
+        for inv in invoices:
+            fields = inv.get('fields', {})
+            qb_data.append({
+                'Date': fields.get('Invoice Date', ''),
+                'Type': 'Invoice',
+                'Num': fields.get('Invoice Number', ''),
+                'Name': fields.get('Client Name', ''),
+                'Account': 'Accounts Receivable',
+                'Amount': fields.get('Total Amount', 0),
+                'Memo': fields.get('Notes', '')
+            })
+        
+        # Add expenses
+        for exp in expenses:
+            fields = exp.get('fields', {})
+            qb_data.append({
+                'Date': fields.get('Expense Date', ''),
+                'Type': 'Expense',
+                'Num': '',
+                'Name': fields.get('Vendor/Payee', ''),
+                'Account': fields.get('Category', 'Other Expenses'),
+                'Amount': fields.get('Amount', 0),
+                'Memo': fields.get('Description', '')
+            })
+        
+        return jsonify({
+            'success': True,
+            'data': qb_data,
+            'record_count': len(qb_data),
+            'message': f'Exported {len(qb_data)} records to QuickBooks format'
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# WEBHOOK ENDPOINTS
+# ============================================================================
+
+@app.route('/webhooks/jotform', methods=['POST'])
+def jotform_webhook():
+    """
+    JotForm AI Receptionist webhook endpoint
+    Receives form submissions from JotForm AI Phone Agent, web chat, SMS, etc.
+    and creates leads in LBPC system
+    
+    Expected JSON payload from JotForm:
+    {
+        "submissionID": "123456789",
+        "formTitle": "LBPC Lead Intake",
+        "rawRequest": {
+            "q1_fullName": "John Smith",
+            "q2_phoneNumber": "555-123-4567",
+            "q3_email": "john@example.com",
+            "q4_county": "Wayne",
+            "q5_state": "Michigan",
+            "q6_surplusAmount": "25000",
+            "q7_caseNumber": "2023-CV-12345",
+            "q8_additionalNotes": "Interested in recovery services",
+            "callDuration": "120",
+            "callRecording": "https://jotform.com/recordings/...",
+            "callTranscript": "Full transcript of call..."
+        },
+        "submissionDate": "2026-01-17 10:30:00"
+    }
+    """
+    try:
+        # Log webhook receipt
+        print("=" * 80)
+        print("JotForm webhook received")
+        print("=" * 80)
+        
+        # Get JSON payload
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No data received'}), 400
+        
+        # Extract form data (JotForm sends data in rawRequest)
+        raw_request = data.get('rawRequest', {})
+        
+        # Parse JotForm field data
+        # Field names may vary based on your JotForm setup
+        full_name = (
+            raw_request.get('q1_fullName') or 
+            raw_request.get('fullName') or 
+            raw_request.get('name') or 
+            ''
+        )
+        
+        phone = (
+            raw_request.get('q2_phoneNumber') or 
+            raw_request.get('phoneNumber') or 
+            raw_request.get('phone') or 
+            ''
+        )
+        
+        email = (
+            raw_request.get('q3_email') or 
+            raw_request.get('email') or 
+            ''
+        )
+        
+        county = (
+            raw_request.get('q4_county') or 
+            raw_request.get('county') or 
+            ''
+        )
+        
+        state = (
+            raw_request.get('q5_state') or 
+            raw_request.get('state') or 
+            ''
+        )
+        
+        surplus_amount = (
+            raw_request.get('q6_surplusAmount') or 
+            raw_request.get('surplusAmount') or 
+            raw_request.get('surplus_amount') or 
+            0
+        )
+        
+        case_number = (
+            raw_request.get('q7_caseNumber') or 
+            raw_request.get('caseNumber') or 
+            raw_request.get('case_number') or 
+            ''
+        )
+        
+        additional_notes = (
+            raw_request.get('q8_additionalNotes') or 
+            raw_request.get('additionalNotes') or 
+            raw_request.get('notes') or 
+            ''
+        )
+        
+        # Get call metadata if available (for phone calls)
+        call_duration = raw_request.get('callDuration', '')
+        call_recording = raw_request.get('callRecording', '')
+        call_transcript = raw_request.get('callTranscript', '')
+        
+        # Get submission metadata
+        submission_id = data.get('submissionID', '')
+        submission_date = data.get('submissionDate', '')
+        form_title = data.get('formTitle', 'JotForm Submission')
+        
+        # Determine channel (phone, web, SMS, etc.)
+        channel = 'Unknown'
+        if call_recording or call_transcript:
+            channel = 'Phone - AI Receptionist'
+        elif 'sms' in form_title.lower():
+            channel = 'SMS'
+        elif 'chat' in form_title.lower():
+            channel = 'Web Chat'
+        else:
+            channel = 'Web Form'
+        
+        # Build notes field with all context
+        notes_parts = []
+        
+        if additional_notes:
+            notes_parts.append(f"Caller Notes: {additional_notes}")
+        
+        if call_transcript:
+            notes_parts.append(f"\n--- Call Transcript ---\n{call_transcript}")
+        
+        if call_recording:
+            notes_parts.append(f"\nCall Recording: {call_recording}")
+        
+        if call_duration:
+            notes_parts.append(f"Call Duration: {call_duration} seconds")
+        
+        if submission_id:
+            notes_parts.append(f"\nJotForm Submission ID: {submission_id}")
+        
+        if submission_date:
+            notes_parts.append(f"Submission Date: {submission_date}")
+        
+        combined_notes = '\n'.join(notes_parts) if notes_parts else ''
+        
+        # Convert surplus amount to float
+        try:
+            surplus_amount = float(str(surplus_amount).replace('$', '').replace(',', '').strip()) if surplus_amount else 0
+        except (ValueError, AttributeError):
+            surplus_amount = 0
+        
+        # Prepare lead data for LBPC system
+        lead_data = {
+            'property_owner_name': full_name,
+            'phone': phone,
+            'email': email,
+            'county': county,
+            'state': state,
+            'surplus_amount': surplus_amount,
+            'case_number': case_number,
+            'notes': combined_notes,
+            'lead_source': channel,
+            'status': 'New',
+            'contact_method': 'Inbound Call' if 'Phone' in channel else 'Web Submission'
+        }
+        
+        # Log the parsed data
+        print(f"Creating LBPC lead from {channel}:")
+        print(f"  Name: {full_name}")
+        print(f"  Phone: {phone}")
+        print(f"  Email: {email}")
+        print(f"  County: {county}, {state}")
+        print(f"  Surplus: ${surplus_amount:,.2f}")
+        print(f"  Source: {channel}")
+        
+        # Create lead in LBPC system using existing handler
+        result = handle_lbpc_create_lead(lead_data)
+        
+        if result.get('success'):
+            print(f"✓ Lead created successfully (ID: {result.get('record_id', 'N/A')})")
+            print("=" * 80)
+            
+            return jsonify({
+                'success': True,
+                'message': 'Lead created successfully from JotForm submission',
+                'lead_id': result.get('record_id'),
+                'channel': channel,
+                'priority_score': result.get('priority_score')
+            }), 201
+        else:
+            print(f"✗ Failed to create lead: {result.get('error', 'Unknown error')}")
+            print("=" * 80)
+            
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Failed to create lead'),
+                'details': result
+            }), 400
+    
+    except Exception as e:
+        print(f"✗ JotForm webhook error: {str(e)}")
+        print("=" * 80)
+        import traceback
+        traceback.print_exc()
+        
+        return jsonify({
+            'success': False,
+            'error': f'Webhook processing error: {str(e)}'
+        }), 500
+
+
+@app.route('/webhooks/jotform/test', methods=['GET', 'POST'])
+def jotform_webhook_test():
+    """
+    Test endpoint for JotForm webhook
+    GET: Returns info about the endpoint
+    POST: Accepts test data and shows what would be processed
+    """
+    if request.method == 'GET':
+        return jsonify({
+            'status': 'active',
+            'endpoint': '/webhooks/jotform',
+            'methods': ['POST'],
+            'description': 'JotForm AI Receptionist webhook for LBPC lead capture',
+            'expected_fields': {
+                'required': ['fullName', 'phone', 'county', 'state'],
+                'optional': ['email', 'surplusAmount', 'caseNumber', 'notes', 'callTranscript', 'callRecording']
+            },
+            'example_payload': {
+                'submissionID': '123456789',
+                'formTitle': 'LBPC Lead Intake',
+                'rawRequest': {
+                    'q1_fullName': 'John Smith',
+                    'q2_phoneNumber': '555-123-4567',
+                    'q3_email': 'john@example.com',
+                    'q4_county': 'Wayne',
+                    'q5_state': 'Michigan',
+                    'q6_surplusAmount': '25000',
+                    'q7_caseNumber': '2023-CV-12345',
+                    'q8_additionalNotes': 'Interested in recovery services'
+                }
+            }
+        })
+    
+    # POST method - test mode (doesn't create real lead)
+    try:
+        data = request.json
+        raw_request = data.get('rawRequest', {})
+        
+        return jsonify({
+            'success': True,
+            'message': 'Test webhook received successfully',
+            'parsed_data': {
+                'name': raw_request.get('q1_fullName') or raw_request.get('fullName'),
+                'phone': raw_request.get('q2_phoneNumber') or raw_request.get('phone'),
+                'email': raw_request.get('q3_email') or raw_request.get('email'),
+                'county': raw_request.get('q4_county') or raw_request.get('county'),
+                'state': raw_request.get('q5_state') or raw_request.get('state'),
+                'surplus_amount': raw_request.get('q6_surplusAmount') or raw_request.get('surplusAmount'),
+            },
+            'note': 'This is test mode - no lead was created'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 400
 
 
 if __name__ == '__main__':

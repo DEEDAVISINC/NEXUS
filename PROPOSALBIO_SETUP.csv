@@ -1,0 +1,39 @@
+Table,Field Name,Field Type,Config 1,Config 2,Config 3,Notes
+GPSS Proposals,ProposalBio Composite Score,Number,2 decimals,,,Score 0-100
+GPSS Proposals,ProposalBio Status,Single select,APPROVED,REVISE,REDRAFT REJECT,Add all 4 options
+GPSS Proposals,ProposalBio Last Analyzed,Date,Include time,GMT,,
+GPSS Proposals,ProposalBio Gate,Single select,LOCKED,UNLOCKED,,Add both options
+GPSS Proposals,ProposalBio Biohack Scores JSON,Long text,Rich text OFF,,,
+GPSS Proposals,ProposalBio Critical Issues JSON,Long text,Rich text OFF,,,
+GPSS Proposals,ProposalBio Priority Improvements JSON,Long text,Rich text OFF,,,
+GPSS Proposals,ProposalBio Revision Count,Number,Integer,Default 0,,
+GPSS Proposals,Agency Type,Single select,Federal,State,Local Cooperative,If not already there
+GPSS Proposals,Region,Single select,Northeast,Mid_Atlantic,Southeast Midwest Southwest West_Coast,If not already there
+,,,,,,
+GPSS ProposalBio Scores,Score ID,Autonumber,,,,(Rename default field)
+GPSS ProposalBio Scores,Proposal,Link to record,Link to GPSS Proposals,,,
+GPSS ProposalBio Scores,Revision,Number,Integer,,,
+GPSS ProposalBio Scores,Biohack Number,Number,Integer,1-10,,
+GPSS ProposalBio Scores,Biohack Name,Single line text,,,,,
+GPSS ProposalBio Scores,Score,Number,2 decimals,0-10,,
+GPSS ProposalBio Scores,PassFail,Single select,Pass,Fail,,
+GPSS ProposalBio Scores,Analyzed Date,Date,Include time,GMT,,
+,,,,,,
+GPSS ProposalBio Learning,Learning ID,Autonumber,,,,(Rename default field)
+GPSS ProposalBio Learning,Proposal,Link to record,Link to GPSS Proposals,,,
+GPSS ProposalBio Learning,Outcome,Single select,Won,Lost,No Decision,
+GPSS ProposalBio Learning,Win Value,Currency,USD,2 decimals,,
+GPSS ProposalBio Learning,Agency Type,Single select,Federal,State,Local Cooperative,
+GPSS ProposalBio Learning,Region,Single select,Northeast,Mid_Atlantic,Southeast Midwest Southwest West_Coast,
+GPSS ProposalBio Learning,Composite Score,Number,2 decimals,,,
+GPSS ProposalBio Learning,Biohack 1 Score,Number,2 decimals,,,Mirror Neuron
+GPSS ProposalBio Learning,Biohack 2 Score,Number,2 decimals,,,Cognitive Ease
+GPSS ProposalBio Learning,Biohack 3 Score,Number,2 decimals,,,Story Arc
+GPSS ProposalBio Learning,Biohack 4 Score,Number,2 decimals,,,Reciprocity
+GPSS ProposalBio Learning,Biohack 5 Score,Number,2 decimals,,,Yes Stacking
+GPSS ProposalBio Learning,Biohack 6 Score,Number,2 decimals,,,Familiarity
+GPSS ProposalBio Learning,Biohack 7 Score,Number,2 decimals,,,Name Recognition
+GPSS ProposalBio Learning,Biohack 8 Score,Number,2 decimals,,,Sensory Language
+GPSS ProposalBio Learning,Biohack 9 Score,Number,2 decimals,,,Rhythm
+GPSS ProposalBio Learning,Biohack 10 Score,Number,2 decimals,,,Eye Tracking
+GPSS ProposalBio Learning,Recorded Date,Date,Include time,GMT,,

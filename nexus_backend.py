@@ -201,7 +201,7 @@ Return ONLY valid JSON (no markdown, no preamble):
                 
                 # Check if contact already exists
                 formula = f"{{Email}} = '{email}'"
-                existing = self.airtable.search_records('Contacts', formula)
+                existing = self.airtable.search_records('GPSS CONTACTS', formula)
                 
                 # Prepare fields (only include fields that exist in Airtable)
                 fields = {
@@ -217,7 +217,7 @@ Return ONLY valid JSON (no markdown, no preamble):
                 if existing:
                     # Update existing contact
                     record_id = existing[0]['id']
-                    updated = self.airtable.update_record('Contacts', record_id, fields)
+                    updated = self.airtable.update_record('GPSS CONTACTS', record_id, fields)
                     stored_contacts.append({
                         'action': 'updated',
                         'record_id': record_id,
@@ -225,7 +225,7 @@ Return ONLY valid JSON (no markdown, no preamble):
                     })
                 else:
                     # Create new contact
-                    created = self.airtable.create_record('Contacts', fields)
+                    created = self.airtable.create_record('GPSS CONTACTS', fields)
                     stored_contacts.append({
                         'action': 'created',
                         'record_id': created['id'],
@@ -799,7 +799,7 @@ class GPSSAgent2:
         """
         
         # Get opportunity details from Airtable
-        records = self.airtable.get_all_records('Opportunities')
+        records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
         opportunity = next((r for r in records if r['id'] == opportunity_id), None)
         
         if not opportunity:
@@ -843,7 +843,7 @@ Provide assessment as JSON:
             analysis = json.loads(clean_response)
             
             # Update opportunity in Airtable with qualification
-            self.airtable.update_record('Opportunities', opportunity_id, {
+            self.airtable.update_record('GPSS OPPORTUNITIES', opportunity_id, {
                 'Status': analysis['go_no_go']
             })
             
@@ -868,7 +868,7 @@ class GPSSAgent3:
         """
         
         # Get opportunity
-        records = self.airtable.get_all_records('Opportunities')
+        records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
         opportunity = next((r for r in records if r['id'] == opportunity_id), None)
         
         if not opportunity:
@@ -877,10 +877,10 @@ class GPSSAgent3:
         fields = opportunity['fields']
         
         # Get relevant contacts
-        contacts = self.airtable.get_all_records('Contacts')
+        contacts = self.airtable.get_all_records('GPSS CONTACTS')
         
         # Get products
-        products = self.airtable.get_all_records('Products')
+        products = self.airtable.get_all_records('GPSS PRODUCTS')
         
         contract_value = fields.get('Contract Value', 0)
         is_under_250k = contract_value < 250000
@@ -1015,7 +1015,7 @@ class GPSSPricingAgent:
         
         # Get opportunity details
         try:
-            opportunities = self.airtable.get_all_records('Opportunities')
+            opportunities = self.airtable.get_all_records('GPSS OPPORTUNITIES')
             opportunity = next((r for r in opportunities if r['id'] == opportunity_id), None)
             
             if not opportunity:
@@ -1847,17 +1847,31 @@ class GPSSOpportunityMiningAgent:
         Mine opportunities using web scraping
         Works with ANY public website - no login required
         """
-        # This would use actual web scraping libraries (requests, beautifulsoup4, selenium)
-        # Real implementation:
-        # import requests
-        # from bs4 import BeautifulSoup
-        # 
-        # response = requests.get(url)
-        # soup = BeautifulSoup(response.content, 'html.parser')
-        # opportunities = self._extract_opportunities_from_html(soup)
-        
-        # For now, return placeholder
-        return []
+        try:
+            import requests
+            from bs4 import BeautifulSoup
+            
+            # Fetch the page
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            
+            # Parse HTML
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Extract text content
+            page_text = soup.get_text(separator='\n', strip=True)
+            
+            # Use AI to extract opportunities
+            opportunities = self._ai_extract_opportunities(page_text, portal_type)
+            
+            return opportunities
+            
+        except Exception as e:
+            print(f"Scraping error for {url}: {e}")
+            return []
     
     def scrape_mining_target(self, target_id: str) -> Dict:
         """
@@ -1914,24 +1928,28 @@ class GPSSOpportunityMiningAgent:
         Uses AI to extract relevant information from ANY page format
         """
         
-        # Real implementation would use:
-        # import requests
-        # from bs4 import BeautifulSoup
-        # 
-        # try:
-        #     response = requests.get(url, timeout=30)
-        #     soup = BeautifulSoup(response.content, 'html.parser')
-        #     page_text = soup.get_text()
-        #     
-        #     # Use AI to extract opportunities from unstructured text
-        #     opportunities = self._ai_extract_opportunities(page_text, keywords)
-        #     return opportunities
-        # except Exception as e:
-        #     print(f"Scraping error: {e}")
-        #     return []
-        
-        # For now, return placeholder
-        return []
+        try:
+            import requests
+            from bs4 import BeautifulSoup
+            
+            # Fetch page
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            
+            # Parse HTML
+            soup = BeautifulSoup(response.content, 'html.parser')
+            page_text = soup.get_text(separator='\n', strip=True)
+            
+            # Use AI to extract opportunities from unstructured text
+            opportunities = self._ai_extract_opportunities(page_text, keywords)
+            return opportunities
+            
+        except Exception as e:
+            print(f"Scraping error for {url}: {e}")
+            return []
     
     def _ai_extract_opportunities(self, page_content: str, keywords: str) -> List[Dict]:
         """
@@ -2097,7 +2115,7 @@ generate a competitive intelligence report:
         
         try:
             # Get historical opportunities
-            opportunities = self.airtable.get_all_records('Opportunities')
+            opportunities = self.airtable.get_all_records('GPSS OPPORTUNITIES')
             
             # Filter by agency if specified
             if agency_name:
@@ -2201,7 +2219,7 @@ Generate forecast as JSON:
         """
         
         try:
-            opportunities = self.airtable.get_all_records('Opportunities')
+            opportunities = self.airtable.get_all_records('GPSS OPPORTUNITIES')
             
             # Filter for this agency
             agency_opps = [
@@ -2321,7 +2339,7 @@ Provide analysis as JSON:
         """
         
         try:
-            opportunities = self.airtable.get_all_records('Opportunities')
+            opportunities = self.airtable.get_all_records('GPSS OPPORTUNITIES')
             forecasts = self.airtable.get_all_records('Opportunity Forecasts')
             
             alerts = []
@@ -2383,7 +2401,7 @@ class InvoiceGeneratorAgent:
         """Generate invoice from GPSS opportunity"""
         try:
             # Get opportunity details
-            opp_record = self.airtable.get_table("Opportunities").get(opportunity_id)
+            opp_record = self.airtable.get_table("GPSS OPPORTUNITIES").get(opportunity_id)
             opp = opp_record['fields']
             
             # Prepare invoice data
@@ -3389,19 +3407,38 @@ def handle_lbpc_create_lead(lead_data: Dict) -> Dict:
 
 
 def handle_lbpc_update_lead(lead_id: str, updates: Dict) -> Dict:
-    """Update existing LBPC lead"""
+    """Update existing LBPC lead - with auto-ATLAS integration when contract signed"""
     try:
         airtable_client = AirtableClient()
+        
+        # Get current lead to check status change
+        try:
+            current_lead = airtable_client.get_record('LBPC Leads', lead_id)
+            old_status = current_lead['fields'].get('Status', '')
+        except:
+            old_status = ''
+        
         result = airtable_client.update_record('LBPC Leads', lead_id, updates)
         
         # If status changed to "Contract Signed", trigger workflow
-        if updates.get('Status') == 'Contract Signed':
+        new_status = updates.get('Status', old_status)
+        if new_status == 'Contract Signed' and old_status != 'Contract Signed':
             workflow = LBPCWorkflowEngine()
             lead_data = result['fields']
             tasks = workflow.generate_contract_signed_tasks(lead_id, lead_data)
             
             for task in tasks:
                 workflow.create_task(task)
+            
+            # 🎯 AUTO-CREATE ATLAS PROJECT FOR CASE MANAGEMENT
+            try:
+                atlas_result = create_atlas_project_from_lbpc_case(lead_id, airtable_client)
+                result['atlas_project_created'] = True
+                result['atlas_project_id'] = atlas_result['project_id']
+                result['atlas_project_name'] = atlas_result['project_name']
+            except Exception as atlas_error:
+                print(f"Warning: ATLAS project creation failed for LBPC case: {atlas_error}")
+                result['atlas_project_created'] = False
             
             # Also trigger invoice creation
             try:
@@ -3418,6 +3455,78 @@ def handle_lbpc_update_lead(lead_id: str, updates: Dict) -> Dict:
             'success': False,
             'error': str(e)
         }
+
+
+def create_atlas_project_from_lbpc_case(lead_id: str, airtable_client=None) -> dict:
+    """
+    🎯 AUTO-CREATE ATLAS PROJECT FROM SIGNED LBPC CASE
+    """
+    if not airtable_client:
+        airtable_client = AirtableClient()
+    
+    # Get lead/case details
+    lead = airtable_client.get_record('LBPC Leads', lead_id)
+    lead_fields = lead['fields']
+    
+    # Extract key information
+    client_name = lead_fields.get('Owner Name', 'Unknown Client')
+    property_address = lead_fields.get('Property Address', '')
+    county = lead_fields.get('County', '')
+    property_value = lead_fields.get('Property Value', 0)
+    service_fee = lead_fields.get('Service Fee', 0)
+    case_type = lead_fields.get('Case Type', 'Surplus Recovery')
+    
+    # Build project scope
+    project_scope = f"""
+LBPC CASE: {case_type}
+CLIENT: {client_name}
+PROPERTY: {property_address}
+COUNTY: {county}
+PROPERTY VALUE: ${property_value:,.2f}
+
+DELIVERABLES:
+- Document preparation & filing
+- County submission & tracking
+- Client communication & updates
+- Funds recovery & disbursement
+
+TIMELINE: 60-90 days (county dependent)
+    """.strip()
+    
+    # Create ATLAS project record
+    project_fields = {
+        'Project Name': f"LBPC: {client_name} - {county} County",
+        'Client Name': client_name,
+        'Project Type': 'LBPC Case Management',
+        'Budget': service_fee,
+        'Project Scope': project_scope[:10000],
+        'Start Date': datetime.now().isoformat(),
+        'Status': 'Active',
+        'Priority': 'Medium',
+        'Completion Percentage': 0,
+        'Created Date': datetime.now().isoformat(),
+        'Source System': 'LBPC',
+        'Source Case ID': lead_id
+    }
+    
+    # Create the project
+    project_record = airtable_client.create_record('ATLAS Projects', project_fields)
+    project_id = project_record['id']
+    
+    # Link case to ATLAS project
+    try:
+        airtable_client.update_record('LBPC Leads', lead_id, {
+            'ATLAS Project': [project_id]
+        })
+    except Exception as link_error:
+        print(f"Warning: Could not link LBPC case to ATLAS project: {link_error}")
+    
+    return {
+        'success': True,
+        'project_id': project_id,
+        'project_name': project_fields['Project Name'],
+        'message': f'✅ ATLAS project created: {project_fields["Project Name"]}'
+    }
 
 
 def handle_lbpc_delete_lead(lead_id: str) -> Dict:
@@ -3864,6 +3973,543 @@ def handle_delete_invoice(invoice_id: str) -> Dict:
     """Delete an invoice"""
     agent = InvoiceGeneratorAgent()
     return agent.delete_invoice(invoice_id)
+
+
+# =====================================================================
+# GPSS SUPPLIER MINING & AUTOMATED QUOTING SYSTEM
+# =====================================================================
+
+class GPSSSupplierMiner:
+    """
+    Mine and qualify wholesale suppliers for government contract fulfillment
+    
+    Discovers suppliers from multiple sources:
+    - GSA Advantage (government supplier database)
+    - Google Search (automated queries)
+    - ThomasNet (industrial directory)
+    - Manual entry
+    
+    Qualifies suppliers based on:
+    - Product match
+    - Net 30 terms availability
+    - Government supplier status
+    - Pricing competitiveness
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+    
+    def search_existing_suppliers(self, category: str = None, keywords: List[str] = None, 
+                                   min_rating: float = 0) -> List[Dict]:
+        """
+        Search existing supplier database
+        
+        Args:
+            category: Product category to filter by
+            keywords: Keywords to match in product keywords field
+            min_rating: Minimum overall rating
+            
+        Returns:
+            List of matching supplier records
+        """
+        try:
+            # Get all suppliers from Airtable
+            suppliers = self.airtable.get_all_records('GPSS Suppliers')
+            
+            # Apply filters
+            filtered = []
+            for supplier in suppliers:
+                fields = supplier.get('fields', {})
+                
+                # Filter by category if specified
+                if category:
+                    categories = fields.get('Product Categories', [])
+                    if category not in categories:
+                        continue
+                
+                # Filter by keywords if specified
+                if keywords:
+                    supplier_keywords = fields.get('Product Keywords', '').lower()
+                    if not any(kw.lower() in supplier_keywords for kw in keywords):
+                        continue
+                
+                # Filter by rating
+                rating = fields.get('Overall Rating', 0)
+                if rating < min_rating:
+                    continue
+                
+                # Filter active/approved suppliers only
+                status = fields.get('Business Status', '')
+                if status not in ['Active', 'Prospective']:
+                    continue
+                
+                filtered.append({
+                    'id': supplier.get('id'),
+                    'company_name': fields.get('Company Name', ''),
+                    'product_categories': fields.get('Product Categories', []),
+                    'net_30_available': fields.get('Net 30 Available', False),
+                    'overall_rating': rating,
+                    'typical_margin': fields.get('Typical Margin (%)', 0),
+                    'contact_email': fields.get('Primary Contact Email', ''),
+                    'phone': fields.get('Primary Contact Phone', ''),
+                    'relationship_stage': fields.get('Relationship Stage', ''),
+                    'government_supplier': fields.get('Government Supplier', False)
+                })
+            
+            # Sort by rating desc
+            filtered.sort(key=lambda x: x.get('overall_rating', 0), reverse=True)
+            
+            return filtered
+            
+        except Exception as e:
+            print(f"Error searching suppliers: {e}")
+            return []
+    
+    def google_supplier_search(self, product: str, include_terms: List[str] = None) -> List[Dict]:
+        """
+        Automated Google search for suppliers
+        
+        Args:
+            product: Product to search for
+            include_terms: Additional terms (Net 30, wholesale, etc.)
+            
+        Returns:
+            List of potential suppliers found
+        """
+        # Note: This is a placeholder for actual Google search implementation
+        # In production, would use Google Custom Search API or web scraping
+        
+        if include_terms is None:
+            include_terms = ['wholesale', 'Net 30', 'government supplier']
+        
+        # Build search queries
+        queries = []
+        for term in include_terms:
+            queries.append(f"{product} {term}")
+        
+        # Placeholder results
+        # In production: Execute searches, parse results, extract company info
+        results = []
+        
+        print(f"Google search placeholder: Would search for '{product}' with terms {include_terms}")
+        
+        return results
+    
+    def find_suppliers_for_product(self, product: str, category: str = None, 
+                                    max_results: int = 10) -> List[Dict]:
+        """
+        MAIN METHOD: Find suppliers for specific product
+        
+        Args:
+            product: Product name or description
+            category: Product category
+            max_results: Maximum suppliers to return
+            
+        Returns:
+            List of qualified suppliers ranked by fit
+        """
+        # Step 1: Check existing database
+        keywords = product.split()
+        existing = self.search_existing_suppliers(
+            category=category,
+            keywords=keywords,
+            min_rating=3.0
+        )
+        
+        print(f"Found {len(existing)} existing suppliers for '{product}'")
+        
+        # Step 2: If we have enough good suppliers, return them
+        if len(existing) >= max_results:
+            return existing[:max_results]
+        
+        # Step 3: Otherwise, note that mining would happen here
+        # In production: Call google_supplier_search, ThomasNet scraping, etc.
+        print(f"Would mine additional suppliers for '{product}' (not yet implemented)")
+        
+        return existing[:max_results]
+    
+    def create_supplier(self, supplier_data: Dict) -> Dict:
+        """
+        Add new supplier to database
+        
+        Args:
+            supplier_data: Dictionary with supplier fields
+            
+        Returns:
+            Created supplier record
+        """
+        try:
+            # Required fields check
+            if not supplier_data.get('Company Name'):
+                raise ValueError("Company Name is required")
+            
+            # Set defaults
+            if 'Business Status' not in supplier_data:
+                supplier_data['Business Status'] = 'Prospective'
+            if 'Relationship Stage' not in supplier_data:
+                supplier_data['Relationship Stage'] = 'Discovered'
+            if 'Discovery Date' not in supplier_data:
+                supplier_data['Discovery Date'] = datetime.now().isoformat()
+            
+            # Create in Airtable
+            record = self.airtable.create_record('GPSS Suppliers', supplier_data)
+            
+            print(f"Created supplier: {supplier_data.get('Company Name')}")
+            
+            return record
+            
+        except Exception as e:
+            print(f"Error creating supplier: {e}")
+            return {'error': str(e)}
+    
+    def update_supplier(self, supplier_id: str, updates: Dict) -> Dict:
+        """
+        Update supplier information
+        
+        Args:
+            supplier_id: Airtable record ID
+            updates: Fields to update
+            
+        Returns:
+            Updated record
+        """
+        try:
+            record = self.airtable.update_record('GPSS Suppliers', supplier_id, updates)
+            return record
+        except Exception as e:
+            print(f"Error updating supplier: {e}")
+            return {'error': str(e)}
+    
+    def get_supplier(self, supplier_id: str) -> Optional[Dict]:
+        """Get supplier by ID"""
+        try:
+            suppliers = self.airtable.get_all_records('GPSS Suppliers')
+            for supplier in suppliers:
+                if supplier.get('id') == supplier_id:
+                    return supplier
+            return None
+        except Exception as e:
+            print(f"Error getting supplier: {e}")
+            return None
+
+
+class GPSSAutomatedQuoting:
+    """
+    AI-powered automated quoting system
+    
+    Connects:
+    - Opportunity mining (finds RFQs)
+    - Supplier mining (finds suppliers)
+    - AI matching (connects them)
+    - Auto-quote generation
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+        self.supplier_miner = GPSSSupplierMiner()
+    
+    def extract_product_specs(self, opportunity_id: str) -> Dict:
+        """
+        Extract product specifications from opportunity
+        
+        Args:
+            opportunity_id: Airtable opportunity ID
+            
+        Returns:
+            Dictionary with extracted specs
+        """
+        try:
+            # Get opportunity details
+            opportunities = self.airtable.get_all_records('Opportunities')
+            opportunity = None
+            for opp in opportunities:
+                if opp.get('id') == opportunity_id:
+                    opportunity = opp
+                    break
+            
+            if not opportunity:
+                return {'error': 'Opportunity not found'}
+            
+            fields = opportunity.get('fields', {})
+            description = fields.get('Description', '') or fields.get('RFP Description', '')
+            title = fields.get('Opportunity Name', '') or fields.get('Title', '')
+            
+            # Use AI to extract specifications
+            prompt = f"""Extract product specifications from this government opportunity.
+
+Opportunity Title: {title}
+Description: {description}
+
+Extract and return as JSON:
+{{
+  "product_name": "Main product/service",
+  "quantity": "Number or range",
+  "category": "Product category (Office Supplies, Technology, Furniture, etc.)",
+  "specifications": "Technical requirements",
+  "delivery_location": "Where to deliver",
+  "delivery_deadline": "When needed",
+  "keywords": ["keyword1", "keyword2", "keyword3"]
+}}
+
+Return ONLY valid JSON, no other text."""
+            
+            response = self.ai.complete(prompt, max_tokens=1000)
+            
+            # Parse response
+            clean_response = response.strip()
+            if clean_response.startswith('```json'):
+                clean_response = clean_response.replace('```json', '').replace('```', '').strip()
+            
+            specs = json.loads(clean_response)
+            specs['opportunity_id'] = opportunity_id
+            
+            return specs
+            
+        except Exception as e:
+            print(f"Error extracting specs: {e}")
+            return {
+                'opportunity_id': opportunity_id,
+                'product_name': 'Unknown',
+                'category': None,
+                'keywords': []
+            }
+    
+    def find_suppliers_for_opportunity(self, opportunity_id: str, max_suppliers: int = 8) -> List[Dict]:
+        """
+        Find matching suppliers for an opportunity
+        
+        Args:
+            opportunity_id: Opportunity to find suppliers for
+            max_suppliers: Maximum number of suppliers to return
+            
+        Returns:
+            List of ranked suppliers
+        """
+        # Extract specs
+        specs = self.extract_product_specs(opportunity_id)
+        
+        # Find suppliers
+        suppliers = self.supplier_miner.find_suppliers_for_product(
+            product=specs.get('product_name', ''),
+            category=specs.get('category'),
+            max_results=max_suppliers
+        )
+        
+        return suppliers
+    
+    def generate_quote_request_email(self, supplier: Dict, specs: Dict) -> Dict:
+        """
+        Generate personalized quote request email for supplier
+        
+        Args:
+            supplier: Supplier record
+            specs: Product specifications
+            
+        Returns:
+            Dictionary with subject and body
+        """
+        try:
+            company_name = supplier.get('company_name', 'Supplier')
+            contact_name = supplier.get('primary_contact_name', 'Sales Team')
+            relationship = supplier.get('relationship_stage', 'New')
+            past_orders = supplier.get('total_orders', 0)
+            
+            # Build context for AI
+            context = f"""
+Company: {company_name}
+Contact: {contact_name}
+Relationship: {relationship}
+Past Orders: {past_orders}
+"""
+            
+            prompt = f"""Generate a professional quote request email for a government contract.
+
+SUPPLIER INFO:
+{context}
+
+PRODUCT REQUEST:
+Product: {specs.get('product_name', 'Unknown')}
+Quantity: {specs.get('quantity', 'To be determined')}
+Specifications: {specs.get('specifications', 'Standard specifications')}
+Delivery Location: {specs.get('delivery_location', 'To be determined')}
+Delivery Deadline: {specs.get('delivery_deadline', 'As soon as possible')}
+
+REQUIREMENTS:
+- Professional tone
+- Request Net 30 payment terms
+- Ask for delivery timeline
+- Mention this is for government contract
+- Include DEE DAVIS INC details (EDWOSB, CAGE: 8UMX3)
+- Request response within 24-48 hours
+
+Return as JSON:
+{{
+  "subject": "Quote Request - [Product] for Government Contract",
+  "body": "Email body text"
+}}"""
+            
+            response = self.ai.complete(prompt, max_tokens=1000)
+            
+            # Parse response
+            clean_response = response.strip()
+            if clean_response.startswith('```json'):
+                clean_response = clean_response.replace('```json', '').replace('```', '').strip()
+            
+            email = json.loads(clean_response)
+            
+            return email
+            
+        except Exception as e:
+            print(f"Error generating email: {e}")
+            return {
+                'subject': f"Quote Request - {specs.get('product_name')}",
+                'body': f"We are requesting a quote for {specs.get('product_name')} for a government contract."
+            }
+    
+    def create_supplier_quote_request(self, opportunity_id: str, supplier_id: str, specs: Dict) -> Dict:
+        """
+        Create supplier quote request record
+        
+        Args:
+            opportunity_id: Opportunity ID
+            supplier_id: Supplier ID  
+            specs: Product specifications
+            
+        Returns:
+            Created quote request record
+        """
+        try:
+            # Get supplier details
+            supplier = self.supplier_miner.get_supplier(supplier_id)
+            if not supplier:
+                return {'error': 'Supplier not found'}
+            
+            # Generate email
+            email = self.generate_quote_request_email(supplier.get('fields', {}), specs)
+            
+            # Create quote request record
+            quote_data = {
+                'Opportunity': [opportunity_id],
+                'Supplier': [supplier_id],
+                'Product/Service Requested': specs.get('product_name', ''),
+                'Quantity': specs.get('quantity', ''),
+                'Specifications': specs.get('specifications', ''),
+                'Delivery Location': specs.get('delivery_location', ''),
+                'Request Status': 'Draft',
+                'Request Method': 'Auto-Generated',
+                'Request Email': f"Subject: {email.get('subject')}\n\n{email.get('body')}"
+            }
+            
+            record = self.airtable.create_record('GPSS Supplier Quotes', quote_data)
+            
+            return record
+            
+        except Exception as e:
+            print(f"Error creating quote request: {e}")
+            return {'error': str(e)}
+    
+    def process_opportunity(self, opportunity_id: str, max_suppliers: int = 5) -> Dict:
+        """
+        MAIN METHOD: Process opportunity end-to-end
+        
+        Args:
+            opportunity_id: Opportunity to process
+            max_suppliers: Number of suppliers to contact
+            
+        Returns:
+            Processing summary
+        """
+        try:
+            # Step 1: Extract specs
+            print(f"Extracting specifications for opportunity {opportunity_id}...")
+            specs = self.extract_product_specs(opportunity_id)
+            
+            if specs.get('error'):
+                return specs
+            
+            # Step 2: Find suppliers
+            print(f"Finding suppliers for '{specs.get('product_name')}'...")
+            suppliers = self.find_suppliers_for_opportunity(opportunity_id, max_suppliers)
+            
+            # Step 3: Generate quote requests
+            print(f"Generating quote requests for {len(suppliers)} suppliers...")
+            quote_requests = []
+            for supplier in suppliers:
+                quote = self.create_supplier_quote_request(
+                    opportunity_id=opportunity_id,
+                    supplier_id=supplier.get('id'),
+                    specs=specs
+                )
+                if not quote.get('error'):
+                    quote_requests.append(quote)
+            
+            return {
+                'success': True,
+                'opportunity_id': opportunity_id,
+                'specs': specs,
+                'suppliers_found': len(suppliers),
+                'quote_requests_created': len(quote_requests),
+                'quote_requests': quote_requests
+            }
+            
+        except Exception as e:
+            print(f"Error processing opportunity: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+
+# =====================================================================
+# SUPPLIER MINING HANDLER FUNCTIONS
+# =====================================================================
+
+def handle_search_suppliers(filters: Dict) -> List[Dict]:
+    """Search existing suppliers"""
+    miner = GPSSSupplierMiner()
+    return miner.search_existing_suppliers(
+        category=filters.get('category'),
+        keywords=filters.get('keywords'),
+        min_rating=filters.get('min_rating', 0)
+    )
+
+
+def handle_find_suppliers_for_product(product: str, category: str = None) -> List[Dict]:
+    """Find suppliers for specific product"""
+    miner = GPSSSupplierMiner()
+    return miner.find_suppliers_for_product(product, category)
+
+
+def handle_create_supplier(supplier_data: Dict) -> Dict:
+    """Create new supplier"""
+    miner = GPSSSupplierMiner()
+    return miner.create_supplier(supplier_data)
+
+
+def handle_update_supplier(supplier_id: str, updates: Dict) -> Dict:
+    """Update supplier"""
+    miner = GPSSSupplierMiner()
+    return miner.update_supplier(supplier_id, updates)
+
+
+def handle_get_supplier(supplier_id: str) -> Optional[Dict]:
+    """Get supplier by ID"""
+    miner = GPSSSupplierMiner()
+    return miner.get_supplier(supplier_id)
+
+
+def handle_process_opportunity_for_suppliers(opportunity_id: str) -> Dict:
+    """Process opportunity with automated supplier finding and quote requests"""
+    auto_quote = GPSSAutomatedQuoting()
+    return auto_quote.process_opportunity(opportunity_id)
+
+
+def handle_find_suppliers_for_opportunity(opportunity_id: str) -> List[Dict]:
+    """Find matching suppliers for opportunity"""
+    auto_quote = GPSSAutomatedQuoting()
+    return auto_quote.find_suppliers_for_opportunity(opportunity_id)
 
 
 # =====================================================================

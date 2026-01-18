@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'lbpc' | 'invoices';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -14,6 +14,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'ddcss': return '💼 DDCSS v1.0 - Corporate Sales System';
       case 'atlas': return '🌍 ATLAS PM v1.0 - Project Management System';
       case 'gbis': return '🎁 GBIS v1.0 - Grant Business Intelligence System';
+      case 'vertex': return '💎 VERTEX v1.0 - Financial Command Center';
       case 'lbpc': return '💰 LBPC v1.0 - Lancaster Banques P.C.';
       case 'invoices': return '💰 NEXUS Invoices - Universal Invoicing System';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
@@ -26,9 +27,10 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'ddcss': return 'Blueprint Framework • 6 Sectors • AI Powered';
       case 'atlas': return 'RFP Response Center • Portfolio Tracking • Daily Operations';
       case 'gbis': return 'Grant Discovery • AI Applications • 8 Divisions • ROI Tracking';
+      case 'vertex': return 'Invoices • Expenses • Revenue • Reports • AI Intelligence • QB/Gusto Export';
       case 'lbpc': return 'Surplus Recovery System • All 50 States • Automated Workflows';
       case 'invoices': return 'Government & Enterprise Compliant • All Systems • Real-Time Tracking';
-      default: return 'Enterprise Command • 5 Systems • AI Powered';
+      default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };
 

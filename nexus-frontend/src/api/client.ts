@@ -131,6 +131,20 @@ export const api = {
   updateGpssOpportunity: (id: string, data: any) => ApiClient.put(`/gpss/opportunities/${id}`, data),
   getGpssStats: () => ApiClient.get('/gpss/stats'),
   
+  // GPSS Suppliers
+  getGpssSuppliers: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params.append(key, filters[key]);
+      });
+    }
+    const query = params.toString();
+    return ApiClient.get(`/gpss/suppliers${query ? `?${query}` : ''}`);
+  },
+  createGpssSupplier: (data: any) => ApiClient.post('/gpss/suppliers', data),
+  updateGpssSupplier: (id: string, data: any) => ApiClient.put(`/gpss/suppliers/${id}`, data),
+  
   // GPSS Proposals API
   getGpssProposals: () => ApiClient.get('/gpss/proposals'),
   saveGpssProposal: (data: any) => ApiClient.post('/gpss/proposals', data),
@@ -262,4 +276,55 @@ export const api = {
     ApiClient.post('/gbis/generate-application', {opportunity_id: opportunityId}),
   mineGrantSource: (sourceId: string) =>
     ApiClient.post('/gbis/mine-source', {target_id: sourceId}),
+
+  // VERTEX Financial System - Essential endpoints only
+  createVertexExpense: (data: any) => ApiClient.post('/vertex/expenses', data),
+  exportToQuickBooks: (data: any) => ApiClient.post('/vertex/export/quickbooks', data),
+  getVertexDashboard: () => ApiClient.get('/vertex/dashboard'),
+  getVertexInvoices: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params.append(key, filters[key]);
+      });
+    }
+    const query = params.toString();
+    return ApiClient.get(`/vertex/invoices${query ? `?${query}` : ''}`);
+  },
+  getVertexExpenses: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params.append(key, filters[key]);
+      });
+    }
+    const query = params.toString();
+    return ApiClient.get(`/vertex/expenses${query ? `?${query}` : ''}`);
+  },
+  getVertexRevenue: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params.append(key, filters[key]);
+      });
+    }
+    const query = params.toString();
+    return ApiClient.get(`/vertex/revenue${query ? `?${query}` : ''}`);
+  },
+  getProfitLossStatement: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+    const query = params.toString();
+    return ApiClient.get(`/vertex/reports/pl${query ? `?${query}` : ''}`);
+  },
+  getFinancialHealthScore: () => ApiClient.get('/vertex/ai/financial-health'),
+  updateVertexExpense: (expenseId: string, data: any) => ApiClient.put(`/vertex/expenses/${expenseId}`, data),
+  getRevenueSummary: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+    const query = params.toString();
+    return ApiClient.get(`/vertex/revenue/summary${query ? `?${query}` : ''}`);
+  },
 };
