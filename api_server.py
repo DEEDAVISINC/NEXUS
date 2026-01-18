@@ -4720,43 +4720,161 @@ def handle_contact_mining(message):
 
 
 def handle_general_assistance(message):
-    """Handle general assistance requests"""
-    assistance_options = """
-I can help you with:
+    """Handle general assistance and guidance - Ultimate NEXUS Guide"""
+    try:
+        ai = ClaudeAI()
+        
+        # Comprehensive NEXUS system context
+        system_context = """You are the NEXUS AI Copilot - the ultimate guide to the NEXUS Command Center.
 
-📇 **Contacts:**
-• "add contact: John Doe john@email.com 555-123-4567"
-• "find contact: john@email.com"
+NEXUS is a comprehensive enterprise management platform with 7 integrated systems:
 
-🎯 **Opportunities:**
-• "create opportunity: Website Redesign value: $50,000 agency: GSA"
-• "qualify opportunity: OPP-123"
+🎯 **GPSS (Government Prime Sales System)**
+- Purpose: Government contracting, RFPs, proposals, compliance
+- Key Features: Opportunity mining, intelligent pricing, compliance checking, proposal generation
+- How to use: Navigate from landing page → GPSS → Browse opportunities, qualify leads, generate proposals
+- Data stored in: Airtable GPSS tables (Opportunities, Contacts, Products, Proposals)
+- AI Features: Auto-qualification, pricing recommendations, compliance analysis
 
-📋 **Projects:**
-• "create project: Mobile App client: DOD budget: $100,000"
-• "add task: Design wireframes for Mobile App priority: high"
+💼 **DDCSS (Discovery-Driven Consulting Sales System)**
+- Purpose: Corporate consulting sales and client acquisition
+- Key Features: 6-sector frameworks (ALIGN, CONVERT, SCALE, etc.), prospect qualification, blueprint generation
+- How to use: Landing page → DDCSS → Add prospects, choose framework, generate custom blueprints
+- Data stored in: DDCSS tables (Prospects, Blueprints, Responses)
+- AI Features: Email analysis, custom strategy blueprints, sector-specific recommendations
 
-📄 **Proposals & Quotes:**
-• "generate proposal for opportunity OPP-123"
-• "generate quote for opportunity OPP-123"
+🏗️ **ATLAS PM (Project Management System)**
+- Purpose: Project execution, RFP analysis, task management, change orders
+- Key Features: Kanban board, WBS generation, RFP analysis, calendar export, task automation
+- How to use: Landing page → ATLAS → Create projects, add tasks, analyze RFPs, track progress
+- Data stored in: ATLAS tables (Projects, Tasks, RFPs, Change Orders)
+- AI Features: Auto-task generation, RFP parsing, change order impact analysis, timeline optimization
 
-⚖️ **Compliance:**
-• "check compliance for RFP content..."
+🎁 **GBIS (Grant Business Intelligence System)**
+- Purpose: Grant discovery, application generation, success tracking
+- Key Features: Multi-source grant mining, AI application writing, ROI tracking
+- How to use: Landing page → GBIS → Browse grants, score opportunities, generate applications
+- Data stored in: GBIS tables (Opportunities, Applications, Story Library)
+- AI Features: Grant scoring, automated applications, narrative generation
 
-🧾 **Invoices:**
-• "create invoice from opportunity OPP-123"
+💎 **VERTEX (Financial Command Center)**
+- Purpose: Financial management, invoicing, expense tracking, QuickBooks integration
+- Key Features: Revenue tracking, P&L statements, expense categorization, QB export, AI financial insights
+- How to use: Landing page → VERTEX → Track invoices, log expenses, view dashboards, export reports
+- Data stored in: VERTEX tables (Invoices, Expenses, Revenue)
+- AI Features: Expense categorization, financial health scoring, insight generation
 
-🔍 **Mining:**
-• "mine contacts from sam.gov"
+💰 **LBPC (Lead Pipeline & Client Acquisition)**
+- Purpose: Surplus property recovery across all 50 states
+- Key Features: Lead mining, document generation, task workflows, analytics
+- How to use: Landing page → LBPC → Import leads, qualify prospects, generate documents, track tasks
+- Data stored in: LBPC tables (Leads, Documents, Tasks)
+- AI Features: Lead qualification, document generation, priority scoring
 
-Just tell me what you need to do!
-"""
+📄 **Universal Invoicing System**
+- Purpose: Cross-system invoice generation for all business units
+- Key Features: Government-compliant formats, auto-generation from opportunities/projects
+- How to use: Landing page → Invoices → Generate from any system, track status, send to clients
+- Data stored in: Invoices table (linked to all systems)
 
-    return jsonify({
-        'success': True,
-        'response': f'I\'m your NEXUS AI assistant! Here\'s what I can help you with:{assistance_options}',
-        'action': 'general_help'
-    })
+**KEY CONCEPTS:**
+
+1. **All Systems are Connected**
+   - Opportunities in GPSS can auto-create projects in ATLAS
+   - Projects in ATLAS can generate invoices in VERTEX
+   - Contacts are shared across GPSS and DDCSS
+   - Everything is stored in Airtable for data integrity
+
+2. **AI Copilot (Me!) Can Help With:**
+   - Creating records: "add contact: John Doe john@email.com"
+   - Searching: "find opportunities in Michigan"
+   - Analysis: "what's my win rate?"
+   - Guidance: "how do I use GPSS?"
+   - Actions: "generate quote for OPP-123"
+   - Navigation: "where do I find my tasks?"
+
+3. **Data Flow:**
+   - Landing Page (Command Center) → Shows overview of all systems
+   - Click any system card → Enter that system
+   - Each system has tabs: Dashboard, specific features
+   - All changes sync to Airtable in real-time
+   - AI Copilot available everywhere (floating button)
+
+4. **Best Practices:**
+   - Start with GPSS for government contracts
+   - Use DDCSS for corporate consulting
+   - Create projects in ATLAS when you win contracts
+   - Track all finances in VERTEX
+   - Use LBPC for surplus recovery leads
+   - Ask me (AI Copilot) anytime you're stuck!
+
+5. **Common Workflows:**
+   - RFP Response: GPSS (qualify) → AI analysis → GPSS (proposal) → ATLAS (project if won)
+   - Consulting Sale: DDCSS (prospect) → Generate blueprint → ATLAS (project) → VERTEX (invoice)
+   - Grant: GBIS (find grant) → Score it → Generate application → Track in ATLAS
+   - Surplus Recovery: LBPC (import leads) → Qualify → Generate docs → Track tasks
+
+6. **Quick Commands:**
+   - "Show me GPSS opportunities" - Lists all RFPs
+   - "Create a project for [client]" - Starts new project
+   - "What's my pipeline?" - Shows revenue summary
+   - "How do I export tasks?" - Guides you through calendar export
+   - "Generate invoice for [opportunity]" - Creates invoice
+   - "Help me navigate ATLAS" - System-specific guidance
+
+**Your Role:** 
+- Be friendly, helpful, and proactive
+- Provide step-by-step guidance when asked "how to..."
+- Suggest next actions based on context
+- Explain features clearly with examples
+- Guide users to the right system for their needs
+- Offer to execute actions when appropriate
+
+Now answer the user's question with context-aware, helpful guidance."""
+
+        # Create the prompt with user's question
+        prompt = f"""{system_context}
+
+User Question: {message}
+
+Provide a helpful, specific response. If they're asking "how to" do something, give step-by-step instructions. If they're asking about features, explain clearly with examples. Be conversational and encouraging."""
+
+        response = ai.complete(prompt, max_tokens=1500)
+        
+        return jsonify({
+            'success': True,
+            'response': response,
+            'action': 'general_guidance'
+        })
+        
+    except Exception as e:
+        # Fallback response if AI fails
+        return jsonify({
+            'success': True,
+            'response': f"""I'm your NEXUS AI Copilot! I can help you with:
+
+📚 **Getting Started:**
+- "How do I use GPSS?" - Government contracting guide
+- "Show me how ATLAS works" - Project management walkthrough
+- "What can NEXUS do?" - Platform overview
+
+🎯 **Taking Actions:**
+- "Add contact: John Doe john@email.com 555-123-4567"
+- "Create opportunity for DOD contract"
+- "Generate proposal for OPP-123"
+- "Make invoice from project PRJ-456"
+
+❓ **Ask Me Anything:**
+- "What's the difference between GPSS and DDCSS?"
+- "How do I export my calendar?"
+- "Where do I find my pipeline?"
+- "How do I analyze an RFP?"
+
+Just ask - I'm here to guide you through NEXUS! 🚀
+
+(Note: AI temporarily unavailable, using fallback mode)""",
+            'action': 'fallback_help'
+        })
 
 
 def extract_field_from_message(message, keywords):
@@ -6515,6 +6633,171 @@ def jotform_webhook_test():
             'success': False,
             'error': str(e)
         }), 400
+
+
+# ============================================================================
+# STATIC MEDIA ROUTES - Video/Photo Serving
+# ============================================================================
+
+@app.route('/legal/terms', methods=['GET'])
+def serve_terms():
+    """
+    Serve Terms of Use HTML page
+    """
+    try:
+        from flask import send_from_directory
+        import os
+        
+        root_folder = os.path.dirname(__file__)
+        return send_from_directory(root_folder, 'ALEXIS_NEXUS_TERMS_OF_USE.html')
+    
+    except FileNotFoundError:
+        return jsonify({'error': 'Terms of Use not found'}), 404
+    except Exception as e:
+        return jsonify({'error': f'Error serving Terms of Use: {str(e)}'}), 500
+
+
+@app.route('/legal/privacy', methods=['GET'])
+def serve_privacy():
+    """
+    Serve Privacy Policy HTML page
+    """
+    try:
+        from flask import send_from_directory
+        import os
+        
+        root_folder = os.path.dirname(__file__)
+        return send_from_directory(root_folder, 'ALEXIS_NEXUS_PRIVACY_POLICY.html')
+    
+    except FileNotFoundError:
+        return jsonify({'error': 'Privacy Policy not found'}), 404
+    except Exception as e:
+        return jsonify({'error': f'Error serving Privacy Policy: {str(e)}'}), 500
+
+
+@app.route('/legal', methods=['GET'])
+def list_legal_docs():
+    """
+    List available legal documents
+    Returns: JSON with links to legal documents
+    """
+    base_url = request.host_url.rstrip('/')
+    return jsonify({
+        'legal_documents': [
+            {
+                'name': 'Terms of Use',
+                'url': f'{base_url}/legal/terms',
+                'description': 'ALEXIS NEXUS Terms of Use'
+            },
+            {
+                'name': 'Privacy Policy',
+                'url': f'{base_url}/legal/privacy',
+                'description': 'ALEXIS NEXUS Privacy Policy'
+            }
+        ],
+        'last_updated': 'January 18, 2026'
+    })
+
+
+@app.route('/media/videos/<filename>', methods=['GET'])
+def serve_video(filename):
+    """
+    Serve video files from photos_and_videos folder
+    Example: GET /media/videos/nexus-2.mp4
+    Supports quality parameter: ?quality=720p
+    """
+    try:
+        from flask import send_from_directory
+        import os
+        
+        video_folder = os.path.join(os.path.dirname(__file__), 'photos_and_videos')
+        
+        # Security check - only allow video files
+        allowed_extensions = ['.mp4', '.mov', '.avi', '.webm']
+        file_ext = os.path.splitext(filename)[1].lower()
+        
+        if file_ext not in allowed_extensions:
+            return jsonify({'error': 'Invalid file type'}), 400
+        
+        # Check for quality parameter
+        quality = request.args.get('quality', '').lower()
+        if quality in ['720p', '480p', '1080p']:
+            # Try to serve optimized version
+            base_name = os.path.splitext(filename)[0]
+            optimized_name = f"{base_name}-{quality}{file_ext}"
+            optimized_path = os.path.join(video_folder, optimized_name)
+            
+            if os.path.exists(optimized_path):
+                return send_from_directory(video_folder, optimized_name)
+            # Fall back to original if quality version doesn't exist
+        
+        return send_from_directory(video_folder, filename)
+    
+    except FileNotFoundError:
+        return jsonify({'error': 'Video not found'}), 404
+    except Exception as e:
+        return jsonify({'error': f'Error serving video: {str(e)}'}), 500
+
+
+@app.route('/media/videos', methods=['GET'])
+def list_videos():
+    """
+    List available videos with quality versions
+    Returns: JSON list of available video files with metadata
+    """
+    try:
+        import os
+        video_folder = os.path.join(os.path.dirname(__file__), 'photos_and_videos')
+        
+        if not os.path.exists(video_folder):
+            return jsonify({'videos': []})
+        
+        videos = {}
+        base_url = request.host_url.rstrip('/') + '/media/videos/'
+        
+        for f in os.listdir(video_folder):
+            if f.lower().endswith(('.mp4', '.mov', '.avi', '.webm')):
+                # Check if it's a quality variant or original
+                if '-720p' in f or '-480p' in f or '-1080p' in f:
+                    # Extract base name
+                    for quality in ['720p', '480p', '1080p']:
+                        if f'-{quality}' in f:
+                            base_name = f.replace(f'-{quality}', '')
+                            if base_name not in videos:
+                                videos[base_name] = {
+                                    'name': base_name,
+                                    'url': f'{base_url}{base_name}',
+                                    'qualities': {}
+                                }
+                            file_path = os.path.join(video_folder, f)
+                            file_size = os.path.getsize(file_path)
+                            videos[base_name]['qualities'][quality] = {
+                                'url': f'{base_url}{base_name}?quality={quality}',
+                                'size': file_size,
+                                'size_mb': round(file_size / 1048576, 2)
+                            }
+                            break
+                else:
+                    # Original/main video
+                    if f not in videos:
+                        videos[f] = {
+                            'name': f,
+                            'url': f'{base_url}{f}',
+                            'qualities': {}
+                        }
+                    file_path = os.path.join(video_folder, f)
+                    file_size = os.path.getsize(file_path)
+                    videos[f]['size'] = file_size
+                    videos[f]['size_mb'] = round(file_size / 1048576, 2)
+        
+        return jsonify({
+            'videos': list(videos.values()),
+            'base_url': base_url,
+            'quality_options': ['original', '720p', '480p', '1080p']
+        })
+    
+    except Exception as e:
+        return jsonify({'error': f'Error listing videos: {str(e)}'}), 500
 
 
 if __name__ == '__main__':

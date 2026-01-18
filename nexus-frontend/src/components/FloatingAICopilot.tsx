@@ -13,7 +13,7 @@ export const FloatingAICopilot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hello! I\'m your NEXUS AI Copilot. I can help you with:\n\n• Government contract analysis\n• Proposal generation\n• Project planning\n• Business strategy\n• Any questions about your systems\n\nHow can I assist you today?',
+      content: '👋 **Welcome to NEXUS AI Copilot!**\n\nI\'m your personal guide to the entire NEXUS Command Center. I have deep knowledge of all 7 systems and can help you:\n\n**📚 Learn & Navigate:**\n• "How do I use GPSS?"\n• "Show me how to create a project"\n• "What can VERTEX do?"\n• "Walk me through RFP analysis"\n\n**⚡ Take Action:**\n• "Add contact: John Doe john@email.com"\n• "Create opportunity for new RFP"\n• "Generate invoice from project"\n• "Find opportunities in California"\n\n**🤔 Get Advice:**\n• "What\'s my best workflow for government contracts?"\n• "How do I track my pipeline?"\n• "Should I use GPSS or DDCSS for this client?"\n\nJust ask me anything - I\'m here to help! 🚀',
       timestamp: new Date()
     }
   ]);
@@ -201,7 +201,7 @@ export const FloatingAICopilot: React.FC = () => {
                     localStorage.setItem('nexus_ai_session_timestamp', Date.now().toString());
                     setMessages([{
                       role: 'assistant',
-                      content: 'Hello! I\'m your NEXUS AI Copilot. I can help you with:\n\n• Government contract analysis\n• Proposal generation\n• Project planning\n• Business strategy\n• Any questions about your systems\n\nHow can I assist you today?',
+                      content: '👋 **Welcome to NEXUS AI Copilot!**\n\nI\'m your personal guide to the entire NEXUS Command Center. I have deep knowledge of all 7 systems and can help you:\n\n**📚 Learn & Navigate:**\n• "How do I use GPSS?"\n• "Show me how to create a project"\n• "What can VERTEX do?"\n• "Walk me through RFP analysis"\n\n**⚡ Take Action:**\n• "Add contact: John Doe john@email.com"\n• "Create opportunity for new RFP"\n• "Generate invoice from project"\n• "Find opportunities in California"\n\n**🤔 Get Advice:**\n• "What\'s my best workflow for government contracts?"\n• "How do I track my pipeline?"\n• "Should I use GPSS or DDCSS for this client?"\n\nJust ask me anything - I\'m here to help! 🚀',
                       timestamp: new Date()
                     }]);
                   }
