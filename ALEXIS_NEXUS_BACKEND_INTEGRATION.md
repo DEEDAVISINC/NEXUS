@@ -1,5 +1,16 @@
 # Alexis Nexus Backend Integration Complete
 
+## 🎥 Platform Demonstration
+
+**Watch NEXUS in Action:**
+- **Video Demo:** `http://127.0.0.1:8000/media/videos/nexus-2.mp4`
+- **Professional Showcase:** `NEXUS_DEMO_SHOWCASE.html`
+- **Complete Guide:** See `NEXUS_VIDEO_DEMO.md`
+
+Use these resources for client presentations, stakeholder meetings, and demonstrations.
+
+---
+
 ## What Was Added
 
 Your NEXUS backend (`api_server.py`) now handles all 86 Alexa intents with intelligent command routing.

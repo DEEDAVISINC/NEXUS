@@ -48,6 +48,15 @@ Before deploying, you need:
 └─────────────────────┘
 ```
 
+### 🎥 VIDEO DEMONSTRATION
+
+For a visual walkthrough of the NEXUS platform and its capabilities:
+- **Demo Video:** `http://your-deployed-api.onrender.com/media/videos/nexus-2.mp4`
+- **Local Demo:** `http://127.0.0.1:8000/media/videos/nexus-2.mp4`
+- **Showcase Page:** Open `NEXUS_DEMO_SHOWCASE.html` in browser
+
+See `NEXUS_VIDEO_DEMO.md` for complete video integration guide.
+
 ---
 
 ## 📦 STEP 1: PUSH CODE TO GITHUB

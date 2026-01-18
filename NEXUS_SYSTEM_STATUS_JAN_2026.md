@@ -2,6 +2,17 @@
 
 ## 🎯 CURRENT STATUS: READY FOR AUTOMATION SETUP
 
+### 🎥 PLATFORM DEMONSTRATION
+
+**Video Demo Now Available:**
+- **Local Access:** `http://127.0.0.1:8000/media/videos/nexus-2.mp4`
+- **Showcase Page:** Open `NEXUS_DEMO_SHOWCASE.html` for professional presentation
+- **Documentation:** See `NEXUS_VIDEO_DEMO.md` for complete video integration guide
+
+**Video API Endpoints:**
+- `GET /media/videos/nexus-2.mp4` - Stream demo video
+- `GET /media/videos` - List all available videos
+
 ---
 
 ## ✅ COMPLETED SYSTEMS

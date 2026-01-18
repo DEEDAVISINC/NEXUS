@@ -32,6 +32,23 @@ npm start
 curl http://127.0.0.1:8000/health
 ```
 
+### **Video Demo**
+Watch the NEXUS platform demonstration:
+- **Local:** `http://127.0.0.1:8000/media/videos/nexus-2.mp4`
+- **Showcase Page:** Open `NEXUS_DEMO_SHOWCASE.html` in browser
+- **API Endpoint:** `GET /media/videos/nexus-2.mp4`
+
+List all available videos:
+```bash
+curl http://127.0.0.1:8000/media/videos
+```
+
+### **Legal Documents**
+Access Terms of Use and Privacy Policy:
+- **Terms of Use:** `http://127.0.0.1:8000/legal/terms`
+- **Privacy Policy:** `http://127.0.0.1:8000/legal/privacy`
+- **List all:** `http://127.0.0.1:8000/legal`
+
 ---
 
 ## 📊 SYSTEM MAP
