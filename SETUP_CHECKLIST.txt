@@ -1,0 +1,85 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    NEXUS MINING TABLES - SETUP CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+□ STEP 1: VENDOR PORTAL TABLE (Add 9 Fields)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ 1. Portal Name          → Single line text
+  □ 2. Portal URL           → URL
+  □ 3. Portal Type          → Single select
+                              Options: Federal, State, Local, Cooperative
+  □ 4. Auto-Mining Enabled  → Checkbox
+  □ 5. Search Enabled       → Checkbox
+  □ 6. Description          → Long text
+  □ 7. Keywords             → Long text
+  □ 8. Category             → Single select
+                              Options: Government, Commercial, Cooperative
+  □ 9. Icon                 → Single line text
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+□ STEP 2: MINING TARGETS TABLE (Add 10 Fields)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ 1. Target Name          → Single line text (PRIMARY FIELD)
+  □ 2. Target URL           → URL
+  □ 3. Source Type          → Single select
+                              Options: Intelligence, Marketplace, Archive, 
+                                       News, Portal
+  □ 4. Active               → Checkbox
+  □ 5. Description          → Long text
+  □ 6. Keywords             → Long text
+  □ 7. Scraping Method      → Single select
+                              Options: API, Web Scraping, RSS Feed, 
+                                       Email Parsing, Manual
+  □ 8. Last Scraped         → Date & time
+  □ 9. Scraping Frequency   → Single select
+                              Options: Hourly, Daily, Twice Daily, Weekly, 
+                                       Manual Only
+  □ 10. Opportunities Found → Number (Integer format)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+□ STEP 3: RUN POPULATE SCRIPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ Open Terminal
+  □ Run: cd "/Users/deedavis/NEXUS BACKEND"
+  □ Run: python3 initialize_portals.py
+  □ Wait for success message
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+□ STEP 4: VERIFY DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ Check VENDOR PORTAL has 6 portals:
+     □ SAM.gov - Federal Opportunities
+     □ GSA eBuy
+     □ DIBBS - Defense Logistics
+     □ Unison Marketplace
+     □ SBA SubNet
+     □ NECO Cooperative
+
+  □ Check Mining Targets has 5 intelligence sources:
+     □ FPDS - Federal Procurement Data
+     □ USASpending.gov - Contract Intelligence
+     □ Acquisition.gov - Procurement Forecasts
+     □ FedBizOpps Archive
+     □ GSA Advantage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱️  ESTIMATED TIME: 15 MINUTES TOTAL
+
+  □ VENDOR PORTAL fields:    5 minutes
+  □ Mining Targets fields:    5 minutes
+  □ Run populate script:      2 minutes
+  □ Verify data:              3 minutes
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 WHEN COMPLETE, TYPE "done" TO PROCEED TO NEXT STEP (Adding UI Mining Buttons)
+
+═══════════════════════════════════════════════════════════════════════════════

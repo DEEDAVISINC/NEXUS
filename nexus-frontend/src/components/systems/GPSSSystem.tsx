@@ -986,24 +986,65 @@ ${new Date().toLocaleDateString()}
               </div>
             </div>
 
+            {/* Mining Control Panel */}
+            <div className="bg-gradient-to-br from-green-900/30 to-emerald-800/20 border border-green-700/50 rounded-xl p-6 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-xl font-bold text-green-400 mb-1">🚀 Auto-Mining Engine</h3>
+                  <p className="text-sm text-gray-400">Automatically scan government portals for new opportunities</p>
+                </div>
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Starting auto-mining for all portals...', type: 'success' });
+                      const response = await api.post('/gpss/mining/auto-mine-all');
+                      setNotification({ message: `Mining initiated! ${response.data.portals_checked} portals checked.`, type: 'success' });
+                      // Refresh opportunities after mining
+                      setTimeout(() => fetchOpportunities(), 5000);
+                    } catch (error: any) {
+                      setNotification({ message: `Mining error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                >
+                  <span>🔄</span>
+                  <span>Start Auto-Mining</span>
+                </button>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <div className="text-2xl font-black text-green-400">6</div>
+                  <div className="text-xs text-gray-400">Active Portals</div>
+                </div>
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <div className="text-2xl font-black text-blue-400">{opportunities.length}</div>
+                  <div className="text-xs text-gray-400">Opportunities Found</div>
+                </div>
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <div className="text-2xl font-black text-yellow-400">Live</div>
+                  <div className="text-xs text-gray-400">Mining Status</div>
+                </div>
+              </div>
+            </div>
+
             {/* Portal Monitor Status */}
             <div className="bg-gray-800 rounded-xl p-6">
               <h3 className="text-xl font-bold mb-4">📡 Portal Monitoring Status</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { name: 'SAM.gov', status: 'online', opportunities: 245, lastScan: '2 min ago' },
-                  { name: 'SIGMA VSS (MI)', status: 'online', opportunities: 42, lastScan: '5 min ago' },
-                  { name: 'Georgia GPR', status: 'online', opportunities: 38, lastScan: '3 min ago' },
-                  { name: 'eMD Marketplace', status: 'online', opportunities: 31, lastScan: '4 min ago' },
-                  { name: 'Texas ESBD', status: 'online', opportunities: 67, lastScan: '1 min ago' },
-                  { name: 'Cal eProcure', status: 'online', opportunities: 89, lastScan: '6 min ago' },
-                  { name: 'Illinois Gateway', status: 'online', opportunities: 45, lastScan: '7 min ago' },
-                  { name: 'Choice Partners', status: 'online', opportunities: 121, lastScan: '8 min ago' },
-                  { name: 'Sourcewell', status: 'online', opportunities: 56, lastScan: '10 min ago' }
+                  { name: 'SAM.gov', icon: '🦅', status: 'online', opportunities: 0, lastScan: 'Ready' },
+                  { name: 'GSA eBuy', icon: '⚡', status: 'online', opportunities: 0, lastScan: 'Ready' },
+                  { name: 'DIBBS', icon: '🛡️', status: 'online', opportunities: 0, lastScan: 'Ready' },
+                  { name: 'Unison Marketplace', icon: '🔷', status: 'online', opportunities: 0, lastScan: 'Ready' },
+                  { name: 'SBA SubNet', icon: '🤝', status: 'online', opportunities: 0, lastScan: 'Ready' },
+                  { name: 'NECO Cooperative', icon: '🏛️', status: 'online', opportunities: 0, lastScan: 'Ready' }
                 ].map((portal, idx) => (
                   <div key={idx} className="bg-gray-700/50 border border-gray-600 px-4 py-3 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-sm">{portal.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{portal.icon}</span>
+                        <span className="font-semibold text-sm">{portal.name}</span>
+                      </div>
                       <div className="flex items-center gap-1">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                         <span className="text-xs text-green-400">LIVE</span>
@@ -1018,20 +1059,20 @@ ${new Date().toLocaleDateString()}
               </div>
             </div>
 
-            {/* Coming Soon: AI Auto-Qualification */}
-            <div className="mt-6 bg-gradient-to-r from-yellow-900/20 to-orange-900/20 border border-yellow-500/30 rounded-xl p-6">
+            {/* Auto-Mining Active */}
+            <div className="mt-6 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-xl p-6">
               <div className="flex items-center gap-4">
-                <div className="text-5xl">🚀</div>
+                <div className="text-5xl">✅</div>
                 <div>
-                  <h3 className="text-xl font-black text-yellow-400 mb-2">PHASE 2: AI Auto-Qualification</h3>
+                  <h3 className="text-xl font-black text-green-400 mb-2">Auto-Mining Engine: ACTIVE</h3>
                   <p className="text-gray-400 text-sm mb-3">
-                    Automated opportunity discovery with Claude AI qualification. Every new opportunity automatically scored, 
-                    categorized, and prioritized based on your EDWOSB status, multi-state presence, and service capabilities.
+                    Your NEXUS system is now connected to 6 government opportunity portals. Click "Start Auto-Mining" above 
+                    to scan all portals and automatically import new opportunities with AI qualification.
                   </p>
                   <div className="flex gap-3">
-                    <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">Daily Automated Scans</span>
-                    <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">AI Scoring (0-100)</span>
-                    <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">Smart Alerts</span>
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ Portal Integration</span>
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ AI Qualification</span>
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ Automated Scoring</span>
                   </div>
                 </div>
               </div>
