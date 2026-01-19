@@ -4463,6 +4463,259 @@ Return as JSON:
 
 
 # =====================================================================
+# RSS OPPORTUNITY MONITORING
+# =====================================================================
+
+import feedparser
+from datetime import datetime, timedelta
+from typing import List, Dict, Optional
+
+
+# Government RSS Feeds to Monitor
+GOVERNMENT_RSS_FEEDS = [
+    {
+        'name': 'SAM.gov - All Opportunities',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?random=7857',
+        'type': 'Federal',
+        'keywords': ['professional services', 'consulting', 'management']
+    },
+    {
+        'name': 'FedBizOpps - GSA',
+        'url': 'https://www.fbo.gov/rss/opportunity/recently_posted_opps.xml',
+        'type': 'Federal',
+        'keywords': ['gsa', 'schedule', 'services']
+    },
+    {
+        'name': 'Defense Logistics - DIBBS',
+        'url': 'https://www.dibbs.bsm.dla.mil/rss/opportunities.xml',
+        'type': 'Federal',
+        'keywords': ['defense', 'logistics', 'services']
+    },
+]
+
+
+class RSSOpportunityMonitor:
+    """
+    RSS Feed Monitoring System
+    Checks government RSS feeds for new opportunities
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.claude = ClaudeAI()
+        self.feeds = GOVERNMENT_RSS_FEEDS
+    
+    def check_all_feeds(self) -> Dict:
+        """
+        Check all RSS feeds for new opportunities
+        Returns summary of what was found
+        """
+        try:
+            new_opportunities = []
+            skipped = 0
+            errors = []
+            
+            print(f"📡 Checking {len(self.feeds)} RSS feeds...")
+            
+            for feed_config in self.feeds:
+                try:
+                    print(f"  Checking: {feed_config['name']}...")
+                    opportunities = self.check_feed(feed_config)
+                    new_opportunities.extend(opportunities)
+                    print(f"    ✓ Found {len(opportunities)} new opportunities")
+                except Exception as e:
+                    error_msg = f"Error checking {feed_config['name']}: {str(e)}"
+                    print(f"    ✗ {error_msg}")
+                    errors.append(error_msg)
+            
+            return {
+                'success': True,
+                'feeds_checked': len(self.feeds),
+                'new_opportunities': len(new_opportunities),
+                'opportunities': new_opportunities,
+                'errors': errors
+            }
+            
+        except Exception as e:
+            print(f"RSS Monitor Error: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'feeds_checked': 0,
+                'new_opportunities': 0
+            }
+    
+    def check_feed(self, feed_config: Dict) -> List[Dict]:
+        """Check a single RSS feed for new opportunities"""
+        try:
+            # Parse RSS feed
+            feed = feedparser.parse(feed_config['url'])
+            
+            if not feed.entries:
+                print(f"    No entries found in feed")
+                return []
+            
+            opportunities = []
+            
+            for entry in feed.entries[:10]:  # Check last 10 entries
+                try:
+                    # Extract opportunity data
+                    opp_data = {
+                        'title': entry.get('title', 'No Title'),
+                        'description': entry.get('summary', entry.get('description', '')),
+                        'url': entry.get('link', ''),
+                        'published': entry.get('published', datetime.now().isoformat()),
+                        'source': feed_config['name'],
+                        'source_type': feed_config['type']
+                    }
+                    
+                    # Check if it's recent (last 7 days)
+                    pub_date = self._parse_date(entry.get('published'))
+                    if pub_date and pub_date < datetime.now() - timedelta(days=7):
+                        continue  # Skip old opportunities
+                    
+                    # Check if already exists
+                    if self._is_duplicate(opp_data['url']):
+                        continue  # Skip duplicates
+                    
+                    # Qualify with AI
+                    qualification = self._qualify_opportunity(opp_data, feed_config['keywords'])
+                    
+                    if qualification['score'] >= 40:  # Threshold for import
+                        # Prepare for Airtable
+                        airtable_data = {
+                            'TITLE': opp_data['title'][:255],  # Airtable field limit
+                            'SOLICITATION NUMBER': f"RSS-{datetime.now().strftime('%Y%m%d')}-{len(opportunities)}",
+                            'AGENCY NAME': feed_config['name'],
+                            'VALUE': 0,  # Unknown from RSS
+                            'DUE DATE': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
+                            'SOURCE': feed_config['type'],
+                            'Source Portal': feed_config['name'],
+                            'Internal Status': 'New - RSS',
+                            'Priority Score': qualification['score'],
+                            'Description': opp_data['description'][:1000] if opp_data['description'] else '',
+                            'URL': opp_data['url']
+                        }
+                        
+                        # Save to Airtable
+                        record = self.airtable.create_record('GPSS OPPORTUNITIES', airtable_data)
+                        
+                        opp_data['airtable_id'] = record['id']
+                        opp_data['ai_score'] = qualification['score']
+                        opp_data['ai_reason'] = qualification['reason']
+                        
+                        opportunities.append(opp_data)
+                        
+                except Exception as e:
+                    print(f"      Error processing entry: {str(e)[:100]}")
+                    continue
+            
+            return opportunities
+            
+        except Exception as e:
+            print(f"    Feed parsing error: {e}")
+            return []
+    
+    def _parse_date(self, date_string: str) -> Optional[datetime]:
+        """Parse RSS date string to datetime"""
+        if not date_string:
+            return None
+        
+        try:
+            # Try common RSS date formats
+            from email.utils import parsedate_to_datetime
+            return parsedate_to_datetime(date_string)
+        except:
+            try:
+                return datetime.fromisoformat(date_string.replace('Z', '+00:00'))
+            except:
+                return None
+    
+    def _is_duplicate(self, url: str) -> bool:
+        """Check if opportunity already exists in Airtable"""
+        try:
+            existing = self.airtable.get_all_records('GPSS OPPORTUNITIES')
+            return any(
+                opp['fields'].get('URL') == url 
+                for opp in existing
+            )
+        except:
+            return False
+    
+    def _qualify_opportunity(self, opp: Dict, keywords: List[str]) -> Dict:
+        """Use Claude AI to qualify this opportunity"""
+        try:
+            # Build prompt
+            prompt = f"""
+Analyze this government opportunity from an RSS feed:
+
+Title: {opp['title']}
+Description: {opp['description'][:500]}
+Source: {opp['source']}
+Keywords: {', '.join(keywords)}
+
+This is for an EDWOSB company specializing in:
+- Professional services
+- Management consulting  
+- IT services
+- Project management
+- Training and development
+
+Score this opportunity from 0-100 based on:
+1. Is it a real RFP/RFQ/solicitation? (not just a notice or update)
+2. Is it suitable for an EDWOSB company?
+3. Does it match the keywords and services?
+4. Is the description clear enough to qualify?
+
+Return ONLY valid JSON:
+{{"score": 0-100, "recommendation": "pursue/skip", "reason": "brief explanation"}}
+"""
+            
+            response = self.claude.chat(prompt, max_tokens=200)
+            
+            # Parse JSON response
+            import json
+            import re
+            
+            # Extract JSON from response
+            json_match = re.search(r'\{[^}]+\}', response)
+            if json_match:
+                result = json.loads(json_match.group())
+                return {
+                    'score': result.get('score', 0),
+                    'recommendation': result.get('recommendation', 'skip'),
+                    'reason': result.get('reason', 'No reason provided')
+                }
+            else:
+                # Fallback scoring
+                score = 50  # Default moderate score
+                if any(kw.lower() in opp['title'].lower() for kw in keywords):
+                    score += 20
+                if 'rfp' in opp['title'].lower() or 'rfq' in opp['title'].lower():
+                    score += 20
+                
+                return {
+                    'score': score,
+                    'recommendation': 'review' if score >= 50 else 'skip',
+                    'reason': 'Keyword-based scoring (AI parsing failed)'
+                }
+                
+        except Exception as e:
+            print(f"      Qualification error: {str(e)[:100]}")
+            return {
+                'score': 30,
+                'recommendation': 'skip',
+                'reason': f'Error: {str(e)[:100]}'
+            }
+
+
+def handle_check_rss_feeds() -> Dict:
+    """Handler function for RSS feed checking"""
+    monitor = RSSOpportunityMonitor()
+    return monitor.check_all_feeds()
+
+
+# =====================================================================
 # SUPPLIER MINING HANDLER FUNCTIONS
 # =====================================================================
 

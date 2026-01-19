@@ -2295,6 +2295,38 @@ def auto_mine_all():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/gpss/mining/check-rss-feeds', methods=['POST'])
+def check_rss_feeds():
+    """
+    Check all RSS feeds for new government opportunities
+    
+    Returns:
+        {
+            "success": true,
+            "feeds_checked": 3,
+            "new_opportunities": 12,
+            "opportunities": [...],
+            "errors": []
+        }
+    """
+    try:
+        from nexus_backend import handle_check_rss_feeds
+        result = handle_check_rss_feeds()
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e),
+            "feeds_checked": 0,
+            "new_opportunities": 0
+        }), 500
+
+
 @app.route('/gpss/forecasting/generate', methods=['POST'])
 def generate_forecasts():
     """

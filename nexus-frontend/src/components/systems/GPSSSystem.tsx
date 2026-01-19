@@ -990,31 +990,57 @@ ${new Date().toLocaleDateString()}
             <div className="bg-gradient-to-br from-green-900/30 to-emerald-800/20 border border-green-700/50 rounded-xl p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-green-400 mb-1">🚀 Auto-Mining Engine</h3>
-                  <p className="text-sm text-gray-400">Automatically scan government portals for new opportunities</p>
+                  <h3 className="text-xl font-bold text-green-400 mb-1">🚀 Opportunity Discovery</h3>
+                  <p className="text-sm text-gray-400">Scan portals and RSS feeds for new opportunities</p>
                 </div>
-                <button 
-                  onClick={async () => {
-                    try {
-                      setNotification({ message: 'Starting auto-mining for all portals...', type: 'success' });
-                      const response = await api.post('/gpss/mining/auto-mine-all');
-                      setNotification({ message: `Mining initiated! ${response.data.portals_checked} portals checked.`, type: 'success' });
-                      // Refresh opportunities after mining
-                      setTimeout(() => fetchOpportunities(), 5000);
-                    } catch (error: any) {
-                      setNotification({ message: `Mining error: ${error.message}`, type: 'error' });
-                    }
-                  }}
-                  className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
-                >
-                  <span>🔄</span>
-                  <span>Start Auto-Mining</span>
-                </button>
+                <div className="flex gap-3">
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Checking RSS feeds...', type: 'success' });
+                        const response = await api.post('/gpss/mining/check-rss-feeds');
+                        setNotification({ 
+                          message: `RSS Check Complete! Found ${response.data.new_opportunities} new opportunities from ${response.data.feeds_checked} feeds.`, 
+                          type: 'success' 
+                        });
+                        // Refresh opportunities after RSS check
+                        setTimeout(() => fetchOpportunities(), 3000);
+                      } catch (error: any) {
+                        setNotification({ message: `RSS error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                  >
+                    <span>📡</span>
+                    <span>Check RSS Feeds</span>
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Starting portal mining...', type: 'success' });
+                        const response = await api.post('/gpss/mining/auto-mine-all');
+                        setNotification({ message: `Mining complete! ${response.data.portals_checked} portals checked.`, type: 'success' });
+                        // Refresh opportunities after mining
+                        setTimeout(() => fetchOpportunities(), 5000);
+                      } catch (error: any) {
+                        setNotification({ message: `Mining error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                  >
+                    <span>🔄</span>
+                    <span>Mine Portals</span>
+                  </button>
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="grid grid-cols-4 gap-4 text-center">
                 <div className="bg-gray-800/50 rounded-lg p-4">
                   <div className="text-2xl font-black text-green-400">6</div>
                   <div className="text-xs text-gray-400">Active Portals</div>
+                </div>
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <div className="text-2xl font-black text-purple-400">3</div>
+                  <div className="text-xs text-gray-400">RSS Feeds</div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg p-4">
                   <div className="text-2xl font-black text-blue-400">{opportunities.length}</div>
@@ -1022,7 +1048,7 @@ ${new Date().toLocaleDateString()}
                 </div>
                 <div className="bg-gray-800/50 rounded-lg p-4">
                   <div className="text-2xl font-black text-yellow-400">Live</div>
-                  <div className="text-xs text-gray-400">Mining Status</div>
+                  <div className="text-xs text-gray-400">Status</div>
                 </div>
               </div>
             </div>
