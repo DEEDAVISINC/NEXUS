@@ -105,25 +105,11 @@ const ATLASSystem: React.FC<ATLASSystemProps> = ({ onBackToNexus, activeTab, set
     try {
       setTasksLoading(true);
       const response = await api.getTasks();
-      if (response.tasks && response.tasks.length > 0) {
-        setTasks(response.tasks);
-      } else {
-        // Load sample tasks if Airtable is empty
-        const sampleTasks: Task[] = [
-          { id: '1', title: 'Site Survey - Wisconsin Locations', status: 'in-progress', priority: 'high', owner: 'Dee Davis', dueDate: '2026-01-15', progress: 65, budget: 5000, project: 'Wisconsin NEMT', description: 'Complete site surveys at all 3 Wisconsin locations' },
-          { id: '2', title: 'Data Migration Planning', status: 'todo', priority: 'high', owner: 'Mike Chen', dueDate: '2026-01-17', progress: 0, budget: 8000, project: 'Wisconsin NEMT' },
-          { id: '3', title: 'Training Materials Development', status: 'todo', priority: 'medium', owner: 'Sarah Johnson', dueDate: '2026-01-20', progress: 0, budget: 3000, project: 'Wisconsin NEMT' },
-          { id: '4', title: 'Security Compliance Review', status: 'done', priority: 'high', owner: 'Dee Davis', dueDate: '2026-01-05', progress: 100, budget: 2500, project: 'Wisconsin NEMT' },
-          { id: '5', title: 'Database Schema Design', status: 'in-progress', priority: 'high', owner: 'Mike Chen', dueDate: '2026-01-16', progress: 45, budget: 6000, project: 'Wisconsin NEMT' },
-          { id: '6', title: 'UI/UX Design Review', status: 'review', priority: 'medium', owner: 'Sarah Johnson', dueDate: '2026-01-14', progress: 90, budget: 4000, project: 'Wisconsin NEMT' },
-          { id: '7', title: 'Client Kickoff Meeting Prep', status: 'done', priority: 'high', owner: 'Dee Davis', dueDate: '2026-01-03', progress: 100, budget: 500, project: 'Wisconsin NEMT' },
-          { id: '8', title: 'API Integration Testing', status: 'todo', priority: 'medium', owner: 'Mike Chen', dueDate: '2026-01-22', progress: 0, budget: 7000, project: 'Wisconsin NEMT' },
-        ];
-        setTasks(sampleTasks);
-      }
+      setTasks(response.tasks || []);
       setTasksLoading(false);
     } catch (error) {
       console.error('Error loading tasks:', error);
+      setTasks([]);
       setTasksLoading(false);
     }
   };
@@ -309,11 +295,32 @@ END:VCALENDAR`;
     { id: 'analytics', label: '📈 Analytics' }
   ];
 
+  // Calculate real stats from tasks
   const stats = [
-    { label: 'Active Projects', value: '3', subtext: 'In Progress', gradient: 'from-blue-600 to-blue-800' },
-    { label: 'RFPs Analyzed', value: '12', subtext: 'This Quarter', gradient: 'from-green-600 to-green-800' },
-    { label: 'WBS Generated', value: '8', subtext: 'Complete', gradient: 'from-purple-600 to-purple-800' },
-    { label: 'Total Value', value: '$2.4M', subtext: 'Active Contracts', gradient: 'from-yellow-600 to-yellow-800' }
+    { 
+      label: 'Active Projects', 
+      value: tasks.filter(t => ['in-progress', 'review'].includes(t.status)).length.toString(), 
+      subtext: 'In Progress', 
+      gradient: 'from-blue-600 to-blue-800' 
+    },
+    { 
+      label: 'Total Tasks', 
+      value: tasks.length.toString(), 
+      subtext: 'All Tasks', 
+      gradient: 'from-green-600 to-green-800' 
+    },
+    { 
+      label: 'Completed', 
+      value: tasks.filter(t => t.status === 'done').length.toString(), 
+      subtext: 'Done', 
+      gradient: 'from-purple-600 to-purple-800' 
+    },
+    { 
+      label: 'High Priority', 
+      value: tasks.filter(t => ['high', 'urgent'].includes(t.priority)).length.toString(), 
+      subtext: 'Urgent Tasks', 
+      gradient: 'from-yellow-600 to-yellow-800' 
+    }
   ];
 
   const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
@@ -591,38 +598,49 @@ END:VCALENDAR`;
               {/* Active Projects */}
               <div className="bg-gray-800 rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-4">📋 Active Projects</h3>
-                <div className="space-y-3">
-                  <div className="bg-gray-700/50 border border-gray-600 px-4 py-4 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-blue-400">Wisconsin Emergency Logistics</h4>
-                        <p className="text-sm text-gray-400">County-wide emergency response system</p>
-                      </div>
-                      <span className="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-1 rounded">ACTIVE</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm mt-2">
-                      <span className="text-gray-400">Progress: 65%</span>
-                      <span className="text-green-400 font-bold">$1.2M</span>
-                    </div>
-                    <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
-                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: '65%' }}></div>
-                    </div>
+                {tasks.filter(t => ['in-progress', 'review'].includes(t.status)).length > 0 ? (
+                  <div className="space-y-3">
+                    {tasks
+                      .filter(t => ['in-progress', 'review'].includes(t.status))
+                      .slice(0, 3)
+                      .map(project => (
+                        <div key={project.id} className="bg-gray-700/50 border border-gray-600 px-4 py-4 rounded-lg">
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1">
+                              <h4 className="font-bold text-blue-400">{project.title}</h4>
+                              <p className="text-sm text-gray-400">{project.project || 'Internal Project'}</p>
+                            </div>
+                            <span className={`text-xs font-bold px-2 py-1 rounded ${
+                              project.status === 'in-progress' 
+                                ? 'bg-green-500/20 text-green-400' 
+                                : 'bg-yellow-500/20 text-yellow-400'
+                            }`}>
+                              {project.status.toUpperCase().replace('-', ' ')}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm mt-2">
+                            <span className="text-gray-400">
+                              {project.dueDate ? `Due: ${new Date(project.dueDate).toLocaleDateString()}` : 'No deadline'}
+                            </span>
+                            {project.priority && (
+                              <span className={`font-bold ${
+                                ['high', 'urgent'].includes(project.priority) ? 'text-red-400' : 
+                                project.priority === 'medium' ? 'text-yellow-400' : 
+                                'text-green-400'
+                              }`}>
+                                {project.priority.toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                   </div>
-
-                  <div className="bg-gray-700/50 border border-gray-600 px-4 py-4 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-purple-400">Michigan NEMT Modernization</h4>
-                        <p className="text-sm text-gray-400">Transportation system upgrade</p>
-                      </div>
-                      <span className="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded">PLANNING</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm mt-2">
-                      <span className="text-gray-400">Kickoff: Mar 2026</span>
-                      <span className="text-green-400 font-bold">$850K</span>
-                    </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-400">
+                    <p className="text-lg mb-2">No active projects</p>
+                    <p className="text-sm">Win an opportunity to create your first project!</p>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* AI System Status */}
@@ -651,19 +669,30 @@ END:VCALENDAR`;
                     <p className="text-xs text-gray-400">Creates detailed work breakdown structures automatically</p>
                   </div>
 
-                  <div className="bg-blue-900/30 border border-blue-700 px-4 py-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">💡</span>
-                      <p className="font-semibold text-blue-400">AI Suggestion</p>
+                  {tasks.length > 0 && (
+                    <div className="bg-blue-900/30 border border-blue-700 px-4 py-3 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">💡</span>
+                        <p className="font-semibold text-blue-400">AI Suggestion</p>
+                      </div>
+                      <p className="text-sm text-gray-300 mb-3">
+                        You have {tasks.filter(t => ['high', 'urgent'].includes(t.priority)).length} high-priority tasks. 
+                        Consider reviewing them in the Task Board.
+                      </p>
+                      <button 
+                        onClick={() => setActiveTab('task-board')}
+                        className="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-sm font-semibold transition"
+                      >
+                        View Task Board →
+                      </button>
                     </div>
-                    <p className="text-sm text-gray-300 mb-3">The Michigan RFP has a 78% win probability. Consider prioritizing this project.</p>
-                    <button 
-                      onClick={() => setActiveTab('rfp-analysis')}
-                      className="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-sm font-semibold transition"
-                    >
-                      Analyze Michigan RFP →
-                    </button>
-                  </div>
+                  )}
+                  {tasks.length === 0 && (
+                    <div className="bg-gray-900/30 border border-gray-700 px-4 py-3 rounded-lg text-center">
+                      <p className="text-sm text-gray-400 mb-2">No tasks yet</p>
+                      <p className="text-xs text-gray-500">Win opportunities in GPSS to auto-create projects here</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

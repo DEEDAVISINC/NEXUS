@@ -5826,6 +5826,11 @@ class StateLocalMiner:
             'url': 'https://www.instantmarket.com',
             'rss': 'https://www.instantmarket.com/rss/opportunities.xml',
             'enabled': True
+        },
+        'SkysTheLimit': {
+            'url': 'https://www.skysthelimit.org',
+            'description': 'FREE GBIS - Government Bid Information System',
+            'enabled': True
         }
     }
     
@@ -5880,6 +5885,15 @@ class StateLocalMiner:
             results['imported'] += im_result['imported']
         except Exception as e:
             results['errors'].append(f"InstantMarket: {str(e)}")
+        
+        # Try SkysTheLimit.org (FREE GBIS)
+        try:
+            stl_result = self._mine_skysthelimit()
+            results['sources_checked'] += 1
+            results['total_found'] += stl_result['found']
+            results['imported'] += stl_result['imported']
+        except Exception as e:
+            results['errors'].append(f"SkysTheLimit: {str(e)}")
         
         print(f"✓ Checked {results['sources_checked']} sources")
         print(f"✓ Found {results['total_found']} opportunities")
@@ -6092,6 +6106,75 @@ class StateLocalMiner:
             
         except Exception as e:
             print(f"      ❌ InstantMarket error: {e}")
+            return {'found': 0, 'imported': 0}
+    
+    def _mine_skysthelimit(self) -> Dict:
+        """Mine SkysTheLimit.org - FREE GBIS (Government Bid Information System)"""
+        print("   🔍 Mining SkysTheLimit.org (FREE GBIS)...")
+        
+        try:
+            import feedparser
+            
+            # SkysTheLimit has RSS feeds for government bids
+            # Try common RSS feed patterns
+            feed_urls = [
+                'https://www.skysthelimit.org/rss/opportunities',
+                'https://www.skysthelimit.org/rss/bids',
+                'https://www.skysthelimit.org/feed',
+                'https://www.skysthelimit.org/opportunities.rss'
+            ]
+            
+            found = 0
+            imported = 0
+            
+            # Try each potential feed URL
+            for feed_url in feed_urls:
+                try:
+                    feed = feedparser.parse(feed_url)
+                    
+                    # If we got entries, process them
+                    if feed.entries and len(feed.entries) > 0:
+                        print(f"      ✓ Found RSS feed: {feed_url}")
+                        
+                        for entry in feed.entries[:30]:
+                            try:
+                                if self._is_duplicate(entry.get('title', '')):
+                                    continue
+                                
+                                opp_data = {
+                                    'title': entry.get('title', 'Untitled')[:255],
+                                    'description': entry.get('summary', entry.get('description', ''))[:5000],
+                                    'url': entry.get('link', ''),
+                                    'posted_date': entry.get('published', ''),
+                                    'source': 'SkysTheLimit GBIS'
+                                }
+                                
+                                qualification = self._qualify_state_local(opp_data)
+                                
+                                if qualification['score'] >= 60:
+                                    self._import_state_local(opp_data, qualification)
+                                    imported += 1
+                                
+                                found += 1
+                                
+                            except:
+                                continue
+                        
+                        # If we found a working feed, stop trying others
+                        break
+                        
+                except:
+                    continue
+            
+            if found > 0:
+                print(f"      ✓ SkysTheLimit: {found} found, {imported} imported")
+            else:
+                print(f"      ⚠ SkysTheLimit: No RSS feed found (may require account)")
+            
+            return {'found': found, 'imported': imported}
+            
+        except Exception as e:
+            print(f"      ❌ SkysTheLimit error: {e}")
             return {'found': 0, 'imported': 0}
     
     def _is_duplicate(self, title: str) -> bool:

@@ -1,0 +1,9 @@
+# Copy these lines and paste them into your .env file
+
+# ThomasNet Credentials
+THOMASNET_EMAIL=info@deedavis.biz
+THOMASNET_PASSWORD=siphoq-towSe8-qyjmyb
+
+# Google Custom Search API
+GOOGLE_CSE_API_KEY=AIzaSyCXZf-DqDrpKYQHObSqD3WonOQNgDtC76o
+GOOGLE_CSE_ID=94a560f2e338647f2

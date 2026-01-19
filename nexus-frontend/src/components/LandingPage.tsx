@@ -76,6 +76,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   const [portalSearch, setPortalSearch] = useState('');
   const [isDragging, setIsDragging] = useState(false);
 
+  // Opportunities and Tasks for Deadlines
+  const [opportunities, setOpportunities] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<any[]>([]);
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -98,6 +102,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       setLoading(false);
     }
   }, [defaultStats]);
+
+  // Fetch opportunities and tasks for deadlines
+  const fetchDeadlineData = useCallback(async () => {
+    try {
+      const [oppsData, tasksData] = await Promise.all([
+        api.getGpssOpportunities().catch(() => ({ opportunities: [] })),
+        api.getTasks().catch(() => [])
+      ]);
+      setOpportunities(oppsData.opportunities || []);
+      setTasks(Array.isArray(tasksData) ? tasksData : []);
+    } catch (error) {
+      console.error('Error fetching deadline data:', error);
+    }
+  }, []);
 
   // Fetch vendor portals
   const fetchPortals = async () => {
@@ -241,13 +259,15 @@ END:VCALENDAR`;
   useEffect(() => {
     fetchDashboardData();
     fetchPortals();
+    fetchDeadlineData();
     
     const interval = setInterval(() => {
       fetchDashboardData();
+      fetchDeadlineData();
     }, 30000); // 30 seconds
 
     return () => clearInterval(interval);
-  }, [fetchDashboardData]);
+  }, [fetchDashboardData, fetchDeadlineData]);
 
   // Format large numbers
   const formatNumber = (num: number): string => {
@@ -430,11 +450,48 @@ END:VCALENDAR`;
     time: timeAgo(activity.time)
   }));
 
-  const upcomingDeadlines = [
-    { date: 'Feb 15, 2026', title: 'Wisconsin NEMT RFP Submission', system: 'GPSS', priority: 'high' },
-    { date: 'Feb 20, 2026', title: 'Quarterly Business Review - Michigan DHS', system: 'ATLAS PM', priority: 'medium' },
-    { date: 'Mar 1, 2026', title: 'Project Kickoff - NEMT Modernization', system: 'ATLAS PM', priority: 'medium' }
-  ];
+  // Build upcoming deadlines from real opportunities and tasks
+  const upcomingDeadlines = useMemo(() => {
+    const deadlines: Array<{ date: string; title: string; system: string; priority: string; timestamp: number }> = [];
+    const now = new Date();
+
+    // Add opportunities with response deadlines
+    opportunities.forEach(opp => {
+      if (opp['Response Deadline']) {
+        const deadline = new Date(opp['Response Deadline']);
+        if (deadline > now) {
+          deadlines.push({
+            date: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            title: opp.Name || 'Unnamed Opportunity',
+            system: 'GPSS',
+            priority: opp['Priority'] === 'High' ? 'high' : 'medium',
+            timestamp: deadline.getTime()
+          });
+        }
+      }
+    });
+
+    // Add tasks with due dates
+    tasks.forEach(task => {
+      if (task.dueDate) {
+        const deadline = new Date(task.dueDate);
+        if (deadline > now) {
+          deadlines.push({
+            date: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            title: task.title || 'Unnamed Task',
+            system: 'ATLAS PM',
+            priority: ['high', 'urgent'].includes(task.priority) ? 'high' : 'medium',
+            timestamp: deadline.getTime()
+          });
+        }
+      }
+    });
+
+    // Sort by date and return top 5
+    return deadlines
+      .sort((a, b) => a.timestamp - b.timestamp)
+      .slice(0, 5);
+  }, [opportunities, tasks]);
 
   const quickActions = [
     { label: 'Upload RFP', icon: '📄', action: () => onEnterSystem('gpss'), gradient: 'from-blue-600 to-blue-700' },
@@ -703,24 +760,32 @@ END:VCALENDAR`;
                   <span className="text-xl">📅</span>
                   <h3 className="text-lg font-black text-white">DEADLINES</h3>
                 </div>
-                <div className="space-y-3">
-                  {upcomingDeadlines.map((deadline, index) => (
-                    <div key={index} className="group border-l-4 border-blue-500 bg-gray-700/50 hover:bg-gray-700 px-3 py-3 rounded transition-all cursor-pointer">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-blue-400 font-mono">{deadline.date}</span>
-                        <span className={`text-xs px-2 py-1 rounded-full font-bold ${
-                          deadline.priority === 'high' 
-                            ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
-                            : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                        }`}>
-                          {deadline.priority.toUpperCase()}
-                        </span>
+                {upcomingDeadlines.length > 0 ? (
+                  <div className="space-y-3">
+                    {upcomingDeadlines.map((deadline, index) => (
+                      <div key={index} className="group border-l-4 border-blue-500 bg-gray-700/50 hover:bg-gray-700 px-3 py-3 rounded transition-all cursor-pointer">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-bold text-blue-400 font-mono">{deadline.date}</span>
+                          <span className={`text-xs px-2 py-1 rounded-full font-bold ${
+                            deadline.priority === 'high' 
+                              ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
+                              : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                          }`}>
+                            {deadline.priority.toUpperCase()}
+                          </span>
+                        </div>
+                        <p className="text-sm font-semibold text-white mb-1">{deadline.title}</p>
+                        <p className="text-xs text-gray-400 font-semibold">{deadline.system}</p>
                       </div>
-                      <p className="text-sm font-semibold text-white mb-1">{deadline.title}</p>
-                      <p className="text-xs text-gray-400 font-semibold">{deadline.system}</p>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-5xl mb-3 opacity-20">📅</div>
+                    <p className="text-gray-500">No upcoming deadlines</p>
+                    <p className="text-xs text-gray-600 mt-1">Win opportunities in GPSS to see deadlines here</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
