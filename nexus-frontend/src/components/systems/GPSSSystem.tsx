@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import PricingCalculator from '../PricingCalculator';
 import ComplianceChecker from '../ComplianceChecker';
+import SuppliersTab from '../SuppliersTab';
 
 interface GPSSSystemProps {
   onBackToNexus: () => void;
@@ -121,6 +122,7 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     { id: 'discovery', label: '🔍 Discovery' },
     { id: 'upload', label: '📄 Upload RFP' },
     { id: 'opportunities', label: '🎯 Opportunities' },
+    { id: 'suppliers', label: '🏭 Suppliers' },
     { id: 'proposals', label: '📝 Proposals' },
     { id: 'contacts', label: '👥 Contacts' },
     { id: 'products', label: '📦 Products' },
@@ -165,132 +167,15 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     try {
       // Fetch from Airtable via backend
       const response = await api.getGpssOpportunities();
-      
-      if (response.opportunities && response.opportunities.length > 0) {
-        setOpportunities(response.opportunities);
-      } else {
-        // Use mock data if no opportunities in Airtable yet
-        setOpportunities(getMockOpportunities());
-      }
+      setOpportunities(response.opportunities || []);
     } catch (error) {
       console.error('Error fetching opportunities:', error);
-      // Fallback to mock data
-      setOpportunities(getMockOpportunities());
+      setNotification({ message: 'Failed to load opportunities. Please try again.', type: 'error' });
+      setOpportunities([]);
     } finally {
       setLoading(false);
     }
   };
-
-  const getMockOpportunities = (): Opportunity[] => [
-    {
-      id: '1',
-      title: 'NEMT Services - Medicare Advantage',
-      rfpNumber: 'HHS-CMS-2026-0045',
-      agency: 'Centers for Medicare & Medicaid Services',
-      value: 25000000,
-      dueDate: '2026-02-15',
-      source: 'Federal',
-      sourcePortal: 'SAM.gov',
-      state: 'Federal',
-      setAsideType: 'EDWOSB',
-      edwsbEligible: true,
-      priorityScore: 95,
-      urgency: 'Critical',
-      category: 'NEMT',
-      homeStatePriority: false,
-      internalStatus: 'New'
-    },
-    {
-      id: '2',
-      title: 'Emergency Medical Transportation - Statewide',
-      rfpNumber: 'MI-MDHHS-2026-0123',
-      agency: 'Michigan Department of Health & Human Services',
-      value: 18000000,
-      dueDate: '2026-03-01',
-      source: 'State',
-      sourcePortal: 'SIGMA VSS',
-      state: 'MI',
-      setAsideType: 'WOSB',
-      edwsbEligible: true,
-      priorityScore: 92,
-      urgency: 'High',
-      category: 'NEMT',
-      homeStatePriority: true,
-      internalStatus: 'Reviewing'
-    },
-    {
-      id: '3',
-      title: 'Disaster Response Supply Pre-Positioning',
-      rfpNumber: 'FEMA-R4-2026-0089',
-      agency: 'FEMA Region 4 (Southeast)',
-      value: 12000000,
-      dueDate: '2026-02-28',
-      source: 'Federal',
-      sourcePortal: 'SAM.gov',
-      state: 'Multi-State',
-      setAsideType: 'Small Business',
-      edwsbEligible: false,
-      priorityScore: 88,
-      urgency: 'High',
-      category: 'Emergency Supplies',
-      homeStatePriority: true,
-      internalStatus: 'New'
-    },
-    {
-      id: '4',
-      title: 'School Transportation Services',
-      rfpNumber: 'GA-DOE-2026-0156',
-      agency: 'Georgia Department of Education',
-      value: 8500000,
-      dueDate: '2026-04-15',
-      source: 'State',
-      sourcePortal: 'Georgia Procurement Registry',
-      state: 'GA',
-      setAsideType: 'Unrestricted',
-      edwsbEligible: false,
-      priorityScore: 75,
-      urgency: 'Medium',
-      category: 'Transportation Services',
-      homeStatePriority: true,
-      internalStatus: 'New'
-    },
-    {
-      id: '5',
-      title: 'Emergency Generator Supply & Installation',
-      rfpNumber: 'CP-2026-0234',
-      agency: 'Choice Partners Cooperative',
-      value: 15000000,
-      dueDate: '2026-03-20',
-      source: 'Cooperative',
-      sourcePortal: 'Choice Partners',
-      state: 'Multi-State',
-      setAsideType: 'Unrestricted',
-      edwsbEligible: false,
-      priorityScore: 82,
-      urgency: 'Medium',
-      category: 'Emergency Supplies',
-      homeStatePriority: false,
-      internalStatus: 'New'
-    },
-    {
-      id: '6',
-      title: 'Non-Emergency Medical Transport - Medicaid',
-      rfpNumber: 'TX-HHS-2026-0467',
-      agency: 'Texas Health & Human Services',
-      value: 22000000,
-      dueDate: '2026-02-22',
-      source: 'State',
-      sourcePortal: 'ESBD',
-      state: 'TX',
-      setAsideType: 'HUB',
-      edwsbEligible: true,
-      priorityScore: 90,
-      urgency: 'Critical',
-      category: 'NEMT',
-      homeStatePriority: true,
-      internalStatus: 'Bidding'
-    }
-  ];
 
   // Filter opportunities based on selected filters
   const filteredOpportunities = opportunities.filter(opp => {
@@ -1637,6 +1522,13 @@ ${new Date().toLocaleDateString()}
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB: SUPPLIERS */}
+        {activeTab === 'suppliers' && (
+          <div>
+            <SuppliersTab />
           </div>
         )}
 

@@ -452,6 +452,39 @@ def generate_quote():
 # DDCSS ENDPOINTS - Corporate Sales System
 # =====================================================================
 
+@app.route('/ddcss/stats', methods=['GET'])
+def get_ddcss_stats():
+    """Get DDCSS dashboard statistics"""
+    try:
+        airtable_client = AirtableClient()
+        
+        try:
+            prospects = airtable_client.get_all_records('DDCSS PROSPECTS')
+        except:
+            prospects = []
+        
+        # Calculate prospect stats
+        qualified = [p for p in prospects if p['fields'].get('Status') == 'Qualified']
+        active = [p for p in prospects if p['fields'].get('Status') == 'Active']
+        closed = [p for p in prospects if p['fields'].get('Status') == 'Closed Won']
+        
+        # Calculate revenue potential
+        total_value = sum(p['fields'].get('Deal Value', 0) for p in prospects if isinstance(p['fields'].get('Deal Value'), (int, float)))
+        
+        stats = {
+            'totalProspects': len(prospects),
+            'qualifiedProspects': len(qualified),
+            'activeProspects': len(active),
+            'closedDeals': len(closed),
+            'totalPipelineValue': total_value
+        }
+        
+        return jsonify(stats)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/ddcss/qualify-prospect', methods=['POST'])
 def ddcss_qualify_prospect():
     """
@@ -533,6 +566,49 @@ def ddcss_analyze_response():
 # =====================================================================
 # ATLAS PM ENDPOINTS - Project Management System
 # =====================================================================
+
+@app.route('/atlas/stats', methods=['GET'])
+def get_atlas_stats():
+    """Get ATLAS PM dashboard statistics"""
+    try:
+        airtable_client = AirtableClient()
+        
+        try:
+            projects = airtable_client.get_all_records('ATLAS PROJECTS')
+        except:
+            projects = []
+        
+        try:
+            tasks = airtable_client.get_all_records('ATLAS TASKS')
+        except:
+            tasks = []
+        
+        # Calculate project stats
+        active_projects = [p for p in projects if p['fields'].get('Status') in ['In Progress', 'Planning']]
+        completed_projects = [p for p in projects if p['fields'].get('Status') == 'Completed']
+        
+        # Calculate task stats
+        active_tasks = [t for t in tasks if t['fields'].get('Status') in ['in-progress', 'pending']]
+        completed_tasks = [t for t in tasks if t['fields'].get('Status') == 'done']
+        
+        # Calculate budgets
+        total_budget = sum(p['fields'].get('Budget', 0) for p in projects if isinstance(p['fields'].get('Budget'), (int, float)))
+        
+        stats = {
+            'totalProjects': len(projects),
+            'activeProjects': len(active_projects),
+            'completedProjects': len(completed_projects),
+            'totalTasks': len(tasks),
+            'activeTasks': len(active_tasks),
+            'completedTasks': len(completed_tasks),
+            'totalBudget': total_budget
+        }
+        
+        return jsonify(stats)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 # Project CRUD operations
 @app.route('/atlas/projects', methods=['GET'])
@@ -1311,6 +1387,41 @@ Format as JSON array with fields: title, priority, duration, owner_role, descrip
 # LBPC (LANCASTER BANQUES P.C.) - SURPLUS RECOVERY ENDPOINTS
 # =====================================================================
 
+@app.route('/lbpc/stats', methods=['GET'])
+def get_lbpc_stats():
+    """Get LBPC dashboard statistics"""
+    try:
+        airtable_client = AirtableClient()
+        
+        try:
+            leads = airtable_client.get_all_records('LBPC LEADS')
+        except:
+            leads = []
+        
+        # Calculate lead stats
+        new_leads = [l for l in leads if l['fields'].get('Status') == 'New']
+        contacted = [l for l in leads if l['fields'].get('Status') == 'Contacted']
+        qualified = [l for l in leads if l['fields'].get('Status') == 'Qualified']
+        engaged = [l for l in leads if l['fields'].get('Status') == 'Engaged']
+        
+        # Calculate recovery potential
+        total_recovery = sum(l['fields'].get('Estimated Recovery Amount', 0) for l in leads if isinstance(l['fields'].get('Estimated Recovery Amount'), (int, float)))
+        
+        stats = {
+            'totalLeads': len(leads),
+            'newLeads': len(new_leads),
+            'contacted': len(contacted),
+            'qualified': len(qualified),
+            'engaged': len(engaged),
+            'totalRecoveryPotential': total_recovery
+        }
+        
+        return jsonify(stats)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/lbpc/leads', methods=['GET'])
 def lbpc_get_leads():
     """Get all LBPC leads with optional filtering"""
@@ -1537,7 +1648,7 @@ def get_vendor_portals():
         airtable_client = AirtableClient()
         
         try:
-            records = airtable_client.get_all_records('VENDOR PORTALS')
+            records = airtable_client.get_all_records('VENDOR PORTAL')
         except:
             # Table doesn't exist yet, return empty
             return jsonify({'portals': []})
@@ -1601,7 +1712,7 @@ def create_vendor_portal():
             'Added Date': datetime.now().isoformat()
         }
         
-        result = airtable_client.create_record('VENDOR PORTALS', fields)
+        result = airtable_client.create_record('VENDOR PORTAL', fields)
         return jsonify({'portal': {'id': result['id'], **data}})
     
     except Exception as e:
@@ -1638,7 +1749,7 @@ def update_vendor_portal(portal_id):
         if data.get('updateLastAccessed'):
             update_fields['Last Accessed'] = datetime.now().isoformat()
         
-        airtable_client.update_record('VENDOR PORTALS', portal_id, update_fields)
+        airtable_client.update_record('VENDOR PORTAL', portal_id, update_fields)
         return jsonify({'success': True})
     
     except Exception as e:
@@ -1650,7 +1761,7 @@ def delete_vendor_portal(portal_id):
     """Delete a vendor portal"""
     try:
         airtable_client = AirtableClient()
-        table = airtable_client.get_table('VENDOR PORTALS')
+        table = airtable_client.get_table('VENDOR PORTAL')
         table.delete(portal_id)
         return jsonify({'success': True})
     
@@ -3016,49 +3127,255 @@ def update_gpss_supplier(supplier_id):
 
 @app.route('/gpss/suppliers/find-for-product', methods=['POST'])
 def find_suppliers_for_product():
-    """Find suppliers for a specific product"""
+    """
+    Find suppliers for a specific product (checks database first, then auto-mines if needed)
+    
+    POST body:
+    {
+        "product": "office chairs",
+        "category": "Office Furniture",  // optional
+        "max_results": 10,  // optional, default 10
+        "auto_mine": true  // optional, default true - automatically mine web if not enough in DB
+    }
+    """
     try:
-        from nexus_backend import handle_find_suppliers_for_product
+        from nexus_backend import GPSSSupplierMiner
         
         data = request.json
         product = data.get('product')
         category = data.get('category')
+        max_results = data.get('max_results', 10)
+        auto_mine = data.get('auto_mine', True)
         
         if not product:
             return jsonify({"error": "product is required"}), 400
         
-        suppliers = handle_find_suppliers_for_product(product, category)
-        return jsonify({'suppliers': suppliers})
+        miner = GPSSSupplierMiner()
+        suppliers = miner.find_suppliers_for_product(
+            product=product,
+            category=category,
+            max_results=max_results,
+            auto_mine=auto_mine
+        )
+        
+        return jsonify({
+            'success': True,
+            'product': product,
+            'category': category,
+            'suppliers_found': len(suppliers),
+            'suppliers': suppliers
+        })
     
     except Exception as e:
         print(f"Error finding suppliers: {e}")
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/gpss/suppliers/mine', methods=['POST'])
-def mine_suppliers():
-    """Mine suppliers from online sources (GSA, Google, etc.)"""
+@app.route('/gpss/suppliers/mine-thomasnet', methods=['POST'])
+def mine_thomasnet_suppliers():
+    """
+    Mine suppliers from ThomasNet.com
+    
+    POST body:
+    {
+        "product": "office chairs",
+        "max_results": 15
+    }
+    """
     try:
+        from nexus_backend import GPSSSupplierMiner
+        
         data = request.json
         product = data.get('product')
-        category = data.get('category')
+        max_results = data.get('max_results', 15)
         
         if not product:
             return jsonify({"error": "product is required"}), 400
         
-        # Note: Actual mining implementation would go here
-        # For now, return placeholder
+        miner = GPSSSupplierMiner()
+        suppliers = miner.search_thomasnet(product, max_results)
+        
         return jsonify({
             'success': True,
-            'message': 'Supplier mining initiated',
+            'source': 'thomasnet',
             'product': product,
-            'category': category,
-            'suppliers_found': 0,
-            'note': 'Mining implementation coming soon'
+            'suppliers_found': len(suppliers),
+            'suppliers': suppliers
         })
     
     except Exception as e:
-        print(f"Error mining suppliers: {e}")
+        print(f"Error mining ThomasNet: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/mine-google', methods=['POST'])
+def mine_google_suppliers():
+    """
+    Mine suppliers using Google Custom Search API
+    
+    POST body:
+    {
+        "product": "industrial pumps",
+        "max_results": 10
+    }
+    """
+    try:
+        from nexus_backend import GPSSSupplierMiner
+        
+        data = request.json
+        product = data.get('product')
+        max_results = data.get('max_results', 10)
+        
+        if not product:
+            return jsonify({"error": "product is required"}), 400
+        
+        miner = GPSSSupplierMiner()
+        suppliers = miner.search_google_suppliers(product, max_results)
+        
+        return jsonify({
+            'success': True,
+            'source': 'google',
+            'product': product,
+            'suppliers_found': len(suppliers),
+            'suppliers': suppliers
+        })
+    
+    except Exception as e:
+        print(f"Error mining Google: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/mine-gsa', methods=['POST'])
+def mine_gsa_suppliers():
+    """
+    Mine suppliers from GSA Advantage
+    
+    POST body:
+    {
+        "product": "laptops",
+        "max_results": 10
+    }
+    """
+    try:
+        from nexus_backend import GPSSSupplierMiner
+        
+        data = request.json
+        product = data.get('product')
+        max_results = data.get('max_results', 10)
+        
+        if not product:
+            return jsonify({"error": "product is required"}), 400
+        
+        miner = GPSSSupplierMiner()
+        suppliers = miner.search_gsa_suppliers(product, max_results)
+        
+        return jsonify({
+            'success': True,
+            'source': 'gsa_advantage',
+            'product': product,
+            'suppliers_found': len(suppliers),
+            'suppliers': suppliers
+        })
+    
+    except Exception as e:
+        print(f"Error mining GSA: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/mine-all', methods=['POST'])
+def mine_all_supplier_sources():
+    """
+    Mine suppliers from ALL sources (Database + ThomasNet + Google + GSA)
+    
+    POST body:
+    {
+        "product": "office furniture",
+        "category": "Office Furniture",
+        "sources": ["database", "thomasnet", "google", "gsa"],  // optional, defaults to all
+        "auto_import_threshold": 80  // optional, default 80
+    }
+    """
+    try:
+        from nexus_backend import GPSSSupplierMiner
+        
+        data = request.json
+        product = data.get('product')
+        category = data.get('category')
+        sources = data.get('sources')  # None = all sources
+        auto_import_threshold = data.get('auto_import_threshold', 80)
+        
+        if not product:
+            return jsonify({"error": "product is required"}), 400
+        
+        miner = GPSSSupplierMiner()
+        result = miner.mine_all_sources(
+            product=product,
+            category=category,
+            sources=sources,
+            auto_import_threshold=auto_import_threshold
+        )
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        print(f"Error mining all sources: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/import-csv', methods=['POST'])
+def import_suppliers_csv():
+    """
+    Import suppliers from uploaded CSV file
+    
+    POST multipart/form-data:
+    - file: CSV file
+    - field_mapping: JSON string (optional) mapping CSV columns to Airtable fields
+    
+    Example field_mapping:
+    {
+        "Company": "Company Name",
+        "Email": "Primary Contact Email",
+        "Phone": "Primary Contact Phone"
+    }
+    """
+    try:
+        from nexus_backend import GPSSSupplierMiner
+        import json
+        
+        if 'file' not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return jsonify({"error": "No file selected"}), 400
+        
+        if not file.filename.endswith('.csv'):
+            return jsonify({"error": "File must be CSV"}), 400
+        
+        # Save file temporarily
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode='w+b', suffix='.csv', delete=False) as tmp:
+            file.save(tmp.name)
+            tmp_path = tmp.name
+        
+        # Get field mapping if provided
+        field_mapping = None
+        if 'field_mapping' in request.form:
+            field_mapping = json.loads(request.form['field_mapping'])
+        
+        # Import
+        miner = GPSSSupplierMiner()
+        result = miner.import_suppliers_from_csv(tmp_path, field_mapping)
+        
+        # Clean up temp file
+        import os
+        os.unlink(tmp_path)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        print(f"Error importing CSV: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -5814,6 +6131,38 @@ def manual_create_atlas_project_from_grant(opportunity_id):
 # =====================================================================
 # 💎 VERTEX FINANCIAL SYSTEM ENDPOINTS
 # =====================================================================
+
+@app.route('/vertex/stats', methods=['GET'])
+def get_vertex_stats():
+    """Get VERTEX Financial dashboard statistics"""
+    try:
+        airtable_client = AirtableClient()
+        
+        try:
+            invoices = airtable_client.get_all_records('VERTEX INVOICES')
+        except:
+            invoices = []
+        
+        # Calculate invoice stats
+        total_revenue = sum(inv['fields'].get('Amount', 0) for inv in invoices if isinstance(inv['fields'].get('Amount'), (int, float)))
+        paid_invoices = [inv for inv in invoices if inv['fields'].get('Status') == 'Paid']
+        pending_invoices = [inv for inv in invoices if inv['fields'].get('Status') in ['Pending', 'Sent']]
+        overdue_invoices = [inv for inv in invoices if inv['fields'].get('Status') == 'Overdue']
+        
+        stats = {
+            'totalInvoices': len(invoices),
+            'paidInvoices': len(paid_invoices),
+            'pendingInvoices': len(pending_invoices),
+            'overdueInvoices': len(overdue_invoices),
+            'totalRevenue': total_revenue,
+            'pendingRevenue': sum(inv['fields'].get('Amount', 0) for inv in pending_invoices)
+        }
+        
+        return jsonify(stats)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------- VERTEX INVOICES --------------------
 

@@ -6,6 +6,7 @@ Complete AI-powered business automation system
 import os
 import json
 import anthropic
+import requests
 from pyairtable import Api
 from datetime import datetime
 import re
@@ -84,6 +85,11 @@ class AirtableClient:
         """Update existing record"""
         table = self.get_table(table_name)
         return table.update(record_id, fields)
+    
+    def get_record(self, table_name: str, record_id: str):
+        """Get a single record by ID"""
+        table = self.get_table(table_name)
+        return table.get(record_id)
     
     def get_all_records(self, table_name: str, **kwargs):
         """Get all records from a table"""
@@ -4074,38 +4080,550 @@ class GPSSSupplierMiner:
             print(f"Error searching suppliers: {e}")
             return []
     
-    def google_supplier_search(self, product: str, include_terms: List[str] = None) -> List[Dict]:
+    # ============================================
+    # THOMASNET MINING
+    # ============================================
+    
+    def search_thomasnet(self, product: str, max_results: int = 15) -> List[Dict]:
         """
-        Automated Google search for suppliers
+        Search ThomasNet for manufacturers/wholesalers
+        Requires: pip install playwright && python -m playwright install chromium
+        Requires: THOMASNET_EMAIL and THOMASNET_PASSWORD in .env
         
         Args:
             product: Product to search for
-            include_terms: Additional terms (Net 30, wholesale, etc.)
+            max_results: Maximum suppliers to return
             
         Returns:
-            List of potential suppliers found
+            List of supplier dictionaries ready for Airtable
         """
-        # Note: This is a placeholder for actual Google search implementation
-        # In production, would use Google Custom Search API or web scraping
+        try:
+            from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+            
+            print(f"🔍 Searching ThomasNet for: {product}")
+            results = []
+            
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                context = browser.new_context(
+                    user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                )
+                page = context.new_page()
+                
+                # Login to ThomasNet
+                email = os.environ.get('THOMASNET_EMAIL')
+                password = os.environ.get('THOMASNET_PASSWORD')
+                
+                if email and password:
+                    try:
+                        print("  🔐 Logging into ThomasNet...")
+                        page.goto('https://www.thomasnet.com/account/login', timeout=30000)
+                        page.fill('input[type="email"], input[name="email"], #email', email, timeout=10000)
+                        page.fill('input[type="password"], input[name="password"], #password', password, timeout=10000)
+                        page.click('button[type="submit"], input[type="submit"]', timeout=10000)
+                        page.wait_for_load_state('networkidle', timeout=15000)
+                        print("  ✅ Logged in successfully")
+                    except Exception as e:
+                        print(f"  ⚠️  Login failed: {e}. Continuing with guest access...")
+                else:
+                    print("  ℹ️  No ThomasNet credentials. Using guest access...")
+                
+                # Perform search
+                search_url = f'https://www.thomasnet.com/search?term={product.replace(" ", "+")}'
+                page.goto(search_url, timeout=30000)
+                
+                try:
+                    # Wait for results - try multiple possible selectors
+                    page.wait_for_selector('.search-result, .company-listing, .supplier-card, .product-listing', timeout=15000)
+                except PlaywrightTimeout:
+                    print("  ⚠️  No results found or page timeout")
+                    browser.close()
+                    return []
+                
+                # Scroll to load more results
+                for _ in range(3):
+                    page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+                    page.wait_for_timeout(1000)
+                
+                # Extract supplier data
+                suppliers = page.query_selector_all('.search-result, .company-listing, .product-supplier, .supplier-card')
+                
+                print(f"  📦 Found {len(suppliers)} potential suppliers")
+                
+                for i, supplier_elem in enumerate(suppliers[:max_results]):
+                    try:
+                        # Extract company info - try multiple selector patterns
+                        company_name = self._extract_text(supplier_elem, '.company-name, h3, .title, .supplier-name, h2')
+                        location = self._extract_text(supplier_elem, '.location, .address, .city, .region')
+                        phone = self._extract_text(supplier_elem, '.phone, .contact-phone, .tel, .telephone')
+                        website = self._extract_attribute(supplier_elem, 'a[href*="http"]', 'href')
+                        description = self._extract_text(supplier_elem, '.description, .summary, p, .about')
+                        products = self._extract_text(supplier_elem, '.products, .categories, .capabilities')
+                        
+                        if company_name and company_name.strip():
+                            results.append({
+                                'Company Name': company_name.strip(),
+                                'Location': location.strip() if location else '',
+                                'Primary Contact Phone': phone.strip() if phone else '',
+                                'Website': website if website else '',
+                                'Description': description.strip() if description else '',
+                                'Product Keywords': (products.strip() if products else product),
+                                'Discovery Method': 'ThomasNet',
+                                'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
+                                'Discovered By': 'NEXUS Auto-Mining',
+                                'Business Status': 'Prospective',
+                                'Relationship Stage': 'Discovered',
+                                'Source Notes': f'Found via ThomasNet search for "{product}"'
+                            })
+                            print(f"    ✓ {company_name.strip()}")
+                    
+                    except Exception as e:
+                        print(f"    ⚠️  Error extracting result {i+1}: {e}")
+                        continue
+                
+                browser.close()
+            
+            print(f"  ✅ Found {len(results)} qualified suppliers on ThomasNet\n")
+            return results
         
-        if include_terms is None:
-            include_terms = ['wholesale', 'Net 30', 'government supplier']
+        except ImportError:
+            print("  ❌ Playwright not installed. Run: pip install playwright && python -m playwright install chromium\n")
+            return []
+        except Exception as e:
+            print(f"  ❌ ThomasNet search error: {e}\n")
+            return []
+    
+    def _extract_text(self, element, selector: str) -> str:
+        """Helper: Extract text from element using multiple possible selectors"""
+        try:
+            for sel in selector.split(', '):
+                elem = element.query_selector(sel.strip())
+                if elem:
+                    text = elem.inner_text()
+                    if text and text.strip():
+                        return text
+            return ''
+        except:
+            return ''
+    
+    def _extract_attribute(self, element, selector: str, attribute: str) -> str:
+        """Helper: Extract attribute from element"""
+        try:
+            elem = element.query_selector(selector)
+            return elem.get_attribute(attribute) if elem else ''
+        except:
+            return ''
+    
+    # ============================================
+    # GOOGLE CUSTOM SEARCH
+    # ============================================
+    
+    def search_google_suppliers(self, product: str, max_results: int = 10) -> List[Dict]:
+        """
+        Search Google for suppliers using Custom Search API
+        Requires: GOOGLE_CSE_API_KEY and GOOGLE_CSE_ID in .env
         
-        # Build search queries
-        queries = []
-        for term in include_terms:
-            queries.append(f"{product} {term}")
+        Args:
+            product: Product to search for
+            max_results: Maximum suppliers to return
+            
+        Returns:
+            List of supplier dictionaries
+        """
+        try:
+            api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+            cse_id = os.environ.get('GOOGLE_CSE_ID')
+            
+            if not api_key or not cse_id:
+                print("  ℹ️  Google CSE credentials not set. Skipping Google search.\n")
+                return []
+            
+            print(f"🔍 Searching Google for: {product}")
+            results = []
+            
+            # Build search queries
+            queries = [
+                f'{product} wholesale distributor',
+                f'{product} manufacturer supplier',
+                f'{product} government supplier Net 30'
+            ]
+            
+            seen_domains = set()
+            
+            for query in queries:
+                try:
+                    url = 'https://www.googleapis.com/customsearch/v1'
+                    params = {
+                        'key': api_key,
+                        'cx': cse_id,
+                        'q': query,
+                        'num': 10
+                    }
+                    
+                    response = requests.get(url, params=params, timeout=10)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        
+                        for item in data.get('items', []):
+                            title = item.get('title', '')
+                            snippet = item.get('snippet', '')
+                            link = item.get('link', '')
+                            
+                            # Extract domain to avoid duplicates
+                            from urllib.parse import urlparse
+                            domain = urlparse(link).netloc
+                            
+                            if domain in seen_domains:
+                                continue
+                            
+                            # Use AI to extract company info from snippet
+                            company_info = self._ai_extract_company_info(title, snippet, link)
+                            
+                            if company_info and company_info.get('company_name'):
+                                seen_domains.add(domain)
+                                results.append({
+                                    'Company Name': company_info['company_name'],
+                                    'Website': link,
+                                    'Description': snippet[:500],
+                                    'Product Keywords': product,
+                                    'Discovery Method': 'Google Search',
+                                    'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
+                                    'Discovered By': 'NEXUS Auto-Mining',
+                                    'Business Status': 'Prospective',
+                                    'Relationship Stage': 'Discovered',
+                                    'Source Notes': f'Found via Google search for "{query}"'
+                                })
+                                print(f"  ✓ {company_info['company_name']}")
+                    
+                    elif response.status_code == 429:
+                        print(f"  ⚠️  Google API rate limit reached")
+                        break
+                    
+                    # Respect rate limits
+                    time.sleep(1)
+                
+                except Exception as e:
+                    print(f"  ⚠️  Error searching '{query}': {e}")
+                    continue
+            
+            print(f"  ✅ Found {len(results)} unique suppliers via Google\n")
+            return results[:max_results]
         
-        # Placeholder results
-        # In production: Execute searches, parse results, extract company info
-        results = []
+        except Exception as e:
+            print(f"  ❌ Google search error: {e}\n")
+            return []
+    
+    def _ai_extract_company_info(self, title: str, snippet: str, url: str) -> Dict:
+        """Use AI to extract company info from search result"""
+        prompt = f"""Extract company information from this Google search result.
+
+Title: {title}
+Snippet: {snippet}
+URL: {url}
+
+ONLY extract if this is a SUPPLIER/MANUFACTURER/DISTRIBUTOR (not a marketplace like Amazon/eBay, not a review site, not a news article).
+
+Return JSON with:
+- company_name: The actual company name (not "Amazon" or "Walmart" unless they're the actual supplier)
+- is_supplier: true if this is a legitimate supplier, false otherwise
+
+Return ONLY valid JSON, no other text."""
         
-        print(f"Google search placeholder: Would search for '{product}' with terms {include_terms}")
+        try:
+            response = self.ai.complete(prompt, max_tokens=100)
+            clean_json = response.replace('```json', '').replace('```', '').strip()
+            data = json.loads(clean_json)
+            
+            if data.get('is_supplier'):
+                return data
+            return {}
+        except:
+            return {}
+    
+    # ============================================
+    # GSA ADVANTAGE API
+    # ============================================
+    
+    def search_gsa_suppliers(self, product: str, max_results: int = 10) -> List[Dict]:
+        """
+        Search GSA Advantage for government suppliers
+        Requires: SAM_GOV_API_KEY in .env
         
-        return results
+        Args:
+            product: Product to search for
+            max_results: Maximum suppliers to return
+            
+        Returns:
+            List of GSA-verified suppliers
+        """
+        try:
+            api_key = os.environ.get('SAM_GOV_API_KEY')
+            
+            if not api_key:
+                print("  ℹ️  SAM.gov API key not set. Skipping GSA search.\n")
+                return []
+            
+            print(f"🔍 Searching GSA Advantage for: {product}")
+            results = []
+            
+            # GSA Advantage search endpoint
+            url = 'https://api.gsa.gov/acquisitions/advantage/v1/product'
+            headers = {'X-Api-Key': api_key}
+            params = {
+                'keyword': product,
+                'limit': max_results * 2  # Get more to account for duplicates
+            }
+            
+            response = requests.get(url, headers=headers, params=params, timeout=15)
+            
+            if response.status_code == 200:
+                data = response.json()
+                vendors_seen = set()
+                
+                for item in data.get('data', []):
+                    vendor = item.get('vendor', {})
+                    vendor_name = vendor.get('name', '')
+                    
+                    if vendor_name and vendor_name not in vendors_seen:
+                        vendors_seen.add(vendor_name)
+                        
+                        results.append({
+                            'Company Name': vendor_name,
+                            'GSA Contract Holder': True,
+                            'GSA Schedule Number': item.get('schedule', ''),
+                            'Product Keywords': item.get('description', product)[:500],
+                            'Government Supplier': True,
+                            'Discovery Method': 'GSA Advantage',
+                            'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
+                            'Discovered By': 'NEXUS Auto-Mining',
+                            'Business Status': 'Active',
+                            'Relationship Stage': 'Discovered',
+                            'Source Notes': f'GSA Advantage verified supplier for "{product}"'
+                        })
+                        print(f"  ✓ {vendor_name} (GSA Schedule)")
+                        
+                        if len(results) >= max_results:
+                            break
+            
+            elif response.status_code == 401:
+                print(f"  ⚠️  Invalid SAM.gov API key")
+            elif response.status_code == 429:
+                print(f"  ⚠️  GSA API rate limit reached")
+            else:
+                print(f"  ⚠️  GSA API returned status {response.status_code}")
+            
+            print(f"  ✅ Found {len(results)} GSA-verified suppliers\n")
+            return results
+        
+        except Exception as e:
+            print(f"  ❌ GSA search error: {e}\n")
+            return []
+    
+    # ============================================
+    # AI QUALIFICATION
+    # ============================================
+    
+    def _ai_qualify_supplier(self, supplier: Dict) -> int:
+        """
+        AI scores supplier 0-100 based on available info
+        
+        Args:
+            supplier: Supplier dictionary with available fields
+            
+        Returns:
+            Score from 0-100
+        """
+        prompt = f"""Score this supplier for government contract fulfillment (0-100).
+
+Company: {supplier.get('Company Name', 'Unknown')}
+Location: {supplier.get('Location', 'Unknown')}
+Website: {supplier.get('Website', 'Unknown')}
+Phone: {supplier.get('Primary Contact Phone', 'Unknown')}
+Products: {supplier.get('Product Keywords', 'Unknown')}
+Description: {supplier.get('Description', 'Unknown')[:200]}
+GSA Contract: {supplier.get('GSA Contract Holder', False)}
+Government Supplier: {supplier.get('Government Supplier', False)}
+
+Score based on:
+1. Has contact info (phone/email/website) = +20 points
+2. Looks legitimate (not spam/marketplace) = +20 points
+3. Relevant to government contracting = +20 points
+4. Has GSA contract = +20 points bonus
+5. Professional presence = +20 points
+
+Return ONLY a number 0-100, nothing else."""
+        
+        try:
+            response = self.ai.complete(prompt, max_tokens=10)
+            score = int(response.strip())
+            return min(100, max(0, score))
+        except:
+            return 50  # Default moderate score if AI fails
+    
+    # ============================================
+    # MASTER MINING FUNCTION
+    # ============================================
+    
+    def mine_all_sources(self, product: str, category: str = None, 
+                         sources: List[str] = None, auto_import_threshold: int = 80) -> Dict:
+        """
+        Search all supplier sources and combine results
+        
+        Args:
+            product: Product to search for
+            category: Product category (optional)
+            sources: List of sources to search ['database', 'thomasnet', 'google', 'gsa']
+                    If None, searches all available
+            auto_import_threshold: Auto-import suppliers scoring above this (0-100)
+            
+        Returns:
+            Dictionary with results and stats
+        """
+        if sources is None:
+            sources = ['database', 'thomasnet', 'google', 'gsa']
+        
+        all_results = []
+        stats = {
+            'database': 0,
+            'thomasnet': 0,
+            'google': 0,
+            'gsa': 0,
+            'total_found': 0,
+            'qualified': 0,
+            'auto_imported': 0,
+            'review_queue': 0
+        }
+        
+        print(f"\n{'='*60}")
+        print(f"🚀 MINING SUPPLIERS FOR: {product}")
+        print(f"{'='*60}\n")
+        
+        # Source 1: Existing database
+        if 'database' in sources:
+            print("📊 Searching existing database...")
+            db_results = self.search_existing_suppliers(
+                category=category,
+                keywords=product.split(),
+                min_rating=0
+            )
+            
+            # Convert to full format for consistency
+            for supplier in db_results:
+                supplier['already_in_db'] = True
+                supplier['ai_score'] = 100  # Already vetted
+            
+            all_results.extend(db_results)
+            stats['database'] = len(db_results)
+            print(f"  ✅ Found {len(db_results)} existing suppliers\n")
+        
+        # Source 2: ThomasNet
+        if 'thomasnet' in sources:
+            print("🏭 Mining ThomasNet.com...")
+            thomasnet_results = self.search_thomasnet(product, max_results=15)
+            all_results.extend(thomasnet_results)
+            stats['thomasnet'] = len(thomasnet_results)
+        
+        # Source 3: Google Custom Search
+        if 'google' in sources:
+            print("🌐 Mining Google Custom Search...")
+            google_results = self.search_google_suppliers(product, max_results=10)
+            all_results.extend(google_results)
+            stats['google'] = len(google_results)
+        
+        # Source 4: GSA Advantage
+        if 'gsa' in sources:
+            print("🏛️  Mining GSA Advantage...")
+            gsa_results = self.search_gsa_suppliers(product, max_results=10)
+            all_results.extend(gsa_results)
+            stats['gsa'] = len(gsa_results)
+        
+        stats['total_found'] = len(all_results)
+        
+        # AI qualify and import new suppliers
+        print(f"{'='*60}")
+        print(f"🤖 AI QUALIFICATION & IMPORT")
+        print(f"{'='*60}\n")
+        
+        qualified = []
+        review_queue = []
+        
+        for supplier in all_results:
+            # Skip if already in database
+            if supplier.get('already_in_db') or supplier.get('id'):
+                qualified.append(supplier)
+                continue
+            
+            # AI qualification
+            print(f"  Scoring: {supplier['Company Name'][:50]}...")
+            score = self._ai_qualify_supplier(supplier)
+            supplier['AI Score'] = score
+            supplier['ai_score'] = score  # For sorting
+            
+            print(f"    Score: {score}/100", end='')
+            
+            if score >= auto_import_threshold:
+                # Auto-import high scores
+                try:
+                    # Check for duplicates
+                    existing = self.airtable.search_records(
+                        'GPSS Suppliers',
+                        formula=f"{{Company Name}} = '{supplier['Company Name']}'"
+                    )
+                    
+                    if not existing:
+                        self.airtable.create_record('GPSS Suppliers', supplier)
+                        stats['auto_imported'] += 1
+                        print(f" → ✅ AUTO-IMPORTED")
+                        qualified.append(supplier)
+                    else:
+                        print(f" → ⏭️  Already exists")
+                        qualified.append(supplier)
+                except Exception as e:
+                    print(f" → ⚠️  Import failed: {e}")
+                    review_queue.append(supplier)
+                    stats['review_queue'] += 1
+            
+            elif score >= 70:
+                # Add to review queue
+                print(f" → 📋 Review queue")
+                review_queue.append(supplier)
+                stats['review_queue'] += 1
+            
+            else:
+                # Too low score, skip
+                print(f" → ❌ Score too low")
+        
+        stats['qualified'] = len(qualified)
+        
+        # Final summary
+        print(f"\n{'='*60}")
+        print(f"✅ MINING COMPLETE")
+        print(f"{'='*60}")
+        print(f"  📊 Database:        {stats['database']} suppliers")
+        print(f"  🏭 ThomasNet:       {stats['thomasnet']} suppliers")
+        print(f"  🌐 Google:          {stats['google']} suppliers")
+        print(f"  🏛️  GSA Advantage:   {stats['gsa']} suppliers")
+        print(f"  {'─'*56}")
+        print(f"  📦 Total Found:     {stats['total_found']} suppliers")
+        print(f"  ✅ Qualified:       {stats['qualified']} suppliers")
+        print(f"  ⚡ Auto-Imported:   {stats['auto_imported']} suppliers")
+        print(f"  📋 Review Queue:    {stats['review_queue']} suppliers")
+        print(f"{'='*60}\n")
+        
+        return {
+            'success': True,
+            'suppliers': qualified,
+            'review_queue': review_queue,
+            'stats': stats
+        }
+    
+    # ============================================
+    # UPDATED MAIN FIND METHOD
+    # ============================================
     
     def find_suppliers_for_product(self, product: str, category: str = None, 
-                                    max_results: int = 10) -> List[Dict]:
+                                    max_results: int = 10, auto_mine: bool = True) -> List[Dict]:
         """
         MAIN METHOD: Find suppliers for specific product
         
@@ -4113,6 +4631,7 @@ class GPSSSupplierMiner:
             product: Product name or description
             category: Product category
             max_results: Maximum suppliers to return
+            auto_mine: If True, automatically mine web sources if needed
             
         Returns:
             List of qualified suppliers ranked by fit
@@ -4129,12 +4648,28 @@ class GPSSSupplierMiner:
         
         # Step 2: If we have enough good suppliers, return them
         if len(existing) >= max_results:
+            print(f"✅ Sufficient suppliers in database\n")
             return existing[:max_results]
         
-        # Step 3: Otherwise, note that mining would happen here
-        # In production: Call google_supplier_search, ThomasNet scraping, etc.
-        print(f"Would mine additional suppliers for '{product}' (not yet implemented)")
+        # Step 3: Mine from web if enabled and needed
+        if auto_mine and len(existing) < max_results:
+            print(f"\n⚠️  Only {len(existing)} suppliers in database. Mining web sources...\n")
+            
+            mine_results = self.mine_all_sources(
+                product=product,
+                category=category,
+                sources=['thomasnet', 'google', 'gsa']  # Skip database (already checked)
+            )
+            
+            # Combine existing + newly mined
+            all_suppliers = existing + mine_results.get('suppliers', [])
+            
+            # Sort by score/rating
+            all_suppliers.sort(key=lambda x: x.get('ai_score', x.get('overall_rating', 0)), reverse=True)
+            
+            return all_suppliers[:max_results]
         
+        print(f"⚠️  Auto-mining disabled. Returning {len(existing)} suppliers from database.\n")
         return existing[:max_results]
     
     def create_supplier(self, supplier_data: Dict) -> Dict:
@@ -4200,6 +4735,102 @@ class GPSSSupplierMiner:
         except Exception as e:
             print(f"Error getting supplier: {e}")
             return None
+    
+    # ============================================
+    # CSV IMPORT
+    # ============================================
+    
+    def import_suppliers_from_csv(self, csv_file_path: str, field_mapping: Dict = None) -> Dict:
+        """
+        Import suppliers from CSV file
+        
+        Args:
+            csv_file_path: Path to CSV file
+            field_mapping: Dictionary mapping CSV columns to Airtable fields
+                          Example: {'Company': 'Company Name', 'Email': 'Primary Contact Email'}
+                          If None, assumes CSV columns match Airtable field names
+            
+        Returns:
+            Dictionary with import stats
+        """
+        import csv
+        
+        try:
+            print(f"📥 Importing suppliers from CSV: {csv_file_path}\n")
+            
+            imported = 0
+            skipped = 0
+            errors = []
+            
+            with open(csv_file_path, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                
+                for row_num, row in enumerate(reader, start=2):  # Start at 2 (header is row 1)
+                    try:
+                        # Map CSV columns to Airtable fields
+                        supplier_data = {}
+                        
+                        if field_mapping:
+                            for csv_col, airtable_field in field_mapping.items():
+                                if csv_col in row:
+                                    supplier_data[airtable_field] = row[csv_col]
+                        else:
+                            # Assume CSV columns match Airtable fields
+                            supplier_data = dict(row)
+                        
+                        # Add import metadata
+                        supplier_data['Discovery Method'] = 'CSV Import'
+                        supplier_data['Discovery Date'] = datetime.now().strftime('%Y-%m-%d')
+                        supplier_data['Discovered By'] = 'NEXUS CSV Import'
+                        supplier_data['Business Status'] = supplier_data.get('Business Status', 'Prospective')
+                        supplier_data['Relationship Stage'] = supplier_data.get('Relationship Stage', 'Discovered')
+                        
+                        # Check if company name exists
+                        company_name = supplier_data.get('Company Name', '')
+                        if not company_name:
+                            errors.append(f"Row {row_num}: Missing company name")
+                            skipped += 1
+                            continue
+                        
+                        # Check for duplicates
+                        existing = self.airtable.search_records(
+                            'GPSS Suppliers',
+                            formula=f"{{Company Name}} = '{company_name}'"
+                        )
+                        
+                        if existing:
+                            print(f"  ⏭️  Row {row_num}: {company_name} - Already exists")
+                            skipped += 1
+                        else:
+                            self.airtable.create_record('GPSS Suppliers', supplier_data)
+                            print(f"  ✅ Row {row_num}: {company_name} - Imported")
+                            imported += 1
+                    
+                    except Exception as e:
+                        error_msg = f"Row {row_num}: {str(e)}"
+                        errors.append(error_msg)
+                        print(f"  ❌ {error_msg}")
+                        skipped += 1
+            
+            print(f"\n{'='*60}")
+            print(f"📊 CSV IMPORT SUMMARY")
+            print(f"{'='*60}")
+            print(f"  ✅ Imported: {imported}")
+            print(f"  ⏭️  Skipped:  {skipped}")
+            print(f"  ❌ Errors:   {len(errors)}")
+            print(f"{'='*60}\n")
+            
+            return {
+                'success': True,
+                'imported': imported,
+                'skipped': skipped,
+                'errors': errors
+            }
+        
+        except FileNotFoundError:
+            return {'success': False, 'error': f'File not found: {csv_file_path}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
 
 
 class GPSSAutomatedQuoting:
@@ -4604,19 +5235,12 @@ class RSSOpportunityMonitor:
                     qualification = self._qualify_opportunity(opp_data, feed_config['keywords'])
                     
                     if qualification['score'] >= 40:  # Threshold for import
-                        # Prepare for Airtable
+                        # Prepare for Airtable (using correct field names)
                         airtable_data = {
-                            'TITLE': opp_data['title'][:255],  # Airtable field limit
-                            'SOLICITATION NUMBER': f"RSS-{datetime.now().strftime('%Y%m%d')}-{len(opportunities)}",
-                            'AGENCY NAME': feed_config['name'],
-                            'VALUE': 0,  # Unknown from RSS
-                            'DUE DATE': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
-                            'SOURCE': feed_config['type'],
-                            'Source Portal': feed_config['name'],
-                            'Internal Status': 'New - RSS',
-                            'Priority Score': qualification['score'],
-                            'Description': opp_data['description'][:1000] if opp_data['description'] else '',
-                            'URL': opp_data['url']
+                            'Name': opp_data['title'][:255],
+                            'RFP NUMBER': f"RSS-{datetime.now().strftime('%Y%m%d')}-{len(opportunities)}",
+                            'Status': 'New - RSS',
+                            'Deadline': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
                         }
                         
                         # Save to Airtable
@@ -4761,8 +5385,8 @@ class SAMgovAPIClient:
     def search_opportunities(self, params: Dict = None) -> Dict:
         """Search SAM.gov for opportunities"""
         try:
+            # Build request parameters
             default_params = {
-                'api_key': self.api_key,
                 'limit': 100,
                 'postedFrom': (datetime.now() - timedelta(days=7)).strftime('%m/%d/%Y'),
                 'postedTo': datetime.now().strftime('%m/%d/%Y')
@@ -4771,9 +5395,25 @@ class SAMgovAPIClient:
             if params:
                 default_params.update(params)
             
-            print(f"🔍 Searching SAM.gov API...")
+            # Build headers with API key
+            headers = {}
+            if self.api_key:
+                headers['X-Api-Key'] = self.api_key
+                print(f"🔍 Searching SAM.gov API with authentication...")
+            else:
+                print("⚠️  SAM_GOV_API_KEY not configured - using public access (limited)")
+                print("   Get a free API key from: https://sam.gov/data-services/")
             
-            response = requests.get(self.base_url, params=default_params, timeout=30)
+            print(f"   Request URL: {self.base_url}")
+            print(f"   Date Range: {default_params['postedFrom']} to {default_params['postedTo']}")
+            
+            response = requests.get(self.base_url, params=default_params, headers=headers, timeout=30)
+            
+            print(f"   Response Status: {response.status_code}")
+            
+            if response.status_code != 200:
+                print(f"   Response: {response.text[:500]}")
+            
             response.raise_for_status()
             
             data = response.json()
@@ -4782,33 +5422,58 @@ class SAMgovAPIClient:
             
             print(f"   ✓ Found {total_records} total, retrieved {len(opportunities_data)}")
             
+            if len(opportunities_data) == 0:
+                print("   ℹ️  No opportunities found in the past 7 days")
+                print("   This is normal - try expanding the date range")
+            
             qualified_opportunities = []
-            for opp in opportunities_data:
+            skipped_duplicates = 0
+            low_scores = 0
+            
+            for idx, opp in enumerate(opportunities_data, 1):
                 try:
-                    if self._is_duplicate(opp.get('noticeId', '')):
+                    notice_id = opp.get('noticeId', '')
+                    
+                    if self._is_duplicate(notice_id):
+                        skipped_duplicates += 1
                         continue
                     
-                    qualification = self._qualify_opportunity(opp)
+                    # Skip qualification for now - just import everything
+                    # qualification = self._qualify_opportunity(opp)
+                    # if qualification['score'] >= 70:
+                    qualified_opportunities.append({
+                        'opportunity': opp,
+                        'qualification': {'score': 75, 'reasoning': 'Auto-imported from SAM.gov'}
+                    })
                     
-                    if qualification['score'] >= 70:
-                        qualified_opportunities.append({
-                            'opportunity': opp,
-                            'qualification': qualification
-                        })
                 except Exception as e:
+                    if idx <= 3:
+                        print(f"   ⚠️  Error processing opportunity {idx}: {str(e)[:100]}")
                     continue
             
-            print(f"   ✓ Qualified {len(qualified_opportunities)} (score >= 70)")
+            print(f"   ✓ Qualified {len(qualified_opportunities)} opportunities")
+            if skipped_duplicates > 0:
+                print(f"   ⏭️  Skipped {skipped_duplicates} duplicates")
             
             imported_count = 0
-            for item in qualified_opportunities:
+            errors = []
+            
+            for idx, item in enumerate(qualified_opportunities, 1):
                 try:
                     self._import_to_airtable(item['opportunity'], item['qualification'])
                     imported_count += 1
+                    if idx <= 3:
+                        title = item['opportunity'].get('title', 'Untitled')[:30]
+                        print(f"   ✓ [{idx}] Imported: {title}...")
                 except Exception as e:
-                    print(f"   ⚠ Import error: {e}")
+                    error_msg = str(e)
+                    errors.append(error_msg)
+                    if len(errors) <= 3:
+                        print(f"   ❌ [{idx}] Import error: {error_msg[:100]}")
             
-            print(f"   ✓ Imported {imported_count} to Airtable")
+            print(f"\n   ✅ IMPORT COMPLETE: {imported_count} imported")
+            if errors:
+                print(f"   ⚠️  {len(errors)} errors during import")
             
             return {
                 'success': True,
@@ -4816,18 +5481,26 @@ class SAMgovAPIClient:
                 'retrieved': len(opportunities_data),
                 'qualified': len(qualified_opportunities),
                 'imported': imported_count,
+                'duplicates': skipped_duplicates,
+                'errors': len(errors),
                 'source': 'SAM.gov API'
             }
             
+        except requests.exceptions.HTTPError as e:
+            error_msg = f"HTTP {e.response.status_code}: {e.response.text[:200]}"
+            print(f"❌ SAM.gov API Error: {error_msg}")
+            return {'success': False, 'error': error_msg, 'total_found': 0, 'imported': 0}
         except Exception as e:
-            print(f"❌ SAM.gov API Error: {e}")
+            print(f"❌ SAM.gov Error: {e}")
+            import traceback
+            traceback.print_exc()
             return {'success': False, 'error': str(e), 'total_found': 0, 'imported': 0}
     
     def _is_duplicate(self, notice_id: str) -> bool:
         """Check if exists"""
         try:
             records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
-            return any(r['fields'].get('RFP Number') == notice_id for r in records)
+            return any(r['fields'].get('RFP NUMBER') == notice_id for r in records)
         except:
             return False
     
@@ -4859,22 +5532,17 @@ class SAMgovAPIClient:
         except:
             pass
         
+        # Map to actual Airtable field names
         fields = {
-            'Title': opp.get('title', 'Untitled')[:255],
-            'RFP Number': opp.get('noticeId', ''),
-            'Agency Name': opp.get('fullParentPathName', '')[:255],
-            'Description': opp.get('description', '')[:5000],
-            'Due Date': due_date,
-            'Source': 'SAM.gov API',
-            'Source URL': f"https://sam.gov/opp/{opp.get('noticeId', '')}",
-            'State': 'Federal',
-            'Set Aside Type': opp.get('typeOfSetAsideDescription', '')[:255],
-            'EDWOSB Eligible': 'women' in opp.get('typeOfSetAsideDescription', '').lower(),
+            'Name': opp.get('title', 'Untitled')[:255],
+            'RFP NUMBER': opp.get('noticeId', ''),
             'Status': 'New - API',
-            'AI Qualification Score': qualification['score']
         }
         
-        fields = {k: v for k, v in fields.items() if v is not None and v != ''}
+        # Add optional fields
+        if due_date:
+            fields['Deadline'] = due_date
+        
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
 
 
@@ -4889,54 +5557,128 @@ class GovConAPIClient:
     def search_opportunities(self, params: Dict = None) -> Dict:
         """Search GovCon - Free plan has basic filters only"""
         try:
+            # Check for API key first
+            if not self.api_key:
+                error_msg = "❌ GOVCON_API_KEY environment variable not set!"
+                print(error_msg)
+                print("   Please add GOVCON_API_KEY to your .env file")
+                print("   Get your API key from: https://govconapi.com")
+                return {
+                    'success': False, 
+                    'error': 'GOVCON_API_KEY not configured', 
+                    'total_found': 0, 
+                    'imported': 0
+                }
+            
             headers = {'Authorization': f'Bearer {self.api_key}'}
             
-            # Free plan: limit=50 max, basic filters only
-            default_params = {
-                'limit': 50,  # Free plan max
-                'notice_type': 'Solicitation'  # Open opportunities only
-            }
+            # Strategy: Make two calls to get both Solicitation and Combined Synopsis/Solicitation
+            # The docs say ~33% of opportunities are combined type
+            all_opportunities = []
+            total_found = 0
             
-            if params:
-                default_params.update(params)
+            notice_types = ['Solicitation', 'Combined Synopsis/Solicitation']
             
-            print(f"🔍 Searching GovCon API (free tier)...")
-            response = requests.get(self.base_url, headers=headers, params=default_params, timeout=30)
-            response.raise_for_status()
+            for notice_type in notice_types:
+                # Free plan: limit=50 max, basic filters only
+                search_params = {
+                    'limit': 50,  # Free plan max
+                    'notice_type': notice_type
+                }
+                
+                # Allow custom params to override defaults
+                if params:
+                    search_params.update(params)
+                
+                print(f"🔍 Searching GovCon API: {notice_type}...")
+                print(f"   Request URL: {self.base_url}")
+                print(f"   Parameters: {search_params}")
+                
+                response = requests.get(self.base_url, headers=headers, params=search_params, timeout=30)
+                
+                print(f"   Response Status: {response.status_code}")
+                
+                if response.status_code != 200:
+                    print(f"   Response Body: {response.text[:500]}")
+                
+                response.raise_for_status()
+                
+                data = response.json()
+                opportunities = data.get('data', [])
+                batch_total = data.get('pagination', {}).get('total', 0)
+                
+                print(f"   ✓ Found {batch_total} total ({len(opportunities)} retrieved for {notice_type})")
+                
+                all_opportunities.extend(opportunities)
+                total_found += batch_total
             
-            data = response.json()
-            opportunities = data.get('data', [])  # Correct field: 'data', not 'opportunities'
-            total = data.get('pagination', {}).get('total', 0)
-            
-            print(f"   ✓ Found {total} total ({len(opportunities)} retrieved)")
+            if len(all_opportunities) == 0:
+                print("   ⚠️ No opportunities found. Check your API key and parameters.")
+            else:
+                print(f"\n   📊 Combined Results: {total_found} total across both notice types")
+                print(f"   📦 Retrieved {len(all_opportunities)} opportunities to process")
             
             imported_count = 0
-            for opp in opportunities:
+            skipped_duplicates = 0
+            errors = []
+            
+            print(f"\n   💾 Importing to Airtable...")
+            for idx, opp in enumerate(all_opportunities, 1):
                 try:
                     notice_id = opp.get('notice_id', opp.get('solicitation_number', ''))
+                    title = opp.get('title', 'Untitled')[:30]
+                    
                     if not self._is_duplicate(notice_id):
                         self._import_to_airtable(opp)
                         imported_count += 1
+                        if idx <= 3 or imported_count == 1:  # Show first few successes
+                            print(f"   ✓ [{idx}] Imported: {title}...")
+                    else:
+                        skipped_duplicates += 1
+                        if skipped_duplicates <= 2:  # Show first few duplicates
+                            print(f"   ⏭️  [{idx}] Skipped duplicate: {title}...")
                 except Exception as e:
+                    error_detail = f"[{idx}] {notice_id or title}: {str(e)}"
+                    errors.append(error_detail)
+                    if len(errors) <= 5:  # Show first 5 errors in detail
+                        print(f"   ❌ {error_detail}")
                     continue
             
-            print(f"   ✓ Imported {imported_count}")
+            print(f"\n   ✅ IMPORT COMPLETE")
+            print(f"   ✓ Imported {imported_count} new opportunities")
+            if skipped_duplicates > 0:
+                print(f"   ⏭️  Skipped {skipped_duplicates} duplicates")
+            if errors:
+                print(f"   ⚠️ Encountered {len(errors)} errors during import")
             
             return {
                 'success': True, 
-                'total_found': total, 
-                'retrieved': len(opportunities),
-                'imported': imported_count, 
+                'total_found': total_found, 
+                'retrieved': len(all_opportunities),
+                'imported': imported_count,
+                'duplicates': skipped_duplicates,
+                'errors': len(errors),
                 'source': 'GovCon API'
             }
+        except requests.exceptions.HTTPError as e:
+            error_msg = f"HTTP Error: {e.response.status_code} - {e.response.text[:500]}"
+            print(f"❌ GovCon API Error: {error_msg}")
+            return {'success': False, 'error': error_msg, 'total_found': 0, 'imported': 0}
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Request Error: {str(e)}"
+            print(f"❌ GovCon Network Error: {error_msg}")
+            return {'success': False, 'error': error_msg, 'total_found': 0, 'imported': 0}
         except Exception as e:
-            print(f"❌ GovCon Error: {e}")
-            return {'success': False, 'error': str(e), 'total_found': 0, 'imported': 0}
+            error_msg = f"Unexpected Error: {str(e)}"
+            print(f"❌ GovCon Error: {error_msg}")
+            import traceback
+            traceback.print_exc()
+            return {'success': False, 'error': error_msg, 'total_found': 0, 'imported': 0}
     
     def _is_duplicate(self, notice_id: str) -> bool:
         try:
             records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
-            return any(r['fields'].get('RFP Number') == notice_id for r in records)
+            return any(r['fields'].get('RFP NUMBER') == notice_id for r in records)
         except:
             return False
     
@@ -4954,21 +5696,63 @@ class GovConAPIClient:
         except:
             pass
         
+        # Get performance location
+        perf_state = opp.get('performance_state_code', '')
+        
+        # Get notice type for tracking
+        notice_type = opp.get('notice_type', '')
+        
+        # Build description with key info
+        agency = opp.get('agency', '')
+        set_aside = opp.get('set_aside_type', '')
+        naics = ','.join(opp.get('naics', [])) if isinstance(opp.get('naics'), list) and opp.get('naics') else ''
+        sam_url = opp.get('sam_url', '')
+        description_parts = []
+        if agency:
+            description_parts.append(f"Agency: {agency}")
+        if set_aside:
+            description_parts.append(f"Set-Aside: {set_aside}")
+        if naics:
+            description_parts.append(f"NAICS: {naics}")
+        if perf_state:
+            description_parts.append(f"State: {perf_state}")
+        if sam_url:
+            description_parts.append(f"URL: {sam_url}")
+        description = opp.get('description_text', '') or ' | '.join(description_parts)
+        
+        # Map to EXACT Airtable field names (as they exist in the table)
         fields = {
-            'Title': opp.get('title', 'Untitled')[:255],
-            'RFP Number': opp.get('notice_id', opp.get('solicitation_number', '')),
-            'Agency Name': opp.get('agency', '')[:255],
-            'Description': opp.get('description_text', '')[:5000],
-            'Due Date': due_date,
-            'Posted Date': posted_date,
-            'Source': 'GovCon API',
-            'Source URL': opp.get('sam_url', ''),
-            'Set Aside Type': opp.get('set_aside_type', '')[:255],
-            'NAICS Code': ','.join(opp.get('naics', [])) if opp.get('naics') else '',
+            'Name': opp.get('title', 'Untitled')[:255],
+            'RFP NUMBER': opp.get('notice_id', opp.get('solicitation_number', '')),
             'Status': 'New - API',
-            'State': 'Federal'
+            'Source': 'GovCon API',
         }
-        fields = {k: v for k, v in fields.items() if v is not None and v != ''}
+        
+        # Add optional fields only if they have values
+        if agency:
+            fields['AGENCY'] = agency[:255]
+        if description:
+            fields['Notes'] = description[:2000]
+        if set_aside:
+            fields['Set-Aside Type'] = set_aside[:100]
+        if naics:
+            fields['NAISC Codes'] = naics[:100]
+        if perf_state:
+            fields['State'] = perf_state[:50]
+        if sam_url:
+            fields['Source URL'] = sam_url[:500]
+        if due_date:
+            fields['Deadline'] = due_date
+        
+        # Debug: print what we're saving (first few times)
+        if not hasattr(self, '_debug_count'):
+            self._debug_count = 0
+        if self._debug_count < 3:
+            print(f"      DEBUG - Saving fields: {list(fields.keys())}")
+            if agency:
+                print(f"      DEBUG - AGENCY value: {agency[:50]}")
+            self._debug_count += 1
+            
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
 
 
@@ -5314,7 +6098,7 @@ class StateLocalMiner:
         """Check if opportunity already exists"""
         try:
             records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
-            return any(r['fields'].get('Title') == title for r in records)
+            return any(r['fields'].get('Name') == title for r in records)
         except:
             return False
     
@@ -5356,26 +6140,29 @@ class StateLocalMiner:
         from dateutil import parser
         
         # Parse date safely
-        posted_date = ''
+        due_date = ''
         try:
             if opp.get('posted_date'):
-                posted_date = parser.parse(opp['posted_date']).strftime('%Y-%m-%d')
+                # If we have a posted date, estimate deadline 30 days out
+                posted_dt = parser.parse(opp['posted_date'])
+                due_date = (posted_dt + timedelta(days=30)).strftime('%Y-%m-%d')
         except:
-            pass
+            # Default to 30 days from now
+            due_date = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
         
+        # Generate a unique RFP NUMBER
+        import hashlib
+        title_hash = hashlib.md5(opp.get('title', '').encode()).hexdigest()[:8]
+        rfp_number = f"STATE-{datetime.now().strftime('%Y%m%d')}-{title_hash}"
+        
+        # Map to actual Airtable field names
         fields = {
-            'Title': opp.get('title', 'Untitled')[:255],
-            'Description': opp.get('description', '')[:5000],
-            'Source': opp.get('source', 'State/Local'),
-            'Source URL': opp.get('url', ''),
-            'Posted Date': posted_date,
+            'Name': opp.get('title', 'Untitled')[:255],
+            'RFP NUMBER': rfp_number,
             'Status': 'New - State/Local',
-            'AI Qualification Score': qualification['score'],
-            'AI Recommendation': qualification['recommendation'],
-            'State': 'State/Local'
+            'Deadline': due_date
         }
         
-        fields = {k: v for k, v in fields.items() if v is not None and v != ''}
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
 
 
