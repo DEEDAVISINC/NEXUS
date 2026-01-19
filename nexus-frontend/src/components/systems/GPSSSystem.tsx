@@ -997,10 +997,10 @@ ${new Date().toLocaleDateString()}
                   <button 
                     onClick={async () => {
                       try {
-                        setNotification({ message: 'Checking RSS feeds...', type: 'success' });
+                        setNotification({ message: 'Checking 27 RSS feeds...', type: 'success' });
                         const response = await api.post('/gpss/mining/check-rss-feeds');
                         setNotification({ 
-                          message: `RSS Check Complete! Found ${response.data.new_opportunities} new opportunities from ${response.data.feeds_checked} feeds.`, 
+                          message: `RSS Complete! Found ${response.data.new_opportunities} new opportunities from ${response.data.feeds_checked} of ${response.data.total_feeds} feeds.`, 
                           type: 'success' 
                         });
                         // Refresh opportunities after RSS check
@@ -1039,7 +1039,7 @@ ${new Date().toLocaleDateString()}
                   <div className="text-xs text-gray-400">Active Portals</div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="text-2xl font-black text-purple-400">3</div>
+                  <div className="text-2xl font-black text-purple-400">27</div>
                   <div className="text-xs text-gray-400">RSS Feeds</div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg p-4">

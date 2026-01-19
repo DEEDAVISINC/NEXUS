@@ -4473,23 +4473,194 @@ from typing import List, Dict, Optional
 
 # Government RSS Feeds to Monitor
 GOVERNMENT_RSS_FEEDS = [
+    # ===== FEDERAL AGENCIES =====
     {
         'name': 'SAM.gov - All Opportunities',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?random=7857',
         'type': 'Federal',
-        'keywords': ['professional services', 'consulting', 'management']
+        'keywords': ['professional services', 'consulting', 'management'],
+        'enabled': True
+    },
+    {
+        'name': 'SAM.gov - EDWOSB Set-Asides',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?setAside=EDWOSB',
+        'type': 'Federal',
+        'keywords': ['edwosb', 'women-owned', 'set-aside'],
+        'enabled': True
     },
     {
         'name': 'FedBizOpps - GSA',
         'url': 'https://www.fbo.gov/rss/opportunity/recently_posted_opps.xml',
         'type': 'Federal',
-        'keywords': ['gsa', 'schedule', 'services']
+        'keywords': ['gsa', 'schedule', 'services'],
+        'enabled': True
     },
     {
         'name': 'Defense Logistics - DIBBS',
         'url': 'https://www.dibbs.bsm.dla.mil/rss/opportunities.xml',
         'type': 'Federal',
-        'keywords': ['defense', 'logistics', 'services']
+        'keywords': ['defense', 'logistics', 'services'],
+        'enabled': True
+    },
+    {
+        'name': 'NASA Procurement',
+        'url': 'https://prod.nais.nasa.gov/rss/opportunities.xml',
+        'type': 'Federal',
+        'keywords': ['space', 'aerospace', 'technology', 'research'],
+        'enabled': True
+    },
+    {
+        'name': 'Veterans Affairs (VA)',
+        'url': 'https://www.va.gov/oal/business/rss/opportunities.xml',
+        'type': 'Federal',
+        'keywords': ['veterans', 'healthcare', 'medical', 'services'],
+        'enabled': True
+    },
+    {
+        'name': 'Department of Energy',
+        'url': 'https://energy.gov/procurement/rss.xml',
+        'type': 'Federal',
+        'keywords': ['energy', 'research', 'environmental', 'consulting'],
+        'enabled': True
+    },
+    {
+        'name': 'Department of Transportation',
+        'url': 'https://www.transportation.gov/procurement/rss.xml',
+        'type': 'Federal',
+        'keywords': ['transportation', 'infrastructure', 'highways', 'aviation'],
+        'enabled': True
+    },
+    {
+        'name': 'Department of Education',
+        'url': 'https://www2.ed.gov/fund/grants-rss.xml',
+        'type': 'Federal',
+        'keywords': ['education', 'training', 'grants', 'consulting'],
+        'enabled': True
+    },
+    {
+        'name': 'EPA - Environmental Protection',
+        'url': 'https://www.epa.gov/contracts/rss.xml',
+        'type': 'Federal',
+        'keywords': ['environmental', 'consulting', 'compliance', 'services'],
+        'enabled': True
+    },
+    
+    # ===== STATE GOVERNMENTS =====
+    {
+        'name': 'Michigan SIGMA VSS',
+        'url': 'https://sigma.michigan.gov/webapp/PRDVSS1X1/AltSelfService',
+        'type': 'State',
+        'keywords': ['michigan', 'state', 'services', 'consulting'],
+        'enabled': True
+    },
+    {
+        'name': 'California eProcure',
+        'url': 'https://caleprocure.ca.gov/pages/rss/RSS.aspx',
+        'type': 'State',
+        'keywords': ['california', 'state', 'services'],
+        'enabled': True
+    },
+    {
+        'name': 'Texas ESBD',
+        'url': 'https://www.txsmartbuy.com/rss',
+        'type': 'State',
+        'keywords': ['texas', 'state', 'procurement'],
+        'enabled': True
+    },
+    {
+        'name': 'Illinois Procurement Gateway',
+        'url': 'https://www.illinois.gov/cms/procurement/rss.xml',
+        'type': 'State',
+        'keywords': ['illinois', 'state', 'consulting'],
+        'enabled': True
+    },
+    {
+        'name': 'Georgia GPR',
+        'url': 'https://ssl.doas.state.ga.us/gpr/rss.xml',
+        'type': 'State',
+        'keywords': ['georgia', 'state', 'services'],
+        'enabled': True
+    },
+    {
+        'name': 'Maryland eMarylandMarketplace',
+        'url': 'https://emaryland.buyspeed.com/rss',
+        'type': 'State',
+        'keywords': ['maryland', 'state', 'consulting'],
+        'enabled': True
+    },
+    {
+        'name': 'Florida Vendor Bid System',
+        'url': 'https://www.myflorida.com/apps/vbs/vbs_rss.xml',
+        'type': 'State',
+        'keywords': ['florida', 'state', 'procurement'],
+        'enabled': True
+    },
+    {
+        'name': 'New York Contract Reporter',
+        'url': 'https://www.nyscr.ny.gov/rss',
+        'type': 'State',
+        'keywords': ['new york', 'state', 'contracts'],
+        'enabled': True
+    },
+    
+    # ===== COOPERATIVE PURCHASING =====
+    {
+        'name': 'NASPO ValuePoint',
+        'url': 'https://www.naspovaluepoint.org/rss/',
+        'type': 'Cooperative',
+        'keywords': ['cooperative', 'piggyback', 'state', 'local'],
+        'enabled': True
+    },
+    {
+        'name': 'Sourcewell',
+        'url': 'https://www.sourcewell-mn.gov/cooperative-purchasing/rss',
+        'type': 'Cooperative',
+        'keywords': ['cooperative', 'education', 'government', 'purchasing'],
+        'enabled': True
+    },
+    {
+        'name': 'TIPS Cooperative',
+        'url': 'https://www.tips-usa.com/rss.xml',
+        'type': 'Cooperative',
+        'keywords': ['cooperative', 'education', 'local', 'government'],
+        'enabled': True
+    },
+    {
+        'name': 'Omnia Partners',
+        'url': 'https://www.omniapartners.com/contracts/rss',
+        'type': 'Cooperative',
+        'keywords': ['cooperative', 'purchasing', 'government'],
+        'enabled': True
+    },
+    {
+        'name': 'E&I Cooperative Services',
+        'url': 'https://www.eandi.org/rss',
+        'type': 'Cooperative',
+        'keywords': ['education', 'cooperative', 'university'],
+        'enabled': True
+    },
+    
+    # ===== LOCAL GOVERNMENTS =====
+    {
+        'name': 'Chicago eProcurement',
+        'url': 'https://chicago.gov/procurement/rss',
+        'type': 'Local',
+        'keywords': ['chicago', 'city', 'local', 'services'],
+        'enabled': True
+    },
+    {
+        'name': 'Los Angeles BidSync',
+        'url': 'https://www.labavn.org/rss',
+        'type': 'Local',
+        'keywords': ['los angeles', 'city', 'procurement'],
+        'enabled': True
+    },
+    {
+        'name': 'Houston Buys',
+        'url': 'https://www.houstonbuys.org/rss',
+        'type': 'Local',
+        'keywords': ['houston', 'city', 'services'],
+        'enabled': True
     },
 ]
 
@@ -4515,9 +4686,12 @@ class RSSOpportunityMonitor:
             skipped = 0
             errors = []
             
-            print(f"📡 Checking {len(self.feeds)} RSS feeds...")
+            # Filter to only enabled feeds
+            enabled_feeds = [f for f in self.feeds if f.get('enabled', True)]
             
-            for feed_config in self.feeds:
+            print(f"📡 Checking {len(enabled_feeds)} RSS feeds (out of {len(self.feeds)} total)...")
+            
+            for feed_config in enabled_feeds:
                 try:
                     print(f"  Checking: {feed_config['name']}...")
                     opportunities = self.check_feed(feed_config)
@@ -4530,7 +4704,8 @@ class RSSOpportunityMonitor:
             
             return {
                 'success': True,
-                'feeds_checked': len(self.feeds),
+                'feeds_checked': len(enabled_feeds),
+                'total_feeds': len(self.feeds),
                 'new_opportunities': len(new_opportunities),
                 'opportunities': new_opportunities,
                 'errors': errors
