@@ -4673,7 +4673,7 @@ class RSSOpportunityMonitor:
     
     def __init__(self):
         self.airtable = AirtableClient()
-        self.claude = ClaudeAI()
+        self.anthropic_client = anthropic.Anthropic(api_key=Config.get_anthropic_key())
         self.feeds = GOVERNMENT_RSS_FEEDS
     
     def check_all_feeds(self) -> Dict:
@@ -4846,7 +4846,12 @@ Return ONLY valid JSON:
 {{"score": 0-100, "recommendation": "pursue/skip", "reason": "brief explanation"}}
 """
             
-            response = self.claude.chat(prompt, max_tokens=200)
+            message = self.anthropic_client.messages.create(
+                model="claude-3-5-sonnet-20241022",
+                max_tokens=200,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            response = message.content[0].text
             
             # Parse JSON response
             import json
