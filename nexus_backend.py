@@ -5004,7 +5004,13 @@ class StateLocalMiner:
         },
         'GovSpend': {
             'url': 'https://www.govspend.com',
-            'enabled': False  # Requires paid account
+            'rss': 'https://www.govspend.com/opportunities.rss',
+            'enabled': True
+        },
+        'InstantMarket': {
+            'url': 'https://www.instantmarket.com',
+            'rss': 'https://www.instantmarket.com/rss/opportunities.xml',
+            'enabled': True
         }
     }
     
@@ -5041,6 +5047,24 @@ class StateLocalMiner:
             results['imported'] += bn_result['imported']
         except Exception as e:
             results['errors'].append(f"BidNet: {str(e)}")
+        
+        # Try GovSpend RSS
+        try:
+            gs_result = self._mine_govspend()
+            results['sources_checked'] += 1
+            results['total_found'] += gs_result['found']
+            results['imported'] += gs_result['imported']
+        except Exception as e:
+            results['errors'].append(f"GovSpend: {str(e)}")
+        
+        # Try InstantMarket RSS
+        try:
+            im_result = self._mine_instantmarket()
+            results['sources_checked'] += 1
+            results['total_found'] += im_result['found']
+            results['imported'] += im_result['imported']
+        except Exception as e:
+            results['errors'].append(f"InstantMarket: {str(e)}")
         
         print(f"✓ Checked {results['sources_checked']} sources")
         print(f"✓ Found {results['total_found']} opportunities")
@@ -5114,24 +5138,145 @@ class StateLocalMiner:
         print("   🔍 Mining BidNet Direct...")
         
         try:
-            # BidNet has free access to some listings
-            url = "https://www.bidnetdirect.com/bidnet-government-bids"
+            # BidNet has RSS feeds for different categories
+            feeds = [
+                'https://www.bidnetdirect.com/rss/network-bids.xml',
+                'https://www.bidnetdirect.com/rss/featured-bids.xml'
+            ]
             
-            response = requests.get(url, timeout=15)
-            response.raise_for_status()
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # Look for bid listings (simplified - actual structure varies)
-            # This is a placeholder - real implementation needs specific selectors
             found = 0
             imported = 0
+            
+            import feedparser
+            
+            for feed_url in feeds:
+                try:
+                    feed = feedparser.parse(feed_url)
+                    
+                    for entry in feed.entries[:20]:
+                        try:
+                            if self._is_duplicate(entry.get('title', '')):
+                                continue
+                            
+                            opp_data = {
+                                'title': entry.get('title', 'Untitled')[:255],
+                                'description': entry.get('summary', '')[:5000],
+                                'url': entry.get('link', ''),
+                                'posted_date': entry.get('published', ''),
+                                'source': 'BidNet Direct'
+                            }
+                            
+                            qualification = self._qualify_state_local(opp_data)
+                            
+                            if qualification['score'] >= 60:
+                                self._import_state_local(opp_data, qualification)
+                                imported += 1
+                            
+                            found += 1
+                            
+                        except:
+                            continue
+                    
+                except:
+                    continue
             
             print(f"      ✓ BidNet: {found} found, {imported} imported")
             return {'found': found, 'imported': imported}
             
         except Exception as e:
             print(f"      ❌ BidNet error: {e}")
+            return {'found': 0, 'imported': 0}
+    
+    def _mine_govspend(self) -> Dict:
+        """Mine GovSpend RSS feed"""
+        print("   🔍 Mining GovSpend...")
+        
+        try:
+            import feedparser
+            
+            # GovSpend RSS (if available publicly)
+            feed_url = 'https://www.govspend.com/opportunities.rss'
+            
+            feed = feedparser.parse(feed_url)
+            
+            found = 0
+            imported = 0
+            
+            for entry in feed.entries[:30]:
+                try:
+                    if self._is_duplicate(entry.get('title', '')):
+                        continue
+                    
+                    opp_data = {
+                        'title': entry.get('title', 'Untitled')[:255],
+                        'description': entry.get('summary', '')[:5000],
+                        'url': entry.get('link', ''),
+                        'posted_date': entry.get('published', ''),
+                        'source': 'GovSpend'
+                    }
+                    
+                    qualification = self._qualify_state_local(opp_data)
+                    
+                    if qualification['score'] >= 60:
+                        self._import_state_local(opp_data, qualification)
+                        imported += 1
+                    
+                    found += 1
+                    
+                except:
+                    continue
+            
+            print(f"      ✓ GovSpend: {found} found, {imported} imported")
+            return {'found': found, 'imported': imported}
+            
+        except Exception as e:
+            print(f"      ❌ GovSpend error: {e}")
+            return {'found': 0, 'imported': 0}
+    
+    def _mine_instantmarket(self) -> Dict:
+        """Mine InstantMarket RSS feed"""
+        print("   🔍 Mining InstantMarket...")
+        
+        try:
+            import feedparser
+            
+            # InstantMarket RSS
+            feed_url = 'https://www.instantmarket.com/rss/opportunities.xml'
+            
+            feed = feedparser.parse(feed_url)
+            
+            found = 0
+            imported = 0
+            
+            for entry in feed.entries[:30]:
+                try:
+                    if self._is_duplicate(entry.get('title', '')):
+                        continue
+                    
+                    opp_data = {
+                        'title': entry.get('title', 'Untitled')[:255],
+                        'description': entry.get('summary', '')[:5000],
+                        'url': entry.get('link', ''),
+                        'posted_date': entry.get('published', ''),
+                        'source': 'InstantMarket'
+                    }
+                    
+                    qualification = self._qualify_state_local(opp_data)
+                    
+                    if qualification['score'] >= 60:
+                        self._import_state_local(opp_data, qualification)
+                        imported += 1
+                    
+                    found += 1
+                    
+                except:
+                    continue
+            
+            print(f"      ✓ InstantMarket: {found} found, {imported} imported")
+            return {'found': found, 'imported': imported}
+            
+        except Exception as e:
+            print(f"      ❌ InstantMarket error: {e}")
             return {'found': 0, 'imported': 0}
     
     def _is_duplicate(self, title: str) -> bool:
