@@ -1011,7 +1011,26 @@ ${new Date().toLocaleDateString()}
                     className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
                   >
                     <span>🦅</span>
-                    <span>Mine Federal</span>
+                    <span>SAM.gov</span>
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Searching GovCon API (50 clean federal opps)...', type: 'success' });
+                        const response = await api.post('/gpss/mining/search-govcon-api');
+                        setNotification({ 
+                          message: `📊 GovCon: Found ${response.total_found}, imported ${response.imported} opportunities!`, 
+                          type: 'success' 
+                        });
+                        setTimeout(() => fetchOpportunities(), 3000);
+                      } catch (error: any) {
+                        setNotification({ message: `GovCon error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-cyan-600 hover:bg-cyan-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
+                  >
+                    <span>📊</span>
+                    <span>GovCon</span>
                   </button>
                   <button 
                     onClick={async () => {
@@ -1019,7 +1038,7 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: 'Mining 5 State & Local sources...', type: 'success' });
                         const response = await api.post('/gpss/mining/mine-state-local');
                         setNotification({ 
-                          message: `🏛️ State/Local: ${response.sources_checked} sources checked, found ${response.total_found}, imported ${response.imported}!`, 
+                          message: `🏛️ State/Local: ${response.sources_checked} sources, found ${response.total_found}, imported ${response.imported}!`, 
                           type: 'success' 
                         });
                         setTimeout(() => fetchOpportunities(), 3000);
@@ -1030,7 +1049,7 @@ ${new Date().toLocaleDateString()}
                     className="bg-orange-600 hover:bg-orange-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
                   >
                     <span>🏛️</span>
-                    <span>Mine State/Local</span>
+                    <span>State/Local</span>
                   </button>
                   <button 
                     onClick={async () => {
@@ -1049,7 +1068,7 @@ ${new Date().toLocaleDateString()}
                     className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
                   >
                     <span>📡</span>
-                    <span>Check RSS</span>
+                    <span>RSS</span>
                   </button>
                 </div>
               </div>

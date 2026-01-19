@@ -4879,44 +4879,56 @@ class SAMgovAPIClient:
 
 
 class GovConAPIClient:
-    """GovCon API Client"""
+    """GovCon API Client - Free tier: 25 requests/day, 50 results max"""
     
     def __init__(self):
         self.api_key = os.environ.get('GOVCON_API_KEY', '')
-        self.base_url = "https://govconapi.com/api/v1/opportunities"
+        self.base_url = "https://govconapi.com/api/v1/opportunities/search"
         self.airtable = AirtableClient()
     
     def search_opportunities(self, params: Dict = None) -> Dict:
-        """Search GovCon"""
+        """Search GovCon - Free plan has basic filters only"""
         try:
             headers = {'Authorization': f'Bearer {self.api_key}'}
-            default_params = {'limit': 100, 'posted_days': 7}
+            
+            # Free plan: limit=50 max, basic filters only
+            default_params = {
+                'limit': 50,  # Free plan max
+                'notice_type': 'Solicitation'  # Open opportunities only
+            }
             
             if params:
                 default_params.update(params)
             
-            print(f"🔍 Searching GovCon API...")
+            print(f"🔍 Searching GovCon API (free tier)...")
             response = requests.get(self.base_url, headers=headers, params=default_params, timeout=30)
             response.raise_for_status()
             
             data = response.json()
-            opportunities = data.get('opportunities', [])
+            opportunities = data.get('data', [])  # Correct field: 'data', not 'opportunities'
+            total = data.get('pagination', {}).get('total', 0)
             
-            print(f"   ✓ Found {len(opportunities)}")
+            print(f"   ✓ Found {total} total ({len(opportunities)} retrieved)")
             
             imported_count = 0
             for opp in opportunities:
                 try:
-                    notice_id = opp.get('notice_id', opp.get('solicitationNumber', ''))
+                    notice_id = opp.get('notice_id', opp.get('solicitation_number', ''))
                     if not self._is_duplicate(notice_id):
                         self._import_to_airtable(opp)
                         imported_count += 1
-                except:
+                except Exception as e:
                     continue
             
             print(f"   ✓ Imported {imported_count}")
             
-            return {'success': True, 'total_found': len(opportunities), 'imported': imported_count, 'source': 'GovCon API'}
+            return {
+                'success': True, 
+                'total_found': total, 
+                'retrieved': len(opportunities),
+                'imported': imported_count, 
+                'source': 'GovCon API'
+            }
         except Exception as e:
             print(f"❌ GovCon Error: {e}")
             return {'success': False, 'error': str(e), 'total_found': 0, 'imported': 0}
@@ -4929,15 +4941,34 @@ class GovConAPIClient:
             return False
     
     def _import_to_airtable(self, opp: Dict):
+        from dateutil import parser
+        
+        # Parse dates safely
+        due_date = ''
+        posted_date = ''
+        try:
+            if opp.get('response_deadline'):
+                due_date = parser.parse(opp['response_deadline']).strftime('%Y-%m-%d')
+            if opp.get('posted_date'):
+                posted_date = parser.parse(opp['posted_date']).strftime('%Y-%m-%d')
+        except:
+            pass
+        
         fields = {
             'Title': opp.get('title', 'Untitled')[:255],
-            'RFP Number': opp.get('notice_id', opp.get('solicitationNumber', '')),
-            'Agency Name': opp.get('agency', opp.get('departmentName', ''))[:255],
-            'Description': opp.get('description', '')[:5000],
+            'RFP Number': opp.get('notice_id', opp.get('solicitation_number', '')),
+            'Agency Name': opp.get('agency', '')[:255],
+            'Description': opp.get('description_text', '')[:5000],
+            'Due Date': due_date,
+            'Posted Date': posted_date,
             'Source': 'GovCon API',
-            'Status': 'New - API'
+            'Source URL': opp.get('sam_url', ''),
+            'Set Aside Type': opp.get('set_aside_type', '')[:255],
+            'NAICS Code': ','.join(opp.get('naics', [])) if opp.get('naics') else '',
+            'Status': 'New - API',
+            'State': 'Federal'
         }
-        fields = {k: v for k, v in fields.items() if v}
+        fields = {k: v for k, v in fields.items() if v is not None and v != ''}
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
 
 
