@@ -4161,20 +4161,20 @@ class GPSSSupplierMiner:
                         products = self._extract_text(supplier_elem, '.products, .categories, .capabilities')
                         
                         if company_name and company_name.strip():
-                        results.append({
-                            'COMPANY NAME': company_name.strip(),
-                            'LOCATION': location.strip() if location else '',
-                            'PRIMARY CONTACT PHONE': phone.strip() if phone else '',
-                            'WEBSITE': website if website else '',
-                            'DESCRIPTION': description.strip() if description else '',
-                            'PRODUCT KEYWORDS': (products.strip() if products else product),
-                            'DISCOVERY METHOD': 'ThomasNet',
-                            'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
-                            'DISCOVERED BY': 'NEXUS Auto-Mining',
-                            'BUSINESS STATUS': 'Prospective',
-                            'RELATIONSHIP STAGE': 'Discovered',
-                            'SOURCE NOTES': f'Found via ThomasNet search for "{product}"'
-                        })
+                            results.append({
+                                'COMPANY NAME': company_name.strip(),
+                                'LOCATION': location.strip() if location else '',
+                                'PRIMARY CONTACT PHONE': phone.strip() if phone else '',
+                                'WEBSITE': website if website else '',
+                                'DESCRIPTION': description.strip() if description else '',
+                                'PRODUCT KEYWORDS': (products.strip() if products else product),
+                                'DISCOVERY METHOD': 'ThomasNet',
+                                'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                'BUSINESS STATUS': 'Prospective',
+                                'RELATIONSHIP STAGE': 'Discovered',
+                                'SOURCE NOTES': f'Found via ThomasNet search for "{product}"'
+                            })
                             print(f"    ✓ {company_name.strip()}")
                     
                     except Exception as e:
