@@ -1000,7 +1000,7 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: 'Checking 27 RSS feeds...', type: 'success' });
                         const response = await api.post('/gpss/mining/check-rss-feeds');
                         setNotification({ 
-                          message: `RSS Complete! Found ${response.data.new_opportunities} new opportunities from ${response.data.feeds_checked} of ${response.data.total_feeds} feeds.`, 
+                          message: `RSS Complete! Found ${response.new_opportunities} new opportunities from ${response.feeds_checked} of ${response.total_feeds} feeds.`, 
                           type: 'success' 
                         });
                         // Refresh opportunities after RSS check
@@ -1019,7 +1019,7 @@ ${new Date().toLocaleDateString()}
                       try {
                         setNotification({ message: 'Starting portal mining...', type: 'success' });
                         const response = await api.post('/gpss/mining/auto-mine-all');
-                        setNotification({ message: `Mining complete! ${response.data.portals_checked} portals checked.`, type: 'success' });
+                        setNotification({ message: `Mining complete! ${response.portals_checked} portals checked.`, type: 'success' });
                         // Refresh opportunities after mining
                         setTimeout(() => fetchOpportunities(), 5000);
                       } catch (error: any) {
