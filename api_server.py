@@ -2367,6 +2367,27 @@ def search_govcon_api():
         return jsonify({"success": False, "error": str(e), "total_found": 0, "imported": 0}), 500
 
 
+@app.route('/gpss/mining/mine-state-local', methods=['POST'])
+def mine_state_local():
+    """
+    Mine state and local government opportunities
+    
+    Returns:
+        {
+            "success": true,
+            "sources_checked": 5,
+            "total_found": 200,
+            "imported": 50
+        }
+    """
+    try:
+        from nexus_backend import handle_mine_state_local
+        result = handle_mine_state_local()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e), "sources_checked": 0, "imported": 0}), 500
+
+
 @app.route('/gpss/forecasting/generate', methods=['POST'])
 def generate_forecasts():
     """

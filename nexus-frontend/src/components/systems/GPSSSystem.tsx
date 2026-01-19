@@ -997,10 +997,10 @@ ${new Date().toLocaleDateString()}
                   <button 
                     onClick={async () => {
                       try {
-                        setNotification({ message: 'Searching SAM.gov API...', type: 'success' });
+                        setNotification({ message: 'Searching SAM.gov API (Federal)...', type: 'success' });
                         const response = await api.post('/gpss/mining/search-sam-api');
                         setNotification({ 
-                          message: `SAM.gov Complete! Found ${response.total_found} opportunities, imported ${response.imported}.`, 
+                          message: `SAM.gov: Found ${response.total_found}, imported ${response.imported} federal opps!`, 
                           type: 'success' 
                         });
                         setTimeout(() => fetchOpportunities(), 3000);
@@ -1008,10 +1008,29 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: `SAM.gov error: ${error.message}`, type: 'error' });
                       }
                     }}
-                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                    className="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-lg font-bold transition flex items-center gap-2"
                   >
                     <span>🦅</span>
-                    <span>Search SAM.gov</span>
+                    <span>Federal</span>
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Mining State & Local portals...', type: 'success' });
+                        const response = await api.post('/gpss/mining/mine-state-local');
+                        setNotification({ 
+                          message: `State/Local: ${response.sources_checked} sources, found ${response.total_found}, imported ${response.imported}!`, 
+                          type: 'success' 
+                        });
+                        setTimeout(() => fetchOpportunities(), 3000);
+                      } catch (error: any) {
+                        setNotification({ message: `State/Local error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-orange-600 hover:bg-orange-700 px-5 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                  >
+                    <span>🏛️</span>
+                    <span>State/Local</span>
                   </button>
                   <button 
                     onClick={async () => {
@@ -1019,7 +1038,7 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: 'Searching GovCon API...', type: 'success' });
                         const response = await api.post('/gpss/mining/search-govcon-api');
                         setNotification({ 
-                          message: `GovCon Complete! Found ${response.total_found}, imported ${response.imported}.`, 
+                          message: `GovCon: Found ${response.total_found}, imported ${response.imported}!`, 
                           type: 'success' 
                         });
                         setTimeout(() => fetchOpportunities(), 3000);
@@ -1027,10 +1046,10 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: `GovCon error: ${error.message}`, type: 'error' });
                       }
                     }}
-                    className="bg-cyan-600 hover:bg-cyan-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                    className="bg-cyan-600 hover:bg-cyan-700 px-4 py-3 rounded-lg font-bold transition flex items-center gap-2"
                   >
                     <span>📊</span>
-                    <span>Search GovCon</span>
+                    <span>GovCon</span>
                   </button>
                   <button 
                     onClick={async () => {
@@ -1038,7 +1057,7 @@ ${new Date().toLocaleDateString()}
                         setNotification({ message: 'Checking RSS feeds...', type: 'success' });
                         const response = await api.post('/gpss/mining/check-rss-feeds');
                         setNotification({ 
-                          message: `RSS Complete! Found ${response.new_opportunities} from ${response.feeds_checked} feeds.`, 
+                          message: `RSS: ${response.new_opportunities} from ${response.feeds_checked} feeds.`, 
                           type: 'success' 
                         });
                         setTimeout(() => fetchOpportunities(), 3000);
@@ -1050,22 +1069,6 @@ ${new Date().toLocaleDateString()}
                   >
                     <span>📡</span>
                     <span>RSS</span>
-                  </button>
-                  <button 
-                    onClick={async () => {
-                      try {
-                        setNotification({ message: 'Mining portals...', type: 'success' });
-                        const response = await api.post('/gpss/mining/auto-mine-all');
-                        setNotification({ message: `Portal mining complete! ${response.portals_checked} checked.`, type: 'success' });
-                        setTimeout(() => fetchOpportunities(), 5000);
-                      } catch (error: any) {
-                        setNotification({ message: `Portal error: ${error.message}`, type: 'error' });
-                      }
-                    }}
-                    className="bg-green-600 hover:bg-green-700 px-4 py-3 rounded-lg font-bold transition flex items-center gap-2"
-                  >
-                    <span>🔄</span>
-                    <span>Portals</span>
                   </button>
                 </div>
               </div>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS System - Platform Demonstration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .tagline {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 60px 40px;
+        }
+        
+        .video-section {
+            margin-bottom: 60px;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            background: #000;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .description {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+        }
+        
+        .cta-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .footer-links {
+            margin-top: 15px;
+        }
+        
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header .tagline {
+                font-size: 1em;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NEXUS</h1>
+            <p class="tagline">Intelligent Business Automation Platform</p>
+        </div>
+        
+        <div class="content">
+            <div class="video-section">
+                <h2 class="section-title">Platform Overview</h2>
+                <p class="description">
+                    Watch how NEXUS transforms complex business processes into streamlined, 
+                    intelligent workflows. Our AI-powered platform integrates seamlessly with 
+                    your existing systems to deliver unprecedented efficiency and insights.
+                </p>
+                <div class="video-container">
+                    <video controls preload="metadata">
+                        <source src="/media/videos/nexus-2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Core Capabilities</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>GPSS - Proposal Automation</h3>
+                    <p>
+                        Intelligent government contract proposal generation with AI-powered 
+                        pricing, compliance checking, and opportunity mining.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>DDCSS - Due Diligence</h3>
+                    <p>
+                        Comprehensive cybersecurity assessment and blueprint generation for 
+                        enterprise clients with automated analysis.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>ATLAS - Project Management</h3>
+                    <p>
+                        Advanced RFP analysis, WBS generation, and change request management 
+                        powered by AI insights.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>ProposalBio™ QA</h3>
+                    <p>
+                        Quality assurance for proposals with intelligent review, compliance 
+                        checking, and enhancement suggestions.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Vertex Financial</h3>
+                    <p>
+                        Automated invoicing, revenue tracking, and financial analytics 
+                        integrated with your CRM data.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Diversity Intelligence</h3>
+                    <p>
+                        Automated tracking and reporting for diversity certifications and 
+                        contract compliance requirements.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h2>Ready to Transform Your Business?</h2>
+                <p style="font-size: 1.1em; margin-top: 10px;">
+                    Discover how NEXUS can automate your workflows and drive growth.
+                </p>
+                <a href="mailto:contact@nexussystems.com" class="cta-button">Get Started</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2026 DEE DAVIS INC. All rights reserved.</p>
+            <p style="margin-top: 10px;">NEXUS - Intelligent Business Automation Platform</p>
+            <div class="footer-links">
+                <a href="/legal/terms" target="_blank">Terms of Use</a>
+                <a href="/legal/privacy" target="_blank">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
