@@ -4555,10 +4555,10 @@ Return ONLY a number 0-100, nothing else."""
                 continue
             
             # AI qualification
-            print(f"  Scoring: {supplier['Company Name'][:50]}...")
+            print(f"  Scoring: {supplier['COMPANY NAME'][:50]}...")
             score = self._ai_qualify_supplier(supplier)
-                supplier['AI SCORE'] = score
-                supplier['ai_score'] = score  # For sorting
+            supplier['AI SCORE'] = score
+            supplier['ai_score'] = score  # For sorting
             
             print(f"    Score: {score}/100", end='')
             
