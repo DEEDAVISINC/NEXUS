@@ -29,6 +29,14 @@ class Config:
     @classmethod
     def get_airtable_base_id(cls):
         return os.environ.get('AIRTABLE_BASE_ID', '')
+    
+    @classmethod
+    def get_sam_gov_key(cls):
+        return os.environ.get('SAM_GOV_API_KEY', '')
+    
+    @classmethod
+    def get_govcon_key(cls):
+        return os.environ.get('GOVCON_API_KEY', '')
 
     @classmethod
     def validate(cls):
@@ -4732,6 +4740,217 @@ def handle_check_rss_feeds() -> Dict:
     """Handler function for RSS feed checking"""
     monitor = RSSOpportunityMonitor()
     return monitor.check_all_feeds()
+
+
+# =============================================================================
+# SAM.GOV API CLIENT
+# =============================================================================
+
+class SAMgovAPIClient:
+    """
+    SAM.gov Opportunities API Client
+    Fetches federal contract opportunities from SAM.gov API
+    """
+    
+    def __init__(self):
+        self.api_key = os.environ.get('SAM_GOV_API_KEY', '')
+        self.base_url = "https://api.sam.gov/opportunities/v2/search"
+        self.airtable = AirtableClient()
+        self.anthropic_client = anthropic.Anthropic(api_key=Config.get_anthropic_key())
+    
+    def search_opportunities(self, params: Dict = None) -> Dict:
+        """Search SAM.gov for opportunities"""
+        try:
+            default_params = {
+                'api_key': self.api_key,
+                'limit': 100,
+                'postedFrom': (datetime.now() - timedelta(days=7)).strftime('%m/%d/%Y'),
+                'postedTo': datetime.now().strftime('%m/%d/%Y')
+            }
+            
+            if params:
+                default_params.update(params)
+            
+            print(f"🔍 Searching SAM.gov API...")
+            
+            response = requests.get(self.base_url, params=default_params, timeout=30)
+            response.raise_for_status()
+            
+            data = response.json()
+            opportunities_data = data.get('opportunitiesData', [])
+            total_records = data.get('totalRecords', 0)
+            
+            print(f"   ✓ Found {total_records} total, retrieved {len(opportunities_data)}")
+            
+            qualified_opportunities = []
+            for opp in opportunities_data:
+                try:
+                    if self._is_duplicate(opp.get('noticeId', '')):
+                        continue
+                    
+                    qualification = self._qualify_opportunity(opp)
+                    
+                    if qualification['score'] >= 70:
+                        qualified_opportunities.append({
+                            'opportunity': opp,
+                            'qualification': qualification
+                        })
+                except Exception as e:
+                    continue
+            
+            print(f"   ✓ Qualified {len(qualified_opportunities)} (score >= 70)")
+            
+            imported_count = 0
+            for item in qualified_opportunities:
+                try:
+                    self._import_to_airtable(item['opportunity'], item['qualification'])
+                    imported_count += 1
+                except Exception as e:
+                    print(f"   ⚠ Import error: {e}")
+            
+            print(f"   ✓ Imported {imported_count} to Airtable")
+            
+            return {
+                'success': True,
+                'total_found': total_records,
+                'retrieved': len(opportunities_data),
+                'qualified': len(qualified_opportunities),
+                'imported': imported_count,
+                'source': 'SAM.gov API'
+            }
+            
+        except Exception as e:
+            print(f"❌ SAM.gov API Error: {e}")
+            return {'success': False, 'error': str(e), 'total_found': 0, 'imported': 0}
+    
+    def _is_duplicate(self, notice_id: str) -> bool:
+        """Check if exists"""
+        try:
+            records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
+            return any(r['fields'].get('RFP Number') == notice_id for r in records)
+        except:
+            return False
+    
+    def _qualify_opportunity(self, opp: Dict) -> Dict:
+        """AI qualification"""
+        try:
+            title = opp.get('title', '')
+            set_aside = opp.get('typeOfSetAsideDescription', '')
+            
+            score = 50
+            if 'women' in set_aside.lower() or 'wosb' in set_aside.lower():
+                score += 30
+            if any(kw in title.lower() for kw in ['consulting', 'professional', 'management', 'training']):
+                score += 15
+                
+            return {'score': score, 'recommendation': 'pursue' if score >= 70 else 'skip', 'reason': 'Auto-scored'}
+        except:
+            return {'score': 50, 'recommendation': 'skip', 'reason': 'Error'}
+    
+    def _import_to_airtable(self, opp: Dict, qualification: Dict):
+        """Import to Airtable"""
+        from dateutil import parser
+        
+        # Parse dates safely
+        due_date = ''
+        try:
+            if opp.get('responseDeadLine'):
+                due_date = parser.parse(opp['responseDeadLine']).strftime('%Y-%m-%d')
+        except:
+            pass
+        
+        fields = {
+            'Title': opp.get('title', 'Untitled')[:255],
+            'RFP Number': opp.get('noticeId', ''),
+            'Agency Name': opp.get('fullParentPathName', '')[:255],
+            'Description': opp.get('description', '')[:5000],
+            'Due Date': due_date,
+            'Source': 'SAM.gov API',
+            'Source URL': f"https://sam.gov/opp/{opp.get('noticeId', '')}",
+            'State': 'Federal',
+            'Set Aside Type': opp.get('typeOfSetAsideDescription', '')[:255],
+            'EDWOSB Eligible': 'women' in opp.get('typeOfSetAsideDescription', '').lower(),
+            'Status': 'New - API',
+            'AI Qualification Score': qualification['score']
+        }
+        
+        fields = {k: v for k, v in fields.items() if v is not None and v != ''}
+        self.airtable.create_record('GPSS OPPORTUNITIES', fields)
+
+
+class GovConAPIClient:
+    """GovCon API Client"""
+    
+    def __init__(self):
+        self.api_key = os.environ.get('GOVCON_API_KEY', '')
+        self.base_url = "https://govconapi.com/api/v1/opportunities"
+        self.airtable = AirtableClient()
+    
+    def search_opportunities(self, params: Dict = None) -> Dict:
+        """Search GovCon"""
+        try:
+            headers = {'Authorization': f'Bearer {self.api_key}'}
+            default_params = {'limit': 100, 'posted_days': 7}
+            
+            if params:
+                default_params.update(params)
+            
+            print(f"🔍 Searching GovCon API...")
+            response = requests.get(self.base_url, headers=headers, params=default_params, timeout=30)
+            response.raise_for_status()
+            
+            data = response.json()
+            opportunities = data.get('opportunities', [])
+            
+            print(f"   ✓ Found {len(opportunities)}")
+            
+            imported_count = 0
+            for opp in opportunities:
+                try:
+                    notice_id = opp.get('notice_id', opp.get('solicitationNumber', ''))
+                    if not self._is_duplicate(notice_id):
+                        self._import_to_airtable(opp)
+                        imported_count += 1
+                except:
+                    continue
+            
+            print(f"   ✓ Imported {imported_count}")
+            
+            return {'success': True, 'total_found': len(opportunities), 'imported': imported_count, 'source': 'GovCon API'}
+        except Exception as e:
+            print(f"❌ GovCon Error: {e}")
+            return {'success': False, 'error': str(e), 'total_found': 0, 'imported': 0}
+    
+    def _is_duplicate(self, notice_id: str) -> bool:
+        try:
+            records = self.airtable.get_all_records('GPSS OPPORTUNITIES')
+            return any(r['fields'].get('RFP Number') == notice_id for r in records)
+        except:
+            return False
+    
+    def _import_to_airtable(self, opp: Dict):
+        fields = {
+            'Title': opp.get('title', 'Untitled')[:255],
+            'RFP Number': opp.get('notice_id', opp.get('solicitationNumber', '')),
+            'Agency Name': opp.get('agency', opp.get('departmentName', ''))[:255],
+            'Description': opp.get('description', '')[:5000],
+            'Source': 'GovCon API',
+            'Status': 'New - API'
+        }
+        fields = {k: v for k, v in fields.items() if v}
+        self.airtable.create_record('GPSS OPPORTUNITIES', fields)
+
+
+def handle_sam_api_search(params: Dict = None) -> Dict:
+    """Handler for SAM.gov API search"""
+    client = SAMgovAPIClient()
+    return client.search_opportunities(params)
+
+
+def handle_govcon_api_search(params: Dict = None) -> Dict:
+    """Handler for GovCon API search"""
+    client = GovConAPIClient()
+    return client.search_opportunities(params)
 
 
 # =====================================================================

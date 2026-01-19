@@ -993,43 +993,79 @@ ${new Date().toLocaleDateString()}
                   <h3 className="text-xl font-bold text-green-400 mb-1">🚀 Opportunity Discovery</h3>
                   <p className="text-sm text-gray-400">Scan portals and RSS feeds for new opportunities</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-wrap">
                   <button 
                     onClick={async () => {
                       try {
-                        setNotification({ message: 'Checking 27 RSS feeds...', type: 'success' });
-                        const response = await api.post('/gpss/mining/check-rss-feeds');
+                        setNotification({ message: 'Searching SAM.gov API...', type: 'success' });
+                        const response = await api.post('/gpss/mining/search-sam-api');
                         setNotification({ 
-                          message: `RSS Complete! Found ${response.new_opportunities} new opportunities from ${response.feeds_checked} of ${response.total_feeds} feeds.`, 
+                          message: `SAM.gov Complete! Found ${response.total_found} opportunities, imported ${response.imported}.`, 
                           type: 'success' 
                         });
-                        // Refresh opportunities after RSS check
+                        setTimeout(() => fetchOpportunities(), 3000);
+                      } catch (error: any) {
+                        setNotification({ message: `SAM.gov error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                  >
+                    <span>🦅</span>
+                    <span>Search SAM.gov</span>
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Searching GovCon API...', type: 'success' });
+                        const response = await api.post('/gpss/mining/search-govcon-api');
+                        setNotification({ 
+                          message: `GovCon Complete! Found ${response.total_found}, imported ${response.imported}.`, 
+                          type: 'success' 
+                        });
+                        setTimeout(() => fetchOpportunities(), 3000);
+                      } catch (error: any) {
+                        setNotification({ message: `GovCon error: ${error.message}`, type: 'error' });
+                      }
+                    }}
+                    className="bg-cyan-600 hover:bg-cyan-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                  >
+                    <span>📊</span>
+                    <span>Search GovCon</span>
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      try {
+                        setNotification({ message: 'Checking RSS feeds...', type: 'success' });
+                        const response = await api.post('/gpss/mining/check-rss-feeds');
+                        setNotification({ 
+                          message: `RSS Complete! Found ${response.new_opportunities} from ${response.feeds_checked} feeds.`, 
+                          type: 'success' 
+                        });
                         setTimeout(() => fetchOpportunities(), 3000);
                       } catch (error: any) {
                         setNotification({ message: `RSS error: ${error.message}`, type: 'error' });
                       }
                     }}
-                    className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                    className="bg-purple-600 hover:bg-purple-700 px-4 py-3 rounded-lg font-bold transition flex items-center gap-2"
                   >
                     <span>📡</span>
-                    <span>Check RSS Feeds</span>
+                    <span>RSS</span>
                   </button>
                   <button 
                     onClick={async () => {
                       try {
-                        setNotification({ message: 'Starting portal mining...', type: 'success' });
+                        setNotification({ message: 'Mining portals...', type: 'success' });
                         const response = await api.post('/gpss/mining/auto-mine-all');
-                        setNotification({ message: `Mining complete! ${response.portals_checked} portals checked.`, type: 'success' });
-                        // Refresh opportunities after mining
+                        setNotification({ message: `Portal mining complete! ${response.portals_checked} checked.`, type: 'success' });
                         setTimeout(() => fetchOpportunities(), 5000);
                       } catch (error: any) {
-                        setNotification({ message: `Mining error: ${error.message}`, type: 'error' });
+                        setNotification({ message: `Portal error: ${error.message}`, type: 'error' });
                       }
                     }}
-                    className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2"
+                    className="bg-green-600 hover:bg-green-700 px-4 py-3 rounded-lg font-bold transition flex items-center gap-2"
                   >
                     <span>🔄</span>
-                    <span>Mine Portals</span>
+                    <span>Portals</span>
                   </button>
                 </div>
               </div>

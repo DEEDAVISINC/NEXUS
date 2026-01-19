@@ -2327,6 +2327,46 @@ def check_rss_feeds():
         }), 500
 
 
+@app.route('/gpss/mining/search-sam-api', methods=['POST'])
+def search_sam_gov_api():
+    """
+    Search SAM.gov API for federal opportunities
+    
+    Returns:
+        {
+            "success": true,
+            "total_found": 1000,
+            "imported": 50
+        }
+    """
+    try:
+        from nexus_backend import handle_sam_api_search
+        result = handle_sam_api_search()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e), "total_found": 0, "imported": 0}), 500
+
+
+@app.route('/gpss/mining/search-govcon-api', methods=['POST'])
+def search_govcon_api():
+    """
+    Search GovCon API for federal opportunities
+    
+    Returns:
+        {
+            "success": true,
+            "total_found": 100,
+            "imported": 25
+        }
+    """
+    try:
+        from nexus_backend import handle_govcon_api_search
+        result = handle_govcon_api_search()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e), "total_found": 0, "imported": 0}), 500
+
+
 @app.route('/gpss/forecasting/generate', methods=['POST'])
 def generate_forecasts():
     """
