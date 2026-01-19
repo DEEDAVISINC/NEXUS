@@ -38,6 +38,12 @@ export class ApiClient {
 
 // API Functions
 export const api = {
+  // Generic methods
+  get: (endpoint: string) => ApiClient.get(endpoint),
+  post: (endpoint: string, data?: any) => ApiClient.post(endpoint, data || {}),
+  put: (endpoint: string, data: any) => ApiClient.put(endpoint, data),
+  delete: (endpoint: string) => ApiClient.delete(endpoint),
+
   // Health
   getHealth: () => ApiClient.get('/health'),
 
