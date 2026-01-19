@@ -4029,7 +4029,7 @@ class GPSSSupplierMiner:
         """
         try:
             # Get all suppliers from Airtable
-            suppliers = self.airtable.get_all_records('GPSS Suppliers')
+            suppliers = self.airtable.get_all_records('GPSS SUPPLIERS')
             
             # Apply filters
             filtered = []
@@ -4038,37 +4038,37 @@ class GPSSSupplierMiner:
                 
                 # Filter by category if specified
                 if category:
-                    categories = fields.get('Product Categories', [])
+                    categories = fields.get('PRODUCT CATEGORIES', [])
                     if category not in categories:
                         continue
                 
                 # Filter by keywords if specified
                 if keywords:
-                    supplier_keywords = fields.get('Product Keywords', '').lower()
+                    supplier_keywords = fields.get('PRODUCT KEYWORDS', '').lower()
                     if not any(kw.lower() in supplier_keywords for kw in keywords):
                         continue
                 
                 # Filter by rating
-                rating = fields.get('Overall Rating', 0)
+                rating = fields.get('OVERALL RATING', 0)
                 if rating < min_rating:
                     continue
                 
                 # Filter active/approved suppliers only
-                status = fields.get('Business Status', '')
+                status = fields.get('BUSINESS STATUS', '')
                 if status not in ['Active', 'Prospective']:
                     continue
                 
                 filtered.append({
                     'id': supplier.get('id'),
-                    'company_name': fields.get('Company Name', ''),
-                    'product_categories': fields.get('Product Categories', []),
-                    'net_30_available': fields.get('Net 30 Available', False),
+                    'company_name': fields.get('COMPANY NAME', ''),
+                    'product_categories': fields.get('PRODUCT CATEGORIES', []),
+                    'net_30_available': fields.get('NET 30 AVAILABLE', False),
                     'overall_rating': rating,
-                    'typical_margin': fields.get('Typical Margin (%)', 0),
-                    'contact_email': fields.get('Primary Contact Email', ''),
-                    'phone': fields.get('Primary Contact Phone', ''),
-                    'relationship_stage': fields.get('Relationship Stage', ''),
-                    'government_supplier': fields.get('Government Supplier', False)
+                    'typical_margin': fields.get('TYPICAL MARGIN (%)', 0),
+                    'contact_email': fields.get('PRIMARY CONTACT EMAIL', ''),
+                    'phone': fields.get('PRIMARY CONTACT PHONE', ''),
+                    'relationship_stage': fields.get('RELATIONSHIP STAGE', ''),
+                    'government_supplier': fields.get('GOVERNMENT SUPPLIER', False)
                 })
             
             # Sort by rating desc
@@ -4161,20 +4161,20 @@ class GPSSSupplierMiner:
                         products = self._extract_text(supplier_elem, '.products, .categories, .capabilities')
                         
                         if company_name and company_name.strip():
-                            results.append({
-                                'Company Name': company_name.strip(),
-                                'Location': location.strip() if location else '',
-                                'Primary Contact Phone': phone.strip() if phone else '',
-                                'Website': website if website else '',
-                                'Description': description.strip() if description else '',
-                                'Product Keywords': (products.strip() if products else product),
-                                'Discovery Method': 'ThomasNet',
-                                'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
-                                'Discovered By': 'NEXUS Auto-Mining',
-                                'Business Status': 'Prospective',
-                                'Relationship Stage': 'Discovered',
-                                'Source Notes': f'Found via ThomasNet search for "{product}"'
-                            })
+                        results.append({
+                            'COMPANY NAME': company_name.strip(),
+                            'LOCATION': location.strip() if location else '',
+                            'PRIMARY CONTACT PHONE': phone.strip() if phone else '',
+                            'WEBSITE': website if website else '',
+                            'DESCRIPTION': description.strip() if description else '',
+                            'PRODUCT KEYWORDS': (products.strip() if products else product),
+                            'DISCOVERY METHOD': 'ThomasNet',
+                            'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                            'DISCOVERED BY': 'NEXUS Auto-Mining',
+                            'BUSINESS STATUS': 'Prospective',
+                            'RELATIONSHIP STAGE': 'Discovered',
+                            'SOURCE NOTES': f'Found via ThomasNet search for "{product}"'
+                        })
                             print(f"    ✓ {company_name.strip()}")
                     
                     except Exception as e:
@@ -4283,16 +4283,16 @@ class GPSSSupplierMiner:
                             if company_info and company_info.get('company_name'):
                                 seen_domains.add(domain)
                                 results.append({
-                                    'Company Name': company_info['company_name'],
-                                    'Website': link,
-                                    'Description': snippet[:500],
-                                    'Product Keywords': product,
-                                    'Discovery Method': 'Google Search',
-                                    'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
-                                    'Discovered By': 'NEXUS Auto-Mining',
-                                    'Business Status': 'Prospective',
-                                    'Relationship Stage': 'Discovered',
-                                    'Source Notes': f'Found via Google search for "{query}"'
+                                    'COMPANY NAME': company_info['company_name'],
+                                    'WEBSITE': link,
+                                    'DESCRIPTION': snippet[:500],
+                                    'PRODUCT KEYWORDS': product,
+                                    'DISCOVERY METHOD': 'Google Search',
+                                    'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                    'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                    'BUSINESS STATUS': 'Prospective',
+                                    'RELATIONSHIP STAGE': 'Discovered',
+                                    'SOURCE NOTES': f'Found via Google search for "{query}"'
                                 })
                                 print(f"  ✓ {company_info['company_name']}")
                     
@@ -4389,17 +4389,17 @@ Return ONLY valid JSON, no other text."""
                         vendors_seen.add(vendor_name)
                         
                         results.append({
-                            'Company Name': vendor_name,
-                            'GSA Contract Holder': True,
-                            'GSA Schedule Number': item.get('schedule', ''),
-                            'Product Keywords': item.get('description', product)[:500],
-                            'Government Supplier': True,
-                            'Discovery Method': 'GSA Advantage',
-                            'Discovery Date': datetime.now().strftime('%Y-%m-%d'),
-                            'Discovered By': 'NEXUS Auto-Mining',
-                            'Business Status': 'Active',
-                            'Relationship Stage': 'Discovered',
-                            'Source Notes': f'GSA Advantage verified supplier for "{product}"'
+                            'COMPANY NAME': vendor_name,
+                            'GSA CONTRACT HOLDER': True,
+                            'GSA SCHEDULE NUMBER': item.get('schedule', ''),
+                            'PRODUCT KEYWORDS': item.get('description', product)[:500],
+                            'GOVERNMENT SUPPLIER': True,
+                            'DISCOVERY METHOD': 'GSA Advantage',
+                            'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                            'DISCOVERED BY': 'NEXUS Auto-Mining',
+                            'BUSINESS STATUS': 'Active',
+                            'RELATIONSHIP STAGE': 'Discovered',
+                            'SOURCE NOTES': f'GSA Advantage verified supplier for "{product}"'
                         })
                         print(f"  ✓ {vendor_name} (GSA Schedule)")
                         
@@ -4436,14 +4436,14 @@ Return ONLY valid JSON, no other text."""
         """
         prompt = f"""Score this supplier for government contract fulfillment (0-100).
 
-Company: {supplier.get('Company Name', 'Unknown')}
-Location: {supplier.get('Location', 'Unknown')}
-Website: {supplier.get('Website', 'Unknown')}
-Phone: {supplier.get('Primary Contact Phone', 'Unknown')}
-Products: {supplier.get('Product Keywords', 'Unknown')}
-Description: {supplier.get('Description', 'Unknown')[:200]}
-GSA Contract: {supplier.get('GSA Contract Holder', False)}
-Government Supplier: {supplier.get('Government Supplier', False)}
+Company: {supplier.get('COMPANY NAME', 'Unknown')}
+Location: {supplier.get('LOCATION', 'Unknown')}
+Website: {supplier.get('WEBSITE', 'Unknown')}
+Phone: {supplier.get('PRIMARY CONTACT PHONE', 'Unknown')}
+Products: {supplier.get('PRODUCT KEYWORDS', 'Unknown')}
+Description: {supplier.get('DESCRIPTION', 'Unknown')[:200]}
+GSA Contract: {supplier.get('GSA CONTRACT HOLDER', False)}
+Government Supplier: {supplier.get('GOVERNMENT SUPPLIER', False)}
 
 Score based on:
 1. Has contact info (phone/email/website) = +20 points
@@ -4557,8 +4557,8 @@ Return ONLY a number 0-100, nothing else."""
             # AI qualification
             print(f"  Scoring: {supplier['Company Name'][:50]}...")
             score = self._ai_qualify_supplier(supplier)
-            supplier['AI Score'] = score
-            supplier['ai_score'] = score  # For sorting
+                supplier['AI SCORE'] = score
+                supplier['ai_score'] = score  # For sorting
             
             print(f"    Score: {score}/100", end='')
             
@@ -4567,12 +4567,12 @@ Return ONLY a number 0-100, nothing else."""
                 try:
                     # Check for duplicates
                     existing = self.airtable.search_records(
-                        'GPSS Suppliers',
-                        formula=f"{{Company Name}} = '{supplier['Company Name']}'"
+                        'GPSS SUPPLIERS',
+                        formula=f"{{COMPANY NAME}} = '{supplier['COMPANY NAME']}'"
                     )
                     
                     if not existing:
-                        self.airtable.create_record('GPSS Suppliers', supplier)
+                        self.airtable.create_record('GPSS SUPPLIERS', supplier)
                         stats['auto_imported'] += 1
                         print(f" → ✅ AUTO-IMPORTED")
                         qualified.append(supplier)
@@ -4684,21 +4684,21 @@ Return ONLY a number 0-100, nothing else."""
         """
         try:
             # Required fields check
-            if not supplier_data.get('Company Name'):
-                raise ValueError("Company Name is required")
+            if not supplier_data.get('COMPANY NAME'):
+                raise ValueError("COMPANY NAME is required")
             
             # Set defaults
-            if 'Business Status' not in supplier_data:
-                supplier_data['Business Status'] = 'Prospective'
-            if 'Relationship Stage' not in supplier_data:
-                supplier_data['Relationship Stage'] = 'Discovered'
-            if 'Discovery Date' not in supplier_data:
-                supplier_data['Discovery Date'] = datetime.now().isoformat()
+            if 'BUSINESS STATUS' not in supplier_data:
+                supplier_data['BUSINESS STATUS'] = 'Prospective'
+            if 'RELATIONSHIP STAGE' not in supplier_data:
+                supplier_data['RELATIONSHIP STAGE'] = 'Discovered'
+            if 'DISCOVERY DATE' not in supplier_data:
+                supplier_data['DISCOVERY DATE'] = datetime.now().isoformat()
             
             # Create in Airtable
-            record = self.airtable.create_record('GPSS Suppliers', supplier_data)
+            record = self.airtable.create_record('GPSS SUPPLIERS', supplier_data)
             
-            print(f"Created supplier: {supplier_data.get('Company Name')}")
+            print(f"Created supplier: {supplier_data.get('COMPANY NAME')}")
             
             return record
             
@@ -4718,7 +4718,7 @@ Return ONLY a number 0-100, nothing else."""
             Updated record
         """
         try:
-            record = self.airtable.update_record('GPSS Suppliers', supplier_id, updates)
+            record = self.airtable.update_record('GPSS SUPPLIERS', supplier_id, updates)
             return record
         except Exception as e:
             print(f"Error updating supplier: {e}")
@@ -4727,7 +4727,7 @@ Return ONLY a number 0-100, nothing else."""
     def get_supplier(self, supplier_id: str) -> Optional[Dict]:
         """Get supplier by ID"""
         try:
-            suppliers = self.airtable.get_all_records('GPSS Suppliers')
+            suppliers = self.airtable.get_all_records('GPSS SUPPLIERS')
             for supplier in suppliers:
                 if supplier.get('id') == supplier_id:
                     return supplier
@@ -4779,14 +4779,14 @@ Return ONLY a number 0-100, nothing else."""
                             supplier_data = dict(row)
                         
                         # Add import metadata
-                        supplier_data['Discovery Method'] = 'CSV Import'
-                        supplier_data['Discovery Date'] = datetime.now().strftime('%Y-%m-%d')
-                        supplier_data['Discovered By'] = 'NEXUS CSV Import'
-                        supplier_data['Business Status'] = supplier_data.get('Business Status', 'Prospective')
-                        supplier_data['Relationship Stage'] = supplier_data.get('Relationship Stage', 'Discovered')
+                        supplier_data['DISCOVERY METHOD'] = 'CSV Import'
+                        supplier_data['DISCOVERY DATE'] = datetime.now().strftime('%Y-%m-%d')
+                        supplier_data['DISCOVERED BY'] = 'NEXUS CSV Import'
+                        supplier_data['BUSINESS STATUS'] = supplier_data.get('BUSINESS STATUS', 'Prospective')
+                        supplier_data['RELATIONSHIP STAGE'] = supplier_data.get('RELATIONSHIP STAGE', 'Discovered')
                         
                         # Check if company name exists
-                        company_name = supplier_data.get('Company Name', '')
+                        company_name = supplier_data.get('COMPANY NAME', '')
                         if not company_name:
                             errors.append(f"Row {row_num}: Missing company name")
                             skipped += 1
@@ -4794,15 +4794,15 @@ Return ONLY a number 0-100, nothing else."""
                         
                         # Check for duplicates
                         existing = self.airtable.search_records(
-                            'GPSS Suppliers',
-                            formula=f"{{Company Name}} = '{company_name}'"
+                            'GPSS SUPPLIERS',
+                            formula=f"{{COMPANY NAME}} = '{company_name}'"
                         )
                         
                         if existing:
                             print(f"  ⏭️  Row {row_num}: {company_name} - Already exists")
                             skipped += 1
                         else:
-                            self.airtable.create_record('GPSS Suppliers', supplier_data)
+                            self.airtable.create_record('GPSS SUPPLIERS', supplier_data)
                             print(f"  ✅ Row {row_num}: {company_name} - Imported")
                             imported += 1
                     
