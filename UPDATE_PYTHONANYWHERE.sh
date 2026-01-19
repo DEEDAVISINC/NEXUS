@@ -1,15 +1,20 @@
 #!/bin/bash
-# Quick command to update PythonAnywhere backend
+# Quick update script for PythonAnywhere
 
-echo "🔄 To update your PythonAnywhere backend:"
+echo "🚀 Updating NEXUS Backend on PythonAnywhere..."
 echo ""
-echo "1. Go to: https://www.pythonanywhere.com"
-echo "2. Click 'Consoles' → Open your Bash console"
-echo "3. Run these commands:"
+
+cd ~/nexus-backend || exit
+
+echo "📥 Pulling latest code..."
+git pull origin main
+
 echo ""
-echo "cd ~/nexus-backend"
-echo "git pull origin main"
+echo "📦 Installing dependencies..."
+pip install python-dateutil --quiet
+
 echo ""
-echo "4. Go to 'Web' tab and click green 'Reload' button"
+echo "✅ Update complete!"
 echo ""
-echo "✅ Your AI Copilot will now be the ultimate NEXUS guide!"
+echo "👉 NOW: Go to Web tab → Click RELOAD button"
+echo ""
