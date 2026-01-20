@@ -11,6 +11,10 @@ from pyairtable import Api
 from datetime import datetime
 import re
 from typing import Dict, List, Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # =====================================================================
 # CONFIGURATION
