@@ -93,12 +93,26 @@ npm run build
 
 ## 6. Local Testing Complete
 
+### **Basic Functionality:**
 - [ ] Backend runs locally (`python api_server.py`)
 - [ ] Frontend runs locally (`npm start`)
 - [ ] Health endpoint works: `http://localhost:8000/health`
 - [ ] Frontend connects to backend
-- [ ] All systems tested (GPSS, ATLAS, DDCSS, etc.)
 - [ ] No console errors in browser
+
+### **Core Systems:**
+- [ ] GPSS system tested
+- [ ] ATLAS system tested
+- [ ] DDCSS system tested
+- [ ] LBPC system tested
+- [ ] GBIS system tested
+
+### **New Systems (2026):**
+- [ ] AI Recommendation system tested (`test_ai_recommendations.py`)
+- [ ] Subcontractor system tested (find, RFQ, quote endpoints)
+- [ ] Fulfillment system tested (`test_fulfillment_system.py`)
+- [ ] Officer Outreach tested (`contracting_officer_outreach.py`)
+- [ ] Financial tracking verified (Invoices + Expenses)
 
 **Test locally:**
 ```bash
@@ -106,8 +120,13 @@ npm run build
 cd "/Users/deedavis/NEXUS BACKEND"
 python api_server.py
 
-# Terminal 2: Start frontend
-cd "/Users/deedavis/NEXUS BACKEND/nexus-frontend"
+# Terminal 2: Test new systems
+python test_ai_recommendations.py
+python test_fulfillment_system.py
+python contracting_officer_outreach.py
+
+# Terminal 3: Start frontend (if needed)
+cd nexus-frontend
 npm start
 
 # Visit: http://localhost:3000
@@ -159,24 +178,40 @@ grep -r "sk-ant-api" . --exclude-dir=node_modules --exclude-dir=.git
 ## 9. Airtable Setup
 
 - [ ] Airtable base exists
-- [ ] All required tables created:
-  - [ ] GPSS_Opportunities
-  - [ ] GPSS_Proposals
-  - [ ] GPSS_Contacts
-  - [ ] GPSS_Products
-  - [ ] ATLAS_Projects
-  - [ ] ATLAS_Tasks
-  - [ ] DDCSS_Prospects
-  - [ ] Invoices
-  - [ ] LBPC_Leads
-  - [ ] GBIS_Opportunities
 - [ ] API access enabled
 - [ ] Base ID copied
 
+### **Core Tables:**
+- [ ] GPSS OPPORTUNITIES
+- [ ] GPSS PROPOSALS
+- [ ] GPSS CONTACTS
+- [ ] GPSS PRODUCTS
+- [ ] GPSS SUPPLIERS
+- [ ] ATLAS Projects
+- [ ] ATLAS Tasks
+- [ ] DDCSS Prospects
+- [ ] Invoices / VERTEX INVOICES
+- [ ] LBPC Leads
+- [ ] GBIS Opportunities
+
+### **New Tables (2026):** ⭐
+- [ ] GPSS SUBCONTRACTORS
+- [ ] GPSS SUBCONTRACTOR QUOTES
+- [ ] GPSS Teaming Arrangements
+- [ ] FULFILLMENT CONTRACTS
+- [ ] FULFILLMENT DELIVERIES
+- [ ] FULFILLMENT INVENTORY
+- [ ] FULFILLMENT PURCHASE ORDERS
+- [ ] VERTEX EXPENSES
+- [ ] AI RECOMMENDATIONS
+- [ ] COMPANY CAPABILITIES
+- [ ] Officer Outreach Tracking
+
 **Verify:**
 - Open Airtable base
-- Check all tables exist
+- Check all tables exist (especially new 2026 tables)
 - Test API key works
+- Verify field names match documentation
 
 ---
 
@@ -213,6 +248,7 @@ grep -r "sk-ant-api" . --exclude-dir=node_modules --exclude-dir=.git
 
 After deployment, test:
 
+### **Core Systems:**
 - [ ] Landing page loads
 - [ ] No console errors
 - [ ] GPSS system works
@@ -223,6 +259,73 @@ After deployment, test:
 - [ ] AI Copilot responds
 - [ ] Invoice generation works
 - [ ] Data saves to Airtable
+
+### **AI Recommendation System:** ⭐ NEW
+- [ ] AI capability gap analysis works
+- [ ] AI recommends subcontractors
+- [ ] AI recommends suppliers
+- [ ] Approve/deny workflow functions
+- [ ] Recommendations save to Airtable
+- [ ] Compliance calculator works
+
+**Test script:**
+```bash
+python test_ai_recommendations.py
+```
+
+### **Subcontractor System:** ⭐ NEW
+- [ ] Find subcontractors endpoint works
+- [ ] Search existing subcontractors works
+- [ ] Generate RFQ emails
+- [ ] Send bulk RFQs
+- [ ] Score quotes (AI scoring)
+- [ ] Calculate markup and bids
+- [ ] Generate bid summaries
+
+**Test endpoints:**
+```bash
+# Test find subcontractors
+curl -X POST http://localhost:5000/gpss/subcontractors/find \
+  -d '{"service_type": "janitorial", "location": "Virginia"}'
+
+# Test RFQ generation  
+curl -X POST http://localhost:5000/gpss/subcontractors/rfq/generate \
+  -d '{"subcontractor": {...}, "opportunity": {...}}'
+```
+
+### **Fulfillment System:** ⭐ NEW
+- [ ] Create fulfillment contract works
+- [ ] Get active contracts
+- [ ] Track deliveries
+- [ ] Update delivery status
+- [ ] Inventory health check works
+- [ ] Create purchase orders
+- [ ] Receive POs (updates inventory)
+- [ ] Dashboard displays correctly
+
+**Test script:**
+```bash
+python test_fulfillment_system.py
+```
+
+### **Officer Outreach System:** ⭐ NEW
+- [ ] Finds closed opportunities
+- [ ] Generates introduction letters
+- [ ] ProposalBio™ scores letters
+- [ ] Saves to Airtable
+- [ ] Links to opportunities
+- [ ] Status tracking works
+
+**Test script:**
+```bash
+python contracting_officer_outreach.py
+```
+
+### **Financial Tracking:**
+- [ ] VERTEX Invoices create correctly
+- [ ] VERTEX Expenses track COGS
+- [ ] Profit calculations accurate
+- [ ] Invoice/expense linking works
 
 ---
 

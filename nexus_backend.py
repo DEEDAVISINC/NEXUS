@@ -5,10 +5,11 @@ Complete AI-powered business automation system
 
 import os
 import json
+import time
 import anthropic
 import requests
 from pyairtable import Api
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
@@ -2731,6 +2732,494 @@ Generate the invoice details now:"""
             }
 
 # =====================================================================
+# AI RECOMMENDATION & APPROVAL SYSTEM
+# =====================================================================
+
+class AIRecommendationAgent:
+    """
+    AI Recommendation Agent - Suggests actions, user approves/denies
+    
+    Core Philosophy:
+    - AI analyzes and suggests the BEST option with reasoning
+    - User reviews and decides: Yay, Nay, or Modify
+    - System learns from user decisions to improve over time
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+    
+    def analyze_capability_gap(self, opportunity_id: str) -> Dict:
+        """
+        Analyze RFP requirements vs company capabilities
+        Returns: Gap analysis with recommendation to self-perform or partner
+        """
+        try:
+            # Get opportunity details
+            opp_record = self.airtable.get_table("GPSS OPPORTUNITIES").get(opportunity_id)
+            opp = opp_record['fields']
+            
+            # Get company capabilities
+            capabilities = self._get_company_capabilities()
+            
+            # AI analyzes the gap
+            prompt = f"""
+            Analyze this government contract opportunity and determine if we should self-perform or partner with a subcontractor.
+            
+            OPPORTUNITY:
+            Title: {opp.get('TITLE', 'N/A')}
+            Description: {opp.get('DESCRIPTION', 'N/A')}
+            Type: {opp.get('Type', 'N/A')}
+            Set-Aside: {opp.get('SET_ASIDE', 'N/A')}
+            
+            OUR COMPANY CAPABILITIES:
+            {json.dumps(capabilities, indent=2)}
+            
+            ANALYZE:
+            1. What skills/capabilities are required for this contract?
+            2. What can WE do (list specific capabilities we have)?
+            3. What do we NEED (skills/capabilities we're missing)?
+            4. Recommendation: Self-perform 100% OR Partner with subcontractor?
+            5. If partner recommended: What % should we do vs subcontractor? (Must meet 50% self-performance rule for small business set-asides)
+            6. Confidence level (0-100): How confident are you in this recommendation?
+            7. Risk assessment: What are the risks of each approach?
+            
+            Return JSON format:
+            {{
+                "required_capabilities": ["skill1", "skill2", ...],
+                "we_can_do": ["skill1", ...],
+                "we_can_do_percentage": 70,
+                "we_need": ["skill3", ...],
+                "recommendation": "self_perform" or "partner",
+                "recommended_workshare": {{"us": 60, "subcontractor": 40}},
+                "confidence": 85,
+                "reasoning": "Detailed explanation...",
+                "risks_self_perform": ["risk1", ...],
+                "risks_partner": ["risk1", ...],
+                "compliance_check": {{"meets_50_percent_rule": true, "notes": "..."}}
+            }}
+            """
+            
+            analysis = self.ai.generate_with_json(prompt, model="claude-sonnet-4-20250514")
+            
+            # Add metadata
+            analysis['opportunity_id'] = opportunity_id
+            analysis['analyzed_at'] = datetime.now().isoformat()
+            analysis['status'] = 'pending_approval'
+            
+            # Store recommendation for tracking
+            recommendation_record = self.airtable.create_record("AI RECOMMENDATIONS", {
+                "OPPORTUNITY": [opportunity_id],
+                "TYPE": "Capability Gap Analysis",
+                "RECOMMENDATION": analysis.get('recommendation', '').upper(),
+                "CONFIDENCE": analysis.get('confidence', 0),
+                "REASONING": analysis.get('reasoning', ''),
+                "STATUS": "Pending Approval",
+                "CREATED": datetime.now().isoformat()
+            })
+            
+            analysis['recommendation_id'] = recommendation_record['id']
+            
+            return {
+                "success": True,
+                "analysis": analysis,
+                "message": "AI recommendation ready for your review"
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to analyze capability gap"
+            }
+    
+    def recommend_subcontractors(self, opportunity_id: str, needed_skills: List[str], contract_value: float = None) -> Dict:
+        """
+        Find and rank subcontractors based on needed skills
+        Returns: Top 5 recommended subcontractors with AI reasoning
+        """
+        try:
+            # Search subcontractor database
+            all_subs = self.airtable.get_all_records("GPSS SUBCONTRACTORS")
+            
+            if not all_subs:
+                return {
+                    "success": False,
+                    "message": "No subcontractors found in database. Please add subcontractors first.",
+                    "recommended_subcontractors": []
+                }
+            
+            # AI scores each subcontractor
+            scored_subs = []
+            for sub_record in all_subs:
+                sub = sub_record['fields']
+                
+                # Skip if not available
+                if sub.get('STATUS', '').lower() not in ['active', 'available', '']:
+                    continue
+                
+                # AI scores this subcontractor
+                score_prompt = f"""
+                Score this subcontractor for a contract requiring: {', '.join(needed_skills)}
+                Contract value: ${contract_value if contract_value else 'Unknown'}
+                
+                SUBCONTRACTOR:
+                Name: {sub.get('COMPANY_NAME', 'N/A')}
+                Capabilities: {sub.get('CAPABILITIES', 'N/A')}
+                Past Performance: {sub.get('PAST_PERFORMANCE', 'N/A')}
+                Rating: {sub.get('RATING', 'N/A')}/5
+                Location: {sub.get('LOCATION', 'N/A')}
+                Certifications: {sub.get('CERTIFICATIONS', 'N/A')}
+                
+                Score 0-100 based on:
+                - Skills match (most important)
+                - Past performance and rating
+                - Availability
+                - Certifications
+                
+                Return JSON:
+                {{
+                    "score": 85,
+                    "reason": "Strong cybersecurity expertise with 5 similar contracts completed. 4.8★ rating.",
+                    "strengths": ["skill1", "skill2"],
+                    "concerns": ["concern1"] or []
+                }}
+                """
+                
+                try:
+                    scoring = self.ai.generate_with_json(score_prompt, model="claude-sonnet-4-20250514")
+                    scored_subs.append({
+                        "id": sub_record['id'],
+                        "name": sub.get('COMPANY_NAME', 'Unknown'),
+                        "score": scoring.get('score', 0),
+                        "reason": scoring.get('reason', ''),
+                        "strengths": scoring.get('strengths', []),
+                        "concerns": scoring.get('concerns', []),
+                        "capabilities": sub.get('CAPABILITIES', ''),
+                        "rating": sub.get('RATING', 'N/A'),
+                        "location": sub.get('LOCATION', ''),
+                        "contact": sub.get('CONTACT_EMAIL', '')
+                    })
+                except Exception as e:
+                    print(f"Error scoring subcontractor {sub.get('COMPANY_NAME')}: {e}")
+                    continue
+            
+            # Sort by score
+            scored_subs.sort(key=lambda x: x['score'], reverse=True)
+            top_5 = scored_subs[:5]
+            
+            # Store recommendation
+            if top_5:
+                recommendation_record = self.airtable.create_record("AI RECOMMENDATIONS", {
+                    "OPPORTUNITY": [opportunity_id],
+                    "TYPE": "Subcontractor Recommendation",
+                    "RECOMMENDATION": f"Top choice: {top_5[0]['name']}",
+                    "CONFIDENCE": top_5[0]['score'],
+                    "REASONING": top_5[0]['reason'],
+                    "STATUS": "Pending Approval",
+                    "CREATED": datetime.now().isoformat()
+                })
+                
+                return {
+                    "success": True,
+                    "recommended_subcontractors": top_5,
+                    "total_found": len(scored_subs),
+                    "recommendation_id": recommendation_record['id'],
+                    "ai_top_pick": top_5[0] if top_5 else None,
+                    "message": f"AI analyzed {len(scored_subs)} subcontractors. Top recommendation: {top_5[0]['name']} (score: {top_5[0]['score']}/100)"
+                }
+            else:
+                return {
+                    "success": False,
+                    "message": "No suitable subcontractors found",
+                    "recommended_subcontractors": []
+                }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to recommend subcontractors"
+            }
+    
+    def recommend_suppliers(self, opportunity_id: str, product_description: str) -> Dict:
+        """
+        Find and rank suppliers for product-based opportunities
+        Returns: Top 10 recommended suppliers with AI reasoning
+        """
+        try:
+            # Search supplier database
+            all_suppliers = self.airtable.get_all_records("GPSS SUPPLIERS")
+            
+            if not all_suppliers:
+                return {
+                    "success": False,
+                    "message": "No suppliers found. Run supplier mining first.",
+                    "recommended_suppliers": []
+                }
+            
+            # AI scores each supplier
+            scored_suppliers = []
+            for sup_record in all_suppliers:
+                sup = sup_record['fields']
+                
+                # AI scores this supplier
+                score_prompt = f"""
+                Score this supplier for product: {product_description}
+                
+                SUPPLIER:
+                Name: {sup.get('COMPANY_NAME', 'N/A')}
+                Products: {sup.get('PRODUCTS', 'N/A')}
+                Category: {sup.get('CATEGORY', 'N/A')}
+                Rating: {sup.get('RATING', 'N/A')}
+                Payment Terms: {sup.get('PAYMENT_TERMS', 'N/A')}
+                GSA Schedule: {sup.get('GSA_SCHEDULE', 'N/A')}
+                
+                Score 0-100 based on:
+                - Product match
+                - GSA status (important for government contracts)
+                - Payment terms (Net 30 preferred)
+                - Rating/reputation
+                
+                Return JSON:
+                {{
+                    "score": 88,
+                    "reason": "Perfect product match, GSA approved, Net 30 terms",
+                    "estimated_pricing": "competitive" or "above_market" or "below_market"
+                }}
+                """
+                
+                try:
+                    scoring = self.ai.generate_with_json(score_prompt, model="claude-sonnet-4-20250514")
+                    scored_suppliers.append({
+                        "id": sup_record['id'],
+                        "name": sup.get('COMPANY_NAME', 'Unknown'),
+                        "score": scoring.get('score', 0),
+                        "reason": scoring.get('reason', ''),
+                        "pricing_estimate": scoring.get('estimated_pricing', 'unknown'),
+                        "gsa_schedule": sup.get('GSA_SCHEDULE', 'No'),
+                        "payment_terms": sup.get('PAYMENT_TERMS', 'Unknown'),
+                        "rating": sup.get('RATING', 'N/A'),
+                        "contact": sup.get('CONTACT_EMAIL', '')
+                    })
+                except Exception as e:
+                    print(f"Error scoring supplier {sup.get('COMPANY_NAME')}: {e}")
+                    continue
+            
+            # Sort by score
+            scored_suppliers.sort(key=lambda x: x['score'], reverse=True)
+            top_10 = scored_suppliers[:10]
+            
+            # Store recommendation
+            if top_10:
+                recommendation_record = self.airtable.create_record("AI RECOMMENDATIONS", {
+                    "OPPORTUNITY": [opportunity_id],
+                    "TYPE": "Supplier Recommendation",
+                    "RECOMMENDATION": f"Top choice: {top_10[0]['name']}",
+                    "CONFIDENCE": top_10[0]['score'],
+                    "REASONING": top_10[0]['reason'],
+                    "STATUS": "Pending Approval",
+                    "CREATED": datetime.now().isoformat()
+                })
+                
+                return {
+                    "success": True,
+                    "recommended_suppliers": top_10,
+                    "total_found": len(scored_suppliers),
+                    "recommendation_id": recommendation_record['id'],
+                    "ai_top_pick": top_10[0] if top_10 else None,
+                    "message": f"AI analyzed {len(scored_suppliers)} suppliers. Top recommendation: {top_10[0]['name']} (score: {top_10[0]['score']}/100)"
+                }
+            else:
+                return {
+                    "success": False,
+                    "message": "No suitable suppliers found",
+                    "recommended_suppliers": []
+                }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to recommend suppliers"
+            }
+    
+    def approve_recommendation(self, recommendation_id: str, user_decision: str, user_notes: str = "", selected_id: str = None) -> Dict:
+        """
+        User approves, denies, or modifies AI recommendation
+        
+        Args:
+            recommendation_id: The AI recommendation record ID
+            user_decision: "approved", "denied", or "modified"
+            user_notes: User's reasoning for the decision
+            selected_id: If user picked different option, the ID of what they selected
+        """
+        try:
+            # Get recommendation
+            rec_record = self.airtable.get_table("AI RECOMMENDATIONS").get(recommendation_id)
+            rec = rec_record['fields']
+            
+            # Update status
+            updates = {
+                "STATUS": user_decision.capitalize(),
+                "USER_DECISION": user_decision.upper(),
+                "USER_NOTES": user_notes,
+                "DECIDED_AT": datetime.now().isoformat()
+            }
+            
+            if selected_id:
+                updates["SELECTED_OPTION"] = selected_id
+            
+            self.airtable.update_record("AI RECOMMENDATIONS", recommendation_id, updates)
+            
+            # Learn from decision (update confidence scoring)
+            self._learn_from_decision(recommendation_id, user_decision, rec)
+            
+            return {
+                "success": True,
+                "decision": user_decision,
+                "message": f"Recommendation {user_decision}. System learning from your decision."
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to process decision"
+            }
+    
+    def get_pending_recommendations(self, opportunity_id: str = None) -> Dict:
+        """Get all pending recommendations for review"""
+        try:
+            if opportunity_id:
+                formula = f"AND({{OPPORTUNITY}}='{opportunity_id}', {{STATUS}}='Pending Approval')"
+                recs = self.airtable.search_records("AI RECOMMENDATIONS", formula)
+            else:
+                formula = "{STATUS}='Pending Approval'"
+                recs = self.airtable.search_records("AI RECOMMENDATIONS", formula)
+            
+            return {
+                "success": True,
+                "pending_recommendations": [{"id": r['id'], **r['fields']} for r in recs],
+                "count": len(recs)
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to get recommendations"
+            }
+    
+    def calculate_compliance(self, contract_value: float, your_work_value: float, sub_work_value: float) -> Dict:
+        """
+        Calculate workshare percentages and compliance with 50% self-performance rule
+        """
+        try:
+            total = your_work_value + sub_work_value
+            
+            if total == 0:
+                return {
+                    "success": False,
+                    "message": "Total value cannot be zero"
+                }
+            
+            your_percentage = (your_work_value / total) * 100
+            sub_percentage = (sub_work_value / total) * 100
+            margin = contract_value - total
+            margin_percentage = (margin / contract_value) * 100 if contract_value > 0 else 0
+            
+            meets_50_rule = your_percentage >= 50
+            
+            return {
+                "success": True,
+                "compliance": {
+                    "contract_value": contract_value,
+                    "your_work": your_work_value,
+                    "your_percentage": round(your_percentage, 1),
+                    "subcontractor_work": sub_work_value,
+                    "subcontractor_percentage": round(sub_percentage, 1),
+                    "margin": margin,
+                    "margin_percentage": round(margin_percentage, 1),
+                    "meets_50_percent_rule": meets_50_rule,
+                    "compliant": meets_50_rule,
+                    "status": "✅ Compliant" if meets_50_rule else "❌ Non-Compliant",
+                    "message": f"You perform {round(your_percentage, 1)}% - " + 
+                              ("Meets 50% rule" if meets_50_rule else "FAILS 50% rule - adjust workshare")
+                }
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Failed to calculate compliance"
+            }
+    
+    def _get_company_capabilities(self) -> Dict:
+        """Get company capabilities from database"""
+        try:
+            # Try to get from COMPANY CAPABILITIES table
+            capabilities = self.airtable.get_all_records("COMPANY CAPABILITIES")
+            
+            if capabilities:
+                return {
+                    "capabilities": [
+                        {
+                            "name": cap['fields'].get('CAPABILITY_NAME', ''),
+                            "level": cap['fields'].get('SKILL_LEVEL', ''),
+                            "capacity": cap['fields'].get('CAPACITY', '')
+                        }
+                        for cap in capabilities
+                    ]
+                }
+            else:
+                # Default capabilities if table doesn't exist
+                return {
+                    "capabilities": [
+                        {"name": "Project Management", "level": "Expert", "capacity": "High"},
+                        {"name": "Government Contracting", "level": "Expert", "capacity": "High"},
+                        {"name": "Proposal Writing", "level": "Expert", "capacity": "High"},
+                        {"name": "Product Sourcing", "level": "Expert", "capacity": "High"}
+                    ],
+                    "note": "Using default capabilities. Create COMPANY CAPABILITIES table to customize."
+                }
+        except Exception as e:
+            # Return defaults if table doesn't exist yet
+            return {
+                "capabilities": [
+                    {"name": "Project Management", "level": "Expert", "capacity": "High"},
+                    {"name": "Government Contracting", "level": "Expert", "capacity": "High"}
+                ],
+                "note": "COMPANY CAPABILITIES table not found. Using defaults."
+            }
+    
+    def _learn_from_decision(self, recommendation_id: str, user_decision: str, recommendation: Dict):
+        """Learn from user's decision to improve future recommendations"""
+        try:
+            # Track approval patterns
+            # This could be expanded to update scoring algorithms based on patterns
+            # For now, just log the decision for future analysis
+            
+            learning_data = {
+                "RECOMMENDATION_ID": recommendation_id,
+                "DECISION": user_decision.upper(),
+                "TYPE": recommendation.get('TYPE', ''),
+                "AI_CONFIDENCE": recommendation.get('CONFIDENCE', 0),
+                "TIMESTAMP": datetime.now().isoformat()
+            }
+            
+            # Store in learning table (if exists)
+            try:
+                self.airtable.create_record("AI LEARNING", learning_data)
+            except:
+                # Table doesn't exist yet - that's okay
+                pass
+                
+        except Exception as e:
+            print(f"Learning error: {e}")
+
+# =====================================================================
 # API ENDPOINTS (for Make.com webhooks)
 # =====================================================================
 
@@ -3994,6 +4483,67 @@ def handle_delete_invoice(invoice_id: str) -> Dict:
 
 
 # =====================================================================
+# AI RECOMMENDATION SYSTEM HANDLERS
+# =====================================================================
+
+def handle_analyze_capability_gap(opportunity_id: str) -> Dict:
+    """
+    Analyze opportunity and recommend self-perform vs partner approach
+    AI suggests best path, user approves/denies
+    """
+    agent = AIRecommendationAgent()
+    return agent.analyze_capability_gap(opportunity_id)
+
+
+def handle_recommend_subcontractors(opportunity_id: str, needed_skills: List[str], contract_value: float = None) -> Dict:
+    """
+    AI recommends top 5 subcontractors based on needed skills
+    Returns ranked list with reasoning for each
+    """
+    agent = AIRecommendationAgent()
+    return agent.recommend_subcontractors(opportunity_id, needed_skills, contract_value)
+
+
+def handle_recommend_suppliers(opportunity_id: str, product_description: str) -> Dict:
+    """
+    AI recommends top 10 suppliers for product-based opportunities
+    Returns ranked list with reasoning for each
+    """
+    agent = AIRecommendationAgent()
+    return agent.recommend_suppliers(opportunity_id, product_description)
+
+
+def handle_approve_recommendation(recommendation_id: str, user_decision: str, user_notes: str = "", selected_id: str = None) -> Dict:
+    """
+    User approves, denies, or modifies AI recommendation
+    System learns from the decision
+    
+    Args:
+        recommendation_id: ID of AI recommendation
+        user_decision: "approved", "denied", or "modified"
+        user_notes: User's reasoning
+        selected_id: If user picked different option
+    """
+    agent = AIRecommendationAgent()
+    return agent.approve_recommendation(recommendation_id, user_decision, user_notes, selected_id)
+
+
+def handle_get_pending_recommendations(opportunity_id: str = None) -> Dict:
+    """Get all pending AI recommendations awaiting user decision"""
+    agent = AIRecommendationAgent()
+    return agent.get_pending_recommendations(opportunity_id)
+
+
+def handle_calculate_compliance(contract_value: float, your_work_value: float, sub_work_value: float) -> Dict:
+    """
+    Calculate workshare percentages and check 50% rule compliance
+    Used for subcontracting compliance verification
+    """
+    agent = AIRecommendationAgent()
+    return agent.calculate_compliance(contract_value, your_work_value, sub_work_value)
+
+
+# =====================================================================
 # GPSS SUPPLIER MINING & AUTOMATED QUOTING SYSTEM
 # =====================================================================
 
@@ -5099,6 +5649,1132 @@ Return as JSON:
             
         except Exception as e:
             print(f"Error processing opportunity: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+
+# =====================================================================
+# SUBCONTRACTOR MINING & MANAGEMENT
+# =====================================================================
+
+class GPSSSubcontractorMiner:
+    """
+    Find and manage subcontractors in the area of each contract
+    
+    Core Strategy: Partner with subcontractors in each contract location
+    - Leverage their local expertise and past performance
+    - You manage as prime contractor (EDWOSB status)
+    - They execute work (local jobs, local knowledge)
+    
+    4 Core Functions:
+    1. Find Subcontractors (Google search by service + location)
+    2. Send RFQs (bulk email with scope)
+    3. Score Quotes (AI ranks responses 0-100)
+    4. Calculate Markup (add percentage, generate final bid)
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+    
+    # ============================================
+    # FUNCTION 1: FIND SUBCONTRACTORS IN AREA
+    # ============================================
+    
+    def find_subcontractors(self, service_type: str, location: str, max_results: int = 10) -> List[Dict]:
+        """
+        Find subcontractors in the area using Google Custom Search
+        
+        Args:
+            service_type: e.g. "aircraft wash", "janitorial services", "IT support"
+            location: e.g. "Virginia Beach VA", "San Antonio TX"
+            max_results: Maximum subcontractors to return
+            
+        Returns:
+            List of subcontractor dictionaries ready for Airtable
+        """
+        try:
+            api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+            cse_id = os.environ.get('GOOGLE_CSE_ID')
+            
+            if not api_key or not cse_id:
+                print("  ℹ️  Google CSE credentials not set. Cannot search for subcontractors.\n")
+                return []
+            
+            print(f"🔍 Searching for subcontractors: {service_type} in {location}")
+            results = []
+            seen_domains = set()
+            
+            # Build targeted search queries
+            queries = [
+                f'"{service_type}" "{location}"',
+                f'"{service_type}" contractor "{location}"',
+                f'"{service_type}" services "{location}"',
+                f'"{service_type}" government contract "{location}"'
+            ]
+            
+            for query in queries:
+                try:
+                    url = 'https://www.googleapis.com/customsearch/v1'
+                    params = {
+                        'key': api_key,
+                        'cx': cse_id,
+                        'q': query,
+                        'num': 10
+                    }
+                    
+                    response = requests.get(url, params=params, timeout=10)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        
+                        for item in data.get('items', []):
+                            title = item.get('title', '')
+                            snippet = item.get('snippet', '')
+                            link = item.get('link', '')
+                            
+                            # Extract domain to avoid duplicates
+                            from urllib.parse import urlparse
+                            domain = urlparse(link).netloc
+                            
+                            # Skip if we've already seen this domain
+                            if domain in seen_domains:
+                                continue
+                            
+                            # Skip non-business sites
+                            skip_domains = ['facebook.com', 'linkedin.com', 'yelp.com', 'yellowpages.com', 'bbb.org', 'wikipedia.org']
+                            if any(skip in domain for skip in skip_domains):
+                                continue
+                            
+                            # Use AI to extract company info
+                            company_info = self._ai_extract_subcontractor_info(title, snippet, link, service_type, location)
+                            
+                            if company_info and company_info.get('company_name'):
+                                seen_domains.add(domain)
+                                results.append({
+                                    'COMPANY NAME': company_info['company_name'],
+                                    'SERVICE TYPE': service_type,
+                                    'CITY': company_info.get('city', location.split(',')[0].strip()),
+                                    'STATE': company_info.get('state', location.split(',')[-1].strip()),
+                                    'WEBSITE': link,
+                                    'DESCRIPTION': snippet[:500],
+                                    'PHONE': company_info.get('phone', ''),
+                                    'EMAIL': company_info.get('email', ''),
+                                    'DISCOVERY METHOD': 'Google Search',
+                                    'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                    'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                    'RELATIONSHIP STATUS': 'Cold',
+                                    'SOURCE NOTES': f'Found via Google search for "{query}"'
+                                })
+                                print(f"  ✓ {company_info['company_name']}")
+                                
+                                if len(results) >= max_results:
+                                    break
+                    
+                    # Add small delay to respect rate limits
+                    time.sleep(0.5)
+                    
+                    if len(results) >= max_results:
+                        break
+                        
+                except Exception as e:
+                                print(f"  ⚠️  Error with query '{query}': {e}")
+                    continue
+            
+            print(f"  ✅ Found {len(results)} subcontractors in area\n")
+            return results
+            
+        except Exception as e:
+            print(f"  ❌ Error finding subcontractors: {e}\n")
+            return []
+    
+    def _ai_extract_subcontractor_info(self, title: str, snippet: str, url: str, service_type: str, location: str) -> Dict:
+        """Use AI to extract structured company information from search result"""
+        try:
+            prompt = f"""Extract company information from this Google search result.
+
+Title: {title}
+Snippet: {snippet}
+URL: {url}
+
+Service Type: {service_type}
+Location: {location}
+
+Extract and return ONLY valid JSON (no other text):
+{{
+  "company_name": "Company name",
+  "city": "City name",
+  "state": "State abbreviation (e.g. VA, TX)",
+  "phone": "Phone number if found, else empty string",
+  "email": "Email if found, else empty string"
+}}
+
+Rules:
+- Extract actual company name from title/snippet
+- If no company name found, return null
+- Keep phone/email empty string if not found
+- Return ONLY the JSON, nothing else"""
+            
+            response = self.ai.complete(prompt, max_tokens=200)
+            clean_response = response.strip()
+            
+            # Remove markdown code blocks if present
+            if clean_response.startswith('```'):
+                clean_response = re.sub(r'^```json\s*', '', clean_response)
+                clean_response = re.sub(r'```\s*$', '', clean_response)
+                clean_response = clean_response.strip()
+            
+            info = json.loads(clean_response)
+            return info if info.get('company_name') else None
+            
+        except Exception as e:
+            print(f"  ⚠️  AI extraction error: {e}")
+            return None
+    
+    def search_existing_subcontractors(self, service_type: str = None, location: str = None, 
+                                        min_rating: float = 0) -> List[Dict]:
+        """
+        Search existing subcontractor database
+        
+        Args:
+            service_type: Filter by service type
+            location: Filter by city or state
+            min_rating: Minimum reliability rating
+            
+        Returns:
+            List of matching subcontractor records
+        """
+        try:
+            providers = self.airtable.get_all_records('GPSS SUBCONTRACTORS')
+            
+            filtered = []
+            for provider in providers:
+                fields = provider.get('fields', {})
+                
+                # Filter by service type
+                if service_type:
+                    provider_service = fields.get('SERVICE TYPE', '').lower()
+                    if service_type.lower() not in provider_service:
+                        continue
+                
+                # Filter by location
+                if location:
+                    city = fields.get('CITY', '').lower()
+                    state = fields.get('STATE', '').lower()
+                    location_lower = location.lower()
+                    if location_lower not in city and location_lower not in state:
+                        continue
+                
+                # Filter by rating
+                rating = fields.get('RELIABILITY RATING', 0)
+                if rating < min_rating:
+                    continue
+                
+                filtered.append({
+                    'id': provider.get('id'),
+                    'company_name': fields.get('COMPANY NAME', ''),
+                    'service_type': fields.get('SERVICE TYPE', ''),
+                    'city': fields.get('CITY', ''),
+                    'state': fields.get('STATE', ''),
+                    'phone': fields.get('PHONE', ''),
+                    'email': fields.get('EMAIL', ''),
+                    'website': fields.get('WEBSITE', ''),
+                    'reliability_rating': rating,
+                    'response_rate': fields.get('RESPONSE RATE (%)', 0),
+                    'relationship_status': fields.get('RELATIONSHIP STATUS', ''),
+                    'contracts_won_together': fields.get('CONTRACTS WON TOGETHER', 0)
+                })
+            
+            # Sort by reliability rating and contracts won together
+            filtered.sort(key=lambda x: (x.get('contracts_won_together', 0), x.get('reliability_rating', 0)), reverse=True)
+            
+            return filtered
+            
+        except Exception as e:
+            print(f"Error searching subcontractors: {e}")
+            return []
+    
+    # ============================================
+    # FUNCTION 2: GENERATE & SEND RFQs
+    # ============================================
+    
+    def generate_rfq_email(self, subcontractor: Dict, opportunity: Dict, scope: str) -> Dict:
+        """
+        Generate personalized RFQ email for subcontractor in the area
+        
+        Args:
+            subcontractor: Subcontractor record
+            opportunity: Opportunity details
+            scope: Scope of work description
+            
+        Returns:
+            Dictionary with subject, body, and metadata
+        """
+        try:
+            company_name = subcontractor.get('company_name', subcontractor.get('COMPANY NAME', 'Company'))
+            service_type = opportunity.get('service_type', '')
+            location = opportunity.get('location', '')
+            contract_value = opportunity.get('value', 0)
+            agency = opportunity.get('agency', 'Federal Agency')
+            
+            prompt = f"""Generate a professional RFQ (Request for Quote) email for a subcontractor in the area.
+
+CONTEXT:
+- We are Dee Davis Inc., a certified EDWOSB (Economically Disadvantaged Women-Owned Small Business)
+- We're bidding on a federal contract
+- We want to partner with subcontractors in the area who have local expertise
+- This is a WIN-WIN: They get work, we manage the federal paperwork
+
+SUBCONTRACTOR:
+Company: {company_name}
+Service: {service_type}
+Location: {location}
+
+OPPORTUNITY:
+Agency: {agency}
+Service Needed: {service_type}
+Location: {location}
+Est. Value: ${contract_value:,}
+
+SCOPE OF WORK:
+{scope}
+
+Generate an email that:
+1. Introduces Dee Davis Inc. (EDWOSB, CAGE: 8UMX3)
+2. Explains the partnership opportunity (we prime, they execute)
+3. Emphasizes their LOCAL ADVANTAGE (they know the area, have local equipment/staff)
+4. Requests quote based on scope
+5. Professional but friendly tone
+6. Asks for response within 3-5 business days
+7. Includes: pricing, timeline, capabilities, past similar work
+
+Return as JSON:
+{{
+  "subject": "Federal Contract Partnership Opportunity - [Service] in [Location]",
+  "body": "Email body text with proper paragraphs"
+}}
+
+Return ONLY valid JSON, no other text."""
+            
+            response = self.ai.complete(prompt, max_tokens=1500)
+            clean_response = response.strip()
+            
+            # Remove markdown code blocks
+            if clean_response.startswith('```'):
+                clean_response = re.sub(r'^```json\s*', '', clean_response)
+                clean_response = re.sub(r'```\s*$', '', clean_response)
+                clean_response = clean_response.strip()
+            
+            email = json.loads(clean_response)
+            
+            return {
+                'subject': email.get('subject', f'Federal Contract Quote Request - {service_type}'),
+                'body': email.get('body', ''),
+                'to_email': subcontractor.get('email', subcontractor.get('EMAIL', '')),
+                'to_company': company_name,
+                'opportunity_id': opportunity.get('id', '')
+            }
+            
+        except Exception as e:
+            print(f"Error generating RFQ email: {e}")
+            # Fallback simple email
+            return {
+                'subject': f"Federal Contract Quote Request - {opportunity.get('service_type', 'Services')}",
+                'body': f"We are requesting a quote for {opportunity.get('service_type', 'services')} for a federal contract in {opportunity.get('location', 'your area')}.",
+                'to_email': subcontractor.get('email', subcontractor.get('EMAIL', '')),
+                'to_company': subcontractor.get('company_name', subcontractor.get('COMPANY NAME', '')),
+                'opportunity_id': opportunity.get('id', '')
+            }
+    
+    def send_rfqs_to_subcontractors(self, opportunity_id: str, subcontractor_ids: List[str], scope: str) -> Dict:
+        """
+        Send RFQs to multiple subcontractors at once
+        
+        Args:
+            opportunity_id: Airtable opportunity ID
+            subcontractor_ids: List of subcontractor IDs to contact
+            scope: Scope of work description
+            
+        Returns:
+            Summary of emails sent
+        """
+        try:
+            # Get opportunity details
+            opportunity = self.airtable.get_record('Opportunities', opportunity_id)
+            if not opportunity:
+                return {'error': 'Opportunity not found'}
+            
+            opp_fields = opportunity.get('fields', {})
+            
+            # Build opportunity dict for email generation
+            opp_data = {
+                'id': opportunity_id,
+                'service_type': opp_fields.get('SERVICE TYPE', ''),
+                'location': opp_fields.get('LOCATION', ''),
+                'value': opp_fields.get('Value', 0),
+                'agency': opp_fields.get('Agency', 'Federal Agency')
+            }
+            
+            emails_generated = []
+            
+            for subcontractor_id in subcontractor_ids:
+                try:
+                    # Get subcontractor details
+                    subcontractor = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+                    if not subcontractor:
+                        continue
+                    
+                    subcontractor_fields = subcontractor.get('fields', {})
+                    subcontractor_data = {
+                        'company_name': subcontractor_fields.get('COMPANY NAME', ''),
+                        'email': subcontractor_fields.get('EMAIL', ''),
+                        'service_type': subcontractor_fields.get('SERVICE TYPE', '')
+                    }
+                    
+                    # Generate email
+                    email = self.generate_rfq_email(subcontractor_data, opp_data, scope)
+                    
+                    # Create quote request record in Airtable
+                    quote_record = {
+                        'OPPORTUNITY': [opportunity_id],
+                        'SUBCONTRACTOR': [subcontractor_id],
+                        'STATUS': 'RFQ Sent',
+                        'RFQ SENT DATE': datetime.now().strftime('%Y-%m-%d'),
+                        'QUOTE DUE DATE': (datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d'),
+                        'EMAIL SUBJECT': email['subject'],
+                        'EMAIL BODY': email['body']
+                    }
+                    
+                    quote_id = self.airtable.create_record('GPSS SUBCONTRACTOR QUOTES', quote_record)
+                    
+                    emails_generated.append({
+                        'subcontractor': subcontractor_data['company_name'],
+                        'email': email['to_email'],
+                        'subject': email['subject'],
+                        'quote_id': quote_id.get('id') if quote_id else None
+                    })
+                    
+                    print(f"  ✓ RFQ generated for {subcontractor_data['company_name']}")
+                    
+                except Exception as e:
+                    print(f"  ⚠️  Error processing subcontractor {subcontractor_id}: {e}")
+                    continue
+            
+            print(f"\n  ✅ Generated {len(emails_generated)} RFQs")
+            
+            return {
+                'success': True,
+                'rfqs_generated': len(emails_generated),
+                'emails': emails_generated,
+                'message': f'Generated {len(emails_generated)} RFQs. Copy/paste emails to send manually or integrate with email service.'
+            }
+            
+        except Exception as e:
+            print(f"Error sending RFQs: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    # ============================================
+    # FUNCTION 3: SCORE QUOTES (AI 0-100)
+    # ============================================
+    
+    def score_quote(self, quote_id: str) -> Dict:
+        """
+        AI scores a subcontractor's quote response 0-100
+        
+        Scoring Criteria:
+        - Price competitiveness (30 points)
+        - Capabilities match (25 points)
+        - Response quality/completeness (20 points)
+        - Timeline feasibility (15 points)
+        - Past experience indicators (10 points)
+        
+        Args:
+            quote_id: Airtable quote record ID
+            
+        Returns:
+            Score and detailed reasoning
+        """
+        try:
+            # Get quote details
+            quote = self.airtable.get_record('GPSS QUOTES', quote_id)
+            if not quote:
+                return {'error': 'Quote not found'}
+            
+            fields = quote.get('fields', {})
+            
+            # Extract quote details
+            quote_amount = fields.get('QUOTE AMOUNT', 0)
+            response_text = fields.get('RESPONSE TEXT', '')
+            response_time_days = fields.get('RESPONSE TIME (DAYS)', 999)
+            
+            # Get opportunity for context
+            opp_ids = fields.get('OPPORTUNITY', [])
+            estimated_value = 0
+            requirements = ''
+            
+            if opp_ids:
+                opportunity = self.airtable.get_record('Opportunities', opp_ids[0])
+                if opportunity:
+                    opp_fields = opportunity.get('fields', {})
+                    estimated_value = opp_fields.get('Value', 0)
+                    requirements = opp_fields.get('Requirements', '')
+            
+            # Build AI scoring prompt
+            prompt = f"""Score this quote response from a subcontractor in the area on a scale of 0-100.
+
+SCORING CRITERIA (total 100 points):
+1. Price Competitiveness (30 points)
+   - Is the quote reasonable for the scope?
+   - Estimated contract value: ${estimated_value:,}
+   - Their quote: ${quote_amount:,}
+   
+2. Capabilities Match (25 points)
+   - Do they address all requirements?
+   - Show relevant experience?
+   
+3. Response Quality (20 points)
+   - Complete and detailed?
+   - Professional?
+   - Includes timeline, deliverables?
+   
+4. Timeline Feasibility (15 points)
+   - Can they meet deadlines?
+   - Realistic schedule?
+   
+5. Experience Indicators (10 points)
+   - Past similar work mentioned?
+   - Certifications/credentials?
+
+REQUIREMENTS:
+{requirements}
+
+THEIR RESPONSE:
+{response_text}
+
+Quote Amount: ${quote_amount:,}
+Response Time: {response_time_days} days
+
+Return as JSON:
+{{
+  "score": 85,
+  "price_score": 28,
+  "capabilities_score": 22,
+  "quality_score": 18,
+  "timeline_score": 12,
+  "experience_score": 5,
+  "reasoning": "Detailed explanation of score",
+  "strengths": ["strength 1", "strength 2"],
+  "concerns": ["concern 1", "concern 2"],
+  "recommendation": "Recommend/Consider/Pass"
+}}
+
+Return ONLY valid JSON."""
+            
+            response = self.ai.complete(prompt, max_tokens=1000)
+            clean_response = response.strip()
+            
+            # Remove markdown
+            if clean_response.startswith('```'):
+                clean_response = re.sub(r'^```json\s*', '', clean_response)
+                clean_response = re.sub(r'```\s*$', '', clean_response)
+                clean_response = clean_response.strip()
+            
+            score_data = json.loads(clean_response)
+            
+            # Update quote record with score
+            self.airtable.update_record('GPSS SUBCONTRACTOR QUOTES', quote_id, {
+                'AI SCORE': score_data.get('score', 0),
+                'SCORE REASONING': score_data.get('reasoning', ''),
+                'RECOMMENDATION': score_data.get('recommendation', 'Consider')
+            })
+            
+            print(f"  ✓ Quote scored: {score_data.get('score')}/100 - {score_data.get('recommendation')}")
+            
+            return {
+                'success': True,
+                'quote_id': quote_id,
+                **score_data
+            }
+            
+        except Exception as e:
+            print(f"Error scoring quote: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def score_all_quotes_for_opportunity(self, opportunity_id: str) -> List[Dict]:
+        """
+        Score all quotes for an opportunity and return ranked list
+        
+        Args:
+            opportunity_id: Opportunity ID
+            
+        Returns:
+            List of quotes sorted by score (highest first)
+        """
+        try:
+            # Get all quotes for this opportunity
+            quotes = self.airtable.get_all_records('GPSS SUBCONTRACTOR QUOTES')
+            
+            opportunity_quotes = []
+            for quote in quotes:
+                fields = quote.get('fields', {})
+                opp_ids = fields.get('OPPORTUNITY', [])
+                
+                if opportunity_id in opp_ids:
+                    opportunity_quotes.append({
+                        'id': quote.get('id'),
+                        'fields': fields
+                    })
+            
+            if not opportunity_quotes:
+                return []
+            
+            print(f"📊 Scoring {len(opportunity_quotes)} quotes...")
+            
+            scored_quotes = []
+            for quote in opportunity_quotes:
+                # Check if already scored
+                if not quote['fields'].get('AI SCORE'):
+                    # Score it
+                    score_result = self.score_quote(quote['id'])
+                    if score_result.get('success'):
+                        scored_quotes.append({
+                            'quote_id': quote['id'],
+                            'provider': quote['fields'].get('PROVIDER', ['Unknown'])[0],
+                            'quote_amount': quote['fields'].get('QUOTE AMOUNT', 0),
+                            'score': score_result.get('score', 0),
+                            'recommendation': score_result.get('recommendation', ''),
+                            'reasoning': score_result.get('reasoning', '')
+                        })
+                else:
+                    # Already scored
+                    scored_quotes.append({
+                        'quote_id': quote['id'],
+                        'provider': quote['fields'].get('PROVIDER', ['Unknown'])[0],
+                        'quote_amount': quote['fields'].get('QUOTE AMOUNT', 0),
+                        'score': quote['fields'].get('AI SCORE', 0),
+                        'recommendation': quote['fields'].get('RECOMMENDATION', ''),
+                        'reasoning': quote['fields'].get('SCORE REASONING', '')
+                    })
+            
+            # Sort by score descending
+            scored_quotes.sort(key=lambda x: x.get('score', 0), reverse=True)
+            
+            print(f"  ✅ Quotes ranked. Top score: {scored_quotes[0].get('score')}/100")
+            
+            return scored_quotes
+            
+        except Exception as e:
+            print(f"Error scoring quotes: {e}")
+            return []
+    
+    # ============================================
+    # FUNCTION 4: CALCULATE MARKUP & FINAL BID
+    # ============================================
+    
+    def calculate_markup_bid(self, quote_id: str, markup_percentage: float = 20.0) -> Dict:
+        """
+        Calculate final bid amount with markup
+        
+        Args:
+            quote_id: Selected quote ID
+            markup_percentage: Your markup % (default 20%)
+            
+        Returns:
+            Bid calculation details
+        """
+        try:
+            # Get quote details
+            quote = self.airtable.get_record('GPSS SUBCONTRACTOR QUOTES', quote_id)
+            if not quote:
+                return {'error': 'Quote not found'}
+            
+            fields = quote.get('fields', {})
+            
+            subcontractor_cost = fields.get('QUOTE AMOUNT', 0)
+            
+            # Calculate markup
+            markup_amount = subcontractor_cost * (markup_percentage / 100)
+            final_bid = subcontractor_cost + markup_amount
+            
+            # Calculate profit margin if we have estimated costs
+            your_overhead = final_bid * 0.10  # Assume 10% overhead for PM/admin
+            net_profit = markup_amount - your_overhead
+            profit_margin_pct = (net_profit / final_bid * 100) if final_bid > 0 else 0
+            
+            calculation = {
+                'subcontractor_cost': subcontractor_cost,
+                'markup_percentage': markup_percentage,
+                'markup_amount': markup_amount,
+                'your_overhead_estimate': your_overhead,
+                'net_profit_estimate': net_profit,
+                'profit_margin_percentage': round(profit_margin_pct, 1),
+                'final_bid_amount': final_bid
+            }
+            
+            # Update quote record with bid calculation
+            self.airtable.update_record('GPSS SUBCONTRACTOR QUOTES', quote_id, {
+                'SELECTED': True,
+                'MARKUP PERCENTAGE': markup_percentage,
+                'MARKUP AMOUNT': markup_amount,
+                'FINAL BID AMOUNT': final_bid,
+                'ESTIMATED PROFIT': net_profit
+            })
+            
+            print(f"\n💰 BID CALCULATION:")
+            print(f"  Subcontractor Cost: ${subcontractor_cost:,.2f}")
+            print(f"  Your Markup ({markup_percentage}%): ${markup_amount:,.2f}")
+            print(f"  Final Bid: ${final_bid:,.2f}")
+            print(f"  Estimated Profit: ${net_profit:,.2f} ({profit_margin_pct:.1f}% margin)\n")
+            
+            return {
+                'success': True,
+                'quote_id': quote_id,
+                **calculation
+            }
+            
+        except Exception as e:
+            print(f"Error calculating markup: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def generate_final_bid_summary(self, opportunity_id: str, selected_quote_id: str, markup_percentage: float = 20.0) -> Dict:
+        """
+        Generate complete bid package summary
+        
+        Args:
+            opportunity_id: Opportunity ID
+            selected_quote_id: Selected quote ID
+            markup_percentage: Your markup %
+            
+        Returns:
+            Complete bid summary ready for proposal
+        """
+        try:
+            # Calculate markup
+            bid_calc = self.calculate_markup_bid(selected_quote_id, markup_percentage)
+            
+            if not bid_calc.get('success'):
+                return bid_calc
+            
+            # Get opportunity details
+            opportunity = self.airtable.get_record('Opportunities', opportunity_id)
+            opp_fields = opportunity.get('fields', {}) if opportunity else {}
+            
+            # Get quote details
+            quote = self.airtable.get_record('GPSS SUBCONTRACTOR QUOTES', selected_quote_id)
+            quote_fields = quote.get('fields', {}) if quote else {}
+            
+            # Get subcontractor details
+            subcontractor_ids = quote_fields.get('SUBCONTRACTOR', [])
+            subcontractor = None
+            if subcontractor_ids:
+                subcontractor = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_ids[0])
+            
+            subcontractor_fields = subcontractor.get('fields', {}) if subcontractor else {}
+            
+            summary = {
+                'opportunity_name': opp_fields.get('Opportunity Name', ''),
+                'agency': opp_fields.get('Agency', ''),
+                'location': opp_fields.get('LOCATION', ''),
+                'service_type': opp_fields.get('SERVICE TYPE', ''),
+                'selected_subcontractor': subcontractor_fields.get('COMPANY NAME', ''),
+                'subcontractor_location': f"{subcontractor_fields.get('CITY', '')}, {subcontractor_fields.get('STATE', '')}",
+                'subcontractor_quote': bid_calc['subcontractor_cost'],
+                'your_markup': bid_calc['markup_amount'],
+                'final_bid': bid_calc['final_bid_amount'],
+                'estimated_profit': bid_calc['net_profit_estimate'],
+                'profit_margin_pct': bid_calc['profit_margin_percentage']
+            }
+            
+            print(f"\n📋 FINAL BID SUMMARY")
+            print(f"="*60)
+            print(f"Opportunity: {summary['opportunity_name']}")
+            print(f"Agency: {summary['agency']}")
+            print(f"Location: {summary['location']}")
+            print(f"\nSELECTED SUBCONTRACTOR:")
+            print(f"  Company: {summary['selected_subcontractor']}")
+            print(f"  Location: {summary['subcontractor_location']}")
+            print(f"\nPRICING:")
+            print(f"  Subcontractor Cost: ${summary['subcontractor_quote']:,.2f}")
+            print(f"  Your Markup: ${summary['your_markup']:,.2f}")
+            print(f"  FINAL BID: ${summary['final_bid']:,.2f}")
+            print(f"\nPROFIT:")
+            print(f"  Estimated Profit: ${summary['estimated_profit']:,.2f}")
+            print(f"  Profit Margin: {summary['profit_margin_pct']:.1f}%")
+            print(f"="*60 + "\n")
+            
+            return {
+                'success': True,
+                **summary
+            }
+            
+        except Exception as e:
+            print(f"Error generating bid summary: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    # ============================================
+    # COMPLIANCE DOCUMENT TRACKING
+    # ============================================
+    
+    def check_compliance(self, subcontractor_id: str, required_docs: List[str] = None) -> Dict:
+        """
+        Check if subcontractor has all required compliance documents
+        
+        Args:
+            subcontractor_id: Airtable record ID
+            required_docs: List of required document types (defaults to essential docs)
+            
+        Returns:
+            Compliance status with details
+        """
+        try:
+            # Default required documents
+            if required_docs is None:
+                required_docs = [
+                    'W-9',
+                    'General Liability Insurance',
+                    'Subcontractor Agreement'
+                ]
+            
+            # Get subcontractor info
+            subcontractor = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+            if not subcontractor:
+                return {
+                    'success': False,
+                    'error': 'Subcontractor not found'
+                }
+            
+            sub_fields = subcontractor.get('fields', {})
+            company_name = sub_fields.get('COMPANY NAME', 'Unknown')
+            
+            # Get all compliance documents for this subcontractor
+            all_compliance = self.airtable.get_all_records('GPSS SUBCONTRACTOR COMPLIANCE')
+            
+            # Filter to this subcontractor's documents
+            sub_docs = []
+            for doc in all_compliance:
+                fields = doc.get('fields', {})
+                linked_subs = fields.get('SUBCONTRACTOR', [])
+                if subcontractor_id in linked_subs:
+                    sub_docs.append({
+                        'id': doc['id'],
+                        'type': fields.get('DOCUMENT_TYPE', ''),
+                        'status': fields.get('DOCUMENT_STATUS', ''),
+                        'expiration': fields.get('EXPIRATION_DATE', ''),
+                        'days_until_expiration': fields.get('DAYS_UNTIL_EXPIRATION', ''),
+                        'alert_status': fields.get('ALERT_STATUS', '')
+                    })
+            
+            # Check each required document
+            compliance_issues = []
+            approved_docs = []
+            expiring_docs = []
+            expired_docs = []
+            
+            for required_doc in required_docs:
+                # Find this document type
+                doc_found = None
+                for doc in sub_docs:
+                    if doc['type'] == required_doc:
+                        doc_found = doc
+                        break
+                
+                if not doc_found:
+                    compliance_issues.append(f"Missing: {required_doc}")
+                elif doc_found['status'] != 'Approved':
+                    compliance_issues.append(f"{required_doc}: Status = {doc_found['status']}")
+                elif '⚠️ EXPIRED' in str(doc_found.get('alert_status', '')):
+                    expired_docs.append(required_doc)
+                    compliance_issues.append(f"{required_doc}: EXPIRED")
+                elif '⏰ Expiring Soon' in str(doc_found.get('alert_status', '')):
+                    expiring_docs.append(required_doc)
+                    # Don't block, but warn
+                else:
+                    approved_docs.append(required_doc)
+            
+            # Overall compliance status
+            is_compliant = len(compliance_issues) == 0
+            
+            result = {
+                'success': True,
+                'subcontractor_id': subcontractor_id,
+                'company_name': company_name,
+                'compliant': is_compliant,
+                'required_documents': required_docs,
+                'approved_documents': approved_docs,
+                'compliance_issues': compliance_issues,
+                'expiring_soon': expiring_docs,
+                'expired_documents': expired_docs,
+                'total_documents_tracked': len(sub_docs),
+                'compliance_percentage': int((len(approved_docs) / len(required_docs)) * 100) if required_docs else 0
+            }
+            
+            print(f"\n🔒 COMPLIANCE CHECK: {company_name}")
+            print(f"="*60)
+            print(f"Status: {'✅ COMPLIANT' if is_compliant else '❌ NON-COMPLIANT'}")
+            print(f"Compliance: {result['compliance_percentage']}% ({len(approved_docs)}/{len(required_docs)} docs)")
+            
+            if approved_docs:
+                print(f"\n✅ Approved Documents:")
+                for doc in approved_docs:
+                    print(f"  • {doc}")
+            
+            if expiring_docs:
+                print(f"\n⏰ Expiring Soon (30 days):")
+                for doc in expiring_docs:
+                    print(f"  • {doc}")
+            
+            if compliance_issues:
+                print(f"\n❌ Issues:")
+                for issue in compliance_issues:
+                    print(f"  • {issue}")
+            
+            print(f"="*60 + "\n")
+            
+            return result
+            
+        except Exception as e:
+            print(f"Error checking compliance: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def get_compliance_documents(self, subcontractor_id: str) -> Dict:
+        """
+        Get all compliance documents for a subcontractor
+        
+        Args:
+            subcontractor_id: Airtable record ID
+            
+        Returns:
+            List of all compliance documents
+        """
+        try:
+            # Get all compliance documents
+            all_compliance = self.airtable.get_all_records('GPSS SUBCONTRACTOR COMPLIANCE')
+            
+            # Filter to this subcontractor
+            sub_docs = []
+            for doc in all_compliance:
+                fields = doc.get('fields', {})
+                linked_subs = fields.get('SUBCONTRACTOR', [])
+                if subcontractor_id in linked_subs:
+                    sub_docs.append({
+                        'id': doc['id'],
+                        'document_type': fields.get('DOCUMENT_TYPE', ''),
+                        'status': fields.get('DOCUMENT_STATUS', ''),
+                        'date_received': fields.get('DATE_RECEIVED', ''),
+                        'date_approved': fields.get('DATE_APPROVED', ''),
+                        'expiration_date': fields.get('EXPIRATION_DATE', ''),
+                        'days_until_expiration': fields.get('DAYS_UNTIL_EXPIRATION', ''),
+                        'alert_status': fields.get('ALERT_STATUS', ''),
+                        'insurance_amount': fields.get('INSURANCE_AMOUNT', 0),
+                        'policy_number': fields.get('POLICY_NUMBER', ''),
+                        'notes': fields.get('NOTES', '')
+                    })
+            
+            return {
+                'success': True,
+                'subcontractor_id': subcontractor_id,
+                'documents_found': len(sub_docs),
+                'documents': sub_docs
+            }
+            
+        except Exception as e:
+            print(f"Error getting compliance documents: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def add_compliance_document(self, subcontractor_id: str, document_type: str, 
+                               status: str = 'Missing', expiration_date: str = None,
+                               insurance_amount: float = None, notes: str = '') -> Dict:
+        """
+        Add a compliance document record
+        
+        Args:
+            subcontractor_id: Airtable record ID
+            document_type: Type of document (W-9, Insurance, etc.)
+            status: Document status (default: Missing)
+            expiration_date: Expiration date (YYYY-MM-DD format)
+            insurance_amount: Coverage amount for insurance docs
+            notes: Additional notes
+            
+        Returns:
+            Created document record
+        """
+        try:
+            # Create compliance record
+            record_data = {
+                'SUBCONTRACTOR': [subcontractor_id],
+                'DOCUMENT_TYPE': document_type,
+                'DOCUMENT_STATUS': status,
+                'NOTES': notes
+            }
+            
+            if expiration_date:
+                record_data['EXPIRATION_DATE'] = expiration_date
+            
+            if insurance_amount:
+                record_data['INSURANCE_AMOUNT'] = insurance_amount
+            
+            # Create record
+            record_id = self.airtable.create_record('GPSS SUBCONTRACTOR COMPLIANCE', record_data)
+            
+            print(f"✅ Added compliance document: {document_type} (Status: {status})")
+            
+            return {
+                'success': True,
+                'record_id': record_id,
+                'document_type': document_type,
+                'status': status
+            }
+            
+        except Exception as e:
+            print(f"Error adding compliance document: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def update_compliance_document(self, document_id: str, updates: Dict) -> Dict:
+        """
+        Update a compliance document record
+        
+        Args:
+            document_id: Compliance document record ID
+            updates: Dictionary of fields to update
+            
+        Returns:
+            Update status
+        """
+        try:
+            # Update record
+            self.airtable.update_record('GPSS SUBCONTRACTOR COMPLIANCE', document_id, updates)
+            
+            print(f"✅ Updated compliance document: {document_id}")
+            
+            return {
+                'success': True,
+                'document_id': document_id,
+                'updated_fields': list(updates.keys())
+            }
+            
+        except Exception as e:
+            print(f"Error updating compliance document: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def get_expiring_documents(self, days_threshold: int = 30) -> Dict:
+        """
+        Get all documents expiring within threshold
+        
+        Args:
+            days_threshold: Alert for docs expiring in this many days (default 30)
+            
+        Returns:
+            List of expiring/expired documents
+        """
+        try:
+            # Get all compliance documents
+            all_compliance = self.airtable.get_all_records('GPSS SUBCONTRACTOR COMPLIANCE')
+            
+            expiring_soon = []
+            expired = []
+            
+            for doc in all_compliance:
+                fields = doc.get('fields', {})
+                days_until = fields.get('DAYS_UNTIL_EXPIRATION', '')
+                alert_status = fields.get('ALERT_STATUS', '')
+                
+                # Check if expiring or expired
+                if '⚠️ EXPIRED' in str(alert_status):
+                    expired.append({
+                        'id': doc['id'],
+                        'subcontractor': fields.get('SUBCONTRACTOR', []),
+                        'document_type': fields.get('DOCUMENT_TYPE', ''),
+                        'expiration_date': fields.get('EXPIRATION_DATE', ''),
+                        'days_overdue': abs(int(days_until)) if days_until != 'No Expiration' else 0,
+                        'alert': 'EXPIRED'
+                    })
+                elif '⏰ Expiring Soon' in str(alert_status):
+                    expiring_soon.append({
+                        'id': doc['id'],
+                        'subcontractor': fields.get('SUBCONTRACTOR', []),
+                        'document_type': fields.get('DOCUMENT_TYPE', ''),
+                        'expiration_date': fields.get('EXPIRATION_DATE', ''),
+                        'days_until_expiration': int(days_until) if days_until != 'No Expiration' else 999,
+                        'alert': 'EXPIRING_SOON'
+                    })
+            
+            print(f"\n⚠️ COMPLIANCE ALERTS")
+            print(f"="*60)
+            print(f"Expired Documents: {len(expired)}")
+            print(f"Expiring Soon (30 days): {len(expiring_soon)}")
+            print(f"="*60 + "\n")
+            
+            return {
+                'success': True,
+                'expired_count': len(expired),
+                'expiring_soon_count': len(expiring_soon),
+                'expired_documents': expired,
+                'expiring_soon_documents': expiring_soon,
+                'total_alerts': len(expired) + len(expiring_soon)
+            }
+            
+        except Exception as e:
+            print(f"Error getting expiring documents: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def mark_subcontractor_compliance_ready(self, subcontractor_id: str, ready: bool = True) -> Dict:
+        """
+        Mark subcontractor as compliance ready (or not)
+        
+        Args:
+            subcontractor_id: Airtable record ID
+            ready: TRUE if compliant, FALSE if not
+            
+        Returns:
+            Update status
+        """
+        try:
+            # Update COMPLIANCE_READY field
+            self.airtable.update_record('GPSS SUBCONTRACTORS', subcontractor_id, {
+                'COMPLIANCE_READY': ready,
+                'LAST_COMPLIANCE_CHECK': datetime.now().strftime('%Y-%m-%d')
+            })
+            
+            status = "✅ COMPLIANCE READY" if ready else "❌ NOT COMPLIANCE READY"
+            print(f"{status}: Subcontractor {subcontractor_id}")
+            
+            return {
+                'success': True,
+                'subcontractor_id': subcontractor_id,
+                'compliance_ready': ready
+            }
+            
+        except Exception as e:
+            print(f"Error updating compliance status: {e}")
             return {
                 'success': False,
                 'error': str(e)
@@ -6307,6 +7983,814 @@ def handle_find_suppliers_for_opportunity(opportunity_id: str) -> List[Dict]:
     """Find matching suppliers for opportunity"""
     auto_quote = GPSSAutomatedQuoting()
     return auto_quote.find_suppliers_for_opportunity(opportunity_id)
+
+
+# =====================================================================
+# CONTRACT FULFILLMENT SYSTEM
+# =====================================================================
+
+class FulfillmentManager:
+    """
+    Comprehensive Contract Fulfillment & Inventory Management System
+    
+    Handles:
+    - Contract setup and delivery scheduling
+    - Inventory tracking and reorder alerts
+    - Delivery management and tracking
+    - Purchase order management
+    - Financial integration with VERTEX
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+    
+    # ============ CONTRACT MANAGEMENT ============
+    
+    def create_fulfillment_contract(self, contract_data: Dict) -> Dict:
+        """
+        Create new fulfillment contract and auto-generate delivery schedule
+        
+        Args:
+            contract_data: {
+                'CONTRACT_NAME': 'VA Hospital - Socks',
+                'CLIENT_NAME': 'Veterans Affairs',
+                'PRODUCT': 'Diabetic Socks - White L',
+                'TOTAL_QUANTITY': 2500,
+                'UNIT_PRICE': 5.00,
+                'DELIVERY_FREQUENCY': 'Monthly',
+                'QUANTITY_PER_DELIVERY': 200,
+                'START_DATE': '2026-02-01',
+                'END_DATE': '2028-01-31',
+                'SUPPLIER_ID': ['rec123...'],
+                'SUPPLIER_UNIT_COST': 3.50
+            }
+        
+        Returns: {
+            'contract': {...},
+            'deliveries_generated': 24,
+            'contract_id': 'recXYZ'
+        }
+        """
+        try:
+            # Generate unique contract ID
+            import time
+            contract_id = f"CONT-{datetime.now().year}-{str(int(time.time()))[-6:]}"
+            
+            # Calculate delivery schedule
+            total_qty = contract_data['TOTAL_QUANTITY']
+            qty_per_delivery = contract_data['QUANTITY_PER_DELIVERY']
+            total_deliveries = total_qty // qty_per_delivery
+            
+            # Calculate margin
+            margin_per_unit = contract_data['UNIT_PRICE'] - contract_data['SUPPLIER_UNIT_COST']
+            
+            # Create contract record
+            contract_fields = {
+                'CONTRACT_ID': contract_id,
+                'CONTRACT_NAME': contract_data['CONTRACT_NAME'],
+                'CLIENT_NAME': contract_data['CLIENT_NAME'],
+                'PRODUCT': contract_data['PRODUCT'],
+                'TOTAL_QUANTITY': total_qty,
+                'UNIT_PRICE': contract_data['UNIT_PRICE'],
+                'TOTAL_VALUE': total_qty * contract_data['UNIT_PRICE'],
+                'START_DATE': contract_data['START_DATE'],
+                'END_DATE': contract_data.get('END_DATE', ''),
+                'DELIVERY_FREQUENCY': contract_data['DELIVERY_FREQUENCY'],
+                'QUANTITY_PER_DELIVERY': qty_per_delivery,
+                'TOTAL_DELIVERIES': total_deliveries,
+                'DELIVERIES_COMPLETED': 0,
+                'DELIVERIES_REMAINING': total_deliveries,
+                'STATUS': 'Active',
+                'SUPPLIER_ID': contract_data.get('SUPPLIER_ID', []),
+                'SUPPLIER_UNIT_COST': contract_data['SUPPLIER_UNIT_COST'],
+                'MARGIN_PER_UNIT': margin_per_unit,
+                'ALERT_THRESHOLD': contract_data.get('ALERT_THRESHOLD', qty_per_delivery * 2),
+                'NOTES': contract_data.get('NOTES', '')
+            }
+            
+            contract_record = self.airtable.create_record('FULFILLMENT CONTRACTS', contract_fields)
+            contract_record_id = contract_record['id']
+            
+            # Auto-generate delivery schedule
+            deliveries = self._generate_delivery_schedule(
+                contract_record_id,
+                contract_id,
+                contract_data['START_DATE'],
+                contract_data['DELIVERY_FREQUENCY'],
+                total_deliveries,
+                qty_per_delivery
+            )
+            
+            # Update inventory tracking
+            self._update_inventory_commitment(
+                contract_data['PRODUCT'],
+                total_qty,
+                contract_data.get('SUPPLIER_ID', []),
+                contract_data['SUPPLIER_UNIT_COST']
+            )
+            
+            # Set next delivery date
+            if deliveries:
+                next_delivery = deliveries[0]['DUE_DATE']
+                self.airtable.update_record(
+                    'FULFILLMENT CONTRACTS',
+                    contract_record_id,
+                    {'NEXT_DELIVERY_DATE': next_delivery}
+                )
+            
+            return {
+                'success': True,
+                'contract': contract_record,
+                'contract_id': contract_id,
+                'deliveries_generated': len(deliveries),
+                'total_value': contract_fields['TOTAL_VALUE'],
+                'total_profit': margin_per_unit * total_qty
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def _generate_delivery_schedule(self, contract_record_id: str, contract_id: str,
+                                   start_date: str, frequency: str, 
+                                   total_deliveries: int, qty_per_delivery: int) -> List[Dict]:
+        """Generate delivery schedule based on frequency"""
+        from dateutil.relativedelta import relativedelta
+        from datetime import datetime
+        
+        deliveries = []
+        current_date = datetime.strptime(start_date, '%Y-%m-%d')
+        
+        # Determine interval based on frequency
+        interval_map = {
+            'Weekly': relativedelta(weeks=1),
+            'Biweekly': relativedelta(weeks=2),
+            'Monthly': relativedelta(months=1),
+            'Quarterly': relativedelta(months=3),
+            'Semi-Annual': relativedelta(months=6),
+            'Annual': relativedelta(years=1)
+        }
+        
+        interval = interval_map.get(frequency, relativedelta(months=1))
+        
+        for i in range(total_deliveries):
+            # Calculate due date
+            due_date = current_date + (interval * i)
+            
+            # Generate delivery ID
+            delivery_id = f"DEL-{contract_id}-{str(i+1).zfill(3)}"
+            
+            # Create delivery record
+            delivery_fields = {
+                'DELIVERY_ID': delivery_id,
+                'CONTRACT': [contract_record_id],
+                'DELIVERY_NUMBER': i + 1,
+                'DUE_DATE': due_date.strftime('%Y-%m-%d'),
+                'QUANTITY': qty_per_delivery,
+                'STATUS': 'Scheduled',
+                'NOTES': f'Auto-generated delivery {i+1} of {total_deliveries}'
+            }
+            
+            try:
+                delivery_record = self.airtable.create_record('FULFILLMENT DELIVERIES', delivery_fields)
+                deliveries.append(delivery_fields)
+            except Exception as e:
+                print(f"Error creating delivery {i+1}: {e}")
+        
+        return deliveries
+    
+    def get_active_contracts(self) -> List[Dict]:
+        """Get all active fulfillment contracts"""
+        try:
+            formula = "{STATUS} = 'Active'"
+            records = self.airtable.search_records('FULFILLMENT CONTRACTS', formula)
+            return [{'id': r['id'], **r['fields']} for r in records]
+        except Exception as e:
+            print(f"Error getting active contracts: {e}")
+            return []
+    
+    def get_contract_details(self, contract_id: str) -> Dict:
+        """Get contract with all deliveries and inventory status"""
+        try:
+            # Get contract
+            contract = self.airtable.get_record('FULFILLMENT CONTRACTS', contract_id)
+            
+            # Get all deliveries for this contract
+            formula = f"{{CONTRACT}} = '{contract_id}'"
+            deliveries = self.airtable.search_records('FULFILLMENT DELIVERIES', formula)
+            
+            # Get inventory status for product
+            product = contract['fields'].get('PRODUCT')
+            inventory = self._get_inventory_status(product)
+            
+            return {
+                'contract': contract,
+                'deliveries': [{'id': d['id'], **d['fields']} for d in deliveries],
+                'inventory': inventory
+            }
+        except Exception as e:
+            return {'error': str(e)}
+    
+    # ============ DELIVERY MANAGEMENT ============
+    
+    def get_upcoming_deliveries(self, days_ahead: int = 7) -> List[Dict]:
+        """Get deliveries due within X days"""
+        try:
+            from datetime import datetime, timedelta
+            
+            today = datetime.now()
+            future_date = today + timedelta(days=days_ahead)
+            
+            # Get all scheduled or in-transit deliveries
+            formula = f"AND(OR({{STATUS}} = 'Scheduled', {{STATUS}} = 'In Transit'), {{DUE_DATE}} <= '{future_date.strftime('%Y-%m-%d')}')"
+            records = self.airtable.search_records('FULFILLMENT DELIVERIES', formula)
+            
+            deliveries = []
+            for r in records:
+                fields = r['fields']
+                due_date = datetime.strptime(fields['DUE_DATE'], '%Y-%m-%d')
+                days_until = (due_date - today).days
+                
+                deliveries.append({
+                    'id': r['id'],
+                    'days_until_due': days_until,
+                    **fields
+                })
+            
+            # Sort by due date
+            deliveries.sort(key=lambda x: x['days_until_due'])
+            return deliveries
+            
+        except Exception as e:
+            print(f"Error getting upcoming deliveries: {e}")
+            return []
+    
+    def update_delivery_status(self, delivery_id: str, updates: Dict) -> Dict:
+        """
+        Update delivery status and trigger cascading updates
+        
+        Args:
+            updates: {
+                'STATUS': 'Delivered',
+                'ACTUAL_DELIVERY_DATE': '2026-02-15',
+                'TRACKING_NUMBER': '1Z999...',
+                'CARRIER': 'UPS',
+                'SHIPPING_COST': 45.00,
+                'DELIVERED_TO': 'John Smith',
+                'NOTES': 'Left at loading dock'
+            }
+        """
+        try:
+            # Get current delivery
+            delivery = self.airtable.get_record('FULFILLMENT DELIVERIES', delivery_id)
+            quantity = delivery['fields']['QUANTITY']
+            contract_ids = delivery['fields'].get('CONTRACT', [])
+            
+            # Calculate performance metric
+            if updates.get('ACTUAL_DELIVERY_DATE') and delivery['fields'].get('DUE_DATE'):
+                actual = datetime.strptime(updates['ACTUAL_DELIVERY_DATE'], '%Y-%m-%d')
+                due = datetime.strptime(delivery['fields']['DUE_DATE'], '%Y-%m-%d')
+                days_early_late = (due - actual).days
+                updates['DAYS_EARLY_LATE'] = days_early_late
+            
+            # Update delivery record
+            updated_delivery = self.airtable.update_record('FULFILLMENT DELIVERIES', delivery_id, updates)
+            
+            # If delivered, trigger cascading updates
+            if updates.get('STATUS') == 'Delivered':
+                # Update contract progress
+                if contract_ids:
+                    self._update_contract_progress(contract_ids[0], quantity)
+                
+                # Update inventory
+                product = self._get_product_from_contract(contract_ids[0])
+                if product:
+                    self._reduce_inventory(product, quantity)
+                
+                # Create financial records in VERTEX
+                self._create_financial_records(contract_ids[0], quantity, delivery_id)
+            
+            return {
+                'success': True,
+                'delivery': updated_delivery
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def _update_contract_progress(self, contract_id: str, quantity_delivered: int):
+        """Update contract delivery progress"""
+        try:
+            contract = self.airtable.get_record('FULFILLMENT CONTRACTS', contract_id)
+            fields = contract['fields']
+            
+            completed = fields.get('DELIVERIES_COMPLETED', 0) + 1
+            remaining = fields.get('DELIVERIES_REMAINING', 0) - 1
+            
+            updates = {
+                'DELIVERIES_COMPLETED': completed,
+                'DELIVERIES_REMAINING': remaining
+            }
+            
+            # If all deliveries complete, mark contract as completed
+            if remaining <= 0:
+                updates['STATUS'] = 'Completed'
+            else:
+                # Update next delivery date
+                next_delivery = self._get_next_scheduled_delivery(contract_id)
+                if next_delivery:
+                    updates['NEXT_DELIVERY_DATE'] = next_delivery['DUE_DATE']
+            
+            self.airtable.update_record('FULFILLMENT CONTRACTS', contract_id, updates)
+            
+        except Exception as e:
+            print(f"Error updating contract progress: {e}")
+    
+    def _get_next_scheduled_delivery(self, contract_id: str) -> Optional[Dict]:
+        """Get the next scheduled delivery for a contract"""
+        try:
+            formula = f"AND({{CONTRACT}} = '{contract_id}', {{STATUS}} = 'Scheduled')"
+            deliveries = self.airtable.search_records('FULFILLMENT DELIVERIES', formula)
+            
+            if not deliveries:
+                return None
+            
+            # Sort by due date and return first
+            sorted_deliveries = sorted(deliveries, key=lambda x: x['fields']['DUE_DATE'])
+            return sorted_deliveries[0]['fields']
+            
+        except Exception as e:
+            print(f"Error getting next delivery: {e}")
+            return None
+    
+    # ============ INVENTORY MANAGEMENT ============
+    
+    def _update_inventory_commitment(self, product: str, quantity: int, 
+                                    supplier_ids: List[str], unit_cost: float):
+        """Update or create inventory record with commitment"""
+        try:
+            # Check if inventory record exists
+            formula = f"{{PRODUCT_NAME}} = '{product}'"
+            existing = self.airtable.search_records('FULFILLMENT INVENTORY', formula)
+            
+            if existing:
+                # Update existing
+                record = existing[0]
+                current_committed = record['fields'].get('QUANTITY_COMMITTED', 0)
+                new_committed = current_committed + quantity
+                
+                updates = {
+                    'QUANTITY_COMMITTED': new_committed,
+                    'ACTIVE_CONTRACTS': record['fields'].get('ACTIVE_CONTRACTS', 0) + 1
+                }
+                
+                # Recalculate available
+                on_hand = record['fields'].get('QUANTITY_ON_HAND', 0)
+                updates['QUANTITY_AVAILABLE'] = on_hand - new_committed
+                
+                # Update status based on availability
+                if updates['QUANTITY_AVAILABLE'] < 0:
+                    updates['STATUS'] = 'Critical'
+                elif updates['QUANTITY_AVAILABLE'] < record['fields'].get('REORDER_POINT', 400):
+                    updates['STATUS'] = 'Low Stock'
+                
+                self.airtable.update_record('FULFILLMENT INVENTORY', record['id'], updates)
+            else:
+                # Create new inventory record
+                sku = self._generate_sku(product)
+                inventory_fields = {
+                    'PRODUCT_SKU': sku,
+                    'PRODUCT_NAME': product,
+                    'QUANTITY_ON_HAND': 0,
+                    'QUANTITY_COMMITTED': quantity,
+                    'QUANTITY_AVAILABLE': -quantity,
+                    'REORDER_POINT': 400,
+                    'REORDER_QUANTITY': 1000,
+                    'SUPPLIER': supplier_ids,
+                    'UNIT_COST': unit_cost,
+                    'STATUS': 'Critical',
+                    'ACTIVE_CONTRACTS': 1
+                }
+                
+                self.airtable.create_record('FULFILLMENT INVENTORY', inventory_fields)
+                
+        except Exception as e:
+            print(f"Error updating inventory commitment: {e}")
+    
+    def _reduce_inventory(self, product: str, quantity: int):
+        """Reduce inventory when delivery is made"""
+        try:
+            formula = f"{{PRODUCT_NAME}} = '{product}'"
+            records = self.airtable.search_records('FULFILLMENT INVENTORY', formula)
+            
+            if records:
+                record = records[0]
+                fields = record['fields']
+                
+                new_on_hand = fields.get('QUANTITY_ON_HAND', 0) - quantity
+                new_committed = fields.get('QUANTITY_COMMITTED', 0) - quantity
+                new_available = new_on_hand - new_committed
+                
+                updates = {
+                    'QUANTITY_ON_HAND': new_on_hand,
+                    'QUANTITY_COMMITTED': new_committed,
+                    'QUANTITY_AVAILABLE': new_available
+                }
+                
+                # Update status
+                reorder_point = fields.get('REORDER_POINT', 400)
+                if new_available < 0:
+                    updates['STATUS'] = 'Critical'
+                elif new_on_hand < reorder_point:
+                    updates['STATUS'] = 'Low Stock'
+                else:
+                    updates['STATUS'] = 'Healthy'
+                
+                self.airtable.update_record('FULFILLMENT INVENTORY', record['id'], updates)
+                
+        except Exception as e:
+            print(f"Error reducing inventory: {e}")
+    
+    def _get_inventory_status(self, product: str) -> Dict:
+        """Get current inventory status for a product"""
+        try:
+            formula = f"{{PRODUCT_NAME}} = '{product}'"
+            records = self.airtable.search_records('FULFILLMENT INVENTORY', formula)
+            
+            if records:
+                return {'id': records[0]['id'], **records[0]['fields']}
+            return {}
+            
+        except Exception as e:
+            print(f"Error getting inventory status: {e}")
+            return {}
+    
+    def check_inventory_health(self) -> Dict:
+        """
+        Daily inventory health check - identifies products needing reorder
+        Returns alerts and recommendations
+        """
+        try:
+            all_inventory = self.airtable.get_all_records('FULFILLMENT INVENTORY')
+            
+            alerts = {
+                'critical': [],  # Available < 0
+                'low_stock': [],  # On hand < reorder point
+                'reorder_needed': [],  # Calculated runout < 30 days
+                'healthy': []
+            }
+            
+            for record in all_inventory:
+                fields = record['fields']
+                product = fields.get('PRODUCT_NAME', 'Unknown')
+                on_hand = fields.get('QUANTITY_ON_HAND', 0)
+                committed = fields.get('QUANTITY_COMMITTED', 0)
+                available = fields.get('QUANTITY_AVAILABLE', 0)
+                reorder_point = fields.get('REORDER_POINT', 400)
+                burn_rate = fields.get('MONTHLY_BURN_RATE', 0)
+                
+                item = {
+                    'product': product,
+                    'on_hand': on_hand,
+                    'committed': committed,
+                    'available': available,
+                    'reorder_point': reorder_point,
+                    'record_id': record['id']
+                }
+                
+                # Critical: Cannot fulfill commitments
+                if available < 0:
+                    item['alert'] = f"CRITICAL: Short by {abs(available)} units"
+                    item['action'] = f"Order at least {abs(available) + reorder_point} units immediately"
+                    alerts['critical'].append(item)
+                
+                # Low stock: Below reorder point
+                elif on_hand < reorder_point:
+                    item['alert'] = f"Low stock: {on_hand} units (reorder at {reorder_point})"
+                    item['action'] = f"Order {fields.get('REORDER_QUANTITY', 1000)} units"
+                    alerts['low_stock'].append(item)
+                
+                # Calculate runout date if burn rate is known
+                elif burn_rate > 0 and available > 0:
+                    days_remaining = (available / burn_rate) * 30
+                    if days_remaining < 30:
+                        item['alert'] = f"Will run out in {int(days_remaining)} days"
+                        item['action'] = f"Order {fields.get('REORDER_QUANTITY', 1000)} units soon"
+                        alerts['reorder_needed'].append(item)
+                    else:
+                        alerts['healthy'].append(item)
+                else:
+                    alerts['healthy'].append(item)
+            
+            return {
+                'success': True,
+                'alerts': alerts,
+                'summary': {
+                    'critical_count': len(alerts['critical']),
+                    'low_stock_count': len(alerts['low_stock']),
+                    'reorder_needed_count': len(alerts['reorder_needed']),
+                    'healthy_count': len(alerts['healthy'])
+                }
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def get_inventory_dashboard(self) -> List[Dict]:
+        """Get all inventory with status indicators"""
+        try:
+            records = self.airtable.get_all_records('FULFILLMENT INVENTORY')
+            return [{'id': r['id'], **r['fields']} for r in records]
+        except Exception as e:
+            print(f"Error getting inventory dashboard: {e}")
+            return []
+    
+    # ============ PURCHASE ORDER MANAGEMENT ============
+    
+    def create_purchase_order(self, po_data: Dict) -> Dict:
+        """
+        Create purchase order to restock inventory
+        
+        Args:
+            po_data: {
+                'SUPPLIER': ['rec123...'],
+                'PRODUCT_SKU': 'SOCK-DIAB-WHT-L',
+                'PRODUCT_NAME': 'Diabetic Socks - White L',
+                'QUANTITY_ORDERED': 2000,
+                'UNIT_COST': 3.50,
+                'EXPECTED_DELIVERY_DATE': '2026-04-20',
+                'PAYMENT_TERMS': 'Net 30',
+                'NOTES': 'Rush order'
+            }
+        """
+        try:
+            import time
+            po_number = f"PO-{datetime.now().year}-{str(int(time.time()))[-6:]}"
+            
+            po_fields = {
+                'PO_NUMBER': po_number,
+                'SUPPLIER': po_data.get('SUPPLIER', []),
+                'ORDER_DATE': datetime.now().strftime('%Y-%m-%d'),
+                'EXPECTED_DELIVERY_DATE': po_data['EXPECTED_DELIVERY_DATE'],
+                'PRODUCTS': po_data.get('PRODUCT_NAME', ''),
+                'QUANTITY_ORDERED': po_data['QUANTITY_ORDERED'],
+                'QUANTITY_RECEIVED': 0,
+                'UNIT_COST': po_data['UNIT_COST'],
+                'TOTAL_COST': po_data['QUANTITY_ORDERED'] * po_data['UNIT_COST'],
+                'PAYMENT_TERMS': po_data.get('PAYMENT_TERMS', 'Net 30'),
+                'PAYMENT_STATUS': 'Pending',
+                'STATUS': 'Ordered',
+                'NOTES': po_data.get('NOTES', '')
+            }
+            
+            # Calculate payment due date based on terms
+            if po_data.get('PAYMENT_TERMS') == 'Net 30':
+                from dateutil.relativedelta import relativedelta
+                expected = datetime.strptime(po_data['EXPECTED_DELIVERY_DATE'], '%Y-%m-%d')
+                due_date = expected + relativedelta(days=30)
+                po_fields['PAYMENT_DUE_DATE'] = due_date.strftime('%Y-%m-%d')
+            
+            po_record = self.airtable.create_record('FULFILLMENT PURCHASE ORDERS', po_fields)
+            
+            return {
+                'success': True,
+                'po': po_record,
+                'po_number': po_number
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def receive_purchase_order(self, po_id: str, received_data: Dict) -> Dict:
+        """
+        Mark PO as received and update inventory
+        
+        Args:
+            received_data: {
+                'ACTUAL_DELIVERY_DATE': '2026-04-19',
+                'QUANTITY_RECEIVED': 2000,
+                'NOTES': 'All items in good condition'
+            }
+        """
+        try:
+            # Get PO details
+            po = self.airtable.get_record('FULFILLMENT PURCHASE ORDERS', po_id)
+            po_fields = po['fields']
+            
+            # Update PO status
+            updates = {
+                'STATUS': 'Received',
+                'ACTUAL_DELIVERY_DATE': received_data['ACTUAL_DELIVERY_DATE'],
+                'QUANTITY_RECEIVED': received_data['QUANTITY_RECEIVED'],
+                'NOTES': po_fields.get('NOTES', '') + '\n' + received_data.get('NOTES', '')
+            }
+            
+            updated_po = self.airtable.update_record('FULFILLMENT PURCHASE ORDERS', po_id, updates)
+            
+            # Update inventory - add to on hand
+            product = po_fields.get('PRODUCTS', '')
+            quantity = received_data['QUANTITY_RECEIVED']
+            
+            if product:
+                self._add_inventory(product, quantity, received_data['ACTUAL_DELIVERY_DATE'])
+            
+            return {
+                'success': True,
+                'po': updated_po,
+                'inventory_updated': True
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def _add_inventory(self, product: str, quantity: int, restock_date: str):
+        """Add inventory when PO is received"""
+        try:
+            formula = f"{{PRODUCT_NAME}} = '{product}'"
+            records = self.airtable.search_records('FULFILLMENT INVENTORY', formula)
+            
+            if records:
+                record = records[0]
+                fields = record['fields']
+                
+                new_on_hand = fields.get('QUANTITY_ON_HAND', 0) + quantity
+                committed = fields.get('QUANTITY_COMMITTED', 0)
+                new_available = new_on_hand - committed
+                
+                updates = {
+                    'QUANTITY_ON_HAND': new_on_hand,
+                    'QUANTITY_AVAILABLE': new_available,
+                    'LAST_RESTOCK_DATE': restock_date
+                }
+                
+                # Update status
+                reorder_point = fields.get('REORDER_POINT', 400)
+                if new_available < 0:
+                    updates['STATUS'] = 'Critical'
+                elif new_on_hand < reorder_point:
+                    updates['STATUS'] = 'Low Stock'
+                else:
+                    updates['STATUS'] = 'Healthy'
+                
+                self.airtable.update_record('FULFILLMENT INVENTORY', record['id'], updates)
+                
+        except Exception as e:
+            print(f"Error adding inventory: {e}")
+    
+    def get_pending_purchase_orders(self) -> List[Dict]:
+        """Get all POs that are ordered but not yet received"""
+        try:
+            formula = "{STATUS} = 'Ordered'"
+            records = self.airtable.search_records('FULFILLMENT PURCHASE ORDERS', formula)
+            return [{'id': r['id'], **r['fields']} for r in records]
+        except Exception as e:
+            print(f"Error getting pending POs: {e}")
+            return []
+    
+    # ============ FINANCIAL INTEGRATION ============
+    
+    def _create_financial_records(self, contract_id: str, quantity: int, delivery_id: str):
+        """Create invoice and expense records in VERTEX when delivery is complete"""
+        try:
+            # Get contract details
+            contract = self.airtable.get_record('FULFILLMENT CONTRACTS', contract_id)
+            fields = contract['fields']
+            
+            unit_price = fields.get('UNIT_PRICE', 0)
+            unit_cost = fields.get('SUPPLIER_UNIT_COST', 0)
+            client_name = fields.get('CLIENT_NAME', '')
+            product = fields.get('PRODUCT', '')
+            contract_name = fields.get('CONTRACT_NAME', '')
+            
+            # Create invoice in VERTEX
+            invoice_amount = quantity * unit_price
+            invoice_data = {
+                'CLIENT_NAME': client_name,
+                'INVOICE_AMOUNT': invoice_amount,
+                'INVOICE_DATE': datetime.now().strftime('%Y-%m-%d'),
+                'DUE_DATE': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
+                'STATUS': 'Sent',
+                'DESCRIPTION': f'{contract_name} - Delivery {delivery_id}\n{quantity} units of {product}',
+                'CATEGORY': 'Product Sales',
+                'NOTES': f'Fulfillment delivery - Contract {fields.get("CONTRACT_ID", "")}'
+            }
+            
+            self.airtable.create_record('VERTEX INVOICES', invoice_data)
+            
+            # Create expense for COGS in VERTEX
+            expense_amount = quantity * unit_cost
+            expense_data = {
+                'EXPENSE_NAME': f'COGS - {product}',
+                'AMOUNT': expense_amount,
+                'DATE': datetime.now().strftime('%Y-%m-%d'),
+                'CATEGORY': 'Cost of Goods Sold',
+                'DESCRIPTION': f'Inventory cost for {quantity} units delivered to {client_name}',
+                'STATUS': 'Paid',
+                'NOTES': f'Delivery {delivery_id} - Contract {fields.get("CONTRACT_ID", "")}'
+            }
+            
+            self.airtable.create_record('VERTEX EXPENSES', expense_data)
+            
+            print(f"✅ Financial records created: Revenue ${invoice_amount}, COGS ${expense_amount}, Profit ${invoice_amount - expense_amount}")
+            
+        except Exception as e:
+            print(f"Error creating financial records: {e}")
+    
+    # ============ HELPER FUNCTIONS ============
+    
+    def _generate_sku(self, product_name: str) -> str:
+        """Generate SKU from product name"""
+        # Simple SKU generation - can be enhanced
+        words = product_name.upper().replace('-', ' ').split()
+        sku_parts = [w[:4] for w in words[:3]]
+        return '-'.join(sku_parts)
+    
+    def _get_product_from_contract(self, contract_id: str) -> str:
+        """Get product name from contract"""
+        try:
+            contract = self.airtable.get_record('FULFILLMENT CONTRACTS', contract_id)
+            return contract['fields'].get('PRODUCT', '')
+        except:
+            return ''
+
+
+# =====================================================================
+# FULFILLMENT HANDLERS (for API endpoints)
+# =====================================================================
+
+def handle_create_fulfillment_contract(contract_data: Dict) -> Dict:
+    """Create new fulfillment contract"""
+    manager = FulfillmentManager()
+    return manager.create_fulfillment_contract(contract_data)
+
+
+def handle_get_active_contracts() -> List[Dict]:
+    """Get all active contracts"""
+    manager = FulfillmentManager()
+    return manager.get_active_contracts()
+
+
+def handle_get_contract_details(contract_id: str) -> Dict:
+    """Get contract with deliveries and inventory"""
+    manager = FulfillmentManager()
+    return manager.get_contract_details(contract_id)
+
+
+def handle_get_upcoming_deliveries(days_ahead: int = 7) -> List[Dict]:
+    """Get deliveries due soon"""
+    manager = FulfillmentManager()
+    return manager.get_upcoming_deliveries(days_ahead)
+
+
+def handle_update_delivery_status(delivery_id: str, updates: Dict) -> Dict:
+    """Update delivery status"""
+    manager = FulfillmentManager()
+    return manager.update_delivery_status(delivery_id, updates)
+
+
+def handle_check_inventory_health() -> Dict:
+    """Run daily inventory health check"""
+    manager = FulfillmentManager()
+    return manager.check_inventory_health()
+
+
+def handle_get_inventory_dashboard() -> List[Dict]:
+    """Get inventory dashboard"""
+    manager = FulfillmentManager()
+    return manager.get_inventory_dashboard()
+
+
+def handle_create_purchase_order(po_data: Dict) -> Dict:
+    """Create purchase order"""
+    manager = FulfillmentManager()
+    return manager.create_purchase_order(po_data)
+
+
+def handle_receive_purchase_order(po_id: str, received_data: Dict) -> Dict:
+    """Receive purchase order"""
+    manager = FulfillmentManager()
+    return manager.receive_purchase_order(po_id, received_data)
+
+
+def handle_get_pending_purchase_orders() -> List[Dict]:
+    """Get pending POs"""
+    manager = FulfillmentManager()
+    return manager.get_pending_purchase_orders()
 
 
 # =====================================================================

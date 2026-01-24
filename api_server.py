@@ -19,6 +19,7 @@ from nexus_backend import (
     GPSSPricingAgent,
     GPSSComplianceAgent,
     GPSSOpportunityMiningAgent,
+    GPSSSubcontractorMiner,
     handle_document_upload,
     handle_qualify_opportunity,
     handle_generate_quote,
@@ -50,7 +51,25 @@ from nexus_backend import (
     handle_lbpc_ai_qualify_lead,
     handle_lbpc_create_invoice,
     handle_lbpc_import_csv,
-    handle_lbpc_get_analytics
+    handle_lbpc_get_analytics,
+    # Fulfillment handlers
+    handle_create_fulfillment_contract,
+    handle_get_active_contracts,
+    handle_get_contract_details,
+    handle_get_upcoming_deliveries,
+    handle_update_delivery_status,
+    handle_check_inventory_health,
+    handle_get_inventory_dashboard,
+    handle_create_purchase_order,
+    handle_receive_purchase_order,
+    handle_get_pending_purchase_orders,
+    # AI Recommendation handlers
+    handle_analyze_capability_gap,
+    handle_recommend_subcontractors,
+    handle_recommend_suppliers,
+    handle_approve_recommendation,
+    handle_get_pending_recommendations,
+    handle_calculate_compliance
 )
 from datetime import datetime, timedelta
 import jwt
@@ -3525,6 +3544,462 @@ def update_supplier_quote(quote_id):
 
 
 # =====================================================================
+# GPSS SUBCONTRACTOR ENDPOINTS
+# =====================================================================
+
+@app.route('/gpss/subcontractors/find', methods=['POST'])
+def find_subcontractors():
+    """
+    Find subcontractors in the area using Google search
+    
+    Expected JSON:
+    {
+      "service_type": "aircraft wash",
+      "location": "Virginia Beach VA",
+      "max_results": 10
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        service_type = data.get('service_type')
+        location = data.get('location')
+        max_results = data.get('max_results', 10)
+        
+        if not service_type or not location:
+            return jsonify({"error": "service_type and location are required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        subcontractors = miner.find_subcontractors(service_type, location, max_results)
+        
+        return jsonify({
+            "success": True,
+            "service_type": service_type,
+            "location": location,
+            "subcontractors_found": len(subcontractors),
+            "subcontractors": subcontractors
+        })
+        
+    except Exception as e:
+        print(f"Error finding subcontractors: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/search', methods=['POST'])
+def search_existing_subcontractors():
+    """
+    Search existing subcontractor database
+    
+    Expected JSON:
+    {
+      "service_type": "janitorial",
+      "location": "Texas",
+      "min_rating": 3.5
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        service_type = data.get('service_type')
+        location = data.get('location')
+        min_rating = data.get('min_rating', 0)
+        
+        miner = GPSSSubcontractorMiner()
+        subcontractors = miner.search_existing_subcontractors(service_type, location, min_rating)
+        
+        return jsonify({
+            "success": True,
+            "subcontractors_found": len(subcontractors),
+            "subcontractors": subcontractors
+        })
+        
+    except Exception as e:
+        print(f"Error searching subcontractors: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/rfq/generate', methods=['POST'])
+def generate_rfq():
+    """
+    Generate RFQ email for a subcontractor
+    
+    Expected JSON:
+    {
+      "subcontractor": {
+        "company_name": "ABC Services",
+        "email": "contact@abc.com"
+      },
+      "opportunity": {
+        "id": "recXXXX",
+        "service_type": "aircraft wash",
+        "location": "Virginia Beach VA",
+        "value": 200000,
+        "agency": "US Navy"
+      },
+      "scope": "Wash 200 aircraft per year..."
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        subcontractor = data.get('subcontractor')
+        opportunity = data.get('opportunity')
+        scope = data.get('scope')
+        
+        if not subcontractor or not opportunity or not scope:
+            return jsonify({"error": "subcontractor, opportunity, and scope are required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        email = miner.generate_rfq_email(subcontractor, opportunity, scope)
+        
+        return jsonify({
+            "success": True,
+            "email": email
+        })
+        
+    except Exception as e:
+        print(f"Error generating RFQ: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/rfq/send-bulk', methods=['POST'])
+def send_bulk_rfqs():
+    """
+    Send RFQs to multiple subcontractors at once
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXX",
+      "subcontractor_ids": ["rec111", "rec222", "rec333"],
+      "scope": "Full scope of work text..."
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        subcontractor_ids = data.get('subcontractor_ids', [])
+        scope = data.get('scope')
+        
+        if not opportunity_id or not subcontractor_ids or not scope:
+            return jsonify({"error": "opportunity_id, subcontractor_ids, and scope are required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.send_rfqs_to_subcontractors(opportunity_id, subcontractor_ids, scope)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error sending RFQs: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/quotes/<quote_id>/score', methods=['POST'])
+def score_quote():
+    """
+    AI score a quote 0-100
+    
+    URL Parameter:
+      quote_id: Airtable quote record ID
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        quote_id = request.view_args.get('quote_id')
+        
+        if not quote_id:
+            return jsonify({"error": "quote_id is required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.score_quote(quote_id)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error scoring quote: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/quotes/score-all', methods=['POST'])
+def score_all_quotes_for_opportunity():
+    """
+    Score all quotes for an opportunity
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXX"
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        scored_quotes = miner.score_all_quotes_for_opportunity(opportunity_id)
+        
+        return jsonify({
+            "success": True,
+            "opportunity_id": opportunity_id,
+            "quotes_scored": len(scored_quotes),
+            "ranked_quotes": scored_quotes
+        })
+        
+    except Exception as e:
+        print(f"Error scoring quotes: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/quotes/<quote_id>/markup', methods=['POST'])
+def calculate_markup():
+    """
+    Calculate markup and final bid
+    
+    URL Parameter:
+      quote_id: Airtable quote record ID
+    
+    Expected JSON:
+    {
+      "markup_percentage": 20.0
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        quote_id = request.view_args.get('quote_id')
+        data = request.json or {}
+        markup_percentage = data.get('markup_percentage', 20.0)
+        
+        if not quote_id:
+            return jsonify({"error": "quote_id is required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.calculate_markup_bid(quote_id, markup_percentage)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error calculating markup: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/bid/summary', methods=['POST'])
+def generate_bid_summary():
+    """
+    Generate complete bid summary
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXX",
+      "selected_quote_id": "recYYYY",
+      "markup_percentage": 20.0
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        selected_quote_id = data.get('selected_quote_id')
+        markup_percentage = data.get('markup_percentage', 20.0)
+        
+        if not opportunity_id or not selected_quote_id:
+            return jsonify({"error": "opportunity_id and selected_quote_id are required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.generate_final_bid_summary(opportunity_id, selected_quote_id, markup_percentage)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error generating bid summary: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
+# GPSS SUBCONTRACTOR COMPLIANCE ENDPOINTS
+# =====================================================================
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/compliance/check', methods=['POST'])
+def check_subcontractor_compliance(subcontractor_id):
+    """
+    Check if subcontractor has all required compliance documents
+    
+    Expected JSON (optional):
+    {
+      "required_documents": ["W-9", "General Liability Insurance", "Subcontractor Agreement"]
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        required_docs = data.get('required_documents', None)
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.check_compliance(subcontractor_id, required_docs)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error checking compliance: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/compliance', methods=['GET'])
+def get_subcontractor_compliance(subcontractor_id):
+    """
+    Get all compliance documents for a subcontractor
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.get_compliance_documents(subcontractor_id)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error getting compliance documents: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/compliance/add', methods=['POST'])
+def add_compliance_document(subcontractor_id):
+    """
+    Add a compliance document record
+    
+    Expected JSON:
+    {
+      "document_type": "W-9",
+      "status": "Missing",
+      "expiration_date": "2026-12-31",
+      "insurance_amount": 1000000,
+      "notes": "Requested via email"
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        document_type = data.get('document_type')
+        status = data.get('status', 'Missing')
+        expiration_date = data.get('expiration_date')
+        insurance_amount = data.get('insurance_amount')
+        notes = data.get('notes', '')
+        
+        if not document_type:
+            return jsonify({"error": "document_type is required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.add_compliance_document(
+            subcontractor_id, 
+            document_type, 
+            status, 
+            expiration_date,
+            insurance_amount,
+            notes
+        )
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error adding compliance document: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/compliance/<document_id>', methods=['PUT'])
+def update_compliance_document(document_id):
+    """
+    Update a compliance document
+    
+    Expected JSON:
+    {
+      "DOCUMENT_STATUS": "Approved",
+      "DATE_RECEIVED": "2026-01-22",
+      "DATE_APPROVED": "2026-01-22",
+      "EXPIRATION_DATE": "2027-01-22",
+      "INSURANCE_AMOUNT": 1000000,
+      "POLICY_NUMBER": "GL-123456",
+      "NOTES": "Certificate received and verified"
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        
+        if not data:
+            return jsonify({"error": "No update data provided"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.update_compliance_document(document_id, data)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error updating compliance document: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/compliance/alerts', methods=['GET'])
+def get_compliance_alerts():
+    """
+    Get all expiring/expired compliance documents
+    
+    Query params:
+      ?days_threshold=30  (optional, default 30)
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        days_threshold = request.args.get('days_threshold', 30, type=int)
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.get_expiring_documents(days_threshold)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error getting compliance alerts: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/compliance/mark-ready', methods=['POST'])
+def mark_compliance_ready(subcontractor_id):
+    """
+    Mark subcontractor as compliance ready
+    
+    Expected JSON:
+    {
+      "ready": true
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        ready = data.get('ready', True)
+        
+        miner = GPSSSubcontractorMiner()
+        result = miner.mark_subcontractor_compliance_ready(subcontractor_id, ready)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Error marking compliance ready: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
 # GPSS PROPOSALBIO™ QUALITY ASSURANCE ENDPOINTS
 # =====================================================================
 
@@ -4153,6 +4628,177 @@ def delete_mining_target(target_id):
         table = airtable_client.get_table('Mining Targets')
         table.delete(target_id)
         return jsonify({'success': True})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================================
+# CONTRACTING OFFICER OUTREACH ENDPOINTS
+# ============================================================================
+
+@app.route('/gpss/officer-outreach/generate', methods=['POST'])
+def generate_officer_outreach():
+    """Generate introduction letters for closed opportunities"""
+    try:
+        from contracting_officer_outreach import run_officer_outreach_mining
+        
+        data = request.json or {}
+        limit = data.get('limit', 10)
+        
+        airtable_client = AirtableClient()
+        results = run_officer_outreach_mining(airtable_client, limit=limit)
+        
+        return jsonify({
+            'success': True,
+            'letters_generated': results['letters_generated'],
+            'results': results['results'],
+            'timestamp': results['timestamp']
+        })
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/officer-outreach/letters', methods=['GET'])
+def get_outreach_letters():
+    """Get all officer outreach letters"""
+    try:
+        airtable_client = AirtableClient()
+        records = airtable_client.get_all_records('Officer Outreach Tracking')
+        
+        letters = []
+        for record in records:
+            fields = record.get('fields', {})
+            letters.append({
+                'id': record['id'],
+                'officer_name': fields.get('Officer Name', ''),
+                'officer_email': fields.get('Officer Email', ''),
+                'opportunity_title': fields.get('Opportunity Title', ''),
+                'solicitation_number': fields.get('Solicitation Number', ''),
+                'status': fields.get('Status', 'Draft'),
+                'generated_date': fields.get('Letter Generated Date', ''),
+                'date_sent': fields.get('Date Sent', ''),
+                'response_received': fields.get('Response Received', False),
+                'subject_line': fields.get('Subject Line', ''),
+            })
+        
+        return jsonify({'success': True, 'letters': letters})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/officer-outreach/letters/<letter_id>', methods=['GET'])
+def get_outreach_letter(letter_id):
+    """Get a specific outreach letter with full content"""
+    try:
+        airtable_client = AirtableClient()
+        record = airtable_client.get_record('Officer Outreach Tracking', letter_id)
+        
+        fields = record.get('fields', {})
+        
+        return jsonify({
+            'success': True,
+            'letter': {
+                'id': record['id'],
+                'officer_name': fields.get('Officer Name', ''),
+                'officer_email': fields.get('Officer Email', ''),
+                'opportunity_title': fields.get('Opportunity Title', ''),
+                'solicitation_number': fields.get('Solicitation Number', ''),
+                'agency': fields.get('Agency', ''),
+                'status': fields.get('Status', 'Draft'),
+                'generated_date': fields.get('Letter Generated Date', ''),
+                'date_sent': fields.get('Date Sent', ''),
+                'follow_up_date': fields.get('Follow-up Date', ''),
+                'response_received': fields.get('Response Received', False),
+                'response_notes': fields.get('Response Notes', ''),
+                'added_to_vendor_list': fields.get('Added to Vendor List', False),
+                'subject_line': fields.get('Subject Line', ''),
+                'letter_content': fields.get('Letter Content', ''),
+                'tags': fields.get('Tags', []),
+                'priority': fields.get('Priority', 'Medium'),
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/officer-outreach/letters/<letter_id>', methods=['PUT'])
+def update_outreach_letter(letter_id):
+    """Update an outreach letter (e.g., mark as sent, add response)"""
+    try:
+        data = request.json
+        airtable_client = AirtableClient()
+        
+        update_fields = {}
+        
+        # Map frontend fields to Airtable fields
+        field_mapping = {
+            'status': 'Status',
+            'date_sent': 'Date Sent',
+            'response_received': 'Response Received',
+            'response_notes': 'Response Notes',
+            'added_to_vendor_list': 'Added to Vendor List',
+            'priority': 'Priority',
+            'tags': 'Tags',
+            'next_action': 'Next Action',
+            'next_action_date': 'Next Action Date',
+        }
+        
+        for key, airtable_field in field_mapping.items():
+            if key in data:
+                update_fields[airtable_field] = data[key]
+        
+        airtable_client.update_record('Officer Outreach Tracking', letter_id, update_fields)
+        
+        return jsonify({'success': True})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/officer-outreach/stats', methods=['GET'])
+def get_outreach_stats():
+    """Get statistics about officer outreach"""
+    try:
+        airtable_client = AirtableClient()
+        records = airtable_client.get_all_records('Officer Outreach Tracking')
+        
+        stats = {
+            'total_letters': len(records),
+            'draft': 0,
+            'sent': 0,
+            'responded': 0,
+            'added_to_vendor_list': 0,
+            'response_rate': 0,
+            'vendor_list_rate': 0,
+        }
+        
+        for record in records:
+            fields = record.get('fields', {})
+            status = fields.get('Status', 'Draft')
+            
+            if status == 'Draft':
+                stats['draft'] += 1
+            elif status in ['Sent', 'Follow-up Needed']:
+                stats['sent'] += 1
+            
+            if fields.get('Response Received'):
+                stats['responded'] += 1
+            
+            if fields.get('Added to Vendor List'):
+                stats['added_to_vendor_list'] += 1
+        
+        # Calculate rates
+        if stats['sent'] > 0:
+            stats['response_rate'] = round((stats['responded'] / stats['sent']) * 100, 1)
+        
+        if stats['responded'] > 0:
+            stats['vendor_list_rate'] = round((stats['added_to_vendor_list'] / stats['responded']) * 100, 1)
+        
+        return jsonify({'success': True, 'stats': stats})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -7240,6 +7886,726 @@ def list_videos():
     
     except Exception as e:
         return jsonify({'error': f'Error listing videos: {str(e)}'}), 500
+
+
+# =====================================================================
+# CONTRACT FULFILLMENT & INVENTORY MANAGEMENT
+# =====================================================================
+
+@app.route('/fulfillment/contracts', methods=['POST'])
+def create_fulfillment_contract():
+    """
+    Create new fulfillment contract with auto-generated delivery schedule
+    
+    Body: {
+        "CONTRACT_NAME": "VA Hospital - Socks",
+        "CLIENT_NAME": "Veterans Affairs",
+        "PRODUCT": "Diabetic Socks - White L",
+        "TOTAL_QUANTITY": 2500,
+        "UNIT_PRICE": 5.00,
+        "DELIVERY_FREQUENCY": "Monthly",
+        "QUANTITY_PER_DELIVERY": 200,
+        "START_DATE": "2026-02-01",
+        "END_DATE": "2028-01-31",
+        "SUPPLIER_ID": ["rec123..."],
+        "SUPPLIER_UNIT_COST": 3.50,
+        "ALERT_THRESHOLD": 400,
+        "NOTES": "Ship to Building 3"
+    }
+    """
+    try:
+        data = request.json
+        result = handle_create_fulfillment_contract(data)
+        
+        if result.get('success'):
+            return jsonify(result), 201
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/contracts', methods=['GET'])
+def get_fulfillment_contracts():
+    """Get active fulfillment contracts"""
+    try:
+        status = request.args.get('status', 'Active')
+        contracts = handle_get_active_contracts()
+        
+        # Filter by status if needed
+        if status != 'all':
+            contracts = [c for c in contracts if c.get('STATUS') == status]
+        
+        return jsonify({
+            'contracts': contracts,
+            'count': len(contracts)
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/contracts/<contract_id>', methods=['GET'])
+def get_contract_details(contract_id):
+    """Get contract with all deliveries and inventory status"""
+    try:
+        result = handle_get_contract_details(contract_id)
+        
+        if result.get('error'):
+            return jsonify(result), 404
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/deliveries', methods=['GET'])
+def get_deliveries():
+    """
+    Get deliveries (upcoming or all)
+    Query params:
+    - due_within_days: Get deliveries due within X days (default: 7)
+    - contract_id: Filter by contract
+    """
+    try:
+        days_ahead = int(request.args.get('due_within_days', 7))
+        contract_id = request.args.get('contract_id')
+        
+        deliveries = handle_get_upcoming_deliveries(days_ahead)
+        
+        # Filter by contract if specified
+        if contract_id:
+            deliveries = [d for d in deliveries if contract_id in d.get('CONTRACT', [])]
+        
+        return jsonify({
+            'deliveries': deliveries,
+            'count': len(deliveries),
+            'days_ahead': days_ahead
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/deliveries/<delivery_id>', methods=['PUT'])
+def update_delivery(delivery_id):
+    """
+    Update delivery status
+    
+    Body: {
+        "STATUS": "Delivered",
+        "ACTUAL_DELIVERY_DATE": "2026-02-15",
+        "TRACKING_NUMBER": "1Z999AA10123456784",
+        "CARRIER": "UPS",
+        "SHIPPING_COST": 45.00,
+        "DELIVERED_TO": "John Smith - Receiving",
+        "NOTES": "Left at loading dock"
+    }
+    """
+    try:
+        updates = request.json
+        result = handle_update_delivery_status(delivery_id, updates)
+        
+        if result.get('success'):
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/inventory', methods=['GET'])
+def get_inventory():
+    """Get all inventory with status indicators"""
+    try:
+        inventory = handle_get_inventory_dashboard()
+        
+        return jsonify({
+            'inventory': inventory,
+            'count': len(inventory)
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/inventory/health-check', methods=['GET'])
+def inventory_health_check():
+    """
+    Run inventory health check
+    Returns alerts for critical, low stock, and reorder needed items
+    """
+    try:
+        result = handle_check_inventory_health()
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/inventory/<product_sku>', methods=['GET'])
+def get_inventory_by_sku(product_sku):
+    """Get inventory status for specific product"""
+    try:
+        all_inventory = handle_get_inventory_dashboard()
+        product_inventory = [i for i in all_inventory if i.get('PRODUCT_SKU') == product_sku]
+        
+        if not product_inventory:
+            return jsonify({'error': 'Product not found'}), 404
+        
+        return jsonify(product_inventory[0])
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/purchase-orders', methods=['POST'])
+def create_purchase_order():
+    """
+    Create purchase order to restock inventory
+    
+    Body: {
+        "SUPPLIER": ["rec123..."],
+        "PRODUCT_SKU": "SOCK-DIAB-WHT-L",
+        "PRODUCT_NAME": "Diabetic Socks - White L",
+        "QUANTITY_ORDERED": 2000,
+        "UNIT_COST": 3.50,
+        "EXPECTED_DELIVERY_DATE": "2026-04-20",
+        "PAYMENT_TERMS": "Net 30",
+        "NOTES": "Rush order - expedited shipping"
+    }
+    """
+    try:
+        po_data = request.json
+        result = handle_create_purchase_order(po_data)
+        
+        if result.get('success'):
+            return jsonify(result), 201
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/purchase-orders', methods=['GET'])
+def get_purchase_orders():
+    """
+    Get purchase orders
+    Query params:
+    - status: Filter by status (Ordered, In Transit, Received, Cancelled)
+    """
+    try:
+        status = request.args.get('status', 'Ordered')
+        
+        if status == 'Ordered':
+            pos = handle_get_pending_purchase_orders()
+        else:
+            # Get all POs and filter - would need another handler for this
+            pos = handle_get_pending_purchase_orders()  # For now, just return pending
+        
+        return jsonify({
+            'purchase_orders': pos,
+            'count': len(pos)
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/purchase-orders/<po_id>/receive', methods=['PUT'])
+def receive_purchase_order(po_id):
+    """
+    Mark purchase order as received and update inventory
+    
+    Body: {
+        "ACTUAL_DELIVERY_DATE": "2026-04-19",
+        "QUANTITY_RECEIVED": 2000,
+        "NOTES": "All items in good condition"
+    }
+    """
+    try:
+        received_data = request.json
+        result = handle_receive_purchase_order(po_id, received_data)
+        
+        if result.get('success'):
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/fulfillment/dashboard', methods=['GET'])
+def get_fulfillment_dashboard():
+    """
+    Get complete fulfillment dashboard data
+    - Active contracts
+    - Upcoming deliveries (7 days)
+    - Inventory alerts
+    - Pending POs
+    """
+    try:
+        contracts = handle_get_active_contracts()
+        deliveries = handle_get_upcoming_deliveries(7)
+        inventory_health = handle_check_inventory_health()
+        pending_pos = handle_get_pending_purchase_orders()
+        
+        return jsonify({
+            'contracts': {
+                'data': contracts[:10],  # Top 10
+                'total': len(contracts)
+            },
+            'upcoming_deliveries': {
+                'data': deliveries,
+                'total': len(deliveries)
+            },
+            'inventory_alerts': inventory_health.get('alerts', {}),
+            'inventory_summary': inventory_health.get('summary', {}),
+            'pending_purchase_orders': {
+                'data': pending_pos[:5],  # Top 5
+                'total': len(pending_pos)
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# =====================================================================
+# AI RECOMMENDATION & APPROVAL SYSTEM
+# =====================================================================
+
+@app.route('/ai/recommendations/capability-gap', methods=['POST'])
+def analyze_capability_gap():
+    """
+    AI analyzes opportunity and recommends self-perform vs partner approach
+    
+    Request body:
+    {
+        "opportunity_id": "rec123abc"
+    }
+    
+    Response:
+    {
+        "success": true,
+        "analysis": {
+            "required_capabilities": [...],
+            "we_can_do": [...],
+            "we_need": [...],
+            "recommendation": "self_perform" or "partner",
+            "confidence": 85,
+            "reasoning": "...",
+            "compliance_check": {...}
+        },
+        "recommendation_id": "rec456def",
+        "message": "AI recommendation ready for your review"
+    }
+    """
+    try:
+        data = request.get_json()
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({'error': 'opportunity_id required'}), 400
+        
+        result = handle_analyze_capability_gap(opportunity_id)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/ai/recommendations/subcontractors', methods=['POST'])
+def recommend_subcontractors():
+    """
+    AI recommends top 5 subcontractors based on needed skills
+    
+    Request body:
+    {
+        "opportunity_id": "rec123abc",
+        "needed_skills": ["cybersecurity", "penetration testing"],
+        "contract_value": 500000  // optional
+    }
+    
+    Response:
+    {
+        "success": true,
+        "recommended_subcontractors": [
+            {
+                "id": "rec789ghi",
+                "name": "CyberSec Experts LLC",
+                "score": 92,
+                "reason": "Strong cybersecurity expertise...",
+                "strengths": [...],
+                "concerns": [...]
+            },
+            ...
+        ],
+        "ai_top_pick": {...},
+        "message": "AI analyzed 12 subcontractors..."
+    }
+    """
+    try:
+        data = request.get_json()
+        opportunity_id = data.get('opportunity_id')
+        needed_skills = data.get('needed_skills', [])
+        contract_value = data.get('contract_value')
+        
+        if not opportunity_id or not needed_skills:
+            return jsonify({'error': 'opportunity_id and needed_skills required'}), 400
+        
+        result = handle_recommend_subcontractors(opportunity_id, needed_skills, contract_value)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/ai/recommendations/suppliers', methods=['POST'])
+def recommend_suppliers():
+    """
+    AI recommends top 10 suppliers for product-based opportunities
+    
+    Request body:
+    {
+        "opportunity_id": "rec123abc",
+        "product_description": "Dell Latitude Laptops 5000 series"
+    }
+    
+    Response:
+    {
+        "success": true,
+        "recommended_suppliers": [
+            {
+                "id": "rec789ghi",
+                "name": "TechSource Wholesale",
+                "score": 88,
+                "reason": "Perfect product match, GSA approved...",
+                "pricing_estimate": "competitive"
+            },
+            ...
+        ],
+        "ai_top_pick": {...},
+        "message": "AI analyzed 30 suppliers..."
+    }
+    """
+    try:
+        data = request.get_json()
+        opportunity_id = data.get('opportunity_id')
+        product_description = data.get('product_description')
+        
+        if not opportunity_id or not product_description:
+            return jsonify({'error': 'opportunity_id and product_description required'}), 400
+        
+        result = handle_recommend_suppliers(opportunity_id, product_description)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/ai/recommendations/<recommendation_id>/approve', methods=['POST'])
+def approve_recommendation(recommendation_id):
+    """
+    User approves, denies, or modifies AI recommendation
+    System learns from the decision
+    
+    Request body:
+    {
+        "decision": "approved" | "denied" | "modified",
+        "notes": "Your reasoning for the decision",
+        "selected_id": "rec999xyz"  // optional: if user picked different option
+    }
+    
+    Response:
+    {
+        "success": true,
+        "decision": "approved",
+        "message": "Recommendation approved. System learning from your decision."
+    }
+    """
+    try:
+        data = request.get_json()
+        decision = data.get('decision')
+        notes = data.get('notes', '')
+        selected_id = data.get('selected_id')
+        
+        if not decision:
+            return jsonify({'error': 'decision required (approved/denied/modified)'}), 400
+        
+        if decision not in ['approved', 'denied', 'modified']:
+            return jsonify({'error': 'decision must be approved, denied, or modified'}), 400
+        
+        result = handle_approve_recommendation(recommendation_id, decision, notes, selected_id)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/ai/recommendations/pending', methods=['GET'])
+def get_pending_recommendations():
+    """
+    Get all pending AI recommendations awaiting user decision
+    
+    Query params:
+    - opportunity_id (optional): Filter by specific opportunity
+    
+    Response:
+    {
+        "success": true,
+        "pending_recommendations": [
+            {
+                "id": "rec123abc",
+                "OPPORTUNITY": ["rec456def"],
+                "TYPE": "Capability Gap Analysis",
+                "RECOMMENDATION": "PARTNER",
+                "CONFIDENCE": 85,
+                "REASONING": "...",
+                "STATUS": "Pending Approval",
+                "CREATED": "2026-01-21T..."
+            },
+            ...
+        ],
+        "count": 3
+    }
+    """
+    try:
+        opportunity_id = request.args.get('opportunity_id')
+        
+        result = handle_get_pending_recommendations(opportunity_id)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/ai/compliance/calculate', methods=['POST'])
+def calculate_compliance():
+    """
+    Calculate workshare percentages and check 50% rule compliance
+    Used for subcontracting compliance verification
+    
+    Request body:
+    {
+        "contract_value": 500000,
+        "your_work_value": 280000,
+        "subcontractor_work_value": 180000
+    }
+    
+    Response:
+    {
+        "success": true,
+        "compliance": {
+            "contract_value": 500000,
+            "your_work": 280000,
+            "your_percentage": 56.0,
+            "subcontractor_work": 180000,
+            "subcontractor_percentage": 36.0,
+            "margin": 40000,
+            "margin_percentage": 8.0,
+            "meets_50_percent_rule": true,
+            "compliant": true,
+            "status": "✅ Compliant",
+            "message": "You perform 56.0% - Meets 50% rule"
+        }
+    }
+    """
+    try:
+        data = request.get_json()
+        contract_value = data.get('contract_value')
+        your_work_value = data.get('your_work_value')
+        sub_work_value = data.get('subcontractor_work_value')
+        
+        if contract_value is None or your_work_value is None or sub_work_value is None:
+            return jsonify({'error': 'contract_value, your_work_value, and subcontractor_work_value required'}), 400
+        
+        result = handle_calculate_compliance(
+            float(contract_value),
+            float(your_work_value),
+            float(sub_work_value)
+        )
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# =====================================================================
+# CAPABILITY STATEMENT GENERATOR ENDPOINTS
+# =====================================================================
+
+@app.route('/capability-statements/generate', methods=['POST'])
+def generate_capability_statement():
+    """
+    Generate a capability statement from an opportunity or custom parameters
+    
+    Request body:
+        {
+            "opportunity_id": "recXXXXXXXXXXX",  // Optional: generate from opportunity
+            "client_name": "Agency Name",        // Required if no opportunity_id
+            "rfq_number": "12345",               // Required if no opportunity_id
+            "rfq_title": "Contract Title",       // Optional
+            "template": "default",               // Optional: default, va_medical, construction
+            "custom_config": {...}               // Optional: full custom config
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "html_file": "/path/to/file.html",
+            "pdf_file": "/path/to/file.pdf",
+            "airtable_record_id": "recXXXX",
+            "client_name": "Agency Name",
+            "rfq_number": "12345"
+        }
+    """
+    try:
+        from capability_statement_generator import handle_generate_capability_statement
+        
+        data = request.get_json() or {}
+        
+        result = handle_generate_capability_statement(
+            opportunity_id=data.get('opportunity_id'),
+            client_name=data.get('client_name'),
+            rfq_number=data.get('rfq_number'),
+            rfq_title=data.get('rfq_title'),
+            template=data.get('template', 'default'),
+            custom_config=data.get('custom_config')
+        )
+        
+        if not result.get('success'):
+            return jsonify(result), 400
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/capability-statements/templates', methods=['GET'])
+def get_capability_statement_templates():
+    """
+    Get list of available capability statement templates
+    
+    Returns:
+        {
+            "templates": [
+                {
+                    "id": "default",
+                    "name": "Default (Industrial Supplies)",
+                    "description": "General purpose template for industrial supplies"
+                },
+                ...
+            ]
+        }
+    """
+    return jsonify({
+        'templates': [
+            {
+                'id': 'default',
+                'name': 'Default (Industrial Supplies)',
+                'description': 'General purpose template for industrial supplies and government contracting',
+                'accent_color': '#d97706'
+            },
+            {
+                'id': 'va_medical',
+                'name': 'VA Medical',
+                'description': 'Healthcare and medical supplies for VA facilities',
+                'accent_color': '#0066cc'
+            },
+            {
+                'id': 'construction',
+                'name': 'Construction',
+                'description': 'General construction and facility services',
+                'accent_color': '#f97316'
+            }
+        ]
+    })
+
+
+@app.route('/capability-statements/list', methods=['GET'])
+def list_capability_statements():
+    """
+    Get list of generated capability statements from Airtable
+    
+    Returns:
+        {
+            "statements": [
+                {
+                    "id": "recXXXX",
+                    "client_name": "Agency Name",
+                    "rfq_number": "12345",
+                    "generated_date": "2026-01-23",
+                    "html_path": "/path/to/file.html",
+                    "pdf_path": "/path/to/file.pdf"
+                }
+            ]
+        }
+    """
+    try:
+        airtable_key = os.environ.get('AIRTABLE_API_KEY', '')
+        base_id = os.environ.get('AIRTABLE_BASE_ID', '')
+        
+        from pyairtable import Api
+        api = Api(airtable_key)
+        table = api.table(base_id, 'CapabilityStatements')
+        
+        records = table.all()
+        
+        statements = []
+        for record in records:
+            fields = record['fields']
+            statements.append({
+                'id': record['id'],
+                'client_name': fields.get('ClientName', ''),
+                'rfq_number': fields.get('RFQNumber', ''),
+                'generated_date': fields.get('GeneratedDate', ''),
+                'html_path': fields.get('HTMLPath', ''),
+                'pdf_path': fields.get('PDFPath', ''),
+                'status': fields.get('Status', '')
+            })
+        
+        return jsonify({'statements': statements})
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'statements': []
+        }), 500
 
 
 if __name__ == '__main__':
