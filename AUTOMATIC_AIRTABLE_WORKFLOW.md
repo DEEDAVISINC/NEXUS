@@ -7,6 +7,7 @@
 
 **From now on, EVERY TIME:**
 - An RFP is reviewed → Automatically add to GPSS OPPORTUNITIES
+- **Buyer contacts in RFP → Automatically extract and store CONTRACTING OFFICER info**
 - A supplier is identified → Automatically add to GPSS SUBCONTRACTORS  
 - A quote request is sent → Automatically link in GPSS SUBCONTRACTOR QUOTES
 
@@ -33,9 +34,58 @@ rfp_data = {
     "Est Profit": 15000
 }
 
-# Add to Airtable IMMEDIATELY
-opp_id = sync.add_opportunity(rfp_data)
+# Get full RFP text for buyer contact extraction
+rfp_full_text = """
+[Full RFP document text here]
+This should include contracting officer name, email, phone, submission instructions, etc.
+"""
+
+# Add to Airtable IMMEDIATELY (with buyer contact extraction)
+opp_id = sync.add_opportunity(rfp_data, rfp_full_text)
+# This automatically extracts and stores:
+# - Contracting Officer name, email, phone
+# - Submission contact
+# - Questions contact
+# - All other contacts found
 ```
+
+### **Step 1.5: Buyer Contact Extraction (AUTOMATIC)**
+
+**What gets extracted from the RFP:**
+```
+CONTRACTING OFFICER field gets:
+John Smith
+john.smith@example.gov
+(555) 123-4567
+
+Contacts Extracted field gets:
+Submission: bids@example.gov
+Questions: john.smith@example.gov
+Contact: procurement@example.gov
+```
+
+**Patterns recognized:**
+- "Contracting Officer: Name"
+- "Contract Specialist: Name"
+- "Buyer: Name"
+- "POC: Name"
+- "Point of Contact: Name"
+- "Submit to: email"
+- "Bid to: email"
+- "Questions to: email"
+- All email addresses found
+- All phone numbers found
+
+**Stored in Airtable:**
+- `CONTRACTING OFFICER` = Primary contact name, email, phone
+- `Contacts Extracted` = All submission, questions, and other contacts
+
+**Used for:**
+- ✅ Submitting bids
+- ✅ Asking questions
+- ✅ Following up
+- ✅ Future outreach
+- ✅ Officer relationship tracking
 
 ### **Step 2: Find Suppliers**
 ```python
@@ -171,6 +221,8 @@ sync.process_rfp_complete(rfp_data, suppliers_list)
 - Deadline (with time)
 - Status (Awaiting Quotes, Ready to Bid, etc.)
 - Agency name
+- **CONTRACTING OFFICER (name, email, phone) - AUTOMATICALLY EXTRACTED**
+- **Contacts Extracted (submission email, questions contact, all contacts) - AUTOMATICALLY EXTRACTED**
 - Estimated value
 - Est profit
 - Priority level

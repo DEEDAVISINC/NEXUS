@@ -1,6 +1,6 @@
 """
 AUTOMATIC RFP TO AIRTABLE PROCESSOR
-Automatically adds ALL new RFPs, suppliers, and quotes to Airtable
+Automatically adds ALL new RFPs, suppliers, quotes, and BUYER CONTACTS to Airtable
 This should run EVERY TIME an RFP is processed - NO EXCEPTIONS
 """
 
@@ -8,6 +8,7 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from pyairtable import Api
+from extract_buyer_contacts import BuyerContactExtractor
 
 load_dotenv()
 
@@ -18,6 +19,9 @@ opps_table = api.table(base_id, 'GPSS OPPORTUNITIES')
 subs_table = api.table(base_id, 'GPSS SUBCONTRACTORS')
 quotes_table = api.table(base_id, 'GPSS SUBCONTRACTOR QUOTES')
 
+# Initialize buyer contact extractor
+contact_extractor = BuyerContactExtractor()
+
 class AirtableAutoSync:
     """Automatically sync ALL RFP data to Airtable"""
     
@@ -26,7 +30,7 @@ class AirtableAutoSync:
         self.subs_table = subs_table
         self.quotes_table = quotes_table
         
-    def add_opportunity(self, rfp_data):
+    def add_opportunity(self, rfp_data, rfp_full_text=None):
         """
         Add opportunity to Airtable
         
@@ -38,7 +42,27 @@ class AirtableAutoSync:
         - Agency (str, optional)
         - Estimated Value (int, optional)
         - Est Profit (int, optional)
+        - CONTRACTING OFFICER (str, optional) - will be extracted if rfp_full_text provided
+        - Contacts Extracted (str, optional) - will be extracted if rfp_full_text provided
+        
+        Args:
+        - rfp_data: Dict with opportunity fields
+        - rfp_full_text: Full text of RFP for contact extraction (optional)
         """
+        
+        # Extract buyer contacts if full text provided
+        if rfp_full_text:
+            print("🔍 Extracting buyer contacts from RFP...")
+            contacts = contact_extractor.extract_contacts_from_text(rfp_full_text)
+            contacts_data = contact_extractor.format_contacts_for_airtable(contacts)
+            
+            # Add contact info to rfp_data
+            if contacts_data.get("CONTRACTING OFFICER"):
+                rfp_data["CONTRACTING OFFICER"] = contacts_data["CONTRACTING OFFICER"]
+            if contacts_data.get("Contacts Extracted"):
+                rfp_data["Contacts Extracted"] = contacts_data["Contacts Extracted"]
+            
+            print(f"✅ Extracted buyer contacts")
         
         # Check if already exists
         existing = self.opps_table.all(formula=f"{{RFP NUMBER}}='{rfp_data['RFP NUMBER']}'")
@@ -143,13 +167,14 @@ class AirtableAutoSync:
             print(f"✨ CREATED LINK: {company_name} → {rfp_number}")
             return result['id']
     
-    def process_rfp_complete(self, rfp_data, suppliers_list):
+    def process_rfp_complete(self, rfp_data, suppliers_list, rfp_full_text=None):
         """
-        Complete RFP processing - add opportunity, all suppliers, and all links
+        Complete RFP processing - add opportunity, extract buyer contacts, add all suppliers, and create all links
         
         Args:
         - rfp_data: Dict with opportunity info
         - suppliers_list: List of dicts, each with supplier info and optional quote_data
+        - rfp_full_text: Full text of RFP for buyer contact extraction (RECOMMENDED)
         
         Example:
         rfp_data = {
@@ -174,14 +199,16 @@ class AirtableAutoSync:
                 }
             }
         ]
+        
+        rfp_full_text = "Full RFP document text for contact extraction..."
         """
         
         print(f"\n{'='*70}")
         print(f"🚀 AUTO-PROCESSING RFP: {rfp_data['Name']}")
         print(f"{'='*70}\n")
         
-        # Add opportunity
-        opp_id = self.add_opportunity(rfp_data)
+        # Add opportunity (with buyer contact extraction if text provided)
+        opp_id = self.add_opportunity(rfp_data, rfp_full_text)
         
         # Add all suppliers and create links
         for supplier_entry in suppliers_list:
@@ -201,6 +228,7 @@ class AirtableAutoSync:
         
         print(f"\n✅ COMPLETE: {rfp_data['Name']} added to NEXUS Airtable")
         print(f"   - Opportunity: ✅")
+        print(f"   - Buyer Contacts: ✅" if rfp_full_text else "   - Buyer Contacts: ⚠️ (no RFP text provided)")
         print(f"   - Suppliers: {len(suppliers_list)}")
         print(f"   - Links: {len(suppliers_list)}")
         print(f"\n{'='*70}\n")

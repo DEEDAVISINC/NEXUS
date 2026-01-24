@@ -1,12 +1,15 @@
 🚨 MANDATORY WORKFLOW 🚨
 
 EVERY RFP → AUTOMATICALLY TO AIRTABLE
+EVERY BUYER CONTACT → AUTOMATICALLY EXTRACT & STORE
 EVERY SUPPLIER → AUTOMATICALLY TO AIRTABLE
 EVERY QUOTE → AUTOMATICALLY TO AIRTABLE
 
 NO EXCEPTIONS. NO ASKING. AUTOMATIC.
 
-Use: auto_rfp_to_airtable.py
+Use: auto_rfp_to_airtable.py + extract_buyer_contacts.py
 Read: AUTOMATIC_AIRTABLE_WORKFLOW.md
+
+CRITICAL: Always extract buyer/contracting officer contacts from RFP text!
 
 DO NOT FORGET THIS.
