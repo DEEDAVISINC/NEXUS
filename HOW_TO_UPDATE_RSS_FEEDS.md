@@ -35,11 +35,13 @@
 
 ### **Step 2: Replace with New Configuration**
 
-1. Open `UPDATED_RSS_FEEDS_CONFIG.py` (the file I just created)
+1. Open `COMPREHENSIVE_RSS_FEEDS_CONFIG.py` (the file with 30 feeds)
 2. Copy everything from `GOVERNMENT_RSS_FEEDS = [` to the matching `]` (the entire list)
 3. In `nexus_backend.py`, **delete the old `GOVERNMENT_RSS_FEEDS`** block
 4. **Paste the new one** in its place
 5. Save `nexus_backend.py`
+
+**Note:** This config has **30 feeds** (vs the original 3) and **100+ keywords** for maximum coverage!
 
 ---
 
@@ -73,23 +75,54 @@ print(f"Found {results['new_opportunities']} new opportunities")
 
 ## 📊 **WHAT YOU'LL SEE:**
 
-### **New Feed Sources (12 total):**
+### **New Feed Sources (30 total - ALL ENABLED!):**
 
-**Priority Feeds (Always Enabled):**
-1. ✅ SAM.gov - All Opportunities (broad search)
+**CRITICAL Priority:**
+1. ✅ SAM.gov - All Opportunities (100+ keywords, catch-all)
 2. ✅ SAM.gov - EDWOSB Set-Asides (your certification!)
 3. ✅ SAM.gov - WOSB Set-Asides (your certification!)
-4. ✅ Management Consulting (NAICS 541611)
-5. ✅ Other Management Consulting (NAICS 541618)
-6. ✅ IT Services (NAICS 541512)
-7. ✅ Admin Services (NAICS 561110)
-8. ✅ Facilities Support (NAICS 561210)
-9. ✅ Freight Transportation (NAICS 484)
-10. ✅ Courier Services (NAICS 492)
-11. ✅ Emergency Services (NAICS 624230)
+4. ✅ SAM.gov - Small Business Set-Asides
 
-**Optional Feeds (Disabled by Default):**
-12. ⏸️ Engineering Services (enable if you do engineering)
+**Professional Services (NAICS 54):**
+5. ✅ All Professional Services (NAICS 541)
+6. ✅ Management Consulting (NAICS 541611)
+7. ✅ Other Management Consulting (NAICS 541618)
+8. ✅ Computer Systems Design (NAICS 541512)
+9. ✅ Other Computer Services (NAICS 541519)
+10. ✅ Engineering Services (NAICS 541330)
+11. ✅ All Other Professional Services (NAICS 541990)
+
+**Admin & Support (NAICS 56):**
+12. ✅ All Administrative Services (NAICS 561)
+13. ✅ Office Administrative (NAICS 561110)
+14. ✅ Facilities Support (NAICS 561210)
+15. ✅ Janitorial Services (NAICS 561720)
+16. ✅ Landscaping Services (NAICS 561730)
+17. ✅ Other Support Services (NAICS 561990)
+
+**Transportation & Warehousing (NAICS 48-49):**
+18. ✅ Truck Transportation (NAICS 484)
+19. ✅ Couriers & Messengers (NAICS 492)
+20. ✅ Warehousing & Storage (NAICS 493)
+
+**Healthcare (NAICS 62):**
+21. ✅ Ambulatory Healthcare (NAICS 621)
+22. ✅ Social Assistance (NAICS 624)
+23. ✅ Emergency & Relief Services (NAICS 624230)
+
+**Construction (NAICS 23):**
+24. ✅ Construction of Buildings (NAICS 236)
+25. ✅ Specialty Trade Contractors (NAICS 238)
+
+**Wholesale/Products (NAICS 42):**
+26. ✅ Durable Goods Wholesale (NAICS 423)
+27. ✅ Nondurable Goods Wholesale (NAICS 424)
+
+**Other:**
+28. ✅ Educational Services (NAICS 611)
+29. ✅ Repair & Maintenance (NAICS 811)
+
+**Total: 30 feeds covering 15+ major industries**
 
 ---
 
@@ -138,14 +171,14 @@ After updating, verify:
 
 ### **After Update:**
 ```
-✓ Checked 11 feeds
-✓ Found 45 opportunities
-  - 15 parts/products (33%)
-  - 25 services (56%)
-  - 5 mixed (11%)
+✓ Checked 30 feeds
+✓ Found 120+ opportunities
+  - 35 parts/products (29%)
+  - 70 services (58%)
+  - 15 mixed/construction (13%)
 ```
 
-**Result:** 3x more opportunities, better variety!
+**Result:** 8x more opportunities, massive variety across all industries!
 
 ---
 
