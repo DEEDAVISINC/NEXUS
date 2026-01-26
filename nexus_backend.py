@@ -4612,9 +4612,14 @@ class GPSSSupplierMiner:
                 if status in ['Inactive', 'Blocked', 'Rejected']:
                     continue
                 
+                # Skip suppliers with no company name
+                company_name = fields.get('COMPANY NAME', '').strip()
+                if not company_name:
+                    continue
+                
                 filtered.append({
                     'id': supplier.get('id'),
-                    'company_name': fields.get('COMPANY NAME', ''),
+                    'company_name': company_name,
                     'website': fields.get('WEBSITE', ''),
                     'product_keywords': fields.get('PRODUCT KEYWORDS', ''),
                     'net_30_available': fields.get('NET 30', False),
