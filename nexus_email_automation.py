@@ -303,7 +303,7 @@ class AirtableManager:
         self.table = self.api.table(AIRTABLE_BASE_ID, OPPORTUNITIES_TABLE)
         
     def create_opportunity(self, extracted_info):
-        """Create new opportunity record - using existing table fields"""
+        """Create new opportunity record - enhanced with all required fields"""
         
         # Build name from organization + title
         org = extracted_info.get('organization', 'Unknown')
@@ -314,11 +314,46 @@ class AirtableManager:
         value = extracted_info.get('estimated_value', 0)
         high_value = value >= 50000 if value else False
         
-        # Basic fields that exist in GPSS OPPORTUNITIES
+        # Calculate urgency based on deadline
+        deadline = extracted_info.get('deadline')
+        urgency = 'Medium'
+        days_until = 0
+        if deadline:
+            try:
+                from datetime import datetime
+                deadline_date = datetime.fromisoformat(deadline.replace('Z', '+00:00'))
+                days_until = (deadline_date - datetime.now()).days
+                
+                if days_until <= 7:
+                    urgency = 'Critical'
+                elif days_until <= 14:
+                    urgency = 'High'
+                elif days_until <= 30:
+                    urgency = 'Medium'
+                else:
+                    urgency = 'Low'
+                days_until = max(0, days_until)
+            except:
+                pass
+        
+        # Calculate priority score
+        priority_score = 50
+        if urgency == 'Critical':
+            priority_score = 85
+        elif urgency == 'High':
+            priority_score = 70
+        elif urgency == 'Medium':
+            priority_score = 50
+        else:
+            priority_score = 30
+        if high_value:
+            priority_score = min(100, priority_score + 15)
+        
+        # Fields that exist in Airtable - backend API will add defaults for missing fields
         fields = {
             'Name': name,
             'RFP NUMBER': extracted_info.get('solicitation_number', 'Unknown'),
-            'Deadline': extracted_info.get('deadline'),
+            'Deadline': deadline,
             'Source Status': 'NEW',
             'HIGH VALUE FLAG': high_value
         }

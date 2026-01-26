@@ -1815,47 +1815,49 @@ def get_gpss_opportunities():
         for record in records:
             fields = record['fields']
             
-            # Apply filters
-            if source and fields.get('Source') != source:
+            # Apply filters (using actual Airtable field names)
+            if source and fields.get('Source', fields.get('Source Status', '')) != source:
                 continue
-            if state and fields.get('State') != state:
+            if state and fields.get('State', '') != state:
                 continue
-            if edwsb_only and not fields.get('EDWOSB Eligible'):
+            if edwsb_only and not fields.get('EDWOSB Eligible', False):
                 continue
-            if urgency and fields.get('Urgency') != urgency:
+            if urgency and fields.get('Urgency', 'Medium') != urgency:
                 continue
-            if home_states_only and not fields.get('Home State Priority'):
+            if home_states_only and not fields.get('Home State Priority', False):
                 continue
             
+            # Map actual Airtable fields to frontend expected format
             opportunities.append({
                 'id': record['id'],
-                'title': fields.get('Title', ''),
-                'rfpNumber': fields.get('RFP Number', ''),
-                'agency': fields.get('Agency Name', ''),
-                'value': fields.get('Value', 0),
-                'dueDate': fields.get('Due Date', ''),
-                'source': fields.get('Source', ''),
+                # Core fields - map from actual Airtable fields
+                'title': fields.get('Name', fields.get('Title', '')),  # Use 'Name' or fallback to 'Title'
+                'rfpNumber': fields.get('RFP NUMBER', fields.get('RFP Number', '')),  # Use 'RFP NUMBER' or fallback
+                'agency': fields.get('Agency Name', fields.get('Agency', 'Unknown Agency')),
+                'value': fields.get('Value', fields.get('Estimated Value', 0)),
+                'dueDate': fields.get('Deadline', fields.get('Due Date', '')),  # Use 'Deadline' or fallback to 'Due Date'
+                'source': fields.get('Source', 'Federal'),  # Default to Federal
                 'sourcePortal': fields.get('Source Portal', ''),
                 'sourceUrl': fields.get('Source URL', ''),
-                'state': fields.get('State', ''),
+                'state': fields.get('State', 'Federal'),
                 'county': fields.get('County', ''),
                 'city': fields.get('City', ''),
                 'performanceLocation': fields.get('Performance Location', ''),
                 'homeStatePriority': fields.get('Home State Priority', False),
-                'agencyType': fields.get('Agency Type', ''),
-                'setAsideType': fields.get('Set-Aside Type', ''),
+                'agencyType': fields.get('Agency Type', 'Federal'),
+                'setAsideType': fields.get('Set-Aside Type', 'Unrestricted'),
                 'edwsbEligible': fields.get('EDWOSB Eligible', False),
                 'certificationRequired': fields.get('Certification Required', ''),
                 'naicsCodes': fields.get('NAICS Codes', []),
                 'pscCodes': fields.get('PSC Codes', ''),
-                'nigpCodes': fields.get('NIGP Codes', ''),  # User added this!
-                'category': fields.get('Opportunity Category', ''),
-                'priorityScore': fields.get('Priority Score', 0),
-                'winProbability': fields.get('Win Probability', 0),
+                'nigpCodes': fields.get('NIGP Codes', ''),
+                'category': fields.get('Opportunity Category', fields.get('Category', 'Other')),
+                'priorityScore': fields.get('Priority Score', 50),  # Default mid-range
+                'winProbability': fields.get('Win Probability', 50),
                 'urgency': fields.get('Urgency', 'Medium'),
                 'daysUntilDue': fields.get('Days Until Due', 0),
-                'strategicFit': fields.get('Strategic Fit', ''),
-                'internalStatus': fields.get('Internal Status', 'New'),
+                'strategicFit': fields.get('Strategic Fit', 'Fair'),
+                'internalStatus': fields.get('Internal Status', fields.get('Source Status', 'New')),  # Use 'Source Status' as fallback
                 'pipelineStage': fields.get('Pipeline Stage', 'Active'),
                 'assignedTo': fields.get('Assigned To', ''),
                 'notes': fields.get('Notes', ''),
@@ -1865,7 +1867,9 @@ def get_gpss_opportunities():
                 'aiConcerns': fields.get('AI Concerns', ''),
                 'contactsExtracted': fields.get('Contacts Extracted', 0),
                 'lastReviewedDate': fields.get('Last Reviewed Date', ''),
-                'createdDate': fields.get('Created Date', '')
+                'createdDate': fields.get('Created Date', ''),
+                # Additional fields from your schema
+                'highValueFlag': fields.get('HIGH VALUE FLAG', False)
             })
         
         return jsonify({'opportunities': opportunities})
