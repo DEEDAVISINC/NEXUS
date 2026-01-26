@@ -35,31 +35,31 @@ for record in records:
     updates = {}
     
     # Add default value if missing (set to $0 for now, can be updated later)
-    if 'Value' not in fields and 'Estimated Value' not in fields:
-        updates['Value'] = 0
+    if 'VALUE' not in fields and 'Estimated Value' not in fields:
+        updates['VALUE'] = 0
     
     # Add source if missing (try to infer from name or default to Federal)
-    if 'Source' not in fields:
+    if 'SOURCE' not in fields:
         name = fields.get('Name', '').lower()
         if any(word in name for word in ['county', 'city', 'municipal', 'township']):
-            updates['Source'] = 'Local'
+            updates['SOURCE'] = 'Local'
         elif any(word in name for word in ['state', 'michigan', 'texas', 'california']):
-            updates['Source'] = 'State'
+            updates['SOURCE'] = 'State'
         else:
-            updates['Source'] = 'Federal'
+            updates['SOURCE'] = 'Federal'
     
     # Add agency if missing (extract from name or use placeholder)
-    if 'Agency Name' not in fields and 'Agency' not in fields:
+    if 'AGENCY NAME' not in fields and 'Agency' not in fields:
         name = fields.get('Name', '')
         # Try to extract agency from name (e.g., "ITB 4614 - Midland" -> "Midland")
         if ' - ' in name:
             potential_agency = name.split(' - ')[-1].strip()
-            updates['Agency Name'] = potential_agency
+            updates['AGENCY NAME'] = potential_agency
         else:
-            updates['Agency Name'] = 'TBD'
+            updates['AGENCY NAME'] = 'TBD'
     
     # Add urgency based on deadline
-    if 'Urgency' not in fields:
+    if 'URGENCY' not in fields:
         deadline = fields.get('Deadline', fields.get('Due Date', ''))
         if deadline:
             try:
@@ -68,27 +68,27 @@ for record in records:
                 days_until = (deadline_date - datetime.now()).days
                 
                 if days_until < 0:
-                    updates['Urgency'] = 'Critical'  # Overdue
+                    updates['URGENCY'] = 'Critical'  # Overdue
                 elif days_until <= 7:
-                    updates['Urgency'] = 'Critical'
+                    updates['URGENCY'] = 'Critical'
                 elif days_until <= 14:
-                    updates['Urgency'] = 'High'
+                    updates['URGENCY'] = 'High'
                 elif days_until <= 30:
-                    updates['Urgency'] = 'Medium'
+                    updates['URGENCY'] = 'Medium'
                 else:
-                    updates['Urgency'] = 'Low'
+                    updates['URGENCY'] = 'Low'
                 
                 updates['Days Until Due'] = max(0, days_until)
             except:
-                updates['Urgency'] = 'Medium'
+                updates['URGENCY'] = 'Medium'
                 updates['Days Until Due'] = 0
         else:
-            updates['Urgency'] = 'Medium'
+            updates['URGENCY'] = 'Medium'
     
     # Add priority score
-    if 'Priority Score' not in fields:
+    if 'PRIORITY SCORE' not in fields:
         # Calculate based on urgency and high value flag
-        urgency = updates.get('Urgency', fields.get('Urgency', 'Medium'))
+        urgency = updates.get('URGENCY', fields.get('URGENCY', 'Medium'))
         high_value = fields.get('HIGH VALUE FLAG', False)
         
         base_score = 50
@@ -104,12 +104,12 @@ for record in records:
         if high_value:
             base_score = min(100, base_score + 15)
         
-        updates['Priority Score'] = base_score
+        updates['PRIORITY SCORE'] = base_score
     
     # Add state if missing
     if 'State' not in fields:
         name = fields.get('Name', '').lower()
-        agency = updates.get('Agency Name', fields.get('Agency Name', '')).lower()
+        agency = updates.get('AGENCY NAME', fields.get('AGENCY NAME', '')).lower()
         
         # Try to detect state from name or agency
         state_keywords = {
@@ -154,7 +154,7 @@ for record in records:
     
     # Add strategic fit
     if 'Strategic Fit' not in fields:
-        priority = updates.get('Priority Score', fields.get('Priority Score', 50))
+        priority = updates.get('PRIORITY SCORE', fields.get('PRIORITY SCORE', 50))
         if priority >= 80:
             updates['Strategic Fit'] = 'Excellent'
         elif priority >= 60:

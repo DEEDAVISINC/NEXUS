@@ -1830,46 +1830,46 @@ def get_gpss_opportunities():
             # Map actual Airtable fields to frontend expected format
             opportunities.append({
                 'id': record['id'],
-                # Core fields - map from actual Airtable fields
-                'title': fields.get('Name', fields.get('Title', '')),  # Use 'Name' or fallback to 'Title'
-                'rfpNumber': fields.get('RFP NUMBER', fields.get('RFP Number', '')),  # Use 'RFP NUMBER' or fallback
-                'agency': fields.get('Agency Name', fields.get('Agency', 'Unknown Agency')),
-                'value': fields.get('Value', fields.get('Estimated Value', 0)),
-                'dueDate': fields.get('Deadline', fields.get('Due Date', '')),  # Use 'Deadline' or fallback to 'Due Date'
-                'source': fields.get('Source', 'Federal'),  # Default to Federal
+                # Core fields - map from actual Airtable fields (matching exact case)
+                'title': fields.get('Name', ''),
+                'rfpNumber': fields.get('RFP NUMBER', ''),
+                'agency': fields.get('AGENCY NAME', 'Unknown Agency'),  # ALL CAPS in Airtable
+                'value': fields.get('VALUE', 0),  # ALL CAPS in Airtable
+                'dueDate': fields.get('Deadline', ''),
+                'source': fields.get('SOURCE', 'Federal'),  # ALL CAPS in Airtable
                 'sourcePortal': fields.get('Source Portal', ''),
                 'sourceUrl': fields.get('Source URL', ''),
                 'state': fields.get('State', 'Federal'),
                 'county': fields.get('County', ''),
                 'city': fields.get('City', ''),
                 'performanceLocation': fields.get('Performance Location', ''),
-                'homeStatePriority': fields.get('Home State Priority', False),
+                'homeStatePriority': bool(fields.get('Home State Priority', False)),
                 'agencyType': fields.get('Agency Type', 'Federal'),
                 'setAsideType': fields.get('Set-Aside Type', 'Unrestricted'),
-                'edwsbEligible': fields.get('EDWOSB Eligible', False),
+                'edwsbEligible': bool(fields.get('EDWOSB', False)),
                 'certificationRequired': fields.get('Certification Required', ''),
-                'naicsCodes': fields.get('NAICS Codes', []),
+                'naicsCodes': fields.get('NAISC Codes', []),
                 'pscCodes': fields.get('PSC Codes', ''),
                 'nigpCodes': fields.get('NIGP Codes', ''),
-                'category': fields.get('Opportunity Category', fields.get('Category', 'Other')),
-                'priorityScore': fields.get('Priority Score', 50),  # Default mid-range
+                'category': fields.get('Opportunity Category', 'Other'),
+                'priorityScore': fields.get('PRIORITY SCORE', 50),  # ALL CAPS with space
                 'winProbability': fields.get('Win Probability', 50),
-                'urgency': fields.get('Urgency', 'Medium'),
+                'urgency': fields.get('URGENCY', 'Medium'),  # ALL CAPS in Airtable
                 'daysUntilDue': fields.get('Days Until Due', 0),
                 'strategicFit': fields.get('Strategic Fit', 'Fair'),
-                'internalStatus': fields.get('Internal Status', fields.get('Source Status', 'New')),  # Use 'Source Status' as fallback
+                'internalStatus': fields.get('Source Status', 'New'),
                 'pipelineStage': fields.get('Pipeline Stage', 'Active'),
-                'assignedTo': fields.get('Assigned To', ''),
+                'assignedTo': fields.get('Assigned to', ''),
                 'notes': fields.get('Notes', ''),
                 'aiQualificationResult': fields.get('AI Qualification Result', ''),
-                'aiRecommendation': fields.get('AI Recommendation', ''),
+                'aiRecommendation': fields.get('AI Recommendation ', ''),  # Note: space after "Recommendation" in Airtable
                 'aiStrengths': fields.get('AI Strengths', ''),
                 'aiConcerns': fields.get('AI Concerns', ''),
                 'contactsExtracted': fields.get('Contacts Extracted', 0),
                 'lastReviewedDate': fields.get('Last Reviewed Date', ''),
-                'createdDate': fields.get('Created Date', ''),
+                'createdDate': '',  # No Created Date field in your schema
                 # Additional fields from your schema
-                'highValueFlag': fields.get('HIGH VALUE FLAG', False)
+                'highValueFlag': bool(fields.get('HIGH VALUE FLAG', False))
             })
         
         return jsonify({'opportunities': opportunities})
