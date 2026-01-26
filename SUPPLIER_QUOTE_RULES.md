@@ -46,10 +46,12 @@ If you tell a supplier "I need a quote for Canton Township's water bid," the sup
 ### **When Requesting Quotes:**
 
 **❌ WRONG:**
-> "I need a quote for Canton Township's water infrastructure bid due February 5th."
+> "Hi, I'm Dee Davis and I need a quote for Canton Township's water infrastructure bid due February 5th."
 
 **✅ CORRECT:**
-> "I need a quote for a Michigan municipal client. We need water infrastructure products delivered to the Metro Detroit area."
+> "Hi, calling from Dee Davis Inc. We need a quote for a Michigan municipal client - water infrastructure products for the Metro Detroit area."
+
+**Note:** Use "calling from Dee Davis Inc." - personal name not necessary.
 
 ---
 
@@ -131,14 +133,16 @@ Dee Davis Inc.
 ### **When Calling Suppliers:**
 
 ```
-"Hi, this is Dee Davis from Dee Davis Inc. I'm preparing a bid for a Michigan 
-client and need quotes for [product category].
+"Hi, calling from Dee Davis Inc. We're preparing a bid for a Michigan client 
+and need quotes for [product category].
 
 I have a list of specifications - can I email them to you?
 
-I need competitive pricing with NET 30 terms, and delivery to the Metro Detroit 
+We need competitive pricing with NET 30 terms, and delivery to the Metro Detroit 
 area. When could you get me a quote?"
 ```
+
+**Note:** Use "calling from Dee Davis Inc." - keeps it professional and business-focused.
 
 ### **If They Ask Questions:**
 

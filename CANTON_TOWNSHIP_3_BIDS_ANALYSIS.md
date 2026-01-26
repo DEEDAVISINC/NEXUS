@@ -132,6 +132,9 @@
 - Local Branch Finder: fergusonwaterworks.com
 - Phone: 1-888-FERGUSON
 
+**Call Script:**
+"Hi, calling from Dee Davis Inc. We need quotes for 3 municipal water infrastructure packages for a Michigan client."
+
 **What to request:**
 - Quote for all 3 product packages (list specs, NOT bid documents)
 - NET 30 or NET 45 terms
@@ -153,6 +156,9 @@
 - Website: www.coreandmain.com
 - Phone: 1-800-329-2673
 - Local: Warren, MI - (586) 573-8900
+
+**Call Script:**
+"Hi, calling from Dee Davis Inc. We need quotes for a Michigan municipal water project."
 
 **What to request:**
 - Quote for all 3 product packages (list specs only)

@@ -11,9 +11,9 @@
 Phone: 1-888-FERGUSON
 Find nearest branch: fergusonwaterworks.com
 
-"Hi, I'm Dee Davis from Dee Davis Inc. I need quotes for 3 municipal 
-water infrastructure bids for a Michigan client. I need Mueller, Romac, 
-and EBAA products. Can you help me?"
+"Hi, calling from Dee Davis Inc. We need quotes for 3 municipal water 
+infrastructure packages for a Michigan client. We need Mueller, Romac, 
+and EBAA products. Can you help us?"
 
 Email quote request (DO NOT mention Canton Township - protect your client!)
 Request: Unit pricing, NET 30 terms, delivery to Metro Detroit area
@@ -24,8 +24,9 @@ Request: Unit pricing, NET 30 terms, delivery to Metro Detroit area
 Phone: (586) 573-8900 (Warren, MI)
 Or: 1-800-329-2673
 
-"I need quotes for a Michigan municipal water bid - Romac clamps, 
-EBAA lugs, Mueller fittings. Need quotes by February 3rd."
+"Hi, calling from Dee Davis Inc. We need quotes for a Michigan municipal 
+water project - Romac clamps, EBAA lugs, Mueller fittings. Need quotes 
+by February 3rd."
 
 Email request (DO NOT mention client name!)
 ```
@@ -34,8 +35,8 @@ Email request (DO NOT mention client name!)
 ```
 Contact your existing Grainger account rep
 
-"Do you carry Mueller parts? I have a Michigan municipal bid for copper 
-tubing and brass fittings - need a quote."
+"Hi, calling from Dee Davis Inc. Do you carry Mueller parts? We have a 
+Michigan municipal project - copper tubing and brass fittings. Need a quote."
 
 Quick check - they may have Bid 1 items.
 ```
