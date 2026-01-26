@@ -133,10 +133,12 @@
 - Phone: 1-888-FERGUSON
 
 **What to request:**
-- Quote for all 3 bid packages
+- Quote for all 3 product packages (list specs, NOT bid documents)
 - NET 30 or NET 45 terms
 - Local stock availability
-- Delivery timeline to Canton Township
+- Delivery timeline to Metro Detroit area
+
+**CRITICAL:** DO NOT mention Canton Township or attach bid PDFs with client name!
 
 ---
 
@@ -153,10 +155,12 @@
 - Local: Warren, MI - (586) 573-8900
 
 **What to request:**
-- Quote for all 3 bids
-- Municipal/government pricing
+- Quote for all 3 product packages (list specs only)
+- Best pricing (DO NOT mention municipal/government - just competitive pricing)
 - Stock availability
-- Delivery schedule
+- Delivery schedule to Metro Detroit area
+
+**CRITICAL:** Never mention client name or that it's a government bid!
 
 ---
 
@@ -200,11 +204,11 @@
 ## 📧 **QUOTE REQUEST EMAIL TEMPLATE**
 
 ```
-Subject: RFQ - Canton Township Water Infrastructure Bids (3 packages) - Due Feb 5
+Subject: RFQ - Municipal Water Infrastructure (3 packages) - Need by Feb 3
 
 Dear [Supplier Name],
 
-Dee Davis Inc. is preparing bids for Charter Township of Canton (MI) for three water 
+Dee Davis Inc. is preparing bids for a Michigan municipal client for three water 
 infrastructure contracts. We need quotes for the following:
 
 BID 1 - COPPER TUBING & BRASS:
@@ -221,10 +225,10 @@ BID 3 - WATER MAIN REPAIR CLAMPS:
 
 REQUIREMENTS:
 ✓ Pricing: Per unit and extended total
-✓ Delivery: FOB Canton Township, MI
+✓ Delivery: FOB Metro Detroit area (Wayne County, MI)
 ✓ Payment Terms: NET 30 preferred
-✓ Stock Availability: Please indicate local stock
-✓ Delivery Timeline: Coordinated with Canton DPW Water Supervisor
+✓ Stock Availability: Please indicate local Michigan stock
+✓ Delivery Timeline: Flexible coordination with end client
 ✓ Brands: Mueller, Romac, EBAA (or approved equal)
 
 DEADLINE: Need quotes by February 3, 2026 (2 days before bid due)

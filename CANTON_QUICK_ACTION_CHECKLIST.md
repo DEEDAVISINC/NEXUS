@@ -11,12 +11,12 @@
 Phone: 1-888-FERGUSON
 Find nearest branch: fergusonwaterworks.com
 
-"Hi, I'm Dee Davis from Dee Davis Inc. I need quotes for 3 Canton Township 
-water infrastructure bids due February 5th. I need Mueller, Romac, and EBAA 
-products. Can you help me?"
+"Hi, I'm Dee Davis from Dee Davis Inc. I need quotes for 3 municipal 
+water infrastructure bids for a Michigan client. I need Mueller, Romac, 
+and EBAA products. Can you help me?"
 
-Email quote request with all 3 PDFs attached.
-Request: Unit pricing, NET 30 terms, delivery to Canton MI
+Email quote request (DO NOT mention Canton Township - protect your client!)
+Request: Unit pricing, NET 30 terms, delivery to Metro Detroit area
 ```
 
 ### **Call #2: Core & Main** ⭐ PRIORITY 2
@@ -24,18 +24,18 @@ Request: Unit pricing, NET 30 terms, delivery to Canton MI
 Phone: (586) 573-8900 (Warren, MI)
 Or: 1-800-329-2673
 
-"I need quotes for Canton Township municipal water bids - Romac clamps, 
+"I need quotes for a Michigan municipal water bid - Romac clamps, 
 EBAA lugs, Mueller fittings. Need quotes by February 3rd."
 
-Email request with PDFs attached.
+Email request (DO NOT mention client name!)
 ```
 
 ### **Call #3: Grainger (Your existing rep)** ⭐ PRIORITY 3
 ```
 Contact your existing Grainger account rep
 
-"Do you carry Mueller parts? I have a Canton Township bid for copper 
-tubing and brass fittings."
+"Do you carry Mueller parts? I have a Michigan municipal bid for copper 
+tubing and brass fittings - need a quote."
 
 Quick check - they may have Bid 1 items.
 ```
@@ -44,19 +44,20 @@ Quick check - they may have Bid 1 items.
 
 ## 📧 **EMAIL ALL 3 SUPPLIERS (MONDAY)**
 
-**Subject:** RFQ - Canton Township Water Bids (3 packages) - Due Feb 5
+**Subject:** RFQ - Municipal Water Infrastructure (3 packages) - Need by Feb 3
 
-**Attach:**
-- Canton Copper Tubing and Brass 2026.pdf
-- Canton Water Main Parts 2026.pdf
-- Canton Water Main Repair Clamps 2026.pdf
+**DO NOT ATTACH PDFs with client name!**
+**Type out specifications manually or remove identifying headers**
 
 **Key points in email:**
-✓ Need quotes for ALL 3 bids (bundle request)
-✓ Need responses by **February 3rd** (2 days before deadline)
+✓ "Michigan municipal client" (DO NOT say Canton Township!)
+✓ Need quotes for ALL 3 product packages (list specs)
+✓ Need responses by **February 3rd**
 ✓ Request NET 30 terms
 ✓ Ask about local Michigan stock
-✓ Mention you're Michigan-based for local delivery
+✓ Mention delivery to Metro Detroit area
+
+**CRITICAL:** Never reveal end buyer name - protect your business!
 
 ---
 
