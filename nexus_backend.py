@@ -5780,7 +5780,7 @@ class GPSSSubcontractorMiner:
                         break
                         
                 except Exception as e:
-                                print(f"  ⚠️  Error with query '{query}': {e}")
+                    print(f"  ⚠️  Error with query '{query}': {e}")
                     continue
             
             print(f"  ✅ Found {len(results)} subcontractors in area\n")
