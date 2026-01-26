@@ -2862,20 +2862,28 @@ def get_gpss_contacts():
         contacts = []
         for record in records:
             fields = record['fields']
+            
+            # Parse Name field (could be "FirstName LastName" or just single name)
+            full_name = fields.get('Name', '').strip()
+            name_parts = full_name.split(' ', 1) if full_name else ['', '']
+            first_name = name_parts[0] if len(name_parts) > 0 else ''
+            last_name = name_parts[1] if len(name_parts) > 1 else ''
+            
             contacts.append({
                 'id': record['id'],
-                'firstName': fields.get('First Name', ''),
-                'lastName': fields.get('Last Name', ''),
+                'firstName': first_name,
+                'lastName': last_name,
+                'fullName': full_name,
                 'email': fields.get('Email', ''),
                 'phone': fields.get('Phone', ''),
                 'title': fields.get('Title', ''),
-                'agency': fields.get('Agency', ''),
+                'agency': fields.get('Organization', ''),
+                'organization': fields.get('Organization', ''),
                 'department': fields.get('Department', ''),
-                'address': fields.get('Address', ''),
-                'city': fields.get('City', ''),
-                'state': fields.get('State', ''),
-                'zip': fields.get('ZIP', ''),
-                'source': fields.get('Source', ''),
+                'roleCategory': fields.get('Role Category', ''),
+                'priority': fields.get('Priority', ''),
+                'notes': fields.get('Notes', ''),
+                'source': fields.get('Source', 'Manual'),
                 'created': fields.get('Created', '')
             })
         
@@ -2976,21 +2984,32 @@ def get_gpss_products():
         
         # Try to get products from Airtable (table might not exist yet)
         try:
-            records = airtable_client.get_all_records('Products')
+            records = airtable_client.get_all_records('GPSS PRODUCTS')
         except:
             return jsonify({'products': []})
         
         products = []
         for record in records:
             fields = record['fields']
+            
+            # Parse price (could be text like "$75.00")
+            price_str = fields.get('UNIT PRICE', '0')
+            try:
+                # Remove $ and commas, convert to float
+                price = float(str(price_str).replace('$', '').replace(',', ''))
+            except:
+                price = 0
+            
             products.append({
                 'id': record['id'],
-                'name': fields.get('Product Name', ''),
+                'name': fields.get('NAME', ''),
                 'description': fields.get('Description', ''),
-                'category': fields.get('Category', ''),
-                'basePrice': fields.get('Base Price', 0),
-                'unit': fields.get('Unit', ''),
-                'serviceCategory': fields.get('Service Category', ''),
+                'category': fields.get('PRODUCT CATEGORY', ''),
+                'basePrice': price,
+                'unitPrice': price,
+                'unit': fields.get('Unit', 'each'),
+                'supplier': fields.get('SUPPLIER', ''),
+                'manufacturers': fields.get('Manufacturers', ''),
                 'created': fields.get('Created', '')
             })
         
