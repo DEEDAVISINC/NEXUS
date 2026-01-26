@@ -4607,9 +4607,9 @@ class GPSSSupplierMiner:
                 if rating < min_rating:
                     continue
                 
-                # Filter active/approved suppliers only
+                # Filter out explicitly inactive suppliers only
                 status = fields.get('BUSINESS STATUS', '')
-                if status not in ['Active', 'Prospective']:
+                if status in ['Inactive', 'Blocked', 'Rejected']:
                     continue
                 
                 filtered.append({
