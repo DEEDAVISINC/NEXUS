@@ -27,75 +27,45 @@ paper_wholesalers = [
         "WEBSITE": "https://www.greatfallspaper.com",
         "PRIMARY CONTACT EMAIL": "sales@greatfallspaper.com",
         "PRIMARY CONTACT PHONE": "800-992-7671",
-        "LOCATION": "Great Falls, MT",
-        "PRODUCT KEYWORDS": "copy paper, printer paper, office paper, copier paper, computer paper, fax paper, labels, cardstock, envelopes, letterhead, multipurpose paper, recycled paper, GSA Schedule 75",
-        "DESCRIPTION": "GSA Advantage catalog with 22,600+ products. Established wholesale paper distributor with federal contracts. Excellent for government RFPs requiring GSA schedule pricing. Wide product range including all office paper types.",
-        "BUSINESS STATUS": "Prospective",
-        "DISCOVERY METHOD": "Manual Entry",
-        "DISCOVERY DATE": "2026-01-23",
-        "DISCOVERED BY": "Dee Davis - Strategic Addition",
-        "RELATIONSHIP STAGE": "Discovered",
-        "SOURCE NOTES": "Top-rated copy paper wholesaler with GSA Schedule 75 contract. Score: 95/100. Small business, national distributor with 22K+ products."
+        "PRODUCT KEYWORDS": "Copy paper, printer paper, office paper, GSA Schedule 75 - 22,600+ office products. Great Falls, MT. Score: 95/100. Best for EDWOSB set-asides.",
+        "OVERALL RATING": 5,
+        "DISCOVERY DATE": "2026-01-23"
     },
     {
         "COMPANY NAME": "Unisource (Georgia-Pacific)",
         "WEBSITE": "https://www.unisourcelink.com",
         "PRIMARY CONTACT EMAIL": "customersupport@unisourcelink.com",
         "PRIMARY CONTACT PHONE": "800-864-7687",
-        "LOCATION": "Norcross, GA (National)",
-        "PRODUCT KEYWORDS": "copy paper, white paper, color paper, cardstock, commercial printing paper, industrial paper, Georgia-Pacific paper, Boise paper, Hammermill, recycled paper, FSC certified paper, GSA Schedule 75",
-        "DESCRIPTION": "One of North America's largest paper distributors. Owned by Georgia-Pacific (Koch Industries). Carries all major paper brands including GP's own brands. Excellent for bulk orders and large government contracts. Strong sustainability/FSC certification options. Fortune 500 backing.",
-        "BUSINESS STATUS": "Prospective",
-        "DISCOVERY METHOD": "Manual Entry",
-        "DISCOVERY DATE": "2026-01-23",
-        "DISCOVERED BY": "Dee Davis - Strategic Addition",
-        "RELATIONSHIP STAGE": "Discovered",
-        "SOURCE NOTES": "Premier national paper distributor with GSA contract. Score: 98/100. Best for large federal contracts $100K+. Multiple brands, wholesale pricing."
+        "PRODUCT KEYWORDS": "Copy paper, commercial printing paper, Georgia-Pacific, Boise, Hammermill, GSA Schedule 75. Norcross, GA. Score: 98/100. Best for large federal contracts $100K+. Fortune 500 backing.",
+        "OVERALL RATING": 5,
+        "DISCOVERY DATE": "2026-01-23"
     },
     {
         "COMPANY NAME": "xpedx (International Paper)",
         "WEBSITE": "https://www.internationalpaper.com",
         "PRIMARY CONTACT EMAIL": "customer.service@internationalpaper.com",
         "PRIMARY CONTACT PHONE": "800-333-8438",
-        "LOCATION": "Memphis, TN (Global)",
-        "PRODUCT KEYWORDS": "copy paper, commercial printing paper, industrial paper, packaging, labels, office paper, International Paper products, Hammermill, specialty papers, GSA Schedule 75",
-        "DESCRIPTION": "International Paper distribution division. One of world's largest paper manufacturers and distributors. Excellent for very large government contracts. Direct manufacturer access = best wholesale pricing. Strong government contracts division. Fortune 500 company.",
-        "BUSINESS STATUS": "Prospective",
-        "DISCOVERY METHOD": "Manual Entry",
-        "DISCOVERY DATE": "2026-01-23",
-        "DISCOVERED BY": "Dee Davis - Strategic Addition",
-        "RELATIONSHIP STAGE": "Discovered",
-        "SOURCE NOTES": "Direct paper manufacturer with GSA contract. Score: 98/100. Best wholesale pricing for large federal contracts. Fortune 500, international reach."
+        "PRODUCT KEYWORDS": "Copy paper, commercial printing paper, International Paper products, specialty papers, GSA Schedule 75. Memphis, TN. Score: 98/100. Direct manufacturer = best wholesale pricing. Fortune 500.",
+        "OVERALL RATING": 5,
+        "DISCOVERY DATE": "2026-01-23"
     },
     {
         "COMPANY NAME": "Staples Business Advantage",
         "WEBSITE": "https://www.staplesadvantage.com",
         "PRIMARY CONTACT EMAIL": "advantage@staples.com",
         "PRIMARY CONTACT PHONE": "800-333-3330",
-        "LOCATION": "Framingham, MA (National)",
-        "PRODUCT KEYWORDS": "copy paper, office supplies, printer paper, multipurpose paper, cardstock, envelopes, office equipment, furniture, technology, cleaning supplies, GSA Schedule 75",
-        "DESCRIPTION": "Staples' government/business division with dedicated GSA pricing. Excellent one-stop-shop for paper + all office supplies. Fast delivery, established government contracts division. Good for small-to-medium orders with quick turnaround needs. Fortune 500 company.",
-        "BUSINESS STATUS": "Prospective",
-        "DISCOVERY METHOD": "Manual Entry",
-        "DISCOVERY DATE": "2026-01-23",
-        "DISCOVERED BY": "Dee Davis - Strategic Addition",
-        "RELATIONSHIP STAGE": "Discovered",
-        "SOURCE NOTES": "Major office supply distributor with GSA contract. Score: 92/100. Best for fast delivery and orders <$50K. One-stop-shop for paper + supplies."
+        "PRODUCT KEYWORDS": "Copy paper, office supplies, printer paper, cardstock, envelopes, office equipment, GSA Schedule 75. Framingham, MA. Score: 92/100. Best for fast delivery and orders <$50K. Next-day delivery.",
+        "OVERALL RATING": 5,
+        "DISCOVERY DATE": "2026-01-23"
     },
     {
         "COMPANY NAME": "Office Depot Business Solutions",
         "WEBSITE": "https://business.officedepot.com",
         "PRIMARY CONTACT EMAIL": "bsdsales@officedepot.com",
         "PRIMARY CONTACT PHONE": "888-263-3423",
-        "LOCATION": "Boca Raton, FL (National)",
-        "PRODUCT KEYWORDS": "copy paper, office paper, printer paper, multipurpose paper, office supplies, technology, furniture, breakroom supplies, cleaning supplies, GSA Schedule 75",
-        "DESCRIPTION": "Major office supply chain with dedicated business/government division. GSA contract pricing available. Good for bundled paper + office supplies orders. Next-day delivery in most markets. Strong government contracts team. Fortune 500 company.",
-        "BUSINESS STATUS": "Prospective",
-        "DISCOVERY METHOD": "Manual Entry",
-        "DISCOVERY DATE": "2026-01-23",
-        "DISCOVERED BY": "Dee Davis - Strategic Addition",
-        "RELATIONSHIP STAGE": "Discovered",
-        "SOURCE NOTES": "Established GSA contractor with nationwide coverage. Score: 92/100. Excellent for bundled orders and medium-sized government contracts."
+        "PRODUCT KEYWORDS": "Copy paper, office supplies, printer paper, multipurpose paper, technology, furniture, GSA Schedule 75. Boca Raton, FL. Score: 92/100. Best for bundled orders and medium government contracts.",
+        "OVERALL RATING": 5,
+        "DISCOVERY DATE": "2026-01-23"
     }
 ]
 
