@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:notary-sunday-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260126T150000Z
+DTEND:20260126T180000Z
+SUMMARY:📝 Get Madison Heights Forms NOTARIZED
+DESCRIPTION:CRITICAL: Two forms need notarization!\n\n✅ Indemnification form (page 10)\n✅ Non-collusion affidavit (page 11)\n\nWhere to get notarized:\n- Your bank\n- UPS Store\n- AAA office\n- Mobile notary (search "mobile notary near me")\n\nAfter notary:\n✅ Print 4 copies (1 original + 3 copies)\n✅ Put in sealed envelope\n✅ Label envelope:\n   - DEE DAVIS INC\n   - Address\n   - ITB Number: MH 26-03\n   - Item: Yard Services - Lawn Service\n\nReady for hand delivery tomorrow!
+LOCATION:Bank or UPS Store (find notary)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow: Get Madison Heights forms notarized - find a notary today!
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:In 2 hours: Head to notary for Madison Heights forms
+END:VALARM
+END:VEVENT
+END:VCALENDAR

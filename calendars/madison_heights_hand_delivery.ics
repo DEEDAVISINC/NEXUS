@@ -1,0 +1,32 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:madison-heights-hand-delivery-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260128T180000Z
+DTEND:20260128T190000Z
+SUMMARY:🚨 HAND DELIVER Madison Heights Lawn Bid
+DESCRIPTION:Hand deliver sealed bid to Madison Heights City Clerk.\n\nAddress: 300 West 13 Mile Road\, Madison Heights\, MI 48071\n\nBring:\n- Sealed envelope with 4 copies\n- Business card\n- Phone (for photos)\n\nGet:\n- Timestamp receipt\n- Clerk's name\n\nRemember: This is your first Madison Heights contract - make a good impression!
+LOCATION:Madison Heights City Clerk\, 300 West 13 Mile Road\, Madison Heights\, MI 48071
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow at 1pm: Hand deliver Madison Heights bid
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:In 2 hours: Leave for Madison Heights City Clerk
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:In 15 minutes: Hand deliver Madison Heights bid
+END:VALARM
+END:VEVENT
+END:VCALENDAR

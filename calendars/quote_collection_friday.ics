@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:quote-collection-friday-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260124T140000Z
+DTEND:20260124T180000Z
+SUMMARY:📊 QUOTE DEADLINE - Select Subcontractors/Suppliers
+DESCRIPTION:MADISON HEIGHTS:\n✅ Collect all lawn subcontractor quotes\n✅ Select top 2 providers (primary + backup)\n✅ Request insurance certificates\n✅ Calculate final bid price ($36-38/cut)\n\nCPS ENERGY:\n✅ Compare all supplier quotes\n✅ Select winning supplier\n✅ Calculate final bid price\n✅ Start filling out bid forms\n\nThis is your last day to get pricing before the weekend!
+LOCATION:Office
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:1 hour: Start collecting and comparing all quotes
+END:VALARM
+END:VEVENT
+END:VCALENDAR

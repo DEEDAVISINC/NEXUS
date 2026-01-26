@@ -1,0 +1,157 @@
+═══════════════════════════════════════════════════════════════════
+QUICK REFERENCE - January 25, 2026 Session
+═══════════════════════════════════════════════════════════════════
+
+🚨 URGENT ACTION (Send NOW):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Jackson County Diversity Inquiry
+→ Open: DIVERSITY_INQUIRY_EMAILS_READY.md
+→ Send to: jcouling@mijackson.org
+→ WHY: Questions deadline is TOMORROW!
+
+═══════════════════════════════════════════════════════════════════
+📋 WHAT WE BUILT (3 Major Things)
+═══════════════════════════════════════════════════════════════════
+
+1. LIVONIA GRASS SEED BID
+   • New opportunity: $27K bid, $4.4K profit
+   • Bundle with topsoil for $12.4K total profit
+   • 55% win probability (bundled)
+   • Deadline: February 23
+   → Quick Start: LIVONIA_GRASS_SEED_QUICK_START.md
+
+2. DIVERSITY INQUIRY STRATEGY  
+   • Pre-qualify bids before investing time
+   • Know if diversity certifications help
+   • Skip price-only commodity wars
+   • Save 8-10 hours per skipped bid
+   → Ready Emails: DIVERSITY_INQUIRY_EMAILS_READY.md
+
+3. EMAIL AUTOMATION SYSTEM
+   • NEXUS monitors bids@deedavisinc.com 24/7
+   • Auto-extracts solicitations with AI
+   • Auto-creates Airtable records
+   • Auto-sends diversity inquiries
+   • Saves 4-6 hours/week
+   → Setup Guide: NEXUS_EMAIL_SETUP_GUIDE.md
+
+═══════════════════════════════════════════════════════════════════
+📁 KEY FILES (Where to Find Everything)
+═══════════════════════════════════════════════════════════════════
+
+START HERE:
+→ START_HERE_JAN_25_SESSION.md (quick index)
+→ SESSION_SUMMARY_JAN_25_2026_EMAIL_AUTOMATION.md (full details)
+
+LIVONIA GRASS SEED:
+→ LIVONIA_GRASS_SEED_QUICK_START.md (action plan)
+→ LIVONIA_GRASS_SEED_SUPPLIER_EMAILS.md (ready to send)
+→ LIVONIA_COMBINED_BID_STRATEGY.md (bundle strategy)
+
+DIVERSITY INQUIRIES:
+→ DIVERSITY_INQUIRY_EMAILS_READY.md (copy/paste)
+→ DIVERSITY_INQUIRY_STRATEGY.md (full strategy)
+
+EMAIL AUTOMATION:
+→ NEXUS_EMAIL_SETUP_GUIDE.md (30-min setup)
+→ nexus_email_automation.py (the code)
+→ EMAIL_AUTOMATION_SUMMARY.md (why it matters)
+
+═══════════════════════════════════════════════════════════════════
+📅 TIMELINE
+═══════════════════════════════════════════════════════════════════
+
+THIS WEEKEND:
+• Send Jackson inquiry NOW
+• Complete CPS Energy bid
+
+NEXT WEEK (Jan 27 - Feb 2):
+• Submit 4 bids (CPS, Oakland, Madison Heights, Jackson)
+
+WEEK OF FEB 3:
+• Send Livonia diversity inquiry
+• Send all supplier quote emails (topsoil + grass seed)
+
+WEEK OF FEB 10 (When Ready):
+• Set up email automation (30 minutes)
+
+═══════════════════════════════════════════════════════════════════
+💰 VALUE CREATED TODAY
+═══════════════════════════════════════════════════════════════════
+
+NEW OPPORTUNITY:
+• Livonia grass seed: $4.4K profit
+• Combined with topsoil: $12.4K total
+• Win probability: 55% (bundled)
+
+TIME-SAVING STRATEGIES:
+• Diversity pre-qualification: Save 8-10 hrs per skipped bid
+• Email automation: Save 4-6 hrs/week ongoing
+• Bundle strategy: More efficient bidding
+
+AUTOMATION VALUE:
+• Setup time: 30 minutes
+• Monthly cost: $5-16
+• Monthly value: $1,600-2,400 (time saved)
+• ROI: 10,000%+
+
+═══════════════════════════════════════════════════════════════════
+🎯 UPDATED BID PORTFOLIO (6 Active)
+═══════════════════════════════════════════════════════════════════
+
+1. CPS Energy        - Due Jan 27  - $63-76K profit   - 32% win
+2. Oakland Cadaver   - Due Jan 29  - $15-30K profit   - 50% win
+3. Madison Heights   - Due Jan 28  - $11-15K profit   - 55% win
+4. Jackson Salt      - Due Feb 2   - $230-280K profit - 15-30%*
+5. Livonia Topsoil   - Due Feb 23  - $8K profit       - 55%*
+6. Livonia Grass     - Due Feb 23  - $4.4K profit     - 55%*
+
+*Diversity inquiry pending (affects win probability)
+*Livonia both bundled = 55% win for $12.4K combined
+
+Total Portfolio: $2.3M+ | Expected Value: $87-114K
+
+═══════════════════════════════════════════════════════════════════
+✅ FILES CREATED (13 Total)
+═══════════════════════════════════════════════════════════════════
+
+LIVONIA (5):
+✓ LIVONIA_GRASS_SEED_RFQ_DPW463.md
+✓ LIVONIA_GRASS_SEED_SUPPLIER_EMAILS.md
+✓ LIVONIA_COMBINED_BID_STRATEGY.md
+✓ LIVONIA_GRASS_SEED_QUICK_START.md
+✓ ACTIVE_BIDS_STATUS_JAN_25_2026.md
+
+DIVERSITY STRATEGY (2):
+✓ DIVERSITY_INQUIRY_STRATEGY.md
+✓ DIVERSITY_INQUIRY_EMAILS_READY.md
+
+EMAIL AUTOMATION (4):
+✓ NEXUS_EMAIL_AUTOMATION_SYSTEM.md
+✓ nexus_email_automation.py (500+ lines of code)
+✓ NEXUS_EMAIL_SETUP_GUIDE.md
+✓ EMAIL_AUTOMATION_SUMMARY.md
+
+SUMMARIES (3):
+✓ SESSION_SUMMARY_JAN_25_2026_EMAIL_AUTOMATION.md
+✓ START_HERE_JAN_25_SESSION.md
+✓ QUICK_REFERENCE_JAN_25_SESSION.txt (this file)
+
+═══════════════════════════════════════════════════════════════════
+🚀 IMMEDIATE NEXT ACTIONS
+═══════════════════════════════════════════════════════════════════
+
+1. Send Jackson diversity inquiry (NOW!)
+2. Complete CPS Energy bid (this weekend)
+3. Send Livonia diversity inquiry (Feb 3)
+4. Set up email automation (when ready)
+
+═══════════════════════════════════════════════════════════════════
+
+All files are in: /Users/deedavis/NEXUS BACKEND/
+
+To resume: Open START_HERE_JAN_25_SESSION.md
+
+Everything is saved. You're ready to go! ✅
+
+═══════════════════════════════════════════════════════════════════

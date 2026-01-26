@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEE DAVIS INC - Capability Statement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .bg-primary { background-color: {{PRIMARY_COLOR}}; }
+        .bg-accent { background-color: {{ACCENT_COLOR}}; }
+        .text-primary { color: {{PRIMARY_COLOR}}; }
+        .text-accent { color: {{ACCENT_COLOR}}; }
+        .border-accent { border-color: {{ACCENT_COLOR}}; }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        @media print {
+            body { margin: 0; }
+            .print-container {
+                width: 210mm;
+                min-height: 297mm;
+                margin: 0 auto;
+                box-shadow: none;
+            }
+        }
+        .print-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <div class="print-container relative">
+        
+        <!-- Header Section -->
+        <header class="bg-primary text-white p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
+            <div class="relative z-10 flex justify-between items-start">
+                <div class="w-2/3">
+                    <h1 class="text-5xl font-extrabold tracking-tight mb-2">{{COMPANY_NAME}}</h1>
+                    <p class="text-xl text-accent font-semibold tracking-wide uppercase">THE PROFESSIONALS' PROFESSIONAL</p>
+                    <div class="mt-6 border-l-4 border-accent pl-4">
+                        <h2 class="text-2xl font-bold">CAPABILITY STATEMENT</h2>
+                        <p class="text-sm opacity-90 mt-1">Prepared for {{CLIENT_NAME}} {{RFQ_NUMBER}} | {{DATE}}</p>
+                    </div>
+                </div>
+                <div class="w-1/3 text-right">
+                    <div class="inline-block bg-white p-3 rounded-lg shadow-lg">
+                        <img src="{{LOGO_PATH}}" alt="{{COMPANY_NAME}} Logo" class="w-32 h-32 object-contain">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="flex flex-1">
+            
+            <!-- Left Sidebar -->
+            <aside class="w-1/3 bg-gray-50 border-r border-gray-200 p-6 flex flex-col gap-6">
+                
+                <!-- Company Snapshot -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-accent">
+                    <h3 class="text-primary font-bold text-lg mb-4 flex items-center">
+                        <i data-lucide="building-2" class="w-5 h-5 mr-2 text-accent"></i> COMPANY DATA
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-bold text-xs text-gray-400 uppercase">CAGE Code</span>
+                            <span class="font-semibold text-primary text-base">{{CAGE_CODE}}</span>
+                        </li>
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-bold text-xs text-gray-400 uppercase">UEI</span>
+                            <span class="font-semibold text-primary">{{UEI}}</span>
+                        </li>
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-bold text-xs text-gray-400 uppercase">DUNS</span>
+                            <span class="font-semibold text-primary">{{DUNS}}</span>
+                        </li>
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-bold text-xs text-gray-400 uppercase">Tax ID</span>
+                            <span class="font-semibold text-primary">{{TAX_ID}}</span>
+                        </li>
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-bold text-xs text-gray-400 uppercase">SAM.gov</span>
+                            <span class="font-semibold text-green-600 flex items-center gap-1">
+                                {{SAM_STATUS}} <i data-lucide="check-circle-2" class="w-3 h-3"></i>
+                            </span>
+                        </li>
+                        <li class="flex flex-col">
+                            <span class="font-bold text-xs text-gray-400 uppercase">Founded</span>
+                            <span class="font-semibold text-primary">{{FOUNDED}}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Certifications -->
+                <div class="bg-primary text-white p-5 rounded-xl shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-white flex items-center">
+                        <i data-lucide="award" class="w-5 h-5 mr-2 text-accent"></i> CERTIFICATIONS
+                    </h3>
+                    <div class="space-y-3">
+                        {{CERTIFICATIONS_HTML}}
+                    </div>
+                </div>
+
+                <!-- Highlights Section -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-accent">
+                    <h3 class="text-primary font-bold text-lg mb-4 flex items-center">
+                        <i data-lucide="zap" class="w-5 h-5 mr-2 text-accent"></i> QUICK FACTS
+                    </h3>
+                    <div class="space-y-3">
+                        {{HIGHLIGHTS_HTML}}
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Main Body -->
+            <main class="w-2/3 p-8 flex flex-col gap-6">
+                
+                <!-- Company Overview -->
+                <section>
+                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-2 border-b-2 border-accent inline-block pb-1">Company Overview</h3>
+                    <p class="text-gray-700 leading-relaxed text-sm">
+                        {{OVERVIEW}}
+                    </p>
+                </section>
+
+                <!-- Core Competencies -->
+                <section>
+                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-4 border-b-2 border-accent inline-block pb-1">Core Competencies</h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        {{COMPETENCIES_HTML}}
+                    </div>
+                </section>
+
+                <!-- Why Choose Us -->
+                <section>
+                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-4 border-b-2 border-accent inline-block pb-1">Why Choose {{COMPANY_NAME}}?</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        {{BENEFITS_HTML}}
+                    </div>
+                </section>
+
+                 <!-- Commitment -->
+                 <section class="bg-primary text-white p-4 rounded-xl relative overflow-hidden">
+                     <div class="absolute right-0 top-0 w-32 h-32 bg-yellow-500 opacity-10 rounded-full -mr-10 -mt-10"></div>
+                     <h3 class="font-bold text-accent text-lg mb-2">COMMITMENT TO {{CLIENT_NAME}}</h3>
+                     <p class="text-sm font-light text-gray-200 italic">
+                        "{{COMMITMENT}}"
+                     </p>
+                 </section>
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white p-6 border-t-4 border-accent">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
+                <div>
+                    <h4 class="font-bold text-xl text-accent">{{PRESIDENT}}, PRESIDENT & CEO</h4>
+                    <p class="text-sm text-gray-300">{{COMPANY_NAME}} - Delivering Quality, Service, and Value.</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="map-pin" class="text-accent w-4 h-4"></i>
+                        <span>{{ADDRESS}}, {{CITY}}, {{STATE}} {{ZIP}}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="phone" class="text-accent w-4 h-4"></i>
+                        <span>{{PHONE}}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="mail" class="text-accent w-4 h-4"></i>
+                        <span>{{EMAIL}}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="globe" class="text-accent w-4 h-4"></i>
+                        <span>{{WEBSITE}}</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Contract Specs Box (Floating) -->
+        <div class="absolute bottom-24 right-8 bg-white rounded-xl shadow-lg border-2 border-accent p-4" style="width: 200px;">
+            <h4 class="text-primary font-bold text-center mb-3 border-b-2 border-accent pb-2">CONTRACT SPECS</h4>
+            <ul class="text-sm space-y-2 text-gray-700">
+                <li class="flex justify-between">
+                    <span class="font-semibold">Pay Terms:</span>
+                    <span>{{PAYMENT_TERMS}}</span>
+                </li>
+                <li class="flex justify-between">
+                    <span class="font-semibold">Delivery:</span>
+                    <span>{{DELIVERY_TIME}}</span>
+                </li>
+                <li class="flex justify-between">
+                    <span class="font-semibold">Coverage:</span>
+                    <span>{{COVERAGE}}</span>
+                </li>
+                <li class="flex justify-between">
+                    <span class="font-semibold">Insurance:</span>
+                    <span>{{INSURANCE}}</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

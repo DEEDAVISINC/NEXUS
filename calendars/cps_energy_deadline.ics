@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:cps-energy-deadline-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260127T220000Z
+DTEND:20260127T230000Z
+SUMMARY:🚨 CPS Energy Wipes Bid DEADLINE (4pm CST)
+DESCRIPTION:Submit bid via email by 4:00 PM CST (5:00 PM EST)\n\nEmail to BOTH:\n- tkern@cpsenergy.com\n- BidSubmittal@cpsenergy.com\n\nSubject: Bid Response - RFQ 7000205103 - Industrial Wipes\n\nAfter sending:\nCall to confirm: (210) 935-5988\n\n3-year contract worth $400K+\nYour profit: $60-80K
+LOCATION:Email submission
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:3 days until CPS Energy bid deadline - finalize supplier selection
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow at 5pm: CPS Energy bid due - final review today
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:3 hours until CPS Energy deadline - submit now!
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:30 minutes until CPS Energy deadline - SUBMIT NOW!
+END:VALARM
+END:VEVENT
+END:VCALENDAR

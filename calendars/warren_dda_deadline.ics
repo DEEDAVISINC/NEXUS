@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:warren-dda-deadline-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260128T173000Z
+DTEND:20260128T180000Z
+SUMMARY:✅ Warren DDA Bid Deadline (Already Submitted Monday!)
+DESCRIPTION:Official deadline: 12:30 PM EST\n\nYou submitted Monday night\, so you're all set!\n\nTuesday morning:\n- Call Shanah Turner to confirm receipt: 586-574-4638\n- Then focus on Madison Heights hand delivery at 1pm\n\nBoth bids due same day:\n- Warren DDA: 12:30 PM (submitted Monday!)\n- Madison Heights: 2:00 PM (hand deliver Tuesday)\n\nContract value: $80K-$300K (2-5 years)\nYour profit: $25K-$60K
+LOCATION:Electronic submission (already done!)
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR

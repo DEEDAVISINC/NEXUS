@@ -1,0 +1,107 @@
+{
+    "company": {
+        "name": "DEE DAVIS INC",
+        "cage_code": "8UMX3",
+        "uei": "HJB4KNYJVGZ1",
+        "duns": "002636755",
+        "tax_id": "84-4114181",
+        "sam_status": "Active",
+        "founded": "2018",
+        "address": "755 W Big Beaver Rd, Suite 2020",
+        "city": "Troy",
+        "state": "MI",
+        "zip": "48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "president": "Dee Davis"
+    },
+    "opportunity": {
+        "client_name": "CPS Energy",
+        "rfq_number": "7000205103",
+        "date": "January 2026",
+        "title": "Industrial Supplies"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "secondary": "#1e293b",
+        "accent": "#d97706",
+        "text": "#334155",
+        "light": "#f1f5f9"
+    },
+    "highlights": {
+        "title": "QUICK FACTS",
+        "items": [
+            {
+                "icon": "🎯",
+                "label": "EDWOSB Certified",
+                "value": "SBA Verified 2024"
+            },
+            {
+                "icon": "📦",
+                "label": "Contract Range",
+                "value": "$50K - $500K+"
+            },
+            {
+                "icon": "✓",
+                "label": "On-Time Delivery",
+                "value": "98%+ Performance"
+            },
+            {
+                "icon": "🤝",
+                "label": "Strategic Partners",
+                "value": "Grainger, Fastenal+"
+            }
+        ]
+    },
+    "overview": "DEE DAVIS INC is a certified EDWOSB specializing in government contracting and industrial supply distribution. Since 2018, we have successfully delivered quality products to federal, state, and local government agencies nationwide.",
+    "core_competencies": [
+        {
+            "title": "Industrial Supplies & Distribution",
+            "description": "Industrial wipers, rags, cleaning supplies, PPE, janitorial supplies, office supplies"
+        },
+        {
+            "title": "Government Contracting",
+            "description": "Federal, state, local government procurement | Municipal utility contracts | Multi-year term contracts"
+        },
+        {
+            "title": "Supply Chain Management",
+            "description": "Strategic partnerships with national distributors | Just-in-time delivery | Quality assurance"
+        }
+    ],
+    "benefits": [
+        {
+            "icon": "✓",
+            "title": "EDWOSB/WOSB Certified",
+            "description": "Meets socioeconomic contracting goals"
+        },
+        {
+            "icon": "✓",
+            "title": "Competitive Pricing",
+            "description": "Strategic partnerships ensure best pricing with guaranteed product compliance"
+        },
+        {
+            "icon": "✓",
+            "title": "Reliable Delivery",
+            "description": "Nationwide distribution with consistent on-time performance"
+        },
+        {
+            "icon": "✓",
+            "title": "Proven Performance",
+            "description": "98%+ on-time delivery | 100% specification compliance"
+        }
+    ],
+    "certifications": [
+        "EDWOSB (Economically Disadvantaged Women-Owned Small Business) - SBA Certified",
+        "WOSB (Women-Owned Small Business) - SBA Certified",
+        "MBE (Minority Business Enterprise)",
+        "WBE (Women Business Enterprise)"
+    ],
+    "contract_capabilities": {
+        "payment_terms": "Net 30",
+        "delivery_time": "10-15 business days",
+        "coverage": "Nationwide",
+        "insurance": "$1M+ General Liability"
+    },
+    "commitment": "DEE DAVIS INC is committed to providing quality products, competitive pricing through strategic supplier partnerships, reliable on-time delivery, and professional service throughout the contract period."
+}

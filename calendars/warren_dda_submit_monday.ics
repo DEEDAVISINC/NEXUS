@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:warren-dda-submit-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260127T220000Z
+DTEND:20260127T230000Z
+SUMMARY:🚨 SUBMIT Warren DDA Bid (Electronic - Do Monday!)
+DESCRIPTION:Submit Warren DDA landscape bid TONIGHT (Monday)\n\nSubmission: Electronic via BidNet/MITN\n- Log into BidNet system\n- Upload pages 1-30\n- Upload pricing pages 5-7\n- Get confirmation number\n\nWhy submit Monday:\n- Avoid technical issues\n- 19 hours before deadline\n- Focus Tuesday on Madison Heights hand delivery\n\nContract value: $80K-$300K (2-5 years)\nYour profit: $25K-$60K\n\nAfter submitting:\n- Save confirmation\n- Call Shanah Turner Tuesday to confirm: 586-574-4638\n- Prepare Madison Heights for hand delivery
+LOCATION:Electronic submission (BidNet/MITN)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:In 2 hours: Submit Warren DDA bid electronically
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:In 30 min: Submit Warren DDA bid NOW
+END:VALARM
+END:VEVENT
+END:VCALENDAR

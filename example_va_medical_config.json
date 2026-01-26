@@ -1,0 +1,108 @@
+{
+    "company": {
+        "name": "DEE DAVIS INC",
+        "cage_code": "8UMX3",
+        "uei": "HJB4KNYJVGZ1",
+        "duns": "002636755",
+        "tax_id": "84-4114181",
+        "sam_status": "Active",
+        "founded": "2018",
+        "address": "755 W Big Beaver Rd, Suite 2020",
+        "city": "Troy",
+        "state": "MI",
+        "zip": "48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "president": "Dee Davis"
+    },
+    "opportunity": {
+        "client_name": "Department of Veterans Affairs",
+        "rfq_number": "VA-26-1234",
+        "date": "January 2026",
+        "title": "Medical Supplies"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "secondary": "#1e293b",
+        "accent": "#0066cc",
+        "text": "#334155",
+        "light": "#f1f5f9"
+    },
+    "highlights": {
+        "title": "QUICK FACTS",
+        "items": [
+            {
+                "icon": "🏥",
+                "label": "Healthcare Focus",
+                "value": "VA Certified Supplier"
+            },
+            {
+                "icon": "✓",
+                "label": "Medical Products",
+                "value": "500+ Items in Stock"
+            },
+            {
+                "icon": "🎯",
+                "label": "EDWOSB Certified",
+                "value": "Set-Aside Ready"
+            },
+            {
+                "icon": "📦",
+                "label": "Fast Delivery",
+                "value": "3-5 Business Days"
+            }
+        ]
+    },
+    "overview": "DEE DAVIS INC is a certified EDWOSB specializing in medical and healthcare supplies for VA facilities and government healthcare agencies. Since 2018, we have provided critical medical products with reliable delivery, competitive pricing, and unwavering commitment to supporting our nation's veterans.",
+    "core_competencies": [
+        {
+            "title": "Medical Supplies & Equipment",
+            "description": "Diagnostic supplies, patient care products, PPE, surgical supplies, examination room equipment"
+        },
+        {
+            "title": "VA Contract Experience",
+            "description": "Proven track record with VA facilities | GSA Schedule expertise | Veteran-focused service delivery"
+        },
+        {
+            "title": "Healthcare Supply Chain",
+            "description": "Specialized medical distribution | Cold chain management | Emergency stock availability"
+        }
+    ],
+    "benefits": [
+        {
+            "icon": "✓",
+            "title": "EDWOSB/WOSB Certified",
+            "description": "Meets VA socioeconomic contracting requirements"
+        },
+        {
+            "icon": "✓",
+            "title": "Healthcare Expertise",
+            "description": "Specialized knowledge of VA medical supply requirements and regulations"
+        },
+        {
+            "icon": "✓",
+            "title": "Rapid Response",
+            "description": "3-5 day delivery to most VA facilities | Emergency order capability"
+        },
+        {
+            "icon": "✓",
+            "title": "Quality Assurance",
+            "description": "100% FDA-compliant products | Full traceability | Lot tracking"
+        }
+    ],
+    "certifications": [
+        "EDWOSB (Economically Disadvantaged Women-Owned Small Business) - SBA Certified",
+        "WOSB (Women-Owned Small Business) - SBA Certified",
+        "MBE (Minority Business Enterprise)",
+        "WBE (Women Business Enterprise)",
+        "GSA Schedule Holder (Medical Supplies)"
+    ],
+    "contract_capabilities": {
+        "payment_terms": "Net 30",
+        "delivery_time": "3-5 business days",
+        "coverage": "All VA Facilities Nationwide",
+        "insurance": "$2M+ General Liability, $1M Product Liability"
+    },
+    "commitment": "DEE DAVIS INC is honored to serve our nation's veterans through reliable delivery of quality medical supplies. We are committed to supporting VA facilities with competitive pricing, rapid response to urgent needs, and professional service that reflects our respect for those who have served our country."
+}

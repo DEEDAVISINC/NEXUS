@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:madison-heights-deadline-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260129T190000Z
+DTEND:20260129T200000Z
+SUMMARY:✅ Madison Heights Bid Deadline (Already Submitted!)
+DESCRIPTION:Official deadline: 2:00 PM EST\n\nYou submitted yesterday\, so you're all set!\n\nBid opening: 2:05 PM (public\, optional to attend)\n\nLocation: City Clerk's Office\, 300 W 13 Mile Rd\n\nAward notification: Typically 1-2 weeks after opening\n\nContract value: $53K per season\nYour profit: $11-15K per season
+LOCATION:Madison Heights City Clerk\, 300 West 13 Mile Road\, Madison Heights\, MI 48071
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR

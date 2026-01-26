@@ -1,0 +1,110 @@
+{
+    "company": {
+        "name": "DEE DAVIS INC",
+        "cage_code": "8UMX3",
+        "uei": "HJB4KNYJVGZ1",
+        "duns": "002636755",
+        "tax_id": "84-4114181",
+        "sam_status": "Active",
+        "founded": "2018",
+        "address": "755 W Big Beaver Rd, Suite 2020",
+        "city": "Troy",
+        "state": "MI",
+        "zip": "48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "president": "Dee Davis"
+    },
+    "opportunity": {
+        "client_name": "City of Detroit",
+        "rfq_number": "DPW-2026-001",
+        "date": "January 2026",
+        "title": "General Construction Services"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "secondary": "#1e293b",
+        "accent": "#f97316",
+        "text": "#334155",
+        "light": "#f1f5f9"
+    },
+    "highlights": {
+        "title": "QUICK FACTS",
+        "items": [
+            {
+                "icon": "🏗️",
+                "label": "Bonding Capacity",
+                "value": "$2M Available"
+            },
+            {
+                "icon": "✓",
+                "label": "Licensed",
+                "value": "Multi-State Coverage"
+            },
+            {
+                "icon": "🎯",
+                "label": "EDWOSB/DBE",
+                "value": "Certified Ready"
+            },
+            {
+                "icon": "📦",
+                "label": "Project Range",
+                "value": "$50K - $2M"
+            }
+        ]
+    },
+    "overview": "DEE DAVIS INC is a certified EDWOSB construction contractor specializing in government facility projects. With proven experience in federal, state, and local construction contracts, we deliver quality work on time and within budget while meeting all socioeconomic requirements.",
+    "core_competencies": [
+        {
+            "title": "General Construction Services",
+            "description": "Building renovation, facility maintenance, site improvements, concrete work, landscaping"
+        },
+        {
+            "title": "Government Project Management",
+            "description": "Federal, state, and local contracts | Prevailing wage compliance | Certified payroll reporting"
+        },
+        {
+            "title": "DBE/EDWOSB Subcontracting",
+            "description": "Established network of certified subcontractors | Compliance management | Quality oversight"
+        }
+    ],
+    "benefits": [
+        {
+            "icon": "✓",
+            "title": "EDWOSB/DBE Certified",
+            "description": "Meets socioeconomic and diversity contracting goals"
+        },
+        {
+            "icon": "✓",
+            "title": "Bonded & Insured",
+            "description": "$2M bonding capacity | $2M general liability | Workers compensation"
+        },
+        {
+            "icon": "✓",
+            "title": "On-Time Performance",
+            "description": "95%+ on-schedule completion | Proactive communication | Change order management"
+        },
+        {
+            "icon": "✓",
+            "title": "Safety First",
+            "description": "OSHA compliance | Safety training programs | Zero tolerance for violations"
+        }
+    ],
+    "certifications": [
+        "EDWOSB (Economically Disadvantaged Women-Owned Small Business) - SBA Certified",
+        "WOSB (Women-Owned Small Business) - SBA Certified",
+        "DBE (Disadvantaged Business Enterprise) - MDOT Certified",
+        "MBE (Minority Business Enterprise)",
+        "WBE (Women Business Enterprise)",
+        "Michigan Builder's License",
+        "OSHA 30-Hour Certified"
+    ],
+    "contract_capabilities": {
+        "payment_terms": "Net 30 | Progress Payments Available",
+        "project_duration": "1 day to 12 months",
+        "coverage": "Midwest Region (MI, OH, IN, IL)",
+        "insurance": "$2M General Liability, $1M Workers Comp, $2M Bonding"
+    },
+    "commitment": "DEE DAVIS INC is committed to delivering quality construction services that meet or exceed project specifications. We prioritize safety, transparency, and professional communication throughout every phase of the project, ensuring successful outcomes for government agencies and the communities they serve."
+}

@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//Bid Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:followup-thursday-2026@deedavis.biz
+DTSTAMP:20260122T220000Z
+DTSTART:20260123T140000Z
+DTEND:20260123T170000Z
+SUMMARY:📧 Follow-ups: Lawn Subs + CPS Suppliers
+DESCRIPTION:MORNING (9am):\n✅ Send follow-up email to 3 lawn subcontractors\n- Cut King: kevin.cutking@gmail.com\n- Under Cutters: theundercutterslawncare@gmail.com\n- Ley's: info@leyslawncare.com\n\nAFTERNOON (2pm):\n✅ Call CPS Energy suppliers\n- Contractors Building: (210) 496-1227\n- Sunbelt Mill: (210) 522-1525\n- Fastenal: (210) 659-8569\n\nEVENING (5pm):\n✅ Check for quote responses
+LOCATION:Office
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:In 30 min: Start follow-up calls and emails
+END:VALARM
+END:VEVENT
+END:VCALENDAR
