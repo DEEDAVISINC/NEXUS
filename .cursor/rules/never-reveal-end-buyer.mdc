@@ -1,0 +1,93 @@
+---
+description: CRITICAL - Never reveal end buyer/client names to suppliers in quotes
+alwaysApply: true
+---
+
+# 🚨 CRITICAL BUSINESS RULE: Never Reveal End Buyer to Suppliers
+
+**This is a non-negotiable business protection rule.**
+
+## The Rule
+
+When generating quote requests, emails, phone scripts, or any supplier communication:
+
+**NEVER include:**
+- ❌ Government agency names (Canton Township, City of Detroit, etc.)
+- ❌ Client organization names
+- ❌ Solicitation/RFP/RFB numbers
+- ❌ Procurement officer names
+- ❌ Specific delivery addresses
+- ❌ That it's a "government contract" or "municipal bid"
+
+## Why This Matters
+
+If suppliers know the end buyer, they can:
+1. Look up the public bid themselves
+2. Contact the buyer directly
+3. Submit their own bid
+4. **Cut Dee Davis Inc. out completely**
+5. Eliminate the user's margin and business opportunity
+
+## What To Say Instead
+
+### ❌ WRONG:
+```
+"I need a quote for Canton Township's water infrastructure bid due February 5th."
+
+Subject: RFQ - Canton Township Water Bids (3 packages)
+Delivery: Canton Township DPW
+```
+
+### ✅ CORRECT:
+```
+"I need a quote for a Michigan municipal client. We need water infrastructure products."
+
+Subject: RFQ - Municipal Water Infrastructure (3 packages)
+Delivery: Metro Detroit area / Southeast Michigan / Wayne County
+```
+
+## Safe Information
+
+You CAN share:
+- ✅ General location (Metro Detroit, Southeast Michigan, county level)
+- ✅ Product specifications (part numbers, quantities, materials)
+- ✅ "Michigan municipal client" or "government client" (generic only)
+- ✅ Delivery timeline requirements
+- ✅ Dee Davis Inc. company information
+- ✅ Request for "competitive pricing" (not "government pricing")
+
+## Deflecting Questions
+
+If supplier asks "Who's the client?":
+- ✅ "It's a municipal client in Michigan. I'm managing the bid process."
+- ✅ "I work directly with the client and coordinate delivery. Can you provide standard pricing?"
+
+If they push harder:
+- ✅ Consider using a different supplier who respects your business model
+
+## When Generating Content
+
+**ALWAYS apply this rule when creating:**
+- Quote request emails
+- Supplier phone scripts
+- Bid analysis documents (mark clearly which sections are internal vs. supplier-facing)
+- Any communication templates involving suppliers
+
+**Before finalizing any supplier communication, verify:**
+- [ ] No client/agency names mentioned
+- [ ] No solicitation numbers included
+- [ ] No specific addresses (use general area only)
+- [ ] No procurement officer names
+- [ ] Using generic terms like "municipal client" or "Michigan client"
+
+## Remember
+
+The user is the middleman who adds value through:
+- Opportunity discovery
+- Bid preparation and management
+- Supplier sourcing and coordination
+- Risk management
+- Delivery coordination
+- EDWOSB certification value
+
+**Protecting client identity = Protecting the user's business and margins!**
