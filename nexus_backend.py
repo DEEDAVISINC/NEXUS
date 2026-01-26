@@ -4615,14 +4615,18 @@ class GPSSSupplierMiner:
                 filtered.append({
                     'id': supplier.get('id'),
                     'company_name': fields.get('COMPANY NAME', ''),
-                    'product_categories': fields.get('PRODUCT CATEGORIES', []),
-                    'net_30_available': fields.get('NET 30 AVAILABLE', False),
+                    'website': fields.get('WEBSITE', ''),
+                    'product_keywords': fields.get('PRODUCT KEYWORDS', ''),
+                    'net_30_available': fields.get('NET 30', False),
+                    'net_45_available': fields.get('NET 45', False),
                     'overall_rating': rating,
-                    'typical_margin': fields.get('TYPICAL MARGIN (%)', 0),
+                    'typical_margin': fields.get('TYPICAL MARGIN', 0),
                     'contact_email': fields.get('PRIMARY CONTACT EMAIL', ''),
                     'phone': fields.get('PRIMARY CONTACT PHONE', ''),
-                    'relationship_stage': fields.get('RELATIONSHIP STAGE', ''),
-                    'government_supplier': fields.get('GOVERNMENT SUPPLIER', False)
+                    'business_status': fields.get('BUSINESS STATUS', ''),
+                    'discovery_method': fields.get('DISCOVERY METHOD', ''),
+                    'discovery_date': fields.get('DISCOVERY DATE', ''),
+                    'discovered_by': fields.get('DISCOVERED BY', '')
                 })
             
             # Sort by rating desc
@@ -5244,10 +5248,8 @@ Return ONLY a number 0-100, nothing else."""
             # Set defaults
             if 'BUSINESS STATUS' not in supplier_data:
                 supplier_data['BUSINESS STATUS'] = 'Prospective'
-            if 'RELATIONSHIP STAGE' not in supplier_data:
-                supplier_data['RELATIONSHIP STAGE'] = 'Discovered'
             if 'DISCOVERY DATE' not in supplier_data:
-                supplier_data['DISCOVERY DATE'] = datetime.now().isoformat()
+                supplier_data['DISCOVERY DATE'] = datetime.now().strftime('%Y-%m-%d')
             
             # Create in Airtable
             record = self.airtable.create_record('GPSS SUPPLIERS', supplier_data)
