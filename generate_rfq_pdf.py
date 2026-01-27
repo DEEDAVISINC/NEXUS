@@ -144,12 +144,9 @@ def generate_pdf_reportlab(config, output_file):
         
         if logo_path and os.path.exists(logo_path):
             try:
-                # Center and rotate logo
-                canvas_obj.translate(4.25*inch, 5.5*inch)
-                canvas_obj.rotate(45)
-                
-                # Draw watermark logo
-                canvas_obj.drawImage(logo_path, -2*inch, -2*inch, 
+                # Draw logo straight (no rotation) in center
+                # Position: centered horizontally and vertically on page
+                canvas_obj.drawImage(logo_path, 2.25*inch, 3.5*inch, 
                                    width=4*inch, height=4*inch, 
                                    mask='auto', preserveAspectRatio=True)
             except Exception as e:
