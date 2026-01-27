@@ -75,9 +75,10 @@ def generate_pdf_reportlab(config, output_file):
     # Get company name and logo for watermark
     company_name = config['company']['name']
     
-    # Check for logo file
+    # Check for logo file (prefer watermark version)
     logo_path = None
     possible_logos = [
+        'logo_watermark.png',  # Pre-lightened watermark version (preferred)
         'logo.png',
         'photos_and_videos/deedavisinclogo.png',
         'photos_and_videos/logo.png'
@@ -106,16 +107,19 @@ def generate_pdf_reportlab(config, output_file):
                     self.translate(4.25*inch, 5.5*inch)  # Center of page
                     self.rotate(45)  # Diagonal
                     
-                    # Draw logo with transparency effect
-                    self.setFillAlpha(0.15)  # 15% opacity
-                    
-                    # Draw image - size 3x3 inches, centered
-                    self.drawImage(self._logo_path, -1.5*inch, -1.5*inch, 
-                                  width=3*inch, height=3*inch, 
+                    # Draw image - size 4x4 inches (watermark version already has opacity)
+                    # mask='auto' makes white backgrounds transparent
+                    self.drawImage(self._logo_path, -2*inch, -2*inch, 
+                                  width=4*inch, height=4*inch, 
                                   mask='auto', preserveAspectRatio=True)
-                except:
+                    
+                except Exception as e:
                     # If logo fails, fall back to text
-                    pass
+                    print(f"Logo watermark error: {e}")
+                    self.setFillGray(0.65)
+                    self.setFont(self._watermark_font, 60)
+                    text_width = self.stringWidth(self._watermark_text, self._watermark_font, 60)
+                    self.drawString(-text_width/2, 0, self._watermark_text)
             else:
                 # Fall back to text watermark if no logo
                 self.setFillGray(0.65)  # Medium gray
