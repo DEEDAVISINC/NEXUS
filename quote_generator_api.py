@@ -118,10 +118,13 @@ def generate_quote_from_paste():
                 os.rename(filename, dest)
                 files[file_type] = str(dest)
         
+        # Extract just the filename (without GENERATED_QUOTES/ path) for download URL
+        pdf_filename = os.path.basename(files.get('pdf', ''))
+        
         return jsonify({
             'success': True,
             'files': files,
-            'download_url': f"/api/quote/download/{files.get('pdf', '')}" if 'pdf' in files else None
+            'download_url': f"/api/quote/download/{pdf_filename}" if pdf_filename else None
         })
         
     except Exception as e:
@@ -222,10 +225,13 @@ def generate_quote():
                 os.rename(filename, dest)
                 files[file_type] = str(dest)
         
+        # Extract just the filename (without GENERATED_QUOTES/ path) for download URL
+        pdf_filename = os.path.basename(files.get('pdf', ''))
+        
         return jsonify({
             'success': True,
             'files': files,
-            'download_url': f"/api/quote/download/{files.get('pdf', '')}" if 'pdf' in files else None
+            'download_url': f"/api/quote/download/{pdf_filename}" if pdf_filename else None
         })
         
     except Exception as e:
