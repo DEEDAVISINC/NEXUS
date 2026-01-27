@@ -46,7 +46,7 @@ ITEMS:
     try {
       // Try real API first
       try {
-        const response = await fetch('http://localhost:5000/api/quote/generate-from-paste', {
+        const response = await fetch('http://localhost:5001/api/quote/generate-from-paste', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paste_text: pasteText })
@@ -157,7 +157,20 @@ ITEMS:
                   {result && result.success && (
                     <div className="mt-6 p-4 bg-green-900 border border-green-600 rounded-lg">
                       <h3 className="font-bold text-green-300 mb-2">✅ Quote Request Generated!</h3>
-                      <p className="text-green-200">Your professional quote request PDF is ready!</p>
+                      <p className="text-green-200 mb-3">Your professional quote request PDF is ready!</p>
+                      
+                      {result.download_url ? (
+                        <a
+                          href={`http://localhost:5001${result.download_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                        >
+                          📥 Download PDF
+                        </a>
+                      ) : (
+                        <p className="text-sm text-green-300">(Mock mode - no actual file generated)</p>
+                      )}
                     </div>
                   )}
                 </div>

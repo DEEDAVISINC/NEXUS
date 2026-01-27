@@ -37,7 +37,7 @@ Coverage: Nationwide sourcing with Michigan delivery`;
     try {
       // Try real API first
       try {
-        const response = await fetch('http://localhost:5000/api/capstat/generate-from-paste', {
+        const response = await fetch('http://localhost:5001/api/capstat/generate-from-paste', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paste_text: pasteText })
