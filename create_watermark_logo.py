@@ -33,5 +33,5 @@ if __name__ == '__main__':
     input_logo = 'logo.png'
     output_logo = 'logo_watermark.png'
     
-    if create_watermark_logo(input_logo, output_logo, opacity=0.25):
+    if create_watermark_logo(input_logo, output_logo, opacity=0.5):
         print(f"✓ Use {output_logo} as watermark in PDFs")
