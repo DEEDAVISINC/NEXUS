@@ -80,6 +80,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   const [opportunities, setOpportunities] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
 
+  // Email monitoring state
+  const [emailStatus, setEmailStatus] = useState({
+    newCount: 0,
+    lastChecked: new Date(),
+    checking: false,
+    recentActivity: [] as any[]
+  });
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -189,6 +197,25 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       fetchPortals();
     } catch (error) {
       console.error('Error opening portal:', error);
+    }
+  };
+
+  // Check email manually
+  const checkEmailNow = async () => {
+    setEmailStatus(prev => ({ ...prev, checking: true }));
+    try {
+      // TODO: API endpoint to check email
+      // For now, simulate check
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setEmailStatus({
+        newCount: 0,
+        lastChecked: new Date(),
+        checking: false,
+        recentActivity: []
+      });
+    } catch (error) {
+      console.error('Error checking email:', error);
+      setEmailStatus(prev => ({ ...prev, checking: false }));
     }
   };
 
@@ -580,6 +607,29 @@ END:VCALENDAR`;
             </div>
             
             <div className="flex gap-3">
+              {/* Email Notification Button */}
+              <div className="relative">
+                <button
+                  onClick={checkEmailNow}
+                  className={`px-4 py-2 rounded-lg transition flex items-center gap-2 font-semibold ${
+                    emailStatus.newCount > 0 
+                      ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 shadow-lg shadow-red-500/20' 
+                      : 'bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700'
+                  }`}
+                  disabled={emailStatus.checking}
+                >
+                  📧 bids.deedavisinc
+                  {emailStatus.newCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
+                      {emailStatus.newCount}
+                    </span>
+                  )}
+                </button>
+                <div className="absolute top-full right-0 mt-2 text-xs text-gray-500 whitespace-nowrap">
+                  {emailStatus.checking ? 'Checking...' : `Last: ${timeAgo(emailStatus.lastChecked.toISOString())}`}
+                </div>
+              </div>
+
               <button
                 onClick={fetchDashboardData}
                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg transition flex items-center gap-2 font-semibold shadow-lg shadow-blue-500/20"
@@ -671,8 +721,200 @@ END:VCALENDAR`;
       {/* OVERVIEW TAB */}
       {activeTab === 'overview' && (
         <>
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {/* URGENT ACTION REQUIRED */}
+          {(alerts.length > 0 || upcomingDeadlines.filter(d => d.priority === 'high').length > 0) && (
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">🔥</span>
+                <div className="text-xl font-black text-white">URGENT ACTION REQUIRED</div>
+                <div className="h-px flex-1 bg-gradient-to-r from-red-500/50 to-transparent"></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Priority Alerts */}
+                {alerts.slice(0, 2).map((alert, index) => (
+                  <div
+                    key={index}
+                    className={`relative overflow-hidden border rounded-xl p-4 backdrop-blur-sm ${
+                      alert.type === 'urgent'
+                        ? 'bg-red-900/20 border-red-500/50 shadow-lg shadow-red-500/10'
+                        : 'bg-yellow-900/20 border-yellow-500/50 shadow-lg shadow-yellow-500/10'
+                    }`}
+                  >
+                    <div className="relative">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white mb-1">{alert.title}</h4>
+                          <p className="text-sm text-gray-300">{alert.message}</p>
+                        </div>
+                        <span className="text-xs bg-gray-800 px-2 py-1 rounded font-semibold">{alert.system}</span>
+                      </div>
+                      <button className={`text-sm font-bold transition-colors ${
+                        alert.type === 'urgent' ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'
+                      }`}>
+                        {alert.action} →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {/* Urgent Deadlines */}
+                {upcomingDeadlines.filter(d => d.priority === 'high').slice(0, 2).map((deadline, index) => (
+                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-xl p-4 backdrop-blur-sm bg-orange-900/20 border-orange-500/50 shadow-lg shadow-orange-500/10">
+                    <div className="relative">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white mb-1">{deadline.title}</h4>
+                          <p className="text-sm text-gray-300">Due: {deadline.date}</p>
+                        </div>
+                        <span className="text-xs bg-gray-800 px-2 py-1 rounded font-semibold">{deadline.system}</span>
+                      </div>
+                      <button className="text-sm font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                        View Details →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* DEADLINES & WORKFLOW STEPS */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">⏰</span>
+              <div className="text-xl font-black text-white">DEADLINES & WORKFLOW STEPS</div>
+              <div className="h-px flex-1 bg-gradient-to-r from-blue-500/50 to-transparent"></div>
+              <button
+                onClick={exportAllTasksToCalendar}
+                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 rounded-lg transition flex items-center gap-2 font-semibold text-sm shadow-lg shadow-purple-500/20"
+              >
+                📆 Export All to Calendar
+              </button>
+            </div>
+            
+            {opportunities.length > 0 ? (
+              <div className="space-y-4">
+                {opportunities.slice(0, 3).map((opp, idx) => {
+                  const daysUntil = opp['Response Deadline'] 
+                    ? Math.ceil((new Date(opp['Response Deadline']).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+                    : null;
+                  const isUrgent = daysUntil !== null && daysUntil <= 3;
+                  
+                  return (
+                    <div key={idx} className={`relative overflow-hidden border rounded-xl p-6 backdrop-blur-sm ${
+                      isUrgent 
+                        ? 'bg-red-900/20 border-red-500/50 shadow-lg shadow-red-500/10' 
+                        : 'bg-gray-800/40 border-gray-700'
+                    }`}>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            {isUrgent && <span className="text-2xl">⚠️</span>}
+                            <h3 className="text-lg font-black text-white">{opp.Name || 'Unnamed Opportunity'}</h3>
+                          </div>
+                          {opp['Response Deadline'] && (
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-sm text-gray-400">Final Deadline:</span>
+                              <span className="text-sm font-bold text-blue-400">
+                                {new Date(opp['Response Deadline']).toLocaleDateString('en-US', { 
+                                  weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' 
+                                })}
+                              </span>
+                              {daysUntil !== null && (
+                                <span className={`text-xs px-2 py-1 rounded-full font-bold ${
+                                  isUrgent ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
+                                }`}>
+                                  {daysUntil} days
+                                </span>
+                              )}
+                              <button className="ml-2 text-xs bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded font-bold transition">
+                                📆 Add to Calendar
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Sequential Workflow Steps - Mock for now */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="text-green-400">✅</span>
+                          <span className="text-gray-300">1. Opportunity Added</span>
+                          <span className="text-xs text-gray-500 ml-auto">Completed</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="text-orange-400">▶️</span>
+                          <span className="text-white font-bold">2. Review Specs (READY)</span>
+                          <button className="ml-auto text-xs bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded font-bold transition">
+                            REVIEW NOW
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="text-gray-600">🔒</span>
+                          <span className="text-gray-500">3. Identify Suppliers (LOCKED)</span>
+                          <span className="text-xs text-gray-600 ml-auto">Complete step 2 first</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="text-gray-600">🔒</span>
+                          <span className="text-gray-500">4. Request Quotes (LOCKED)</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="text-gray-600">🔒</span>
+                          <span className="text-gray-500">5. Price Bid (LOCKED)</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
+                <div className="text-6xl mb-3 opacity-20">📋</div>
+                <p className="text-gray-500 font-semibold">No active bids</p>
+                <p className="text-xs text-gray-600 mt-1">Import opportunities in GPSS to see workflow here</p>
+              </div>
+            )}
+          </div>
+
+          {/* PENDING APPROVALS */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">✅</span>
+              <div className="text-xl font-black text-white">PENDING YOUR APPROVAL</div>
+              <div className="h-px flex-1 bg-gradient-to-r from-green-500/50 to-transparent"></div>
+            </div>
+            <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
+              <div className="text-6xl mb-3 opacity-20">✅</div>
+              <p className="text-gray-500 font-semibold">No pending approvals</p>
+              <p className="text-xs text-gray-600 mt-1">Payments and invoices requiring approval will appear here</p>
+            </div>
+          </div>
+
+          {/* THIS WEEK'S CALENDAR */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">📆</span>
+              <div className="text-xl font-black text-white">THIS WEEK'S CALENDAR</div>
+              <div className="h-px flex-1 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {upcomingDeadlines.slice(0, 4).map((deadline, idx) => (
+                <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded-xl p-4 hover:border-blue-500/50 transition">
+                  <div className="text-xs text-gray-500 mb-2">{deadline.date}</div>
+                  <div className="font-bold text-white mb-1 line-clamp-2">{deadline.title}</div>
+                  <div className="text-xs text-gray-400">{deadline.system}</div>
+                </div>
+              ))}
+              {upcomingDeadlines.length === 0 && (
+                <div className="col-span-4 text-center py-8 bg-gray-800/30 border border-gray-700 rounded-xl">
+                  <div className="text-5xl mb-3 opacity-20">📆</div>
+                  <p className="text-gray-500">No events this week</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* STATS GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {statCards.map((stat, index) => (
               <div 
                 key={index} 
@@ -696,146 +938,7 @@ END:VCALENDAR`;
             ))}
           </div>
 
-          {/* Alerts Section */}
-          {alerts.length > 0 && (
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚠️</span>
-                <div className="text-xl font-black text-white">PRIORITY ALERTS</div>
-                <div className="h-px flex-1 bg-gradient-to-r from-red-500/50 to-transparent"></div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {alerts.map((alert, index) => (
-                  <div
-                    key={index}
-                    className={`relative overflow-hidden border rounded-xl p-4 backdrop-blur-sm ${
-                      alert.type === 'urgent'
-                        ? 'bg-red-900/20 border-red-500/50 shadow-lg shadow-red-500/10'
-                        : alert.type === 'warning'
-                        ? 'bg-yellow-900/20 border-yellow-500/50 shadow-lg shadow-yellow-500/10'
-                        : 'bg-blue-900/20 border-blue-500/50 shadow-lg shadow-blue-500/10'
-                    }`}
-                  >
-                    <div className="relative">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white mb-1">{alert.title}</h4>
-                          <p className="text-sm text-gray-300">{alert.message}</p>
-                        </div>
-                        <span className="text-xs bg-gray-800 px-2 py-1 rounded font-semibold">{alert.system}</span>
-                      </div>
-                      <button className={`text-sm font-bold transition-colors ${
-                        alert.type === 'urgent' ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'
-                      }`}>
-                        {alert.action} →
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            {/* Recent Activity */}
-            <div className="lg:col-span-2">
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xl">📋</span>
-                  <h3 className="text-lg font-black text-white">ACTIVITY STREAM</h3>
-                  <div className="h-px flex-1 bg-gradient-to-r from-gray-700 to-transparent"></div>
-                </div>
-                {recentActivity.length > 0 ? (
-                  <div className="space-y-2">
-                    {recentActivity.map((activity, index) => (
-                      <div key={index} className="group bg-gray-700/30 hover:bg-gray-700/50 border border-gray-700/50 hover:border-gray-600 px-4 py-3 rounded-lg transition-all cursor-pointer">
-                        <div className="flex items-start gap-3">
-                          <div className={`text-2xl transform group-hover:scale-110 transition-transform ${activity.color}`}>{activity.icon}</div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="font-bold text-white">{activity.action}</span>
-                              <span className="text-xs text-gray-500 font-mono">{activity.time}</span>
-                            </div>
-                            <p className="text-sm text-gray-300 mb-1">{activity.title}</p>
-                            <span className="text-xs text-gray-500 font-semibold">{activity.system}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <div className="text-5xl mb-3 opacity-20">📊</div>
-                    <p className="text-gray-500">No recent activity</p>
-                    <p className="text-xs text-gray-600 mt-1">Activity will appear here as you use the systems</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Quick Actions & Deadlines */}
-            <div className="space-y-6">
-              {/* Quick Actions */}
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xl">⚡</span>
-                  <h3 className="text-lg font-black text-white">QUICK LAUNCH</h3>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {quickActions.map((action, index) => (
-                    <button
-                      key={index}
-                      onClick={action.action}
-                      className={`group bg-gradient-to-br ${action.gradient} hover:shadow-lg hover:shadow-blue-500/20 p-4 rounded-xl text-center transition-all transform hover:scale-105 relative overflow-hidden`}
-                    >
-                      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all"></div>
-                      <div className="relative">
-                        <div className="text-3xl mb-2 transform group-hover:scale-110 transition-transform">{action.icon}</div>
-                        <div className="text-xs font-bold uppercase tracking-wide">{action.label}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Upcoming Deadlines */}
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xl">📅</span>
-                  <h3 className="text-lg font-black text-white">DEADLINES</h3>
-                </div>
-                {upcomingDeadlines.length > 0 ? (
-                  <div className="space-y-3">
-                    {upcomingDeadlines.map((deadline, index) => (
-                      <div key={index} className="group border-l-4 border-blue-500 bg-gray-700/50 hover:bg-gray-700 px-3 py-3 rounded transition-all cursor-pointer">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-bold text-blue-400 font-mono">{deadline.date}</span>
-                          <span className={`text-xs px-2 py-1 rounded-full font-bold ${
-                            deadline.priority === 'high' 
-                              ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
-                              : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                          }`}>
-                            {deadline.priority.toUpperCase()}
-                          </span>
-                        </div>
-                        <p className="text-sm font-semibold text-white mb-1">{deadline.title}</p>
-                        <p className="text-xs text-gray-400 font-semibold">{deadline.system}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-5xl mb-3 opacity-20">📅</div>
-                    <p className="text-gray-500">No upcoming deadlines</p>
-                    <p className="text-xs text-gray-600 mt-1">Win opportunities in GPSS to see deadlines here</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* System Cards - Premium Command Center Style */}
+          {/* SYSTEM CARDS */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="text-2xl font-black text-white">INTEGRATED SYSTEMS</div>
@@ -848,14 +951,10 @@ END:VCALENDAR`;
                   key={system.id}
                   onClick={() => onEnterSystem(system.id)}
                   className="group relative overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl hover:border-blue-500/50 transition-all duration-500 cursor-pointer hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20"
-                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {/* Animated Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/5 group-hover:to-pink-500/10 transition-all duration-500"></div>
                   
-                  {/* Content */}
                   <div className="relative p-6">
-                    {/* Header */}
                     <div className="flex items-start justify-between mb-6">
                       <div className="text-5xl transform group-hover:scale-110 transition-transform duration-300">{system.icon}</div>
                       <div className="flex flex-col items-end gap-1">
@@ -867,14 +966,12 @@ END:VCALENDAR`;
                       </div>
                     </div>
                     
-                    {/* System Info */}
                     <div className="mb-6">
                       <h3 className="text-3xl font-black mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{system.name}</h3>
                       <p className="text-sm text-gray-400 font-semibold mb-3">{system.fullName}</p>
                       <p className="text-xs text-gray-500 leading-relaxed">{system.description}</p>
                     </div>
                     
-                    {/* Stats Grid */}
                     <div className="grid grid-cols-1 gap-2 mb-6">
                       {system.stats.map((stat, idx) => (
                         <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
@@ -884,7 +981,6 @@ END:VCALENDAR`;
                       ))}
                     </div>
                     
-                    {/* Launch Button */}
                     <button className={`w-full bg-gradient-to-r ${system.gradient} hover:shadow-lg hover:shadow-blue-500/30 px-6 py-3 rounded-xl font-bold text-white transition-all duration-300 transform group-hover:translate-y-[-2px]`}>
                       <span className="flex items-center justify-center gap-2">
                         LAUNCH SYSTEM
@@ -893,7 +989,6 @@ END:VCALENDAR`;
                     </button>
                   </div>
                   
-                  {/* Corner Accent */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-500"></div>
                 </div>
               ))}
