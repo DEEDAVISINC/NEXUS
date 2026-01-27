@@ -59,16 +59,16 @@ def generate_pdf_reportlab(config, output_file):
             # Draw watermark before showing page
             self.saveState()
             
-            # Set transparency and color - very light and subtle
-            self.setFillColorRGB(0.85, 0.85, 0.90, alpha=0.1)  # Very light gray-blue, 10% opacity
-            self.setFont("Helvetica-Bold", 70)
+            # Set very light gray for watermark (reportlab doesn't support alpha in setFillColor)
+            self.setFillGray(0.85)  # Light gray - 0.85 is very light
+            self.setFont("Helvetica-Bold", 60)
             
             # Rotate and center the watermark
             self.translate(4.25*inch, 5.5*inch)  # Center of letter-size page
             self.rotate(45)  # Diagonal
             
             # Draw company name as watermark
-            text_width = self.stringWidth(self._watermark_text, "Helvetica-Bold", 70)
+            text_width = self.stringWidth(self._watermark_text, "Helvetica-Bold", 60)
             self.drawString(-text_width/2, 0, self._watermark_text)
             
             self.restoreState()
