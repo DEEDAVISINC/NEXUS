@@ -118,6 +118,9 @@ def parse_rfq_template(text):
     """Parse RFQ paste template"""
     
     # Extract fields
+    request_type = re.search(r'REQUEST_TYPE:\s*(.+)', text)
+    request_type_value = request_type.group(1).strip().upper() if request_type else "SUPPLIER"
+    
     rfq_number = re.search(r'RFQ_NUMBER:\s*(.+)', text)
     title = re.search(r'TITLE:\s*(.+)', text)
     issue_date = re.search(r'ISSUE_DATE:\s*(.+)', text)
@@ -143,9 +146,11 @@ def parse_rfq_template(text):
             if line.startswith('-'):
                 key_requirements.append(line[1:].strip())
     
-    # Extract items
+    # Extract items or services based on request type
     items = []
-    items_match = re.search(r'ITEMS:\s*\n(.+?)(?=\n\n|$)', text, re.DOTALL)
+    
+    # Try SERVICES first (for subcontractor), then ITEMS (for supplier)
+    items_match = re.search(r'(?:SERVICES|ITEMS):\s*\n(.+?)(?=\n\n|COMPLIANCE_REQUIREMENTS:|$)', text, re.DOTALL)
     if items_match:
         for line in items_match.group(1).split('\n'):
             line = line.strip()
@@ -153,14 +158,23 @@ def parse_rfq_template(text):
                 continue
             
             parts = [p.strip() for p in line.split('|')]
-            if len(parts) >= 5:
+            if len(parts) >= 4:
                 items.append({
                     "item_number": parts[0],
                     "description": parts[1],
                     "specifications": parts[2],
                     "estimated_quantity": parts[3],
-                    "unit": parts[4]
+                    "unit": parts[4] if len(parts) >= 5 else "unit"
                 })
+    
+    # Extract compliance requirements (subcontractor only)
+    compliance_requirements = []
+    compliance_match = re.search(r'COMPLIANCE_REQUIREMENTS:\s*\n(.+?)(?=\n\n|⚠️|$)', text, re.DOTALL)
+    if compliance_match:
+        for line in compliance_match.group(1).split('\n'):
+            line = line.strip()
+            if line.startswith('-'):
+                compliance_requirements.append(line[1:].strip())
     
     # Color schemes
     color_schemes = {
@@ -176,6 +190,7 @@ def parse_rfq_template(text):
     
     # Build config
     config = {
+        "request_type": request_type_value,
         "company": {
             "name": "DEE DAVIS INC",
             "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
@@ -258,6 +273,13 @@ def parse_rfq_template(text):
         },
         "logo_path": "dee_davis_logo.png"
     }
+    
+    # Add compliance requirements if subcontractor request
+    if request_type_value == "SUBCONTRACTOR" and compliance_requirements:
+        config["compliance_requirements"] = {
+            "title": "COMPLIANCE & INSURANCE REQUIREMENTS",
+            "items": compliance_requirements
+        }
     
     return config
 

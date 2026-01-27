@@ -196,10 +196,13 @@ def generate_pdf_reportlab(config, output_file):
     # Title
     c = config['company']
     rfq = config['rfq_details']
+    request_type = config.get('request_type', 'SUPPLIER')
+    is_subcontractor = request_type == 'SUBCONTRACTOR'
     
     story.append(Paragraph(c['name'], title_style))
     subtitle_style = ParagraphStyle('Subtitle', parent=styles['Heading2'], fontName=font_name)
-    story.append(Paragraph("Request for Quote", subtitle_style))
+    subtitle_text = "Request for Quote - Subcontractor Services" if is_subcontractor else "Request for Quote"
+    story.append(Paragraph(subtitle_text, subtitle_style))
     story.append(Spacer(1, 0.3*inch))
     
     # RFQ Details
@@ -227,10 +230,15 @@ def generate_pdf_reportlab(config, output_file):
     story.append(Paragraph(config['introduction'], normal_style))
     story.append(Spacer(1, 0.2*inch))
     
-    # Items
-    story.append(Paragraph("ITEMS REQUESTED", heading_style))
+    # Items or Services
+    items_title = "SERVICES REQUESTED" if is_subcontractor else "ITEMS REQUESTED"
+    story.append(Paragraph(items_title, heading_style))
     
-    items_data = [['#', 'Description', 'Specifications', 'Qty', 'Unit', 'Price/Unit', 'Total Price']]
+    # Table header changes based on request type
+    if is_subcontractor:
+        items_data = [['#', 'Service', 'Scope/Details', 'Volume', 'Unit', 'Price/Unit', 'Total Price']]
+    else:
+        items_data = [['#', 'Description', 'Specifications', 'Qty', 'Unit', 'Price/Unit', 'Total Price']]
     for item in config['items']:
         items_data.append([
             item['item_number'],
@@ -266,34 +274,84 @@ def generate_pdf_reportlab(config, output_file):
     story.append(items_table)
     story.append(Spacer(1, 0.3*inch))
     
-    # Quote Submission Requirements
-    story.append(Paragraph("QUOTE SUBMISSION REQUIREMENTS", heading_style))
+    # Compliance Requirements (Subcontractor only)
+    if is_subcontractor and 'compliance_requirements' in config:
+        story.append(Paragraph(config['compliance_requirements']['title'], heading_style))
+        
+        compliance_style = ParagraphStyle(
+            'Compliance',
+            parent=normal_style,
+            fontSize=10,
+            leading=14,
+            leftIndent=20,
+            bulletIndent=10,
+            spaceAfter=6
+        )
+        
+        for item in config['compliance_requirements']['items']:
+            story.append(Paragraph(f"• {item}", compliance_style))
+        
+        story.append(Spacer(1, 0.2*inch))
     
-    requirements_text = f"""
-    <b>Quote Deadline:</b> {rfq['due_date']} at {rfq['due_time']}<br/>
-    <br/>
-    <b>Delivery Location:</b> Southeast Michigan (specific address provided upon award)<br/>
-    <br/>
-    <b>Delivery Terms:</b> Prices must include delivery to specified location. Within 2 business days of order required.<br/>
-    <br/>
-    <b>Payment Terms:</b> Net 30 days preferred (specify your standard terms)<br/>
-    <br/>
-    <b>Quote Validity:</b> Quote must remain valid through February 4, 2026<br/>
-    <br/>
-    <b>Required Information in Your Quote:</b><br/>
-    • Price per unit for each item (delivered)<br/>
-    • Total estimated annual cost<br/>
-    • Delivery lead time<br/>
-    • Payment terms<br/>
-    • Minimum order quantities (if applicable)<br/>
-    • Any volume discounts available<br/>
-    <br/>
-    <b>Submit Quote To:</b><br/>
-    Email: {c['email']}<br/>
-    Phone: {c['phone']}<br/>
-    <br/>
-    <b>Questions?</b> Contact {c['contact_person']} at {c['phone']} or {c['email']}
-    """
+    # Quote Submission Requirements
+    submission_title = "QUOTE SUBMISSION REQUIREMENTS - SUBCONTRACTOR" if is_subcontractor else "QUOTE SUBMISSION REQUIREMENTS"
+    story.append(Paragraph(submission_title, heading_style))
+    
+    if is_subcontractor:
+        requirements_text = f"""
+        <b>Quote Deadline:</b> {rfq['due_date']} at {rfq['due_time']}<br/>
+        <br/>
+        <b>Service Location:</b> Southeast Michigan (specific address provided upon award)<br/>
+        <br/>
+        <b>Payment Terms:</b> Net 30 days preferred (specify your standard terms)<br/>
+        <br/>
+        <b>Quote Validity:</b> Quote must remain valid for 60 days from submission<br/>
+        <br/>
+        <b>Required Documents to Submit with Quote:</b><br/>
+        • <b>Certificate of Insurance</b> (General Liability minimum $1M)<br/>
+        • <b>W-9 Form</b> (completed and signed)<br/>
+        • <b>Business License</b> (current and valid copy)<br/>
+        • <b>Worker's Compensation Insurance</b> proof<br/>
+        • <b>Auto Insurance</b> proof (if applicable)<br/>
+        • <b>Three (3) Recent References</b> from similar projects<br/>
+        • <b>Pricing Breakdown</b> for all services listed<br/>
+        • <b>Schedule/Timeline</b> for completion<br/>
+        • <b>Safety Record</b> and protocols<br/>
+        <br/>
+        <b>Submit Quote To:</b><br/>
+        Email: {c['email']}<br/>
+        Phone: {c['phone']}<br/>
+        <br/>
+        <b>Questions?</b> Contact {c['contact_person']} at {c['phone']} or {c['email']}<br/>
+        <br/>
+        <b>⚠️ Important:</b> Quotes submitted without required compliance documents will not be considered.
+        """
+    else:
+        requirements_text = f"""
+        <b>Quote Deadline:</b> {rfq['due_date']} at {rfq['due_time']}<br/>
+        <br/>
+        <b>Delivery Location:</b> Southeast Michigan (specific address provided upon award)<br/>
+        <br/>
+        <b>Delivery Terms:</b> Prices must include delivery to specified location. Within 2 business days of order required.<br/>
+        <br/>
+        <b>Payment Terms:</b> Net 30 days preferred (specify your standard terms)<br/>
+        <br/>
+        <b>Quote Validity:</b> Quote must remain valid through February 4, 2026<br/>
+        <br/>
+        <b>Required Information in Your Quote:</b><br/>
+        • Price per unit for each item (delivered)<br/>
+        • Total estimated annual cost<br/>
+        • Delivery lead time<br/>
+        • Payment terms<br/>
+        • Minimum order quantities (if applicable)<br/>
+        • Any volume discounts available<br/>
+        <br/>
+        <b>Submit Quote To:</b><br/>
+        Email: {c['email']}<br/>
+        Phone: {c['phone']}<br/>
+        <br/>
+        <b>Questions?</b> Contact {c['contact_person']} at {c['phone']} or {c['email']}
+        """
     
     requirements_style = ParagraphStyle(
         'Requirements',

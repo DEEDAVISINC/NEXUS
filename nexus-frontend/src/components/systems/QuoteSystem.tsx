@@ -8,12 +8,13 @@ interface QuoteSystemProps {
 
 export const QuoteSystem: React.FC<QuoteSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
   const [mode, setMode] = useState<'paste' | 'form'>('paste');
+  const [requestType, setRequestType] = useState<'supplier' | 'subcontractor'>('supplier');
   const [pasteText, setPasteText] = useState('');
   const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState<any>(null);
 
   const loadTemplate = () => {
-    const template = `🚨 CRITICAL: NEVER reveal client name, agency, or actual RFQ numbers to suppliers!
+    const supplierTemplate = `🚨 CRITICAL: NEVER reveal client name, agency, or actual RFQ numbers to suppliers!
 Use ONLY generic sequential DDI numbers and generic descriptions.
 
 RFQ_NUMBER: DDI-2026-001
@@ -46,8 +47,52 @@ ITEMS:
 - NEVER mention client/agency name
 - Quote deadline should be EARLIER than government deadline (leave time to compile)
 - Use generic location: "Michigan municipal client" or "Southeast Michigan"`;
+
+    const subcontractorTemplate = `🚨 CRITICAL: NEVER reveal client name, agency, or actual RFQ numbers!
+Use ONLY generic sequential DDI numbers and generic descriptions.
+
+REQUEST_TYPE: SUBCONTRACTOR
+RFQ_NUMBER: DDI-2026-001
+TITLE: Subcontractor Services Quote Request
+ISSUE_DATE: January 27, 2026
+DUE_DATE: February 3, 2026
+DUE_TIME: 2:00 PM EST
+CONTRACT_PERIOD: 12 months
+
+COLOR_SCHEME: 1
+
+INTRODUCTION:
+DEE DAVIS INC is seeking qualified subcontractors for a Michigan municipal services contract.
+
+SCOPE:
+Subcontractor will provide professional services as specified below for Southeast Michigan location.
+
+KEY_REQUIREMENTS:
+- Must carry minimum $1M General Liability Insurance
+- Certificate of Insurance required with quote
+- W-9 form required
+- Valid business license
+- Worker's Compensation insurance proof
+- Provide 3 recent references from similar projects
+- Background checks may be required
+
+SERVICES:
+1 | Service Description | Scope Details | Estimated Volume | unit
+
+COMPLIANCE_REQUIREMENTS:
+- General Liability Insurance: Minimum $1,000,000
+- Auto Insurance: Minimum $1,000,000 (if applicable)
+- Workers Compensation: As required by state law
+- Business License: Current and valid
+- Bonding Capability: May be required for award
+
+⚠️ REMEMBER: 
+- Use generic DDI numbers (DDI-2026-001, DDI-2026-002, etc.)
+- NEVER mention client/agency name
+- Quote deadline should be EARLIER than government deadline (leave time to compile)
+- This is for SERVICES (landscaping, construction, etc.) not PRODUCTS`;
     
-    setPasteText(template);
+    setPasteText(requestType === 'supplier' ? supplierTemplate : subcontractorTemplate);
   };
 
   const handleGenerate = async () => {
@@ -59,7 +104,10 @@ ITEMS:
         const response = await fetch('http://localhost:5001/api/quote/generate-from-paste', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ paste_text: pasteText })
+          body: JSON.stringify({ 
+            paste_text: pasteText,
+            request_type: requestType 
+          })
         });
 
         if (response.ok) {
@@ -111,6 +159,37 @@ ITEMS:
               <p className="text-gray-300 mb-6">
                 Generate professional quote requests for suppliers. Automatically timestamped and tracked in Airtable.
               </p>
+
+              {/* Request Type Selector */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-200 mb-3">Request Type:</h3>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setRequestType('supplier')}
+                    className={`flex-1 py-4 px-6 rounded-lg font-semibold transition border-2 ${
+                      requestType === 'supplier'
+                        ? 'bg-blue-600 text-white border-blue-400'
+                        : 'bg-gray-800 text-gray-300 border-gray-600 hover:border-gray-500'
+                    }`}
+                  >
+                    <div className="text-2xl mb-2">📦</div>
+                    <div className="font-bold">Supplier/Product Quote</div>
+                    <div className="text-xs mt-1 opacity-75">Materials, equipment, supplies</div>
+                  </button>
+                  <button
+                    onClick={() => setRequestType('subcontractor')}
+                    className={`flex-1 py-4 px-6 rounded-lg font-semibold transition border-2 ${
+                      requestType === 'subcontractor'
+                        ? 'bg-blue-600 text-white border-blue-400'
+                        : 'bg-gray-800 text-gray-300 border-gray-600 hover:border-gray-500'
+                    }`}
+                  >
+                    <div className="text-2xl mb-2">👷</div>
+                    <div className="font-bold">Subcontractor Services</div>
+                    <div className="text-xs mt-1 opacity-75">Landscaping, construction, services</div>
+                  </button>
+                </div>
+              </div>
 
               {/* Mode selector */}
               <div className="flex gap-2 mb-6">

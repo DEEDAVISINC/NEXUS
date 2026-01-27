@@ -61,15 +61,21 @@ def generate_quote_from_paste():
     
     POST /api/quote/generate-from-paste
     Body: {
-        "paste_text": "RFQ_NUMBER: DDI-2026-001\nTITLE: ..."
+        "paste_text": "RFQ_NUMBER: DDI-2026-001\nTITLE: ...",
+        "request_type": "supplier" | "subcontractor"  # optional, defaults to supplier
     }
     """
     try:
         data = request.json
         paste_text = data.get('paste_text', '')
+        request_type = data.get('request_type', 'supplier').upper()
         
         if not paste_text:
             return jsonify({'success': False, 'error': 'No paste text provided'}), 400
+        
+        # Add REQUEST_TYPE to paste_text if not already present
+        if 'REQUEST_TYPE:' not in paste_text:
+            paste_text = f"REQUEST_TYPE: {request_type}\n{paste_text}"
         
         # Create temp file with paste text
         with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
