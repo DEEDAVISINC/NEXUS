@@ -236,12 +236,61 @@ def generate_pdf_reportlab(config, output_file):
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ]))
     story.append(items_table)
-    story.append(Spacer(1, 0.2*inch))
+    story.append(Spacer(1, 0.3*inch))
     
-    # Contact
-    story.append(Paragraph("CONTACT INFORMATION", heading_style))
-    contact_text = f"{c['contact_person']}<br/>{c['email']} | {c['phone']}<br/>{c['website']}"
-    story.append(Paragraph(contact_text, normal_style))
+    # Quote Submission Requirements
+    story.append(Paragraph("QUOTE SUBMISSION REQUIREMENTS", heading_style))
+    
+    requirements_text = f"""
+    <b>Quote Deadline:</b> {rfq['due_date']} at {rfq['due_time']}<br/>
+    <br/>
+    <b>Delivery Location:</b> Southeast Michigan (specific address provided upon award)<br/>
+    <br/>
+    <b>Delivery Terms:</b> Prices must include delivery to specified location. Within 2 business days of order required.<br/>
+    <br/>
+    <b>Payment Terms:</b> Net 30 days preferred (specify your standard terms)<br/>
+    <br/>
+    <b>Quote Validity:</b> Quote must remain valid through February 4, 2026<br/>
+    <br/>
+    <b>Required Information in Your Quote:</b><br/>
+    • Price per unit for each item (delivered)<br/>
+    • Total estimated annual cost<br/>
+    • Delivery lead time<br/>
+    • Payment terms<br/>
+    • Minimum order quantities (if applicable)<br/>
+    • Any volume discounts available<br/>
+    <br/>
+    <b>Submit Quote To:</b><br/>
+    Email: {c['email']}<br/>
+    Phone: {c['phone']}<br/>
+    <br/>
+    <b>Questions?</b> Contact {c['contact_person']} at {c['phone']} or {c['email']}
+    """
+    
+    requirements_style = ParagraphStyle(
+        'Requirements',
+        parent=normal_style,
+        fontSize=9,
+        leading=12,
+        spaceAfter=6
+    )
+    
+    story.append(Paragraph(requirements_text, requirements_style))
+    story.append(Spacer(1, 0.3*inch))
+    
+    # Footer note
+    footer_style = ParagraphStyle(
+        'Footer',
+        parent=normal_style,
+        fontSize=8,
+        textColor=colors.HexColor('#6b7280'),
+        alignment=TA_CENTER
+    )
+    
+    story.append(Paragraph(
+        f"<b>{c['name']}</b> • {c['address']} • {c['phone']} • {c['email']} • {c['website']}", 
+        footer_style
+    ))
     
     doc.build(story)
     return True
