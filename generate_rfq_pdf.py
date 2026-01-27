@@ -72,8 +72,20 @@ def generate_pdf_reportlab(config, output_file):
         # If Avenir fails, just use Helvetica
         pass
     
-    # Get company name for watermark
+    # Get company name and logo for watermark
     company_name = config['company']['name']
+    
+    # Check for logo file
+    logo_path = None
+    possible_logos = [
+        'logo.png',
+        'photos_and_videos/deedavisinclogo.png',
+        'photos_and_videos/logo.png'
+    ]
+    for path in possible_logos:
+        if os.path.exists(path):
+            logo_path = path
+            break
     
     # Custom canvas with watermark
     class WatermarkedCanvas(canvas.Canvas):
@@ -81,22 +93,37 @@ def generate_pdf_reportlab(config, output_file):
             canvas.Canvas.__init__(self, *args, **kwargs)
             self._watermark_text = company_name
             self._watermark_font = font_bold
+            self._logo_path = logo_path
         
         def showPage(self):
             # Draw watermark before showing page
             self.saveState()
             
-            # Set medium gray for watermark - clearly visible but not too dark
-            self.setFillGray(0.65)  # Medium gray - clearly visible
-            self.setFont(self._watermark_font, 60)
-            
-            # Rotate and center the watermark
-            self.translate(4.25*inch, 5.5*inch)  # Center of letter-size page
-            self.rotate(45)  # Diagonal
-            
-            # Draw company name as watermark
-            text_width = self.stringWidth(self._watermark_text, self._watermark_font, 60)
-            self.drawString(-text_width/2, 0, self._watermark_text)
+            if self._logo_path:
+                # Draw logo as watermark
+                try:
+                    # Center and rotate logo
+                    self.translate(4.25*inch, 5.5*inch)  # Center of page
+                    self.rotate(45)  # Diagonal
+                    
+                    # Draw logo with transparency effect
+                    self.setFillAlpha(0.15)  # 15% opacity
+                    
+                    # Draw image - size 3x3 inches, centered
+                    self.drawImage(self._logo_path, -1.5*inch, -1.5*inch, 
+                                  width=3*inch, height=3*inch, 
+                                  mask='auto', preserveAspectRatio=True)
+                except:
+                    # If logo fails, fall back to text
+                    pass
+            else:
+                # Fall back to text watermark if no logo
+                self.setFillGray(0.65)  # Medium gray
+                self.setFont(self._watermark_font, 60)
+                self.translate(4.25*inch, 5.5*inch)
+                self.rotate(45)
+                text_width = self.stringWidth(self._watermark_text, self._watermark_font, 60)
+                self.drawString(-text_width/2, 0, self._watermark_text)
             
             self.restoreState()
             
