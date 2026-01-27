@@ -97,10 +97,10 @@ def generate_pdf_reportlab(config, output_file):
             self._logo_path = logo_path
         
         def showPage(self):
-            # Draw watermark before showing page
+            # CRITICAL: Draw watermark FIRST, before page content
             self.saveState()
             
-            if self._logo_path:
+            if self._logo_path and os.path.exists(self._logo_path):
                 # Draw logo as watermark
                 try:
                     # Center and rotate logo
@@ -115,13 +115,16 @@ def generate_pdf_reportlab(config, output_file):
                     
                 except Exception as e:
                     # If logo fails, fall back to text
+                    import traceback
                     print(f"Logo watermark error: {e}")
+                    traceback.print_exc()
                     self.setFillGray(0.65)
                     self.setFont(self._watermark_font, 60)
                     text_width = self.stringWidth(self._watermark_text, self._watermark_font, 60)
                     self.drawString(-text_width/2, 0, self._watermark_text)
             else:
                 # Fall back to text watermark if no logo
+                print(f"Logo not found at: {self._logo_path}, using text watermark")
                 self.setFillGray(0.65)  # Medium gray
                 self.setFont(self._watermark_font, 60)
                 self.translate(4.25*inch, 5.5*inch)
@@ -131,10 +134,31 @@ def generate_pdf_reportlab(config, output_file):
             
             self.restoreState()
             
-            # Show the page
+            # THEN show the page (this renders content on top)
             canvas.Canvas.showPage(self)
     
-    doc = SimpleDocTemplate(output_file, pagesize=letter, canvasmaker=WatermarkedCanvas)
+    # Create a function to draw watermark on first page callback
+    def add_watermark(canvas_obj, doc_obj):
+        """Add watermark to each page"""
+        canvas_obj.saveState()
+        
+        if logo_path and os.path.exists(logo_path):
+            try:
+                # Center and rotate logo
+                canvas_obj.translate(4.25*inch, 5.5*inch)
+                canvas_obj.rotate(45)
+                
+                # Draw watermark logo
+                canvas_obj.drawImage(logo_path, -2*inch, -2*inch, 
+                                   width=4*inch, height=4*inch, 
+                                   mask='auto', preserveAspectRatio=True)
+            except Exception as e:
+                print(f"Watermark error: {e}")
+        
+        canvas_obj.restoreState()
+    
+    doc = SimpleDocTemplate(output_file, pagesize=letter)
+    doc.canvasmaker = WatermarkedCanvas  # Still set it but also use onFirstPage
     story = []
     styles = getSampleStyleSheet()
     
@@ -292,7 +316,8 @@ def generate_pdf_reportlab(config, output_file):
         footer_style
     ))
     
-    doc.build(story)
+    # Build with watermark on all pages
+    doc.build(story, onFirstPage=add_watermark, onLaterPages=add_watermark)
     return True
 
 
