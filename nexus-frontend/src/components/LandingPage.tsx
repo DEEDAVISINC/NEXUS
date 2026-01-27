@@ -777,91 +777,100 @@ END:VCALENDAR`;
             </div>
           )}
 
-          {/* DEADLINES & WORKFLOW STEPS - Compact */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-xl">⏰</span>
-              <div className="text-lg font-black text-white">DEADLINES & WORKFLOW</div>
-              <div className="h-px flex-1 bg-gradient-to-r from-blue-500/50 to-transparent"></div>
-              <button
-                onClick={exportAllTasksToCalendar}
-                className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 rounded-lg transition flex items-center gap-2 font-semibold text-xs shadow-lg shadow-purple-500/20"
-              >
-                📆 Export Calendar
-              </button>
+          {/* QUEUE-BASED WORKFLOW SECTIONS */}
+          
+          {/* 1. NEEDS REVIEW */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🔍</span>
+              <div className="text-sm font-black text-white">NEEDS REVIEW</div>
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">
+                {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).length}
+              </span>
+              <div className="h-px flex-1 bg-gradient-to-r from-blue-500/30 to-transparent"></div>
             </div>
-            
-            {opportunities.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {opportunities.slice(0, 4).map((opp, idx) => {
-                  const daysUntil = opp['Response Deadline'] 
-                    ? Math.ceil((new Date(opp['Response Deadline']).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-                    : null;
-                  const isUrgent = daysUntil !== null && daysUntil <= 3;
-                  
-                  return (
-                    <div key={idx} className={`relative overflow-hidden border rounded-lg p-4 backdrop-blur-sm ${
-                      isUrgent 
-                        ? 'bg-red-900/20 border-red-500/50' 
-                        : 'bg-gray-800/40 border-gray-700'
-                    }`}>
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          {isUrgent && <span className="text-lg">⚠️</span>}
-                          <h3 className="text-sm font-bold text-white line-clamp-1">{opp.Name || 'Unnamed Opportunity'}</h3>
-                        </div>
-                        {daysUntil !== null && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-                            isUrgent ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
-                          }`}>
-                            {daysUntil}d
-                          </span>
-                        )}
+            {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).length > 0 ? (
+              <div className="space-y-2">
+                {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).slice(0, 3).map((opp, idx) => (
+                  <div key={idx} className="bg-blue-900/10 border border-blue-500/30 rounded-lg p-3 hover:border-blue-500/50 transition">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="text-sm font-bold text-white mb-1">Unnamed Opportunity</div>
+                        <div className="text-xs text-gray-400">Added: {opp['Date Added'] || 'Recently'}</div>
                       </div>
-
-                      {opp['Response Deadline'] && (
-                        <div className="flex items-center gap-2 mb-3 text-xs text-gray-400">
-                          <span>Due:</span>
-                          <span className="text-blue-400 font-semibold">
-                            {new Date(opp['Response Deadline']).toLocaleDateString('en-US', { 
-                              month: 'short', day: 'numeric'
-                            })}
-                          </span>
-                          <button className="ml-auto text-purple-400 hover:text-purple-300 font-bold">
-                            📆
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Compact Workflow Steps */}
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 text-xs">
-                          <span className="text-green-400">✅</span>
-                          <span className="text-gray-400">Added</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs">
-                          <span className="text-orange-400">▶️</span>
-                          <span className="text-white font-bold">Review Specs</span>
-                          <button className="ml-auto text-orange-400 hover:text-orange-300 font-bold">
-                            START
-                          </button>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-gray-600">
-                          <span>🔒</span>
-                          <span>Find Suppliers • Request Quotes • Price Bid</span>
-                        </div>
-                      </div>
+                      <button className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded font-bold text-xs transition">
+                        Review & Name
+                      </button>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             ) : (
-              <div className="text-center py-8 bg-gray-800/30 border border-gray-700 rounded-lg">
-                <div className="text-4xl mb-2 opacity-20">📋</div>
-                <p className="text-sm text-gray-500 font-semibold">No active bids</p>
-                <p className="text-xs text-gray-600 mt-1">Import opportunities in GPSS</p>
+              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+                <div className="text-xs text-gray-500">✅ All caught up! No opportunities need review.</div>
               </div>
             )}
+          </div>
+
+          {/* 2. FIND SUPPLIERS */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🔎</span>
+              <div className="text-sm font-black text-white">FIND SUPPLIERS</div>
+              <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
+                {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).slice(0, 2).length}
+              </span>
+              <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+            </div>
+            {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).length > 0 ? (
+              <div className="space-y-2">
+                {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).slice(0, 2).map((opp, idx) => (
+                  <div key={idx} className="bg-purple-900/10 border border-purple-500/30 rounded-lg p-3 hover:border-purple-500/50 transition">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="text-sm font-bold text-white mb-1">{opp.Name}</div>
+                        <div className="text-xs text-gray-400">
+                          Due: {opp['Response Deadline'] ? new Date(opp['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
+                        </div>
+                      </div>
+                      <button className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded font-bold text-xs transition">
+                        Search Suppliers
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+                <div className="text-xs text-gray-500">✅ All suppliers identified.</div>
+              </div>
+            )}
+          </div>
+
+          {/* 3. AWAITING QUOTES */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">⏳</span>
+              <div className="text-sm font-black text-white">AWAITING QUOTES</div>
+              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">0</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/30 to-transparent"></div>
+            </div>
+            <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+              <div className="text-xs text-gray-500">✅ All quotes received.</div>
+            </div>
+          </div>
+
+          {/* 4. READY TO PRICE */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">💰</span>
+              <div className="text-sm font-black text-white">READY TO PRICE</div>
+              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">0</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
+            </div>
+            <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+              <div className="text-xs text-gray-500">✅ All bids priced.</div>
+            </div>
           </div>
 
           {/* PENDING APPROVALS - Compact */}
