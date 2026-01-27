@@ -46,43 +46,35 @@ def generate_pdf_reportlab(config, output_file):
         print("   - pip install reportlab")
         return False
     
+    # Get company name for watermark
+    company_name = config['company']['name']
+    
     # Custom canvas with watermark
     class WatermarkedCanvas(canvas.Canvas):
         def __init__(self, *args, **kwargs):
             canvas.Canvas.__init__(self, *args, **kwargs)
-            self.pages = []
+            self._watermark_text = company_name
         
         def showPage(self):
-            self.pages.append(dict(self.__dict__))
-            self._startPage()
-        
-        def save(self):
-            # Add watermark to all pages
-            num_pages = len(self.pages)
-            for page in self.pages:
-                self.__dict__.update(page)
-                self.draw_watermark()
-                canvas.Canvas.showPage(self)
-            canvas.Canvas.save(self)
-        
-        def draw_watermark(self):
-            """Draw watermark on page"""
+            # Draw watermark before showing page
             self.saveState()
             
-            # Set transparency and color
-            self.setFillColorRGB(0.9, 0.9, 0.95, alpha=0.15)  # Very light blue, very transparent
-            self.setFont("Helvetica-Bold", 80)
+            # Set transparency and color - very light and subtle
+            self.setFillColorRGB(0.85, 0.85, 0.90, alpha=0.1)  # Very light gray-blue, 10% opacity
+            self.setFont("Helvetica-Bold", 70)
             
             # Rotate and center the watermark
             self.translate(4.25*inch, 5.5*inch)  # Center of letter-size page
             self.rotate(45)  # Diagonal
             
             # Draw company name as watermark
-            company_name = config['company']['name']
-            text_width = self.stringWidth(company_name, "Helvetica-Bold", 80)
-            self.drawString(-text_width/2, 0, company_name)
+            text_width = self.stringWidth(self._watermark_text, "Helvetica-Bold", 70)
+            self.drawString(-text_width/2, 0, self._watermark_text)
             
             self.restoreState()
+            
+            # Show the page
+            canvas.Canvas.showPage(self)
     
     doc = SimpleDocTemplate(output_file, pagesize=letter, canvasmaker=WatermarkedCanvas)
     story = []
