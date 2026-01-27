@@ -35,16 +35,48 @@ Coverage: Nationwide sourcing with Michigan delivery`;
     setGenerating(true);
     
     try {
-      const response = await fetch('http://localhost:5000/api/capstat/generate-from-paste', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paste_text: pasteText })
-      });
+      // Try real API first
+      try {
+        const response = await fetch('http://localhost:5000/api/capstat/generate-from-paste', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paste_text: pasteText })
+        });
 
-      const data = await response.json();
-      setResult(data);
+        if (response.ok) {
+          const data = await response.json();
+          setResult(data);
+          setGenerating(false);
+          return;
+        }
+      } catch (apiError) {
+        console.log('API not available, using mock mode');
+      }
+
+      // Mock mode - simulate successful generation
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing
+      
+      const mockResult = {
+        success: true,
+        message: 'Capability Statement generated successfully! (Mock Mode)',
+        files: {
+          pdf: 'mock-capability-statement.pdf',
+          html: 'mock-capability-statement.html'
+        },
+        capstat_data: {
+          company_name: 'Dee Davis Inc.',
+          template_used: 'Default Professional',
+          generated_at: new Date().toISOString()
+        }
+      };
+      
+      setResult(mockResult);
+      
+      alert('✅ Mock Mode: Capability Statement Generated!\n\n📄 Your capability statement has been "generated"\n📧 In production, this would:\n  • Create a professional PDF\n  • Apply your branding\n  • Include all certifications\n  • Ready to attach to bids\n\n(Backend not connected - UI testing only)');
+      
     } catch (error) {
       console.error('Error generating capability statement:', error);
+      alert('❌ Error generating capability statement. Please check the console.');
     } finally {
       setGenerating(false);
     }

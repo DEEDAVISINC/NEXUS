@@ -44,16 +44,48 @@ ITEMS:
     setGenerating(true);
     
     try {
-      const response = await fetch('http://localhost:5000/api/quote/generate-from-paste', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paste_text: pasteText })
-      });
+      // Try real API first
+      try {
+        const response = await fetch('http://localhost:5000/api/quote/generate-from-paste', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paste_text: pasteText })
+        });
 
-      const data = await response.json();
-      setResult(data);
+        if (response.ok) {
+          const data = await response.json();
+          setResult(data);
+          setGenerating(false);
+          return;
+        }
+      } catch (apiError) {
+        console.log('API not available, using mock mode');
+      }
+
+      // Mock mode - simulate successful generation
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing
+      
+      const mockResult = {
+        success: true,
+        message: 'Quote request generated successfully! (Mock Mode)',
+        files: {
+          pdf: 'mock-quote-request.pdf',
+          html: 'mock-quote-request.html'
+        },
+        quote_data: {
+          rfq_number: 'DDI-2026-001',
+          title: 'Sample Quote Request',
+          generated_at: new Date().toISOString()
+        }
+      };
+      
+      setResult(mockResult);
+      
+      alert('✅ Mock Mode: Quote Generated!\n\n📋 Your quote request has been "generated"\n📧 In production, this would:\n  • Create a PDF\n  • Save to Airtable\n  • Track timestamp\n  • Log supplier contact\n\n(Backend not connected - UI testing only)');
+      
     } catch (error) {
       console.error('Error generating quote:', error);
+      alert('❌ Error generating quote. Please check the console.');
     } finally {
       setGenerating(false);
     }
