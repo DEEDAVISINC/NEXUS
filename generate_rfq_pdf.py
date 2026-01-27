@@ -38,6 +38,7 @@ def generate_pdf_reportlab(config, output_file):
         from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
         from reportlab.lib import colors
         from reportlab.lib.enums import TA_CENTER, TA_LEFT
+        from reportlab.pdfgen import canvas
     except ImportError:
         print("❌ Neither wkhtmltopdf nor reportlab available")
         print("   Install one of:")
@@ -45,7 +46,45 @@ def generate_pdf_reportlab(config, output_file):
         print("   - pip install reportlab")
         return False
     
-    doc = SimpleDocTemplate(output_file, pagesize=letter)
+    # Custom canvas with watermark
+    class WatermarkedCanvas(canvas.Canvas):
+        def __init__(self, *args, **kwargs):
+            canvas.Canvas.__init__(self, *args, **kwargs)
+            self.pages = []
+        
+        def showPage(self):
+            self.pages.append(dict(self.__dict__))
+            self._startPage()
+        
+        def save(self):
+            # Add watermark to all pages
+            num_pages = len(self.pages)
+            for page in self.pages:
+                self.__dict__.update(page)
+                self.draw_watermark()
+                canvas.Canvas.showPage(self)
+            canvas.Canvas.save(self)
+        
+        def draw_watermark(self):
+            """Draw watermark on page"""
+            self.saveState()
+            
+            # Set transparency and color
+            self.setFillColorRGB(0.9, 0.9, 0.95, alpha=0.15)  # Very light blue, very transparent
+            self.setFont("Helvetica-Bold", 80)
+            
+            # Rotate and center the watermark
+            self.translate(4.25*inch, 5.5*inch)  # Center of letter-size page
+            self.rotate(45)  # Diagonal
+            
+            # Draw company name as watermark
+            company_name = config['company']['name']
+            text_width = self.stringWidth(company_name, "Helvetica-Bold", 80)
+            self.drawString(-text_width/2, 0, company_name)
+            
+            self.restoreState()
+    
+    doc = SimpleDocTemplate(output_file, pagesize=letter, canvasmaker=WatermarkedCanvas)
     story = []
     styles = getSampleStyleSheet()
     

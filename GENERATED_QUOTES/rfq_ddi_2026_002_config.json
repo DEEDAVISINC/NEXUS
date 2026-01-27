@@ -1,0 +1,173 @@
+{
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-002",
+        "title": "Aggregate Materials Quote Request",
+        "issue_date": "January 27, 2026",
+        "due_date": "January 31, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Aggregate Materials Quote Request",
+        "contract_period": "1 year (Spring 2026 - Spring 2027)"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "DEE DAVIS INC is seeking competitive wholesale pricing for a 1-year aggregate supply contract for a Michigan municipal client.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Vendor will provide bulk aggregate materials as specified below with delivery to Southeast Michigan location. Contract period: 1 year starting Spring 2026. Average order size: 50 tons or 200 CY. Delivery requirement: Within 2 business days of order.",
+        "key_requirements": [
+            "Delivery within 2 business days of order required",
+            "MDOT specifications must be met (Items B and F)",
+            "Net 30 payment terms preferred",
+            "Quote valid through February 4, 2026",
+            "Annual estimated volume: 3,700 tons + 1,000 cubic yards"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "Fill Sand",
+            "specifications": "Clear of debris and rocks",
+            "estimated_quantity": "300",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "2",
+            "description": "Fine Crushed Concrete",
+            "specifications": "MDOT Spec 21AA",
+            "estimated_quantity": "400",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "3",
+            "description": "Coarse Crushed Concrete",
+            "specifications": "3\" x 1\" aggregate",
+            "estimated_quantity": "400",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "4",
+            "description": "Clean Top Soil",
+            "specifications": "Premium grade",
+            "estimated_quantity": "1000",
+            "unit": "cubic yards/year"
+        },
+        {
+            "item_number": "5",
+            "description": "6A Stone Limestone",
+            "specifications": "Standard grade",
+            "estimated_quantity": "300",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "6",
+            "description": "Road Gravel",
+            "specifications": "23A Dense Graded, MDOT spec",
+            "estimated_quantity": "500",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "7",
+            "description": "Mason Sand",
+            "specifications": "Fine grade, screened/washed",
+            "estimated_quantity": "200",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "8",
+            "description": "Pea Gravel",
+            "specifications": "Clean, approximately 3/8\"",
+            "estimated_quantity": "200",
+            "unit": "tons/year"
+        },
+        {
+            "item_number": "9",
+            "description": "60/40 Gravel",
+            "specifications": "60% 6A + 40% 2NS Sand mix",
+            "estimated_quantity": "400",
+            "unit": "tons/year"
+        }
+    ],
+    "submission_requirements": {
+        "title": "SUBMISSION REQUIREMENTS",
+        "items": [
+            "Complete pricing for all items listed",
+            "Product specifications and technical data sheets",
+            "Company profile and relevant certifications",
+            "References from at least 3 similar clients",
+            "Delivery schedule and lead times",
+            "Payment terms and available discounts"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date"
+            },
+            {
+                "title": "Delivery",
+                "description": "FOB Destination, freight prepaid and included"
+            },
+            {
+                "title": "Contract Period",
+                "description": "1 year (Spring 2026 - Spring 2027) with option to extend"
+            },
+            {
+                "title": "Quality Standards",
+                "description": "All products must meet industry standards"
+            },
+            {
+                "title": "Insurance",
+                "description": "Vendor must maintain minimum $1M general liability"
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "ADDITIONAL INFORMATION",
+        "items": [
+            "Questions must be submitted in writing by January 27, 2026",
+            "DEE DAVIS INC reserves the right to accept or reject any or all quotes",
+            "Late submissions will not be considered",
+            "Award notification expected within 10 business days of January 31, 2026"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}
