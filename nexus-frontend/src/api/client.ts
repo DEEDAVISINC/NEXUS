@@ -230,6 +230,17 @@ export const api = {
   updateGpssProduct: (id: string, data: any) => ApiClient.put(`/gpss/products/${id}`, data),
   deleteGpssProduct: (id: string) => ApiClient.delete(`/gpss/products/${id}`),
 
+  // Workflow Management API
+  getWorkflowQueues: () => ApiClient.get('/api/workflow/queues'),
+  reviewOpportunity: (opportunityId: string, data: {name: string, decision: 'pursue' | 'skip', notes?: string}) =>
+    ApiClient.post(`/api/workflow/opportunity/${opportunityId}/review`, data),
+  identifySuppliers: (opportunityId: string, supplierIds: string[]) =>
+    ApiClient.post(`/api/workflow/opportunity/${opportunityId}/suppliers`, {supplierIds}),
+  markQuotesRequested: (opportunityId: string, count: number) =>
+    ApiClient.post(`/api/workflow/opportunity/${opportunityId}/quotes-requested`, {count}),
+  advanceWorkflow: (opportunityId: string, newStatus: string) =>
+    ApiClient.post(`/api/workflow/opportunity/${opportunityId}/advance`, {newStatus}),
+
   // DDCSS Prospects API
   getDdcssProspects: () => ApiClient.get('/ddcss/prospects'),
   createDdcssProspect: (data: any) => ApiClient.post('/ddcss/prospects', data),

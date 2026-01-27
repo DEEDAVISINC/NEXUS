@@ -128,6 +128,183 @@ class AnthropicClient:
         return response.content[0].text
 
 # =====================================================================
+# WORKFLOW MANAGER - Track opportunity workflow stages
+# =====================================================================
+
+class WorkflowManager:
+    """Manage workflow stages and transitions for opportunities"""
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        
+    def get_workflow_queues(self):
+        """Get all opportunities organized by workflow stage"""
+        try:
+            # Get all opportunities
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            all_opps = opportunities_table.all()
+            
+            # Initialize queues
+            queues = {
+                'needsReview': [],
+                'findSuppliers': [],
+                'requestQuotes': [],
+                'awaitingQuotes': [],
+                'readyToPrice': [],
+                'generateProposal': [],
+                'finalReview': [],
+                'submitted': []
+            }
+            
+            # Sort opportunities into queues based on workflow status
+            for opp in all_opps:
+                fields = opp['fields']
+                status = fields.get('Workflow Status', 'Needs Review')
+                
+                # Determine queue based on status
+                if status == 'Needs Review' or not fields.get('Name') or 'Unnamed' in fields.get('Name', ''):
+                    queues['needsReview'].append(opp)
+                elif status == 'Find Suppliers':
+                    queues['findSuppliers'].append(opp)
+                elif status == 'Request Quotes':
+                    queues['requestQuotes'].append(opp)
+                elif status == 'Awaiting Quotes':
+                    queues['awaitingQuotes'].append(opp)
+                elif status == 'Ready to Price':
+                    queues['readyToPrice'].append(opp)
+                elif status == 'Generate Proposal':
+                    queues['generateProposal'].append(opp)
+                elif status == 'Final Review':
+                    queues['finalReview'].append(opp)
+                elif status == 'Submitted':
+                    queues['submitted'].append(opp)
+            
+            return {
+                'success': True,
+                'queues': queues,
+                'counts': {
+                    'needsReview': len(queues['needsReview']),
+                    'findSuppliers': len(queues['findSuppliers']),
+                    'requestQuotes': len(queues['requestQuotes']),
+                    'awaitingQuotes': len(queues['awaitingQuotes']),
+                    'readyToPrice': len(queues['readyToPrice']),
+                    'generateProposal': len(queues['generateProposal']),
+                    'finalReview': len(queues['finalReview']),
+                    'submitted': len(queues['submitted'])
+                }
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e),
+                'queues': {},
+                'counts': {}
+            }
+    
+    def review_opportunity(self, opportunity_id: str, name: str, decision: str, notes: str = ''):
+        """Review and name an opportunity, move to next stage"""
+        try:
+            updates = {
+                'Name': name,
+                'Review Status': 'Reviewed - Pursue' if decision == 'pursue' else 'Reviewed - Skip',
+                'Review Date': datetime.now().isoformat(),
+                'Reviewed By': 'Dee Davis',
+                'Review Notes': notes
+            }
+            
+            # Only update Workflow Status if field exists
+            # Otherwise, it will be calculated by Airtable formula
+            if decision == 'pursue':
+                updates['Workflow Status'] = 'Find Suppliers'
+            
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            opportunities_table.update(opportunity_id, updates)
+            
+            return {
+                'success': True,
+                'message': f'Opportunity reviewed: {name}',
+                'newStatus': 'Find Suppliers' if decision == 'pursue' else 'Skipped'
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def identify_suppliers(self, opportunity_id: str, supplier_ids: List[str]):
+        """Link suppliers to opportunity"""
+        try:
+            updates = {
+                'Suppliers Identified': supplier_ids,
+                'Suppliers Identified Date': datetime.now().isoformat(),
+                'Workflow Status': 'Request Quotes'
+            }
+            
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            opportunities_table.update(opportunity_id, updates)
+            
+            return {
+                'success': True,
+                'message': f'Added {len(supplier_ids)} suppliers',
+                'newStatus': 'Request Quotes'
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def mark_quotes_requested(self, opportunity_id: str, count: int):
+        """Mark that quote requests have been sent"""
+        try:
+            updates = {
+                'Quotes Requested': count,
+                'Quotes Requested Date': datetime.now().isoformat(),
+                'Workflow Status': 'Awaiting Quotes'
+            }
+            
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            opportunities_table.update(opportunity_id, updates)
+            
+            return {
+                'success': True,
+                'message': f'Sent {count} quote requests',
+                'newStatus': 'Awaiting Quotes'
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def advance_workflow(self, opportunity_id: str, new_status: str):
+        """Manually advance opportunity to next workflow stage"""
+        try:
+            updates = {
+                'Workflow Status': new_status,
+                f'{new_status} Date': datetime.now().isoformat()
+            }
+            
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            opportunities_table.update(opportunity_id, updates)
+            
+            return {
+                'success': True,
+                'message': f'Advanced to {new_status}',
+                'newStatus': new_status
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+# =====================================================================
 # SUPPLIER QUOTE SYSTEM - Request quotes from suppliers
 # =====================================================================
 

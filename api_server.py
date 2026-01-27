@@ -16,6 +16,7 @@ from functools import wraps
 from nexus_backend import (
     Config,
     AirtableClient,
+    WorkflowManager,
     GPSSPricingAgent,
     GPSSComplianceAgent,
     GPSSOpportunityMiningAgent,
@@ -8628,6 +8629,198 @@ def list_capability_statements():
             'success': False,
             'error': str(e),
             'statements': []
+        }), 500
+
+
+# =====================================================================
+# WORKFLOW MANAGEMENT API
+# =====================================================================
+
+@app.route('/api/workflow/queues', methods=['GET'])
+def get_workflow_queues():
+    """
+    Get all workflow queues with opportunities organized by stage
+    
+    Returns:
+        {
+            "success": true,
+            "queues": {
+                "needsReview": [...],
+                "findSuppliers": [...],
+                "awaitingQuotes": [...],
+                etc.
+            },
+            "counts": {
+                "needsReview": 3,
+                "findSuppliers": 2,
+                etc.
+            }
+        }
+    """
+    try:
+        workflow = WorkflowManager()
+        result = workflow.get_workflow_queues()
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/workflow/opportunity/<opportunity_id>/review', methods=['POST'])
+def review_opportunity(opportunity_id):
+    """
+    Review and name an opportunity
+    
+    Body:
+        {
+            "name": "CPS Energy - Industrial Supplies",
+            "decision": "pursue" | "skip",
+            "notes": "Optional notes"
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "message": "Opportunity reviewed",
+            "newStatus": "Find Suppliers"
+        }
+    """
+    try:
+        data = request.get_json() or {}
+        
+        name = data.get('name', '').strip()
+        decision = data.get('decision', 'pursue')
+        notes = data.get('notes', '')
+        
+        if not name:
+            return jsonify({
+                'success': False,
+                'error': 'Name is required'
+            }), 400
+        
+        workflow = WorkflowManager()
+        result = workflow.review_opportunity(opportunity_id, name, decision, notes)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/workflow/opportunity/<opportunity_id>/suppliers', methods=['POST'])
+def identify_suppliers(opportunity_id):
+    """
+    Link suppliers to an opportunity
+    
+    Body:
+        {
+            "supplierIds": ["rec123", "rec456", "rec789"]
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "message": "Added 3 suppliers",
+            "newStatus": "Request Quotes"
+        }
+    """
+    try:
+        data = request.get_json() or {}
+        supplier_ids = data.get('supplierIds', [])
+        
+        if not supplier_ids:
+            return jsonify({
+                'success': False,
+                'error': 'At least one supplier is required'
+            }), 400
+        
+        workflow = WorkflowManager()
+        result = workflow.identify_suppliers(opportunity_id, supplier_ids)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/workflow/opportunity/<opportunity_id>/quotes-requested', methods=['POST'])
+def mark_quotes_requested(opportunity_id):
+    """
+    Mark that quote requests have been sent
+    
+    Body:
+        {
+            "count": 5
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "message": "Sent 5 quote requests",
+            "newStatus": "Awaiting Quotes"
+        }
+    """
+    try:
+        data = request.get_json() or {}
+        count = data.get('count', 0)
+        
+        workflow = WorkflowManager()
+        result = workflow.mark_quotes_requested(opportunity_id, count)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/workflow/opportunity/<opportunity_id>/advance', methods=['POST'])
+def advance_workflow(opportunity_id):
+    """
+    Manually advance opportunity to next workflow stage
+    
+    Body:
+        {
+            "newStatus": "Ready to Price"
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "message": "Advanced to Ready to Price",
+            "newStatus": "Ready to Price"
+        }
+    """
+    try:
+        data = request.get_json() or {}
+        new_status = data.get('newStatus', '')
+        
+        if not new_status:
+            return jsonify({
+                'success': False,
+                'error': 'newStatus is required'
+            }), 400
+        
+        workflow = WorkflowManager()
+        result = workflow.advance_workflow(opportunity_id, new_status)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
         }), 500
 
 

@@ -80,6 +80,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   const [opportunities, setOpportunities] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
 
+  // Workflow queues state
+  const [workflowQueues, setWorkflowQueues] = useState<any>({
+    needsReview: [],
+    findSuppliers: [],
+    requestQuotes: [],
+    awaitingQuotes: [],
+    readyToPrice: [],
+    generateProposal: [],
+    finalReview: [],
+    submitted: []
+  });
+  const [workflowCounts, setWorkflowCounts] = useState<any>({});
+
   // Email monitoring state
   const [emailStatus, setEmailStatus] = useState({
     newCount: 0,
@@ -122,6 +135,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       setTasks(Array.isArray(tasksData) ? tasksData : []);
     } catch (error) {
       console.error('Error fetching deadline data:', error);
+    }
+  }, []);
+
+  // Fetch workflow queues
+  const fetchWorkflowQueues = useCallback(async () => {
+    try {
+      const response = await api.getWorkflowQueues();
+      if (response.success) {
+        setWorkflowQueues(response.queues || {});
+        setWorkflowCounts(response.counts || {});
+      }
+    } catch (error) {
+      console.error('Error fetching workflow queues:', error);
     }
   }, []);
 
@@ -287,14 +313,16 @@ END:VCALENDAR`;
     fetchDashboardData();
     fetchPortals();
     fetchDeadlineData();
+    fetchWorkflowQueues();
     
     const interval = setInterval(() => {
       fetchDashboardData();
       fetchDeadlineData();
+      fetchWorkflowQueues();
     }, 30000); // 30 seconds
 
     return () => clearInterval(interval);
-  }, [fetchDashboardData, fetchDeadlineData]);
+  }, [fetchDashboardData, fetchDeadlineData, fetchWorkflowQueues]);
 
   // Format large numbers
   const formatNumber = (num: number): string => {
@@ -785,25 +813,39 @@ END:VCALENDAR`;
               <span className="text-lg">🔍</span>
               <div className="text-sm font-black text-white">NEEDS REVIEW</div>
               <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">
-                {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).length}
+                {workflowCounts.needsReview || 0}
               </span>
               <div className="h-px flex-1 bg-gradient-to-r from-blue-500/30 to-transparent"></div>
             </div>
-            {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).length > 0 ? (
+            {workflowQueues.needsReview && workflowQueues.needsReview.length > 0 ? (
               <div className="space-y-2">
-                {opportunities.filter(o => !o.Name || o.Name.includes('Unnamed')).slice(0, 3).map((opp, idx) => (
-                  <div key={idx} className="bg-blue-900/10 border border-blue-500/30 rounded-lg p-3 hover:border-blue-500/50 transition">
+                {workflowQueues.needsReview.slice(0, 3).map((opp: any, idx: number) => (
+                  <div key={opp.id} className="bg-blue-900/10 border border-blue-500/30 rounded-lg p-3 hover:border-blue-500/50 transition">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <div className="text-sm font-bold text-white mb-1">Unnamed Opportunity</div>
-                        <div className="text-xs text-gray-400">Added: {opp['Date Added'] || 'Recently'}</div>
+                        <div className="text-sm font-bold text-white mb-1">
+                          {opp.fields.Name || 'Unnamed Opportunity'}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          Added: {opp.fields['Date Added'] ? new Date(opp.fields['Date Added']).toLocaleDateString() : 'Recently'}
+                        </div>
                       </div>
-                      <button className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded font-bold text-xs transition">
+                      <button 
+                        onClick={() => alert(`Review modal for opportunity ${opp.id} - Coming soon!`)}
+                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded font-bold text-xs transition"
+                      >
                         Review & Name
                       </button>
                     </div>
                   </div>
                 ))}
+                {workflowQueues.needsReview.length > 3 && (
+                  <div className="text-center">
+                    <button className="text-xs text-blue-400 hover:text-blue-300 font-bold">
+                      View All ({workflowQueues.needsReview.length})
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
@@ -818,27 +860,37 @@ END:VCALENDAR`;
               <span className="text-lg">🔎</span>
               <div className="text-sm font-black text-white">FIND SUPPLIERS</div>
               <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
-                {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).slice(0, 2).length}
+                {workflowCounts.findSuppliers || 0}
               </span>
               <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
             </div>
-            {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).length > 0 ? (
+            {workflowQueues.findSuppliers && workflowQueues.findSuppliers.length > 0 ? (
               <div className="space-y-2">
-                {opportunities.filter(o => o.Name && !o.Name.includes('Unnamed')).slice(0, 2).map((opp, idx) => (
-                  <div key={idx} className="bg-purple-900/10 border border-purple-500/30 rounded-lg p-3 hover:border-purple-500/50 transition">
+                {workflowQueues.findSuppliers.slice(0, 2).map((opp: any) => (
+                  <div key={opp.id} className="bg-purple-900/10 border border-purple-500/30 rounded-lg p-3 hover:border-purple-500/50 transition">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <div className="text-sm font-bold text-white mb-1">{opp.Name}</div>
+                        <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
                         <div className="text-xs text-gray-400">
-                          Due: {opp['Response Deadline'] ? new Date(opp['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
+                          Due: {opp.fields['Response Deadline'] ? new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
                         </div>
                       </div>
-                      <button className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded font-bold text-xs transition">
+                      <button 
+                        onClick={() => alert(`Supplier search for ${opp.fields.Name} - Coming soon!`)}
+                        className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded font-bold text-xs transition"
+                      >
                         Search Suppliers
                       </button>
                     </div>
                   </div>
                 ))}
+                {workflowQueues.findSuppliers.length > 2 && (
+                  <div className="text-center">
+                    <button className="text-xs text-purple-400 hover:text-purple-300 font-bold">
+                      View All ({workflowQueues.findSuppliers.length})
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
@@ -852,12 +904,60 @@ END:VCALENDAR`;
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">⏳</span>
               <div className="text-sm font-black text-white">AWAITING QUOTES</div>
-              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">0</span>
+              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">
+                {workflowCounts.awaitingQuotes || 0}
+              </span>
               <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/30 to-transparent"></div>
             </div>
-            <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-              <div className="text-xs text-gray-500">✅ All quotes received.</div>
-            </div>
+            {workflowQueues.awaitingQuotes && workflowQueues.awaitingQuotes.length > 0 ? (
+              <div className="space-y-2">
+                {workflowQueues.awaitingQuotes.slice(0, 2).map((opp: any) => {
+                  const quotesReceived = opp.fields['Quotes Received'] || 0;
+                  const quotesRequested = opp.fields['Quotes Requested'] || 0;
+                  const percentage = quotesRequested > 0 ? Math.round((quotesReceived / quotesRequested) * 100) : 0;
+                  
+                  return (
+                    <div key={opp.id} className="bg-yellow-900/10 border border-yellow-500/30 rounded-lg p-3 hover:border-yellow-500/50 transition">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex-1">
+                          <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
+                          <div className="text-xs text-gray-400">
+                            Quotes: {quotesReceived} of {quotesRequested} received ({percentage}%)
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => alert(`Send follow-up for ${opp.fields.Name} - Coming soon!`)}
+                          className="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded font-bold text-xs transition"
+                        >
+                          Send Follow-up
+                        </button>
+                        {quotesReceived > 0 && (
+                          <button 
+                            onClick={() => alert(`Proceed with ${quotesReceived} quotes - Coming soon!`)}
+                            className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded font-bold text-xs transition"
+                          >
+                            Proceed with {quotesReceived}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                {workflowQueues.awaitingQuotes.length > 2 && (
+                  <div className="text-center">
+                    <button className="text-xs text-yellow-400 hover:text-yellow-300 font-bold">
+                      View All ({workflowQueues.awaitingQuotes.length})
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+                <div className="text-xs text-gray-500">✅ All quotes received.</div>
+              </div>
+            )}
           </div>
 
           {/* 4. READY TO PRICE */}
@@ -865,12 +965,47 @@ END:VCALENDAR`;
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">💰</span>
               <div className="text-sm font-black text-white">READY TO PRICE</div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">0</span>
+              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">
+                {workflowCounts.readyToPrice || 0}
+              </span>
               <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
             </div>
-            <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-              <div className="text-xs text-gray-500">✅ All bids priced.</div>
-            </div>
+            {workflowQueues.readyToPrice && workflowQueues.readyToPrice.length > 0 ? (
+              <div className="space-y-2">
+                {workflowQueues.readyToPrice.slice(0, 2).map((opp: any) => (
+                  <div key={opp.id} className="bg-green-900/10 border border-green-500/30 rounded-lg p-3 hover:border-green-500/50 transition">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
+                        <div className="text-xs text-gray-400">
+                          {opp.fields['Quotes Received'] || 0} quotes received
+                          {opp.fields['Response Deadline'] && (
+                            <> • Due: {new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</>
+                          )}
+                        </div>
+                      </div>
+                      <button 
+                        onClick={() => alert(`Pricing calculator for ${opp.fields.Name} - Coming soon!`)}
+                        className="px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded font-bold text-xs transition"
+                      >
+                        Start Pricing
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {workflowQueues.readyToPrice.length > 2 && (
+                  <div className="text-center">
+                    <button className="text-xs text-green-400 hover:text-green-300 font-bold">
+                      View All ({workflowQueues.readyToPrice.length})
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
+                <div className="text-xs text-gray-500">✅ All bids priced.</div>
+              </div>
+            )}
           </div>
 
           {/* PENDING APPROVALS - Compact */}
