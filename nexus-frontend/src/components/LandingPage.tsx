@@ -721,34 +721,34 @@ END:VCALENDAR`;
       {/* OVERVIEW TAB */}
       {activeTab === 'overview' && (
         <>
-          {/* URGENT ACTION REQUIRED */}
+          {/* URGENT ACTION REQUIRED - Compact */}
           {(alerts.length > 0 || upcomingDeadlines.filter(d => d.priority === 'high').length > 0) && (
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">🔥</span>
-                <div className="text-xl font-black text-white">URGENT ACTION REQUIRED</div>
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-xl">🔥</span>
+                <div className="text-lg font-black text-white">URGENT ACTIONS</div>
                 <div className="h-px flex-1 bg-gradient-to-r from-red-500/50 to-transparent"></div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Priority Alerts */}
                 {alerts.slice(0, 2).map((alert, index) => (
                   <div
                     key={index}
-                    className={`relative overflow-hidden border rounded-xl p-4 backdrop-blur-sm ${
+                    className={`relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm ${
                       alert.type === 'urgent'
-                        ? 'bg-red-900/20 border-red-500/50 shadow-lg shadow-red-500/10'
-                        : 'bg-yellow-900/20 border-yellow-500/50 shadow-lg shadow-yellow-500/10'
+                        ? 'bg-red-900/20 border-red-500/50'
+                        : 'bg-yellow-900/20 border-yellow-500/50'
                     }`}
                   >
                     <div className="relative">
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h4 className="font-bold text-white mb-1">{alert.title}</h4>
-                          <p className="text-sm text-gray-300">{alert.message}</p>
+                          <h4 className="text-sm font-bold text-white mb-1">{alert.title}</h4>
+                          <p className="text-xs text-gray-300">{alert.message}</p>
                         </div>
-                        <span className="text-xs bg-gray-800 px-2 py-1 rounded font-semibold">{alert.system}</span>
+                        <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold">{alert.system}</span>
                       </div>
-                      <button className={`text-sm font-bold transition-colors ${
+                      <button className={`text-xs font-bold transition-colors ${
                         alert.type === 'urgent' ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'
                       }`}>
                         {alert.action} →
@@ -758,16 +758,16 @@ END:VCALENDAR`;
                 ))}
                 {/* Urgent Deadlines */}
                 {upcomingDeadlines.filter(d => d.priority === 'high').slice(0, 2).map((deadline, index) => (
-                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-xl p-4 backdrop-blur-sm bg-orange-900/20 border-orange-500/50 shadow-lg shadow-orange-500/10">
+                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm bg-orange-900/20 border-orange-500/50">
                     <div className="relative">
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h4 className="font-bold text-white mb-1">{deadline.title}</h4>
-                          <p className="text-sm text-gray-300">Due: {deadline.date}</p>
+                          <h4 className="text-sm font-bold text-white mb-1">{deadline.title}</h4>
+                          <p className="text-xs text-gray-300">Due: {deadline.date}</p>
                         </div>
-                        <span className="text-xs bg-gray-800 px-2 py-1 rounded font-semibold">{deadline.system}</span>
+                        <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold">{deadline.system}</span>
                       </div>
-                      <button className="text-sm font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                      <button className="text-xs font-bold text-orange-400 hover:text-orange-300 transition-colors">
                         View Details →
                       </button>
                     </div>
@@ -777,89 +777,78 @@ END:VCALENDAR`;
             </div>
           )}
 
-          {/* DEADLINES & WORKFLOW STEPS */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">⏰</span>
-              <div className="text-xl font-black text-white">DEADLINES & WORKFLOW STEPS</div>
+          {/* DEADLINES & WORKFLOW STEPS - Compact */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xl">⏰</span>
+              <div className="text-lg font-black text-white">DEADLINES & WORKFLOW</div>
               <div className="h-px flex-1 bg-gradient-to-r from-blue-500/50 to-transparent"></div>
               <button
                 onClick={exportAllTasksToCalendar}
-                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 rounded-lg transition flex items-center gap-2 font-semibold text-sm shadow-lg shadow-purple-500/20"
+                className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 rounded-lg transition flex items-center gap-2 font-semibold text-xs shadow-lg shadow-purple-500/20"
               >
-                📆 Export All to Calendar
+                📆 Export Calendar
               </button>
             </div>
             
             {opportunities.length > 0 ? (
-              <div className="space-y-4">
-                {opportunities.slice(0, 3).map((opp, idx) => {
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {opportunities.slice(0, 4).map((opp, idx) => {
                   const daysUntil = opp['Response Deadline'] 
                     ? Math.ceil((new Date(opp['Response Deadline']).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
                     : null;
                   const isUrgent = daysUntil !== null && daysUntil <= 3;
                   
                   return (
-                    <div key={idx} className={`relative overflow-hidden border rounded-xl p-6 backdrop-blur-sm ${
+                    <div key={idx} className={`relative overflow-hidden border rounded-lg p-4 backdrop-blur-sm ${
                       isUrgent 
-                        ? 'bg-red-900/20 border-red-500/50 shadow-lg shadow-red-500/10' 
+                        ? 'bg-red-900/20 border-red-500/50' 
                         : 'bg-gray-800/40 border-gray-700'
                     }`}>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            {isUrgent && <span className="text-2xl">⚠️</span>}
-                            <h3 className="text-lg font-black text-white">{opp.Name || 'Unnamed Opportunity'}</h3>
-                          </div>
-                          {opp['Response Deadline'] && (
-                            <div className="flex items-center gap-2 mb-3">
-                              <span className="text-sm text-gray-400">Final Deadline:</span>
-                              <span className="text-sm font-bold text-blue-400">
-                                {new Date(opp['Response Deadline']).toLocaleDateString('en-US', { 
-                                  weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' 
-                                })}
-                              </span>
-                              {daysUntil !== null && (
-                                <span className={`text-xs px-2 py-1 rounded-full font-bold ${
-                                  isUrgent ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
-                                }`}>
-                                  {daysUntil} days
-                                </span>
-                              )}
-                              <button className="ml-2 text-xs bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded font-bold transition">
-                                📆 Add to Calendar
-                              </button>
-                            </div>
-                          )}
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          {isUrgent && <span className="text-lg">⚠️</span>}
+                          <h3 className="text-sm font-bold text-white line-clamp-1">{opp.Name || 'Unnamed Opportunity'}</h3>
                         </div>
+                        {daysUntil !== null && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+                            isUrgent ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
+                          }`}>
+                            {daysUntil}d
+                          </span>
+                        )}
                       </div>
 
-                      {/* Sequential Workflow Steps - Mock for now */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className="text-green-400">✅</span>
-                          <span className="text-gray-300">1. Opportunity Added</span>
-                          <span className="text-xs text-gray-500 ml-auto">Completed</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className="text-orange-400">▶️</span>
-                          <span className="text-white font-bold">2. Review Specs (READY)</span>
-                          <button className="ml-auto text-xs bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded font-bold transition">
-                            REVIEW NOW
+                      {opp['Response Deadline'] && (
+                        <div className="flex items-center gap-2 mb-3 text-xs text-gray-400">
+                          <span>Due:</span>
+                          <span className="text-blue-400 font-semibold">
+                            {new Date(opp['Response Deadline']).toLocaleDateString('en-US', { 
+                              month: 'short', day: 'numeric'
+                            })}
+                          </span>
+                          <button className="ml-auto text-purple-400 hover:text-purple-300 font-bold">
+                            📆
                           </button>
                         </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className="text-gray-600">🔒</span>
-                          <span className="text-gray-500">3. Identify Suppliers (LOCKED)</span>
-                          <span className="text-xs text-gray-600 ml-auto">Complete step 2 first</span>
+                      )}
+
+                      {/* Compact Workflow Steps */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2 text-xs">
+                          <span className="text-green-400">✅</span>
+                          <span className="text-gray-400">Added</span>
                         </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className="text-gray-600">🔒</span>
-                          <span className="text-gray-500">4. Request Quotes (LOCKED)</span>
+                        <div className="flex items-center gap-2 text-xs">
+                          <span className="text-orange-400">▶️</span>
+                          <span className="text-white font-bold">Review Specs</span>
+                          <button className="ml-auto text-orange-400 hover:text-orange-300 font-bold">
+                            START
+                          </button>
                         </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <span className="text-gray-600">🔒</span>
-                          <span className="text-gray-500">5. Price Bid (LOCKED)</span>
+                        <div className="flex items-center gap-2 text-xs text-gray-600">
+                          <span>🔒</span>
+                          <span>Find Suppliers • Request Quotes • Price Bid</span>
                         </div>
                       </div>
                     </div>
@@ -867,72 +856,69 @@ END:VCALENDAR`;
                 })}
               </div>
             ) : (
-              <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
-                <div className="text-6xl mb-3 opacity-20">📋</div>
-                <p className="text-gray-500 font-semibold">No active bids</p>
-                <p className="text-xs text-gray-600 mt-1">Import opportunities in GPSS to see workflow here</p>
+              <div className="text-center py-8 bg-gray-800/30 border border-gray-700 rounded-lg">
+                <div className="text-4xl mb-2 opacity-20">📋</div>
+                <p className="text-sm text-gray-500 font-semibold">No active bids</p>
+                <p className="text-xs text-gray-600 mt-1">Import opportunities in GPSS</p>
               </div>
             )}
           </div>
 
-          {/* PENDING APPROVALS */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">✅</span>
-              <div className="text-xl font-black text-white">PENDING YOUR APPROVAL</div>
+          {/* PENDING APPROVALS - Compact */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xl">✅</span>
+              <div className="text-lg font-black text-white">PENDING APPROVALS</div>
               <div className="h-px flex-1 bg-gradient-to-r from-green-500/50 to-transparent"></div>
             </div>
-            <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
-              <div className="text-6xl mb-3 opacity-20">✅</div>
-              <p className="text-gray-500 font-semibold">No pending approvals</p>
-              <p className="text-xs text-gray-600 mt-1">Payments and invoices requiring approval will appear here</p>
+            <div className="text-center py-6 bg-gray-800/30 border border-gray-700 rounded-lg">
+              <div className="text-4xl mb-2 opacity-20">✅</div>
+              <p className="text-sm text-gray-500 font-semibold">No pending approvals</p>
+              <p className="text-xs text-gray-600 mt-1">Payments and invoices will appear here</p>
             </div>
           </div>
 
-          {/* THIS WEEK'S CALENDAR */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">📆</span>
-              <div className="text-xl font-black text-white">THIS WEEK'S CALENDAR</div>
+          {/* THIS WEEK'S CALENDAR - Compact */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xl">📆</span>
+              <div className="text-lg font-black text-white">THIS WEEK</div>
               <div className="h-px flex-1 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {upcomingDeadlines.slice(0, 4).map((deadline, idx) => (
-                <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded-xl p-4 hover:border-blue-500/50 transition">
-                  <div className="text-xs text-gray-500 mb-2">{deadline.date}</div>
-                  <div className="font-bold text-white mb-1 line-clamp-2">{deadline.title}</div>
+                <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded-lg p-3 hover:border-blue-500/50 transition">
+                  <div className="text-xs text-gray-500 mb-1">{deadline.date}</div>
+                  <div className="text-sm font-bold text-white mb-1 line-clamp-1">{deadline.title}</div>
                   <div className="text-xs text-gray-400">{deadline.system}</div>
                 </div>
               ))}
               {upcomingDeadlines.length === 0 && (
-                <div className="col-span-4 text-center py-8 bg-gray-800/30 border border-gray-700 rounded-xl">
-                  <div className="text-5xl mb-3 opacity-20">📆</div>
-                  <p className="text-gray-500">No events this week</p>
+                <div className="col-span-4 text-center py-6 bg-gray-800/30 border border-gray-700 rounded-lg">
+                  <div className="text-3xl mb-1 opacity-20">📆</div>
+                  <p className="text-sm text-gray-500">No events this week</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* STATS GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* STATS GRID - Compact */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {statCards.map((stat, index) => (
               <div 
                 key={index} 
                 onClick={stat.action}
                 title={`${stat.tooltip}\n\nData from: ${stat.source}`}
-                className={`bg-gradient-to-br ${stat.gradient} p-6 rounded-xl relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group`}
+                className={`bg-gradient-to-br ${stat.gradient} p-4 rounded-lg relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group`}
               >
-                <div className="text-2xl mb-2">{stat.icon}</div>
-                <h3 className="text-sm font-semibold text-white/80 mb-2">{stat.label}</h3>
-                <p className="text-4xl font-bold mb-1">{stat.value}</p>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`text-sm font-semibold ${stat.change.includes('+') ? 'text-green-300' : 'text-white/70'}`}>
+                <div className="text-xl mb-1">{stat.icon}</div>
+                <h3 className="text-xs font-semibold text-white/80 mb-1">{stat.label}</h3>
+                <p className="text-3xl font-bold mb-1">{stat.value}</p>
+                <div className="flex items-center gap-1">
+                  <span className={`text-xs font-semibold ${stat.change.includes('+') ? 'text-green-300' : 'text-white/70'}`}>
                     {stat.change}
                   </span>
-                  <span className="text-xs text-white/60">this week</span>
-                </div>
-                <div className="text-xs text-white/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {stat.source}
+                  <span className="text-xs text-white/60">week</span>
                 </div>
               </div>
             ))}
