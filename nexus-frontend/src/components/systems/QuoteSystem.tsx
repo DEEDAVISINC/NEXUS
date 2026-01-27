@@ -13,11 +13,14 @@ export const QuoteSystem: React.FC<QuoteSystemProps> = ({ onBackToNexus, activeT
   const [result, setResult] = useState<any>(null);
 
   const loadTemplate = () => {
-    const template = `RFQ_NUMBER: DDI-2026-001
-TITLE: Quote Request Title
-ISSUE_DATE: January 26, 2026
-DUE_DATE: February 5, 2026
-DUE_TIME: 5:00 PM EST
+    const template = `🚨 CRITICAL: NEVER reveal client name, agency, or actual RFQ numbers to suppliers!
+Use ONLY generic sequential DDI numbers and generic descriptions.
+
+RFQ_NUMBER: DDI-2026-001
+TITLE: Product Quote Request
+ISSUE_DATE: January 27, 2026
+DUE_DATE: February 3, 2026
+DUE_TIME: 2:00 PM EST
 CONTRACT_PERIOD: 12 months
 
 COLOR_SCHEME: 1
@@ -26,16 +29,23 @@ INTRODUCTION:
 DEE DAVIS INC is seeking competitive quotes for a Michigan municipal client.
 
 SCOPE:
-Vendor will provide materials as specified.
+Vendor will provide materials as specified below.
 
 KEY_REQUIREMENTS:
 - Competitive pricing required
-- Fast delivery
-- Net 30 terms
+- Standard delivery terms
+- Net 30 payment terms preferred
+- Confirm availability and lead times
 
 ITEMS:
-1 | Item Description | Specifications | Quantity | unit
-2 | Another Item | Specs | Qty | unit`;
+1 | Product Description | Specifications | Quantity | unit
+2 | Another Product | Specifications | Quantity | unit
+
+⚠️ REMEMBER: 
+- Use generic DDI numbers (DDI-2026-001, DDI-2026-002, etc.)
+- NEVER mention client/agency name
+- Quote deadline should be EARLIER than government deadline (leave time to compile)
+- Use generic location: "Michigan municipal client" or "Southeast Michigan"`;
     
     setPasteText(template);
   };

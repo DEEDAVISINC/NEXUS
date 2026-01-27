@@ -1,0 +1,257 @@
+# 🚨 QUOTE GENERATOR - SUPPLIER PROTECTION RULE
+
+**CRITICAL: This rule applies to ALL supplier quote requests generated through the system.**
+
+---
+
+## The Golden Rule for Quote Requests
+
+**NEVER reveal the end buyer/client to suppliers in quote requests.**
+
+---
+
+## ❌ ABSOLUTELY FORBIDDEN in Supplier Quotes
+
+### **1. Client/Agency Names**
+- ❌ "CPS Energy"
+- ❌ "Canton Township"
+- ❌ "City of Detroit"
+- ❌ "Oakland County"
+- ❌ ANY specific government agency name
+- ❌ ANY corporate client name
+
+### **2. Solicitation Numbers**
+- ❌ "RFQ 7000205103"
+- ❌ "RFB #188"
+- ❌ "ITB 2026-004"
+- ❌ ANY government RFQ/RFP/RFB/ITB numbers
+
+### **3. Procurement Officer Names**
+- ❌ "Brad Thompson"
+- ❌ "Jennifer Coleman"
+- ❌ ANY buyer's name
+
+### **4. Specific Locations**
+- ❌ "CPS Energy facilities in San Antonio"
+- ❌ "Canton Township DPW, 4847 Sheldon Road"
+- ❌ "Detroit Water Department, 735 Randolph Street"
+
+### **5. Actual Government Deadlines**
+- ❌ Use the exact government bid deadline
+- ❌ Reveal it's for a government contract by date matching
+
+---
+
+## ✅ WHAT TO USE INSTEAD
+
+### **1. RFQ Numbers for Suppliers**
+Use **generic sequential DDI numbers:**
+- ✅ DDI-2026-001
+- ✅ DDI-2026-002
+- ✅ DDI-2026-003
+
+**Format:** `DDI-YYYY-###`
+- DDI = Dee Davis Inc
+- YYYY = Year
+- ### = Sequential number (001, 002, 003...)
+
+**NEVER:** DDI-2026-CPS, DDI-2026-CANTON, DDI-2026-DETROIT
+**WHY:** These reveal the client!
+
+### **2. Title/Subject**
+Use **generic product descriptions:**
+- ✅ "Industrial Supplies Quote Request"
+- ✅ "Construction Materials Quote Request"
+- ✅ "Safety Equipment Quote Request"
+- ✅ "Aggregate Materials Quote Request"
+
+**NEVER:** "CPS Energy Industrial Supplies" or "Canton Township Water Parts"
+
+### **3. Client Reference**
+Use **generic geographic terms:**
+- ✅ "Michigan municipal client"
+- ✅ "Southeast Michigan client"
+- ✅ "Metro Detroit client"
+- ✅ "Texas municipal client"
+- ✅ "Southwest client"
+- ✅ "Government client in Michigan"
+
+**NEVER:** Name the specific city, county, or agency
+
+### **4. Delivery Location**
+Use **general area only:**
+- ✅ "Metro Detroit area"
+- ✅ "Wayne County, Michigan"
+- ✅ "Southeast Texas"
+- ✅ "Oakland County area"
+
+**NEVER:** Specific addresses or facility names
+
+### **5. Quote Deadline**
+Use date that is **2-5 days EARLIER** than government deadline:
+- Government deadline: February 10
+- ✅ Supplier deadline: February 5 or February 7
+- **WHY:** Gives you time to compile, format, and submit bid
+
+---
+
+## 📋 Template Format
+
+### **CORRECT Quote Request Format:**
+
+```
+RFQ_NUMBER: DDI-2026-001
+TITLE: Industrial Supplies Quote Request
+ISSUE_DATE: January 27, 2026
+DUE_DATE: February 3, 2026  ← Earlier than government deadline!
+DUE_TIME: 2:00 PM EST
+CONTRACT_PERIOD: 12 months
+
+INTRODUCTION:
+DEE DAVIS INC is seeking competitive quotes for a Michigan municipal client 
+requiring industrial supplies for facility operations.
+
+SCOPE:
+Vendor will provide materials as specified below for a 12-month contract 
+period with delivery to Metro Detroit area.
+
+KEY_REQUIREMENTS:
+- Competitive pricing required
+- Standard delivery terms
+- Net 30 payment terms preferred
+- Confirm availability and lead times
+
+ITEMS:
+1 | Industrial Wipers | Heavy duty, 1000ct per case | 100 | case
+2 | Safety Glasses | ANSI Z87.1 certified | 500 | each
+```
+
+### **WRONG Quote Request Format:**
+
+```
+❌ RFQ_NUMBER: DDI-2026-CPS  ← Reveals CPS Energy!
+❌ TITLE: CPS Energy RFQ 7000205103 Industrial Supplies  ← Double reveal!
+ISSUE_DATE: January 27, 2026
+❌ DUE_DATE: February 10, 2026  ← Exact government deadline! Supplier can look it up!
+DUE_TIME: 2:00 PM CST
+CONTRACT_PERIOD: 12 months
+
+INTRODUCTION:
+❌ DEE DAVIS INC is seeking competitive quotes for CPS Energy in San Antonio, Texas.
+
+SCOPE:
+❌ Vendor will provide materials to CPS Energy facilities as specified in RFQ 7000205103.
+```
+
+---
+
+## 🛡️ Why This Rule Exists
+
+### **If suppliers know the end buyer, they can:**
+1. Look up the public solicitation themselves
+2. Contact the buyer directly
+3. Submit their own bid
+4. **Cut Dee Davis Inc. out completely**
+5. **Eliminate your margin and profit**
+
+### **Protecting client identity = Protecting your business!**
+
+You are the value-add middleman who:
+- ✅ Discovers opportunities
+- ✅ Manages bid preparation
+- ✅ Coordinates suppliers
+- ✅ Handles compliance
+- ✅ Takes on risk
+- ✅ Provides EDWOSB certification value
+
+**Don't give suppliers the chance to bypass you!**
+
+---
+
+## 🎯 Real Examples
+
+### **Example 1: CPS Energy Industrial Supplies**
+
+**Government Bid:**
+- Agency: CPS Energy
+- RFQ: 7000205103
+- Deadline: February 10, 2026, 2:00 PM CST
+- Location: San Antonio, Texas
+
+**Quote Request to Suppliers:**
+- RFQ Number: DDI-2026-001
+- Title: Industrial Supplies Quote Request
+- Deadline: February 5, 2026, 2:00 PM EST (5 days early!)
+- Client: "Texas municipal client"
+- Location: "Southeast Texas"
+
+---
+
+### **Example 2: Canton Township Water Parts**
+
+**Government Bid:**
+- Agency: Canton Township
+- RFQ: Water Infrastructure Bid Package
+- Deadline: February 15, 2026
+- Location: Canton Township DPW
+
+**Quote Request to Suppliers:**
+- RFQ Number: DDI-2026-002
+- Title: Water Infrastructure Parts Quote Request
+- Deadline: February 10, 2026 (5 days early!)
+- Client: "Michigan municipal client"
+- Location: "Wayne County, Michigan"
+
+---
+
+## 💡 If Supplier Asks "Who's the client?"
+
+### **Good Responses:**
+- ✅ "It's a municipal client in Michigan. I'm managing the bid process."
+- ✅ "I work directly with the client and coordinate delivery. Can you provide standard pricing?"
+- ✅ "It's a government client. I handle all coordination and billing."
+
+### **If they push harder:**
+- ✅ "I coordinate multiple projects and prefer to centralize communications. Is that a problem?"
+- ✅ Consider using a different supplier who respects your business model
+
+### **NEVER:**
+- ❌ Give in and reveal the client name
+- ❌ Say "I can't tell you" (suspicious)
+- ❌ Get defensive
+
+---
+
+## 🔧 Implementation in Quote Generator
+
+### **When generating quotes, the system should:**
+
+1. ✅ Auto-generate sequential DDI numbers (never client-based)
+2. ✅ Default to generic titles
+3. ✅ Use generic client references
+4. ✅ Calculate supplier deadline as government deadline minus 3-5 days
+5. ✅ Show warnings to user before generating
+6. ✅ Validate that no forbidden terms are present
+
+### **System Checks:**
+Before generating PDF, scan for:
+- ❌ Government RFQ/RFP/ITB/RFB numbers
+- ❌ Known agency names (CPS, Canton, Detroit, Oakland, etc.)
+- ❌ Specific addresses
+- ❌ Procurement officer names
+
+If found → **BLOCK generation and alert user!**
+
+---
+
+## ✅ Summary
+
+**REMEMBER:**
+1. Use sequential DDI numbers (DDI-2026-001, 002, 003...)
+2. Generic titles only
+3. Generic client reference ("Michigan municipal client")
+4. Generic locations (county level, not specific address)
+5. Supplier deadline is EARLIER than government deadline
+6. NEVER reveal: agency name, RFQ number, officer name, specific address
+
+**This protects your business and your margins!** 🛡️
