@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ViewType } from './Header';
 import { api } from '../api/client';
+import { ReviewOpportunityModal } from './modals/ReviewOpportunityModal';
 
 interface LandingPageProps {
   onEnterSystem: (system: ViewType) => void;
@@ -100,6 +101,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     checking: false,
     recentActivity: [] as any[]
   });
+
+  // Review modal state
+  const [reviewingOpportunity, setReviewingOpportunity] = useState<any>(null);
 
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
@@ -244,6 +248,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       setEmailStatus(prev => ({ ...prev, checking: false }));
     }
   };
+
+  // Handle successful opportunity review
+  const handleReviewSuccess = useCallback(() => {
+    // Refresh workflow queues to show updated data
+    fetchWorkflowQueues();
+    fetchDeadlineData();
+  }, [fetchWorkflowQueues, fetchDeadlineData]);
 
   // Calendar Export Function - Export all ATLAS tasks to .ics file
   const exportAllTasksToCalendar = async () => {
@@ -608,6 +619,7 @@ END:VCALENDAR`;
   ];
 
   return (
+    <>
     <main className="min-h-screen">
       {/* HERO SECTION - Command Center Header */}
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 border-b border-blue-500/30">
@@ -831,7 +843,7 @@ END:VCALENDAR`;
                         </div>
                       </div>
                       <button 
-                        onClick={() => alert(`Review modal for opportunity ${opp.id} - Coming soon!`)}
+                        onClick={() => setReviewingOpportunity(opp)}
                         className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded font-bold text-xs transition"
                       >
                         Review & Name
@@ -1506,6 +1518,16 @@ END:VCALENDAR`;
       )}
       </div>
     </main>
+
+    {/* Review Opportunity Modal */}
+    {reviewingOpportunity && (
+      <ReviewOpportunityModal
+        opportunity={reviewingOpportunity}
+        onClose={() => setReviewingOpportunity(null)}
+        onSuccess={handleReviewSuccess}
+      />
+    )}
+  </>
   );
 };
 
