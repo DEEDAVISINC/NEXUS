@@ -8824,6 +8824,58 @@ def advance_workflow(opportunity_id):
         }), 500
 
 
+@app.route('/gpss/mining/search', methods=['POST'])
+def mine_suppliers():
+    """
+    Search external sources for new suppliers
+    
+    Body:
+        {
+            "product": "industrial wipers",
+            "sources": ["thomasnet", "google", "gsa"]
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "results": [...suppliers found],
+            "stats": {"thomasnet": 5, "google": 3, ...}
+        }
+    """
+    try:
+        from nexus_backend import GPSSSupplierMiner
+        
+        data = request.get_json() or {}
+        product = data.get('product', '').strip()
+        sources = data.get('sources', ['thomasnet', 'google', 'gsa'])
+        
+        if not product:
+            return jsonify({
+                'success': False,
+                'error': 'Product search term is required'
+            }), 400
+        
+        miner = GPSSSupplierMiner()
+        result = miner.mine_all_sources(
+            product=product,
+            sources=sources,
+            auto_import_threshold=50  # Auto-save suppliers scoring above 50
+        )
+        
+        return jsonify({
+            'success': True,
+            'results': result.get('all_results', []),
+            'stats': result.get('stats', {}),
+            'imported': result.get('imported', [])
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

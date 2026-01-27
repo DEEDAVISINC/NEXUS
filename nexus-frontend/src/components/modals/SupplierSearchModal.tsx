@@ -21,6 +21,12 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  
+  // External search
+  const [searchMode, setSearchMode] = useState<'existing' | 'new'>('existing');
+  const [externalSearchTerm, setExternalSearchTerm] = useState('');
+  const [externalSearching, setExternalSearching] = useState(false);
+  const [externalResults, setExternalResults] = useState<any[]>([]);
 
   // Load suppliers
   useEffect(() => {
@@ -198,6 +204,36 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
     setSelectedSuppliers(newSelected);
   };
 
+  const searchExternalSources = async () => {
+    if (!externalSearchTerm.trim()) {
+      setError('Please enter a search term');
+      return;
+    }
+
+    setExternalSearching(true);
+    setError('');
+
+    try {
+      // Search ThomasNet, Google, and GSA
+      const response = await api.post('/gpss/mining/search', {
+        product: externalSearchTerm,
+        sources: ['thomasnet', 'google', 'gsa']
+      });
+
+      if (response.success) {
+        setExternalResults(response.results || []);
+        // Also refresh the main supplier list to include newly saved ones
+        loadSuppliers();
+      } else {
+        setError(response.error || 'Search failed');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Search failed');
+    } finally {
+      setExternalSearching(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (selectedSuppliers.size === 0) {
       setError('Please select at least one supplier');
@@ -253,6 +289,33 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
         </div>
 
         <div className="p-6">
+          {/* Search Mode Toggle */}
+          <div className="mb-4 flex gap-2 p-1 bg-gray-800 rounded-lg border border-gray-700">
+            <button
+              onClick={() => setSearchMode('existing')}
+              className={`flex-1 px-4 py-2 rounded-lg font-bold text-sm transition ${
+                searchMode === 'existing'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              📋 Existing Suppliers
+            </button>
+            <button
+              onClick={() => setSearchMode('new')}
+              className={`flex-1 px-4 py-2 rounded-lg font-bold text-sm transition ${
+                searchMode === 'new'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              🌐 Find New Suppliers
+            </button>
+          </div>
+
+          {/* EXISTING SUPPLIERS MODE */}
+          {searchMode === 'existing' && (
+            <>
           {/* Search and Filters */}
           <div className="mb-6 space-y-4">
             {/* Search Bar */}
@@ -403,6 +466,157 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
                   </div>
                 );
               })}
+            </div>
+          )}
+            </>
+          )}
+
+          {/* FIND NEW SUPPLIERS MODE */}
+          {searchMode === 'new' && (
+            <div className="space-y-4">
+              {/* External Search Bar */}
+              <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+                <h3 className="text-sm font-black text-blue-400 mb-3">🌐 SEARCH ONLINE DATABASES</h3>
+                <p className="text-xs text-gray-400 mb-3">
+                  Search ThomasNet, Google, and GSA Advantage for new suppliers
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={externalSearchTerm}
+                    onChange={(e) => setExternalSearchTerm(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && searchExternalSources()}
+                    placeholder="e.g., industrial wipers, medical supplies..."
+                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition"
+                    disabled={externalSearching}
+                  />
+                  <button
+                    onClick={searchExternalSources}
+                    disabled={externalSearching || !externalSearchTerm.trim()}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {externalSearching ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Searching...
+                      </span>
+                    ) : (
+                      '🔍 Search'
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* External Search Results */}
+              {externalSearching ? (
+                <div className="text-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                  <p className="text-gray-400 mt-3">Searching ThomasNet, Google, and GSA...</p>
+                  <p className="text-xs text-gray-500 mt-1">This may take 10-30 seconds</p>
+                </div>
+              ) : externalResults.length > 0 ? (
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-black text-white">
+                      Found {externalResults.length} new suppliers
+                    </h4>
+                    <button
+                      onClick={() => setExternalResults([])}
+                      className="text-xs text-blue-400 hover:text-blue-300 font-bold"
+                    >
+                      Clear Results
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    {externalResults.map((supplier, idx) => {
+                      const supplierId = `external-${idx}`;
+                      const isSelected = selectedSuppliers.has(supplierId);
+                      return (
+                        <div
+                          key={supplierId}
+                          onClick={() => toggleSupplier(supplierId)}
+                          className={`p-4 rounded-lg border-2 transition cursor-pointer ${
+                            isSelected
+                              ? 'bg-blue-900/30 border-blue-500'
+                              : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+                          }`}
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="mt-1">
+                              <div className={`w-6 h-6 rounded border-2 flex items-center justify-center transition ${
+                                isSelected
+                                  ? 'bg-blue-600 border-blue-600'
+                                  : 'bg-gray-700 border-gray-600'
+                              }`}>
+                                {isSelected && (
+                                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-start justify-between mb-2">
+                                <div>
+                                  <h3 className="text-lg font-bold text-white">{supplier.COMPANY_NAME || supplier.NAME}</h3>
+                                  <div className="flex items-center gap-3 mt-1">
+                                    <span className="text-xs px-2 py-1 bg-blue-900/30 text-blue-400 rounded border border-blue-500/30 font-bold">
+                                      {supplier.DISCOVERY_METHOD}
+                                    </span>
+                                    {supplier.LOCATION && (
+                                      <span className="text-xs text-gray-400">
+                                        📍 {supplier.LOCATION}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="space-y-2 text-sm">
+                                {supplier.DESCRIPTION && (
+                                  <div className="text-gray-300">{supplier.DESCRIPTION}</div>
+                                )}
+                                {supplier.PRODUCT_KEYWORDS && (
+                                  <div className="flex">
+                                    <span className="text-gray-400 w-24 flex-shrink-0">Products:</span>
+                                    <span className="text-gray-300">{supplier.PRODUCT_KEYWORDS}</span>
+                                  </div>
+                                )}
+                                <div className="flex items-center gap-4 pt-2 border-t border-gray-700">
+                                  {supplier.WEBSITE && (
+                                    <span className="text-xs text-gray-400">
+                                      🌐 {supplier.WEBSITE}
+                                    </span>
+                                  )}
+                                  {supplier.PHONE && (
+                                    <span className="text-xs text-gray-400">
+                                      📞 {supplier.PHONE}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : externalSearchTerm && !externalSearching ? (
+                <div className="text-center py-12 bg-gray-800/50 border border-gray-700 rounded-lg">
+                  <div className="text-4xl mb-3">🔍</div>
+                  <p className="text-gray-400">No results yet</p>
+                  <p className="text-sm text-gray-500 mt-2">Click "Search" to find suppliers online</p>
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-gray-800/50 border border-gray-700 rounded-lg">
+                  <div className="text-4xl mb-3">🌐</div>
+                  <p className="text-gray-400">Search ThomasNet, Google, and GSA Advantage</p>
+                  <p className="text-sm text-gray-500 mt-2">Enter a product or category to find new suppliers</p>
+                </div>
+              )}
             </div>
           )}
 
