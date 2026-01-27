@@ -203,26 +203,37 @@ def generate_pdf_reportlab(config, output_file):
     # Items
     story.append(Paragraph("ITEMS REQUESTED", heading_style))
     
-    items_data = [['Item', 'Description', 'Specifications', 'Qty']]
+    items_data = [['#', 'Description', 'Specifications', 'Qty', 'Unit', 'Price/Unit', 'Total Price']]
     for item in config['items']:
         items_data.append([
             item['item_number'],
             item['description'],
             item['specifications'],
-            item['estimated_quantity']
+            item['estimated_quantity'],
+            item.get('unit', 'unit'),
+            '',  # Blank for supplier to fill in
+            ''   # Blank for supplier to fill in
         ])
     
-    items_table = Table(items_data, colWidths=[0.5*inch, 2*inch, 2.5*inch, 1*inch])
+    items_table = Table(items_data, colWidths=[0.3*inch, 1.5*inch, 1.5*inch, 0.6*inch, 0.8*inch, 0.8*inch, 0.9*inch])
     items_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e3a8a')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Center item numbers
+        ('ALIGN', (3, 0), (3, -1), 'CENTER'),  # Center quantities
+        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Center units
+        ('ALIGN', (5, 0), (-1, -1), 'RIGHT'),  # Right-align price columns
+        ('ALIGN', (1, 0), (2, -1), 'LEFT'),    # Left-align descriptions and specs
         ('FONTNAME', (0, 0), (-1, 0), font_bold),
         ('FONTNAME', (0, 1), (-1, -1), font_name),
-        ('FONTSIZE', (0, 0), (-1, 0), 10),
+        ('FONTSIZE', (0, 0), (-1, 0), 9),
+        ('FONTSIZE', (0, 1), (-1, -1), 8),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('TOPPADDING', (0, 1), (-1, -1), 6),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
         ('GRID', (0, 0), (-1, -1), 1, colors.grey),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f9fafb')]),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ]))
     story.append(items_table)
     story.append(Spacer(1, 0.2*inch))
