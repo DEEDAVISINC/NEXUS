@@ -152,6 +152,71 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       }
     } catch (error) {
       console.error('Error fetching workflow queues:', error);
+      
+      // TESTING: Add mock data if API fails or returns empty
+      // This lets us test the modal without backend/Airtable setup
+      const mockQueues = {
+        needsReview: [
+          {
+            id: 'mock-opp-1',
+            fields: {
+              'Name': 'Unnamed Opportunity',
+              'Issuing Organization': 'CPS Energy',
+              'State': 'Texas',
+              'Category': 'Industrial Supplies',
+              'Estimated Value': 400000,
+              'Response Deadline': '2026-02-05',
+              'Description': 'CPS Energy is seeking quotes for industrial wipers, safety supplies, and cleaning products for their Texas facilities. This is a 1-year contract with potential for renewal.',
+              'Date Added': '2026-01-20'
+            }
+          },
+          {
+            id: 'mock-opp-2',
+            fields: {
+              'Name': 'Unnamed Opportunity',
+              'Issuing Organization': 'Oakland County',
+              'State': 'Michigan',
+              'Category': 'Medical Supplies',
+              'Estimated Value': 150000,
+              'Response Deadline': '2026-02-10',
+              'Description': 'Oakland County Medical Examiner office requires body bags, medical examination supplies, and related products.',
+              'Date Added': '2026-01-22'
+            }
+          },
+          {
+            id: 'mock-opp-3',
+            fields: {
+              'Name': 'Unnamed Opportunity',
+              'Issuing Organization': 'City of Sterling Heights',
+              'State': 'Michigan',
+              'Category': 'Aggregate Materials',
+              'Estimated Value': 250000,
+              'Response Deadline': '2026-02-15',
+              'Description': 'Annual contract for bulk aggregate materials including limestone, sand, gravel, and crushed concrete for municipal infrastructure projects.',
+              'Date Added': '2026-01-25'
+            }
+          }
+        ],
+        findSuppliers: [],
+        requestQuotes: [],
+        awaitingQuotes: [],
+        readyToPrice: [],
+        generateProposal: [],
+        finalReview: [],
+        submitted: []
+      };
+      
+      setWorkflowQueues(mockQueues);
+      setWorkflowCounts({
+        needsReview: mockQueues.needsReview.length,
+        findSuppliers: 0,
+        requestQuotes: 0,
+        awaitingQuotes: 0,
+        readyToPrice: 0,
+        generateProposal: 0,
+        finalReview: 0,
+        submitted: 0
+      });
     }
   }, []);
 
