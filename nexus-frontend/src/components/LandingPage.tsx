@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ViewType } from './Header';
 import { api } from '../api/client';
 import { ReviewOpportunityModal } from './modals/ReviewOpportunityModal';
+import { SupplierSearchModal } from './modals/SupplierSearchModal';
 
 interface LandingPageProps {
   onEnterSystem: (system: ViewType) => void;
@@ -104,6 +105,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
 
   // Review modal state
   const [reviewingOpportunity, setReviewingOpportunity] = useState<any>(null);
+  
+  // Supplier search modal state
+  const [searchingSuppliersFor, setSearchingSuppliersFor] = useState<any>(null);
 
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
@@ -197,7 +201,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
             }
           }
         ],
-        findSuppliers: [],
+        findSuppliers: [
+          {
+            id: 'mock-opp-4',
+            fields: {
+              'Name': 'Canton Township - Water Infrastructure',
+              'Issuing Organization': 'Canton Township',
+              'State': 'Michigan',
+              'Category': 'Plumbing Supplies',
+              'Estimated Value': 350000,
+              'Response Deadline': '2026-02-08',
+              'Description': 'Water main parts, repair clamps, copper tubing, and brass fittings for municipal water infrastructure maintenance.',
+              'Date Added': '2026-01-18'
+            }
+          }
+        ],
         requestQuotes: [],
         awaitingQuotes: [],
         readyToPrice: [],
@@ -953,7 +971,7 @@ END:VCALENDAR`;
                         </div>
                       </div>
                       <button 
-                        onClick={() => alert(`Supplier search for ${opp.fields.Name} - Coming soon!`)}
+                        onClick={() => setSearchingSuppliersFor(opp)}
                         className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded font-bold text-xs transition"
                       >
                         Search Suppliers
@@ -1589,6 +1607,15 @@ END:VCALENDAR`;
       <ReviewOpportunityModal
         opportunity={reviewingOpportunity}
         onClose={() => setReviewingOpportunity(null)}
+        onSuccess={handleReviewSuccess}
+      />
+    )}
+
+    {/* Supplier Search Modal */}
+    {searchingSuppliersFor && (
+      <SupplierSearchModal
+        opportunity={searchingSuppliersFor}
+        onClose={() => setSearchingSuppliersFor(null)}
         onSuccess={handleReviewSuccess}
       />
     )}
