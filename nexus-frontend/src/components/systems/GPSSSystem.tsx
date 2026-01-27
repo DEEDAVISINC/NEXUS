@@ -1326,26 +1326,55 @@ ${new Date().toLocaleDateString()}
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 flex-wrap">
+                            {/* Cap Statement Button */}
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                alert(`🚧 Cap Statement Generator\n\nGenerating capability statement for:\n${opp.title}\n\nThis will auto-fill from opportunity data and generate a professional capability statement PDF.\n\n[Coming in next update!]`);
+                              }}
+                              className="bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
+                              title="Generate Capability Statement for this opportunity"
+                            >
+                              📄 Cap
+                            </button>
+                            
+                            {/* Request Quotes Button */}
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                alert(`🚧 Supplier Quote Request\n\nRequesting quotes for:\n${opp.title}\n\nThis will:\n1. Extract items from solicitation\n2. Match suppliers\n3. Generate quote requests\n4. Send via email/fax\n5. Track responses\n\n[Coming in next update!]`);
+                              }}
+                              className="bg-cyan-600 hover:bg-cyan-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
+                              title="Request supplier quotes for this opportunity"
+                            >
+                              📋 Quotes
+                            </button>
+                            
+                            {/* Price Button */}
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setPricingOpportunity(opp);
                                 setShowPricingCalculator(true);
                               }}
-                              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition"
+                              className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
+                              title="Calculate pricing for this opportunity"
                             >
                               💰 Price
                             </button>
+                            
+                            {/* Proposal Button */}
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
                                 generateProposal(opp);
                               }}
                               disabled={generatingProposal}
-                              className={`${generatingProposal ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} px-4 py-2 rounded-lg font-semibold transition`}
+                              className={`${generatingProposal ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} px-3 py-2 rounded-lg font-semibold text-sm transition`}
+                              title="Generate full proposal for this opportunity"
                             >
-                              {generatingProposal ? '⏳ Generating...' : '🚀 Proposal'}
+                              {generatingProposal ? '⏳...' : '🚀 Proposal'}
                             </button>
                           </div>
                         </td>
