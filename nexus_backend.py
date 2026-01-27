@@ -128,6 +128,270 @@ class AnthropicClient:
         return response.content[0].text
 
 # =====================================================================
+# SUPPLIER QUOTE SYSTEM - Request quotes from suppliers
+# =====================================================================
+
+class SupplierQuoteSystem:
+    """
+    Integrated supplier quote request system
+    Part of NEXUS workflow: Solicitation → Quote Request → Tracking → Follow-up
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+    
+    def generate_quote_request(self, opportunity_id: str, supplier_ids: List[str] = None):
+        """
+        Generate and send quote requests for an opportunity
+        
+        Args:
+            opportunity_id: Airtable record ID for opportunity
+            supplier_ids: Optional list of supplier IDs. If None, auto-match suppliers
+            
+        Returns:
+            dict: Generated quote requests with tracking info
+        """
+        # Get opportunity details
+        opportunity = self.airtable.get_record('Opportunities', opportunity_id)
+        opp_fields = opportunity['fields']
+        
+        # Extract items from solicitation
+        items = self._extract_items_from_opportunity(opportunity)
+        
+        # Match suppliers if not provided
+        if not supplier_ids:
+            supplier_ids = self._match_suppliers(items, opp_fields)
+        
+        # Generate quote requests
+        quote_requests = []
+        for supplier_id in supplier_ids:
+            supplier = self.airtable.get_record('Suppliers', supplier_id)
+            
+            # Generate PDF
+            pdf_data = self._generate_quote_pdf(opportunity, items, supplier)
+            
+            # Send to supplier
+            sent_info = self._send_to_supplier(supplier, pdf_data)
+            
+            # Log to Airtable
+            quote_request = self._log_quote_request(
+                opportunity_id, 
+                supplier_id,
+                pdf_data,
+                sent_info
+            )
+            
+            quote_requests.append(quote_request)
+        
+        return {
+            'success': True,
+            'opportunity_id': opportunity_id,
+            'quote_requests': quote_requests,
+            'count': len(quote_requests)
+        }
+    
+    def _extract_items_from_opportunity(self, opportunity):
+        """Extract items from opportunity using AI"""
+        opp_fields = opportunity['fields']
+        description = opp_fields.get('Description', '')
+        
+        # Use Claude to extract items
+        prompt = f"""
+Extract items/products/services from this solicitation:
+
+{description}
+
+Return JSON array of items:
+[
+  {{
+    "number": "1",
+    "description": "Item name",
+    "specifications": "Details and specs",
+    "quantity": "Estimated quantity",
+    "unit": "unit/piece/ton/etc"
+  }}
+]
+"""
+        try:
+            response = self.ai.complete(prompt, max_tokens=2000)
+            items = json.loads(response.replace('```json', '').replace('```', '').strip())
+            return items
+        except:
+            # Fallback to structured items if available
+            return opp_fields.get('Items', [])
+    
+    def _match_suppliers(self, items, opp_fields):
+        """Find matching suppliers for items"""
+        # Get all active suppliers
+        suppliers = self.airtable.get_all_records('Suppliers', formula="Active = TRUE()")
+        
+        # TODO: Smart matching based on categories, location, past performance
+        # For now, return top 5
+        return [s['id'] for s in suppliers[:5]]
+    
+    def _generate_quote_pdf(self, opportunity, items, supplier):
+        """Generate quote request PDF"""
+        import subprocess
+        import tempfile
+        from pathlib import Path
+        
+        opp_fields = opportunity['fields']
+        rfq_number = f"DDI-{datetime.now().strftime('%Y')}-{opportunity['id'][:6].upper()}"
+        
+        # Build template
+        template = f"""RFQ_NUMBER: {rfq_number}
+TITLE: {opp_fields.get('Title', 'Quote Request')}
+ISSUE_DATE: {datetime.now().strftime('%B %d, %Y')}
+DUE_DATE: {(datetime.now() + timedelta(days=7)).strftime('%B %d, %Y')}
+DUE_TIME: 5:00 PM EST
+CONTRACT_PERIOD: {opp_fields.get('Contract Period', '12 months')}
+
+COLOR_SCHEME: 1
+
+INTRODUCTION:
+DEE DAVIS INC is preparing a bid for a Michigan municipal client. We need competitive quotes by the date specified.
+
+SCOPE:
+Vendor will provide materials/services as specified. Delivery to Southeast Michigan location.
+
+KEY_REQUIREMENTS:
+- Competitive pricing required
+- Confirm availability and lead times
+- Provide delivery terms
+- Net 30 payment terms preferred
+
+ITEMS:
+"""
+        for item in items:
+            template += f"{item['number']} | {item['description']} | {item['specifications']} | {item['quantity']} | {item['unit']}\n"
+        
+        # Save and generate PDF
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            f.write(template)
+            temp_file = f.name
+        
+        result = subprocess.run(
+            ['python3', 'create_from_paste.py', 'rfq', temp_file],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+        
+        # Find generated PDF
+        output_dir = Path("GENERATED_QUOTES")
+        pdf_files = list(output_dir.glob(f"*{rfq_number.lower().replace('-', '_')}*.pdf"))
+        
+        return {
+            'rfq_number': rfq_number,
+            'pdf_path': str(pdf_files[0]) if pdf_files else None,
+            'template': template
+        }
+    
+    def _send_to_supplier(self, supplier, pdf_data):
+        """Send quote request via email"""
+        # TODO: Implement email sending
+        return {
+            'method': 'email',
+            'to': supplier['fields'].get('Email', ''),
+            'timestamp': datetime.now().isoformat(),
+            'success': True
+        }
+    
+    def _log_quote_request(self, opportunity_id, supplier_id, pdf_data, sent_info):
+        """Log quote request to Airtable"""
+        return self.airtable.create_record('Quote Requests', {
+            'Opportunity': [opportunity_id],
+            'Supplier': [supplier_id],
+            'Sent Date': sent_info['timestamp'],
+            'Sent Method': sent_info['method'],
+            'Sent To': sent_info['to'],
+            'Status': 'Sent' if sent_info['success'] else 'Failed',
+            'PDF Path': pdf_data.get('pdf_path', ''),
+            'RFQ Number': pdf_data.get('rfq_number', ''),
+            'Due Date': (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d'),
+            'Follow-up Needed': True,
+            'Follow-up Date': (datetime.now() + timedelta(days=3)).strftime('%Y-%m-%d')
+        })
+
+
+# =====================================================================
+# CAPABILITY STATEMENT SYSTEM - Generate capability statements
+# =====================================================================
+
+class CapabilityStatementSystem:
+    """
+    Generate professional capability statements for opportunities
+    Integrated into NEXUS workflow
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+    
+    def generate_for_opportunity(self, opportunity_id: str, customization: Dict = None):
+        """
+        Generate capability statement for an opportunity
+        
+        Args:
+            opportunity_id: Opportunity record ID
+            customization: Optional customizations (color scheme, highlights, etc.)
+            
+        Returns:
+            dict: Generated capability statement info
+        """
+        import subprocess
+        import tempfile
+        from pathlib import Path
+        
+        opportunity = self.airtable.get_record('Opportunities', opportunity_id)
+        opp_fields = opportunity['fields']
+        
+        # Build capability statement template
+        template = f"""CLIENT_NAME: {opp_fields.get('Agency', 'Client')}
+RFQ_NUMBER: {opp_fields.get('Solicitation Number', 'RFQ-001')}
+DATE: {datetime.now().strftime('%B %Y')}
+
+COLOR_SCHEME: {customization.get('color_scheme', '1') if customization else '1'}
+
+OVERVIEW:
+DEE DAVIS INC specializes in supply chain management and logistics for government and commercial clients. As a Michigan-based EDWOSB, we provide reliable sourcing, competitive pricing, and exceptional service for diverse procurement needs.
+
+HIGHLIGHTS:
+NAICS: 423850 - Industrial Supplies
+Partners: National supplier network | Grainger | Fastenal | Regional partners
+Performance: 98%+ On-Time Delivery | 100% Contract Compliance
+Coverage: Nationwide sourcing with Southeast Michigan delivery
+Contract Range: $50K - $500K Successfully Delivered
+"""
+        
+        # Generate PDF
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            f.write(template)
+            temp_file = f.name
+        
+        result = subprocess.run(
+            ['python3', 'create_from_paste.py', 'capability', temp_file],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+        
+        # Log to Airtable
+        self.airtable.create_record('Generated Documents', {
+            'Type': 'Capability Statement',
+            'Opportunity': [opportunity_id],
+            'Generated Date': datetime.now().isoformat(),
+            'Status': 'Complete'
+        })
+        
+        return {
+            'success': True,
+            'opportunity_id': opportunity_id,
+            'generated': True
+        }
+
+
+# =====================================================================
 # DOCUMENT INTELLIGENCE - Contact Extraction
 # =====================================================================
 

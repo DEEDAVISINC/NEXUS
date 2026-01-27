@@ -9,6 +9,8 @@ import VERTEXSystem from './components/systems/VERTEXSystem';
 import { LBPCSystem } from './components/systems/LBPCSystem';
 import { InvoiceDashboard } from './components/InvoiceDashboard';
 import { FloatingAICopilot } from './components/FloatingAICopilot';
+import { QuoteSystem } from './components/systems/QuoteSystem';
+import { CapStatSystem } from './components/systems/CapStatSystem';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
@@ -39,6 +41,10 @@ function App() {
         return <LBPCSystem />;
       case 'invoices':
         return <InvoiceDashboard />;
+      case 'quotes':
+        return <QuoteSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'capstats':
+        return <CapStatSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }

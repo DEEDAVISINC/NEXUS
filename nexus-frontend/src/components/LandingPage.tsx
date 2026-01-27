@@ -441,6 +441,36 @@ END:VCALENDAR`;
       gradient: 'from-yellow-600 to-orange-600',
       status: 'online',
       lastUsed: 'New!'
+    },
+    {
+      id: 'quotes' as ViewType,
+      name: 'QUOTES',
+      fullName: 'Supplier Quote System',
+      icon: '📋',
+      description: 'Generate & Track Supplier Quote Requests • Timestamped',
+      stats: [
+        '0 Pending Quotes',
+        '0 Sent This Month',
+        '0% Response Rate'
+      ],
+      gradient: 'from-blue-600 to-cyan-600',
+      status: 'online',
+      lastUsed: 'NEW! 🚀'
+    },
+    {
+      id: 'capstats' as ViewType,
+      name: 'CAP STATS',
+      fullName: 'Capability Statement Generator',
+      icon: '📄',
+      description: 'Professional Capability Statements • Multiple Templates',
+      stats: [
+        '0 Generated',
+        '5 Templates',
+        'Ready to Use!'
+      ],
+      gradient: 'from-purple-600 to-indigo-600',
+      status: 'online',
+      lastUsed: 'NEW! 🚀'
     }
   ];
 
@@ -495,9 +525,9 @@ END:VCALENDAR`;
 
   const quickActions = [
     { label: 'Upload RFP', icon: '📄', action: () => onEnterSystem('gpss'), gradient: 'from-blue-600 to-blue-700' },
+    { label: 'Request Quote', icon: '📋', action: () => onEnterSystem('quotes'), gradient: 'from-cyan-600 to-cyan-700' },
     { label: 'Create Invoice', icon: '💰', action: () => onEnterSystem('invoices'), gradient: 'from-green-600 to-green-700' },
-    { label: 'Export Calendar', icon: '📆', action: exportAllTasksToCalendar, gradient: 'from-purple-600 to-purple-700' },
-    { label: 'View Pipeline', icon: '📊', action: () => onEnterSystem('ddcss'), gradient: 'from-yellow-600 to-yellow-700' }
+    { label: 'Export Calendar', icon: '📆', action: exportAllTasksToCalendar, gradient: 'from-purple-600 to-purple-700' }
   ];
 
   const systemHealth = [
