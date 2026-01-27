@@ -35,16 +35,23 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
 
   // Filter suppliers when search/filters change
   useEffect(() => {
-    filterSuppliers();
-  }, [searchTerm, filterCategory, filterState, suppliers]);
+    if (searchMode === 'existing') {
+      filterSuppliers();
+    }
+  }, [searchTerm, filterCategory, filterState, suppliers, searchMode]);
 
   const loadSuppliers = async () => {
     setLoading(true);
     try {
       const response = await api.getGpssSuppliers();
-      setSuppliers(response || []);
+      if (Array.isArray(response)) {
+        setSuppliers(response);
+      } else {
+        setSuppliers([]);
+      }
     } catch (error) {
       console.error('Error loading suppliers:', error);
+      setSuppliers([]);
       
       // Mock suppliers for testing
       const mockSuppliers = [
@@ -195,13 +202,17 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
   };
 
   const toggleSupplier = (supplierId: string) => {
-    const newSelected = new Set(selectedSuppliers);
-    if (newSelected.has(supplierId)) {
-      newSelected.delete(supplierId);
-    } else {
-      newSelected.add(supplierId);
+    try {
+      const newSelected = new Set(selectedSuppliers);
+      if (newSelected.has(supplierId)) {
+        newSelected.delete(supplierId);
+      } else {
+        newSelected.add(supplierId);
+      }
+      setSelectedSuppliers(newSelected);
+    } catch (err) {
+      console.error('Error toggling supplier:', err);
     }
-    setSelectedSuppliers(newSelected);
   };
 
   const searchExternalSources = async () => {
@@ -220,15 +231,21 @@ export const SupplierSearchModal: React.FC<SupplierSearchModalProps> = ({
         sources: ['thomasnet', 'google', 'gsa']
       });
 
-      if (response.success) {
-        setExternalResults(response.results || []);
+      if (response && response.success) {
+        const results = Array.isArray(response.results) ? response.results : [];
+        setExternalResults(results);
         // Also refresh the main supplier list to include newly saved ones
-        loadSuppliers();
+        if (results.length > 0) {
+          loadSuppliers();
+        }
       } else {
-        setError(response.error || 'Search failed');
+        setError(response?.error || 'Search failed');
+        setExternalResults([]);
       }
     } catch (err: any) {
-      setError(err.message || 'Search failed');
+      console.error('External search error:', err);
+      setError(err?.message || 'Search failed. Please try again.');
+      setExternalResults([]);
     } finally {
       setExternalSearching(false);
     }
