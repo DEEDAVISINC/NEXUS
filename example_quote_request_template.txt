@@ -1,0 +1,27 @@
+RFQ_NUMBER: RFQ-2026-EXAMPLE-001
+TITLE: Example Quote Request - Edit This Title
+ISSUE_DATE: January 26, 2026
+DUE_DATE: February 5, 2026
+DUE_TIME: 3:00 PM EST
+CONTRACT_PERIOD: 12 months
+
+COLOR_SCHEME: 1
+(1=Navy/Gold, 2=Brown/Orange, 3=Purple/Violet, 4=Blue/Teal, 5=Dark Brown/Orange)
+
+INTRODUCTION:
+DEE DAVIS INC is seeking competitive quotes for the items listed below. We are looking for qualified suppliers who can provide quality products with reliable delivery.
+
+SCOPE:
+The selected vendor will provide all items as specified below. Delivery will be coordinated based on project requirements. All items must meet or exceed industry standards.
+
+KEY_REQUIREMENTS:
+- Competitive pricing required
+- Reliable delivery schedule
+- Quality products that meet specifications
+- References from similar clients
+
+ITEMS:
+1 | Item Description Here | Full specifications and details | Estimated quantity | unit
+2 | Another Item | Specifications for this item | Quantity needed | unit
+3 | Third Item | Details and specs | How many | unit
+(Format: Number | Description | Specifications | Quantity | Unit)

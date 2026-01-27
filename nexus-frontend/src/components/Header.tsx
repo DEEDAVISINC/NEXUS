@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'quotes' | 'capstats';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'quotes' | 'capstats' | 'contracts';
 
 interface HeaderProps {
   currentView: ViewType;

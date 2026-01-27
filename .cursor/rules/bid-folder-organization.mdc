@@ -1,0 +1,226 @@
+---
+description: Automatic bid folder creation and organization workflow
+alwaysApply: true
+---
+
+# Bid Organization - One Folder Per Solicitation
+
+**When user shares a solicitation and we agree to pursue it: Create a dedicated folder immediately.**
+
+---
+
+## The Workflow
+
+### **Step 1: User Shares Solicitation**
+User provides RFQ/RFP/ITB document or details.
+
+### **Step 2: Decision to Pursue**
+After reviewing, if we agree it's worth pursuing → **Create folder immediately.**
+
+### **Step 3: Create Folder Structure**
+```bash
+photos_and_videos/
+└── [CLIENT NAME] [BID TYPE]/
+    ├── [Original RFQ/RFP PDF]
+    ├── [All related documents]
+    ├── [Strategy guides created]
+    ├── [Email templates]
+    ├── [Supplier quotes]
+    └── [Final signed submissions]
+```
+
+### **Step 4: All Future Documents Go There**
+Every document created for that bid goes in its folder:
+- Strategy guides
+- Pricing analysis
+- Supplier email templates
+- Quote requests
+- Completed bid forms
+- Signed submissions
+
+---
+
+## Naming Convention
+
+**Format:** `[CLIENT] [BID TYPE]`
+
+**Examples:**
+- `CPS ENERGY` (industrial supplies)
+- `MADISON HEIGHTS LAWN` (lawn services)
+- `OAKLAND COUNTY BODY BAGS` (medical supplies)
+- `JACKSON COUNTY SALT` (road salt)
+- `WARREN DDA LANDSCAPE` (landscaping)
+
+**Rules:**
+- ALL CAPS
+- Client name first
+- Brief descriptor of bid type
+- No dates in folder name
+- Keep it short (under 30 characters)
+
+---
+
+## What Goes in Each Folder
+
+### **Required:**
+1. ✅ Original solicitation PDF (RFQ/RFP/ITB)
+2. ✅ All related attachments/exhibits
+3. ✅ Bid guide/strategy document
+4. ✅ Completed bid forms (signed)
+
+### **Optional (if created):**
+5. Pricing analysis
+6. Supplier comparison
+7. Email templates to suppliers
+8. Quote requests
+9. Competitive advantage analysis
+10. Submission checklist
+11. Follow-up templates
+
+---
+
+## Creation Trigger
+
+**Create folder when:**
+- User shares solicitation document
+- We review and analyze it
+- User says "let's pursue this" or similar
+- OR we recommend pursuing and user agrees
+
+**Example dialogue:**
+```
+User: "Check out this RFQ for industrial wipers"
+Assistant: [Reviews] "This looks good - $400K contract, good fit"
+User: "Let's do it"
+Assistant: [Creates folder immediately]
+```
+
+---
+
+## Automatic Actions
+
+**When folder is created:**
+
+1. **Create strategy document:** `[BID_NAME]_STRATEGY.md`
+2. **Move original PDF** to folder
+3. **Create submission checklist** specific to that bid
+4. **Note deadline** in folder
+
+**Example files created:**
+```
+CPS ENERGY/
+├── RFQ_7000205103.pdf (original)
+├── CPS_ENERGY_BID_GUIDE.md (created)
+├── CPS_ENERGY_SUBMISSION_CHECKLIST.md (created)
+└── [More docs as created]
+```
+
+---
+
+## Benefits
+
+**For user:**
+- ✅ Everything in one place
+- ✅ No hunting for documents
+- ✅ Easy to share folder with team
+- ✅ Clear organization
+- ✅ Each bid is self-contained
+
+**For teaching others:**
+- ✅ Simple to explain: "One folder per bid"
+- ✅ Easy to delegate: "Work in the MADISON HEIGHTS LAWN folder"
+- ✅ Clear ownership
+- ✅ Easy to archive when done
+
+---
+
+## File Management Rules
+
+### **Do:**
+- ✅ Create folder as soon as we agree to pursue
+- ✅ Move ALL related docs to that folder
+- ✅ Use consistent naming
+- ✅ Keep folder organized
+
+### **Don't:**
+- ❌ Leave bid docs scattered in root directory
+- ❌ Create generic "bids" folder with everything mixed
+- ❌ Wait until later to organize
+- ❌ Use inconsistent naming
+
+---
+
+## Migration of Existing Bids
+
+**If bid documents already exist:**
+1. Create the folder
+2. Move existing docs into it
+3. Organize by type (PDFs, guides, emails, etc.)
+4. Continue adding new docs to folder
+
+---
+
+## Folder Status Indicators
+
+**Add to folder name when appropriate:**
+
+**Active bids:**
+- Just folder name: `CPS ENERGY`
+
+**Won bids:**
+- Rename: `CPS ENERGY - WON`
+
+**Lost bids:**
+- Rename: `CPS ENERGY - LOST`
+
+**Archived (old):**
+- Move to subfolder: `ARCHIVE/CPS ENERGY`
+
+---
+
+## Quick Reference
+
+**New solicitation received?**
+
+1. Review it
+2. Decide to pursue?
+3. **→ Create folder: `[CLIENT] [TYPE]`**
+4. Move PDF to folder
+5. Create strategy doc
+6. All future docs go there
+
+**That's it.** Simple. Direct. Organized.
+
+---
+
+## Implementation Command
+
+**Create bid folder:**
+```bash
+cd "/Users/deedavis/NEXUS BACKEND/photos_and_videos"
+mkdir "[CLIENT] [BID TYPE]"
+mv [solicitation.pdf] "[CLIENT] [BID TYPE]/"
+```
+
+**Done.** Folder ready for all bid documents.
+
+---
+
+## Example Workflow
+
+**User:** "I got an RFQ for diesel fuel from Detroit Water"
+
+**Assistant:**
+1. Reviews RFQ
+2. "This looks good - $2M contract, we can do this"
+3. User: "Let's bid it"
+4. **→ Create:** `photos_and_videos/DETROIT WATER DIESEL/`
+5. **→ Move:** RFQ to folder
+6. **→ Create:** `DETROIT_WATER_DIESEL_STRATEGY.md` in folder
+7. **→ All future docs** go in that folder
+
+**Simple. Clean. Organized.** ✅
+
+---
+
+*One folder per solicitation. Everything in its place. No confusion.*

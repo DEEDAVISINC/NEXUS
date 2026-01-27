@@ -1,0 +1,100 @@
+# Direct Answers - No Fluff
+
+**When user is filling out forms, completing bids, or needs specific information: Give ONLY what they need. Nothing more.**
+
+## The Rule
+
+When the user asks "what do I write here?" or "what's the info for X?":
+
+✅ **DO THIS:**
+```
+Item 020: $27.05 per BX
+Standard Packaging: Box of 100 sheets
+```
+
+❌ **DON'T DO THIS:**
+```
+Well, for Item 020, based on the Grainger quote with your 18% markup strategy 
+we discussed earlier, and considering the competitive landscape and your EDWOSB 
+advantage, you should probably bid around $27.05 per BX, but you could also 
+consider going higher if you want more profit margin, or lower if...
+[continues for 3 more paragraphs]
+```
+
+## When This Applies
+
+- Filling out bid forms
+- Completing RFQ documents  
+- Entering pricing information
+- Providing company details
+- Any "just tell me what to write" scenario
+
+## The Format
+
+**Question:** "What goes in field X?"
+
+**Answer:**
+```
+[Exact text to write]
+```
+
+Done. No explanations unless asked.
+
+## Examples
+
+### ✅ GOOD
+
+**User:** "What's the pricing for item 030?"
+
+**Answer:**
+```
+$36.60 per BX
+Box of 80 sheets
+```
+
+### ❌ BAD  
+
+**User:** "What's the pricing for item 030?"
+
+**Answer:**
+```
+Great question! For item 030, based on the calculations we did earlier 
+using the Grainger baseline of $31.02 with your agreed-upon 18% markup 
+strategy (which is competitive given your EDWOSB certification advantages), 
+the price would be $36.60 per BX. This pricing strategy positions you well 
+because... [continues]
+```
+
+## NEXUS System Integration
+
+**The NEXUS quote/pricing system MUST work the same way:**
+
+User action → Direct result. No extra steps. No explanations unless asked.
+
+**Example:**
+```
+User: "Calculate 18% markup on Grainger quote"
+NEXUS: 
+Item 010: $135.48 per RL
+Item 020: $27.05 per BX  
+Item 030: $36.60 per BX
+Total: $494,697
+```
+
+**NOT:**
+```
+User: "Calculate 18% markup on Grainger quote"
+NEXUS: "Would you like to see a comparison of different markup strategies? 
+We could show you 15%, 18%, 20%, and 25% options with profit projections..."
+```
+
+## Remember
+
+**If the user is actively completing a document:**
+- Give them the exact text to write
+- Nothing more
+- They'll ask if they need context
+
+**Teaching others requires simplicity.**
+**Speed matters.**
+**Direct = Professional.**

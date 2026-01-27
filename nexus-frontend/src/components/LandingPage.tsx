@@ -471,6 +471,21 @@ END:VCALENDAR`;
       gradient: 'from-purple-600 to-indigo-600',
       status: 'online',
       lastUsed: 'NEW! 🚀'
+    },
+    {
+      id: 'contracts' as ViewType,
+      name: 'CCC',
+      fullName: 'Contract Command Center',
+      icon: '🏆',
+      description: 'Post-Award Management • Suppliers • Delivery • Payment',
+      stats: [
+        '0 Active Contracts',
+        '$0 Under Management',
+        'Nothing Falls Through!'
+      ],
+      gradient: 'from-yellow-600 to-red-600',
+      status: 'online',
+      lastUsed: 'COMING SOON! 🔥'
     }
   ];
 

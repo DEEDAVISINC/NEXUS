@@ -1,0 +1,34 @@
+RFQ_NUMBER: DDI-2026-AGG-001
+TITLE: Aggregate Materials - 1 Year Municipal Contract
+ISSUE_DATE: January 26, 2026
+DUE_DATE: January 31, 2026
+DUE_TIME: 5:00 PM EST
+CONTRACT_PERIOD: 1 year (starting Spring 2026)
+
+COLOR_SCHEME: 5
+(1=Navy/Gold, 2=Brown/Orange, 3=Purple/Violet, 4=Blue/Teal, 5=Dark Brown/Orange)
+
+INTRODUCTION:
+DEE DAVIS INC is preparing a bid for a 1-year aggregate supply contract for a Michigan municipal client. We need competitive wholesale pricing for the materials listed below. This is a municipal government contract with potential for renewal.
+
+SCOPE:
+Selected supplier will provide aggregate materials on an as-needed basis throughout the contract period (1 year starting Spring 2026). Delivery required to Southeast Michigan location within 2 business days of order. Average order size: 50 tons or 200 cubic yards. Total estimated annual volume: 3,700 tons plus 1,000 cubic yards.
+
+KEY_REQUIREMENTS:
+- All pricing must be DELIVERED to Southeast Michigan location
+- Must meet MDOT specifications where noted
+- Delivery within 2 business days of order required
+- Payment terms: Net 30 preferred
+- Quote must be valid through February 4, 2026
+- Confirm ability to meet MDOT specs for Items B and F
+
+ITEMS:
+1 | Fill Sand | Clear of debris and rocks | 300 tons/year | ton
+2 | Fine Crushed Concrete | MDOT Specification 21AA | 400 tons/year | ton
+3 | Coarse Crushed Concrete | 3" x 1" aggregate | 400 tons/year | ton
+4 | Clean Top Soil | Premium grade | 1000 cubic yards/year | cubic yard
+5 | 6A Stone Limestone | Standard grade | 300 tons/year | ton
+6 | Road Gravel | 23A Dense Graded, MDOT specification | 500 tons/year | ton
+7 | Mason Sand | Fine grade, screened and washed | 200 tons/year | ton
+8 | Pea Gravel | Clean, approximately 3/8 inch | 200 tons/year | ton
+9 | 60/40 Gravel | 60% 6A Stone + 40% 2NS Sand blend | 400 tons/year | ton

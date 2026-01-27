@@ -1,0 +1,28 @@
+RFQ_NUMBER: RFQ-2026-001
+TITLE: Industrial Supplies Quote Request
+ISSUE_DATE: January 26, 2026
+DUE_DATE: February 2, 2026
+DUE_TIME: 5:00 PM EST
+CONTRACT_PERIOD: Immediate need
+
+COLOR_SCHEME: 1
+(1=Navy/Gold, 2=Brown/Orange, 3=Purple/Violet, 4=Blue/Teal, 5=Dark Brown/Orange)
+
+INTRODUCTION:
+DEE DAVIS INC is seeking competitive quotes for the items listed below for a Michigan municipal client. We need pricing by the due date to prepare our response.
+
+SCOPE:
+We need firm pricing for all items as specified. Delivery would be to Metro Detroit area. Please include your best pricing as this is a competitive opportunity.
+
+KEY_REQUIREMENTS:
+- Competitive pricing required
+- Lead times and availability
+- Delivery terms (FOB Destination preferred)
+- Payment terms
+- Minimum order quantities (if any)
+
+ITEMS:
+1 | Item description | Full specifications | Quantity needed | unit
+2 | Another item | Specifications | Quantity | unit
+3 | Third item | Details | Quantity | unit
+(Format: Number | Description | Specifications | Quantity | Unit)
