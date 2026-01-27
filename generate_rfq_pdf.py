@@ -242,7 +242,8 @@ def generate_pdf_reportlab(config, output_file):
             ''   # Blank for supplier to fill in
         ])
     
-    items_table = Table(items_data, colWidths=[0.3*inch, 1.5*inch, 1.5*inch, 0.6*inch, 0.8*inch, 0.8*inch, 0.9*inch])
+    # Adjusted column widths - made Specifications wider (2 inches instead of 1.5)
+    items_table = Table(items_data, colWidths=[0.3*inch, 1.3*inch, 2*inch, 0.5*inch, 0.7*inch, 0.7*inch, 0.9*inch])
     items_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e3a8a')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
