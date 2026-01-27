@@ -86,8 +86,8 @@ def generate_pdf_reportlab(config, output_file):
             # Draw watermark before showing page
             self.saveState()
             
-            # Set very light gray for watermark (reportlab doesn't support alpha in setFillColor)
-            self.setFillGray(0.85)  # Light gray - 0.85 is very light
+            # Set medium gray for watermark - clearly visible but not too dark
+            self.setFillGray(0.65)  # Medium gray - clearly visible
             self.setFont(self._watermark_font, 60)
             
             # Rotate and center the watermark
