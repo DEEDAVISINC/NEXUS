@@ -39,12 +39,38 @@ def generate_pdf_reportlab(config, output_file):
         from reportlab.lib import colors
         from reportlab.lib.enums import TA_CENTER, TA_LEFT
         from reportlab.pdfgen import canvas
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
     except ImportError:
         print("❌ Neither wkhtmltopdf nor reportlab available")
         print("   Install one of:")
         print("   - brew install wkhtmltopdf")
         print("   - pip install reportlab")
         return False
+    
+    # Try to register Avenir font (macOS system font)
+    font_name = "Helvetica"  # Default fallback
+    font_bold = "Helvetica-Bold"
+    
+    try:
+        # Common Avenir locations on macOS
+        avenir_paths = [
+            "/System/Library/Fonts/Avenir.ttc",
+            "/System/Library/Fonts/Avenir Next.ttc",
+            "/Library/Fonts/Avenir.ttc"
+        ]
+        
+        for path in avenir_paths:
+            if os.path.exists(path):
+                # Register Avenir fonts
+                pdfmetrics.registerFont(TTFont('Avenir', path, subfontIndex=0))
+                pdfmetrics.registerFont(TTFont('Avenir-Bold', path, subfontIndex=1))
+                font_name = "Avenir"
+                font_bold = "Avenir-Bold"
+                break
+    except Exception as e:
+        # If Avenir fails, just use Helvetica
+        pass
     
     # Get company name for watermark
     company_name = config['company']['name']
@@ -54,6 +80,7 @@ def generate_pdf_reportlab(config, output_file):
         def __init__(self, *args, **kwargs):
             canvas.Canvas.__init__(self, *args, **kwargs)
             self._watermark_text = company_name
+            self._watermark_font = font_bold
         
         def showPage(self):
             # Draw watermark before showing page
@@ -61,14 +88,14 @@ def generate_pdf_reportlab(config, output_file):
             
             # Set very light gray for watermark (reportlab doesn't support alpha in setFillColor)
             self.setFillGray(0.85)  # Light gray - 0.85 is very light
-            self.setFont("Helvetica-Bold", 60)
+            self.setFont(self._watermark_font, 60)
             
             # Rotate and center the watermark
             self.translate(4.25*inch, 5.5*inch)  # Center of letter-size page
             self.rotate(45)  # Diagonal
             
             # Draw company name as watermark
-            text_width = self.stringWidth(self._watermark_text, "Helvetica-Bold", 60)
+            text_width = self.stringWidth(self._watermark_text, self._watermark_font, 60)
             self.drawString(-text_width/2, 0, self._watermark_text)
             
             self.restoreState()
@@ -80,10 +107,11 @@ def generate_pdf_reportlab(config, output_file):
     story = []
     styles = getSampleStyleSheet()
     
-    # Custom styles
+    # Custom styles with Avenir font
     title_style = ParagraphStyle(
         'CustomTitle',
         parent=styles['Heading1'],
+        fontName=font_bold,
         fontSize=24,
         textColor=colors.HexColor('#1e3a8a'),
         spaceAfter=30,
@@ -93,10 +121,18 @@ def generate_pdf_reportlab(config, output_file):
     heading_style = ParagraphStyle(
         'CustomHeading',
         parent=styles['Heading2'],
+        fontName=font_bold,
         fontSize=16,
         textColor=colors.HexColor('#1e3a8a'),
         spaceAfter=12,
         spaceBefore=20
+    )
+    
+    normal_style = ParagraphStyle(
+        'CustomNormal',
+        parent=styles['Normal'],
+        fontName=font_name,
+        fontSize=10
     )
     
     # Title
@@ -104,7 +140,8 @@ def generate_pdf_reportlab(config, output_file):
     rfq = config['rfq_details']
     
     story.append(Paragraph(c['name'], title_style))
-    story.append(Paragraph("Request for Quote", styles['Heading2']))
+    subtitle_style = ParagraphStyle('Subtitle', parent=styles['Heading2'], fontName=font_name)
+    story.append(Paragraph("Request for Quote", subtitle_style))
     story.append(Spacer(1, 0.3*inch))
     
     # RFQ Details
@@ -119,7 +156,8 @@ def generate_pdf_reportlab(config, output_file):
     
     details_table = Table(details_data, colWidths=[2*inch, 4*inch])
     details_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 0), (0, -1), font_bold),
+        ('FONTNAME', (1, 0), (1, -1), font_name),
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ]))
@@ -128,7 +166,7 @@ def generate_pdf_reportlab(config, output_file):
     
     # Introduction
     story.append(Paragraph("INTRODUCTION", heading_style))
-    story.append(Paragraph(config['introduction'], styles['Normal']))
+    story.append(Paragraph(config['introduction'], normal_style))
     story.append(Spacer(1, 0.2*inch))
     
     # Items
@@ -148,7 +186,8 @@ def generate_pdf_reportlab(config, output_file):
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e3a8a')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 0), (-1, 0), font_bold),
+        ('FONTNAME', (0, 1), (-1, -1), font_name),
         ('FONTSIZE', (0, 0), (-1, 0), 10),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('GRID', (0, 0), (-1, -1), 1, colors.grey),
@@ -160,7 +199,7 @@ def generate_pdf_reportlab(config, output_file):
     # Contact
     story.append(Paragraph("CONTACT INFORMATION", heading_style))
     contact_text = f"{c['contact_person']}<br/>{c['email']} | {c['phone']}<br/>{c['website']}"
-    story.append(Paragraph(contact_text, styles['Normal']))
+    story.append(Paragraph(contact_text, normal_style))
     
     doc.build(story)
     return True
