@@ -144,9 +144,15 @@ def generate_pdf_reportlab(config, output_file):
         
         if logo_path and os.path.exists(logo_path):
             try:
-                # Draw logo straight (no rotation) near top of page
+                # Draw logo near top of page
                 # Position: centered horizontally, near top (letter = 11" tall)
                 canvas_obj.drawImage(logo_path, 2.25*inch, 6.5*inch, 
+                                   width=4*inch, height=4*inch, 
+                                   mask='auto', preserveAspectRatio=True)
+                
+                # Draw logo near bottom of page
+                # Position: centered horizontally, near bottom
+                canvas_obj.drawImage(logo_path, 2.25*inch, 1*inch, 
                                    width=4*inch, height=4*inch, 
                                    mask='auto', preserveAspectRatio=True)
             except Exception as e:
