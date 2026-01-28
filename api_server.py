@@ -80,6 +80,9 @@ import json
 # ProposalBio™ Quality Assurance Module
 from proposalbio_module import ProposalBioService
 
+# Strategic Analysis Module (RFP Success® Integration)
+from strategic_analysis_module import StrategicAnalysisService
+
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -4155,6 +4158,240 @@ def gpss_proposalbio_outcome():
         return jsonify(result)
     except Exception as e:
         print(f"ProposalBio outcome recording error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# =====================================================================
+# GPSS STRATEGIC ANALYSIS ENDPOINTS (RFP SUCCESS® INTEGRATION)
+# =====================================================================
+
+@app.route('/gpss/strategic-analysis/go-no-go', methods=['POST'])
+def gpss_strategic_go_no_go():
+    """
+    Calculate Go/No-Go score for bid decision
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXXX",
+      "relationship_strength": 8,     # 0-10
+      "price_competitiveness": 6,      # 0-10
+      "technical_capability": 9,       # 0-10
+      "resource_availability": 7,      # 0-10
+      "past_performance": 8            # 0-10
+    }
+    
+    Returns:
+    {
+      "total_score": 38,
+      "recommendation": "Pursue|Maybe|Skip",
+      "win_probability": 65,
+      "breakdown": {...},
+      "strengths": [...],
+      "weaknesses": [...],
+      "strategy": "..."
+    }
+    """
+    try:
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        # Validate scores
+        relationship_strength = int(data.get('relationship_strength', 5))
+        price_competitiveness = int(data.get('price_competitiveness', 5))
+        technical_capability = int(data.get('technical_capability', 5))
+        resource_availability = int(data.get('resource_availability', 5))
+        past_performance = int(data.get('past_performance', 5))
+        
+        # Validate range
+        for score, name in [
+            (relationship_strength, 'relationship_strength'),
+            (price_competitiveness, 'price_competitiveness'),
+            (technical_capability, 'technical_capability'),
+            (resource_availability, 'resource_availability'),
+            (past_performance, 'past_performance')
+        ]:
+            if not 0 <= score <= 10:
+                return jsonify({"error": f"{name} must be between 0 and 10"}), 400
+        
+        svc = StrategicAnalysisService()
+        result = svc.calculate_go_no_go_score(
+            opportunity_id,
+            relationship_strength,
+            price_competitiveness,
+            technical_capability,
+            resource_availability,
+            past_performance
+        )
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Go/No-Go calculation error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/strategic-analysis/evaluator-profile', methods=['POST'])
+def gpss_strategic_evaluator_profile():
+    """
+    Analyze RFP to detect evaluator behavioral style
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXXX",
+      "rfp_text": "Full RFP text...",
+      "agency_name": "City of Detroit" (optional)
+    }
+    
+    Returns:
+    {
+      "primary_style": "Analytical|Driver|Expressive|Amiable",
+      "secondary_style": "...",
+      "confidence": 85,
+      "indicators": [...],
+      "proposal_recommendations": [...]
+    }
+    """
+    try:
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        rfp_text = data.get('rfp_text', '')
+        agency_name = data.get('agency_name')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        if not rfp_text:
+            return jsonify({"error": "rfp_text is required"}), 400
+        
+        svc = StrategicAnalysisService()
+        result = svc.analyze_evaluator_style(
+            opportunity_id,
+            rfp_text,
+            agency_name
+        )
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        print(f"Evaluator profile analysis error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/strategic-analysis/win-themes', methods=['GET'])
+def gpss_strategic_win_themes():
+    """
+    Get available win themes from library
+    
+    Optional query params:
+      ?industry=Government
+    
+    Returns:
+    {
+      "themes": [
+        {
+          "id": "rec123",
+          "name": "Michigan EDWOSB",
+          "description": "...",
+          "talking_points": [...],
+          "strength": 5,
+          "win_rate": 72
+        }
+      ]
+    }
+    """
+    try:
+        industry = request.args.get('industry')
+        
+        svc = StrategicAnalysisService()
+        themes = svc.get_win_themes(industry)
+        
+        return jsonify({"themes": themes})
+        
+    except Exception as e:
+        print(f"Win themes retrieval error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/strategic-analysis/select-win-themes', methods=['POST'])
+def gpss_strategic_select_win_themes():
+    """
+    AI-powered selection of optimal win themes for opportunity
+    
+    Expected JSON:
+    {
+      "opportunity_id": "recXXXXX",
+      "rfp_text": "Full RFP text..."
+    }
+    
+    Returns:
+    {
+      "selected_themes": [
+        {
+          "id": "rec123",
+          "name": "Michigan EDWOSB",
+          ...
+        }
+      ]
+    }
+    """
+    try:
+        data = request.json or {}
+        opportunity_id = data.get('opportunity_id')
+        rfp_text = data.get('rfp_text', '')
+        
+        if not opportunity_id:
+            return jsonify({"error": "opportunity_id is required"}), 400
+        
+        svc = StrategicAnalysisService()
+        
+        # Get all themes
+        all_themes = svc.get_win_themes()
+        
+        # Select optimal themes
+        selected = svc.select_optimal_win_themes(
+            opportunity_id,
+            all_themes,
+            rfp_text
+        )
+        
+        return jsonify({"selected_themes": selected})
+        
+    except Exception as e:
+        print(f"Win theme selection error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/strategic-analysis/report/<opportunity_id>', methods=['GET'])
+def gpss_strategic_report(opportunity_id):
+    """
+    Generate comprehensive strategic analysis report
+    
+    Returns:
+    {
+      "opportunity_id": "recXXXXX",
+      "opportunity_name": "...",
+      "go_no_go_score": 38,
+      "win_probability": 65,
+      "strategic_recommendation": "Pursue",
+      "breakdown": {...},
+      "evaluator_profile": {...},
+      "selected_win_themes": [...]
+    }
+    """
+    try:
+        svc = StrategicAnalysisService()
+        report = svc.generate_strategic_report(opportunity_id)
+        
+        if 'error' in report:
+            return jsonify(report), 404
+        
+        return jsonify(report)
+        
+    except Exception as e:
+        print(f"Strategic report generation error: {e}")
         return jsonify({"error": str(e)}), 500
 
 

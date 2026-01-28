@@ -1,0 +1,118 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-003",
+        "title": "Paper Yard Waste Bags Quote Request",
+        "issue_date": "January 27, 2026",
+        "due_date": "February 10, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Paper Yard Waste Bags Quote Request",
+        "contract_period": "Single delivery September 2026"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "DEE DAVIS INC is seeking competitive quotes for paper yard waste bags for a Midwest municipal client.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Vendor will provide paper yard waste bags meeting specifications below. Single bulk delivery required by September 1, 2026 to Illinois location.",
+        "key_requirements": [
+            "Virgin kraft paper construction 2-ply",
+            "Wet strength treatment required",
+            "Packaging 5 bags per bundle tri-folded and strapped",
+            "Delivery included to Illinois location",
+            "Net 30 payment terms preferred"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "Paper Yard Waste Bags",
+            "specifications": "30-gallon capacity, dimensions 16x12x35 inches, 2-ply virgin kraft paper, wet strength treated, outer and inner ply virgin kraft, packaged 5 bags per bundle tri-folded and strapped, Grainger Item 4JMZ4 or equivalent",
+            "estimated_quantity": "71280",
+            "unit": "bags"
+        }
+    ],
+    "submission_requirements": {
+        "title": "SUBMISSION REQUIREMENTS",
+        "items": [
+            "Complete pricing for all items listed",
+            "Product specifications and technical data sheets",
+            "Company profile and relevant certifications",
+            "References from at least 3 similar clients",
+            "Delivery schedule and lead times",
+            "Payment terms and available discounts"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date"
+            },
+            {
+                "title": "Delivery",
+                "description": "FOB Destination, freight prepaid and included"
+            },
+            {
+                "title": "Contract Period",
+                "description": "Single delivery September 2026 with option to extend"
+            },
+            {
+                "title": "Quality Standards",
+                "description": "All products must meet industry standards"
+            },
+            {
+                "title": "Insurance",
+                "description": "Vendor must maintain minimum $1M general liability"
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "ADDITIONAL INFORMATION",
+        "items": [
+            "Questions must be submitted in writing by January 27, 2026",
+            "DEE DAVIS INC reserves the right to accept or reject any or all quotes",
+            "Late submissions will not be considered",
+            "Award notification expected within 10 business days of February 10, 2026"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}
