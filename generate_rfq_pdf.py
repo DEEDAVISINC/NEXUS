@@ -234,6 +234,15 @@ def generate_pdf_reportlab(config, output_file):
     items_title = "SERVICES REQUESTED" if is_subcontractor else "ITEMS REQUESTED"
     story.append(Paragraph(items_title, heading_style))
     
+    # Style for table cell text (enables word wrapping)
+    cell_style = ParagraphStyle(
+        'TableCell',
+        parent=normal_style,
+        fontSize=8,
+        leading=10,
+        wordWrap='CJK'
+    )
+    
     # Table header changes based on request type
     if is_subcontractor:
         items_data = [['#', 'Service', 'Scope/Details', 'Volume', 'Unit', 'Price/Unit', 'Total Price']]
@@ -242,8 +251,8 @@ def generate_pdf_reportlab(config, output_file):
     for item in config['items']:
         items_data.append([
             item['item_number'],
-            item['description'],
-            item['specifications'],
+            Paragraph(item['description'], cell_style),
+            Paragraph(item['specifications'], cell_style),
             item['estimated_quantity'],
             item.get('unit', 'unit'),
             '',  # Blank for supplier to fill in
