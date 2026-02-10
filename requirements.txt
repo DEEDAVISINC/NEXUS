@@ -9,3 +9,4 @@ PyJWT
 gunicorn
 feedparser
 python-dateutil
+icalendar

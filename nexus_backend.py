@@ -96,6 +96,11 @@ class AirtableClient:
         table = self.get_table(table_name)
         return table.get(record_id)
     
+    def delete_record(self, table_name: str, record_id: str):
+        """Delete a record by ID"""
+        table = self.get_table(table_name)
+        return table.delete(record_id)
+    
     def get_all_records(self, table_name: str, **kwargs):
         """Get all records from a table"""
         table = self.get_table(table_name)
@@ -203,23 +208,37 @@ class WorkflowManager:
             }
     
     def review_opportunity(self, opportunity_id: str, name: str, decision: str, notes: str = ''):
-        """Review and name an opportunity, move to next stage"""
+        """Review and name an opportunity, move to next stage.
+        
+        Uses only fields known to exist in GPSS Opportunities.
+        Falls back gracefully if optional fields don't exist.
+        """
         try:
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            
+            # Core fields that definitely exist
             updates = {
                 'Name': name,
-                'Review Status': 'Reviewed - Pursue' if decision == 'pursue' else 'Reviewed - Skip',
-                'Review Date': datetime.now().isoformat(),
-                'Reviewed By': 'Dee Davis',
-                'Review Notes': notes
+                'Notes': f'[{decision.upper()}] {notes}' if notes else f'[{decision.upper()}]',
             }
             
-            # Only update Workflow Status if field exists
-            # Otherwise, it will be calculated by Airtable formula
             if decision == 'pursue':
-                updates['Workflow Status'] = 'Find Suppliers'
+                updates['Priority'] = 'High'
+                updates['Source Status'] = 'Pursuing'
+            else:
+                updates['Priority'] = 'Low'
+                updates['Source Status'] = 'Skipped'
             
-            opportunities_table = self.airtable.get_table('GPSS Opportunities')
-            opportunities_table.update(opportunity_id, updates)
+            # Try to set workflow-specific fields (may not exist yet)
+            try:
+                opportunities_table.update(opportunity_id, updates)
+            except Exception as field_err:
+                # If a field doesn't exist, fall back to just Name + Notes
+                print(f"Full update failed ({field_err}), trying minimal update...")
+                opportunities_table.update(opportunity_id, {
+                    'Name': name,
+                    'Notes': f'[{decision.upper()}] {notes}' if notes else f'[{decision.upper()}]',
+                })
             
             return {
                 'success': True,
@@ -236,14 +255,19 @@ class WorkflowManager:
     def identify_suppliers(self, opportunity_id: str, supplier_ids: List[str]):
         """Link suppliers to opportunity"""
         try:
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            
             updates = {
-                'Suppliers Identified': supplier_ids,
-                'Suppliers Identified Date': datetime.now().isoformat(),
-                'Workflow Status': 'Request Quotes'
+                'Source Status': 'Requesting Quotes',
+                'Notes': f'Linked {len(supplier_ids)} suppliers on {datetime.now().strftime("%Y-%m-%d")}',
             }
             
-            opportunities_table = self.airtable.get_table('GPSS Opportunities')
-            opportunities_table.update(opportunity_id, updates)
+            try:
+                opportunities_table.update(opportunity_id, updates)
+            except:
+                opportunities_table.update(opportunity_id, {
+                    'Notes': f'Linked {len(supplier_ids)} suppliers on {datetime.now().strftime("%Y-%m-%d")}'
+                })
             
             return {
                 'success': True,
@@ -260,14 +284,19 @@ class WorkflowManager:
     def mark_quotes_requested(self, opportunity_id: str, count: int):
         """Mark that quote requests have been sent"""
         try:
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            
             updates = {
-                'Quotes Requested': count,
-                'Quotes Requested Date': datetime.now().isoformat(),
-                'Workflow Status': 'Awaiting Quotes'
+                'Source Status': 'Awaiting Quotes',
+                'Notes': f'Sent {count} quote requests on {datetime.now().strftime("%Y-%m-%d")}',
             }
             
-            opportunities_table = self.airtable.get_table('GPSS Opportunities')
-            opportunities_table.update(opportunity_id, updates)
+            try:
+                opportunities_table.update(opportunity_id, updates)
+            except:
+                opportunities_table.update(opportunity_id, {
+                    'Notes': f'Sent {count} quote requests on {datetime.now().strftime("%Y-%m-%d")}'
+                })
             
             return {
                 'success': True,
@@ -282,15 +311,39 @@ class WorkflowManager:
             }
     
     def advance_workflow(self, opportunity_id: str, new_status: str):
-        """Manually advance opportunity to next workflow stage"""
+        """Manually advance opportunity to next workflow stage.
+        
+        Uses Source Status (known field) to track workflow progression.
+        Falls back gracefully if other fields don't exist.
+        """
         try:
-            updates = {
-                'Workflow Status': new_status,
-                f'{new_status} Date': datetime.now().isoformat()
+            opportunities_table = self.airtable.get_table('GPSS Opportunities')
+            
+            # Map workflow status to Source Status values
+            status_map = {
+                'Find Suppliers': 'Finding Suppliers',
+                'Request Quotes': 'Requesting Quotes',
+                'Awaiting Quotes': 'Awaiting Quotes',
+                'Ready to Price': 'Ready to Price',
+                'Generate Proposal': 'Generating Proposal',
+                'Final Review': 'Final Review',
+                'Submitted': 'Submitted',
             }
             
-            opportunities_table = self.airtable.get_table('GPSS Opportunities')
-            opportunities_table.update(opportunity_id, updates)
+            updates = {
+                'Source Status': status_map.get(new_status, new_status),
+            }
+            
+            try:
+                opportunities_table.update(opportunity_id, updates)
+            except Exception as field_err:
+                # Minimal fallback
+                print(f"Advance update failed ({field_err}), trying Notes only...")
+                current = opportunities_table.get(opportunity_id)
+                existing_notes = current['fields'].get('Notes', '')
+                opportunities_table.update(opportunity_id, {
+                    'Notes': f'{existing_notes}\n[{new_status}] {datetime.now().strftime("%Y-%m-%d %H:%M")}'
+                })
             
             return {
                 'success': True,
@@ -476,19 +529,28 @@ ITEMS:
         }
     
     def _log_quote_request(self, opportunity_id, supplier_id, pdf_data, sent_info):
-        """Log quote request to Airtable"""
-        return self.airtable.create_record('Quote Requests', {
-            'Opportunity': [opportunity_id],
-            'Supplier': [supplier_id],
-            'Sent Date': sent_info['timestamp'],
-            'Sent Method': sent_info['method'],
-            'Sent To': sent_info['to'],
+        """Log quote request to GPSS QUOTES table"""
+        # Convert timestamp to date format for Airtable date field
+        sent_date = datetime.now().strftime('%Y-%m-%d')
+        try:
+            from datetime import datetime as dt
+            parsed = dt.fromisoformat(sent_info['timestamp'])
+            sent_date = parsed.strftime('%Y-%m-%d')
+        except:
+            pass
+        
+        return self.airtable.create_record('GPSS QUOTES', {
+            'Opportunity': opportunity_id,
+            'SUPPLIER': supplier_id,
+            'SENT DATE': sent_date,
+            'SENT METHOD': sent_info['method'].upper(),
+            'SENT TO': sent_info['to'],
             'Status': 'Sent' if sent_info['success'] else 'Failed',
-            'PDF Path': pdf_data.get('pdf_path', ''),
-            'RFQ Number': pdf_data.get('rfq_number', ''),
-            'Due Date': (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d'),
-            'Follow-up Needed': True,
-            'Follow-up Date': (datetime.now() + timedelta(days=3)).strftime('%Y-%m-%d')
+            'PDF PATH': pdf_data.get('pdf_path', ''),
+            'Quote Number': pdf_data.get('rfq_number', ''),
+            'DUE DATE': (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d'),
+            'FOLLOW-UP NEEDED': True,
+            'FOLLOW-UP DATE': (datetime.now() + timedelta(days=3)).strftime('%Y-%m-%d')
         })
 
 
@@ -701,6 +763,356 @@ Return ONLY valid JSON (no markdown, no preamble):
 # =====================================================================
 # DDCSS AGENTS - Corporate Sales System
 # =====================================================================
+
+class PrimeContractorMiner:
+    """
+    Automated Prime Contractor Mining System
+    Finds companies with $10M+ federal contracts who MUST meet diversity goals
+    Uses USASpending.gov (FREE) + SAM.gov APIs
+    """
+    
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+        self.sam_api_key = os.environ.get('SAM_GOV_API_KEY', '')
+    
+    def mine_prime_contractors(self, min_contract_value=10000000, limit=50):
+        """
+        Find prime contractors from USASpending.gov with contracts over threshold
+        
+        Args:
+            min_contract_value: Minimum total contract value (default: $10M)
+            limit: Max number of prospects to find (default: 50)
+        
+        Returns:
+            Dict with results summary
+        """
+        print(f"\n🔍 MINING PRIME CONTRACTORS (>${min_contract_value/1000000}M)")
+        print("=" * 70)
+        
+        prospects_found = []
+        prospects_created = 0
+        duplicates_skipped = 0
+        low_scores_skipped = 0
+        
+        try:
+            # Query USASpending.gov for recent awards
+            print("📊 Querying USASpending.gov...")
+            awards = self._query_usaspending(min_contract_value, limit)
+            print(f"   Found {len(awards)} prime contractors with >${min_contract_value/1000000}M in contracts")
+            
+            # Get existing prospects to avoid duplicates
+            existing_prospects = self.airtable.get_all_records('DDCSS Prospects')
+            existing_companies = {p['fields'].get('Company Name', '').upper() for p in existing_prospects}
+            
+            for award_data in awards:
+                recipient_name = award_data.get('recipient_name', '')
+                
+                # Skip if we already have this company
+                if recipient_name.upper() in existing_companies:
+                    duplicates_skipped += 1
+                    continue
+                
+                print(f"\n📋 Processing: {recipient_name}")
+                
+                # Get detailed company info from SAM.gov
+                company_details = self._get_sam_details(award_data)
+                
+                # Calculate diversity gap (estimate based on contract value)
+                diversity_analysis = self._estimate_diversity_gap(award_data)
+                
+                # AI scores the prospect
+                score = self._ai_score_prospect(company_details, diversity_analysis)
+                print(f"   🎯 AI Score: {score}/100")
+                
+                # Only create high-quality prospects
+                if score >= 70:
+                    prospect = self._create_prospect_record(
+                        company_details,
+                        diversity_analysis,
+                        award_data,
+                        score
+                    )
+                    prospects_found.append(prospect)
+                    prospects_created += 1
+                    print(f"   ✅ Added to DDCSS Prospects")
+                else:
+                    low_scores_skipped += 1
+                    print(f"   ⏭️  Skipped (score too low)")
+            
+            # Summary
+            print("\n" + "=" * 70)
+            print("✅ MINING COMPLETE")
+            print("=" * 70)
+            print(f"📊 Results:")
+            print(f"   • Prime contractors found: {len(awards)}")
+            print(f"   • High-quality prospects created: {prospects_created}")
+            print(f"   • Duplicates skipped: {duplicates_skipped}")
+            print(f"   • Low scores skipped: {low_scores_skipped}")
+            print("=" * 70)
+            
+            return {
+                'success': True,
+                'total_found': len(awards),
+                'prospects_created': prospects_created,
+                'duplicates_skipped': duplicates_skipped,
+                'low_scores_skipped': low_scores_skipped,
+                'prospects': prospects_found
+            }
+        
+        except Exception as e:
+            print(f"\n❌ Error: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def _query_usaspending(self, min_value, limit):
+        """Query USASpending.gov API for prime contractors"""
+        import requests
+        
+        url = "https://api.usaspending.gov/api/v2/search/spending_by_award/"
+        
+        # Query for recent large contracts
+        payload = {
+            "filters": {
+                "time_period": [
+                    {"start_date": "2023-01-01", "end_date": "2026-01-31"}
+                ],
+                "award_type_codes": ["A", "B", "C", "D"],  # Contracts only
+                "award_amounts": [
+                    {"lower_bound": min_value}
+                ]
+            },
+            "fields": ["Award ID", "Recipient Name", "Award Amount", "Total Obligation"],
+            "limit": limit,
+            "page": 1,
+            "sort": "Award Amount",
+            "order": "desc"
+        }
+        
+        try:
+            response = requests.post(url, json=payload, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            
+            # Extract award data
+            awards = []
+            results = data.get('results', [])
+            
+            # Group by recipient to get total per company
+            recipients = {}
+            for result in results:
+                recipient = result.get('Recipient Name', '')
+                amount = result.get('Award Amount', 0)
+                
+                if recipient not in recipients:
+                    recipients[recipient] = {
+                        'recipient_name': recipient,
+                        'recipient_duns': result.get('recipient_duns', ''),
+                        'recipient_uei': result.get('recipient_uei', ''),
+                        'total_contract_value': 0,
+                        'award_count': 0,
+                        'awarding_agencies': set()
+                    }
+                
+                recipients[recipient]['total_contract_value'] += amount
+                recipients[recipient]['award_count'] += 1
+                agency = result.get('Awarding Agency', '')
+                if agency:
+                    recipients[recipient]['awarding_agencies'].add(agency)
+            
+            # Convert to list
+            for recipient_data in recipients.values():
+                recipient_data['awarding_agencies'] = list(recipient_data['awarding_agencies'])
+                awards.append(recipient_data)
+            
+            # Sort by total value
+            awards.sort(key=lambda x: x['total_contract_value'], reverse=True)
+            
+            return awards[:limit]
+        
+        except Exception as e:
+            print(f"   ⚠️  USASpending API error: {e}")
+            return []
+    
+    def _get_sam_details(self, award_data):
+        """Get company details from SAM.gov"""
+        import requests
+        
+        company_name = award_data.get('recipient_name', '')
+        uei = award_data.get('recipient_uei', '')
+        
+        # If we have UEI, query SAM.gov
+        if uei and self.sam_api_key:
+            try:
+                url = f"https://api.sam.gov/entity-information/v3/entities"
+                params = {
+                    'api_key': self.sam_api_key,
+                    'ueiSAM': uei,
+                    'includeSections': 'entityRegistration,coreData'
+                }
+                
+                response = requests.get(url, params=params, timeout=15)
+                if response.status_code == 200:
+                    data = response.json()
+                    entity_data = data.get('entityData', [{}])[0]
+                    
+                    return {
+                        'company_name': company_name,
+                        'uei': uei,
+                        'cage_code': entity_data.get('cageCode', ''),
+                        'address': entity_data.get('physicalAddress', {}),
+                        'business_types': entity_data.get('businessTypes', []),
+                        'naics_codes': entity_data.get('naicsCodes', []),
+                        'registration_date': entity_data.get('registrationDate', ''),
+                        'expiration_date': entity_data.get('expirationDate', '')
+                    }
+            except:
+                pass
+        
+        # Fallback: basic info from USASpending
+        return {
+            'company_name': company_name,
+            'uei': uei,
+            'duns': award_data.get('recipient_duns', ''),
+            'cage_code': '',
+            'address': {},
+            'business_types': [],
+            'naics_codes': []
+        }
+    
+    def _estimate_diversity_gap(self, award_data):
+        """
+        Estimate diversity subcontracting gap
+        
+        Companies with >$10M in federal contracts MUST have subcontracting plans
+        Federal goal: 23% small business, 5% WOSB, varies by agency
+        """
+        total_value = award_data.get('total_contract_value', 0)
+        
+        # Federal requirements (typical)
+        required_small_business_pct = 23
+        required_wosb_pct = 5
+        
+        # Estimate current (conservative - assume they're underperforming)
+        estimated_current_sb = 15  # Most are below goal
+        estimated_current_wosb = 2  # Most are below goal
+        
+        sb_gap = required_small_business_pct - estimated_current_sb
+        wosb_gap = required_wosb_pct - estimated_current_wosb
+        
+        # Calculate dollar value of gap
+        sb_gap_dollars = (sb_gap / 100) * total_value
+        wosb_gap_dollars = (wosb_gap / 100) * total_value
+        
+        return {
+            'total_contract_value': total_value,
+            'required_sb_pct': required_small_business_pct,
+            'estimated_current_sb_pct': estimated_current_sb,
+            'sb_gap_pct': sb_gap,
+            'sb_gap_dollars': sb_gap_dollars,
+            'required_wosb_pct': required_wosb_pct,
+            'estimated_current_wosb_pct': estimated_current_wosb,
+            'wosb_gap_pct': wosb_gap,
+            'wosb_gap_dollars': wosb_gap_dollars,
+            'pain_point': f"Estimated ${sb_gap_dollars/1000000:.1f}M gap in small business subcontracting"
+        }
+    
+    def _ai_score_prospect(self, company_details, diversity_analysis):
+        """AI scores prospect fit (0-100)"""
+        
+        company_name = company_details.get('company_name', 'Unknown')
+        contract_value = diversity_analysis.get('total_contract_value', 0)
+        sb_gap = diversity_analysis.get('sb_gap_pct', 0)
+        
+        prompt = f"""
+Score this prime contractor prospect for supplier diversity consulting (0-100).
+
+COMPANY: {company_name}
+TOTAL FEDERAL CONTRACTS: ${contract_value:,.0f}
+ESTIMATED SMALL BUSINESS GAP: {sb_gap}%
+UEI: {company_details.get('uei', 'Unknown')}
+BUSINESS TYPES: {', '.join(company_details.get('business_types', [])[:3])}
+
+SCORING CRITERIA:
+1. Contract Value (30 points):
+   - $10M-$50M: 15 points
+   - $50M-$100M: 20 points
+   - $100M+: 30 points
+
+2. Diversity Gap (30 points):
+   - Gap <5%: 10 points
+   - Gap 5-10%: 20 points
+   - Gap >10%: 30 points
+
+3. Company Size (20 points):
+   - Large enough to need help: 20 points
+   - Too small: 10 points
+
+4. Industry Fit (20 points):
+   - Defense/Healthcare/Tech/Construction: 20 points
+   - Other: 10 points
+
+Return ONLY a number between 0-100.
+"""
+        
+        try:
+            response = self.ai.complete(prompt, max_tokens=10)
+            score = float(response.strip())
+            return min(100, max(0, score))
+        except:
+            # Fallback scoring based on contract value
+            if contract_value > 100000000:
+                return 85
+            elif contract_value > 50000000:
+                return 75
+            elif contract_value > 25000000:
+                return 70
+            else:
+                return 65
+    
+    def _create_prospect_record(self, company_details, diversity_analysis, award_data, score):
+        """Create prospect record in Airtable"""
+        
+        company_name = company_details.get('company_name', '')
+        total_value = diversity_analysis.get('total_contract_value', 0)
+        pain_point = diversity_analysis.get('pain_point', '')
+        
+        # Format address
+        address_parts = company_details.get('address', {})
+        address_str = f"{address_parts.get('addressLine1', '')}, {address_parts.get('city', '')}, {address_parts.get('stateOrProvinceCode', '')} {address_parts.get('zipCode', '')}"
+        
+        prospect_data = {
+            'Company Name': company_name,
+            'Company Size': 'Large' if total_value > 50000000 else 'Medium',
+            'Total Contract Value': total_value,
+            'Pain Point': pain_point,
+            'AI Score': score,
+            'Status': 'New Lead',
+            'Source': 'USASpending.gov Auto-Mining',
+            'Priority': 'HIGH' if score >= 85 else 'MEDIUM',
+            'Date Found': datetime.now().strftime('%Y-%m-%d'),
+            'UEI': company_details.get('uei', ''),
+            'CAGE Code': company_details.get('cage_code', ''),
+            'Location': address_str.strip(', '),
+            'Contract Count': award_data.get('award_count', 0),
+            'Awarding Agencies': ', '.join(award_data.get('awarding_agencies', [])[:3]),
+            'Diversity Gap %': diversity_analysis.get('sb_gap_pct', 0),
+            'Gap Dollar Value': diversity_analysis.get('sb_gap_dollars', 0),
+            'Notes': f"Prime contractor with ${total_value/1000000:.1f}M in federal contracts. " +
+                     f"Estimated {diversity_analysis.get('sb_gap_pct', 0)}% gap in small business subcontracting. " +
+                     f"Legally required to meet diversity goals. " +
+                     f"Works with: {', '.join(award_data.get('awarding_agencies', [])[:2])}."
+        }
+        
+        try:
+            record = self.airtable.create_record('DDCSS Prospects', prospect_data)
+            return prospect_data
+        except Exception as e:
+            print(f"   ⚠️  Error creating record: {e}")
+            return None
+
 
 class DDCSSAgent1:
     """Corporate Sales Qualification Agent"""
@@ -2254,7 +2666,7 @@ class GPSSOpportunityMiningAgent:
         
         # Get portal details
         try:
-            portals = self.airtable.get_all_records('Vendor Portals')
+            portals = self.airtable.get_all_records('VENDOR PORTAL')
             portal = next((p for p in portals if p['id'] == portal_id), None)
             
             if not portal:
@@ -2263,28 +2675,31 @@ class GPSSOpportunityMiningAgent:
             fields = portal['fields']
             portal_name = fields.get('Portal Name', '')
             portal_type = fields.get('Portal Type', '')
-            portal_url = fields.get('Portal URL', '')
-            scraping_method = fields.get('Scraping Method', 'Web Scraping')
+            portal_url = fields.get('PORTAL URL', '') or fields.get('Portal URL', '') or ''
+            keywords = fields.get('Keywords', '')
             
-            # Different mining strategies based on portal type
-            if scraping_method == 'API' and fields.get('API Available'):
-                # Use API if available
-                opportunities = self._mine_via_api(fields)
-            elif scraping_method == 'Web Scraping':
-                # Use web scraping
-                opportunities = self._mine_via_scraping(portal_url, portal_type)
-            elif scraping_method == 'RSS Feed':
-                # Use RSS feed
-                opportunities = self._mine_via_rss(fields.get('RSS URL', ''))
+            if not portal_url:
+                return {"error": f"Portal '{portal_name}' has no URL configured"}
+            
+            # Determine mining strategy based on portal URL
+            # Known API portals get API treatment, everything else gets scraped
+            SAM_DOMAINS = ['sam.gov', 'beta.sam.gov']
+            is_sam = any(d in portal_url.lower() for d in SAM_DOMAINS)
+            
+            if is_sam:
+                # SAM.gov has a real API — use it
+                opportunities = self._mine_sam_api(keywords)
             else:
-                # Manual - just log the check
-                opportunities = []
+                # All other portals: scrape the page + AI extraction
+                opportunities = self._mine_via_scraping(portal_url, keywords or portal_type)
             
-            # Update last checked time
-            self.airtable.update_record('Vendor Portals', portal_id, {
-                'Last Checked': datetime.now().isoformat(),
-                'Opportunities Found (Total)': fields.get('Opportunities Found (Total)', 0) + len(opportunities)
-            })
+            # Update last checked time (only if field exists, gracefully skip if not)
+            try:
+                self.airtable.update_record('VENDOR PORTAL', portal_id, {
+                    'Last Checked': datetime.now().isoformat()
+                })
+            except:
+                pass  # Field may not exist yet
             
             return {
                 'portal_name': portal_name,
@@ -2296,11 +2711,38 @@ class GPSSOpportunityMiningAgent:
             print(f"Mining error: {e}")
             return {"error": str(e)}
     
+    def _mine_sam_api(self, keywords: str = '') -> List[Dict]:
+        """Mine opportunities from SAM.gov using the real API"""
+        try:
+            sam_client = SAMgovAPIClient()
+            results = sam_client.search_opportunities(
+                keywords=keywords or 'supplies equipment services',
+                limit=25
+            )
+            
+            opportunities = []
+            for opp in results:
+                opportunities.append({
+                    'title': opp.get('title', ''),
+                    'agency': opp.get('department', ''),
+                    'solicitation_number': opp.get('solicitationNumber', ''),
+                    'estimated_value': 0,
+                    'deadline': opp.get('responseDeadLine', ''),
+                    'description': opp.get('description', '')[:300],
+                    'url': f"https://sam.gov/opp/{opp.get('noticeId', '')}",
+                    'set_aside_type': opp.get('typeOfSetAside', ''),
+                    'confidence': 'High',
+                    'source': 'SAM.gov API'
+                })
+            
+            return opportunities
+        except Exception as e:
+            print(f"SAM API mining error: {e}")
+            return []
+    
     def _mine_via_api(self, portal_fields: Dict) -> List[Dict]:
-        """Mine opportunities using portal API"""
-        # This would integrate with actual APIs (SAM.gov, etc.)
-        # For now, return placeholder
-        return []
+        """Mine opportunities using portal API (legacy compatibility)"""
+        return self._mine_sam_api(portal_fields.get('Keywords', ''))
     
     def _mine_via_scraping(self, url: str, portal_type: str) -> List[Dict]:
         """
@@ -2471,8 +2913,19 @@ If NO opportunities found, return empty array: []
         Call public API endpoints (no authentication required)
         Example: SAM.gov public API, USASpending.gov API
         """
-        # Real implementation would use requests to call public APIs
-        return []
+        try:
+            import requests
+            headers = {'User-Agent': 'Mozilla/5.0'}
+            response = requests.get(api_url, headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            
+            # Use AI to extract opportunities from JSON response
+            keywords = target_fields.get('Search Keywords', '')
+            return self._ai_extract_opportunities(json.dumps(data)[:8000], keywords)
+        except Exception as e:
+            print(f"Public API scrape error: {e}")
+            return []
     
     def scrape_all_targets(self) -> Dict:
         """
@@ -2761,36 +3214,48 @@ Provide analysis as JSON:
     
     def auto_mine_all_portals(self) -> Dict:
         """
-        Automatically mine all portals that have auto-mining enabled
-        This runs daily via cron/scheduler
+        Automatically mine ALL portals that have URLs.
+        Runs on schedule via nexus_scheduler.py.
+        Skips portals without URLs.
         """
         
         try:
-            # Get all portals with auto-mining enabled
-            portals = self.airtable.get_all_records('Vendor Portals')
-            auto_portals = [
+            portals = self.airtable.get_all_records('VENDOR PORTAL')
+            # Mine all portals that have a URL
+            minable = [
                 p for p in portals
-                if p['fields'].get('Auto-Mining Enabled', False)
+                if p['fields'].get('PORTAL URL', '') or p['fields'].get('Portal URL', '')
             ]
             
             results = []
             total_found = 0
+            errors = []
             
-            for portal in auto_portals:
-                result = self.mine_portal_opportunities(portal['id'])
-                if not result.get('error'):
-                    results.append(result)
-                    total_found += result.get('opportunities_found', 0)
+            for portal in minable:
+                portal_name = portal['fields'].get('Portal Name', 'Unknown')
+                try:
+                    result = self.mine_portal_opportunities(portal['id'])
+                    if result.get('error'):
+                        errors.append(f"{portal_name}: {result['error']}")
+                    else:
+                        results.append(result)
+                        total_found += result.get('opportunities_found', 0)
+                        print(f"  Mined {portal_name}: {result.get('opportunities_found', 0)} opportunities")
+                except Exception as e:
+                    errors.append(f"{portal_name}: {str(e)}")
             
             return {
-                'portals_checked': len(auto_portals),
+                'success': True,
+                'portals_checked': len(minable),
+                'portals_skipped': len(portals) - len(minable),
                 'total_opportunities_found': total_found,
-                'results': results
+                'results': results,
+                'errors': errors
             }
             
         except Exception as e:
             print(f"Auto-mining error: {e}")
-            return {"error": str(e)}
+            return {"error": str(e), "success": False}
     
     def generate_opportunity_alerts(self) -> List[Dict]:
         """
@@ -3432,15 +3897,25 @@ class AIRecommendationAgent:
                 
                 try:
                     scoring = self.ai.generate_with_json(score_prompt, model="claude-sonnet-4-20250514")
+                    ai_score = scoring.get('score', 0)
+                    
+                    # Factor in OVERALL RATING (1-5 stars) from past performance
+                    # Each star is worth up to 10 bonus points
+                    overall_rating = sup_record['fields'].get('OVERALL RATING', 0) or 0
+                    performance_bonus = min(overall_rating * 2, 10)  # Max 10 pts bonus
+                    adjusted_score = min(ai_score + performance_bonus, 100)
+                    
                     scored_suppliers.append({
                         "id": sup_record['id'],
                         "name": sup.get('COMPANY_NAME', 'Unknown'),
-                        "score": scoring.get('score', 0),
+                        "score": adjusted_score,
+                        "ai_score": ai_score,
+                        "performance_rating": overall_rating,
                         "reason": scoring.get('reason', ''),
                         "pricing_estimate": scoring.get('estimated_pricing', 'unknown'),
                         "gsa_schedule": sup.get('GSA_SCHEDULE', 'No'),
                         "payment_terms": sup.get('PAYMENT_TERMS', 'Unknown'),
-                        "rating": sup.get('RATING', 'N/A'),
+                        "rating": overall_rating if overall_rating else 'N/A',
                         "contact": sup.get('CONTACT_EMAIL', '')
                     })
                 except Exception as e:
@@ -3732,6 +4207,21 @@ def handle_ddcss_analyze_response(email_content: str, prospect_id: str = None) -
     """
     agent = DDCSSAgent3()
     return agent.analyze_response(email_content, prospect_id)
+
+
+def handle_ddcss_mine_prime_contractors(min_contract_value: int = 10000000, limit: int = 50) -> Dict:
+    """
+    Mine prime contractors from USASpending.gov
+    Finds companies with federal contracts who need diversity suppliers
+    
+    Args:
+        min_contract_value: Minimum contract value (default: $10M)
+        limit: Max prospects to find (default: 50)
+    
+    Returns: Mining results with prospects created
+    """
+    miner = PrimeContractorMiner()
+    return miner.mine_prime_contractors(min_contract_value, limit)
 
 
 # =====================================================================
@@ -5050,13 +5540,16 @@ class GPSSSupplierMiner:
                 
                 # Filter out explicitly inactive suppliers only
                 status = fields.get('BUSINESS STATUS', '')
-                if status in ['Inactive', 'Blocked', 'Rejected']:
+                if status in ['Inactive', 'Blocked', 'Rejected', 'INACTIVE', 'BLOCKED', 'BLACKLISTED']:
                     continue
                 
                 # Skip suppliers with no company name
                 company_name = fields.get('COMPANY NAME', '').strip()
                 if not company_name:
                     continue
+                
+                # Normalize status to title case for frontend display
+                status_display = status.title() if status else ''
                 
                 filtered.append({
                     'id': supplier.get('id'),
@@ -5069,10 +5562,10 @@ class GPSSSupplierMiner:
                     'typical_margin': fields.get('TYPICAL MARGIN', 0),
                     'contact_email': fields.get('PRIMARY CONTACT EMAIL', ''),
                     'phone': fields.get('PRIMARY CONTACT PHONE', ''),
-                    'business_status': fields.get('BUSINESS STATUS', ''),
-                    'discovery_method': fields.get('DISCOVERY METHOD', ''),
+                    'business_status': status_display,
+                    'discovery_method': (fields.get('DISCOVERY METHOD', '') or '').title(),
                     'discovery_date': fields.get('DISCOVERY DATE', ''),
-                    'discovered_by': fields.get('DISCOVERED BY', '')
+                    'discovered_by': (fields.get('DISCOVERED BY', '') or '').title()
                 })
             
             # Sort by rating desc
@@ -5090,9 +5583,14 @@ class GPSSSupplierMiner:
     
     def search_thomasnet(self, product: str, max_results: int = 15) -> List[Dict]:
         """
-        Search ThomasNet for manufacturers/wholesalers
-        Requires: pip install playwright && python -m playwright install chromium
-        Requires: THOMASNET_EMAIL and THOMASNET_PASSWORD in .env
+        Search ThomasNet for manufacturers/wholesalers.
+        
+        ThomasNet uses Cloudflare bot protection that blocks all headless browsers,
+        so we go directly to the Google CSE fallback (site:thomasnet.com searches).
+        This indexes ThomasNet's public supplier profiles through Google.
+        
+        Credentials (THOMASNET_EMAIL/PASSWORD in .env) are kept for future use
+        if ThomasNet releases an API or relaxes bot detection.
         
         Args:
             product: Product to search for
@@ -5101,6 +5599,12 @@ class GPSSSupplierMiner:
         Returns:
             List of supplier dictionaries ready for Airtable
         """
+        # ThomasNet has aggressive Cloudflare bot detection that blocks all
+        # headless browsers. Go directly to Google CSE fallback.
+        print(f"🏭 Searching ThomasNet (via Google index) for: {product}")
+        return self._search_thomasnet_fallback(product, max_results)
+        
+        # PRESERVED: Original Playwright approach (blocked by Cloudflare as of Feb 2026)
         try:
             from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
             
@@ -5191,10 +5695,132 @@ class GPSSSupplierMiner:
             return results
         
         except ImportError:
-            print("  ❌ Playwright not installed. Run: pip install playwright && python -m playwright install chromium\n")
-            return []
+            print("  ⚠️  Playwright not available. Falling back to requests-based ThomasNet search...\n")
+            return self._search_thomasnet_fallback(product, max_results)
         except Exception as e:
-            print(f"  ❌ ThomasNet search error: {e}\n")
+            print(f"  ⚠️  Playwright ThomasNet search failed: {e}. Trying fallback...\n")
+            return self._search_thomasnet_fallback(product, max_results)
+
+    def _search_thomasnet_fallback(self, product: str, max_results: int = 15) -> List[Dict]:
+        """
+        ThomasNet fallback: Search Google for ThomasNet supplier listings.
+        ThomasNet blocks direct scraping (bot detection), so we use Google
+        to index their public supplier profiles via site:thomasnet.com.
+        Requires: GOOGLE_CSE_API_KEY and GOOGLE_CSE_ID in .env
+        """
+        try:
+            api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+            cse_id = os.environ.get('GOOGLE_CSE_ID')
+            
+            if not api_key or not cse_id:
+                print("  ℹ️  Google CSE not configured. Skipping ThomasNet via Google.\n")
+                return []
+            
+            print(f"  🔍 Searching ThomasNet via Google for: {product}")
+            results = []
+            
+            # Search Google for ThomasNet supplier/company pages
+            # ThomasNet URLs: /suppliers/usa/..., /company/..., /profile/...
+            queries = [
+                f'site:thomasnet.com {product} supplier',
+                f'site:thomasnet.com {product} manufacturers',
+                f'site:thomasnet.com/company {product}',
+            ]
+            
+            seen_urls = set()
+            
+            for query in queries:
+                try:
+                    url = 'https://www.googleapis.com/customsearch/v1'
+                    params = {
+                        'key': api_key,
+                        'cx': cse_id,
+                        'q': query,
+                        'num': 10
+                    }
+                    
+                    response = requests.get(url, params=params, timeout=10)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        
+                        for item in data.get('items', []):
+                            link = item.get('link', '')
+                            title = item.get('title', '')
+                            snippet = item.get('snippet', '')
+                            
+                            # Only include actual ThomasNet supplier/company pages
+                            if 'thomasnet.com' not in link:
+                                continue
+                            # Skip blog posts, articles, insights — only want supplier pages
+                            if any(skip in link for skip in ['blog.thomasnet', '/insights/', '/articles/', '.pdf']):
+                                continue
+                            if link in seen_urls:
+                                continue
+                            seen_urls.add(link)
+                            
+                            # Extract company name from title
+                            # ThomasNet formats: "Company: City, ST 12345 - Thomasnet"
+                            # or "Category Manufacturers and Suppliers in the USA"
+                            company_name = title.split('|')[0].strip() if '|' in title else title.split('-')[0].strip()
+                            
+                            # Clean up common suffixes / category page titles
+                            for suffix in ['ThomasNet', 'Thomasnet', 'Supplier Discovery', 'Products',
+                                         'Manufacturers and Suppliers in the USA and Canada',
+                                         'Manufacturers and Suppliers in the USA',
+                                         'Manufacturers and Suppliers in the',
+                                         'Manufacturers and Suppliers',
+                                         'Manufacturers & Suppliers',
+                                         'in the USA and Canada',
+                                         'in the USA']:
+                                company_name = company_name.replace(suffix, '').strip(' -|:.')
+                            
+                            # Skip generic category pages (not actual companies)
+                            if '/suppliers/usa/' in link and '/company/' not in link and '/profile/' not in link:
+                                # This is a category listing page, not a specific company
+                                # Still useful as it lists the category, but mark accordingly
+                                company_name = f"[Category] {company_name}"
+                            
+                            # Try to extract location from title (format: "Company: City, ST ZIP")
+                            location = ''
+                            if ':' in title:
+                                loc_part = title.split(':')[1].split('-')[0].strip()
+                                if loc_part and any(c.isdigit() for c in loc_part):
+                                    location = loc_part.strip()
+                            
+                            if company_name and len(company_name) > 2:
+                                results.append({
+                                    'COMPANY NAME': company_name,
+                                    'LOCATION': location,
+                                    'PRIMARY CONTACT PHONE': '',
+                                    'WEBSITE': link,
+                                    'DESCRIPTION': snippet[:500],
+                                    'PRODUCT KEYWORDS': product,
+                                    'DISCOVERY METHOD': 'ThomasNet (via Google)',
+                                    'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                    'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                    'BUSINESS STATUS': 'Prospective',
+                                    'RELATIONSHIP STAGE': 'Discovered',
+                                    'SOURCE NOTES': f'ThomasNet supplier found via Google search for "{product}"'
+                                })
+                                print(f"    ✓ {company_name}")
+                    
+                    elif response.status_code == 429:
+                        print(f"  ⚠️  Google API rate limit reached")
+                        break
+                    
+                    import time
+                    time.sleep(1)  # Rate limit
+                
+                except Exception as e:
+                    print(f"  ⚠️  Error in Google ThomasNet search: {e}")
+                    continue
+            
+            print(f"  ✅ Found {len(results)} ThomasNet suppliers via Google\n")
+            return results[:max_results]
+        
+        except Exception as e:
+            print(f"  ❌ ThomasNet Google fallback error: {e}\n")
             return []
     
     def _extract_text(self, element, selector: str) -> str:
@@ -5737,6 +6363,71 @@ Return ONLY a number 0-100, nothing else."""
         except Exception as e:
             print(f"Error getting supplier: {e}")
             return None
+
+    def update_supplier_rating(self, supplier_id: str, outcome: str) -> Dict:
+        """
+        Update supplier OVERALL RATING based on quote/bid outcome.
+        
+        The system learns from each interaction:
+        - 'quote_received_fast' (< 2 days): +1 star (max 5)
+        - 'quote_received': no change
+        - 'quote_late' (> 5 days): -1 star (min 1)
+        - 'no_response': -1 star (min 1)
+        - 'competitive_price': +1 star (max 5)
+        - 'overpriced': -1 star (min 1)
+        - 'won_with_supplier': +1 star (max 5)
+        
+        Args:
+            supplier_id: Airtable record ID
+            outcome: One of the outcome strings above
+            
+        Returns:
+            Updated rating info
+        """
+        try:
+            supplier = self.get_supplier(supplier_id)
+            if not supplier:
+                return {'error': f'Supplier {supplier_id} not found'}
+            
+            current_rating = supplier['fields'].get('OVERALL RATING', 3)
+            if not current_rating:
+                current_rating = 3  # Default to middle rating
+            
+            # Adjust rating based on outcome
+            adjustments = {
+                'quote_received_fast': +1,
+                'quote_received': 0,
+                'quote_late': -1,
+                'no_response': -1,
+                'competitive_price': +1,
+                'overpriced': -1,
+                'won_with_supplier': +1,
+                'reliable_delivery': +1,
+                'late_delivery': -1,
+            }
+            
+            adjustment = adjustments.get(outcome, 0)
+            new_rating = max(1, min(5, current_rating + adjustment))
+            
+            if new_rating != current_rating:
+                self.airtable.update_record('GPSS SUPPLIERS', supplier_id, {
+                    'OVERALL RATING': new_rating
+                })
+                print(f"Updated supplier {supplier['fields'].get('COMPANY NAME', supplier_id)}: "
+                      f"rating {current_rating} → {new_rating} (outcome: {outcome})")
+            
+            return {
+                'success': True,
+                'supplier_id': supplier_id,
+                'previous_rating': current_rating,
+                'new_rating': new_rating,
+                'outcome': outcome,
+                'adjustment': adjustment,
+            }
+            
+        except Exception as e:
+            print(f"Error updating supplier rating: {e}")
+            return {'error': str(e)}
     
     # ============================================
     # CSV IMPORT
@@ -6237,7 +6928,443 @@ class GPSSSubcontractorMiner:
         except Exception as e:
             print(f"  ❌ Error finding subcontractors: {e}\n")
             return []
-    
+
+    # ============================================
+    # SOURCE 2: SBA DYNAMIC SMALL BUSINESS SEARCH
+    # ============================================
+
+    def find_subcontractors_sba(self, service_type: str, naics_code: str = '', state: str = '', max_results: int = 10) -> List[Dict]:
+        """
+        Search SBA Dynamic Small Business Search for certified small business subs.
+        Great for finding EDWOSB, WOSB, 8(a), HUBZone, SDVOSB subs.
+        Free API, no key needed.
+        """
+        try:
+            print(f"🔍 Searching SBA for: {service_type} (NAICS: {naics_code}, State: {state})")
+            results = []
+
+            # SBA DSBS API endpoint
+            base_url = 'https://web.sba.gov/pro-net/search/dsp_dsbs.cfm'
+            api_url = 'https://web.sba.gov/api/pro-net/search/profiles'
+            
+            # Also try the SAM.gov entity search for small business subs
+            sam_key = os.environ.get('SAM_GOV_API_KEY', '')
+            if sam_key and naics_code:
+                try:
+                    url = 'https://api.sam.gov/entity-information/v3/entities'
+                    params = {
+                        'api_key': sam_key,
+                        'naicsCode': naics_code.split(',')[0].strip() if naics_code else '',
+                        'registrationStatus': 'A',
+                        'purposeOfRegistrationCode': 'Z2',  # Government business
+                        'sbaBusinessTypeCode': ['23', '27', 'A2', 'XX'],  # Small biz types
+                        'page': 0,
+                        'size': min(max_results, 25),
+                    }
+                    if state:
+                        params['physicalAddressStateCode'] = state.upper()[:2]
+                    
+                    response = requests.get(url, params=params, timeout=15)
+                    if response.status_code == 200:
+                        data = response.json()
+                        entities = data.get('entityData', [])
+                        
+                        for entity in entities:
+                            core = entity.get('coreData', {})
+                            entity_info = core.get('entityInformation', {})
+                            phys_addr = core.get('physicalAddress', {})
+                            
+                            company_name = entity_info.get('entityLegalBusinessName', '')
+                            if not company_name:
+                                continue
+                            
+                            # Get certifications
+                            certs = []
+                            biz_types = entity.get('assertions', {}).get('sbaBusinessTypes', [])
+                            for bt in (biz_types if isinstance(biz_types, list) else []):
+                                cert_name = bt.get('sbaBusinessTypeDesc', '')
+                                if cert_name:
+                                    certs.append(cert_name)
+                            
+                            # Get POC info
+                            poc = core.get('generalInformation', {}).get('agencyBusinessPOC', {})
+                            email = poc.get('email', '') if isinstance(poc, dict) else ''
+                            phone = poc.get('phone', '') if isinstance(poc, dict) else ''
+                            
+                            results.append({
+                                'COMPANY NAME': company_name,
+                                'SERVICE TYPE': service_type,
+                                'CITY': phys_addr.get('city', ''),
+                                'STATE': phys_addr.get('stateOrProvinceCode', state),
+                                'WEBSITE': entity_info.get('entityURL', ''),
+                                'EMAIL': email,
+                                'PHONE': phone,
+                                'DESCRIPTION': f"SAM.gov registered entity. NAICS: {naics_code}. {', '.join(certs) if certs else ''}",
+                                'SOCIOECONOMIC CERTS': certs[:5] if certs else [],
+                                'NAISC CODES': [naics_code] if naics_code else [],
+                                'DISCOVERY METHOD': 'SAM.gov Entity Search',
+                                'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                'RELATIONSHIP STATUS': 'Cold',
+                                'SOURCE NOTES': f'Found via SAM.gov entity search for NAICS {naics_code}'
+                            })
+                            print(f"  ✓ {company_name} ({', '.join(certs[:2]) if certs else 'small biz'})")
+                            
+                            if len(results) >= max_results:
+                                break
+                    else:
+                        print(f"  ⚠️  SAM.gov API returned {response.status_code}")
+                except Exception as e:
+                    print(f"  ⚠️  SAM.gov entity search error: {e}")
+            
+            # Fallback: Google search specifically for SBA-registered subs
+            if len(results) < max_results:
+                google_results = self.find_subcontractors(
+                    f"{service_type} small business certified", 
+                    state or 'Michigan',
+                    max_results=max_results - len(results)
+                )
+                results.extend(google_results)
+            
+            print(f"  ✅ SBA search found {len(results)} subcontractors\n")
+            return results
+            
+        except Exception as e:
+            print(f"  ❌ SBA search error: {e}\n")
+            return []
+
+    # ============================================
+    # SOURCE 3: GOOGLE MAPS / PLACES API
+    # ============================================
+
+    def find_subcontractors_google_maps(self, service_type: str, location: str, max_results: int = 10) -> List[Dict]:
+        """
+        Search Google Maps/Places for local businesses matching the service type.
+        Uses Google Custom Search with site:google.com/maps as fallback if no Places API key.
+        """
+        try:
+            print(f"🔍 Searching Google Maps for: {service_type} near {location}")
+            results = []
+            
+            api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+            cse_id = os.environ.get('GOOGLE_CSE_ID')
+            
+            if not api_key or not cse_id:
+                print("  ℹ️  No Google API keys set. Skipping Google Maps search.\n")
+                return []
+            
+            # Use Google CSE with local-business focused queries
+            queries = [
+                f'{service_type} near {location} site:google.com/maps',
+                f'{service_type} contractor {location}',
+                f'{service_type} company {location} phone email',
+                f'small business {service_type} {location}',
+            ]
+            
+            seen_domains = set()
+            
+            for query in queries:
+                if len(results) >= max_results:
+                    break
+                try:
+                    url = 'https://www.googleapis.com/customsearch/v1'
+                    params = {
+                        'key': api_key,
+                        'cx': cse_id,
+                        'q': query,
+                        'num': 10
+                    }
+                    
+                    response = requests.get(url, params=params, timeout=10)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        for item in data.get('items', []):
+                            title = item.get('title', '')
+                            snippet = item.get('snippet', '')
+                            link = item.get('link', '')
+                            
+                            from urllib.parse import urlparse
+                            domain = urlparse(link).netloc
+                            
+                            if domain in seen_domains:
+                                continue
+                            
+                            skip_domains = ['facebook.com', 'linkedin.com', 'yelp.com', 
+                                          'yellowpages.com', 'wikipedia.org', 'google.com', 
+                                          'maps.google.com', 'indeed.com', 'glassdoor.com']
+                            if any(skip in domain for skip in skip_domains):
+                                continue
+                            
+                            company_info = self._ai_extract_subcontractor_info(title, snippet, link, service_type, location)
+                            
+                            if company_info and company_info.get('company_name'):
+                                seen_domains.add(domain)
+                                results.append({
+                                    'COMPANY NAME': company_info['company_name'],
+                                    'SERVICE TYPE': service_type,
+                                    'CITY': company_info.get('city', location.split(',')[0].strip()),
+                                    'STATE': company_info.get('state', location.split(',')[-1].strip() if ',' in location else ''),
+                                    'WEBSITE': link,
+                                    'PHONE': company_info.get('phone', ''),
+                                    'EMAIL': company_info.get('email', ''),
+                                    'DESCRIPTION': snippet[:500],
+                                    'DISCOVERY METHOD': 'Google Maps Search',
+                                    'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                    'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                    'RELATIONSHIP STATUS': 'Cold',
+                                    'SOURCE NOTES': f'Found via Google Maps search for "{service_type}" in {location}'
+                                })
+                                print(f"  ✓ {company_info['company_name']}")
+                                
+                                if len(results) >= max_results:
+                                    break
+                    
+                    time.sleep(0.5)
+                except Exception as e:
+                    print(f"  ⚠️  Google Maps query error: {e}")
+                    continue
+            
+            print(f"  ✅ Google Maps found {len(results)} subcontractors\n")
+            return results
+            
+        except Exception as e:
+            print(f"  ❌ Google Maps search error: {e}\n")
+            return []
+
+    # ============================================
+    # SOURCE 4: FACEBOOK BUSINESS PAGES (via Google)
+    # ============================================
+
+    def find_subcontractors_facebook(self, service_type: str, location: str, max_results: int = 10) -> List[Dict]:
+        """
+        Find small business owners on Facebook Business Pages via Google search.
+        Facebook Marketplace & business pages are where small trade businesses
+        (landscapers, haulers, painters, cleaners, handymen) advertise.
+        No FB API needed — Google indexes FB business pages.
+        """
+        try:
+            print(f"🔍 Searching Facebook Business Pages for: {service_type} in {location}")
+            results = []
+            
+            api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+            cse_id = os.environ.get('GOOGLE_CSE_ID')
+            
+            if not api_key or not cse_id:
+                print("  ℹ️  No Google API keys. Skipping Facebook search.\n")
+                return []
+            
+            # Search Google for Facebook business pages
+            queries = [
+                f'site:facebook.com "{service_type}" "{location}"',
+                f'site:facebook.com "{service_type}" near "{location}" small business',
+                f'site:facebook.com/pages "{service_type}" "{location}"',
+            ]
+            
+            seen_pages = set()
+            
+            for query in queries:
+                if len(results) >= max_results:
+                    break
+                try:
+                    url = 'https://www.googleapis.com/customsearch/v1'
+                    params = {
+                        'key': api_key,
+                        'cx': cse_id,
+                        'q': query,
+                        'num': 10
+                    }
+                    
+                    response = requests.get(url, params=params, timeout=10)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        for item in data.get('items', []):
+                            title = item.get('title', '')
+                            snippet = item.get('snippet', '')
+                            link = item.get('link', '')
+                            
+                            # Only process facebook.com results
+                            if 'facebook.com' not in link:
+                                continue
+                            
+                            # Skip non-business pages (groups, events, posts, photos, etc)
+                            skip_patterns = ['/groups/', '/events/', '/photo', '/posts/', '/videos/', 
+                                           '/marketplace/item/', '/story.php', '/permalink']
+                            if any(sp in link for sp in skip_patterns):
+                                continue
+                            
+                            # Deduplicate by page URL
+                            page_key = link.split('?')[0].rstrip('/')
+                            if page_key in seen_pages:
+                                continue
+                            
+                            # Use AI to extract business info from FB page snippet
+                            extract_prompt = f"""Extract small business information from this Facebook business page result.
+
+Title: {title}
+Snippet: {snippet}
+URL: {link}
+Service we're looking for: {service_type}
+Location: {location}
+
+Return ONLY valid JSON:
+{{
+  "company_name": "Business name (clean, no ' - Home | Facebook' suffix)",
+  "city": "City if found",
+  "state": "State abbreviation if found",
+  "phone": "Phone if found in snippet, else empty string",
+  "email": "Email if found in snippet, else empty string",
+  "is_relevant_business": true/false,
+  "description": "Brief description of what they do based on snippet"
+}}
+
+Rules:
+- Remove " - Home | Facebook" or similar suffixes from company name
+- is_relevant_business = true only if this looks like a real small business offering {service_type}
+- If it's a news article, directory listing, or not a business, set is_relevant_business = false
+- Return ONLY JSON"""
+                            
+                            try:
+                                resp = self.ai.complete(extract_prompt, max_tokens=300)
+                                clean = resp.strip()
+                                if clean.startswith('```'):
+                                    clean = re.sub(r'^```json\s*', '', clean)
+                                    clean = re.sub(r'```\s*$', '', clean)
+                                    clean = clean.strip()
+                                info = json.loads(clean)
+                                
+                                if info.get('is_relevant_business') and info.get('company_name'):
+                                    seen_pages.add(page_key)
+                                    results.append({
+                                        'COMPANY NAME': info['company_name'],
+                                        'SERVICE TYPE': service_type,
+                                        'CITY': info.get('city', location.split(',')[0].strip()),
+                                        'STATE': info.get('state', ''),
+                                        'WEBSITE': link,
+                                        'PHONE': info.get('phone', ''),
+                                        'EMAIL': info.get('email', ''),
+                                        'DESCRIPTION': info.get('description', snippet[:300]),
+                                        'DISCOVERY METHOD': 'Facebook Business Pages',
+                                        'DISCOVERY DATE': datetime.now().strftime('%Y-%m-%d'),
+                                        'DISCOVERED BY': 'NEXUS Auto-Mining',
+                                        'RELATIONSHIP STATUS': 'Cold',
+                                        'SOURCE NOTES': f'Found on Facebook: {link}'
+                                    })
+                                    print(f"  ✓ {info['company_name']} (via Facebook)")
+                                    
+                                    if len(results) >= max_results:
+                                        break
+                            except Exception as e:
+                                continue
+                    
+                    time.sleep(0.5)
+                except Exception as e:
+                    print(f"  ⚠️  Facebook search query error: {e}")
+                    continue
+            
+            print(f"  ✅ Facebook search found {len(results)} subcontractors\n")
+            return results
+            
+        except Exception as e:
+            print(f"  ❌ Facebook search error: {e}\n")
+            return []
+
+    # ============================================
+    # MULTI-SOURCE MINE: ALL SOURCES AT ONCE
+    # ============================================
+
+    def mine_all_sources(self, service_type: str, location: str = 'Michigan', 
+                         naics_code: str = '', max_per_source: int = 5) -> Dict:
+        """
+        Mine subcontractors from ALL available sources at once.
+        Deduplicates results across sources.
+        Returns dict with results by source + combined unique list.
+        """
+        try:
+            print(f"\n{'='*60}")
+            print(f"🚀 MULTI-SOURCE MINING: {service_type}")
+            print(f"   Location: {location} | NAICS: {naics_code or 'N/A'}")
+            print(f"{'='*60}\n")
+
+            all_results = []
+            source_counts = {}
+            seen_names = set()
+
+            # Source 1: Google Search
+            print("--- Source 1: Google Search ---")
+            google_results = self.find_subcontractors(service_type, location, max_results=max_per_source)
+            source_counts['Google Search'] = len(google_results)
+            for r in google_results:
+                name_key = r.get('COMPANY NAME', '').lower().strip()
+                if name_key and name_key not in seen_names:
+                    seen_names.add(name_key)
+                    r['_source'] = 'Google Search'
+                    all_results.append(r)
+
+            # Source 2: SAM.gov / SBA
+            state = ''
+            if location:
+                # Try to extract state from location
+                parts = location.split(',')
+                if len(parts) > 1:
+                    state = parts[-1].strip()
+                elif len(location) == 2:
+                    state = location
+                elif location.lower() in ['michigan', 'mi']:
+                    state = 'MI'
+            
+            print("\n--- Source 2: SAM.gov / SBA ---")
+            sba_results = self.find_subcontractors_sba(service_type, naics_code=naics_code, 
+                                                        state=state, max_results=max_per_source)
+            source_counts['SAM.gov / SBA'] = len(sba_results)
+            for r in sba_results:
+                name_key = r.get('COMPANY NAME', '').lower().strip()
+                if name_key and name_key not in seen_names:
+                    seen_names.add(name_key)
+                    r['_source'] = 'SAM.gov / SBA'
+                    all_results.append(r)
+
+            # Source 3: Google Maps / Local
+            print("\n--- Source 3: Google Maps / Local ---")
+            maps_results = self.find_subcontractors_google_maps(service_type, location, max_results=max_per_source)
+            source_counts['Google Maps'] = len(maps_results)
+            for r in maps_results:
+                name_key = r.get('COMPANY NAME', '').lower().strip()
+                if name_key and name_key not in seen_names:
+                    seen_names.add(name_key)
+                    r['_source'] = 'Google Maps'
+                    all_results.append(r)
+
+            # Source 4: Facebook Business Pages
+            print("\n--- Source 4: Facebook Business Pages ---")
+            fb_results = self.find_subcontractors_facebook(service_type, location, max_results=max_per_source)
+            source_counts['Facebook'] = len(fb_results)
+            for r in fb_results:
+                name_key = r.get('COMPANY NAME', '').lower().strip()
+                if name_key and name_key not in seen_names:
+                    seen_names.add(name_key)
+                    r['_source'] = 'Facebook'
+                    all_results.append(r)
+
+            print(f"\n{'='*60}")
+            print(f"✅ MINING COMPLETE: {len(all_results)} unique subcontractors found")
+            for src, count in source_counts.items():
+                print(f"   {src}: {count}")
+            print(f"{'='*60}\n")
+
+            return {
+                'results': all_results,
+                'total': len(all_results),
+                'by_source': source_counts,
+                'service_type': service_type,
+                'location': location
+            }
+            
+        except Exception as e:
+            print(f"  ❌ Multi-source mining error: {e}\n")
+            return {'results': [], 'total': 0, 'by_source': {}, 'error': str(e)}
+
     def _ai_extract_subcontractor_info(self, title: str, snippet: str, url: str, service_type: str, location: str) -> Dict:
         """Use AI to extract structured company information from search result"""
         try:
@@ -7810,14 +8937,42 @@ class SAMgovAPIClient:
         self.airtable = AirtableClient()
         self.anthropic_client = anthropic.Anthropic(api_key=Config.get_anthropic_key())
     
+    # Set-aside codes that Dee Davis Inc qualifies for
+    ELIGIBLE_SET_ASIDES = [
+        'EDWOSB',     # Economically Disadvantaged Woman-Owned Small Business
+        'WOSB',       # Woman-Owned Small Business
+        'SBA',        # Small Business Set-Aside (Total)
+        'SBP',        # Small Business Set-Aside (Partial)
+    ]
+
+    # Set-aside codes to EXCLUDE (cannot bid on these)
+    INELIGIBLE_SET_ASIDES = [
+        'SDVOSBC',    # Service-Disabled Veteran-Owned (Competitive)
+        'SDVOSBS',    # Service-Disabled Veteran-Owned (Sole Source)
+        'VOSB',       # Veteran-Owned Small Business — not veteran-owned
+        'VSA',        # Veterans Set-Aside — not veteran-owned
+        'VSB',        # Veterans Small Business — not veteran-owned
+        'HZC',        # HUBZone (Competitive)
+        'HZS',        # HUBZone (Sole Source)
+        '8A',         # 8(a) Competitive
+        '8AN',        # 8(a) Sole Source
+        'IEE',        # Indian Economic Enterprise
+        'ISBEE',      # Indian Small Business Economic Enterprise
+    ]
+
     def search_opportunities(self, params: Dict = None) -> Dict:
-        """Search SAM.gov for opportunities"""
+        """
+        Search SAM.gov for opportunities.
+        FILTERS: EDWOSB, WOSB, Small Business ONLY.
+        Excludes SDVOSB, VOSB, HUBZone, 8(a) — we don't qualify for those.
+        """
         try:
-            # Build request parameters
+            # Build request parameters — filtered for eligible set-asides
             default_params = {
                 'limit': 100,
-                'postedFrom': (datetime.now() - timedelta(days=7)).strftime('%m/%d/%Y'),
-                'postedTo': datetime.now().strftime('%m/%d/%Y')
+                'postedFrom': (datetime.now() - timedelta(days=14)).strftime('%m/%d/%Y'),
+                'postedTo': datetime.now().strftime('%m/%d/%Y'),
+                'typeOfSetAside': ','.join(self.ELIGIBLE_SET_ASIDES),
             }
             
             if params:
@@ -7827,13 +8982,14 @@ class SAMgovAPIClient:
             headers = {}
             if self.api_key:
                 headers['X-Api-Key'] = self.api_key
-                print(f"🔍 Searching SAM.gov API with authentication...")
+                print(f"🔍 Searching SAM.gov API — EDWOSB/WOSB/SB ONLY...")
             else:
                 print("⚠️  SAM_GOV_API_KEY not configured - using public access (limited)")
                 print("   Get a free API key from: https://sam.gov/data-services/")
             
             print(f"   Request URL: {self.base_url}")
             print(f"   Date Range: {default_params['postedFrom']} to {default_params['postedTo']}")
+            print(f"   Set-Aside Filter: {default_params.get('typeOfSetAside', 'NONE')}")
             
             response = requests.get(self.base_url, params=default_params, headers=headers, timeout=30)
             
@@ -7858,6 +9014,7 @@ class SAMgovAPIClient:
             skipped_duplicates = 0
             low_scores = 0
             
+            skipped_ineligible = 0
             for idx, opp in enumerate(opportunities_data, 1):
                 try:
                     notice_id = opp.get('noticeId', '')
@@ -7866,18 +9023,36 @@ class SAMgovAPIClient:
                         skipped_duplicates += 1
                         continue
                     
-                    # Skip qualification for now - just import everything
-                    # qualification = self._qualify_opportunity(opp)
-                    # if qualification['score'] >= 70:
+                    # CRITICAL: Double-check set-aside eligibility
+                    set_aside = (opp.get('typeOfSetAside') or '').upper()
+                    set_aside_code = (opp.get('typeOfSetAsideDescription') or '').upper()
+                    combined = set_aside + ' ' + set_aside_code
+                    
+                    # Skip if it's a set-aside we can't bid on
+                    is_ineligible = False
+                    for code in self.INELIGIBLE_SET_ASIDES:
+                        if code.upper() in combined:
+                            is_ineligible = True
+                            break
+                    if 'SDVOSB' in combined or 'VOSB' in combined or 'VETERAN' in combined or 'SERVICE-DISABLED' in combined or 'HUBZONE' in combined or '8(A)' in combined:
+                        is_ineligible = True
+                    
+                    if is_ineligible:
+                        skipped_ineligible += 1
+                        continue
+                    
                     qualified_opportunities.append({
                         'opportunity': opp,
-                        'qualification': {'score': 75, 'reasoning': 'Auto-imported from SAM.gov'}
+                        'qualification': {'score': 75, 'reasoning': f'SAM.gov — Set-aside: {set_aside or "Eligible"}'}
                     })
                     
                 except Exception as e:
                     if idx <= 3:
                         print(f"   ⚠️  Error processing opportunity {idx}: {str(e)[:100]}")
                     continue
+            
+            if skipped_ineligible > 0:
+                print(f"   ⏭️  Filtered out {skipped_ineligible} ineligible set-asides (SDVOSB/VOSB/HUBZone/8(a))")
             
             print(f"   ✓ Qualified {len(qualified_opportunities)} opportunities")
             if skipped_duplicates > 0:
@@ -8250,9 +9425,16 @@ class StateLocalMiner:
             'rss': 'https://www.govspend.com/opportunities.rss',
             'enabled': True
         },
-        'InstantMarket': {
-            'url': 'https://www.instantmarket.com',
-            'rss': 'https://www.instantmarket.com/rss/opportunities.xml',
+        'InstantMarkets': {
+            'url': 'https://www.instantmarkets.com',
+            'search_categories': [
+                'Vehicle', 'Truck', 'Landscape', 'Snow_Removal',
+                'Cleaning_Supplies', 'Janitorial_Services', 'Chemicals',
+                'Salt', 'Healthcare', 'Medical', 'Furniture',
+                'Uniforms', 'Tools', 'Fabricated_Metal',
+                'Highway', 'Building', 'Construction',
+                'Plumber', 'Electrician', 'Waste_Management'
+            ],
             'enabled': True
         },
         'SkysTheLimit': {
@@ -8305,14 +9487,14 @@ class StateLocalMiner:
         except Exception as e:
             results['errors'].append(f"GovSpend: {str(e)}")
         
-        # Try InstantMarket RSS
+        # Try InstantMarkets (Playwright browser scraper)
         try:
-            im_result = self._mine_instantmarket()
+            im_result = self._mine_instantmarkets()
             results['sources_checked'] += 1
             results['total_found'] += im_result['found']
             results['imported'] += im_result['imported']
         except Exception as e:
-            results['errors'].append(f"InstantMarket: {str(e)}")
+            results['errors'].append(f"InstantMarkets: {str(e)}")
         
         # Try SkysTheLimit.org (FREE GBIS)
         try:
@@ -8490,51 +9672,220 @@ class StateLocalMiner:
             print(f"      ❌ GovSpend error: {e}")
             return {'found': 0, 'imported': 0}
     
-    def _mine_instantmarket(self) -> Dict:
-        """Mine InstantMarket RSS feed"""
-        print("   🔍 Mining InstantMarket...")
+    def _mine_instantmarkets(self) -> Dict:
+        """Mine InstantMarkets.com using Playwright headless browser"""
+        print("   🔍 Mining InstantMarkets.com (Playwright)...")
+        
+        found = 0
+        imported = 0
         
         try:
-            import feedparser
+            from playwright.sync_api import sync_playwright
+            import time
             
-            # InstantMarket RSS
-            feed_url = 'https://www.instantmarket.com/rss/opportunities.xml'
+            categories = self.sources.get('InstantMarkets', {}).get('search_categories', [
+                'Vehicle', 'Truck', 'Landscape', 'Cleaning_Supplies',
+                'Chemicals', 'Healthcare', 'Tools'
+            ])
             
-            feed = feedparser.parse(feed_url)
+            # State filters for Michigan and nearby
+            state_filters = ['MI']
             
-            found = 0
-            imported = 0
-            
-            for entry in feed.entries[:30]:
-                try:
-                    if self._is_duplicate(entry.get('title', '')):
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                context = browser.new_context(
+                    user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                )
+                page = context.new_page()
+                
+                for category in categories:
+                    try:
+                        # Build search URL — active bid notifications
+                        search_url = f'https://www.instantmarkets.com/q/{category}?ot=Bid%20Notification,Pre-Bid%20Notification&os=Active'
+                        
+                        page.goto(search_url, wait_until='domcontentloaded', timeout=20000)
+                        
+                        # Wait for SPA to render results
+                        time.sleep(8)
+                        
+                        # Extract opportunity links and descriptions from rendered page
+                        opps = page.evaluate('''() => {
+                            const results = [];
+                            document.querySelectorAll('a[href*="/view/"]').forEach(a => {
+                                const href = a.getAttribute('href') || '';
+                                const text = a.textContent.trim();
+                                if (text.length > 5 && text.length < 300 
+                                    && !text.includes('See more') 
+                                    && !text.includes('Reset')) {
+                                    // Try to get the parent card's full text for description
+                                    let desc = '';
+                                    let parent = a.parentElement;
+                                    for (let i = 0; i < 5 && parent; i++) {
+                                        const pText = parent.textContent || '';
+                                        if (pText.length > text.length + 20 && pText.length < 2000) {
+                                            desc = pText.trim().substring(0, 500);
+                                            break;
+                                        }
+                                        parent = parent.parentElement;
+                                    }
+                                    results.push({
+                                        title: text.substring(0, 255),
+                                        url: href,
+                                        description: desc
+                                    });
+                                }
+                            });
+                            return results;
+                        }''')
+                        
+                        cat_found = 0
+                        for opp in opps[:15]:
+                            try:
+                                title = opp.get('title', '').strip()
+                                url = opp.get('url', '')
+                                
+                                if not title or len(title) < 5:
+                                    continue
+                                
+                                # Make URL absolute
+                                if url.startswith('/'):
+                                    url = f'https://www.instantmarkets.com{url}'
+                                
+                                if self._is_duplicate(title):
+                                    continue
+                                
+                                desc = opp.get('description', '') or ''
+                                opp_data = {
+                                    'title': title[:255],
+                                    'description': f'Category: {category.replace("_", " ")}. {desc[:400]}',
+                                    'url': url,
+                                    'posted_date': '',
+                                    'source': 'InstantMarkets'
+                                }
+                                
+                                qualification = self._qualify_instantmarkets(opp_data)
+                                
+                                if qualification['score'] >= 50:
+                                    self._import_state_local(opp_data, qualification)
+                                    imported += 1
+                                
+                                found += 1
+                                cat_found += 1
+                                
+                            except Exception:
+                                continue
+                        
+                        print(f"      📂 {category}: {cat_found} new opps")
+                        
+                        # Delay between categories to avoid rate limiting
+                        time.sleep(2)
+                        
+                    except Exception as e:
+                        print(f"      ⚠️ {category}: {str(e)[:80]}")
                         continue
-                    
-                    opp_data = {
-                        'title': entry.get('title', 'Untitled')[:255],
-                        'description': entry.get('summary', '')[:5000],
-                        'url': entry.get('link', ''),
-                        'posted_date': entry.get('published', ''),
-                        'source': 'InstantMarket'
-                    }
-                    
-                    qualification = self._qualify_state_local(opp_data)
-                    
-                    if qualification['score'] >= 60:
-                        self._import_state_local(opp_data, qualification)
-                        imported += 1
-                    
-                    found += 1
-                    
-                except:
-                    continue
+                
+                browser.close()
             
-            print(f"      ✓ InstantMarket: {found} found, {imported} imported")
+            print(f"      ✓ InstantMarkets: {found} found, {imported} imported")
             return {'found': found, 'imported': imported}
             
         except Exception as e:
-            print(f"      ❌ InstantMarket error: {e}")
+            print(f"      ❌ InstantMarkets error: {e}")
+            import traceback
+            traceback.print_exc()
             return {'found': 0, 'imported': 0}
+    
+    def _qualify_instantmarkets(self, opp: Dict) -> Dict:
+        """Qualify InstantMarkets opportunity — tuned for Dee Davis Inc business model"""
+        try:
+            title = opp.get('title', '').lower()
+            description = opp.get('description', '').lower()
+            combined = f'{title} {description}'
+            
+            score = 35  # Base score
+            reasons = []
+            
+            # HIGH VALUE keywords (product resale, our core model)
+            high_value = [
+                'vehicle', 'truck', 'trailer', 'plow', 'snow', 'salt',
+                'chemical', 'chlorine', 'padlock', 'lock', 'safety supply',
+                'sign', 'traffic sign', 'barricade', 'cone',
+                'tool', 'hand tool', 'power tool', 'building material',
+                'paper product', 'janitorial', 'cleaning supply',
+                'medical supply', 'surgical', 'ppe', 'glove',
+                'furniture', 'office supply', 'aggregate', 'sand',
+                'gravel', 'concrete', 'asphalt', 'lumber',
+                'pipe', 'valve', 'fitting', 'pump', 'generator',
+                'mower', 'landscap', 'turf', 'seed', 'fertilizer',
+                'wiper', 'automotive', 'fleet', 'parts',
+                'uniform', 'clothing', 'boot', 'equipment'
+            ]
+            
+            for kw in high_value:
+                if kw in combined:
+                    score += 15
+                    reasons.append(f'product match: {kw}')
+                    break  # Only count once per category
+            
+            # MEDIUM VALUE (services we can sub out)
+            medium_value = [
+                'pressure wash', 'power wash', 'cleaning service',
+                'lawn', 'mowing', 'yard', 'grounds maintenance',
+                'pest control', 'painting', 'moving service',
+                'hauling', 'demolition', 'remediation'
+            ]
+            
+            for kw in medium_value:
+                if kw in combined:
+                    score += 10
+                    reasons.append(f'service match: {kw}')
+                    break
+            
+            # LOCATION boost (Michigan / nearby states)
+            location_boost = ['michigan', ' mi ', 'detroit', 'oakland', 'wayne',
+                            'macomb', 'livingston', 'washtenaw', 'genesee',
+                            'troy', 'warren', 'livonia', 'auburn hills']
+            
+            for loc in location_boost:
+                if loc in combined:
+                    score += 20
+                    reasons.append(f'location: {loc.strip()}')
+                    break
+            
+            # DIVERSITY boost
+            diversity_terms = ['wosb', 'edwosb', 'woman-owned', 'women-owned',
+                             'small business set-aside', 'sba', 'minority',
+                             '8(a)', 'hubzone', 'sdvosb', 'set-aside']
+            
+            for term in diversity_terms:
+                if term in combined:
+                    score += 25
+                    reasons.append(f'diversity: {term}')
+                    break
+            
+            # NEGATIVE keywords (things we can't do / don't want)
+            negative = ['software', 'it services', 'consulting', 'staffing',
+                       'audit', 'accounting', 'legal service', 'architect',
+                       'engineering design', 'survey', 'insurance broker',
+                       'financial', 'banking', 'real estate', 'hotel',
+                       'catering', 'food service', 'weapons', 'ammunition']
+            
+            for kw in negative:
+                if kw in combined:
+                    score -= 20
+                    reasons.append(f'negative: {kw}')
+                    break
+            
+            score = max(0, min(score, 100))
+            
+            return {
+                'score': score,
+                'recommendation': 'pursue' if score >= 50 else 'skip',
+                'reason': '; '.join(reasons) if reasons else 'No strong match'
+            }
+            
+        except Exception as e:
+            return {'score': 30, 'recommendation': 'skip', 'reason': f'Error: {str(e)}'}
     
     def _mine_skysthelimit(self) -> Dict:
         """Mine SkysTheLimit.org - FREE GBIS (Government Bid Information System)"""
@@ -8731,6 +10082,108 @@ def handle_find_suppliers_for_opportunity(opportunity_id: str) -> List[Dict]:
     """Find matching suppliers for opportunity"""
     auto_quote = GPSSAutomatedQuoting()
     return auto_quote.find_suppliers_for_opportunity(opportunity_id)
+
+
+# =====================================================================
+# CALENDAR AUTOMATION HANDLER FUNCTIONS
+# =====================================================================
+
+def handle_generate_calendar(opportunity_id: str) -> Dict:
+    """
+    Generate .ics calendar file for opportunity deadline
+    
+    Args:
+        opportunity_id: Airtable record ID for opportunity
+        
+    Returns:
+        Dict with success status and file path
+    """
+    from calendar_automation import CalendarAutomation
+    
+    automation = CalendarAutomation()
+    table = automation.api.table(automation.base_id, 'GPSS OPPORTUNITIES')
+    record = table.get(opportunity_id)
+    
+    filepath = automation.generate_opportunity_calendar(record)
+    
+    if filepath:
+        automation.email_calendar_file(
+            filepath,
+            record['fields'].get('Name'),
+            record['fields'].get('Deadline')
+        )
+        
+        return {
+            'success': True,
+            'filepath': filepath,
+            'message': f'Calendar file generated and emailed: {os.path.basename(filepath)}'
+        }
+    else:
+        return {
+            'success': False,
+            'message': 'Failed to generate calendar file - no deadline found'
+        }
+
+
+def handle_daily_deadline_report() -> Dict:
+    """
+    Send daily email with upcoming deadlines
+    Run via cron at 7 AM daily
+    
+    Returns:
+        Dict with success status
+    """
+    from calendar_automation import CalendarAutomation
+    
+    automation = CalendarAutomation()
+    automation.send_daily_deadline_report()
+    
+    return {
+        'success': True,
+        'message': 'Daily deadline report sent'
+    }
+
+
+def handle_get_upcoming_deadlines(days_ahead: int = 7) -> Dict:
+    """
+    Get list of upcoming deadlines
+    
+    Args:
+        days_ahead: Number of days to look ahead (default: 7)
+        
+    Returns:
+        Dict with upcoming deadlines
+    """
+    from calendar_automation import CalendarAutomation
+    
+    automation = CalendarAutomation()
+    upcoming = automation.get_upcoming_deadlines(days_ahead)
+    
+    return {
+        'success': True,
+        'count': len(upcoming),
+        'deadlines': upcoming
+    }
+
+
+def handle_process_new_opportunities() -> Dict:
+    """
+    Process new opportunities and generate calendar files
+    Run via cron hourly
+    
+    Returns:
+        Dict with number of opportunities processed
+    """
+    from calendar_automation import CalendarAutomation
+    
+    automation = CalendarAutomation()
+    count = automation.process_new_opportunities()
+    
+    return {
+        'success': True,
+        'processed': count,
+        'message': f'Processed {count} new opportunities'
+    }
 
 
 # =====================================================================

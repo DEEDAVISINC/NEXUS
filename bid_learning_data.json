@@ -1,0 +1,336 @@
+{
+  "bid_history": {
+    "CPS ENERGY": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 2,
+          "file_count": 36,
+          "reason": "Has 36 files (analysis started)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 1,
+          "file_count": 36,
+          "reason": "Has 36 files (analysis started)"
+        }
+      ]
+    },
+    "HENRY FORD BATTERY CABINETS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 2,
+          "file_count": 4,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 1,
+          "file_count": 4,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "OAKLAND COUNTY FLOW METERS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 3,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 2,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        }
+      ]
+    },
+    "OAKLAND COUNTY TREATED SALT": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 3,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 2,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        }
+      ]
+    },
+    "PORT HURON CHEMICALS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": false,
+          "days_left": 3,
+          "file_count": 1,
+          "reason": "No activity in 12d, deadline in 3d"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": false,
+          "days_left": 2,
+          "file_count": 1,
+          "reason": "No activity in 12d, deadline in 2d"
+        }
+      ]
+    },
+    "CPS ENERGY PADLOCKS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 4,
+          "file_count": 17,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 3,
+          "file_count": 17,
+          "reason": "Active (edited 0 days ago)"
+        }
+      ]
+    },
+    "AUBURN HILLS PRESSURE WASHING": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 4,
+          "file_count": 9,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 3,
+          "file_count": 9,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "SHELBY TOWNSHIP POWER CABLES": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 4,
+          "file_count": 6,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 3,
+          "file_count": 6,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "OAKLAND COUNTY EXAM STOOLS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 7,
+          "file_count": 2,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 6,
+          "file_count": 2,
+          "reason": "Active (edited 0 days ago)"
+        }
+      ]
+    },
+    "OAKLAND COUNTY TRUCK EQUIPMENT": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 7,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        }
+      ]
+    },
+    "RCOC 7790 SIGNS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 25,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 7,
+          "file_count": 25,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "RCOC 7842 SAFETY SUPPLIES": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 3,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 7,
+          "file_count": 3,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "GENESEE WOOD POLES": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 9,
+          "file_count": 32,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 32,
+          "reason": "Active (edited 1 days ago)"
+        }
+      ]
+    },
+    "HCMA CHLORINE": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 9,
+          "file_count": 17,
+          "reason": "Has 17 files (analysis started)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 17,
+          "reason": "Has 17 files (analysis started)"
+        }
+      ]
+    },
+    "LIVONIA MATERIALS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 14,
+          "file_count": 17,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 13,
+          "file_count": 17,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "HCMA UTILITY VEHICLES": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 16,
+          "file_count": 2,
+          "reason": "Active (edited 2 days ago)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 15,
+          "file_count": 2,
+          "reason": "Active (edited 2 days ago)"
+        }
+      ]
+    },
+    "ALASKA STEEL CONTAINERS": {
+      "first_seen": "2026-02-08T17:33:31.101994",
+      "activity_log": [
+        {
+          "date": "2026-02-08T17:33:31.101994",
+          "is_pursuing": true,
+          "days_left": 21,
+          "file_count": 9,
+          "reason": "Has 9 files (analysis started)"
+        },
+        {
+          "date": "2026-02-09T07:00:05.381457",
+          "is_pursuing": true,
+          "days_left": 20,
+          "file_count": 9,
+          "reason": "Has 9 files (analysis started)"
+        }
+      ]
+    }
+  },
+  "work_patterns": {
+    "avg_days_needed": 3,
+    "active_hours": [],
+    "bid_types_pursued": {}
+  },
+  "success_patterns": {
+    "win_rate": {},
+    "abandoned_rate": {}
+  }
+}

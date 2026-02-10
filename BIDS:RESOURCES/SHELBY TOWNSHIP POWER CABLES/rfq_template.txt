@@ -1,0 +1,51 @@
+REQUEST_TYPE: SUPPLIER
+TITLE: Portable Power Distribution Cables and Accessories for Municipal Event Venue
+ISSUE_DATE: February 9, 2026
+DUE_DATE: February 12, 2026
+DUE_TIME: 5:00 PM EST
+CONTRACT_PERIOD: 12 months
+COLOR_SCHEME: 1
+
+INTRODUCTION:
+We are requesting quotes for portable power distribution cables and accessories for a municipal client in Michigan. This equipment will be used for stage and event power distribution at a government venue. All items must meet professional theatrical/stage power standards and be suitable for outdoor event use.
+
+SCOPE:
+Supplier must provide complete pricing for all items listed below. Products must be new, unused, and meet or exceed the specifications provided. Delivery will be required to Metro Detroit area within 30 days of order placement. Supplier must be able to provide all items from a single source or coordinate with approved subcontractors.
+
+KEY_REQUIREMENTS:
+- All cables must be UL listed or equivalent certification
+- Socapex cables must use genuine SOCO-type 19-pin connectors
+- All electrical components must meet NEC requirements for stage power
+- Camlock connectors must be rated for 350-400 amp service
+- Cat6 cables must use Neutrik Ethercon connectors
+- Road cases must be ATA-rated or equivalent professional grade
+- All items must be suitable for outdoor/weather-resistant use
+- Products must be from established manufacturers with warranty support
+
+ITEMS:
+1 | 250 ft Socapex 19-pin black | 19-pin SOCO-type multi-pin connector, black cable jacket, 250 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable | 3 | each
+2 | 100 ft Socapex 19-pin black | 19-pin SOCO-type multi-pin connector, black cable jacket, 100 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable | 4 | each
+3 | 75 ft Socapex 19-pin black | 19-pin SOCO-type multi-pin connector, black cable jacket, 75 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable | 4 | each
+4 | 50 ft Socapex 19-pin black | 19-pin SOCO-type multi-pin connector, black cable jacket, 50 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable | 4 | each
+5 | Breakout Male 19-pin Socapex to 6 Female Edison | Input: Male 19-pin Socapex connector, Output: 6 female Edison (standard 3-prong) outlets, 12 AWG wire, 3-5 feet length, individual circuit breakers or inline protection preferred, 20A per circuit capacity | 2 | each
+6 | Breakout Male 19-pin Socapex to True1 staggered lengths | Input: Male 19-pin Socapex connector, Output: 6 True1 connectors (stage pin), staggered lengths 5ft-30ft (5ft, 10ft, 15ft, 20ft, 25ft, 30ft), 12 AWG wire, 20A per circuit capacity, heavy-duty strain relief | 4 | each
+7 | Breakout Male 19-pin Socapex to True1 10ft | Input: Male 19-pin Socapex connector, Output: 6 True1 connectors (stage pin), all circuits 10 feet length, 12 AWG wire, 20A per circuit capacity, heavy-duty strain relief | 6 | each
+8 | Cam-Type Adapter Female to Female black | Camlock adapter, Female to Female configuration, black color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+9 | Cam-Type Adapter Female to Female red | Camlock adapter, Female to Female configuration, red color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+10 | Cam-Type Adapter Female to Female blue | Camlock adapter, Female to Female configuration, blue color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+11 | Cam-Type Adapter Female to Female white | Camlock adapter, Female to Female configuration, white color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+12 | Cam-Type Adapter Female to Female green | Camlock adapter, Female to Female configuration, green color (ground), 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+13 | Cam-Type Adapter Male to Male black | Camlock adapter, Male to Male configuration, black color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+14 | Cam-Type Adapter Male to Male red | Camlock adapter, Male to Male configuration, red color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+15 | Cam-Type Adapter Male to Male blue | Camlock adapter, Male to Male configuration, blue color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+16 | Cam-Type Adapter Male to Male white | Camlock adapter, Male to Male configuration, white color, 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+17 | Cam-Type Adapter Male to Male green | Camlock adapter, Male to Male configuration, green color (ground), 350-400 amp rating, die-cast aluminum or brass construction | 1 | each
+18 | 4/0 Camlock feeder 10ft set (5 colors) | 4/0 AWG (107mm²) cable, 10 feet each, complete 5-wire set: Black, Red, Blue, White, Green (3-phase + neutral + ground), camlock connectors both ends, SOOW or equivalent flexible cable, 400 amp rated, male on one end female on other | 1 | set
+19 | 4/0 Camlock feeder 100ft set (5 colors) | 4/0 AWG (107mm²) cable, 100 feet each, complete 5-wire set: Black, Red, Blue, White, Green (3-phase + neutral + ground), camlock connectors both ends, SOOW or equivalent flexible cable, 400 amp rated, male on one end female on other | 1 | set
+20 | Cat6 Ethercon 10ft | Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 10 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket | 15 | each
+21 | Cat6 Ethercon 25ft | Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 25 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket | 15 | each
+22 | Cat6 Ethercon 50ft | Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 50 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket | 15 | each
+23 | Cat6 Ethercon 100ft | Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 100 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket | 15 | each
+24 | ProX Case XS-UTL483036WMK2 | ProX utility flight case, model XS-UTL483036WMK2, exterior dimensions 48" L x 30" W x 36" H, 3/8" plywood with laminate construction, heavy-duty steel ball corners, recessed handles, removable lid, 4" casters with brakes, black color, 400+ lbs weight capacity | 3 | each
+25 | Roadcase.com 30x45x30 Fiberglassed Trunk | Fiberglassed ATA trunk, interior dimensions 30" W x 45" L x 30" H, ATA-rated construction with fiberglass exterior, heavy-duty latches, spring-loaded handles, heavy-duty casters (if included), black color, stackable design | 3 | each
+26 | Roadcase.com 30" Fiberglassed Trunk Dividers | Adjustable trunk dividers, fits 30" wide trunk, foam-padded or fiberglassed panels, customizable compartment dividers, purpose: organize cables/equipment within trunk | 3 | each

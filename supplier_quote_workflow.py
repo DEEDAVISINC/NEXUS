@@ -31,9 +31,9 @@ class SupplierQuoteWorkflow:
     def __init__(self, airtable_key, base_id):
         self.api = Api(airtable_key)
         self.base_id = base_id
-        self.opportunities_table = self.api.table(base_id, 'Opportunities')
-        self.suppliers_table = self.api.table(base_id, 'Suppliers')
-        self.quote_requests_table = self.api.table(base_id, 'Quote Requests')
+        self.opportunities_table = self.api.table(base_id, 'GPSS Opportunities')
+        self.suppliers_table = self.api.table(base_id, 'GPSS SUPPLIERS')
+        self.quote_requests_table = self.api.table(base_id, 'GPSS QUOTES')
         
     
     def process_solicitation(self, opportunity_id):
@@ -148,7 +148,7 @@ class SupplierQuoteWorkflow:
         due_date = (datetime.now() + timedelta(days=7)).strftime('%B %d, %Y')
         
         quote_template = f"""RFQ_NUMBER: {rfq_number}
-TITLE: {opp_fields.get('Title', 'Quote Request')}
+TITLE: {opp_fields.get('Name', '') or opp_fields.get('Title', 'Quote Request')}
 ISSUE_DATE: {datetime.now().strftime('%B %d, %Y')}
 DUE_DATE: {due_date}
 DUE_TIME: 5:00 PM EST
@@ -211,8 +211,8 @@ ITEMS:
         """
         supplier_fields = supplier['fields']
         
-        # Try email first
-        email = supplier_fields.get('Email', '')
+        # Try email first (GPSS SUPPLIERS uses 'PRIMARY CONTACT EMAIL')
+        email = supplier_fields.get('PRIMARY CONTACT EMAIL', '') or supplier_fields.get('Email', '')
         if email:
             sent = self._send_email(email, pdf_path, supplier_fields)
             if sent:
@@ -224,7 +224,7 @@ ITEMS:
                 }
         
         # Try fax if no email or email failed
-        fax = supplier_fields.get('Fax', '')
+        fax = supplier_fields.get('PRIMARY CONTACT PHONE', '') or supplier_fields.get('Fax', '')
         if fax:
             sent = self._send_fax(fax, pdf_path)
             if sent:
@@ -329,15 +329,15 @@ www.deedavis.biz
         - Status
         """
         record = self.quote_requests_table.create({
-            'Opportunity': [opportunity_id],
-            'Supplier': [supplier_id],
-            'Sent Date': datetime.now().isoformat(),
-            'Sent Method': sent.get('method', 'unknown'),
-            'Sent To': sent.get('to', ''),
+            'Opportunity': opportunity_id,
+            'SUPPLIER': supplier_id,
+            'SENT DATE': datetime.now().strftime('%Y-%m-%d'),
+            'SENT METHOD': sent.get('method', 'EMAIL').upper(),
+            'SENT TO': sent.get('to', ''),
             'Status': 'Sent' if sent.get('success') else 'Failed',
-            'PDF Path': pdf_path or '',
-            'Due Date': (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d'),
-            'Follow-up Needed': True
+            'PDF PATH': pdf_path or '',
+            'DUE DATE': (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d'),
+            'FOLLOW-UP NEEDED': True
         })
         
         return record
@@ -354,8 +354,8 @@ www.deedavis.biz
         followup_date = (datetime.now() + timedelta(days=days)).strftime('%Y-%m-%d')
         
         self.quote_requests_table.update(quote_request_id, {
-            'Follow-up Date': followup_date,
-            'Follow-up Needed': True
+            'FOLLOW-UP DATE': followup_date,
+            'FOLLOW-UP NEEDED': True
         })
     
     
@@ -369,7 +369,7 @@ www.deedavis.biz
         today = datetime.now().strftime('%Y-%m-%d')
         
         # Get quote requests needing follow-up
-        formula = f"AND({{Follow-up Needed}}, {{Follow-up Date}} <= '{today}', {{Status}} = 'Sent')"
+        formula = f"AND({{FOLLOW-UP NEEDED}}, {{FOLLOW-UP DATE}} <= '{today}', {{Status}} = 'Sent')"
         
         records = self.quote_requests_table.all(formula=formula)
         
@@ -386,18 +386,22 @@ www.deedavis.biz
         record = self.quote_requests_table.get(quote_request_id)
         
         # Get supplier info
-        supplier_id = record['fields']['Supplier'][0]
-        supplier = self.suppliers_table.get(supplier_id)
+        supplier_id = record['fields'].get('SUPPLIER', '')
+        if isinstance(supplier_id, list):
+            supplier_id = supplier_id[0]
+        
+        supplier = self.suppliers_table.get(supplier_id) if supplier_id else None
         
         # Send follow-up
-        email = supplier['fields'].get('Email', '')
-        if email:
-            self._send_followup_email(email, record, supplier)
+        if supplier:
+            email = supplier['fields'].get('PRIMARY CONTACT EMAIL', '') or supplier['fields'].get('Email', '')
+            if email:
+                self._send_followup_email(email, record, supplier)
         
         # Update record
         self.quote_requests_table.update(quote_request_id, {
-            'Last Follow-up': datetime.now().isoformat(),
-            'Follow-up Count': record['fields'].get('Follow-up Count', 0) + 1
+            'LAST FOLLOW-UP': datetime.now().strftime('%Y-%m-%d'),
+            'FOLLOW-UP COUNT': record['fields'].get('FOLLOW-UP COUNT', 0) + 1
         })
     
     
@@ -414,7 +418,7 @@ www.deedavis.biz
             msg['To'] = email
             msg['Subject'] = 'Follow-up: Quote Request - DEE DAVIS INC'
             
-            supplier_name = supplier['fields'].get('Name', 'Supplier')
+            supplier_name = supplier['fields'].get('COMPANY NAME', '') or supplier['fields'].get('Name', 'Supplier')
             sent_date = quote_request['fields'].get('Sent Date', '')
             
             body = f"""Hello {supplier_name},

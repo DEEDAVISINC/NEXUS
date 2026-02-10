@@ -67,10 +67,11 @@ def generate_pdf_reportlab(config, output_file):
                 pdfmetrics.registerFont(TTFont('Avenir-Bold', path, subfontIndex=1))
                 font_name = "Avenir"
                 font_bold = "Avenir-Bold"
+                print(f"✓ Registered Avenir font from {path}")
                 break
     except Exception as e:
         # If Avenir fails, just use Helvetica
-        pass
+        print(f"⚠ Could not register Avenir font, using Helvetica: {e}")
     
     # Get company name and logo for watermark
     company_name = config['company']['name']

@@ -50,37 +50,21 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
     setError('');
 
     try {
-      // Try API call, but fall back to mock success for testing
-      try {
-        const response = await api.reviewOpportunity(opportunity.id, {
-          name: formData.name.trim(),
-          decision: formData.decision,
-          notes: formData.notes.trim()
-        });
+      const response = await api.reviewOpportunity(opportunity.id, {
+        name: formData.name.trim(),
+        decision: formData.decision,
+        notes: formData.notes.trim()
+      });
 
-        if (response.success) {
-          onSuccess();
-          onClose();
-          return;
-        }
-      } catch (apiError) {
-        console.log('API not available, using mock mode for testing');
+      if (response.success) {
+        onSuccess();
+        onClose();
+      } else {
+        setError(response.error || 'Review failed — check backend logs');
       }
-
-      // Mock mode - simulate successful review
-      console.log('Mock mode: Would review opportunity as:', formData);
-      
-      // Show success message
-      const action = formData.decision === 'pursue' ? 'pursued' : 'skipped';
-      alert(`✅ Mock Mode: Successfully ${action} "${formData.name}"!\n\n(Backend not connected - this is for UI testing only)`);
-      
-      // Close modal and trigger refresh
-      onSuccess();
-      onClose();
-      
     } catch (err: any) {
-      console.error('Submit error:', err);
-      setError(err?.message || 'An error occurred');
+      console.error('Review error:', err);
+      setError(err?.message || 'Failed to review opportunity — is the API server running?');
     } finally {
       setSubmitting(false);
     }

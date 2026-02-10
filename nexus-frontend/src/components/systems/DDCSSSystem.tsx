@@ -29,6 +29,10 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
     prospectId: ''
   });
   const [avatarAnalysis, setAvatarAnalysis] = useState<any | null>(null);
+  const [avatars, setAvatars] = useState<any[]>([]);
+  const [avatarsLoading, setAvatarsLoading] = useState(false);
+  const [editingAvatarId, setEditingAvatarId] = useState<string | null>(null);
+  const [savingAvatar, setSavingAvatar] = useState(false);
 
   // Success Path Builder State
   const [successPathFormData, setSuccessPathFormData] = useState({
@@ -63,6 +67,7 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
   // Load prospects on mount
   useEffect(() => {
     fetchProspects();
+    fetchAvatars();
   }, []);
 
   const fetchProspects = async () => {
@@ -75,27 +80,89 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
     }
   };
 
+  const fetchAvatars = async () => {
+    setAvatarsLoading(true);
+    try {
+      const response = await api.getDdcssClientAvatars();
+      setAvatars(response.avatars || []);
+    } catch (error) {
+      console.error('Error fetching avatars:', error);
+      setAvatars([]);
+    } finally {
+      setAvatarsLoading(false);
+    }
+  };
+
   // Client Avatar Functions
+  const resetAvatarForm = () => {
+    setAvatarFormData({ avatarName: '', companySize: '', industry: '', painPoints: '', goals: '', budget: '', decisionMakers: '', prospectId: '' });
+    setEditingAvatarId(null);
+    setAvatarAnalysis(null);
+  };
+
   const createClientAvatar = async () => {
+    if (!avatarFormData.avatarName.trim()) {
+      showNotification('Avatar name is required', 'error');
+      return;
+    }
+    setSavingAvatar(true);
     try {
       const response = await api.createDdcssClientAvatar(avatarFormData);
       if (response.avatar) {
-        showNotification('✅ Client Avatar created with AI analysis!', 'success');
+        showNotification('Client Avatar created with AI analysis!', 'success');
         setAvatarAnalysis(response.aiAnalysis || null);
-        setAvatarFormData({
-          avatarName: '',
-          companySize: '',
-          industry: '',
-          painPoints: '',
-          goals: '',
-          budget: '',
-          decisionMakers: '',
-          prospectId: ''
-        });
+        fetchAvatars();
+        fetchProspects();
       }
     } catch (error) {
-      showNotification('❌ Error creating client avatar', 'error');
+      showNotification('Error creating client avatar', 'error');
+    } finally {
+      setSavingAvatar(false);
     }
+  };
+
+  const updateClientAvatar = async () => {
+    if (!editingAvatarId) return;
+    setSavingAvatar(true);
+    try {
+      await api.updateDdcssClientAvatar(editingAvatarId, avatarFormData);
+      showNotification('Avatar updated!', 'success');
+      fetchAvatars();
+      fetchProspects();
+      resetAvatarForm();
+    } catch (error) {
+      showNotification('Error updating avatar', 'error');
+    } finally {
+      setSavingAvatar(false);
+    }
+  };
+
+  const deleteClientAvatar = async (id: string) => {
+    if (!window.confirm('Delete this avatar? This also removes the prospect record.')) return;
+    try {
+      await api.deleteDdcssClientAvatar(id);
+      showNotification('Avatar deleted', 'success');
+      fetchAvatars();
+      fetchProspects();
+      if (editingAvatarId === id) resetAvatarForm();
+    } catch (error) {
+      showNotification('Error deleting avatar', 'error');
+    }
+  };
+
+  const loadAvatarForEdit = (avatar: any) => {
+    setEditingAvatarId(avatar.id);
+    setAvatarFormData({
+      avatarName: avatar.avatarName || avatar.companyName || '',
+      companySize: avatar.companySize || '',
+      industry: avatar.industry || '',
+      painPoints: avatar.painPoints || '',
+      goals: avatar.goals || avatar.businessGoals || '',
+      budget: avatar.budget || '',
+      decisionMakers: avatar.decisionMakers || avatar.contactName || '',
+      prospectId: ''
+    });
+    setAvatarAnalysis(null);
   };
 
   // Success Path Functions
@@ -188,45 +255,23 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
     { id: 'mvp-discovery', label: '⭐ MVP Discovery' }
   ];
 
-  // Dashboard Stats (will be calculated from prospects)
-  const [dashboardStats, setDashboardStats] = useState({
-    activePipeline: 0,
-    thisMonth: 0,
-    callsBooked: 0,
-    pipelineValue: 0
-  });
-
-  // Update dashboard stats when prospects change
-  useEffect(() => {
-    if (prospects.length > 0) {
-      const activeProspects = prospects.filter((p: any) => 
-        p.status === 'New' || p.status === 'Qualifying' || p.status === 'Proposal'
-      );
-      const totalValue = activeProspects.reduce((sum: number, p: any) => {
-        const budget = p.budget || '';
-        // Extract number from budget string like "$25K-$50K"
-        const match = budget.match(/\$?(\d+)K/i);
-        if (match) {
-          return sum + (parseInt(match[1]) * 1000);
-        }
-        return sum;
-      }, 0);
-
-      setDashboardStats({
-        activePipeline: activeProspects.length,
-        thisMonth: 0, // Would need date tracking for this
-        callsBooked: 0, // Would need call tracking
-        pipelineValue: totalValue
-      });
-    }
-  }, [prospects]);
-
-  const stats = [
-    { label: 'Active Pipeline', value: dashboardStats.activePipeline.toString(), subtext: 'Prospects', gradient: 'from-blue-600 to-blue-800' },
-    { label: 'This Month', value: dashboardStats.thisMonth.toString(), subtext: 'Responses', gradient: 'from-green-600 to-green-800' },
-    { label: 'Calls Booked', value: dashboardStats.callsBooked.toString(), subtext: 'This Quarter', gradient: 'from-purple-600 to-purple-800' },
-    { label: 'Pipeline Value', value: `$${(dashboardStats.pipelineValue / 1000).toFixed(0)}K`, subtext: 'Total', gradient: 'from-yellow-600 to-yellow-800' }
-  ];
+  // Dashboard Stats (calculated from prospects)
+  const prospectsByStatus = {
+    new: prospects.filter((p: any) => !p.status || p.status === 'New').length,
+    qualifying: prospects.filter((p: any) => p.status === 'Qualifying').length,
+    proposal: prospects.filter((p: any) => p.status === 'Proposal').length,
+    won: prospects.filter((p: any) => p.status === 'Closed Won' || p.status === 'Won').length,
+    lost: prospects.filter((p: any) => p.status === 'Closed Lost' || p.status === 'Lost').length,
+  };
+  const activePipeline = prospectsByStatus.new + prospectsByStatus.qualifying + prospectsByStatus.proposal;
+  const pipelineValue = prospects.reduce((sum: number, p: any) => {
+    const budget = p.budget || '';
+    const match = budget.match(/\$?([\d,.]+)\s*[Kk]/);
+    if (match) return sum + (parseFloat(match[1].replace(',', '')) * 1000);
+    const direct = budget.match(/\$?([\d,]+)/);
+    if (direct) return sum + parseFloat(direct[1].replace(',', ''));
+    return sum;
+  }, 0);
 
   const sendCopilotMessage = () => {
     if (!copilotMessage.trim()) return;
@@ -278,163 +323,143 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
         {/* TAB: DASHBOARD */}
         {activeTab === 'dashboard' && (
           <div>
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-2">Welcome to DDCSS v2.0</h2>
-              <p className="text-gray-400">Your complete consulting sales system with Blueprint framework integrated</p>
+            {/* Header */}
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold mb-1">DDCSS Command Center</h2>
+                <p className="text-gray-400">Your pipeline, your process, your next move</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => setActiveTab('pipeline')} className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                  Open Pipeline
+                </button>
+                <button onClick={fetchProspects} className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                  Refresh
+                </button>
+              </div>
             </div>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              {stats.map((stat, index) => (
-                <div key={index} className={`bg-gradient-to-br ${stat.gradient} p-6 rounded-xl`}>
-                  <h3 className="text-sm font-semibold text-white/80 mb-2">{stat.label}</h3>
-                  <p className="text-4xl font-bold mb-1">{stat.value}</p>
-                  <p className="text-sm text-white/70">{stat.subtext}</p>
-                </div>
-              ))}
+            {/* Pipeline Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Prospects</h3>
+                <p className="text-3xl font-bold">{prospects.length}</p>
+              </div>
+              <div className="bg-gradient-to-br from-cyan-600 to-cyan-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Active Pipeline</h3>
+                <p className="text-3xl font-bold">{activePipeline}</p>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Qualifying</h3>
+                <p className="text-3xl font-bold">{prospectsByStatus.qualifying}</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-600 to-purple-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Proposals Out</h3>
+                <p className="text-3xl font-bold">{prospectsByStatus.proposal}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-600 to-green-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Pipeline Value</h3>
+                <p className="text-3xl font-bold">{pipelineValue > 0 ? `$${(pipelineValue / 1000).toFixed(0)}K` : '$0'}</p>
+              </div>
             </div>
 
-            {/* Recent Prospects */}
-            {prospects.length > 0 && (
-              <div className="bg-gray-800 rounded-xl p-6 mb-6">
+            {/* Prospect Pipeline + Execute the System */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Prospect Pipeline */}
+              <div className="bg-gray-800 rounded-xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold">Recent Prospects</h3>
-                  <button 
-                    onClick={() => setActiveTab('pipeline')}
-                    className="text-blue-400 hover:text-blue-300 font-semibold"
-                  >
-                    View All →
-                  </button>
+                  <h3 className="text-lg font-bold">Prospect Pipeline</h3>
+                  {prospects.length > 0 && (
+                    <button onClick={() => setActiveTab('pipeline')} className="text-blue-400 hover:text-blue-300 text-xs font-semibold">
+                      Manage All
+                    </button>
+                  )}
                 </div>
-                <div className="space-y-3">
-                  {prospects.slice(0, 5).map((prospect: any) => (
-                    <div key={prospect.id} className="bg-gray-700/50 border border-gray-600 px-4 py-4 rounded-lg">
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-bold text-blue-400">{prospect.companyName}</h4>
-                          <p className="text-sm text-gray-400">{prospect.industry} • {prospect.companySize}</p>
+                {prospects.length > 0 ? (
+                  <div className="space-y-2">
+                    {prospects.slice(0, 6).map((prospect: any) => (
+                      <div key={prospect.id} className="flex items-center justify-between bg-gray-700/50 border border-gray-600/50 px-4 py-3 rounded-lg">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm text-blue-400 truncate">{prospect.companyName || 'Unnamed'}</h4>
+                          <p className="text-xs text-gray-400 truncate">{prospect.industry || 'No industry'}{prospect.companySize ? ` • ${prospect.companySize}` : ''}</p>
                         </div>
-                        <span className={`text-xs font-bold px-2 py-1 rounded ${
-                          prospect.status === 'Qualifying' ? 'bg-yellow-500/20 text-yellow-400' :
-                          prospect.status === 'Proposal' ? 'bg-blue-500/20 text-blue-400' :
-                          'bg-gray-500/20 text-gray-400'
-                        }`}>
-                          {prospect.status || 'New'}
-                        </span>
+                        <div className="flex items-center gap-3 ml-3">
+                          {prospect.budget && <span className="text-xs text-green-400 font-semibold">{prospect.budget}</span>}
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                            prospect.status === 'Qualifying' ? 'bg-yellow-500/20 text-yellow-400' :
+                            prospect.status === 'Proposal' ? 'bg-blue-500/20 text-blue-400' :
+                            prospect.status === 'Won' || prospect.status === 'Closed Won' ? 'bg-green-500/20 text-green-400' :
+                            'bg-gray-500/20 text-gray-400'
+                          }`}>
+                            {prospect.status || 'New'}
+                          </span>
+                        </div>
                       </div>
-                      {prospect.budget && (
-                        <div className="text-sm text-gray-300">
-                          Budget: <span className="text-green-400 font-semibold">{prospect.budget}</span>
-                        </div>
-                      )}
-                    </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-10">
+                    <p className="text-gray-500 text-sm font-semibold mb-1">Pipeline is empty</p>
+                    <p className="text-gray-600 text-xs mb-4">Add your first corporate prospect to get started</p>
+                    <button onClick={() => setActiveTab('pipeline')} className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                      Add First Prospect
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Execute the System */}
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-lg font-bold mb-2">Execute the System</h3>
+                <p className="text-xs text-gray-500 mb-4">Every prospect runs through this process. The system works — you decide.</p>
+                <div className="space-y-2">
+                  {[
+                    { step: '1', label: 'Add Prospect to Pipeline', sub: 'Company, industry, challenge, budget', tab: 'pipeline', color: 'text-blue-400' },
+                    { step: '2', label: 'AI Qualifies & Scores', sub: 'ICP fit analysis, go/no-go recommendation', tab: 'pipeline', color: 'text-cyan-400' },
+                    { step: '3', label: 'Build Client Avatar', sub: 'Decision-maker profile, pain points, goals', tab: 'client-avatar', color: 'text-green-400' },
+                    { step: '4', label: 'Generate Blueprint', sub: 'ALIGN/DEFINE/DESIGN/SHINE for this prospect', tab: 'blueprint', color: 'text-purple-400' },
+                    { step: '5', label: 'Create PitchMap & Propose', sub: 'AI pitch script tailored to their pain', tab: 'pitchmap', color: 'text-yellow-400' },
+                    { step: '6', label: 'Follow Up (5x5 System)', sub: '5 touches, 5 channels until close', tab: 'corporate-mastery', color: 'text-pink-400' },
+                    { step: '7', label: 'Win > Hand Off to ATLAS', sub: 'Closed deal becomes an ATLAS project', tab: 'pipeline', color: 'text-green-400' },
+                  ].map((item) => (
+                    <button
+                      key={item.step}
+                      onClick={() => setActiveTab(item.tab)}
+                      className="w-full flex items-center gap-3 bg-gray-700/30 hover:bg-gray-700/60 border border-gray-700 hover:border-gray-600 px-3 py-2.5 rounded-lg transition text-left"
+                    >
+                      <span className={`text-xs font-bold ${item.color} bg-white/5 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0`}>{item.step}</span>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-xs">{item.label}</p>
+                        <p className="text-[10px] text-gray-500 truncate">{item.sub}</p>
+                      </div>
+                    </button>
                   ))}
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* Blueprint Progress */}
-            <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold mb-4">Your Blueprint Progress</h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Navigate the System — quick links to all tabs */}
+            <div className="bg-gray-800 rounded-xl p-6">
+              <h3 className="text-lg font-bold mb-4">Navigate the System</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                  { name: 'ALIGN', desc: 'Define purpose', tab: 'blueprint' },
-                  { name: 'DEFINE', desc: 'Who you serve', tab: 'client-avatar' },
-                  { name: 'DESIGN', desc: 'Build offer', tab: 'success-path' },
-                  { name: 'SHINE', desc: 'Craft message', tab: 'pitchmap' }
-                ].map((framework, index) => (
-                  <div 
-                    key={framework.name} 
-                    className="text-center cursor-pointer hover:scale-105 transition"
-                    onClick={() => setActiveTab(framework.tab)}
+                  { label: 'Corporate Sales Mastery', sub: '6 frameworks for $25K+ deals', tab: 'corporate-mastery', color: 'border-blue-600/40 hover:border-blue-500' },
+                  { label: 'Blueprint Framework', sub: 'ALIGN > DEFINE > DESIGN > SHINE', tab: 'blueprint', color: 'border-green-600/40 hover:border-green-500' },
+                  { label: 'Client Avatar Builder', sub: 'Define who you serve', tab: 'client-avatar', color: 'border-purple-600/40 hover:border-purple-500' },
+                  { label: 'Success Path Builder', sub: 'Map the offer & outcome', tab: 'success-path', color: 'border-cyan-600/40 hover:border-cyan-500' },
+                  { label: 'PitchMap Generator', sub: 'AI-crafted pitch scripts', tab: 'pitchmap', color: 'border-yellow-600/40 hover:border-yellow-500' },
+                  { label: 'Your 6 Sectors', sub: 'Pre-built sector playbooks', tab: 'your-sectors', color: 'border-orange-600/40 hover:border-orange-500' },
+                  { label: 'AI Response Handler', sub: 'Analyze emails, draft replies', tab: 'ai-handler', color: 'border-pink-600/40 hover:border-pink-500' },
+                  { label: 'Pipeline Tracker', sub: 'Manage all prospects', tab: 'pipeline', color: 'border-emerald-600/40 hover:border-emerald-500' },
+                ].map((nav) => (
+                  <button
+                    key={nav.tab}
+                    onClick={() => setActiveTab(nav.tab)}
+                    className={`border ${nav.color} bg-gray-700/30 hover:bg-gray-700/60 rounded-xl p-4 text-left transition cursor-pointer`}
                   >
-                    <div className="w-16 h-16 mx-auto mb-3 border-4 border-gray-600 rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold">0%</span>
-                    </div>
-                    <p className="font-semibold">{framework.name}</p>
-                    <p className="text-xs text-gray-400">{framework.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Automated Workflows & AI Copilot */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4">🤖 Automated Workflows (Active)</h3>
-                <div className="space-y-3">
-                  <div className="bg-green-900/30 border border-green-700 px-4 py-3 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <p className="font-semibold">Email Monitoring</p>
-                      </div>
-                      <span className="text-xs bg-green-500/20 px-2 py-1 rounded text-green-400">RUNNING</span>
-                    </div>
-                    <p className="text-xs text-gray-400">Auto-checks Gmail every hour for responses</p>
-                    <p className="text-xs text-green-400 mt-1">Last check: 2 min ago • Next: 58 min</p>
-                  </div>
-                  
-                  <div className="bg-green-900/30 border border-green-700 px-4 py-3 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <p className="font-semibold">AI Response Analysis</p>
-                      </div>
-                      <span className="text-xs bg-green-500/20 px-2 py-1 rounded text-green-400">RUNNING</span>
-                    </div>
-                    <p className="text-xs text-gray-400">Auto-analyzes responses, suggests replies</p>
-                    <p className="text-xs text-green-400 mt-1">0 responses waiting for review</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4">⚡ AI Copilot Suggestions</h3>
-                <div className="space-y-3">
-                  <div className="bg-blue-900/30 border border-blue-700 px-4 py-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">💡</span>
-                      <p className="font-semibold text-blue-400">Ready to Start?</p>
-                    </div>
-                    <p className="text-sm text-gray-300 mb-3">I recommend starting with your pre-built Emergency Logistics sector. It's ready to go!</p>
-                    <button 
-                      onClick={() => setActiveTab('your-sectors')}
-                      className="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-sm font-semibold transition"
-                    >
-                      View Your 6 Sectors →
-                    </button>
-                  </div>
-
-                  <div className="bg-purple-900/30 border border-purple-700 px-4 py-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">📧</span>
-                      <p className="font-semibold text-purple-400">No Contacts Yet</p>
-                    </div>
-                    <p className="text-sm text-gray-300 mb-3">Want me to help you build your first prospect list? I can generate 75 contacts in your target sector.</p>
-                    <button className="w-full bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded-lg text-sm font-semibold transition">
-                      Build Prospect List →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* What Happens Automatically */}
-            <div className="mt-6 bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700 rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-4 text-center">🔄 What Happens Automatically (You Just Approve)</h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {[
-                  { icon: '📨', title: 'Email Monitoring', desc: 'Checks Gmail hourly, extracts responses' },
-                  { icon: '🤖', title: 'AI Analysis', desc: 'Categorizes, suggests perfect reply' },
-                  { icon: '📊', title: 'Pipeline Update', desc: 'Moves prospects, flags urgent' },
-                  { icon: '✅', title: 'You Approve', desc: 'Review, personalize, send (2 min)' }
-                ].map((item) => (
-                  <div key={item.title} className="text-center">
-                    <div className="text-4xl mb-2">{item.icon}</div>
-                    <p className="font-semibold text-sm mb-1">{item.title}</p>
-                    <p className="text-xs text-gray-400">{item.desc}</p>
-                  </div>
+                    <p className="font-bold text-sm mb-0.5">{nav.label}</p>
+                    <p className="text-[11px] text-gray-500">{nav.sub}</p>
+                  </button>
                 ))}
               </div>
             </div>
@@ -531,6 +556,366 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
                 </div>
               </div>
             )}
+
+            {/* PITCH SCRIPTS */}
+            {corporateSection === 'pitch-scripts' && (
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-2xl font-bold mb-4">📝 Corporate Pitch Scripts</h3>
+                <p className="text-gray-400 mb-6">Pre-built conversation frameworks for every stage. Stop winging it — run the script, close the deal.</p>
+
+                <div className="bg-green-900/30 border border-green-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold text-green-400 mb-3">Core Principle</h4>
+                  <p className="text-gray-300">Corporate buyers don't respond to features. They respond to outcomes, risk reduction, and ROI. Every script leads with the problem you eliminate, not the service you sell.</p>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Cold Outreach Script */}
+                  <div className="bg-gray-700 rounded-xl p-6">
+                    <h4 className="font-bold text-lg mb-2 text-blue-400">Script 1: Cold Outreach (First Touch)</h4>
+                    <p className="text-xs text-gray-400 mb-4">Use when reaching out to a new prospect for the first time. Goal: get the meeting, not close the deal.</p>
+                    <div className="bg-gray-800 rounded-lg p-4 space-y-3 text-sm">
+                      <div><span className="text-blue-400 font-semibold">OPENER:</span> <span className="text-gray-300">"Hi [Name], I work with [industry] companies that are dealing with [specific problem]. I noticed [something specific about their company] and wanted to see if this is on your radar."</span></div>
+                      <div><span className="text-yellow-400 font-semibold">HOOK:</span> <span className="text-gray-300">"We recently helped a similar company [specific result — save $X, reduce Y by Z%, eliminate problem]. I thought it might be relevant to what you're doing."</span></div>
+                      <div><span className="text-green-400 font-semibold">ASK:</span> <span className="text-gray-300">"Would it make sense to grab 15 minutes this week to see if there's a fit? If not, no worries at all."</span></div>
+                    </div>
+                    <div className="mt-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-3">
+                      <p className="text-xs text-yellow-400"><span className="font-bold">Key:</span> Keep it short. No one reads a 5-paragraph cold email. 3-4 sentences max. Specific beats generic.</p>
+                    </div>
+                  </div>
+
+                  {/* Discovery Call Script */}
+                  <div className="bg-gray-700 rounded-xl p-6">
+                    <h4 className="font-bold text-lg mb-2 text-green-400">Script 2: Discovery Call (First Meeting)</h4>
+                    <p className="text-xs text-gray-400 mb-4">Use on the first call. Goal: understand their pain deeply enough to position your solution perfectly.</p>
+                    <div className="bg-gray-800 rounded-lg p-4 space-y-3 text-sm">
+                      <div><span className="text-blue-400 font-semibold">FRAME:</span> <span className="text-gray-300">"Thanks for making time. I'd love to learn about what's happening on your end first, then I can share how we might be able to help. Sound good?"</span></div>
+                      <div><span className="text-yellow-400 font-semibold">DIG (Pain):</span> <span className="text-gray-300">"What's the biggest challenge you're facing with [area] right now?"</span></div>
+                      <div><span className="text-yellow-400 font-semibold">DIG (Cost):</span> <span className="text-gray-300">"What does that cost you — in time, money, or missed opportunities?"</span></div>
+                      <div><span className="text-yellow-400 font-semibold">DIG (Timeline):</span> <span className="text-gray-300">"How long has this been a problem? What happens if it doesn't get solved in the next 6 months?"</span></div>
+                      <div><span className="text-green-400 font-semibold">BRIDGE:</span> <span className="text-gray-300">"Based on what you're telling me, this is exactly the kind of problem we solve. Can I walk you through how we'd approach this?"</span></div>
+                    </div>
+                    <div className="mt-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-3">
+                      <p className="text-xs text-yellow-400"><span className="font-bold">Key:</span> Listen 80%, talk 20%. Your job is to understand their world, not pitch. The pitch comes in Script 3.</p>
+                    </div>
+                  </div>
+
+                  {/* Proposal Presentation Script */}
+                  <div className="bg-gray-700 rounded-xl p-6">
+                    <h4 className="font-bold text-lg mb-2 text-purple-400">Script 3: Proposal Presentation (Closing)</h4>
+                    <p className="text-xs text-gray-400 mb-4">Use when presenting your solution. Goal: make the investment feel like a no-brainer.</p>
+                    <div className="bg-gray-800 rounded-lg p-4 space-y-3 text-sm">
+                      <div><span className="text-blue-400 font-semibold">RECAP:</span> <span className="text-gray-300">"Last time we talked, you mentioned [pain point 1], [pain point 2], and that it's costing you approximately [cost]. Is that still accurate?"</span></div>
+                      <div><span className="text-yellow-400 font-semibold">SOLUTION:</span> <span className="text-gray-300">"Here's exactly how we'd solve that. [Walk through your 3-tier offer — Core, Enhancement, Risk Mitigation]"</span></div>
+                      <div><span className="text-green-400 font-semibold">ROI FRAME:</span> <span className="text-gray-300">"So the total investment is $25K annually. Based on what you told me, you're losing roughly $[X] per year to this problem. This pays for itself in [timeframe]."</span></div>
+                      <div><span className="text-purple-400 font-semibold">CLOSE:</span> <span className="text-gray-300">"What questions do you have? ... Great. Should we get the paperwork started, or would you like to loop in [decision maker] first?"</span></div>
+                    </div>
+                    <div className="mt-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-3">
+                      <p className="text-xs text-yellow-400"><span className="font-bold">Key:</span> Always tie the price back to the cost of their problem. $25K to solve a $100K problem is a 4x return. Frame it that way.</p>
+                    </div>
+                  </div>
+
+                  {/* Objection Handling */}
+                  <div className="bg-gray-700 rounded-xl p-6">
+                    <h4 className="font-bold text-lg mb-2 text-red-400">Script 4: Objection Handlers</h4>
+                    <p className="text-xs text-gray-400 mb-4">The 5 objections you'll hear every time, and exactly how to handle them.</p>
+                    <div className="space-y-3">
+                      {[
+                        { objection: '"It\'s too expensive"', response: '"I hear you. Let me ask — what\'s the cost of NOT solving this for another year? If this problem is costing you $X/year, the question isn\'t whether you can afford the solution — it\'s whether you can afford not to have one."' },
+                        { objection: '"We need to think about it"', response: '"Absolutely, take whatever time you need. Can I ask — what specifically do you need to think through? Sometimes I can address that right now and save us both a round trip."' },
+                        { objection: '"We\'re already working with someone"', response: '"That\'s great — it means you already see the value. Curious though, if everything was working perfectly, would we be having this conversation? What\'s the gap you\'re seeing?"' },
+                        { objection: '"Can you send me a proposal?"', response: '"I\'d love to. Before I do, I want to make sure it\'s tailored exactly to your situation. Can we do a quick 15-minute call so I don\'t send you something generic?"' },
+                        { objection: '"We don\'t have budget right now"', response: '"When does your next budget cycle start? Let\'s plan for that. In the meantime, I can send over a summary of the ROI so you have ammunition when budget conversations happen."' },
+                      ].map((item, idx) => (
+                        <div key={idx} className="bg-gray-800 rounded-lg p-4">
+                          <p className="text-sm font-bold text-red-400 mb-2">{item.objection}</p>
+                          <p className="text-sm text-gray-300">{item.response}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* STACK CLOSE */}
+            {corporateSection === 'stack-close' && (
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-2xl font-bold mb-4">🎯 The Stack Close Method</h3>
+                <p className="text-gray-400 mb-6">Layer so much value that the price feels like a fraction of what they're getting. Make saying "no" feel irrational.</p>
+
+                <div className="bg-purple-900/30 border border-purple-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold text-purple-400 mb-3">Core Principle</h4>
+                  <p className="text-gray-300">The Stack Close isn't about discounting. It's about systematically revealing the total value of everything included until the price-to-value gap is so wide that the investment becomes obvious.</p>
+                </div>
+
+                {/* The Stack */}
+                <div className="bg-gray-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold mb-4">Building The Value Stack</h4>
+                  <p className="text-sm text-gray-400 mb-4">Present each layer one at a time. Let them absorb the value before revealing the price.</p>
+                  <div className="space-y-3">
+                    {[
+                      { layer: 'Layer 1', name: 'Core Delivery', value: '$15,000', desc: 'The primary service — what solves their main problem', color: 'border-blue-600 bg-blue-900/20' },
+                      { layer: 'Layer 2', name: 'Custom Implementation', value: '$5,000', desc: 'Tailored setup, onboarding, integration with their systems', color: 'border-green-600 bg-green-900/20' },
+                      { layer: 'Layer 3', name: 'Strategic Consulting', value: '$4,000', desc: '4 quarterly strategy sessions with leadership', color: 'border-purple-600 bg-purple-900/20' },
+                      { layer: 'Layer 4', name: 'Priority Support', value: '$3,000', desc: 'Dedicated account manager, expedited response times', color: 'border-yellow-600 bg-yellow-900/20' },
+                      { layer: 'Layer 5', name: 'Training & Documentation', value: '$2,500', desc: 'Full team training, custom SOPs, video walkthroughs', color: 'border-cyan-600 bg-cyan-900/20' },
+                      { layer: 'Layer 6', name: 'Compliance & Risk Shield', value: '$2,000', desc: 'Audit-ready documentation, compliance monitoring, risk alerts', color: 'border-red-600 bg-red-900/20' },
+                    ].map((layer) => (
+                      <div key={layer.layer} className={`border ${layer.color} rounded-lg p-4 flex items-center justify-between`}>
+                        <div>
+                          <p className="font-bold text-sm">{layer.layer}: {layer.name}</p>
+                          <p className="text-xs text-gray-400">{layer.desc}</p>
+                        </div>
+                        <span className="text-green-400 font-bold text-lg ml-4 flex-shrink-0">{layer.value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 border-t border-gray-600 pt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-400 font-semibold">Total Value:</span>
+                      <span className="text-gray-400 font-bold text-xl line-through">$31,500</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white font-bold text-lg">Your Investment:</span>
+                      <span className="text-green-400 font-bold text-2xl">$25,000/year</span>
+                    </div>
+                    <p className="text-xs text-green-400 mt-2 text-right">That's a 79¢ return for every $1 in value — before counting the ROI on solving their problem.</p>
+                  </div>
+                </div>
+
+                {/* The Delivery Script */}
+                <div className="bg-gray-700 rounded-xl p-6">
+                  <h4 className="font-bold mb-4">How to Deliver the Stack</h4>
+                  <div className="space-y-4 text-sm">
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <p className="font-bold text-blue-400 mb-2">Step 1: Present Each Layer Separately</p>
+                      <p className="text-gray-300">"First, you get [Core Delivery] — this alone is worth $15K based on what companies in your industry typically pay for this."</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <p className="font-bold text-green-400 mb-2">Step 2: Build the Running Total</p>
+                      <p className="text-gray-300">"On top of that, you also get [Custom Implementation]... that brings us to $20K in value. But we're not done."</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <p className="font-bold text-purple-400 mb-2">Step 3: Pause Before the Price</p>
+                      <p className="text-gray-300">"So the total package value is $31,500. Now, because we're looking at an annual partnership, your investment is... $25,000."</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <p className="font-bold text-yellow-400 mb-2">Step 4: Anchor to Their Problem Cost</p>
+                      <p className="text-gray-300">"You told me this problem costs you roughly $[X] per year. At $25K, you're getting $31K in value AND solving a $[X] problem. This pays for itself by [month]."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TARGETING MAP */}
+            {corporateSection === 'targeting-map' && (
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-2xl font-bold mb-4">🎯 The Targeting Map</h3>
+                <p className="text-gray-400 mb-6">Stop chasing everyone. Identify the exact companies, roles, and signals that make a prospect worth pursuing.</p>
+
+                <div className="bg-yellow-900/30 border border-yellow-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold text-yellow-400 mb-3">Core Principle</h4>
+                  <p className="text-gray-300">Not every company is your client. The Targeting Map filters the entire market down to the companies most likely to buy, most profitable to serve, and most aligned with your expertise. Precision beats volume every time.</p>
+                </div>
+
+                {/* The 4 Filters */}
+                <div className="bg-gray-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold mb-4">The 4-Filter Targeting System</h4>
+                  <div className="space-y-4">
+                    <div className="bg-yellow-900/20 border border-yellow-600 rounded-lg p-4">
+                      <h5 className="font-bold text-yellow-400 mb-2">Filter 1: Industry Fit</h5>
+                      <p className="text-sm text-gray-300 mb-2">Which industries have the problem you solve?</p>
+                      <ul className="text-sm text-gray-400 space-y-1">
+                        <li>• What industries have you served successfully?</li>
+                        <li>• Where does your expertise create the most value?</li>
+                        <li>• Which industries are growing and have budget?</li>
+                      </ul>
+                    </div>
+                    <div className="bg-blue-900/20 border border-blue-600 rounded-lg p-4">
+                      <h5 className="font-bold text-blue-400 mb-2">Filter 2: Company Size & Revenue</h5>
+                      <p className="text-sm text-gray-300 mb-2">Who can actually afford a $25K engagement?</p>
+                      <ul className="text-sm text-gray-400 space-y-1">
+                        <li>• Sweet spot: $5M-$100M revenue (big enough to pay, small enough to access decision-makers)</li>
+                        <li>• 50-500 employees (enough pain, not too bureaucratic)</li>
+                        <li>• Growing companies over stagnant ones (growth creates problems you solve)</li>
+                      </ul>
+                    </div>
+                    <div className="bg-green-900/20 border border-green-600 rounded-lg p-4">
+                      <h5 className="font-bold text-green-400 mb-2">Filter 3: Decision-Maker Access</h5>
+                      <p className="text-sm text-gray-300 mb-2">Can you reach the person who signs the check?</p>
+                      <ul className="text-sm text-gray-400 space-y-1">
+                        <li>• Target: C-suite, VP, Director level (not managers or coordinators)</li>
+                        <li>• LinkedIn accessible? Speaking at events? Active in industry groups?</li>
+                        <li>• If you can't reach the decision-maker in 3 touches, move on</li>
+                      </ul>
+                    </div>
+                    <div className="bg-purple-900/20 border border-purple-600 rounded-lg p-4">
+                      <h5 className="font-bold text-purple-400 mb-2">Filter 4: Buying Signals</h5>
+                      <p className="text-sm text-gray-300 mb-2">Is there evidence they're ready to buy NOW?</p>
+                      <ul className="text-sm text-gray-400 space-y-1">
+                        <li>• Recently raised funding or had a growth event</li>
+                        <li>• Hiring for roles related to your solution area</li>
+                        <li>• Publicly mentioned challenges you solve (interviews, press, LinkedIn posts)</li>
+                        <li>• Current vendor contract expiring (check SAM.gov for government, industry reports for private)</li>
+                        <li>• Leadership change (new executives often bring new budgets)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Prospect Scoring */}
+                <div className="bg-gray-700 rounded-xl p-6">
+                  <h4 className="font-bold mb-4">Quick Score: Is This Prospect Worth Pursuing?</h4>
+                  <p className="text-sm text-gray-400 mb-4">Score each prospect 1-5 on these 4 criteria. Total 16+ = pursue aggressively. 12-15 = warm lead. Below 12 = pass.</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {[
+                      { criteria: 'Problem Severity', q: 'How badly do they need this solved?' },
+                      { criteria: 'Budget Capacity', q: 'Can they afford $25K+?' },
+                      { criteria: 'Decision Access', q: 'Can you reach the buyer?' },
+                      { criteria: 'Timing', q: 'Are they ready to act now?' },
+                    ].map((c) => (
+                      <div key={c.criteria} className="bg-gray-800 rounded-lg p-4 text-center">
+                        <p className="font-bold text-sm mb-1">{c.criteria}</p>
+                        <p className="text-xs text-gray-400">{c.q}</p>
+                        <p className="text-lg font-bold text-yellow-400 mt-2">_ / 5</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* CONTENT FLYWHEEL */}
+            {corporateSection === 'flywheel' && (
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-2xl font-bold mb-4">🔄 The Content Flywheel</h3>
+                <p className="text-gray-400 mb-6">Create once, repurpose everywhere. Build authority that attracts corporate clients to you instead of chasing them.</p>
+
+                <div className="bg-red-900/30 border border-red-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold text-red-400 mb-3">Core Principle</h4>
+                  <p className="text-gray-300">Corporate decision-makers don't buy from cold emails alone. They buy from people they trust, respect, and see as authorities. The Flywheel turns one piece of thinking into 10+ pieces of content across every platform — consistently, without burning out.</p>
+                </div>
+
+                {/* The Flywheel Process */}
+                <div className="bg-gray-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold mb-4">The 1-to-10 Content Engine</h4>
+                  <p className="text-sm text-gray-400 mb-4">Start with ONE core insight per week. Then break it down.</p>
+
+                  <div className="space-y-3">
+                    <div className="bg-gray-800 rounded-lg p-4 border-l-4 border-blue-500">
+                      <p className="font-bold text-blue-400 text-sm mb-1">Step 1: Core Content (1 piece/week)</p>
+                      <p className="text-sm text-gray-300">Write one 500-word LinkedIn article or record one 5-min video about a real problem you solve.</p>
+                      <p className="text-xs text-gray-500 mt-1">Example: "3 reasons your emergency logistics plan will fail when disaster hits"</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4 border-l-4 border-green-500">
+                      <p className="font-bold text-green-400 text-sm mb-1">Step 2: Break Into Micro-Content (5-7 pieces)</p>
+                      <p className="text-sm text-gray-300">Pull quotes, stats, and key points from your core piece:</p>
+                      <ul className="text-xs text-gray-400 mt-1 space-y-1">
+                        <li>• 3 LinkedIn text posts (one key point each)</li>
+                        <li>• 1 carousel or infographic</li>
+                        <li>• 1 email newsletter snippet</li>
+                        <li>• 1 short-form video (60 sec — talk through one point)</li>
+                      </ul>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4 border-l-4 border-purple-500">
+                      <p className="font-bold text-purple-400 text-sm mb-1">Step 3: Engage & Distribute (Daily — 15 min)</p>
+                      <p className="text-sm text-gray-300">Comment on your prospects' posts. Share your micro-content. DM people who engage.</p>
+                      <p className="text-xs text-gray-500 mt-1">The content gets you noticed. The engagement builds the relationship.</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4 border-l-4 border-yellow-500">
+                      <p className="font-bold text-yellow-400 text-sm mb-1">Step 4: Archive & Compound (Monthly)</p>
+                      <p className="text-sm text-gray-300">At month-end, package your best content into:</p>
+                      <ul className="text-xs text-gray-400 mt-1 space-y-1">
+                        <li>• A case study or white paper</li>
+                        <li>• A "best of" email to your list</li>
+                        <li>• Talking points for calls and pitches</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Topics */}
+                <div className="bg-gray-700 rounded-xl p-6">
+                  <h4 className="font-bold mb-4">What to Talk About (Content Pillars)</h4>
+                  <p className="text-sm text-gray-400 mb-4">Rotate between these 4 pillars. Never run out of ideas.</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                      { pillar: 'Problem Awareness', desc: 'Educate prospects about problems they don\'t realize they have. Make them feel the pain.', example: '"Most companies don\'t discover their compliance gap until the audit..."' },
+                      { pillar: 'Solution Proof', desc: 'Show how problems get solved — case studies, before/after, methodology breakdowns.', example: '"Here\'s exactly how we saved a fleet company $180K in 90 days..."' },
+                      { pillar: 'Authority & Credibility', desc: 'Share your perspective, industry analysis, predictions. Position as the expert.', example: '"3 trends that will reshape emergency logistics by 2027..."' },
+                      { pillar: 'Behind the Scenes', desc: 'Show how you work, your process, your team. People buy from people they trust.', example: '"Here\'s what a typical engagement looks like in week 1..."' },
+                    ].map((p) => (
+                      <div key={p.pillar} className="bg-gray-800 rounded-lg p-4">
+                        <p className="font-bold text-sm mb-1">{p.pillar}</p>
+                        <p className="text-xs text-gray-400 mb-2">{p.desc}</p>
+                        <p className="text-xs text-gray-500 italic">{p.example}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 5x5 FOLLOW-UP */}
+            {corporateSection === 'follow-up' && (
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-2xl font-bold mb-4">📧 The 5x5 Follow-Up System</h3>
+                <p className="text-gray-400 mb-6">5 touches across 5 channels over 25 days. Systematic follow-up that converts without being annoying.</p>
+
+                <div className="bg-pink-900/30 border border-pink-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold text-pink-400 mb-3">Core Principle</h4>
+                  <p className="text-gray-300">80% of deals close after the 5th contact. Most people quit after 1-2 attempts. The 5x5 system ensures you stay in front of every prospect through multiple channels — email, phone, LinkedIn, video, and mail — so they can't forget you even if they want to.</p>
+                </div>
+
+                {/* The 5x5 Grid */}
+                <div className="bg-gray-700 rounded-xl p-6 mb-6">
+                  <h4 className="font-bold mb-4">The 25-Day Follow-Up Sequence</h4>
+                  <div className="space-y-3">
+                    {[
+                      { day: 'Day 1', channel: 'Email', action: 'Send initial outreach email (Script 1 from Pitch Scripts)', tone: 'Professional, direct, value-first', color: 'border-blue-500' },
+                      { day: 'Day 3', channel: 'LinkedIn', action: 'Connect + personalized note referencing their recent post or company news', tone: 'Casual, human, curious', color: 'border-cyan-500' },
+                      { day: 'Day 7', channel: 'Phone', action: 'Call their office. Leave a 30-second voicemail if no answer. Reference the email.', tone: 'Warm, confident, brief', color: 'border-green-500' },
+                      { day: 'Day 10', channel: 'Email', action: 'Follow-up with a relevant case study or insight. "Thought this might be useful..."', tone: 'Giving value, not asking', color: 'border-blue-500' },
+                      { day: 'Day 14', channel: 'LinkedIn', action: 'Comment on their post or share an article and tag them. Stay visible.', tone: 'Peer-to-peer, not salesy', color: 'border-cyan-500' },
+                      { day: 'Day 17', channel: 'Video', action: 'Send a 60-second personalized Loom video. "Hey [Name], quick thought for you..."', tone: 'Personal, unexpected, memorable', color: 'border-purple-500' },
+                      { day: 'Day 20', channel: 'Phone', action: 'Second call attempt. This time mention the video. "Did you get my video message?"', tone: 'Direct, friendly callback', color: 'border-green-500' },
+                      { day: 'Day 22', channel: 'Email', action: 'Break-up email: "I don\'t want to be a pest. If timing is off, no worries — when should I circle back?"', tone: 'Respectful exit, leaves door open', color: 'border-yellow-500' },
+                      { day: 'Day 25', channel: 'Mail', action: 'Send a handwritten note or printed case study to their office. Physical mail stands out.', tone: 'Memorable, personal touch', color: 'border-red-500' },
+                    ].map((touch) => (
+                      <div key={touch.day} className={`bg-gray-800 rounded-lg p-4 border-l-4 ${touch.color}`}>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="font-bold text-sm">{touch.day}: {touch.channel}</p>
+                          <span className="text-xs text-gray-500">{touch.tone}</span>
+                        </div>
+                        <p className="text-sm text-gray-300">{touch.action}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Rules */}
+                <div className="bg-gray-700 rounded-xl p-6">
+                  <h4 className="font-bold mb-4">5x5 Rules</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                      { rule: 'Never pitch twice in a row', why: 'Alternate between giving value and making asks. If Touch 1 was an ask, Touch 2 should be pure value.' },
+                      { rule: 'Vary the channel', why: 'Email, phone, LinkedIn, video, mail — hit them from different angles. Some people don\'t do email. Some live on LinkedIn.' },
+                      { rule: 'Reference previous touches', why: '"I sent you a video last week about..." builds continuity. They\'ll feel like they already know you.' },
+                      { rule: 'Know when to stop', why: 'After the 5x5 (Day 25), move them to a quarterly check-in list. Don\'t keep hammering. Timing may just be wrong.' },
+                      { rule: 'Track everything', why: 'Log every touch in the pipeline. Know exactly where every prospect is in the sequence.' },
+                      { rule: 'The break-up email works', why: 'More prospects respond to "I\'ll stop reaching out" than to "just checking in." Give them permission to say no — many say yes.' },
+                    ].map((r, idx) => (
+                      <div key={idx} className="bg-gray-800 rounded-lg p-4">
+                        <p className="font-bold text-sm text-pink-400 mb-1">{r.rule}</p>
+                        <p className="text-xs text-gray-400">{r.why}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -579,9 +964,38 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
                 <div className="flex items-start gap-4">
                   <div className="bg-green-600 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">2</div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3">DEFINE - Clarify Who You Serve & Results You Deliver</h3>
-                    <p className="text-green-100 mb-4">"Specialists stand out, attract premium clients, and command higher fees"</p>
+                    <h3 className="text-2xl font-bold mb-3">DEFINE - Clarify Who You Serve &amp; Results You Deliver</h3>
+                    <p className="text-green-100 mb-4">{'"Specialists stand out, attract premium clients, and command higher fees. The riches are in the niches."'}</p>
                     
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="bg-green-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">1. The Nesting Doll Method</h4>
+                        <p className="text-sm text-green-200">Start broad, then narrow relentlessly. Industry → Sub-industry → Company size → Role → Specific pain. The smallest doll is your ideal client.</p>
+                      </div>
+                      <div className="bg-green-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">2. Pain-First Positioning</h4>
+                        <p className="text-sm text-green-200">{"Don't lead with what you do. Lead with the problem you eliminate. \"I help [specific role] at [company type] stop losing $X to [specific problem].\""}</p>
+                      </div>
+                      <div className="bg-green-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">3. Results You Deliver</h4>
+                        <p className="text-sm text-green-200">Define the measurable transformation. Before state → After state. Revenue gained, costs cut, time saved, risks eliminated. Be specific — numbers build trust.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-green-950/40 rounded-lg p-4 mb-4">
+                      <h4 className="font-bold text-sm mb-2">The Client Avatar Questions</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-green-200">
+                        <p>• What industry are they in?</p>
+                        <p>• What is their role/title?</p>
+                        <p>• What keeps them up at night?</p>
+                        <p>• What have they already tried?</p>
+                        <p>• What does success look like for them?</p>
+                        <p>• What is the cost of inaction?</p>
+                        <p>• Who else is involved in the decision?</p>
+                        <p>• What budget range makes sense?</p>
+                      </div>
+                    </div>
+
                     <button onClick={() => setActiveTab('client-avatar')} className="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold transition">
                       Build Your Client Avatar →
                     </button>
@@ -594,9 +1008,36 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
                 <div className="flex items-start gap-4">
                   <div className="bg-purple-600 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3">DESIGN - Turn Expertise Into High-Value Offer</h3>
-                    <p className="text-purple-100 mb-4">"Strong offer = clear promise of transformation + proven process + confidence positioning"</p>
+                    <h3 className="text-2xl font-bold mb-3">DESIGN - Turn Expertise Into a High-Value Offer</h3>
+                    <p className="text-purple-100 mb-4">{'"A strong offer = clear promise of transformation + proven process + confidence in positioning. Stop selling time — sell outcomes."'}</p>
                     
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="bg-purple-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">1. The Success Path</h4>
+                        <p className="text-sm text-purple-200">Map the journey from their current pain to their desired outcome. Define milestones. Show them the path is clear, tested, and repeatable.</p>
+                      </div>
+                      <div className="bg-purple-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">2. Offer Architecture</h4>
+                        <p className="text-sm text-purple-200">Structure your offer in tiers (Core + Enhancement + Risk Shield). Make it modular — clients can see the value of each component and the total is undeniable.</p>
+                      </div>
+                      <div className="bg-purple-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">3. Confidence Pricing</h4>
+                        <p className="text-sm text-purple-200">Price based on the value of the outcome, not hours worked. If you solve a $100K problem, $25K is a bargain. Anchor to the cost of their problem, not your cost to deliver.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-purple-950/40 rounded-lg p-4 mb-4">
+                      <h4 className="font-bold text-sm mb-2">Offer Design Checklist</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-purple-200">
+                        <p>• Can you articulate the transformation in one sentence?</p>
+                        <p>• Is the process clearly defined (steps/phases)?</p>
+                        <p>• Does the client understand what they get at each tier?</p>
+                        <p>• Is the price anchored to the value of the outcome?</p>
+                        <p>• Do you have proof it works (case studies, results)?</p>
+                        <p>• Is there a risk-reversal element (guarantee, pilot)?</p>
+                      </div>
+                    </div>
+
                     <button onClick={() => setActiveTab('success-path')} className="bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg font-semibold transition">
                       Build Your Success Path →
                     </button>
@@ -609,9 +1050,36 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
                 <div className="flex items-start gap-4">
                   <div className="bg-yellow-600 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">4</div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3">SHINE - Attract Ideal Clients With Memorable Message</h3>
-                    <p className="text-yellow-100 mb-4">"Your offer might be powerful, but if you can't communicate it clearly—your ideal clients won't buy it"</p>
+                    <h3 className="text-2xl font-bold mb-3">SHINE - Attract Ideal Clients With a Memorable Message</h3>
+                    <p className="text-yellow-100 mb-4">{'"Your offer might be powerful, but if you can\'t communicate it clearly — your ideal clients won\'t buy it. Clarity is the ultimate competitive advantage."'}</p>
                     
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="bg-yellow-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">1. The One-Liner</h4>
+                        <p className="text-sm text-yellow-200">{"Craft a single sentence that makes them say \"tell me more.\" Format: \"I help [who] achieve [result] without [pain point].\" Test it — if they don't lean in, rewrite it."}</p>
+                      </div>
+                      <div className="bg-yellow-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">2. The PitchMap</h4>
+                        <p className="text-sm text-yellow-200">{"Structure every pitch: Problem (make them feel it) → Agitate (cost of inaction) → Solution (your process) → Proof (results/case studies) → CTA (clear next step)."}</p>
+                      </div>
+                      <div className="bg-yellow-950/50 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2">3. Authority Signals</h4>
+                        <p className="text-sm text-yellow-200">Build trust before the pitch. Case studies, testimonials, content, certifications, speaking — show proof you can deliver before you ever ask for the sale.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-yellow-950/40 rounded-lg p-4 mb-4">
+                      <h4 className="font-bold text-sm mb-2">Message Clarity Test</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-yellow-200">
+                        <p>• Can a stranger understand your offer in 10 seconds?</p>
+                        <p>• Does your message focus on THEIR problem, not your service?</p>
+                        <p>• Is the outcome specific and measurable?</p>
+                        <p>• Could a competitor copy your message word-for-word? (If yes, it needs work)</p>
+                        <p>• Does it create urgency or FOMO?</p>
+                        <p>• Is there a clear, low-friction next step?</p>
+                      </div>
+                    </div>
+
                     <button onClick={() => setActiveTab('pitchmap')} className="bg-yellow-600 hover:bg-yellow-700 px-6 py-2 rounded-lg font-semibold transition">
                       Create Your PitchMap →
                     </button>
@@ -625,167 +1093,228 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
         {/* TAB: CLIENT AVATAR BUILDER */}
         {activeTab === 'client-avatar' && (
           <div>
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-2">👤 Client Avatar Builder</h2>
-              <p className="text-gray-400">Define your ideal client with precision - "Find the smallest nesting doll"</p>
-            </div>
-
-            <div className="bg-blue-900/30 border border-blue-700 rounded-xl p-6 mb-6">
-              <h3 className="text-lg font-bold text-blue-400 mb-2">💡 Why This Matters</h3>
-              <p className="text-sm text-gray-300">"The more precisely you define your ideal client, the more effectively you can speak to their needs. Specialists command premium fees because they understand their niche deeply."</p>
-            </div>
-
-            {/* Prospect Selection */}
-            <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold mb-4">Link to Prospect (Optional)</h3>
-              <select 
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                value={avatarFormData.prospectId}
-                onChange={(e) => setAvatarFormData({...avatarFormData, prospectId: e.target.value})}
-              >
-                <option value="">Create new avatar (not linked)</option>
-                {prospects.map(prospect => (
-                  <option key={prospect.id} value={prospect.id}>
-                    {prospect.companyName} - {prospect.industry}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Layer 1: Professional Profile */}
-            <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold mb-4">Layer 1: Professional Profile</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Avatar Name *</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g., Emergency Management Director" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.avatarName}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, avatarName: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Company Size *</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g., 200-1000 employees" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.companySize}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, companySize: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Industry/Sector *</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g., Public Sector, Emergency Services" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.industry}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, industry: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Budget Range</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g., $25K-$100K" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.budget}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, budget: e.target.value})}
-                  />
-                </div>
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold mb-1">Client Avatar Builder</h2>
+                <p className="text-gray-400">Define your ideal client with precision — find the smallest nesting doll</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => { resetAvatarForm(); }} className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                  + New Avatar
+                </button>
+                <button onClick={fetchAvatars} className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                  Refresh
+                </button>
               </div>
             </div>
 
-            {/* Layer 2: Personal Motivators */}
-            <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold mb-4">Layer 2: Personal Motivators</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Pain Points *</label>
-                  <textarea 
-                    rows={3} 
-                    placeholder="e.g., 4-5 hour mobilization times, lack of emergency response infrastructure, liability concerns" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.painPoints}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, painPoints: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Goals *</label>
-                  <textarea 
-                    rows={3} 
-                    placeholder="e.g., Improve emergency response times, reduce liability, get promoted, reduce costs" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.goals}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, goals: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Decision Makers</label>
-                  <textarea 
-                    rows={2} 
-                    placeholder="e.g., County Emergency Manager, Board of Supervisors, Budget Office" 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
-                    value={avatarFormData.decisionMakers}
-                    onChange={(e) => setAvatarFormData({...avatarFormData, decisionMakers: e.target.value})}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* AI Analysis Results */}
-            {avatarAnalysis && (
-              <div className="bg-blue-900/30 border border-blue-700 rounded-xl p-6 mb-6">
-                <h3 className="text-xl font-bold mb-4 text-blue-400">🤖 AI Analysis</h3>
-                {avatarAnalysis.qualification_score && (
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Qualification Score:</span>
-                      <span className="text-2xl font-bold text-blue-400">{avatarAnalysis.qualification_score}/100</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* LEFT: Saved Avatars List */}
+              <div className="md:col-span-1">
+                <div className="bg-gray-800 rounded-xl p-4">
+                  <h3 className="font-bold text-sm mb-3">Saved Avatars ({avatars.length})</h3>
+                  {avatarsLoading ? (
+                    <div className="text-center py-6">
+                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                      <p className="text-xs text-gray-500">Loading...</p>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div 
-                        className="bg-blue-500 h-2 rounded-full" 
-                        style={{ width: `${avatarAnalysis.qualification_score}%` }}
-                      ></div>
+                  ) : avatars.length > 0 ? (
+                    <div className="space-y-2">
+                      {avatars.map((avatar: any) => (
+                        <div
+                          key={avatar.id}
+                          className={`p-3 rounded-lg border cursor-pointer transition ${
+                            editingAvatarId === avatar.id
+                              ? 'bg-blue-900/30 border-blue-600'
+                              : 'bg-gray-700/50 border-gray-600/50 hover:border-gray-500'
+                          }`}
+                          onClick={() => loadAvatarForEdit(avatar)}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <p className="font-semibold text-sm text-blue-400 truncate">{avatar.avatarName || avatar.companyName || 'Unnamed'}</p>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); deleteClientAvatar(avatar.id); }}
+                              className="text-red-400 hover:text-red-300 text-xs ml-2 flex-shrink-0"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                          <p className="text-xs text-gray-400 truncate">{avatar.industry || 'No industry'}{avatar.companySize ? ` • ${avatar.companySize}` : ''}</p>
+                          {avatar.qualificationScore && (
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className="flex-1 bg-gray-600 rounded-full h-1.5">
+                                <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${avatar.qualificationScore}%` }}></div>
+                              </div>
+                              <span className="text-[10px] text-gray-400">{avatar.qualificationScore}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6">
+                      <p className="text-gray-500 text-xs mb-1">No avatars yet</p>
+                      <p className="text-gray-600 text-[10px]">Build your first one using the form</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* RIGHT: Avatar Form */}
+              <div className="md:col-span-2 space-y-4">
+                {/* Form Header */}
+                <div className="bg-gray-800 rounded-xl p-5">
+                  <h3 className="font-bold text-lg mb-1">{editingAvatarId ? 'Edit Avatar' : 'New Avatar'}</h3>
+                  <p className="text-xs text-gray-500">The more precise the avatar, the sharper your pitch. Fill in everything you know.</p>
+                </div>
+
+                {/* Professional Profile */}
+                <div className="bg-gray-800 rounded-xl p-5">
+                  <h4 className="font-bold text-sm mb-3 text-blue-400">Professional Profile</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Avatar / Company Name *</label>
+                      <input type="text" placeholder="e.g., Emergency Management Director"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.avatarName}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, avatarName: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Industry / Sector *</label>
+                      <input type="text" placeholder="e.g., Public Sector, Emergency Services"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.industry}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, industry: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Company Size</label>
+                      <input type="text" placeholder="e.g., 200-1000 employees"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.companySize}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, companySize: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Budget Range</label>
+                      <input type="text" placeholder="e.g., $25K-$100K"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.budget}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, budget: e.target.value})}
+                      />
                     </div>
                   </div>
-                )}
-                {avatarAnalysis.recommended_approach && (
-                  <div className="text-gray-300 mb-2">
-                    <strong>Recommended Approach:</strong> {avatarAnalysis.recommended_approach}
+                </div>
+
+                {/* Pain & Goals */}
+                <div className="bg-gray-800 rounded-xl p-5">
+                  <h4 className="font-bold text-sm mb-3 text-green-400">Pain Points &amp; Goals</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Pain Points *</label>
+                      <textarea rows={3} placeholder="What keeps them up at night? What's costing them money, time, or risk?"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.painPoints}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, painPoints: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Goals</label>
+                      <textarea rows={2} placeholder="What outcome are they trying to achieve? What does success look like for them?"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.goals}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, goals: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1">Decision Makers</label>
+                      <input type="text" placeholder="e.g., County Emergency Manager, Board of Supervisors, CFO"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+                        value={avatarFormData.decisionMakers}
+                        onChange={(e) => setAvatarFormData({...avatarFormData, decisionMakers: e.target.value})}
+                      />
+                    </div>
                   </div>
-                )}
-                {avatarAnalysis.win_probability && (
-                  <div className="text-gray-300">
-                    <strong>Win Probability:</strong> {avatarAnalysis.win_probability}%
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  {editingAvatarId ? (
+                    <>
+                      <button onClick={updateClientAvatar} disabled={savingAvatar}
+                        className={`${savingAvatar ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} px-6 py-2.5 rounded-lg font-semibold text-sm transition`}>
+                        {savingAvatar ? 'Saving...' : 'Update Avatar'}
+                      </button>
+                      <button onClick={resetAvatarForm} className="bg-gray-600 hover:bg-gray-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button onClick={createClientAvatar} disabled={savingAvatar || !avatarFormData.avatarName.trim()}
+                      className={`${savingAvatar || !avatarFormData.avatarName.trim() ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} px-6 py-2.5 rounded-lg font-semibold text-sm transition`}>
+                      {savingAvatar ? 'Analyzing...' : 'Save Avatar & Analyze with AI'}
+                    </button>
+                  )}
+                  <button onClick={() => setActiveTab('success-path')} className="bg-purple-600 hover:bg-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
+                    Next: Success Path
+                  </button>
+                </div>
+
+                {/* AI Analysis Results */}
+                {avatarAnalysis && (
+                  <div className="bg-gray-800 rounded-xl p-5 border border-blue-600/30">
+                    <h4 className="font-bold text-lg mb-4 text-blue-400">AI Analysis</h4>
+                    
+                    {/* Score + Win Probability */}
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      {avatarAnalysis.qualification_score && (
+                        <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-4">
+                          <p className="text-xs text-gray-400 mb-1">Qualification Score</p>
+                          <p className="text-3xl font-bold text-blue-400">{avatarAnalysis.qualification_score}<span className="text-sm text-gray-500">/100</span></p>
+                          <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                            <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${avatarAnalysis.qualification_score}%` }}></div>
+                          </div>
+                        </div>
+                      )}
+                      {avatarAnalysis.win_probability && (
+                        <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4">
+                          <p className="text-xs text-gray-400 mb-1">Win Probability</p>
+                          <p className="text-3xl font-bold text-green-400">{avatarAnalysis.win_probability}<span className="text-sm text-gray-500">%</span></p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Detailed Analysis */}
+                    <div className="space-y-3">
+                      {avatarAnalysis.recommended_approach && (
+                        <div className="bg-gray-700/50 rounded-lg p-3">
+                          <p className="text-xs font-bold text-gray-400 mb-1">Recommended Approach</p>
+                          <p className="text-sm text-gray-300">{avatarAnalysis.recommended_approach}</p>
+                        </div>
+                      )}
+                      {avatarAnalysis.key_pain_to_target && (
+                        <div className="bg-gray-700/50 rounded-lg p-3">
+                          <p className="text-xs font-bold text-gray-400 mb-1">Key Pain to Target</p>
+                          <p className="text-sm text-gray-300">{avatarAnalysis.key_pain_to_target}</p>
+                        </div>
+                      )}
+                      {avatarAnalysis.suggested_offer_angle && (
+                        <div className="bg-gray-700/50 rounded-lg p-3">
+                          <p className="text-xs font-bold text-gray-400 mb-1">Suggested Offer Angle</p>
+                          <p className="text-sm text-gray-300">{avatarAnalysis.suggested_offer_angle}</p>
+                        </div>
+                      )}
+                      {avatarAnalysis.objection_to_expect && (
+                        <div className="bg-gray-700/50 rounded-lg p-3">
+                          <p className="text-xs font-bold text-red-400 mb-1">Objection to Expect</p>
+                          <p className="text-sm text-gray-300">{avatarAnalysis.objection_to_expect}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
-            )}
-
-            {/* Notification */}
-            {notification && (
-              <div className={`mb-4 p-4 rounded-lg ${
-                notification.type === 'success' ? 'bg-green-900/30 border border-green-700 text-green-400' : 'bg-red-900/30 border border-red-700 text-red-400'
-              }`}>
-                {notification.message}
-              </div>
-            )}
-
-            <div className="flex gap-3">
-              <button 
-                onClick={createClientAvatar}
-                className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
-              >
-                💾 Save Avatar & Analyze with AI
-              </button>
-              <button onClick={() => setActiveTab('success-path')} className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition">
-                Next: Build Success Path →
-              </button>
             </div>
           </div>
         )}

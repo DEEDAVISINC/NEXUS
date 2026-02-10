@@ -8,6 +8,27 @@
 
 ---
 
+## 💰 QUOTE BREAKDOWN
+
+**Products:**
+- 10 Pallets 20# White 8.5×11 30% Recycled Paper
+- 1 Pallet 20# White 8.5×14 Paper
+
+**Financial Details:**
+- **Supplier Cost:** $25,850
+- **Your Quote:** $29,687
+- **Gross Profit:** $3,837 (14.8% markup)
+- **Factoring Fee (3%):** $891
+- **Net Profit:** $2,946
+
+**Notes:**
+- ✅ Staples Business Advantage account available
+- ✅ Office Depot Business account available  
+- ✅ OfficeSupply.com account available
+- 💡 For future paper bids: Get quotes from multiple office suppliers to compare pricing and increase margins
+
+---
+
 ## 📧 **FOLLOW-UP EMAIL #1 (SEND NOW)**
 
 **To:** [Procurement contact from original RFQ]  

@@ -217,20 +217,38 @@ AI ANALYSIS FIELDS:
 - fit_analysis: 2-3 sentences explaining the fit score
 - priority_level: "HIGH", "MEDIUM", or "LOW"
 - should_send_diversity_inquiry: true or false
+- set_aside_type: The set-aside classification if mentioned (e.g., "EDWOSB", "WOSB", "Small Business", "SDVOSB", "8(a)", "HUBZone", "Unrestricted", or null if not specified)
+- eligible_to_bid: true or false based on set-aside eligibility rules below
 
 DEE DAVIS INC PROFILE:
 - Product distribution/resale (office supplies, industrial goods, janitorial)
 - Landscaping materials (topsoil, grass seed, mulch, aggregates)
 - Government contracting specialist
-- EDWOSB/WOSB/MBE/WBE certified
+- Certified: EDWOSB, WOSB, MBE, WBE, Small Business
 - Located in Troy, Michigan (serves Michigan, Ohio, Indiana primarily)
 - Ideal contract size: $20K-$500K
 - Can handle larger contracts with good margins
 
+SET-ASIDE ELIGIBILITY (CRITICAL):
+We CAN bid on:
+- EDWOSB set-asides (highest priority — least competition)
+- WOSB set-asides (high priority)
+- Small Business set-asides (SBA, SBP)
+- MBE/WBE preferred opportunities
+- Unrestricted / Full & Open competition
+
+We CANNOT bid on (set eligible_to_bid = false, fit_score = 0):
+- SDVOSB (Service-Disabled Veteran-Owned) — we are not veteran-owned
+- VOSB (Veteran-Owned Small Business) — we are not veteran-owned
+- HUBZone — we are not in a HUBZone
+- 8(a) — we are not 8(a) certified
+- Indian Economic Enterprise (IEE/ISBEE)
+
 SCORING GUIDELINES:
-- HIGH fit (80-100): Perfect match, good contract size, local, likely diversity-valued
-- MEDIUM fit (60-79): Good match, but some concerns (too large, too small, far away, competitive)
-- LOW fit (<60): Poor match (wrong product, too far, wrong size)
+- HIGH fit (80-100): EDWOSB/WOSB set-aside, good product match, good contract size
+- MEDIUM fit (60-79): Small business set-aside or unrestricted, decent match
+- LOW fit (<60): Poor match (wrong product, ineligible set-aside, too far)
+- ZERO fit (0): SDVOSB, HUBZone, or 8(a) set-aside — cannot bid
 
 Send diversity inquiry if:
 - Fit score >= 70 AND

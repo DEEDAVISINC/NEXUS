@@ -1,0 +1,205 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-007",
+        "title": "Traffic Signs Quote Request - 109 Items",
+        "issue_date": "February 5, 2026",
+        "due_date": "February 10, 2026",
+        "due_time": "12:00 PM EST",
+        "project_name": "MUTCD-Compliant Traffic Signs for Michigan Municipal Client",
+        "contract_period": "Annual supply contract through December 31, 2026"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "DEE DAVIS INC, an EDWOSB-certified woman-owned small business based in Troy, Michigan, is seeking competitive bulk pricing for 109 different MUTCD-compliant traffic signs (~2,400 total signs) for a Michigan municipal government client. All signs must meet ASTM Type IV (High Intensity Prismatic) or Type XI (Diamond Grade) reflective standards as specified in the attached Excel file.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Vendor will provide MUTCD-compliant traffic signs meeting all specifications in attached Excel file. Single or phased delivery to Waterford, Michigan as required.",
+        "key_requirements": [
+            "109 different sign types (complete list in attached Excel file)",
+            "Total quantity: approximately 2,400 signs",
+            "ASTM Type IV (High Intensity Prismatic) reflective sheeting for most items",
+            "ASTM Type XI (Diamond Grade Fluorescent Yellow) for specified items",
+            "0.080 inch aluminum backing standard",
+            "Pre-drilled mounting holes",
+            "All signs must meet current MUTCD standards",
+            "Delivery to Waterford, MI 48328",
+            "Custom text for select items as specified",
+            "Tax-exempt Michigan government client"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "STOP Sign, 30x30 Octagon, R1-1",
+            "specifications": "ASTM Type IV High Intensity Prismatic, 0.080 aluminum, MUTCD R1-1 compliant, pre-drilled mounting holes",
+            "estimated_quantity": "600",
+            "unit": "signs"
+        },
+        {
+            "item_number": "2",
+            "description": "Chevron Alignment (Reversible), 24x30, W1-8RL",
+            "specifications": "ASTM Type XI Diamond Grade Fluorescent Yellow, black arrow on FY background, reversible left/right",
+            "estimated_quantity": "350",
+            "unit": "signs"
+        },
+        {
+            "item_number": "3",
+            "description": "Yellow Reflective Panel, 3x60",
+            "specifications": "ASTM Type IV, reflective panel for sign posts, 3 inches wide × 60 inches tall (or approved equivalent 3x72)",
+            "estimated_quantity": "300",
+            "unit": "panels"
+        },
+        {
+            "item_number": "4",
+            "description": "Weight Limit (Blank for Custom Tonnage), 24x30, R12-1",
+            "specifications": "ASTM Type IV, blank for custom tonnage designation, 0.080 aluminum",
+            "estimated_quantity": "300",
+            "unit": "signs"
+        },
+        {
+            "item_number": "5-109",
+            "description": "Additional 105 Sign Types (See Attached Excel)",
+            "specifications": "Complete item list with part numbers, descriptions, quantities, sizes, and ASTM specifications provided in attached Excel file: 7790 - PREFABRICATED SIGNS, ANNUAL ESTIMATED QUANTITIES_ITEMS_EN.xls",
+            "estimated_quantity": "~1,200",
+            "unit": "signs"
+        }
+    ],
+    "submission_requirements": {
+        "title": "HOW TO SUBMIT YOUR QUOTE",
+        "items": [
+            "STEP 1: Open attached Excel file 'DEE_DAVIS_INC_TRAFFIC_SIGNS_RFQ_109_ITEMS.xlsx'",
+            "STEP 2: Fill in columns for each of the 109 items: Your Part Number, Unit Price, Extended Total, Lead Time, Notes",
+            "STEP 3: Provide total freight cost to Waterford, MI 48328 (as separate line item)",
+            "STEP 4: Indicate volume discount tiers applied (20+, 40+, 100+ quantities where applicable)",
+            "STEP 5: Note any substitutions or approved equivalents for non-standard sizes",
+            "STEP 6: Confirm tax exemption applied (Michigan government client - sales tax exempt)",
+            "STEP 7: Attach product specifications and MUTCD/ASTM compliance certifications",
+            "STEP 8: Email completed Excel + supporting documents to info@deedavis.biz",
+            "EMAIL SUBJECT: Quote Response - DDI-2026-007 - Traffic Signs - [Your Company Name]",
+            "DEADLINE: February 10, 2026 @ 12:00 PM EST (5 days)",
+            "Questions? Contact Dee Davis at 248-376-4550 or info@deedavis.biz"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date"
+            },
+            {
+                "title": "Delivery",
+                "description": "FOB Destination to Waterford, MI 48328. Freight prepaid and included in pricing."
+            },
+            {
+                "title": "Contract Period",
+                "description": "Annual supply contract through December 31, 2026 with recurring order potential"
+            },
+            {
+                "title": "Quality Standards",
+                "description": "All signs must meet current MUTCD standards and specified ASTM reflective grades (Type IV or Type XI)"
+            },
+            {
+                "title": "Tax Exemption",
+                "description": "End client is tax-exempt Michigan government agency. Sales tax shall not apply."
+            },
+            {
+                "title": "Equivalents",
+                "description": "Approved equivalents acceptable for items where exact size/spec not available as standard product"
+            },
+            {
+                "title": "Insurance",
+                "description": "Vendor must maintain minimum $1M general liability insurance"
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost (Including Freight)",
+                "weight": "50%"
+            },
+            {
+                "criterion": "Product Quality & MUTCD/ASTM Compliance",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Delivery Lead Times & Availability",
+                "weight": "15%"
+            },
+            {
+                "criterion": "Volume Discounts & Payment Terms",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Company Experience with Government Contracts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "ABOUT DEE DAVIS INC & PROJECT DETAILS",
+        "items": [
+            "DEE DAVIS INC is an EDWOSB-certified, woman-owned small business based in Troy, Michigan",
+            "We specialize in government procurement and supply for Michigan municipalities",
+            "This quote supports a competitive bid for a Michigan road commission annual supply contract",
+            "Contract period: Through December 31, 2026 with potential for recurring orders",
+            "Estimated total project value: $150,000 - $180,000",
+            "Complete 109-item list with specifications provided in attached Excel file",
+            "Technical ASTM Type IV and Type XI specifications provided in attached PDF",
+            "Questions? Contact Dee Davis at 248-376-4550 or info@deedavis.biz by February 7, 2026",
+            "DEE DAVIS INC reserves the right to accept or reject any or all quotes",
+            "DEE DAVIS INC reserves the right to award by line item, category, or in whole",
+            "Late submissions will not be considered - Deadline: February 10, 2026 @ 12 PM EST",
+            "Award notification expected within 5 business days of quote receipt"
+        ]
+    },
+    "attachments_note": "REQUIRED ATTACHMENTS INCLUDED WITH THIS RFQ: (1) DEE_DAVIS_INC_TRAFFIC_SIGNS_RFQ_109_ITEMS.xlsx - Complete 109-item list with descriptions, specifications, and quantities. FILL IN YOUR PRICING IN THIS FILE AND RETURN IT. (2) Specifications - Prefabricated Signs_08_2025.pdf - ASTM Type IV and Type XI technical requirements and standards.",
+    "logo_path": "dee_davis_logo.png",
+    "items_file": "clean_items_for_suppliers.json",
+    "excel": {
+        "output_file": "DEE_DAVIS_INC_TRAFFIC_SIGNS_RFQ_109_ITEMS.xlsx",
+        "certification": "EDWOSB CERTIFIED",
+        "instruction_color": "FEF3C7",
+        "light_gray": "F3F4F6",
+        "delivery_location": "Waterford, MI 48328",
+        "column_headers": [
+            "Item #",
+            "Description",
+            "ASTM Specification",
+            "Quantity",
+            "Unit",
+            "YOUR PART NUMBER",
+            "YOUR UNIT PRICE",
+            "EXTENDED TOTAL",
+            "LEAD TIME",
+            "NOTES"
+        ],
+        "instructions": [
+            "⚠️ INSTRUCTIONS FOR SUPPLIERS - PLEASE READ CAREFULLY",
+            "1. FILL IN COLUMNS F through J for each of the 109 items below",
+            "2. Column F: Your Part Number (or equivalent MUTCD-compliant product)",
+            "3. Column G: Your Unit Price (government/volume pricing - NOT retail)",
+            "4. Column H: Extended Total (Unit Price × Quantity)",
+            "5. Column I: Lead Time (in business days or weeks)",
+            "6. Column J: Notes (substitutions, approved equivalents, volume discounts applied)",
+            "7. ADD FREIGHT COST as a separate line item at the bottom of the sheet",
+            "8. CONFIRM TAX EXEMPTION applied (Michigan government client - sales tax exempt)",
+            "9. EMAIL completed file + specs to: info@deedavis.biz by February 10, 2026 @ 12 PM EST"
+        ]
+    }
+}

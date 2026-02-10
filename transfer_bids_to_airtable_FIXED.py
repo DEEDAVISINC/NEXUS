@@ -27,7 +27,7 @@ active_bids = [
     {
         "Name": "ITB 4614 - Annual Bituminous Materials (Midland)",
         "RFP NUMBER": "ITB 4614",
-        "Deadline": "2026-01-27T14:00:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Awaiting Quotes",
         "Agency": "City of Midland",
         "Estimated Value": 242000,
@@ -39,7 +39,7 @@ active_bids = [
     {
         "Name": "ITB 4617 - Annual Sand & Black Dirt (Midland)",
         "RFP NUMBER": "ITB 4617",
-        "Deadline": "2026-01-27T14:00:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Awaiting Quotes",
         "Agency": "City of Midland",
         "Estimated Value": 207000,
@@ -51,7 +51,7 @@ active_bids = [
     {
         "Name": "ITB 4616 - Annual Crushed Limestone (Midland)",
         "RFP NUMBER": "ITB 4616",
-        "Deadline": "2026-01-27T14:00:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Awaiting Quotes",
         "Agency": "City of Midland",
         "Estimated Value": 117000,
@@ -63,7 +63,7 @@ active_bids = [
     {
         "Name": "ITB 4615 - Annual Concrete Supply (Midland)",
         "RFP NUMBER": "ITB 4615",
-        "Deadline": "2026-01-27T14:00:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Awaiting Quotes",
         "Agency": "City of Midland",
         "Estimated Value": 220000,
@@ -75,7 +75,7 @@ active_bids = [
     {
         "Name": "RFQ W912D0-26-Q-025982 - Steel Storage Containers (Alaska JBER)",
         "RFP NUMBER": "W912D0-26-Q-025982",
-        "Deadline": "2026-01-27T16:00:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Awaiting Quotes",
         "Agency": "U.S. Army Corps of Engineers - Alaska",
         "Estimated Value": 52000,
@@ -87,7 +87,7 @@ active_bids = [
     {
         "Name": "ITB W-1699 - Warren DDA Landscape Maintenance (5 years)",
         "RFP NUMBER": "ITB W-1699",
-        "Deadline": "2026-01-27T12:30:00.000Z",
+        "Deadline": "2026-01-27",
         "Status": "Conditional - May Skip",
         "Agency": "City of Warren Downtown Development Authority",
         "Estimated Value": 600000,
@@ -99,7 +99,7 @@ active_bids = [
     {
         "Name": "ITB MH 26-03 - Madison Heights Yard & Lawn Services",
         "RFP NUMBER": "ITB MH 26-03",
-        "Deadline": "2026-01-28T13:00:00.000Z",
+        "Deadline": "2026-01-28",
         "Status": "Awaiting Quotes",
         "Agency": "City of Madison Heights",
         "Estimated Value": 53000,
@@ -111,7 +111,7 @@ active_bids = [
     {
         "Name": "RFQ Oak-0000001089 - Oakland County Body Bags (Cadaver Bags)",
         "RFP NUMBER": "Oak-0000001089",
-        "Deadline": "2026-01-29T11:00:00.000Z",
+        "Deadline": "2026-01-29",
         "Status": "Ready to Bid",
         "Agency": "Oakland County Medical Examiner",
         "Estimated Value": 25000,
@@ -123,7 +123,7 @@ active_bids = [
     {
         "Name": "RFQ 7000205103 - CPS Energy Industrial Wipers (3 years)",
         "RFP NUMBER": "7000205103",
-        "Deadline": "2026-01-31T12:00:00.000Z",
+        "Deadline": "2026-01-31",
         "Status": "Ready to Bid",
         "Agency": "CPS Energy - San Antonio, TX",
         "Estimated Value": 419000,
@@ -135,7 +135,7 @@ active_bids = [
     {
         "Name": "RFB #188 - Jackson County Road Salt (2026-2027 season)",
         "RFP NUMBER": "RFB #188",
-        "Deadline": "2026-02-03T10:15:00.000Z",
+        "Deadline": "2026-02-03",
         "Status": "Awaiting Quotes",
         "Agency": "Jackson County Road Commission",
         "Estimated Value": 1800000,
@@ -147,7 +147,7 @@ active_bids = [
     {
         "Name": "ITB SH26-002 - Sterling Heights Bulk Aggregate Materials",
         "RFP NUMBER": "ITB SH26-002",
-        "Deadline": "2026-02-03T14:30:00.000Z",
+        "Deadline": "2026-02-03",
         "Status": "No Contact Yet",
         "Agency": "City of Sterling Heights",
         "Estimated Value": 103000,
@@ -159,7 +159,7 @@ active_bids = [
     {
         "Name": "ITB 2026-004 - HCMA Liquid Chlorine (2 years)",
         "RFP NUMBER": "ITB 2026-004",
-        "Deadline": "2026-02-18T13:00:00.000Z",
+        "Deadline": "2026-02-18",
         "Status": "Not Started",
         "Agency": "Housing Commission of Macomb County",
         "Estimated Value": 58500,

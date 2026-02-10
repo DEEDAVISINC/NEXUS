@@ -1,0 +1,161 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-9685AE",
+        "title": "Premium Screened Topsoil and Custom Grass Seed Mixtures for Municipal Landscaping",
+        "issue_date": "February 9, 2026",
+        "due_date": "February 14, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Premium Screened Topsoil and Custom Grass Seed Mixtures for Municipal Landscaping",
+        "contract_period": "March - November 2026 (8 months)"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "Dee Davis Inc. is seeking competitive wholesale pricing for premium screened topsoil and custom grass seed mixtures to fulfill a contract with a Michigan municipal client. This is a government contract requiring reliable delivery throughout the 2026 growing season (March through November). All products will be delivered to a Metro Detroit area location. We are a certified EDWOSB/WOSB contractor based in Troy, Michigan, and require competitive pricing from qualified suppliers.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "The supplier must provide:\n1. Premium screened topsoil (1,000 cubic yards total) with delivery capability within 48 hours of order placement\n2. Four custom grass seed mixtures totaling 5,500 pounds, packaged in 50-pound bags\n3. Reliable delivery service to Metro Detroit area throughout the contract period\n4. Quality assurance and product certifications as specified",
+        "key_requirements": [
+            "Topsoil must be premium quality, properly screened with no rocks, roots, debris, or weeds",
+            "Topsoil must be natural loam (sandy loam, silty loam, or clay loam) with organic matter content",
+            "Topsoil must be pH balanced and suitable for plant growth",
+            "Grass seed mixtures must be custom blended to exact specifications provided",
+            "All grass seed must be packaged in 50-pound bags",
+            "Delivery must be available throughout March - November 2026 contract period",
+            "Topsoil delivery must be available within 48 hours of order placement",
+            "Supplier must provide product certifications and quality documentation",
+            "Payment terms: Net 30 or Net 60 preferred",
+            "Quote must be valid through February 20, 2026"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "Premium Screened Topsoil",
+            "specifications": "Natural topsoil from undisturbed ground. Loam types: sandy loam, silty loam, or clay loam. Must contain organic matter (humus-bearing). pH balanced (not acidic/alkaline). SCREENED - no rocks, roots, debris, or weeds. Not excessively wet. Suitable for plant growth. Premium quality, not fill dirt.",
+            "estimated_quantity": "1,000",
+            "unit": "cubic yards"
+        },
+        {
+            "item_number": "2",
+            "description": "Primary Grass Seed Mix",
+            "specifications": "60% Kentucky Bluegrass (various cultivars acceptable), 20% Red Fescue (various cultivars acceptable), 20% Perennial Ryegrass (various cultivars acceptable). Custom blended mixture for general purpose turf applications.",
+            "estimated_quantity": "3,500",
+            "unit": "pounds"
+        },
+        {
+            "item_number": "3",
+            "description": "Erosion Control Grass Seed Mix",
+            "specifications": "40% Red Fescue, 30% Annual Ryegrass, 20% Perennial Ryegrass, 10% Kentucky Bluegrass. Custom blended mixture for quick erosion control and fast germination.",
+            "estimated_quantity": "1,000",
+            "unit": "pounds"
+        },
+        {
+            "item_number": "4",
+            "description": "Premium Bluegrass Mix",
+            "specifications": "80% Kentucky Bluegrass (various cultivars acceptable), 20% Perennial Ryegrass (various cultivars acceptable). Custom blended mixture for high-quality lawn areas.",
+            "estimated_quantity": "1,000",
+            "unit": "pounds"
+        },
+        {
+            "item_number": "5",
+            "description": "Fast Germination Grass Seed Mix",
+            "specifications": "50% Kentucky Bluegrass (various cultivars acceptable), 50% Perennial Ryegrass (various cultivars acceptable). Custom blended mixture balancing quality and quick establishment.",
+            "estimated_quantity": "1,000",
+            "unit": "pounds"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "March - November 2026 (8 months) with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 9, 2026",
+            "\ud83d\udcc5 DEADLINE: February 14, 2026 at 5:00 PM EST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-9685AE - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

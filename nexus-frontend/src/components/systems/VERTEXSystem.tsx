@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
+import { PnLStatement } from './PnLEngine';
 
 interface VERTEXSystemProps {
   onBackToNexus: () => void;
@@ -873,7 +874,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
       {/* Navigation Tabs */}
       <div className="mb-8 flex gap-4 overflow-x-auto">
-        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports'].map((tab) => (
+        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -888,6 +889,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             {tab === 'expenses' && '💳 Expenses'}
             {tab === 'revenue' && '💵 Revenue'}
             {tab === 'reports' && '📊 Reports'}
+            {tab === 'pnl' && '📈 P&L Tracker'}
           </button>
         ))}
         <button
@@ -905,6 +907,15 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
         {activeTab === 'expenses' && renderExpenses()}
         {activeTab === 'revenue' && renderRevenue()}
         {activeTab === 'reports' && renderReports()}
+        {activeTab === 'pnl' && (
+          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="mb-4">
+              <h2 className="text-xl font-bold text-white">Profit & Loss Tracker</h2>
+              <p className="text-sm text-gray-400 mt-1">Track P&L across all active contracts and engagements</p>
+            </div>
+            <PnLStatement />
+          </div>
+        )}
       </div>
 
       {/* Modals */}

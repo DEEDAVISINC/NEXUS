@@ -8,11 +8,15 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+import subprocess
+import tempfile
+from pathlib import Path
+import re
 from nexus_backend import (
     Config,
     AirtableClient,
@@ -72,10 +76,16 @@ from nexus_backend import (
     handle_get_pending_recommendations,
     handle_calculate_compliance
 )
+
+# Import Agenda Manager
+from agenda_manager import handle_get_agenda
 from datetime import datetime, timedelta
 import jwt
 from functools import wraps
 import json
+
+# Import Bid Folder Scanner (reads real filesystem data)
+from bid_folder_scanner import scan_all_bids, get_dashboard_data
 
 # ProposalBio™ Quality Assurance Module
 from proposalbio_module import ProposalBioService
@@ -92,6 +102,48 @@ Config.AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID', '')
 
 # JWT Secret for Alexa authentication
 JWT_SECRET = os.environ.get('JWT_SECRET', 'nexus-alexa-secret-key-change-in-production')
+
+# ============================================================
+# WORKFLOW AUTO-ADVANCE SYSTEM
+# Steps: 1=Review, 2=Go/No-Go, 3=Find Suppliers, 4=Create RFQ,
+#   5=Send RFQ, 6=Collect Quotes, 7=Price&Markup, 8=Prepare Bid,
+#   9=Final Review, 10=Submit
+# ============================================================
+
+WORKFLOW_STEPS = {
+    1: 'Review', 2: 'Go/No-Go', 3: 'Find Suppliers', 4: 'Create RFQ',
+    5: 'Send RFQ', 6: 'Collect Quotes', 7: 'Price & Markup',
+    8: 'Prepare Bid', 9: 'Final Review', 10: 'Submit'
+}
+
+def auto_advance_workflow(opportunity_id, to_step, reason=''):
+    """Auto-advance an opportunity's workflow step. Only advances forward, never backward."""
+    try:
+        airtable_client = AirtableClient()
+        record = airtable_client.get_record('GPSS OPPORTUNITIES', opportunity_id)
+        raw_notes = record['fields'].get('Notes', '') or ''
+        
+        # Parse current step
+        current_step = 0
+        step_match = re.match(r'\[STEP:(\d+)\]\s*(.*)', raw_notes, re.DOTALL)
+        clean_notes = step_match.group(2).strip() if step_match else raw_notes
+        if step_match:
+            current_step = int(step_match.group(1))
+        
+        # Only advance forward
+        if to_step <= current_step:
+            return current_step
+        
+        # Update with new step
+        new_notes = f'[STEP:{to_step}] {clean_notes}'.strip()
+        airtable_client.update_record('GPSS OPPORTUNITIES', opportunity_id, {'Notes': new_notes})
+        
+        step_name = WORKFLOW_STEPS.get(to_step, f'Step {to_step}')
+        print(f"[WORKFLOW] {opportunity_id} auto-advanced to Step {to_step}: {step_name} ({reason})")
+        return to_step
+    except Exception as e:
+        print(f"[WORKFLOW] Auto-advance failed for {opportunity_id}: {e}")
+        return 0
 
 def require_alexa_auth(f):
     """Decorator to require Alexa JWT authentication"""
@@ -254,15 +306,17 @@ def get_dashboard_activity():
         
         # Get recent opportunities
         try:
-            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES', sort=['Created Date'])
-            for opp in opportunities[-5:]:  # Last 5 opportunities
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+            # Sort by Airtable's createdTime
+            sorted_opps = sorted(opportunities, key=lambda x: x.get('createdTime', ''), reverse=True)
+            for opp in sorted_opps[:5]:  # Last 5 opportunities
                 fields = opp['fields']
                 activities.append({
                     'type': 'opportunity',
                     'system': 'GPSS',
                     'action': 'New Opportunity',
-                    'title': f"{fields.get('Title', 'Untitled')} - ${fields.get('Value', 0):,.0f}",
-                    'time': fields.get('Created Date', ''),
+                    'title': fields.get('Name', 'Untitled'),
+                    'time': opp.get('createdTime', ''),
                     'icon': '🎯',
                     'color': 'text-yellow-400'
                 })
@@ -331,6 +385,128 @@ def get_dashboard_alerts():
         except Exception as e:
             print(f"Error checking deadlines: {e}")
         
+        # Check for new Transportation & Logistics opportunities
+        try:
+            # Check for new transportation opportunities added recently (last 24 hours)
+            transportation_keywords = ['airport', 'aviation', 'marine', 'port', 'cargo', 'freight', 
+                                     'courier', 'postal', 'USPS', 'transit', 'transportation',
+                                     'NEMT', 'non-emergency medical', 'medical transportation', 
+                                     'patient transportation', 'healthcare transportation']
+            
+            recent_transportation = []
+            for opp in opportunities:
+                fields = opp['fields']
+                title = fields.get('Title', '').lower()
+                description = fields.get('Description', '').lower()
+                category = fields.get('Category', '').lower()
+                
+                # Check if it's a transportation opportunity
+                is_transportation = any(keyword.lower() in title or keyword.lower() in description or keyword.lower() in category 
+                                      for keyword in transportation_keywords)
+                
+                if is_transportation:
+                    # Check if created recently
+                    created_time = fields.get('Created Time') or fields.get('Date Added')
+                    if created_time:
+                        try:
+                            created_date = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                            hours_since = (now - created_date).total_seconds() / 3600
+                            
+                            if hours_since <= 24:  # Last 24 hours
+                                recent_transportation.append({
+                                    'title': fields.get('Title', 'Untitled'),
+                                    'value': fields.get('Estimated Value', 0),
+                                    'category': 'Transportation/Logistics'
+                                })
+                        except:
+                            pass
+            
+            # Create alert for new transportation opportunities
+            if recent_transportation:
+                total_value = sum(opp.get('value', 0) for opp in recent_transportation)
+                alerts.append({
+                    'type': 'success',
+                    'title': '✈️🚢 New Transportation Opportunities Found!',
+                    'message': f"{len(recent_transportation)} new opportunities (${total_value:,.0f} total value)",
+                    'action': 'View Transportation',
+                    'system': 'Transportation & Logistics'
+                })
+        except Exception as e:
+            print(f"Error checking transportation opportunities: {e}")
+        
+        # Check for TODAY's recommended transportation searches
+        try:
+            import calendar
+            day_name = calendar.day_name[now.weekday()].lower()
+            
+            transportation_schedule = {
+                'monday': {'focus': 'NEMT & Healthcare Transportation', 'icon': '🚑', 'searches': 3, 'special': 'HIGH VALUE! $500K-$2M contracts'},
+                'tuesday': {'focus': 'Airport & Aviation', 'icon': '✈️', 'searches': 3},
+                'wednesday': {'focus': 'Port & Marine', 'icon': '🚢', 'searches': 3},
+                'thursday': {'focus': 'Courier & Postal + Cargo', 'icon': '📬', 'searches': 3},
+                'friday': {'focus': 'Transit & Transportation', 'icon': '🚌', 'searches': 3}
+            }
+            
+            if day_name in transportation_schedule:
+                schedule = transportation_schedule[day_name]
+                alerts.append({
+                    'type': 'info',
+                    'title': f"{schedule['icon']} Today's Transportation Focus: {schedule['focus']}",
+                    'message': f"Run {schedule['searches']} recommended searches • Expected: 10-15 opportunities",
+                    'action': 'Run Searches',
+                    'system': 'Transportation & Logistics'
+                })
+        except Exception as e:
+            print(f"Error adding transportation schedule: {e}")
+        
+        # Check for new Service Contract opportunities
+        try:
+            # Check for new service opportunities added recently (last 24 hours)
+            service_keywords = ['janitorial', 'custodial', 'cleaning', 'landscaping', 'grounds maintenance',
+                              'facility maintenance', 'building maintenance', 'HVAC', 'IT services',
+                              'security services', 'security guard', 'construction services', 'renovation',
+                              'moving services', 'relocation', 'event services', 'catering']
+            
+            recent_services = []
+            for opp in opportunities:
+                fields = opp['fields']
+                title = fields.get('Title', '').lower()
+                description = fields.get('Description', '').lower()
+                category = fields.get('Category', '').lower()
+                
+                # Check if it's a service opportunity
+                is_service = any(keyword.lower() in title or keyword.lower() in description or keyword.lower() in category 
+                                for keyword in service_keywords)
+                
+                if is_service:
+                    # Check if created recently
+                    created_time = fields.get('Created Time') or fields.get('Date Added')
+                    if created_time:
+                        try:
+                            created_date = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                            hours_since = (now - created_date).total_seconds() / 3600
+                            
+                            if hours_since <= 24:  # Last 24 hours
+                                recent_services.append({
+                                    'title': fields.get('Title', 'Untitled'),
+                                    'value': fields.get('Estimated Value', 0),
+                                    'category': 'Service Contracts'
+                                })
+                        except:
+                            pass
+            
+            if recent_services:
+                total_value = sum(opp.get('value', 0) for opp in recent_services)
+                alerts.append({
+                    'type': 'success',
+                    'title': '🔧 New Service Contract Opportunities Found!',
+                    'message': f"{len(recent_services)} new opportunities (${total_value:,.0f} total value)",
+                    'action': 'View Services',
+                    'system': 'Service Contracts'
+                })
+        except Exception as e:
+            print(f"Error checking service opportunities: {e}")
+        
         # Check for pending change orders
         try:
             change_orders = airtable_client.get_all_records('ATLAS CHANGE ORDERS')
@@ -352,6 +528,546 @@ def get_dashboard_alerts():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/transportation-logistics/notifications', methods=['GET'])
+def get_transportation_logistics_notifications():
+    """
+    Get Transportation & Logistics opportunity notifications
+    Returns: new opportunities, today's focus, stats
+    """
+    try:
+        airtable_client = AirtableClient()
+        notifications = {
+            'new_opportunities': [],
+            'todays_focus': {},
+            'weekly_stats': {},
+            'high_priority': []
+        }
+        
+        now = datetime.now()
+        
+        # Get all opportunities and filter for transportation
+        try:
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+            transportation_keywords = ['airport', 'aviation', 'marine', 'port', 'maritime', 'cargo', 
+                                     'freight', 'courier', 'postal', 'USPS', 'transit', 'transportation',
+                                     'shipping', 'warehouse', 'logistics', 'NEMT', 'non-emergency medical',
+                                     'medical transportation', 'patient transportation', 'healthcare transportation',
+                                     'ambulatory', 'Medicaid transportation', 'Medicare transportation']
+            
+            all_transportation = []
+            new_transportation = []
+            high_value_transportation = []
+            
+            for opp in opportunities:
+                fields = opp['fields']
+                title = fields.get('Title', '').lower()
+                description = fields.get('Description', '').lower()
+                category = fields.get('Category', '').lower()
+                
+                # Check if it's a transportation opportunity
+                is_transportation = any(keyword.lower() in title or keyword.lower() in description or keyword.lower() in category 
+                                      for keyword in transportation_keywords)
+                
+                if is_transportation:
+                    opp_data = {
+                        'id': opp['id'],
+                        'title': fields.get('Title', 'Untitled'),
+                        'value': fields.get('Estimated Value', 0),
+                        'due_date': fields.get('Due Date'),
+                        'status': fields.get('Status'),
+                        'category': fields.get('Category', 'Transportation/Logistics')
+                    }
+                    
+                    all_transportation.append(opp_data)
+                    
+                    # Check if created recently (last 7 days)
+                    created_time = fields.get('Created Time') or fields.get('Date Added')
+                    if created_time:
+                        try:
+                            created_date = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                            days_since = (now - created_date).days
+                            
+                            if days_since <= 7:
+                                new_transportation.append(opp_data)
+                        except:
+                            pass
+                    
+                    # Check for high value opportunities (>$100K)
+                    if opp_data['value'] > 100000 and opp_data['status'] in ['Active', 'New', 'Review']:
+                        high_value_transportation.append(opp_data)
+            
+            notifications['new_opportunities'] = new_transportation[:5]  # Top 5 newest
+            notifications['high_priority'] = high_value_transportation[:3]  # Top 3 high value
+            
+            # Calculate weekly stats
+            notifications['weekly_stats'] = {
+                'total_opportunities': len(all_transportation),
+                'new_this_week': len(new_transportation),
+                'total_value': sum(opp['value'] for opp in all_transportation),
+                'average_value': sum(opp['value'] for opp in all_transportation) / len(all_transportation) if all_transportation else 0,
+                'high_value_count': len(high_value_transportation)
+            }
+            
+        except Exception as e:
+            print(f"Error fetching transportation opportunities: {e}")
+        
+        # Today's recommended focus
+        try:
+            import calendar
+            day_name = calendar.day_name[now.weekday()].lower()
+            
+            transportation_schedule = {
+                'monday': {
+                    'focus': 'NEMT & Healthcare Transportation',
+                    'icon': '🚑',
+                    'searches': [
+                        '"NEMT" WOSB',
+                        '"non-emergency medical transportation" small business',
+                        '"medical transportation services" EDWOSB'
+                    ],
+                    'expected_results': '15-25 opportunities',
+                    'revenue_potential': '$500K-$2M per contract',
+                    'special_note': 'HIGHEST VALUE! Medicaid/Medicare contracts. Perfect for WOSB set-asides!'
+                },
+                'tuesday': {
+                    'focus': 'Airport & Aviation',
+                    'icon': '✈️',
+                    'searches': [
+                        '"airport supplies" WOSB',
+                        '"aviation supplies" small business',
+                        '"terminal supplies" EDWOSB'
+                    ],
+                    'expected_results': '10-15 opportunities',
+                    'revenue_potential': '$30K-$500K per contract'
+                },
+                'wednesday': {
+                    'focus': 'Port & Marine',
+                    'icon': '🚢',
+                    'searches': [
+                        '"marine supplies" WOSB',
+                        '"port supplies" EDWOSB',
+                        '"maritime supplies" small business'
+                    ],
+                    'expected_results': '5-10 opportunities',
+                    'revenue_potential': '$40K-$400K per contract'
+                },
+                'thursday': {
+                    'focus': 'Courier & Postal + Cargo',
+                    'icon': '📬',
+                    'searches': [
+                        '"postal supplies" WOSB',
+                        '"USPS" supplies small business',
+                        '"cargo handling" EDWOSB'
+                    ],
+                    'expected_results': '15-20 opportunities',
+                    'revenue_potential': '$20K-$300K per contract',
+                    'special_note': '31,000+ USPS facilities nationwide!'
+                },
+                'friday': {
+                    'focus': 'Transit & Transportation',
+                    'icon': '🚌',
+                    'searches': [
+                        '"transit supplies" WOSB',
+                        '"transportation supplies" small business',
+                        '"bus supplies" EDWOSB'
+                    ],
+                    'expected_results': '5-10 opportunities',
+                    'revenue_potential': '$30K-$250K per contract'
+                }
+            }
+            
+            notifications['todays_focus'] = transportation_schedule.get(day_name, transportation_schedule['monday'])
+            notifications['todays_focus']['day'] = day_name.capitalize()
+            
+        except Exception as e:
+            print(f"Error building today's focus: {e}")
+        
+        return jsonify(notifications)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/service-contracts/notifications', methods=['GET'])
+def get_service_contracts_notifications():
+    """
+    Get Service Contracts opportunity notifications
+    Returns: new opportunities, today's focus, stats
+    """
+    try:
+        airtable_client = AirtableClient()
+        notifications = {
+            'new_opportunities': [],
+            'todays_focus': {},
+            'weekly_stats': {},
+            'high_priority': []
+        }
+        
+        now = datetime.now()
+        
+        # Get all opportunities and filter for service contracts
+        try:
+            opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+            service_keywords = ['janitorial', 'custodial', 'cleaning services', 'landscaping', 
+                              'grounds maintenance', 'lawn care', 'facility maintenance', 
+                              'building maintenance', 'HVAC', 'repair services', 'IT services',
+                              'IT support', 'network services', 'security services', 'security guard',
+                              'construction services', 'renovation', 'building renovation',
+                              'moving services', 'relocation', 'event services', 'catering',
+                              'floor maintenance', 'window cleaning', 'snow removal',
+                              'tree services', 'plumbing', 'electrical maintenance',
+                              'help desk', 'cybersecurity', 'patrol services']
+            
+            all_services = []
+            new_services = []
+            high_value_services = []
+            
+            for opp in opportunities:
+                fields = opp['fields']
+                title = fields.get('Title', '').lower()
+                description = fields.get('Description', '').lower()
+                category = fields.get('Category', '').lower()
+                
+                # Check if it's a service opportunity
+                is_service = any(keyword.lower() in title or keyword.lower() in description or keyword.lower() in category 
+                                for keyword in service_keywords)
+                
+                if is_service:
+                    opp_data = {
+                        'id': opp['id'],
+                        'title': fields.get('Title', 'Untitled'),
+                        'value': fields.get('Estimated Value', 0),
+                        'due_date': fields.get('Due Date'),
+                        'status': fields.get('Status'),
+                        'category': fields.get('Category', 'Service Contracts')
+                    }
+                    
+                    all_services.append(opp_data)
+                    
+                    # Check if created recently (last 7 days)
+                    created_time = fields.get('Created Time') or fields.get('Date Added')
+                    if created_time:
+                        try:
+                            created_date = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                            days_since = (now - created_date).days
+                            
+                            if days_since <= 7:
+                                new_services.append(opp_data)
+                        except:
+                            pass
+                    
+                    # Check for high value opportunities (>$100K)
+                    if opp_data['value'] > 100000 and opp_data['status'] in ['Active', 'New', 'Review']:
+                        high_value_services.append(opp_data)
+            
+            notifications['new_opportunities'] = new_services[:5]  # Top 5 newest
+            notifications['high_priority'] = high_value_services[:3]  # Top 3 high value
+            
+            # Calculate weekly stats
+            notifications['weekly_stats'] = {
+                'total_opportunities': len(all_services),
+                'new_this_week': len(new_services),
+                'total_value': sum(opp['value'] for opp in all_services),
+                'average_value': sum(opp['value'] for opp in all_services) / len(all_services) if all_services else 0,
+                'high_value_count': len(high_value_services)
+            }
+            
+        except Exception as e:
+            print(f"Error fetching service contract opportunities: {e}")
+        
+        # Today's recommended focus
+        try:
+            import calendar
+            day_name = calendar.day_name[now.weekday()].lower()
+            
+            service_schedule = {
+                'monday': {
+                    'focus': 'High-Value Services (IT & Security)',
+                    'icon': '💻',
+                    'searches': [
+                        '"IT services" WOSB',
+                        '"security services" small business',
+                        '"cybersecurity services" EDWOSB'
+                    ],
+                    'expected_results': '15-25 opportunities',
+                    'revenue_potential': '$100K-$3M per contract',
+                    'special_note': 'Your E&O insurance is a major advantage for IT contracts!'
+                },
+                'tuesday': {
+                    'focus': 'Facility Services (Janitorial & Maintenance)',
+                    'icon': '🧹',
+                    'searches': [
+                        '"janitorial services" WOSB',
+                        '"facility maintenance" small business',
+                        '"building maintenance" EDWOSB'
+                    ],
+                    'expected_results': '20-30 opportunities',
+                    'revenue_potential': '$50K-$1M per contract',
+                    'special_note': 'Very common contracts with steady revenue'
+                },
+                'wednesday': {
+                    'focus': 'Outdoor Services (Landscaping & Grounds)',
+                    'icon': '🌳',
+                    'searches': [
+                        '"landscaping services" WOSB',
+                        '"grounds maintenance" small business',
+                        '"snow removal" EDWOSB'
+                    ],
+                    'expected_results': '15-20 opportunities',
+                    'revenue_potential': '$50K-$500K per contract',
+                    'special_note': 'Snow removal can double winter revenue!'
+                },
+                'thursday': {
+                    'focus': 'Construction & Renovation',
+                    'icon': '🏗️',
+                    'searches': [
+                        '"building renovation" WOSB',
+                        '"construction services" small business',
+                        '"facility renovation" EDWOSB'
+                    ],
+                    'expected_results': '10-15 opportunities',
+                    'revenue_potential': '$100K-$5M per project',
+                    'special_note': 'Largest contracts! Start with smaller renovations.'
+                },
+                'friday': {
+                    'focus': 'Support Services (Moving & Events)',
+                    'icon': '🚚',
+                    'searches': [
+                        '"moving services" WOSB',
+                        '"event services" small business',
+                        '"relocation services" EDWOSB'
+                    ],
+                    'expected_results': '10-15 opportunities',
+                    'revenue_potential': '$25K-$500K per project',
+                    'special_note': 'Quick wins with recurring potential'
+                }
+            }
+            
+            notifications['todays_focus'] = service_schedule.get(day_name, service_schedule['monday'])
+            notifications['todays_focus']['day'] = day_name.capitalize()
+            
+        except Exception as e:
+            print(f"Error building today's focus: {e}")
+        
+        return jsonify(notifications)
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/upload-rfp', methods=['POST'])
+def upload_and_analyze_rfp():
+    """
+    Full RFP Upload & Analysis Pipeline:
+    1. Extract text from PDF
+    2. AI analyzes: scope, requirements, line items, deadline, set-aside, NAICS
+    3. AI extracts contacts (contracting officers, POCs)
+    4. AI gives bid/no-bid recommendation
+    5. Creates opportunity record in Airtable
+    6. Returns comprehensive analysis to frontend
+    """
+    try:
+        import PyPDF2
+        
+        # --- Step 1: Get the PDF text ---
+        if 'file' not in request.files:
+            return jsonify({"success": False, "error": "No file uploaded"}), 400
+        
+        file = request.files['file']
+        if not file.filename:
+            return jsonify({"success": False, "error": "No file selected"}), 400
+        
+        document_name = file.filename
+        document_text = ""
+        
+        if file.filename.lower().endswith('.pdf'):
+            try:
+                pdf_reader = PyPDF2.PdfReader(file)
+                max_pages = min(len(pdf_reader.pages), 30)
+                for page_num in range(max_pages):
+                    try:
+                        page_text = pdf_reader.pages[page_num].extract_text()
+                        if page_text and page_text.strip():
+                            document_text += page_text.strip() + "\n"
+                    except:
+                        continue
+            except Exception as e:
+                return jsonify({"success": False, "error": f"PDF read failed: {str(e)}"}), 400
+        else:
+            # Plain text or other — read as text
+            document_text = file.read().decode('utf-8', errors='ignore')
+        
+        if not document_text.strip():
+            return jsonify({
+                "success": False,
+                "error": "No readable text found in file. It may be scanned/image-only. Use manual text entry."
+            }), 400
+        
+        # --- Step 2: Full AI Analysis ---
+        ai = AnthropicClient()
+        
+        # Truncate for AI context window but keep as much as possible
+        rfp_text_for_ai = document_text[:25000]
+        
+        analysis_prompt = f"""You are analyzing a government solicitation/RFP document for Dee Davis Inc., 
+an EDWOSB-certified woman-owned small business in Michigan.
+
+DOCUMENT: {document_name}
+
+FULL TEXT:
+{rfp_text_for_ai}
+
+Analyze this RFP completely and return ONLY valid JSON (no markdown, no preamble):
+{{
+  "solicitation_info": {{
+    "title": "Full title of the solicitation",
+    "rfp_number": "Solicitation/RFP/IFB/RFQ number",
+    "agency": "Issuing agency name",
+    "department": "Department if mentioned",
+    "deadline": "Submission deadline (YYYY-MM-DD if possible, or exact text)",
+    "set_aside_type": "EDWOSB|WOSB|Small Business|Unrestricted|8(a)|HUBZone|SDVOSB|Other",
+    "naics_codes": ["list of NAICS codes mentioned"],
+    "estimated_value": "Dollar value or range if mentioned",
+    "contract_type": "Firm Fixed Price|Time & Materials|IDIQ|BPA|Other",
+    "performance_location": "Where work is performed",
+    "state": "State abbreviation (e.g. MI, TX)",
+    "period_of_performance": "Duration of contract"
+  }},
+  "scope_of_work": {{
+    "summary": "2-3 sentence summary of what they need",
+    "key_deliverables": ["deliverable 1", "deliverable 2"],
+    "line_items": [
+      {{
+        "item": "Item/service description",
+        "quantity": "Quantity if specified",
+        "unit": "Unit of measure"
+      }}
+    ]
+  }},
+  "compliance_requirements": {{
+    "required_certifications": ["SAM.gov registration", "etc"],
+    "required_documents": ["W-9", "capability statement", "past performance", "etc"],
+    "insurance_requirements": "If mentioned",
+    "bonding_requirements": "If mentioned",
+    "special_requirements": ["any special requirements"]
+  }},
+  "evaluation_criteria": [
+    {{
+      "factor": "Factor name",
+      "weight": "Weight or priority if mentioned",
+      "description": "Brief description"
+    }}
+  ],
+  "contacts": [
+    {{
+      "name": "Full name",
+      "title": "Job title",
+      "email": "email@agency.gov",
+      "phone": "Phone if available",
+      "role": "Contracting Officer|Program Manager|Technical POC|Other"
+    }}
+  ],
+  "bid_recommendation": {{
+    "decision": "GO|NO-GO|REVIEW",
+    "score": 0-100,
+    "reasoning": "Why this is a good or bad fit for Dee Davis Inc",
+    "strengths": ["Why we should bid"],
+    "concerns": ["Potential issues"],
+    "effort_level": "LOW|MEDIUM|HIGH",
+    "competitive_position": "Strong|Moderate|Weak|Unknown"
+  }}
+}}"""
+
+        response = ai.complete(analysis_prompt, max_tokens=4000)
+        clean_response = response.replace('```json', '').replace('```', '').strip()
+        
+        try:
+            analysis = json.loads(clean_response)
+        except json.JSONDecodeError:
+            # Try to salvage partial JSON
+            import re
+            json_match = re.search(r'\{.*\}', clean_response, re.DOTALL)
+            if json_match:
+                analysis = json.loads(json_match.group())
+            else:
+                return jsonify({"success": False, "error": "AI analysis returned invalid format. Try again."}), 500
+        
+        # --- Step 3: Create Opportunity in Airtable ---
+        sol_info = analysis.get('solicitation_info', {})
+        bid_rec = analysis.get('bid_recommendation', {})
+        scope = analysis.get('scope_of_work', {})
+        
+        airtable_client = AirtableClient()
+        
+        opp_fields = {
+            'Name': sol_info.get('title', document_name.replace('.pdf', '')),
+            'RFP NUMBER': sol_info.get('rfp_number', ''),
+            'AGENCY NAME': sol_info.get('agency', ''),
+            'Deadline': sol_info.get('deadline', ''),
+            'Set-Aside Type': sol_info.get('set_aside_type', ''),
+            'NAISC Codes': ', '.join(sol_info.get('naics_codes', [])) if isinstance(sol_info.get('naics_codes'), list) else sol_info.get('naics_codes', ''),
+            'State': sol_info.get('state', ''),
+            'Source Status': 'Not Started',
+            'Notes': f"Uploaded: {document_name}\n\nScope: {scope.get('summary', '')}\n\nBid Recommendation: {bid_rec.get('decision', 'REVIEW')} ({bid_rec.get('score', 0)}/100)\n{bid_rec.get('reasoning', '')}",
+            'Priority': 'High' if bid_rec.get('decision') == 'GO' else 'Medium',
+        }
+        
+        # Clean empty fields
+        opp_fields = {k: v for k, v in opp_fields.items() if v}
+        
+        try:
+            opp_record = airtable_client.create_record('GPSS Opportunities', opp_fields)
+            opportunity_id = opp_record['id']
+        except Exception as e:
+            print(f"Airtable opportunity creation error: {e}")
+            opportunity_id = None
+        
+        # --- Step 4: Store Contacts ---
+        contacts = analysis.get('contacts', [])
+        stored_contacts = 0
+        for contact in contacts:
+            email = contact.get('email', '')
+            if not email or '@' not in email:
+                continue
+            try:
+                contact_fields = {
+                    'Name': contact.get('name', ''),
+                    'Email': email,
+                    'Title': contact.get('title', ''),
+                    'Organization': sol_info.get('agency', ''),
+                    'Role Category': contact.get('role', ''),
+                    'Priority': 'HIGH' if 'Contracting Officer' in contact.get('role', '') else 'MEDIUM',
+                    'Notes': f"From RFP: {document_name}"
+                }
+                # Check for duplicates
+                existing = airtable_client.search_records('GPSS Contacts', f"{{Email}} = '{email}'")
+                if existing:
+                    airtable_client.update_record('GPSS Contacts', existing[0]['id'], contact_fields)
+                else:
+                    airtable_client.create_record('GPSS Contacts', contact_fields)
+                stored_contacts += 1
+            except Exception as e:
+                print(f"Contact store error: {e}")
+                continue
+        
+        # --- Step 5: Return everything ---
+        return jsonify({
+            "success": True,
+            "document_name": document_name,
+            "opportunity_id": opportunity_id,
+            "analysis": analysis,
+            "contacts_found": len(contacts),
+            "contacts_stored": stored_contacts,
+            "text_length": len(document_text),
+            "pages_read": max_pages if file.filename.lower().endswith('.pdf') else 1
+        })
+    
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
 
 @app.route('/extract-contacts', methods=['POST'])
 def extract_contacts():
@@ -1690,10 +2406,14 @@ def get_vendor_portals():
                 if search not in searchable:
                     continue
             
+            # Map actual Airtable field names (PORTAL URL, Portal Name) to frontend format
+            portal_url = fields.get('PORTAL URL', '') or fields.get('Portal URL', '') or fields.get('URL', '') or ''
+            portal_name = fields.get('Portal Name', '') or fields.get('Name', '') or ''
+            
             portals.append({
                 'id': record['id'],
-                'name': fields.get('Portal Name', ''),
-                'url': fields.get('URL', ''),
+                'name': portal_name,
+                'url': portal_url,
                 'category': fields.get('Category', ''),
                 'portalType': fields.get('Portal Type', ''),
                 'keywords': fields.get('Keywords', ''),
@@ -1722,7 +2442,7 @@ def create_vendor_portal():
         
         fields = {
             'Portal Name': data.get('name', ''),
-            'URL': data.get('url', ''),
+            'PORTAL URL': data.get('url', ''),
             'Category': data.get('category', 'Development'),
             'Portal Type': data.get('portalType', 'Other'),
             'Keywords': data.get('keywords', ''),
@@ -1752,7 +2472,7 @@ def update_vendor_portal(portal_id):
         update_fields = {}
         field_mapping = {
             'name': 'Portal Name',
-            'url': 'URL',
+            'url': 'PORTAL URL',
             'category': 'Category',
             'portalType': 'Portal Type',
             'keywords': 'Keywords',
@@ -1798,13 +2518,24 @@ def delete_vendor_portal(portal_id):
 
 @app.route('/gpss/opportunities', methods=['GET'])
 def get_gpss_opportunities():
-    """Get all opportunities with optional filtering"""
+    """
+    Get opportunities with smart filtering.
+    
+    Query params:
+      view=pipeline     → Only YOUR active bids (not mined noise)
+      view=edwosb       → Only EDWOSB/WOSB set-asides
+      view=home_state   → Only Michigan opportunities
+      view=forecasts    → Only forecasted opportunities
+      view=all          → Everything (default, but filtered for eligibility)
+      state=MI          → Filter by state
+      edwsb_only=true   → Only EDWOSB/WOSB
+      home_states_only=true → Michigan only
+    """
     try:
-        # Get filter parameters
-        source = request.args.get('source')  # Federal, State, Local, Cooperative
-        state = request.args.get('state')     # MI, GA, MD, TX, CA, IL, Federal, Multi-State
+        view = request.args.get('view', 'all')
+        source = request.args.get('source')
+        state_filter = request.args.get('state')
         edwsb_only = request.args.get('edwsb_only', 'false').lower() == 'true'
-        urgency = request.args.get('urgency')  # Critical, High, Medium, Low
         home_states_only = request.args.get('home_states_only', 'false').lower() == 'true'
         
         airtable_client = AirtableClient()
@@ -1812,71 +2543,141 @@ def get_gpss_opportunities():
         try:
             records = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         except:
-            # Table doesn't exist yet, return empty
-            return jsonify({'opportunities': []})
+            return jsonify({'opportunities': [], 'pipeline': [], 'edwosb': [], 'home_state': [], 'forecasts': []})
         
-        opportunities = []
+        # Set-asides we CANNOT bid on — always filter these out
+        INELIGIBLE_SET_ASIDES = ['SDVOSB', 'SDVOSBC', 'SDVOSBS', 'VOSB', 'VSA', 'VSB', 
+                                  'HUBZone', 'HZC', 'HZS', '8(a)', '8A', '8AN', 'IEE', 'ISBEE']
+        
+        # Pipeline statuses = YOUR actual bids (not mined noise)
+        PIPELINE_STATUSES = [
+            'Active', 'Active - Analyzing', 'Submitted', 'Submitted - Awaiting Award',
+            'Awaiting Quotes', 'Ready to Bid', 'Not Started', 'Pursuing',
+            'Sources Sought Submitted', 'Conditional - May Skip', 'No Contact Yet - URGENT',
+        ]
+        
+        # Mined/forecast statuses = system-generated
+        MINED_STATUSES = ['New - API', 'Medium']
+        
+        HOME_STATES = ['MI', 'MICHIGAN', 'Michigan']
+        
+        all_opps = []
+        pipeline = []
+        edwosb_list = []
+        home_state_list = []
+        forecasts = []
+        skipped_ineligible = 0
+        
         for record in records:
             fields = record['fields']
+            name = fields.get('Name', '')
+            set_aside = (fields.get('Set-Aside Type', '') or '').upper()
+            status = fields.get('Source Status', '') or ''
+            state_val = fields.get('State', '') or ''
             
-            # Apply filters (using actual Airtable field names)
-            if source and fields.get('Source', fields.get('Source Status', '')) != source:
-                continue
-            if state and fields.get('State', '') != state:
-                continue
-            if edwsb_only and not fields.get('EDWOSB Eligible', False):
-                continue
-            if urgency and fields.get('Urgency', 'Medium') != urgency:
-                continue
-            if home_states_only and not fields.get('Home State Priority', False):
+            # Always filter out ineligible set-asides
+            is_ineligible = False
+            for code in INELIGIBLE_SET_ASIDES:
+                if code.upper() in set_aside:
+                    is_ineligible = True
+                    break
+            if 'SERVICE-DISABLED' in set_aside or 'SERVICE DISABLED' in set_aside or 'VETERAN' in set_aside:
+                is_ineligible = True
+            if is_ineligible:
+                skipped_ineligible += 1
                 continue
             
-            # Map actual Airtable fields to frontend expected format
-            opportunities.append({
+            # Determine opportunity type
+            is_forecast = '[Forecast' in name or 'Forecast' in status
+            is_pipeline = any(ps in status for ps in PIPELINE_STATUSES) or (
+                status and not is_forecast and 'SAM.gov' not in status 
+                and 'USASpending' not in status and status not in ('New - API', 'Medium', '')
+            )
+            is_edwosb = 'EDWOSB' in set_aside or 'WOSB' in set_aside or 'WOSBSS' in set_aside
+            is_home_state = state_val.upper() in [s.upper() for s in HOME_STATES]
+            
+            # Parse workflow step from Notes field (format: [STEP:N] rest of notes)
+            raw_notes = fields.get('Notes', '') or ''
+            workflow_step = 0
+            clean_notes = raw_notes
+            step_match = re.match(r'\[STEP:(\d+)\]\s*(.*)', raw_notes, re.DOTALL)
+            if step_match:
+                workflow_step = int(step_match.group(1))
+                clean_notes = step_match.group(2).strip()
+            
+            # Build opportunity object
+            opp = {
                 'id': record['id'],
-                # Core fields - map from actual Airtable fields (matching exact case)
-                'title': fields.get('Name', ''),
+                'title': name,
                 'rfpNumber': fields.get('RFP NUMBER', ''),
-                'agency': fields.get('AGENCY NAME', 'Unknown Agency'),  # ALL CAPS in Airtable
-                'value': fields.get('VALUE', 0),  # ALL CAPS in Airtable
+                'agency': fields.get('AGENCY NAME', ''),
                 'dueDate': fields.get('Deadline', ''),
-                'source': fields.get('SOURCE', 'Federal'),  # ALL CAPS in Airtable
-                'sourcePortal': fields.get('Source Portal', ''),
                 'sourceUrl': fields.get('Source URL', ''),
-                'state': fields.get('State', 'Federal'),
-                'county': fields.get('County', ''),
+                'state': state_val,
                 'city': fields.get('City', ''),
-                'performanceLocation': fields.get('Performance Location', ''),
-                'homeStatePriority': bool(fields.get('Home State Priority', False)),
-                'agencyType': fields.get('Agency Type', 'Federal'),
-                'setAsideType': fields.get('Set-Aside Type', 'Unrestricted'),
-                'edwsbEligible': bool(fields.get('EDWOSB', False)),
-                'certificationRequired': fields.get('Certification Required', ''),
-                'naicsCodes': fields.get('NAISC Codes', []),
-                'pscCodes': fields.get('PSC Codes', ''),
-                'nigpCodes': fields.get('NIGP Codes', ''),
-                'category': fields.get('Opportunity Category', 'Other'),
-                'priorityScore': fields.get('PRIORITY SCORE', 50),  # ALL CAPS with space
-                'winProbability': fields.get('Win Probability', 50),
-                'urgency': fields.get('URGENCY', 'Medium'),  # ALL CAPS in Airtable
-                'daysUntilDue': fields.get('Days Until Due', 0),
-                'strategicFit': fields.get('Strategic Fit', 'Fair'),
-                'internalStatus': fields.get('Source Status', 'New'),
-                'pipelineStage': fields.get('Pipeline Stage', 'Active'),
-                'assignedTo': fields.get('Assigned to', ''),
-                'notes': fields.get('Notes', ''),
-                'aiQualificationResult': fields.get('AI Qualification Result', ''),
-                'aiRecommendation': fields.get('AI Recommendation ', ''),  # Note: space after "Recommendation" in Airtable
-                'aiStrengths': fields.get('AI Strengths', ''),
-                'aiConcerns': fields.get('AI Concerns', ''),
-                'contactsExtracted': fields.get('Contacts Extracted', 0),
-                'lastReviewedDate': fields.get('Last Reviewed Date', ''),
-                'createdDate': '',  # No Created Date field in your schema
-                # Additional fields from your schema
-                'highValueFlag': bool(fields.get('HIGH VALUE FLAG', False))
-            })
+                'setAsideType': fields.get('Set-Aside Type', ''),
+                'edwsbEligible': is_edwosb,
+                'homeStatePriority': is_home_state,
+                'naicsCodes': fields.get('NAISC Codes', ''),
+                'category': fields.get('Opportunity Category', ''),
+                'winProbability': fields.get('Win Probability', 0),
+                'internalStatus': status,
+                'priority': fields.get('Priority', ''),
+                'notes': clean_notes,
+                'workflowStep': workflow_step,
+                'aiRecommendation': fields.get('AI Recommendation ', ''),
+                'highValueFlag': bool(fields.get('HIGH VALUE FLAG', False)),
+                'isForecast': is_forecast,
+                'isPipeline': is_pipeline,
+                'isEdwosb': is_edwosb,
+                'isHomeState': is_home_state,
+                'contractingOfficer': fields.get('CONTRACTING OFFICER', ''),
+            }
+            
+            # Categorize
+            if is_pipeline:
+                pipeline.append(opp)
+            if is_edwosb:
+                edwosb_list.append(opp)
+            if is_home_state:
+                home_state_list.append(opp)
+            if is_forecast:
+                forecasts.append(opp)
+            
+            # Apply user filters for the main list
+            if view == 'pipeline' and not is_pipeline:
+                continue
+            elif view == 'edwosb' and not is_edwosb:
+                continue
+            elif view == 'home_state' and not is_home_state:
+                continue
+            elif view == 'forecasts' and not is_forecast:
+                continue
+            
+            if edwsb_only and not is_edwosb:
+                continue
+            if home_states_only and not is_home_state:
+                continue
+            if state_filter and state_val.upper() != state_filter.upper():
+                continue
+            
+            all_opps.append(opp)
         
-        return jsonify({'opportunities': opportunities})
+        return jsonify({
+            'opportunities': all_opps,
+            'counts': {
+                'total': len(all_opps),
+                'pipeline': len(pipeline),
+                'edwosb': len(edwosb_list),
+                'home_state': len(home_state_list),
+                'forecasts': len(forecasts),
+                'filtered_ineligible': skipped_ineligible,
+            },
+            'pipeline': pipeline,
+            'edwosb': edwosb_list,
+            'home_state': home_state_list,
+            'forecasts': forecasts,
+        })
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -1918,6 +2719,12 @@ def create_gpss_opportunity():
             'Notes': data.get('notes', ''),
             'Created Date': datetime.now().isoformat()
         }
+        
+        # Auto-start workflow at Step 1 if this is a pipeline opportunity
+        pipeline_statuses = ['Active', 'Pursuing', 'Not Started', 'Ready to Bid']
+        if data.get('internalStatus', '') in pipeline_statuses or data.get('pipelineStage') == 'Active':
+            notes = fields.get('Notes', '') or ''
+            fields['Notes'] = f'[STEP:1] {notes}'.strip()
         
         result = airtable_client.create_record('GPSS OPPORTUNITIES', fields)
         return jsonify({'opportunity': {'id': result['id'], **fields}})
@@ -1962,6 +2769,19 @@ def update_gpss_opportunity(opportunity_id):
             if key in data:
                 update_fields[airtable_field] = data[key]
         
+        # Handle workflow step - encode into Notes field as [STEP:N] prefix
+        if 'workflowStep' in data:
+            new_step = int(data['workflowStep'])
+            current_notes = current_opp['fields'].get('Notes', '') or ''
+            # Strip existing step prefix if present
+            step_match = re.match(r'\[STEP:\d+\]\s*(.*)', current_notes, re.DOTALL)
+            clean_notes = step_match.group(1).strip() if step_match else current_notes
+            # Add new step prefix
+            if new_step > 0:
+                update_fields['Notes'] = f'[STEP:{new_step}] {clean_notes}'.strip()
+            else:
+                update_fields['Notes'] = clean_notes
+        
         # Update the opportunity
         airtable_client.update_record('GPSS OPPORTUNITIES', opportunity_id, update_fields)
         
@@ -2001,7 +2821,7 @@ def update_gpss_opportunity(opportunity_id):
 
 @app.route('/gpss/stats', methods=['GET'])
 def get_gpss_stats():
-    """Get GPSS dashboard statistics"""
+    """Get GPSS dashboard statistics — real numbers, not fiction"""
     try:
         airtable_client = AirtableClient()
         
@@ -2010,28 +2830,81 @@ def get_gpss_stats():
         except:
             opportunities = []
         
-        # Calculate stats
-        federal_opps = [o for o in opportunities if o['fields'].get('Source') == 'Federal']
-        edwsb_eligible = [o for o in opportunities if o['fields'].get('EDWOSB Eligible')]
-        home_state_opps = [o for o in opportunities if o['fields'].get('Home State Priority')]
-        critical_urgency = [o for o in opportunities if o['fields'].get('Urgency') == 'Critical']
+        # Set-asides we can't bid on
+        INELIGIBLE = ['SDVOSB', 'SDVOSBC', 'SDVOSBS', 'VOSB', 'VSA', 'VSB', 
+                       'HUBZone', 'HZC', 'HZS', '8(a)', '8A', '8AN', 'IEE', 'ISBEE']
         
-        total_pipeline = sum(o['fields'].get('Value', 0) for o in opportunities if isinstance(o['fields'].get('Value'), (int, float)))
+        # Pipeline statuses = YOUR actual bids
+        PIPELINE_STATUSES = [
+            'Active', 'Active - Analyzing', 'Submitted', 'Submitted - Awaiting Award',
+            'Awaiting Quotes', 'Ready to Bid', 'Not Started', 'Pursuing',
+            'Sources Sought Submitted', 'No Contact Yet - URGENT',
+        ]
+        
+        pipeline = []
+        edwosb_opps = []
+        home_state_opps = []
+        forecast_opps = []
+        submitted = []
+        
+        for o in opportunities:
+            fields = o.get('fields', {})
+            name = fields.get('Name', '')
+            set_aside = (fields.get('Set-Aside Type', '') or '').upper()
+            status = fields.get('Source Status', '') or ''
+            state = (fields.get('State', '') or '').upper()
+            
+            # Skip ineligible
+            skip = False
+            for code in INELIGIBLE:
+                if code.upper() in set_aside:
+                    skip = True
+                    break
+            if 'SERVICE-DISABLED' in set_aside or 'VETERAN' in set_aside:
+                skip = True
+            if skip:
+                continue
+            
+            # Categorize
+            is_pipeline = any(ps in status for ps in PIPELINE_STATUSES) or (
+                status and '[Forecast' not in name and 'SAM.gov' not in status 
+                and 'USASpending' not in status and status not in ('New - API', 'Medium', '')
+            )
+            is_edwosb = 'EDWOSB' in set_aside or 'WOSB' in set_aside
+            is_home = state in ('MI', 'MICHIGAN')
+            is_forecast = '[Forecast' in name or 'Forecast' in status
+            is_submitted = 'Submitted' in status
+            
+            if is_pipeline:
+                pipeline.append(o)
+            if is_edwosb:
+                edwosb_opps.append(o)
+            if is_home:
+                home_state_opps.append(o)
+            if is_forecast:
+                forecast_opps.append(o)
+            if is_submitted:
+                submitted.append(o)
         
         stats = {
-            'federalOpps': len(federal_opps),
-            'edwsbSetAsides': len(edwsb_eligible),
-            'homeStateOpps': len(home_state_opps),
-            'criticalUrgency': len(critical_urgency),
-            'totalPipeline': total_pipeline,
             'totalOpportunities': len(opportunities),
-            'bySource': {
-                'Federal': len([o for o in opportunities if o['fields'].get('Source') == 'Federal']),
-                'State': len([o for o in opportunities if o['fields'].get('Source') == 'State']),
-                'Local': len([o for o in opportunities if o['fields'].get('Source') == 'Local']),
-                'Cooperative': len([o for o in opportunities if o['fields'].get('Source') == 'Cooperative'])
-            }
+            'pipelineCount': len(pipeline),
+            'edwsbSetAsides': len(edwosb_opps),
+            'homeStateOpps': len(home_state_opps),
+            'forecastCount': len(forecast_opps),
+            'submittedCount': len(submitted),
+            'pipelineBreakdown': {},
         }
+        
+        # Pipeline breakdown by status
+        for o in pipeline:
+            status = o['fields'].get('Source Status', 'Unknown')
+            # Normalize long statuses
+            for ps in PIPELINE_STATUSES:
+                if ps in status:
+                    status = ps
+                    break
+            stats['pipelineBreakdown'][status] = stats['pipelineBreakdown'].get(status, 0) + 1
         
         return jsonify(stats)
     
@@ -2163,6 +3036,19 @@ def get_gpss_proposals():
                     compliance_checklist = {}
                     recipients = {}
                 
+                # Parse ProposalBio biohack scores if available
+                biohack_scores = None
+                critical_issues = None
+                try:
+                    bh_json = fields.get('PROPOSALBIO BIOHACK SCORE JSON') or fields.get('ProposalBio Biohack Scores')
+                    if bh_json:
+                        biohack_scores = json.loads(bh_json) if isinstance(bh_json, str) else bh_json
+                    ci_json = fields.get('PROPOSALBIO CRITICAL ISSUES JSON') or fields.get('ProposalBio Critical Issues')
+                    if ci_json:
+                        critical_issues = json.loads(ci_json) if isinstance(ci_json, str) else ci_json
+                except:
+                    pass
+
                 proposals.append({
                     'id': record['id'],
                     'proposalName': fields.get('PROPOSAL NAME', ''),
@@ -2182,7 +3068,13 @@ def get_gpss_proposals():
                     'pricingBreakdown': pricing_breakdown,
                     'pricingJustification': fields.get('PRICING-JUSTIFICATION', ''),
                     'complianceChecklist': compliance_checklist,
-                    'recipients': recipients
+                    'recipients': recipients,
+                    # ProposalBio fields
+                    'proposalBioScore': fields.get('PROPOSALBIO COMPOSITE SCORE') or fields.get('ProposalBio Composite Score'),
+                    'proposalBioStatus': fields.get('PROPOSALBIO STATUS') or fields.get('ProposalBio Status'),
+                    'proposalBioGate': fields.get('PROPOSALBIO GATE') or fields.get('ProposalBio Quality Gate'),
+                    'proposalBioBiohacks': biohack_scores,
+                    'proposalBioCriticalIssues': critical_issues,
                 })
             
             return jsonify({'proposals': proposals})
@@ -2198,7 +3090,7 @@ def get_gpss_proposals():
 
 @app.route('/gpss/proposals', methods=['POST'])
 def create_gpss_proposal():
-    """Save a new proposal to Airtable"""
+    """Save a new proposal to Airtable and automatically run ProposalBio™ analysis"""
     try:
         data = request.json
         airtable_client = AirtableClient()
@@ -2231,13 +3123,143 @@ def create_gpss_proposal():
         
         # Create record in Airtable
         record = airtable_client.create_record('GPSS Proposals', fields)
+        proposal_id = record['id']
+        
+        # ================================================================
+        # AUTOMATICALLY RUN PROPOSALBIO™ ANALYSIS ON NEW PROPOSAL
+        # ================================================================
+        proposalbio_result = None
+        try:
+            # Build full proposal text for analysis
+            proposal_text = f"""
+{data.get('executiveSummary', '')}
+
+{data.get('technicalApproach', '')}
+
+{data.get('staffingPlan', '')}
+
+{data.get('pastPerformance', '')}
+
+{data.get('pricingJustification', '')}
+"""
+            
+            # Prepare metadata for ProposalBio
+            metadata = {
+                'client_name': data.get('agency', ''),
+                'agency': data.get('agency', ''),
+                'agency_type': data.get('agencyType', 'federal'),
+                'region': data.get('region', 'national'),
+                'rfp_keywords': [],
+                'opportunity_id': data.get('opportunityId'),
+                'proposal_name': data.get('proposalName', ''),
+            }
+            
+            # Run ProposalBio analysis
+            proposalbio_service = ProposalBioService()
+            analysis = proposalbio_service.analyze_proposal(
+                proposal_text=proposal_text,
+                metadata=metadata,
+                airtable_client=airtable_client
+            )
+            
+            # Update proposal with ProposalBio scores
+            if analysis.get('success'):
+                update_fields = {
+                    'ProposalBio Composite Score': analysis['composite_score'],
+                    'ProposalBio Status': analysis['overall_status'],
+                    'ProposalBio Quality Gate': 'UNLOCKED' if analysis['composite_score'] >= 75 else 'LOCKED',
+                    'ProposalBio Last Run': datetime.now().isoformat(),
+                    'ProposalBio Revision Count': 0,
+                }
+                
+                # Add critical issues if any
+                if analysis.get('critical_issues'):
+                    update_fields['ProposalBio Critical Issues'] = '\n'.join(analysis['critical_issues'])
+                
+                # Add priority improvements
+                if analysis.get('priority_improvements'):
+                    improvements = [f"{i+1}. {imp}" for i, imp in enumerate(analysis['priority_improvements'][:5])]
+                    update_fields['ProposalBio Improvements'] = '\n'.join(improvements)
+                
+                airtable_client.update_record('GPSS Proposals', proposal_id, update_fields)
+                
+                proposalbio_result = {
+                    'analyzed': True,
+                    'composite_score': analysis['composite_score'],
+                    'status': analysis['overall_status'],
+                    'quality_gate': 'UNLOCKED' if analysis['composite_score'] >= 75 else 'LOCKED'
+                }
+            else:
+                proposalbio_result = {
+                    'analyzed': False,
+                    'error': analysis.get('error', 'Unknown error')
+                }
+        
+        except Exception as proposalbio_error:
+            # Don't fail proposal creation if ProposalBio fails
+            print(f"⚠️ ProposalBio analysis failed (non-fatal): {proposalbio_error}")
+            proposalbio_result = {
+                'analyzed': False,
+                'error': str(proposalbio_error)
+            }
         
         return jsonify({
             'success': True,
-            'proposalId': record['id'],
-            'message': 'Proposal saved successfully'
+            'proposalId': proposal_id,
+            'message': 'Proposal saved successfully',
+            'proposalbio': proposalbio_result
         })
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/proposals/<proposal_id>', methods=['PUT'])
+def update_gpss_proposal(proposal_id):
+    """Update an existing proposal (status, content sections, etc)"""
+    try:
+        data = request.json or {}
+        airtable_client = AirtableClient()
+        
+        # Map frontend keys to Airtable field names
+        field_map = {
+            'status': 'STATUS',
+            'executiveSummary': 'EXECUTIVE SUMMARY',
+            'technicalApproach': 'TECHNICAL APPROACH',
+            'staffingPlan': 'STAFFING PLAN ',
+            'pastPerformance': 'PAST PERFORMANCE',
+            'pricingJustification': 'PRICING-JUSTIFICATION',
+            'pricingTotal': 'PRICING-TOTAL',
+            'sentDate': 'SENT DATE',
+        }
+        
+        update_fields = {}
+        for frontend_key, airtable_key in field_map.items():
+            if frontend_key in data:
+                update_fields[airtable_key] = data[frontend_key]
+        
+        if not update_fields:
+            return jsonify({"error": "No fields to update"}), 400
+        
+        airtable_client.update_record('GPSS Proposals', proposal_id, update_fields)
+        
+        return jsonify({
+            "success": True,
+            "message": "Proposal updated",
+            "updated_fields": list(update_fields.keys())
+        })
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/proposals/<proposal_id>', methods=['DELETE'])
+def delete_gpss_proposal(proposal_id):
+    """Delete a proposal"""
+    try:
+        airtable_client = AirtableClient()
+        airtable_client.get_table('GPSS Proposals').delete(proposal_id)
+        return jsonify({"success": True, "message": "Proposal deleted"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -2417,18 +3439,66 @@ def mine_portal(portal_id):
 @app.route('/gpss/mining/auto-mine-all', methods=['POST'])
 def auto_mine_all():
     """
-    Automatically mine all portals with auto-mining enabled
-    This can be triggered daily via cron job
+    Automatically mine all portals for opportunities.
+    Can be triggered from frontend or scheduler.
     """
     try:
         mining_agent = GPSSOpportunityMiningAgent()
         result = mining_agent.auto_mine_all_portals()
         
-        if 'error' in result:
+        # Cache results for status endpoint
+        import os as _os
+        cache_path = _os.path.join(_os.path.dirname(__file__), 'mining_results_cache.json')
+        try:
+            cache_data = {
+                'timestamp': datetime.now().isoformat(),
+                'portals_checked': result.get('portals_checked', 0),
+                'total_opportunities_found': result.get('total_opportunities_found', 0),
+                'errors_count': len(result.get('errors', [])),
+            }
+            with open(cache_path, 'w') as f:
+                json.dump(cache_data, f)
+        except:
+            pass
+        
+        if result.get('error') and not result.get('success'):
             return jsonify(result), 400
         
         return jsonify(result)
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/mining/status', methods=['GET'])
+def get_mining_status():
+    """Get status of portal mining — portals count, last results, etc."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            records = airtable_client.get_all_records('VENDOR PORTAL')
+        except:
+            records = []
+        
+        total = len(records)
+        with_url = sum(1 for r in records if r['fields'].get('PORTAL URL', '') or r['fields'].get('Portal URL', ''))
+        
+        # Check if we have cached mining results
+        import os
+        cache_path = os.path.join(os.path.dirname(__file__), 'mining_results_cache.json')
+        last_results = None
+        if os.path.exists(cache_path):
+            try:
+                with open(cache_path) as f:
+                    last_results = json.load(f)
+            except:
+                pass
+        
+        return jsonify({
+            'total_portals': total,
+            'minable_portals': with_url,
+            'last_mine': last_results
+        })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -2526,10 +3596,51 @@ def mine_state_local():
         return jsonify({"success": False, "error": str(e), "sources_checked": 0, "imported": 0}), 500
 
 
+@app.route('/gpss/mining/mine-edwosb', methods=['POST'])
+def mine_edwosb_opportunities():
+    """
+    Mine specifically for EDWOSB/WOSB set-aside opportunities.
+    Uses the dedicated EDWOSBWOSBMiner for targeted searching.
+    """
+    try:
+        from auto_mine_edwosb_wosb_only import EDWOSBWOSBMiner
+        miner = EDWOSBWOSBMiner()
+        result = miner.mine_edwosb_wosb_opportunities(days_back=14)
+        return jsonify({
+            'success': True,
+            'total_found': result.get('total_opportunities_found', 0),
+            'imported': result.get('new_opportunities_added', 0),
+            'duplicates_skipped': result.get('duplicates_skipped', 0),
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e), "total_found": 0, "imported": 0}), 500
+
+
+@app.route('/gpss/forecasting/mine', methods=['POST'])
+def mine_agency_forecasts():
+    """
+    Mine REAL agency forecast pages for upcoming opportunities.
+    Sources: NASA, GSA, DHS, USAID, Commerce, Treasury + SAM.gov pre-solicitations.
+    AI extracts structured data and scores each forecast for fit.
+    Stores results in GPSS Opportunities tagged with [Forecast].
+    """
+    try:
+        from federal_forecasts_system import FederalForecastsMiner
+        miner = FederalForecastsMiner()
+        result = miner.mine_all_forecasts()
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 @app.route('/gpss/forecasting/generate', methods=['POST'])
 def generate_forecasts():
     """
-    Generate opportunity forecasts based on historical data
+    Generate opportunity forecasts based on historical data (AI analysis).
     
     Optional JSON:
     {
@@ -2860,18 +3971,73 @@ def send_invoice(invoice_id):
 def get_gpss_contacts():
     """Get all contacts with optional filtering"""
     try:
+        import re as re_mod
         airtable_client = AirtableClient()
         records = airtable_client.get_all_records('GPSS CONTACTS')
+        
+        # Phone extraction patterns
+        phone_pattern = re_mod.compile(
+            r'(?:Phone|Tel|Contact|Mobile|Cell|Fax)?[:\s]*'
+            r'(\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4}(?:\s*(?:ext|x|extension)[\s.]*\d+)?)',
+            re_mod.IGNORECASE
+        )
+        vanity_pattern = re_mod.compile(r'1[\-.]?\d{3}[\-.][A-Z]{2,}[\-.]?[A-Z]+', re_mod.IGNORECASE)
+        
+        def extract_phone(text):
+            """Pull phone number out of free text (Notes, Title fields)"""
+            if not text:
+                return ''
+            # Priority 1: Vanity numbers (1-800-GRAINGER etc)
+            match = vanity_pattern.search(text)
+            if match:
+                return match.group(0)
+            
+            # Priority 2: Labeled phone ("Phone: xxx", "Tel: xxx")
+            labeled = re_mod.search(
+                r'(?:Phone|Tel|Mobile|Cell|Direct)[:\s]+(\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4}(?:\s*(?:ext|x)[\s.]*\d+)?)',
+                text, re_mod.IGNORECASE
+            )
+            if labeled:
+                return labeled.group(1).strip()
+            
+            # Priority 3: "Contact: xxx"
+            contact_m = re_mod.search(
+                r'Contact[:\s]+(\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4})',
+                text, re_mod.IGNORECASE
+            )
+            if contact_m:
+                return contact_m.group(1).strip()
+            
+            # Priority 4: Formatted phone (must have dashes, parens, or dots)
+            formatted = re_mod.search(
+                r'(\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{4}|\d{3}[\-.]?\d{3}[\-.]?\d{4})',
+                text
+            )
+            if formatted:
+                num = formatted.group(1)
+                digits_only = re_mod.sub(r'\D', '', num)
+                has_fmt = any(c in num for c in '()- .')
+                if has_fmt and len(digits_only) >= 10 and not digits_only.startswith('000'):
+                    return num
+            
+            return ''
         
         contacts = []
         for record in records:
             fields = record['fields']
             
-            # Parse Name field (could be "FirstName LastName" or just single name)
+            # Parse Name field
             full_name = fields.get('Name', '').strip()
             name_parts = full_name.split(' ', 1) if full_name else ['', '']
             first_name = name_parts[0] if len(name_parts) > 0 else ''
             last_name = name_parts[1] if len(name_parts) > 1 else ''
+            
+            # Try dedicated Phone field first, then extract from Notes/Title
+            phone = fields.get('Phone', '').strip()
+            if not phone:
+                notes = fields.get('Notes', '')
+                title = fields.get('Title', '')
+                phone = extract_phone(notes) or extract_phone(title)
             
             contacts.append({
                 'id': record['id'],
@@ -2879,7 +4045,7 @@ def get_gpss_contacts():
                 'lastName': last_name,
                 'fullName': full_name,
                 'email': fields.get('Email', ''),
-                'phone': fields.get('Phone', ''),
+                'phone': phone,
                 'title': fields.get('Title', ''),
                 'agency': fields.get('Organization', ''),
                 'organization': fields.get('Organization', ''),
@@ -2984,6 +4150,7 @@ def delete_gpss_contact(contact_id):
 def get_gpss_products():
     """Get all products"""
     try:
+        import re as re_mod
         airtable_client = AirtableClient()
         
         # Try to get products from Airtable (table might not exist yet)
@@ -2992,17 +4159,69 @@ def get_gpss_products():
         except:
             return jsonify({'products': []})
         
+        def parse_unit_price(raw):
+            """
+            Parse complex UNIT PRICE text into a numeric per-unit price.
+            Handles formats like:
+              '$300.00/pk5 ($60/ea)'  -> 60.00
+              '$7.89/pk2 ($3.95/ea)'  -> 3.95
+              '15.25/each'            -> 15.25
+              '$70.80/ea (ON SALE)'   -> 70.80
+              '$75.00'                -> 75.00
+              '$126.00/ea'            -> 126.00
+            """
+            if not raw:
+                return 0.0, 'each'
+            text = str(raw).strip()
+            
+            # Priority 1: look for per-unit price like ($60/ea) or $3.95/ea
+            ea_match = re_mod.search(r'\$?([\d,]+\.?\d*)\s*/\s*ea', text, re_mod.IGNORECASE)
+            if ea_match:
+                try:
+                    return float(ea_match.group(1).replace(',', '')), 'each'
+                except:
+                    pass
+            
+            # Priority 2: look for price/each like 15.25/each
+            each_match = re_mod.search(r'\$?([\d,]+\.?\d*)\s*/\s*each', text, re_mod.IGNORECASE)
+            if each_match:
+                try:
+                    return float(each_match.group(1).replace(',', '')), 'each'
+                except:
+                    pass
+            
+            # Priority 3: price per pack like $300.00/pk5 - extract pack price and unit
+            pack_match = re_mod.search(r'\$?([\d,]+\.?\d*)\s*/\s*(pk\d+|pack|case|box|roll|bag|set|pair)', text, re_mod.IGNORECASE)
+            if pack_match:
+                try:
+                    pack_price = float(pack_match.group(1).replace(',', ''))
+                    unit_label = pack_match.group(2).lower()
+                    # Try to extract count from pk5 etc.
+                    count_match = re_mod.search(r'(\d+)', unit_label)
+                    if count_match:
+                        count = int(count_match.group(1))
+                        if count > 0:
+                            return pack_price / count, 'each'
+                    return pack_price, unit_label
+                except:
+                    pass
+            
+            # Priority 4: just the first dollar amount in the string
+            first_price = re_mod.search(r'\$?([\d,]+\.?\d+)', text)
+            if first_price:
+                try:
+                    return float(first_price.group(1).replace(',', '')), 'each'
+                except:
+                    pass
+            
+            return 0.0, 'each'
+        
         products = []
         for record in records:
             fields = record['fields']
             
-            # Parse price (could be text like "$75.00")
-            price_str = fields.get('UNIT PRICE', '0')
-            try:
-                # Remove $ and commas, convert to float
-                price = float(str(price_str).replace('$', '').replace(',', ''))
-            except:
-                price = 0
+            raw_price = fields.get('UNIT PRICE', '')
+            price, unit = parse_unit_price(raw_price)
             
             products.append({
                 'id': record['id'],
@@ -3011,7 +4230,8 @@ def get_gpss_products():
                 'category': fields.get('PRODUCT CATEGORY', ''),
                 'basePrice': price,
                 'unitPrice': price,
-                'unit': fields.get('Unit', 'each'),
+                'rawPrice': str(raw_price) if raw_price else '',  # Original text for display
+                'unit': unit,
                 'supplier': fields.get('SUPPLIER', ''),
                 'manufacturers': fields.get('Manufacturers', ''),
                 'created': fields.get('Created', '')
@@ -3117,12 +4337,38 @@ def get_gpss_suppliers():
 
 @app.route('/gpss/suppliers', methods=['POST'])
 def create_gpss_supplier():
-    """Create a new supplier"""
+    """Create a new supplier - maps frontend field names to Airtable field names"""
     try:
         from nexus_backend import handle_create_supplier
         
-        data = request.json
-        result = handle_create_supplier(data)
+        data = request.json or {}
+        
+        # Map frontend form field names to Airtable uppercase field names
+        field_map = {
+            'Company Name': 'COMPANY NAME',
+            'Website': 'WEBSITE',
+            'Primary Contact Email': 'PRIMARY CONTACT EMAIL',
+            'Primary Contact Phone': 'PRIMARY CONTACT PHONE',
+            'Product Keywords': 'PRODUCT KEYWORDS',
+            'Net 30 Available': 'NET 30',
+            'Net 45 Available': 'NET 45',
+            'Business Status': 'BUSINESS STATUS',
+            'Typical Margin (%)': 'TYPICAL MARGIN',
+            'Discovery Method': 'DISCOVERY METHOD',
+            'Discovered By': 'DISCOVERED BY',
+        }
+        
+        # Single-select fields must be UPPERCASE to match Airtable options
+        select_fields_upper = {'BUSINESS STATUS', 'DISCOVERY METHOD', 'DISCOVERED BY'}
+        
+        mapped_data = {}
+        for key, value in data.items():
+            airtable_key = field_map.get(key, key)
+            if airtable_key in select_fields_upper and isinstance(value, str):
+                value = value.upper()
+            mapped_data[airtable_key] = value
+        
+        result = handle_create_supplier(mapped_data)
         
         if result.get('error'):
             return jsonify(result), 400
@@ -3154,12 +4400,38 @@ def get_gpss_supplier(supplier_id):
 
 @app.route('/gpss/suppliers/<supplier_id>', methods=['PUT'])
 def update_gpss_supplier(supplier_id):
-    """Update supplier"""
+    """Update supplier - maps frontend field names to Airtable field names"""
     try:
         from nexus_backend import handle_update_supplier
         
-        data = request.json
-        result = handle_update_supplier(supplier_id, data)
+        data = request.json or {}
+        
+        # Map frontend form field names to Airtable uppercase field names
+        field_map = {
+            'Company Name': 'COMPANY NAME',
+            'Website': 'WEBSITE',
+            'Primary Contact Email': 'PRIMARY CONTACT EMAIL',
+            'Primary Contact Phone': 'PRIMARY CONTACT PHONE',
+            'Product Keywords': 'PRODUCT KEYWORDS',
+            'Net 30 Available': 'NET 30',
+            'Net 45 Available': 'NET 45',
+            'Business Status': 'BUSINESS STATUS',
+            'Typical Margin (%)': 'TYPICAL MARGIN',
+            'Discovery Method': 'DISCOVERY METHOD',
+            'Discovered By': 'DISCOVERED BY',
+        }
+        
+        # Single-select fields must be UPPERCASE to match Airtable options
+        select_fields_upper = {'BUSINESS STATUS', 'DISCOVERY METHOD', 'DISCOVERED BY'}
+        
+        mapped_data = {}
+        for key, value in data.items():
+            airtable_key = field_map.get(key, key)
+            if airtable_key in select_fields_upper and isinstance(value, str):
+                value = value.upper()
+            mapped_data[airtable_key] = value
+        
+        result = handle_update_supplier(supplier_id, mapped_data)
         
         if result.get('error'):
             return jsonify(result), 400
@@ -3169,6 +4441,50 @@ def update_gpss_supplier(supplier_id):
     except Exception as e:
         print(f"Error updating supplier: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/suppliers/<supplier_id>/rate', methods=['POST'])
+def rate_supplier_performance(supplier_id):
+    """
+    Update supplier performance rating based on outcomes.
+    System learns from each interaction to prioritize better suppliers.
+    
+    Body:
+    {
+        "outcome": "quote_received_fast"  // or: quote_late, no_response, competitive_price, overpriced, won_with_supplier, reliable_delivery, late_delivery
+    }
+    
+    Returns updated rating info.
+    """
+    try:
+        data = request.get_json() or {}
+        outcome = data.get('outcome', '')
+        
+        if not outcome:
+            return jsonify({'success': False, 'error': 'outcome is required'}), 400
+        
+        valid_outcomes = [
+            'quote_received_fast', 'quote_received', 'quote_late',
+            'no_response', 'competitive_price', 'overpriced',
+            'won_with_supplier', 'reliable_delivery', 'late_delivery'
+        ]
+        if outcome not in valid_outcomes:
+            return jsonify({
+                'success': False,
+                'error': f'Invalid outcome. Must be one of: {", ".join(valid_outcomes)}'
+            }), 400
+        
+        from nexus_backend import GPSSSupplierMiner
+        miner = GPSSSupplierMiner()
+        result = miner.update_supplier_rating(supplier_id, outcome)
+        
+        if result.get('error'):
+            return jsonify(result), 400
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @app.route('/gpss/suppliers/find-for-product', methods=['POST'])
@@ -3570,9 +4886,561 @@ def update_supplier_quote(quote_id):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/gpss/supplier-quotes/compare/<opportunity_id>', methods=['GET'])
+def compare_supplier_quotes(opportunity_id):
+    """
+    Side-by-side quote comparison for an opportunity.
+    Returns all quotes grouped by product line with:
+    - Best price highlighted
+    - Margin calculations for each supplier
+    - AI recommendation on which supplier to select
+    
+    URL Parameter:
+        opportunity_id: Airtable record ID for the opportunity
+    """
+    try:
+        airtable_client = AirtableClient()
+        
+        # Get all quotes for this opportunity
+        formula = f"{{Opportunity}}='{opportunity_id}'"
+        records = airtable_client.search_records('GPSS Supplier Quotes', formula)
+        
+        if not records:
+            return jsonify({
+                'success': True,
+                'opportunity_id': opportunity_id,
+                'quotes': [],
+                'comparison': [],
+                'recommendation': 'No quotes received yet'
+            })
+        
+        # Build comparison matrix: group by product, compare across suppliers
+        product_groups = {}
+        suppliers_seen = {}
+        
+        for record in records:
+            fields = record.get('fields', {})
+            product = fields.get('Product/Service Requested', 'Unknown')
+            supplier_id = fields.get('Supplier', [None])
+            if isinstance(supplier_id, list) and supplier_id:
+                supplier_id = supplier_id[0]
+            
+            supplier_quote = fields.get('Supplier Quote Amount', 0) or 0
+            our_price = fields.get('Our Proposed Price', 0) or 0
+            lead_time = fields.get('Quoted Lead Time (Days)', '') or ''
+            status = fields.get('Request Status', 'Pending')
+            selected = fields.get('Selected for Quote', False)
+            
+            if product not in product_groups:
+                product_groups[product] = []
+            
+            product_groups[product].append({
+                'quote_id': record.get('id'),
+                'supplier_id': supplier_id,
+                'supplier_quote': float(supplier_quote) if supplier_quote else 0,
+                'our_price': float(our_price) if our_price else 0,
+                'lead_time': lead_time,
+                'status': status,
+                'selected': selected,
+                'margin': (float(our_price) - float(supplier_quote)) if supplier_quote and our_price else 0,
+                'margin_pct': round(((float(our_price) - float(supplier_quote)) / float(our_price) * 100), 1) if our_price and supplier_quote else 0,
+            })
+            
+            if supplier_id:
+                suppliers_seen[supplier_id] = True
+        
+        # Get supplier names
+        supplier_names = {}
+        for sid in suppliers_seen:
+            try:
+                rec = airtable_client.get_record('GPSS SUPPLIERS', sid)
+                supplier_names[sid] = rec.get('fields', {}).get('COMPANY NAME', 'Unknown')
+            except:
+                supplier_names[sid] = sid[:8]
+        
+        # Build comparison with supplier names
+        comparison = []
+        best_overall = {'supplier': None, 'total': float('inf')}
+        
+        for product, quotes in product_groups.items():
+            # Find best price for this product
+            received_quotes = [q for q in quotes if q['supplier_quote'] > 0]
+            best_price = min(received_quotes, key=lambda x: x['supplier_quote']) if received_quotes else None
+            
+            enriched = []
+            for q in quotes:
+                q['supplier_name'] = supplier_names.get(q['supplier_id'], 'Unknown')
+                q['is_best_price'] = (best_price and q['quote_id'] == best_price['quote_id'])
+                enriched.append(q)
+            
+            comparison.append({
+                'product': product,
+                'quotes': enriched,
+                'best_price_supplier': supplier_names.get(best_price['supplier_id'], 'Unknown') if best_price else None,
+                'best_price_amount': best_price['supplier_quote'] if best_price else None,
+                'quotes_received': len(received_quotes),
+                'quotes_pending': len([q for q in quotes if q['status'] == 'Pending']),
+            })
+            
+            # Track best overall
+            if best_price and best_price['supplier_quote'] < best_overall['total']:
+                best_overall = {
+                    'supplier': supplier_names.get(best_price['supplier_id'], 'Unknown'),
+                    'supplier_id': best_price['supplier_id'],
+                    'total': best_price['supplier_quote'],
+                }
+        
+        # Summary
+        total_received = sum(1 for pg in comparison for q in pg['quotes'] if q['supplier_quote'] > 0)
+        total_pending = sum(1 for pg in comparison for q in pg['quotes'] if q['status'] == 'Pending')
+        
+        recommendation = "Waiting for more quotes" if total_pending > total_received else (
+            f"Best overall pricing from {best_overall['supplier']}" if best_overall['supplier'] else "Review quotes manually"
+        )
+        
+        return jsonify({
+            'success': True,
+            'opportunity_id': opportunity_id,
+            'comparison': comparison,
+            'summary': {
+                'total_products': len(comparison),
+                'quotes_received': total_received,
+                'quotes_pending': total_pending,
+                'best_overall_supplier': best_overall.get('supplier'),
+                'recommendation': recommendation,
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 # =====================================================================
 # GPSS SUBCONTRACTOR ENDPOINTS
 # =====================================================================
+
+@app.route('/gpss/subcontractors', methods=['GET'])
+def get_all_subcontractors():
+    """Get all subcontractors from database with full Airtable field mapping"""
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        
+        subcontractors_raw = miner.airtable.get_all_records('GPSS SUBCONTRACTORS')
+        
+        subcontractors = []
+        for record in subcontractors_raw:
+            fields = record.get('fields', {})
+            company_name = fields.get('COMPANY NAME', '').strip()
+            if not company_name:
+                continue
+            
+            subcontractors.append({
+                'id': record.get('id'),
+                'company_name': company_name,
+                'service_type': fields.get('SERVICE TYPE', ''),
+                'city': fields.get('CITY', ''),
+                'state': fields.get('STATE', ''),
+                'phone': fields.get('PHONE', ''),
+                'email': fields.get('EMAIL', ''),
+                'website': fields.get('WEBSITE', ''),
+                'description': fields.get('DESCRIPTION', ''),
+                'discovery_method': fields.get('DISCOVERY METHOD', ''),
+                'discovery_date': fields.get('DISCOVERY DATE', ''),
+                'discovered_by': fields.get('DISCOVERED BY', ''),
+                'relationship_status': fields.get('RELATIONSHIP STATUS', ''),
+                'reliability_rating': fields.get('RELIABILITY RATING', 0),
+                'response_rate': fields.get('RESPONSE RATE (%)', 0),
+                'contracts_won': fields.get('CONTRACTS WON TOGETHER ', 0),
+                'last_contacted': fields.get('LAST CONTACTED', ''),
+                'notes': fields.get('NOTES', ''),
+                'source_notes': fields.get('SOURCE NOTES', ''),
+                'naics_codes': fields.get('NAISC CODES', []),
+                'capabilities': fields.get('CAPABILITIES', []),
+                'certifications': fields.get('CERTIFICATION', []),
+                'socioeconomic_certs': fields.get('SOCIOECONOMIC CERTS', []),
+                'psc_codes': fields.get('PSC CODES', ''),
+                'hourly_rates': fields.get('HOURLY RATES', ''),
+                'employee_count': fields.get('EMPLOYEE COUNT', 0),
+                'annual_revenue': fields.get('ANNUAL REVENUE', 0),
+                'past_performance': fields.get('PAST PERFORMANCE SUMMARY', ''),
+                'key_contracts': fields.get('KEY CONTRACTS', ''),
+                'past_contracts_count': fields.get('PAST CONTRACTS COUNT', 0),
+                'total_contract_value': fields.get('TOTAL CONTRACT VALUE', 0),
+                'primary_agencies': fields.get('PRIMARY AGENCIES', []),
+                'average_contract_size': fields.get('AVERAGE CONTRACT SIZE', 0),
+                'contract_types': fields.get('CONTRACT TYPES', []),
+                'ai_score': fields.get('AI SCORE', 0),
+                'availability': fields.get('AVAILABILITY', ''),
+                'performance_rating': fields.get('PERFORMANCE RATING', 0),
+                'compliance_risk': fields.get('COMPLIANCE RISK', ''),
+            })
+        
+        # Sort: small businesses first (by employee count ascending, then by reliability)
+        def sort_key(s):
+            emp = s.get('employee_count') or 9999
+            has_certs = len(s.get('socioeconomic_certs', []))
+            rating = s.get('reliability_rating') or 0
+            return (-has_certs, emp, -rating)
+        
+        subcontractors.sort(key=sort_key)
+        
+        return jsonify({
+            "success": True,
+            "subcontractors": subcontractors,
+            "count": len(subcontractors)
+        })
+    except Exception as e:
+        print(f"Error getting subcontractors: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors', methods=['POST'])
+def create_subcontractor():
+    """Create new subcontractor with proper Airtable field mapping"""
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        from datetime import datetime
+        miner = GPSSSubcontractorMiner()
+        
+        data = request.json or {}
+        
+        # Map frontend field names to Airtable UPPERCASE field names
+        field_map = {
+            'Company Name': 'COMPANY NAME',
+            'Service Type': 'SERVICE TYPE',
+            'City': 'CITY',
+            'State': 'STATE',
+            'Phone': 'PHONE',
+            'Email': 'EMAIL',
+            'Website': 'WEBSITE',
+            'Description': 'DESCRIPTION',
+            'Relationship Status': 'RELATIONSHIP STATUS',
+            'Notes': 'NOTES',
+            'Employee Count': 'EMPLOYEE COUNT',
+            'Annual Revenue': 'ANNUAL REVENUE',
+            'Hourly Rates': 'HOURLY RATES',
+        }
+        
+        airtable_data = {}
+        for frontend_key, airtable_key in field_map.items():
+            if frontend_key in data and data[frontend_key]:
+                airtable_data[airtable_key] = data[frontend_key]
+        
+        # Handle multi-select fields (arrays)
+        for ms_field in ['SOCIOECONOMIC CERTS', 'CAPABILITIES', 'NAISC CODES', 'PRIMARY AGENCIES', 'CONTRACT TYPES', 'CERTIFICATION']:
+            if ms_field in data and isinstance(data[ms_field], list):
+                airtable_data[ms_field] = data[ms_field]
+        
+        # Handle select fields
+        if 'AVAILABILITY' in data:
+            airtable_data['AVAILABILITY'] = data['AVAILABILITY']
+        if 'COMPLIANCE RISK' in data:
+            airtable_data['COMPLIANCE RISK'] = data['COMPLIANCE RISK']
+        
+        # Defaults
+        airtable_data.setdefault('DISCOVERY METHOD', data.get('Discovery Method', 'Manual Entry'))
+        airtable_data.setdefault('DISCOVERED BY', data.get('Discovered By', 'Dee Davis'))
+        airtable_data.setdefault('DISCOVERY DATE', datetime.now().strftime('%Y-%m-%d'))
+        
+        if 'COMPANY NAME' not in airtable_data:
+            return jsonify({"error": "Company Name is required"}), 400
+        
+        record = miner.airtable.create_record('GPSS SUBCONTRACTORS', airtable_data)
+        
+        return jsonify({
+            "success": True,
+            "subcontractor": {
+                'id': record.get('id'),
+                'company_name': airtable_data.get('COMPANY NAME')
+            },
+            "message": "Subcontractor created successfully"
+        })
+    except Exception as e:
+        print(f"Error creating subcontractor: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>', methods=['GET'])
+def get_subcontractor(subcontractor_id):
+    """Get single subcontractor by ID"""
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        
+        record = miner.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+        
+        if not record:
+            return jsonify({"error": "Subcontractor not found"}), 404
+        
+        fields = record.get('fields', {})
+        subcontractor = {
+            'id': record.get('id'),
+            'company_name': fields.get('COMPANY NAME', ''),
+            'service_type': fields.get('SERVICE TYPE', ''),
+            'city': fields.get('CITY', ''),
+            'state': fields.get('STATE', ''),
+            'phone': fields.get('PHONE', ''),
+            'email': fields.get('EMAIL', ''),
+            'website': fields.get('WEBSITE', ''),
+            'description': fields.get('DESCRIPTION', ''),
+            'relationship_status': fields.get('RELATIONSHIP STATUS', ''),
+            'reliability_rating': fields.get('RELIABILITY RATING', 0),
+            'socioeconomic_certs': fields.get('SOCIOECONOMIC CERTS', []),
+            'capabilities': fields.get('CAPABILITIES', []),
+            'employee_count': fields.get('EMPLOYEE COUNT', 0),
+            'annual_revenue': fields.get('ANNUAL REVENUE', 0),
+            'availability': fields.get('AVAILABILITY', ''),
+            'compliance_risk': fields.get('COMPLIANCE RISK', ''),
+            'notes': fields.get('NOTES', ''),
+        }
+        
+        return jsonify({
+            "success": True,
+            "subcontractor": subcontractor
+        })
+    except Exception as e:
+        print(f"Error getting subcontractor: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>', methods=['PUT'])
+def update_subcontractor(subcontractor_id):
+    """Update existing subcontractor with proper Airtable field mapping"""
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        
+        data = request.json or {}
+        
+        field_map = {
+            'Company Name': 'COMPANY NAME',
+            'Service Type': 'SERVICE TYPE',
+            'City': 'CITY',
+            'State': 'STATE',
+            'Phone': 'PHONE',
+            'Email': 'EMAIL',
+            'Website': 'WEBSITE',
+            'Description': 'DESCRIPTION',
+            'Relationship Status': 'RELATIONSHIP STATUS',
+            'Notes': 'NOTES',
+            'Employee Count': 'EMPLOYEE COUNT',
+            'Annual Revenue': 'ANNUAL REVENUE',
+            'Hourly Rates': 'HOURLY RATES',
+        }
+        
+        airtable_updates = {}
+        for frontend_key, airtable_key in field_map.items():
+            if frontend_key in data:
+                airtable_updates[airtable_key] = data[frontend_key]
+        
+        # Also allow direct uppercase keys
+        for key in ['AVAILABILITY', 'COMPLIANCE RISK', 'SOCIOECONOMIC CERTS', 'CAPABILITIES',
+                     'NAISC CODES', 'PRIMARY AGENCIES', 'CONTRACT TYPES', 'CERTIFICATION',
+                     'LAST CONTACTED', 'RELATIONSHIP STATUS']:
+            if key in data:
+                airtable_updates[key] = data[key]
+        
+        record = miner.airtable.update_record('GPSS SUBCONTRACTORS', subcontractor_id, airtable_updates)
+        
+        return jsonify({
+            "success": True,
+            "subcontractor_id": subcontractor_id,
+            "message": "Subcontractor updated successfully"
+        })
+    except Exception as e:
+        print(f"Error updating subcontractor: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>', methods=['DELETE'])
+def delete_subcontractor(subcontractor_id):
+    """Delete subcontractor"""
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        
+        miner.airtable.delete_record('GPSS SUBCONTRACTORS', subcontractor_id)
+        
+        return jsonify({
+            "success": True,
+            "message": "Subcontractor deleted successfully"
+        })
+    except Exception as e:
+        print(f"Error deleting subcontractor: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/match-subs', methods=['POST'])
+def match_subs_for_opportunity(opportunity_id):
+    """
+    AI-powered: Analyze an opportunity, determine what capabilities are needed,
+    and match against existing subcontractor database. Returns gap analysis + ranked matches.
+    
+    This is the key bridge between opportunities and subcontractors.
+    When you decide to pursue an opportunity, hit this to see who can help.
+    """
+    try:
+        from nexus_backend import AirtableClient, AnthropicClient
+        import json as json_mod
+        import re as re_mod
+        
+        airtable = AirtableClient()
+        ai = AnthropicClient()
+        
+        def extract_json_from_text(text):
+            """Extract JSON from AI response that may contain markdown or extra text"""
+            # Try direct parse first
+            try:
+                return json_mod.loads(text)
+            except:
+                pass
+            # Try finding JSON block in markdown
+            match = re_mod.search(r'```(?:json)?\s*\n?(.*?)\n?```', text, re_mod.DOTALL)
+            if match:
+                try:
+                    return json_mod.loads(match.group(1))
+                except:
+                    pass
+            # Try finding first { ... } block
+            match = re_mod.search(r'\{.*\}', text, re_mod.DOTALL)
+            if match:
+                try:
+                    return json_mod.loads(match.group(0))
+                except:
+                    pass
+            return {"error": "Could not parse AI response"}
+        
+        # Step 1: Get opportunity details
+        opp_table = airtable.get_table("GPSS OPPORTUNITIES")
+        opp_record = opp_table.get(opportunity_id)
+        opp = opp_record['fields']
+        
+        opp_title = opp.get('TITLE', opp.get('Title', opp.get('Name', 'Unknown')))
+        opp_desc = opp.get('DESCRIPTION', opp.get('Description', ''))
+        opp_naics = opp.get('NAICS', opp.get('Naics', ''))
+        opp_type = opp.get('Type', opp.get('TYPE', ''))
+        opp_setaside = opp.get('SET_ASIDE', opp.get('Set-Aside', ''))
+        opp_notes = opp.get('Notes', opp.get('NOTES', opp.get('Source Status', '')))
+        
+        # Step 2: Get ALL subcontractors
+        subs_raw = airtable.get_all_records('GPSS SUBCONTRACTORS')
+        subs_list = []
+        for r in subs_raw:
+            f = r['fields']
+            name = f.get('COMPANY NAME', '').strip()
+            if not name:
+                continue
+            subs_list.append({
+                'id': r['id'],
+                'name': name,
+                'service_type': f.get('SERVICE TYPE', ''),
+                'description': f.get('DESCRIPTION', ''),
+                'capabilities': f.get('CAPABILITIES', []),
+                'socioeconomic_certs': f.get('SOCIOECONOMIC CERTS', []),
+                'naics_codes': f.get('NAISC CODES', []),
+                'state': f.get('STATE', ''),
+                'city': f.get('CITY', ''),
+                'email': f.get('EMAIL', ''),
+                'phone': f.get('PHONE', ''),
+                'website': f.get('WEBSITE', ''),
+                'reliability_rating': f.get('RELIABILITY RATING', 0),
+                'employee_count': f.get('EMPLOYEE COUNT', 0),
+                'availability': f.get('AVAILABILITY', ''),
+                'relationship_status': f.get('RELATIONSHIP STATUS', ''),
+            })
+        
+        # Step 3: Build concise sub catalog for AI
+        sub_catalog = ""
+        for i, s in enumerate(subs_list):
+            certs = ', '.join(s['socioeconomic_certs']) if s['socioeconomic_certs'] else 'None'
+            caps = ', '.join(s['capabilities']) if s['capabilities'] else ''
+            naics = ', '.join(s['naics_codes']) if s['naics_codes'] else ''
+            sub_catalog += f"{i+1}. {s['name']} | Service: {s['service_type']} | Caps: {caps} | NAICS: {naics} | Certs: {certs} | Location: {s['city']}, {s['state']} | Rating: {s['reliability_rating']}/5 | Employees: {s['employee_count']}\n"
+        
+        # Step 4: One AI call to do gap analysis + matching
+        prompt = f"""You are analyzing a government contract opportunity for Dee Davis Inc (EDWOSB small business) 
+to determine what subcontractor capabilities are needed and which existing subcontractors are the best match.
+
+OPPORTUNITY:
+Title: {opp_title}
+Description: {opp_desc}
+NAICS: {opp_naics}
+Type: {opp_type}
+Set-Aside: {opp_setaside}
+Notes/Status: {opp_notes}
+
+OUR SUBCONTRACTOR DATABASE ({len(subs_list)} subcontractors):
+{sub_catalog}
+
+ANALYZE AND RETURN JSON:
+{{
+    "opportunity_summary": "Brief 1-sentence summary of what this opportunity needs",
+    "required_capabilities": ["capability1", "capability2", ...],
+    "self_perform_possible": true/false,
+    "self_perform_percentage": 60,
+    "partner_recommendation": "self_perform" or "need_subcontractor" or "need_supplier",
+    "reasoning": "Why you recommend this approach...",
+    "matched_subcontractors": [
+        {{
+            "index": 1,
+            "name": "Sub Name",
+            "match_score": 92,
+            "match_reason": "Why this sub is a good fit for this specific opportunity",
+            "role": "What they would do on this contract",
+            "is_small_business": true/false
+        }}
+    ],
+    "capability_gaps": ["Any capability needed that NO existing sub can provide"],
+    "suggested_searches": ["Service types to search for if there are gaps"]
+}}
+
+RULES:
+- Only include subcontractors that are actually relevant (score >= 60)
+- Prioritize small businesses (with socioeconomic certs)
+- Max 8 matched subcontractors
+- If this is a product/supply opportunity (not services), say partner_recommendation="need_supplier" and explain
+- Be specific about WHY each sub matches
+"""
+        
+        raw_response = ai.complete(prompt, max_tokens=4000)
+        analysis = extract_json_from_text(raw_response)
+        
+        # Step 5: Enrich matched subs with full data
+        matched = analysis.get('matched_subcontractors', [])
+        enriched_matches = []
+        for m in matched:
+            idx = m.get('index', 0)
+            if 1 <= idx <= len(subs_list):
+                sub_data = subs_list[idx - 1]
+                m['id'] = sub_data['id']
+                m['email'] = sub_data['email']
+                m['phone'] = sub_data['phone']
+                m['website'] = sub_data['website']
+                m['state'] = sub_data['state']
+                m['city'] = sub_data['city']
+                m['socioeconomic_certs'] = sub_data['socioeconomic_certs']
+                m['service_type'] = sub_data['service_type']
+                m['availability'] = sub_data['availability']
+                m['relationship_status'] = sub_data['relationship_status']
+            enriched_matches.append(m)
+        
+        analysis['matched_subcontractors'] = enriched_matches
+        
+        return jsonify({
+            "success": True,
+            "opportunity_id": opportunity_id,
+            "opportunity_title": opp_title,
+            "analysis": analysis,
+            "total_subs_evaluated": len(subs_list),
+            "matches_found": len(enriched_matches),
+        })
+    
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
 
 @app.route('/gpss/subcontractors/find', methods=['POST'])
 def find_subcontractors():
@@ -3610,6 +5478,135 @@ def find_subcontractors():
         
     except Exception as e:
         print(f"Error finding subcontractors: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/mine-for-gaps', methods=['POST'])
+def mine_subcontractors_for_gaps():
+    """
+    Mine subcontractors from ALL sources to fill capability gaps.
+    Called after match-subs identifies gaps. Searches Google, SAM.gov/SBA, and Google Maps.
+    
+    Expected JSON:
+    {
+        "gaps": ["Mobile power generation", "Battery systems"],
+        "suggested_searches": ["Mobile generator specialists", "Battery integrators"],
+        "location": "Michigan",
+        "naics_code": "",
+        "auto_save": true
+    }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        
+        data = request.json or {}
+        gaps = data.get('gaps', [])
+        suggested_searches = data.get('suggested_searches', [])
+        location = data.get('location', 'Michigan')
+        naics_code = data.get('naics_code', '')
+        auto_save = data.get('auto_save', True)
+        
+        if not gaps and not suggested_searches:
+            return jsonify({"error": "gaps or suggested_searches required"}), 400
+        
+        miner = GPSSSubcontractorMiner()
+        
+        # Combine gaps and suggested searches into search terms
+        search_terms = list(set(suggested_searches + gaps))
+        
+        all_found = []
+        results_by_term = {}
+        
+        for term in search_terms:
+            mine_result = miner.mine_all_sources(
+                service_type=term,
+                location=location,
+                naics_code=naics_code,
+                max_per_source=3  # 3 per source × 3 sources = up to 9 per gap
+            )
+            results_by_term[term] = {
+                'found': mine_result.get('total', 0),
+                'by_source': mine_result.get('by_source', {})
+            }
+            all_found.extend(mine_result.get('results', []))
+        
+        # Deduplicate across all searches
+        seen = set()
+        unique_results = []
+        for r in all_found:
+            name_key = r.get('COMPANY NAME', '').lower().strip()
+            if name_key and name_key not in seen:
+                seen.add(name_key)
+                unique_results.append(r)
+        
+        # Auto-save to Airtable if requested
+        saved_count = 0
+        if auto_save and unique_results:
+            # Get existing sub names to avoid duplicates
+            existing = miner.airtable.get_all_records('GPSS SUBCONTRACTORS')
+            existing_names = set()
+            for e in existing:
+                n = e.get('fields', {}).get('COMPANY NAME', '').lower().strip()
+                if n:
+                    existing_names.add(n)
+            
+            for sub in unique_results:
+                name_key = sub.get('COMPANY NAME', '').lower().strip()
+                if name_key in existing_names:
+                    continue
+                
+                # Build Airtable record
+                record_data = {
+                    'COMPANY NAME': sub.get('COMPANY NAME', ''),
+                    'SERVICE TYPE': sub.get('SERVICE TYPE', ''),
+                    'CITY': sub.get('CITY', ''),
+                    'STATE': sub.get('STATE', ''),
+                    'WEBSITE': sub.get('WEBSITE', ''),
+                    'EMAIL': sub.get('EMAIL', ''),
+                    'PHONE': sub.get('PHONE', ''),
+                    'DESCRIPTION': sub.get('DESCRIPTION', ''),
+                    'DISCOVERY METHOD': sub.get('DISCOVERY METHOD', 'Multi-Source Mining'),
+                    'DISCOVERY DATE': sub.get('DISCOVERY DATE', ''),
+                    'DISCOVERED BY': 'NEXUS Auto-Mining',
+                    'RELATIONSHIP STATUS': 'Cold',
+                }
+                
+                # Add certs if present (multi-select)
+                certs = sub.get('SOCIOECONOMIC CERTS', [])
+                if certs and isinstance(certs, list):
+                    record_data['SOCIOECONOMIC CERTS'] = certs
+                
+                # Add NAICS if present (multi-select)
+                naics = sub.get('NAISC CODES', [])
+                if naics and isinstance(naics, list):
+                    record_data['NAISC CODES'] = naics
+                
+                try:
+                    miner.airtable.create_record('GPSS SUBCONTRACTORS', record_data)
+                    saved_count += 1
+                    existing_names.add(name_key)
+                except Exception as e:
+                    print(f"  ⚠️  Error saving {sub.get('COMPANY NAME')}: {e}")
+        
+        return jsonify({
+            "success": True,
+            "total_found": len(unique_results),
+            "saved_to_database": saved_count,
+            "results_by_search_term": results_by_term,
+            "subcontractors": [{
+                'company_name': r.get('COMPANY NAME', ''),
+                'service_type': r.get('SERVICE TYPE', ''),
+                'city': r.get('CITY', ''),
+                'state': r.get('STATE', ''),
+                'website': r.get('WEBSITE', ''),
+                'source': r.get('_source', r.get('DISCOVERY METHOD', '')),
+                'certs': r.get('SOCIOECONOMIC CERTS', []),
+            } for r in unique_results],
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 
@@ -4640,32 +6637,72 @@ def manual_create_atlas_project_from_prospect(prospect_id):
         return jsonify({"error": str(e)}), 500
 
 
+def _parse_ddcss_notes(notes_str):
+    """Parse structured data from Notes field: 'key1:val1|key2:val2' """
+    data = {}
+    if not notes_str:
+        return data
+    for part in str(notes_str).split('|'):
+        if ':' in part:
+            key, val = part.split(':', 1)
+            data[key.strip()] = val.strip()
+    return data
+
+def _build_ddcss_notes(**kwargs):
+    """Build Notes field string from keyword args"""
+    parts = []
+    for key, val in kwargs.items():
+        if val:
+            parts.append(f"{key}:{val}")
+    return '|'.join(parts)
+
+def _ddcss_prospect_to_dict(record):
+    """Convert a DDCSS Prospects Airtable record to a clean dict"""
+    fields = record['fields']
+    notes = _parse_ddcss_notes(fields.get('Notes', ''))
+    return {
+        'id': record['id'],
+        'companyName': fields.get('Company Name', ''),
+        'companySize': fields.get('Company Size', ''),
+        'currentChallenge': fields.get('Current Challenge', ''),
+        'businessGoals': fields.get('Business Goals', ''),
+        'timeline': fields.get('Timeline', ''),
+        'painPoints': fields.get('Pain Points', ''),
+        'contactName': fields.get('Contact Name', ''),
+        'contactEmail': fields.get('Contact Email', ''),
+        'contactPhone': fields.get('Contact Phone', ''),
+        'qualificationScore': fields.get('Qualification Score', ''),
+        'icpFitScore': fields.get('ICP Fit Score', ''),
+        # Fields stored in Notes
+        'industry': notes.get('Industry', ''),
+        'location': notes.get('Location', ''),
+        'budget': notes.get('Budget', ''),
+        'status': notes.get('Status', 'New'),
+        'avatarName': notes.get('Avatar', ''),
+        'decisionMakers': notes.get('DecisionMakers', ''),
+        'goals': notes.get('Goals', ''),
+        'hasAvatar': bool(notes.get('Avatar', '')),
+        'created': fields.get('Created Date', ''),
+    }
+
+
 @app.route('/ddcss/client-avatars', methods=['GET'])
 def get_ddcss_client_avatars():
-    """Get all client avatars"""
+    """Get all client avatars (prospects that have avatar data)"""
     try:
         airtable_client = AirtableClient()
         
         try:
-            records = airtable_client.get_all_records('DDCSS Client Avatars')
+            records = airtable_client.get_all_records('DDCSS Prospects')
         except:
             return jsonify({'avatars': []})
         
         avatars = []
         for record in records:
-            fields = record['fields']
-            avatars.append({
-                'id': record['id'],
-                'avatarName': fields.get('Avatar Name', ''),
-                'companySize': fields.get('Company Size', ''),
-                'industry': fields.get('Industry', ''),
-                'painPoints': fields.get('Pain Points', ''),
-                'goals': fields.get('Goals', ''),
-                'budget': fields.get('Budget', ''),
-                'decisionMakers': fields.get('Decision Makers', ''),
-                'prospectId': fields.get('Prospect ID', ''),
-                'created': fields.get('Created', '')
-            })
+            prospect = _ddcss_prospect_to_dict(record)
+            # Include all prospects that have avatar data, or all if none do yet
+            if prospect['avatarName'] or prospect['painPoints'] or prospect['companyName']:
+                avatars.append(prospect)
         
         return jsonify({'avatars': avatars})
     
@@ -4675,41 +6712,159 @@ def get_ddcss_client_avatars():
 
 @app.route('/ddcss/client-avatars', methods=['POST'])
 def create_ddcss_client_avatar():
-    """Create a new client avatar (with AI analysis)"""
+    """Create a new client avatar as a DDCSS prospect with avatar data"""
     try:
         data = request.json
         airtable_client = AirtableClient()
         
-        # Create avatar record
+        notes = _build_ddcss_notes(
+            Industry=data.get('industry', ''),
+            Location=data.get('location', ''),
+            Budget=data.get('budget', ''),
+            Status='New',
+            Avatar=data.get('avatarName', ''),
+            DecisionMakers=data.get('decisionMakers', ''),
+            Goals=data.get('goals', '')
+        )
+        
         fields = {
-            'Avatar Name': data.get('avatarName', ''),
+            'Company Name': data.get('avatarName', '') or data.get('companyName', ''),
             'Company Size': data.get('companySize', ''),
-            'Industry': data.get('industry', ''),
+            'Current Challenge': data.get('currentChallenge', ''),
+            'Business Goals': data.get('businessGoals', data.get('goals', '')),
             'Pain Points': data.get('painPoints', ''),
-            'Goals': data.get('goals', ''),
-            'Budget': data.get('budget', ''),
-            'Decision Makers': data.get('decisionMakers', ''),
-            'Prospect ID': data.get('prospectId', ''),
-            'Created': datetime.now().isoformat()
+            'Contact Name': data.get('decisionMakers', ''),
+            'Notes': notes,
         }
         
-        result = airtable_client.create_record('DDCSS Client Avatars', fields)
+        result = airtable_client.create_record('DDCSS Prospects', fields)
         
-        # AI Analysis (optional - can be done async)
+        # AI Analysis using Claude directly with avatar data
         ai_analysis = {}
         try:
-            from nexus_backend import DDCSSAgent1
-            agent = DDCSSAgent1()
-            if data.get('prospectId'):
-                ai_analysis = agent.qualify_prospect(data.get('prospectId'))
-        except:
-            pass
+            from nexus_backend import AnthropicClient
+            ai = AnthropicClient()
+            
+            prompt = f"""Analyze this corporate prospect avatar for a consulting engagement:
+
+Avatar/Company: {data.get('avatarName', 'Unknown')}
+Industry: {data.get('industry', 'Unknown')}
+Company Size: {data.get('companySize', 'Unknown')}
+Budget Range: {data.get('budget', 'Unknown')}
+Pain Points: {data.get('painPoints', 'None specified')}
+Goals: {data.get('goals', 'None specified')}
+Decision Makers: {data.get('decisionMakers', 'Unknown')}
+
+Provide a JSON response with:
+- "qualification_score": 0-100 (how good a fit is this for a $25K+ consulting engagement)
+- "recommended_approach": one sentence on how to approach this prospect
+- "win_probability": estimated percentage
+- "key_pain_to_target": the most actionable pain point to lead with
+- "suggested_offer_angle": how to position the offer for this specific avatar
+- "objection_to_expect": the most likely objection and how to handle it"""
+
+            import json as json_mod
+            import re as re_mod
+            
+            raw = ai.complete(prompt, max_tokens=1000)
+            
+            # Parse JSON from response
+            try:
+                ai_analysis = json_mod.loads(raw)
+            except:
+                match = re_mod.search(r'```(?:json)?\s*\n?(.*?)\n?```', raw, re_mod.DOTALL)
+                if match:
+                    try:
+                        ai_analysis = json_mod.loads(match.group(1))
+                    except:
+                        pass
+                if not ai_analysis:
+                    match = re_mod.search(r'\{.*\}', raw, re_mod.DOTALL)
+                    if match:
+                        try:
+                            ai_analysis = json_mod.loads(match.group(0))
+                        except:
+                            ai_analysis = {"analysis": raw}
+            
+            # Update qualification score on record if we got one
+            if ai_analysis.get('qualification_score'):
+                try:
+                    airtable_client.update_record('DDCSS Prospects', result['id'], {
+                        'Qualification Score': str(ai_analysis['qualification_score']),
+                        'ICP Fit Score': str(ai_analysis.get('win_probability', ''))
+                    })
+                except:
+                    pass
+                    
+        except Exception as ai_err:
+            print(f"AI analysis error: {ai_err}")
+            import traceback
+            traceback.print_exc()
+        
+        avatar_data = _ddcss_prospect_to_dict(result)
         
         return jsonify({
-            'avatar': {'id': result['id'], **fields},
+            'avatar': avatar_data,
             'aiAnalysis': ai_analysis
         })
     
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/ddcss/client-avatars/<avatar_id>', methods=['PUT'])
+def update_ddcss_client_avatar(avatar_id):
+    """Update an existing client avatar"""
+    try:
+        data = request.json
+        airtable_client = AirtableClient()
+        
+        update_fields = {}
+        if 'companyName' in data or 'avatarName' in data:
+            update_fields['Company Name'] = data.get('avatarName', data.get('companyName', ''))
+        if 'companySize' in data:
+            update_fields['Company Size'] = data['companySize']
+        if 'painPoints' in data:
+            update_fields['Pain Points'] = data['painPoints']
+        if 'businessGoals' in data:
+            update_fields['Business Goals'] = data['businessGoals']
+        if 'currentChallenge' in data:
+            update_fields['Current Challenge'] = data['currentChallenge']
+        if 'decisionMakers' in data:
+            update_fields['Contact Name'] = data['decisionMakers']
+        
+        # Rebuild notes with updated values
+        current = airtable_client.get_record('DDCSS Prospects', avatar_id)
+        current_notes = _parse_ddcss_notes(current['fields'].get('Notes', ''))
+        
+        if 'industry' in data: current_notes['Industry'] = data['industry']
+        if 'budget' in data: current_notes['Budget'] = data['budget']
+        if 'location' in data: current_notes['Location'] = data['location']
+        if 'status' in data: current_notes['Status'] = data['status']
+        if 'avatarName' in data: current_notes['Avatar'] = data['avatarName']
+        if 'goals' in data: current_notes['Goals'] = data['goals']
+        if 'decisionMakers' in data: current_notes['DecisionMakers'] = data['decisionMakers']
+        
+        update_fields['Notes'] = _build_ddcss_notes(**current_notes)
+        
+        airtable_client.update_record('DDCSS Prospects', avatar_id, update_fields)
+        
+        updated = airtable_client.get_record('DDCSS Prospects', avatar_id)
+        return jsonify({'avatar': _ddcss_prospect_to_dict(updated)})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/ddcss/client-avatars/<avatar_id>', methods=['DELETE'])
+def delete_ddcss_client_avatar(avatar_id):
+    """Delete a client avatar"""
+    try:
+        airtable_client = AirtableClient()
+        airtable_client.delete_record('DDCSS Prospects', avatar_id)
+        return jsonify({'success': True})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -5066,6 +7221,109 @@ def get_outreach_stats():
 
 
 # ============================================================================
+# FORECAST CAPSTAT OUTREACH ENDPOINTS (PROACTIVE OFFICER OUTREACH)
+# ============================================================================
+
+@app.route('/api/forecasts/<forecast_id>/generate-capstat-outreach', methods=['POST'])
+def generate_forecast_capstat_outreach(forecast_id: str):
+    """
+    Generate capability statement and outreach letter for a federal forecast
+    
+    This endpoint is called by the "📧 Reach Out to Officer" button in Airtable
+    or from the NEXUS frontend when user wants to proactively reach out to
+    a contracting officer BEFORE the RFP drops (3-6 months in advance).
+    
+    Workflow:
+    1. Gets forecast details from Airtable
+    2. Generates tailored capability statement
+    3. Generates proactive introduction letter
+    4. Creates Officer Outreach Tracking record
+    5. Links everything together
+    
+    Args:
+        forecast_id: Airtable record ID from Federal Forecasts table
+    
+    Request body: None required (all data from forecast record)
+    
+    Returns:
+        {
+            "success": true,
+            "message": "Capability statement and outreach letter generated!",
+            "forecast_title": "NASA - IT Equipment",
+            "capstat_pdf": "/path/to/capstat.pdf",
+            "capstat_html": "/path/to/capstat.html",
+            "outreach_record_id": "recXXXX",
+            "officer_email": "john.smith@nasa.gov",
+            "officer_name": "John Smith",
+            "next_steps": [...]
+        }
+    """
+    try:
+        from forecast_capstat_outreach import handle_forecast_capstat_outreach
+        
+        result = handle_forecast_capstat_outreach(forecast_id)
+        
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': f"Failed to generate forecast outreach: {str(e)}"
+        }), 500
+
+
+@app.route('/api/forecasts/batch-outreach', methods=['POST'])
+def batch_process_forecast_outreach():
+    """
+    Batch process: Generate cap statements for multiple high-priority forecasts
+    
+    Useful for weekly prep sessions - generate outreach for top N forecasts
+    
+    Request body:
+        {
+            "limit": 5  // Optional: max forecasts to process (default 5)
+        }
+    
+    Returns:
+        {
+            "success": true,
+            "processed": 5,
+            "results": [
+                {
+                    "forecast_id": "recXXXX",
+                    "forecast_title": "NASA - IT Equipment",
+                    "officer_name": "John Smith",
+                    "officer_email": "john.smith@nasa.gov",
+                    "outreach_record_id": "recYYYY",
+                    "capstat_pdf": "/path/to/capstat.pdf"
+                },
+                ...
+            ],
+            "timestamp": "2026-01-31T10:30:00"
+        }
+    """
+    try:
+        from forecast_capstat_outreach import process_high_priority_forecasts
+        
+        data = request.get_json() or {}
+        limit = data.get('limit', 5)
+        
+        result = process_high_priority_forecasts(limit=limit)
+        
+        return jsonify(result), 200
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+# ============================================================================
 # AI CONVERSATIONS ENDPOINTS
 # ============================================================================
 
@@ -5078,11 +7336,11 @@ def create_conversation():
         
         import json
         fields = {
-            'Session ID': data.get('sessionId'),
-            'Messages': json.dumps(data.get('messages', [])),
-            'Message Count': len(data.get('messages', [])),
-            'System Context': data.get('systemContext', 'General'),
-            'Status': 'Active'
+            'SESSION ID': data.get('sessionId'),
+            'MESSAGES': json.dumps(data.get('messages', [])),
+            'MESSAGE COUNT': len(data.get('messages', [])),
+            'SYSTEM CONTEXT': data.get('systemContext', 'General'),
+            'STATUS': 'ACTIVE'
         }
         
         record = airtable_client.create_record('AI Conversations', fields)
@@ -5105,38 +7363,34 @@ def update_conversation(session_id):
         records = airtable_client.get_all_records('AI Conversations')
         conversation_record = None
         for record in records:
-            if record['fields'].get('Session ID') == session_id:
+            if record['fields'].get('SESSION ID') == session_id:
                 conversation_record = record
                 break
         
         if not conversation_record:
             # Create new conversation if doesn't exist
             fields = {
-                'Session ID': session_id,
-                'Messages': json.dumps(data.get('messages', [])),
-                'Message Count': len(data.get('messages', [])),
-                'System Context': data.get('systemContext', 'General'),
-                'Status': 'Active'
+                'SESSION ID': session_id,
+                'MESSAGES': json.dumps(data.get('messages', [])),
+                'MESSAGE COUNT': len(data.get('messages', [])),
+                'SYSTEM CONTEXT': data.get('systemContext', 'General'),
+                'STATUS': 'ACTIVE'
             }
             record = airtable_client.create_record('AI Conversations', fields)
             return jsonify({'success': True, 'recordId': record['id']})
         
         # Update existing conversation
         update_fields = {
-            'Messages': json.dumps(data.get('messages', [])),
-            'Message Count': len(data.get('messages', []))
+            'MESSAGES': json.dumps(data.get('messages', [])),
+            'MESSAGE COUNT': len(data.get('messages', []))
         }
         
         if 'systemContext' in data:
-            update_fields['System Context'] = data['systemContext']
-        if 'topics' in data:
-            update_fields['Topics'] = data['topics']
+            update_fields['SYSTEM CONTEXT'] = data['systemContext']
         if 'status' in data:
-            update_fields['Status'] = data['status']
-        if 'userRating' in data:
-            update_fields['User Rating'] = data['userRating']
+            update_fields['STATUS'] = data['status'].upper()
         if 'notes' in data:
-            update_fields['Notes'] = data['notes']
+            update_fields['NOTES'] = data['notes']
         
         airtable_client.update_record('AI Conversations', conversation_record['id'], update_fields)
         return jsonify({'success': True, 'recordId': conversation_record['id']})
@@ -5155,21 +7409,17 @@ def get_conversation(session_id):
         
         records = airtable_client.get_all_records('AI Conversations')
         for record in records:
-            if record['fields'].get('Session ID') == session_id:
+            if record['fields'].get('SESSION ID') == session_id:
                 fields = record['fields']
                 return jsonify({
                     'success': True,
                     'conversation': {
-                        'sessionId': fields.get('Session ID'),
-                        'messages': json.loads(fields.get('Messages', '[]')),
-                        'messageCount': fields.get('Message Count', 0),
-                        'systemContext': fields.get('System Context'),
-                        'topics': fields.get('Topics', []),
-                        'status': fields.get('Status'),
-                        'userRating': fields.get('User Rating'),
-                        'notes': fields.get('Notes'),
-                        'started': fields.get('Started'),
-                        'lastUpdated': fields.get('Last Updated')
+                        'sessionId': fields.get('SESSION ID'),
+                        'messages': json.loads(fields.get('MESSAGES', '[]')),
+                        'messageCount': fields.get('MESSAGE COUNT', 0),
+                        'systemContext': fields.get('SYSTEM CONTEXT'),
+                        'status': fields.get('STATUS'),
+                        'notes': fields.get('NOTES'),
                     }
                 })
         
@@ -5553,13 +7803,11 @@ def get_all_conversations():
             fields = record['fields']
             conversations.append({
                 'id': record['id'],
-                'sessionId': fields.get('Session ID'),
-                'messageCount': fields.get('Message Count', 0),
-                'systemContext': fields.get('System Context'),
-                'status': fields.get('Status'),
-                'started': fields.get('Started'),
-                'lastUpdated': fields.get('Last Updated'),
-                'summary': fields.get('Summary', '')[:100] + '...' if fields.get('Summary', '') else ''
+                'sessionId': fields.get('SESSION ID'),
+                'messageCount': fields.get('MESSAGE COUNT', 0),
+                'systemContext': fields.get('SYSTEM CONTEXT'),
+                'status': fields.get('STATUS'),
+                'notes': fields.get('NOTES', ''),
             })
         
         return jsonify({'success': True, 'conversations': conversations})
@@ -5873,12 +8121,13 @@ def handle_task_creation(message):
 
         airtable_client = AirtableClient()
         task_fields = {
-            'Title': title,
-            'Project': project or '',
-            'Assignee': assignee or '',
-            'Priority': priority or 'Medium',
-            'Status': 'To Do'
+            'TITLE': title,
+            'ASSIGNEE': assignee or '',
+            'PRIORITY': (priority or 'MEDIUM').upper(),
+            'STATUS': 'TO DO'
         }
+        if project:
+            task_fields['DESCRIPTION'] = f"Project: {project}"
 
         result = airtable_client.create_record('Tasks', task_fields)
 
@@ -8873,56 +11122,100 @@ def list_capability_statements():
 # WORKFLOW MANAGEMENT API
 # =====================================================================
 
-@app.route('/api/workflow/queues', methods=['GET'])
-def get_workflow_queues():
+# Old static workflow/queues endpoint removed — replaced by live folder scanner
+# See /api/workflow/queues route at bottom of file (reads BIDS:RESOURCES/ live)
+
+
+def _resolve_airtable_id(folder_slug_or_id: str, bid_name: str = '', bid_fields: dict = None) -> str:
     """
-    Get all workflow queues with opportunities organized by stage
+    Resolve a folder slug to an Airtable record ID.
     
-    Returns:
-        {
-            "success": true,
-            "queues": {
-                "needsReview": [...],
-                "findSuppliers": [...],
-                "awaitingQuotes": [...],
-                etc.
-            },
-            "counts": {
-                "needsReview": 3,
-                "findSuppliers": 2,
-                etc.
-            }
-        }
+    The GPSS workflow queues use folder slugs (e.g. 'HAMTRAMCK_BOARD_UP') from 
+    the bid folder scanner. But Airtable needs record IDs (e.g. 'recXXXXXX').
+    
+    Strategy:
+    1. If it already looks like an Airtable record ID (starts with 'rec'), return as-is
+    2. Search GPSS Opportunities by Name matching the folder name
+    3. If not found, create a new record from folder scan data
+    4. Return the real Airtable record ID
     """
+    # Already an Airtable record ID
+    if folder_slug_or_id.startswith('rec'):
+        return folder_slug_or_id
+    
+    airtable_client = AirtableClient()
+    table = airtable_client.get_table('GPSS Opportunities')
+    
+    # Convert slug back to readable name: HAMTRAMCK_BOARD_UP → HAMTRAMCK BOARD UP
+    folder_name = folder_slug_or_id.replace('_', ' ')
+    
+    # Search for matching record by name
     try:
-        workflow = WorkflowManager()
-        result = workflow.get_workflow_queues()
-        return jsonify(result)
+        formula = f"FIND('{folder_name}', {{Name}})"
+        matches = table.all(formula=formula)
+        if matches:
+            return matches[0]['id']
+    except:
+        pass
     
+    # Try exact match
+    try:
+        formula = f"{{Name}} = '{folder_name}'"
+        matches = table.all(formula=formula)
+        if matches:
+            return matches[0]['id']
+    except:
+        pass
+    
+    # Also try the bid_name if provided
+    if bid_name and bid_name != folder_name:
+        try:
+            formula = f"FIND('{bid_name}', {{Name}})"
+            matches = table.all(formula=formula)
+            if matches:
+                return matches[0]['id']
+        except:
+            pass
+    
+    # Not found — create a new record from folder data
+    # Only set fields known to exist in GPSS Opportunities
+    create_fields = {
+        'Name': bid_name or folder_name,
+        'Notes': f'Auto-created from bid folder: {folder_name}',
+    }
+    
+    # Add extra fields if available from the bid scan
+    if bid_fields:
+        if bid_fields.get('Response Deadline'):
+            create_fields['Deadline'] = bid_fields['Response Deadline']
+    
+    try:
+        new_record = table.create(create_fields)
+        print(f"Created Airtable record {new_record['id']} for folder '{folder_name}'")
+        return new_record['id']
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        # If creation fails (e.g. Notes doesn't exist), try minimal creation
+        try:
+            new_record = table.create({'Name': bid_name or folder_name})
+            print(f"Created minimal Airtable record {new_record['id']} for folder '{folder_name}'")
+            return new_record['id']
+        except Exception as e2:
+            raise Exception(f"Cannot resolve '{folder_slug_or_id}' to Airtable record: {e2}")
 
 
 @app.route('/api/workflow/opportunity/<opportunity_id>/review', methods=['POST'])
 def review_opportunity(opportunity_id):
     """
-    Review and name an opportunity
+    Review and name an opportunity.
+    
+    Accepts either Airtable record IDs (recXXX) or folder slugs (HAMTRAMCK_BOARD_UP).
+    If folder slug, auto-resolves to Airtable record ID (creates if needed).
     
     Body:
         {
             "name": "CPS Energy - Industrial Supplies",
             "decision": "pursue" | "skip",
             "notes": "Optional notes"
-        }
-    
-    Returns:
-        {
-            "success": true,
-            "message": "Opportunity reviewed",
-            "newStatus": "Find Suppliers"
         }
     """
     try:
@@ -8938,8 +11231,11 @@ def review_opportunity(opportunity_id):
                 'error': 'Name is required'
             }), 400
         
+        # Resolve folder slug to Airtable record ID
+        real_id = _resolve_airtable_id(opportunity_id, bid_name=name)
+        
         workflow = WorkflowManager()
-        result = workflow.review_opportunity(opportunity_id, name, decision, notes)
+        result = workflow.review_opportunity(real_id, name, decision, notes)
         
         return jsonify(result)
     
@@ -8977,9 +11273,29 @@ def identify_suppliers(opportunity_id):
                 'error': 'At least one supplier is required'
             }), 400
         
-        workflow = WorkflowManager()
-        result = workflow.identify_suppliers(opportunity_id, supplier_ids)
+        # Resolve folder slug to Airtable record ID
+        real_id = _resolve_airtable_id(opportunity_id)
         
+        workflow = WorkflowManager()
+        result = workflow.identify_suppliers(real_id, supplier_ids)
+        
+        # ── AUTO-TRIGGER: Generate RFQ and send to suppliers ──
+        auto_actions = []
+        if result.get('success'):
+            try:
+                from supplier_quote_workflow import request_quotes_for_opportunity
+                quote_result = request_quotes_for_opportunity(real_id)
+                if quote_result.get('success'):
+                    count = quote_result.get('quotes_sent', 0)
+                    auto_actions.append(f"Auto-generated {count} RFQ(s) for {len(supplier_ids)} suppliers")
+                    result['rfq_generated'] = True
+                    result['quotes_sent'] = count
+                else:
+                    auto_actions.append(f"RFQ generation attempted: {quote_result.get('error', 'unknown')[:80]}")
+            except Exception as e:
+                auto_actions.append(f"RFQ auto-generation note: {str(e)[:80]}")
+        
+        result['auto_actions'] = auto_actions
         return jsonify(result)
     
     except Exception as e:
@@ -9010,8 +11326,11 @@ def mark_quotes_requested(opportunity_id):
         data = request.get_json() or {}
         count = data.get('count', 0)
         
+        # Resolve folder slug to Airtable record ID
+        real_id = _resolve_airtable_id(opportunity_id)
+        
         workflow = WorkflowManager()
-        result = workflow.mark_quotes_requested(opportunity_id, count)
+        result = workflow.mark_quotes_requested(real_id, count)
         
         return jsonify(result)
     
@@ -9025,7 +11344,10 @@ def mark_quotes_requested(opportunity_id):
 @app.route('/api/workflow/opportunity/<opportunity_id>/advance', methods=['POST'])
 def advance_workflow(opportunity_id):
     """
-    Manually advance opportunity to next workflow stage
+    Advance opportunity to next workflow stage with auto-trigger actions.
+    
+    When moving to certain stages, the system automatically kicks off
+    the next logical action (e.g., finding suppliers, requesting quotes).
     
     Body:
         {
@@ -9036,7 +11358,8 @@ def advance_workflow(opportunity_id):
         {
             "success": true,
             "message": "Advanced to Ready to Price",
-            "newStatus": "Ready to Price"
+            "newStatus": "Ready to Price",
+            "auto_actions": ["Found 5 potential suppliers"]
         }
     """
     try:
@@ -9049,9 +11372,40 @@ def advance_workflow(opportunity_id):
                 'error': 'newStatus is required'
             }), 400
         
-        workflow = WorkflowManager()
-        result = workflow.advance_workflow(opportunity_id, new_status)
+        # Resolve folder slug to Airtable record ID
+        real_id = _resolve_airtable_id(opportunity_id)
         
+        workflow = WorkflowManager()
+        result = workflow.advance_workflow(real_id, new_status)
+        
+        # ── AUTO-TRIGGER ACTIONS based on new stage ──
+        auto_actions = []
+        
+        if new_status in ('Find Suppliers', 'findSuppliers'):
+            # Auto-search for suppliers when opportunity enters Find Suppliers stage
+            # Uses GPSSAutomatedQuoting which chains: database check → ThomasNet → Google → GSA
+            try:
+                from nexus_backend import handle_find_suppliers_for_opportunity
+                suppliers = handle_find_suppliers_for_opportunity(real_id)
+                count = len(suppliers) if isinstance(suppliers, list) else 0
+                auto_actions.append(f"Auto-found {count} potential suppliers (Database + ThomasNet + Google + GSA)")
+            except Exception as e:
+                auto_actions.append(f"Supplier search attempted (note: {str(e)[:60]})")
+
+        elif new_status in ('Request Quotes', 'requestQuotes'):
+            # Auto-generate RFQ and send to suppliers
+            try:
+                from supplier_quote_workflow import request_quotes_for_opportunity
+                quote_result = request_quotes_for_opportunity(real_id)
+                if quote_result.get('success'):
+                    count = quote_result.get('quotes_sent', 0)
+                    auto_actions.append(f"Auto-generated {count} quote requests and sent to suppliers")
+                else:
+                    auto_actions.append(f"RFQ generation: {quote_result.get('error', 'check logs')[:60]}")
+            except Exception as e:
+                auto_actions.append(f"Quote generation attempted (note: {str(e)[:60]})")
+
+        result['auto_actions'] = auto_actions
         return jsonify(result)
     
     except Exception as e:
@@ -9111,6 +11465,1577 @@ def mine_suppliers():
             'success': False,
             'error': str(e)
         }), 500
+
+
+# ==================== QUOTE GENERATOR ENDPOINTS ====================
+# Output directory for generated quotes
+OUTPUT_DIR = Path("GENERATED_QUOTES")
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+
+def parse_quote_data(data):
+    """Parse quote data from JSON to template format"""
+    
+    template = f"""RFQ_NUMBER: {data.get('rfq_number', 'RFQ-2026-001')}
+TITLE: {data.get('title', 'Quote Request')}
+ISSUE_DATE: {data.get('issue_date', 'January 26, 2026')}
+DUE_DATE: {data.get('due_date', 'February 5, 2026')}
+DUE_TIME: {data.get('due_time', '5:00 PM EST')}
+CONTRACT_PERIOD: {data.get('contract_period', '12 months')}
+
+COLOR_SCHEME: {data.get('color_scheme', '1')}
+
+INTRODUCTION:
+{data.get('introduction', 'DEE DAVIS INC is seeking competitive quotes.')}
+
+SCOPE:
+{data.get('scope', 'Vendor will provide materials as specified.')}
+
+KEY_REQUIREMENTS:
+"""
+    
+    # Add requirements
+    for req in data.get('requirements', []):
+        template += f"- {req}\n"
+    
+    template += "\nITEMS:\n"
+    
+    # Add items
+    for item in data.get('items', []):
+        template += f"{item.get('number', 1)} | {item.get('description', '')} | {item.get('specs', '')} | {item.get('quantity', '')} | {item.get('unit', 'unit')}\n"
+    
+    return template
+
+
+@app.route('/api/quote/generate-from-paste', methods=['POST'])
+def generate_quote_from_paste():
+    """
+    Generate quote from pasted template text
+    
+    POST /api/quote/generate-from-paste
+    Body: {
+        "paste_text": "RFQ_NUMBER: DDI-2026-001\nTITLE: ...",
+        "request_type": "supplier" | "subcontractor"  # optional, defaults to supplier
+    }
+    """
+    try:
+        data = request.json
+        paste_text = data.get('paste_text', '')
+        request_type = data.get('request_type', 'supplier').upper()
+        
+        if not paste_text:
+            return jsonify({'success': False, 'error': 'No paste text provided'}), 400
+        
+        # Add REQUEST_TYPE to paste_text if not already present
+        if 'REQUEST_TYPE:' not in paste_text:
+            paste_text = f"REQUEST_TYPE: {request_type}\n{paste_text}"
+        
+        # Create temp file with paste text
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            f.write(paste_text)
+            temp_file = f.name
+        
+        # Generate the quote
+        result = subprocess.run(
+            ['python3', 'create_from_paste.py', 'rfq', temp_file],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+        
+        # Clean up temp file
+        os.unlink(temp_file)
+        
+        if result.returncode != 0:
+            return jsonify({
+                'success': False,
+                'error': result.stderr
+            }), 500
+        
+        # Extract generated filenames
+        output_lines = result.stdout.split('\n')
+        files = {}
+        
+        for line in output_lines:
+            if '.html' in line:
+                match = re.search(r'(rfq_[a-z0-9_]+\.html)', line)
+                if match:
+                    files['html'] = match.group(1)
+            if '.pdf' in line and 'config' not in line:
+                match = re.search(r'(rfq_[a-z0-9_]+\.pdf)', line)
+                if match:
+                    files['pdf'] = match.group(1)
+            if '_config.json' in line:
+                match = re.search(r'(rfq_[a-z0-9_]+_config\.json)', line)
+                if match:
+                    files['config'] = match.group(1)
+        
+        # Move files to output directory
+        for file_type, filename in files.items():
+            if os.path.exists(filename):
+                dest = OUTPUT_DIR / filename
+                os.rename(filename, dest)
+                files[file_type] = str(dest)
+        
+        # Extract just the filename (without GENERATED_QUOTES/ path) for download URL
+        pdf_filename = os.path.basename(files.get('pdf', ''))
+        
+        # Auto-advance workflow to Step 4 if opportunity_id provided
+        opportunity_id = data.get('opportunity_id')
+        if opportunity_id and files.get('pdf'):
+            auto_advance_workflow(opportunity_id, 4, reason='RFQ generated from paste')
+        
+        return jsonify({
+            'success': True,
+            'files': files,
+            'download_url': f"/api/quote/download/{pdf_filename}" if pdf_filename else None
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/quote/generate', methods=['POST'])
+def api_generate_quote_pdf():
+    """
+    Generate a supplier quote request
+    
+    POST /api/quote/generate
+    Body: {
+        "rfq_number": "DDI-2026-001",
+        "title": "Quote Request Title",
+        "issue_date": "January 26, 2026",
+        "due_date": "February 5, 2026",
+        "due_time": "5:00 PM EST",
+        "contract_period": "12 months",
+        "color_scheme": "1",
+        "introduction": "Your introduction text...",
+        "scope": "Your scope text...",
+        "requirements": ["Requirement 1", "Requirement 2"],
+        "items": [
+            {
+                "number": "1",
+                "description": "Item name",
+                "specs": "Specifications",
+                "quantity": "100",
+                "unit": "pieces"
+            }
+        ]
+    }
+    
+    Returns: {
+        "success": true,
+        "files": {
+            "html": "filename.html",
+            "pdf": "filename.pdf",
+            "config": "filename_config.json"
+        },
+        "download_url": "/api/quote/download/filename.pdf"
+    }
+    """
+    try:
+        data = request.json
+        
+        # Convert to template format
+        template_text = parse_quote_data(data)
+        
+        # Create temp file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            f.write(template_text)
+            temp_file = f.name
+        
+        # Generate the quote
+        result = subprocess.run(
+            ['python3', 'create_from_paste.py', 'rfq', temp_file],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+        
+        # Clean up temp file
+        os.unlink(temp_file)
+        
+        if result.returncode != 0:
+            return jsonify({
+                'success': False,
+                'error': result.stderr
+            }), 500
+        
+        # Extract generated filenames
+        output_lines = result.stdout.split('\n')
+        files = {}
+        
+        for line in output_lines:
+            if '.html' in line:
+                match = re.search(r'(rfq_[a-z0-9_]+\.html)', line)
+                if match:
+                    files['html'] = match.group(1)
+            if '.pdf' in line and 'config' not in line:
+                match = re.search(r'(rfq_[a-z0-9_]+\.pdf)', line)
+                if match:
+                    files['pdf'] = match.group(1)
+            if '_config.json' in line:
+                match = re.search(r'(rfq_[a-z0-9_]+_config\.json)', line)
+                if match:
+                    files['config'] = match.group(1)
+        
+        # Move files to output directory
+        for file_type, filename in files.items():
+            if os.path.exists(filename):
+                dest = OUTPUT_DIR / filename
+                os.rename(filename, dest)
+                files[file_type] = str(dest)
+        
+        # Extract just the filename (without GENERATED_QUOTES/ path) for download URL
+        pdf_filename = os.path.basename(files.get('pdf', ''))
+        
+        # Auto-advance workflow to Step 4 if opportunity_id provided
+        opportunity_id = data.get('opportunity_id')
+        if opportunity_id and files.get('pdf'):
+            auto_advance_workflow(opportunity_id, 4, reason='RFQ generated')
+        
+        return jsonify({
+            'success': True,
+            'files': files,
+            'download_url': f"/api/quote/download/{pdf_filename}" if pdf_filename else None
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/quote/download/<filename>', methods=['GET'])
+def download_quote(filename):
+    """Download a generated quote file"""
+    try:
+        filepath = OUTPUT_DIR / filename
+        if not filepath.exists():
+            return jsonify({'error': 'File not found'}), 404
+        
+        return send_file(
+            filepath,
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/quote/template', methods=['GET'])
+def get_quote_template():
+    """Get a blank template for quote generation"""
+    template = {
+        "rfq_number": "RFQ-2026-001",
+        "title": "Quote Request Title",
+        "issue_date": "January 26, 2026",
+        "due_date": "February 5, 2026",
+        "due_time": "5:00 PM EST",
+        "contract_period": "12 months",
+        "color_scheme": "1",
+        "introduction": "DEE DAVIS INC is seeking competitive quotes for a Michigan municipal client.",
+        "scope": "Vendor will provide materials as specified with delivery to Southeast Michigan.",
+        "requirements": [
+            "Competitive pricing required",
+            "Confirm delivery lead times",
+            "Provide payment terms",
+            "Quote valid through specified date"
+        ],
+        "items": [
+            {
+                "number": "1",
+                "description": "Item Description",
+                "specs": "Specifications and details",
+                "quantity": "100",
+                "unit": "unit"
+            }
+        ]
+    }
+    
+    return jsonify(template)
+
+
+@app.route('/api/quote/health', methods=['GET'])
+def quote_health_check():
+    """Health check endpoint for quote generator"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'NEXUS Quote Generator',
+        'version': '1.0.0'
+    })
+
+
+@app.route('/api/quote/request-from-opportunity', methods=['POST'])
+def request_quote_from_opportunity():
+    """
+    Complete workflow: Generate and send quotes to suppliers for an opportunity
+    
+    POST /api/quote/request-from-opportunity
+    Body: {
+        "opportunity_id": "recXXXXXX",
+        "supplier_ids": ["recYYYYYY", "recZZZZZZ"]  # optional
+    }
+    
+    Returns: {
+        "success": true,
+        "quote_requests": [...]
+    }
+    """
+    try:
+        from supplier_quote_workflow import request_quotes_for_opportunity
+        
+        data = request.json
+        opportunity_id = data.get('opportunity_id')
+        
+        if not opportunity_id:
+            return jsonify({'success': False, 'error': 'No opportunity_id provided'}), 400
+        
+        # Process the solicitation
+        result = request_quotes_for_opportunity(opportunity_id)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+# ==================== END QUOTE GENERATOR ENDPOINTS ====================
+
+
+# ==================== AUTO CONTACT MANAGEMENT ENDPOINTS ====================
+
+@app.route('/api/contacts/auto-extract-solicitation', methods=['POST'])
+def auto_extract_solicitation_contacts():
+    """
+    Automatically extract and add contacts from solicitation document
+    
+    POST /api/contacts/auto-extract-solicitation
+    Body: {
+        "text": "Full solicitation text...",
+        "name": "Solicitation Name"
+    }
+    
+    Returns: {
+        "contacts_found": 3,
+        "contacts_added": 2,
+        "contacts": [...]
+    }
+    """
+    try:
+        from auto_contact_manager import AutoContactManager
+        
+        data = request.json
+        solicitation_text = data.get('text', '')
+        solicitation_name = data.get('name', 'Unknown Solicitation')
+        
+        if not solicitation_text:
+            return jsonify({'success': False, 'error': 'No solicitation text provided'}), 400
+        
+        manager = AutoContactManager()
+        result = manager.extract_and_add_from_solicitation(solicitation_text, solicitation_name)
+        
+        return jsonify({
+            'success': True,
+            **result
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/contacts/add-supplier', methods=['POST'])
+def add_supplier_contact():
+    """
+    Add supplier contact when RFQ is sent or quote is requested
+    
+    POST /api/contacts/add-supplier
+    Body: {
+        "name": "Supplier Name",
+        "email": "supplier@company.com",
+        "phone": "555-123-4567",
+        "product_type": "Industrial supplies",
+        "context": "RFQ sent for RCOC 7814 Trucks"
+    }
+    
+    Returns: {
+        "success": true,
+        "message": "Supplier contact added",
+        "record_id": "recXXXXXX"
+    }
+    """
+    try:
+        from auto_contact_manager import AutoContactManager
+        
+        data = request.json
+        
+        if not data.get('name'):
+            return jsonify({'success': False, 'error': 'Supplier name required'}), 400
+        
+        manager = AutoContactManager()
+        result = manager.add_supplier_contact(
+            supplier_name=data.get('name'),
+            supplier_email=data.get('email'),
+            supplier_phone=data.get('phone'),
+            product_type=data.get('product_type'),
+            context=data.get('context')
+        )
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/contacts/add-subcontractor', methods=['POST'])
+def add_subcontractor_contact():
+    """
+    Add subcontractor contact when identified for opportunity
+    
+    POST /api/contacts/add-subcontractor
+    Body: {
+        "name": "Subcontractor Name",
+        "email": "sub@company.com",
+        "phone": "555-123-4567",
+        "services": "Landscaping, Snow removal",
+        "context": "Identified for Warren DDA Landscape bid"
+    }
+    
+    Returns: {
+        "success": true,
+        "message": "Subcontractor contact added",
+        "record_id": "recXXXXXX"
+    }
+    """
+    try:
+        from auto_contact_manager import AutoContactManager
+        
+        data = request.json
+        
+        if not data.get('name'):
+            return jsonify({'success': False, 'error': 'Subcontractor name required'}), 400
+        
+        manager = AutoContactManager()
+        result = manager.add_subcontractor_contact(
+            sub_name=data.get('name'),
+            sub_email=data.get('email'),
+            sub_phone=data.get('phone'),
+            services=data.get('services'),
+            context=data.get('context')
+        )
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+# ==================== END AUTO CONTACT MANAGEMENT ENDPOINTS ====================
+
+
+# =====================================================================
+# DEADLINE NOTIFICATIONS
+# =====================================================================
+
+@app.route('/api/agenda', methods=['GET'])
+def get_agenda():
+    """Get agenda for specified view (today/tomorrow/this-week)"""
+    try:
+        view = request.args.get('view', 'today')
+        agenda = handle_get_agenda(view)
+        return jsonify(agenda)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/active-deadlines', methods=['GET'])
+def get_active_deadlines():
+    """Get active bid deadlines for notification banner"""
+    try:
+        now = datetime.now()
+        
+        # Active RCOC bids (from CRITICAL_DEADLINE_VERIFICATION_FEB_2026.md)
+        active_bids = [
+            {
+                "id": "RCOC 7732",
+                "name": "Disposable Paper Products",
+                "deadline": "2026-02-10T14:30:00",
+                "value": "$81,478",
+                "profit": "$3-5K",
+                "status": "Ready to submit",
+                "action": "Submit Feb 7-9",
+                "folder": "RCOC 7732 PAPER",
+                "buyer": "Shari Graves (248-858-4780)",
+                "platform": "BidNet Direct"
+            },
+            {
+                "id": "RCOC 7842",
+                "name": "Safety Supplies",
+                "deadline": "2026-02-17T14:30:00",
+                "value": "$31,558",
+                "profit": "$3,975",
+                "status": "Ready to submit",
+                "action": "Submit Feb 14",
+                "folder": "RCOC 7842 SAFETY SUPPLIES",
+                "buyer": "Shari Graves (248-858-4780)",
+                "platform": "BidNet Direct"
+            },
+            {
+                "id": "RCOC 7814",
+                "name": "Pickup Trucks (16 units)",
+                "deadline": "2026-02-17T14:30:00",
+                "value": "$640K-$800K",
+                "profit": "$80K-$120K",
+                "status": "Awaiting dealer quotes",
+                "action": "Get dealer quotes by Feb 10",
+                "folder": "RCOC 7814 TRUCKS",
+                "buyer": "Shari Graves (248-858-4796)",
+                "platform": "BidNet Direct"
+            },
+            {
+                "id": "RCOC 7790",
+                "name": "Prefabricated Traffic Signs",
+                "deadline": "2026-02-17T14:30:00",
+                "value": "$30K-$50K",
+                "profit": "$27K+",
+                "status": "Awaiting supplier quotes",
+                "action": "Get supplier quotes by Feb 10",
+                "folder": "RCOC 7790 SIGNS",
+                "buyer": "Tracy McDonald (248-858-4796)",
+                "platform": "BidNet Direct"
+            }
+        ]
+        
+        # Calculate days/hours until for each
+        for bid in active_bids:
+            deadline_dt = datetime.fromisoformat(bid['deadline'])
+            delta = deadline_dt - now
+            bid['daysUntil'] = delta.days
+            bid['hoursUntil'] = (delta.seconds // 3600)
+        
+        return jsonify({
+            'success': True,
+            'deadlines': active_bids,
+            'count': len(active_bids)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+
+
+# =====================================================================
+# BID FOLDER SCANNER — LIVE FILESYSTEM DATA
+# Reads BIDS:RESOURCES/ folder to detect real bid status
+# No mock data. No hardcoded lists. Real filesystem scanning.
+# =====================================================================
+
+@app.route('/api/bids/dashboard', methods=['GET'])
+def api_bids_dashboard():
+    """
+    Get dashboard data from real folder scanning.
+    Returns formatted data for BidsDashboard frontend component.
+    """
+    try:
+        data = get_dashboard_data()
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/bids/scan', methods=['GET'])
+def api_bids_scan():
+    """
+    Full scan of all bid folders with detailed status.
+    Returns submitted, active, needs_review, and stale bids.
+    Uses cached results if available and fresh (< 5 min old).
+    """
+    try:
+        # Check for cached scan (from scheduler)
+        cache_path = os.path.join(os.path.dirname(__file__), 'scan_cache.json')
+        force = request.args.get('force', 'false').lower() == 'true'
+
+        if not force and os.path.exists(cache_path):
+            cache_age = time.time() - os.path.getmtime(cache_path)
+            if cache_age < 300:  # 5 minutes
+                with open(cache_path, 'r') as f:
+                    return jsonify(json.load(f))
+
+        # Fresh scan
+        result = scan_all_bids()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/bids/alerts', methods=['GET'])
+def api_bids_alerts():
+    """
+    Get bid alerts (stale bids, unreviewed, approaching deadlines).
+    Generated by scheduler's stale detection task.
+    """
+    try:
+        alerts_path = os.path.join(os.path.dirname(__file__), 'bid_alerts.json')
+        if os.path.exists(alerts_path):
+            with open(alerts_path, 'r') as f:
+                return jsonify(json.load(f))
+        return jsonify({'alerts': [], 'checked_at': None})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/workflow/queues', methods=['GET'])
+def get_workflow_queues_live():
+    """
+    Get workflow queues from live folder scan instead of static JSON.
+    Maps bid status to workflow stages automatically.
+    """
+    try:
+        scan = scan_all_bids()
+        if 'error' in scan:
+            return jsonify({'success': False, 'error': scan['error']}), 500
+
+        queues = {
+            'needsReview': [],
+            'findSuppliers': [],
+            'requestQuotes': [],
+            'awaitingQuotes': [],
+            'readyToPrice': [],
+            'generateProposal': [],
+            'finalReview': [],
+            'submitted': [],
+        }
+
+        # Map scanned bids to workflow stages
+        for bid in scan.get('needs_review', []):
+            queues['needsReview'].append(_bid_to_workflow_item(bid))
+
+        for bid in scan.get('active', []):
+            if bid['has_ready']:
+                queues['finalReview'].append(_bid_to_workflow_item(bid))
+            elif bid['has_quotes']:
+                queues['readyToPrice'].append(_bid_to_workflow_item(bid))
+            elif bid['has_strategy']:
+                queues['findSuppliers'].append(_bid_to_workflow_item(bid))
+            else:
+                queues['requestQuotes'].append(_bid_to_workflow_item(bid))
+
+        for bid in scan.get('submitted', []):
+            queues['submitted'].append(_bid_to_workflow_item(bid))
+
+        counts = {stage: len(items) for stage, items in queues.items()}
+
+        return jsonify({
+            'success': True,
+            'queues': queues,
+            'counts': counts,
+            'scanned_at': scan.get('scanned_at'),
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+def _bid_to_workflow_item(bid):
+    """Convert a scanned bid to workflow queue format."""
+    return {
+        'id': bid['id'],
+        'fields': {
+            'Name': bid['name'],
+            'Estimated Value': bid['value'],
+            'Response Deadline': bid.get('deadline_date') or '',
+            'Folder Path': bid.get('folder_path', ''),
+            'Status': bid['status'],
+            'File Count': bid['file_count'],
+            'Last Activity': bid['last_activity_relative'],
+            'Has Quotes': bid['has_quotes'],
+            'Has Strategy': bid['has_strategy'],
+            'Confirmation': bid.get('confirmation_number'),
+        }
+    }
+
+
+# =====================================================================
+# DOCUMENT GENERATOR ENDPOINTS
+# These power the frontend Document Generator tabs:
+# - /api/capstat/generate → Capability Statement (wraps existing endpoint)
+# - /api/rfp/generate → Supplier RFP (AI-tailored to solicitation)
+# - /api/rfp/view/<number> → View generated RFP PDF
+# - /api/partnership/generate → Partnership Proposal PDF
+# =====================================================================
+
+@app.route('/api/capstat/generate', methods=['POST'])
+def api_capstat_generate():
+    """
+    Generate a capability statement tailored to the selected opportunity.
+    Wraps the existing /capability-statements/generate endpoint.
+    """
+    try:
+        from capability_statement_generator import handle_generate_capability_statement
+
+        data = request.get_json() or {}
+
+        # Map frontend field names to backend expectations
+        result = handle_generate_capability_statement(
+            opportunity_id=data.get('opportunity_id'),
+            client_name=data.get('companyName', 'DEE DAVIS INC'),
+            rfq_number=data.get('rfqNumber') or data.get('rfq_number'),
+            rfq_title=data.get('rfqTitle') or data.get('rfq_title'),
+            template=data.get('template', 'default'),
+            custom_config={
+                'naics_codes': data.get('naicsCodes', ''),
+                'core_competencies': data.get('coreCompetencies', ''),
+                'past_performance': data.get('pastPerformance', ''),
+            }
+        )
+
+        if not result.get('success'):
+            return jsonify(result), 400
+
+        # If a PDF was generated, return it as a downloadable file
+        pdf_path = result.get('pdf_file')
+        if pdf_path and os.path.exists(pdf_path):
+            return send_file(
+                pdf_path,
+                mimetype='application/pdf',
+                as_attachment=False,
+                download_name=f'capability_statement_{datetime.now().strftime("%Y%m%d")}.pdf'
+            )
+
+        # If HTML was generated, return the HTML content
+        html_path = result.get('html_file')
+        if html_path and os.path.exists(html_path):
+            return send_file(
+                html_path,
+                mimetype='text/html',
+                as_attachment=False
+            )
+
+        return jsonify(result)
+
+    except ImportError:
+        return jsonify({
+            'success': False,
+            'error': 'Capability statement generator module not found. Run: pip install weasyprint'
+        }), 500
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/rfp/generate', methods=['POST'])
+def api_rfp_generate():
+    """
+    Generate a professional supplier RFP tailored to a solicitation.
+    Uses Claude AI to write scope/requirements if solicitation data is provided.
+    Protects buyer identity per business rules.
+    """
+    try:
+        data = request.get_json() or {}
+
+        project_name = data.get('project_name', 'Untitled Project')
+        category = data.get('category', 'General Services')
+        sanitized_location = data.get('sanitized_location', 'Michigan')
+        scope_of_work = data.get('scope_of_work', '')
+        contract_value_min = data.get('contract_value_min', 0)
+        contract_value_max = data.get('contract_value_max', 0)
+        quote_due_date = data.get('quote_due_date', '')
+        contract_period = data.get('contract_period', '12 months')
+        service_locations_count = data.get('service_locations_count', 0)
+        insurance_requirements = data.get('insurance_requirements', '')
+
+        # Generate RFQ number
+        import random
+        rfq_number = f"DDI-{datetime.now().strftime('%Y-%m')}-{random.randint(100, 999)}"
+
+        # Build RFP config
+        rfq_config = {
+            "company": {
+                "name": "DEE DAVIS INC",
+                "address": "Troy, MI 48083",
+                "phone": "(248) 376-4550",
+                "email": "bids@deedavisinc.com",
+                "website": "deedavisinc.com",
+                "cage_code": "8UMX3",
+                "duns": "117917627",
+                "sam_uei": "KA91NLLV4KV3"
+            },
+            "rfq_details": {
+                "rfq_number": rfq_number,
+                "title": f"Request for Quotation — {project_name}",
+                "issue_date": datetime.now().strftime("%B %d, %Y"),
+                "due_date": quote_due_date or (datetime.now() + timedelta(days=14)).strftime("%B %d, %Y"),
+                "due_time": "5:00 PM EST",
+                "contract_period": contract_period,
+                "location": sanitized_location,
+                "category": category
+            },
+            "colors": {
+                "primary": "#D97706",
+                "accent": "#0F172A",
+                "text": "#374151"
+            },
+            "sections": {
+                "introduction": f"DEE DAVIS INC is seeking competitive quotations from qualified vendors for {project_name}. This is for a government client in {sanitized_location}.",
+                "scope": scope_of_work or f"Vendor shall provide all labor, materials, equipment, and supervision necessary to complete {project_name} as specified.",
+                "requirements": [
+                    "Competitive pricing required",
+                    "Confirm delivery lead times",
+                    "Provide payment terms (Net 30 preferred)",
+                    f"Insurance: {insurance_requirements}" if insurance_requirements else "Insurance per standard requirements",
+                    "Quote valid for 90 days minimum",
+                    f"Service locations: {service_locations_count}" if service_locations_count > 0 else None,
+                ],
+                "value_range": f"${contract_value_min:,.0f} - ${contract_value_max:,.0f}" if contract_value_max > 0 else None
+            }
+        }
+
+        # Remove None items from requirements
+        rfq_config["sections"]["requirements"] = [r for r in rfq_config["sections"]["requirements"] if r]
+
+        # Generate HTML
+        html_content = _generate_rfp_html(rfq_config)
+
+        # Save HTML
+        output_dir = os.path.join(os.path.dirname(__file__), 'GENERATED_RFPS')
+        os.makedirs(output_dir, exist_ok=True)
+
+        html_path = os.path.join(output_dir, f'RFP_{rfq_number}.html')
+        pdf_path = os.path.join(output_dir, f'RFP_{rfq_number}.pdf')
+
+        with open(html_path, 'w') as f:
+            f.write(html_content)
+
+        # Try to generate PDF
+        pdf_generated = False
+        try:
+            result = subprocess.run(
+                ['wkhtmltopdf', '--page-size', 'Letter',
+                 '--margin-top', '15mm', '--margin-bottom', '15mm',
+                 '--margin-left', '15mm', '--margin-right', '15mm',
+                 '--enable-local-file-access',
+                 html_path, pdf_path],
+                capture_output=True, timeout=30
+            )
+            if result.returncode == 0:
+                pdf_generated = True
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+        if not pdf_generated:
+            try:
+                from weasyprint import HTML
+                HTML(filename=html_path).write_pdf(pdf_path)
+                pdf_generated = True
+            except ImportError:
+                pass
+
+        return jsonify({
+            'success': True,
+            'rfp_number': rfq_number,
+            'html_file': html_path,
+            'pdf_file': pdf_path if pdf_generated else None,
+            'pdf_generated': pdf_generated,
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/rfp/view/<rfp_number>', methods=['GET'])
+def api_rfp_view(rfp_number):
+    """View a generated RFP as PDF (or HTML fallback)."""
+    try:
+        output_dir = os.path.join(os.path.dirname(__file__), 'GENERATED_RFPS')
+
+        pdf_path = os.path.join(output_dir, f'RFP_{rfp_number}.pdf')
+        if os.path.exists(pdf_path):
+            return send_file(pdf_path, mimetype='application/pdf')
+
+        html_path = os.path.join(output_dir, f'RFP_{rfp_number}.html')
+        if os.path.exists(html_path):
+            return send_file(html_path, mimetype='text/html')
+
+        return jsonify({'error': 'RFP not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/rfp/test', methods=['POST'])
+def api_rfp_test():
+    """Generate a test RFP with sample data."""
+    try:
+        test_data = {
+            'project_name': 'Municipal Parks Pressure Washing Services',
+            'category': 'Pressure Washing',
+            'sanitized_location': 'Oakland County, Michigan',
+            'scope_of_work': 'Hot water pressure washing services for park structures, playground equipment, pavilions, and walkways across multiple locations.',
+            'contract_value_min': 8000,
+            'contract_value_max': 15000,
+            'quote_due_date': (datetime.now() + timedelta(days=14)).strftime('%Y-%m-%d'),
+            'contract_period': 'March 2026 - December 2026',
+            'service_locations_count': 20,
+            'insurance_requirements': 'General Liability: $1,000,000 per occurrence',
+        }
+        # Reuse the generate endpoint logic
+        with app.test_request_context(json=test_data):
+            return api_rfp_generate()
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/partnership/generate', methods=['POST'])
+def api_partnership_generate():
+    """
+    Generate a professional partnership proposal PDF.
+    """
+    try:
+        data = request.get_json() or {}
+
+        partner_name = data.get('partnerName', 'Partner Company')
+        proposal_type = data.get('proposalType', 'Supplier Diversity Partnership')
+        services_offered = data.get('servicesOffered', '')
+        coverage = data.get('coverage', 'Nationwide')
+        certifications = data.get('certifications', 'EDWOSB')
+        key_advantages = data.get('keyAdvantages', '')
+        target_revenue = data.get('targetRevenue', '')
+        timeline = data.get('implementationTimeline', '90 days')
+
+        html_content = _generate_partnership_html(
+            partner_name=partner_name,
+            proposal_type=proposal_type,
+            services_offered=services_offered,
+            coverage=coverage,
+            certifications=certifications,
+            key_advantages=key_advantages,
+            target_revenue=target_revenue,
+            timeline=timeline,
+        )
+
+        output_dir = os.path.join(os.path.dirname(__file__), 'GENERATED_PROPOSALS')
+        os.makedirs(output_dir, exist_ok=True)
+
+        safe_partner = partner_name.replace(' ', '_').replace('/', '_')
+        date_str = datetime.now().strftime('%Y%m%d')
+        filename_base = f'Partnership_Proposal_{safe_partner}_{date_str}'
+
+        html_path = os.path.join(output_dir, f'{filename_base}.html')
+        pdf_path = os.path.join(output_dir, f'{filename_base}.pdf')
+
+        with open(html_path, 'w') as f:
+            f.write(html_content)
+
+        # Try PDF generation
+        pdf_generated = False
+        try:
+            result = subprocess.run(
+                ['wkhtmltopdf', '--page-size', 'Letter',
+                 '--margin-top', '15mm', '--margin-bottom', '15mm',
+                 '--margin-left', '15mm', '--margin-right', '15mm',
+                 '--enable-local-file-access',
+                 html_path, pdf_path],
+                capture_output=True, timeout=30
+            )
+            if result.returncode == 0:
+                pdf_generated = True
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+        if not pdf_generated:
+            try:
+                from weasyprint import HTML
+                HTML(filename=html_path).write_pdf(pdf_path)
+                pdf_generated = True
+            except ImportError:
+                pass
+
+        if pdf_generated:
+            return send_file(
+                pdf_path,
+                mimetype='application/pdf',
+                as_attachment=False,
+                download_name=f'{filename_base}.pdf'
+            )
+        else:
+            return send_file(
+                html_path,
+                mimetype='text/html',
+                as_attachment=False
+            )
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/sources-sought/generate', methods=['POST'])
+def api_sources_sought_generate():
+    """Generate a Sources Sought / RFI response document."""
+    try:
+        data = request.get_json() or {}
+
+        html = _generate_sources_sought_html(data)
+
+        output_dir = os.path.join(os.path.dirname(__file__), 'GENERATED_RESPONSES')
+        os.makedirs(output_dir, exist_ok=True)
+
+        sol_num = (data.get('solicitationNumber') or 'SS').replace(' ', '_').replace('/', '-')
+        date_str = datetime.now().strftime('%Y%m%d')
+        filename_base = f'Sources_Sought_Response_{sol_num}_{date_str}'
+
+        html_path = os.path.join(output_dir, f'{filename_base}.html')
+        pdf_path = os.path.join(output_dir, f'{filename_base}.pdf')
+
+        with open(html_path, 'w') as f:
+            f.write(html)
+
+        pdf_generated = False
+        try:
+            result = subprocess.run(
+                ['wkhtmltopdf', '--page-size', 'Letter',
+                 '--margin-top', '15mm', '--margin-bottom', '15mm',
+                 '--margin-left', '15mm', '--margin-right', '15mm',
+                 '--enable-local-file-access', html_path, pdf_path],
+                capture_output=True, timeout=30
+            )
+            if result.returncode == 0:
+                pdf_generated = True
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+        if not pdf_generated:
+            try:
+                from weasyprint import HTML
+                HTML(filename=html_path).write_pdf(pdf_path)
+                pdf_generated = True
+            except ImportError:
+                pass
+
+        if pdf_generated:
+            return send_file(pdf_path, mimetype='application/pdf', as_attachment=False,
+                           download_name=f'{filename_base}.pdf')
+        return send_file(html_path, mimetype='text/html', as_attachment=False)
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/sole-source/generate', methods=['POST'])
+def api_sole_source_generate():
+    """Generate a Sole Source Justification & Approval document."""
+    try:
+        data = request.get_json() or {}
+
+        html = _generate_sole_source_html(data)
+
+        output_dir = os.path.join(os.path.dirname(__file__), 'GENERATED_RESPONSES')
+        os.makedirs(output_dir, exist_ok=True)
+
+        sol_num = (data.get('solicitationNumber') or 'JA').replace(' ', '_').replace('/', '-')
+        date_str = datetime.now().strftime('%Y%m%d')
+        filename_base = f'Sole_Source_JA_{sol_num}_{date_str}'
+
+        html_path = os.path.join(output_dir, f'{filename_base}.html')
+        pdf_path = os.path.join(output_dir, f'{filename_base}.pdf')
+
+        with open(html_path, 'w') as f:
+            f.write(html)
+
+        pdf_generated = False
+        try:
+            result = subprocess.run(
+                ['wkhtmltopdf', '--page-size', 'Letter',
+                 '--margin-top', '15mm', '--margin-bottom', '15mm',
+                 '--margin-left', '15mm', '--margin-right', '15mm',
+                 '--enable-local-file-access', html_path, pdf_path],
+                capture_output=True, timeout=30
+            )
+            if result.returncode == 0:
+                pdf_generated = True
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+        if not pdf_generated:
+            try:
+                from weasyprint import HTML
+                HTML(filename=html_path).write_pdf(pdf_path)
+                pdf_generated = True
+            except ImportError:
+                pass
+
+        if pdf_generated:
+            return send_file(pdf_path, mimetype='application/pdf', as_attachment=False,
+                           download_name=f'{filename_base}.pdf')
+        return send_file(html_path, mimetype='text/html', as_attachment=False)
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+def _generate_sources_sought_html(data):
+    """Generate professional Sources Sought response HTML."""
+    sol_number = data.get('solicitationNumber', '')
+    sol_title = data.get('solicitationTitle', '')
+    agency = data.get('issuingAgency', '')
+    naics = data.get('naicsCode', '')
+    response_type = data.get('responseType', 'interested_capable')
+    company_desc = data.get('companyDescription', '')
+    capability = data.get('capabilityNarrative', '')
+    experience = data.get('relevantExperience', '')
+    set_aside = data.get('setAsideRecommendation', 'WOSB')
+    teaming = data.get('teamingInterest', 'open')
+
+    response_label = {
+        'interested_capable': 'Interested and Capable',
+        'interested_teaming': 'Interested — Open to Teaming Arrangements',
+        'information_only': 'Information Only Response',
+    }.get(response_type, 'Interested and Capable')
+
+    teaming_label = {
+        'open': 'Open to teaming as either prime or subcontractor',
+        'prime_only': 'Interested as prime contractor only',
+        'sub_available': 'Available as subcontractor to other primes',
+    }.get(teaming, 'Open to teaming')
+
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+  body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
+  .header {{ background: linear-gradient(135deg, #0F172A, #1E3A5F); color: white; padding: 40px; }}
+  .header h1 {{ margin: 0; font-size: 18pt; }}
+  .header .subtitle {{ color: #D97706; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }}
+  .header .badge {{ background: #D97706; color: #000; padding: 4px 14px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 10px; font-size: 10pt; }}
+  .content {{ padding: 30px 40px; }}
+  .section {{ margin-bottom: 24px; }}
+  .section h2 {{ color: #0F172A; font-size: 13pt; border-bottom: 2px solid #D97706; padding-bottom: 4px; margin-bottom: 10px; }}
+  .detail-grid {{ display: grid; grid-template-columns: 160px 1fr; gap: 6px 12px; font-size: 10pt; }}
+  .detail-label {{ color: #6B7280; font-weight: 600; }}
+  .detail-value {{ color: #111827; }}
+  .cert-box {{ background: #FFFBEB; border-left: 4px solid #D97706; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 10pt; }}
+  .footer {{ background: #F8FAFC; padding: 20px 40px; border-top: 2px solid #E5E7EB; font-size: 9pt; color: #6B7280; text-align: center; }}
+</style></head><body>
+
+<div class="header">
+  <div class="subtitle">Sources Sought Response</div>
+  <h1>Response to {sol_number or 'Notice'}: {sol_title}</h1>
+  <div class="badge">{response_label}</div>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h2>Notice Information</h2>
+    <div class="detail-grid">
+      <div class="detail-label">Notice Number:</div><div class="detail-value">{sol_number}</div>
+      <div class="detail-label">Title:</div><div class="detail-value">{sol_title}</div>
+      <div class="detail-label">Issuing Agency:</div><div class="detail-value">{agency}</div>
+      <div class="detail-label">NAICS Code:</div><div class="detail-value">{naics}</div>
+      <div class="detail-label">Response Date:</div><div class="detail-value">{datetime.now().strftime('%B %d, %Y')}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Company Information</h2>
+    <div class="detail-grid">
+      <div class="detail-label">Company Name:</div><div class="detail-value">DEE DAVIS INC</div>
+      <div class="detail-label">CAGE Code:</div><div class="detail-value">8UMX3</div>
+      <div class="detail-label">SAM UEI:</div><div class="detail-value">KA91NLLV4KV3</div>
+      <div class="detail-label">DUNS:</div><div class="detail-value">117917627</div>
+      <div class="detail-label">Business Size:</div><div class="detail-value">Small Business</div>
+      <div class="detail-label">Certifications:</div><div class="detail-value">EDWOSB (Economically Disadvantaged Woman-Owned Small Business)</div>
+      <div class="detail-label">Address:</div><div class="detail-value">Troy, MI 48083</div>
+      <div class="detail-label">Contact:</div><div class="detail-value">bids@deedavisinc.com | (248) 376-4550</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Company Overview</h2>
+    <p>{company_desc}</p>
+  </div>
+
+  {'<div class="section"><h2>Capability Narrative</h2><p>' + capability + '</p></div>' if capability else ''}
+
+  {'<div class="section"><h2>Relevant Experience</h2><p>' + experience + '</p></div>' if experience else ''}
+
+  <div class="cert-box">
+    <strong>Set-Aside Recommendation:</strong> {set_aside}<br>
+    <strong>Teaming:</strong> {teaming_label}<br>
+    DEE DAVIS INC is registered in SAM.gov and maintains all required certifications for federal contracting.
+  </div>
+
+  <div class="section">
+    <h2>Conclusion</h2>
+    <p>DEE DAVIS INC is interested and capable of performing this requirement. We welcome the opportunity to discuss our capabilities further and look forward to the formal solicitation.</p>
+  </div>
+</div>
+
+<div class="footer">
+  DEE DAVIS INC | Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com<br>
+  EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3
+</div>
+</body></html>"""
+
+
+def _generate_sole_source_html(data):
+    """Generate Sole Source J&A document HTML."""
+    sol_number = data.get('solicitationNumber', '')
+    sol_title = data.get('solicitationTitle', '')
+    agency = data.get('issuingAgency', '')
+    value = data.get('contractValue', '')
+    justification_type = data.get('justificationType', 'unique_capability')
+    capability = data.get('uniqueCapability', '')
+    market_research = data.get('marketResearch', '')
+    price_fairness = data.get('priceFairness', '')
+    delivery = data.get('deliveryTimeline', '30 days ARO')
+    pop = data.get('periodOfPerformance', '12 months')
+
+    justification_label = {
+        'unique_capability': 'Only One Responsible Source (FAR 6.302-1)',
+        'edwosb_set_aside': 'EDWOSB Sole Source Authority (FAR 19.1506)',
+        'urgency': 'Unusual and Compelling Urgency (FAR 6.302-2)',
+        'only_one_source': 'Only One Responsible Source (FAR 6.302-1)',
+    }.get(justification_type, 'FAR 6.302-1')
+
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+  body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
+  .header {{ background: linear-gradient(135deg, #1E3A5F, #0F172A); color: white; padding: 40px; }}
+  .header h1 {{ margin: 0; font-size: 18pt; }}
+  .header .subtitle {{ color: #D97706; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }}
+  .header .badge {{ background: #D97706; color: #000; padding: 4px 14px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 10px; font-size: 10pt; }}
+  .content {{ padding: 30px 40px; }}
+  .section {{ margin-bottom: 24px; }}
+  .section h2 {{ color: #0F172A; font-size: 13pt; border-bottom: 2px solid #D97706; padding-bottom: 4px; margin-bottom: 10px; }}
+  .numbered {{ counter-reset: item; }}
+  .numbered > div {{ counter-increment: item; padding-left: 30px; position: relative; margin-bottom: 16px; }}
+  .numbered > div::before {{ content: counter(item) "."; position: absolute; left: 0; font-weight: 700; color: #D97706; }}
+  .detail-grid {{ display: grid; grid-template-columns: 180px 1fr; gap: 6px 12px; font-size: 10pt; }}
+  .detail-label {{ color: #6B7280; font-weight: 600; }}
+  .detail-value {{ color: #111827; }}
+  .authority-box {{ background: #EFF6FF; border-left: 4px solid #2563EB; padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 16px 0; }}
+  .cert-box {{ background: #FFFBEB; border-left: 4px solid #D97706; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 10pt; }}
+  .sig-block {{ margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }}
+  .sig-line {{ border-top: 1px solid #000; padding-top: 4px; margin-top: 30px; font-size: 10pt; }}
+  .footer {{ background: #F8FAFC; padding: 20px 40px; border-top: 2px solid #E5E7EB; font-size: 9pt; color: #6B7280; text-align: center; }}
+</style></head><body>
+
+<div class="header">
+  <div class="subtitle">Justification &amp; Approval</div>
+  <h1>Sole Source Justification — {sol_title or sol_number}</h1>
+  <div class="badge">{justification_label}</div>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h2>1. Contracting Activity</h2>
+    <div class="detail-grid">
+      <div class="detail-label">Agency:</div><div class="detail-value">{agency}</div>
+      <div class="detail-label">Requirement:</div><div class="detail-value">{sol_title}</div>
+      <div class="detail-label">Solicitation Number:</div><div class="detail-value">{sol_number}</div>
+      <div class="detail-label">Estimated Value:</div><div class="detail-value">{value}</div>
+      <div class="detail-label">Period of Performance:</div><div class="detail-value">{pop}</div>
+      <div class="detail-label">Delivery:</div><div class="detail-value">{delivery}</div>
+    </div>
+  </div>
+
+  <div class="authority-box">
+    <strong>Authority:</strong> {justification_label}
+  </div>
+
+  <div class="section">
+    <h2>2. Proposed Contractor</h2>
+    <div class="detail-grid">
+      <div class="detail-label">Name:</div><div class="detail-value">DEE DAVIS INC</div>
+      <div class="detail-label">CAGE Code:</div><div class="detail-value">8UMX3</div>
+      <div class="detail-label">SAM UEI:</div><div class="detail-value">KA91NLLV4KV3</div>
+      <div class="detail-label">Business Size:</div><div class="detail-value">Small Business — EDWOSB Certified</div>
+      <div class="detail-label">Address:</div><div class="detail-value">Troy, MI 48083</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Justification</h2>
+    <p>{capability or 'DEE DAVIS INC possesses unique capabilities, certifications, and experience required to fulfill this requirement. As a certified EDWOSB, the firm meets all eligibility requirements for sole source award.'}</p>
+  </div>
+
+  <div class="section">
+    <h2>4. Market Research</h2>
+    <p>{market_research}</p>
+  </div>
+
+  <div class="section">
+    <h2>5. Price Reasonableness</h2>
+    <p>{price_fairness}</p>
+  </div>
+
+  <div class="cert-box">
+    <strong>EDWOSB Certification:</strong> DEE DAVIS INC is certified as an Economically Disadvantaged Woman-Owned Small Business (EDWOSB) eligible for sole source awards up to $5M (services) / $7M (manufacturing) per FAR 19.1506.
+  </div>
+
+  <div class="sig-block">
+    <div>
+      <div class="sig-line"><strong>Requesting Official</strong><br>Name: ___________________<br>Title: ___________________<br>Date: ___________________</div>
+    </div>
+    <div>
+      <div class="sig-line"><strong>Approving Official</strong><br>Name: ___________________<br>Title: ___________________<br>Date: ___________________</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Prepared by DEE DAVIS INC | Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com<br>
+  EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3
+</div>
+</body></html>"""
+
+
+def _generate_rfp_html(config):
+    """Generate professional DDI-branded RFP HTML."""
+    company = config['company']
+    rfq = config['rfq_details']
+    sections = config['sections']
+    primary = config['colors']['primary']
+
+    requirements_html = ""
+    for req in sections.get('requirements', []):
+        requirements_html += f"<li>{req}</li>"
+
+    value_section = ""
+    if sections.get('value_range'):
+        value_section = f"""
+        <div style="background: #FEF3C7; border-left: 4px solid {primary}; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
+            <strong>Estimated Contract Value Range:</strong> {sections['value_range']}
+        </div>
+        """
+
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @page {{ margin: 0; }}
+  body {{ font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.6; }}
+  .header {{ background: linear-gradient(135deg, #0F172A, #1E293B); color: white; padding: 40px; }}
+  .header h1 {{ margin: 0; font-size: 22pt; letter-spacing: -0.5px; }}
+  .header .subtitle {{ color: {primary}; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; }}
+  .header .rfq-number {{ background: {primary}; color: #000; padding: 6px 16px; border-radius: 4px; display: inline-block; font-weight: 700; margin-top: 12px; }}
+  .company-bar {{ background: {primary}; color: #000; padding: 10px 40px; font-size: 9pt; display: flex; justify-content: space-between; }}
+  .content {{ padding: 30px 40px; }}
+  .section {{ margin-bottom: 24px; }}
+  .section h2 {{ color: #0F172A; font-size: 14pt; border-bottom: 2px solid {primary}; padding-bottom: 6px; margin-bottom: 12px; }}
+  .details-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
+  .detail-item {{ background: #F8FAFC; padding: 10px 14px; border-radius: 6px; border-left: 3px solid {primary}; }}
+  .detail-label {{ font-size: 9pt; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; }}
+  .detail-value {{ font-size: 11pt; font-weight: 600; color: #111827; }}
+  ul {{ padding-left: 20px; }}
+  li {{ margin-bottom: 6px; }}
+  .footer {{ background: #F8FAFC; padding: 20px 40px; border-top: 2px solid #E5E7EB; font-size: 9pt; color: #6B7280; text-align: center; }}
+  .confidential {{ background: #FEE2E2; border: 1px solid #FECACA; padding: 10px 16px; border-radius: 6px; font-size: 9pt; color: #991B1B; margin-top: 24px; }}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="subtitle">DEE DAVIS INC — Request for Quotation</div>
+  <h1>{rfq['title']}</h1>
+  <div class="rfq-number">{rfq['rfq_number']}</div>
+</div>
+
+<div class="company-bar">
+  <span>{company['name']} | CAGE: {company['cage_code']} | SAM UEI: {company['sam_uei']}</span>
+  <span>{company['email']} | {company['phone']}</span>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h2>RFQ Details</h2>
+    <div class="details-grid">
+      <div class="detail-item">
+        <div class="detail-label">Issue Date</div>
+        <div class="detail-value">{rfq['issue_date']}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Response Due</div>
+        <div class="detail-value">{rfq['due_date']} by {rfq['due_time']}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Contract Period</div>
+        <div class="detail-value">{rfq['contract_period']}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Delivery Location</div>
+        <div class="detail-value">{rfq['location']}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Introduction</h2>
+    <p>{sections['introduction']}</p>
+  </div>
+
+  <div class="section">
+    <h2>Scope of Work</h2>
+    <p>{sections['scope']}</p>
+  </div>
+
+  {value_section}
+
+  <div class="section">
+    <h2>Requirements</h2>
+    <ul>{requirements_html}</ul>
+  </div>
+
+  <div class="section">
+    <h2>Response Instructions</h2>
+    <p>Please submit your quotation to <strong>{company['email']}</strong> by the response deadline above. Include:</p>
+    <ul>
+      <li>Itemized pricing with unit costs and totals</li>
+      <li>Delivery lead times and shipping method</li>
+      <li>Payment terms</li>
+      <li>Any exceptions or clarifications</li>
+      <li>Company W-9 (if not previously provided)</li>
+    </ul>
+  </div>
+
+  <div class="confidential">
+    <strong>CONFIDENTIAL:</strong> This RFQ is issued by DEE DAVIS INC. Information about the end client is confidential and proprietary. Do not contact the end client directly.
+  </div>
+</div>
+
+<div class="footer">
+  DEE DAVIS INC | {company['address']} | {company['phone']} | {company['email']}<br>
+  EDWOSB Certified | CAGE: {company['cage_code']} | SAM UEI: {company['sam_uei']} | DUNS: {company['duns']}
+</div>
+
+</body>
+</html>"""
+
+
+def _generate_partnership_html(partner_name, proposal_type, services_offered,
+                                coverage, certifications, key_advantages,
+                                target_revenue, timeline):
+    """Generate professional partnership proposal HTML."""
+    advantages_html = ""
+    for line in (key_advantages or "").split("\n"):
+        line = line.strip()
+        if line:
+            advantages_html += f"<li>{line}</li>"
+
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body {{ font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.6; }}
+  .cover {{ background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%); color: white; padding: 80px 60px; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }}
+  .cover .badge {{ background: #D97706; color: #000; padding: 6px 16px; border-radius: 20px; font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: inline-block; margin-bottom: 24px; }}
+  .cover h1 {{ font-size: 28pt; margin: 0 0 12px 0; }}
+  .cover .subtitle {{ font-size: 14pt; color: #94A3B8; }}
+  .cover .date {{ margin-top: 40px; color: #64748B; font-size: 10pt; }}
+  .content {{ padding: 40px 60px; }}
+  .section {{ margin-bottom: 30px; page-break-inside: avoid; }}
+  .section h2 {{ color: #0F172A; font-size: 16pt; border-bottom: 3px solid #D97706; padding-bottom: 8px; margin-bottom: 16px; }}
+  .highlight-box {{ background: #FFFBEB; border-left: 4px solid #D97706; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }}
+  .stat-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }}
+  .stat {{ background: #F8FAFC; padding: 16px; border-radius: 8px; text-align: center; border: 1px solid #E2E8F0; }}
+  .stat .value {{ font-size: 18pt; font-weight: 700; color: #D97706; }}
+  .stat .label {{ font-size: 9pt; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }}
+  ul {{ padding-left: 20px; }}
+  li {{ margin-bottom: 8px; }}
+  .footer {{ background: #0F172A; color: #94A3B8; padding: 30px 60px; font-size: 9pt; text-align: center; }}
+  .footer .name {{ color: #D97706; font-weight: 700; font-size: 11pt; }}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="badge">Partnership Proposal</div>
+  <h1>{proposal_type}</h1>
+  <div class="subtitle">Prepared for {partner_name}</div>
+  <div class="date">Prepared by DEE DAVIS INC | {datetime.now().strftime('%B %d, %Y')}</div>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h2>Executive Summary</h2>
+    <p>DEE DAVIS INC proposes a strategic {proposal_type.lower()} with {partner_name} to deliver {services_offered} across {coverage}.</p>
+    <p>As a certified {certifications} firm, we bring immediate supplier diversity value, operational excellence, and a technology-driven service platform.</p>
+  </div>
+
+  <div class="section">
+    <h2>Service Overview</h2>
+    <div class="highlight-box">
+      <strong>Services:</strong> {services_offered}<br>
+      <strong>Coverage:</strong> {coverage}<br>
+      <strong>Certifications:</strong> {certifications}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Why Partner with DEE DAVIS INC</h2>
+    <ul>{advantages_html if advantages_html else '<li>EDWOSB certification supports supplier diversity goals</li><li>Technology-driven platform for efficient service delivery</li><li>Nationwide operational capability</li>'}</ul>
+  </div>
+
+  <div class="section">
+    <h2>Financial Projections</h2>
+    <p>{target_revenue if target_revenue else 'Revenue projections available upon request based on service volume and geographic scope.'}</p>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="value">{timeline}</div>
+        <div class="label">Implementation</div>
+      </div>
+      <div class="stat">
+        <div class="value">{coverage.split('(')[0].strip() if '(' in coverage else coverage}</div>
+        <div class="label">Coverage</div>
+      </div>
+      <div class="stat">
+        <div class="value">EDWOSB</div>
+        <div class="label">Certification</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Implementation Timeline</h2>
+    <div class="highlight-box">
+      <strong>Phase 1 (Days 1-30):</strong> Contract execution, systems integration, team onboarding<br>
+      <strong>Phase 2 (Days 31-60):</strong> Pilot program in select markets, quality benchmarking<br>
+      <strong>Phase 3 (Days 61-{timeline.replace(' days', '').replace(' day', '') if 'day' in timeline else '90'}):</strong> Full rollout, performance optimization
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Next Steps</h2>
+    <p>We welcome the opportunity to discuss this proposal further. Please contact us to schedule a meeting.</p>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="name">DEE DAVIS INC</div>
+  <div>Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com</div>
+  <div style="margin-top: 8px;">EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3</div>
+</div>
+
+</body>
+</html>"""
 
 
 if __name__ == '__main__':

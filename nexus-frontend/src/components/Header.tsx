@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'quotes' | 'capstats' | 'contracts';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -17,19 +17,23 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'vertex': return '💎 VERTEX v1.0 - Financial Command Center';
       case 'lbpc': return '💰 LBPC v1.0 - Lancaster Banques P.C.';
       case 'invoices': return '💰 NEXUS Invoices - Universal Invoicing System';
+      case 'documents': return '📄 Document Generator - Quotes • Pricing • Proposals';
+      case 'compass': return '🧭 COMPASS v1.0 - Post-Award Operations';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
 
   const getSubtitle = () => {
     switch (currentView) {
-      case 'gpss': return 'Government Contracting Command Center';
+      case 'gpss': return 'Pre-Award Pipeline • Mining • Proposals • EDWOSB Certified';
       case 'ddcss': return 'Blueprint Framework • 6 Sectors • AI Powered';
       case 'atlas': return 'RFP Response Center • Portfolio Tracking • Daily Operations';
       case 'gbis': return 'Grant Discovery • AI Applications • 8 Divisions • ROI Tracking';
       case 'vertex': return 'Invoices • Expenses • Revenue • Reports • AI Intelligence • QB/Gusto Export';
       case 'lbpc': return 'Surplus Recovery System • All 50 States • Automated Workflows';
       case 'invoices': return 'Government & Enterprise Compliant • All Systems • Real-Time Tracking';
+      case 'documents': return 'Quotes • Capability Statements • Supplier RFPs • Pricing Engine';
+      case 'compass': return 'Contract Fulfillment • Delivery Tracking • Payments • Compliance';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

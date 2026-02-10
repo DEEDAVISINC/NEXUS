@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
-"""Check fields in GPSS OPPORTUNITIES table"""
+"""Check actual field names in GPSS OPPORTUNITIES"""
 
 import os
-from pyairtable import Api
-from dotenv import load_dotenv
+import requests
 
-load_dotenv()
+AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
+AIRTABLE_BASE_ID = os.getenv('AIRTABLE_BASE_ID')
 
-api = Api(os.environ.get('AIRTABLE_API_KEY'))
-base_id = os.environ.get('AIRTABLE_BASE_ID')
-table = api.table(base_id, 'GPSS OPPORTUNITIES')
+AIRTABLE_URL = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/GPSS%20OPPORTUNITIES"
+headers = {"Authorization": f"Bearer {AIRTABLE_API_KEY}"}
 
-# Get one record to see fields
-records = table.all(max_records=1)
-
-if records:
-    print("Current fields in GPSS OPPORTUNITIES:")
-    print("-" * 60)
-    for field_name in records[0]['fields'].keys():
-        print(f"  • {field_name}")
-else:
-    print("No records found in GPSS OPPORTUNITIES table")
+response = requests.get(f"{AIRTABLE_URL}?maxRecords=1", headers=headers)
+if response.status_code == 200:
+    data = response.json()
+    if data.get('records'):
+        fields = data['records'][0]['fields']
+        print("Available fields in GPSS OPPORTUNITIES:")
+        for field in sorted(fields.keys()):
+            print(f"  - {field}")

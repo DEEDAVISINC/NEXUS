@@ -1,0 +1,165 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-B483B9",
+        "title": "Various Padlocks - 3-Year Term Contract",
+        "issue_date": "February 9, 2026",
+        "due_date": "February 11, 2026",
+        "due_time": "12:00 PM EST",
+        "project_name": "Various Padlocks - 3-Year Term Contract",
+        "contract_period": "12 months"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "DEE DAVIS INC is seeking competitive quotes from qualified suppliers for various padlocks to fulfill a 3-year term contract with a utility client in Texas. This contract requires reliable suppliers capable of providing high-quality padlocks with specific security features, custom stamping capabilities, and the ability to meet strict delivery requirements. We are looking for suppliers who can provide competitive wholesale pricing and demonstrate the ability to handle large volume orders with consistent quality and timely delivery.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "The supplier must provide various padlocks including brass body padlocks, combination padlocks, high-security steel padlocks, disposable padlocks, restricted padlocks, and shrouded padlock sets. Some items require custom stamping on the lock body. The supplier must be able to meet delivery requirements of within 5 business days of order placement and provide pricing that can be held firm for the first 6 months of the contract period. All products must meet the specified technical requirements and quality standards.",
+        "key_requirements": [
+            "Custom stamping capability required for certain padlock models (lock body must be stamped with client name)",
+            "Ability to provide keyed-alike and keyed-different padlocks per specifications",
+            "Delivery within 5 business days of order placement",
+            "Pricing must remain firm for first 6 months of contract",
+            "All padlocks must meet specified security standards and technical specifications",
+            "Manufacturer part numbers must be provided where applicable",
+            "Volume pricing discounts expected for large quantity items"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "010",
+            "description": "Padlock 389 Keyed 2\" Brass Body",
+            "specifications": "3/8\" diameter Grade 304 Stainless Steel Shackle, 1\" clearance, 5-pin cylinder keyed alike to 389 with keys, body of lock MUST be stamped with client name",
+            "estimated_quantity": "120",
+            "unit": "EA"
+        },
+        {
+            "item_number": "020",
+            "description": "Padlock Combination 2\" Brass Body",
+            "specifications": "2\" body width, 1\" shackle length, dual deadlock mechanism, set your own 4-digit combination",
+            "estimated_quantity": "1,400",
+            "unit": "EA"
+        },
+        {
+            "item_number": "030",
+            "description": "Padlock 3531 2-1/8\" Steel Body",
+            "specifications": "Dual ball locking mechanism, 1-1/2\" hardened boron alloy shackle, high security 5-pin cylinder with spool pins, 2 keys per 6 locks, body of lock MUST be stamped with client name, Manufacturer Part: M1KALFSTSLZ12KS, Manufacturer: MASTER LOCK",
+            "estimated_quantity": "51,500",
+            "unit": "EA"
+        },
+        {
+            "item_number": "040",
+            "description": "Padlock One-Time Disposable",
+            "specifications": "3\" with integral stop, 1-1/2\" clearance between body and hasp, single shear head screw metallic, meets client specification #989-09",
+            "estimated_quantity": "74,700",
+            "unit": "EA"
+        },
+        {
+            "item_number": "050",
+            "description": "Padlock Restricted 1-3/4\" Brass Body",
+            "specifications": "Dual ball locking mechanism, hardened stainless steel 5/16\" shackle, high security 5-pin cylinder, NO KEYS (restricted), body of lock MUST be stamped with client name",
+            "estimated_quantity": "3,700",
+            "unit": "EA"
+        },
+        {
+            "item_number": "060",
+            "description": "Padlock Master Lock ProSeries 7045KA4KS Set",
+            "specifications": "Shrouded padlock with 1-3/4\" heavy hardened steel body, chrome rustproofing, 1-3/16\" tall x 5/16\" diameter hardened boron alloy shackle for superior cut resistance, 1 SET = 4 locks (boxed), keyed alike with 4 keys per set, NO TWO SETS TO BE KEYED ALIKE - All sets must be unique",
+            "estimated_quantity": "200",
+            "unit": "SET"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "12 months with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 9, 2026",
+            "\ud83d\udcc5 DEADLINE: February 11, 2026 at 12:00 PM EST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-B483B9 - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

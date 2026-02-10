@@ -83,7 +83,7 @@ export const QuoteGenerator: React.FC = () => {
 
     try {
       // Send paste text directly to API
-      const response = await fetch('http://localhost:5001/api/quote/generate-from-paste', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}/api/quote/generate-from-paste`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export const QuoteGenerator: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:5001/api/quote/generate', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}/api/quote/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -406,7 +406,7 @@ ITEMS:
           <p className="mb-2">Your professional quote request is ready!</p>
           {result.download_url && (
             <a
-              href={`http://localhost:5001${result.download_url}`}
+              href={`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}${result.download_url}`}
               download
               className="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
             >

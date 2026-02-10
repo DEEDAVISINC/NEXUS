@@ -1,0 +1,9 @@
+UPLOAD YOUR COMPANY INFORMATION HERE:
+
+Recommended:
+- Company_Profile.pdf
+- Banking_ACH_Form.pdf
+- References.pdf
+- NAICS_Codes.pdf
+
+After uploading, delete this file.

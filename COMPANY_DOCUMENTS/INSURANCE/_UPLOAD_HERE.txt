@@ -1,0 +1,11 @@
+UPLOAD YOUR INSURANCE CERTIFICATES HERE:
+
+Required:
+- General_Liability_Certificate.pdf
+
+Optional:
+- Workers_Comp_Certificate.pdf
+- Auto_Insurance_Certificate.pdf
+- Product_Liability_Certificate.pdf
+
+After uploading, delete this file.

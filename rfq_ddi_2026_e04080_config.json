@@ -1,0 +1,158 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-E04080",
+        "title": "Cushman Utility Vehicles \u2014 Michigan Government Client",
+        "issue_date": "February 8, 2026",
+        "due_date": "February 17, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Cushman Utility Vehicles \u2014 Michigan Government Client",
+        "contract_period": "One-time purchase with delivery Spring 2026"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "Dee Davis Inc. is requesting contractor/wholesale pricing for four (4) Cushman utility vehicles (or approved equal) for a Michigan government client. We are the prime contractor and you would be our supplier. Delivery to Southeast Michigan. Tax-exempt government purchase.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Supply and deliver new Cushman Hauler 1200, Hauler Pro Elite, and Refresher Oasis utility vehicles per specifications below. All-inclusive pricing with delivery to Metro Detroit area. Net-30 payment terms preferred.",
+        "key_requirements": [
+            "New equipment only (no used or refurbished)",
+            "Manufacturer warranty required",
+            "Extended warranty options and pricing",
+            "Delivery to Southeast Michigan included in pricing",
+            "Service manuals and parts catalogs provided at delivery",
+            "Government/fleet/wholesale pricing requested",
+            "Tax-exempt (certificate provided upon order)"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1a",
+            "description": "Cushman Hauler 1200 Gas (or equal) \u2014 2-seater, dark green, canopy, fold-down windshield, LED headlights, cargo box w/ electric bed lift, brush guard, 2\" rear receiver, limited slip differential, USB port, 18x8.5-8 tires",
+            "specifications": "Gas, 13+ hp, full spec per attached",
+            "estimated_quantity": "2",
+            "unit": "unit"
+        },
+        {
+            "item_number": "1b",
+            "description": "Cushman Hauler Pro Elite Electric (or equal) \u2014 2-seater, dark green, Elite 6.2 battery, rapid onboard charger, canopy, fold-down windshield, LED headlights, cargo box w/ electric bed lift, brush guard, 2\" rear receiver, SOC meter, USB port, 18x8.5-8 tires",
+            "specifications": "Electric, lithium battery, full spec per attached",
+            "estimated_quantity": "2",
+            "unit": "unit"
+        },
+        {
+            "item_number": "2",
+            "description": "Cushman Hauler Pro Elite Electric w/ Beverage Insert (or equal) \u2014 Same as 1b PLUS drop-in beverage insert w/ ice tray, premium seating, 20x8-10 tires, DC converter 30 amp",
+            "specifications": "Electric with beverage service capability",
+            "estimated_quantity": "1",
+            "unit": "unit"
+        },
+        {
+            "item_number": "3a",
+            "description": "Cushman Hauler 1200 Gas w/ Beverage Insert (or equal) \u2014 2-seater, white, 13.5+ hp, 1200 lb capacity, medium cargo box, 4-wheel hydraulic brakes, LED headlights, hinged windshield, heavy duty 2\" rear receiver, drop-in beverage insert w/ ice tray, 20x8-10 tires",
+            "specifications": "Gas with beverage service capability",
+            "estimated_quantity": "1",
+            "unit": "unit"
+        },
+        {
+            "item_number": "3b",
+            "description": "Cushman Refresher Oasis Gas (or equal) \u2014 2-seater, white, 4 cold storage drawers, 12.1 sq ft wrap-around counter, merchandise cabinet, airpots, consumable ice bin, reversible bottle holder, 20.5x8-10 tires, halogen headlights, flat windshield w/ mirrors",
+            "specifications": "Gas-powered refreshment/beverage cart",
+            "estimated_quantity": "1",
+            "unit": "unit"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "One-time purchase with delivery Spring 2026 with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 8, 2026",
+            "\ud83d\udcc5 DEADLINE: February 17, 2026 at 5:00 PM EST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-E04080 - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

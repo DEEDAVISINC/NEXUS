@@ -1,0 +1,13 @@
+UPLOAD YOUR CERTIFICATIONS HERE:
+
+Required:
+- EDWOSB_Certificate.pdf
+- WOSB_Certificate.pdf
+
+Optional:
+- MBE_Certificate.pdf
+- WBE_Certificate.pdf
+- DBE_Certificate.pdf
+- SBE_Certificate.pdf
+
+After uploading, delete this file.

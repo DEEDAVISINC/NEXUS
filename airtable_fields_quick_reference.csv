@@ -1,0 +1,43 @@
+Field Name,Field Type,Options/Format,Required,Priority
+Name,Single line text,,Yes,CURRENT
+RFP NUMBER,Single line text,,Yes,CURRENT
+Deadline,Date,,Yes,CURRENT
+Source Status,Single line text,,Yes,CURRENT
+HIGH VALUE FLAG,Checkbox,,Yes,CURRENT
+Agency Name,Single line text,,No,HIGH
+Sub Agency,Single line text,,No,MEDIUM
+Description,Long text,,No,HIGH
+Posted Date,Date,,No,HIGH
+Category,Single select,"Federal Forecast, State/Local, Pre-Solicitation, Active Bid",No,HIGH
+NAICS Code,Single line text,,No,HIGH
+Set-Aside Type,Single select,"Unrestricted, WOSB, EDWOSB, 8(a), HUBZone, SDVOSB, Small Business",No,HIGH
+Estimated Value,Currency,$0.00,No,HIGH
+Value Range,Single select,"$0-$100K, $100K-$500K, $500K-$1M, $1M-$5M, $5M+",No,MEDIUM
+State,Single line text,,No,HIGH
+City,Single line text,,No,MEDIUM
+Contact Name,Single line text,,No,MEDIUM
+Contact Email,Email,,No,HIGH
+Contact Phone,Phone number,,No,LOW
+Source URL,URL,,No,HIGH
+Notice Type,Single select,"Pre-Solicitation, Sources Sought, Forecast, Contract Renewal, Solicitation, Amendment",No,HIGH
+Forecast Type,Single line text,,No,HIGH
+Response Deadline,Date,,No,MEDIUM
+Estimated Solicitation Date,Date,,No,MEDIUM
+Date Added to NEXUS,Created time,Auto-populated,No,HIGH
+Last Updated,Last modified time,Auto-populated,No,MEDIUM
+AI Fit Score,Number,0-100,No,HIGH
+Win Probability,Percent,0-100%,No,MEDIUM
+Pursuit Status,Single select,"New, Reviewing, Pursuing, Preparing Bid, Submitted, Won, Lost, Passed",No,HIGH
+Priority,Single select,"🔥 High, ⚡ Medium, 📋 Low",No,HIGH
+Assigned To,Single line text,,No,MEDIUM
+Notes,Long text,,No,HIGH
+Suppliers Identified,Checkbox,,No,MEDIUM
+Quotes Requested,Checkbox,,No,MEDIUM
+Quotes Received,Number,,No,MEDIUM
+Bid Prepared,Checkbox,,No,MEDIUM
+Submitted Date,Date,,No,MEDIUM
+Estimated Profit,Currency,$0.00,No,MEDIUM
+Profit Margin,Percent,0-100%,No,MEDIUM
+Our Bid Amount,Currency,$0.00,No,MEDIUM
+Related Documents,Attachment,,No,LOW
+Prime Contractor,Single line text,,No,LOW

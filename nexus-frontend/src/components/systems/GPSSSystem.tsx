@@ -3,6 +3,7 @@ import { api } from '../../api/client';
 import PricingCalculator from '../PricingCalculator';
 import ComplianceChecker from '../ComplianceChecker';
 import SuppliersTab from '../SuppliersTab';
+import SubcontractorsTab from '../SubcontractorsTab';
 
 interface GPSSSystemProps {
   onBackToNexus: () => void;
@@ -36,7 +37,7 @@ interface Proposal {
   rfpNumber: string;
   agency: string;
   value: number;
-  status: 'Draft' | 'Review' | 'Ready to Send' | 'Sent' | 'Under Review' | 'Accepted' | 'Rejected';
+  status: string;
   generatedDate: string;
   sentDate?: string;
   dueDate: string;
@@ -49,6 +50,12 @@ interface Proposal {
   pricingJustification: string;
   complianceChecklist: any;
   recipients: any;
+  // ProposalBio fields
+  proposalBioScore?: number;
+  proposalBioStatus?: string;
+  proposalBioGate?: string;
+  proposalBioBiohacks?: any[];
+  proposalBioCriticalIssues?: any[];
 }
 
 const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
@@ -59,7 +66,14 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   
   // Opportunities State
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [pipelineOpps, setPipelineOpps] = useState<any[]>([]);
+  const [edwosbOpps, setEdwosbOpps] = useState<any[]>([]);
+  const [homeStateOpps, setHomeStateOpps] = useState<any[]>([]);
+  const [forecastOpps, setForecastOpps] = useState<any[]>([]);
+  const [oppCounts, setOppCounts] = useState({ total: 0, pipeline: 0, edwosb: 0, home_state: 0, forecasts: 0, filtered_ineligible: 0 });
+  const [activeView, setActiveView] = useState<'pipeline' | 'edwosb' | 'home_state' | 'forecasts' | 'all'>('pipeline');
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filters, setFilters] = useState({
     source: 'all',
     state: 'all',
@@ -70,10 +84,26 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
 
   // Proposals State
   const [proposals, setProposals] = useState<Proposal[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [proposalsLoading, setProposalsLoading] = useState(false);
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [generatingProposal, setGeneratingProposal] = useState(false);
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [editBuffer, setEditBuffer] = useState<string>('');
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+
+  // RFP Analysis State
+  const [rfpAnalysis, setRfpAnalysis] = useState<any>(null);
+
+  // Opportunity Detail State
+  const [expandedOppId, setExpandedOppId] = useState<string | null>(null);
+
+  // Sub Matching State
+  const [subMatchResults, setSubMatchResults] = useState<Record<string, any>>({});
+  const [matchingSubsFor, setMatchingSubsFor] = useState<string | null>(null);
+  const [miningGapsFor, setMiningGapsFor] = useState<string | null>(null);
+  const [gapMineResults, setGapMineResults] = useState<Record<string, any>>({});
 
   // Pricing Calculator State
   const [showPricingCalculator, setShowPricingCalculator] = useState(false);
@@ -108,6 +138,9 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   const [productsLoading, setProductsLoading] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+  const [productSearch, setProductSearch] = useState('');
+  const [productCategoryFilter, setProductCategoryFilter] = useState('all');
+  const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
   const [productFormData, setProductFormData] = useState({
     name: '',
     description: '',
@@ -123,6 +156,7 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     { id: 'upload', label: '📄 Upload RFP' },
     { id: 'opportunities', label: '🎯 Opportunities' },
     { id: 'suppliers', label: '🏭 Suppliers' },
+    { id: 'subcontractors', label: '👷 Subcontractors' },
     { id: 'proposals', label: '📝 Proposals' },
     { id: 'contacts', label: '👥 Contacts' },
     { id: 'products', label: '📦 Products' },
@@ -165,9 +199,14 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   const fetchOpportunities = async () => {
     setLoading(true);
     try {
-      // Fetch from Airtable via backend
+      // Fetch from Airtable via backend with categorized data
       const response = await api.getGpssOpportunities();
       setOpportunities(response.opportunities || []);
+      setPipelineOpps(response.pipeline || []);
+      setEdwosbOpps(response.edwosb || []);
+      setHomeStateOpps(response.home_state || []);
+      setForecastOpps(response.forecasts || []);
+      setOppCounts(response.counts || { total: 0, pipeline: 0, edwosb: 0, home_state: 0, forecasts: 0, filtered_ineligible: 0 });
     } catch (error) {
       console.error('Error fetching opportunities:', error);
       setNotification({ message: 'Failed to load opportunities. Please try again.', type: 'error' });
@@ -177,25 +216,35 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     }
   };
 
-  // Filter opportunities based on selected filters
-  const filteredOpportunities = opportunities.filter(opp => {
-    if (filters.source !== 'all' && opp.source !== filters.source) return false;
-    if (filters.state !== 'all' && opp.state !== filters.state) return false;
-    if (filters.edwsbOnly && !opp.edwsbEligible) return false;
-    if (filters.urgency !== 'all' && opp.urgency !== filters.urgency) return false;
-    if (filters.homeStatesOnly && !opp.homeStatePriority) return false;
-    return true;
-  });
+  // filteredOpportunities is now handled by displayedOpportunities via activeView
 
-  // Calculate stats
+  // Use real backend counts
   const stats = {
-    federalOpps: opportunities.filter(o => o.source === 'Federal').length,
-    edwsbSetAsides: opportunities.filter(o => o.edwsbEligible).length,
-    homeStateOpps: opportunities.filter(o => o.homeStatePriority).length,
-    criticalUrgency: opportunities.filter(o => o.urgency === 'Critical').length,
-    totalPipeline: opportunities.reduce((sum, o) => sum + o.value, 0),
-    totalOpportunities: opportunities.length
+    pipelineCount: oppCounts.pipeline,
+    edwsbSetAsides: oppCounts.edwosb,
+    homeStateOpps: oppCounts.home_state,
+    forecastsCount: oppCounts.forecasts,
+    totalEligible: oppCounts.total,
+    filteredIneligible: oppCounts.filtered_ineligible,
+    criticalUrgency: pipelineOpps.filter(o => {
+      if (!o.dueDate) return false;
+      const due = new Date(o.dueDate);
+      const now = new Date();
+      const daysLeft = Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      return daysLeft <= 7 && daysLeft >= 0;
+    }).length,
   };
+
+  // Get the list to display based on active view
+  const displayedOpportunities = (() => {
+    switch (activeView) {
+      case 'pipeline': return pipelineOpps;
+      case 'edwosb': return edwosbOpps;
+      case 'home_state': return homeStateOpps;
+      case 'forecasts': return forecastOpps;
+      case 'all': return opportunities;
+    }
+  })();
 
   const formatCurrency = (value: number) => {
     if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -203,6 +252,7 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     return `$${value}`;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
       case 'Critical': return 'bg-red-500/20 text-red-400 border-red-500/30';
@@ -299,29 +349,9 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   const saveProposal = async (proposal: Proposal) => {
     try {
       // Save proposal to Airtable
-      const proposalResult = await api.saveGpssProposal(proposal);
+      await api.saveGpssProposal(proposal);
       
-      // Also save pricing data to Pricing History (for learning)
-      try {
-        // We'll create this endpoint to auto-save pricing history
-        // This helps the AI learn from every proposal we generate
-        const pricingHistory = {
-          opportunityId: proposal.opportunityId,
-          proposalId: proposalResult.proposalId,
-          totalBid: proposal.pricingTotal,
-          estimatedCosts: (proposal.pricingBreakdown as any)?.total_cost || 0,
-          agency: proposal.agency,
-          rfpNumber: proposal.rfpNumber,
-          status: 'Pending', // Will update when we win/lose
-          notes: 'Auto-saved from proposal generation'
-        };
-        
-        // This will be a background save - don't block on it
-        // api.savePricingHistory(pricingHistory).catch(err => console.log('Pricing history save failed:', err));
-      } catch (err) {
-        // Silent fail - pricing history is nice to have but not critical
-        console.log('Could not save pricing history:', err);
-      }
+      // TODO: Save pricing history for AI learning when endpoint is ready
       
       showNotification('✅ Proposal saved to Airtable!', 'success');
       setShowProposalModal(false);
@@ -332,46 +362,67 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   };
 
   const exportProposalPDF = (proposal: Proposal) => {
-    // Create a simple text version for now
-    const content = `
-PROPOSAL FOR: ${proposal.proposalName}
+    const pricingVal = proposal.pricingTotal || proposal.value || 0;
+    const content = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>${proposal.proposalName || 'Proposal'}</title>
+<style>
+  @page { margin: 1in; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 40px; }
+  .header { border-bottom: 3px solid #1e40af; padding-bottom: 20px; margin-bottom: 30px; }
+  .header h1 { color: #1e40af; font-size: 24px; margin: 0 0 8px 0; }
+  .header .meta { color: #666; font-size: 13px; }
+  .company { font-size: 14px; color: #1e40af; font-weight: bold; margin-top: 12px; }
+  h2 { color: #1e40af; font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-top: 30px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section { margin-bottom: 20px; font-size: 13px; }
+  .pricing-box { background: #f0fdf4; border: 2px solid #16a34a; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+  .pricing-box .amount { font-size: 32px; font-weight: 900; color: #16a34a; }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #1e40af; font-size: 11px; color: #666; text-align: center; }
+  @media print { body { padding: 0; } }
+</style></head><body>
+<div class="header">
+  <h1>${proposal.proposalName || 'Proposal'}</h1>
+  <div class="meta">
+    RFP: ${proposal.rfpNumber || 'N/A'} &nbsp;|&nbsp; Agency: ${proposal.agency || 'N/A'} &nbsp;|&nbsp; Due: ${proposal.dueDate || 'N/A'}
+  </div>
+  <div class="company">Dee Davis Inc. &mdash; EDWOSB Certified</div>
+</div>
 
-RFP Number: ${proposal.rfpNumber}
-Agency: ${proposal.agency}
-Value: $${proposal.value.toLocaleString()}
-Due Date: ${proposal.dueDate}
+<h2>Executive Summary</h2>
+<div class="section">${(proposal.executiveSummary || 'Not yet generated.').replace(/\n/g, '<br>')}</div>
 
-EXECUTIVE SUMMARY
-${proposal.executiveSummary}
+<h2>Technical Approach</h2>
+<div class="section">${(proposal.technicalApproach || 'Not yet generated.').replace(/\n/g, '<br>')}</div>
 
-TECHNICAL APPROACH
-${proposal.technicalApproach}
+<h2>Staffing Plan</h2>
+<div class="section">${(proposal.staffingPlan || 'Not yet generated.').replace(/\n/g, '<br>')}</div>
 
-STAFFING PLAN
-${proposal.staffingPlan}
+<h2>Past Performance</h2>
+<div class="section">${(proposal.pastPerformance || 'Not yet generated.').replace(/\n/g, '<br>')}</div>
 
-PAST PERFORMANCE
-${proposal.pastPerformance}
+<h2>Pricing</h2>
+<div class="pricing-box">
+  <div class="amount">$${pricingVal.toLocaleString()}</div>
+  <div style="font-size:12px;color:#666;margin-top:4px;">Total Proposed Price</div>
+</div>
+${proposal.pricingJustification ? `<div class="section" style="font-size:12px;">${proposal.pricingJustification.replace(/\n/g, '<br>')}</div>` : ''}
 
-PRICING
-Total: $${proposal.pricingTotal.toLocaleString()}
-${proposal.pricingJustification}
+<div class="footer">
+  <strong>Dee Davis Inc.</strong> &mdash; Economically Disadvantaged Woman-Owned Small Business (EDWOSB)<br>
+  Generated ${new Date().toLocaleDateString()} via NEXUS GPSS
+</div>
+</body></html>`;
 
-Generated by NEXUS GPSS System
-${new Date().toLocaleDateString()}
-    `;
-
-    const blob = new Blob([content], { type: 'text/plain' });
+    const blob = new Blob([content], { type: 'text/html' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${proposal.rfpNumber}_Proposal.txt`;
+    link.download = `${proposal.rfpNumber || 'Proposal'}_${proposal.agency || 'Draft'}.html`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
     
-    showNotification('📄 Proposal exported!', 'success');
+    showNotification('Proposal exported — open in browser and Print to PDF', 'success');
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -405,39 +456,26 @@ ${new Date().toLocaleDateString()}
     }
   };
 
-  // PDF extraction now handled by backend - function removed for clean code
-
-  const extractContacts = async () => {
+  const analyzeRfp = async () => {
     if (!selectedFile) return;
-
     setIsExtracting(true);
-
+    setRfpAnalysis(null);
     try {
-      // Create FormData to upload the actual PDF file
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-
-      const response = await fetch('http://127.0.0.1:8000/extract-contacts', {
-        method: 'POST',
-        body: formData  // Send the actual file, not JSON
-      });
-
-      const result = await response.json();
-
+      const result = await api.uploadAndAnalyzeRfp(selectedFile);
       if (result.success) {
-        showNotification(`🎉 Found ${result.contacts_found} contacts! Stored ${result.contacts_stored} in Airtable.`, 'success');
-        setSelectedFile(null);
-        const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
-
-        setTimeout(() => setActiveTab('contacts'), 2000);
+        setRfpAnalysis(result);
+        showNotification(
+          `RFP analyzed: ${result.analysis?.bid_recommendation?.decision || 'REVIEW'} (${result.analysis?.bid_recommendation?.score || 0}/100) — ${result.contacts_found} contacts found`,
+          'success'
+        );
+        // Refresh opportunities since we created a new one
+        fetchOpportunities();
       } else {
-        const errorMsg = result.error || 'No contacts found in document';
-        showNotification(`❌ ${errorMsg}`, 'error');
+        showNotification(result.error || 'Analysis failed', 'error');
       }
-    } catch (error) {
-      console.error('Contact extraction error:', error);
-      showNotification('❌ Error extracting contacts from PDF', 'error');
+    } catch (error: any) {
+      console.error('RFP analysis error:', error);
+      showNotification(error.message || 'Error analyzing RFP', 'error');
     } finally {
       setIsExtracting(false);
     }
@@ -652,134 +690,197 @@ ${new Date().toLocaleDateString()}
         {activeTab === 'dashboard' && (
           <div>
             <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-2">Government Contracting Command Center</h2>
-              <p className="text-gray-400">Nationwide Federal + 6-State Operation • EDWOSB Certified</p>
+              <h2 className="text-3xl font-bold mb-2">GPSS Dashboard</h2>
+              <p className="text-gray-400">Government Prime Sales System • Pre-Award Pipeline • EDWOSB Certified</p>
             </div>
 
-            {/* Enhanced Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl">
-                <div className="text-3xl mb-2">🦅</div>
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Federal Opportunities</h3>
-                <p className="text-4xl font-bold mb-1">{stats.federalOpps}</p>
-                <p className="text-sm text-white/70">SAM.gov + Agencies</p>
-              </div>
+            {/* Enhanced Quick Stats - Clickable View Switchers */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+              <button 
+                onClick={() => { setActiveView('pipeline'); setActiveTab('opportunities'); }}
+                className={`text-left p-6 rounded-xl transition border-2 ${activeView === 'pipeline' ? 'border-blue-400 ring-2 ring-blue-400/30' : 'border-transparent'} bg-gradient-to-br from-blue-600 to-blue-800`}
+              >
+                <div className="text-3xl mb-2">🎯</div>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">My Pipeline</h3>
+                <p className="text-4xl font-bold mb-1">{stats.pipelineCount}</p>
+                <p className="text-sm text-white/70">Active Bids</p>
+              </button>
 
-              <div className="bg-gradient-to-br from-green-600 to-green-800 p-6 rounded-xl">
+              <button 
+                onClick={() => { setActiveView('edwosb'); setActiveTab('opportunities'); }}
+                className={`text-left p-6 rounded-xl transition border-2 ${activeView === 'edwosb' ? 'border-green-400 ring-2 ring-green-400/30' : 'border-transparent'} bg-gradient-to-br from-green-600 to-green-800`}
+              >
                 <div className="text-3xl mb-2">⭐</div>
                 <h3 className="text-sm font-semibold text-white/80 mb-2">EDWOSB Set-Asides</h3>
                 <p className="text-4xl font-bold mb-1">{stats.edwsbSetAsides}</p>
                 <p className="text-sm text-white/70">Exclusive Access</p>
-              </div>
+              </button>
 
-              <div className="bg-gradient-to-br from-purple-600 to-purple-800 p-6 rounded-xl">
+              <button 
+                onClick={() => { setActiveView('home_state'); setActiveTab('opportunities'); }}
+                className={`text-left p-6 rounded-xl transition border-2 ${activeView === 'home_state' ? 'border-purple-400 ring-2 ring-purple-400/30' : 'border-transparent'} bg-gradient-to-br from-purple-600 to-purple-800`}
+              >
                 <div className="text-3xl mb-2">🏠</div>
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Home State Opps</h3>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">Home State</h3>
                 <p className="text-4xl font-bold mb-1">{stats.homeStateOpps}</p>
-                <p className="text-sm text-white/70">MI, GA, MD, TX, CA, IL</p>
-              </div>
+                <p className="text-sm text-white/70">Michigan Opportunities</p>
+              </button>
 
-              <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-6 rounded-xl">
-                <div className="text-3xl mb-2">💰</div>
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Pipeline Value</h3>
-                <p className="text-4xl font-bold mb-1">{formatCurrency(stats.totalPipeline)}</p>
-                <p className="text-sm text-white/70">{stats.totalOpportunities} Active RFPs</p>
-              </div>
+              <button 
+                onClick={() => { setActiveView('forecasts'); setActiveTab('opportunities'); }}
+                className={`text-left p-6 rounded-xl transition border-2 ${activeView === 'forecasts' ? 'border-yellow-400 ring-2 ring-yellow-400/30' : 'border-transparent'} bg-gradient-to-br from-yellow-600 to-yellow-800`}
+              >
+                <div className="text-3xl mb-2">🔮</div>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">Forecasts</h3>
+                <p className="text-4xl font-bold mb-1">{stats.forecastsCount}</p>
+                <p className="text-sm text-white/70">Upcoming Procurements</p>
+              </button>
+
+              <button 
+                onClick={() => { setActiveView('all'); setActiveTab('opportunities'); }}
+                className={`text-left p-6 rounded-xl transition border-2 ${activeView === 'all' ? 'border-gray-400 ring-2 ring-gray-400/30' : 'border-transparent'} bg-gradient-to-br from-gray-600 to-gray-800`}
+              >
+                <div className="text-3xl mb-2">📋</div>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">All Eligible</h3>
+                <p className="text-4xl font-bold mb-1">{stats.totalEligible}</p>
+                <p className="text-sm text-white/70">{stats.filteredIneligible} ineligible filtered</p>
+              </button>
             </div>
 
-            {/* Critical Alerts */}
-            {stats.criticalUrgency > 0 && (
-              <div className="mb-6 bg-red-900/20 border border-red-500/50 rounded-xl p-4">
-                <div className="flex items-center gap-3">
-                  <div className="text-3xl">🚨</div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-red-400 text-lg">Critical Deadline Alert</h3>
-                    <p className="text-sm text-gray-300">{stats.criticalUrgency} opportunities due within 7 days</p>
+            {/* PROACTIVE ALERTS - What needs attention NOW */}
+            {(() => {
+              const stepLabels: Record<number, string> = {
+                0: 'Not started', 1: 'Review', 2: 'Go/No-Go', 3: 'Find Suppliers',
+                4: 'Create RFQ', 5: 'Send RFQ', 6: 'Collect Quotes',
+                7: 'Price & Markup', 8: 'Prepare Bid', 9: 'Final Review', 10: 'Submitted'
+              };
+              const nextAction: Record<number, string> = {
+                0: 'Start reviewing this solicitation',
+                1: 'Make a Go/No-Go decision',
+                2: 'Find suppliers who can quote this',
+                3: 'Generate an RFQ document',
+                4: 'Send the RFQ to suppliers',
+                5: 'Follow up — waiting on quotes',
+                6: 'Select best quote and calculate markup',
+                7: 'Prepare the bid submission package',
+                8: 'Do final review before submitting',
+                9: 'Submit the bid NOW',
+                10: 'Submitted — awaiting award'
+              };
+              const now = new Date();
+              const alerts = pipelineOpps
+                .map((opp: any) => {
+                  const step = opp.workflowStep || 0;
+                  const due = opp.dueDate ? new Date(opp.dueDate) : null;
+                  const daysLeft = due ? Math.ceil((due.getTime() - now.getTime()) / (1000*60*60*24)) : 999;
+                  const urgency = daysLeft <= 1 ? 'critical' : daysLeft <= 3 ? 'urgent' : daysLeft <= 7 ? 'soon' : 'ok';
+                  return { ...opp, step, daysLeft, urgency, stepLabel: stepLabels[step] || `Step ${step}`, action: nextAction[step] || 'Continue working' };
+                })
+                .filter((a: any) => a.step < 10 && a.daysLeft <= 7)
+                .sort((a: any, b: any) => a.daysLeft - b.daysLeft);
+              
+              if (alerts.length === 0) return null;
+              return (
+                <div className="mb-6 bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+                  <div className="px-5 py-3 bg-red-900/30 border-b border-red-500/30 flex items-center justify-between">
+                    <h3 className="font-bold text-red-400">Needs Your Attention ({alerts.length})</h3>
+                    <button onClick={() => { setActiveView('pipeline'); setActiveTab('opportunities'); }} className="text-xs text-gray-400 hover:text-white">View All</button>
                   </div>
-                  <button
-                    onClick={() => {
-                      setFilters({ ...filters, urgency: 'Critical' });
-                      setActiveTab('opportunities');
-                    }}
-                    className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold transition"
-                  >
-                    View Now →
-                  </button>
+                  <div className="divide-y divide-gray-700/50">
+                    {alerts.slice(0, 6).map((a: any) => (
+                      <div key={a.id} className="px-5 py-3 flex items-center gap-4 hover:bg-gray-700/30 cursor-pointer" onClick={() => { setActiveView('pipeline'); setActiveTab('opportunities'); setExpandedOppId(a.id); }}>
+                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${a.urgency === 'critical' ? 'bg-red-500 animate-pulse' : a.urgency === 'urgent' ? 'bg-orange-500' : 'bg-yellow-500'}`} />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm text-gray-200 truncate">{a.title}</p>
+                          <p className="text-xs text-gray-400">{a.action}</p>
+                        </div>
+                        <div className="flex items-center gap-3 flex-shrink-0">
+                          <div className="flex gap-0.5">
+                            {[1,2,3,4,5,6,7,8,9,10].map((s: number) => (
+                              <div key={s} className={`w-1.5 h-1.5 rounded-full ${s <= a.step ? 'bg-blue-500' : 'bg-gray-600'}`} />
+                            ))}
+                          </div>
+                          <span className="text-[10px] text-gray-500 w-14 text-right">{a.stepLabel}</span>
+                          <span className={`text-xs font-bold w-12 text-right ${a.urgency === 'critical' ? 'text-red-400' : a.urgency === 'urgent' ? 'text-orange-400' : 'text-yellow-400'}`}>
+                            {a.daysLeft <= 0 ? 'OVERDUE' : a.daysLeft === 1 ? '1 day' : `${a.daysLeft} days`}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Recent Activity Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Recent Opportunities */}
               <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4">🎯 High Priority Opportunities</h3>
+                <h3 className="text-xl font-bold mb-4">My Pipeline ({pipelineOpps.length})</h3>
                 <div className="space-y-3">
-                  {opportunities
-                    .filter(o => o.priorityScore >= 85)
-                    .slice(0, 3)
-                    .map(opp => (
+                  {pipelineOpps.length === 0 ? (
+                    <div className="text-gray-500 text-center py-6">No active bids in pipeline</div>
+                  ) : (
+                    pipelineOpps.slice(0, 5).map((opp: any) => (
                       <div key={opp.id} className="bg-gray-700/50 border border-gray-600 px-4 py-4 rounded-lg hover:bg-gray-700 transition cursor-pointer">
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              {opp.edwsbEligible && <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 font-bold">EDWOSB</span>}
-                              {opp.homeStatePriority && <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30 font-bold">HOME STATE</span>}
+                              {opp.isEdwosb && <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 font-bold">EDWOSB</span>}
+                              {opp.isHomeState && <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30 font-bold">HOME STATE</span>}
+                              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">{opp.internalStatus}</span>
                             </div>
-                            <h4 className="font-bold text-blue-400">{opp.title}</h4>
+                            <h4 className="font-bold text-blue-400 line-clamp-1">{opp.title}</h4>
                             <p className="text-sm text-gray-400">{opp.agency}</p>
                           </div>
-                          <span className={`text-xs font-bold px-2 py-1 rounded border ${getUrgencyColor(opp.urgency)}`}>
-                            {opp.urgency}
-                          </span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-gray-400">{opp.rfpNumber}</span>
-                          <span className="text-green-400 font-bold">{formatCurrency(opp.value)}</span>
+                          <span className="text-gray-400">{opp.setAsideType || 'Open'}</span>
                         </div>
-                        <div className="mt-2 flex justify-between items-center text-xs">
-                          <span className="text-gray-500">Due: {opp.dueDate}</span>
-                          <span className="text-purple-400 font-semibold">Score: {opp.priorityScore}/100</span>
-                        </div>
+                        {opp.dueDate && (
+                          <div className="mt-2 text-xs text-gray-500">Due: {opp.dueDate}</div>
+                        )}
                       </div>
-                    ))}
+                    ))
+                  )}
                 </div>
               </div>
 
               {/* Source Breakdown */}
               <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4">📊 Opportunity Sources</h3>
+                <h3 className="text-xl font-bold mb-4">📊 Opportunity Breakdown</h3>
                 <div className="space-y-4">
-                  <div className="bg-blue-900/30 border border-blue-700/50 px-4 py-3 rounded-lg">
+                  <div className="bg-green-900/30 border border-green-700/50 px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900/50 transition" onClick={() => { setActiveView('edwosb'); setActiveTab('opportunities'); }}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-blue-400">Federal (SAM.gov)</span>
-                      <span className="text-2xl font-bold">{opportunities.filter(o => o.source === 'Federal').length}</span>
+                      <span className="font-semibold text-green-400">EDWOSB / WOSB</span>
+                      <span className="text-2xl font-bold">{stats.edwsbSetAsides}</span>
                     </div>
-                    <div className="text-xs text-gray-400">HHS, FEMA, DOD, VA</div>
+                    <div className="text-xs text-gray-400">Exclusive set-aside opportunities</div>
                   </div>
 
-                  <div className="bg-purple-900/30 border border-purple-700/50 px-4 py-3 rounded-lg">
+                  <div className="bg-purple-900/30 border border-purple-700/50 px-4 py-3 rounded-lg cursor-pointer hover:bg-purple-900/50 transition" onClick={() => { setActiveView('home_state'); setActiveTab('opportunities'); }}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-purple-400">State Portals</span>
-                      <span className="text-2xl font-bold">{opportunities.filter(o => o.source === 'State').length}</span>
+                      <span className="font-semibold text-purple-400">Michigan (Home State)</span>
+                      <span className="text-2xl font-bold">{stats.homeStateOpps}</span>
                     </div>
-                    <div className="text-xs text-gray-400">MI, GA, MD, TX, CA, IL</div>
+                    <div className="text-xs text-gray-400">Local advantage opportunities</div>
                   </div>
 
-                  <div className="bg-green-900/30 border border-green-700/50 px-4 py-3 rounded-lg">
+                  <div className="bg-yellow-900/30 border border-yellow-700/50 px-4 py-3 rounded-lg cursor-pointer hover:bg-yellow-900/50 transition" onClick={() => { setActiveView('forecasts'); setActiveTab('opportunities'); }}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-green-400">Cooperative Purchasing</span>
-                      <span className="text-2xl font-bold">{opportunities.filter(o => o.source === 'Cooperative').length}</span>
+                      <span className="font-semibold text-yellow-400">Forecasts</span>
+                      <span className="text-2xl font-bold">{stats.forecastsCount}</span>
                     </div>
-                    <div className="text-xs text-gray-400">Choice Partners, Sourcewell, NASPO</div>
+                    <div className="text-xs text-gray-400">Future planned procurements</div>
                   </div>
 
-                  <div className="bg-orange-900/30 border border-orange-700/50 px-4 py-3 rounded-lg">
+                  <div className="bg-gray-700/30 border border-gray-600/50 px-4 py-3 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-orange-400">Local Governments</span>
-                      <span className="text-2xl font-bold">{opportunities.filter(o => o.source === 'Local').length}</span>
+                      <span className="font-semibold text-gray-400">Filtered Out (Ineligible)</span>
+                      <span className="text-2xl font-bold text-gray-500">{stats.filteredIneligible}</span>
                     </div>
-                    <div className="text-xs text-gray-400">Counties, Cities, Transit</div>
+                    <div className="text-xs text-gray-500">SDVOSB, VOSB, HUBZone, 8(a), etc.</div>
                   </div>
                 </div>
               </div>
@@ -801,229 +902,208 @@ ${new Date().toLocaleDateString()}
           </div>
         )}
 
-        {/* TAB: OPPORTUNITY DISCOVERY (NEW!) */}
+        {/* TAB: OPPORTUNITY DISCOVERY */}
         {activeTab === 'discovery' && (
           <div>
             <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-2">🔍 Opportunity Discovery Engine</h2>
-              <p className="text-gray-400">Real-time monitoring of federal, state, and cooperative portals</p>
+              <h2 className="text-3xl font-bold mb-2">Opportunity Discovery Engine</h2>
+              <p className="text-gray-400">Automated mining from SAM.gov, GovCon, State/Local portals, RSS feeds, and agency forecasts</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-              {/* Federal Feed */}
-              <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 border border-blue-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-3xl">🦅</div>
-                  <div>
-                    <h3 className="font-bold text-xl text-blue-400">Federal</h3>
-                    <p className="text-xs text-gray-400">SAM.gov • GSA • Agencies</p>
-                  </div>
-                </div>
-                <div className="text-4xl font-black mb-2">{stats.federalOpps}</div>
-                <div className="text-sm text-gray-400 mb-4">Active Opportunities</div>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition">
-                  Browse Federal →
-                </button>
+            {/* Current Inventory from Airtable */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 border border-blue-700/50 rounded-xl p-5 cursor-pointer hover:border-blue-400 transition" onClick={() => { setActiveView('pipeline'); setActiveTab('opportunities'); }}>
+                <div className="text-sm font-semibold text-blue-400 mb-1">Pipeline</div>
+                <div className="text-3xl font-black">{stats.pipelineCount}</div>
+                <div className="text-xs text-gray-500">Active Bids</div>
               </div>
-
-              {/* Home States Feed */}
-              <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-3xl">🏠</div>
-                  <div>
-                    <h3 className="font-bold text-xl text-purple-400">Home States</h3>
-                    <p className="text-xs text-gray-400">MI • GA • MD • TX • CA • IL</p>
-                  </div>
-                </div>
-                <div className="text-4xl font-black mb-2">{stats.homeStateOpps}</div>
-                <div className="text-sm text-gray-400 mb-4">Priority Opportunities</div>
-                <button 
-                  onClick={() => {
-                    setFilters({ ...filters, homeStatesOnly: true });
-                    setActiveTab('opportunities');
-                  }}
-                  className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition"
-                >
-                  Browse States →
-                </button>
+              <div className="bg-gradient-to-br from-green-900/30 to-green-800/20 border border-green-700/50 rounded-xl p-5 cursor-pointer hover:border-green-400 transition" onClick={() => { setActiveView('edwosb'); setActiveTab('opportunities'); }}>
+                <div className="text-sm font-semibold text-green-400 mb-1">EDWOSB</div>
+                <div className="text-3xl font-black">{stats.edwsbSetAsides}</div>
+                <div className="text-xs text-gray-500">Set-Asides</div>
               </div>
-
-              {/* EDWOSB Set-Asides */}
-              <div className="bg-gradient-to-br from-green-900/30 to-green-800/20 border border-green-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-3xl">⭐</div>
-                  <div>
-                    <h3 className="font-bold text-xl text-green-400">EDWOSB Only</h3>
-                    <p className="text-xs text-gray-400">Exclusive Set-Asides</p>
-                  </div>
-                </div>
-                <div className="text-4xl font-black mb-2">{stats.edwsbSetAsides}</div>
-                <div className="text-sm text-gray-400 mb-4">Eligible Opportunities</div>
-                <button 
-                  onClick={() => {
-                    setFilters({ ...filters, edwsbOnly: true });
-                    setActiveTab('opportunities');
-                  }}
-                  className="w-full bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-semibold transition"
-                >
-                  Browse EDWOSB →
-                </button>
+              <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-700/50 rounded-xl p-5 cursor-pointer hover:border-purple-400 transition" onClick={() => { setActiveView('home_state'); setActiveTab('opportunities'); }}>
+                <div className="text-sm font-semibold text-purple-400 mb-1">Michigan</div>
+                <div className="text-3xl font-black">{stats.homeStateOpps}</div>
+                <div className="text-xs text-gray-500">Home State</div>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border border-yellow-700/50 rounded-xl p-5 cursor-pointer hover:border-yellow-400 transition" onClick={() => { setActiveView('forecasts'); setActiveTab('opportunities'); }}>
+                <div className="text-sm font-semibold text-yellow-400 mb-1">Forecasts</div>
+                <div className="text-3xl font-black">{stats.forecastsCount}</div>
+                <div className="text-xs text-gray-500">Upcoming</div>
+              </div>
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 border border-gray-600/50 rounded-xl p-5 cursor-pointer hover:border-gray-400 transition" onClick={() => { setActiveView('all'); setActiveTab('opportunities'); }}>
+                <div className="text-sm font-semibold text-gray-400 mb-1">All Eligible</div>
+                <div className="text-3xl font-black">{stats.totalEligible}</div>
+                <div className="text-xs text-gray-500">{stats.filteredIneligible} ineligible filtered</div>
               </div>
             </div>
 
-            {/* Mining Control Panel */}
-            <div className="bg-gradient-to-br from-green-900/30 to-emerald-800/20 border border-green-700/50 rounded-xl p-6 mb-6">
+            {/* Mining Sources - Manual Trigger Buttons */}
+            <div className="bg-gray-800 rounded-xl p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-green-400 mb-1">🚀 Opportunity Discovery</h3>
-                  <p className="text-sm text-gray-400">Scan portals and RSS feeds for new opportunities</p>
-                </div>
-                <div className="flex gap-3 flex-wrap">
-                  <button 
-                    onClick={async () => {
-                      try {
-                        setNotification({ message: 'Searching SAM.gov API (1000+ federal opportunities)...', type: 'success' });
-                        const response = await api.post('/gpss/mining/search-sam-api');
-                        setNotification({ 
-                          message: `🦅 SAM.gov: Found ${response.total_found}, imported ${response.imported} federal opportunities!`, 
-                          type: 'success' 
-                        });
-                        setTimeout(() => fetchOpportunities(), 3000);
-                      } catch (error: any) {
-                        setNotification({ message: `SAM.gov error: ${error.message}`, type: 'error' });
-                      }
-                    }}
-                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
-                  >
-                    <span>🦅</span>
-                    <span>SAM.gov</span>
-                  </button>
-                  <button 
-                    onClick={async () => {
-                      try {
-                        setNotification({ message: 'Searching GovCon API (50 clean federal opps)...', type: 'success' });
-                        const response = await api.post('/gpss/mining/search-govcon-api');
-                        setNotification({ 
-                          message: `📊 GovCon: Found ${response.total_found}, imported ${response.imported} opportunities!`, 
-                          type: 'success' 
-                        });
-                        setTimeout(() => fetchOpportunities(), 3000);
-                      } catch (error: any) {
-                        setNotification({ message: `GovCon error: ${error.message}`, type: 'error' });
-                      }
-                    }}
-                    className="bg-cyan-600 hover:bg-cyan-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
-                  >
-                    <span>📊</span>
-                    <span>GovCon</span>
-                  </button>
-                  <button 
-                    onClick={async () => {
-                      try {
-                        setNotification({ message: 'Mining 5 State & Local sources...', type: 'success' });
-                        const response = await api.post('/gpss/mining/mine-state-local');
-                        setNotification({ 
-                          message: `🏛️ State/Local: ${response.sources_checked} sources, found ${response.total_found}, imported ${response.imported}!`, 
-                          type: 'success' 
-                        });
-                        setTimeout(() => fetchOpportunities(), 3000);
-                      } catch (error: any) {
-                        setNotification({ message: `State/Local error: ${error.message}`, type: 'error' });
-                      }
-                    }}
-                    className="bg-orange-600 hover:bg-orange-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
-                  >
-                    <span>🏛️</span>
-                    <span>State/Local</span>
-                  </button>
-                  <button 
-                    onClick={async () => {
-                      try {
-                        setNotification({ message: 'Checking RSS feeds...', type: 'success' });
-                        const response = await api.post('/gpss/mining/check-rss-feeds');
-                        setNotification({ 
-                          message: `📡 RSS: Found ${response.new_opportunities} from ${response.feeds_checked} feeds.`, 
-                          type: 'success' 
-                        });
-                        setTimeout(() => fetchOpportunities(), 3000);
-                      } catch (error: any) {
-                        setNotification({ message: `RSS error: ${error.message}`, type: 'error' });
-                      }
-                    }}
-                    className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-bold transition flex items-center gap-2 text-lg"
-                  >
-                    <span>📡</span>
-                    <span>RSS</span>
-                  </button>
+                  <h3 className="text-xl font-bold mb-1">Mining Sources</h3>
+                  <p className="text-sm text-gray-400">These run automatically via cron, but you can trigger manually here</p>
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-4 text-center">
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="text-2xl font-black text-green-400">6</div>
-                  <div className="text-xs text-gray-400">Active Portals</div>
-                </div>
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="text-2xl font-black text-purple-400">27</div>
-                  <div className="text-xs text-gray-400">RSS Feeds</div>
-                </div>
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="text-2xl font-black text-blue-400">{opportunities.length}</div>
-                  <div className="text-xs text-gray-400">Opportunities Found</div>
-                </div>
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="text-2xl font-black text-yellow-400">Live</div>
-                  <div className="text-xs text-gray-400">Status</div>
-                </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                {/* SAM.gov */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Searching SAM.gov API...', type: 'success' });
+                      const response = await api.post('/gpss/mining/search-sam-api');
+                      setNotification({ message: `SAM.gov: Found ${response.total_found}, imported ${response.imported}`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `SAM.gov error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">🦅</span>
+                  <span className="text-sm">SAM.gov</span>
+                  <span className="text-[10px] text-blue-300/70">Federal API</span>
+                </button>
+
+                {/* EDWOSB Miner */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Mining EDWOSB/WOSB set-asides...', type: 'success' });
+                      const response = await api.mineEdwosbOpportunities();
+                      setNotification({ message: `EDWOSB: Found ${response.total_found}, imported ${response.imported} new`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `EDWOSB error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-green-600 hover:bg-green-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">⭐</span>
+                  <span className="text-sm">EDWOSB</span>
+                  <span className="text-[10px] text-green-300/70">Set-Aside Miner</span>
+                </button>
+
+                {/* GovCon */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Searching GovCon API...', type: 'success' });
+                      const response = await api.post('/gpss/mining/search-govcon-api');
+                      setNotification({ message: `GovCon: Found ${response.total_found}, imported ${response.imported}`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `GovCon error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">📊</span>
+                  <span className="text-sm">GovCon</span>
+                  <span className="text-[10px] text-cyan-300/70">Federal API</span>
+                </button>
+
+                {/* State/Local */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Mining state & local sources...', type: 'success' });
+                      const response = await api.post('/gpss/mining/mine-state-local');
+                      setNotification({ message: `State/Local: ${response.sources_checked} sources, imported ${response.imported}`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `State/Local error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-orange-600 hover:bg-orange-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">🏛️</span>
+                  <span className="text-sm">State/Local</span>
+                  <span className="text-[10px] text-orange-300/70">Portal Scraping</span>
+                </button>
+
+                {/* RSS Feeds */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Checking RSS feeds...', type: 'success' });
+                      const response = await api.post('/gpss/mining/check-rss-feeds');
+                      setNotification({ message: `RSS: Found ${response.new_opportunities} from ${response.feeds_checked} feeds`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `RSS error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">📡</span>
+                  <span className="text-sm">RSS Feeds</span>
+                  <span className="text-[10px] text-purple-300/70">Gov RSS</span>
+                </button>
+
+                {/* Forecasts */}
+                <button 
+                  onClick={async () => {
+                    try {
+                      setNotification({ message: 'Mining agency forecasts (NASA, GSA, DHS, USAID...)...', type: 'success' });
+                      const response = await api.mineAgencyForecasts();
+                      setNotification({ message: `Forecasts: ${response.total_extracted || 0} extracted from agency pages`, type: 'success' });
+                      setTimeout(() => fetchOpportunities(), 3000);
+                    } catch (error: any) {
+                      setNotification({ message: `Forecast error: ${error.message}`, type: 'error' });
+                    }
+                  }}
+                  className="bg-yellow-600 hover:bg-yellow-700 px-4 py-4 rounded-lg font-bold transition flex flex-col items-center gap-2"
+                >
+                  <span className="text-2xl">🔮</span>
+                  <span className="text-sm">Forecasts</span>
+                  <span className="text-[10px] text-yellow-300/70">Agency Forecasts</span>
+                </button>
               </div>
             </div>
 
-            {/* Portal Monitor Status */}
-            <div className="bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-4">📡 Portal Monitoring Status</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Mining Sources Detail */}
+            <div className="bg-gray-800 rounded-xl p-6 mb-6">
+              <h3 className="text-xl font-bold mb-4">Mining Source Details</h3>
+              <div className="space-y-3">
                 {[
-                  { name: 'SAM.gov', icon: '🦅', status: 'online', opportunities: 0, lastScan: 'Ready' },
-                  { name: 'GSA eBuy', icon: '⚡', status: 'online', opportunities: 0, lastScan: 'Ready' },
-                  { name: 'DIBBS', icon: '🛡️', status: 'online', opportunities: 0, lastScan: 'Ready' },
-                  { name: 'Unison Marketplace', icon: '🔷', status: 'online', opportunities: 0, lastScan: 'Ready' },
-                  { name: 'SBA SubNet', icon: '🤝', status: 'online', opportunities: 0, lastScan: 'Ready' },
-                  { name: 'NECO Cooperative', icon: '🏛️', status: 'online', opportunities: 0, lastScan: 'Ready' }
-                ].map((portal, idx) => (
-                  <div key={idx} className="bg-gray-700/50 border border-gray-600 px-4 py-3 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl">{portal.icon}</span>
-                        <span className="font-semibold text-sm">{portal.name}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-green-400">LIVE</span>
+                  { name: 'SAM.gov API', description: 'Federal opportunities filtered for EDWOSB/WOSB/SB set-asides', schedule: 'Daily at 6 AM', icon: '🦅', type: 'API' },
+                  { name: 'EDWOSB/WOSB Miner', description: 'Dedicated EDWOSB and WOSB set-aside opportunity scanner', schedule: 'Daily at 8 AM', icon: '⭐', type: 'API' },
+                  { name: 'GovCon API', description: 'Secondary federal source — solicitations and combined synopsis', schedule: 'Via SAM.gov job', icon: '📊', type: 'API' },
+                  { name: 'State/Local Portals', description: 'MI (SIGMA VSS), CA, TX, FL, NY + BidNet/PublicPurchase aggregators', schedule: 'Via scheduler', icon: '🏛️', type: 'Scraper' },
+                  { name: 'RSS Feeds', description: 'Government RSS feeds for real-time opportunity alerts', schedule: 'Via scheduler', icon: '📡', type: 'RSS' },
+                  { name: 'Agency Forecasts', description: 'NASA, GSA, DHS, USAID, Commerce, Treasury planned procurements', schedule: 'Daily at 7 AM', icon: '🔮', type: 'AI Extract' },
+                  { name: 'ThomasNet (via Google CSE)', description: 'Supplier mining — searches ThomasNet indirectly for suppliers', schedule: 'On demand', icon: '🔧', type: 'Search' },
+                ].map((source, idx) => (
+                  <div key={idx} className="bg-gray-700/30 border border-gray-600/50 px-4 py-3 rounded-lg flex items-center justify-between">
+                    <div className="flex items-center gap-3 flex-1">
+                      <span className="text-xl">{source.icon}</span>
+                      <div>
+                        <div className="font-semibold text-sm">{source.name}</div>
+                        <div className="text-xs text-gray-500">{source.description}</div>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center text-xs text-gray-400">
-                      <span>{portal.opportunities} opps</span>
-                      <span>{portal.lastScan}</span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">{source.type}</span>
+                      <span className="text-xs text-gray-500">{source.schedule}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Auto-Mining Active */}
-            <div className="mt-6 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-xl p-6">
+            {/* Automation Status */}
+            <div className="bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-xl p-6">
               <div className="flex items-center gap-4">
-                <div className="text-5xl">✅</div>
-                <div>
-                  <h3 className="text-xl font-black text-green-400 mb-2">Auto-Mining Engine: ACTIVE</h3>
-                  <p className="text-gray-400 text-sm mb-3">
-                    Your NEXUS system is now connected to 6 government opportunity portals. Click "Start Auto-Mining" above 
-                    to scan all portals and automatically import new opportunities with AI qualification.
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-green-400 mb-1">Automated Mining Active</h3>
+                  <p className="text-gray-400 text-sm">
+                    Mining runs automatically via cron schedule. EDWOSB/WOSB at 8 AM, Federal at 6 AM, Forecasts at 7 AM, 
+                    Quote follow-ups 3x daily. Use the buttons above for manual scans when needed.
                   </p>
-                  <div className="flex gap-3">
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ Portal Integration</span>
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ AI Qualification</span>
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">✓ Automated Scoring</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -1034,108 +1114,308 @@ ${new Date().toLocaleDateString()}
         {activeTab === 'upload' && (
           <div>
             <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-2">📄 Upload RFP Document</h2>
-              <p className="text-gray-400">AI will automatically extract all contacts with categorization</p>
+              <h2 className="text-3xl font-bold mb-2">Upload RFP / Solicitation</h2>
+              <p className="text-gray-400">AI analyzes the full document: scope, requirements, contacts, compliance, and bid/no-bid recommendation</p>
             </div>
 
-            <div className="bg-gray-800 rounded-xl p-8">
-              <div 
-                className={`border-3 border-dashed ${isDragging ? 'border-blue-500 bg-blue-900/20' : 'border-gray-700 bg-gray-700/30'} p-12 rounded-xl text-center cursor-pointer hover:border-blue-500 hover:bg-gray-800 transition`}
-                onClick={() => document.getElementById('fileInput')?.click()}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-              >
-                <div className="text-6xl mb-4">📎</div>
-                <h3 className="text-xl font-bold mb-2 text-blue-400">Drop RFP PDF here or click to browse</h3>
-                <p className="text-gray-400 mb-4">AI will extract: Contracting Officers, Program Managers, POCs</p>
-                <input 
-                  type="file" 
-                  id="fileInput" 
-                  accept=".pdf" 
-                  className="hidden"
-                  onChange={handleFileSelect}
-                />
-              </div>
-
-              {selectedFile && (
-                <div className="mt-4 p-4 bg-green-900/30 border border-green-700 rounded-lg">
-                  <p className="text-green-400 font-semibold">
-                    ✅ {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
-                  </p>
+            {/* Upload Area - only show if no analysis yet */}
+            {!rfpAnalysis && (
+              <div className="bg-gray-800 rounded-xl p-8">
+                <div 
+                  className={`border-3 border-dashed ${isDragging ? 'border-blue-500 bg-blue-900/20' : 'border-gray-700 bg-gray-700/30'} p-12 rounded-xl text-center cursor-pointer hover:border-blue-500 hover:bg-gray-800 transition`}
+                  onClick={() => document.getElementById('fileInput')?.click()}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
+                  <div className="text-6xl mb-4">📄</div>
+                  <h3 className="text-xl font-bold mb-2 text-blue-400">Drop RFP/Solicitation PDF here or click to browse</h3>
+                  <p className="text-gray-400 mb-2">AI will analyze: Scope of Work, Requirements, Contacts, Compliance, Bid Recommendation</p>
+                  <p className="text-gray-500 text-sm">Creates an opportunity record in your pipeline automatically</p>
+                  <input 
+                    type="file" 
+                    id="fileInput" 
+                    accept=".pdf,.txt,.doc,.docx" 
+                    className="hidden"
+                    onChange={handleFileSelect}
+                  />
                 </div>
-              )}
 
-              {selectedFile && !isExtracting && (
-                <div className="mt-6 text-center space-y-4">
-                  <button
-                    onClick={extractContacts}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg font-bold text-lg transition"
-                  >
-                    🤖 Extract Contacts with AI
-                  </button>
-
-                  <div className="text-sm text-gray-400">
-                    <p>Having trouble with PDF extraction?</p>
+                {selectedFile && (
+                  <div className="mt-4 p-4 bg-green-900/30 border border-green-700 rounded-lg flex items-center justify-between">
+                    <p className="text-green-400 font-semibold">
+                      {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    </p>
                     <button
-                      onClick={() => {
-                        const manualText = prompt(
-                          'Paste the contact information from your PDF here:\n\n(Example: John Smith, Contracting Officer, john.smith@defense.gov, (202) 555-0123)',
-                          ''
-                        );
-                        if (manualText && manualText.trim()) {
-                          // Process manual text input using JSON endpoint
-                          fetch('http://127.0.0.1:8000/extract-contacts', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              document_text: manualText,
-                              document_name: `${selectedFile.name}-manual-entry`
-                            })
-                          })
-                          .then(response => response.json())
-                          .then(result => {
-                            if (result.success) {
-                              showNotification(`🎉 Found ${result.contacts_found} contacts! Stored ${result.contacts_stored} in Airtable.`, 'success');
-                              setSelectedFile(null);
-                              const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-                              if (fileInput) fileInput.value = '';
-                              setTimeout(() => setActiveTab('contacts'), 2000);
-                            } else {
-                              showNotification('No contacts found in the provided text', 'error');
-                            }
-                          })
-                          .catch(error => {
-                            console.error('Manual extraction error:', error);
-                            showNotification('Error processing manual text input', 'error');
-                          });
-                        }
-                      }}
-                      className="text-blue-400 hover:text-blue-300 underline ml-2"
+                      onClick={() => { setSelectedFile(null); const fi = document.getElementById('fileInput') as HTMLInputElement; if (fi) fi.value = ''; }}
+                      className="text-gray-400 hover:text-white text-sm"
                     >
-                      📝 Enter Text Manually
+                      Clear
                     </button>
                   </div>
-                </div>
-              )}
+                )}
 
-              {isExtracting && (
-                <div className="mt-6">
-                  <div className="bg-blue-900/30 border border-blue-700 p-6 rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                      <div>
-                        <h4 className="font-bold text-blue-400 mb-1">Analyzing Document...</h4>
-                        <p className="text-sm text-gray-400">Processing document and extracting contacts with AI</p>
-                        <div className="mt-2 text-xs text-gray-500">
-                          Using advanced AI to find contact information
+                {selectedFile && !isExtracting && (
+                  <div className="mt-6 text-center">
+                    <button
+                      onClick={analyzeRfp}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg font-bold text-lg transition"
+                    >
+                      Analyze RFP with AI
+                    </button>
+                  </div>
+                )}
+
+                {isExtracting && (
+                  <div className="mt-6">
+                    <div className="bg-blue-900/30 border border-blue-700 p-6 rounded-lg">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <div>
+                          <h4 className="font-bold text-blue-400 mb-1">Analyzing RFP...</h4>
+                          <p className="text-sm text-gray-400">Extracting scope, requirements, contacts, compliance items, and generating bid recommendation</p>
+                          <p className="text-xs text-gray-500 mt-1">This may take 15-30 seconds for large documents</p>
                         </div>
                       </div>
                     </div>
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* Analysis Results */}
+            {rfpAnalysis && (
+              <div className="space-y-6">
+                {/* Header with actions */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold">{rfpAnalysis.analysis?.solicitation_info?.title || rfpAnalysis.document_name}</h3>
+                    <p className="text-gray-400 text-sm">{rfpAnalysis.document_name} — {rfpAnalysis.pages_read} pages analyzed</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => { setRfpAnalysis(null); setSelectedFile(null); const fi = document.getElementById('fileInput') as HTMLInputElement; if (fi) fi.value = ''; }}
+                      className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition"
+                    >
+                      Upload Another
+                    </button>
+                    {rfpAnalysis.opportunity_id && (
+                      <button
+                        onClick={() => { setActiveView('pipeline'); setActiveTab('opportunities'); }}
+                        className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold text-sm transition"
+                      >
+                        View in Pipeline
+                      </button>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
+
+                {/* Bid Recommendation Banner */}
+                {rfpAnalysis.analysis?.bid_recommendation && (() => {
+                  const rec = rfpAnalysis.analysis.bid_recommendation;
+                  const isGo = rec.decision === 'GO';
+                  const isNoGo = rec.decision === 'NO-GO';
+                  return (
+                    <div className={`rounded-xl p-6 border ${isGo ? 'bg-green-900/20 border-green-500/50' : isNoGo ? 'bg-red-900/20 border-red-500/50' : 'bg-yellow-900/20 border-yellow-500/50'}`}>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">{isGo ? '✅' : isNoGo ? '❌' : '⚠️'}</span>
+                          <div>
+                            <div className={`text-2xl font-black ${isGo ? 'text-green-400' : isNoGo ? 'text-red-400' : 'text-yellow-400'}`}>
+                              {rec.decision}
+                            </div>
+                            <div className="text-sm text-gray-400">Bid Recommendation</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-3xl font-black">{rec.score}<span className="text-lg text-gray-400">/100</span></div>
+                          <div className="text-xs text-gray-400">Fit Score</div>
+                        </div>
+                      </div>
+                      <p className="text-gray-300 mb-3">{rec.reasoning}</p>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-xs font-semibold text-green-400 mb-1">STRENGTHS</div>
+                          <ul className="text-sm text-gray-400 space-y-1">
+                            {(rec.strengths || []).map((s: string, i: number) => <li key={i}>+ {s}</li>)}
+                          </ul>
+                        </div>
+                        <div>
+                          <div className="text-xs font-semibold text-red-400 mb-1">CONCERNS</div>
+                          <ul className="text-sm text-gray-400 space-y-1">
+                            {(rec.concerns || []).map((c: string, i: number) => <li key={i}>- {c}</li>)}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex gap-4 text-xs text-gray-500">
+                        <span>Effort: <strong>{rec.effort_level}</strong></span>
+                        <span>Competitive Position: <strong>{rec.competitive_position}</strong></span>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Solicitation Info + Scope side by side */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Solicitation Info */}
+                  {rfpAnalysis.analysis?.solicitation_info && (
+                    <div className="bg-gray-800 rounded-xl p-6">
+                      <h4 className="text-lg font-bold mb-4">Solicitation Details</h4>
+                      <div className="space-y-3">
+                        {[
+                          { label: 'RFP Number', value: rfpAnalysis.analysis.solicitation_info.rfp_number },
+                          { label: 'Agency', value: rfpAnalysis.analysis.solicitation_info.agency },
+                          { label: 'Deadline', value: rfpAnalysis.analysis.solicitation_info.deadline },
+                          { label: 'Set-Aside', value: rfpAnalysis.analysis.solicitation_info.set_aside_type },
+                          { label: 'NAICS', value: Array.isArray(rfpAnalysis.analysis.solicitation_info.naics_codes) ? rfpAnalysis.analysis.solicitation_info.naics_codes.join(', ') : rfpAnalysis.analysis.solicitation_info.naics_codes },
+                          { label: 'Est. Value', value: rfpAnalysis.analysis.solicitation_info.estimated_value },
+                          { label: 'Contract Type', value: rfpAnalysis.analysis.solicitation_info.contract_type },
+                          { label: 'Location', value: rfpAnalysis.analysis.solicitation_info.performance_location },
+                          { label: 'State', value: rfpAnalysis.analysis.solicitation_info.state },
+                          { label: 'Period', value: rfpAnalysis.analysis.solicitation_info.period_of_performance },
+                        ].filter(item => item.value).map((item, idx) => (
+                          <div key={idx} className="flex justify-between items-start">
+                            <span className="text-gray-500 text-sm w-28 shrink-0">{item.label}</span>
+                            <span className="text-gray-200 text-sm text-right">{item.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Scope of Work */}
+                  {rfpAnalysis.analysis?.scope_of_work && (
+                    <div className="bg-gray-800 rounded-xl p-6">
+                      <h4 className="text-lg font-bold mb-4">Scope of Work</h4>
+                      <p className="text-gray-300 text-sm mb-4">{rfpAnalysis.analysis.scope_of_work.summary}</p>
+                      
+                      {rfpAnalysis.analysis.scope_of_work.key_deliverables?.length > 0 && (
+                        <div className="mb-4">
+                          <div className="text-xs font-semibold text-blue-400 mb-2">KEY DELIVERABLES</div>
+                          <ul className="space-y-1">
+                            {rfpAnalysis.analysis.scope_of_work.key_deliverables.map((d: string, i: number) => (
+                              <li key={i} className="text-sm text-gray-400 flex items-start gap-2">
+                                <span className="text-blue-400 mt-0.5">-</span> {d}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {rfpAnalysis.analysis.scope_of_work.line_items?.length > 0 && (
+                        <div>
+                          <div className="text-xs font-semibold text-purple-400 mb-2">LINE ITEMS</div>
+                          <div className="space-y-1">
+                            {rfpAnalysis.analysis.scope_of_work.line_items.map((item: any, i: number) => (
+                              <div key={i} className="text-sm text-gray-400 bg-gray-700/50 px-3 py-2 rounded flex justify-between">
+                                <span>{item.item}</span>
+                                <span className="text-gray-500">{item.quantity ? `${item.quantity} ${item.unit || ''}` : ''}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Compliance + Contacts side by side */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Compliance Requirements */}
+                  {rfpAnalysis.analysis?.compliance_requirements && (
+                    <div className="bg-gray-800 rounded-xl p-6">
+                      <h4 className="text-lg font-bold mb-4">Compliance Requirements</h4>
+                      <div className="space-y-4">
+                        {rfpAnalysis.analysis.compliance_requirements.required_documents?.length > 0 && (
+                          <div>
+                            <div className="text-xs font-semibold text-yellow-400 mb-2">REQUIRED DOCUMENTS</div>
+                            <ul className="space-y-1">
+                              {rfpAnalysis.analysis.compliance_requirements.required_documents.map((d: string, i: number) => (
+                                <li key={i} className="text-sm text-gray-400 flex items-center gap-2">
+                                  <span className="w-4 h-4 border border-gray-600 rounded flex-shrink-0"></span> {d}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {rfpAnalysis.analysis.compliance_requirements.required_certifications?.length > 0 && (
+                          <div>
+                            <div className="text-xs font-semibold text-green-400 mb-2">CERTIFICATIONS NEEDED</div>
+                            <ul className="space-y-1">
+                              {rfpAnalysis.analysis.compliance_requirements.required_certifications.map((c: string, i: number) => (
+                                <li key={i} className="text-sm text-gray-400">- {c}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {rfpAnalysis.analysis.compliance_requirements.insurance_requirements && (
+                          <div>
+                            <div className="text-xs font-semibold text-orange-400 mb-1">INSURANCE</div>
+                            <p className="text-sm text-gray-400">{rfpAnalysis.analysis.compliance_requirements.insurance_requirements}</p>
+                          </div>
+                        )}
+                        {rfpAnalysis.analysis.compliance_requirements.bonding_requirements && (
+                          <div>
+                            <div className="text-xs font-semibold text-orange-400 mb-1">BONDING</div>
+                            <p className="text-sm text-gray-400">{rfpAnalysis.analysis.compliance_requirements.bonding_requirements}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Contacts */}
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h4 className="text-lg font-bold mb-4">Contacts Extracted ({rfpAnalysis.contacts_found})</h4>
+                    {rfpAnalysis.analysis?.contacts?.length > 0 ? (
+                      <div className="space-y-3">
+                        {rfpAnalysis.analysis.contacts.map((contact: any, idx: number) => (
+                          <div key={idx} className="bg-gray-700/50 rounded-lg p-3">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-semibold text-sm">{contact.name}</span>
+                              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded">{contact.role}</span>
+                            </div>
+                            <div className="text-xs text-gray-400">{contact.title}</div>
+                            {contact.email && <div className="text-xs text-blue-400 mt-1">{contact.email}</div>}
+                            {contact.phone && <div className="text-xs text-gray-500">{contact.phone}</div>}
+                          </div>
+                        ))}
+                        <p className="text-xs text-gray-500">{rfpAnalysis.contacts_stored} contacts saved to Airtable</p>
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-sm">No contacts found in document</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Evaluation Criteria */}
+                {rfpAnalysis.analysis?.evaluation_criteria?.length > 0 && (
+                  <div className="bg-gray-800 rounded-xl p-6">
+                    <h4 className="text-lg font-bold mb-4">Evaluation Criteria</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {rfpAnalysis.analysis.evaluation_criteria.map((criteria: any, idx: number) => (
+                        <div key={idx} className="bg-gray-700/50 rounded-lg p-4">
+                          <div className="font-semibold text-sm text-blue-400 mb-1">{criteria.factor}</div>
+                          {criteria.weight && <div className="text-xs text-yellow-400 mb-2">Weight: {criteria.weight}</div>}
+                          <div className="text-xs text-gray-400">{criteria.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Created in Airtable confirmation */}
+                {rfpAnalysis.opportunity_id && (
+                  <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
+                    <span className="text-2xl">✅</span>
+                    <div>
+                      <div className="font-semibold text-green-400">Opportunity Created in Pipeline</div>
+                      <div className="text-sm text-gray-400">Record ID: {rfpAnalysis.opportunity_id} — View in Opportunities tab to take action</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -1144,125 +1424,46 @@ ${new Date().toLocaleDateString()}
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold mb-2">🎯 All Opportunities</h2>
-                <p className="text-gray-400">Federal + State + Local + Cooperative Opportunities</p>
+                <h2 className="text-3xl font-bold mb-2">
+                  {activeView === 'pipeline' && '🎯 My Pipeline'}
+                  {activeView === 'edwosb' && '⭐ EDWOSB / WOSB Set-Asides'}
+                  {activeView === 'home_state' && '🏠 Michigan Opportunities'}
+                  {activeView === 'forecasts' && '🔮 Forecasted Procurements'}
+                  {activeView === 'all' && '📋 All Eligible Opportunities'}
+                </h2>
+                <p className="text-gray-400">
+                  {activeView === 'pipeline' && 'Your active bids and pursuits'}
+                  {activeView === 'edwosb' && 'Exclusive EDWOSB/WOSB set-aside opportunities'}
+                  {activeView === 'home_state' && 'Opportunities in Michigan — local advantage'}
+                  {activeView === 'forecasts' && 'Future planned procurements from agency forecasts'}
+                  {activeView === 'all' && `${stats.totalEligible} eligible • ${stats.filteredIneligible} ineligible filtered out`}
+                </p>
               </div>
               <button 
                 onClick={fetchOpportunities}
                 className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition"
               >
-                🔄 Refresh
+                Refresh
               </button>
             </div>
 
-            {/* FILTERS */}
-            <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="font-bold text-lg mb-4">🔍 Filters</h3>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-400">Source</label>
-                  <select 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                    value={filters.source}
-                    onChange={(e) => setFilters({ ...filters, source: e.target.value })}
-                  >
-                    <option value="all">All Sources</option>
-                    <option value="Federal">Federal</option>
-                    <option value="State">State</option>
-                    <option value="Local">Local</option>
-                    <option value="Cooperative">Cooperative</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-400">State</label>
-                  <select 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                    value={filters.state}
-                    onChange={(e) => setFilters({ ...filters, state: e.target.value })}
-                  >
-                    <option value="all">All States</option>
-                    <option value="Federal">Federal</option>
-                    <option value="MI">Michigan</option>
-                    <option value="GA">Georgia</option>
-                    <option value="MD">Maryland</option>
-                    <option value="TX">Texas</option>
-                    <option value="CA">California</option>
-                    <option value="IL">Illinois</option>
-                    <option value="Multi-State">Multi-State</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-400">Urgency</label>
-                  <select 
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                    value={filters.urgency}
-                    onChange={(e) => setFilters({ ...filters, urgency: e.target.value })}
-                  >
-                    <option value="all">All Urgency</option>
-                    <option value="Critical">Critical (&lt; 7 days)</option>
-                    <option value="High">High (7-14 days)</option>
-                    <option value="Medium">Medium (14-30 days)</option>
-                    <option value="Low">Low (30+ days)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-400">&nbsp;</label>
-                  <label className="flex items-center gap-2 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 cursor-pointer hover:bg-gray-600">
-                    <input 
-                      type="checkbox" 
-                      checked={filters.edwsbOnly}
-                      onChange={(e) => setFilters({ ...filters, edwsbOnly: e.target.checked })}
-                      className="w-4 h-4"
-                    />
-                    <span className="text-sm font-semibold text-green-400">EDWOSB Only</span>
-                  </label>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-400">&nbsp;</label>
-                  <label className="flex items-center gap-2 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 cursor-pointer hover:bg-gray-600">
-                    <input 
-                      type="checkbox" 
-                      checked={filters.homeStatesOnly}
-                      onChange={(e) => setFilters({ ...filters, homeStatesOnly: e.target.checked })}
-                      className="w-4 h-4"
-                    />
-                    <span className="text-sm font-semibold text-purple-400">Home States Only</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Active Filters Display */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {filters.source !== 'all' && (
-                  <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-semibold">
-                    Source: {filters.source}
-                  </span>
-                )}
-                {filters.state !== 'all' && (
-                  <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm font-semibold">
-                    State: {filters.state}
-                  </span>
-                )}
-                {filters.urgency !== 'all' && (
-                  <span className="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-sm font-semibold">
-                    Urgency: {filters.urgency}
-                  </span>
-                )}
-                {filters.edwsbOnly && (
-                  <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                    ⭐ EDWOSB Eligible
-                  </span>
-                )}
-                {filters.homeStatesOnly && (
-                  <span className="bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-sm font-semibold">
-                    🏠 Home States Priority
-                  </span>
-                )}
-              </div>
+            {/* VIEW SWITCHER */}
+            <div className="flex gap-2 mb-6 flex-wrap">
+              <button onClick={() => setActiveView('pipeline')} className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${activeView === 'pipeline' ? 'bg-blue-600 text-white ring-2 ring-blue-400/50' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}>
+                Pipeline ({oppCounts.pipeline})
+              </button>
+              <button onClick={() => setActiveView('edwosb')} className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${activeView === 'edwosb' ? 'bg-green-600 text-white ring-2 ring-green-400/50' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}>
+                EDWOSB ({oppCounts.edwosb})
+              </button>
+              <button onClick={() => setActiveView('home_state')} className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${activeView === 'home_state' ? 'bg-purple-600 text-white ring-2 ring-purple-400/50' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}>
+                Michigan ({oppCounts.home_state})
+              </button>
+              <button onClick={() => setActiveView('forecasts')} className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${activeView === 'forecasts' ? 'bg-yellow-600 text-white ring-2 ring-yellow-400/50' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}>
+                Forecasts ({oppCounts.forecasts})
+              </button>
+              <button onClick={() => setActiveView('all')} className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${activeView === 'all' ? 'bg-gray-500 text-white ring-2 ring-gray-400/50' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}>
+                All ({oppCounts.total})
+              </button>
             </div>
 
             {/* OPPORTUNITIES TABLE */}
@@ -1272,136 +1473,424 @@ ${new Date().toLocaleDateString()}
                   <thead className="bg-gray-700">
                     <tr>
                       <th className="text-left px-6 py-4 font-semibold text-gray-300">Opportunity</th>
-                      <th className="text-left px-6 py-4 font-semibold text-gray-300">Source</th>
+                      <th className="text-left px-6 py-4 font-semibold text-gray-300">Set-Aside</th>
                       <th className="text-left px-6 py-4 font-semibold text-gray-300">Agency</th>
-                      <th className="text-left px-6 py-4 font-semibold text-gray-300">Value</th>
                       <th className="text-left px-6 py-4 font-semibold text-gray-300">Due Date</th>
-                      <th className="text-left px-6 py-4 font-semibold text-gray-300">Score</th>
                       <th className="text-left px-6 py-4 font-semibold text-gray-300">Status</th>
                       <th className="text-left px-6 py-4 font-semibold text-gray-300">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredOpportunities.map(opp => (
-                      <tr key={opp.id} className="border-t border-gray-700 hover:bg-gray-700/50 cursor-pointer">
-                        <td className="px-6 py-4">
-                          <div className="flex items-start gap-2 mb-2">
-                            {opp.edwsbEligible && (
-                              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 font-bold">
-                                EDWOSB
+                    {loading ? (
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-500">Loading opportunities...</td></tr>
+                    ) : displayedOpportunities.length === 0 ? (
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                        No opportunities in this view. 
+                        {activeView === 'pipeline' && ' Your active bids will show here.'}
+                        {activeView === 'edwosb' && ' No EDWOSB/WOSB set-asides found.'}
+                        {activeView === 'home_state' && ' No Michigan opportunities found.'}
+                        {activeView === 'forecasts' && ' No forecasted procurements yet.'}
+                      </td></tr>
+                    ) : displayedOpportunities.map((opp: any) => (
+                      <React.Fragment key={opp.id}>
+                        <tr 
+                          className={`border-t border-gray-700 hover:bg-gray-700/50 cursor-pointer ${expandedOppId === opp.id ? 'bg-gray-700/30' : ''}`}
+                          onClick={() => setExpandedOppId(expandedOppId === opp.id ? null : opp.id)}
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-start gap-2 mb-1">
+                              {opp.isEdwosb && (
+                                <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 font-bold">EDWOSB</span>
+                              )}
+                              {opp.isHomeState && (
+                                <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30 font-bold">HOME</span>
+                              )}
+                              {opp.isForecast && (
+                                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded border border-yellow-500/30 font-bold">FORECAST</span>
+                              )}
+                            </div>
+                            <div className="font-bold text-blue-400 line-clamp-2">{opp.title}</div>
+                            <div className="text-sm text-gray-400">{opp.rfpNumber}</div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="font-semibold text-purple-400 text-sm">{opp.setAsideType || 'Open'}</div>
+                            <div className="text-xs text-gray-500 mt-1">{opp.state}</div>
+                          </td>
+                          <td className="px-6 py-4 text-gray-300 text-sm">{opp.agency}</td>
+                          <td className="px-6 py-4">
+                            <div className="text-gray-300 text-sm">{opp.dueDate || 'N/A'}</div>
+                          </td>
+                          <td className="px-6 py-4">
+                            {opp.workflowStep > 0 ? (
+                              <div className="min-w-[140px]">
+                                <div className="flex items-center gap-0.5 mb-1">
+                                  {[1,2,3,4,5,6,7,8,9,10].map(s => (
+                                    <div key={s} className={`h-1.5 flex-1 rounded-full ${
+                                      s <= opp.workflowStep
+                                        ? s <= 3 ? 'bg-blue-500' : s <= 6 ? 'bg-yellow-500' : s <= 9 ? 'bg-purple-500' : 'bg-green-500'
+                                        : 'bg-gray-600'
+                                    }`} />
+                                  ))}
+                                </div>
+                                <p className="text-[10px] font-bold text-gray-300">
+                                  {opp.workflowStep === 1 && 'Review'}
+                                  {opp.workflowStep === 2 && 'Go/No-Go'}
+                                  {opp.workflowStep === 3 && 'Find Suppliers'}
+                                  {opp.workflowStep === 4 && 'RFQ Created'}
+                                  {opp.workflowStep === 5 && 'RFQ Sent'}
+                                  {opp.workflowStep === 6 && 'Awaiting Quotes'}
+                                  {opp.workflowStep === 7 && 'Pricing'}
+                                  {opp.workflowStep === 8 && 'Preparing Bid'}
+                                  {opp.workflowStep === 9 && 'Final Review'}
+                                  {opp.workflowStep === 10 && 'Submitted'}
+                                </p>
+                              </div>
+                            ) : (
+                              <span className="bg-gray-600 text-gray-300 px-2 py-1 rounded-full text-xs font-semibold">
+                                {opp.internalStatus || 'New'}
                               </span>
                             )}
-                            {opp.homeStatePriority && (
-                              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30 font-bold">
-                                HOME
-                              </span>
-                            )}
-                          </div>
-                          <div className="font-bold text-blue-400">{opp.title}</div>
-                          <div className="text-sm text-gray-400">{opp.rfpNumber}</div>
-                          <div className="text-xs text-gray-500 mt-1">{opp.category}</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="font-semibold text-purple-400">{opp.source}</div>
-                          <div className="text-xs text-gray-500">{opp.sourcePortal}</div>
-                          <div className="text-xs text-gray-500 mt-1">{opp.state}</div>
-                        </td>
-                        <td className="px-6 py-4 text-gray-300">{opp.agency}</td>
-                        <td className="px-6 py-4">
-                          <div className="text-green-400 font-bold text-lg">{formatCurrency(opp.value)}</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-gray-300">{opp.dueDate}</div>
-                          <span className={`inline-block mt-1 text-xs font-bold px-2 py-1 rounded border ${getUrgencyColor(opp.urgency)}`}>
-                            {opp.urgency}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-2xl font-black text-yellow-400">{opp.priorityScore}</div>
-                          <div className="text-xs text-gray-500">/ 100</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="bg-gray-600 text-gray-300 px-3 py-1 rounded-full text-sm font-semibold">
-                            {opp.internalStatus}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex gap-2 flex-wrap">
-                            {/* Cap Statement Button */}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert(`🚧 Cap Statement Generator\n\nGenerating capability statement for:\n${opp.title}\n\nThis will auto-fill from opportunity data and generate a professional capability statement PDF.\n\n[Coming in next update!]`);
-                              }}
-                              className="bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
-                              title="Generate Capability Statement for this opportunity"
-                            >
-                              📄 Cap
-                            </button>
-                            
-                            {/* Request Quotes Button */}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert(`🚧 Supplier Quote Request\n\nRequesting quotes for:\n${opp.title}\n\nThis will:\n1. Extract items from solicitation\n2. Match suppliers\n3. Generate quote requests\n4. Send via email/fax\n5. Track responses\n\n[Coming in next update!]`);
-                              }}
-                              className="bg-cyan-600 hover:bg-cyan-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
-                              title="Request supplier quotes for this opportunity"
-                            >
-                              📋 Quotes
-                            </button>
-                            
-                            {/* Price Button */}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPricingOpportunity(opp);
-                                setShowPricingCalculator(true);
-                              }}
-                              className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg font-semibold text-sm transition"
-                              title="Calculate pricing for this opportunity"
-                            >
-                              💰 Price
-                            </button>
-                            
-                            {/* Proposal Button */}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                generateProposal(opp);
-                              }}
-                              disabled={generatingProposal}
-                              className={`${generatingProposal ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} px-3 py-2 rounded-lg font-semibold text-sm transition`}
-                              title="Generate full proposal for this opportunity"
-                            >
-                              {generatingProposal ? '⏳...' : '🚀 Proposal'}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-6 py-4 text-gray-500 text-sm">
+                            {expandedOppId === opp.id ? '▲' : '▼'}
+                          </td>
+                        </tr>
+
+                        {/* Expanded Detail Row */}
+                        {expandedOppId === opp.id && (
+                          <tr className="border-t border-gray-600/50">
+                            <td colSpan={6} className="px-6 py-5 bg-gray-750/50">
+                              {/* Workflow Step Bar */}
+                              <div className="mb-5 bg-gray-800/80 rounded-lg p-3">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-xs font-bold text-gray-400">WORKFLOW</span>
+                                  <span className="text-[10px] text-gray-500">Step {opp.workflowStep || 0} of 10</span>
+                                </div>
+                                <div className="flex gap-1">
+                                  {[
+                                    { step: 1, label: 'Review' },
+                                    { step: 2, label: 'Go/No-Go' },
+                                    { step: 3, label: 'Find Suppliers' },
+                                    { step: 4, label: 'Create RFQ' },
+                                    { step: 5, label: 'Send RFQ' },
+                                    { step: 6, label: 'Collect Quotes' },
+                                    { step: 7, label: 'Price & Markup' },
+                                    { step: 8, label: 'Prepare Bid' },
+                                    { step: 9, label: 'Final Review' },
+                                    { step: 10, label: 'Submit' },
+                                  ].map(({ step, label }) => {
+                                    const current = opp.workflowStep || 0;
+                                    const isComplete = step < current;
+                                    const isCurrent = step === current;
+                                    const isNext = step === current + 1;
+                                    return (
+                                      <button
+                                        key={step}
+                                        onClick={async (e) => {
+                                          e.stopPropagation();
+                                          try {
+                                            await api.put(`/gpss/opportunities/${opp.id}`, { workflowStep: step });
+                                            showNotification(`Step ${step}: ${label}`, 'success');
+                                            fetchOpportunities();
+                                          } catch { showNotification('Failed to update step', 'error'); }
+                                        }}
+                                        className={`flex-1 py-1.5 rounded text-[9px] font-bold transition leading-tight ${
+                                          isComplete ? 'bg-green-600/80 text-white' :
+                                          isCurrent ? 'bg-blue-600 text-white ring-2 ring-blue-400/60' :
+                                          isNext ? 'bg-gray-600 text-gray-300 hover:bg-blue-600/50 hover:text-white ring-1 ring-dashed ring-blue-500/40' :
+                                          'bg-gray-700/50 text-gray-500 hover:bg-gray-600 hover:text-gray-300'
+                                        }`}
+                                      >
+                                        {label}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {/* Details Column */}
+                                <div className="space-y-3">
+                                  <h4 className="font-bold text-sm text-gray-300 mb-2">Details</h4>
+                                  {opp.naicsCodes && (
+                                    <div><span className="text-xs text-gray-500">NAICS:</span> <span className="text-xs text-gray-300">{opp.naicsCodes}</span></div>
+                                  )}
+                                  {opp.category && (
+                                    <div><span className="text-xs text-gray-500">Category:</span> <span className="text-xs text-gray-300">{opp.category}</span></div>
+                                  )}
+                                  {opp.contractingOfficer && (
+                                    <div><span className="text-xs text-gray-500">CO:</span> <span className="text-xs text-gray-300">{opp.contractingOfficer}</span></div>
+                                  )}
+                                  {opp.priority && (
+                                    <div><span className="text-xs text-gray-500">Priority:</span> <span className="text-xs text-gray-300">{opp.priority}</span></div>
+                                  )}
+                                  {opp.sourceUrl && (
+                                    <a href={opp.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:underline block">
+                                      View Original Posting
+                                    </a>
+                                  )}
+                                </div>
+
+                                {/* Notes / AI Recommendation */}
+                                <div>
+                                  <h4 className="font-bold text-sm text-gray-300 mb-2">Notes</h4>
+                                  <p className="text-xs text-gray-400 whitespace-pre-wrap max-h-32 overflow-y-auto">
+                                    {opp.notes || opp.aiRecommendation || 'No notes yet'}
+                                  </p>
+                                </div>
+
+                                {/* Actions */}
+                                <div>
+                                  <h4 className="font-bold text-sm text-gray-300 mb-2">Actions</h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    <button 
+                                      onClick={(e) => { e.stopPropagation(); setPricingOpportunity(opp); setShowPricingCalculator(true); }}
+                                      className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg font-semibold text-xs transition"
+                                    >
+                                      Calculate Pricing
+                                    </button>
+                                    <button 
+                                      onClick={(e) => { e.stopPropagation(); generateProposal(opp); }}
+                                      disabled={generatingProposal}
+                                      className={`${generatingProposal ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} px-3 py-2 rounded-lg font-semibold text-xs transition`}
+                                    >
+                                      {generatingProposal ? 'Generating...' : 'Generate Proposal'}
+                                    </button>
+                                    <button 
+                                      onClick={async (e) => {
+                                        e.stopPropagation();
+                                        try {
+                                          showNotification('Finding matching suppliers...', 'success');
+                                          await api.post('/gpss/auto-quote/find-suppliers', { opportunity_id: opp.id });
+                                          showNotification('Suppliers matched — check Suppliers tab', 'success');
+                                        } catch (err: any) {
+                                          showNotification(err.message || 'Error finding suppliers', 'error');
+                                        }
+                                      }}
+                                      className="bg-cyan-600 hover:bg-cyan-700 px-3 py-2 rounded-lg font-semibold text-xs transition"
+                                    >
+                                      Find Suppliers
+                                    </button>
+                                    <button 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setComplianceRfpContent(opp.title + '\n' + (opp.notes || ''));
+                                        setShowComplianceChecker(true);
+                                      }}
+                                      className="bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded-lg font-semibold text-xs transition"
+                                    >
+                                      Compliance Check
+                                    </button>
+                                    <button 
+                                      onClick={async (e) => {
+                                        e.stopPropagation();
+                                        setMatchingSubsFor(opp.id);
+                                        try {
+                                          showNotification('AI is analyzing opportunity & matching subcontractors...', 'success');
+                                          const resp = await api.post(`/gpss/opportunities/${opp.id}/match-subs`, {});
+                                          setSubMatchResults(prev => ({ ...prev, [opp.id]: resp }));
+                                          showNotification(`Found ${resp.matches_found || 0} matching subcontractors`, 'success');
+                                        } catch (err: any) {
+                                          showNotification(err.message || 'Error matching subs', 'error');
+                                        } finally {
+                                          setMatchingSubsFor(null);
+                                        }
+                                      }}
+                                      disabled={matchingSubsFor === opp.id}
+                                      className={`${matchingSubsFor === opp.id ? 'bg-purple-800 cursor-wait animate-pulse' : 'bg-purple-600 hover:bg-purple-700'} px-3 py-2 rounded-lg font-semibold text-xs transition`}
+                                    >
+                                      {matchingSubsFor === opp.id ? 'Matching...' : 'Match Subcontractors'}
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Sub Match Results Panel */}
+                              {subMatchResults[opp.id] && subMatchResults[opp.id].analysis && (
+                                <div className="mt-4 border-t border-gray-600 pt-4">
+                                  <div className="flex items-center justify-between mb-3">
+                                    <h4 className="font-bold text-sm text-purple-300 flex items-center gap-2">
+                                      Subcontractor Matches
+                                      <span className="bg-purple-600/30 px-2 py-0.5 rounded text-xs text-purple-200">
+                                        {subMatchResults[opp.id].matches_found} found from {subMatchResults[opp.id].total_subs_evaluated} evaluated
+                                      </span>
+                                    </h4>
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); setSubMatchResults(prev => { const n = {...prev}; delete n[opp.id]; return n; }); }}
+                                      className="text-xs text-gray-500 hover:text-gray-300"
+                                    >Dismiss</button>
+                                  </div>
+                                  
+                                  {/* Summary & Recommendation */}
+                                  <div className="bg-gray-800 rounded-lg p-3 mb-3">
+                                    <p className="text-xs text-gray-300 mb-2">{subMatchResults[opp.id].analysis.opportunity_summary}</p>
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                                        subMatchResults[opp.id].analysis.partner_recommendation === 'self_perform' ? 'bg-green-600/30 text-green-300' :
+                                        subMatchResults[opp.id].analysis.partner_recommendation === 'need_supplier' ? 'bg-cyan-600/30 text-cyan-300' :
+                                        'bg-purple-600/30 text-purple-300'
+                                      }`}>
+                                        {subMatchResults[opp.id].analysis.partner_recommendation === 'self_perform' ? 'Can Self-Perform' :
+                                         subMatchResults[opp.id].analysis.partner_recommendation === 'need_supplier' ? 'Need Supplier (Product)' :
+                                         'Subcontractor Recommended'}
+                                      </span>
+                                      {subMatchResults[opp.id].analysis.self_perform_percentage > 0 && (
+                                        <span className="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-300">
+                                          Self-perform: {subMatchResults[opp.id].analysis.self_perform_percentage}%
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-xs text-gray-400">{subMatchResults[opp.id].analysis.reasoning}</p>
+                                  </div>
+
+                                  {/* Required Capabilities */}
+                                  {subMatchResults[opp.id].analysis.required_capabilities?.length > 0 && (
+                                    <div className="mb-3">
+                                      <p className="text-xs text-gray-500 mb-1">Required Capabilities:</p>
+                                      <div className="flex flex-wrap gap-1">
+                                        {subMatchResults[opp.id].analysis.required_capabilities.map((cap: string, ci: number) => (
+                                          <span key={ci} className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded">{cap}</span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Matched Subs */}
+                                  {subMatchResults[opp.id].analysis.matched_subcontractors?.length > 0 && (
+                                    <div className="space-y-2 mb-3">
+                                      {subMatchResults[opp.id].analysis.matched_subcontractors.map((sub: any, si: number) => (
+                                        <div key={si} className={`rounded-lg p-3 border ${sub.is_small_business ? 'bg-purple-900/20 border-purple-600/30' : 'bg-gray-800 border-gray-700'}`}>
+                                          <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                              <span className={`text-sm font-bold ${sub.match_score >= 80 ? 'text-green-400' : sub.match_score >= 60 ? 'text-yellow-400' : 'text-gray-400'}`}>
+                                                {sub.match_score}%
+                                              </span>
+                                              <span className="text-sm font-medium text-white">{sub.name}</span>
+                                              {sub.is_small_business && (
+                                                <span className="text-xs bg-purple-600/40 text-purple-300 px-1.5 py-0.5 rounded">Small Biz</span>
+                                              )}
+                                              {sub.socioeconomic_certs?.length > 0 && (
+                                                <span className="text-xs text-purple-400">{sub.socioeconomic_certs.join(', ')}</span>
+                                              )}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                              {sub.email && (
+                                                <a href={`mailto:${sub.email}`} onClick={(e) => e.stopPropagation()} className="text-xs text-blue-400 hover:underline">Email</a>
+                                              )}
+                                              {sub.phone && (
+                                                <a href={`tel:${sub.phone}`} onClick={(e) => e.stopPropagation()} className="text-xs text-green-400 hover:underline">Call</a>
+                                              )}
+                                              {sub.website && (
+                                                <a href={sub.website.startsWith('http') ? sub.website : `https://${sub.website}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-xs text-cyan-400 hover:underline">Web</a>
+                                              )}
+                                            </div>
+                                          </div>
+                                          <p className="text-xs text-gray-400 mt-1">{sub.match_reason}</p>
+                                          <div className="flex gap-3 mt-1 text-xs text-gray-500">
+                                            {sub.role && <span>Role: <span className="text-gray-300">{sub.role}</span></span>}
+                                            {sub.service_type && <span>Service: <span className="text-gray-300">{sub.service_type}</span></span>}
+                                            {sub.city && sub.state && <span>Location: <span className="text-gray-300">{sub.city}, {sub.state}</span></span>}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Capability Gaps */}
+                                  {subMatchResults[opp.id].analysis.capability_gaps?.length > 0 && (
+                                    <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-3 mb-3">
+                                      <div className="flex items-center justify-between mb-1">
+                                        <p className="text-xs font-medium text-red-300">Capability Gaps (No matching sub in database):</p>
+                                        <button
+                                          onClick={async (e) => {
+                                            e.stopPropagation();
+                                            setMiningGapsFor(opp.id);
+                                            try {
+                                              showNotification('Mining Google, SAM.gov, Google Maps & Facebook for matching subs...', 'success');
+                                              const resp = await api.post('/gpss/subcontractors/mine-for-gaps', {
+                                                gaps: subMatchResults[opp.id].analysis.capability_gaps,
+                                                suggested_searches: subMatchResults[opp.id].analysis.suggested_searches || [],
+                                                location: opp.state || 'Michigan',
+                                                auto_save: true
+                                              });
+                                              setGapMineResults(prev => ({ ...prev, [opp.id]: resp }));
+                                              showNotification(`Found ${resp.total_found} subs, saved ${resp.saved_to_database} new ones to database`, 'success');
+                                            } catch (err: any) {
+                                              showNotification(err.message || 'Error mining for subs', 'error');
+                                            } finally {
+                                              setMiningGapsFor(null);
+                                            }
+                                          }}
+                                          disabled={miningGapsFor === opp.id}
+                                          className={`${miningGapsFor === opp.id ? 'bg-orange-800 cursor-wait animate-pulse' : 'bg-orange-600 hover:bg-orange-700'} text-white px-3 py-1 rounded text-xs font-semibold transition`}
+                                        >
+                                          {miningGapsFor === opp.id ? 'Mining All Sources...' : 'Mine for Subs'}
+                                        </button>
+                                      </div>
+                                      <div className="flex flex-wrap gap-1">
+                                        {subMatchResults[opp.id].analysis.capability_gaps.map((gap: string, gi: number) => (
+                                          <span key={gi} className="text-xs bg-red-800/40 text-red-200 px-2 py-0.5 rounded">{gap}</span>
+                                        ))}
+                                      </div>
+                                      {subMatchResults[opp.id].analysis.suggested_searches?.length > 0 && (
+                                        <p className="text-xs text-red-400 mt-2">
+                                          Will search: {subMatchResults[opp.id].analysis.suggested_searches.join(' | ')}
+                                        </p>
+                                      )}
+
+                                      {/* Gap Mining Results */}
+                                      {gapMineResults[opp.id] && (
+                                        <div className="mt-3 bg-gray-800 rounded-lg p-3 border border-gray-700">
+                                          <div className="flex items-center justify-between mb-2">
+                                            <p className="text-xs font-medium text-green-300">
+                                              Mining Results: {gapMineResults[opp.id].total_found} found, {gapMineResults[opp.id].saved_to_database} saved to database
+                                            </p>
+                                            <span className="text-xs text-gray-500">
+                                              Sources: Google, SAM.gov, Google Maps, Facebook
+                                            </span>
+                                          </div>
+                                          {gapMineResults[opp.id].subcontractors?.length > 0 && (
+                                            <div className="space-y-1">
+                                              {gapMineResults[opp.id].subcontractors.map((sub: any, si: number) => (
+                                                <div key={si} className="flex items-center justify-between text-xs py-1 border-b border-gray-700/50 last:border-0">
+                                                  <div className="flex items-center gap-2">
+                                                    <span className="font-medium text-white">{sub.company_name}</span>
+                                                    <span className="text-gray-500">{sub.service_type}</span>
+                                                    {sub.certs?.length > 0 && (
+                                                      <span className="bg-purple-600/30 text-purple-300 px-1.5 py-0.5 rounded text-[10px]">
+                                                        {sub.certs.length} cert{sub.certs.length > 1 ? 's' : ''}
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  <div className="flex items-center gap-2 text-gray-500">
+                                                    <span>{sub.city}{sub.state ? `, ${sub.state}` : ''}</span>
+                                                    <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded">{sub.source}</span>
+                                                  </div>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
               </div>
 
-              {filteredOpportunities.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="text-6xl mb-4 opacity-20">🔍</div>
-                  <p className="text-gray-500 font-semibold">No opportunities match your filters</p>
-                  <button 
-                    onClick={() => setFilters({ source: 'all', state: 'all', edwsbOnly: false, urgency: 'all', homeStatesOnly: false })}
-                    className="mt-4 text-blue-400 hover:text-blue-300 font-semibold"
-                  >
-                    Clear All Filters
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Summary Footer */}
             <div className="mt-4 text-sm text-gray-500 text-center">
-              Showing {filteredOpportunities.length} of {opportunities.length} opportunities • 
-              Total Pipeline Value: <span className="font-bold text-green-400">{formatCurrency(filteredOpportunities.reduce((sum, o) => sum + o.value, 0))}</span>
+              Showing {displayedOpportunities.length} opportunities in this view • 
+              {stats.filteredIneligible} ineligible filtered out
             </div>
           </div>
         )}
@@ -1411,40 +1900,38 @@ ${new Date().toLocaleDateString()}
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold mb-2">📝 Proposals & Quotes</h2>
-                <p className="text-gray-400">AI-generated government proposals with compliance checking</p>
+                <h2 className="text-3xl font-bold mb-2">Proposals & Quotes</h2>
+                <p className="text-gray-400">AI-generated proposals with ProposalBio quality scoring</p>
               </div>
               <button 
                 onClick={fetchProposals}
                 className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition"
               >
-                🔄 Refresh
+                Refresh
               </button>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Total Proposals</h3>
-                <p className="text-4xl font-bold mb-1">{proposals.length}</p>
-                <p className="text-sm text-white/70">All Time</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Total</h3>
+                <p className="text-3xl font-bold">{proposals.length}</p>
               </div>
-              <div className="bg-gradient-to-br from-green-600 to-green-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Sent</h3>
-                <p className="text-4xl font-bold mb-1">{proposals.filter(p => p.status === 'Sent' || p.status === 'Under Review').length}</p>
-                <p className="text-sm text-white/70">Awaiting Response</p>
+              <div className="bg-gradient-to-br from-gray-600 to-gray-700 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Draft</h3>
+                <p className="text-3xl font-bold">{proposals.filter(p => !p.status || p.status === 'Draft' || p.status === 'DRAFT').length}</p>
               </div>
-              <div className="bg-gradient-to-br from-purple-600 to-purple-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Accepted</h3>
-                <p className="text-4xl font-bold mb-1">{proposals.filter(p => p.status === 'Accepted').length}</p>
-                <p className="text-sm text-white/70">Won</p>
+              <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Ready</h3>
+                <p className="text-3xl font-bold">{proposals.filter(p => p.status === 'Ready to Send' || p.status === 'READY TO SEND').length}</p>
               </div>
-              <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Win Rate</h3>
-                <p className="text-4xl font-bold mb-1">
-                  {proposals.length > 0 ? Math.round((proposals.filter(p => p.status === 'Accepted').length / proposals.length) * 100) : 0}%
-                </p>
-                <p className="text-sm text-white/70">Success Rate</p>
+              <div className="bg-gradient-to-br from-cyan-600 to-cyan-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Sent</h3>
+                <p className="text-3xl font-bold">{proposals.filter(p => p.status === 'Sent' || p.status === 'SENT' || p.status === 'Under Review').length}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-600 to-green-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Won</h3>
+                <p className="text-3xl font-bold">{proposals.filter(p => p.status === 'Accepted' || p.status === 'ACCEPTED').length}</p>
               </div>
             </div>
 
@@ -1458,8 +1945,9 @@ ${new Date().toLocaleDateString()}
                         <th className="text-left px-6 py-4 font-semibold text-gray-300">Proposal</th>
                         <th className="text-left px-6 py-4 font-semibold text-gray-300">Agency</th>
                         <th className="text-left px-6 py-4 font-semibold text-gray-300">Value</th>
+                        <th className="text-left px-6 py-4 font-semibold text-gray-300">Bio Score</th>
                         <th className="text-left px-6 py-4 font-semibold text-gray-300">Status</th>
-                        <th className="text-left px-6 py-4 font-semibold text-gray-300">Due Date</th>
+                        <th className="text-left px-6 py-4 font-semibold text-gray-300">Due</th>
                         <th className="text-left px-6 py-4 font-semibold text-gray-300">Actions</th>
                       </tr>
                     </thead>
@@ -1467,41 +1955,91 @@ ${new Date().toLocaleDateString()}
                       {proposals.map(proposal => (
                         <tr key={proposal.id} className="border-t border-gray-700 hover:bg-gray-700/50">
                           <td className="px-6 py-4">
-                            <div className="font-bold text-blue-400">{proposal.proposalName}</div>
+                            <div className="font-bold text-blue-400">{proposal.proposalName || 'Untitled'}</div>
                             <div className="text-sm text-gray-400">{proposal.rfpNumber}</div>
-                            <div className="text-xs text-gray-500 mt-1">Generated: {new Date(proposal.generatedDate).toLocaleDateString()}</div>
                           </td>
-                          <td className="px-6 py-4 text-gray-300">{proposal.agency}</td>
+                          <td className="px-6 py-4 text-gray-300 text-sm">{proposal.agency || '-'}</td>
                           <td className="px-6 py-4">
-                            <div className="text-green-400 font-bold text-lg">{formatCurrency(proposal.value)}</div>
+                            <div className="text-green-400 font-bold">{formatCurrency(proposal.value || proposal.pricingTotal || 0)}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                              proposal.status === 'Accepted' ? 'bg-green-500/20 text-green-400' :
-                              proposal.status === 'Sent' || proposal.status === 'Under Review' ? 'bg-blue-500/20 text-blue-400' :
-                              proposal.status === 'Rejected' ? 'bg-red-500/20 text-red-400' :
+                            {proposal.proposalBioScore ? (
+                              <div className="text-center">
+                                <div className={`text-lg font-bold ${
+                                  proposal.proposalBioScore >= 90 ? 'text-green-400' :
+                                  proposal.proposalBioScore >= 75 ? 'text-yellow-400' :
+                                  proposal.proposalBioScore >= 60 ? 'text-orange-400' :
+                                  'text-red-400'
+                                }`}>
+                                  {Math.round(proposal.proposalBioScore)}
+                                </div>
+                                <div className={`text-[10px] font-semibold ${
+                                  proposal.proposalBioGate === 'UNLOCKED' ? 'text-green-400' : 'text-red-400'
+                                }`}>
+                                  {proposal.proposalBioGate === 'UNLOCKED' ? 'READY' : 'NEEDS WORK'}
+                                </div>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    showNotification('Running ProposalBio analysis...', 'success');
+                                    await api.post('/gpss/proposalbio/analyze', { proposal_id: proposal.id });
+                                    fetchProposals();
+                                    showNotification('ProposalBio analysis complete', 'success');
+                                  } catch {
+                                    showNotification('Analysis failed', 'error');
+                                  }
+                                }}
+                                className="bg-orange-600 hover:bg-orange-700 px-2 py-1 rounded text-xs font-semibold transition"
+                              >
+                                Score
+                              </button>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              proposal.status === 'Accepted' || proposal.status === 'ACCEPTED' ? 'bg-green-500/20 text-green-400' :
+                              proposal.status === 'Sent' || proposal.status === 'SENT' || proposal.status === 'Under Review' ? 'bg-cyan-500/20 text-cyan-400' :
+                              proposal.status === 'Rejected' || proposal.status === 'REJECTED' ? 'bg-red-500/20 text-red-400' :
+                              proposal.status === 'Ready to Send' || proposal.status === 'READY TO SEND' ? 'bg-yellow-500/20 text-yellow-400' :
                               'bg-gray-500/20 text-gray-400'
                             }`}>
-                              {proposal.status}
+                              {proposal.status || 'Draft'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-gray-300">{proposal.dueDate}</td>
+                          <td className="px-6 py-4 text-gray-400 text-sm">{proposal.dueDate || '-'}</td>
                           <td className="px-6 py-4">
                             <div className="flex gap-2">
                               <button 
                                 onClick={() => {
-                                  setSelectedProposal(proposal);
+                                  setSelectedProposal({...proposal});
+                                  setEditingSection(null);
                                   setShowProposalModal(true);
                                 }}
-                                className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm font-semibold transition"
+                                className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-xs font-semibold transition"
                               >
-                                View
+                                Open
                               </button>
                               <button 
                                 onClick={() => exportProposalPDF(proposal)}
-                                className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm font-semibold transition"
+                                className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-xs font-semibold transition"
                               >
                                 Export
+                              </button>
+                              <button
+                                onClick={async () => {
+                                  if (window.confirm('Delete this proposal?')) {
+                                    try {
+                                      await api.delete(`/gpss/proposals/${proposal.id}`);
+                                      showNotification('Proposal deleted', 'success');
+                                      fetchProposals();
+                                    } catch { showNotification('Delete failed', 'error'); }
+                                  }
+                                }}
+                                className="bg-red-600/50 hover:bg-red-600 px-2 py-1 rounded text-xs font-semibold transition"
+                              >
+                                X
                               </button>
                             </div>
                           </td>
@@ -1511,44 +2049,34 @@ ${new Date().toLocaleDateString()}
                   </table>
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <div className="text-6xl mb-4 opacity-20">📝</div>
-                  <p className="text-gray-500 font-semibold mb-4">No proposals yet</p>
-                  <p className="text-sm text-gray-600 mb-6">Generate your first proposal from the Opportunities tab</p>
+                <div className="text-center py-16">
+                  <p className="text-gray-500 font-semibold mb-2 text-lg">No proposals yet</p>
+                  <p className="text-sm text-gray-600 mb-6">Go to Opportunities, expand one, and click "Generate Proposal" to create your first AI proposal.</p>
                   <button 
                     onClick={() => setActiveTab('opportunities')}
                     className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
                   >
-                    Go to Opportunities →
+                    Go to Opportunities
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Info Banner */}
-            <div className="mt-6 bg-blue-900/30 border border-blue-700 rounded-xl p-6">
-              <h3 className="text-lg font-bold text-blue-400 mb-3">How Proposal Generation Works:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-                <div className="text-center">
-                  <div className="text-3xl mb-2">🎯</div>
-                  <p className="font-semibold mb-1">1. Select Opportunity</p>
-                  <p className="text-gray-400">Choose from opportunities tab</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl mb-2">🤖</div>
-                  <p className="font-semibold mb-1">2. AI Generates</p>
-                  <p className="text-gray-400">Claude creates compliant proposal</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl mb-2">✏️</div>
-                  <p className="font-semibold mb-1">3. Review & Edit</p>
-                  <p className="text-gray-400">Customize before sending</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl mb-2">📤</div>
-                  <p className="font-semibold mb-1">4. Export & Send</p>
-                  <p className="text-gray-400">Download PDF and submit</p>
-                </div>
+            {/* Workflow Guide */}
+            <div className="mt-6 bg-gray-800/50 border border-gray-700 rounded-xl p-5">
+              <h3 className="text-sm font-bold text-gray-400 mb-3">Proposal Workflow</h3>
+              <div className="flex items-center gap-2 text-xs flex-wrap">
+                <span className="bg-gray-700 text-gray-300 px-3 py-1.5 rounded-full font-semibold">Draft</span>
+                <span className="text-gray-600">→</span>
+                <span className="bg-yellow-700/30 text-yellow-400 px-3 py-1.5 rounded-full font-semibold">Ready to Send</span>
+                <span className="text-gray-600">→</span>
+                <span className="bg-cyan-700/30 text-cyan-400 px-3 py-1.5 rounded-full font-semibold">Sent</span>
+                <span className="text-gray-600">→</span>
+                <span className="bg-blue-700/30 text-blue-400 px-3 py-1.5 rounded-full font-semibold">Under Review</span>
+                <span className="text-gray-600">→</span>
+                <span className="bg-green-700/30 text-green-400 px-3 py-1.5 rounded-full font-semibold">Won</span>
+                <span className="text-gray-600">/</span>
+                <span className="bg-red-700/30 text-red-400 px-3 py-1.5 rounded-full font-semibold">Lost</span>
               </div>
             </div>
           </div>
@@ -1558,6 +2086,13 @@ ${new Date().toLocaleDateString()}
         {activeTab === 'suppliers' && (
           <div>
             <SuppliersTab />
+          </div>
+        )}
+
+        {/* TAB: SUBCONTRACTORS */}
+        {activeTab === 'subcontractors' && (
+          <div>
+            <SubcontractorsTab />
           </div>
         )}
 
@@ -1661,27 +2196,87 @@ ${new Date().toLocaleDateString()}
         )}
 
         {/* TAB: PRODUCTS */}
-        {activeTab === 'products' && (
+        {activeTab === 'products' && (() => {
+          // Compute categories and filtered products
+          const allCategories = Array.from(new Set(products.map(p => p.category || 'Uncategorized'))).sort();
+          const filteredProducts = products.filter(p => {
+            const matchesSearch = !productSearch || 
+              (p.name || '').toLowerCase().includes(productSearch.toLowerCase()) ||
+              (p.description || '').toLowerCase().includes(productSearch.toLowerCase()) ||
+              (p.supplier || '').toLowerCase().includes(productSearch.toLowerCase());
+            const matchesCat = productCategoryFilter === 'all' || (p.category || 'Uncategorized') === productCategoryFilter;
+            return matchesSearch && matchesCat;
+          });
+          
+          // Group by top-level category (before the " - ")
+          const grouped: Record<string, any[]> = {};
+          filteredProducts.forEach(p => {
+            const cat = p.category || 'Uncategorized';
+            const topCat = cat.includes(' - ') ? cat.split(' - ')[0] : cat;
+            if (!grouped[topCat]) grouped[topCat] = [];
+            grouped[topCat].push(p);
+          });
+
+          const withPrice = products.filter(p => p.basePrice > 0).length;
+
+          return (
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold mb-2">📦 Products Catalog</h2>
-                <p className="text-gray-400">Your service offerings and pricing</p>
+                <h2 className="text-3xl font-bold mb-2">Products Catalog</h2>
+                <p className="text-gray-400">{products.length} products across {allCategories.length} categories</p>
               </div>
               <div className="flex gap-2">
-                <button 
-                  onClick={() => openProductModal()}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition"
-                >
-                  ➕ Add Product
+                <button onClick={() => openProductModal()}
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition text-sm">
+                  Add Product
                 </button>
-                <button 
-                  onClick={fetchProducts}
-                  className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-semibold transition"
-                >
-                  🔄 Refresh
+                <button onClick={fetchProducts}
+                  className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-semibold transition text-sm">
+                  Refresh
                 </button>
               </div>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Total Products</h3>
+                <p className="text-3xl font-bold">{products.length}</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-600 to-purple-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Categories</h3>
+                <p className="text-3xl font-bold">{Object.keys(grouped).length}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-600 to-green-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Priced</h3>
+                <p className="text-3xl font-bold">{withPrice}</p>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-5 rounded-xl">
+                <h3 className="text-xs font-semibold text-white/70 mb-1">Need Pricing</h3>
+                <p className="text-3xl font-bold">{products.length - withPrice}</p>
+              </div>
+            </div>
+
+            {/* Search + Filter */}
+            <div className="flex gap-3 mb-4">
+              <input
+                type="text"
+                placeholder="Search products, suppliers, descriptions..."
+                value={productSearch}
+                onChange={e => setProductSearch(e.target.value)}
+                className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              />
+              <select
+                value={productCategoryFilter}
+                onChange={e => setProductCategoryFilter(e.target.value)}
+                className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="all">All Categories ({products.length})</option>
+                {allCategories.map(cat => (
+                  <option key={cat} value={cat}>{cat} ({products.filter(p => (p.category || 'Uncategorized') === cat).length})</option>
+                ))}
+              </select>
             </div>
 
             {productsLoading ? (
@@ -1689,54 +2284,114 @@ ${new Date().toLocaleDateString()}
                 <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <p className="text-gray-400">Loading products...</p>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products.length > 0 ? (
-                  products.map(product => (
-                    <div key={product.id} className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="text-xl font-bold text-blue-400 mb-1">{product.name}</h3>
-                          <p className="text-sm text-gray-400">{product.category || 'Uncategorized'}</p>
-                        </div>
-                        <div className="text-2xl font-bold text-green-400">
-                          ${product.basePrice?.toLocaleString() || 0}
-                        </div>
+            ) : filteredProducts.length > 0 ? (
+              <div className="space-y-4">
+                {Object.entries(grouped).sort((a, b) => b[1].length - a[1].length).map(([topCat, items]) => (
+                  <div key={topCat} className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
+                    {/* Category Header */}
+                    <div className="bg-gray-700/50 px-5 py-3 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <h3 className="font-bold text-sm text-white">{topCat}</h3>
+                        <span className="text-xs bg-gray-600 text-gray-300 px-2 py-0.5 rounded-full">{items.length} items</span>
                       </div>
-                      <p className="text-sm text-gray-300 mb-4 line-clamp-2">{product.description || 'No description'}</p>
-                      <div className="flex gap-2 mt-4">
-                        <button 
-                          onClick={() => openProductModal(product)}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition text-sm"
-                        >
-                          Edit
-                        </button>
-                        <button 
-                          onClick={() => deleteProduct(product.id)}
-                          className="flex-1 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold transition text-sm"
-                        >
-                          Delete
-                        </button>
+                      <div className="text-xs text-gray-400">
+                        {items.filter(i => i.basePrice > 0).length > 0 && (
+                          <span className="text-green-400">{items.filter(i => i.basePrice > 0).length} priced</span>
+                        )}
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-12 bg-gray-800 rounded-xl">
-                    <div className="text-6xl mb-4 opacity-20">📦</div>
-                    <p className="text-gray-500 font-semibold mb-4">No products yet</p>
-                    <p className="text-sm text-gray-600 mb-6">Add your service offerings to the catalog</p>
-                    <button 
-                      onClick={() => openProductModal()}
-                      className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
-                    >
-                      ➕ Add First Product
-                    </button>
+                    {/* Products Table */}
+                    <table className="w-full">
+                      <thead>
+                        <tr className="text-xs text-gray-500 border-b border-gray-700">
+                          <th className="text-left px-5 py-2 font-medium">Product</th>
+                          <th className="text-left px-5 py-2 font-medium">Sub-Category</th>
+                          <th className="text-left px-5 py-2 font-medium">Supplier</th>
+                          <th className="text-right px-5 py-2 font-medium">Price</th>
+                          <th className="text-right px-5 py-2 font-medium w-24">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {items.map(product => (
+                          <React.Fragment key={product.id}>
+                            <tr 
+                              className="border-t border-gray-700/50 hover:bg-gray-700/30 cursor-pointer"
+                              onClick={() => setExpandedProductId(expandedProductId === product.id ? null : product.id)}
+                            >
+                              <td className="px-5 py-2.5">
+                                <div className="text-sm font-medium text-gray-200">{product.name}</div>
+                              </td>
+                              <td className="px-5 py-2.5 text-xs text-gray-400">
+                                {(product.category || '').includes(' - ') ? product.category.split(' - ').slice(1).join(' - ') : ''}
+                              </td>
+                              <td className="px-5 py-2.5 text-xs text-gray-400">{product.supplier || '-'}</td>
+                              <td className="px-5 py-2.5 text-right">
+                                {product.basePrice > 0 ? (
+                                  <div>
+                                    <span className="text-green-400 font-semibold text-sm">${product.basePrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                                    <span className="text-gray-500 text-[10px] ml-1">/{product.unit || 'ea'}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-gray-600 text-xs">-</span>
+                                )}
+                              </td>
+                              <td className="px-5 py-2.5 text-right">
+                                <div className="flex gap-1 justify-end">
+                                  <button onClick={(e) => { e.stopPropagation(); openProductModal(product); }}
+                                    className="bg-gray-600 hover:bg-gray-500 px-2 py-1 rounded text-[10px] font-semibold transition">Edit</button>
+                                  <button onClick={(e) => { e.stopPropagation(); deleteProduct(product.id); }}
+                                    className="bg-red-600/40 hover:bg-red-600 px-2 py-1 rounded text-[10px] font-semibold transition">X</button>
+                                </div>
+                              </td>
+                            </tr>
+                            {expandedProductId === product.id && (
+                              <tr className="border-t border-gray-700/30">
+                                <td colSpan={5} className="px-5 py-3 bg-gray-750/30">
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                                    <div>
+                                      <p className="text-gray-500 font-medium mb-1">Description / Notes</p>
+                                      <p className="text-gray-300 whitespace-pre-wrap">{product.description || 'No description'}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                      {product.rawPrice && <div><span className="text-gray-500">Original Pricing:</span> <span className="text-green-400 ml-1 font-mono">{product.rawPrice}</span></div>}
+                                      {product.basePrice > 0 && <div><span className="text-gray-500">Parsed Unit Price:</span> <span className="text-green-400 ml-1">${product.basePrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}/{product.unit || 'ea'}</span></div>}
+                                      {product.manufacturers && <div><span className="text-gray-500">Manufacturer:</span> <span className="text-gray-300 ml-1">{product.manufacturers}</span></div>}
+                                      {product.supplier && <div><span className="text-gray-500">Supplier:</span> <span className="text-gray-300 ml-1">{product.supplier}</span></div>}
+                                      {product.created && <div><span className="text-gray-500">Added:</span> <span className="text-gray-300 ml-1">{product.created}</span></div>}
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16 bg-gray-800 rounded-xl">
+                <p className="text-gray-500 font-semibold mb-2">
+                  {products.length === 0 ? 'No products yet' : 'No products match your search'}
+                </p>
+                {products.length === 0 ? (
+                  <>
+                    <p className="text-sm text-gray-600 mb-6">Add products from bid documents and supplier quotes</p>
+                    <button onClick={() => openProductModal()}
+                      className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition">
+                      Add First Product
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={() => { setProductSearch(''); setProductCategoryFilter('all'); }}
+                    className="text-blue-400 hover:underline text-sm mt-2">Clear filters</button>
                 )}
               </div>
             )}
           </div>
-        )}
+          );
+        })()}
 
         {/* TAB: ANALYTICS */}
         {activeTab === 'analytics' && (
@@ -1749,14 +2404,14 @@ ${new Date().toLocaleDateString()}
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Total Opportunities</h3>
-                <p className="text-4xl font-bold mb-1">{opportunities.length}</p>
-                <p className="text-sm text-white/70">All Time</p>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">Pipeline (Active Bids)</h3>
+                <p className="text-4xl font-bold mb-1">{stats.pipelineCount}</p>
+                <p className="text-sm text-white/70">Your Pursuits</p>
               </div>
               <div className="bg-gradient-to-br from-green-600 to-green-800 p-6 rounded-xl">
-                <h3 className="text-sm font-semibold text-white/80 mb-2">Pipeline Value</h3>
-                <p className="text-4xl font-bold mb-1">{formatCurrency(stats.totalPipeline)}</p>
-                <p className="text-sm text-white/70">Total Value</p>
+                <h3 className="text-sm font-semibold text-white/80 mb-2">EDWOSB Set-Asides</h3>
+                <p className="text-4xl font-bold mb-1">{stats.edwsbSetAsides}</p>
+                <p className="text-sm text-white/70">Exclusive</p>
               </div>
               <div className="bg-gradient-to-br from-purple-600 to-purple-800 p-6 rounded-xl">
                 <h3 className="text-sm font-semibold text-white/80 mb-2">Proposals Sent</h3>
@@ -1766,49 +2421,54 @@ ${new Date().toLocaleDateString()}
               <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 p-6 rounded-xl">
                 <h3 className="text-sm font-semibold text-white/80 mb-2">Win Rate</h3>
                 <p className="text-4xl font-bold mb-1">
-                  {proposals.length > 0 ? Math.round((proposals.filter(p => p.status === 'Accepted').length / proposals.length) * 100) : 0}%
+                  {proposals.filter(p => p.status === 'Sent' || p.status === 'Under Review' || p.status === 'Accepted' || p.status === 'Rejected').length > 0 
+                    ? Math.round((proposals.filter(p => p.status === 'Accepted').length / proposals.filter(p => p.status === 'Accepted' || p.status === 'Rejected').length) * 100) 
+                    : 0}%
                 </p>
-                <p className="text-sm text-white/70">Success Rate</p>
+                <p className="text-sm text-white/70">Won / (Won + Lost)</p>
               </div>
             </div>
 
-            {/* Source Breakdown */}
+            {/* Opportunity Categories */}
             <div className="bg-gray-800 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold mb-4">Opportunity Sources</h3>
+              <h3 className="text-xl font-bold mb-4">Opportunity Categories</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                  { name: 'Federal', count: opportunities.filter(o => o.source === 'Federal').length, color: 'blue' },
-                  { name: 'State', count: opportunities.filter(o => o.source === 'State').length, color: 'purple' },
-                  { name: 'Local', count: opportunities.filter(o => o.source === 'Local').length, color: 'orange' },
-                  { name: 'Cooperative', count: opportunities.filter(o => o.source === 'Cooperative').length, color: 'green' }
-                ].map((source, idx) => (
-                  <div key={idx} className={`bg-${source.color}-900/30 border border-${source.color}-700/50 px-4 py-4 rounded-lg`}>
-                    <div className="text-3xl font-bold mb-2">{source.count}</div>
-                    <div className={`text-sm font-semibold text-${source.color}-400`}>{source.name}</div>
-                  </div>
-                ))}
+                <div className="bg-blue-900/30 border border-blue-700/50 px-4 py-4 rounded-lg">
+                  <div className="text-3xl font-bold mb-2">{stats.pipelineCount}</div>
+                  <div className="text-sm font-semibold text-blue-400">Active Pipeline</div>
+                </div>
+                <div className="bg-green-900/30 border border-green-700/50 px-4 py-4 rounded-lg">
+                  <div className="text-3xl font-bold mb-2">{stats.edwsbSetAsides}</div>
+                  <div className="text-sm font-semibold text-green-400">EDWOSB / WOSB</div>
+                </div>
+                <div className="bg-purple-900/30 border border-purple-700/50 px-4 py-4 rounded-lg">
+                  <div className="text-3xl font-bold mb-2">{stats.homeStateOpps}</div>
+                  <div className="text-sm font-semibold text-purple-400">Michigan (Home State)</div>
+                </div>
+                <div className="bg-yellow-900/30 border border-yellow-700/50 px-4 py-4 rounded-lg">
+                  <div className="text-3xl font-bold mb-2">{stats.forecastsCount}</div>
+                  <div className="text-sm font-semibold text-yellow-400">Forecasts</div>
+                </div>
               </div>
             </div>
 
-            {/* EDWOSB Performance */}
+            {/* Filtering Stats */}
             <div className="bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-4">EDWOSB Performance</h3>
+              <h3 className="text-xl font-bold mb-4">System Filtering</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-green-900/30 border border-green-700/50 px-4 py-4 rounded-lg">
-                  <div className="text-3xl font-bold mb-2 text-green-400">{stats.edwsbSetAsides}</div>
-                  <div className="text-sm text-gray-300">EDWOSB Eligible</div>
+                  <div className="text-3xl font-bold mb-2 text-green-400">{stats.totalEligible}</div>
+                  <div className="text-sm text-gray-300">Total Eligible Opportunities</div>
+                </div>
+                <div className="bg-red-900/30 border border-red-700/50 px-4 py-4 rounded-lg">
+                  <div className="text-3xl font-bold mb-2 text-red-400">{stats.filteredIneligible}</div>
+                  <div className="text-sm text-gray-300">Filtered Out (Ineligible Set-Asides)</div>
                 </div>
                 <div className="bg-blue-900/30 border border-blue-700/50 px-4 py-4 rounded-lg">
                   <div className="text-3xl font-bold mb-2 text-blue-400">
-                    {stats.edwsbSetAsides > 0 ? Math.round((stats.edwsbSetAsides / opportunities.length) * 100) : 0}%
+                    {stats.totalEligible > 0 ? Math.round((stats.edwsbSetAsides / stats.totalEligible) * 100) : 0}%
                   </div>
-                  <div className="text-sm text-gray-300">Of Total Pipeline</div>
-                </div>
-                <div className="bg-purple-900/30 border border-purple-700/50 px-4 py-4 rounded-lg">
-                  <div className="text-3xl font-bold mb-2 text-purple-400">
-                    {formatCurrency(opportunities.filter(o => o.edwsbEligible).reduce((sum, o) => sum + o.value, 0))}
-                  </div>
-                  <div className="text-sm text-gray-300">EDWOSB Pipeline Value</div>
+                  <div className="text-sm text-gray-300">EDWOSB % of Eligible</div>
                 </div>
               </div>
             </div>
@@ -2059,173 +2719,226 @@ ${new Date().toLocaleDateString()}
 
       {/* Proposal Viewer/Editor Modal */}
       {showProposalModal && selectedProposal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-6 overflow-y-auto">
-          <div className="bg-gray-800 rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-gray-800 rounded-xl max-w-5xl w-full max-h-[95vh] overflow-y-auto border border-gray-700">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 sticky top-0 z-10">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-5 sticky top-0 z-10">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">{selectedProposal.proposalName}</h2>
-                  <div className="flex gap-4 text-sm">
-                    <span className="text-white/80">RFP: {selectedProposal.rfpNumber}</span>
-                    <span className="text-white/80">•</span>
-                    <span className="text-white/80">Value: ${selectedProposal.value.toLocaleString()}</span>
-                    <span className="text-white/80">•</span>
-                    <span className="text-white/80">Due: {selectedProposal.dueDate}</span>
+                  <h2 className="text-xl font-bold mb-1">{selectedProposal.proposalName || 'Untitled Proposal'}</h2>
+                  <div className="flex gap-3 text-sm text-white/80">
+                    <span>RFP: {selectedProposal.rfpNumber || '-'}</span>
+                    <span>|</span>
+                    <span>${(selectedProposal.value || selectedProposal.pricingTotal || 0).toLocaleString()}</span>
+                    <span>|</span>
+                    <span>Due: {selectedProposal.dueDate || '-'}</span>
                   </div>
                 </div>
-                <button 
-                  onClick={() => setShowProposalModal(false)}
-                  className="text-white hover:text-gray-300 text-3xl font-bold"
-                >
-                  ×
-                </button>
+                <button onClick={() => { setShowProposalModal(false); setEditingSection(null); }} className="text-white/70 hover:text-white text-2xl">x</button>
+              </div>
+
+              {/* Status Workflow Bar */}
+              <div className="mt-3 flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-white/60 mr-1">Status:</span>
+                {['DRAFT', 'READY TO SEND', 'SENT', 'UNDER REVIEW', 'ACCEPTED', 'REJECTED'].map(status => {
+                  const currentStatus = (selectedProposal.status || 'Draft').toUpperCase();
+                  const isActive = currentStatus === status;
+                  const colorMap: Record<string, string> = {
+                    'DRAFT': 'bg-gray-600',
+                    'READY TO SEND': 'bg-yellow-600',
+                    'SENT': 'bg-cyan-600',
+                    'UNDER REVIEW': 'bg-blue-600',
+                    'ACCEPTED': 'bg-green-600',
+                    'REJECTED': 'bg-red-600',
+                  };
+                  return (
+                    <button
+                      key={status}
+                      onClick={async () => {
+                        setUpdatingStatus(true);
+                        try {
+                          const updateData: any = { status };
+                          if (status === 'SENT') updateData.sentDate = new Date().toISOString();
+                          await api.put(`/gpss/proposals/${selectedProposal.id}`, updateData);
+                          setSelectedProposal({...selectedProposal, status: status as any, sentDate: status === 'SENT' ? new Date().toISOString() : selectedProposal.sentDate});
+                          showNotification(`Status updated to ${status}`, 'success');
+                          fetchProposals();
+                        } catch { showNotification('Status update failed', 'error'); }
+                        finally { setUpdatingStatus(false); }
+                      }}
+                      disabled={updatingStatus}
+                      className={`px-2 py-1 rounded text-[10px] font-bold transition ${
+                        isActive ? `${colorMap[status]} text-white ring-2 ring-white/50` : 'bg-white/10 text-white/50 hover:bg-white/20 hover:text-white'
+                      }`}
+                    >
+                      {status === 'ACCEPTED' ? 'WON' : status === 'REJECTED' ? 'LOST' : status}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-6 space-y-6">
-              {/* Executive Summary */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-blue-400 mb-3 flex items-center gap-2">
-                  <span>📋</span> Executive Summary
-                </h3>
-                <p className="text-gray-300 whitespace-pre-wrap">{selectedProposal.executiveSummary}</p>
-              </div>
+            {/* Modal Content - Editable Sections */}
+            <div className="p-5 space-y-4">
+              {/* Editable Section Helper */}
+              {[
+                { key: 'executiveSummary', label: 'Executive Summary', color: 'blue' },
+                { key: 'technicalApproach', label: 'Technical Approach', color: 'green' },
+                { key: 'staffingPlan', label: 'Staffing Plan', color: 'purple' },
+                { key: 'pastPerformance', label: 'Past Performance', color: 'yellow' },
+              ].map(section => (
+                <div key={section.key} className="bg-gray-700 p-4 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className={`text-sm font-bold text-${section.color}-400`}>{section.label}</h3>
+                    {editingSection === section.key ? (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={async () => {
+                            try {
+                              await api.put(`/gpss/proposals/${selectedProposal.id}`, { [section.key]: editBuffer });
+                              setSelectedProposal({...selectedProposal, [section.key]: editBuffer} as any);
+                              setEditingSection(null);
+                              showNotification(`${section.label} updated`, 'success');
+                            } catch { showNotification('Save failed', 'error'); }
+                          }}
+                          className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-[10px] font-bold transition"
+                        >Save</button>
+                        <button
+                          onClick={() => setEditingSection(null)}
+                          className="bg-gray-600 hover:bg-gray-500 px-2 py-1 rounded text-[10px] font-bold transition"
+                        >Cancel</button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setEditingSection(section.key);
+                          setEditBuffer((selectedProposal as any)[section.key] || '');
+                        }}
+                        className="bg-gray-600 hover:bg-gray-500 px-2 py-1 rounded text-[10px] font-bold transition"
+                      >Edit</button>
+                    )}
+                  </div>
+                  {editingSection === section.key ? (
+                    <textarea
+                      value={editBuffer}
+                      onChange={e => setEditBuffer(e.target.value)}
+                      className="w-full bg-gray-800 text-gray-200 text-sm rounded-lg p-3 border border-gray-600 focus:border-blue-500 focus:outline-none min-h-[120px]"
+                      autoFocus
+                    />
+                  ) : (
+                    <p className="text-gray-300 text-sm whitespace-pre-wrap max-h-48 overflow-y-auto">
+                      {(selectedProposal as any)[section.key] || <span className="text-gray-500 italic">No content yet. Click Edit to add.</span>}
+                    </p>
+                  )}
+                </div>
+              ))}
 
-              {/* Technical Approach */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
-                  <span>🔧</span> Technical Approach
-                </h3>
-                <p className="text-gray-300 whitespace-pre-wrap">{selectedProposal.technicalApproach}</p>
-              </div>
-
-              {/* Staffing Plan */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">
-                  <span>👥</span> Staffing Plan
-                </h3>
-                <p className="text-gray-300 whitespace-pre-wrap">{selectedProposal.staffingPlan}</p>
-              </div>
-
-              {/* Past Performance */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-yellow-400 mb-3 flex items-center gap-2">
-                  <span>⭐</span> Past Performance
-                </h3>
-                <p className="text-gray-300 whitespace-pre-wrap">{selectedProposal.pastPerformance}</p>
-              </div>
-
-              {/* Pricing with Intelligent Breakdown */}
-              <div className="bg-gradient-to-br from-green-900/30 to-green-700/30 border border-green-600 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
-                  <span>💰</span> Intelligent Pricing
-                </h3>
-                <div className="text-4xl font-black text-green-400 mb-4">
-                  ${selectedProposal.pricingTotal.toLocaleString()}
+              {/* Pricing Section */}
+              <div className="bg-gradient-to-br from-green-900/20 to-green-700/20 border border-green-700/50 p-4 rounded-xl">
+                <h3 className="text-sm font-bold text-green-400 mb-2">Pricing</h3>
+                <div className="text-3xl font-black text-green-400 mb-3">
+                  ${(selectedProposal.pricingTotal || 0).toLocaleString()}
                 </div>
                 
-                {/* Cost Breakdown */}
                 {selectedProposal.pricingBreakdown && (selectedProposal.pricingBreakdown as any).labor !== undefined && (
-                  <div className="mb-4 bg-gray-800/50 p-4 rounded-lg">
-                    <div className="text-sm font-bold text-green-400 mb-2">Cost Breakdown:</div>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="mb-3 bg-gray-800/50 p-3 rounded-lg">
+                    <div className="grid grid-cols-2 gap-1.5 text-sm">
                       <div className="text-gray-400">Labor:</div>
                       <div className="text-white font-semibold">${((selectedProposal.pricingBreakdown as any).labor || 0).toLocaleString()}</div>
-                      
                       <div className="text-gray-400">Materials:</div>
                       <div className="text-white font-semibold">${((selectedProposal.pricingBreakdown as any).materials || 0).toLocaleString()}</div>
-                      
-                      <div className="text-gray-400">Other Costs:</div>
+                      <div className="text-gray-400">Other:</div>
                       <div className="text-white font-semibold">${((selectedProposal.pricingBreakdown as any).other || 0).toLocaleString()}</div>
-                      
-                      <div className="text-gray-400 pt-2 border-t border-gray-600">Subtotal:</div>
-                      <div className="text-white font-semibold pt-2 border-t border-gray-600">${((selectedProposal.pricingBreakdown as any).subtotal || 0).toLocaleString()}</div>
-                      
-                      <div className="text-gray-400">Overhead ({(selectedProposal.pricingBreakdown as any).overhead_rate || 0}%):</div>
-                      <div className="text-white font-semibold">${((selectedProposal.pricingBreakdown as any).overhead_amount || 0).toLocaleString()}</div>
-                      
-                      <div className="text-yellow-400 font-bold pt-2 border-t border-gray-600">Total Cost:</div>
-                      <div className="text-yellow-400 font-bold pt-2 border-t border-gray-600">${((selectedProposal.pricingBreakdown as any).total_cost || 0).toLocaleString()}</div>
-                      
-                      <div className="text-green-400 font-bold text-base pt-2 border-t-2 border-green-600">Bid Price:</div>
-                      <div className="text-green-400 font-bold text-base pt-2 border-t-2 border-green-600">${selectedProposal.pricingTotal.toLocaleString()}</div>
+                      <div className="text-green-400 font-bold pt-1 border-t border-gray-600">Total Bid:</div>
+                      <div className="text-green-400 font-bold pt-1 border-t border-gray-600">${(selectedProposal.pricingTotal || 0).toLocaleString()}</div>
                     </div>
                   </div>
                 )}
                 
-                <p className="text-gray-300 text-sm whitespace-pre-wrap">{selectedProposal.pricingJustification}</p>
+                {selectedProposal.pricingJustification && (
+                  <p className="text-gray-400 text-xs whitespace-pre-wrap">{selectedProposal.pricingJustification}</p>
+                )}
               </div>
 
               {/* Compliance Checklist */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-blue-400 mb-3 flex items-center gap-2">
-                  <span>✅</span> Compliance Checklist
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {Object.entries(selectedProposal.complianceChecklist || {}).map(([key, value]) => (
-                    <div key={key} className="flex items-center gap-2">
-                      <span className={`text-2xl ${value ? 'text-green-400' : 'text-red-400'}`}>
-                        {value ? '✓' : '✗'}
-                      </span>
-                      <span className="text-gray-300 capitalize">{key.replace(/_/g, ' ')}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recipients */}
-              <div className="bg-gray-700 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">
-                  <span>📧</span> Recipients
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div>
-                    <span className="text-gray-400">To:</span>
-                    <span className="ml-2 text-blue-400 font-semibold">{selectedProposal.recipients?.primary_to || 'Not specified'}</span>
+              {selectedProposal.complianceChecklist && Object.keys(selectedProposal.complianceChecklist).length > 0 && (
+                <div className="bg-gray-700 p-4 rounded-xl">
+                  <h3 className="text-sm font-bold text-blue-400 mb-2">Compliance</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {Object.entries(selectedProposal.complianceChecklist).map(([key, value]) => (
+                      <div key={key} className="flex items-center gap-2 text-sm">
+                        <span className={value ? 'text-green-400' : 'text-red-400'}>{value ? '✓' : '✗'}</span>
+                        <span className="text-gray-300 capitalize">{key.replace(/_/g, ' ')}</span>
+                      </div>
+                    ))}
                   </div>
-                  {selectedProposal.recipients?.cc && (
+                </div>
+              )}
+
+              {/* ProposalBio Score */}
+              {selectedProposal.proposalBioScore && (
+                <div className={`p-4 rounded-xl border ${selectedProposal.proposalBioGate === 'UNLOCKED' ? 'bg-green-900/20 border-green-600/40' : 'bg-red-900/20 border-red-600/40'}`}>
+                  <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-gray-400">CC:</span>
-                      <span className="ml-2 text-gray-300">{Array.isArray(selectedProposal.recipients.cc) ? selectedProposal.recipients.cc.join(', ') : selectedProposal.recipients.cc}</span>
+                      <h3 className="text-sm font-bold text-gray-300">ProposalBio Score</h3>
+                      <span className={`text-3xl font-black ${
+                        selectedProposal.proposalBioScore >= 90 ? 'text-green-400' :
+                        selectedProposal.proposalBioScore >= 75 ? 'text-yellow-400' :
+                        'text-red-400'
+                      }`}>{Math.round(selectedProposal.proposalBioScore)}</span>
+                      <span className="text-gray-500 text-sm ml-1">/100</span>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      selectedProposal.proposalBioGate === 'UNLOCKED' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                    }`}>
+                      {selectedProposal.proposalBioGate === 'UNLOCKED' ? 'READY TO SUBMIT' : 'NEEDS IMPROVEMENT'}
+                    </div>
+                  </div>
+                  {selectedProposal.proposalBioCriticalIssues && selectedProposal.proposalBioCriticalIssues.length > 0 && (
+                    <div className="mt-2">
+                      <p className="text-xs text-red-400 font-semibold mb-1">Issues to fix:</p>
+                      {selectedProposal.proposalBioCriticalIssues.map((issue: any, i: number) => (
+                        <p key={i} className="text-xs text-red-300 ml-2">- {typeof issue === 'string' ? issue : issue.description || JSON.stringify(issue)}</p>
+                      ))}
                     </div>
                   )}
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Modal Footer */}
-            <div className="bg-gray-700 p-6 flex gap-4 justify-between sticky bottom-0">
-              <button 
-                onClick={() => {
-                  // Use RFP content if available, otherwise use placeholder
-                  setComplianceRfpContent('RFP content would be loaded here');
-                  setShowComplianceChecker(true);
-                }}
-                className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition"
-              >
-                ✅ Check Compliance
-              </button>
-              <div className="flex gap-4">
+            <div className="bg-gray-700/80 p-4 flex gap-3 justify-between sticky bottom-0 border-t border-gray-600">
+              <div className="flex gap-2">
                 <button 
-                  onClick={() => setShowProposalModal(false)}
-                  className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded-lg font-semibold transition"
+                  onClick={() => {
+                    setComplianceRfpContent(selectedProposal.executiveSummary + '\n' + selectedProposal.technicalApproach);
+                    setShowComplianceChecker(true);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-semibold transition"
                 >
-                  Close
+                  Compliance Check
                 </button>
-                <button 
-                  onClick={() => saveProposal(selectedProposal)}
-                  className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
+                <button
+                  onClick={async () => {
+                    try {
+                      showNotification('Running ProposalBio analysis...', 'success');
+                      await api.post('/gpss/proposalbio/analyze', { proposal_id: selectedProposal.id });
+                      fetchProposals();
+                      showNotification('ProposalBio analysis complete', 'success');
+                    } catch { showNotification('Analysis failed', 'error'); }
+                  }}
+                  className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-semibold transition"
                 >
-                  💾 Save to Airtable
+                  Run ProposalBio
                 </button>
-                <button 
-                  onClick={() => exportProposalPDF(selectedProposal)}
-                  className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition"
-                >
-                  📄 Export PDF
-                </button>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => { setShowProposalModal(false); setEditingSection(null); }}
+                  className="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-lg text-sm font-semibold transition">Close</button>
+                <button onClick={() => saveProposal(selectedProposal)}
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-semibold transition">Save</button>
+                <button onClick={() => exportProposalPDF(selectedProposal)}
+                  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-semibold transition">Export</button>
               </div>
             </div>
           </div>

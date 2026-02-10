@@ -1,0 +1,172 @@
+# RFQ Buyer Protection - MANDATORY CHECKLIST
+
+**CRITICAL: This checklist MUST be followed EVERY TIME an RFQ is generated or reviewed.**
+
+---
+
+## ⚠️ BEFORE GENERATING ANY RFQ
+
+**Ask yourself: "Could a supplier use ANY information in this RFQ to identify or contact the buyer?"**
+
+If YES to anything → **STOP and remove it!**
+
+---
+
+## 🚨 NEVER INCLUDE IN RFQs (FORBIDDEN):
+
+### **Buyer/Client Identifiers:**
+- ❌ Agency names (RCOC, Canton Township, Genesee County, etc.)
+- ❌ County names as client identifiers (Genesee, Oakland, Wayne, etc.)
+- ❌ City names as client identifiers (Flint, Detroit, Troy, etc.)
+- ❌ Specific delivery addresses with street names
+- ❌ "For [specific agency name]"
+- ❌ "Client: [specific name]"
+- ❌ Solicitation numbers from the original RFP
+- ❌ Procurement officer names
+
+### **Location Details (Too Specific):**
+- ❌ "Flint, Michigan area"
+- ❌ "Genesee County area"
+- ❌ "Canton Township"
+- ❌ Specific street addresses
+- ❌ Zip codes
+
+### **Project Names That Reveal Buyer:**
+- ❌ "Genesee County Utility Poles"
+- ❌ "RCOC Truck Fleet"
+- ❌ "Canton Water Project"
+
+---
+
+## ✅ WHAT YOU CAN INCLUDE (SAFE):
+
+### **Generic Locations:**
+- ✅ "Southeast Michigan"
+- ✅ "Metro Detroit"
+- ✅ "Michigan"
+- ✅ "Wayne County area" (region, not as client identifier)
+- ✅ "Midwest"
+
+### **Generic Client Types:**
+- ✅ "Municipal client"
+- ✅ "Michigan municipal road commission"
+- ✅ "Government client"
+- ✅ "Public sector client"
+
+### **Generic Project Names:**
+- ✅ "Municipal Utility Poles"
+- ✅ "Fleet Vehicle Purchase"
+- ✅ "Water Infrastructure Parts"
+
+### **RFQ Identification:**
+- ✅ "DDI-2026-###" (sequential numbers only, no buyer info)
+
+---
+
+## 📋 MANDATORY REVIEW CHECKLIST
+
+**After generating an RFQ, review EVERY field:**
+
+### **Header Section:**
+- [ ] RFQ number: Format is `DDI-YYYY-###` (no buyer info)
+- [ ] Project field: Generic description only
+- [ ] Date: Current date (no problem)
+- [ ] Quote due date: Date only (no problem)
+
+### **Project Overview Section:**
+- [ ] Client description: Generic only ("municipal client", NOT "Genesee County")
+- [ ] Location: Regional only ("Southeast Michigan", NOT "Flint")
+- [ ] Delivery: Regional only (NOT specific city/address)
+
+### **Details Table:**
+- [ ] Location field: Regional only
+- [ ] Client Type field: Generic only
+- [ ] Project field: Generic only
+- [ ] Delivery field: Regional only
+
+### **Contact Information:**
+- [ ] Email: info@deedavis.biz (NEVER bids@deedavisinc... - that's notifications only)
+- [ ] No buyer contact info included
+
+### **Body Text:**
+- [ ] Search for ANY mention of: County names, City names, Agency names
+- [ ] Search for: "Genesee", "Canton", "RCOC", "Oakland", "Flint", etc.
+- [ ] Replace all specific references with generic terms
+
+---
+
+## 🔍 SEARCH & DESTROY LIST
+
+**Before finalizing RFQ, search for these terms and REMOVE/REPLACE:**
+
+**Common Michigan Buyers (NEVER include):**
+- Genesee
+- Canton
+- RCOC / Road Commission for Oakland County
+- Oakland County
+- Wayne County (as client, regional reference is okay)
+- Macomb County
+- Flint
+- Detroit (as client)
+- Troy
+- Livonia
+- Sterling Heights
+- Warren (as client)
+- Madison Heights
+
+**Replace with:**
+- "Municipal client"
+- "Road commission client"
+- "Michigan client"
+- "Southeast Michigan"
+- "Metro Detroit area"
+
+---
+
+## 🎯 WHY THIS MATTERS
+
+**If suppliers can identify the buyer:**
+1. They search for the public solicitation
+2. They find the RFP/RFQ online
+3. They submit their own bid directly
+4. **You lose the deal and your margin**
+
+**Every piece of identifying information is a risk!**
+
+---
+
+## ✅ FINAL VALIDATION
+
+**Before sending RFQ to supplier, ask:**
+
+1. "Can I find the original solicitation by Googling keywords from this RFQ?"
+   - If YES → Remove those keywords!
+
+2. "If I were a supplier, could I identify the buyer?"
+   - If YES → Make it more generic!
+
+3. "Does this RFQ include ANY of the FORBIDDEN items?"
+   - If YES → Remove them immediately!
+
+---
+
+## 🚨 IF YOU CATCH A MISTAKE
+
+**If buyer info is found in an RFQ:**
+1. **STOP immediately**
+2. Regenerate the RFQ with corrections
+3. Review against this checklist again
+4. Do NOT send until 100% clean
+
+---
+
+## 💡 REMEMBER
+
+**Generic = Good**
+**Specific = Dangerous**
+
+When in doubt, make it MORE generic, not less.
+
+---
+
+*This is a BUSINESS PROTECTION rule. Follow it without exception.*

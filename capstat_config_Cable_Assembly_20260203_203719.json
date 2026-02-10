@@ -1,0 +1,98 @@
+{
+  "company": {
+    "name": "DEE DAVIS INC",
+    "cage_code": "8UMX3",
+    "uei": "HJB4KNYJVGZ1",
+    "duns": "002636755",
+    "tax_id": "84-4114181",
+    "sam_status": "Active",
+    "founded": "2018",
+    "address": "755 W Big Beaver Rd, Suite 2020",
+    "city": "Troy",
+    "state": "MI",
+    "zip": "48084-4925",
+    "phone": "248-376-4550",
+    "email": "info@deedavis.biz",
+    "website": "www.deedavis.biz",
+    "president": "Dee Davis"
+  },
+  "opportunity": {
+    "client_name": "Defense Logistics Agency",
+    "rfq_number": "SPRRA2-26-R-0008_0002",
+    "date": "February 2026",
+    "title": "Cable Assembly"
+  },
+  "colors": {
+    "primary": "#0f172a",
+    "secondary": "#1e293b",
+    "accent": "#d97706",
+    "text": "#334155",
+    "light": "#f1f5f9"
+  },
+  "highlights": {
+    "title": "QUICK FACTS",
+    "items": [
+      {
+        "icon": "\ud83c\udfaf",
+        "label": "Primary NAICS",
+        "value": "5995 - Cable/Wire Products"
+      },
+      {
+        "icon": "\ud83e\udd1d",
+        "label": "Key Partners",
+        "value": "Major Cable Manufacturers"
+      }
+    ]
+  },
+  "overview": "Dee Davis Inc. is a certified EDWOSB (Economically Disadvantaged Woman-Owned Small Business) specializing in government contract fulfillment. We bring proven expertise in cable assembly with a strong track record of delivering quality products and services to federal, state, and local agencies.",
+  "core_competencies": [
+    {
+      "title": "Cable & Wire Assembly Sourcing",
+      "description": "Strategic partnerships with major cable manufacturers for MIL-SPEC and commercial-grade assemblies"
+    },
+    {
+      "title": "Electronic Component Procurement",
+      "description": "Nationwide sourcing network for electrical components meeting federal specifications"
+    }
+  ],
+  "benefits": [
+    {
+      "icon": "\u2713",
+      "title": "EDWOSB Certified",
+      "description": "Economically Disadvantaged Woman-Owned Small Business - helps agencies meet socioeconomic goals"
+    },
+    {
+      "icon": "\u2713",
+      "title": "SAM.gov Registered",
+      "description": "Active registration with CAGE Code 8UMX3, ready for federal contract awards"
+    },
+    {
+      "icon": "\u2713",
+      "title": "Proven Track Record",
+      "description": "Successful government contracts with multiple agencies including RCOC, Michigan municipalities"
+    },
+    {
+      "icon": "\u2713",
+      "title": "Nationwide Capability",
+      "description": "Michigan-based with nationwide sourcing and delivery network"
+    }
+  ],
+  "certifications": [
+    "EDWOSB - SBA Certified (Economically Disadvantaged Woman-Owned Small Business)",
+    "WOSB - Women-Owned Small Business",
+    "SAM.gov Registered - CAGE Code: 8UMX3",
+    "UEI: HJB4KNYJVGZ1",
+    "DUNS: 002636755"
+  ],
+  "naics_codes": [
+    "5995 - Cable and Wire Products",
+    "6150 - Electrical Components"
+  ],
+  "contract_capabilities": {
+    "payment_terms": "Net 30 or per contract requirements",
+    "delivery_time": "10-30 days ARO (varies by product)",
+    "coverage": "Nationwide delivery capability",
+    "insurance": "$1M+ General Liability, Workers Comp as required"
+  },
+  "commitment": "Dee Davis Inc. is committed to supporting Defense Logistics Agency's mission by providing quality cable assembly, competitive pricing, and excellent service. As a certified EDWOSB, we help agencies meet supplier diversity goals while delivering exceptional performance."
+}

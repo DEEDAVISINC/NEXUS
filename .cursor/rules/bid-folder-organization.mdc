@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Bid Organization - One Folder Per Solicitation
 
-**When user shares a solicitation and we agree to pursue it: Create a dedicated folder immediately.**
+**When user shares a solicitation and we agree to pursue it: Create a dedicated folder immediately with the full standard structure.**
 
 ---
 
@@ -17,26 +17,93 @@ User provides RFQ/RFP/ITB document or details.
 ### **Step 2: Decision to Pursue**
 After reviewing, if we agree it's worth pursuing → **Create folder immediately.**
 
-### **Step 3: Create Folder Structure**
-```bash
-photos_and_videos/
+### **Step 3: Create Full Folder Structure**
+```
+BIDS:RESOURCES/
 └── [CLIENT NAME] [BID TYPE]/
-    ├── [Original RFQ/RFP PDF]
-    ├── [All related documents]
-    ├── [Strategy guides created]
-    ├── [Email templates]
-    ├── [Supplier quotes]
-    └── [Final signed submissions]
+    ├── SEND_TO_SUPPLIER/        ← ONLY safe-to-send supplier docs go here
+    ├── SEND_TO_BUYER/           ← ONLY final submission docs go here
+    ├── SEND_TO_SUBCONTRACTOR/   ← ONLY subcontractor-safe docs go here
+    ├── WORKFLOW_CHECKLIST.md     ← Step-by-step gated checklist
+    ├── [Original solicitation PDF]
+    ├── [Strategy/analysis docs]
+    └── [Internal notes, scripts, research]
 ```
 
-### **Step 4: All Future Documents Go There**
-Every document created for that bid goes in its folder:
-- Strategy guides
-- Pricing analysis
-- Supplier email templates
-- Quote requests
-- Completed bid forms
-- Signed submissions
+### **Step 4: Generate RFQ Document**
+When the folder is created, IMMEDIATELY generate a supplier RFQ using the Quote Generator:
+- Parse the solicitation for line items, specs, quantities, delivery info
+- Generate professional RFQ PDF (DDI-YYYY-XXX format)
+- Place RFQ in SEND_TO_SUPPLIER/
+- Place any safe-to-share drawings/specs in SEND_TO_SUPPLIER/
+- Ask user: "RFQ generated and ready in SEND_TO_SUPPLIER. Want to review it?"
+
+### **Step 5: All Future Documents Go in Their Place**
+- Supplier quote requests → SEND_TO_SUPPLIER/
+- Final bid submission docs → SEND_TO_BUYER/
+- Subcontractor scope/agreements → SEND_TO_SUBCONTRACTOR/
+- Everything else (strategy, analysis, scripts, original solicitation) → root folder (INTERNAL)
+
+---
+
+## SEND_TO Folder Rules
+
+**These are CRITICAL. They protect the business.**
+
+### **SEND_TO_SUPPLIER/**
+- Contains ONLY documents safe to email to suppliers/vendors
+- RFQ documents (with DDI number, NO client name)
+- Engineering drawings/specs that don't reveal the buyer
+- NEVER put the original solicitation here (it has the buyer's name)
+- NEVER put strategy docs, call scripts, or analysis here
+
+### **SEND_TO_BUYER/**
+- Contains ONLY the final submission package for the contracting officer
+- Capability statements, proposals, pricing sheets
+- Signed forms, certifications (WOSB, etc.)
+- This folder is empty until Step 8 of the workflow
+
+### **SEND_TO_SUBCONTRACTOR/**
+- Contains ONLY documents safe to share with subcontractors
+- Scope of work, subcontract agreements
+- Same rules as SEND_TO_SUPPLIER — no buyer names
+
+### **Root Folder (INTERNAL ONLY)**
+- Original solicitation PDF
+- Strategy/analysis documents
+- Call scripts, research guides
+- Sourcing guides
+- WORKFLOW_CHECKLIST.md
+- NEVER email anything from the root folder directly
+
+**RULE: If you need to email something, it MUST be in a SEND_TO folder. If it's not there, it doesn't get sent.**
+
+---
+
+## WORKFLOW_CHECKLIST.md
+
+Every bid folder gets a WORKFLOW_CHECKLIST.md with these 10 gated steps:
+
+```
+STEP 1:  REVIEW SOLICITATION      — Read and understand what the buyer wants
+STEP 2:  GO / NO-GO DECISION      — Are we pursuing this?
+STEP 3:  FIND SUPPLIERS            — Who can provide what we need?
+STEP 4:  CREATE RFQ                — Generate quote request for suppliers
+STEP 5:  SEND RFQ TO SUPPLIERS    — Email SEND_TO_SUPPLIER contents
+STEP 6:  COLLECT QUOTES            — Track responses, follow up
+STEP 7:  SELECT QUOTE & MARKUP    — Pick best price, calculate our bid
+STEP 8:  PREPARE BID SUBMISSION   — Create docs for SEND_TO_BUYER
+STEP 9:  REVIEW BID               — Final check, Dee approves
+STEP 10: SUBMIT BID               — Send SEND_TO_BUYER contents to buyer
+```
+
+**Rules for the checklist:**
+- Each step has specific checkboxes
+- Every checkbox must be checked before moving to the next step
+- If a step fails, STOP. Don't continue. Ask Dee.
+- Include specific details for this bid (names, emails, deadlines, amounts)
+- Include email templates with subject lines and body text
+- Include the exact folder to open for sending
 
 ---
 
@@ -45,11 +112,10 @@ Every document created for that bid goes in its folder:
 **Format:** `[CLIENT] [BID TYPE]`
 
 **Examples:**
-- `CPS ENERGY` (industrial supplies)
-- `MADISON HEIGHTS LAWN` (lawn services)
-- `OAKLAND COUNTY BODY BAGS` (medical supplies)
-- `JACKSON COUNTY SALT` (road salt)
-- `WARREN DDA LANDSCAPE` (landscaping)
+- `USACE GUARDRAILS` (federal, custom fabrication)
+- `CPS ENERGY PADLOCKS` (utility, industrial supplies)
+- `OAKLAND COUNTY EXAM STOOLS` (county, medical equipment)
+- `MADISON HEIGHTS LAWN` (city, lawn services)
 
 **Rules:**
 - ALL CAPS
@@ -60,149 +126,37 @@ Every document created for that bid goes in its folder:
 
 ---
 
-## What Goes in Each Folder
+## Automatic Actions (When Folder is Created)
 
-### **Required:**
-1. ✅ Original solicitation PDF (RFQ/RFP/ITB)
-2. ✅ All related attachments/exhibits
-3. ✅ Bid guide/strategy document
-4. ✅ Completed bid forms (signed)
+1. Create SEND_TO_SUPPLIER/ folder
+2. Create SEND_TO_BUYER/ folder
+3. Create SEND_TO_SUBCONTRACTOR/ folder
+4. Create WORKFLOW_CHECKLIST.md with all 10 steps filled in for this specific bid
+5. Generate supplier RFQ PDF and place in SEND_TO_SUPPLIER/
+6. Move original solicitation PDF to root folder
+7. Create strategy/analysis doc in root folder
 
-### **Optional (if created):**
-5. Pricing analysis
-6. Supplier comparison
-7. Email templates to suppliers
-8. Quote requests
-9. Competitive advantage analysis
-10. Submission checklist
-11. Follow-up templates
+**The user should be able to open SEND_TO_SUPPLIER and email its contents within minutes of saying "let's pursue this."**
 
 ---
 
-## Creation Trigger
+## Folder Status
 
-**Create folder when:**
-- User shares solicitation document
-- We review and analyze it
-- User says "let's pursue this" or similar
-- OR we recommend pursuing and user agrees
-
-**Example dialogue:**
-```
-User: "Check out this RFQ for industrial wipers"
-Assistant: [Reviews] "This looks good - $400K contract, good fit"
-User: "Let's do it"
-Assistant: [Creates folder immediately]
-```
-
----
-
-## Automatic Actions
-
-**When folder is created:**
-
-1. **Create strategy document:** `[BID_NAME]_STRATEGY.md`
-2. **Move original PDF** to folder
-3. **Create submission checklist** specific to that bid
-4. **Note deadline** in folder
-
-**Example files created:**
-```
-CPS ENERGY/
-├── RFQ_7000205103.pdf (original)
-├── CPS_ENERGY_BID_GUIDE.md (created)
-├── CPS_ENERGY_SUBMISSION_CHECKLIST.md (created)
-└── [More docs as created]
-```
-
----
-
-## Benefits
-
-**For user:**
-- ✅ Everything in one place
-- ✅ No hunting for documents
-- ✅ Easy to share folder with team
-- ✅ Clear organization
-- ✅ Each bid is self-contained
-
-**For teaching others:**
-- ✅ Simple to explain: "One folder per bid"
-- ✅ Easy to delegate: "Work in the MADISON HEIGHTS LAWN folder"
-- ✅ Clear ownership
-- ✅ Easy to archive when done
-
----
-
-## File Management Rules
-
-### **Do:**
-- ✅ Create folder as soon as we agree to pursue
-- ✅ Move ALL related docs to that folder
-- ✅ Use consistent naming
-- ✅ Keep folder organized
-
-### **Don't:**
-- ❌ Leave bid docs scattered in root directory
-- ❌ Create generic "bids" folder with everything mixed
-- ❌ Wait until later to organize
-- ❌ Use inconsistent naming
-
----
-
-## Migration of Existing Bids
-
-**If bid documents already exist:**
-1. Create the folder
-2. Move existing docs into it
-3. Organize by type (PDFs, guides, emails, etc.)
-4. Continue adding new docs to folder
-
----
-
-## Folder Status Indicators
-
-**Add to folder name when appropriate:**
-
-**Active bids:**
-- Just folder name: `CPS ENERGY`
-
-**Won bids:**
-- Rename: `CPS ENERGY - WON`
-
-**Lost bids:**
-- Rename: `CPS ENERGY - LOST`
-
-**Archived (old):**
-- Move to subfolder: `ARCHIVE/CPS ENERGY`
-
----
-
-## Quick Reference
-
-**New solicitation received?**
-
-1. Review it
-2. Decide to pursue?
-3. **→ Create folder: `[CLIENT] [TYPE]`**
-4. Move PDF to folder
-5. Create strategy doc
-6. All future docs go there
-
-**That's it.** Simple. Direct. Organized.
+**Active bids:** Just folder name: `CPS ENERGY PADLOCKS`
+**Won bids:** Rename: `CPS ENERGY PADLOCKS - WON`
+**Lost bids:** Rename: `CPS ENERGY PADLOCKS - LOST`
+**Archived:** Move to: `ARCHIVE/CPS ENERGY PADLOCKS`
 
 ---
 
 ## Implementation Command
 
-**Create bid folder:**
 ```bash
-cd "/Users/deedavis/NEXUS BACKEND/photos_and_videos"
-mkdir "[CLIENT] [BID TYPE]"
-mv [solicitation.pdf] "[CLIENT] [BID TYPE]/"
+cd "/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES"
+mkdir -p "[CLIENT] [BID TYPE]"/{SEND_TO_SUPPLIER,SEND_TO_BUYER,SEND_TO_SUBCONTRACTOR}
+# Then create WORKFLOW_CHECKLIST.md
+# Then generate RFQ and place in SEND_TO_SUPPLIER/
 ```
-
-**Done.** Folder ready for all bid documents.
 
 ---
 
@@ -212,15 +166,31 @@ mv [solicitation.pdf] "[CLIENT] [BID TYPE]/"
 
 **Assistant:**
 1. Reviews RFQ
-2. "This looks good - $2M contract, we can do this"
+2. "This looks doable - $2M contract. Pursuing?"
 3. User: "Let's bid it"
-4. **→ Create:** `photos_and_videos/DETROIT WATER DIESEL/`
-5. **→ Move:** RFQ to folder
-6. **→ Create:** `DETROIT_WATER_DIESEL_STRATEGY.md` in folder
-7. **→ All future docs** go in that folder
+4. Creates: `BIDS:RESOURCES/DETROIT WATER DIESEL/`
+5. Creates: `SEND_TO_SUPPLIER/`, `SEND_TO_BUYER/`, `SEND_TO_SUBCONTRACTOR/`
+6. Creates: `WORKFLOW_CHECKLIST.md` (10 steps, filled in for this bid)
+7. Generates: `DDI-2026-DF001_RFQ_Diesel_Fuel.pdf` → places in `SEND_TO_SUPPLIER/`
+8. Moves: Original solicitation to root folder
+9. Says: "RFQ is in SEND_TO_SUPPLIER, ready to email. Want to review it first?"
 
-**Simple. Clean. Organized.** ✅
+**The user opens SEND_TO_SUPPLIER, attaches everything, and sends. Done.**
 
 ---
 
-*One folder per solicitation. Everything in its place. No confusion.*
+## Teaching an Assistant
+
+**Tell them this:**
+1. Every bid has its own folder
+2. Inside each folder are 3 SEND_TO folders
+3. When it's time to email someone, open the matching SEND_TO folder
+4. Attach EVERYTHING in that folder. Nothing else.
+5. Follow the WORKFLOW_CHECKLIST step by step
+6. Don't skip steps. Don't improvise. If stuck, ask Dee.
+
+**That's it. A 5th grader can run this.**
+
+---
+
+*One folder per solicitation. SEND_TO folders for every recipient. Workflow checklist gates every step. No confusion. No mistakes.*

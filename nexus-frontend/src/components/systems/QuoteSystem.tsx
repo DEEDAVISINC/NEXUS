@@ -101,7 +101,7 @@ COMPLIANCE_REQUIREMENTS:
     try {
       // Try real API first
       try {
-        const response = await fetch('http://localhost:5001/api/quote/generate-from-paste', {
+        const response = await fetch((process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000') + '/api/quote/generate-from-paste', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
@@ -113,6 +113,12 @@ COMPLIANCE_REQUIREMENTS:
         if (response.ok) {
           const data = await response.json();
           setResult(data);
+          
+          // Auto-open PDF in new tab if download_url exists
+          if (data.success && data.download_url) {
+            window.open(`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}${data.download_url}`, '_blank');
+          }
+          
           setGenerating(false);
           return;
         }
@@ -250,7 +256,7 @@ COMPLIANCE_REQUIREMENTS:
                       
                       {result.download_url ? (
                         <a
-                          href={`http://localhost:5001${result.download_url}`}
+                          href={`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}${result.download_url}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition"

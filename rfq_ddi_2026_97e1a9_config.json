@@ -1,0 +1,242 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-97E1A9",
+        "title": "Annual Safety Supplies - PPE and Safety Equipment",
+        "issue_date": "February 9, 2026",
+        "due_date": "February 14, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Annual Safety Supplies - PPE and Safety Equipment",
+        "contract_period": "12 months"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "We are requesting competitive pricing for annual safety supplies needed by a Michigan county road agency. This is a 12-month contract for personal protective equipment (PPE) and safety equipment. All items must meet the specifications provided below. Pricing must include freight to Southeast Michigan (FOB Destination). Please provide manufacturer name and part number for each item quoted.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Supplier must provide competitive pricing for 17 line items including personal protective equipment (hard hats, safety glasses, ear protection, respirators), fall protection equipment, fire safety equipment, and various safety supplies. All items must meet or exceed the specifications provided. Pricing must include freight to Southeast Michigan delivery location.",
+        "key_requirements": [
+            "All pricing must be FOB Destination (freight included to Southeast Michigan)",
+            "Manufacturer name and part number required for each item",
+            "Brand-specific items must match exact manufacturer and part number specified",
+            "Items marked \"approved equivalent\" may be substituted with equivalent products meeting specifications",
+            "Product specification sheets must be provided for all items",
+            "Government client - tax exempt pricing required",
+            "Delivery timeline: Within 30 days of order placement"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "Grey Cap Mounted Ear Muffs",
+            "specifications": "PYRAMEX #CM60 (NO SUBSTITUTIONS) - Cap mounted ear muffs, grey color",
+            "estimated_quantity": "60",
+            "unit": "Each"
+        },
+        {
+            "item_number": "2",
+            "description": "Fire Extinguisher with Bracket",
+            "specifications": "Aluminum valve, Buckeye 25614 or approved equivalent, ABC 5# fire extinguisher with bracket",
+            "estimated_quantity": "25",
+            "unit": "Each"
+        },
+        {
+            "item_number": "3",
+            "description": "Fire Extinguisher Bracket",
+            "specifications": "Vehicle mounted, heavy duty, Kidde 4T308 or approved equivalent",
+            "estimated_quantity": "10",
+            "unit": "Each"
+        },
+        {
+            "item_number": "4",
+            "description": "Flagging Tape",
+            "specifications": "Fluorescent pink, 1-1/4\" x 150', 3M VST17 (NO SUBSTITUTION), 12 rolls per box",
+            "estimated_quantity": "100",
+            "unit": "Roll"
+        },
+        {
+            "item_number": "5",
+            "description": "Hard Hat - Yellow",
+            "specifications": "Ridgeline cap style, PYRAMEX #HP46130 (NO SUBSTITUTIONS), yellow color, with 6-point ratchet suspension",
+            "estimated_quantity": "200",
+            "unit": "Each"
+        },
+        {
+            "item_number": "6",
+            "description": "Insect Repellent Spray",
+            "specifications": "6 oz size, OFF brand or approved equivalent, 12 per box",
+            "estimated_quantity": "108",
+            "unit": "Each"
+        },
+        {
+            "item_number": "7",
+            "description": "Lock-Out / Tag-Out Tags",
+            "specifications": "Danger Do Not Operate tags, MPMTS01 or approved equivalent",
+            "estimated_quantity": "10",
+            "unit": "Each"
+        },
+        {
+            "item_number": "8",
+            "description": "Wasp & Hornet Killer Spray",
+            "specifications": "ARI 14 oz size, 12 per case or approved equivalent (NO SUBSTITUTIONS)",
+            "estimated_quantity": "200",
+            "unit": "Each"
+        },
+        {
+            "item_number": "9",
+            "description": "Sunscreen Duo",
+            "specifications": "Lotion/towelette combination, 25 per box, minimum SPF 30, ANSI Type 1 Class 2 or approved equivalent",
+            "estimated_quantity": "10",
+            "unit": "Box"
+        },
+        {
+            "item_number": "10",
+            "description": "Safety Glasses - Clear",
+            "specifications": "Jackson Nemesis, Lens #UA19804 or approved equivalent (NO SUBSTITUTIONS), clear lens",
+            "estimated_quantity": "252",
+            "unit": "Each"
+        },
+        {
+            "item_number": "11",
+            "description": "N95 Respirator Masks",
+            "specifications": "Moldex 2300N95 with 10 masks per box or approved equivalent (NO SUBSTITUTION)",
+            "estimated_quantity": "10",
+            "unit": "Box"
+        },
+        {
+            "item_number": "12",
+            "description": "Duraflex Safety Harness",
+            "specifications": "Miller E650QC/UGN or approved equivalent (NO SUBSTITUTION), fall protection harness",
+            "estimated_quantity": "11",
+            "unit": "Each"
+        },
+        {
+            "item_number": "13",
+            "description": "Safety Glasses - Smoked Lens",
+            "specifications": "Jackson Nemesis VL #25704 or approved equivalent, Lens #A3013538, smoked/dark lens",
+            "estimated_quantity": "804",
+            "unit": "Each"
+        },
+        {
+            "item_number": "14",
+            "description": "Ivy-Dry Super Pump Spray",
+            "specifications": "6 oz size, Ivy-Dry Inc (NO SUBSTITUTIONS) or approved equivalent",
+            "estimated_quantity": "12",
+            "unit": "Each"
+        },
+        {
+            "item_number": "15",
+            "description": "Fire Extinguisher Bracket - Metal",
+            "specifications": "For 5# extinguishers, Kidde 420119 PRO 340 or approved equivalent, metal construction",
+            "estimated_quantity": "7",
+            "unit": "Each"
+        },
+        {
+            "item_number": "16",
+            "description": "Silica Barricade Tape",
+            "specifications": "Seton Co. 7409D or approved equivalent, safety barricade tape",
+            "estimated_quantity": "5",
+            "unit": "Roll"
+        },
+        {
+            "item_number": "17",
+            "description": "Self-Retractable Lanyard",
+            "specifications": "3M 3500293, DB1-SALA Nano Lok Edge (NO SUBSTITUTION), ANSI certified, 310 lbs capacity",
+            "estimated_quantity": "5",
+            "unit": "Each"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "12 months with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 9, 2026",
+            "\ud83d\udcc5 DEADLINE: February 14, 2026 at 5:00 PM EST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-97E1A9 - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

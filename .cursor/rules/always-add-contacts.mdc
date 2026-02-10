@@ -1,0 +1,221 @@
+# 🚨 CRITICAL RULE: Always Add All Contacts to System
+
+**This is a non-negotiable business development rule.**
+
+---
+
+## THE RULE
+
+**Add EVERY business contact to GPSS CONTACTS table in Airtable:**
+
+### **WHO TO ADD:**
+
+1. ✅ **Solicitation Contacts**
+   - Procurement officers
+   - Buyers
+   - Contract specialists
+   - Agency contacts
+   - RFP/RFQ issuers
+
+2. ✅ **Supplier Contacts**
+   - Vendors providing quotes
+   - Distributors
+   - Manufacturers
+   - Product suppliers
+   - Equipment providers
+
+3. ✅ **Subcontractor Contacts**
+   - Service providers
+   - Specialty contractors
+   - Potential partners
+   - Professional services
+
+4. ✅ **Agency Contacts**
+   - Government procurement staff
+   - Department heads
+   - Program managers
+   - Diversity coordinators
+
+5. ✅ **Any Other Business Contacts**
+   - Industry connections
+   - Networking contacts
+   - Referral sources
+   - Partnership opportunities
+
+---
+
+## WHY THIS MATTERS
+
+**Every contact = Future opportunity**
+- They may have OTHER opportunities that fit better
+- Capability statement distribution list
+- Networking and relationship building
+- Referrals to other agencies/companies
+- Long-term business development
+- Market intelligence
+
+**Example:** 
+- Rockdale County ICAP (not a fit) → Contact added → May have transportation, testing, or emergency services opportunities later
+
+---
+
+## WHEN TO ADD
+
+**IMMEDIATELY when you encounter:**
+- New solicitation received
+- New supplier contacted
+- New subcontractor identified
+- New agency interaction
+- New networking connection
+
+**Don't wait. Add them right away.**
+
+---
+
+## HOW TO ADD
+
+### **Fields in GPSS CONTACTS:**
+- **Name** (required)
+- **Email** (required)
+- **Title** (if known)
+- **Organization** (required)
+- **Role Category** (Procurement, Supplier, Subcontractor, Agency, etc.)
+- **Notes** (context: how you know them, what they work on, opportunities)
+
+### **Python Script Template:**
+
+```python
+#!/usr/bin/env python3
+from pyairtable import Api
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+api = Api(os.getenv('AIRTABLE_API_KEY'))
+table = api.table(os.getenv('AIRTABLE_BASE_ID'), 'GPSS CONTACTS')
+
+contact = {
+    'Name': 'Contact Name',
+    'Email': 'email@example.com',
+    'Title': 'Their Title',
+    'Organization': 'Company/Agency Name',
+    'Role Category': 'Procurement/Supplier/Subcontractor/Agency',
+    'Notes': 'How you know them, context, opportunities, phone numbers'
+}
+
+table.create(contact)
+```
+
+---
+
+## STANDARD WORKFLOW
+
+### **For Each Solicitation:**
+1. Review solicitation
+2. Extract contact information
+3. **ADD CONTACT IMMEDIATELY**
+4. Note in contact: solicitation type, whether pursued, why/why not
+
+### **For Each Supplier:**
+1. Request quote from supplier
+2. Get contact name, email, phone
+3. **ADD CONTACT IMMEDIATELY**
+4. Note in contact: what they supply, pricing, reliability
+
+### **For Each Subcontractor:**
+1. Identify potential sub
+2. Get contact information
+3. **ADD CONTACT IMMEDIATELY**
+4. Note in contact: services offered, capabilities, partnership potential
+
+---
+
+## CONTACT CATEGORIES
+
+**Role Category field values:**
+- **Procurement** - Government buyers, procurement officers
+- **Supplier** - Product vendors, distributors
+- **Subcontractor** - Service providers, specialty contractors
+- **Agency** - Government staff, program managers
+- **Partner** - Strategic partners, collaborators
+- **Networking** - Industry connections, referrals
+- **Other** - Miscellaneous business contacts
+
+---
+
+## EXAMPLES
+
+### **Good - Solicitation Contact:**
+```
+Name: Tracy McDonald
+Email: tmcdonald@rcoc.org
+Title: Procurement Specialist
+Organization: Road Commission for Oakland County
+Role Category: Procurement
+Notes: Contact for multiple RCOC solicitations (7799, 7803, 7814, 7835, etc.)
+Phone: 248-858-4796
+Opportunities: Municipal equipment, supplies, vehicles, services
+```
+
+### **Good - Supplier Contact:**
+```
+Name: John Smith
+Email: jsmith@nationalautoflet.com
+Title: Fleet Sales Manager
+Organization: National Auto Fleet Group
+Role Category: Supplier
+Notes: Contacted for RCOC 7814 Truck RFQ (Feb 4, 2026)
+Phone: 855-289-6572
+Supplies: Fleet vehicles, commercial upfitting, turnkey truck solutions
+```
+
+### **Good - Subcontractor Contact:**
+```
+Name: Sarah Johnson
+Email: sarah@landscapepros.com
+Title: Owner
+Organization: Landscape Pros LLC
+Role Category: Subcontractor
+Notes: Potential sub for municipal landscaping contracts
+Phone: 248-555-1234
+Services: Commercial landscaping, grounds maintenance, snow removal
+```
+
+---
+
+## RED FLAGS - NEVER SKIP
+
+**These are HIGH-VALUE contacts - ALWAYS ADD:**
+- ✅ Procurement officers (they control contracts!)
+- ✅ Reliable suppliers (good pricing, service)
+- ✅ Quality subcontractors (proven partners)
+- ✅ Diversity coordinators (EDWOSB opportunities)
+- ✅ Agency program managers (understand needs)
+
+---
+
+## BENEFITS
+
+**Building this contact database enables:**
+1. **Capability statement distribution** - Regular outreach
+2. **Opportunity intelligence** - Know who issues what
+3. **Supplier network** - Fast quotes for future bids
+4. **Subcontractor pool** - Reliable partners ready
+5. **Relationship building** - Long-term business development
+6. **Market knowledge** - Understand procurement landscape
+
+---
+
+## IMPLEMENTATION
+
+**Every time you:**
+- Review a solicitation → Add procurement contact
+- Request a quote → Add supplier contact
+- Identify a sub → Add subcontractor contact
+- Network with agency → Add agency contact
+
+**No exceptions. Every contact matters.**
+
+---
+
+**This is how you build a $50K/month business - relationships!**

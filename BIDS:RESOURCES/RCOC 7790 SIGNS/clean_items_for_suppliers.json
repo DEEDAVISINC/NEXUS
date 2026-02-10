@@ -1,0 +1,656 @@
+[
+  {
+    "item": 1,
+    "description": "I100, ADOPT-A-ROAD RCOC, 24x24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 40
+  },
+  {
+    "item": 2,
+    "description": "R15-1, GRADE CROSSING, RR X-BUCK, 48x9",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 3,
+    "description": "R8-3, NO PARKING, (SYM) 12X2",
+    "spec": "ASTM TYPE IV",
+    "quantity": 120
+  },
+  {
+    "item": 4,
+    "description": "R6-1R, ONE WAY ARROW (RIGHT) 36X12",
+    "spec": "ASTM TYPE IV",
+    "quantity": 100
+  },
+  {
+    "item": 5,
+    "description": "OM3-L,LEFT OBJECT MARKER, TYPE 3, (LFT SD OF RD) 12X36",
+    "spec": "ASTM XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 6,
+    "description": "OM3-R, OBJECT MARKER, TYPE 3 (RT SD OF ROAD)12X36",
+    "spec": "ASTM XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 7,
+    "description": "R5-1A, WRONG WAY, 30x18",
+    "spec": "ASTM TYPE IV",
+    "quantity": 25
+  },
+  {
+    "item": 8,
+    "description": "OM4-3, OBJECT MARKER,K TYPE 4, 18X18",
+    "spec": "ASTM TYPE XI",
+    "quantity": 30
+  },
+  {
+    "item": 9,
+    "description": "M11 MOD, INTERSTATE RT MARKER, (BLANK 1,2 DIGIT) 24X24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 10,
+    "description": "R3-1 MOV.PROB., NO LEFT TURN (SYM), 24X24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 11,
+    "description": "R8-3 NO PARKING (SYM), 24X24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 20
+  },
+  {
+    "item": 12,
+    "description": "W1-8RL CHEVRON, ALIGN, 24X30  24x30",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 350
+  },
+  {
+    "item": 13,
+    "description": "R4-1 DO NOT PASS, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 75
+  },
+  {
+    "item": 14,
+    "description": "R100 WEIGHT ROAD, NORMAL LOADING (CLASSB)",
+    "spec": "30X24 ASTM TYPE IV, DOUBLE SIDED",
+    "quantity": 300
+  },
+  {
+    "item": 15,
+    "description": "S5-2 END SCHOOL ZONE, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 16,
+    "description": "R4-7 KEEP RIGHT (SYM), 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 40
+  },
+  {
+    "item": 17,
+    "description": "R4-2 PASS WITH CARE, 24X90",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 18,
+    "description": "R2-1 SPEED LIMIT 25, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 150
+  },
+  {
+    "item": 19,
+    "description": "R2-1 SPEED LIMIT 35, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 20
+  },
+  {
+    "item": 20,
+    "description": "R2-1 SPEED LIMIT 40, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 40
+  },
+  {
+    "item": 21,
+    "description": "R2-1 SPEED LIMIT 45, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 22,
+    "description": "R10-6 STOP HERE ON RED, 24X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 23,
+    "description": "R5-1A WRONG WAY, 36X24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 35
+  },
+  {
+    "item": 24,
+    "description": "W1-7RL LARGE ARROW (2-DIRECTION) 48X24X0.080",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 25,
+    "description": "W1-6RL LARGE ARROW (1 DIRECTION) 48X24X0.125",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 75
+  },
+  {
+    "item": 26,
+    "description": "M1-1 MOD, INTERSTATE RT MARKER, (BLANK 3 DIGIT) 30X24",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 27,
+    "description": "W14-1 DEAD END, 30X30",
+    "spec": "ASTM XI, FY",
+    "quantity": 40
+  },
+  {
+    "item": 28,
+    "description": "R5-1 DO NOT ENTER, 30X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 29,
+    "description": "R3-7L LEFT LANE MUST TURN LEFT, 30X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 20
+  },
+  {
+    "item": 30,
+    "description": "W1-1L HORIZ ALIGN, TURN, 30X30",
+    "spec": "ASTM TYPE X1, FY",
+    "quantity": 10
+  },
+  {
+    "item": 31,
+    "description": "R3-1 MOVE.PROH., NO LEFT TURN (SYM), 30X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 32,
+    "description": "W14-2 NO OUTLET, 30X30",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 33,
+    "description": "R10-11A NO TURN ON CIRCULAR BALL, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 34,
+    "description": "R3-7R RIGHT LANE MUST TURN RIGHT, 30X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 35,
+    "description": "W100 ROAD ENDS, 30X30",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 25
+  },
+  {
+    "item": 36,
+    "description": "R1-1 STOP, 30X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 600
+  },
+  {
+    "item": 37,
+    "description": "R100 WEIGHT BRIDGE (BLANK), 30X42",
+    "spec": "ASTM TYPE IV",
+    "quantity": 15
+  },
+  {
+    "item": 38,
+    "description": "R11-2 ROAD CLOSED, 48X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 39,
+    "description": "R11-4 ROAD CLOSED TO THROUGH/THRU TRAFFIC, 60X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 40,
+    "description": "I100 WEIGHT BRIDGE, ON BRIDGE AHEAD, (BLANK) 30X54",
+    "spec": "ASTM TYPE IV",
+    "quantity": 10
+  },
+  {
+    "item": 41,
+    "description": "R1-2 YIELD, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 100
+  },
+  {
+    "item": 42,
+    "description": "W8-13 BRIDGE ICES BEFORE ROAD, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 43,
+    "description": "R5-1 DO NOT ENTER, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 25
+  },
+  {
+    "item": 44,
+    "description": "W11-8 EMERGENCY VEHICLE/FIRE ENGINE, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 45,
+    "description": "W1-2L HORIZ.ALIGN, CURVE, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 46,
+    "description": "W01-4L HORIZ. ALIGN, REVERSE CURVE, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 47,
+    "description": "W1-1L HORIZ. ALIGN, TURN, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 48,
+    "description": "R3-1 MOVE.PROB., NO LEFT TURN (SYM) 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 49,
+    "description": "R3-3 MOVE. PROB., NO TURNS, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 50,
+    "description": "W8-3 PAVEMENT ENDS, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 51,
+    "description": "W11-2 PEDESTRIAN, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 30
+  },
+  {
+    "item": 52,
+    "description": "W1-2R HORIZ, ALIGN., CURVE, 26X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 53,
+    "description": "W4-2R LANE ENDS (COKE BOTTLE), 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 54,
+    "description": "W3-3 SIGNAL AHEAD, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 55,
+    "description": "R1-1 STOP, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 20
+  },
+  {
+    "item": 56,
+    "description": "W3-1 STOP AHEAD, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 57,
+    "description": "W4-1R MERGE, 48X48",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 58,
+    "description": "W11-3 LARGE ANIMAL, DEER, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 59,
+    "description": "W3-5 REDUCED SPEED LIMIT AHEAD, (BLANK), 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 60,
+    "description": "S4-5 REDUCED SCHOOL SPEED LIMIT AHEAD (BLANK), 36X36",
+    "spec": "ASTM TYPE XI, FYG",
+    "quantity": 10
+  },
+  {
+    "item": 61,
+    "description": "W100 HIDDEN DRIVEWAYS, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 62,
+    "description": "W16-9P AHEAD (PLAQUE FOR SCHOOL), 30X18",
+    "spec": "ASTM TYPE XI, FYG",
+    "quantity": 20
+  },
+  {
+    "item": 63,
+    "description": "W16-7PL DOWNWARD DIAGONAL ARROW (PLAQUE), 30X18",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 64,
+    "description": "W14-1AR DEAD END, RIGHT ARROW, 36X9X0.063",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 65,
+    "description": "W14-1AL DEAD END, LEFT ARROW, 36X9X0.063",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 20
+  },
+  {
+    "item": 66,
+    "description": "W14-2AR NO OUTLET, RIGHT ARROW, 36X9X0.063",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 67,
+    "description": "W14-2AL NO OUTLET, LEFT ARROW, 36X9X0.063",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 15
+  },
+  {
+    "item": 68,
+    "description": "R1-5R YIELD HERE TO PEDESTRIANS, RIGHT ARROW, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 69,
+    "description": "R1-5L YIELD HERE TO PEDESTRIANS, LEFT ARROW, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 70,
+    "description": "R10-3E COUNTDOWN PEDESTRIAN, RIGHT ARROW, 9X15",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 71,
+    "description": "R10-3E COUNTDOWN PEDESTRIAN, LEFT ARROW, 9X15",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 72,
+    "description": "REFLECTIVE PANEL FOR SIGN POST, RED, 3X60",
+    "spec": "ASTM TYPE IV",
+    "quantity": 150
+  },
+  {
+    "item": 73,
+    "description": "R02-6AP FINES DOUBLE (PLAQUE), 24X18",
+    "spec": "ASTM TYPE IV",
+    "quantity": 20
+  },
+  {
+    "item": 74,
+    "description": "REFLECTIVE PANEL FOR SIGN POST, YELLOW, 3X60",
+    "spec": "ASTM TYPE IV",
+    "quantity": 300
+  },
+  {
+    "item": 75,
+    "description": "I100 WEIGHT ROAD, DESIGNATED LOADING, CLASS A, 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 50
+  },
+  {
+    "item": 76,
+    "description": "R3-7L LEFT LANE MUST TURN LEFT, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 77,
+    "description": "R3-7R RIGHT LANE MUST TURN RIGHT, 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 78,
+    "description": "W11-15 TRAIL CROSSING/BIKE DUDE 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 10
+  },
+  {
+    "item": 79,
+    "description": "W11-10 TRUCK, 36X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 80,
+    "description": "REFLECTIVE PANEL FOR SIGN POST, WHITE, 3X60",
+    "spec": "ASTM TYPE IV",
+    "quantity": 100
+  },
+  {
+    "item": 81,
+    "description": "W11-5 FARM VEHICLE 30X30",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 82,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (10) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 83,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (15) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 84,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (20) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 85,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (25) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 86,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (30) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 87,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (35) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 88,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (40) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 89,
+    "description": "W13-1P ADVISORY SPEED PLAQUE (45) 24X24",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 90,
+    "description": "W16-9P AHEAD (PLAQUE) 30X18",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 91,
+    "description": "R10-15L TURNING VEHICLES YIELD TO PEDESTRIANS (LEFT) 30X30",
+    "spec": "ASTM TYPE XI AND IV",
+    "quantity": 5
+  },
+  {
+    "item": 92,
+    "description": "R10-15R TURNING VEHICLES YIELD TO PEDESTRIANS (RIGHT) 30X30",
+    "spec": "ASTM TYPE XI AND IV",
+    "quantity": 5
+  },
+  {
+    "item": 93,
+    "description": "R12-1MOD WEIGHT LIMIT, BRIDGE (BLANK) 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 94,
+    "description": "R100 WEIGHT LIMIT, BRIDGE (BLANK) AHEAD 24X48",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 95,
+    "description": "R3-1 MOVE. PROH. - NO RIGHT TURN (SYM) 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 96,
+    "description": "R3-4 MOVE. PROH. - NO U-TURN (SYM) 36X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 97,
+    "description": "R4-21L LEFT TURN ONLY (WORDS) 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 98,
+    "description": "R4-21R RIGHT TURN ONLY (WORDS) 24X30",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 99,
+    "description": "R6-1L ONE WAY (LEFT) 30X10",
+    "spec": "ASTM TYPE IV",
+    "quantity": 15
+  },
+  {
+    "item": 100,
+    "description": "R6-1R ONE WAY (RIGHT) 30X10",
+    "spec": "ASTM TYPE IV",
+    "quantity": 15
+  },
+  {
+    "item": 101,
+    "description": "W1-6RL LARGE ARROW (1-DIRECTION) 60X30X0.080",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 102,
+    "description": "W1-6RL LARGE ARROW (1-DIRECTION) 72X36X0.125",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 103,
+    "description": "W1-7RL LARGE ARROW (2-DIRECTION) 60X30X0.080",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 104,
+    "description": "W1-7RL LARGE ARROW (2-DIRECTION) 72X36X0.125",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 5
+  },
+  {
+    "item": 105,
+    "description": "W1-8RL CHEVRON ALIGN 30X36",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 106,
+    "description": "W1-8RL CHEVRON ALIGN 36X48",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 107,
+    "description": "W4-4P CROSS TRAFFIC DOES NOT STOP 36X18",
+    "spec": "ASTM TYPE XI, FY",
+    "quantity": 7
+  },
+  {
+    "item": 108,
+    "description": "R100 WEIGHT BRIDGE, ON BRIDGE AHEAD (BLANK)(SUB-LOCAL) 24X60",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  },
+  {
+    "item": 109,
+    "description": "R100 WEIGHT BRIDGE (BLANK)(SUB-LOCAL) 24X36",
+    "spec": "ASTM TYPE IV",
+    "quantity": 5
+  }
+]

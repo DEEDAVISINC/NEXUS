@@ -1,46 +1,22 @@
-"""
-Check the ACTUAL field names in GPSS SUBCONTRACTORS (with exact capitalization)
-"""
-
+#!/usr/bin/env python3
+"""Check actual field names in GPSS OPPORTUNITIES"""
 import os
-from dotenv import load_dotenv
 from pyairtable import Api
+from dotenv import load_dotenv
 
 load_dotenv()
 
-api = Api(os.environ.get('AIRTABLE_API_KEY'))
-base_id = os.environ.get('AIRTABLE_BASE_ID')
+api = Api(os.getenv('AIRTABLE_API_KEY'))
+base = api.base(os.getenv('AIRTABLE_BASE_ID'))
+schema = base.schema()
 
-# First check if there's a record with data
-subs_table = api.table(base_id, 'GPSS SUBCONTRACTORS')
+opportunities_table = next((t for t in schema.tables if t.name == 'GPSS OPPORTUNITIES'), None)
 
-print("🔍 CHECKING ACTUAL FIELD NAMES IN GPSS SUBCONTRACTORS\n")
-
-# Get the table schema by fetching the base schema
-try:
-    from pyairtable.api.base import Base
-    base = Base(api, base_id)
-    schema = base.schema()
-    
-    # Find GPSS SUBCONTRACTORS table in schema
-    for table in schema.tables:
-        if table.name == 'GPSS SUBCONTRACTORS':
-            print(f"✅ Found table: {table.name}\n")
-            print("ALL FIELDS IN TABLE (exact spelling):")
-            for field in table.fields:
-                print(f"  - '{field.name}' ({field.type})")
-            break
-except Exception as e:
-    print(f"Could not get schema: {e}")
-    print("\nTrying alternative method - fetching records...\n")
-    
-    # Alternative: get from existing record with most fields populated
-    all_records = subs_table.all()
-    if all_records:
-        # Get the record with the most fields
-        record_with_most_fields = max(all_records, key=lambda r: len(r['fields']))
-        
-        print("ALL FIELDS FROM EXISTING RECORDS:")
-        for field_name in sorted(record_with_most_fields['fields'].keys()):
-            value = record_with_most_fields['fields'][field_name]
-            print(f"  - '{field_name}' = {value}")
+if opportunities_table:
+    print("All fields in GPSS OPPORTUNITIES:")
+    print()
+    for field in opportunities_table.fields:
+        print(f"  - {field.name} ({field.type})")
+        # Check if it's document-related
+        if any(word in field.name.upper() for word in ['DOCUMENT', 'PACKAGE', 'ASSEMBLED']):
+            print(f"    → DOCUMENT FIELD FOUND!")

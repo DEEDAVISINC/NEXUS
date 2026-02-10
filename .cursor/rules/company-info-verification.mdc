@@ -1,0 +1,65 @@
+# Company Information Verification - MANDATORY for All Generated Documents
+
+**This rule MUST be followed every time a document, email, capability statement, RFQ, proposal, or any correspondence is generated.**
+
+---
+
+## CORRECT COMPANY INFORMATION
+
+**ALWAYS use these exact details:**
+
+| Field | Value |
+|-------|-------|
+| **Company Name** | Dee Davis Inc. |
+| **Address** | 755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084 |
+| **Phone** | **248.376.4550** |
+| **Email** | info@deedavis.biz |
+| **Website** | deedavis.biz |
+| **CAGE Code** | 8UMX3 |
+| **UEI** | HJB4KNYJVGZ1 |
+| **DUNS** | 002636755 |
+| **MC Number** | 1647572 |
+| **US DOT** | 4250594 |
+
+---
+
+## BANNED / INCORRECT INFORMATION
+
+**NEVER use these — they are OLD and WRONG:**
+
+| Field | WRONG Value | CORRECT Value |
+|-------|-------------|---------------|
+| Phone | ~~248.247.5020~~ | **248.376.4550** |
+| Phone | ~~248-247-5020~~ | **248-376-4550** |
+| Zip | ~~48083~~ | **48084** |
+| Email | ~~bids@deedavisinc.com~~ | **info@deedavis.biz** |
+| Website | ~~deedavisinc.com~~ | **deedavis.biz** |
+
+---
+
+## VERIFICATION CHECKLIST
+
+**Before finalizing ANY generated document, verify:**
+
+- [ ] Phone number is 248.376.4550 (NOT 248.247.5020)
+- [ ] Address is Troy, Michigan 48084 (NOT 48083)
+- [ ] Email is info@deedavis.biz
+- [ ] CAGE Code is 8UMX3
+- [ ] UEI is HJB4KNYJVGZ1
+- [ ] Company name is "Dee Davis Inc." (with period after Inc)
+
+---
+
+## SOURCE OF TRUTH
+
+**Always reference:** `COMPANY_INFO_MASTER.md` in the project root.
+
+If there is ANY conflict between hardcoded values and the master file, **the master file wins.**
+
+---
+
+## WHY THIS EXISTS
+
+Incorrect phone numbers were generated in multiple submissions because old information was hardcoded in templates. This caused the wrong phone number (248.247.5020) to appear on documents sent to government contracting officers, which is unprofessional and could result in missed callbacks.
+
+**This is a business-critical rule. Wrong contact info = lost contracts.**

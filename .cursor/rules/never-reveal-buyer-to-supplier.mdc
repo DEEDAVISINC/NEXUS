@@ -1,0 +1,133 @@
+---
+description: CRITICAL - Never reveal buyer/client names to suppliers in quote requests or communications
+alwaysApply: true
+---
+
+# 🚨 CRITICAL BUSINESS RULE: Never Reveal Buyer to Suppliers
+
+**This is a NON-NEGOTIABLE business protection rule that MUST be followed 100% of the time.**
+
+---
+
+## The Rule
+
+When generating supplier quote requests, emails, phone scripts, or ANY supplier communication:
+
+**NEVER include:**
+- ❌ Client names (Rock Island, Canton Township, Oakland County, etc.)
+- ❌ Agency names (City of X, County of Y, Arsenal, etc.)
+- ❌ Solicitation/RFP/RFB numbers
+- ❌ Procurement officer names
+- ❌ Specific delivery addresses with agency names
+- ❌ That it's a "government contract" or "municipal bid" (be generic)
+
+---
+
+## Why This is Critical
+
+If suppliers know the end buyer, they can:
+1. Look up the public bid themselves
+2. Contact the buyer directly
+3. Submit their own bid
+4. **Cut Dee Davis Inc. out completely**
+5. Eliminate the business opportunity and profit margin
+
+**Protecting buyer identity = Protecting the business!**
+
+---
+
+## What To Say Instead
+
+### ❌ WRONG:
+```
+"Quote needed for City of Rock Island, Illinois"
+"This is for Canton Township's water infrastructure bid"
+"Delivery to Oakland County Road Commission, 2420 Pontiac Lake Rd"
+"For Rock Island Arsenal solicitation #..."
+```
+
+### ✅ CORRECT:
+```
+"Quote needed for a government client in Illinois"
+"This is for a Michigan municipal client"
+"Delivery to Metro Detroit area" or "Southeast Michigan"
+"For a federal client project"
+```
+
+---
+
+## Safe Information You CAN Share
+
+You CAN share:
+- ✅ General location (Illinois, Michigan, Metro Detroit, Southeast Michigan)
+- ✅ Product specifications (part numbers, quantities, materials)
+- ✅ "Government client" or "municipal client" (generic only)
+- ✅ Delivery timeline requirements
+- ✅ Dee Davis Inc. company information
+- ✅ Request for "competitive pricing" or "best pricing"
+
+---
+
+## Examples
+
+### Example 1: Rock Island Bags
+
+❌ WRONG:
+> "This order is for the City of Rock Island, Illinois. They need 71,280 bags for their municipal yard waste program."
+
+✅ CORRECT:
+> "This order is for a government client in Illinois. Need 71,280 bags."
+
+---
+
+### Example 2: Canton Township Water Parts
+
+❌ WRONG:
+> "Quote for Canton Township DPW's water infrastructure bid closing February 5th."
+
+✅ CORRECT:
+> "Quote for a Michigan municipal client. Water infrastructure products needed."
+
+---
+
+### Example 3: Tax Exemption Request
+
+❌ WRONG:
+> "Remove sales tax - this is for City of Rock Island (tax-exempt municipality)"
+
+✅ CORRECT:
+> "Remove sales tax - this is for a tax-exempt government client in Illinois"
+
+---
+
+## When User Asks to Create Supplier Communication
+
+**ALWAYS check:**
+1. Does this mention any client/buyer names? → REMOVE
+2. Does this mention specific city/county/agency? → MAKE GENERIC
+3. Does this include solicitation numbers? → REMOVE
+4. Does this include specific delivery addresses? → USE GENERAL AREA
+
+---
+
+## If You Make a Mistake
+
+If you accidentally include buyer information:
+1. IMMEDIATELY acknowledge the error
+2. Provide corrected version WITHOUT buyer info
+3. Apologize for the critical mistake
+
+---
+
+## This Rule Applies To
+
+- ✅ Email templates
+- ✅ Quote request letters
+- ✅ Phone scripts
+- ✅ Supplier communications
+- ✅ RFQ documents sent to suppliers
+- ✅ ANY communication with vendors/suppliers
+
+---
+
+**REMEMBER: The user's business depends on suppliers NOT knowing the end buyer. Violating this rule = losing business opportunities!**

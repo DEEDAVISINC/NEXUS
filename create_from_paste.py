@@ -76,7 +76,7 @@ def parse_capability_template(text):
             "website": "www.deedavis.biz",
             "cage_code": "8UMX3",
             "uei": "HJB4KNYJVGZ1",
-            "duns": "002636755",
+            "duns": "00-2636755",
             "tax_id": "84-4114181"
         },
         "rfq_details": {
@@ -117,11 +117,19 @@ def parse_capability_template(text):
 def parse_rfq_template(text):
     """Parse RFQ paste template"""
     
+    from datetime import datetime
+    import hashlib
+    
     # Extract fields
     request_type = re.search(r'REQUEST_TYPE:\s*(.+)', text)
     request_type_value = request_type.group(1).strip().upper() if request_type else "SUPPLIER"
     
-    rfq_number = re.search(r'RFQ_NUMBER:\s*(.+)', text)
+    # Auto-generate DDI quote number (format: DDI-2026-ABC123)
+    year = datetime.now().year
+    timestamp = datetime.now().strftime('%H%M%S')
+    hash_suffix = hashlib.md5(timestamp.encode()).hexdigest()[:6].upper()
+    dd_po_number = f"DDI-{year}-{hash_suffix}"
+    
     title = re.search(r'TITLE:\s*(.+)', text)
     issue_date = re.search(r'ISSUE_DATE:\s*(.+)', text)
     due_date = re.search(r'DUE_DATE:\s*(.+)', text)
@@ -200,11 +208,11 @@ def parse_rfq_template(text):
             "contact_person": "Dee Davis, President & CEO"
         },
         "rfq_details": {
-            "rfq_number": rfq_number.group(1).strip() if rfq_number else "RFQ-001",
+            "rfq_number": dd_po_number,
             "title": title.group(1).strip() if title else "Request for Quote",
-            "issue_date": issue_date.group(1).strip() if issue_date else "January 26, 2026",
-            "due_date": due_date.group(1).strip() if due_date else "February 15, 2026",
-            "due_time": due_time.group(1).strip() if due_time else "3:00 PM EST",
+            "issue_date": issue_date.group(1).strip() if issue_date else datetime.now().strftime("%B %d, %Y"),
+            "due_date": due_date.group(1).strip() if due_date else "TBD",
+            "due_time": due_time.group(1).strip() if due_time else "5:00 PM EST",
             "project_name": title.group(1).strip() if title else "Request for Quote",
             "contract_period": contract_period.group(1).strip() if contract_period else "12 months"
         },
@@ -213,14 +221,16 @@ def parse_rfq_template(text):
             "accent": colors["accent"],
             "text": "#374151"
         },
-        "introduction": introduction,
+        "introduction": introduction if introduction else f"DEE DAVIS INC is requesting competitive pricing quotes for {title.group(1).strip().lower() if title else 'products and services'} as detailed below. We are seeking reliable suppliers who can provide quality products, competitive pricing, and dependable delivery schedules.",
         "scope_of_work": {
             "title": "SCOPE OF WORK",
-            "description": scope,
+            "description": scope if scope else "The selected vendor will supply all materials/products as specified in the line items below. All products must be delivered as ordered, meeting manufacturer specifications and quality standards. The vendor must provide reliable delivery within stated lead times and maintain consistent pricing throughout the contract period.",
             "key_requirements": key_requirements if key_requirements else [
-                "Meet quality standards",
-                "Provide timely delivery",
-                "Maintain competitive pricing"
+                "All products must be new and meet manufacturer specifications",
+                "Provide confirmed delivery lead times for each item",
+                "Include all shipping/freight costs in quote or specify separately",
+                "Maintain quoted pricing for full contract term",
+                "Respond to orders within 24 business hours"
             ]
         },
         "items": items if items else [{
@@ -231,24 +241,27 @@ def parse_rfq_template(text):
             "unit": "unit"
         }],
         "submission_requirements": {
-            "title": "SUBMISSION REQUIREMENTS",
+            "title": "QUOTE SUBMISSION REQUIREMENTS",
             "items": [
-                "Complete pricing for all items listed",
-                "Product specifications and technical data sheets",
-                "Company profile and relevant certifications",
-                "References from at least 3 similar clients",
-                "Delivery schedule and lead times",
-                "Payment terms and available discounts"
+                "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+                "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+                "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+                "SHIPPING: State whether freight is included in pricing or quote separately",
+                "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+                "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+                "QUOTE VALIDITY: Confirm how long pricing remains valid",
+                "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
             ]
         },
         "terms_and_conditions": {
             "title": "TERMS & CONDITIONS",
             "items": [
-                {"title": "Payment Terms", "description": "Net 30 days from invoice date"},
-                {"title": "Delivery", "description": "FOB Destination, freight prepaid and included"},
-                {"title": "Contract Period", "description": f"{contract_period.group(1).strip() if contract_period else '12 months'} with option to extend"},
-                {"title": "Quality Standards", "description": "All products must meet industry standards"},
-                {"title": "Insurance", "description": "Vendor must maintain minimum $1M general liability"}
+                {"title": "Payment Terms", "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."},
+                {"title": "Delivery Requirements", "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."},
+                {"title": "Contract Period", "description": f"{contract_period.group(1).strip() if contract_period else '12 months'} with option to extend based on performance."},
+                {"title": "Product Quality", "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."},
+                {"title": "Returns & Warranties", "description": "Defective items must be replaced within 5 business days at no charge."},
+                {"title": "Price Protection", "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."}
             ]
         },
         "evaluation_criteria": {
@@ -263,12 +276,16 @@ def parse_rfq_template(text):
             ]
         },
         "additional_info": {
-            "title": "ADDITIONAL INFORMATION",
+            "title": "HOW TO RESPOND",
             "items": [
-                f"Questions must be submitted in writing by {issue_date.group(1).strip() if issue_date else 'issue date'}",
-                "DEE DAVIS INC reserves the right to accept or reject any or all quotes",
-                "Late submissions will not be considered",
-                f"Award notification expected within 10 business days of {due_date.group(1).strip() if due_date else 'due date'}"
+                "📧 EMAIL QUOTE TO: info@deedavis.biz",
+                f"📞 QUESTIONS: Call 248-376-4550 or email before {issue_date.group(1).strip() if issue_date else 'issue date'}",
+                f"📅 DEADLINE: {due_date.group(1).strip() if due_date else 'due date'} at {due_time.group(1).strip() if due_time else 'due time'} - Late quotes will not be accepted",
+                f"📋 SUBJECT LINE: Use '{dd_po_number} - [Your Company Name]' in email subject",
+                "✅ RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+                "🚚 DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+                "⚠️ DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+                "📢 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
             ]
         },
         "logo_path": "dee_davis_logo.png"

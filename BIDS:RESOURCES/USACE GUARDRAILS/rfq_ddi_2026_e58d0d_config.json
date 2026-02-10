@@ -1,0 +1,159 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-E58D0D",
+        "title": "Custom Fabricated Guardrail Assemblies",
+        "issue_date": "February 9, 2026",
+        "due_date": "February 11, 2026",
+        "due_time": "5:00 PM PST",
+        "project_name": "Custom Fabricated Guardrail Assemblies",
+        "contract_period": "One-time purchase"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "DEE DAVIS INC is seeking competitive quotes for custom fabricated guardrail assemblies for a federal government client in Oregon. This is a time-sensitive project requiring experienced metal fabrication with hot-dip galvanizing capability.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Vendor will fabricate custom guardrail assemblies per provided engineering drawings (GPP-9-3-11/2). All assemblies must be hot-dip galvanized after fabrication and delivered to a project site in Lowell, Oregon.",
+        "key_requirements": [
+            "All fabrication per Army Corps engineering drawings (provided upon request)",
+            "Material: 2\" Schedule 40 pipe",
+            "Hot-dip galvanize ALL assemblies after fabrication",
+            "Must meet OSHA fall protection compliance standards",
+            "Delivery to Lowell, OR 97452",
+            "Delivery schedule: Monday-Thursday, 0800-1600",
+            "Shipping costs included in quote",
+            "Lead time estimate required with quote"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "Panel 1 Assembly - Custom 2\" Sch 40 Pipe Guardrail",
+            "specifications": "Per drawing GPP-9-3-11/2",
+            "estimated_quantity": "18",
+            "unit": "each"
+        },
+        {
+            "item_number": "2",
+            "description": "Panel 2 Assembly - Custom 2\" Sch 40 Pipe Guardrail",
+            "specifications": "Per drawing GPP-9-3-11/2",
+            "estimated_quantity": "20",
+            "unit": "each"
+        },
+        {
+            "item_number": "3",
+            "description": "West Corner Rail Assembly - Custom 2\" Sch 40 Pipe",
+            "specifications": "Per drawing GPP-9-3-11/2",
+            "estimated_quantity": "2",
+            "unit": "each"
+        },
+        {
+            "item_number": "4",
+            "description": "East Corner Rail Assembly - Custom 2\" Sch 40 Pipe",
+            "specifications": "Per drawing GPP-9-3-11/2",
+            "estimated_quantity": "2",
+            "unit": "each"
+        },
+        {
+            "item_number": "5",
+            "description": "Mounting Bracket Assembly",
+            "specifications": "Per drawing GPP-9-3-11/2",
+            "estimated_quantity": "84",
+            "unit": "each"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "One-time purchase with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 9, 2026",
+            "\ud83d\udcc5 DEADLINE: February 11, 2026 at 5:00 PM PST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-E58D0D - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

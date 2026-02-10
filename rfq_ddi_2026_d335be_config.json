@@ -1,0 +1,306 @@
+{
+    "request_type": "SUPPLIER",
+    "company": {
+        "name": "DEE DAVIS INC",
+        "address": "755 W Big Beaver Rd, Suite 2020, Troy, MI 48084",
+        "phone": "248-376-4550",
+        "email": "info@deedavis.biz",
+        "website": "www.deedavis.biz",
+        "contact_person": "Dee Davis, President & CEO"
+    },
+    "rfq_details": {
+        "rfq_number": "DDI-2026-D335BE",
+        "title": "Portable Power Distribution Cables and Accessories for Municipal Event Venue",
+        "issue_date": "February 9, 2026",
+        "due_date": "February 12, 2026",
+        "due_time": "5:00 PM EST",
+        "project_name": "Portable Power Distribution Cables and Accessories for Municipal Event Venue",
+        "contract_period": "12 months"
+    },
+    "colors": {
+        "primary": "#0f172a",
+        "accent": "#d97706",
+        "text": "#374151"
+    },
+    "introduction": "We are requesting quotes for portable power distribution cables and accessories for a municipal client in Michigan. This equipment will be used for stage and event power distribution at a government venue. All items must meet professional theatrical/stage power standards and be suitable for outdoor event use.",
+    "scope_of_work": {
+        "title": "SCOPE OF WORK",
+        "description": "Supplier must provide complete pricing for all items listed below. Products must be new, unused, and meet or exceed the specifications provided. Delivery will be required to Metro Detroit area within 30 days of order placement. Supplier must be able to provide all items from a single source or coordinate with approved subcontractors.",
+        "key_requirements": [
+            "All cables must be UL listed or equivalent certification",
+            "Socapex cables must use genuine SOCO-type 19-pin connectors",
+            "All electrical components must meet NEC requirements for stage power",
+            "Camlock connectors must be rated for 350-400 amp service",
+            "Cat6 cables must use Neutrik Ethercon connectors",
+            "Road cases must be ATA-rated or equivalent professional grade",
+            "All items must be suitable for outdoor/weather-resistant use",
+            "Products must be from established manufacturers with warranty support"
+        ]
+    },
+    "items": [
+        {
+            "item_number": "1",
+            "description": "250 ft Socapex 19-pin black",
+            "specifications": "19-pin SOCO-type multi-pin connector, black cable jacket, 250 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable",
+            "estimated_quantity": "3",
+            "unit": "each"
+        },
+        {
+            "item_number": "2",
+            "description": "100 ft Socapex 19-pin black",
+            "specifications": "19-pin SOCO-type multi-pin connector, black cable jacket, 100 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable",
+            "estimated_quantity": "4",
+            "unit": "each"
+        },
+        {
+            "item_number": "3",
+            "description": "75 ft Socapex 19-pin black",
+            "specifications": "19-pin SOCO-type multi-pin connector, black cable jacket, 75 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable",
+            "estimated_quantity": "4",
+            "unit": "each"
+        },
+        {
+            "item_number": "4",
+            "description": "50 ft Socapex 19-pin black",
+            "specifications": "19-pin SOCO-type multi-pin connector, black cable jacket, 50 feet length, 12 AWG conductors (6 circuits), rated 20A per circuit, stage/theatrical power distribution cable",
+            "estimated_quantity": "4",
+            "unit": "each"
+        },
+        {
+            "item_number": "5",
+            "description": "Breakout Male 19-pin Socapex to 6 Female Edison",
+            "specifications": "Input: Male 19-pin Socapex connector, Output: 6 female Edison (standard 3-prong) outlets, 12 AWG wire, 3-5 feet length, individual circuit breakers or inline protection preferred, 20A per circuit capacity",
+            "estimated_quantity": "2",
+            "unit": "each"
+        },
+        {
+            "item_number": "6",
+            "description": "Breakout Male 19-pin Socapex to True1 staggered lengths",
+            "specifications": "Input: Male 19-pin Socapex connector, Output: 6 True1 connectors (stage pin), staggered lengths 5ft-30ft (5ft, 10ft, 15ft, 20ft, 25ft, 30ft), 12 AWG wire, 20A per circuit capacity, heavy-duty strain relief",
+            "estimated_quantity": "4",
+            "unit": "each"
+        },
+        {
+            "item_number": "7",
+            "description": "Breakout Male 19-pin Socapex to True1 10ft",
+            "specifications": "Input: Male 19-pin Socapex connector, Output: 6 True1 connectors (stage pin), all circuits 10 feet length, 12 AWG wire, 20A per circuit capacity, heavy-duty strain relief",
+            "estimated_quantity": "6",
+            "unit": "each"
+        },
+        {
+            "item_number": "8",
+            "description": "Cam-Type Adapter Female to Female black",
+            "specifications": "Camlock adapter, Female to Female configuration, black color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "9",
+            "description": "Cam-Type Adapter Female to Female red",
+            "specifications": "Camlock adapter, Female to Female configuration, red color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "10",
+            "description": "Cam-Type Adapter Female to Female blue",
+            "specifications": "Camlock adapter, Female to Female configuration, blue color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "11",
+            "description": "Cam-Type Adapter Female to Female white",
+            "specifications": "Camlock adapter, Female to Female configuration, white color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "12",
+            "description": "Cam-Type Adapter Female to Female green",
+            "specifications": "Camlock adapter, Female to Female configuration, green color (ground), 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "13",
+            "description": "Cam-Type Adapter Male to Male black",
+            "specifications": "Camlock adapter, Male to Male configuration, black color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "14",
+            "description": "Cam-Type Adapter Male to Male red",
+            "specifications": "Camlock adapter, Male to Male configuration, red color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "15",
+            "description": "Cam-Type Adapter Male to Male blue",
+            "specifications": "Camlock adapter, Male to Male configuration, blue color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "16",
+            "description": "Cam-Type Adapter Male to Male white",
+            "specifications": "Camlock adapter, Male to Male configuration, white color, 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "17",
+            "description": "Cam-Type Adapter Male to Male green",
+            "specifications": "Camlock adapter, Male to Male configuration, green color (ground), 350-400 amp rating, die-cast aluminum or brass construction",
+            "estimated_quantity": "1",
+            "unit": "each"
+        },
+        {
+            "item_number": "18",
+            "description": "4/0 Camlock feeder 10ft set (5 colors)",
+            "specifications": "4/0 AWG (107mm\u00b2) cable, 10 feet each, complete 5-wire set: Black, Red, Blue, White, Green (3-phase + neutral + ground), camlock connectors both ends, SOOW or equivalent flexible cable, 400 amp rated, male on one end female on other",
+            "estimated_quantity": "1",
+            "unit": "set"
+        },
+        {
+            "item_number": "19",
+            "description": "4/0 Camlock feeder 100ft set (5 colors)",
+            "specifications": "4/0 AWG (107mm\u00b2) cable, 100 feet each, complete 5-wire set: Black, Red, Blue, White, Green (3-phase + neutral + ground), camlock connectors both ends, SOOW or equivalent flexible cable, 400 amp rated, male on one end female on other",
+            "estimated_quantity": "1",
+            "unit": "set"
+        },
+        {
+            "item_number": "20",
+            "description": "Cat6 Ethercon 10ft",
+            "specifications": "Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 10 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket",
+            "estimated_quantity": "15",
+            "unit": "each"
+        },
+        {
+            "item_number": "21",
+            "description": "Cat6 Ethercon 25ft",
+            "specifications": "Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 25 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket",
+            "estimated_quantity": "15",
+            "unit": "each"
+        },
+        {
+            "item_number": "22",
+            "description": "Cat6 Ethercon 50ft",
+            "specifications": "Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 50 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket",
+            "estimated_quantity": "15",
+            "unit": "each"
+        },
+        {
+            "item_number": "23",
+            "description": "Cat6 Ethercon 100ft",
+            "specifications": "Cat6 cable (23 AWG, 550 MHz), Neutrik Ethercon connectors (NE8MC to NE8FX or similar), 100 feet length, ruggedized locking connectors, shielded preferred for stage use, black jacket",
+            "estimated_quantity": "15",
+            "unit": "each"
+        },
+        {
+            "item_number": "24",
+            "description": "ProX Case XS-UTL483036WMK2",
+            "specifications": "ProX utility flight case, model XS-UTL483036WMK2, exterior dimensions 48\" L x 30\" W x 36\" H, 3/8\" plywood with laminate construction, heavy-duty steel ball corners, recessed handles, removable lid, 4\" casters with brakes, black color, 400+ lbs weight capacity",
+            "estimated_quantity": "3",
+            "unit": "each"
+        },
+        {
+            "item_number": "25",
+            "description": "Roadcase.com 30x45x30 Fiberglassed Trunk",
+            "specifications": "Fiberglassed ATA trunk, interior dimensions 30\" W x 45\" L x 30\" H, ATA-rated construction with fiberglass exterior, heavy-duty latches, spring-loaded handles, heavy-duty casters (if included), black color, stackable design",
+            "estimated_quantity": "3",
+            "unit": "each"
+        },
+        {
+            "item_number": "26",
+            "description": "Roadcase.com 30\" Fiberglassed Trunk Dividers",
+            "specifications": "Adjustable trunk dividers, fits 30\" wide trunk, foam-padded or fiberglassed panels, customizable compartment dividers, purpose: organize cables/equipment within trunk",
+            "estimated_quantity": "3",
+            "unit": "each"
+        }
+    ],
+    "submission_requirements": {
+        "title": "QUOTE SUBMISSION REQUIREMENTS",
+        "items": [
+            "PRICING: Provide complete unit pricing for each line item with any volume discounts",
+            "MANUFACTURER INFO: Include manufacturer name and part number for each item",
+            "DELIVERY: Specify lead time in business days and confirm FOB terms (destination preferred)",
+            "SHIPPING: State whether freight is included in pricing or quote separately",
+            "QUOTE FORMAT: Respond via email with itemized pricing in Excel/PDF format",
+            "PAYMENT TERMS: State your standard payment terms (Net 30, Net 60, etc.)",
+            "QUOTE VALIDITY: Confirm how long pricing remains valid",
+            "CONTACT INFO: Include primary contact name, phone, and email for follow-up questions"
+        ]
+    },
+    "terms_and_conditions": {
+        "title": "TERMS & CONDITIONS",
+        "items": [
+            {
+                "title": "Payment Terms",
+                "description": "Net 30 days from invoice date. Purchase orders will be issued upon award."
+            },
+            {
+                "title": "Delivery Requirements",
+                "description": "FOB Destination preferred (freight included in price). Specify lead times for each item."
+            },
+            {
+                "title": "Contract Period",
+                "description": "12 months with option to extend based on performance."
+            },
+            {
+                "title": "Product Quality",
+                "description": "All products must be new, first-quality merchandise meeting manufacturer specifications."
+            },
+            {
+                "title": "Returns & Warranties",
+                "description": "Defective items must be replaced within 5 business days at no charge."
+            },
+            {
+                "title": "Price Protection",
+                "description": "Quoted prices remain firm for contract period unless mutually agreed in writing."
+            }
+        ]
+    },
+    "evaluation_criteria": {
+        "title": "EVALUATION CRITERIA",
+        "description": "Quotes will be evaluated based on the following weighted criteria:",
+        "criteria": [
+            {
+                "criterion": "Total Cost",
+                "weight": "40%"
+            },
+            {
+                "criterion": "Product Quality & Specifications",
+                "weight": "25%"
+            },
+            {
+                "criterion": "Delivery Capability & Lead Times",
+                "weight": "20%"
+            },
+            {
+                "criterion": "Company Experience & References",
+                "weight": "10%"
+            },
+            {
+                "criterion": "Payment Terms & Discounts",
+                "weight": "5%"
+            }
+        ]
+    },
+    "additional_info": {
+        "title": "HOW TO RESPOND",
+        "items": [
+            "\ud83d\udce7 EMAIL QUOTE TO: info@deedavis.biz",
+            "\ud83d\udcde QUESTIONS: Call 248-376-4550 or email before February 9, 2026",
+            "\ud83d\udcc5 DEADLINE: February 12, 2026 at 5:00 PM EST - Late quotes will not be accepted",
+            "\ud83d\udccb SUBJECT LINE: Use 'DDI-2026-D335BE - [Your Company Name]' in email subject",
+            "\u2705 RESPONSE FORMAT: Itemized quote matching line items above with total price clearly stated",
+            "\ud83d\ude9a DELIVERY LOCATION: Southeast Michigan (specific address provided upon award)",
+            "\u26a0\ufe0f DEE DAVIS INC reserves the right to accept or reject any quotes and award by line item",
+            "\ud83d\udce2 AWARD NOTIFICATION: Expected within 5-7 business days of deadline"
+        ]
+    },
+    "logo_path": "dee_davis_logo.png"
+}

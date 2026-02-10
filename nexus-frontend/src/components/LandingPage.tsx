@@ -77,6 +77,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   const [portals, setPortals] = useState<any[]>([]);
   const [portalSearch, setPortalSearch] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  
+  // Mining State
+  const [isMining, setIsMining] = useState(false);
+  const [miningStatus, setMiningStatus] = useState<any>(null);
+  const [miningResult, setMiningResult] = useState<any>(null);
 
   // Opportunities and Tasks for Deadlines
   const [opportunities, setOpportunities] = useState<any[]>([]);
@@ -157,84 +162,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     } catch (error) {
       console.error('Error fetching workflow queues:', error);
       
-      // TESTING: Add mock data if API fails or returns empty
-      // This lets us test the modal without backend/Airtable setup
-      const mockQueues = {
-        needsReview: [
-          {
-            id: 'mock-opp-1',
-            fields: {
-              'Name': 'Unnamed Opportunity',
-              'Issuing Organization': 'CPS Energy',
-              'State': 'Texas',
-              'Category': 'Industrial Supplies',
-              'Estimated Value': 400000,
-              'Response Deadline': '2026-02-05',
-              'Description': 'CPS Energy is seeking quotes for industrial wipers, safety supplies, and cleaning products for their Texas facilities. This is a 1-year contract with potential for renewal.',
-              'Date Added': '2026-01-20'
-            }
-          },
-          {
-            id: 'mock-opp-2',
-            fields: {
-              'Name': 'Unnamed Opportunity',
-              'Issuing Organization': 'Oakland County',
-              'State': 'Michigan',
-              'Category': 'Medical Supplies',
-              'Estimated Value': 150000,
-              'Response Deadline': '2026-02-10',
-              'Description': 'Oakland County Medical Examiner office requires body bags, medical examination supplies, and related products.',
-              'Date Added': '2026-01-22'
-            }
-          },
-          {
-            id: 'mock-opp-3',
-            fields: {
-              'Name': 'Unnamed Opportunity',
-              'Issuing Organization': 'City of Sterling Heights',
-              'State': 'Michigan',
-              'Category': 'Aggregate Materials',
-              'Estimated Value': 250000,
-              'Response Deadline': '2026-02-15',
-              'Description': 'Annual contract for bulk aggregate materials including limestone, sand, gravel, and crushed concrete for municipal infrastructure projects.',
-              'Date Added': '2026-01-25'
-            }
-          }
-        ],
-        findSuppliers: [
-          {
-            id: 'mock-opp-4',
-            fields: {
-              'Name': 'Canton Township - Water Infrastructure',
-              'Issuing Organization': 'Canton Township',
-              'State': 'Michigan',
-              'Category': 'Plumbing Supplies',
-              'Estimated Value': 350000,
-              'Response Deadline': '2026-02-08',
-              'Description': 'Water main parts, repair clamps, copper tubing, and brass fittings for municipal water infrastructure maintenance.',
-              'Date Added': '2026-01-18'
-            }
-          }
-        ],
+      // API failed — show empty state, no fake data
+      setWorkflowQueues({
+        needsReview: [],
+        findSuppliers: [],
         requestQuotes: [],
         awaitingQuotes: [],
         readyToPrice: [],
         generateProposal: [],
         finalReview: [],
         submitted: []
-      };
-      
-      setWorkflowQueues(mockQueues);
-      setWorkflowCounts({
-        needsReview: mockQueues.needsReview.length,
-        findSuppliers: 0,
-        requestQuotes: 0,
-        awaitingQuotes: 0,
-        readyToPrice: 0,
-        generateProposal: 0,
-        finalReview: 0,
-        submitted: 0
       });
+      setWorkflowCounts({});
     }
   }, []);
 
@@ -248,6 +187,43 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     }
   };
 
+  // Fetch mining status
+  const fetchMiningStatus = async () => {
+    try {
+      const response = await api.getMiningStatus();
+      setMiningStatus(response);
+    } catch (error) {
+      console.error('Error fetching mining status:', error);
+    }
+  };
+
+  // Run mining on all portals
+  const runMiningNow = async () => {
+    setIsMining(true);
+    setMiningResult(null);
+    try {
+      const result = await api.autoMineAll();
+      setMiningResult(result);
+      fetchMiningStatus();
+    } catch (error) {
+      console.error('Mining error:', error);
+      setMiningResult({ error: 'Mining failed — check backend logs' });
+    } finally {
+      setIsMining(false);
+    }
+  };
+
+  // Mine single portal
+  const minePortal = async (portalId: string) => {
+    try {
+      const result = await api.minePortal(portalId);
+      alert(`Found ${result.opportunities_found || 0} opportunities from ${result.portal_name || 'portal'}`);
+      fetchMiningStatus();
+    } catch (error) {
+      console.error('Portal mining error:', error);
+    }
+  };
+
   // Handle drag & drop
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -258,7 +234,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     setIsDragging(false);
   };
 
-  const handleDrop = async (e: React.DragEvent, category: 'Government' | 'Development') => {
+  const handleDrop = async (e: React.DragEvent, category: string) => {
     e.preventDefault();
     setIsDragging(false);
 
@@ -408,6 +384,7 @@ END:VCALENDAR`;
     fetchPortals();
     fetchDeadlineData();
     fetchWorkflowQueues();
+    fetchMiningStatus();
     
     const interval = setInterval(() => {
       fetchDashboardData();
@@ -491,7 +468,7 @@ END:VCALENDAR`;
       name: 'GPSS',
       fullName: 'Government Prime Sales System',
       icon: '🎯',
-      description: 'Government Contracting Command Center',
+      description: 'Pre-Award Pipeline • Mining • Proposals • EDWOSB Certified',
       stats: [
         `${stats.systems.gpss.opportunities} Active RFP${stats.systems.gpss.opportunities !== 1 ? 's' : ''}`,
         `${formatNumber(stats.systems.gpss.pipeline)} Pipeline`,
@@ -551,11 +528,12 @@ END:VCALENDAR`;
       name: 'VERTEX',
       fullName: 'Financial Command Center',
       icon: '💎',
-      description: 'Invoices • Expenses • Revenue • AI Intelligence • QB Export',
+      description: 'Invoices • Expenses • Revenue • P&L Tracker • QB Export',
       stats: [
-        '$0 Total Revenue',
-        '$0 Net Income',
-        '$0 A/R Outstanding'
+        'P&L Tracker (NEW!)',
+        'Invoices + Expenses',
+        'Revenue Tracking',
+        'Financial Reports'
       ],
       gradient: 'from-purple-600 to-pink-600',
       status: 'online',
@@ -592,41 +570,27 @@ END:VCALENDAR`;
       lastUsed: 'New!'
     },
     {
-      id: 'quotes' as ViewType,
-      name: 'QUOTES',
-      fullName: 'Supplier Quote System',
-      icon: '📋',
-      description: 'Generate & Track Supplier Quote Requests • Timestamped',
-      stats: [
-        '0 Pending Quotes',
-        '0 Sent This Month',
-        '0% Response Rate'
-      ],
-      gradient: 'from-blue-600 to-cyan-600',
-      status: 'online',
-      lastUsed: 'NEW! 🚀'
-    },
-    {
-      id: 'capstats' as ViewType,
-      name: 'CAP STATS',
-      fullName: 'Capability Statement Generator',
+      id: 'documents' as ViewType,
+      name: 'DOCUMENTS',
+      fullName: 'Document & Pricing Hub',
       icon: '📄',
-      description: 'Professional Capability Statements • Multiple Templates',
+      description: 'Quotes • Cap Statements • RFPs • Pricing Engine',
       stats: [
-        '0 Generated',
-        '5 Templates',
-        'Ready to Use!'
+        'Quote & RFP Generator',
+        'Pricing Engine (NEW!)',
+        'Cap Statements',
+        'Partnership Proposals'
       ],
-      gradient: 'from-purple-600 to-indigo-600',
+      gradient: 'from-blue-600 to-orange-600',
       status: 'online',
-      lastUsed: 'NEW! 🚀'
+      lastUsed: 'UPDATED! 🔥'
     },
     {
-      id: 'contracts' as ViewType,
-      name: 'CCC',
-      fullName: 'Contract Command Center',
-      icon: '🏆',
-      description: 'Post-Award Management • Suppliers • Delivery • Payment',
+      id: 'compass' as ViewType,
+      name: 'COMPASS',
+      fullName: 'Contract Operations Management & Post-Award Fulfillment',
+      icon: '🧭',
+      description: 'Post-Award Management • Delivery Tracking • Payments • Contract Compliance',
       stats: [
         '0 Active Contracts',
         '$0 Under Management',
@@ -634,7 +598,7 @@ END:VCALENDAR`;
       ],
       gradient: 'from-yellow-600 to-red-600',
       status: 'online',
-      lastUsed: 'COMING SOON! 🔥'
+      lastUsed: 'COMING SOON'
     }
   ];
 
@@ -689,7 +653,7 @@ END:VCALENDAR`;
 
   const quickActions = [
     { label: 'Upload RFP', icon: '📄', action: () => onEnterSystem('gpss'), gradient: 'from-blue-600 to-blue-700' },
-    { label: 'Request Quote', icon: '📋', action: () => onEnterSystem('quotes'), gradient: 'from-cyan-600 to-cyan-700' },
+    { label: 'Request Quote', icon: '📋', action: () => onEnterSystem('documents'), gradient: 'from-cyan-600 to-cyan-700' },
     { label: 'Create Invoice', icon: '💰', action: () => onEnterSystem('invoices'), gradient: 'from-green-600 to-green-700' },
     { label: 'Export Calendar', icon: '📆', action: exportAllTasksToCalendar, gradient: 'from-purple-600 to-purple-700' }
   ];
@@ -857,11 +821,26 @@ END:VCALENDAR`;
                 {alerts.slice(0, 2).map((alert, index) => (
                   <div
                     key={index}
-                    className={`relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm ${
+                    className={`relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm cursor-pointer hover:opacity-90 transition-all ${
                       alert.type === 'urgent'
                         ? 'bg-red-900/20 border-red-500/50'
                         : 'bg-yellow-900/20 border-yellow-500/50'
                     }`}
+                    onClick={() => {
+                      const systemMap: { [key: string]: ViewType } = {
+                        'GPSS': 'gpss',
+                        'DDCSS': 'ddcss',
+                        'ATLAS': 'atlas',
+                        'GBIS': 'gbis',
+                        'VERTEX': 'vertex'
+                      };
+                      const system = systemMap[alert.system];
+                      if (system) {
+                        onEnterSystem(system);
+                      } else {
+                        window.alert(`📋 ${alert.title}\n\n${alert.message}\n\nSystem: ${alert.system}`);
+                      }
+                    }}
                   >
                     <div className="relative">
                       <div className="flex items-start justify-between mb-2">
@@ -873,7 +852,7 @@ END:VCALENDAR`;
                       </div>
                       <button className={`text-xs font-bold transition-colors ${
                         alert.type === 'urgent' ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'
-                      }`}>
+                      }`} onClick={(e) => e.stopPropagation()}>
                         {alert.action} →
                       </button>
                     </div>
@@ -881,7 +860,16 @@ END:VCALENDAR`;
                 ))}
                 {/* Urgent Deadlines */}
                 {upcomingDeadlines.filter(d => d.priority === 'high').slice(0, 2).map((deadline, index) => (
-                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm bg-orange-900/20 border-orange-500/50">
+                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm bg-orange-900/20 border-orange-500/50 cursor-pointer hover:bg-orange-900/30 transition-colors"
+                    onClick={() => {
+                      if (deadline.system === 'GPSS') {
+                        onEnterSystem('gpss');
+                      } else if (deadline.system === 'ATLAS') {
+                        onEnterSystem('atlas');
+                      } else {
+                        window.alert(`📋 ${deadline.title}\n\nDue: ${deadline.date}\nSystem: ${deadline.system}\n\n💡 Click on ${deadline.system} in the header to view this opportunity.`);
+                      }
+                    }}>
                     <div className="relative">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
@@ -890,8 +878,8 @@ END:VCALENDAR`;
                         </div>
                         <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold">{deadline.system}</span>
                       </div>
-                      <button className="text-xs font-bold text-orange-400 hover:text-orange-300 transition-colors">
-                        View Details →
+                      <button className="text-xs font-bold text-orange-400 hover:text-orange-300 transition-colors" onClick={(e) => e.stopPropagation()}>
+                        Click to Open {deadline.system} →
                       </button>
                     </div>
                   </div>
@@ -900,244 +888,222 @@ END:VCALENDAR`;
             </div>
           )}
 
-          {/* QUEUE-BASED WORKFLOW SECTIONS */}
-          
-          {/* 1. NEEDS REVIEW */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">🔍</span>
-              <div className="text-sm font-black text-white">NEEDS REVIEW</div>
-              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">
-                {workflowCounts.needsReview || 0}
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-blue-500/30 to-transparent"></div>
-            </div>
-            {workflowQueues.needsReview && workflowQueues.needsReview.length > 0 ? (
-              <div className="space-y-2">
-                {workflowQueues.needsReview.slice(0, 3).map((opp: any, idx: number) => (
-                  <div key={opp.id} className="bg-blue-900/10 border border-blue-500/30 rounded-lg p-3 hover:border-blue-500/50 transition">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="text-sm font-bold text-white mb-1">
-                          {opp.fields.Name || 'Unnamed Opportunity'}
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          Added: {opp.fields['Date Added'] ? new Date(opp.fields['Date Added']).toLocaleDateString() : 'Recently'}
-                        </div>
-                      </div>
-                      <button 
-                        onClick={() => setReviewingOpportunity(opp)}
-                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded font-bold text-xs transition"
-                      >
-                        Review & Name
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {workflowQueues.needsReview.length > 3 && (
-                  <div className="text-center">
-                    <button className="text-xs text-blue-400 hover:text-blue-300 font-bold">
-                      View All ({workflowQueues.needsReview.length})
-                    </button>
-                  </div>
-                )}
+          {/* WORKFLOW QUEUES - COMPACT 2-COLUMN GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            
+            {/* 1. NEEDS REVIEW */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">🔍</span>
+                <div className="text-xs font-black text-white">NEEDS REVIEW</div>
+                <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">
+                  {workflowCounts.needsReview || 0}
+                </span>
+                <div className="h-px flex-1 bg-gradient-to-r from-blue-500/30 to-transparent"></div>
               </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-                <div className="text-xs text-gray-500">✅ All caught up! No opportunities need review.</div>
-              </div>
-            )}
-          </div>
-
-          {/* 2. FIND SUPPLIERS */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">🔎</span>
-              <div className="text-sm font-black text-white">FIND SUPPLIERS</div>
-              <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
-                {workflowCounts.findSuppliers || 0}
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
-            </div>
-            {workflowQueues.findSuppliers && workflowQueues.findSuppliers.length > 0 ? (
-              <div className="space-y-2">
-                {workflowQueues.findSuppliers.slice(0, 2).map((opp: any) => (
-                  <div key={opp.id} className="bg-purple-900/10 border border-purple-500/30 rounded-lg p-3 hover:border-purple-500/50 transition">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
-                        <div className="text-xs text-gray-400">
-                          Due: {opp.fields['Response Deadline'] ? new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
-                        </div>
-                      </div>
-                      <button 
-                        onClick={() => setSearchingSuppliersFor(opp)}
-                        className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded font-bold text-xs transition"
-                      >
-                        Search Suppliers
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {workflowQueues.findSuppliers.length > 2 && (
-                  <div className="text-center">
-                    <button className="text-xs text-purple-400 hover:text-purple-300 font-bold">
-                      View All ({workflowQueues.findSuppliers.length})
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-                <div className="text-xs text-gray-500">✅ All suppliers identified.</div>
-              </div>
-            )}
-          </div>
-
-          {/* 3. AWAITING QUOTES */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">⏳</span>
-              <div className="text-sm font-black text-white">AWAITING QUOTES</div>
-              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">
-                {workflowCounts.awaitingQuotes || 0}
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/30 to-transparent"></div>
-            </div>
-            {workflowQueues.awaitingQuotes && workflowQueues.awaitingQuotes.length > 0 ? (
-              <div className="space-y-2">
-                {workflowQueues.awaitingQuotes.slice(0, 2).map((opp: any) => {
-                  const quotesReceived = opp.fields['Quotes Received'] || 0;
-                  const quotesRequested = opp.fields['Quotes Requested'] || 0;
-                  const percentage = quotesRequested > 0 ? Math.round((quotesReceived / quotesRequested) * 100) : 0;
-                  
-                  return (
-                    <div key={opp.id} className="bg-yellow-900/10 border border-yellow-500/30 rounded-lg p-3 hover:border-yellow-500/50 transition">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex-1">
-                          <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
-                          <div className="text-xs text-gray-400">
-                            Quotes: {quotesReceived} of {quotesRequested} received ({percentage}%)
+              {workflowQueues.needsReview && workflowQueues.needsReview.length > 0 ? (
+                <div className="space-y-2">
+                  {workflowQueues.needsReview.slice(0, 2).map((opp: any) => (
+                    <div key={opp.id} className="bg-blue-900/10 border border-blue-500/30 rounded p-2 hover:border-blue-500/50 transition">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-white mb-0.5 truncate">
+                            {opp.fields.Name || 'Unnamed Opportunity'}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            Added: {opp.fields['Date Added'] ? new Date(opp.fields['Date Added']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recently'}
                           </div>
                         </div>
-                      </div>
-                      <div className="flex gap-2">
                         <button 
-                          onClick={() => alert(`Send follow-up for ${opp.fields.Name} - Coming soon!`)}
-                          className="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded font-bold text-xs transition"
+                          onClick={() => setReviewingOpportunity(opp)}
+                          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-xs font-bold transition shrink-0"
                         >
-                          Send Follow-up
+                          Review
                         </button>
-                        {quotesReceived > 0 && (
-                          <button 
-                            onClick={() => alert(`Proceed with ${quotesReceived} quotes - Coming soon!`)}
-                            className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded font-bold text-xs transition"
-                          >
-                            Proceed with {quotesReceived}
-                          </button>
-                        )}
                       </div>
                     </div>
-                  );
-                })}
-                {workflowQueues.awaitingQuotes.length > 2 && (
-                  <div className="text-center">
-                    <button className="text-xs text-yellow-400 hover:text-yellow-300 font-bold">
-                      View All ({workflowQueues.awaitingQuotes.length})
+                  ))}
+                  {workflowQueues.needsReview.length > 2 && (
+                    <button className="text-xs text-blue-400 hover:text-blue-300 font-bold w-full text-center py-1">
+                      +{workflowQueues.needsReview.length - 2} more
                     </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-                <div className="text-xs text-gray-500">✅ All quotes received.</div>
-              </div>
-            )}
-          </div>
-
-          {/* 4. READY TO PRICE */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">💰</span>
-              <div className="text-sm font-black text-white">READY TO PRICE</div>
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">
-                {workflowCounts.readyToPrice || 0}
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
-            </div>
-            {workflowQueues.readyToPrice && workflowQueues.readyToPrice.length > 0 ? (
-              <div className="space-y-2">
-                {workflowQueues.readyToPrice.slice(0, 2).map((opp: any) => (
-                  <div key={opp.id} className="bg-green-900/10 border border-green-500/30 rounded-lg p-3 hover:border-green-500/50 transition">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="text-sm font-bold text-white mb-1">{opp.fields.Name}</div>
-                        <div className="text-xs text-gray-400">
-                          {opp.fields['Quotes Received'] || 0} quotes received
-                          {opp.fields['Response Deadline'] && (
-                            <> • Due: {new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</>
-                          )}
-                        </div>
-                      </div>
-                      <button 
-                        onClick={() => alert(`Pricing calculator for ${opp.fields.Name} - Coming soon!`)}
-                        className="px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded font-bold text-xs transition"
-                      >
-                        Start Pricing
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {workflowQueues.readyToPrice.length > 2 && (
-                  <div className="text-center">
-                    <button className="text-xs text-green-400 hover:text-green-300 font-bold">
-                      View All ({workflowQueues.readyToPrice.length})
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-800/20 border border-gray-700 rounded-lg">
-                <div className="text-xs text-gray-500">✅ All bids priced.</div>
-              </div>
-            )}
-          </div>
-
-          {/* PENDING APPROVALS - Compact */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-xl">✅</span>
-              <div className="text-lg font-black text-white">PENDING APPROVALS</div>
-              <div className="h-px flex-1 bg-gradient-to-r from-green-500/50 to-transparent"></div>
-            </div>
-            <div className="text-center py-6 bg-gray-800/30 border border-gray-700 rounded-lg">
-              <div className="text-4xl mb-2 opacity-20">✅</div>
-              <p className="text-sm text-gray-500 font-semibold">No pending approvals</p>
-              <p className="text-xs text-gray-600 mt-1">Payments and invoices will appear here</p>
-            </div>
-          </div>
-
-          {/* THIS WEEK'S CALENDAR - Compact */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-xl">📆</span>
-              <div className="text-lg font-black text-white">THIS WEEK</div>
-              <div className="h-px flex-1 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {upcomingDeadlines.slice(0, 4).map((deadline, idx) => (
-                <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded-lg p-3 hover:border-blue-500/50 transition">
-                  <div className="text-xs text-gray-500 mb-1">{deadline.date}</div>
-                  <div className="text-sm font-bold text-white mb-1 line-clamp-1">{deadline.title}</div>
-                  <div className="text-xs text-gray-400">{deadline.system}</div>
+                  )}
                 </div>
-              ))}
-              {upcomingDeadlines.length === 0 && (
-                <div className="col-span-4 text-center py-6 bg-gray-800/30 border border-gray-700 rounded-lg">
-                  <div className="text-3xl mb-1 opacity-20">📆</div>
-                  <p className="text-sm text-gray-500">No events this week</p>
+              ) : (
+                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
+                  <div className="text-xs text-gray-500">✅ All caught up</div>
                 </div>
               )}
+            </div>
+
+            {/* 2. FIND SUPPLIERS */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">🔎</span>
+                <div className="text-xs font-black text-white">FIND SUPPLIERS</div>
+                <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
+                  {workflowCounts.findSuppliers || 0}
+                </span>
+                <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+              </div>
+              {workflowQueues.findSuppliers && workflowQueues.findSuppliers.length > 0 ? (
+                <div className="space-y-2">
+                  {workflowQueues.findSuppliers.slice(0, 2).map((opp: any) => (
+                    <div key={opp.id} className="bg-purple-900/10 border border-purple-500/30 rounded p-2 hover:border-purple-500/50 transition">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
+                          <div className="text-xs text-gray-500">
+                            Due: {opp.fields['Response Deadline'] ? new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
+                          </div>
+                        </div>
+                        <button 
+                          onClick={() => setSearchingSuppliersFor(opp)}
+                          className="px-2 py-1 bg-purple-600 hover:bg-purple-700 rounded text-xs font-bold transition shrink-0"
+                        >
+                          Search
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {workflowQueues.findSuppliers.length > 2 && (
+                    <button className="text-xs text-purple-400 hover:text-purple-300 font-bold w-full text-center py-1">
+                      +{workflowQueues.findSuppliers.length - 2} more
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
+                  <div className="text-xs text-gray-500">✅ All identified</div>
+                </div>
+              )}
+            </div>
+
+            {/* 3. AWAITING QUOTES */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">⏳</span>
+                <div className="text-xs font-black text-white">AWAITING QUOTES</div>
+                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">
+                  {workflowCounts.awaitingQuotes || 0}
+                </span>
+                <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/30 to-transparent"></div>
+              </div>
+              {workflowQueues.awaitingQuotes && workflowQueues.awaitingQuotes.length > 0 ? (
+                <div className="space-y-2">
+                  {workflowQueues.awaitingQuotes.slice(0, 2).map((opp: any) => {
+                    const quotesReceived = opp.fields['Quotes Received'] || 0;
+                    const quotesRequested = opp.fields['Quotes Requested'] || 0;
+                    const percentage = quotesRequested > 0 ? Math.round((quotesReceived / quotesRequested) * 100) : 0;
+                    
+                    return (
+                      <div key={opp.id} className="bg-yellow-900/10 border border-yellow-500/30 rounded p-2 hover:border-yellow-500/50 transition">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
+                            <div className="text-xs text-gray-500">{quotesReceived}/{quotesRequested} quotes</div>
+                          </div>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-1">
+                          <div 
+                            className="bg-gradient-to-r from-yellow-500 to-green-500 h-1 rounded-full transition-all"
+                            style={{ width: `${percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {workflowQueues.awaitingQuotes.length > 2 && (
+                    <button className="text-xs text-yellow-400 hover:text-yellow-300 font-bold w-full text-center py-1">
+                      +{workflowQueues.awaitingQuotes.length - 2} more
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
+                  <div className="text-xs text-gray-500">✅ All received</div>
+                </div>
+              )}
+            </div>
+
+            {/* 4. READY TO PRICE */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">💰</span>
+                <div className="text-xs font-black text-white">READY TO PRICE</div>
+                <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">
+                  {workflowCounts.readyToPrice || 0}
+                </span>
+                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
+              </div>
+              {workflowQueues.readyToPrice && workflowQueues.readyToPrice.length > 0 ? (
+                <div className="space-y-2">
+                  {workflowQueues.readyToPrice.slice(0, 2).map((opp: any) => (
+                    <div key={opp.id} className="bg-green-900/10 border border-green-500/30 rounded p-2 hover:border-green-500/50 transition">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
+                          <div className="text-xs text-gray-500">{opp.fields['Quotes Received'] || 0} quotes</div>
+                        </div>
+                        <button 
+                          onClick={() => onEnterSystem('documents' as ViewType)}
+                          className="px-2 py-1 bg-green-600 hover:bg-green-700 rounded text-xs font-bold transition shrink-0"
+                        >
+                          Price
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {workflowQueues.readyToPrice.length > 2 && (
+                    <button className="text-xs text-green-400 hover:text-green-300 font-bold w-full text-center py-1">
+                      +{workflowQueues.readyToPrice.length - 2} more
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
+                  <div className="text-xs text-gray-500">✅ All priced</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* THIS WEEK & PENDING - COMBINED ROW */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            {/* THIS WEEK'S CALENDAR - Compact */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">📆</span>
+                <div className="text-xs font-black text-white">THIS WEEK</div>
+                <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {upcomingDeadlines.slice(0, 2).map((deadline, idx) => (
+                  <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded p-2 hover:border-blue-500/50 transition">
+                    <div className="text-xs text-gray-500 mb-0.5">{deadline.date}</div>
+                    <div className="text-xs font-bold text-white mb-0.5 line-clamp-1">{deadline.title}</div>
+                    <div className="text-xs text-gray-400">{deadline.system}</div>
+                  </div>
+                ))}
+                {upcomingDeadlines.length === 0 && (
+                  <div className="col-span-2 text-center py-3 bg-gray-800/30 border border-gray-700 rounded">
+                    <div className="text-xs text-gray-500">📆 No events</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* PENDING APPROVALS - Compact */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">✅</span>
+                <div className="text-xs font-black text-white">PENDING APPROVALS</div>
+                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
+              </div>
+              <div className="text-center py-8 bg-gray-800/20 border border-gray-700 rounded">
+                <div className="text-2xl mb-1 opacity-20">✅</div>
+                <p className="text-xs text-gray-500">No pending approvals</p>
+              </div>
             </div>
           </div>
 
@@ -1332,7 +1298,7 @@ END:VCALENDAR`;
                   VENDOR PORTAL MANAGER
                 </h2>
                 <p className="text-gray-400 text-sm">
-                  Drag & drop URLs from your browser to organize your vendor portals • Click to open • Phase 2: Automated opportunity mining
+                  Drag & drop URLs to add portals • Click to open • Mine for opportunities on any portal
                 </p>
               </div>
               <div className="text-6xl">🔗</div>
@@ -1354,13 +1320,13 @@ END:VCALENDAR`;
           <div className="grid grid-cols-4 gap-4">
             <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-4">
               <div className="text-3xl mb-2">🏛️</div>
-              <div className="text-3xl font-black mb-1">{portals.filter(p => p.category === 'Government').length}</div>
+              <div className="text-3xl font-black mb-1">{portals.filter(p => p.category === 'GOVERNMENT' || p.category === 'Government').length}</div>
               <div className="text-xs text-blue-100 font-semibold uppercase tracking-wide">Government Portals</div>
             </div>
             <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl p-4">
-              <div className="text-3xl mb-2">🛠️</div>
-              <div className="text-3xl font-black mb-1">{portals.filter(p => p.category === 'Development').length}</div>
-              <div className="text-xs text-purple-100 font-semibold uppercase tracking-wide">Dev/Business Tools</div>
+              <div className="text-3xl mb-2">🏢</div>
+              <div className="text-3xl font-black mb-1">{portals.filter(p => p.category === 'COMMERCIAL' || p.category === 'COOPERATIVE' || p.category === 'Development').length}</div>
+              <div className="text-xs text-purple-100 font-semibold uppercase tracking-wide">Commercial / Prime</div>
             </div>
             <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-xl p-4">
               <div className="text-3xl mb-2">⭐</div>
@@ -1391,7 +1357,7 @@ END:VCALENDAR`;
                 <div
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
-                  onDrop={(e) => handleDrop(e, 'Government')}
+                  onDrop={(e) => handleDrop(e, 'GOVERNMENT')}
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition-all ${
                     isDragging 
                       ? 'border-blue-400 bg-blue-500/20 scale-105' 
@@ -1407,7 +1373,7 @@ END:VCALENDAR`;
               {/* Portal Cards */}
               <div className="space-y-3">
                 {portals
-                  .filter(p => p.category === 'Government')
+                  .filter(p => p.category === 'GOVERNMENT' || p.category === 'Government')
                   .filter(p => {
                     if (!portalSearch) return true;
                     const search = portalSearch.toLowerCase();
@@ -1452,22 +1418,33 @@ END:VCALENDAR`;
                             <span className="text-xs text-gray-600">
                               {portal.lastAccessed ? `Last: ${timeAgo(portal.lastAccessed)}` : 'Never accessed'}
                             </span>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deletePortal(portal.id);
-                              }}
-                              className="text-xs text-red-400 hover:text-red-300 font-semibold"
-                            >
-                              DELETE
-                            </button>
+                            <div className="flex gap-3">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  minePortal(portal.id);
+                                }}
+                                className="text-xs text-green-400 hover:text-green-300 font-semibold"
+                              >
+                                MINE
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deletePortal(portal.id);
+                                }}
+                                className="text-xs text-red-400 hover:text-red-300 font-semibold"
+                              >
+                                DELETE
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
                 
-                {portals.filter(p => p.category === 'Government').length === 0 && (
+                {portals.filter(p => p.category === 'GOVERNMENT' || p.category === 'Government').length === 0 && (
                   <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
                     <div className="text-6xl mb-3 opacity-20">🏛️</div>
                     <p className="text-gray-500 font-semibold">No government portals yet</p>
@@ -1481,10 +1458,10 @@ END:VCALENDAR`;
             <div>
               <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 border-2 border-purple-500/30 rounded-xl p-6 mb-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="text-3xl">🛠️</div>
+                  <div className="text-3xl">🏢</div>
                   <div>
-                    <h3 className="text-2xl font-black text-purple-400">DEV & BUSINESS TOOLS</h3>
-                    <p className="text-xs text-gray-400">Airtable, Claude, APIs, SaaS platforms</p>
+                    <h3 className="text-2xl font-black text-purple-400">COMMERCIAL & PRIME</h3>
+                    <p className="text-xs text-gray-400">Prime contractor portals, cooperative contracts, commercial vendors</p>
                   </div>
                 </div>
                 
@@ -1492,7 +1469,7 @@ END:VCALENDAR`;
                 <div
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
-                  onDrop={(e) => handleDrop(e, 'Development')}
+                  onDrop={(e) => handleDrop(e, 'COMMERCIAL')}
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition-all ${
                     isDragging 
                       ? 'border-purple-400 bg-purple-500/20 scale-105' 
@@ -1508,7 +1485,7 @@ END:VCALENDAR`;
               {/* Portal Cards */}
               <div className="space-y-3">
                 {portals
-                  .filter(p => p.category === 'Development')
+                  .filter(p => p.category === 'COMMERCIAL' || p.category === 'COOPERATIVE' || p.category === 'Development')
                   .filter(p => {
                     if (!portalSearch) return true;
                     const search = portalSearch.toLowerCase();
@@ -1553,48 +1530,122 @@ END:VCALENDAR`;
                             <span className="text-xs text-gray-600">
                               {portal.lastAccessed ? `Last: ${timeAgo(portal.lastAccessed)}` : 'Never accessed'}
                             </span>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deletePortal(portal.id);
-                              }}
-                              className="text-xs text-red-400 hover:text-red-300 font-semibold"
-                            >
-                              DELETE
-                            </button>
+                            <div className="flex gap-3">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  minePortal(portal.id);
+                                }}
+                                className="text-xs text-green-400 hover:text-green-300 font-semibold"
+                              >
+                                MINE
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deletePortal(portal.id);
+                                }}
+                                className="text-xs text-red-400 hover:text-red-300 font-semibold"
+                              >
+                                DELETE
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
                 
-                {portals.filter(p => p.category === 'Development').length === 0 && (
+                {portals.filter(p => p.category === 'COMMERCIAL' || p.category === 'COOPERATIVE' || p.category === 'Development').length === 0 && (
                   <div className="text-center py-12 bg-gray-800/30 border border-gray-700 rounded-xl">
-                    <div className="text-6xl mb-3 opacity-20">🛠️</div>
-                    <p className="text-gray-500 font-semibold">No dev/business tools yet</p>
-                    <p className="text-xs text-gray-600 mt-1">Drag & drop Airtable, Claude, or other SaaS URLs above</p>
+                    <div className="text-6xl mb-3 opacity-20">🏢</div>
+                    <p className="text-gray-500 font-semibold">No commercial/prime portals yet</p>
+                    <p className="text-xs text-gray-600 mt-1">Drag & drop contractor portal URLs above</p>
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Future Phase 2 Teaser */}
-          <div className="bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border-2 border-yellow-500/30 rounded-xl p-6">
-            <div className="flex items-center gap-4">
-              <div className="text-5xl">🚀</div>
-              <div className="flex-1">
-                <h3 className="text-xl font-black text-yellow-400 mb-2">PHASE 2: AUTOMATED OPPORTUNITY MINING</h3>
-                <p className="text-gray-400 text-sm mb-2">
-                  Coming soon: AI-powered web scraping to automatically monitor your vendor portals for new opportunities, 
-                  qualify them with Claude AI, and surface the best matches directly in your NEXUS dashboard.
-                </p>
-                <div className="flex gap-3 text-xs">
-                  <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full font-semibold">Auto-Discovery</span>
-                  <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full font-semibold">AI Qualification</span>
-                  <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full font-semibold">Smart Alerts</span>
+          {/* AUTOMATED OPPORTUNITY MINING - LIVE */}
+          <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-2 border-green-500/30 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-4">
+                <div className="text-5xl">⛏️</div>
+                <div>
+                  <h3 className="text-xl font-black text-green-400 mb-1">AUTOMATED OPPORTUNITY MINING</h3>
+                  <p className="text-gray-400 text-sm">
+                    AI-powered scraping of {miningStatus?.minable_portals || portals.filter(p => p.url).length} vendor portals
+                    {miningStatus?.last_mine?.timestamp && (
+                      <span className="text-gray-500 ml-2">
+                        | Last run: {new Date(miningStatus.last_mine.timestamp).toLocaleDateString()} at {new Date(miningStatus.last_mine.timestamp).toLocaleTimeString()}
+                      </span>
+                    )}
+                  </p>
                 </div>
               </div>
+              <button
+                onClick={runMiningNow}
+                disabled={isMining}
+                className={`px-6 py-3 rounded-lg font-bold text-sm transition-all ${
+                  isMining
+                    ? 'bg-gray-700 text-gray-400 cursor-wait animate-pulse'
+                    : 'bg-green-600 hover:bg-green-500 text-white hover:shadow-lg hover:shadow-green-500/20'
+                }`}
+              >
+                {isMining ? 'MINING...' : 'MINE NOW'}
+              </button>
+            </div>
+            
+            {/* Mining Stats */}
+            <div className="grid grid-cols-4 gap-3 mb-4">
+              <div className="bg-gray-800/60 rounded-lg p-3 text-center">
+                <div className="text-2xl font-black text-green-400">{miningStatus?.total_portals || portals.length}</div>
+                <div className="text-xs text-gray-500 font-semibold uppercase">Total Portals</div>
+              </div>
+              <div className="bg-gray-800/60 rounded-lg p-3 text-center">
+                <div className="text-2xl font-black text-blue-400">{miningStatus?.minable_portals || portals.filter(p => p.url).length}</div>
+                <div className="text-xs text-gray-500 font-semibold uppercase">Active URLs</div>
+              </div>
+              <div className="bg-gray-800/60 rounded-lg p-3 text-center">
+                <div className="text-2xl font-black text-yellow-400">{miningStatus?.last_mine?.portals_checked || 0}</div>
+                <div className="text-xs text-gray-500 font-semibold uppercase">Last Checked</div>
+              </div>
+              <div className="bg-gray-800/60 rounded-lg p-3 text-center">
+                <div className="text-2xl font-black text-purple-400">{miningStatus?.last_mine?.total_opportunities_found || 0}</div>
+                <div className="text-xs text-gray-500 font-semibold uppercase">Opps Found</div>
+              </div>
+            </div>
+
+            {/* Mining Result (after clicking Mine Now) */}
+            {miningResult && (
+              <div className={`rounded-lg p-4 border ${
+                miningResult.error 
+                  ? 'bg-red-900/20 border-red-500/30' 
+                  : 'bg-green-900/20 border-green-500/30'
+              }`}>
+                {miningResult.error ? (
+                  <p className="text-red-400 text-sm font-semibold">{miningResult.error}</p>
+                ) : (
+                  <div>
+                    <p className="text-green-400 text-sm font-bold mb-2">
+                      Mining complete — {miningResult.portals_checked} portals scanned, {miningResult.total_opportunities_found} opportunities found
+                    </p>
+                    {miningResult.errors?.length > 0 && (
+                      <p className="text-yellow-400 text-xs">
+                        {miningResult.errors.length} portal(s) had issues (check logs)
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Schedule Info */}
+            <div className="flex gap-3 text-xs mt-3">
+              <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full font-semibold">Runs Every 4 Hours</span>
+              <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full font-semibold">AI Qualification</span>
+              <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full font-semibold">SAM.gov + Web Scraping</span>
             </div>
           </div>
         </div>

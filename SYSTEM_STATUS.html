@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEXUS System Status</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+        .status-badge {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .status-running { background: #10b981; color: white; }
+        .status-offline { background: #ef4444; color: white; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 4px solid #666;
+        }
+        .card.running { border-left-color: #10b981; }
+        .card.offline { border-left-color: #ef4444; }
+        .card.warning { border-left-color: #f59e0b; }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .card-detail {
+            color: #999;
+            font-size: 14px;
+        }
+        .section {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        .info-row {
+            display: flex;
+            justify-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #999; }
+        .info-value { font-weight: 600; }
+        .btn {
+            padding: 12px 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        .btn:hover { background: #2563eb; }
+        .btn-secondary {
+            background: #4b5563;
+        }
+        .btn-secondary:hover { background: #374151; }
+        .log {
+            background: #000;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .alert {
+            background: #dc2626;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .indicator.green { background: #10b981; }
+        .indicator.red { background: #ef4444; }
+        .indicator.yellow { background: #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🌐 NEXUS System Status</h1>
+            <p style="color: #999; margin-top: 8px;">Real-time monitoring dashboard</p>
+        </div>
+        <div class="status-badge" id="overall-status">
+            <span class="indicator"></span>
+            <span id="status-text">CHECKING...</span>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card" id="card-backend">
+            <div class="card-title">
+                <span class="indicator"></span>
+                Backend API
+            </div>
+            <div class="card-value" id="backend-status">---</div>
+            <div class="card-detail">Port 8000</div>
+        </div>
+
+        <div class="card" id="card-cron">
+            <div class="card-title">
+                <span class="indicator"></span>
+                Automation (Cron)
+            </div>
+            <div class="card-value" id="cron-count">---</div>
+            <div class="card-detail">Active cron jobs</div>
+        </div>
+
+        <div class="card" id="card-emails">
+            <div class="card-title">
+                <span class="indicator"></span>
+                Emails Today
+            </div>
+            <div class="card-value" id="emails-today">0</div>
+            <div class="card-detail">Notification emails sent</div>
+        </div>
+
+        <div class="card" id="card-urgent">
+            <div class="card-title">
+                <span class="indicator"></span>
+                Urgent Bids
+            </div>
+            <div class="card-value" id="urgent-count">0</div>
+            <div class="card-detail">Deadlines ≤ 3 days</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">⏰ Notification Schedule</div>
+        <div class="info-row">
+            <span class="info-label">Last Check:</span>
+            <span class="info-value" id="last-check">Never</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Next Check:</span>
+            <span class="info-value" id="next-check" style="color: #10b981;">---</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Schedule:</span>
+            <span class="info-value">7 AM, 12 PM, 6 PM daily + every 2 hours (6 AM-8 PM)</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Email Policy:</span>
+            <span class="info-value">ONLY bids ≤ 3 days away</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">🎯 Quick Actions</div>
+        <button class="btn" onclick="testEmail()">📧 Send Test Email</button>
+        <button class="btn btn-secondary" onclick="checkNow()">🔄 Check Now</button>
+        <button class="btn btn-secondary" onclick="viewLogs()">📋 View Logs</button>
+        <button class="btn btn-secondary" onclick="location.reload()">♻️ Refresh</button>
+    </div>
+
+    <div class="section" id="log-section" style="display: none;">
+        <div class="section-title">📋 Recent Log</div>
+        <div class="log" id="log-output">Loading...</div>
+    </div>
+
+    <script>
+        async function checkStatus() {
+            try {
+                // Check backend
+                const backendResponse = await fetch('http://localhost:8000/health');
+                const backendRunning = backendResponse.ok;
+                
+                document.getElementById('backend-status').textContent = backendRunning ? 'ONLINE' : 'OFFLINE';
+                document.getElementById('card-backend').className = backendRunning ? 'card running' : 'card offline';
+
+                // Check cron jobs
+                const cronResponse = await fetch('http://localhost:8000/api/cron-status');
+                if (cronResponse.ok) {
+                    const cronData = await cronResponse.json();
+                    document.getElementById('cron-count').textContent = cronData.count || 0;
+                    document.getElementById('card-cron').className = (cronData.count > 0) ? 'card running' : 'card offline';
+                    
+                    // Update notification schedule
+                    document.getElementById('last-check').textContent = cronData.last_check || 'Never';
+                    document.getElementById('next-check').textContent = cronData.next_check || 'Unknown';
+                } else {
+                    document.getElementById('cron-count').textContent = '?';
+                    document.getElementById('card-cron').className = 'card offline';
+                }
+
+                // Check urgent bids
+                const bidsResponse = await fetch('http://localhost:8000/api/active-deadlines');
+                if (bidsResponse.ok) {
+                    const bidsData = await bidsResponse.json();
+                    const urgent = bidsData.deadlines.filter(b => b.daysUntil <= 3);
+                    document.getElementById('urgent-count').textContent = urgent.length;
+                    document.getElementById('card-urgent').className = urgent.length > 0 ? 'card warning' : 'card running';
+                } else {
+                    document.getElementById('urgent-count').textContent = '?';
+                }
+
+                // Overall status
+                if (backendRunning && cronResponse.ok) {
+                    document.getElementById('overall-status').className = 'status-badge status-running';
+                    document.getElementById('status-text').textContent = '✅ RUNNING';
+                    document.querySelector('#overall-status .indicator').className = 'indicator green';
+                } else {
+                    document.getElementById('overall-status').className = 'status-badge status-offline';
+                    document.getElementById('status-text').textContent = '❌ OFFLINE';
+                    document.querySelector('#overall-status .indicator').className = 'indicator red';
+                }
+
+            } catch (error) {
+                console.error('Status check failed:', error);
+                document.getElementById('overall-status').className = 'status-badge status-offline';
+                document.getElementById('status-text').textContent = '❌ OFFLINE';
+                document.querySelector('#overall-status .indicator').className = 'indicator red';
+                document.getElementById('backend-status').textContent = 'OFFLINE';
+                document.getElementById('card-backend').className = 'card offline';
+            }
+        }
+
+        async function testEmail() {
+            if (!confirm('Send test notification email to bids.deedavisinc@gmail.com?')) return;
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/test-notification', { method: 'POST' });
+                if (response.ok) {
+                    alert('✅ Test email sent! Check bids.deedavisinc@gmail.com');
+                } else {
+                    alert('❌ Failed to send test email. Check if backend is running.');
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        async function checkNow() {
+            if (!confirm('Run notification check now?')) return;
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/check-notifications-now', { method: 'POST' });
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(`✅ Check complete!\n\nUrgent bids: ${data.urgent_count}\nEmails sent: ${data.emails_sent}`);
+                } else {
+                    alert('❌ Failed to run check. Is backend running?');
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        async function viewLogs() {
+            document.getElementById('log-section').style.display = 'block';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/notification-logs');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('log-output').textContent = data.logs || 'No logs available';
+                } else {
+                    document.getElementById('log-output').textContent = 'Failed to load logs';
+                }
+            } catch (error) {
+                document.getElementById('log-output').textContent = 'Error loading logs: ' + error.message;
+            }
+        }
+
+        // Check status on load and every 10 seconds
+        checkStatus();
+        setInterval(checkStatus, 10000);
+    </script>
+</body>
+</html>

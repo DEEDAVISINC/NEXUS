@@ -51,6 +51,7 @@ export const api = {
   getDashboardStats: () => ApiClient.get('/dashboard/stats'),
   getDashboardActivity: () => ApiClient.get('/dashboard/activity'),
   getDashboardAlerts: () => ApiClient.get('/dashboard/alerts'),
+  getTransportationNotifications: () => ApiClient.get('/transportation-logistics/notifications'),
 
   // NEXUS Core
   extractContacts: (data: {document_text: string, document_name: string}) =>
@@ -118,6 +119,7 @@ export const api = {
 
   // GPSS Opportunities API
   getGpssOpportunities: (filters?: {
+    view?: string;
     source?: string;
     state?: string;
     edwsb_only?: boolean;
@@ -125,6 +127,7 @@ export const api = {
     home_states_only?: boolean;
   }) => {
     const params = new URLSearchParams();
+    if (filters?.view) params.append('view', filters.view);
     if (filters?.source) params.append('source', filters.source);
     if (filters?.state) params.append('state', filters.state);
     if (filters?.edwsb_only) params.append('edwsb_only', 'true');
@@ -134,6 +137,19 @@ export const api = {
     return ApiClient.get(`/gpss/opportunities${query ? `?${query}` : ''}`);
   },
   createGpssOpportunity: (data: any) => ApiClient.post('/gpss/opportunities', data),
+  uploadAndAnalyzeRfp: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(`${API_BASE}/gpss/upload-rfp`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ error: 'Upload failed' }));
+      throw new Error(err.error || `Upload failed (${response.status})`);
+    }
+    return response.json();
+  },
   updateGpssOpportunity: (id: string, data: any) => ApiClient.put(`/gpss/opportunities/${id}`, data),
   getGpssStats: () => ApiClient.get('/gpss/stats'),
   
@@ -150,6 +166,30 @@ export const api = {
   },
   createGpssSupplier: (data: any) => ApiClient.post('/gpss/suppliers', data),
   updateGpssSupplier: (id: string, data: any) => ApiClient.put(`/gpss/suppliers/${id}`, data),
+  findSuppliersForProduct: (product: string, category?: string, autoMine?: boolean) =>
+    ApiClient.post('/gpss/suppliers/find-for-product', { product, category, auto_mine: autoMine !== false }),
+  mineSuppliersThomasnet: (product: string) =>
+    ApiClient.post('/gpss/suppliers/mine-thomasnet', { product }),
+  mineSuppliersGoogle: (product: string) =>
+    ApiClient.post('/gpss/suppliers/mine-google', { product }),
+  mineSuppliersGsa: (product: string) =>
+    ApiClient.post('/gpss/suppliers/mine-gsa', { product }),
+  mineSuppliersAll: (product: string, category?: string) =>
+    ApiClient.post('/gpss/suppliers/mine-all', { product, category }),
+  importSuppliersCsv: async (file: File, fieldMapping?: Record<string, string>) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (fieldMapping) formData.append('field_mapping', JSON.stringify(fieldMapping));
+    const response = await fetch(`${API_BASE}/gpss/suppliers/import-csv`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ error: 'Import failed' }));
+      throw new Error(err.error || `Import failed (${response.status})`);
+    }
+    return response.json();
+  },
   
   // GPSS Proposals API
   getGpssProposals: () => ApiClient.get('/gpss/proposals'),
@@ -173,6 +213,7 @@ export const api = {
     ApiClient.post('/gpss/compliance/check-proposal', {proposal_data: proposalData, rfp_requirements: rfpRequirements}),
   
   // GPSS Opportunity Mining & Forecasting API
+  getMiningStatus: () => ApiClient.get('/gpss/mining/status'),
   minePortal: (portalId: string) =>
     ApiClient.post(`/gpss/mining/portal/${portalId}`, {}),
   autoMineAll: () =>
@@ -181,6 +222,14 @@ export const api = {
     ApiClient.post(`/gpss/mining/target/${targetId}`, {}),
   scrapeAllTargets: () =>
     ApiClient.post('/gpss/mining/scrape-all-targets', {}),
+  mineAgencyForecasts: () =>
+    ApiClient.post('/gpss/forecasting/mine', {}),
+  mineEdwosbOpportunities: () =>
+    ApiClient.post('/gpss/mining/mine-edwosb', {}),
+  compareQuotes: (opportunityId: string) =>
+    ApiClient.get(`/gpss/supplier-quotes/compare/${opportunityId}`),
+  rateSupplier: (supplierId: string, outcome: string) =>
+    ApiClient.post(`/gpss/suppliers/${supplierId}/rate`, { outcome }),
   generateForecasts: (agencyName?: string, lookbackMonths?: number) =>
     ApiClient.post('/gpss/forecasting/generate', {agency_name: agencyName, lookback_months: lookbackMonths}),
   analyzeAgency: (agencyName: string) =>
@@ -230,8 +279,21 @@ export const api = {
   updateGpssProduct: (id: string, data: any) => ApiClient.put(`/gpss/products/${id}`, data),
   deleteGpssProduct: (id: string) => ApiClient.delete(`/gpss/products/${id}`),
 
-  // Workflow Management API
+  // GPSS Subcontractors API
+  getGpssSubcontractors: () => ApiClient.get('/gpss/subcontractors'),
+  createGpssSubcontractor: (data: any) => ApiClient.post('/gpss/subcontractors', data),
+  updateGpssSubcontractor: (id: string, data: any) => ApiClient.put(`/gpss/subcontractors/${id}`, data),
+  deleteGpssSubcontractor: (id: string) => ApiClient.delete(`/gpss/subcontractors/${id}`),
+  findSubcontractors: (serviceType: string, location: string, radiusMiles: number = 25) =>
+    ApiClient.post('/gpss/subcontractors/find', { service_type: serviceType, location, radius_miles: radiusMiles }),
+  searchSubcontractorsDatabase: (serviceType?: string, location?: string) =>
+    ApiClient.post('/gpss/subcontractors/search', { service_type: serviceType, location }),
+
+  // Workflow Management API (live folder scanning)
   getWorkflowQueues: () => ApiClient.get('/api/workflow/queues'),
+  getBidsDashboard: () => ApiClient.get('/api/bids/dashboard'),
+  getBidsScan: () => ApiClient.get('/api/bids/scan'),
+  getBidsAlerts: () => ApiClient.get('/api/bids/alerts'),
   reviewOpportunity: (opportunityId: string, data: {name: string, decision: 'pursue' | 'skip', notes?: string}) =>
     ApiClient.post(`/api/workflow/opportunity/${opportunityId}/review`, data),
   identifySuppliers: (opportunityId: string, supplierIds: string[]) =>
@@ -248,6 +310,8 @@ export const api = {
   // DDCSS Tools API
   getDdcssClientAvatars: () => ApiClient.get('/ddcss/client-avatars'),
   createDdcssClientAvatar: (data: any) => ApiClient.post('/ddcss/client-avatars', data),
+  updateDdcssClientAvatar: (id: string, data: any) => ApiClient.put(`/ddcss/client-avatars/${id}`, data),
+  deleteDdcssClientAvatar: (id: string) => ApiClient.delete(`/ddcss/client-avatars/${id}`),
   createDdcssSuccessPath: (data: any) => ApiClient.post('/ddcss/success-paths', data),
   createDdcssPitchmap: (data: any) => ApiClient.post('/ddcss/pitchmaps', data),
 
@@ -344,4 +408,126 @@ export const api = {
     const query = params.toString();
     return ApiClient.get(`/vertex/revenue/summary${query ? `?${query}` : ''}`);
   },
+
+  // ═══════════════════════════════════════════════════════════
+  // PROPOSALBIO — Quality Analysis (10 Biohacks)
+  // ═══════════════════════════════════════════════════════════
+  analyzeProposalBio: (proposalId: string, metadata?: any) =>
+    ApiClient.post('/gpss/proposalbio/analyze', { proposal_id: proposalId, metadata }),
+  getProposalBioScore: (proposalId: string) =>
+    ApiClient.get(`/gpss/proposalbio/score/${proposalId}`),
+  approveProposal: (proposalId: string, approvedBy: string, overrideWarnings?: boolean) =>
+    ApiClient.post('/gpss/proposalbio/approve', { proposal_id: proposalId, approved_by: approvedBy, override_warnings: overrideWarnings }),
+  recordProposalOutcome: (proposalId: string, outcome: string, winValue?: number) =>
+    ApiClient.post('/gpss/proposalbio/outcome', { proposal_id: proposalId, outcome, win_value: winValue }),
+
+  // ═══════════════════════════════════════════════════════════
+  // STRATEGIC ANALYSIS — Go/No-Go, Win Themes, Evaluator Profiles
+  // ═══════════════════════════════════════════════════════════
+  runGoNoGo: (opportunityId: string, data?: any) =>
+    ApiClient.post('/gpss/strategic-analysis/go-no-go', { opportunity_id: opportunityId, ...data }),
+  profileEvaluators: (opportunityId: string) =>
+    ApiClient.post('/gpss/strategic-analysis/evaluator-profile', { opportunity_id: opportunityId }),
+  getWinThemes: (opportunityId?: string) => {
+    const params = opportunityId ? `?opportunity_id=${opportunityId}` : '';
+    return ApiClient.get(`/gpss/strategic-analysis/win-themes${params}`);
+  },
+  selectWinThemes: (opportunityId: string, themeIds: string[]) =>
+    ApiClient.post('/gpss/strategic-analysis/select-win-themes', { opportunity_id: opportunityId, theme_ids: themeIds }),
+  getStrategicReport: (opportunityId: string) =>
+    ApiClient.get(`/gpss/strategic-analysis/report/${opportunityId}`),
+
+  // ═══════════════════════════════════════════════════════════
+  // OFFICER OUTREACH — Capability Statement Distribution
+  // ═══════════════════════════════════════════════════════════
+  generateOutreachLetter: (data: any) =>
+    ApiClient.post('/gpss/officer-outreach/generate', data),
+  getOutreachLetters: () =>
+    ApiClient.get('/gpss/officer-outreach/letters'),
+  getOutreachLetter: (letterId: string) =>
+    ApiClient.get(`/gpss/officer-outreach/letters/${letterId}`),
+  updateOutreachLetter: (letterId: string, data: any) =>
+    ApiClient.put(`/gpss/officer-outreach/letters/${letterId}`, data),
+  getOutreachStats: () =>
+    ApiClient.get('/gpss/officer-outreach/stats'),
+
+  // ═══════════════════════════════════════════════════════════
+  // AI RECOMMENDATIONS — Capability Gaps, Suppliers, Subcontractors
+  // ═══════════════════════════════════════════════════════════
+  getCapabilityGapRecommendations: (opportunityId: string) =>
+    ApiClient.post('/ai/recommendations/capability-gap', { opportunity_id: opportunityId }),
+  getSubcontractorRecommendations: (opportunityId: string) =>
+    ApiClient.post('/ai/recommendations/subcontractors', { opportunity_id: opportunityId }),
+  getSupplierRecommendations: (opportunityId: string) =>
+    ApiClient.post('/ai/recommendations/suppliers', { opportunity_id: opportunityId }),
+  approveRecommendation: (recommendationId: string) =>
+    ApiClient.post(`/ai/recommendations/${recommendationId}/approve`, {}),
+  getPendingRecommendations: () =>
+    ApiClient.get('/ai/recommendations/pending'),
+
+  // ═══════════════════════════════════════════════════════════
+  // COMPLIANCE — Alerts, Checks, Subcontractor Compliance
+  // ═══════════════════════════════════════════════════════════
+  getComplianceAlerts: () =>
+    ApiClient.get('/gpss/compliance/alerts'),
+  calculateCompliance: (opportunityId: string) =>
+    ApiClient.post('/ai/compliance/calculate', { opportunity_id: opportunityId }),
+  checkSubcontractorCompliance: (subcontractorId: string) =>
+    ApiClient.post(`/gpss/subcontractors/${subcontractorId}/compliance/check`, {}),
+
+  // ═══════════════════════════════════════════════════════════
+  // AUTO-QUOTE — Automated Quote Processing
+  // ═══════════════════════════════════════════════════════════
+  autoProcessOpportunity: (opportunityId: string) =>
+    ApiClient.post('/gpss/auto-quote/process-opportunity', { opportunity_id: opportunityId }),
+  autoFindSuppliers: (opportunityId: string) =>
+    ApiClient.post('/gpss/auto-quote/find-suppliers', { opportunity_id: opportunityId }),
+  getSupplierQuotes: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) Object.keys(filters).forEach(k => { if (filters[k]) params.append(k, filters[k]); });
+    const query = params.toString();
+    return ApiClient.get(`/gpss/supplier-quotes${query ? `?${query}` : ''}`);
+  },
+  updateSupplierQuote: (quoteId: string, data: any) =>
+    ApiClient.put(`/gpss/supplier-quotes/${quoteId}`, data),
+
+  // ═══════════════════════════════════════════════════════════
+  // FULFILLMENT — Contract Delivery & Inventory
+  // ═══════════════════════════════════════════════════════════
+  getFulfillmentDashboard: () => ApiClient.get('/fulfillment/dashboard'),
+  getFulfillmentContracts: () => ApiClient.get('/fulfillment/contracts'),
+  createFulfillmentContract: (data: any) => ApiClient.post('/fulfillment/contracts', data),
+  getFulfillmentDeliveries: (filters?: any) => {
+    const params = new URLSearchParams();
+    if (filters) Object.keys(filters).forEach(k => { if (filters[k]) params.append(k, filters[k]); });
+    const query = params.toString();
+    return ApiClient.get(`/fulfillment/deliveries${query ? `?${query}` : ''}`);
+  },
+  getInventory: () => ApiClient.get('/fulfillment/inventory'),
+  getInventoryHealth: () => ApiClient.get('/fulfillment/inventory/health-check'),
+
+  // ═══════════════════════════════════════════════════════════
+  // CONTACTS — Auto-Extraction
+  // ═══════════════════════════════════════════════════════════
+  autoExtractContacts: (text: string, name: string) =>
+    ApiClient.post('/api/contacts/auto-extract-solicitation', { text, name }),
+  addSupplierContact: (data: any) =>
+    ApiClient.post('/api/contacts/add-supplier', data),
+  addSubcontractorContact: (data: any) =>
+    ApiClient.post('/api/contacts/add-subcontractor', data),
+
+  // ═══════════════════════════════════════════════════════════
+  // CAPABILITY STATEMENTS
+  // ═══════════════════════════════════════════════════════════
+  getCapStatTemplates: () => ApiClient.get('/capability-statements/templates'),
+  getCapStatList: () => ApiClient.get('/capability-statements/list'),
+  generateCapStat: (data: any) => ApiClient.post('/capability-statements/generate', data),
+
+  // ═══════════════════════════════════════════════════════════
+  // FORECAST OUTREACH
+  // ═══════════════════════════════════════════════════════════
+  generateForecastOutreach: (forecastId: string) =>
+    ApiClient.post(`/api/forecasts/${forecastId}/generate-capstat-outreach`, {}),
+  batchForecastOutreach: (forecastIds: string[]) =>
+    ApiClient.post('/api/forecasts/batch-outreach', { forecast_ids: forecastIds }),
 };

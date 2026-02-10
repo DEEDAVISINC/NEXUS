@@ -1,0 +1,8 @@
+UPLOAD YOUR TAX & LEGAL DOCUMENTS HERE:
+
+Required:
+- W-9_Form_2026.pdf
+- SAM_Registration.pdf
+- CAGE_Code_Documentation.pdf
+
+After uploading, delete this file.

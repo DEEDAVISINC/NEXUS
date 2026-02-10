@@ -38,6 +38,8 @@ def generate_pdf_reportlab(config, output_file):
         from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
         from reportlab.lib import colors
         from reportlab.lib.enums import TA_CENTER, TA_LEFT
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
     except ImportError:
         print("❌ Neither wkhtmltopdf nor reportlab available")
         print("   Install one of:")
@@ -45,12 +47,37 @@ def generate_pdf_reportlab(config, output_file):
         print("   - pip install reportlab")
         return False
     
+    # Register Avenir font (macOS system font)
+    font_name = "Helvetica"  # Default fallback
+    font_bold = "Helvetica-Bold"
+    
+    try:
+        # Common Avenir locations on macOS
+        avenir_paths = [
+            "/System/Library/Fonts/Avenir.ttc",
+            "/System/Library/Fonts/Avenir Next.ttc",
+            "/Library/Fonts/Avenir.ttc"
+        ]
+        
+        for path in avenir_paths:
+            if os.path.exists(path):
+                # Register Avenir fonts
+                pdfmetrics.registerFont(TTFont('Avenir', path, subfontIndex=0))
+                pdfmetrics.registerFont(TTFont('Avenir-Bold', path, subfontIndex=1))
+                font_name = "Avenir"
+                font_bold = "Avenir-Bold"
+                print(f"✓ Registered Avenir font from {path}")
+                break
+    except Exception as e:
+        # If Avenir fails, just use Helvetica
+        print(f"⚠ Could not register Avenir font, using Helvetica: {e}")
+    
     doc = SimpleDocTemplate(output_file, pagesize=letter,
                            topMargin=0.5*inch, bottomMargin=0.5*inch)
     story = []
     styles = getSampleStyleSheet()
     
-    # Custom styles
+    # Custom styles with Avenir
     title_style = ParagraphStyle(
         'CustomTitle',
         parent=styles['Heading1'],
@@ -58,7 +85,7 @@ def generate_pdf_reportlab(config, output_file):
         textColor=colors.HexColor('#1e3a8a'),
         spaceAfter=30,
         alignment=TA_CENTER,
-        fontName='Helvetica-Bold'
+        fontName=font_bold
     )
     
     heading_style = ParagraphStyle(
@@ -68,7 +95,7 @@ def generate_pdf_reportlab(config, output_file):
         textColor=colors.HexColor('#1e3a8a'),
         spaceAfter=12,
         spaceBefore=20,
-        fontName='Helvetica-Bold',
+        fontName=font_bold,
         borderWidth=0,
         borderColor=colors.HexColor('#d97706'),
         borderPadding=5
@@ -91,7 +118,8 @@ def generate_pdf_reportlab(config, output_file):
     
     client_table = Table(client_data, colWidths=[1.5*inch, 4*inch])
     client_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 0), (0, -1), font_bold),
+        ('FONTNAME', (1, 0), (1, -1), font_name),
         ('FONTSIZE', (0, 0), (-1, -1), 11),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
@@ -107,8 +135,10 @@ def generate_pdf_reportlab(config, output_file):
     
     details_table = Table(details_data, colWidths=[1.2*inch, 2*inch, 1*inch, 2*inch])
     details_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (2, 0), (2, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 0), (0, -1), font_bold),
+        ('FONTNAME', (1, 0), (1, -1), font_name),
+        ('FONTNAME', (2, 0), (2, -1), font_bold),
+        ('FONTNAME', (3, 0), (3, -1), font_name),
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ]))
