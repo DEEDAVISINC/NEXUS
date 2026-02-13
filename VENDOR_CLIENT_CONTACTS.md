@@ -354,7 +354,8 @@
   - **Feb 4, 2026:** RFQ faxed  
   - **Feb 9, 2026:** ✅ Portal welcome email — Sourcewell contract access granted  
   - **Pending:** 1-on-1 demo call  
-- **Status:** PORTAL ACCESS ACTIVE — Can price vehicles 24/7  
+- **Status:** ⚠️ PORTAL LOGIN BROKEN — notary@deedavis.biz returns "email doesn't exist"
+- **Action Required:** CALL Jesse Cooper (855) 289-6572 to fix login. Call around 11 AM EST (they're Pacific time).
 - **Last Contact:** February 9, 2026
 
 ---

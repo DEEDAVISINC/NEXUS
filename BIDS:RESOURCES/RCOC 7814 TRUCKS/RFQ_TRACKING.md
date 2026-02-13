@@ -45,12 +45,9 @@
 ---
 
 ### Monroe Truck Equipment (BACKUP)
-- **Sent:** February 4, 2026 @ 5:15 PM
-- **Method:** EMAIL
-- **Document:** RFQ_DDI-2026-TRUCKS-001_Monroe_Truck_Equipment.pdf
+- **Status:** ❌ NEVER ACTUALLY CONTACTED — RFQ was drafted but not confirmed sent
 - **Phone:** 800-356-8134
-- **Status:** ⚠️ NO RESPONSE since Feb 4
-- **Next Action:** Call to follow up — (800) 356-8134
+- **Next Action:** Only contact if National Auto Fleet falls through. National Fleet is primary.
 
 ---
 

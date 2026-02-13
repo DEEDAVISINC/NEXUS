@@ -39,7 +39,7 @@ Paste your company overview here. This can be multiple sentences describing what
 
 HIGHLIGHTS:
 NAICS: 423850 - Industrial Supplies
-Partners: Grainger | Fastenal | Landstar
+Partners: Grainger | Fastenal | Freight 1st Direct
 Contract Range: $50K - $500K Successfully Delivered
 Performance: 98%+ On-Time | 100% Compliance
 Coverage: Nationwide Coverage

@@ -182,7 +182,7 @@ print(f"PDF: {result['pdf_file']}")
             {
                 "icon": "🤝",
                 "label": "Key Partners",
-                "value": "Grainger | Fastenal | Landstar"
+                "value": "Grainger | Fastenal | Freight 1st Direct"
             }
         ]
     },

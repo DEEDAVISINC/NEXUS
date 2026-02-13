@@ -110,7 +110,7 @@
 **Credentials:**
 - MC-1647572 (Freight Broker)
 - US DOT 4250594
-- Landstar System partnership
+- Freight 1st Direct (DDI's independent freight brokerage)
 
 **Powered By:** FleetFlow™ technology
 
@@ -258,7 +258,7 @@
 8. **SuretyCloud** - Federal contract bond solutions
 
 ### **Logistics:**
-9. **Landstar System** - Freight brokerage network
+9. **Freight 1st Direct** - DDI's independent freight brokerage (MC-1647572, DOT-4250594)
 
 ---
 

@@ -8354,6 +8354,644 @@ Return ONLY valid JSON."""
                 'success': False,
                 'error': str(e)
             }
+    
+    # ============================================
+    # DOCUMENT GENERATORS (NDA, Teaming, Emails)
+    # ============================================
+    
+    def generate_nda(self, subcontractor_id: str, opportunity_id: str = None) -> Dict:
+        """
+        Auto-generate a pre-filled NDA for a subcontractor/teaming partner.
+        
+        Triggered by:
+        - Workflow advance to 'Teaming' status
+        - Manual request from SubcontractorMiner
+        - Compliance check showing missing NDA
+        
+        Args:
+            subcontractor_id: Airtable record ID for the partner
+            opportunity_id: Optional opportunity this NDA relates to
+            
+        Returns:
+            Generated NDA content + compliance record created
+        """
+        try:
+            # 1. Pull subcontractor data from Airtable
+            sub = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+            if not sub:
+                return {'success': False, 'error': 'Subcontractor not found'}
+            
+            sub_fields = sub.get('fields', {})
+            company_name = sub_fields.get('COMPANY NAME', '')
+            contact_name = sub_fields.get('CONTACT NAME', sub_fields.get('PRIMARY CONTACT', ''))
+            contact_title = sub_fields.get('CONTACT TITLE', 'Authorized Representative')
+            contact_email = sub_fields.get('EMAIL', '')
+            contact_phone = sub_fields.get('PHONE', '')
+            cage_code = sub_fields.get('CAGE CODE', '')
+            uei = sub_fields.get('UEI', '')
+            address = f"{sub_fields.get('CITY', '')}, {sub_fields.get('STATE', '')}"
+            
+            # 2. Get opportunity context if provided
+            opp_context = ''
+            if opportunity_id:
+                opp = self.airtable.get_record('GPSS Opportunities', opportunity_id)
+                if opp:
+                    opp_fields = opp.get('fields', {})
+                    opp_context = f"regarding potential teaming for {opp_fields.get('Name', 'a government contract opportunity')}"
+            
+            today = datetime.now().strftime('%B %d, %Y')
+            expiration_date = (datetime.now() + timedelta(days=730)).strftime('%Y-%m-%d')
+            
+            # 3. Generate pre-filled NDA
+            nda_content = f"""MUTUAL NON-DISCLOSURE AGREEMENT
+
+Effective Date: {today}
+
+BETWEEN:
+
+PARTY A:
+Dee Davis Inc.
+Troy, Michigan
+CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
+Contact: Dieasha Davis, President
+
+PARTY B:
+{company_name}
+{address}
+{'CAGE Code: ' + cage_code if cage_code else ''}{'| UEI: ' + uei if uei else ''}
+Contact: {contact_name}, {contact_title}
+Email: {contact_email}
+Phone: {contact_phone}
+
+1. PURPOSE
+The Parties are entering into discussions {opp_context} for the purpose of pursuing government contract opportunities. This Agreement governs the protection of confidential information exchanged during these discussions.
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" means any non-public information disclosed by either Party including: pricing strategies, cost structures, supplier relationships, proposal content, technical approaches, past performance data, financial information, and government contract intelligence.
+
+3. EXCLUSIONS
+Information that: (a) is publicly available, (b) was already known, (c) is independently developed, (d) is received from third party without restriction, or (e) required by law to disclose.
+
+4. OBLIGATIONS
+Each Party agrees to: protect information with reasonable care, limit access to need-to-know personnel, not disclose to third parties, not use for any purpose other than the teaming discussions.
+
+5. GOVCON-SPECIFIC PROTECTIONS
+(a) NO END-RUN: Neither Party shall independently pursue opportunities identified through this relationship.
+(b) NO SUPPLIER POACHING: Neither Party shall contact the other's suppliers or subcontractors to bypass the Disclosing Party.
+(c) NO CLIENT DISCLOSURE: Neither Party shall reveal government end-client identities to vendors.
+(d) PROPOSAL INTEGRITY: Shared proposal content shall not be reused without written consent.
+
+6. TERM
+Effective for two (2) years. Confidentiality obligations survive for three (3) years after termination.
+
+7. REMEDIES
+Breach may entitle Disclosing Party to injunctive relief plus attorneys' fees.
+
+8. GENERAL
+Governed by Michigan law. No obligation to proceed with any business arrangement. Electronic signatures valid.
+
+SIGNATURES:
+
+PARTY A — DEE DAVIS INC.
+Signature: _______________________________
+Name: Dieasha Davis
+Title: President
+Date: _______________
+
+PARTY B — {company_name.upper()}
+Signature: _______________________________
+Name: {contact_name}
+Title: {contact_title}
+Date: _______________"""
+
+            # 4. Create compliance tracking record
+            compliance_result = self.add_compliance_document(
+                subcontractor_id=subcontractor_id,
+                document_type='NDA',
+                status='Generated',
+                expiration_date=expiration_date,
+                notes=f"Auto-generated {today}. {opp_context}"
+            )
+            
+            print(f"📄 NDA Generated for {company_name}")
+            
+            return {
+                'success': True,
+                'document_type': 'NDA',
+                'subcontractor': company_name,
+                'content': nda_content,
+                'compliance_record_id': compliance_result.get('record_id'),
+                'expiration_date': expiration_date,
+                'next_step': 'Send for signature via DocuSign/Adobe Sign/Rocket Lawyer'
+            }
+            
+        except Exception as e:
+            print(f"Error generating NDA: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    def generate_teaming_agreement(self, subcontractor_id: str, opportunity_id: str,
+                                     workshare_prime: int = 55, workshare_sub: int = 45,
+                                     prime_tasks: List[str] = None, sub_tasks: List[str] = None) -> Dict:
+        """
+        Auto-generate a pre-filled Teaming Agreement for a subcontractor.
+        
+        Triggered by:
+        - Workflow advance to 'Generate Proposal' when subcontractors are linked
+        - After NDA is signed and workshare is agreed
+        - Manual request
+        
+        Args:
+            subcontractor_id: Airtable record ID
+            opportunity_id: Opportunity this agreement covers
+            workshare_prime: Prime contractor workshare % (default 55)
+            workshare_sub: Sub workshare % (default 45)
+            prime_tasks: List of prime's tasks
+            sub_tasks: List of sub's tasks
+            
+        Returns:
+            Generated Teaming Agreement content + compliance record
+        """
+        try:
+            # 1. Pull all data from Airtable
+            sub = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+            opp = self.airtable.get_record('GPSS Opportunities', opportunity_id)
+            
+            if not sub:
+                return {'success': False, 'error': 'Subcontractor not found'}
+            if not opp:
+                return {'success': False, 'error': 'Opportunity not found'}
+            
+            sub_fields = sub.get('fields', {})
+            opp_fields = opp.get('fields', {})
+            
+            company_name = sub_fields.get('COMPANY NAME', '')
+            contact_name = sub_fields.get('CONTACT NAME', sub_fields.get('PRIMARY CONTACT', ''))
+            contact_title = sub_fields.get('CONTACT TITLE', 'Authorized Representative')
+            cage_code = sub_fields.get('CAGE CODE', '')
+            uei = sub_fields.get('UEI', '')
+            sub_certs = sub_fields.get('CERTIFICATIONS', sub_fields.get('SOCIOECONOMIC STATUS', ''))
+            address = f"{sub_fields.get('CITY', '')}, {sub_fields.get('STATE', '')}"
+            
+            opp_name = opp_fields.get('Name', opp_fields.get('Opportunity Name', ''))
+            rfp_number = opp_fields.get('RFP NUMBER', opp_fields.get('Solicitation Number', ''))
+            agency = opp_fields.get('AGENCY NAME', opp_fields.get('Agency', ''))
+            naics = opp_fields.get('NAISC Codes', opp_fields.get('NAICS', ''))
+            est_value = opp_fields.get('Value', opp_fields.get('Estimated Value', 'TBD'))
+            deadline = opp_fields.get('Deadline', 'TBD')
+            
+            today = datetime.now().strftime('%B %d, %Y')
+            agreement_number = f"DDI-TA-{datetime.now().strftime('%Y')}-{subcontractor_id[-3:]}"
+            
+            # Default tasks
+            if not prime_tasks:
+                prime_tasks = [
+                    'Program/Project Management',
+                    'Contract administration and compliance',
+                    'Client relationship management',
+                    'Quality assurance and oversight',
+                    'Reporting and documentation'
+                ]
+            
+            if not sub_tasks:
+                sub_tasks = [f'Specialized services per SOW for {opp_name}']
+            
+            prime_tasks_str = '\n'.join([f'  - {t}' for t in prime_tasks])
+            sub_tasks_str = '\n'.join([f'  - {t}' for t in sub_tasks])
+            
+            # 2. Generate the agreement
+            agreement_content = f"""TEAMING AGREEMENT
+
+Agreement Number: {agreement_number}
+Effective Date: {today}
+
+PARTIES:
+
+PARTY A (Prime Contractor):
+Dee Davis Inc.
+Troy, Michigan
+CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
+EDWOSB / WOSB Certified
+Contact: Dieasha Davis, President
+
+PARTY B (Team Member / Subcontractor):
+{company_name}
+{address}
+{'CAGE Code: ' + cage_code if cage_code else ''}{'| UEI: ' + uei if uei else ''}
+Socioeconomic Status: {sub_certs}
+Contact: {contact_name}, {contact_title}
+
+OPPORTUNITY:
+Description: {opp_name}
+Solicitation: {rfp_number if rfp_number else 'Pending'}
+Agency: {agency}
+NAICS: {naics}
+Estimated Value: {'${:,.0f}'.format(est_value) if isinstance(est_value, (int, float)) else est_value}
+Deadline: {deadline}
+
+ARTICLE 1: PURPOSE
+Party A shall serve as Prime Contractor. Party B shall serve as subcontractor/team member for the Opportunity described above.
+
+ARTICLE 2: WORKSHARE
+Party A (Dee Davis Inc.) — {workshare_prime}% of contract value:
+{prime_tasks_str}
+
+Party B ({company_name}) — {workshare_sub}% of contract value:
+{sub_tasks_str}
+
+Compliance: Party A shall perform at least 50% of contract value per FAR 52.219-14.
+
+ARTICLE 3: PROPOSAL PREPARATION
+Party A leads proposal effort. Party B provides: technical content, past performance references, key personnel resumes, and pricing within 5 business days of request.
+Each Party bears its own proposal preparation costs.
+
+ARTICLE 4: PRICING
+Party B provides firm pricing for workshare within 5 business days of final solicitation.
+Pricing is confidential and not disclosed to third parties.
+
+ARTICLE 5: SUBCONTRACT (IF AWARDED)
+Parties execute formal subcontract within 30 days of award with all required FAR/DFARS flow-downs.
+Payment: Party A pays Party B within 15 days of receiving government payment, or Net 30.
+
+ARTICLE 6: EXCLUSIVITY
+During this Agreement, Party B shall not pursue this Opportunity independently or with another team.
+
+ARTICLE 7: CONFIDENTIALITY
+All exchanged information is confidential. No disclosure of government end-clients to vendors. No supplier poaching. No end-runs.
+
+ARTICLE 8: INTELLECTUAL PROPERTY
+Each Party retains pre-existing IP. Joint proposal content is jointly owned.
+
+ARTICLE 9: TERM
+Effective until: contract award and subcontract execution, solicitation cancellation, mutual termination, or 18 months — whichever first. Confidentiality survives 3 years.
+
+ARTICLE 10: REPRESENTATIONS
+Each Party: has authority to enter agreement, is not debarred/suspended, SAM.gov active, no conflicts of interest.
+
+ARTICLE 11: DISPUTES
+Direct negotiation first, then mediation. Governed by Michigan law.
+
+ARTICLE 12: GENERAL
+No joint venture or partnership created. Independent contractors. Electronic signatures valid.
+
+SIGNATURES:
+
+PARTY A — DEE DAVIS INC.
+Signature: _______________________________
+Name: Dieasha Davis
+Title: President
+Date: _______________
+
+PARTY B — {company_name.upper()}
+Signature: _______________________________
+Name: {contact_name}
+Title: {contact_title}
+Date: _______________"""
+
+            # 3. Create compliance tracking record
+            compliance_result = self.add_compliance_document(
+                subcontractor_id=subcontractor_id,
+                document_type='Teaming Agreement',
+                status='Generated',
+                notes=f"Auto-generated {today} for {opp_name} ({rfp_number}). Workshare: {workshare_prime}/{workshare_sub}."
+            )
+            
+            print(f"🤝 Teaming Agreement Generated: {company_name} for {opp_name}")
+            
+            return {
+                'success': True,
+                'document_type': 'Teaming Agreement',
+                'agreement_number': agreement_number,
+                'subcontractor': company_name,
+                'opportunity': opp_name,
+                'workshare': f"{workshare_prime}% prime / {workshare_sub}% sub",
+                'content': agreement_content,
+                'compliance_record_id': compliance_result.get('record_id'),
+                'next_step': 'Review terms with partner, then send for signature'
+            }
+            
+        except Exception as e:
+            print(f"Error generating teaming agreement: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    def generate_govcon_email(self, email_type: str, opportunity_id: str = None,
+                               subcontractor_id: str = None, contact_id: str = None,
+                               custom_context: str = '') -> Dict:
+        """
+        Auto-generate context-aware GovCon emails by pulling real data from Airtable.
+        
+        Triggered by:
+        - Workflow stage changes (CO outreach, debrief requests, etc.)
+        - Subcontractor relationship changes (teaming outreach)
+        - Manual request from any system
+        
+        Args:
+            email_type: One of: 'sb_office_intro', 'co_sources_sought', 'co_presolicitation',
+                       'co_question', 'capstat_intro', 'capstat_to_prime', 'debrief_formal',
+                       'debrief_informal', 'debrief_thanks', 'sub_outreach', 'prime_outreach',
+                       'teaming_followup'
+            opportunity_id: Airtable opportunity ID (for context)
+            subcontractor_id: Airtable subcontractor ID (for teaming emails)
+            contact_id: Airtable contact ID (for CO/buyer emails)
+            custom_context: Additional context for AI generation
+            
+        Returns:
+            Generated email with subject, body, metadata
+        """
+        try:
+            # 1. Pull context data from Airtable
+            opp_data = {}
+            sub_data = {}
+            contact_data = {}
+            
+            if opportunity_id:
+                opp = self.airtable.get_record('GPSS Opportunities', opportunity_id)
+                if opp:
+                    f = opp.get('fields', {})
+                    opp_data = {
+                        'name': f.get('Name', f.get('Opportunity Name', '')),
+                        'rfp_number': f.get('RFP NUMBER', ''),
+                        'agency': f.get('AGENCY NAME', f.get('Agency', '')),
+                        'naics': f.get('NAISC Codes', ''),
+                        'set_aside': f.get('Set-Aside Type', ''),
+                        'deadline': f.get('Deadline', ''),
+                        'value': f.get('Value', ''),
+                        'state': f.get('State', ''),
+                        'location': f.get('LOCATION', f.get('Performance Location', '')),
+                        'scope': f.get('Notes', '')[:300]
+                    }
+            
+            if subcontractor_id:
+                sub = self.airtable.get_record('GPSS SUBCONTRACTORS', subcontractor_id)
+                if sub:
+                    f = sub.get('fields', {})
+                    sub_data = {
+                        'company': f.get('COMPANY NAME', ''),
+                        'contact': f.get('CONTACT NAME', f.get('PRIMARY CONTACT', '')),
+                        'email': f.get('EMAIL', ''),
+                        'city': f.get('CITY', ''),
+                        'state': f.get('STATE', ''),
+                        'service_type': f.get('SERVICE TYPE', '')
+                    }
+            
+            if contact_id:
+                contact = self.airtable.get_record('GPSS Contacts', contact_id)
+                if contact:
+                    f = contact.get('fields', {})
+                    contact_data = {
+                        'name': f.get('Name', ''),
+                        'email': f.get('Email', ''),
+                        'title': f.get('Title', ''),
+                        'organization': f.get('Organization', ''),
+                        'role': f.get('Role Category', '')
+                    }
+            
+            # 2. Build AI prompt based on email type
+            email_configs = {
+                'sb_office_intro': {
+                    'description': 'Introduction to agency Small Business Office',
+                    'tone': 'warm, professional, relationship-building',
+                    'key_info': 'EDWOSB cert, NAICS codes, what we do, ask about upcoming opportunities'
+                },
+                'co_sources_sought': {
+                    'description': 'Response to Sources Sought notice',
+                    'tone': 'direct, capability-focused, concise',
+                    'key_info': 'Match our capabilities to their requirements, include CAGE/UEI'
+                },
+                'co_presolicitation': {
+                    'description': 'Inquiry about forecasted/upcoming opportunity',
+                    'tone': 'professional, interested, asking smart questions',
+                    'key_info': 'Ask timeline, set-aside status, industry days, draft SOW'
+                },
+                'co_question': {
+                    'description': 'Question during open solicitation period',
+                    'tone': 'specific, brief, reference exact section',
+                    'key_info': 'Reference solicitation number and specific section'
+                },
+                'capstat_intro': {
+                    'description': 'Capability statement introduction to agency',
+                    'tone': 'warm, confident, frame relevance to their agency',
+                    'key_info': 'Why we match their needs, NAICS alignment, certifications'
+                },
+                'capstat_to_prime': {
+                    'description': 'Capability statement to prime contractor for teaming',
+                    'tone': 'value-focused, EDWOSB advantage to their SB plan',
+                    'key_info': 'How EDWOSB status helps them, our capabilities'
+                },
+                'debrief_formal': {
+                    'description': 'Post-award debrief request per FAR 15.506',
+                    'tone': 'professional, direct, citing right to debrief',
+                    'key_info': 'Solicitation number, request eval scores, strengths/weaknesses'
+                },
+                'debrief_informal': {
+                    'description': 'Feedback request for simplified acquisitions',
+                    'tone': 'friendly, brief, asking for quick feedback',
+                    'key_info': 'Were we competitive on price, any compliance issues'
+                },
+                'debrief_thanks': {
+                    'description': 'Thank you after receiving debrief',
+                    'tone': 'grateful, show you listened, relationship maintenance',
+                    'key_info': 'Reference specific feedback, say how you are improving'
+                },
+                'sub_outreach': {
+                    'description': 'Looking for subcontractor (we are prime)',
+                    'tone': 'direct, professional, what we need from them',
+                    'key_info': 'Service type, general location, requirements, NO buyer name'
+                },
+                'prime_outreach': {
+                    'description': 'Approaching prime contractor (we want to sub)',
+                    'tone': 'value-focused, EDWOSB advantage, what we bring',
+                    'key_info': 'Our certs help their SB plan, our capabilities'
+                },
+                'teaming_followup': {
+                    'description': 'Follow-up after initial teaming conversation',
+                    'tone': 'action-oriented, recap discussion, propose next steps',
+                    'key_info': 'Recap workshare, suggest NDA/teaming agreement, timeline'
+                }
+            }
+            
+            config = email_configs.get(email_type)
+            if not config:
+                return {'success': False, 'error': f"Unknown email type: {email_type}. Valid types: {list(email_configs.keys())}"}
+            
+            prompt = f"""Generate a professional GovCon email for Dee Davis Inc. (EDWOSB).
+
+EMAIL TYPE: {config['description']}
+TONE: {config['tone']}
+KEY INFO TO INCLUDE: {config['key_info']}
+
+COMPANY INFO:
+- Company: Dee Davis Inc.
+- Owner: Dieasha Davis (goes by Dee)
+- Certifications: EDWOSB, WOSB, MBE, WBE, E-Verify, SWFT, CMMC-AB
+- CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+- MC: 1647572 | DOT: 4250594
+- Location: Troy, Michigan
+
+{f"OPPORTUNITY CONTEXT: {json.dumps(opp_data)}" if opp_data else ""}
+{f"RECIPIENT (Subcontractor/Partner): {json.dumps(sub_data)}" if sub_data else ""}
+{f"RECIPIENT (Government Contact): {json.dumps(contact_data)}" if contact_data else ""}
+{f"ADDITIONAL CONTEXT: {custom_context}" if custom_context else ""}
+
+CRITICAL RULES:
+- NEVER reveal government client names to suppliers/subcontractors
+- Use "Dee Davis" as signature name (professional name)
+- Keep under 200 words for CO emails
+- Include CAGE and UEI in government-facing emails
+- Reference specific solicitation numbers when available
+- Be human, not robotic — but professional
+
+Return ONLY valid JSON:
+{{
+  "subject": "Email subject line",
+  "body": "Full email body with proper formatting",
+  "recipient_email": "email if known",
+  "recipient_name": "name if known",
+  "notes": "Any notes about this email"
+}}"""
+
+            response = self.ai.complete(prompt, max_tokens=1500)
+            clean_response = response.strip()
+            if clean_response.startswith('```'):
+                clean_response = re.sub(r'^```json\s*', '', clean_response)
+                clean_response = re.sub(r'```\s*$', '', clean_response)
+                clean_response = clean_response.strip()
+            
+            email = json.loads(clean_response)
+            
+            print(f"📧 Generated {email_type} email" + (f" for {opp_data.get('name', '')}" if opp_data else ''))
+            
+            return {
+                'success': True,
+                'email_type': email_type,
+                'description': config['description'],
+                'subject': email.get('subject', ''),
+                'body': email.get('body', ''),
+                'recipient_email': email.get('recipient_email', contact_data.get('email', sub_data.get('email', ''))),
+                'recipient_name': email.get('recipient_name', contact_data.get('name', sub_data.get('contact', ''))),
+                'opportunity_id': opportunity_id,
+                'notes': email.get('notes', '')
+            }
+            
+        except Exception as e:
+            print(f"Error generating email: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    def generate_proposal_matrix(self, opportunity_id: str) -> Dict:
+        """
+        Auto-generate a compliance/proposal matrix from an analyzed RFP.
+        
+        Triggered by:
+        - After RFP upload and AI analysis completes
+        - Workflow advance to 'Generate Proposal'
+        - Manual request
+        
+        Pulls the AI analysis from the opportunity record and builds a
+        structured compliance matrix showing every requirement and where
+        it must be addressed.
+        
+        Args:
+            opportunity_id: Airtable opportunity ID
+            
+        Returns:
+            Structured proposal matrix with all requirements mapped
+        """
+        try:
+            # 1. Get opportunity and its analysis
+            opp = self.airtable.get_record('GPSS Opportunities', opportunity_id)
+            if not opp:
+                return {'success': False, 'error': 'Opportunity not found'}
+            
+            opp_fields = opp.get('fields', {})
+            opp_name = opp_fields.get('Name', '')
+            rfp_number = opp_fields.get('RFP NUMBER', '')
+            agency = opp_fields.get('AGENCY NAME', opp_fields.get('Agency', ''))
+            deadline = opp_fields.get('Deadline', '')
+            set_aside = opp_fields.get('Set-Aside Type', '')
+            notes = opp_fields.get('Notes', '')
+            
+            # 2. Use AI to build the matrix from the opportunity data
+            prompt = f"""You are building a proposal compliance matrix for Dee Davis Inc. (EDWOSB) based on this analyzed government opportunity.
+
+OPPORTUNITY:
+Name: {opp_name}
+RFP Number: {rfp_number}
+Agency: {agency}
+Deadline: {deadline}
+Set-Aside: {set_aside}
+
+ANALYSIS/NOTES:
+{notes[:5000]}
+
+Based on this information, generate a structured proposal compliance matrix. For each requirement you can identify, create a row with:
+1. Reference (Section/paragraph if identifiable)
+2. Requirement description
+3. Which proposal volume should address it (Admin, Technical, Past Performance, Price, or Compliance)
+4. Priority (Critical, Important, Standard)
+5. Status placeholder (Not Started)
+
+Also identify:
+- Evaluation factors (if discernible from the notes)
+- Required documents/certifications
+- Special compliance requirements
+- Whether subcontractors are needed
+
+Return ONLY valid JSON:
+{{
+  "opportunity_name": "{opp_name}",
+  "rfp_number": "{rfp_number}",
+  "agency": "{agency}",
+  "deadline": "{deadline}",
+  "evaluation_approach": "Best Value|LPTA|Highest Technical|Unknown",
+  "evaluation_factors": [
+    {{"factor": "Factor name", "weight": "Weight if known", "priority": "Critical|Important"}}
+  ],
+  "compliance_matrix": [
+    {{
+      "ref": "Section reference",
+      "requirement": "What is required",
+      "volume": "Admin|Technical|Past Performance|Price|Compliance",
+      "priority": "Critical|Important|Standard",
+      "status": "Not Started",
+      "notes": "Any specific guidance"
+    }}
+  ],
+  "required_documents": ["List of required docs"],
+  "required_certifications": ["SAM.gov", "E-Verify", "etc"],
+  "subcontractor_needed": true/false,
+  "subcontractor_reason": "Why/why not",
+  "total_requirements": 0,
+  "critical_requirements": 0
+}}"""
+
+            response = self.ai.complete(prompt, max_tokens=4000)
+            clean_response = response.strip()
+            if clean_response.startswith('```'):
+                clean_response = re.sub(r'^```json\s*', '', clean_response)
+                clean_response = re.sub(r'```\s*$', '', clean_response)
+                clean_response = clean_response.strip()
+            
+            matrix = json.loads(clean_response)
+            
+            # Count stats
+            total = len(matrix.get('compliance_matrix', []))
+            critical = sum(1 for r in matrix.get('compliance_matrix', []) if r.get('priority') == 'Critical')
+            matrix['total_requirements'] = total
+            matrix['critical_requirements'] = critical
+            
+            print(f"📋 Proposal Matrix Generated: {opp_name}")
+            print(f"   {total} requirements identified ({critical} critical)")
+            
+            return {
+                'success': True,
+                'opportunity_id': opportunity_id,
+                'matrix': matrix,
+                'summary': f"{total} requirements identified ({critical} critical) for {opp_name}",
+                'next_step': 'Address each requirement starting with Critical items'
+            }
+            
+        except Exception as e:
+            print(f"Error generating proposal matrix: {e}")
+            return {'success': False, 'error': str(e)}
 
 
 # =====================================================================
@@ -8960,19 +9598,35 @@ class SAMgovAPIClient:
         'ISBEE',      # Indian Small Business Economic Enterprise
     ]
 
+    # Notice types we search for — includes presolicitations, sources sought, etc.
+    NOTICE_TYPES_SOLICITATION = [
+        'o',   # Solicitation
+        'k',   # Combined Synopsis/Solicitation
+    ]
+    NOTICE_TYPES_PRESOLICITATION = [
+        'p',   # Presolicitation
+        'r',   # Sources Sought
+        'i',   # Intent to Bundle / Special Notice
+        's',   # Special Notice
+    ]
+
     def search_opportunities(self, params: Dict = None) -> Dict:
         """
         Search SAM.gov for opportunities.
         FILTERS: EDWOSB, WOSB, Small Business ONLY.
         Excludes SDVOSB, VOSB, HUBZone, 8(a) — we don't qualify for those.
+        NOW ALSO SEARCHES: Presolicitations, Sources Sought, Special Notices.
         """
         try:
             # Build request parameters — filtered for eligible set-asides
+            # Include ALL relevant notice types: solicitations + presolicitations
+            all_notice_types = self.NOTICE_TYPES_SOLICITATION + self.NOTICE_TYPES_PRESOLICITATION
             default_params = {
                 'limit': 100,
                 'postedFrom': (datetime.now() - timedelta(days=14)).strftime('%m/%d/%Y'),
                 'postedTo': datetime.now().strftime('%m/%d/%Y'),
                 'typeOfSetAside': ','.join(self.ELIGIBLE_SET_ASIDES),
+                'ntype': ','.join(all_notice_types),
             }
             
             if params:
@@ -9123,8 +9777,51 @@ class SAMgovAPIClient:
         except:
             return {'score': 50, 'recommendation': 'skip', 'reason': 'Error'}
     
+    # Map SAM.gov notice type codes to readable labels
+    PRESOLICITATION_NOTICE_TYPES = {
+        'Presolicitation': True,
+        'Sources Sought': True,
+        'Special Notice': True,
+        'Intent to Bundle Requirements (DOD- Loss of Small Business Opportunities)': True,
+    }
+
+    def _is_presolicitation_type(self, opp: Dict) -> str:
+        """
+        Determine if an opportunity is a presolicitation, sources sought, or sole source notice.
+        Returns the type string if yes, empty string if no.
+        """
+        notice_type = (opp.get('type') or opp.get('noticeType') or '').strip()
+        
+        # Check against known presolicitation types
+        if notice_type in self.PRESOLICITATION_NOTICE_TYPES:
+            return notice_type
+        
+        # Check by common keywords in the type field
+        notice_lower = notice_type.lower()
+        if 'presolicitation' in notice_lower:
+            return 'Presolicitation'
+        if 'sources sought' in notice_lower:
+            return 'Sources Sought'
+        if 'special notice' in notice_lower:
+            return 'Special Notice'
+        if 'intent' in notice_lower and 'sole' in notice_lower:
+            return 'Intent to Sole Source'
+        
+        # Check the title for sole source / sources sought indicators
+        title_lower = (opp.get('title') or '').lower()
+        if 'sources sought' in title_lower:
+            return 'Sources Sought'
+        if 'sole source' in title_lower or 'intent to sole' in title_lower:
+            return 'Intent to Sole Source'
+        if 'presolicitation' in title_lower:
+            return 'Presolicitation'
+        if 'request for information' in title_lower or ' rfi ' in f' {title_lower} ':
+            return 'Sources Sought'
+        
+        return ''
+
     def _import_to_airtable(self, opp: Dict, qualification: Dict):
-        """Import to Airtable"""
+        """Import to Airtable — auto-triggers presolicitation response if applicable"""
         from dateutil import parser
         
         # Parse dates safely
@@ -9135,11 +9832,14 @@ class SAMgovAPIClient:
         except:
             pass
         
+        # Detect presolicitation type
+        presol_type = self._is_presolicitation_type(opp)
+        
         # Map to actual Airtable field names
         fields = {
             'Name': opp.get('title', 'Untitled')[:255],
             'RFP NUMBER': opp.get('noticeId', ''),
-            'Status': 'New - API',
+            'Status': f'New - {presol_type}' if presol_type else 'New - API',
         }
         
         # Add optional fields
@@ -9147,6 +9847,539 @@ class SAMgovAPIClient:
             fields['Deadline'] = due_date
         
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
+        
+        # AUTO-RESPONSE: If presolicitation type, generate cap statement + buyer email + folder
+        if presol_type:
+            try:
+                self._auto_respond_presolicitation(opp, presol_type)
+            except Exception as e:
+                print(f"   ⚠️  Auto-response generation failed for {opp.get('noticeId', 'unknown')}: {e}")
+
+    def _auto_respond_presolicitation(self, opp: Dict, presol_type: str):
+        """
+        AUTOMATIC presolicitation response:
+        1. Creates bid folder with SEND_TO_BUYER/
+        2. Generates tailored capability statement (HTML)
+        3. Generates buyer outreach email
+        4. Places both in SEND_TO_BUYER/
+        
+        This runs automatically when a presolicitation/sources sought/sole source
+        notice is mined from SAM.gov. No manual trigger needed.
+        """
+        import os
+        
+        title = opp.get('title', 'Untitled')
+        notice_id = opp.get('noticeId', '')
+        agency = opp.get('fullParentPathName', '') or opp.get('department', '') or ''
+        description = opp.get('description', '')[:1000]
+        set_aside = opp.get('typeOfSetAsideDescription', '') or opp.get('typeOfSetAside', '')
+        naics = opp.get('naicsCode', '')
+        deadline = opp.get('responseDeadLine', '')
+        
+        # Extract contracting officer info
+        contact_name = ''
+        contact_email = ''
+        contact_phone = ''
+        point_of_contact = opp.get('pointOfContact', [])
+        if isinstance(point_of_contact, list) and len(point_of_contact) > 0:
+            poc = point_of_contact[0]
+            contact_name = poc.get('fullName', '') or f"{poc.get('firstName', '')} {poc.get('lastName', '')}".strip()
+            contact_email = poc.get('email', '')
+            contact_phone = poc.get('phone', '')
+        elif isinstance(point_of_contact, dict):
+            contact_name = point_of_contact.get('fullName', '') or f"{point_of_contact.get('firstName', '')} {point_of_contact.get('lastName', '')}".strip()
+            contact_email = point_of_contact.get('email', '')
+            contact_phone = point_of_contact.get('phone', '')
+        
+        # Generate folder name: [AGENCY SHORT] [BID TYPE]
+        folder_name = self._generate_folder_name(agency, title)
+        
+        base_path = os.path.join(os.path.dirname(__file__), 'BIDS:RESOURCES', folder_name)
+        send_to_buyer = os.path.join(base_path, 'SEND_TO_BUYER')
+        send_to_supplier = os.path.join(base_path, 'SEND_TO_SUPPLIER')
+        send_to_sub = os.path.join(base_path, 'SEND_TO_SUBCONTRACTOR')
+        
+        # Create folder structure
+        for d in [send_to_buyer, send_to_supplier, send_to_sub]:
+            os.makedirs(d, exist_ok=True)
+        
+        print(f"   📁 Created bid folder: {folder_name}")
+        
+        # Generate capability statement HTML
+        capstat_html = self._generate_presol_capstat_html(
+            title=title,
+            notice_id=notice_id,
+            agency=agency,
+            presol_type=presol_type,
+            description=description,
+            set_aside=set_aside,
+            naics=naics,
+        )
+        
+        safe_notice_id = notice_id.replace('/', '-').replace(' ', '_')
+        capstat_filename = f'{safe_notice_id}_Capability_Statement.html'
+        capstat_path = os.path.join(send_to_buyer, capstat_filename)
+        with open(capstat_path, 'w') as f:
+            f.write(capstat_html)
+        
+        print(f"   📄 Generated capability statement: {capstat_filename}")
+        
+        # Generate buyer outreach email
+        email_text = self._generate_presol_buyer_email(
+            title=title,
+            notice_id=notice_id,
+            agency=agency,
+            presol_type=presol_type,
+            contact_name=contact_name,
+            contact_email=contact_email,
+            contact_phone=contact_phone,
+            set_aside=set_aside,
+            description=description,
+        )
+        
+        email_path = os.path.join(send_to_buyer, 'SEND_TO_BUYER_EMAIL_READY.md')
+        with open(email_path, 'w') as f:
+            f.write(email_text)
+        
+        print(f"   📧 Generated buyer email: SEND_TO_BUYER_EMAIL_READY.md")
+        
+        # Generate workflow checklist
+        checklist = self._generate_presol_workflow_checklist(
+            title=title,
+            notice_id=notice_id,
+            agency=agency,
+            presol_type=presol_type,
+            contact_name=contact_name,
+            contact_email=contact_email,
+            deadline=deadline,
+        )
+        
+        checklist_path = os.path.join(base_path, 'WORKFLOW_CHECKLIST.md')
+        with open(checklist_path, 'w') as f:
+            f.write(checklist)
+        
+        print(f"   ✅ Auto-response complete for: {folder_name}")
+        print(f"   📬 SEND_TO_BUYER ready — email {contact_email or 'CO'} with cap statement attached")
+
+    def _generate_folder_name(self, agency: str, title: str) -> str:
+        """Generate a short, readable folder name from agency + title.
+        Format: [AGENCY ABBREVIATION] [KEY WORDS FROM TITLE]
+        Examples: USACE GUARDRAILS, VA COURIER SERVICE, DLA CABLE ASSEMBLY
+        """
+        import re
+        
+        # Full agency path might be like "DEPARTMENT OF THE ARMY.US ARMY CORPS OF ENGINEERS.WHATEVER"
+        # We want to check the ENTIRE string for abbreviation matches
+        agency_upper = agency.upper().strip()
+        
+        # Common abbreviations — check from most specific to least specific
+        abbrevs = [
+            ('ARMY CORPS OF ENGINEERS', 'USACE'),
+            ('CORPS OF ENGINEERS', 'USACE'),
+            ('DEFENSE LOGISTICS AGENCY', 'DLA'),
+            ('NAVAL SUPPLY SYSTEMS COMMAND', 'NAVSUP'),
+            ('NAVAL SEA SYSTEMS COMMAND', 'NAVSEA'),
+            ('NAVAL AIR SYSTEMS COMMAND', 'NAVAIR'),
+            ('NATIONAL INSTITUTES OF HEALTH', 'NIH'),
+            ('FISH AND WILDLIFE SERVICE', 'FWS'),
+            ('BUREAU OF RECLAMATION', 'BOR'),
+            ('GENERAL SERVICES ADMINISTRATION', 'GSA'),
+            ('NATIONAL AERONAUTICS AND SPACE', 'NASA'),
+            ('VETERANS AFFAIRS', 'VA'),
+            ('VETERAN AFFAIRS', 'VA'),
+            ('DEPARTMENT OF ENERGY', 'DOE'),
+            ('HOMELAND SECURITY', 'DHS'),
+            ('DEPARTMENT OF THE ARMY', 'ARMY'),
+            ('DEPARTMENT OF THE NAVY', 'NAVY'),
+            ('DEPARTMENT OF THE AIR FORCE', 'USAF'),
+            ('DEPARTMENT OF DEFENSE', 'DOD'),
+            ('DEPARTMENT OF AGRICULTURE', 'USDA'),
+            ('DEPARTMENT OF INTERIOR', 'DOI'),
+            ('DEPARTMENT OF COMMERCE', 'DOC'),
+            ('DEPARTMENT OF LABOR', 'DOL'),
+            ('DEPARTMENT OF JUSTICE', 'DOJ'),
+            ('DEPARTMENT OF STATE', 'DOS'),
+            ('SMALL BUSINESS ADMINISTRATION', 'SBA'),
+            ('ENVIRONMENTAL PROTECTION AGENCY', 'EPA'),
+            ('FEDERAL EMERGENCY MANAGEMENT', 'FEMA'),
+            ('INSTALLATION MANAGEMENT COMMAND', 'IMCOM'),
+            ('MISSION AND INSTALLATION CONTRACTING', 'MICC'),
+        ]
+        
+        short = ''
+        for full, abbr in abbrevs:
+            if full in agency_upper:
+                short = abbr
+                break
+        
+        # If no match, take the last segment of the dotted path and use first word
+        if not short:
+            last_segment = agency.split('.')[-1].strip() if '.' in agency else agency
+            last_segment = last_segment.split('/')[-1].strip()
+            words = last_segment.upper().split()
+            short = words[0] if words else 'FEDERAL'
+        
+        # Extract key words from title (remove filler words and notice-type words)
+        filler_pattern = r'(?i)\b(sources?\s*sought|presolicitation|notice\s*of\s*intent|combined\s*synopsis|solicitation|amendment|modification|rfp|rfq|rfi|for|the|and|of|at|in|to|a|an|is|are|be|was|were|this|that|with|from|by|on|or|not|as|it|its|has|have|had|will|shall|may|can|all|any|each|per|but)\b'
+        title_clean = re.sub(filler_pattern, ' ', title)
+        title_clean = re.sub(r'[^a-zA-Z0-9\s]', '', title_clean)
+        title_words = [w for w in title_clean.upper().split() if len(w) > 2][:3]
+        
+        folder_name = f"{short} {' '.join(title_words)}".strip()
+        
+        # Cap at 30 chars
+        if len(folder_name) > 30:
+            folder_name = folder_name[:30].strip()
+        
+        return folder_name
+
+    def _generate_presol_capstat_html(self, title: str, notice_id: str, agency: str,
+                                       presol_type: str, description: str, set_aside: str,
+                                       naics: str) -> str:
+        """Generate a tailored capability statement HTML for presolicitation response."""
+        
+        # Determine color scheme based on industry keywords
+        title_lower = title.lower() + ' ' + description.lower()
+        if any(kw in title_lower for kw in ['ground', 'landscape', 'lawn', 'mow', 'vegetation', 'tree', 'environmental']):
+            primary_color = '#14532d'
+            accent_color = '#d97706'
+            industry_label = 'Grounds Maintenance & Environmental Services'
+        elif any(kw in title_lower for kw in ['medical', 'health', 'clinical', 'hospital', 'pharma', 'surgical', 'courier']):
+            primary_color = '#1e40af'
+            accent_color = '#dc2626'
+            industry_label = 'Medical & Healthcare Services'
+        elif any(kw in title_lower for kw in ['construction', 'building', 'repair', 'renovation', 'facility']):
+            primary_color = '#7c2d12'
+            accent_color = '#ea580c'
+            industry_label = 'Construction & Facility Services'
+        elif any(kw in title_lower for kw in ['it ', 'software', 'technology', 'cyber', 'network', 'computer']):
+            primary_color = '#312e81'
+            accent_color = '#7c3aed'
+            industry_label = 'Information Technology Services'
+        elif any(kw in title_lower for kw in ['supply', 'equipment', 'material', 'product', 'part', 'hardware']):
+            primary_color = '#0c4a6e'
+            accent_color = '#0284c7'
+            industry_label = 'Supply Chain & Equipment Procurement'
+        else:
+            primary_color = '#1e3a5f'
+            accent_color = '#d4a017'
+            industry_label = 'Federal Service Management & Contract Administration'
+        
+        # Determine response framing based on type
+        if presol_type == 'Intent to Sole Source':
+            type_label = 'EDWOSB ALTERNATIVE RESPONSE'
+            type_desc = f'Notice of Intent to Sole Source: {notice_id}'
+        elif presol_type == 'Sources Sought':
+            type_label = 'SOURCES SOUGHT RESPONSE'
+            type_desc = f'Sources Sought Notice: {notice_id}'
+        else:
+            type_label = 'EDWOSB INTEREST — CAPABILITY STATEMENT'
+            type_desc = f'Presolicitation: {notice_id}'
+        
+        # Set-aside badge
+        set_aside_html = ''
+        if set_aside:
+            set_aside_html = f'<div class="badge">{set_aside}</div>'
+        
+        from datetime import datetime
+        date_str = datetime.now().strftime('%B %Y')
+        
+        return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEE DAVIS INC - Capability Statement - {notice_id}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{ font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; color: #1e293b; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
+        .page {{ width: 8.5in; min-height: 11in; margin: 0 auto; padding: 0.75in; background: white; }}
+        .header {{ background: linear-gradient(135deg, {primary_color} 0%, {primary_color}dd 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.2); display: flex; align-items: flex-start; gap: 2rem; }}
+        .logo-section {{ flex-shrink: 0; width: 130px; height: 130px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); padding: 0.75rem; }}
+        .logo-img {{ width: 100%; height: 100%; object-fit: contain; }}
+        .header-content {{ flex: 1; }}
+        .company-name {{ font-size: 2.25rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.25rem; }}
+        .dba {{ font-size: 1rem; font-weight: 500; opacity: 0.9; margin-bottom: 0.75rem; }}
+        .cage-uei {{ display: flex; gap: 1.5rem; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.75rem; padding: 0.6rem 1rem; background: rgba(255,255,255,0.15); border-radius: 6px; }}
+        .cage-uei-item {{ display: flex; gap: 0.5rem; }}
+        .badges {{ display: flex; gap: 0.75rem; margin-top: 0.75rem; flex-wrap: wrap; }}
+        .badge {{ background: rgba(255,255,255,0.2); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); }}
+        .title-bar {{ background: linear-gradient(135deg, {accent_color} 0%, {accent_color}cc 100%); color: white; padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; }}
+        .title-bar h2 {{ font-size: 1.3rem; font-weight: 700; }}
+        .title-bar .sol {{ font-size: 0.95rem; margin-top: 0.25rem; opacity: 0.95; }}
+        .section {{ margin-bottom: 1.5rem; }}
+        .section-header {{ background: linear-gradient(135deg, {primary_color} 0%, {primary_color}dd 100%); color: white; padding: 0.6rem 1.25rem; border-radius: 8px; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }}
+        .info-box {{ background: #f8fafc; border-left: 4px solid {primary_color}; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; }}
+        .highlight-box {{ background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-left: 4px solid #10b981; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; }}
+        .edwosb-box {{ background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #d97706; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; }}
+        .key-points {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1rem 0; }}
+        .key-point {{ background: white; border: 2px solid #e2e8f0; padding: 0.75rem; border-radius: 8px; display: flex; align-items: start; gap: 0.75rem; }}
+        .key-point-icon {{ font-size: 1.25rem; flex-shrink: 0; }}
+        .key-point h4 {{ font-weight: 700; color: {primary_color}; font-size: 0.85rem; margin-bottom: 0.1rem; }}
+        .key-point p {{ font-size: 0.78rem; color: #64748b; }}
+        ul {{ list-style: none; padding: 0; }}
+        ul li {{ padding-left: 1.5rem; position: relative; margin-bottom: 0.4rem; font-size: 0.9rem; }}
+        ul li::before {{ content: "\\2713"; position: absolute; left: 0; color: #10b981; font-weight: bold; }}
+        .contact-grid {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; background: #f1f5f9; padding: 1.25rem; border-radius: 8px; margin-top: 1rem; }}
+        .contact-item {{ display: flex; align-items: center; gap: 0.75rem; }}
+        .contact-label {{ font-size: 0.7rem; color: #64748b; font-weight: 600; text-transform: uppercase; }}
+        .contact-value {{ font-size: 0.9rem; font-weight: 600; color: #1e293b; }}
+        .footer {{ margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #e2e8f0; text-align: center; color: #64748b; font-size: 0.85rem; }}
+        .footer strong {{ color: {primary_color}; }}
+        @media print {{ .page {{ margin: 0; padding: 0.5in; }} }}
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="header">
+        <div class="logo-section">
+            <img src="dee_davis_inc_logo.png" alt="Dee Davis Inc. Logo" class="logo-img">
+        </div>
+        <div class="header-content">
+            <div class="company-name">DEE DAVIS INC</div>
+            <div class="dba">{industry_label}</div>
+            <div class="cage-uei">
+                <div class="cage-uei-item"><span style="opacity:0.8">CAGE Code:</span> <span>8UMX3</span></div>
+                <div class="cage-uei-item"><span style="opacity:0.8">UEI:</span> <span>HJB4KNYJVGZ1</span></div>
+                <div class="cage-uei-item"><span style="opacity:0.8">SAM.gov:</span> <span>ACTIVE</span></div>
+            </div>
+            <div class="badges">
+                <div class="badge">EDWOSB/WOSB Certified</div>
+                <div class="badge">WBE / MBE / SBE</div>
+                {set_aside_html}
+            </div>
+        </div>
+    </div>
+
+    <div class="title-bar">
+        <h2>{type_label}</h2>
+        <div class="sol">{type_desc}</div>
+        <div class="sol">{title[:100]}</div>
+    </div>
+
+    <div class="edwosb-box">
+        <h3 style="color:#92400e;font-weight:700;margin-bottom:0.5rem;">EDWOSB CERTIFICATION ADVANTAGE</h3>
+        <p style="font-size:0.9rem;">Dee Davis Inc. is a <strong>certified EDWOSB/WOSB</strong>. Our certification provides socioeconomic contracting value and supports the federal government's 5% WOSB contracting goal.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">COMPANY OVERVIEW</div>
+        <div class="info-box">
+            <p><strong>Dee Davis Inc.</strong> is an EDWOSB/WOSB-certified service management firm and licensed freight brokerage specializing in federal contract administration, supply chain management, and subcontractor coordination. We serve as prime contractor on federal contracts, partnering with qualified local contractors and suppliers while managing compliance, quality assurance, and government reporting.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">KEY QUALIFICATIONS</div>
+        <div class="key-points">
+            <div class="key-point">
+                <div class="key-point-icon">&#127942;</div>
+                <div><h4>EDWOSB/WOSB Certified</h4><p>Meets set-aside requirements, supports 5% WOSB goal</p></div>
+            </div>
+            <div class="key-point">
+                <div class="key-point-icon">&#128203;</div>
+                <div><h4>Contract Administration</h4><p>Compliance, QA, invoicing, government reporting</p></div>
+            </div>
+            <div class="key-point">
+                <div class="key-point-icon">&#128666;</div>
+                <div><h4>Licensed Freight Broker</h4><p>FMCSA MC# 1647572, 20+ carrier network</p></div>
+            </div>
+            <div class="key-point">
+                <div class="key-point-icon">&#9989;</div>
+                <div><h4>Federal Contracting Ready</h4><p>CAGE 8UMX3, SAM.gov Active, immediate capacity</p></div>
+            </div>
+            <div class="key-point">
+                <div class="key-point-icon">&#129309;</div>
+                <div><h4>Subcontractor Network</h4><p>Vetted local partners for service delivery</p></div>
+            </div>
+            <div class="key-point">
+                <div class="key-point-icon">&#128200;</div>
+                <div><h4>Multi-Site Coordination</h4><p>Route planning and scheduling across locations</p></div>
+            </div>
+        </div>
+    </div>
+
+    {"<div class='section'><div class='section-header'>NAICS CODES</div><div class='info-box'><p><strong>" + naics + "</strong></p></div></div>" if naics else ""}
+
+    <div class="contact-grid">
+        <div class="contact-item"><div><div class="contact-label">Email</div><div class="contact-value">info@deedavis.biz</div></div></div>
+        <div class="contact-item"><div><div class="contact-label">Phone</div><div class="contact-value">248.376.4550</div></div></div>
+        <div class="contact-item"><div><div class="contact-label">Address</div><div class="contact-value">755 W. Big Beaver Rd., Suite 2020<br>Troy, Michigan 48084</div></div></div>
+        <div class="contact-item"><div><div class="contact-label">Certifications</div><div class="contact-value">EDWOSB / WOSB / WBE / MBE / SBE</div></div></div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Dee Davis Inc.</strong> | {industry_label}</p>
+        <p>755 W. Big Beaver Rd., Suite 2020 | Troy, Michigan 48084</p>
+        <p>Phone: 248.376.4550 | Email: info@deedavis.biz | Web: www.deedavis.biz</p>
+        <p style="margin-top:0.75rem"><strong>EDWOSB/WOSB Certified</strong> | CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1</p>
+        <p style="margin-top:0.75rem;font-size:0.75rem;color:#94a3b8">{type_label} — {notice_id} | {date_str}</p>
+    </div>
+</div>
+</body>
+</html>'''
+
+    def _generate_presol_buyer_email(self, title: str, notice_id: str, agency: str,
+                                      presol_type: str, contact_name: str, contact_email: str,
+                                      contact_phone: str, set_aside: str, description: str) -> str:
+        """Generate buyer outreach email for presolicitation response."""
+        from datetime import datetime
+        
+        # Parse contact name for greeting
+        if contact_name:
+            # Try to get last name for formal greeting
+            parts = contact_name.split()
+            if len(parts) >= 2:
+                greeting = f"Dear {parts[-1]},"  # Use last name
+                greeting_alt = f"Good evening {parts[0]},"  # First name
+            else:
+                greeting = f"Dear {contact_name},"
+                greeting_alt = greeting
+        else:
+            greeting = "Good evening,"
+            greeting_alt = greeting
+        
+        # Frame based on type
+        if presol_type == 'Intent to Sole Source':
+            subject = f"EDWOSB Alternative — {title[:60]} ({notice_id})"
+            intro = f"I'm writing to submit our capability as a certified EDWOSB alternative regarding {presol_type.lower()} notice {notice_id}."
+            questions = """- We respectfully submit our qualification as an EDWOSB alternative
+- We can provide competitive pricing through our supplier/subcontractor network
+- Our EDWOSB certification provides additional socioeconomic contracting value
+- We are prepared to demonstrate full technical capability"""
+        elif presol_type == 'Sources Sought':
+            subject = f"EDWOSB Capability Response — {title[:60]} ({notice_id})"
+            intro = f"I'm writing to express our strong interest and capability regarding Sources Sought notice {notice_id}."
+            questions = """- What is the anticipated procurement timeline?
+- Will this be set aside for small business / WOSB / EDWOSB?
+- Will there be a site visit or pre-bid conference?
+- Can we be added to the interested vendors list for this procurement?"""
+        else:
+            subject = f"EDWOSB Interest — {title[:60]} ({notice_id})"
+            intro = f"I'm writing to express our strong interest in the upcoming solicitation referenced in presolicitation {notice_id}."
+            questions = """- Is the anticipated timeline still on track for the full solicitation release?
+- Will there be a site visit or pre-bid conference?
+- Are there capability requirements beyond the presolicitation notice?
+- Can we be added to the interested vendors list for this procurement?"""
+        
+        email = f"""# READY TO SEND — {presol_type} Response
+
+**To:** {contact_email or '[CO EMAIL]'}
+**From:** info@deedavis.biz
+**Subject:** {subject}
+
+---
+
+{greeting_alt}
+
+My name is Dee Davis, owner of Dee Davis Inc., a certified EDWOSB based in Troy, Michigan. {intro}
+
+We are a service management firm and licensed freight brokerage that partners with qualified local contractors and suppliers to deliver on federal contracts. We handle contract management, compliance, invoicing, and quality assurance while our partners handle execution.
+
+{questions}
+
+I've attached our Capability Statement for your review, which outlines our company qualifications, EDWOSB certification, and relevant experience.
+
+We're genuinely excited about this opportunity and look forward to competing. Thank you for your time, and please don't hesitate to reach out if you have any questions about our company.
+
+Best regards,
+
+Dee Davis
+Owner, Dee Davis Inc.
+755 W. Big Beaver Rd., Suite 2020
+Troy, Michigan 48084
+Phone: 248.376.4550
+Email: info@deedavis.biz
+
+EDWOSB / WOSB Certified
+CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
+SAM.gov Active
+
+---
+
+## BEFORE SENDING — CHECKLIST
+- [ ] Copy everything between the --- lines above
+- [ ] Paste into email
+- [ ] To: {contact_email or '[FIND CO EMAIL]'}
+- [ ] Subject: {subject}
+- [ ] ATTACH: Capability statement (open HTML in browser > Print > Save as PDF)
+- [ ] Double-check signature
+- [ ] SEND
+
+## CO CONTACT INFO
+- **Name:** {contact_name or 'TBD'}
+- **Email:** {contact_email or 'TBD'}
+- **Phone:** {contact_phone or 'TBD'}
+- **Agency:** {agency}
+
+---
+*Auto-generated by Nexus — {presol_type} response for {notice_id} | {datetime.now().strftime('%B %d, %Y')}*
+"""
+        return email
+
+    def _generate_presol_workflow_checklist(self, title: str, notice_id: str, agency: str,
+                                             presol_type: str, contact_name: str,
+                                             contact_email: str, deadline: str) -> str:
+        """Generate workflow checklist for presolicitation response."""
+        from datetime import datetime
+        
+        return f"""# WORKFLOW CHECKLIST — {presol_type}
+## {title[:80]}
+## {notice_id}
+
+**Agency:** {agency}
+**Type:** {presol_type}
+**Deadline:** {deadline or 'TBD'}
+**CO:** {contact_name or 'TBD'} ({contact_email or 'TBD'})
+**Created:** {datetime.now().strftime('%B %d, %Y')} (auto-generated by Nexus)
+
+---
+
+## STEP 1: REVIEW NOTICE
+- [ ] Read and understand what the buyer is signaling
+- [ ] Identify NAICS code, set-aside type, estimated value
+- [ ] Note any specific capability requirements
+- [ ] Check if EDWOSB/WOSB set-aside (HIGH PRIORITY if yes)
+
+## STEP 2: GO / NO-GO DECISION
+- [x] AUTO-PURSUE: {presol_type} identified — default is YES for EDWOSB-eligible
+- [ ] Dee confirms pursuit (or kills it)
+
+## STEP 3: GENERATE CAP STATEMENT (AUTO-COMPLETE)
+- [x] Capability statement generated and placed in SEND_TO_BUYER/
+- [x] Tailored to opportunity type and industry
+
+## STEP 4: GENERATE BUYER EMAIL (AUTO-COMPLETE)
+- [x] Buyer outreach email generated and placed in SEND_TO_BUYER/
+- [x] CO contact info populated: {contact_name or 'TBD'} ({contact_email or 'TBD'})
+
+## STEP 5: SEND TO BUYER
+- [ ] Review cap statement (open HTML, print to PDF)
+- [ ] Review email text
+- [ ] Send email to {contact_email or 'CO'} with cap statement attached
+- [ ] Log send date
+
+## STEP 6: MONITOR FOR FULL RFP
+- [ ] Watch SAM.gov for full solicitation release
+- [ ] Set alert for {notice_id}
+- [ ] Check email for CO response / follow-up questions
+
+## STEP 7: IDENTIFY SUPPLIERS / SUBCONTRACTORS
+- [ ] Research local suppliers/subcontractors for this contract
+- [ ] Make initial outreach calls (protect buyer identity!)
+- [ ] Document capabilities and pricing
+
+## STEP 8: FULL BID (When RFP Drops)
+- [ ] Download complete RFP from SAM.gov
+- [ ] Switch to regular bid workflow (10-step)
+- [ ] Request formal quotes from suppliers/subs
+- [ ] Prepare and submit full proposal
+
+---
+
+*Auto-generated by Nexus presolicitation auto-response system*
+"""
 
 
 class GovConAPIClient:
@@ -9180,7 +10413,13 @@ class GovConAPIClient:
             all_opportunities = []
             total_found = 0
             
-            notice_types = ['Solicitation', 'Combined Synopsis/Solicitation']
+            notice_types = [
+                'Solicitation', 
+                'Combined Synopsis/Solicitation',
+                'Presolicitation',
+                'Sources Sought',
+                'Special Notice',
+            ]
             
             for notice_type in notice_types:
                 # Free plan: limit=50 max, basic filters only

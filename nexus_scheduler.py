@@ -15,6 +15,8 @@ Usage:
   python3 nexus_scheduler.py --email    # Run email check only
   python3 nexus_scheduler.py --mine     # Run federal mining only
   python3 nexus_scheduler.py --portals  # Run vendor portal mining only
+  python3 nexus_scheduler.py --public   # Run public portal scan (nationwide, all tiers)
+  python3 nexus_scheduler.py --public-tier1  # Run public portal scan (tier 1 only: SAM, BidNet, MITN, TX)
   python3 nexus_scheduler.py --scan     # Run folder scan only
 
 For cron (recommended):
@@ -291,6 +293,77 @@ def run_quote_followups():
         return False
 
 
+def run_ai_scoring_and_alerts():
+    """
+    AI OPPORTUNITY SCORER + EMAIL ALERTS
+    1. Pull all "New - API" and "New - Presolicitation/Sources Sought" opps from Airtable
+    2. Score each against Dee Davis Inc. profile using AI
+    3. Tag with BID NOW / WORTH A LOOK / SKIP
+    4. Email Dee immediately for BID NOW opportunities
+    5. Update Airtable status with score and recommendation
+    """
+    log.info("--- AI OPPORTUNITY SCORING & ALERTS ---")
+    try:
+        from nexus_opportunity_intelligence import OpportunityIntelligenceEngine
+        engine = OpportunityIntelligenceEngine()
+        result = engine.score_and_alert()
+        
+        bid_now = result.get('bid_now', 0)
+        worth_look = result.get('worth_a_look', 0)
+        skipped = result.get('skip', 0)
+        emails_sent = result.get('emails_sent', 0)
+        
+        log.info(f"Scored {bid_now + worth_look + skipped} opportunities:")
+        log.info(f"  🔴 BID NOW: {bid_now}")
+        log.info(f"  🟡 WORTH A LOOK: {worth_look}")
+        log.info(f"  ⚪ SKIP: {skipped}")
+        if emails_sent > 0:
+            log.info(f"  📧 Alert emails sent: {emails_sent}")
+        
+        return True
+    except Exception as e:
+        log.error(f"AI scoring/alerts failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def run_state_local_mining():
+    """Mine Michigan state/local portals — MITN, Detroit, Oakland County."""
+    log.info("--- STATE & LOCAL MINING ---")
+    try:
+        from nexus_opportunity_intelligence import MichiganLocalMiner
+        miner = MichiganLocalMiner()
+        result = miner.mine_all()
+        
+        log.info(f"State/local mining: {result.get('total_found', 0)} found, {result.get('imported', 0)} imported")
+        return True
+    except Exception as e:
+        log.error(f"State/local mining failed: {e}")
+        return False
+
+
+def run_public_portal_scan(tier1_only=False):
+    """
+    Scan ALL public procurement portals nationwide for DDI opportunities.
+    No login required — scrapes publicly accessible solicitation pages.
+    Sources: SAM.gov, BidNet Direct, MITN, Texas ESBD, Virginia, SC, IN, LA, CT
+    """
+    log.info("--- PUBLIC PORTAL SCANNER (NATIONWIDE) ---")
+    log.info(f"Mode: {'Tier 1 Only' if tier1_only else 'Full Scan (All Public Portals)'}")
+    try:
+        from public_portal_scanner import run_scan
+        result = run_scan(tier1_only=tier1_only)
+        
+        total = result.get('total_found', 0)
+        log.info(f"Public portal scan complete: {total} DDI-relevant opportunities found")
+        log.info(f"Report saved to DAILY_OPPORTUNITIES_REPORT.md")
+        return True
+    except Exception as e:
+        log.error(f"Public portal scan failed: {e}")
+        return False
+
+
 def run_all():
     """Run all scheduled tasks."""
     log.info("=" * 60)
@@ -301,8 +374,12 @@ def run_all():
     results["folder_scan"] = run_folder_scan()
     results["stale_detection"] = run_stale_detection()
     results["email_monitor"] = run_email_monitor()
+    results["federal_mining"] = run_federal_mining()
     results["portal_mining"] = run_portal_mining()
     results["forecast_mining"] = run_forecast_mining()
+    results["state_local_mining"] = run_state_local_mining()
+    results["public_portal_scan"] = run_public_portal_scan()
+    results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
     results["quote_followups"] = run_quote_followups()
 
     log.info("=" * 60)
@@ -317,14 +394,19 @@ def run_all():
 
 def run_loop():
     """Run continuously on schedule."""
+    log.info("=" * 60)
     log.info("NEXUS SCHEDULER — Starting continuous loop")
-    log.info("  Email check: every 30 minutes")
-    log.info("  Folder scan: every 15 minutes")
-    log.info("  Federal mining (SAM.gov): every 6 hours")
-    log.info("  Portal mining: every 4 hours")
-    log.info("  Agency forecasts (NASA/GSA/DHS/USAID/Commerce/Treasury): daily")
-    log.info("  Quote follow-ups: every 4 hours")
+    log.info("=" * 60)
+    log.info("  Email check:          every 30 minutes")
+    log.info("  Folder scan:          every 15 minutes")
+    log.info("  Federal mining:       every 4 hours")
+    log.info("  Portal mining:        every 4 hours")
+    log.info("  State/local mining:   every 6 hours")
+    log.info("  Agency forecasts:     daily")
+    log.info("  AI scoring + alerts:  every 2 hours")
+    log.info("  Quote follow-ups:     every 4 hours")
     log.info("  Press Ctrl+C to stop")
+    log.info("=" * 60)
 
     last_email = datetime.min
     last_scan = datetime.min
@@ -332,13 +414,21 @@ def run_loop():
     last_portal = datetime.min
     last_forecast = datetime.min
     last_followup = datetime.min
+    last_ai_score = datetime.min
+    last_state_local = datetime.min
+    last_digest = datetime.min
+    last_public_scan = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
-    MINE_INTERVAL = timedelta(hours=6)
+    MINE_INTERVAL = timedelta(hours=4)       # Federal mining every 4h (was 6h)
     PORTAL_INTERVAL = timedelta(hours=4)
-    FORECAST_INTERVAL = timedelta(hours=24)  # Daily — forecasts don't change fast
-    FOLLOWUP_INTERVAL = timedelta(hours=4)   # Check for outstanding quotes
+    STATE_LOCAL_INTERVAL = timedelta(hours=6) # Michigan portals every 6h
+    FORECAST_INTERVAL = timedelta(hours=24)   # Daily — forecasts don't change fast
+    FOLLOWUP_INTERVAL = timedelta(hours=4)    # Check for outstanding quotes
+    AI_SCORE_INTERVAL = timedelta(hours=2)    # Score new opps every 2h
+    DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
+    PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
 
     while True:
         now = datetime.now()
@@ -360,13 +450,34 @@ def run_loop():
             run_portal_mining()
             last_portal = now
 
+        if now - last_state_local >= STATE_LOCAL_INTERVAL:
+            run_state_local_mining()
+            last_state_local = now
+
         if now - last_forecast >= FORECAST_INTERVAL:
             run_forecast_mining()
             last_forecast = now
 
+        if now - last_ai_score >= AI_SCORE_INTERVAL:
+            run_ai_scoring_and_alerts()
+            last_ai_score = now
+
         if now - last_followup >= FOLLOWUP_INTERVAL:
             run_quote_followups()
             last_followup = now
+
+        if now - last_public_scan >= PUBLIC_SCAN_INTERVAL:
+            run_public_portal_scan()
+            last_public_scan = now
+
+        # Daily digest at 7 AM
+        if now - last_digest >= DIGEST_INTERVAL:
+            try:
+                from nexus_opportunity_intelligence import send_daily_digest
+                send_daily_digest()
+            except Exception as e:
+                log.error(f"Daily digest failed: {e}")
+            last_digest = now
 
         # Sleep 60 seconds between checks
         time.sleep(60)
@@ -390,6 +501,14 @@ if __name__ == "__main__":
         run_forecast_mining()
     elif "--followups" in args:
         run_quote_followups()
+    elif "--score" in args:
+        run_ai_scoring_and_alerts()
+    elif "--local" in args:
+        run_state_local_mining()
+    elif "--public" in args:
+        run_public_portal_scan()
+    elif "--public-tier1" in args:
+        run_public_portal_scan(tier1_only=True)
     elif "--scan" in args:
         run_folder_scan()
         run_stale_detection()

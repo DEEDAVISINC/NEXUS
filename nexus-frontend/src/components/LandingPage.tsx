@@ -610,22 +610,39 @@ END:VCALENDAR`;
 
   // Build upcoming deadlines from real opportunities and tasks
   const upcomingDeadlines = useMemo(() => {
-    const deadlines: Array<{ date: string; title: string; system: string; priority: string; timestamp: number }> = [];
+    const deadlines: Array<{ date: string; title: string; system: string; priority: string; timestamp: number; id?: string; oppId?: string; rfpNumber?: string; status?: string }> = [];
     const now = new Date();
 
-    // Add opportunities with response deadlines
+    // Add opportunities — ONLY pipeline / active / presolicitation / sources sought
+    const SHOW_STATUSES = [
+      'active', 'pursuing', 'awaiting quotes', 'ready to bid', 'submitted',
+      'submitted - awaiting award', 'in-progress', 'not started',
+      'sources sought', 'presolicitation', 'sole source', 'intent to sole source',
+      'no contact yet', 'active - analyzing', 'solicitation', 'conditional',
+    ];
+    
     opportunities.forEach(opp => {
-      if (opp['Response Deadline']) {
-        const deadline = new Date(opp['Response Deadline']);
-        if (deadline > now) {
-          deadlines.push({
-            date: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            title: opp.Name || 'Unnamed Opportunity',
-            system: 'GPSS',
-            priority: opp['Priority'] === 'High' ? 'high' : 'medium',
-            timestamp: deadline.getTime()
-          });
-        }
+      const deadlineStr = opp['Response Deadline'] || opp['Deadline'] || opp['dueDate'] || opp['deadline'];
+      if (!deadlineStr) return;
+      
+      // Only show pipeline or relevant status
+      const status = (opp['Status'] || opp['internalStatus'] || opp['status'] || '').toLowerCase();
+      const isRelevant = opp.isPipeline || SHOW_STATUSES.some(s => status.includes(s));
+      if (!isRelevant) return;
+
+      const deadline = new Date(deadlineStr);
+      if (!isNaN(deadline.getTime()) && deadline > now) {
+        deadlines.push({
+          date: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          title: opp.Name || opp.Title || opp.title || 'Unnamed Opportunity',
+          system: 'GPSS',
+          priority: (opp['Priority'] === 'High' || opp['priority'] === 'high') ? 'high' : 'medium',
+          timestamp: deadline.getTime(),
+          id: opp.id || opp.airtable_id,
+          oppId: opp.id || opp.airtable_id,
+          rfpNumber: opp['RFP NUMBER'] || opp['rfpNumber'] || '',
+          status: opp['Status'] || opp['internalStatus'] || '',
+        });
       }
     });
 
@@ -639,7 +656,9 @@ END:VCALENDAR`;
             title: task.title || 'Unnamed Task',
             system: 'ATLAS PM',
             priority: ['high', 'urgent'].includes(task.priority) ? 'high' : 'medium',
-            timestamp: deadline.getTime()
+            timestamp: deadline.getTime(),
+            id: task.id,
+            status: task.status || '',
           });
         }
       }
@@ -1079,10 +1098,26 @@ END:VCALENDAR`;
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {upcomingDeadlines.slice(0, 2).map((deadline, idx) => (
-                  <div key={idx} className="bg-gray-800/40 border border-gray-700 rounded p-2 hover:border-blue-500/50 transition">
-                    <div className="text-xs text-gray-500 mb-0.5">{deadline.date}</div>
-                    <div className="text-xs font-bold text-white mb-0.5 line-clamp-1">{deadline.title}</div>
-                    <div className="text-xs text-gray-400">{deadline.system}</div>
+                  <div
+                    key={idx}
+                    className="bg-gray-800/40 border border-gray-700 rounded p-2 hover:border-blue-500/50 hover:bg-gray-700/50 transition cursor-pointer group"
+                    onClick={() => {
+                      if (deadline.system === 'GPSS') {
+                        onEnterSystem('gpss');
+                      } else if (deadline.system === 'ATLAS PM') {
+                        onEnterSystem('atlas');
+                      }
+                    }}
+                  >
+                    <div className="flex items-center justify-between mb-0.5">
+                      <div className="text-xs text-gray-500">{deadline.date}</div>
+                      <div className={`w-2 h-2 rounded-full ${deadline.priority === 'high' ? 'bg-red-400' : 'bg-blue-400'}`} />
+                    </div>
+                    <div className="text-xs font-bold text-white mb-0.5 line-clamp-1 group-hover:text-blue-300 transition-colors">{deadline.title}</div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs text-gray-400">{deadline.system}</div>
+                      <div className="text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">View →</div>
+                    </div>
                   </div>
                 ))}
                 {upcomingDeadlines.length === 0 && (

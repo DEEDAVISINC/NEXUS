@@ -1,10 +1,11 @@
 # ✅ VA COURIER SOURCES SOUGHT - SUBMISSION COMPLETE
 ## Solicitation 36C25226Q0235 - Medical Courier Services
 
-**Status:** ✅ SUBMITTED  
-**Submitted:** February 1, 2026  
+**Status:** ✅ SUBMITTED — RECEIPT CONFIRMED BY CO  
+**Submitted:** February 6, 2026  
+**Receipt Confirmed:** February 10, 2026 (Eileen Meyer replied "Received.")  
 **Deadline:** February 12, 2026 at 10:00 AM Central  
-**Contact:** Eileen Meyer (eileen.meyer@va.gov)
+**Contact:** Eileen Meyer (eileen.meyer@va.gov) | 414-844-4800 x43232
 
 ---
 
@@ -111,7 +112,8 @@
 ## 📅 TIMELINE & NEXT STEPS
 
 ### **PHASE 1: SOURCES SOUGHT (COMPLETE)** ✅
-- [✅] February 1, 2026 - Submission completed
+- [✅] February 6, 2026 - Submission completed
+- [✅] February 10, 2026 - Receipt confirmed by Eileen Meyer (CO)
 - [✅] February 12, 2026 - Deadline
 
 ### **PHASE 2: VA MARKET RESEARCH (Feb-March 2026)**
@@ -122,9 +124,9 @@
 - Deciding on procurement method (set-aside vs. full & open)
 
 **What We Do:**
-- [ ] Monitor email for any VA follow-up questions
+- [✅] Monitor email for any VA follow-up questions — Receipt confirmed 2/10/2026
 - [ ] Watch SAM.gov for full RFP release
-- [ ] Begin identifying Illinois medical courier carriers
+- [IN PROGRESS] Begin identifying Illinois medical courier carriers
 - [ ] Research pricing for Illinois courier services
 
 ### **PHASE 3: FULL RFP RELEASE (March-April 2026, Estimated)**
@@ -363,6 +365,6 @@ Monitor email and SAM.gov for the full RFP release. When it drops, we'll be read
 
 ---
 
-*Submission completed: February 1, 2026*  
+*Submission completed: February 6, 2026*  
 *Deadline: February 12, 2026 at 10:00 AM Central*  
 *Status: ✅ COMPLETE - Now monitoring for full RFP release*

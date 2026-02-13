@@ -1,7 +1,7 @@
-# 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
+im mainly talking about adding to the website # 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
 ## Always Use These Details for Future Documents
 
-**Last Updated:** February 6, 2026
+**Last Updated:** February 12, 2026
 
 ---
 
@@ -22,10 +22,13 @@ Troy, Michigan 48084
 
 ## 🎯 FEDERAL CREDENTIALS
 
+**EIN:** 84-4114181 ⭐ **CORRECT EIN — USE THIS FOR ALL DOCUMENTS**  
 **CAGE Code:** 8UMX3  
 **UEI:** HJB4KNYJVGZ1  
 **DUNS:** 002636755  
 **SAM.gov Status:** Active
+
+> ⚠️ **WARNING:** Some older files contain an incorrect EIN (47-3015027). That is WRONG. The correct EIN is **84-4114181**. Always use this master file as the source of truth.
 
 ---
 
@@ -37,8 +40,50 @@ Troy, Michigan 48084
 - WBE (Woman Business Enterprise)
 - MBE (Minority Business Enterprise - NMSDC)
 
+**Federal/Compliance:**
+- E-Verify Certified (Employment Eligibility Verification)
+- SWFT Certified (Secure Workforce Training & Compliance)
+
+**State Partnerships:**
+- MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
+
 **Technical:**
 - CMMC-AB (Cybersecurity Maturity Model Certification)
+
+**Security:**
+- TWIC-Certified Personnel (Transportation Worker Identification Credential — secure facility access)
+
+**Business Model:**
+- Value-Added Reseller (VAR) — DDI sources products from manufacturer-authorized distributors, adds procurement management, compliance documentation, quality assurance, and logistics coordination, then delivers to the end client. This is DDI's core product supply model for government contracts. Used across medical supplies, industrial equipment, IT hardware, office products, and all commodity categories.
+
+**Entity Type:** C Corporation
+
+---
+
+## 📋 DBA / SUBSIDIARY NAMES
+
+- **DBA:** The Professionals' Professionals
+- **Freight 1st Direct** — DDI's independent freight brokerage (MC-1647572, DOT-4250594)
+- **FleetFlow TMS LLC** — Logistics technology subsidiary (pre-launch mid-2026)
+- **3D Ink and Livescan Co** — Fingerprinting and compliance services division
+- **Depointe** — Additional DBA
+
+---
+
+## 📋 VENDOR PORTAL REGISTRATIONS
+
+- **SAM.gov** — Active
+- **Michigan SIGMA VSS** — Registered (sigmavss.michigan.gov)
+- **Maryland eMMA** — Registration in progress (emma.maryland.gov)
+- **BidNet Direct / MITN** — Registered (100+ Michigan municipal agencies)
+- **Oakland County Supplier Diversity Program** — Registered
+- **Sourcewell** — Active (cooperative purchasing — vehicle and equipment contracts)
+
+---
+
+## 📋 INDUSTRY MEMBERSHIPS
+
+- **NMSDC** (National Minority Supplier Development Council) — MBE certification
 
 ---
 
@@ -71,7 +116,7 @@ Troy, Michigan 48084
 - SuretyCloud (Federal contract bond solutions)
 
 **Logistics:**
-- Landstar System (Freight brokerage network)
+- Freight 1st Direct (DDI's independent freight brokerage — MC-1647572, DOT-4250594)
 
 ---
 
@@ -92,10 +137,63 @@ Troy, Michigan 48084
 
 ## 🎯 CORE POSITIONING
 
+**Business Identity:** CONTRACT MANAGEMENT FIRM
+
 **Tagline:** "The Professionals' Professionals"
 
+**What DDI Does:**
+Dee Davis Inc. wins contracts, sources qualified subcontractors and suppliers to fulfill the work, and manages every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. DDI is the single accountable point of contact between the client and a network of vetted fulfillment partners.
+
+**Why DDI Can Compete in Any Category:**
+DDI is not limited by trade or commodity. We are paper pushers — service management, administration, and coordination is our core competency. If there's a contract, we can win it, source the right people or products, and manage the delivery. This is why DDI operates across janitorial, landscaping, medical supplies, industrial equipment, construction trades, transportation, and every other sector.
+
 **Elevator Pitch:**
-"Dee Davis Inc. is a technology-enabled strategic consulting firm serving enterprise and government clients in complex, high-stakes operational environments. We provide project executive services, healthcare transportation solutions, federal compliance programs, and business continuity planning—backed by proprietary technology platforms and proven multi-sector expertise."
+"Dee Davis Inc. is a certified EDWOSB contract management firm. We win government and commercial contracts across every sector, source qualified fulfillment partners, and manage the entire project — compliance, invoicing, quality assurance, and delivery. Our clients get one accountable point of contact backed by a vetted network of subcontractors and suppliers. We don't do the work — we make sure the work gets done right."
+
+**Short Version (for emails/intros):**
+"Dee Davis Inc. is a certified EDWOSB contract management firm based in Troy, Michigan. We win contracts, source qualified partners, and manage project delivery across every sector."
+
+**Business Description (~1,000 characters — for SAM.gov, vendor registrations, portals):**
+Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB contract management firm headquartered in Troy, Michigan. We win government and commercial contracts across every sector — from facility services and construction trades to transportation, professional services, and product supply. Our model is simple: we secure the contract, source qualified subcontractors and suppliers to perform the work, and manage every aspect of project delivery including compliance, invoicing, quality assurance, and coordination. Clients get one accountable point of contact backed by a vetted network of fulfillment partners. Certified EDWOSB, WOSB, WBE, MBE, and SBE with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, and SWFT registered. Our operations are powered by proprietary technology platforms — ATLAS PM for project orchestration and FleetFlow™ for logistics intelligence. We hold DOT and MC authority for transportation services and maintain active healthcare provider credentials. Dee Davis Inc. doesn't do the work — we make sure the work gets done right.
+
+---
+
+## 📋 UNSPSC CODES (For eMMA, Vendor Registrations, Portals)
+
+**Services:**
+- 72000000 — Building & Facility Construction and Maintenance
+- 72100000 — Building & Facility Maintenance and Repair
+- 72150000 — Specialized Trade Construction & Maintenance
+- 76000000 — Industrial Cleaning Services
+- 76110000 — Decontamination Services
+- 77000000 — Environmental Services (Landscaping, Grounds, Pest Control)
+- 77100000 — Environmental Management
+- 78000000 — Transportation, Storage & Mail Services
+- 78100000 — Mail & Cargo Transport
+- 78110000 — Passenger Transport
+- 80000000 — Management & Business Professionals & Admin Services
+- 80100000 — Management Advisory Services
+- 80110000 — Human Resources Services (Staffing)
+- 80120000 — Legal Services (Notary)
+- 80140000 — Marketing & Distribution
+- 81000000 — Engineering & Research Services
+- 81100000 — Professional Engineering Services
+- 81110000 — Project Management
+- 84000000 — Financial & Insurance Services
+- 85000000 — Healthcare Services
+- 85120000 — Noncore Healthcare Services
+
+**Products:**
+- 24000000 — Material Handling & Storage Equipment
+- 26000000 — Power Generation & Distribution Equipment
+- 31000000 — Manufacturing Components & Supplies
+- 39000000 — Lighting & Electrical Equipment
+- 40000000 — Distribution & Conditioning Systems (HVAC, Plumbing)
+- 41000000 — Laboratory & Measuring Equipment
+- 42000000 — Medical Equipment & Supplies
+- 46000000 — Defense & Law Enforcement & Security
+- 47000000 — Cleaning Equipment & Supplies
+- 53000000 — Apparel, Luggage & Personal Care (Uniforms, PPE)
 
 ---
 
@@ -110,7 +208,7 @@ Troy, Michigan 48084
 Phone: 248.376.4550
 Email: info@deedavis.biz
 
-EDWOSB/WOSB Certified
+EDWOSB/WOSB Certified | E-Verify & SWFT Certified
 CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
 ```
 
@@ -122,7 +220,7 @@ CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
 DEE DAVIS INC
 755 W. Big Beaver Rd., Suite 2020 | Troy, MI 48084
 Phone: 248.376.4550 | Email: info@deedavis.biz
-EDWOSB/WOSB Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+EDWOSB/WOSB | E-Verify & SWFT Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 ```
 
 ---
@@ -160,6 +258,7 @@ EDWOSB/WOSB Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 
 ---
 
-*Master Company Information - Updated February 9, 2026*  
+*Master Company Information - Updated February 11, 2026*  
+*Certifications Updated: E-Verify & SWFT Certified (established 2022) documented in master file*  
 *Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
-*OLD number 248.247.5020 has been permanently removed from all files*
+*DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*

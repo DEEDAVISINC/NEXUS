@@ -56,7 +56,7 @@
 - Business name (Dee Davis Inc.)
 - DUNS number
 - CAGE code
-- Tax ID (EIN: 47-3015027)
+- Tax ID (EIN: 84-4114181)
 - Business address
 - Contact info
 - Business type: **Woman-owned small business (EDWOSB)**

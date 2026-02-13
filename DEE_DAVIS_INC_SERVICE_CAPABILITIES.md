@@ -873,7 +873,7 @@ When mining EDWOSB opportunities, focus on solicitations for:
 - ✅ **Mobile/on-site capabilities** - Services delivered at client location
 - ✅ **Federal credentials** - CAGE: 8UMX3, UEI: HJB4KNYJVGZ1, NPI: 153893911
 - ✅ **Transportation credentials** - MC-1647572, DOT: 4250594
-- ✅ **Established partnerships** - Quest Diagnostics, DDC, Snapdocs, Landstar, SuretyCloud
+- ✅ **Established partnerships** - Quest Diagnostics, DDC, Snapdocs, Freight 1st Direct, SuretyCloud
 - ✅ **Government contracting experience** - Proven track record
 - ✅ **Multi-state capability** - National service delivery
 - ✅ **CMMC-AB certified** - Cybersecurity compliance

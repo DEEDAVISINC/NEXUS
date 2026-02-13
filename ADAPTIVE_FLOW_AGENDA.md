@@ -1,4 +1,4 @@
-# 🎯 YOUR ADAPTIVE FLOW - Monday, February 09
+# 🎯 YOUR ADAPTIVE FLOW - Friday, February 13
 
 **System learned from your behavior and auto-cleaned your list.**
 
@@ -8,12 +8,12 @@
 
 ### HENRY FORD BATTERY CABINETS
 
-**Why this one:** Active (edited 2 days ago)
+**Why this one:** Has 4 files (analysis started)
 
 - 💰 Value: $15,000
-- ⏰ Deadline: February 11, 2026 (1 days)
+- ⏰ Deadline: February 11, 2026 (-3 days)
 - 📂 Folder: `BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/`
-- 📊 Activity: 4 files, last edited 2 days ago
+- 📊 Activity: 4 files, last edited 6 days ago
 
 **YOUR NEXT ACTION (Click to open):**
 
@@ -30,17 +30,11 @@ open 'BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/'
 
 ---
 
-## ⚠️ ALSO URGENT (4 bids)
+## ⚠️ ALSO URGENT (3 bids)
 
-- **OAKLAND COUNTY TREATED SALT** - 2d - $50,000
-- **OAKLAND COUNTY FLOW METERS** - 2d - $8,000
-- **CPS ENERGY PADLOCKS** - 3d - $32,000
-- **AUBURN HILLS PRESSURE WASHING** - 3d - $5,000
-
-## 📅 THIS WEEK (2 bids)
-
-- OAKLAND COUNTY EXAM STOOLS - 6d - $3,000
-- OAKLAND COUNTY TRUCK EQUIPMENT - 7d - $20,000
+- **CPS ENERGY PADLOCKS** - -1d - $32,000
+- **AUBURN HILLS PRESSURE WASHING** - -1d - $5,000
+- **OAKLAND COUNTY TRUCK EQUIPMENT** - 3d - $20,000
 
 ## 📋 LATER (3 bids)
 
@@ -52,7 +46,7 @@ open 'BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/'
 
 ## 🤖 WHAT THE SYSTEM LEARNED
 
-- **Total bids scanned:** 10
+- **Total bids scanned:** 7
 - **Auto-cleaned:** System removed abandoned bids based on activity
 - **Focus:** HENRY FORD BATTERY CABINETS
 - **Adapting:** System learns from your folder activity

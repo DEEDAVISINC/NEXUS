@@ -1,0 +1,300 @@
+{
+  "scan_date": "2026-02-12T16:38:16.308174",
+  "total_found": 28,
+  "min_days_to_bid": 5,
+  "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "25--PARTS KIT,CALIPER,D",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-02-25",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/3eed1fd778b74b4892498e8969bd7175/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-02-10",
+      "naics": "336340"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Front Desk Data Entry - Minot AFB",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE GLOBAL STRIKE COMMAND.FA4528  5 CONS",
+      "deadline": "2026-02-20T11:00:00-06:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/27d9586293c049a78382dc3a3f5f5249/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-02-10",
+      "naics": "561110"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Army Training Models - Solicitation",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC-APG.W6QK ACC-APG",
+      "deadline": "2026-03-09T12:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/9f7923aa8a764770a61196c33b383c0e/view",
+      "type": "Solicitation",
+      "posted": "2026-02-09",
+      "naics": "541611"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "59--BRUSH,ELECTRICAL CO",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-02-23",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/ee98135925d84f6e9689931ec7da9b08/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-02-08",
+      "naics": "335999"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "KS QUIVIRA NWR JANITORIAL SERVICES",
+      "agency": "INTERIOR, DEPARTMENT OF THE.US FISH AND WILDLIFE SERVICE.FWS, SAT TEAM 2",
+      "deadline": "2026-02-19T17:00:00-05:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/86ec695995cf4323a9c7de1bc63d764f/view",
+      "type": "Solicitation",
+      "posted": "2026-02-05",
+      "naics": "561720"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Grounds Maintenance Services for ID006",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
+      "deadline": "2026-03-09T10:00:00-06:00",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/d4c4759077ad4595add8d8648394c04b/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-02-12",
+      "naics": "561720"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Automotive Collision RepairsNew York19 day(s) leftPublished02/12/2026Closing03/04/20268349910066",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/Automotive-Collision-Repairs/0000412890?origin=0",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "RFQ Phase 1: WSCJTC Burien Firing Range - Washington State Criminal Justice Training CommissionWashington14 day(s) leftPublished02/12/2026Closing02/26/2026443876052122",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/washington/solicitations/open-bids/statewide/RFQ-Phase-1-WSCJTC-Burien-Firing-Range-Washington-State-Criminal-Justice-Training-Commission/443876052122?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "PA 2332 - WATER MAIN LINE STOPPING & VALVE INSERTION SERVICESCalifornia14 day(s) leftPublished02/12/2026Closing02/26/2026443876884671",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/PA-2332-WATER-MAIN-LINE-STOPPING-VALVE-INSERTION-SERVICES/443876884671?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Cubicle Curtain CleaningTexas14 day(s) leftPublished02/12/2026Closing02/26/2026443875934086",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Cubicle-Curtain-Cleaning/443875934086?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "CDOT - Logan Square Blue Line Station Headhouse Reconstruction - PCCPIllinois13 day(s) leftPublished02/12/2026Closing02/26/2026443876092536",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/illinois/solicitations/open-bids/statewide/CDOT-Logan-Square-Blue-Line-Station-Headhouse-Reconstruction-PCCP/443876092536?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "ZIPPERSTexas13 day(s) leftPublished02/12/2026Closing02/26/2026443876468045",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/ZIPPERS/443876468045?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Supply and Delivery of an Arvotec Automatic Fish Feeding SystemWyoming13 day(s) leftPublished02/12/2026Closing02/26/2026443875953245",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/wyoming/solicitations/open-bids/statewide/Supply-and-Delivery-of-an-Arvotec-Automatic-Fish-Feeding-System/443875953245?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "ITB 4632 - 2026/2027 Sidewalk Repair Program",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/ITB-4632-2026-2027-Sidewalk-Repair-Program/0000412846?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "WFP- Raw Water Intake Valve (West) Replacement",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/WFP-Raw-Water-Intake-Valve-West-Replacement/0000412824?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "FIELDSTONE GOLF COURSE PUMP STATION MAINTENANCE",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/FIELDSTONE-GOLF-COURSE-PUMP-STATION-MAINTENANCE/0000412809?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Construction and Development Nowicki Park",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Construction-and-Development-Nowicki-Park/0000412793?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "2026 CPR TRAINING ONLINE",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-CPR-TRAINING-ONLINE/0000409646?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "RFP 26-02 Information Technology Consulting and Management Services",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFP-26-02-Information-Technology-Consulting-and-Management-Services/0000412734?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "ITB 4633  - Generator Load Bank Testing",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/ITB-4633-Generator-Load-Bank-Testing/0000412723?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Elizabeth Street Sanitary Pump Station Electrical Panel Relocation Project",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Elizabeth-Street-Sanitary-Pump-Station-Electrical-Panel-Relocation-Project/0000412648?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "PHYSICAL TRAINING TRACK AND FIELD",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "GENEMAPPER SOFTWARE UPGRADE LICENSES",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "DPS Headquarters Parking Lot Renovation",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Bass Concert Hall Audio System Renovations",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Emergency Generator, ATS Switch and Docking Station",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Furniture and Fixture Package for 1500 Congress and 1501 Lavaca Office Buildings, Capitol Complex, Phase 2",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Facility Maintenance & Repair Services",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    }
+  ]
+}

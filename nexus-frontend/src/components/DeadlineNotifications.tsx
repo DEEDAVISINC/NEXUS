@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Calendar, X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 
 interface Deadline {
   id: string;
@@ -7,27 +7,104 @@ interface Deadline {
   value: string;
   date: Date;
   daysUntil: number;
+  system?: string;
+  rfpNumber?: string;
+  status?: string;
 }
 
-export const DeadlineNotifications: React.FC = () => {
+interface DeadlineNotificationsProps {
+  onNavigateToSystem?: (system: any) => void;
+}
+
+export const DeadlineNotifications: React.FC<DeadlineNotificationsProps> = ({ onNavigateToSystem }) => {
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [isMinimized, setIsMinimized] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDeadline, setSelectedDeadline] = useState<Deadline | null>(null);
+
+  const fetchDeadlines = useCallback(async () => {
+    try {
+      const response = await fetch((process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000') + '/gpss/opportunities');
+      if (response.ok) {
+        const data = await response.json();
+        const opps = data.opportunities || [];
+        const now = new Date();
+        
+        // Only show opportunities we're actually working on:
+        // - Pipeline opportunities (isPipeline = true)
+        // - OR presolicitations / sources sought / sole source by status
+        const CALENDAR_STATUSES = [
+          'active', 'pursuing', 'awaiting quotes', 'ready to bid', 'submitted',
+          'submitted - awaiting award', 'in-progress', 'not started',
+          'sources sought', 'sources sought submitted', 'presolicitation',
+          'sole source', 'intent to sole source', 'no contact yet',
+          'active - analyzing', 'solicitation', 'conditional',
+        ];
+        
+        const relevantOpps = opps.filter((opp: any) => {
+          // Must have a date
+          if (!opp['Response Deadline'] && !opp['Deadline'] && !opp['dueDate'] && !opp['deadline']) return false;
+          
+          // Pipeline opportunities always show
+          if (opp.isPipeline) return true;
+          
+          // Check status for presolicitation/sources sought/active work
+          const status = (opp['Status'] || opp['internalStatus'] || opp['status'] || '').toLowerCase();
+          return CALENDAR_STATUSES.some(s => status.includes(s));
+        });
+
+        const liveDeadlines: Deadline[] = relevantOpps
+          .map((opp: any) => {
+            const deadlineStr = opp['Response Deadline'] || opp['Deadline'] || opp['dueDate'] || opp['deadline'];
+            const deadlineDate = new Date(deadlineStr);
+            
+            // Skip invalid dates
+            if (isNaN(deadlineDate.getTime())) return null;
+            
+            const diffMs = deadlineDate.getTime() - now.getTime();
+            const daysUntil = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+            
+            // Format value
+            const rawValue = opp['Estimated Value'] || opp['Value'] || opp['value'] || 0;
+            const numValue = typeof rawValue === 'string' ? parseFloat(rawValue.replace(/[^0-9.]/g, '')) : rawValue;
+            let valueStr = '';
+            if (numValue >= 1000000) valueStr = `$${(numValue / 1000000).toFixed(1)}M`;
+            else if (numValue >= 1000) valueStr = `$${(numValue / 1000).toFixed(0)}K`;
+            else if (numValue > 0) valueStr = `$${numValue.toLocaleString()}`;
+            
+            return {
+              id: opp.id || opp['RFP NUMBER'] || opp['rfpNumber'] || String(Math.random()),
+              name: opp.Name || opp.Title || opp.title || 'Unnamed',
+              value: valueStr,
+              date: deadlineDate,
+              daysUntil,
+              system: 'GPSS',
+              rfpNumber: opp['RFP NUMBER'] || opp['rfpNumber'] || '',
+              status: opp['Status'] || opp['internalStatus'] || opp['status'] || '',
+            };
+          })
+          .filter((d: Deadline | null): d is Deadline => d !== null && d.daysUntil >= -1 && d.daysUntil <= 90)
+          .sort((a: Deadline, b: Deadline) => a.date.getTime() - b.date.getTime());
+        
+        if (liveDeadlines.length > 0) {
+          setDeadlines(liveDeadlines);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch deadlines:', error);
+    }
+    
+    // Fallback: empty — no fake data
+    setDeadlines([]);
+  }, []);
 
   useEffect(() => {
-    // Hardcoded deadlines
-    setDeadlines([
-      { id: '1', name: 'Henry Ford Cabinets', value: '$15K', date: new Date(2026, 1, 11), daysUntil: 2 },
-      { id: '2', name: 'Oakland Salt', value: '$50K', date: new Date(2026, 1, 12), daysUntil: 3 },
-      { id: '3', name: 'Flow Meters', value: '$8K', date: new Date(2026, 1, 12), daysUntil: 3 },
-      { id: '4', name: 'CPS Padlocks', value: '$32K', date: new Date(2026, 1, 13), daysUntil: 4 },
-      { id: '5', name: 'Auburn Pressure Washing', value: '$5K', date: new Date(2026, 1, 13), daysUntil: 4 },
-      { id: '6', name: 'Exam Stools', value: '$3K', date: new Date(2026, 1, 16), daysUntil: 7 },
-      { id: '7', name: 'Truck Equipment', value: '$20K', date: new Date(2026, 1, 17), daysUntil: 8 },
-      { id: '8', name: 'Livonia Materials', value: '$15K', date: new Date(2026, 1, 23), daysUntil: 14 }
-    ]);
-  }, []);
+    fetchDeadlines();
+    const interval = setInterval(fetchDeadlines, 60000); // Refresh every minute
+    return () => clearInterval(interval);
+  }, [fetchDeadlines]);
 
   if (!isVisible || deadlines.length === 0) return null;
 
@@ -171,15 +248,31 @@ export const DeadlineNotifications: React.FC = () => {
                     {dayDeadlines.slice(0, 2).map(deadline => (
                       <div
                         key={deadline.id}
-                        className="bg-red-500/20 border border-red-500/30 rounded px-1 py-0.5 text-[10px] truncate hover:bg-red-500/30 cursor-pointer"
-                        title={`${deadline.name} - ${deadline.value}`}
+                        className={`rounded px-1 py-0.5 text-[10px] truncate cursor-pointer transition-all ${
+                          deadline.daysUntil <= 2
+                            ? 'bg-red-500/20 border border-red-500/30 hover:bg-red-500/40'
+                            : deadline.daysUntil <= 7
+                            ? 'bg-yellow-500/20 border border-yellow-500/30 hover:bg-yellow-500/40'
+                            : 'bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/40'
+                        }`}
+                        title={`${deadline.name} - ${deadline.value}\nClick to view details`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedDeadline(deadline);
+                        }}
                       >
                         <div className="font-medium text-white truncate">{deadline.name}</div>
-                        <div className="text-green-400">{deadline.value}</div>
+                        {deadline.value && <div className="text-green-400">{deadline.value}</div>}
                       </div>
                     ))}
                     {dayDeadlines.length > 2 && (
-                      <div className="text-[10px] text-gray-500 text-center">
+                      <div
+                        className="text-[10px] text-gray-400 text-center cursor-pointer hover:text-white"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedDeadline(dayDeadlines[2]);
+                        }}
+                      >
                         +{dayDeadlines.length - 2} more
                       </div>
                     )}
@@ -198,12 +291,90 @@ export const DeadlineNotifications: React.FC = () => {
           </div>
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded bg-red-500/20 border border-red-500/30"></div>
-            <span>Bid Deadline</span>
+            <span>Due in 1-2 days</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-yellow-500/20 border border-yellow-500/30"></div>
+            <span>Due this week</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-blue-500/20 border border-blue-500/30"></div>
+            <span>Upcoming</span>
           </div>
           <div className="ml-auto text-gray-500">
-            {deadlines.length} total deadlines this month
+            {deadlines.length} deadline{deadlines.length !== 1 ? 's' : ''}
           </div>
         </div>
+
+        {/* Deadline Detail Popup */}
+        {selectedDeadline && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setSelectedDeadline(null)}>
+            <div className="bg-gray-800 border border-gray-600 rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl" onClick={e => e.stopPropagation()}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white">{selectedDeadline.name}</h3>
+                  {selectedDeadline.rfpNumber && (
+                    <p className="text-sm text-gray-400 mt-1">{selectedDeadline.rfpNumber}</p>
+                  )}
+                </div>
+                <button onClick={() => setSelectedDeadline(null)} className="text-gray-400 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center justify-between bg-gray-700/50 rounded p-3">
+                  <span className="text-sm text-gray-400">Deadline</span>
+                  <span className={`text-sm font-bold ${
+                    selectedDeadline.daysUntil <= 2 ? 'text-red-400' : selectedDeadline.daysUntil <= 7 ? 'text-yellow-400' : 'text-blue-400'
+                  }`}>
+                    {selectedDeadline.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {selectedDeadline.daysUntil >= 0 ? ` (${selectedDeadline.daysUntil} day${selectedDeadline.daysUntil !== 1 ? 's' : ''})` : ' (PAST DUE)'}
+                  </span>
+                </div>
+
+                {selectedDeadline.value && (
+                  <div className="flex items-center justify-between bg-gray-700/50 rounded p-3">
+                    <span className="text-sm text-gray-400">Estimated Value</span>
+                    <span className="text-sm font-bold text-green-400">{selectedDeadline.value}</span>
+                  </div>
+                )}
+
+                {selectedDeadline.status && (
+                  <div className="flex items-center justify-between bg-gray-700/50 rounded p-3">
+                    <span className="text-sm text-gray-400">Status</span>
+                    <span className="text-sm font-semibold text-white">{selectedDeadline.status}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    const targetSystem = selectedDeadline.system === 'ATLAS PM' ? 'atlas' : 'gpss';
+                    setSelectedDeadline(null);
+                    // Use setTimeout to ensure state update completes before navigation
+                    setTimeout(() => {
+                      if (onNavigateToSystem) {
+                        onNavigateToSystem(targetSystem);
+                      }
+                    }, 50);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 px-4 rounded-lg transition"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  View Opportunity →
+                </button>
+                <button
+                  onClick={() => setSelectedDeadline(null)}
+                  className="px-4 py-2.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

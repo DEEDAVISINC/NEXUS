@@ -534,7 +534,7 @@
 
 **Credentials:** MC-1647572
 
-**Partnership:** Landstar System
+**Operated By:** Freight 1st Direct (DDI's independent freight brokerage)
 
 **Pricing Model:**
 - Consulting: $150-$300/hour
@@ -658,7 +658,7 @@
 - Snapdocs (notary network)
 - ZigSig (RON platform)
 - SuretyCloud (surety bonds)
-- Landstar System (freight network)
+- Freight 1st Direct (DDI's independent freight brokerage — MC-1647572, DOT-4250594)
 
 ---
 

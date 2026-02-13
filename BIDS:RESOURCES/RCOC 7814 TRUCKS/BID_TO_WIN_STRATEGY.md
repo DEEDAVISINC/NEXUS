@@ -262,7 +262,7 @@
 
 **Prepare these NOW:**
 
-- [ ] W-9 (DEE DAVIS INC, EIN 47-3015027)
+- [ ] W-9 (DEE DAVIS INC, EIN 84-4114181)
 - [ ] EDWOSB Certificate from SBA
 - [ ] Insurance Certificates:
   - [ ] General Liability ($1M minimum)

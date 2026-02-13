@@ -23,6 +23,11 @@
 - Oakland County: https://www.bidnetdirect.com/mitn/oakland-county
 - Wayne County: https://www.bidnetdirect.com/mitn/county-of-wayne
 - Macomb County: https://www.bidnetdirect.com/mitn/macomb-county
+- **City of Warren:** https://www.bidnetdirect.com/mitn/city-of-warren ⭐ **ADD NOW**
+- **City of Sterling Heights:** https://www.bidnetdirect.com/mitn/city-of-sterling-heights
+- **City of Dearborn:** https://www.bidnetdirect.com/mitn/city-of-dearborn
+- **City of Livonia:** https://www.bidnetdirect.com/mitn/city-of-livonia
+- **City of Troy:** https://www.bidnetdirect.com/mitn/city-of-troy
 - City of Detroit: https://www.bidnetdirect.com/mitn/city-of-detroit
 - RCOC (Road Commission): https://www.bidnetdirect.com/mitn/road-commission-for-oakland-county
 
@@ -156,8 +161,11 @@
 
 **Monday-Friday:**
 
-**9:00-9:10 AM: Michigan Platforms (10 min)**
-- BidNet Direct / MITN: Oakland, Wayne, Macomb counties
+**9:00-9:15 AM: Michigan Platforms (15 min)**
+- BidNet Direct / MITN: 
+  - Counties: Oakland, Wayne, Macomb
+  - **Cities: Warren, Sterling Heights, Dearborn, Livonia, Troy** ⭐
+  - RCOC
 - Michigan Bid Network: Statewide scan
 
 **9:10-9:17 AM: Federal (7 min)**

@@ -1,0 +1,226 @@
+---
+description: Automatic response workflow for presolicitations, sources sought, and sole source intent notices
+alwaysApply: true
+---
+
+# Presolicitation / Sources Sought / Intent to Sole Source — AUTO-RESPOND
+
+**When ANY presolicitation, sources sought notice, or notice of intent to sole source is identified: ALWAYS email the buyer. No exceptions. No waiting. No asking.**
+
+---
+
+## The Rule
+
+**Presolicitations, Sources Sought, and Intent to Sole Source notices are NOT regular bids. They are RELATIONSHIP-BUILDING opportunities. The buyer is telling you they're ABOUT to buy something. Your job is to get on their radar IMMEDIATELY.**
+
+**ALWAYS:**
+1. Email the contracting officer / buyer
+2. Generate a tailored capability statement
+3. Express interest + ask smart questions
+
+**NEVER:**
+- Wait for the full RFP to drop
+- Skip the buyer email because "it's just a presolicitation"
+- Generate only internal docs without a buyer-facing email + cap statement
+
+---
+
+## Solicitation Types This Rule Applies To
+
+| Type | What It Means | Our Response |
+|------|--------------|--------------|
+| **Presolicitation** | "We're going to buy this soon" | Email buyer + cap statement |
+| **Sources Sought** | "Who can do this? Show us" | Email buyer + cap statement |
+| **Notice of Intent to Sole Source** | "We plan to give this to one company" | Email buyer + cap statement (challenge the sole source if EDWOSB) |
+| **Request for Information (RFI)** | "We need market research" | Email buyer + cap statement |
+| **Special Notice** | "FYI, this is coming" | Email buyer + cap statement |
+
+**Bottom line: If a federal buyer is signaling they're about to spend money, we respond. Period.**
+
+---
+
+## Automatic Actions (When Presolicitation/Sources Sought Is Identified)
+
+### Step 1: Create Folder (Same as regular bids)
+```
+BIDS:RESOURCES/[CLIENT] [BID TYPE]/
+├── SEND_TO_BUYER/
+├── SEND_TO_SUPPLIER/ (may stay empty until RFP drops)
+├── SEND_TO_SUBCONTRACTOR/ (may stay empty until RFP drops)
+├── WORKFLOW_CHECKLIST.md
+└── [Strategy/analysis docs]
+```
+
+### Step 2: IMMEDIATELY Generate Capability Statement
+- Use the HTML capability statement template
+- Tailor it to the specific opportunity (grounds maintenance, courier, supplies, etc.)
+- Include: solicitation number, relevant NAICS codes, EDWOSB/WOSB certs, service approach
+- Match the color scheme to the industry (green for grounds/environmental, blue for medical, etc.)
+- Place in SEND_TO_BUYER/
+- Filename: `[SolicitationNumber]_[Type]_Capability_Statement.html`
+
+### Step 3: IMMEDIATELY Generate Buyer Email
+- Use the human-touch correspondence style (this is a CLIENT communication)
+- Include: personal greeting, EDWOSB status, interest in the opportunity, smart questions, capability statement mention
+- Reference the specific solicitation number
+- Place in SEND_TO_BUYER/ as a ready-to-copy text file
+- Filename: `SEND_TO_BUYER_EMAIL_READY.md`
+
+### Step 4: Tell Dee It's Ready
+- "Cap statement and buyer email are in SEND_TO_BUYER. Ready to send to [CO name] at [email]. Want to review first?"
+
+---
+
+## Capability Statement Requirements
+
+Every auto-generated capability statement MUST include:
+
+**Header:**
+- DEE DAVIS INC company name
+- Logo placeholder (dee_davis_inc_logo.png)
+- CAGE Code: 8UMX3
+- UEI: HJB4KNYJVGZ1
+- SAM.gov: ACTIVE
+
+**Body (tailored to the opportunity):**
+- EDWOSB/WOSB certification (always prominent — this is our weapon)
+- Company overview tailored to the contract type
+- Service approach specific to this solicitation
+- Key qualifications / core competencies relevant to this bid
+- Relevant NAICS codes
+- Why Choose Dee Davis Inc. section
+
+**Footer:**
+- Full contact info (info@deedavis.biz, 248.376.4550)
+- Address: 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+- All certifications: EDWOSB / WOSB / WBE / MBE / SBE
+- Solicitation reference number and date
+
+---
+
+## Buyer Email Requirements
+
+Every auto-generated buyer email MUST include:
+
+1. **Personal greeting** using CO's name if available
+2. **EDWOSB status** in the first paragraph
+3. **Specific solicitation reference** (number + title)
+4. **Brief company description** tailored to the opportunity
+5. **Smart questions** (timeline, site visit, requirements, interested vendors list)
+6. **Mention the attached capability statement**
+7. **Warm, professional closing** (human touch, not sterile B2B)
+8. **Full signature block** with certifications
+
+---
+
+## Email Subject Line Format
+
+```
+EDWOSB Interest — [Service/Product] [Solicitation Type] ([Solicitation Number])
+```
+
+**Examples:**
+- EDWOSB Interest — Grounds Maintenance Services, Washington Aqueduct (W912DR25QA005)
+- EDWOSB Interest — Medical Courier Services (36C25226Q0235)
+- EDWOSB Alternative — Surgical Supplies (NOI-CC-26-002571)
+
+---
+
+## Smart Questions to Include (Pick 3-4 Based on Type)
+
+**For Presolicitations:**
+- Is the anticipated timeline still on track for the full solicitation release?
+- Will there be a site visit or pre-bid conference?
+- Are there capability requirements beyond the presolicitation notice?
+- Can we be added to the interested vendors list?
+
+**For Sources Sought:**
+- What is the anticipated procurement timeline?
+- Will this be set aside for small business / WOSB / EDWOSB?
+- Are there specific past performance requirements?
+- Is there an incumbent contractor?
+
+**For Intent to Sole Source:**
+- We respectfully submit our capability as an EDWOSB alternative
+- We can provide competitive pricing through our [supplier/subcontractor] network
+- Our EDWOSB certification provides additional socioeconomic value
+- We are prepared to demonstrate full technical capability
+
+---
+
+## Workflow Checklist for Presolicitations
+
+```
+STEP 1:  REVIEW NOTICE              — Read and understand what the buyer is signaling
+STEP 2:  GO / NO-GO DECISION        — Are we pursuing this? (Default: YES for EDWOSB set-asides)
+STEP 3:  GENERATE CAP STATEMENT     — Auto-create tailored capability statement
+STEP 4:  GENERATE BUYER EMAIL       — Auto-create CO outreach email
+STEP 5:  SEND TO BUYER              — Email CO with cap statement attached
+STEP 6:  MONITOR FOR FULL RFP       — Watch SAM.gov for solicitation release
+STEP 7:  IDENTIFY SUPPLIERS/SUBS    — Start building team for when RFP drops
+STEP 8:  FULL BID (when RFP drops)  — Switch to regular bid workflow
+```
+
+**Steps 1-5 should happen within the SAME SESSION as identifying the opportunity.**
+**Do NOT leave a presolicitation folder without a buyer email and cap statement in SEND_TO_BUYER.**
+
+---
+
+## If Service Contract (Needs Subcontractor)
+
+When the opportunity is a service contract (grounds maintenance, janitorial, courier, etc.):
+
+**ALSO auto-generate:**
+- Subcontractor outreach email (place in SEND_TO_SUBCONTRACTOR/)
+- Follow the never-reveal-buyer rules for subcontractor communications
+- Identify 3-5 potential local subcontractors
+- Place subcontractor research in root folder (INTERNAL)
+
+---
+
+## Examples
+
+### Example 1: Presolicitation for Grounds Maintenance
+**Identified:** USACE Washington Aqueduct Grounds Maintenance (W912DR25QA005)
+
+**Auto-generate:**
+1. Folder: `WASHINGTON AQUEDUCT GROUNDS/`
+2. Cap statement: `W912DR25QA005_Grounds_Maintenance_Capability_Statement.html` → SEND_TO_BUYER/
+3. Buyer email: `SEND_TO_BUYER_EMAIL_READY.md` → SEND_TO_BUYER/
+4. Subcontractor email: `SUBCONTRACTOR_OUTREACH_EMAIL.md` → SEND_TO_SUBCONTRACTOR/
+5. Tell Dee: "Cap statement and email ready in SEND_TO_BUYER for Monique Euter."
+
+### Example 2: Sources Sought for Courier Service
+**Identified:** VA Illiana Medical Courier (36C25226Q0235)
+
+**Auto-generate:**
+1. Folder: `VA ILLIANA COURIER/`
+2. Cap statement: `36C25226Q0235_Courier_Capability_Statement.html` → SEND_TO_BUYER/
+3. Buyer email: `SEND_TO_BUYER_EMAIL_READY.md` → SEND_TO_BUYER/
+4. Carrier research doc in root folder
+5. Tell Dee: "Cap statement and email ready. Send to Eileen Meyer?"
+
+### Example 3: Intent to Sole Source
+**Identified:** NIH Surgical Supplies (NOI-CC-26-002571)
+
+**Auto-generate:**
+1. Folder: `NIH SURGICAL SUPPLIES/`
+2. Cap statement framed as EDWOSB alternative → SEND_TO_BUYER/
+3. Buyer email challenging the sole source → SEND_TO_BUYER/
+4. Tell Dee: "EDWOSB challenge capability statement ready. Send to Valerie Gregorio?"
+
+---
+
+## Why This Matters
+
+- Presolicitations are the EARLIEST signal of money being spent
+- COs remember the companies that reach out early
+- EDWOSB set-asides have LIMITED competition — early contact = huge advantage
+- A capability statement shows you're serious, not just browsing SAM.gov
+- The CO may share insider info (timeline, requirements) that helps you prepare
+- You get added to the interested vendors list = you get notified when RFP drops
+- **Every presolicitation without a buyer email is a missed relationship opportunity**
+
+---
+
+*If a buyer is telling the market they're about to spend money, we respond. Every time. Cap statement + email. No exceptions.*

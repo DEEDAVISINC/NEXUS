@@ -1,0 +1,140 @@
+# DEE DAVIS INC — DETAILED BUSINESS DESCRIPTION FOR AI AGENT TRAINING
+## Paste into JotForm > Train > Knowledge Base > Add New Knowledge
+
+**TITLE:** Dee Davis Inc — Complete Business Description
+
+**CHARACTER COUNT:** ~9,800 characters (within JotForm 10,000 limit)
+
+---
+
+**PASTE EVERYTHING BELOW THIS LINE AS THE CONTENT:**
+
+DEE DAVIS INC — "The Professionals' Professionals"
+
+COMPANY IDENTITY AND OVERVIEW:
+
+Dee Davis Inc. is a certified EDWOSB contract management firm, Value-Added Reseller (VAR), and professional services company headquartered at 755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084. Phone: 248-376-4550. Email: info@deedavis.biz. Website: deedavis.biz. The owner and president is Dee Davis. We partner with enterprise and government clients navigating complex operational challenges and high-stakes project execution.
+
+We are a contract management firm and Value-Added Reseller. That means we win government and commercial contracts across every sector, source qualified subcontractors and suppliers to fulfill the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. On product-based contracts, DDI operates as a VAR — we source from manufacturer-authorized distributors and wholesale suppliers, add procurement management, compliance documentation, quality assurance, and logistics coordination, then deliver to the end client. Our clients get one accountable point of contact backed by a vetted network of fulfillment partners. We do not specialize in one trade — we specialize in contract management. If there is a contract, we can win it, source it, and manage it.
+
+CERTIFICATIONS AND FEDERAL CREDENTIALS:
+
+Dee Davis Inc. holds the following certifications: EDWOSB (Economically Disadvantaged Woman-Owned Small Business — federal certification), WOSB (Woman-Owned Small Business), WBE (Woman Business Enterprise), MBE (Minority Business Enterprise — NMSDC certified), SBE (Small Business Enterprise), E-Verify Certified, SWFT Certified (Secure Workforce Training and Compliance), and CMMC-AB (Cybersecurity Maturity Model Certification). DDI is also an official MDHHS Community Partner — listed on the Michigan Department of Health and Human Services website as a recognized community partner organization.
+
+Federal credentials: CAGE Code 8UMX3. UEI HJB4KNYJVGZ1. DUNS 002636755. SAM.gov Status: Active. EIN: 84-4114181. NPI: 153893911 (Healthcare Provider). MC Number: 1647572 (Freight Broker Authority). US DOT: 4250594. NMLS Licensed #2099291. Michigan Staffing License #6106004743. Active Medicaid Provider in Michigan and Maryland.
+
+Entity type: C Corporation. DDI also operates under the following names: DBA "The Professionals' Professionals", Freight 1st Direct (freight brokerage), FleetFlow TMS LLC (logistics technology subsidiary), and 3D Ink and Livescan Co (fingerprinting and compliance services division).
+
+Security clearance: TWIC-certified personnel (Transportation Worker Identification Credential) for access to secure federal facilities, military bases, ports, and restricted disaster areas.
+
+Insurance: General Liability, Cargo Insurance, Errors and Omissions (E&O), Workers Compensation as needed. We are fully bonded.
+
+Vendor portal registrations: SAM.gov (active), Michigan SIGMA VSS (registered), Maryland eMMA (in progress), BidNet Direct and MITN — Michigan Intergovernmental Trade Network (registered, access to 100+ Michigan municipal agencies), Oakland County Supplier Diversity Program (registered), Sourcewell cooperative purchasing (active — vehicle and equipment contracts).
+
+Industry memberships: NMSDC (National Minority Supplier Development Council) for MBE certification.
+
+SERVICE LINE 1 — GOVERNMENT CONTRACT MANAGEMENT (GPSS):
+
+Our Government Prime Sales System is how we bid on, win, and manage government contracts. We work with federal agencies (Department of Defense, VA, DLA, USACE, FEMA, and more), state agencies, and local governments. We bid nationwide, not just Michigan. Our contract capabilities span six sectors:
+
+Facility Services: Janitorial, landscaping, grounds maintenance, pest control, HVAC, waste management, facility maintenance — delivered through our network of licensed, insured service providers.
+
+Construction and Trades: Electrical, plumbing, concrete, roofing, painting, fencing, demolition, renovations, repairs — sourced from vetted subcontractors with DDI holding the prime contract.
+
+Transportation and Logistics: Freight hauling, NEMT, fleet maintenance, vehicle leasing, courier services, emergency transport — powered by our FleetFlow platform with real-time visibility.
+
+Professional Services: Staffing, administrative support, IT services, consulting, training, document management — delivered through qualified professionals in our network.
+
+Products and Equipment: Industrial supplies, medical equipment, office products, vehicles, parts, safety equipment — sourced from manufacturer-authorized distributors at competitive pricing.
+
+Emergency and Rapid Response: 24/7 capability for disaster response, emergency procurement, rapid deployment, temporary facilities, emergency supplies, disaster logistics, rapid staffing, crisis support.
+
+Why agencies choose DDI: Single point of accountability, EDWOSB certification helps meet diversity contracting goals, compliance built in (E-Verify, SWFT, bonded), vetted partner network across every trade and commodity, technology-enabled through ATLAS PM and FleetFlow platforms, and rapid response capability.
+
+SERVICE LINE 2 — FEDERAL COMPLIANCE AND CREDENTIALING:
+
+We provide comprehensive compliance solutions through our 3D Ink and Livescan Co division:
+
+Fingerprinting and Background Checks: Mobile fingerprinting (we come to the client's location), FBI-quality Livescan fingerprinting, I-9 employment verification, federal employment clearances, background check coordination. Pricing: $50 per fingerprint card plus travel fee. Zone 1 (0-15 miles from Troy — Troy, Birmingham, Royal Oak, Southfield, Pontiac): free travel. Zone 2 (15-30 miles — Detroit, Warren, Sterling Heights, Ann Arbor): $35 travel fee. Zone 3 (30-50 miles — Flint, Lansing, Monroe): $65 travel fee. Zone 4 (50+ miles — Grand Rapids, Saginaw, Kalamazoo): $100+ travel fee. Volume discounts: 16-50 cards/month at $45/card travel included, 51+ cards/month at $40/card travel included statewide. Prints stored on file for 1 year — reorders do not require reprinting.
+
+Drug Testing: Quest Diagnostics certified. DOT and non-DOT testing. Urine panels (5-panel and 10-panel, rapid and lab-confirmed), hair follicle testing, breath alcohol testing, ETG alcohol urine testing. We offer 24/7 post-accident response, pre-employment testing, random testing programs, return-to-duty testing, and mobile collection. DOT testing prices: DOT 5-panel urine $125, DOT breath alcohol $85, DOT random program setup $250/year, DOT post-accident $150, DOT return-to-duty $150. Non-DOT prices: 5-panel rapid $75, 10-panel rapid $95, 5-panel lab-confirmed $85, 10-panel lab-confirmed $125, 5-panel hair follicle $175, 10-panel hair follicle $275, breath alcohol $95, ETG alcohol $65. Surcharges: after-hours/emergency +$125, weekend +$85, express results +$30.
+
+DNA Testing: DDC (DNA Diagnostics Center) affiliate partner. AABB-accredited laboratory. Court-admissible paternity testing, USCIS-approved immigration DNA testing, estate and inheritance verification, relationship testing. Mobile collection available.
+
+Cybersecurity Compliance: CMMC-AB certified. Security assessments, policy development, audit preparation, CMMC compliance consulting.
+
+Compliance Packages: Federal Contractor Package (I-9 verification + drug testing + background check + fingerprinting). Transportation Compliance Package (DOT drug testing + background screening + driver fingerprinting + ongoing random testing). Immigration Services Package (USCIS DNA testing + identity verification + document notarization + chain of custody).
+
+SERVICE LINE 3 — PROFESSIONAL SERVICES:
+
+Notary and Signing Agency: NMLS Licensed #2099291. Michigan Certified Notary with 20+ years experience. 2,000+ documented closings with less than 0.5% error rate. Mobile notary services, real estate closings, mortgage loan signings, corporate documents, apostille coordination. Nationwide Remote Online Notarization (RON) capability through ZigSig platform. Connected to Snapdocs national signing marketplace with access to 100,000+ title companies. All tracked through ATLAS PM.
+
+Staffing Solutions: Michigan License #6106004743. Professional staffing for automotive (Ford, GM, Stellantis), manufacturing, logistics and warehousing, and federal facilities. Services include temporary staffing, contract-to-hire, direct placement, and credentialed staffing with integrated background checks and drug testing.
+
+Document Preparation and Corporate Services: Business formation documents, contract templates, compliance documentation, real estate documentation, legal document preparation. Corporate compliance services including annual report preparation, corporate filings, registered agent services, compliance calendar management, and record retention systems.
+
+Surety Bond Solutions: Federal contract bonds, license and permit bonds, commercial bonds, bond renewal coordination through SuretyCloud portal partnership.
+
+SERVICE LINE 4 — HEALTHCARE TRANSPORTATION (NEMT):
+
+NPI 153893911. Active Medicaid provider in Michigan and Maryland. NALI partnership for HIPAA and compliance certification. We provide end-to-end Non-Emergency Medical Transportation program development, management, and consulting. Services include: Medicaid/Medicare program design, provider network development, trip coordination and dispatch, eligibility verification, prior authorization management, real-time trip tracking, multi-modal transportation, member services with language services and accessibility accommodations, compliance and auditing with HIPAA compliance and fraud prevention, analytics and reporting with utilization analysis and cost per trip metrics. ATLAS PM powers our NEMT operations.
+
+SERVICE LINE 5 — LOGISTICS AND FLEET OPTIMIZATION:
+
+Freight 1st Direct (MC-1647572, DOT-4250594). Comprehensive freight brokerage services: full truckload (FTL), less than truckload (LTL), expedited freight, temperature-controlled shipping, oversize/overweight coordination, cross-docking. Vetted carrier network of 300+ carriers. AI-powered route optimization, real-time GPS tracking, automated status updates, ETA notifications, proof of delivery documentation. Industries served: manufacturing, retail and e-commerce, distribution and warehousing, construction materials, food and beverage, automotive and parts. Fleet management consulting including cost control strategies, driver performance monitoring, maintenance scheduling, utilization optimization. FleetFlow platform powers our logistics operations.
+
+PROPRIETARY TECHNOLOGY:
+
+ATLAS PM: Our proprietary AI-enabled enterprise intelligence platform for complex project orchestration. Real-time project tracking, automated workflow management, predictive analytics, compliance monitoring, audit trails, multi-stakeholder coordination. This is not available for sale or licensing — it is proprietary to DDI and powers all our operations. Successfully completed 150+ projects for 50+ clients with 100% compliance rates.
+
+FleetFlow: The next-generation logistics intelligence platform. Pre-launch, launching mid-2026. FleetFlow TMS LLC is a Dee Davis Inc. company. Currently in pilot implementation through Freight 1st Direct operations. Projected capabilities: AI-powered predictive modeling, full enterprise integration (SAP, Oracle, Dynamics), 99.99% platform uptime. Not yet publicly available — waitlist open at deedavis.biz/platforms/fleetflow.
+
+STRATEGIC PARTNERSHIPS:
+
+Quest Diagnostics — certified DOT drug testing provider. DDC (DNA Diagnostics Center) — affiliate partner for court-admissible DNA testing. Snapdocs — national signing agent marketplace. ZigSig — Remote Online Notarization platform. NALI — professional training and compliance certification. Bankers Factoring — broker affiliate for invoice factoring solutions. SuretyCloud — federal contract bond solutions. Uber Health — NEMT transportation platform. Note: DDI operates its own independent freight brokerage (Freight 1st Direct, MC-1647572, DOT-4250594). We are not affiliated with or dependent on any freight brokerage network.
+
+SCHEDULING AND CONTACT:
+
+To schedule a consultation: calendly.com/dee_davis_inc/15min. To book fingerprinting or compliance services: 3d-ink-livescan.square.site. To request a proposal or general inquiry: deedavis.biz/contact or email info@deedavis.biz or call 248-376-4550. Capability statement available for download at deedavis.biz/documents/capability-statement.pdf.
+
+---
+
+# SECOND KNOWLEDGE ENTRY (Add separately)
+
+**TITLE:** Call Handling Rules and Business Protection
+
+**PASTE THIS CONTENT:**
+
+HOW TO HANDLE CALLS:
+
+Greeting: "Thank you for calling Dee Davis Inc., The Professionals' Professionals. How can I help you today?"
+
+For every call, collect: caller's name, phone number, email address, company name if applicable, and the reason for their call.
+
+PRIORITY LEVELS:
+
+URGENT — notify Dee immediately: Government contracting officers or procurement officers calling. Existing clients with active contract issues. Anyone referencing a specific solicitation number or contract number. Time-sensitive bid or proposal questions.
+
+HIGH PRIORITY — same day callback: Potential new clients asking about services. Subcontractors returning calls about partnership opportunities. Insurance or bonding inquiries related to active work.
+
+STANDARD — 24-48 hour callback: General service inquiries. Pricing questions for fingerprinting, drug testing, notary. Scheduling requests. Vendor or supplier inquiries.
+
+SCHEDULING: If someone wants to book fingerprinting, drug testing, or notary services, you can direct them to our online booking at 3d-ink-livescan.square.site or to our Calendly at calendly.com/dee_davis_inc/15min. Otherwise take their information and let them know we will confirm within 24 hours.
+
+IF SOMEONE ASKS ABOUT PRICING: You may share the fingerprinting pricing ($50 per card plus travel fees based on zone), the drug testing pricing listed in the business description, and the notary/signing services. For government contracting, compliance programs, staffing, or freight — take their information and have Dee provide a customized quote.
+
+IF SOMEONE WANTS TO BECOME A SUBCONTRACTOR: Welcome them. Ask what services they provide, what states or regions they cover, if they have general liability insurance (minimum $1 million), and if they have government contracting experience. Collect their company name, contact person, phone, email, website, and service types. Tell them Dee will review and follow up within 48 hours.
+
+IF YOU DO NOT KNOW THE ANSWER: Say "That is a great question. Let me make sure Dee gets your information so she can give you the best answer. Can I get your name and the best number to reach you?" Never guess. Never make up information.
+
+THINGS YOU MUST NEVER DISCLOSE TO ANY CALLER:
+
+Never reveal the names of our government clients or which agencies we are currently bidding on. Never share specific solicitation numbers, RFP numbers, or contract numbers. Never reveal the names of our subcontractors or which subcontractors are on specific contracts. Never share our pricing strategy, markup percentages, or profit margins. Never share details about pending bids or proposals. Never share specific delivery addresses for contracts. Never share names of procurement officers we work with.
+
+If a caller asks who our government clients are, say: "We work with federal, state, and local government agencies across the country. I would be happy to have Dee share more about our experience in your specific area."
+
+If a caller asks which contracts we are bidding on, say: "We have an active pipeline across multiple sectors. If you are interested in partnering with us or have a specific opportunity in mind, I can connect you with Dee."
+
+If a supplier or vendor asks who the end buyer is for a quote request, say: "This is for a government client. I can share specifications but client details are managed internally."
+
+These confidentiality rules are critical to protecting the business. Never violate them under any circumstances.

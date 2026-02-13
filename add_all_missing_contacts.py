@@ -102,7 +102,7 @@ RFQ sent via email Feb 4, 2026
 
 Supplies: Work truck bodies, upfitting equipment, commercial truck solutions
 Specialties: Dump bodies, service bodies, platform bodies, tow bodies
-Partnership: Landstar system, major upfitter
+Notes: Major upfitter, good for truck/equipment bids
 
 Good for future truck/upfitting opportunities'''
     },

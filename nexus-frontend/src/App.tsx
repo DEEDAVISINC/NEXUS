@@ -63,7 +63,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Header currentView={currentView} onBackToNexus={navigateToLanding} />
-      {currentView === 'landing' && <DeadlineNotifications />}
+      {currentView === 'landing' && <DeadlineNotifications onNavigateToSystem={navigateToSystem} />}
       
       {/* Simple Flow Toggle */}
       {currentView === 'landing' && (

@@ -251,7 +251,7 @@ These are services you can perform directly OR easily coordinate:
 
 #### **8. MOVING & RELOCATION SERVICES** 🚚
 
-**Your Capability:** Sub coordination (freight broker, Landstar partnership)
+**Your Capability:** Sub coordination (independent freight broker — Freight 1st Direct, MC-1647572)
 
 **NAICS Codes:**
 - 484210 - Used Household and Office Goods Moving
@@ -272,7 +272,7 @@ These are services you can perform directly OR easily coordinate:
 - United Van Lines
 - Mayflower
 - North American Van Lines
-- **Landstar System** (established partner!)
+- **Freight 1st Direct** (DDI's own freight brokerage)
 - Regional moving companies
 
 **Current Opportunities:**

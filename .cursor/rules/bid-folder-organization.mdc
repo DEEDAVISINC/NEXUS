@@ -14,6 +14,8 @@ alwaysApply: true
 ### **Step 1: User Shares Solicitation**
 User provides RFQ/RFP/ITB document or details.
 
+**⚠️ IF this is a Presolicitation, Sources Sought, or Intent to Sole Source → STOP. Follow the `presolicitation-auto-response` rule instead. Those have a DIFFERENT workflow: email the buyer + cap statement FIRST, suppliers/subs come later.**
+
 ### **Step 2: Decision to Pursue**
 After reviewing, if we agree it's worth pursuing → **Create folder immediately.**
 
@@ -137,6 +139,8 @@ STEP 10: SUBMIT BID               — Send SEND_TO_BUYER contents to buyer
 7. Create strategy/analysis doc in root folder
 
 **The user should be able to open SEND_TO_SUPPLIER and email its contents within minutes of saying "let's pursue this."**
+
+**For presolicitations/sources sought: The user should be able to open SEND_TO_BUYER and email the CO with a cap statement within minutes of identifying the opportunity. See `presolicitation-auto-response` rule.**
 
 ---
 

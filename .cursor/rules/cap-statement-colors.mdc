@@ -1,0 +1,62 @@
+# Capability Statement Color Scheme by Sector
+
+**When generating capability statements, use the correct color scheme based on the bid sector.**
+
+## Color Assignments
+
+### Medical / Healthcare (Blue + Red)
+- **Header gradient:** #1e40af → #3b82f6
+- **Title bar gradient:** #dc2626 → #b91c1c
+- **Section headers:** #0f172a → #1e293b
+- **Accent (borders, links):** #3b82f6
+- **Use for:** VA medical, dry ice, surgical supplies, healthcare courier, medical equipment, pharmaceutical
+
+### Defense / DLA (Navy + Gold)
+- **Header gradient:** #0f172a → #1e3a5f
+- **Title bar gradient:** #b45309 → #d97706
+- **Section headers:** #0c1222 → #1e293b
+- **Accent (borders, links):** #1e3a5f
+- **Use for:** DLA solicitations, DOD contracts, military parts, cable assemblies, valves, industrial defense items
+
+### Facilities / Grounds (Forest Green + Slate)
+- **Header gradient:** #166534 → #16a34a
+- **Title bar gradient:** #475569 → #64748b
+- **Section headers:** #14532d → #166534
+- **Accent (borders, links):** #16a34a
+- **Use for:** FEMA, USACE, landscaping, snow removal, grounds maintenance, janitorial, building services
+
+### Industrial / Construction (Charcoal + Orange)
+- **Header gradient:** #1c1917 → #44403c
+- **Title bar gradient:** #c2410c → #ea580c
+- **Section headers:** #1c1917 → #292524
+- **Accent (borders, links):** #44403c
+- **Use for:** Construction, fabrication, industrial equipment, heavy machinery, guardrails, infrastructure
+
+### Transportation / Logistics (Deep Purple + Teal)
+- **Header gradient:** #581c87 → #7c3aed
+- **Title bar gradient:** #0d9488 → #14b8a6
+- **Section headers:** #3b0764 → #581c87
+- **Accent (borders, links):** #7c3aed
+- **Use for:** Freight brokerage, courier services, NEMT, delivery, fleet management, transportation
+
+### Reseller / Wholesale Distribution (Steel Blue + Emerald)
+- **Header gradient:** #1e4976 → #2563eb
+- **Title bar gradient:** #047857 → #059669
+- **Section headers:** #172554 → #1e4976
+- **Accent (borders, links):** #2563eb
+- **Use for:** General product resale, wholesale supply, padlocks, office supplies, non-defense/non-medical commodities, CPS Energy type bids
+
+### Personal Items / Consumer Goods (Rose/Pink + Soft Pink)
+- **Header gradient:** #9f1239 → #e11d48
+- **Title bar gradient:** #be185d → #f472b6
+- **Section headers:** #881337 → #9f1239
+- **Accent (borders, links):** #e11d48
+- **Use for:** Personal care, clothing, household goods, food service, consumer products
+
+## Rules
+1. **Always** use the sector color matching the solicitation type
+2. **Logo** is always embedded as base64 data URI (never a file reference)
+3. **All certifications** must appear: EDWOSB/WOSB, WBE/MBE/SBE, E-Verify (est. 2022), SWFT (est. 2022), CMMC-AB
+4. **DUNS, CAGE, UEI** all in the header
+5. **Contact info** always includes Point of Contact, Phone, Email, Website, Address, Freight Authority
+6. The VA Dry Ice cap statement uses **Medical/Healthcare** colors (blue/red)

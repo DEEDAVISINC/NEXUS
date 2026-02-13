@@ -1051,7 +1051,20 @@ Analyze this RFP completely and return ONLY valid JSON (no markdown, no preamble
                 print(f"Contact store error: {e}")
                 continue
         
-        # --- Step 5: Return everything ---
+        # --- Step 5: Auto-generate proposal matrix if GO recommendation ---
+        proposal_matrix = None
+        if opportunity_id and bid_rec.get('decision') == 'GO':
+            try:
+                from nexus_backend import GPSSSubcontractorMiner
+                miner = GPSSSubcontractorMiner()
+                matrix_result = miner.generate_proposal_matrix(opportunity_id)
+                if matrix_result.get('success'):
+                    proposal_matrix = matrix_result.get('matrix')
+                    print(f"✅ Auto-generated proposal matrix for {document_name}")
+            except Exception as e:
+                print(f"Proposal matrix auto-generation note: {e}")
+        
+        # --- Step 6: Return everything ---
         return jsonify({
             "success": True,
             "document_name": document_name,
@@ -1060,7 +1073,12 @@ Analyze this RFP completely and return ONLY valid JSON (no markdown, no preamble
             "contacts_found": len(contacts),
             "contacts_stored": stored_contacts,
             "text_length": len(document_text),
-            "pages_read": max_pages if file.filename.lower().endswith('.pdf') else 1
+            "pages_read": max_pages if file.filename.lower().endswith('.pdf') else 1,
+            "proposal_matrix": proposal_matrix,
+            "auto_actions": [
+                f"Created opportunity in Airtable",
+                f"Stored {stored_contacts} contacts",
+            ] + ([f"Auto-generated proposal compliance matrix ({proposal_matrix.get('total_requirements', 0)} requirements)"] if proposal_matrix else [])
         })
     
     except Exception as e:
@@ -3620,15 +3638,115 @@ def mine_edwosb_opportunities():
 @app.route('/gpss/forecasting/mine', methods=['POST'])
 def mine_agency_forecasts():
     """
-    Mine REAL agency forecast pages for upcoming opportunities.
-    Sources: NASA, GSA, DHS, USAID, Commerce, Treasury + SAM.gov pre-solicitations.
-    AI extracts structured data and scores each forecast for fit.
-    Stores results in GPSS Opportunities tagged with [Forecast].
+    ENHANCED: Mine 25+ sources for forecasts, expiring contracts, sole source leads.
+    NOT just SAM.gov — this mines EVERYTHING.
+    
+    Optional JSON:
+    {
+      "tiers": ["sam", "agencies", "defense", "renewals", "edwosb_sole_source"]
+    }
+    
+    Omit tiers to mine ALL sources. Or pass specific tiers:
+      - "sam" = SAM.gov API (pre-solicitations, EDWOSB set-asides, sources sought)
+      - "agencies" = 18 agency forecast pages (NASA, GSA, DHS, DoE, SSA, VA, etc.)
+      - "defense" = DLA + USACE supply chain forecasts (10 sources)
+      - "renewals" = USAspending expiring contract mining (re-compete predictions)
+      - "edwosb_sole_source" = EDWOSB sole source opportunity detection
     """
     try:
-        from federal_forecasts_system import FederalForecastsMiner
-        miner = FederalForecastsMiner()
-        result = miner.mine_all_forecasts()
+        from federal_forecasts_system import handle_mine_federal_forecasts
+        data = request.json or {}
+        tiers = data.get('tiers', None)
+        result = handle_mine_federal_forecasts(tiers=tiers)
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/forecasting/mine-edwosb', methods=['POST'])
+def mine_edwosb_forecasts():
+    """
+    EDWOSB-ONLY mining — fast, targeted search.
+    Mines SAM.gov for EDWOSB/WOSB set-asides + sole source leads.
+    This is the quick scan when you want EDWOSB opportunities NOW.
+    """
+    try:
+        from federal_forecasts_system import handle_mine_edwosb_only
+        result = handle_mine_edwosb_only()
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/forecasting/mine-renewals', methods=['POST'])
+def mine_contract_renewals():
+    """
+    Mine USAspending.gov for expiring contracts in DDI's NAICS codes.
+    These are contracts ending in 3-18 months that will be re-competed.
+    High-confidence forecasts — the government still needs the products/services.
+    """
+    try:
+        from federal_forecasts_system import handle_mine_renewals
+        result = handle_mine_renewals()
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/forecasting/intelligence-report', methods=['GET'])
+def get_intelligence_report():
+    """
+    Generate the Opportunity Intelligence Dashboard report.
+    Shows pipeline summary, EDWOSB advantage metrics, upcoming events,
+    and source counts across all mining tiers.
+    """
+    try:
+        from federal_forecasts_system import handle_intelligence_report
+        result = handle_intelligence_report()
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/forecasting/events', methods=['GET'])
+def get_industry_events():
+    """
+    Get upcoming DLA/defense industry events.
+    Includes Battle Creek MI (May 2026), Columbus OH, Cherry Hill NJ, etc.
+    """
+    try:
+        from federal_forecasts_system import handle_get_events
+        result = handle_get_events()
+        return jsonify({
+            'success': True,
+            **result
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/forecasting/osdbu-contacts', methods=['POST'])
+def harvest_osdbu_contacts():
+    """
+    Harvest OSDBU (Office of Small & Disadvantaged Business Utilization) contacts.
+    These are the people at each agency who HELP small businesses find opportunities.
+    Scrapes 7+ agency OSDBU websites for names, emails, phone numbers.
+    """
+    try:
+        from federal_forecasts_system import handle_harvest_osdbu_contacts
+        result = handle_harvest_osdbu_contacts()
         return jsonify({
             'success': True,
             **result
@@ -8511,7 +8629,7 @@ DEE DAVIS INC is a federally certified EDWOSB operating 8 specialized divisions:
 2. DEPOINTE DNA - Legal DNA Testing (AABB-Accredited)
 3. 3D Ink & Livescan - Credentialing & Compliance (FBI Fingerprinting, DOT Compliance)
 4. 3D Ink Signatures - Professional Signing Agency (NMLS-Licensed, RON)
-5. Freight 1st Direct - Freight Brokerage (MC-1647572, Landstar Partner)
+5. Freight 1st Direct - Independent Freight Brokerage (MC-1647572, DOT-4250594)
 6. Federal Compliance Consulting - Grant Administration & Contract Management
 7. CNTDA - Premium Notary Services (20+ years experience)
 8. CAUSE WE CARE - 501(c)(3) Nonprofit (Community Impact)
@@ -11405,6 +11523,44 @@ def advance_workflow(opportunity_id):
             except Exception as e:
                 auto_actions.append(f"Quote generation attempted (note: {str(e)[:60]})")
 
+        # ── NEW: Auto-generate proposal matrix when advancing to Generate Proposal ──
+        if new_status in ('Generate Proposal', 'generateProposal'):
+            try:
+                from nexus_backend import GPSSSubcontractorMiner
+                sub_miner = GPSSSubcontractorMiner()
+                matrix_result = sub_miner.generate_proposal_matrix(real_id)
+                if matrix_result.get('success'):
+                    total = matrix_result.get('matrix', {}).get('total_requirements', 0)
+                    critical = matrix_result.get('matrix', {}).get('critical_requirements', 0)
+                    auto_actions.append(f"Auto-generated proposal compliance matrix ({total} requirements, {critical} critical)")
+                    result['proposal_matrix'] = matrix_result.get('matrix')
+            except Exception as e:
+                auto_actions.append(f"Proposal matrix generation attempted (note: {str(e)[:60]})")
+        
+        # ── NEW: Auto-generate NDA when subcontractors are linked ──
+        if new_status in ('Find Suppliers', 'findSuppliers', 'Request Quotes', 'requestQuotes'):
+            try:
+                # Check if this opportunity has linked subcontractors
+                opp = AirtableClient().get_record('GPSS Opportunities', real_id)
+                opp_fields = opp.get('fields', {}) if opp else {}
+                linked_subs = opp_fields.get('SUBCONTRACTORS', opp_fields.get('Linked Subcontractors', []))
+                
+                if linked_subs:
+                    from nexus_backend import GPSSSubcontractorMiner
+                    sub_miner = GPSSSubcontractorMiner()
+                    nda_count = 0
+                    for sub_id in linked_subs:
+                        # Check if NDA already exists
+                        compliance = sub_miner.check_compliance(sub_id, ['NDA'])
+                        if compliance.get('compliance_issues'):
+                            nda_result = sub_miner.generate_nda(sub_id, real_id)
+                            if nda_result.get('success'):
+                                nda_count += 1
+                    if nda_count > 0:
+                        auto_actions.append(f"Auto-generated {nda_count} NDA(s) for linked subcontractors")
+            except Exception as e:
+                pass  # Non-critical, don't block workflow
+
         result['auto_actions'] = auto_actions
         return jsonify(result)
     
@@ -11413,6 +11569,127 @@ def advance_workflow(opportunity_id):
             'success': False,
             'error': str(e)
         }), 500
+
+
+# =====================================================================
+# GOVCON DOCUMENT GENERATORS — NDA, Teaming Agreement, Emails, Matrix
+# =====================================================================
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/generate-nda', methods=['POST'])
+def generate_nda_endpoint(subcontractor_id):
+    """
+    Generate pre-filled NDA for a subcontractor.
+    Pulls data from Airtable, generates document, creates compliance record.
+    
+    Body (optional):
+        { "opportunity_id": "recXXX" }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        data = request.get_json() or {}
+        result = miner.generate_nda(subcontractor_id, data.get('opportunity_id'))
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/gpss/subcontractors/<subcontractor_id>/generate-teaming-agreement', methods=['POST'])
+def generate_teaming_agreement_endpoint(subcontractor_id):
+    """
+    Generate pre-filled Teaming Agreement for a subcontractor + opportunity.
+    
+    Body:
+        {
+            "opportunity_id": "recXXX" (required),
+            "workshare_prime": 55,
+            "workshare_sub": 45,
+            "prime_tasks": ["PM", "Compliance", "QA"],
+            "sub_tasks": ["Field work", "Equipment"]
+        }
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        data = request.get_json() or {}
+        
+        if not data.get('opportunity_id'):
+            return jsonify({'success': False, 'error': 'opportunity_id is required'}), 400
+        
+        result = miner.generate_teaming_agreement(
+            subcontractor_id=subcontractor_id,
+            opportunity_id=data['opportunity_id'],
+            workshare_prime=data.get('workshare_prime', 55),
+            workshare_sub=data.get('workshare_sub', 45),
+            prime_tasks=data.get('prime_tasks'),
+            sub_tasks=data.get('sub_tasks')
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/gpss/generate-email', methods=['POST'])
+def generate_govcon_email_endpoint():
+    """
+    Generate context-aware GovCon email from Airtable data.
+    
+    Body:
+        {
+            "email_type": "co_sources_sought|sb_office_intro|debrief_formal|sub_outreach|...",
+            "opportunity_id": "recXXX" (optional),
+            "subcontractor_id": "recXXX" (optional),
+            "contact_id": "recXXX" (optional),
+            "custom_context": "Any additional context" (optional)
+        }
+    
+    Valid email_type values:
+        sb_office_intro, co_sources_sought, co_presolicitation, co_question,
+        capstat_intro, capstat_to_prime, debrief_formal, debrief_informal,
+        debrief_thanks, sub_outreach, prime_outreach, teaming_followup
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        data = request.get_json() or {}
+        
+        email_type = data.get('email_type')
+        if not email_type:
+            return jsonify({'success': False, 'error': 'email_type is required'}), 400
+        
+        result = miner.generate_govcon_email(
+            email_type=email_type,
+            opportunity_id=data.get('opportunity_id'),
+            subcontractor_id=data.get('subcontractor_id'),
+            contact_id=data.get('contact_id'),
+            custom_context=data.get('custom_context', '')
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/proposal-matrix', methods=['POST'])
+def generate_proposal_matrix_endpoint(opportunity_id):
+    """
+    Generate proposal compliance matrix for an opportunity.
+    Analyzes the RFP data and builds structured requirement tracking.
+    
+    Auto-triggered when workflow advances to 'Generate Proposal'.
+    Also callable manually.
+    
+    Returns:
+        Structured matrix with all requirements, evaluation factors,
+        required documents, and whether subcontractors are needed.
+    """
+    try:
+        from nexus_backend import GPSSSubcontractorMiner
+        miner = GPSSSubcontractorMiner()
+        real_id = _resolve_airtable_id(opportunity_id)
+        result = miner.generate_proposal_matrix(real_id)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @app.route('/gpss/mining/search', methods=['POST'])
@@ -12485,6 +12762,74 @@ def api_partnership_generate():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+# =====================================================================
+# PRESOLICITATION AUTO-RESPONSE ENDPOINT
+# Manually trigger auto-response for any opportunity
+# (Also runs automatically during SAM.gov mining)
+# =====================================================================
+
+@app.route('/api/presolicitation/auto-respond', methods=['POST'])
+def api_presolicitation_auto_respond():
+    """
+    Manually trigger the presolicitation auto-response for an opportunity.
+    Generates: capability statement + buyer email + bid folder + workflow checklist.
+    
+    POST body:
+    {
+        "title": "Grounds Maintenance Services",
+        "noticeId": "W912DR25QA005",
+        "agency": "US Army Corps of Engineers",
+        "type": "Presolicitation",  // or "Sources Sought", "Intent to Sole Source"
+        "description": "...",
+        "naicsCode": "561730",
+        "typeOfSetAside": "EDWOSB",
+        "responseDeadLine": "2026-04-15",
+        "pointOfContact": [{"fullName": "...", "email": "...", "phone": "..."}]
+    }
+    """
+    try:
+        data = request.get_json() or {}
+        
+        if not data.get('title') and not data.get('noticeId'):
+            return jsonify({'success': False, 'error': 'title or noticeId required'}), 400
+        
+        # Use SAMgovAPIClient's auto-response methods
+        from nexus_backend import SAMgovAPIClient
+        client = SAMgovAPIClient()
+        
+        presol_type = data.get('type', '')
+        if not presol_type:
+            presol_type = client._is_presolicitation_type(data) or 'Presolicitation'
+        
+        client._auto_respond_presolicitation(data, presol_type)
+        
+        folder_name = client._generate_folder_name(
+            data.get('agency', data.get('fullParentPathName', '')),
+            data.get('title', '')
+        )
+        
+        base_path = os.path.join(os.path.dirname(__file__), 'BIDS:RESOURCES', folder_name)
+        
+        return jsonify({
+            'success': True,
+            'message': f'Auto-response generated for {presol_type}: {data.get("noticeId", "")}',
+            'folder': folder_name,
+            'folder_path': base_path,
+            'files_generated': [
+                f'SEND_TO_BUYER/{data.get("noticeId", "").replace("/", "-").replace(" ", "_")}_Capability_Statement.html',
+                'SEND_TO_BUYER/SEND_TO_BUYER_EMAIL_READY.md',
+                'WORKFLOW_CHECKLIST.md'
+            ],
+            'presolicitation_type': presol_type,
+            'next_step': f'Review SEND_TO_BUYER/ and email CO'
+        })
+    
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @app.route('/api/sources-sought/generate', methods=['POST'])
 def api_sources_sought_generate():
     """Generate a Sources Sought / RFI response document."""
@@ -13036,6 +13381,90 @@ def _generate_partnership_html(partner_name, proposal_type, services_offered,
 
 </body>
 </html>"""
+
+
+# =============================================================================
+# OPPORTUNITY INTELLIGENCE API ENDPOINTS
+# =============================================================================
+
+@app.route('/api/intelligence/score', methods=['POST'])
+def api_intelligence_score():
+    """
+    Trigger AI scoring of all unscored opportunities.
+    POST /api/intelligence/score
+    """
+    try:
+        from nexus_opportunity_intelligence import OpportunityIntelligenceEngine
+        engine = OpportunityIntelligenceEngine()
+        result = engine.score_and_alert()
+        return jsonify({'success': True, **result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/mine-local', methods=['POST'])
+def api_intelligence_mine_local():
+    """
+    Trigger Michigan state/local mining.
+    POST /api/intelligence/mine-local
+    """
+    try:
+        from nexus_opportunity_intelligence import MichiganLocalMiner
+        miner = MichiganLocalMiner()
+        result = miner.mine_all()
+        return jsonify({'success': True, **result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/digest', methods=['POST'])
+def api_intelligence_digest():
+    """
+    Send daily digest email manually.
+    POST /api/intelligence/digest
+    """
+    try:
+        from nexus_opportunity_intelligence import send_daily_digest
+        send_daily_digest()
+        return jsonify({'success': True, 'message': 'Daily digest sent'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/status', methods=['GET'])
+def api_intelligence_status():
+    """
+    Get intelligence engine status — what's running, last scores, etc.
+    GET /api/intelligence/status
+    """
+    try:
+        # Check scheduler status
+        import subprocess
+        result = subprocess.run(
+            ['pgrep', '-f', 'nexus_scheduler'],
+            capture_output=True, text=True
+        )
+        scheduler_running = result.returncode == 0
+        scheduler_pid = result.stdout.strip() if scheduler_running else None
+        
+        # Check log for last activity
+        log_path = os.path.join(os.path.dirname(__file__), 'logs', 'scheduler.log')
+        last_activity = None
+        if os.path.exists(log_path):
+            stat = os.stat(log_path)
+            last_activity = datetime.fromtimestamp(stat.st_mtime).isoformat()
+        
+        return jsonify({
+            'success': True,
+            'scheduler_running': scheduler_running,
+            'scheduler_pid': scheduler_pid,
+            'last_log_activity': last_activity,
+            'email_configured': bool(os.environ.get('NEXUS_EMAIL_PASSWORD')),
+            'sam_api_configured': bool(os.environ.get('SAM_GOV_API_KEY')),
+            'govcon_api_configured': bool(os.environ.get('GOVCON_API_KEY')),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 if __name__ == '__main__':
