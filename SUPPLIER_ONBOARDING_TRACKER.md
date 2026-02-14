@@ -10,7 +10,7 @@
 
 | Supplier | Type | URL | Cost | Status |
 |----------|------|-----|------|--------|
-| **Sourcewell** | Cooperative (government pricing) | sourcewell-mn.gov | FREE | [ ] Not started |
+| **Sourcewell** | Cooperative (government pricing) | sourcewell-mn.gov | FREE | [x] ACTIVE Feb 13 — Vendor portal (proportal) + Buy Sourcewell APPROVED (start.sourcewell.website, login: info@deedavis.biz). Also registered OMNIA Partners OPUS (gpss@deedavis.biz) — pending membership ID |
 | **HD Supply** | Industrial/MRO distributor | hdsupply.com | FREE | [ ] Not started |
 | **MSC Industrial** | Industrial/MRO distributor | mscdirect.com | FREE | [ ] Not started |
 
@@ -49,7 +49,7 @@
 ### Electrical:
 | Supplier | URL | Status |
 |----------|-----|--------|
-| Graybar | graybar.com | [ ] Not started |
+| Graybar | graybar.com | [x] ACTIVE Feb 13 — Login: gpss@deedavis.biz — Account approved |
 | WESCO | wesco.com | [ ] Not started |
 | Rexel | rexelusa.com | [ ] Not started |
 

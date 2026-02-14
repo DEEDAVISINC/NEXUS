@@ -97,6 +97,22 @@ from strategic_analysis_module import StrategicAnalysisService
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+# Register PRISM Compliance & Document API
+try:
+    from prism_compliance_api import prism_compliance
+    app.register_blueprint(prism_compliance)
+    print("✅ PRISM Compliance API registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Compliance API not loaded: {e}")
+
+# Register PRISM Inspection Engine
+try:
+    from prism_inspection_engine import prism_inspection
+    app.register_blueprint(prism_inspection)
+    print("✅ PRISM Inspection Engine registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Inspection Engine not loaded: {e}")
+
 # Set base ID from environment
 Config.AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID', '')
 

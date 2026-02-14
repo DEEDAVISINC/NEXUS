@@ -1,0 +1,57 @@
+{
+  "order_id": "PRISM-2026-NPR-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 5 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "NPR-001",
+      "category": "Permit Application",
+      "severity": "CRITICAL",
+      "description": "Permit clerks will not accept incomplete applications. Every field must be filled in or marked N/A. \"Application must be filled out completely or it will not be accepted. If section is not applicable, enter N/A in space.\" \u2014 NPR Guide pg 58",
+      "check": "Application filled out COMPLETELY \u2014 no blank fields (use N/A where not applicable)",
+      "notes": "Three fields left blank on building permit application"
+    },
+    {
+      "rule_id": "NPR-006",
+      "category": "Permit Authorization",
+      "severity": "CRITICAL",
+      "description": "Most permit offices require a notarized letter of authorization allowing the NPR to pull permits on the contractor's behalf. Some counties keep these on file; others need it each time. No authorization = cannot pull.",
+      "check": "Notarized letter of authorization from contractor on file or attached",
+      "notes": "No authorization letter from contractor \u2014 not on file at this permit office"
+    },
+    {
+      "rule_id": "NPR-008",
+      "category": "Permit Authorization",
+      "severity": "CRITICAL",
+      "description": "Many permit forms MUST be notarized before submission: building permit applications, homeowner affidavits, notice of commencement, roofing applications, disclosure statements, and more. Un-notarized = rejected.",
+      "check": "Forms requiring notarization are properly notarized BEFORE submission",
+      "notes": "Homeowner affidavit not notarized"
+    },
+    {
+      "rule_id": "NPR-009",
+      "category": "Permit Jurisdiction",
+      "severity": "CRITICAL",
+      "description": "Each county, city, and municipality has its own permit office. Submitting to the wrong jurisdiction = wasted trip. Verify which office has jurisdiction over the job site address.",
+      "check": "Application submitted to the CORRECT permit office / jurisdiction",
+      "notes": "Submitted to Oakland County but job site is in Wayne County"
+    },
+    {
+      "rule_id": "NPR-012",
+      "category": "Permit Plans & Documents",
+      "severity": "CRITICAL",
+      "description": "Verify the exact permit fee amount with the permit office before making the trip. Wrong amount = cannot pull the permit. \"Always be certain that the amount of money you are collecting for the permits is the correct amount.\"",
+      "check": "Correct payment amount for permit fees (verified before trip)",
+      "notes": "Brought check for $85 but permit fee is $142"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 21,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:42:32.668382"
+}

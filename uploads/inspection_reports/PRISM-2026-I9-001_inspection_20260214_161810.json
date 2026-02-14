@@ -1,0 +1,46 @@
+{
+  "order_id": "PRISM-2026-I9-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 3 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "I9-001",
+      "category": "I-9 Section 1 (Employee)",
+      "severity": "CRITICAL",
+      "description": "Employee must sign and date Section 1 of Form I-9. Unsigned Section 1 = the form is incomplete and the verification is invalid.",
+      "check": "Section 1 signed and dated by employee",
+      "notes": "Section 1 signature line blank"
+    },
+    {
+      "rule_id": "I9-010",
+      "category": "I-9 Corrections",
+      "severity": "CRITICAL",
+      "description": "Errors must be corrected by drawing a line through incorrect info, entering correct info, and initialing/dating the correction. White-out, correction fluid, or erasures are NOT allowed \u2014 increases liability under federal immigration law.",
+      "check": "Corrections initialed and dated (no white-out or erasure)",
+      "notes": "White-out used to correct DOB field"
+    },
+    {
+      "rule_id": "F1",
+      "category": "Fundamental",
+      "severity": "CRITICAL",
+      "description": "All signature lines must be signed by the correct signer. Signers cannot sign for each other.",
+      "check": "Is every required SIGNATURE present?",
+      "notes": "Employee did not sign Section 1"
+    }
+  ],
+  "warnings": [],
+  "passed": [
+    {
+      "rule_id": "I9-008",
+      "check": "Correct document combination used (List A alone, OR List B + List C)"
+    }
+  ],
+  "rules_checked": 18,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:18:10.486144"
+}

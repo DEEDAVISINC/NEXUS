@@ -12,13 +12,16 @@ import { FloatingAICopilot } from './components/FloatingAICopilot';
 import { QuoteSystem } from './components/systems/QuoteSystem';
 import { CapStatSystem } from './components/systems/CapStatSystem';
 import { DocumentGenerator } from './components/systems/DocumentGenerator';
+import PRISMSystem from './components/systems/PRISMSystem';
+import FieldAgentPortal from './components/systems/FieldAgentPortal';
+import AgentPortalRouter from './components/portal/AgentPortalRouter';
 import { DeadlineNotifications } from './components/DeadlineNotifications';
 import { AgendaDashboard } from './components/AgendaDashboard';
 import { BidsDashboard } from './components/BidsDashboard';
 import { BidsFlow } from './components/BidsFlow';
 
 function App() {
-  const [currentView, setCurrentView] = useState<ViewType>('landing');
+  const [currentView, setCurrentView] = useState<ViewType>('agent-portal'); // TEMP: preview — change back to 'landing'
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
   const [showAgenda, setShowAgenda] = useState(false);
   const [showBidsDashboard, setShowBidsDashboard] = useState(false);
@@ -55,10 +58,20 @@ function App() {
         return <QuoteSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'capstats':
         return <CapStatSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'prism':
+        return <PRISMSystem onBackToNexus={navigateToLanding} onNavigate={navigateToSystem} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'agent-portal':
+        // Agent portal preview (from PRISM admin — no login wall)
+        return <FieldAgentPortal onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }
   };
+
+  // ─── STANDALONE AGENT PORTAL (own header, no NEXUS chrome) ───
+  if (currentView === 'agent-login' || currentView === 'agent-portal') {
+    return <AgentPortalRouter onBackToNexus={navigateToLanding} skipLogin />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">

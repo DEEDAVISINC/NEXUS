@@ -1,0 +1,49 @@
+{
+  "order_id": "PRISM-2026-DT-002",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 4 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "DOT-005",
+      "category": "CCF Fatal Flaw",
+      "severity": "CRITICAL",
+      "description": "Specimen ID on the bottle must match the ID on the CCF. Mismatch = fatal flaw. This is the core of chain of custody.",
+      "check": "Specimen ID numbers on bottle and CCF match",
+      "notes": "Specimen ID 789012 on bottle, CCF shows 789021"
+    },
+    {
+      "rule_id": "DOT-018",
+      "category": "CCF Distribution",
+      "severity": "CRITICAL",
+      "description": "Federal CCF has 5 copies: Copy 1 (Lab), Copy 2 (MRO), Copy 3 (Collector), Copy 4 (Employer/DER), Copy 5 (Donor). All must be distributed correctly.",
+      "check": "All 5 CCF copies accounted for (Lab, MRO, Collector, Employer, Donor)",
+      "notes": "Donor copy (Copy 5) not provided"
+    },
+    {
+      "rule_id": "DOT-022",
+      "category": "Collection Environment",
+      "severity": "CRITICAL",
+      "description": "Collection container must be sealed in the presence of the donor immediately after collection. Sealing after donor leaves = chain of custody break.",
+      "check": "Specimen sealed immediately in donor's presence",
+      "notes": "Collector sealed specimen after donor left the room"
+    },
+    {
+      "rule_id": "DOT-025",
+      "category": "CCF Form Compliance",
+      "severity": "CRITICAL",
+      "description": "A federal CCF cannot be used for a non-DOT test, and a non-DOT form cannot be used for a DOT test. Using the wrong form type is a correctable flaw but triggers MRO investigation.",
+      "check": "DOT form NOT used for non-DOT test (and vice versa)",
+      "notes": "Non-DOT form used for DOT-regulated test"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 32,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:18:10.486454"
+}

@@ -1,0 +1,38 @@
+{
+  "order_id": "PRISM-2026-0001",
+  "result": "clean",
+  "new_status": "Verified",
+  "checklist": [
+    {
+      "id": 1,
+      "passed": true
+    },
+    {
+      "id": 2,
+      "passed": true
+    },
+    {
+      "id": 3,
+      "passed": true
+    },
+    {
+      "id": 4,
+      "passed": true
+    },
+    {
+      "id": 5,
+      "passed": true
+    },
+    {
+      "id": 6,
+      "passed": true
+    },
+    {
+      "id": 7,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "reviewer": "Dee Davis",
+  "timestamp": "2026-02-14T16:05:22.643531"
+}

@@ -1,0 +1,41 @@
+{
+  "order_id": "PRISM-2026-BGC-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 3 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "BGC-002",
+      "category": "Background Check Consent",
+      "severity": "CRITICAL",
+      "description": "The FCRA disclosure must be a clear, standalone document \u2014 not combined with the employment application or other paperwork. Bundled disclosures = FCRA violation.",
+      "check": "Disclosure provided as STANDALONE document (not buried in application)",
+      "notes": "Disclosure was page 3 of the employment application, not standalone"
+    },
+    {
+      "rule_id": "BGC-004",
+      "category": "Adverse Action Compliance",
+      "severity": "CRITICAL",
+      "description": "70% of organizations fail this step. Before taking adverse action, employer MUST send: (1) copy of the background report, (2) A Summary of Your Rights Under the FCRA. Then WAIT at least 5 business days.",
+      "check": "Pre-Adverse Action Notice sent BEFORE final decision (with report copy + FCRA rights summary)",
+      "notes": "No pre-adverse notice sent; went straight to rejection"
+    },
+    {
+      "rule_id": "BGC-005",
+      "category": "Adverse Action Compliance",
+      "severity": "CRITICAL",
+      "description": "After sending pre-adverse notice, employer must wait at least 5 business days before making final adverse decision. Rushing this timeline = FCRA violation.",
+      "check": "Minimum 5 business day waiting period observed between pre-adverse and final notice",
+      "notes": "Adverse decision made same day as report"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 17,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:26:30.025649"
+}

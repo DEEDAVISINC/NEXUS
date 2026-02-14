@@ -1,0 +1,49 @@
+{
+  "order_id": "PRISM-2026-PHL-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 4 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "PHL-003",
+      "category": "Specimen Labeling",
+      "severity": "CRITICAL",
+      "description": "Tubes must be labeled immediately at the point of collection \u2014 NOT after leaving the patient. Labeling errors account for ~15% of all specimen rejections. Delayed labeling = specimen mix-up risk.",
+      "check": "Specimen tubes labeled IMMEDIATELY after collection (at bedside/collection point)",
+      "notes": "Tubes labeled back at car, not at patient bedside"
+    },
+    {
+      "rule_id": "PHL-005",
+      "category": "Collection Technique",
+      "severity": "CRITICAL",
+      "description": "Alcohol must dry completely before venipuncture. Wet alcohol contaminates the specimen and causes hemolysis. Contamination = #1 specimen rejection reason (~35% of rejections).",
+      "check": "Alcohol at puncture site allowed to DRY completely before collection",
+      "notes": "Alcohol not dried - specimen hemolyzed"
+    },
+    {
+      "rule_id": "PHL-007",
+      "category": "Collection Technique",
+      "severity": "CRITICAL",
+      "description": "Quantity Not Sufficient (QNS) causes ~15% of rejections. Tubes must be filled to the minimum fill line. Underfilled tubes with additives have wrong blood-to-additive ratio = inaccurate results.",
+      "check": "Sufficient specimen volume collected (tubes filled to minimum line)",
+      "notes": "Lavender tube only 1/4 full"
+    },
+    {
+      "rule_id": "PHL-008",
+      "category": "Collection Technique",
+      "severity": "CRITICAL",
+      "description": "Tubes with additives must be gently inverted 5-10 times immediately after draw. Failure to mix = clotted specimens (~9% of rejections). Do NOT shake \u2014 shaking causes hemolysis.",
+      "check": "Tubes with additives gently inverted (mixed) immediately after collection",
+      "notes": "Tubes not inverted, clotted EDTA specimen"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 19,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:26:30.026180"
+}

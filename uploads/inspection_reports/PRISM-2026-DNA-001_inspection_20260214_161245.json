@@ -1,0 +1,41 @@
+{
+  "order_id": "PRISM-2026-DNA-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 3 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "DNA-007",
+      "category": "DNA Sample Handling",
+      "severity": "CRITICAL",
+      "description": "Swabs must go into labeled paper envelopes, NOT back into plastic wrappers. Plastic creates moisture that encourages mold and destroys DNA samples.",
+      "check": "Buccal swabs placed in labeled PAPER envelopes (not plastic)",
+      "notes": "Swabs placed in plastic bags instead of paper envelopes"
+    },
+    {
+      "rule_id": "DNA-008",
+      "category": "DNA Sample Handling",
+      "severity": "CRITICAL",
+      "description": "Labels must be applied one at a time during collection to prevent sample switching. Pre-labeling envelopes = risk of cross-contamination.",
+      "check": "Envelopes labeled one at a time DURING collection (not pre-labeled)",
+      "notes": "All envelopes were pre-labeled before collection began"
+    },
+    {
+      "rule_id": "DNA-013",
+      "category": "DNA Collector Requirements",
+      "severity": "CRITICAL",
+      "description": "The sample collector must be an unrelated third party with no interest in the test outcome. Family members or interested parties cannot collect.",
+      "check": "Collector is unrelated to participants with no interest in outcome",
+      "notes": "Collector is the mother of one participant"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 22,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:12:45.120266"
+}

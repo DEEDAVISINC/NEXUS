@@ -586,6 +586,22 @@ END:VCALENDAR`;
       lastUsed: 'UPDATED! 🔥'
     },
     {
+      id: 'prism' as ViewType,
+      name: 'PRISM',
+      fullName: 'Field Service Command Center',
+      icon: '🔮',
+      description: 'Dispatch • Orders • Scanbacks • Inspection • Field Agents',
+      stats: [
+        '10 Active Orders',
+        '5 Field Agents',
+        '82% First-Pass Rate',
+        'See Every Detail'
+      ],
+      gradient: 'from-orange-500 to-amber-600',
+      status: 'online',
+      lastUsed: 'NEW! 🔥'
+    },
+    {
       id: 'compass' as ViewType,
       name: 'COMPASS',
       fullName: 'Contract Operations Management & Post-Award Fulfillment',

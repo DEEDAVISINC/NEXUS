@@ -1,0 +1,16 @@
+{
+  "order_id": "PRISM-2026-0001",
+  "result": "CLEAN",
+  "status": "Verified",
+  "message": "CLEAN \u2014 All checks passed. Ready to ship.",
+  "critical_errors": [],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 33,
+  "page_check": {
+    "expected": 47,
+    "actual": 47,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:09:28.103377"
+}

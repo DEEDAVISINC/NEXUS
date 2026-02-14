@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -19,6 +19,8 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'invoices': return '💰 NEXUS Invoices - Universal Invoicing System';
       case 'documents': return '📄 Document Generator - Quotes • Pricing • Proposals';
       case 'compass': return '🧭 COMPASS v1.0 - Post-Award Operations';
+      case 'prism': return '🔮 PRISM v1.0 - Field Service Command Center';
+      case 'agent-portal': return '🔮 PRISM Agent Portal';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
@@ -34,6 +36,8 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'invoices': return 'Government & Enterprise Compliant • All Systems • Real-Time Tracking';
       case 'documents': return 'Quotes • Capability Statements • Supplier RFPs • Pricing Engine';
       case 'compass': return 'Contract Fulfillment • Delivery Tracking • Payments • Compliance';
+      case 'prism': return 'Dispatch • Orders • Scanbacks • Inspection • Field Agents • See Every Detail';
+      case 'agent-portal': return 'My Orders • Scanbacks • Payments • Profile • Dee Davis Inc. Field Agent Network';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

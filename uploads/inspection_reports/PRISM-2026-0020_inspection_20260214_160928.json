@@ -1,0 +1,55 @@
+{
+  "order_id": "PRISM-2026-0020",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 5 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "F5",
+      "category": "Page Count",
+      "severity": "CRITICAL",
+      "description": "Page count mismatch: expected 53, received 51. 2 page(s) missing."
+    },
+    {
+      "rule_id": "PCS-009",
+      "category": "Right to Cancel",
+      "severity": "CRITICAL",
+      "description": "TWO lines exist: one to acknowledge the right to cancel, one to actually cancel. If borrower signs the \"I wish to cancel\" line, loan must reclose. Fee will be removed. If error occurs, have a new blank copy signed.",
+      "check": "Right to Cancel \u2014 borrower signed CORRECT line",
+      "notes": "Borrower signed I-wish-to-cancel line"
+    },
+    {
+      "rule_id": "F1",
+      "category": "Fundamental",
+      "severity": "CRITICAL",
+      "description": "All signature lines must be signed by the correct signer. Signers cannot sign for each other.",
+      "check": "Is every required SIGNATURE present?",
+      "notes": "Page 22 \u2014 signature line blank on Notice of Right to Cancel"
+    },
+    {
+      "rule_id": "F2",
+      "category": "Fundamental",
+      "severity": "CRITICAL",
+      "description": "All initial lines must be initialed. Each statement with an initial line must be individually initialed.",
+      "check": "Is every required INITIAL present?",
+      "notes": "Page 41 \u2014 missing borrower initials on Acknowledgement"
+    },
+    {
+      "rule_id": "F5",
+      "category": "Fundamental",
+      "severity": "CRITICAL",
+      "description": "Expected page count must match. No pages removed, reordered, or missing from the package.",
+      "check": "Are ALL required PAGES/FORMS included?",
+      "notes": "2 pages missing"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 33,
+  "page_check": {
+    "expected": 53,
+    "actual": 51,
+    "match": false
+  },
+  "timestamp": "2026-02-14T16:09:28.103882"
+}

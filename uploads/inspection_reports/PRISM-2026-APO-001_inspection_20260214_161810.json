@@ -1,0 +1,38 @@
+{
+  "order_id": "PRISM-2026-APO-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 2 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "APO-004",
+      "category": "Apostille Jurisdiction",
+      "severity": "CRITICAL",
+      "description": "Apostille must be issued by the Secretary of State in the SAME STATE where the document was originally issued or notarized. A California birth certificate cannot be apostilled by Texas.",
+      "check": "Submitted to the CORRECT Secretary of State (same state as issuance/notarization)",
+      "notes": "CA birth certificate submitted to TX Secretary of State"
+    },
+    {
+      "rule_id": "APO-007",
+      "category": "Apostille Notary Requirements",
+      "severity": "CRITICAL",
+      "description": "If the notary's commission was expired at the time they notarized the document, the apostille will be rejected. Check notary expiration date against the notarization date.",
+      "check": "Notary commission NOT expired at time of notarization",
+      "notes": "Notary commission expired 3 months before notarization date"
+    }
+  ],
+  "warnings": [],
+  "passed": [
+    {
+      "rule_id": "APO-001",
+      "check": "Document is properly notarized (if required)"
+    }
+  ],
+  "rules_checked": 19,
+  "page_check": {
+    "expected": 0,
+    "actual": 0,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:18:10.485508"
+}

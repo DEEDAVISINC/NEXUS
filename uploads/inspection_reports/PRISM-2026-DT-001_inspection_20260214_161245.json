@@ -1,0 +1,33 @@
+{
+  "order_id": "PRISM-2026-DT-001",
+  "result": "HOLD",
+  "status": "Correction Requested",
+  "message": "HOLD \u2014 2 critical error(s) found. Correct before shipping.",
+  "critical_errors": [
+    {
+      "rule_id": "DOT-005",
+      "category": "CCF Fatal Flaw",
+      "severity": "CRITICAL",
+      "description": "Specimen ID on the bottle must match the ID on the CCF. Mismatch = fatal flaw. This is the core of chain of custody.",
+      "check": "Specimen ID numbers on bottle and CCF match",
+      "notes": "Specimen ID on bottle is 12345, CCF shows 12346"
+    },
+    {
+      "rule_id": "DOT-015",
+      "category": "Specimen Handling",
+      "severity": "CRITICAL",
+      "description": "Tamper-evident seal must be applied to the specimen bottle. Donor must initial and date the seal. This proves the specimen hasn't been opened since collection.",
+      "check": "Specimen seal applied with donor initials and date",
+      "notes": "Donor did not initial the seal"
+    }
+  ],
+  "warnings": [],
+  "passed": [],
+  "rules_checked": 24,
+  "page_check": {
+    "expected": 3,
+    "actual": 3,
+    "match": true
+  },
+  "timestamp": "2026-02-14T16:12:45.119655"
+}
