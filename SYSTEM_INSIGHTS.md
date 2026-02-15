@@ -1,6 +1,6 @@
 # 🧠 SYSTEM LEARNING INSIGHTS
 
-**Updated:** Saturday, February 14, 2026 at 07:00 AM
+**Updated:** Sunday, February 15, 2026 at 07:00 AM
 
 ---
 
@@ -19,10 +19,10 @@
 - HCMA CHLORINE ($30,000)
 
 ### 🗑️ Auto-Removed (No Activity):
-- OAKLAND COUNTY FLOW METERS - No activity in 5d, deadline in -3d
-- OAKLAND COUNTY TREATED SALT - No activity in 5d, deadline in -3d
-- PORT HURON CHEMICALS - No activity in 17d, deadline in -3d
-- OAKLAND COUNTY EXAM STOOLS - No activity in 5d, deadline in 1d
+- OAKLAND COUNTY FLOW METERS - No activity in 6d, deadline in -4d
+- OAKLAND COUNTY TREATED SALT - No activity in 6d, deadline in -4d
+- PORT HURON CHEMICALS - No activity in 18d, deadline in -4d
+- OAKLAND COUNTY EXAM STOOLS - No activity in 6d, deadline in 0d
 
 ---
 

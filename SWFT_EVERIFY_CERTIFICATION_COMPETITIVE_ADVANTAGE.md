@@ -32,22 +32,33 @@
 
 ### **2. SWFT CERTIFIED** 🔐
 **What It Is:**
-- Secure Workforce Training & Compliance certification
-- Workforce background screening and compliance
-- Industry-specific safety/security training standards
+- **Secure Web Fingerprint Transmission** — DCSA (Defense Counterintelligence & Security Agency) system
+- Electronic fingerprint capture and submission to FBI/DCSA for federal background investigations
+- DDI provides FD-258 fingerprint cards + Electronic Fingerprint Transmissions (EFTs)
+- Used for security clearances, federal employee onboarding, military installations
+
+**SWFT Account Details:**
+- **Status:** ✅ ACTIVE (since August 3, 2022)
+- **Username:** DavisD
+- **Portal:** https://www.dcsa.mil/is/swft/
+- **Registered under:** 3D INK & LIVESCAN Co. (same Troy, MI address)
+- **DCSA Contact Center:** dcsa.ncr.nbis.list.contact-center@mail.mil / 724-794-7765
+- **Industry Line:** DCSAAKC@mail.mil / 724-738-5090
 
 **Why It Matters:**
-- ✅ Shows workforce is properly vetted
-- ✅ Demonstrates security compliance
-- ✅ Required for sensitive facilities/locations
-- ✅ Common in transportation/logistics/federal work
-- ✅ Reduces client risk/liability
+- ✅ Required for ALL military installation fingerprinting contracts
+- ✅ Required for federal contractor employee security clearance processing
+- ✅ DDI can submit fingerprints directly to FBI and DCSA
+- ✅ FD-258 + EFT capability is RARE among small businesses
+- ✅ Opens up BPAs at every military base and federal installation
 
 **Competitive Advantage:**
-- Required for many federal facilities
-- Preferred for transportation/logistics contracts
-- Shows commitment to security protocols
-- Differentiates from competitors lacking certification
+- Most LiveScan vendors only do state-level background checks
+- DDI does BOTH state-level AND federal-level fingerprinting
+- Required for DoD, DHS, and federal facility fingerprinting contracts
+- Creates recurring revenue through BPAs at military installations
+- Differentiates from 90%+ of competitors who lack federal fingerprint capability
+- **DDI has had SWFT access for 3+ years — established, not new to this**
 
 ---
 
@@ -66,15 +77,17 @@
 - ✅ **With E-Verify:** Meet mandatory requirement, can compete
 
 **SWFT Required/Preferred for:**
-- Federal facility access contracts
-- Transportation/logistics federal work
-- Contracts requiring security clearances
-- Sensitive government locations
+- Military installation fingerprinting BPAs (Selfridge, Detroit Arsenal, etc.)
+- Federal contractor employee security clearance processing
+- Federal agency employee onboarding (DHS, DOJ, DOD, VA)
+- Any contract requiring FD-258 fingerprint card submission
+- Electronic Fingerprint Transmission to FBI/DCSA
 
 **Impact:**
-- ✅ **With SWFT:** Preferred vendor status
-- ✅ Meet security compliance requirements
-- ✅ Access to restricted facilities
+- ✅ **With SWFT:** Can bid on military base fingerprinting contracts
+- ✅ Meet federal fingerprint submission requirements
+- ✅ Process security clearance fingerprints for defense contractors
+- ✅ Provide FD-258 cards + EFTs — services most small businesses can't offer
 
 ---
 
@@ -86,11 +99,11 @@
 - Transportation authorities
 - School districts (in some states)
 
-**SWFT Preferred For:**
-- Transit authorities
-- Port authorities
-- Airport contracts
-- Secure facilities
+**SWFT Required For:**
+- Military base fingerprinting (DoD-wide)
+- Federal contractor security clearance processing
+- FBI/DCSA electronic fingerprint submissions
+- Federal employee background investigation support
 
 ---
 
@@ -116,21 +129,22 @@
 
 ---
 
-### **SWFT CERTIFICATION:**
+### **SWFT CERTIFICATION (Secure Web Fingerprint Transmission):**
 
 **Critical For:**
-1. **Transportation/Logistics** (federal/state)
-2. **Federal Facility Services** (access required)
-3. **Port/Airport Operations**
-4. **Transit Authority Contracts**
-5. **Secure Government Facilities**
-6. **Military Base Contracts**
+1. **Military Installation Fingerprinting** (BPAs at every base)
+2. **Federal Contractor Security Clearances** (defense industry)
+3. **Federal Employee Onboarding** (FBI background checks)
+4. **DHS/DOJ/DOD Background Investigations**
+5. **FBI Fingerprint Card Submissions** (FD-258)
+6. **Electronic Fingerprint Transmissions** (EFTs to DCSA)
 
 **Your Business:**
-- ✅ Logistics/freight brokerage (MC 1647572)
-- ✅ Federal facility supply deliveries
-- ✅ Transportation-related contracts
-- ✅ Secure facility access for deliveries
+- ✅ FD-258 fingerprint cards for federal investigations
+- ✅ Electronic Fingerprint Transmission (EFT) to FBI/DCSA
+- ✅ Military base fingerprinting services (Selfridge, Detroit Arsenal)
+- ✅ Federal contractor employee screening
+- ✅ Bundle with drug testing + notary for complete screening package
 
 ---
 

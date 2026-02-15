@@ -1,4 +1,9 @@
-# 🚨 QUOTE GENERATOR - SUPPLIER PROTECTION RULE
+---
+description: Supplier quote request protection — never reveal end buyer in RFQs
+alwaysApply: true
+---
+
+# QUOTE GENERATOR - SUPPLIER PROTECTION RULE
 
 **CRITICAL: This rule applies to ALL supplier quote requests generated through the system.**
 

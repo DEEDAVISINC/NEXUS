@@ -1,3 +1,8 @@
+---
+description: Mandatory checklist for verifying no buyer information leaks into supplier RFQs
+alwaysApply: true
+---
+
 # RFQ Buyer Protection - MANDATORY CHECKLIST
 
 **CRITICAL: This checklist MUST be followed EVERY TIME an RFQ is generated or reviewed.**

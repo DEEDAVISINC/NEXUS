@@ -39,10 +39,12 @@ Troy, Michigan 48084
 - WOSB (Women-Owned Small Business)
 - WBE (Woman Business Enterprise)
 - MBE (Minority Business Enterprise - NMSDC)
+- WBENC Certified (Women's Business Enterprise National Council — nationally recognized WBE)
+- SBE (Small Business Enterprise)
 
 **Federal/Compliance:**
 - E-Verify Certified (Employment Eligibility Verification)
-- SWFT Certified (Secure Workforce Training & Compliance)
+- SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
 
 **State Partnerships:**
 - MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
@@ -66,7 +68,7 @@ Troy, Michigan 48084
 - **Freight 1st Direct** — DDI's independent freight brokerage (MC-1647572, DOT-4250594)
 - **FleetFlow TMS LLC** — Logistics technology subsidiary (pre-launch mid-2026)
 - **3D Ink and Livescan Co** — Fingerprinting and compliance services division
-- **Depointe** — Additional DBA
+- **Depointe DNA** — DNA testing services division (DDC/DNA Diagnostics Center collection partner)
 
 ---
 
@@ -103,7 +105,7 @@ Troy, Michigan 48084
 
 **Healthcare & Testing:**
 - Quest Diagnostics (Certified DOT drug testing provider)
-- DDC (DNA Diagnostics) - Court-admissible DNA testing
+- DDC (DNA Diagnostics Center) - Court-admissible DNA testing (DDI is a collection partner via Depointe DNA DBA)
 - Uber Health (NEMT transportation platform)
 
 **Professional Services:**

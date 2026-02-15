@@ -1,3 +1,8 @@
+---
+description: Correct company contact information — phone, email, address, CAGE, UEI. Mandatory for all generated documents.
+alwaysApply: true
+---
+
 # Company Information Verification - MANDATORY for All Generated Documents
 
 **This rule MUST be followed every time a document, email, capability statement, RFQ, proposal, or any correspondence is generated.**
