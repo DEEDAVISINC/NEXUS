@@ -1,0 +1,111 @@
+COMBINED SYNOPSIS/SOLICITATION
+SOLICITATION NUMBER: N0017426Q1009
+TITLE: Secured Web Fingerprint Transmission (SWFT) Fingerprint Services — Small Business Set-Aside
+
+ISSUING AGENCY: Department of Defense / Department of the Navy
+Naval Surface Warfare Center Indian Head Division (NSWC IHD)
+4219 South Patterson Road, Indian Head, MD 20640
+
+TYPE: Combined Synopsis/Solicitation (RFQ)
+SET-ASIDE: Total Small Business Set-Aside (FAR 19.5)
+NAICS CODE: 561611 — Investigation and Personal Background Check Services
+SIZE STANDARD: $25,000,000
+EVALUATION METHOD: Lowest Price Technically Acceptable (LPTA)
+CONTRACT TYPE: Firm Fixed Price (FFP)
+
+PERIOD OF PERFORMANCE:
+Base Year: February 25, 2026 – February 24, 2027
+Option Year 1: February 25, 2027 – February 24, 2028
+Option Year 2: February 25, 2028 – February 24, 2029
+Option Year 3: February 25, 2029 – February 24, 2030
+Option Year 4: February 25, 2030 – February 24, 2031
+
+RESPONSE DUE DATE: January 27, 2026 at 4:30 PM EST (Updated February 11, 2026)
+QUESTIONS DEADLINE: January 22, 2026 at 4:30 PM EST
+
+CONTRACTING OFFICER:
+Barbara Grinder, Contract Specialist
+Email: barbara.j.grinder.civ@us.navy.mil
+Phone: 301-744-6674
+
+SCOPE OF WORK:
+
+The Naval Surface Warfare Center Indian Head Division (NSWC IHD) requires Secured Web Fingerprint Transmission (SWFT) fingerprint collection services for personnel requiring background investigations. The contractor shall provide fingerprint capture and electronic transmission services at existing contractor locations nationwide.
+
+REQUIREMENTS:
+
+1. The contractor shall be certified to use the Secured Web Fingerprint Transmission (SWFT) system as administered by the Defense Counterintelligence and Security Agency (DCSA).
+
+2. The contractor shall provide electronic fingerprint capture using Live Scan equipment at existing contractor locations throughout the United States.
+
+3. All fingerprint transmissions shall comply with OPM (Office of Personnel Management) standards and SWFT requirements.
+
+4. The contractor shall provide a web-based fingerprint collection system accessible to government points of contact for scheduling and tracking submissions.
+
+5. The contractor shall support FD-258 fingerprint card processing and Electronic Fingerprint Transmissions (EFT) for all federal investigation types.
+
+6. The contractor shall have the capacity to process up to 900 personnel per year, not to exceed 40 scans per month on average.
+
+7. All fingerprint data shall be handled in accordance with applicable federal privacy laws and security requirements.
+
+8. The contractor shall maintain active SAM.gov registration and hold an active CAGE code.
+
+9. The contractor shall provide services at locations convenient to the personnel requiring fingerprinting, covering nationwide geographic areas.
+
+10. Quality control: The contractor shall maintain a rejection rate below 2% for all electronic fingerprint submissions.
+
+CONTRACT LINE ITEMS (CLINs):
+
+CLIN 0001 — Base Year: SWFT Fingerprint Services (February 25, 2026 – February 24, 2027)
+    Quantity: Up to 900 personnel, estimated 40 scans/month
+    Unit: Per Scan
+    Type: Firm Fixed Price
+
+CLIN 1001 — Option Year 1: SWFT Fingerprint Services (February 25, 2027 – February 24, 2028)
+    Quantity: Up to 900 personnel, estimated 40 scans/month
+    Unit: Per Scan
+    Type: Firm Fixed Price
+
+CLIN 2001 — Option Year 2: SWFT Fingerprint Services (February 25, 2028 – February 24, 2029)
+    Quantity: Up to 900 personnel, estimated 40 scans/month
+    Unit: Per Scan
+    Type: Firm Fixed Price
+
+CLIN 3001 — Option Year 3: SWFT Fingerprint Services (February 25, 2029 – February 24, 2030)
+    Quantity: Up to 900 personnel, estimated 40 scans/month
+    Unit: Per Scan
+    Type: Firm Fixed Price
+
+CLIN 4001 — Option Year 4: SWFT Fingerprint Services (February 25, 2030 – February 24, 2031)
+    Quantity: Up to 900 personnel, estimated 40 scans/month
+    Unit: Per Scan
+    Type: Firm Fixed Price
+
+EVALUATION CRITERIA:
+
+This acquisition will be evaluated using Lowest Price Technically Acceptable (LPTA) procedures. 
+
+Technical Acceptability Requirements:
+- Active SWFT certification through DCSA
+- Demonstrated capability to provide nationwide fingerprint collection services
+- Active SAM.gov registration with valid CAGE code
+- Compliance with all stated requirements
+
+Price Evaluation:
+- The government will evaluate the total price across the base year and all four option years
+- Award will be made to the lowest priced technically acceptable offeror
+
+SUBMISSION REQUIREMENTS:
+
+Offerors shall submit the following:
+1. Company Information: Name, CAGE Code, UEI, point of contact with email and phone
+2. Technical Capability Statement demonstrating SWFT certification and nationwide capability
+3. Pricing: Firm fixed unit price per scan for each CLIN (base + 4 option years)
+4. Past Performance: Minimum of two references for similar fingerprint or background investigation services
+5. SAM.gov registration verification
+6. Small Business certification documentation
+
+All quotes shall be submitted electronically to:
+barbara.j.grinder.civ@us.navy.mil
+
+Subject Line: N0017426Q1009 — SWFT Fingerprint Services Quote — [Company Name]

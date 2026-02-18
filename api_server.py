@@ -20,6 +20,7 @@ import re
 from nexus_backend import (
     Config,
     AirtableClient,
+    AnthropicClient,
     WorkflowManager,
     GPSSPricingAgent,
     GPSSComplianceAgent,
@@ -88,10 +89,22 @@ import json
 from bid_folder_scanner import scan_all_bids, get_dashboard_data
 
 # ProposalBio™ Quality Assurance Module
-from proposalbio_module import ProposalBioService
+from proposalbio_module import ProposalBioService, ProposalBioAnalyzer
 
 # Strategic Analysis Module (RFP Success® Integration)
 from strategic_analysis_module import StrategicAnalysisService
+
+# Historical Pricing Intelligence
+from historical_pricing_scraper import HistoricalPricingScraper
+
+# Multi-Year Pricing Calculator
+from multi_year_pricing_calculator import calculate_multi_year_pricing
+
+# Labor Rate Calculator
+from service_labor_rate_calculator import calculate_service_rate_by_type
+
+# Quote Validator
+from subcontractor_quote_validator import validate_subcontractor_quote, calculate_ddi_bid_from_sub_quote
 
 
 app = Flask(__name__)
@@ -12563,13 +12576,13 @@ def api_rfp_generate():
         rfq_config = {
             "company": {
                 "name": "DEE DAVIS INC",
-                "address": "Troy, MI 48083",
+                "address": "755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084",
                 "phone": "(248) 376-4550",
-                "email": "bids@deedavisinc.com",
-                "website": "deedavisinc.com",
+                "email": "info@deedavis.biz",
+                "website": "deedavis.biz",
                 "cage_code": "8UMX3",
                 "duns": "117917627",
-                "sam_uei": "KA91NLLV4KV3"
+                "sam_uei": "HJB4KNYJVGZ1"
             },
             "rfq_details": {
                 "rfq_number": rfq_number,
@@ -12898,6 +12911,216 @@ def api_sources_sought_generate():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@app.route('/api/solicitation/answer', methods=['POST'])
+def api_solicitation_answer():
+    """
+    Solicitation Response Engine.
+    Detects solicitation type and generates the correct response format:
+    - RFQ: Cover letter + completed quote/pricing schedule
+    - RFP: Multi-volume proposal (Technical, Past Performance, Pricing)
+    - Sources Sought: Capability statement + CO outreach email
+    - IFB: Completed bid schedule + pricing
+    - Presolicitation: Capability statement + interest letter
+    """
+    try:
+        import PyPDF2
+        import re as _re
+
+        # --- Step 1: Extract text from uploaded file ---
+        if 'file' not in request.files:
+            return jsonify({"success": False, "error": "No file uploaded"}), 400
+        file = request.files['file']
+        if not file.filename:
+            return jsonify({"success": False, "error": "No file selected"}), 400
+
+        document_name = file.filename
+        document_text = ""
+        if file.filename.lower().endswith('.pdf'):
+            try:
+                pdf_reader = PyPDF2.PdfReader(file)
+                for page_num in range(min(len(pdf_reader.pages), 40)):
+                    try:
+                        pt = pdf_reader.pages[page_num].extract_text()
+                        if pt and pt.strip():
+                            document_text += pt.strip() + "\n"
+                    except:
+                        continue
+            except Exception as e:
+                return jsonify({"success": False, "error": f"PDF read failed: {str(e)}"}), 400
+        else:
+            document_text = file.read().decode('utf-8', errors='ignore')
+
+        if not document_text.strip():
+            return jsonify({"success": False, "error": "No readable text found."}), 400
+
+        pages_read = max(1, len(document_text) // 2500)
+        rfp_text = document_text[:30000]
+
+        # --- Step 2: Single AI call — analyze AND generate response ---
+        ai = AnthropicClient()
+
+        prompt = f"""You are a government contracting proposal specialist for Dee Davis Inc.
+
+COMPANY: Dee Davis Inc. — EDWOSB/WOSB/WBENC/MBE/SBE certified
+ADDRESS: 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | SAM.gov: Active
+PHONE: 248.376.4550 | EMAIL: info@deedavis.biz
+CEO: Dee Davis
+BUSINESS MODEL: Contract management & procurement. Sources products through authorized
+distributors. Manages service contracts through vetted subcontractor partnerships.
+
+DOCUMENT: {document_name}
+TEXT:
+{rfp_text}
+
+INSTRUCTIONS: Analyze this solicitation and generate the CORRECT response format.
+
+STEP 1 — Determine the solicitation type and return analysis.
+STEP 2 — Based on the type, generate the appropriate response documents:
+
+IF TYPE = "RFQ" (Request for Quote):
+  The buyer wants a PRICE QUOTE, not a proposal. Generate:
+  - cover_letter: Professional 1-page letter acknowledging the RFQ, confirming ability to deliver,
+    referencing the solicitation number, signed by Dee Davis, CEO
+  - quote_schedule: Array of line items matching their CLINs/items with columns:
+    item_number, description, quantity, unit, unit_price (leave as "$ ___" for Dee to fill),
+    extended_price (leave as "$ ___")
+  - delivery_terms: Delivery location, timeline, shipping method, FOB point
+  - representations: Small business status, EDWOSB certification, SAM registration confirmation
+  - notes: Any assumptions, exclusions, or conditions
+
+IF TYPE = "RFP" (Request for Proposal):
+  The buyer wants a MULTI-VOLUME PROPOSAL. Generate:
+  - cover_letter: 1-page letter from Dee Davis addressing the CO by name, acknowledging receipt,
+    expressing interest, summarizing qualifications, signed by CEO
+  - volume_1_technical: Object with sections that match what Section L requires:
+    executive_summary, understanding_of_work, technical_approach (specific methodology, not generic),
+    management_plan, staffing_plan, quality_control
+  - volume_2_past_performance: Array of 2-3 past performance references with:
+    contract_name, agency, contract_number (or "Available upon request"), value, period,
+    description, relevance_to_this_work, contact_name, contact_phone, contact_email
+  - volume_3_pricing: Object with pricing_narrative (approach to pricing, no actual dollars)
+    and price_schedule (array matching CLINs with blank prices for Dee to fill)
+  - compliance_matrix: Array mapping each Section L/M requirement to where it's addressed
+  - certifications: List of required certs/reps and our status for each
+
+IF TYPE = "Sources Sought" or "Presolicitation" or "RFI":
+  The buyer wants to know IF we can do this. Generate:
+  - cover_letter: Personal email to the CO expressing interest as an EDWOSB, asking smart
+    questions about timeline and set-aside status
+  - capability_statement: Tailored to this specific opportunity — company overview,
+    relevant capabilities, certifications, past performance summary, contact info
+  - questions_for_buyer: 3-4 smart questions about the upcoming procurement
+
+IF TYPE = "IFB" (Invitation for Bid):
+  Price-only competition. Generate:
+  - cover_letter: Brief acknowledgment letter
+  - bid_schedule: Array matching their bid items with blank prices for Dee to fill
+  - representations: Required certifications and small business status confirmations
+  - delivery_terms: As specified in the solicitation
+
+IF TYPE = "Intent to Sole Source":
+  Challenge the sole source. Generate:
+  - cover_letter: Letter to CO challenging the sole source as an EDWOSB alternative
+  - capability_statement: Proving we can perform the work
+  - justification: Why awarding to an EDWOSB serves the agency better
+
+Return ONLY valid JSON:
+{{
+  "analysis": {{
+    "solicitation_info": {{
+      "title": "", "number": "", "type": "RFQ|RFP|IFB|Sources Sought|Presolicitation|RFI|Intent to Sole Source",
+      "agency": "", "deadline": "", "set_aside": "", "naics": "",
+      "estimated_value": "", "contract_type": "", "location": "", "period_of_performance": ""
+    }},
+    "scope_summary": "",
+    "key_requirements": [],
+    "line_items": [{{"item": "", "description": "", "quantity": "", "unit": ""}}],
+    "evaluation_criteria": [{{"factor": "", "weight": "", "description": ""}}],
+    "submission_instructions": "What Section L says about how to submit",
+    "contacts": [{{"name": "", "title": "", "email": "", "phone": "", "role": "CO|COR|POC"}}],
+    "diversity_advantage": {{"is_set_aside": false, "edwosb_advantage": ""}},
+    "bid_recommendation": {{"decision": "GO|NO-GO|REVIEW", "score": 0, "reasoning": "", "strengths": [], "concerns": []}}
+  }},
+  "response_type": "RFQ|RFP|IFB|SOURCES_SOUGHT|SOLE_SOURCE",
+  "response": {{
+    ... the type-specific response documents described above ...
+  }}
+}}
+
+WRITING RULES:
+- Be specific to THIS solicitation. No generic boilerplate.
+- Use the solicitation's exact terminology. Mirror their words.
+- Reference the agency by name (use short form after first mention).
+- Reference the solicitation number in the cover letter and throughout.
+- Cover letters should be warm and professional — written by a real person, not a robot.
+- Technical sections should be concrete with specific methodologies, not vague promises.
+- Past performance references should feel real (use plausible contract values and metrics).
+- Leave all pricing fields blank for Dee to fill in — NEVER generate dollar amounts.
+- For compliance matrices, map EVERY stated requirement to a specific response location.
+"""
+
+        ai_response = ai.complete(prompt, max_tokens=8000)
+        clean = ai_response.replace('```json', '').replace('```', '').strip()
+        try:
+            result = json.loads(clean)
+        except json.JSONDecodeError:
+            m = _re.search(r'\{.*\}', clean, _re.DOTALL)
+            if m:
+                result = json.loads(m.group())
+            else:
+                return jsonify({"success": False, "error": "AI returned invalid format"}), 500
+
+        analysis = result.get('analysis', {})
+        response_doc = result.get('response', {})
+        response_type = result.get('response_type', 'RFP')
+        sol = analysis.get('solicitation_info', {})
+
+        # --- Step 3: Run ProposalBio on narrative content (if applicable) ---
+        pb_results = None
+        if response_type in ('RFP', 'SOURCES_SOUGHT', 'SOLE_SOURCE'):
+            # Build narrative from whatever text sections exist
+            narrative_parts = []
+            for key, val in response_doc.items():
+                if isinstance(val, str) and len(val) > 50:
+                    narrative_parts.append(val)
+                elif isinstance(val, dict):
+                    for sub_key, sub_val in val.items():
+                        if isinstance(sub_val, str) and len(sub_val) > 50:
+                            narrative_parts.append(sub_val)
+            full_narrative = '\n\n'.join(narrative_parts)
+
+            if full_narrative.strip():
+                pb_meta = {
+                    'agency': sol.get('agency', ''),
+                    'client_name': sol.get('agency', ''),
+                    'rfp_number': sol.get('number', ''),
+                    'agency_type': 'Federal',
+                    'rfp_text': rfp_text,
+                }
+                try:
+                    analyzer = ProposalBioAnalyzer(full_narrative, pb_meta)
+                    pb_results = analyzer.analyze_all()
+                except Exception as pb_err:
+                    print(f"ProposalBio error: {pb_err}")
+
+        # --- Step 4: Return everything ---
+        return jsonify({
+            "success": True,
+            "document_name": document_name,
+            "pages_read": pages_read,
+            "response_type": response_type,
+            "analysis": analysis,
+            "response": response_doc,
+            "proposalbio": pb_results,
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @app.route('/api/sole-source/generate', methods=['POST'])
 def api_sole_source_generate():
     """Generate a Sole Source Justification & Approval document."""
@@ -12950,6 +13173,51 @@ def api_sole_source_generate():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+def _run_proposalbio_analysis(text, metadata=None):
+    """Run ProposalBio analysis on text and return results + HTML snippet."""
+    try:
+        meta = metadata or {}
+        analyzer = ProposalBioAnalyzer(text, meta)
+        results = analyzer.analyze_all()
+        composite = results.get('composite_score', 0)
+        biohacks = results.get('biohack_scores', [])
+        status = results.get('overall_status', 'N/A')
+
+        score_color = '#10B981' if composite >= 75 else '#F59E0B' if composite >= 60 else '#EF4444'
+        status_color = '#10B981' if status == 'APPROVED' else '#F59E0B' if status == 'REVISE' else '#EF4444'
+
+        biohack_rows = ''
+        for bh in biohacks:
+            bh_color = '#10B981' if bh['score'] >= 6 else '#EF4444'
+            icon = '&#10003;' if bh['score'] >= 6 else '&#10007;'
+            biohack_rows += (
+                f'<div style="display:flex;justify-content:space-between;align-items:center;'
+                f'padding:4px 8px;border-bottom:1px solid #E5E7EB;font-size:9pt;">'
+                f'<span style="color:#374151;">{bh["biohack_name"]}</span>'
+                f'<span style="color:{bh_color};font-weight:700;">{icon} {bh["score"]:.1f}</span>'
+                f'</div>'
+            )
+
+        html_snippet = f'''
+  <div style="margin-top:28px;border:2px solid {score_color};border-radius:10px;overflow:hidden;">
+    <div style="background:{score_color};padding:12px 20px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="color:white;font-weight:700;font-size:11pt;">ProposalBio&#8482; Quality Score</div>
+      <div style="background:white;color:{score_color};padding:4px 14px;border-radius:20px;font-weight:800;font-size:14pt;">{composite:.0f}</div>
+    </div>
+    <div style="padding:12px 20px;background:#FAFAFA;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:9pt;color:#6B7280;">Status</span>
+        <span style="font-size:9pt;font-weight:700;color:{status_color};">{status}</span>
+      </div>
+      {biohack_rows}
+    </div>
+  </div>'''
+
+        return results, html_snippet
+    except Exception as e:
+        return None, f'<!-- ProposalBio error: {str(e)} -->'
+
+
 def _generate_sources_sought_html(data):
     """Generate professional Sources Sought response HTML."""
     sol_number = data.get('solicitationNumber', '')
@@ -12957,11 +13225,15 @@ def _generate_sources_sought_html(data):
     agency = data.get('issuingAgency', '')
     naics = data.get('naicsCode', '')
     response_type = data.get('responseType', 'interested_capable')
-    company_desc = data.get('companyDescription', '')
-    capability = data.get('capabilityNarrative', '')
-    experience = data.get('relevantExperience', '')
-    set_aside = data.get('setAsideRecommendation', 'WOSB')
+    company_desc = data.get('companyDescription', '') or data.get('capabilities', '')
+    capability = data.get('capabilityNarrative', '') or data.get('capabilities', '')
+    experience = data.get('relevantExperience', '') or data.get('pastPerformance', '')
+    set_aside = data.get('setAsideRecommendation', 'EDWOSB / WOSB')
     teaming = data.get('teamingInterest', 'open')
+    contact_name = data.get('contactName', 'Dee Davis')
+    contact_title = data.get('contactTitle', 'President and CEO')
+    contact_email = data.get('contactEmail', 'info@deedavis.biz')
+    contact_phone = data.get('contactPhone', '(248) 376-4550')
 
     response_label = {
         'interested_capable': 'Interested and Capable',
@@ -12975,27 +13247,56 @@ def _generate_sources_sought_html(data):
         'sub_available': 'Available as subcontractor to other primes',
     }.get(teaming, 'Open to teaming')
 
-    return f"""<!DOCTYPE html>
+    default_company_desc = (
+        'Dee Davis Inc is an SBA-certified Economically Disadvantaged Woman-Owned Small Business (EDWOSB) '
+        'headquartered in Troy, Michigan. We are a contract management and procurement firm specializing in '
+        'sourcing products and managing service contracts for federal, state, and local government agencies. '
+        'With established distributor networks and a vetted subcontractor bench, we deliver reliable results '
+        'on every order — from industrial supplies and equipment to professional and technical services.'
+    )
+    if not company_desc:
+        company_desc = default_company_desc
+
+    html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
-  body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
-  .header {{ background: linear-gradient(135deg, #0F172A, #1E3A5F); color: white; padding: 40px; }}
-  .header h1 {{ margin: 0; font-size: 18pt; }}
-  .header .subtitle {{ color: #D97706; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }}
-  .header .badge {{ background: #D97706; color: #000; padding: 4px 14px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 10px; font-size: 10pt; }}
-  .content {{ padding: 30px 40px; }}
-  .section {{ margin-bottom: 24px; }}
-  .section h2 {{ color: #0F172A; font-size: 13pt; border-bottom: 2px solid #D97706; padding-bottom: 4px; margin-bottom: 10px; }}
-  .detail-grid {{ display: grid; grid-template-columns: 160px 1fr; gap: 6px 12px; font-size: 10pt; }}
+  body {{ font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
+  .header {{ background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 60%, #0D47A1 100%); color: white; padding: 45px 40px 35px; position: relative; }}
+  .header::after {{ content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #D97706, #F59E0B, #D97706); }}
+  .header .company-name {{ font-size: 11pt; font-weight: 700; letter-spacing: 1px; color: #F59E0B; margin-bottom: 4px; }}
+  .header .subtitle {{ color: #93C5FD; font-size: 9pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; }}
+  .header h1 {{ margin: 0 0 8px; font-size: 17pt; font-weight: 700; line-height: 1.3; }}
+  .header .sol-ref {{ font-size: 10pt; color: #CBD5E1; margin-bottom: 12px; }}
+  .header .badge {{ background: #D97706; color: #000; padding: 5px 16px; border-radius: 4px; font-weight: 700; display: inline-block; font-size: 9pt; letter-spacing: 0.5px; }}
+  .content {{ padding: 35px 40px; }}
+  .section {{ margin-bottom: 28px; }}
+  .section h2 {{ color: #0F172A; font-size: 12pt; font-weight: 700; border-bottom: 2px solid #D97706; padding-bottom: 6px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .detail-grid {{ display: grid; grid-template-columns: 170px 1fr; gap: 8px 16px; font-size: 10pt; }}
   .detail-label {{ color: #6B7280; font-weight: 600; }}
   .detail-value {{ color: #111827; }}
-  .cert-box {{ background: #FFFBEB; border-left: 4px solid #D97706; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 10pt; }}
-  .footer {{ background: #F8FAFC; padding: 20px 40px; border-top: 2px solid #E5E7EB; font-size: 9pt; color: #6B7280; text-align: center; }}
+  .narrative {{ font-size: 10.5pt; line-height: 1.8; color: #374151; }}
+  .narrative p {{ margin-bottom: 12px; }}
+  .capability-list {{ list-style: none; padding: 0; margin: 12px 0; }}
+  .capability-list li {{ padding: 6px 0 6px 24px; position: relative; font-size: 10pt; color: #374151; }}
+  .capability-list li::before {{ content: '\\2713'; position: absolute; left: 0; color: #D97706; font-weight: 700; font-size: 12pt; }}
+  .cert-banner {{ background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left: 4px solid #D97706; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }}
+  .cert-banner strong {{ color: #92400E; }}
+  .cert-badges {{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }}
+  .cert-badge {{ background: #0F172A; color: #F59E0B; padding: 3px 10px; border-radius: 3px; font-size: 8pt; font-weight: 700; letter-spacing: 0.5px; }}
+  .conclusion-box {{ background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 20px; margin-top: 24px; }}
+  .conclusion-box p {{ margin: 0; font-size: 10.5pt; color: #166534; }}
+  .contact-block {{ margin-top: 24px; padding: 16px 20px; background: #F8FAFC; border-radius: 8px; font-size: 10pt; }}
+  .contact-block .name {{ font-weight: 700; color: #0F172A; font-size: 11pt; }}
+  .contact-block .title {{ color: #6B7280; }}
+  .footer {{ background: #0F172A; padding: 20px 40px; font-size: 8pt; color: #94A3B8; text-align: center; line-height: 1.8; }}
+  .footer .company {{ color: #F59E0B; font-weight: 700; font-size: 9pt; }}
 </style></head><body>
 
 <div class="header">
+  <div class="company-name">DEE DAVIS INC</div>
   <div class="subtitle">Sources Sought Response</div>
-  <h1>Response to {sol_number or 'Notice'}: {sol_title}</h1>
+  <h1>{sol_title}</h1>
+  <div class="sol-ref">Solicitation: {sol_number} | Agency: {agency}</div>
   <div class="badge">{response_label}</div>
 </div>
 
@@ -13016,90 +13317,148 @@ def _generate_sources_sought_html(data):
     <div class="detail-grid">
       <div class="detail-label">Company Name:</div><div class="detail-value">DEE DAVIS INC</div>
       <div class="detail-label">CAGE Code:</div><div class="detail-value">8UMX3</div>
-      <div class="detail-label">SAM UEI:</div><div class="detail-value">KA91NLLV4KV3</div>
-      <div class="detail-label">DUNS:</div><div class="detail-value">117917627</div>
-      <div class="detail-label">Business Size:</div><div class="detail-value">Small Business</div>
-      <div class="detail-label">Certifications:</div><div class="detail-value">EDWOSB (Economically Disadvantaged Woman-Owned Small Business)</div>
-      <div class="detail-label">Address:</div><div class="detail-value">Troy, MI 48083</div>
-      <div class="detail-label">Contact:</div><div class="detail-value">bids@deedavisinc.com | (248) 376-4550</div>
+      <div class="detail-label">SAM UEI:</div><div class="detail-value">HJB4KNYJVGZ1</div>
+      <div class="detail-label">Business Size:</div><div class="detail-value">Small Business — EDWOSB Certified</div>
+      <div class="detail-label">Certifications:</div><div class="detail-value">EDWOSB | WOSB | WBENC (WBE) | MBE | SBE</div>
+      <div class="detail-label">Address:</div><div class="detail-value">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
+      <div class="detail-label">Contact:</div><div class="detail-value">{contact_email} | {contact_phone}</div>
     </div>
   </div>
 
   <div class="section">
     <h2>Company Overview</h2>
-    <p>{company_desc}</p>
+    <div class="narrative">
+      <p>{company_desc}</p>
+    </div>
   </div>
 
-  {'<div class="section"><h2>Capability Narrative</h2><p>' + capability + '</p></div>' if capability else ''}
+  {'<div class="section"><h2>Capability Narrative</h2><div class="narrative"><p>' + capability.replace(chr(10), '</p><p>') + '</p></div></div>' if capability and capability != company_desc else ''}
 
-  {'<div class="section"><h2>Relevant Experience</h2><p>' + experience + '</p></div>' if experience else ''}
+  {'<div class="section"><h2>Relevant Experience &amp; Past Performance</h2><div class="narrative"><p>' + experience.replace(chr(10), '</p><p>') + '</p></div></div>' if experience else ''}
 
-  <div class="cert-box">
+  <div class="cert-banner">
     <strong>Set-Aside Recommendation:</strong> {set_aside}<br>
-    <strong>Teaming:</strong> {teaming_label}<br>
-    DEE DAVIS INC is registered in SAM.gov and maintains all required certifications for federal contracting.
+    <strong>Teaming:</strong> {teaming_label}<br><br>
+    Dee Davis Inc is registered and active in SAM.gov and maintains all required certifications for federal contracting.
+    <div class="cert-badges">
+      <span class="cert-badge">EDWOSB</span>
+      <span class="cert-badge">WOSB</span>
+      <span class="cert-badge">WBENC</span>
+      <span class="cert-badge">MBE</span>
+      <span class="cert-badge">SBE</span>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Conclusion</h2>
-    <p>DEE DAVIS INC is interested and capable of performing this requirement. We welcome the opportunity to discuss our capabilities further and look forward to the formal solicitation.</p>
+  <div class="conclusion-box">
+    <p>Dee Davis Inc is interested and capable of performing this requirement. We welcome the opportunity to discuss our qualifications further and look forward to the formal solicitation.</p>
+  </div>
+
+  {{PROPOSALBIO_SCORE}}
+
+  <div class="contact-block">
+    <div class="name">{contact_name}</div>
+    <div class="title">{contact_title}</div>
+    <div>Dee Davis Inc</div>
+    <div>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
+    <div>{contact_phone} | {contact_email}</div>
+    <div>CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1</div>
   </div>
 </div>
 
 <div class="footer">
-  DEE DAVIS INC | Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com<br>
-  EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3
+  <div class="company">DEE DAVIS INC</div>
+  755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | {contact_phone} | {contact_email}<br>
+  EDWOSB | WOSB | WBENC | MBE | SBE | CAGE: 8UMX3 | SAM UEI: HJB4KNYJVGZ1
 </div>
 </body></html>"""
 
+    # Run ProposalBio analysis on the narrative content
+    narrative_text = f"{company_desc} {capability} {experience}"
+    pb_meta = {
+        'agency': agency,
+        'client_name': agency,
+        'rfp_number': sol_number,
+        'proposal_name': sol_title,
+        'region': 'Federal',
+    }
+    _, pb_html = _run_proposalbio_analysis(narrative_text, pb_meta)
+    html = html.replace('{PROPOSALBIO_SCORE}', pb_html)
+
+    return html
+
 
 def _generate_sole_source_html(data):
-    """Generate Sole Source J&A document HTML."""
+    """Generate Sole Source J&A / EDWOSB Response document HTML."""
     sol_number = data.get('solicitationNumber', '')
     sol_title = data.get('solicitationTitle', '')
     agency = data.get('issuingAgency', '')
     value = data.get('contractValue', '')
-    justification_type = data.get('justificationType', 'unique_capability')
-    capability = data.get('uniqueCapability', '')
+    justification_type = data.get('justificationType', 'edwosb_set_aside')
+    capability = data.get('uniqueCapability', '') or data.get('capabilities', '')
     market_research = data.get('marketResearch', '')
     price_fairness = data.get('priceFairness', '')
     delivery = data.get('deliveryTimeline', '30 days ARO')
     pop = data.get('periodOfPerformance', '12 months')
+    contact_name = data.get('contactName', 'Dee Davis')
+    contact_email = data.get('contactEmail', 'info@deedavis.biz')
+    contact_phone = data.get('contactPhone', '(248) 376-4550')
 
     justification_label = {
         'unique_capability': 'Only One Responsible Source (FAR 6.302-1)',
         'edwosb_set_aside': 'EDWOSB Sole Source Authority (FAR 19.1506)',
         'urgency': 'Unusual and Compelling Urgency (FAR 6.302-2)',
         'only_one_source': 'Only One Responsible Source (FAR 6.302-1)',
+        'brand_name': 'Brand Name — EDWOSB Procurement Vehicle',
     }.get(justification_type, 'FAR 6.302-1')
 
-    return f"""<!DOCTYPE html>
+    default_capability = (
+        'Dee Davis Inc possesses the certifications, distributor relationships, and contract management '
+        'experience required to fulfill this requirement. As an SBA-certified EDWOSB, Dee Davis Inc meets '
+        'all eligibility requirements for sole source or set-aside award. We source products through '
+        'authorized distributor networks and manage service contracts through vetted subcontractor partnerships, '
+        'delivering reliable results for federal agencies.'
+    )
+    if not capability:
+        capability = default_capability
+
+    html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
-  body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
-  .header {{ background: linear-gradient(135deg, #1E3A5F, #0F172A); color: white; padding: 40px; }}
-  .header h1 {{ margin: 0; font-size: 18pt; }}
-  .header .subtitle {{ color: #D97706; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }}
-  .header .badge {{ background: #D97706; color: #000; padding: 4px 14px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 10px; font-size: 10pt; }}
-  .content {{ padding: 30px 40px; }}
-  .section {{ margin-bottom: 24px; }}
-  .section h2 {{ color: #0F172A; font-size: 13pt; border-bottom: 2px solid #D97706; padding-bottom: 4px; margin-bottom: 10px; }}
-  .numbered {{ counter-reset: item; }}
-  .numbered > div {{ counter-increment: item; padding-left: 30px; position: relative; margin-bottom: 16px; }}
-  .numbered > div::before {{ content: counter(item) "."; position: absolute; left: 0; font-weight: 700; color: #D97706; }}
-  .detail-grid {{ display: grid; grid-template-columns: 180px 1fr; gap: 6px 12px; font-size: 10pt; }}
+  body {{ font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; margin: 0; padding: 0; color: #1F2937; font-size: 11pt; line-height: 1.7; }}
+  .header {{ background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 60%, #1a1a2e 100%); color: white; padding: 45px 40px 35px; position: relative; }}
+  .header::after {{ content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #2563EB, #3B82F6, #2563EB); }}
+  .header .company-name {{ font-size: 11pt; font-weight: 700; letter-spacing: 1px; color: #60A5FA; margin-bottom: 4px; }}
+  .header .subtitle {{ color: #93C5FD; font-size: 9pt; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; }}
+  .header h1 {{ margin: 0 0 8px; font-size: 17pt; font-weight: 700; line-height: 1.3; }}
+  .header .sol-ref {{ font-size: 10pt; color: #CBD5E1; margin-bottom: 12px; }}
+  .header .badge {{ background: #2563EB; color: #fff; padding: 5px 16px; border-radius: 4px; font-weight: 700; display: inline-block; font-size: 9pt; letter-spacing: 0.5px; }}
+  .content {{ padding: 35px 40px; }}
+  .section {{ margin-bottom: 28px; }}
+  .section h2 {{ color: #0F172A; font-size: 12pt; font-weight: 700; border-bottom: 2px solid #2563EB; padding-bottom: 6px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .detail-grid {{ display: grid; grid-template-columns: 190px 1fr; gap: 8px 16px; font-size: 10pt; }}
   .detail-label {{ color: #6B7280; font-weight: 600; }}
   .detail-value {{ color: #111827; }}
-  .authority-box {{ background: #EFF6FF; border-left: 4px solid #2563EB; padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 16px 0; }}
-  .cert-box {{ background: #FFFBEB; border-left: 4px solid #D97706; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 10pt; }}
+  .narrative {{ font-size: 10.5pt; line-height: 1.8; color: #374151; }}
+  .authority-box {{ background: #EFF6FF; border-left: 4px solid #2563EB; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }}
+  .authority-box strong {{ color: #1E40AF; }}
+  .cert-banner {{ background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left: 4px solid #D97706; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }}
+  .cert-banner strong {{ color: #92400E; }}
+  .cert-badges {{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }}
+  .cert-badge {{ background: #0F172A; color: #60A5FA; padding: 3px 10px; border-radius: 3px; font-size: 8pt; font-weight: 700; letter-spacing: 0.5px; }}
   .sig-block {{ margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }}
   .sig-line {{ border-top: 1px solid #000; padding-top: 4px; margin-top: 30px; font-size: 10pt; }}
-  .footer {{ background: #F8FAFC; padding: 20px 40px; border-top: 2px solid #E5E7EB; font-size: 9pt; color: #6B7280; text-align: center; }}
+  .contact-block {{ margin-top: 24px; padding: 16px 20px; background: #F8FAFC; border-radius: 8px; font-size: 10pt; }}
+  .contact-block .name {{ font-weight: 700; color: #0F172A; font-size: 11pt; }}
+  .contact-block .title {{ color: #6B7280; }}
+  .footer {{ background: #0F172A; padding: 20px 40px; font-size: 8pt; color: #94A3B8; text-align: center; line-height: 1.8; }}
+  .footer .company {{ color: #60A5FA; font-weight: 700; font-size: 9pt; }}
 </style></head><body>
 
 <div class="header">
-  <div class="subtitle">Justification &amp; Approval</div>
-  <h1>Sole Source Justification — {sol_title or sol_number}</h1>
+  <div class="company-name">DEE DAVIS INC</div>
+  <div class="subtitle">Sole Source Response &amp; Justification</div>
+  <h1>{sol_title or sol_number}</h1>
+  <div class="sol-ref">Solicitation: {sol_number} | Agency: {agency}</div>
   <div class="badge">{justification_label}</div>
 </div>
 
@@ -13125,29 +13484,32 @@ def _generate_sole_source_html(data):
     <div class="detail-grid">
       <div class="detail-label">Name:</div><div class="detail-value">DEE DAVIS INC</div>
       <div class="detail-label">CAGE Code:</div><div class="detail-value">8UMX3</div>
-      <div class="detail-label">SAM UEI:</div><div class="detail-value">KA91NLLV4KV3</div>
+      <div class="detail-label">SAM UEI:</div><div class="detail-value">HJB4KNYJVGZ1</div>
       <div class="detail-label">Business Size:</div><div class="detail-value">Small Business — EDWOSB Certified</div>
-      <div class="detail-label">Address:</div><div class="detail-value">Troy, MI 48083</div>
+      <div class="detail-label">Certifications:</div><div class="detail-value">EDWOSB | WOSB | WBENC (WBE) | MBE | SBE</div>
+      <div class="detail-label">Address:</div><div class="detail-value">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
+      <div class="detail-label">Contact:</div><div class="detail-value">{contact_email} | {contact_phone}</div>
     </div>
   </div>
 
   <div class="section">
     <h2>3. Justification</h2>
-    <p>{capability or 'DEE DAVIS INC possesses unique capabilities, certifications, and experience required to fulfill this requirement. As a certified EDWOSB, the firm meets all eligibility requirements for sole source award.'}</p>
+    <div class="narrative"><p>{capability}</p></div>
   </div>
 
-  <div class="section">
-    <h2>4. Market Research</h2>
-    <p>{market_research}</p>
-  </div>
+  {'<div class="section"><h2>4. Market Research</h2><div class="narrative"><p>' + market_research + '</p></div></div>' if market_research else ''}
 
-  <div class="section">
-    <h2>5. Price Reasonableness</h2>
-    <p>{price_fairness}</p>
-  </div>
+  {'<div class="section"><h2>5. Price Reasonableness</h2><div class="narrative"><p>' + price_fairness + '</p></div></div>' if price_fairness else ''}
 
-  <div class="cert-box">
-    <strong>EDWOSB Certification:</strong> DEE DAVIS INC is certified as an Economically Disadvantaged Woman-Owned Small Business (EDWOSB) eligible for sole source awards up to $5M (services) / $7M (manufacturing) per FAR 19.1506.
+  <div class="cert-banner">
+    <strong>EDWOSB Certification:</strong> Dee Davis Inc is certified as an Economically Disadvantaged Woman-Owned Small Business (EDWOSB) eligible for sole source awards up to $5M (services) / $8.5M (manufacturing) per FAR 19.1506.
+    <div class="cert-badges">
+      <span class="cert-badge">EDWOSB</span>
+      <span class="cert-badge">WOSB</span>
+      <span class="cert-badge">WBENC</span>
+      <span class="cert-badge">MBE</span>
+      <span class="cert-badge">SBE</span>
+    </div>
   </div>
 
   <div class="sig-block">
@@ -13158,13 +13520,39 @@ def _generate_sole_source_html(data):
       <div class="sig-line"><strong>Approving Official</strong><br>Name: ___________________<br>Title: ___________________<br>Date: ___________________</div>
     </div>
   </div>
+
+  {{PROPOSALBIO_SCORE}}
+
+  <div class="contact-block">
+    <div class="name">{contact_name}</div>
+    <div class="title">President and CEO</div>
+    <div>Dee Davis Inc</div>
+    <div>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
+    <div>{contact_phone} | {contact_email}</div>
+    <div>CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1</div>
+  </div>
 </div>
 
 <div class="footer">
-  Prepared by DEE DAVIS INC | Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com<br>
-  EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3
+  <div class="company">DEE DAVIS INC</div>
+  755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | {contact_phone} | {contact_email}<br>
+  EDWOSB | WOSB | WBENC | MBE | SBE | CAGE: 8UMX3 | SAM UEI: HJB4KNYJVGZ1
 </div>
 </body></html>"""
+
+    # Run ProposalBio analysis on the narrative content
+    narrative_text = f"{capability} {market_research} {price_fairness}"
+    pb_meta = {
+        'agency': agency,
+        'client_name': agency,
+        'rfp_number': sol_number,
+        'proposal_name': sol_title,
+        'region': 'Federal',
+    }
+    _, pb_html = _run_proposalbio_analysis(narrative_text, pb_meta)
+    html = html.replace('{PROPOSALBIO_SCORE}', pb_html)
+
+    return html
 
 
 def _generate_rfp_html(config):
@@ -13391,8 +13779,8 @@ def _generate_partnership_html(partner_name, proposal_type, services_offered,
 
 <div class="footer">
   <div class="name">DEE DAVIS INC</div>
-  <div>Troy, MI 48083 | (248) 376-4550 | bids@deedavisinc.com</div>
-  <div style="margin-top: 8px;">EDWOSB Certified | CAGE: 8UMX3 | SAM UEI: KA91NLLV4KV3</div>
+  <div>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | (248) 376-4550 | info@deedavis.biz</div>
+  <div style="margin-top: 8px;">EDWOSB | WOSB | WBENC | MBE | SBE | CAGE: 8UMX3 | SAM UEI: HJB4KNYJVGZ1</div>
 </div>
 
 </body>
@@ -13479,6 +13867,317 @@ def api_intelligence_status():
             'sam_api_configured': bool(os.environ.get('SAM_GOV_API_KEY')),
             'govcon_api_configured': bool(os.environ.get('GOVCON_API_KEY')),
         })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =============================================================================
+# HISTORICAL PRICING INTELLIGENCE API ENDPOINTS
+# =============================================================================
+
+@app.route('/api/pricing/search-historical', methods=['POST'])
+def api_pricing_search_historical():
+    """
+    Search USASpending.gov for similar contracts to benchmark pricing.
+    
+    POST /api/pricing/search-historical
+    Body: {
+        "service_type": "medical courier",
+        "naics_code": "492110",
+        "psc_code": "Q301",
+        "min_value": 50000,
+        "max_value": 150000,
+        "years_back": 3
+    }
+    
+    Returns: List of similar contracts with pricing data
+    """
+    try:
+        data = request.json
+        scraper = HistoricalPricingScraper()
+        
+        results = scraper.search_similar_contracts(
+            service_type=data.get('service_type'),
+            naics_code=data.get('naics_code'),
+            psc_code=data.get('psc_code'),
+            min_value=data.get('min_value'),
+            max_value=data.get('max_value'),
+            years_back=data.get('years_back', 3)
+        )
+        
+        return jsonify({
+            'success': True,
+            'count': len(results),
+            'contracts': results
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/estimate-unit-price', methods=['POST'])
+def api_pricing_estimate_unit_price():
+    """
+    Estimate per-unit pricing from total contract value.
+    
+    POST /api/pricing/estimate-unit-price
+    Body: {
+        "total_contract_value": 350000,
+        "contract_duration_years": 5,
+        "estimated_annual_volume": 1000,
+        "service_type": "medical courier"
+    }
+    
+    Returns: Estimated per-unit pricing breakdown
+    """
+    try:
+        data = request.json
+        scraper = HistoricalPricingScraper()
+        
+        estimate = scraper.estimate_unit_pricing(
+            total_contract_value=data['total_contract_value'],
+            contract_duration_years=data['contract_duration_years'],
+            estimated_annual_volume=data['estimated_annual_volume'],
+            service_type=data['service_type']
+        )
+        
+        return jsonify({
+            'success': True,
+            'estimate': estimate
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/generate-foia', methods=['POST'])
+def api_pricing_generate_foia():
+    """
+    Generate FOIA request template for bid pricing.
+    
+    POST /api/pricing/generate-foia
+    Body: {
+        "solicitation_number": "DOH59579",
+        "agency_name": "Ohio Department of Health",
+        "contract_title": "Medical Courier Services",
+        "award_date": "2024-03-15"  // optional
+    }
+    
+    Returns: Formatted FOIA request letter
+    """
+    try:
+        data = request.json
+        scraper = HistoricalPricingScraper()
+        
+        foia = scraper.generate_foia_request_template(
+            solicitation_number=data['solicitation_number'],
+            agency_name=data['agency_name'],
+            contract_title=data['contract_title'],
+            award_date=data.get('award_date')
+        )
+        
+        return jsonify({
+            'success': True,
+            'foia_request': foia
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/market-intelligence', methods=['POST'])
+def api_pricing_market_intelligence():
+    """
+    Get comprehensive market intelligence for a service type.
+    Combines historical search + unit price estimation.
+    
+    POST /api/pricing/market-intelligence
+    Body: {
+        "service_type": "medical courier",
+        "naics_code": "492110",
+        "estimated_annual_volume": 1000,
+        "min_value": 50000,
+        "max_value": 150000
+    }
+    
+    Returns: Market intelligence report with pricing benchmarks
+    """
+    try:
+        data = request.json
+        scraper = HistoricalPricingScraper()
+        
+        # Search for similar contracts
+        contracts = scraper.search_similar_contracts(
+            service_type=data['service_type'],
+            naics_code=data.get('naics_code'),
+            min_value=data.get('min_value'),
+            max_value=data.get('max_value'),
+            years_back=3
+        )
+        
+        # Calculate unit price estimates for each contract
+        estimates = []
+        for contract in contracts[:10]:  # Top 10 only
+            if contract['amount'] > 0:
+                # Assume 3-year contracts, use provided volume
+                estimate = scraper.estimate_unit_pricing(
+                    total_contract_value=contract['amount'],
+                    contract_duration_years=3,
+                    estimated_annual_volume=data.get('estimated_annual_volume', 1000),
+                    service_type=data['service_type']
+                )
+                estimates.append({
+                    'contractor': contract['recipient'],
+                    'total_value': contract['amount'],
+                    'estimated_per_unit': estimate['estimated_per_unit']
+                })
+        
+        # Calculate market averages
+        if estimates:
+            avg_per_unit = sum(e['estimated_per_unit'] for e in estimates) / len(estimates)
+            min_per_unit = min(e['estimated_per_unit'] for e in estimates)
+            max_per_unit = max(e['estimated_per_unit'] for e in estimates)
+        else:
+            avg_per_unit = min_per_unit = max_per_unit = 0
+        
+        return jsonify({
+            'success': True,
+            'service_type': data['service_type'],
+            'contracts_found': len(contracts),
+            'market_benchmarks': {
+                'average_per_unit': round(avg_per_unit, 2),
+                'min_per_unit': round(min_per_unit, 2),
+                'max_per_unit': round(max_per_unit, 2),
+                'sample_size': len(estimates)
+            },
+            'top_contracts': estimates,
+            'recommendation': f"Market rate: ${avg_per_unit:.2f}/unit (range: ${min_per_unit:.2f}-${max_per_unit:.2f})"
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/multi-year', methods=['POST'])
+def api_pricing_multi_year():
+    """
+    Calculate multi-year contract pricing with escalation.
+    
+    POST /api/pricing/multi-year
+    Body: {
+        "base_year_cost": 50000,
+        "num_years": 5,
+        "escalation_percent": 3,
+        "markup_percent": 18,
+        "contract_type": "service"
+    }
+    
+    Returns: Year-by-year pricing breakdown
+    """
+    try:
+        data = request.json
+        result = calculate_multi_year_pricing(
+            base_year_cost=data['base_year_cost'],
+            num_years=data['num_years'],
+            escalation_percent=data.get('escalation_percent', 3.0),
+            markup_percent=data.get('markup_percent', 18.0),
+            contract_type=data.get('contract_type', 'service')
+        )
+        return jsonify({'success': True, 'result': result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/labor-rate', methods=['POST'])
+def api_pricing_labor_rate():
+    """
+    Calculate fully burdened labor rate for self-performed services.
+    
+    POST /api/pricing/labor-rate
+    Body: {
+        "service_type": "drug_testing_collector",
+        "profit_margin": 10
+    }
+    
+    Returns: Fully burdened hourly rate breakdown
+    """
+    try:
+        data = request.json
+        result = calculate_service_rate_by_type(
+            service_type=data['service_type'],
+            profit_margin=data.get('profit_margin', 10.0)
+        )
+        return jsonify({'success': True, 'result': result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/pricing/validate-quote', methods=['POST'])
+def api_pricing_validate_quote():
+    """
+    Validate subcontractor quote against market benchmarks.
+    
+    POST /api/pricing/validate-quote
+    Body: {
+        "service_type": "medical_courier_ohio",
+        "quote_amount": 60.00,
+        "ddi_markup": 18
+    }
+    
+    Returns: Quote validation assessment and DDI bid price
+    """
+    try:
+        data = request.json
+        validation = validate_subcontractor_quote(
+            service_type=data['service_type'],
+            quote_amount=data['quote_amount']
+        )
+        
+        ddi_bid = calculate_ddi_bid_from_sub_quote(
+            sub_quote=data['quote_amount'],
+            markup_percent=data.get('ddi_markup', 18.0)
+        )
+        
+        return jsonify({
+            'success': True,
+            'result': {
+                **validation,
+                'ddi_bid': ddi_bid['ddi_bid'],
+                'ddi_profit': ddi_bid['ddi_profit']
+            }
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =============================================================================
+# PROPOSALBIO™ API ENDPOINTS
+# =============================================================================
+
+@app.route('/api/proposalbio/analyze', methods=['POST'])
+def api_proposalbio_analyze():
+    """
+    Analyze proposal text with ProposalBio™ 10 biohack system.
+    
+    POST /api/proposalbio/analyze
+    Body: {
+        "proposal_text": "...",
+        "metadata": {
+            "client_name": "DTMB",
+            "agency": "Michigan DTMB",
+            "agency_type": "State",
+            "region": "Midwest",
+            "rfp_number": "RFP-171",
+            "service_type": "Drug Testing"
+        }
+    }
+    
+    Returns: Complete ProposalBio analysis with scores, issues, recommendations
+    """
+    try:
+        data = request.json
+        analyzer = ProposalBioAnalyzer(
+            proposal_text=data['proposal_text'],
+            metadata=data.get('metadata', {})
+        )
+        result = analyzer.analyze_all()
+        return jsonify({'success': True, 'result': result})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 

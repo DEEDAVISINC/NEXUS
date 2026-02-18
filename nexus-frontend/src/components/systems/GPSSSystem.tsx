@@ -4,6 +4,8 @@ import PricingCalculator from '../PricingCalculator';
 import ComplianceChecker from '../ComplianceChecker';
 import SuppliersTab from '../SuppliersTab';
 import SubcontractorsTab from '../SubcontractorsTab';
+import { PricingDashboard } from './PricingDashboard';
+import { ProposalBioAnalyzer } from './ProposalBioAnalyzer';
 
 interface GPSSSystemProps {
   onBackToNexus: () => void;
@@ -158,8 +160,10 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
     { id: 'suppliers', label: '🏭 Suppliers' },
     { id: 'subcontractors', label: '👷 Subcontractors' },
     { id: 'proposals', label: '📝 Proposals' },
+    { id: 'proposalbio', label: '🧬 ProposalBio™' },
     { id: 'contacts', label: '👥 Contacts' },
     { id: 'products', label: '📦 Products' },
+    { id: 'pricing', label: '💰 Pricing System' },
     { id: 'analytics', label: '📈 Analytics' }
   ];
 
@@ -2394,6 +2398,14 @@ ${proposal.pricingJustification ? `<div class="section" style="font-size:12px;">
         })()}
 
         {/* TAB: ANALYTICS */}
+        {activeTab === 'pricing' && (
+          <PricingDashboard />
+        )}
+
+        {activeTab === 'proposalbio' && (
+          <ProposalBioAnalyzer />
+        )}
+
         {activeTab === 'analytics' && (
           <div>
             <div className="mb-6">

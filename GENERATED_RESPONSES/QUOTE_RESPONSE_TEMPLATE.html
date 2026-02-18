@@ -1,0 +1,524 @@
+<!--
+  ============================================================================
+  NEXUS QUOTE RESPONSE TEMPLATE — Dee Davis Inc.
+  ============================================================================
+  
+  THIS IS THE MASTER TEMPLATE FOR ALL QUOTE RESPONSE DOCUMENTS.
+  
+  HOW TO USE:
+  1. Copy this entire file
+  2. Replace all {{PLACEHOLDER}} values with bid-specific content
+  3. Look up the service lane colors in cap-statement-colors.mdc
+  4. Replace the 6 color variables in the <style> block
+  5. Save as: [SolNumber]_[Type]_Quote_Response.html in SEND_TO_BUYER/
+  
+  PLACEHOLDERS TO REPLACE:
+  ========================
+  COLORS (in <style> block):
+    {{PRIMARY}}           — Primary color hex from cap-statement-colors.mdc
+    {{SECONDARY}}         — Secondary color hex
+    {{ACCENT_BG}}         — Light accent background
+    {{ACCENT_BORDER}}     — Accent border / alternating row color
+    {{GOLD_BG}}           — Always #fef3c7 (EDWOSB box)
+    {{GOLD_BORDER}}       — Always #d97706 (EDWOSB box)
+  
+  COVER PAGE:
+    {{LOGO_BASE64}}       — Base64 logo string (extract from any existing cap statement)
+    {{SERVICE_TAGLINE}}   — e.g. "SWFT-Certified Fingerprint Services • DCSA Authorized"
+    {{RESPONSE_TITLE}}    — e.g. "Quote Response\nSecured Web Fingerprint Transmission (SWFT)\nFingerprint Services"
+    {{SOL_NUMBER}}        — e.g. "N0017426Q1009"
+    {{AGENCY_FULL}}       — e.g. "Naval Surface Warfare Center Indian Head Division (NSWC IHD)"
+    {{AGENCY_PARENT}}     — e.g. "Department of Defense / Department of the Navy"
+    {{SET_ASIDE}}         — e.g. "Total Small Business"
+    {{NAICS_SHORT}}       — e.g. "561611 — Investigation & Background Check"
+    {{CONTRACT_TYPE}}     — e.g. "Firm Fixed Price (FFP)"
+    {{POP_SUMMARY}}       — e.g. "Base + 4 Option Years (5 Years Total)"
+    {{EVALUATION_METHOD}} — e.g. "LPTA — Lowest Price Technically Acceptable"
+    {{SPECIAL_CERT}}      — e.g. "DCSA — Active Since August 2022"
+    {{SPECIAL_CERT_LABEL}}— e.g. "SWFT Certified"
+    {{CERT_BADGES}}       — List of cert badge spans
+  
+  TABLE OF CONTENTS:
+    {{TOC_ITEMS}}         — TOC item divs (use .toc-item structure)
+  
+  SECTIONS:
+    Each section is a <div class="content-page"> with page-break-before: always
+    Add/remove sections as needed for the solicitation
+    Standard sections: Company Info, Technical, Pricing, Past Performance,
+                       SAM.gov, Certifications, Compliance Matrix
+  
+  FOOTER:
+    {{SOL_FOOTER_REF}}    — e.g. "NSWC Indian Head Division — Solicitation N0017426Q1009 — February 2026"
+  
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quote Response — {{SOL_NUMBER}} — {{SERVICE_SHORT}}</title>
+<style>
+/* ============================================================
+   PAGE SETUP — DO NOT MODIFY
+   These rules ensure proper multi-page PDF output when using
+   browser Print > Save as PDF (Cmd+P in Chrome/Safari)
+   ============================================================ */
+@page {
+  size: 8.5in 11in;
+  margin: 0.6in 0.75in;
+}
+@media print {
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .page-break { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1e293b;
+  background: #fff;
+  line-height: 1.55;
+  font-size: 10pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ============================================================
+   COLOR VARIABLES — REPLACE WITH SERVICE LANE COLORS
+   Reference: cap-statement-colors.mdc
+   ============================================================ */
+/* {{PRIMARY}}       — e.g. #1a2e1a for Fingerprinting */
+/* {{SECONDARY}}     — e.g. #2d5016 for Fingerprinting */
+/* {{ACCENT_BG}}     — e.g. #f0fdf4 */
+/* {{ACCENT_BORDER}} — e.g. #dcfce7 */
+
+/* === COVER PAGE === */
+.cover {
+  width: 100%;
+  min-height: 9.3in;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px 30px;
+  position: relative;
+  page-break-after: always;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, {{PRIMARY}}, {{SECONDARY}}, {{PRIMARY}});
+}
+.cover .logo-container { margin-bottom: 18px; }
+.cover .logo-container img { max-width: 140px; height: auto; }
+.cover .company-bar {
+  background: linear-gradient(135deg, {{PRIMARY}} 0%, {{SECONDARY}} 100%);
+  color: white;
+  padding: 18px 40px;
+  border-radius: 6px;
+  width: 88%;
+  margin-bottom: 20px;
+}
+.cover .company-bar h1 { font-size: 22pt; margin: 0 0 2px; letter-spacing: 2px; font-weight: 700; }
+.cover .company-bar .tagline { font-size: 8pt; opacity: 0.85; letter-spacing: 1.5px; text-transform: uppercase; }
+.cover .sol-title { font-size: 13pt; color: {{PRIMARY}}; font-weight: 700; margin: 0 0 5px; line-height: 1.3; }
+.cover .sol-number { font-size: 11pt; color: {{SECONDARY}}; font-weight: 600; margin-bottom: 15px; }
+.cover .agency { font-size: 9pt; color: #555; margin-bottom: 18px; }
+.cover .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  text-align: left;
+  width: 80%;
+  margin: 0 auto 15px;
+}
+.cover .info-item {
+  background: {{ACCENT_BG}};
+  padding: 7px 10px;
+  border-radius: 4px;
+  border-left: 3px solid {{SECONDARY}};
+}
+.cover .info-label { font-size: 6.5pt; color: #666; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+.cover .info-value { font-size: 8.5pt; color: {{PRIMARY}}; font-weight: 600; margin-top: 1px; }
+.cover .certs { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.cover .cert {
+  background: {{PRIMARY}};
+  color: {{ACCENT_BORDER}};
+  padding: 3px 10px;
+  border-radius: 16px;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+.cover .edwosb-box {
+  background: {{GOLD_BG}};
+  border: 2px solid {{GOLD_BORDER}};
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin-top: 12px;
+  width: 78%;
+}
+.cover .edwosb-box .edwosb-title { color: #92400e; font-weight: 800; font-size: 9pt; letter-spacing: 0.8px; }
+.cover .edwosb-box .edwosb-detail { color: #78350f; font-size: 7.5pt; margin-top: 2px; }
+
+/* === TABLE OF CONTENTS === */
+.toc {
+  padding: 30px 0;
+  page-break-after: always;
+}
+.toc h2 {
+  color: {{PRIMARY}};
+  font-size: 16pt;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
+  padding: 0;
+}
+.toc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 10.5pt;
+}
+.toc-item .toc-num {
+  color: {{SECONDARY}};
+  font-weight: 800;
+  font-size: 10pt;
+  margin-right: 10px;
+  min-width: 28px;
+}
+.toc-item .toc-title {
+  flex: 1;
+  color: {{PRIMARY}};
+  font-weight: 600;
+}
+.toc-item .toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted #94a3b8;
+  margin: 0 8px;
+  min-width: 40px;
+}
+.toc-item .toc-page {
+  color: {{SECONDARY}};
+  font-weight: 700;
+  font-size: 10pt;
+  min-width: 16px;
+  text-align: right;
+}
+
+/* === CONTENT PAGES === */
+.content-page {
+  padding: 0;
+  page-break-before: always;
+}
+h2 {
+  color: {{PRIMARY}};
+  font-size: 12pt;
+  border-left: 4px solid {{SECONDARY}};
+  padding-left: 10px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+h2 .num {
+  color: {{SECONDARY}};
+  font-weight: 800;
+  margin-right: 6px;
+  font-size: 11pt;
+}
+h3 {
+  color: {{SECONDARY}};
+  font-size: 10pt;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+p { margin-bottom: 8px; text-align: justify; font-size: 9.5pt; }
+ul { margin: 6px 0 10px 18px; }
+ul li { margin-bottom: 4px; font-size: 9.5pt; }
+.check { color: {{SECONDARY}}; font-weight: 700; }
+
+/* === TABLES === */
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 8.5pt;
+  page-break-inside: avoid;
+}
+.pricing-table th {
+  background: {{PRIMARY}};
+  color: {{ACCENT_BORDER}};
+  padding: 7px 8px;
+  text-align: left;
+  font-size: 7pt;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.pricing-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid {{ACCENT_BORDER}};
+  vertical-align: top;
+}
+.pricing-table tr:nth-child(even) { background: {{ACCENT_BG}}; }
+.pricing-table .total-row {
+  background: {{PRIMARY}};
+  color: white;
+  font-weight: 700;
+}
+.pricing-table .total-row td { border: none; padding: 10px 8px; }
+
+.compliance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 8.5pt;
+  page-break-inside: avoid;
+}
+.compliance-table th {
+  background: {{PRIMARY}};
+  color: {{ACCENT_BORDER}};
+  padding: 7px 8px;
+  text-align: left;
+  font-size: 7pt;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.compliance-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: top;
+}
+.compliance-table tr:nth-child(even) { background: {{ACCENT_BG}}; }
+.compliance-table .status { color: {{SECONDARY}}; font-weight: 700; }
+
+/* === PAST PERFORMANCE CARDS === */
+.pp-card {
+  background: {{ACCENT_BG}};
+  border: 1px solid {{ACCENT_BORDER}};
+  border-left: 4px solid {{SECONDARY}};
+  border-radius: 5px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  page-break-inside: avoid;
+}
+.pp-card h4 { color: {{PRIMARY}}; margin: 0 0 6px; font-size: 9.5pt; }
+.pp-card .pp-detail { font-size: 8.5pt; color: #444; margin-bottom: 3px; }
+.pp-card .pp-label { font-weight: 700; color: {{SECONDARY}}; }
+
+/* === FOOTER === */
+.page-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 2px solid {{SECONDARY}};
+  font-size: 7.5pt;
+  color: #555;
+}
+.page-footer .co { color: {{SECONDARY}}; font-weight: 700; font-size: 8.5pt; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- COVER PAGE (Page 1) -->
+<!-- ================================================================ -->
+<div class="cover">
+  <div class="logo-container">
+    <img src="{{LOGO_BASE64}}" alt="Dee Davis Inc. Logo">
+  </div>
+  <div class="company-bar">
+    <h1>DEE DAVIS INC</h1>
+    <div class="tagline">{{SERVICE_TAGLINE}}</div>
+  </div>
+  <div class="sol-title">{{RESPONSE_TITLE}}</div>
+  <div class="sol-number">Solicitation {{SOL_NUMBER}}</div>
+  <div class="agency">Submitted to: {{AGENCY_FULL}}<br>{{AGENCY_PARENT}}</div>
+
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Set-Aside</div><div class="info-value">{{SET_ASIDE}}</div></div>
+    <div class="info-item"><div class="info-label">NAICS</div><div class="info-value">{{NAICS_SHORT}}</div></div>
+    <div class="info-item"><div class="info-label">Contract Type</div><div class="info-value">{{CONTRACT_TYPE}}</div></div>
+    <div class="info-item"><div class="info-label">Period of Performance</div><div class="info-value">{{POP_SUMMARY}}</div></div>
+    <div class="info-item"><div class="info-label">CAGE Code</div><div class="info-value">8UMX3</div></div>
+    <div class="info-item"><div class="info-label">SAM UEI</div><div class="info-value">HJB4KNYJVGZ1</div></div>
+    <div class="info-item"><div class="info-label">Evaluation</div><div class="info-value">{{EVALUATION_METHOD}}</div></div>
+    <div class="info-item"><div class="info-label">{{SPECIAL_CERT_LABEL}}</div><div class="info-value">{{SPECIAL_CERT}}</div></div>
+  </div>
+
+  <div class="certs">
+    {{CERT_BADGES}}
+  </div>
+
+  <div class="edwosb-box">
+    <div class="edwosb-title">ECONOMICALLY DISADVANTAGED WOMAN-OWNED SMALL BUSINESS</div>
+    <div class="edwosb-detail">Certified EDWOSB &bull; SBA-Verified &bull; FAR 19.1505 Eligible</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TABLE OF CONTENTS (Page 2) -->
+<!-- ================================================================ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  {{TOC_ITEMS}}
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION TEMPLATE — Copy this block for each section               -->
+<!-- Each <div class="content-page"> forces a new page in PDF          -->
+<!-- ================================================================ -->
+<!--
+<div class="content-page">
+  <h2><span class="num">##</span> Section Title</h2>
+  [Section content goes here]
+</div>
+-->
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 1: COMPANY INFORMATION                           -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">01</span> Company Information</h2>
+<table class="compliance-table">
+  <tr><td style="width:35%;font-weight:700;">Company Name</td><td>Dee Davis Inc.</td></tr>
+  <tr><td style="font-weight:700;">CAGE Code</td><td>8UMX3</td></tr>
+  <tr><td style="font-weight:700;">UEI (SAM)</td><td>HJB4KNYJVGZ1</td></tr>
+  <tr><td style="font-weight:700;">DUNS</td><td>002636755</td></tr>
+  <tr><td style="font-weight:700;">SAM.gov Registration</td><td>Active &mdash; Verified</td></tr>
+  <tr><td style="font-weight:700;">NAICS Code</td><td>{{NAICS_FULL}}</td></tr>
+  <tr><td style="font-weight:700;">Business Size</td><td>Small Business (Size Standard: {{SIZE_STANDARD}})</td></tr>
+  <tr><td style="font-weight:700;">Certifications</td><td>{{CERT_LIST_TEXT}}</td></tr>
+  <tr><td style="font-weight:700;">Address</td><td>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</td></tr>
+  <tr><td style="font-weight:700;">Point of Contact</td><td>Dee Davis, President &amp; CEO</td></tr>
+  <tr><td style="font-weight:700;">Email</td><td>info@deedavis.biz</td></tr>
+  <tr><td style="font-weight:700;">Phone</td><td>(248) 376-4550</td></tr>
+  <tr><td style="font-weight:700;">MC Number</td><td>1647572</td></tr>
+  <tr><td style="font-weight:700;">US DOT</td><td>4250594</td></tr>
+</table>
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 2: TECHNICAL CAPABILITY                          -->
+<!-- Replace content with solicitation-specific capabilities           -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">02</span> Technical Capability Statement</h2>
+<!-- {{TECHNICAL_CONTENT}} -->
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 3: PRICING                                       -->
+<!-- Build pricing table from solicitation CLINs                       -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">03</span> Pricing &mdash; {{PRICING_SUBTITLE}}</h2>
+<p>{{PRICING_INTRO}}</p>
+<table class="pricing-table">
+  <thead>
+    <tr>
+      <th>CLIN</th>
+      <th>Description</th>
+      <th>Period</th>
+      <th>Est. Qty</th>
+      <th>Unit</th>
+      <th>Unit Price</th>
+      <th>Est. Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- {{PRICING_ROWS}} -->
+    <tr class="total-row"><td colspan="5" style="text-align:right;">TOTAL EVALUATED PRICE</td><td colspan="2" style="text-align:right;font-size:10pt;">{{TOTAL_PRICE}}</td></tr>
+  </tbody>
+</table>
+<p><em><strong>Note:</strong> {{PRICING_NOTE}}</em></p>
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 4: PAST PERFORMANCE                              -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">04</span> Past Performance</h2>
+<p>{{PP_INTRO}}</p>
+<!-- {{PP_CARDS}} — Use .pp-card structure for each reference -->
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 5: SAM.GOV VERIFICATION                          -->
+<!-- This section is the same for every response                       -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">05</span> SAM.gov Registration Verification</h2>
+<table class="compliance-table">
+  <tr><td style="width:35%;font-weight:700;">SAM.gov Status</td><td class="status">ACTIVE</td></tr>
+  <tr><td style="font-weight:700;">UEI</td><td>HJB4KNYJVGZ1</td></tr>
+  <tr><td style="font-weight:700;">CAGE Code</td><td>8UMX3</td></tr>
+  <tr><td style="font-weight:700;">DUNS</td><td>002636755</td></tr>
+  <tr><td style="font-weight:700;">Registration Expiration</td><td>Active &mdash; Maintained Current</td></tr>
+  <tr><td style="font-weight:700;">Entity Type</td><td>Business or Organization</td></tr>
+  <tr><td style="font-weight:700;">Physical Address</td><td>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</td></tr>
+</table>
+<p>SAM.gov registration can be verified at <strong>sam.gov</strong> using UEI: HJB4KNYJVGZ1 or CAGE Code: 8UMX3.</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 6: SMALL BUSINESS CERTIFICATIONS                 -->
+<!-- This section is the same for every response                       -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">06</span> Small Business Certification Documentation</h2>
+<p>Dee Davis Inc. is a certified small business qualifying for the {{SET_ASIDE_FAR}} Set-Aside. Certifications held:</p>
+<table class="compliance-table">
+  <tr><td style="width:40%;font-weight:700;">EDWOSB</td><td>Economically Disadvantaged Woman-Owned Small Business &mdash; SBA Certified</td></tr>
+  <tr><td style="font-weight:700;">WOSB</td><td>Woman-Owned Small Business &mdash; SBA Certified</td></tr>
+  <tr><td style="font-weight:700;">WBENC WBE</td><td>Woman Business Enterprise &mdash; WBENC Certified</td></tr>
+  <tr><td style="font-weight:700;">MBE</td><td>Minority Business Enterprise</td></tr>
+  <tr><td style="font-weight:700;">SBE</td><td>Small Business Enterprise</td></tr>
+  <tr><td style="font-weight:700;">E-Verify</td><td>Active &mdash; Federal Employment Eligibility Verification</td></tr>
+  <tr><td style="font-weight:700;">{{NAICS_CODE}}</td><td>Within size standard of {{SIZE_STANDARD}}</td></tr>
+</table>
+<p>EDWOSB and WOSB certifications are verifiable through SAM.gov and the SBA Dynamic Small Business Search. WBENC certification is verifiable through the WBENC database.</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- STANDARD SECTION 7: COMPLIANCE MATRIX                             -->
+<!-- Build from solicitation requirements                              -->
+<!-- ================================================================ -->
+<div class="content-page">
+<h2><span class="num">07</span> Compliance Matrix</h2>
+<table class="compliance-table">
+  <thead>
+    <tr>
+      <th style="width:5%;">#</th>
+      <th style="width:38%;">Requirement ({{SOL_NUMBER}})</th>
+      <th style="width:45%;">Dee Davis Inc. Compliance</th>
+      <th style="width:12%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- {{COMPLIANCE_ROWS}} -->
+  </tbody>
+</table>
+
+<!-- FOOTER — Always on last page -->
+<div class="page-footer">
+  <div class="co">DEE DAVIS INC</div>
+  755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+  (248) 376-4550 &bull; info@deedavis.biz &bull; deedavis.biz<br>
+  CAGE: 8UMX3 &bull; UEI: HJB4KNYJVGZ1 &bull; SAM.gov: Active<br>
+  EDWOSB &bull; WOSB &bull; WBENC &bull; MBE &bull; SBE &bull; E-Verify<br>
+  <em style="font-size:6.5pt;color:#888;">{{SOL_FOOTER_REF}}</em>
+</div>
+</div>
+
+</body>
+</html>

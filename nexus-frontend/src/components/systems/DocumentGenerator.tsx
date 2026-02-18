@@ -253,7 +253,7 @@ export function DocumentGenerator({ onBackToNexus, activeTab = 'quotes', setActi
             >
               <div className="flex items-center space-x-2">
                 <Target className="w-4 h-4" />
-                <span>Sources Sought</span>
+                <span>Answer Solicitation</span>
               </div>
             </button>
 
@@ -1274,168 +1274,369 @@ function PartnershipProposalContent({ selectedOpportunity }: { selectedOpportuni
 }
 
 // ============================================================================
-// SOURCES SOUGHT RESPONSE CONTENT
+// SOLICITATION ANSWERING ENGINE
 // ============================================================================
 
 function SourcesSoughtContent({ selectedOpportunity }: { selectedOpportunity?: any }) {
-  const [formData, setFormData] = useState({
-    solicitationNumber: '',
-    solicitationTitle: '',
-    issuingAgency: '',
-    naicsCode: '',
-    responseType: 'interested_capable',
-    companyDescription: 'DEE DAVIS INC is a certified EDWOSB (Economically Disadvantaged Woman-Owned Small Business) based in Troy, Michigan. We specialize in government contract fulfillment including industrial supplies, professional services, and logistics.',
-    relevantExperience: '',
-    capabilityNarrative: '',
-    setAsideRecommendation: 'WOSB',
-    estimatedDeliveryDays: '30',
-    teamingInterest: 'open',
-  });
-  const [generating, setGenerating] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisStep, setAnalysisStep] = useState('');
+  const [result, setResult] = useState<any>(null);
+  const [activeSection, setActiveSection] = useState('executive_summary');
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [editBuffer, setEditBuffer] = useState('');
 
-  useEffect(() => {
-    if (selectedOpportunity) {
-      setFormData(prev => ({
-        ...prev,
-        solicitationNumber: selectedOpportunity['RFP NUMBER'] || '',
-        solicitationTitle: selectedOpportunity.Name || '',
-        issuingAgency: selectedOpportunity['Issuing Organization'] || '',
-        naicsCode: selectedOpportunity['NAICS'] || selectedOpportunity['NAICS Code'] || '',
-      }));
-    }
-  }, [selectedOpportunity]);
-
-  const handleGenerate = async () => {
-    setGenerating(true);
-    try {
-      const response = await fetch((process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000') + '/api/sources-sought/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/pdf')) {
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          window.open(url, '_blank');
-          alert('Sources Sought Response generated! Review it in the new tab.');
-        } else {
-          const result = await response.json();
-          if (result.success) {
-            alert('Sources Sought Response generated successfully!');
-          } else {
-            alert(`Error: ${result.error}`);
-          }
-        }
-      } else {
-        alert('Error generating response. Make sure the API server is running.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error generating Sources Sought response.');
-    }
-    setGenerating(false);
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) { setSelectedFile(file); }
   };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault(); setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) { setSelectedFile(file); }
+  };
+
+  const handleAnalyze = async () => {
+    if (!selectedFile) return;
+    setAnalyzing(true); setResult(null);
+    setAnalysisStep('Reading document...');
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      setAnalysisStep('AI analyzing solicitation requirements...');
+      const resp = await fetch((process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000') + '/api/solicitation/answer', {
+        method: 'POST', body: formData,
+      });
+      setAnalysisStep('Generating response document...');
+      const data = await resp.json();
+      if (data.success) {
+        setResult(data);
+        setActiveSection('executive_summary');
+      } else {
+        alert(data.error || 'Analysis failed');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Error analyzing solicitation');
+    }
+    setAnalyzing(false); setAnalysisStep('');
+  };
+
+  const startEdit = (section: string, content: string) => {
+    setEditingSection(section); setEditBuffer(content);
+  };
+  const saveEdit = (section: string) => {
+    if (result?.response) {
+      setResult({ ...result, response: { ...result.response, [section]: editBuffer } });
+    }
+    setEditingSection(null);
+  };
+
+  const sections = [
+    { key: 'executive_summary', label: 'Executive Summary', icon: '01' },
+    { key: 'understanding_of_requirement', label: 'Understanding of Requirement', icon: '02' },
+    { key: 'technical_approach', label: 'Technical Approach', icon: '03' },
+    { key: 'management_approach', label: 'Management Approach', icon: '04' },
+    { key: 'staffing_plan', label: 'Staffing Plan', icon: '05' },
+    { key: 'past_performance', label: 'Past Performance', icon: '06' },
+    { key: 'quality_assurance', label: 'Quality Assurance', icon: '07' },
+    { key: 'pricing_strategy', label: 'Pricing Strategy', icon: '08' },
+    { key: 'edwosb_value_proposition', label: 'EDWOSB Value Proposition', icon: '09' },
+    { key: 'compliance_matrix', label: 'Compliance Matrix', icon: '10' },
+  ];
+
+  const exportPDF = () => {
+    if (!result) return;
+    const sol = result.analysis?.solicitation_info || {};
+    const r = result.response || {};
+    const compMatrix = (r.compliance_matrix || []).map((c: any) =>
+      `<tr><td style="padding:8px;border:1px solid #ddd;font-size:10pt;">${c.requirement}</td>
+       <td style="padding:8px;border:1px solid #ddd;font-size:10pt;">${c.response}</td>
+       <td style="padding:8px;border:1px solid #ddd;font-size:10pt;color:#6B7280;">${c.reference || ''}</td></tr>`
+    ).join('');
+
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Response — ${sol.number || ''} ${sol.title || ''}</title>
+<style>
+  @page { margin: 0.75in; }
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; color: #1F2937; font-size: 11pt; line-height: 1.7; margin: 0; padding: 0; }
+  .cover { background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 60%, #0D47A1 100%); color: white; padding: 60px 50px 40px; position: relative; }
+  .cover::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #D97706, #F59E0B, #D97706); }
+  .cover .company { font-size: 12pt; font-weight: 700; color: #F59E0B; letter-spacing: 1px; margin-bottom: 6px; }
+  .cover h1 { font-size: 20pt; margin: 0 0 8px; font-weight: 700; line-height: 1.3; }
+  .cover .meta { font-size: 10pt; color: #CBD5E1; }
+  .cover .badges { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .cover .badge { background: rgba(255,255,255,0.15); padding: 3px 12px; border-radius: 4px; font-size: 8pt; font-weight: 700; letter-spacing: 0.5px; }
+  .content { padding: 40px 50px; }
+  .section { margin-bottom: 32px; page-break-inside: avoid; }
+  .section h2 { color: #0F172A; font-size: 13pt; font-weight: 700; border-left: 4px solid #D97706; padding-left: 12px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section .num { color: #D97706; font-weight: 800; margin-right: 8px; }
+  .section p { margin-bottom: 10px; text-align: justify; }
+  table.compliance { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  table.compliance th { background: #0F172A; color: #F59E0B; padding: 10px; text-align: left; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.5px; }
+  table.compliance td { border: 1px solid #E5E7EB; }
+  .footer { background: #0F172A; color: #94A3B8; padding: 20px 50px; font-size: 8pt; text-align: center; line-height: 1.8; }
+  .footer .co { color: #F59E0B; font-weight: 700; font-size: 9pt; }
+</style></head><body>
+<div class="cover">
+  <div class="company">DEE DAVIS INC</div>
+  <h1>${sol.title || 'Solicitation Response'}</h1>
+  <div class="meta">Solicitation: ${sol.number || 'N/A'} | Agency: ${sol.agency || 'N/A'} | ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+  <div class="badges">
+    <span class="badge">EDWOSB</span><span class="badge">WOSB</span><span class="badge">WBENC</span><span class="badge">MBE</span><span class="badge">SBE</span>
+  </div>
+</div>
+<div class="content">
+  <div class="section"><h2><span class="num">01</span>Executive Summary</h2>${(r.executive_summary || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">02</span>Understanding of Requirement</h2>${(r.understanding_of_requirement || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">03</span>Technical Approach</h2>${(r.technical_approach || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">04</span>Management Approach</h2>${(r.management_approach || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">05</span>Staffing Plan</h2>${(r.staffing_plan || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">06</span>Past Performance</h2>${(r.past_performance || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">07</span>Quality Assurance</h2>${(r.quality_assurance || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">08</span>Pricing Strategy</h2>${(r.pricing_strategy || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  <div class="section"><h2><span class="num">09</span>EDWOSB Value Proposition</h2>${(r.edwosb_value_proposition || '').split('\n').map((p: string) => '<p>' + p + '</p>').join('')}</div>
+  ${compMatrix ? `<div class="section"><h2><span class="num">10</span>Compliance Matrix</h2><table class="compliance"><thead><tr><th>Requirement</th><th>Response</th><th>Reference</th></tr></thead><tbody>${compMatrix}</tbody></table></div>` : ''}
+</div>
+<div class="footer">
+  <div class="co">DEE DAVIS INC</div>
+  755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | (248) 376-4550 | info@deedavis.biz<br>
+  EDWOSB | WOSB | WBENC | MBE | SBE | CAGE: 8UMX3 | SAM UEI: HJB4KNYJVGZ1
+</div></body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
+
+  // ─── UPLOAD STATE ───
+  if (!result) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold text-white mb-2">Answer Solicitation</h2>
+          <p className="text-gray-400">Upload any solicitation (RFP, RFQ, IFB, ITB, Sources Sought) and AI generates a complete, ProposalBio-scored response</p>
+        </div>
+
+        <div
+          className={`border-2 border-dashed rounded-xl p-16 text-center cursor-pointer transition ${isDragging ? 'border-blue-500 bg-blue-900/20' : 'border-gray-600 hover:border-blue-500 hover:bg-gray-700/30'}`}
+          onClick={() => document.getElementById('solFileInput')?.click()}
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={handleDrop}
+        >
+          <div className="text-5xl mb-4">📄</div>
+          <h3 className="text-xl font-bold text-blue-400 mb-2">Drop Solicitation PDF Here</h3>
+          <p className="text-gray-400 mb-1">or click to browse</p>
+          <p className="text-gray-500 text-sm">Supports RFP, RFQ, IFB, ITB, Sources Sought, Presolicitation, RFI</p>
+          <input type="file" id="solFileInput" accept=".pdf,.txt,.doc,.docx" className="hidden" onChange={handleFileSelect} />
+        </div>
+
+        {selectedFile && (
+          <div className="bg-green-900/30 border border-green-700 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">✅</span>
+              <div>
+                <div className="font-semibold text-green-400">{selectedFile.name}</div>
+                <div className="text-xs text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</div>
+              </div>
+            </div>
+            <button onClick={() => setSelectedFile(null)} className="text-gray-400 hover:text-white text-sm">Clear</button>
+          </div>
+        )}
+
+        {selectedFile && !analyzing && (
+          <div className="text-center">
+            <button onClick={handleAnalyze}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-10 py-4 rounded-xl font-bold text-lg transition shadow-lg shadow-blue-900/30">
+              Analyze &amp; Generate Response
+            </button>
+          </div>
+        )}
+
+        {analyzing && (
+          <div className="bg-blue-900/30 border border-blue-700 rounded-xl p-8">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              <div>
+                <h4 className="font-bold text-blue-400 text-lg mb-1">Generating Response...</h4>
+                <p className="text-gray-400">{analysisStep}</p>
+                <p className="text-gray-500 text-xs mt-1">This takes 15-30 seconds — AI is reading, analyzing, and writing your response</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ─── RESULTS STATE ───
+  const sol = result.analysis?.solicitation_info || {};
+  const bid = result.analysis?.bid_recommendation || {};
+  const pb = result.proposalbio || {};
+  const resp = result.response || {};
+  const isGo = bid.decision === 'GO';
+  const pbScore = pb.composite_score || 0;
+  const pbColor = pbScore >= 75 ? 'green' : pbScore >= 60 ? 'yellow' : 'red';
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Sources Sought Response</h2>
-          <p className="text-sm text-gray-400 mt-1">Respond to Sources Sought / RFI notices to get on agency radar</p>
+          <h2 className="text-2xl font-bold">{sol.title || result.document_name}</h2>
+          <p className="text-gray-400 text-sm">{sol.number} | {sol.agency} | {result.pages_read} pages analyzed</p>
         </div>
-        <button
-          onClick={handleGenerate}
-          disabled={generating}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50"
-        >
-          <Target className="w-4 h-4" />
-          <span>{generating ? 'Generating...' : 'Generate Response'}</span>
-        </button>
+        <div className="flex gap-3">
+          <button onClick={() => { setResult(null); setSelectedFile(null); }}
+            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
+            New Upload
+          </button>
+          <button onClick={exportPDF}
+            className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-semibold text-sm transition flex items-center gap-2">
+            <FileText className="w-4 h-4" /> Export Response
+          </button>
+        </div>
       </div>
 
-      <div className="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-blue-300 mb-2">What is a Sources Sought Response?</h4>
-        <p className="text-sm text-blue-200">
-          A Sources Sought (or RFI) notice is when a government agency is researching whether capable vendors exist before
-          issuing a formal solicitation. <strong>Responding gets your company on their radar</strong> and can influence
-          set-aside decisions (WOSB, EDWOSB, small business). This is how you get in front of opportunities BEFORE they drop.
-        </p>
+      {/* Score Cards Row */}
+      <div className="grid grid-cols-3 gap-4">
+        {/* Bid Recommendation */}
+        <div className={`rounded-xl p-5 border ${isGo ? 'bg-green-900/20 border-green-500/50' : 'bg-yellow-900/20 border-yellow-500/50'}`}>
+          <div className="text-xs text-gray-400 font-semibold mb-1">BID RECOMMENDATION</div>
+          <div className={`text-3xl font-black ${isGo ? 'text-green-400' : 'text-yellow-400'}`}>{bid.decision || 'REVIEW'}</div>
+          <div className="text-sm text-gray-400 mt-1">{bid.score}/100 fit score</div>
+        </div>
+
+        {/* ProposalBio Score */}
+        <div className={`rounded-xl p-5 border ${pbColor === 'green' ? 'bg-green-900/20 border-green-500/50' : pbColor === 'yellow' ? 'bg-yellow-900/20 border-yellow-500/50' : 'bg-red-900/20 border-red-500/50'}`}>
+          <div className="text-xs text-gray-400 font-semibold mb-1">PROPOSALBIO SCORE</div>
+          <div className={`text-3xl font-black ${pbColor === 'green' ? 'text-green-400' : pbColor === 'yellow' ? 'text-yellow-400' : 'text-red-400'}`}>
+            {pbScore.toFixed(0)}
+          </div>
+          <div className="text-sm text-gray-400 mt-1">
+            {(pb.biohack_scores || []).filter((b: any) => b.score >= 6).length}/10 biohacks passing
+          </div>
+        </div>
+
+        {/* Solicitation Info */}
+        <div className="rounded-xl p-5 border border-blue-500/30 bg-blue-900/20">
+          <div className="text-xs text-gray-400 font-semibold mb-1">SOLICITATION</div>
+          <div className="text-sm text-white font-semibold">{sol.type || 'RFP'}</div>
+          <div className="text-xs text-gray-400 mt-1">{sol.set_aside || 'Open'} | {sol.naics || 'N/A'}</div>
+          <div className="text-xs text-gray-400">{sol.deadline || 'No deadline listed'}</div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Solicitation / Notice Number</label>
-          <input type="text" value={formData.solicitationNumber}
-            onChange={(e) => setFormData({ ...formData, solicitationNumber: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" placeholder="e.g., SS-2026-0001" />
+      {/* ProposalBio Biohacks */}
+      {pb.biohack_scores && (
+        <div className="bg-gray-800 rounded-xl p-4">
+          <div className="text-xs font-semibold text-gray-400 mb-3">PROPOSALBIO BIOHACKS</div>
+          <div className="grid grid-cols-5 gap-2">
+            {pb.biohack_scores.map((bh: any) => (
+              <div key={bh.biohack_number} className={`rounded-lg px-3 py-2 text-center ${bh.score >= 6 ? 'bg-green-900/30 border border-green-700/50' : 'bg-red-900/30 border border-red-700/50'}`}>
+                <div className={`text-lg font-bold ${bh.score >= 6 ? 'text-green-400' : 'text-red-400'}`}>{bh.score.toFixed(1)}</div>
+                <div className="text-[10px] text-gray-400 leading-tight">{bh.biohack_name}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">NAICS Code</label>
-          <input type="text" value={formData.naicsCode}
-            onChange={(e) => setFormData({ ...formData, naicsCode: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" placeholder="423840" />
+      )}
+
+      {/* Strengths / Concerns */}
+      {(bid.strengths?.length > 0 || bid.concerns?.length > 0) && (
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-gray-800 rounded-xl p-4">
+            <div className="text-xs font-semibold text-green-400 mb-2">STRENGTHS</div>
+            {(bid.strengths || []).map((s: string, i: number) => (
+              <div key={i} className="text-sm text-gray-300 mb-1">+ {s}</div>
+            ))}
+          </div>
+          <div className="bg-gray-800 rounded-xl p-4">
+            <div className="text-xs font-semibold text-red-400 mb-2">CONCERNS</div>
+            {(bid.concerns || []).map((c: string, i: number) => (
+              <div key={i} className="text-sm text-gray-300 mb-1">- {c}</div>
+            ))}
+          </div>
         </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Solicitation Title</label>
-          <input type="text" value={formData.solicitationTitle}
-            onChange={(e) => setFormData({ ...formData, solicitationTitle: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Title of the Sources Sought notice" />
+      )}
+
+      {/* Response Document — Section Navigation + Content */}
+      <div className="grid grid-cols-12 gap-4">
+        {/* Section Outline (Left) */}
+        <div className="col-span-3 bg-gray-800 rounded-xl p-4 space-y-1">
+          <div className="text-xs font-semibold text-gray-400 mb-3">RESPONSE OUTLINE</div>
+          {sections.map((s) => (
+            <button key={s.key} onClick={() => setActiveSection(s.key)}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2 ${
+                activeSection === s.key ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+              }`}>
+              <span className="text-xs font-mono text-blue-300 w-5">{s.icon}</span>
+              <span className="truncate">{s.label}</span>
+            </button>
+          ))}
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Issuing Agency</label>
-          <input type="text" value={formData.issuingAgency}
-            onChange={(e) => setFormData({ ...formData, issuingAgency: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Department / Agency name" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Response Type</label>
-          <select value={formData.responseType}
-            onChange={(e) => setFormData({ ...formData, responseType: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white">
-            <option value="interested_capable">Interested &amp; Capable</option>
-            <option value="interested_teaming">Interested — Open to Teaming</option>
-            <option value="information_only">Information Only Response</option>
-          </select>
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Company Description / Capability Narrative</label>
-          <textarea rows={4} value={formData.capabilityNarrative}
-            onChange={(e) => setFormData({ ...formData, capabilityNarrative: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
-            placeholder="Describe your specific capabilities relevant to this requirement..." />
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Relevant Experience / Past Performance</label>
-          <textarea rows={3} value={formData.relevantExperience}
-            onChange={(e) => setFormData({ ...formData, relevantExperience: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
-            placeholder="List relevant contracts or experience..." />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Set-Aside Recommendation</label>
-          <select value={formData.setAsideRecommendation}
-            onChange={(e) => setFormData({ ...formData, setAsideRecommendation: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white">
-            <option value="WOSB">WOSB (Woman-Owned Small Business)</option>
-            <option value="EDWOSB">EDWOSB</option>
-            <option value="8a">8(a)</option>
-            <option value="SDB">Small Disadvantaged Business</option>
-            <option value="SB">Small Business</option>
-            <option value="full_open">Full &amp; Open Competition</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Teaming Interest</label>
-          <select value={formData.teamingInterest}
-            onChange={(e) => setFormData({ ...formData, teamingInterest: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white">
-            <option value="open">Open to Teaming</option>
-            <option value="prime_only">Prime Contractor Only</option>
-            <option value="sub_available">Available as Subcontractor</option>
-          </select>
+
+        {/* Section Content (Right) */}
+        <div className="col-span-9 bg-gray-800 rounded-xl p-6">
+          {sections.map((s) => {
+            if (activeSection !== s.key) return null;
+            const content = resp[s.key];
+            const isCompliance = s.key === 'compliance_matrix';
+
+            return (
+              <div key={s.key}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <span className="text-blue-400 font-mono text-sm">{s.icon}</span>
+                    {s.label}
+                  </h3>
+                  {!isCompliance && (
+                    editingSection === s.key ? (
+                      <div className="flex gap-2">
+                        <button onClick={() => saveEdit(s.key)} className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-xs font-semibold">Save</button>
+                        <button onClick={() => setEditingSection(null)} className="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-xs font-semibold">Cancel</button>
+                      </div>
+                    ) : (
+                      <button onClick={() => startEdit(s.key, content || '')}
+                        className="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-xs font-semibold transition">
+                        Edit
+                      </button>
+                    )
+                  )}
+                </div>
+
+                {isCompliance ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead><tr className="bg-gray-700">
+                        <th className="text-left px-4 py-2 text-gray-300">Requirement</th>
+                        <th className="text-left px-4 py-2 text-gray-300">Response</th>
+                        <th className="text-left px-4 py-2 text-gray-300">Ref</th>
+                      </tr></thead>
+                      <tbody>
+                        {(Array.isArray(content) ? content : []).map((row: any, i: number) => (
+                          <tr key={i} className="border-t border-gray-700">
+                            <td className="px-4 py-2 text-gray-300">{row.requirement}</td>
+                            <td className="px-4 py-2 text-gray-400">{row.response}</td>
+                            <td className="px-4 py-2 text-gray-500 text-xs">{row.reference}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : editingSection === s.key ? (
+                  <textarea value={editBuffer} onChange={(e) => setEditBuffer(e.target.value)}
+                    rows={12} className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 text-gray-200 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                ) : (
+                  <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                    {content || 'Not generated'}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -1452,7 +1653,7 @@ function SoleSourceContent({ selectedOpportunity }: { selectedOpportunity?: any 
     solicitationTitle: '',
     issuingAgency: '',
     contractValue: '',
-    justificationType: 'unique_capability',
+    justificationType: 'edwosb_set_aside',
     uniqueCapability: '',
     marketResearch: 'Market research conducted via SAM.gov, GSA Advantage, and industry contacts confirms limited sources for this requirement.',
     urgency: '',
@@ -1484,20 +1685,10 @@ function SoleSourceContent({ selectedOpportunity }: { selectedOpportunity?: any 
       });
 
       if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/pdf')) {
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          window.open(url, '_blank');
-          alert('Sole Source Justification generated! Review it in the new tab.');
-        } else {
-          const result = await response.json();
-          if (result.success) {
-            alert('Sole Source Justification generated successfully!');
-          } else {
-            alert(`Error: ${result.error}`);
-          }
-        }
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        alert('Sole Source Justification generated! Review it in the new tab.');
       } else {
         alert('Error generating response. Make sure the API server is running.');
       }
@@ -1564,8 +1755,9 @@ function SoleSourceContent({ selectedOpportunity }: { selectedOpportunity?: any 
           <select value={formData.justificationType}
             onChange={(e) => setFormData({ ...formData, justificationType: e.target.value })}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white">
-            <option value="unique_capability">Unique Capability (FAR 6.302-1)</option>
             <option value="edwosb_set_aside">EDWOSB Sole Source (FAR 19.1506)</option>
+            <option value="unique_capability">Unique Capability (FAR 6.302-1)</option>
+            <option value="brand_name">Brand Name — EDWOSB Procurement Vehicle</option>
             <option value="urgency">Unusual Urgency (FAR 6.302-2)</option>
             <option value="only_one_source">Only One Responsible Source (FAR 6.302-1)</option>
           </select>
@@ -1609,7 +1801,7 @@ function SoleSourceContent({ selectedOpportunity }: { selectedOpportunity?: any 
         <h4 className="text-sm font-semibold text-green-300 mb-2">EDWOSB Sole Source Thresholds (FAR 19.1506)</h4>
         <div className="grid grid-cols-2 gap-4 text-sm text-green-200">
           <div><strong>Services:</strong> Up to $5,000,000</div>
-          <div><strong>Manufacturing:</strong> Up to $7,000,000</div>
+          <div><strong>Manufacturing:</strong> Up to $8,500,000</div>
         </div>
         <p className="text-xs text-green-300 mt-2">
           The contracting officer must determine in writing that the EDWOSB is a responsible contractor

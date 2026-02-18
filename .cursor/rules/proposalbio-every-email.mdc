@@ -1,0 +1,47 @@
+# ProposalBio™ — Run on EVERY Outbound Document
+
+**Every email, capability statement, and communication generated for Dee to send MUST be run through ProposalBio before presenting it.**
+
+## The Rule
+
+1. Generate the email/document
+2. Run it through `proposalbio_module.py` ProposalBioAnalyzer
+3. If score < 75 or any biohack < 6 → revise and re-run
+4. Keep iterating until score >= 75 with all biohacks >= 6
+5. Present the final version with the ProposalBio score
+6. If stuck at 75+ but one biohack won't budge past 5 → note it and present anyway (deadline override)
+
+## Metadata Required
+
+Always pass the correct metadata keys:
+- `agency_type`: Federal, State, Local, or Cooperative
+- `agency`: The buyer's agency name (for Name Recognition)
+- `client_name`: Same as agency (redundant but required by the analyzer)
+- `region`: Midwest, Mid_Atlantic, Northeast, Southeast, Southwest, West_Coast
+- `rfp_number`: The solicitation/notice number
+- `rfp_text`: The full text of the solicitation/NOI/RFP for Familiarity scoring
+
+## The 10 Biohacks to Hit
+
+1. **Mirror Neuron** — Match regional tone + formality level
+2. **Cognitive Ease** — Short sentences, white space, 6-8th grade reading level
+3. **Story Arc** — Challenge → Solution → Result structure
+4. **Reciprocity** — Give value first (insights, stats, frameworks, checklists)
+5. **Yes Stacking** — Affirming statements before the ask
+6. **Familiarity** — Echo the solicitation's exact language
+7. **Name Recognition** — Use the agency name 8+ times per 10 pages
+8. **Sensory Language** — Concrete words, not vague ("seamless" not "quality")
+9. **Rhythm** — Mix long and short sentences
+10. **Eye Tracking** — Headers, bullets, summaries, white space
+
+## What This Applies To
+
+- Buyer emails (SEND_TO_BUYER)
+- Capability statements
+- NOI/Sources Sought responses
+- Proposal cover letters
+- Any outbound document
+
+## No Exceptions
+
+If I present an email without a ProposalBio score, that's a mistake. Call it out.

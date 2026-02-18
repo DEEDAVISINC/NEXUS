@@ -105,13 +105,20 @@ class SubcontractorSourcingSystem:
         qualified = self._filter_qualified(merged)
         print(f"✓ Qualified contractors: {len(qualified)}")
         
+        # CRITICAL: Check USASpending to filter out competitors
+        print(f"\n🔍 Checking USASpending.gov for contract wins...")
+        safe_subs = self._filter_usaspending_competitors(qualified, service_type)
+        print(f"✓ Safe subcontractors (no competing contracts): {len(safe_subs)}")
+        if len(qualified) > len(safe_subs):
+            print(f"⚠️  Filtered out {len(qualified) - len(safe_subs)} subs who already win their own gov contracts")
+        
         # Limit results
-        qualified = qualified[:limit]
-        print(f"✓ Returning top {len(qualified)} results")
+        safe_subs = safe_subs[:limit]
+        print(f"✓ Returning top {len(safe_subs)} results")
         
         # Save to Airtable
         try:
-            saved = self._save_to_airtable(qualified, service_type, location)
+            saved = self._save_to_airtable(safe_subs, service_type, location)
             print(f"✓ Saved {saved} new contractors to Airtable")
         except Exception as e:
             print(f"⚠️  Could not save to Airtable: {e}")
@@ -120,7 +127,7 @@ class SubcontractorSourcingSystem:
         print(f"✅ SEARCH COMPLETE")
         print(f"{'='*60}\n")
         
-        return qualified
+        return safe_subs
     
     def _search_google_maps(self, service_type: str, location: str, 
                            radius_miles: int) -> List[Dict]:
@@ -269,6 +276,93 @@ class SubcontractorSourcingSystem:
         qualified.sort(key=lambda x: x.get('rating', 0), reverse=True)
         
         return qualified
+    
+    def _filter_usaspending_competitors(self, subs: List[Dict], service_type: str) -> List[Dict]:
+        """
+        Filter out subcontractors who already win their own government contracts.
+        
+        If a sub wins federal contracts in the same service type, they're a competitor
+        who will learn your client and bid directly. EXCLUDE THEM.
+        
+        Args:
+            subs: List of potential subcontractors
+            service_type: Service type (drug testing, NEMT, grounds, etc.)
+        
+        Returns:
+            Filtered list with competitors removed
+        """
+        safe_subs = []
+        
+        for sub in subs:
+            company_name = sub.get('name', '')
+            if not company_name:
+                continue
+            
+            # Query USASpending.gov API for this company's contract wins
+            try:
+                url = "https://api.usaspending.gov/api/v2/search/spending_by_award/"
+                payload = {
+                    "filters": {
+                        "recipient_search_text": [company_name],
+                        "award_type_codes": ["A", "B", "C", "D"],  # Contracts only
+                        "time_period": [
+                            {
+                                "start_date": "2020-01-01",
+                                "end_date": "2026-12-31"
+                            }
+                        ]
+                    },
+                    "fields": ["Award ID", "Description", "Award Amount", "NAICS Code"],
+                    "limit": 10,
+                    "page": 1
+                }
+                
+                response = requests.post(url, json=payload, timeout=10)
+                if response.status_code == 200:
+                    data = response.json()
+                    results = data.get('results', [])
+                    
+                    if len(results) > 0:
+                        # They win government contracts — check if same service type
+                        descriptions = ' '.join([r.get('Description', '').lower() for r in results])
+                        
+                        # Service type keywords that indicate competition
+                        service_keywords = {
+                            'drug testing': ['drug', 'testing', 'specimen', 'urinalysis', 'toxicology'],
+                            'fingerprinting': ['fingerprint', 'livescan', 'background', 'identity'],
+                            'NEMT': ['medical transport', 'nemt', 'patient transport', 'ambulance'],
+                            'grounds': ['grounds', 'landscaping', 'lawn', 'mowing', 'maintenance'],
+                            'janitorial': ['janitorial', 'custodial', 'cleaning', 'housekeeping'],
+                            'courier': ['courier', 'delivery', 'messenger', 'transport'],
+                        }
+                        
+                        # Check if their contracts match our service type
+                        is_competitor = False
+                        for key, keywords in service_keywords.items():
+                            if key.lower() in service_type.lower():
+                                if any(kw in descriptions for kw in keywords):
+                                    is_competitor = True
+                                    print(f"   ⚠️  COMPETITOR: {company_name} wins {key} contracts — EXCLUDED")
+                                    break
+                        
+                        if is_competitor:
+                            continue  # Skip this sub — they're a competitor
+                        else:
+                            # They win contracts but NOT in our service type — OK to use
+                            safe_subs.append(sub)
+                    else:
+                        # No contract wins found — IDEAL sub (needs a prime)
+                        safe_subs.append(sub)
+                else:
+                    # API error — include them (benefit of the doubt)
+                    safe_subs.append(sub)
+            
+            except Exception as e:
+                # Error checking — include them (benefit of the doubt)
+                print(f"   ⚠️  Could not check USASpending for {company_name}: {e}")
+                safe_subs.append(sub)
+        
+        return safe_subs
     
     def _save_to_airtable(self, subs: List[Dict], service_type: str, 
                          location: str) -> int:

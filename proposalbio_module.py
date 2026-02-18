@@ -37,6 +37,9 @@ class ProposalBioAnalyzer:
         self.sentences = self._split_sentences(self.text)
         self.paragraphs = self._split_paragraphs(self.text)
         self.pages = max(1, len(self.text) // 2500)
+        # Government proposals inherently use higher reading levels due to
+        # regulatory vocabulary (compliance, solicitation, certification, etc.)
+        self.is_government = (self.meta.get("agency_type") or "").strip() in ("Federal", "State", "Local")
 
     def analyze_all(self) -> Dict:
         """Run all 10 biohack analyses and return comprehensive results"""
@@ -95,13 +98,22 @@ class ProposalBioAnalyzer:
         avg_spp = self._avg_sentences_per_paragraph()
         white = self._white_space_ratio()
 
-        # Reading level (target: 6-8th grade)
-        if 6 <= grade <= 8: score += 3
-        elif grade <= 10: score += 2
-        elif grade <= 12: score += 1
+        # Reading level — government proposals use regulatory vocabulary that
+        # inherently raises FK grade by 3-4 levels (compliance, solicitation,
+        # certification, subcontractor, etc.)
+        if self.is_government:
+            # Adjusted thresholds for government proposals
+            if 6 <= grade <= 12: score += 3
+            elif grade <= 14: score += 2
+            elif grade <= 16: score += 1
+        else:
+            if 6 <= grade <= 8: score += 3
+            elif grade <= 10: score += 2
+            elif grade <= 12: score += 1
 
-        # Words per sentence (target: ≤12)
-        if avg_wps <= 12: score += 2
+        # Words per sentence (target: ≤12, government allows ≤14)
+        wps_target = 14 if self.is_government else 12
+        if avg_wps <= wps_target: score += 2
 
         # Sentences per paragraph (target: ≤10)
         if avg_spp <= 10: score += 2
@@ -109,8 +121,10 @@ class ProposalBioAnalyzer:
         # One idea per paragraph
         if self._one_idea_per_paragraph(): score += 2
 
-        # White space (target: ≥40%)
-        if white >= 40: score += 1
+        # White space — government proposals in plain text format naturally
+        # have less whitespace than formatted commercial proposals
+        white_target = 25 if self.is_government else 40
+        if white >= white_target: score += 1
 
         return min(10, score)
 
@@ -419,7 +433,8 @@ class ProposalBioAnalyzer:
         target = {"Federal": 0.8, "State": 0.5, "Local": 0.3, "Cooperative": 0.4}.get(agency_type, 0.5)
         score = 0
 
-        if abs(ratio - target) < 0.2: score += 2
+        if abs(ratio - target) <= 0.2: score += 3
+        elif abs(ratio - target) <= 0.35: score += 2
         else: score += 1
 
         # Regional phrase matching
@@ -435,6 +450,9 @@ class ProposalBioAnalyzer:
         if hits >= 2: score += 3
         elif hits >= 1: score += 2
         else: score += 1
+
+        # Bonus for high formal marker density (shows intentional tone matching)
+        if formal >= 8: score += 1
 
         # Mismatch penalty
         if agency_type == "Federal" and ratio < 0.5:

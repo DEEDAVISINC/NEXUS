@@ -21,7 +21,7 @@ import { BidsDashboard } from './components/BidsDashboard';
 import { BidsFlow } from './components/BidsFlow';
 
 function App() {
-  const [currentView, setCurrentView] = useState<ViewType>('agent-portal'); // TEMP: preview — change back to 'landing'
+  const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
   const [showAgenda, setShowAgenda] = useState(false);
   const [showBidsDashboard, setShowBidsDashboard] = useState(false);

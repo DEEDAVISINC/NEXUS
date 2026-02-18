@@ -9114,6 +9114,181 @@ GOVERNMENT_RSS_FEEDS = [
         'priority': 'HIGH'
     },
     
+    # ===== DDI ACTIVE SERVICE LINES (HIGHEST PRIORITY) =====
+    {
+        'name': 'NAICS 621511 - Medical Laboratories (Drug Testing, Genetic Testing)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621511',
+        'type': 'Federal',
+        'keywords': ['drug testing', 'laboratory', 'lab testing', 'specimen', 'urinalysis', 'genetic', 'DNA', 'toxicology', 'SAMHSA'],
+        'enabled': True,
+        'naics': '621511',
+        'description': 'Drug Testing, Genetic Testing, Medical Lab Services — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 621999 - All Other Ambulatory Health Care (Drug Testing Services)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621999',
+        'type': 'Federal',
+        'keywords': ['drug testing', 'health screening', 'workplace testing', 'substance abuse', 'DOT testing'],
+        'enabled': True,
+        'naics': '621999',
+        'description': 'Drug Testing Services — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 541380 - Testing Laboratories & Services (Drug/Substance Testing)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=541380',
+        'type': 'Federal',
+        'keywords': ['testing laboratory', 'drug testing', 'substance testing', 'forensic testing', 'analytical testing', 'lab services'],
+        'enabled': True,
+        'naics': '541380',
+        'description': 'Testing Laboratories — Drug/Substance/Forensic Testing — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 561611 - Investigation Services (Fingerprinting)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=561611',
+        'type': 'Federal',
+        'keywords': ['fingerprinting', 'fingerprint', 'background check', 'investigation', 'identity verification', 'livescan', 'ink rolling'],
+        'enabled': True,
+        'naics': '561611',
+        'description': 'Fingerprinting, Background Checks — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 621910 - Ambulance Services (NEMT)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621910',
+        'type': 'Federal',
+        'keywords': ['NEMT', 'non-emergency', 'medical transportation', 'patient transport', 'ambulance', 'medical transit'],
+        'enabled': True,
+        'naics': '621910',
+        'description': 'Non-Emergency Medical Transportation — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 485991 - Special Needs Transportation (PRIMARY NEMT)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485991',
+        'type': 'Federal',
+        'keywords': ['NEMT', 'non-emergency medical transportation', 'special needs', 'medical transport', 'patient transport', 'wheelchair', 'disabled transport'],
+        'enabled': True,
+        'naics': '485991',
+        'description': 'PRIMARY NAICS for NEMT — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 485999 - All Other Transit & Ground Passenger (NEMT/Shuttle)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485999',
+        'type': 'Federal',
+        'keywords': ['NEMT', 'shuttle', 'passenger transport', 'transit', 'transportation services', 'medical transport'],
+        'enabled': True,
+        'naics': '485999',
+        'description': 'NEMT, Shuttle Services — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 485510 - Charter Bus (Shuttle Transportation)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485510',
+        'type': 'Federal',
+        'keywords': ['shuttle', 'charter', 'bus', 'passenger', 'employee transport'],
+        'enabled': True,
+        'naics': '485510',
+        'description': 'Shuttle Transportation — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 485410 - School & Employee Bus Transportation (Shuttle)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485410',
+        'type': 'Federal',
+        'keywords': ['employee shuttle', 'bus transportation', 'shuttle service', 'facility shuttle', 'base shuttle'],
+        'enabled': True,
+        'naics': '485410',
+        'description': 'Employee/Facility Shuttle — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 492110 - Couriers & Express Delivery (Medical Courier)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=492110',
+        'type': 'Federal',
+        'keywords': ['courier', 'medical courier', 'specimen transport', 'express delivery', 'laboratory courier'],
+        'enabled': True,
+        'naics': '492110',
+        'description': 'Medical Courier, Express Delivery — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 492210 - Local Messengers & Local Delivery',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=492210',
+        'type': 'Federal',
+        'keywords': ['messenger', 'local delivery', 'local courier', 'document delivery', 'same-day delivery'],
+        'enabled': True,
+        'naics': '492210',
+        'description': 'Local Courier/Messenger — ACTIVE DDI SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 541199 - All Other Legal Services (Notary)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=541199',
+        'type': 'Federal',
+        'keywords': ['notary', 'notarization', 'legal services', 'document authentication', 'signing agent'],
+        'enabled': True,
+        'naics': '541199',
+        'description': 'Notary Services — ACTIVE DDI SERVICE LINE'
+    },
+
+    # ===== DDI DISASTER RELIEF & EMERGENCY SERVICES =====
+    {
+        'name': 'NAICS 624230 - Emergency & Other Relief Services',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=624230',
+        'type': 'Federal',
+        'keywords': ['disaster', 'emergency', 'relief', 'shelter', 'FEMA', 'hurricane', 'flood', 'evacuation', 'disaster relief'],
+        'enabled': True,
+        'naics': '624230',
+        'description': 'Emergency & Disaster Relief — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 624221 - Temporary Shelters',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=624221',
+        'type': 'Federal',
+        'keywords': ['temporary shelter', 'emergency housing', 'transitional housing', 'shelter management'],
+        'enabled': True,
+        'naics': '624221',
+        'description': 'Temporary Shelters — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 722320 - Caterers (Emergency Feeding)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=722320',
+        'type': 'Federal',
+        'keywords': ['catering', 'emergency feeding', 'mass feeding', 'meals', 'food service', 'disaster meals'],
+        'enabled': True,
+        'naics': '722320',
+        'description': 'Emergency Feeding / Catering — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 562119 - Other Waste Collection (Debris Removal)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=562119',
+        'type': 'Federal',
+        'keywords': ['debris', 'waste', 'storm cleanup', 'demolition', 'disposal', 'hauling'],
+        'enabled': True,
+        'naics': '562119',
+        'description': 'Debris Removal & Storm Cleanup — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 562910 - Remediation Services (Hazmat/Disaster Cleanup)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=562910',
+        'type': 'Federal',
+        'keywords': ['remediation', 'hazmat', 'mold', 'contamination', 'cleanup', 'environmental'],
+        'enabled': True,
+        'naics': '562910',
+        'description': 'Remediation / Hazmat Cleanup — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 532490 - Equipment Rental & Leasing (Emergency Equipment)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=532490',
+        'type': 'Federal',
+        'keywords': ['equipment rental', 'generator rental', 'leasing', 'emergency equipment', 'temporary'],
+        'enabled': True,
+        'naics': '532490',
+        'description': 'Emergency Equipment Rental — DDI GROWTH SERVICE LINE'
+    },
+    {
+        'name': 'NAICS 424490 - Grocery & Related Products (Emergency Supplies)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=424490',
+        'type': 'Federal',
+        'keywords': ['food supplies', 'water', 'MRE', 'emergency food', 'bottled water', 'canned goods'],
+        'enabled': True,
+        'naics': '424490',
+        'description': 'Emergency Food & Water Supplies — DDI GROWTH SERVICE LINE'
+    },
+
     # ===== NAICS 54 - PROFESSIONAL, SCIENTIFIC & TECHNICAL SERVICES =====
     {
         'name': 'NAICS 541 - Professional Services (All)',
@@ -9266,14 +9441,6 @@ GOVERNMENT_RSS_FEEDS = [
         'enabled': True,
         'naics': '624'
     },
-    {
-        'name': 'NAICS 624230 - Emergency & Relief Services',
-        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=624230',
-        'type': 'Federal',
-        'keywords': ['emergency', 'disaster', 'relief', 'crisis', 'response'],
-        'enabled': True,
-        'naics': '624230'
-    },
     
     # ===== NAICS 23 - CONSTRUCTION =====
     {
@@ -9301,6 +9468,69 @@ GOVERNMENT_RSS_FEEDS = [
         'keywords': ['wholesale', 'supplies', 'equipment', 'durable goods'],
         'enabled': True,
         'naics': '423'
+    },
+    {
+        'name': 'NAICS 423840 - Industrial Supplies (RCOC, CPS Energy type bids)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423840',
+        'type': 'Federal',
+        'keywords': ['industrial supplies', 'safety supplies', 'PPE', 'wipers', 'welding', 'janitorial', 'cleaning'],
+        'enabled': True,
+        'naics': '423840',
+        'description': 'Industrial Supplies — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 423610 - Electrical Equipment & Supplies (DLA, power cables)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423610',
+        'type': 'Federal',
+        'keywords': ['electrical', 'power cable', 'cable assembly', 'relay', 'VFD', 'switchgear', 'generator', 'transformer'],
+        'enabled': True,
+        'naics': '423610',
+        'description': 'Electrical Equipment — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 423120 - Motor Vehicle Supplies & Parts',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423120',
+        'type': 'Federal',
+        'keywords': ['automotive', 'vehicle parts', 'wiper blades', 'truck parts', 'fleet', 'auto supplies'],
+        'enabled': True,
+        'naics': '423120',
+        'description': 'Automotive Parts & Vehicle Supplies — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 423450 - Medical Equipment & Supplies',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423450',
+        'type': 'Federal',
+        'keywords': ['medical supplies', 'hospital supplies', 'lab supplies', 'exam', 'surgical', 'diagnostic'],
+        'enabled': True,
+        'naics': '423450',
+        'description': 'Medical & Lab Supplies — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 423720 - Plumbing & Heating Equipment (Water infrastructure)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423720',
+        'type': 'Federal',
+        'keywords': ['plumbing', 'valves', 'pipes', 'fittings', 'water', 'hydrant', 'infrastructure'],
+        'enabled': True,
+        'naics': '423720',
+        'description': 'Water Infrastructure & Plumbing — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 423390 - Other Construction Materials (Guardrails, barricades)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=423390',
+        'type': 'Federal',
+        'keywords': ['construction materials', 'guardrails', 'barricades', 'signs', 'aggregate', 'concrete', 'asphalt'],
+        'enabled': True,
+        'naics': '423390',
+        'description': 'Construction Materials — ACTIVE DDI PRODUCT LINE'
+    },
+    {
+        'name': 'NAICS 424690 - Chemical & Allied Products (Chlorine, solvents)',
+        'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=424690',
+        'type': 'Federal',
+        'keywords': ['chemicals', 'chlorine', 'solvent', 'de-icer', 'salt', 'cleaning chemicals'],
+        'enabled': True,
+        'naics': '424690',
+        'description': 'Chemicals & Allied Products — ACTIVE DDI PRODUCT LINE'
     },
     {
         'name': 'NAICS 424 - Merchant Wholesalers, Nondurable Goods',

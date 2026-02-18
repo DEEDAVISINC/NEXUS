@@ -58,6 +58,27 @@
           "days_left": -5,
           "file_count": 36,
           "reason": "Has 36 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 36,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -7,
+          "file_count": 36,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -8,
+          "file_count": 36,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -119,6 +140,27 @@
           "days_left": -5,
           "file_count": 4,
           "reason": "Has 4 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 4,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -7,
+          "file_count": 4,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -8,
+          "file_count": 4,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -180,6 +222,27 @@
           "days_left": -4,
           "file_count": 1,
           "reason": "No activity in 6d, deadline in -4d"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 1,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -7,
+          "file_count": 1,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -241,6 +304,27 @@
           "days_left": -4,
           "file_count": 1,
           "reason": "No activity in 6d, deadline in -4d"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 1,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -7,
+          "file_count": 1,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -302,6 +386,27 @@
           "days_left": -4,
           "file_count": 1,
           "reason": "No activity in 18d, deadline in -4d"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 1,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 1,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -7,
+          "file_count": 1,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -363,6 +468,27 @@
           "days_left": -3,
           "file_count": 20,
           "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -4,
+          "file_count": 20,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 20,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 20,
+          "reason": "Active (edited 0 days ago)"
         }
       ]
     },
@@ -424,6 +550,27 @@
           "days_left": -3,
           "file_count": 10,
           "reason": "Has 10 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -4,
+          "file_count": 10,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 10,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 10,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -485,6 +632,27 @@
           "days_left": -3,
           "file_count": 8,
           "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -4,
+          "file_count": 8,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -5,
+          "file_count": 8,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -6,
+          "file_count": 8,
+          "reason": "Active (edited 0 days ago)"
         }
       ]
     },
@@ -546,6 +714,27 @@
           "days_left": 0,
           "file_count": 2,
           "reason": "No activity in 6d, deadline in 0d"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 2,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -2,
+          "file_count": 2,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -3,
+          "file_count": 2,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -607,6 +796,27 @@
           "days_left": 1,
           "file_count": 11,
           "reason": "Has 11 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 0,
+          "file_count": 11,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 11,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -2,
+          "file_count": 11,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -668,6 +878,27 @@
           "days_left": 1,
           "file_count": 29,
           "reason": "Has 29 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 0,
+          "file_count": 29,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 29,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -2,
+          "file_count": 29,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -729,6 +960,27 @@
           "days_left": 1,
           "file_count": 5,
           "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 0,
+          "file_count": 5,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 5,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -2,
+          "file_count": 5,
+          "reason": "Active (edited 0 days ago)"
         }
       ]
     },
@@ -790,6 +1042,27 @@
           "days_left": 2,
           "file_count": 32,
           "reason": "Has 32 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 1,
+          "file_count": 32,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": 0,
+          "file_count": 32,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 32,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -851,6 +1124,27 @@
           "days_left": 2,
           "file_count": 17,
           "reason": "Has 17 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 1,
+          "file_count": 17,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": 0,
+          "file_count": 17,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": -1,
+          "file_count": 17,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -912,6 +1206,27 @@
           "days_left": 7,
           "file_count": 20,
           "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 6,
+          "file_count": 20,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": 5,
+          "file_count": 20,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": 4,
+          "file_count": 20,
+          "reason": "Active (edited 0 days ago)"
         }
       ]
     },
@@ -973,6 +1288,27 @@
           "days_left": 9,
           "file_count": 8,
           "reason": "Has 8 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 8,
+          "file_count": 8,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": 7,
+          "file_count": 8,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": 6,
+          "file_count": 8,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     },
@@ -1034,6 +1370,27 @@
           "days_left": 14,
           "file_count": 9,
           "reason": "Has 9 files (analysis started)"
+        },
+        {
+          "date": "2026-02-16T07:00:05.483482",
+          "is_pursuing": true,
+          "days_left": 13,
+          "file_count": 9,
+          "reason": "Active (edited 0 days ago)"
+        },
+        {
+          "date": "2026-02-17T07:00:03.058491",
+          "is_pursuing": true,
+          "days_left": 12,
+          "file_count": 9,
+          "reason": "Active (edited 1 days ago)"
+        },
+        {
+          "date": "2026-02-18T07:00:05.533060",
+          "is_pursuing": true,
+          "days_left": 11,
+          "file_count": 9,
+          "reason": "Active (edited 2 days ago)"
         }
       ]
     }

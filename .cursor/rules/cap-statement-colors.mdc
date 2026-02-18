@@ -1,67 +1,127 @@
+# Capability Statement Color Schemes by Service Lane
+
+**Every capability statement gets a color scheme based on its service lane. This makes them instantly identifiable. No exceptions.**
+
 ---
-description: Color schemes for capability statements by industry sector
-alwaysApply: true
+
+## COLOR ASSIGNMENTS
+
+### Fingerprinting / Background Screening / SWFT / EFT — FOREST GREEN
+- **Primary:** `#1a2e1a` (dark green)
+- **Secondary:** `#2d5016` (forest green)
+- **Accent backgrounds:** `#f0fdf4`, `#dcfce7`
+- **Border/tag color:** `#2d5016`
+- **Checkmark color:** `#2d5016`
+- **Use for:** ATF, DCSA, LARA, DOJ, LiveScan, FD-258, SWFT, EFT, badging, security clearance processing
+
+### NEMT / Medical Transportation — MEDICAL BLUE & RED
+- **Primary:** `#1e3a5f` (dark navy blue)
+- **Secondary:** `#dc2626` (medical red)
+- **Gradient:** `linear-gradient(135deg, #1e3a5f 0%, #991b1b 100%)`
+- **Accent backgrounds:** `#fef2f2`, `#fee2e2`
+- **Border/tag color:** `#dc2626`
+- **Checkmark color:** `#dc2626`
+- **Section headers:** Use the blue-to-red gradient
+- **Use for:** Medicaid NEMT, Uber Health partnerships, medical courier, transportation brokerage, ride coordination
+
+### Drug Testing / Alcohol Testing / TPA — DEEP PURPLE
+- **Primary:** `#3b0764` (dark purple)
+- **Secondary:** `#7c3aed` (violet)
+- **Accent backgrounds:** `#faf5ff`, `#ede9fe`
+- **Border/tag color:** `#7c3aed`
+- **Checkmark color:** `#7c3aed`
+- **Use for:** SAMHSA, DOT, DTMB, workplace drug/alcohol testing, TPA services, MRO coordination
+
+### DNA / Paternity / Genetic Testing — TEAL
+- **Primary:** `#134e4a` (dark teal)
+- **Secondary:** `#0d9488` (teal)
+- **Accent backgrounds:** `#f0fdfa`, `#ccfbf1`
+- **Border/tag color:** `#0d9488`
+- **Checkmark color:** `#0d9488`
+- **Use for:** DCFS, child support enforcement, DDC/Depointe DNA, paternity testing, AABB/CLIA lab services
+
+### Janitorial / Grounds Maintenance / Facilities — EARTH BROWN
+- **Primary:** `#451a03` (dark brown)
+- **Secondary:** `#b45309` (amber brown)
+- **Accent backgrounds:** `#fffbeb`, `#fef3c7`
+- **Border/tag color:** `#b45309`
+- **Checkmark color:** `#b45309`
+- **Use for:** USACE, VA janitorial, grounds maintenance, landscaping, snow removal, facilities management
+
+### Industrial Supplies / Equipment / Parts — STEEL GRAY
+- **Primary:** `#1e293b` (dark slate)
+- **Secondary:** `#475569` (steel gray)
+- **Accent backgrounds:** `#f8fafc`, `#f1f5f9`
+- **Border/tag color:** `#475569`
+- **Checkmark color:** `#475569`
+- **Use for:** DLA, TACOM, truck parts, cable assemblies, safety valves, power cables, industrial equipment
+
+### Courier / Delivery / Logistics — ORANGE
+- **Primary:** `#7c2d12` (dark orange)
+- **Secondary:** `#ea580c` (bright orange)
+- **Accent backgrounds:** `#fff7ed`, `#ffedd5`
+- **Border/tag color:** `#ea580c`
+- **Checkmark color:** `#ea580c`
+- **Use for:** VA courier, NIAID courier, medical specimen delivery, mail/package delivery, logistics
+
+### Notary / Signing Agent / Legal Services — PINK-PURPLE-BLUE GRADIENT
+- **Gradient:** `linear-gradient(135deg, #e879a8 0%, #a78bdb 50%, #3b6fd4 100%)`
+- **Accent backgrounds:** `#fdf4ff`, `#ede9fe`
+- **Border/tag color:** `#a78bdb` (soft purple)
+- **Checkmark color:** `#a78bdb`
+- **Use for:** HUD, real estate closings, notary services, signing agent, CNTDA, estate planning, legal document services
+
+### Professional Services / Consulting / Staffing — CHARCOAL
+- **Primary:** `#171717` (near black)
+- **Secondary:** `#404040` (charcoal)
+- **Accent backgrounds:** `#fafafa`, `#f5f5f5`
+- **Border/tag color:** `#404040`
+- **Checkmark color:** `#404040`
+- **Use for:** IT staffing, consulting, professional services, administrative support, contract management
+
 ---
 
-# Capability Statement Color Scheme by Sector
+## STATE-SPECIFIC OVERRIDES
 
-**When generating capability statements, use the correct color scheme based on the bid sector.**
+When a cap statement targets a specific state agency, the state color OVERRIDES the service lane color:
 
-## Color Assignments
+### Georgia — RED
+- **Primary:** `#7f1d1d`
+- **Secondary:** `#b91c1c`
+- **Accent backgrounds:** `#fef2f2`, `#fee2e2`
+- **Use for:** Georgia DOAS, Georgia DCH, Georgia DCSS — any Georgia state agency
 
-### Medical / Healthcare (Blue + Red)
-- **Header gradient:** #1e40af → #3b82f6
-- **Title bar gradient:** #dc2626 → #b91c1c
-- **Section headers:** #0f172a → #1e293b
-- **Accent (borders, links):** #3b82f6
-- **Use for:** VA medical, dry ice, surgical supplies, healthcare courier, medical equipment, pharmaceutical
+### Michigan — BLUE (default navy works)
+- Use the default service lane colors for Michigan — no override needed
 
-### Defense / DLA (Navy + Gold)
-- **Header gradient:** #0f172a → #1e3a5f
-- **Title bar gradient:** #b45309 → #d97706
-- **Section headers:** #0c1222 → #1e293b
-- **Accent (borders, links):** #1e3a5f
-- **Use for:** DLA solicitations, DOD contracts, military parts, cable assemblies, valves, industrial defense items
+*(Add more state overrides as needed)*
 
-### Facilities / Grounds (Forest Green + Slate)
-- **Header gradient:** #166534 → #16a34a
-- **Title bar gradient:** #475569 → #64748b
-- **Section headers:** #14532d → #166534
-- **Accent (borders, links):** #16a34a
-- **Use for:** FEMA, USACE, landscaping, snow removal, grounds maintenance, janitorial, building services
+---
 
-### Industrial / Construction (Charcoal + Orange)
-- **Header gradient:** #1c1917 → #44403c
-- **Title bar gradient:** #c2410c → #ea580c
-- **Section headers:** #1c1917 → #292524
-- **Accent (borders, links):** #44403c
-- **Use for:** Construction, fabrication, industrial equipment, heavy machinery, guardrails, infrastructure
+## UNIVERSAL RULES
 
-### Transportation / Logistics (Deep Purple + Teal)
-- **Header gradient:** #581c87 → #7c3aed
-- **Title bar gradient:** #0d9488 → #14b8a6
-- **Section headers:** #3b0764 → #581c87
-- **Accent (borders, links):** #7c3aed
-- **Use for:** Freight brokerage, courier services, NEMT, delivery, fleet management, transportation
+1. **EDWOSB box ALWAYS stays gold/amber** — `#fef3c7` / `#fde68a` / `#d97706` — never changes regardless of service lane
+2. **Match the color to the SERVICE being offered**, not the buyer's agency (unless state override applies)
+3. **Apply colors to:** header gradient, section headers, title bar, border-left accents, NAICS tags, checkmark icons, highlight boxes
+4. **Logo section background stays WHITE** — always `#ffffff` so the DDI logo displays cleanly
+5. **Text on colored backgrounds stays WHITE** — headers, section titles, badges
+6. **If a cap statement covers MULTIPLE services** — use the PRIMARY service lane's color (the one most relevant to what the buyer is buying)
+7. **When in doubt** — ask which service lane is primary, don't guess
 
-### Reseller / Wholesale Distribution (Steel Blue + Emerald)
-- **Header gradient:** #1e4976 → #2563eb
-- **Title bar gradient:** #047857 → #059669
-- **Section headers:** #172554 → #1e4976
-- **Accent (borders, links):** #2563eb
-- **Use for:** General product resale, wholesale supply, padlocks, office supplies, non-defense/non-medical commodities, CPS Energy type bids
+---
 
-### Personal Items / Consumer Goods (Rose/Pink + Soft Pink)
-- **Header gradient:** #9f1239 → #e11d48
-- **Title bar gradient:** #be185d → #f472b6
-- **Section headers:** #881337 → #9f1239
-- **Accent (borders, links):** #e11d48
-- **Use for:** Personal care, clothing, household goods, food service, consumer products
+## QUICK REFERENCE
 
-## Rules
-1. **Always** use the sector color matching the solicitation type
-2. **Logo** is always embedded as base64 data URI (never a file reference)
-3. **All certifications** must appear: EDWOSB/WOSB, WBE/MBE/SBE, E-Verify (est. 2022), SWFT (est. 2022), CMMC-AB
-4. **DUNS, CAGE, UEI** all in the header
-5. **Contact info** always includes Point of Contact, Phone, Email, Website, Address, Freight Authority
-6. The VA Dry Ice cap statement uses **Medical/Healthcare** colors (blue/red)
+| Service Lane | Color Name | Primary Hex | Secondary Hex |
+|---|---|---|---|
+| Fingerprinting/SWFT | Forest Green | `#1a2e1a` | `#2d5016` |
+| NEMT/Medical Transport | Blue & Red | `#1e3a5f` | `#dc2626` |
+| Drug/Alcohol Testing | Deep Purple | `#3b0764` | `#7c3aed` |
+| DNA/Paternity | Teal | `#134e4a` | `#0d9488` |
+| Janitorial/Grounds | Earth Brown | `#451a03` | `#b45309` |
+| Industrial Supplies | Steel Gray | `#1e293b` | `#475569` |
+| Courier/Delivery | Orange | `#7c2d12` | `#ea580c` |
+| Notary/Legal | Pink-Purple-Blue | `#e879a8` | `#a78bdb → #3b6fd4` |
+| Professional Services | Charcoal | `#171717` | `#404040` |
+| Georgia (override) | Red | `#7f1d1d` | `#b91c1c` |
+| EDWOSB Box (universal) | Gold/Amber | `#fef3c7` | `#d97706` |

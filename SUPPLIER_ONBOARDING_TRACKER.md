@@ -10,7 +10,7 @@
 
 | Supplier | Type | URL | Cost | Status |
 |----------|------|-----|------|--------|
-| **Sourcewell** | Cooperative (government pricing) | sourcewell-mn.gov | FREE | [x] ACTIVE Feb 13 — Vendor portal (proportal) + Buy Sourcewell APPROVED (start.sourcewell.website, login: info@deedavis.biz). Also registered OMNIA Partners OPUS (gpss@deedavis.biz) — pending membership ID |
+| **Sourcewell** | Cooperative (government pricing) | sourcewell-mn.gov | FREE | [x] ACTIVE Feb 13 — Vendor portal (proportal) + Buy Sourcewell APPROVED (start.sourcewell.website, login: info@deedavis.biz) |
 | **HD Supply** | Industrial/MRO distributor | hdsupply.com | FREE | [ ] Not started |
 | **MSC Industrial** | Industrial/MRO distributor | mscdirect.com | FREE | [ ] Not started |
 
@@ -66,7 +66,7 @@
 | Cooperative | URL | Focus | Status |
 |-------------|-----|-------|--------|
 | **Sourcewell** | sourcewell-mn.gov | Government, huge catalog | [ ] Not started |
-| **OMNIA Partners** | omniapartners.com | Public sector pricing | [ ] Not started |
+| **OMNIA Partners** | omniapartners.com | Public sector pricing | [x] REGISTERED Feb 16 — Supplier solicitation mailing list submitted. DDI will receive RFP notifications. Check: omniapartners.com/get-started/solicitations |
 | **National IPA** | nationalipa.org | Piggyback contracts | [ ] Not started |
 | **Choice Partners** | choicepartners.org | Texas-based, national | [ ] Not started |
 | **GSA Advantage** | gsaadvantage.gov | Federal pricing | [ ] Not started |

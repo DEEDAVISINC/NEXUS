@@ -1,0 +1,395 @@
+---
+description: Master subcontractor management framework — vetting, onboarding, agreements, insurance, communication, timeline, staffing, performance. Every sub goes through this pipeline before touching a DDI contract.
+alwaysApply: true
+---
+
+# SUBCONTRACTOR MANAGEMENT — THE COMPLETE FRAMEWORK
+
+**Every subcontractor that touches a Dee Davis Inc. contract MUST go through this framework. No shortcuts. No "we'll get the paperwork later." No exceptions.**
+
+---
+
+## THE RULE
+
+**Before ANY subcontractor begins work on a DDI prime contract, they MUST clear all 6 pillars:**
+
+1. **VET** — Past performance, references, qualifications, SAM status
+2. **PROTECT** — NDA, Non-Compete, never-reveal-buyer rules
+3. **INSURE** — Liability, workers' comp, professional liability, COI with DDI as additional insured
+4. **PLAN** — Staffing & work plan, timeline alignment, deliverables
+5. **COMMUNICATE** — Communication cadence, reporting, escalation path
+6. **MANAGE** — Ongoing performance tracking, quality checks, CO reporting
+
+**If a pillar is incomplete, the sub does NOT start work. Period.**
+
+---
+
+## PILLAR 1: VET — Is This Sub Qualified?
+
+### Before You Contact ANYONE — Prep Work:
+
+1. **Learn the service.** Research the service type you need (drug testing, NEMT, grounds, courier) before calling anyone. You need to speak intelligently about what you need.
+2. **Read the Scope of Work.** Understand every requirement. If there's a Quality Assurance plan, read it — you'll need to share relevant parts with the sub.
+3. **Build a prospect list.** Research 3-5 companies. DO NOT just start calling the first one you find.
+4. **Check USASpending FIRST.** Look up every prospect by legal name. If they win their own contracts — cross them off.
+5. **Have your positioning ready.** To the sub, DDI IS the contract — not a company bidding on one. You don't say "we're bidding on a government contract and need a sub." You say "DDI provides [service type] services and we need a qualified local partner for our operations in [region]." The work is for YOUR company. They work for YOU.
+6. **Keep it general.** Do NOT tell them you're bidding on a contract. Do NOT mention solicitations, RFPs, or government deadlines. They will ask why you're calling — the answer is "DDI is expanding [service type] operations in [region] and we're looking for a reliable local partner."
+7. **They will want to know how they fit.** Frame it clearly: DDI manages the client relationship, compliance, and reporting. The sub provides the boots on the ground / field services / technical work. DDI pays them. Simple.
+
+### Before Engaging ANY Subcontractor, Verify:
+
+**Identity & Registration:**
+- [ ] SAM.gov registration (active, no exclusions)
+- [ ] CAGE code (if federal work)
+- [ ] UEI number
+- [ ] State business license (valid in the state where work is performed)
+- [ ] Professional licenses/certifications required for the service type
+
+**USASpending Check (DO THIS FIRST — before contacting the sub):**
+- [ ] Search usaspending.gov for sub's legal company name
+- [ ] **Do they win their own government contracts?** If YES → DO NOT USE. They don't need you as a prime. They will learn your client and bid directly next time.
+- [ ] A sub that has a CAGE code but NO contract wins on USASpending = IDEAL. They're registered but need a prime to get them in the door.
+- [ ] A sub that wins the SAME type of contracts you're bidding = ABSOLUTE DISQUALIFIER. They are your competitor, not your partner.
+
+**Website & Credibility Check:**
+- [ ] Review their website — do they look professional and credible?
+- [ ] They will be representing DDI. This is big business, not a side hustle.
+- [ ] Do they present themselves as capable of the service type you need?
+
+**Past Performance:**
+- [ ] 2-3 references from similar contracts (commercial/government)
+- [ ] CPARS ratings (if they've done federal work — check for "Satisfactory" or better)
+- [ ] Google search — lawsuits, complaints, BBB issues, news articles
+- [ ] How long in business? (Minimum 2 years preferred for government work)
+- [ ] Have they done THIS type of work before? (drug testing, NEMT, grounds, fingerprinting, etc.)
+
+**Capacity:**
+- [ ] Can they handle the volume/scope of this contract?
+- [ ] Do they have enough staff for the service area?
+- [ ] Equipment and facilities adequate?
+- [ ] Geographic coverage matches the contract requirements?
+
+**Certifications (Bonus — Strengthens Our Bid):**
+- [ ] Small business certifications (SBA, state, local)
+- [ ] Diversity certifications (MBE, WBE, DBE, SDVOSB, HUBZone)
+- [ ] Industry-specific certifications (SAMHSA for drug testing, CLIA for lab work, etc.)
+
+### Vetting Decision Matrix
+
+| Factor | GREEN (Proceed) | YELLOW (Proceed with caution) | RED (Do not engage) |
+|---|---|---|---|
+| USASpending | No contract wins, has CAGE | Few small contracts, different service type | Wins contracts in same service type — COMPETITOR |
+| SAM Status | Active, no exclusions | Active, minor issues | Excluded, debarred, or not registered |
+| References | 2+ refs, strong | 1 ref or commercial only | No references, refused to provide |
+| Experience | 3+ years, same service type | 1-2 years, similar service | No relevant experience |
+| Capacity | Clearly adequate | Tight but feasible | Cannot meet scope |
+| Insurance | Current, adequate limits | Expired but willing to renew | No insurance, refuses |
+| Website/Credibility | Professional, established | Basic but functional | No website, looks like a side hustle |
+| Reputation | Clean record | Minor complaints resolved | Lawsuits, BBB F rating, debarment |
+
+**RED on any factor = STOP. Find another sub.**
+
+---
+
+## PILLAR 2: PROTECT — Agreements Before Information
+
+### Required Agreements (Signed BEFORE sharing any contract details):
+
+**1. Non-Disclosure Agreement (NDA)**
+- Mutual NDA covering all contract information
+- Specifically prohibits: disclosing end client/agency name, solicitation details, pricing, contract terms
+- Govcon protections: no end-run (sub cannot bid directly on the same contract), no supplier/client poaching
+- Term: 2 years minimum after contract completion
+- Use existing `generate_nda()` from `nexus_backend.py` API: `POST /gpss/subcontractors/<id>/generate-nda`
+
+**2. Non-Compete Agreement**
+- Sub agrees NOT to bid directly on the same contract or with the same agency for the duration of the contract + 12 months after
+- Sub agrees NOT to solicit DDI's clients, contacts, or teaming partners
+- Sub agrees NOT to use information gained through DDI to compete against DDI
+- Geographic and service-type scope limitations matching the specific contract
+- Remedy: Liquidated damages clause
+
+**3. Teaming Agreement / Subcontract Agreement**
+- Defines scope of work, pricing, payment terms, performance standards
+- DDI is prime — sub reports to DDI, not to the CO
+- All government communication goes through DDI
+- Sub may NOT contact the contracting officer, agency, or facility directly
+- Termination clause: DDI can terminate for cause or convenience
+- Use existing `generate_teaming_agreement()` from `nexus_backend.py`
+
+### Agreement Execution Order
+
+```
+STEP 1: NDA signed → NOW you can share general scope and requirements
+STEP 2: Non-Compete signed → NOW you can share contract-specific details
+STEP 3: Sub provides quote/pricing → Negotiate terms
+STEP 4: Teaming Agreement / Subcontract signed → NOW work can begin
+```
+
+**NEVER share contract details before the NDA is signed. NEVER.**
+
+### Buyer Protection (Same Rules as Suppliers)
+
+All `never-reveal-buyer-to-supplier.mdc` and `rfq-buyer-protection-checklist.mdc` rules apply to subcontractors:
+- NO agency/client names until NDA + Non-Compete are signed
+- Even after signing, minimize specific client details — sub needs to know WHERE to show up and WHAT to do, not WHO the contract is with
+- RFQ to subs uses DDI-YYYY-### format, same as suppliers
+- Generic language: "federal facility," "government client," "municipal client"
+
+---
+
+## PILLAR 3: INSURE — Verify Before They Start
+
+### Required Insurance (Verify COI Before Work Begins):
+
+**For ALL Subcontractors:**
+- [ ] **General Liability** — Minimum $1M per occurrence / $2M aggregate
+- [ ] **Workers' Compensation** — State-required minimums (mandatory if sub has employees)
+- [ ] **Commercial Auto** — If driving is part of the work (NEMT, courier, delivery, grounds)
+
+**For Specific Service Types:**
+- [ ] **Professional Liability / E&O** — Drug testing, fingerprinting, medical courier, lab work, notary
+- [ ] **Commercial Auto with Higher Limits** — NEMT ($1M+ per occurrence required by most states)
+- [ ] **Pollution Liability** — Grounds maintenance with chemical application
+- [ ] **Bonding** — If contract requires performance/payment bonds
+
+### Certificate of Insurance (COI) Requirements
+
+**Every COI MUST show:**
+- [ ] DEE DAVIS INC listed as **Additional Insured**
+- [ ] Policy effective dates covering the full contract period
+- [ ] Coverage limits meeting or exceeding contract requirements
+- [ ] 30-day cancellation notice to DDI
+- [ ] Insurance company rated A- or better by AM Best
+
+### Insurance Verification Process
+
+```
+STEP 1: Request COI from sub (use COI Request template)
+STEP 2: Verify coverage types match contract requirements
+STEP 3: Verify limits meet minimums
+STEP 4: Verify DDI is listed as Additional Insured
+STEP 5: Verify policy dates cover contract period
+STEP 6: File COI in bid folder + log in Airtable compliance tracking
+STEP 7: Set calendar reminder for policy renewal dates
+```
+
+**NO COI = NO WORK. Sub does not start until insurance is verified.**
+
+### Insurance by Service Type Quick Reference
+
+| Service Type | Gen Liability | Workers Comp | Auto | Professional/E&O | Bonding |
+|---|---|---|---|---|---|
+| Drug Testing | $1M/$2M | Required | If mobile | $1M (SAMHSA) | Per contract |
+| Fingerprinting | $1M/$2M | Required | If mobile | $1M | Per contract |
+| NEMT | $1M/$2M | Required | $1M+ commercial | $1M | State-dependent |
+| Grounds/Landscaping | $1M/$2M | Required | Commercial | — | Per contract |
+| Medical Courier | $1M/$2M | Required | $1M commercial | $1M (cargo) | Per contract |
+| Janitorial | $1M/$2M | Required | If applicable | — | Per contract |
+| Construction/Labor | $1M/$2M | Required | If applicable | — | Often required |
+
+---
+
+## PILLAR 4: PLAN — Staffing & Work Plan
+
+### Before Contract Start, Sub Must Provide:
+
+**Staffing Plan:**
+- [ ] Names and roles of key personnel assigned to the contract
+- [ ] Qualifications/certifications of each person (especially licensed roles)
+- [ ] Backup personnel plan (who covers if someone is sick/unavailable?)
+- [ ] Background check clearance (if federal facility access required)
+- [ ] Training documentation (specific to service type)
+
+**Work Plan:**
+- [ ] How they will execute the scope of work — step by step
+- [ ] Equipment and materials they will provide
+- [ ] Quality control procedures
+- [ ] What they need from DDI to perform (access, credentials, information)
+
+**Timeline Alignment:**
+- [ ] Sub's proposed schedule aligns with contract performance period
+- [ ] Sub can meet all contract milestones and deadlines
+- [ ] Ramp-up time accounted for (how quickly can they start after award?)
+- [ ] Response time commitments (especially for on-call services like NEMT, snow removal)
+
+### DDI's Role as Prime (What WE Manage):
+
+- All communication with the Contracting Officer
+- All contract reporting (monthly reports, invoicing, performance documentation)
+- Quality assurance oversight
+- Schedule management and milestone tracking
+- Compliance with all contract terms and FAR/DFAR requirements
+- Status updates to the CO on sub performance
+- Issue resolution and escalation
+
+**The sub executes. DDI manages. That's the split.**
+
+---
+
+## PILLAR 5: COMMUNICATE — Communication Plan
+
+### Communication Cadence
+
+| Frequency | What | Who |
+|---|---|---|
+| **Weekly** | Status update from sub to DDI | Sub PM → DDI (Dee) |
+| **Bi-weekly** | Performance review call | DDI + Sub PM |
+| **Monthly** | Formal performance report | DDI compiles for CO |
+| **As needed** | Issues, delays, problems | Sub → DDI immediately |
+| **As needed** | CO inquiries, changes | DDI → Sub |
+
+### Communication Rules
+
+1. **Sub NEVER contacts the CO or agency directly** — All government communication goes through DDI
+2. **Sub reports issues to DDI IMMEDIATELY** — Don't wait for the weekly update if something goes wrong
+3. **DDI provides all contract changes to sub in writing** — No verbal-only changes
+4. **All communication is documented** — Emails, not phone calls, for anything that matters
+5. **Escalation path:** Sub PM → Dee → CO (never skip DDI)
+
+### Reporting Requirements (Sub Provides to DDI)
+
+- [ ] Weekly status report (work completed, hours, issues)
+- [ ] Monthly invoice with supporting documentation
+- [ ] Incident reports within 24 hours of any issue
+- [ ] Photos/documentation of work performed (where applicable)
+- [ ] Staff changes reported within 48 hours
+
+---
+
+## PILLAR 6: MANAGE — Ongoing Performance
+
+### Performance Metrics (Track for Every Sub)
+
+| Metric | Target | How to Measure |
+|---|---|---|
+| On-time delivery | 95%+ | Tasks completed by deadline |
+| Quality | Zero rework | CO complaints, inspection results |
+| Communication | Same-day response | Response time to DDI requests |
+| Compliance | 100% | Insurance current, reports on time, staff cleared |
+| Issue resolution | 48 hours | Time from issue reported to resolved |
+
+### Performance Review Process
+
+```
+MONTHLY: Review sub performance against metrics
+QUARTERLY: Formal performance discussion with sub
+ANNUALLY: Full performance evaluation — continue, improve, or replace
+ONGOING: Document EVERYTHING — good and bad — for CPARS and future proposals
+```
+
+### When to Replace a Subcontractor
+
+**Immediate termination triggers:**
+- Contacted the CO or agency directly (violation of agreement)
+- Failed to perform critical contract requirements
+- Insurance lapsed and not renewed within 5 business days
+- Safety violation or injury due to negligence
+- Breach of NDA or Non-Compete
+
+**Performance improvement plan first:**
+- Consistent late deliveries (3+ in a quarter)
+- Quality issues requiring rework
+- Communication failures (not responsive)
+- Staff turnover without notification
+
+---
+
+## AUTOMATIC ACTIONS — WHEN NEXUS IDENTIFIES A SUB NEED
+
+### When a Service Contract Is Identified (Drug Testing, NEMT, Grounds, etc.)
+
+NEXUS should automatically:
+
+1. **Flag that subcontractor(s) will be needed** — Based on service type
+2. **Search existing sub database** — Check Airtable SUBCONTRACTORS for matches
+3. **If no match:** Trigger `automated_sub_sourcing.py` to find candidates
+4. **Generate Subcontractor Vetting Checklist** — Place in bid folder root (INTERNAL)
+5. **Generate outreach email** — Place in SEND_TO_SUBCONTRACTOR/
+6. **Track in WORKFLOW_CHECKLIST.md** — Add sub-specific steps between Step 3 and Step 5
+
+### When a Sub Is Selected
+
+NEXUS should automatically:
+
+1. **Generate NDA** — Via API `POST /gpss/subcontractors/<id>/generate-nda`
+2. **Generate Non-Compete** — New template (see below)
+3. **Send COI Request** — Template email requesting insurance certificates
+4. **Create compliance tracking entry** — In Airtable GPSS SUBCONTRACTOR COMPLIANCE
+5. **Generate Teaming Agreement** — Via API after NDA + Non-Compete are signed
+6. **Update WORKFLOW_CHECKLIST.md** — Mark sub onboarding steps complete
+
+### When Contract Is Awarded (Sub Begins Work)
+
+NEXUS should automatically:
+
+1. **Generate Subcontractor Management Plan** — Communication cadence, reporting requirements, performance metrics
+2. **Set calendar reminders** — Insurance renewal dates, reporting deadlines, performance reviews
+3. **Create performance tracking entry** — In Airtable SUB_PERFORMANCE
+
+---
+
+## ONBOARDING SEQUENCE — THE EXACT ORDER
+
+```
+1. IDENTIFY need for subcontractor
+2. SEARCH existing database or find new candidates
+3. VET candidates (Pillar 1 checklist)
+4. SELECT best candidate
+5. NDA signed ← Sub sees general scope ONLY after this
+6. NON-COMPETE signed ← Sub sees contract-specific details ONLY after this
+7. COI received and verified ← Insurance confirmed
+8. QUOTE/PRICING received from sub
+9. TEAMING AGREEMENT signed ← Sub is now formally engaged
+10. STAFFING & WORK PLAN received ← Sub provides personnel and approach
+11. COMMUNICATION PLAN established ← Reporting cadence agreed
+12. WORK BEGINS ← Only after steps 1-11 are complete
+```
+
+**If a step is skipped, everything after it STOPS. Go back and complete it.**
+
+---
+
+## TEMPLATES THIS RULE REQUIRES
+
+### In Every Bid Folder with Subcontractors:
+
+| Document | Location | When Created |
+|---|---|---|
+| SUBCONTRACTOR_VETTING_CHECKLIST.md | Root folder (INTERNAL) | When sub need is identified |
+| SUBCONTRACTOR_SCOPE.md | SEND_TO_SUBCONTRACTOR/ | When generating sub RFQ |
+| SUBCONTRACTOR_OUTREACH_EMAIL.md | SEND_TO_SUBCONTRACTOR/ | When reaching out to candidates |
+| NDA (generated) | Root folder (INTERNAL) | When sub is selected |
+| NON_COMPETE (generated) | Root folder (INTERNAL) | After NDA is signed |
+| COI_REQUEST_EMAIL.md | SEND_TO_SUBCONTRACTOR/ | After NDA is signed |
+| TEAMING_AGREEMENT (generated) | Root folder (INTERNAL) | After NDA + Non-Compete + COI verified |
+| SUBCONTRACTOR_MANAGEMENT_PLAN.md | Root folder (INTERNAL) | After contract award |
+
+---
+
+## INTEGRATION WITH EXISTING RULES
+
+This rule works WITH, not instead of:
+- `nexus-outbound-workflow.mdc` — Sub outreach docs go through the outbound pipeline
+- `bid-folder-organization.mdc` — SEND_TO_SUBCONTRACTOR folder rules still apply
+- `never-reveal-buyer-to-supplier.mdc` — Same protection applies to subs
+- `rfq-buyer-protection-checklist.mdc` — Same verification for sub-facing docs
+- `company-info-verification.mdc` — DDI contact info on all agreements
+
+---
+
+## CRITICAL REMINDERS
+
+1. **YOU are responsible for the contract.** Not the sub. If the sub fails, your CPARS takes the hit, your past performance suffers, and your business reputation is damaged.
+
+2. **It is illegal to be a pass-through.** DDI must actively manage the contract — scheduling, quality, reporting, CO communication. The sub provides labor/services. DDI provides management and oversight.
+
+3. **The CO may never know the sub.** All communication with the government goes through DDI. The sub is invisible to the CO unless the contract specifically requires sub identification.
+
+4. **NDA before information. Non-Compete before details. COI before work.** This is the order. Always.
+
+5. **Document everything.** Every communication, every performance issue, every milestone. This protects DDI legally and builds the case for future proposals.
+
+---
+
+*This framework exists because the Fed Biz Exchange video is right: YOU and ONLY YOU are responsible for the contract. The sub is your tool, not your partner. Vet them. Protect yourself. Manage them. Every time.*

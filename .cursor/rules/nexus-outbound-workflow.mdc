@@ -30,6 +30,7 @@ alwaysApply: true
 
 | Type | Recipient | Framework | Protection Rules |
 |------|-----------|-----------|-----------------|
+| **Quote Response** | Government CO / Procurement Officer | `QUOTE_RESPONSE_TEMPLATE.html` + ProposalBio + Sector Colors | All 10 Biohacks, company-info-verification |
 | **Buyer Email** | Government CO / Procurement Officer | ProposalBio + Human Touch | Name Recognition (#7), Familiarity (#6) |
 | **Capability Statement** | Government CO / Procurement Officer | ProposalBio + Sector Colors + NEXUS Template | All 10 Biohacks |
 | **RFQ to Supplier** | Vendor / Manufacturer | Supplier Protection | NEVER reveal buyer (see `never-reveal-buyer-to-supplier.mdc`) |
@@ -97,7 +98,7 @@ alwaysApply: true
    - Reseller / Wholesale = Steel Blue + Emerald
    - Personal Items = Rose/Pink
 
-2. **Header** — Company name, CAGE (8UMX3), UEI (HJB4KNYJVGZ1), DUNS (002636755), SAM Active, all cert badges
+2. **Header** — Company name, CAGE (8UMX3), UEI (HJB4KNYJVGZ1), DUNS (002636755), SAM Active, all cert badges. **LOGO MUST be the actual base64-embedded PNG** — extract from any existing working cap statement in `BIDS:RESOURCES/` (e.g., VA DRY ICE DELIVERY). NEVER use a text placeholder like "DDI" in a div. The logo is always an `<img>` tag with `src="data:image/png;base64,..."` and `class="logo-img"`.
 
 3. **Title bar** — "CAPABILITY STATEMENT — [Service Description Mirroring Buyer Language]"
    - Subtitle: "Prepared for [Agency Name] — [Division] | [Solicitation Number] | [Month Year]"
@@ -317,6 +318,22 @@ ACTION: Convert cap statement to PDF → Attach → Copy email → Send to [CO e
 ---
 
 ## DOCUMENT TYPE QUICK REFERENCE
+
+### When Dee provides a solicitation number, PDF, or says "generate a response" / "bid on this" / "respond to this":
+→ This is a **QUOTE RESPONSE** — a multi-page document, NOT a cap statement
+→ STEP 1: Parse the solicitation — extract agency, SOW, CLINs, requirements, NAICS, set-aside, evaluation method, CO name/email, deadlines
+→ STEP 2: Identify service lane → look up colors in `cap-statement-colors.mdc`
+→ STEP 3: Copy `GENERATED_RESPONSES/QUOTE_RESPONSE_TEMPLATE.html`
+→ STEP 4: Replace ALL `{{PLACEHOLDER}}` values with solicitation-specific content
+→ STEP 5: Extract base64 logo from any existing cap statement in `BIDS:RESOURCES/`
+→ STEP 6: Apply ProposalBio to Technical Capability section (mirror buyer language, use agency name 3+ times, sensory language, story arc)
+→ STEP 7: Build Compliance Matrix — one row per solicitation requirement, all showing COMPLIANT
+→ STEP 8: Build Pricing table — use exact CLINs from solicitation
+→ STEP 9: Verify company info per `company-info-verification.mdc` (248.376.4550, info@deedavis.biz, 48084)
+→ STEP 10: Save as `[SolNumber]_[Type]_Quote_Response.html` in `SEND_TO_BUYER/`
+→ STEP 11: Tell Dee: "Quote response ready. Open in Chrome → Cmd+P → Save as PDF. [X] pages."
+
+**The quote response ALWAYS uses the template. ALWAYS has a Table of Contents. ALWAYS has each section on its own page. ALWAYS matches the cap statement colors. No exceptions.**
 
 ### When Dee says "send an email" or "buyer outreach":
 → STEP 1: Classify as Buyer Email
