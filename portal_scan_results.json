@@ -1,18 +1,51 @@
 {
-  "scan_date": "2026-02-18T09:35:23.813720",
-  "total_found": 97,
+  "scan_date": "2026-02-22T18:04:53.188581",
+  "total_found": 101,
   "min_days_to_bid": 5,
   "opportunities": [
     {
       "source": "SAM.gov",
-      "title": "25--PARTS KIT,CALIPER,D",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-02-25",
+      "title": "66--REPAIR KIT,PROTECTI",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-03-02",
       "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/3eed1fd778b74b4892498e8969bd7175/view",
+      "url": "https://sam.gov/opp/3a4ef9bcc5284818b150f7d63d3d2fb8/view",
       "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-02-10",
-      "naics": "336340"
+      "posted": "2026-02-22",
+      "naics": "334511"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Preventative Maintenance and Repairs for Uninterrupted Power Supply, Generators, and Automatic Transfer Switches",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-OO.413TH CSB.0413 AQ HQ     RCO-HI",
+      "deadline": "2026-03-07T12:00:00-10:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/f8f7e5fc3e66490fa3298194ea553177/view",
+      "type": "Presolicitation",
+      "posted": "2026-02-19",
+      "naics": "811310"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Repair Barracks Buildings 29019-29022",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.418TH CSB.W6QM MICC-FDO FT HOOD",
+      "deadline": "2026-03-06T14:00:00-06:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/5f0e8dc374f4466888ea1a43fc5dafac/view",
+      "type": "Presolicitation",
+      "posted": "2026-02-19",
+      "naics": "236220"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Repair Barracks Building 29008, 29009, 29010, and 29026",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.418TH CSB.W6QM MICC-FDO FT HOOD",
+      "deadline": "2026-03-06T14:00:00-06:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/5424267ff3d844e18572925766074149/view",
+      "type": "Presolicitation",
+      "posted": "2026-02-19",
+      "naics": "236220"
     },
     {
       "source": "SAM.gov",
@@ -27,6 +60,17 @@
     },
     {
       "source": "SAM.gov",
+      "title": "Grounds Maintenance Services for Multiple Sites in Illinois",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
+      "deadline": "2026-03-17T10:00:00-06:00",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/8ebb144ecbc2425e9297dc0ca20c15a4/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-02-18",
+      "naics": "561730"
+    },
+    {
+      "source": "SAM.gov",
       "title": "Grounds Maintenance Services for ID006",
       "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
       "deadline": "2026-03-09T10:00:00-06:00",
@@ -38,259 +82,154 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "CRESCENT CITY AREA OFFICE \u00bf Janitorial ServicesCalifornia16 day(s) leftPublished02/18/2026Closing03/06/2026443884324863",
+      "title": "Seawall Replacements & RepairsFlorida44 day(s) leftPublished02/21/2026Closing04/08/20268365858821",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/CRESCENT-CITY-AREA-OFFICE-Janitorial-Services/443884324863?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/florida/solicitations/open-bids/Seawall-Replacements-Repairs/0000413321?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "CHP Santa Rosa Area office \u2013 Protective Clothing & Operational Supplies Rental ServicesCalifornia13 day(s) leftPublished02/18/2026Closing03/03/2026443884289876",
+      "title": "Washburn Ranger District Heat and Pump RepairWisconsin15 day(s) leftPublished02/21/2026Closing03/10/20262667773582",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/CHP-Santa-Rosa-Area-office-Protective-Clothing-Operational-Supplies-Rental-Services/443884289876?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/wisconsin/solicitations/open-bids/statewide/Washburn-Ranger-District-Heat-and-Pump-Repair/2667773582?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "SB Minor B - Imperial County - Upgrade Fencing and GatesCalifornia14 day(s) leftPublished02/18/2026Closing03/04/2026443884324861",
+      "title": "Quote RFQ for Park Cleaning and Litter Removal Services Lavon Lake, Collin County, TexasTexas3 day(s) leftPublished02/21/2026Closing02/26/20262667770777",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/SB-Minor-B-Imperial-County-Upgrade-Fencing-and-Gates/443884324861?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Quote-RFQ-for-Park-Cleaning-and-Litter-Removal-Services-Lavon-Lake-Collin-County-Texas/2667770777?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Install a Rectangular Rapid-Flashing Beacon in Placer CountyCalifornia13 day(s) leftPublished02/18/2026Closing03/03/2026443884271066",
+      "title": "Emergency Management and Physical SecurityDistrict of Columbia11 day(s) leftPublished02/20/2026Closing03/06/20262667535922",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Install-a-Rectangular-Rapid-Flashing-Beacon-in-Placer-County/443884271066?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/district-of-columbia/solicitations/open-bids/statewide/Emergency-Management-and-Physical-Security/2667535922?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Inventoried Door System Repair Parts for TriMet's Revenue Service Bus FleetOregon20 day(s) leftPublished02/18/2026Closing03/10/2026443884065603",
+      "title": "Packing, Containerization and Local Drayage ServicesGeorgia3 day(s) leftPublished02/20/2026Closing02/26/20262667622877",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/oregon/solicitations/open-bids/statewide/Inventoried-Door-System-Repair-Parts-for-TriMet-s-Revenue-Service-Bus-Fleet/443884065603?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/georgia/solicitations/open-bids/statewide/Packing-Containerization-and-Local-Drayage-Services/2667622877?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Eaton Hall Fire Pump & Controller ReplacementIowa20 day(s) leftPublished02/18/2026Closing03/10/2026443884266382",
+      "title": "GENERATOR,ALTERNATIPennsylvania7 day(s) leftPublished02/20/2026Closing03/02/20262667564482",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/iowa/solicitations/open-bids/statewide/Eaton-Hall-Fire-Pump-Controller-Replacement/443884266382?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/GENERATOR-ALTERNATI/2667564482?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "SB Minor B 04A7467 - Install Rectangular Rapid Flashing Beacons (RRFB) - Alameda CountyCalifornia12 day(s) leftPublished02/18/2026Closing03/02/2026443884289873",
+      "title": "16--ACTUATOR,ELECTROMEC, IN REPAIR/MODIFICATION OFPennsylvania21 day(s) leftPublished02/20/2026Closing03/16/20262667747062",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/SB-Minor-B-04A7467-Install-Rectangular-Rapid-Flashing-Beacons-RRFB-Alameda-County/443884289873?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Landscaping Cleanup - Gardena ArmoryCalifornia27 day(s) leftPublished02/18/2026Closing03/17/2026443884324854",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Landscaping-Cleanup-Gardena-Armory/443884324854?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Pest Control Services at various locations within Caltrans District 10California13 day(s) leftPublished02/18/2026Closing03/03/2026443884289877",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Pest-Control-Services-at-various-locations-within-Caltrans-District-10/443884289877?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Water Station 9 Valve ReplacementMichigan28 day(s) leftPublished02/18/2026Closing03/18/2026443884324853",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/michigan/solicitations/open-bids/statewide/Water-Station-9-Valve-Replacement/443884324853?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Alarm Monitoring, Maintenance, and Repair ServicesCalifornia20 day(s) leftPublished02/18/2026Closing03/10/2026443884289875",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Alarm-Monitoring-Maintenance-and-Repair-Services/443884289875?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Heavy-Duty Vehicles Parts & Repair ServicesCalifornia20 day(s) leftPublished02/18/2026Closing03/10/2026443884221909",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Heavy-Duty-Vehicles-Parts-Repair-Services/443884221909?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/16-ACTUATOR-ELECTROMEC-IN-REPAIR-MODIFICATION-OF/2667747062?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Bay County Medical Examiner 2026-01 REBID",
+      "title": "City of Eastpointe Lexington Avenue Reconstruction",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Bay-County-Medical-Examiner-2026-01-REBID/0000413380?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/City-of-Eastpointe-Lexington-Avenue-Reconstruction/0000413927?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Cooper Street Pump Station-Rehabilitation",
+      "title": "Transmission Repair and Replacement",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Cooper-Street-Pump-Station-Rehabilitation/0000412708?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Transmission-Repair-and-Replacement/0000413885?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "SAFETY VESTS AND APPAREL, ANNUAL ESTIMATED QUANTITIES",
+      "title": "Standby Power Generator \u2013 Load Bank Testing",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/SAFETY-VESTS-AND-APPAREL-ANNUAL-ESTIMATED-QUANTITIES/0000413307?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Standby-Power-Generator-Load-Bank-Testing/0000413875?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "RFQ 1958 - Milwaukee and Klein Tools",
+      "title": "S. Westnedge Ave Reconstruction & Force Main Lining (S. Shore Dr. to Centre Ave)",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFQ-1958-Milwaukee-and-Klein-Tools/0000413320?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/S-Westnedge-Ave-Reconstruction-Force-Main-Lining-S-Shore-Dr-to-Centre-Ave/0000413626?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Roof Repair and Replacement Services in Bryant Neighborhood of Ann Arbor",
+      "title": "Limited Asbestos Abatement and Demolition of 111 Highland, Highland Park, MI",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Roof-Repair-and-Replacement-Services-in-Bryant-Neighborhood-of-Ann-Arbor/0000413314?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Limited-Asbestos-Abatement-and-Demolition-of-111-Highland-Highland-Park-MI/0000413812?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Employee Benefits Brokerage and Consulting Services RFP",
+      "title": "Work Order Management System",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Employee-Benefits-Brokerage-and-Consulting-Services-RFP/0000413237?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Work-Order-Management-System/0000413799?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Lawn Maintenance",
+      "title": "Woodhaven City Hall Fountain Restoration & Reconstruction",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Lawn-Maintenance/0000413242?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "RFQ 1957 - RIDGID Machinery and Equipment",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFQ-1957-RIDGID-Machinery-and-Equipment/0000413201?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Woodhaven-City-Hall-Fountain-Restoration-Reconstruction/0000413792?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "Texas ESBD",
-      "title": "Master Order for Shuttle Vehicle Service and Maintenance for TAMUV",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "TDCJ - Estelle Unit - Procurement of HVAC Parts and Accessories",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "PHYSICAL TRAINING TRACK AND FIELD",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "Landscaping Irrigation System Maintenance and Repair Services",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "DIR Statement of Work (SOW) for Enterprise Content Management (ECM) for Content Management Services (CMS)",
+      "title": "Self-Insured Employee Group Medical Plan Administration",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -310,17 +249,7 @@
     },
     {
       "source": "Texas ESBD",
-      "title": "Software Maintenance and Support for the TxFLEET System",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "Site Pad, Fence, and Electrical Installation",
+      "title": "Radar Vehicle Detection System",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -339,6 +268,66 @@
       "posted": ""
     },
     {
+      "source": "Texas ESBD",
+      "title": "Elliott Hall Renovation",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "FM2026-003 JOC RFP for Mechanical and HVAC Services",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Janitorial and Sanitation Supplies and Services",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Comprehensive Facilities Management and Services",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Aviation Re-Fueler Truck",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Texas ESBD",
+      "title": "Purchase and Installation of One Generator, One ATS Switch and One Docking Station - Crain Unit",
+      "agency": "State of Texas",
+      "deadline": "",
+      "set_aside": "",
+      "url": "",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
       "source": "SC SCBO",
       "title": "Administrative & Judicial Decisions",
       "agency": "State of South Carolina",
@@ -349,7 +338,7 @@
     },
     {
       "source": "SC SCBO",
-      "title": "Training Opportunities",
+      "title": "Training",
       "agency": "State of South Carolina",
       "deadline": "",
       "url": "https://procurement.sc.gov/training",
@@ -362,60 +351,6 @@
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2EwMDZmZTItMjVkOS00ZjI1LThkNTktZDhhYTdjZGU0OWJi%40thread.v2/0?context=%7b%22Tid%22%3a%222199bfba-a409-4f13-b0c4-18b45933d88d%22%2c%22Oid%22%3a%22a03d015b-3dbd-4848-b58e-55486b9eadd7%22%7d",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Spring Mill Park Trash Pickup Services 1-YRBid DocumentsNatural Resources003000000086680RFQ # 0000086680Sourcing event 0000086680 is for obtaining bids for a NEW contract for trash service cont",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Concession Opportunity Interlake/RedbirdBid DocumentsNatural Resources003000000086564RFQ# 003000000086564Sourcing Event 003000000086564 is for obtaining bids for a Concession Contract for Opera",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Concession Opportunity Brookville LakeBid DocumentsNatural Resources003000000086562RFQ# 003000000086562 - ADDENDUM - See additional Word Document with additional information that could affect t",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Concession Opportunity McCormick's CreekBid DocumentsNatural Resources003000000086565RFQ# 003000000086565Sourcing Event 003000000086565 is for obtaining bids for a Concession Contract for Saddl",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Concession Opportunity Fort HarrisonBid DocumentsNatural Resources003000000086563RFQ# 003000000086563Sourcing Event 003000000086563 is for obtaining bids for a Concession Contract for Saddle Ba",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "ADA Golf Equipment for Ft Harrison SP 154952Bid DocumentsNatural Resources003000000086667Responses to 003000000086667 must be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amb",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
       "type": "Solicitation",
       "posted": ""
     },
@@ -745,7 +680,52 @@
     },
     {
       "source": "Indiana",
+      "title": "300 FR Owen-Putnam Campgrounds Trash PickupBid DocumentsNatural Resources003000000086820RFQ # 0000086820Sourcing event 0000086820 is for obtaining bids for a NEW 2-Year contract for trash service @ Ow",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "400-26-062-Labs Microscope RFQBid DocumentsIndiana Dept of Health004000000086874Sourcing event #0000086874 is for obtaining bids for one fluorescent microscope equipped with a LED illuminator which me",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "440 Solid Waste Removal Richmond State HospitalBid DocumentsRichmond State Hospital004400000086192RFQ#004400000086192 Version 2The Indiana State Psychiatric Hospital Network (ISPHN) is seeking routine",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "300 SP Patoka Lake Trash Services ContractBid DocumentsNatural Resources003000000086887RFQ# 003000000086887300 SP Patoka Lake Trash Services Contract1-YEAR contract for a total four 3-yard containers,",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Agricultural SprayerBid DocumentsNatural Resources003000000086915003000000086915Agricultural Sprayer - This is a pull behind implement that will be used at Tri-County to prepare food plots and control",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "300 FW Wilbur Wright FWA New Trash Bid 4-YrBid DocumentsNatural Resources003000000086909RFQ # 0000086909Sourcing event 0000086909 is for obtaining bids for a NEW 4-Year contract for trash service @ Wi",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -781,7 +761,25 @@
     },
     {
       "source": "Indiana",
-      "title": "Original Equipment Manufacturer PARTS FOR INDIANAState Police001000000086893001000000086893Cross-Referencing OEM Parts are not acceptable.If a shipping charge is applicable, please write in the amount",
+      "title": "INDIANA STATE POLICE BRANDED PROMOTIONAL ITEMSBid DocumentsState Police001000000086921RFQ: 00100000000086921This request of items is for BRANDED PROMOTIONAL ITEMS.This bid is good for 90 days unless o",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Indiana State Police G-17 Silhouette TargetBid DocumentsState Police001000000086908001000000086908Specifications for Indiana State Police G-17 Silhouette Target (Paper)If a shipping charge is applicab",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Original Equipment Manufacturer PARTS FOR INDIANABid DocumentsState Police001000000086893001000000086893Cross-Referencing OEM Parts are not acceptable.If a shipping charge is applicable, please write ",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -799,6 +797,15 @@
     },
     {
       "source": "Indiana",
+      "title": "00067-Legal assistance H-1B renewalOfc of Technology000670000086802Sourcing event 00067-0000086802 is for obtaining bids for legal assistance with renewing the H-1B for a current employee.Questions ca",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "Comprehensive Rehabilitative Management Needs FaciBid DocumentsFSSA Disability & Rehab Svcs004970000085524Request for Information (RFI) 26-85524The Indiana Family and Social Services Administration (F",
       "agency": "State of Indiana",
       "deadline": "",
@@ -808,7 +815,34 @@
     },
     {
       "source": "Indiana",
+      "title": "Elkhart WorkOne Lawn Care and Snow RemovalDept of Workforce Development005100000086918Full lawn care services including hedge trimming and chemical application and snow removal services including de-i",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "Horse Racing Management SystemBid DocumentsHorse Racing Comm002650000086015RFI 26-86015This project will provide Maintenance and Operations support and Application Enhancements to ensure the Horse Rac",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RFQ Gastineau Site Waste Tire ContractEnvironmental Management004950000086910The Indiana Department of Environmental Management is seeking contractual services to provide IDEM staff with the removal o",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RFQ Kenworthy Site Waste Tire ContractEnvironmental Management004950000086911The Indiana Department of Environmental Management is seeking contractual services to provide IDEM staff with the removal o",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",

@@ -403,7 +403,31 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
                         {opp.priorityLevel}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-300">{opp.status}</td>
+                    <td className="px-6 py-4">
+                      <select
+                        value={opp.status}
+                        onChange={async (e) => {
+                          const newStatus = e.target.value;
+                          try {
+                            await api.put(`/gbis/opportunities/${opp.id}`, { status: newStatus });
+                            showNotification(`Grant status updated to ${newStatus}`, 'success');
+                            fetchOpportunities();
+                          } catch (err) {
+                            showNotification('Failed to update status', 'error');
+                          }
+                        }}
+                        className="bg-gray-700 border border-gray-600 rounded-lg px-2 py-1 text-sm text-white"
+                      >
+                        <option value="New Discovery">New Discovery</option>
+                        <option value="Qualified">Qualified</option>
+                        <option value="Drafting Application">Drafting</option>
+                        <option value="Submitted">Submitted</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Awarded">Awarded</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button
@@ -527,68 +551,121 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
     </div>
   );
 
+  const PIPELINE_STAGES = [
+    { key: 'Discovery', label: 'Discovery', color: 'blue' },
+    { key: 'Application Development', label: 'Development', color: 'yellow' },
+    { key: 'Submitted', label: 'Submitted', color: 'purple' },
+    { key: 'Decision Pending', label: 'Pending', color: 'orange' },
+    { key: 'Won', label: 'Won', color: 'green' },
+    { key: 'Lost', label: 'Lost', color: 'red' },
+  ];
+
   const renderPipeline = () => (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-        <h3 className="text-xl font-bold mb-4">Grant Pipeline</h3>
-        <p className="text-gray-400 mb-6">Kanban view coming soon - for now, view in Airtable</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2 text-blue-400">Discovery</h4>
-            <div className="text-2xl font-bold">{pipeline.filter(p => p.currentStage === 'Discovery').length}</div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2 text-yellow-400">Application Development</h4>
-            <div className="text-2xl font-bold">{pipeline.filter(p => p.currentStage === 'Application Development').length}</div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2 text-purple-400">Decision Pending</h4>
-            <div className="text-2xl font-bold">{pipeline.filter(p => p.currentStage === 'Decision Pending').length}</div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold mb-2 text-green-400">Won</h4>
-            <div className="text-2xl font-bold">{pipeline.filter(p => p.currentStage === 'Won').length}</div>
-          </div>
-        </div>
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-bold">Grant Pipeline</h3>
+        <span className="text-sm text-gray-400">{pipeline.length} grants in pipeline</span>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {PIPELINE_STAGES.map(stage => {
+          const items = pipeline.filter(p => p.currentStage === stage.key);
+          return (
+            <div key={stage.key} className="bg-gray-800 rounded-xl border border-gray-700 flex flex-col">
+              <div className={`px-4 py-3 border-b border-gray-700 flex items-center justify-between`}>
+                <span className={`font-semibold text-sm text-${stage.color}-400`}>{stage.label}</span>
+                <span className={`w-6 h-6 rounded-full bg-${stage.color}-500/20 text-${stage.color}-400 flex items-center justify-center text-xs font-bold`}>
+                  {items.length}
+                </span>
+              </div>
+              <div className="p-2 space-y-2 flex-1 min-h-[200px]">
+                {items.length === 0 ? (
+                  <div className="text-center py-8 text-gray-600 text-xs">No grants</div>
+                ) : (
+                  items.map(item => (
+                    <div key={item.id} className="bg-gray-700/50 rounded-lg p-3 border border-gray-600 hover:border-gray-500 transition cursor-pointer">
+                      <div className="text-sm font-medium truncate">{item.grantOpportunityId}</div>
+                      <div className="text-xs text-gray-400 mt-1">{item.assignedTo || 'Unassigned'}</div>
+                      {item.priority && (
+                        <span className={`mt-2 inline-block px-2 py-0.5 rounded text-xs font-medium ${
+                          item.priority === 'High' || item.priority === 'Critical' ? 'bg-red-500/20 text-red-400' :
+                          item.priority === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
+                          'bg-gray-500/20 text-gray-400'
+                        }`}>{item.priority}</span>
+                      )}
+                      {item.nextAction && <div className="text-xs text-gray-500 mt-1 truncate">Next: {item.nextAction}</div>}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 
+  const [storyLibrary, setStoryLibrary] = useState<any[]>([]);
+  const [storyLoading, setStoryLoading] = useState(false);
+
+  const loadStoryLibrary = async () => {
+    setStoryLoading(true);
+    try {
+      const res = await api.get('/gbis/story-library');
+      setStoryLibrary(res.data?.stories || res.data?.story_library || []);
+    } catch { setStoryLibrary([]); }
+    setStoryLoading(false);
+  };
+
   const renderStoryLibrary = () => (
     <div className="space-y-6">
       <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-        <h3 className="text-xl font-bold mb-4">Grant Story Library</h3>
-        <p className="text-gray-400 mb-6">Modular content used for AI application generation - manage in Airtable</p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-xl font-bold">Grant Story Library</h3>
+            <p className="text-gray-400 text-sm">Modular content used for AI application generation</p>
+          </div>
+          <button onClick={loadStoryLibrary} className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition">
+            {storyLoading ? 'Loading...' : 'Load Stories'}
+          </button>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-blue-500">
             <h4 className="font-semibold mb-2">Company Core Stories</h4>
             <p className="text-gray-400 text-sm">Origin, mission, vision modules</p>
           </div>
-
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-green-500">
             <h4 className="font-semibold mb-2">Division Overviews</h4>
             <p className="text-gray-400 text-sm">8 division success stories</p>
           </div>
-
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-purple-500">
             <h4 className="font-semibold mb-2">Impact Metrics</h4>
             <p className="text-gray-400 text-sm">Measurable outcomes & data</p>
           </div>
         </div>
 
-        <div className="mt-6">
-          <button
-            onClick={() => window.open('https://airtable.com', '_blank')}
-            className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition"
-          >
-            Open Story Library in Airtable →
-          </button>
-        </div>
+        {storyLibrary.length > 0 ? (
+          <div className="space-y-3">
+            {storyLibrary.map((story: any, i: number) => (
+              <div key={i} className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold">{story.title || story['Story Title'] || `Story ${i + 1}`}</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
+                    {story.category || story['Category'] || 'General'}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-400 line-clamp-2">
+                  {story.content || story['Content'] || story['Story Content'] || ''}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <p className="text-lg mb-1">Click "Load Stories" to pull from Airtable</p>
+            <p className="text-sm">Stories power the AI application generator with reusable content modules.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,234 @@
+{
+  "events": [
+    {
+      "id": "bc935d8edf14",
+      "domain": "opportunities",
+      "entity_id": "opp-001",
+      "action": "scored",
+      "timestamp": "2026-02-22T19:13:27.598873",
+      "metadata": {
+        "agency": "VA",
+        "naics": "561730",
+        "set_aside": "EDWOSB",
+        "value_range": "$100K-$500K"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "3943ef01ff14",
+      "domain": "opportunities",
+      "entity_id": "opp-001",
+      "action": "pursued",
+      "timestamp": "2026-02-22T19:13:27.605234",
+      "metadata": {
+        "agency": "VA",
+        "naics": "561730",
+        "set_aside": "EDWOSB"
+      },
+      "is_positive": true,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "5b9c20d26845",
+      "domain": "outreach",
+      "entity_id": "email-001",
+      "action": "email_sent",
+      "timestamp": "2026-02-22T19:13:27.611523",
+      "metadata": {
+        "recipient_type": "CO",
+        "agency": "VA",
+        "has_cap_statement": "true"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d925325f60ff",
+      "domain": "outreach",
+      "entity_id": "email-001",
+      "action": "email_responded",
+      "timestamp": "2026-02-22T19:13:27.619371",
+      "metadata": {
+        "recipient_type": "CO",
+        "agency": "VA"
+      },
+      "is_positive": true,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "537edef633b9",
+      "domain": "bids",
+      "entity_id": "bid-001",
+      "action": "go_decision",
+      "timestamp": "2026-02-22T19:13:27.625744",
+      "metadata": {
+        "contract_type": "service",
+        "set_aside": "EDWOSB",
+        "agency": "DoD",
+        "value_range": "$50K-$200K"
+      },
+      "is_positive": true,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "c5b082c53e8e",
+      "domain": "suppliers",
+      "entity_id": "sup-001",
+      "action": "quote_received",
+      "timestamp": "2026-02-22T19:13:27.632283",
+      "metadata": {
+        "supplier_name": "ABC Supply",
+        "product_type": "janitorial",
+        "response_days": "2"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "fb84c950ca78",
+      "domain": "suppliers",
+      "entity_id": "sup-001",
+      "action": "quote_competitive",
+      "timestamp": "2026-02-22T19:13:27.639240",
+      "metadata": {
+        "supplier_name": "ABC Supply",
+        "price_vs_market": "below"
+      },
+      "is_positive": true,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "e4b766812e7c",
+      "domain": "intelligence",
+      "entity_id": "intel-001",
+      "action": "contacted",
+      "timestamp": "2026-02-22T19:13:27.644967",
+      "metadata": {
+        "lane": "Janitorial",
+        "agency": "Department of Defense",
+        "avenue": "sub_under_prime"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "9a264b42fa62",
+      "domain": "intelligence",
+      "entity_id": "intel-001",
+      "action": "responded",
+      "timestamp": "2026-02-22T19:13:27.650792",
+      "metadata": {
+        "lane": "Janitorial",
+        "agency": "Department of Defense",
+        "avenue": "sub_under_prime"
+      },
+      "is_positive": true,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "ffe48ac89e0b",
+      "domain": "bids",
+      "entity_id": "eval_20260222_193440",
+      "action": "bid_prepared",
+      "timestamp": "2026-02-22T19:34:40.696999",
+      "metadata": {
+        "evaluator_composite": 45.0,
+        "evaluator_rating": "Marginal",
+        "factor_count": 4,
+        "method": "best_value",
+        "weakest_factor": "Price"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "89925fd3b9c4",
+      "domain": "bids",
+      "entity_id": "eval_20260222_193601",
+      "action": "bid_prepared",
+      "timestamp": "2026-02-22T19:36:01.031754",
+      "metadata": {
+        "evaluator_composite": 25.6,
+        "evaluator_rating": "Unacceptable",
+        "factor_count": 4,
+        "method": "best_value",
+        "weakest_factor": "Staffing / Management"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "c1e463e48083",
+      "domain": "bids",
+      "entity_id": "eval_20260222_193440",
+      "action": "lost",
+      "timestamp": "2026-02-22T19:36:18.137619",
+      "metadata": {
+        "evaluator_composite": 45.0,
+        "evaluator_rating": "Marginal",
+        "had_debrief": false
+      },
+      "is_positive": false,
+      "is_negative": true,
+      "is_terminal": true
+    },
+    {
+      "id": "6638396729c5",
+      "domain": "bids",
+      "entity_id": "eval_20260222_194759",
+      "action": "bid_prepared",
+      "timestamp": "2026-02-22T19:47:59.611478",
+      "metadata": {
+        "evaluator_composite": 40.2,
+        "evaluator_rating": "Marginal",
+        "factor_count": 4,
+        "method": "best_value",
+        "weakest_factor": "Staffing / Management"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    }
+  ],
+  "insights": [],
+  "learned_weights": {},
+  "weight_history": [],
+  "analysis_history": [
+    {
+      "timestamp": "2026-02-22T19:13:35.255185",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "suppliers",
+        "intelligence"
+      ],
+      "events_count": 9,
+      "insights_generated": 0,
+      "weights_updated": false
+    }
+  ],
+  "stats": {
+    "total_events": 13,
+    "events_by_domain": {
+      "opportunities": 2,
+      "outreach": 2,
+      "bids": 5,
+      "suppliers": 2,
+      "intelligence": 2
+    },
+    "total_analyses": 1,
+    "last_analysis": "2026-02-22T19:13:35.255172"
+  }
+}

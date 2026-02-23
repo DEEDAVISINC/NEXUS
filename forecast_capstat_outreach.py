@@ -489,6 +489,143 @@ def handle_forecast_capstat_outreach(forecast_id: str) -> Dict:
 
 
 # ========================================================================
+# INCUMBENT TEAMING OUTREACH
+# ========================================================================
+
+def handle_incumbent_outreach(forecast_id: str) -> Dict:
+    """
+    Generate a teaming outreach email to the incumbent contractor on a renewal.
+    
+    Called when user clicks "🤝 Reach Out to Incumbent" on a renewal forecast.
+    Requires the forecast to have a Current Holder field populated.
+    
+    Args:
+        forecast_id: Federal Forecasts record ID from Airtable
+    
+    Returns:
+        Dict with teaming email draft, research links, and outreach record ID
+    """
+    from nexus_backend import AirtableClient
+    from pyairtable import Api
+    import os
+
+    try:
+        airtable_token = os.environ.get('AIRTABLE_API_KEY')
+        base_id = os.environ.get('AIRTABLE_BASE_ID')
+        api = Api(airtable_token)
+        table = api.table(base_id, 'Federal Forecasts')
+
+        record = table.get(forecast_id)
+        fields = record.get('fields', {})
+
+        incumbent = fields.get('Current Holder', '').strip()
+        if not incumbent:
+            return {
+                'success': False,
+                'error': 'No Current Holder on this forecast. Cannot generate incumbent outreach.'
+            }
+
+        agency = fields.get('Agency', 'the agency')
+        title = fields.get('Title', 'Contract Renewal')
+        estimated_value = fields.get('Estimated Value', '')
+        naics = fields.get('NAICS Code', '')
+        contract_end_date = fields.get('Contract End Date', '')
+        set_aside = fields.get('Set-Aside Type', '')
+        est_sol_date = fields.get('Estimated Solicitation Date', '')
+
+        value_str = f"${float(estimated_value):,.0f}" if estimated_value else 'not yet published'
+
+        teaming_email = f"""Subject: Teaming Opportunity — {agency} Recompete | EDWOSB Partner
+
+Hi [Contact Name],
+
+My name is Dee Davis, President & CEO of Dee Davis Inc., a certified EDWOSB/WOSB based in Troy, Michigan. I'm reaching out because I understand your team holds the current contract with {agency} for {title.replace('[Renewal] ', '').replace('[Renewal-PSC] ', '')}, and that contract is coming up for recompete.
+
+I'd love to explore whether there's an opportunity for us to team on the recompete.
+
+**What Dee Davis Inc. brings:**
+• EDWOSB + WOSB + MBE + WBE certifications — helps meet agency socioeconomic goals
+• Active SAM.gov registration (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1)
+• Experience in federal supply chain, distribution, and service contract support
+• Clean past performance record
+
+**Why this could work for you:**
+• Our certifications can strengthen your team's socioeconomic profile on the recompete
+• We handle compliance, reporting, and contract management — you stay focused on delivery
+• Flexible workshare arrangement based on scope
+
+The contract value is {value_str}{f' (NAICS {naics})' if naics else ''}{f', with recompete expected around {est_sol_date}' if est_sol_date else ''}.
+
+Would you be open to a 20-minute call to explore this? I'm flexible this week and next.
+
+Best regards,
+Dee Davis
+President & CEO
+Dee Davis Inc.
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+(248) 376-4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE | SWFT Authorized"""
+
+        # Research links to find incumbent contact
+        incumbent_encoded = incumbent.replace(' ', '+')
+        research_links = (
+            f"SAM.gov: https://sam.gov/search/?keywords={incumbent_encoded}\n"
+            f"LinkedIn: https://www.linkedin.com/search/results/companies/?keywords={incumbent_encoded}\n"
+            f"Google: https://www.google.com/search?q={incumbent_encoded}+small+business+liaison+SBLO+government+contracts\n"
+            f"USASpending: https://www.usaspending.gov/search/?query={incumbent_encoded}"
+        )
+
+        # Save to Officer Outreach Tracking
+        outreach_table = api.table(base_id, 'Officer Outreach Tracking')
+        outreach_record = outreach_table.create({
+            'Officer Name': incumbent,
+            'Opportunity Title': f"INCUMBENT TEAMING: {title}",
+            'Agency': agency,
+            'Letter Content': teaming_email,
+            'Subject Line': f"Teaming Opportunity — {agency} Recompete | EDWOSB Partner",
+            'Status': 'Draft',
+            'Outreach Type': 'Incumbent (Teaming)',
+            'Related Forecast': [forecast_id],
+            'Next Action': 'Find SBLO or BD contact at incumbent using research links. Fill in [Contact Name] and send.',
+            'Notes': f"Research Links:\n{research_links}",
+            'Priority': 'High',
+            'Created By': 'NEXUS AI - Incumbent Teaming Outreach',
+        })
+
+        outreach_record_id = outreach_record['id']
+
+        # Mark forecast as having incumbent outreach generated
+        try:
+            table.update(forecast_id, {'Notes': f"Incumbent outreach generated {datetime.now().strftime('%Y-%m-%d')}. See Officer Outreach Tracking record {outreach_record_id}."})
+        except:
+            pass
+
+        return {
+            'success': True,
+            'message': f"✅ Incumbent teaming email drafted for {incumbent}",
+            'incumbent': incumbent,
+            'agency': agency,
+            'forecast_title': title,
+            'outreach_record_id': outreach_record_id,
+            'research_links': research_links,
+            'next_steps': [
+                f"1. Find {incumbent}'s SBLO or BD contact using the research links",
+                f"2. Open Officer Outreach Tracking record {outreach_record_id}",
+                "3. Fill in [Contact Name] in the email draft",
+                "4. Send email to their BD/SBLO contact",
+                "5. Update Status to 'Sent' and log the date"
+            ]
+        }
+
+    except Exception as e:
+        return {
+            'success': False,
+            'error': str(e),
+            'message': f"Failed to generate incumbent outreach: {str(e)}"
+        }
+
+
+# ========================================================================
 # BATCH PROCESSING
 # ========================================================================
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { api } from '../../api/client';
 
 interface PRISMSystemProps {
   onBackToNexus: () => void;
@@ -9,16 +10,18 @@ interface PRISMSystemProps {
 
 // ─── SERVICE TYPE COLORS ───────────────────────────────────────────
 const SERVICE_COLORS: Record<string, { color: string; bg: string; label: string; icon: string; border: string }> = {
-  'notary':        { color: '#F97316', bg: '#FFF7ED', label: 'Notary',              icon: '🟠', border: '#FB923C' },
-  'ron':           { color: '#6366F1', bg: '#EEF2FF', label: 'Notary (RON)',        icon: '🟣', border: '#818CF8' },
-  'dot':           { color: '#EF4444', bg: '#FEF2F2', label: 'Drug Test (DOT)',     icon: '🔴', border: '#F87171' },
-  'non-dot':       { color: '#F43F5E', bg: '#FFF1F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#FB7185' },
-  'dna':           { color: '#A855F7', bg: '#FAF5FF', label: 'DNA Collection',      icon: '🟣', border: '#C084FC' },
-  'fingerprint':   { color: '#22C55E', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#4ADE80' },
-  'courier':       { color: '#3B82F6', bg: '#EFF6FF', label: 'Courier/Runner',      icon: '🔵', border: '#60A5FA' },
-  'background':    { color: '#64748B', bg: '#F8FAFC', label: 'Background Check',    icon: '⚫', border: '#94A3B8' },
-  'apostille':     { color: '#EAB308', bg: '#FEFCE8', label: 'Apostille',           icon: '🟡', border: '#FACC15' },
-  'process':       { color: '#14B8A6', bg: '#F0FDFA', label: 'Process Serving',     icon: '🟢', border: '#2DD4BF' },
+  'notary':          { color: '#F97316', bg: '#FFF7ED', label: 'Notary',              icon: '🟠', border: '#FB923C' },
+  'ron':             { color: '#6366F1', bg: '#EEF2FF', label: 'Notary (RON)',        icon: '🟣', border: '#818CF8' },
+  'dot':             { color: '#EF4444', bg: '#FEF2F2', label: 'Drug Test (DOT)',     icon: '🔴', border: '#F87171' },
+  'non-dot':         { color: '#F43F5E', bg: '#FFF1F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#FB7185' },
+  'dna':             { color: '#A855F7', bg: '#FAF5FF', label: 'DNA Collection',      icon: '🟣', border: '#C084FC' },
+  'fingerprint':     { color: '#22C55E', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#4ADE80' },
+  'phlebotomy':      { color: '#DC2626', bg: '#FEF2F2', label: 'Phlebotomy',          icon: '🔴', border: '#EF4444' },
+  'medical_courier': { color: '#0EA5E9', bg: '#F0F9FF', label: 'Medical Courier',     icon: '🔵', border: '#38BDF8' },
+  'courier':         { color: '#3B82F6', bg: '#EFF6FF', label: 'Courier/Runner',      icon: '🔵', border: '#60A5FA' },
+  'background':      { color: '#64748B', bg: '#F8FAFC', label: 'Background Check',    icon: '⚫', border: '#94A3B8' },
+  'apostille':       { color: '#EAB308', bg: '#FEFCE8', label: 'Apostille',           icon: '🟡', border: '#FACC15' },
+  'process':         { color: '#14B8A6', bg: '#F0FDFA', label: 'Process Serving',     icon: '🟢', border: '#2DD4BF' },
 };
 
 // ─── STATUS BADGES ─────────────────────────────────────────────────
@@ -37,48 +40,11 @@ const STATUS_STYLES: Record<string, string> = {
   'Closed':               'bg-gray-500/20 text-gray-400 border-gray-500/30',
 };
 
-// ─── MOCK DATA ─────────────────────────────────────────────────────
-const mockOrders = [
-  { id: 'PRISM-2026-0001', type: 'notary', status: 'In Progress', agent: 'Sarah Chen', client: 'Metro Title Co.', signer: 'James Wilson', address: 'Troy, MI', date: '02/14/2026', time: '1:00 PM', fee: 125, priority: 'Standard' },
-  { id: 'PRISM-2026-0002', type: 'dot', status: 'Confirmed', agent: 'Marcus Brown', client: 'Champion Homes', signer: 'Robert Davis', address: 'Auburn Hills, MI', date: '02/14/2026', time: '9:00 AM', fee: 65, priority: 'Rush' },
-  { id: 'PRISM-2026-0003', type: 'fingerprint', status: 'New', agent: '', client: 'Staffing Solutions Inc.', signer: 'Group (12 subjects)', address: 'Southfield, MI', date: '02/14/2026', time: '10:30 AM', fee: 480, priority: 'Standard' },
-  { id: 'PRISM-2026-0004', type: 'dna', status: 'Scanned Back', agent: 'Dee Davis', client: 'Family Law Office', signer: 'Michael Thompson', address: 'Royal Oak, MI', date: '02/13/2026', time: '3:00 PM', fee: 75, priority: 'Standard' },
-  { id: 'PRISM-2026-0005', type: 'notary', status: 'Errors Found', agent: 'Lisa Park', client: 'Homeland Title', signer: 'Angela Martinez', address: 'Farmington Hills, MI', date: '02/13/2026', time: '4:30 PM', fee: 150, priority: 'Standard' },
-  { id: 'PRISM-2026-0006', type: 'non-dot', status: 'Assigned', agent: 'Marcus Brown', client: 'Acme Trucking', signer: 'Kevin Lee', address: 'Pontiac, MI', date: '02/15/2026', time: '8:00 AM', fee: 45, priority: 'Standard' },
-  { id: 'PRISM-2026-0007', type: 'courier', status: 'Completed', agent: 'Dee Davis', client: 'Metro Title Co.', signer: 'N/A', address: 'Detroit, MI → Troy, MI', date: '02/13/2026', time: '11:00 AM', fee: 35, priority: 'Standard' },
-  { id: 'PRISM-2026-0008', type: 'ron', status: 'Confirmed', agent: 'Sarah Chen', client: 'National Signing Co.', signer: 'Patricia Harris', address: 'Remote / Zoom', date: '02/14/2026', time: '2:30 PM', fee: 40, priority: 'Standard' },
-  { id: 'PRISM-2026-0009', type: 'notary', status: 'Verified', agent: 'Lisa Park', client: 'First American Title', signer: 'David Kim', address: 'Bloomfield Hills, MI', date: '02/12/2026', time: '10:00 AM', fee: 175, priority: 'Standard' },
-  { id: 'PRISM-2026-0010', type: 'background', status: 'New', agent: '', client: 'TempForce Staffing', signer: 'Group (8 subjects)', address: 'Southfield, MI', date: '02/15/2026', time: '9:00 AM', fee: 320, priority: 'Standard' },
-];
-
-const mockAgents = [
-  { id: 'FA-0001', name: 'Sarah Chen', specialties: ['Signing Agent'], status: 'Active', city: 'Troy', state: 'MI', completionRate: 98, onTimeRate: 96, errorRate: 2, rating: 4.9, ordersCompleted: 147, activeOrders: 2 },
-  { id: 'FA-0002', name: 'Marcus Brown', specialties: ['Collection Agent'], status: 'Active', city: 'Auburn Hills', state: 'MI', completionRate: 95, onTimeRate: 94, errorRate: 4, rating: 4.7, ordersCompleted: 89, activeOrders: 2 },
-  { id: 'FA-0003', name: 'Lisa Park', specialties: ['Signing Agent', 'Courier'], status: 'Active', city: 'Farmington Hills', state: 'MI', completionRate: 97, onTimeRate: 99, errorRate: 1, rating: 4.9, ordersCompleted: 203, activeOrders: 1 },
-  { id: 'FA-0004', name: 'Dee Davis', specialties: ['Signing Agent', 'Collection Agent', 'Print Technician', 'Courier'], status: 'Active', city: 'Troy', state: 'MI', completionRate: 100, onTimeRate: 100, errorRate: 0, rating: 5.0, ordersCompleted: 412, activeOrders: 2 },
-  { id: 'FA-0005', name: 'Jamal Washington', specialties: ['Print Technician'], status: 'Active', city: 'Detroit', state: 'MI', completionRate: 93, onTimeRate: 91, errorRate: 5, rating: 4.5, ordersCompleted: 56, activeOrders: 0 },
-  { id: 'FA-0006', name: 'Priya Patel', specialties: ['Signing Agent'], status: 'Screening', city: 'Novi', state: 'MI', completionRate: 0, onTimeRate: 0, errorRate: 0, rating: 0, ordersCompleted: 0, activeOrders: 0 },
-];
-
-const mockScanbacks = [
-  { id: 'SB-001', orderId: 'PRISM-2026-0004', type: 'dna', agent: 'Dee Davis', status: 'Needs Review', pages: 4, expected: 4, uploadDate: '02/13/2026 3:42 PM', attempt: 1 },
-  { id: 'SB-002', orderId: 'PRISM-2026-0005', type: 'notary', agent: 'Lisa Park', status: 'Errors Found', pages: 46, expected: 47, uploadDate: '02/13/2026 5:15 PM', attempt: 1, errors: [
-    { severity: 'CRITICAL', page: 12, description: 'Patriot Act form — only 1 ID documented, requires 2' },
-    { severity: 'CRITICAL', page: 37, description: 'Missing borrower initials on statement 3 of 5' },
-    { severity: 'WARNING', page: 3, description: 'Signature appears on possible wrong line — verify borrower signed correct line' },
-  ]},
-  { id: 'SB-003', orderId: 'PRISM-2026-0009', type: 'notary', agent: 'Lisa Park', status: 'Clean', pages: 52, expected: 52, uploadDate: '02/12/2026 11:30 AM', attempt: 1 },
-  { id: 'SB-004', orderId: 'PRISM-2026-0007', type: 'courier', agent: 'Dee Davis', status: 'Clean', pages: 1, expected: 1, uploadDate: '02/13/2026 11:45 AM', attempt: 1 },
-];
-
-const mockClients = [
-  { id: 'PC-001', name: 'Champion Homes', type: 'Blueprint Enterprise', services: ['Drug Test (DOT)', 'Drug Test (Non-DOT)', 'Background Check'], orders: 47, revenue: 18500, status: 'Active', retainer: 25000 },
-  { id: 'PC-002', name: 'Metro Title Co.', type: 'Title Company', services: ['Notary', 'Courier/Runner'], orders: 134, revenue: 28700, status: 'Active', retainer: 0 },
-  { id: 'PC-003', name: 'Staffing Solutions Inc.', type: 'Blueprint Business', services: ['Fingerprinting/EFT', 'Background Check', 'Drug Test (Non-DOT)'], orders: 23, revenue: 9200, status: 'Active', retainer: 12000 },
-  { id: 'PC-004', name: 'Family Law Office', type: 'Retail/One-Off', services: ['DNA Collection'], orders: 5, revenue: 1250, status: 'Active', retainer: 0 },
-  { id: 'PC-005', name: 'First American Title', type: 'Title Company', services: ['Notary'], orders: 89, revenue: 22400, status: 'Active', retainer: 0 },
-  { id: 'PC-006', name: 'TempForce Staffing', type: 'Blueprint Starter', services: ['Background Check', 'Fingerprinting/EFT'], orders: 8, revenue: 3200, status: 'Active', retainer: 6000 },
-];
+// ─── TYPES ──────────────────────────────────────────────────────────
+interface PrismOrder { id: string; type: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; }
+interface PrismAgent { id: string; name: string; specialties: string[]; status: string; city: string; state: string; completionRate: number; onTimeRate: number; errorRate: number; rating: number; ordersCompleted: number; activeOrders: number; }
+interface PrismScanback { id: string; orderId: string; type: string; agent: string; status: string; pages: number; expected: number; uploadDate: string; attempt: number; errors?: { severity: string; page: number; description: string }[]; }
+interface PrismClient { id: string; name: string; type: string; services: string[]; orders: number; revenue: number; status: string; retainer: number; }
 
 // ─── HELPER COMPONENTS ─────────────────────────────────────────────
 const ServiceBadge: React.FC<{ type: string; size?: 'sm' | 'md' }> = ({ type, size = 'sm' }) => {
@@ -118,6 +84,32 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [scanbackFilter, setScanbackFilter] = useState('all');
   const [agentFilter, setAgentFilter] = useState('all');
 
+  const [orders, setOrders] = useState<PrismOrder[]>([]);
+  const [agents, setAgents] = useState<PrismAgent[]>([]);
+  const [scanbacks, setScanbacks] = useState<PrismScanback[]>([]);
+  const [clients, setClients] = useState<PrismClient[]>([]);
+  const [prismStats, setPrismStats] = useState<any>(null);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  const loadPrismData = useCallback(async () => {
+    setDataLoading(true);
+    try {
+      const [ordersRes, agentsRes, scanbacksRes, clientsRes] = await Promise.allSettled([
+        api.get('/prism/orders').catch(() => ({ data: { orders: [] } })),
+        api.get('/prism/agents').catch(() => ({ data: { agents: [] } })),
+        api.get('/prism/qc/queue').catch(() => ({ data: { queue: [] } })),
+        api.get('/prism/clients').catch(() => ({ data: { clients: [] } })),
+      ]);
+      if (ordersRes.status === 'fulfilled') setOrders((ordersRes.value as any).data?.orders || []);
+      if (agentsRes.status === 'fulfilled') setAgents((agentsRes.value as any).data?.agents || []);
+      if (scanbacksRes.status === 'fulfilled') setScanbacks((scanbacksRes.value as any).data?.queue || []);
+      if (clientsRes.status === 'fulfilled') setClients((clientsRes.value as any).data?.clients || []);
+    } catch { /* empty fallback — arrays stay empty */ }
+    setDataLoading(false);
+  }, []);
+
+  useEffect(() => { loadPrismData(); }, [loadPrismData]);
+
   const tabs = [
     { id: 'dashboard', label: '🎯 Command Center' },
     { id: 'orders', label: '📋 Orders' },
@@ -130,29 +122,28 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
     { id: 'analytics', label: '📊 Analytics' },
   ];
 
-  // Computed stats
-  const todayOrders = mockOrders.filter(o => o.date === '02/14/2026');
-  const activeOrders = mockOrders.filter(o => !['Closed', 'Verified'].includes(o.status));
-  const awaitingScanback = mockOrders.filter(o => o.status === 'Completed');
-  const errorsFound = mockOrders.filter(o => o.status === 'Errors Found');
-  const unassigned = mockOrders.filter(o => o.status === 'New');
-  const needsReview = mockScanbacks.filter(s => s.status === 'Needs Review');
+  const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+  const todayOrders = orders.filter(o => o.date === today);
+  const activeOrders = orders.filter(o => !['Closed', 'Verified'].includes(o.status));
+  const awaitingScanback = orders.filter(o => o.status === 'Completed');
+  const errorsFound = orders.filter(o => o.status === 'Errors Found');
+  const unassigned = orders.filter(o => o.status === 'New');
+  const needsReview = scanbacks.filter(s => s.status === 'Needs Review');
 
-  // Kanban columns
   const kanbanColumns = [
-    { status: 'New', orders: mockOrders.filter(o => o.status === 'New') },
-    { status: 'Assigned', orders: mockOrders.filter(o => o.status === 'Assigned') },
-    { status: 'Confirmed', orders: mockOrders.filter(o => o.status === 'Confirmed') },
-    { status: 'In Progress', orders: mockOrders.filter(o => o.status === 'In Progress') },
-    { status: 'Completed', orders: mockOrders.filter(o => o.status === 'Completed') },
-    { status: 'Scanned Back', orders: mockOrders.filter(o => o.status === 'Scanned Back') },
-    { status: 'Errors Found', orders: mockOrders.filter(o => o.status === 'Errors Found') },
-    { status: 'Verified', orders: mockOrders.filter(o => o.status === 'Verified') },
+    { status: 'New', orders: orders.filter(o => o.status === 'New') },
+    { status: 'Assigned', orders: orders.filter(o => o.status === 'Assigned') },
+    { status: 'Confirmed', orders: orders.filter(o => o.status === 'Confirmed') },
+    { status: 'In Progress', orders: orders.filter(o => o.status === 'In Progress') },
+    { status: 'Completed', orders: orders.filter(o => o.status === 'Completed') },
+    { status: 'Scanned Back', orders: orders.filter(o => o.status === 'Scanned Back') },
+    { status: 'Errors Found', orders: orders.filter(o => o.status === 'Errors Found') },
+    { status: 'Verified', orders: orders.filter(o => o.status === 'Verified') },
   ];
 
-  const filteredOrders = orderFilter === 'all' ? mockOrders : mockOrders.filter(o => o.type === orderFilter);
-  const filteredScanbacks = scanbackFilter === 'all' ? mockScanbacks : mockScanbacks.filter(s => s.status === scanbackFilter);
-  const filteredAgents = agentFilter === 'all' ? mockAgents : mockAgents.filter(a => a.status === agentFilter);
+  const filteredOrders = orderFilter === 'all' ? orders : orders.filter(o => o.type === orderFilter);
+  const filteredScanbacks = scanbackFilter === 'all' ? scanbacks : scanbacks.filter(s => s.status === scanbackFilter);
+  const filteredAgents = agentFilter === 'all' ? agents : agents.filter(a => a.status === agentFilter);
 
   return (
     <div className="min-h-screen">
@@ -219,10 +210,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <StatCard label="Orders This Month" value={mockOrders.length} icon="📊" color="purple" />
-              <StatCard label="Active Field Agents" value={mockAgents.filter(a => a.status === 'Active').length} icon="👤" color="green" />
-              <StatCard label="First-Pass Clean Rate" value="82%" icon="✅" color="emerald" sub="No errors on first scan" />
-              <StatCard label="Revenue This Week" value="$4,210" icon="💰" color="blue" />
+              <StatCard label="Orders This Month" value={orders.length} icon="📊" color="purple" />
+              <StatCard label="Active Field Agents" value={agents.filter(a => a.status === 'Active').length} icon="👤" color="green" />
+              <StatCard label="First-Pass Clean Rate" value={prismStats?.clean_rate || '—'} icon="✅" color="emerald" sub="No errors on first scan" />
+              <StatCard label="Revenue This Week" value={prismStats?.weekly_revenue || '—'} icon="💰" color="blue" />
             </div>
 
             {/* ── Needs Your Attention ── */}
@@ -330,7 +321,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                     </tr>
                   </thead>
                   <tbody>
-                    {mockAgents
+                    {agents
                       .filter(a => a.status === 'Active')
                       .sort((a, b) => b.ordersCompleted - a.ordersCompleted)
                       .map((agent, i) => (
@@ -364,7 +355,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">📋 Orders</h2>
-                <p className="text-gray-400">{mockOrders.length} total orders</p>
+                <p className="text-gray-400">{orders.length} total orders</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
@@ -484,7 +475,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 <div className="grid grid-cols-7 gap-1">
                   {Array.from({ length: 28 }, (_, i) => i + 1).map(day => {
                     const dateStr = `02/${String(day).padStart(2, '0')}/2026`;
-                    const dayOrders = mockOrders.filter(o => o.date === dateStr);
+                    const dayOrders = orders.filter(o => o.date === dateStr);
                     const isToday = day === 14;
                     return (
                       <div key={day} className={`min-h-[80px] border rounded-lg p-1 ${isToday ? 'border-orange-500 bg-orange-500/10' : 'border-gray-700 bg-gray-800/50'}`}>
@@ -509,7 +500,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
 
             {/* Order Detail Slide-out */}
             {selectedOrder && (() => {
-              const order = mockOrders.find(o => o.id === selectedOrder);
+              const order = orders.find(o => o.id === selectedOrder);
               if (!order) return null;
               const svc = SERVICE_COLORS[order.type];
               return (
@@ -630,7 +621,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <div>
                 <h3 className="text-lg font-bold mb-3">Available Agents</h3>
                 <div className="space-y-3">
-                  {mockAgents.filter(a => a.status === 'Active').map(agent => (
+                  {agents.filter(a => a.status === 'Active').map(agent => (
                     <div key={agent.id} className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-blue-500/50 transition cursor-pointer">
                       <div className="flex items-center justify-between mb-2">
                         <div>
@@ -771,7 +762,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">👤 Field Agents</h2>
-                <p className="text-gray-400">{mockAgents.length} agents in network</p>
+                <p className="text-gray-400">{agents.length} agents in network</p>
               </div>
               <div className="flex gap-2">
                 <select value={agentFilter} onChange={e => setAgentFilter(e.target.value)}
@@ -860,7 +851,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">🏢 Clients</h2>
-                <p className="text-gray-400">{mockClients.length} active clients</p>
+                <p className="text-gray-400">{clients.length} active clients</p>
               </div>
               <button className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
                 + Add Client
@@ -868,7 +859,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             </div>
 
             <div className="space-y-4">
-              {mockClients.map(client => (
+              {clients.map(client => (
                 <div key={client.id} className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:border-gray-600 transition cursor-pointer">
                   <div className="flex items-center justify-between mb-3">
                     <div>
@@ -923,13 +914,13 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <h3 className="text-lg font-bold mb-3">The 7 Fundamentals (Never Change)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
-                  { num: 1, check: 'Every required signature present?', accuracy: 97, triggered: 234 },
-                  { num: 2, check: 'Every required initial present?', accuracy: 94, triggered: 189 },
-                  { num: 3, check: 'Every required date filled in?', accuracy: 96, triggered: 156 },
-                  { num: 4, check: 'Notary seal/stamp present where required?', accuracy: 99, triggered: 78 },
-                  { num: 5, check: 'All required pages/forms included?', accuracy: 100, triggered: 312 },
-                  { num: 6, check: 'ID copy included (when required)?', accuracy: 92, triggered: 45 },
-                  { num: 7, check: 'No markings where there shouldn\'t be?', accuracy: 88, triggered: 23 },
+                  { num: 1, check: 'Every required signature present?' },
+                  { num: 2, check: 'Every required initial present?' },
+                  { num: 3, check: 'Every required date filled in?' },
+                  { num: 4, check: 'Notary seal/stamp present where required?' },
+                  { num: 5, check: 'All required pages/forms included?' },
+                  { num: 6, check: 'ID copy included (when required)?' },
+                  { num: 7, check: 'No markings where there shouldn\'t be?' },
                 ].map(rule => (
                   <div key={rule.num} className="bg-gray-800 border border-gray-700 rounded-lg p-4 flex items-center gap-4 hover:border-gray-600 transition">
                     <div className="w-8 h-8 bg-orange-500/20 text-orange-400 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
@@ -938,8 +929,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{rule.check}</p>
                       <div className="flex gap-4 text-xs text-gray-500 mt-1">
-                        <span>Accuracy: <span className={rule.accuracy >= 95 ? 'text-green-400' : 'text-yellow-400'}>{rule.accuracy}%</span></span>
-                        <span>Triggered {rule.triggered}x</span>
+                        <span className="text-green-400">Active</span>
                       </div>
                     </div>
                   </div>
@@ -971,19 +961,15 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
                 <h4 className="font-semibold mb-3">Learned Patterns</h4>
                 <div className="space-y-3">
-                  {[
-                    { pattern: 'Light ink on page 12 of refinance packages correlates with 73% rejection rate', confidence: 87, source: '47 observations' },
-                    { pattern: 'Missing date on CCF Step 2 when collector is under 6 months experience', confidence: 78, source: '23 observations' },
-                    { pattern: 'Second ID document consistently missing on Patriot Act forms from Title Company X', confidence: 91, source: '15 observations' },
-                  ].map((p, i) => (
-                    <div key={i} className="bg-gray-700/50 rounded-lg p-3">
-                      <p className="text-sm">{p.pattern}</p>
-                      <div className="flex gap-4 text-xs text-gray-500 mt-2">
-                        <span>Confidence: <span className={p.confidence >= 85 ? 'text-green-400' : 'text-yellow-400'}>{p.confidence}%</span></span>
-                        <span>{p.source}</span>
-                      </div>
+                  {scanbacks.length === 0 ? (
+                    <div className="text-center py-4 text-gray-500 text-sm">
+                      Patterns will appear as PRISM processes more scanbacks and identifies recurring issues.
                     </div>
-                  ))}
+                  ) : (
+                    <div className="text-center py-4 text-gray-500 text-sm">
+                      Learning from {scanbacks.length} scanback{scanbacks.length !== 1 ? 's' : ''}. More data needed for pattern detection.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -1012,10 +998,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <StatCard label="Pending Payouts" value="$685" icon="⏳" color="yellow" />
-              <StatCard label="Paid This Month" value="$3,525" icon="✅" color="green" />
-              <StatCard label="Revenue This Month" value="$8,210" icon="💰" color="blue" />
-              <StatCard label="Avg Margin" value="57%" icon="📈" color="purple" />
+              <StatCard label="Pending Payouts" value={prismStats?.pending_payouts || '$0'} icon="⏳" color="yellow" />
+              <StatCard label="Paid This Month" value={prismStats?.paid_this_month || '$0'} icon="✅" color="green" />
+              <StatCard label="Revenue This Month" value={prismStats?.monthly_revenue || '$0'} icon="💰" color="blue" />
+              <StatCard label="Avg Margin" value={prismStats?.avg_margin || '—'} icon="📈" color="purple" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1033,13 +1019,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                       </tr>
                     </thead>
                     <tbody>
-                      {[
-                        { agent: 'Sarah Chen', order: 'PRISM-2026-0001', amount: 145, status: 'Pending' },
-                        { agent: 'Marcus Brown', order: 'PRISM-2026-0002', amount: 85, status: 'Pending' },
-                        { agent: 'Lisa Park', order: 'PRISM-2026-0005', amount: 170, status: 'On Hold (Errors)' },
-                        { agent: 'Dee Davis', order: 'PRISM-2026-0004', amount: 75, status: 'Approved' },
-                        { agent: 'Dee Davis', order: 'PRISM-2026-0007', amount: 35, status: 'Approved' },
-                      ].map((p, i) => (
+                      {orders.filter(o => ['Verified', 'Completed'].includes(o.status)).slice(0, 5).map((o, i) => ({
+                        agent: o.agent || 'Unassigned', order: o.id, amount: o.fee, status: o.status === 'Verified' ? 'Approved' : 'Pending',
+                      })).map((p, i) => (
                         <tr key={i} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition">
                           <td className="px-4 py-3 font-semibold">{p.agent}</td>
                           <td className="px-4 py-3 font-mono text-xs text-gray-500">{p.order}</td>
@@ -1062,13 +1044,13 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <div>
                 <h3 className="text-lg font-bold mb-3">Margin by Service Type</h3>
                 <div className="space-y-3">
-                  {[
-                    { type: 'notary', revenue: 4200, cost: 1800, orders: 5 },
-                    { type: 'dot', revenue: 1400, cost: 520, orders: 3 },
-                    { type: 'fingerprint', revenue: 1440, cost: 480, orders: 2 },
-                    { type: 'dna', revenue: 500, cost: 150, orders: 2 },
-                    { type: 'courier', revenue: 280, cost: 70, orders: 2 },
-                  ].map(m => {
+                  {Object.entries(orders.reduce((acc: Record<string, { type: string; revenue: number; cost: number; orders: number }>, o) => {
+                    if (!acc[o.type]) acc[o.type] = { type: o.type, revenue: 0, cost: 0, orders: 0 };
+                    acc[o.type].revenue += o.fee || 0;
+                    acc[o.type].cost += Math.round((o.fee || 0) * 0.4);
+                    acc[o.type].orders += 1;
+                    return acc;
+                  }, {})).map(([, m]) => m).sort((a, b) => b.revenue - a.revenue).slice(0, 5).map(m => {
                     const margin = Math.round(((m.revenue - m.cost) / m.revenue) * 100);
                     const svc = SERVICE_COLORS[m.type];
                     return (
@@ -1111,16 +1093,15 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <h3 className="text-lg font-bold mb-3">Volume by Service Type</h3>
               <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
                 <div className="space-y-3">
-                  {[
-                    { type: 'notary', count: 134, pct: 45 },
-                    { type: 'dot', count: 47, pct: 16 },
-                    { type: 'fingerprint', count: 38, pct: 13 },
-                    { type: 'non-dot', count: 29, pct: 10 },
-                    { type: 'dna', count: 18, pct: 6 },
-                    { type: 'courier', count: 15, pct: 5 },
-                    { type: 'background', count: 8, pct: 3 },
-                    { type: 'ron', count: 6, pct: 2 },
-                  ].map(item => {
+                  {(() => {
+                    const totals = orders.reduce((acc: Record<string, number>, o) => {
+                      acc[o.type] = (acc[o.type] || 0) + 1; return acc;
+                    }, {});
+                    const total = orders.length || 1;
+                    return Object.entries(totals).map(([type, count]) => ({
+                      type, count, pct: Math.round((count / total) * 100),
+                    })).sort((a, b) => b.count - a.count);
+                  })().map(item => {
                     const svc = SERVICE_COLORS[item.type];
                     return (
                       <div key={item.type} className="flex items-center gap-4">
@@ -1144,10 +1125,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-8">
               <h3 className="text-lg font-bold mb-3">Quality Metrics</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatCard label="First-Pass Rate" value="82%" icon="✅" color="green" sub="Clean on first upload" />
-                <StatCard label="Rejection Rate" value="1.2%" icon="🚫" color="red" sub="Post-ship rejections" />
-                <StatCard label="Avg Correction Time" value="2.4 hrs" icon="⏱" color="yellow" sub="Time to fix errors" />
-                <StatCard label="Most Common Error" value="Missing Initial" icon="📝" color="orange" sub="31% of all errors" />
+                <StatCard label="First-Pass Rate" value={prismStats?.clean_rate || '—'} icon="✅" color="green" sub="Clean on first upload" />
+                <StatCard label="Rejection Rate" value={prismStats?.rejection_rate || '—'} icon="🚫" color="red" sub="Post-ship rejections" />
+                <StatCard label="Avg Correction Time" value={prismStats?.avg_correction_time || '—'} icon="⏱" color="yellow" sub="Time to fix errors" />
+                <StatCard label="Most Common Error" value={prismStats?.common_error || '—'} icon="📝" color="orange" sub={prismStats?.common_error_pct || ''} />
               </div>
             </div>
 
@@ -1155,10 +1136,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-8">
               <h3 className="text-lg font-bold mb-3">Revenue & Margin</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatCard label="Revenue (Month)" value="$8,210" icon="💰" color="green" />
-                <StatCard label="Agent Costs" value="$3,020" icon="💸" color="red" />
-                <StatCard label="Net Margin" value="$5,190" icon="📈" color="purple" />
-                <StatCard label="Margin %" value="63%" icon="🎯" color="blue" />
+                <StatCard label="Revenue (Month)" value={prismStats?.monthly_revenue || '$0'} icon="💰" color="green" />
+                <StatCard label="Agent Costs" value={prismStats?.agent_costs || '$0'} icon="💸" color="red" />
+                <StatCard label="Net Margin" value={prismStats?.net_margin || '$0'} icon="📈" color="purple" />
+                <StatCard label="Margin %" value={prismStats?.margin_pct || '—'} icon="🎯" color="blue" />
               </div>
             </div>
 
@@ -1167,7 +1148,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <h3 className="text-lg font-bold mb-3">Agent Utilization</h3>
               <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
                 <div className="space-y-3">
-                  {mockAgents.filter(a => a.status === 'Active').map(agent => {
+                  {agents.filter(a => a.status === 'Active').map(agent => {
                     const utilization = Math.min(Math.round((agent.activeOrders / 5) * 100), 100);
                     return (
                       <div key={agent.id} className="flex items-center gap-4">
@@ -1243,7 +1224,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 <label className="block text-xs font-semibold text-gray-500 mb-1">Client</label>
                 <select className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-orange-500 focus:outline-none transition text-gray-300">
                   <option value="">Select client...</option>
-                  {mockClients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {clients.length > 0 ? clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>) : <option value="">No clients loaded</option>}
                 </select>
               </div>
               <div>

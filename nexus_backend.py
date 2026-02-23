@@ -5216,6 +5216,24 @@ def handle_lbpc_create_invoice(lead_id: str) -> Dict:
         airtable_client.update_record('LBPC Leads', lead_id, {
             'Invoice': [invoice['id']]
         })
+
+        # VERTEX BRIDGE: Also create in VERTEX INVOICES
+        try:
+            airtable_client.create_record('VERTEX INVOICES', {
+                'Invoice Number': invoice_data.get('Invoice Number', ''),
+                'Invoice Date': invoice_data.get('Invoice Date', ''),
+                'Due Date': invoice_data.get('Due Date', ''),
+                'Client Name': invoice_data.get('Client Name', ''),
+                'Source System': 'LBPC',
+                'Source Record ID': lead_id,
+                'Invoice Type': 'Standard',
+                'Total Amount': fee_amount,
+                'Payment Status': 'Unpaid',
+                'Payment Terms': 'Due on Receipt',
+                'Notes': invoice_data.get('Invoice Notes', ''),
+            })
+        except Exception as ve:
+            print(f"LBPC → VERTEX bridge: {ve}")
         
         return {
             'success': True,

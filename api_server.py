@@ -58,6 +58,9 @@ from nexus_backend import (
     handle_lbpc_create_invoice,
     handle_lbpc_import_csv,
     handle_lbpc_get_analytics,
+    handle_lbpc_mine_county,
+    handle_lbpc_upload_pdf,
+    handle_lbpc_upload_csv,
     # Fulfillment handlers
     handle_create_fulfillment_contract,
     handle_get_active_contracts,
@@ -125,6 +128,23 @@ try:
     print("✅ PRISM Inspection Engine registered")
 except ImportError as e:
     print(f"⚠️ PRISM Inspection Engine not loaded: {e}")
+
+# Register COMPASS — Post-Award Operations
+try:
+    from compass_api import compass
+    app.register_blueprint(compass)
+    print("✅ COMPASS Post-Award API registered")
+except ImportError as e:
+    print(f"⚠️ COMPASS API not loaded: {e}")
+
+# Register AUTONOMOUS ENGINE — "AI That Works While You Sleep"
+try:
+    from nexus_autonomous import get_engine as get_autonomous_engine
+    print("✅ Autonomous Engine loaded")
+except ImportError as e:
+    get_autonomous_engine = None
+    print(f"⚠️ Autonomous Engine not loaded: {e}")
+
 
 # Set base ID from environment
 Config.AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID', '')
@@ -1289,6 +1309,16 @@ def ddcss_qualify_prospect():
             return jsonify({"error": "prospect_id required"}), 400
 
         result = handle_ddcss_qualify_prospect(prospect_id)
+
+        # NEXUS ADVISOR: Teach about prospect qualification
+        try:
+            from nexus_advisor import advise
+            result['advisor'] = advise('ddcss', 'prospect_qualified', {
+                'prospect_id': prospect_id,
+            })
+        except Exception:
+            pass
+
         return jsonify(result)
 
     except Exception as e:
@@ -1318,6 +1348,16 @@ def ddcss_generate_blueprint():
             return jsonify({"error": "Invalid framework_type. Must be ALIGN, DEFINE, DESIGN, or SHINE"}), 400
 
         result = handle_ddcss_generate_blueprint(prospect_id, framework_type)
+
+        # NEXUS ADVISOR: Teach about blueprints
+        try:
+            from nexus_advisor import advise
+            result['advisor'] = advise('ddcss', 'blueprint_generated', {
+                'framework_type': framework_type,
+            })
+        except Exception:
+            pass
+
         return jsonify(result)
 
     except Exception as e:
@@ -1451,7 +1491,22 @@ def create_atlas_project():
         }
 
         result = airtable_client.create_record('ATLAS PROJECTS', fields)
-        return jsonify({'project': {'id': result['id'], **fields}})
+
+        # NEXUS ADVISOR: Teach about project planning
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise
+            advisor_insight = advise('atlas', 'project_created', {
+                'project_type': data.get('type'),
+                'budget': data.get('budget', 0),
+            })
+        except Exception:
+            pass
+
+        return jsonify({
+            'project': {'id': result['id'], **fields},
+            'advisor': advisor_insight,
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -1629,13 +1684,40 @@ All deliverables submitted and accepted.
         })
     except Exception as link_error:
         print(f"Warning: Could not link project to invoice: {link_error}")
+
+    # VERTEX BRIDGE: Also create in VERTEX INVOICES so financial command center sees it
+    try:
+        vertex_fields = {
+            'Invoice Number': invoice_number,
+            'Invoice Date': datetime.now().isoformat(),
+            'Due Date': (datetime.now() + timedelta(days=30)).isoformat(),
+            'Client Name': client_name,
+            'Source System': source_system,
+            'Source Record ID': project_id,
+            'Invoice Type': 'Standard',
+            'Total Amount': budget,
+            'Payment Status': 'Unpaid',
+            'Payment Terms': 'Net 30',
+            'Notes': invoice_description,
+        }
+        airtable_client.create_record('VERTEX INVOICES', vertex_fields)
+    except Exception as ve:
+        print(f"VERTEX bridge: Could not create VERTEX invoice: {ve}")
+
+    # NEXUS ADVISOR + LEARNING
+    try:
+        from nexus_advisor import advise, log_growth
+        advise('vertex', 'invoice_created', {'total_amount': budget, 'source_system': source_system})
+        log_growth('invoice_created')
+    except Exception:
+        pass
     
     return {
         'success': True,
         'invoice_id': invoice_id,
         'invoice_number': invoice_number,
         'invoice_amount': budget,
-        'message': f'✅ Invoice created: {invoice_number} for ${budget:,.2f}'
+        'message': f'Invoice created: {invoice_number} for ${budget:,.2f}'
     }
 
 
@@ -2232,6 +2314,19 @@ def lbpc_create_lead():
     try:
         data = request.json
         result = handle_lbpc_create_lead(data)
+
+        # Advisor: teach about lead mining
+        if result.get('success'):
+            try:
+                from nexus_advisor import advise
+                result['advisor'] = advise('lbpc', 'lead_mined', {
+                    'county': data.get('county', ''),
+                    'state': data.get('state', ''),
+                    'amount': data.get('surplus_amount', 0),
+                })
+            except Exception:
+                pass
+
         return jsonify(result), 201 if result.get('success') else 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -2277,6 +2372,18 @@ def lbpc_generate_document(lead_id):
         use_ai = data.get('use_ai', True)
         
         result = handle_lbpc_generate_document(lead_id, template_type, use_ai)
+
+        # NEXUS ADVISOR: Teach about document generation
+        try:
+            from nexus_advisor import advise
+            advisor_insight = advise('lbpc', 'document_generated', {
+                'template_type': template_type,
+                'lead_id': lead_id,
+            })
+            result['advisor'] = advisor_insight
+        except Exception:
+            pass
+
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -2774,7 +2881,25 @@ def create_gpss_opportunity():
             fields['Notes'] = f'[STEP:1] {notes}'.strip()
         
         result = airtable_client.create_record('GPSS OPPORTUNITIES', fields)
-        return jsonify({'opportunity': {'id': result['id'], **fields}})
+
+        # NEXUS ADVISOR: Teach about the opportunity
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise, log_growth
+            advisor_insight = advise('gpss', 'opportunity_discovered', {
+                'agency': data.get('agency', ''),
+                'set_aside': data.get('setAsideType', ''),
+                'edwosb': data.get('edwsbEligible', False),
+                'value': data.get('value', 0),
+            })
+            log_growth('bid_submitted' if data.get('pipelineStage') == 'Active' else 'bid_submitted')
+        except Exception:
+            pass
+
+        return jsonify({
+            'opportunity': {'id': result['id'], **fields},
+            'advisor': advisor_insight,
+        })
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -2832,35 +2957,160 @@ def update_gpss_opportunity(opportunity_id):
         # Update the opportunity
         airtable_client.update_record('GPSS OPPORTUNITIES', opportunity_id, update_fields)
         
-        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "WON"
+        # NEXUS LEARNING: Track opportunity status changes
         new_status = update_fields.get('Status', old_status)
+        if new_status != old_status:
+            try:
+                from nexus_learning_engine import nxlearn
+                action_map = {
+                    'Won': 'won', 'Lost': 'lost', 'Active': 'pursued',
+                    'Submitted': 'bid_submitted', 'Reviewing': 'reviewed',
+                    'No Bid': 'skipped',
+                }
+                action = action_map.get(new_status)
+                if action:
+                    meta = {
+                        'agency': current_opp['fields'].get('Agency Name', ''),
+                        'value_range': str(current_opp['fields'].get('Value', '')),
+                        'set_aside': current_opp['fields'].get('Set-Aside Type', ''),
+                        'naics': current_opp['fields'].get('NAICS', ''),
+                        'source': current_opp['fields'].get('Source', ''),
+                        'old_status': old_status, 'new_status': new_status,
+                    }
+                    nxlearn('opportunities', opportunity_id, action, meta)
+            except Exception:
+                pass
+
+        # NEXUS ADVISOR: Debrief on win/loss + teach on status changes
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise, debrief as advisor_debrief, log_growth
+            if new_status == 'Won' and old_status != 'Won':
+                advisor_insight = advisor_debrief('bid_won', {
+                    'contract_value': current_opp['fields'].get('Value', 0),
+                    'agency': current_opp['fields'].get('Agency Name', ''),
+                })
+            elif new_status == 'Lost' and old_status != 'Lost':
+                advisor_insight = advisor_debrief('bid_lost', {
+                    'agency': current_opp['fields'].get('Agency Name', ''),
+                })
+            elif new_status == 'Submitted' and old_status != 'Submitted':
+                advisor_insight = advise('gpss', 'bid_submitted')
+                log_growth('bid_submitted')
+        except Exception:
+            pass
+
+        # VERTEX BRIDGE: Track contract revenue when won
         if new_status == 'Won' and old_status != 'Won':
-            # Check if ATLAS project already exists for this opportunity
+            try:
+                contract_value = current_opp['fields'].get('Value', 0)
+                if contract_value and float(contract_value) > 0:
+                    airtable_client.create_record('VERTEX REVENUE', {
+                        'Date': datetime.now().strftime('%Y-%m-%d'),
+                        'Source System': 'GPSS',
+                        'Source Record ID': opportunity_id,
+                        'Client Name': current_opp['fields'].get('Agency Name', ''),
+                        'Amount': float(contract_value),
+                        'Category': 'Contract Award',
+                        'Description': f"Contract won: {current_opp['fields'].get('Title', '')}",
+                        'Status': 'Expected',
+                    })
+            except Exception as ve:
+                print(f"VERTEX revenue tracking: {ve}")
+
+        # AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "WON"
+        prism_contract_created = False
+        if new_status == 'Won' and old_status != 'Won':
             existing_atlas_link = current_opp['fields'].get('ATLAS Project')
-            
+
+            # PRISM BRIDGE: If this is a field service contract, register it in PRISM
+            PRISM_SERVICE_KEYWORDS = [
+                'notary', 'drug test', 'drug testing', 'dna', 'dna test',
+                'fingerprint', 'livescan', 'phlebotomy', 'courier',
+                'medical courier', 'specimen', 'signing', 'mobile notary',
+            ]
+            opp_title = (current_opp['fields'].get('Title', '') or '').lower()
+            opp_category = (current_opp['fields'].get('Opportunity Category', '') or '').lower()
+            opp_desc = (current_opp['fields'].get('Description', '') or '').lower()
+            combined_text = f"{opp_title} {opp_category} {opp_desc}"
+            is_field_service = any(kw in combined_text for kw in PRISM_SERVICE_KEYWORDS)
+
+            if is_field_service:
+                try:
+                    prism_fields = {
+                        'Contract Name': current_opp['fields'].get('Title', ''),
+                        'Client': current_opp['fields'].get('Agency Name', ''),
+                        'GPSS Opportunity': [opportunity_id],
+                        'Contract Value': current_opp['fields'].get('Value', 0),
+                        'RFP Number': current_opp['fields'].get('RFP Number', ''),
+                        'Status': 'Active',
+                        'Start Date': datetime.now().strftime('%Y-%m-%d'),
+                        'Source': 'GPSS Auto-Bridge',
+                    }
+                    airtable_client.create_record('PRISM Contracts', prism_fields)
+                    prism_contract_created = True
+                except Exception as pe:
+                    print(f"PRISM bridge: {pe}")
+
+            # COMPASS BRIDGE: Auto-register every won contract for post-award management
+            compass_contract_created = False
+            try:
+                compass_fields = {
+                    'Contract Number': current_opp['fields'].get('RFP Number', '') or current_opp['fields'].get('Solicitation Number', ''),
+                    'Title': current_opp['fields'].get('Title', ''),
+                    'Agency': current_opp['fields'].get('Agency Name', ''),
+                    'Value': current_opp['fields'].get('Value', 0) or 0,
+                    'Contract Type': 'Firm Fixed Price',
+                    'Status': 'Active',
+                    'Start Date': datetime.now().strftime('%Y-%m-%d'),
+                    'CO Name': current_opp['fields'].get('CO Name', '') or '',
+                    'CO Email': current_opp['fields'].get('CO Email', '') or '',
+                    'NAICS': current_opp['fields'].get('NAICS', '') or '',
+                    'Set Aside': current_opp['fields'].get('Set-Aside Type', '') or '',
+                    'Health Score': 100,
+                    'Compliance Status': 'Green',
+                    'Created Date': datetime.now().isoformat(),
+                    'GPSS Opportunity': [opportunity_id],
+                }
+                airtable_client.create_record('COMPASS Contracts', compass_fields)
+                compass_contract_created = True
+                print(f"✅ COMPASS contract created for: {compass_fields['Title']}")
+            except Exception as ce:
+                print(f"COMPASS bridge: {ce}")
+
             if not existing_atlas_link:
                 try:
-                    # Auto-create ATLAS project!
                     atlas_result = create_atlas_project_from_opportunity(opportunity_id, airtable_client)
                     
+                    msg_parts = ['Contract Won! ATLAS project created automatically!']
+                    if prism_contract_created:
+                        msg_parts.append('PRISM contract registered for field service.')
+                    if compass_contract_created:
+                        msg_parts.append('COMPASS post-award tracking activated.')
+
                     return jsonify({
                         'success': True,
-                        'message': '🎉 Contract Won! ATLAS project created automatically!',
+                        'message': ' '.join(msg_parts),
                         'atlas_project_created': True,
                         'atlas_project_id': atlas_result['project_id'],
                         'atlas_project_name': atlas_result['project_name'],
-                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                        'wbs_generated': atlas_result.get('wbs_generated', False),
+                        'prism_contract_created': prism_contract_created,
+                        'compass_contract_created': compass_contract_created,
+                        'advisor': advisor_insight,
                     })
                 except Exception as atlas_error:
                     print(f"Error creating ATLAS project: {atlas_error}")
-                    # Still return success for opportunity update
                     return jsonify({
                         'success': True,
                         'message': 'Opportunity updated. ATLAS project creation failed - please create manually.',
-                        'atlas_error': str(atlas_error)
+                        'atlas_error': str(atlas_error),
+                        'prism_contract_created': prism_contract_created,
+                        'compass_contract_created': compass_contract_created,
+                        'advisor': advisor_insight,
                     })
         
-        return jsonify({'success': True})
+        return jsonify({'success': True, 'advisor': advisor_insight})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -4217,21 +4467,30 @@ def create_gpss_contact():
         data = request.json
         airtable_client = AirtableClient()
         
+        first = data.get('firstName', '')
+        last = data.get('lastName', '')
+        full_name = f"{first} {last}".strip() if first or last else data.get('name', '')
+        
+        phone = data.get('phone', '')
+        notes_parts = []
+        if phone:
+            notes_parts.append(f"Phone: {phone}")
+        extra_notes = data.get('notes', '')
+        if extra_notes:
+            notes_parts.append(extra_notes)
+        source = data.get('source', 'Manual')
+        if source and source != 'Manual':
+            notes_parts.append(f"Source: {source}")
+        
         fields = {
-            'First Name': data.get('firstName', ''),
-            'Last Name': data.get('lastName', ''),
+            'Name': full_name,
             'Email': data.get('email', ''),
-            'Phone': data.get('phone', ''),
             'Title': data.get('title', ''),
-            'Agency': data.get('agency', ''),
-            'Department': data.get('department', ''),
-            'Address': data.get('address', ''),
-            'City': data.get('city', ''),
-            'State': data.get('state', ''),
-            'ZIP': data.get('zip', ''),
-            'Source': data.get('source', 'Manual'),
-            'Created': datetime.now().isoformat()
+            'Organization': data.get('agency', data.get('organization', '')),
+            'Role Category': data.get('roleCategory', ''),
+            'Notes': '\n'.join(notes_parts) if notes_parts else '',
         }
+        fields = {k: v for k, v in fields.items() if v}
         
         result = airtable_client.create_record('GPSS CONTACTS', fields)
         return jsonify({'contact': {'id': result['id'], **fields}})
@@ -5955,6 +6214,23 @@ def calculate_markup():
         miner = GPSSSubcontractorMiner()
         result = miner.calculate_markup_bid(quote_id, markup_percentage)
         
+        # PRICING LEARNING: Log markup event
+        if result.get('success'):
+            try:
+                from pricing_intelligence import get_pricing_intelligence
+                pi = get_pricing_intelligence()
+                pi.log_markup_set(
+                    opportunity_id=data.get('opportunity_id', quote_id),
+                    markup_pct=markup_percentage,
+                    sub_cost=result.get('subcontractor_cost', 0),
+                    final_bid=result.get('final_bid_amount', 0),
+                    service_type=data.get('service_type'),
+                    contract_type=data.get('contract_type'),
+                    eval_method=data.get('eval_method'),
+                )
+            except Exception:
+                pass
+        
         return jsonify(result)
         
     except Exception as e:
@@ -5987,6 +6263,23 @@ def generate_bid_summary():
         
         miner = GPSSSubcontractorMiner()
         result = miner.generate_final_bid_summary(opportunity_id, selected_quote_id, markup_percentage)
+        
+        # PRICING LEARNING: Log bid summary generation
+        try:
+            from pricing_intelligence import get_pricing_intelligence
+            pi = get_pricing_intelligence()
+            bid_calc = result.get('bid_calculation', {})
+            final_bid = bid_calc.get('final_bid_amount', 0)
+            sub_cost = bid_calc.get('subcontractor_cost', 0)
+            if final_bid > 0:
+                pi.log_markup_set(
+                    opportunity_id=opportunity_id,
+                    markup_pct=markup_percentage,
+                    sub_cost=sub_cost,
+                    final_bid=final_bid,
+                )
+        except Exception:
+            pass
         
         return jsonify(result)
         
@@ -6647,34 +6940,98 @@ def update_ddcss_prospect(prospect_id):
         # Update the prospect
         airtable_client.update_record('DDCSS Prospects', prospect_id, update_fields)
         
-        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "CLIENT WON"
         new_status = update_fields.get('Status', old_status)
+        prism_contract_created = False
+        advisor_insight = None
+
         if new_status == 'Client Won' and old_status != 'Client Won':
-            # Check if ATLAS project already exists
-            existing_atlas_link = current_prospect['fields'].get('ATLAS Project')
-            
+            prospect_fields = current_prospect.get('fields', {})
+
+            # VERTEX BRIDGE: Track revenue from corporate client win
+            try:
+                budget_str = prospect_fields.get('Budget Range', '') or ''
+                budget_val = float(budget_str.replace('$', '').replace(',', '').replace('+', '').split('-')[0]) if budget_str else 0
+                if budget_val > 0:
+                    airtable_client.create_record('VERTEX REVENUE', {
+                        'Date': datetime.now().strftime('%Y-%m-%d'),
+                        'Source System': 'DDCSS',
+                        'Source Record ID': prospect_id,
+                        'Client Name': prospect_fields.get('Company Name', ''),
+                        'Amount': budget_val,
+                        'Category': 'Corporate Client',
+                        'Description': f"Client won: {prospect_fields.get('Company Name', '')}",
+                        'Status': 'Expected',
+                    })
+            except Exception as ve:
+                print(f"DDCSS → VERTEX revenue: {ve}")
+
+            # PRISM BRIDGE: If this is a field service client, register in PRISM
+            PRISM_SERVICE_KEYWORDS = [
+                'notary', 'drug test', 'drug testing', 'dna', 'dna test',
+                'fingerprint', 'livescan', 'phlebotomy', 'courier',
+                'medical courier', 'specimen', 'signing', 'mobile notary',
+                'background check', 'screening', 'collection',
+            ]
+            prospect_industry = (prospect_fields.get('Industry', '') or '').lower()
+            prospect_services = (prospect_fields.get('Primary Service', '') or '').lower()
+            prospect_pain = (prospect_fields.get('Pain Points', '') or '').lower()
+            prospect_notes = (prospect_fields.get('Notes', '') or '').lower()
+            combined = f"{prospect_industry} {prospect_services} {prospect_pain} {prospect_notes}"
+            is_field_service = any(kw in combined for kw in PRISM_SERVICE_KEYWORDS)
+
+            if is_field_service:
+                try:
+                    airtable_client.create_record('PRISM Contracts', {
+                        'Contract Name': f"{prospect_fields.get('Company Name', '')} — Field Services",
+                        'Client': prospect_fields.get('Company Name', ''),
+                        'Client Type': 'Enterprise',
+                        'DDCSS Prospect': [prospect_id],
+                        'Status': 'Active',
+                        'Start Date': datetime.now().strftime('%Y-%m-%d'),
+                        'Source': 'DDCSS Auto-Bridge',
+                    })
+                    prism_contract_created = True
+                except Exception as pe:
+                    print(f"DDCSS → PRISM bridge: {pe}")
+
+            # NEXUS ADVISOR: Debrief on corporate win
+            try:
+                from nexus_advisor import advise
+                advisor_insight = advise('ddcss', 'prospect_qualified', {
+                    'company': prospect_fields.get('Company Name', ''),
+                    'is_field_service': is_field_service,
+                })
+            except Exception:
+                pass
+
+            # AUTO-CREATE ATLAS PROJECT
+            existing_atlas_link = prospect_fields.get('ATLAS Project')
             if not existing_atlas_link:
                 try:
-                    # Auto-create ATLAS project for corporate engagement!
                     atlas_result = create_atlas_project_from_prospect(prospect_id, airtable_client)
                     
                     return jsonify({
                         'success': True,
-                        'message': '🎉 Client Won! ATLAS project created automatically!',
+                        'message': 'Client Won! ATLAS project created automatically!'
+                                   + (' PRISM contract registered for field service.' if prism_contract_created else ''),
                         'atlas_project_created': True,
                         'atlas_project_id': atlas_result['project_id'],
                         'atlas_project_name': atlas_result['project_name'],
-                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                        'wbs_generated': atlas_result.get('wbs_generated', False),
+                        'prism_contract_created': prism_contract_created,
+                        'advisor': advisor_insight,
                     })
                 except Exception as atlas_error:
                     print(f"Error creating ATLAS project from prospect: {atlas_error}")
                     return jsonify({
                         'success': True,
                         'message': 'Prospect updated. ATLAS project creation failed - please create manually.',
-                        'atlas_error': str(atlas_error)
+                        'atlas_error': str(atlas_error),
+                        'prism_contract_created': prism_contract_created,
+                        'advisor': advisor_insight,
                     })
         
-        return jsonify({'success': True})
+        return jsonify({'success': True, 'advisor': advisor_insight})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -7420,6 +7777,31 @@ def generate_forecast_capstat_outreach(forecast_id: str):
             'success': False,
             'error': str(e),
             'message': f"Failed to generate forecast outreach: {str(e)}"
+        }), 500
+
+
+@app.route('/api/forecasts/<forecast_id>/generate-incumbent-outreach', methods=['POST'])
+def generate_incumbent_outreach(forecast_id: str):
+    """
+    Generate a teaming outreach email to the incumbent on a renewal forecast.
+    
+    Triggered by "🤝 Reach Out to Incumbent" button on Federal Forecasts records
+    where Current Holder is populated.
+    
+    Returns draft teaming email + research links saved to Officer Outreach Tracking.
+    """
+    try:
+        from forecast_capstat_outreach import handle_incumbent_outreach
+        result = handle_incumbent_outreach(forecast_id)
+        if result.get('success'):
+            return jsonify(result), 200
+        else:
+            return jsonify(result), 400
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': f"Failed to generate incumbent outreach: {str(e)}"
         }), 500
 
 
@@ -8749,17 +9131,29 @@ Return ONLY valid JSON with section names as keys and content as values.
             
             application_record = airtable.create_record('GRANT APPLICATIONS', application_fields)
             
+            # NEXUS ADVISOR: Teach about grant applications
+            advisor_insight = None
+            try:
+                from nexus_advisor import advise, log_growth
+                advisor_insight = advise('gbis', 'application_generated', {
+                    'grant_name': grant_name,
+                    'amount': grant_amount,
+                })
+                log_growth('grant_applied')
+            except Exception:
+                pass
+
             return jsonify({
                 'success': True,
                 'application_id': application_record['id'],
                 'draft': application_draft,
                 'formatted_draft': formatted_draft,
                 'word_count': len(formatted_draft.split()),
-                'story_modules_used': len(story_module_ids)
+                'story_modules_used': len(story_module_ids),
+                'advisor': advisor_insight,
             })
             
         except Exception as e:
-            # If Airtable creation fails, still return the generated content
             return jsonify({
                 'success': True,
                 'application_id': None,
@@ -9003,10 +9397,22 @@ def gbis_calculate_score():
         else:
             score['priority_level'] = 'Skip (<60)'
         
+        # Advisor: teach about qualification scoring
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise
+            advisor_insight = advise('gbis', 'score_calculated', {
+                'total_score': total,
+                'grant_amount': grant_amount,
+            })
+        except Exception:
+            pass
+
         return jsonify({
             'success': True,
             'score': score,
-            'recommendation': 'Auto-Pursue' if total >= 80 else 'Review' if total >= 70 else 'Consider' if total >= 60 else 'Skip'
+            'recommendation': 'Auto-Pursue' if total >= 80 else 'Review' if total >= 70 else 'Consider' if total >= 60 else 'Skip',
+            'advisor': advisor_insight,
         })
         
     except Exception as e:
@@ -9300,34 +9706,65 @@ def update_gbis_opportunity(opportunity_id):
         # Update the opportunity
         airtable_client.update_record('GRANT OPPORTUNITIES', opportunity_id, update_fields)
         
-        # 🎯 AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "AWARDED"
+        # AUTO-CREATE ATLAS PROJECT + VERTEX REVENUE IF STATUS CHANGED TO "AWARDED"
         new_status = update_fields.get('Status', old_status)
+        advisor_insight = None
         if new_status == 'Awarded' and old_status != 'Awarded':
-            # Check if ATLAS project already exists
+            grant_name = current_opp['fields'].get('Grant Name', '')
+            grant_amount = current_opp['fields'].get('Grant Amount', 0) or current_opp['fields'].get('Max Award Amount', 0) or 0
+            funder = current_opp['fields'].get('Funder Name', '')
+
+            # VERTEX BRIDGE: Log grant award as revenue
+            try:
+                airtable_client.create_record('VERTEX REVENUE', {
+                    'Date': datetime.now().strftime('%Y-%m-%d'),
+                    'Source System': 'GBIS',
+                    'Source Record ID': opportunity_id,
+                    'Client Name': funder,
+                    'Amount': grant_amount,
+                    'Category': 'Grant Award',
+                    'Status': 'Expected',
+                    'Notes': f"Grant awarded: {grant_name}",
+                })
+                print(f"GBIS → VERTEX revenue: {grant_name} ${grant_amount}")
+            except Exception as ve:
+                print(f"GBIS → VERTEX revenue: {ve}")
+
+            # Advisor debrief on grant win
+            try:
+                from nexus_advisor import advise
+                advisor_insight = advise('gbis', 'grant_discovered', {
+                    'grant_name': grant_name,
+                    'amount': grant_amount,
+                })
+            except Exception:
+                pass
+
             existing_atlas_link = current_opp['fields'].get('ATLAS Project')
-            
             if not existing_atlas_link:
                 try:
-                    # Auto-create ATLAS project for grant management!
                     atlas_result = create_atlas_project_from_grant(opportunity_id, airtable_client)
-                    
                     return jsonify({
                         'success': True,
-                        'message': '🎉 Grant Awarded! ATLAS project created automatically!',
+                        'message': 'Grant Awarded! ATLAS project created. VERTEX revenue logged.',
                         'atlas_project_created': True,
                         'atlas_project_id': atlas_result['project_id'],
                         'atlas_project_name': atlas_result['project_name'],
-                        'wbs_generated': atlas_result.get('wbs_generated', False)
+                        'wbs_generated': atlas_result.get('wbs_generated', False),
+                        'vertex_revenue_logged': True,
+                        'advisor': advisor_insight,
                     })
                 except Exception as atlas_error:
                     print(f"Error creating ATLAS project from grant: {atlas_error}")
                     return jsonify({
                         'success': True,
                         'message': 'Grant updated. ATLAS project creation failed - please create manually.',
-                        'atlas_error': str(atlas_error)
+                        'atlas_error': str(atlas_error),
+                        'vertex_revenue_logged': True,
+                        'advisor': advisor_insight,
                     })
         
-        return jsonify({'success': True})
+        return jsonify({'success': True, 'advisor': advisor_insight})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -9548,7 +9985,20 @@ def create_vertex_invoice():
         
         invoice = airtable.create_record('VERTEX INVOICES', invoice_fields)
         
-        return jsonify({'success': True, 'invoice': invoice})
+        # NEXUS ADVISOR: Teach about invoicing
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise, log_growth
+            advisor_insight = advise('vertex', 'invoice_created', {
+                'total_amount': data.get('total_amount', 0),
+                'source_system': data.get('source_system'),
+                'is_government': bool(data.get('government_agency')),
+            })
+            log_growth('invoice_created')
+        except Exception:
+            pass
+
+        return jsonify({'success': True, 'invoice': invoice, 'advisor': advisor_insight})
     except Exception as e:
         print(f"Error creating VERTEX invoice: {e}")
         return jsonify({'error': str(e)}), 500
@@ -12261,13 +12711,84 @@ def add_subcontractor_contact():
 
 @app.route('/api/agenda', methods=['GET'])
 def get_agenda():
-    """Get agenda for specified view (today/tomorrow/this-week)"""
+    """Get agenda — reads actual bid folders and email content."""
     try:
         view = request.args.get('view', 'today')
         agenda = handle_get_agenda(view)
         return jsonify(agenda)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/agenda/bid/<bid_id>', methods=['GET'])
+def get_bid_detail(bid_id):
+    """Get full detail for a bid including email body."""
+    try:
+        from agenda_manager import handle_get_bid_detail
+        detail = handle_get_bid_detail(bid_id)
+        if detail:
+            return jsonify(detail)
+        return jsonify({'error': 'Bid not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/agenda/task/<record_id>/done', methods=['POST'])
+def mark_task_done(record_id):
+    """Mark a TASKS record as DONE in Airtable."""
+    try:
+        from agenda_manager import AgendaManager
+        mgr = AgendaManager()
+        ok = mgr.mark_task_done(record_id)
+        if ok:
+            return jsonify({'success': True})
+        return jsonify({'error': 'Failed to update'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/agenda/item/<item_id>/toggle', methods=['POST'])
+def toggle_agenda_item(item_id):
+    """Mark an agenda item as completed or pending. Persists to Airtable."""
+    try:
+        from pyairtable import Api
+        api = Api(os.environ.get('AIRTABLE_API_KEY', ''))
+        base_id = os.environ.get('AIRTABLE_BASE_ID', '')
+
+        record_id = item_id.replace('overdue-', '')
+
+        data = request.get_json() or {}
+        new_status = data.get('status', 'completed')
+
+        # Try GPSS Opportunities first (deadline items)
+        try:
+            table = api.table(base_id, 'GPSS Opportunities')
+            record = table.get(record_id)
+            if new_status == 'completed':
+                table.update(record_id, {'Status': 'Completed'})
+            else:
+                table.update(record_id, {'Status': ''})
+            return jsonify({'success': True, 'source': 'gpss', 'status': new_status})
+        except:
+            pass
+
+        # Try Officer Outreach Tracking (outreach items)
+        try:
+            table = api.table(base_id, 'Officer Outreach Tracking')
+            record = table.get(record_id)
+            if new_status == 'completed':
+                table.update(record_id, {'STATUS': 'SENT'})
+            else:
+                table.update(record_id, {'STATUS': 'DRAFT'})
+            return jsonify({'success': True, 'source': 'outreach', 'status': new_status})
+        except:
+            pass
+
+        return jsonify({'success': False, 'error': 'Record not found in any table'}), 404
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 
 @app.route('/api/active-deadlines', methods=['GET'])
 def get_active_deadlines():
@@ -13872,6 +14393,221 @@ def api_intelligence_status():
 
 
 # =============================================================================
+# CONTRACT INTELLIGENCE — Three-Avenue Pipeline (Expiring Contracts + Primes + Subs)
+# =============================================================================
+
+@app.route('/api/intelligence/contracts/ingest', methods=['POST'])
+def api_intel_contracts_ingest():
+    """
+    Ingest GovCon Giants data (or any intelligence folder).
+    POST /api/intelligence/contracts/ingest
+    Body: { "folder_path": "/path/to/folder" }  (optional — auto-detects GOVCON_GIANTS)
+    """
+    try:
+        from contract_intelligence import handle_ingest
+        data = request.get_json() or {}
+        result = handle_ingest(data.get('folder_path'))
+        return jsonify({'success': True, **result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/pipeline', methods=['GET'])
+def api_intel_contracts_pipeline():
+    """
+    Three-avenue pipeline: sub under prime, prime recompete, hire subs.
+    GET /api/intelligence/contracts/pipeline?lane=Janitorial&min_score=40
+    """
+    try:
+        from contract_intelligence import handle_get_pipeline
+        lane = request.args.get('lane')
+        min_score = int(request.args.get('min_score', 0))
+        result = handle_get_pipeline(lane, min_score)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/expiring', methods=['GET'])
+def api_intel_contracts_expiring():
+    """
+    Expiring contracts filtered to DDI lanes.
+    GET /api/intelligence/contracts/expiring?ddi_only=true&lane=Janitorial
+    """
+    try:
+        from contract_intelligence import handle_get_expiring
+        ddi_only = request.args.get('ddi_only', 'true').lower() == 'true'
+        lane = request.args.get('lane')
+        contracts = handle_get_expiring(ddi_only, lane)
+        return jsonify({'contracts': contracts, 'count': len(contracts)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/primes', methods=['GET'])
+def api_intel_contracts_primes():
+    """
+    Prime contractor SBLO directory.
+    GET /api/intelligence/contracts/primes?lane=Facilities
+    """
+    try:
+        from contract_intelligence import handle_get_primes
+        lane = request.args.get('lane')
+        primes = handle_get_primes(lane)
+        return jsonify({'primes': primes, 'count': len(primes)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/subs', methods=['GET'])
+def api_intel_contracts_subs():
+    """
+    Tier 2 subcontractor directory.
+    GET /api/intelligence/contracts/subs?lane=Janitorial
+    """
+    try:
+        from contract_intelligence import handle_get_subs
+        lane = request.args.get('lane')
+        subs = handle_get_subs(lane)
+        return jsonify({'subs': subs, 'count': len(subs)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/priority-outreach', methods=['GET'])
+def api_intel_priority_outreach():
+    """
+    Top priority outreach targets — primes with expiring contracts + SBLO contact.
+    GET /api/intelligence/contracts/priority-outreach?limit=20
+    """
+    try:
+        from contract_intelligence import handle_get_priority_outreach
+        limit = int(request.args.get('limit', 20))
+        targets = handle_get_priority_outreach(limit)
+        return jsonify({'targets': targets, 'count': len(targets)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/intelligence/contracts/generate-tasks', methods=['POST'])
+def api_intel_generate_tasks():
+    """
+    Auto-generate outreach tasks in Airtable TASKS table.
+    POST /api/intelligence/contracts/generate-tasks
+    Body: { "avenue": "sub_under_prime", "limit": 10 }
+    """
+    try:
+        from contract_intelligence import handle_generate_tasks
+        data = request.get_json() or {}
+        avenue = data.get('avenue', 'sub_under_prime')
+        limit = data.get('limit', 10)
+        result = handle_generate_tasks(avenue, limit)
+        return jsonify({'success': True, **result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =============================================================================
+# NEXUS LEARNING ENGINE — System-wide self-learning for ALL modules
+# =============================================================================
+
+@app.route('/api/learning/log', methods=['POST'])
+def api_learning_log():
+    """
+    Log ANY event from ANY NEXUS module.
+    POST /api/learning/log
+    Body: { "domain": "opportunities", "entity_id": "abc123", "action": "won", "metadata": {...} }
+    Domains: opportunities, outreach, bids, suppliers, subcontractors, pricing, intelligence
+    """
+    try:
+        from nexus_learning_engine import handle_log
+        data = request.get_json() or {}
+        result = handle_log(
+            data.get('domain', ''),
+            data.get('entity_id', ''),
+            data.get('action', ''),
+            data.get('metadata', {}),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/learning/analyze', methods=['POST'])
+def api_learning_analyze():
+    """
+    Run pattern analysis. Optionally scope to a single domain.
+    POST /api/learning/analyze
+    Body: { "domain": "opportunities" }  (optional — null = all domains)
+    """
+    try:
+        from nexus_learning_engine import handle_analyze
+        data = request.get_json() or {}
+        result = handle_analyze(data.get('domain'))
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/learning/insights', methods=['GET'])
+def api_learning_insights():
+    """
+    Get AI/statistical insights, optionally filtered by domain.
+    GET /api/learning/insights?domain=outreach&limit=10
+    """
+    try:
+        from nexus_learning_engine import handle_get_insights
+        domain = request.args.get('domain')
+        limit = int(request.args.get('limit', 15))
+        insights = handle_get_insights(domain, limit)
+        return jsonify({'insights': insights, 'count': len(insights)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/learning/status', methods=['GET'])
+def api_learning_status():
+    """
+    Full learning system status — all domains, readiness, weight versions.
+    GET /api/learning/status
+    """
+    try:
+        from nexus_learning_engine import handle_get_status
+        status = handle_get_status()
+        return jsonify(status)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/learning/weights/<domain>', methods=['GET'])
+def api_learning_weights(domain):
+    """
+    Get active scoring weights for a specific domain.
+    GET /api/learning/weights/opportunities
+    """
+    try:
+        from nexus_learning_engine import handle_get_weights
+        weights = handle_get_weights(domain)
+        return jsonify({'domain': domain, 'weights': weights})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/learning/history/<entity_id>', methods=['GET'])
+def api_learning_history(entity_id):
+    """
+    Get full action history for any entity across all domains.
+    GET /api/learning/history/<entity_id>
+    """
+    try:
+        from nexus_learning_engine import handle_get_history
+        history = handle_get_history(entity_id)
+        return jsonify({'history': history, 'count': len(history)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# =============================================================================
 # HISTORICAL PRICING INTELLIGENCE API ENDPOINTS
 # =============================================================================
 
@@ -14180,6 +14916,478 @@ def api_proposalbio_analyze():
         return jsonify({'success': True, 'result': result})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ─── EVALUATOR SCORING ENGINE ENDPOINTS ──────────────────────────────────────
+
+@app.route('/api/evaluator/parse-rfp', methods=['POST'])
+def evaluator_parse_rfp():
+    """Parse Section M evaluation criteria from RFP text."""
+    data = request.json or {}
+    rfp_text = data.get('rfp_text', '')
+    if not rfp_text:
+        return jsonify({'error': 'rfp_text is required'}), 400
+    try:
+        from evaluator_scoring_engine import parse_rfp
+        result = parse_rfp(rfp_text, use_ai=data.get('use_ai', True))
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/score', methods=['POST'])
+def evaluator_score_proposal():
+    """Score a proposal against evaluation criteria — returns factor-by-factor adjectival ratings."""
+    data = request.json or {}
+    proposal_text = data.get('proposal_text', '')
+    if not proposal_text:
+        return jsonify({'error': 'proposal_text is required'}), 400
+    try:
+        from evaluator_scoring_engine import score_proposal
+        result = score_proposal(
+            proposal_text=proposal_text,
+            rfp_analysis=data.get('rfp_analysis', {}),
+            rfp_text=data.get('rfp_text', ''),
+            proposal_id=data.get('proposal_id'),
+            use_ai=data.get('use_ai', True),
+        )
+
+        # NEXUS ADVISOR: Teach about evaluator scoring
+        try:
+            from nexus_advisor import advise, log_growth
+            advisor_insight = advise('gpss', 'proposal_scored', {
+                'composite_score': result.get('composite_score'),
+                'overall_rating': result.get('overall_rating'),
+            })
+            result['advisor'] = advisor_insight
+            log_growth('proposal_scored')
+        except Exception:
+            pass
+
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/full-analysis', methods=['POST'])
+def evaluator_full_analysis():
+    """
+    Combined analysis: Parse RFP → Score Proposal → ProposalBio quality score.
+    Returns BOTH evaluator scoring AND writing quality in one call.
+    """
+    data = request.json or {}
+    proposal_text = data.get('proposal_text', '')
+    rfp_text = data.get('rfp_text', '')
+    if not proposal_text:
+        return jsonify({'error': 'proposal_text is required'}), 400
+    try:
+        from evaluator_scoring_engine import get_engine
+        engine = get_engine()
+
+        rfp_analysis = {}
+        if rfp_text:
+            rfp_analysis = engine.parse_rfp(rfp_text, use_ai=data.get('use_ai', True))
+
+        evaluator_result = engine.score_proposal(
+            proposal_text=proposal_text,
+            rfp_analysis=rfp_analysis,
+            rfp_text=rfp_text,
+            proposal_id=data.get('proposal_id'),
+            use_ai=data.get('use_ai', True),
+        )
+
+        proposalbio_result = None
+        try:
+            analyzer = ProposalBioAnalyzer(
+                proposal_text=proposal_text,
+                metadata=data.get('metadata', {})
+            )
+            proposalbio_result = analyzer.analyze_all()
+        except Exception as pb_err:
+            print(f"ProposalBio analysis error: {pb_err}")
+
+        return jsonify({
+            'evaluator': evaluator_result,
+            'proposalbio': proposalbio_result,
+            'rfp_analysis': rfp_analysis,
+            'combined_assessment': {
+                'evaluator_score': evaluator_result.get('composite', {}).get('score', 0),
+                'evaluator_rating': evaluator_result.get('composite', {}).get('rating', 'Unknown'),
+                'writing_quality': proposalbio_result.get('composite_score', 0) if proposalbio_result else None,
+                'writing_status': proposalbio_result.get('overall_status', 'Unknown') if proposalbio_result else None,
+                'risk_level': evaluator_result.get('risk_assessment', {}).get('level', 'Unknown'),
+                'competitive_position': evaluator_result.get('competitive_position', {}).get('position', 'Unknown'),
+                'submit_ready': (
+                    evaluator_result.get('risk_assessment', {}).get('level', 'HIGH') in ('LOW', 'MODERATE')
+                    and (not proposalbio_result or proposalbio_result.get('composite_score', 0) >= 60)
+                ),
+            },
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/outcome', methods=['POST'])
+def evaluator_record_outcome():
+    """Record win/loss outcome — feeds back into the learning loop."""
+    data = request.json or {}
+    proposal_id = data.get('proposal_id')
+    won = data.get('won')
+    if not proposal_id or won is None:
+        return jsonify({'error': 'proposal_id and won are required'}), 400
+    try:
+        from evaluator_scoring_engine import record_outcome
+        result = record_outcome(proposal_id, won, data.get('debrief_data'))
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/score-proposal/<proposal_id>', methods=['POST'])
+def evaluator_score_gpss_proposal(proposal_id):
+    """
+    Score a GPSS proposal by ID — pulls proposal + RFP text directly from Airtable.
+    No copy-paste needed. This is the GPSS-integrated evaluator.
+    """
+    try:
+        airtable_client = AirtableClient()
+        proposal = airtable_client.get_record('GPSS PROPOSALS', proposal_id)
+        fields = proposal.get('fields', {})
+
+        proposal_text = fields.get('Proposal Text', '') or fields.get('Content', '') or fields.get('Draft', '')
+        rfp_text = fields.get('RFP Text', '') or fields.get('Requirements', '') or ''
+
+        if not proposal_text:
+            return jsonify({'error': 'Proposal has no text content to score'}), 400
+
+        # Pull linked opportunity for RFP context if available
+        opp_links = fields.get('Opportunity', [])
+        if opp_links and not rfp_text:
+            try:
+                opp = airtable_client.get_record('GPSS OPPORTUNITIES', opp_links[0])
+                opp_fields = opp.get('fields', {})
+                rfp_text = opp_fields.get('Description', '') or opp_fields.get('Requirements', '') or ''
+            except Exception:
+                pass
+
+        from evaluator_scoring_engine import score_proposal
+        result = score_proposal(
+            proposal_text=proposal_text,
+            rfp_text=rfp_text,
+            proposal_id=proposal_id,
+            use_ai=True,
+        )
+
+        # Write score back to the proposal record
+        try:
+            airtable_client.update_record('GPSS PROPOSALS', proposal_id, {
+                'Evaluator Score': result.get('composite_score', 0),
+                'Evaluator Rating': result.get('overall_rating', ''),
+            })
+        except Exception:
+            pass
+
+        # Advisor + learning
+        try:
+            from nexus_advisor import advise, log_growth
+            result['advisor'] = advise('gpss', 'proposal_scored', {
+                'composite_score': result.get('composite_score'),
+                'overall_rating': result.get('overall_rating'),
+            })
+            log_growth('proposal_scored')
+        except Exception:
+            pass
+
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/calibration', methods=['GET'])
+def evaluator_calibration():
+    """Get model calibration accuracy — how well our scores predict wins."""
+    try:
+        from evaluator_scoring_engine import get_calibration
+        return jsonify(get_calibration())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluator/history', methods=['GET'])
+def evaluator_history():
+    """Get evaluation history."""
+    try:
+        from evaluator_scoring_engine import get_engine
+        return jsonify({'evaluations': get_engine().get_evaluation_history()})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ─── PRICING INTELLIGENCE ENDPOINTS ─────────────────────────────────────────
+
+@app.route('/api/pricing/parse-clins', methods=['POST'])
+def pricing_parse_clins():
+    """Parse CLINs from RFP Section B text."""
+    data = request.json or {}
+    rfp_text = data.get('rfp_text', '')
+    if not rfp_text:
+        return jsonify({'error': 'rfp_text is required'}), 400
+    try:
+        from pricing_intelligence import get_pricing_intelligence
+        result = get_pricing_intelligence().parse_clins(rfp_text)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/pricing/recommend-markup', methods=['POST'])
+def pricing_recommend_markup():
+    """Get markup recommendation based on contract type and learning data."""
+    data = request.json or {}
+    try:
+        from pricing_intelligence import get_pricing_intelligence
+        result = get_pricing_intelligence().recommend_markup(
+            contract_type=data.get('contract_type', 'services_subcontracted'),
+            eval_method=data.get('eval_method', 'best_value'),
+            set_aside=data.get('set_aside', ''),
+            service_type=data.get('service_type'),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/pricing/score-price-factor', methods=['POST'])
+def pricing_score_price_factor():
+    """Score the Price evaluation factor using pricing intelligence."""
+    data = request.json or {}
+    proposal_text = data.get('proposal_text', '')
+    if not proposal_text:
+        return jsonify({'error': 'proposal_text is required'}), 400
+    try:
+        from pricing_intelligence import get_pricing_intelligence
+        result = get_pricing_intelligence().score_price_factor(
+            proposal_text=proposal_text,
+            rfp_text=data.get('rfp_text', ''),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/pricing/benchmarks', methods=['POST'])
+def pricing_benchmarks():
+    """Get market rate benchmarks for a service type."""
+    data = request.json or {}
+    try:
+        from pricing_intelligence import get_pricing_intelligence
+        result = get_pricing_intelligence().get_market_benchmarks(
+            service_type=data.get('service_type'),
+            rfp_text=data.get('rfp_text', ''),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/pricing/log-outcome', methods=['POST'])
+def pricing_log_outcome():
+    """Log pricing win/loss for learning."""
+    data = request.json or {}
+    opportunity_id = data.get('opportunity_id')
+    won = data.get('won')
+    if not opportunity_id or won is None:
+        return jsonify({'error': 'opportunity_id and won are required'}), 400
+    try:
+        from pricing_intelligence import get_pricing_intelligence
+        result = get_pricing_intelligence().log_pricing_outcome(
+            opportunity_id=opportunity_id,
+            won=won,
+            markup_pct=data.get('markup_pct'),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ─── NEXUS ADVISOR — TEACHING ENGINE ENDPOINTS ──────────────────────────────
+# Runs across ALL systems: GPSS, ATLAS, VERTEX, GBIS, DDCSS, LBPC, PRISM, COMMAND
+
+@app.route('/api/advisor/teach', methods=['POST'])
+def advisor_teach():
+    """
+    Get contextual education for an action in any NEXUS system.
+    POST { "system": "gpss", "action": "proposal_scored", "context": {...} }
+    """
+    data = request.json or {}
+    system = data.get('system', '')
+    action = data.get('action', '')
+    if not system or not action:
+        return jsonify({'error': 'system and action are required'}), 400
+    try:
+        from nexus_advisor import advise
+        return jsonify(advise(system, action, data.get('context')))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/advisor/debrief', methods=['POST'])
+def advisor_debrief():
+    """
+    Generate a debrief for an outcome (bid_won, bid_lost, contract_complete).
+    POST { "outcome_type": "bid_won", "context": { "contract_value": 250000 } }
+    """
+    data = request.json or {}
+    outcome_type = data.get('outcome_type', '')
+    if not outcome_type:
+        return jsonify({'error': 'outcome_type is required'}), 400
+    try:
+        from nexus_advisor import debrief
+        return jsonify(debrief(outcome_type, data.get('context')))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/advisor/brief', methods=['GET'])
+def advisor_brief():
+    """Generate periodic growth briefing — stats, patterns, milestones."""
+    try:
+        from nexus_advisor import brief
+        return jsonify(brief())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/advisor/log', methods=['POST'])
+def advisor_log_event():
+    """
+    Log a growth event.
+    POST { "event_type": "bid_submitted", "metadata": {...} }
+    Events: bid_submitted, email_sent, sub_managed, debrief_requested,
+            proposal_scored, invoice_created, grant_applied
+    """
+    data = request.json or {}
+    event_type = data.get('event_type', '')
+    if not event_type:
+        return jsonify({'error': 'event_type is required'}), 400
+    try:
+        from nexus_advisor import log_growth
+        return jsonify(log_growth(event_type, data.get('metadata')))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/advisor/milestones', methods=['GET'])
+def advisor_milestones():
+    """Get achieved and upcoming growth milestones."""
+    try:
+        from nexus_advisor import get_advisor
+        return jsonify(get_advisor().get_milestones())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/advisor/knowledge', methods=['GET'])
+def advisor_knowledge_map():
+    """Get the full knowledge map — all systems, all actions, all teaching content."""
+    try:
+        from nexus_advisor import KNOWLEDGE_BASE
+        systems = []
+        for sys_key, sys_data in KNOWLEDGE_BASE.items():
+            actions = []
+            for act_key, act_data in sys_data.get('actions', {}).items():
+                actions.append({
+                    'action': act_key,
+                    'key_concept': act_data.get('key_concept', ''),
+                    'has_far_reference': act_data.get('far_reference') is not None,
+                })
+            systems.append({
+                'system': sys_key,
+                'name': sys_data.get('system_name', sys_key),
+                'action_count': len(actions),
+                'actions': actions,
+            })
+        return jsonify({'systems': systems, 'total_topics': sum(s['action_count'] for s in systems)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
+# NEXUS AUTONOMOUS ENGINE — "AI That Works While You Sleep"
+# Self-learning scheduler with adaptive behavior
+# ============================================================
+
+@app.route('/autonomous/start', methods=['POST'])
+def autonomous_start():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    result = engine.start()
+    return jsonify(result)
+
+@app.route('/autonomous/stop', methods=['POST'])
+def autonomous_stop():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    result = engine.stop()
+    return jsonify(result)
+
+@app.route('/autonomous/status', methods=['GET'])
+def autonomous_status():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    return jsonify(engine.get_status())
+
+@app.route('/autonomous/brief', methods=['GET'])
+def autonomous_brief():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    return jsonify(engine.get_brief())
+
+@app.route('/autonomous/brief/generate', methods=['POST'])
+def autonomous_generate_brief():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    result = engine.task_morning_brief()
+    return jsonify({'result': result, 'brief': engine.get_brief()})
+
+@app.route('/autonomous/cycle', methods=['POST'])
+def autonomous_run_cycle():
+    """Run a single autonomous cycle manually."""
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    engine.run_cycle()
+    return jsonify({'status': 'cycle_complete', 'state': engine.get_status()})
+
+@app.route('/autonomous/config', methods=['GET'])
+def autonomous_get_config():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    return jsonify(engine.config)
+
+@app.route('/autonomous/config', methods=['PUT'])
+def autonomous_update_config():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    updates = request.json or {}
+    result = engine.update_config(updates)
+    return jsonify(result)
+
+@app.route('/autonomous/history', methods=['GET'])
+def autonomous_history():
+    if not get_autonomous_engine:
+        return jsonify({'error': 'Autonomous engine not loaded'}), 503
+    engine = get_autonomous_engine()
+    limit = request.args.get('limit', 50, type=int)
+    actions = engine.state.get('action_log', [])[-limit:]
+    return jsonify({'actions': actions, 'total': len(engine.state.get('action_log', []))})
 
 
 if __name__ == '__main__':

@@ -1,0 +1,105 @@
+{
+  "lessons_delivered": [
+    {
+      "system": "gpss",
+      "action": "opportunity_discovered",
+      "timestamp": "2026-02-22T20:07:41.968811",
+      "context": null
+    },
+    {
+      "system": "gpss",
+      "action": "opportunity_discovered",
+      "timestamp": "2026-02-22T20:07:50.627070",
+      "context": null
+    },
+    {
+      "system": "atlas",
+      "action": "project_created",
+      "timestamp": "2026-02-22T20:07:50.627291",
+      "context": null
+    },
+    {
+      "system": "vertex",
+      "action": "invoice_created",
+      "timestamp": "2026-02-22T20:07:50.627550",
+      "context": null
+    },
+    {
+      "system": "gbis",
+      "action": "grant_discovered",
+      "timestamp": "2026-02-22T20:07:50.627661",
+      "context": null
+    },
+    {
+      "system": "ddcss",
+      "action": "prospect_qualified",
+      "timestamp": "2026-02-22T20:07:50.627745",
+      "context": null
+    },
+    {
+      "system": "lbpc",
+      "action": "lead_mined",
+      "timestamp": "2026-02-22T20:07:50.627838",
+      "context": null
+    },
+    {
+      "system": "prism",
+      "action": "order_dispatched",
+      "timestamp": "2026-02-22T20:07:50.627916",
+      "context": null
+    },
+    {
+      "system": "command",
+      "action": "task_completed",
+      "timestamp": "2026-02-22T20:07:50.627991",
+      "context": null
+    }
+  ],
+  "milestones_achieved": [
+    {
+      "id": "first_win",
+      "name": "First Contract Won",
+      "description": "DDI won its first government contract",
+      "achieved_at": "2026-02-22T20:07:41.969034"
+    },
+    {
+      "id": "first_100k",
+      "name": "$100K Contract",
+      "description": "DDI won a contract valued at $100K+",
+      "achieved_at": "2026-02-22T20:07:41.969037"
+    }
+  ],
+  "growth_stats": {
+    "bids_submitted": 0,
+    "bids_won": 1,
+    "bids_lost": 0,
+    "total_contract_value": 250000,
+    "total_outreach_emails": 0,
+    "subs_managed": 0,
+    "debriefs_requested": 0,
+    "proposals_scored": 0,
+    "invoices_created": 0,
+    "grants_applied": 0
+  },
+  "system_usage": {
+    "gpss": 2,
+    "atlas": 1,
+    "vertex": 1,
+    "gbis": 1,
+    "ddcss": 1,
+    "lbpc": 1,
+    "prism": 1,
+    "command": 1
+  },
+  "topics_encountered": [
+    "opportunity_discovered",
+    "project_created",
+    "invoice_created",
+    "grant_discovered",
+    "prospect_qualified",
+    "lead_mined",
+    "order_dispatched",
+    "task_completed"
+  ],
+  "created_at": "2026-02-22T20:07:41.968687"
+}

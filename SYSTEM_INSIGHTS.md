@@ -1,14 +1,14 @@
 # 🧠 SYSTEM LEARNING INSIGHTS
 
-**Updated:** Wednesday, February 18, 2026 at 07:00 AM
+**Updated:** Sunday, February 22, 2026 at 07:00 AM
 
 ---
 
 ## 📊 CURRENT STATUS
 
-- ✅ **Pursuing:** 11 bids
+- ✅ **Pursuing:** 7 bids
 - 🏆 **Completed/Submitted:** 6 bids
-- 🗑️ **Auto-Removed (Abandoned):** 0 bids
+- 🗑️ **Auto-Removed (Abandoned):** 4 bids
 
 ### 🏆 Completed/Submitted:
 - CPS ENERGY ($25,000)
@@ -18,13 +18,19 @@
 - GENESEE WOOD POLES ($45,000)
 - HCMA CHLORINE ($30,000)
 
+### 🗑️ Auto-Removed (No Activity):
+- OAKLAND COUNTY FLOW METERS - No activity in 6d, deadline in -11d
+- OAKLAND COUNTY TREATED SALT - No activity in 6d, deadline in -11d
+- PORT HURON CHEMICALS - No activity in 6d, deadline in -11d
+- OAKLAND COUNTY EXAM STOOLS - No activity in 6d, deadline in -7d
+
 ---
 
 ## 💰 VALUE TRACKING
 
-- **Active Pipeline:** $365,000
+- **Active Pipeline:** $292,000
 - **Completed:** $193,000
-- **Average Bid Value:** $33,181
+- **Average Bid Value:** $41,714
 
 ---
 

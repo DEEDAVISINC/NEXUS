@@ -1168,77 +1168,76 @@ Return ONLY valid JSON array.
     
     def _store_forecasts_in_airtable(self, forecasts: List[Dict]) -> int:
         """
-        Store forecasts in GPSS Opportunities table (the table that exists).
-        Tags them with [Forecast] prefix and source info.
+        Store forecasts in the dedicated Federal Forecasts table.
         Avoids duplicates based on title + agency.
         """
         if not forecasts:
             return 0
         
         try:
-            table = self.api.table(self.base_id, 'GPSS Opportunities')
+            table = self.api.table(self.base_id, 'Federal Forecasts')
             
-            # Get existing forecasts to avoid duplicates
-            # Check recent records with Forecast in the name
+            # Get existing records to avoid duplicates
             try:
-                existing = table.all(formula="FIND('[Forecast]', {Name})", max_records=500)
-            except:
                 existing = table.all(max_records=500)
+            except:
+                existing = []
             
             existing_keys = set()
             for r in existing:
-                name = r['fields'].get('Name', '').lower()
-                agency = r['fields'].get('AGENCY NAME', '').lower()
-                existing_keys.add(f"{name}_{agency}")
+                title = r['fields'].get('Title', '').lower()
+                agency = r['fields'].get('Agency', '').lower()
+                existing_keys.add(f"{title}_{agency}")
             
             stored = 0
             for forecast in forecasts:
-                title = forecast.get('title', 'Untitled')[:80]
+                title = forecast.get('title', 'Untitled')[:100]
                 agency = forecast.get('agency', 'Unknown')
                 
-                # Create unique key for dedup
-                name_tag = f"[Forecast] {agency} - {title}"
-                key = f"{name_tag.lower()}_{agency.lower()}"
-                
+                key = f"{title.lower()}_{agency.lower()}"
                 if key in existing_keys:
-                    continue  # Skip duplicate
+                    continue
                 
-                # Build description with all forecast details
-                desc_parts = []
-                if forecast.get('description'):
-                    desc_parts.append(forecast['description'][:500])
-                if forecast.get('forecast_type'):
-                    desc_parts.append(f"Forecast Type: {forecast['forecast_type']}")
-                if forecast.get('estimated_solicitation_date'):
-                    desc_parts.append(f"Est. Solicitation Date: {forecast['estimated_solicitation_date']}")
-                if forecast.get('contract_type'):
-                    desc_parts.append(f"Contract Type: {forecast['contract_type']}")
-                if forecast.get('contract_duration'):
-                    desc_parts.append(f"Duration: {forecast['contract_duration']}")
-                if forecast.get('confidence'):
-                    desc_parts.append(f"Confidence: {forecast['confidence']}")
-                
-                # Use only fields that exist in GPSS Opportunities
                 fields = {
-                    'Name': name_tag,
-                    'AGENCY NAME': agency,
+                    'Title': title,
+                    'Agency': agency,
                 }
                 
-                # Optional fields — set only if we have values
+                if forecast.get('sub_agency'):
+                    fields['Sub-Agency'] = forecast['sub_agency']
+                if forecast.get('description'):
+                    fields['Description'] = forecast['description'][:1000]
                 if forecast.get('naics_code'):
-                    fields['NAISC Codes'] = str(forecast['naics_code'])
+                    fields['NAICS Code'] = str(forecast['naics_code'])
+                if forecast.get('estimated_value'):
+                    fields['Estimated Value'] = float(forecast['estimated_value'])
+                if forecast.get('estimated_solicitation_date'):
+                    fields['Estimated Solicitation Date'] = forecast['estimated_solicitation_date']
+                if forecast.get('contract_end_date'):
+                    fields['Contract End Date'] = forecast['contract_end_date']
                 if forecast.get('set_aside'):
                     fields['Set-Aside Type'] = forecast['set_aside']
                 if forecast.get('state'):
                     fields['State'] = forecast['state']
+                if forecast.get('place_of_performance'):
+                    fields['Place of Performance'] = forecast['place_of_performance']
+                if forecast.get('solicitation_number'):
+                    fields['Solicitation Number'] = forecast['solicitation_number']
+                if forecast.get('source'):
+                    fields['Source'] = str(forecast['source'])[:100]
                 if forecast.get('source_url'):
                     fields['Source URL'] = forecast['source_url']
-                if forecast.get('response_deadline'):
-                    fields['Deadline'] = forecast['response_deadline']
-                if forecast.get('solicitation_number'):
-                    fields['RFP NUMBER'] = forecast['solicitation_number']
-                if desc_parts:
-                    fields['Notes'] = '\n'.join(desc_parts)
+                if forecast.get('forecast_type'):
+                    fields['Forecast Type'] = forecast['forecast_type']
+                if forecast.get('confidence'):
+                    fields['Confidence'] = forecast['confidence']
+                if forecast.get('contract_type'):
+                    fields['Contract Type'] = forecast['contract_type']
+                # Critical for incumbents — stored as its own field now
+                if forecast.get('current_holder'):
+                    fields['Current Holder'] = forecast['current_holder']
+                fields['Mined Date'] = datetime.now().strftime('%Y-%m-%d')
+                fields['Status'] = 'New'
                 
                 try:
                     table.create(fields)
@@ -1248,8 +1247,9 @@ Return ONLY valid JSON array.
                     # If optional fields fail, try minimal
                     try:
                         table.create({
-                            'Name': name_tag,
-                            'AGENCY NAME': agency,
+                            'Title': title,
+                            'Agency': agency,
+                            'Status': 'New',
                         })
                         stored += 1
                     except Exception as e2:
@@ -1265,14 +1265,14 @@ Return ONLY valid JSON array.
         """
         Analyze new forecasts and match to DEE DAVIS INC capabilities.
         Uses AI to score each forecast, updates Priority field.
-        Works with GPSS Opportunities table.
+        Works with Federal Forecasts table.
         """
         try:
-            table = self.api.table(self.base_id, 'GPSS Opportunities')
+            table = self.api.table(self.base_id, 'Federal Forecasts')
             
             # Get recent forecasts that haven't been prioritized
             forecasts = table.all(
-                formula="AND(FIND('[Forecast]', {Name}), {Priority} = BLANK())",
+                formula="{Priority} = BLANK()",
                 max_records=20  # Limit AI calls per run
             )
             
@@ -1289,25 +1289,29 @@ Return ONLY valid JSON array.
                 fit_analysis = self._calculate_forecast_fit(fields)
                 
                 # Update record with analysis
-                updates = {
-                    'Priority': fit_analysis.get('priority', 'Medium'),
-                }
-                
-                # Add analysis to notes
+                score = fit_analysis.get('score', 50)
                 analysis_text = fit_analysis.get('analysis', '')
                 recommendation = fit_analysis.get('recommendation', '')
-                score = fit_analysis.get('score', 50)
-                existing_notes = fields.get('Notes', '')
-                
-                new_notes = f"{existing_notes}\n\n--- AI FIT ANALYSIS (Score: {score}/100) ---\n{analysis_text}\nRecommendation: {recommendation}"
-                updates['Notes'] = new_notes.strip()
+
+                updates = {
+                    'Priority': fit_analysis.get('priority', 'MEDIUM'),
+                    'Fit Score': score,
+                    'Fit Analysis': analysis_text,
+                    'Recommended Action': recommendation,
+                }
+
+                prep_tips = fit_analysis.get('preparation_tips', [])
+                if prep_tips:
+                    updates['Recommended Action'] = recommendation + '\n\nPrep Tips:\n' + '\n'.join(f'• {t}' for t in prep_tips)
                 
                 try:
                     table.update(record['id'], updates)
                 except:
-                    # If Priority field is a select, it might reject our value
                     try:
-                        table.update(record['id'], {'Notes': new_notes.strip()})
+                        table.update(record['id'], {
+                            'Fit Score': score,
+                            'Fit Analysis': analysis_text,
+                        })
                     except:
                         pass
                 
@@ -1329,13 +1333,16 @@ Return ONLY valid JSON array.
 Analyze this federal procurement forecast for DEE DAVIS INC.
 
 FORECAST:
-- Title: {forecast_data.get('Name', '')}
-- Agency: {forecast_data.get('AGENCY NAME', '')}
-- Details: {forecast_data.get('Notes', '')}
-- NAICS: {forecast_data.get('NAISC Codes', '')}
+- Title: {forecast_data.get('Title', '')}
+- Agency: {forecast_data.get('Agency', '')}
+- Description: {forecast_data.get('Description', '')}
+- NAICS: {forecast_data.get('NAICS Code', '')}
 - Set-Aside: {forecast_data.get('Set-Aside Type', 'Unknown')}
 - State: {forecast_data.get('State', '')}
-- Deadline: {forecast_data.get('Deadline', 'TBD')}
+- Estimated Value: {forecast_data.get('Estimated Value', 'TBD')}
+- Estimated Solicitation Date: {forecast_data.get('Estimated Solicitation Date', 'TBD')}
+- Forecast Type: {forecast_data.get('Forecast Type', '')}
+- Current Holder: {forecast_data.get('Current Holder', 'Unknown')}
 
 DEE DAVIS INC PROFILE:
 - EDWOSB/WOSB/MBE/WBE certified

@@ -1,0 +1,113 @@
+{
+  "evaluations": [
+    {
+      "id": "eval_20260222_193440",
+      "composite_score": 45.0,
+      "composite_rating": "Marginal",
+      "factor_ratings": {
+        "Technical Approach": "Acceptable",
+        "Past Performance": "Marginal",
+        "Staffing / Management": "Acceptable",
+        "Price": "Unacceptable"
+      },
+      "method": "best_value",
+      "scored_at": "2026-02-22T19:34:40.688873",
+      "outcome": "lost"
+    },
+    {
+      "id": "eval_20260222_193601",
+      "composite_score": 25.6,
+      "composite_rating": "Unacceptable",
+      "factor_ratings": {
+        "Technical Approach": "Marginal",
+        "Past Performance": "Unacceptable",
+        "Staffing / Management": "Unacceptable",
+        "Price": "Unacceptable"
+      },
+      "method": "best_value",
+      "scored_at": "2026-02-22T19:36:01.029012",
+      "outcome": "pending"
+    },
+    {
+      "id": "eval_20260222_194759",
+      "composite_score": 40.2,
+      "composite_rating": "Marginal",
+      "factor_ratings": {
+        "Technical Approach": "Marginal",
+        "Past Performance": "Unacceptable",
+        "Staffing / Management": "Unacceptable",
+        "Price": "Good"
+      },
+      "method": "best_value",
+      "scored_at": "2026-02-22T19:47:59.611288",
+      "outcome": "pending"
+    }
+  ],
+  "outcomes": [
+    {
+      "proposal_id": "eval_20260222_193440",
+      "won": false,
+      "our_composite": 45.0,
+      "our_rating": "Marginal",
+      "our_factor_ratings": {
+        "Technical Approach": "Acceptable",
+        "Past Performance": "Marginal",
+        "Staffing / Management": "Acceptable",
+        "Price": "Unacceptable"
+      },
+      "debrief_data": null,
+      "recorded_at": "2026-02-22T19:36:18.137396"
+    }
+  ],
+  "calibration": {
+    "total_scored": 3,
+    "outcomes_recorded": 1,
+    "accuracy_by_factor": {
+      "Technical Approach": {
+        "predictions": [
+          {
+            "predicted": "Acceptable",
+            "outcome": "lost",
+            "debrief_rating": null
+          }
+        ],
+        "correct": 0,
+        "total": 1
+      },
+      "Past Performance": {
+        "predictions": [
+          {
+            "predicted": "Marginal",
+            "outcome": "lost",
+            "debrief_rating": null
+          }
+        ],
+        "correct": 0,
+        "total": 1
+      },
+      "Staffing / Management": {
+        "predictions": [
+          {
+            "predicted": "Acceptable",
+            "outcome": "lost",
+            "debrief_rating": null
+          }
+        ],
+        "correct": 0,
+        "total": 1
+      },
+      "Price": {
+        "predictions": [
+          {
+            "predicted": "Unacceptable",
+            "outcome": "lost",
+            "debrief_rating": null
+          }
+        ],
+        "correct": 0,
+        "total": 1
+      }
+    },
+    "agency_patterns": {}
+  }
+}

@@ -1,8 +1,8 @@
-# RFQ EMAIL — MEDICAL COURIERS INC.
+# RFQ EMAIL — MEDICAL COURIERS INC. (PLATFORM PARTNERSHIP)
 
 **To:** info@medicalcouriers.com (or contact form on medicalcouriers.com/ohio/)  
 **From:** info@deedavis.biz  
-**Subject:** RFQ — Medical Specimen Courier Services, Ohio Statewide
+**Subject:** Partnership Inquiry — Medical Specimen Courier Platform, Ohio Statewide
 
 ---
 
@@ -10,83 +10,46 @@
 
 Hi,
 
-Dee Davis Inc. is seeking competitive pricing for medical specimen courier services for an Ohio government client. We need a qualified partner with statewide Ohio coverage, temperature-controlled transport capability, and experience with laboratory specimen logistics.
+I'm Dee Davis, President of Dee Davis Inc. We're a certified EDWOSB that manages medical logistics contracts for government clients. We have our own HIPAA and OSHA-certified team handling specimen courier operations, and we're looking for a platform partner with statewide Ohio coverage to support an upcoming contract.
 
-**Project Overview:**
-- **Service:** Medical specimen pickup and delivery
-- **Location:** Statewide Ohio (all 88 counties), primary delivery to Columbus/Reynoldsburg area
+We're familiar with your 50-year track record and your Ohio operations — that's exactly why we're reaching out.
+
+**What we're looking for:**
+
+DDI has our own certified drivers for the Columbus metro area. What we need from MCI is:
+
+1. **Platform access** — Your dispatch, GPS tracking, and reporting system. We need real-time tracking with web portal access for our client, barcode shipping labels, and automated weekly/quarterly reporting.
+
+2. **Statewide coverage for routes outside our reach** — We can handle Columbus/Reynoldsburg area pickups and deliveries. We need MCI drivers for the rest of Ohio (rural counties, Cleveland, Cincinnati, etc.).
+
+3. **Temperature-controlled transport** — Refrigerated compartments for medical specimens (Rabies, TB, Microbiology, Mosquito samples) with chain of custody documentation.
+
+**Contract Details:**
+- **Service:** Medical specimen pickup and delivery for an Ohio government client
+- **Coverage:** Statewide Ohio (all 88 counties), primary delivery point in Columbus/Reynoldsburg area
 - **Contract Period:** April 2026 - June 2027 (15 months initial) + potential 4-year renewal
-- **Volume:** Estimated $70,000 annually
-- **Schedule:** Pickups Sunday-Thursday, deliveries Monday-Friday
+- **Estimated Volume:** ~$70,000 annually
+- **Schedule:** Pickups Sunday-Thursday, deliveries Monday-Friday, 7 AM - 5 PM
 
-**Scope of Work:**
-1. Pick up medical specimens (Rabies, TB, Microbiology, Mosquito) from hospitals, clinics, health departments across Ohio
-2. Deliver to central laboratory facility in Reynoldsburg, Ohio (7 AM - 5 PM, Monday-Friday)
-3. Temperature-controlled transport (refrigerated, <90°F, specimen-specific protocols)
-4. Chain of custody documentation for every pickup and delivery
-5. Real-time GPS tracking with web portal access
-6. Barcode shipping labels with unique tracking numbers
-7. Weekly and quarterly reporting (trip details, costs, specimen types)
-8. On-demand and after-hours service available (occasional)
-9. Occasional mosquito specimen collection supply delivery (Styrofoam coolers) to health departments statewide
+**Pricing Questions:**
 
-**Requirements:**
-- Minimum 3 years medical specimen courier experience
-- Statewide Ohio coverage (88 counties)
-- Temperature-controlled vehicles (refrigerated compartments)
-- Real-time GPS tracking system with web portal access
-- OSHA Bloodborne Pathogen trained drivers (certificates required)
-- Valid Ohio driver's licenses for all drivers (copies required)
-- DOT/IATA hazmat compliance (UN 3373, Category B biological substances)
-- HIPAA compliance
-- Insurance: $1M+ General Liability, $1M+ Commercial Auto, Workers' Comp
-- Dee Davis Inc. listed as Additional Insured on all policies
+1. What does platform access cost? (Dispatch, tracking portal, reporting, barcode labels) — monthly fee, per-use, or bundled?
+2. For routes handled by MCI drivers — what's your per-shipment or per-mile rate?
+3. Can our DDI drivers be integrated into your tracking/dispatch platform?
+4. After-hours / weekend / holiday rates for occasional on-demand pickups?
+5. Do you offer a partnership or broker arrangement for companies like ours that bring their own drivers but need platform infrastructure + overflow coverage?
 
-**Pricing Request:**
+**Documentation We'd Need for Our Proposal:**
 
-Please provide pricing for the following deliverables:
+- MCI's company profile (years in business, fleet size, Ohio coverage map)
+- Description of your tracking/dispatch platform capabilities
+- Certificate of Insurance (with Dee Davis Inc. listed as Additional Insured)
+- 2-3 references from Ohio hospitals, labs, or health departments
+- DOT/IATA compliance documentation (UN 3373, Category B biological substances)
 
-1. **Medical Specimen Courier Services** (pickup and delivery)
-   - Per-shipment rate OR per-mile rate OR monthly retainer
-   - Estimated usage: [X] shipments per week
+**Timeline:** We need pricing by February 24, 2026 to finalize our proposal.
 
-2. **Weekly Reporting** (trip details, costs, specimen types)
-   - Included in per-shipment rate OR separate fee
-
-3. **Quarterly Reporting** (performance metrics, trends)
-   - Included in per-shipment rate OR separate fee
-
-4. **Tracking System Access** (web portal for client)
-   - Included OR separate setup/monthly fee
-
-5. **Barcode Shipping Labels** (unique tracking numbers)
-   - Cost per label OR included in service
-
-6. **After-Hours / Weekend / Holiday Service** (occasional)
-   - Additional fee per shipment (if applicable)
-
-**Staffing Information Needed:**
-
-For proposal purposes, please provide:
-- Number of drivers you would assign to this contract
-- Driver's license copies for assigned drivers (3-5 drivers)
-- OSHA Bloodborne Pathogen training certificates for assigned drivers
-- Years of experience for each driver in medical courier services
-
-**Insurance Documentation Needed:**
-
-- Certificate of Insurance (General Liability, Commercial Auto, Workers' Comp)
-- Confirmation that Dee Davis Inc. can be listed as Additional Insured
-
-**References:**
-
-Please provide 2-3 references from hospitals, laboratories, or health departments you currently serve in Ohio.
-
-**Quote Deadline:** February 24, 2026
-
-**Questions?** Contact Dee Davis at 248.376.4550 or info@deedavis.biz
-
-Thank you for your prompt response.
+I'd love to set up a quick call this week to discuss how a partnership would work. We're looking for a long-term platform relationship — not just one contract.
 
 Best regards,
 
@@ -97,12 +60,16 @@ Dee Davis Inc.
 Troy, MI 48084  
 248.376.4550 | info@deedavis.biz  
 CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1  
-EDWOSB | MBE | WBENC
+EDWOSB | WOSB | WBENC | MBE | SBE
 
 ---
 
 **NOTES:**
 - Generic client reference ("Ohio government client") — never reveal ODH
 - Deadline is February 24 (9 days before ODH deadline of March 5)
-- Request driver info upfront (needed for proposal)
-- Request insurance with DDI as Additional Insured (required)
+- Framed as PLATFORM PARTNERSHIP, not traditional sub hire
+- DDI brings own drivers for Columbus metro, MCI fills statewide gaps
+- Asking about broker/partnership model (like Uber Health)
+- Requesting platform integration for DDI drivers on MCI's system
+- Still need COI with DDI as Additional Insured (non-negotiable)
+- Human touch tone — this is a relationship, not a transaction

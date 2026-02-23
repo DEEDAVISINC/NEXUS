@@ -29,6 +29,16 @@ interface DashboardStats {
       rfps_analyzed: number;
       total_value: number;
     };
+    gbis: {
+      active_grants: number;
+      applications: number;
+      awarded: number;
+    };
+    lbpc: {
+      active_leads: number;
+      pipeline: number;
+      tasks_due: number;
+    };
   };
   timestamp: string;
 }
@@ -61,7 +71,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     systems: {
       gpss: { opportunities: 0, pipeline: 0, contacts: 0 },
       ddcss: { prospects: 0, responses: 0, sectors: 6 },
-      atlas: { projects: 0, rfps_analyzed: 0, total_value: 0 }
+      atlas: { projects: 0, rfps_analyzed: 0, total_value: 0 },
+      gbis: { active_grants: 0, applications: 0, awarded: 0 },
+      lbpc: { active_leads: 0, pipeline: 0, tasks_due: 0 },
     },
     timestamp: new Date().toISOString()
   }), []);
@@ -123,15 +135,41 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
         api.getDashboardAlerts()
       ]);
 
-      // Merge with defaults to ensure all fields exist
-      setStats({ ...defaultStats, ...statsData });
+      const merged = { ...defaultStats, ...statsData };
+      if (!merged.systems.gbis) merged.systems.gbis = defaultStats.systems.gbis;
+      if (!merged.systems.lbpc) merged.systems.lbpc = defaultStats.systems.lbpc;
+
+      // Pull live stats for GBIS and LBPC
+      try {
+        const [gbisRes, lbpcRes] = await Promise.allSettled([
+          api.get('/gbis/stats'),
+          api.get('/lbpc/stats'),
+        ]);
+        if (gbisRes.status === 'fulfilled') {
+          const g = (gbisRes.value as any) || {};
+          merged.systems.gbis = {
+            active_grants: g.activeOpportunities || g.active_opportunities || 0,
+            applications: g.totalApplications || g.total_applications || 0,
+            awarded: g.totalAwarded || g.total_awarded || 0,
+          };
+        }
+        if (lbpcRes.status === 'fulfilled') {
+          const l = (lbpcRes.value as any) || {};
+          merged.systems.lbpc = {
+            active_leads: l.totalLeads || l.active_leads || 0,
+            pipeline: l.totalRecoveryPotential || l.total_surplus || 0,
+            tasks_due: l.newLeads || l.tasks_due || 0,
+          };
+        }
+      } catch { /* fallback to zeros */ }
+
+      setStats(merged);
       setActivities(activityData.activities || []);
       setAlerts(alertsData.alerts || []);
       setLastUpdated(new Date());
       setLoading(false);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      // Use default stats if API fails
       setStats(defaultStats);
       setLoading(false);
     }
@@ -515,9 +553,9 @@ END:VCALENDAR`;
       icon: '🎁',
       description: 'Grant Discovery • AI Applications • ROI Tracking',
       stats: [
-        '0 Active Grants',
-        '0 Applications',
-        '$0 Awarded'
+        `${stats.systems.gbis.active_grants} Active Grant${stats.systems.gbis.active_grants !== 1 ? 's' : ''}`,
+        `${stats.systems.gbis.applications} Application${stats.systems.gbis.applications !== 1 ? 's' : ''}`,
+        `${formatNumber(stats.systems.gbis.awarded)} Awarded`
       ],
       gradient: 'from-yellow-600 to-orange-600',
       status: 'online',
@@ -546,9 +584,9 @@ END:VCALENDAR`;
       icon: '💰',
       description: 'Surplus Recovery • All 50 States • Automated Workflows',
       stats: [
-        '0 Active Leads',
-        '$0 Pipeline',
-        '0 Tasks Due'
+        `${stats.systems.lbpc.active_leads} Active Lead${stats.systems.lbpc.active_leads !== 1 ? 's' : ''}`,
+        `${formatNumber(stats.systems.lbpc.pipeline)} Pipeline`,
+        `${stats.systems.lbpc.tasks_due} Task${stats.systems.lbpc.tasks_due !== 1 ? 's' : ''} Due`
       ],
       gradient: 'from-indigo-600 to-purple-600',
       status: 'online',

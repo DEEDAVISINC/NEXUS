@@ -187,11 +187,23 @@ def upload_scanback():
             except Exception:
                 pass  # Don't fail if Airtable update fails
         
+        # NEXUS ADVISOR: Teach about scanback inspection
+        advisor_insight = None
+        try:
+            from nexus_advisor import advise
+            advisor_insight = advise('prism', 'scanback_inspected', {
+                'order_id': order_id,
+                'file_count': len(uploaded),
+            })
+        except Exception:
+            pass
+
         return jsonify({
             'success': True,
             'message': f'{len(uploaded)} file(s) uploaded for {order_id}. Submitted for inspection.',
             'files': uploaded,
             'order_id': order_id,
+            'advisor': advisor_insight,
         })
     
     except Exception as e:
@@ -921,6 +933,53 @@ def qc_review_scanback():
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
 
+    # VERTEX BRIDGE: Auto-create invoice when order passes QC
+    vertex_invoice_id = None
+    if result == 'clean':
+        try:
+            if api and base_id and records:
+                order_fields = records[0].get('fields', {})
+                order_amount = order_fields.get('Amount', 0) or order_fields.get('Total', 0) or order_fields.get('Price', 0)
+                client_name = order_fields.get('Client', '') or order_fields.get('Client Name', '') or 'PRISM Client'
+                if order_amount:
+                    vertex_table = api.table(base_id, 'VERTEX INVOICES')
+                    vertex_record = vertex_table.create({
+                        'Invoice Number': f"PRISM-INV-{order_id}",
+                        'Invoice Date': datetime.now().strftime('%Y-%m-%d'),
+                        'Due Date': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
+                        'Client Name': client_name,
+                        'Source System': 'PRISM',
+                        'Source Record ID': records[0]['id'],
+                        'Invoice Type': 'Standard',
+                        'Total Amount': float(order_amount),
+                        'Payment Status': 'Unpaid',
+                        'Payment Terms': 'Net 30',
+                        'Notes': f"Auto-generated from PRISM order {order_id} (QC Verified)",
+                    })
+                    vertex_invoice_id = vertex_record.get('id')
+        except Exception as ve:
+            print(f"PRISM → VERTEX invoice creation: {ve}")
+
+    # COMPASS BRIDGE: Log completed service as deliverable against the contract
+    compass_logged = False
+    if result == 'clean' and api and base_id and records:
+        try:
+            order_fields = records[0].get('fields', {})
+            contract_links = order_fields.get('Contract', []) or order_fields.get('PRISM Contract', [])
+            if contract_links:
+                compass_table = api.table(base_id, 'COMPASS Deliverables')
+                compass_table.create({
+                    'Title': f"PRISM Order {order_id} — {order_fields.get('Service Type', 'Field Service')}",
+                    'Type': 'Service',
+                    'Status': 'Completed',
+                    'Due Date': datetime.now().strftime('%Y-%m-%d'),
+                    'Completed Date': datetime.now().strftime('%Y-%m-%d'),
+                    'Description': f"QC-verified field service order from PRISM. Agent: {order_fields.get('Agent', 'N/A')}",
+                })
+                compass_logged = True
+        except Exception as cpe:
+            print(f"PRISM → COMPASS deliverable: {cpe}")
+
     return jsonify({
         'success': True,
         'order_id': order_id,
@@ -929,6 +988,8 @@ def qc_review_scanback():
         'message': f"Order {order_id} marked as {new_status}. "
                    + ("Agent will be notified of corrections." if result == 'errors' else "Payment can now process."),
         'errors_count': len(errors),
+        'vertex_invoice_created': vertex_invoice_id is not None,
+        'compass_deliverable_logged': compass_logged,
     })
 
 

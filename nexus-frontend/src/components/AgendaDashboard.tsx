@@ -1,426 +1,503 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, CheckCircle, AlertCircle, Phone, Mail, FileText, Package, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Send, Clock, FileText, ChevronDown, ChevronRight, Folder, Copy, Check, X, Mail, CheckCircle, Circle, Flame, ArrowUp, Calendar } from 'lucide-react';
 
 interface AgendaItem {
   id: string;
-  type: 'deadline' | 'follow-up' | 'quote-request' | 'call' | 'email' | 'document' | 'review';
-  title: string;
-  description: string;
-  priority: 'urgent' | 'high' | 'medium' | 'low';
-  dueDate: string;
-  dueTime?: string;
-  status: 'pending' | 'in-progress' | 'completed';
-  relatedTo?: string;
+  name: string;
+  stage: string;
   action: string;
+  folder: string;
+  lastModified: string;
+  daysAgo: number;
+  to: string;
+  cc: string;
+  subject: string;
+  hasEmail: boolean;
+  hasWorkflow: boolean;
+  capStatements: string[];
+  buyerDocCount: number;
+  supplierDocCount: number;
+  checklist: string[];
+  priority?: string;
+  status?: string;
+  dueDate?: string;
+  project?: string;
+  recordId?: string;
+  type?: string;
 }
 
 interface AgendaSection {
+  id: string;
   title: string;
-  items: AgendaItem[];
-  icon: React.ReactNode;
+  subtitle: string;
   color: string;
+  items: AgendaItem[];
+  type?: string;
 }
 
+interface AgendaData {
+  date: string;
+  sections: AgendaSection[];
+  stats: {
+    total_tasks: number;
+    completed: number;
+    critical: number;
+    high: number;
+    medium: number;
+    low: number;
+    ready_to_send: number;
+    supplier_pending: number;
+  };
+}
+
+interface BidDetail {
+  id: string;
+  name: string;
+  email: {
+    to?: string;
+    cc?: string;
+    subject?: string;
+    body?: string;
+    checklist?: string[];
+    raw?: string;
+  };
+  buyerDocs: { name: string; type: string; path: string }[];
+}
+
+const SECTION_CONFIG: Record<string, { icon: React.ReactNode; accent: string; bg: string }> = {
+  critical: { icon: <Flame className="w-5 h-5" />, accent: 'text-red-400', bg: 'bg-red-500' },
+  high: { icon: <ArrowUp className="w-5 h-5" />, accent: 'text-orange-400', bg: 'bg-orange-500' },
+  ready_to_send: { icon: <Send className="w-5 h-5" />, accent: 'text-emerald-400', bg: 'bg-emerald-500' },
+  medium: { icon: <Calendar className="w-5 h-5" />, accent: 'text-sky-400', bg: 'bg-sky-500' },
+  supplier_pending: { icon: <Clock className="w-5 h-5" />, accent: 'text-amber-400', bg: 'bg-amber-500' },
+  low: { icon: <FileText className="w-5 h-5" />, accent: 'text-gray-400', bg: 'bg-gray-600' },
+  done: { icon: <CheckCircle className="w-5 h-5" />, accent: 'text-emerald-400', bg: 'bg-emerald-600' },
+};
+
 export const AgendaDashboard: React.FC = () => {
-  const [selectedDay, setSelectedDay] = useState<'today' | 'tomorrow' | 'this-week'>('today');
-  const [agendaItems, setAgendaItems] = useState<AgendaItem[]>([]);
+  const [data, setData] = useState<AgendaData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [expandedBid, setExpandedBid] = useState<string | null>(null);
+  const [bidDetail, setBidDetail] = useState<BidDetail | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+  const [completingTask, setCompletingTask] = useState<string | null>(null);
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    critical: true,
+    high: true,
+    ready_to_send: false,
+    medium: false,
+    supplier_pending: false,
+    low: false,
+    done: false,
+  });
 
-  useEffect(() => {
-    fetchAgenda();
-    // Refresh every 15 minutes
-    const interval = setInterval(fetchAgenda, 15 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, [selectedDay]);
-
-  const fetchAgenda = async () => {
+  const fetchAgenda = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/agenda?view=${selectedDay}`);
-      if (response.ok) {
-        const data = await response.json();
-        setAgendaItems(data.items || []);
-      }
-    } catch (error) {
-      console.error('Failed to fetch agenda:', error);
-      // Fallback to sample agenda
-      setAgendaItems(getSampleAgenda());
+      const res = await fetch('http://localhost:8000/api/agenda?view=today');
+      if (res.ok) setData(await res.json());
+    } catch (err) {
+      console.error('Agenda fetch failed:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const getSampleAgenda = (): AgendaItem[] => {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  useEffect(() => {
+    fetchAgenda();
+    const iv = setInterval(fetchAgenda, 5 * 60 * 1000);
+    return () => clearInterval(iv);
+  }, [fetchAgenda]);
 
-    if (selectedDay === 'today') {
-      return [
-        {
-          id: '1',
-          type: 'deadline',
-          title: 'Submit NIH Surgical Supplies',
-          description: '26-002571 - Surgicel products for patient care emergency',
-          priority: 'urgent',
-          dueDate: today,
-          dueTime: '12:00 PM',
-          status: 'in-progress',
-          relatedTo: 'NIH Clinical Center',
-          action: 'Generate PDF and submit by 10:45 AM'
-        },
-        {
-          id: '2',
-          type: 'call',
-          title: 'Contact McKesson for Quote',
-          description: 'Get final pricing and expedited shipping quote for Surgicel products',
-          priority: 'urgent',
-          dueDate: today,
-          dueTime: '8:00 AM',
-          status: 'pending',
-          relatedTo: 'NIH Surgical Supplies',
-          action: 'Call 1-800-625-3776 if no email by 8 AM'
-        },
-        {
-          id: '3',
-          type: 'follow-up',
-          title: 'SAM.gov Opportunity Search',
-          description: 'Run 62 searches for Intent to Sole Source and Sources Sought opportunities',
-          priority: 'high',
-          dueDate: today,
-          dueTime: '1:00 PM',
-          status: 'pending',
-          action: 'Triple-search strategy: Intent, Sources Sought, Solicitations'
-        },
-        {
-          id: '4',
-          type: 'document',
-          title: 'Start VA Orlando Courier Materials',
-          description: 'Adapt VA Illiana capability statement for Orlando VA Healthcare',
-          priority: 'high',
-          dueDate: today,
-          dueTime: '5:00 PM',
-          status: 'pending',
-          relatedTo: 'VA Orlando Courier (36C24826Q0302)',
-          action: 'Reuse 90% of VA Illiana materials'
-        },
-        {
-          id: '5',
-          type: 'review',
-          title: 'Add All Opportunities to NEXUS',
-          description: 'Run Python script to add 6 EDWOSB opportunities to Airtable',
-          priority: 'medium',
-          dueDate: today,
-          dueTime: '1:00 PM',
-          status: 'pending',
-          action: 'Run add_all_edwosb_opportunities_to_nexus.py'
-        }
-      ];
-    } else if (selectedDay === 'tomorrow') {
-      return [
-        {
-          id: '6',
-          type: 'deadline',
-          title: 'Complete VA Orlando Courier',
-          description: 'Finalize and submit capability statement',
-          priority: 'high',
-          dueDate: tomorrow,
-          status: 'pending',
-          relatedTo: 'VA Orlando Courier',
-          action: 'Finish materials and submit'
-        },
-        {
-          id: '7',
-          type: 'document',
-          title: 'Start VA Moving & Storage',
-          description: 'Create capability statement for warehousing and moving services',
-          priority: 'high',
-          dueDate: tomorrow,
-          status: 'pending',
-          relatedTo: 'VA Moving & Storage (36C25726Q0090)',
-          action: 'Research subcontractors and create materials'
-        }
-      ];
-    } else {
-      return [
-        {
-          id: '8',
-          type: 'deadline',
-          title: 'VA Medical Waste Disposal',
-          description: 'Submit capability statement - Deadline Feb 11',
-          priority: 'urgent',
-          dueDate: '2026-02-11',
-          status: 'pending',
-          relatedTo: 'VA Medical Waste (36C24126Q0238)',
-          action: 'Create materials and submit by Feb 11'
-        },
-        {
-          id: '9',
-          type: 'deadline',
-          title: 'VA Illiana Courier Response',
-          description: 'Sources Sought response due - Deadline Feb 12',
-          priority: 'high',
-          dueDate: '2026-02-12',
-          status: 'completed',
-          relatedTo: 'VA Illiana (36C25226Q0235)',
-          action: 'Already submitted ✅'
-        },
-        {
-          id: '10',
-          type: 'deadline',
-          title: 'VA Orlando Courier Response',
-          description: 'Solicitation response due - Deadline Feb 12',
-          priority: 'high',
-          dueDate: '2026-02-12',
-          status: 'pending',
-          relatedTo: 'VA Orlando (36C24826Q0302)',
-          action: 'Submit by Feb 10-11'
-        }
-      ];
+  const openBid = async (item: AgendaItem) => {
+    if (item.type === 'task') return;
+    if (expandedBid === item.id) {
+      setExpandedBid(null);
+      setBidDetail(null);
+      return;
     }
-  };
+    setExpandedBid(item.id);
+    setBidDetail(null);
 
-  const groupAgendaItems = (): AgendaSection[] => {
-    const sections: { [key: string]: AgendaSection } = {
-      urgent: {
-        title: '🔴 Urgent - Do First',
-        items: [],
-        icon: <AlertCircle className="w-5 h-5 text-red-400" />,
-        color: 'red'
-      },
-      deadlines: {
-        title: '📅 Bid Deadlines',
-        items: [],
-        icon: <Clock className="w-5 h-5 text-blue-400" />,
-        color: 'blue'
-      },
-      communication: {
-        title: '📞 Calls & Emails',
-        items: [],
-        icon: <Phone className="w-5 h-5 text-purple-400" />,
-        color: 'purple'
-      },
-      documents: {
-        title: '📄 Documents to Create',
-        items: [],
-        icon: <FileText className="w-5 h-5 text-green-400" />,
-        color: 'green'
-      },
-      followup: {
-        title: '🔍 Follow-ups & Reviews',
-        items: [],
-        icon: <TrendingUp className="w-5 h-5 text-yellow-400" />,
-        color: 'yellow'
+    if (item.hasEmail) {
+      setDetailLoading(true);
+      try {
+        const res = await fetch(`http://localhost:8000/api/agenda/bid/${item.id}`);
+        if (res.ok) setBidDetail(await res.json());
+      } catch (err) {
+        console.error('Bid detail fetch failed:', err);
+      } finally {
+        setDetailLoading(false);
       }
-    };
-
-    agendaItems.forEach(item => {
-      if (item.priority === 'urgent') {
-        sections.urgent.items.push(item);
-      } else if (item.type === 'deadline') {
-        sections.deadlines.items.push(item);
-      } else if (item.type === 'call' || item.type === 'email') {
-        sections.communication.items.push(item);
-      } else if (item.type === 'document') {
-        sections.documents.items.push(item);
-      } else {
-        sections.followup.items.push(item);
-      }
-    });
-
-    return Object.values(sections).filter(section => section.items.length > 0);
-  };
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'deadline': return <Clock className="w-4 h-4" />;
-      case 'call': return <Phone className="w-4 h-4" />;
-      case 'email': return <Mail className="w-4 h-4" />;
-      case 'document': return <FileText className="w-4 h-4" />;
-      case 'quote-request': return <Package className="w-4 h-4" />;
-      case 'review': return <TrendingUp className="w-4 h-4" />;
-      default: return <CheckCircle className="w-4 h-4" />;
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'urgent': return 'text-red-400 bg-red-500/10 border-red-500';
-      case 'high': return 'text-yellow-400 bg-yellow-500/10 border-yellow-500';
-      case 'medium': return 'text-blue-400 bg-blue-500/10 border-blue-500';
-      default: return 'text-gray-400 bg-gray-500/10 border-gray-500';
-    }
-  };
-
-  const toggleItemStatus = (itemId: string) => {
+  const markDone = async (item: AgendaItem) => {
+    if (!item.recordId) return;
+    setCompletingTask(item.recordId);
     try {
-      setAgendaItems(items =>
-        items.map(item =>
-          item.id === itemId
-            ? { ...item, status: item.status === 'completed' ? 'pending' : 'completed' }
-            : item
-        )
-      );
-      
-      // Optional: Persist to backend
-      // fetch(`http://localhost:8000/api/agenda/item/${itemId}/toggle`, { method: 'POST' })
-      //   .catch(err => console.error('Failed to persist status:', err));
-      
-    } catch (error) {
-      console.error('Error toggling item status:', error);
+      const res = await fetch(`http://localhost:8000/api/agenda/task/${item.recordId}/done`, { method: 'POST' });
+      if (res.ok) {
+        setData(prev => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            sections: prev.sections.map(s => ({
+              ...s,
+              items: s.items.filter(i => i.recordId !== item.recordId),
+            })),
+          };
+        });
+      }
+    } catch (err) {
+      console.error('Mark done failed:', err);
+    } finally {
+      setCompletingTask(null);
     }
   };
 
-  const sections = groupAgendaItems();
-  const completedCount = agendaItems.filter(item => item.status === 'completed').length;
-  const totalCount = agendaItems.length;
+  const copyToClipboard = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      setTimeout(() => setCopied(null), 2000);
+    } catch {
+      console.error('Copy failed');
+    }
+  };
+
+  if (loading) {
+    return <div className="text-center py-16 text-gray-400">Loading workbench...</div>;
+  }
+
+  if (!data) {
+    return <div className="text-center py-16 text-gray-400">Could not load. Is the API running on port 8000?</div>;
+  }
+
+  const { stats } = data;
+  const totalActive = stats.critical + stats.high + stats.medium + stats.low;
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-lg">
-      {/* Header */}
-      <div className="border-b border-gray-700 bg-gray-750 p-6 rounded-t-lg">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <Calendar className="w-6 h-6 text-blue-400" />
-            <h2 className="text-2xl font-bold text-white">Your Agenda</h2>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">
-              {completedCount}/{totalCount} completed
-            </span>
-            <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500 transition-all"
-                style={{ width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Day Selector */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setSelectedDay('today')}
-            className={`px-4 py-2 rounded-lg font-medium transition ${
-              selectedDay === 'today'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            Today
-          </button>
-          <button
-            onClick={() => setSelectedDay('tomorrow')}
-            className={`px-4 py-2 rounded-lg font-medium transition ${
-              selectedDay === 'tomorrow'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            Tomorrow
-          </button>
-          <button
-            onClick={() => setSelectedDay('this-week')}
-            className={`px-4 py-2 rounded-lg font-medium transition ${
-              selectedDay === 'this-week'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            This Week
-          </button>
+    <div className="space-y-5">
+      {/* Stats bar */}
+      <div className="flex items-center gap-6 px-1 flex-wrap">
+        {stats.critical > 0 && <Stat value={stats.critical} label="Critical" color="red" />}
+        <Stat value={stats.high} label="High" color="orange" />
+        <Stat value={stats.ready_to_send} label="Emails" color="emerald" />
+        <Stat value={stats.medium} label="This Week" color="sky" />
+        <Stat value={stats.low} label="Backlog" color="gray" />
+        <div className="ml-auto flex items-center gap-4">
+          {stats.completed > 0 && <span className="text-xs text-emerald-500">{stats.completed} completed</span>}
+          <span className="text-sm text-gray-500">{totalActive} active</span>
         </div>
       </div>
 
-      {/* Agenda Sections */}
-      <div className="p-6 space-y-6">
-        {loading ? (
-          <div className="text-center py-12 text-gray-400">
-            Loading agenda...
-          </div>
-        ) : sections.length === 0 ? (
-          <div className="text-center py-12">
-            <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-            <p className="text-xl font-semibold text-white mb-2">All clear!</p>
-            <p className="text-gray-400">No tasks for {selectedDay}</p>
-          </div>
-        ) : (
-          sections.map((section, index) => (
-            <div key={index} className="space-y-3">
-              <div className="flex items-center gap-2">
-                {section.icon}
-                <h3 className="text-lg font-semibold text-white">{section.title}</h3>
-                <span className="text-sm text-gray-400">({section.items.length})</span>
-              </div>
+      {/* Sections */}
+      {data.sections.map(section => {
+        if (!section.items.length) return null;
+        const cfg = SECTION_CONFIG[section.id] || SECTION_CONFIG.medium;
+        const isOpen = expandedSections[section.id] ?? false;
+        const isTaskSection = section.type === 'tasks';
 
-              <div className="space-y-2">
-                {section.items.map(item => (
-                  <div
-                    key={item.id}
-                    className={`bg-gray-750 border-l-4 rounded-lg p-4 transition ${
-                      item.status === 'completed'
-                        ? 'opacity-50 border-green-500'
-                        : getPriorityColor(item.priority)
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      {/* Checkbox */}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          toggleItemStatus(item.id);
-                        }}
-                        className={`mt-1 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition ${
-                          item.status === 'completed'
-                            ? 'bg-green-500 border-green-500'
-                            : 'border-gray-500 hover:border-blue-400'
-                        }`}
-                        type="button"
-                      >
-                        {item.status === 'completed' && (
-                          <CheckCircle className="w-4 h-4 text-white" />
-                        )}
-                      </button>
+        return (
+          <div key={section.id} className="bg-gray-800/80 border border-gray-700/60 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setExpandedSections(p => ({ ...p, [section.id]: !p[section.id] }))}
+              className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-700/30 transition"
+            >
+              <span className={cfg.accent}>{cfg.icon}</span>
+              <span className="font-semibold text-white">{section.title}</span>
+              <span className={`${cfg.bg} text-white text-xs font-bold px-2 py-0.5 rounded-full`}>
+                {section.items.length}
+              </span>
+              <span className="text-sm text-gray-500 ml-2 hidden sm:inline">{section.subtitle}</span>
+              <span className="ml-auto text-gray-500">
+                {isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+              </span>
+            </button>
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <div className="flex items-center gap-2">
-                            {getTypeIcon(item.type)}
-                            <h4 className={`font-semibold ${
-                              item.status === 'completed' ? 'line-through text-gray-400' : 'text-white'
-                            }`}>
-                              {item.title}
-                            </h4>
-                          </div>
-                          
-                          {item.dueTime && (
-                            <span className="text-sm text-gray-400 flex-shrink-0">
-                              {item.dueTime}
-                            </span>
-                          )}
-                        </div>
-
-                        <p className="text-sm text-gray-300 mb-2">{item.description}</p>
-
-                        {item.relatedTo && (
-                          <div className="text-xs text-gray-400 mb-2">
-                            Related to: {item.relatedTo}
+            {isOpen && (
+              <div className="border-t border-gray-700/40">
+                {section.items.map((item) => (
+                  <div key={item.id || item.recordId}>
+                    {isTaskSection ? (
+                      <TaskRow item={item} onDone={markDone} completing={completingTask} isDone={section.id === 'done'} />
+                    ) : (
+                      <>
+                        <BidRow item={item} expandedBid={expandedBid} onOpen={openBid} />
+                        {expandedBid === item.id && (
+                          <div className="bg-gray-900/50 border-b border-gray-700/30 px-5 py-4">
+                            {detailLoading ? (
+                              <div className="text-sm text-gray-400 py-4">Loading email...</div>
+                            ) : bidDetail?.email ? (
+                              <BidDetailView
+                                detail={bidDetail}
+                                item={item}
+                                onCopy={copyToClipboard}
+                                copied={copied}
+                                onClose={() => { setExpandedBid(null); setBidDetail(null); }}
+                              />
+                            ) : (
+                              <div className="text-sm text-gray-400">
+                                <p className="mb-2 font-medium text-white">{item.name}</p>
+                                <p>{item.action}</p>
+                              </div>
+                            )}
                           </div>
                         )}
-
-                        <div className="bg-gray-700 px-3 py-1.5 rounded text-sm text-gray-200">
-                          <span className="font-medium">Action:</span> {item.action}
-                        </div>
-                      </div>
-                    </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
-          ))
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const PROJECT_COLORS: Record<string, string> = {
+  'Drug Testing': 'bg-red-500/15 text-red-400',
+  'DNA Testing': 'bg-purple-500/15 text-purple-400',
+  'Fingerprinting': 'bg-blue-500/15 text-blue-400',
+  'Registrations': 'bg-cyan-500/15 text-cyan-400',
+  'NEMT': 'bg-teal-500/15 text-teal-400',
+  'Outreach': 'bg-amber-500/15 text-amber-400',
+  'Courier': 'bg-indigo-500/15 text-indigo-400',
+  'Notary': 'bg-pink-500/15 text-pink-400',
+  'Certifications': 'bg-emerald-500/15 text-emerald-400',
+  'ATF/NFA Lane': 'bg-orange-500/15 text-orange-400',
+  'Interstate Licensure': 'bg-sky-500/15 text-sky-400',
+  'Business Dev': 'bg-violet-500/15 text-violet-400',
+};
+
+const ActionDetail: React.FC<{ action: string }> = ({ action }) => {
+  const parts = action.split('|').map(p => p.trim()).filter(Boolean);
+  const toLine = parts.find(p => p.startsWith('TO:'));
+  const urlLine = parts.find(p => p.startsWith('URL:'));
+  const phoneLine = parts.find(p => p.startsWith('Phone:'));
+  const otherParts = parts.filter(p => !p.startsWith('TO:') && !p.startsWith('URL:') && !p.startsWith('Phone:'));
+
+  return (
+    <div className="text-xs mt-1 space-y-0.5">
+      {toLine && (
+        <div className="text-emerald-400/80 font-mono">{toLine}</div>
+      )}
+      {urlLine && (
+        <div className="text-sky-400/80 font-mono">{urlLine}</div>
+      )}
+      {phoneLine && (
+        <div className="text-amber-400/80 font-mono">{phoneLine}</div>
+      )}
+      {otherParts.length > 0 && (
+        <div className="text-gray-400">{otherParts.join(' · ')}</div>
+      )}
+    </div>
+  );
+};
+
+const TaskRow: React.FC<{
+  item: AgendaItem;
+  onDone: (item: AgendaItem) => void;
+  completing: string | null;
+  isDone?: boolean;
+}> = ({ item, onDone, completing, isDone }) => {
+  const isCompleting = completing === item.recordId;
+  const pColor = item.project ? (PROJECT_COLORS[item.project] || 'bg-gray-700/50 text-gray-400') : '';
+
+  return (
+    <div className={`flex items-start gap-3 px-5 py-3 border-b border-gray-700/30 hover:bg-gray-700/20 transition group ${isDone ? 'opacity-60' : ''}`}>
+      {!isDone ? (
+        <button
+          onClick={() => onDone(item)}
+          disabled={isCompleting}
+          className="mt-0.5 flex-shrink-0 text-gray-600 hover:text-emerald-400 transition"
+          title="Mark done"
+        >
+          {isCompleting ? (
+            <CheckCircle className="w-5 h-5 text-emerald-400 animate-pulse" />
+          ) : (
+            <Circle className="w-5 h-5 group-hover:text-emerald-400" />
+          )}
+        </button>
+      ) : (
+        <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className={`font-medium text-sm ${isDone ? 'text-gray-400 line-through' : 'text-white'}`}>{item.name}</span>
+          {item.project && (
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${pColor}`}>
+              {item.project}
+            </span>
+          )}
+          {item.status === 'BLOCKED' && (
+            <span className="text-[10px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded font-medium">Blocked</span>
+          )}
+        </div>
+        {item.action && <ActionDetail action={item.action} />}
+      </div>
+      {item.dueDate && (
+        <span className="text-xs text-gray-600 flex-shrink-0 mt-0.5">{item.dueDate}</span>
+      )}
+    </div>
+  );
+};
+
+const BidRow: React.FC<{
+  item: AgendaItem;
+  expandedBid: string | null;
+  onOpen: (item: AgendaItem) => void;
+}> = ({ item, expandedBid, onOpen }) => (
+  <button
+    onClick={() => onOpen(item)}
+    className={`w-full text-left px-5 py-3 flex items-start gap-4 hover:bg-gray-700/20 transition border-b border-gray-700/30 ${
+      expandedBid === item.id ? 'bg-gray-700/30' : ''
+    }`}
+  >
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center gap-3">
+        <span className="font-medium text-white text-sm">{item.name}</span>
+        {item.daysAgo <= 2 && (
+          <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-medium">Recent</span>
         )}
       </div>
+      {item.to ? (
+        <div className="text-xs text-gray-400 mt-1 truncate">
+          <span className="text-gray-500">To:</span> {item.to}
+          {item.subject && <span className="ml-3 text-gray-500">Subj:</span>}
+          {item.subject && <span> {item.subject.slice(0, 50)}{item.subject.length > 50 ? '...' : ''}</span>}
+        </div>
+      ) : (
+        <div className="text-xs text-gray-400 mt-1">{item.action}</div>
+      )}
+    </div>
+    <div className="flex items-center gap-2 flex-shrink-0 mt-0.5">
+      {item.capStatements.length > 0 && (
+        <span className="text-[10px] bg-gray-700 text-gray-300 px-1.5 py-0.5 rounded">Cap Statement</span>
+      )}
+      {item.hasEmail && (
+        <span className="text-[10px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded">Email Ready</span>
+      )}
+      <span className="text-xs text-gray-600">{item.lastModified}</span>
+    </div>
+  </button>
+);
+
+const Stat: React.FC<{ value: number; label: string; color: string }> = ({ value, label, color }) => {
+  const colors: Record<string, string> = {
+    red: 'text-red-400',
+    emerald: 'text-emerald-400',
+    amber: 'text-amber-400',
+    sky: 'text-sky-400',
+    orange: 'text-orange-400',
+    gray: 'text-gray-400',
+  };
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className={`text-2xl font-bold ${colors[color] || 'text-white'}`}>{value}</span>
+      <span className="text-xs text-gray-500">{label}</span>
+    </div>
+  );
+};
+
+const BidDetailView: React.FC<{
+  detail: BidDetail;
+  item: AgendaItem;
+  onCopy: (text: string, label: string) => void;
+  copied: string | null;
+  onClose: () => void;
+}> = ({ detail, item, onCopy, copied, onClose }) => {
+  const email = detail.email;
+  const to = email.to || item.to;
+  const subject = email.subject || item.subject;
+  const body = email.body || '';
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-start justify-between">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-emerald-400" />
+            <span className="font-semibold text-white text-sm">{item.name}</span>
+          </div>
+          {to && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 w-10">To:</span>
+              <span className="text-sm text-white font-mono">{to}</span>
+              <button onClick={() => onCopy(to, 'to')} className="text-gray-500 hover:text-white transition p-0.5" title="Copy email address">
+                {copied === 'to' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              </button>
+            </div>
+          )}
+          {email.cc && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 w-10">CC:</span>
+              <span className="text-sm text-gray-300 font-mono">{email.cc}</span>
+            </div>
+          )}
+          {subject && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 w-10">Subj:</span>
+              <span className="text-sm text-gray-200">{subject}</span>
+              <button onClick={() => onCopy(subject, 'subject')} className="text-gray-500 hover:text-white transition p-0.5" title="Copy subject">
+                {copied === 'subject' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              </button>
+            </div>
+          )}
+        </div>
+        <button onClick={onClose} className="text-gray-500 hover:text-white p-1">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+
+      {body && (
+        <div className="relative">
+          <div className="bg-gray-800 border border-gray-700/60 rounded-lg p-4 text-sm text-gray-200 whitespace-pre-wrap leading-relaxed max-h-80 overflow-y-auto font-[system-ui]">
+            {body}
+          </div>
+          <button
+            onClick={() => onCopy(body, 'body')}
+            className={`absolute top-2 right-2 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition ${
+              copied === 'body' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'
+            }`}
+          >
+            {copied === 'body' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+            {copied === 'body' ? 'Copied' : 'Copy Email'}
+          </button>
+        </div>
+      )}
+
+      {detail.buyerDocs.length > 0 && (
+        <div>
+          <div className="text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">Attachments</div>
+          <div className="flex flex-wrap gap-2">
+            {detail.buyerDocs.map((doc, i) => (
+              <div key={i} className="flex items-center gap-1.5 bg-gray-800 border border-gray-700/50 rounded px-2.5 py-1.5 text-xs text-gray-300">
+                <Folder className="w-3 h-3 text-gray-500" />
+                <span className="truncate max-w-[280px]">{doc.name}</span>
+                <span className="text-gray-600 uppercase">{doc.type}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {item.checklist.length > 0 && (
+        <div>
+          <div className="text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">Before Sending</div>
+          <div className="space-y-1">
+            {item.checklist.map((step, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm text-gray-400">
+                <span className="text-gray-600 mt-0.5">{'>'}</span>
+                <span>{step}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

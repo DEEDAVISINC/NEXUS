@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { api } from '../../api/client';
 
 interface FieldAgentPortalProps {
   onBackToNexus: () => void;
@@ -48,37 +49,14 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   return <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${styles[status] || 'bg-gray-500/20 text-gray-400 border-gray-500/30'}`}>{status}</span>;
 };
 
-// ─── MOCK DATA — Sarah Chen's perspective ──────────────────────────
-const agentProfile = {
-  id: 'FA-0001',
-  name: 'Sarah Chen',
-  email: 'sarah.chen@email.com',
-  phone: '(248) 555-1234',
-  address: '1420 Maple Rd, Troy, MI 48084',
-  city: 'Troy',
-  state: 'MI',
-  specialties: ['Signing Agent'],
-  serviceRadius: 30,
-  serviceZips: '48084, 48083, 48085, 48098, 48301, 48302, 48304, 48009, 48025, 48034',
-  status: 'Active',
-  notaryState: 'Michigan',
-  notaryNumber: 'NC-2024-7729103',
-  notaryExpiration: '09/15/2028',
-  nnaExpiration: '03/22/2027',
-  eoInsurance: true,
-  eoPolicyNumber: 'ENO-8847291',
-  eoExpiration: '06/30/2026',
-  backgroundCleared: true,
-  backgroundDate: '11/01/2025',
-  equipment: ['Notary Stamp', 'Notary Journal', 'Vehicle'],
-  paymentMethod: 'Direct Deposit',
-  completionRate: 98,
-  onTimeRate: 96,
-  errorRate: 2,
-  rating: 4.9,
-  ordersCompleted: 147,
-  totalEarned: 19850,
-  dateJoined: '04/15/2025',
+const DEFAULT_PROFILE = {
+  id: '', name: '', email: '', phone: '', address: '', city: '', state: '',
+  specialties: [] as string[], serviceRadius: 0, serviceZips: '', status: 'Inactive',
+  notaryState: '', notaryNumber: '', notaryExpiration: '', nnaExpiration: '',
+  eoInsurance: false, eoPolicyNumber: '', eoExpiration: '',
+  backgroundCleared: false, backgroundDate: '', equipment: [] as string[],
+  paymentMethod: '', completionRate: 0, onTimeRate: 0, errorRate: 0,
+  rating: 0, ordersCompleted: 0, totalEarned: 0, dateJoined: '',
 };
 
 // ─── ORDER WORKFLOW STEPS ────────────────────────────────────────
@@ -105,100 +83,7 @@ function getWorkflowStep(status: string): number {
   }
 }
 
-const initialOrders = [
-  {
-    id: 'PRISM-2026-0001', type: 'notary', status: 'In Progress',
-    signer: 'James Wilson', signerPhone: '(248) 555-8820', signerEmail: 'jwilson@email.com',
-    address: '2847 Rochester Rd, Troy, MI 48084', date: '02/14/2026', time: '1:00 PM',
-    client: 'Metro Title Co.', fee: 125, travelFee: 20, surcharge: 0,
-    documentsAttached: true, pageCount: 47,
-    rules: ['Scanbacks required', 'Blue pen only', 'Ship same day via FedEx', '2 copies — 1 for borrower'],
-    specialInstructions: 'Refinance package. Borrower is elderly — be patient and thorough. Call 15 min before arrival.',
-    appointmentConfirmed: true,
-    shippingMethod: 'FedEx — drop at Troy FedEx Ship Center (1950 E Big Beaver)',
-    scanbackUploaded: false, scanbackFiles: [] as string[],
-  },
-  {
-    id: 'PRISM-2026-0008', type: 'ron', status: 'Confirmed',
-    signer: 'Patricia Harris', signerPhone: '(313) 555-4410', signerEmail: 'pharris@email.com',
-    address: 'Remote / Zoom', date: '02/14/2026', time: '2:30 PM',
-    client: 'National Signing Co.', fee: 40, travelFee: 0, surcharge: 0,
-    documentsAttached: true, pageCount: 12,
-    rules: ['Scanbacks required', 'Black pen only'],
-    specialInstructions: 'RON session via Notarize platform. Login link will be emailed 30 min before.',
-    appointmentConfirmed: true,
-    shippingMethod: 'Electronic submission',
-    scanbackUploaded: false, scanbackFiles: [] as string[],
-  },
-  {
-    id: 'PRISM-2026-0015', type: 'notary', status: 'Assigned',
-    signer: 'Robert & Maria Gonzalez', signerPhone: '(248) 555-3301', signerEmail: 'rgonzalez@email.com',
-    address: '5120 Livernois Rd, Rochester Hills, MI 48306', date: '02/15/2026', time: '10:00 AM',
-    client: 'First American Title', fee: 150, travelFee: 20, surcharge: 0,
-    documentsAttached: false, pageCount: 0,
-    rules: ['Scanbacks required', 'Blue pen only', 'Legal paper for deed', 'Ship same day via FedEx', 'ID copies required'],
-    specialInstructions: 'Purchase closing — 2 signers. Deed requires legal paper. Double-check both signers have valid photo ID.',
-    appointmentConfirmed: false,
-    shippingMethod: 'FedEx — drop at Rochester Hills FedEx (1180 Walton Blvd)',
-    scanbackUploaded: false, scanbackFiles: [] as string[],
-  },
-  {
-    id: 'PRISM-2026-0020', type: 'notary', status: 'Correction Requested',
-    signer: 'Linda Park', signerPhone: '(248) 555-6612', signerEmail: 'lpark@email.com',
-    address: '880 W Long Lake Rd, Bloomfield Hills, MI 48302', date: '02/12/2026', time: '3:00 PM',
-    client: 'Homeland Title', fee: 175, travelFee: 20, surcharge: 50,
-    documentsAttached: true, pageCount: 53,
-    rules: ['Scanbacks required', 'Blue pen only', 'Ship same day via FedEx'],
-    specialInstructions: 'Reverse mortgage. Extended appointment time.',
-    appointmentConfirmed: true,
-    shippingMethod: 'FedEx',
-    scanbackUploaded: true, scanbackFiles: ['scanback_20260212.pdf'],
-    corrections: [
-      { severity: 'CRITICAL', page: 22, description: 'Notice of Right to Cancel — Date line is blank. Borrower must date this.' },
-      { severity: 'CRITICAL', page: 41, description: 'Acknowledgement page — Missing borrower initials on line 3.' },
-    ],
-  },
-  {
-    id: 'PRISM-2026-0012', type: 'notary', status: 'Verified',
-    signer: 'Michael Thompson', signerPhone: '(248) 555-9901', signerEmail: 'mthompson@email.com',
-    address: '300 E Maple Rd, Birmingham, MI 48009', date: '02/11/2026', time: '11:00 AM',
-    client: 'Metro Title Co.', fee: 125, travelFee: 0, surcharge: 0,
-    documentsAttached: true, pageCount: 38,
-    rules: ['Scanbacks required', 'Blue pen only'],
-    specialInstructions: '',
-    appointmentConfirmed: true,
-    shippingMethod: 'FedEx',
-    scanbackUploaded: true, scanbackFiles: ['scanback_20260211.pdf'],
-  },
-  {
-    id: 'PRISM-2026-0009', type: 'notary', status: 'Closed',
-    signer: 'Angela Martinez', signerPhone: '(248) 555-2244', signerEmail: 'amartinez@email.com',
-    address: '1220 Woodward Ave, Royal Oak, MI 48067', date: '02/10/2026', time: '9:00 AM',
-    client: 'First American Title', fee: 100, travelFee: 20, surcharge: 0,
-    documentsAttached: true, pageCount: 22,
-    rules: ['Scanbacks required'],
-    specialInstructions: '',
-    appointmentConfirmed: true,
-    shippingMethod: 'FedEx',
-    scanbackUploaded: true, scanbackFiles: ['scanback_20260210.pdf'],
-  },
-];
-
-const myPayments = [
-  { orderId: 'PRISM-2026-0009', signer: 'Angela Martinez', date: '02/10/2026', base: 100, travel: 20, surcharge: 0, total: 120, status: 'Paid', paidDate: '02/13/2026' },
-  { orderId: 'PRISM-2026-0012', signer: 'Michael Thompson', date: '02/11/2026', base: 125, travel: 0, surcharge: 0, total: 125, status: 'Processing', paidDate: '' },
-  { orderId: 'PRISM-2026-0020', signer: 'Linda Park', date: '02/12/2026', base: 175, travel: 20, surcharge: 50, total: 245, status: 'On Hold', paidDate: '' },
-  { orderId: 'PRISM-2026-0001', signer: 'James Wilson', date: '02/14/2026', base: 125, travel: 20, surcharge: 0, total: 145, status: 'Pending', paidDate: '' },
-  { orderId: 'PRISM-2026-0008', signer: 'Patricia Harris', date: '02/14/2026', base: 40, travel: 0, surcharge: 0, total: 40, status: 'Pending', paidDate: '' },
-];
-
-const notifications = [
-  { id: 1, type: 'correction', message: 'Correction needed on PRISM-2026-0020 — 2 critical errors. Review and re-scan.', time: '2 hours ago', read: false },
-  { id: 2, type: 'new-order', message: 'New order available — Notary signing in Troy, MI on 02/15. Accept?', time: '3 hours ago', read: false },
-  { id: 3, type: 'payment', message: 'Payment of $120 sent for PRISM-2026-0009 (Angela Martinez).', time: '1 day ago', read: true },
-  { id: 4, type: 'reminder', message: 'Appointment tomorrow at 1:00 PM — James Wilson, Troy, MI. Confirm?', time: '1 day ago', read: true },
-  { id: 5, type: 'verified', message: 'Scanback for PRISM-2026-0012 verified — clean. Ready to ship.', time: '2 days ago', read: true },
-];
+// Data loaded from API — no hardcoded mock data
 
 // ─── MAIN COMPONENT ────────────────────────────────────────────────
 // ─── COMPLIANCE DOCUMENT DATA ────────────────────────────────────────
@@ -218,17 +103,12 @@ type ComplianceDoc = {
   rejectionReason?: string;
 };
 
-const complianceDocs: ComplianceDoc[] = [
-  { id: 'doc-1', type: 'W-9', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/15/2025', fileName: 'W9_SarahChen_2025.pdf', fileSize: '142 KB' },
-  { id: 'doc-2', type: 'NDA / Confidentiality Agreement', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/16/2025', fileName: 'NDA_SarahChen_Signed.pdf', fileSize: '98 KB' },
-  { id: 'doc-3', type: 'Independent Contractor Agreement', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/16/2025', fileName: 'ICA_SarahChen_Signed.pdf', fileSize: '215 KB' },
-  { id: 'doc-4', type: 'Background Check', status: 'Approved', required: true, dateReceived: '04/20/2025', dateApproved: '11/01/2025', expirationDate: '11/01/2026', fileName: 'BGCheck_Cleared.pdf', fileSize: '67 KB' },
-  { id: 'doc-5', type: 'Photo ID', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/15/2025', fileName: 'ID_SarahChen.jpg', fileSize: '1.2 MB' },
-  { id: 'doc-6', type: 'Notary Commission', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/16/2025', expirationDate: '09/15/2028', commissionNumber: 'NC-2024-7729103', fileName: 'NotaryCommission_MI.pdf', fileSize: '340 KB' },
-  { id: 'doc-7', type: 'NNA Signing Agent Certification', status: 'Approved', required: true, dateReceived: '04/15/2025', dateApproved: '04/16/2025', expirationDate: '03/22/2027', fileName: 'NNA_Cert_SarahChen.pdf', fileSize: '189 KB' },
-  { id: 'doc-8', type: 'E&O Insurance', status: 'Approved', required: true, dateReceived: '04/18/2025', dateApproved: '04/19/2025', expirationDate: '06/30/2026', policyNumber: 'ENO-8847291', fileName: 'EO_Insurance_Policy.pdf', fileSize: '512 KB' },
-  { id: 'doc-9', type: 'Vehicle Insurance', status: 'Expired', required: true, expirationDate: '01/31/2026', policyNumber: 'AUTO-334821', fileName: 'VehicleIns_2025.pdf', fileSize: '276 KB', dateReceived: '04/18/2025', dateApproved: '04/19/2025' },
-  { id: 'doc-10', type: 'DOT Collector Certification', status: 'Missing', required: false, notes: 'Not required for current specialties' },
+const REQUIRED_DOC_TYPES: ComplianceDoc[] = [
+  { id: 'doc-w9', type: 'W-9', status: 'Missing', required: true },
+  { id: 'doc-nda', type: 'NDA / Confidentiality Agreement', status: 'Missing', required: true },
+  { id: 'doc-ica', type: 'Independent Contractor Agreement', status: 'Missing', required: true },
+  { id: 'doc-bg', type: 'Background Check', status: 'Missing', required: true },
+  { id: 'doc-id', type: 'Photo ID', status: 'Missing', required: true },
 ];
 
 const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
@@ -243,8 +123,29 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
   const [showConfirmAccept, setShowConfirmAccept] = useState<string | null>(null);
   const [profileEditing, setProfileEditing] = useState(false);
   const [showNotifPanel, setShowNotifPanel] = useState(false);
-  const [docs, setDocs] = useState<ComplianceDoc[]>(complianceDocs);
-  const [orders, setOrders] = useState(initialOrders);
+  const [docs, setDocs] = useState<ComplianceDoc[]>(REQUIRED_DOC_TYPES);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [agentProfile, setAgentProfile] = useState(DEFAULT_PROFILE);
+  const [myPayments, setMyPayments] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  const loadAgentData = useCallback(async () => {
+    try {
+      const [profileRes, ordersRes, paymentsRes] = await Promise.allSettled([
+        api.get('/prism/agent/profile').catch(() => ({ data: null })),
+        api.get('/prism/agent/orders').catch(() => ({ data: { orders: [] } })),
+        api.get('/prism/agent/payments').catch(() => ({ data: { payments: [] } })),
+      ]);
+      if (profileRes.status === 'fulfilled' && (profileRes.value as any).data)
+        setAgentProfile(prev => ({ ...prev, ...(profileRes.value as any).data }));
+      if (ordersRes.status === 'fulfilled')
+        setOrders((ordersRes.value as any).data?.orders || []);
+      if (paymentsRes.status === 'fulfilled')
+        setMyPayments((paymentsRes.value as any).data?.payments || []);
+    } catch { /* fallback to empty state */ }
+  }, []);
+
+  useEffect(() => { loadAgentData(); }, [loadAgentData]);
 
   // ─── WORKFLOW ADVANCE FUNCTIONS ───────────────────────────────
   const advanceOrder = (orderId: string, newStatus: string) => {
@@ -531,7 +432,7 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-4">
           <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">📌 Client Rules</h3>
           <div className="space-y-2">
-            {order.rules.map((rule, i) => (
+            {(order.rules || []).map((rule: string, i: number) => (
               <div key={i} className="flex items-center gap-2 text-sm">
                 <span className="font-bold" style={{ color: '#2DD4BF' }}>•</span>
                 <span>{rule}</span>
@@ -580,7 +481,7 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
           <div className="bg-red-500/5 border border-red-500/40 rounded-xl p-5 mb-4">
             <h3 className="text-sm font-bold text-red-400 uppercase mb-3">🚨 Corrections Required</h3>
             <div className="space-y-3">
-              {order.corrections.map((err, i) => (
+              {order.corrections.map((err: any, i: number) => (
                 <div key={i} className={`px-4 py-3 rounded-lg ${
                   err.severity === 'CRITICAL' ? 'bg-red-500/10 border border-red-500/30' : 'bg-yellow-500/10 border border-yellow-500/30'
                 }`}>
@@ -1398,7 +1299,7 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-semibold">{agentProfile.paymentMethod}</p>
-                  <p className="text-xs text-gray-500">Ending in ****4821</p>
+                  <p className="text-xs text-gray-500">{agentProfile.paymentMethod || 'Not configured'}</p>
                 </div>
                 {profileEditing && (
                   <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">

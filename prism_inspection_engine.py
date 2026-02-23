@@ -1831,12 +1831,22 @@ def api_run_inspection():
 
     result = run_inspection(data)
 
-    # Save inspection report
     reports_dir = os.path.join(os.path.dirname(__file__), 'uploads', 'inspection_reports')
     os.makedirs(reports_dir, exist_ok=True)
     report_path = os.path.join(reports_dir, f"{data['order_id']}_inspection_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
     with open(report_path, 'w') as f:
         json.dump(result, f, indent=2)
+
+    # NEXUS ADVISOR: Teach about inspection quality
+    try:
+        from nexus_advisor import advise
+        result['advisor'] = advise('prism', 'scanback_inspected', {
+            'order_id': data.get('order_id'),
+            'pass_rate': result.get('pass_rate'),
+            'errors_found': result.get('total_errors', 0),
+        })
+    except Exception:
+        pass
 
     return jsonify(result)
 

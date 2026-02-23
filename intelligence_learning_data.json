@@ -1,0 +1,263 @@
+{
+  "actions": [
+    {
+      "id": "267d892ebb44",
+      "opportunity_id": "test-001",
+      "action": "reviewed",
+      "timestamp": "2026-02-22T19:05:07.741272",
+      "metadata": {
+        "lane": "Janitorial",
+        "agency": "Department of Defense",
+        "avenue": "sub_under_prime",
+        "value": "12400000"
+      }
+    },
+    {
+      "id": "566547c1b19d",
+      "opportunity_id": "test-001",
+      "action": "contacted",
+      "timestamp": "2026-02-22T19:05:07.742936",
+      "metadata": {
+        "lane": "Janitorial",
+        "agency": "Department of Defense",
+        "avenue": "sub_under_prime",
+        "value": "12400000"
+      }
+    },
+    {
+      "id": "a50a9614d217",
+      "opportunity_id": "test-001",
+      "action": "responded",
+      "timestamp": "2026-02-22T19:05:07.744107",
+      "metadata": {
+        "lane": "Janitorial",
+        "agency": "Department of Defense",
+        "avenue": "sub_under_prime",
+        "value": "12400000"
+      }
+    },
+    {
+      "id": "583e20073748",
+      "opportunity_id": "test-002",
+      "action": "reviewed",
+      "timestamp": "2026-02-22T19:05:07.745289",
+      "metadata": {
+        "lane": "Security Guards",
+        "agency": "Department of Homeland Security",
+        "avenue": "sub_under_prime",
+        "value": "169000000"
+      }
+    },
+    {
+      "id": "a9b2f8895e01",
+      "opportunity_id": "test-002",
+      "action": "contacted",
+      "timestamp": "2026-02-22T19:05:07.746682",
+      "metadata": {
+        "lane": "Security Guards",
+        "agency": "Department of Homeland Security",
+        "avenue": "sub_under_prime",
+        "value": "169000000"
+      }
+    },
+    {
+      "id": "4c4db3b9d24d",
+      "opportunity_id": "test-002",
+      "action": "no_response",
+      "timestamp": "2026-02-22T19:05:07.748250",
+      "metadata": {
+        "lane": "Security Guards",
+        "agency": "Department of Homeland Security",
+        "avenue": "sub_under_prime",
+        "value": "169000000"
+      }
+    },
+    {
+      "id": "ffd82a178e64",
+      "opportunity_id": "test-003",
+      "action": "reviewed",
+      "timestamp": "2026-02-22T19:05:07.749631",
+      "metadata": {
+        "lane": "Facilities Support",
+        "agency": "Department of Veterans Affairs",
+        "avenue": "prime_recompete",
+        "value": "5700000"
+      }
+    },
+    {
+      "id": "856623620666",
+      "opportunity_id": "test-003",
+      "action": "pursuing",
+      "timestamp": "2026-02-22T19:05:07.750794",
+      "metadata": {
+        "lane": "Facilities Support",
+        "agency": "Department of Veterans Affairs",
+        "avenue": "prime_recompete",
+        "value": "5700000"
+      }
+    }
+  ],
+  "insights": [
+    {
+      "title": "Sub Under Prime avenue is working",
+      "body": "50% success rate. Keep investing in this strategy.",
+      "impact": "high",
+      "category": "strategy",
+      "generated_at": "2026-02-22T19:07:08.967838",
+      "actions_analyzed": 8
+    },
+    {
+      "title": "Overall response rate: 50%",
+      "body": "This is the percentage of contacts that got a response. Track this to optimize outreach.",
+      "impact": "medium",
+      "category": "outreach",
+      "generated_at": "2026-02-22T19:07:08.967841",
+      "actions_analyzed": 8
+    }
+  ],
+  "learned_weights": null,
+  "weight_history": [],
+  "analysis_history": [
+    {
+      "timestamp": "2026-02-22T19:07:08.967818",
+      "actions_analyzed": 8,
+      "mode": "statistical",
+      "outcome_summary": {
+        "total_opportunities": 3,
+        "total_actions": 8,
+        "outcomes": [
+          {
+            "opportunity_id": "test-001",
+            "actions": [
+              "reviewed",
+              "contacted",
+              "responded"
+            ],
+            "final_outcome": "responded",
+            "is_positive": true,
+            "is_negative": false,
+            "is_terminal": false,
+            "metadata": {
+              "lane": "Janitorial",
+              "agency": "Department of Defense",
+              "avenue": "sub_under_prime",
+              "value": "12400000"
+            },
+            "action_count": 3,
+            "days_active": 0
+          },
+          {
+            "opportunity_id": "test-002",
+            "actions": [
+              "reviewed",
+              "contacted",
+              "no_response"
+            ],
+            "final_outcome": "no_response",
+            "is_positive": false,
+            "is_negative": true,
+            "is_terminal": true,
+            "metadata": {
+              "lane": "Security Guards",
+              "agency": "Department of Homeland Security",
+              "avenue": "sub_under_prime",
+              "value": "169000000"
+            },
+            "action_count": 3,
+            "days_active": 0
+          },
+          {
+            "opportunity_id": "test-003",
+            "actions": [
+              "reviewed",
+              "pursuing"
+            ],
+            "final_outcome": "pursuing",
+            "is_positive": true,
+            "is_negative": false,
+            "is_terminal": false,
+            "metadata": {
+              "lane": "Facilities Support",
+              "agency": "Department of Veterans Affairs",
+              "avenue": "prime_recompete",
+              "value": "5700000"
+            },
+            "action_count": 2,
+            "days_active": 0
+          }
+        ],
+        "by_lane": {
+          "Janitorial": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          },
+          "Security Guards": {
+            "positive": 0,
+            "negative": 1,
+            "total": 1
+          },
+          "Facilities Support": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          }
+        },
+        "by_agency": {
+          "Department of Defense": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          },
+          "Department of Homeland Security": {
+            "positive": 0,
+            "negative": 1,
+            "total": 1
+          },
+          "Department of Veterans Affairs": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          }
+        },
+        "by_avenue": {
+          "sub_under_prime": {
+            "positive": 1,
+            "negative": 1,
+            "total": 2
+          },
+          "prime_recompete": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          }
+        },
+        "by_value_range": {
+          "$10M - $50M": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          },
+          "$50M - $200M": {
+            "positive": 0,
+            "negative": 1,
+            "total": 1
+          },
+          "$1M - $10M": {
+            "positive": 1,
+            "negative": 0,
+            "total": 1
+          }
+        },
+        "positive_rate": 0.6666666666666666,
+        "response_rate": 0.5
+      }
+    }
+  ],
+  "stats": {
+    "total_actions": 8,
+    "total_analyses": 1,
+    "last_analysis": "2026-02-22T19:07:08.967846",
+    "last_weight_update": null
+  }
+}

@@ -1,7 +1,8 @@
 # SEND TO BUYER — Georgia DOAS, Drug Testing & Fingerprinting Services
 
-**TO:** procurementhelp@doas.ga.gov
-**SUBJECT:** EDWOSB Inquiry — Drug Testing & Fingerprinting Services for State Agencies
+**TO:** tcrowder1@dot.ga.gov
+**CC:** procurementhelp@doas.ga.gov
+**SUBJECT:** EDWOSB Inquiry — Drug Testing & Fingerprinting Services for Georgia DOT
 **ATTACHMENT:** GA_DOAS_Drug_Testing_Fingerprinting_Capability_Statement.html
 
 ---
@@ -9,7 +10,7 @@
 ## EMAIL BODY (COPY BELOW)
 
 ```
-Hi,
+Hi Tameka,
 
 I'm writing to introduce Dee Davis Inc and inquire about drug testing and fingerprinting service opportunities with Georgia state agencies.
 
