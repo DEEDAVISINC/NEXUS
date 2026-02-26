@@ -2759,12 +2759,17 @@ def get_gpss_opportunities():
                 workflow_step = int(step_match.group(1))
                 clean_notes = step_match.group(2).strip()
             
+            # Parse value (Airtable may use Value, Estimated Value, or Contract Value)
+            raw_value = fields.get('Value') or fields.get('Estimated Value') or fields.get('Contract Value') or 0
+            value = float(raw_value) if raw_value else 0
+
             # Build opportunity object
             opp = {
                 'id': record['id'],
                 'title': name,
                 'rfpNumber': fields.get('RFP NUMBER', ''),
                 'agency': fields.get('AGENCY NAME', ''),
+                'value': value,
                 'dueDate': fields.get('Deadline', ''),
                 'sourceUrl': fields.get('Source URL', ''),
                 'state': state_val,
@@ -2816,7 +2821,26 @@ def get_gpss_opportunities():
                 continue
             
             all_opps.append(opp)
-        
+
+        # Recompete Tracker style aggregates (Govcon Giants dashboard model)
+        all_for_stats = pipeline + edwosb_list + home_state_list + forecasts
+        seen = set()
+        deduped = []
+        for o in all_for_stats:
+            if o['id'] not in seen:
+                seen.add(o['id'])
+                deduped.append(o)
+        total_value = sum(o.get('value', 0) for o in deduped)
+        agencies = set(a for o in deduped if (a := o.get('agency', '').strip()))
+        naics_raw = []
+        for o in deduped:
+            nc = o.get('naicsCodes', '') or ''
+            if isinstance(nc, str):
+                naics_raw.extend([c.strip() for c in nc.replace(',', ' ').split() if c.strip()])
+            elif isinstance(nc, (list, tuple)):
+                naics_raw.extend(str(c) for c in nc)
+        unique_naics = len(set(naics_raw)) if naics_raw else 0
+
         return jsonify({
             'opportunities': all_opps,
             'counts': {
@@ -2826,6 +2850,12 @@ def get_gpss_opportunities():
                 'home_state': len(home_state_list),
                 'forecasts': len(forecasts),
                 'filtered_ineligible': skipped_ineligible,
+            },
+            'tracker': {
+                'total_contracts': len(deduped),
+                'total_value': total_value,
+                'agencies': len(agencies),
+                'naics_codes': unique_naics,
             },
             'pipeline': pipeline,
             'edwosb': edwosb_list,
@@ -11574,26 +11604,17 @@ def calculate_compliance():
 @app.route('/capability-statements/generate', methods=['POST'])
 def generate_capability_statement():
     """
-    Generate a capability statement from an opportunity or custom parameters
+    Generate a v3 capability statement with sector-specific colors and CO-grade content.
     
     Request body:
         {
-            "opportunity_id": "recXXXXXXXXXXX",  // Optional: generate from opportunity
-            "client_name": "Agency Name",        // Required if no opportunity_id
-            "rfq_number": "12345",               // Required if no opportunity_id
-            "rfq_title": "Contract Title",       // Optional
-            "template": "default",               // Optional: default, va_medical, construction
-            "custom_config": {...}               // Optional: full custom config
-        }
-    
-    Returns:
-        {
-            "success": true,
-            "html_file": "/path/to/file.html",
-            "pdf_file": "/path/to/file.pdf",
-            "airtable_record_id": "recXXXX",
-            "client_name": "Agency Name",
-            "rfq_number": "12345"
+            "sector": "drug_testing",           // Service sector key
+            "agency_name": "Agency Name",       // Target agency
+            "solicitation_number": "12345",     // Solicitation reference
+            "service_description": "Override",  // Override gold bar title
+            "custom_overview": "...",           // Override overview text
+            "custom_naics": "541611 | 621511",  // Override NAICS
+            "output_dir": "/path/to/dir"        // Optional output directory
         }
     """
     try:
@@ -11602,12 +11623,13 @@ def generate_capability_statement():
         data = request.get_json() or {}
         
         result = handle_generate_capability_statement(
-            opportunity_id=data.get('opportunity_id'),
-            client_name=data.get('client_name'),
-            rfq_number=data.get('rfq_number'),
-            rfq_title=data.get('rfq_title'),
-            template=data.get('template', 'default'),
-            custom_config=data.get('custom_config')
+            sector=data.get('sector', 'main'),
+            agency_name=data.get('agency_name'),
+            solicitation_number=data.get('solicitation_number'),
+            service_description=data.get('service_description'),
+            custom_overview=data.get('custom_overview'),
+            custom_naics=data.get('custom_naics'),
+            output_dir=data.get('output_dir'),
         )
         
         if not result.get('success'):
@@ -11622,45 +11644,23 @@ def generate_capability_statement():
         }), 500
 
 
-@app.route('/capability-statements/templates', methods=['GET'])
-def get_capability_statement_templates():
+@app.route('/capability-statements/sectors', methods=['GET'])
+def get_capability_statement_sectors():
     """
-    Get list of available capability statement templates
-    
-    Returns:
-        {
-            "templates": [
-                {
-                    "id": "default",
-                    "name": "Default (Industrial Supplies)",
-                    "description": "General purpose template for industrial supplies"
-                },
-                ...
-            ]
-        }
+    Get list of available sectors for capability statement generation.
+    Each sector has its own color scheme and default content.
     """
-    return jsonify({
-        'templates': [
-            {
-                'id': 'default',
-                'name': 'Default (Industrial Supplies)',
-                'description': 'General purpose template for industrial supplies and government contracting',
-                'accent_color': '#d97706'
-            },
-            {
-                'id': 'va_medical',
-                'name': 'VA Medical',
-                'description': 'Healthcare and medical supplies for VA facilities',
-                'accent_color': '#0066cc'
-            },
-            {
-                'id': 'construction',
-                'name': 'Construction',
-                'description': 'General construction and facility services',
-                'accent_color': '#f97316'
-            }
-        ]
-    })
+    from capability_statement_generator import AVAILABLE_SECTORS, SECTOR_COLORS
+    sectors_with_colors = []
+    for s in AVAILABLE_SECTORS:
+        colors = SECTOR_COLORS.get(s['key'], SECTOR_COLORS['main'])
+        sectors_with_colors.append({
+            'key': s['key'],
+            'label': s['label'],
+            'primary_color': colors['primary'],
+            'accent_color': colors['accent'],
+        })
+    return jsonify({'sectors': sectors_with_colors})
 
 
 @app.route('/capability-statements/list', methods=['GET'])
@@ -13013,42 +13013,27 @@ def _bid_to_workflow_item(bid):
 @app.route('/api/capstat/generate', methods=['POST'])
 def api_capstat_generate():
     """
-    Generate a capability statement tailored to the selected opportunity.
-    Wraps the existing /capability-statements/generate endpoint.
+    Generate a v3 capability statement from the Document Generator frontend.
+    Accepts sector, agency, solicitation number, and optional overrides.
+    Returns the HTML file for browser preview.
     """
     try:
         from capability_statement_generator import handle_generate_capability_statement
 
         data = request.get_json() or {}
 
-        # Map frontend field names to backend expectations
         result = handle_generate_capability_statement(
-            opportunity_id=data.get('opportunity_id'),
-            client_name=data.get('companyName', 'DEE DAVIS INC'),
-            rfq_number=data.get('rfqNumber') or data.get('rfq_number'),
-            rfq_title=data.get('rfqTitle') or data.get('rfq_title'),
-            template=data.get('template', 'default'),
-            custom_config={
-                'naics_codes': data.get('naicsCodes', ''),
-                'core_competencies': data.get('coreCompetencies', ''),
-                'past_performance': data.get('pastPerformance', ''),
-            }
+            sector=data.get('sector', 'main'),
+            agency_name=data.get('agencyName') or data.get('agency_name'),
+            solicitation_number=data.get('solicitationNumber') or data.get('solicitation_number'),
+            service_description=data.get('serviceDescription') or data.get('service_description'),
+            custom_overview=data.get('customOverview') or data.get('custom_overview'),
+            custom_naics=data.get('naicsCodes') or data.get('custom_naics'),
         )
 
         if not result.get('success'):
             return jsonify(result), 400
 
-        # If a PDF was generated, return it as a downloadable file
-        pdf_path = result.get('pdf_file')
-        if pdf_path and os.path.exists(pdf_path):
-            return send_file(
-                pdf_path,
-                mimetype='application/pdf',
-                as_attachment=False,
-                download_name=f'capability_statement_{datetime.now().strftime("%Y%m%d")}.pdf'
-            )
-
-        # If HTML was generated, return the HTML content
         html_path = result.get('html_file')
         if html_path and os.path.exists(html_path):
             return send_file(

@@ -1,233 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEE DAVIS INC - Capability Statement</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .bg-primary { background-color: {{PRIMARY_COLOR}}; }
-        .bg-accent { background-color: {{ACCENT_COLOR}}; }
-        .text-primary { color: {{PRIMARY_COLOR}}; }
-        .text-accent { color: {{ACCENT_COLOR}}; }
-        .border-accent { border-color: {{ACCENT_COLOR}}; }
-        
-        @page {
-            size: A4;
-            margin: 0;
-        }
-        @media print {
-            body { margin: 0; }
-            .print-container {
-                width: 210mm;
-                min-height: 297mm;
-                margin: 0 auto;
-                box-shadow: none;
-            }
-        }
-        .print-container {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 20px auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEE DAVIS INC — Capability Statement — {{GOLD_BAR_TITLE}}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; color:#1e293b; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.page { width:8.5in; height:11in; margin:0 auto; padding:0; overflow:hidden; display:flex; flex-direction:column; }
+
+.header { background:linear-gradient(135deg,{{PRIMARY_COLOR}} 0%,{{SECONDARY_COLOR}} 100%); color:#fff; padding:0.5rem 0.55in; display:flex; align-items:center; gap:0.8rem; }
+.h-logo { width:70px; height:70px; background:#fff; border-radius:10px; padding:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.h-logo img { width:100%; height:100%; object-fit:contain; }
+.h-text { flex:1; }
+.h-text h1 { font-size:1.5rem; font-weight:900; letter-spacing:-0.5px; line-height:1.1; }
+.h-text .tag { font-size:0.65rem; font-style:italic; opacity:0.75; }
+.h-creds { display:flex; gap:0.5rem; font-size:0.55rem; font-weight:600; opacity:0.7; margin-top:0.2rem; flex-wrap:wrap; }
+
+.gold-bar { background:linear-gradient(135deg,{{ACCENT_COLOR_DARK}},{{ACCENT_COLOR}},{{ACCENT_COLOR}}); padding:0.3rem 0.55in; display:flex; align-items:center; justify-content:space-between; }
+.gold-bar h2 { font-size:0.85rem; font-weight:800; color:{{GOLD_BAR_TEXT_COLOR}}; letter-spacing:0.5px; }
+.gold-bar .sub { font-size:0.6rem; color:{{GOLD_BAR_TEXT_COLOR}}; opacity:0.8; font-weight:600; }
+
+.body { padding:0.35rem 0.45in 0.15rem; display:flex; flex-direction:column; gap:0.1rem; }
+
+.who { display:flex; gap:0.6rem; align-items:center; margin-bottom:0.4rem; }
+.who-photo { width:62px; height:62px; border-radius:50%; overflow:hidden; border:2.5px solid {{ACCENT_COLOR}}; flex-shrink:0; }
+.who-photo img { width:100%; height:100%; object-fit:cover; }
+.who-text { flex:1; }
+.who-text p { font-size:0.72rem; line-height:1.5; }
+.who-text strong { color:{{PRIMARY_COLOR}}; }
+
+.sh { background:linear-gradient(135deg,{{PRIMARY_COLOR}},{{SECONDARY_COLOR}}); color:#fff; padding:0.22rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.25rem; margin-top:0.15rem; }
+.sh-accent { background:linear-gradient(135deg,{{ACCENT_COLOR_DARK}},{{ACCENT_COLOR}}); color:{{GOLD_BAR_TEXT_COLOR}}; padding:0.22rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.25rem; margin-top:0.15rem; }
+
+.comp-grid { display:grid; grid-template-columns:repeat({{COMP_COLUMNS}},1fr); gap:0.25rem; margin-bottom:0.35rem; }
+.c { border-radius:6px; padding:0.22rem 0.3rem; }
+.c h4 { font-size:0.6rem; font-weight:700; margin-bottom:0.05rem; }
+.c p { font-size:0.53rem; line-height:1.35; }
+
+.c-primary { background:{{PRIMARY_COLOR}}; color:#fff; }
+.c-primary h4 { color:{{ACCENT_COLOR}}; }
+.c-light1 { background:#f0f9ff; border:1.5px solid #bae6fd; }
+.c-light1 h4 { color:#0369a1; }
+.c-light2 { background:#fef7e8; border:1.5px solid #fde68a; }
+.c-light2 h4 { color:#92400e; }
+.c-light3 { background:#f0fdf4; border:1.5px solid #bbf7d0; }
+.c-light3 h4 { color:#166534; }
+.c-light4 { background:#faf5ff; border:1.5px solid #e9d5ff; }
+.c-light4 h4 { color:#6b21a8; }
+.c-light5 { background:#f8fafc; border:1.5px solid #e2e8f0; }
+.c-light5 h4 { color:#334155; }
+.c-light6 { background:#fff1f2; border:1.5px solid #fecdd3; }
+.c-light6 h4 { color:#9f1239; }
+.c-light7 { background:#ecfdf5; border:1.5px solid #a7f3d0; }
+.c-light7 h4 { color:#065f46; }
+
+.cols { display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; margin-bottom:0.3rem; }
+ul.wl { list-style:none; padding:0; }
+ul.wl li { padding-left:0.7rem; position:relative; margin-bottom:0.2rem; }
+ul.wl li::before { content:"\2605"; position:absolute; left:0; color:{{ACCENT_COLOR}}; font-size:0.5rem; top:0.06rem; }
+.wt { font-size:0.57rem; font-weight:700; color:{{PRIMARY_COLOR}}; }
+.wd { font-size:0.5rem; color:#64748b; }
+
+.cert-strip { display:flex; align-items:center; gap:0.5rem; padding:0.2rem 0; border-top:1.5px solid #e2e8f0; margin-bottom:0.1rem; }
+.cert-strip img { height:32px; object-fit:contain; }
+.cert-text { font-size:0.52rem; font-weight:600; color:#475569; line-height:1.5; }
+
+.partner-row { display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:0.15rem 0; border-top:1.5px solid #e2e8f0; margin-bottom:0.15rem; }
+.partner-row img { height:26px; object-fit:contain; }
+.plbl { font-size:0.45rem; color:#94a3b8; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+
+.footer { background:linear-gradient(135deg,{{PRIMARY_COLOR}},{{SECONDARY_COLOR}}); color:#fff; padding:0.3rem 0.55in; display:flex; align-items:center; justify-content:space-between; margin-top:0; }
+.f-left { font-size:0.52rem; line-height:1.5; }
+.f-left strong { color:{{ACCENT_COLOR}}; }
+.f-right { text-align:right; font-size:0.48rem; line-height:1.5; opacity:0.75; }
+.f-naics { font-size:0.45rem; opacity:0.65; margin-top:0.1rem; }
+
+@media print { body { margin:0; } .page { margin:0; } }
+</style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
+<div class="page">
 
-    <div class="print-container relative">
-        
-        <!-- Header Section -->
-        <header class="bg-primary text-white p-8 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
-            <div class="relative z-10 flex justify-between items-start">
-                <div class="w-2/3">
-                    <h1 class="text-5xl font-extrabold tracking-tight mb-2">{{COMPANY_NAME}}</h1>
-                    <p class="text-xl text-accent font-semibold tracking-wide uppercase">THE PROFESSIONALS' PROFESSIONAL</p>
-                    <div class="mt-6 border-l-4 border-accent pl-4">
-                        <h2 class="text-2xl font-bold">CAPABILITY STATEMENT</h2>
-                        <p class="text-sm opacity-90 mt-1">Prepared for {{CLIENT_NAME}} {{RFQ_NUMBER}} | {{DATE}}</p>
-                    </div>
-                </div>
-                <div class="w-1/3 text-right">
-                    <div class="inline-block bg-white p-3 rounded-lg shadow-lg">
-                        <img src="{{LOGO_PATH}}" alt="{{COMPANY_NAME}} Logo" class="w-32 h-32 object-contain">
-                    </div>
-                </div>
-            </div>
-        </header>
+  <div class="header">
+    <div class="h-logo"><img src="{{LOGO_BASE64}}" alt="DDI"></div>
+    <div class="h-text">
+      <h1>DEE DAVIS INC.</h1>
+      <div class="tag">&ldquo;The Professionals&rsquo; Professional&rdquo;</div>
+      <div class="h-creds">
+        <span>CAGE: 8UMX3</span>
+        <span>UEI: HJB4KNYJVGZ1</span>
+        <span>DUNS: 002636755</span>
+        <span>SAM.gov: ACTIVE</span>
+        <span>Est. 2018</span>
+      </div>
+    </div>
+  </div>
 
-        <!-- Main Content Grid -->
-        <div class="flex flex-1">
-            
-            <!-- Left Sidebar -->
-            <aside class="w-1/3 bg-gray-50 border-r border-gray-200 p-6 flex flex-col gap-6">
-                
-                <!-- Company Snapshot -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-accent">
-                    <h3 class="text-primary font-bold text-lg mb-4 flex items-center">
-                        <i data-lucide="building-2" class="w-5 h-5 mr-2 text-accent"></i> COMPANY DATA
-                    </h3>
-                    <ul class="space-y-3 text-sm text-gray-700">
-                        <li class="flex flex-col border-b border-gray-100 pb-2">
-                            <span class="font-bold text-xs text-gray-400 uppercase">CAGE Code</span>
-                            <span class="font-semibold text-primary text-base">{{CAGE_CODE}}</span>
-                        </li>
-                        <li class="flex flex-col border-b border-gray-100 pb-2">
-                            <span class="font-bold text-xs text-gray-400 uppercase">UEI</span>
-                            <span class="font-semibold text-primary">{{UEI}}</span>
-                        </li>
-                        <li class="flex flex-col border-b border-gray-100 pb-2">
-                            <span class="font-bold text-xs text-gray-400 uppercase">DUNS</span>
-                            <span class="font-semibold text-primary">{{DUNS}}</span>
-                        </li>
-                        <li class="flex flex-col border-b border-gray-100 pb-2">
-                            <span class="font-bold text-xs text-gray-400 uppercase">Tax ID</span>
-                            <span class="font-semibold text-primary">{{TAX_ID}}</span>
-                        </li>
-                        <li class="flex flex-col border-b border-gray-100 pb-2">
-                            <span class="font-bold text-xs text-gray-400 uppercase">SAM.gov</span>
-                            <span class="font-semibold text-green-600 flex items-center gap-1">
-                                {{SAM_STATUS}} <i data-lucide="check-circle-2" class="w-3 h-3"></i>
-                            </span>
-                        </li>
-                        <li class="flex flex-col">
-                            <span class="font-bold text-xs text-gray-400 uppercase">Founded</span>
-                            <span class="font-semibold text-primary">{{FOUNDED}}</span>
-                        </li>
-                    </ul>
-                </div>
+  <div class="gold-bar">
+    <h2>{{GOLD_BAR_TITLE}}</h2>
+    <div class="sub">{{GOLD_BAR_SUBTITLE}}</div>
+  </div>
 
-                <!-- Certifications -->
-                <div class="bg-primary text-white p-5 rounded-xl shadow-sm">
-                    <h3 class="font-bold text-lg mb-4 text-white flex items-center">
-                        <i data-lucide="award" class="w-5 h-5 mr-2 text-accent"></i> CERTIFICATIONS
-                    </h3>
-                    <div class="space-y-3">
-                        {{CERTIFICATIONS_HTML}}
-                    </div>
-                </div>
+  <div class="body">
 
-                <!-- Highlights Section -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-accent">
-                    <h3 class="text-primary font-bold text-lg mb-4 flex items-center">
-                        <i data-lucide="zap" class="w-5 h-5 mr-2 text-accent"></i> QUICK FACTS
-                    </h3>
-                    <div class="space-y-3">
-                        {{HIGHLIGHTS_HTML}}
-                    </div>
-                </div>
-
-            </aside>
-
-            <!-- Main Body -->
-            <main class="w-2/3 p-8 flex flex-col gap-6">
-                
-                <!-- Company Overview -->
-                <section>
-                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-2 border-b-2 border-accent inline-block pb-1">Company Overview</h3>
-                    <p class="text-gray-700 leading-relaxed text-sm">
-                        {{OVERVIEW}}
-                    </p>
-                </section>
-
-                <!-- Core Competencies -->
-                <section>
-                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-4 border-b-2 border-accent inline-block pb-1">Core Competencies</h3>
-                    <div class="grid grid-cols-1 gap-4">
-                        {{COMPETENCIES_HTML}}
-                    </div>
-                </section>
-
-                <!-- Why Choose Us -->
-                <section>
-                    <h3 class="text-primary font-extrabold text-xl uppercase tracking-wider mb-4 border-b-2 border-accent inline-block pb-1">Why Choose {{COMPANY_NAME}}?</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        {{BENEFITS_HTML}}
-                    </div>
-                </section>
-
-                 <!-- Commitment -->
-                 <section class="bg-primary text-white p-4 rounded-xl relative overflow-hidden">
-                     <div class="absolute right-0 top-0 w-32 h-32 bg-yellow-500 opacity-10 rounded-full -mr-10 -mt-10"></div>
-                     <h3 class="font-bold text-accent text-lg mb-2">COMMITMENT TO {{CLIENT_NAME}}</h3>
-                     <p class="text-sm font-light text-gray-200 italic">
-                        "{{COMMITMENT}}"
-                     </p>
-                 </section>
-
-            </main>
-        </div>
-
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-white p-6 border-t-4 border-accent">
-            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
-                <div>
-                    <h4 class="font-bold text-xl text-accent">{{PRESIDENT}}, PRESIDENT & CEO</h4>
-                    <p class="text-sm text-gray-300">{{COMPANY_NAME}} - Delivering Quality, Service, and Value.</p>
-                </div>
-                <div class="flex flex-col md:flex-row gap-6 text-sm">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="text-accent w-4 h-4"></i>
-                        <span>{{ADDRESS}}, {{CITY}}, {{STATE}} {{ZIP}}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="phone" class="text-accent w-4 h-4"></i>
-                        <span>{{PHONE}}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="mail" class="text-accent w-4 h-4"></i>
-                        <span>{{EMAIL}}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="globe" class="text-accent w-4 h-4"></i>
-                        <span>{{WEBSITE}}</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <!-- Contract Specs Box (Floating) -->
-        <div class="absolute bottom-24 right-8 bg-white rounded-xl shadow-lg border-2 border-accent p-4" style="width: 200px;">
-            <h4 class="text-primary font-bold text-center mb-3 border-b-2 border-accent pb-2">CONTRACT SPECS</h4>
-            <ul class="text-sm space-y-2 text-gray-700">
-                <li class="flex justify-between">
-                    <span class="font-semibold">Pay Terms:</span>
-                    <span>{{PAYMENT_TERMS}}</span>
-                </li>
-                <li class="flex justify-between">
-                    <span class="font-semibold">Delivery:</span>
-                    <span>{{DELIVERY_TIME}}</span>
-                </li>
-                <li class="flex justify-between">
-                    <span class="font-semibold">Coverage:</span>
-                    <span>{{COVERAGE}}</span>
-                </li>
-                <li class="flex justify-between">
-                    <span class="font-semibold">Insurance:</span>
-                    <span>{{INSURANCE}}</span>
-                </li>
-            </ul>
-        </div>
-
+    <div class="who">
+      <div class="who-photo"><img src="{{HEADSHOT_BASE64}}" alt="Dee Davis"></div>
+      <div class="who-text">
+        <p>{{OVERVIEW_HTML}}</p>
+        <p style="font-size:0.58rem;margin-top:0.15rem;color:{{PRIMARY_COLOR}};font-weight:600;">{{FRAMEWORK_LINE}}</p>
+      </div>
     </div>
 
-    <script>
-        lucide.createIcons();
-    </script>
+    <div class="sh">{{COMPETENCIES_HEADER}}</div>
+    <div class="comp-grid">
+      {{COMPETENCIES_GRID_HTML}}
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="sh">{{PAST_PERFORMANCE_HEADER}}</div>
+        <ul class="wl">
+          {{PAST_PERFORMANCE_HTML}}
+        </ul>
+      </div>
+      <div>
+        <div class="sh-accent">&#9733; DIFFERENTIATORS</div>
+        <ul class="wl">
+          {{DIFFERENTIATORS_HTML}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="cert-strip">
+      {{CERT_BADGES_HTML}}
+      <div class="cert-text">
+        <strong>EDWOSB</strong> | WOSB | WBE | MBE | SBE | E-Verify Participant | SWFT Authorized (DCSA) | TWIC Credentialed (TSA) | MI Personnel Agency License | MI Notary Public
+      </div>
+    </div>
+
+    <div class="partner-row">
+      <span class="plbl">Strategic Alliance Partners:</span>
+      {{PARTNER_LOGOS_HTML}}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="f-left">
+      <strong>Dieasha Davis</strong>, President &amp; CEO<br>
+      (248) 376-4550 | info@deedavis.biz | www.deedavis.biz<br>
+      755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084
+    </div>
+    <div class="f-right">
+      CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1<br>
+      MC: 1647572 | DOT: 4250594 | NPI: 1538939111<br>
+      <strong style="color:{{ACCENT_COLOR}};">Primary:</strong> MI, GA, FL, MD | CONUS/OCONUS<br>
+      <div class="f-naics">NAICS: {{NAICS_CODES}}</div>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

@@ -502,127 +502,240 @@ function QuoteGeneratorContent({ selectedOpportunity }: { selectedOpportunity?: 
 // CAPABILITY STATEMENT CONTENT
 // ============================================================================
 
+const SECTOR_OPTIONS = [
+  { key: 'main', label: 'Main — Contract Management Firm (All Sectors)', color: '#c5963a' },
+  { key: 'drug_testing', label: 'Drug & Alcohol Testing / TPA', color: '#a78bfa' },
+  { key: 'fingerprinting', label: 'Fingerprinting / Background Screening / SWFT', color: '#4ade80' },
+  { key: 'nemt', label: 'NEMT / Medical Transportation', color: '#dc2626' },
+  { key: 'courier', label: 'Courier / Delivery / Logistics', color: '#fb923c' },
+  { key: 'dna_testing', label: 'DNA / Paternity / Genetic Testing', color: '#2dd4bf' },
+  { key: 'janitorial', label: 'Janitorial / Grounds Maintenance / Facilities', color: '#f59e0b' },
+  { key: 'industrial', label: 'Industrial Supplies / Equipment / Parts', color: '#94a3b8' },
+  { key: 'notary', label: 'Notary / Signing Agent / Legal Services', color: '#e879a8' },
+  { key: 'professional', label: 'Professional Services / Consulting / Staffing', color: '#a3a3a3' },
+  { key: 'georgia', label: 'Georgia State Agencies (State Override)', color: '#f87171' },
+];
+
 function CapabilityStatementContent({ selectedOpportunity }: { selectedOpportunity?: any }) {
   const [formData, setFormData] = useState({
-    companyName: 'DEE DAVIS INC',
+    sector: 'main',
+    agencyName: '',
+    solicitationNumber: '',
+    serviceDescription: '',
     naicsCodes: '',
-    coreCompetencies: '',
-    pastPerformance: '',
+    customOverview: '',
   });
+  const [generating, setGenerating] = useState(false);
+  const [generated, setGenerated] = useState<any>(null);
 
-  // Auto-populate NAICS codes and context from selected opportunity
   useEffect(() => {
     if (selectedOpportunity) {
+      const category = (selectedOpportunity.Category || '').toLowerCase();
+      let detectedSector = 'main';
+      if (category.includes('drug') || category.includes('testing') || category.includes('tpa')) detectedSector = 'drug_testing';
+      else if (category.includes('fingerprint') || category.includes('swft') || category.includes('background')) detectedSector = 'fingerprinting';
+      else if (category.includes('nemt') || category.includes('transport') || category.includes('wheelchair')) detectedSector = 'nemt';
+      else if (category.includes('courier') || category.includes('delivery') || category.includes('logistics')) detectedSector = 'courier';
+      else if (category.includes('dna') || category.includes('paternity') || category.includes('genetic')) detectedSector = 'dna_testing';
+      else if (category.includes('janitorial') || category.includes('grounds') || category.includes('landscap')) detectedSector = 'janitorial';
+      else if (category.includes('industrial') || category.includes('supplies') || category.includes('equipment')) detectedSector = 'industrial';
+      else if (category.includes('notary') || category.includes('signing') || category.includes('legal')) detectedSector = 'notary';
+
       setFormData(prev => ({
         ...prev,
+        sector: detectedSector,
+        agencyName: selectedOpportunity['Issuing Organization'] || '',
+        solicitationNumber: selectedOpportunity['RFP NUMBER'] || '',
+        serviceDescription: selectedOpportunity.Name || '',
         naicsCodes: selectedOpportunity['NAICS'] || selectedOpportunity['NAICS Code'] || prev.naicsCodes,
-        coreCompetencies: selectedOpportunity.Category
-          ? `${selectedOpportunity.Category} — tailored for ${selectedOpportunity.Name || 'this opportunity'}`
-          : prev.coreCompetencies,
       }));
     }
   }, [selectedOpportunity]);
 
-  const handleGenerateCapStat = async () => {
+  const selectedColor = SECTOR_OPTIONS.find(s => s.key === formData.sector)?.color || '#c5963a';
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    setGenerated(null);
     try {
       const response = await fetch((process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000') + '/api/capstat/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      
+
       if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        
-        // Open PDF in new tab for preview/review FIRST
-        window.open(url, '_blank');
-        
-        // Also prepare download link (user can save after reviewing)
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `capability_statement_${Date.now()}.pdf`;
-        // Don't auto-click, let user review first
-        
-        // Show success message
-        alert('✅ Capability Statement generated! Review it in the new tab.\n\nYou can save it using your browser\'s download button.');
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('text/html')) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank');
+          setGenerated({ success: true, sector: formData.sector, agency: formData.agencyName });
+        } else {
+          const data = await response.json();
+          if (data.success) {
+            setGenerated(data);
+          } else {
+            alert(data.error || 'Generation failed');
+          }
+        }
+      } else {
+        alert('Error generating capability statement. Check API server.');
       }
     } catch (error) {
       console.error('Error generating capability statement:', error);
       alert('Error generating capability statement. Make sure the API server is running.');
     }
+    setGenerating(false);
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Create Capability Statement</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-white">Generate Capability Statement</h2>
+          <p className="text-sm text-gray-400 mt-1">v3 Engine — Contract Management Firm design with sector-specific colors</p>
+        </div>
         <button
-          onClick={handleGenerateCapStat}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          onClick={handleGenerate}
+          disabled={generating}
+          className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 font-semibold"
         >
           <Award className="w-4 h-4" />
-          <span>Generate PDF</span>
+          <span>{generating ? 'Generating...' : 'Generate Cap Statement'}</span>
         </button>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Company Name
+      {generated && (
+        <div className="bg-green-900/30 border border-green-600 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-green-300">Cap Statement Generated</h3>
+          <p className="text-sm text-green-200 mt-1">
+            Sector: <strong>{SECTOR_OPTIONS.find(s => s.key === generated.sector)?.label}</strong>
+            {generated.agency && <> | Agency: <strong>{generated.agency}</strong></>}
+          </p>
+          <p className="text-xs text-green-400 mt-1">Opened in new tab — Cmd+P to save as PDF</p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-6">
+        <div className="col-span-2">
+          <label className="block text-sm font-semibold text-blue-400 mb-2">
+            Service Sector
           </label>
-          <input
-            type="text"
-            value={formData.companyName}
-            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="DEE DAVIS INC"
-          />
+          <div className="relative">
+            <select
+              value={formData.sector}
+              onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+              className="w-full px-4 py-3 bg-gray-700 border-2 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none font-medium"
+              style={{ borderColor: selectedColor }}
+            >
+              {SECTOR_OPTIONS.map(s => (
+                <option key={s.key} value={s.key}>{s.label}</option>
+              ))}
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full" style={{ backgroundColor: selectedColor }} />
+          </div>
+          <p className="text-xs text-gray-500 mt-1">Colors, competencies, past performance, and differentiators auto-populate per sector</p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            NAICS Codes
-          </label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Agency Name</label>
+          <input
+            type="text"
+            value={formData.agencyName}
+            onChange={(e) => setFormData({ ...formData, agencyName: e.target.value })}
+            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="e.g., US Army Corps of Engineers"
+          />
+          <p className="text-xs text-gray-500 mt-1">Used in gold bar subtitle and tailored intro</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Solicitation Number</label>
+          <input
+            type="text"
+            value={formData.solicitationNumber}
+            onChange={(e) => setFormData({ ...formData, solicitationNumber: e.target.value })}
+            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="e.g., W912DR25QA005"
+          />
+        </div>
+
+        <div className="col-span-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">Service Description (Gold Bar Title Override)</label>
+          <input
+            type="text"
+            value={formData.serviceDescription}
+            onChange={(e) => setFormData({ ...formData, serviceDescription: e.target.value })}
+            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Leave blank to use sector default (e.g., DRUG & ALCOHOL TESTING — THIRD-PARTY ADMINISTRATION)"
+          />
+          <p className="text-xs text-gray-500 mt-1">Override the gold bar title — leave blank for the sector default</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">NAICS Codes (Override)</label>
           <input
             type="text"
             value={formData.naicsCodes}
             onChange={(e) => setFormData({ ...formData, naicsCodes: e.target.value })}
             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="423840, 541614, 238990"
+            placeholder="Leave blank for sector defaults"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Core Competencies
-          </label>
-          <textarea
-            rows={4}
-            value={formData.coreCompetencies}
-            onChange={(e) => setFormData({ ...formData, coreCompetencies: e.target.value })}
+          <label className="block text-sm font-medium text-gray-300 mb-2">Custom Overview (Override)</label>
+          <input
+            type="text"
+            value={formData.customOverview}
+            onChange={(e) => setFormData({ ...formData, customOverview: e.target.value })}
             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter core competencies, one per line..."
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Past Performance
-          </label>
-          <textarea
-            rows={4}
-            value={formData.pastPerformance}
-            onChange={(e) => setFormData({ ...formData, pastPerformance: e.target.value })}
-            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter past performance examples..."
+            placeholder="Leave blank for sector default intro paragraph"
           />
         </div>
       </div>
 
-      <div className="text-sm text-gray-400">
-        <p>💡 <strong>Tip:</strong> Capability statements showcase your company's qualifications for government contracts.</p>
-        <p className="mt-2">API Endpoint: /api/capstat/generate</p>
+      <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+        <h4 className="text-sm font-semibold text-gray-300 mb-3">What Gets Generated (v3 Structure)</h4>
+        <div className="grid grid-cols-2 gap-3 text-xs text-gray-400">
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Header</strong> — DDI logo, CAGE/UEI/DUNS, SAM Active</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Gold Bar</strong> — Sector title + EDWOSB sole-source line</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Overview</strong> — CO-grade intro with headshot, framework line</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Competencies</strong> — 6-8 sector-specific boxes in grid</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Past Performance</strong> — Verified track record with metrics</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Differentiators</strong> — EDWOSB, facilities, SWFT, compliance</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Certifications</strong> — Badge images + full cert list</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span style={{ color: selectedColor }}>&#9632;</span>
+            <span><strong className="text-white">Partners + Footer</strong> — Alliance logos, contact, NAICS</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-xs text-gray-500">
+        Engine: v3 Contract Management Firm | Template: capability_statement_template.html | API: /api/capstat/generate
       </div>
     </div>
   );
