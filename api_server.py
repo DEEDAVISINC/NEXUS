@@ -129,6 +129,14 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Inspection Engine not loaded: {e}")
 
+# Register PRISM Notifications & Receipt Tracking
+try:
+    from prism_notifications_api import prism_notifications
+    app.register_blueprint(prism_notifications)
+    print("✅ PRISM Notifications & Receipt Tracking registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Notifications not loaded: {e}")
+
 # Register COMPASS — Post-Award Operations
 try:
     from compass_api import compass
@@ -136,6 +144,37 @@ try:
     print("✅ COMPASS Post-Award API registered")
 except ImportError as e:
     print(f"⚠️ COMPASS API not loaded: {e}")
+
+# Register OPPORTUNITY HUNTER — Visual Agency Intelligence
+try:
+    from nexus_opportunity_hunter_api import opportunity_hunter
+    app.register_blueprint(opportunity_hunter)
+    print("✅ Opportunity Hunter API registered")
+except ImportError as e:
+    print(f"⚠️ Opportunity Hunter API not loaded: {e}")
+
+# Register ALEXA SKILL — Voice-controlled NEXUS Access
+try:
+    from nexus_alexa_skill import app as alexa_app
+    # Mount Alexa skill at /alexa endpoint
+    @app.route('/alexa', methods=['POST'])
+    def alexa_webhook():
+        """Proxy requests to Alexa skill handler"""
+        from nexus_alexa_skill import lambda_handler
+        return lambda_handler(request.json, None)
+    
+    @app.route('/alexa/health', methods=['GET'])
+    def alexa_health():
+        """Alexa skill health check"""
+        return jsonify({
+            "status": "healthy",
+            "service": "NEXUS Alexa Skill",
+            "connected_to_nexus": "http://localhost:8000"
+        })
+    
+    print("✅ Alexa Skill endpoint registered at /alexa")
+except ImportError as e:
+    print(f"⚠️ Alexa Skill integration not loaded: {e}")
 
 # Register AUTONOMOUS ENGINE — "AI That Works While You Sleep"
 try:
@@ -9899,6 +9938,118 @@ def manual_create_atlas_project_from_grant(opportunity_id):
 
 
 # =====================================================================
+# 🔬 GBIS COMMUNITY HEALTH & RESEARCH LANE ENDPOINTS
+# =====================================================================
+
+@app.route('/gbis/research-lane/seed-foundations', methods=['POST'])
+def gbis_seed_michigan_foundations():
+    """
+    Seeds GBIS OPPORTUNITIES with Michigan foundation grant sources
+    for the Community Health & Research lane (Cause We Care applicant).
+    Safe to run multiple times — skips existing records.
+    """
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        miner = GBISCommunityHealthMiner()
+        result = miner.seed_michigan_foundations()
+        return jsonify({
+            'success': True,
+            'message': f"Seeded {result['imported']} Michigan foundation grant sources",
+            'imported': result['imported'],
+            'skipped': result['skipped'],
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/research-lane/mine-federal', methods=['POST'])
+def gbis_mine_federal_research_grants():
+    """
+    Mines Grants.gov for community health & research grants.
+    Tags each result with Service Lane, Research Subtype, and Applicant Entity.
+    """
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        miner = GBISCommunityHealthMiner()
+        result = miner.mine_grants_gov_research()
+        return jsonify({
+            'success': True,
+            'message': f"Found {result['found']} grants, imported {result['imported']} to GBIS",
+            **result,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/research-lane/run-all', methods=['POST'])
+def gbis_run_research_lane_pipeline():
+    """
+    Runs the full Community Health & Research grant pipeline:
+    seeds Michigan foundations + mines Grants.gov federal grants.
+    """
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        miner = GBISCommunityHealthMiner()
+        result = miner.run_full_pipeline()
+        total = (result['michigan_foundations']['imported'] +
+                 result['grants_gov']['imported'])
+        return jsonify({
+            'success': True,
+            'message': f"Research Lane pipeline complete — {total} new records in GBIS",
+            'details': result,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/research-lane/opportunities', methods=['GET'])
+def gbis_get_research_lane_opportunities():
+    """
+    Returns all GBIS OPPORTUNITIES tagged as Community Health & Research.
+    Optional query param: ?entity=Cause+We+Care to filter by applicant.
+    """
+    try:
+        from nexus_backend import AirtableClient
+        airtable = AirtableClient()
+        records = airtable.get_all_records('GBIS OPPORTUNITIES')
+
+        entity_filter = request.args.get('entity', '').strip()
+
+        research_opps = [
+            r['fields'] for r in records
+            if r['fields'].get('Service Lane') == 'Community Health & Research'
+            and (not entity_filter or r['fields'].get('Applicant Entity', '') == entity_filter)
+        ]
+
+        # Sort by deadline
+        research_opps.sort(key=lambda x: x.get('Deadline', '9999-12-31'))
+
+        return jsonify({
+            'success': True,
+            'count': len(research_opps),
+            'filter': entity_filter or 'all',
+            'opportunities': research_opps,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/research-lane/setup-checklist', methods=['GET'])
+def gbis_research_lane_setup_checklist():
+    """Returns the Cause We Care registration checklist and Airtable setup instructions."""
+    try:
+        from gbis_community_health_miner import (
+            AIRTABLE_SETUP_INSTRUCTIONS, CWC_REGISTRATION_CHECKLIST
+        )
+        return jsonify({
+            'airtable_setup': AIRTABLE_SETUP_INSTRUCTIONS,
+            'cwc_registration': CWC_REGISTRATION_CHECKLIST,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# =====================================================================
 # 💎 VERTEX FINANCIAL SYSTEM ENDPOINTS
 # =====================================================================
 
@@ -11808,6 +11959,9 @@ def review_opportunity(opportunity_id):
     Accepts either Airtable record IDs (recXXX) or folder slugs (HAMTRAMCK_BOARD_UP).
     If folder slug, auto-resolves to Airtable record ID (creates if needed).
     
+    Also creates a WORKFLOW_STATUS.md file in the bid folder so the folder scanner
+    recognizes the opportunity has been reviewed and moves it out of "Needs Review".
+    
     Body:
         {
             "name": "CPS Energy - Industrial Supplies",
@@ -11833,6 +11987,52 @@ def review_opportunity(opportunity_id):
         
         workflow = WorkflowManager()
         result = workflow.review_opportunity(real_id, name, decision, notes)
+        
+        # Also create WORKFLOW_STATUS.md in the folder (for folder scanner)
+        # Find the folder path from the opportunity_id (which is a folder slug)
+        bids_root = os.path.join(os.path.dirname(__file__), "BIDS:RESOURCES")
+        folder_path = None
+        
+        # opportunity_id might be a slug like "36C25626R0057_DRY_ICE_..." 
+        # Convert slug back to find matching folder
+        slug_lower = opportunity_id.lower().replace("_", " ")
+        for entry in os.scandir(bids_root):
+            if entry.is_dir():
+                if entry.name.lower().replace("_", " ") == slug_lower or \
+                   entry.name.replace(" ", "_").upper() == opportunity_id:
+                    folder_path = entry.path
+                    break
+        
+        if folder_path and os.path.exists(folder_path):
+            status_file = os.path.join(folder_path, "WORKFLOW_STATUS.md")
+            new_status = 'Find Suppliers' if decision == 'pursue' else 'Skipped'
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            status_content = f"""# WORKFLOW STATUS
+
+**Opportunity:** {name}
+**Status:** {new_status}
+**Decision:** {decision.upper()}
+**Reviewed:** {timestamp}
+
+## Notes
+{notes if notes else 'No notes provided.'}
+
+---
+*This file is auto-generated by NEXUS when an opportunity is reviewed.*
+*It marks this folder as active in the workflow pipeline.*
+"""
+            try:
+                with open(status_file, 'w') as f:
+                    f.write(status_content)
+                print(f"[WORKFLOW] Created {status_file}")
+                result['folder_updated'] = True
+            except Exception as write_err:
+                print(f"[WORKFLOW] Could not write status file: {write_err}")
+                result['folder_updated'] = False
+        else:
+            print(f"[WORKFLOW] Could not find folder for {opportunity_id}")
+            result['folder_updated'] = False
         
         return jsonify(result)
     

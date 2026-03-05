@@ -36,7 +36,7 @@
 
 **Volume:** Millions of licensed professionals move states every year. Every single one needs fingerprints.
 
-**Pricing:** $50-$85 per person (FD-258 ink card roll + processing)
+**Pricing:** $50/card, $150 new client (2-card minimum + mobile). Add $50 for SWFT/FBI submission + results = $200 bundled per new client.
 
 ---
 
@@ -77,7 +77,7 @@
 - Every Form 4 = 2 FD-258 cards per person (paper) or 1 EFT file (electronic)
 - Electronic eForms process 3-4x faster than paper — driving demand for EFT
 
-**Pricing:** $50-$75 per EFT file creation, $35-$50 per FD-258 card roll
+**Pricing:** $50/card, $150 new client (2-card minimum + mobile). EFT file creation via Lakota ($85/mo flat). Add $50 for SWFT/FBI submission + results = $200 bundled.
 
 ---
 
@@ -108,7 +108,7 @@
 
 **Volume:** Every new contractor employee at a military installation. Every security clearance investigation.
 
-**Pricing:** $75-$150 per person (EFT + processing), higher for mobile/on-site
+**Pricing:** $150/person (2 FD-258 cards + mobile) + $50 SWFT/FBI submission = $200 bundled. Volume rates: $95/person (16-50/mo), $90/person (51+/mo).
 
 ---
 

@@ -343,11 +343,24 @@ Book online: 3d-ink-livescan.square.site
 
 | Service | Price | Notes |
 |---------|-------|-------|
-| New customer (2-card minimum) | $150 | Includes 2 cards + travel fee |
+| New customer (2-card minimum) | $150 | Includes 2 cards + mobile service |
 | Per card rate | $50 | Standard per-card |
 | Volume: 16–50 cards/month | $45/card | Travel included |
 | Volume: 51+ cards/month | $40/card | Travel included statewide |
 | Prints stored on file | 1 year | Reorders don't require reprinting |
+
+### SWFT Electronic Submission + FBI Background Check (Add-On)
+
+| Service | Price | Notes |
+|---------|-------|-------|
+| SWFT/FBI electronic submission + results | +$50/person | Add to any fingerprinting service |
+| **New client bundled (2 cards + SWFT/FBI)** | **$200** | 2 FD-258 cards + electronic submission + results delivered |
+| **Volume bundled (16-50/mo, per person)** | **$95** | Per card ($45) + SWFT submission ($50) |
+| **Volume bundled (51+/mo, per person)** | **$90** | Per card ($40) + SWFT submission ($50) |
+
+*EFT file creation via Lakota partnership. $85/month flat fee (DDI fixed cost). PrintScan eliminated.*
+*DDI captures prints → creates EFT file in-house → submits electronically to FBI/DCSA → delivers results to client.*
+*Client never touches the FBI process. One vendor. One visit. One invoice.*
 
 ### Travel Zones
 

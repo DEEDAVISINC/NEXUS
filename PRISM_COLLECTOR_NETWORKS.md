@@ -207,12 +207,14 @@ Every state Secretary of State maintains a notary commission database. Use these
 - Septic system installers
 - Private homeowners (where permitted)
 
-### Pricing Model (from NPR Guide)
-- **Single permit:** $75
-- **Multiple permits (up to 4):** $75 first + $25 each additional = $175 for 4
-- **5+ permits:** $75 first + $20 each additional = $155 for 5
+### Pricing Model (Updated Feb 2026 — Market-Adjusted)
+- **Single permit:** $125
+- **Multiple permits (up to 4):** $125 first + $50 each additional
+- **5+ permits:** Volume pricing available
 - **Plan-review permits (2 trips):** Premium pricing
-- **Travel:** $50/hour travel time + $25 gas
+- **Travel:** Included within service area, surcharge beyond
+- **Notarization of permit forms:** Additional fee on top of permit run (most forms require notarization before submission — this is the double-dip)
+- *Previous pricing ($75/run) was below market. Full-service permit expediters charge $200-$400+ for residential, $800-$5,000+ commercial. Contractors save $240-$360 in billable time per trip they don't make.*
 - **Target:** $30-$100+/hour depending on grouping
 - **Document recording:** $50 per document
 

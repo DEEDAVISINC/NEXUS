@@ -21,7 +21,7 @@ CERTIFICATIONS AND FEDERAL CREDENTIALS:
 
 Dee Davis Inc. holds the following certifications: EDWOSB (Economically Disadvantaged Woman-Owned Small Business — federal certification), WOSB (Woman-Owned Small Business), WBE (Woman Business Enterprise), MBE (Minority Business Enterprise — NMSDC certified), SBE (Small Business Enterprise), E-Verify Certified, SWFT Certified (Secure Workforce Training and Compliance), and CMMC-AB (Cybersecurity Maturity Model Certification). DDI is also an official MDHHS Community Partner — listed on the Michigan Department of Health and Human Services website as a recognized community partner organization.
 
-Federal credentials: CAGE Code 8UMX3. UEI HJB4KNYJVGZ1. DUNS 002636755. SAM.gov Status: Active. EIN: 84-4114181. NPI: 153893911 (Healthcare Provider). MC Number: 1647572 (Freight Broker Authority). US DOT: 4250594. NMLS Licensed #2099291. Michigan Staffing License #6106004743. Active Medicaid Provider in Michigan and Maryland.
+Federal credentials: CAGE Code 8UMX3. UEI HJB4KNYJVGZ1. DUNS 002636755. SAM.gov Status: Active. EIN: 84-4114181. NPI: 1538939111 (Healthcare Provider). MC Number: 1647572 (Freight Broker Authority). US DOT: 4250594. NMLS Licensed #2099291. Michigan Staffing License #6106004743. Active Medicaid Provider in Michigan and Maryland.
 
 Entity type: C Corporation. DDI also operates under the following names: DBA "The Professionals' Professionals", Freight 1st Direct (freight brokerage), FleetFlow TMS LLC (logistics technology subsidiary), and 3D Ink and Livescan Co (fingerprinting and compliance services division).
 
@@ -77,7 +77,7 @@ Surety Bond Solutions: Federal contract bonds, license and permit bonds, commerc
 
 SERVICE LINE 4 — HEALTHCARE TRANSPORTATION (NEMT):
 
-NPI 153893911. Active Medicaid provider in Michigan and Maryland. NALI partnership for HIPAA and compliance certification. We provide end-to-end Non-Emergency Medical Transportation program development, management, and consulting. Services include: Medicaid/Medicare program design, provider network development, trip coordination and dispatch, eligibility verification, prior authorization management, real-time trip tracking, multi-modal transportation, member services with language services and accessibility accommodations, compliance and auditing with HIPAA compliance and fraud prevention, analytics and reporting with utilization analysis and cost per trip metrics. ATLAS PM powers our NEMT operations.
+NPI 1538939111. Active Medicaid provider in Michigan and Maryland. NALI partnership for HIPAA and compliance certification. We provide end-to-end Non-Emergency Medical Transportation program development, management, and consulting. Services include: Medicaid/Medicare program design, provider network development, trip coordination and dispatch, eligibility verification, prior authorization management, real-time trip tracking, multi-modal transportation, member services with language services and accessibility accommodations, compliance and auditing with HIPAA compliance and fraud prevention, analytics and reporting with utilization analysis and cost per trip metrics. ATLAS PM powers our NEMT operations.
 
 SERVICE LINE 5 — LOGISTICS AND FLEET OPTIMIZATION:
 

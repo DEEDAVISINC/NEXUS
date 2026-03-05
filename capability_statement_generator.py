@@ -27,11 +27,11 @@ SECTOR_COLORS = {
         "comp_columns": 4,
     },
     "fingerprinting": {
-        "primary": "#1a2e1a",
-        "secondary": "#2d5016",
-        "accent": "#4ade80",
-        "accent_dark": "#166534",
-        "gold_bar_text": "#fff",
+        "primary": "#0f2b1a",
+        "secondary": "#1a5632",
+        "accent": "#c5963a",
+        "accent_dark": "#b8860b",
+        "gold_bar_text": "#0f2b1a",
         "comp_columns": 4,
     },
     "nemt": {

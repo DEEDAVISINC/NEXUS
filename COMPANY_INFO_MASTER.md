@@ -46,11 +46,30 @@ Troy, Michigan 48084
 - E-Verify Certified (Employment Eligibility Verification)
 - SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
 
+**⚠️ FINGERPRINTING SCOPE — CRITICAL DISTINCTION:**
+DDI's fingerprinting business is FEDERAL, not state. State-level fingerprinting in Michigan (schools, state licensing, etc.) goes through **IdentoGO (IDEMIA)** — DDI does NOT compete with IdentoGO.
+
+DDI's fingerprinting services are:
+1. **Federal SWFT** — Electronic fingerprint submission to DCSA/FBI for military installations, federal agencies, security clearance processing
+2. **ATF EFT Creation** — Electronic Fingerprint Transmission for FFL dealers, NFA applications, ATF compliance
+3. **Cross-State Licensing** — State license holders who need fingerprinting for licensing OUTSIDE their home state (states that don't use IdentoGO)
+
+DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), school employee background check fingerprinting, or state licensing board fingerprinting within Michigan.
+
 **State Partnerships:**
 - MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
 
 **Technical:**
 - CMMC-AB (Cybersecurity Maturity Model Certification)
+
+**Notary & Document Services:**
+- CNTDA (Certified Notary & Trained Document Agent — estate planning, trust signings, legal document delivery)
+- NPR (Notary Permit Runner — building permit expediting for contractors)
+  - Issued by: CYNA / Cynanotary
+  - Certified: June 25, 2021
+  - Certificate No: cert_pgd973mp
+  - Certificate file: `DEE DAVIS INC 2/certificate-of-completion-for-notary-permit-runner-npr.pdf`
+- Michigan Commissioned Notary Public — Active Since April 2005 (20+ years)
 
 **Security:**
 - TWIC-Certified Personnel (Transportation Worker Identification Credential — secure facility access)
@@ -72,6 +91,45 @@ Troy, Michigan 48084
 
 ---
 
+## 🤲 AFFILIATED NONPROFIT: CAUSE WE CARE
+
+**Legal Name:** Cause We Care  
+**Type:** 501(c)(3) Nonprofit Organization  
+**EIN:** 92-3602670  
+**Founder/Executive Director:** Dee Davis  
+**Board Director (Veteran):** Gary C. Felton Jr. — U.S. Army Veteran  
+**Focus Areas:** Community health, social services, veteran support, underserved populations  
+
+**Active Programs:**
+- MIBridges benefits navigation (MDHHS Community Partner)
+- Community health outreach and lead-based paint awareness (Wayne Metro liaison)
+- Hair Cuts for Vets (Gary C. Felton Jr. program — veteran community engagement)
+- Veteran employment and hiring initiative
+- Homelessness systems and coordinated entry services
+
+**Strategic Role in DDI Ecosystem:**
+- Cause We Care serves as DDI's community-based organization (CBO) teaming partner
+  for government research contracts and community health proposals
+- Eligible to apply for foundation grants, federal grants (via Grants.gov), and MDHHS subgrants
+- Gary Felton's veteran leadership opens veteran-focused grant funding and HIRE Vets recognition
+
+**Federal Credentials:**
+- **UEI:** VEJMFMVV6PQ1
+- **EIN:** 92-3602670
+
+**Registration Status:**
+- [ ] SAM.gov — UEI exists (VEJMFMVV6PQ1) but EXPIRED — **RENEW NOW at sam.gov** (1–3 days)
+- [ ] Grants.gov applicant account — PENDING (activate after SAM renewal)
+- [ ] Community Foundation for SE Michigan portal — PENDING
+- [ ] Michigan Health Endowment Fund portal — PENDING
+- [ ] GiveButter "Haircuts for Heroes" — Active campaign, needs promotion push
+- [ ] Website cwecare.org — Currently 404, needs restoration or redirect
+
+**Source of Truth:** This section is the master reference for all Cause We Care grant
+applications, teaming agreements, and NEXUS GBIS pipeline records.
+
+---
+
 ## 📋 VENDOR PORTAL REGISTRATIONS
 
 - **SAM.gov** — Active
@@ -80,6 +138,7 @@ Troy, Michigan 48084
 - **BidNet Direct / MITN** — Registered (100+ Michigan municipal agencies)
 - **Oakland County Supplier Diversity Program** — Registered
 - **Sourcewell** — Active (cooperative purchasing — vehicle and equipment contracts)
+- **Kentucky VSS** — Registered (vss.ky.gov) — Vendor # KS0026951
 
 ---
 
@@ -92,7 +151,7 @@ Troy, Michigan 48084
 ## 📋 INDUSTRY LICENSES
 
 **Healthcare:**
-- NPI: 153893911 (Healthcare Provider)
+- NPI: 1538939111 (Healthcare Provider)
 - Active Medicaid Provider (Michigan, Maryland)
 
 **Transportation/Logistics:**
@@ -149,14 +208,223 @@ Dee Davis Inc. wins contracts, sources qualified subcontractors and suppliers to
 **Why DDI Can Compete in Any Category:**
 DDI is not limited by trade or commodity. We are paper pushers — service management, administration, and coordination is our core competency. If there's a contract, we can win it, source the right people or products, and manage the delivery. This is why DDI operates across janitorial, landscaping, medical supplies, industrial equipment, construction trades, transportation, and every other sector.
 
-**Elevator Pitch:**
-"Dee Davis Inc. is a certified EDWOSB contract management firm. We win government and commercial contracts across every sector, source qualified fulfillment partners, and manage the entire project — compliance, invoicing, quality assurance, and delivery. Our clients get one accountable point of contact backed by a vetted network of subcontractors and suppliers. We don't do the work — we make sure the work gets done right."
+**Elevator Pitch (Updated Feb 2026):**
+"As someone who's not a people person at all, I built DEE DAVIS INC to prove that exceptional service doesn't require constant hand-holding—it requires exceptional systems. Basically, I figured out how to clone myself through technology instead of hiring people I'd have to manage.
+
+We're a certified EDWOSB contract management firm under CAGE Code 8UMX3. We win government and commercial contracts across every sector, source qualified partners to execute the work, and manage the entire delivery—compliance, invoicing, quality assurance, everything. We don't do the work. We make sure the work gets done right.
+
+That model powers everything we touch—emergency logistics through DEPOINTE, drug testing and mobile compliance through 3D Ink & Livescan, freight brokerage through Freight 1st Direct, and certified notary services through CNTDA. Same philosophy, different battlefield.
+
+But here's what actually matters: every operation runs on proprietary AI platforms like ATLAS PM, FleetFlow™, and NEXUS Command Center that replicate my decision-making across hundreds of operations simultaneously. That's not just automation—that's business continuity. If a subcontractor falls through, the system reroutes. If a compliance deadline shifts, the system adapts. If I'm asleep at 2 AM and a client needs emergency logistics, the system responds. Nothing stops because one person is unavailable.
+
+So while other contractors are drowning in manual processes and hoping their teams 'get it,' my clones are handling 24/7 emergency response, regulatory compliance tracking, crisis management, and white-glove client services—without me ever being on a call.
+
+The result? No waiting for callbacks. No wondering if someone dropped the ball. No 'managing the manager.' Just flawless execution delivered through technology-first operations that scale without the chaos.
+
+We're 'The Professionals' Professionals' because we engineer solutions while others are still managing problems. Zero drama—and honestly? My clones work harder than I ever could."
 
 **Short Version (for emails/intros):**
 "Dee Davis Inc. is a certified EDWOSB contract management firm based in Troy, Michigan. We win contracts, source qualified partners, and manage project delivery across every sector."
 
 **Business Description (~1,000 characters — for SAM.gov, vendor registrations, portals):**
 Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB contract management firm headquartered in Troy, Michigan. We win government and commercial contracts across every sector — from facility services and construction trades to transportation, professional services, and product supply. Our model is simple: we secure the contract, source qualified subcontractors and suppliers to perform the work, and manage every aspect of project delivery including compliance, invoicing, quality assurance, and coordination. Clients get one accountable point of contact backed by a vetted network of fulfillment partners. Certified EDWOSB, WOSB, WBE, MBE, and SBE with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, and SWFT registered. Our operations are powered by proprietary technology platforms — ATLAS PM for project orchestration and FleetFlow™ for logistics intelligence. We hold DOT and MC authority for transportation services and maintain active healthcare provider credentials. Dee Davis Inc. doesn't do the work — we make sure the work gets done right.
+
+---
+
+## 🔢 NAICS CODES — COMPLETE MASTER LIST (SAM.gov Source of Truth)
+
+**Last Updated:** March 2, 2026 — Full sweep of all NEXUS files
+**Instructions:** Log into sam.gov → Dee Davis Inc. → Edit Registration → NAICS Codes
+**Codes marked ✅ VERIFY** = should already be there, confirm they are
+**Codes marked ⚠️ ADD** = not yet in SAM, must be added now
+
+---
+
+### GROUP 1 — HEALTHCARE, TESTING & COMPLIANCE
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 621511 | Medical Laboratories | Drug testing, DNA, lead testing | ✅ VERIFY |
+| 621999 | All Other Ambulatory Health Care Services | Mobile testing, lead testing, NEMT | ✅ VERIFY |
+| 621910 | Ambulance Services | NEMT program development | ✅ VERIFY |
+| 541620 | Environmental Consulting Services | Lead testing, environmental programs | ✅ VERIFY |
+| 541380 | Testing Laboratories and Services | Drug/lab testing coordination | ✅ VERIFY |
+
+---
+
+### GROUP 2 — FINGERPRINTING, BACKGROUND CHECKS & SECURITY
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 561611 | Investigation, Guard & Armored Car Services | Fingerprinting, background checks, SWFT | ✅ VERIFY |
+| 561612 | Security Guards and Patrol Services | Security services, background checks | ✅ VERIFY |
+
+---
+
+### GROUP 3 — PROFESSIONAL & LEGAL SERVICES
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 541199 | All Other Legal Services | Notary, RON, document prep | ✅ VERIFY |
+| 541990 | All Other Professional, Scientific & Technical | Drug testing, fingerprinting, notary overflow | ✅ VERIFY |
+| 561110 | Office Administrative Services | Document preparation, permit running | ✅ VERIFY |
+| 561492 | Court Reporting and Stenotype Services | Court-related document services | ✅ VERIFY |
+| 541930 | Translation and Interpretation Services | Translation services lane | ✅ VERIFY |
+
+---
+
+### GROUP 4 — MANAGEMENT CONSULTING & ADVISORY
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 541611 | Administrative Management Consulting | Contract management, NEMT, project executive | ✅ VERIFY |
+| 541614 | Process, Physical Distribution & Logistics Consulting | Transportation optimization, freight | ✅ VERIFY |
+| 541618 | Other Management Consulting Services | Business continuity, crisis coordination | ✅ VERIFY |
+| 541690 | Other Scientific & Technical Consulting | Federal advisory, HHS consulting, program support | ✅ VERIFY |
+| 541612 | Human Resources Consulting Services | Staffing advisory, workforce consulting | ⚠️ ADD |
+
+---
+
+### GROUP 5 — STAFFING & WORKFORCE
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 561320 | Temporary Help Services | Staffing solutions (Employment Crew) | ✅ VERIFY |
+| 561311 | Employment Placement Agencies | Staffing solutions, direct placement | ✅ VERIFY |
+
+---
+
+### GROUP 6 — IT & TECHNOLOGY SERVICES
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 541512 | Computer Systems Design Services | IT services contracts | ✅ VERIFY |
+| 541519 | Other Computer Related Services | IT support, tech services | ✅ VERIFY |
+| 541511 | Custom Computer Programming Services | Software/systems development | ⚠️ ADD |
+| 518210 | Computing Infrastructure Providers, Data Processing | Records management, data services | ⚠️ ADD |
+
+---
+
+### GROUP 7 — TRANSPORTATION, COURIER & LOGISTICS
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 485991 | Special Needs Transportation | NEMT (wheelchair van, paratransit) | ✅ VERIFY |
+| 485999 | All Other Transit & Ground Passenger Transportation | NEMT overflow | ✅ VERIFY |
+| 492110 | Couriers and Express Delivery Services | Medical courier, specimen transport | ✅ VERIFY |
+| 492210 | Local Messengers and Delivery | Local courier, permit running | ✅ VERIFY |
+| 488510 | Freight Transportation Arrangement | Freight 1st Direct brokerage | ✅ VERIFY |
+| 484210 | Used Household and Office Goods Moving | Moving & relocation contracts | ✅ VERIFY |
+
+---
+
+### GROUP 8 — FACILITIES, CONSTRUCTION & GROUNDS
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 561720 | Janitorial Services | Janitorial & custodial contracts | ✅ VERIFY |
+| 561730 | Landscaping Services | Grounds maintenance contracts | ✅ VERIFY |
+| 561210 | Facilities Support Services | Facility maintenance & repair | ✅ VERIFY |
+| 561790 | Other Services to Buildings & Dwellings | Pressure washing, exterior services | ✅ VERIFY |
+| 561990 | All Other Support Services | General facility support overflow | ⚠️ ADD |
+| 236220 | Commercial & Institutional Building Construction | Construction contracts | ✅ VERIFY |
+| 238990 | All Other Specialty Trade Contractors | Construction renovation | ✅ VERIFY |
+| 238160 | Roofing Contractors | Roofing contracts | ⚠️ ADD |
+| 238330 | Flooring Contractors | Flooring contracts | ⚠️ ADD |
+
+---
+
+### GROUP 9 — EVENTS & SECURITY
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 561920 | Convention and Trade Show Organizers | Event services contracts | ✅ VERIFY |
+| 561621 | Security Systems Services | Security systems installation | ⚠️ ADD |
+
+---
+
+### GROUP 10 — FINANCIAL & INSURANCE SERVICES
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 524126 | Direct Property & Casualty Insurance Carriers | Surety bonds | ✅ VERIFY |
+| 524210 | Insurance Agencies and Brokerages | Surety bonds, bond placement | ✅ VERIFY |
+
+---
+
+### GROUP 11 — MEDICAL & INDUSTRIAL PRODUCTS (RESALE/VAR)
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 423450 | Medical & Hospital Equipment Merchant Wholesalers | Medical supplies resale | ✅ VERIFY |
+| 339113 | Surgical Appliance & Supplies Manufacturing | Surgical supplies (DLA, VA) | ✅ VERIFY |
+| 339112 | Surgical & Medical Instrument Manufacturing | Medical instruments resale | ✅ VERIFY |
+| 424210 | Drugs & Druggists' Sundries Merchant Wholesalers | Pharmaceutical supplies | ⚠️ ADD |
+| 423850 | Industrial Supplies Merchant Wholesalers | Industrial supplies (CPS Energy, RCOC) | ✅ VERIFY |
+| 423840 | Industrial Machinery & Equipment Merchant Wholesalers | Industrial equipment resale | ✅ VERIFY |
+| 424120 | Stationery & Office Supplies Merchant Wholesalers | Office supplies contracts | ✅ VERIFY |
+| 424490 | Other Grocery & Related Products | Food/beverage supplies | ✅ VERIFY |
+
+---
+
+### GROUP 12 — EMERGENCY, DISASTER & ENVIRONMENTAL
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 562910 | Remediation Services | Environmental remediation contracts | ✅ VERIFY |
+| 562119 | Other Waste Collection | Waste/debris contracts | ✅ VERIFY |
+| 562112 | Hazardous Waste Collection | Medical/hazardous waste | ✅ VERIFY |
+
+---
+
+### GROUP 13 — DOCUMENT & RECORDS MANAGEMENT
+
+| NAICS | Description | DDI Service | Action |
+|-------|-------------|-------------|--------|
+| 561410 | Document Preparation Services | Document prep, records | ✅ VERIFY |
+
+---
+
+### ⚠️ GROUP 14 — MARKET RESEARCH & COMMUNITY HEALTH (NEW LANE)
+
+**ADD ALL OF THESE before submitting OASIS+ application.**
+
+| NAICS | Description | DDI Service / Lane | Action |
+|-------|-------------|-------------------|--------|
+| **541910** | Market Research and Public Opinion Polling | Market research, survey admin, SB/diversity research | ⚠️ ADD NOW |
+| **541720** | R&D in the Social Sciences and Humanities | Community health needs assessment, program evaluation, SDOH | ⚠️ ADD NOW |
+| **624190** | Other Individual and Family Services | MIBridges benefits navigation, social services coordination | ⚠️ ADD NOW |
+| **624230** | Emergency and Other Relief Services | Crisis social services, emergency community support | ⚠️ ADD NOW |
+| **624221** | Temporary Shelters | Homeless services, housing support programs | ⚠️ ADD NOW |
+
+---
+
+### OASIS+ WOSB — PRIMARY NAICS PER DOMAIN
+
+| Domain | Primary NAICS | Description |
+|--------|--------------|-------------|
+| **Social Services** | 624190 | Other Individual and Family Services |
+| **Management and Advisory** | 541611 | Administrative Management Consulting |
+| **Research and Development** | 541720 | R&D in the Social Sciences |
+
+---
+
+### HOW TO UPDATE SAM.GOV RIGHT NOW
+
+```
+1. Go to sam.gov → Sign In
+2. Entity Registrations → Dee Davis Inc. → Edit Registration
+3. Navigate to "NAICS Codes" section
+4. VERIFY all codes marked ✅ VERIFY are present
+5. ADD every code marked ⚠️ ADD (especially Group 14)
+6. Save and submit
+7. Wait 24–48 hours for propagation
+8. Then go to oasis.app.cloud.gov and begin OASIS+ submission
+```
+
+**Total codes in this master list: 57**
+**Codes to verify already in SAM: 47**
+**Codes to add now: 10 (5 critical for market research lane)**
 
 ---
 

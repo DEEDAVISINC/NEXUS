@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -21,6 +21,8 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'compass': return '🧭 COMPASS v1.0 - Post-Award Operations';
       case 'prism': return '🔮 PRISM v1.0 - Field Service Command Center';
       case 'agent-portal': return '🔮 PRISM Agent Portal';
+      case 'opportunity-hunter': return '🌟 NOVA v1.0 - New Opportunity Vetting & Acquisition';
+      case 'alexa': return '🎙️ ALEXA NEXUS - Voice Command Center';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
@@ -38,6 +40,8 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'compass': return 'Contract Fulfillment • Delivery Tracking • Payments • Compliance';
       case 'prism': return 'Dispatch • Orders • Scanbacks • Inspection • Field Agents • See Every Detail';
       case 'agent-portal': return 'My Orders • Scanbacks • Payments • Profile • Dee Davis Inc. Field Agent Network';
+      case 'opportunity-hunter': return 'Live Federal Search • Quick Wins • Agency Intelligence • 3 Opportunities/Day Target';
+      case 'alexa': return '98 Voice Commands • NEXUS Integration • Test Lab • All Systems Connected';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

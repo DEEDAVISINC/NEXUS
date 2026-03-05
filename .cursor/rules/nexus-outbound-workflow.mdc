@@ -428,6 +428,18 @@ ACTION: Convert cap statement to PDF → Attach → Copy email → Send to [CO e
 - `human-touch-correspondence.mdc` — Buyer vs. supplier tone
 - `dee-working-style.mdc` — Direct, honest, action-oriented
 
+## BUSINESS MODEL RULE
+
+**DDI is a Contract Management Firm (Prime/Sub model). This applies to EVERY document generated.**
+
+- DDI primes all contracts — subs/partners execute the work
+- All prices are DDI agency rates (what the client pays DDI)
+- Never expose sub costs, worker pay, or platform fees in client-facing docs
+- DDI's value = opportunity identification + bid prep + contract management + compliance + QA + billing
+- Reference `DDI_BUSINESS_MODEL.md` for margin targets and SBA subcontracting limits
+- Reference `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` for current agency rates
+- Reference `ddi-business-model.mdc` for the full pricing and model rule
+
 ## CODE THIS WORKFLOW USES
 
 - `proposalbio_module.py` — ProposalBioAnalyzer class, 10 biohack scoring engine

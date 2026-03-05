@@ -97,6 +97,18 @@ def upload_compliance_document():
                     'UPLOADED_BY': 'Portal Upload',
                 })
                 
+                try:
+                    from prism_notifications_api import create_notification
+                    create_notification(
+                        'compliance_uploaded',
+                        f"{document_type} uploaded for {person_type} (record {compliance_id})",
+                        agent_id=request.form.get('agent_id', ''),
+                        agent_name=request.form.get('agent_name', ''),
+                        metadata={'document_type': document_type, 'person_type': person_type},
+                    )
+                except Exception:
+                    pass
+
                 return jsonify({
                     'success': True,
                     'message': f'{document_type} uploaded successfully. Status changed to Submitted.',
@@ -117,6 +129,18 @@ def upload_compliance_document():
             filepath = os.path.join(upload_dir, safe_name)
             file.save(filepath)
             
+            try:
+                from prism_notifications_api import create_notification
+                create_notification(
+                    'compliance_uploaded',
+                    f"{document_type} uploaded (saved locally)",
+                    agent_id=request.form.get('agent_id', ''),
+                    agent_name=request.form.get('agent_name', ''),
+                    metadata={'document_type': document_type, 'person_type': person_type},
+                )
+            except Exception:
+                pass
+
             return jsonify({
                 'success': True,
                 'message': f'{document_type} uploaded successfully (saved locally — Airtable not connected).',
@@ -195,6 +219,19 @@ def upload_scanback():
                 'order_id': order_id,
                 'file_count': len(uploaded),
             })
+        except Exception:
+            pass
+
+        try:
+            from prism_notifications_api import create_notification
+            create_notification(
+                'scanback_uploaded',
+                f"{len(uploaded)} scanback file(s) uploaded for {order_id} — QC review needed",
+                order_id=order_id,
+                agent_id=request.form.get('agent_id', ''),
+                agent_name=request.form.get('agent_name', ''),
+                metadata={'file_count': len(uploaded)},
+            )
         except Exception:
             pass
 
@@ -979,6 +1016,25 @@ def qc_review_scanback():
                 compass_logged = True
         except Exception as cpe:
             print(f"PRISM → COMPASS deliverable: {cpe}")
+
+    try:
+        from prism_notifications_api import create_notification
+        if result == 'clean':
+            create_notification(
+                'qc_clean',
+                f"Order {order_id} passed QC — verified clean. Payment processing.",
+                order_id=order_id,
+                metadata={'reviewer': reviewer},
+            )
+        else:
+            create_notification(
+                'qc_errors',
+                f"Order {order_id} has {len(errors)} error(s) — corrections needed.",
+                order_id=order_id,
+                metadata={'reviewer': reviewer, 'error_count': len(errors)},
+            )
+    except Exception:
+        pass
 
     return jsonify({
         'success': True,

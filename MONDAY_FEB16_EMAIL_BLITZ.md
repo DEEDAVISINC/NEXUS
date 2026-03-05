@@ -1720,7 +1720,7 @@ EDWOSB | WOSB | SWFT Authorized
 - [ ] Register on Georgia Procurement Registry (ssl.doas.state.ga.us/gpr)
 - [ ] Register on NY State Contract Reporter (NYSCR) for NEMT + fingerprinting alerts
 - [ ] Register on DC vendor portal (ocp.dc.gov) if not already
-- [ ] Sign up as ModivCare transportation provider (modivcare.com)
+- [x] Sign up as ModivCare transportation provider (modivcare.com) — SUBMITTED Feb 25, 2026
 - [ ] Sign up with MTM Health (mtm-inc.net/transportation-providers)
 - [ ] Complete eMMA registration if not finished (emma.maryland.gov)
 - [ ] Set SAM.gov alert for "NIAID courier" keyword

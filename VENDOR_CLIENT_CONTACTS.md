@@ -1,12 +1,83 @@
 # VENDOR, SUPPLIER & BUYER CONTACTS
 
 **DEE DAVIS INC Complete Contact Database**  
-**Last Updated:** February 9, 2026  
-**Recent:** MI Cape Supply added — Topsoil quote $23.50/CY received, grass seed quote pending
+**Last Updated:** February 27, 2026  
+**Recent:** NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
 
 ---
 
 ## 🏛️ GOVERNMENT BUYERS & PROCUREMENT OFFICERS
+
+### **DC VA MEDICAL CENTER** ⭐ ACTIVE
+
+**Dan Feng Lu - Contracting Officer**  
+- **Email:** danfeng.lu@va.gov  
+- **Organization:** DC VA Medical Center — Network Contract Office 5 (36C245)  
+- **Type:** Federal — Department of Veterans Affairs  
+- **Location:** 50 Irving Street NW, Washington, DC 20422  
+- **Solicitation:** 36C24526Q0301 — Non-Emergent Wheelchair Van Transportation Services  
+- **Contract Type:** 5-Year Multiple Award IDIQ (FFP)  
+- **NAICS:** 485991 | **PSC:** V129  
+- **Previous Award:** ~$2.4M  
+- **Notes:** Sources Sought response + capability statement + email sent Feb 20, 2026. DDI model: prime + DC-area WMATC-licensed WAV sub. Due March 6, 2026.  
+- **Status:** Initial outreach sent Feb 20, 2026
+
+---
+
+### **KENTUCKY DEPT OF VETERANS AFFAIRS / THOMSON-HOOD VETERANS CENTER** ⭐ ACTIVE
+
+**Cindy Walker — Contracting Officer / Purchasing**  
+- **Email:** Cindy.walker@ky.gov  
+- **Phone:** 859-858-1374  
+- **Organization:** Thomson-Hood Veterans Center (THVC), Kentucky Department of Veterans Affairs  
+- **Type:** State — Commonwealth of Kentucky  
+- **Location:** 100 Veterans Drive, Wilmore, KY 40390 (Jessamine County)  
+- **Solicitation:** RFP 074 2600000270 — Random and New Employee Drug Testing & DOT Testing  
+- **Contract Type:** Personal Service Contract (2 years + two 2-year renewals)  
+- **NAICS:** 621511 | **Commodity:** 95207  
+- **DDI Vendor #:** KS0026951 (Kentucky VSS)  
+- **Due Date:** April 1, 2026, 3:00 PM EST — HARD COPY ONLY  
+- **Status:** RFP received Feb 25, 2026. Bid folder created. Written questions emailed to CO Feb 25. eScreen cert request emailed to Abbott Feb 25. Awaiting responses. Proposal due Apr 1.  
+
+---
+
+### **AIR FORCE DISTRICT OF WASHINGTON (AFDW)** ⭐ ACTIVE
+
+**Sonya R. Rayford Cage - Contracting Officer**  
+- **Full Name:** Sonya R. Rayford Cage  
+- **Email:** sonya.rayford_cage.5@us.af.mil  
+- **Phone:** MS Teams (no direct phone listed)  
+- **Organization:** HQ AFDW/PKF, HQ U.S. Space Force Division, Joint Base Andrews, MD  
+- **Type:** Federal — Department of the Air Force / U.S. Space Force  
+- **Solicitation:** FA701426RAFDW — USSF Civilian Drug Testing Services  
+- **Contract Type:** FFP, Base + 4 Option Years  
+- **Status:** RESPONDED — Sources Sought response sent Feb 24, 2026 via bid.deedavisinc@gmail.com. Sonya confirmed receipt Feb 25, 2026. DDI is on record as interested vendor. Monitor for full RFP release.  
+- **NAICS:** 621511 | **PSC:** Q301  
+- **Volume:** ~1,500 pre-employment collections/year, nationwide  
+- **Notes:** Sources Sought response + capability statement + email sent Feb 20, 2026. DDI model: eScreen/Quest network for specimen collection + MRO. Monitor for full RFP release.  
+- **Status:** Initial outreach sent Feb 20, 2026
+
+---
+
+### **NY DCJS — CIVIL FINGERPRINT CAPTURE** ⭐ ACTIVE INQUIRY
+
+**Tiffanie Hinds - Procurement Unit**  
+- **Email:** DCJSProcurement@DCJS.ny.gov  
+- **Organization:** NY State Division of Criminal Justice Services — Office of Financial Services  
+- **Address:** Alfred E. Smith Office Building, 80 South Swan St., 10th Floor Finance Office, Albany, NY 12210  
+- **Type:** State — New York  
+- **Services:** Civil fingerprint capture services (future procurements)  
+- **Notes:** EDWOSB inquiry sent. Response received: No current fingerprinting procurements. DDI added to notification list for future RFPs. Check DCJS website + NYS Contract Reporter periodically.  
+- **Status:** On notification list for future fingerprinting solicitations (Feb 2026)
+
+**Natalie Fluegge — State Identification Bureau (SIB)**  
+- **Email:** Natalie.Fluegge@dcjs.ny.gov  
+- **Organization:** NY DCJS — State Identification Bureau (SIB)  
+- **Role:** Fingerprinting program / civil fingerprint capture operations  
+- **Notes:** CC'd on Tiffanie's response. Deferred to her for: (1) subcontracting opportunities with current civil fingerprint vendor, (2) supplemental/mobile fingerprinting providers for overflow capacity. Follow up for these questions.  
+- **Status:** Contact info obtained — follow up re: subcontracting + supplemental/mobile providers
+
+---
 
 ### **DETROIT WAYNE INTEGRATED HEALTH NETWORK (DWIHN)** ⭐ NEW CONTACT
 
@@ -260,6 +331,180 @@
 
 **Clarice Vanbrakle** - DPR Music in the Park  
 - Email: clarice.vanbrakle2@dc.gov | Due: 2/11/2026
+
+---
+
+### **GEORGIA DOAS / GEORGIA DOT** ⭐ ACTIVE
+
+**Tameka Crowder - Procurement Contact**  
+- **Email:** tcrowder1@dot.ga.gov  
+- **Organization:** Georgia Department of Administrative Services / Georgia DOT  
+- **Type:** State — Georgia  
+- **General Procurement Email:** procurementhelp@doas.ga.gov  
+- **Solicitation:** Drug Testing & Fingerprinting Services inquiry  
+- **NAICS:** 621511 (Drug Testing) / 561611 (Investigation Services)  
+- **Notes:** Inquiry email + capability statement sent. Asking about drug testing services, fingerprinting supplemental needs, and Georgia Procurement Registry access.  
+- **Status:** Email sent Feb 24, 2026
+
+---
+
+### **CBP — CUSTOMS AND BORDER PROTECTION** ⭐ ACTIVE — MAJOR OPPORTUNITY
+
+**Shaun G. Saad - Contracting Officer**  
+- **Email:** shaun.g.saad@cbp.dhs.gov  
+- **Organization:** CBP Procurement Directorate, Enterprise Services Division  
+- **Type:** Federal — Department of Homeland Security  
+- **Phone:** (317) 614-4661  
+- **Location:** Indianapolis, IN  
+- **Solicitation:** 70B06C26R00000017 — Medical Support Services  
+- **Contract Type:** 5-Year IDIQ (FFP), Two-Phase Evaluation  
+- **NAICS:** 621399 | **PSC:** Q999  
+- **Value:** ~$450M+ (previous Dentrust contract)  
+- **Notes:** Full & Open. Phase I: Technical/Management Approach + Past Performance + Key Personnel CVs. Phase II: Oral Presentation + Pricing. DDI model: Prime as TPA using eScreen + Concentra for nationwide medical/drug testing. Proposals due April 10, 2026.  
+- **Status:** Strategy in progress
+
+**Peter Giambone - Contract Specialist**  
+- **Email:** peter.j.giambone@cbp.dhs.gov  
+- **Organization:** CBP Procurement Directorate  
+- **Type:** Federal — Department of Homeland Security  
+- **Solicitation:** 70B06C26R00000017 — Medical Support Services  
+- **Notes:** Secondary POC on CBP Medical Support solicitation  
+- **Status:** Contact logged
+
+---
+
+### **MODIVCARE SOLUTIONS (NEMT INCUMBENT)** ⭐ STRATEGIC — SUB OPPORTUNITY
+
+**Larry Smith — Account Contact**
+- **Email:** larry.smith@modivcare.com
+- **Phone:** 248-395-5101
+- **Organization:** ModivCare Solutions, LLC (formerly LogistiCare Solutions, LLC)
+- **Type:** NEMT Brokerage — Current Michigan Medicaid contractor
+- **Contract:** MA190000000912 — NEMT Brokerage, Wayne/Oakland/Macomb
+- **Contract Value:** $128,817,850.91
+- **Expires:** July 31, 2026 — NO MORE OPTION YEARS
+- **Location:** National company, Michigan operations
+- **Strategy:** Approach about EDWOSB subcontracting NOW for current contract period. Build NEMT past performance. Then compete on re-bid as prime.
+- **Status:** EMAIL SENT Feb 27, 2026 at 3:19 PM — Signing up as NEMT transportation provider in ModivCare network. Provider application submitted via portal. Awaiting onboarding/credentialing. Separate from re-compete strategy.
+
+---
+
+## 🏛️ MICHIGAN STATE BUYERS — DTMB CENTRAL PROCUREMENT (Services & Commodities)
+
+**Source:** michigan.gov/dtmb/procurement/contractconnect/contact | Last Updated: January 2, 2026  
+**Why These Matter:** These are the DTMB buyers who handle statewide service and commodity contracts. Purchases under $50K go through agency buyers directly (see MDHHS section below). Purchases over $50K go through these Central Procurement buyers.
+
+### Key Leadership
+
+| Name | Title | Email | Phone |
+|------|-------|-------|-------|
+| **Jared Ambrosier** | Chief Procurement Officer | AmbrosierJ@michigan.gov | 517-243-6238 |
+| **Brandon Samuel** | State Assistant Administrator | SamuelB@michigan.gov | 517-249-0439 |
+| **Chelsea Lugibihl** | Category Director, Services & Commodities | LugibihlC@michigan.gov | 517-643-7006 |
+| **Joy Nakfoor** | Category Manager, Services | NakfoorJ@michigan.gov | 517-249-0481 |
+| **Katie McFarland** | Category Manager, Commodities | McFarlandK1@michigan.gov | 517-930-6814 |
+| **Will Camp** | Manager, Supplier Relations | CampW@michigan.gov | 517-242-1303 |
+| **Valerie Hiltz** | MiDEAL Program Mgr / Outreach Mgr | HiltzV@michigan.gov | 517-249-0459 |
+| **Steve Meek-Davis** | Director, Customer Experience | DavisS1@michigan.gov | 517-242-9464 |
+
+### Services & Commodities Buyers
+
+| Name | Title | Email | Phone |
+|------|-------|-------|-------|
+| Adam Ashley | Buyer | AshleyA2@michigan.gov | 517-855-1376 |
+| Melissa Beck | Buyer | BeckM3@michigan.gov | 517-897-1502 |
+| Alannah Doak | Buyer | DoakA@michigan.gov | 517-230-9424 |
+| Marissa Gove | Buyer Specialist | GoveM1@michigan.gov | 517-449-8952 |
+| Nichole Harrell | Buyer Specialist | HarrellN@michigan.gov | 517-449-9245 |
+| Kyle London | Buyer | LondonK1@michigan.gov | 517-614-3616 |
+| Emily Massa | Buyer | MassaE@michigan.gov | 517-897-7321 |
+| Mary Ostrowski | Buyer Specialist | OstrowskiM@michigan.gov | 517-249-0438 |
+| Jordana Sager | Buyer | SagerJ2@michigan.gov | 517-896-1903 |
+| Amanda Smart | Buyer | SmartA1@michigan.gov | 517-930-6814 |
+| Lisa Spitzley | Buyer Specialist | SpitzleyL4@michigan.gov | 517-249-0440 |
+| Patrick Turcotte | Buyer | TurcotteP@michigan.gov | 517-730-8798 |
+| Susan Watt-Smith | Buyer | WattsS@michigan.gov | 517-230-0535 |
+| Colleen West | Buyer | WestC6@michigan.gov | 517-730-8430 |
+
+### Support & Outreach (Already Connected)
+
+| Name | Title | Email | Phone | Notes |
+|------|-------|-------|-------|-------|
+| **Craig Terrill** | Communications Specialist | TerrillC@michigan.gov | 517-388-6012 | **RESPONDED to DDI email Feb 2026 — active contact** |
+| Eric Pratt | Geographically Disadvantaged Business Specialist | PrattE2@michigan.gov | 517-231-3875 | GDBE program — check if DDI qualifies |
+| Stephanie Epps-Guzek | Division Director, Supplier Relations | EppsS@michigan.gov | 517-242-8216 | Oversees supplier relations |
+
+---
+
+## 🏥 MICHIGAN STATE BUYERS — MDHHS (Health & Human Services)
+
+**Source:** State Buyer Directory (Excel) downloaded from DTMB Contract Connect | Feb 2026  
+**File:** `BIDS:RESOURCES/ESSENTIALS/State-Buyer-Directory.xlsx`  
+**Why These Matter:** These are the MDHHS agency buyers who handle purchases under $50K directly. For larger contracts (NEMT, drug testing, etc.) they work with DTMB Central Procurement. Craig Terrill said to "reach out to MDHHS buyers directly if you have questions about their procurement needs."
+
+### MDHHS Leadership & Managers
+
+| Name | Title | Email | Phone |
+|------|-------|-------|-------|
+| **Terri Smith** | Senior Executive Service | SmithT42@michigan.gov | 517-373-4960 |
+| **Carolyn Brown** | Division Administrator | BrownC54@michigan.gov | 517-335-0928 |
+| **Jose Philip** | State Administrative Manager | Philipj@michigan.gov | 734-367-8426 |
+| **Michael Roesner** | State Administrative Manager | RoesnerM@michigan.gov | 517-284-0183 |
+| **Kathryn Russell** | State Administrative Manager | Russellk6@michigan.gov | 734-367-8578 |
+| **Danielle Walsh** | State Administrative Manager | WalshD4@michigan.gov | — |
+| **Chantelle Woolard** | State Administrative Manager | WoolardC@michigan.gov | 734-295-4653 |
+| **Samantha Wyman** | State Administrative Manager | WymanS2@michigan.gov | 517-241-5013 |
+| **Mary Jo Drzewiecki** | Administrative Manager | Drzewiecki-BurgerM@michigan.gov | 989-672-9338 |
+| **Gordon Norris** | Administrative Manager | NorrisG1@michigan.gov | 269-337-3048 |
+
+### MDHHS Buyers & Procurement Staff
+
+| Name | Title | Email | Phone |
+|------|-------|-------|-------|
+| Wanda Rademacher | Buyer | RademacherW@michigan.gov | 517-241-0134 |
+| Darby Stimac | Buyer | StimacD@michigan.gov | 517-335-6277 |
+| Debra Frazzitta | Buyer Specialist | FrazzittaD@michigan.gov | 810-966-2029 |
+| Lauri Bonnell | Departmental Analyst | BonnellL@michigan.gov | 517-335-0175 |
+| Nannette Conley-Wang | Departmental Analyst | ConleyWangN@michigan.gov | 517-241-5013 |
+| George Curtis | Departmental Analyst | CurtisG@michigan.gov | 517-241-1871 |
+| Amanda Dhooge | Departmental Analyst | DhoogeA@michigan.gov | 517-284-2315 |
+| Nicole Haring | Departmental Analyst | HaringN@michigan.gov | 517-284-9454 |
+| Amanda Herren | Departmental Analyst | HerrenA1@michigan.gov | 517-335-0153 |
+| Michelle Howe | Departmental Analyst | HoweM2@michigan.gov | 231-733-3794 |
+| Taylor Livingston | Departmental Analyst | LivingstonT4@michigan.gov | 517-284-0183 |
+| Vicki Moore | Departmental Analyst | MooreV8@michigan.gov | 517-241-5717 |
+| Nathaniel Oliver | Departmental Analyst | OliverN@michigan.gov | 517-241-0084 |
+| Mae Simon | Departmental Analyst | SimonM9@michigan.gov | 517-241-5795 |
+| Jennifer Williamsen | Departmental Analyst | WilliamsenJ1@michigan.gov | 231-327-6836 |
+| Stephen Henderson | Departmental Specialist | HendersonS7@michigan.gov | 517-241-4082 |
+| Sarah Oumedian | Departmental Specialist | OumedianS@michigan.gov | 517-335-1969 |
+| Timothy Brenner | Procurement Technician | BrennerT1@michigan.gov | 269-365-1407 |
+| Tawana Brooks | Procurement Technician | brookst@michigan.gov | 734-295-4531 |
+| Rita Green | Procurement Technician | GreenR9@michigan.gov | 248-735-6737 |
+| Rebecca Williams | Procurement Technician | williamsr@michigan.gov | 734-367-8430 |
+| David Zaleski | Procurement Technician | ZaleskiD1@michigan.gov | 989-672-0792 |
+| Darrell Avery | Accounting Assistant | AveryD3@michigan.gov | 989-673-3191 |
+
+---
+
+## 🧪 DDI SERVICE ACCOUNTS & PLATFORMS
+
+### **eSCREEN (ABBOTT)** ⭐ EXISTING ACCOUNT — KEY PARTNERSHIP
+
+- **Account Name:** Dee Davis Inc  
+- **Account Number:** 100146-519  
+- **Username:** deedavisinc  
+- **Platform:** eScreen Consortium / Drug Testing TPA  
+- **Main Phone:** (800) 881-0722  
+- **Fax:** (913) 752-3190  
+- **Randoms Management Email:** RandomsManagement@abbott.com  
+- **Address:** eScreen, Inc., 8140 Ward Parkway, Suite 300, Kansas City, MO 64114  
+- **Current Use:** Random drug testing consortium account  
+- **Expansion Target:** Enterprise-level TPA for CBP Medical Support (45,000 tests/year)  
+- **Key Needs from eScreen:** Volume pricing, Lab Director + MRO letters of commitment, CVs, geo-access map, oral fluid capability  
+- **Next Random Selection:** March 1 — April 30, 2026  
+- **Status:** Existing client — expansion outreach pending  
+- **Notes:** DDI is already in eScreen's system. This is LEVERAGE for the CBP contract — existing client wanting to scale up, not a cold prospect.
 
 ---
 

@@ -200,6 +200,36 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "246cab1711f3",
+      "domain": "outreach",
+      "entity_id": "rec9thouLM3Akm0lR",
+      "action": "email_sent",
+      "timestamp": "2026-02-26T11:19:34.864065",
+      "metadata": {
+        "title": "Follow up DCSA PSSAR (sent Feb 15)",
+        "project": "Fingerprinting",
+        "agency": "TO: dcsa.ncr.nbis.list.contact-center@mail.mil | Phone: 724-794-7765 (6AM-6PM ET"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "7ceef710f6e2",
+      "domain": "bids",
+      "entity_id": "reclWyrpHOeQLiFOB",
+      "action": "bid_prepared",
+      "timestamp": "2026-03-05T13:10:07.254982",
+      "metadata": {
+        "title": "Check SIGMA for MI fingerprinting RFP re-compete",
+        "project": "Fingerprinting",
+        "agency": "URL: sigma.michigan.gov | DTMB contract #190000001026 held by IDEMIA expires May"
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [],
@@ -220,11 +250,11 @@
     }
   ],
   "stats": {
-    "total_events": 13,
+    "total_events": 15,
     "events_by_domain": {
       "opportunities": 2,
-      "outreach": 2,
-      "bids": 5,
+      "outreach": 3,
+      "bids": 6,
       "suppliers": 2,
       "intelligence": 2
     },

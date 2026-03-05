@@ -90,6 +90,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [clients, setClients] = useState<PrismClient[]>([]);
   const [prismStats, setPrismStats] = useState<any>(null);
   const [dataLoading, setDataLoading] = useState(true);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifPanel, setShowNotifPanel] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const loadPrismData = useCallback(async () => {
     setDataLoading(true);
@@ -108,7 +111,27 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
     setDataLoading(false);
   }, []);
 
-  useEffect(() => { loadPrismData(); }, [loadPrismData]);
+  const loadNotifications = useCallback(async () => {
+    try {
+      const res = await api.getNotifications('admin', 30).catch(() => ({ notifications: [], unread: 0 }));
+      setNotifications(res?.notifications || []);
+      setUnreadCount(res?.unread || 0);
+    } catch { /* empty */ }
+  }, []);
+
+  const markNotificationsRead = useCallback(async (ids?: string[]) => {
+    try {
+      await api.markNotificationsRead(ids);
+      loadNotifications();
+    } catch { /* empty */ }
+  }, [loadNotifications]);
+
+  useEffect(() => { loadPrismData(); loadNotifications(); }, [loadPrismData, loadNotifications]);
+
+  useEffect(() => {
+    const interval = setInterval(loadNotifications, 15000);
+    return () => clearInterval(interval);
+  }, [loadNotifications]);
 
   const tabs = [
     { id: 'dashboard', label: '🎯 Command Center' },
@@ -181,7 +204,16 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 <h2 className="text-3xl font-bold mb-1">🎯 Command Center</h2>
                 <p className="text-gray-400">PRISM — See every detail. Miss nothing.</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
+                <button onClick={() => setShowNotifPanel(!showNotifPanel)}
+                  className="relative text-gray-400 hover:text-white transition bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg">
+                  🔔
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </button>
                 <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
                   + New Order
                 </button>
@@ -200,6 +232,57 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 )}
               </div>
             </div>
+
+            {/* ── Notification Panel ── */}
+            {showNotifPanel && (
+              <div className="relative mb-4 z-50">
+                <div className="absolute right-0 top-0 w-[420px] rounded-xl shadow-2xl max-h-[60vh] overflow-hidden" style={{ background: '#0F1A2E', border: '1px solid rgba(45, 212, 191, 0.2)' }}>
+                  <div className="p-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(45, 212, 191, 0.1)' }}>
+                    <h3 className="font-bold text-sm">🔔 Notifications {unreadCount > 0 && <span className="text-orange-400 ml-1">({unreadCount} new)</span>}</h3>
+                    <div className="flex gap-2">
+                      {unreadCount > 0 && (
+                        <button onClick={() => markNotificationsRead()} className="text-xs text-teal-400 hover:text-teal-300 font-semibold">Mark all read</button>
+                      )}
+                      <button onClick={() => setShowNotifPanel(false)} className="text-gray-500 hover:text-white text-sm">✕</button>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-gray-800 overflow-y-auto max-h-[50vh]">
+                    {notifications.length === 0 && (
+                      <div className="p-6 text-center text-gray-500 text-sm">No notifications yet</div>
+                    )}
+                    {notifications.map(n => {
+                      const severityBorder = n.severity === 'error' ? 'border-l-red-500' : n.severity === 'warning' ? 'border-l-yellow-500' : n.severity === 'success' ? 'border-l-green-500' : 'border-l-blue-500';
+                      const age = (() => {
+                        const diff = Date.now() - new Date(n.created_at).getTime();
+                        const mins = Math.floor(diff / 60000);
+                        if (mins < 1) return 'just now';
+                        if (mins < 60) return `${mins}m ago`;
+                        const hrs = Math.floor(mins / 60);
+                        if (hrs < 24) return `${hrs}h ago`;
+                        return `${Math.floor(hrs / 24)}d ago`;
+                      })();
+                      return (
+                        <div key={n.id} className={`px-4 py-3 hover:bg-gray-800/50 transition cursor-pointer border-l-4 ${severityBorder} ${!n.read ? 'bg-gray-800/30' : ''}`}
+                          onClick={() => { if (!n.read) markNotificationsRead([n.id]); if (n.order_id) { setSelectedOrder(n.order_id); setActiveTab('orders'); setShowNotifPanel(false); } }}>
+                          <div className="flex items-start gap-2">
+                            {!n.read && <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-orange-400"></div>}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-0.5">
+                                <span className="text-sm">{n.icon}</span>
+                                <span className="text-xs font-bold text-white">{n.title}</span>
+                                <span className="text-[10px] text-gray-500 ml-auto flex-shrink-0">{age}</span>
+                              </div>
+                              <p className="text-xs text-gray-400 truncate">{n.message}</p>
+                              {n.order_id && <span className="text-[10px] text-gray-600 font-mono">{n.order_id}</span>}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* ── Stat Cards ── */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">

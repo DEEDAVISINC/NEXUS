@@ -1,4 +1,4 @@
-# 🚀 START HERE - YOUR AUTOMATED BID SYSTEM
+B# 🚀 START HERE - YOUR AUTOMATED BID SYSTEM
 
 **Everything is set up! Here's what you need to know.**
 

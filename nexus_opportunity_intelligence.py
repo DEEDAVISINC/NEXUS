@@ -30,6 +30,8 @@ load_dotenv()
 # ============================================================================
 DDI_PROFILE = {
     'company': 'Dee Davis Inc.',
+    'business_model': 'Prime/Sub — DDI primes all contracts, subs/partners execute work, DDI manages delivery',
+    'pricing_model': 'All prices are DDI agency rates. Sub costs are internal. See DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md',
     'certifications': ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'SBE'],
     'naics_codes': [
         '423840', '423850', '423990', '424120', '424690', '424910',

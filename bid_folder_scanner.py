@@ -56,6 +56,7 @@ STRATEGY_PATTERNS = [
     "ACTION_PLAN",
     "ANALYSIS",
     "QUICK_START",
+    "WORKFLOW_STATUS",  # Created when opportunity is reviewed
 ]
 
 # Folders to skip (not actual bids)

@@ -19,19 +19,22 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Auto-suggest name from opportunity details
   const generateSuggestedName = () => {
     const fields = opportunity.fields;
-    const source = fields['Issuing Organization'] || fields['Agency'] || '';
+    // Check multiple field name formats
+    const source = fields['Issuing Organization'] || fields['AGENCY'] || fields['Agency'] || '';
     const category = fields['Category'] || fields['Service Type'] || '';
+    const title = fields['Title'] || fields['Name'] || '';
     
     if (source && category) {
       return `${source} - ${category}`;
     } else if (source) {
       return source;
-    } else if (fields['Title']) {
-      return fields['Title'].substring(0, 60);
+    } else if (title) {
+      return title.substring(0, 60);
     }
     return '';
   };
@@ -57,8 +60,17 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
       });
 
       if (response.success) {
-        onSuccess();
-        onClose();
+        // Show success message with next step
+        const nextStep = formData.decision === 'pursue'
+          ? 'Next: Find suppliers for this opportunity'
+          : 'Opportunity marked as skipped';
+        setSuccessMessage(`✓ Saved! ${nextStep}`);
+
+        // Wait a moment so user sees the success message, then close
+        setTimeout(() => {
+          onSuccess();
+          onClose();
+        }, 1500);
       } else {
         setError(response.error || 'Review failed — check backend logs');
       }
@@ -94,16 +106,46 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
           </div>
         </div>
 
+        {/* Workflow Progress Indicator */}
+        <div className="px-6 pt-4">
+          <div className="flex items-center gap-2 text-xs">
+            <div className="flex-1 flex items-center gap-1">
+              <span className="px-2 py-1 bg-blue-600 text-white rounded font-bold">1. Review</span>
+              <span className="text-gray-500">→</span>
+              <span className="px-2 py-1 bg-gray-700 text-gray-400 rounded">2. Find Suppliers</span>
+              <span className="text-gray-500">→</span>
+              <span className="px-2 py-1 bg-gray-700 text-gray-400 rounded">3. Request Quotes</span>
+              <span className="text-gray-500 hidden md:inline">→ ... → Submit</span>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            {formData.decision === 'pursue'
+              ? '✓ After naming this opportunity, it will move to "Find Suppliers"'
+              : 'Select "Pursue" to advance through the workflow, or "Skip" to archive'}
+          </p>
+        </div>
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Opportunity Details */}
           <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
             <h3 className="text-sm font-black text-blue-400 mb-3">OPPORTUNITY DETAILS</h3>
             
             <div className="space-y-2 text-sm">
-              {opportunity.fields['Issuing Organization'] && (
+              {/* Agency - check both field name formats */}
+              {(opportunity.fields['Issuing Organization'] || opportunity.fields['AGENCY']) && (
                 <div className="flex">
                   <span className="text-gray-400 w-32 flex-shrink-0">Agency:</span>
-                  <span className="text-white font-semibold">{opportunity.fields['Issuing Organization']}</span>
+                  <span className="text-white font-semibold">
+                    {opportunity.fields['Issuing Organization'] || opportunity.fields['AGENCY']}
+                  </span>
+                </div>
+              )}
+              
+              {/* Title/Name */}
+              {(opportunity.fields['Title'] || opportunity.fields['Name']) && (
+                <div className="flex">
+                  <span className="text-gray-400 w-32 flex-shrink-0">Title:</span>
+                  <span className="text-white">{opportunity.fields['Title'] || opportunity.fields['Name']}</span>
                 </div>
               )}
               
@@ -121,20 +163,22 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
                 </div>
               )}
               
-              {opportunity.fields['Estimated Value'] && (
+              {/* Value - check multiple field names */}
+              {(opportunity.fields['Estimated Value'] || opportunity.fields['ESTIMATED VALUE'] || opportunity.fields['Contract Value']) && (
                 <div className="flex">
                   <span className="text-gray-400 w-32 flex-shrink-0">Value:</span>
                   <span className="text-green-400 font-bold">
-                    ${Number(opportunity.fields['Estimated Value']).toLocaleString()}
+                    ${Number(opportunity.fields['Estimated Value'] || opportunity.fields['ESTIMATED VALUE'] || opportunity.fields['Contract Value'] || 0).toLocaleString()}
                   </span>
                 </div>
               )}
               
-              {opportunity.fields['Response Deadline'] && (
+              {/* Deadline - check multiple field names */}
+              {(opportunity.fields['Response Deadline'] || opportunity.fields['Due Date']) && (
                 <div className="flex">
                   <span className="text-gray-400 w-32 flex-shrink-0">Deadline:</span>
                   <span className="text-yellow-400 font-bold">
-                    {new Date(opportunity.fields['Response Deadline']).toLocaleDateString('en-US', {
+                    {new Date(opportunity.fields['Response Deadline'] || opportunity.fields['Due Date']).toLocaleDateString('en-US', {
                       month: 'long',
                       day: 'numeric',
                       year: 'numeric'
@@ -250,6 +294,13 @@ export const ReviewOpportunityModal: React.FC<ReviewOpportunityModalProps> = ({
               {formData.notes.length}/500 characters
             </div>
           </div>
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+              <div className="text-sm text-green-400">{successMessage}</div>
+            </div>
+          )}
 
           {/* Error Message */}
           {error && (

@@ -74,6 +74,10 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
   const [homeStateOpps, setHomeStateOpps] = useState<any[]>([]);
   const [forecastOpps, setForecastOpps] = useState<any[]>([]);
   const [oppCounts, setOppCounts] = useState({ total: 0, pipeline: 0, edwosb: 0, home_state: 0, forecasts: 0, filtered_ineligible: 0 });
+  const [trackerStats, setTrackerStats] = useState<{ total_contracts: number; total_value: number; agencies: number; naics_codes: number }>(
+    { total_contracts: 0, total_value: 0, agencies: 0, naics_codes: 0 }
+  );
+  const [trackerFilter, setTrackerFilter] = useState({ agency: '', naics: '', state: '', valueMin: '', valueMax: '' });
   const [activeView, setActiveView] = useState<'pipeline' | 'edwosb' | 'home_state' | 'forecasts' | 'all'>('pipeline');
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -213,6 +217,7 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
       setHomeStateOpps(response.home_state || []);
       setForecastOpps(response.forecasts || []);
       setOppCounts(response.counts || { total: 0, pipeline: 0, edwosb: 0, home_state: 0, forecasts: 0, filtered_ineligible: 0 });
+      setTrackerStats(response.tracker || { total_contracts: 0, total_value: 0, agencies: 0, naics_codes: 0 });
     } catch (error) {
       console.error('Error fetching opportunities:', error);
       setNotification({ message: 'Failed to load opportunities. Please try again.', type: 'error' });
@@ -243,13 +248,29 @@ const GPSSSystem: React.FC<GPSSSystemProps> = ({ onBackToNexus, activeTab, setAc
 
   // Get the list to display based on active view
   const displayedOpportunities = (() => {
+    let list;
     switch (activeView) {
-      case 'pipeline': return pipelineOpps;
-      case 'edwosb': return edwosbOpps;
-      case 'home_state': return homeStateOpps;
-      case 'forecasts': return forecastOpps;
-      case 'all': return opportunities;
+      case 'pipeline': list = pipelineOpps; break;
+      case 'edwosb': list = edwosbOpps; break;
+      case 'home_state': list = homeStateOpps; break;
+      case 'forecasts': list = forecastOpps; break;
+      case 'all': list = opportunities; break;
+      default: list = opportunities;
     }
+    // Apply Recompete Tracker filters when set
+    if (trackerFilter.agency || trackerFilter.naics || trackerFilter.state || trackerFilter.valueMin || trackerFilter.valueMax) {
+      return list.filter((opp: any) => {
+        if (trackerFilter.agency && !(opp.agency || '').toLowerCase().includes(trackerFilter.agency.toLowerCase())) return false;
+        const naics = (opp.naicsCodes || '').toString();
+        if (trackerFilter.naics && !naics.includes(trackerFilter.naics)) return false;
+        if (trackerFilter.state && (opp.state || '').toLowerCase() !== trackerFilter.state.toLowerCase()) return false;
+        const val = opp.value || 0;
+        if (trackerFilter.valueMin && val < parseFloat(trackerFilter.valueMin)) return false;
+        if (trackerFilter.valueMax && val > parseFloat(trackerFilter.valueMax)) return false;
+        return true;
+      });
+    }
+    return list;
   })();
 
   const formatCurrency = (value: number) => {
@@ -700,6 +721,94 @@ ${proposal.pricingJustification ? `<div class="section" style="font-size:12px;">
               <p className="text-gray-400">Government Prime Sales System • Pre-Award Pipeline • EDWOSB Certified</p>
             </div>
 
+            {/* Recompete Tracker Style — Big Metrics (Govcon Giants model) */}
+            <div className="mb-6 bg-gradient-to-r from-orange-900/40 to-amber-900/30 border border-orange-700/50 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-white mb-1">Track It All — Opportunity Intelligence</h3>
+              <p className="text-sm text-orange-200/80 mb-4">Filter by NAICS, agency, or value — find opportunities in YOUR industry before they hit SAM.gov</p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="bg-orange-800/50 border border-orange-600/50 rounded-lg px-4 py-4 text-center">
+                  <div className="text-2xl md:text-3xl font-black text-white">{trackerStats.total_contracts.toLocaleString()}</div>
+                  <div className="text-xs text-orange-200/90 uppercase tracking-wide mt-1">Total Contracts</div>
+                </div>
+                <div className="bg-orange-800/50 border border-orange-600/50 rounded-lg px-4 py-4 text-center">
+                  <div className="text-2xl md:text-3xl font-black text-white">
+                    {trackerStats.total_value >= 1e9 ? `$${(trackerStats.total_value / 1e9).toFixed(1)}B` :
+                     trackerStats.total_value >= 1e6 ? `$${(trackerStats.total_value / 1e6).toFixed(1)}M` :
+                     trackerStats.total_value >= 1e3 ? `$${(trackerStats.total_value / 1e3).toFixed(0)}K` :
+                     `$${trackerStats.total_value.toLocaleString()}`}
+                  </div>
+                  <div className="text-xs text-orange-200/90 uppercase tracking-wide mt-1">Total Value</div>
+                </div>
+                <div className="bg-orange-800/50 border border-orange-600/50 rounded-lg px-4 py-4 text-center">
+                  <div className="text-2xl md:text-3xl font-black text-white">{trackerStats.agencies}</div>
+                  <div className="text-xs text-orange-200/90 uppercase tracking-wide mt-1">Agencies</div>
+                </div>
+                <div className="bg-orange-800/50 border border-orange-600/50 rounded-lg px-4 py-4 text-center">
+                  <div className="text-2xl md:text-3xl font-black text-white">{stats.pipelineCount}</div>
+                  <div className="text-xs text-orange-200/90 uppercase tracking-wide mt-1">Pipeline</div>
+                </div>
+                <div className="bg-orange-800/50 border border-orange-600/50 rounded-lg px-4 py-4 text-center">
+                  <div className="text-2xl md:text-3xl font-black text-white">{trackerStats.naics_codes}</div>
+                  <div className="text-xs text-orange-200/90 uppercase tracking-wide mt-1">NAICS Codes</div>
+                </div>
+              </div>
+              {/* Filter Contracts — Govcon Giants model */}
+              <div className="mt-4 pt-4 border-t border-orange-600/40">
+                <h4 className="text-sm font-semibold text-orange-200 mb-3">Filter Contracts</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Agency (search)"
+                    value={trackerFilter.agency}
+                    onChange={(e) => setTrackerFilter(f => ({ ...f, agency: e.target.value }))}
+                    className="bg-orange-900/50 border border-orange-600/50 rounded px-3 py-2 text-sm text-white placeholder-orange-300/60"
+                  />
+                  <input
+                    type="text"
+                    placeholder="NAICS (e.g., 541511)"
+                    value={trackerFilter.naics}
+                    onChange={(e) => setTrackerFilter(f => ({ ...f, naics: e.target.value }))}
+                    className="bg-orange-900/50 border border-orange-600/50 rounded px-3 py-2 text-sm text-white placeholder-orange-300/60"
+                  />
+                  <input
+                    type="text"
+                    placeholder="State"
+                    value={trackerFilter.state}
+                    onChange={(e) => setTrackerFilter(f => ({ ...f, state: e.target.value }))}
+                    className="bg-orange-900/50 border border-orange-600/50 rounded px-3 py-2 text-sm text-white placeholder-orange-300/60"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Min value ($)"
+                    value={trackerFilter.valueMin}
+                    onChange={(e) => setTrackerFilter(f => ({ ...f, valueMin: e.target.value }))}
+                    className="bg-orange-900/50 border border-orange-600/50 rounded px-3 py-2 text-sm text-white placeholder-orange-300/60"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Max value ($)"
+                    value={trackerFilter.valueMax}
+                    onChange={(e) => setTrackerFilter(f => ({ ...f, valueMax: e.target.value }))}
+                    className="bg-orange-900/50 border border-orange-600/50 rounded px-3 py-2 text-sm text-white placeholder-orange-300/60"
+                  />
+                </div>
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() => { setActiveTab('opportunities'); setActiveView('all'); }}
+                    className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded font-semibold text-white text-sm transition"
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={() => setTrackerFilter({ agency: '', naics: '', state: '', valueMin: '', valueMax: '' })}
+                    className="bg-orange-800/50 hover:bg-orange-800 border border-orange-600/50 px-4 py-2 rounded font-semibold text-orange-200 text-sm transition"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Enhanced Quick Stats - Clickable View Switchers */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
               <button 
@@ -903,6 +1012,39 @@ ${proposal.pricingJustification ? `<div class="section" style="font-size:12px;">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-green-400 font-semibold">Active</span>
                 </div>
+              </div>
+            </div>
+
+            {/* Procurement Resources — Quick Access */}
+            <div className="mt-6 bg-gray-800 border border-gray-700 rounded-xl p-6">
+              <h3 className="text-lg font-bold mb-1">Procurement Portals & Resources</h3>
+              <p className="text-sm text-gray-400 mb-4">One-click access to bid sources, forecasting dashboards, and registration portals</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {[
+                  { name: 'MI Vendor Opportunity Dashboard', url: 'https://www.michigan.gov/dtmb/procurement/contractconnect/vendor-opportunity-dashboard', desc: 'Forecasted state bids — updates every Monday', color: 'from-emerald-600 to-teal-700', badge: 'MICHIGAN' },
+                  { name: 'SIGMA VSS — Open Bids', url: 'https://sigma.michigan.gov/PRDVSS1X1/Advantage4', desc: 'Active Michigan solicitations — bid here', color: 'from-blue-600 to-blue-800', badge: 'MICHIGAN' },
+                  { name: 'SAM.gov Opportunities', url: 'https://sam.gov/search/?index=opp&sort=-modifiedDate&sfm%5Bstatus%5D%5Bis_active%5D=true', desc: 'Federal opportunities — EDWOSB set-asides', color: 'from-indigo-600 to-purple-800', badge: 'FEDERAL' },
+                  { name: 'Contract Connect Events', url: 'https://www.michigan.gov/dtmb/procurement/contractconnect', desc: 'Procurement events, trade fairs, webinars', color: 'from-amber-600 to-orange-700', badge: 'EVENTS' },
+                  { name: 'Contract Opportunity Email List', url: 'https://public.govdelivery.com/accounts/MIDEPTTMB/subscriber/new?topic_id=MIDEPTTMB_309', desc: 'Email alerts for upcoming MI bids & events', color: 'from-rose-600 to-pink-700', badge: 'SIGN UP' },
+                  { name: 'MI Buyer Contact List', url: 'https://www.michigan.gov/dtmb/procurement/contractconnect/contact', desc: 'All state buyers by department — MDHHS, DTMB, etc.', color: 'from-cyan-600 to-sky-700', badge: 'CONTACTS' },
+                  { name: 'BidNet MITN', url: 'https://www.bidnetdirect.com/mitn/solicitations/open-bids', desc: 'Michigan Inter-governmental Trade Network — local bids', color: 'from-violet-600 to-purple-700', badge: 'LOCAL' },
+                  { name: 'GovCB', url: 'https://www.govcb.com', desc: '42,000+ nationwide government contract bids', color: 'from-slate-600 to-gray-700', badge: 'NATIONAL' },
+                  { name: 'Commodity Code Lookup', url: 'https://www.michigan.gov/dtmb/procurement/contractconnect/commodity-code-lookup', desc: 'NIGP code search — keep SIGMA profile updated', color: 'from-lime-600 to-green-700', badge: 'REFERENCE' },
+                ].map((portal) => (
+                  <a
+                    key={portal.name}
+                    href={portal.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`bg-gradient-to-br ${portal.color} border border-white/10 rounded-lg px-4 py-3 hover:scale-[1.02] hover:shadow-lg transition-all group`}
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <span className="font-bold text-sm text-white group-hover:underline">{portal.name}</span>
+                      <span className="text-[10px] font-bold bg-black/30 text-white/80 px-2 py-0.5 rounded-full">{portal.badge}</span>
+                    </div>
+                    <p className="text-xs text-white/70">{portal.desc}</p>
+                  </a>
+                ))}
               </div>
             </div>
           </div>

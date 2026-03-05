@@ -164,25 +164,33 @@ class WorkflowManager:
             # Sort opportunities into queues based on workflow status
             for opp in all_opps:
                 fields = opp['fields']
-                status = fields.get('Workflow Status', 'Needs Review')
+                # Check both 'Workflow Status' and 'Status' fields (Status takes precedence)
+                status = fields.get('Status') or fields.get('Workflow Status', 'Needs Review')
+                status_lower = status.lower().replace(' ', '_') if status else 'needs_review'
                 
-                # Determine queue based on status
-                if status == 'Needs Review' or not fields.get('Name') or 'Unnamed' in fields.get('Name', ''):
-                    queues['needsReview'].append(opp)
-                elif status == 'Find Suppliers':
+                # Skip "Skipped" opportunities - they don't show in workflow
+                if status_lower == 'skipped':
+                    continue
+
+                # Determine queue based on status - STATUS TAKES PRIORITY over Name check
+                if status_lower in ['find_suppliers', 'find suppliers']:
                     queues['findSuppliers'].append(opp)
-                elif status == 'Request Quotes':
+                elif status_lower in ['request_quotes', 'request quotes', 'requesting_quotes']:
                     queues['requestQuotes'].append(opp)
-                elif status == 'Awaiting Quotes':
+                elif status_lower in ['awaiting_quotes', 'awaiting quotes']:
                     queues['awaitingQuotes'].append(opp)
-                elif status == 'Ready to Price':
+                elif status_lower in ['ready_to_price', 'ready to price']:
                     queues['readyToPrice'].append(opp)
-                elif status == 'Generate Proposal':
+                elif status_lower in ['generate_proposal', 'generate proposal']:
                     queues['generateProposal'].append(opp)
-                elif status == 'Final Review':
+                elif status_lower in ['final_review', 'final review']:
                     queues['finalReview'].append(opp)
-                elif status == 'Submitted':
+                elif status_lower in ['submitted']:
                     queues['submitted'].append(opp)
+                else:
+                    # Default to needsReview for unknown or empty status
+                    # Also put unnamed opportunities here
+                    queues['needsReview'].append(opp)
             
             return {
                 'success': True,
@@ -216,10 +224,14 @@ class WorkflowManager:
         try:
             opportunities_table = self.airtable.get_table('GPSS Opportunities')
             
-            # Core fields that definitely exist
+            new_status = 'Find Suppliers' if decision == 'pursue' else 'Skipped'
+            
+            # Build updates with all possible status field names
             updates = {
                 'Name': name,
                 'Notes': f'[{decision.upper()}] {notes}' if notes else f'[{decision.upper()}]',
+                'Status': new_status,
+                'Workflow Status': new_status,
             }
             
             if decision == 'pursue':
@@ -229,24 +241,43 @@ class WorkflowManager:
                 updates['Priority'] = 'Low'
                 updates['Source Status'] = 'Skipped'
             
-            # Try to set workflow-specific fields (may not exist yet)
+            print(f"[WORKFLOW] Updating opportunity {opportunity_id} with: {updates}")
+            
+            # Try full update first
+            update_success = False
             try:
-                opportunities_table.update(opportunity_id, updates)
+                result = opportunities_table.update(opportunity_id, updates)
+                print(f"[WORKFLOW] Full update success: {result}")
+                update_success = True
             except Exception as field_err:
-                # If a field doesn't exist, fall back to just Name + Notes
-                print(f"Full update failed ({field_err}), trying minimal update...")
-                opportunities_table.update(opportunity_id, {
-                    'Name': name,
-                    'Notes': f'[{decision.upper()}] {notes}' if notes else f'[{decision.upper()}]',
-                })
+                print(f"[WORKFLOW] Full update failed: {field_err}")
+                # Try without 'Workflow Status' (in case that field doesn't exist)
+                try:
+                    fallback_updates = {
+                        'Name': name,
+                        'Notes': f'[{decision.upper()}] {notes}' if notes else f'[{decision.upper()}]',
+                        'Status': new_status,
+                    }
+                    if decision == 'pursue':
+                        fallback_updates['Priority'] = 'High'
+                    result = opportunities_table.update(opportunity_id, fallback_updates)
+                    print(f"[WORKFLOW] Fallback update success: {result}")
+                    update_success = True
+                except Exception as fallback_err:
+                    print(f"[WORKFLOW] Fallback update also failed: {fallback_err}")
+                    # Last resort: just update Name
+                    result = opportunities_table.update(opportunity_id, {'Name': name})
+                    print(f"[WORKFLOW] Name-only update: {result}")
             
             return {
                 'success': True,
                 'message': f'Opportunity reviewed: {name}',
-                'newStatus': 'Find Suppliers' if decision == 'pursue' else 'Skipped'
+                'newStatus': new_status,
+                'updated': update_success
             }
             
         except Exception as e:
+            print(f"[WORKFLOW] review_opportunity ERROR: {e}")
             return {
                 'success': False,
                 'error': str(e)
@@ -259,13 +290,18 @@ class WorkflowManager:
             
             updates = {
                 'Source Status': 'Requesting Quotes',
+                'Workflow Status': 'Request Quotes',
+                'Status': 'Request Quotes',
                 'Notes': f'Linked {len(supplier_ids)} suppliers on {datetime.now().strftime("%Y-%m-%d")}',
             }
-            
+
             try:
                 opportunities_table.update(opportunity_id, updates)
             except:
+                # Fallback if Workflow Status field doesn't exist
                 opportunities_table.update(opportunity_id, {
+                    'Source Status': 'Requesting Quotes',
+                    'Status': 'Request Quotes',
                     'Notes': f'Linked {len(supplier_ids)} suppliers on {datetime.now().strftime("%Y-%m-%d")}'
                 })
             
@@ -288,13 +324,18 @@ class WorkflowManager:
             
             updates = {
                 'Source Status': 'Awaiting Quotes',
+                'Workflow Status': 'Awaiting Quotes',
+                'Status': 'Awaiting Quotes',
                 'Notes': f'Sent {count} quote requests on {datetime.now().strftime("%Y-%m-%d")}',
             }
-            
+
             try:
                 opportunities_table.update(opportunity_id, updates)
             except:
+                # Fallback if Workflow Status field doesn't exist
                 opportunities_table.update(opportunity_id, {
+                    'Source Status': 'Awaiting Quotes',
+                    'Status': 'Awaiting Quotes',
                     'Notes': f'Sent {count} quote requests on {datetime.now().strftime("%Y-%m-%d")}'
                 })
             
@@ -10089,11 +10130,22 @@ class SAMgovAPIClient:
             'RFP NUMBER': opp.get('noticeId', ''),
             'Status': f'New - {presol_type}' if presol_type else 'New - API',
         }
-        
+
         # Add optional fields
         if due_date:
             fields['Deadline'] = due_date
-        
+
+        # Research Lane detection — tag if community health / market research
+        research_tags = ResearchLaneDetector().detect(
+            title=opp.get('title', ''),
+            description=opp.get('description', ''),
+            agency=opp.get('fullParentPathName', '') or opp.get('department', ''),
+            naics=opp.get('naicsCode', ''),
+        )
+        if research_tags:
+            fields.update(research_tags)
+            print(f"   🔬 Research Lane detected: {research_tags.get('Research Subtype')} — {opp.get('title','')[:60]}")
+
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
         
         # AUTO-RESPONSE: If presolicitation type, generate cap statement + buyer email + folder
@@ -10842,8 +10894,153 @@ class GovConAPIClient:
             if agency:
                 print(f"      DEBUG - AGENCY value: {agency[:50]}")
             self._debug_count += 1
-            
+
+        # Research Lane detection — tag if community health / market research
+        research_tags = ResearchLaneDetector().detect(
+            title=opp.get('title', ''),
+            description=opp.get('description_text', '') or opp.get('description', ''),
+            agency=agency,
+            naics=naics,
+        )
+        if research_tags:
+            fields.update(research_tags)
+            print(f"   🔬 Research Lane: {research_tags.get('Research Subtype')} — {opp.get('title','')[:60]}")
+
         self.airtable.create_record('GPSS OPPORTUNITIES', fields)
+
+
+# =============================================================================
+# RESEARCH LANE DETECTOR
+# Bridges GPSS (contracts) and GBIS (grants) for the Community Health &
+# Market Research lane. Auto-tags opportunities and assigns applicant entity.
+# =============================================================================
+
+class ResearchLaneDetector:
+    """
+    Detects whether an incoming opportunity (contract or grant) belongs to
+    the Community Health & Market Research lane, and determines whether
+    DDI or Cause We Care should be the applicant.
+
+    Called by GPSS _import_to_airtable (contracts) and
+    GBIS _import_to_airtable (grants) to tag records consistently.
+    """
+
+    RESEARCH_NAICS = {'541910', '541720', '624190', '621999', '541611',
+                      '541690', '624230', '541720'}
+
+    RESEARCH_AGENCIES = [
+        'HHS', 'HRSA', 'SAMHSA', 'NIH', 'NIMHD', 'USDA FNS', 'ACF',
+        'ASPE', 'CMS', 'SBA', 'MBDA', 'MDHHS',
+        'Health and Human Services', 'Health Resources',
+        'Substance Abuse', 'Food and Nutrition',
+        'Administration for Children', 'Medicaid',
+    ]
+
+    RESEARCH_KEYWORDS = [
+        'community health', 'needs assessment', 'program evaluation',
+        'market research', 'survey research', 'public opinion',
+        'benefits access', 'social determinants', 'sdoh',
+        'snap outreach', 'snap enrollment', 'food insecurity',
+        'medicaid access', 'medicaid enrollment', 'navigator',
+        'behavioral health', 'substance abuse evaluation',
+        'small business research', 'diversity research', 'wosb study',
+        'health disparities', 'underserved communities', 'health equity',
+        'community assessment', 'population health', 'public health',
+        'community-based', 'community outreach', 'lead testing',
+        'social services', 'human services', 'welfare program',
+        'housing instability', 'homelessness research', 'coordinated entry',
+        'minority health', 'health screening', 'health data',
+    ]
+
+    # Funders that indicate Cause We Care (nonprofit) should be the applicant
+    CWC_FUNDERS = [
+        'NIH', 'NIMHD', 'HRSA', 'SAMHSA', 'USDA FNS', 'HUD', 'ACF',
+        'ASPE', 'CMS', 'MDHHS', 'Kresge', 'Robert Wood Johnson',
+        'W.K. Kellogg', 'Michigan Health Endowment', 'Community Foundation',
+        'Ralph C. Wilson', 'United Way',
+    ]
+
+    CWC_GRANT_KEYWORDS = [
+        '501(c)(3)', 'nonprofit', 'non-profit', 'community-based organization',
+        'cbo', 'charitable', 'foundation grant', 'community grant',
+    ]
+
+    def detect(self, title: str = '', description: str = '',
+               agency: str = '', naics: str = '') -> dict:
+        """
+        Returns a dict of extra fields to add to Airtable if the opportunity
+        matches the Community Health & Research lane, otherwise returns {}.
+
+        Usage:
+            extra = ResearchLaneDetector().detect(
+                title=opp.get('title',''),
+                description=opp.get('description',''),
+                agency=opp.get('agency',''),
+                naics=opp.get('naicsCode',''),
+            )
+            if extra:
+                fields.update(extra)
+        """
+        text = f"{title} {description}".lower()
+        naics_clean = str(naics).replace(',', ' ')
+
+        naics_match = any(n in naics_clean for n in self.RESEARCH_NAICS)
+        agency_match = any(a.lower() in agency.lower() for a in self.RESEARCH_AGENCIES)
+        keyword_match = any(kw in text for kw in self.RESEARCH_KEYWORDS)
+
+        if not (naics_match or agency_match or keyword_match):
+            return {}
+
+        subtype = self._detect_subtype(text)
+
+        return {
+            'Service Lane': 'Community Health & Research',
+            'Research Subtype': subtype,
+        }
+
+    def assign_applicant_entity(self, funder: str = '',
+                                description: str = '') -> str:
+        """
+        Determines whether DDI or Cause We Care should apply for a GBIS grant.
+        Used only by GBIS — GPSS contracts always default to DDI.
+        """
+        funder_lower = funder.lower()
+        desc_lower = description.lower()
+        combined = f"{funder_lower} {desc_lower}"
+
+        is_cwc = (
+            any(f.lower() in combined for f in self.CWC_FUNDERS) or
+            any(kw in combined for kw in self.CWC_GRANT_KEYWORDS)
+        )
+        is_ddi = any(kw in combined for kw in [
+            'for-profit', 'small business', 'woman-owned', 'edwosb', 'wosb',
+            'small business set-aside', 'sbir', 'sttr',
+        ])
+
+        if is_cwc and is_ddi:
+            return 'DDI + Cause We Care (Teaming)'
+        elif is_cwc:
+            return 'Cause We Care'
+        else:
+            return 'DDI'
+
+    def _detect_subtype(self, text: str) -> str:
+        if any(kw in text for kw in ['needs assessment', 'community health assessment',
+                                      'health disparities', 'sdoh', 'social determinants',
+                                      'population health', 'health screening']):
+            return 'Community Health Assessment'
+        if any(kw in text for kw in ['program evaluation', 'effectiveness', 'outcome',
+                                      'performance evaluation', 'impact evaluation']):
+            return 'Program Evaluation'
+        if any(kw in text for kw in ['snap', 'benefits access', 'medicaid access',
+                                      'enrollment barrier', 'navigator', 'food insecurity',
+                                      'mibridges', 'benefits enrollment']):
+            return 'Benefits Access Research'
+        if any(kw in text for kw in ['small business research', 'diversity research',
+                                      'wosb study', 'edwosb', 'mbda', 'minority business',
+                                      'woman-owned research']):
+            return 'SB/Diversity Research'
+        return 'Survey / Market Research'
 
 
 def handle_sam_api_search(params: Dict = None) -> Dict:

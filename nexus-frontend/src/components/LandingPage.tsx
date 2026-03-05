@@ -3,6 +3,7 @@ import { ViewType } from './Header';
 import { api } from '../api/client';
 import { ReviewOpportunityModal } from './modals/ReviewOpportunityModal';
 import { SupplierSearchModal } from './modals/SupplierSearchModal';
+import AutonomousCommandCenter from './AutonomousCommandCenter';
 
 interface LandingPageProps {
   onEnterSystem: (system: ViewType) => void;
@@ -500,13 +501,31 @@ END:VCALENDAR`;
     },
   ];
 
-  const systems = [
+  // PRIMARY WORKFLOW SYSTEMS - Your daily drivers
+  const coreSystems = [
+    {
+      id: 'opportunity-hunter' as ViewType,
+      name: 'NOVA',
+      fullName: 'New Opportunity Vetting & Acquisition',
+      icon: '🌟',
+      description: 'Find federal contracts • 3/day target • Live SAM.gov search',
+      stats: [
+        'Live SAM.gov Search',
+        'Quick Wins Mode',
+        'Daily Target Tracker',
+        'Agency Intelligence'
+      ],
+      gradient: 'from-violet-600 to-indigo-600',
+      status: 'online',
+      lastUsed: 'NEW! 🔥',
+      phase: '1. DISCOVER'
+    },
     {
       id: 'gpss' as ViewType,
       name: 'GPSS',
       fullName: 'Government Prime Sales System',
       icon: '🎯',
-      description: 'Pre-Award Pipeline • Mining • Proposals • EDWOSB Certified',
+      description: 'Manage pipeline • Submit proposals • Track opportunities',
       stats: [
         `${stats.systems.gpss.opportunities} Active RFP${stats.systems.gpss.opportunities !== 1 ? 's' : ''}`,
         `${formatNumber(stats.systems.gpss.pipeline)} Pipeline`,
@@ -514,29 +533,15 @@ END:VCALENDAR`;
       ],
       gradient: 'from-blue-600 to-purple-600',
       status: 'online',
-      lastUsed: '2 min ago'
-    },
-    {
-      id: 'ddcss' as ViewType,
-      name: 'DDCSS',
-      fullName: 'Corporate Sales System',
-      icon: '💼',
-      description: 'Blueprint Framework • 6 Sectors • AI Copilot',
-      stats: [
-        `${stats.systems.ddcss.prospects} Pipeline`,
-        `${stats.systems.ddcss.responses} Response${stats.systems.ddcss.responses !== 1 ? 's' : ''}`,
-        `${stats.systems.ddcss.sectors} Sectors Ready`
-      ],
-      gradient: 'from-green-600 to-blue-600',
-      status: 'online',
-      lastUsed: '5 min ago'
+      lastUsed: '2 min ago',
+      phase: '2. PURSUE'
     },
     {
       id: 'atlas' as ViewType,
       name: 'ATLAS PM',
       fullName: 'Project Management System',
       icon: '🏗️',
-      description: 'RFP Analysis • WBS Generation • Change Orders',
+      description: 'Analyze RFPs • Generate WBS • Track projects',
       stats: [
         `${stats.systems.atlas.projects} Project${stats.systems.atlas.projects !== 1 ? 's' : ''}`,
         `${stats.systems.atlas.rfps_analyzed} RFP${stats.systems.atlas.rfps_analyzed !== 1 ? 's' : ''} Analyzed`,
@@ -544,91 +549,15 @@ END:VCALENDAR`;
       ],
       gradient: 'from-purple-600 to-pink-600',
       status: 'online',
-      lastUsed: 'Just now'
-    },
-    {
-      id: 'gbis' as ViewType,
-      name: 'GBIS',
-      fullName: 'Grant Business Intelligence System',
-      icon: '🎁',
-      description: 'Grant Discovery • AI Applications • ROI Tracking',
-      stats: [
-        `${stats.systems.gbis.active_grants} Active Grant${stats.systems.gbis.active_grants !== 1 ? 's' : ''}`,
-        `${stats.systems.gbis.applications} Application${stats.systems.gbis.applications !== 1 ? 's' : ''}`,
-        `${formatNumber(stats.systems.gbis.awarded)} Awarded`
-      ],
-      gradient: 'from-yellow-600 to-orange-600',
-      status: 'online',
-      lastUsed: 'New!'
-    },
-    {
-      id: 'vertex' as ViewType,
-      name: 'VERTEX',
-      fullName: 'Financial Command Center',
-      icon: '💎',
-      description: 'Invoices • Expenses • Revenue • P&L Tracker • QB Export',
-      stats: [
-        'P&L Tracker (NEW!)',
-        'Invoices + Expenses',
-        'Revenue Tracking',
-        'Financial Reports'
-      ],
-      gradient: 'from-purple-600 to-pink-600',
-      status: 'online',
-      lastUsed: 'NEW! 🔥'
-    },
-    {
-      id: 'lbpc' as ViewType,
-      name: 'LBPC',
-      fullName: 'Lancaster Banques P.C.',
-      icon: '💰',
-      description: 'Surplus Recovery • All 50 States • Automated Workflows',
-      stats: [
-        `${stats.systems.lbpc.active_leads} Active Lead${stats.systems.lbpc.active_leads !== 1 ? 's' : ''}`,
-        `${formatNumber(stats.systems.lbpc.pipeline)} Pipeline`,
-        `${stats.systems.lbpc.tasks_due} Task${stats.systems.lbpc.tasks_due !== 1 ? 's' : ''} Due`
-      ],
-      gradient: 'from-indigo-600 to-purple-600',
-      status: 'online',
-      lastUsed: 'New!'
-    },
-    {
-      id: 'invoices' as ViewType,
-      name: 'INVOICES',
-      fullName: 'Universal Invoicing System',
-      icon: '💰',
-      description: 'Government & Enterprise Compliant • All Systems',
-      stats: [
-        '0 Total Invoices',
-        '$0 Revenue',
-        '0 Pending'
-      ],
-      gradient: 'from-yellow-600 to-orange-600',
-      status: 'online',
-      lastUsed: 'New!'
-    },
-    {
-      id: 'documents' as ViewType,
-      name: 'DOCUMENTS',
-      fullName: 'Document & Pricing Hub',
-      icon: '📄',
-      description: 'Quotes • Cap Statements • RFPs • Pricing Engine',
-      stats: [
-        'Quote & RFP Generator',
-        'Pricing Engine (NEW!)',
-        'Cap Statements',
-        'Partnership Proposals'
-      ],
-      gradient: 'from-blue-600 to-orange-600',
-      status: 'online',
-      lastUsed: 'UPDATED! 🔥'
+      lastUsed: 'Just now',
+      phase: '3. PLAN'
     },
     {
       id: 'prism' as ViewType,
       name: 'PRISM',
       fullName: 'Field Service Command Center',
       icon: '🔮',
-      description: 'Dispatch • Orders • Scanbacks • Inspection • Field Agents',
+      description: 'Dispatch agents • Track orders • Scanbacks & inspections',
       stats: [
         '10 Active Orders',
         '5 Field Agents',
@@ -637,14 +566,15 @@ END:VCALENDAR`;
       ],
       gradient: 'from-orange-500 to-amber-600',
       status: 'online',
-      lastUsed: 'NEW! 🔥'
+      lastUsed: 'NEW! 🔥',
+      phase: '4. EXECUTE'
     },
     {
       id: 'compass' as ViewType,
       name: 'COMPASS',
-      fullName: 'Contract Operations Management & Post-Award Fulfillment',
+      fullName: 'Post-Award Fulfillment',
       icon: '🧭',
-      description: 'Post-Award Management • Delivery Tracking • Payments • Contract Compliance',
+      description: 'Deliver contracts • Track compliance • Manage subcontractors',
       stats: [
         '0 Active Contracts',
         '$0 Under Management',
@@ -652,7 +582,84 @@ END:VCALENDAR`;
       ],
       gradient: 'from-yellow-600 to-red-600',
       status: 'online',
-      lastUsed: 'COMING SOON'
+      lastUsed: 'COMING SOON',
+      phase: '5. DELIVER'
+    },
+    {
+      id: 'vertex' as ViewType,
+      name: 'VERTEX',
+      fullName: 'Financial Command Center',
+      icon: '💎',
+      description: 'Invoices • Expenses • Revenue • P&L • QB Export',
+      stats: [
+        'P&L Tracker (NEW!)',
+        'Invoices + Expenses',
+        'Revenue Tracking',
+        'Financial Reports'
+      ],
+      gradient: 'from-purple-600 to-pink-600',
+      status: 'online',
+      lastUsed: 'NEW! 🔥',
+      phase: '6. FINANCE'
+    }
+  ];
+
+  // SUPPORT SYSTEMS - Available but secondary
+  const supportSystems = [
+    {
+      id: 'documents' as ViewType,
+      name: 'DOCUMENTS',
+      fullName: 'Document & Pricing Hub',
+      icon: '📄',
+      description: 'Quotes • Cap Statements • RFPs • Pricing Engine',
+      stats: ['Quote Generator', 'Cap Statements', 'Pricing Engine'],
+      gradient: 'from-blue-600 to-cyan-600',
+      status: 'online',
+      lastUsed: 'Available'
+    },
+    {
+      id: 'ddcss' as ViewType,
+      name: 'DDCSS',
+      fullName: 'Corporate Sales System',
+      icon: '💼',
+      description: 'Blueprint Framework • 6 Sectors • AI Copilot',
+      stats: ['Corporate Pipeline', 'Private Sector', 'B2B Sales'],
+      gradient: 'from-green-600 to-blue-600',
+      status: 'online',
+      lastUsed: 'Available'
+    },
+    {
+      id: 'gbis' as ViewType,
+      name: 'GBIS',
+      fullName: 'Grant Business Intelligence',
+      icon: '🎁',
+      description: 'Grant Discovery • AI Applications • ROI Tracking',
+      stats: ['Grant Opportunities', 'Application Tracker', 'Award Monitor'],
+      gradient: 'from-yellow-600 to-orange-600',
+      status: 'online',
+      lastUsed: 'Available'
+    },
+    {
+      id: 'lbpc' as ViewType,
+      name: 'LBPC',
+      fullName: 'Surplus Recovery System',
+      icon: '💰',
+      description: 'Surplus Recovery • All 50 States • Automated Workflows',
+      stats: ['State Surplus', 'Recovery Tracking', 'Lead Management'],
+      gradient: 'from-indigo-600 to-purple-600',
+      status: 'online',
+      lastUsed: 'Available'
+    },
+    {
+      id: 'alexa' as ViewType,
+      name: 'ALEXA',
+      fullName: 'Voice Command Center',
+      icon: '🎙️',
+      description: '98 Voice Commands • Test Lab • All NEXUS Systems Connected',
+      stats: ['98 Commands', 'Live Testing', 'Full NEXUS Access'],
+      gradient: 'from-cyan-600 to-blue-600',
+      status: 'online',
+      lastUsed: 'Connected'
     }
   ];
 
@@ -881,6 +888,11 @@ END:VCALENDAR`;
       {/* OVERVIEW TAB */}
       {activeTab === 'overview' && (
         <>
+          {/* AUTONOMOUS COMMAND CENTER - Shows what NEXUS recommends you do */}
+          <div className="mb-8">
+            <AutonomousCommandCenter onEnterSystem={onEnterSystem} />
+          </div>
+
           {/* URGENT ACTION REQUIRED - Compact */}
           {(alerts.length > 0 || upcomingDeadlines.filter(d => d.priority === 'high').length > 0) && (
             <div className="mb-6">
@@ -1218,25 +1230,35 @@ END:VCALENDAR`;
             ))}
           </div>
 
-          {/* SYSTEM CARDS */}
+          {/* CORE WORKFLOW SYSTEMS - Your Daily Driver */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="text-2xl font-black text-white">INTEGRATED SYSTEMS</div>
+              <div className="text-2xl font-black text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                CORE WORKFLOW SYSTEMS
+              </div>
               <div className="h-px flex-1 bg-gradient-to-r from-blue-500/50 to-transparent"></div>
+              <span className="text-sm text-gray-500">Your contract lifecycle</span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {systems.map((system, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {coreSystems.map((system) => (
                 <div
                   key={system.id}
                   onClick={() => onEnterSystem(system.id)}
                   className="group relative overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl hover:border-blue-500/50 transition-all duration-500 cursor-pointer hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20"
                 >
+                  {/* Phase Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="px-2 py-1 bg-gray-700/80 text-gray-300 text-xs rounded font-mono">
+                      {system.phase}
+                    </span>
+                  </div>
+                  
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/5 group-hover:to-pink-500/10 transition-all duration-500"></div>
                   
-                  <div className="relative p-6">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="text-5xl transform group-hover:scale-110 transition-transform duration-300">{system.icon}</div>
+                  <div className="relative p-6 pt-12">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-4xl transform group-hover:scale-110 transition-transform duration-300">{system.icon}</div>
                       <div className="flex flex-col items-end gap-1">
                         <div className="flex items-center gap-2 px-3 py-1 bg-green-500/20 rounded-full">
                           <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
@@ -1246,30 +1268,49 @@ END:VCALENDAR`;
                       </div>
                     </div>
                     
-                    <div className="mb-6">
-                      <h3 className="text-3xl font-black mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{system.name}</h3>
-                      <p className="text-sm text-gray-400 font-semibold mb-3">{system.fullName}</p>
-                      <p className="text-xs text-gray-500 leading-relaxed">{system.description}</p>
+                    <div className="mb-4">
+                      <h3 className="text-2xl font-black mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{system.name}</h3>
+                      <p className="text-xs text-gray-400">{system.fullName}</p>
                     </div>
                     
-                    <div className="grid grid-cols-1 gap-2 mb-6">
-                      {system.stats.map((stat, idx) => (
-                        <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
-                          <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
-                          <span className="text-sm text-gray-300 font-medium">{stat}</span>
-                        </div>
+                    <p className="text-sm text-gray-300 mb-4">{system.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {system.stats.slice(0, 2).map((stat, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-300">
+                          {stat}
+                        </span>
                       ))}
                     </div>
                     
-                    <button className={`w-full bg-gradient-to-r ${system.gradient} hover:shadow-lg hover:shadow-blue-500/30 px-6 py-3 rounded-xl font-bold text-white transition-all duration-300 transform group-hover:translate-y-[-2px]`}>
-                      <span className="flex items-center justify-center gap-2">
-                        LAUNCH SYSTEM
-                        <span className="text-lg">→</span>
-                      </span>
+                    <button className={`w-full bg-gradient-to-r ${system.gradient} hover:shadow-lg px-4 py-3 rounded-xl font-bold text-white text-sm transition-all`}>
+                      Open {system.name} →
                     </button>
                   </div>
-                  
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SUPPORT SYSTEMS - Available When Needed */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="text-lg font-semibold text-gray-400">Support Systems</div>
+              <div className="h-px flex-1 bg-gradient-to-r from-gray-700/50 to-transparent"></div>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {supportSystems.map((system) => (
+                <div
+                  key={system.id}
+                  onClick={() => onEnterSystem(system.id)}
+                  className="group bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 hover:border-gray-600 cursor-pointer transition-all hover:bg-gray-800"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl">{system.icon}</span>
+                    <span className="font-bold text-white">{system.name}</span>
+                  </div>
+                  <p className="text-xs text-gray-500">{system.description}</p>
                 </div>
               ))}
             </div>

@@ -1,8 +1,10 @@
 # DEE DAVIS INC - COMPLETE SERVICE CATALOG
 ## All Services Available for Government & Corporate Clients
 
-**Last Updated:** February 1, 2026  
-**Source:** deedavis.biz + existing NEXUS integrations
+**Last Updated:** February 25, 2026  
+**Source:** deedavis.biz + existing NEXUS integrations + verified partner agreements
+
+**PRICING NOTE:** All prices in this catalog are **DDI AGENCY RATES** — what the CLIENT pays Dee Davis Inc. DDI is the contract management firm, the prime contractor, the agency. Workers, subcontractors, labs, and platforms are DDI's internal cost. This catalog does NOT list worker pay rates or platform fees. DDI's margin is built into every price listed here.
 
 ---
 
@@ -16,7 +18,7 @@
 5. Logistics & Fleet Optimization
 6. Project Executive Services
 
-**Total Services:** 25+  
+**Total Services:** 26+  
 **Target Markets:** Government (Federal/State/Local) + Corporations  
 **Revenue Potential:** $5M-$20M+ annually
 
@@ -44,10 +46,20 @@
 
 **Partnership:** Quest Diagnostics (certified provider)
 
-**Pricing Model:**
-- Per test: $50-$125
-- Monthly retainer + per test
-- Annual contract (unlimited testing)
+**Pricing (3D Ink and Livescan Co — Mobile Service):**
+- DOT 5-panel urine: $125
+- DOT breath alcohol: $85
+- DOT post-accident: $150
+- DOT return-to-duty: $150
+- DOT random program setup: $250/year
+- Non-DOT 5-panel rapid: $75
+- Non-DOT 10-panel rapid: $95
+- Non-DOT 5-panel lab-confirmed: $85
+- Non-DOT 10-panel lab-confirmed: $125
+- Hair follicle 5-panel: $175
+- Hair follicle 10-panel: $275
+- After-hours/emergency surcharge: +$125
+- Weekend surcharge: +$85
 
 **NAICS Codes:** 621511, 541990
 
@@ -70,10 +82,15 @@
 - FBI channeling
 - State-specific submissions
 
-**Pricing Model:**
-- Per person: $25-$75
-- Mobile service premium: +$50-$100
-- Group rates available
+**Pricing (3D Ink and Livescan Co — Mobile Service):**
+- New client (2-card minimum + mobile): $150
+- Per card rate: $50
+- Volume 16-50 cards/month: $45/card (travel included)
+- Volume 51+ cards/month: $40/card (travel included statewide)
+- SWFT/FBI electronic submission + results: +$50/person
+- **Bundled new client (2 cards + SWFT/FBI submission + results): $200**
+- Prints stored on file: 1 year (reorders don't require reprinting)
+- EFT file creation: In-house via Lakota partnership
 
 **NAICS Codes:** 561611, 541990
 
@@ -122,12 +139,64 @@
 
 **Partnership:** DDC (DNA Diagnostics Center)
 
-**Pricing Model:**
-- Paternity test: $300-$500
-- Immigration test: $400-$600
-- Legal/court-admissible: Premium pricing
+**Pricing (Depointe DNA — DDC Collection Partner):**
+- Standard paternity (trio): $375+
+- Motherless paternity: $375+
+- Immigration DNA: $450-$600
+- Grandparentage: $450+
+- Siblingship (full/half): $450+
+- Non-invasive prenatal paternity: $1,500+
+- Collection fee (buccal swab): $100/person
+- Collection fee (blood draw): $75/person
+
+**DDI Wholesale Cost (DDC Distributor Agreement — Confirm Current Rates):**
+
+| Test | DDC Chain Cost | DDI Collection Fee | DDI Client Price | Est. Margin |
+|------|---------------|-------------------|-----------------|-------------|
+| Paternity (trio) | $154 | $100/person | $375+ | ~$120+ |
+| Immigration | $154+ | $100/person | $450-$600 | ~$200+ |
+| Grandparentage | $192 | $100/person | $450+ | ~$160+ |
+| Siblingship | $192 | $100/person | $450+ | ~$160+ |
+| Prenatal (non-invasive) | $1,225 | $100 | $1,500+ | ~$175+ |
+
+*DDC wholesale pricing from 2022 agreement — pending confirmation of current rates. See PARTNER_ACCOUNT_UPDATES.md for full DDC fee schedule and action items.*
 
 **NAICS Codes:** 621511, 541990
+
+---
+
+### **Lead Testing Services** 🏠
+**Target Clients:**
+- Public housing authorities
+- School districts (lead in water/paint)
+- Municipalities (lead abatement programs)
+- Nonprofits (community health events)
+- Property management companies
+- Government health departments
+
+**Services:**
+- Blood lead level testing event coordination (TPA model)
+- Lead-based paint awareness programs
+- Community lead screening event management
+- Coordination with certified labs for sample analysis
+- Reporting and compliance documentation
+- Public health education and outreach
+
+**Experience:** Dee Davis, founder of Cause We Care (Michigan nonprofit), has worked directly with Wayne Metro Community Action Agency as a liaison for lead-based paint awareness programs.
+
+**Business Model:** Third Party Administrator (TPA) — DDI coordinates testing events, manages logistics, arranges certified phlebotomists and labs, handles reporting. DDI does NOT perform lab analysis.
+
+**Certifications (In Progress):**
+- EPA Lead-Safe Certified Firm (application pending — cdx.epa.gov, $300 fee)
+- Michigan EGLE Healthy Homes (to be evaluated)
+
+**Pricing (TPA Model — Event-Based):**
+- Community screening event coordination: Starting at $5,000-$10,000+ per event
+- Per-person blood lead level test (event setting): $75-$150
+- Ongoing program management: Monthly retainer, project-based
+- *Pricing varies by event size, location, lab costs, and staffing requirements*
+
+**NAICS Codes:** 621511, 621999, 541620
 
 ---
 
@@ -156,28 +225,47 @@
 ## 2️⃣ PROFESSIONAL BUSINESS SERVICES
 
 ### **Notary Services** ✍️
-**Target Clients:**
-- Title companies (real estate closings)
-- Law firms (document authentication)
-- Banks/credit unions (loan signings)
-- Corporations (executive documents)
-- Government agencies (official documents)
 
-**Services:**
-- General notary public services
-- Loan signing agent services
-- Real estate closings
-- Mobile notary (travel to client)
-- After-hours/weekend service
-- Multi-document packages
+**Three Service Tiers:**
+
+**Tier 1 — DDI Notary Agency (Dispatching/Coordinating)**
+- Target: Government agencies, corporations, law firms needing notary services at scale
+- DDI dispatches qualified notaries from its network
+- Pricing: $75+ per appointment
+- Platform: Snapdocs (national marketplace)
+
+**Tier 2 — CNTDA (Certified Notary & Trained Document Agent)**
+- Target: Estate planning attorneys, elder law firms, trust companies
+- Premium service: Living trust signings, estate document delivery, POA, healthcare directives
+- Mobile to offices, homes, hospitals, assisted living facilities
+- Pricing:
+  - Living trust package signing (6-8+ notarizations): $150-$250
+  - Estate planning document delivery: $150-$250
+  - Power of attorney signing: $75-$125 per document set
+  - Advanced healthcare directive: $75-$125 per document set
+  - Complex estate packages (multiple sessions): $500+
+
+**Tier 3 — Notary Permit Runner (NPR Certified)**
+- Target: Contractors (AC, electrical, plumbing, roofing, builders, solar, pool, general)
+- Service: Pull building permits, submit plans for review, record documents at courthouses
+- Contractors bill $120+/hour — standing in permit lines costs them $240-$360 in lost time
+- DDI saves them time and money
+- Pricing:
+  - Single permit pull: $125
+  - Multiple permits (up to 4): $125 first + $50 each additional
+  - 5+ permits: Volume pricing available
+  - Plan-review permits (2 trips required): Premium pricing
+  - Travel: Included within service area, surcharge beyond
+  - Notarization of permit forms: Additional fee (double-dip — most permit forms require notarization)
+- Certifications: NPR Certificate of Completion on file
+
+**General Mobile Notary:**
+- Loan signing (mortgage closings): $75-$200 per closing
+- Standard mobile notarization: $75+ per appointment
+- Hospital/jail/facility notarization: $150-$300
+- After-hours/weekend: 1.5x-2x standard rate
 
 **Platform:** Snapdocs (national marketplace)
-
-**Pricing Model:**
-- Standard notarization: $15-$25 per signature
-- Loan signing: $75-$200 per closing
-- Mobile service: $50-$150 travel fee
-- After-hours: Premium rates
 
 **NAICS Codes:** 541199, 541990
 
@@ -188,20 +276,24 @@
 - Remote clients (nationwide)
 - Out-of-state transactions
 - International clients (US documents)
-- Tech-savvy clients (convenience)
+- Corporate clients needing volume notarizations
+- Government agencies with remote workforce
 
 **Services:**
-- Video-based notarization
-- Digital document signing
-- Identity verification
+- Video-based notarization sessions
+- Digital document signing with identity verification (KBA)
+- Audio/video recording of session (compliance)
 - Secure document storage
+- Nationwide coverage — any state that permits RON
 
 **Platform:** ZigSig (RON platform)
 
-**Pricing Model:**
-- Per document: $25-$50
-- Session fee: $75-$150
-- Nationwide coverage
+**Pricing (DDI Agency Rates):**
+- Standard RON session: $75
+- Complex documents (trusts, deeds, wills, POA): $125-$200
+- Additional signers per session: +$25 each
+- After-hours/weekend: 1.5x standard rate
+- Corporate/government volume: Per-session discount on retainer
 
 **NAICS Codes:** 541199, 541990
 
@@ -209,22 +301,25 @@
 
 ### **Document Preparation** 📄
 **Target Clients:**
-- Small businesses
-- Individuals (legal forms)
-- Government contract bidders
-- Real estate professionals
+- Contractors needing permit applications, compliance filings, government forms
+- Small businesses needing formation documents, licensing applications
+- Attorneys needing document packages assembled for signings
+- Government contractors needing bid/proposal package assembly
+- Real estate professionals needing closing packages prepared
 
 **Services:**
-- Contract drafting
-- Business formation documents
-- Bid package assembly
-- Compliance documentation
-- Standardized forms completion
+- Government form preparation and filing packages
+- Business formation and licensing document packages
+- Bid/proposal package assembly and compliance documentation
+- Permit application packages (pairs with NPR permit running)
+- Legal document packages (pairs with CNTDA notary services)
+- Apostille and authentication document packages
 
-**Pricing Model:**
-- Simple forms: $50-$150
-- Complex documents: $200-$500
-- Hourly rate: $75-$150/hour
+**Pricing (DDI Agency Rates):**
+- Standard document package: $150+
+- Complex document package (multiple filings/forms): $300-$500
+- Bid/proposal package assembly: $500+
+- Hourly rate for custom work: $125/hour
 
 **NAICS Codes:** 541199, 561110
 
@@ -257,20 +352,26 @@
 
 ### **Staffing Solutions** 👥
 **Target Clients:**
-- Government agencies (temporary staff)
+- Government agencies (temporary and contract staff)
 - Contractors (project-based labor)
-- Events (temporary workers)
+- Corporations (administrative, professional, event staffing)
+- Facilities needing ongoing workforce support
+
+**Model:** DDI primes the staffing contract, subcontracts The Employment Crew for recruiting and worker supply. DDI owns the client relationship, billing, compliance, and quality management.
 
 **Services:**
 - Administrative staffing
 - Professional staffing
-- Temporary-to-permanent
-- Payroll services
-- HR compliance
+- Temporary-to-permanent placement
+- Project-based labor coordination
+- HR compliance and workforce documentation
 
-**Pricing Model:**
-- Markup on hourly rate: 30-50%
-- Flat fee per placement: $500-$5,000
+**Fulfillment Partner:** The Employment Crew (recruiting, placement, worker supply)
+
+**Pricing (DDI Agency Rates):**
+- Markup on hourly bill rate: 25-40%
+- Direct placement fee: $1,000-$5,000 per placement
+- Contract staffing: Negotiated per contract
 
 **NAICS Codes:** 561320, 561311
 
@@ -362,7 +463,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 12-20% of contract value
+**Margin:** 20-30% of contract value
 
 **NAICS Codes:** 561720
 
@@ -384,7 +485,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 15-25% of contract value
+**Margin:** 20-30% of contract value
 
 **NAICS Codes:** 561730
 
@@ -405,7 +506,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 15-20% of contract value
+**Margin:** 20-30% of contract value
 
 **NAICS Codes:** 561210, 236220
 
@@ -426,7 +527,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 10-18% of contract value
+**Margin:** 25-35% of contract value
 
 **NAICS Codes:** 541512, 541519
 
@@ -448,7 +549,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 10-15% of contract value
+**Margin:** 20-30% of contract value
 
 **NAICS Codes:** 561612
 
@@ -469,7 +570,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 10-20% of contract value
+**Margin:** 15-25% of contract value
 
 **NAICS Codes:** 236220, 238990
 
@@ -490,7 +591,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 15-25% of contract value
+**Margin:** 20-30% of contract value
 
 **NAICS Codes:** 484210
 
@@ -511,7 +612,7 @@
 
 **Model:** Prime contractor + qualified subs
 
-**Margin:** 15-25% of contract value
+**Margin:** 25-35% of contract value
 
 **NAICS Codes:** 561920
 
@@ -519,49 +620,32 @@
 
 ## 5️⃣ LOGISTICS & FLEET OPTIMIZATION
 
-### **Freight Brokerage Consulting** 🚛
+### **Freight Brokerage & Logistics** 🚛
 **Target Clients:**
 - Manufacturers (outbound freight)
 - Distributors (supply chain)
 - Government agencies (freight management)
+- Small trucking companies, owner-operators, fleet managers
+
+**Model:** DDI primes the logistics contract through Freight 1st Direct (MC-1647572, DOT-4250594). DDI manages the client relationship, carrier sourcing, rate negotiation, compliance, and billing. Carriers and drivers are subcontractors.
 
 **Services:**
-- Carrier sourcing
-- Rate negotiation
-- Freight optimization
-- Technology implementation (FleetFlow™)
-- Logistics strategy
-
-**Credentials:** MC-1647572
+- Carrier sourcing and rate negotiation
+- Freight optimization and logistics strategy
+- Dispatch services and load booking
+- DOT compliance support
+- Carrier coordination and tracking
+- FleetFlow™ platform access (pre-launch)
 
 **Operated By:** Freight 1st Direct (DDI's independent freight brokerage)
 
-**Pricing Model:**
-- Consulting: $150-$300/hour
-- Commission on freight arranged: 10-20%
+**Pricing (DDI Agency Rates):**
+- Markup on carrier/driver rates: 25-40%
+- Logistics consulting: $150-$300/hour
+- Dispatch retainer: $1,000-$3,000/month
+- Per-load dispatch (no retainer): $75-$200/load
 
 **NAICS Codes:** 488510, 541614
-
----
-
-### **Dispatch Solutions** 📡
-**Target Clients:**
-- Small trucking companies
-- Owner-operators
-- Fleet managers
-
-**Services:**
-- Dispatch services
-- Load booking
-- Carrier coordination
-- DOT compliance support
-- FleetFlow™ platform access (pre-launch)
-
-**Pricing Model:**
-- Per load: $50-$150
-- Monthly retainer: $500-$2,000
-
-**NAICS Codes:** 488510
 
 ---
 
@@ -580,8 +664,8 @@
 - Stakeholder coordination
 - ATLAS PM platform services
 
-**Pricing Model:**
-- Daily rate: $800-$1,500
+**Pricing (DDI Contract Management Rates):**
+- Daily rate: $1,200-$2,000
 - Project-based: $50K-$500K+
 
 **NAICS Codes:** 541611, 541618

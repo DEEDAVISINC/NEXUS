@@ -1,7 +1,7 @@
 # SEND TO BUYER — Detroit Arsenal / TACOM Small Business Office
 
 **TO:** usarmy.detroit.tacom.mbx.lcmc-osbp@army.mil
-**CC:** ACCDTAIndustry@army.mil
+**CC:** nicholas.g.kochendoerfer.civ@army.mil; kalli.l.bates.civ@army.mil
 **SUBJECT:** EDWOSB Fingerprinting Services — Local Provider Introduction (CAGE 8UMX3)
 **ATTACHMENT:** TACOM_Fingerprinting_Capability_Statement.html
 

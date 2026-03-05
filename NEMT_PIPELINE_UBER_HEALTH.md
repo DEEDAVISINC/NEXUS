@@ -1,6 +1,6 @@
 # NEMT CONTRACT PIPELINE — LEVERAGING UBER HEALTH PARTNERSHIP
 
-**Last Updated:** February 12, 2026
+**Last Updated:** February 20, 2026
 **DDI Advantage:** Uber Health partnership = tech-enabled NEMT without owning a fleet
 **Strategy:** DDI primes as EDWOSB, uses Uber Health as transportation network + local subs where wheelchair/stretcher required
 
@@ -34,15 +34,32 @@
 
 #### 1. VA Cleveland — Non-Emergency Transportation Services
 - **Notice ID:** 36C25026Q0216
-- **Agency:** VA Cleveland Medical Center (Wade Park campus)
-- **Type:** Pre-solicitation → Solicitation expected January 27, 2026
-- **Set-Aside:** TOTAL SMALL BUSINESS SET-ASIDE ← DDI QUALIFIES
-- **Scope:** Research participant and patient transport to multiple VA facilities
+- **Agency:** VA Cleveland Medical Center (Wade Park campus) — FES Center (Functional Electrical Stimulation research)
+- **Type:** SOLICITATION LIVE — Response due February 28, 2026
+- **Set-Aside:** TOTAL SMALL BUSINESS SET-ASIDE — DDI QUALIFIES
+- **Scope:** Research participant transport between homes and 4 facilities (VA Medical Center, MetroHealth, Cleveland Clinic, University Hospitals)
 - **Period:** March 15, 2026 – Feb 14, 2027 + three 1-year options
-- **Location:** Cleveland, OH (2.5 hours from Troy, MI)
-- **BUYER CONTACT:** Check SAM.gov for contracting officer email
+- **Location:** Cleveland, OH 44106 (2.5 hours from Troy, MI)
+- **CO:** Christopher R. Powell — christopher.powell@va.gov
+- **Est. Value:** $75K–$200K/year (FES Center research budget line item, not full VA-wide transport)
 - **DDI PLAY:** Uber Health for ambulatory rides + local WAV sub for wheelchair trips
-- **⚠️ STATUS: SOLICITATION SHOULD BE LIVE NOW — CHECK SAM.gov IMMEDIATELY**
+- **Prior Incumbents:** GC Logistics (SDVOSB, MS) and Apex Transit Solutions (WOSB, Cleveland) — messy GAO protest history (B-418631 series)
+- **Ohio NEMT Rates:** Ambulatory $30-$40/trip, Wheelchair $60-$90/trip, Stretcher $150-$220/trip
+- **DEADLINE: FEBRUARY 28, 2026 at 3:30 PM EST — Dee finding solicitation docs**
+
+#### 1b. Ohio DOH — Medical Specimen Courier Services (NEW)
+- **Solicitation ID:** DOH59579 (BPHL-SFY26-SY27)
+- **Agency:** Ohio Department of Health, Bureau of Public Health Laboratory
+- **Type:** RFP — Due March 5, 2026
+- **Set-Aside:** Open market (no SDVOSB restriction) — DDI qualifies
+- **Scope:** Courier services for time-sensitive medical specimens and lab samples for disease diagnosis, environmental surveillance, and epidemiological support
+- **NAICS:** 492110
+- **Est. Value:** $100K–$500K/year
+- **Questions Due:** February 26, 2026
+- **Portal:** OhioBuys (must register)
+- **Contact:** obm.sharedservices@obm.ohio.gov | (614) 338-4761
+- **NOTE:** DDI's Ohio MBE/WBE certification was rejected — OhioBuys only accepts Ohio MBDD certs. Email sent to Certifications@development.ohio.gov on Feb 20 to explore proper certification path. DDI can still bid open market without Ohio cert.
+- **DEADLINE: MARCH 5, 2026**
 
 #### 2. Georgia Medicaid — Statewide NEMT (Multiple Suppliers)
 - **Agency:** Georgia Dept of Community Health (DCH)
@@ -184,20 +201,21 @@ These aren't RFPs — they're IMMEDIATE income opportunities. Sign up as a trans
 
 ## PART 2: IMMEDIATE ACTION PLAN
 
-### THIS WEEK:
+### THIS WEEK (Updated Feb 20, 2026):
 
 | Priority | Action | Contact | Status |
 |----------|--------|---------|--------|
-| 🔴 1 | Sign up as ModivCare transportation provider | modivcare.com/drive-with-us-2025 | [ ] |
-| 🔴 2 | Sign up with MTM Health as provider | mtm-inc.net/transportation-providers | [ ] |
-| 🔴 3 | Check SAM.gov for VA Cleveland NEMT solicitation (36C25026Q0216) | sam.gov | [ ] |
-| 🔴 4 | Check SAM.gov for NWI VA ambulance (DUE FEB 20!) | amanda.patterson-elliott@va.gov | [ ] |
-| 🟡 5 | Email Georgia DCH about NEMT eRFP | charles.strong@dch.ga.gov | [ ] |
-| 🟡 6 | Register on Georgia Procurement Registry | ssl.doas.state.ga.us/gpr | [ ] |
-| 🟡 7 | Call Colorado HCPF — Cynthia Miley | 303-866-2993 | [ ] |
-| 🟡 8 | Email Virginia DMAS about NEMT brokerage | transportation@dmas.virginia.gov | [ ] |
-| 🟢 9 | Enroll DDI as Michigan Medicaid NEMT provider | michigan.gov/mdhhs | [ ] |
-| 🟢 10 | Monitor Michigan NEMT broker re-compete (expires Jul 2026) | SIGMA + DTMB | [ ] |
+| 🔴 1 | RESPOND to VA Cleveland NEMT (36C25026Q0216) — DUE FEB 28 | christopher.powell@va.gov | [IN PROGRESS] Dee finding solicitation docs |
+| 🔴 2 | RESPOND to Ohio DOH Specimen Courier (DOH59579) — DUE MAR 5 | obm.sharedservices@obm.ohio.gov | [ ] Pull full RFP from OhioBuys |
+| 🔴 3 | Submit questions on Ohio DOH courier — QUESTIONS DUE FEB 26 | obm.sharedservices@obm.ohio.gov | [ ] |
+| 🟡 4 | Ohio certification inquiry email SENT | Certifications@development.ohio.gov | [SENT] Awaiting response |
+| 🟡 5 | Respond to Gulf Coast VA Sources Sought (36C25626Q0297) | TBD | [ ] Cap statement + interest |
+| ✅ 6 | Sign up as ModivCare transportation provider | modivcare.com/drive-with-us-2025 | [SENT] Email to Larry Smith Feb 27, 3:19 PM. Provider app submitted. |
+| 🟡 7 | Sign up with MTM Health as provider | mtm-inc.net/transportation-providers | [ ] |
+| 🟡 8 | Email Georgia DCH about NEMT eRFP | charles.strong@dch.ga.gov | [ ] |
+| 🟢 9 | Register on Georgia Procurement Registry | ssl.doas.state.ga.us/gpr | [ ] |
+| 🟢 10 | Enroll DDI as Michigan Medicaid NEMT provider | michigan.gov/mdhhs | [ ] |
+| ❌ | NWI VA ambulance (DUE FEB 20) | — | MISSED — deadline passed |
 
 ### WHY MODIVCARE FIRST:
 
@@ -225,10 +243,22 @@ ModivCare holds Michigan's $128M NEMT contract for YOUR three counties (Wayne, O
 
 | # | Location | Contact | Email | Phone |
 |---|----------|---------|-------|-------|
-| 1 | VA Cleveland | Robert Bolcavage | robert.bolcavage@va.gov | — |
-| 2 | VA Hampton | Jerry Mann | jerry.mann@va.gov | 757-315-2598 |
-| 3 | VA Phoenix | Katharine Robert | katharine.robert@va.gov | — |
-| 4 | NWI VA | Amanda Patterson-Elliott | amanda.patterson-elliott@va.gov | — |
+| 1 | VA Cleveland (FES Center) | Christopher R. Powell (CO) | christopher.powell@va.gov | — |
+| 2 | VA Cleveland (Wheelchair) | Robert Bolcavage | robert.bolcavage@va.gov | — |
+| 3 | VA Hampton | Jerry Mann | jerry.mann@va.gov | 757-315-2598 |
+| 4 | VA Phoenix | Katharine Robert | katharine.robert@va.gov | — |
+| 5 | NWI VA | Amanda Patterson-Elliott | amanda.patterson-elliott@va.gov | — |
+| 6 | VA Dallas (North Texas) | Anitra Carter / Astrid McKinney | anitra.carter@va.gov / astrid.mckinney@va.gov | — |
+| 7 | VA Gulf Coast (Biloxi) | TBD | TBD | — |
+
+### OHIO STATE BUYERS (NEW):
+
+| # | Agency | Contact | Email | Phone |
+|---|--------|---------|-------|-------|
+| 1 | Ohio DOH (Courier) | OBM Shared Services | obm.sharedservices@obm.ohio.gov | (614) 338-4761 |
+| 2 | Ohio MBDD (Certification) | Chris Dunlap | Chris.Dunlap@development.ohio.gov | 614-466-5700 |
+| 3 | Ohio DAS (OhioBuys) | Karyn Davis | Karyn.Davis@das.ohio.gov | — |
+| 4 | Ohio Certifications | Certifications Office | Certifications@development.ohio.gov | — |
 
 ### NEMT BROKER NETWORKS (Sign up as provider):
 

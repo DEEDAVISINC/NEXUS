@@ -46,10 +46,11 @@
 - [x] GO — This is DDI's core service. We are SWFT certified. No subs needed.
 
 ## STEP 3: CONTACT CO — CHECK IF STILL OPEN
-- [ ] Email Barbara Grinder to ask if solicitation is still accepting quotes
-- [ ] The Feb 11 update after the Jan 27 deadline suggests amendment or re-opening
+- [x] Email Barbara Grinder to ask if solicitation is still accepting quotes — **SENT Feb 28, 2026**
+- [x] The Feb 11 update after the Jan 27 deadline suggests amendment or re-opening
 - [ ] If closed: ask when contract will be re-competed or if DDI can be considered
-- [ ] If open: get updated deadline and submit quote
+- [ ] If open: get updated deadline and submit full quote package
+- **FOLLOW-UP DUE: March 6, 2026** if no response
 
 ## STEP 4: PREPARE QUOTE (if still open)
 - [ ] Calculate pricing: base year + 4 option years

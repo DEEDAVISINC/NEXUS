@@ -5,6 +5,8 @@
 **Created:** February 8, 2026  
 **Owner:** Dee Davis Inc.
 
+**IDIQ & Task Order Knowledge:** See `IDIQ_GOVCON_KNOWLEDGE.md` in project root for Sources Sought strategy, IDIQ vehicles, task order proposal anatomy, and Recompete Tracker concepts.
+
 ---
 
 ## THE 7 TOOLS — ALL AUTOMATED IN NEXUS

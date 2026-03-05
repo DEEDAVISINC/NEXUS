@@ -88,7 +88,7 @@
 ### NEMT Sub Applications (Submitted Feb 12)
 - [x] **Access2Care** — Message sent (form timed out), confirmation received
 - [x] **MTM Health** — May be linked to Access2Care (MTM logo on A2C confirmation)
-- [ ] **Modivcare** — Still need to apply (mymodivcare.com)
+- [x] **Modivcare** — Applied February 25, 2026 (modivcare.com). Ambulatory + Wheelchair. Oakland/Wayne/Macomb. 24/7. Awaiting response.
 
 ### Maryland
 - **Status:** Active Medicaid provider

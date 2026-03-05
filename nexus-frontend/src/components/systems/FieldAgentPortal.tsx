@@ -124,6 +124,11 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
   const [profileEditing, setProfileEditing] = useState(false);
   const [showNotifPanel, setShowNotifPanel] = useState(false);
   const [docs, setDocs] = useState<ComplianceDoc[]>(REQUIRED_DOC_TYPES);
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [manualTracking, setManualTracking] = useState('');
+  const [selectedCarrier, setSelectedCarrier] = useState('');
+  const [receiptUploadStatus, setReceiptUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [trackingInfo, setTrackingInfo] = useState<Record<string, any>>({});
   const [orders, setOrders] = useState<any[]>([]);
   const [agentProfile, setAgentProfile] = useState(DEFAULT_PROFILE);
   const [myPayments, setMyPayments] = useState<any[]>([]);
@@ -145,7 +150,22 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
     } catch { /* fallback to empty state */ }
   }, []);
 
+  const fetchTrackingInfo = useCallback(async (orderId: string) => {
+    try {
+      const res = await api.getTracking(orderId);
+      if (res?.tracking) {
+        setTrackingInfo(prev => ({ ...prev, [orderId]: res.tracking }));
+      }
+    } catch { /* empty */ }
+  }, []);
+
   useEffect(() => { loadAgentData(); }, [loadAgentData]);
+
+  useEffect(() => {
+    if (selectedOrderId && !trackingInfo[selectedOrderId]) {
+      fetchTrackingInfo(selectedOrderId);
+    }
+  }, [selectedOrderId, trackingInfo, fetchTrackingInfo]);
 
   // ─── WORKFLOW ADVANCE FUNCTIONS ───────────────────────────────
   const advanceOrder = (orderId: string, newStatus: string) => {
@@ -166,12 +186,42 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
   };
 
   const handleMarkShipped = (orderId: string) => {
-    // Only available after scanback is uploaded
     const order = orders.find(o => o.id === orderId);
     if (order && order.scanbackUploaded) {
       advanceOrder(orderId, 'Scanned Back');
     }
   };
+
+  const handleReceiptUpload = async (orderId: string) => {
+    if (!receiptFile && !manualTracking) return;
+    setReceiptUploadStatus('uploading');
+    try {
+      const formData = new FormData();
+      formData.append('order_id', orderId);
+      if (receiptFile) formData.append('file', receiptFile);
+      if (manualTracking) formData.append('tracking_number', manualTracking);
+      if (selectedCarrier) formData.append('carrier', selectedCarrier);
+      formData.append('agent_id', agentProfile.id || '');
+      formData.append('agent_name', agentProfile.name || '');
+
+      const res = await api.uploadReceipt(formData);
+
+      if (res?.success) {
+        setReceiptUploadStatus('success');
+        setTrackingInfo(prev => ({ ...prev, [orderId]: res }));
+        setReceiptFile(null);
+        setManualTracking('');
+        setSelectedCarrier('');
+        setTimeout(() => setReceiptUploadStatus('idle'), 3000);
+      } else {
+        setReceiptUploadStatus('error');
+      }
+    } catch {
+      setReceiptUploadStatus('error');
+      setTimeout(() => setReceiptUploadStatus('idle'), 3000);
+    }
+  };
+
 
   const tabs = [
     { id: 'dashboard', label: '🏠 Dashboard' },
@@ -447,11 +497,83 @@ const FieldAgentPortal: React.FC<FieldAgentPortalProps> = ({ onBackToNexus, acti
           )}
         </div>
 
-        {/* Shipping Info */}
-        {order.shippingMethod && (
+        {/* Shipping & Receipt Upload */}
+        {(order.status === 'Scanned Back' || order.status === 'Completed' || order.shippingMethod || trackingInfo[order.id]) && (
           <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-4">
-            <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">📦 Shipping</h3>
-            <p className="text-sm">{order.shippingMethod}</p>
+            <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">📦 Shipping & Tracking</h3>
+
+            {order.shippingMethod && <p className="text-sm mb-3 text-gray-300">{order.shippingMethod}</p>}
+
+            {/* Show existing tracking */}
+            {trackingInfo[order.id]?.tracking_number && (
+              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-green-400 font-bold text-xs uppercase">Tracking Captured</span>
+                  <span className="text-[10px] px-2 py-0.5 bg-green-500/20 rounded-full text-green-300 font-semibold">
+                    {trackingInfo[order.id].carrier || 'Unknown'}
+                  </span>
+                </div>
+                <p className="text-sm font-mono text-green-300 select-all">{trackingInfo[order.id].tracking_number}</p>
+                <p className="text-[10px] text-gray-500 mt-1">
+                  {trackingInfo[order.id].extraction_method === 'auto' ? '✨ Auto-extracted from receipt' : '✏️ Manually entered'}
+                  {trackingInfo[order.id].confidence && ` · Confidence: ${trackingInfo[order.id].confidence}`}
+                </p>
+              </div>
+            )}
+
+            {/* Receipt upload form — shown when no tracking exists yet */}
+            {!trackingInfo[order.id]?.tracking_number && ['Completed', 'Scanned Back'].includes(order.status) && (
+              <div className="space-y-3">
+                <p className="text-xs text-gray-400">Upload your FedEx/UPS/USPS receipt and we'll auto-grab the tracking number, or type it in manually.</p>
+
+                {/* File upload */}
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-3 text-center hover:border-gray-500 transition cursor-pointer"
+                  onClick={() => { const el = document.getElementById(`receipt-input-${order.id}`); el?.click(); }}>
+                  <input id={`receipt-input-${order.id}`} type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden"
+                    onChange={(e) => { if (e.target.files?.[0]) setReceiptFile(e.target.files[0]); }} />
+                  {receiptFile ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-sm">🧾</span>
+                      <span className="text-sm font-semibold text-teal-400">{receiptFile.name}</span>
+                      <button onClick={(e) => { e.stopPropagation(); setReceiptFile(null); }} className="text-gray-500 hover:text-red-400 text-xs ml-2">✕</button>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-500">📎 Tap to upload receipt (PDF or photo)</p>
+                  )}
+                </div>
+
+                {/* Manual entry */}
+                <div className="flex gap-2">
+                  <select value={selectedCarrier} onChange={e => setSelectedCarrier(e.target.value)}
+                    className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-xs focus:border-teal-500 focus:outline-none w-28">
+                    <option value="">Carrier</option>
+                    <option value="FedEx">FedEx</option>
+                    <option value="UPS">UPS</option>
+                    <option value="USPS">USPS</option>
+                  </select>
+                  <input type="text" value={manualTracking} onChange={e => setManualTracking(e.target.value)}
+                    placeholder="Or type tracking # here"
+                    className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-xs focus:border-teal-500 focus:outline-none" />
+                </div>
+
+                {/* Submit */}
+                <button
+                  onClick={() => handleReceiptUpload(order.id)}
+                  disabled={(!receiptFile && !manualTracking) || receiptUploadStatus === 'uploading'}
+                  className={`w-full py-2.5 rounded-lg font-semibold text-sm transition ${
+                    receiptUploadStatus === 'success' ? 'bg-green-600 text-white' :
+                    receiptUploadStatus === 'error' ? 'bg-red-600 text-white' :
+                    receiptUploadStatus === 'uploading' ? 'bg-gray-600 text-gray-300 cursor-wait' :
+                    (!receiptFile && !manualTracking) ? 'bg-gray-700 text-gray-500 cursor-not-allowed' :
+                    'bg-teal-600 hover:bg-teal-700 text-white'
+                  }`}>
+                  {receiptUploadStatus === 'uploading' ? '⏳ Uploading...' :
+                   receiptUploadStatus === 'success' ? '✅ Tracking Captured!' :
+                   receiptUploadStatus === 'error' ? '❌ Failed — Try Again' :
+                   '📦 Upload Receipt / Save Tracking'}
+                </button>
+              </div>
+            )}
           </div>
         )}
 

@@ -70,6 +70,9 @@ load_dotenv()
 DDI_PROFILE = {
     'company': 'Dee Davis Inc.',
     'identity': 'Contract Management Firm — wins contracts, sources partners, manages delivery',
+    'business_model': 'Prime/Sub — DDI primes all contracts, subs/partners execute work, DDI manages delivery. See DDI_BUSINESS_MODEL.md',
+    'pricing_model': 'All prices are DDI agency rates (what client pays DDI). Sub costs are internal. See DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md',
+    'sba_subcontracting_limit': 'Service contracts: DDI must perform 50% of personnel costs. Construction: 15-25%. See 13 CFR 125.6',
     'certifications': ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'SBE', 'E-Verify', 'SWFT', 'CMMC-AB'],
     'federal_ids': {'cage': '8UMX3', 'uei': 'HJB4KNYJVGZ1', 'duns': '002636755'},
     'products': [

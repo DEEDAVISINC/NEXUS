@@ -1,7 +1,7 @@
 # PROCUREMENT PORTALS MASTER LIST
 ## Every Public Solicitation Source DDI Can Access — NO LOGIN REQUIRED
 
-**Last Updated:** February 12, 2026
+**Last Updated:** February 17, 2026
 **Purpose:** Feed the Nexus system with every portal that shows public solicitations DDI can bid on.
 
 ---
@@ -11,6 +11,18 @@
 - **PARTIAL** = Some bids visible, full details need login
 - **LOGIN** = Registration/login required to see bids
 - **UNKNOWN** = Could not verify (timed out)
+
+---
+
+## FORECASTING & INTELLIGENCE DASHBOARDS
+
+| Portal | URL | Public? | Notes |
+|--------|-----|---------|-------|
+| **MI Vendor Opportunity Dashboard** | michigan.gov/dtmb/procurement/contractconnect/vendor-opportunity-dashboard | **PUBLIC** | Forecasted state bids by agency, updates every Monday. Filter by MDHHS, DTMB, etc. |
+| **MI Contract Connect Events** | michigan.gov/dtmb/procurement/contractconnect | **PUBLIC** | Procurement events, reverse trade fairs, vendor outreach |
+| **MI Contract Opportunity Email List** | public.govdelivery.com/accounts/MIDEPTTMB/subscriber/new?topic_id=MIDEPTTMB_309 | **PUBLIC** | Email alerts for upcoming MI bids, tips, events |
+| **MI Buyer Contact List** | michigan.gov/dtmb/procurement/contractconnect/contact | **PUBLIC** | All state buyers by department (MDHHS, DTMB, etc.) |
+| **MI Commodity Code Lookup** | michigan.gov/dtmb/procurement/contractconnect/commodity-code-lookup | **PUBLIC** | NIGP code search — keep SIGMA profile updated |
 
 ---
 
@@ -105,7 +117,7 @@ Need to manually check these in a browser:
 | Hawaii | HIePRO | hiepro.ehawaii.gov |
 | Iowa | Iowa VSS | vss.iowa.gov |
 | Kansas | eSupplier | supplier.sok.ks.gov |
-| Kentucky | VSS | vss.ky.gov |
+| Kentucky | VSS | vss.ky.gov | **REGISTERED** — Vendor # KS0026951 |
 | Minnesota | SWIFT | supplier.swift.state.mn.us |
 | Mississippi | MAGIC | portal.magic.ms.gov |
 | Montana | eMACS | spb.mt.gov |

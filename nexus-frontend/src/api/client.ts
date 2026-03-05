@@ -191,6 +191,26 @@ export const api = {
     return response.json();
   },
   
+  // PRISM Notifications & Receipt Tracking
+  getNotifications: (target?: string, limit?: number) => {
+    const params = new URLSearchParams();
+    if (target) params.append('target', target);
+    if (limit) params.append('limit', String(limit));
+    const query = params.toString();
+    return ApiClient.get(`/prism/notifications${query ? `?${query}` : ''}`);
+  },
+  markNotificationsRead: (ids?: string[]) =>
+    ApiClient.post('/prism/notifications/read', ids ? { notification_ids: ids } : { mark_all: true }),
+  uploadReceipt: async (formData: FormData) => {
+    const response = await fetch(`${API_BASE}/prism/receipt/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    return response.json();
+  },
+  getTracking: (orderId: string) => ApiClient.get(`/prism/tracking/${orderId}`),
+  updateTracking: (orderId: string, data: any) => ApiClient.put(`/prism/tracking/${orderId}`, data),
+
   // GPSS Proposals API
   getGpssProposals: () => ApiClient.get('/gpss/proposals'),
   saveGpssProposal: (data: any) => ApiClient.post('/gpss/proposals', data),

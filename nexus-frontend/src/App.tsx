@@ -16,27 +16,17 @@ import PRISMSystem from './components/systems/PRISMSystem';
 import COMPASSSystem from './components/systems/COMPASSSystem';
 import FieldAgentPortal from './components/systems/FieldAgentPortal';
 import AgentPortalRouter from './components/portal/AgentPortalRouter';
-import { DeadlineNotifications } from './components/DeadlineNotifications';
-import { AgendaDashboard } from './components/AgendaDashboard';
-import { BidsDashboard } from './components/BidsDashboard';
-import { BidsFlow } from './components/BidsFlow';
-import { ContractIntelligence } from './components/ContractIntelligence';
-import { NexusAdvisorPanel } from './components/NexusAdvisorPanel';
-import { AutonomousPanel } from './components/AutonomousPanel';
+import NOVASystem from './components/systems/NOVASystem';
+import AlexaSystem from './components/systems/AlexaSystem';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
-  const [showAgenda, setShowAgenda] = useState(true);
-  const [showBidsDashboard, setShowBidsDashboard] = useState(false);
-  const [showBidsFlow, setShowBidsFlow] = useState(false);
-  const [showIntelligence, setShowIntelligence] = useState(false);
-  const [showAdvisor, setShowAdvisor] = useState(false);
-  const [showAutonomous, setShowAutonomous] = useState(false);
+  // Simplified: Single Command Center view, no confusing tab switching
 
-  const navigateToSystem = (system: ViewType) => {
+  const navigateToSystem = (system: ViewType, initialTab?: string) => {
     setCurrentView(system);
-    setCurrentSystemTab('dashboard');
+    setCurrentSystemTab(initialTab || 'dashboard');
   };
 
   const navigateToLanding = () => {
@@ -72,6 +62,10 @@ function App() {
       case 'agent-portal':
         // Agent portal preview (from PRISM admin — no login wall)
         return <FieldAgentPortal onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'opportunity-hunter':
+        return <NOVASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'alexa':
+        return <AlexaSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }
@@ -85,146 +79,9 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Header currentView={currentView} onBackToNexus={navigateToLanding} />
-      {currentView === 'landing' && <DeadlineNotifications onNavigateToSystem={navigateToSystem} />}
-      
-      {/* View Switcher */}
-      {currentView === 'landing' && (
-        <div className="bg-gray-800 border-b border-gray-700 px-6 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                setShowAgenda(true);
-                setShowBidsFlow(false);
-                setShowBidsDashboard(false);
-                setShowIntelligence(false);
-                setShowAdvisor(false);
-                setShowAutonomous(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium ${
-                showAgenda ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>Agenda</span>
-            </button>
-            <button
-              onClick={() => {
-                setShowAutonomous(true);
-                setShowAgenda(false);
-                setShowBidsFlow(false);
-                setShowBidsDashboard(false);
-                setShowIntelligence(false);
-                setShowAdvisor(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium ${
-                showAutonomous ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>⚡ Autonomous</span>
-            </button>
-            <button
-              onClick={() => {
-                setShowIntelligence(true);
-                setShowAgenda(false);
-                setShowBidsFlow(false);
-                setShowBidsDashboard(false);
-                setShowAdvisor(false);
-                setShowAutonomous(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium ${
-                showIntelligence ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>Intelligence</span>
-            </button>
-            <button
-              onClick={() => {
-                setShowAdvisor(true);
-                setShowAgenda(false);
-                setShowBidsFlow(false);
-                setShowBidsDashboard(false);
-                setShowIntelligence(false);
-                setShowAutonomous(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium ${
-                showAdvisor ? 'bg-amber-500 hover:bg-amber-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>Advisor</span>
-            </button>
-            <button
-              onClick={() => {
-                setShowBidsFlow(true);
-                setShowAgenda(false);
-                setShowBidsDashboard(false);
-                setShowIntelligence(false);
-                setShowAdvisor(false);
-                setShowAutonomous(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium ${
-                showBidsFlow ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>Flow Mode</span>
-            </button>
-            <button
-              onClick={() => {
-                setShowBidsDashboard(true);
-                setShowBidsFlow(false);
-                setShowAgenda(false);
-                setShowIntelligence(false);
-                setShowAdvisor(false);
-                setShowAutonomous(false);
-              }}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition text-sm ${
-                showBidsDashboard ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-              }`}
-            >
-              <span>Full Dashboard</span>
-            </button>
-          </div>
-          <div className="text-sm text-gray-400">
-            {showAgenda && 'What needs to be done'}
-            {showAutonomous && 'AI that works while you sleep — self-learning, self-improving'}
-            {showIntelligence && 'Three-avenue contract pipeline'}
-            {showAdvisor && 'Learn while you build — growth tracking across all systems'}
-            {showBidsFlow && 'One step at a time'}
-            {showBidsDashboard && 'All bids overview'}
-          </div>
-        </div>
-      )}
-
-      {/* LANDING PAGE: Active panel + system cards always visible */}
       {currentView === 'landing' && (
         <>
-          {/* Active workbench panel */}
-          {showAgenda && (
-            <div className="max-w-7xl mx-auto px-6 py-6">
-              <AgendaDashboard />
-            </div>
-          )}
-          {showIntelligence && (
-            <div className="max-w-7xl mx-auto px-6 py-6">
-              <ContractIntelligence />
-            </div>
-          )}
-          {showAdvisor && (
-            <div className="max-w-7xl mx-auto px-6 py-6">
-              <NexusAdvisorPanel />
-            </div>
-          )}
-          {showAutonomous && (
-            <div className="max-w-7xl mx-auto px-6 py-6">
-              <AutonomousPanel />
-            </div>
-          )}
-          {showBidsFlow && <BidsFlow />}
-          {showBidsDashboard && (
-            <div className="max-w-7xl mx-auto px-6 py-6">
-              <BidsDashboard />
-            </div>
-          )}
-
-          {/* System cards — ALWAYS visible on landing page */}
+          {/* Simple Command Center - just deadlines + stats + systems */}
           <LandingPage onEnterSystem={navigateToSystem} />
         </>
       )}

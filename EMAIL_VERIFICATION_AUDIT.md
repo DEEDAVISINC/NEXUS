@@ -23,8 +23,8 @@
 | 4 | Colorado HCPF NEMT | cynthia.miley@state.co.us | **UNVERIFIED** | Could not confirm this person works there — general procurement email is hcpf_cmes@state.co.us | hcpf.colorado.gov/contact-hcpf |
 | 5 | Virginia DMAS NEMT | george.jellerson@dmas.virginia.gov | **UNVERIFIED** | Could not confirm this person — DMAS procurement goes through eVA portal | dmas.virginia.gov |
 | 6 | Georgia DCH NEMT | rolanda.wongus@dch.ga.gov | **VERIFIED** | Same | dch.georgia.gov/contacts/sr-category-manager-rolanda-wongus |
-| 7 | TACOM Detroit Arsenal | usarmy.detroit.tacom.mbx.lcmc-osbp@army.mil | **BOUNCED** | Same email is correct per tacom.army.mil — but .mil blocks external senders. **CALL: (586) 282-5388** | tacom.army.mil/osbp |
-| 8 | Selfridge ANGB | DAFSmallBusinessInquiries@outlook.com | **BOUNCED** | Email is verified on airforcesmallbiz.af.mil — may have been a temporary server issue. **Retry or CALL: 703-696-1103** | airforcesmallbiz.af.mil/Resources/Contact-Us |
+| 7 | TACOM Detroit Arsenal | usarmy.detroit.tacom.mbx.lcmc-osbp@army.mil | **BOUNCED — LIKELY IMPROVMX ISSUE** | Email is VERIFIED CORRECT per tacom.army.mil. Bounce likely caused by ImprovMX inability to connect to .mil servers (same issue as #16). **CALL: (586) 282-5388** | tacom.army.mil/osbp |
+| 8 | Selfridge ANGB | DAFSmallBusinessInquiries@outlook.com | **BOUNCED** | Email is verified on airforcesmallbiz.af.mil — this is an @outlook.com address (NOT .mil), so bounce is NOT ImprovMX .mil issue. May be temporary server issue. **Retry or CALL: 703-696-1103** | airforcesmallbiz.af.mil/Resources/Contact-Us |
 | 9 | HUD Detroit Notary | answers@hud.gov | **VERIFIED** | Same — this is HUD's FHA Resource Center email | hud.gov/contactus |
 | 10 | Maryland DOH NEMT | mdh.ocmprocurement@maryland.gov | **VERIFIED** | Same — Office of Contract Management & Procurement | health.maryland.gov/ocmp |
 | 11 | NIH/NIAID Courier | dana.monroe@nih.gov | **VERIFIED** | Same — Dana Monroe is a Purchasing Agent at NIH | niaid.nih.gov/about/acquisitions-contacts |
@@ -32,7 +32,7 @@
 | 13 | DOJ Criminal Div | DOJProcurement@usdoj.gov | **BOUNCED — WRONG** | Does not exist. Correct: **OBDJMDSmallBusinessProgram@usdoj.gov** (JMD Small Business) or **smallbusiness@fbi.gov** (FBI). For Criminal Division specifically, contact DOJ OSDBU at (202) 616-0521 | justice.gov/osdbu/contact-doj-representative |
 | 14 | NY DCJS Fingerprint | DCJSprocurement@DCJS.ny.gov | **VERIFIED** | Same | criminaljustice.ny.gov RFP documents |
 | 15 | NY DOH NEMT | OHIP@health.ny.gov | **UNVERIFIED** | Could not confirm this specific email exists — OHIP contacts use phone (518-473-6397) or NY State Contract Reporter | health.ny.gov |
-| 16 | USSF JBA Drug Testing | sonya.rayford_cage.5@us.af.mil | **BOUNCED** | .mil blocks external email. Correct office: **316WG.316-CONS.SMALLBUSINESS@us.af.mil** or **CALL: 240-612-5624** | jba.af.mil/Units/Contracting |
+| 16 | USSF JBA Drug Testing (FA701426RAFDW) | sonya.rayford_cage.5@us.af.mil | **BOUNCED — IMPROVMX ISSUE** | Email address is VERIFIED CORRECT per SAM.gov. Bounce caused by ImprovMX inability to connect to .mil mail servers (timeout after 150s). ImprovMX support contacted Feb 25, 2026. Fix: switch to Google Workspace or M365. Alt contact: **316WG.316-CONS.SMALLBUSINESS@us.af.mil** or **CALL: 240-612-5624** | SAM.gov listing + HigherGov profile confirmed |
 
 ---
 
@@ -97,7 +97,7 @@ The correct term is **PSSAR** (Personnel Security System Access Request), DD For
 | Original (WRONG) | Correct Email | Source |
 |-------------------|--------------|--------|
 | DOJProcurement@usdoj.gov | OBDJMDSmallBusinessProgram@usdoj.gov | justice.gov/osdbu |
-| sonya.rayford_cage.5@us.af.mil | 316WG.316-CONS.SMALLBUSINESS@us.af.mil | jba.af.mil/Units/Contracting |
+| sonya.rayford_cage.5@us.af.mil | **ADDRESS IS CORRECT** — bounce caused by ImprovMX .mil timeout, not wrong address. Alt: 316WG.316-CONS.SMALLBUSINESS@us.af.mil | SAM.gov confirmed |
 | dgs.procurement@dgs.virginia.gov | procurement@dgs.virginia.gov | dgs.virginia.gov |
 | procurement@doas.ga.gov | procurementhelp@doas.ga.gov | doas.ga.gov |
 | OSP.ISRP@la.gov | doa-osphelpdesk@la.gov | doa.louisiana.gov |
