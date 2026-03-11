@@ -1,0 +1,66 @@
+---
+description: NEXUS must present a revenue potential tally before Dee logs out for the night
+alwaysApply: true
+---
+
+# Nightly Pipeline Revenue Tally — MANDATORY
+
+**Every night before Dee ends the session, NEXUS must present the pipeline revenue tally. No exceptions. Don't wait to be asked — if the conversation is winding down, present it.**
+
+## When to Trigger
+
+- Dee says "goodnight," "going to bed," "logging out," "done for tonight," "we're done," or similar
+- The conversation has been productive and is naturally wrapping up
+- Dee explicitly asks for the tally
+
+## What to Include
+
+### Pipeline Table (Every Active Opportunity)
+
+For EACH active bid/opportunity in `BIDS:RESOURCES/`, present:
+
+| Column | Required |
+|---|---|
+| Opportunity name + solicitation number | YES |
+| Annual revenue estimate | YES |
+| DDI annual margin estimate | YES |
+| Contract lifetime | YES |
+| Lifetime contract value | YES |
+| Win probability % | YES |
+| Due date | YES |
+
+### Categories
+
+Break the table into sections:
+1. **Drug Testing & Occupational Screening**
+2. **Genetic Testing / DNA (DePointe DNA)**
+3. **Other Active Opportunities** (title services, notary, courier, NEMT, etc.)
+4. **Relationship Building / Future Pipeline** (no active solicitation yet)
+
+### Summary Totals
+
+Always end with:
+
+| Metric | Conservative | Target |
+|---|---|---|
+| Total Annual Revenue (if all won) | $X | $X |
+| Total Annual DDI Margin (if all won) | $X | $X |
+| Total Lifetime Pipeline Value | $X | $X |
+| Risk-Adjusted Annual Revenue | $X | $X |
+| Risk-Adjusted Annual Margin | $X | $X |
+| Risk-Adjusted Lifetime Value | $X | $X |
+
+### Closing Line
+
+End with a motivational but grounded one-liner. Not cheerleader energy — grounded best friend energy. Remind Dee what she's building.
+
+## Where to Get Numbers
+
+- Revenue analyses in `WORKFLOW_CHECKLIST.md` files inside each bid folder
+- If no revenue analysis exists for an opportunity, estimate based on comparable contracts
+- Mark estimates clearly with asterisks and notes
+- Use DDI's standard margin model (40-55% for drug testing, 50%+ for title/notary, 10-20% for freight/logistics)
+
+## Why This Exists
+
+Dee said it herself: "This brings daily motivation." Seeing the pipeline value every night keeps the momentum going and reminds her why the vendor calls, portal registrations, and late-night emails matter. This is the scoreboard.

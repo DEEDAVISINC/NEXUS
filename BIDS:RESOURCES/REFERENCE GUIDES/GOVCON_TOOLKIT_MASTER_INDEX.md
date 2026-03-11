@@ -91,6 +91,8 @@ Every tool auto-generates from Airtable data. No manual copy-paste. Each one is 
 | RFP Upload & Analysis | API: `/gpss/upload-rfp` | Upload PDF → AI extracts everything → creates opportunity |
 | Cap Statement Generator | API: `/capability-statements/generate` | One-click tailored capability statements |
 | CO Contact Extraction | `extract_buyer_contacts.py` | Auto-extracts CO info from solicitations |
+| State Registration Cost Tracker | `BIDS:RESOURCES/REFERENCE GUIDES/STATE_FOREIGN_REGISTRATION_COSTS.md` | First-year and recurring foreign qualification cost model by state |
+| State Registration Timing Framework | `BIDS:RESOURCES/REFERENCE GUIDES/STATE_REGISTRATION_TIMING_FRAMEWORK.md` | Register-now vs post-award vs subcontract decision rules by opportunity |
 | Workshare Calculator | `SUBCONTRACTING_MASTER_GUIDE.md` | Verifies 50% self-performance compliance |
 
 ---

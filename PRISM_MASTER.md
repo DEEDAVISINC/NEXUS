@@ -5,6 +5,7 @@
 **Created:** February 13, 2026
 **Owner:** Dee Davis Inc.
 **Status:** ARCHITECTURE — Ready for Build
+**Companion Blueprint:** `PRISM_DRUG_TESTING_SOFTWARE_BLUEPRINT.md` (replicate + improve + integrate drug testing software stack, including BioChain QA error-prevention gates for drug/DNA workflows)
 **Tagline:** "See every detail. Miss nothing."
 
 ---
