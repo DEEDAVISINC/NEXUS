@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetFlow TMS — Executive Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: 8.5in 11in; margin: 0; }
+@media print {
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #4FB3D0;
+  --secondary: #88D4E8;
+  --navy: #1B3A52;
+  --teal: #5BC0DE;
+  --white: #FFFFFF;
+  --light: #F8F9FA;
+  --gray: #6C757D;
+  --gold: #D4AF37;
+  --dark: #2C3E50;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--dark);
+  background: var(--white);
+  line-height: 1.5;
+  font-size: 9pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* === HEADER BAR === */
+.header {
+  background: linear-gradient(135deg, #0F2B46 0%, var(--primary) 100%);
+  padding: 28px 48px 22px;
+  position: relative;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--primary), var(--gold));
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.header-left {}
+.header-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.header-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 26pt;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.header-tagline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9pt;
+  font-weight: 600;
+  color: var(--secondary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.header-right {
+  text-align: right;
+  padding-top: 4px;
+}
+.header-right .doc-type {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8pt;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.header-right .doc-date {
+  font-size: 7.5pt;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+.header-right .doc-conf {
+  font-size: 6.5pt;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 1px;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+/* === HERO STATS BAR === */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  background: var(--navy);
+}
+.stat-item {
+  text-align: center;
+  padding: 12px 8px;
+  border-right: 1px solid rgba(79,179,208,0.15);
+}
+.stat-item:last-child { border-right: none; }
+.stat-val {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15pt;
+  font-weight: 900;
+  color: var(--secondary);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 6pt;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* === BODY === */
+.body {
+  padding: 20px 48px 16px;
+}
+.section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 4px;
+  margin-top: 14px;
+}
+.section-label:first-child { margin-top: 0; }
+h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11pt;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+p { margin-bottom: 6px; font-size: 8.5pt; line-height: 1.55; color: #444; }
+p strong { color: var(--navy); }
+
+/* === TWO COLUMN === */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 6px;
+}
+.col {}
+
+/* === MODULE GRID === */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 8px 0;
+}
+.module {
+  background: var(--light);
+  border-left: 3px solid var(--primary);
+  padding: 6px 8px;
+  border-radius: 0 4px 4px 0;
+}
+.module h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7.5pt;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1px;
+}
+.module p { font-size: 6.5pt; margin: 0; color: var(--gray); line-height: 1.3; }
+
+/* === REVENUE TABLE === */
+.rev-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8pt;
+  margin: 6px 0;
+}
+.rev-table th {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray);
+  padding: 5px 8px;
+  text-align: left;
+  border-bottom: 2px solid var(--primary);
+}
+.rev-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #E9ECEF;
+}
+.rev-table .highlight { font-weight: 700; color: var(--primary); }
+.rev-table .total td {
+  border-top: 2px solid var(--navy);
+  font-weight: 800;
+  color: var(--navy);
+  border-bottom: none;
+}
+
+/* === MARKET CIRCLES === */
+.market-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 8px 0;
+}
+.market-item {
+  text-align: center;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(79,179,208,0.08), rgba(79,179,208,0.02));
+  border-radius: 8px;
+  flex: 1;
+}
+.market-val {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16pt;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+}
+.market-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7pt;
+  font-weight: 700;
+  color: var(--navy);
+  margin-top: 2px;
+}
+.market-desc { font-size: 6.5pt; color: var(--gray); margin-top: 2px; }
+
+/* === VALUATION BOX === */
+.val-box {
+  background: var(--navy);
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+.val-item {}
+.val-item .val-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.val-item .val-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13pt;
+  font-weight: 900;
+  color: var(--white);
+}
+
+/* === BULLET LIST === */
+ul.check {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+}
+ul.check li {
+  font-size: 8pt;
+  padding: 2px 0 2px 14px;
+  position: relative;
+  color: #444;
+}
+ul.check li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 8pt;
+}
+
+/* === FOOTER === */
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--navy);
+  padding: 10px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-left {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7pt;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+}
+.footer-center {
+  font-size: 7pt;
+  color: rgba(255,255,255,0.4);
+}
+.footer-right {
+  font-size: 7pt;
+  color: var(--secondary);
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="header-left">
+        <div class="header-label">A Dee Davis Inc. Company</div>
+        <div class="header-title">FLEETFLOW</div>
+        <div class="header-tagline">The Salesforce of Transportation</div>
+      </div>
+      <div class="header-right">
+        <div class="doc-type">Executive Summary</div>
+        <div class="doc-date">March 2026</div>
+        <div class="doc-conf">Confidential &mdash; Strategic Document</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">$1.3T</div><div class="stat-label">U.S. Freight Industry</div></div>
+    <div class="stat-item"><div class="stat-val">21</div><div class="stat-label">Core Modules</div></div>
+    <div class="stat-item"><div class="stat-val">98%</div><div class="stat-label">Platform Complete</div></div>
+    <div class="stat-item"><div class="stat-val">15+</div><div class="stat-label">Live API Integrations</div></div>
+    <div class="stat-item"><div class="stat-val">9</div><div class="stat-label">Transport Modes</div></div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- THE OPPORTUNITY -->
+    <div class="section-label">The Opportunity</div>
+    <p><strong>FleetFlow is the first complete AI-powered Transportation Management System</strong> &mdash; a unified enterprise platform for carriers, brokers, and 3PLs that replaces 7+ fragmented software tools with one intelligent system. The $1.3 trillion U.S. freight industry has less than 5% AI adoption. The window for a platform company to own this vertical &mdash; the way Salesforce owns CRM &mdash; is open now and closing fast.</p>
+
+    <!-- MARKET -->
+    <div class="market-row">
+      <div class="market-item"><div class="market-val">$28B</div><div class="market-label">TAM</div><div class="market-desc">Global logistics &amp; transportation software</div></div>
+      <div class="market-item"><div class="market-val">$4.2B</div><div class="market-label">SAM</div><div class="market-desc">U.S. TMS + freight matching + settlement</div></div>
+      <div class="market-item"><div class="market-val">$420M</div><div class="market-label">SOM</div><div class="market-desc">Capturable in 5 years via AI-first model</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="col">
+
+        <!-- PLATFORM -->
+        <div class="section-label">The Platform</div>
+        <p>21 integrated modules covering every operational domain in transportation. No competitor covers more than 3. Building this from scratch would cost <strong>$200M+</strong> and take <strong>5+ years</strong>.</p>
+
+        <div class="module-grid">
+          <div class="module"><h4>Flowter AI</h4><p>Conversational AI executing any platform action in plain language</p></div>
+          <div class="module"><h4>Go With the Flow</h4><p>Uber-like real-time freight matching with dynamic pricing</p></div>
+          <div class="module"><h4>Driver OTR Flow</h4><p>Mobile app &mdash; GPS loads, AI bidding, tax filing, HOS</p></div>
+          <div class="module"><h4>Dispatch Central</h4><p>AI dispatch with GPS tracking and route optimization</p></div>
+          <div class="module"><h4>AI Settlement</h4><p>99.2% accuracy OCR, auto-reconciliation, auto-payment</p></div>
+          <div class="module"><h4>Broker Operations</h4><p>Full brokerage: LTL/FTL quoting, carrier scoring, analytics</p></div>
+          <div class="module"><h4>DEPOINTE AI</h4><p>27 AI staff members across 8 operational departments</p></div>
+          <div class="module"><h4>CRM &amp; Comms Hub</h4><p>Twilio SMS + SendGrid email &mdash; 92% lead scoring</p></div>
+          <div class="module"><h4>FreightFlow RFx&#8480;</h4><p>Government freight contracting automation</p></div>
+        </div>
+        <p style="font-size:7pt;color:var(--gray);margin-top:2px;">+ Warehousing, Dock Scheduling, Insurance Platform, EDI X12, Live Permits (8+ DOTs), FleetFlow University&#8480; (1,345+ min training), 9-Mode Transport, TruckingPlanet (70K+ shippers)</p>
+
+        <!-- ARCHITECTURE -->
+        <div class="section-label">Architecture</div>
+        <p><strong>Stack:</strong> Next.js &middot; TypeScript &middot; Supabase &middot; Multi-tenant SaaS &middot; Enterprise encryption &middot; DMARC/DKIM &middot; B2B2C model. <strong>Live APIs:</strong> Claude AI, FMCSA, Twilio, SendGrid, Square, Stripe, Bill.com, QuickBooks, Google Maps, TaxBandits, 8+ State DOTs.</p>
+
+      </div>
+      <div class="col">
+
+        <!-- BUSINESS MODEL -->
+        <div class="section-label">Business Model</div>
+        <p>7 revenue streams across 16 subscription tiers &mdash; from $49/mo individuals to $7,999/mo enterprise. Expansion revenue built into every plan through add-on seats, AI Flow modules, and phone system. Average customer LTV grows 3&ndash;5x from initial plan.</p>
+
+        <table class="rev-table">
+          <thead><tr><th>Revenue Stream</th><th>Price Range</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>Individual SaaS</td><td>$49&ndash;$599/mo</td><td>Dispatchers, O/Os, Brokers</td></tr>
+            <tr><td>Team SaaS</td><td>$149&ndash;$2,698/mo</td><td>Small-to-mid fleets &amp; brokerages</td></tr>
+            <tr><td>Marketplace</td><td>Free&ndash;$699/mo + per-load</td><td>Shippers &mdash; real-time matching</td></tr>
+            <tr><td>DEPOINTE AI</td><td>$4,999/mo</td><td>Enterprise &mdash; 18 AI staff reps</td></tr>
+            <tr><td>Enterprise Custom</td><td>$7,999/mo</td><td>White-label, custom integrations</td></tr>
+            <tr><td>Add-Ons</td><td>$39&ndash;$499/mo</td><td>Phone, AI Flow, &agrave; la carte</td></tr>
+            <tr><td>University&#8480;</td><td>$49/mo</td><td>Training, DOT/FMCSA compliance</td></tr>
+          </tbody>
+        </table>
+
+        <!-- REVENUE PROJECTIONS -->
+        <div class="section-label">Revenue Roadmap</div>
+        <table class="rev-table">
+          <thead><tr><th>Year</th><th>ARR</th><th>Milestone</th></tr></thead>
+          <tbody>
+            <tr><td>Year 1</td><td class="highlight">$245M</td><td>Platform launch, enterprise pilots, marketplace live</td></tr>
+            <tr><td>Year 2</td><td class="highlight">$825M</td><td>DEPOINTE AI enterprise, TruckingPlanet activation</td></tr>
+            <tr><td>Year 3</td><td class="highlight">$2.65B</td><td>EDI integration, multi-modal international expansion</td></tr>
+            <tr class="total"><td>Year 5</td><td style="color:var(--primary);">$11.2B</td><td>Industry standard platform &mdash; 500K+ users</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:7pt;color:var(--gray);">5-Year Revenue CAGR: 87% &nbsp;|&nbsp; At 15&ndash;20x SaaS multiples: $168B&ndash;$224B</p>
+
+        <!-- THE ASK -->
+        <div class="section-label">The Ask</div>
+        <p>Seeking <strong>strategic partnership and/or acquisition discussions</strong> with tier-1 technology companies. Target acquirers: Microsoft (Dynamics 365 gap), Salesforce (zero freight vertical), Oracle (aging OTM replacement). Also open to investment to accelerate go-to-market: sales team, final 2% engineering, SOC 2, enterprise pilots.</p>
+
+      </div>
+    </div>
+
+    <!-- VALUATION BOX -->
+    <div class="val-box">
+      <div class="val-item"><div class="val-label">Platform Valuation</div><div class="val-num">$165&ndash;$220B</div></div>
+      <div class="val-item"><div class="val-label">Strategic Acquisition</div><div class="val-num">$200&ndash;$300B</div></div>
+      <div class="val-item"><div class="val-label">Exit Timeline</div><div class="val-num">12&ndash;18 Mo</div></div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">FLEETFLOW TMS &nbsp;&bull;&nbsp; A DEE DAVIS INC. COMPANY</div>
+    <div class="footer-center">Dieasha D. Davis &nbsp;|&nbsp; Founder &amp; CEO &nbsp;|&nbsp; ddavis@fleetflowapp.com &nbsp;|&nbsp; 248.376.4550</div>
+    <div class="footer-right">CONFIDENTIAL</div>
+  </div>
+
+</div>
+</body>
+</html>
