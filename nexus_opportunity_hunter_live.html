@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Opportunity Hunter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .search-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .search-panel h2 {
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-group select,
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3b82f6;
+        }
+        
+        .checkbox-item.ddi-cert {
+            border: 1px solid #fecaca;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item.ddi-cert:hover {
+            background: #fee2e2 !important;
+            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+        }
+        
+        .checkbox-item.ddi-cert input:checked + label {
+            color: #dc2626;
+        }
+        
+        .hunt-button {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .hunt-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+        
+        .hunt-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .data-freshness-bar {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .freshness-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .freshness-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .freshness-dot.fresh {
+            background: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        
+        .freshness-dot.stale {
+            background: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+        
+        .freshness-dot.error {
+            background: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+        
+        .freshness-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .freshness-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .refresh-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .refresh-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background: #2563eb;
+        }
+        
+        .refresh-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .refresh-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Daily Target Progress Bar */
+        .daily-target-bar {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .daily-target-bar.target-met {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #22c55e;
+        }
+        
+        .daily-target-bar.target-urgent {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-color: #ef4444;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        
+        .target-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #92400e;
+            white-space: nowrap;
+        }
+        
+        .target-icon {
+            font-size: 1.2rem;
+        }
+        
+        .target-count {
+            color: #78350f;
+        }
+        
+        .target-progress {
+            flex: 1;
+            min-width: 150px;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .target-progress-bar {
+            height: 100%;
+            background: #f59e0b;
+            border-radius: 4px;
+            transition: width 0.3s ease, background 0.3s ease;
+            width: 0%;
+        }
+        
+        .target-progress-bar.complete {
+            background: #22c55e;
+        }
+        
+        .target-status {
+            font-size: 0.85rem;
+            color: #78350f;
+            font-weight: 500;
+        }
+        
+        .search-mode-selector {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-mode-selector label {
+            display: block;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+        }
+        
+        .mode-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .mode-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mode-option:hover {
+            border-color: #3b82f6;
+        }
+        
+        .mode-option.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .mode-option input {
+            margin-top: 3px;
+        }
+        
+        .mode-option-content {
+            flex: 1;
+        }
+        
+        .mode-option-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        
+        .mode-option-desc {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-header h2 {
+            color: #1e3a8a;
+            font-size: 1.5rem;
+        }
+        
+        .results-count {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .agency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .agency-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 6px solid #e5e7eb;
+        }
+        
+        .agency-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .agency-card.excellent {
+            border-left-color: #dc2626;
+        }
+        
+        .agency-card.good {
+            border-left-color: #f59e0b;
+        }
+        
+        .agency-card.moderate {
+            border-left-color: #3b82f6;
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        .agency-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.3;
+        }
+        
+        .source-badge {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        
+        .low-hanging-badge {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #065f46;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid #10b981;
+        }
+        
+        .score-explanation {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .score-explanation h4 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-explanation ul {
+            margin-left: 1.25rem;
+            color: #166534;
+        }
+        
+        .score-explanation li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .match-score {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .match-score.excellent {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .match-score.good {
+            background: #fffbeb;
+            color: #d97706;
+        }
+        
+        .match-score.moderate {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+        
+        .match-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .stat-row:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .spending-amount {
+            color: #059669;
+            font-size: 1.1rem;
+        }
+        
+        .setaside-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .active-opps {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #f1f5f9;
+        }
+        
+        .active-opps h4 {
+            color: #1e3a8a;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .opp-item {
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .opp-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .opp-meta {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        
+        .opp-due {
+            color: #dc2626;
+            font-weight: 600;
+        }
+        
+        .card-actions {
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+        
+        .btn-secondary:hover {
+            background: #eff6ff;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .api-status {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .api-status.connected {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .api-status.disconnected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <div id="api-status" class="api-status disconnected">
+        API: Connecting...
+    </div>
+
+    <div class="header">
+        <h1>🔍 NEXUS Opportunity Hunter</h1>
+        <p>Discover federal agencies awarding contracts to businesses like yours</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">Powered by SAM.gov & USASpending APIs • Real-time intelligence</p>
+    </div>
+    
+    <div class="container">
+        <div class="search-panel">
+            <h2>Search Criteria</h2>
+            <p style="color: #6b7280; margin-bottom: 1rem;">Pre-populated with DDI's profile. Modify as needed.</p>
+            
+            <!-- Data Freshness Indicators -->
+            <div class="data-freshness-bar" id="freshness-bar">
+                <div class="freshness-indicator">
+                    <span class="freshness-dot fresh" id="airtable-dot"></span>
+                    <span class="freshness-label">Internal DB:</span>
+                    <span class="freshness-value" id="airtable-status">Checking...</span>
+                </div>
+                <div class="freshness-indicator">
+                    <span class="freshness-dot fresh" id="sam-dot"></span>
+                    <span class="freshness-label">SAM.gov:</span>
+                    <span class="freshness-value" id="sam-status">Checking...</span>
+                </div>
+                <div class="freshness-indicator">
+                    <span class="freshness-dot fresh" id="usaspending-dot"></span>
+                    <span class="freshness-label">USASpending:</span>
+                    <span class="freshness-value" id="usaspending-status">Checking...</span>
+                </div>
+                <div class="refresh-controls">
+                    <button class="refresh-btn" id="refresh-btn" onclick="forceRefresh()">
+                        <span>🔄 Refresh Data</span>
+                    </button>
+                    <span id="refresh-status" style="font-size: 0.85rem; color: #64748b;"></span>
+                </div>
+            </div>
+            
+            <!-- Daily Target Progress -->
+            <div class="daily-target-bar" id="daily-target-bar">
+                <div class="target-label">
+                    <span class="target-icon">🎯</span>
+                    <span class="target-text">Daily Target:</span>
+                    <span class="target-count" id="daily-target-count">Loading...</span>
+                </div>
+                <div class="target-progress">
+                    <div class="target-progress-bar" id="daily-progress-bar"></div>
+                </div>
+                <div class="target-status" id="daily-target-status">Finding opportunities...</div>
+            </div>
+            
+            <!-- Search Mode Selector -->
+            <div class="search-mode-selector">
+                <label>Search Mode</label>
+                <div class="mode-options">
+                    <div class="mode-option selected" onclick="selectMode('combined')">
+                        <input type="radio" name="search_mode" value="combined" id="mode-combined" checked>
+                        <div class="mode-option-content">
+                            <div class="mode-option-title">🌟 Full Opportunity Hunt ⭐</div>
+                            <div class="mode-option-desc">Internal + Live SAM.gov + USASpending (ALL sizes)</div>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectMode('internal')">
+                        <input type="radio" name="search_mode" value="internal" id="mode-internal">
+                        <div class="mode-option-content">
+                            <div class="mode-option-title">Internal Database Only</div>
+                            <div class="mode-option-desc">Search your existing Airtable opportunities (fastest)</div>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectMode('live')">
+                        <input type="radio" name="search_mode" value="live" id="mode-live">
+                        <div class="mode-option-content">
+                            <div class="mode-option-title">Live Federal Search</div>
+                            <div class="mode-option-desc">Query SAM.gov in real-time (finds newest opportunities)</div>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectMode('low-hanging')" style="border-color: #10b981; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);">
+                        <input type="radio" name="search_mode" value="low-hanging" id="mode-low-hanging">
+                        <div class="mode-option-content">
+                            <div class="mode-option-title" style="color: #059669;">🍎 Quick Wins Only</div>
+                            <div class="mode-option-desc" style="color: #047857;">Easy/fast bids: EDWOSB, under $350K, low competition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #3b82f6;">
+                <p style="color: #1e40af; font-size: 0.9rem; margin: 0;">
+                    <strong>💡 DDI Can Win at ANY Level:</strong> This system searches contracts from $5K micro-purchases to $50M+ strategic opportunities. 
+                    Don't limit yourself—big contracts often have less competition than you'd think, especially with EDWOSB set-asides.
+                </p>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Business Types (Select Multiple) ⭐</label>
+                    <p style="color: #6b7280; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                        Search ALL set-aside types simultaneously. 
+                        <span style="color: #dc2626; font-weight: 600;">✓ = DDI has this certification</span>
+                    </p>
+                    <div class="checkbox-grid" id="business-types-grid">
+                        <!-- DDI's Certifications (Highlighted) -->
+                        <div class="checkbox-item ddi-cert" style="background: #fef2f2; border-radius: 4px; padding: 0.25rem;">
+                            <input type="checkbox" id="bt-edwosb" value="EDWOSB" checked>
+                            <label for="bt-edwosb" style="color: #dc2626; font-weight: 600;">EDWOSB ✓</label>
+                        </div>
+                        <div class="checkbox-item ddi-cert" style="background: #fef2f2; border-radius: 4px; padding: 0.25rem;">
+                            <input type="checkbox" id="bt-wosb" value="WOSB" checked>
+                            <label for="bt-wosb" style="color: #dc2626; font-weight: 600;">WOSB ✓</label>
+                        </div>
+                        <div class="checkbox-item ddi-cert" style="background: #fef2f2; border-radius: 4px; padding: 0.25rem;">
+                            <input type="checkbox" id="bt-smallbiz" value="SMALL_BUSINESS" checked>
+                            <label for="bt-smallbiz" style="color: #dc2626; font-weight: 600;">Small Business ✓</label>
+                        </div>
+                        <!-- Other Set-Aside Types -->
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-8a" value="8A">
+                            <label for="bt-8a">8(a) Business Dev</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-hubzone" value="HUBZONE">
+                            <label for="bt-hubzone">HUBZone</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-sdvosb" value="SDVOSB">
+                            <label for="bt-sdvosb">SDVOSB</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-vosb" value="VOSB">
+                            <label for="bt-vosb">VOSB</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-sdb" value="SDB">
+                            <label for="bt-sdb">SDB</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bt-open" value="NONE">
+                            <label for="bt-open">Open Competition</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>NAICS Codes (Core Services)</label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="naics-621511" checked>
+                            <label for="naics-621511">621511 - Medical Labs/Drug Testing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="naics-561730" checked>
+                            <label for="naics-561730">561730 - Landscaping/Grounds</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="naics-561611" checked>
+                            <label for="naics-561611">561611 - Investigation/Fingerprinting</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="naics-492110" checked>
+                            <label for="naics-492110">492110 - Courier/Delivery</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Geographic Focus</label>
+                    <select id="location">
+                        <option value="nationwide" selected>Nationwide (DDI serves all 50 states)</option>
+                        <option value="michigan">Michigan (Home State)</option>
+                        <option value="midwest">Midwest Region</option>
+                        <option value="southeast">Southeast Region</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contract Size Category</label>
+                    <p style="color: #6b7280; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                        Filter by contract value - or leave as "Any Size" to see ALL opportunities
+                    </p>
+                    <select id="contract-size">
+                        <option value="any" selected>🌟 ANY SIZE (Recommended) - See ALL opportunities</option>
+                        <option value="strategic">🎯 Strategic Pursuits ($1M+) - Major contracts</option>
+                        <option value="mid">💼 Mid-Size ($500K - $1M) - Growth opportunities</option>
+                        <option value="under500k">💰 Small Business Set-Asides (< $500K)</option>
+                        <option value="under350k">📋 Under $350K (No Past Perf Required)</option>
+                        <option value="simplified">🛒 Simplified Acquisition (< $250K)</option>
+                        <option value="micro">🛒 Micro-Purchase (< $10K)</option>
+                    </select>
+                    <div style="margin-top: 0.5rem; padding: 0.5rem; background: #eff6ff; border-radius: 4px; font-size: 0.75rem; color: #1e40af; border: 1px solid #bfdbfe;">
+                        <strong>💡 Tip:</strong> Leave as <strong>"ANY SIZE"</strong> to see everything from $5K micro-purchases to $50M strategic contracts. DDI can win at ANY level.<br><br>
+                        <strong>⚠️ Past Performance Rule (FAR 42.1502):</strong><br>
+                        • Under <strong>$350K</strong> = ✅ NO past performance required<br>
+                        • Over <strong>$350K</strong> = ⚠️ Past performance IS required (even for EDWOSB set-asides)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 1rem;">
+                <label>Specific Agency (Optional)</label>
+                <input type="text" id="specific-agency" placeholder="e.g., Veterans Health Administration, USACE, CBP...">
+            </div>
+            
+            <button class="hunt-button" id="hunt-btn" onclick="huntOpportunities()">
+                🚀 HUNT ALL OPPORTUNITIES
+            </button>
+            
+            <div id="error-container"></div>
+        </div>
+        
+        <div id="results-section" style="display: none;">
+            <div class="results-header">
+                <h2>Opportunity Results</h2>
+                <span class="results-count" id="results-count">0 opportunities found</span>
+            </div>
+            <div id="results-summary" style="margin-bottom: 1rem; padding: 0.75rem; background: #f8fafc; border-radius: 8px; font-size: 0.9rem; color: #475569;">
+                Showing results across ALL contract sizes. Use the "Contract Size" filter to narrow results.
+            </div>
+            
+            <div id="agency-grid" class="agency-grid">
+                <!-- Results populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div id="loading-section" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Scanning SAM.gov & USASpending...</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Analyzing $700B+ in federal spending</p>
+            <p id="loading-detail" style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;"></p>
+        </div>
+    </div>
+    
+    <script>
+        // API Configuration - NEXUS runs on port 8000
+        const API_BASE = 'http://localhost:8000';
+        
+        console.log('[NEXUS] API Base:', API_BASE);
+        
+        // Check API connection on load
+        async function checkApiConnection() {
+            const statusEl = document.getElementById('api-status');
+            const errorContainer = document.getElementById('error-container');
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`, { 
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                if (response.ok) {
+                    statusEl.textContent = '✅ API Connected';
+                    statusEl.className = 'api-status connected';
+                    errorContainer.innerHTML = ''; // Clear any previous errors
+                    return true;
+                } else {
+                    throw new Error(`API returned ${response.status}`);
+                }
+            } catch (e) {
+                statusEl.textContent = '❌ API Disconnected';
+                statusEl.className = 'api-status disconnected';
+                errorContainer.innerHTML = `
+                    <div class="error-message" style="background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e;">
+                        <strong>⚠️ Cannot connect to NEXUS API</strong><br>
+                        Make sure the API server is running:<br>
+                        <code>python3 api_server.py</code> (runs on port 5000)<br><br>
+                        <small>Error: ${e.message}</small>
+                    </div>
+                `;
+                console.error('[NEXUS] API Connection Error:', e);
+                return false;
+            }
+        }
+        
+        // Load DDI profile on page load
+        async function loadProfile() {
+            try {
+                const response = await fetch(`${API_BASE}/api/hunter/profile`);
+                if (response.ok) {
+                    const data = await response.json();
+                    populateProfile(data.profile);
+                }
+            } catch (e) {
+                console.log('Using default profile');
+            }
+        }
+        
+        function populateProfile(profile) {
+            // Pre-populate business types based on profile
+            if (profile.business_types) {
+                const businessTypeMap = {
+                    'EDWOSB': 'bt-edwosb',
+                    'WOSB': 'bt-wosb',
+                    'SMALL_BUSINESS': 'bt-smallbiz',
+                    '8A': 'bt-8a',
+                    'HUBZONE': 'bt-hubzone',
+                    'SDVOSB': 'bt-sdvosb',
+                    'VOSB': 'bt-vosb',
+                    'SDB': 'bt-sdb',
+                    'NONE': 'bt-open'
+                };
+                
+                profile.business_types.forEach(bt => {
+                    // Check DDI's own certifications by default
+                    if (bt.ddi_has && (bt.code === 'EDWOSB' || bt.code === 'WOSB' || bt.code === 'SMALL_BUSINESS')) {
+                        const id = businessTypeMap[bt.code];
+                        if (id) {
+                            const checkbox = document.getElementById(id);
+                            if (checkbox) checkbox.checked = true;
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Load data freshness indicators
+        async function loadDataFreshness() {
+            try {
+                const response = await fetch(`${API_BASE}/api/hunter/profile`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.data_freshness) {
+                        updateFreshnessUI(data.data_freshness);
+                    }
+                    if (data.daily_target) {
+                        updateDailyTargetUI(data.daily_target);
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading data freshness:', e);
+                setFreshnessError();
+            }
+        }
+        
+        function updateDailyTargetUI(targetData) {
+            const countEl = document.getElementById('daily-target-count');
+            const statusEl = document.getElementById('daily-target-status');
+            const progressBar = document.getElementById('daily-progress-bar');
+            const barContainer = document.getElementById('daily-target-bar');
+            
+            if (!countEl || !statusEl || !progressBar) return;
+            
+            const found = targetData.found || 0;
+            const target = targetData.target || 3;
+            const percentage = Math.min((found / target) * 100, 100);
+            
+            countEl.textContent = `${found}/${target}`;
+            progressBar.style.width = `${percentage}%`;
+            
+            if (found >= target) {
+                progressBar.classList.add('complete');
+                barContainer.classList.add('target-met');
+                barContainer.classList.remove('target-urgent');
+                statusEl.textContent = `✅ Target met! On track for ${targetData.monthly_projection || 12}+ bids this month`;
+            } else {
+                progressBar.classList.remove('complete');
+                barContainer.classList.remove('target-met');
+                
+                const remaining = target - found;
+                const hour = new Date().getHours();
+                
+                if (hour >= 20) {
+                    // After 8 PM, show urgent
+                    barContainer.classList.add('target-urgent');
+                    statusEl.textContent = `🚨 URGENT: Need ${remaining} more opportunity${remaining > 1 ? 'ies' : 'y'} today!`;
+                } else {
+                    barContainer.classList.remove('target-urgent');
+                    statusEl.textContent = `${remaining} more needed today to hit monthly target`;
+                }
+            }
+        }
+        
+        function updateFreshnessUI(freshness) {
+            // Update Airtable status
+            const airtableStatus = freshness.airtable || {};
+            updateFreshnessIndicator('airtable', airtableStatus);
+            
+            // Update SAM.gov status
+            const samStatus = freshness.sam_gov || {};
+            updateFreshnessIndicator('sam', samStatus);
+            
+            // Update USASpending status
+            const usaspendingStatus = freshness.usaspending || {};
+            updateFreshnessIndicator('usaspending', usaspendingStatus);
+        }
+        
+        function updateFreshnessIndicator(source, status) {
+            const dot = document.getElementById(`${source}-dot`);
+            const text = document.getElementById(`${source}-status`);
+            
+            if (!dot || !text) return;
+            
+            // Reset classes
+            dot.className = 'freshness-dot';
+            
+            if (status.status === 'fresh') {
+                dot.classList.add('fresh');
+                const time = status.last_update ? formatTimeAgo(status.last_update) : 'Just now';
+                text.textContent = time;
+            } else if (status.status === 'stale') {
+                dot.classList.add('stale');
+                text.textContent = 'Stale';
+            } else if (status.status === 'error') {
+                dot.classList.add('error');
+                text.textContent = 'Error';
+            } else {
+                text.textContent = 'Unknown';
+            }
+        }
+        
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000 / 60); // minutes
+            
+            if (diff < 1) return 'Just now';
+            if (diff < 60) return `${diff}m ago`;
+            if (diff < 1440) return `${Math.floor(diff / 60)}h ago`;
+            return `${Math.floor(diff / 1440)}d ago`;
+        }
+        
+        function setFreshnessError() {
+            ['airtable', 'sam', 'usaspending'].forEach(source => {
+                const dot = document.getElementById(`${source}-dot`);
+                const text = document.getElementById(`${source}-status`);
+                if (dot) dot.className = 'freshness-dot error';
+                if (text) text.textContent = 'Error';
+            });
+        }
+        
+        // Force data refresh
+        async function forceRefresh() {
+            const btn = document.getElementById('refresh-btn');
+            const status = document.getElementById('refresh-status');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="refresh-spinner">🔄</span> Refreshing...';
+            status.textContent = 'Querying SAM.gov...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/hunter/refresh`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    status.textContent = `Found ${data.results.sam_gov_opportunities} new opportunities`;
+                    
+                    // Reload freshness indicators
+                    await loadDataFreshness();
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        status.textContent = 'Data refreshed!';
+                    }, 2000);
+                } else {
+                    throw new Error('Refresh failed');
+                }
+            } catch (e) {
+                console.error('Refresh error:', e);
+                status.textContent = 'Refresh failed - check console';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🔄 Refresh Data</span>';
+            }
+        }
+        
+        // Search mode selection
+        let selectedMode = 'combined';
+        
+        function selectMode(mode) {
+            selectedMode = mode;
+            
+            // Update UI
+            document.querySelectorAll('.mode-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Find the mode option div containing the selected radio
+            const selectedOption = document.querySelector(`input[name="search_mode"][value="${mode}"]`)?.closest('.mode-option');
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+            
+            // Update radio
+            document.querySelectorAll('input[name="search_mode"]').forEach(radio => {
+                radio.checked = (radio.value === mode);
+            });
+            
+            // Update hunt button text based on mode
+            const huntBtn = document.getElementById('hunt-btn');
+            if (huntBtn) {
+                if (mode === 'low-hanging') {
+                    huntBtn.textContent = '🍎 FIND QUICK WINS';
+                    huntBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
+                } else {
+                    huntBtn.textContent = '🚀 HUNT ALL OPPORTUNITIES';
+                    huntBtn.style.background = 'linear-gradient(135deg, #dc2626 0%, #ef4444 100%)';
+                }
+            }
+        }
+        
+        function generateBidPackage(solicitationNumber) {
+            // This would trigger NEXUS to create a complete bid package
+            alert(`🚀 Generating bid package for ${solicitationNumber}...\n\nThis would create:\n- Capability Statement\n- Quote Response\n- Bid Folder Structure\n- WORKFLOW_CHECKLIST.md\n- Supplier RFQ\n\n(TODO: Wire to NEXUS bid creation API)`);
+        }
+        
+        async function huntOpportunities() {
+            const btn = document.getElementById('hunt-btn');
+            btn.disabled = true;
+            btn.textContent = 'HUNTING...';
+            
+            // Show loading
+            document.getElementById('loading-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('error-container').innerHTML = '';
+            
+            // Collect search criteria
+            const criteria = {
+                certifications: [],
+                naics_codes: [],
+                location: document.getElementById('location').value,
+                contract_size: document.getElementById('contract-size').value,
+                specific_agency: document.getElementById('specific-agency').value || null,
+                search_mode: selectedMode,
+                search_live: selectedMode !== 'internal'  // Live search for 'live' and 'combined' modes
+            };
+            
+            // Get checked business types (ALL set-aside types)
+            const businessTypeCheckboxes = document.querySelectorAll('#business-types-grid input[type="checkbox"]');
+            businessTypeCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    criteria.business_types.push(cb.value);
+                }
+            });
+            
+            // If no business types selected, default to DDI's certifications
+            if (criteria.business_types.length === 0) {
+                criteria.business_types = ['EDWOSB', 'WOSB', 'SMALL_BUSINESS'];
+            }
+            
+            // Get checked NAICS
+            if (document.getElementById('naics-621511').checked) criteria.naics_codes.push('621511');
+            if (document.getElementById('naics-561730').checked) criteria.naics_codes.push('561730');
+            if (document.getElementById('naics-561611').checked) criteria.naics_codes.push('561611');
+            if (document.getElementById('naics-492110').checked) criteria.naics_codes.push('492110');
+            
+            // Update loading message based on search mode
+            const contractSizeLabel = document.getElementById('contract-size');
+            const selectedSize = contractSizeLabel.options[contractSizeLabel.selectedIndex].text;
+            
+            const loadingMessages = {
+                'internal': `Searching internal database (${selectedSize})...`,
+                'live': `Querying SAM.gov in real-time (${selectedSize})...`,
+                'combined': `Hunting ALL opportunities (${selectedSize})...`,
+                'low-hanging': `🍎 Finding easy wins (${selectedSize})...`
+            };
+            
+            try {
+                // Call the appropriate API endpoint based on mode
+                document.getElementById('loading-detail').textContent = loadingMessages[selectedMode];
+                
+                let apiUrl = `${API_BASE}/api/hunter/agencies`;
+                let requestBody = criteria;
+                
+                // Use low-hanging-fruit endpoint for easy wins mode
+                if (selectedMode === 'low-hanging') {
+                    apiUrl = `${API_BASE}/api/hunter/low-hanging-fruit`;
+                    requestBody = {
+                        contract_size: criteria.contract_size,
+                        business_types: criteria.business_types,
+                        naics_codes: criteria.naics_codes,
+                        days_posted_max: 7,
+                        include_presols: true
+                    };
+                }
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                document.getElementById('loading-section').style.display = 'none';
+
+                if (data.success) {
+                    document.getElementById('results-section').style.display = 'block';
+                    
+                    // Show past performance warning if present
+                    if (data.past_perf_warning) {
+                        showWarning(data.past_perf_warning);
+                    }
+                    
+                    // Handle different response formats
+                    if (selectedMode === 'low-hanging') {
+                        renderLowHangingResults(data.opportunities, data.search_criteria, data.avg_low_hanging_score);
+                    } else {
+                        renderResults(data.agencies, data.search_criteria, data.past_perf_warning);
+                    }
+                } else {
+                    showError(data.error || 'Failed to hunt opportunities');
+                }
+                
+            } catch (e) {
+                document.getElementById('loading-section').style.display = 'none';
+                showError(`Error: ${e.message}`);
+                console.error(e);
+            } finally {
+                btn.disabled = false;
+                // Reset button text based on current mode
+                if (selectedMode === 'low-hanging') {
+                    btn.textContent = '🍎 FIND QUICK WINS';
+                } else {
+                    btn.textContent = '🚀 HUNT ALL OPPORTUNITIES';
+                }
+            }
+        }
+        
+        // Store last search criteria for display
+        let lastSearchCriteria = {};
+        
+        function renderResults(agencies, searchCriteria = null, warning = null) {
+            const grid = document.getElementById('agency-grid');
+            const count = document.getElementById('results-count');
+            
+            // Update stored criteria
+            if (searchCriteria) {
+                lastSearchCriteria = searchCriteria;
+            }
+            
+            // Display warning if present
+            if (warning) {
+                showWarning(warning);
+            }
+            
+            // Build business types summary
+            let businessTypesSummary = '';
+            if (lastSearchCriteria.business_types && lastSearchCriteria.business_types.length > 0) {
+                const btLabels = lastSearchCriteria.business_types.map(bt => {
+                    const labels = {
+                        'EDWOSB': 'EDWOSB',
+                        'WOSB': 'WOSB',
+                        'SMALL_BUSINESS': 'Small Business',
+                        '8A': '8(a)',
+                        'HUBZONE': 'HUBZone',
+                        'SDVOSB': 'SDVOSB',
+                        'VOSB': 'VOSB',
+                        'SDB': 'SDB',
+                        'NONE': 'Open'
+                    };
+                    return labels[bt] || bt;
+                });
+                businessTypesSummary = ` • ${btLabels.join(', ')}`;
+            }
+            
+            // Get contract size label
+            const sizeLabels = {
+                'any': 'All Sizes',
+                'strategic': '$1M+ Strategic',
+                'mid': '$500K - $1M',
+                'under500k': '< $500K',
+                'under350k': '< $350K (No Past Perf)',
+                'simplified': '< $250K',
+                'micro': '< $10K'
+            };
+            const sizeLabel = sizeLabels[lastSearchCriteria.contract_size] || 'All Sizes';
+            
+            count.innerHTML = `<strong>${agencies.length}</strong> agencies • <strong>${sizeLabel}</strong>${businessTypesSummary}`;
+            
+            if (agencies.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1;">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No agencies found</h3>
+                        <p>Try adjusting your search criteria or check that the API server is running.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Helper to format source labels
+            const getSourceBadge = (source) => {
+                const sourceLabels = {
+                    'internal': 'Internal DB',
+                    'sam_gov': 'SAM.gov Live',
+                    'usaspending_only': 'USASpending',
+                    'mixed': 'Internal + SAM.gov'
+                };
+                return sourceLabels[source] || source || 'Unknown';
+            };
+            
+            grid.innerHTML = agencies.map(agency => `
+                <div class="agency-card ${agency.tier}">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div>
+                                <div class="agency-name">${agency.name}</div>
+                                <span class="source-badge">${getSourceBadge(agency.data_sources)}</span>
+                            </div>
+                            <div class="match-score ${agency.tier}">
+                                <div class="match-label">Match Score</div>
+                                ${agency.match_score}/100
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="stat-row">
+                            <span class="stat-label">Annual NAICS Spending</span>
+                            <span class="stat-value spending-amount">$${(agency.total_spending / 1000000).toFixed(0)}M</span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">EDWOSB Set-Asides</span>
+                            <span class="setaside-badge">${agency.set_aside_percentage}%</span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">Geographic Coverage</span>
+                            <span class="stat-value">${agency.location}</span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">Active Opportunities</span>
+                            <span class="stat-value">${agency.opportunity_count}</span>
+                        </div>
+                        
+                        ${agency.active_opportunities && agency.active_opportunities.length > 0 ? `
+                        <div class="active-opps">
+                            <h4>📋 Top Opportunities</h4>
+                            ${agency.active_opportunities.slice(0, 3).map(opp => `
+                                <div class="opp-item">
+                                    <div class="opp-title">${opp.title || 'Untitled'}</div>
+                                    <div class="opp-meta">
+                                        ${opp.solicitation || 'No sol #'} • ${opp.location || 'Nationwide'}<br>
+                                        Due: <span class="opp-due">${opp.due_date || 'TBD'}</span>
+                                        ${opp.score ? `• Score: ${opp.score}/100` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ` : ''}
+                        
+                        ${agency.why_match && agency.why_match.length > 0 ? `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f1f5f9;">
+                            <h4 style="color: #1e3a8a; font-size: 0.9rem; margin-bottom: 0.5rem;">✓ Why DDI Matches</h4>
+                            <ul style="font-size: 0.85rem; color: #4b5563; margin-left: 1rem;">
+                                ${agency.why_match.slice(0, 3).map(reason => `<li style="margin-bottom: 0.25rem;">${reason}</li>`).join('')}
+                            </ul>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="card-actions">
+                        <a href="${API_BASE}/gpss/opportunities?agency=${encodeURIComponent(agency.name)}" class="btn btn-secondary" target="_blank">
+                            View Opportunities
+                        </a>
+                        <button class="btn btn-primary" onclick="generateCapStatement('${agency.name}')">
+                            Generate Cap Statement
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render Low Hanging Fruit results
+        function renderLowHangingResults(opportunities, searchCriteria, avgScore) {
+            const grid = document.getElementById('agency-grid');
+            const count = document.getElementById('results-count');
+            
+            // Clear the grid for opportunity cards (not agency cards)
+            grid.innerHTML = '';
+            
+            // Update count with summary
+            const lowHangingCount = opportunities.filter(o => o.is_low_hanging).length;
+            const sizeLabels = {
+                'micro': '🛒 Micro-Purchase',
+                'simplified': '📋 Simplified Acquisition',
+                'small': '🏢 SB Set-Aside',
+                'mid': '💼 Mid-Size ($500K - $1M)',
+                'strategic': '🎯 Strategic ($1M+)',
+                'under350k': '🎯 Under $350K (No Past Perf)',
+                'under500k': '💰 Under $500K',
+                'any': '🌟 All Sizes'
+            };
+            const contractSizeLabel = searchCriteria.contract_size ? sizeLabels[searchCriteria.contract_size] || sizeLabels['any'] : sizeLabels['any'];
+
+            // Check if this search includes no-past-perf opportunities
+            const isNoPastPerf = searchCriteria.contract_size === 'under350k' ||
+                                 searchCriteria.contract_size === 'micro' ||
+                                 searchCriteria.contract_size === 'simplified' ||
+                                 (searchCriteria.max_value && searchCriteria.max_value <= 350000);
+            const pastPerfBadge = isNoPastPerf ? 
+                '<span style="background: #dcfce7; color: #166534; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-left: 0.5rem;">✅ No Past Perf Req</span>' : '';
+            
+            count.innerHTML = `🍎 <strong>${lowHangingCount}</strong> ${contractSizeLabel} opportunities found ${pastPerfBadge}<span style="color: #6b7280; font-weight: normal; margin-left: 0.5rem;">(avg score: ${avgScore}/100)</span>`;
+            
+            if (opportunities.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1;">
+                        <div class="no-results-icon">🍎</div>
+                        <h3>No low hanging fruit found</h3>
+                        <p>Try broadening your criteria or adjusting the max value threshold.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Add header explaining what low hanging fruit means
+            const headerDiv = document.createElement('div');
+            headerDiv.style.cssText = 'grid-column: 1 / -1; background: #ecfdf5; border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;';
+            headerDiv.innerHTML = `
+                <h3 style="color: #059669; margin-bottom: 0.5rem;">🍎 Low Hanging Fruit Explained</h3>
+                <p style="color: #047857; font-size: 0.9rem; margin-bottom: 0.75rem;">
+                    These opportunities have characteristics that indicate <strong>lower competition</strong> and <strong>higher win probability</strong>:
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.85rem; color: #065f46; margin-bottom: 1rem;">
+                    <div>✓ EDWOSB/8A set-aside (very few qualified bidders)</div>
+                    <div>✓ Under $350K (NO past performance required!)</div>
+                    <div>✓ Posted recently (fewer bidders have seen it)</div>
+                    <div>✓ Adequate response time (14+ days to prepare)</div>
+                    <div>✓ Presolicitation (early relationship advantage)</div>
+                </div>
+                <div style="background: #f0fdf4; padding: 0.75rem; border-radius: 6px; font-size: 0.8rem; color: #166534; border-left: 3px solid #22c55e; margin-bottom: 1rem;">
+                    <strong>Federal Contract Size Terms:</strong> 
+                    🛒 <strong>Micro-Purchase</strong> (<$10K) = Purchase card, no competition | 
+                    📋 <strong>Simplified Acquisition</strong> ($10K-$350K) = Limited procedures | 
+                    🏢 <strong>SB Set-Aside</strong> ($350K-$500K) = Small business only
+                </div>
+                <div style="background: #fef3c7; padding: 0.75rem; border-radius: 6px; font-size: 0.8rem; color: #92400e; border-left: 3px solid #f59e0b;">
+                    <strong>📚 PAST PERFORMANCE RULE (FAR 42.1502):</strong><br>
+                    • Contracts <strong>under $350,000</strong> = ✅ NO past performance evaluation required<br>
+                    • Contracts <strong>$350,000+</strong> = ⚠️ Past performance evaluation IS required<br>
+                    <strong>Important:</strong> EDWOSB set-aside does NOT exempt from past performance requirements!<br>
+                    <em>Threshold changed from $250K to $350K on October 1, 2025</em>
+                </div>
+            `;
+            grid.appendChild(headerDiv);
+            
+            // Render opportunity cards
+            opportunities.forEach(opp => {
+                const card = document.createElement('div');
+                card.className = `agency-card ${opp.is_low_hanging ? 'excellent' : 'moderate'}`;
+                
+                const scoreColor = opp.low_hanging_score >= 85 ? '#dc2626' : opp.low_hanging_score >= 70 ? '#d97706' : '#2563eb';
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div>
+                                <div class="agency-name" style="font-size: 1.1rem;">${opp.title}</div>
+                                <span class="source-badge">${opp.agency}</span>
+                                ${opp.is_presolicitation ? '<span style="background: #fef3c7; color: #92400e; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-left: 0.5rem;">📢 Presol</span>' : ''}
+                            </div>
+                            <div class="match-score excellent" style="background: ${scoreColor}15; color: ${scoreColor};">
+                                <div class="match-label">Easy Win Score</div>
+                                ${opp.low_hanging_score}/100
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="stat-row">
+                            <span class="stat-label">Contract Value</span>
+                            <span class="stat-value spending-amount">
+                                ${opp.value && opp.value !== 'TBD' ? '$' + opp.value.toLocaleString() : 'TBD'}
+                                ${opp.value && opp.value <= 350000 ? '<span style="background: #dcfce7; color: #166534; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">✓ No Past Perf</span>' : ''}
+                            </span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">Set-Aside Type</span>
+                            <span class="setaside-badge">${opp.set_aside || 'None'}</span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">NAICS Code</span>
+                            <span class="stat-value">${opp.naics || 'Unknown'}</span>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <span class="stat-label">Response Due</span>
+                            <span class="stat-value">${opp.deadline || opp.response_deadline || 'TBD'}</span>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; padding: 0.75rem; background: #f8fafc; border-radius: 6px;">
+                            <h4 style="color: #1e3a8a; font-size: 0.85rem; margin-bottom: 0.5rem;">✓ Why Low Competition:</h4>
+                            <ul style="font-size: 0.8rem; color: #4b5563; margin-left: 1rem; line-height: 1.5;">
+                                ${opp.low_hanging_reasons.slice(0, 4).map(r => `<li style="margin-bottom: 0.25rem;">${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        ${opp.description ? `
+                        <div style="margin-top: 1rem; font-size: 0.8rem; color: #6b7280; line-height: 1.4;">
+                            ${opp.description.substring(0, 200)}${opp.description.length > 200 ? '...' : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="card-actions">
+                        <a href="${opp.url || '#'}" class="btn btn-secondary" target="_blank" style="${!opp.url ? 'opacity: 0.5; pointer-events: none;' : ''}">
+                            View on SAM.gov
+                        </a>
+                        <button class="btn btn-primary" onclick="generateBidPackage('${opp.solicitation_number || opp.notice_id}')">
+                            🚀 Generate Bid Package
+                        </button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function generateCapStatement(agencyName) {
+            // Open capability statement generator in new window
+            const url = `${API_BASE}/generate-capability?agency=${encodeURIComponent(agencyName)}`;
+            window.open(url, '_blank');
+        }
+        
+        function showError(message) {
+            const container = document.getElementById('error-container');
+            container.innerHTML = `<div class="error-message">${message}</div>`;
+        }
+        
+        function showWarning(message) {
+            const container = document.getElementById('error-container');
+            container.innerHTML = `<div class="warning-message" style="background: #fef3c7; color: #92400e; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 1rem;">${message}</div>`;
+        }
+        
+        // Initialize
+        checkApiConnection();
+        loadProfile();
+        loadDataFreshness();  // Load data freshness + daily target progress
+
+        // Refresh data freshness and daily target every 60 seconds
+        setInterval(loadDataFreshness, 60000);
+    </script>
+</body>
+</html>

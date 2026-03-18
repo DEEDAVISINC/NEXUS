@@ -13,6 +13,7 @@ interface GrantOpportunity {
   funderOrganization: string;
   funderType: string;
   grantAmount: number;
+  grantAmountDisplay?: string | number;
   grantUrl: string;
   deadline: string;
   eligibility: string;
@@ -96,6 +97,24 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
     avgTimeInvested: 0
   });
 
+  const [dailyDigest, setDailyDigest] = useState<{
+    date?: string;
+    actions?: Array<{ priority: string; source: string; action: string; url: string; fee?: string; time?: string }>;
+  } | null>(null);
+
+  const [storyLibrary, setStoryLibrary] = useState<any[]>([]);
+  const [storyLoading, setStoryLoading] = useState(false);
+
+  const loadStoryLibrary = async () => {
+    setStoryLoading(true);
+    try {
+      const res = await api.getGbisStoryLibrary();
+      const modules = Array.isArray(res) ? res : (res?.modules || res?.stories || res?.story_library || []);
+      setStoryLibrary(modules);
+    } catch { setStoryLibrary([]); }
+    setStoryLoading(false);
+  };
+
   useEffect(() => {
     if (activeTab === 'opportunities') {
       fetchOpportunities();
@@ -103,10 +122,25 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
       fetchApplications();
     } else if (activeTab === 'pipeline') {
       fetchPipeline();
-    } else if (activeTab === 'dashboard') {
+    } else if (activeTab === 'dashboard' || activeTab === 'mining') {
       fetchStats();
+    } else if (activeTab === 'story-library') {
+      loadStoryLibrary();
     }
   }, [activeTab, filters]);
+
+  useEffect(() => {
+    if (activeTab === 'mining') {
+      api.gbisSmallGrantsDailyDigest()
+        .then((res: any) => {
+          if (res?.actions) setDailyDigest({ date: res.date, actions: res.actions });
+          else setDailyDigest(null);
+        })
+        .catch(() => setDailyDigest(null));
+    } else {
+      setDailyDigest(null);
+    }
+  }, [activeTab]);
 
   const fetchOpportunities = async () => {
     setLoading(true);
@@ -177,6 +211,25 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
+  };
+
+  const formatGrantAmount = (opportunity: GrantOpportunity): string => {
+    const displayValue = opportunity.grantAmountDisplay;
+    if (typeof displayValue === 'string' && displayValue.trim()) {
+      return displayValue.trim();
+    }
+
+    if (Number.isFinite(opportunity.grantAmount)) {
+      return `$${Math.round(opportunity.grantAmount).toLocaleString()}`;
+    }
+
+    return 'Amount not listed';
+  };
+
+  const formatDate = (rawDate: string): string => {
+    if (!rawDate) return 'No deadline listed';
+    const parsed = new Date(rawDate);
+    return Number.isNaN(parsed.getTime()) ? rawDate : parsed.toLocaleDateString();
   };
 
   const renderDashboard = () => (
@@ -379,11 +432,11 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-300">{opp.funderOrganization}</td>
                     <td className="px-6 py-4 text-sm font-semibold text-green-400">
-                      ${opp.grantAmount.toLocaleString()}
+                      {formatGrantAmount(opp)}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-300">{new Date(opp.deadline).toLocaleDateString()}</div>
-                      <div className={`text-xs ${opp.daysUntilDeadline <= 7 ? 'text-red-400' : 'text-gray-400'}`}>
+                      <div className="text-sm text-gray-300">{formatDate(opp.deadline)}</div>
+                      <div className={`text-xs ${opp.daysUntilDeadline > 0 && opp.daysUntilDeadline <= 7 ? 'text-red-400' : 'text-gray-400'}`}>
                         {opp.daysUntilDeadline} days left
                       </div>
                     </td>
@@ -515,8 +568,8 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-300">{new Date(app.submissionDeadline).toLocaleDateString()}</div>
-                      <div className={`text-xs ${app.daysUntilDeadline <= 7 ? 'text-red-400' : 'text-gray-400'}`}>
+                      <div className="text-sm text-gray-300">{formatDate(app.submissionDeadline)}</div>
+                      <div className={`text-xs ${app.daysUntilDeadline > 0 && app.daysUntilDeadline <= 7 ? 'text-red-400' : 'text-gray-400'}`}>
                         {app.daysUntilDeadline} days left
                       </div>
                     </td>
@@ -604,17 +657,339 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
     </div>
   );
 
-  const [storyLibrary, setStoryLibrary] = useState<any[]>([]);
-  const [storyLoading, setStoryLoading] = useState(false);
+  // ── Mining state ──────────────────────────────────────────────────────────
+  interface MiningResult {
+    success: boolean;
+    message: string;
+    total_new?: number;
+    imported?: number;
+    breakdown?: {
+      michigan_foundations: { imported: number; skipped: number; label: string };
+      veteran_grants:       { imported: number; skipped: number; label: string };
+      grants_gov:           { imported: number; found: number;   label: string };
+    };
+    last_run?: string;
+    error?: string;
+  }
 
-  const loadStoryLibrary = async () => {
-    setStoryLoading(true);
+  const [miningLoading, setMiningLoading] = useState<string | null>(null);
+  const [miningResult, setMiningResult]   = useState<MiningResult | null>(null);
+
+  const runMining = async (
+    label: string,
+    action: () => Promise<any>
+  ) => {
+    setMiningLoading(label);
+    setMiningResult(null);
     try {
-      const res = await api.get('/gbis/story-library');
-      setStoryLibrary(res.data?.stories || res.data?.story_library || []);
-    } catch { setStoryLibrary([]); }
-    setStoryLoading(false);
+      const res = await action();
+      const data = res?.data ?? res;
+      setMiningResult(data);
+      if (data?.total_new || data?.imported) {
+        showNotification(data.message || `${label} complete`, 'success');
+        fetchOpportunities();
+        fetchStats();
+      } else if (data?.error) {
+        showNotification(`${label} failed: ${data.error}`, 'error');
+      } else {
+        showNotification(data?.message || `${label} complete`, 'success');
+      }
+    } catch (err: any) {
+      const msg = err?.response?.data?.error || err?.message || 'Unknown error';
+      setMiningResult({ success: false, message: msg, error: msg });
+      showNotification(`${label} failed: ${msg}`, 'error');
+    } finally {
+      setMiningLoading(null);
+    }
   };
+
+  const MINING_SOURCES = [
+    {
+      id: 'all',
+      label: 'Run Full Pipeline',
+      description: 'ALL sources in one click — Small business grants + Michigan foundations + Veteran grants + Grants.gov live federal mining.',
+      action: () => api.gbisRunAll(),
+      color: 'green',
+      priority: 'Full Discovery',
+    },
+    {
+      id: 'small_business_free',
+      label: 'FREE Small Business Grants Only',
+      description: '45 free sources: Hello Alice, IFundWomen, Comcast RISE, FedEx, Google, Bank of America, Chase, Nav, SBA, SCORE, Michigan SBDC, MEDC, DEGC, WBENC portal, LinkedIn monitoring, NAWBO, Cartier, Eileen Fisher, Oakland County, and more.',
+      action: () => api.gbisSeedSmallGrantsFreeOnly(),
+      color: 'cyan',
+      priority: 'FREE — No Fees',
+    },
+    {
+      id: 'small_business',
+      label: 'All Small Business Grants (incl. paid)',
+      description: '46 sources including the Amber Grant ($15/mo fee). Everything above + Amber Grant — $10K monthly, $25K annual. Apply every month.',
+      action: () => api.gbisSeedSmallGrants(),
+      color: 'orange',
+      priority: 'All Sources (46)',
+    },
+    {
+      id: 'michigan_foundations',
+      label: 'Michigan Foundation Grants',
+      description: 'Seeds 6 Michigan foundation sources: MHEF, Kresge, Kellogg, RWJF, CFSEM, Ralph C. Wilson Jr. (Cause We Care applicant)',
+      action: () => api.gbisSeedMichiganFoundations(),
+      color: 'blue',
+      priority: 'Community Health',
+    },
+    {
+      id: 'veteran_grants',
+      label: 'Veteran Grant Sources',
+      description: 'Seeds 7 veteran sources: DAV (apply first), DOL HVRP, VFW Foundation, Bob Woodruff, Gary Sinise, JPMorgan. Unlocked by Gary Felton Jr.',
+      action: () => api.gbisSeedVeteranSources(),
+      color: 'yellow',
+      priority: 'Veteran Focused',
+    },
+    {
+      id: 'grants_gov',
+      label: 'Mine Grants.gov (Federal Live)',
+      description: 'Live API search — NIH NIMHD, HRSA, SAMHSA, USDA FNS, HUD, ACF, HHS ASPE. Returns open + forecasted grants right now.',
+      action: () => api.gbisMineFederal(),
+      color: 'purple',
+      priority: 'Federal Live',
+    },
+  ];
+
+  const renderMining = () => (
+    <div className="space-y-6">
+      {/* Today's Grant Actions — Daily Digest */}
+      {dailyDigest?.actions && dailyDigest.actions.length > 0 && (
+        <div className="bg-amber-900/20 border border-amber-500/40 rounded-lg p-5">
+          <h4 className="font-bold text-amber-400 mb-3 flex items-center gap-2">
+            <span>📋</span> Today&apos;s Grant Actions
+            {dailyDigest.date && (
+              <span className="text-xs font-normal text-gray-400">({dailyDigest.date})</span>
+            )}
+          </h4>
+          <div className="space-y-3">
+            {dailyDigest.actions.map((a, i) => (
+              <div key={i} className="bg-gray-800/60 rounded-lg p-3 border border-gray-700">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">
+                      {a.priority}
+                    </span>
+                    <p className="font-semibold text-gray-200 mt-1">{a.source}</p>
+                    <p className="text-gray-400 text-sm mt-0.5">{a.action}</p>
+                    {a.time && (
+                      <p className="text-xs text-gray-500 mt-1">⏱ {a.time}</p>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    <span className={`text-xs px-2 py-0.5 rounded ${a.fee ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                      {a.fee || 'FREE'}
+                    </span>
+                    <a
+                      href={a.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-amber-400 hover:text-amber-300 underline"
+                    >
+                      Open →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-xl font-bold">Grant Discovery Engine</h3>
+            <p className="text-gray-400 text-sm mt-1">
+              53 grant sources (51 free) — small business, Michigan foundations, veteran, fellowship/builder + live Grants.gov.
+              All sources skip duplicates — safe to run anytime.
+            </p>
+          </div>
+          <button
+            onClick={() => runMining('Full Pipeline', () => api.gbisRunAll())}
+            disabled={miningLoading !== null}
+            className="px-6 py-3 bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold text-sm transition whitespace-nowrap"
+          >
+            {miningLoading === 'Full Pipeline' ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z"/>
+                </svg>
+                Mining…
+              </span>
+            ) : '⚡ Run Full Pipeline'}
+          </button>
+        </div>
+      </div>
+
+      {/* Source cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {MINING_SOURCES.map((source) => (
+          <div key={source.id} className={`bg-gray-800 rounded-lg border border-gray-700 p-5 hover:border-${source.color}-500/50 transition`}>
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full bg-${source.color}-500/20 text-${source.color}-400 border border-${source.color}-500/30`}>
+                  {source.priority}
+                </span>
+                <h4 className="font-bold mt-2">{source.label}</h4>
+                <p className="text-gray-400 text-sm mt-1 leading-relaxed">{source.description}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => runMining(source.label, source.action)}
+              disabled={miningLoading !== null}
+              className={`w-full mt-2 py-2 rounded-lg text-sm font-semibold transition
+                bg-${source.color}-500/20 hover:bg-${source.color}-500/30 text-${source.color}-400
+                border border-${source.color}-500/40 disabled:opacity-40 disabled:cursor-not-allowed`}
+            >
+              {miningLoading === source.label ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z"/>
+                  </svg>
+                  Running…
+                </span>
+              ) : `Mine — ${source.label}`}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Result card */}
+      {miningResult && (
+        <div className={`rounded-lg border p-6 ${miningResult.success === false ? 'bg-red-900/20 border-red-500/40' : 'bg-green-900/20 border-green-500/40'}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-2xl">{miningResult.success === false ? '❌' : '✅'}</span>
+            <div>
+              <p className="font-bold text-lg">{miningResult.message}</p>
+              {miningResult.last_run && (
+                <p className="text-xs text-gray-400">Run at: {new Date(miningResult.last_run).toLocaleTimeString()}</p>
+              )}
+            </div>
+          </div>
+
+          {miningResult.breakdown && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-2">
+              {Object.entries(miningResult.breakdown).map(([key, info]) => (
+                <div key={key} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                  <p className="text-xs text-gray-400 mb-1">{info.label}</p>
+                  <p className="text-2xl font-bold text-green-400">+{info.imported}</p>
+                  <p className="text-xs text-gray-500">
+                    {'found' in info ? `${info.found} found on Grants.gov` : `${info.skipped} already tracked`}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {miningResult.imported !== undefined && !miningResult.breakdown && (
+            <p className="text-gray-300">
+              <span className="text-green-400 font-bold text-xl">+{miningResult.imported}</span> new records added to GRANT OPPORTUNITIES
+            </p>
+          )}
+
+          {miningResult.error && (
+            <p className="text-red-400 text-sm mt-2 font-mono">{miningResult.error}</p>
+          )}
+
+          {miningResult.success !== false && (miningResult.total_new ?? miningResult.imported ?? 0) === 0 && (
+            <p className="text-gray-400 text-sm mt-2">All sources already tracked — no duplicates added. Pipeline is up to date.</p>
+          )}
+        </div>
+      )}
+
+      {/* Quick reference */}
+      <div className="bg-gray-800 rounded-lg border border-gray-700 p-5">
+        <h4 className="font-semibold mb-3 text-gray-300">Grant Sources Covered</h4>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <p className="text-orange-400 font-semibold mb-2">Small Business (DDI) — Apply Monthly</p>
+            <ul className="text-gray-400 space-y-1">
+              <li>• Hello Alice (daily check)</li>
+              <li>• Amber Grant ($10K, 1st of month)</li>
+              <li>• IFundWomen Universal (quarterly)</li>
+              <li>• NASE Growth Grant (monthly)</li>
+              <li>• Comcast RISE (rolling)</li>
+              <li>• FedEx $50K (annual, Spring)</li>
+              <li>• Nav Business Grants (weekly)</li>
+              <li>• GrantWatch (daily digest)</li>
+              <li>• SBA Grants (weekly)</li>
+              <li>• Michigan SBDC (weekly)</li>
+              <li>• Cartier $100K (annual, Q1)</li>
+              <li>• InnovateHER/SBA (annual, Fall)</li>
+              <li className="text-orange-300 font-medium mt-2">Fellowship / Builder</li>
+              <li>• O&apos;Shaughnessy ($100K — Apr 30)</li>
+              <li>• Soma Scholars ($30K — rolling)</li>
+              <li>• Women Who Tech ($3–15K — rolling)</li>
+              <li>• AT&T She&apos;s Connected ($50K — Spring)</li>
+              <li>• Proposium (AI matching)</li>
+              <li>• Merge Grant ($100–$1K — fast)</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-blue-400 font-semibold mb-2">Michigan Foundations</p>
+            <ul className="text-gray-400 space-y-1">
+              <li>• CFSEM (Quarterly — Q2 PRIORITY)</li>
+              <li>• Michigan Health Endowment Fund</li>
+              <li>• Kresge Foundation (Detroit HQ)</li>
+              <li>• W.K. Kellogg Foundation</li>
+              <li>• Robert Wood Johnson Foundation</li>
+              <li>• Ralph C. Wilson Jr. Foundation</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-yellow-400 font-semibold mb-2">Veteran Grants</p>
+            <ul className="text-gray-400 space-y-1">
+              <li>• DAV Charitable Trust (APPLY FIRST)</li>
+              <li>• DOL VETS — HVRP (federal)</li>
+              <li>• VFW Foundation</li>
+              <li>• Bob Woodruff Foundation</li>
+              <li>• Gary Sinise Foundation</li>
+              <li>• JPMorgan Veteran Jobs Mission</li>
+              <li>• HIRE Vets Medallion (DOL)</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-purple-400 font-semibold mb-2">Federal (Grants.gov Live)</p>
+            <ul className="text-gray-400 space-y-1">
+              <li>• NIH NIMHD (93.307)</li>
+              <li>• HRSA Community Health (93.910)</li>
+              <li>• SAMHSA Behavioral (93.243)</li>
+              <li>• USDA FNS SNAP (10.561)</li>
+              <li>• HUD CDBG (14.218)</li>
+              <li>• ACF Family Support (93.647)</li>
+              <li>• HHS ASPE Policy (93.239)</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Daily action cadence */}
+        <div className="mt-5 pt-4 border-t border-gray-700">
+          <p className="text-gray-300 font-semibold mb-3">Daily / Weekly Action Cadence</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div className="bg-gray-700/50 rounded-lg p-3">
+              <p className="text-orange-400 font-semibold mb-1">Every Day</p>
+              <p className="text-gray-400">Check Hello Alice for new grants</p>
+            </div>
+            <div className="bg-gray-700/50 rounded-lg p-3">
+              <p className="text-orange-400 font-semibold mb-1">Every Monday</p>
+              <p className="text-gray-400">Scan Nav Business Grants + Michigan SBDC</p>
+            </div>
+            <div className="bg-gray-700/50 rounded-lg p-3">
+              <p className="text-red-400 font-semibold mb-1">1st of Every Month</p>
+              <p className="text-gray-400">Apply: Amber Grant ($15 fee) + NASE Growth Grant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   const renderStoryLibrary = () => (
     <div className="space-y-6">
@@ -631,27 +1006,27 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-blue-500">
-            <h4 className="font-semibold mb-2">Company Core Stories</h4>
-            <p className="text-gray-400 text-sm">Origin, mission, vision modules</p>
+            <h4 className="font-semibold mb-2">Company Core</h4>
+            <p className="text-gray-400 text-sm">Business narrative, mission, owner bio</p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-green-500">
-            <h4 className="font-semibold mb-2">Division Overviews</h4>
-            <p className="text-gray-400 text-sm">8 division success stories</p>
+            <h4 className="font-semibold mb-2">Use of Funds</h4>
+            <p className="text-gray-400 text-sm">Templates by award amount ($5K–$100K)</p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg border-l-4 border-purple-500">
-            <h4 className="font-semibold mb-2">Impact Metrics</h4>
-            <p className="text-gray-400 text-sm">Measurable outcomes & data</p>
+            <h4 className="font-semibold mb-2">Impact & Proof</h4>
+            <p className="text-gray-400 text-sm">Community impact, financial need, FAQ</p>
           </div>
         </div>
 
         {storyLibrary.length > 0 ? (
           <div className="space-y-3">
             {storyLibrary.map((story: any, i: number) => (
-              <div key={i} className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+              <div key={story.id || i} className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold">{story.title || story['Story Title'] || `Story ${i + 1}`}</span>
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
-                    {story.category || story['Category'] || 'General'}
+                  <span className="font-semibold">{story.moduleName || story['Module Name'] || story.title || `Module ${i + 1}`}</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs shrink-0 ml-2">
+                    {story.moduleType || story['Module Type'] || story.status || story['Status'] || 'Active'}
                   </span>
                 </div>
                 <p className="text-sm text-gray-400 line-clamp-2">
@@ -662,8 +1037,14 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
           </div>
         ) : (
           <div className="text-center py-8 text-gray-500">
-            <p className="text-lg mb-1">Click "Load Stories" to pull from Airtable</p>
-            <p className="text-sm">Stories power the AI application generator with reusable content modules.</p>
+            {storyLoading ? (
+              <p className="text-lg">Loading Story Library…</p>
+            ) : (
+              <>
+                <p className="text-lg mb-1">No modules in Story Library</p>
+                <p className="text-sm">Run <code className="bg-gray-700 px-1 rounded">gbis_populate_story_library.py</code> to sync from Grant Application Package.</p>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -686,11 +1067,12 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex gap-1 overflow-x-auto">
             {[
-              { id: 'dashboard', label: '📊 Dashboard', icon: '📊' },
-              { id: 'opportunities', label: '🎯 Opportunities', icon: '🎯' },
-              { id: 'applications', label: '✍️ Applications', icon: '✍️' },
-              { id: 'pipeline', label: '📈 Pipeline', icon: '📈' },
-              { id: 'story-library', label: '📚 Story Library', icon: '📚' }
+              { id: 'dashboard',     label: '📊 Dashboard' },
+              { id: 'mining',        label: '⚡ Mine Grants' },
+              { id: 'opportunities', label: '🎯 Opportunities' },
+              { id: 'applications',  label: '✍️ Applications' },
+              { id: 'pipeline',      label: '📈 Pipeline' },
+              { id: 'story-library', label: '📚 Story Library' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -710,11 +1092,12 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
 
       {/* Content Area */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {activeTab === 'dashboard' && renderDashboard()}
-        {activeTab === 'opportunities' && renderOpportunities()}
-        {activeTab === 'applications' && renderApplications()}
-        {activeTab === 'pipeline' && renderPipeline()}
-        {activeTab === 'story-library' && renderStoryLibrary()}
+        {activeTab === 'dashboard'     && renderDashboard()}
+        {activeTab === 'mining'         && renderMining()}
+        {activeTab === 'opportunities'  && renderOpportunities()}
+        {activeTab === 'applications'   && renderApplications()}
+        {activeTab === 'pipeline'       && renderPipeline()}
+        {activeTab === 'story-library'  && renderStoryLibrary()}
       </div>
 
       {/* Opportunity Modal */}
@@ -738,7 +1121,7 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-gray-400 text-sm">Grant Amount</label>
-                  <p className="text-2xl font-bold text-green-400">${selectedOpportunity.grantAmount.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-green-400">{formatGrantAmount(selectedOpportunity)}</p>
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Qualification Score</label>
@@ -746,7 +1129,7 @@ const GBISSystem: React.FC<GBISSystemProps> = ({ onBackToNexus, activeTab, setAc
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Deadline</label>
-                  <p className="text-lg">{new Date(selectedOpportunity.deadline).toLocaleDateString()}</p>
+                  <p className="text-lg">{formatDate(selectedOpportunity.deadline)}</p>
                   <p className="text-sm text-gray-400">{selectedOpportunity.daysUntilDeadline} days left</p>
                 </div>
                 <div>

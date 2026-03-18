@@ -1,0 +1,162 @@
+# Capability Statement v3 Enforcement — Detect Old, Regenerate New
+
+**Every time a cap statement is opened, referenced, or about to be sent: CHECK if it's the old format. If it is, regenerate it using the v3 engine before it goes anywhere.**
+
+---
+
+## THE RULE
+
+**DDI's master capability statement was updated to the "Contract Management Firm" v3 design. ALL cap statements — past, present, and future — must use this format. No old-format cap statements leave this system.**
+
+---
+
+## HOW TO DETECT AN OLD CAP STATEMENT
+
+**If ANY of these markers are present in an HTML cap statement, it is OLD and must be regenerated:**
+
+### Structural Markers (check the HTML):
+1. **`.logo-section`** class — Old format uses `.logo-section` with 120px box. v3 uses `.h-logo` with 70px box.
+2. **`.header-content`** class — Old format. v3 uses `.h-text`.
+3. **`.section-header`** class — Old format section headers. v3 uses `.sh` and `.sh-accent`.
+4. **`.info-box`** or **`.highlight-box`** class — Old format content boxes. v3 uses `.who` with headshot.
+5. **`.edwosb-box`** class — Old format standalone EDWOSB box. v3 integrates EDWOSB into the overview and differentiators.
+6. **`.key-points`** or **`.key-point`** class — Old format competency grid. v3 uses `.comp-grid` with `.c` cards.
+7. **`.naics-grid`** or **`.naics-tag`** class — Old format NAICS display. v3 puts NAICS in the footer.
+8. **`.contact-grid`** class — Old format contact section. v3 uses `.footer` bar.
+9. **`min-height: 11in`** — Old format. v3 uses `height: 11in` (fixed page, no overflow).
+10. **`padding: 0.6in`** on `.page` — Old format. v3 uses `padding: 0` on `.page`.
+
+### Content Markers:
+1. **Missing "CONTRACT MANAGEMENT FIRM"** — If the gold bar or title doesn't reference DDI as a contract management firm, it's old.
+2. **Missing "The Professionals' Professional"** tagline — v3 always includes this.
+3. **Missing headshot** — v3 has a circular headshot next to the overview. Old format does not.
+4. **Missing framework line** (e.g., "EXECUTION FRAMEWORK:" or "SERVICE MODEL:") — v3 always has one.
+5. **Missing partner logos row** — v3 has "Strategic Alliance Partners:" with logos.
+6. **Missing cert badge images** — v3 has a cert strip with badge images.
+7. **Footer says "Dee Davis" instead of "Dieasha Davis"** — v3 uses full legal name.
+8. **Missing MC, DOT, NPI in footer** — v3 footer includes `MC: 1647572 | DOT: 4250594 | NPI: 1538939111`.
+9. **Missing "Est. 2018"** in header credentials — v3 always includes this.
+10. **Missing "CONUS/OCONUS"** reference — v3 always includes deployment readiness.
+
+### Quick Detection (fastest check):
+- **Search for `.h-logo`** → If NOT found, it's old.
+- **Search for `gold-bar`** → If NOT found, it's old.
+- **Search for `comp-grid`** → If NOT found, it's old.
+- **Search for `Dieasha Davis`** → If NOT found, it's old.
+
+**If ANY detection triggers: STOP. Do not send. Regenerate.**
+
+---
+
+## HOW TO REGENERATE
+
+### Step 1: Extract solicitation-specific data from the old cap statement
+Pull these from the old file:
+- Agency name (e.g., "Naval Surface Warfare Center Indian Head Division")
+- Solicitation number (e.g., "N0017426Q1009")
+- Service type / sector (e.g., fingerprinting, drug_testing, nemt, courier)
+- Any buyer-specific language that was tailored
+
+### Step 2: Determine the correct sector
+Map the service to a sector key for the generator:
+| Service | Sector Key |
+|---|---|
+| Fingerprinting / SWFT / Background | `fingerprinting` |
+| Drug Testing / Alcohol / TPA | `drug_testing` |
+| NEMT / Medical Transport | `nemt` |
+| Courier / Delivery / Logistics | `courier` |
+| DNA / Paternity / Genetic Testing | `dna_testing` |
+| Janitorial / Grounds / Facilities | `janitorial` |
+| Industrial Supplies / Equipment | `industrial` |
+| Notary / Signing Agent | `notary` |
+| Professional Services / Consulting | `professional` |
+| Georgia State Agency | `georgia` |
+| General / Multi-Service | `main` |
+
+### Step 3: Generate using the v3 engine
+Use `capability_statement_generator.py`:
+
+```python
+from capability_statement_generator import generate_capability_statement
+
+html = generate_capability_statement(
+    sector="fingerprinting",  # or appropriate sector
+    agency_name="Naval Surface Warfare Center Indian Head Division",
+    solicitation_number="N0017426Q1009",
+    output_path="BIDS:RESOURCES/NSWC INDIAN HEAD SWFT/SEND_TO_BUYER/N0017426Q1009_SWFT_Capability_Statement.html"
+)
+```
+
+If the generator script can't be executed directly (e.g., missing dependencies or image assets), **build the HTML manually using the v3 template** (`capability_statement_template.html`) with the correct sector colors and content from `capability_statement_generator.py`'s `SECTOR_COLORS` and `SECTOR_CONTENT` dictionaries.
+
+### Step 4: Apply ProposalBio buyer language
+After generating the base v3 cap statement, tailor the overview paragraph and competencies to mirror the buyer's RFP language, per `nexus-outbound-workflow.mdc` and `proposalbio-every-email.mdc`.
+
+### Step 4b: Apply Strategic Readiness Rules (MANDATORY)
+Capability statements are buyer-facing and must pass the same strategic quality standards:
+- Proposal readiness gate (strategy/positioning/structure)
+- Evaluator-defensible case logic
+- Relevance over volume (no capability dumping)
+- Compliance + evaluator comfort
+- Clarity as strategy (first-pass readability, low friction)
+- Rubric mirroring/scoreability when criteria are available
+- Executive summary as selection justification
+
+If these fail, revise content before release even if visual/template checks pass.
+
+### Step 5: Verify
+- [ ] Uses `.h-logo`, `.gold-bar`, `.comp-grid`, `.sh` structure
+- [ ] Has "Dieasha Davis" in footer (not "Dee Davis")
+- [ ] Has MC: 1647572 | DOT: 4250594 | NPI: 1538939111 in footer
+- [ ] Has headshot circle next to overview
+- [ ] Has framework line ("SERVICE MODEL:" or "EXECUTION FRAMEWORK:")
+- [ ] Has cert strip with badge images
+- [ ] Has partner logos row
+- [ ] Has correct sector colors (per `cap-statement-colors.mdc`)
+- [ ] Phone is 248.376.4550 (per `company-info-verification.mdc`)
+- [ ] Address is Troy, MI 48084
+- [ ] Email is info@deedavis.biz
+- [ ] CAGE: 8UMX3, UEI: HJB4KNYJVGZ1
+- [ ] Agency name appears 3+ times (ProposalBio #7)
+- [ ] Logo is actual base64 PNG (not a text placeholder)
+
+### Step 6: Replace the old file
+Overwrite the old cap statement in the same SEND_TO_BUYER folder with the new v3 version. Same filename.
+
+---
+
+## WHEN TO CHECK
+
+**Check for old format cap statements when:**
+1. User says "send" or "email" for any bid — check the cap statement BEFORE presenting
+2. User opens or references a bid folder — check if cap statement exists and is v3
+3. User asks to "update" or "refresh" a cap statement — always regenerate as v3
+4. Generating a new outreach package — always use v3 engine
+5. User references the master cap statement PDF — this IS the v3 standard
+
+---
+
+## v3 TEMPLATE REFERENCE
+
+**Generator:** `capability_statement_generator.py` (v3 engine)
+**Template:** `capability_statement_template.html` (v3 HTML)
+**Main rendered:** `BIDS:RESOURCES/ESSENTIALS/DDI_Main_Capability_Statement.html`
+**Master PDF:** `/Users/deedavis/Library/Mobile Documents/com~apple~CloudDocs/LOGOS/DEE DAVIS INC LOGOS AND PHOTOS/DEE DAVIS INC — Capability Statement.pdf`
+**Colors:** `cap-statement-colors.mdc`
+**Content:** `SECTOR_CONTENT` and `SECTOR_COLORS` dicts in `capability_statement_generator.py`
+
+---
+
+## CRITICAL REMINDERS
+
+1. **Old cap statements do NOT leave the system.** If it's old, regenerate before sending.
+2. **Fix on contact, not in bulk.** Regenerate when the bid folder is actively being worked on.
+3. **The v3 design is the standard.** No exceptions. No "quick fixes" to old templates.
+4. **Sector colors still apply.** v3 doesn't mean everything is navy/gold — each sector has its own color scheme.
+5. **ProposalBio still applies.** v3 is the structure; buyer language tailoring is still required.
+7. **Strategic rules apply too.** A beautiful v3 layout does not compensate for weak positioning or unclear decision logic.
+6. **The PDF master is the source of truth.** If there's ever a question about what v3 looks like, reference: `DEE DAVIS INC — Capability Statement.pdf`
+
+---
+
+*Old format = old business. v3 = Contract Management Firm. Every cap statement that leaves this system represents DDI at its best.*

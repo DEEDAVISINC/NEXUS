@@ -1,0 +1,263 @@
+# MICRO-PURCHASE OUTREACH — THE DIRECT SALES PIPELINE
+
+**Micro-purchases are DDI's fastest path to revenue. No formal bids. No lengthy proposals. A contracting officer can call you and place an order TODAY if you're on their radar. This rule governs how NEXUS handles micro-purchase outreach.**
+
+---
+
+## WHAT IS A MICRO-PURCHASE?
+
+| Threshold | Type | What It Means |
+|---|---|---|
+| **Under $10,000** | Federal Micro-Purchase | CO can buy from ANY vendor without competition. Just a credit card swipe. |
+| **$10,000–$250,000** | Simplified Acquisition | Requires 3 quotes, but EDWOSB sole-source eligible up to $7M bypasses this. |
+| **BPA (Blanket Purchase Agreement)** | Standing Order | Once you're on a BPA, they call you repeatedly. Recurring revenue. |
+
+**DDI's EDWOSB status means a CO can sole-source up to $7M to DDI without competition. Micro-purchase outreach is about getting on their radar so they USE that authority.**
+
+---
+
+## THE SIX SECTORS
+
+DDI runs micro-purchase outreach across 6 service sectors. Each has its own template, target list, and opening script.
+
+| # | Sector | Template | Primary Targets |
+|---|---|---|---|
+| T01 | Security / SWFT / Fingerprinting | T01_FEDERAL_SECURITY_CREDENTIALING.md | Installation security, VA Police, TSA, CBP |
+| T02 | DOT Drug & Alcohol Testing (TPA) | T02_DOT_DRUG_ALCOHOL_TPA.md | Transit agency DAPMs, FTA grantees, DOT-regulated employers |
+| T03 | Government Procurement & Supply | T03_GOVERNMENT_PROCUREMENT_SUPPLY.md | Contracting officers, procurement managers, logistics |
+| T04 | NEMT / Healthcare Transport | T04_NEMT_HEALTHCARE_TRANSPORT.md | VA Beneficiary Travel, Medicaid MCOs, ModivCare |
+| T05 | Emergency / COOP / Disaster Logistics | T05_EMERGENCY_LOGISTICS_COOP.md | FEMA, state EMAs, DHS/CISA, Army Corps |
+| T06 | Notary / RON / Legal Services | T06_NOTARY_RON_LEGAL_SERVICES.md | Courts, HUD, VA Loan Centers, FDIC, Snapdocs/ZigSig |
+
+**Templates are in:** `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/TEMPLATES/`
+
+---
+
+## TONE — DDI IS AN EXPERIENCED FIRM, NOT A STARTUP
+
+**This is non-negotiable. Every micro-purchase email must sound like it's coming from a firm that already has federal contracts — because it does.**
+
+### NEVER use:
+- ❌ "I would welcome the opportunity to be added to your vendor rotation"
+- ❌ "I would appreciate the opportunity to discuss"
+- ❌ "We are seeking to expand our footprint"
+- ❌ "We'd like to explore being added"
+- ❌ "Can you point me to..." (on email — fine on phone)
+- ❌ Any language that sounds like asking for permission or begging for business
+
+### ALWAYS use:
+- ✅ "We carry active federal contracts and maintain deployment readiness"
+- ✅ "DDI is sole-source eligible — [Agency] can engage us directly"
+- ✅ "When [Agency] has a [service] need, we're positioned to execute immediately"
+- ✅ "Capability statement attached for your files"
+- ✅ "We're available to discuss at your convenience" (not "I would welcome")
+
+### The positioning:
+DDI is **informing** the CO that a qualified, certified, experienced EDWOSB exists and is ready to execute. The CO should read the email and think: "Good — I'll file this for when I need it." Not: "Another small business begging me for work."
+
+### The formula:
+```
+1. Here's who we are (CAGE, EDWOSB, active contracts)
+2. Here's what we do (specific capabilities, not generic)
+3. Here's why it's easy for you (sole-source eligible, no lengthy procurement)
+4. Here's our cap statement (attached, for their files)
+5. We're here when you need us (confident close, not a plea)
+```
+
+---
+
+## OUTREACH PROTOCOL — EMAIL FIRST, CALL WARM LEADS
+
+**Volume target: 50 contacts per week. Email is the first touch. Phone calls are for respondents.**
+
+### The Sequence (Every Contact, Every Time)
+
+```
+1. EMAIL FIRST (batch 50 per week)
+   → Use the sector email template
+   → Replace [Name] with contact name (or "Dear [Title]" if name unknown)
+   → Attach sector-specific capability statement (v3 format, PDF)
+   → Subject line MUST include CAGE 8UMX3
+   → UPDATE NEXUS immediately after sending
+
+2. WAIT FOR REPLIES (5 business days)
+   → Monitor inbox for responses
+   → Any reply = WARM LEAD → move to step 3
+
+3. CALL WARM LEADS (respondents only)
+   → Use the sector phone script
+   → Reference your email: "I sent over our capability statement last week..."
+   → Goal: schedule a 15-minute call or get added to vendor list
+   → UPDATE NEXUS with call outcome
+
+4. FOLLOW UP non-respondents (after 5 business days)
+   → One follow-up email referencing prior contact
+   → If no response after follow-up → move to NEXT BATCH
+   → Do NOT call cold non-respondents — they'll remember the email when they need you
+
+5. REPEAT weekly
+   → 50 new contacts per week
+   → Follow up on prior week's non-respondents
+   → Call any new warm leads from prior batches
+```
+
+### Weekly Cadence
+
+| Day | Action | Volume |
+|---|---|---|
+| **Monday** | Send new batch of emails (50 contacts) | 50 |
+| **Tuesday** | Send follow-ups to prior week's non-respondents | 20-40 |
+| **Wednesday–Thursday** | Call warm leads who replied | 5-15 |
+| **Friday** | Update NEXUS, prep next week's batch | — |
+
+### Email Subject Line Format
+
+```
+CAGE 8UMX3 | [Service Description] | EDWOSB | [Agency/Installation Name]
+```
+
+**Examples:**
+- `CAGE 8UMX3 | DCSA SWFT-Authorized Fingerprinting Provider | EDWOSB | Selfridge ANGB`
+- `CAGE 8UMX3 | FTA-Compliant C/TPA | 5,100+ Collection Sites | EDWOSB | SMART`
+- `CAGE 8UMX3 | EDWOSB Emergency Logistics Contractor | TWIC-Credentialed | MSP/EMHSD`
+
+### Capability Statement Rules
+
+- ALWAYS attach a cap statement to every email
+- Use the CORRECT sector version (fingerprinting = green, drug testing = blue/red, etc.)
+- Must be v3 format (see `cap-statement-v3-enforcement.mdc`)
+- If a contact serves dual sectors (e.g., VA = SWFT + NEMT), use the primary sector cap statement and mention the second service in the email body
+
+---
+
+## PRIORITY SYSTEM
+
+| Priority | Definition | Timeline |
+|---|---|---|
+| **1 — URGENT** | Highest win probability or fastest path to revenue | Contact THIS WEEK |
+| **2 — HIGH** | Strong opportunity, good fit | Contact within 2 WEEKS |
+| **3 — MED** | Good opportunity, needs more work | Contact within 30 DAYS |
+
+### How Priority Is Determined
+
+- **Geographic proximity** — Michigan contacts are Priority 1-2 (DDI's home turf)
+- **Existing relationship** — MDHHS Community Partner, existing VA contacts = higher priority
+- **Dual opportunity** — Contacts that serve 2+ DDI sectors get priority bump
+- **Confirmed email** — Ready-to-send contacts get priority over "call to find" contacts
+- **EDWOSB sole-source** — Federal contacts where EDWOSB authority applies = high priority
+
+---
+
+## NEXUS TAGGING
+
+All micro-purchase contacts in NEXUS are tagged in the Notes field with this format:
+
+```
+Phone: (XXX) XXX-XXXX | Email: name@agency.gov | MICRO-PURCHASE | Sector: [Sector Name] | Priority: [1-URGENT/2-HIGH/3-MED] | Action: [CALL/EMAIL/PORTAL] | Template: [T0X] | [Additional context]
+```
+
+### When Updating After Contact
+
+Add to the Notes:
+```
+OUTREACH SENT: [date] — [call/email/both] — [outcome: left message / spoke to [name] / email sent / meeting set]
+FOLLOW-UP DUE: [date]
+```
+
+---
+
+## WHEN NEXUS IDENTIFIES A MICRO-PURCHASE CONTACT
+
+### When Dee says "micro-purchase" or "outreach" or "cold call" or "vendor registration":
+
+1. Pull the weekly action plan: `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/WEEKLY_ACTION_PLAN.md`
+2. Identify the next unchecked item
+3. Pull the correct template from `TEMPLATES/`
+4. Customize the email with the contact's name and agency
+5. Generate or verify the cap statement (v3 format, correct sector)
+6. Present: template + cap statement + contact info + action needed
+
+### When Dee reports a call or email was sent:
+
+1. IMMEDIATELY update NEXUS with outcome
+2. IMMEDIATELY check the box in WEEKLY_ACTION_PLAN.md
+3. Set the follow-up date (5 business days)
+4. Present the NEXT action item
+
+### When Dee finds a new name/email from a call:
+
+1. IMMEDIATELY update the NEXUS contact record with the real name and email
+2. Update WEEKLY_ACTION_PLAN.md with the name
+3. Generate the personalized email using the correct template
+4. Present: ready-to-send email + cap statement
+
+---
+
+## DUAL-OPPORTUNITY CONTACTS
+
+Some agencies serve multiple DDI sectors. When calling these, mention BOTH:
+
+| Contact | Primary Sector | Secondary Sector |
+|---|---|---|
+| VA Medical Centers | Security/SWFT (T01) | NEMT/Healthcare (T04) |
+| US District Court | Security/SWFT (T01) | Notary/RON (T06) |
+| Army Corps of Engineers | Gov Procurement (T03) | Emergency/COOP (T05) |
+| MSP/EMHSD | Emergency/COOP (T05) | Gov Procurement (T03) |
+
+**On the call:** Lead with the primary sector, then say: *"We also provide [secondary service]. Would that be a separate office I should contact?"*
+
+---
+
+## PORTAL REGISTRATIONS (Non-Call Actions)
+
+These don't require phone calls — just profile updates:
+
+| Platform | Action | Why |
+|---|---|---|
+| SIGMA VSS (Michigan) | Update commodity categories | MDHHS posts all solicitations here |
+| Snapdocs | Profile audit — all states/counties | Passive inbound notary orders |
+| ZigSig | Profile audit — RON enabled | Passive inbound RON orders |
+| FEMA Advance Contracts | Register as pre-positioned vendor | Get contacted during activations |
+| DIBBS (DLA) | Register for commodity supply | DLA micro-purchases are constant |
+| SuretyCloud | Register for federal bonds | Surety bond facilitation |
+
+---
+
+## TRACKING
+
+| Location | What It Tracks |
+|---|---|
+| `WEEKLY_ACTION_PLAN.md` | Checkboxes for every action, contact names found, follow-up dates |
+| NEXUS (Airtable GPSS CONTACTS) | Contact records with sector tags, outreach dates, outcomes |
+| `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/TRACKING/` | Weekly summary reports (when needed) |
+
+---
+
+## CRITICAL RULES
+
+1. **Email first, call warm leads.** 50 per week means volume over phone time. Email opens the door. Phone closes it — but only when they reply.
+2. **50 per week minimum.** This is a numbers game. More emails = more replies = more vendor lists = more revenue.
+3. **CAGE 8UMX3 in every subject line.** This is how COs search for vendors. Make it findable.
+4. **Cap statement with every email.** No exceptions. v3 format. Correct sector. PDF attached.
+5. **Update NEXUS immediately.** The moment Dee says "sent" — log it before doing anything else.
+6. **Follow up in 5 business days.** ONE follow-up email. If no response after that, move to the next batch.
+7. **Call ONLY warm leads.** A reply means interest. That's when you pick up the phone.
+8. **Micro-purchase is not bidding.** This is relationship-building and vendor registration. The goal is to get on their radar so they call DDI when they need something.
+9. **EDWOSB is the weapon.** Every email — lead with EDWOSB and CAGE code. COs actively LOOK for certified small businesses to meet their goals.
+10. **Dual opportunities are gold.** Any contact that serves 2+ DDI sectors gets worked harder.
+
+---
+
+## FILES THIS RULE REFERENCES
+
+- `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/TEMPLATES/T01-T06` — Email templates + phone scripts
+- `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/WEEKLY_ACTION_PLAN.md` — Working checklist
+- `cap-statement-v3-enforcement.mdc` — Cap statement format enforcement
+- `cap-statement-colors.mdc` — Sector color schemes
+- `company-info-verification.mdc` — Contact info source of truth
+- `nexus-outbound-workflow.mdc` — Document generation pipeline
+- `human-touch-correspondence.mdc` — Tone guide for buyer communications
+
+---
+
+*Micro-purchases are the entry drug. Get on the vendor list. Get the first BPA. Then the sole-source authority kicks in and DDI becomes their go-to. This is how you build recurring federal revenue without writing a single proposal.*

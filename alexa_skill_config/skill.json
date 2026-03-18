@@ -1,0 +1,65 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Voice-controlled access to NEXUS Command Center for government contracting",
+          "examplePhrases": [
+            "Alexa, open NEXUS",
+            "Alexa, ask NEXUS what's my priority today",
+            "Alexa, tell NEXUS to find federal opportunities"
+          ],
+          "keywords": [
+            "government contracting",
+            "federal opportunities",
+            "SAM.gov",
+            "business development",
+            "NEXUS"
+          ],
+          "name": "NEXUS Command Center",
+          "description": "Voice-controlled access to NEXUS Command Center. Manage your government contracting workflow, discover federal opportunities, track your pipeline, and get AI-powered recommendations - all by voice.",
+          "smallIconUri": "https://example.com/nexus-icon-small.png",
+          "largeIconUri": "https://example.com/nexus-icon-large.png"
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Test all intents: priority today, find opportunities, daily target, add to pipeline",
+      "category": "BUSINESS_AND_FINANCE",
+      "distributionCountries": ["US"]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:YOUR_ACCOUNT_ID:function:nexus-alexa-skill"
+        },
+        "interfaces": [
+          {
+            "type": "ALEXA_PRESENTATION_APL"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false
+    },
+    "events": {
+      "endpoint": {
+        "uri": "arn:aws:lambda:us-east-1:YOUR_ACCOUNT_ID:function:nexus-alexa-skill"
+      },
+      "subscriptions": [
+        {
+          "eventName": "SKILL_ENABLED"
+        },
+        {
+          "eventName": "SKILL_DISABLED"
+        }
+      ]
+    }
+  }
+}

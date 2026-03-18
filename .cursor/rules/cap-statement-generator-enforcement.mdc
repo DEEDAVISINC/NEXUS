@@ -1,0 +1,78 @@
+# Capability Statement Generation — USE THE SYSTEM
+
+**Every capability statement for a CO MUST be generated through `capability_statement_generator.py`. No exceptions. No hand-building. No copying from the website.**
+
+---
+
+## The Rule
+
+DDI has a built capability statement generation system:
+- **Template:** `capability_statement_template.html` (HTML with `{{PLACEHOLDER}}` values)
+- **Generator:** `capability_statement_generator.py` (Python — sector colors, sector content, logo extraction, HTML builders)
+- **Source of truth for company info:** `company_info.py`
+
+**ALWAYS use `generate_capability_statement()` from `capability_statement_generator.py`.**
+
+**NEVER:**
+- Hand-build cap statement HTML from scratch
+- Copy the website cap statement (`DDI_VC_CAPABILITY_STATEMENT.html`) for CO use
+- Use random color schemes, fonts, or layouts
+- Use the Inter font, Montserrat, or any font not defined in the template
+- Invent a new template structure
+
+## The Website Cap Statement Is NOT the CO Cap Statement
+
+| Document | Purpose | System |
+|---|---|---|
+| `ESSENTIALS/DDI_VC_CAPABILITY_STATEMENT.html` | Website download, VC presentations | Website-branded, Montserrat/Open Sans, multi-page |
+| CO cap statements in `SEND_TO_BUYER/` | Government contracting officer outreach | `capability_statement_generator.py`, single-page, sector-colored |
+
+These are TWO DIFFERENT THINGS. Do not mix them.
+
+## Available Sectors
+
+| Sector Key | Use For |
+|---|---|
+| `main` | General contract management, emergency management, consulting, 3PL, catch-all |
+| `drug_testing` | DOT/FTA drug & alcohol testing, TPA contracts |
+| `fingerprinting` | DCSA SWFT, background screening, credentialing |
+| `nemt` | Non-emergency medical transport, rideshare, passenger transport |
+| `courier` | Courier, express delivery, medical specimen transport, trucking, freight |
+| `dna_testing` | DNA, paternity, genetic testing, AABB |
+| `janitorial` | Janitorial, custodial, grounds maintenance, landscaping, facilities |
+| `industrial` | Industrial supplies, equipment, parts, federal supply contracts |
+| `notary` | Notary, signing agent, title services, legal support |
+| `professional` | Professional services, consulting, staffing |
+| `georgia` | Georgia state agency override |
+
+## How to Generate
+
+```python
+from capability_statement_generator import generate_capability_statement
+
+generate_capability_statement(
+    sector='janitorial',
+    agency_name='Defense Commissary Agency — Fort Bragg',
+    solicitation_number='HQC00526QE011',
+    output_path='BIDS:RESOURCES/DECA FORT BRAGG LANDSCAPING/SEND_TO_BUYER/HQC00526QE011_Landscaping_Capability_Statement.html',
+)
+```
+
+## Parameters
+
+| Parameter | Required | Description |
+|---|---|---|
+| `sector` | YES | Sector key from table above |
+| `agency_name` | YES | Full agency name for footer |
+| `solicitation_number` | YES | Solicitation number for footer |
+| `output_path` | YES | Path to save the HTML file |
+| `custom_overview` | Optional | Override the default sector overview text |
+| `custom_competencies` | Optional | Override competency grid cards |
+| `custom_service_capabilities` | Optional | Override service capability bullet list |
+| `custom_differentiators` | Optional | Override differentiator list |
+| `custom_past_performance` | Optional | Override past performance cards |
+| `custom_naics_detailed` | Optional | Override NAICS code pills |
+
+## Why This Exists
+
+Dee has corrected this multiple times. Cap statements were being hand-built with wrong fonts, wrong colors, wrong layouts, and inconsistent branding. The generator system exists specifically to prevent this. Use it.

@@ -301,9 +301,109 @@ Create VERTEX Invoice
 
 ---
 
-## 📞 **Recommended Factoring Companies**
+## 📞 **DDI's Primary Factoring Partner: BANKERS FACTORING**
 
-**For Government Contracts:**
+**Status: ACTIVE RELATIONSHIP — DDI is an authorized BROKER for Bankers Factoring**
+
+**DDI's dual relationship with Bankers Factoring:**
+1. **BROKER** — DDI refers businesses (government contractors, staffing companies, suppliers, etc.) to Bankers Factoring and earns broker commissions on funded deals
+2. **CLIENT** — DDI can also use Bankers Factoring for its own government contract invoices and PO financing
+
+### **Bankers Factoring LLC** (Employee-Owned)
+
+| Field | Details |
+|-------|---------|
+| **Company** | Bankers Factoring LLC |
+| **Type** | Employee-Owned A/R Factoring Company |
+| **HQ** | 401 East Las Olas Blvd, Suite 1443, Ft. Lauderdale, FL 33301 |
+| **Second Office** | 1912 Tiffany Lane, Dalton, GA 30720 |
+| **Website** | bankersfactoring.com |
+| **President/Founder** | Chris Curtin |
+| **Email** | chris@bankersfactoring.com |
+| **Toll-Free** | 866-598-4295 |
+| **Cell (Chris)** | 561-758-6285 |
+
+### **Programs Available to DDI**
+
+| Program | Description |
+|---------|-------------|
+| **Non-Recourse Invoice Factoring** | Bankers takes the credit risk — DDI is NOT liable if government doesn't pay |
+| **Purchase Order & Trade Financing** | PO financing for large contracts requiring upfront supplier payments |
+| **Government Factoring & Vendor Guarantees** | Specific program for government contractors — B2G invoices |
+| **A/R Management & Credit Protection** | Outsourced accounts receivable management with bad debt protection |
+
+### **Key Terms**
+
+| Term | Details |
+|------|---------|
+| **Factoring Type** | Non-Recourse (Bankers takes the credit risk) |
+| **Advance Rate** | Up to 90% of invoice face value |
+| **Payment Terms Accepted** | 20-90 day payment terms with credit approval |
+| **Funding Speed** | Same-day funding with invoice verification |
+| **Monthly Sales Range** | $20,000 - $2,000,000/month |
+| **Minimum Turnover** | None (can fund single invoices) |
+| **Personal Credit** | NOT an issue — based on customer's (government's) ability to pay |
+| **Startup Friendly** | Yes — startups OK if client can reach $25K/month |
+| **100% Customer Concentration** | OK — DDI can factor all invoices from one agency |
+| **Fee Structure** | Rates drop as DDI grows (volume-based pricing) |
+| **Industries** | All industries, including staffing, janitorial, government — DDI's exact lanes |
+
+### **Why Bankers Factoring for DDI**
+
+1. **Non-recourse = DDI carries zero credit risk** — If the government is slow to pay, Bankers absorbs it
+2. **Government contractor specialist** — They've handled US military, state/local/city governments
+3. **MBE/Veteran/Disadvantaged program** — Specific "YES" program for minority, women-owned, and disadvantaged suppliers
+4. **"Soft touch" with contracting officers** — Professional, courteous verification with government clients
+5. **Employee-owned** — 100+ years combined experience, every person is an owner
+6. **Single invoice capability** — Can factor one invoice, don't need to factor everything
+7. **Same-day funding** — Cash in hand the day the invoice is verified
+8. **No personal credit barrier** — They evaluate the government buyer, not DDI's personal credit
+9. **Scales with DDI** — Rates decrease as monthly volume increases
+10. **PO financing available** — For large contracts where DDI needs to pay subs/suppliers before getting paid
+
+### **How It Works for DDI Government Contracts**
+
+```
+1. DDI wins government contract
+2. DDI performs/manages the work through subs
+3. DDI invoices the government agency
+4. DDI submits invoice to Bankers Factoring
+5. Bankers verifies invoice is in government AP system
+6. Bankers advances DDI up to 90% SAME DAY
+7. Government pays Bankers directly (20-90 days)
+8. Bankers releases reserve to DDI minus fees
+```
+
+### **For Large Contracts ($500K+)**
+
+- Use **PO Financing** to pay subs/suppliers upfront
+- Use **Invoice Factoring** to get paid same-day after delivery
+- Combined: DDI never has a cash flow gap, even on $1M+ contracts
+- Bankers handles up to $2M/month — covers DDI's large contract strategy
+
+### **To Get Started / Submit an Invoice**
+
+Contact Chris Curtin directly:
+- Email: chris@bankersfactoring.com
+- Toll-free: 866-598-4295
+- Cell: 561-758-6285
+- Requirement: One-page application + A/R report + contracts/POs
+
+### **Source Documents**
+
+All Bankers Factoring broker packet documents are stored in:
+`/Bankers Factoring Broker Packet 2024/`
+- Why-Bankers-Factoring.pdf
+- Bankers-Factoring-MBE-Program.pdf
+- Bankers-Factoring-Bank-Program.pdf
+- Bankers-Factoring-Questions-Prospect.pdf
+- Invoice-Discounting-vs-Factoring.pdf
+- Bad Debt Management Bankers Factoring.pdf
+- Chris-Networking-Rules.pdf
+
+---
+
+## **Other Factoring Companies (Backup/Comparison)**
 
 1. **Triumph Business Capital**
    - Specializes in government contracts
@@ -329,7 +429,7 @@ Create VERTEX Invoice
    - Flexible terms
    - High approval rate
 
-**Next Step:** Research and establish relationships with 2-3 companies before needed.
+**Note:** Bankers Factoring is DDI's primary partner. Others listed for comparison/backup only.
 
 ---
 

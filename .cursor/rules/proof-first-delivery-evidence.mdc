@@ -1,0 +1,63 @@
+---
+description: Enforce proof-first writing so evaluators can verify delivery confidence immediately
+alwaysApply: true
+---
+
+# Proof-First Delivery Evidence Rule (Additive)
+
+Evaluators skim for proof, not prose.
+Buyer-facing responses must surface deliverability evidence immediately.
+
+## Core Principle
+
+If proof is buried, it is effectively missing.
+
+## Required Paragraph Pattern
+
+For major scored claims, use:
+
+1. **Claim (line 1)**
+- Measurable outcome or explicit capability statement.
+
+2. **Proof (line 2)**
+- Evidence: volume, timeframe, outcomes, credentials, controls, or references.
+
+3. **Process (line 3+)**
+- How DDI delivers the result (clear steps/mechanism).
+
+## Evaluator Scan Targets (Must Be Visible Early)
+
+- Measurable outcomes
+- Evidence of capability
+- Track record / volume
+- Clear execution steps
+- Credible numbers
+- Risk mitigation controls
+
+## Banned Low-Value Language (Without Proof)
+
+Avoid unsupported claims like:
+- "committed to high quality"
+- "exceptional service"
+- "highly experienced team"
+- "we help you..."
+
+If used, they must be followed immediately by specific proof.
+
+## Hard Stop Conditions
+
+Do not mark package ready if:
+- Major claims lack measurable outcomes
+- Proof appears after paragraph line 2
+- Process is unclear or missing
+- Evidence is vague/non-quantified where quantification is feasible
+
+## Readiness Check (Pass/Fail)
+
+- Claim First: PASS/FAIL
+- Proof by Line 2: PASS/FAIL
+- Process Clarity: PASS/FAIL
+- Quantified Evidence Present: PASS/FAIL
+- Risk Mitigation Explicit: PASS/FAIL
+
+If any FAIL, revise before finalization.

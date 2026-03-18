@@ -262,8 +262,8 @@ Services:
 - General document notarization
 
 Platforms we work with:
-- Snapdocs (national signing agent marketplace)
 - ZigSig (Remote Online Notarization)
+- Direct scheduling for mobile notary services
 
 If someone needs notary services:
 1. Ask what type of document needs notarization

@@ -1,38 +1,35 @@
-# Copyable in Chat — ALWAYS
+---
+description: When Dee says "copyable" she means in a markdown code block with the copy icon
+alwaysApply: true
+---
 
-**When generating any email, letter, or communication for Dee to send: ALWAYS present the full text as a copyable code block directly in the chat response.**
+# Copyable Means Code Block
 
-## The Rule
+When Dee says "copyable" or "make it copyable" or "copyable in the chat" — she means:
 
-- Do NOT just write to a file and tell Dee to go open it
-- Do NOT say "it's in the folder, go copy it"
-- ALWAYS paste the full email body in a code block (``` ```) right in the chat so Dee can copy it immediately
-- Include TO, SUBJECT, and ATTACHMENT info above or below the code block
-- The file version in SEND_TO_BUYER is the backup — the chat version is what Dee uses
+**Put the content in a markdown code block so the copy icon appears in the upper right corner.**
 
-## Why
+## Example
 
-- Dee works fast and needs to copy/paste directly from chat
-- Opening files, navigating folders, and finding the right section wastes time
-- The whole point is speed — generate it, show it, Dee copies it, done
+When Dee asks for a copyable email:
 
-## Format
+```
+Subject: RE: Follow-up
 
-Every email presentation should look like this:
+Hi Christine,
 
-1. Code block with full email body (copyable)
-2. TO: address
-3. SUBJECT: line
-4. ATTACH: file name and location
+This is the email content.
 
-## This Applies To
+Dee Davis
+President & CEO
+Dee Davis Inc.
+248.376.4550 | info@deedavis.biz
+```
 
-- Buyer emails
-- Supplier emails
-- Subcontractor emails
-- Any communication Dee needs to send
-- Follow-up emails
-- Thank you emails
-- Any outbound correspondence
+## Rules
 
-**No exceptions. Always copyable in chat.**
+- ALWAYS use a fenced code block (triple backticks) for copyable content
+- NEVER just paste raw text in the chat without the code block
+- This applies to: emails, scripts, messages, any content Dee needs to copy-paste
+- Do NOT ask "want it copyable?" — if it's something she'll copy-paste, make it copyable by default
+- Do NOT explain what copyable means — just do it

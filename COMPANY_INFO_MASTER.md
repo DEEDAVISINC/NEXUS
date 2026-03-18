@@ -42,6 +42,17 @@ Troy, Michigan 48084
 - WBENC Certified (Women's Business Enterprise National Council — nationally recognized WBE)
 - SBE (Small Business Enterprise)
 
+**Diversity Verification (Third-Party):**
+- SupplierGateway — Certificate of Diverse Ownership (Cert #SG07252258991752)
+  - Certified Categories: Disadvantaged Business Enterprise, Minority Owned, Small Business, Small Disadvantaged Business, Woman Owned
+  - Primary NAICS: 488510
+  - Valid: July 10, 2025 — July 9, 2028
+  - Applicability: United States
+  - Verify: www.suppliergateway.com/verifycert
+- Coupa Verified Supplier (Cert ID: 7002160) — ⚠️ EXPIRED 11/19/2025 — NEEDS RENEWAL
+  - Verified via voided check, address confirmed: 755 W. Big Beaver Rd Ste 2020, Troy, MI 48084
+  - Coupa is used by Fortune 500 companies for procurement — renewal recommended
+
 **Federal/Compliance:**
 - E-Verify Certified (Employment Eligibility Verification)
 - SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
@@ -70,6 +81,17 @@ DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), sc
   - Certificate No: cert_pgd973mp
   - Certificate file: `DEE DAVIS INC 2/certificate-of-completion-for-notary-permit-runner-npr.pdf`
 - Michigan Commissioned Notary Public — Active Since April 2005 (20+ years)
+
+**State Licenses:**
+- Michigan Personnel License #6016004743 (Personnel Agency / Staffing — State of Michigan)
+- Michigan Property Pre-License (A.D. Banker & Company, Course #0432, completed Sep 22, 2022)
+
+**Professional Training & Certifications:**
+- Property Data Collection Training #I-03 (Walitt Solutions, completed Sep 25, 2022) — Residential property inspections, data collection, reporting
+- Project Management for Government Projects (certificate on file — image-based PDF)
+- Property Preservation industry contacts and relationships (Safeguard Properties network)
+- CSH Supportive Housing Onboarding — Homelessness Systems & Coordinated Entry (Dec 2023)
+- CSH Building Community in Supportive Housing (Cert ID: yxqpbk330i, Dec 2023)
 
 **Security:**
 - TWIC-Certified Personnel (Transportation Worker Identification Credential — secure facility access)
@@ -106,6 +128,10 @@ DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), sc
 - Hair Cuts for Vets (Gary C. Felton Jr. program — veteran community engagement)
 - Veteran employment and hiring initiative
 - Homelessness systems and coordinated entry services
+
+**Dee Davis — CSH (Corporation for Supportive Housing) Training:**
+- CSH Supportive Housing Onboarding Series — Homelessness Systems & Coordinated Entry (completed Dec 17, 2023)
+- CSH Building Community in Supportive Housing (Cert ID: yxqpbk330i, issued Dec 17, 2023)
 
 **Strategic Role in DDI Ecosystem:**
 - Cause We Care serves as DDI's community-based organization (CBO) teaming partner
@@ -168,12 +194,11 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - Uber Health (NEMT transportation platform)
 
 **Professional Services:**
-- Snapdocs (National signing agent marketplace)
 - ZigSig (Remote Online Notarization platform)
 - NALI (Professional training & compliance)
 
 **Financial Services:**
-- Bankers Factoring (Invoice factoring solutions)
+- Bankers Factoring (DDI is an authorized BROKER — DDI refers businesses to Bankers Factoring and earns broker commissions. Also available for DDI's own government contract invoices. Non-recourse factoring, up to 90% advance, same-day funding, PO financing. Contact: Chris Curtin, President, chris@bankersfactoring.com, 866-598-4295, cell 561-758-6285)
 - SuretyCloud (Federal contract bond solutions)
 
 **Logistics:**
@@ -181,32 +206,92 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 ---
 
-## 💻 PROPRIETARY TECHNOLOGY
+## 💻 PROPRIETARY TECHNOLOGY (FOUNDER-BUILT — DDI'S COMPETITIVE MOAT)
 
-**ATLAS PM**
-- Enterprise intelligence platform
-- AI-enabled project orchestration
-- Real-time compliance monitoring
-- Status: Proprietary (in use)
+**DDI's technology infrastructure was designed and built by founder Dee Davis. These are not off-the-shelf tools — they are proprietary AI systems that represent years of development, a significant intellectual property asset, and a 5-10 year competitive advantage over other government contractors.**
 
-**FleetFlow™**
-- Advanced logistics intelligence platform
-- Status: Pre-launch (Mid-2026)
+**NEXUS — AI-Assisted Contract Acquisition Operating System**
+- Master platform integrating all 8 DDI systems
+- Automates 90% of the contract lifecycle (discovery → award → execution)
+- Fortune 500-level capability at small business scale
+- Status: Operational (continuous enhancement)
+
+**GPSS — Government Procurement Strategic System**
+- AI-powered opportunity mining (SAM.gov, 22+ vendor portals)
+- Automated proposal generation (4 hours vs. industry 2-3 days)
+- Supplier/subcontractor automated sourcing with USASpending verification
+- ProposalBio™ scientific persuasion framework (10-point scoring)
+- Status: Operational
+
+**ATLAS PM — Enterprise Intelligence & Project Management**
+- AI-enabled project orchestration and real-time compliance monitoring
+- Automated WBS generation, change order impact analysis
+- Predictive analytics and strategic decision support
+- Status: Operational
+
+**FleetFlow™ — Logistics Intelligence Platform**
+- Advanced AI & predictive modeling for freight/logistics
+- Real-time operational intelligence, route optimization
 - Company: FleetFlow TMS LLC (a DEE DAVIS INC company)
+- Status: Pre-launch (Mid-2026)
+
+**COMPASS™ — Proposal Quality Assurance System**
+- ProposalBio 10-point biohack validation on every buyer-facing document
+- Compliance checking, win-readiness assessment
+- Status: Integrated across all systems
+
+**PRISM — Field Service Dispatch & Management**
+- Professional resource inspection, dispatch, document verification
+- AI-powered document inspection (signatures, seals, compliance)
+- Status: Architecture phase
+
+**DDCSS — Corporate Sales System**
+- Client avatar building, success path mapping, PitchMap generation
+- AI email response analysis, multi-sector pipeline management
+- Status: Operational
+
+**VERTEX — Financial Management System**
+- Automated invoicing (government & enterprise compliant)
+- Real-time profit tracking, cash flow forecasting
+- Status: Operational
+
+**GBIS — Grant Business Intelligence System**
+- Grant discovery, eligibility screening, application pipeline
+- Status: Operational
+
+**Technology Grant Eligibility:**
+These platforms qualify DDI for SBIR/STTR grants ($50K-$2M+), SBA Growth Accelerator grants, EDA tech development grants, Michigan MEDC innovation funding, and NSF SBIR programs. The technology is also a future SaaS licensing opportunity (30,000+ small government contractors as addressable market).
 
 ---
 
 ## 🎯 CORE POSITIONING
 
-**Business Identity:** CONTRACT MANAGEMENT FIRM
+**Business Identity:** FEDERALLY CERTIFIED EDWOSB CONTRACT MANAGEMENT FIRM & BUSINESS OPERATING SYSTEM — FOCUSED ON ALL FORMS OF BUSINESS CONTINUITY
 
 **Tagline:** "The Professionals' Professionals"
 
-**What DDI Does:**
-Dee Davis Inc. wins contracts, sources qualified subcontractors and suppliers to fulfill the work, and manages every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. DDI is the single accountable point of contact between the client and a network of vetted fulfillment partners.
+**What DDI Is:**
+Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity. DDI wins contracts, sources qualified subcontractors and suppliers to fulfill the work, and manages every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. DDI is the single accountable point of contact between the client and a network of vetted fulfillment partners. Nothing stops because one person, one vendor, or one system is unavailable.
+
+**Why Business Continuity:**
+Every service DDI delivers — drug testing, fingerprinting, courier, grounds maintenance, NEMT, staffing, emergency logistics — exists to keep operations running without interruption. DDI's proprietary AI technology platforms (NEXUS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, GPSS, DDCSS, VERTEX, GBIS) replicate decision-making across hundreds of operations simultaneously. If a subcontractor falls through, the system reroutes. If a compliance deadline shifts, the system adapts. If a client needs emergency logistics at 2 AM, the system responds. That is business continuity — and it is DDI's core identity, not a service line.
 
 **Why DDI Can Compete in Any Category:**
-DDI is not limited by trade or commodity. We are paper pushers — service management, administration, and coordination is our core competency. If there's a contract, we can win it, source the right people or products, and manage the delivery. This is why DDI operates across janitorial, landscaping, medical supplies, industrial equipment, construction trades, transportation, and every other sector.
+DDI is not limited by trade or commodity. Contract management, administration, and coordination — powered by proprietary AI technology — is the core competency. If there's a contract, DDI can win it, source the right people or products, and manage the delivery. This is why DDI operates across healthcare, facilities, logistics, construction, transportation, professional services, emergency management, and every other sector.
+
+**Proprietary Technology Platforms (Built In-House by Founder):**
+DDI's competitive moat is its technology. Dee Davis personally built 8+ integrated AI systems that automate 90% of the contract acquisition and delivery lifecycle — enabling Fortune 500-level operations at small business scale:
+- **NEXUS** — Cohesive AI-Assisted Contract Acquisition Operating System (the master platform)
+- **GPSS** — Government Procurement Strategic System (opportunity discovery through award)
+- **ATLAS PM** — AI-Powered Enterprise Intelligence & Project Management Platform
+- **FleetFlow™** — Advanced Logistics Intelligence Platform (pre-launch mid-2026, FleetFlow TMS LLC)
+- **COMPASS™** — Proposal Quality Assurance & Validation System (ProposalBio 10-point scoring)
+- **PRISM** — Professional Resource Inspection & Service Management (field service dispatch)
+- **DDCSS** — Diversity Division Corporate Success System (corporate sales pipeline)
+- **VERTEX** — Financial Excellence & Revenue Tracking Executive System
+- **GBIS** — Grant Business Intelligence System (grant discovery and application)
+
+This technology infrastructure is not just operational tooling — it is an asset class with SBIR/STTR eligibility, tech grant potential, and future SaaS licensing value.
 
 **Elevator Pitch (Updated Feb 2026):**
 "As someone who's not a people person at all, I built DEE DAVIS INC to prove that exceptional service doesn't require constant hand-holding—it requires exceptional systems. Basically, I figured out how to clone myself through technology instead of hiring people I'd have to manage.
@@ -224,10 +309,10 @@ The result? No waiting for callbacks. No wondering if someone dropped the ball. 
 We're 'The Professionals' Professionals' because we engineer solutions while others are still managing problems. Zero drama—and honestly? My clones work harder than I ever could."
 
 **Short Version (for emails/intros):**
-"Dee Davis Inc. is a certified EDWOSB contract management firm based in Troy, Michigan. We win contracts, source qualified partners, and manage project delivery across every sector."
+"Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system based in Troy, Michigan, focused on all forms of business continuity. Powered by proprietary AI technology platforms built in-house, we win contracts, source qualified partners, and manage project delivery across every sector — ensuring nothing stops because one person or one system is unavailable."
 
 **Business Description (~1,000 characters — for SAM.gov, vendor registrations, portals):**
-Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB contract management firm headquartered in Troy, Michigan. We win government and commercial contracts across every sector — from facility services and construction trades to transportation, professional services, and product supply. Our model is simple: we secure the contract, source qualified subcontractors and suppliers to perform the work, and manage every aspect of project delivery including compliance, invoicing, quality assurance, and coordination. Clients get one accountable point of contact backed by a vetted network of fulfillment partners. Certified EDWOSB, WOSB, WBE, MBE, and SBE with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, and SWFT registered. Our operations are powered by proprietary technology platforms — ATLAS PM for project orchestration and FleetFlow™ for logistics intelligence. We hold DOT and MC authority for transportation services and maintain active healthcare provider credentials. Dee Davis Inc. doesn't do the work — we make sure the work gets done right.
+Dee Davis Inc. — "The Professionals' Professionals" is a federally certified EDWOSB contract management firm and business operating system headquartered in Troy, Michigan, focused on all forms of business continuity. We win government and commercial contracts across every sector, source qualified partners to execute the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, coordination — ensuring operations never stop. Our proprietary AI technology platforms (NEXUS, ATLAS PM, FleetFlow™, COMPASS™, PRISM) automate 90% of the contract lifecycle, enabling Fortune 500-level operations at small business scale. Certified EDWOSB, WOSB, WBE, MBE, SBE, WBENC with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, SWFT registered, CMMC-AB certified. We hold DOT and MC authority for transportation, NPI for healthcare, and active Medicaid provider status in multiple states. Dee Davis Inc. doesn't do the work — we make sure the work never stops.
 
 ---
 
@@ -281,7 +366,7 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 | 541614 | Process, Physical Distribution & Logistics Consulting | Transportation optimization, freight | ✅ VERIFY |
 | 541618 | Other Management Consulting Services | Business continuity, crisis coordination | ✅ VERIFY |
 | 541690 | Other Scientific & Technical Consulting | Federal advisory, HHS consulting, program support | ✅ VERIFY |
-| 541612 | Human Resources Consulting Services | Staffing advisory, workforce consulting | ⚠️ ADD |
+| 541612 | Human Resources Consulting Services | Staffing advisory, workforce consulting | ✅ VERIFY |
 
 ---
 
@@ -300,8 +385,8 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 |-------|-------------|-------------|--------|
 | 541512 | Computer Systems Design Services | IT services contracts | ✅ VERIFY |
 | 541519 | Other Computer Related Services | IT support, tech services | ✅ VERIFY |
-| 541511 | Custom Computer Programming Services | Software/systems development | ⚠️ ADD |
-| 518210 | Computing Infrastructure Providers, Data Processing | Records management, data services | ⚠️ ADD |
+| 541511 | Custom Computer Programming Services | Software/systems development | ✅ ADDED |
+| 518210 | Computing Infrastructure Providers, Data Processing | Records management, data services | ✅ ADDED |
 
 ---
 
@@ -326,11 +411,11 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 | 561730 | Landscaping Services | Grounds maintenance contracts | ✅ VERIFY |
 | 561210 | Facilities Support Services | Facility maintenance & repair | ✅ VERIFY |
 | 561790 | Other Services to Buildings & Dwellings | Pressure washing, exterior services | ✅ VERIFY |
-| 561990 | All Other Support Services | General facility support overflow | ⚠️ ADD |
+| 561990 | All Other Support Services | General facility support overflow | ✅ ADDED |
 | 236220 | Commercial & Institutional Building Construction | Construction contracts | ✅ VERIFY |
 | 238990 | All Other Specialty Trade Contractors | Construction renovation | ✅ VERIFY |
-| 238160 | Roofing Contractors | Roofing contracts | ⚠️ ADD |
-| 238330 | Flooring Contractors | Flooring contracts | ⚠️ ADD |
+| 238160 | Roofing Contractors | Roofing contracts | ✅ ADDED |
+| 238330 | Flooring Contractors | Flooring contracts | ✅ ADDED |
 
 ---
 
@@ -339,7 +424,7 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 | NAICS | Description | DDI Service | Action |
 |-------|-------------|-------------|--------|
 | 561920 | Convention and Trade Show Organizers | Event services contracts | ✅ VERIFY |
-| 561621 | Security Systems Services | Security systems installation | ⚠️ ADD |
+| 561621 | Security Systems Services | Security systems installation | ✅ ADDED |
 
 ---
 
@@ -359,7 +444,7 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 | 423450 | Medical & Hospital Equipment Merchant Wholesalers | Medical supplies resale | ✅ VERIFY |
 | 339113 | Surgical Appliance & Supplies Manufacturing | Surgical supplies (DLA, VA) | ✅ VERIFY |
 | 339112 | Surgical & Medical Instrument Manufacturing | Medical instruments resale | ✅ VERIFY |
-| 424210 | Drugs & Druggists' Sundries Merchant Wholesalers | Pharmaceutical supplies | ⚠️ ADD |
+| 424210 | Drugs & Druggists' Sundries Merchant Wholesalers | Pharmaceutical supplies | ✅ ADDED |
 | 423850 | Industrial Supplies Merchant Wholesalers | Industrial supplies (CPS Energy, RCOC) | ✅ VERIFY |
 | 423840 | Industrial Machinery & Equipment Merchant Wholesalers | Industrial equipment resale | ✅ VERIFY |
 | 424120 | Stationery & Office Supplies Merchant Wholesalers | Office supplies contracts | ✅ VERIFY |
@@ -391,11 +476,11 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 
 | NAICS | Description | DDI Service / Lane | Action |
 |-------|-------------|-------------------|--------|
-| **541910** | Market Research and Public Opinion Polling | Market research, survey admin, SB/diversity research | ⚠️ ADD NOW |
-| **541720** | R&D in the Social Sciences and Humanities | Community health needs assessment, program evaluation, SDOH | ⚠️ ADD NOW |
-| **624190** | Other Individual and Family Services | MIBridges benefits navigation, social services coordination | ⚠️ ADD NOW |
-| **624230** | Emergency and Other Relief Services | Crisis social services, emergency community support | ⚠️ ADD NOW |
-| **624221** | Temporary Shelters | Homeless services, housing support programs | ⚠️ ADD NOW |
+| **541910** | Market Research and Public Opinion Polling | Market research, survey admin, SB/diversity research | ✅ ADDED |
+| **541720** | R&D in the Social Sciences and Humanities | Community health needs assessment, program evaluation, SDOH | ✅ ADDED |
+| **624190** | Other Individual and Family Services | MIBridges benefits navigation, social services coordination | ✅ ADDED |
+| **624230** | Emergency and Other Relief Services | Crisis social services, emergency community support | ✅ ADDED |
+| **624221** | Temporary Shelters | Homeless services, housing support programs | ✅ ADDED |
 
 ---
 
@@ -423,8 +508,7 @@ Dee Davis Inc. — "The Professionals' Professionals" is a certified EDWOSB cont
 ```
 
 **Total codes in this master list: 57**
-**Codes to verify already in SAM: 47**
-**Codes to add now: 10 (5 critical for market research lane)**
+**All 57 codes confirmed in SAM.gov as of March 2026.**
 
 ---
 
@@ -528,7 +612,24 @@ EDWOSB/WOSB | E-Verify & SWFT Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 
 ---
 
-*Master Company Information - Updated February 11, 2026*  
+## PAST PERFORMANCE & CONTRACT HISTORY
+
+**State of Michigan — Immigration Clerical Assistant (ICA)**
+- DDI held a State of Michigan contract as Immigration Clerical Assistants
+- Program has since been phased out by the state
+- Relevance: Demonstrates direct state government contract experience in immigration services, document processing, and clerical administration
+- Supports credibility for: apostille services, immigration document authentication, biometric fingerprinting for immigration, USCIS-related contracts, document preparation services
+
+**Notary Public — State of Michigan**
+- Michigan Commissioned Notary Public since April 2005 (20+ years continuous)
+- CNTDA — Certified Notary & Trained Document Agent
+- NPR — Notary Permit Runner (Certified)
+
+*Note: As DDI wins contracts and builds CPARS history, add each completed contract here with agency, contract number, period of performance, value, and CPARS rating.*
+
+---
+
+*Master Company Information - Updated March 14, 2026*  
 *Certifications Updated: E-Verify & SWFT Certified (established 2022) documented in master file*  
 *Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
 *DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*

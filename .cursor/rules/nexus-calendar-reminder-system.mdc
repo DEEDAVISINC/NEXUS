@@ -1,0 +1,470 @@
+# NEXUS CALENDAR & REMINDER SYSTEM
+
+**NEXUS is the ultimate AI assistant with proactive calendar management. It reminds Dee of everything needed before it's needed.**
+
+---
+
+## NEXUS CALENDAR INTEGRATION
+
+### Primary Calendar: Google Calendar (bids.deedavisinc@gmail.com)
+- All bid deadlines synced automatically
+- Action reminders at strategic intervals
+- Meeting scheduling with COs and subs
+- Time-blocked proposal development sessions
+
+### Calendar Event Types
+
+#### 1. BID DEADLINES (Critical - Hard Deadline)
+```
+Title: 🚨 SUBMIT — [Agency] [Solicitation #]
+Date: [Government Deadline]
+Time: 11:00 AM EST (1 hour buffer before typical 12:00 PM deadlines)
+Calendar: GovCon Deadlines
+Reminders:
+  - 7 days before: "Begin final review"
+  - 3 days before: "Must submit today/tomorrow"
+  - 1 day before: "FINAL DEADLINE TOMORROW"
+  - Morning of: "SUBMIT TODAY — [X] hours remaining"
+```
+
+#### 2. ACTION DEADLINES (DDI Internal - 5 Days Before Gov)
+```
+Title: ⚡ ACTION DUE — [Agency] [Stage]
+Date: [Government Deadline - 5 days]
+Time: 5:00 PM EST
+Calendar: DDI Action Items
+Reminders:
+  - 2 days before: "Stage [X] should be complete"
+  - Day of: "ACTION DEADLINE TODAY — [Next step required]"
+```
+
+#### 3. STAGE TRANSITION REMINDERS
+```
+Title: ⏭️ NEXT STAGE — [Bid Name] → Stage [X]
+Date: [Auto-calculated based on workflow]
+Time: 9:00 AM EST
+Calendar: NEXUS Workflow
+Reminders:
+  - Morning of: "Advance to Stage [X] — [Specific action needed]"
+```
+
+#### 4. FOLLOW-UP REMINDERS
+```
+Title: 📞 FOLLOW UP — [Contact Type] — [Bid Name]
+Date: [Calculated from last action + interval]
+Calendar: Relationship Management
+Types:
+  - CO Follow-up: 7 days after submission
+  - Sub Follow-up: 48 hours after outreach (no response)
+  - Supplier Follow-up: 72 hours after RFQ (no quotes)
+  - Post-Award Check-in: 30 days after win
+```
+
+#### 5. TIME-BLOCKED WORK SESSIONS
+```
+Title: 📝 PROPOSAL WORK — [Bid Name] Stage [X]
+Date: [Scheduled based on deadline proximity]
+Duration: 2-4 hours
+Calendar: Deep Work Blocks
+Purpose: Dedicated time to advance specific bid
+```
+
+---
+
+## PROACTIVE REMINDER SYSTEM
+
+### Daily Morning Brief (Auto-Generated)
+
+**Every day at 8:00 AM, NEXUS generates:**
+
+```
+📅 NEXUS MORNING BRIEF — [Day, Date]
+
+🔥 TODAY'S CRITICAL ACTIONS:
+├── [11:00 AM] SUBMIT — VA Drug Testing (36C25X) — 2 hours left
+├── [ 5:00 PM] Get sub quotes for CBP Medical (Stage 3 overdue)
+└── [ 3:00 PM] Follow up with Oak Harbor Landscaping sub
+
+⏰ THIS WEEK'S DEADLINES:
+├── [Wed] Submit — USACE Grounds (W912DR...)
+├── [Fri] Action deadline — MDHHS NEMT (quotes due)
+└── [Fri] Follow up — 3 overdue supplier RFQs
+
+📊 STAGE ATTENTION NEEDED:
+├── Stage 3 (Resourcing): [X] bids — Sub responses overdue
+├── Stage 4 (Development): [X] bids — Ready for your review
+└── Stage 5 (Submitted): [X] bids — Awaiting award
+
+🎯 RECOMMENDED FOCUS TODAY:
+├── Priority 1: Submit VA bid (deadline today)
+├── Priority 2: Follow up on 3 overdue subs
+└── Priority 3: Review 2 proposals awaiting approval
+
+💡 NEXUS SUGGESTION:
+"Block 2 hours this afternoon for CBP Medical sub sourcing. 
+3 subs contacted, 0 responses. Time for phone calls."
+```
+
+### Weekly Strategy Review (Every Monday 9:00 AM)
+
+```
+📈 NEXUS WEEKLY STRATEGY — Week of [Date]
+
+🏆 LAST WEEK WINS:
+├── Submitted: [X] bids ([List them])
+├── Won: [X] contracts ([List them])
+└── Pipeline added: $[X] in new opportunities
+
+🎯 THIS WEEK PRIORITIES:
+├── SUBMIT: [X] bids due this week
+│   ├── [Day] — [Bid 1]
+│   └── [Day] — [Bid 2]
+├── COMPLETE: [X] bids in Stage 3/4
+│   └── [List them with next actions]
+└── RESEARCH: [X] new opportunities for next week
+
+⚠️ ATTENTION REQUIRED:
+├── [X] bids stuck >5 days in current stage
+├── [X] subs/suppliers overdue on responses
+├── [X] deadlines approaching <7 days, not in Stage 4
+└── [X] submitted bids >45 days, no award decision
+
+📅 CALENDAR OPTIMIZATION:
+NEXUS recommends:
+├── Monday: Review and prioritize week
+├── Tuesday-Wednesday: Deep work on Stage 4 proposals
+├── Thursday: Submit any Thursday/Friday deadlines
+└── Friday: Follow-ups, research, planning
+
+🔄 SYSTEM STATUS:
+├── Active bids: [X]
+├── Opportunities scored this week: [X]
+├── Win rate (last 30 days): [X]%
+└── Avg. days Stage 0→4: [X]
+```
+
+---
+
+## STAGE-SPECIFIC REMINDERS
+
+### STAGE 0 → 1 (Identification → Intake)
+```
+Trigger: Score ≥35 (decision to pursue)
+
+Reminders:
+├── Immediate: "Stage 1 triggered — Creating infrastructure now"
+├── Day 1: "Folder and docs ready — Review cap statement"
+└── Day 2: "Proceed to Stage 2? (Intelligence research)"
+```
+
+### STAGE 1 → 2 (Intake → Intelligence)
+```
+Trigger: Stage 1 complete
+
+Auto-Actions:
+├── Day 1: Launch incumbent USASpending research
+├── Day 1: Launch FPDS contract detail search
+├── Day 2: Generate INCUMBENT_INTELLIGENCE.md
+└── Day 3: Generate PRICING_INTELLIGENCE.md
+
+Reminders:
+├── Day 2: "Incumbent research complete — [Name] at $[X]"
+├── Day 3: "Pricing intelligence ready — Market rate $[X]"
+└── Day 4: "Stage 2 complete — Advance to Stage 3 (Resourcing)"
+```
+
+### STAGE 2 → 3 (Intelligence → Resourcing)
+```
+Trigger: Stage 2 complete
+
+Auto-Actions (Service Contracts):
+├── Day 1: Query sub database
+├── Day 1: Launch web search for local subs
+├── Day 2: USASpending check all candidates
+└── Day 3: Generate SUBCONTRACTOR_PROSPECTS.md
+
+Auto-Actions (Product Contracts):
+├── Day 1: Generate RFQ
+├── Day 1: Identify suppliers from sourcing guide
+└── Day 2: Distribute RFQs
+
+Reminders:
+├── Day 1: "Sub sourcing initiated — [X] database matches found"
+├── Day 2: "[X] new candidates identified — USASpending checks running"
+├── Day 3: "Review SUBCONTRACTOR_PROSPECTS.md — Select top 3"
+├── Day 4: "Contact Tier 1 subs — Outreach email ready"
+├── Day 5: "Follow up on sub outreach (48hr check)"
+└── Day 7: "Stage 3 deadline — Sub must be selected"
+```
+
+### STAGE 3 → 4 (Resourcing → Development)
+```
+Trigger: Sub/supplier selected, pricing calculated
+
+Auto-Actions:
+├── Immediate: Lock in PRICING_WORKSHEET.md
+├── Day 1: Create COMPLIANCE_MATRIX.md
+└── Day 1: Begin technical approach writing
+
+Reminders:
+├── Day 1: "Sub/supplier locked — Margin confirmed at [X]%"
+├── Day 2: "Compliance matrix complete — Proposal writing active"
+├── Day 3: "Technical approach draft ready — Your review needed"
+├── Day 4: "Past performance section complete"
+└── Day 5: "Proposal 80% complete — Final review pending"
+```
+
+### STAGE 4 → 5 (Development → Submission)
+```
+Trigger: Proposal complete, awaiting Dee approval
+
+Reminders:
+├── Immediate: "Stage 4 complete — Proposal ready for submission"
+├── Day 1: "Review proposal? [Path to file]"
+├── Day 2: "Deadline [X] days away — Submit today?"
+└── Day 3: "URGENT: Submit or extend — Deadline approaching"
+```
+
+### STAGE 5 → 6 (Submission → Award)
+```
+Trigger: Bid submitted
+
+Auto-Actions:
+├── Week 1: Log submitted status
+├── Week 2: CO follow-up email (if no response)
+├── Week 4: Second follow-up
+└── Week 8: Award status check (if no decision)
+
+Reminders:
+├── Week 1: "Submitted — Confirmation saved"
+├── Week 2: "Follow up with CO? [Template ready]"
+├── Month 1: "Award status check — [Agency] typically decides in [X] days"
+├── Month 2: "Debrief request? (If no award notification)"
+└── Month 3: "Archive as pending — Continue monthly check"
+```
+
+---
+
+## ESCALATION ALERTS (Critical)
+
+### Red Alert: Deadline < 24 Hours, Not Submitted
+```
+🚨 URGENT — SUBMISSION REQUIRED TODAY
+
+Bid: [Agency] [Solicitation #]
+Deadline: [Time] today
+Current Stage: [X] — [Why not in Stage 5?]
+
+IMMEDIATE OPTIONS:
+├── 1. SUBMIT NOW — [Path to final proposal]
+├── 2. REQUEST EXTENSION — [Email template]
+└── 3. NO-BID — [Archive with reason]
+
+NEXUS CAN HELP:
+├── Expedite formatting
+├── Expedite PDF conversion
+├── Draft extension request
+└── Prepare no-bid notification
+
+DECISION REQUIRED NOW.
+```
+
+### Yellow Alert: Stuck > 7 Days in Current Stage
+```
+⚠️ STAGE STALLED — [Bid Name]
+
+Current Stage: [X] — [Stage Name]
+Days in Stage: [X]
+Expected Duration: [Y] days
+
+POTENTIAL ISSUES:
+├── Sub responses: [X]/[Y] received (may need more outreach)
+├── Supplier quotes: [X]/[Y] received (may need follow-up)
+├── Pricing concerns: Margin at [X]% (below 15% target)
+└── Dee review: Proposal awaiting approval [X] days
+
+NEXUS SUGGESTION:
+[Specific action to unblock]
+```
+
+### Blue Alert: Opportunity Window Closing
+```
+⏰ WINDOW CLOSING — [Bid Name]
+
+Action Deadline: [Date] ([X] days)
+Current Stage: [X]
+Required Stage by Deadline: 4 (Development Complete)
+
+PATH TO SUBMISSION:
+├── Today: Complete Stage [X]
+├── Tomorrow: Advance to Stage [X+1]
+├── [Date]: Complete Stage 4
+└── [Date]: Submit (1 day buffer)
+
+VIABILITY: [Feasible / Tight / At Risk]
+```
+
+---
+
+## SMART NOTIFICATIONS
+
+### Context-Aware Reminders
+
+**When Dee opens a bid folder:**
+```
+📂 You opened: [Bid Name]
+
+Current Status:
+├── Stage: [X] — [Stage Name]
+├── Step: [X]/[Total] — [Current step]
+├── Deadline: [Date] ([X] days)
+└── Last Action: [Date] — [What was done]
+
+NEXT ACTIONS:
+├── Immediate: [Next step]
+├── Today: [Recommended focus]
+└── This Week: [Upcoming milestones]
+
+DOCUMENTS READY:
+├── [List of completed docs]
+└── [List of pending docs]
+```
+
+**When deadline approaches:**
+```
+⏰ Deadline Alert: [Bid Name]
+
+Days Remaining: [X]
+Current Stage: [X] — [On track / Behind / Critical]
+
+WHAT NEEDS TO HAPPEN:
+├── Stage [Current]: [Complete current step]
+├── Stage [Next]: [Next major milestone]
+└── Stage 5: Submit by [Deadline]
+
+TIME REQUIRED:
+├── Remaining stages: ~[X] hours estimated
+├── Daily commitment needed: ~[X] hours/day
+└── Buffer: [X] days
+```
+
+**When sub/supplier overdue:**
+```
+📞 Follow-Up Needed: [Contact Type]
+
+Bid: [Bid Name]
+Contact: [Name/Company]
+Last Contact: [Date] ([X] days ago)
+Expected Response: [What was requested]
+
+FOLLOW-UP OPTIONS:
+├── Email: [Template ready]
+├── Phone: [Number] — Best time: [Time suggestion]
+└── Alternative: [Backup contact info]
+
+ESCALATION:
+├── If no response by [Date]: Contact alternative
+└── If no response by [Date]: Proceed with available options
+```
+
+---
+
+## CALENDAR AUTOMATION RULES
+
+### Auto-Schedule Principles
+
+1. **Deadline First:** Government deadline always on calendar first
+2. **Work Backwards:** Action deadlines auto-set (Gov - 5 days, - 3 days, - 1 day)
+3. **Stage Gates:** Each stage transition gets a calendar slot
+4. **Deep Work:** Proposals in Stage 4 get 4-hour blocks
+5. **Follow-Up:** All external contacts get reminder scheduling
+6. **Buffer Time:** Never schedule work right up to deadline
+
+### Calendar Conflict Resolution
+
+```
+CONFLICT DETECTED:
+
+Attempting to schedule: [2-hour proposal block] for [Bid A]
+Conflict with: [Existing event] — [Bid B submission]
+
+OPTIONS:
+├── 1. Move [Bid A] to [Alternative time]
+├── 2. Shorten [Bid A] to 1 hour (partial progress)
+├── 3. Delegate: Can [Bid A] Stage advance without Dee? (NEXUS automation)
+└── 4. Prioritize: Which bid has sooner deadline? (Auto-suggest)
+
+RECOMMENDATION: [X]
+```
+
+---
+
+## REMINDER DELIVERY METHODS
+
+### Primary: In-App/Cursor Notifications
+- Real-time alerts while working
+- Context-aware suggestions
+- One-click actions
+
+### Secondary: Email (bids.deedavisinc@gmail.com)
+- Morning brief (daily 8am)
+- Weekly strategy (Monday 9am)
+- Critical alerts (immediate)
+
+### Tertiary: Calendar Notifications
+- Native Google Calendar alerts
+- Mobile push notifications
+- SMS for critical deadlines (optional)
+
+---
+
+## NEXUS ULTIMATE ASSISTANT CAPABILITIES
+
+### What NEXUS Remembers So You Don't Have To
+
+✅ Every bid deadline  
+✅ Every action deadline (5 days before)  
+✅ Every stage transition needed  
+✅ Every sub/supplier follow-up required  
+✅ Every CO relationship touchpoint  
+✅ Every submitted bid awaiting award  
+✅ Every insurance renewal date  
+✅ Every certification expiration  
+✅ Every performance review due  
+
+### What NEXUS Proactively Alerts
+
+🔔 **Before you forget:**  
+- "Follow up with [sub] — 48 hours no response"
+- "Submit [bid] — Deadline tomorrow"
+- "Review proposal — Stage 4 complete, awaiting approval"
+
+🔔 **Before it's too late:**  
+- "Deadline 3 days — Still in Stage 2, expedite recommended"
+- "Sub sourcing stuck — Need responses by [date]"
+- "Margin below target — Review pricing strategy"
+
+🔔 **Before you miss opportunity:**  
+- "Presolicitation released — Auto-respond recommended"
+- "Incumbent contract expires [date] — Recompete research"
+- "Set-aside opportunity — EDWOSB advantage, high score"
+
+---
+
+## ULTIMATE ASSISTANT SUMMARY
+
+**NEXUS is the ultimate AI assistant because:**
+
+1. **It thinks ahead** — Stages planned, deadlines mapped, reminders set
+2. **It remembers everything** — No detail lost, no follow-up forgotten
+3. **It prods appropriately** — Urgent when needed, background when not
+4. **It adapts to context** — Different reminders for different situations
+5. **It suggests actions** — Not just "deadline soon" but "do this now"
+6. **It escalates intelligently** — Yellow alerts, red alerts, blue alerts
+7. **It optimizes time** — Calendar blocking, conflict resolution, prioritization
+
+**Dee focuses on decisions and relationships. NEXUS handles the orchestration.**
+
+---
+
+**NEXUS CALENDAR & REMINDER SYSTEM: The ultimate AI assistant never lets anything fall through the cracks.**

@@ -2,14 +2,40 @@
 
 **Every email, capability statement, and communication generated for Dee to send MUST be run through ProposalBio before presenting it.**
 
+**ProposalBio now includes scoreability discipline:** rubric mirroring, explicit first-line answers, second-line proof, and evaluator-defensible decision logic.
+
 ## The Rule
 
 1. Generate the email/document
 2. Run it through `proposalbio_module.py` ProposalBioAnalyzer
 3. If score < 75 or any biohack < 6 → revise and re-run
 4. Keep iterating until score >= 75 with all biohacks >= 6
-5. Present the final version with the ProposalBio score
-6. If stuck at 75+ but one biohack won't budge past 5 → note it and present anyway (deadline override)
+5. Run ProposalBio + scoreability checks (below)
+6. Present the final version with the ProposalBio score
+7. Include pass/fail for scoreability gates
+8. If stuck at 75+ but one biohack won't budge past 5 → note it and present anyway (deadline override)
+
+## ProposalBio Scoreability Gates (MANDATORY)
+
+For buyer-facing scored responses, ProposalBio pass requires ALL of:
+
+1. **Rubric Mirroring**
+- Section headers mirror evaluation criteria language where possible.
+
+2. **Instant Scoreability**
+- First line explicitly answers criterion.
+- Second line provides evidence/proof.
+
+3. **Defensible Case Logic**
+- Requirement -> approach -> risk reduction -> evaluation impact.
+
+4. **Relevance over Volume**
+- Top capabilities prioritized for this contract (no capability dumping).
+
+5. **Compliance + Comfort**
+- Response is compliant and lowers evaluator risk to recommend DDI.
+
+If any gate fails, document remediation before finalizing.
 
 ## Metadata Required
 
@@ -40,8 +66,9 @@ Always pass the correct metadata keys:
 - Capability statements
 - NOI/Sources Sought responses
 - Proposal cover letters
-- Any outbound document
+- RFP/RFQ scored responses
+- Any outbound buyer-facing document
 
 ## No Exceptions
 
-If I present an email without a ProposalBio score, that's a mistake. Call it out.
+If I present a buyer-facing document without a ProposalBio score and scoreability pass/fail block, that's a mistake. Call it out.

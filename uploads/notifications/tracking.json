@@ -1,0 +1,13 @@
+[
+  {
+    "order_id": "PRISM-2026-TEST",
+    "tracking_number": "1Z999AA10123456784",
+    "carrier": "UPS",
+    "receipt_file": null,
+    "extraction_method": "manual",
+    "confidence": "manual",
+    "uploaded_by": "Admin",
+    "uploaded_at": "2026-02-26T11:16:32.385759",
+    "status": "shipped"
+  }
+]

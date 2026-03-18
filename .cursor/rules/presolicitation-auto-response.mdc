@@ -22,6 +22,7 @@ alwaysApply: true
 - Wait for the full RFP to drop
 - Skip the buyer email because "it's just a presolicitation"
 - Generate only internal docs without a buyer-facing email + cap statement
+- Skip emailing because the response deadline passed — **still email the CO.** Relationship-building matters. They may have extensions, future requirements, or add you to a vendor list.
 
 ---
 

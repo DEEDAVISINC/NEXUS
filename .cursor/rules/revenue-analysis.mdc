@@ -1,0 +1,242 @@
+---
+description: Automatically generate revenue analysis for every RFP, ITB, RFQ, RFI, or Sources Sought that DDI evaluates
+alwaysApply: true
+---
+
+# Revenue Analysis — MANDATORY for Every Solicitation
+
+**When ANY solicitation is analyzed (RFP, ITB, RFQ, RFI, Sources Sought, Presolicitation), ALWAYS generate a REVENUE ANALYSIS section. No exceptions.**
+
+---
+
+## The Rule
+
+Before recommending GO or NO-GO on any opportunity, calculate and present the full revenue picture. Dee needs to see the money before committing time and resources.
+
+---
+
+## REVENUE ANALYSIS TEMPLATE
+
+Generate this section in every WORKFLOW_CHECKLIST.md and present it in the chat when first analyzing a solicitation:
+
+```markdown
+## REVENUE ANALYSIS
+
+### Contract Overview
+| Field | Value |
+|---|---|
+| **Solicitation** | [Number] |
+| **Agency** | [Name] |
+| **Contract Type** | [FFP / IDIQ / T&M / BPA] |
+| **Base Period** | [X years] |
+| **Option Periods** | [X years] |
+| **Total Potential Period** | [Base + Options] |
+| **Set-Aside** | [EDWOSB / WOSB / SB / Full & Open / None] |
+| **Evaluation Method** | [LPTA / Best Value / Lowest Bid] |
+
+### Revenue Projection
+
+#### Line Item Breakdown
+| CLIN / Line | Description | Est. Qty | DDI Agency Rate | Annual Revenue |
+|---|---|---|---|---|
+| [1] | [Description] | [qty/yr] | $[rate] | $[total] |
+| [2] | [Description] | [qty/yr] | $[rate] | $[total] |
+| ... | ... | ... | ... | ... |
+| **TOTAL** | | | | **$[annual]** |
+
+#### Estimated Fulfillment Cost (DDI Internal — NEVER share with client)
+| CLIN / Line | Description | Est. Sub/Supplier Cost | Annual Cost |
+|---|---|---|---|
+| [1] | [Description] | $[cost] | $[total] |
+| [2] | [Description] | $[cost] | $[total] |
+| ... | ... | ... | ... |
+| **TOTAL** | | | **$[annual]** |
+
+#### DDI Margin
+| Metric | Amount |
+|---|---|
+| **Annual Contract Revenue** | $[what client pays DDI] |
+| **Annual Fulfillment Cost** | $[what DDI pays subs/suppliers] |
+| **Annual DDI Gross Margin** | $[revenue minus cost] |
+| **Margin Percentage** | [X]% |
+| **Monthly DDI Revenue** | $[annual ÷ 12] |
+| **Weekly DDI Revenue** | $[annual ÷ 52] |
+
+#### Contract Lifetime Value
+| Period | DDI Gross Revenue | DDI Gross Margin |
+|---|---|---|
+| **Base Period** ([X] years) | $[total] | $[margin] |
+| **Option 1** ([X] years) | $[total] | $[margin] |
+| **Option 2** ([X] years) | $[total] | $[margin] |
+| **Full Contract Lifetime** | **$[total]** | **$[margin]** |
+
+### Revenue Tier
+| Tier | Annual Revenue | This Contract |
+|---|---|---|
+| Micro-Purchase | Under $10K | |
+| Small | $10K - $50K | |
+| Medium | $50K - $250K | |
+| Large | $250K - $1M | |
+| Major | $1M+ | |
+| **→ [TIER NAME]** | **$[amount]** | **✅** |
+
+### Win Probability & Risk-Adjusted Value
+| Factor | Assessment |
+|---|---|
+| **Set-Aside Advantage** | [EDWOSB = High / WOSB = Medium / Full & Open = Low] |
+| **Competition Level** | [Limited / Moderate / Heavy] — based on set-aside, NAICS, geography |
+| **DDI Experience** | [Strong / Moderate / New service area] |
+| **Sub/Partner Ready** | [Confirmed / In progress / Not yet identified] |
+| **Geographic Match** | [Local / Regional / National] |
+| **Estimated Win Probability** | [X]% |
+| **Risk-Adjusted Annual Value** | $[annual margin × win probability] |
+
+### Effort vs. Return
+| Metric | Value |
+|---|---|
+| **Estimated Bid Prep Hours** | [X] hours |
+| **Estimated Bid Prep Cost** | $[hours × $125/hr DDI internal rate] |
+| **Payback Period** | [X months of contract to recover bid cost] |
+| **ROI on Bid Prep** | [Contract lifetime margin ÷ bid prep cost]x |
+| **Verdict** | [STRONG BID / WORTH PURSUING / MARGINAL / PASS] |
+
+### Comparable Contracts (Market Intelligence)
+| Source | Contract | Agency | Value | Period |
+|---|---|---|---|---|
+| USASpending | [Similar contract found] | [Agency] | $[value] | [dates] |
+| SAM.gov | [Previous solicitation] | [Agency] | $[value] | [dates] |
+| Industry avg | [Service type benchmark] | — | $[range] | — |
+
+**Notes:** [Any assumptions, caveats, or market context]
+```
+
+---
+
+## HOW TO CALCULATE EACH SECTION
+
+### 1. DDI Agency Rate (What Client Pays DDI)
+
+**Source:** `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md`
+
+If the RFP specifies quantities and DDI has published agency rates → use those rates.
+
+If the RFP is "best value" or allows DDI to set pricing → use catalog rates as the baseline, adjust for competition level and contract size.
+
+If the RFP is "lowest price" (LPTA) → estimate competitive market rates, back into DDI's margin.
+
+### 2. Fulfillment Cost (What DDI Pays Subs)
+
+**Source:** `DDI_BUSINESS_MODEL.md` margin targets + known partner pricing
+
+| Service Type | Target Margin | Fulfillment Cost Estimate |
+|---|---|---|
+| Drug Testing | 25-40% | Agency rate × 0.60-0.75 |
+| Fingerprinting | 40-60% | Agency rate × 0.40-0.60 |
+| DNA Testing | 40-60% | Agency rate × 0.40-0.60 |
+| NEMT | 20-35% | Agency rate × 0.65-0.80 |
+| Janitorial | 20-30% | Agency rate × 0.70-0.80 |
+| Landscaping | 20-30% | Agency rate × 0.70-0.80 |
+| Staffing | 25-40% | Agency rate × 0.60-0.75 |
+| Freight/Logistics | 25-40% | Agency rate × 0.60-0.75 |
+| Delivery/Courier | 25-40% | Agency rate × 0.60-0.75 |
+| Construction | 15-25% | Agency rate × 0.75-0.85 |
+| IT Services | 25-35% | Agency rate × 0.65-0.75 |
+| Consulting/PE | 60-80% | Agency rate × 0.20-0.40 |
+
+If actual sub quotes are in hand → use actual numbers, not estimates.
+
+### 3. Win Probability
+
+| Factor | High (70-90%) | Medium (40-60%) | Low (10-30%) |
+|---|---|---|---|
+| Set-Aside | EDWOSB sole source or set-aside | WOSB or SB set-aside | Full & open |
+| Competition | <5 likely bidders | 5-15 bidders | 15+ bidders |
+| Experience | 3+ similar contracts won | 1-2 similar | First time in this lane |
+| Relationship | Know the CO, prior work | Submitted questions/email | Cold |
+| Geography | Local/regional presence | Can establish presence | Far from service area |
+| Sub Ready | Sub confirmed with pricing | Sub identified, no pricing | No sub yet |
+
+**Estimated Win % = Average of all factor scores**
+
+### 4. Bid Prep Effort
+
+| Bid Complexity | Estimated Hours | Estimated Cost (@$125/hr) |
+|---|---|---|
+| Micro-purchase / simple quote | 2-5 hrs | $250-$625 |
+| Standard RFQ / cap statement | 5-10 hrs | $625-$1,250 |
+| Full RFP with forms | 15-30 hrs | $1,875-$3,750 |
+| Complex proposal (technical + price) | 30-60 hrs | $3,750-$7,500 |
+| Major IDIQ / multi-volume | 60-120 hrs | $7,500-$15,000 |
+
+### 5. Revenue Tier Definitions
+
+| Tier | Annual Revenue to DDI | Typical Contract Types |
+|---|---|---|
+| **Micro-Purchase** | Under $10K/yr | One-time supply orders, small quotes |
+| **Small** | $10K-$50K/yr | Local service contracts, small recurring orders |
+| **Medium** | $50K-$250K/yr | County/state RFPs, multi-location drug testing, grounds maintenance |
+| **Large** | $250K-$1M/yr | Federal IDIQs, state-wide service contracts, NEMT programs |
+| **Major** | $1M+/yr | Multi-year federal contracts, large NEMT brokerage, staffing programs |
+
+### 6. Verdict Logic
+
+| Verdict | Criteria |
+|---|---|
+| **STRONG BID** | Margin ≥ target + win probability ≥ 50% + sub ready + ROI > 10x |
+| **WORTH PURSUING** | Margin ≥ target + win probability ≥ 30% + ROI > 5x |
+| **MARGINAL** | Margin below target OR win probability < 30% OR ROI < 5x |
+| **PASS** | Margin < 15% OR no sub available OR ROI < 2x OR can't meet requirements |
+
+---
+
+## WHEN TO GENERATE THIS
+
+1. **First analysis of any solicitation** — Include in chat + add to WORKFLOW_CHECKLIST.md
+2. **After sub pricing is received** — Update with actual costs (replace estimates)
+3. **Before GO/NO-GO decision** — This IS the data that drives the decision
+4. **Before final bid submission** — Verify margins are still on target
+
+---
+
+## WHAT TO DO WITH UNKNOWNS
+
+If quantities aren't specified in the RFP:
+- Use the phrase "ESTIMATED — based on [comparable contracts / industry average / agency size]"
+- Flag it clearly so Dee knows it's a projection, not a guarantee
+- Look up similar contracts on USASpending.gov for volume benchmarks
+
+If DDI doesn't have sub pricing yet:
+- Use margin target ranges from `DDI_BUSINESS_MODEL.md`
+- Label as "PROJECTED — pending sub quotes"
+- Update when actual pricing comes in
+
+If the contract value isn't disclosed:
+- Search USASpending.gov for the incumbent contract or previous awards
+- Search SAM.gov for the previous solicitation
+- Estimate based on scope, quantities, and market rates
+- Label as "ESTIMATED — no government estimate disclosed"
+
+---
+
+## CRITICAL REMINDERS
+
+1. **Revenue analysis is NOT optional.** Every solicitation gets one. Period.
+2. **Never share fulfillment costs with the client.** The cost section is INTERNAL ONLY.
+3. **Update when real numbers come in.** Replace estimates with actuals as sub quotes arrive.
+4. **The verdict drives the GO/NO-GO.** If the numbers don't work, say so directly.
+5. **DDI's time has value.** A bid that costs $3,750 to prepare needs to return at least $18,750 in margin to be worth it (5x ROI minimum).
+6. **Past contract data is gold.** Always check USASpending for comparable awards.
+7. **EDWOSB advantage increases win probability significantly** — fewer competitors means better odds.
+
+---
+
+## REFERENCE FILES
+
+- `DDI_BUSINESS_MODEL.md` — Margin targets by service line
+- `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` — Agency rates
+- `PARTNER_ACCOUNT_UPDATES.md` — Fulfillment partner pricing
+- `ddi-business-model.mdc` — Pricing and model rule
+
+---
+
+*Every opportunity has a number. Know the number before you chase it.*

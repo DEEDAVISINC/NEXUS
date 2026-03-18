@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{RFQ_NUMBER}} — {{RFQ_TITLE}} — Dee Davis Inc.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Avenir Next','Avenir','Helvetica Neue',Arial,sans-serif; font-size: 9.5pt; color: #1f2937; background: #fff; }
+
+  .header { background: #0f172a; color: #fff; padding: 22px 30px 18px; display: flex; align-items: center; justify-content: space-between; }
+  .logo-img { height: 58px; width: auto; object-fit: contain; }
+  .header-right { text-align: right; }
+  .rfq-badge { display: inline-block; background: #d97706; color: #fff; font-size: 7.5pt; font-weight: 700; letter-spacing: 1.2px; padding: 3px 10px; border-radius: 3px; margin-bottom: 4px; }
+  .rfq-title { font-size: 13pt; font-weight: 700; color: #fff; line-height: 1.2; }
+  .rfq-sub { font-size: 8.5pt; color: #94a3b8; margin-top: 3px; }
+
+  .meta-strip { display: flex; gap: 0; border-bottom: 3px solid #0f172a; }
+  .meta-cell { flex: 1; padding: 10px 14px; border-right: 1px solid #e5e7eb; }
+  .meta-cell:last-child { border-right: none; }
+  .meta-label { font-size: 7pt; font-weight: 700; color: #6b7280; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+  .meta-value { font-size: 9.5pt; font-weight: 700; color: #0f172a; }
+  .meta-deadline { color: #b91c1c; }
+
+  .protection-banner { background: #fef3c7; border-left: 4px solid #d97706; padding: 9px 16px; font-size: 8pt; color: #78350f; }
+  .protection-banner strong { color: #92400e; }
+
+  .section-header { background: #0f172a; color: #fff; font-size: 8pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 14px; }
+
+  .intro-block { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 9pt; line-height: 1.55; color: #374151; }
+
+  .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid #e5e7eb; }
+  .scope-col { padding: 12px 16px; }
+  .scope-col:first-child { border-right: 1px solid #e5e7eb; }
+  .scope-col-title { font-size: 8pt; font-weight: 700; color: #0f172a; margin-bottom: 7px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .scope-list { list-style: none; }
+  .scope-list li { font-size: 8.5pt; color: #374151; padding: 3px 0 3px 16px; position: relative; line-height: 1.4; border-bottom: 1px solid #f3f4f6; }
+  .scope-list li:last-child { border-bottom: none; }
+  .scope-list li::before { content: "✓"; position: absolute; left: 0; color: #059669; font-weight: 700; font-size: 8pt; }
+
+  .table-wrap { overflow-x: auto; }
+  table.items-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  table.items-table thead tr { background: #1e3a8a; color: #fff; }
+  table.items-table thead th { padding: 9px 8px; text-align: left; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; white-space: nowrap; }
+  table.items-table thead th.right { text-align: right; }
+  table.items-table tbody tr { border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  table.items-table tbody tr.row-shade { background: #f8fafc; }
+  table.items-table td { padding: 10px 8px; line-height: 1.4; }
+  .col-no { width: 3%; text-align: center; font-weight: 700; color: #0f172a; }
+  .col-item { width: 17%; font-weight: 600; color: #0f172a; font-size: 8.5pt; }
+  .col-specs { width: 38%; color: #374151; }
+  .col-qty { width: 10%; text-align: center; font-weight: 600; color: #1e3a8a; }
+  .col-freq { width: 10%; text-align: center; color: #6b7280; font-size: 8pt; }
+  .col-price { width: 11%; text-align: right; }
+  .col-total { width: 11%; text-align: right; font-weight: 600; }
+  .item-sub { font-size: 7.5pt; color: #6b7280; font-weight: 400; }
+  .spec-list { list-style: none; }
+  .spec-list li { font-size: 8pt; color: #4b5563; padding: 1px 0; line-height: 1.35; }
+  .total-row td { border-top: 2px solid #0f172a; font-weight: 700; font-size: 9pt; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid #e5e7eb; }
+  .two-col-block { padding: 12px 16px; }
+  .two-col-block:first-child { border-right: 1px solid #e5e7eb; }
+  .block-title { font-size: 7.5pt; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li { counter-increment: steps; padding: 3px 0 3px 24px; position: relative; font-size: 8pt; color: #374151; line-height: 1.4; border-bottom: 1px solid #f3f4f6; }
+  .step-list li:last-child { border-bottom: none; }
+  .step-list li::before { content: counter(steps); position: absolute; left: 0; width: 16px; height: 16px; background: #1e3a8a; color: #fff; border-radius: 50%; font-size: 7pt; font-weight: 700; text-align: center; line-height: 16px; top: 3px; }
+  .terms-list { list-style: none; }
+  .terms-list li { padding: 4px 0; font-size: 8pt; color: #374151; border-bottom: 1px solid #f3f4f6; line-height: 1.45; }
+  .terms-list li:last-child { border-bottom: none; }
+  .terms-list strong { color: #0f172a; }
+
+  .fill-in-block { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; }
+  .fill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .fill-field { border: 1px solid #d1d5db; border-radius: 4px; padding: 7px 10px; background: #f9fafb; }
+  .fill-label { font-size: 7pt; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .fill-line { border-bottom: 1px solid #9ca3af; min-height: 18px; }
+
+  .submit-block { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 22px 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .submit-copy { color: #cbd5e1; font-size: 9pt; line-height: 1.5; }
+  .submit-copy strong { color: #fff; font-size: 10pt; display: block; margin-bottom: 3px; }
+  .submit-deadline { color: #fde68a; font-size: 8.5pt; font-weight: 700; margin-top: 5px; display: block; }
+  .submit-sub { font-size: 7.5pt; color: #94a3b8; margin-top: 8px; line-height: 1.4; }
+  .submit-btn { display: inline-block; background: #d97706; color: #fff !important; text-decoration: none; font-size: 10pt; font-weight: 700; padding: 13px 28px; border-radius: 6px; white-space: nowrap; letter-spacing: 0.3px; border: 2px solid #b45309; flex-shrink: 0; }
+
+  .footer { background: #0f172a; color: #94a3b8; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 7.5pt; }
+  .footer strong { color: #fff; }
+  .footer-right { text-align: right; }
+
+  @media print { body, .header, .section-header, table.items-table thead tr, .footer, .submit-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div><img src="{{LOGO_BASE64}}" alt="DDI" class="logo-img"></div>
+  <div class="header-right">
+    <div class="rfq-badge">REQUEST FOR QUOTE</div>
+    <div class="rfq-title">{{RFQ_TITLE}}</div>
+    <div class="rfq-sub">{{RFQ_LOCATION}} | {{RFQ_CLIENT_TYPE}}</div>
+  </div>
+</div>
+
+<div class="meta-strip">
+  <div class="meta-cell"><div class="meta-label">RFQ Number</div><div class="meta-value">{{RFQ_NUMBER}}</div></div>
+  <div class="meta-cell"><div class="meta-label">Issue Date</div><div class="meta-value">{{ISSUE_DATE}}</div></div>
+  <div class="meta-cell"><div class="meta-label">Quote Due</div><div class="meta-value meta-deadline">{{DUE_DATE}}</div></div>
+  <div class="meta-cell"><div class="meta-label">Due Time</div><div class="meta-value meta-deadline">{{DUE_TIME}}</div></div>
+  <div class="meta-cell"><div class="meta-label">Contract Type</div><div class="meta-value">{{CONTRACT_TYPE}}</div></div>
+  <div class="meta-cell"><div class="meta-label">Send Quote To</div><div class="meta-value">info@deedavis.biz</div></div>
+</div>
+
+<div class="protection-banner">
+  <strong>CONFIDENTIALITY NOTICE:</strong> The identity of the end client is confidential. Do NOT contact the end client directly. All coordination and payments are managed exclusively through Dee Davis Inc. Violation of this requirement will disqualify your quote.
+</div>
+
+<div class="section-header">Introduction</div>
+<div class="intro-block">{{INTRODUCTION_HTML}}</div>
+
+<div class="section-header">Scope of Work &amp; Requirements</div>
+<div class="scope-grid">
+  <div class="scope-col">
+    <div class="scope-col-title">Supplier Must Be Able To:</div>
+    <ul class="scope-list">{{SCOPE_REQUIREMENTS_HTML}}</ul>
+  </div>
+  <div class="scope-col">
+    <div class="scope-col-title">Compliance Requirements:</div>
+    <ul class="scope-list">{{COMPLIANCE_REQUIREMENTS_HTML}}</ul>
+  </div>
+</div>
+
+<div class="section-header">Line Items &mdash; Pricing Request</div>
+<div class="table-wrap">
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th class="col-no">#</th>
+        <th class="col-item">Item / Description</th>
+        <th class="col-specs">Specifications &amp; Notes</th>
+        <th class="col-qty">Est. Qty</th>
+        <th class="col-freq">Frequency</th>
+        <th class="col-price right">Your Price</th>
+        <th class="col-total right">Est. Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{LINE_ITEMS_HTML}}
+      {{TOTAL_ROW_HTML}}
+    </tbody>
+  </table>
+</div>
+
+<div class="section-header">Submission Instructions &amp; Terms</div>
+<div class="two-col">
+  <div class="two-col-block">
+    <div class="block-title">How to Submit Your Quote</div>
+    <ol class="step-list">{{SUBMISSION_STEPS_HTML}}</ol>
+  </div>
+  <div class="two-col-block">
+    <div class="block-title">Contract Terms</div>
+    <ul class="terms-list">{{CONTRACT_TERMS_HTML}}</ul>
+  </div>
+</div>
+
+<div class="section-header">Supplier Information (Complete &amp; Return with Quote)</div>
+<div class="fill-in-block">
+  <div class="fill-grid">
+    {{SUPPLIER_FIELDS_HTML}}
+  </div>
+</div>
+
+<div class="submit-block">
+  <div class="submit-copy">
+    <strong>Ready to Submit Your Quote?</strong>
+    Click the button &mdash; a pre-addressed email will open. Attach your pricing, COI, W-9, and any required licenses.
+    <span class="submit-deadline">&#9200; Deadline: {{DUE_DATE}} @ {{DUE_TIME}} &mdash; Late submissions will not be accepted.</span>
+    <div class="submit-sub">
+      Replace <em>[Your Company Name]</em> in the subject line before sending. Questions? Call 248.376.4550.
+    </div>
+  </div>
+  <a class="submit-btn" href="{{MAILTO_LINK}}">&#128231; Submit Quote by Email</a>
+</div>
+
+<div class="footer">
+  <div>
+    <strong>Dee Davis Inc.</strong> | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | EDWOSB | WOSB | WBENC | MBE | SBE<br>
+    755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 &nbsp;|&nbsp; 248.376.4550 &nbsp;|&nbsp; info@deedavis.biz &nbsp;|&nbsp; deedavis.biz
+  </div>
+  <div class="footer-right">
+    RFQ: {{RFQ_NUMBER}}<br>
+    Due: {{DUE_DATE}} @ {{DUE_TIME}}
+  </div>
+</div>
+
+</body>
+</html>

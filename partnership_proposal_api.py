@@ -132,7 +132,7 @@ def generate_partnership_proposal_pdf(data):
     why_partner = [
         f"<b>✓ Certified {certifications}</b><br/>Supports your supplier diversity goals and demonstrates commitment to women-owned business support",
         f"<b>✓ {coverage}</b><br/>Not limited to single location - can handle volume fluctuations with consistent service quality",
-        "<b>✓ Technology-Enabled Operations</b><br/>Automated dispatch platform (Snapdocs), real-time tracking, digital invoicing, 99.5%+ uptime",
+        "<b>✓ Technology-Enabled Operations</b><br/>Automated dispatch platform, real-time tracking, digital invoicing, 99.5%+ uptime",
         f"<b>✓ Dual Service Offering</b><br/>{services} in one vendor - streamlined procurement and single point of contact",
         "<b>✓ Quality Assurance</b><br/>All contractors background-checked, $1M+ E&O insurance, customer satisfaction monitoring",
         "<b>✓ Flexible Partnership Models</b><br/>Revenue-sharing, white-label, preferred vendor, or pilot program options"
@@ -312,7 +312,7 @@ def generate_partnership_proposal_pdf(data):
     contact_text += f"""<br/>
     <b>Service Coverage:</b> {coverage}<br/>
     <b>Certifications:</b> {certifications}<br/>
-    <b>Dispatch Platform:</b> Snapdocs (Automated)<br/>
+    <b>Dispatch Platform:</b> DDI Dispatch (Automated)<br/>
     <b>Response Time:</b> Under 2 hours average
     """
     

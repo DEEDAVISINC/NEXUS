@@ -205,6 +205,95 @@
 
 ---
 
+### **Source 6: Job Posting Mining** 💼
+**What It Finds:** Companies hiring for roles DDI can replace with vendor services
+
+**The Angle:** When a company posts a job for "Notary" or "Drug Testing Coordinator", they have budget and urgency. DDI pitches as a vendor instead of them hiring an employee — no W-2, no benefits, flexible capacity, immediate availability.
+
+**Tools Needed:**
+- Indeed RSS/API (FREE)
+- LinkedIn Jobs (manual or Sales Navigator)
+- Google Alerts (FREE)
+- Claude AI (you already have it!)
+
+**Job Titles to Monitor:**
+
+| Job Posting | DDI Service | Pitch Angle |
+|-------------|-------------|-------------|
+| Notary / Signing Agent | Mobile notary, RON, loan closings | Pay per signing, no employee overhead |
+| Drug Testing Coordinator | DOT testing program (Quest partnership) | Turnkey program, certified, compliant |
+| Fingerprint Technician | Mobile fingerprinting (SWFT authorized) | On-demand, no equipment costs |
+| Background Check Admin | Credentialing services | Full-service, no training needed |
+| Compliance Officer | Compliance consulting | Fractional, as-needed basis |
+| Document Processor | Document management services | Scalable, no hiring/firing |
+| Medical Courier | Medical specimen transport | Licensed, insured, HIPAA compliant |
+
+**What It Does:**
+1. Monitors job boards for target titles + location (Michigan, nationwide for remote)
+2. Filters by company size (prefer $10M+ revenue)
+3. AI extracts:
+   - Company name
+   - Job requirements (maps to DDI capability)
+   - Location/coverage area needed
+   - Urgency signals ("immediately", "ASAP")
+   - Contact info (HR or hiring manager if listed)
+
+4. Scores prospect:
+   - Title match to DDI service = +30 points
+   - Company size $50M+ = +20 points
+   - Urgency language = +20 points
+   - Michigan location = +15 points
+   - Multiple openings = +15 points
+
+5. Creates DDCSS prospect with:
+   - Company name
+   - Service needed (mapped from job title)
+   - Job posting URL
+   - Outreach angle
+   - Status: "HOT LEAD - Active Hiring"
+
+**Expected Output:** 10-30 qualified prospects per week
+
+**Quality:** VERY HIGH (they have budget, urgency, and defined need)
+
+**Why This Works:**
+- They've already approved headcount/budget
+- Vendor often cheaper than employee (no benefits, taxes, training)
+- DDI can start immediately (no 2-week notice, onboarding)
+- Scalable — DDI can cover spikes they can't staff for
+- Professional — certified, insured, experienced
+
+**Outreach Template:**
+```
+Subject: Alternative to Hiring a [Job Title] — Vendor Solution
+
+Hi [Name],
+
+I saw you're looking for a [Job Title] in [Location]. Before you commit to a full-time hire, I wanted to offer an alternative that might save you time and money.
+
+Dee Davis Inc. provides [service] on a contract basis:
+- No W-2, benefits, or payroll taxes
+- Certified and insured
+- Start immediately — no onboarding delay
+- Flexible capacity — scale up or down as needed
+
+We've been doing this for 20+ years and work with [similar companies/industries].
+
+Would a quick call make sense to see if this fits your needs?
+
+[Signature]
+```
+
+**Search Queries to Set Up:**
+- Indeed: "notary" + "Michigan"
+- Indeed: "signing agent" + "remote"
+- Indeed: "drug testing coordinator" + "Michigan"
+- Indeed: "fingerprint technician"
+- LinkedIn: "mobile notary" jobs
+- Google Alert: "hiring notary" OR "notary position" + Michigan
+
+---
+
 ## 💰 COST BREAKDOWN
 
 | Tool | Monthly Cost | Annual Cost | What It Provides |
@@ -215,7 +304,8 @@
 | Google Alerts | $0 | $0 | News monitoring |
 | RSS Feeds | $0 | $0 | Already in NEXUS |
 | Apify | $49 | $588 | Web scraping |
-| **TOTAL ONGOING** | **$207/mo** | **$2,484/yr** | **200+ prospects/week** |
+| Indeed/Job Board Monitoring | $0 | $0 | Job posting prospecting (FREE!) |
+| **TOTAL ONGOING** | **$207/mo** | **$2,484/yr** | **250+ prospects/week** |
 
 **Optional One-Time:**
 | Purchase | Cost | What You Get |

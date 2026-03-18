@@ -485,7 +485,7 @@ class FederalForecastsMiner:
             sam_edwosb = self._mine_sam_edwosb_setasides()
             all_forecasts.extend(sam_edwosb)
             source_counts['SAM.gov EDWOSB Set-Asides'] = len(sam_edwosb)
-            print(f"   ✅ {len(sam_edwosb)} EDWOSB/WOSB set-aside opportunities")
+            print(f"   ✅ {len(sam_edwosb)} EDWOSB/WOSB/Total SB set-aside opportunities")
             
             # Sources sought (early intelligence)
             print("📡 Mining SAM.gov sources sought notices...")
@@ -639,8 +639,8 @@ class FederalForecastsMiner:
     
     def _mine_sam_edwosb_setasides(self) -> List[Dict]:
         """
-        Mine ACTIVE EDWOSB and WOSB set-aside solicitations from SAM.gov
-        These are the crown jewels — limited competition opportunities
+        Mine ACTIVE EDWOSB, WOSB, and Total SB set-aside solicitations from SAM.gov.
+        Until 8(a) certified, search all DDI-eligible set-asides.
         """
         edwosb_results = self._search_sam_api(
             ptype='o',  # Active solicitations
@@ -656,7 +656,14 @@ class FederalForecastsMiner:
             forecast_type='Active WOSB Set-Aside'
         )
         
-        return edwosb_results + wosb_results
+        sb_results = self._search_sam_api(
+            ptype='o',
+            set_aside='SBA',  # Total Small Business Set-Aside (FAR 19.5)
+            source_label='SAM.gov Total SB Set-Aside',
+            forecast_type='Active Total SB Set-Aside'
+        )
+        
+        return edwosb_results + wosb_results + sb_results
     
     def _mine_sam_sources_sought(self) -> List[Dict]:
         """

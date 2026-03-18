@@ -1,0 +1,59 @@
+---
+description: Enforce evaluator comfort factors in addition to compliance
+alwaysApply: true
+---
+
+# Compliance vs Comfort Selection Rule (Additive)
+
+Compliance gets scored. Comfort gets selected.
+
+Buyer-facing responses must do both:
+1) satisfy requirements, and
+2) reduce evaluator fear/risk enough to support internal advocacy.
+
+## Comfort Drivers (Required)
+
+Every major response must clearly show:
+
+1. **Clear Ownership**
+- Named accountable lead(s) for delivery, quality, and escalation.
+
+2. **Specific Execution Detail**
+- Concrete process steps, timelines, handoffs, and controls.
+- Avoid generic claims ("high quality", "proven", "excellent") without mechanism.
+
+3. **Predictable Structure**
+- Stable, evaluator-friendly section flow.
+- Easy-to-find answers aligned to scoring sections.
+
+4. **Proof of Repeatability**
+- Evidence that DDI can execute consistently (process controls, QA gates, documented workflow, relevant references/past outcomes where available).
+
+## Fear-Reduction Standard
+
+For each key requirement, response should answer:
+- What could go wrong?
+- How DDI prevents it?
+- How DDI detects and corrects it fast?
+
+If this is missing, evaluator comfort is not achieved.
+
+## Hard Stop Conditions
+
+Do not mark package "ready" if:
+- It is compliant but operational ownership is unclear
+- Execution detail is generic
+- Structure is hard to navigate
+- No credible repeatability proof is present
+
+## Required Readiness Block
+
+Before final status:
+- Compliance Complete: PASS/FAIL
+- Ownership Clarity: PASS/FAIL
+- Execution Specificity: PASS/FAIL
+- Structure Predictability: PASS/FAIL
+- Repeatability Proof: PASS/FAIL
+- Evaluator Comfort Index: PASS/FAIL
+
+If any FAIL, return remediation actions before release.

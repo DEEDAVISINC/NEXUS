@@ -1,0 +1,58 @@
+---
+description: Require proposals to build an evaluator-defensible award case
+alwaysApply: true
+---
+
+# Evaluator Defensible Case Rule (Additive)
+
+Proposals must help evaluators justify award decisions to leadership, legal, procurement, and finance.
+
+## Core Standard
+
+Do not optimize only for "good writing."  
+Optimize for "defensible selection logic."
+
+## Required Elements in Buyer-Facing Responses
+
+1. **Explicit Tradeoffs**
+- State the key tradeoffs (cost, speed, risk, quality, compliance) clearly.
+- Show why DDI's approach is the prudent choice for the specific requirement.
+
+2. **Decision Logic**
+- Include clear if-then reasoning:
+  - requirement -> approach -> risk reduction -> evaluation impact.
+
+3. **Criteria Mapping**
+- Every major claim must map to an evaluation factor or pass/fail requirement.
+- No orphan claims.
+
+4. **Justification Support**
+- Include concrete evidence evaluators can cite:
+  - certifications
+  - process controls
+  - SLA commitments
+  - QA gates
+  - relevant past performance indicators
+
+5. **Risk-to-Reviewer Reduction**
+- Explain how DDI's approach lowers reviewer personal/organizational risk.
+- Make it easy for evaluators to defend award in review/protest contexts.
+
+## Hard Stop Conditions
+
+Do not mark response as ready if:
+- Tradeoffs are implicit/unclear
+- Decision logic is missing
+- Claims are not tied to criteria
+- No defensible justification artifacts are present
+
+## Required Output Block
+
+Before final "ready" status, include:
+- Tradeoffs Explicit: PASS/FAIL
+- Decision Logic Clear: PASS/FAIL
+- Criteria Mapping Complete: PASS/FAIL
+- Defensible Justification Artifacts: PASS/FAIL
+- Evaluator Risk Reduced: PASS/FAIL
+
+If any FAIL, return remediation actions.

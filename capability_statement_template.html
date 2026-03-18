@@ -2,162 +2,170 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DEE DAVIS INC — Capability Statement — {{GOLD_BAR_TITLE}}</title>
+<title>DEE DAVIS INC — {{GOLD_BAR_TITLE}}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
+@page { size:8.5in 11in; margin:0; }
 body { font-family:'Inter',sans-serif; color:#1e293b; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 .page { width:8.5in; height:11in; margin:0 auto; padding:0; overflow:hidden; display:flex; flex-direction:column; }
 
-.header { background:linear-gradient(135deg,{{PRIMARY_COLOR}} 0%,{{SECONDARY_COLOR}} 100%); color:#fff; padding:0.5rem 0.55in; display:flex; align-items:center; gap:0.8rem; }
-.h-logo { width:70px; height:70px; background:#fff; border-radius:10px; padding:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.h-logo img { width:100%; height:100%; object-fit:contain; }
+/* === HEADER === */
+.header { background:linear-gradient(135deg,{{PRIMARY_COLOR}} 0%,{{SECONDARY_COLOR}} 100%); color:#fff; padding:0.3in 0.55in 0.22in; display:flex; align-items:center; gap:0.9rem; }
+.h-logo { width:72px; height:72px; background:#fff; border-radius:10px; padding:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.h-logo-img { width:100%; height:100%; object-fit:contain; }
 .h-text { flex:1; }
-.h-text h1 { font-size:1.5rem; font-weight:900; letter-spacing:-0.5px; line-height:1.1; }
-.h-text .tag { font-size:0.65rem; font-style:italic; opacity:0.75; }
-.h-creds { display:flex; gap:0.5rem; font-size:0.55rem; font-weight:600; opacity:0.7; margin-top:0.2rem; flex-wrap:wrap; }
+.h-text h1 { font-size:1.65rem; font-weight:900; letter-spacing:-0.5px; line-height:1.1; }
+.h-text .tag { font-size:0.78rem; font-style:italic; opacity:0.8; margin-top:0.15rem; }
+.h-creds { display:flex; gap:0.5rem; font-size:0.62rem; font-weight:600; opacity:0.75; margin-top:0.15rem; flex-wrap:wrap; }
+.h-creds span::after { content:"|"; margin-left:0.5rem; opacity:0.5; }
+.h-creds span:last-child::after { content:""; }
 
-.gold-bar { background:linear-gradient(135deg,{{ACCENT_COLOR_DARK}},{{ACCENT_COLOR}},{{ACCENT_COLOR}}); padding:0.3rem 0.55in; display:flex; align-items:center; justify-content:space-between; }
-.gold-bar h2 { font-size:0.85rem; font-weight:800; color:{{GOLD_BAR_TEXT_COLOR}}; letter-spacing:0.5px; }
-.gold-bar .sub { font-size:0.6rem; color:{{GOLD_BAR_TEXT_COLOR}}; opacity:0.8; font-weight:600; }
+/* === TITLE BAR === */
+.title-bar { background:linear-gradient(135deg,{{ACCENT_COLOR_DARK}},{{ACCENT_COLOR}},{{ACCENT_COLOR}}); padding:0.3rem 0.55in; }
+.title-bar h2 { font-size:0.95rem; font-weight:800; color:#fff; letter-spacing:0.5px; }
 
-.body { padding:0.4rem 0.45in 0.2rem; display:flex; flex-direction:column; gap:0.2rem; }
+/* === BODY === */
+.body { padding:0.25in 0.5in 0.15in; flex:1; }
 
-.who { display:flex; gap:0.6rem; align-items:center; margin-bottom:0.5rem; }
-.who-photo { width:62px; height:62px; border-radius:50%; overflow:hidden; border:2.5px solid {{ACCENT_COLOR}}; flex-shrink:0; }
-.who-photo img { width:100%; height:100%; object-fit:cover; }
-.who-text { flex:1; }
-.who-text p { font-size:0.72rem; line-height:1.55; }
-.who-text strong { color:{{PRIMARY_COLOR}}; }
+/* EDWOSB HIGHLIGHT */
+.edwosb-box { background:#fef3c7; border-left:4px solid #d97706; padding:0.35rem 0.5rem; border-radius:5px; margin-bottom:0.35rem; }
+.edwosb-box p { font-size:0.72rem; line-height:1.55; color:#92400e; }
+.edwosb-box strong { color:#78350f; }
 
-.sh { background:linear-gradient(135deg,{{PRIMARY_COLOR}},{{SECONDARY_COLOR}}); color:#fff; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.2rem; }
-.sh-accent { background:linear-gradient(135deg,{{ACCENT_COLOR_DARK}},{{ACCENT_COLOR}}); color:{{GOLD_BAR_TEXT_COLOR}}; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.2rem; }
+/* SECTION HEADER */
+.sh { background:linear-gradient(135deg,{{PRIMARY_COLOR}},{{SECONDARY_COLOR}}); color:#fff; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.78rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.25rem; letter-spacing:0.3px; }
 
-.comp-grid { display:grid; grid-template-columns:repeat({{COMP_COLUMNS}},1fr); gap:0.3rem; margin-bottom:0.4rem; }
-.c { border-radius:6px; padding:0.28rem 0.35rem; }
-.c h4 { font-size:0.6rem; font-weight:700; margin-bottom:0.08rem; }
-.c p { font-size:0.53rem; line-height:1.4; }
+/* COMPETENCIES GRID */
+.comp-grid { display:grid; grid-template-columns:repeat({{COMP_COLUMNS}},1fr); gap:0.35rem; margin-bottom:0.25rem; }
+.c { border-radius:6px; padding:0.3rem 0.4rem; }
+.c h4 { font-size:0.72rem; font-weight:700; margin-bottom:0.1rem; }
+.c p { font-size:0.65rem; line-height:1.4; }
+.c-primary { background:{{PRIMARY_COLOR}}; color:#fff; } .c-primary h4 { color:{{ACCENT_COLOR}}; }
+.c-light1 { background:#f0f9ff; border:1.5px solid #bae6fd; } .c-light1 h4 { color:#0369a1; }
+.c-light2 { background:#fef7e8; border:1.5px solid #fde68a; } .c-light2 h4 { color:#92400e; }
+.c-light3 { background:#f0fdf4; border:1.5px solid #bbf7d0; } .c-light3 h4 { color:#166534; }
 
-.c-primary { background:{{PRIMARY_COLOR}}; color:#fff; }
-.c-primary h4 { color:{{ACCENT_COLOR}}; }
-.c-light1 { background:#f0f9ff; border:1.5px solid #bae6fd; }
-.c-light1 h4 { color:#0369a1; }
-.c-light2 { background:#fef7e8; border:1.5px solid #fde68a; }
-.c-light2 h4 { color:#92400e; }
-.c-light3 { background:#f0fdf4; border:1.5px solid #bbf7d0; }
-.c-light3 h4 { color:#166534; }
-.c-light4 { background:#faf5ff; border:1.5px solid #e9d5ff; }
-.c-light4 h4 { color:#6b21a8; }
-.c-light5 { background:#f8fafc; border:1.5px solid #e2e8f0; }
-.c-light5 h4 { color:#334155; }
-.c-light6 { background:#fff1f2; border:1.5px solid #fecdd3; }
-.c-light6 h4 { color:#9f1239; }
-.c-light7 { background:#ecfdf5; border:1.5px solid #a7f3d0; }
-.c-light7 h4 { color:#065f46; }
+/* TWO COLUMN LISTS */
+.cols { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.25rem; }
+ul.svc { list-style:none; padding:0; }
+ul.svc li { padding-left:0.9rem; position:relative; margin-bottom:0.22rem; font-size:0.72rem; line-height:1.4; color:#334155; }
+ul.svc li::before { content:"\2605"; position:absolute; left:0; color:{{ACCENT_COLOR}}; font-weight:bold; font-size:0.6rem; top:0.06rem; }
 
-.cols { display:grid; grid-template-columns:1fr 1fr; gap:0.45rem; margin-bottom:0.35rem; }
-ul.wl { list-style:none; padding:0; }
-ul.wl li { padding-left:0.7rem; position:relative; margin-bottom:0.25rem; }
-ul.wl li::before { content:"\2605"; position:absolute; left:0; color:{{ACCENT_COLOR}}; font-size:0.5rem; top:0.06rem; }
-.wt { font-size:0.57rem; font-weight:700; color:{{PRIMARY_COLOR}}; }
-.wd { font-size:0.5rem; color:#64748b; }
+/* WHY DDI LIST */
+ul.why { list-style:none; padding:0; }
+ul.why li { padding-left:0.9rem; position:relative; margin-bottom:0.22rem; font-size:0.72rem; line-height:1.45; color:#334155; }
+ul.why li::before { content:"\2605"; position:absolute; left:0; color:{{ACCENT_COLOR}}; font-size:0.6rem; top:0.06rem; }
+ul.why li strong { color:{{PRIMARY_COLOR}}; }
 
-.cert-strip { display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0; border-top:1.5px solid #e2e8f0; margin-bottom:0.15rem; }
-.cert-strip img { height:32px; object-fit:contain; }
-.cert-text { font-size:0.52rem; font-weight:600; color:#475569; line-height:1.5; }
+/* NAICS STRIP */
+.naics-strip { display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center; padding:0.2rem 0; border-top:1.5px solid #e2e8f0; border-bottom:1.5px solid #e2e8f0; margin:0.2rem 0; }
+.naics-strip .nlbl { font-size:0.65rem; font-weight:700; color:{{PRIMARY_COLOR}}; margin-right:0.2rem; }
+.naics-pill { background:#fff1f2; border:1px solid #fecdd3; border-radius:4px; padding:0.12rem 0.35rem; font-size:0.6rem; color:{{SECONDARY_COLOR}}; font-weight:600; }
+.naics-pill .nc { font-weight:800; color:{{PRIMARY_COLOR}}; }
 
-.partner-row { display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:0.2rem 0; border-top:1.5px solid #e2e8f0; margin-bottom:0.2rem; }
-.partner-row img { height:26px; object-fit:contain; }
-.plbl { font-size:0.45rem; color:#94a3b8; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+/* PAST PERFORMANCE GRID */
+.pp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.35rem; margin-bottom:0.25rem; }
+.pp { background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:5px; padding:0.25rem 0.35rem; }
+.pp h4 { font-size:0.62rem; font-weight:700; color:{{PRIMARY_COLOR}}; margin-bottom:0.08rem; }
+.pp p { font-size:0.58rem; line-height:1.4; color:#475569; }
 
-.footer { background:linear-gradient(135deg,{{PRIMARY_COLOR}},{{SECONDARY_COLOR}}); color:#fff; padding:0.3rem 0.55in; display:flex; align-items:center; justify-content:space-between; margin-top:0; }
-.f-left { font-size:0.52rem; line-height:1.5; }
+/* CERT BADGES */
+.cert-row { display:flex; gap:0.35rem; flex-wrap:wrap; align-items:center; padding:0.2rem 0; }
+.cert-badge { background:linear-gradient(135deg,{{PRIMARY_COLOR}},#2563eb); color:#fff; border-radius:4px; padding:0.15rem 0.4rem; font-size:0.6rem; font-weight:700; letter-spacing:0.3px; }
+.cert-badge.gold { background:linear-gradient(135deg,#d97706,#f59e0b); color:#78350f; }
+.cert-badge.accent { background:linear-gradient(135deg,{{SECONDARY_COLOR}},{{ACCENT_COLOR}}); }
+
+/* === FOOTER === */
+.footer { background:linear-gradient(135deg,{{PRIMARY_COLOR}} 0%,{{SECONDARY_COLOR}} 100%); color:#fff; padding:0.2in 0.55in; display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
+.f-left { font-size:0.65rem; line-height:1.5; }
 .f-left strong { color:{{ACCENT_COLOR}}; }
-.f-right { text-align:right; font-size:0.48rem; line-height:1.5; opacity:0.75; }
-.f-naics { font-size:0.45rem; opacity:0.65; margin-top:0.1rem; }
+.f-right { text-align:right; font-size:0.6rem; line-height:1.5; opacity:0.8; }
+.f-right .edwosb-tag { opacity:1; font-weight:700; color:#fbbf24; font-size:0.62rem; }
 
-@media print { body { margin:0; } .page { margin:0; } }
+@media print {
+  body { margin:0; }
+  .page { width:100%; height:100%; page-break-after:avoid; }
+}
 </style>
 </head>
 <body>
 <div class="page">
 
+  <!-- HEADER -->
   <div class="header">
-    <div class="h-logo"><img src="{{LOGO_BASE64}}" alt="DDI"></div>
+    <div class="h-logo">
+      <img src="{{LOGO_BASE64}}" alt="DDI" class="h-logo-img">
+    </div>
     <div class="h-text">
       <h1>DEE DAVIS INC.</h1>
-      <div class="tag">&ldquo;The Professionals&rsquo; Professional&rdquo;</div>
+      <div class="tag">{{HEADER_TAG}}</div>
       <div class="h-creds">
-        <span>CAGE: 8UMX3</span>
-        <span>UEI: HJB4KNYJVGZ1</span>
-        <span>DUNS: 002636755</span>
-        <span>SAM.gov: ACTIVE</span>
-        <span>Est. 2018</span>
+        {{HEADER_CREDS_HTML}}
       </div>
     </div>
   </div>
 
-  <div class="gold-bar">
-    <h2>{{GOLD_BAR_TITLE}}</h2>
-    <div class="sub">{{GOLD_BAR_SUBTITLE}}</div>
+  <!-- TITLE BAR -->
+  <div class="title-bar">
+    <h2>CAPABILITY STATEMENT &mdash; {{GOLD_BAR_TITLE}}</h2>
   </div>
 
+  <!-- BODY -->
   <div class="body">
 
-    <div class="who">
-      <div class="who-photo"><img src="{{HEADSHOT_BASE64}}" alt="Dee Davis"></div>
-      <div class="who-text">
-        <p>{{OVERVIEW_HTML}}</p>
-        <p style="font-size:0.58rem;margin-top:0.15rem;color:{{PRIMARY_COLOR}};font-weight:600;">{{FRAMEWORK_LINE}}</p>
-      </div>
+    <!-- EDWOSB HIGHLIGHT + COMPANY OVERVIEW -->
+    <div class="edwosb-box">
+      <p>{{OVERVIEW_HTML}}</p>
+      {{SERVICE_MODEL_HTML}}
     </div>
 
+    <!-- CORE COMPETENCIES -->
     <div class="sh">{{COMPETENCIES_HEADER}}</div>
     <div class="comp-grid">
-      {{COMPETENCIES_GRID_HTML}}
+{{COMPETENCIES_GRID_HTML}}
     </div>
 
+    <!-- SERVICE CAPABILITIES -->
+    <div class="sh">SERVICE CAPABILITIES</div>
     <div class="cols">
-      <div>
-        <div class="sh">{{PAST_PERFORMANCE_HEADER}}</div>
-        <ul class="wl">
-          {{PAST_PERFORMANCE_HTML}}
-        </ul>
-      </div>
-      <div>
-        <div class="sh-accent">&#9733; DIFFERENTIATORS</div>
-        <ul class="wl">
-          {{DIFFERENTIATORS_HTML}}
-        </ul>
-      </div>
+{{SERVICE_CAPABILITIES_HTML}}
     </div>
 
-    <div class="cert-strip">
-      {{CERT_BADGES_HTML}}
-      <div class="cert-text">
-        <strong>EDWOSB</strong> | WOSB | WBE | MBE | SBE | E-Verify Participant | SWFT Authorized (DCSA) | TWIC Credentialed (TSA) | MI Personnel Agency License | MI Notary Public
-      </div>
+    <!-- DIFFERENTIATORS -->
+    <div class="sh">DIFFERENTIATORS</div>
+    <ul class="why">
+{{DIFFERENTIATORS_HTML}}
+    </ul>
+
+    <!-- PAST PERFORMANCE -->
+    <div class="sh">PAST PERFORMANCE &amp; RELEVANT EXPERIENCE</div>
+    <div class="pp-grid">
+{{PAST_PERFORMANCE_HTML}}
     </div>
 
-    <div class="partner-row">
-      <span class="plbl">Strategic Alliance Partners:</span>
-      {{PARTNER_LOGOS_HTML}}
+    <!-- NAICS CODES -->
+{{NAICS_STRIP_HTML}}
+
+    <!-- CERTIFICATIONS -->
+    <div class="cert-row">
+{{CERT_BADGES_ROW_HTML}}
     </div>
 
   </div>
 
+  <!-- FOOTER -->
   <div class="footer">
     <div class="f-left">
       <strong>Dieasha Davis</strong>, President &amp; CEO<br>
-      (248) 376-4550 | info@deedavis.biz | www.deedavis.biz<br>
-      755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084
+      755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+      (248) 376-4550 &nbsp;|&nbsp; info@deedavis.biz &nbsp;|&nbsp; deedavis.biz
     </div>
     <div class="f-right">
-      CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1<br>
-      MC: 1647572 | DOT: 4250594 | NPI: 1538939111<br>
-      <strong style="color:{{ACCENT_COLOR}};">Primary:</strong> MI, GA, FL, MD | CONUS/OCONUS<br>
-      <div class="f-naics">NAICS: {{NAICS_CODES}}</div>
+      CAGE: 8UMX3 &nbsp;|&nbsp; UEI: HJB4KNYJVGZ1<br>
+      US DOT: 4250594 &nbsp;|&nbsp; MC: 1647572 &nbsp;|&nbsp; NPI: 1538939111<br>
+      <span class="edwosb-tag">EDWOSB Certified &mdash; SBA Verified</span><br>
+      {{FOOTER_EXTRA_HTML}}
     </div>
   </div>
 

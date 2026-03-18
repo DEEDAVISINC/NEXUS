@@ -9093,7 +9093,7 @@ def gbis_generate_application():
             story_modules = airtable.get_all_records('GRANT STORY LIBRARY')
             active_modules = [m for m in story_modules if m.get('fields', {}).get('Status') == 'Active']
         except Exception as e:
-            print(f"Warning: Could not fetch Grant Story Library: {e}")
+            print(f"Warning: Could not fetch GBIS Story Library: {e}")
             active_modules = []
         
         # Build context from story library
@@ -9104,19 +9104,18 @@ def gbis_generate_application():
             ])
         else:
             context = """
-DEE DAVIS INC is a federally certified EDWOSB operating 8 specialized divisions:
-1. DEPOINTE - Transportation Services (NEMT, Valet, Executive Transport)
-2. DEPOINTE DNA - Legal DNA Testing (AABB-Accredited)
-3. 3D Ink & Livescan - Credentialing & Compliance (FBI Fingerprinting, DOT Compliance)
-4. 3D Ink Signatures - Professional Signing Agency (NMLS-Licensed, RON)
-5. Freight 1st Direct - Independent Freight Brokerage (MC-1647572, DOT-4250594)
-6. Federal Compliance Consulting - Grant Administration & Contract Management
-7. CNTDA - Premium Notary Services (20+ years experience)
-8. CAUSE WE CARE - 501(c)(3) Nonprofit (Community Impact)
+DEE DAVIS INC — CONTRACT MANAGEMENT FIRM (EDWOSB, CAGE 8UMX3)
+Founded 2018 by Dieasha D. Davis. "The Professionals' Professionals."
 
-Technology: ATLAS PM and FleetFlow™ platforms for AI-powered operations
-Certifications: EDWOSB, WOSB, WBE, MBE, CAGE Code: 8UMX3
-Leadership: Dee Davis, President & CEO (Licensed MLO, Michigan Certified Notary)
+BUSINESS MODEL: DDI wins government and commercial contracts across every sector, sources qualified subcontractors and suppliers to execute the work, and manages the entire delivery — compliance, invoicing, quality assurance, reporting, coordination. We don't do the work. We make sure the work gets done right. One point of contact. Full accountability.
+
+26+ SERVICE LINES across 6 categories: (1) Federal Compliance — drug testing (Quest C-TPA), fingerprinting (3D Ink & Livescan, Top 10% nationally), DNA testing (DePointe DNA, DDC partner), lead testing, background screening; (2) Professional Services — notary, document prep, permit running, RON, healthcare credentialing; (3) Healthcare Transportation — NEMT brokerage (MC-1647572), medical courier; (4) Service Contracts as Prime — janitorial, landscaping, grounds, facility maintenance, IT, security, construction, moving, events, staffing; (5) Logistics — freight brokerage (Freight 1st Direct), FleetFlow; (6) Project Executive — contract management, crisis coordination, emergency logistics.
+
+OPERATING DIVISIONS: 3D Ink & Livescan Co (fingerprinting, drug testing), DePointe DNA (DNA testing, DDC collection partner), Freight 1st Direct (freight brokerage), FleetFlow TMS LLC (logistics platform). Cause We Care — affiliated 501(c)(3), MIBridges, veteran services, homelessness coordinated entry. MDHHS Community Partner.
+
+TECHNOLOGY: NEXUS proprietary AI platform (9 modules), ATLAS PM, FleetFlow TMS — designed and built by Dieasha D. Davis. Gives 5-person firm capacity of 50-person organization.
+
+CERTIFICATIONS: EDWOSB, WOSB, WBENC, MBE, SBE, E-Verify, CMMC-AB, TWIC, CNTDA, Michigan Notary (20+ years). 7+ years in operation. Zero past performance deficiencies. Revenue potential: $3.7M–$26M annually. 5-year vision: $50M+, OASIS+, GSA MAS, 20+ states.
 """
         
         # Generate application with Claude
@@ -9135,11 +9134,11 @@ COMPANY CONTEXT (Grant Story Library):
 
 TASK:
 Generate a compelling grant application that:
-1. Emphasizes DEE DAVIS INC's unique qualifications (EDWOSB, 8 divisions, AI technology)
+1. Emphasizes DEE DAVIS INC's unique qualifications (EDWOSB contract management firm, 26+ service lines, proprietary NEXUS/ATLAS/FleetFlow technology)
 2. Uses specific examples from the company context
 3. Demonstrates measurable impact with metrics
-4. Shows clear fund utilization plan
-5. Maintains Dee Davis's authentic voice (systematic, technology-driven, professional)
+4. Shows clear fund utilization plan (working capital bridge, capacity investment, community program sustainability)
+5. Maintains Dieasha Davis's authentic voice (systematic, technology-driven, professional)
 
 TONE: Confident, accomplished, technology-driven, community-focused
 AVOID: Generic corporate speak, vague promises, resume-style history
@@ -9240,59 +9239,46 @@ Return ONLY valid JSON with section names as keys and content as values.
 @app.route('/gbis/mine-source', methods=['POST'])
 def gbis_mine_source():
     """
-    Mine a grant source for new opportunities
-    Called by scheduled Airtable automation for daily discovery
+    Mine a specific grant source or run a full pipeline pass.
+    Routes to GBISCommunityHealthMiner based on source_type param.
+    Falls back to full pipeline when no specific source_type is given.
     """
     try:
-        data = request.json
-        target_id = data.get('target_id')
-        target_name = data.get('target_name')
-        target_url = data.get('target_url')
-        scraping_method = data.get('scraping_method', 'Manual')
-        
-        if not target_id:
-            return jsonify({'error': 'target_id required'}), 400
-        
-        # Initialize Airtable client
-        from nexus_backend import AirtableClient
-        airtable = AirtableClient()
-        
-        # Update Mining Target "Last Checked" timestamp
-        try:
-            airtable.update_record('Mining Targets', target_id, {
-                'Last Checked': datetime.now().isoformat()
-            })
-        except Exception as e:
-            print(f"Warning: Could not update Mining Target: {e}")
-        
-        # TODO: Implement actual scraping logic based on source type
-        # For now, return placeholder that scraping will be implemented
-        
-        # Example future implementation would use:
-        # - BeautifulSoup/Scrapy for web scraping
-        # - RSS feed parsers for RSS feeds
-        # - API clients for API-based sources
-        
-        opportunities_found = 0
-        new_opportunities = []
-        
-        # Placeholder for future scraping implementation
-        # When implemented, this would:
-        # 1. Scrape the target URL based on scraping method
-        # 2. Extract grant information (name, funder, amount, deadline, etc.)
-        # 3. Create records in Grant Opportunities table
-        # 4. Return count of new opportunities found
-        
+        data = request.json or {}
+        source_type = data.get('source_type', 'all')
+
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        miner = GBISCommunityHealthMiner()
+
+        if source_type == 'michigan_foundations':
+            result = miner.seed_michigan_foundations()
+            imported = result['imported']
+            message = f"Seeded {imported} Michigan foundation grant sources"
+        elif source_type == 'veteran_grants':
+            result = miner.seed_veteran_sources()
+            imported = result['imported']
+            message = f"Seeded {imported} veteran grant sources"
+        elif source_type == 'grants_gov':
+            result = miner.mine_grants_gov_research()
+            imported = result['imported']
+            message = f"Mined Grants.gov — {result.get('found', 0)} found, {imported} new records"
+        else:
+            # Full pipeline: foundations + veteran + Grants.gov
+            result = miner.run_full_pipeline()
+            imported = (result['michigan_foundations']['imported'] +
+                        result['veteran_sources']['imported'] +
+                        result['grants_gov']['imported'])
+            message = f"Full pipeline complete — {imported} new records added to GBIS"
+
         return jsonify({
             'success': True,
-            'target_id': target_id,
-            'target_name': target_name,
-            'opportunities_found': opportunities_found,
-            'new_opportunities': new_opportunities,
-            'message': f'Mining target "{target_name}" checked. Scraping implementation pending.',
-            'last_checked': datetime.now().isoformat()
+            'source_type': source_type,
+            'imported': imported,
+            'message': message,
+            'details': result,
+            'last_run': datetime.now().isoformat()
         })
-        
+
     except Exception as e:
         print(f"GBIS Mining Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
@@ -9496,16 +9482,31 @@ def get_gbis_opportunities():
     """
     try:
         from nexus_backend import AirtableClient
+        import re
         airtable = AirtableClient()
-        
+
+        def parse_numeric_amount(value):
+            """Normalizes Airtable amount fields (number/string/range) to float."""
+            if isinstance(value, (int, float)):
+                return float(value)
+            if not value:
+                return 0.0
+            if isinstance(value, str):
+                match = re.search(r'(\d[\d,]*\.?\d*)', value)
+                if not match:
+                    return 0.0
+                return float(match.group(1).replace(',', ''))
+            return 0.0
+
         # Get filter parameters
         priority_level = request.args.get('priority_level')
         funder_type = request.args.get('funder_type')
         division = request.args.get('division')
         status = request.args.get('status')
-        
-        # Fetch all opportunities from Airtable
-        opportunities = airtable.get_all_records('GRANT OPPORTUNITIES')
+
+        # Primary GBIS table
+        source_table = 'GRANT OPPORTUNITIES'
+        opportunities = airtable.get_all_records(source_table)
         
         # Apply filters
         filtered = []
@@ -9525,12 +9526,14 @@ def get_gbis_opportunities():
                     continue
             
             # Format the opportunity
+            raw_grant_amount = fields.get('Grant Amount', fields.get('Max Award Amount', 0))
             filtered.append({
                 'id': opp.get('id'),
                 'grantName': fields.get('Grant Name', ''),
                 'funderOrganization': fields.get('Funder Organization', ''),
                 'funderType': fields.get('Funder Type', ''),
-                'grantAmount': fields.get('Grant Amount', 0),
+                'grantAmount': parse_numeric_amount(raw_grant_amount),
+                'grantAmountDisplay': raw_grant_amount,
                 'grantUrl': fields.get('Grant URL', ''),
                 'deadline': fields.get('Deadline', ''),
                 'eligibility': fields.get('Eligibility', ''),
@@ -9548,7 +9551,8 @@ def get_gbis_opportunities():
                 'tags': fields.get('Tags', []),
                 'roiRating': fields.get('ROI Rating', 0),
                 'daysUntilDeadline': fields.get('Days Until Deadline', 0),
-                'discoveryDate': fields.get('Discovery Date', '')
+                'discoveryDate': fields.get('Discovery Date', ''),
+                'sourceTable': source_table
             })
         
         return jsonify(filtered)
@@ -9690,7 +9694,7 @@ def get_gbis_stats():
         from nexus_backend import AirtableClient
         airtable = AirtableClient()
         
-        # Fetch data from all tables
+        # Fetch data from all GBIS tables
         opportunities = airtable.get_all_records('GRANT OPPORTUNITIES')
         applications = airtable.get_all_records('GRANT APPLICATIONS')
         outcomes = airtable.get_all_records('GRANT OUTCOMES')
@@ -9745,9 +9749,11 @@ def update_gbis_opportunity(opportunity_id):
     try:
         data = request.json
         airtable_client = AirtableClient()
-        
+
+        opportunity_table = 'GRANT OPPORTUNITIES'
+
         # Get current opportunity to check status change
-        current_opp = airtable_client.get_record('GRANT OPPORTUNITIES', opportunity_id)
+        current_opp = airtable_client.get_record(opportunity_table, opportunity_id)
         old_status = current_opp['fields'].get('Status', '')
         
         update_fields = {}
@@ -9846,13 +9852,13 @@ def create_atlas_project_from_grant(grant_id: str, airtable_client=None) -> dict
     if not airtable_client:
         airtable_client = AirtableClient()
     
-    # Get grant details
+    # Fetch grant details from GRANT OPPORTUNITIES
     grant = airtable_client.get_record('GRANT OPPORTUNITIES', grant_id)
     grant_fields = grant['fields']
     
     # Extract key information
     grant_name = grant_fields.get('Grant Name', 'Untitled Grant')
-    funder_name = grant_fields.get('Funder Name', 'Unknown Funder')
+    funder_name = grant_fields.get('Funder Name', grant_fields.get('Funder Organization', 'Unknown Funder'))
     grant_amount = grant_fields.get('Grant Amount', 0)
     focus_areas = grant_fields.get('Focus Areas', '')
     requirements = grant_fields.get('Requirements', '')
@@ -9944,7 +9950,7 @@ def manual_create_atlas_project_from_grant(opportunity_id):
 @app.route('/gbis/research-lane/seed-foundations', methods=['POST'])
 def gbis_seed_michigan_foundations():
     """
-    Seeds GBIS OPPORTUNITIES with Michigan foundation grant sources
+    Seeds GRANT OPPORTUNITIES with Michigan foundation grant sources
     for the Community Health & Research lane (Cause We Care applicant).
     Safe to run multiple times — skips existing records.
     """
@@ -10005,13 +10011,13 @@ def gbis_run_research_lane_pipeline():
 @app.route('/gbis/research-lane/opportunities', methods=['GET'])
 def gbis_get_research_lane_opportunities():
     """
-    Returns all GBIS OPPORTUNITIES tagged as Community Health & Research.
+    Returns all GRANT OPPORTUNITIES tagged as Community Health & Research.
     Optional query param: ?entity=Cause+We+Care to filter by applicant.
     """
     try:
         from nexus_backend import AirtableClient
         airtable = AirtableClient()
-        records = airtable.get_all_records('GBIS OPPORTUNITIES')
+        records = airtable.get_all_records('GRANT OPPORTUNITIES')
 
         entity_filter = request.args.get('entity', '').strip()
 
@@ -10031,6 +10037,158 @@ def gbis_get_research_lane_opportunities():
             'opportunities': research_opps,
         })
     except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/research-lane/seed-veteran-sources', methods=['POST'])
+def gbis_seed_veteran_sources():
+    """
+    Seeds GRANT OPPORTUNITIES with veteran grant sources.
+    Unlocked by Gary C. Felton Jr. (Army Veteran, Board Director) +
+    DDI/CWC veteran hiring initiative + Hair Cuts for Vets program.
+    Safe to run multiple times — skips existing records.
+    """
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        miner = GBISCommunityHealthMiner()
+        result = miner.seed_veteran_sources()
+        return jsonify({
+            'success': True,
+            'message': f"Seeded {result['imported']} veteran grant sources",
+            'imported': result['imported'],
+            'skipped': result['skipped'],
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# =====================================================================
+# 💼 GBIS SMALL BUSINESS GRANTS ENDPOINTS
+# =====================================================================
+
+@app.route('/gbis/mine-small-grants/seed', methods=['POST'])
+def gbis_seed_small_grants():
+    """
+    Seeds GRANT OPPORTUNITIES with ALL small business grant sources (46 total):
+    Hello Alice, Amber Grant, IFundWomen, Comcast RISE, FedEx, Google,
+    Bank of America, Chase, Nav, SBA, SCORE, Michigan SBDC, MEDC, DEGC,
+    LinkedIn monitoring, WBENC portal, NAWBO, and more.
+    Safe to run multiple times — skips existing records.
+    """
+    try:
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+        miner = GBISSmallGrantsMiner()
+        result = miner.seed_all_sources()
+        return jsonify({
+            'success':  True,
+            'message':  f"Seeded {result['imported']} small business grant sources ({result['skipped']} already tracked)",
+            'imported': result['imported'],
+            'skipped':  result['skipped'],
+            'total':    result['total'],
+        })
+    except Exception as e:
+        print(f"GBIS Small Grants Seed Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/mine-small-grants/seed-free', methods=['POST'])
+def gbis_seed_small_grants_free_only():
+    """
+    Seeds GRANT OPPORTUNITIES with FREE-ONLY small business grant sources.
+    Excludes any sources with application fees (e.g., Amber Grant $15).
+    Safe to run multiple times — skips existing records.
+    """
+    try:
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+        miner = GBISSmallGrantsMiner()
+        result = miner.seed_free_sources_only()
+        return jsonify({
+            'success':  True,
+            'message':  f"Seeded {result['imported']} FREE small business grant sources ({result['skipped']} already tracked)",
+            'imported': result['imported'],
+            'skipped':  result['skipped'],
+            'total':    result['total'],
+        })
+    except Exception as e:
+        print(f"GBIS Small Grants Free Seed Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/mine-small-grants/daily-digest', methods=['GET'])
+def gbis_small_grants_daily_digest():
+    """
+    Returns today's prioritized checklist of small business grant actions:
+    what to apply to today, what to check, and deadlines coming up.
+    Called by NEXUS daily briefing.
+    """
+    try:
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+        miner = GBISSmallGrantsMiner()
+        digest = miner.daily_digest()
+        return jsonify({'success': True, **digest})
+    except Exception as e:
+        print(f"GBIS Daily Digest Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gbis/mine-all', methods=['POST'])
+def gbis_mine_all():
+    """
+    Master GBIS mining endpoint — runs the FULL pipeline:
+      1. Seed Michigan foundation grants (Cause We Care lane)
+      2. Seed veteran grant sources (Gary Felton Jr. lane)
+      3. Seed 18 small business grants (DDI lane)
+      4. Mine Grants.gov for live federal health & research grants
+    Safe to run daily — all sources skip duplicates.
+    """
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+
+        community_miner = GBISCommunityHealthMiner()
+        small_miner     = GBISSmallGrantsMiner()
+
+        community_result = community_miner.run_full_pipeline()
+        small_result     = small_miner.seed_all_sources()
+
+        mich  = community_result['michigan_foundations']
+        vets  = community_result['veteran_sources']
+        fed   = community_result['grants_gov']
+        small = small_result
+
+        total_new = (mich['imported'] + vets['imported'] +
+                     fed['imported']  + small['imported'])
+
+        return jsonify({
+            'success':   True,
+            'message':   f"Full pipeline complete — {total_new} new opportunities added to GBIS",
+            'total_new': total_new,
+            'breakdown': {
+                'small_business_grants': {
+                    'imported': small['imported'],
+                    'skipped':  small['skipped'],
+                    'label':    'Small Business Grants (DDI)',
+                },
+                'michigan_foundations': {
+                    'imported': mich['imported'],
+                    'skipped':  mich['skipped'],
+                    'label':    'Michigan Foundation Grants',
+                },
+                'veteran_grants': {
+                    'imported': vets['imported'],
+                    'skipped':  vets['skipped'],
+                    'label':    'Veteran Grant Sources',
+                },
+                'grants_gov': {
+                    'imported': fed['imported'],
+                    'found':    fed.get('found', 0),
+                    'label':    'Grants.gov Federal Grants',
+                },
+            },
+            'last_run': datetime.now().isoformat(),
+        })
+    except Exception as e:
+        print(f"GBIS Mine-All Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 

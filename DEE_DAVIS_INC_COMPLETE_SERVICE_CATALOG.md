@@ -1,8 +1,10 @@
 # DEE DAVIS INC - COMPLETE SERVICE CATALOG
 ## All Services Available for Government & Corporate Clients
 
-**Last Updated:** February 25, 2026  
+**Last Updated:** March 14, 2026  
 **Source:** deedavis.biz + existing NEXUS integrations + verified partner agreements
+
+**IDENTITY:** Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity. Every service in this catalog exists to keep client operations running without interruption — powered by proprietary AI technology platforms built in-house by founder Dee Davis.
 
 **PRICING NOTE:** All prices in this catalog are **DDI AGENCY RATES** — what the CLIENT pays Dee Davis Inc. DDI is the contract management firm, the prime contractor, the agency. Workers, subcontractors, labs, and platforms are DDI's internal cost. This catalog does NOT list worker pay rates or platform fees. DDI's margin is built into every price listed here.
 
@@ -10,21 +12,23 @@
 
 ## 🎯 SERVICE PORTFOLIO OVERVIEW
 
-**6 Major Service Lines:**
-1. Federal Compliance & Credentialing
-2. Professional Business Services
-3. Healthcare Transportation Solutions
-4. Service Contracts (Prime Contractor Model)
-5. Logistics & Fleet Optimization
-6. Project Executive Services
+**DDI delivers business continuity across 6 major service lines — all managed through proprietary AI technology:**
+
+1. Credentialing, Identity Verification & Federal Compliance — ensuring workforce compliance, security clearances, and document integrity never lapse
+2. Professional Business Services — ensuring document, legal, and administrative operations never stop
+3. Healthcare Transportation Solutions — ensuring patients always get to care
+4. Service Contracts (Prime Contractor Model) — ensuring facility and operational services never interrupt
+5. Logistics & Fleet Optimization — ensuring supply chains and deliveries never break
+6. Project Executive Services — ensuring complex projects, crisis response, and continuity planning execute flawlessly
 
 **Total Services:** 26+  
 **Target Markets:** Government (Federal/State/Local) + Corporations  
-**Revenue Potential:** $5M-$20M+ annually
+**Revenue Potential:** $5M-$20M+ annually  
+**Technology Backbone:** NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS (all proprietary, founder-built)
 
 ---
 
-## 1️⃣ FEDERAL COMPLIANCE & CREDENTIALING
+## 1️⃣ CREDENTIALING, IDENTITY VERIFICATION & FEDERAL COMPLIANCE
 
 ### **DOT Drug & Alcohol Testing** 🧪
 **Target Clients:**
@@ -47,16 +51,18 @@
 **Partnership:** Quest Diagnostics (certified provider)
 
 **Pricing (3D Ink and Livescan Co — Mobile Service):**
+- DOT drug test (starting price): $85
 - DOT 5-panel urine: $125
 - DOT breath alcohol: $85
 - DOT post-accident: $150
 - DOT return-to-duty: $150
 - DOT random program setup: $250/year
+- Non-DOT drug test (starting price): $75
 - Non-DOT 5-panel rapid: $75
 - Non-DOT 10-panel rapid: $95
 - Non-DOT 5-panel lab-confirmed: $85
 - Non-DOT 10-panel lab-confirmed: $125
-- Hair follicle 5-panel: $175
+- Hair follicle 5-panel: $275
 - Hair follicle 10-panel: $275
 - After-hours/emergency surcharge: +$125
 - Weekend surcharge: +$85
@@ -65,7 +71,7 @@
 
 ---
 
-### **Fingerprinting Services** 👆
+### **Biometric Fingerprinting Services** 👆
 **Target Clients:**
 - Law enforcement agencies
 - School districts (employment screening)
@@ -73,13 +79,18 @@
 - Federal contractors (security clearances)
 - State licensing boards
 - Childcare facilities
+- FFL dealers and NFA applicants (ATF EFT files)
+- Cross-state licensing applicants (states outside IdentoGO network)
 
 **Services:**
-- Live scan electronic fingerprinting
-- Ink fingerprinting (FBI FD-258 cards)
-- Mobile fingerprinting services
-- Background check coordination
-- FBI channeling
+- Live scan electronic biometric fingerprinting (digital capture)
+- Ink fingerprinting on FBI FD-258 cards (standard federal format)
+- SWFT electronic submission to DCSA/FBI (DDI is SWFT-authorized)
+- ATF Electronic Fingerprint Transmission (EFT) file creation for FFL dealers and NFA applications
+- Mobile biometric fingerprinting services (on-site at client facilities)
+- Cross-state licensing fingerprinting
+- Federal contractor security clearance fingerprinting
+- Background check coordination and FBI channeling
 - State-specific submissions
 
 **Pricing (3D Ink and Livescan Co — Mobile Service):**
@@ -115,7 +126,7 @@
 - Drug testing coordination
 
 **Pricing Model:**
-- Basic check: $25-$50
+- Basic check: starting at $55
 - Comprehensive check: $75-$150
 - Ongoing monitoring: Monthly fee
 
@@ -140,9 +151,12 @@
 **Partnership:** DDC (DNA Diagnostics Center)
 
 **Pricing (Depointe DNA — DDC Collection Partner):**
+- DNA testing: starting at $375
 - Standard paternity (trio): $375+
 - Motherless paternity: $375+
-- Immigration DNA: $450-$600
+- Gender reveal DNA test: $165
+- Immigration DNA: $1,000
+- Immigration testing + consultation: $2,500
 - Grandparentage: $450+
 - Siblingship (full/half): $450+
 - Non-invasive prenatal paternity: $1,500+
@@ -154,7 +168,7 @@
 | Test | DDC Chain Cost | DDI Collection Fee | DDI Client Price | Est. Margin |
 |------|---------------|-------------------|-----------------|-------------|
 | Paternity (trio) | $154 | $100/person | $375+ | ~$120+ |
-| Immigration | $154+ | $100/person | $450-$600 | ~$200+ |
+| Immigration | $154+ | $100/person | $1,000 | ~$700+ |
 | Grandparentage | $192 | $100/person | $450+ | ~$160+ |
 | Siblingship | $192 | $100/person | $450+ | ~$160+ |
 | Prenatal (non-invasive) | $1,225 | $100 | $1,500+ | ~$175+ |
@@ -166,35 +180,68 @@
 ---
 
 ### **Lead Testing Services** 🏠
+**Three Service Sectors:**
+
+**1. Blood Lead Level (BLL) Testing — Medical**
+- Community-based screening event coordination (TPA model)
+- Mobile blood lead collection services
+- School and childcare screening programs
+- Home visit coordination for high-risk children
+- Michigan universal blood lead testing law compliance (effective April 2025)
+
+**2. Lead-Based Paint Testing — Housing/Environmental**
+- Lead-based paint inspection coordination
+- Risk assessment project management
+- Lead hazard control program coordination
+- HUD Lead Hazard Reduction grant support
+- Community outreach and education
+
+**3. Lead in Water Testing — Environmental**
+- School and childcare facility water testing coordination
+- EPA WIIN grant program support
+- Lead service line inventory assistance
+- Water sampling coordination
+- Lab liaison and reporting
+
 **Target Clients:**
-- Public housing authorities
-- School districts (lead in water/paint)
-- Municipalities (lead abatement programs)
+- State health departments (CLPPP programs)
+- Local health departments (82 Michigan high-risk cities)
+- Public housing authorities (HUD grantees)
+- School districts (EPA WIIN funding)
+- Childcare facilities
+- Municipalities (lead service line programs)
 - Nonprofits (community health events)
 - Property management companies
-- Government health departments
-
-**Services:**
-- Blood lead level testing event coordination (TPA model)
-- Lead-based paint awareness programs
-- Community lead screening event management
-- Coordination with certified labs for sample analysis
-- Reporting and compliance documentation
-- Public health education and outreach
 
 **Experience:** Dee Davis, founder of Cause We Care (Michigan nonprofit), has worked directly with Wayne Metro Community Action Agency as a liaison for lead-based paint awareness programs.
 
-**Business Model:** Third Party Administrator (TPA) — DDI coordinates testing events, manages logistics, arranges certified phlebotomists and labs, handles reporting. DDI does NOT perform lab analysis.
+**Business Model:** Third Party Administrator (TPA) — DDI coordinates testing, manages logistics, arranges certified phlebotomists/inspectors and labs, handles reporting. DDI does NOT perform lab analysis or abatement directly.
 
-**Certifications (In Progress):**
-- EPA Lead-Safe Certified Firm (application pending — cdx.epa.gov, $300 fee)
+**Certifications:**
+- EPA Lead-Safe Certified Firm (PENDING — cdx.epa.gov FLPP application)
 - Michigan EGLE Healthy Homes (to be evaluated)
+- CLIA Lab Partnerships: Quest, CRL, Labcorp (for blood lead analysis)
 
-**Pricing (TPA Model — Event-Based):**
-- Community screening event coordination: Starting at $5,000-$10,000+ per event
-- Per-person blood lead level test (event setting): $75-$150
-- Ongoing program management: Monthly retainer, project-based
-- *Pricing varies by event size, location, lab costs, and staffing requirements*
+**Michigan Opportunity:**
+- Universal blood lead testing law effective April 30, 2025
+- ALL children tested at 12 months and 24 months
+- 82 designated high-risk cities (Detroit, Flint, Pontiac, etc.)
+- MDHHS reimbursement: $221.74/nurse visit, $110/CHW visit
+
+**Pricing (TPA Model):**
+
+| Service | DDI Rate | Notes |
+|---------|----------|-------|
+| Community screening event (per person) | $100-$175 | Includes collection + lab |
+| Mobile BLL collection (per person) | $125-$200 | Includes travel |
+| Event coordination (per event) | $500-$1,500 | Scheduling, logistics, reporting |
+| Lead inspection coordination (per unit) | $400-$600 | Subcontract certified inspector |
+| Risk assessment coordination (per unit) | $600-$900 | Subcontract certified assessor |
+| Water sampling coordination (per sample) | $50-$100 | Lab fees additional |
+
+**NAICS Codes:** 621511, 541620, 562910, 541380
+
+**Reference Document:** `LEAD_TESTING_STRATEGY.md` — Complete market analysis and action plan
 
 **NAICS Codes:** 621511, 621999, 541620
 
@@ -232,7 +279,7 @@
 - Target: Government agencies, corporations, law firms needing notary services at scale
 - DDI dispatches qualified notaries from its network
 - Pricing: $75+ per appointment
-- Platform: Snapdocs (national marketplace)
+- Platform: Direct scheduling and ZigSig
 
 **Tier 2 — CNTDA (Certified Notary & Trained Document Agent)**
 - Target: Estate planning attorneys, elder law firms, trust companies
@@ -265,7 +312,7 @@
 - Hospital/jail/facility notarization: $150-$300
 - After-hours/weekend: 1.5x-2x standard rate
 
-**Platform:** Snapdocs (national marketplace)
+**Platform:** Direct scheduling and ZigSig
 
 **NAICS Codes:** 541199, 541990
 
@@ -299,6 +346,35 @@
 
 ---
 
+### **Apostille & Document Authentication** 🌐
+**Target Clients:**
+- Immigration attorneys and their clients
+- International businesses needing US document authentication
+- Individuals relocating or working abroad
+- Foreign governments requiring Hague Convention compliance
+- Adoption agencies (international adoption documents)
+- Universities (transcript/degree authentication for foreign use)
+
+**Services:**
+- Apostille processing and coordination (Hague Convention authentication)
+- Michigan Secretary of State document authentication
+- Federal document authentication and certification
+- International document legalization coordination
+- Embassy/consulate document processing support
+- Authentication of corporate documents, vital records, court orders, powers of attorney
+- Rush/expedited apostille processing
+
+**Pricing (DDI Agency Rates):**
+- Standard apostille processing (per document): $150+
+- Rush/expedited processing: $250+
+- Multiple document packages: Volume pricing available
+- International legalization coordination: $300+ per document set
+- Full-service packages (document prep + apostille + shipping): $400+
+
+**NAICS Codes:** 541199, 541990
+
+---
+
 ### **Document Preparation** 📄
 **Target Clients:**
 - Contractors needing permit applications, compliance filings, government forms
@@ -313,7 +389,6 @@
 - Bid/proposal package assembly and compliance documentation
 - Permit application packages (pairs with NPR permit running)
 - Legal document packages (pairs with CNTDA notary services)
-- Apostille and authentication document packages
 
 **Pricing (DDI Agency Rates):**
 - Standard document package: $150+
@@ -694,54 +769,91 @@
 
 ---
 
-### **Business Continuity Planning** 📋
+### **Business Continuity Planning & Consulting** 📋
+**This is DDI's core identity — not just a service line.** Every contract DDI manages is a business continuity engagement. This service line provides dedicated continuity planning and consulting for clients who need it as a standalone capability.
+
 **Target Clients:**
-- Government agencies
-- Corporations
-- Critical infrastructure providers
+- Government agencies (COOP planning, disaster preparedness)
+- Corporations (operational resilience, supply chain continuity)
+- Critical infrastructure providers (utilities, healthcare systems, transportation)
+- Any organization where operations cannot afford to stop
 
 **Services:**
-- Disaster recovery planning
-- Risk assessment
-- Security consulting
-- Continuity plan development
-- Testing and training
+- Continuity of Operations (COOP) plan development
+- Disaster recovery planning and testing
+- Risk assessment and mitigation strategy
+- Operational resilience consulting
+- Technology-driven continuity solutions (leveraging DDI's proprietary platforms)
+- Supply chain continuity and redundancy planning
+- Crisis communication planning
+- Business impact analysis
+
+**Powered By:** NEXUS platform (the same technology that makes DDI's own operations unstoppable)
 
 **Pricing Model:**
 - Consulting: $150-$300/hour
 - Project-based: $10K-$100K+
+- Retainer: $3K-$10K/month for ongoing continuity management
 
-**NAICS Codes:** 541618, 541690
+**NAICS Codes:** 541618, 541690, 541611
 
 ---
 
 ## 🏆 COMPETITIVE ADVANTAGES
+
+### **Core Identity:**
+- ✅ **Business continuity-focused contract management firm and business operating system**
+- ✅ **Proprietary AI technology platforms built in-house by founder** — 5-10 year competitive advantage
+
+### **Proprietary Technology (Founder-Built):**
+- **NEXUS** — AI-Assisted Contract Acquisition Operating System (master platform)
+- **GPSS** — Government Procurement Strategic System
+- **ATLAS PM** — Enterprise Intelligence & Project Management
+- **FleetFlow™** — Logistics Intelligence Platform (pre-launch mid-2026, FleetFlow TMS LLC)
+- **COMPASS™** — Proposal Quality Assurance System
+- **PRISM** — Field Service Dispatch & Management
+- **DDCSS** — Corporate Sales System
+- **VERTEX** — Financial Management System
+- **GBIS** — Grant Business Intelligence System
+- *These platforms automate 90% of the contract lifecycle and qualify DDI for SBIR/STTR grants, tech innovation funding, and future SaaS licensing*
 
 ### **Certifications:**
 - ✅ EDWOSB (Economically Disadvantaged Woman-Owned Small Business)
 - ✅ WOSB (Woman-Owned Small Business)
 - ✅ WBE (Woman Business Enterprise)
 - ✅ MBE (Minority Business Enterprise - NMSDC)
+- ✅ SBE (Small Business Enterprise)
+- ✅ WBENC Certified
+- ✅ SupplierGateway — Certificate of Diverse Ownership (DBE, MBE, SB, SDB, WO — valid through July 2028)
+- ⚠️ Coupa Verified Supplier (Cert ID: 7002160) — EXPIRED 11/2025, needs renewal
 - ✅ CMMC-AB (Cybersecurity Maturity Model Certification)
+- ✅ E-Verify Certified (Employment Eligibility Verification)
+- ✅ SWFT Authorized (Secure Web Fingerprint Transmission — DCSA/FBI)
+- ✅ TWIC Credentialed (Transportation Worker Identification Credential — TSA)
 
-### **Credentials:**
+### **State Licenses:**
+- Michigan Personnel Agency License #6016004743
+- Michigan Property Pre-License (A.D. Banker & Company, 2022)
+- Michigan Commissioned Notary Public (Active since April 2005)
+
+### **Professional Training:**
+- Property Data Collection Training (Walitt Solutions, 2022)
+- Project Management for Government Projects (certificate on file)
+
+### **Federal Credentials:**
 - CAGE Code: 8UMX3
 - UEI: HJB4KNYJVGZ1
 - DUNS: 002636755
-- NPI: 153893911
+- NPI: 1538939111
 - MC Number: 1647572
 - US DOT: 4250594
-
-### **Technology:**
-- ATLAS PM (proprietary enterprise intelligence platform)
-- FleetFlow™ TMS (launching mid-2026)
 
 ### **Partnerships:**
 - Quest Diagnostics (DOT testing)
 - DDC (DNA testing)
-- Snapdocs (notary network)
 - ZigSig (RON platform)
 - SuretyCloud (surety bonds)
+- Uber Health (NEMT)
 - Freight 1st Direct (DDI's independent freight brokerage — MC-1647572, DOT-4250594)
 
 ---

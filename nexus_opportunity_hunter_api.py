@@ -22,7 +22,36 @@ opportunity_hunter = Blueprint('opportunity_hunter', __name__)
 # DDI Profile (constant)
 DDI_PROFILE = {
     'certifications': ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'SBE', 'SWFT', 'E-Verify'],
-    'naics_codes': ['621511', '561730', '561611', '561612', '561210', '561720', '492110', '492210'],
+    'naics_codes': [
+        # Healthcare, Testing & Compliance
+        '621511', '621999', '621910', '541620', '541380',
+        # Fingerprinting, Background & Security
+        '561611', '561612',
+        # Professional & Legal
+        '541199', '541990', '561110', '561492', '541930',
+        # Management Consulting
+        '541611', '541614', '541618', '541690', '541612',
+        # Staffing
+        '561320', '561311',
+        # IT & Technology
+        '541512', '541519', '541511', '518210',
+        # Transportation, Courier & Logistics
+        '485991', '485999', '492110', '492210', '488510', '484210',
+        # Facilities, Construction & Grounds
+        '561720', '561730', '561210', '561790', '561990',
+        '236220', '238990', '238160', '238330',
+        # Events & Security
+        '561920', '561621',
+        # Medical & Industrial Products
+        '423450', '339113', '339112', '424210', '423850',
+        '423840', '424120', '424490',
+        # Environmental & Emergency
+        '562910', '562119', '562112',
+        # Document & Records
+        '561410',
+        # Market Research & Community Health
+        '541910', '541720', '624190', '624230', '624221',
+    ],
     'services': [
         'Drug Testing/TPA',
         'SWFT Fingerprinting',
@@ -31,7 +60,16 @@ DDI_PROFILE = {
         'Grounds Maintenance',
         'Janitorial Services',
         'Security Guards',
-        'Product Reselling'
+        'Product Reselling',
+        'DNA/Paternity Testing',
+        'Notary & Title Services',
+        'Construction & Facilities',
+        'IT Services',
+        'Staffing & Workforce',
+        'Management Consulting',
+        'Environmental Services',
+        'Emergency & Disaster Response',
+        'Freight & Logistics Brokerage',
     ],
     'location': 'Michigan',
     'nationwide': True,
@@ -73,15 +111,38 @@ DDI_PROFILE = {
         'simplified_acquisition': {'min': 10000, 'max': 250000, 'label': 'Simplified Acquisition', 'method': 'SAP / Limited competition', 'past_perf_required': False},
         'sat_threshold': {'min': 250000, 'max': 350000, 'label': 'Under SAT (legacy $250K)', 'method': 'No past perf required (legacy)', 'past_perf_required': False},
         'sb_setaside': {'min': 350000, 'max': 500000, 'label': 'Small Business Set-Aside', 'method': 'Restricted competition', 'past_perf_required': True},
-        'under_500k': {'min': 0, 'max': 500000, 'label': 'Under $500K', 'method': 'Best for new contractors', 'past_perf_required': None},  # Mixed
-        'under_350k': {'min': 0, 'max': 350000, 'label': 'Under $350K (No Past Perf)', 'method': 'Simplified Acquisition Threshold', 'past_perf_required': False},  # NO past perf required
-        'partial_setaside': {'min': 500000, 'max': 15000000, 'label': 'Partial Set-Aside', 'method': 'Competition with preference', 'past_perf_required': True},
-        'full_and_open': {'min': 15000000, 'label': 'Full & Open', 'method': 'Unrestricted competition', 'past_perf_required': True}
+        'under_500k': {'min': 0, 'max': 500000, 'label': 'Under $500K', 'method': 'Best for new contractors', 'past_perf_required': None},
+        'under_350k': {'min': 0, 'max': 350000, 'label': 'Under $350K (No Past Perf)', 'method': 'Simplified Acquisition Threshold', 'past_perf_required': False},
+        'large_setaside': {'min': 500000, 'max': 7000000, 'label': 'Large Set-Aside ($500K-$7M)', 'method': 'EDWOSB sole-source up to $7M / WOSB set-aside', 'past_perf_required': True},
+        'large_open': {'min': 500000, 'max': 25000000, 'label': 'Large Contract ($500K-$25M)', 'method': 'Full & open or partial set-aside with diversity scoring', 'past_perf_required': True},
+        'major': {'min': 25000000, 'label': 'Major ($25M+)', 'method': 'Full & open — prime or sub strategy required', 'past_perf_required': True},
     },
+    # EDWOSB sole-source authority
+    'edwosb_sole_source_ceiling': 7000000,
+    'edwosb_sole_source_note': 'EDWOSB sole-source contracts up to $7M require NO competition — CO can award directly to DDI',
     # Past performance threshold (as of Oct 1, 2025)
     'past_performance_threshold': 350000,
     'past_performance_note': 'Contracts under $350K (Simplified Acquisition Threshold) do not require past performance evaluations per FAR 42.1502(b)',
-    'past_performance_clarification': 'IMPORTANT: EDWOSB set-aside status does NOT exempt from past performance requirements. The $350K threshold applies to ALL contracts regardless of set-aside type.'
+    'past_performance_clarification': 'IMPORTANT: EDWOSB set-aside status does NOT exempt from past performance requirements. The $350K threshold applies to ALL contracts regardless of set-aside type.',
+    # Large contract bid/no-bid criteria
+    'large_contract_criteria': {
+        'minimum_margin_pct': 15,
+        'minimum_roi_on_bid_prep': 5,
+        'require_sub_identified': True,
+        'require_bonding_check': True,
+        'require_factoring_plan': True,
+        'preferred_lanes': [
+            'Drug Testing/TPA',
+            'SWFT Fingerprinting',
+            'NEMT',
+            'Janitorial Services',
+            'Grounds Maintenance',
+            'Medical Courier',
+            'Staffing & Workforce',
+            'DNA/Paternity Testing',
+        ],
+        'past_performance_strategy': 'Package Gideon Logistics, NEMT brokerage, SWFT authorization, and State of Michigan ICA contract as formal past performance references',
+    }
 }
 
 
@@ -106,7 +167,8 @@ def get_hunter_profile():
             {'id': 'internal', 'label': 'Internal Database', 'description': 'Search your Airtable opportunities'},
             {'id': 'live', 'label': 'Live Federal Search', 'description': 'Query SAM.gov in real-time'},
             {'id': 'combined', 'label': 'Full Opportunity Hunt', 'description': 'Internal + Live SAM.gov + USASpending'},
-            {'id': 'low-hanging', 'label': 'Quick Wins Only', 'description': 'Easy/fast bids: EDWOSB, under $350K, low competition'}
+            {'id': 'low-hanging', 'label': 'Quick Wins Only', 'description': 'Easy/fast bids: EDWOSB, under $350K, low competition'},
+            {'id': 'strategic', 'label': 'Strategic Large Contracts', 'description': 'EDWOSB/WOSB set-asides $500K-$7M + large full & open with diversity scoring'},
         ]
     })
 
@@ -607,6 +669,220 @@ def hunt_low_hanging_fruit():
             'success': False,
             'error': str(e)
         }), 500
+
+
+@opportunity_hunter.route('/api/hunter/strategic', methods=['POST'])
+def hunt_strategic_contracts():
+    """
+    Hunt for large, high-value contracts — EDWOSB/WOSB set-asides $500K-$7M,
+    large full & open with diversity scoring, IDIQs, BPAs, and multi-year awards.
+
+    POST /api/hunter/strategic
+    {
+        "min_value": 500000,
+        "max_value": 7000000,
+        "business_types": ["EDWOSB", "WOSB", "SMALL_BUSINESS", "NONE"],
+        "naics_codes": [...],
+        "include_idiq": true,
+        "include_presols": true
+    }
+    """
+    try:
+        data = request.json or {}
+
+        min_value = data.get('min_value', 500000)
+        max_value = data.get('max_value', 25000000)
+        business_types = data.get('business_types', ['EDWOSB', 'WOSB', 'SMALL_BUSINESS', 'NONE'])
+        naics_codes = data.get('naics_codes', DDI_PROFILE['naics_codes'])
+        include_presols = data.get('include_presols', True)
+
+        logger.info(f"[STRATEGIC] Hunting large contracts ${min_value:,}-${max_value:,} across {len(business_types)} business types")
+
+        # Query live SAM.gov for ALL business types (including full & open)
+        all_opps = query_sam_gov_live(
+            naics_codes=naics_codes,
+            business_types=business_types,
+            days_back=60,
+        )
+
+        # Query internal database
+        internal_opps = query_low_hanging_fruit_from_airtable(
+            max_value=max_value,
+            business_types=business_types,
+            naics_codes=naics_codes,
+            days_posted_max=60,
+        )
+        all_opps.extend(internal_opps)
+
+        # Score and categorize each opportunity for strategic pursuit
+        scored = []
+        for opp in all_opps:
+            score, reasons, category = _score_strategic_opportunity(opp, min_value)
+            if score > 0:
+                opp['strategic_score'] = score
+                opp['strategic_reasons'] = reasons
+                opp['strategic_category'] = category
+                scored.append(opp)
+
+        scored.sort(key=lambda x: x['strategic_score'], reverse=True)
+
+        # Categorize results
+        sole_source = [o for o in scored if o['strategic_category'] == 'edwosb_sole_source']
+        set_aside_large = [o for o in scored if o['strategic_category'] == 'large_set_aside']
+        open_with_diversity = [o for o in scored if o['strategic_category'] == 'open_diversity_advantage']
+        presol_large = [o for o in scored if o['strategic_category'] == 'presolicitation']
+
+        return jsonify({
+            'success': True,
+            'opportunities': scored,
+            'total_found': len(scored),
+            'categories': {
+                'edwosb_sole_source': {
+                    'count': len(sole_source),
+                    'label': 'EDWOSB Sole Source (up to $7M — NO competition)',
+                    'opportunities': sole_source[:10],
+                },
+                'large_set_aside': {
+                    'count': len(set_aside_large),
+                    'label': 'Large WOSB/SB Set-Asides ($500K+)',
+                    'opportunities': set_aside_large[:10],
+                },
+                'open_diversity_advantage': {
+                    'count': len(open_with_diversity),
+                    'label': 'Full & Open with Diversity Scoring Advantage',
+                    'opportunities': open_with_diversity[:10],
+                },
+                'presolicitation': {
+                    'count': len(presol_large),
+                    'label': 'Large Presolicitations (Get on Radar Early)',
+                    'opportunities': presol_large[:10],
+                },
+            },
+            'strategy_notes': {
+                'edwosb_sole_source': f'EDWOSB sole-source up to ${DDI_PROFILE["edwosb_sole_source_ceiling"]:,} — CO awards directly to DDI, zero competition',
+                'past_performance': 'Contracts $350K+ require past performance — package Gideon, NEMT, SWFT, State of MI ICA as references',
+                'bonding': 'Contracts $500K+ may require performance bond — confirm capacity with SuretyCloud',
+                'cash_flow': 'Large contracts have 30-90 day payment cycles — invoice factoring handles the float',
+                'sub_strategy': 'DDI primes, subs execute — identify regional partners BEFORE bidding',
+            },
+            'search_criteria': {
+                'min_value': min_value,
+                'max_value': max_value,
+                'business_types': business_types,
+                'naics_count': len(naics_codes),
+            }
+        })
+
+    except Exception as e:
+        logger.error(f"[STRATEGIC ERROR] {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+def _score_strategic_opportunity(opp: Dict, min_value: int) -> tuple:
+    """
+    Score an opportunity for strategic large-contract pursuit.
+    Returns (score, reasons, category).
+    """
+    score = 0
+    reasons = []
+    category = 'other'
+
+    set_aside = str(opp.get('set_aside', '')).upper()
+    notice_type = opp.get('type', '') or opp.get('notice_type', '')
+    value = opp.get('value', 0)
+
+    is_numeric_value = isinstance(value, (int, float)) and value > 0
+
+    # Presolicitations are always interesting for large contracts
+    if notice_type in ('Presolicitation', 'Sources Sought', 'Special Notice'):
+        score += 30
+        reasons.append('Early-stage opportunity — relationship building window')
+        category = 'presolicitation'
+        if 'EDWOSB' in set_aside:
+            score += 25
+            reasons.append('EDWOSB presolicitation — get on CO radar before RFP drops')
+
+    # EDWOSB sole-source potential ($7M ceiling, zero competition)
+    if 'EDWOSB' in set_aside:
+        score += 40
+        reasons.append('EDWOSB set-aside — very few qualified bidders')
+        if is_numeric_value and value <= DDI_PROFILE['edwosb_sole_source_ceiling']:
+            score += 15
+            reasons.append(f'Within $7M EDWOSB sole-source ceiling — CO can award directly')
+            if category != 'presolicitation':
+                category = 'edwosb_sole_source'
+        elif is_numeric_value:
+            if category != 'presolicitation':
+                category = 'large_set_aside'
+
+    # WOSB set-aside
+    elif 'WOSB' in set_aside:
+        score += 30
+        reasons.append('WOSB set-aside — limited competition pool')
+        if category != 'presolicitation':
+            category = 'large_set_aside'
+
+    # Small business set-aside (DDI qualifies)
+    elif 'SB' in set_aside and 'SDVOSB' not in set_aside:
+        score += 15
+        reasons.append('Small business set-aside — restricted competition')
+        if category != 'presolicitation':
+            category = 'large_set_aside'
+
+    # Full & open — DDI competes on diversity scoring + best value
+    elif set_aside in ('', 'NONE', 'FULL AND OPEN') or not set_aside.strip():
+        if is_numeric_value and value >= min_value:
+            score += 10
+            reasons.append('Full & open — EDWOSB/diversity scoring gives evaluation advantage')
+            if category != 'presolicitation':
+                category = 'open_diversity_advantage'
+
+    # Value-based scoring
+    if is_numeric_value:
+        if value >= 1000000:
+            score += 20
+            reasons.append(f'${value:,.0f} — major contract, high revenue impact')
+        elif value >= 500000:
+            score += 15
+            reasons.append(f'${value:,.0f} — large contract')
+        elif value >= 250000:
+            score += 10
+            reasons.append(f'${value:,.0f} — mid-size contract')
+
+    # DDI NAICS match
+    opp_naics = str(opp.get('naics', ''))
+    if opp_naics in DDI_PROFILE['naics_codes']:
+        score += 10
+        reasons.append(f'NAICS {opp_naics} — direct DDI service lane match')
+
+    # Deadline check
+    deadline = opp.get('deadline', '') or opp.get('response_deadline', '')
+    if deadline and deadline != 'TBD':
+        try:
+            if isinstance(deadline, str):
+                due = datetime.fromisoformat(deadline.replace('Z', '+00:00'))
+            else:
+                due = deadline
+            days_until = (due - datetime.now()).days
+            if days_until >= 21:
+                score += 5
+                reasons.append(f'{days_until} days to prepare — sufficient for complex proposal')
+            elif 7 <= days_until < 21:
+                score += 2
+                reasons.append(f'{days_until} days — tight but feasible with NEXUS speed')
+            elif days_until < 7:
+                score -= 15
+                reasons.append(f'Only {days_until} days — risky for large contract bid prep')
+        except (ValueError, TypeError):
+            pass
+
+    # Filter out low-value noise
+    if is_numeric_value and value < min_value and category != 'presolicitation':
+        score = 0
+
+    return max(0, min(100, score)), reasons, category
 
 
 def query_agencies_from_airtable(certifications: List[str], business_types: List[str] = None, naics_codes: List[str] = None, specific_agency: str = None) -> List[Dict]:

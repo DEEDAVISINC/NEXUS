@@ -1,0 +1,50 @@
+---
+description: Enforce relevance-first proposals and block capability dumping
+alwaysApply: true
+---
+
+# Relevance Over Volume Rule (Additive)
+
+Listing everything DDI can do is not a winning strategy.  
+Buyer-facing responses must prioritize relevance to the specific contract.
+
+## Core Principle
+
+- Relevance beats volume.
+- Capability dumping increases evaluator cognitive load.
+- Evaluators should never be forced to infer why DDI fits.
+
+## Required Content Behavior
+
+1. **Contract-First Prioritization**
+- Lead with capabilities directly tied to scope, evaluation criteria, and risk areas.
+- Move non-critical capabilities to a short "additional support capabilities" section or omit.
+
+2. **Top-5 Rule**
+- Present no more than five primary capabilities in the main narrative unless solicitation structure requires more.
+- Each capability must answer: "Why this matters for this contract."
+
+3. **Claim-to-Requirement Mapping**
+- Every major capability claim must map to a specific requirement or scored criterion.
+- If not mapped, remove it.
+
+4. **Evaluator Effort Reduction**
+- Use explicit "Requirement -> DDI approach -> Outcome" structure.
+- Do not make evaluators connect dots across sections.
+
+## Hard Stop Conditions
+
+Do not mark proposal/response ready if:
+- Capability section reads as a generic service catalog
+- Primary claims are not requirement-mapped
+- Narrative exceeds relevance threshold (high volume, low contract tie)
+
+## Required Readiness Check
+
+Before "ready" status:
+- Relevance Prioritized: PASS/FAIL
+- Capability Dump Detected: PASS/FAIL
+- Requirement Mapping Complete: PASS/FAIL
+- Evaluator Effort Reduced: PASS/FAIL
+
+If any FAIL, revise before finalization.

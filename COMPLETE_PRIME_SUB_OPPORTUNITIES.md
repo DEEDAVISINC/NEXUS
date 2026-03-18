@@ -188,7 +188,7 @@ These are services you can perform directly OR easily coordinate:
 
 #### **6. NOTARY & DOCUMENT SERVICES** ✍️
 
-**Your Capability:** Direct (ZigSig RON, Snapdocs partnership)
+**Your Capability:** Direct (ZigSig RON, licensed signing agency)
 
 **NAICS Codes:**
 - 541199 - All Other Legal Services
@@ -207,7 +207,6 @@ These are services you can perform directly OR easily coordinate:
 
 **Sub Partners:**
 - **ZigSig** (RON platform)
-- **Snapdocs** (signing agent marketplace)
 - Local notary network
 
 **Target Agencies:**

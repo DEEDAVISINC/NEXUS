@@ -18,6 +18,7 @@ Usage:
   python3 nexus_scheduler.py --public   # Run public portal scan (nationwide, all tiers)
   python3 nexus_scheduler.py --public-tier1  # Run public portal scan (tier 1 only: SAM, BidNet, MITN, TX)
   python3 nexus_scheduler.py --scan     # Run folder scan only
+  python3 nexus_scheduler.py --gbis     # Run GBIS small grants seed only
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -343,6 +344,23 @@ def run_state_local_mining():
         return False
 
 
+def run_gbis_small_grants_seed():
+    """
+    Seed GRANT OPPORTUNITIES with small business grant sources (46 sources, 45 free).
+    Safe to run anytime — skips duplicates. Keeps grant pipeline populated.
+    """
+    log.info("--- GBIS SMALL GRANTS SEED ---")
+    try:
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+        miner = GBISSmallGrantsMiner()
+        miner.seed_free_sources_only()
+        log.info("GBIS small grants seed (free sources) completed")
+        return True
+    except Exception as e:
+        log.error(f"GBIS small grants seed failed: {e}")
+        return False
+
+
 def run_public_portal_scan(tier1_only=False):
     """
     Scan ALL public procurement portals nationwide for DDI opportunities.
@@ -379,6 +397,7 @@ def run_all():
     results["forecast_mining"] = run_forecast_mining()
     results["state_local_mining"] = run_state_local_mining()
     results["public_portal_scan"] = run_public_portal_scan()
+    results["gbis_small_grants_seed"] = run_gbis_small_grants_seed()
     results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
     results["quote_followups"] = run_quote_followups()
 
@@ -405,6 +424,7 @@ def run_loop():
     log.info("  Agency forecasts:     daily")
     log.info("  AI scoring + alerts:  every 2 hours")
     log.info("  Quote follow-ups:     every 4 hours")
+    log.info("  GBIS small grants:    weekly (Sunday)")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
 
@@ -418,6 +438,7 @@ def run_loop():
     last_state_local = datetime.min
     last_digest = datetime.min
     last_public_scan = datetime.min
+    last_gbis_seed = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
@@ -429,6 +450,7 @@ def run_loop():
     AI_SCORE_INTERVAL = timedelta(hours=2)    # Score new opps every 2h
     DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
     PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
+    GBIS_SEED_INTERVAL = timedelta(days=7)     # Weekly — small grant sources
 
     while True:
         now = datetime.now()
@@ -469,6 +491,11 @@ def run_loop():
         if now - last_public_scan >= PUBLIC_SCAN_INTERVAL:
             run_public_portal_scan()
             last_public_scan = now
+
+        # GBIS small grants seed — weekly (Sunday preferred, but any 7-day gap)
+        if now - last_gbis_seed >= GBIS_SEED_INTERVAL:
+            run_gbis_small_grants_seed()
+            last_gbis_seed = now
 
         # Daily digest at 7 AM
         if now - last_digest >= DIGEST_INTERVAL:
@@ -512,6 +539,8 @@ if __name__ == "__main__":
     elif "--scan" in args:
         run_folder_scan()
         run_stale_detection()
+    elif "--gbis" in args:
+        run_gbis_small_grants_seed()
     elif not args:
         run_all()
     else:

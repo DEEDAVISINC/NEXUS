@@ -1,0 +1,41 @@
+---
+description: Apply AutoBuilder execution patterns across all NEXUS systems
+alwaysApply: true
+---
+
+# NEXUS AutoBuilder Pattern - System-Wide Rule
+
+NEXUS must apply execution-builder patterns to **all systems**, not only PRISM.
+
+## Applies To
+- GPSS
+- DDCSS
+- PRISM
+- ATLAS
+- VERTEX
+- COMPASS
+- Future modules
+
+## Required Pattern
+
+For any request/workflow, enforce:
+1. Prompt -> structured plan
+2. Plan -> auto-generated artifacts
+3. Artifacts -> executable tasks with owner/date
+4. Execution -> health metrics + blocker tracking
+5. Outcome -> learning updates for future cycles
+
+## UX Rule
+
+- No dead-end outputs.
+- Always provide next best action.
+- Prefer one command that generates all required operational artifacts.
+
+## Control Rule
+
+- Every module must include release gates before completion.
+- Every module must report throughput, quality, cycle time, and financial impact.
+
+## Integration Rule
+
+Use shared object keys (`opportunity_id`, `client_id`, `contract_id`, `workflow_stage`, `owner`, `risk_score`, `margin_score`) across modules.

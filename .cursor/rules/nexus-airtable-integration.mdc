@@ -1,0 +1,497 @@
+# NEXUS AIRTABLE INTEGRATION — LEVERAGING 69 TABLES & 1,500+ FIELDS
+
+**NEXUS workflows MUST read from and write to your existing Airtable infrastructure. No duplication. Full integration.**
+
+---
+
+## YOUR EXISTING AIRTABLE ARCHITECTURE
+
+**Base:** NEXUS Command Center  
+**Tables:** 69 tables  
+**Fields:** 1,500+ fields  
+**Status:** Enterprise-grade, operational  
+
+---
+
+## CORE TABLES NEXUS MUST USE
+
+### 1. GPSS OPPORTUNITIES (63 Fields)
+**Purpose:** Central opportunity tracking  
+**NEXUS Usage:**
+- CREATE: New opportunities auto-logged here
+- READ: Status checks, pipeline views, scoring history
+- UPDATE: Stage progression, status changes, deadline tracking
+
+**Key Fields NEXUS Uses:**
+```
+Name                    → Opportunity title
+AGENCY NAME             → Full agency name
+RFP NUMBER              → Solicitation number
+Deadline                → Response deadline
+VALUE                   → Contract value estimate
+SOURCE                  → SAM.gov, State Portal, Direct
+Source Status           → Stage tracking ("Stage 2: Intelligence Complete")
+Set-Aside Type          → EDWOSB, WOSB, SB, etc.
+NAISC Codes             → Industry codes
+State / City            → Performance location
+Priority                → High/Medium/Low
+Win Probability         → AI-calculated 0-100%
+AI Recommendation       → "BID NOW (85/100)" or tier
+STATUS                  → Active, Won, Lost, Withdrawn
+Pipeline Stage          → Sales funnel stage
+Assigned to             → Owner
+Notes                   → Full description, intelligence
+CONTRACTING OFFICER     → CO email/contact
+Source URL              → Link to SAM.gov/opportunity
+Opportunity Category    → Forecast type
+AI Qualification Result → Full AI analysis
+AI Strengths            → Why this is a match
+AI Concerns             → Risk factors
+```
+
+**Views NEXUS Maintains:**
+- All Opportunities
+- 🔴 BID NOW (Score 75+, Stage 0-4)
+- 🟡 WORTH A LOOK (Score 55-74)
+- ⏰ This Week's Deadlines
+- 📊 Stage 2: Intelligence In Progress
+- 👥 Stage 3: Resourcing (Need Subs)
+- 📝 Stage 4: Development (Proposals)
+- 📤 Stage 5: Submitted (Awaiting Award)
+- ✅ Recently Won
+- ❌ Recently Lost
+
+---
+
+### 2. GPSS SUBCONTRACTORS / SUBCONTRACTOR COMPLIANCE
+**Purpose:** Subcontractor database and vetting  
+**NEXUS Usage:**
+- READ: Query for existing vetted subs by service type + location
+- CREATE: New subs discovered via web research
+- UPDATE: Vetting progress (6-pillar checklist)
+
+**Key Fields:**
+```
+Sub Name              → Company legal name
+Service Type          → Drug testing, fingerprinting, NEMT, etc.
+State / City          → Service territory
+Status                → New Lead, Vetting, Approved, Active, Inactive
+SAM Status            → Active, No Exclusions
+CAGE Code             → If registered
+USASpending Check     → Pass (no wins) / Fail (wins contracts)
+Insurance COI         → Current yes/no, expiration date
+Pillar 1 VET          → Qualifications check
+Pillar 2 PROTECT      → NDA signed yes/no
+Pillar 3 INSURE       → COI on file yes/no
+Pillar 4 PLAN         → Staffing plan received
+Pillar 5 COMMUNICATE  → Reporting cadence established
+Pillar 6 MANAGE       → Performance metrics agreed
+Last Used             → Date of last contract
+Performance Rating    → CPARS or internal rating
+Opportunity Links     → Linked to GPSS OPPORTUNITIES
+Pricing               → Internal rates (not client-facing)
+```
+
+---
+
+### 3. GPSS PROPOSALS
+**Purpose:** AI-generated proposals linked to opportunities  
+**NEXUS Usage:**
+- CREATE: Generate proposal record when Stage 4 starts
+- UPDATE: Link to final documents, track status
+
+**Key Fields:**
+```
+Proposal Name         → Descriptive title
+Opportunity         → Link to GPSS OPPORTUNITIES
+Status              → Draft, Review, Final, Sent, Accepted, Rejected
+Generated Date      → When AI created it
+Executive Summary   → Full text
+Technical Approach  → Full text
+Pricing - Total     → Final bid price
+Pricing - Breakdown → Line items
+Win Probability     → AI score at generation
+Sent Date           → When submitted
+Response Date       → Agency response
+Document Links      → Paths to files in SEND_TO_BUYER/
+```
+
+---
+
+### 4. GPSS PRICING HISTORY / COST TEMPLATES
+**Purpose:** Historical pricing data for accurate quoting  
+**NEXUS Usage:**
+- READ: Benchmark pricing for Stage 2 Intelligence
+- CREATE: Log actual costs and margins post-award
+
+**Key Fields:**
+```
+Opportunity         → Link to bid
+Bid Amount          → What DDI bid
+Actual Cost         → Sub/supplier costs + DDI overhead
+Margin $            → Profit in dollars
+Margin %            → Profit percentage
+Win/Loss            → Outcome
+Pricing Strategy    → Match/Beat/Premium
+Market Rate         → Competitor/industry benchmark
+Incumbent Price     → Previous contract value
+Data Source         → USASpending, FPDS, Supplier Quote
+```
+
+---
+
+### 5. ATLAS PROJECTS / ATLAS TASKS
+**Purpose:** Post-award contract execution  
+**NEXUS Usage:**
+- CREATE: New project record when bid won
+- UPDATE: Task tracking for contract fulfillment
+
+**Key Fields:**
+```
+Project Name        → Contract title
+Client              → Agency name
+Status              → Planning, Active, On Hold, Completed
+Start Date          → Award date
+End Date            → Contract end
+Budget              → Contract value
+Spent               → Actual costs
+Remaining           → Formula: Budget - Spent
+Project Manager     → Dee or assignee
+```
+
+---
+
+### 6. CALENDAR AUTOMATION (Calendar Automation Table)
+**Purpose:** Deadline tracking and reminders  
+**NEXUS Usage:**
+- CREATE: Auto-schedule deadlines when opportunity logged
+- READ: Daily morning brief pulls from here
+
+**Key Fields:**
+```
+Event Title         → "SUBMIT — VA Drug Testing (36C25X)"
+Date                → Deadline
+Time                → 11:00 AM EST
+Calendar Type       → GovCon Deadline / DDI Action / Follow-Up
+Opportunity Link    → Link to GPSS OPPORTUNITIES
+Reminder 1          → 7 days before
+Reminder 2          → 3 days before
+Reminder 3          → 1 day before
+Status              → Scheduled, Completed, Missed
+```
+
+---
+
+## NEXUS WORKFLOW → AIRTABLE INTEGRATION
+
+### TRIGGER: New Opportunity Detected
+
+**NEXUS Action:**
+```python
+# Create record in GPSS OPPORTUNITIES
+table.create({
+    'Name': [Solicitation title],
+    'RFP NUMBER': [Sol number],
+    'AGENCY NAME': [Full agency],
+    'Deadline': [Response date],
+    'VALUE': [Estimated value],
+    'SOURCE': 'SAM.gov' or 'State Portal' or 'Direct',
+    'Source Status': 'Stage 1: Intake Complete — AI Score [X]/100',
+    'Set-Aside Type': [EDWOSB/WOSB/SB/etc],
+    'NAISC Codes': [Codes],
+    'State': [Location],
+    'Priority': 'High' if score >=75 else 'Medium',
+    'Win Probability': [Score],
+    'AI Recommendation': '[TIER] ([Score]/100)',
+    'AI Qualification Result': [Full reasoning],
+    'AI Strengths': [Why it's a match],
+    'AI Concerns': [Risk factors],
+    'STATUS': 'Active',
+    'Pipeline Stage': 'Stage 1: Intake',
+    'Assigned to': 'Dee Davis',
+    'Notes': [Scope summary],
+    'Source URL': [SAM.gov link],
+    'Opportunity Category': [Service type]
+})
+
+# Create Calendar Events
+for event in [action_deadline, submission_deadline, reminders]:
+    calendar_table.create({
+        'Event Title': event.title,
+        'Date': event.date,
+        'Opportunity Link': [Link to new opportunity record],
+        'Calendar Type': event.type,
+        'Reminders': event.reminder_schedule
+    })
+```
+
+### TRIGGER: Stage 2 Intelligence Complete
+
+**NEXUS Action:**
+```python
+# Update GPSS OPPORTUNITIES
+table.update(opportunity_id, {
+    'Source Status': 'Stage 2: Intelligence Complete',
+    'Pipeline Stage': 'Stage 2: Intelligence',
+    'Notes': existing_notes + 
+             '\n\n--- INCUMBENT RESEARCH ---\n' +
+             '[INCUMBENT_INTELLIGENCE.md content]\n\n' +
+             '--- PRICING INTELLIGENCE ---\n' +
+             '[PRICING_INTELLIGENCE.md content]'
+})
+
+# Create INCUMBENT INTELLIGENCE linked record (if separate table)
+# Or store as attachment/linked document
+```
+
+### TRIGGER: Stage 3 Resourcing (Sub Sourcing)
+
+**NEXUS Action:**
+```python
+# Query GPSS SUBCONTRACTORS
+existing_subs = subcontractors_table.query(
+    service_type=[extracted service],
+    state=[opportunity state],
+    status='Approved'
+)
+
+# For each new candidate discovered:
+for candidate in new_candidates:
+    sub_id = subcontractors_table.create({
+        'Sub Name': candidate.name,
+        'Service Type': [service],
+        'State': candidate.state,
+        'Status': 'New Lead',
+        'USASpending Check': 'In Progress'
+    })
+    
+    # Run USASpending check
+    result = check_usaspending(candidate.legal_name)
+    subcontractors_table.update(sub_id, {
+        'USASpending Check': 'Pass' if result.no_contracts else 'Fail'
+    })
+
+# Update GPSS OPPORTUNITIES
+opportunities_table.update(opp_id, {
+    'Source Status': 'Stage 3: Resourcing — [X] subs identified, [Y] vetted'
+})
+```
+
+### TRIGGER: Stage 4 Development (Proposal Writing)
+
+**NEXUS Action:**
+```python
+# Create GPSS PROPOSALS record
+proposal_id = proposals_table.create({
+    'Proposal Name': [Descriptive title],
+    'Opportunity': [Link to GPSS OPPORTUNITIES record],
+    'Status': 'Draft',
+    'Generated Date': datetime.now(),
+    'Executive Summary': [Generated content],
+    'Technical Approach': [Generated content],
+    'Pricing - Total': [Calculated bid price],
+    'Pricing - Breakdown': [Line items from PRICING_WORKSHEET],
+    'Win Probability': [Score at generation]
+})
+
+# Update opportunity
+opportunities_table.update(opp_id, {
+    'Source Status': 'Stage 4: Development — Proposal draft ready for review',
+    'Pipeline Stage': 'Stage 4: Development'
+})
+```
+
+### TRIGGER: Stage 5 Submission
+
+**NEXUS Action:**
+```python
+# Update GPSS PROPOSALS
+proposals_table.update(proposal_id, {
+    'Status': 'Sent',
+    'Sent Date': datetime.now()
+})
+
+# Update GPSS OPPORTUNITIES
+opportunities_table.update(opp_id, {
+    'Source Status': 'Stage 5: Submitted — Awaiting award',
+    'Pipeline Stage': 'Stage 5: Submitted',
+    'STATUS': 'Active'
+})
+
+# Create Calendar follow-up reminders
+for date in [7_days, 14_days, 30_days, 45_days]:
+    calendar_table.create({
+        'Event Title': f'Follow up — {agency} award status',
+        'Date': date,
+        'Opportunity Link': opp_id,
+        'Calendar Type': 'Follow-Up'
+    })
+```
+
+### TRIGGER: Stage 6 Award
+
+**NEXUS Action (If WON):**
+```python
+# Update GPSS OPPORTUNITIES
+opportunities_table.update(opp_id, {
+    'Source Status': 'Stage 6: Award — WON',
+    'STATUS': 'Won',
+    'Pipeline Stage': 'Closed Won'
+})
+
+# Create ATLAS PROJECTS record
+project_id = atlas_projects_table.create({
+    'Project Name': [Contract title],
+    'Client': [Agency name],
+    'Status': 'Planning',
+    'Start Date': datetime.now(),
+    'Budget': [Award value],
+    'Project Manager': 'Dee Davis'
+})
+
+# Create GPSS PRICING HISTORY record
+pricing_table.create({
+    'Opportunity': opp_id,
+    'Bid Amount': [What was bid],
+    'Actual Cost': [Sub/supplier costs],
+    'Margin $': [Profit],
+    'Margin %': [Percentage],
+    'Win/Loss': 'Win',
+    'Pricing Strategy': [Match/Beat/Premium]
+})
+```
+
+---
+
+## NEXUS DASHBOARD QUERIES (From Airtable)
+
+### Morning Brief Query
+```python
+# Active bids by stage
+stage_counts = {
+    'Stage 1': opportunities_table.query(
+        Source_Status='Stage 1: Intake Complete%'
+    ).count(),
+    'Stage 2': opportunities_table.query(
+        Source_Status='Stage 2: Intelligence Complete%'
+    ).count(),
+    'Stage 3': opportunities_table.query(
+        Source_Status='Stage 3: Resourcing%'
+    ).count(),
+    'Stage 4': opportunities_table.query(
+        Source_Status='Stage 4: Development%'
+    ).count(),
+    'Stage 5': opportunities_table.query(
+        Source_Status='Stage 5: Submitted%'
+    ).count()
+}
+
+# This week's deadlines
+deadlines = opportunities_table.query(
+    Deadline=between(today, today+7_days),
+    STATUS='Active'
+)
+
+# BID NOW opportunities
+bid_now = opportunities_table.query(
+    Win_Probability='>=75',
+    STATUS='Active'
+)
+```
+
+### Status Check Query
+```python
+# When user asks "What's status of [bid]?"
+opp = opportunities_table.query(
+    Name='*[bid name]*' OR RFP_NUMBER='*[bid name]*'
+)[0]
+
+status_report = {
+    'name': opp.Name,
+    'stage': opp.Pipeline_Stage,
+    'status': opp.Source_Status,
+    'deadline': opp.Deadline,
+    'score': opp.Win_Probability,
+    'next_action': parse_next_action(opp.Source_Status)
+}
+```
+
+---
+
+## CRITICAL RULE: AIRTABLE IS SOURCE OF TRUTH
+
+**NEXUS must:**
+- ✅ READ status from Airtable (not ask user)
+- ✅ WRITE updates to Airtable (not just files)
+- ✅ QUERY views for dashboard (not guess)
+- ✅ LINK records between tables (relationships)
+
+**NEXUS never:**
+- ❌ Store status only in local files
+- ❌ Duplicate data that's in Airtable
+- ❌ Ask "what's the status?" — it queries Airtable
+- ❌ Forget relationships between opportunities, subs, proposals
+
+---
+
+## AUTOMATION TRIGGERS (Airtable Native)
+
+**Set up in Airtable (not just NEXUS code):**
+
+### When Record Created in GPSS OPPORTUNITIES
+- Send Slack notification: "New opportunity: [Name] — Score [X]/100"
+- Create calendar events (via Zapier or Airtable automation)
+- Email morning brief update
+
+### When Status Changes to "Stage 5: Submitted"
+- Schedule follow-up reminders (calendar automation)
+- Move to "Submitted Bids" view
+- Notify: "Bid submitted — awaiting award"
+
+### When Deadline Approaches (7 days)
+- Send urgent alert: "[Bid] deadline in 7 days — Currently in [Stage]"
+- Flag if not in Stage 4 or 5
+
+### When Win Probability >= 75
+- Move to "🔴 BID NOW" view
+- Send notification: "High-score opportunity — Review immediately"
+
+---
+
+## FILE SYSTEM ↔ AIRTABLE SYNC
+
+**Bid Folder Documents → Airtable Links:**
+
+| File in Folder | Airtable Record |
+|----------------|-----------------|
+| `SEND_TO_BUYER/Capability_Statement.html` | GPSS PROPOSALS → Cap Statement Link |
+| `SEND_TO_BUYER/Quote_Response.html` | GPSS PROPOSALS → Proposal Document |
+| `WORKFLOW_CHECKLIST.md` | GPSS OPPORTUNITIES → Checklist Status (parsed) |
+| `PRICING_WORKSHEET.md` | GPSS PROPOSALS → Pricing - Breakdown |
+| `SUBCONTRACTOR_VETTING.md` | GPSS SUBCONTRACTORS → Vetting Notes |
+| `INCUMBENT_INTELLIGENCE.md` | GPSS OPPORTUNITIES → Notes (appended) |
+
+**Sync Rule:**
+- Documents are source in folders (full content)
+- Airtable contains links and status (not full text)
+- NEXUS updates both when documents change
+
+---
+
+## SUMMARY: NEXUS USES YOUR 69 TABLES
+
+| NEXUS Function | Primary Airtable Table(s) |
+|----------------|---------------------------|
+| Opportunity Intake | GPSS OPPORTUNITIES |
+| AI Scoring | GPSS OPPORTUNITIES (Win Probability, AI fields) |
+| Stage Tracking | GPSS OPPORTUNITIES (Source Status, Pipeline Stage) |
+| Incumbent Research | GPSS OPPORTUNITIES (Notes), PRICING HISTORY |
+| Subcontractor Sourcing | GPSS SUBCONTRACTORS |
+| Proposal Generation | GPSS PROPOSALS |
+| Pricing Accuracy | GPSS PRICING HISTORY, COST TEMPLATES |
+| Calendar/Reminders | CALENDAR AUTOMATION, GPSS OPPORTUNITIES (Deadline) |
+| Post-Award Management | ATLAS PROJECTS, ATLAS TASKS |
+| Status Dashboard | GPSS OPPORTUNITIES (views by stage) |
+| Win/Loss Tracking | GPSS OPPORTUNITIES (STATUS), PRICING HISTORY |
+
+**NEXUS is the workflow engine. Airtable is the data infrastructure. They operate as one system.**

@@ -1,0 +1,558 @@
+# NEXUS STAGE & STEP TRACKING SYSTEM
+
+**Every solicitation in NEXUS moves through defined stages with explicit steps. Dee always knows exactly where each opportunity stands.**
+
+---
+
+## THE 7 STAGES OF NEXUS CONTRACT ACQUISITION
+
+| Stage | Name | Purpose | Output |
+|-------|------|---------|--------|
+| **0** | **IDENTIFIED** | Opportunity discovered | Scored, tiered, decision to pursue |
+| **1** | **INTAKE** | Infrastructure created | Folder, checklist, documents initiated |
+| **2** | **INTELLIGENCE** | Incumbent & pricing research | Context, pricing benchmarks, win strategy |
+| **3** | **RESOURCING** | Subs and suppliers secured | Vetted team, quotes received |
+| **4** | **DEVELOPMENT** | Proposal written and priced | Complete submission package |
+| **5** | **SUBMISSION** | Bid delivered to buyer | Submitted, confirmed, tracked |
+| **6** | **AWARD** | Won, lost, or pending | Final status, lessons captured |
+
+---
+
+## STAGE 0: IDENTIFIED
+
+**Trigger:** New opportunity enters NEXUS (SAM.gov, user upload, presolicitation)
+
+**Steps:**
+```
+[0.1] Opportunity extracted and parsed
+[0.2] AI scoring executed (0-100)
+[0.3] Tier assigned (🔴🟡🔵⚪)
+[0.4] Go/No-Go decision recorded
+[0.5] IF 🔴🟡🔵 → Advance to Stage 1
+      IF ⚪ → Archive with reason
+```
+
+**Status File Updates:**
+- Airtable: Source Status = "Stage 0: Identified — Score [X]/100"
+- CURRENT_SESSION_STATE.md: Added to Opportunities Scored table
+
+---
+
+## STAGE 1: INTAKE
+
+**Trigger:** Decision to pursue (🔴 BID NOW or 🟡 WORTH A LOOK)
+
+**Steps:**
+```
+[1.1] Master folder created with standardized structure
+[1.2] Subfolders created (SEND_TO_BUYER, SEND_TO_SUPPLIER, SEND_TO_SUBCONTRACTOR as needed)
+[1.3] WORKFLOW_CHECKLIST.md generated with 10 steps and bid-specific details
+[1.4] Capability statement generated (Sector colors auto-selected, ProposalBio applied)
+[1.5] Buyer email generated (ProposalBio framework table included)
+[1.6] Airtable record created with full opportunity details
+[1.7] CURRENT_SESSION_STATE.md updated → Active Bids table
+[1.8] Stage 1 complete → Advance to Stage 2
+```
+
+**Status File Updates:**
+- WORKFLOW_CHECKLIST.md: Step 1 [✓], Step 2 [✓], Step 3 [ ]
+- Airtable: Source Status = "Stage 1: Intake Complete — Awaiting Intelligence"
+
+**What Dee Sees:**
+```
+📁 BIDS:RESOURCES/[AGENCY] [SERVICE]/ — Created
+📄 SEND_TO_BUYER/ — Cap statement + email ready
+📊 Status: Stage 1 Complete (2/10 steps)
+⏭️ Next: Stage 2 — Incumbent Research & Pricing Intelligence
+```
+
+---
+
+## STAGE 2: INTELLIGENCE
+
+**Trigger:** Stage 1 complete
+
+**Purpose:** Research incumbent contract, pricing history, context for competitive positioning
+
+**Steps:**
+```
+[2.1] USASpending.gov Search — Incumbent Contract Identification
+      ├── Search: Agency + NAICS + "Description of Requirement" keywords
+      ├── Identify: Current/previous contract award
+      ├── Extract:
+      │   ├── Incumbent contractor name
+      │   ├── Contract value (awarded amount)
+      │   ├── Period of performance
+      │   ├── Contract number (PIID)
+      │   └── Award date
+      └── Save: INCUMBENT_INTELLIGENCE.md
+
+[2.2] FPDS.gov Deep Dive — Contract Details
+      ├── Search: PIID from USASpending
+      ├── Extract:
+      │   ├── Contract modifications (option years exercised?)
+      │   ├── Delivery/task orders issued
+      │   ├── Pricing structure (fixed price, T&M, etc.)
+      │   └── Contracting office contact
+      └── Append to INCUMBENT_INTELLIGENCE.md
+
+[2.3] SAM.gov Contract History
+      ├── Search for previous solicitations
+      ├── Find: Last RFP/RFQ for this requirement
+      ├── Extract: Previous pricing if publicly posted
+      └── Note: How many bidders last time?
+
+[2.4] Incumbent Strength/Weakness Analysis
+      File: COMPETITIVE_INTELLIGENCE.md
+      Content:
+      ├── Incumbent: [Name]
+      ├── Contract Value: [$X]
+      ├── Years on Contract: [X]
+      ├── Strengths:
+      │   ├── [Incumbent advantage 1]
+      │   └── [Incumbent advantage 2]
+      └── Weaknesses (DDI opportunities):
+          ├── [Potential issue 1 — e.g., pricing escalated]
+          ├── [Potential issue 2 — e.g., past performance concern]
+          └── [How DDI counters each weakness]
+
+[2.5] Pricing Benchmarking
+      File: PRICING_INTELLIGENCE.md
+      Content:
+      ├── Historical Contract Value: [$X over Y years]
+      ├── Per-Unit Pricing (if available):
+      │   ├── [Item 1]: $[X] per [unit]
+      │   └── [Item 2]: $[X] per [unit]
+      ├── Labor Rates (if service contract):
+      │   ├── [Role 1]: $[X]/hour
+      │   └── [Role 2]: $[X]/hour
+      ├── DDI Estimated Market Pricing:
+      │   ├── [Item 1]: $[X] (based on ThomasNet/distributor research)
+      │   └── [Item 2]: $[X]
+      ├── Recommended DDI Bid Pricing:
+      │   ├── [With X% margin]: $[X]
+      │   └── [Competitive positioning]: Match/Beat/Strategic premium
+      └── Pricing Strategy Notes:
+
+[2.6] Win Strategy Development
+      File: WIN_STRATEGY.md
+      Content:
+      ├── Why DDI Wins:
+      │   ├── EDWOSB advantage (if set-aside)
+      │   ├── [Specific differentiator 1]
+      │   └── [Specific differentiator 2]
+      ├── Proposal Themes:
+      │   ├── Theme 1: [e.g., "Proven Local Performance"]
+      │   ├── Theme 2: [e.g., "EDWOSB Socioeconomic Value"]
+      │   └── Theme 3: [e.g., "Superior Service Model"]
+      ├── Risk Mitigation:
+      │   ├── [Risk 1] → [Mitigation strategy]
+      │   └── [Risk 2] → [Mitigation strategy]
+      └── Competitive Positioning:
+          ├── vs. Incumbent: [Strategy]
+          └── vs. Other new bidders: [Strategy]
+
+[2.7] Stage 2 complete → Advance to Stage 3
+```
+
+**Status File Updates:**
+- WORKFLOW_CHECKLIST.md: Step 3 [✓] (subs sourcing triggered), Step 4 [ ]
+- Airtable: Source Status = "Stage 2: Intelligence Complete — Incumbent & pricing research done"
+
+**What Dee Sees:**
+```
+📊 INCUMBENT_INTELLIGENCE.md — Complete
+📊 COMPETITIVE_INTELLIGENCE.md — Complete
+📊 PRICING_INTELLIGENCE.md — Complete
+📊 WIN_STRATEGY.md — Complete
+
+💡 Key Insight: [Example] "Incumbent [Name] at $450K/year. DDI can deliver at $380K with 25% margin."
+
+⏭️ Stage 3 — Subcontractor/Supplier Resourcing
+```
+
+---
+
+## STAGE 3: RESOURCING
+
+**Trigger:** Stage 2 complete (intelligence gathered, pricing strategy set)
+
+**Purpose:** Secure the team (subs) and supply chain (suppliers) to deliver
+
+**Steps:**
+
+### For Service Contracts:
+```
+[3.1] Subcontractor Database Search
+      Query Airtable SUBCONTRACTORS table:
+      ├── Service match: [drug testing/fingerprinting/grounds/etc.]
+      ├── Location match: [opportunity state/region]
+      ├── Status: Active, vetted
+      └── Insurance: Current
+      Result: [X] Tier 1 (existing vetted) subs identified
+
+[3.2] Web Research for New Subcontractors
+      ├── Search: "[service] providers [city/state]"
+      ├── Industry directories (eScreen, SWFT, etc.)
+      └── Compile: Tier 2 candidate list
+      Result: [X] Tier 2 candidates identified
+
+[3.3] USASpending Competition Check (MANDATORY)
+      For EACH candidate (Tier 1 and Tier 2):
+      ├── Search usaspending.gov for legal company name
+      ├── CHECK: Do they win their own gov contracts?
+      │   ├── YES → CROSS OFF (they're competition, not partner)
+      │   └── NO → KEEP (ideal sub — registered but needs prime)
+      └── Document: SUBCONTRACTOR_PROSPECTS.md
+
+[3.4] Subcontractor Vetting (6-Pillar Framework)
+      File: SUBCONTRACTOR_VETTING_CHECKLIST.md
+      For each candidate:
+      ├── PILLAR 1: VET — Qualifications, references, SAM status
+      ├── PILLAR 2: PROTECT — NDA, Non-Compete
+      ├── PILLAR 3: INSURE — COI verification
+      ├── PILLAR 4: PLAN — Staffing & work plan
+      ├── PILLAR 5: COMMUNICATE — Reporting cadence
+      └── PILLAR 6: MANAGE — Performance metrics
+
+[3.5] Subcontractor Outreach
+      Generate:
+      ├── SUBCONTRACTOR_OUTREACH_EMAIL.md (generic scope)
+      ├── SUBCONTRACTOR_SCOPE.md (safe-to-share deliverables)
+      └── COI_REQUEST_EMAIL.md
+
+[3.6] Subcontractor Selection
+      ├── Select best qualified sub
+      ├── Negotiate pricing (internal, not client-facing)
+      └── Lock in commitment
+
+[3.7] Update Pricing with Sub Costs
+      File: PRICING_WORKSHEET.md
+      ├── Sub Cost: $[X]
+      ├── DDI Management Fee: $[Y] (% or fixed)
+      ├── Total Cost to DDI: $[X+Y]
+      ├── DDI Bid Price to Govt: $[Z] (from Stage 2 strategy)
+      ├── DDI Margin: $[Z - (X+Y)] ([X]%)
+      └── Margin Check: ≥15%? If no, flag for review.
+```
+
+### For Product Contracts:
+```
+[3.1] Supplier Sourcing Guide
+      File: SUPPLIER_SOURCING_GUIDE.md
+      Content:
+      ├── Product specifications from solicitation
+      ├── Search terms for ThomasNet/Manta
+      ├── Authorized distributor requirements
+      └── Geographic sourcing strategy
+
+[3.2] RFQ Generation (if not done in Stage 1)
+      File: DDI-2026-###_RFQ_[Product].pdf
+      ├── Buyer protection applied (NO buyer names)
+      ├── DDI-YYYY-### numbering
+      ├── Deadline: Govt deadline - 5 days
+      └── Specifications table
+
+[3.3] Supplier Outreach
+      ├── Email RFQ to 3-5 suppliers
+      ├── Track responses in Airtable
+      └── Follow-up at 48hrs, 72hrs if no response
+
+[3.4] Quote Collection & Analysis
+      File: SUPPLIER_QUOTES_ANALYSIS.md
+      ├── Supplier 1: $[X] | Terms: [Net 30/etc] | Lead time: [X days]
+      ├── Supplier 2: $[Y] | Terms: [ ] | Lead time: [ ]
+      ├── Supplier 3: $[Z] | Terms: [ ] | Lead time: [ ]
+      └── Recommendation: [Best value selection]
+
+[3.5] Pricing Calculation
+      File: PRICING_WORKSHEET.md
+      ├── Supplier Cost: $[X]
+      ├── Freight/Shipping: $[Y]
+      ├── Insurance/Bonding (if required): $[Z]
+      ├── DDI Management Fee: $[A]
+      ├── Total Cost: $[X+Y+Z+A]
+      ├── DDI Bid Price to Govt: $[B] (from Stage 2 strategy)
+      ├── DDI Margin: $[B - Total Cost] ([X]%)
+      └── Margin Check: ≥15%? If no, flag for review.
+```
+
+**Status File Updates:**
+- WORKFLOW_CHECKLIST.md: Step 3 [✓], Step 4 [✓], Step 5 [✓], Step 6 [✓], Step 7 [✓], Step 8 [ ]
+- Airtable: Source Status = "Stage 3: Resourcing Complete — Team & supply chain secured"
+
+**What Dee Sees:**
+```
+👥 For Service Contracts:
+   ├── Sub Selected: [Name] — Vetting 6/6 pillars [✓]
+   ├── Sub Cost: $[X]
+   ├── DDI Management: $[Y]
+   └── Total DDI Cost: $[X+Y]
+
+📦 For Product Contracts:
+   ├── Supplier Selected: [Name]
+   ├── Product Cost: $[X]
+   ├── Freight/Other: $[Y]
+   └── Total DDI Cost: $[X+Y]
+
+💰 PRICING_WORKSHEET.md — Complete
+   ├── Cost Basis: $[Total Cost]
+   ├── Recommended Bid: $[from Stage 2 strategy]
+   ├── DDI Margin: $[X] ([X]%)
+   └── Status: [Within target / Flagged for review]
+
+⏭️ Stage 4 — Proposal Development
+```
+
+---
+
+## STAGE 4: DEVELOPMENT
+
+**Trigger:** Stage 3 complete (resources secured, pricing calculated)
+
+**Purpose:** Write, assemble, and finalize the complete proposal
+
+**Steps:**
+```
+[4.1] Compliance Matrix Finalization
+      File: COMPLIANCE_MATRIX.md
+      ├── Requirement 1: [Sol text] | COMPLIANT | [How DDI meets]
+      ├── Requirement 2: [Sol text] | COMPLIANT | [How DDI meets]
+      └── ... One row per solicitation requirement
+
+[4.2] Technical Approach Writing (ProposalBio Applied)
+      ├── Mirror buyer language from solicitation
+      ├── Include win strategy themes from Stage 2
+      ├── Story arcs: Challenge → Solution → Result
+      ├── Sensory language: specific numbers, locations
+      └── Agency name frequency: 3+ times per section
+
+[4.3] Past Performance Documentation
+      ├── Relevant contract references
+      ├── CPARS ratings (if available)
+      ├── Commercial references (if allowed)
+      └── Format per solicitation requirements
+
+[4.4] Pricing Table Finalization
+      ├── CLINs/line items match solicitation exactly
+      ├── Unit prices calculated from Stage 3
+      ├── Extended totals accurate
+      └── Math check: All calculations verified
+
+[4.5] Forms & Certifications
+      ├── SF-1449 (if required)
+      ├── WOSB/EDWOSB representations
+      ├── SAM.gov active registration proof
+      ├── Past performance questionnaires
+      └── Any solicitation-specific forms
+
+[4.6] Full Proposal Assembly
+      ├── Table of Contents
+      ├── Section 1: Technical Approach
+      ├── Section 2: Management Plan
+      ├── Section 3: Past Performance
+      ├── Section 4: Pricing
+      ├── Section 5: Certifications/Forms
+      └── Attachments (cap statement, COI, etc.)
+
+[4.7] ProposalBio Review Checklist
+      ├── [ ] Mirror Neuron: Tone matches buyer culture
+      ├── [ ] Cognitive Ease: 6-8th grade reading level
+      ├── [ ] Story Arc: Challenge → Solution → Result present
+      ├── [ ] Reciprocity: Smart questions included
+      ├── [ ] Yes Stacking: Capabilities mirror RFP bullets
+      ├── [ ] Familiarity: Buyer language echoed 50%+
+      ├── [ ] Name Recognition: Agency name 3+ times
+      ├── [ ] Sensory Language: Concrete details (numbers, locations)
+      ├── [ ] Rhythm: Sentence variety
+      ├── [ ] Eye Tracking: Scannable layout
+
+[4.8] Pricing Review
+      ├── [ ] Math verified: All calculations correct
+      ├── [ ] Unit prices match extended totals
+      ├── [ ] Margin confirmed: [X]% meets target
+      ├── [ ] Competitive positioning: Matches Stage 2 strategy
+      └── [ ] No cost/price data in technical sections (FAR compliance)
+
+[4.9] Stage 4 complete → Advance to Stage 5
+```
+
+**Status File Updates:**
+- WORKFLOW_CHECKLIST.md: Step 8 [✓], Step 9 [✓]
+- Airtable: Source Status = "Stage 4: Development Complete — Ready for submission"
+
+**What Dee Sees:**
+```
+📄 COMPLETE PROPOSAL PACKAGE — SEND_TO_BUYER/
+   ├── [SolNumber]_Quote_Response.html ([X] pages)
+   ├── COMPLIANCE_MATRIX.md
+   ├── PRICING_WORKSHEET.md (internal)
+   └── All certifications/forms
+
+✅ ProposalBio Checklist: 10/10 passed
+✅ Pricing Review: Math verified, margin confirmed
+
+⏭️ Stage 5 — Submission (Pending Dee approval)
+```
+
+---
+
+## STAGE 5: SUBMISSION
+
+**Trigger:** Stage 4 complete + Dee approval to submit
+
+**Purpose:** Deliver bid to buyer, confirm receipt, track status
+
+**Steps:**
+```
+[5.1] Final Formatting
+      ├── Convert HTML to PDF (Chrome print-to-PDF)
+      ├── Ensure all pages render correctly
+      ├── File size check (< SAM.gov limits if electronic)
+      └── Naming convention: [Agency]_[Sol#]_[DDI].pdf
+
+[5.2] Submission Method Execution
+      ├── IF SAM.gov → Upload through workspace
+      ├── IF Email → Send to CO with read receipt
+      ├── IF Portal → Upload to agency portal
+      ├── IF Mail → Prepare package with tracking
+      └── Document: SUBMISSION_CONFIRMATION.md
+
+[5.3] Confirmation Tracking
+      ├── Save confirmation email/receipt
+      ├── Note tracking number (if applicable)
+      ├── Record submission timestamp
+      └── Verify: Before deadline? [Yes/No]
+
+[5.4] Post-Submission Follow-Up
+      ├── Email CO: "Bid submitted, confirmation attached, questions welcome"
+      ├── Set calendar: Follow up in [X] days per solicitation
+      └── Update Airtable with submission details
+
+[5.5] Stage 5 complete → Advance to Stage 6 (pending award)
+```
+
+**Status File Updates:**
+- WORKFLOW_CHECKLIST.md: Step 10 [✓]
+- Airtable: Source Status = "Stage 5: Submitted — [Date] — Awaiting award"
+
+**What Dee Sees:**
+```
+✅ SUBMITTED — [Date] [Time]
+📨 Method: [SAM.gov/Email/Portal/Mail]
+📧 Confirmation: [Saved in folder]
+⏰ Follow-up scheduled: [Date]
+
+Status: Awaiting award decision
+```
+
+---
+
+## STAGE 6: AWARD
+
+**Trigger:** Award decision received (win, loss, or pending >90 days)
+
+**Steps:**
+```
+[6.1] Award Documentation
+      ├── Save award notice (if won)
+      ├── Save debrief (if offered and lost)
+      ├── Document: AWARD_OUTCOME.md
+      └── Update Airtable with final status
+
+[6.2] Win Path (if awarded)
+      ├── Archive folder: Rename with "-WON" suffix
+      ├── Notify: Subs and suppliers
+      ├── Begin: Contract kickoff (post-award workflow)
+      └── Add to: DDI Past Performance library
+
+[6.3] Loss Path (if not awarded)
+      ├── Archive folder: Rename with "-LOST" suffix
+      ├── Capture: Lessons learned (why did we lose?)
+      ├── Document: POST_MORTEM.md
+      └── Add to: Competitive intelligence for future
+
+[6.4] Performance Review
+      ├── Review entire workflow: What worked? What didn't?
+      ├── Update: NEXUS system improvements needed?
+      └── Document insights for future similar bids
+```
+
+**Status File Updates:**
+- Airtable: Source Status = "Stage 6: Award — [WON/LOST] — Archived"
+- CURRENT_SESSION_STATE.md: Moved from Active Bids to Recent Wins/Losses
+
+---
+
+## VISIBILITY: THE NEXUS DASHBOARD
+
+**At session start, NEXUS reports:**
+
+```
+📊 NEXUS STAGE DASHBOARD — [Date]
+
+🔴 ACTIVE BIDS BY STAGE:
+   Stage 2 (Intelligence): [X] bids — Incumbent research in progress
+   Stage 3 (Resourcing): [X] bids — Sub/supplier sourcing active
+   Stage 4 (Development): [X] bids — Proposal writing
+   Stage 5 (Submitted): [X] bids — Awaiting award
+
+⏰ CRITICAL ATTENTION NEEDED:
+   [Bid Name] — Stage 3 — Sub responses overdue (follow up today)
+   [Bid Name] — Stage 4 — Deadline in 3 days (submit tomorrow)
+   [Bid Name] — Stage 5 — Follow-up due (check award status)
+
+✅ RECENT WINS (Last 30 Days):
+   [Contract] — [Agency] — $[Value] — [Date]
+
+📈 NEXUS PERFORMANCE:
+   Opportunities Identified: [X]
+   Proposals Submitted: [X]
+   Win Rate: [X]%
+   Pipeline Value: $[X]
+```
+
+---
+
+## HOW TO QUERY STAGE STATUS
+
+**User asks:**
+- "What's the status of [bid name]?"
+- "Where are we with [solicitation #]?"
+- "What stage is [opportunity]?"
+- "Show me all Stage 3 bids"
+
+**NEXUS responds:**
+```
+[BID NAME] — [AGENCY]
+├── Current Stage: [X] — [Stage Name]
+├── Stage Progress: [Current step]/[Total steps in stage]
+├── Overall Progress: [X]/60 steps complete
+├── Status: [On track/At risk/Blocked]
+├── Next Action: [Specific next step]
+├── Deadline: [Date] ([X] days)
+└── Documents Ready: [List what's complete]
+```
+
+---
+
+## AUTOMATED STAGE TRANSITIONS
+
+**NEXUS auto-advances when:**
+- Stage 0 → 1: Score ≥35 (🔴🟡🔵 tiers)
+- Stage 1 → 2: Folder created and documents generated
+- Stage 2 → 3: Intelligence files complete
+- Stage 3 → 4: Sub/supplier selected, pricing calculated
+- Stage 4 → 5: Proposal complete and Dee confirms submit
+- Stage 5 → 6: Award decision received
+
+**NEXUS alerts when stuck:**
+- No sub responses after 72hrs (Stage 3)
+- Supplier quotes not received by action deadline (Stage 3)
+- Pricing margin below 15% (Stage 3 — flag for review)
+- Deadline approaching 7 days and still in Stage 4
+- Submitted bid, no award decision after 60 days (Stage 5)
+
+---
+
+**NEXUS STAGE TRACKING: Dee always knows exactly where every opportunity stands, what's next, and what needs attention.**

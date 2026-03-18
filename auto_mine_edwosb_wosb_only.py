@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 """
-AUTOMATED EDWOSB/WOSB OPPORTUNITY MINER
-Searches SAM.gov ONLY for EDWOSB and WOSB set-aside opportunities
-Adds them to NEXUS automatically
-Filters out SDVOSB, HUBZone, 8(a), and all other set-asides
+AUTOMATED EDWOSB / WOSB / TOTAL SB OPPORTUNITY MINER
+Searches SAM.gov for EDWOSB, WOSB, and Total Small Business set-aside opportunities.
+Adds them to NEXUS automatically.
+Filters out SDVOSB, HUBZone, 8(a), and all other set-asides.
 
-Run this daily to populate NEXUS with ONLY opportunities you can bid on!
+STRATEGY: Until DDI achieves 8(a) certification, search ALL set-asides DDI qualifies for:
+  - EDWOSB (highest priority)
+  - WOSB (high priority)
+  - Total Small Business / SBA (moderate competition)
+
+Run this daily to populate NEXUS with opportunities you can bid on!
 
 Author: NEXUS AI
 Created: February 6, 2026
+Updated: March 2026 — Added Total SB (SBA) per "search all until 8a" strategy
 """
 
 import os
@@ -41,14 +47,17 @@ class EDWOSBWOSBMiner:
         self.opportunities_table = self.api.table(self.base_id, 'GPSS OPPORTUNITIES')
         self.contacts_table = self.api.table(self.base_id, 'GPSS CONTACTS')
         
-        # CRITICAL: Only these set-aside types
+        # CRITICAL: Only these set-aside types (until 8a certified, search all DDI-eligible)
         self.allowed_set_asides = [
             'EDWOSB',
             'WOSB',
             'Women-Owned Small Business',
             'Economically Disadvantaged Women-Owned Small Business',
             'SBA Certified EDWOSB',
-            'SBA Certified WOSB'
+            'SBA Certified WOSB',
+            'SBA',  # Total Small Business Set-Aside (FAR 19.5)
+            'Total Small Business',
+            'Total Small Business Set-Aside',
         ]
     
     def mine_edwosb_wosb_opportunities(self, days_back: int = 30) -> Dict:
@@ -63,6 +72,7 @@ class EDWOSBWOSBMiner:
         print("🔍 Searching SAM.gov for:")
         print("   ✅ EDWOSB (Economically Disadvantaged Women-Owned)")
         print("   ✅ WOSB (Women-Owned Small Business)")
+        print("   ✅ Total Small Business (SBA)")
         print()
         print("❌ Filtering out:")
         print("   • SDVOSB (Service-Disabled Veterans)")

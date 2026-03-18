@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bankers Factoring - Factoring Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-main {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-main .factoring {
+            color: #fbbf24;
+        }
+
+        .logo-tagline {
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            margin-top: 0.2rem;
+            font-weight: 400;
+        }
+
+        .phone {
+            font-size: 1.1rem;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #3498db;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            font-size: 1.2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .file-upload {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #2980b9;
+            background: #ecf0f1;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .submit-section {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            background: white;
+            color: #27ae60;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .security-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .security-icon {
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo {
+                text-align: center;
+            }
+
+            .logo-main {
+                font-size: 1.6rem;
+            }
+
+            .logo-tagline {
+                font-size: 0.75rem;
+            }
+            
+            .container {
+                margin: 1rem;
+                border-radius: 15px;
+            }
+            
+            .form-content {
+                padding: 1rem;
+            }
+        }
+
+        .info-text {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🏛️⭐⭐⭐</div>
+                <div class="logo-text">
+                    <div class="logo-main">
+                        Bankers<span class="factoring">Factoring</span>
+                    </div>
+                    <div class="logo-tagline">Critical Working Capital for Entrepreneurs™</div>
+                </div>
+            </div>
+            <div class="phone">📞 866-598-4295</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-header">
+            <h1>Factoring Application</h1>
+            <p>Secure & Encrypted - Get funding in as little as 24 hours</p>
+        </div>
+
+        <div class="form-content">
+            <div class="security-notice">
+                <span class="security-icon">🔒</span>
+                <span>Your information is protected with bank-level 256-bit SSL encryption</span>
+            </div>
+
+            <div class="section" style="background: #e8f5e8; border-left-color: #27ae60;">
+                <h2><span class="section-icon">🔖</span>Application Reference</h2>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="reference-id">Reference ID Number</label>
+                        <input type="text" id="reference-id" name="reference-id" readonly style="background: #f8f9fa; font-weight: bold; font-size: 1.1rem; color: #27ae60;">
+                    </div>
+                </div>
+                <div class="info-text" style="background: #d4edda; border-left-color: #27ae60;">
+                    <strong>Please save this reference number</strong> - You can use it to track your application status and reference it in any correspondence with us.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">🏢</span>Company Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company-name">Legal Company Name <span class="required">*</span></label>
+                        <input type="text" id="company-name" name="company-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dba-name">DBA Name (if different)</label>
+                        <input type="text" id="dba-name" name="dba-name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ein">Federal Tax ID (EIN) <span class="required">*</span></label>
+                        <input type="text" id="ein" name="ein" placeholder="XX-XXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-type">Business Type <span class="required">*</span></label>
+                        <select id="business-type" name="business-type" required>
+                            <option value="">Select Business Type</option>
+                            <option value="corporation">Corporation</option>
+                            <option value="llc">LLC</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="sole-proprietorship">Sole Proprietorship</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="years-in-business">Years in Business <span class="required">*</span></label>
+                        <input type="number" id="years-in-business" name="years-in-business" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry <span class="required">*</span></label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="distribution">Distribution/Wholesale</option>
+                            <option value="transportation">Transportation/Trucking</option>
+                            <option value="staffing">Staffing/Temporary Services</option>
+                            <option value="construction">Construction</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="technology">Technology</option>
+                            <option value="retail">Retail</option>
+                            <option value="government">Government Contractor</option>
+                            <option value="janitorial">Janitorial/Facilities</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="business-address">Business Address <span class="required">*</span></label>
+                        <input type="text" id="business-address" name="business-address" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City <span class="required">*</span></label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State <span class="required">*</span></label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zip">ZIP Code <span class="required">*</span></label>
+                        <input type="text" id="zip" name="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="url" id="website" name="website" placeholder="https://">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">👤</span>Principal/Owner Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="owner-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="owner-name" name="owner-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-title">Title <span class="required">*</span></label>
+                        <input type="text" id="owner-title" name="owner-title" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="owner-ownership">Ownership % <span class="required">*</span></label>
+                        <input type="number" id="owner-ownership" name="owner-ownership" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-ssn">SSN <span class="required">*</span></label>
+                        <input type="text" id="owner-ssn" name="owner-ssn" placeholder="XXX-XX-XXXX" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="owner-email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="owner-email" name="owner-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="owner-phone" name="owner-phone" required>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="owner-address">Home Address <span class="required">*</span></label>
+                        <input type="text" id="owner-address" name="owner-address" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">💰</span>Financial Information</h2>
+                <div class="info-text">
+                    <strong>Note:</strong> All financial information should be based on your most recent 12 months of operations.
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="annual-revenue">Annual Revenue <span class="required">*</span></label>
+                        <select id="annual-revenue" name="annual-revenue" required>
+                            <option value="">Select Revenue Range</option>
+                            <option value="under-100k">Under $100,000</option>
+                            <option value="100k-500k">$100,000 - $500,000</option>
+                            <option value="500k-1m">$500,000 - $1,000,000</option>
+                            <option value="1m-5m">$1,000,000 - $5,000,000</option>
+                            <option value="5m-10m">$5,000,000 - $10,000,000</option>
+                            <option value="over-10m">Over $10,000,000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monthly-revenue">Average Monthly Revenue <span class="required">*</span></label>
+                        <input type="number" id="monthly-revenue" name="monthly-revenue" placeholder="$" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ar-amount">Total Accounts Receivable <span class="required">*</span></label>
+                        <input type="number" id="ar-amount" name="ar-amount" placeholder="$" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="factor-amount">Amount to Factor <span class="required">*</span></label>
+                        <input type="number" id="factor-amount" name="factor-amount" placeholder="$" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bank-name">Primary Bank <span class="required">*</span></label>
+                        <input type="text" id="bank-name" name="bank-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-contact">Bank Contact/Relationship Manager</label>
+                        <input type="text" id="bank-contact" name="bank-contact">
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="existing-debt">Existing Debt/Credit Lines</label>
+                        <textarea id="existing-debt" name="existing-debt" placeholder="Please describe any existing loans, credit lines, or other debt obligations"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">🏪</span>Customer Information</h2>
+                <div class="info-text">
+                    <strong>Important:</strong> Please list your top 5-10 customers that represent the majority of your accounts receivable.
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-count">Total Number of Active Customers <span class="required">*</span></label>
+                        <input type="number" id="customer-count" name="customer-count" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-terms">Standard Payment Terms <span class="required">*</span></label>
+                        <select id="payment-terms" name="payment-terms" required>
+                            <option value="">Select Payment Terms</option>
+                            <option value="net-15">Net 15</option>
+                            <option value="net-30">Net 30</option>
+                            <option value="net-45">Net 45</option>
+                            <option value="net-60">Net 60</option>
+                            <option value="net-90">Net 90</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="top-customers">Top Customers (Name, Outstanding Amount, Payment Terms) <span class="required">*</span></label>
+                        <textarea id="top-customers" name="top-customers" placeholder="Example:&#10;ABC Corp - $25,000 - Net 30&#10;XYZ Industries - $18,000 - Net 45&#10;..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="largest-customer-percent">Largest Customer (% of Revenue) <span class="required">*</span></label>
+                        <input type="number" id="largest-customer-percent" name="largest-customer-percent" min="0" max="100" placeholder="%" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collection-issues">Any Collection Issues? <span class="required">*</span></label>
+                        <select id="collection-issues" name="collection-issues" required>
+                            <option value="">Select</option>
+                            <option value="none">None</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="significant">Significant</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">📊</span>Factoring Requirements</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="funding-needed">Immediate Funding Needed <span class="required">*</span></label>
+                        <input type="number" id="funding-needed" name="funding-needed" placeholder="$" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="funding-timeline">When do you need funding? <span class="required">*</span></label>
+                        <select id="funding-timeline" name="funding-timeline" required>
+                            <option value="">Select Timeline</option>
+                            <option value="immediately">Immediately</option>
+                            <option value="1-week">Within 1 week</option>
+                            <option value="2-weeks">Within 2 weeks</option>
+                            <option value="1-month">Within 1 month</option>
+                            <option value="exploring">Just exploring options</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="factoring-type">Factoring Type Preference <span class="required">*</span></label>
+                        <select id="factoring-type" name="factoring-type" required>
+                            <option value="">Select Type</option>
+                            <option value="recourse">Recourse (Lower fees, you retain credit risk)</option>
+                            <option value="non-recourse">Non-Recourse (Higher fees, we take credit risk)</option>
+                            <option value="discuss">Discuss options with me</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification">Customer Notification Preference <span class="required">*</span></label>
+                        <select id="notification" name="notification" required>
+                            <option value="">Select Preference</option>
+                            <option value="notification">Notification Factoring (Customers know)</option>
+                            <option value="confidential">Confidential Factoring (Customers don't know)</option>
+                            <option value="discuss">Discuss options with me</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="funding-purpose">Purpose of Funding</label>
+                        <textarea id="funding-purpose" name="funding-purpose" placeholder="Please describe how you plan to use the funding (e.g., payroll, inventory, equipment, growth, etc.)"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">📎</span>Required Documents</h2>
+                <div class="info-text">
+                    <strong>Please upload the following documents to complete your application:</strong><br>
+                    • Accounts Receivable Aging Report (last 30 days)<br>
+                    • Sample invoices (2-3 recent invoices)<br>
+                    • Bank statements (last 3 months)<br>
+                    • Financial statements or tax returns (last 2 years)
+                </div>
+
+                <div class="form-group">
+                    <label for="documents">Upload Documents</label>
+                    <div class="file-upload" onclick="document.getElementById('documents').click()">
+                        <div class="file-icon">📁</div>
+                        <p><strong>Click to upload documents</strong></p>
+                        <p>Drag & drop files here or click to browse</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                            Accepted formats: PDF, DOC, DOCX, XLS, XLSX (Max 10MB each)
+                        </p>
+                        <input type="file" id="documents" name="documents" multiple accept=".pdf,.doc,.docx,.xls,.xlsx">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">✍️</span>Additional Information</h2>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="additional-info">Additional Comments or Questions</label>
+                        <textarea id="additional-info" name="additional-info" placeholder="Please provide any additional information that would help us process your application"></textarea>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="previous-factoring" name="previous-factoring">
+                    <label for="previous-factoring">I have used factoring services before</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="referral" name="referral">
+                    <label for="referral">I was referred by another business or professional</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="section-icon">📋</span>Terms and Conditions</h2>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="authorize-credit" name="authorize-credit" required>
+                    <label for="authorize-credit">I authorize Bankers Factoring to obtain credit reports on my business and personal credit <span class="required">*</span></label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="authorize-verification" name="authorize-verification" required>
+                    <label for="authorize-verification">I authorize verification of the information provided in this application <span class="required">*</span></label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="certify-accuracy" name="certify-accuracy" required>
+                    <label for="certify-accuracy">I certify that all information provided is true and accurate <span class="required">*</span></label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
+                    <label for="privacy-policy">I have read and agree to the <a href="#" style="color: #3498db;">Privacy Policy</a> and <a href="#" style="color: #3498db;">Terms of Service</a> <span class="required">*</span></label>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <h3 style="margin-bottom: 1rem;">Ready to Get Started?</h3>
+                <p style="margin-bottom: 1rem; opacity: 0.9;">
+                    Submit your application now and get a decision within 24 hours
+                </p>
+                <p style="margin-bottom: 1.5rem; font-size: 0.95rem; opacity: 0.8;">
+                    📧 Application will be sent to: <strong>bids.deedavisinc@gmail.com</strong>
+                </p>
+                <button type="submit" class="submit-btn" onclick="submitApplication()">
+                    Submit Application Securely
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                    🔒 All information is encrypted and transmitted securely
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateReferenceId() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const referenceId = `DDD${year}${month}${day}${hours}${minutes}`;
+            document.getElementById('reference-id').value = referenceId;
+            return referenceId;
+        }
+
+        window.addEventListener('load', function() {
+            generateReferenceId();
+        });
+
+        function submitApplication() {
+            const requiredFields = document.querySelectorAll('[required]');
+            let allFilled = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.style.borderColor = '#e74c3c';
+                } else {
+                    field.style.borderColor = '#e1e5e9';
+                }
+            });
+
+            if (allFilled) {
+                const referenceId = document.getElementById('reference-id').value;
+                alert(`Application submitted successfully!\n\nReference ID: ${referenceId}\n\nYour application has been received by Dee Davis Inc.\n\nWe will review your application and contact you within 24 hours.\n\nNext steps:\n1. We will verify your information\n2. Review your customer credit\n3. Prepare your factoring agreement\n4. Begin funding your invoices\n\nThank you for choosing Bankers Factoring!`);
+            } else {
+                alert('Please fill in all required fields marked with *');
+                const firstEmpty = document.querySelector('[required]:invalid');
+                if (firstEmpty) {
+                    firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstEmpty.focus();
+                }
+            }
+        }
+
+        document.getElementById('documents').addEventListener('change', function(e) {
+            const fileList = e.target.files;
+            const uploadDiv = document.querySelector('.file-upload');
+            
+            if (fileList.length > 0) {
+                let fileNames = [];
+                for (let i = 0; i < fileList.length; i++) {
+                    fileNames.push(fileList[i].name);
+                }
+                uploadDiv.innerHTML = `
+                    <div class="file-icon">✅</div>
+                    <p><strong>${fileList.length} file(s) selected:</strong></p>
+                    <p style="font-size: 0.9rem;">${fileNames.join(', ')}</p>
+                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Click to add more files</p>
+                `;
+            }
+        });
+
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#e74c3c';
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                }
+            });
+        });
+
+        document.querySelectorAll('input[type="tel"]').forEach(field => {
+            field.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length >= 10) {
+                    value = value.substring(0, 10);
+                    this.value = `(${value.substring(0, 3)}) ${value.substring(3, 6)}-${value.substring(6)}`;
+                }
+            });
+        });
+
+        document.getElementById('owner-ssn').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 9) {
+                value = value.substring(0, 9);
+                this.value = `${value.substring(0, 3)}-${value.substring(3, 5)}-${value.substring(5)}`;
+            }
+        });
+
+        document.getElementById('ein').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 9) {
+                value = value.substring(0, 9);
+                this.value = `${value.substring(0, 2)}-${value.substring(2)}`;
+            }
+        });
+    </script>
+</body>
+</html>

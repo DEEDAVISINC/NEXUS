@@ -1,0 +1,94 @@
+# DDI Business Model — Contract Management Firm (Prime/Sub)
+
+**This is the foundational business rule. Every bid, every price, every proposal, every document must reflect this model.**
+
+## The Model
+
+**DDI wins the contract. DDI manages the contract. Subcontractors and partners execute the work.**
+
+- DDI is ALWAYS the prime contractor, the agency, the contract management firm
+- DDI is NEVER the worker, the laborer, the technician (except CNTDA notary and consulting where Dee personally delivers)
+- Subcontractors, partners, labs, platforms, and workers are DDI's internal cost — never exposed to the client
+- The client pays DDI. DDI pays the fulfillment partner. The difference is DDI's revenue.
+
+## Pricing Rule
+
+**All prices are DDI AGENCY RATES — what the CLIENT pays Dee Davis Inc.**
+
+- Never quote worker pay rates or platform fees to clients
+- Never expose DDI's fulfillment cost in client-facing documents
+- DDI's margin is built into every price
+- Reference `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` for current agency rates
+- Reference `DDI_BUSINESS_MODEL.md` for margin targets by service line
+
+## Two Sub-Models
+
+### 1. Staffing & Logistics (Markup Model)
+- DDI takes a percentage markup on subcontractor/worker rates
+- Target: 25-40% markup
+- Applies to: Staffing (The Employment Crew), Freight/Logistics (Freight 1st Direct)
+
+### 2. Contract Management (All Other Services)
+- DDI sets the contract rate, wins the work, manages delivery
+- DDI's rate is the agency rate — not a markup on a sub
+- Sub cost is DDI's internal problem
+- Applies to: Drug testing, fingerprinting, DNA, lead testing, notary, permit running, RON, janitorial, landscaping, facility maintenance, IT, security, construction, moving, events, NEMT, consulting, project executive
+
+## SBA Limitations on Subcontracting (13 CFR 125.6)
+
+**When DDI wins a small business set-aside contract (EDWOSB, WOSB, SBE), these rules apply:**
+
+| Contract Type | DDI Must Perform (Own Employees) |
+|--------------|--------------------------------|
+| Service contracts | At least **50%** of personnel costs |
+| Supply contracts | At least **50%** of manufacturing cost |
+| General construction | At least **15%** with own employees |
+| Specialty trade construction | At least **25%** with own employees |
+
+**DDI's contract management work COUNTS as "performing":**
+- Project management, compliance, QA, invoicing, client management, scheduling, coordination, reporting, risk management
+
+**What does NOT count:**
+- Just passing money to a sub with no management involvement
+
+**Full and open competition contracts have NO subcontracting limits.**
+
+## DDI as Subcontractor (Second Lane)
+
+DDI also pursues subcontract opportunities under larger primes.
+
+- Large primes NEED EDWOSB/WOSB/MBE subs to meet subcontracting plan requirements
+- DDI subs for specific service lines (drug testing, fingerprinting, notary, transportation, etc.)
+- DDI charges the prime its standard agency rates or negotiated sub rates
+- Within DDI's scope, the model is the same — DDI manages, fulfillment partners execute
+- Builds past performance for future prime bids
+
+**Both lanes are always active. DDI primes where it can, subs where it makes sense.**
+
+## When Generating Any Document
+
+Before finalizing any bid, proposal, quote, or capability statement:
+
+- [ ] Prices reflect DDI agency rates (not worker/sub rates)
+- [ ] DDI is positioned as the prime contractor / contract management firm
+- [ ] Fulfillment partners are NOT named in buyer-facing documents (unless required by solicitation for teaming/sub plans)
+- [ ] DDI's management value is clearly articulated (compliance, QA, coordination, single POC)
+- [ ] For set-asides: DDI's management role satisfies the 50% personnel cost requirement
+- [ ] Margin targets align with `DDI_BUSINESS_MODEL.md`
+
+## When Pricing Bids
+
+1. Get sub/fulfillment cost first
+2. Apply DDI margin per service line targets
+3. Verify total price is competitive in the market
+4. Verify DDI's management cost satisfies SBA subcontracting limits (if set-aside)
+5. Never price below DDI's minimum margin — if the math doesn't work, don't bid
+
+## Reference Files
+
+- `DDI_BUSINESS_MODEL.md` — Full business model with margin targets by service line
+- `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` — All agency rates
+- `PARTNER_ACCOUNT_UPDATES.md` — Fulfillment partner accounts and costs
+- `DDI_PROFESSIONAL_SERVICES_PRICING.md` — Professional services rates
+
+*This is the model. Every sector. Every service. Every contract. No exceptions.*

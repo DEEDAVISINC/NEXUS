@@ -1,0 +1,85 @@
+---
+description: Enforce proposal infrastructure discipline to eliminate fire-drill bidding
+alwaysApply: true
+---
+
+# Proposal Infrastructure Discipline (Additive Rule)
+
+This rule is additive and does not replace existing workflows.  
+It enforces infrastructure before effort.
+
+## Core Principle
+
+- Heroics can win occasionally.
+- Infrastructure wins consistently.
+- Fire-drill proposals are a process failure, not a talent failure.
+
+## Non-Negotiable Pre-Response Infrastructure
+
+Before major proposal writing begins, confirm all five are in place:
+
+1. **Disciplined Bid Strategy**
+- Clear bid/no-bid rationale
+- Margin floor and risk threshold defined
+- Point-capture strategy by evaluation criteria
+
+2. **Executive Win Theme**
+- 1-2 sentence win theme approved
+- Theme tied to evaluator risk reduction and mission outcome
+- Theme reflected in all sections (not just intro)
+
+3. **Structured Compliance Tracking**
+- Requirement matrix complete
+- Mandatory/pass-fail items flagged
+- Owner + due date assigned per requirement
+
+4. **Defined Review Rigor**
+- Reviews are stage-gated, not ad hoc edits
+- Compliance review separate from narrative quality review
+- Final red-team review includes scoring simulation
+
+5. **Ownership and Decision Authority**
+- Single proposal owner named
+- Pricing authority named
+- Final decision authority named
+- Escalation path documented
+
+## Hard-Stop Conditions
+
+Do not proceed to final packaging if any are missing:
+- No approved win theme
+- No requirement-owner mapping
+- No defined review sequence
+- No final decision owner
+
+## Review Sequence Standard
+
+1. Strategy check
+2. Compliance check
+3. Evaluator-risk check
+4. Readability/scanability check
+5. Final authority approval
+
+No sequence skipping.
+
+## Cost Control Rationale
+
+Weak infrastructure creates:
+- rework
+- deadline compression
+- avoidable submission defects
+- lower win probability
+- higher bid cost per attempt
+
+Strong infrastructure reduces cost and increases repeatable win rate.
+
+## Output Requirement
+
+For every major buyer-facing response, output a concise infrastructure status block:
+- Strategy: PASS/FAIL
+- Win Theme: PASS/FAIL
+- Compliance Tracking: PASS/FAIL
+- Review Rigor: PASS/FAIL
+- Ownership: PASS/FAIL
+
+If any FAIL, return remediation actions first.

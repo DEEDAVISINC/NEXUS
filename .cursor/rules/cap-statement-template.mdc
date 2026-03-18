@@ -1,0 +1,168 @@
+# CAPABILITY STATEMENT TEMPLATE — THE ONLY FORMAT
+
+**This is the ONLY acceptable format for DDI capability statements. No exceptions. No multi-page HTML. No different layouts. THIS FORMAT ONLY.**
+
+---
+
+## THE RULE
+
+Every capability statement generated MUST match this exact structure:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      DEE DAVIS INC.                         │
+│              [SERVICE TYPE IN CAPS]                         │
+├─────────────────────────────────────────────────────────────┤
+│ Executive summary paragraph (3-4 lines). Mentions agency    │
+│ name, EDWOSB status, key capabilities, deployment-ready.    │
+├─────────────────────────────────────────────────────────────┤
+│ EXECUTION FRAMEWORK: Identify → Pursue → Build → Manage →   │
+│ Deliver → Sustain                                           │
+├─────────────────────────────────────────────────────────────┤
+│ CORE COMPETENCIES — PROVEN PERFORMANCE ACROSS [SECTOR]      │
+├─────────────────────────────────────────────────────────────┤
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐            │
+│ │ Comp 1  │ │ Comp 2  │ │ Comp 3  │ │ Comp 4  │            │
+│ └─────────┘ └─────────┘ └─────────┘ └─────────┘            │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐            │
+│ │ Comp 5  │ │ Comp 6  │ │ Comp 7  │ │ Comp 8  │            │
+│ └─────────┘ └─────────┘ └─────────┘ └─────────┘            │
+├─────────────────────────────────────────────────────────────┤
+│ PAST PERFORMANCE          │ DIFFERENTIATORS                 │
+│ ─────────────────         │ ─────────────────               │
+│ • Item 1                  │ • EDWOSB SOLE-SOURCE $7M        │
+│ • Item 2                  │ • [Key Advantage]               │
+│ • Item 3                  │ • [Key Advantage]               │
+│ • Item 4                  │ • ZERO COMPLIANCE DEFICIENCIES  │
+│ • Item 5                  │ • TWIC-CLEARED                  │
+│ • Item 6                  │ • MULTI-STATE PRIME             │
+├─────────────────────────────────────────────────────────────┤
+│ EDWOSB | WOSB | WBE | MBE | SBE | E-Verify | SWFT | TWIC   │
+├─────────────────────────────────────────────────────────────┤
+│ STRATEGIC ALLIANCE PARTNERS: [Partner list]                 │
+├─────────────────────────────────────────────────────────────┤
+│ Dieasha Davis, President & CEO                              │
+│ (248) 376-4550 | info@deedavis.biz | www.deedavis.biz      │
+│ 755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084            │
+│                           "The Professionals' Professional" │
+├─────────────────────────────────────────────────────────────┤
+│ CAGE: 8UMX3  UEI: HJB4KNYJVGZ1  DUNS: 002636755  SAM: ✓    │
+│ Federal • State • Commercial • Sole-Source Eligible $7M    │
+│ MC: 1647572 | DOT: 4250594 | Primary: MI, GA, FL, MD       │
+│ NAICS: [relevant codes]                                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## CRITICAL REQUIREMENTS
+
+### 1. ONE PAGE ONLY
+- Must fit on a single 8.5" x 11" page
+- No multi-page capability statements
+- Dense, professional layout
+
+### 2. HEADER
+- "DEE DAVIS INC." in large, bold text (28pt+)
+- Service type below in colored caps (14pt)
+- Colors: Navy (#1e3a5f) for company name, Teal (#0d9488) for service type
+
+### 3. EXECUTIVE SUMMARY
+- 3-4 lines maximum
+- Must mention: EDWOSB, agency name (2+ times), key capability, deployment-ready
+- Example: "DEE DAVIS INC. is an SBA-certified EDWOSB prime contractor delivering [service] to [agency]. With 7+ years of proven performance..."
+
+### 4. EXECUTION FRAMEWORK LINE
+- Always: "EXECUTION FRAMEWORK: Identify → Pursue → Build → Manage → Deliver → Sustain"
+- Centered, gray text, bordered top and bottom
+
+### 5. CORE COMPETENCIES
+- Header: "CORE COMPETENCIES — PROVEN PERFORMANCE ACROSS [SECTOR]"
+- 8 boxes in a 4x2 grid
+- Each box: Title (bold, teal) + 2-line description
+- Tailored to the specific opportunity
+
+### 6. TWO-COLUMN SECTION
+- Left: "PAST PERFORMANCE — VERIFIED TRACK RECORD" (6 items)
+- Right: "DIFFERENTIATORS" (7 items)
+- Always include:
+  - EDWOSB SOLE-SOURCE ELIGIBLE — UP TO $7M
+  - ZERO COMPLIANCE DEFICIENCIES
+  - TWIC-CLEARED SECURE ACCESS
+  - MULTI-STATE, MULTI-SECTOR PRIME
+
+### 7. CERTIFICATIONS BAR
+- Navy/teal gradient background, white text
+- "EDWOSB | WOSB | WBE | MBE | SBE | E-Verify Participant | SWFT Authorized (DCSA) | TWIC Credentialed (TSA)"
+
+### 8. STRATEGIC ALLIANCE PARTNERS
+- List relevant partners for the service type
+- Example: "eScreen/Quest Diagnostics • Lyft for Business • Regional Networks"
+
+### 9. CONTACT BLOCK
+- Name: "Dieasha Davis, President & CEO"
+- Phone: (248) 376-4550
+- Email: info@deedavis.biz
+- Web: www.deedavis.biz
+- Address: 755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084
+- Tagline: "The Professionals' Professional" (right-aligned, italic)
+
+### 10. FOOTER
+- CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | DUNS: 002636755 | SAM.gov: ACTIVE | Est. 2018
+- "Federal • State • Commercial • Sole-Source Eligible Up to $7M"
+- MC: 1647572 | DOT: 4250594 | Primary: MI, GA, FL, MD | CONUS
+- NAICS codes relevant to the opportunity
+
+---
+
+## REFERENCE TEMPLATES
+
+**Source of truth:** `/Users/deedavis/Library/Mobile Documents/com~apple~CloudDocs/CAP STATES/`
+
+Key templates:
+- `DEE DAVIS INC — Capability Statement — CONTRACT MANAGEMENT FIRM.pdf` (general)
+- `DEE DAVIS INC — Capability Statement — COURIER & LOGISTICS SERVICES.pdf` (transportation)
+- `DEE DAVIS INC — Capability Statement — FINGERPRINTING & BACKGROUND SCREENING SERVICES.pdf` (security)
+
+**When generating a new cap statement:**
+1. Read one of these PDFs to confirm the exact format
+2. Generate HTML that matches this layout EXACTLY
+3. Do NOT create multi-page HTML documents
+4. Do NOT use different layouts or structures
+
+---
+
+## WHAT NOT TO DO
+
+❌ Multi-page capability statements
+❌ Different header layouts
+❌ Missing execution framework line
+❌ Less than 8 competency boxes
+❌ Missing past performance section
+❌ Missing differentiators section
+❌ Wrong contact information
+❌ Missing NAICS codes
+❌ Fancy HTML templates that don't match the format
+
+---
+
+## COMPANY INFO (ALWAYS USE)
+
+- **Company:** Dee Davis Inc.
+- **Contact:** Dieasha Davis, President & CEO
+- **Phone:** (248) 376-4550
+- **Email:** info@deedavis.biz
+- **Website:** www.deedavis.biz
+- **Address:** 755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084
+- **CAGE:** 8UMX3
+- **UEI:** HJB4KNYJVGZ1
+- **DUNS:** 002636755
+- **MC:** 1647572
+- **DOT:** 4250594
+- **NPI:** 1538939111
+- **Est.:** 2018
+- **Tagline:** "The Professionals' Professional"
+
+---
+
+*This is the ONLY format. Match it exactly. Every time.*

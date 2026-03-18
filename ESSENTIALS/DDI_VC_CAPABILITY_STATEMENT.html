@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dee Davis Inc — Capability Statement</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-blue: #4FB3D0;
+    --secondary-blue: #88D4E8;
+    --dark-navy: #1B3A52;
+    --accent-teal: #5BC0DE;
+    --white: #FFFFFF;
+    --light-gray: #F8F9FA;
+    --medium-gray: #E9ECEF;
+    --text-dark: #2C3E50;
+    --text-light: #6C757D;
+    --gold: #D4AF37;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+  }
+
+  @page { margin: 0; size: letter; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  /* ===== HEADER BAR ===== */
+  .top-bar {
+    background: var(--dark-navy);
+    color: var(--white);
+    padding: 8px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .top-bar a { color: var(--secondary-blue); text-decoration: none; }
+  .top-bar .creds { display: flex; gap: 16px; }
+  .top-bar .cred-item { display: flex; align-items: center; gap: 4px; }
+  .top-bar .cred-label { color: rgba(255,255,255,0.5); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-navy) 100%);
+    color: var(--white);
+    padding: 36px 40px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/></pattern></defs><rect width="100%25" height="100%25" fill="url(%23grid)"/></svg>');
+    opacity: 0.5;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-row { display: flex; justify-content: space-between; align-items: center; }
+  .hero-left { flex: 1; }
+  .hero-right { text-align: right; min-width: 160px; }
+
+  .hero-logo { height: 52px; width: auto; margin-bottom: 12px; display: block; }
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: 1.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+  }
+  .hero .tagline {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--secondary-blue);
+    margin-bottom: 10px;
+  }
+  .hero .desc {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    max-width: 420px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .hero-stats { margin-top: 8px; }
+  .hero-stat {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 3px;
+  }
+  .hero-stat .val {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--white);
+    min-width: 70px;
+    text-align: right;
+  }
+  .hero-stat .lbl {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.6);
+    margin-left: 8px;
+  }
+
+  /* ===== SECTION STYLING ===== */
+  .section { padding: 24px 40px; }
+  .section-light { background: var(--white); }
+  .section-gray { background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%); }
+  .section-dark { background: var(--dark-navy); color: var(--white); }
+
+  .section-header {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 14px;
+    position: relative;
+    display: inline-block;
+  }
+  .section-header::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-blue);
+    margin-top: 6px;
+    border-radius: 2px;
+  }
+  .section-dark .section-header { color: var(--white); }
+
+  .section-intro {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+  .section-dark .section-intro { color: rgba(255,255,255,0.6); }
+
+  /* ===== VALUE PROP CARDS (matching website) ===== */
+  .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  .value-card {
+    padding: 18px 16px;
+    background: var(--white);
+    border-left: 4px solid var(--primary-blue);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .value-card h3 {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .value-card h3 i { font-size: 0.85rem; }
+  .value-card p {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    line-height: 1.55;
+  }
+
+  /* ===== SERVICE CARDS (matching website) ===== */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  .service-card {
+    background: var(--white);
+    padding: 18px 14px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    border-top: 4px solid var(--primary-blue);
+  }
+
+  .service-icon {
+    width: 42px; height: 42px;
+    margin: 0 auto 10px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: var(--white);
+  }
+
+  .service-card h3 {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 5px;
+  }
+
+  .service-card p {
+    font-size: 0.65rem;
+    color: var(--text-light);
+    line-height: 1.45;
+  }
+
+  /* ===== TECH SECTION ===== */
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .tech-card {
+    padding: 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(79,179,208,0.15);
+    border-radius: 8px;
+  }
+  .tech-card h3 {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--secondary-blue);
+    margin-bottom: 4px;
+  }
+  .tech-card .tech-full {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .tech-card p {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.45;
+  }
+
+  /* ===== CERT BADGES (matching website) ===== */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    text-align: center;
+  }
+
+  .cert-badge {
+    width: 52px; height: 52px;
+    margin: 0 auto 6px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.55rem;
+    letter-spacing: 0.3px;
+    text-align: center;
+    line-height: 1.15;
+  }
+  .cert-badge.gold { background: var(--gold); }
+
+  .cert-label {
+    font-family: var(--font-heading);
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: var(--dark-navy);
+    line-height: 1.3;
+  }
+  .section-dark .cert-label { color: rgba(255,255,255,0.7); }
+
+  /* ===== CREDENTIALS ROW ===== */
+  .cred-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+    text-align: center;
+  }
+  .cred-box {
+    background: rgba(79,179,208,0.08);
+    border: 1px solid rgba(79,179,208,0.15);
+    border-radius: 6px;
+    padding: 8px 6px;
+  }
+  .cred-box .cb-label {
+    font-size: 0.58rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .cred-box .cb-val {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+  }
+
+  /* ===== PARTNERS ===== */
+  .partner-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .partner-card {
+    background: var(--light-gray);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .partner-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 3px;
+  }
+  .partner-card p {
+    font-size: 0.62rem;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+
+  /* ===== NAICS ===== */
+  .naics-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+  }
+  .naics-item {
+    font-size: 0.65rem;
+    color: var(--text-dark);
+    padding: 3px 0;
+    border-bottom: 1px solid var(--medium-gray);
+    display: flex;
+    gap: 6px;
+  }
+  .naics-code {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--primary-blue);
+    min-width: 48px;
+  }
+
+  /* ===== CTA / FOOTER ===== */
+  .cta {
+    background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%);
+    color: var(--white);
+    padding: 28px 40px;
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cta p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 14px;
+  }
+  .cta-contact {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .cta-contact a { color: var(--secondary-blue); text-decoration: none; }
+  .cta-contact i { margin-right: 5px; color: rgba(255,255,255,0.5); }
+
+  .footer-bar {
+    background: var(--dark-navy);
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-certs {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    font-size: 0.58rem;
+  }
+
+  @media print {
+    .page { page-break-after: always; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================== PAGE 1 ======================== -->
+<div class="page">
+
+  <!-- TOP CREDENTIAL BAR -->
+  <div class="top-bar">
+    <div class="creds">
+      <div class="cred-item"><span class="cred-label">CAGE:</span> 8UMX3</div>
+      <div class="cred-item"><span class="cred-label">UEI:</span> HJB4KNYJVGZ1</div>
+      <div class="cred-item"><span class="cred-label">DUNS:</span> 002636755</div>
+      <div class="cred-item"><span class="cred-label">SAM.gov:</span> <span style="color:#28A745;">ACTIVE</span></div>
+    </div>
+    <div>
+      <a href="https://deedavis.biz">deedavis.biz</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-row">
+        <div class="hero-left">
+          <img src="DEE-DAVIS-INC.-white-high-res.png" alt="Dee Davis Inc" class="hero-logo">
+          <h1>DEE DAVIS INC</h1>
+          <div class="tagline">"The Professionals' Professionals"</div>
+          <div class="desc">
+            SBA-certified EDWOSB contract management firm. We pursue, win, manage, and deliver complex government and commercial contracts across regulated sectors — from healthcare operations and federal security credentialing to emergency logistics and business continuity. Sole-source eligible up to $7M.
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-badge">EDWOSB CERTIFIED</div>
+          <div class="hero-stats">
+            <div class="hero-stat"><span class="val">7+</span><span class="lbl">Years Proven Performance</span></div>
+            <div class="hero-stat"><span class="val">5,100+</span><span class="lbl">Managed Service Locations</span></div>
+            <div class="hero-stat"><span class="val">0</span><span class="lbl">Compliance Deficiencies</span></div>
+            <div class="hero-stat"><span class="val">50+</span><span class="lbl">NAICS Codes</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY CHOOSE DDI -->
+  <div class="section section-gray">
+    <div class="section-header">Why Agencies and Organizations Choose DDI</div>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3><i class="fas fa-shield-alt"></i> EDWOSB Prime Contractor</h3>
+        <p>SBA-certified EDWOSB with sole-source eligibility up to $7M. Full federal credentials. We don't just bid — we execute contracts from pursuit through delivery and sustainment.</p>
+      </div>
+      <div class="value-card">
+        <h3><i class="fas fa-microchip"></i> Strategic Alliance Network</h3>
+        <p>DDI manages contracts through a vetted network of strategic partners — Quest Diagnostics, DDC, Champion, and 5,100+ deployment-ready facilities nationwide. We activate within 24 hours of award.</p>
+      </div>
+      <div class="value-card">
+        <h3><i class="fas fa-check-double"></i> Zero Compliance Deficiencies</h3>
+        <p>1,500+ regulated deliveries across DOT, SAMHSA, HIPAA, and AABB environments. Multi-state licensed (MI, GA, FL, MD). CONUS/OCONUS deployment-ready. TWIC-credentialed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTRACT SECTORS -->
+  <div class="section section-light">
+    <div class="section-header">Contract Sectors</div>
+    <div class="section-intro">DDI executes contracts across regulated industries through strategic alliance partners, proven compliance frameworks, and deployment-ready infrastructure.</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-ambulance"></i></div>
+        <h3>Regulated Healthcare Operations</h3>
+        <p>DOT/SAMHSA drug & alcohol testing, AABB DNA testing, NEMT, medical specimen transport, Medicaid provider operations</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>Federal Security & Credentialing</h3>
+        <p>DCSA SWFT electronic fingerprinting, FBI NCHC submissions, TWIC-cleared facility access, personnel vetting</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-project-diagram"></i></div>
+        <h3>Business Continuity & Emergency Logistics</h3>
+        <p>COOP execution, FEMA-coordinated disaster logistics, emergency supply chain, rapid mobilization</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-truck"></i></div>
+        <h3>Logistics & Fleet Operations</h3>
+        <p>Licensed freight brokerage (MC-1647572), DOT-regulated fleet, time-critical delivery, chain-of-custody transport</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
+        <h3>Government Procurement & Supply</h3>
+        <p>Medical & emergency equipment, industrial supply fulfillment, modified housing & storage, commodity contracts</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-handshake"></i></div>
+        <h3>Professional & Legal Services</h3>
+        <p>Notary, RON, CNTDA document execution, contract staffing, surety bonds, translation services</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section section-gray" style="padding-bottom:18px;">
+    <div class="section-header">Certifications & Qualifications</div>
+    <div class="cert-grid">
+      <div>
+        <div class="cert-badge">EDWOSB</div>
+        <div class="cert-label">Economically Disadvantaged<br>Woman-Owned SB</div>
+      </div>
+      <div>
+        <div class="cert-badge">WOSB</div>
+        <div class="cert-label">Woman-Owned<br>Small Business</div>
+      </div>
+      <div>
+        <div class="cert-badge">WBE</div>
+        <div class="cert-label">Woman Business<br>Enterprise</div>
+      </div>
+      <div>
+        <div class="cert-badge">MBE</div>
+        <div class="cert-label">Minority Business<br>Enterprise (NMSDC)</div>
+      </div>
+      <div>
+        <div class="cert-badge">WBENC</div>
+        <div class="cert-label">Women's Business<br>Enterprise Nat'l Council</div>
+      </div>
+      <div>
+        <div class="cert-badge gold">CMMC-AB</div>
+        <div class="cert-label">Cybersecurity Maturity<br>Model Certification</div>
+      </div>
+    </div>
+    <div class="cred-row">
+      <div class="cred-box"><div class="cb-label">CAGE Code</div><div class="cb-val">8UMX3</div></div>
+      <div class="cred-box"><div class="cb-label">UEI</div><div class="cb-val">HJB4KNYJVGZ1</div></div>
+      <div class="cred-box"><div class="cb-label">DUNS</div><div class="cb-val">002636755</div></div>
+      <div class="cred-box"><div class="cb-label">NPI</div><div class="cb-val">1538939111</div></div>
+      <div class="cred-box"><div class="cb-label">MC Number</div><div class="cb-val">1647572</div></div>
+      <div class="cred-box"><div class="cb-label">US DOT</div><div class="cb-val">4250594</div></div>
+    </div>
+  </div>
+
+  <!-- CTA FOOTER -->
+  <div class="cta">
+    <h2>Ready to Partner with a Proven Prime Contractor?</h2>
+    <p>EDWOSB sole-source eligible up to $7M. Let's talk about your next contract.</p>
+    <div class="cta-contact">
+      <span><i class="fas fa-phone"></i> <a href="tel:2483764550">248.376.4550</a></span>
+      <span><i class="fas fa-envelope"></i> <a href="mailto:info@deedavis.biz">info@deedavis.biz</a></span>
+      <span><i class="fas fa-globe"></i> <a href="https://deedavis.biz">deedavis.biz</a></span>
+      <span><i class="fas fa-map-marker-alt"></i> Troy, Michigan 48084</span>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <span>DEE DAVIS INC &nbsp;·&nbsp; 755 W. Big Beaver Rd., Suite 2020 &nbsp;·&nbsp; Troy, MI 48084</span>
+    <span class="footer-certs">EDWOSB · WOSB · WBENC · MBE · SBE · E-VERIFY · SWFT · CMMC-AB</span>
+  </div>
+
+</div>
+
+
+<!-- ======================== PAGE 2 ======================== -->
+<div class="page">
+
+  <!-- TOP CREDENTIAL BAR -->
+  <div class="top-bar">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img src="DEE-DAVIS-INC.-white-high-res.png" alt="DDI" style="height:22px; width:auto;">
+      <span style="font-family:var(--font-heading); font-weight:700; letter-spacing:1px;">CAPABILITY STATEMENT</span>
+    </div>
+    <div>
+      <a href="https://deedavis.biz">deedavis.biz</a> &nbsp;·&nbsp; 248.376.4550
+    </div>
+  </div>
+
+  <!-- TECHNOLOGY -->
+  <div class="section section-dark" style="padding-bottom:20px;">
+    <div class="section-header">Proprietary Technology — NEXUS Command Center</div>
+    <div class="section-intro">10-module AI business operating system. Designed and built by the founder. 100% DDI-owned IP. This is why a lean firm operates 26+ service lines with zero compliance deficiencies.</div>
+    <div class="tech-grid">
+      <div class="tech-card"><h3>NOVA</h3><div class="tech-full">New Opportunity Vetting & Acquisition</div><p>AI-powered opportunity discovery across 100+ government portals and 50+ NAICS codes</p></div>
+      <div class="tech-card"><h3>GPSS</h3><div class="tech-full">Government Procurement Strategic System</div><p>Automated proposal generation, pricing intelligence, compliance checking</p></div>
+      <div class="tech-card"><h3>ATLAS</h3><div class="tech-full">Advanced Task & Logistics Automation System</div><p>Project tracking, WBS generation, change order management, task automation</p></div>
+      <div class="tech-card"><h3>COMPASS</h3><div class="tech-full">Compliant Optimization & Messaging Performance Assessment</div><p>10-point quality scoring, compliance validation, win-readiness assessment</p></div>
+      <div class="tech-card"><h3>PRISM</h3><div class="tech-full">Professional Resource Inspection & Service Mgmt</div><p>Field service dispatch, AI-powered document verification and inspection</p></div>
+      <div class="tech-card"><h3>VERTEX</h3><div class="tech-full">Financial Excellence & Revenue Tracking Executive</div><p>Automated invoicing, cash flow forecasting, real-time profit tracking</p></div>
+      <div class="tech-card"><h3>GBIS</h3><div class="tech-full">Grant Business Intelligence System</div><p>Grant discovery, eligibility screening, application pipeline management</p></div>
+      <div class="tech-card"><h3>DDCSS</h3><div class="tech-full">Diversity Division Corporate Success System</div><p>Client avatar building, pitch generation, corporate business development</p></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+      <div class="tech-card"><h3>LBPC</h3><div class="tech-full">Lead & Proposal Builder for Claims</div><p>Surplus recovery, lead mining, automated document generation</p></div>
+      <div class="tech-card"><h3>DOCUMENTS</h3><div class="tech-full">Document & Pricing Hub</div><p>Compliance archive, audit-ready documentation, pricing intelligence</p></div>
+    </div>
+    <div style="margin-top:14px; padding:12px 16px; background:rgba(79,179,208,0.08); border:1px solid rgba(79,179,208,0.15); border-radius:8px; display:flex; align-items:center; gap:16px;">
+      <div>
+        <div style="font-family:var(--font-heading); font-size:0.82rem; font-weight:700; color:var(--secondary-blue); margin-bottom:2px;">FleetFlow™ TMS LLC</div>
+        <div style="font-size:0.65rem; color:rgba(255,255,255,0.5);">A DEE DAVIS INC Company &nbsp;·&nbsp; Launching Mid-2026</div>
+      </div>
+      <div style="font-size:0.68rem; color:rgba(255,255,255,0.55); line-height:1.5; flex:1;">
+        AI-powered logistics intelligence platform. DOT compliance monitoring, multi-carrier coordination, predictive analytics, route optimization. Enterprise integration (SAP, Oracle, Dynamics).
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGIC PARTNERSHIPS -->
+  <div class="section section-light" style="padding-top:20px; padding-bottom:16px;">
+    <div class="section-header">Strategic Partnerships</div>
+    <div class="partner-grid">
+      <div class="partner-card"><h4>Quest Diagnostics</h4><p>Certified DOT drug testing provider · 5,100+ collection sites</p></div>
+      <div class="partner-card"><h4>DDC DNA Diagnostics</h4><p>AABB-accredited · Court-admissible DNA testing</p></div>
+      <div class="partner-card"><h4>ZigSig</h4><p>Remote Online Notarization (RON) · Digital signing platform</p></div>
+      <div class="partner-card"><h4>NALI</h4><p>Professional training & compliance certification</p></div>
+      <div class="partner-card"><h4>SuretyCloud</h4><p>Federal contract bond solutions · Bid/performance/payment</p></div>
+      <div class="partner-card"><h4>Bankers Factoring</h4><p>Invoice factoring · PO financing · Same-day funding</p></div>
+      <div class="partner-card"><h4>Uber Health</h4><p>NEMT transportation platform · Healthcare logistics</p></div>
+    </div>
+  </div>
+
+  <!-- PRIMARY NAICS -->
+  <div class="section section-gray" style="padding-top:16px; padding-bottom:16px;">
+    <div class="section-header">Primary NAICS Codes <span style="font-weight:400; font-size:0.72rem; color:var(--text-light);">(57 Total — Full List at SAM.gov)</span></div>
+    <div class="naics-cols">
+      <div class="naics-item"><span class="naics-code">621511</span> Medical Laboratories</div>
+      <div class="naics-item"><span class="naics-code">561611</span> Investigation & Security Services</div>
+      <div class="naics-item"><span class="naics-code">541611</span> Admin Management Consulting</div>
+      <div class="naics-item"><span class="naics-code">488510</span> Freight Transportation Arrangement</div>
+      <div class="naics-item"><span class="naics-code">485991</span> Special Needs Transportation</div>
+      <div class="naics-item"><span class="naics-code">492110</span> Couriers & Express Delivery</div>
+      <div class="naics-item"><span class="naics-code">561720</span> Janitorial Services</div>
+      <div class="naics-item"><span class="naics-code">561730</span> Landscaping Services</div>
+      <div class="naics-item"><span class="naics-code">541199</span> Legal Services (Notary, RON)</div>
+      <div class="naics-item"><span class="naics-code">541512</span> Computer Systems Design</div>
+      <div class="naics-item"><span class="naics-code">423450</span> Medical Equipment Wholesalers</div>
+      <div class="naics-item"><span class="naics-code">236220</span> Commercial Building Construction</div>
+      <div class="naics-item"><span class="naics-code">561320</span> Temporary Help Services</div>
+      <div class="naics-item"><span class="naics-code">562910</span> Remediation Services</div>
+      <div class="naics-item"><span class="naics-code">541910</span> Market Research & Polling</div>
+      <div class="naics-item"><span class="naics-code">624190</span> Individual & Family Services</div>
+    </div>
+  </div>
+
+  <!-- CTA FOOTER -->
+  <div class="cta" style="padding:22px 40px;">
+    <h2>Partner with DDI</h2>
+    <div class="cta-contact">
+      <span><i class="fas fa-phone"></i> <a href="tel:2483764550">248.376.4550</a></span>
+      <span><i class="fas fa-envelope"></i> <a href="mailto:info@deedavis.biz">info@deedavis.biz</a></span>
+      <span><i class="fas fa-globe"></i> <a href="https://deedavis.biz">deedavis.biz</a></span>
+      <span><i class="fas fa-map-marker-alt"></i> 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</span>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <span>DEE DAVIS INC &nbsp;·&nbsp; CAGE: 8UMX3 &nbsp;·&nbsp; UEI: HJB4KNYJVGZ1 &nbsp;·&nbsp; DUNS: 002636755</span>
+    <span class="footer-certs">EDWOSB · WOSB · WBENC · MBE · SBE · E-VERIFY · SWFT · CMMC-AB</span>
+  </div>
+
+</div>
+
+</body>
+</html>

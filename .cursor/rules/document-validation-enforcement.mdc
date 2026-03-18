@@ -1,0 +1,79 @@
+# Document Validation Enforcement — NON-NEGOTIABLE
+
+**Before presenting ANY generated document to Dee, you MUST run the validator. No exceptions.**
+
+## The Rule
+
+Every document generated in this workspace — email, cap statement, RFQ, quote response, sub outreach — gets validated by `document_validator.py` BEFORE being placed in a SEND_TO folder or presented in chat.
+
+## How to Validate
+
+```python
+from document_validator import validate_document, print_validation_report
+
+results = validate_document(
+    content=your_generated_content,
+    doc_type="buyer_email",  # or cap_statement, supplier_rfq, sub_outreach, quote_response
+    known_buyer_names=["Agency Name"],     # for supplier/sub docs
+    solicitation_numbers=["W912DR..."],    # for supplier/sub docs
+)
+
+print_validation_report(results)
+```
+
+Or from terminal:
+```bash
+python document_validator.py path/to/file.html buyer_email
+```
+
+## What It Checks
+
+| Check | Applies To | Severity |
+|---|---|---|
+| Wrong phone (248.247.5020) | ALL docs | CRITICAL |
+| Wrong zip (48083) | ALL docs | CRITICAL |
+| Wrong email (bids@deedavisinc.com) | ALL docs | CRITICAL |
+| Wrong EIN (47-3015027) | ALL docs | CRITICAL |
+| Buyer name leaked | supplier_rfq, sub_outreach | CRITICAL |
+| Solicitation number leaked | supplier_rfq, sub_outreach | CRITICAL |
+| CO name leaked | supplier_rfq, sub_outreach | CRITICAL |
+| Missing CAGE/UEI | buyer_email, cap_statement, quote_response | HIGH |
+| Missing EDWOSB | buyer_email, cap_statement, quote_response | HIGH |
+| Missing ProposalBio table | buyer_email | HIGH |
+| Missing DDI-YYYY-### | supplier_rfq | HIGH |
+| Missing signature block | buyer_email | HIGH/MEDIUM |
+| Missing diversity section | quote_response | MEDIUM |
+
+## Pass/Fail Rules
+
+- **CRITICAL or HIGH failure = STOP.** Fix before presenting.
+- **MEDIUM = warning.** Note it, present anyway.
+- **All clear = proceed.**
+
+## When to Run
+
+1. After generating any buyer email
+2. After generating any capability statement
+3. After generating any supplier RFQ
+4. After generating any subcontractor outreach
+5. After generating any quote response
+6. After ANY edit to an existing document in a SEND_TO folder
+
+## Company Info Source
+
+All company info comes from `company_info.py`. NEVER hardcode company details anywhere. Import from:
+
+```python
+from company_info import PHONE_PRIMARY, EMAIL, ADDRESS_ZIP, CAGE_CODE, UEI, SIGNATURE_BLOCK
+```
+
+## If Validation Fails
+
+1. Fix every CRITICAL issue immediately
+2. Fix every HIGH issue immediately
+3. Re-run validation
+4. Only present when result is PASS
+
+## Why This Exists
+
+Because rules in .mdc files are passive instructions. This is CODE that catches mistakes before they reach Dee. Wrong phone numbers, leaked buyer names, missing sections — the validator catches what memory misses.

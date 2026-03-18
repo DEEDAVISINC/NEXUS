@@ -1,0 +1,36 @@
+---
+description: When Dee provides a state agency contact email, DDI is already a registered vendor there
+alwaysApply: true
+---
+
+# State Agency Contact = Registered Vendor
+
+## The Rule
+
+**When Dee provides a contact email from a state or local government agency, assume DDI is ALREADY a registered vendor with that agency.**
+
+This is how DDI received their contact information in the first place — through the vendor registration portal.
+
+## What This Means for Emails
+
+❌ **NEVER write a cold introduction** to a state/local agency contact:
+- "I wanted to introduce Dee Davis Inc. to your agency..."
+- "I'd love to get on your radar..."
+- "I'm reaching out to formally introduce..."
+
+✅ **ALWAYS write as a registered vendor follow-up:**
+- "We are a registered vendor with [Agency] and wanted to personally reach out..."
+- "As a registered vendor, I wanted to introduce our capabilities and make sure we're on your radar for upcoming needs..."
+- "I wanted to connect as an existing registered vendor and share our full service offerings..."
+
+## Exception
+
+Federal COs found via SAM.gov mining → those ARE cold outreach (use standard EDWOSB intro template).
+
+State/local contacts Dee provides directly → registered vendor follow-up tone.
+
+## Quick Test
+
+Ask: "How did Dee get this contact?" 
+- From a vendor portal registration → **Registered vendor tone**
+- From SAM.gov mining script → **Cold intro tone**

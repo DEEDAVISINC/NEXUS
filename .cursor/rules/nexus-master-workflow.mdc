@@ -1,0 +1,592 @@
+# NEXUS MASTER WORKFLOW — COMPLETE END-TO-END AUTOMATION
+
+**NEXUS JOB DESCRIPTION:**
+NEXUS is a cohesive AI-assisted contract acquisition system. Its complete job is:
+1. DISCOVER opportunities → 2. SCORE & QUALIFY → 3. CREATE BID INFRASTRUCTURE → 4. FIND & VET SUBS → 5. GENERATE ALL DOCUMENTS → 6. MANAGE OUTREACH → 7. TRACK TO AWARD
+
+**When ANY opportunity enters NEXUS, the FULL sequence executes automatically.**
+
+---
+
+## TRIGGER: NEW OPPORTUNITY DETECTED
+
+**Detection:**
+- User says: "I found..." / "New opportunity" / "Bid on this" / Uploads solicitation
+- NEXUS mines: SAM.gov / RSS feeds / Local portals
+- Presolicitation / Sources Sought / Intent to Sole Source identified
+
+**AUTOMATED EXECUTION SEQUENCE:**
+
+---
+
+## PHASE 1: OPPORTUNITY INTAKE & SCORING (Auto-Execute)
+
+```
+STEP 1: Extract Opportunity Data
+├── Solicitation Number
+├── Agency Name (full official name)
+├── Deadline (response date)
+├── NAICS Codes
+├── Set-Aside Type (EDWOSB/WOSB/SB/None)
+├── Contract Value (estimated or stated)
+├── Service Type: [Products | Services | Both]
+├── Sector Classification:
+│   ├── Medical/Healthcare → Blue + Red
+│   ├── Defense/DLA → Navy + Gold
+│   ├── Facilities/Grounds → Forest Green + Slate
+│   ├── Industrial/Construction → Charcoal + Orange
+│   ├── Transportation/Logistics → Deep Purple + Teal
+│   ├── Reseller/Wholesale → Steel Blue + Emerald
+│   └── Personal Items/Notary → Rose/Pink
+├── Location (State/Performance Location)
+├── Contracting Officer (name, email, phone if provided)
+└── Scope Summary (what buyer needs)
+
+STEP 2: AI Scoring (0-100)
+├── Set-Aside Match: 0-30 pts
+│   ├── EDWOSB = +30 (MAX PRIORITY)
+│   ├── WOSB = +25
+│   ├── Small Business = +15
+│   └── None = +5
+├── NAICS Match: 0-20 pts
+│   └── DDI NAICS list check
+├── Product/Service Alignment: 0-20 pts
+│   └── Keyword matching against DDI capabilities
+├── Location Score: 0-15 pts
+│   ├── Michigan = +15 (home)
+│   ├── OH/IN/IL/WI = +12 (regional)
+│   ├── Other = +10 (nationwide capable)
+├── Presolicitation Bonus: 0-15 pts
+│   ├── Sources Sought = +15 (ALWAYS RESPOND)
+│   ├── Presolicitation = +12
+│   └── Sole Source Intent = +15
+├── Deadline Urgency: -5 to +5 pts
+│   ├── 3-14 days = +5 (actionable)
+│   ├── <3 days = -5 (tight)
+│   └── >30 days = +2 (plenty of time)
+└── FINAL SCORE = [X]/100
+
+STEP 3: Tier Assignment
+├── 75-100 = 🔴 BID NOW (Auto-generate full package)
+├── 55-74 = 🟡 WORTH A LOOK (Generate, user decides)
+├── 35-54 = 🔵 MAYBE (Generate, low priority)
+└── 0-34 = ⚪ SKIP (Log only)
+```
+
+**OUTPUT:** Opportunity scored and tiered. Continue to Phase 2 if tier is 🔴🟡🔵.
+
+---
+
+## PHASE 2: BID INFRASTRUCTURE CREATION (Auto-Execute)
+
+```
+STEP 4: Create Master Folder
+├── Path: BIDS:RESOURCES/[AGENCY] [SERVICE]/
+├── Format: ALL CAPS, brief descriptor
+└── Example: "VA MEDICAL CENTER DRUG TESTING"
+
+STEP 5: Create Subfolder Structure
+├── SEND_TO_BUYER/ (buyer-facing documents)
+├── SEND_TO_SUPPLIER/ (if products identified)
+├── SEND_TO_SUBCONTRACTOR/ (if services identified)
+└── [Solicitation file moved to root]
+
+STEP 6: Create WORKFLOW_CHECKLIST.md
+Content:
+├── Bid: [Name]
+├── Solicitation #: [Number]
+├── Agency: [Full name]
+├── Deadline: [Date] (Government)
+├── Action Deadline: [Date - 5 days] (DDI internal)
+├── AI Score: [X]/100 — [TIER]
+├── Service Type: [Products/Services/Both]
+├── Sector Colors: [Color 1] + [Color 2]
+│
+├── STEP 1: Review Solicitation [ ]
+├── STEP 2: Go/No-Go Decision [ ]
+├── STEP 3: FIND SUBCONTRACTORS [IN PROGRESS] ← Auto-triggered
+├── STEP 4: Vet Subcontractors (USASpending, SAM, References) [ ]
+├── STEP 5: Generate RFQ [ ] (if products)
+├── STEP 6: Send RFQ to Suppliers [ ]
+├── STEP 7: Collect Quotes [ ]
+├── STEP 8: Select & Markup [ ]
+├── STEP 9: Prepare Bid Submission [ ]
+├── STEP 10: Review & Submit [ ]
+│
+├── SUBCONTRACTOR STATUS:
+│   ├── Target: [Service type needed]
+│   ├── Location: [Geographic requirement]
+│   ├── Sourcing Status: [Not started/In Progress/Vetted/Selected]
+│   └── Selected Sub: [Name once chosen]
+│
+└── NOTES: [Auto-updated throughout process]
+```
+
+---
+
+## PHASE 3: SUBCONTRACTOR AUTOMATED SOURCING (Auto-Execute for Services)
+
+**THIS IS THE CRITICAL GAP. NEXUS MUST auto-trigger sub sourcing for service contracts.**
+
+```
+STEP 7: Identify Subcontractor Need
+IF Service Type = [Services] OR [Both]:
+    TRIGGER: AUTOMATED_SUB_SOURCING_SYSTEM
+
+STEP 8: Search Existing Sub Database
+├── Query Airtable: SUBCONTRACTORS table
+│   ├── Service match: [drug testing/fingerprinting/NEMT/grounds/etc.]
+│   ├── Location match: [state/region from opportunity]
+│   ├── Status: Active, vetted, available
+│   └── Insurance: Current COI on file
+├── Results: [X] existing subs found
+└── IF matches found: Load to consideration list
+
+STEP 9: Auto-Find New Subcontractor Candidates
+├── A. Web Search for local providers:
+│   ├── Query: "[service type] providers [city/state]"
+│   ├── Examples: "drug testing collection sites Jackson MS"
+│   │            "fingerprinting services Ann Arbor MI"
+│   │            "medical courier companies Detroit MI"
+│   │            "landscaping contractors Washington DC"
+│   └── Compile: Company name, website, phone, address
+│
+├── B. Industry-Specific Directories:
+│   ├── Drug Testing: eScreen network locator, Quest collection sites
+│   ├── Fingerprinting: SWFT directory, state licensing boards
+│   ├── NEMT: State Medicaid broker lists, local transportation providers
+│   ├── Grounds: Local landscaping associations, municipal vendor lists
+│   └── General: ThomasNet, Manta, local chamber directories
+│
+└── C. USASpending Check (CRITICAL — Before Contact):
+    ├── Search: usaspending.gov for each candidate's legal name
+    ├── CHECK: Do they win their own government contracts?
+    │   ├── YES → CROSS OFF LIST (they're competition, not partner)
+    │   ├── NO but have CAGE code → IDEAL (registered but need prime)
+    │   └── NO contracts at all → OK (commercial focus)
+    └── Document findings in: SUBCONTRACTOR_VETTING_CHECKLIST.md
+
+STEP 10: Create Subcontractor Prospect List
+File: [BID FOLDER]/SUBCONTRACTOR_PROSPECTS.md
+Content:
+├── # SUBCONTRACTOR PROSPECTS — [Service Type] — [Location]
+├── Generated: [Date]
+├── Opportunity: [Solicitation #]
+│
+├── ## TIER 1 — EXISTING VETTED SUBS (Database)
+│   ├── [Sub Name] | [Phone] | [Location] | Status: [Vetted/Last used]
+│   └── ...
+│
+├── ## TIER 2 — NEW CANDIDATES (Research Complete)
+│   ├── [Company Name]
+│   │   ├── Website: [URL]
+│   │   ├── Phone: [Number]
+│   │   ├── Location: [Address]
+│   │   ├── USASpending Check: [No contracts found = GOOD]
+│   │   └── Initial Assessment: [Professional/Promising/Questionable]
+│   └── ...
+│
+└── ## TIER 3 — BACKUP OPTIONS
+    └── [Additional candidates if Tier 1&2 don't work out]
+
+STEP 11: Generate Subcontractor Vetting Checklist
+File: [BID FOLDER]/SUBCONTRACTOR_VETTING_CHECKLIST.md
+
+For EACH candidate (starting with Tier 1, then Tier 2):
+
+PILLAR 1: VET — Is This Sub Qualified?
+├── [ ] SAM.gov Registration (active, no exclusions)
+├── [ ] CAGE Code (verified)
+├── [ ] State Business License (valid in [work state])
+├── [ ] Professional Licenses (if required: DOT/SAMHSA/SWFT/etc.)
+├── [ ] USASpending Check (no contract wins in same service type)
+├── [ ] Website Review (professional, credible)
+├── [ ] Years in Business (minimum 2 years preferred)
+├── [ ] References (2-3 from similar contracts)
+├── [ ] Geographic Coverage (matches requirement)
+└── [ ] Capacity Assessment (can handle volume?)
+
+PILLAR 2: PROTECT — Agreements
+├── [ ] NDA Signed (before sharing scope)
+├── [ ] Non-Compete Signed (before sharing contract details)
+└── [ ] No end-run protections confirmed
+
+PILLAR 3: INSURE — Coverage Verified
+├── [ ] General Liability ($1M/$2M minimum)
+├── [ ] Workers Compensation (state required)
+├── [ ] Professional Liability/E&O (if applicable)
+├── [ ] Commercial Auto (if driving involved)
+├── [ ] COI Received with DDI as Additional Insured
+├── [ ] Coverage dates match contract period
+└── [ ] 30-day cancellation notice to DDI confirmed
+
+PILLAR 4: PLAN — Staffing & Work Plan
+├── [ ] Key Personnel Names & Roles
+├── [ ] Qualifications/Certifications
+├── [ ] Backup Personnel Plan
+├── [ ] Background Check Clearance (if federal facility)
+├── [ ] Work Plan (step-by-step approach)
+└── [ ] Equipment/Materials they provide
+
+PILLAR 5: COMMUNICATE — Cadence Established
+├── [ ] Weekly Status Update commitment
+├── [ ] Sub reports issues to DDI immediately (not CO)
+├── [ ] All govt communication through DDI confirmed
+└── [ ] Escalation path established
+
+PILLAR 6: MANAGE — Performance Tracking
+├── [ ] Performance metrics defined
+└── [ ] Documentation system ready
+
+STEP 12: Generate Outreach Materials
+├── A. Subcontractor Outreach Email
+│   ├── File: SEND_TO_SUBCONTRACTOR/SUBCONTRACTOR_OUTREACH_EMAIL.md
+│   ├── Generic scope (NO buyer name revealed)
+│   ├── DDI positioned as prime contractor
+│   ├── Service area: [Geographic, generic]
+│   └── Request for: Capabilities, references, availability
+│
+├── B. Subcontractor Scope Document
+│   ├── File: SEND_TO_SUBCONTRACTOR/SUBCONTRACTOR_SCOPE.md
+│   ├── Generic description of work
+│   ├── Deliverables (without revealing buyer)
+│   ├── Timeline (aligned with contract period)
+│   └── Qualification requirements
+│
+└── C. COI Request Template
+    └── File: SEND_TO_SUBCONTRACTOR/COI_REQUEST_EMAIL.md
+
+STEP 13: Create Airtable Records
+├── For EACH candidate sub:
+│   ├── Table: GPSS SUBCONTRACTORS
+│   ├── Fields:
+│   │   ├── Sub Name
+│   │   ├── Service Type
+│   │   ├── State/Location
+│   │   ├── Status: "Vetting In Progress"
+│   │   ├── USASpending Check: [Pass/Fail]
+│   │   ├── Opportunity Link: [Solicitation #]
+│   │   └── Folder Path: [Bid folder]
+```
+
+---
+
+## PHASE 4: BUYER DOCUMENT GENERATION (Auto-Execute)
+
+```
+STEP 14: Generate Capability Statement
+├── A. Sector Color Selection (auto-detected in Step 1)
+│   └── [Medical = Blue + Red, Defense = Navy + Gold, etc.]
+│
+├── B. Extract Base64 Logo
+│   ├── Source: Search BIDS:RESOURCES/ for existing cap statements
+│   ├── Extract: data:image/png;base64,... from any working cap statement
+│   └── Embed in new cap statement (NEVER use placeholder text)
+│
+├── C. Build Content
+│   ├── Header: DEE DAVIS INC + CAGE + UEI + Cert Badges
+│   ├── Title: "CAPABILITY STATEMENT — [Service Mirroring Buyer Language]"
+│   ├── EDWOSB Advantage Box (prominent)
+│   ├── Company Overview (tailored to THIS opportunity)
+│   │   ├── Use buyer's mission/vision language
+│   │   ├── Reference their specific needs
+│   │   └── Mirror RFP terminology
+│   ├── Core Competencies (4 boxes matching scope areas)
+│   ├── Service Capabilities (bulleted, mirrors RFP language)
+│   ├── Why Choose DDI (tailored differentiators)
+│   ├── NAICS Codes (relevant to THIS solicitation)
+│   ├── Certifications (EDWOSB/WOSB/WBENC/MBE/SBE/SWFT)
+│   └── Contact: 248.376.4550 | info@deedavis.biz | Troy, MI 48084
+│
+├── D. Apply ProposalBio (All 10 Biohacks)
+│   ├── #1 Mirror Neuron: Match buyer's cultural tone
+│   ├── #2 Cognitive Ease: 6-8th grade reading level
+│   ├── #3 Story Arc: Challenge → Solution → Result
+│   ├── #4 Reciprocity: Smart questions, insights
+│   ├── #5 Yes Stacking: Capabilities mirror RFP bullets
+│   ├── #6 Familiarity: Echo their exact terminology
+│   ├── #7 Name Recognition: Agency name 3+ times
+│   ├── #8 Sensory Language: Concrete details (numbers, locations)
+│   ├── #9 Rhythm: Sentence variety
+│   └── #10 Eye Tracking: Scannable layout
+│
+├── E. Verify Company Info (MANDATORY CHECK)
+│   ├── [ ] Phone: 248.376.4550 (NOT 248.247.5020)
+│   ├── [ ] Address: Troy, MI 48084 (NOT 48083)
+│   ├── [ ] Email: info@deedavis.biz
+│   ├── [ ] CAGE: 8UMX3
+│   └── [ ] UEI: HJB4KNYJVGZ1
+│
+├── F. Filename & Placement
+│   ├── [SolNumber]_[Type]_Capability_Statement.html
+│   └── Place in: SEND_TO_BUYER/
+
+STEP 15: Generate Buyer Email
+├── A. Subject Line
+│   └── "EDWOSB Interest — [Service] ([Solicitation Number])"
+│
+├── B. Content Structure
+│   ├── Personal greeting (if CO name known)
+│   ├── First paragraph: EDWOSB status + solicitation reference
+│   ├── Second paragraph: Brief capabilities tailored to scope
+│   ├── Smart Questions (3-4 showing homework)
+│   ├── Mention attached capability statement
+│   ├── Warm closing (human touch, not sterile)
+│   └── Signature block with all certifications
+│
+├── C. ProposalBio Framework Table (at top of file)
+│   ├── Document which biohacks applied
+│   ├── List mirrored buyer language
+│   └── Note agency name frequency
+│
+├── D. Filename & Placement
+│   └── SEND_TO_BUYER_EMAIL_READY.md
+
+STEP 16: Create Quote Response (IF multi-page proposal needed)
+├── A. Copy QUOTE_RESPONSE_TEMPLATE.html
+├── B. Replace ALL {{PLACEHOLDER}} values
+├── C. Build Compliance Matrix (one row per requirement)
+├── D. Build Pricing Table (exact CLINs from solicitation)
+├── E. Apply ProposalBio to Technical Approach
+├── F. Verify all company info correct
+├── G. Filename: [SolNumber]_[Type]_Quote_Response.html
+└── H. Place in: SEND_TO_BUYER/
+```
+
+---
+
+## PHASE 5: SUPPLIER RFQ GENERATION (Auto-Execute for Products)
+
+```
+STEP 17: IF Products Identified:
+├── A. Extract from Solicitation:
+│   ├── Line items
+│   ├── Specifications/part numbers
+│   ├── Quantities
+│   └── Delivery requirements
+│
+├── B. Generate RFQ
+│   ├── RFQ Number: DDI-2026-### (sequential, NO buyer info)
+│   ├── Title: "[Product Category] Quote Request" (generic)
+│   ├── Client Reference: "Michigan municipal client" (NOT buyer name)
+│   ├── Location: "Southeast Michigan" or "Metro Detroit" (county level)
+│   ├── Deadline: [Government deadline - 5 days]
+│   └── Product table with specs (no identifying info)
+│
+├── C. Run Buyer Protection Checklist (MANDATORY)
+│   ├── [ ] NO agency names anywhere
+│   ├── [ ] NO solicitation numbers
+│   ├── [ ] NO procurement officer names
+│   ├── [ ] NO specific street addresses
+│   ├── [ ] RFQ number is DDI-YYYY-### only
+│   ├── [ ] Generic project name only
+│   └── [ ] Supplier deadline earlier than govt deadline
+│
+├── D. Generate Supplier Sourcing Guide
+│   ├── File: [BID FOLDER]/SUPPLIER_SOURCING_GUIDE.md
+│   ├── ThomasNet search terms
+│   ├── Distributor contacts to research
+│   └── Industry-specific sources
+│
+└── E. Filename & Placement
+    ├── DDI-2026-###_RFQ_[Product].pdf or .html
+    └── Place in: SEND_TO_SUPPLIER/
+```
+
+---
+
+## PHASE 6: SYSTEM UPDATES (Auto-Execute)
+
+```
+STEP 18: Update Airtable
+├── Table: GPSS OPPORTUNITIES
+│   ├── Name: [Solicitation title]
+│   ├── RFP NUMBER: [Solicitation #]
+│   ├── AGENCY: [Full agency name]
+│   ├── Deadline: [Response date]
+│   ├── Source Status: "[TIER] — AI Score [score]/100"
+│   ├── AI Recommendation : "[tier] ([score]/100)"
+│   ├── SOURCE: "NEXUS Auto-Intake"
+│   ├── State: [Location]
+│   ├── Set-Aside Type: [EDWOSB/WOSB/etc]
+│   ├── NAISC Codes: [extracted]
+│   ├── Priority: [High/Medium/Low based on tier]
+│   ├── Notes: "Cap statement, buyer email, and sub vetting in progress. Folder: [path]"
+│   └── Link to Folder: [Bid folder path]
+│
+├── IF Subcontractors Involved:
+│   └── Table: GPSS SUBCONTRACTOR COMPLIANCE
+│       ├── Sub Name
+│       ├── Opportunity Link
+│       ├── Vetting Status: "In Progress"
+│       └── Pillar Checklist: [JSON of 6-pillar status]
+│
+└── Table: GPSS DASHBOARD (if applicable)
+    └── Update bid pipeline counts
+
+STEP 19: Update CURRENT_SESSION_STATE.md
+├── Add to Active Bids table
+├── Update opportunity scored list
+├── Set upcoming deadline reminder
+└── Log any open loops (sub sourcing in progress)
+
+STEP 20: Update WORKFLOW_CHECKLIST.md
+├── Mark Step 1 complete [✓]
+├── Mark Step 2 complete [✓]
+├── Mark Step 3 In Progress [⏳]
+├── Update Subcontractor Status section
+└── Add deadline reminders
+```
+
+---
+
+## PHASE 7: PRESENTATION & NEXT ACTIONS (Auto-Execute)
+
+```
+STEP 21: Generate Completion Report
+
+"✅ NEXUS AUTO-INTAKE COMPLETE — [timestamp]
+
+📋 OPPORTUNITY SCORED:
+   [Agency] — [Service Type]
+   AI Score: [score]/100 — [TIER]
+   Deadline: [date] ([X] days remaining)
+   Action Deadline: [date - 5 days]
+
+📁 FOLDER CREATED:
+   BIDS:RESOURCES/[FOLDER NAME]/
+   ├── SEND_TO_BUYER/
+   ├── SEND_TO_SUPPLIER/ [if products]
+   ├── SEND_TO_SUBCONTRACTOR/ [if services]
+   └── WORKFLOW_CHECKLIST.md
+
+📄 BUYER DOCUMENTS GENERATED:
+   SEND_TO_BUYER/
+   ├── [SolNumber]_Capability_Statement.html ([Sector Colors])
+   ├── SEND_TO_BUYER_EMAIL_READY.md
+   └── [SolNumber]_Quote_Response.html [if needed]
+
+👥 SUBCONTRACTOR SOURCING [AUTO-TRIGGERED]:
+   ├── SUBCONTRACTOR_PROSPECTS.md (Tier 1 & 2 candidates)
+   ├── SUBCONTRACTOR_VETTING_CHECKLIST.md (6-pillar framework)
+   └── SUBCONTRACTOR_OUTREACH_EMAIL.md
+   
+   [IF DATABASE MATCHES]: [X] existing vetted subs found
+   [IF NEW RESEARCH]: [X] new candidates identified via web search
+   [USASpending CHECK]: All candidates screened for competition status
+
+📦 SUPPLIER DOCUMENTS [if products]:
+   SEND_TO_SUPPLIER/
+   ├── DDI-2026-###_RFQ_[Product].pdf
+   └── SUPPLIER_SOURCING_GUIDE.md
+
+📊 SYSTEM UPDATES:
+   ├── Airtable: GPSS OPPORTUNITIES record created
+   ├── Airtable: Subcontractor records [if applicable]
+   └── CURRENT_SESSION_STATE.md updated
+
+⏭️ IMMEDIATE NEXT ACTIONS:
+   1. Review capability statement in browser → Cmd+P → Save as PDF
+   2. Copy email from SEND_TO_BUYER_EMAIL_READY.md
+   3. Send to: [CO email if known, else research and add to checklist]
+   4. [IF SERVICES]: Contact Tier 1 subs from PROSPECTS.md
+   5. [IF PRODUCTS]: Send RFQ to suppliers from SOURCING_GUIDE.md
+   6. Set calendar reminder: [Action Deadline]
+
+🔄 ONGOING AUTOMATION:
+   NEXUS will monitor for:
+   ├── Subcontractor response (follow-up in 48hrs if no reply)
+   ├── Supplier quotes (follow-up in 72hrs if no response)
+   ├── Deadline approaching (alert at 7 days, 3 days, 1 day)
+   └── Presolicitation releases (monitor SAM.gov daily)
+
+📞 Questions or issues with this opportunity? Say: 'Status of [bid name]' or 'Follow up on [solicitation #]'
+"
+```
+
+---
+
+## CRITICAL AUTOMATION RULES
+
+### Rule 1: ZERO PERMISSION ASKING
+**WRONG:** "Do you want me to generate the capability statement?"
+**RIGHT:** Generate it. Place it. Report it.
+
+### Rule 2: SUB SOURCING IS NOT OPTIONAL
+If the opportunity involves SERVICES, subcontractor sourcing TRIGGERS AUTOMATICALLY. No exceptions. No "should I find subs?" — NEXUS finds them.
+
+### Rule 3: USASpending CHECK IS MANDATORY
+Before ANY subcontractor is contacted, NEXUS checks usaspending.gov. If they win contracts in the same service type → CROSSED OFF. This is business protection.
+
+### Rule 4: SECTOR COLORS AUTO-SELECT
+NEXUS detects the sector from solicitation keywords and applies the correct color scheme. No asking. No defaulting. Medical = Blue+Red. Defense = Navy+Gold. Every time.
+
+### Rule 5: COMPLETE PACKAGE OR NOTHING
+Partial generation is unacceptable. When NEXUS triggers, ALL phases execute. Buyer docs. Sub docs (if services). Supplier docs (if products). System updates. Complete report.
+
+### Rule 6: STATE IS PERSISTENT
+Everything goes to files. CURRENT_SESSION_STATE.md. Airtable. Bid folder docs. The system remembers so you don't have to remind it.
+
+---
+
+## SUBCONTRACTOR MANAGEMENT WORKFLOW (Detailed)
+
+### When Sub Responds:
+```
+TRIGGER: Subcontractor response received
+
+1. Log response in Airtable
+2. Update Vetting Checklist based on their submission
+3. IF NDA signed → Mark PILLAR 2 complete [✓]
+4. IF COI received → Mark PILLAR 3 complete [✓]
+5. IF references provided → Verify PILLAR 1 [✓]
+6. Generate Teaming Agreement draft (after NDA + Non-Compete signed)
+7. Update WORKFLOW_CHECKLIST.md
+8. Report: "[Sub Name] vetting status: [X]/6 pillars complete"
+```
+
+### When Sub Selected:
+```
+TRIGGER: Subcontractor selected for contract
+
+1. Mark as SELECTED in Airtable
+2. Generate final Subcontractor Management Plan
+3. Set calendar reminders:
+   ├── Insurance renewal dates
+   ├── Performance review dates
+   ├── Reporting deadlines
+4. Update WORKFLOW_CHECKLIST.md: "Sub selected: [Name] [✓]"
+5. Report: "Subcontractor locked. Contract can proceed."
+```
+
+---
+
+## WHAT THIS FIXES
+
+| Current Problem | This Solution |
+|-----------------|---------------|
+| "NEXUS has capabilities but I have to ask for each one" | ONE trigger executes ALL phases automatically |
+| "Cursor forgets what we're working on" | CURRENT_SESSION_STATE.md persists everything |
+| "I have to remember to find subs" | Sub sourcing auto-triggers for service contracts |
+| "USASpending check gets skipped" | Mandatory before sub contact |
+| "Sector colors are inconsistent" | Auto-detected from solicitation, never wrong |
+| "Documents are generated piecemeal" | Complete package: buyer + sub + supplier (as needed) |
+| "Don't know what's active" | Session startup reports all active bids |
+| "No unified job description" | This document defines NEXUS complete job |
+
+---
+
+## NEXUS COMPLETE JOB SUMMARY
+
+**NEXUS is a cohesive AI-assisted contract acquisition system.**
+
+**Its complete job:**
+1. **DISCOVER** opportunities (SAM.gov, RSS, local portals)
+2. **SCORE & QUALIFY** using 6-criteria AI scoring
+3. **CREATE** bid infrastructure (folders, checklists, tracking)
+4. **FIND & VET** subcontractors (auto-sourced, USASpending checked, 6-pillar vetted)
+5. **GENERATE** all documents (buyer cap statements, emails, RFQs, sub outreach)
+6. **MANAGE** outreach and responses (track status, auto-remind, follow up)
+7. **TRACK** to award (deadline alerts, status updates, win/loss logging)
+
+**ONE TRIGGER. FULL EXECUTION. NO FRAGMENTATION.**

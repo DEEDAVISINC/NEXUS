@@ -1,0 +1,60 @@
+---
+description: Enforce rubric-mirroring so evaluators can instantly find and score answers
+alwaysApply: true
+---
+
+# Rubric Mirroring & Scoreability Rule (Additive)
+
+Evaluators are human, but scoring is constrained by rubric criteria.
+If a requirement is not explicitly addressed in scoreable form, points are lost.
+
+This rule is additive and does not replace existing workflows.
+
+## Core Principle
+
+- Mirror rubric language directly.
+- Make answers instantly findable.
+- Do not rely on implication or inferred meaning.
+
+## Mandatory Writing Pattern for Scored Sections
+
+For each scored rubric line item:
+
+1. **Header mirrors rubric language**
+- Use requirement wording in the section header.
+
+2. **First line states the outcome/commitment**
+- Directly answer the criterion in one sentence.
+
+3. **Second line provides proof**
+- Evidence, metric, control, or reference that supports the claim.
+
+4. **Requirement-to-evidence chain is explicit**
+- No evaluator guesswork.
+
+## Required Structure
+
+For each criterion:
+- `Criterion ID / Name`
+- `Requirement (rubric text or precise paraphrase)`
+- `DDI Response (explicit answer)`
+- `Evidence / Proof`
+- `Evaluator Outcome (how this satisfies scoring intent)`
+
+## Hard Stop Conditions
+
+Do not mark proposal ready if:
+- Rubric items are not mirrored in headings/subheadings
+- Responses are implied rather than explicit
+- Evidence is absent or non-specific
+- Evaluator must search across multiple sections to score one criterion
+
+## Readiness Checklist (Pass/Fail)
+
+- Rubric Header Mirroring: PASS/FAIL
+- Explicit First-Line Answers: PASS/FAIL
+- Second-Line Proof Present: PASS/FAIL
+- Criterion-to-Evidence Mapping Complete: PASS/FAIL
+- Instant Scoreability (<30s findability): PASS/FAIL
+
+If any FAIL, revise and recheck before finalization.

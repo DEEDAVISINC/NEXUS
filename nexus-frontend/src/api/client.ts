@@ -378,6 +378,30 @@ export const api = {
   mineGrantSource: (sourceId: string) =>
     ApiClient.post('/gbis/mine-source', {target_id: sourceId}),
 
+  // GBIS Mining — discovery triggers
+  gbisRunAll: () =>
+    ApiClient.post('/gbis/mine-all', {}),
+  gbisMineSource: (sourceType: 'michigan_foundations' | 'veteran_grants' | 'grants_gov' | 'all') =>
+    ApiClient.post('/gbis/mine-source', {source_type: sourceType}),
+  gbisSeedMichiganFoundations: () =>
+    ApiClient.post('/gbis/research-lane/seed-foundations', {}),
+  gbisSeedVeteranSources: () =>
+    ApiClient.post('/gbis/research-lane/seed-veteran-sources', {}),
+  gbisMineFederal: () =>
+    ApiClient.post('/gbis/research-lane/mine-federal', {}),
+  gbisGetResearchLane: (entity?: string) => {
+    const query = entity ? `?entity=${encodeURIComponent(entity)}` : '';
+    return ApiClient.get(`/gbis/research-lane/opportunities${query}`);
+  },
+
+  // GBIS Small Business Grants
+  gbisSeedSmallGrants: () =>
+    ApiClient.post('/gbis/mine-small-grants/seed', {}),
+  gbisSeedSmallGrantsFreeOnly: () =>
+    ApiClient.post('/gbis/mine-small-grants/seed-free', {}),
+  gbisSmallGrantsDailyDigest: () =>
+    ApiClient.get('/gbis/mine-small-grants/daily-digest'),
+
   // VERTEX Financial System - Essential endpoints only
   createVertexExpense: (data: any) => ApiClient.post('/vertex/expenses', data),
   exportToQuickBooks: (data: any) => ApiClient.post('/vertex/export/quickbooks', data),

@@ -1,24 +1,27 @@
 # 🏢 DEE DAVIS INC - COMPLETE CAPABILITIES
 ## "The Professionals' Professionals"
 
-**Source:** deedavis.biz (February 6, 2026)  
-**Positioning:** Strategic consulting firm with proprietary technology platforms
+**Source:** deedavis.biz + NEXUS system documentation  
+**Last Updated:** March 14, 2026
 
 ---
 
 ## 🎯 CORE POSITIONING
 
-**NOT just a broker/reseller - You're a STRATEGIC CONSULTING FIRM!**
+**Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity.**
+
+DDI is not a broker, not a reseller, not a staffing agency. DDI is a technology-powered contract management firm that wins contracts, sources qualified partners to execute the work, and manages every aspect of delivery through proprietary AI platforms built in-house by founder Dee Davis. The result: Fortune 500-level operations at small business scale, with nothing stopping because one person or one system is unavailable.
 
 **Mission Statement:**
-"We partner with enterprise and government clients navigating complex operational challenges and high-stakes project execution."
+"We ensure business continuity for enterprise and government clients by winning contracts, managing delivery, and powering operations through proprietary AI technology — so nothing stops."
 
 **Key Differentiators:**
-- ✅ Proprietary technology platforms (ATLAS PM, FleetFlow™)
-- ✅ Multi-sector expertise (healthcare, logistics, government, crisis management)
-- ✅ Enterprise-grade project orchestration capabilities
-- ✅ AI-enabled automation and predictive analytics
-- ✅ Federal compliance and credentialing expertise
+- ✅ **Business continuity as core identity** — every service line exists to keep operations running without interruption
+- ✅ **8+ proprietary AI technology platforms** built in-house by founder (NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS) — a 5-10 year competitive advantage
+- ✅ Multi-sector expertise across healthcare, logistics, government, facilities, emergency management, professional services, and every sector
+- ✅ Enterprise-grade project orchestration that automates 90% of the contract lifecycle
+- ✅ Federal compliance and credentialing expertise with full EDWOSB/WOSB/WBE/MBE/SBE/WBENC/CMMC-AB certifications
+- ✅ Technology infrastructure qualifies for SBIR/STTR grants, tech innovation funding, and future SaaS licensing
 
 ---
 
@@ -169,53 +172,80 @@
 
 ---
 
-### **5. FEDERAL COMPLIANCE & CREDENTIALING** ✅
+### **5. CREDENTIALING & IDENTITY VERIFICATION SERVICES** ✅
 
-**What You Offer:**
-- Mobile testing programs
-- Background checks & fingerprinting
-- DOT compliance services
-- Drug & alcohol screening programs
-- Regulatory compliance consulting
+**DDI provides a unified credentialing, identity verification, and document authentication platform — ensuring workforce compliance, security clearance processing, and legal document integrity never lapse.**
+
+**Biometric Fingerprinting:**
+- Live scan electronic biometric fingerprinting (digital capture)
+- Ink fingerprinting on FBI FD-258 cards (standard federal format)
+- SWFT electronic submission to DCSA/FBI (DDI is SWFT-authorized)
+- ATF Electronic Fingerprint Transmission (EFT) creation for FFL dealers, NFA applications
+- Mobile biometric fingerprinting services (on-site at client facilities)
+- Cross-state licensing fingerprinting (states outside IdentoGO network)
+- Federal contractor security clearance fingerprinting
+- Background check coordination and FBI channeling
+
+**Notary & Document Authentication:**
+- Michigan Commissioned Notary Public (active since April 2005 — 20+ years)
+- CNTDA — Certified Notary & Trained Document Agent (estate planning, trust signings, POA, healthcare directives)
+- NPR — Notary Permit Runner (building permit expediting for contractors)
+- Remote Online Notarization (RON) via ZigSig platform (nationwide coverage)
+- Mobile notary services (nationwide coverage)
+- Loan signing agent services (mortgage closings)
+- Hospital, jail, and facility notarizations
+
+**Apostille & Document Authentication:**
+- Apostille processing and coordination (Hague Convention authentication)
+- Secretary of State document authentication
+- Federal document authentication and certification
+- International document legalization coordination
+- Embassy/consulate document processing support
+
+**Background Checks & Screening:**
+- Criminal history checks (local, state, federal)
+- Employment and education verification
+- Professional license verification
+- Motor vehicle records and credit checks
+- Sex offender registry checks
+- Ongoing monitoring programs
 
 **Strategic Partnerships:**
-- **Quest Diagnostics** (Certified DOT drug testing provider!)
-- **DDC DNA Diagnostics** (Court-admissible DNA testing!)
+- **Quest Diagnostics** (Certified DOT drug testing provider)
+- **DDC DNA Diagnostics** (Court-admissible DNA testing)
+- **ZigSig** (Remote Online Notarization platform — nationwide)
+- **NALI** (Professional training & compliance certification)
+- **Lakota** (EFT file creation partnership)
 
 **Federal Contracting Value:**
-- DOT drug testing contracts (Quest Diagnostics partnership!)
-- Background check services for federal agencies
-- Compliance program implementation
-- Mobile testing coordination
-- Fingerprinting services
-
-**This is HUGE:** Quest Diagnostics partnership = legitimate DOT testing capability!
+- SWFT-authorized biometric fingerprinting at federal installations, military bases, federal prisons, courthouses
+- DOT drug testing contracts (Quest Diagnostics partnership)
+- Background check programs for federal agencies
+- Mobile notary and RON services for government offices nationwide
+- Compliance program implementation and management
+- Credentialing as a service — DDI manages the entire identity verification lifecycle
 
 ---
 
-### **6. PROFESSIONAL SERVICES** ✍️
+### **6. PROFESSIONAL BUSINESS SERVICES** ✍️
 
-**What You Offer:**
-- Notary services
-- Signing agency services
-- Staffing solutions
-- Document preparation
-- Surety bonds
+**What DDI Offers:**
+- Document preparation (government forms, bid packages, permit applications, legal document packages)
+- Staffing solutions (administrative, professional, contract — via The Employment Crew partnership)
+- Surety bonds (bid, performance, payment, license bonds — via SuretyCloud)
+- Translation and interpretation services
+- Records management support
 
 **Strategic Partnerships:**
-- **Snapdocs** (National signing agent marketplace)
-- **ZigSig** (Remote Online Notarization platform!)
-- **SuretyCloud** (Federal contract bond solutions!)
-- **NALI** (Professional training & compliance certification)
+- **SuretyCloud** (Federal contract bond solutions)
+- **The Employment Crew** (Staffing and recruiting)
+- **Bankers Factoring** (DDI is an authorized broker — earns commissions on referrals + uses for own government invoices. Non-recourse factoring, up to 90% advance, same-day funding, PO financing)
 
 **Federal Contracting Value:**
-- Mobile notary services for federal agencies
-- RON (Remote Online Notarization) capabilities
-- Document management services
-- Surety bond coordination for contractors
-- Staffing solutions
-
-**This is KEY:** RON capability (ZigSig) = can provide remote notary nationwide!
+- Document management services for agencies
+- Surety bond coordination for government contractors
+- Staffing solutions for government agencies
+- Administrative support services
 
 ---
 
@@ -226,18 +256,34 @@
 - ✅ WOSB (Woman-Owned Small Business)
 - ✅ WBE (Woman Business Enterprise)
 - ✅ MBE (Minority Business Enterprise - NMSDC)
-- ✅ CMMC-AB (Cybersecurity Maturity Model Certification) **← NEW!**
+- ✅ SBE (Small Business Enterprise)
+- ✅ WBENC (Women's Business Enterprise National Council)
+- ✅ SupplierGateway — Certificate of Diverse Ownership (DBE, MBE, SB, SDB, WO — valid through July 2028)
+- ⚠️ Coupa Verified Supplier (Cert ID: 7002160) — EXPIRED 11/2025, needs renewal
+- ✅ CMMC-AB (Cybersecurity Maturity Model Certification)
 
-### **Federal Registration:**
+### **Federal Compliance & Authorization:**
+- ✅ E-Verify Certified (Employment Eligibility Verification — required by many federal contracts)
+- ✅ SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
 - ✅ CAGE Code: 8UMX3
 - ✅ UEI: HJB4KNYJVGZ1
 - ✅ DUNS: 002636755
 - ✅ SAM.gov: Active
 
+### **State Licenses:**
+- ✅ Michigan Personnel Agency License #6016004743 (Staffing / Personnel Services)
+- ✅ Michigan Property Pre-License (A.D. Banker & Company, 2022)
+- ✅ Michigan Commissioned Notary Public (Active since April 2005 — 20+ years)
+
+### **Professional Training:**
+- ✅ Property Data Collection Training (Walitt Solutions, 2022) — Residential property inspections and data collection
+- ✅ Project Management for Government Projects (certificate on file)
+
 ### **Industry Licenses:**
-- ✅ NPI: 153893911 (Healthcare Provider) **← HUGE!**
+- ✅ NPI: 153893911 (Healthcare Provider)
 - ✅ MC Number: 1647572 (Freight Broker)
 - ✅ US DOT: 4250594
+- ✅ TWIC Credentialed (Transportation Worker Identification Credential — TSA secure facility access)
 
 ---
 
@@ -249,16 +295,15 @@
 3. **Uber Health** - NEMT transportation platform
 
 ### **Professional Services:**
-4. **Snapdocs** - National signing agent marketplace
-5. **ZigSig** - Remote Online Notarization (RON) platform
-6. **NALI** - Professional training & compliance
+4. **ZigSig** - Remote Online Notarization (RON) platform
+5. **NALI** - Professional training & compliance
 
 ### **Financial Services:**
-7. **Bankers Factoring** - Invoice factoring solutions
-8. **SuretyCloud** - Federal contract bond solutions
+6. **Bankers Factoring** - DDI is an authorized broker (referral commissions) + client (own invoice factoring). Non-recourse, up to 90% advance, same-day funding, government specialist
+7. **SuretyCloud** - Federal contract bond solutions
 
 ### **Logistics:**
-9. **Freight 1st Direct** - DDI's independent freight brokerage (MC-1647572, DOT-4250594)
+8. **Freight 1st Direct** - DDI's independent freight brokerage (MC-1647572, DOT-4250594)
 
 ---
 
@@ -301,28 +346,32 @@
 
 ---
 
-## 🎯 UPDATED FEDERAL CONTRACTING STRATEGY
+## 🎯 FEDERAL CONTRACTING STRATEGY
 
-### **You're NOT just a middleman - you're a CONSULTING FIRM with:**
+### **DDI is a contract management firm and business operating system focused on business continuity, powered by:**
 
-**Technology Infrastructure:**
-- Proprietary platforms (ATLAS PM, FleetFlow™)
-- AI-enabled automation
-- Real-time visibility
+**Proprietary AI Technology (Founder-Built):**
+- 8+ integrated platforms (NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS)
+- 90% automation of the contract lifecycle
+- Fortune 500-level operations at small business scale
+- SBIR/STTR eligible, tech grant ready, future SaaS licensing potential
 
 **Healthcare Credentials:**
-- NPI (Healthcare Provider)
-- Active Medicaid provider
-- Quest Diagnostics certified
-- Uber Health partner
+- NPI: 1538939111 (Healthcare Provider)
+- Active Medicaid provider (Michigan, Maryland)
+- Quest Diagnostics certified DOT testing
+- Uber Health NEMT partnership
+- DDC DNA Diagnostics collection partner
 
 **Professional Certifications:**
 - DOT drug testing certified (via Quest)
+- SWFT authorized (federal fingerprinting)
 - RON certified (via ZigSig)
-- Signing agent (via Snapdocs)
+- NNA certified signing agent
 - Cybersecurity certified (CMMC-AB)
+- DOT/MC authority for freight brokerage
 
-**This positioning is 10X STRONGER than "freight broker" or "reseller"!**
+**The business continuity model + proprietary technology = the strongest positioning in DDI's competitive set.**
 
 ---
 
@@ -427,12 +476,9 @@
 
 ---
 
-**YOU'RE NOT A BROKER - YOU'RE A TECHNOLOGY-ENABLED STRATEGIC CONSULTING FIRM!** 🚀
-
-**This is MUCH stronger positioning for federal contracts!**
+**DDI is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity — powered by proprietary AI technology platforms built by the founder.**
 
 ---
 
-*Created: February 6, 2026*  
-*Source: deedavis.biz*  
-*Impact: 10X stronger federal contracting position*
+*Last Updated: March 14, 2026*  
+*Source: deedavis.biz + NEXUS system documentation + COMPANY_INFO_MASTER.md*

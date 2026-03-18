@@ -1,0 +1,59 @@
+---
+description: Enforce clarity as evaluator usability and scoring strategy
+alwaysApply: true
+---
+
+# Clarity as Strategy Rule (Additive)
+
+Evaluators asking for "clear and concise" are asking for scoring usability:
+- easy to understand,
+- easy to score,
+- easy to defend.
+
+This rule is additive and does not replace existing workflows.
+
+## Core Principle
+
+Concise does not mean "less content."  
+Concise means "low-friction meaning extraction."
+
+## Required Response Characteristics
+
+1. **Logical Structure**
+- Sections aligned to evaluation criteria and requirement groups.
+- Stable section order across the response.
+
+2. **Predictable Flow**
+- Each section starts with intent.
+- Transitions show requirement -> approach -> outcome.
+
+3. **Zero Ambiguity**
+- No vague claims without mechanism.
+- No unclear ownership, timeline, or deliverable language.
+
+4. **Reader Guidance**
+- Explicit signposts for what matters.
+- "Where this is addressed" cues for quick scoring.
+
+5. **Low Re-read Risk**
+- Paragraphs should be first-pass understandable.
+- If likely to require rereading, rewrite.
+
+## Hard Stop Conditions
+
+Do not mark package ready if:
+- Structure is not criteria-aligned
+- Key claims are ambiguous
+- Reader must infer logic across sections
+- High cognitive friction is detected
+
+## Required Readiness Checks
+
+Before final status:
+- Structure Usability: PASS/FAIL
+- Flow Predictability: PASS/FAIL
+- Ambiguity Control: PASS/FAIL
+- Scoring Defensibility: PASS/FAIL
+- First-Pass Readability: PASS/FAIL
+
+If any FAIL, return remediation actions before release.

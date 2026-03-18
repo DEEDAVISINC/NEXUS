@@ -1,0 +1,394 @@
+# NEXUS SYSTEM CORRECTIONS & CLARIFICATIONS
+
+**Fixing system boundaries and manual usability.**
+
+---
+
+## CORRECTION 1: VERTEX Scope
+
+### ❌ WRONG: Forecasting in VERTEX
+
+**VERTEX** = Financial Excellence & Revenue Tracking Executive System
+
+**What VERTEX Actually Does:**
+- ✅ Invoice generation from all systems
+- ✅ Payment tracking
+- ✅ Expense management (subs, suppliers, field agents)
+- ✅ Cash flow tracking (actuals, not forecasts)
+- ✅ Revenue reconciliation
+- ✅ Profitability analysis by business line
+
+**What VERTEX Does NOT Do:**
+- ❌ Opportunity forecasting (that's GPSS pipeline)
+- ❌ Win probability scoring (that's GPSS AI)
+- ❌ Revenue projections (that's GPSS pipeline value)
+
+### ✅ CORRECT: Forecasting Lives in GPSS (Pipeline)
+
+**GPSS** already has:
+- Win Probability field (0-100%)
+- Pipeline Stage tracking
+- Estimated contract values
+- AI scoring for likelihood
+
+**Forecasting Report (GPSS generates):**
+```
+Pipeline Forecast (Next 90 Days)
+├── Stage 5 (Submitted): $X (high probability)
+├── Stage 4 (Development): $Y (medium probability)
+└── Stage 3 (Resourcing): $Z (low probability)
+
+Weighted Forecast: $[X + (Y×0.6) + (Z×0.3)]
+```
+
+**VERTEX receives actuals:**
+- Won contracts → VERTEX invoices
+- Paid invoices → VERTEX tracks cash
+
+---
+
+## CORRECTION 2: DOCUMENTS System Scope
+
+### ❌ WRONG: Documents = Just Storage
+
+**OLD THINKING:**
+- DOCUMENTS = File repository
+- Generation happens "somewhere else"
+
+### ✅ CORRECT: DOCUMENTS = Generation Engine + Repository
+
+**DOCUMENTS System Actually Does:**
+
+#### 1. **DOCUMENT GENERATION** (Primary Function)
+```
+INPUT: RFP/Solicitation + Parameters
+OUTPUT: Generated documents
+
+Capabilities:
+├── Generate Capability Statement
+│   ├── Auto-extract logo (base64)
+│   ├── Auto-select sector colors
+│   ├── Apply ProposalBio (all 10 biohacks)
+│   └── Output: HTML → PDF
+├── Generate Quote Response/Proposal
+│   ├── Compliance matrix auto-built
+│   ├── Pricing tables from data
+│   ├── Technical approach (AI-written)
+│   └── Output: Full proposal package
+├── Generate RFQ (Supplier-facing)
+│   ├── Buyer protection applied
+│   ├── DDI-2026-### numbering
+│   └── Output: Safe-to-send RFQ
+├── Generate Subcontractor Outreach
+│   ├── 6-pillar vetting framework
+│   ├── NDA/Agreement templates
+│   └── Output: Sub package
+└── Generate All Templates
+    ├── Workflows use DOCUMENTS API
+    └── Unified generation engine
+```
+
+#### 2. **DOCUMENT STORAGE** (Secondary Function)
+```
+All generated docs stored:
+├── BIDS:RESOURCES/[BID]/SEND_TO_BUYER/
+├── BIDS:RESOURCES/[BID]/SEND_TO_SUPPLIER/
+├── CLIENTS/[CLIENT]/CONTRACTS/
+└── Archive/retrieval via API
+```
+
+#### 3. **DOCUMENT RETRIEVAL**
+```
+Query: "Get cap statement for VA Dry Ice bid"
+├── Searches file system
+├── Returns path + content
+└── Can regenerate if needed
+```
+
+---
+
+## CRITICAL ISSUE: Manual NEXUS Usage (Outside Cursor)
+
+### The Problem
+
+**Current State:**
+- NEXUS workflows require Cursor conversation
+- "I found a solicitation" → Cursor interprets → executes
+- No direct interface to trigger DOCUMENTS generation
+- No self-service for manual RFP processing
+
+**User Experience:**
+```
+❌ Current: Upload RFP → "Can you generate a cap statement?" 
+             → Wait for AI → Get document
+             
+❌ Problem: Requires conversation, not tool-like
+```
+
+### The Solution: NEXUS Manual Interface
+
+#### Option 1: **Command-Line Interface (CLI)**
+
+```bash
+# Trigger full workflow from terminal
+cd "/Users/deedavis/NEXUS BACKEND"
+python3 nexus_cli.py --command intake --file "RFP_36C25626R0057.pdf"
+
+# Output:
+# ✅ Opportunity scored: 85/100 🔴 BID NOW
+# ✅ Folder created: BIDS:RESOURCES/VA DRY ICE/
+# ✅ Cap statement generated: SEND_TO_BUYER/...
+# ✅ Next: Review and submit
+
+# Generate specific document only
+python3 nexus_cli.py --command generate --type capability_statement \
+  --agency "VA" --service "Dry Ice Delivery" --sol "36C25626R0057"
+
+# Check status
+python3 nexus_cli.py --command status --bid "VA Dry Ice"
+
+# Get today's priorities
+python3 nexus_cli.py --command dashboard
+```
+
+#### Option 2: **Web Interface (Simple HTML Form)**
+
+```html
+<!-- Local web UI - nexus_local.html -->
+<form id="generateForm">
+  <h2>NEXUS Document Generator</h2>
+  
+  <select name="document_type">
+    <option value="capability_statement">Capability Statement</option>
+    <option value="quote_response">Quote Response</option>
+    <option value="rfq">Supplier RFQ</option>
+    <option value="sub_outreach">Subcontractor Outreach</option>
+  </select>
+  
+  <input type="text" name="agency" placeholder="VA, USACE, DLA, etc.">
+  <input type="text" name="service" placeholder="Drug Testing, Courier, etc.">
+  <input type="text" name="sol_number" placeholder="36C25626R0057">
+  
+  <input type="file" name="rfp_file" accept=".pdf,.doc,.txt">
+  
+  <button type="submit">Generate</button>
+</form>
+
+<!-- On submit: Calls nexus_backend.py API, returns generated file path -->
+```
+
+#### Option 3: **Keyboard Shortcuts / Quick Actions in Cursor**
+
+```
+# .cursor/rules/nexus-quick-commands.mdc
+
+## Magic Commands (Type in chat, no conversation needed)
+
+/intake [file]
+→ Triggers full opportunity intake
+→ No "Do you want me to...?"
+→ Just executes
+
+/cap [agency] [service] [sol#]
+→ Generates capability statement only
+→ Immediate output
+
+/quote [bid_name]
+→ Generates quote response
+→ Uses existing bid folder data
+
+/status [bid_name]
+→ Returns stage/status instantly
+→ No conversational fluff
+
+/dashboard
+→ Returns morning brief instantly
+→ Lists priorities
+```
+
+---
+
+## PROPOSED: NEXUS API ENDPOINTS
+
+### Backend API Structure
+
+```python
+# nexus_api.py - Flask/FastAPI endpoints
+
+@app.route('/api/intake', methods=['POST'])
+def opportunity_intake():
+    """Full workflow: score → folder → docs → airtable"""
+    file = request.files['rfp']
+    result = execute_full_workflow(file)
+    return jsonify({
+        'score': result.score,
+        'tier': result.tier,
+        'folder': result.folder_path,
+        'documents': result.generated_files,
+        'airtable_id': result.record_id
+    })
+
+@app.route('/api/generate/capability', methods=['POST'])
+def generate_capability():
+    """Generate cap statement only"""
+    params = request.json
+    doc = documents.generate_capability_statement(
+        agency=params['agency'],
+        service=params['service'],
+        sector=params.get('sector'),  # Auto-detect if not provided
+        logo=params.get('logo_base64')  # Auto-extract if not provided
+    )
+    return jsonify({
+        'html_path': doc.html_path,
+        'pdf_path': doc.pdf_path,
+        'preview_url': doc.preview_url
+    })
+
+@app.route('/api/generate/quote', methods=['POST'])
+def generate_quote():
+    """Generate quote response"""
+    params = request.json
+    doc = documents.generate_quote_response(
+        solicitation=params['sol_data'],
+        pricing=params['pricing_data'],
+        past_performance=params['pp_data']
+    )
+    return jsonify({
+        'document_path': doc.path,
+        'page_count': doc.page_count,
+        'compliance_matrix': doc.compliance_matrix
+    })
+
+@app.route('/api/status/<bid_id>', methods=['GET'])
+def get_status(bid_id):
+    """Get current stage and status"""
+    status = airtable.get_bid_status(bid_id)
+    return jsonify({
+        'stage': status.stage,
+        'step': status.current_step,
+        'deadline': status.deadline,
+        'days_remaining': status.days_left,
+        'next_action': status.next_action
+    })
+
+@app.route('/api/dashboard', methods=['GET'])
+def get_dashboard():
+    """Morning brief data"""
+    return jsonify({
+        'active_bids_by_stage': get_stage_counts(),
+        'this_week_deadlines': get_week_deadlines(),
+        'attention_needed': get_attention_items(),
+        'recommendations': get_recommendations()
+    })
+```
+
+---
+
+## REVISED SYSTEM ARCHITECTURE
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    NEXUS PLATFORM                            │
+│                                                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+│  │   REVENUE   │  │   REVENUE   │  │   REVENUE   │        │
+│  │   GPSS      │  │   DDCSS     │  │   GBIS      │        │
+│  │  (Govt)     │  │ (Corporate) │  │  (Grants)   │        │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘        │
+│         │                │                │               │
+│         └────────────────┼────────────────┘               │
+│                          │                                 │
+│              ┌───────────┴───────────┐                    │
+│              │      COMPASS™         │                    │
+│              │  (Quality Assurance)  │                    │
+│              │   ProposalBio Scoring │                    │
+│              └───────────┬───────────┘                    │
+│                          │                                 │
+│  ┌───────────────────────┼───────────────────────┐          │
+│  │                       │                       │          │
+│  ▼                       ▼                       ▼          │
+│ ┌────────────┐    ┌────────────┐    ┌────────────┐        │
+│ │  ATLAS   │    │   PRISM    │    │   LBPC     │        │
+│ │(Projects)│    │(Field Svcs)│    │ (Surplus)  │        │
+│ └────┬─────┘    └────┬─────┘    └────┬─────┘        │
+│      │               │               │                   │
+│      └───────────────┼───────────────┘                   │
+│                      │                                     │
+│  ┌───────────────────┴───────────────────┐                │
+│  │            VERTEX                     │                │
+│  │      (Financial Center)               │                │
+│  │  • Invoicing (actuals, not forecasts) │                │
+│  │  • Payment tracking                   │                │
+│  │  • Expense management                 │                │
+│  │  • Cash flow (actuals)                │                │
+│  └───────────────────┬───────────────────┘                │
+│                      │                                     │
+│  ┌───────────────────┴───────────────────┐                │
+│  │          DOCUMENTS                  │                │
+│  │    (Generation + Storage)           │                │
+│  │                                     │                │
+│  │  ┌───────────────────────────────┐  │                │
+│  │  │     GENERATION ENGINE         │  │                │
+│  │  │  • Capability Statements      │  │                │
+│  │  │  • Quote Responses            │  │                │
+│  │  │  • Proposals                  │  │                │
+│  │  │  • RFQs                       │  │                │
+│  │  │  • Sub Agreements             │  │                │
+│  │  └───────────────────────────────┘  │                │
+│  │                                     │                │
+│  │  ┌───────────────────────────────┐  │                │
+│  │  │     REPOSITORY                │  │                │
+│  │  │  • All generated files          │  │                │
+│  │  │  • Version history              │  │                │
+│  │  │  • Archive/retrieval            │  │                │
+│  │  └───────────────────────────────┘  │                │
+│  └─────────────────────────────────────┘                │
+│                                                          │
+│  ┌─────────────────────────────────────┐                │
+│  │     AIRTABLE (Data Backbone)        │                │
+│  │  • 69 tables across all systems     │                │
+│  │  • Status tracking                  │                │
+│  │  • Forecasting (GPSS pipeline)      │                │
+│  │  • Not in VERTEX                    │                │
+│  └─────────────────────────────────────┘                │
+└───────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│              INTERFACES (How You Use NEXUS)               │
+│                                                              │
+│  1. Cursor AI Chat (Conversational)                        │
+│     └── Natural language: "I found a solicitation"          │
+│                                                              │
+│  2. CLI (Command Line)                                      │
+│     └── python3 nexus_cli.py --intake RFP.pdf             │
+│                                                              │
+│  3. Web Form (Self-Service)                                │
+│     └── Upload RFP → Select doc type → Generate           │
+│                                                              │
+│  4. API (Programmatic)                                     │
+│     └── POST /api/generate/capability                     │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## KEY CHANGES SUMMARY
+
+| Element | Old | New |
+|---------|-----|-----|
+| **VERTEX** | Had forecasting | ❌ Removed forecasting |
+| **GPSS** | Just opportunities | ✅ Now includes pipeline forecasting |
+| **DOCUMENTS** | Just storage | ✅ Generation engine + storage |
+| **NEXUS Usage** | Cursor chat only | ✅ CLI + Web + API + Chat |
+
+---
+
+## NEXT STEPS
+
+1. **Confirm system boundaries** (this correction)
+2. **Build CLI interface** for manual NEXUS usage
+3. **Build simple web form** for document generation
+4. **Update all system documentation** with corrected scopes
+
+**Does this correction align with your vision?**

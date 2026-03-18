@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dee Davis Inc — Detroit VC Meet & Greet</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-blue: #4FB3D0;
+    --secondary-blue: #88D4E8;
+    --dark-navy: #1B3A52;
+    --accent-teal: #5BC0DE;
+    --white: #FFFFFF;
+    --light-gray: #F8F9FA;
+    --medium-gray: #E9ECEF;
+    --text-dark: #2C3E50;
+    --text-light: #6C757D;
+    --gold: #D4AF37;
+    --success: #28A745;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .slide-num {
+    position: absolute;
+    bottom: 28px;
+    right: 40px;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+
+  .slide-logo {
+    position: absolute;
+    bottom: 24px;
+    left: 40px;
+    height: 28px;
+    width: auto;
+    opacity: 0.35;
+  }
+  .theme-light .slide-logo,
+  .theme-gray .slide-logo { content: url('DEE-DAVIS-INC-black.png'); }
+
+  .hero-logo {
+    height: 80px;
+    width: auto;
+    margin-bottom: 24px;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 60px; width: 100%; }
+
+  /* ===== SLIDE THEMES ===== */
+  .theme-hero {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-navy) 100%);
+    color: var(--white);
+    text-align: center;
+    align-items: center;
+  }
+  .theme-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/></pattern></defs><rect width="100%25" height="100%25" fill="url(%23grid)"/></svg>');
+    opacity: 0.5;
+  }
+  .theme-hero .container { position: relative; z-index: 1; }
+  .theme-hero .slide-num { color: rgba(255,255,255,0.4); }
+
+  .theme-dark {
+    background: var(--dark-navy);
+    color: var(--white);
+  }
+  .theme-dark .slide-num { color: rgba(255,255,255,0.3); }
+
+  .theme-light {
+    background: var(--white);
+    color: var(--text-dark);
+  }
+  .theme-light .slide-num { color: var(--text-light); }
+
+  .theme-gray {
+    background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+    color: var(--text-dark);
+  }
+  .theme-gray .slide-num { color: var(--text-light); }
+
+  .theme-cta {
+    background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%);
+    color: var(--white);
+    text-align: center;
+    align-items: center;
+  }
+  .theme-cta .slide-num { color: rgba(255,255,255,0.3); }
+
+  /* ===== SECTION HEADERS (matching website) ===== */
+  .section-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--primary-blue);
+    margin-bottom: 14px;
+  }
+  .theme-dark .section-label,
+  .theme-hero .section-label,
+  .theme-cta .section-label { color: var(--secondary-blue); }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+  }
+  .theme-light .section-title,
+  .theme-gray .section-title { color: var(--dark-navy); }
+  .theme-dark .section-title,
+  .theme-hero .section-title,
+  .theme-cta .section-title { color: var(--white); }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-blue);
+    margin-top: 12px;
+    border-radius: 2px;
+  }
+  .centered .section-title::after { margin-left: auto; margin-right: auto; }
+
+  .section-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.7;
+    max-width: 620px;
+    margin-top: 8px;
+  }
+  .theme-light .section-sub,
+  .theme-gray .section-sub { color: var(--text-light); }
+  .theme-dark .section-sub { color: rgba(255,255,255,0.65); }
+
+  /* ===== CARDS (matching website service-card style) ===== */
+  .card {
+    background: var(--white);
+    padding: 28px 24px;
+    border-radius: 10px;
+    border-top: 4px solid var(--primary-blue);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(79,179,208,0.18); }
+
+  .card-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .card h3 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.55;
+  }
+
+  /* Dark theme card variant */
+  .card-dark {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(79,179,208,0.15);
+    border-top: 4px solid var(--primary-blue);
+    border-radius: 10px;
+    padding: 20px 18px;
+    box-shadow: none;
+  }
+  .card-dark h3 { color: var(--white); }
+  .card-dark p { color: rgba(255,255,255,0.55); }
+
+  /* ===== GRIDS ===== */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 32px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 32px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 32px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 32px; }
+
+  /* ===== STATS (website credential style) ===== */
+  .stat-val {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--primary-blue);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .theme-light .stat-val,
+  .theme-gray .stat-val { color: var(--primary-blue); }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 400;
+    line-height: 1.45;
+  }
+  .theme-dark .stat-label { color: rgba(255,255,255,0.55); }
+
+  /* ===== CERT BADGES (matching website) ===== */
+  .cert-badge {
+    width: 64px; height: 64px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    margin: 0 auto 10px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .cert-badge.gold-badge { background: var(--gold); }
+
+  .cert-label {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--dark-navy);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ===== HERO-SPECIFIC ===== */
+  .hero-title {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .hero-tagline {
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--secondary-blue);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--white);
+    max-width: 650px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 34px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--white); color: var(--primary-blue); }
+  .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); }
+
+  .hero-meta {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    margin-top: 32px;
+    line-height: 2;
+    font-weight: 500;
+  }
+
+  /* ===== PROBLEM SLIDE BIG NUMBER ===== */
+  .big-number {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--primary-blue);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .theme-dark .big-number { color: var(--secondary-blue); }
+  .theme-light .big-number { color: var(--primary-blue); }
+
+  .big-label {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .theme-light .big-label { color: var(--text-light); }
+  .theme-dark .big-label { color: rgba(255,255,255,0.45); }
+
+  /* ===== MODEL STEPS ===== */
+  .step-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .step-num {
+    width: 40px; height: 40px; min-width: 40px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 0.95rem; font-weight: 800; color: var(--white);
+    margin-right: 18px;
+  }
+  .step-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-top: 8px;
+  }
+  .theme-light .step-text { color: var(--text-dark); }
+  .theme-dark .step-text { color: rgba(255,255,255,0.8); }
+  .step-text strong {
+    font-weight: 700;
+  }
+  .theme-light .step-text strong { color: var(--dark-navy); }
+  .theme-dark .step-text strong { color: var(--white); }
+
+  /* ===== SECTOR LIST (2-col) ===== */
+  .sector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 60px;
+    margin-top: 28px;
+  }
+  .sector-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--medium-gray);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .theme-dark .sector-item { border-bottom-color: rgba(255,255,255,0.06); }
+
+  .sector-icon-sm {
+    width: 36px; height: 36px; min-width: 36px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: var(--white);
+    margin-top: 2px;
+  }
+
+  .sector-name {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .theme-light .sector-name { color: var(--dark-navy); }
+  .theme-dark .sector-name { color: var(--white); }
+
+  .sector-desc {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    line-height: 1.45;
+  }
+  .theme-dark .sector-desc { color: rgba(255,255,255,0.45); }
+
+  /* ===== TAM BARS ===== */
+  .tam-row { display: flex; align-items: center; margin-bottom: 16px; }
+  .tam-label {
+    min-width: 48px;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-align: right;
+    margin-right: 16px;
+    color: var(--text-light);
+  }
+  .tam-bar {
+    height: 52px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+  .tam-bar.t1 {
+    width: 100%;
+    background: rgba(79,179,208,0.08);
+    border: 1px solid rgba(79,179,208,0.15);
+    color: var(--primary-blue);
+  }
+  .tam-bar.t2 {
+    width: 50%;
+    background: rgba(79,179,208,0.15);
+    border: 1px solid rgba(79,179,208,0.25);
+    color: var(--primary-blue);
+  }
+  .tam-bar.t3 {
+    width: 20%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+    color: var(--white);
+  }
+  .tam-note {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-left: 14px;
+    font-weight: 400;
+  }
+
+  /* ===== GROWTH TIMELINE ===== */
+  .timeline { margin-top: 32px; }
+  .timeline-phase {
+    display: flex;
+    margin-bottom: 28px;
+  }
+  .timeline-left {
+    min-width: 120px;
+    text-align: right;
+    padding-right: 24px;
+    border-right: 3px solid var(--primary-blue);
+  }
+  .timeline-period {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-blue);
+  }
+  .timeline-amount {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark-navy);
+  }
+  .theme-dark .timeline-amount { color: var(--white); }
+
+  .timeline-right {
+    padding-left: 24px;
+    padding-top: 2px;
+  }
+  .timeline-right li {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    margin-bottom: 3px;
+    list-style: none;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .timeline-right li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary-blue);
+    font-weight: 600;
+  }
+  .theme-dark .timeline-right li { color: rgba(255,255,255,0.6); }
+
+  /* ===== FOUNDER ===== */
+  .founder-name {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+  }
+  .founder-role {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+  }
+  .founder-bio {
+    font-size: 0.92rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .divisions-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .division-item {
+    padding: 14px 20px;
+    background: var(--light-gray);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-blue);
+  }
+  .division-name {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 2px;
+  }
+  .division-desc {
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+
+  .certs-row {
+    margin-top: 24px;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-light);
+  }
+
+  /* ===== BULLET POINTS (light theme) ===== */
+  .bullet-list { margin-top: 20px; max-width: 600px; }
+  .bullet-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .bullet-item::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px; min-width: 8px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    margin-right: 14px;
+    position: relative;
+    top: -1px;
+  }
+  .theme-light .bullet-item { color: var(--text-dark); }
+  .theme-dark .bullet-item { color: rgba(255,255,255,0.75); }
+  .bullet-item strong { font-weight: 700; }
+  .theme-light .bullet-item strong { color: var(--dark-navy); }
+  .theme-dark .bullet-item strong { color: var(--white); }
+
+  /* ===== CLOSE SLIDE ===== */
+  .close-quote {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--white);
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 580px;
+    margin-bottom: 40px;
+  }
+  .close-quote strong { color: var(--secondary-blue); font-weight: 700; font-style: normal; }
+
+  .close-name {
+    font-family: var(--font-heading);
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .close-tag {
+    font-size: 0.95rem;
+    color: var(--secondary-blue);
+    font-style: italic;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+
+  .close-contact {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 2.2;
+  }
+  .close-contact a { color: var(--secondary-blue); text-decoration: none; }
+
+  @media print {
+    .slide { page-break-after: always; height: 100vh; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 01 TITLE ===== -->
+<div class="slide theme-hero">
+  <div class="container" style="text-align:center;">
+    <img src="DEE-DAVIS-INC.-white-high-res.png" alt="Dee Davis Inc" class="hero-logo">
+    <div class="hero-title">DEE DAVIS INC</div>
+    <div class="hero-tagline">"The Professionals' Professionals"</div>
+    <div class="hero-desc">
+      SBA-certified EDWOSB contract management firm. We pursue, win, manage, and deliver complex government and commercial contracts across regulated sectors. Sole-source eligible up to $7M.
+    </div>
+    <div style="display:flex; gap:16px; justify-content:center;">
+      <span class="btn btn-primary">Schedule Consultation</span>
+      <span class="btn btn-outline">View Capabilities</span>
+    </div>
+    <div class="hero-meta">
+      CAGE 8UMX3 &nbsp;·&nbsp; UEI HJB4KNYJVGZ1 &nbsp;·&nbsp; Est. 2018 &nbsp;·&nbsp; Troy, Michigan<br>
+      50+ NAICS Codes &nbsp;·&nbsp; MC-1647572 &nbsp;·&nbsp; DOT 4250594
+    </div>
+  </div>
+  <div class="slide-num">01 / 10</div>
+</div>
+
+<!-- ===== 02 THE OPPORTUNITY ===== -->
+<div class="slide theme-light">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">THE OPPORTUNITY</div>
+    <div class="big-number">$8.5B</div>
+    <div class="big-label">Annual EDWOSB Set-Aside Allocation</div>
+    <div class="section-sub" style="max-width:600px;">
+      The federal government reserves <strong style="color:var(--dark-navy);">$8.5 billion per year</strong> for economically disadvantaged women-owned firms. Most can't capture it — 97% have fewer than 10 employees. The barrier isn't skill. It's the <strong style="color:var(--primary-blue);">operational infrastructure</strong> to manage contracts at scale.
+    </div>
+    <div class="bullet-list" style="margin-top:28px;">
+      <div class="bullet-item"><strong>EDWOSB set-asides</strong> limit competition to 3–8 bidders instead of 50+</div>
+      <div class="bullet-item"><strong>Sole-source awards</strong> up to $7M — no competition required</div>
+      <div class="bullet-item"><strong>97% of WOSBs</strong> lack the infrastructure to manage multi-site contracts</div>
+    </div>
+  </div>
+  <div class="slide-num">02 / 10</div>
+</div>
+
+<!-- ===== 03 THE MODEL ===== -->
+<div class="slide theme-gray">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">THE MODEL</div>
+    <div class="section-title">We don't do the work.<br>We manage the contract.</div>
+    <div style="margin-top:32px; max-width:620px;">
+      <div class="step-row"><div class="step-num">1</div><div class="step-text"><strong>Identify</strong> — Proprietary AI scans 100+ government portals across 50+ NAICS codes</div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-text"><strong>Win</strong> — DDI bids as prime. EDWOSB set-aside, competitive, or sole-source to $7M</div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-text"><strong>Activate</strong> — 5,100+ deployment-ready facilities. Subcontractors vetted and on contract within 24 hours</div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-text"><strong>Manage</strong> — Compliance, QA, invoicing, reporting, multi-stakeholder coordination</div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-text"><strong>Deliver</strong> — One point of contact. One invoice. Full accountability.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">03 / 10</div>
+</div>
+
+<!-- ===== 04 CONTRACT SECTORS ===== -->
+<div class="slide theme-light">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">CONTRACT SECTORS</div>
+    <div class="section-title">26+ Service Lines. One Management Model.</div>
+    <div class="sector-grid">
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-ambulance"></i></div>
+        <div><div class="sector-name">Regulated Healthcare</div><div class="sector-desc">DOT/SAMHSA drug testing · AABB DNA · NEMT · Medical courier</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-shield-alt"></i></div>
+        <div><div class="sector-name">Federal Security</div><div class="sector-desc">DCSA SWFT fingerprinting · FBI submissions · Personnel vetting</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-project-diagram"></i></div>
+        <div><div class="sector-name">Emergency Logistics</div><div class="sector-desc">COOP execution · Disaster logistics · Rapid mobilization</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-truck"></i></div>
+        <div><div class="sector-name">Logistics & Fleet</div><div class="sector-desc">Freight brokerage (MC-1647572) · DOT fleet · Chain-of-custody</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-building"></i></div>
+        <div><div class="sector-name">Facility Services</div><div class="sector-desc">Janitorial · Landscaping · Construction · IT · Security · Staffing</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-handshake"></i></div>
+        <div><div class="sector-name">Professional Services</div><div class="sector-desc">Notary · RON · CNTDA documents · Surety bonds · Consulting</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-boxes-stacked"></i></div>
+        <div><div class="sector-name">Government Supply</div><div class="sector-desc">Medical equipment · Industrial supply · Commodity fulfillment</div></div>
+      </div>
+      <div class="sector-item">
+        <div class="sector-icon-sm"><i class="fas fa-gavel"></i></div>
+        <div><div class="sector-name">Surplus Recovery</div><div class="sector-desc">Lead-based paint claims · Legal document assembly · Recoveries</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">04 / 10</div>
+</div>
+
+<!-- ===== 05 TECHNOLOGY ===== -->
+<div class="slide theme-dark">
+  <img src="DEE-DAVIS-INC.-white-high-res.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">PROPRIETARY TECHNOLOGY &nbsp;·&nbsp; DDI OWNS 100% OF THE IP</div>
+    <div class="section-title">NEXUS Command Center</div>
+    <div class="section-sub">10-module AI business operating system. Designed and built by the founder. This is why a lean firm operates 26+ service lines with zero compliance deficiencies.</div>
+    <div class="grid-5">
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">NOVA</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">New Opportunity Vetting & Acquisition</p><p>AI-powered opportunity discovery across 100+ portals</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">GPSS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Government Procurement Strategic System</p><p>Proposal generation, pricing intel, compliance</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">ATLAS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Advanced Task & Logistics Automation System</p><p>Project tracking, WBS, task automation</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">COMPASS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Compliant Optimization & Messaging Performance Assessment</p><p>10-point quality scoring, win-readiness validation</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">PRISM</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Professional Resource Inspection & Service Mgmt</p><p>Field dispatch, document verification, AI inspection</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">VERTEX</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Financial Excellence & Revenue Tracking Executive</p><p>Invoicing, cash flow, revenue analysis</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">GBIS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Grant Business Intelligence System</p><p>Grant discovery, eligibility, application tracking</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">DDCSS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Diversity Division Corporate Success System</p><p>Client avatars, pitch generation, corporate BD</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">LBPC</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Lead & Proposal Builder for Claims</p><p>Surplus recovery, lead mining, document generation</p></div>
+      <div class="card-dark"><h3 style="font-size:0.8rem; letter-spacing:1px; color:var(--secondary-blue);">DOCUMENTS</h3><p style="font-size:0.68rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:4px;">Document & Pricing Hub</p><p>Compliance archive, audit-ready documentation</p></div>
+    </div>
+    <div style="margin-top:28px; font-size:0.82rem; color:rgba(255,255,255,0.35);">
+      <i class="fas fa-lock" style="margin-right:6px;"></i> Proprietary technology — not available for sale or licensing
+    </div>
+  </div>
+  <div class="slide-num">05 / 10</div>
+</div>
+
+<!-- ===== 06 MARKET ===== -->
+<div class="slide theme-gray">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">MARKET SIZING</div>
+    <div class="section-title">TAM / SAM / SOM</div>
+    <div style="margin-top:36px; max-width:660px;">
+      <div class="tam-row"><div class="tam-label">TAM</div><div class="tam-bar t1">$700B+</div><div class="tam-note">Total federal procurement</div></div>
+      <div class="tam-row"><div class="tam-label">SAM</div><div class="tam-bar t2">$8.5B</div><div class="tam-note">EDWOSB/WOSB set-asides</div></div>
+      <div class="tam-row"><div class="tam-label">SOM</div><div class="tam-bar t3">$50M+</div><div class="tam-note">DDI 5-year target</div></div>
+    </div>
+    <div class="bullet-list" style="margin-top:32px;">
+      <div class="bullet-item">EDWOSB set-asides limit competition to <strong>3–8 bidders</strong> instead of 50+</div>
+      <div class="bullet-item">OASIS+ EDWOSB pool — government-wide IDIQ, <strong>unlimited ceiling</strong></div>
+      <div class="bullet-item">50+ NAICS codes — DDI is not limited by trade, sector, or geography</div>
+    </div>
+  </div>
+  <div class="slide-num">06 / 10</div>
+</div>
+
+<!-- ===== 07 TRACTION ===== -->
+<div class="slide theme-light">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">TRACTION</div>
+    <div class="section-title">Self-funded since 2018. No debt. Cash-flow positive.</div>
+    <div class="grid-4" style="margin-top:36px;">
+      <div><div class="stat-val">8</div><div class="stat-label">Years in operation. Est. 2018. Zero outside investment.</div></div>
+      <div><div class="stat-val">0</div><div class="stat-label">Past performance deficiencies. Zero DCSA rejections.</div></div>
+      <div><div class="stat-val">5,100+</div><div class="stat-label">Deployment-ready facilities. 24-hour activation.</div></div>
+      <div><div class="stat-val">$2M+</div><div class="stat-label">Active pipeline. $3.7M–$26M revenue potential.</div></div>
+    </div>
+    <div class="grid-4" style="margin-top:20px;">
+      <div><div class="stat-val">1,500+</div><div class="stat-label">Regulated deliveries. DOT, SAMHSA, HIPAA, AABB.</div></div>
+      <div><div class="stat-val">4</div><div class="stat-label">Operating divisions across healthcare, logistics, compliance.</div></div>
+      <div><div class="stat-val">10</div><div class="stat-label">Proprietary AI modules. 100% DDI-owned IP.</div></div>
+      <div><div class="stat-val">4+</div><div class="stat-label">States. MI, GA, FL, MD. Expanding nationally.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">07 / 10</div>
+</div>
+
+<!-- ===== 08 GROWTH ===== -->
+<div class="slide theme-gray">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">GROWTH ROADMAP</div>
+    <div class="section-title">Capital accelerates what's already working.</div>
+    <div class="timeline">
+      <div class="timeline-phase">
+        <div class="timeline-left"><div class="timeline-period">12 Months</div><div class="timeline-amount">$1M+</div></div>
+        <div class="timeline-right">
+          <li>Close active pipeline</li>
+          <li>Win first multi-year IDIQ vehicle</li>
+          <li>Submit GSA MAS application</li>
+          <li>Hire 2 FTE (operations + BD)</li>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-left"><div class="timeline-period">24 Months</div><div class="timeline-amount">$3M+</div></div>
+        <div class="timeline-right">
+          <li>GSA Schedule holder — recurring task-order revenue</li>
+          <li>OASIS+ EDWOSB pool submitted</li>
+          <li>5+ FTE — operating without founder dependency</li>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-left"><div class="timeline-period">5 Years</div><div class="timeline-amount">$50M+</div></div>
+        <div class="timeline-right">
+          <li>OASIS+ (unlimited ceiling) + GSA generating federal task orders</li>
+          <li>FleetFlow TMS — standalone SaaS revenue</li>
+          <li>20+ states · 30+ FTE · 4 divisions at 7 figures each</li>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">08 / 10</div>
+</div>
+
+<!-- ===== 09 TEAM ===== -->
+<div class="slide theme-light">
+  <img src="DEE-DAVIS-INC-black.png" alt="" class="slide-logo">
+  <div class="container">
+    <div class="section-label">LEADERSHIP</div>
+    <div class="section-title">The Team</div>
+    <div style="margin-top:28px;">
+      <div class="founder-name">Dieasha D. Davis</div>
+      <div class="founder-role">Founder · President & CEO · Technology Architect</div>
+      <div class="founder-bio">
+        Incorporated DDI in 2018. Built every system from scratch — NEXUS, FleetFlow, the entire operating model. Michigan Notary since 2005. DCSA SWFT authorized, CNTDA certified, TWIC credentialed, DOT/MC licensed. DDI is self-funded, has never taken outside capital, and has maintained zero compliance deficiencies since inception.
+      </div>
+    </div>
+    <div class="divisions-row">
+      <div class="division-item"><div class="division-name">3D Ink & Livescan</div><div class="division-desc">Fingerprinting & drug testing</div></div>
+      <div class="division-item"><div class="division-name">DePointe DNA</div><div class="division-desc">DNA testing (DDC partner)</div></div>
+      <div class="division-item"><div class="division-name">Freight 1st Direct</div><div class="division-desc">Freight brokerage</div></div>
+      <div class="division-item"><div class="division-name">FleetFlow TMS LLC</div><div class="division-desc">Logistics intelligence (mid-2026)</div></div>
+      <div class="division-item"><div class="division-name">Cause We Care</div><div class="division-desc">501(c)(3) · MDHHS partner</div></div>
+    </div>
+    <div class="certs-row">EDWOSB · WOSB · WBENC · MBE · SBE · E-VERIFY · CMMC-AB</div>
+  </div>
+  <div class="slide-num">09 / 10</div>
+</div>
+
+<!-- ===== 10 CLOSE ===== -->
+<div class="slide theme-cta">
+  <div class="container" style="text-align:center;">
+    <div class="close-quote">"We don't do the work.<br>We make sure <strong>the work gets done right.</strong>"</div>
+    <div class="close-name">DEE DAVIS INC</div>
+    <div class="close-tag">"The Professionals' Professionals"</div>
+    <div class="close-contact">
+      <a href="tel:2483764550">248.376.4550</a> &nbsp;·&nbsp;
+      <a href="mailto:info@deedavis.biz">info@deedavis.biz</a> &nbsp;·&nbsp;
+      <a href="https://deedavis.biz">deedavis.biz</a><br>
+      755 W. Big Beaver Rd., Suite 2020 &nbsp;·&nbsp; Troy, Michigan 48084<br>
+      CAGE 8UMX3 &nbsp;·&nbsp; UEI HJB4KNYJVGZ1
+    </div>
+    <div style="margin-top:36px; display:flex; gap:16px; justify-content:center;">
+      <span class="btn btn-primary">Schedule Consultation</span>
+      <span class="btn btn-outline">Download Capability Statement</span>
+    </div>
+  </div>
+  <div class="slide-num">10 / 10</div>
+</div>
+
+</body>
+</html>

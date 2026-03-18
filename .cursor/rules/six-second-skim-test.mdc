@@ -1,0 +1,51 @@
+---
+description: Enforce 6-second skim scoreability for buyer-facing proposal sections
+alwaysApply: true
+---
+
+# 6-Second Skim Test Rule (Additive)
+
+Evaluators skim first, then decide whether to read.
+If answers are not visible in seconds, scoreability drops.
+
+## Core Standard
+
+At the top of every scored section, evaluators must be able to find in under 6 seconds:
+
+1. **Requirement clarity** (in the header)
+2. **Quantifiable outcome** (first line)
+3. **Proof signal** (second line)
+
+## Required Section Pattern
+
+Use this sequence for scored sections:
+
+1. Header mirrors requirement:
+- Example: `Project Transition Plan: 90-Day, Risk-Mitigated Approach`
+
+2. First line states outcome:
+- Example: `Our transition reduces handoff delays by up to 45% within 90 days.`
+
+3. Second line states proof:
+- Example: `Validated across 27 state/local implementations over 5 years.`
+
+4. Body provides method and controls:
+- Process steps, owners, QA checks, risk controls.
+
+## Hard Stop Conditions
+
+Do not mark response ready if any scored section fails skim visibility:
+- Header does not indicate requirement
+- First line is non-quantifiable or vague
+- Proof is missing or buried below line 2
+- Section opens with "about us" language instead of requirement/outcome
+
+## Readiness Checks (Pass/Fail)
+
+- Requirement in Header: PASS/FAIL
+- Quantified Outcome in Line 1: PASS/FAIL
+- Proof in Line 2: PASS/FAIL
+- Method + Controls Present: PASS/FAIL
+- 6-Second Scoreability: PASS/FAIL
+
+If any FAIL, revise before release.

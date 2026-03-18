@@ -1,0 +1,81 @@
+---
+description: Proposal readiness gate for strategy-positioning-structure alignment
+alwaysApply: true
+---
+
+# Proposal Readiness Gate (Non-Override)
+
+This rule is **additive**. It does not replace existing NEXUS workflows.
+It adds a final quality gate before any buyer-facing proposal/response is marked "ready."
+
+## Core Principle
+
+- Strong writing cannot rescue weak positioning.
+- Compliance cannot rescue unclear differentiation.
+- Writing is execution. Strategy is leverage.
+
+## When This Gate Applies
+
+Apply to buyer-facing outputs only:
+- RFP responses
+- RFQ technical responses
+- Quote responses
+- Capability statements paired with buyer outreach
+
+Do not apply to:
+- Supplier RFQs
+- Internal notes/research
+- Non-buyer admin artifacts
+
+## Four Mandatory Gates
+
+### 1) Strategy Fit Gate
+Must confirm:
+- Response aligns with actual evaluation criteria and scoring weights
+- Point-capture strategy is explicit (where/how DDI wins points)
+- Contract economics are viable (no negative-margin win strategy)
+
+### 2) Evaluator Risk Gate
+Must confirm:
+- Response addresses evaluator's delivery risk in their language
+- Mitigations are concrete (staffing, QA, continuity, escalation, compliance)
+- "Why DDI is low risk" is clear in first-page narrative
+
+### 3) Differentiation & Decision Logic Gate
+Must confirm:
+- DDI competitive advantage is specific and provable
+- Differentiators are tied to buyer decision logic (not generic claims)
+- Evaluator can justify selection in one sentence
+
+### 4) Read Pattern Gate
+Must confirm:
+- Structure mirrors evaluator reading behavior (compliance -> risk -> proof -> value)
+- Critical claims are scannable in <30 seconds
+- No buried requirements or hidden commitments
+
+## ProposalBio Requirement
+
+ProposalBio must run every time for buyer-facing outputs:
+- Layout may stay consistent
+- Content must be solicitation-specific
+- Biohack application must be documented in the package
+
+## Hard Stop Conditions
+
+Do not mark package as ready if any of these are true:
+- Evaluation criteria not mapped
+- Risk mitigation is generic or missing
+- Differentiation not tied to decision logic
+- Structure is hard to score quickly
+- ProposalBio pass not documented
+
+## Output Requirement
+
+Before "ready" status, provide a concise pass/fail checklist:
+- Strategy Fit: PASS/FAIL
+- Evaluator Risk: PASS/FAIL
+- Differentiation Logic: PASS/FAIL
+- Read Pattern: PASS/FAIL
+- ProposalBio Applied: PASS/FAIL
+
+If any item fails, return remediation actions first, then re-check.

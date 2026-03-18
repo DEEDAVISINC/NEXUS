@@ -1,8 +1,14 @@
 # DEE DAVIS INC - ACTUAL SERVICE CAPABILITIES
 ## For EDWOSB Opportunity Mining & Forecasting
 
-**Last Updated:** February 4, 2026  
+**Last Updated:** March 14, 2026  
 **Purpose:** Reference for identifying relevant EDWOSB solicitations
+
+---
+
+## 🎯 DDI IDENTITY
+
+**Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity.** Every capability below serves this mission — ensuring client operations never stop, powered by proprietary AI technology platforms (NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS) built in-house by founder Dee Davis.
 
 ---
 
@@ -91,18 +97,24 @@
 
 ---
 
-### **4. BUSINESS CONTINUITY & CRISIS MANAGEMENT**
+### **4. BUSINESS CONTINUITY & CRISIS MANAGEMENT (DDI'S CORE IDENTITY)**
 
-- Comprehensive security planning
-- Disaster recovery planning
-- Risk management services
-- Business continuity planning
-- Crisis management
-- Emergency preparedness
+**Business continuity is not just a service line — it is DDI's foundational identity.** Every contract DDI manages is a business continuity engagement. This capability area provides dedicated continuity planning and crisis management for clients who need it as a standalone offering.
+
+- Continuity of Operations (COOP) plan development
+- Comprehensive disaster recovery planning
+- Risk management and mitigation strategy
+- Business continuity planning and testing
+- Crisis management and emergency operations coordination
+- Emergency preparedness consulting
 - Incident response planning
 - Operational resilience consulting
-- Threat assessment
+- Threat assessment and vulnerability analysis
 - Recovery strategy development
+- Technology-driven continuity solutions (leveraging DDI's proprietary AI platforms)
+- Supply chain continuity and redundancy planning
+
+**Powered By:** NEXUS platform — the same technology infrastructure that makes DDI's own operations unstoppable
 
 **Solicitation Keywords:**
 - Business continuity planning
@@ -114,21 +126,29 @@
 - Incident response
 - Resilience planning
 - Continuity of operations (COOP)
+- Operational resilience
+- Business continuity consulting
 
 ---
 
-### **5. FEDERAL COMPLIANCE & CREDENTIALING**
+### **5. CREDENTIALING & IDENTITY VERIFICATION SERVICES**
 
-#### **Mobile Testing Programs**
-- On-site testing services
-- Mobile unit deployment
-- Multi-location coordination
+#### **Biometric Fingerprinting**
+- Live scan electronic biometric fingerprinting (digital capture)
+- Ink fingerprinting on FBI FD-258 cards
+- SWFT electronic submission to DCSA/FBI (SWFT-authorized)
+- ATF Electronic Fingerprint Transmission (EFT) file creation
+- Mobile biometric fingerprinting (on-site at client facilities)
+- Cross-state licensing fingerprinting
+- Federal contractor security clearance fingerprinting
 
-#### **Background Checks**
-- Employment screening
-- Security clearances
-- Criminal background checks
-- Reference verification
+#### **Background Checks & Screening**
+- Criminal history checks (local, state, federal)
+- Employment and education verification
+- Professional license verification
+- Motor vehicle records and credit checks
+- Sex offender registry checks
+- Ongoing monitoring programs
 
 #### **DOT Compliance**
 - DOT regulations compliance
@@ -136,23 +156,42 @@
 - Safety compliance programs
 - FMCSA compliance support
 
+#### **Mobile Testing Programs**
+- On-site testing services
+- Mobile unit deployment
+- Multi-location coordination
+
 **Solicitation Keywords:**
 - Federal compliance services
+- Biometric fingerprinting
+- Live scan fingerprinting
+- Background check services
+- Security clearance fingerprinting
 - DOT compliance
 - Credentialing services
-- Compliance consulting
-- Regulatory compliance
-- Safety compliance
-- FMCSA compliance
+- Identity verification
+- SWFT fingerprinting
 
 ---
 
-### **6. NOTARY SERVICES**
-- Mobile notary services
-- Remote Online Notarization (RON) via ZigSig
-- Document authentication
-- Signing agent services (Snapdocs partnership)
+### **6. NOTARY & DOCUMENT AUTHENTICATION SERVICES**
+
+#### **Notary Services**
+- Michigan Commissioned Notary Public (active since April 2005 — 20+ years)
+- CNTDA — Certified Notary & Trained Document Agent (estate planning, trusts, POA, healthcare directives)
+- NPR — Notary Permit Runner (building permit expediting for contractors)
+- Mobile notary services (nationwide coverage)
+- Remote Online Notarization (RON) via ZigSig (nationwide coverage)
+- Loan signing agent services (mortgage closings)
+- Hospital, jail, and facility notarizations
 - Government document notarization
+
+#### **Apostille & Document Authentication**
+- Apostille processing and coordination (Hague Convention authentication)
+- Secretary of State document authentication
+- Federal document authentication and certification
+- International document legalization coordination
+- Embassy/consulate document processing support
 
 **Solicitation Keywords:**
 - Notary services
@@ -161,6 +200,9 @@
 - Signing services
 - RON services
 - Notarial acts
+- Apostille services
+- Document legalization
+- Biometric notarization
 
 ---
 
@@ -248,25 +290,30 @@
 
 ---
 
-### **5. FINGERPRINTING SERVICES**
+### **5. BIOMETRIC FINGERPRINTING SERVICES**
 
-- Live scan fingerprinting
-- FBI background checks
-- State background checks
-- Employment screening
-- Licensing fingerprints
-- Mobile fingerprinting
-- Government clearance fingerprints
+- Live scan electronic biometric fingerprinting (digital capture)
+- Ink fingerprinting on FBI FD-258 cards
+- SWFT electronic submission to DCSA/FBI (SWFT-authorized)
+- ATF Electronic Fingerprint Transmission (EFT) file creation
+- FBI background checks and channeling
+- State background checks and submissions
+- Employment and licensing fingerprints
+- Mobile biometric fingerprinting (on-site at client facilities)
+- Government clearance and security fingerprinting
+- Cross-state licensing fingerprinting
 
 **Solicitation Keywords:**
-- Fingerprinting services
-- Live scan
+- Biometric fingerprinting services
+- Live scan fingerprinting
 - Background check services
 - FBI fingerprinting
 - Employment screening
 - Criminal background checks
 - Security clearance fingerprinting
 - Mobile fingerprinting
+- SWFT fingerprinting
+- Identity verification
 
 ---
 
@@ -867,17 +914,26 @@ When mining EDWOSB opportunities, focus on solicitations for:
 
 **Highlight in proposals:**
 
-- ✅ **EDWOSB/WOSB/WBE/MBE certified** - Diversity advantages
-- ✅ **Technology-enabled services** - ATLAS PM & FleetFlow™ platforms
-- ✅ **Multiple service lines** - One-stop shop for agencies
-- ✅ **Mobile/on-site capabilities** - Services delivered at client location
-- ✅ **Federal credentials** - CAGE: 8UMX3, UEI: HJB4KNYJVGZ1, NPI: 153893911
-- ✅ **Transportation credentials** - MC-1647572, DOT: 4250594
-- ✅ **Established partnerships** - Quest Diagnostics, DDC, Snapdocs, Freight 1st Direct, SuretyCloud
-- ✅ **Government contracting experience** - Proven track record
-- ✅ **Multi-state capability** - National service delivery
-- ✅ **CMMC-AB certified** - Cybersecurity compliance
-- ✅ **Comprehensive certifications** - DUNS: 002636755
+- ✅ **Business continuity-focused contract management firm** — every engagement ensures operations never stop
+- ✅ **8+ proprietary AI technology platforms (founder-built)** — NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS — 5-10 year competitive advantage, SBIR/STTR eligible, future SaaS licensing potential
+- ✅ **90% automation of contract lifecycle** — Fortune 500-level operations at small business scale
+- ✅ **EDWOSB/WOSB/WBE/MBE/SBE/WBENC certified** — diversity advantage with access to $30B+ reserved market
+- ✅ **SupplierGateway Certificate of Diverse Ownership** — DBE, MBE, SB, SDB, Woman Owned (valid through July 2028) — visible to Fortune 500 and large prime supplier diversity searches
+- ⚠️ **Coupa Verified Supplier** (Cert ID: 7002160) — EXPIRED 11/2025 — needs renewal for corporate procurement visibility
+- ✅ **E-Verify certified** — employment eligibility verification, required by many federal contracts
+- ✅ **SWFT authorized** — Secure Web Fingerprint Transmission to DCSA/FBI
+- ✅ **Michigan Personnel Agency License #6016004743** — state-licensed staffing and personnel services
+- ✅ **Michigan Property Pre-License** — real estate and property services qualified
+- ✅ **Property Data Collection certified** — residential property inspections and data collection (Walitt Solutions, 2022)
+- ✅ **Project Management for Government Projects** — certified, on file
+- ✅ **TWIC credentialed** — Transportation Worker Identification Credential (TSA secure facility access)
+- ✅ **Multiple service lines** — business continuity across every sector
+- ✅ **Mobile/on-site capabilities** — services delivered at client location
+- ✅ **Federal credentials** — CAGE: 8UMX3, UEI: HJB4KNYJVGZ1, NPI: 1538939111
+- ✅ **Transportation credentials** — MC-1647572, DOT: 4250594
+- ✅ **Established partnerships** — Quest Diagnostics, DDC, Uber Health, Freight 1st Direct, SuretyCloud, ZigSig
+- ✅ **Multi-state capability** — National service delivery
+- ✅ **CMMC-AB certified** — Cybersecurity compliance, DoD-ready
 
 ---
 
@@ -892,3 +948,5 @@ When mining EDWOSB opportunities, focus on solicitations for:
 ---
 
 **USE THIS REFERENCE when mining EDWOSB opportunities to ensure proper fit analysis!**
+
+**Remember: DDI is a contract management firm and business operating system focused on ALL forms of business continuity — powered by proprietary AI technology. Every opportunity should be evaluated through that lens.**
