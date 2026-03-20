@@ -4,6 +4,28 @@ B# 🚀 START HERE - YOUR AUTOMATED BID SYSTEM
 
 ---
 
+## 📬 CO OUTREACH PIPELINE (Federal Contracting Officer Relationship Building)
+
+DDI actively emails federal and state/local contracting officers to introduce capabilities and build relationships. All outreach is tracked here:
+
+| File | Location | Purpose |
+|---|---|---|
+| **CO_OUTREACH_TRACKER.md** | `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/` | Every CO already emailed — name, agency, email, date sent, status |
+| **PENDING_COS_FOR_LATER.md** | `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/` | COs identified but not yet emailed — work through these in batches |
+
+**Before emailing any CO — read `CO_OUTREACH_TRACKER.md` first to avoid duplicates.**
+
+**Standard closing line for every CO email:**
+> *"For immediate needs under $10,000, Dee Davis Inc. is available for direct micro-purchase — no competition required, SAM-registered and ready. For needs up to $250,000, we're available under simplified acquisition procedures with fast turnaround and reduced competition requirements."*
+
+**Rules:**
+- If Dee provides a state/local agency email → DDI is already a registered vendor → use follow-up tone, not cold intro
+- Federal COs → capabilities introduction tone
+- All emails signed: **Dieasha D. Davis, President & CEO**
+- Always offer to attach capability statement
+
+---
+
 ## ✅ What Just Happened
 
 You now have a **PROACTIVE bid management system** that:
