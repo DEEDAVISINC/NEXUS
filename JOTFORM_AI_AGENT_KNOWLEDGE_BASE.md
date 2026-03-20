@@ -89,6 +89,15 @@ Industry Licenses:
 - Active Medicaid Provider in Michigan and Maryland
 - MC Number: 1647572 (Freight Broker Authority)
 - US DOT: 4250594
+- Mortgage Loan Originator (MLO) — Michigan | NMLS# 2099291 | Dieasha D. Davis
+- Mortgage Loan Originator / Mortgage Broker — Georgia | NMLS# 2099291 | Dieasha D. Davis
+- Michigan Personnel Agency License #6016004743
+- Michigan Commissioned Notary Public (Active since 2005)
+
+Principal Credentials (Dieasha D. Davis):
+- Property Data Collection Training Certificate (Walitt Solutions, 2022)
+- Property & Casualty Insurance Prelicense (A.D. Banker & Company, 2022)
+- Real Estate Prelicense Certificate
 
 Insurance Coverage:
 - General Liability
@@ -124,6 +133,11 @@ Sectors we work in:
 - Professional services (staffing, consulting, project management)
 - Emergency response services
 - Snow and ice removal
+- REO field inspection and property data collection (HUD, VA, USDA programs)
+- Credentialing, drug testing, fingerprinting, background checks
+- Notary, permit running, document preparation, apostille services
+- DNA testing (paternity, legal, immigration)
+- NEMT (Non-Emergency Medical Transportation)
 
 We are registered and active on SAM.gov and bid on contracts through SAM.gov, BidNet Direct, MITN, state procurement portals, and agency-specific solicitations nationwide.
 
@@ -520,6 +534,51 @@ A: Yes, we are active and registered on SAM.gov.
 5. Save
 6. Repeat for all 15 entries
 7. Test the agent by asking it questions from each category
+
+---
+
+## ENTRY 16: Services — REO Field Inspection & Property Services
+
+**TITLE:** REO Field Inspection and Property Data Collection Services
+
+**CONTENT:**
+```
+Dee Davis Inc. provides REO (Real Estate Owned) field inspection and property data collection services for federal agencies, mortgage servicers, and government housing programs.
+
+Our founder, Dieasha D. Davis, is a licensed Mortgage Loan Originator and Mortgage Broker in both Michigan and Georgia (NMLS# 2099291). She also holds a Property Data Collection Training Certificate (Walitt Solutions, 2022), a Property & Casualty Insurance Prelicense, and a Real Estate Prelicense Certificate — giving DDI full-spectrum knowledge of the REO lifecycle from loan default through property disposition.
+
+DDI serves as a Third-Party Administrator (TPA). We prime the contract, coordinate local licensed inspectors through our PRISM platform, and deliver HUD/VA/USDA-compliant reports.
+
+Services:
+- Occupancy checks and drive-by property verifications
+- Exterior and interior property condition inspections
+- Property Data Collection (PDC) reports (HUD / Fannie Mae format)
+- Vacant property monitoring and recurring inspection programs
+- Property preservation coordination (winterization, board-up, debris removal, lawn care)
+- Damage assessment and repair cost reporting
+- HUD Field Service Management support (Philadelphia HOC region)
+- Mortgage consulting and loan origination (Michigan and Georgia licensed)
+
+Target Programs:
+- HUD Field Service Management (FSM 3.12 — Philadelphia HOC region)
+- VA Home Loan Guaranty REO properties
+- USDA Rural Development inspection contracts
+- Fannie Mae and Freddie Mac REO property management
+
+Primary Coverage Area: Michigan, Ohio, Pennsylvania, New York, New Jersey, Maryland, DC, Delaware, Virginia, West Virginia (HUD Philadelphia HOC region)
+
+Pricing:
+- Drive-by occupancy check: $45-$75
+- Exterior inspection with report: $75-$125
+- Interior inspection + PDC report: $150-$250
+- Recurring monitoring (per property/month): $45-$60
+- Property preservation coordination: $150-$500+ per event
+- Volume/portfolio pricing: Custom contracts available
+
+If someone asks about REO inspections, property condition reports, or wants DDI to inspect a property on behalf of a lender or government agency — take their name, company, contact info, number of properties, and location. Mark as HIGH PRIORITY. Dee will follow up.
+```
+
+---
 
 ## RECOMMENDED: Delete or Update Old Entries
 

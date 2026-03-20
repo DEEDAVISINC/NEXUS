@@ -84,10 +84,13 @@ DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), sc
 
 **State Licenses:**
 - Michigan Personnel License #6016004743 (Personnel Agency / Staffing — State of Michigan)
-- Michigan Property Pre-License (A.D. Banker & Company, Course #0432, completed Sep 22, 2022)
+- **Mortgage Loan Originator (MLO) — Michigan** | NMLS# 2099291 | Dieasha D. Davis (active)
+- **Mortgage Loan Originator / Mortgage Broker — Georgia** | NMLS# 2099291 | Dieasha D. Davis (active)
 
 **Professional Training & Certifications:**
-- Property Data Collection Training #I-03 (Walitt Solutions, completed Sep 25, 2022) — Residential property inspections, data collection, reporting
+- **Property Data Collection Training Certificate #I-03** (Walitt Solutions, September 25, 2022) — HUD/Fannie Mae PDC report format, residential property condition assessment, data collection protocols
+- **Property & Casualty Insurance Prelicense Certificate** (A.D. Banker & Company, Course #0432, September 22, 2022) — property risk assessment, casualty evaluation, insurance compliance
+- **Real Estate Prelicense Certificate** — Michigan real estate principles, property law, transaction documentation
 - Project Management for Government Projects (certificate on file — image-based PDF)
 - Property Preservation industry contacts and relationships (Safeguard Properties network)
 - CSH Supportive Housing Onboarding — Homelessness Systems & Coordinated Entry (Dec 2023)
@@ -159,7 +162,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 ## 📋 VENDOR PORTAL REGISTRATIONS
 
 - **SAM.gov** — Active
-- **Michigan SIGMA VSS** — Registered (sigmavss.michigan.gov)
+- **Michigan SIGMA VSS** — Registered (sigmavss.michigan.gov) — Vendor # VS0245604
 - **Maryland eMMA** — Registration in progress (emma.maryland.gov)
 - **BidNet Direct / MITN** — Registered (100+ Michigan municipal agencies)
 - **Oakland County Supplier Diversity Program** — Registered
@@ -562,8 +565,9 @@ Troy, Michigan 48084
 Phone: 248.376.4550
 Email: info@deedavis.biz
 
-EDWOSB/WOSB Certified | E-Verify & SWFT Certified
+EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Certified
 CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
+MI SIGMA VSS: VS0245604
 ```
 
 ---
@@ -574,7 +578,8 @@ CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
 DEE DAVIS INC
 755 W. Big Beaver Rd., Suite 2020 | Troy, MI 48084
 Phone: 248.376.4550 | Email: info@deedavis.biz
-EDWOSB/WOSB | E-Verify & SWFT Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+MI SIGMA VSS: VS0245604
 ```
 
 ---
@@ -592,10 +597,35 @@ EDWOSB/WOSB | E-Verify & SWFT Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 
 ## 📋 INSURANCE COVERAGE
 
-- General Liability
-- Cargo Insurance
-- Errors & Omissions (E&O)
-- Workers Compensation (as needed)
+**Carrier:** The Hartford — Property and Casualty Insurance Company of Hartford (NAIC# 34690)
+**Policy Number:** 76 SBU BS3SZP
+**Producer:** AP Intego Insurance Group LLC
+**Policy Period:** 04/28/2025 – 04/28/2026
+**⚠️ RENEWAL DATE: April 28, 2026 — set reminder 60 days prior (February 27, 2026)**
+**Policy Service:** 1-877-287-1316 (Mon–Fri 7am–7pm CT)
+**Claims Hotline:** 1-800-327-3636 (24 hours)
+**Online Portal:** https://business.thehartford.com
+**Mailing Address on Policy:** 1221 Bowers St Unit 2141, Birmingham MI 48012-7084
+
+| Coverage | Limit | Status |
+|---|---|---|
+| **Commercial General Liability** | $1M per occurrence / $2M aggregate | ACTIVE |
+| **Damage to Rented Premises** | $1M per occurrence | ACTIVE |
+| **Medical Expense** | $10K per person | ACTIVE |
+| **Personal & Advertising Injury** | $1M | ACTIVE |
+| **Products-Comp/Op Aggregate** | $2M | ACTIVE |
+| **Employment Practices Liability (EPLI)** | $25K each claim / $25K aggregate | ACTIVE |
+| **Blanket Additional Insured** | By contract endorsement (Form SL 30 32) | INCLUDED |
+| **Hartford Cyber Center** | Incident response + risk management tools (access code: 952689) | INCLUDED |
+
+**COI Requests:** Can be generated instantly via https://business.thehartford.com
+**Additional Insured:** Blanket endorsement included — no need to call Hartford for each sub/client COI.
+
+**⚠️ NOT CURRENTLY COVERED (Consider Adding):**
+- Professional Liability / Errors & Omissions (E&O) — recommended for DDI's service model
+- Commercial Auto — needed if DDI vehicles used for NEMT, courier, mobile testing
+- Workers Compensation — required when DDI has W-2 employees
+- Cargo / Inland Marine — for freight brokerage and supply delivery contracts
 
 ---
 

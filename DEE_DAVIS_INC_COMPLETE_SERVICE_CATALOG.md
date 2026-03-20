@@ -12,16 +12,17 @@
 
 ## 🎯 SERVICE PORTFOLIO OVERVIEW
 
-**DDI delivers business continuity across 6 major service lines — all managed through proprietary AI technology:**
+**DDI delivers business continuity across 7 major service lines — all managed through proprietary AI technology:**
 
 1. Credentialing, Identity Verification & Federal Compliance — ensuring workforce compliance, security clearances, and document integrity never lapse
 2. Professional Business Services — ensuring document, legal, and administrative operations never stop
-3. Healthcare Transportation Solutions — ensuring patients always get to care
-4. Service Contracts (Prime Contractor Model) — ensuring facility and operational services never interrupt
-5. Logistics & Fleet Optimization — ensuring supply chains and deliveries never break
-6. Project Executive Services — ensuring complex projects, crisis response, and continuity planning execute flawlessly
+3. Real Estate, Property & REO Services — ensuring property inspection, data collection, and preservation compliance for federal REO programs
+4. Healthcare Transportation Solutions — ensuring patients always get to care
+5. Service Contracts (Prime Contractor Model) — ensuring facility and operational services never interrupt
+6. Logistics & Fleet Optimization — ensuring supply chains and deliveries never break
+7. Project Executive Services — ensuring complex projects, crisis response, and continuity planning execute flawlessly
 
-**Total Services:** 26+  
+**Total Services:** 30+  
 **Target Markets:** Government (Federal/State/Local) + Corporations  
 **Revenue Potential:** $5M-$20M+ annually  
 **Technology Backbone:** NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS (all proprietary, founder-built)
@@ -452,7 +453,109 @@
 
 ---
 
-## 3️⃣ HEALTHCARE TRANSPORTATION SOLUTIONS
+## 3️⃣ REAL ESTATE, PROPERTY & REO SERVICES
+
+### **REO Field Inspection & Property Data Collection** 🏠
+
+**What It Is:**
+DDI serves as a Third-Party Administrator (TPA) for REO (Real Estate Owned) field inspection programs. DDI primes inspection contracts, coordinates licensed local inspectors through its proprietary PRISM dispatch and QA platform, and delivers HUD/VA/USDA-compliant reporting — including photo documentation, condition assessments, and Property Data Collection (PDC) reports.
+
+**Key DDI Differentiator — Principal Credentials:**
+Founder Dieasha D. Davis is a **licensed Mortgage Loan Originator and Mortgage Broker in Michigan AND Georgia (NMLS# 2099291)** — giving DDI direct credentialed knowledge of the full loan default-to-disposition lifecycle. Combined with a Property Data Collection Training Certificate (Walitt Solutions, 2022), Property & Casualty Insurance Prelicense (A.D. Banker, 2022), and Real Estate Prelicense training, DDI understands the compliance, insurance, and financial reporting requirements that most inspection subcontractors do not.
+
+**Target Clients:**
+- HUD (Field Service Management — FSM 3.0 / FSM 3.12 program)
+- VA Home Loan Guaranty (foreclosed VA properties)
+- USDA Rural Development (single-family guaranteed loan program)
+- Fannie Mae / Freddie Mac (REO property management contractors)
+- Mortgage servicers (Wells Fargo, Mr. Cooper, Nationstar, Specialized Loan Servicing)
+- Banks and credit unions with distressed asset portfolios
+
+**DDI TPA Model:**
+DDI primes the field service contract → local licensed inspectors execute fieldwork → DDI manages QA, compliance documentation, photo review, and reporting to the federal buyer. The client sees DDI. The inspector sees DDI. All reporting flows through DDI's PRISM platform.
+
+**Services:**
+- Occupancy checks and property status verifications (drive-by)
+- Exterior property condition inspections with photo documentation
+- Interior property condition inspections and full PDC reports (Fannie Mae / HUD format)
+- Vacant property monitoring and recurring scheduled inspections
+- Property preservation coordination (winterization, board-up, lawn care, debris removal)
+- Property valuation data collection (broker price opinion support)
+- Damage assessment reporting (storm, vandalism, neglect, fire)
+- REO disposition support (condition reporting, repair cost estimates, photo packages)
+- HUD FHA Field Service Management coordination (Philadelphia HOC region)
+- Compliance documentation for HUD, VA, and USDA programs
+
+**Platform:** PRISM (Professional Resource Inspection & Service Management) — DDI proprietary
+- Field dispatch and GPS confirmation
+- Photo upload and timestamping
+- Automated QA review before report delivery
+- Client portal for inspection results
+- Compliance audit trail for HUD/VA requirements
+
+**Coverage:** HUD Philadelphia HOC region (Michigan, Ohio, Pennsylvania, New York, New Jersey, Maryland, DC, Delaware, Virginia, West Virginia) — primary. Nationwide via iVueit and CS Field Services network.
+
+**Subcontractor / Fulfillment Platforms:**
+- iVueit — On-demand inspector network (consumer-grade gig inspectors)
+- CS Field Services — Professional REO inspectors, trained in HUD protocols
+- VRM Mortgage Services — REO management (DDI can sub to VRM on their federal awards)
+- Altisource — REO and mortgage field services marketplace
+
+**Pricing (DDI Agency Rates):**
+
+| Service | Price | Notes |
+|---------|-------|-------|
+| Occupancy check / drive-by | $45-$75 | Report + photo required |
+| Exterior inspection with condition report | $75-$125 | Detailed + photos |
+| Interior inspection + full PDC report | $150-$250 | HUD/Fannie Mae format |
+| Recurring property monitoring (per month) | $45-$60/property | Scheduled visits |
+| Property preservation coordination (per event) | $150-$500+ | Winterize, board-up, etc. |
+| Damage assessment report | $200-$400 | Detailed with photo evidence |
+| Volume portfolio pricing | Custom contract | Servicers with 50+ properties |
+
+**DDI Gross Margin Target:** 35-50% on all field inspection orders
+
+**NAICS Codes:** 531311 (Residential Property Managers), 541350 (Building Inspection Services), 561990 (All Other Support Services), 531390 (Other Activities Related to Real Estate)
+
+**Key Solicitations to Watch:**
+- HUD FSM 3.12 — 86544b19r00002 (Philadelphia HOC region)
+- VA Home Loan Guaranty REO management contracts
+- USDA Rural Development field inspection contracts
+
+**Reference Documents:**
+- `REO_FIELD_INSPECTION_TPA_STRATEGY.md` — Full market analysis and action plan
+- `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/SEND_TO_BUYER/HUD_FSM_REO_Field_Inspection_Capability_Statement.html` — Ready-to-send cap statement
+
+---
+
+### **Mortgage Consulting & Loan Origination Support** 🏦
+
+**What It Is:**
+DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mortgage Broker licenses in both Michigan and Georgia (NMLS# 2099291). This creates opportunities for consulting services to government clients, housing agencies, and individuals navigating the mortgage and property acquisition process.
+
+**Target Clients:**
+- HUD housing counseling agencies
+- State housing finance agencies
+- Municipal housing departments
+- Community development organizations
+- Individual homebuyers needing loan origination support (Michigan & Georgia)
+
+**Services:**
+- Mortgage consulting for government housing programs
+- Loan origination support (Michigan and Georgia licensed)
+- HUD/FHA loan compliance consultation
+- Homebuyer education and mortgage literacy support
+- REO financing advisory for buyers of bank-owned properties
+
+**Credentials:**
+- Mortgage Loan Originator — Michigan (NMLS# 2099291)
+- Mortgage Loan Originator / Mortgage Broker — Georgia (NMLS# 2099291)
+
+**NAICS Codes:** 522310 (Mortgage and Nonmortgage Loan Brokers), 541990
+
+---
+
+## 4️⃣ HEALTHCARE TRANSPORTATION SOLUTIONS
 
 ### **NEMT Program Development** 🚑
 **Target Clients:**
@@ -520,7 +623,7 @@
 
 ---
 
-## 4️⃣ SERVICE CONTRACTS (PRIME CONTRACTOR MODEL)
+## 5️⃣ SERVICE CONTRACTS (PRIME CONTRACTOR MODEL)
 
 ### **Janitorial & Custodial Services** 🧹
 **Target Clients:**
@@ -693,7 +796,7 @@
 
 ---
 
-## 5️⃣ LOGISTICS & FLEET OPTIMIZATION
+## 6️⃣ LOGISTICS & FLEET OPTIMIZATION
 
 ### **Freight Brokerage & Logistics** 🚛
 **Target Clients:**
@@ -724,7 +827,7 @@
 
 ---
 
-## 6️⃣ PROJECT EXECUTIVE SERVICES
+## 7️⃣ PROJECT EXECUTIVE SERVICES
 
 ### **Government Contract Execution** 🎯
 **Target Clients:**
@@ -833,11 +936,14 @@
 
 ### **State Licenses:**
 - Michigan Personnel Agency License #6016004743
-- Michigan Property Pre-License (A.D. Banker & Company, 2022)
+- **Mortgage Loan Originator (MLO) — Michigan** | NMLS# 2099291 | Dieasha D. Davis
+- **Mortgage Loan Originator / Mortgage Broker — Georgia** | NMLS# 2099291 | Dieasha D. Davis
 - Michigan Commissioned Notary Public (Active since April 2005)
 
-### **Professional Training:**
-- Property Data Collection Training (Walitt Solutions, 2022)
+### **Professional Training & Certificates:**
+- **Property Data Collection Training Certificate** (Walitt Solutions, September 2022) — PDC report format, property condition assessment, HUD/Fannie Mae data collection standards
+- **Property & Casualty Insurance Prelicense** (A.D. Banker & Company, September 2022) — property risk assessment, casualty evaluation, insurance compliance
+- **Real Estate Prelicense Certificate** — Michigan real estate principles, property law, transaction documentation
 - Project Management for Government Projects (certificate on file)
 
 ### **Federal Credentials:**
@@ -864,12 +970,13 @@
 |--------------|------------------|--------|--------------|
 | Federal Compliance | $500K-$2M | 40-60% | Medium |
 | Professional Services | $200K-$1M | 50-70% | Low |
+| Real Estate / REO / Property | $250K-$2M | 35-50% | Medium |
 | Healthcare Transportation | $500K-$5M | 20-40% | High |
 | Service Contracts | $1M-$10M | 10-25% | Medium |
 | Logistics | $500K-$3M | 15-30% | Medium |
 | Project Executive | $1M-$5M | 60-80% | High |
 
-**Total Potential:** $3.7M-$26M annually
+**Total Potential:** $4M-$28M annually
 
 ---
 
@@ -880,7 +987,7 @@
 - NEMT (healthcare transportation)
 - Notary/Courier (corporate partnerships)
 
-**🔄 Adding Now (Feb 1, 2026):**
+**🔄 Added (March 2026):**
 - DOT Testing
 - Fingerprinting
 - Background Checks
@@ -889,6 +996,8 @@
 - RON (Remote Notary)
 - Surety Bonds
 - Freight Brokerage Consulting
+- REO Field Inspection & Property Data Collection (PRISM platform)
+- Mortgage Consulting / MLO Services (Michigan & Georgia licensed)
 - All remaining deedavis.biz services
 
 ---

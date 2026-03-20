@@ -249,6 +249,45 @@ DDI is not a broker, not a reseller, not a staffing agency. DDI is a technology-
 
 ---
 
+### **7. REAL ESTATE, PROPERTY & REO SERVICES** 🏠
+
+**What DDI Offers:**
+DDI serves as a Third-Party Administrator (TPA) for REO (Real Estate Owned) field inspection and property data collection programs. DDI primes federal field service contracts — including HUD FSM, VA, and USDA programs — coordinating licensed local inspectors through its proprietary PRISM dispatch and QA platform.
+
+**Principal Credentials (Unique Differentiator):**
+- **Dieasha D. Davis — Licensed Mortgage Loan Originator & Mortgage Broker, Michigan & Georgia (NMLS# 2099291)** — direct knowledge of the full loan default-to-disposition lifecycle
+- **Property Data Collection Training Certificate** (Walitt Solutions, 2022) — HUD/Fannie Mae PDC report format, property condition assessment
+- **Property & Casualty Insurance Prelicense** (A.D. Banker & Company, 2022) — property risk assessment, casualty evaluation, insurance compliance
+- **Real Estate Prelicense Certificate** — Michigan real estate principles, property law, transaction documentation
+
+**Key Services:**
+- REO field inspection and property condition reports
+- Occupancy checks and drive-by verifications
+- Property Data Collection (PDC) reports — HUD and Fannie Mae format
+- Vacant property monitoring (recurring inspections)
+- Property preservation coordination (winterization, board-up, lawn care, debris)
+- Damage assessment and repair cost reporting
+- HUD Field Service Management support (Philadelphia HOC region)
+- Mortgage consulting and loan origination (Michigan & Georgia licensed)
+
+**Coverage:** HUD Philadelphia HOC region (MI, OH, PA, NY, NJ, MD, DC, DE, VA, WV) — primary. Nationwide via iVueit and CS Field Services network.
+
+**Platform:** PRISM — field dispatch, photo QA, report delivery, compliance tracking
+
+**Federal Contracting Value:**
+- HUD FSM 3.12 (Philadelphia HOC) — prime contractor opportunity
+- VA Home Loan Guaranty REO inspections
+- USDA Rural Development field inspection contracts
+- NAICS: 531311, 541350, 561990, 531390
+
+**Fulfillment Partners:**
+- iVueit (on-demand inspector network)
+- CS Field Services (professional REO inspectors)
+- VRM Mortgage Services
+- Altisource
+
+---
+
 ## 🏆 COMPLETE FEDERAL CREDENTIALS
 
 ### **Certifications:**
@@ -272,11 +311,14 @@ DDI is not a broker, not a reseller, not a staffing agency. DDI is a technology-
 
 ### **State Licenses:**
 - ✅ Michigan Personnel Agency License #6016004743 (Staffing / Personnel Services)
-- ✅ Michigan Property Pre-License (A.D. Banker & Company, 2022)
+- ✅ **Mortgage Loan Originator (MLO) — Michigan** | NMLS# 2099291 | Dieasha D. Davis
+- ✅ **Mortgage Loan Originator / Mortgage Broker — Georgia** | NMLS# 2099291 | Dieasha D. Davis
 - ✅ Michigan Commissioned Notary Public (Active since April 2005 — 20+ years)
 
-### **Professional Training:**
-- ✅ Property Data Collection Training (Walitt Solutions, 2022) — Residential property inspections and data collection
+### **Professional Training & Certificates:**
+- ✅ **Property Data Collection Training Certificate** (Walitt Solutions, September 2022) — PDC reports, HUD/Fannie Mae data collection, property condition assessment
+- ✅ **Property & Casualty Insurance Prelicense** (A.D. Banker & Company, September 2022) — property risk assessment, casualty evaluation, insurance compliance
+- ✅ **Real Estate Prelicense Certificate** — Michigan real estate principles, property law, transaction documentation
 - ✅ Project Management for Government Projects (certificate on file)
 
 ### **Industry Licenses:**
