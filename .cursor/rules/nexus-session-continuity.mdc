@@ -1,0 +1,94 @@
+---
+description: Every new chat must read the full NEXUS system state before doing anything
+alwaysApply: true
+---
+
+# NEXUS SESSION CONTINUITY — READ THIS FIRST, EVERY TIME
+
+**Before responding to ANY request, every new chat session MUST read the following files in order. No exceptions. This is how NEXUS stays current across sessions.**
+
+---
+
+## MANDATORY STARTUP READS (In This Order)
+
+### 1. Active Bids & Deadlines
+- `BIDS:RESOURCES/` — folder structure shows all active bid folders
+- `BID_TRACKER_DASHBOARD.md` — current bid status and deadlines
+- `MINIMIZED_DEADLINES.md` — upcoming deadline summary
+
+### 2. CO Outreach Pipeline
+- `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/CO_OUTREACH_TRACKER.md` — every CO already emailed (DO NOT re-email these)
+- `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/PENDING_COS_FOR_LATER.md` — COs identified but not yet emailed (pick up where we left off)
+
+### 3. Opportunity Intelligence
+- `NEW_SOURCES_SOUGHT_MAR17.md` (or most recent dated file) — latest miner results
+- `NEXUS_WATCH_LIST.md` — solicitations being monitored for full RFQ release
+- `FORECAST_OPPORTUNITIES_TRACKER.md` — pipeline of upcoming opportunities
+
+### 4. Active Drug Testing Bids (PRIORITY)
+- `BIDS:RESOURCES/DRUG TESTING SUPPLIES/` — all three active proposals (Macomb County MI, Lexington KY, Fulton County GA)
+- Pricing blockers: Quest Diagnostics callback expected Wednesday March 18 AM
+
+### 5. Partner & Supplier Status
+- `PARTNER_ACCOUNT_UPDATES.md` — current status of all supplier/partner accounts
+- `FACTORING_REQUIREMENTS.md` — Bankers Factoring setup status
+
+### 6. System Notes
+- `NEXUS_SYSTEM_CORRECTIONS.md` — known corrections and overrides
+- `CURRENT_SESSION_STATE.md` — last session summary if it exists
+
+---
+
+## WHAT TO DO AFTER READING
+
+After reading the above, the chat should be able to answer:
+- What bids are active and what's the next deadline?
+- Which COs have already been emailed (check tracker before drafting anything)?
+- Which COs are pending outreach?
+- What are the current drug testing proposal blockers?
+- What opportunities are being watched?
+
+If any file is missing or empty, note it and continue. Do not stop and ask Dee to explain the system — read the files and figure it out.
+
+---
+
+## CO OUTREACH RULES (Always Active)
+
+- **Federal COs** → capabilities introduction tone, full service bullet list, smart questions
+- **State/local agency contacts** → DDI is already a registered vendor → follow-up tone, NOT cold intro
+- **Standard email closing (every CO email):**
+  > *"For immediate needs under $10,000, Dee Davis Inc. is available for direct micro-purchase — no competition required, SAM-registered and ready. For needs up to $250,000, we're available under simplified acquisition procedures with fast turnaround and reduced competition requirements."*
+- **Signature:** Dieasha D. Davis, President & CEO
+- **After every sent email:** Update `CO_OUTREACH_TRACKER.md` immediately
+- **Never generate a CO email without checking the tracker first**
+
+---
+
+## SESSION HANDOFF PROTOCOL
+
+At the end of every session (or when Dee says "save everything" / "push to git"):
+1. Update `CO_OUTREACH_TRACKER.md` with all emails sent this session
+2. Update `PENDING_COS_FOR_LATER.md` — remove completed, add new
+3. Update `BID_TRACKER_DASHBOARD.md` if any bid status changed
+4. Update `NEXUS_WATCH_LIST.md` if any new solicitations are being monitored
+5. Run `git add -A && git commit` with a clear summary of what was done
+6. Confirm to Dee: "Saved. Next chat will pick up at [specific next action]."
+
+---
+
+## KEY COMPANY INFO (Always Current)
+
+| Field | Value |
+|---|---|
+| Company | Dee Davis Inc. |
+| Address | 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 |
+| Phone | 248.376.4550 |
+| Email | info@deedavis.biz |
+| CAGE | 8UMX3 |
+| UEI | HJB4KNYJVGZ1 |
+| Certifications | EDWOSB, WOSB, WBENC, MBE, SBE, SWFT Authorized |
+| SAM.gov | Active |
+
+---
+
+*This rule exists because Dee works across multiple chat sessions and the system must stay current without her having to re-explain everything every time. Read the files. Know the state. Pick up and go.*
