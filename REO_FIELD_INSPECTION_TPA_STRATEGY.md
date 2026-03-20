@@ -193,4 +193,13 @@ FIELD INSPECTION SUBCONTRACTOR NETWORK
 
 ---
 
+## KEY DDI CREDENTIALS FOR THIS LANE
+
+| Credential | Detail |
+|---|---|
+| **MLO/Mortgage Broker License — Michigan** | Dieasha D. Davis, NMLS# 2099291 |
+| **MLO/Mortgage Broker License — Georgia** | Dieasha D. Davis, NMLS# 2099291 |
+| **Property Data Collection Training Certificate** | Walitt Solutions, September 2022 |
+| **Property & Casualty Insurance Prelicense Certificate** | A.D. Banker & Company, September 2022 — property risk assessment, casualty evaluation, insurance compliance |
+
 *Built by NEXUS | REO & Field Inspection TPA Lane | March 17, 2026*
