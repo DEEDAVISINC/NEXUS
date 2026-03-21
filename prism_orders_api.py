@@ -1129,6 +1129,79 @@ def review_scanback(order_id):
 
 
 # ═══════════════════════════════════════════════════════════════════
+# FIELD OPS — REO & Mortgage Field Service Work Orders
+# ═══════════════════════════════════════════════════════════════════
+
+FIELD_OPS_FILE = os.path.join(DATA_DIR, 'field_ops.json')
+
+
+@prism_orders.route('/prism/fieldops', methods=['GET'])
+def list_field_ops():
+    """Return all property work orders with optional status/program filter."""
+    wos = _load(FIELD_OPS_FILE, [])
+    status = request.args.get('status')
+    program = request.args.get('program')
+    if status:
+        wos = [w for w in wos if w.get('status') == status]
+    if program:
+        wos = [w for w in wos if w.get('program') == program]
+    return jsonify({'work_orders': wos, 'total': len(wos)})
+
+
+@prism_orders.route('/prism/fieldops', methods=['POST'])
+def create_field_op():
+    """Create a new property work order."""
+    data = request.get_json(silent=True) or {}
+    wos = _load(FIELD_OPS_FILE, [])
+    now_iso = datetime.now().isoformat()
+    seq = len(wos) + 1
+    wo = {
+        'id': f"FO-2026-{seq:03d}",
+        'property_address': data.get('property_address', ''),
+        'city': data.get('city', ''),
+        'state': data.get('state', 'MI'),
+        'zip': data.get('zip', ''),
+        'property_type': data.get('property_type', 'single_family'),
+        'program': data.get('program', 'hud_fsm'),
+        'service_type': data.get('service_type', 'occupancy_check'),
+        'status': 'new',
+        'priority': data.get('priority', 'standard'),
+        'assigned_to': data.get('assigned_to', ''),
+        'vendor_source': data.get('vendor_source', 'ddi_direct'),
+        'photos_required': data.get('photos_required', 6),
+        'photos_submitted': 0,
+        'condition_code': '',
+        'due_date': data.get('due_date', ''),
+        'recurring': data.get('recurring', False),
+        'recurring_freq': data.get('recurring_freq', ''),
+        'fee': data.get('fee', 0),
+        'notes': data.get('notes', ''),
+        'created_at': now_iso,
+    }
+    wos.append(wo)
+    _save(FIELD_OPS_FILE, wos)
+    return jsonify({'success': True, 'work_order': wo}), 201
+
+
+@prism_orders.route('/prism/fieldops/<wo_id>', methods=['PATCH'])
+def update_field_op(wo_id):
+    """Update a property work order (status, photos, assignment, etc.)."""
+    wos = _load(FIELD_OPS_FILE, [])
+    idx = next((i for i, w in enumerate(wos) if w['id'] == wo_id), None)
+    if idx is None:
+        return jsonify({'error': 'Work order not found'}), 404
+    data = request.get_json(silent=True) or {}
+    allowed = ['status', 'assigned_to', 'vendor_source', 'photos_submitted',
+               'condition_code', 'priority', 'notes', 'fee', 'due_date']
+    for k in allowed:
+        if k in data:
+            wos[idx][k] = data[k]
+    wos[idx]['updated_at'] = datetime.now().isoformat()
+    _save(FIELD_OPS_FILE, wos)
+    return jsonify({'success': True, 'work_order': wos[idx]})
+
+
+# ═══════════════════════════════════════════════════════════════════
 # GET /prism/agents  —  List field agents
 # ═══════════════════════════════════════════════════════════════════
 

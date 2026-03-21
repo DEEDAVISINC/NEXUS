@@ -285,6 +285,70 @@ interface PrismOrder { id: string; type: string; status: string; agent: string; 
 interface PrismAgent { id: string; name: string; specialties: string[]; status: string; city: string; state: string; completionRate: number; onTimeRate: number; errorRate: number; rating: number; ordersCompleted: number; activeOrders: number; }
 interface PrismClient { id: string; name: string; type: string; services: string[]; orders: number; revenue: number; status: string; retainer: number; }
 
+// ─── FIELD OPS (REO / MORTGAGE FIELD SERVICES) ─────────────────────
+interface PropertyWorkOrder {
+  id: string; property_address: string; city: string; state: string; zip: string;
+  property_type: string; program: string; service_type: string; status: string;
+  priority: string; assigned_to: string; vendor_source: string;
+  photos_required: number; photos_submitted: number; condition_code: string;
+  due_date: string; recurring: boolean; recurring_freq?: string;
+  fee: number; notes: string; created_at: string;
+}
+
+const FIELD_OPS_PROGRAMS: Record<string, { label: string; color: string; solid: string; icon: string }> = {
+  hud_fsm: { label: 'HUD FSM', color: '#3B82F6', solid: '#2563EB', icon: '🏛️' },
+  va_reo: { label: 'VA REO', color: '#10B981', solid: '#059669', icon: '🎖️' },
+  usda_rd: { label: 'USDA RD', color: '#F59E0B', solid: '#D97706', icon: '🌾' },
+  fannie_mae: { label: 'Fannie Mae', color: '#8B5CF6', solid: '#7C3AED', icon: '🏘️' },
+  freddie_mac: { label: 'Freddie Mac', color: '#EC4899', solid: '#DB2777', icon: '🏡' },
+  bank_reo: { label: 'Bank REO', color: '#6366F1', solid: '#4F46E5', icon: '🏦' },
+};
+
+const FIELD_OPS_SERVICES: Record<string, { label: string; icon: string }> = {
+  occupancy_check: { label: 'Occupancy Check', icon: '👁️' },
+  interior_inspection: { label: 'Interior Inspection', icon: '🔍' },
+  condition_report: { label: 'Condition Report', icon: '📋' },
+  preservation: { label: 'Preservation', icon: '🔒' },
+  lawn_maintenance: { label: 'Lawn / Grounds', icon: '🌿' },
+  winterization: { label: 'Winterization', icon: '❄️' },
+  board_up: { label: 'Board-Up / Secure', icon: '🪵' },
+  debris_removal: { label: 'Debris Removal', icon: '🗑️' },
+  damage_assessment: { label: 'Damage Assessment', icon: '⚠️' },
+};
+
+const FIELD_OPS_STATUSES: Record<string, { label: string; color: string }> = {
+  new: { label: 'New', color: '#6B7280' },
+  assigned: { label: 'Assigned', color: '#3B82F6' },
+  en_route: { label: 'En Route', color: '#F59E0B' },
+  on_site: { label: 'On Site', color: '#8B5CF6' },
+  photos_submitted: { label: 'Photos Submitted', color: '#14B8A6' },
+  report_pending: { label: 'Report Pending', color: '#F97316' },
+  qc_review: { label: 'QC Review', color: '#EC4899' },
+  complete: { label: 'Complete', color: '#10B981' },
+  rejected: { label: 'Rejected', color: '#EF4444' },
+};
+
+const VENDOR_SOURCES: Record<string, { label: string; icon: string }> = {
+  ddi_direct: { label: 'DDI Direct', icon: '🔷' },
+  ivueit: { label: 'iVueit', icon: '📱' },
+  cs_field: { label: 'CS Field Services', icon: '🏢' },
+  vrm: { label: 'VRM Mortgage', icon: '🏠' },
+  altisource: { label: 'Altisource', icon: '🔶' },
+};
+
+const MOCK_PROPERTY_ORDERS: PropertyWorkOrder[] = [
+  { id: 'FO-2026-001', property_address: '14520 Greenfield Rd', city: 'Detroit', state: 'MI', zip: '48227', property_type: 'single_family', program: 'hud_fsm', service_type: 'occupancy_check', status: 'assigned', priority: 'standard', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 6, photos_submitted: 0, condition_code: '', due_date: '03/23/2026', recurring: true, recurring_freq: 'monthly', fee: 35, notes: 'Monthly occupancy verification — check mailbox, lawn, windows', created_at: '2026-03-20T10:00:00' },
+  { id: 'FO-2026-002', property_address: '8831 Outer Dr', city: 'Detroit', state: 'MI', zip: '48213', property_type: 'single_family', program: 'hud_fsm', service_type: 'interior_inspection', status: 'on_site', priority: 'rush', assigned_to: 'iVueit Inspector #4412', vendor_source: 'ivueit', photos_required: 24, photos_submitted: 18, condition_code: 'C4-Poor', due_date: '03/21/2026', recurring: false, fee: 125, notes: 'Full interior — reported water damage in basement. Document all rooms + damage areas.', created_at: '2026-03-19T14:00:00' },
+  { id: 'FO-2026-003', property_address: '2200 Joslyn Ct', city: 'Pontiac', state: 'MI', zip: '48340', property_type: 'townhouse', program: 'va_reo', service_type: 'condition_report', status: 'photos_submitted', priority: 'standard', assigned_to: 'CS Field - Oakland Region', vendor_source: 'cs_field', photos_required: 18, photos_submitted: 18, condition_code: 'C3-Average', due_date: '03/24/2026', recurring: false, fee: 150, notes: 'VA REO — full property condition report needed for listing decision', created_at: '2026-03-18T09:00:00' },
+  { id: 'FO-2026-004', property_address: '6742 Maplewood Ave', city: 'Flint', state: 'MI', zip: '48505', property_type: 'single_family', program: 'hud_fsm', service_type: 'board_up', status: 'new', priority: 'rush', assigned_to: '', vendor_source: 'ddi_direct', photos_required: 12, photos_submitted: 0, condition_code: '', due_date: '03/22/2026', recurring: false, fee: 275, notes: 'Broken front window + side door open. Secure immediately. HUD priority.', created_at: '2026-03-21T08:00:00' },
+  { id: 'FO-2026-005', property_address: '310 W Huron St', city: 'Ann Arbor', state: 'MI', zip: '48103', property_type: 'condo', program: 'fannie_mae', service_type: 'damage_assessment', status: 'qc_review', priority: 'standard', assigned_to: 'VRM Inspector - Washtenaw', vendor_source: 'vrm', photos_required: 20, photos_submitted: 20, condition_code: 'C5-Distressed', due_date: '03/22/2026', recurring: false, fee: 175, notes: 'Fire damage — kitchen and adjacent bedroom. Insurance claim pending.', created_at: '2026-03-17T11:00:00' },
+  { id: 'FO-2026-006', property_address: '1455 Bewick St', city: 'Detroit', state: 'MI', zip: '48214', property_type: 'single_family', program: 'hud_fsm', service_type: 'lawn_maintenance', status: 'complete', priority: 'standard', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 4, photos_submitted: 4, condition_code: 'C3-Average', due_date: '03/20/2026', recurring: true, recurring_freq: 'biweekly', fee: 85, notes: 'Biweekly lawn cut — front and back. Photo before/after.', created_at: '2026-03-14T10:00:00' },
+  { id: 'FO-2026-007', property_address: '920 E Grand Blvd', city: 'Detroit', state: 'MI', zip: '48207', property_type: 'multi_family', program: 'bank_reo', service_type: 'winterization', status: 'report_pending', priority: 'rush', assigned_to: 'Altisource Tech #2287', vendor_source: 'altisource', photos_required: 16, photos_submitted: 16, condition_code: 'C4-Poor', due_date: '03/21/2026', recurring: false, fee: 325, notes: 'Drain all pipes, apply antifreeze to toilets/traps, shut off water main. Document every step.', created_at: '2026-03-19T13:00:00' },
+  { id: 'FO-2026-008', property_address: '3380 Sheridan Dr', city: 'Warren', state: 'MI', zip: '48091', property_type: 'single_family', program: 'usda_rd', service_type: 'occupancy_check', status: 'en_route', priority: 'standard', assigned_to: 'DDI Agent - Macomb', vendor_source: 'ddi_direct', photos_required: 6, photos_submitted: 0, condition_code: '', due_date: '03/21/2026', recurring: true, recurring_freq: 'monthly', fee: 35, notes: 'USDA Rural Dev property — monthly check, photograph front + mailbox + lawn condition', created_at: '2026-03-21T07:30:00' },
+  { id: 'FO-2026-009', property_address: '17200 Livernois Ave', city: 'Detroit', state: 'MI', zip: '48221', property_type: 'single_family', program: 'hud_fsm', service_type: 'debris_removal', status: 'assigned', priority: 'standard', assigned_to: 'CS Field - Wayne Region', vendor_source: 'cs_field', photos_required: 8, photos_submitted: 0, condition_code: '', due_date: '03/25/2026', recurring: false, fee: 200, notes: 'Illegal dumping on side lot. Clear all debris + photograph before/after.', created_at: '2026-03-20T15:00:00' },
+  { id: 'FO-2026-010', property_address: '5488 Chalmers St', city: 'Detroit', state: 'MI', zip: '48213', property_type: 'single_family', program: 'hud_fsm', service_type: 'preservation', status: 'assigned', priority: 'rush', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 14, photos_submitted: 0, condition_code: '', due_date: '03/22/2026', recurring: false, fee: 350, notes: 'Full preservation — lock change, board-up rear, debris clear, lawn initial cut. HUD FSM compliance.', created_at: '2026-03-21T09:00:00' },
+];
+
 // ─── HELPER COMPONENTS ─────────────────────────────────────────────
 const ServiceBadge: React.FC<{ type: string; size?: 'sm' | 'md' }> = ({ type, size = 'sm' }) => {
   const svc = SERVICE_COLORS[type] || SERVICE_COLORS['notary'];
@@ -324,6 +388,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [agentFilter, setAgentFilter] = useState('all');
   const [inspSvc, setInspSvc] = useState('dot');
   const [stageFilter, setStageFilter] = useState('all');
+  const [fieldOpsFilter, setFieldOpsFilter] = useState('all');
+  const [fieldOpsView, setFieldOpsView] = useState<'list' | 'route' | 'photos'>('list');
+  const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+  const [propertyOrders] = useState<PropertyWorkOrder[]>(MOCK_PROPERTY_ORDERS);
 
   const [orders, setOrders] = useState<PrismOrder[]>([]);
   const [agents, setAgents] = useState<PrismAgent[]>([]);
@@ -384,6 +452,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
     { id: 'dashboard', label: '🎯 Command Center' },
     { id: 'orders', label: '📋 Orders' },
     { id: 'dispatch', label: '🚀 Dispatch' },
+    { id: 'fieldops', label: '🏠 Field Ops' },
     { id: 'scanbacks', label: '📸 Scanbacks' },
     { id: 'agents', label: '👤 Field Agents' },
     { id: 'clients', label: '🏢 Clients' },
@@ -1058,7 +1127,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                                   {allClear ? '✓ QC CLEAR' : fatalOpen > 0 ? `⛔ ${fatalOpen} FATAL OPEN` : `⚠ ${critOpen} CHECKS OPEN`}
                                 </div>
                               );
-                            })()
+                            })()}
                           </div>
                         );
                       })}
@@ -1494,6 +1563,418 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             </div>
           </div>
         )}
+
+        {/* ════════════════════════════════════════════════════
+            TAB: FIELD OPS (REO / MORTGAGE FIELD SERVICES)
+        ════════════════════════════════════════════════════ */}
+        {activeTab === 'fieldops' && (() => {
+          const filteredProps = fieldOpsFilter === 'all' ? propertyOrders
+            : Object.keys(FIELD_OPS_PROGRAMS).includes(fieldOpsFilter)
+              ? propertyOrders.filter(p => p.program === fieldOpsFilter)
+              : propertyOrders.filter(p => p.status === fieldOpsFilter);
+
+          const statusCounts = Object.keys(FIELD_OPS_STATUSES).reduce((acc, k) => {
+            acc[k] = propertyOrders.filter(p => p.status === k).length; return acc;
+          }, {} as Record<string, number>);
+
+          const totalPhotosReq = propertyOrders.reduce((s, p) => s + p.photos_required, 0);
+          const totalPhotosSub = propertyOrders.reduce((s, p) => s + p.photos_submitted, 0);
+          const totalRevenue = propertyOrders.reduce((s, p) => s + p.fee, 0);
+          const rushCount = propertyOrders.filter(p => p.priority === 'rush' && p.status !== 'complete').length;
+          const overdueCount = propertyOrders.filter(p => {
+            if (p.status === 'complete') return false;
+            const parts = p.due_date.split('/');
+            if (parts.length !== 3) return false;
+            const due = new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]));
+            return due < new Date();
+          }).length;
+
+          const selectedProp = propertyOrders.find(p => p.id === selectedProperty);
+          const selProgram = selectedProp ? FIELD_OPS_PROGRAMS[selectedProp.program] : null;
+          const selService = selectedProp ? FIELD_OPS_SERVICES[selectedProp.service_type] : null;
+          const selStatus = selectedProp ? FIELD_OPS_STATUSES[selectedProp.status] : null;
+          const selVendor = selectedProp ? VENDOR_SOURCES[selectedProp.vendor_source] : null;
+
+          return (
+          <div>
+            {/* Header */}
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold mb-1">🏠 Field Operations</h2>
+                <p className="text-gray-400">REO & Mortgage Field Services — Property Inspections, Preservation, Maintenance</p>
+              </div>
+              <div className="flex gap-2">
+                {(['list', 'route', 'photos'] as const).map(v => (
+                  <button key={v} onClick={() => setFieldOpsView(v)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition ${fieldOpsView === v ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}>
+                    {v === 'list' ? '📋 Work Orders' : v === 'route' ? '🗺️ Routes' : '📸 Photos'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div className="grid grid-cols-6 gap-3 mb-6">
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-white">{propertyOrders.length}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Total Orders</p>
+              </div>
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-yellow-400">{rushCount}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Rush Priority</p>
+              </div>
+              <div className="bg-gray-800 border border-red-500/30 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-red-400">{overdueCount}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Overdue</p>
+              </div>
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-teal-400">{totalPhotosSub}/{totalPhotosReq}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Photos</p>
+              </div>
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-green-400">${totalRevenue.toLocaleString()}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Pipeline Value</p>
+              </div>
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-center">
+                <p className="text-2xl font-bold text-purple-400">{propertyOrders.filter(p => p.recurring).length}</p>
+                <p className="text-[10px] text-gray-500 uppercase font-semibold">Recurring</p>
+              </div>
+            </div>
+
+            {/* Program Filter Bar */}
+            <div className="flex gap-2 mb-4 flex-wrap">
+              <button onClick={() => setFieldOpsFilter('all')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${fieldOpsFilter === 'all' ? 'bg-white text-gray-900' : 'bg-gray-800 text-gray-400 hover:text-white'}`}>
+                All ({propertyOrders.length})
+              </button>
+              {Object.entries(FIELD_OPS_PROGRAMS).map(([key, prog]) => {
+                const cnt = propertyOrders.filter(p => p.program === key).length;
+                if (cnt === 0) return null;
+                return (
+                  <button key={key} onClick={() => setFieldOpsFilter(key)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${fieldOpsFilter === key ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                    style={{ backgroundColor: fieldOpsFilter === key ? prog.solid : '#1F2937', borderWidth: '1px', borderColor: prog.color + '40' }}>
+                    <span>{prog.icon}</span> {prog.label} <span className="opacity-60">({cnt})</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Status Pipeline Bar */}
+            <div className="flex gap-1 mb-6 bg-gray-800 rounded-xl p-1.5 overflow-x-auto">
+              {Object.entries(FIELD_OPS_STATUSES).map(([key, st]) => (
+                <button key={key} onClick={() => setFieldOpsFilter(fieldOpsFilter === key ? 'all' : key)}
+                  className={`px-2.5 py-1 rounded text-[10px] font-bold transition whitespace-nowrap flex items-center gap-1 ${fieldOpsFilter === key ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                  style={{ backgroundColor: fieldOpsFilter === key ? st.color : 'transparent' }}>
+                  {st.label} <span className="opacity-60">{statusCounts[key] || 0}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* ──── WORK ORDERS LIST VIEW ──── */}
+            {fieldOpsView === 'list' && (
+              <div className="flex gap-4">
+                {/* Order List */}
+                <div className={`space-y-2 ${selectedProperty ? 'w-3/5' : 'w-full'}`}>
+                  {filteredProps.length === 0 && (
+                    <div className="bg-gray-800 border border-gray-700 rounded-xl p-10 text-center">
+                      <p className="text-gray-500 text-lg">No work orders match this filter</p>
+                    </div>
+                  )}
+                  {filteredProps.map(wo => {
+                    const prog = FIELD_OPS_PROGRAMS[wo.program];
+                    const svc = FIELD_OPS_SERVICES[wo.service_type];
+                    const st = FIELD_OPS_STATUSES[wo.status];
+                    const vendor = VENDOR_SOURCES[wo.vendor_source];
+                    const photoPercent = wo.photos_required > 0 ? Math.round((wo.photos_submitted / wo.photos_required) * 100) : 0;
+                    const isSelected = selectedProperty === wo.id;
+                    return (
+                      <div key={wo.id} onClick={() => setSelectedProperty(isSelected ? null : wo.id)}
+                        className={`bg-gray-800 border rounded-xl p-3 cursor-pointer transition hover:border-gray-500 ${isSelected ? 'border-blue-500 ring-2 ring-blue-500/30' : 'border-gray-700'}`}
+                        style={{ borderLeftWidth: '5px', borderLeftColor: prog?.color, backgroundColor: isSelected ? prog?.color + '08' : undefined }}>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{prog?.icon}</span>
+                            <span className="font-mono text-[10px] text-gray-500">{wo.id}</span>
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: prog?.solid }}>{prog?.label}</span>
+                            {wo.priority === 'rush' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white animate-pulse">RUSH</span>}
+                            {wo.recurring && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-600 text-white">🔁 {wo.recurring_freq}</span>}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: st?.color }}>{st?.label}</span>
+                            <span className="text-xs font-bold text-green-400">${wo.fee}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-semibold text-white">{wo.property_address}</p>
+                            <p className="text-xs text-gray-400">{wo.city}, {wo.state} {wo.zip}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs text-gray-400">{svc?.icon} {svc?.label}</p>
+                            <p className="text-[10px] text-gray-500">{vendor?.icon} {vendor?.label}</p>
+                          </div>
+                        </div>
+                        {/* Photo progress bar */}
+                        <div className="mt-2 flex items-center gap-2">
+                          <span className="text-[10px] text-gray-500">📸 {wo.photos_submitted}/{wo.photos_required}</span>
+                          <div className="flex-1 bg-gray-700 rounded-full h-1.5">
+                            <div className="h-1.5 rounded-full transition-all" style={{ width: `${photoPercent}%`, backgroundColor: photoPercent >= 100 ? '#10B981' : photoPercent > 0 ? '#F59E0B' : '#374151' }} />
+                          </div>
+                          <span className="text-[10px] text-gray-500">Due {wo.due_date}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Property Detail Slide-out */}
+                {selectedProp && selProgram && (
+                  <div className="w-2/5 bg-gray-800 border border-gray-700 rounded-xl overflow-hidden sticky top-36 self-start max-h-[80vh] overflow-y-auto">
+                    <div className="h-2 w-full" style={{ backgroundColor: selProgram.color }} />
+                    <div className="p-5">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{selProgram.icon}</span>
+                          <span className="px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: selProgram.solid }}>{selProgram.label}</span>
+                          {selectedProp.priority === 'rush' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white animate-pulse">RUSH</span>}
+                        </div>
+                        <button onClick={() => setSelectedProperty(null)} className="text-gray-500 hover:text-white text-lg">✕</button>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-white mb-1">{selectedProp.property_address}</h3>
+                      <p className="text-sm text-gray-400 mb-4">{selectedProp.city}, {selectedProp.state} {selectedProp.zip}</p>
+
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Service</p>
+                          <p className="text-sm text-white font-semibold">{selService?.icon} {selService?.label}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Status</p>
+                          <p className="text-sm font-bold" style={{ color: selStatus?.color }}>{selStatus?.label}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Property Type</p>
+                          <p className="text-sm text-white capitalize">{selectedProp.property_type.replace('_', ' ')}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Fee</p>
+                          <p className="text-sm text-green-400 font-bold">${selectedProp.fee}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Assigned To</p>
+                          <p className="text-sm text-white">{selectedProp.assigned_to || <span className="text-red-400">Unassigned</span>}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Vendor</p>
+                          <p className="text-sm text-white">{selVendor?.icon} {selVendor?.label}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Due Date</p>
+                          <p className="text-sm text-white font-semibold">{selectedProp.due_date}</p>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-3">
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Condition Code</p>
+                          <p className="text-sm text-white">{selectedProp.condition_code || '—'}</p>
+                        </div>
+                      </div>
+
+                      {selectedProp.recurring && (
+                        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 mb-4">
+                          <p className="text-xs font-bold text-purple-400">🔁 Recurring — {selectedProp.recurring_freq}</p>
+                        </div>
+                      )}
+
+                      {/* Photo Documentation */}
+                      <div className="bg-gray-900 rounded-lg p-4 mb-4">
+                        <h4 className="text-sm font-bold text-white mb-2">📸 Photo Documentation</h4>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-gray-400">{selectedProp.photos_submitted} of {selectedProp.photos_required} required photos</span>
+                          <span className={`text-xs font-bold ${selectedProp.photos_submitted >= selectedProp.photos_required ? 'text-green-400' : 'text-yellow-400'}`}>
+                            {selectedProp.photos_submitted >= selectedProp.photos_required ? '✅ Complete' : `⚠️ ${selectedProp.photos_required - selectedProp.photos_submitted} needed`}
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-3">
+                          <div className="h-3 rounded-full transition-all"
+                            style={{ width: `${Math.min(100, Math.round((selectedProp.photos_submitted / selectedProp.photos_required) * 100))}%`,
+                              backgroundColor: selectedProp.photos_submitted >= selectedProp.photos_required ? '#10B981' : '#F59E0B' }} />
+                        </div>
+                        {selectedProp.service_type === 'interior_inspection' && (
+                          <div className="mt-3 grid grid-cols-3 gap-1 text-[10px] text-gray-500">
+                            {['Front Exterior', 'Rear Exterior', 'Left Side', 'Right Side', 'Kitchen', 'Living Room', 'Bathroom 1', 'Bedroom 1', 'Bedroom 2', 'Basement', 'Garage', 'Damage Areas'].map((room, i) => (
+                              <div key={i} className={`px-2 py-1 rounded text-center border ${i < selectedProp.photos_submitted ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-gray-800 border-gray-700'}`}>
+                                {i < selectedProp.photos_submitted ? '✅' : '⬜'} {room}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Notes */}
+                      <div className="bg-gray-900 rounded-lg p-3 mb-4">
+                        <p className="text-[10px] text-gray-500 uppercase font-semibold mb-1">Notes</p>
+                        <p className="text-sm text-gray-300">{selectedProp.notes}</p>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 flex-wrap">
+                        {selectedProp.status === 'new' && (
+                          <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold text-sm transition">🚀 Dispatch</button>
+                        )}
+                        {['assigned', 'en_route', 'on_site'].includes(selectedProp.status) && (
+                          <button className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg font-bold text-sm transition">📸 Upload Photos</button>
+                        )}
+                        {selectedProp.status === 'photos_submitted' && (
+                          <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-bold text-sm transition">📋 Generate Report</button>
+                        )}
+                        {selectedProp.status === 'qc_review' && (
+                          <>
+                            <button className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-bold text-sm transition">✅ Approve</button>
+                            <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-bold text-sm transition">❌ Reject</button>
+                          </>
+                        )}
+                        {selectedProp.status === 'report_pending' && (
+                          <button className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold text-sm transition">📝 Submit Report</button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ──── ROUTE VIEW ──── */}
+            {fieldOpsView === 'route' && (
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">🗺️ Daily Routes — Agent Deployment</h3>
+                {(() => {
+                  const agentGroups: Record<string, PropertyWorkOrder[]> = {};
+                  propertyOrders.filter(p => p.status !== 'complete' && p.assigned_to).forEach(p => {
+                    if (!agentGroups[p.assigned_to]) agentGroups[p.assigned_to] = [];
+                    agentGroups[p.assigned_to].push(p);
+                  });
+                  const unassigned = propertyOrders.filter(p => !p.assigned_to);
+                  return (
+                    <div className="space-y-4">
+                      {Object.entries(agentGroups).map(([agent, wos]) => {
+                        const vendor = VENDOR_SOURCES[wos[0].vendor_source];
+                        const totalFee = wos.reduce((s, w) => s + w.fee, 0);
+                        return (
+                          <div key={agent} className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{vendor?.icon || '👤'}</span>
+                                <h4 className="font-bold text-white">{agent}</h4>
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-700 text-gray-300">{vendor?.label}</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs text-gray-400">{wos.length} properties</span>
+                                <span className="text-xs font-bold text-green-400">${totalFee}</span>
+                              </div>
+                            </div>
+                            <div className="space-y-1.5">
+                              {wos.map((wo, idx) => {
+                                const prog = FIELD_OPS_PROGRAMS[wo.program];
+                                const svc = FIELD_OPS_SERVICES[wo.service_type];
+                                const st = FIELD_OPS_STATUSES[wo.status];
+                                return (
+                                  <div key={wo.id} className="flex items-center gap-3 bg-gray-900 rounded-lg px-3 py-2 border border-gray-700">
+                                    <span className="text-xs font-bold text-gray-500 w-5">{idx + 1}.</span>
+                                    <span className="text-sm">{prog?.icon}</span>
+                                    <div className="flex-1">
+                                      <p className="text-sm text-white font-semibold">{wo.property_address}, {wo.city}</p>
+                                      <p className="text-[10px] text-gray-500">{svc?.label} · Due {wo.due_date}</p>
+                                    </div>
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: st?.color }}>{st?.label}</span>
+                                    {wo.priority === 'rush' && <span className="text-[10px] font-bold text-red-400">🔴 RUSH</span>}
+                                    <span className="text-xs text-green-400 font-bold">${wo.fee}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {unassigned.length > 0 && (
+                        <div className="bg-gray-800 border-2 border-dashed border-red-500/30 rounded-xl p-4">
+                          <h4 className="font-bold text-red-400 mb-3">⚠️ Unassigned ({unassigned.length})</h4>
+                          <div className="space-y-1.5">
+                            {unassigned.map(wo => {
+                              const prog = FIELD_OPS_PROGRAMS[wo.program];
+                              const svc = FIELD_OPS_SERVICES[wo.service_type];
+                              return (
+                                <div key={wo.id} className="flex items-center gap-3 bg-gray-900 rounded-lg px-3 py-2 border border-red-500/20">
+                                  <span className="text-sm">{prog?.icon}</span>
+                                  <div className="flex-1">
+                                    <p className="text-sm text-white font-semibold">{wo.property_address}, {wo.city}</p>
+                                    <p className="text-[10px] text-gray-500">{svc?.label} · Due {wo.due_date}</p>
+                                  </div>
+                                  {wo.priority === 'rush' && <span className="text-[10px] font-bold text-red-400 animate-pulse">🔴 RUSH</span>}
+                                  <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-xs font-bold transition">Assign</button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+
+            {/* ──── PHOTO PIPELINE VIEW ──── */}
+            {fieldOpsView === 'photos' && (
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">📸 Photo Documentation Pipeline</h3>
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-red-400">{propertyOrders.filter(p => p.photos_submitted === 0 && p.status !== 'complete' && p.status !== 'new').length}</p>
+                    <p className="text-xs text-gray-400">No Photos Yet</p>
+                  </div>
+                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-yellow-400">{propertyOrders.filter(p => p.photos_submitted > 0 && p.photos_submitted < p.photos_required).length}</p>
+                    <p className="text-xs text-gray-400">Partial — Missing Photos</p>
+                  </div>
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-green-400">{propertyOrders.filter(p => p.photos_submitted >= p.photos_required && p.photos_required > 0).length}</p>
+                    <p className="text-xs text-gray-400">Complete Photo Sets</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  {propertyOrders.filter(p => p.status !== 'new').sort((a, b) => (a.photos_submitted / a.photos_required) - (b.photos_submitted / b.photos_required)).map(wo => {
+                    const prog = FIELD_OPS_PROGRAMS[wo.program];
+                    const svc = FIELD_OPS_SERVICES[wo.service_type];
+                    const pct = wo.photos_required > 0 ? Math.round((wo.photos_submitted / wo.photos_required) * 100) : 0;
+                    const barColor = pct >= 100 ? '#10B981' : pct >= 50 ? '#F59E0B' : pct > 0 ? '#F97316' : '#EF4444';
+                    return (
+                      <div key={wo.id} className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 flex items-center gap-4"
+                        style={{ borderLeftWidth: '4px', borderLeftColor: barColor }}>
+                        <span className="text-sm">{prog?.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-white font-semibold truncate">{wo.property_address}, {wo.city}</p>
+                          <p className="text-[10px] text-gray-500">{svc?.label} · {wo.assigned_to || 'Unassigned'}</p>
+                        </div>
+                        <div className="w-40 flex items-center gap-2">
+                          <div className="flex-1 bg-gray-700 rounded-full h-2.5">
+                            <div className="h-2.5 rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: barColor }} />
+                          </div>
+                          <span className="text-xs font-bold w-12 text-right" style={{ color: barColor }}>{wo.photos_submitted}/{wo.photos_required}</span>
+                        </div>
+                        <span className={`text-xs font-bold ${pct >= 100 ? 'text-green-400' : 'text-gray-500'}`}>
+                          {pct >= 100 ? '✅ Complete' : pct > 0 ? `${100 - pct}% missing` : '❌ No photos'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+          );
+        })()}
 
         {/* ════════════════════════════════════════════════════
             TAB: SCANBACKS
