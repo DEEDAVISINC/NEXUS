@@ -1297,35 +1297,6 @@ END:VCALENDAR`;
                   })()}
                 </div>
 
-                {/* Support Systems feeding into the pipeline */}
-                <div className="mt-4 pt-3 border-t border-gray-700/50">
-                  <div className="text-[10px] text-gray-500 font-bold mb-2.5 text-center tracking-wider">SUPPORT SYSTEMS</div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {[
-                      { id: 'DDCSS', icon: '💼', label: 'DDCSS', desc: 'Corporate Sales', feeds: 'ATLAS + VERTEX', color: 'blue' },
-                      { id: 'GBIS', icon: '🎁', label: 'GBIS', desc: 'Grant Intel', feeds: 'VERTEX', color: 'yellow' },
-                      { id: 'DOCUMENTS', icon: '📄', label: 'DOCS', desc: 'Quotes & Cap Stmts', feeds: 'GPSS + DDCSS', color: 'cyan' },
-                      { id: 'LBPC', icon: '🏷️', label: 'LBPC', desc: 'Surplus Recovery', feeds: 'GPSS + VERTEX', color: 'purple' },
-                    ].map((sys) => (
-                      <div key={sys.id} className="flex items-center gap-2 px-3 py-2 bg-gray-700/30 border border-gray-700 rounded-lg">
-                        <span className="text-sm">{sys.icon}</span>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-[10px] font-black text-gray-300">{sys.label}</div>
-                          <div className="text-[9px] text-gray-500 truncate">{sys.desc}</div>
-                        </div>
-                        <div className="text-[8px] text-gray-600 whitespace-nowrap">→ {sys.feeds}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-center gap-3 mt-2">
-                    <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-700/20 rounded text-[9px]">
-                      <span>🎙️</span>
-                      <span className="text-gray-400 font-bold">ALEXA</span>
-                      <span className="text-gray-600">— Voice interface to all systems</span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Recent Events */}
                 {(pipelineHealth.recent_events || []).length > 0 && (
                   <div className="mt-3 pt-3 border-t border-gray-700/50">
