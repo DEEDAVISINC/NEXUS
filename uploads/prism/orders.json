@@ -2721,5 +2721,74 @@
     "workflow_stage_label": "QC Review",
     "created_at": "2026-03-21T14:35:31.403869",
     "updated_at": "2026-03-21T14:35:31.403869"
+  },
+  {
+    "id": "PRISM-20260321-0009-DOT",
+    "contract_id": "NXC-20260321-0001",
+    "service_type": "DOT Drug Screen",
+    "client_name": "Michigan Dept. of Health & Human Services",
+    "donor_name": "James Williams",
+    "donor_dob": "",
+    "location": "Detroit, MI",
+    "status": "Intake",
+    "workflow_stage": 1,
+    "priority": "Standard",
+    "assigned_agent": "",
+    "scheduled_date": "2026-03-25",
+    "scheduled_time": "10:00 AM",
+    "notes": "Pre-employment DOT screen",
+    "total_amount": 125,
+    "qc": {
+      "status": "Pending",
+      "checks": {}
+    },
+    "created_at": "2026-03-21T18:26:44.107722",
+    "updated_at": "2026-03-21T18:26:44.107722"
+  },
+  {
+    "id": "PRISM-20260321-0011-DOT",
+    "contract_id": "NXC-20260321-0001",
+    "service_type": "DOT Drug Screen",
+    "client_name": "Michigan Dept. of Health & Human Services",
+    "donor_name": "Maria Garcia",
+    "donor_dob": "",
+    "location": "Ann Arbor, MI",
+    "status": "Intake",
+    "workflow_stage": 1,
+    "priority": "Standard",
+    "assigned_agent": "",
+    "scheduled_date": "2026-03-25",
+    "scheduled_time": "2:00 PM",
+    "notes": "Random DOT screen",
+    "total_amount": 125,
+    "qc": {
+      "status": "Pending",
+      "checks": {}
+    },
+    "created_at": "2026-03-21T18:26:44.107722",
+    "updated_at": "2026-03-21T18:26:44.107722"
+  },
+  {
+    "id": "PRISM-20260321-0013-DNA",
+    "contract_id": "NXC-20260321-0001",
+    "service_type": "DNA Collection",
+    "client_name": "Michigan Dept. of Health & Human Services",
+    "donor_name": "Robert Johnson",
+    "donor_dob": "",
+    "location": "Flint, MI",
+    "status": "Intake",
+    "workflow_stage": 1,
+    "priority": "Standard",
+    "assigned_agent": "",
+    "scheduled_date": "2026-03-26",
+    "scheduled_time": "",
+    "notes": "Legal paternity test",
+    "total_amount": 350,
+    "qc": {
+      "status": "Pending",
+      "checks": {}
+    },
+    "created_at": "2026-03-21T18:26:44.107722",
+    "updated_at": "2026-03-21T18:26:44.107722"
   }
 ]

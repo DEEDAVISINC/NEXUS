@@ -594,4 +594,32 @@ export const api = {
     ApiClient.post(`/api/forecasts/${forecastId}/generate-capstat-outreach`, {}),
   batchForecastOutreach: (forecastIds: string[]) =>
     ApiClient.post('/api/forecasts/batch-outreach', { forecast_ids: forecastIds }),
+
+  // ═══════════════════════════════════════════════════════════
+  // NEXUS PIPELINE — Central Nervous System
+  // ═══════════════════════════════════════════════════════════
+  getPipelineHealth: () => ApiClient.get('/nexus/pipeline/health'),
+  getPipelineContracts: (status?: string) => {
+    const params = status ? `?status=${status}` : '';
+    return ApiClient.get(`/nexus/pipeline/contracts${params}`);
+  },
+  getPipelineContract: (contractId: string) =>
+    ApiClient.get(`/nexus/pipeline/contracts/${contractId}`),
+  registerPipelineContract: (data: any) =>
+    ApiClient.post('/nexus/pipeline/contracts', data),
+  updatePipelineContract: (contractId: string, data: any) =>
+    ApiClient.patch(`/nexus/pipeline/contracts/${contractId}`, data),
+  firePipelineEvent: (data: any) =>
+    ApiClient.post('/nexus/pipeline/event', data),
+  getPipelineEvents: (limit?: number, contractId?: string) => {
+    const params = new URLSearchParams();
+    if (limit) params.append('limit', String(limit));
+    if (contractId) params.append('contract_id', contractId);
+    const query = params.toString();
+    return ApiClient.get(`/nexus/pipeline/events${query ? `?${query}` : ''}`);
+  },
+  getPipelineTimeline: (contractId: string) =>
+    ApiClient.get(`/nexus/pipeline/contracts/${contractId}/timeline`),
+  dispatchPipelineOrders: (contractId: string, orders: any[]) =>
+    ApiClient.post(`/nexus/pipeline/contracts/${contractId}/dispatch`, { orders }),
 };

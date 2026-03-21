@@ -1802,6 +1802,35 @@ def add_to_pipeline():
                     'message': f'Service tags identified: {", ".join(service_tags)} - supplier search available'
                 })
             
+            # NEXUS PIPELINE: Log discovery event
+            try:
+                import json as _json
+                pipeline_path = os.path.join(os.path.dirname(__file__), 'uploads', 'nexus', 'contracts.json')
+                if os.path.exists(pipeline_path):
+                    with open(pipeline_path, 'r') as _pf:
+                        _pdata = _json.load(_pf)
+                    _pdata.setdefault('events', []).append({
+                        'id': f"EVT-{datetime.now().strftime('%Y%m%d%H%M%S')}-{len(_pdata.get('events', []))+1:04d}",
+                        'type': 'opportunity_added_to_pipeline',
+                        'contract_id': '',
+                        'source': 'NOVA',
+                        'target': 'GPSS',
+                        'details': {
+                            'title': data['title'],
+                            'agency': data['agency'],
+                            'gpss_record_id': record_id,
+                            'value': data.get('contract_value', 0),
+                            'set_aside': data.get('set_aside_type', ''),
+                        },
+                        'timestamp': datetime.now().isoformat(),
+                    })
+                    if len(_pdata['events']) > 500:
+                        _pdata['events'] = _pdata['events'][-500:]
+                    with open(pipeline_path, 'w') as _pf:
+                        _json.dump(_pdata, _pf, indent=2, default=str)
+            except Exception:
+                pass
+
             return jsonify({
                 'success': True,
                 'message': f'Opportunity added to GPSS pipeline: {data["title"]}',

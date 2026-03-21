@@ -127,6 +127,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   // Supplier search modal state
   const [searchingSuppliersFor, setSearchingSuppliersFor] = useState<any>(null);
 
+  // Pipeline health state
+  const [pipelineHealth, setPipelineHealth] = useState<any>(null);
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -169,6 +172,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       setAlerts(alertsData.alerts || []);
       setLastUpdated(new Date());
       setLoading(false);
+
+      try {
+        const ph = await api.getPipelineHealth();
+        setPipelineHealth(ph);
+      } catch { /* pipeline offline */ }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       setStats(defaultStats);
@@ -1229,6 +1237,76 @@ END:VCALENDAR`;
               </div>
             ))}
           </div>
+
+          {/* NEXUS INTEGRATION PIPELINE — System Connections */}
+          {pipelineHealth && (
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-lg font-black text-white bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                  INTEGRATION PIPELINE
+                </div>
+                <div className="h-px flex-1 bg-gradient-to-r from-emerald-500/50 to-transparent"></div>
+                <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-emerald-400 font-bold">{pipelineHealth.status?.toUpperCase()}</span>
+                </div>
+                <span className="text-xs text-gray-500 font-mono">
+                  {pipelineHealth.registry?.active_contracts || 0} contracts | {pipelineHealth.registry?.total_events || 0} events
+                </span>
+              </div>
+
+              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                <div className="flex items-center justify-center gap-1 overflow-x-auto">
+                  {(pipelineHealth.connections || []).map((conn: any, i: number) => (
+                    <React.Fragment key={i}>
+                      {i === 0 && (
+                        <div className="flex flex-col items-center min-w-[60px]">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-black ${
+                            pipelineHealth.systems?.[conn.from]?.status === 'online'
+                              ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                              : 'bg-yellow-500/20 border border-yellow-500/40 text-yellow-400'
+                          }`}>
+                            {conn.from}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex flex-col items-center mx-0.5">
+                        <div className={`h-0.5 w-6 ${conn.status === 'wired' ? 'bg-emerald-500' : 'bg-gray-600'}`}></div>
+                        <div className="text-[8px] text-gray-500 mt-0.5 whitespace-nowrap max-w-[50px] truncate" title={conn.trigger}>
+                          {conn.status === 'wired' ? '---' : '- -'}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center min-w-[60px]">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-black ${
+                          pipelineHealth.systems?.[conn.to]?.status === 'online'
+                            ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                            : 'bg-yellow-500/20 border border-yellow-500/40 text-yellow-400'
+                        }`}>
+                          {conn.to}
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                {(pipelineHealth.recent_events || []).length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-700">
+                    <div className="text-[10px] text-gray-500 font-bold mb-1">RECENT EVENTS</div>
+                    <div className="flex flex-wrap gap-2">
+                      {(pipelineHealth.recent_events || []).slice(0, 5).map((evt: any, i: number) => (
+                        <div key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-700/50 rounded text-[10px]">
+                          <span className="text-emerald-400 font-mono">{evt.source}</span>
+                          <span className="text-gray-500">→</span>
+                          <span className="text-cyan-400 font-mono">{evt.target}</span>
+                          <span className="text-gray-400">{evt.type?.replace(/_/g, ' ')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* CORE WORKFLOW SYSTEMS - Your Daily Driver */}
           <div className="mb-8">

@@ -27,7 +27,7 @@ import smtplib
 import threading
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from datetime import datetime
+from datetime import datetime, timedelta as _timedelta
 from flask import Blueprint, request, jsonify
 from dotenv import load_dotenv
 
@@ -36,6 +36,7 @@ load_dotenv()
 prism_orders = Blueprint('prism_orders', __name__)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'uploads', 'prism')
+NEXUS_CONTRACTS_FILE = os.path.join(os.path.dirname(__file__), 'uploads', 'nexus', 'contracts.json')
 os.makedirs(DATA_DIR, exist_ok=True)
 
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
@@ -732,6 +733,113 @@ def _send_order_email_async(order):
     threading.Thread(target=_send_order_email, args=(order,), daemon=True).start()
 
 
+def _fire_pipeline_event(event_type, order, extra=None):
+    """Fire a cross-system event to the NEXUS pipeline (non-blocking)."""
+    def _do_fire():
+        try:
+            nexus_data_path = NEXUS_CONTRACTS_FILE
+            if not os.path.exists(nexus_data_path):
+                return
+
+            with open(nexus_data_path, 'r') as f:
+                nxdata = json.load(f)
+
+            contract_id = order.get('contract_id', '')
+            event = {
+                'id': f"EVT-{datetime.now().strftime('%Y%m%d%H%M%S')}-{len(nxdata.get('events', []))+1:04d}",
+                'type': event_type,
+                'contract_id': contract_id,
+                'source': 'PRISM',
+                'target': 'PIPELINE',
+                'details': {
+                    'order_id': order.get('id', ''),
+                    'service_type': order.get('type', '') or order.get('service_type', ''),
+                    'client_name': order.get('client', '') or order.get('client_name', ''),
+                    'status': order.get('status', ''),
+                    'total_amount': order.get('fee', 0) or order.get('total_amount', 0),
+                    **(extra or {}),
+                },
+                'timestamp': datetime.now().isoformat(),
+            }
+
+            nxdata.setdefault('events', []).append(event)
+            if len(nxdata['events']) > 500:
+                nxdata['events'] = nxdata['events'][-500:]
+
+            if contract_id and event_type == 'order_completed':
+                for c in nxdata.get('contracts', []):
+                    if c['id'] == contract_id:
+                        c['health']['orders_completed'] = c['health'].get('orders_completed', 0) + 1
+                        total = c['health'].get('orders_total', 1) or 1
+                        completed = c['health']['orders_completed']
+                        c['health']['deliverables_pct'] = round((completed / total) * 100)
+                        c['updated_at'] = datetime.now().isoformat()
+                        break
+
+            if contract_id and event_type == 'order_created':
+                for c in nxdata.get('contracts', []):
+                    if c['id'] == contract_id:
+                        oid = order.get('id', '')
+                        if oid and oid not in c.get('prism_orders', []):
+                            c.setdefault('prism_orders', []).append(oid)
+                        c['health']['orders_total'] = c['health'].get('orders_total', 0) + 1
+                        c['updated_at'] = datetime.now().isoformat()
+                        break
+
+            with open(nexus_data_path, 'w') as f:
+                json.dump(nxdata, f, indent=2, default=str)
+
+            if event_type == 'order_completed':
+                _propagate_prism_to_vertex(order, contract_id, nxdata)
+
+        except Exception as e:
+            print(f"Pipeline event fire error: {e}")
+
+    threading.Thread(target=_do_fire, daemon=True).start()
+
+
+def _propagate_prism_to_vertex(order, contract_id, nxdata):
+    """When a PRISM order completes, auto-create VERTEX invoice line item."""
+    try:
+        from nexus_backend import AirtableClient
+        client = AirtableClient()
+
+        order_id = order.get('id', '')
+        amount = order.get('fee', 0) or order.get('total_amount', 0)
+        svc = order.get('type', '') or order.get('service_type', '')
+        client_name = order.get('client', '') or order.get('client_name', '')
+
+        contract_title = ''
+        for c in nxdata.get('contracts', []):
+            if c['id'] == contract_id:
+                client_name = client_name or c.get('agency', '')
+                contract_title = c.get('title', '')
+                break
+
+        inv_number = f"INV-{datetime.now().strftime('%Y%m')}-{order_id[-6:]}"
+        desc = f"Service: {svc} | Order: {order_id}"
+        if contract_title:
+            desc += f" | Contract: {contract_title}"
+
+        vertex_fields = {
+            'Invoice Number': inv_number,
+            'Invoice Date': datetime.now().isoformat(),
+            'Due Date': (datetime.now() + _timedelta(days=30)).isoformat(),
+            'Client Name': client_name,
+            'Source System': 'PRISM',
+            'Source Record ID': order_id,
+            'Invoice Type': 'Service',
+            'Total Amount': amount,
+            'Payment Status': 'Unpaid',
+            'Payment Terms': 'Net 30',
+            'Notes': desc,
+        }
+        client.create_record('VERTEX INVOICES', vertex_fields)
+        print(f"✅ PRISM→VERTEX: Invoice {inv_number} created for ${amount:,.2f}")
+    except Exception as e:
+        print(f"PRISM→VERTEX propagation skipped: {e}")
+
+
 # ═══════════════════════════════════════════════════════════════════
 # POST /prism/intake  —  Client intake form submission
 # ═══════════════════════════════════════════════════════════════════
@@ -802,6 +910,7 @@ def create_intake_order():
 
     _fire_notification(order)
     _send_order_email_async(order)
+    _fire_pipeline_event('order_created', order)
 
     return jsonify({'success': True, 'order': order}), 201
 
@@ -881,6 +990,11 @@ def update_order(order_id):
     _evaluate_auto_gates(orders[idx])
     orders[idx]['updated_at'] = datetime.now().isoformat()
     _save(ORDERS_FILE, orders)
+
+    if new_status and new_status.lower() in ('complete', 'completed'):
+        _fire_pipeline_event('order_completed', orders[idx])
+    elif new_status:
+        _fire_pipeline_event('order_status_changed', orders[idx], {'new_status': new_status})
 
     return jsonify({'success': True, 'order': orders[idx]})
 
@@ -1124,6 +1238,11 @@ def review_scanback(order_id):
     _evaluate_auto_gates(orders[idx])
     orders[idx]['updated_at'] = now_iso
     _save(ORDERS_FILE, orders)
+
+    if action == 'clean':
+        _fire_pipeline_event('scanback_clean', orders[idx])
+    else:
+        _fire_pipeline_event('scanback_errors', orders[idx], {'error_count': len(data.get('errors', []))})
 
     return jsonify({'success': True, 'scanback': sb, 'order': orders[idx]})
 

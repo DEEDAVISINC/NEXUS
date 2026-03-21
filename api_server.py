@@ -185,6 +185,14 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Orders API not loaded: {e}")
 
+# Register NEXUS Pipeline — Central Nervous System
+try:
+    from nexus_pipeline_api import nexus_pipeline
+    app.register_blueprint(nexus_pipeline)
+    print("✅ NEXUS Pipeline API registered (Central Nervous System)")
+except ImportError as e:
+    print(f"⚠️ NEXUS Pipeline API not loaded: {e}")
+
 # Register COMPASS — Post-Award Operations
 try:
     from compass_api import compass
@@ -3135,6 +3143,66 @@ def update_gpss_opportunity(opportunity_id):
             except Exception as ve:
                 print(f"VERTEX revenue tracking: {ve}")
 
+        # NEXUS PIPELINE: Register contract in central registry
+        pipeline_contract_id = None
+        if new_status == 'Won' and old_status != 'Won':
+            try:
+                from nexus_pipeline_api import _load_contracts, _save_contracts, _generate_contract_id, _log_event
+                nxdata = _load_contracts()
+                pipeline_contract_id = _generate_contract_id()
+                opp_fields = current_opp.get('fields', {})
+                nx_contract = {
+                    'id': pipeline_contract_id,
+                    'title': opp_fields.get('Title', ''),
+                    'agency': opp_fields.get('Agency Name', ''),
+                    'value': opp_fields.get('Value', 0) or 0,
+                    'status': 'Active',
+                    'contract_type': 'Firm Fixed Price',
+                    'service_type': opp_fields.get('Opportunity Category', ''),
+                    'source': {
+                        'gpss_opportunity_id': opportunity_id,
+                        'rfp_number': opp_fields.get('RFP Number', ''),
+                        'solicitation_number': opp_fields.get('Solicitation Number', ''),
+                    },
+                    'systems': {
+                        'atlas_project_id': '',
+                        'compass_contract_id': '',
+                        'prism_contract_id': '',
+                        'vertex_invoices': [],
+                    },
+                    'contacts': {
+                        'co_name': opp_fields.get('CO Name', '') or '',
+                        'co_email': opp_fields.get('CO Email', '') or '',
+                        'cor_name': '',
+                    },
+                    'timeline': {
+                        'identified': opp_fields.get('Created Date', ''),
+                        'bid_submitted': '',
+                        'won': datetime.now().isoformat(),
+                        'start_date': '',
+                        'end_date': '',
+                    },
+                    'health': {
+                        'overall': 100, 'compliance': 'Green',
+                        'deliverables_pct': 0, 'financials_pct': 0,
+                        'orders_completed': 0, 'orders_total': 0,
+                    },
+                    'naics': opp_fields.get('NAICS', '') or '',
+                    'set_aside': opp_fields.get('Set-Aside Type', '') or '',
+                    'prism_orders': [],
+                    'created_at': datetime.now().isoformat(),
+                    'updated_at': datetime.now().isoformat(),
+                }
+                nxdata['contracts'].append(nx_contract)
+                _log_event(nxdata, 'opportunity_won', pipeline_contract_id, 'GPSS', 'PIPELINE', {
+                    'title': nx_contract['title'], 'agency': nx_contract['agency'],
+                    'value': nx_contract['value'], 'gpss_id': opportunity_id,
+                })
+                _save_contracts(nxdata)
+                print(f"✅ NEXUS PIPELINE: Contract {pipeline_contract_id} registered")
+            except Exception as pe:
+                print(f"NEXUS Pipeline registration: {pe}")
+
         # AUTO-CREATE ATLAS PROJECT IF STATUS CHANGED TO "WON"
         prism_contract_created = False
         if new_status == 'Won' and old_status != 'Won':
@@ -3198,12 +3266,27 @@ def update_gpss_opportunity(opportunity_id):
             if not existing_atlas_link:
                 try:
                     atlas_result = create_atlas_project_from_opportunity(opportunity_id, airtable_client)
-                    
+
+                    # Link system IDs back to pipeline contract
+                    if pipeline_contract_id:
+                        try:
+                            from nexus_pipeline_api import _load_contracts, _save_contracts, _find_contract
+                            nxdata = _load_contracts()
+                            nxc = _find_contract(nxdata, pipeline_contract_id)
+                            if nxc:
+                                nxc['systems']['atlas_project_id'] = atlas_result.get('project_id', '')
+                                nxc['updated_at'] = datetime.now().isoformat()
+                                _save_contracts(nxdata)
+                        except Exception:
+                            pass
+
                     msg_parts = ['Contract Won! ATLAS project created automatically!']
                     if prism_contract_created:
                         msg_parts.append('PRISM contract registered for field service.')
                     if compass_contract_created:
                         msg_parts.append('COMPASS post-award tracking activated.')
+                    if pipeline_contract_id:
+                        msg_parts.append(f'Pipeline contract: {pipeline_contract_id}')
 
                     return jsonify({
                         'success': True,
@@ -3214,6 +3297,7 @@ def update_gpss_opportunity(opportunity_id):
                         'wbs_generated': atlas_result.get('wbs_generated', False),
                         'prism_contract_created': prism_contract_created,
                         'compass_contract_created': compass_contract_created,
+                        'pipeline_contract_id': pipeline_contract_id,
                         'advisor': advisor_insight,
                     })
                 except Exception as atlas_error:
@@ -3224,10 +3308,11 @@ def update_gpss_opportunity(opportunity_id):
                         'atlas_error': str(atlas_error),
                         'prism_contract_created': prism_contract_created,
                         'compass_contract_created': compass_contract_created,
+                        'pipeline_contract_id': pipeline_contract_id,
                         'advisor': advisor_insight,
                     })
         
-        return jsonify({'success': True, 'advisor': advisor_insight})
+        return jsonify({'success': True, 'advisor': advisor_insight, 'pipeline_contract_id': pipeline_contract_id})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
