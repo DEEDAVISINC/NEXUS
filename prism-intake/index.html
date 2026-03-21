@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM — Scheduling & Intake | Dee Davis Inc.</title>
+<meta name="description" content="PRISM Scheduling & Intake Portal — Drug Testing, Fingerprinting, DNA, Occupational Health, NEMT, Notary, and Courier services by Dee Davis Inc.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #111827; --surface: #1F2937; --surface2: #283040;
+    --border: #374151; --border-bright: #4B5563;
+    --amber: #f5a623; --amber-dim: #7a5010;
+    --cyan: #38BDF8; --cyan-dim: #0c4a6e;
+    --green: #34D399; --green-dim: #064e3b;
+    --red: #F87171; --red-dim: #450a0a;
+    --text: #F9FAFB; --text-dim: #9CA3AF; --text-mid: #D1D5DB;
+    --mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    --display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  body { background: var(--bg); color: var(--text); font-family: var(--body); min-height: 100vh; padding: 0; }
+  .console-header {
+    background: var(--surface); border-bottom: 1px solid var(--border-bright);
+    padding: 14px 28px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .prism-logo { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; }
+  .prism-logo span { color: var(--text-dim); font-weight: 400; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .header-status { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+  .header-time { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
+  .console-wrap { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .section-label {
+    font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--amber);
+    letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+  .tier-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 16px 14px; cursor: pointer; transition: all .15s ease; position: relative; overflow: hidden;
+  }
+  .tier-card:hover { border-color: var(--amber-dim); }
+  .tier-card.active { border-color: var(--amber); background: #292420; box-shadow: 0 0 20px rgba(245,166,35,.08); }
+  .tier-card.active::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
+  .tier-number { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 6px; }
+  .tier-card.active .tier-number { color: var(--amber); }
+  .tier-name { font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; margin-bottom: 8px; }
+  .tier-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
+  .tier-badge { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 1.5px; padding: 3px 7px; border-radius: 3px; text-transform: uppercase; }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+  .badge-cyan { background: var(--cyan-dim); color: var(--cyan); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .urgency-row { display: flex; gap: 8px; margin-bottom: 24px; }
+  .urgency-btn {
+    flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 9px 10px; cursor: pointer; text-align: center; font-family: var(--mono);
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-dim);
+    text-transform: uppercase; transition: all .15s;
+  }
+  .urgency-btn:hover { border-color: var(--border-bright); color: var(--text); }
+  .urgency-btn.active-routine { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+  .urgency-btn.active-priority { border-color: var(--amber); color: var(--amber); background: #292420; }
+  .urgency-btn.active-emergency { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+  .service-chip {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px; cursor: pointer; transition: all .15s;
+  }
+  .service-chip:hover { border-color: var(--border-bright); }
+  .service-chip.active { border-color: var(--cyan); background: var(--cyan-dim); }
+  .service-chip-icon { font-size: 15px; margin-bottom: 5px; }
+  .service-chip-name { font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text); margin-bottom: 2px; }
+  .service-chip.active .service-chip-name { color: var(--cyan); }
+  .service-chip-email { font-family: var(--mono); font-size: 9px; color: var(--text-dim); }
+  .sub-selector { display: none; gap: 6px; margin-bottom: 10px; padding: 8px 0; }
+  .sub-selector.visible { display: flex; }
+  .sub-btn {
+    flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px 10px; cursor: pointer; text-align: center; font-family: var(--mono);
+    font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-dim);
+    text-transform: uppercase; transition: all .15s;
+  }
+  .sub-btn:hover { border-color: var(--border-bright); color: var(--text-mid); }
+  .sub-btn.active { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+  .routing-display {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .routing-label { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
+  .routing-email { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--cyan); }
+  .routing-arrow { color: var(--text-dim); font-size: 12px; }
+  .routing-hint { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+  .field input, .field select, .field textarea {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px; color: var(--text); font-family: var(--body); font-size: 13px;
+    outline: none; transition: border-color .15s; width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--amber); background: #1a2030; }
+  .field input::placeholder { color: var(--text-dim); font-size: 12px; }
+  .field select { appearance: none; cursor: pointer; }
+  .field textarea { resize: vertical; min-height: 70px; font-size: 13px; line-height: 1.5; }
+  option { background: #1F2937; }
+  .block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .donor-count-wrap {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 16px; display: none; align-items: center; gap: 16px; margin-bottom: 12px;
+  }
+  .donor-count-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1.5px; flex: 1; }
+  .donor-count-input {
+    background: var(--bg) !important; border: 1px solid var(--amber-dim) !important; border-radius: 4px;
+    padding: 8px 12px !important; color: var(--amber) !important; font-family: var(--mono) !important;
+    font-size: 18px !important; font-weight: 700; width: 100px !important; text-align: center;
+  }
+  .dynamic-section { display: none; }
+  .dynamic-section.visible { display: block; }
+  .submit-row { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-dispatch {
+    flex: 1; background: var(--amber); border: none; border-radius: 6px; padding: 15px 24px;
+    color: #111827; font-family: var(--display); font-size: 16px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all .15s;
+  }
+  .btn-dispatch:hover { background: #f7b84a; transform: translateY(-1px); }
+  .btn-clear {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 15px 20px; color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+    font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all .15s;
+  }
+  .btn-clear:hover { border-color: var(--border-bright); color: var(--text); }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+  .overlay.active { display: flex; }
+  .confirm-card {
+    background: var(--surface); border: 1px solid var(--amber); border-radius: 10px;
+    width: 100%; max-width: 660px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 0 60px rgba(245,166,35,.15);
+  }
+  .confirm-header {
+    background: var(--amber); padding: 16px 24px; display: flex; align-items: center;
+    justify-content: space-between; border-radius: 9px 9px 0 0;
+  }
+  .confirm-title { font-family: var(--display); font-size: 16px; font-weight: 800; letter-spacing: 2px; color: #111827; text-transform: uppercase; }
+  .confirm-num { font-family: var(--mono); font-size: 12px; font-weight: 700; color: #0a0800; }
+  .confirm-body { padding: 24px; }
+  .confirm-row { display: flex; gap: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+  .confirm-key { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px; min-width: 130px; padding-top: 2px; text-transform: uppercase; }
+  .confirm-val { color: var(--text); flex: 1; }
+  .confirm-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .confirm-routing {
+    background: var(--cyan-dim); border: 1px solid var(--cyan); border-radius: 5px;
+    padding: 12px; font-family: var(--mono); font-size: 11px; color: var(--cyan); text-align: center; margin-bottom: 16px;
+  }
+  .confirm-nexus {
+    background: var(--green-dim); border: 1px solid var(--green); border-radius: 5px;
+    padding: 10px; font-family: var(--mono); font-size: 10px; color: var(--green);
+    text-align: center; margin-bottom: 16px; letter-spacing: 1px;
+  }
+  .confirm-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .btn-email {
+    flex: 1; min-width: 140px; background: var(--green-dim); border: 1px solid var(--green);
+    border-radius: 5px; padding: 12px; color: var(--green); font-family: var(--display);
+    font-size: 14px; font-weight: 800; letter-spacing: 1.5px; cursor: pointer;
+    text-transform: uppercase; transition: all .15s; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;
+  }
+  .btn-email:hover { background: #0a2a12; }
+  .btn-print {
+    flex: 1; min-width: 100px; background: var(--amber); border: none; border-radius: 5px;
+    padding: 12px; color: #111827; font-family: var(--display); font-size: 14px;
+    font-weight: 800; letter-spacing: 1.5px; cursor: pointer; text-transform: uppercase; transition: all .15s;
+  }
+  .btn-print:hover { background: #f7b84a; }
+  .btn-copy {
+    flex: 1; min-width: 100px; background: var(--surface2); border: 1px solid var(--cyan);
+    border-radius: 5px; padding: 12px; color: var(--cyan); font-family: var(--mono);
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px; cursor: pointer;
+    text-transform: uppercase; transition: all .15s; text-align: center;
+  }
+  .btn-copy:hover { background: var(--cyan-dim); }
+  .btn-copy.copied { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+  .btn-close {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+    padding: 12px 20px; color: var(--text-dim); font-family: var(--mono); font-size: 10px;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-close:hover { border-color: var(--border-bright); color: var(--text); }
+  .copy-block {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 16px; margin-bottom: 14px; font-family: var(--mono); font-size: 11px;
+    color: var(--text-mid); line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+    user-select: all; cursor: text;
+  }
+  .copy-hint {
+    font-family: var(--mono); font-size: 9px; color: var(--text-dim);
+    letter-spacing: 1.5px; text-align: center; margin-bottom: 8px;
+  }
+  .submit-status {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-align: center;
+    padding: 10px; border-radius: 5px; margin-bottom: 12px; display: none;
+  }
+  .submit-status.success { display: block; background: var(--green-dim); border: 1px solid var(--green); color: var(--green); }
+  .submit-status.error { display: block; background: var(--red-dim); border: 1px solid var(--red); color: var(--red); }
+  .footer-bar {
+    text-align: center; padding: 20px; font-family: var(--mono); font-size: 9px;
+    color: var(--text-dim); letter-spacing: 1.5px; border-top: 1px solid var(--border);
+  }
+  .footer-bar a { color: var(--cyan); text-decoration: none; }
+  @media (max-width: 600px) {
+    .tier-grid { grid-template-columns: 1fr; }
+    .service-grid { grid-template-columns: repeat(2, 1fr); }
+    .sub-selector { flex-wrap: wrap; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+    .confirm-actions { flex-direction: column; }
+  }
+  @media print {
+    .overlay { position: static; background: none; padding: 0; }
+    .confirm-card { box-shadow: none; border: 1px solid #ccc; max-height: none; }
+    .confirm-actions, .copy-hint, .submit-status { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hidden Netlify form for auto-submissions -->
+<form name="prism-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="display:none" id="netlify-form">
+  <input name="bot-field">
+  <input name="confirmation" id="nf-confirmation">
+  <input name="service" id="nf-service">
+  <input name="urgency" id="nf-urgency">
+  <input name="tier" id="nf-tier">
+  <input name="routing-email" id="nf-routing">
+  <textarea name="order-summary" id="nf-summary"></textarea>
+</form>
+
+<div class="console-header">
+  <div class="header-left">
+    <div class="status-dot"></div>
+    <div class="prism-logo">PRISM <span>// SCHEDULING & INTAKE</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div class="header-status">DEE DAVIS INC. — LIVE</div>
+    <div class="header-time" id="live-time">--:--:--</div>
+  </div>
+</div>
+
+<div class="console-wrap">
+
+  <div class="section-label">01 // Response Tier</div>
+  <div class="tier-grid">
+    <div class="tier-card active" data-tier="1" onclick="selectTier(1)">
+      <div class="tier-number">TIER 01</div>
+      <div class="tier-name">Expedited Mobile Collector</div>
+      <div class="tier-desc">Collector dispatched directly to your location. No travel required.</div>
+      <div class="tier-badge badge-amber">Premium / Fastest</div>
+    </div>
+    <div class="tier-card" data-tier="2" onclick="selectTier(2)">
+      <div class="tier-number">TIER 02</div>
+      <div class="tier-name">Coordinated Ride to Collection Site</div>
+      <div class="tier-desc">GPS-tracked ride arranged to nearest collection site. Safe and convenient.</div>
+      <div class="tier-badge badge-cyan">Safety / Cost-Effective</div>
+    </div>
+    <div class="tier-card" data-tier="3" onclick="selectTier(3)">
+      <div class="tier-number">TIER 03</div>
+      <div class="tier-name">On-Site Group Collection Event</div>
+      <div class="tier-desc">Our team deploys to your facility. 25–500+ subjects per event.</div>
+      <div class="tier-badge badge-green">Volume / Best Value</div>
+    </div>
+  </div>
+
+  <div class="section-label">02 // Urgency</div>
+  <div class="urgency-row">
+    <div class="urgency-btn active-routine" onclick="selectUrgency(this,'routine')">⬤ Routine</div>
+    <div class="urgency-btn" onclick="selectUrgency(this,'priority')">◆ Priority</div>
+    <div class="urgency-btn" onclick="selectUrgency(this,'emergency')">▲ Emergency / Post-Accident</div>
+  </div>
+
+  <div class="section-label">03 // Service Type</div>
+  <div class="service-grid">
+    <div class="service-chip active" data-svc="testing" data-email="testing@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">🧪</div>
+      <div class="service-chip-name">Testing & Screening</div>
+      <div class="service-chip-email">testing@deedavis.biz</div>
+    </div>
+    <div class="service-chip" data-svc="fingerprint" data-email="screening@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">👆</div>
+      <div class="service-chip-name">Fingerprinting & Background</div>
+      <div class="service-chip-email">screening@deedavis.biz</div>
+    </div>
+    <div class="service-chip" data-svc="dna" data-email="dna@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">🧬</div>
+      <div class="service-chip-name">DNA / Paternity</div>
+      <div class="service-chip-email">dna@deedavis.biz</div>
+    </div>
+    <div class="service-chip" data-svc="nemt" data-email="rides@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">🚗</div>
+      <div class="service-chip-name">Transportation</div>
+      <div class="service-chip-email">rides@deedavis.biz</div>
+    </div>
+    <div class="service-chip" data-svc="notary" data-email="notary@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">📋</div>
+      <div class="service-chip-name">Notary / RON / Apostille</div>
+      <div class="service-chip-email">notary@deedavis.biz</div>
+    </div>
+    <div class="service-chip" data-svc="courier" data-email="courier@deedavis.biz" onclick="selectService(this)">
+      <div class="service-chip-icon">📦</div>
+      <div class="service-chip-name">Courier / Specimen Transport</div>
+      <div class="service-chip-email">courier@deedavis.biz</div>
+    </div>
+  </div>
+
+  <div class="sub-selector visible" id="testing-sub">
+    <div class="sub-btn active" onclick="selectTestingSub(this,'drug')">Drug & Alcohol</div>
+    <div class="sub-btn" onclick="selectTestingSub(this,'occhealth')">Occupational Health</div>
+    <div class="sub-btn" onclick="selectTestingSub(this,'lead')">Lead Screening</div>
+  </div>
+
+  <div class="routing-display">
+    <div class="routing-label">Routing to</div>
+    <div class="routing-arrow">→</div>
+    <div class="routing-email" id="routing-email-display">testing@deedavis.biz</div>
+    <div class="routing-hint" id="routing-hint">DOT & non-DOT panels, hair, nail, oral fluid, BAT, random programs</div>
+  </div>
+
+  <div class="section-label">04 // Your Information</div>
+  <div class="block">
+    <div class="form-row">
+      <div class="field"><label>Company / Organization</label><input type="text" id="client-name" placeholder="Your company name"></div>
+      <div class="field"><label>Your Name</label><input type="text" id="client-contact" placeholder="Full name"></div>
+    </div>
+    <div class="form-row triple">
+      <div class="field"><label>Phone</label><input type="tel" id="client-phone" placeholder="(000) 000-0000"></div>
+      <div class="field"><label>Email</label><input type="email" id="client-email" placeholder="you@company.com"></div>
+      <div class="field"><label>Account / PO Number</label><input type="text" id="client-po" placeholder="Optional"></div>
+    </div>
+    <div class="form-row full">
+      <div class="field"><label>Address / Site Location</label><input type="text" id="client-address" placeholder="Street, City, State, ZIP"></div>
+    </div>
+  </div>
+
+  <div class="section-label">05 // Subject Info</div>
+  <div class="block">
+    <div class="donor-count-wrap" id="donor-count-wrap">
+      <div class="donor-count-label">ESTIMATED NUMBER OF SUBJECTS FOR THIS EVENT</div>
+      <input type="number" class="donor-count-input" id="donor-count" placeholder="0" min="1">
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Subject First Name</label><input type="text" id="donor-first" placeholder="First"></div>
+      <div class="field"><label>Subject Last Name</label><input type="text" id="donor-last" placeholder="Last"></div>
+    </div>
+    <div class="form-row triple">
+      <div class="field"><label>DOB</label><input type="date" id="donor-dob"></div>
+      <div class="field"><label>Phone</label><input type="tel" id="donor-phone" placeholder="(000) 000-0000"></div>
+      <div class="field"><label>Subject ID / Employee #</label><input type="text" id="donor-id" placeholder="Optional"></div>
+    </div>
+    <div class="form-row full">
+      <div class="field"><label>Subject Current Location</label><input type="text" id="donor-location" placeholder="Street address or landmark"></div>
+    </div>
+    <div class="dynamic-section" id="tier2-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>Reason for Transport</label>
+          <select id="impairment-reason">
+            <option value="">Select reason</option>
+            <option>Post-accident — cannot drive</option>
+            <option>Reasonable suspicion — impaired</option>
+            <option>No personal transportation</option>
+            <option>Safety protocol — employer request</option>
+            <option>Other (see notes)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Transport Preference</label>
+          <select id="transport-provider">
+            <option value="">Auto-assign (recommended)</option>
+            <option>Uber Health</option>
+            <option>DDI Fleet</option>
+            <option>Local Partner</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">06 // Scheduling & Service Details</div>
+  <div class="block">
+    <div class="form-row triple">
+      <div class="field"><label>Requested Date</label><input type="date" id="sched-date"></div>
+      <div class="field"><label>Requested Time</label><input type="time" id="sched-time"></div>
+      <div class="field">
+        <label>Time Zone</label>
+        <select id="sched-tz">
+          <option>Eastern (ET)</option><option>Central (CT)</option>
+          <option>Mountain (MT)</option><option>Pacific (PT)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Service Location</label><input type="text" id="collection-site" placeholder="Lab, clinic, facility, or address"></div>
+      <div class="field" id="drug-detail-wrap">
+        <label>Test Panel Type</label>
+        <select id="drug-panel">
+          <option value="">Select panel</option>
+          <option>DOT 5-Panel Urine</option>
+          <option>Non-DOT 5-Panel Urine</option>
+          <option>Non-DOT 10-Panel Urine</option>
+          <option>Non-DOT 12-Panel Urine</option>
+          <option>Non-DOT 14-Panel Urine</option>
+          <option>Non-DOT 17-Panel Urine</option>
+          <option>Hair Follicle 5-Panel</option>
+          <option>Hair Follicle 10-Panel</option>
+          <option>Hair Follicle 12-Panel</option>
+          <option>Hair Follicle 14-Panel</option>
+          <option>Hair Follicle 17-Panel</option>
+          <option>Nail Drug Test</option>
+          <option>Oral Fluid</option>
+          <option>Breath Alcohol (BAT)</option>
+          <option>EtG Alcohol (Urine)</option>
+          <option>Multi-Panel Combo (see notes)</option>
+          <option>Rapid Test — On-Site Result</option>
+          <option>Observed Collection</option>
+          <option>Custom — see notes</option>
+        </select>
+      </div>
+    </div>
+    <div class="dynamic-section" id="occhealth-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>Exam / Screening Type</label>
+          <select id="occ-exam-type">
+            <option value="">Select exam type</option>
+            <option>DOT Physical / CDL Medical Exam</option>
+            <option>Pre-Employment Physical</option>
+            <option>Respirator Fit Test (Qualitative)</option>
+            <option>Respirator Fit Test (Quantitative)</option>
+            <option>Audiogram / Hearing Test</option>
+            <option>Vision Screening</option>
+            <option>Pulmonary Function Test (PFT/Spirometry)</option>
+            <option>TB Skin Test (PPD)</option>
+            <option>TB Blood Test (QuantiFERON)</option>
+            <option>Fit-for-Duty Evaluation</option>
+            <option>Hepatitis B Titer</option>
+            <option>Wellness Screening Panel</option>
+            <option>Multiple Exams — see notes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Compliance Standard</label>
+          <select id="occ-compliance">
+            <option value="">Select if applicable</option>
+            <option>OSHA 29 CFR 1910.134 (Respirator)</option>
+            <option>OSHA 29 CFR 1910.95 (Hearing Conservation)</option>
+            <option>FMCSA / DOT (CDL Medical)</option>
+            <option>State-Specific Requirement</option>
+            <option>Employer Policy</option>
+            <option>N/A</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="lead-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>Lead Test Type</label>
+          <select id="lead-test-type">
+            <option value="">Select test type</option>
+            <option>Blood Lead Level (BLL) — Venous Draw</option>
+            <option>Blood Lead Level (BLL) — Capillary (Fingerstick)</option>
+            <option>Environmental Lead — Paint/Dust/Soil</option>
+            <option>Environmental Lead — Water</option>
+            <option>Occupational Lead Exposure (ZPP/FEP)</option>
+            <option>Full Lead Panel (BLL + ZPP)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Program</label>
+          <select id="lead-program">
+            <option value="">Select if applicable</option>
+            <option>Medicaid EPSDT</option>
+            <option>HUD Lead Safe Housing</option>
+            <option>EPA RRP Rule</option>
+            <option>OSHA Occupational Exposure</option>
+            <option>State Childhood Lead Program</option>
+            <option>School / Childcare Screening</option>
+            <option>Employer Policy</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="fingerprint-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>Fingerprint / Background Type</label>
+          <select id="fp-type">
+            <option value="">Select service</option>
+            <option>Live Scan Electronic Fingerprinting</option>
+            <option>Ink & Roll — FBI FD-258 Cards</option>
+            <option>SWFT Submission to DCSA/FBI</option>
+            <option>ATF EFT (FFL/NFA Applications)</option>
+            <option>State Criminal Background Check</option>
+            <option>FBI National Criminal Check</option>
+            <option>Employment Verification</option>
+            <option>Education Verification</option>
+            <option>Full Background Package</option>
+            <option>Multiple Services — see notes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Purpose</label>
+          <select id="fp-purpose">
+            <option value="">Select purpose</option>
+            <option>Employment Screening</option>
+            <option>Security Clearance</option>
+            <option>State Licensing</option>
+            <option>Childcare / School</option>
+            <option>FFL / NFA Application</option>
+            <option>Immigration</option>
+            <option>Adoption</option>
+            <option>Volunteer Screening</option>
+            <option>Court Order</option>
+            <option>Other — see notes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="dna-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>DNA Test Type</label>
+          <select id="dna-type">
+            <option value="">Select test type</option>
+            <option>Legal Paternity (Court-Admissible)</option>
+            <option>Non-Legal / Peace of Mind Paternity</option>
+            <option>Immigration DNA (AABB-Accredited)</option>
+            <option>Court-Ordered DNA Collection</option>
+            <option>Grandparent DNA Test</option>
+            <option>Sibling DNA Test</option>
+            <option>Avuncular (Aunt/Uncle) DNA Test</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Number of Participants</label>
+          <select id="dna-participants">
+            <option value="">Select</option>
+            <option>1 (Single collection)</option>
+            <option>2 (Standard)</option>
+            <option>3 (Three-party)</option>
+            <option>4+ (see notes)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">07 // Notes & Special Instructions</div>
+  <div class="block">
+    <div class="form-row full">
+      <div class="field">
+        <textarea id="notes" placeholder="Special instructions, access details, chain-of-custody notes, observed collection request, multiple services needed..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-row">
+    <button class="btn-dispatch" onclick="dispatch()">⚡ Submit Request</button>
+    <button class="btn-clear" onclick="clearForm()">CLEAR</button>
+  </div>
+
+</div>
+
+<div class="footer-bar">
+  Dee Davis Inc. — 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+  <a href="tel:2483764550">248.376.4550</a> · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a> · EDWOSB / WOSB / WBENC / MBE / SBE
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="confirm-card">
+    <div class="confirm-header">
+      <div class="confirm-title">✓ Request Submitted</div>
+      <div class="confirm-num" id="confirm-num-display">--</div>
+    </div>
+    <div class="confirm-body" id="confirm-body"></div>
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    document.getElementById('live-time').textContent =
+      new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }
+  setInterval(updateClock, 1000); updateClock();
+
+  let activeTier = 1, activeUrgency = 'routine', activeEmail = 'testing@deedavis.biz';
+  let activeSvc = 'testing', activeSubSvc = 'drug';
+
+  const hints = {
+    'testing-drug':      'DOT & non-DOT panels, hair, nail, oral fluid, BAT, random programs',
+    'testing-occhealth': 'DOT physicals, respirator fit, audiograms, vision, PFTs, TB tests',
+    'testing-lead':      'Blood lead levels, environmental lead, HUD/EPA/OSHA compliance',
+    'fingerprint':       'Live scan, ink & roll, SWFT/FBI, background checks, verifications',
+    'dna':               'Legal paternity, immigration DNA, court-ordered, AABB-accredited',
+    'nemt':              'Coordinated rides, GPS-tracked, safe transport to appointments',
+    'notary':            'Mobile notary, remote online notarization, apostille, loan signings',
+    'courier':           'Chain-of-custody specimen transport, same-day medical courier',
+  };
+
+  const svcLabels = {
+    'testing-drug': 'Drug & Alcohol Testing',
+    'testing-occhealth': 'Occupational Health Screening',
+    'testing-lead': 'Lead Screening',
+    'fingerprint': 'Fingerprinting & Background',
+    'dna': 'DNA / Paternity',
+    'nemt': 'Transportation',
+    'notary': 'Notary / RON / Apostille',
+    'courier': 'Courier / Specimen Transport',
+  };
+
+  function selectTier(n) {
+    activeTier = n;
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
+    document.querySelector(`.tier-card[data-tier="${n}"]`).classList.add('active');
+    document.getElementById('tier2-fields').classList.toggle('visible', n === 2);
+    document.getElementById('donor-count-wrap').style.display = n === 3 ? 'flex' : 'none';
+  }
+
+  function selectUrgency(el, val) {
+    activeUrgency = val;
+    document.querySelectorAll('.urgency-btn').forEach(b => b.className = 'urgency-btn');
+    el.classList.add(`active-${val}`);
+  }
+
+  function selectService(el) {
+    activeSvc = el.dataset.svc;
+    activeEmail = el.dataset.email;
+    document.querySelectorAll('.service-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('routing-email-display').textContent = activeEmail;
+    document.getElementById('testing-sub').classList.toggle('visible', activeSvc === 'testing');
+    ['occhealth-fields','lead-fields','fingerprint-fields','dna-fields'].forEach(id => document.getElementById(id).classList.remove('visible'));
+    const drugWrap = document.getElementById('drug-detail-wrap');
+    if (activeSvc === 'testing') { applyTestingSub(); }
+    else {
+      drugWrap.style.display = 'none';
+      if (activeSvc === 'fingerprint') document.getElementById('fingerprint-fields').classList.add('visible');
+      if (activeSvc === 'dna') document.getElementById('dna-fields').classList.add('visible');
+      document.getElementById('routing-hint').textContent = hints[activeSvc] || '';
+    }
+  }
+
+  function selectTestingSub(el, sub) {
+    activeSubSvc = sub;
+    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    applyTestingSub();
+  }
+
+  function applyTestingSub() {
+    const drugWrap = document.getElementById('drug-detail-wrap');
+    ['occhealth-fields','lead-fields','fingerprint-fields','dna-fields'].forEach(id => document.getElementById(id).classList.remove('visible'));
+    drugWrap.style.display = activeSubSvc === 'drug' ? '' : 'none';
+    if (activeSubSvc === 'occhealth') document.getElementById('occhealth-fields').classList.add('visible');
+    if (activeSubSvc === 'lead') document.getElementById('lead-fields').classList.add('visible');
+    document.getElementById('routing-hint').textContent = hints[`testing-${activeSubSvc}`] || '';
+  }
+
+  function genConfirmNum() {
+    const n = new Date(), pad = v => String(v).padStart(2,'0');
+    return `PRISM-${n.getFullYear()}${pad(n.getMonth()+1)}${pad(n.getDate())}-${pad(n.getHours())}${pad(n.getMinutes())}-${Math.floor(Math.random()*9000)+1000}`;
+  }
+
+  function val(id) { const el = document.getElementById(id); return el ? el.value.trim() || '—' : '—'; }
+  function getSvcKey() { return activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc; }
+
+  function dispatch() {
+    const tierNames = {1:'TIER 1 — Mobile Collector',2:'TIER 2 — Coordinated Ride',3:'TIER 3 — On-Site Group Event'};
+    const confNum = genConfirmNum();
+    const tier = activeTier;
+    const svcKey = getSvcKey();
+    const svcLabel = svcLabels[svcKey] || activeSvc;
+
+    const lines = [
+      'PRISM SERVICE REQUEST — DEE DAVIS INC.',
+      '========================================',
+      `Confirmation:  ${confNum}`,
+      `Submitted:     ${new Date().toLocaleString()}`,
+      `Service:       ${svcLabel}`,
+      `Response Tier: ${tierNames[tier]}`,
+      `Urgency:       ${activeUrgency.toUpperCase()}`,
+      '----------------------------------------',
+      'CLIENT',
+      `Company:       ${val('client-name')}`,
+      `Contact:       ${val('client-contact')}`,
+      `Phone:         ${val('client-phone')}`,
+      `Email:         ${val('client-email')}`,
+      `PO / Account:  ${val('client-po')}`,
+      `Address:       ${val('client-address')}`,
+      '----------------------------------------',
+      'SUBJECT',
+      `Name:          ${val('donor-first')} ${val('donor-last')}`,
+      `DOB:           ${val('donor-dob')}`,
+      `Phone:         ${val('donor-phone')}`,
+      `ID:            ${val('donor-id')}`,
+      `Location:      ${val('donor-location')}`,
+    ];
+    if (tier === 2) { lines.push(`Reason:        ${val('impairment-reason')}`); lines.push(`Transport:     ${val('transport-provider')}`); }
+    if (tier === 3) lines.push(`Subject Count: ${val('donor-count')}`);
+    lines.push('----------------------------------------');
+    lines.push('SCHEDULING');
+    lines.push(`Date:          ${val('sched-date')}`);
+    lines.push(`Time:          ${val('sched-time')} ${val('sched-tz')}`);
+    lines.push(`Location:      ${val('collection-site')}`);
+    if (svcKey === 'testing-drug') lines.push(`Panel:         ${val('drug-panel')}`);
+    if (svcKey === 'testing-occhealth') { lines.push(`Exam:          ${val('occ-exam-type')}`); lines.push(`Compliance:    ${val('occ-compliance')}`); }
+    if (svcKey === 'testing-lead') { lines.push(`Lead Test:     ${val('lead-test-type')}`); lines.push(`Program:       ${val('lead-program')}`); }
+    if (svcKey === 'fingerprint') { lines.push(`FP/BG Type:    ${val('fp-type')}`); lines.push(`Purpose:       ${val('fp-purpose')}`); }
+    if (svcKey === 'dna') { lines.push(`DNA Test:      ${val('dna-type')}`); lines.push(`Participants:  ${val('dna-participants')}`); }
+    lines.push('----------------------------------------');
+    lines.push(`Notes:         ${val('notes')}`);
+    lines.push('========================================');
+    const plainText = lines.join('\n');
+
+    // Submit to Netlify Forms
+    document.getElementById('nf-confirmation').value = confNum;
+    document.getElementById('nf-service').value = svcLabel;
+    document.getElementById('nf-urgency').value = activeUrgency.toUpperCase();
+    document.getElementById('nf-tier').value = tierNames[tier];
+    document.getElementById('nf-routing').value = activeEmail;
+    document.getElementById('nf-summary').value = plainText;
+
+    const formData = new FormData(document.getElementById('netlify-form'));
+    fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(formData).toString() })
+      .then(() => { showStatus('success', 'ORDER RECEIVED — Dee Davis Inc. has been notified'); })
+      .catch(() => { showStatus('error', 'AUTO-SUBMIT UNAVAILABLE — Use email or copy button below'); });
+
+    // Build mailto link
+    const subject = encodeURIComponent(`PRISM Service Request — ${confNum} — ${svcLabel}`);
+    const mailBody = encodeURIComponent(plainText);
+    const mailto = `mailto:${activeEmail}?subject=${subject}&body=${mailBody}`;
+
+    // Build confirmation overlay
+    let body = `
+      <div class="confirm-routing">ROUTED TO: ${activeEmail}</div>
+      <div id="submit-status" class="submit-status"></div>
+    `;
+    body += row('Confirmation', confNum);
+    body += row('Service', svcLabel);
+    body += row('Tier', tierNames[tier]);
+    body += row('Urgency', activeUrgency.toUpperCase());
+    body += row('Submitted', new Date().toLocaleString());
+    body += `<hr class="confirm-divider">`;
+    body += row('Company', val('client-name'));
+    body += row('Contact', val('client-contact'));
+    body += row('Phone', val('client-phone'));
+    body += row('Email', val('client-email'));
+    body += `<hr class="confirm-divider">`;
+    body += row('Subject', `${val('donor-first')} ${val('donor-last')}`);
+    body += row('Date', val('sched-date'));
+    body += row('Time', `${val('sched-time')} ${val('sched-tz')}`);
+    body += row('Location', val('collection-site'));
+    body += `<hr class="confirm-divider">`;
+    body += `<div class="copy-hint">— ORDER SUMMARY —</div>`;
+    body += `<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
+    body += `
+      <div class="confirm-actions">
+        <a class="btn-email" href="${mailto}" target="_blank">✉ Email to DDI</a>
+        <button class="btn-copy" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">📋 Copy</button>
+        <button class="btn-dispatch btn-print" onclick="window.print()">🖨 Print</button>
+        <button class="btn-close" onclick="closeOverlay()">Close</button>
+      </div>
+    `;
+
+    document.getElementById('confirm-num-display').textContent = confNum;
+    document.getElementById('confirm-body').innerHTML = body;
+    document.getElementById('overlay').classList.add('active');
+  }
+
+  function showStatus(type, msg) {
+    const el = document.getElementById('submit-status');
+    if (el) { el.className = `submit-status ${type}`; el.textContent = msg; }
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2500);
+    }).catch(() => {
+      const block = document.getElementById('plain-text-block');
+      const range = document.createRange();
+      range.selectNodeContents(block);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    });
+  }
+
+  function row(k, v) { return `<div class="confirm-row"><div class="confirm-key">${k}</div><div class="confirm-val">${v}</div></div>`; }
+  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function escJs(s) { return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+  function closeOverlay() { document.getElementById('overlay').classList.remove('active'); }
+
+  function clearForm() {
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.type === 'date' || el.type === 'time') el.value = '';
+      else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    selectTier(1);
+    document.querySelectorAll('.urgency-btn').forEach(b => b.className = 'urgency-btn');
+    document.querySelector('.urgency-btn').classList.add('active-routine');
+    activeUrgency = 'routine';
+    const firstChip = document.querySelector('.service-chip[data-svc="testing"]');
+    if (firstChip) selectService(firstChip);
+    activeSubSvc = 'drug';
+    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.sub-btn').classList.add('active');
+    applyTestingSub();
+  }
+</script>
+</body>
+</html>
