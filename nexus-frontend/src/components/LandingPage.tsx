@@ -1255,50 +1255,88 @@ END:VCALENDAR`;
                 </span>
               </div>
 
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
-                <div className="flex items-center justify-center gap-1 overflow-x-auto">
-                  {(pipelineHealth.connections || []).map((conn: any, i: number) => (
-                    <React.Fragment key={i}>
-                      {i === 0 && (
-                        <div className="flex flex-col items-center min-w-[60px]">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-black ${
-                            pipelineHealth.systems?.[conn.from]?.status === 'online'
-                              ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
-                              : 'bg-yellow-500/20 border border-yellow-500/40 text-yellow-400'
+              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-5">
+                {/* Core Contract Lifecycle Flow */}
+                <div className="text-[10px] text-gray-500 font-bold mb-3 text-center tracking-wider">CONTRACT LIFECYCLE</div>
+                <div className="flex items-center justify-center gap-0 overflow-x-auto pb-1">
+                  {(() => {
+                    const lifecycle = [
+                      { id: 'NOVA', label: 'NOVA', sub: 'Find', icon: '🔍' },
+                      { id: 'GPSS', label: 'GPSS', sub: 'Bid', icon: '📋' },
+                      { id: 'ATLAS', label: 'ATLAS', sub: 'Plan', icon: '📐' },
+                      { id: 'PRISM', label: 'PRISM', sub: 'Execute', icon: '⚡' },
+                      { id: 'COMPASS', label: 'COMPASS', sub: 'Manage', icon: '🧭' },
+                      { id: 'VERTEX', label: 'VERTEX', sub: 'Invoice', icon: '💰' },
+                    ];
+                    const systems = pipelineHealth.systems || {};
+                    return lifecycle.map((sys, i) => (
+                      <React.Fragment key={sys.id}>
+                        <div className="flex flex-col items-center min-w-[72px]">
+                          <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center ${
+                            systems[sys.id]?.status === 'online'
+                              ? 'bg-emerald-500/15 border-2 border-emerald-500/50 shadow-lg shadow-emerald-500/10'
+                              : 'bg-yellow-500/15 border-2 border-yellow-500/50'
                           }`}>
-                            {conn.from}
+                            <span className="text-base leading-none">{sys.icon}</span>
+                            <span className={`text-[9px] font-black mt-0.5 ${
+                              systems[sys.id]?.status === 'online' ? 'text-emerald-400' : 'text-yellow-400'
+                            }`}>{sys.label}</span>
                           </div>
+                          <span className="text-[9px] text-gray-500 mt-1 font-medium">{sys.sub}</span>
                         </div>
-                      )}
-                      <div className="flex flex-col items-center mx-0.5">
-                        <div className={`h-0.5 w-6 ${conn.status === 'wired' ? 'bg-emerald-500' : 'bg-gray-600'}`}></div>
-                        <div className="text-[8px] text-gray-500 mt-0.5 whitespace-nowrap max-w-[50px] truncate" title={conn.trigger}>
-                          {conn.status === 'wired' ? '---' : '- -'}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center min-w-[60px]">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-black ${
-                          pipelineHealth.systems?.[conn.to]?.status === 'online'
-                            ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
-                            : 'bg-yellow-500/20 border border-yellow-500/40 text-yellow-400'
-                        }`}>
-                          {conn.to}
-                        </div>
-                      </div>
-                    </React.Fragment>
-                  ))}
+                        {i < lifecycle.length - 1 && (
+                          <div className="flex flex-col items-center mx-1 mt-[-8px]">
+                            <div className="flex items-center">
+                              <div className="h-0.5 w-5 bg-emerald-500/60"></div>
+                              <div className="w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[5px] border-l-emerald-500/60"></div>
+                            </div>
+                          </div>
+                        )}
+                      </React.Fragment>
+                    ));
+                  })()}
                 </div>
 
+                {/* Support Systems feeding into the pipeline */}
+                <div className="mt-4 pt-3 border-t border-gray-700/50">
+                  <div className="text-[10px] text-gray-500 font-bold mb-2.5 text-center tracking-wider">SUPPORT SYSTEMS</div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {[
+                      { id: 'DDCSS', icon: '💼', label: 'DDCSS', desc: 'Corporate Sales', feeds: 'ATLAS + VERTEX', color: 'blue' },
+                      { id: 'GBIS', icon: '🎁', label: 'GBIS', desc: 'Grant Intel', feeds: 'VERTEX', color: 'yellow' },
+                      { id: 'DOCUMENTS', icon: '📄', label: 'DOCS', desc: 'Quotes & Cap Stmts', feeds: 'GPSS + DDCSS', color: 'cyan' },
+                      { id: 'LBPC', icon: '🏷️', label: 'LBPC', desc: 'Surplus Recovery', feeds: 'GPSS + VERTEX', color: 'purple' },
+                    ].map((sys) => (
+                      <div key={sys.id} className="flex items-center gap-2 px-3 py-2 bg-gray-700/30 border border-gray-700 rounded-lg">
+                        <span className="text-sm">{sys.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[10px] font-black text-gray-300">{sys.label}</div>
+                          <div className="text-[9px] text-gray-500 truncate">{sys.desc}</div>
+                        </div>
+                        <div className="text-[8px] text-gray-600 whitespace-nowrap">→ {sys.feeds}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-center gap-3 mt-2">
+                    <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-700/20 rounded text-[9px]">
+                      <span>🎙️</span>
+                      <span className="text-gray-400 font-bold">ALEXA</span>
+                      <span className="text-gray-600">— Voice interface to all systems</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recent Events */}
                 {(pipelineHealth.recent_events || []).length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-700">
-                    <div className="text-[10px] text-gray-500 font-bold mb-1">RECENT EVENTS</div>
+                  <div className="mt-3 pt-3 border-t border-gray-700/50">
+                    <div className="text-[10px] text-gray-500 font-bold mb-1.5">RECENT PIPELINE EVENTS</div>
                     <div className="flex flex-wrap gap-2">
                       {(pipelineHealth.recent_events || []).slice(0, 5).map((evt: any, i: number) => (
-                        <div key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-700/50 rounded text-[10px]">
-                          <span className="text-emerald-400 font-mono">{evt.source}</span>
-                          <span className="text-gray-500">→</span>
-                          <span className="text-cyan-400 font-mono">{evt.target}</span>
-                          <span className="text-gray-400">{evt.type?.replace(/_/g, ' ')}</span>
+                        <div key={i} className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-700/40 border border-gray-700 rounded-lg text-[10px]">
+                          <span className="text-emerald-400 font-bold">{evt.source}</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="text-cyan-400 font-bold">{evt.target}</span>
+                          <span className="text-gray-400 ml-1">{evt.type?.replace(/_/g, ' ')}</span>
                         </div>
                       ))}
                     </div>

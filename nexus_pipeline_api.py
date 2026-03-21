@@ -120,16 +120,20 @@ def pipeline_health():
         pass
 
     systems = {
-        'NOVA': {'status': 'online', 'description': 'Opportunity Intelligence'},
-        'GPSS': {'status': 'online' if airtable_ok else 'degraded', 'description': 'Gov Proposals & Sales'},
-        'DDCSS': {'status': 'online' if airtable_ok else 'degraded', 'description': 'Direct Client Sales'},
-        'ATLAS': {'status': 'online' if airtable_ok else 'degraded', 'description': 'Project Management'},
-        'PRISM': {'status': 'online', 'orders': len(prism_orders), 'description': 'Field Operations'},
-        'COMPASS': {'status': 'online' if airtable_ok else 'degraded', 'description': 'Contract Compliance'},
-        'VERTEX': {'status': 'online' if airtable_ok else 'degraded', 'description': 'Financial Management'},
+        'NOVA': {'status': 'online', 'role': 'core', 'description': 'Opportunity Intelligence'},
+        'GPSS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Gov Proposals & Sales'},
+        'ATLAS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Project Management'},
+        'PRISM': {'status': 'online', 'orders': len(prism_orders), 'role': 'core', 'description': 'Field Operations'},
+        'COMPASS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Contract Compliance'},
+        'VERTEX': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Financial Management'},
+        'DDCSS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'support', 'description': 'Corporate Sales'},
+        'GBIS': {'status': 'online', 'role': 'support', 'description': 'Grant Intelligence'},
+        'LBPC': {'status': 'online', 'role': 'support', 'description': 'Surplus Recovery'},
+        'DOCUMENTS': {'status': 'online', 'role': 'support', 'description': 'Quote & Cap Statement Generator'},
+        'ALEXA': {'status': 'online', 'role': 'support', 'description': 'Voice Command Interface'},
     }
 
-    connections = [
+    core_connections = [
         {'from': 'NOVA', 'to': 'GPSS', 'status': 'wired', 'trigger': 'Opportunity added to pipeline'},
         {'from': 'GPSS', 'to': 'ATLAS', 'status': 'wired', 'trigger': 'Contract won → Project created'},
         {'from': 'GPSS', 'to': 'COMPASS', 'status': 'wired', 'trigger': 'Contract won → Post-award tracking'},
@@ -141,6 +145,19 @@ def pipeline_health():
         {'from': 'PRISM', 'to': 'COMPASS', 'status': 'wired', 'trigger': 'Service delivered → Performance data'},
         {'from': 'COMPASS', 'to': 'VERTEX', 'status': 'wired', 'trigger': 'Deliverable accepted → Payment milestone'},
     ]
+
+    support_connections = [
+        {'from': 'DDCSS', 'to': 'ATLAS', 'status': 'wired', 'trigger': 'Corporate deal won → Project created'},
+        {'from': 'DDCSS', 'to': 'VERTEX', 'status': 'wired', 'trigger': 'Corporate deal → Revenue + Invoice'},
+        {'from': 'GBIS', 'to': 'VERTEX', 'status': 'wired', 'trigger': 'Grant awarded → Revenue recorded'},
+        {'from': 'DOCUMENTS', 'to': 'GPSS', 'status': 'wired', 'trigger': 'Cap statement / quote generated for bid'},
+        {'from': 'DOCUMENTS', 'to': 'DDCSS', 'status': 'wired', 'trigger': 'Pricing / proposal generated for prospect'},
+        {'from': 'LBPC', 'to': 'GPSS', 'status': 'wired', 'trigger': 'Surplus opportunity → Gov pipeline'},
+        {'from': 'LBPC', 'to': 'VERTEX', 'status': 'wired', 'trigger': 'Surplus recovery → Revenue'},
+        {'from': 'ALEXA', 'to': 'ALL', 'status': 'wired', 'trigger': 'Voice queries across all systems'},
+    ]
+
+    connections = core_connections + support_connections
 
     recent_events = sorted(
         data.get('events', []),
@@ -159,6 +176,8 @@ def pipeline_health():
         },
         'systems': systems,
         'connections': connections,
+        'core_connections': core_connections,
+        'support_connections': support_connections,
         'recent_events': recent_events,
         'airtable_connected': airtable_ok,
     })
