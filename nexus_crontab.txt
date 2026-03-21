@@ -1,0 +1,34 @@
+# =====================================================================
+# NEXUS AUTOMATION SYSTEM (Updated Mar 19, 2026)
+# =====================================================================
+# Cleaned up: removed excessive notification frequency,
+# expired bid spam fixed, duplicate cron entries consolidated
+# =====================================================================
+
+# --- EMAIL MONITORING (every 2 hours during business hours) ---
+0 7,9,11,13,15,17,19 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_email_automation.py >> '/Users/deedavis/NEXUS BACKEND/nexus_email.log' 2>&1
+
+# --- OPPORTUNITY MINING: EDWOSB/WOSB (daily at 8 AM) ---
+0 8 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 auto_mine_edwosb_wosb_only.py >> /tmp/nexus_edwosb_daily.log 2>&1
+
+# --- OPPORTUNITY MINING: Federal (daily at 6 AM) ---
+0 6 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 mine_real_federal_forecasts.py >> '/Users/deedavis/NEXUS BACKEND/federal_forecasts.log' 2>&1
+
+# --- AGENCY FORECAST MINING (daily at 7 AM) ---
+0 7 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_scheduler.py --forecasts >> /tmp/nexus_agency_forecasts.log 2>&1
+
+# --- VENDOR PORTAL MINING (every 4 hours) ---
+0 6,10,14,18 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_scheduler.py --portals >> /tmp/nexus_portal_mining.log 2>&1
+
+# --- BID FOLDER SCANNING (every 2 hours during business hours) ---
+0 7,9,11,13,15,17,19 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_scheduler.py --scan >> /tmp/nexus_folder_scan.log 2>&1
+
+# --- QUOTE FOLLOW-UP (2x daily: 9 AM + 3 PM) ---
+0 9,15 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_scheduler.py --followups >> /tmp/nexus_quote_followups.log 2>&1
+
+# --- BID DEADLINE NOTIFICATIONS (2x daily: 7 AM + 4 PM) ---
+# Expired bids are now auto-filtered — no more spam for old stuff
+0 7,16 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 send_bid_notifications.py >> /tmp/nexus_notifications.log 2>&1
+
+# --- DAILY BRIEFING (6:30 AM) ---
+30 6 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_daily_briefing.py >> /tmp/nexus_briefing.log 2>&1

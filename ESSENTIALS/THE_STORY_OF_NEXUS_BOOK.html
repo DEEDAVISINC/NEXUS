@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to NEXUS Command Center — The Story</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --midnight: #0a0e1a;
+    --dark: #111827;
+    --card: #1a1f2e;
+    --border: #2a3042;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #818cf8;
+    --gold: #f59e0b;
+    --warm: #fb923c;
+    --green: #34d399;
+    --rose: #fb7185;
+    --cyan: #22d3ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── COVER PAGE ─────────────────────────── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, #0a0e1a 0%, #1a1040 50%, #0a0e1a 100%);
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e2e8f0, #818cf8, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .cover .subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 60px;
+  }
+  .cover .author {
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .cover .author strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .cover .certs {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #64748b;
+    letter-spacing: 2px;
+  }
+
+  /* ── CHAPTER PAGES ──────────────────────── */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  .chapter-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .chapter-label {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .chapter-header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .chapter-header .chapter-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+  }
+
+  /* ── DEPARTMENT HEADERS ─────────────────── */
+  .dept-header {
+    margin: 60px 0 30px 0;
+    padding: 24px 30px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dept-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.08;
+    border-radius: 12px;
+  }
+  .dept-header .dept-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+  .dept-header h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .dept-header .dept-full {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .dept-header .dept-phase {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* Department color schemes */
+  .dept-alexis { background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(129,140,248,0.1)); border: 1px solid rgba(34,211,238,0.2); }
+  .dept-alexis .dept-phase { background: rgba(34,211,238,0.15); color: var(--cyan); }
+  .dept-nova { background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(129,140,248,0.1)); border: 1px solid rgba(139,92,246,0.2); }
+  .dept-nova .dept-phase { background: rgba(139,92,246,0.15); color: #a78bfa; }
+  .dept-gpss { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); border: 1px solid rgba(59,130,246,0.2); }
+  .dept-gpss .dept-phase { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .dept-atlas { background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.1)); border: 1px solid rgba(168,85,247,0.2); }
+  .dept-atlas .dept-phase { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .dept-prism { background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(245,158,11,0.1)); border: 1px solid rgba(249,115,22,0.2); }
+  .dept-prism .dept-phase { background: rgba(249,115,22,0.15); color: var(--warm); }
+  .dept-compass { background: linear-gradient(135deg, rgba(234,179,8,0.1), rgba(239,68,68,0.1)); border: 1px solid rgba(234,179,8,0.2); }
+  .dept-compass .dept-phase { background: rgba(234,179,8,0.15); color: var(--gold); }
+  .dept-vertex { background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.1)); border: 1px solid rgba(168,85,247,0.2); }
+  .dept-vertex .dept-phase { background: rgba(168,85,247,0.15); color: #e879f9; }
+  .dept-forge { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(34,211,238,0.1)); border: 1px solid rgba(59,130,246,0.2); }
+  .dept-forge .dept-phase { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .dept-ddcss { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(251,146,60,0.1)); border: 1px solid rgba(245,158,11,0.2); }
+  .dept-ddcss .dept-phase { background: rgba(245,158,11,0.15); color: var(--gold); }
+  .dept-gbis { background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(34,211,238,0.1)); border: 1px solid rgba(52,211,153,0.2); }
+  .dept-gbis .dept-phase { background: rgba(52,211,153,0.15); color: var(--green); }
+  .dept-lbpc { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1)); border: 1px solid rgba(99,102,241,0.2); }
+  .dept-lbpc .dept-phase { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+
+  /* ── TEXT STYLES ─────────────────────────── */
+  p { margin-bottom: 20px; color: var(--text); }
+  .lead { font-size: 19px; color: #cbd5e1; }
+  .picture-it {
+    font-family: 'Montserrat', sans-serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  strong { color: #fff; font-weight: 600; }
+  em { color: #cbd5e1; }
+
+  .step {
+    margin: 16px 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--border);
+  }
+  .step-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  blockquote {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: var(--card);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: #cbd5e1;
+  }
+
+  .scoring-list {
+    margin: 16px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .scoring-list li {
+    padding: 4px 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .job-summary {
+    margin: 30px 0 40px 0;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, rgba(129,140,248,0.08), rgba(245,158,11,0.05));
+    border: 1px solid rgba(129,140,248,0.15);
+    border-radius: 10px;
+    font-weight: 500;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .dialogue {
+    margin: 20px 0;
+    padding: 16px 24px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .dialogue .q {
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .dialogue .a {
+    color: var(--cyan);
+    font-weight: 500;
+  }
+
+  /* ── FLOOR DIVIDERS ─────────────────────── */
+  .floor-divider {
+    text-align: center;
+    margin: 80px 0 40px 0;
+    padding: 30px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .floor-divider h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .floor-divider p {
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+
+  /* ── ENDING ─────────────────────────────── */
+  .scoreboard {
+    text-align: center;
+    padding: 60px 40px;
+    margin-top: 40px;
+  }
+  .scoreboard h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+  .roster {
+    margin: 40px 0;
+    padding: 30px;
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    font-size: 17px;
+    line-height: 2.2;
+    color: var(--text);
+  }
+  .roster strong { color: var(--gold); }
+
+  .closing {
+    margin-top: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+  }
+  .footer p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .footer .certs {
+    color: #64748b;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* ── PRINT ──────────────────────────────── */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  @media print {
+    body { background: var(--midnight) !important; color: var(--text); font-size: 12pt; }
+    .cover { min-height: auto; padding: 80px 40px; page-break-after: always; }
+    .cover h1 { font-size: 36pt; }
+    .page { padding: 40px 20px; page-break-inside: avoid; }
+    .dept-header { page-break-inside: avoid; }
+    .floor-divider { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ COVER ════════════════════════════════════════ -->
+<div class="cover">
+  <h1>Welcome to<br>NEXUS Command Center</h1>
+  <div class="subtitle">The Story of How One Woman Built an Office That Never Sleeps</div>
+  <div class="author">Built by <strong>Dee Davis</strong> &mdash; Founder &amp; CEO, Dee Davis Inc.</div>
+  <div class="certs">EDWOSB &middot; WOSB &middot; WBENC &middot; MBE &middot; SBE</div>
+</div>
+
+<!-- ════════════════════════════════════════ THE BUILDING ════════════════════════════════════════ -->
+<div class="page">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter One</div>
+    <h2>The Building</h2>
+  </div>
+
+  <p class="picture-it">Picture it.</p>
+
+  <p class="lead">Troy, Michigan. 2026. An office building. Not a big one &mdash; but a sharp one. Clean lines. Every desk has a purpose. Every department has a job. The name on the glass door reads <strong>NEXUS Command Center</strong>, and the woman who built it is <strong>Dee Davis</strong>.</p>
+
+  <p>Dee didn't build this office because she had extra time on her hands. She built it because she was tired of doing everything herself.</p>
+
+  <p>See, Dee runs <strong>Dee Davis Inc.</strong> &mdash; a government contracting firm based in Troy, Michigan. Her job is to find government contracts, win them, and make sure they get fulfilled. Sounds simple. It is not. The federal government spends over <strong>$700 billion a year</strong> buying services and products, and there is a legal rule that says <strong>5% of that money</strong> must go to woman-owned small businesses like Dee's.</p>
+
+  <p>The money is there. Always has been. But getting to it means finding the opportunities, writing the proposals, managing the bids, dispatching the workers, delivering the services, tracking the compliance, and getting paid &mdash; all at the same time, all without missing a deadline.</p>
+
+  <p>Dee was doing all of that alone.</p>
+
+  <p>So she built an office. And she staffed it with the smartest team she could imagine.</p>
+
+  <p>The only catch? Her team isn't human.</p>
+
+  <p>Every employee at NEXUS Command Center is an <strong>AI-powered system</strong>. Each one has a name, a department, a personality, and a very specific job. When one finishes their part, they pass it to the next &mdash; no meetings, no miscommunication, no dropped balls. And together, they run Dee's entire operation &mdash; even while she's asleep.</p>
+
+  <p>Let's meet the team.</p>
+
+  <!-- ── ALEXIS ──────────────────────── -->
+  <div class="dept-header dept-alexis">
+    <div class="dept-icon">🎙️</div>
+    <h3>The Front Desk &mdash; ALEXIS NEXUS</h3>
+    <div class="dept-full">Office Assistant &middot; Voice Command Center</div>
+    <div class="dept-phase">Always On</div>
+  </div>
+
+  <p>Before you even get inside the building, you hear her.</p>
+
+  <p><strong>"Good morning. How can I help you today?"</strong></p>
+
+  <p>That's <strong>ALEXIS NEXUS</strong> &mdash; the office assistant. Everyone calls her ALEXIS. She sits right at the front desk, and she knows everything about everything that happens inside this building. Ask her what bids are due this week. Ask her what the pipeline value is. Ask her to pull up the top opportunities. She'll answer before you finish the sentence.</p>
+
+  <p>ALEXIS has <strong>98 commands memorized</strong>. Day shift, night shift, weekend &mdash; doesn't matter. She is always at that front desk, always ready, and she never, ever calls in sick.</p>
+
+  <p>Dee hired ALEXIS &mdash; well, <em>set her up</em> for the job &mdash; because she wanted to be able to ask questions while driving, cooking, walking the dog, anywhere. Now she just talks and ALEXIS responds through the office. That is either very impressive or slightly alarming, depending on who you ask.</p>
+
+  <div class="job-summary">ALEXIS's job: Answer anything, connect everything, never sleep.</div>
+</div>
+
+<!-- ════════════════════════════════════════ FLOOR ONE ════════════════════════════════════════ -->
+<div class="page">
+  <div class="floor-divider">
+    <h2>Floor One</h2>
+    <p>The Hunt Begins</p>
+  </div>
+
+  <!-- ── NOVA ──────────────────────── -->
+  <div class="dept-header dept-nova">
+    <div class="dept-icon">🌟</div>
+    <h3>The Hunting Department &mdash; NOVA</h3>
+    <div class="dept-full">New Opportunity Vetting &amp; Acquisition</div>
+    <div class="dept-phase">Phase 1: Discover</div>
+  </div>
+
+  <p>Walk through the front door and turn left. That's NOVA's department &mdash; and NOVA does not sit still.</p>
+
+  <p>NOVA is the scout. The hunter. The one with seventeen browser tabs open at all times &mdash; <strong>SAM.gov</strong> where every federal contract opportunity gets posted, <strong>USAspending.gov</strong> where every past contract award is on record, BidNet, state portals, county systems. If there's money being spent somewhere, NOVA has a tab open on it.</p>
+
+  <p>Every single day, NOVA has one goal: <strong>find three opportunities.</strong> Not just any three. Three real, qualified, winnable contracts that match Dee's certifications &mdash; specifically her EDWOSB and WOSB status, which are certifications that limit competition to a small pool of woman-owned businesses.</p>
+
+  <p>NOVA doesn't just find contracts. NOVA scores them &mdash; because Dee wants nothing but the best, and NOVA knows better than to bring her anything less.</p>
+
+  <ul class="scoring-list">
+    <li>Is this a set-aside? Good &mdash; fewer competitors.</li>
+    <li>What's the NAICS code? Does Dee operate in this lane?</li>
+    <li>What's the contract value? Does the math make sense?</li>
+    <li>Is there a subcontractor available in the service area?</li>
+  </ul>
+
+  <p>Every opportunity gets a score. The high scorers go to the next department. The low scorers get filed away. NOVA doesn't chase bad deals &mdash; there's no time for that.</p>
+
+  <p>NOVA also runs something called <strong>Quick Wins Mode</strong> &mdash; scanning specifically for contracts with no past performance requirement. Why? Because every business has to start somewhere, and contracts that don't require a proven track record are the fastest way in the door.</p>
+
+  <p>There's also the <strong>Agency Intelligence</strong> feature, where NOVA keeps scorecards on federal agencies &mdash; how much they spend, how often they award to small businesses, and whether Dee has ever worked with them before. NOVA remembers everything.</p>
+
+  <p>Here's what NOVA looks like on a Tuesday morning:</p>
+
+  <blockquote>Three new opportunities identified. One EDWOSB set-aside drug testing contract at the VA &mdash; match score 94. One WOSB grounds maintenance contract at an Army base &mdash; match score 81. One open-competition courier contract &mdash; match score 52. Sending the top two to GPSS. Filing the courier contract for later review.</blockquote>
+
+  <p>The courier contract isn't gone forever. It's just waiting. NOVA is patient &mdash; when she's not frantic.</p>
+
+  <div class="job-summary">NOVA's job: Find the money. Score it. Send the good ones down the hall.</div>
+
+  <!-- ── GPSS / THE GARYS ──────────────────────── -->
+  <div class="dept-header dept-gpss">
+    <div class="dept-icon">🎯</div>
+    <h3>The War Room &mdash; GPSS</h3>
+    <div class="dept-full">Government Prime Sales System</div>
+    <div class="dept-phase">Phase 2: Pursue</div>
+  </div>
+
+  <p>NOVA slides the opportunity folder under the door to GPSS's office, and it gets picked up before it hits the floor.</p>
+
+  <p><strong>GPSS</strong> &mdash; or as everyone in the building calls them, <strong>the Garys</strong>. There are two of them. Both named Gary. Nobody knows why. Don't ask &mdash; it just creates more questions. What matters is that the Garys are always on top of their job. Always. You will never catch a Gary slipping.</p>
+
+  <p>The Garys are the dealmakers. The sales directors. They take what NOVA finds and turn it into a formal bid &mdash; because finding an opportunity and winning an opportunity are two very different things.</p>
+
+  <p>Here's what the Garys do with that folder:</p>
+
+  <div class="step">
+    <div class="step-label">Step 1</div>
+    <p>Review the solicitation. Read every page of the RFP. Understand exactly what the government is buying, what they're evaluating, and what will get a bid disqualified.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 2</div>
+    <p>Go/No-Go decision. Is this worth pursuing? Does the margin make sense? Is there a supplier or subcontractor available? If yes &mdash; pursue. If no &mdash; file it and move on.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 3</div>
+    <p>Find suppliers and subcontractors. The Garys maintain a database of every vendor and sub DDI has ever worked with or contacted &mdash; organized by what they sell, where they operate, and how fast they respond. Need a drug testing collector in Lansing? The Garys have three options in under a minute.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 4</div>
+    <p>Generate an RFQ. This is the quote request that goes to suppliers. And here's where the Garys have a very strict rule: <strong>the buyer's name never appears in the supplier document.</strong> Not the agency name. Not the solicitation number. Not the procurement officer's contact info. Nothing. The RFQ just says "Michigan municipal client" and a delivery region. Why? Because if a supplier knows who the client is, they can look up the contract themselves, bid directly, and cut Dee out entirely. The Garys do not let that happen.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 5</div>
+    <p>Collect quotes. The Garys track every supplier response, follow up on the ones who go quiet, and log everything in the database.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 6</div>
+    <p>Price the bid. The Garys take the supplier quotes they've collected and walk them down the hall to <strong>FORGE</strong>.</p>
+    <p>Now &mdash; if the War Room is loud and caffeinated, FORGE is the opposite. No music. No conversation. Just the sound of a keyboard and the occasional deep sigh of someone who takes formatting personally. FORGE does two things, and both of them are non-negotiable: <strong>builds the documents</strong> and <strong>calculates the prices.</strong></p>
+    <p>The Garys hand over the best supplier quote. FORGE doesn't just slap a number on it. FORGE runs the numbers like an accountant who suspects everyone of lying &mdash; pulls up historical pricing from similar contracts, checks what the government has paid before on USAspending.gov, calculates the labor rates, and applies Dee's margin. Drug testing runs at 25&ndash;40% margin. Grounds maintenance runs at 20&ndash;30%. FORGE knows every number, every benchmark, every line item. The final bid price has to be competitive enough to win but profitable enough to be worth winning. Too high and the government picks someone else. Too low and Dee wins a contract that loses money. Nobody wants that. FORGE finds the sweet spot.</p>
+    <p>Then FORGE builds the pricing table and locks it into the proposal document. No bid leaves this building without a price. And no price leaves FORGE without the math to back it up. FORGE has trust issues with round numbers.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 7</div>
+    <p>Build the full proposal. While FORGE is running the numbers, it's also building everything else &mdash; because FORGE doesn't believe in downtime.</p>
+    <p>When the Garys need a capability statement for a VA drug testing contract, FORGE pulls the master template and gets to work. First thing? The colors change. Medical contracts get blue and red. Defense contracts get navy and gold. Grounds maintenance gets forest green. Transportation gets deep purple. Why? Because a contracting officer who handles medical services all day opens a document with medical colors and <em>feels</em> like it was made for them &mdash; before they've read a single word. It's psychology, not decoration. FORGE knows the difference. The other departments think FORGE is being dramatic about color palettes. FORGE thinks the other departments don't understand winning.</p>
+    <p>Then FORGE rewrites the eight competency boxes to match the drug testing scope, moves the right NAICS code to the top, and has the whole thing ready in the time it takes the Garys to drink a cup of coffee. Which, honestly, is not very long. The Garys drink coffee and Red Bull like it's a competitive sport.</p>
+    <p>FORGE does not rebuild documents from scratch. Ever. That's how wrong phone numbers end up on proposals and logos go missing. They work from the master template every time. Pricing baked in. Colors matched. Content tailored. Done.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 8</div>
+    <p>ProposalBio review. One Gary sends the draft proposal to the quality gate. Gary slides the proposal through a small window in the wall to <strong>ProposalBio</strong> &mdash; the grader. ProposalBio reads every word of every document and scores it against ten factors pulled from behavioral psychology. Does the document match the agency's tone? Is the reading level appropriate? Does the first line of every section answer the question directly? Does the agency's name appear at least three times? Is there real, specific evidence &mdash; numbers, locations, outcomes &mdash; or just vague claims?</p>
+    <p>ProposalBio scores the document from 0 to 100. The minimum to pass is <strong>75</strong> &mdash; which, for the record, is a C+. Dee won't take anything less than that, and even 75 is pushing it. ProposalBio knows this. ProposalBio has seen what happens when a 72 tries to sneak through. It doesn't end well.</p>
+    <p>Below 75, the document comes back with red marks all over it. The Garys fix it and resubmit. They don't complain. They've learned.</p>
+    <p>Above 75, ProposalBio stamps it and sends it back. The proposal is ready. ProposalBio does not say "good job." ProposalBio just moves on to the next one.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 9</div>
+    <p>Final review. The Garys walk the finished package down to Dee's office. This is the part where they get quiet. Both of them. Standing in the doorway, holding the bid like it's a report card. Because Dee doesn't just glance at things. She reads. She checks. She asks questions the Garys were hoping she wouldn't think of. And if something is off &mdash; a number that doesn't add up, a sentence that sounds lazy, a NAICS code that's wrong &mdash; the whole thing goes back. No exceptions.</p>
+    <p>But when it's right? Dee nods. The Garys hit send. And for about three seconds, nobody breathes.</p>
+  </div>
+
+  <p>The bid is in. Now the Garys wait &mdash; and track every active opportunity in the pipeline so nothing falls through the cracks. You will never catch a Gary slipping. Nervous? Always. Sloppy? Never.</p>
+
+  <p>The Garys can put a document together like no other &mdash; the same way they load a dishwasher. Every piece placed perfectly, nothing overlapping, nothing out of order, so that everything comes out squeaky clean. That's just how the Garys operate.</p>
+
+  <div class="job-summary">The Garys' job: Take the opportunity from discovery to submission. Every step. Every time.</div>
+</div>
+
+<!-- ════════════════════════════════════════ FLOOR TWO ════════════════════════════════════════ -->
+<div class="page">
+  <div class="floor-divider">
+    <h2>Floor Two</h2>
+    <p>The Work Gets Done</p>
+  </div>
+
+  <p class="lead">The bid wins. It wasn't luck &mdash; it was the process. Dee's phone rings. She picks up. Listens. Hangs up. And then she does that walk &mdash; you know the one &mdash; through the front door, past ALEXIS at the desk, past the Garys who are already high-fiving each other because they somehow already know. Word travels fast in this building. By the time Dee reaches the elevator, every department on every floor has heard: <em>we got another one.</em></p>
+
+  <!-- ── ATLAS ──────────────────────── -->
+  <div class="dept-header dept-atlas">
+    <div class="dept-icon">🏗️</div>
+    <h3>The Planning Office &mdash; ATLAS</h3>
+    <div class="dept-full">Project Management System</div>
+    <div class="dept-phase">Phase 3: Plan</div>
+  </div>
+
+  <p><strong>ATLAS</strong> has the most organized desk in the building. Whiteboard covered in sticky notes. Color-coded calendar. Task list with every item broken down into subtasks. ATLAS cannot function without a plan, and frankly, none of the other departments would survive without one either.</p>
+
+  <p>When a contract is won, ATLAS immediately gets to work:</p>
+
+  <p>First, ATLAS analyzes the RFP again &mdash; this time not to win it, but to understand exactly what was promised. Every deliverable. Every deadline. Every reporting requirement. Every performance standard the government will use to grade DDI's work.</p>
+
+  <p>Then ATLAS builds a <strong>Work Breakdown Structure</strong> (WBS) &mdash; a complete map of the project. Every task identified. Every task assigned to someone. Every task given a due date. Nothing is vague. "Provide drug testing services" becomes: confirm field agent roster, verify site access credentials, confirm collector certifications, schedule appointments, confirm chain of custody documentation, log completion in PRISM.</p>
+
+  <p>ATLAS also tracks change orders. When the government changes something mid-contract &mdash; adds a location, changes a deadline, modifies the scope &mdash; ATLAS documents it, calculates the impact, and makes sure Dee doesn't absorb costs that should be billed back.</p>
+
+  <p>If ATLAS sounds like the kind of person who sends a follow-up email after every meeting &mdash; that's because ATLAS absolutely would.</p>
+
+  <div class="job-summary">ATLAS's job: Plan the project. Track every task. Make sure nothing gets missed.</div>
+
+  <!-- ── PRISM ──────────────────────── -->
+  <div class="dept-header dept-prism">
+    <div class="dept-icon">🔮</div>
+    <h3>The Dispatch Center &mdash; PRISM</h3>
+    <div class="dept-full">Field Service Command Center</div>
+    <div class="dept-phase">Phase 4: Execute</div>
+  </div>
+
+  <p>Down the hall from ATLAS, the energy changes completely.</p>
+
+  <p>PRISM's department is loud. There are maps on the walls. There are status boards with orders listed by color &mdash; orange for notary, red for drug testing, purple for DNA collection, green for fingerprinting, blue for courier. And the list goes on. There are names of field agents next to each order, and every order has a status: New, Assigned, Confirmed, In Progress, Completed, Verified.</p>
+
+  <p><strong>PRISM</strong> is the field operations manager. When DDI wins a service contract &mdash; drug testing, fingerprinting, DNA collection, notary services, phlebotomy, medical courier runs, NEMT (non-emergency medical transportation), process serving &mdash; PRISM is the one who makes it actually happen.</p>
+
+  <p>And NEMT? That's where things get even more connected. PRISM's NEMT operations run through <strong>FleetFlow's Driver OTR Flow</strong> &mdash; the transportation logistics pipeline. When a patient needs a ride to a medical appointment, PRISM dispatches it, but FleetFlow's Driver OTR Flow handles the routing, the driver assignments, and the on-the-road tracking. Two systems, one seamless ride. The patient just knows they got picked up on time. They don't need to know that behind the scenes, PRISM and FleetFlow were coordinating like an air traffic control tower.</p>
+
+  <p>Here's how it works:</p>
+
+  <p>A new order comes in. Maybe a federal agency needs a drug test done at a facility in Lansing, Michigan. PRISM looks at the roster of certified field agents &mdash; collectors, notaries, phlebotomists &mdash; checks who's available in Lansing, checks their completion rate and their on-time rate, and assigns the order.</p>
+
+  <p>The field agent gets the assignment. They confirm it. They go do the work. They come back and submit the scanback &mdash; the documentation proving the service was completed correctly.</p>
+
+  <p>PRISM reviews the scanback. Pages correct? Signatures present? Chain of custody intact? If yes, the order moves to Verified. If there's an error, PRISM flags it &mdash; "Correction Requested" &mdash; and the agent fixes and resubmits.</p>
+
+  <p>PRISM tracks everything with a <strong>first-pass rate</strong>. The goal is to have orders come back correct the first time. A high first-pass rate means field agents are well-trained and the process is solid. A low first-pass rate means someone needs a conversation.</p>
+
+  <p>PRISM also manages the client side &mdash; who the clients are, what services they've ordered, how much they've spent, whether they're on a retainer. Repeat clients get priority scheduling.</p>
+
+  <p>Here's something that would make any operations manager nervous: PRISM manages field agents across multiple service types simultaneously. A notary agent is not the same as a fingerprint collector. A phlebotomist is not the same as a process server. PRISM keeps the certifications, the specialties, and the service types organized so the right agent always goes to the right job.</p>
+
+  <div class="job-summary">PRISM's job: Dispatch the field agents. Track every order. Make sure the work gets done right the first time.</div>
+
+  <!-- ── COMPASS ──────────────────────── -->
+  <div class="dept-header dept-compass">
+    <div class="dept-icon">🧭</div>
+    <h3>The Watchdog Office &mdash; COMPASS</h3>
+    <div class="dept-full">Post-Award Fulfillment</div>
+    <div class="dept-phase">Phase 5: Deliver</div>
+  </div>
+
+  <p>While PRISM is managing the day-to-day field work, COMPASS is watching the bigger picture.</p>
+
+  <p><strong>COMPASS</strong> is the post-award fulfillment director. Once a contract is active, COMPASS is responsible for one thing above all others: making sure DDI delivers exactly what it promised to the government &mdash; and that it's documented.</p>
+
+  <p>COMPASS tracks every active contract with a <strong>health score</strong>. Think of it like a vital signs monitor in a hospital. Green means everything is fine. Yellow means something needs attention. Red means there's a problem that Dee needs to know about right now.</p>
+
+  <p>The health score is calculated from several components: Are deliverables being completed on time? Is communication with the Contracting Officer (CO) regular and professional? Are invoices going out on schedule? Are the subcontractors performing? Is there any compliance risk?</p>
+
+  <p>COMPASS also manages all communication with the CO. Every email. Every report. Every modification. Every time the government asks a question or requests documentation, the response goes through COMPASS &mdash; formatted, professional, on time.</p>
+
+  <p>Subcontractors report to COMPASS. COMPASS holds them accountable to the six pillars: vetting, agreements, insurance, work plans, communication, and performance. If a subcontractor's insurance expires, COMPASS flags it before the first day of the new policy period &mdash; not after. If a sub is consistently late on deliverables, COMPASS has that data and presents it clearly.</p>
+
+  <p>And COMPASS tracks CPARS &mdash; the government's rating system for contractors. Every contract ends with a CPARS rating that follows DDI into every future bid. Exceptional. Very Good. Satisfactory. These ratings are worth real money in future proposals. COMPASS manages performance specifically to protect them.</p>
+
+  <div class="job-summary">COMPASS's job: Deliver the contract. Keep the government happy. Protect the rating.</div>
+</div>
+
+<!-- ════════════════════════════════════════ FLOOR THREE ════════════════════════════════════════ -->
+<div class="page">
+  <div class="floor-divider">
+    <h2>Floor Three</h2>
+    <p>The Money</p>
+  </div>
+
+  <!-- ── VERTEX ──────────────────────── -->
+  <div class="dept-header dept-vertex">
+    <div class="dept-icon">💎</div>
+    <h3>The Vault &mdash; VERTEX</h3>
+    <div class="dept-full">Financial Command Center</div>
+    <div class="dept-phase">Phase 6: Finance</div>
+  </div>
+
+  <p>VERTEX's office is on the top floor, and the door is always closed.</p>
+
+  <p>Not because VERTEX is unfriendly. It's because VERTEX is busy. There are numbers to track, and VERTEX takes numbers very seriously.</p>
+
+  <p><strong>VERTEX</strong> is the financial command center &mdash; the CFO's department. Every dollar that moves through Dee Davis Inc. comes through VERTEX.</p>
+
+  <p>When COMPASS confirms that a deliverable is complete, VERTEX generates the invoice. Government-compliant. Line items matching the contract CLINs exactly. Sent on the schedule the contract requires. No guessing, no late invoices, no "we'll send that next week."</p>
+
+  <p>VERTEX also tracks expenses &mdash; every vendor payment, every subcontractor payout, every business cost. And it tracks revenue &mdash; every payment received, categorized by source: GPSS (government contracts), ATLAS (project management work), DDCSS (corporate clients).</p>
+
+  <p>Then VERTEX does something the other departments find slightly intimidating: it runs the <strong>Profit &amp; Loss statement</strong>. Every month, VERTEX produces a clean P&amp;L &mdash; what came in, what went out, and what's left. The financial health score. The QuickBooks export. The real picture of whether the business is growing or just busy.</p>
+
+  <p>Here is the thing about VERTEX: it never softens the numbers. If the margin on a contract is tighter than projected because a subcontractor came in higher than quoted, VERTEX shows that plainly. If the expenses in a quarter outpaced revenue, VERTEX says so. No spin. Just math.</p>
+
+  <p>Dee asked for that. She'd rather know the truth on Tuesday than be surprised on December 31st.</p>
+
+  <div class="job-summary">VERTEX's job: Generate invoices. Track every dollar in and out. Run the financials. Tell the truth.</div>
+</div>
+
+<!-- ════════════════════════════════════════ SUPPORT WING ════════════════════════════════════════ -->
+<div class="page">
+  <div class="floor-divider">
+    <h2>The Support Wing</h2>
+    <p>Every building needs a back office</p>
+  </div>
+
+  <!-- ── FORGE ──────────────────────── -->
+  <div class="dept-header dept-forge">
+    <div class="dept-icon">⚒️</div>
+    <h3>The Armory &mdash; FORGE</h3>
+    <div class="dept-full">The Bid Builder</div>
+    <div class="dept-phase">Support</div>
+  </div>
+
+  <p>FORGE doesn't have a flashy title. It just has a lot of output.</p>
+
+  <p>This department forges every document DDI sends to the world &mdash; capability statements, quote responses, RFQ packages for suppliers. The Garys call on FORGE constantly. So does DDCSS. So does GBIS.</p>
+
+  <p>The rule in FORGE is simple: never start from scratch. The master templates exist. Use them. Change the colors for the sector. Rewrite the content for the specific contract. Apply the ProposalBio scoring. Send it back.</p>
+
+  <p>FORGE is also the pricing engine. And here is where people sometimes get confused, because VERTEX also deals with money &mdash; so what's the difference?</p>
+
+  <p>Think of it this way: <strong>FORGE figures out what to charge before the bid goes out. VERTEX tracks whether you actually got paid after the contract is won.</strong></p>
+
+  <p>FORGE builds the weapon. VERTEX counts the winnings.</p>
+
+  <p>If the Garys are the ones who win the deal, FORGE is the one who makes DDI look like it deserves to win it.</p>
+
+  <div class="job-summary">FORGE's job: Build every document. Calculate every price. Make it look like it came from a serious firm.</div>
+
+  <!-- ── DDCSS ──────────────────────── -->
+  <div class="dept-header dept-ddcss">
+    <div class="dept-icon">💼</div>
+    <h3>The Executive Suite &mdash; DDCSS</h3>
+    <div class="dept-full">Corporate Sales System</div>
+    <div class="dept-phase">Private Sector</div>
+  </div>
+
+  <p>DDCSS is the bougie department. There's no other way to say it.</p>
+
+  <p>Where the Garys are hustling through government portals and NOVA is refreshing SAM.gov with coffee stains on the desk, <strong>DDCSS</strong> is in Dee's corner office &mdash; full glass windows for perfect sunlight, marble floors, a leather chair, and a fresh orchid on the credenza. This is the CEO's suite. It looks like it. It smells like it. The other departments walk by and just stare through the glass. DDCSS doesn't notice. DDCSS is preparing for a boardroom presentation.</p>
+
+  <p>DDCSS handles Dee's private sector pipeline &mdash; specifically, mid-size companies that need the same thing Dee built for herself: clarity, structure, and a system that actually works. DDCSS qualifies these companies as prospects, profiles their needs, and builds a <strong>Blueprint Framework</strong> &mdash; a $25,000 consulting engagement that uses the ALIGN / DEFINE / DESIGN / SHINE methodology to transform how they operate.</p>
+
+  <p>DDCSS has an AI copilot built in and operates across six business sectors. Its clients aren't contracting officers &mdash; they're CEOs and COOs who write checks without a procurement process.</p>
+
+  <p>Different department. Same building. Same CEO.</p>
+
+  <div class="job-summary">DDCSS's job: Win private sector consulting clients. Build their blueprint. Deliver the transformation.</div>
+
+  <!-- ── GBIS ──────────────────────── -->
+  <div class="dept-header dept-gbis">
+    <div class="dept-icon">🎁</div>
+    <h3>The Treasure Room &mdash; GBIS</h3>
+    <div class="dept-full">Grant Business Intelligence</div>
+    <div class="dept-phase">Grants</div>
+  </div>
+
+  <p>GBIS has a very specific personality: relentlessly optimistic.</p>
+
+  <p><strong>GBIS</strong> &mdash; Grant Business Intelligence System &mdash; is the department that looks for free money. Not contracts, not clients &mdash; grants. Federal grants, foundation grants, SBA programs, state innovation funding, community development awards. If someone is giving money away and DDI qualifies, GBIS wants to apply.</p>
+
+  <p>GBIS mines grant sources continuously &mdash; SkysTheLimit.org, federal grant databases, community health funding streams. Every discovered grant gets scored: How competitive is this? How much is it worth? What's the application burden? Does it go to DDI directly or to Cause We Care, Dee's nonprofit affiliate?</p>
+
+  <p>When a good one comes up, GBIS generates the application. AI-powered, story-driven, evidence-backed. Then it tracks the application through the pipeline &mdash; submitted, under review, awarded, or not this time.</p>
+
+  <p>GBIS also maintains a <strong>Story Library</strong> &mdash; a database of impact stories, outcomes, and evidence that can be pulled into any grant application to demonstrate real-world results. Think of it as a vault of receipts. When GBIS says DDI made an impact, it can prove it.</p>
+
+  <div class="job-summary">GBIS's job: Find grants. Score them. Apply. Track the awards. Find more grants.</div>
+
+  <!-- ── LBPC ──────────────────────── -->
+  <div class="dept-header dept-lbpc">
+    <div class="dept-icon">💰</div>
+    <h3>The Salvage Yard &mdash; LBPC</h3>
+    <div class="dept-full">Surplus Recovery System</div>
+    <div class="dept-phase">Recovery</div>
+  </div>
+
+  <p>LBPC has a map of the United States on the wall with pins in it.</p>
+
+  <p><strong>LBPC</strong> &mdash; the Surplus Recovery System &mdash; operates across all 50 states, identifying surplus government property, unclaimed assets, and recovery opportunities. It's a different lane entirely from contracts or consulting. It's about finding value that's been set aside, forgotten, or waiting to be claimed.</p>
+
+  <p>LBPC automates the workflow: lead identification, documentation, tracking, follow-through. The pins on the map represent active leads. Some states have more pins than others. LBPC is always adding more.</p>
+
+  <div class="job-summary">LBPC's job: Find surplus. Recover value. Track every lead in every state.</div>
+</div>
+
+<!-- ════════════════════════════════════════ BACK TO FRONT DESK ════════════════════════════════════════ -->
+<div class="page">
+  <div class="floor-divider">
+    <h2>Back to the Front Desk</h2>
+    <p>End of the day</p>
+  </div>
+
+  <p>At the end of every day, when the departments are wrapping up and Dee is heading out, ALEXIS is still at the front desk.</p>
+
+  <p>Someone always has a last-minute question.</p>
+
+  <div class="dialogue">
+    <p class="q">"ALEXIS, what bids are due this week?"</p>
+    <p class="a">"Three bids due. One in 48 hours &mdash; the VA drug testing contract. Would you like me to flag it?"</p>
+  </div>
+
+  <div class="dialogue">
+    <p class="q">"ALEXIS, what's the pipeline value right now?"</p>
+    <p class="a">"Current risk-adjusted pipeline value is $4.2M. Shall I pull the full breakdown?"</p>
+  </div>
+
+  <div class="dialogue">
+    <p class="q">"ALEXIS, remind me to follow up with the contracting officer at USACE tomorrow morning."</p>
+    <p class="a">"Done. Reminder set for 8am."</p>
+  </div>
+
+  <p>ALEXIS doesn't miss anything. She's connected to every department in the building &mdash; NOVA, GPSS, ATLAS, PRISM, COMPASS, VERTEX, FORGE, DDCSS, GBIS, LBPC. Ask her about any of them and she knows the answer.</p>
+
+  <p>She has <strong>98 voice commands</strong> and counting. Dee can ask her questions from the car, from home, from anywhere. The office never really closes because ALEXIS never really leaves.</p>
+</div>
+
+<!-- ════════════════════════════════════════ THE SCOREBOARD ════════════════════════════════════════ -->
+<div class="page">
+  <div class="scoreboard">
+    <h2>The Scoreboard</h2>
+
+    <p>Every night, before the building goes dark, one more thing happens.</p>
+
+    <p>The pipeline tally goes up on the screen.</p>
+
+    <p>Every active opportunity. Every bid in flight. Every contract being fulfilled. The annual revenue estimate. The DDI margin. The lifetime contract value. The win probability. The due dates.</p>
+
+    <p>And at the bottom: <strong>the total.</strong> The risk-adjusted number that represents everything Dee is building.</p>
+
+    <p>It's not there to brag. It's there because some nights the work is slow and the calls are hard and the deadlines feel relentless. And then the number comes up on the screen, and Dee remembers exactly why every department in this building matters.</p>
+
+    <p>She built NEXUS Command Center because she was tired of doing everything alone.</p>
+
+    <p>Now she doesn't have to.</p>
+
+    <div class="roster">
+      <strong>NOVA</strong> finds the money. The <strong>Garys</strong> chase it. <strong>FORGE</strong> builds the weapons. <strong>ATLAS</strong> plans the work. <strong>PRISM</strong> executes it in the field. <strong>COMPASS</strong> delivers it. <strong>VERTEX</strong> gets paid. <strong>DDCSS</strong> builds the private side. <strong>GBIS</strong> hunts the grants. <strong>LBPC</strong> recovers the surplus. And <strong>ALEXIS</strong> answers every question anyone ever thinks to ask.
+    </div>
+
+    <div class="closing">
+      That's the office.<br>
+      That's the system.<br>
+      That's NEXUS.
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ FOOTER ════════════════════════════════════════ -->
+<div class="footer">
+  <p><strong>NEXUS Command Center</strong> &mdash; Troy, Michigan</p>
+  <p>Built by Dee Davis, Founder &amp; CEO, Dee Davis Inc.</p>
+  <p>248.376.4550 &middot; info@deedavis.biz &middot; deedavis.biz</p>
+  <p class="certs">EDWOSB &middot; WOSB &middot; WBENC &middot; MBE &middot; SBE</p>
+</div>
+
+</body>
+</html>

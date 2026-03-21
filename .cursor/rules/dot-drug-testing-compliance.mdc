@@ -1,0 +1,242 @@
+---
+description: Service line compliance knowledge — Drug testing, DNA, fingerprinting, notary, occupational health
+alwaysApply: true
+---
+
+# Service Line Compliance — NEXUS Knowledge Base
+
+**DDI provides DOT-compliant drug testing, DNA testing, fingerprinting, notary, and occupational health services. This rule ensures NEXUS has accurate regulatory knowledge for all service line conversations, bids, and operations.**
+
+---
+
+## KNOWLEDGE BASE LOCATION
+
+All detailed compliance documents are in:
+```
+/Users/deedavis/NEXUS BACKEND/COMPLIANCE_KNOWLEDGE/
+├── 49_CFR_PART_40_REFERENCE.md           ← DOT drug testing regulation breakdown
+├── DOT_DRUG_TESTING_QUICK_REFERENCE.md   ← Drug testing cheat sheets
+├── FATAL_FLAW_CHECKLIST.md               ← What voids a drug test
+├── DNA_TESTING_REFERENCE.md              ← AABB, chain of custody, legal vs informational
+├── FINGERPRINTING_REFERENCE.md           ← FBI CJIS, SWFT, livescan, ORI codes
+├── NOTARY_REFERENCE.md                   ← Notarial acts, RON, state requirements
+└── OCCUPATIONAL_HEALTH_REFERENCE.md      ← DOT physicals, OSHA, respirators, audiometric
+```
+
+**When a compliance question comes up, READ the relevant file before answering.**
+
+---
+
+## QUICK FACTS FOR CONVERSATIONS
+
+### DOT Drug Panel
+- 5 drugs: Marijuana, Cocaine, Opioids, Amphetamines, PCP
+- Initial screen → Confirmation test (GC/MS) for positives only
+
+### Cutoffs (Most Common)
+| Drug | Screen | Confirm |
+|---|---|---|
+| THC | 50 ng/mL | 15 ng/mL |
+| Cocaine | 150 ng/mL | 100 ng/mL |
+| Amphetamines | 500 ng/mL | 250 ng/mL |
+
+### Post-Accident Testing
+- Fatality = ALWAYS test
+- Citation + injury or tow = test required
+- No citation = no test required
+- Alcohol: within 8 hours (2 hours preferred)
+- Drug: within 32 hours (ASAP)
+
+### Random Testing Rates
+- FMCSA (trucking): 50% drug, 10% alcohol
+- FTA (transit): 50% drug, 10% alcohol
+
+### Fatal Flaws (Test Cancelled)
+- No collector signature
+- No donor signature (uncorrected)
+- Specimen ID mismatch
+- Broken seal
+- Insufficient volume
+- No printed collector name (unidentifiable)
+
+### Refusal = Positive
+- Fails to appear
+- Leaves before complete
+- Refuses observation (when required)
+- Shy bladder with no medical explanation
+- Admits adulteration
+
+---
+
+## WHEN TO REFERENCE THE KNOWLEDGE BASE
+
+**READ `49_CFR_PART_40_REFERENCE.md` when:**
+- Answering detailed regulatory questions
+- Writing compliance sections of proposals/bids
+- Explaining MRO, SAP, or collector requirements
+- Discussing return-to-duty or follow-up testing
+
+**READ `DOT_DRUG_TESTING_QUICK_REFERENCE.md` when:**
+- On a call and need a quick answer
+- Building pricing for drug testing RFPs
+- Comparing DOT vs non-DOT testing
+- Explaining post-accident decision tree
+
+**READ `FATAL_FLAW_CHECKLIST.md` when:**
+- Building PRISM inspection workflows
+- Training collectors
+- Reviewing scanback quality
+- Explaining why a test was cancelled
+
+**READ `DNA_TESTING_REFERENCE.md` when:**
+- Explaining legal vs informational DNA testing
+- Answering AABB or chain of custody questions
+- Building DNA collection procedures
+- Discussing immigration DNA testing (USCIS)
+
+**READ `FINGERPRINTING_REFERENCE.md` when:**
+- Explaining livescan vs ink card
+- Answering ORI code questions
+- Discussing NFIQ quality standards
+- Building fingerprinting proposals
+
+**READ `NOTARY_REFERENCE.md` when:**
+- Explaining notarial acts (acknowledgment vs jurat)
+- Answering RON (Remote Online Notarization) questions
+- Discussing journal requirements
+- Building notary service proposals
+
+**READ `OCCUPATIONAL_HEALTH_REFERENCE.md` when:**
+- Explaining DOT physical requirements
+- Answering respirator fit test questions
+- Discussing audiometric testing
+- Building occupational health proposals
+
+---
+
+## DDI'S SERVICE ROLES
+
+### Drug Testing (C/TPA)
+DDI is a **C/TPA (Consortium/Third Party Administrator)** that:
+- Manages drug testing programs for employers
+- Schedules collections through PRISM network
+- Coordinates with SAMHSA-certified labs
+- Handles Clearinghouse reporting
+
+### DNA Testing (DePointe DNA)
+DDI provides:
+- Legal chain-of-custody DNA collection
+- Immigration DNA testing (AABB-accredited labs)
+- Paternity, siblingship, grandparentage testing
+- Informational (non-legal) DNA testing
+
+### Fingerprinting (SWFT Authorized)
+DDI provides:
+- Livescan electronic fingerprinting
+- Ink card (FD-258) fingerprinting
+- Mobile fingerprinting services
+- Direct SWFT submission to FBI/state agencies
+
+### Notary Services
+DDI provides:
+- Traditional notarization
+- Mobile notary services
+- Remote Online Notarization (RON)
+- Loan signing services
+- Apostille coordination
+
+### Occupational Health
+DDI provides:
+- DOT physicals (via certified MEs)
+- Respirator medical evaluations
+- Fit testing (QLFT/QNFT)
+- Audiometric testing
+- Pre-employment physicals
+
+---
+
+## PRISM COMPLIANCE MODULES
+
+API endpoints available for each service type:
+
+| Service | API Prefix | Module |
+|---|---|---|
+| DOT Drug Testing | `/prism/dot/` | `prism_dot_compliance.py` |
+| DNA Testing | `/prism/dna/` | `prism_dna_compliance.py` |
+| Fingerprinting | `/prism/fingerprint/` | `prism_fingerprinting_compliance.py` |
+| Notary | `/prism/notary/` | `prism_notary_compliance.py` |
+| Occupational Health | `/prism/occ-health/` | `prism_occupational_health_compliance.py` |
+
+---
+
+## KEY REGULATORY CITATIONS BY SERVICE
+
+DDI is a **C/TPA (Consortium/Third Party Administrator)** that:
+- Manages drug testing programs for employers
+- Schedules collections
+- Coordinates with collectors (PRISM network)
+- Routes specimens to SAMHSA-certified labs (Quest, CRL, Labcorp)
+- Works with MROs for result verification
+- Handles Clearinghouse queries and reporting
+- Manages random selection pools
+
+**DDI does NOT:**
+- Perform MRO functions (requires licensed physician)
+- Perform SAP functions (requires licensed professional)
+- Make medical determinations
+- Operate a laboratory
+
+---
+
+### DOT Drug Testing
+| Topic | Citation |
+|---|---|
+| DOT drug/alcohol testing procedures | 49 CFR Part 40 |
+| FMCSA driver testing | 49 CFR Part 382 |
+| FTA transit testing | 49 CFR Part 655 |
+| Fatal flaws | 49 CFR §40.199 |
+| Refusal definition | 49 CFR §40.191 |
+
+### DNA Testing
+| Topic | Authority |
+|---|---|
+| Relationship testing standards | AABB Standards |
+| Immigration DNA | USCIS Policy Manual |
+| Chain of custody | AABB Guidelines |
+
+### Fingerprinting
+| Topic | Authority |
+|---|---|
+| FBI criminal background checks | FBI CJIS |
+| State channeling agencies | State-specific |
+| SWFT submission | FDLE/State DOJ |
+| Print quality (NFIQ) | NIST standards |
+
+### Notary
+| Topic | Authority |
+|---|---|
+| Notarial acts | State statutes (varies) |
+| Remote Online Notarization | State RON laws |
+| Journal requirements | State statutes |
+
+### Occupational Health
+| Topic | Citation |
+|---|---|
+| CMV driver physicals | 49 CFR Part 391 |
+| Respiratory protection | 29 CFR 1910.134 |
+| Hearing conservation | 29 CFR 1910.95 |
+| Bloodborne pathogens | 29 CFR 1910.1030 |
+
+---
+
+## ACCURACY RULE
+
+**Never guess on compliance questions.** If the answer isn't in the knowledge base:
+1. Check the actual regulation/standard
+2. Or say "I need to verify that requirement before answering"
+
+Wrong compliance advice can void tests, cause audit failures, and damage DDI's credibility.
+
+---
+
+*This rule ensures NEXUS provides accurate compliance guidance across all DDI service lines. All answers should be traceable to the knowledge base documents or official regulations.*

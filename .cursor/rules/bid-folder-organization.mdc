@@ -88,15 +88,16 @@ Every bid folder gets a WORKFLOW_CHECKLIST.md with these 10 gated steps:
 
 ```
 STEP 1:  REVIEW SOLICITATION      — Read and understand what the buyer wants
-STEP 2:  GO / NO-GO DECISION      — Are we pursuing this?
-STEP 3:  FIND SUPPLIERS            — Who can provide what we need?
-STEP 4:  CREATE RFQ                — Generate quote request for suppliers
-STEP 5:  SEND RFQ TO SUPPLIERS    — Email SEND_TO_SUPPLIER contents
-STEP 6:  COLLECT QUOTES            — Track responses, follow up
-STEP 7:  SELECT QUOTE & MARKUP    — Pick best price, calculate our bid
-STEP 8:  PREPARE BID SUBMISSION   — Create docs for SEND_TO_BUYER
-STEP 9:  REVIEW BID               — Final check, Dee approves
-STEP 10: SUBMIT BID               — Send SEND_TO_BUYER contents to buyer
+STEP 2:  ARCHIVE SEARCH           — Run historical_pricing_scraper.py on solicitation NAICS code(s). Pull competitor wins, pricing data, agency spending patterns. Include results in WORKFLOW_CHECKLIST.md.
+STEP 3:  GO / NO-GO DECISION      — Revenue analysis + archive search data drives this decision
+STEP 4:  FIND SUPPLIERS            — Who can provide what we need?
+STEP 5:  CREATE RFQ                — Generate quote request for suppliers
+STEP 6:  SEND RFQ TO SUPPLIERS    — Email SEND_TO_SUPPLIER contents
+STEP 7:  COLLECT QUOTES            — Track responses, follow up
+STEP 8:  SELECT QUOTE & MARKUP    — Pick best price, calculate our bid (use archive search pricing as benchmark)
+STEP 9:  PREPARE BID SUBMISSION   — Create docs for SEND_TO_BUYER
+STEP 10: REVIEW BID               — Final check, Dee approves
+STEP 11: SUBMIT BID               — Send SEND_TO_BUYER contents to buyer
 ```
 
 **Rules for the checklist:**

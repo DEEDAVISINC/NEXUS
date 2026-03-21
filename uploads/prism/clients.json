@@ -1,0 +1,26 @@
+[
+  {
+    "id": "CLT-61DA27",
+    "name": "Wayne County HR",
+    "type": "Employer",
+    "services": [
+      "fingerprint"
+    ],
+    "orders": 1,
+    "revenue": 187,
+    "status": "Active",
+    "retainer": 0
+  },
+  {
+    "id": "CLT-285F12",
+    "name": "Acme Manufacturing",
+    "type": "Employer",
+    "services": [
+      "dot"
+    ],
+    "orders": 1,
+    "revenue": 225,
+    "status": "Active",
+    "retainer": 0
+  }
+]

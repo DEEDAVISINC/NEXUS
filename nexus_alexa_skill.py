@@ -264,58 +264,170 @@ def read_daily_briefing():
         return None
 
 
+def read_today_agenda():
+    """Read and parse TODAY_AGENDA.md for meetings, calls, and deadlines"""
+    import os
+    import re
+    
+    agenda_path = "/Users/deedavis/NEXUS BACKEND/TODAY_AGENDA.md"
+    try:
+        if os.path.exists(agenda_path):
+            with open(agenda_path, 'r') as f:
+                content = f.read()
+            
+            meetings = []
+            deadlines = []
+            waiting = []
+            
+            # Parse ACTIVE DEADLINES section for meetings/calls
+            deadlines_section = re.search(r'## ACTIVE DEADLINES\n\n(.*?)(?=\n---|\n##)', content, re.DOTALL)
+            if deadlines_section:
+                # Look for table rows with dates
+                rows = re.findall(r'\|\s*\*\*([^*]+)\*\*\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|', deadlines_section.group(1))
+                for date, opportunity, agency, sol, action in rows:
+                    item = {
+                        'date': date.strip(),
+                        'title': opportunity.strip(),
+                        'agency': agency.strip(),
+                        'action': action.strip()
+                    }
+                    # Check if it's a meeting/call
+                    if any(word in action.lower() for word in ['call', 'meeting', 'teams', 'zoom', 'confirmed']):
+                        meetings.append(item)
+                    else:
+                        deadlines.append(item)
+            
+            # Parse WAITING FOR REPLIES section
+            waiting_section = re.search(r'## WAITING FOR REPLIES\n\n(.*?)(?=\n---|\n##)', content, re.DOTALL)
+            if waiting_section:
+                wait_rows = re.findall(r'\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|', waiting_section.group(1))
+                for contact, agency, sent, waiting_for in wait_rows:
+                    if 'Contact' not in contact:  # Skip header
+                        waiting.append({
+                            'contact': contact.strip(),
+                            'agency': agency.strip(),
+                            'waiting_for': waiting_for.strip()
+                        })
+            
+            return {
+                'meetings': meetings,
+                'deadlines': deadlines,
+                'waiting': [w for w in waiting if 'DEAD END' not in w.get('waiting_for', '')],
+                'raw_content': content
+            }
+        return None
+    except Exception as e:
+        logger.error(f"Failed to read today agenda: {e}")
+        return None
+
+
 def handle_executive_briefing() -> Dict:
     briefing = read_daily_briefing()
+    agenda = read_today_agenda()
     
-    if not briefing:
-        # Fallback to API if file not available
-        result = call_nexus_api("/api/hunter/autonomous-actions")
-        if result.get("error"):
-            return build_response(
-                speech="I'm having trouble connecting to NEXUS right now. Please check that the system is running.",
-                should_end_session=False
-            )
-        actions = result.get("actions", [])
-        high_priority = [a for a in actions if a.get("priority") == "high"]
-        speech = f"You have {len(actions)} actions today. {len(high_priority)} are high priority."
-        return build_response(speech, should_end_session=False)
+    if not briefing and not agenda:
+        return build_response(
+            speech="Good morning, Dee. I'm having trouble reading your briefing files right now. Check that DAILY_BRIEFING.md and TODAY_AGENDA.md exist.",
+            should_end_session=False
+        )
     
-    # Build speech from actual briefing data
-    ready = briefing['ready_to_send']
-    stale = briefing['stale_bids']
-    deadlines = briefing['upcoming_deadlines']
-    top_actions = briefing['top_actions']
+    # Build warm, conversational speech
+    import random
+    greetings = [
+        "Good morning, Dee! Got your coffee?",
+        "Good morning, Dee. Ready to crush it today?",
+        "Hey Dee, good morning!",
+        "Good morning, Dee. Let's get after it.",
+    ]
+    speech = f"{random.choice(greetings)} <break time='0.5s'/> Here's your agenda for today. <break time='0.3s'/>"
     
-    speech = f"Good morning, Dee. Here's your NEXUS briefing. <break time='0.5s'/>"
+    urgencies = []
     
-    # Critical alerts first
-    if ready > 0:
-        speech += f"<emphasis level='strong'>{ready} emails are ready to send.</emphasis> <break time='0.3s'/>"
+    # Count urgencies from briefing
+    if briefing:
+        ready = briefing.get('ready_to_send', 0)
+        deadlines_count = briefing.get('upcoming_deadlines', 0)
+        stale = briefing.get('stale_bids', 0)
+        top_actions = briefing.get('top_actions', [])
+        
+        if ready > 50:
+            urgencies.append(f"{ready} emails waiting to send")
+        if deadlines_count > 0:
+            urgencies.append(f"{deadlines_count} bid deadlines coming up")
+    else:
+        ready = 0
+        deadlines_count = 0
+        stale = 0
+        top_actions = []
     
-    if deadlines > 0:
-        speech += f"You have {deadlines} upcoming deadlines. <break time='0.3s'/>"
+    # Get meetings from agenda
+    meetings = []
+    if agenda:
+        meetings = agenda.get('meetings', [])
+        agenda_deadlines = agenda.get('deadlines', [])
+        waiting = agenda.get('waiting', [])
+        
+        # Add waiting replies as an urgency if there are any
+        if waiting:
+            urgencies.append(f"{len(waiting)} people you're waiting to hear back from")
     
-    if stale > 10:
-        speech += f"Warning: {stale} bids have gone stale with no activity. <break time='0.3s'/>"
+    # Announce urgencies
+    if urgencies:
+        speech += f"<emphasis level='moderate'>You have {len(urgencies)} thing{'s' if len(urgencies) > 1 else ''} to know about.</emphasis> <break time='0.3s'/>"
+        for i, urgency in enumerate(urgencies[:3], 1):
+            speech += f"<break time='0.2s'/> {urgency}. "
+        speech += "<break time='0.5s'/>"
     
-    # Top 3 actions
+    # Announce meetings
+    if meetings:
+        speech += f"<break time='0.3s'/> You have {len(meetings)} meeting{'s' if len(meetings) > 1 else ''} scheduled. "
+        for meeting in meetings[:2]:
+            date = meeting.get('date', '')
+            title = meeting.get('title', '')
+            agency = meeting.get('agency', '')
+            action = meeting.get('action', '')
+            
+            # Extract time from action if it contains it
+            if 'PM' in action or 'AM' in action:
+                speech += f"<break time='0.2s'/> {title} with {agency}. {action}. "
+            else:
+                speech += f"<break time='0.2s'/> {date}: {title} with {agency}. "
+        speech += "<break time='0.5s'/>"
+    
+    # Top priorities
     if top_actions:
-        speech += "<break time='0.5s'/> Your top priorities: "
+        speech += "<break time='0.3s'/> Your top priorities today: "
         for i, (name, action) in enumerate(top_actions[:3], 1):
-            speech += f"<break time='0.3s'/> {i}. {name}. {action}. "
+            # Clean up the action text for speech
+            clean_action = action.replace('SEND IT', 'send it').replace('—', ',')
+            speech += f"<break time='0.2s'/> {i}. {name}, {clean_action}. "
     
-    speech += "<break time='0.5s'/> Say 'how many emails' for details, or 'what deadlines' for due dates."
+    # Warm closing
+    speech += "<break time='0.5s'/> That's your rundown. Say 'what deadlines' or 'how many emails' for more details. Go get 'em!"
     
-    card_content = f"📧 Ready to Send: {ready}\n📅 Deadlines: {deadlines}\n⚠️ Stale Bids: {stale}\n\n"
-    for name, action in top_actions[:5]:
-        card_content += f"• {name}: {action}\n"
+    # Build card content
+    card_content = "☀️ GOOD MORNING, DEE\n\n"
+    if urgencies:
+        card_content += f"⚡ {len(urgencies)} Urgencies\n"
+        for u in urgencies:
+            card_content += f"  • {u}\n"
+        card_content += "\n"
+    if meetings:
+        card_content += f"📅 {len(meetings)} Meeting(s)\n"
+        for m in meetings:
+            card_content += f"  • {m.get('date')}: {m.get('title')}\n"
+        card_content += "\n"
+    if top_actions:
+        card_content += "🎯 Top Priorities\n"
+        for name, action in top_actions[:3]:
+            card_content += f"  • {name}: {action}\n"
     
     return build_response(
         speech=speech,
-        card_title="NEXUS Daily Briefing",
+        card_title="Good Morning, Dee!",
         card_content=card_content,
         apl_document=DASHBOARD_APL,
-        apl_data={"stats": {"actions": str(ready), "daily_target": f"{deadlines} deadlines"}},
+        apl_data={"stats": {"actions": str(ready), "daily_target": f"{len(meetings)} meetings"}},
         should_end_session=False
     )
 
@@ -1511,6 +1623,8 @@ INTENT_HANDLERS = {
     # Utility
     "ExplainNexusFeature": handle_explain_feature,
     "HelloWorldIntent": handle_hello,
+    "GoodMorningIntent": handle_executive_briefing,
+    "MorningBriefingIntent": handle_executive_briefing,
     "AMAZON.HelpIntent": handle_help,
     "AMAZON.StopIntent": handle_stop,
     "AMAZON.CancelIntent": handle_stop,

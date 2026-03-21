@@ -74,13 +74,16 @@ class HistoricalPricingScraper:
                         'Award ID',
                         'Recipient Name',
                         'Award Amount',
-                        'awarding_agency_name',
+                        'Awarding Agency',
+                        'Awarding Sub Agency',
                         'Award Type',
-                        'description',
+                        'Description',
                         'Start Date',
-                        'End Date'
+                        'End Date',
+                        'Place of Performance State Code',
+                        'Contract Award Type'
                     ],
-                    'limit': 50,
+                    'limit': 100,
                     'page': 1,
                     'sort': 'Award Amount',
                     'order': 'desc'
@@ -98,11 +101,14 @@ class HistoricalPricingScraper:
                     contracts.append({
                         'recipient': award.get('Recipient Name', 'Unknown'),
                         'amount': award.get('Award Amount', 0),
-                        'agency': award.get('awarding_agency_name', 'Unknown'),
-                        'description': award.get('description', 'No description'),
+                        'agency': award.get('Awarding Agency', 'Unknown'),
+                        'sub_agency': award.get('Awarding Sub Agency', ''),
+                        'description': award.get('Description', 'No description'),
                         'start_date': award.get('Start Date', 'Unknown'),
                         'end_date': award.get('End Date', 'Unknown'),
-                        'award_id': award.get('Award ID', 'Unknown')
+                        'award_id': award.get('Award ID', 'Unknown'),
+                        'state': award.get('Place of Performance State Code', ''),
+                        'contract_type': award.get('Contract Award Type', '')
                     })
                 
                 return contracts

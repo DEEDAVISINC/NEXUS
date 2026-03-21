@@ -23,57 +23,32 @@ EMAIL_FROM = os.environ.get('NEXUS_EMAIL', 'bids.deedavisinc@gmail.com')
 EMAIL_PASSWORD = os.environ.get('NEXUS_EMAIL_PASSWORD')
 EMAIL_TO = os.environ.get('USER_EMAIL', 'info@deedavis.biz')
 
-# Active bids (from CRITICAL_DEADLINE_VERIFICATION_FEB_2026.md)
+# Active bids — dynamically loaded, expired bids automatically skipped
+# Add new bids here. Expired deadlines are filtered out at runtime.
 ACTIVE_BIDS = [
     {
-        "id": "RCOC 7732",
-        "name": "Disposable Paper Products",
-        "deadline": datetime(2026, 2, 10, 14, 30),  # Feb 10 @ 2:30 PM EST
-        "value": "$81,478",
-        "profit": "$3-5K",
-        "status": "Ready to submit",
-        "platform": "BidNet Direct (MITN)",
-        "buyer": "Shari Graves (248-858-4780)",
-        "action": "Submit Feb 7-9",
-        "folder": "photos_and_videos/RCOC 7732 PAPER/"
+        "id": "VA SHREDDING",
+        "name": "Document Shredding Services",
+        "deadline": datetime(2026, 3, 31, 17, 0),
+        "value": "TBD",
+        "profit": "TBD",
+        "status": "Need to pull solicitation",
+        "platform": "SAM.gov",
+        "buyer": "Tiffany Garfield (VA VBAVACO)",
+        "action": "Pull solicitation 36C10D26Q0034 from SAM.gov, review, bid",
+        "folder": "BIDS:RESOURCES/VA DOCUMENT SHREDDING/"
     },
-    {
-        "id": "RCOC 7842",
-        "name": "Safety Supplies",
-        "deadline": datetime(2026, 2, 17, 14, 30),  # Feb 17 @ 2:30 PM EST
-        "value": "$31,558",
-        "profit": "$3,975",
-        "status": "Ready to submit",
-        "platform": "BidNet Direct (MITN)",
-        "buyer": "Shari Graves (248-858-4780)",
-        "action": "Submit Feb 14 (3 days early)",
-        "folder": "photos_and_videos/RCOC 7842 SAFETY SUPPLIES/"
-    },
-    {
-        "id": "RCOC 7814",
-        "name": "Pickup Trucks (16 units)",
-        "deadline": datetime(2026, 2, 17, 14, 30),  # Feb 17 @ 2:30 PM EST
-        "value": "$640K-$800K",
-        "profit": "$80K-$120K",
-        "status": "Awaiting dealer quotes",
-        "platform": "BidNet Direct (MITN)",
-        "buyer": "Shari Graves (248-858-4796)",
-        "action": "Get dealer quotes by Feb 10, submit Feb 15-16",
-        "folder": "photos_and_videos/RCOC 7814 TRUCKS/"
-    },
-    {
-        "id": "RCOC 7790",
-        "name": "Prefabricated Traffic Signs (109 items)",
-        "deadline": datetime(2026, 2, 17, 14, 30),  # Feb 17 @ 2:30 PM EST
-        "value": "$30K-$50K",
-        "profit": "$27K+",
-        "status": "Awaiting supplier quotes",
-        "platform": "BidNet Direct (MITN)",
-        "buyer": "Tracy McDonald (248-858-4796)",
-        "action": "Get supplier quotes by Feb 10, submit Feb 15-16",
-        "folder": "photos_and_videos/RCOC 7790 SIGNS/"
-    }
 ]
+
+
+def _filter_expired_bids(bids):
+    """Remove bids whose deadlines have already passed."""
+    now = datetime.now()
+    active = []
+    for bid in bids:
+        if bid['deadline'] > now:
+            active.append(bid)
+    return active
 
 
 def calculate_days_until(deadline):
@@ -120,15 +95,20 @@ def send_notification_email(subject, body):
 
 
 def send_daily_bid_reminder():
-    """Send daily reminder for all active bids"""
+    """Send daily reminder for active (non-expired) bids only."""
     today = datetime.now()
+    live_bids = _filter_expired_bids(ACTIVE_BIDS)
+    
+    if not live_bids:
+        print("✅ No active bids with upcoming deadlines — no reminder sent.")
+        return
     
     # Categorize bids by urgency
     urgent = []  # <= 3 days
     coming_soon = []  # 4-7 days
     upcoming = []  # 8+ days
     
-    for bid in ACTIVE_BIDS:
+    for bid in live_bids:
         days_until, hours_until = calculate_days_until(bid['deadline'])
         
         bid_info = bid.copy()
@@ -343,16 +323,21 @@ All active bids visible in NEXUS notification banner.
 
 
 def check_and_send_alerts():
-    """Check all bids and send ONLY urgent/critical alerts (≤ 3 days)"""
+    """Check active (non-expired) bids and send ONLY urgent/critical alerts (≤ 3 days)"""
     print("=" * 70)
     print("🚨 NEXUS URGENT NOTIFICATION SYSTEM")
     print(f"Running: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 70)
     print()
     
+    live_bids = _filter_expired_bids(ACTIVE_BIDS)
+    if not live_bids:
+        print("✅ No active bids — all deadlines have passed or no bids configured.")
+        return
+    
     # Check for urgent alerts ONLY (≤ 3 days)
     urgent_bids = []
-    for bid in ACTIVE_BIDS:
+    for bid in live_bids:
         days_until, _ = calculate_days_until(bid['deadline'])
         if days_until <= 3:
             urgent_bids.append(bid)
@@ -371,7 +356,7 @@ def check_and_send_alerts():
     
     print("=" * 70)
     print("✅ Notification check complete")
-    print("   Emails sent: {len(urgent_bids)}")
+    print(f"   Emails sent: {len(urgent_bids)}")
     print("=" * 70)
 
 

@@ -830,7 +830,69 @@
 
 ---
 
-**Contact Database Version:** 2.3  
-**Last Updated:** February 9, 2026  
-**Recent Additions:** MI Cape Supply / Jeff Shoemaker (Topsoil $23.50/CY quote received)  
-**Next Update:** February 14, 2026
+---
+
+## 🏆 DDI BUSINESS REFERENCES
+
+**Use for vendor portal registrations, proposals, and pre-qualification packages.**
+**Last Updated:** March 17, 2026
+
+### **1. Diane Revord — CHAMPION HOMES / SKYLINE CHAMPION**
+- **Title:** Account Contact
+- **Email:** drevord@championhomes.com
+- **Relationship:** Documentation courier and logistics for manufactured housing solutions
+- **Use For:** Logistics, courier, document preparation references
+- **Source File:** `references.pages`
+
+### **2. Shajuan Taylor — SJT TRANSPORT / BLESSED ANGELS HOME HEALTH CARE, LLC**
+- **Title:** Social Worker / Teacher / Business Owner
+- **Phone:** 248.525.9804
+- **Address:** 24223 Raven Ave., Eastpointe, MI 48021
+- **Relationship:** Transportation and health care services collaboration
+- **Use For:** Transportation, personnel, health services references
+
+### **3. Mohammed Slimm — UNIVERSAL MORTGAGE LLC**
+- **Title:** Broker / Owner
+- **Phone:** 313-463-0425
+- **Relationship:** Real estate and mortgage document services
+- **Use For:** Document preparation, notary, real estate services references
+
+### **4. Makibla Gideon — GIDEON LOGISTICS**
+- **Phone:** 313-407-1936
+- **Address:** 200 Riverfront Dr. APT 4B, Detroit, MI 48226
+- **Relationship:** Transportation compliance and personnel management
+- **Use For:** Logistics, DOT compliance, courier references
+
+### **5. Joe Palumbo, Esq. — THE P58 TRUST (Penei & Isabella Sewell)**
+- **Firm:** Meisten, Seelig Fein LLP
+- **Phone:** 858.688.3610
+- **Address:** 125 Park Ave, FLR 7, New York, NY 10017
+- **Relationship:** CLIENT — Private wealth agent services for estate documentation, notarization, legal document preparation, trust administration support, and certified document courier services for high-profile clients
+- **Use For:** Private wealth services, estate documentation, notarization, legal document prep, high-profile client references
+
+### **6. Lloyd Pace — JMT DOCS**
+- **Phone:** 855-325-3565
+- **Relationship:** Document preparation and document delivery services
+- **Use For:** Document services, courier, delivery references
+
+### **7. Compliance Department — PERRY JOHNSON MORTGAGE COMPANY, INC.**
+- **Phone:** 800-800-0450
+- **Email:** compliance@perryjohnsonmortgage.com
+- **Address:** 755 W. Big Beaver Rd., Suite 1340, Troy, MI 48084 (same building as DDI)
+- **Relationship:** CLIENT — Private biometric credentialing of Perry Johnson and executives for financial securities licensing. Live scan fingerprinting for NMLS and regulatory compliance.
+- **Note:** Perry Johnson is currently running for Governor of Michigan.
+- **Use For:** Biometric fingerprinting, executive credentialing, financial compliance references
+
+### **8. Danielle Doebel — UNITED WHOLESALE MORTGAGE (UWM)**
+- **Title:** Licensing Department
+- **Phone:** [NEED DIRECT LINE — UWM main: 800-981-8898]
+- **Address:** 585 South Blvd E, Pontiac, MI 48341
+- **Relationship:** CLIENT — Private biometric credentialing of top executives including CEO Mat Ishbia for financial and security licensing. Confidential live scan fingerprinting for NMLS and regulatory compliance.
+- **Use For:** Biometric fingerprinting, executive credentialing, financial compliance references
+
+---
+
+**Contact Database Version:** 2.5  
+**Last Updated:** March 17, 2026  
+**Recent Additions:** Perry Johnson Mortgage + UWM (Danielle Doebel) added as client references  
+**Next Update:** March 24, 2026

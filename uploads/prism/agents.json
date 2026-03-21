@@ -1,0 +1,23 @@
+[
+  {
+    "id": "AGT-001",
+    "name": "Dee Davis",
+    "specialties": [
+      "notary",
+      "ron",
+      "fingerprint",
+      "dna",
+      "dot",
+      "non-dot"
+    ],
+    "status": "Active",
+    "city": "Troy",
+    "state": "MI",
+    "completionRate": 100,
+    "onTimeRate": 100,
+    "errorRate": 0,
+    "rating": 5.0,
+    "ordersCompleted": 0,
+    "activeOrders": 0
+  }
+]

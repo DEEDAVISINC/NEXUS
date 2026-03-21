@@ -129,6 +129,46 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Inspection Engine not loaded: {e}")
 
+# Register PRISM DOT Compliance Module
+try:
+    from prism_dot_compliance import prism_dot
+    app.register_blueprint(prism_dot)
+    print("✅ PRISM DOT Compliance Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM DOT Compliance Module not loaded: {e}")
+
+# Register PRISM DNA Compliance Module
+try:
+    from prism_dna_compliance import prism_dna
+    app.register_blueprint(prism_dna)
+    print("✅ PRISM DNA Compliance Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM DNA Compliance Module not loaded: {e}")
+
+# Register PRISM Fingerprinting Compliance Module
+try:
+    from prism_fingerprinting_compliance import prism_fingerprint
+    app.register_blueprint(prism_fingerprint)
+    print("✅ PRISM Fingerprinting Compliance Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Fingerprinting Compliance Module not loaded: {e}")
+
+# Register PRISM Notary Compliance Module
+try:
+    from prism_notary_compliance import prism_notary
+    app.register_blueprint(prism_notary)
+    print("✅ PRISM Notary Compliance Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Notary Compliance Module not loaded: {e}")
+
+# Register PRISM Occupational Health Compliance Module
+try:
+    from prism_occupational_health_compliance import prism_occ_health
+    app.register_blueprint(prism_occ_health)
+    print("✅ PRISM Occupational Health Compliance Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Occupational Health Compliance Module not loaded: {e}")
+
 # Register PRISM Notifications & Receipt Tracking
 try:
     from prism_notifications_api import prism_notifications
@@ -136,6 +176,14 @@ try:
     print("✅ PRISM Notifications & Receipt Tracking registered")
 except ImportError as e:
     print(f"⚠️ PRISM Notifications not loaded: {e}")
+
+# Register PRISM Orders & Intake API
+try:
+    from prism_orders_api import prism_orders
+    app.register_blueprint(prism_orders)
+    print("✅ PRISM Orders & Intake API registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Orders API not loaded: {e}")
 
 # Register COMPASS — Post-Award Operations
 try:
@@ -6902,6 +6950,163 @@ def gpss_strategic_report(opportunity_id):
 
 
 # =====================================================================
+# DDCSS PROSPECT MINING ENDPOINTS
+# =====================================================================
+
+@app.route('/ddcss/run-mining', methods=['POST'])
+def run_ddcss_mining():
+    """
+    Run all free DDCSS mining sources in one call.
+    Sources: corporate HR signals, job postings, diversity news.
+    All three target companies DDI can serve DIRECTLY (no government contract, no sub needed).
+    New prospects saved to DDCSS Prospects Airtable table.
+    """
+    try:
+        from nexus_backend import DDCSSProspectMiner
+        miner = DDCSSProspectMiner()
+        results = miner.run_all_free_sources()
+        return jsonify({
+            'success': True,
+            'total_added': results['total_added'],
+            'corporate_hr_signals_added': len(results['corporate_hr_signals']),
+            'job_postings_added': len(results['job_postings']),
+            'diversity_news_added': len(results['diversity_news']),
+            'errors': results['errors'],
+            'run_time': results['run_time'],
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/mine-corporate-hr', methods=['POST'])
+def ddcss_mine_corporate_hr():
+    """
+    Mine corporate HR signals: healthcare, staffing, manufacturing, logistics companies
+    expanding or hiring in Michigan — all high-need buyers of DDI's direct-delivery services.
+    """
+    try:
+        from nexus_backend import DDCSSProspectMiner
+        miner = DDCSSProspectMiner()
+        results = miner.mine_corporate_hr_signals()
+        added = [r for r in results if 'error' not in r]
+        errors = [r['error'] for r in results if 'error' in r]
+        return jsonify({
+            'success': True,
+            'added': len(added),
+            'prospects': added,
+            'errors': errors,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/mine-jobs', methods=['POST'])
+def ddcss_mine_job_postings():
+    """Mine job boards for companies hiring roles DDI can replace with a vendor contract."""
+    try:
+        from nexus_backend import DDCSSProspectMiner
+        miner = DDCSSProspectMiner()
+        results = miner.mine_job_postings()
+        added = [r for r in results if 'error' not in r]
+        errors = [r['error'] for r in results if 'error' in r]
+        return jsonify({
+            'success': True,
+            'added': len(added),
+            'prospects': added,
+            'errors': errors,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/mine-diversity-news', methods=['POST'])
+def ddcss_mine_diversity_news():
+    """Monitor news for companies announcing supplier diversity initiatives."""
+    try:
+        from nexus_backend import DDCSSProspectMiner
+        miner = DDCSSProspectMiner()
+        results = miner.mine_diversity_news()
+        added = [r for r in results if 'error' not in r]
+        errors = [r['error'] for r in results if 'error' in r]
+        return jsonify({
+            'success': True,
+            'added': len(added),
+            'prospects': added,
+            'errors': errors,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =====================================================================
+# DDCSS CORPORATE PORTAL TRACKER ENDPOINTS
+# =====================================================================
+
+@app.route('/ddcss/portals', methods=['GET'])
+def get_ddcss_portals():
+    """
+    Get all corporate supplier portals DDI should register with.
+    Optional query param: ?status=Not+Started|Registered|Active|Pending+Approval|Needs+Renewal
+    """
+    try:
+        from nexus_backend import DDCSSPortalTracker
+        tracker = DDCSSPortalTracker()
+        status_filter = request.args.get('status')
+        portals = tracker.get_portals(status_filter=status_filter)
+        return jsonify({'success': True, 'portals': portals, 'count': len(portals)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/portals/seed', methods=['POST'])
+def seed_ddcss_portals():
+    """
+    Populate DDCSS Corporate Portals table with DDI's priority target list.
+    Safe to run multiple times — skips existing records.
+    Run this once to initialize the tracker with 20 pre-researched portals.
+    """
+    try:
+        from nexus_backend import DDCSSPortalTracker
+        tracker = DDCSSPortalTracker()
+        result = tracker.seed_portals()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/portals/<portal_id>', methods=['PUT'])
+def update_ddcss_portal(portal_id):
+    """
+    Update a portal record — mark as registered, add contact info, set next action.
+    Body fields: registrationStatus, accountNumber, contactName, contactTitle,
+                 contactEmail, registrationDate, lastLogin, nextAction, nextActionDate, notes
+    """
+    try:
+        from nexus_backend import DDCSSPortalTracker
+        tracker = DDCSSPortalTracker()
+        data = request.json or {}
+        result = tracker.update_portal(portal_id, data)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/ddcss/portals/dashboard', methods=['GET'])
+def ddcss_portals_dashboard():
+    """
+    Summary of portal registration progress:
+    total, status breakdown, high-priority not-started list, active count.
+    """
+    try:
+        from nexus_backend import DDCSSPortalTracker
+        tracker = DDCSSPortalTracker()
+        summary = tracker.get_dashboard_summary()
+        return jsonify({'success': True, **summary})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =====================================================================
 # DDCSS PROSPECTS & TOOLS ENDPOINTS
 # =====================================================================
 
@@ -10897,6 +11102,94 @@ def export_to_quickbooks():
             'record_count': len(qb_data),
             'message': f'Exported {len(qb_data)} records to QuickBooks format'
         })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX FINANCING — SouthStar Capital & Bankers Factoring
+# ============================================================================
+
+FINANCING_REFERRALS_FILE = os.path.join(os.path.dirname(__file__), 'financing_referrals.json')
+
+def load_financing_referrals():
+    if os.path.exists(FINANCING_REFERRALS_FILE):
+        with open(FINANCING_REFERRALS_FILE, 'r') as f:
+            return json.load(f)
+    return []
+
+def save_financing_referrals(referrals):
+    with open(FINANCING_REFERRALS_FILE, 'w') as f:
+        json.dump(referrals, f, indent=2)
+
+@app.route('/vertex/financing/referrals', methods=['GET'])
+def get_financing_referrals():
+    """Get all broker commission referrals + summary"""
+    try:
+        referrals = load_financing_referrals()
+        earned = sum(r.get('commission_earned', 0) for r in referrals if r.get('status') == 'Commission Paid')
+        pending = sum(r.get('commission_estimated', 0) for r in referrals if r.get('status') in ['Submitted', 'Approved', 'Funded'])
+        return jsonify({
+            'referrals': referrals,
+            'summary': {
+                'total_referrals': len(referrals),
+                'commission_earned': earned,
+                'commission_pending': pending,
+                'active_referrals': len([r for r in referrals if r.get('status') not in ['Commission Paid', 'Declined']])
+            }
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/vertex/financing/referrals', methods=['POST'])
+def create_financing_referral():
+    """Log a new broker referral to SouthStar Capital"""
+    try:
+        data = request.json
+        referrals = load_financing_referrals()
+        new_referral = {
+            'id': f'REF-{datetime.now().strftime("%Y%m%d%H%M%S")}',
+            'client_name': data.get('client_name', ''),
+            'client_contact': data.get('client_contact', ''),
+            'product_type': data.get('product_type', ''),
+            'estimated_deal_size': float(data.get('estimated_deal_size', 0)),
+            'commission_rate': float(data.get('commission_rate', 1.0)),
+            'commission_estimated': float(data.get('commission_estimated', 0)),
+            'commission_earned': 0.0,
+            'status': 'Submitted',
+            'referral_date': datetime.now().strftime('%Y-%m-%d'),
+            'notes': data.get('notes', ''),
+            'southstar_contact': 'Jon Shane — VP Broker Relations | 678-257-2676 | brokers@southstar.com'
+        }
+        referrals.append(new_referral)
+        save_financing_referrals(referrals)
+        return jsonify({'success': True, 'referral': new_referral})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/vertex/financing/referrals/<referral_id>', methods=['PUT'])
+def update_financing_referral(referral_id):
+    """Update referral status or commission amount"""
+    try:
+        data = request.json
+        referrals = load_financing_referrals()
+        for i, r in enumerate(referrals):
+            if r['id'] == referral_id:
+                referrals[i].update(data)
+                save_financing_referrals(referrals)
+                return jsonify({'success': True, 'referral': referrals[i]})
+        return jsonify({'error': 'Referral not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/vertex/financing/referrals/<referral_id>', methods=['DELETE'])
+def delete_financing_referral(referral_id):
+    """Delete a referral record"""
+    try:
+        referrals = load_financing_referrals()
+        referrals = [r for r in referrals if r['id'] != referral_id]
+        save_financing_referrals(referrals)
+        return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

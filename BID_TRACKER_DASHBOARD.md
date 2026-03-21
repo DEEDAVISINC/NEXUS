@@ -1,61 +1,68 @@
-# 📊 BID TRACKER DASHBOARD - COMPLETE STATUS
-**Updated:** Sunday, February 08, 2026 at 05:27 PM
-**Active Bids:** 2
+# BID TRACKER DASHBOARD
+**Updated:** Wednesday, March 19, 2026
 
 ---
 
-## 📋 LEGEND
+## HARD DEADLINES
 
-**Status:**
-- ✅ SUBMITTED = Bid already submitted
-- 🎯 READY TO SUBMIT = Have quotes, ready to finalize
-- 📝 HAS QUOTES = Quotes received, need to review
-- ⏳ SOURCING QUOTES = Analysis done, waiting for supplier quotes
-- 🔥 URGENT = Deadline ≤2 days, no quotes yet!
-- 📥 NEW = Just added, need analysis
-
-**Columns:**
-- 📄 = Has solicitation PDF
-- 📊 = Has analysis/strategy doc
-- 💰 = Has supplier quotes
-- ✅ = Submission ready/complete
+| Deadline | Opportunity | Agency | Solicitation | Status |
+|---|---|---|---|---|
+| **Mar 24 (Tue)** | Call — Lisa TerMorshuizen | Choice Partners / HCDE (Texas) | Drug & Alcohol Testing rebid | **CONFIRMED — Tue 2:00 PM CT / 3:00 PM ET.** Microsoft Teams. Dial-in: +1 346-202-6895,,645136702# |
+| **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
+| **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
 
 ---
 
-## 📈 SUMMARY
+## ACTIVE OUTREACH — WAITING FOR REPLIES
 
-| Category | Count | Action Needed |
-|----------|-------|---------------|
-| 🔥 URGENT (≤3 days) | 0 | **IMMEDIATE ACTION** |
-| 📅 This Week (4-7 days) | 2 | Start sourcing quotes |
-| 📆 Next Week (8-14 days) | 0 | Review & analyze |
-| 📋 Later (15-30 days) | 0 | Monitor |
-
----
-
-## 📅 THIS WEEK - 4-7 DAYS (2)
-
-| Bid | Deadline | Days | Status | 📄 | 📊 | 💰 | ✅ |
-|-----|----------|------|--------|---|---|---|---|
-| CPS ENERGY PADLOCKS | Fri, Feb 13 | 4d | ⏳ SOURCING QUOTES | ✅ | ✅ | ❌ | ⏳ |
-| OAKLAND COUNTY EXAM STOOLS | Mon, Feb 16 | 7d | ❓ NO SOLICITATION | ❌ | ✅ | ❌ | ⏳ |
+| Contact | Agency | Service | Date Sent | Status |
+|---|---|---|---|---|
+| Tracy Riley | ICE DHS — Courier | Courier & Logistics | Mar 19 | SENT — awaiting response |
+| David Walther | ICE DHS — Investigations | Fingerprinting, DNA, E-Verify | Mar 19 | SENT (reply) — awaiting response |
+| Nien-Tzu Grace Wang | HHS OMAS | LN2 Sole Source Challenge | Mar 18 | REPLIED — acknowledged receipt |
+| Matheson Gas (liquid div) | Supplier | LN2 Quote — Rockville MD | Mar 18 | Routing to rep — waiting for contact |
+| Steve Gibson | Choice Partners / HCDE | Drug Testing cooperative | Mar 18 | REPLIED — connected us to Lisa |
+| Lisa TerMorshuizen | Choice Partners / HCDE | Drug Testing cooperative | Mar 18 | **CONFIRMED — Mon Mar 24 @ 2:00 PM CT / 3:00 PM ET via Teams** |
 
 ---
 
-## 🎯 NEXT ACTIONS
+## PIPELINE — RELATIONSHIP BUILDING (No Active Solicitation)
 
-### 🔥 URGENT: Need Quotes (2)
-
-1. **CPS ENERGY PADLOCKS** - 4 days left!
-   - [ ] Find suppliers/subcontractors
-   - [ ] Request quotes
-   - [ ] Follow up
-
-1. **OAKLAND COUNTY EXAM STOOLS** - 7 days left!
-   - [ ] Find suppliers/subcontractors
-   - [ ] Request quotes
-   - [ ] Follow up
+| Agency | Service Lane | Contact(s) | Notes |
+|---|---|---|---|
+| Choice Partners (HCDE) | Drug & Alcohol Testing | Steve Gibson, Lisa TerMorshuizen (713-696-1345) | Rebid ~Q2 2027. **CALL CONFIRMED Mon Mar 24 @ 2PM CT.** Ionwave registered. Quest pricing pending. |
+| ICE DHS | Courier Services | Tracy Riley | New contact — handles courier procurements |
+| ICE DHS | Fingerprinting / DNA / E-Verify | David Walther | Investigations & Ops Support Division |
+| HHS OMAS | LN2 / Cryogenic Delivery | Nien-Tzu Grace Wang | Sole source challenge — 75N98026Q00114 |
+| VA (multiple NCOs) | Pharmacy & Medical Courier | Multiple COs | 10+ COs emailed across NCOs |
+| DHA — JBSA San Antonio | Medical Courier BPA | Joe Wells, James Johnson | Total SB set-aside — HT940825Q0550 |
 
 ---
 
-*Run `python3 build_bid_tracker_dashboard.py` to refresh this dashboard.*
+## PREP CALENDAR
+
+| Date | Task |
+|---|---|
+| **Mar 19-23** | Prep for Choice Partners call (service overview, pricing, athletics testing) |
+| **Mar 19-23** | Pull & review VA shredding solicitation (36C10D26Q0034) |
+| **Mar 19-23** | Register in prime contractor supplier portals (General Dynamics, Lockheed, Boeing) |
+| **Mar 24** | Choice Partners call with Lisa TerMorshuizen — **2:00 PM CT / 3:00 PM ET Teams** |
+| **Mar 24-30** | Build VA shredding bid if GO decision |
+| **Mar 24-30** | Download Camp Kilpatrick solicitation docs (once portal access restored) |
+| **Mar 31** | VA Document Shredding bid DUE |
+| **Apr 7** | LA County Camp Kilpatrick Courier Services bid DUE (12:00 PM PT) |
+| **Q2 2027** | Choice Partners Drug & Alcohol Testing rebid (long-term) |
+
+---
+
+## CAP STATEMENTS BUILT
+
+| Cap Statement | Sector Colors | Target | Location |
+|---|---|---|---|
+| Drug & Alcohol Testing | Medical Blue + Red | Choice Partners / HCDE | CHOICE PARTNERS DRUG TESTING/SEND_TO_BUYER/ |
+| Identity Verification & Biometrics | Navy + Gold | ICE DHS (David Walther) | ICE DHS IDENTITY SERVICES/SEND_TO_BUYER/ |
+| Courier & Logistics | Purple + Teal | ICE DHS (Tracy Riley) | ICE DHS IDENTITY SERVICES/SEND_TO_BUYER/ |
+
+---
+
+*Updated: March 19, 2026*

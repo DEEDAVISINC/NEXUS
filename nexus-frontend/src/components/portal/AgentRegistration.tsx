@@ -281,7 +281,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
                 {/* Notary (conditional) */}
                 {(selectedSpecialties.includes('signing') || selectedSpecialties.includes('ron')) && (
                   <div className="rounded-xl p-5 mb-4" style={{ background: 'rgba(15, 26, 46, 0.5)', border: '1px solid rgba(45, 212, 191, 0.15)' }}>
-                    <h3 className="font-semibold text-sm mb-3" style={{ color: '#F59E0B' }}>🟠 Notary Credentials</h3>
+                    <h3 className="font-semibold text-sm mb-3" style={{ color: '#EC4899' }}>🩷 Notary Credentials</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-xs mb-1" style={{ color: '#94A3B8' }}>Commissioning State</label>

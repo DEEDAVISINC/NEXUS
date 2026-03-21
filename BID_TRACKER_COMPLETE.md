@@ -1,107 +1,91 @@
-# 📊 COMPLETE BID TRACKER - ALL STATUS AT A GLANCE
-**Updated:** Sunday, February 08, 2026 at 05:28 PM
-**Active Bids (Next 30 Days):** 17
+# COMPLETE BID & PIPELINE TRACKER
+**Updated:** Wednesday, March 19, 2026
 
 ---
 
-## 📋 STATUS LEGEND
+## HARD DEADLINES — ACTION REQUIRED
 
-| Symbol | Meaning |
-|--------|----------|
-| ✅ SUBMITTED | Bid already submitted |
-| 🎯 READY | Have quotes, ready to submit |
-| 📝 HAS QUOTES | Quotes received, need review |
-| ⏳ SOURCING | Looking for suppliers/quotes |
-| 🔥 URGENT! | Deadline ≤2 days, NO quotes! |
-| 📥 NEW | Just added, needs analysis |
-| ❓ UNKNOWN | Status unclear |
-
-**File Status:**
-- 📄 = Solicitation PDF | 📊 = Analysis Doc | 💰 = Supplier Quotes | ✅ = Submitted
+| # | Opportunity | Agency | Solicitation | Due Date | Days Left | Status | Action |
+|---|---|---|---|---|---|---|---|
+| 1 | **Call — Lisa TerMorshuizen** | Choice Partners / HCDE | Cooperative | **Mar 24** | **5** | **CONFIRMED** | Mon 2:00 PM CT / 3:00 PM ET. Teams. Quest pricing pending. |
+| 2 | **Document Shredding** | VA Benefits Admin (VBAVACO) | 36C10D26Q0034 | **Mar 31** | **12** | NEED SOL | Pull from SAM.gov, review, go/no-go |
 
 ---
 
-## 📈 QUICK STATS
+## CO OUTREACH — WAITING FOR REPLIES (Follow Up if No Response by Date)
 
-| Timeframe | Count | Action |
-|-----------|-------|--------|
-| 🔥 URGENT (≤3 days) | **5** | **DROP EVERYTHING** |
-| 📅 This Week (4-7 days) | 4 | Get quotes ASAP |
-| 📆 Next Week (8-14 days) | 6 | Start prep |
-| 📋 Later (15-30 days) | 2 | Monitor |
-
----
-
-## 🔥 URGENT - NEXT 3 DAYS (5)
-
-| # | Bid Name | Due | Days | Status | 📄 | 📊 | 💰 | ✅ | Action |
-|---|----------|-----|------|--------|---|---|---|---|--------|
-| 1 | **CPS ENERGY** | Wed, Feb 11 | 🔴**2** | ✅ SUBMITTED | ✅ | ✅ | ❌ | ✅ | Done! |
-| 2 | **HENRY FORD BATTERY CABINETS** | Wed, Feb 11 | 🔴**2** | ❓ UNKNOWN | ❌ | ❌ | ❌ | ❌ | **GET QUOTES NOW** |
-| 3 | **OAKLAND COUNTY FLOW METERS** | Thu, Feb 12 | 🔴**3** | ❓ UNKNOWN | ❌ | ❌ | ❌ | ❌ | **GET QUOTES NOW** |
-| 4 | **OAKLAND COUNTY TREATED SALT** | Thu, Feb 12 | 🔴**3** | ❓ UNKNOWN | ❌ | ❌ | ❌ | ❌ | **GET QUOTES NOW** |
-| 5 | **PORT HURON CHEMICALS** | Thu, Feb 12 | 🔴**3** | ❓ UNKNOWN | ❌ | ❌ | ❌ | ❌ | **GET QUOTES NOW** |
-
-## 📅 THIS WEEK - 4-7 DAYS (4)
-
-| # | Bid Name | Due | Days | Status | 📄 | 📊 | 💰 | Action |
-|---|----------|-----|------|--------|---|---|---|--------|
-| 1 | CPS ENERGY PADLOCKS | Fri, Feb 13 | 4d | ⏳ SOURCING | ✅ | ✅ | ❌ | Get quotes |
-| 2 | AUBURN HILLS PRESSURE WASHING | Fri, Feb 13 | 4d | ⏳ SOURCING | ✅ | ✅ | ❌ | Get quotes |
-| 3 | SHELBY TOWNSHIP POWER CABLES | Fri, Feb 13 | 4d | ✅ SUBMITTED | ✅ | ✅ | ❌ | ✅ Done |
-| 4 | OAKLAND COUNTY EXAM STOOLS | Mon, Feb 16 | 7d | ⏳ SOURCING | ❌ | ✅ | ❌ | Get quotes |
-
-## 📆 NEXT WEEK - 8-14 DAYS (6)
-
-⏳ **OAKLAND COUNTY TRUCK EQUIPMENT** - Tue, Feb 17 (8d) - ❓ UNKNOWN
-✅ **RCOC 7790 SIGNS** - Tue, Feb 17 (8d) - ✅ SUBMITTED
-✅ **RCOC 7842 SAFETY SUPPLIES** - Tue, Feb 17 (8d) - ✅ SUBMITTED
-✅ **GENESEE WOOD POLES** - Wed, Feb 18 (9d) - ✅ SUBMITTED
-✅ **HCMA CHLORINE** - Wed, Feb 18 (9d) - ✅ SUBMITTED
-⏳ **LIVONIA MATERIALS** - Mon, Feb 23 (14d) - ⏳ SOURCING
-
-## 📋 LATER - 15-30 DAYS (2)
-
-⏳ HCMA UTILITY VEHICLES - Wed, Feb 25
-⏳ ALASKA STEEL CONTAINERS - Mon, Mar 02
+| Contact | Agency | Service | Sent | Follow Up By |
+|---|---|---|---|---|
+| Tracy Riley | ICE DHS | Courier Services | Mar 19 | Mar 26 |
+| David Walther | ICE DHS | Fingerprinting / DNA / E-Verify | Mar 19 | Mar 26 |
+| Stephen Fisher | VA NCO 10 Ann Arbor MI | NEMT — Michigan | Mar 18 | Mar 25 |
+| Darren Morris | VA VISN 5 (NCO 5) | Courier — MD/DC/VA/WV | Mar 18 | Mar 25 |
+| Tevia Mastykarz | VA NCO 2 | NY Harbor Courier ($6.5M) | Mar 18 | Mar 25 |
+| Mariangie Rivera | VA NCO 2 | Bronx VA Transplant Courier | Mar 18 | Mar 25 |
+| Kurt Kramer | VA NCO 8 Orlando | Courier — Orlando VAHCS | Mar 18 | Mar 25 |
+| Jacob Tackett | VA NCO 7 Tuscaloosa | Lab Courier — AL | Mar 18 | Mar 25 |
+| Elizabeth (Lisa) Trimm | VA NCO 9 Lexington | Lab Courier — KY | Mar 18 | Mar 25 |
+| Dawn Collins | VA NCO 9 Lexington KY | Pharmacy Medication Courier | Mar 18 | Mar 25 |
+| Christine Jarvis | VA NCO 19 Sheridan WY | VAMC & CBOC Courier | Mar 18 | Mar 25 |
+| Savannah Weberg | VA NCO 23 Fargo ND | Courier Services | Mar 18 | Mar 25 |
+| Joseph Osborn | VA NCO 7 Central Alabama | Lab Courier — CAVHCS | Mar 18 | Mar 25 |
+| Robyn Nussbaum | VA North Texas HCS | Pharmacy Courier Services | Mar 18 | Mar 25 |
+| Naana Owusu-Ansah | VA Huntington WV | Pharmacy & General Supplies Courier | Mar 18 | Mar 25 |
+| Tracy Dotson | VA Clarksburg WV | Pharmacy & Biohazard Courier | Mar 18 | Mar 25 |
+| Khalil Al-Amin | VA NCO 7 Augusta GA / Columbia SC | Lab & Medical Courier | Mar 18 | Mar 25 |
+| Joe Wells / James Johnson | DHA — JBSA San Antonio | Medical Courier BPA (Total SB) | Mar 18 | Mar 25 |
+| James Postell | VA NCO 21 | NorCal Sterile Processing Courier | Mar 17 | Mar 24 |
+| Brittney Miller | SEC Office of Acquisitions | Process Server Services | Mar 18 | Mar 25 |
+| Kerri Bielski | Michigan Veteran Homes | Lab Testing Services | Mar 17 | Mar 24 |
+| NIAID Office of Acquisitions | NIH NIAID | Medical Courier Services | Mar 18 | Mar 25 |
+| Daniel Zielinski | VA NCO 2 — Buffalo | Lab Courier Services | Before Mar 10 | Overdue |
 
 ---
 
-## 🎯 IMMEDIATE PRIORITIES
+## POSITIVE REPLIES — ACTIVE CONVERSATIONS
 
-### 🚨 GET QUOTES NOW (4 bids)
-
-**HENRY FORD BATTERY CABINETS** - 2 days left!
-- [ ] Find suppliers/subs
-- [ ] Request quotes
-- [ ] Folder: `BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/`
-
-**OAKLAND COUNTY FLOW METERS** - 3 days left!
-- [ ] Find suppliers/subs
-- [ ] Request quotes
-- [ ] Folder: `BIDS:RESOURCES/OAKLAND COUNTY FLOW METERS/`
-
-**OAKLAND COUNTY TREATED SALT** - 3 days left!
-- [ ] Find suppliers/subs
-- [ ] Request quotes
-- [ ] Folder: `BIDS:RESOURCES/OAKLAND COUNTY TREATED SALT/`
-
-**PORT HURON CHEMICALS** - 3 days left!
-- [ ] Find suppliers/subs
-- [ ] Request quotes
-- [ ] Folder: `BIDS:RESOURCES/PORT HURON CHEMICALS/`
+| Contact | Agency | What Happened | Next Step |
+|---|---|---|---|
+| Steve Gibson | Choice Partners / HCDE | Connected us to Lisa TerMorshuizen | Call Mar 24 |
+| Lisa TerMorshuizen | Choice Partners / HCDE | **CONFIRMED Mon Mar 24 @ 2PM CT / 3PM ET Teams** | Ph: 713-696-1345. CPPB, CTCD certified. |
+| David Walther | ICE DHS | Referred us to Tracy Riley for courier | Expanded pitch to fingerprinting/DNA/E-Verify |
+| Tiffany Garfield | VA VBAVACO | Shredding solicitation live on SAM.gov | Pull sol, bid by Mar 31 |
+| Nien-Tzu Grace Wang | HHS OMAS | Acknowledged sole source challenge | Wait for outcome |
+| Robbie Hogue | Matheson Gas | Routing to liquid division rep | Wait for rep contact |
 
 ---
 
-## 💡 HOW TO UPDATE
+## SUPPLIER OUTREACH
 
-```bash
-# Refresh this dashboard
-python3 build_complete_tracker.py
-```
-
-**To add more bids:** Edit `KNOWN_DEADLINES` dict in `build_complete_tracker.py`
+| Contact | Company | Product | Status |
+|---|---|---|---|
+| Chris Copeland | NexAir | LN2 — Rockville MD | SENT |
+| Orders Dept | Airgas Hyattsville MD | LN2 — Rockville MD | SENT |
+| Robbie Hogue | Matheson Gas | LN2 — Rockville MD | REPLIED — routing to liquid rep |
 
 ---
 
-*This is YOUR mission control. Review daily!*
+## LONG-TERM PIPELINE
+
+| Opportunity | Agency | Timeline | Notes |
+|---|---|---|---|
+| Drug & Alcohol Testing Rebid | Choice Partners / HCDE | ~Q2 2027 | Pre-positioned. Ionwave registered. Steve + Lisa engaged. |
+| NEMT — Michigan | VA NCO 10 Ann Arbor | TBD | Stephen Fisher emailed |
+| Subcontracting Pipeline | Various primes | Ongoing | mine_prime_contractors.py integrated into scheduler |
+
+---
+
+## CALENDAR — ALL KEY DATES
+
+| Date | Event | Type |
+|---|---|---|
+| **Mar 24 (Tue)** | Call with Lisa TerMorshuizen — Choice Partners — **2:00 PM CT / 3:00 PM ET Teams** | CONFIRMED |
+| **Mar 24** | Follow up: James Postell, Kerri Bielski | FOLLOW-UP |
+| **Mar 25** | Follow up: All VA COs, DHA COs, Brittney Miller, NIAID | FOLLOW-UP |
+| **Mar 26** | Follow up: Tracy Riley, David Walther | FOLLOW-UP |
+| **Mar 31** | VA Document Shredding bid DUE (36C10D26Q0034) | DEADLINE |
+| **Q2 2027** | Choice Partners Drug & Alcohol Testing rebid | LONG-TERM |
+
+---
+
+*Updated: March 19, 2026*

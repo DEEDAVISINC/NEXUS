@@ -1,5 +1,27 @@
 [
   {
+    "id": "notif-99cb8fcc",
+    "type": "new_order",
+    "severity": "medium",
+    "title": "New Fingerprinting & Background Request",
+    "message": "Wayne County HR \u2014 Marcus Johnson \u2014 Same Day",
+    "order_id": "PRISM-20260321-1356-FA52",
+    "timestamp": "2026-03-21T17:56:59.641439",
+    "read": false,
+    "recipient": "admin"
+  },
+  {
+    "id": "notif-150c184c",
+    "type": "new_order",
+    "severity": "high",
+    "title": "New Drug & Alcohol Testing Request",
+    "message": "Acme Manufacturing \u2014 Jane Doe \u2014 STAT",
+    "order_id": "PRISM-20260321-1353-TEST",
+    "timestamp": "2026-03-21T17:52:59.214387",
+    "read": false,
+    "recipient": "admin"
+  },
+  {
     "id": "NOTIF-20260226111632-1",
     "type": "tracking_extracted",
     "icon": "\ud83d\udce6",

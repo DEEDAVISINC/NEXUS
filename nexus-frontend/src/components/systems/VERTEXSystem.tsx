@@ -45,6 +45,22 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
   const [profitLossData, setProfitLossData] = useState<any>(null);
   const [financialHealthScore, setFinancialHealthScore] = useState<any>(null);
 
+  // Financing state
+  const [financingReferrals, setFinancingReferrals] = useState<any[]>([]);
+  const [referralSummary, setReferralSummary] = useState<any>(null);
+  const [showReferralModal, setShowReferralModal] = useState(false);
+  const [factoringCalc, setFactoringCalc] = useState({ invoiceAmount: 100000 });
+  const [poCalc, setPoCalc] = useState({ poAmount: 50000 });
+  const [referralFormData, setReferralFormData] = useState({
+    client_name: '',
+    client_contact: '',
+    product_type: 'AR Financing',
+    estimated_deal_size: 0,
+    commission_rate: 1.0,
+    commission_estimated: 0,
+    notes: ''
+  });
+
   // Notification state
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
@@ -64,6 +80,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
     else if (activeTab === 'expenses') fetchExpenses();
     else if (activeTab === 'revenue') fetchRevenue();
     else if (activeTab === 'reports') fetchReports();
+    else if (activeTab === 'financing') fetchFinancingReferrals();
   }, [activeTab, invoiceFilters]);
 
   const fetchDashboardData = async () => {
@@ -131,6 +148,67 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
     } catch (error) {
       console.error('Error fetching reports:', error);
     }
+  };
+
+  const fetchFinancingReferrals = async () => {
+    try {
+      const response = await api.getFinancingReferrals();
+      setFinancingReferrals(response.referrals || []);
+      setReferralSummary(response.summary || null);
+    } catch (error) {
+      console.error('Error fetching financing referrals:', error);
+      setFinancingReferrals([]);
+    }
+  };
+
+  const createReferral = async () => {
+    try {
+      const data = {
+        ...referralFormData,
+        commission_estimated: (referralFormData.estimated_deal_size * referralFormData.commission_rate) / 100
+      };
+      await api.createFinancingReferral(data);
+      showNotification('✅ Referral logged successfully!');
+      setShowReferralModal(false);
+      setReferralFormData({
+        client_name: '', client_contact: '', product_type: 'AR Financing',
+        estimated_deal_size: 0, commission_rate: 1.0, commission_estimated: 0, notes: ''
+      });
+      fetchFinancingReferrals();
+    } catch (error) {
+      showNotification('❌ Error logging referral', 'error');
+    }
+  };
+
+  const updateReferralStatus = async (referralId: string, status: string, commissionEarned?: number) => {
+    try {
+      const update: any = { status };
+      if (commissionEarned !== undefined) update.commission_earned = commissionEarned;
+      await api.updateFinancingReferral(referralId, update);
+      showNotification('✅ Referral updated!');
+      fetchFinancingReferrals();
+    } catch (error) {
+      showNotification('❌ Error updating referral', 'error');
+    }
+  };
+
+  const deleteReferral = async (referralId: string) => {
+    try {
+      await api.deleteFinancingReferral(referralId);
+      showNotification('✅ Referral deleted');
+      fetchFinancingReferrals();
+    } catch (error) {
+      showNotification('❌ Error deleting referral', 'error');
+    }
+  };
+
+  // Factoring math
+  const calcFactoring = (invoiceAmount: number, advanceRate: number, feeRate: number) => {
+    const advance = invoiceAmount * (advanceRate / 100);
+    const fee = invoiceAmount * (feeRate / 100);
+    const reserve = invoiceAmount - advance;
+    const netReceived = invoiceAmount - fee;
+    return { advance, fee, reserve, netReceived };
   };
 
   const createExpense = async () => {
@@ -727,6 +805,388 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
     </div>
   );
 
+  // ========== FINANCING TAB ==========
+  const renderFinancing = () => {
+    const inv = factoringCalc.invoiceAmount;
+    const southstar = calcFactoring(inv, 85, 3.5);
+    const bankers = calcFactoring(inv, 90, 4.0);
+    const po = poCalc.poAmount;
+    const poAdvance = po * 1.0;
+    const poFee = po * 0.04;
+    const poNet = po - poFee;
+
+    const statusColors: Record<string, string> = {
+      'Submitted': 'bg-blue-500/20 text-blue-400',
+      'Approved': 'bg-yellow-500/20 text-yellow-400',
+      'Funded': 'bg-purple-500/20 text-purple-400',
+      'Commission Paid': 'bg-green-500/20 text-green-400',
+      'Declined': 'bg-red-500/20 text-red-400'
+    };
+
+    return (
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h2 className="text-2xl font-bold text-white">💰 Financing Center</h2>
+            <p className="text-gray-400 mt-1">SouthStar Capital & Bankers Factoring — Invoice Factoring, PO Financing, Broker Commissions</p>
+          </div>
+          <button
+            onClick={() => setShowReferralModal(true)}
+            className="px-4 py-2 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all"
+          >
+            + Log Referral
+          </button>
+        </div>
+
+        {/* Partner Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-blue-500/30">
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="text-lg font-bold text-white">SouthStar Capital</h3>
+                <p className="text-sm text-gray-400">AR Financing · PO Financing · Gov Contract · DIP</p>
+              </div>
+              <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Active Partner</span>
+            </div>
+            <div className="space-y-1 text-sm text-gray-300">
+              <div>Jon Shane — VP Broker Relations</div>
+              <div>678-257-2676 | brokers@southstar.com</div>
+              <div>Advance: up to 90% · Close: 2-5 days · No personal guarantee</div>
+              <div className="text-yellow-400 mt-2">★ Government contract financing specialist</div>
+            </div>
+          </div>
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-purple-500/30">
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="text-lg font-bold text-white">Bankers Factoring</h3>
+                <p className="text-sm text-gray-400">Non-Recourse Factoring · PO Financing</p>
+              </div>
+              <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Active Partner</span>
+            </div>
+            <div className="space-y-1 text-sm text-gray-300">
+              <div>Chris Curtin — President</div>
+              <div>866-598-4295 | chris@bankersfactoring.com</div>
+              <div>Advance: up to 90% · Same-day funding · Non-recourse</div>
+              <div className="text-yellow-400 mt-2">★ Non-recourse — DDI protected if client defaults</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Factoring Calculator */}
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-purple-500/20">
+          <h3 className="text-xl font-bold text-white mb-4">📊 Invoice Factoring Calculator</h3>
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-300 mb-2">Invoice Amount</label>
+            <input
+              type="number"
+              value={factoringCalc.invoiceAmount}
+              onChange={(e) => setFactoringCalc({ invoiceAmount: parseFloat(e.target.value) || 0 })}
+              className="bg-gray-700 rounded-lg px-4 py-2 text-white w-64"
+              placeholder="100000"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* SouthStar */}
+            <div className="bg-blue-900/20 rounded-xl p-5 border border-blue-500/30">
+              <div className="text-blue-400 font-bold text-lg mb-4">SouthStar Capital</div>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Invoice Amount</span>
+                  <span className="text-white font-mono">{formatCurrency(inv)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Advance Rate</span>
+                  <span className="text-white">85%</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Fee Rate</span>
+                  <span className="text-white">~3.5%</span>
+                </div>
+                <div className="border-t border-gray-700 pt-3 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-green-400">You receive today</span>
+                    <span className="text-green-400 font-bold font-mono">{formatCurrency(southstar.advance)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Reserve (when client pays)</span>
+                    <span className="text-gray-300 font-mono">{formatCurrency(southstar.reserve)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-red-400">Factoring fee</span>
+                    <span className="text-red-400 font-mono">-{formatCurrency(southstar.fee)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold border-t border-gray-700 pt-2">
+                    <span className="text-white">Net to DDI</span>
+                    <span className="text-white font-mono">{formatCurrency(southstar.netReceived)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Bankers */}
+            <div className="bg-purple-900/20 rounded-xl p-5 border border-purple-500/30">
+              <div className="text-purple-400 font-bold text-lg mb-4">Bankers Factoring</div>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Invoice Amount</span>
+                  <span className="text-white font-mono">{formatCurrency(inv)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Advance Rate</span>
+                  <span className="text-white">90%</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Fee Rate</span>
+                  <span className="text-white">~4.0%</span>
+                </div>
+                <div className="border-t border-gray-700 pt-3 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-green-400">You receive today</span>
+                    <span className="text-green-400 font-bold font-mono">{formatCurrency(bankers.advance)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-400">Reserve (when client pays)</span>
+                    <span className="text-gray-300 font-mono">{formatCurrency(bankers.reserve)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-red-400">Factoring fee</span>
+                    <span className="text-red-400 font-mono">-{formatCurrency(bankers.fee)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold border-t border-gray-700 pt-2">
+                    <span className="text-white">Net to DDI</span>
+                    <span className="text-white font-mono">{formatCurrency(bankers.netReceived)}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-purple-300">★ Non-recourse — DDI protected if government doesn't pay</div>
+            </div>
+          </div>
+          <div className="mt-4 bg-gray-700/30 rounded-lg p-4 text-sm text-gray-400">
+            <strong className="text-white">Verdict:</strong> Higher advance → Bankers (+{formatCurrency(bankers.advance - southstar.advance)} more upfront). Lower cost → SouthStar ({formatCurrency(southstar.fee)} vs {formatCurrency(bankers.fee)} fee). For government contracts, SouthStar's specialization may be worth the lower advance.
+          </div>
+        </div>
+
+        {/* PO Financing Calculator */}
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-yellow-500/20">
+          <h3 className="text-xl font-bold text-white mb-4">📦 PO Financing Calculator (SouthStar)</h3>
+          <p className="text-sm text-gray-400 mb-4">Win a supply contract? SouthStar funds the manufacturer directly — you never need to front product costs.</p>
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-300 mb-2">Purchase Order Amount</label>
+            <input
+              type="number"
+              value={poCalc.poAmount}
+              onChange={(e) => setPoCalc({ poAmount: parseFloat(e.target.value) || 0 })}
+              className="bg-gray-700 rounded-lg px-4 py-2 text-white w-64"
+              placeholder="50000"
+            />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-gray-700/50 rounded-lg p-4 text-center">
+              <div className="text-sm text-gray-400 mb-1">SouthStar Funds</div>
+              <div className="text-xl font-bold text-green-400">{formatCurrency(poAdvance)}</div>
+              <div className="text-xs text-gray-500">100% to manufacturer</div>
+            </div>
+            <div className="bg-gray-700/50 rounded-lg p-4 text-center">
+              <div className="text-sm text-gray-400 mb-1">DDI Out of Pocket</div>
+              <div className="text-xl font-bold text-white">{formatCurrency(0)}</div>
+              <div className="text-xs text-gray-500">Zero upfront</div>
+            </div>
+            <div className="bg-gray-700/50 rounded-lg p-4 text-center">
+              <div className="text-sm text-gray-400 mb-1">Est. Fee (~4%)</div>
+              <div className="text-xl font-bold text-red-400">-{formatCurrency(poFee)}</div>
+              <div className="text-xs text-gray-500">Cost of capital</div>
+            </div>
+            <div className="bg-gray-700/50 rounded-lg p-4 text-center">
+              <div className="text-sm text-gray-400 mb-1">Net to DDI</div>
+              <div className="text-xl font-bold text-purple-400">{formatCurrency(poNet)}</div>
+              <div className="text-xs text-gray-500">After fees</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Commission Summary */}
+        {referralSummary && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-5 border border-green-500/20">
+              <div className="text-sm text-gray-400 mb-1">Total Referrals</div>
+              <div className="text-3xl font-bold text-white">{referralSummary.total_referrals}</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-5 border border-yellow-500/20">
+              <div className="text-sm text-gray-400 mb-1">Active</div>
+              <div className="text-3xl font-bold text-yellow-400">{referralSummary.active_referrals}</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-5 border border-blue-500/20">
+              <div className="text-sm text-gray-400 mb-1">Commission Pending</div>
+              <div className="text-3xl font-bold text-blue-400">{formatCurrency(referralSummary.commission_pending)}</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-5 border border-green-500/20">
+              <div className="text-sm text-gray-400 mb-1">Commission Earned</div>
+              <div className="text-3xl font-bold text-green-400">{formatCurrency(referralSummary.commission_earned)}</div>
+            </div>
+          </div>
+        )}
+
+        {/* Broker Commission Tracker */}
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
+            <h3 className="text-lg font-bold text-white">🤝 Broker Referral Tracker</h3>
+            <button
+              onClick={() => setShowReferralModal(true)}
+              className="px-3 py-1 bg-green-600 rounded-lg text-sm hover:bg-green-500 transition-all"
+            >
+              + Log Referral
+            </button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-700">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Date</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Client</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Product</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Deal Size</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Est. Commission</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Status</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-700">
+                {financingReferrals.map((referral) => (
+                  <tr key={referral.id} className="hover:bg-gray-700/50">
+                    <td className="px-4 py-3 text-sm text-gray-300">{referral.referral_date}</td>
+                    <td className="px-4 py-3 text-sm text-white font-medium">{referral.client_name}</td>
+                    <td className="px-4 py-3 text-sm text-gray-300">{referral.product_type}</td>
+                    <td className="px-4 py-3 text-sm text-white">{formatCurrency(referral.estimated_deal_size)}</td>
+                    <td className="px-4 py-3 text-sm text-green-400">{formatCurrency(referral.commission_estimated)}</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[referral.status] || 'bg-gray-500/20 text-gray-400'}`}>
+                        {referral.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <select
+                        className="bg-gray-700 rounded px-2 py-1 text-xs text-white"
+                        value={referral.status}
+                        onChange={(e) => updateReferralStatus(referral.id, e.target.value)}
+                      >
+                        <option value="Submitted">Submitted</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Funded">Funded</option>
+                        <option value="Commission Paid">Commission Paid</option>
+                        <option value="Declined">Declined</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {financingReferrals.length === 0 && (
+              <div className="text-center py-12 text-gray-400">
+                No referrals logged yet. Log your first SouthStar referral to start tracking commissions.
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ========== REFERRAL MODAL ==========
+  const renderReferralModal = () => {
+    if (!showReferralModal) return null;
+    const estimatedCommission = (referralFormData.estimated_deal_size * referralFormData.commission_rate) / 100;
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-gray-800 rounded-xl max-w-lg w-full border border-gray-700">
+          <div className="p-6 border-b border-gray-700">
+            <h3 className="text-xl font-bold text-white">Log SouthStar Broker Referral</h3>
+            <p className="text-sm text-gray-400 mt-1">Jon Shane — 678-257-2676 | brokers@southstar.com</p>
+          </div>
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Client Name</label>
+                <input
+                  type="text"
+                  value={referralFormData.client_name}
+                  onChange={(e) => setReferralFormData({...referralFormData, client_name: e.target.value})}
+                  className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+                  placeholder="Business name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Contact Name</label>
+                <input
+                  type="text"
+                  value={referralFormData.client_contact}
+                  onChange={(e) => setReferralFormData({...referralFormData, client_contact: e.target.value})}
+                  className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+                  placeholder="Contact name"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Product Type</label>
+              <select
+                value={referralFormData.product_type}
+                onChange={(e) => setReferralFormData({...referralFormData, product_type: e.target.value})}
+                className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+              >
+                <option value="AR Financing">AR Financing (Invoice Factoring)</option>
+                <option value="PO Financing">PO Financing</option>
+                <option value="Government Contract Financing">Government Contract Financing</option>
+                <option value="DIP Financing">DIP Financing (Chapter 11)</option>
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Est. Deal Size ($)</label>
+                <input
+                  type="number"
+                  value={referralFormData.estimated_deal_size}
+                  onChange={(e) => setReferralFormData({...referralFormData, estimated_deal_size: parseFloat(e.target.value) || 0})}
+                  className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Commission Rate (%)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={referralFormData.commission_rate}
+                  onChange={(e) => setReferralFormData({...referralFormData, commission_rate: parseFloat(e.target.value) || 0})}
+                  className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+                  placeholder="1.0"
+                />
+              </div>
+            </div>
+            <div className="bg-green-900/20 rounded-lg p-3 border border-green-500/30">
+              <div className="text-sm text-gray-400">Estimated Commission</div>
+              <div className="text-2xl font-bold text-green-400">{formatCurrency(estimatedCommission)}</div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Notes</label>
+              <textarea
+                value={referralFormData.notes}
+                onChange={(e) => setReferralFormData({...referralFormData, notes: e.target.value})}
+                className="w-full bg-gray-700 rounded-lg px-3 py-2 text-white"
+                rows={2}
+                placeholder="Context, how you met them, their situation..."
+              />
+            </div>
+          </div>
+          <div className="p-6 border-t border-gray-700 flex justify-end gap-3">
+            <button onClick={() => setShowReferralModal(false)} className="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600">Cancel</button>
+            <button onClick={createReferral} className="px-4 py-2 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg hover:from-green-500 hover:to-teal-500">
+              Log Referral
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // ========== EXPENSE MODAL ==========
   const renderExpenseModal = () => {
     if (!showExpenseModal) return null;
@@ -874,7 +1334,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
       {/* Navigation Tabs */}
       <div className="mb-8 flex gap-4 overflow-x-auto">
-        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl'].map((tab) => (
+        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -890,6 +1350,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             {tab === 'revenue' && '💵 Revenue'}
             {tab === 'reports' && '📊 Reports'}
             {tab === 'pnl' && '📈 P&L Tracker'}
+            {tab === 'financing' && '💰 Financing'}
           </button>
         ))}
         <button
@@ -916,10 +1377,12 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             <PnLStatement />
           </div>
         )}
+        {activeTab === 'financing' && renderFinancing()}
       </div>
 
       {/* Modals */}
       {renderExpenseModal()}
+      {renderReferralModal()}
     </div>
   );
 };

@@ -9,19 +9,254 @@ interface PRISMSystemProps {
 }
 
 // ─── SERVICE TYPE COLORS ───────────────────────────────────────────
-const SERVICE_COLORS: Record<string, { color: string; bg: string; label: string; icon: string; border: string }> = {
-  'notary':          { color: '#F97316', bg: '#FFF7ED', label: 'Notary',              icon: '🟠', border: '#FB923C' },
-  'ron':             { color: '#6366F1', bg: '#EEF2FF', label: 'Notary (RON)',        icon: '🟣', border: '#818CF8' },
-  'dot':             { color: '#EF4444', bg: '#FEF2F2', label: 'Drug Test (DOT)',     icon: '🔴', border: '#F87171' },
-  'non-dot':         { color: '#F43F5E', bg: '#FFF1F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#FB7185' },
-  'dna':             { color: '#A855F7', bg: '#FAF5FF', label: 'DNA Collection',      icon: '🟣', border: '#C084FC' },
-  'fingerprint':     { color: '#22C55E', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#4ADE80' },
-  'phlebotomy':      { color: '#DC2626', bg: '#FEF2F2', label: 'Phlebotomy',          icon: '🔴', border: '#EF4444' },
-  'medical_courier': { color: '#0EA5E9', bg: '#F0F9FF', label: 'Medical Courier',     icon: '🔵', border: '#38BDF8' },
-  'courier':         { color: '#3B82F6', bg: '#EFF6FF', label: 'Courier/Runner',      icon: '🔵', border: '#60A5FA' },
-  'background':      { color: '#64748B', bg: '#F8FAFC', label: 'Background Check',    icon: '⚫', border: '#94A3B8' },
-  'apostille':       { color: '#EAB308', bg: '#FEFCE8', label: 'Apostille',           icon: '🟡', border: '#FACC15' },
-  'process':         { color: '#14B8A6', bg: '#F0FDFA', label: 'Process Serving',     icon: '🟢', border: '#2DD4BF' },
+// `color` = accent for tints/borders/text on dark bg
+// `solid` = darker shade used as badge/pill background with white text
+const SERVICE_COLORS: Record<string, { color: string; solid: string; bg: string; label: string; icon: string; border: string }> = {
+  'dot':             { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', label: 'Drug Test (DOT)',     icon: '🔴', border: '#F87171' },
+  'non-dot':         { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#F87171' },
+  'dna':             { color: '#A855F7', solid: '#7C3AED', bg: '#FAF5FF', label: 'DNA Collection',      icon: '🟣', border: '#C084FC' },
+  'fingerprint':     { color: '#4ADE80', solid: '#16A34A', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#86EFAC' },
+  'background':      { color: '#4ADE80', solid: '#16A34A', bg: '#F0FDF4', label: 'Background Check',    icon: '🟢', border: '#86EFAC' },
+  'notary':          { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Notary',              icon: '🩷', border: '#F472B6' },
+  'ron':             { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Notary (RON)',        icon: '🩷', border: '#F472B6' },
+  'apostille':       { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Apostille',           icon: '🩷', border: '#F472B6' },
+  'process':         { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Process Serving',     icon: '🩷', border: '#F472B6' },
+  'nemt':            { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', label: 'NEMT / Transport',    icon: '🟢', border: '#2DD4BF' },
+  'medical_courier': { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Medical Courier',     icon: '🟣', border: '#818CF8' },
+  'courier':         { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Courier/Runner',      icon: '🟣', border: '#818CF8' },
+  'phlebotomy':      { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', label: 'Occ Health',          icon: '🔴', border: '#F87171' },
+};
+
+const SERVICE_GROUPS: { id: string; label: string; icon: string; types: string[]; color: string; solid: string }[] = [
+  { id: 'drug_testing',   label: 'Drug Testing',        icon: '🔴', types: ['dot', 'non-dot', 'phlebotomy'], color: '#EF4444', solid: '#DC2626' },
+  { id: 'dna',            label: 'DNA Collection',       icon: '🟣', types: ['dna'],                         color: '#A855F7', solid: '#7C3AED' },
+  { id: 'fingerprint',    label: 'Fingerprint / BG',     icon: '🟢', types: ['fingerprint', 'background'],   color: '#4ADE80', solid: '#16A34A' },
+  { id: 'notary_legal',   label: 'Notary & Legal',       icon: '🩷', types: ['notary', 'ron', 'apostille', 'process'], color: '#EC4899', solid: '#DB2777' },
+  { id: 'nemt',           label: 'NEMT / Transport',     icon: '🚐', types: ['nemt'],                        color: '#14B8A6', solid: '#0D9488' },
+  { id: 'courier',        label: 'Courier / Delivery',   icon: '📦', types: ['medical_courier', 'courier'],  color: '#6366F1', solid: '#4F46E5' },
+];
+
+// ─── SERVICE-SPECIFIC INSPECTION FUNDAMENTALS ─────────────────────
+const SERVICE_INSPECTION: Record<string, { title: string; certs: string[]; fundamentals: { id: string; check: string; severity: string }[]; fatalFlaws: string[]; commonErrors: string[] }> = {
+  'dot': {
+    title: 'DOT Drug & Alcohol Testing',
+    certs: ['49 CFR §40.33 Initial Collector Training', '5 Consecutive Error-Free Mock Collections', 'Proficiency Demonstration (§40.31)', 'Refresher Training Every 5 Years', 'Error Correction Training After Any Collection Error'],
+    fundamentals: [
+      { id: 'DOT-1', check: 'Collector signature on CCF?', severity: 'FATAL' },
+      { id: 'DOT-2', check: 'Donor signature on CCF (or documented refusal)?', severity: 'FATAL' },
+      { id: 'DOT-3', check: 'Specimen ID matches bottle and CCF?', severity: 'FATAL' },
+      { id: 'DOT-4', check: 'Tamper-evident seal intact?', severity: 'FATAL' },
+      { id: 'DOT-5', check: 'Sufficient volume (≥45 mL urine)?', severity: 'FATAL' },
+      { id: 'DOT-6', check: 'Collector name printed and identifiable?', severity: 'FATAL' },
+      { id: 'DOT-7', check: 'Temperature recorded within 4 min (90-100°F)?', severity: 'CRITICAL' },
+      { id: 'DOT-8', check: 'Specimen split correctly (30 mL primary, 15 mL split)?', severity: 'CRITICAL' },
+      { id: 'DOT-9', check: 'Donor identity verified with photo ID?', severity: 'CRITICAL' },
+      { id: 'DOT-10', check: 'Shipped to SAMHSA-certified lab?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['No collector signature → CANCEL TEST', 'No donor signature (no refusal doc) → CANCEL TEST', 'Specimen ID mismatch → CANCEL TEST', 'Broken seal → CANCEL TEST', 'Insufficient volume → CANCEL TEST', 'Collector unidentifiable → CANCEL TEST'],
+    commonErrors: ['Missing collector/donor signature', 'Specimen ID mismatch', 'Temperature out of range', 'Broken seal', 'Insufficient volume', 'Missing temp on CCF'],
+  },
+  'non-dot': {
+    title: 'Non-DOT Drug Testing',
+    certs: ['Drug & Alcohol Testing Collector Training', 'Chain of Custody Procedures', 'Specimen Handling & Shipping'],
+    fundamentals: [
+      { id: 'NDT-1', check: 'Collector signature on chain of custody?', severity: 'FATAL' },
+      { id: 'NDT-2', check: 'Donor signature on chain of custody?', severity: 'FATAL' },
+      { id: 'NDT-3', check: 'Specimen ID matches bottle and form?', severity: 'FATAL' },
+      { id: 'NDT-4', check: 'Seal intact on specimen?', severity: 'FATAL' },
+      { id: 'NDT-5', check: 'Sufficient specimen volume?', severity: 'CRITICAL' },
+      { id: 'NDT-6', check: 'Correct panel type documented?', severity: 'CRITICAL' },
+      { id: 'NDT-7', check: 'Donor identity verified?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['No collector signature → RECOLLECT', 'Specimen ID mismatch → RECOLLECT', 'Broken seal → RECOLLECT'],
+    commonErrors: ['Wrong panel type ordered', 'Missing signatures', 'Insufficient volume'],
+  },
+  'dna': {
+    title: 'DNA / Paternity Collection',
+    certs: ['AABB Chain of Custody Training (legal collections)', 'Buccal Swab Collection Technique', 'Identity Verification & Photography'],
+    fundamentals: [
+      { id: 'DNA-1', check: 'Collector signature on chain of custody?', severity: 'FATAL' },
+      { id: 'DNA-2', check: 'All participant signatures on consent/COC?', severity: 'FATAL' },
+      { id: 'DNA-3', check: 'Tamper-evident seal intact?', severity: 'FATAL' },
+      { id: 'DNA-4', check: 'Samples in PAPER envelope (never plastic)?', severity: 'FATAL' },
+      { id: 'DNA-5', check: 'Envelopes labeled DURING collection (no pre-labeling)?', severity: 'FATAL' },
+      { id: 'DNA-6', check: 'Government photo ID verified for all participants?', severity: 'FATAL' },
+      { id: 'DNA-7', check: 'Photographs taken of all participants?', severity: 'FATAL' },
+      { id: 'DNA-8', check: 'Collection observed by collector?', severity: 'FATAL' },
+      { id: 'DNA-9', check: 'Samples remained in collector possession until shipped?', severity: 'FATAL' },
+      { id: 'DNA-10', check: 'Gloves changed between participants?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['No collector signature → RECOLLECT', 'No participant signatures → RECOLLECT', 'Broken seal → RECOLLECT', 'Samples in plastic → RECOLLECT', 'Pre-labeled envelopes → RECOLLECT', 'No photo ID verification → RECOLLECT', 'No photographs → RECOLLECT', 'Collector related to participant → RECOLLECT', 'Samples left with participant → RECOLLECT', 'Collection not observed → RECOLLECT'],
+    commonErrors: ['Plastic containers used', 'Pre-labeled envelopes', 'Missing photographs', 'Unobserved collection', 'Samples left with participant'],
+  },
+  'fingerprint': {
+    title: 'Fingerprinting & Background',
+    certs: ['SWFT Authorization (electronic submission)', 'Livescan Equipment Training', 'FD-258 Ink Card Procedures'],
+    fundamentals: [
+      { id: 'FP-1', check: 'Government photo ID verified (current, not expired)?', severity: 'FATAL' },
+      { id: 'FP-2', check: 'Correct ORI code entered?', severity: 'FATAL' },
+      { id: 'FP-3', check: 'All 10 fingers captured or properly documented (AMP/XX)?', severity: 'FATAL' },
+      { id: 'FP-4', check: 'NFIQ quality score 3 or better on all prints?', severity: 'CRITICAL' },
+      { id: 'FP-5', check: 'Name entered exactly as on government ID?', severity: 'CRITICAL' },
+      { id: 'FP-6', check: 'Collector signed FD-258 (ink card only)?', severity: 'CRITICAL' },
+      { id: 'FP-7', check: 'Receipt provided with TCN, date, ORI, turnaround?', severity: 'STANDARD' },
+    ],
+    fatalFlaws: ['Wrong ORI → results sent to wrong agency', 'Name mismatch → rejection', 'NFIQ below 3 → rejection', 'Missing fingers not documented → incomplete set', 'Invalid/expired ID → rejection'],
+    commonErrors: ['Wrong ORI code', 'Name mismatch with records', 'Low quality (dry fingers)', 'Smudged prints', 'Excessive pressure', 'Incomplete capture'],
+  },
+  'notary': {
+    title: 'Notary / RON / Apostille',
+    certs: ['Active State Notary Commission', 'E&O Insurance (current)', 'RON Certification (if applicable)', 'NNA Certified Signing Agent (preferred)'],
+    fundamentals: [
+      { id: 'NOT-1', check: 'Signer personally present (in-person or RON)?', severity: 'FATAL' },
+      { id: 'NOT-2', check: 'Signer identity verified with acceptable ID?', severity: 'FATAL' },
+      { id: 'NOT-3', check: 'Notary commission current (not expired)?', severity: 'FATAL' },
+      { id: 'NOT-4', check: 'Acting within correct jurisdiction?', severity: 'FATAL' },
+      { id: 'NOT-5', check: 'Notarial certificate complete (all fields)?', severity: 'CRITICAL' },
+      { id: 'NOT-6', check: 'Notary seal/stamp applied?', severity: 'CRITICAL' },
+      { id: 'NOT-7', check: 'All required signatures present?', severity: 'CRITICAL' },
+      { id: 'NOT-8', check: 'All required initials present?', severity: 'CRITICAL' },
+      { id: 'NOT-9', check: 'All required dates filled in?', severity: 'CRITICAL' },
+      { id: 'NOT-10', check: 'ID copy included (when required)?', severity: 'STANDARD' },
+    ],
+    fatalFlaws: ['Notarizing without signer present → VOID + criminal charges', 'Not verifying identity → VOID + liability', 'Expired commission → VOID + fines', 'Outside jurisdiction → VOID', 'Backdating → criminal fraud + revocation', 'Notarizing own signature → VOID', 'Prohibited family member → VOID'],
+    commonErrors: ['Notarizing without signer present', 'Not verifying ID', 'Incomplete certificate', 'Expired commission', 'Wrong venue/county', 'Missing seal'],
+  },
+  'ron': {
+    title: 'Remote Online Notarization',
+    certs: ['Active State Notary Commission', 'RON Certification', 'RON Platform Authorization', 'E&O Insurance (current)'],
+    fundamentals: [
+      { id: 'RON-1', check: 'Signer identity verified via KBA + credential analysis?', severity: 'FATAL' },
+      { id: 'RON-2', check: 'Audio/video recording active for full session?', severity: 'FATAL' },
+      { id: 'RON-3', check: 'Notary commission current?', severity: 'FATAL' },
+      { id: 'RON-4', check: 'State permits RON for this document type?', severity: 'FATAL' },
+      { id: 'RON-5', check: 'Electronic seal applied?', severity: 'CRITICAL' },
+      { id: 'RON-6', check: 'Tamper-evident certificate applied?', severity: 'CRITICAL' },
+      { id: 'RON-7', check: 'Session recording stored per state retention rules?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['KBA failure → STOP session', 'No recording → VOID', 'Expired commission → VOID', 'State does not allow RON for document type → VOID'],
+    commonErrors: ['KBA failure not documented', 'Recording not started', 'Wrong state rules applied', 'Missing tamper-evident certificate'],
+  },
+  'phlebotomy': {
+    title: 'Occupational Health Screening',
+    certs: ['FMCSA National Registry (DOT physicals)', 'PLHCP Certification (respirator evals)', 'Fit Test Administrator Training', 'CAOHC Certification (audiometric testing)'],
+    fundamentals: [
+      { id: 'OCC-1', check: 'DOT physical by FMCSA-registered examiner?', severity: 'FATAL' },
+      { id: 'OCC-2', check: 'Vision: 20/40 each eye, 70° field, color?', severity: 'CRITICAL' },
+      { id: 'OCC-3', check: 'Hearing: whisper at 5ft or audiometric ≤40 dB?', severity: 'CRITICAL' },
+      { id: 'OCC-4', check: 'BP recorded and certification period correct?', severity: 'CRITICAL' },
+      { id: 'OCC-5', check: 'Urinalysis completed (protein, blood, sugar)?', severity: 'CRITICAL' },
+      { id: 'OCC-6', check: 'Respirator medical eval before fit test?', severity: 'FATAL' },
+      { id: 'OCC-7', check: 'Fit test: all 8 exercises completed?', severity: 'CRITICAL' },
+      { id: 'OCC-8', check: 'Audiometric baseline within 6 months of exposure?', severity: 'CRITICAL' },
+      { id: 'OCC-9', check: 'STS notification within 21 days if ≥10 dB shift?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['DOT physical by non-registered examiner → INVALID', 'BP ≥180/110 without treatment → DISQUALIFIED', 'Respirator fit test without medical eval → INVALID'],
+    commonErrors: ['Non-registered examiner', 'Skipping respirator medical eval', 'Fit test without medical clearance', 'Missing STS notification', 'Wrong BP certification period'],
+  },
+  'nemt': {
+    title: 'NEMT / Donor Transport',
+    certs: ['State NEMT Certification/License', 'CPR/First Aid Certification', 'Defensive Driving Course', 'HIPAA Compliance Training', 'Passenger Assistance Training', 'Vehicle Inspection Certification'],
+    fundamentals: [
+      { id: 'NEMT-1', check: 'Driver license current and matches state requirements?', severity: 'FATAL' },
+      { id: 'NEMT-2', check: 'Vehicle insurance current with required minimums ($1M+)?', severity: 'FATAL' },
+      { id: 'NEMT-3', check: 'Vehicle inspection current (daily pre-trip completed)?', severity: 'CRITICAL' },
+      { id: 'NEMT-4', check: 'Passenger identity verified before transport?', severity: 'CRITICAL' },
+      { id: 'NEMT-5', check: 'Pick-up and drop-off times documented?', severity: 'CRITICAL' },
+      { id: 'NEMT-6', check: 'Passenger signature obtained on trip log?', severity: 'CRITICAL' },
+      { id: 'NEMT-7', check: 'ADA accessibility requirements met (if applicable)?', severity: 'FATAL' },
+      { id: 'NEMT-8', check: 'No-show documented with timestamp and attempt details?', severity: 'CRITICAL' },
+      { id: 'NEMT-9', check: 'HIPAA — passenger medical info protected?', severity: 'FATAL' },
+      { id: 'NEMT-10', check: 'Incident/accident report filed within 24 hours?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['Expired license → DRIVER CANNOT OPERATE', 'Lapsed insurance → DRIVER CANNOT OPERATE', 'ADA non-compliance → FEDERAL VIOLATION', 'HIPAA breach → FINE + LIABILITY', 'Wrong passenger transported → LIABILITY'],
+    commonErrors: ['Missing trip log signatures', 'Pre-trip inspection skipped', 'No-show not documented', 'Late pickup outside SLA window', 'Passenger complaint not escalated'],
+  },
+  'medical_courier': {
+    title: 'Medical Courier / Specimen Transport',
+    certs: ['OSHA Bloodborne Pathogens Training', 'DOT/IATA Dangerous Goods (Category B)', 'HIPAA Compliance Training', 'Temperature-Controlled Transport Certification'],
+    fundamentals: [
+      { id: 'MC-1', check: 'Specimen labeled with patient ID, date, time?', severity: 'FATAL' },
+      { id: 'MC-2', check: 'Chain of custody form complete and signed?', severity: 'FATAL' },
+      { id: 'MC-3', check: 'Temperature requirements maintained during transport?', severity: 'FATAL' },
+      { id: 'MC-4', check: 'Triple-packaging per DOT/IATA requirements?', severity: 'CRITICAL' },
+      { id: 'MC-5', check: 'Biohazard markings on outer packaging?', severity: 'CRITICAL' },
+      { id: 'MC-6', check: 'Absorbent material in secondary container?', severity: 'CRITICAL' },
+      { id: 'MC-7', check: 'Delivery receipt signed at destination?', severity: 'STANDARD' },
+    ],
+    fatalFlaws: ['Specimen not labeled → REJECT', 'Chain of custody broken → INVALIDATE', 'Temperature excursion → SPECIMEN COMPROMISED'],
+    commonErrors: ['Missing patient ID on label', 'Temperature excursion', 'Broken chain of custody', 'Missing biohazard markings'],
+  },
+  'courier': {
+    title: 'Courier / Runner',
+    certs: ['Valid Driver License', 'Vehicle Insurance (current)', 'Background Check Clearance'],
+    fundamentals: [
+      { id: 'CR-1', check: 'Package picked up within scheduled window?', severity: 'CRITICAL' },
+      { id: 'CR-2', check: 'Delivery receipt signed at destination?', severity: 'CRITICAL' },
+      { id: 'CR-3', check: 'Package condition verified at pickup and delivery?', severity: 'STANDARD' },
+      { id: 'CR-4', check: 'Photo documentation of delivery?', severity: 'STANDARD' },
+      { id: 'CR-5', check: 'Chain of custody maintained (if applicable)?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['Package lost → CLAIM', 'Delivery to wrong address → RE-DELIVER'],
+    commonErrors: ['Late pickup', 'Missing delivery signature', 'No photo documentation'],
+  },
+  'background': {
+    title: 'Background Check Services',
+    certs: ['FCRA Compliance Training', 'State-Specific Background Check Laws', 'CRA (Consumer Reporting Agency) Authorization', 'EEOC Guidance on Criminal Records'],
+    fundamentals: [
+      { id: 'BG-1', check: 'Written applicant consent/authorization obtained?', severity: 'FATAL' },
+      { id: 'BG-2', check: 'FCRA-compliant disclosure provided (standalone document)?', severity: 'FATAL' },
+      { id: 'BG-3', check: 'Applicant identity verified with government photo ID?', severity: 'FATAL' },
+      { id: 'BG-4', check: 'SSN trace completed for address history?', severity: 'CRITICAL' },
+      { id: 'BG-5', check: 'County criminal search covers all relevant jurisdictions?', severity: 'CRITICAL' },
+      { id: 'BG-6', check: 'National sex offender registry checked?', severity: 'CRITICAL' },
+      { id: 'BG-7', check: 'Pre-adverse action notice sent before denial (FCRA §604)?', severity: 'FATAL' },
+      { id: 'BG-8', check: 'Applicant given copy of report + Summary of Rights?', severity: 'FATAL' },
+      { id: 'BG-9', check: 'Adverse action notice sent with dispute instructions?', severity: 'FATAL' },
+      { id: 'BG-10', check: 'State ban-the-box laws followed (if applicable)?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: ['No written consent → FCRA VIOLATION ($100-$1,000 per violation)', 'Disclosure not standalone → FCRA VIOLATION', 'No pre-adverse action notice → LAWSUIT RISK', 'No adverse action notice → FCRA VIOLATION', 'No copy of report to applicant → FCRA VIOLATION'],
+    commonErrors: ['Consent form bundled with application (must be standalone)', 'Pre-adverse action notice skipped', 'Wrong jurisdiction searched', 'State ban-the-box law violated', 'Stale records used (7-year lookback)'],
+  },
+  'apostille': {
+    title: 'Apostille Services',
+    certs: ['Active State Notary Commission', 'Secretary of State Filing Procedures', 'Hague Convention Knowledge', 'Document Authentication Training'],
+    fundamentals: [
+      { id: 'APO-1', check: 'Document is a public document eligible for apostille?', severity: 'FATAL' },
+      { id: 'APO-2', check: 'Notarization on document is current and valid?', severity: 'FATAL' },
+      { id: 'APO-3', check: 'Correct Secretary of State office identified?', severity: 'CRITICAL' },
+      { id: 'APO-4', check: 'Destination country is Hague Convention member?', severity: 'FATAL' },
+      { id: 'APO-5', check: 'Original document (not photocopy) submitted?', severity: 'CRITICAL' },
+      { id: 'APO-6', check: 'Correct fees paid to Secretary of State?', severity: 'CRITICAL' },
+      { id: 'APO-7', check: 'Apostille certificate attached to correct document?', severity: 'FATAL' },
+      { id: 'APO-8', check: 'Client provided tracking for return shipment?', severity: 'STANDARD' },
+    ],
+    fatalFlaws: ['Non-public document submitted → REJECTED by SOS', 'Non-Hague country → needs embassy legalization instead', 'Photocopy submitted → REJECTED', 'Apostille attached to wrong document → REDO'],
+    commonErrors: ['Submitting to wrong SOS', 'Non-Hague country (need legalization)', 'Missing notarization on document', 'Wrong fee amount', 'Photocopy instead of original'],
+  },
+  'process': {
+    title: 'Process Serving',
+    certs: ['State Process Server License/Registration', 'Knowledge of State Service Rules', 'Skip Tracing Training', 'Court Filing Procedures'],
+    fundamentals: [
+      { id: 'PS-1', check: 'Correct individual/entity identified for service?', severity: 'FATAL' },
+      { id: 'PS-2', check: 'Service method compliant with jurisdiction rules?', severity: 'FATAL' },
+      { id: 'PS-3', check: 'Documents served within statute of limitations?', severity: 'FATAL' },
+      { id: 'PS-4', check: 'Proof of service / affidavit completed accurately?', severity: 'FATAL' },
+      { id: 'PS-5', check: 'Date, time, and location of service documented?', severity: 'CRITICAL' },
+      { id: 'PS-6', check: 'Physical description of person served recorded?', severity: 'CRITICAL' },
+      { id: 'PS-7', check: 'Substitute service documented properly (if applicable)?', severity: 'CRITICAL' },
+      { id: 'PS-8', check: 'Proof of service filed with court within deadline?', severity: 'FATAL' },
+    ],
+    fatalFlaws: ['Wrong person served → SERVICE VOID, case dismissed', 'Service method non-compliant → SERVICE VOID', 'Expired statute of limitations → CASE DISMISSED', 'Proof of service not filed → DEFAULT JUDGMENT RISK', 'Affidavit inaccurate → PERJURY RISK'],
+    commonErrors: ['Wrong person served', 'Service outside allowed hours', 'Affidavit filed late', 'Substitute service not properly documented', 'Missing physical description'],
+  },
+};
+
+const SERVICE_MARGIN_RATES: Record<string, number> = {
+  'dot': 0.35, 'non-dot': 0.40, 'dna': 0.50, 'fingerprint': 0.55,
+  'notary': 0.60, 'ron': 0.65, 'phlebotomy': 0.35, 'nemt': 0.30,
+  'medical_courier': 0.35, 'courier': 0.35, 'background': 0.50,
+  'apostille': 0.60, 'process': 0.50,
 };
 
 // ─── STATUS BADGES ─────────────────────────────────────────────────
@@ -41,18 +276,22 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 // ─── TYPES ──────────────────────────────────────────────────────────
-interface PrismOrder { id: string; type: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; }
+interface QCItem { id: string; check: string; severity: string; completed: boolean; completed_by: string | null; completed_at: string | null; }
+interface WorkflowGate { id: string; check: string; field?: string | null; rule: string; passed: boolean; passed_by: string | null; passed_at: string | null; }
+interface WorkflowStage { stage: string; label: string; auto: boolean; gates: WorkflowGate[]; }
+interface ScanbackUpload { attempt: number; uploaded_at: string; uploaded_by: string; pages: number; files: string[]; errors: { severity: string; page: number; description: string }[]; }
+interface ScanbackData { status: string; uploads: ScanbackUpload[]; reviewed_by?: string; reviewed_at?: string; }
+interface PrismOrder { id: string; type: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; qc_checklist?: QCItem[]; qc_status?: string; qc_progress?: number; workflow?: WorkflowStage[]; workflow_stage?: number; workflow_stage_label?: string; scanback?: ScanbackData; }
 interface PrismAgent { id: string; name: string; specialties: string[]; status: string; city: string; state: string; completionRate: number; onTimeRate: number; errorRate: number; rating: number; ordersCompleted: number; activeOrders: number; }
-interface PrismScanback { id: string; orderId: string; type: string; agent: string; status: string; pages: number; expected: number; uploadDate: string; attempt: number; errors?: { severity: string; page: number; description: string }[]; }
 interface PrismClient { id: string; name: string; type: string; services: string[]; orders: number; revenue: number; status: string; retainer: number; }
 
 // ─── HELPER COMPONENTS ─────────────────────────────────────────────
 const ServiceBadge: React.FC<{ type: string; size?: 'sm' | 'md' }> = ({ type, size = 'sm' }) => {
   const svc = SERVICE_COLORS[type] || SERVICE_COLORS['notary'];
-  const px = size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm';
+  const px = size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3 py-1.5 text-sm';
   return (
-    <span className={`${px} rounded-full font-semibold inline-flex items-center gap-1`}
-      style={{ backgroundColor: svc.bg, color: svc.color, border: `1px solid ${svc.border}` }}>
+    <span className={`${px} rounded-full font-bold inline-flex items-center gap-1 shadow-md`}
+      style={{ backgroundColor: svc.solid, color: '#FFFFFF' }}>
       {svc.icon} {svc.label}
     </span>
   );
@@ -83,10 +322,11 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
   const [scanbackFilter, setScanbackFilter] = useState('all');
   const [agentFilter, setAgentFilter] = useState('all');
+  const [inspSvc, setInspSvc] = useState('dot');
+  const [stageFilter, setStageFilter] = useState('all');
 
   const [orders, setOrders] = useState<PrismOrder[]>([]);
   const [agents, setAgents] = useState<PrismAgent[]>([]);
-  const [scanbacks, setScanbacks] = useState<PrismScanback[]>([]);
   const [clients, setClients] = useState<PrismClient[]>([]);
   const [prismStats, setPrismStats] = useState<any>(null);
   const [dataLoading, setDataLoading] = useState(true);
@@ -97,16 +337,23 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const loadPrismData = useCallback(async () => {
     setDataLoading(true);
     try {
-      const [ordersRes, agentsRes, scanbacksRes, clientsRes] = await Promise.allSettled([
-        api.get('/prism/orders').catch(() => ({ data: { orders: [] } })),
-        api.get('/prism/agents').catch(() => ({ data: { agents: [] } })),
-        api.get('/prism/qc/queue').catch(() => ({ data: { queue: [] } })),
-        api.get('/prism/clients').catch(() => ({ data: { clients: [] } })),
+      const [ordersRes, agentsRes, clientsRes] = await Promise.allSettled([
+        api.get('/prism/orders').catch(() => ({ orders: [] })),
+        api.get('/prism/agents').catch(() => ({ agents: [] })),
+        api.get('/prism/clients').catch(() => ({ clients: [] })),
       ]);
-      if (ordersRes.status === 'fulfilled') setOrders((ordersRes.value as any).data?.orders || []);
-      if (agentsRes.status === 'fulfilled') setAgents((agentsRes.value as any).data?.agents || []);
-      if (scanbacksRes.status === 'fulfilled') setScanbacks((scanbacksRes.value as any).data?.queue || []);
-      if (clientsRes.status === 'fulfilled') setClients((clientsRes.value as any).data?.clients || []);
+      if (ordersRes.status === 'fulfilled') {
+        const v = (ordersRes.value as any);
+        setOrders(v?.orders || v?.data?.orders || []);
+      }
+      if (agentsRes.status === 'fulfilled') {
+        const v = (agentsRes.value as any);
+        setAgents(v?.agents || v?.data?.agents || []);
+      }
+      if (clientsRes.status === 'fulfilled') {
+        const v = (clientsRes.value as any);
+        setClients(v?.clients || v?.data?.clients || []);
+      }
     } catch { /* empty fallback — arrays stay empty */ }
     setDataLoading(false);
   }, []);
@@ -148,23 +395,69 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
   const todayOrders = orders.filter(o => o.date === today);
   const activeOrders = orders.filter(o => !['Closed', 'Verified'].includes(o.status));
-  const awaitingScanback = orders.filter(o => o.status === 'Completed');
-  const errorsFound = orders.filter(o => o.status === 'Errors Found');
+  // Derive scanbacks from orders (orders at documentation stage or with scanback data)
+  const scanbackOrders = orders.filter(o => o.scanback || (o.workflow_stage ?? 0) >= 5);
+  const scanbacks = scanbackOrders.map(o => {
+    const sb = o.scanback;
+    const latest = sb?.uploads?.length ? sb.uploads[sb.uploads.length - 1] : null;
+    const sbStatus = sb?.status || 'Awaiting Upload';
+    return {
+      id: `SB-${o.id}`,
+      orderId: o.id,
+      type: o.type,
+      agent: o.agent || 'Unassigned',
+      client: o.client,
+      signer: o.signer,
+      status: sbStatus,
+      pages: latest?.pages || 0,
+      expected: ({'dot':3,'non-dot':2,'dna':3,'fingerprint':2,'background':2,'notary':2,'ron':3,'apostille':2,'process':2,'nemt':2,'medical_courier':2,'courier':1,'phlebotomy':2} as Record<string,number>)[o.type] || 2,
+      expectedDocs: [] as string[],
+      uploadDate: latest?.uploaded_at || '',
+      attempt: sb?.uploads?.length || 0,
+      errors: latest?.errors || [],
+      reviewed_by: sb?.reviewed_by || null,
+      reviewed_at: sb?.reviewed_at || null,
+    };
+  });
+
+  const awaitingScanback = scanbacks.filter(s => s.status === 'Awaiting Upload');
+  const errorsFound = scanbacks.filter(s => s.status === 'Errors Found');
   const unassigned = orders.filter(o => o.status === 'New');
   const needsReview = scanbacks.filter(s => s.status === 'Needs Review');
 
-  const kanbanColumns = [
-    { status: 'New', orders: orders.filter(o => o.status === 'New') },
-    { status: 'Assigned', orders: orders.filter(o => o.status === 'Assigned') },
-    { status: 'Confirmed', orders: orders.filter(o => o.status === 'Confirmed') },
-    { status: 'In Progress', orders: orders.filter(o => o.status === 'In Progress') },
-    { status: 'Completed', orders: orders.filter(o => o.status === 'Completed') },
-    { status: 'Scanned Back', orders: orders.filter(o => o.status === 'Scanned Back') },
-    { status: 'Errors Found', orders: orders.filter(o => o.status === 'Errors Found') },
-    { status: 'Verified', orders: orders.filter(o => o.status === 'Verified') },
+  const KANBAN_STAGES = [
+    { key: 'received', label: 'Received', color: '#3B82F6' },
+    { key: 'validated', label: 'Validated', color: '#06B6D4' },
+    { key: 'assigned', label: 'Assigned', color: '#6366F1' },
+    { key: 'en_route', label: 'En Route', color: '#A855F7' },
+    { key: 'in_progress', label: 'In Progress', color: '#F97316' },
+    { key: 'qc_review', label: 'QC Review', color: '#EAB308' },
+    { key: 'documentation', label: 'Documentation', color: '#14B8A6' },
+    { key: 'delivered', label: 'Delivered', color: '#10B981' },
+    { key: 'billed', label: 'Billed', color: '#84CC16' },
+    { key: 'complete', label: 'Complete', color: '#22C55E' },
   ];
+  const kanbanColumns = KANBAN_STAGES.map(s => ({
+    status: s.label,
+    color: s.color,
+    orders: orders.filter(o => {
+      const stageKey = o.workflow?.[o.workflow_stage ?? 0]?.stage || '';
+      return stageKey === s.key;
+    }),
+  }));
 
-  const filteredOrders = orderFilter === 'all' ? orders : orders.filter(o => o.type === orderFilter);
+  const filteredOrders = orders.filter(o => {
+    if (orderFilter !== 'all') {
+      const group = SERVICE_GROUPS.find(g => g.id === orderFilter);
+      if (group && !group.types.includes(o.type)) return false;
+      if (!group && o.type !== orderFilter) return false;
+    }
+    if (stageFilter !== 'all') {
+      const currentStage = o.workflow?.[o.workflow_stage ?? 0]?.stage || '';
+      if (currentStage !== stageFilter) return false;
+    }
+    return true;
+  });
   const filteredScanbacks = scanbackFilter === 'all' ? scanbacks : scanbacks.filter(s => s.status === scanbackFilter);
   const filteredAgents = agentFilter === 'all' ? agents : agents.filter(a => a.status === agentFilter);
 
@@ -185,6 +478,12 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 }`}
               >
                 {tab.label}
+                {tab.id === 'scanbacks' && needsReview.length > 0 && (
+                  <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-red-500 text-white animate-pulse">{needsReview.length}</span>
+                )}
+                {tab.id === 'orders' && orders.length > 0 && (
+                  <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-white/20">{orders.length}</span>
+                )}
               </button>
             ))}
           </div>
@@ -351,15 +650,17 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 {todayOrders.sort((a, b) => a.time.localeCompare(b.time)).map(order => {
                   const svc = SERVICE_COLORS[order.type];
                   return (
-                    <div key={order.id} className="flex items-center gap-4 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 hover:border-gray-600 transition cursor-pointer"
-                      style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color || '#6B7280' }}
+                    <div key={order.id} className="flex items-center gap-4 border rounded-lg px-4 py-3 hover:brightness-110 transition cursor-pointer"
+                      style={{ borderLeftWidth: '6px', borderLeftColor: svc?.color || '#6B7280', backgroundColor: svc?.color + '18', borderColor: svc?.color + '35' }}
                       onClick={() => { setSelectedOrder(order.id); setActiveTab('orders'); }}>
-                      <span className="text-sm font-mono text-gray-300 w-20">{order.time}</span>
+                      <span className="text-sm font-mono font-bold w-20" style={{ color: svc?.color }}>{order.time}</span>
                       <ServiceBadge type={order.type} />
                       <span className="text-sm font-semibold flex-1">{order.signer}</span>
                       <span className="text-sm text-gray-400">{order.address}</span>
                       <span className="text-sm text-gray-500">{order.agent || 'Unassigned'}</span>
-                      <StatusBadge status={order.status} />
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ backgroundColor: svc?.solid, color: '#FFFFFF' }}>
+                        {order.workflow_stage_label || order.status}
+                      </span>
                     </div>
                   );
                 })}
@@ -374,14 +675,15 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
 
             {/* ── Order Pipeline ── */}
             <div className="mb-8">
-              <h3 className="text-lg font-bold mb-3">📊 Order Pipeline</h3>
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                {kanbanColumns.map(col => (
-                  <div key={col.status} className="flex-shrink-0 text-center">
-                    <div className={`px-4 py-2 rounded-lg border ${STATUS_STYLES[col.status] || 'bg-gray-700 border-gray-600'}`}>
-                      <p className="text-lg font-bold">{col.orders.length}</p>
-                      <p className="text-xs">{col.status}</p>
+              <h3 className="text-lg font-bold mb-3">Order Pipeline</h3>
+              <div className="flex gap-1 overflow-x-auto pb-2">
+                {kanbanColumns.map((col, i) => (
+                  <div key={col.status} className="flex-shrink-0 text-center flex items-center">
+                    <div className="px-3 py-2 rounded-lg border border-gray-700 min-w-[72px]" style={{ backgroundColor: col.orders.length > 0 ? col.color + '15' : undefined }}>
+                      <p className="text-lg font-bold" style={{ color: col.orders.length > 0 ? col.color : '#6B7280' }}>{col.orders.length}</p>
+                      <p className="text-[10px]" style={{ color: col.orders.length > 0 ? col.color : '#6B7280' }}>{col.status}</p>
                     </div>
+                    {i < kanbanColumns.length - 1 && <span className="text-gray-700 mx-0.5">→</span>}
                   </div>
                 ))}
               </div>
@@ -447,7 +749,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </div>
             </div>
 
-            {/* View toggles + filters */}
+            {/* View toggles + stage filter */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
                 {(['list', 'kanban', 'calendar'] as const).map(v => (
@@ -457,16 +759,110 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                   </button>
                 ))}
               </div>
-              <div className="flex gap-2">
-                <select value={orderFilter} onChange={e => setOrderFilter(e.target.value)}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-gray-300">
-                  <option value="all">All Types</option>
-                  {Object.entries(SERVICE_COLORS).map(([key, svc]) => (
-                    <option key={key} value={key}>{svc.icon} {svc.label}</option>
-                  ))}
-                </select>
+              <select value={stageFilter} onChange={e => setStageFilter(e.target.value)}
+                className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-gray-300">
+                <option value="all">All Stages</option>
+                <option value="received">1 — Received</option>
+                <option value="validated">2 — Validated</option>
+                <option value="assigned">3 — Assigned</option>
+                <option value="en_route">4 — En Route</option>
+                <option value="in_progress">5 — In Progress</option>
+                <option value="qc_review">6 — QC Review</option>
+                <option value="documentation">7 — Documentation</option>
+                <option value="delivered">8 — Delivered</option>
+                <option value="billed">9 — Billed</option>
+                <option value="complete">10 — Complete</option>
+              </select>
+            </div>
+
+            {/* ── SERVICE COLOR KEY + FILTER ── */}
+            <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-3 mb-4">
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mr-1">Services</span>
+                {SERVICE_GROUPS.map(grp => {
+                  const count = orders.filter(o => grp.types.includes(o.type)).length;
+                  const isActive = orderFilter === grp.id;
+                  const isAll = orderFilter === 'all';
+                  return (
+                    <button key={grp.id}
+                      onClick={() => setOrderFilter(orderFilter === grp.id ? 'all' : grp.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition border ${
+                        isActive
+                          ? 'ring-2 ring-offset-1 ring-offset-gray-900 shadow-lg'
+                          : isAll
+                            ? 'hover:brightness-125'
+                            : 'opacity-25 hover:opacity-60'
+                      }`}
+                      style={{
+                        backgroundColor: isActive ? grp.solid : grp.solid + '25',
+                        borderColor: isActive ? grp.color : grp.color + '30',
+                        color: isActive ? '#FFFFFF' : grp.color,
+                        // @ts-ignore
+                        '--tw-ring-color': grp.color,
+                      } as React.CSSProperties}>
+                      <span className="w-3 h-3 rounded-full flex-shrink-0 shadow-sm" style={{ backgroundColor: grp.solid }} />
+                      {grp.label}
+                      <span className="px-1.5 rounded-full text-[10px] font-bold"
+                        style={{
+                          backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : grp.solid + '35',
+                          color: isActive ? '#FFFFFF' : grp.color,
+                        }}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+                {orderFilter !== 'all' && (
+                  <button onClick={() => setOrderFilter('all')} className="text-[10px] text-gray-500 hover:text-white transition ml-1">
+                    ✕ Clear
+                  </button>
+                )}
               </div>
             </div>
+
+            {/* Stage summary bar */}
+            {orderView === 'list' && (() => {
+              const STAGE_META: { key: string; label: string; color: string; short: string }[] = [
+                { key: 'received', label: 'Received', color: '#3B82F6', short: 'RCV' },
+                { key: 'validated', label: 'Validated', color: '#06B6D4', short: 'VAL' },
+                { key: 'assigned', label: 'Assigned', color: '#6366F1', short: 'ASN' },
+                { key: 'en_route', label: 'En Route', color: '#A855F7', short: 'ENR' },
+                { key: 'in_progress', label: 'In Progress', color: '#F97316', short: 'SVC' },
+                { key: 'qc_review', label: 'QC Review', color: '#EAB308', short: 'QC' },
+                { key: 'documentation', label: 'Docs', color: '#14B8A6', short: 'DOC' },
+                { key: 'delivered', label: 'Delivered', color: '#10B981', short: 'DLV' },
+                { key: 'billed', label: 'Billed', color: '#84CC16', short: 'BIL' },
+                { key: 'complete', label: 'Complete', color: '#22C55E', short: 'DONE' },
+              ];
+              return (
+                <div className="flex gap-1 mb-3 overflow-x-auto pb-1">
+                  {STAGE_META.map(s => {
+                    const count = orders.filter(o => {
+                      const stageKey = o.workflow?.[o.workflow_stage ?? 0]?.stage || '';
+                      return stageKey === s.key;
+                    }).length;
+                    const isActive = stageFilter === s.key;
+                    return (
+                      <button key={s.key}
+                        onClick={() => setStageFilter(stageFilter === s.key ? 'all' : s.key)}
+                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition border ${
+                          isActive
+                            ? 'bg-opacity-30 border-opacity-60'
+                            : 'bg-gray-800 border-gray-700 hover:border-gray-600'
+                        }`}
+                        style={isActive ? { backgroundColor: s.color + '20', borderColor: s.color + '60', color: s.color } : {}}>
+                        <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
+                        <span className={isActive ? '' : 'text-gray-400'}>{s.short}</span>
+                        <span className={`text-[10px] px-1.5 py-0 rounded-full font-bold ${count > 0 ? '' : 'opacity-30'}`}
+                          style={count > 0 ? { backgroundColor: s.color + '20', color: s.color } : {}}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             {/* List View */}
             {orderView === 'list' && (
@@ -476,10 +872,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                     <tr className="border-b border-gray-700 text-gray-400 text-xs uppercase">
                       <th className="text-left px-4 py-3">Order</th>
                       <th className="text-left px-4 py-3">Service</th>
-                      <th className="text-left px-4 py-3">Status</th>
+                      <th className="text-left px-4 py-3">Stage</th>
+                      <th className="text-left px-4 py-3">Progress</th>
                       <th className="text-left px-4 py-3">Agent</th>
-                      <th className="text-left px-4 py-3">Client</th>
-                      <th className="text-left px-4 py-3">Signer/Subject</th>
+                      <th className="text-left px-4 py-3">Client / Subject</th>
                       <th className="text-left px-4 py-3">Date</th>
                       <th className="text-right px-4 py-3">Fee</th>
                     </tr>
@@ -487,18 +883,112 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                   <tbody>
                     {filteredOrders.map(order => {
                       const svc = SERVICE_COLORS[order.type];
+                      const isSelected = selectedOrder === order.id;
+                      const rowBg = isSelected
+                        ? `${svc?.color}30`
+                        : `${svc?.color}18`;
                       return (
                         <tr key={order.id}
-                          className={`border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer ${selectedOrder === order.id ? 'bg-gray-700/50 ring-1 ring-orange-500/50' : ''}`}
-                          style={{ borderLeftWidth: '3px', borderLeftColor: svc?.color || '#6B7280' }}
-                          onClick={() => setSelectedOrder(selectedOrder === order.id ? null : order.id)}>
-                          <td className="px-4 py-3 font-mono text-xs">{order.id}</td>
+                          className={`border-b border-gray-700/50 hover:brightness-110 transition cursor-pointer ${isSelected ? 'ring-2 ring-inset' : ''}`}
+                          style={{
+                            borderLeftWidth: '6px',
+                            borderLeftColor: svc?.color || '#6B7280',
+                            backgroundColor: rowBg,
+                            // @ts-ignore
+                            '--tw-ring-color': svc?.color ? svc.color + '60' : undefined,
+                          } as React.CSSProperties}
+                          onClick={() => setSelectedOrder(isSelected ? null : order.id)}>
+                          <td className="px-4 py-3">
+                            <span className="font-mono text-xs">{order.id}</span>
+                            {order.priority !== 'Standard' && (
+                              <span className={`ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold ${order.priority === 'STAT' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                                {order.priority}
+                              </span>
+                            )}
+                          </td>
                           <td className="px-4 py-3"><ServiceBadge type={order.type} /></td>
-                          <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
+                          <td className="px-4 py-3">
+                            {(() => {
+                              const stageIdx = order.workflow_stage ?? 0;
+                              const totalStages = order.workflow?.length || 10;
+                              const label = order.workflow_stage_label || order.status;
+                              const STAGE_COLORS: Record<string, string> = {
+                                'received': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+                                'validated': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+                                'assigned': 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+                                'en_route': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+                                'in_progress': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+                                'qc_review': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+                                'documentation': 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+                                'delivered': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+                                'billed': 'bg-lime-500/20 text-lime-400 border-lime-500/30',
+                                'complete': 'bg-green-500/20 text-green-400 border-green-500/30',
+                              };
+                              const stageKey = order.workflow?.[stageIdx]?.stage || '';
+                              const colorCls = STAGE_COLORS[stageKey] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+                              return (
+                                <div className="flex flex-col gap-0.5">
+                                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border inline-block w-fit ${colorCls}`}>
+                                    {stageIdx + 1}. {label.length > 16 ? label.slice(0, 14) + '…' : label}
+                                  </span>
+                                </div>
+                              );
+                            })()}
+                          </td>
+                          <td className="px-4 py-3">
+                            {(() => {
+                              const wf = order.workflow || [];
+                              const stageIdx = order.workflow_stage ?? 0;
+                              const cl = order.qc_checklist || [];
+                              const qcPct = order.qc_progress ?? 0;
+                              const totalChecks = cl.length;
+                              const passedChecks = cl.filter(c => c.completed).length;
+                              const fatalOpen = cl.filter(c => c.severity === 'FATAL' && !c.completed).length;
+                              const critOpen = cl.filter(c => c.severity === 'CRITICAL' && !c.completed).length;
+                              const qcAllClear = totalChecks > 0 && fatalOpen === 0 && critOpen === 0;
+                              const qcHasFatal = fatalOpen > 0;
+                              return (
+                                <div className="flex flex-col gap-1.5">
+                                  {/* Workflow progress bar */}
+                                  <div className="flex gap-[2px]">
+                                    {wf.map((s, i) => (
+                                      <div key={s.stage}
+                                        className={`h-2 rounded-sm flex-1 transition-all ${
+                                          i < stageIdx ? 'bg-green-500' :
+                                          i === stageIdx ? 'bg-orange-500 animate-pulse' :
+                                          'bg-gray-700'
+                                        }`}
+                                        title={`${i+1}. ${s.label}`} />
+                                    ))}
+                                  </div>
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="text-[10px] text-gray-500 font-semibold">{stageIdx}/{wf.length}</span>
+                                    {/* QC Badge */}
+                                    {totalChecks > 0 && (
+                                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+                                        qcAllClear
+                                          ? 'bg-green-500/20 text-green-400 border-green-500/40'
+                                          : qcHasFatal
+                                            ? 'bg-red-500/25 text-red-400 border-red-500/50 animate-pulse'
+                                            : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40'
+                                      }`}>
+                                        {qcAllClear ? '✓ QC PASS' : qcHasFatal ? `⛔ ${fatalOpen} FATAL` : `⚠ ${critOpen} OPEN`}
+                                      </span>
+                                    )}
+                                    {totalChecks > 0 && !qcAllClear && (
+                                      <span className="text-[9px] text-gray-500">{passedChecks}/{totalChecks}</span>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })()}
+                          </td>
                           <td className="px-4 py-3">{order.agent || <span className="text-yellow-400 text-xs font-semibold">UNASSIGNED</span>}</td>
-                          <td className="px-4 py-3 text-gray-300">{order.client}</td>
-                          <td className="px-4 py-3 text-gray-300">{order.signer}</td>
-                          <td className="px-4 py-3 text-gray-400">{order.date} {order.time}</td>
+                          <td className="px-4 py-3">
+                            <div className="text-gray-300 text-sm">{order.client}</div>
+                            <div className="text-gray-500 text-xs">{order.signer}</div>
+                          </td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{order.date}<br/><span className="text-gray-500">{order.time}</span></td>
                           <td className="px-4 py-3 text-right font-semibold text-green-400">${order.fee}</td>
                         </tr>
                       );
@@ -513,28 +1003,62 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <div className="flex gap-3 overflow-x-auto pb-4">
                 {kanbanColumns.map(col => (
                   <div key={col.status} className="flex-shrink-0 w-64">
-                    <div className={`rounded-t-lg px-3 py-2 border-b-2 ${STATUS_STYLES[col.status] || 'bg-gray-700'}`}>
+                    <div className="rounded-t-lg px-3 py-2 border-b-2" style={{ backgroundColor: col.color + '15', borderBottomColor: col.color }}>
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-sm">{col.status}</span>
-                        <span className="text-xs font-bold bg-white/10 px-2 py-0.5 rounded-full">{col.orders.length}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: col.color }} />
+                          <span className="font-semibold text-sm">{col.status}</span>
+                        </div>
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: col.color + '20', color: col.color }}>{col.orders.length}</span>
                       </div>
                     </div>
                     <div className="space-y-2 mt-2 min-h-[200px]">
                       {col.orders.map(order => {
                         const svc = SERVICE_COLORS[order.type];
                         return (
-                          <div key={order.id} className="bg-gray-800 border border-gray-700 rounded-lg p-3 hover:border-gray-600 transition cursor-pointer"
-                            style={{ borderLeftWidth: '3px', borderLeftColor: svc?.color || '#6B7280' }}>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-mono text-gray-500">{order.id.split('-').pop()}</span>
+                          <div key={order.id} className="border rounded-lg p-3 hover:brightness-110 transition cursor-pointer"
+                            style={{ borderLeftWidth: '5px', borderLeftColor: svc?.color || '#6B7280', backgroundColor: svc?.color + '20', borderColor: svc?.color + '40' }}
+                            onClick={() => { setSelectedOrder(order.id); setOrderView('list'); }}>
+                            <div className="flex items-center justify-between mb-1.5">
                               <ServiceBadge type={order.type} size="sm" />
+                              {order.priority !== 'Standard' && (
+                                <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${order.priority === 'STAT' ? 'bg-red-500/30 text-red-400' : 'bg-yellow-500/30 text-yellow-400'}`}>
+                                  {order.priority}
+                                </span>
+                              )}
                             </div>
-                            <p className="font-semibold text-sm mb-1">{order.signer}</p>
-                            <p className="text-xs text-gray-400 mb-2">{order.address}</p>
+                            <p className="font-semibold text-sm mb-0.5 text-white">{order.signer}</p>
+                            <p className="text-[10px] text-gray-400 mb-1">{order.address}</p>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-gray-500">{order.agent || 'Unassigned'}</span>
-                              <span className="text-xs text-gray-500">{order.time}</span>
+                              <span className="text-[10px] font-bold" style={{ color: svc?.color }}>{order.agent || 'Unassigned'}</span>
+                              <span className="text-[10px] text-gray-500">{order.time}</span>
                             </div>
+                            {order.workflow && (
+                              <div className="flex gap-[2px] mt-1.5">
+                                {order.workflow.map((s: WorkflowStage, idx: number) => (
+                                  <div key={s.stage} className="h-2 rounded-sm flex-1"
+                                    style={{ backgroundColor: idx < (order.workflow_stage ?? 0) ? svc?.color : idx === (order.workflow_stage ?? 0) ? svc?.color + '70' : '#374151' }} />
+                                ))}
+                              </div>
+                            )}
+                            {(() => {
+                              const cl = order.qc_checklist || [];
+                              if (cl.length === 0) return null;
+                              const fatalOpen = cl.filter((c: any) => c.severity === 'FATAL' && !c.completed).length;
+                              const critOpen = cl.filter((c: any) => c.severity === 'CRITICAL' && !c.completed).length;
+                              const allClear = fatalOpen === 0 && critOpen === 0;
+                              return (
+                                <div className={`mt-1.5 px-2 py-1 rounded text-[10px] font-bold text-center border ${
+                                  allClear
+                                    ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                                    : fatalOpen > 0
+                                      ? 'bg-red-500/25 text-red-400 border-red-500/40'
+                                      : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                                }`}>
+                                  {allClear ? '✓ QC CLEAR' : fatalOpen > 0 ? `⛔ ${fatalOpen} FATAL OPEN` : `⚠ ${critOpen} CHECKS OPEN`}
+                                </div>
+                              );
+                            })()
                           </div>
                         );
                       })}
@@ -567,7 +1091,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                           {dayOrders.slice(0, 3).map(o => {
                             const svc = SERVICE_COLORS[o.type];
                             return (
-                              <div key={o.id} className="text-[10px] px-1 py-0.5 rounded truncate" style={{ backgroundColor: svc?.bg, color: svc?.color }}>
+                              <div key={o.id} className="text-[10px] px-1 py-0.5 rounded truncate font-bold" style={{ backgroundColor: svc?.solid, color: '#FFFFFF' }}>
                                 {o.time.replace(' ', '')} {svc?.label?.split(' ')[0]}
                               </div>
                             );
@@ -588,6 +1112,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               const svc = SERVICE_COLORS[order.type];
               return (
                 <div className="fixed inset-y-0 right-0 w-[480px] bg-gray-900 border-l border-gray-700 z-50 overflow-y-auto shadow-2xl">
+                  <div className="h-2 w-full" style={{ backgroundColor: svc?.color }} />
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-6">
                       <div>
@@ -602,6 +1127,102 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                     </div>
 
                     <div className="space-y-4">
+                      {/* ── WORKFLOW PIPELINE ── */}
+                      {order.workflow && order.workflow.length > 0 && (() => {
+                        const wf = order.workflow;
+                        const currentIdx = order.workflow_stage ?? 0;
+
+                        const clearGate = async (gateId: string) => {
+                          try {
+                            const res = await api.patch(`/prism/orders/${order.id}/gate`, {
+                              gate_id: gateId,
+                              agent: 'Dee Davis',
+                            });
+                            if (res.data?.success) {
+                              setOrders(prev => prev.map(o => o.id === order.id ? { ...o, ...res.data.order } : o));
+                            }
+                          } catch (err) { console.error('Gate clear failed:', err); }
+                        };
+
+                        return (
+                          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h4 className="text-xs text-gray-500 uppercase mb-3 font-semibold">
+                              Order Workflow — Stage {currentIdx + 1} of {wf.length}
+                            </h4>
+
+                            {/* Horizontal pipeline */}
+                            <div className="flex items-center gap-0.5 mb-4 overflow-x-auto pb-1">
+                              {wf.map((stage, i) => {
+                                const allPassed = stage.gates.every((g: WorkflowGate) => g.passed);
+                                const isActive = i === currentIdx;
+                                const isPast = i < currentIdx;
+                                const isFuture = i > currentIdx;
+                                return (
+                                  <div key={stage.stage} className="flex items-center flex-shrink-0">
+                                    <div className={`flex flex-col items-center ${isActive ? 'scale-110' : ''}`}>
+                                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
+                                        isPast || (isActive && allPassed)
+                                          ? 'bg-green-500 border-green-500 text-white'
+                                          : isActive
+                                            ? 'bg-orange-500/20 border-orange-500 text-orange-400 ring-2 ring-orange-500/30'
+                                            : 'bg-gray-700 border-gray-600 text-gray-500'
+                                      }`}>
+                                        {isPast || (isActive && allPassed) ? '✓' : i + 1}
+                                      </div>
+                                      <span className={`text-[8px] mt-1 text-center max-w-[60px] leading-tight ${
+                                        isActive ? 'text-orange-400 font-bold' : isPast ? 'text-green-400' : 'text-gray-600'
+                                      }`}>{stage.label.length > 14 ? stage.label.slice(0, 12) + '…' : stage.label}</span>
+                                    </div>
+                                    {i < wf.length - 1 && (
+                                      <div className={`w-4 h-0.5 mx-0.5 mt-[-12px] ${isPast ? 'bg-green-500' : 'bg-gray-700'}`} />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+
+                            {/* Active stage gates */}
+                            {wf[currentIdx] && (
+                              <div className={`rounded-lg p-3 border ${wf[currentIdx].gates.every((g: WorkflowGate) => g.passed) ? 'border-green-500/30 bg-green-500/5' : 'border-orange-500/30 bg-orange-500/5'}`}>
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-sm font-bold text-orange-400">{wf[currentIdx].label}</span>
+                                  <span className="text-[10px] text-gray-500">
+                                    {wf[currentIdx].gates.filter((g: WorkflowGate) => g.passed).length}/{wf[currentIdx].gates.length} gates
+                                  </span>
+                                </div>
+                                <div className="space-y-1.5">
+                                  {wf[currentIdx].gates.map((gate: WorkflowGate) => (
+                                    <div key={gate.id}
+                                      className={`flex items-start gap-2 p-1.5 rounded transition ${gate.passed ? 'opacity-60' : 'hover:bg-gray-700/30 cursor-pointer'}`}
+                                      onClick={() => !gate.passed && gate.rule === 'manual' && clearGate(gate.id)}>
+                                      <div className={`mt-0.5 w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                                        gate.passed ? 'bg-green-500 border-green-500 text-white' : 'border-orange-500 bg-orange-500/10'
+                                      }`}>
+                                        {gate.passed && <span className="text-[9px]">✓</span>}
+                                      </div>
+                                      <div className="flex-1">
+                                        <p className={`text-xs ${gate.passed ? 'line-through text-gray-500' : ''}`}>{gate.check}</p>
+                                        {gate.passed && gate.passed_by && (
+                                          <p className="text-[9px] text-gray-600">{gate.passed_by} — {gate.passed_at ? new Date(gate.passed_at).toLocaleTimeString() : ''}</p>
+                                        )}
+                                        {!gate.passed && gate.rule !== 'manual' && (
+                                          <p className="text-[9px] text-yellow-500/70">Auto-evaluates when conditions are met</p>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                                {wf[currentIdx].gates.length > 0 && !wf[currentIdx].gates.every((g: WorkflowGate) => g.passed) && (
+                                  <p className="text-[10px] text-orange-400/70 mt-2 text-center">
+                                    Clear all gates to advance to next stage
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+
                       <div className="bg-gray-800 rounded-lg p-4 border border-gray-700" style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color }}>
                         <h4 className="text-xs text-gray-500 uppercase mb-2 font-semibold">Appointment</h4>
                         <p className="font-bold text-lg">{order.signer}</p>
@@ -616,31 +1237,171 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                         <p className="text-green-400 text-sm font-semibold mt-1">Agent Fee: ${order.fee}</p>
                       </div>
 
-                      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                        <h4 className="text-xs text-gray-500 uppercase mb-2 font-semibold">Client Rules</h4>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2 text-sm"><span className="text-green-400">✓</span> Scanbacks required</div>
-                          <div className="flex items-center gap-2 text-sm"><span className="text-green-400">✓</span> Blue pen only</div>
-                          <div className="flex items-center gap-2 text-sm"><span className="text-green-400">✓</span> Ship same day via FedEx</div>
-                        </div>
-                      </div>
+                      {/* ── MANDATORY QC CHECKLIST ── */}
+                      {(() => {
+                        const checklist = order.qc_checklist || [];
+                        const fatalTotal = checklist.filter(c => c.severity === 'FATAL').length;
+                        const fatalDone = checklist.filter(c => c.severity === 'FATAL' && c.completed).length;
+                        const totalDone = checklist.filter(c => c.completed).length;
+                        const progress = checklist.length ? Math.round(totalDone / checklist.length * 100) : 0;
+                        const gatePass = fatalDone === fatalTotal;
 
-                      <div className="flex gap-2">
-                        {order.status === 'New' && (
-                          <button className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
-                            🚀 Assign Agent
-                          </button>
-                        )}
-                        {order.status === 'Errors Found' && (
-                          <button className="flex-1 bg-red-600 hover:bg-red-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition"
-                            onClick={() => { setActiveTab('scanbacks'); setSelectedOrder(null); }}>
-                            📸 View Scanback Errors
-                          </button>
-                        )}
-                        <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
-                          ✏️ Edit
-                        </button>
-                      </div>
+                        const toggleQCItem = async (itemId: string, currentState: boolean) => {
+                          try {
+                            const res = await api.patch(`/prism/orders/${order.id}/qc`, {
+                              item_id: itemId,
+                              completed: !currentState,
+                              agent: 'Dee Davis',
+                            });
+                            if (res.data?.success) {
+                              setOrders(prev => prev.map(o => o.id === order.id ? { ...o, ...res.data.order } : o));
+                            }
+                          } catch (err) { console.error('QC update failed:', err); }
+                        };
+
+                        return (
+                          <div className={`rounded-xl p-4 border-2 ${gatePass ? 'border-green-500/50 bg-green-500/5' : 'border-red-500/50 bg-red-500/5'}`}>
+                            {/* QC Header Banner */}
+                            <div className={`-mx-4 -mt-4 mb-4 px-4 py-3 rounded-t-xl flex items-center justify-between ${
+                              gatePass ? 'bg-green-600' : 'bg-red-600'
+                            }`}>
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{gatePass ? '✅' : '🛑'}</span>
+                                <div>
+                                  <h4 className="text-sm font-bold text-white uppercase tracking-wide">
+                                    Mandatory QC
+                                  </h4>
+                                  <p className="text-[10px] text-white/70">{SERVICE_INSPECTION[order.type]?.title || order.type}</p>
+                                </div>
+                              </div>
+                              <span className="px-3 py-1 rounded-full text-xs font-black bg-white/20 text-white border border-white/30">
+                                {gatePass ? '✓ ALL CLEAR' : `⛔ ${fatalTotal - fatalDone} FATAL OPEN`}
+                              </span>
+                            </div>
+
+                            {/* Progress Bar */}
+                            <div className="mb-4">
+                              <div className="flex items-center justify-between text-xs mb-1.5">
+                                <span className="text-gray-300 font-semibold">{totalDone}/{checklist.length} checks completed</span>
+                                <span className={`text-sm font-black ${progress === 100 ? 'text-green-400' : progress >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>{progress}%</span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                                <div className={`h-3 rounded-full transition-all ${gatePass ? 'bg-green-500' : progress >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${progress}%` }} />
+                              </div>
+                            </div>
+
+                            <div className="space-y-2 max-h-[350px] overflow-y-auto">
+                              {checklist.map(item => (
+                                <div key={item.id}
+                                  className={`flex items-start gap-3 p-2.5 rounded-lg cursor-pointer transition border ${
+                                    item.completed
+                                      ? 'opacity-60 bg-gray-800/50 border-gray-700/50 hover:opacity-80'
+                                      : item.severity === 'FATAL'
+                                        ? 'bg-red-500/8 border-red-500/25 hover:bg-red-500/15'
+                                        : 'bg-gray-800/50 border-gray-700/50 hover:bg-gray-700/70'
+                                  }`}
+                                  onClick={() => toggleQCItem(item.id, item.completed)}>
+                                  <div className={`mt-0.5 w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition ${
+                                    item.completed
+                                      ? 'bg-green-500 border-green-500 text-white'
+                                      : item.severity === 'FATAL'
+                                        ? 'border-red-500 bg-red-500/15'
+                                        : 'border-gray-500 bg-gray-700'
+                                  }`}>
+                                    {item.completed && <span className="text-sm font-bold">✓</span>}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-0.5">
+                                      <span className={`text-[10px] font-black px-2 py-0.5 rounded ${
+                                        item.severity === 'FATAL' ? 'bg-red-600 text-white' :
+                                        item.severity === 'CRITICAL' ? 'bg-yellow-600 text-white' :
+                                        'bg-gray-600 text-gray-300'
+                                      }`}>{item.severity}</span>
+                                      <span className="text-[10px] text-gray-500 font-mono">{item.id}</span>
+                                    </div>
+                                    <p className={`text-sm ${item.completed ? 'line-through text-gray-500' : 'text-gray-200'}`}>{item.check}</p>
+                                    {item.completed && item.completed_by && (
+                                      <p className="text-[10px] text-green-500/70 mt-0.5">✓ {item.completed_by} — {item.completed_at ? new Date(item.completed_at).toLocaleString() : ''}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                              {checklist.length === 0 && (
+                                <p className="text-gray-500 text-sm text-center py-4">No QC checklist for this service type</p>
+                              )}
+                            </div>
+
+                            {SERVICE_INSPECTION[order.type]?.certs && (
+                              <div className="mt-3 pt-3 border-t border-gray-700">
+                                <h5 className="text-[10px] text-gray-500 uppercase font-semibold mb-1">Required Certifications</h5>
+                                <div className="flex flex-wrap gap-1">
+                                  {SERVICE_INSPECTION[order.type].certs.map((c: string, i: number) => (
+                                    <span key={i} className="text-[10px] px-2 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full">{c}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      {(() => {
+                        const cl = order.qc_checklist || [];
+                        const fatalOpen = cl.filter(c => c.severity === 'FATAL' && !c.completed).length;
+                        const canComplete = fatalOpen === 0;
+
+                        const handleComplete = async () => {
+                          if (!canComplete) return;
+                          try {
+                            const res = await api.patch(`/prism/orders/${order.id}`, { status: 'Completed' });
+                            if (res.data?.success) {
+                              setOrders(prev => prev.map(o => o.id === order.id ? { ...o, ...res.data.order } : o));
+                            }
+                          } catch (err: any) {
+                            const msg = err?.response?.data?.message || err?.response?.data?.error || 'Failed';
+                            alert(`QC GATE BLOCKED: ${msg}`);
+                          }
+                        };
+
+                        return (
+                          <div className="space-y-2">
+                            <div className="flex gap-2">
+                              {order.status === 'New' && (
+                                <button className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
+                                  Assign Agent
+                                </button>
+                              )}
+                              {order.status === 'Errors Found' && (
+                                <button className="flex-1 bg-red-600 hover:bg-red-700 px-4 py-2.5 rounded-lg font-semibold text-sm transition"
+                                  onClick={() => { setActiveTab('scanbacks'); setSelectedOrder(null); }}>
+                                  View Scanback Errors
+                                </button>
+                              )}
+                              {order.status !== 'Completed' && (
+                                <button
+                                  className={`flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition ${
+                                    canComplete
+                                      ? 'bg-green-600 hover:bg-green-700 cursor-pointer'
+                                      : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                  }`}
+                                  disabled={!canComplete}
+                                  onClick={handleComplete}
+                                  title={canComplete ? 'Mark order complete' : `${fatalOpen} FATAL QC items must be completed first`}>
+                                  {canComplete ? 'Complete Order' : `QC Gate: ${fatalOpen} Fatal Open`}
+                                </button>
+                              )}
+                              <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2.5 rounded-lg font-semibold text-sm transition">
+                                Edit
+                              </button>
+                            </div>
+                            {!canComplete && order.status !== 'Completed' && (
+                              <p className="text-red-400 text-xs text-center font-semibold">
+                                All FATAL QC items must be checked before this order can be completed
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
@@ -674,7 +1435,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                       const svc = SERVICE_COLORS[order.type];
                       return (
                         <div key={order.id} className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-yellow-500/50 transition"
-                          style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color }}>
+                          style={{ borderLeftWidth: '5px', borderLeftColor: svc?.color, backgroundColor: svc?.color + '10' }}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <ServiceBadge type={order.type} />
@@ -742,70 +1503,130 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">📸 Scanbacks</h2>
-                <p className="text-gray-400">Document verification & inspection</p>
+                <p className="text-gray-400">{scanbacks.length} orders in document pipeline</p>
               </div>
               <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
                 {[
-                  { key: 'all', label: 'All' },
-                  { key: 'Needs Review', label: '🔍 Needs Review' },
-                  { key: 'Errors Found', label: '🚨 Errors' },
-                  { key: 'Clean', label: '✅ Clean' },
-                ].map(f => (
-                  <button key={f.key} onClick={() => setScanbackFilter(f.key)}
-                    className={`px-3 py-1.5 rounded text-sm font-semibold transition ${scanbackFilter === f.key ? 'bg-gray-600 text-white' : 'text-gray-400 hover:text-white'}`}>
-                    {f.label}
-                  </button>
-                ))}
+                  { key: 'all', label: 'All', color: '' },
+                  { key: 'Awaiting Upload', label: '⏳ Awaiting', color: 'text-gray-400' },
+                  { key: 'Needs Review', label: '🔍 Review', color: 'text-blue-400' },
+                  { key: 'Errors Found', label: '🚨 Errors', color: 'text-red-400' },
+                  { key: 'Clean', label: '✅ Clean', color: 'text-green-400' },
+                ].map(f => {
+                  const count = f.key === 'all' ? scanbacks.length : scanbacks.filter(s => s.status === f.key).length;
+                  return (
+                    <button key={f.key} onClick={() => setScanbackFilter(f.key)}
+                      className={`px-3 py-1.5 rounded text-sm font-semibold transition flex items-center gap-1.5 ${scanbackFilter === f.key ? 'bg-gray-600 text-white' : 'text-gray-400 hover:text-white'}`}>
+                      {f.label}
+                      <span className={`text-[10px] font-bold px-1.5 rounded-full ${
+                        scanbackFilter === f.key ? 'bg-white/20' : count > 0 ? 'bg-gray-700' : 'bg-gray-800 opacity-30'
+                      }`}>{count}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="space-y-4">
+            {/* Summary Cards */}
+            <div className="grid grid-cols-4 gap-4 mb-6">
+              <StatCard label="Awaiting Upload" value={awaitingScanback.length} icon="⏳" color="yellow" sub="Agent hasn't submitted" />
+              <StatCard label="Needs Review" value={needsReview.length} icon="🔍" color="blue" sub="Ready for QC inspection" />
+              <StatCard label="Errors Found" value={errorsFound.length} icon="🚨" color="red" sub="Needs correction" />
+              <StatCard label="Clean" value={scanbacks.filter(s => s.status === 'Clean').length} icon="✅" color="green" sub="Passed inspection" />
+            </div>
+
+            <div className="space-y-3">
+              {filteredScanbacks.length === 0 && (
+                <div className="bg-gray-800 border border-gray-700 rounded-xl p-10 text-center">
+                  <p className="text-gray-500 text-lg">No scanbacks match this filter</p>
+                  <p className="text-gray-600 text-sm mt-1">Orders appear here when they reach the QC Review or Documentation stage</p>
+                </div>
+              )}
               {filteredScanbacks.map(sb => {
                 const svc = SERVICE_COLORS[sb.type];
                 const isExpanded = selectedScanback === sb.id;
+                const statusStyle = sb.status === 'Clean' ? 'bg-green-600 text-white'
+                  : sb.status === 'Errors Found' ? 'bg-red-600 text-white'
+                  : sb.status === 'Needs Review' ? 'bg-blue-600 text-white'
+                  : 'bg-gray-600 text-gray-300';
+
+                const reviewScanback = async (action: 'clean' | 'errors') => {
+                  try {
+                    const res = await api.patch(`/prism/orders/${sb.orderId}/scanback/review`, {
+                      action,
+                      reviewer: 'Dee Davis',
+                      errors: action === 'errors' ? [{ severity: 'CRITICAL', page: 1, description: 'Issue flagged by reviewer' }] : [],
+                    });
+                    if (res?.order) {
+                      setOrders(prev => prev.map(o => o.id === sb.orderId ? { ...o, ...res.order } : o));
+                    }
+                  } catch (err) { console.error('Review failed:', err); }
+                };
+
                 return (
                   <div key={sb.id} className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden hover:border-gray-600 transition"
-                    style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color }}>
+                    style={{ borderLeftWidth: '5px', borderLeftColor: svc?.color, backgroundColor: svc?.color + '08' }}>
                     <div className="px-4 py-3 flex items-center justify-between cursor-pointer"
                       onClick={() => setSelectedScanback(isExpanded ? null : sb.id)}>
                       <div className="flex items-center gap-3">
                         <ServiceBadge type={sb.type} />
-                        <span className="font-mono text-xs text-gray-500">{sb.orderId}</span>
-                        <span className="text-sm text-gray-300">— {sb.agent}</span>
+                        <div>
+                          <span className="font-mono text-xs text-gray-400">{sb.orderId}</span>
+                          <p className="text-sm text-white font-semibold">{sb.signer || sb.client}</p>
+                        </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-gray-500">{sb.pages}/{sb.expected} pages</span>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${
-                          sb.status === 'Clean' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                          sb.status === 'Errors Found' ? 'bg-red-500/20 text-red-400 border-red-500/30' :
-                          'bg-blue-500/20 text-blue-400 border-blue-500/30'
-                        }`}>{sb.status}</span>
-                        <span className="text-gray-500">{isExpanded ? '▲' : '▼'}</span>
+                        <span className="text-sm text-gray-400">{sb.agent}</span>
+                        {sb.attempt > 0 && (
+                          <span className="text-xs text-gray-500">{sb.pages}/{sb.expected} pg · Attempt #{sb.attempt}</span>
+                        )}
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${statusStyle}`}>
+                          {sb.status}
+                        </span>
+                        <span className="text-gray-500 text-sm">{isExpanded ? '▲' : '▼'}</span>
                       </div>
                     </div>
 
                     {isExpanded && (
-                      <div className="border-t border-gray-700 px-4 py-4">
-                        <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
-                          <div><span className="text-gray-500 text-xs block">Upload Date</span>{sb.uploadDate}</div>
-                          <div><span className="text-gray-500 text-xs block">Attempt</span>#{sb.attempt}</div>
-                          <div><span className="text-gray-500 text-xs block">Page Match</span>
-                            {sb.pages === sb.expected ? <span className="text-green-400">✅ {sb.pages}/{sb.expected}</span> : <span className="text-red-400">❌ {sb.pages}/{sb.expected}</span>}
+                      <div className="border-t border-gray-700 px-5 py-4">
+                        {/* Upload Info */}
+                        <div className="grid grid-cols-4 gap-4 mb-4 text-sm">
+                          <div>
+                            <span className="text-gray-500 text-xs block mb-0.5">Upload Date</span>
+                            <span className="text-gray-200">{sb.uploadDate ? new Date(sb.uploadDate).toLocaleString() : '—'}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500 text-xs block mb-0.5">Attempt</span>
+                            <span className="text-gray-200">{sb.attempt > 0 ? `#${sb.attempt}` : 'No upload'}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500 text-xs block mb-0.5">Page Count</span>
+                            {sb.attempt > 0
+                              ? (sb.pages >= sb.expected
+                                  ? <span className="text-green-400 font-bold">✅ {sb.pages}/{sb.expected}</span>
+                                  : <span className="text-red-400 font-bold">❌ {sb.pages}/{sb.expected}</span>)
+                              : <span className="text-gray-500">—</span>
+                            }
+                          </div>
+                          <div>
+                            <span className="text-gray-500 text-xs block mb-0.5">Reviewed By</span>
+                            <span className="text-gray-200">{sb.reviewed_by || '—'}</span>
                           </div>
                         </div>
 
+                        {/* Errors Section */}
                         {sb.errors && sb.errors.length > 0 && (
                           <div className="mb-4">
-                            <h4 className="text-sm font-bold text-red-400 mb-2">Inspection Report</h4>
+                            <h4 className="text-sm font-bold text-red-400 mb-2">Inspection Errors ({sb.errors.length})</h4>
                             <div className="space-y-2">
                               {sb.errors.map((err, i) => (
-                                <div key={i} className={`px-3 py-2 rounded-lg text-sm ${
-                                  err.severity === 'CRITICAL' ? 'bg-red-500/10 border border-red-500/30' : 'bg-yellow-500/10 border border-yellow-500/30'
+                                <div key={i} className={`px-3 py-2.5 rounded-lg text-sm border ${
+                                  err.severity === 'CRITICAL' ? 'bg-red-500/10 border-red-500/40' : 'bg-yellow-500/10 border-yellow-500/40'
                                 }`}>
                                   <div className="flex items-center gap-2 mb-1">
-                                    <span className={`text-xs font-bold ${err.severity === 'CRITICAL' ? 'text-red-400' : 'text-yellow-400'}`}>
-                                      {err.severity}
-                                    </span>
+                                    <span className={`text-[10px] font-black px-2 py-0.5 rounded ${
+                                      err.severity === 'CRITICAL' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
+                                    }`}>{err.severity}</span>
                                     <span className="text-xs text-gray-500">Page {err.page}</span>
                                   </div>
                                   <p className="text-gray-300">{err.description}</p>
@@ -815,18 +1636,37 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                           </div>
                         )}
 
-                        <div className="flex gap-2">
+                        {/* Awaiting Upload State */}
+                        {sb.status === 'Awaiting Upload' && (
+                          <div className="mb-4 p-4 rounded-lg border-2 border-dashed border-yellow-500/30 bg-yellow-500/5 text-center">
+                            <p className="text-yellow-400 font-bold mb-1">⏳ Awaiting Document Upload</p>
+                            <p className="text-gray-500 text-sm">Agent has not yet submitted documents for this order</p>
+                          </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 flex-wrap">
                           {sb.status === 'Needs Review' && (
                             <>
-                              <button className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-semibold text-sm transition">✅ Mark Clean</button>
-                              <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold text-sm transition">🚨 Flag Errors</button>
+                              <button onClick={() => reviewScanback('clean')}
+                                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-bold text-sm transition shadow-sm">
+                                ✅ Mark Clean
+                              </button>
+                              <button onClick={() => reviewScanback('errors')}
+                                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-bold text-sm transition shadow-sm">
+                                🚨 Flag Errors
+                              </button>
                             </>
                           )}
                           {sb.status === 'Errors Found' && (
-                            <button className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg font-semibold text-sm transition">📩 Send Correction Request</button>
+                            <button className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold text-sm transition shadow-sm">
+                              📩 Request Correction
+                            </button>
                           )}
-                          <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">👁 View Documents</button>
-                          <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">🔄 Re-Inspect</button>
+                          <button onClick={() => { setSelectedOrder(sb.orderId); setActiveTab('orders'); }}
+                            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                            📋 View Order
+                          </button>
                         </div>
                       </div>
                     )}
@@ -985,34 +1825,87 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
         {/* ════════════════════════════════════════════════════
             TAB: INSPECTION
         ════════════════════════════════════════════════════ */}
-        {activeTab === 'inspection' && (
+        {activeTab === 'inspection' && (() => {
+          const inspectionTypes = Object.keys(SERVICE_INSPECTION);
+          const current = SERVICE_INSPECTION[inspSvc] || SERVICE_INSPECTION['dot'];
+          const svcColor = SERVICE_COLORS[inspSvc];
+          const totalRules = Object.values(SERVICE_INSPECTION).reduce((sum, s) => sum + s.fundamentals.length, 0);
+
+          return (
           <div>
             <div className="mb-6">
               <h2 className="text-3xl font-bold mb-1">🔍 Inspection Engine</h2>
-              <p className="text-gray-400">Rules, learned patterns, and accuracy tracking</p>
+              <p className="text-gray-400">Service-specific compliance fundamentals, certifications & QC rules</p>
             </div>
 
-            {/* The 7 Fundamentals */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold mb-3">The 7 Fundamentals (Never Change)</h3>
+            {/* Stats Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <StatCard label="Service Modules" value={inspectionTypes.length} icon="📋" color="orange" sub="Active inspection engines" />
+              <StatCard label="Total Rules" value={totalRules} icon="📐" color="blue" sub="Across all services" />
+              <StatCard label="Fatal Flaw Rules" value={Object.values(SERVICE_INSPECTION).reduce((s, v) => s + v.fatalFlaws.length, 0)} icon="🚨" color="red" sub="Zero-tolerance checks" />
+              <StatCard label="Certifications Tracked" value={Object.values(SERVICE_INSPECTION).reduce((s, v) => s + v.certs.length, 0)} icon="🎓" color="green" sub="Agent requirements" />
+            </div>
+
+            {/* Service Selector */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {inspectionTypes.map(key => {
+                const svc = SERVICE_COLORS[key];
+                const insp = SERVICE_INSPECTION[key];
+                return (
+                  <button key={key} onClick={() => setInspSvc(key)}
+                    className={`px-3 py-2 rounded-lg text-sm font-bold transition border ${inspSvc === key ? 'ring-2 ring-offset-1 ring-offset-gray-900 shadow-lg' : 'opacity-50 hover:opacity-90'}`}
+                    style={{
+                      borderColor: svc?.color || '#6B7280',
+                      backgroundColor: inspSvc === key ? svc?.solid : 'transparent',
+                      color: inspSvc === key ? '#FFFFFF' : (svc?.color || '#9CA3AF'),
+                      ...(inspSvc === key ? { ringColor: svc?.color } : {}),
+                    }}>
+                    {svc?.icon} {insp.title.split('/')[0].split('(')[0].trim()}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active Module Header */}
+            <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-6" style={{ borderLeftWidth: '5px', borderLeftColor: svcColor?.color, backgroundColor: svcColor?.color + '12' }}>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xl font-bold">{current.title}</h3>
+                <span className="px-3 py-1 rounded-full text-xs font-bold shadow-sm" style={{ backgroundColor: svcColor?.solid, color: '#FFFFFF' }}>
+                  {current.fundamentals.length} Checks
+                </span>
+              </div>
+              <p className="text-gray-400 text-sm">{current.fundamentals.filter(f => f.severity === 'FATAL').length} fatal flaw checks · {current.fundamentals.filter(f => f.severity === 'CRITICAL').length} critical checks · {current.certs.length} certifications required</p>
+            </div>
+
+            {/* Required Certifications (CTPA) */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold mb-3">🎓 Required Agent Certifications</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {[
-                  { num: 1, check: 'Every required signature present?' },
-                  { num: 2, check: 'Every required initial present?' },
-                  { num: 3, check: 'Every required date filled in?' },
-                  { num: 4, check: 'Notary seal/stamp present where required?' },
-                  { num: 5, check: 'All required pages/forms included?' },
-                  { num: 6, check: 'ID copy included (when required)?' },
-                  { num: 7, check: 'No markings where there shouldn\'t be?' },
-                ].map(rule => (
-                  <div key={rule.num} className="bg-gray-800 border border-gray-700 rounded-lg p-4 flex items-center gap-4 hover:border-gray-600 transition">
-                    <div className="w-8 h-8 bg-orange-500/20 text-orange-400 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-                      {rule.num}
-                    </div>
+                {current.certs.map((cert, i) => (
+                  <div key={i} className="bg-gray-800 border border-gray-700 rounded-lg p-4 flex items-center gap-3 hover:border-gray-600 transition">
+                    <div className="w-8 h-8 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">✓</div>
+                    <p className="text-sm font-semibold">{cert}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Fundamentals Checklist */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold mb-3">📐 Inspection Fundamentals</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {current.fundamentals.map((rule, i) => (
+                  <div key={rule.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 flex items-center gap-4 hover:border-gray-600 transition">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                      rule.severity === 'FATAL' ? 'bg-red-500/20 text-red-400' : rule.severity === 'CRITICAL' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400'
+                    }`}>{i + 1}</div>
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{rule.check}</p>
-                      <div className="flex gap-4 text-xs text-gray-500 mt-1">
-                        <span className="text-green-400">Active</span>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                          rule.severity === 'FATAL' ? 'bg-red-500/20 text-red-400' : rule.severity === 'CRITICAL' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400'
+                        }`}>{rule.severity}</span>
+                        <span className="text-[10px] text-gray-500">{rule.id}</span>
                       </div>
                     </div>
                   </div>
@@ -1020,19 +1913,49 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </div>
             </div>
 
+            {/* Fatal Flaws */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold mb-3 text-red-400">🚨 Fatal Flaws — Zero Tolerance</h3>
+              <div className="bg-gray-800 border border-red-500/30 rounded-xl p-5">
+                <div className="space-y-2">
+                  {current.fatalFlaws.map((flaw, i) => (
+                    <div key={i} className="flex items-start gap-3 text-sm">
+                      <span className="text-red-400 font-bold mt-0.5">✕</span>
+                      <span className="text-gray-300">{flaw}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Common Errors */}
+            <div className="mb-6">
+              <h3 className="text-lg font-bold mb-3">⚠️ Common Errors to Watch</h3>
+              <div className="bg-gray-800 border border-yellow-500/30 rounded-xl p-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {current.commonErrors.map((err, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm">
+                      <span className="text-yellow-400">⚠</span>
+                      <span className="text-gray-300">{err}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             {/* Adaptive Learning */}
-            <div className="mb-8">
+            <div>
               <h3 className="text-lg font-bold mb-3">🧠 Adaptive Learning</h3>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
                   <p className="text-xs text-gray-500 uppercase mb-1">Level 1: Rule-Based</p>
-                  <p className="text-2xl font-bold text-green-400">7</p>
+                  <p className="text-2xl font-bold text-green-400">{totalRules}</p>
                   <p className="text-xs text-gray-500">Active rules</p>
                 </div>
                 <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
                   <p className="text-xs text-gray-500 uppercase mb-1">Level 2: Learned Patterns</p>
-                  <p className="text-2xl font-bold text-blue-400">3</p>
-                  <p className="text-xs text-gray-500">Patterns discovered</p>
+                  <p className="text-2xl font-bold text-blue-400">{scanbacks.length}</p>
+                  <p className="text-xs text-gray-500">From QC reviews</p>
                 </div>
                 <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
                   <p className="text-xs text-gray-500 uppercase mb-1">Level 3: Anomalies</p>
@@ -1040,35 +1963,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                   <p className="text-xs text-gray-500">Needs more data</p>
                 </div>
               </div>
-
-              <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <h4 className="font-semibold mb-3">Learned Patterns</h4>
-                <div className="space-y-3">
-                  {scanbacks.length === 0 ? (
-                    <div className="text-center py-4 text-gray-500 text-sm">
-                      Patterns will appear as PRISM processes more scanbacks and identifies recurring issues.
-                    </div>
-                  ) : (
-                    <div className="text-center py-4 text-gray-500 text-sm">
-                      Learning from {scanbacks.length} scanback{scanbacks.length !== 1 ? 's' : ''}. More data needed for pattern detection.
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Misses */}
-            <div>
-              <h3 className="text-lg font-bold mb-3">🚫 Recent Misses (Post-Ship Rejections)</h3>
-              <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <div className="text-center py-4 text-gray-500">
-                  <p className="text-lg mb-1">No post-ship rejections this month</p>
-                  <p className="text-sm">This means the inspection engine is catching everything. 💪</p>
-                </div>
-              </div>
             </div>
           </div>
-        )}
+          );
+        })()}
 
         {/* ════════════════════════════════════════════════════
             TAB: PAYMENTS
@@ -1130,17 +2028,18 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                   {Object.entries(orders.reduce((acc: Record<string, { type: string; revenue: number; cost: number; orders: number }>, o) => {
                     if (!acc[o.type]) acc[o.type] = { type: o.type, revenue: 0, cost: 0, orders: 0 };
                     acc[o.type].revenue += o.fee || 0;
-                    acc[o.type].cost += Math.round((o.fee || 0) * 0.4);
+                    const costRate = 1 - (SERVICE_MARGIN_RATES[o.type] || 0.40);
+                    acc[o.type].cost += Math.round((o.fee || 0) * costRate);
                     acc[o.type].orders += 1;
                     return acc;
                   }, {})).map(([, m]) => m).sort((a, b) => b.revenue - a.revenue).slice(0, 5).map(m => {
                     const margin = Math.round(((m.revenue - m.cost) / m.revenue) * 100);
                     const svc = SERVICE_COLORS[m.type];
                     return (
-                      <div key={m.type} className="bg-gray-800 border border-gray-700 rounded-lg p-4" style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color }}>
+                      <div key={m.type} className="bg-gray-800 border border-gray-700 rounded-lg p-4" style={{ borderLeftWidth: '5px', borderLeftColor: svc?.color, backgroundColor: svc?.color + '10' }}>
                         <div className="flex items-center justify-between mb-2">
                           <ServiceBadge type={m.type} />
-                          <span className="text-xs text-gray-500">{m.orders} orders</span>
+                          <span className="text-xs text-gray-400 font-semibold">{m.orders} orders</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex gap-4 text-sm">
@@ -1191,7 +2090,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                         <div className="w-40"><ServiceBadge type={item.type} /></div>
                         <div className="flex-1">
                           <div className="h-6 bg-gray-700 rounded-full overflow-hidden">
-                            <div className="h-full rounded-full flex items-center px-2" style={{ width: `${item.pct}%`, backgroundColor: svc?.color }}>
+                            <div className="h-full rounded-full flex items-center px-2" style={{ width: `${item.pct}%`, backgroundColor: svc?.solid }}>
                               {item.pct >= 10 && <span className="text-white text-xs font-bold">{item.count}</span>}
                             </div>
                           </div>
@@ -1312,7 +2211,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-500 mb-1">Special Instructions</label>
-                <textarea className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-orange-500 focus:outline-none transition h-20 resize-none" placeholder="Blue pen, legal paper, etc." />
+                <textarea className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-orange-500 focus:outline-none transition h-20 resize-none" placeholder="Panel type, ORI code, collection method, test reason, compliance notes..." />
               </div>
             </div>
 

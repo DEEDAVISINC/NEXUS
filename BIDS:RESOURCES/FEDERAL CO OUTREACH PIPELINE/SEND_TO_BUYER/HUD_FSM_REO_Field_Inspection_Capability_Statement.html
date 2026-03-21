@@ -8,19 +8,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Open Sans','Inter',sans-serif; color:#1e293b; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-.page { width:8.5in; height:11in; margin:0 auto; padding:0; overflow:hidden; display:flex; flex-direction:column; }
+.page { width:8.5in; min-height:11in; margin:0 auto; padding:0; display:flex; flex-direction:column; }
 
 .header { background:linear-gradient(135deg,#166534 0%,#475569 100%); color:#fff; padding:0.5rem 0.55in; display:flex; align-items:center; gap:0.8rem; }
 .h-logo { width:70px; height:70px; background:#fff; border-radius:10px; padding:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 .h-logo img { width:100%; height:100%; object-fit:contain; }
 .h-text { flex:1; }
 .h-text h1 { font-family:'Montserrat',sans-serif; font-size:1.5rem; font-weight:900; letter-spacing:-0.5px; line-height:1.1; }
-.h-text .tag { font-size:0.65rem; font-style:italic; opacity:0.75; }
-.h-creds { display:flex; gap:0.5rem; font-size:0.55rem; font-weight:600; opacity:0.7; margin-top:0.2rem; flex-wrap:wrap; }
+.h-text .tag { font-size:0.65rem; font-style:italic; opacity:1; }
+.h-creds { display:flex; gap:0.5rem; font-size:0.55rem; font-weight:600; opacity:1; margin-top:0.2rem; flex-wrap:wrap; }
 
 .gold-bar { background:linear-gradient(135deg,#94a3b8,#475569,#94a3b8); padding:0.3rem 0.55in; display:flex; align-items:center; justify-content:space-between; }
-.gold-bar h2 { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:800; color:#166534; letter-spacing:0.5px; }
-.gold-bar .sub { font-size:0.6rem; color:#166534; opacity:0.8; font-weight:600; }
+.gold-bar h2 { font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:800; color:#fff; letter-spacing:0.5px; }
+.gold-bar .sub { font-size:0.6rem; color:#fff; opacity:1; font-weight:600; }
 
 .body { padding:0.35rem 0.45in 0.2rem; display:flex; flex-direction:column; gap:0.2rem; }
 
@@ -32,7 +32,7 @@ body { font-family:'Open Sans','Inter',sans-serif; color:#1e293b; background:#ff
 .who-text strong { color:#166534; }
 
 .sh { background:linear-gradient(135deg,#166534,#475569); color:#fff; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.2rem; }
-.sh-accent { background:linear-gradient(135deg,#475569,#94a3b8); color:#166534; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.2rem; }
+.sh-accent { background:linear-gradient(135deg,#475569,#94a3b8); color:#fff; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.65rem; font-weight:700; margin-bottom:0.3rem; margin-top:0.2rem; }
 
 .comp-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.3rem; margin-bottom:0.4rem; }
 .c { border-radius:6px; padding:0.28rem 0.35rem; }
@@ -40,7 +40,7 @@ body { font-family:'Open Sans','Inter',sans-serif; color:#1e293b; background:#ff
 .c p { font-size:0.53rem; line-height:1.4; }
 
 .c-primary { background:#166534; color:#fff; }
-.c-primary h4 { color:#475569; }
+.c-primary h4 { color:#fff; }
 .c-light1 { background:#f0f9ff; border:1.5px solid #bae6fd; }
 .c-light1 h4 { color:#166534; }
 .c-light2 { background:#fef7e8; border:1.5px solid #fde68a; }
@@ -58,10 +58,10 @@ body { font-family:'Open Sans','Inter',sans-serif; color:#1e293b; background:#ff
 
 .cols { display:grid; grid-template-columns:1fr 1fr; gap:0.45rem; margin-bottom:0.35rem; }
 ul.wl { list-style:none; padding:0; }
-ul.wl li { padding-left:0.7rem;  margin-bottom:0.25rem; }
-ul.wl li::before { content:"\2605"; position:absolute; left:0; color:#475569; font-size:0.5rem; top:0.06rem; }
-.wt { font-size:0.57rem; font-weight:700; color:#166534; }
-.wd { font-size:0.5rem; color:#64748b; }
+ul.wl li { position:relative; padding-left:0.85rem; margin-bottom:0.25rem; }
+ul.wl li::before { content:"\2605"; position:absolute; left:0; color:#475569; font-size:0.52rem; top:0.08rem; }
+.wt { font-size:0.58rem; font-weight:700; color:#166534; }
+.wd { font-size:0.53rem; color:#475569; }
 
 .cert-strip { display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0; border-top:1.5px solid #e2e8f0; margin-bottom:0.15rem; }
 .cert-strip img { height:32px; object-fit:contain; }
@@ -73,11 +73,11 @@ ul.wl li::before { content:"\2605"; position:absolute; left:0; color:#475569; fo
 
 .footer { background:linear-gradient(135deg,#166534,#475569); color:#fff; padding:0.45rem 0.55in; display:flex; align-items:center; justify-content:space-between; margin-top:0; }
 .f-left { font-size:0.58rem; line-height:1.5; }
-.f-left strong { color:#475569; }
-.f-right { text-align:right; font-size:0.54rem; line-height:1.5; opacity:0.75; }
+.f-left strong { color:#fff; }
+.f-right { text-align:right; font-size:0.54rem; line-height:1.5; opacity:1; }
 .f-naics { font-size:0.52rem; color:#475569; font-weight:700; margin-top:0.1rem; background:rgba(255,255,255,0.1); padding:0.15rem 0.3rem; border-radius:3px; }
 
-@media print { body { margin:0; } .page { margin:0; } }
+@media print { body { margin:0; } .page { margin:0; min-height:auto; } }
 </style>
 </head>
 <body>
@@ -166,54 +166,51 @@ ul.wl li::before { content:"\2605"; position:absolute; left:0; color:#475569; fo
       <div style="flex:1.2; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:5px; padding:0.25rem 0.35rem;">
         <div style="font-size:0.6rem; font-weight:700; color:#166534; border-bottom:2px solid #475569; padding-bottom:0.08rem; margin-bottom:0.1rem;">NAICS Codes</div>
         <div style="font-size:0.5rem; line-height:1.45; color:#1e293b; column-count:2; column-gap:0.35rem;">
-          <strong>541611</strong> Admin & General Consulting<br>
-          <strong>541614</strong> Process & Logistics<br>
-          <strong>541618</strong> Management Consulting<br>
-          <strong>541690</strong> Scientific & Technical<br>
-          <strong>541990</strong> Professional Services<br>
-          <strong>621511</strong> Medical Laboratories<br>
-          <strong>621999</strong> Ambulatory Health Care<br>
-          <strong>561611</strong> Investigation Services<br>
-          <strong>561612</strong> Security Services<br>
-          <strong>485991</strong> Special Needs Transport<br>
-          <strong>492110</strong> Couriers & Delivery<br>
-          <strong>484230</strong> Specialized Freight<br>
-          <strong>423450</strong> Medical Equipment
+          <strong>541350</strong> Building Inspection Services<br>
+          <strong>531311</strong> Residential Property Managers<br>
+          <strong>531390</strong> Other Real Estate Activities<br>
+          <strong>531210</strong> Real Estate Agents &amp; Brokers<br>
+          <strong>522310</strong> Mortgage Brokers<br>
+          <strong>561990</strong> All Other Support Services<br>
+          <strong>236118</strong> Residential Remodelers<br>
+          <strong>541611</strong> Admin &amp; General Consulting<br>
+          <strong>541690</strong> Scientific &amp; Technical<br>
+          <strong>541990</strong> Other Professional Services
         </div>
       </div>
     </div>
 
     <div class="sh">PAST PERFORMANCE &mdash; VERIFIED TRACK RECORD</div>
         <ul class="wl">
-                    <li><span class="wt">DOT DRUG &amp; ALCOHOL PROGRAMS</span><br><span class="wd">TPA for transit authorities, utilities, federal agencies. Full 49 CFR Parts 40 &amp; 655 compliance.</span></li>
-          <li><span class="wt">FEDERAL FINGERPRINTING &mdash; 4+ INSTALLATIONS</span><br><span class="wd">SWFT BPAs executed. DCSA/FBI electronic submissions. 24-48 hour turnaround.</span></li>
-          <li><span class="wt">15+ ANNUAL MUNICIPAL CONTRACTS</span><br><span class="wd">County government commodity supply. On-time, on-budget, renewed annually.</span></li>
-          <li><span class="wt">1,500+ REGULATED DELIVERIES</span><br><span class="wd">Chain-of-custody medical, pharmaceutical, specimen transport. Zero deficiencies.</span></li>
-          <li><span class="wt">5,100+ MANAGED FACILITIES</span><br><span class="wd">Deployment-ready nationwide via eScreen/Quest Diagnostics partnership.</span></li>
-          <li><span class="wt">MDHHS COMMUNITY PARTNER</span><br><span class="wd">Official recognition &mdash; State of Michigan Department of Health &amp; Human Services.</span></li>
+          <li><span class="wt">United Wholesale Mortgage (UWM)</span><br><span class="wd">Private biometric credentialing of C-suite executives for financial securities licensing compliance.</span></li>
+          <li><span class="wt">Perry Johnson Mortgage</span><br><span class="wd">Biometric fingerprinting and documentation delivery services for executive financial licensing compliance.</span></li>
+          <li><span class="wt">Gideon Logistics</span><br><span class="wd">DOT compliance, drug &amp; alcohol testing, specimen courier, personnel management, and logistics services.</span></li>
+          <li><span class="wt">Champion Homes / Skyline Champion</span><br><span class="wd">Document courier, logistics coordination, and compliance documentation for corporate operations.</span></li>
+          <li><span class="wt">MDHHS Community Partner</span><br><span class="wd">Official recognition — State of Michigan Department of Health &amp; Human Services. Government service delivery.</span></li>
+
         </ul>
       </div>
       <div>
         <div class="sh-accent">&#9733; DIFFERENTIATORS</div>
         <ul class="wl">
-                    <li><span class="wt">EDWOSB SOLE-SOURCE ELIGIBLE &mdash; UP TO $7M</span><br><span class="wd">SBA-certified. Streamlined procurement path. Reduces acquisition timeline by 60%+.</span></li>
-          <li><span class="wt">5,100+ DEPLOYMENT-READY FACILITIES</span><br><span class="wd">Nationwide operational coverage through eScreen/Quest. Activate within 24 hours of award.</span></li>
-          <li><span class="wt">SWFT AUTHORIZED &mdash; TOP 10% NATIONALLY</span><br><span class="wd">3+ consecutive years DCSA authorization. Electronic submission to DCSA &amp; FBI CJIS.</span></li>
-          <li><span class="wt">ZERO COMPLIANCE DEFICIENCIES</span><br><span class="wd">1,500+ regulated deliveries across DOT, SAMHSA, HIPAA, and AABB environments. Fully auditable.</span></li>
-          <li><span class="wt">TWIC-CLEARED SECURE ACCESS</span><br><span class="wd">Credentialed for ports, VA medical centers, DoD installations, and restricted federal facilities.</span></li>
-          <li><span class="wt">MULTI-STATE, MULTI-SECTOR PRIME</span><br><span class="wd">7+ years. Licensed in MI, GA, FL, MD. Active: SAM.gov, SIGMA, City of Detroit, BidNet, Oracle, Bonfire.</span></li>
-          
+                    <li><span class="wt">LICENSED MLO &mdash; MICHIGAN &amp; GEORGIA (NMLS# 2099291)</span><br><span class="wd">Full loan default-to-disposition lifecycle expertise. Direct knowledge of HUD/FSM requirements and servicer obligations.</span></li>
+          <li><span class="wt">PROPERTY DATA COLLECTION CERTIFIED</span><br><span class="wd">Walitt Solutions, 2022. HUD/Fannie Mae PDC format. Photo documentation, condition assessment, reporting standards compliant.</span></li>
+          <li><span class="wt">PRISM DISPATCH PLATFORM</span><br><span class="wd">Proprietary field inspection QA and dispatch system. Real-time tracking, photo verification, HUD-compliant reporting.</span></li>
+          <li><span class="wt">EDWOSB SOLE-SOURCE ELIGIBLE &mdash; UP TO $7M</span><br><span class="wd">SBA-certified. Streamlined HUD, VA, and USDA procurement path. Reduces acquisition timeline significantly.</span></li>
+          <li><span class="wt">P&amp;C INSURANCE PRELICENSE</span><br><span class="wd">Property risk assessment expertise. Casualty evaluation, hazard compliance, insurance verification for REO portfolios.</span></li>
+          <li><span class="wt">NOTARY / DOCUMENT PREPARATION &amp; CONTRACT MANAGEMENT</span><br><span class="wd">Michigan Notary Public &amp; Remote Online Notary (RON) certified. Closing docs, deed transfers, lien releases, REO contract execution, and compliance documentation — handled in-house.</span></li>
+          <li><span class="wt">PHILADELPHIA HOC REGION COVERAGE</span><br><span class="wd">Michigan primary market. Sub-network via iVueit, CS Field Services, VRM Mortgage partnerships. Nationwide deployment capable.</span></li>
           </ul>
       </div>
     </div>
     <!-- POINT OF CONTACT -->
     <div style="display:flex; gap:0.4rem; margin-top:0.15rem;">
       <div style="flex:1; background:linear-gradient(135deg,#166534,#475569); color:#fff; border-radius:5px; padding:0.3rem 0.4rem;">
-        <div style="font-size:0.6rem; font-weight:700; color:#475569; margin-bottom:0.1rem;">POINT OF CONTACT</div>
+        <div style="font-size:0.6rem; font-weight:700; color:#fff; margin-bottom:0.1rem; letter-spacing:0.5px;">POINT OF CONTACT</div>
         <div style="font-size:0.55rem; line-height:1.55;">
-          <strong>Dieasha D. Davis</strong> — President & CEO<br>
-          <span style="opacity:0.85;">248.376.4550 | info@deedavis.biz</span><br>
-          <span style="opacity:0.85;">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</span>
+          <strong>Dieasha D. Davis</strong> — President &amp; CEO<br>
+          <span>248.376.4550 | info@deedavis.biz</span><br>
+          <span>755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</span>
         </div>
       </div>
       <div style="flex:1; background:#fef7e8; border:1.5px solid #475569; border-radius:5px; padding:0.3rem 0.4rem; ">
@@ -248,9 +245,9 @@ ul.wl li::before { content:"\2605"; position:absolute; left:0; color:#475569; fo
       755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084
     </div>
     <div class="f-right">
-      CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1<br>
-      MC: 1647572 | DOT: 4250594 | NPI: 1538939111<br>
-      <strong style="color:#475569;">Primary:</strong> MI, GA, FL, MD | CONUS/OCONUS<br>
+      CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | DUNS: 002636755<br>
+      SAM.gov: ACTIVE | Est. 2018 | MC: 1647572 | DOT: 4250594<br>
+      Prepared for HUD / FSM &mdash; REO Field Inspection &amp; Property Management | March 2026
       </div>
   </div>
 

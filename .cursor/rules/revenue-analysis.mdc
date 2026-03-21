@@ -100,12 +100,36 @@ Generate this section in every WORKFLOW_CHECKLIST.md and present it in the chat 
 | **ROI on Bid Prep** | [Contract lifetime margin ÷ bid prep cost]x |
 | **Verdict** | [STRONG BID / WORTH PURSUING / MARGINAL / PASS] |
 
-### Comparable Contracts (Market Intelligence)
-| Source | Contract | Agency | Value | Period |
-|---|---|---|---|---|
-| USASpending | [Similar contract found] | [Agency] | $[value] | [dates] |
-| SAM.gov | [Previous solicitation] | [Agency] | $[value] | [dates] |
-| Industry avg | [Service type benchmark] | — | $[range] | — |
+### Comparable Contracts (Market Intelligence) — MANDATORY ARCHIVE SEARCH
+
+**BEFORE pricing any bid, RUN `historical_pricing_scraper.py` against the solicitation's NAICS code(s).**
+
+```python
+from historical_pricing_scraper import HistoricalPricingScraper
+scraper = HistoricalPricingScraper()
+results = scraper.search_similar_contracts(
+    service_type="[description]",
+    naics_code="[solicitation NAICS]",
+    years_back=3
+)
+```
+
+Then populate this table with ACTUAL data from the search:
+
+| Source | Recipient | Agency | Value | State | Description |
+|---|---|---|---|---|---|
+| USASpending | [Company name] | [Agency] | $[value] | [ST] | [What the contract is for] |
+| USASpending | [Company name] | [Agency] | $[value] | [ST] | [What the contract is for] |
+| USASpending | [Company name] | [Agency] | $[value] | [ST] | [What the contract is for] |
+
+**Competitive Intelligence Summary:**
+- **Top competitors in this NAICS:** [List top 3-5 companies winning contracts]
+- **Average award size:** $[calculated from results]
+- **Agencies buying this service:** [List agencies from results]
+- **DDI partner wins:** [If Quest, DDC, or other DDI partners show up — FLAG IT as proof point]
+- **Pricing benchmark:** $[average] annual / $[range] total contract value
+
+**This is NOT optional. Every revenue analysis gets an archive search. The data is free and takes 2 seconds to pull.**
 
 **Notes:** [Any assumptions, caveats, or market context]
 ```
@@ -191,10 +215,10 @@ If actual sub quotes are in hand → use actual numbers, not estimates.
 
 ## WHEN TO GENERATE THIS
 
-1. **First analysis of any solicitation** — Include in chat + add to WORKFLOW_CHECKLIST.md
-2. **After sub pricing is received** — Update with actual costs (replace estimates)
-3. **Before GO/NO-GO decision** — This IS the data that drives the decision
-4. **Before final bid submission** — Verify margins are still on target
+1. **First analysis of any solicitation** — Run archive search + revenue analysis together. Include both in chat + add to WORKFLOW_CHECKLIST.md. Archive search is STEP 2 of the workflow — it happens before GO/NO-GO.
+2. **After sub pricing is received** — Update with actual costs (replace estimates). Compare sub pricing against archive search benchmarks to validate competitiveness.
+3. **Before GO/NO-GO decision** — Revenue analysis + archive search data = the decision. If competitors are winning at $X and DDI can't beat or match it, that's a data-driven NO-GO.
+4. **Before final bid submission** — Re-run archive search if needed for latest data. Verify margins are still on target against market benchmarks. Use competitor wins as proof points in proposals (e.g., "Quest Diagnostics currently holds $43.7M in VA lab services contracts").
 
 ---
 
@@ -236,6 +260,10 @@ If the contract value isn't disclosed:
 - `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` — Agency rates
 - `PARTNER_ACCOUNT_UPDATES.md` — Fulfillment partner pricing
 - `ddi-business-model.mdc` — Pricing and model rule
+- `historical_pricing_scraper.py` — USASpending archive search (competitor wins, pricing data, agency buyers)
+- `mine_usaspending_buyers.py` — Agency buyer discovery by NAICS code
+- `contract_intelligence.py` — Expiring contract intel, prime/sub/recompete analysis
+- `pricing_intelligence.py` — Unified pricing brain (market benchmarks + historical data + markup recommendations)
 
 ---
 

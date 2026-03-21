@@ -167,7 +167,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - **BidNet Direct / MITN** — Registered (100+ Michigan municipal agencies)
 - **Oakland County Supplier Diversity Program** — Registered
 - **Sourcewell** — Active (cooperative purchasing — vehicle and equipment contracts)
-- **Kentucky VSS** — Registered (vss.ky.gov) — Vendor # KS0026951
+- **Kentucky VSS** — Registered (vss.ky.gov) — Vendor # KS0026951 — Since 02/15/2025 — **⚠️ Must submit Form SAS-63 with every Kentucky bid**
 
 ---
 
@@ -195,6 +195,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - Quest Diagnostics (Certified DOT drug testing provider)
 - DDC (DNA Diagnostics Center) - Court-admissible DNA testing (DDI is a collection partner via Depointe DNA DBA)
 - Uber Health (NEMT transportation platform)
+- **USDTL (United States Drug Testing Laboratories)** — OUTREACH SENT 03/20/2026 — Hair, nail, umbilical cord, oral fluid testing. SAMHSA-certified, CAP/CLIA accredited. Des Plaines, IL. Contact: Jenny Rodriguez, forensictesting@usdtl.com. Expands DDI's testing menu beyond urine/oral fluid into alternative specimen testing (90-day detection window). Collection partner agreement pending.
 
 **Professional Services:**
 - ZigSig (Remote Online Notarization platform)

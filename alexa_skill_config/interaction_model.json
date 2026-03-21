@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "alexis nexus",
+      "invocationName": "alexis",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",

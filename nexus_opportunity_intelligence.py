@@ -25,6 +25,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Persistent alert cache — prevents sending the same BID NOW email twice
+ALERTED_IDS_FILE = os.path.join(os.path.dirname(__file__), 'alerted_opportunity_ids.json')
+
+def _load_alerted_ids() -> dict:
+    """Load set of Airtable record IDs we've already sent BID NOW alerts for."""
+    try:
+        if os.path.exists(ALERTED_IDS_FILE):
+            with open(ALERTED_IDS_FILE, 'r') as f:
+                data = json.load(f)
+            # Prune entries older than 90 days
+            cutoff = (datetime.now() - timedelta(days=90)).isoformat()
+            pruned = {k: v for k, v in data.items() if v.get('alerted_at', '') > cutoff}
+            return pruned
+    except Exception:
+        pass
+    return {}
+
+def _save_alerted_ids(alerted: dict):
+    """Persist the alerted IDs cache."""
+    try:
+        with open(ALERTED_IDS_FILE, 'w') as f:
+            json.dump(alerted, f, indent=2)
+    except Exception:
+        pass
+
 # ============================================================================
 # DEE DAVIS INC — COMPANY PROFILE
 # ============================================================================
@@ -125,25 +150,50 @@ class OpportunityIntelligenceEngine:
             print(f"   ❌ Failed to fetch Airtable records: {e}")
             return results
         
-        # Find unscored opportunities
-        # Airtable field is "Source Status" (not "Status")
-        # "AI Recommendation " field (note trailing space) is used for score tracking
+        # ---- PHASE 1: Mark expired opportunities ----
+        expired_count = 0
+        try:
+            from dateutil import parser as date_parser
+        except ImportError:
+            date_parser = None
+
+        for record in all_records:
+            fields = record.get('fields', {})
+            source_status = (fields.get('Source Status') or '').strip().lower()
+            if 'expired' in source_status or 'archived' in source_status:
+                continue
+            deadline_str = fields.get('Deadline', '') or ''
+            if deadline_str and date_parser:
+                try:
+                    deadline = date_parser.parse(deadline_str)
+                    if deadline < datetime.now() - timedelta(days=1):
+                        table.update(record['id'], {
+                            'Source Status': '⚫ EXPIRED — Deadline Passed',
+                        })
+                        expired_count += 1
+                        import time
+                        time.sleep(0.25)
+                except Exception:
+                    pass
+        if expired_count:
+            print(f"   🗑️  Marked {expired_count} expired opportunities (deadline passed)")
+
+        # ---- PHASE 2: Find unscored opportunities ----
         unscored = []
         for record in all_records:
             fields = record.get('fields', {})
             source_status = (fields.get('Source Status') or '').strip()
             ai_rec = (fields.get('AI Recommendation ') or '').strip()
-            
+
+            # Skip expired/archived
+            if any(tag in source_status.lower() for tag in ['expired', 'archived']):
+                continue
+
             # Skip already scored by AI
             if ai_rec and ('BID NOW' in ai_rec or 'SKIP' in ai_rec or 'Worth' in ai_rec or 'Maybe' in ai_rec):
                 continue
             
-            # Score records that are:
-            # 1. "New - API" (freshly mined from SAM.gov/GovCon)
-            # 2. Empty status (imported but not categorized)
-            # 3. Forecast records (to identify the diamonds)
-            # 4. Presolicitation/Sources Sought types
-            # Skip records that are already being actively worked by Dee
+            # Skip records actively being worked by Dee
             active_statuses = ['active', 'submitted', 'awaiting quotes', 'ready to bid',
                                'missed', 'not started', 'conditional', 'bid now']
             is_active = any(s in source_status.lower() for s in active_statuses)
@@ -412,14 +462,35 @@ class OpportunityIntelligenceEngine:
         }
     
     def _send_bid_now_alerts(self, bid_now_opps: List[Dict]) -> int:
-        """Send email alerts for BID NOW opportunities."""
+        """Send email alerts for BID NOW opportunities. Only alerts once per opportunity."""
         if not EMAIL_PASSWORD:
             print("   ⚠️  No email password configured — skipping email alerts")
             return 0
         
-        # Build email body with all BID NOW opportunities
-        opp_sections = []
+        # Filter out opportunities we've already alerted on
+        alerted_ids = _load_alerted_ids()
+        new_opps = []
         for item in bid_now_opps:
+            record_id = item['record']['id']
+            if record_id not in alerted_ids:
+                new_opps.append(item)
+                alerted_ids[record_id] = {
+                    'alerted_at': datetime.now().isoformat(),
+                    'name': item['fields'].get('Name', 'Unknown')[:60],
+                    'score': item['score'],
+                }
+        
+        _save_alerted_ids(alerted_ids)
+        
+        if not new_opps:
+            print("   ✓ All BID NOW opportunities already alerted — no duplicate emails")
+            return 0
+        
+        print(f"   📧 {len(new_opps)} NEW BID NOW alerts (skipped {len(bid_now_opps) - len(new_opps)} already-alerted)")
+        
+        # Build email body with NEW BID NOW opportunities only
+        opp_sections = []
+        for item in new_opps:
             fields = item['fields']
             name = fields.get('Name', 'Untitled')
             rfp = fields.get('RFP NUMBER', 'N/A')
@@ -449,13 +520,13 @@ WHY THIS IS A MATCH:
 """
             opp_sections.append(section)
         
-        subject = f"🔴 NEXUS ALERT: {len(bid_now_opps)} BID NOW Opportunit{'y' if len(bid_now_opps) == 1 else 'ies'} Found"
+        subject = f"🔴 NEXUS ALERT: {len(new_opps)} BID NOW Opportunit{'y' if len(new_opps) == 1 else 'ies'} Found"
         
         body = f"""
 NEXUS OPPORTUNITY INTELLIGENCE
 {'=' * 50}
 
-{len(bid_now_opps)} HIGH-MATCH OPPORTUNIT{'Y' if len(bid_now_opps) == 1 else 'IES'} DETECTED
+{len(new_opps)} HIGH-MATCH OPPORTUNIT{'Y' if len(new_opps) == 1 else 'IES'} DETECTED
 Scored at 85+ against your company profile.
 These are strong matches — review and act ASAP.
 
@@ -1075,26 +1146,43 @@ def send_daily_digest():
     upcoming_deadlines = []
     new_today = []
     
+    try:
+        from dateutil import parser as dp
+    except ImportError:
+        dp = None
+
     for r in records:
         f = r.get('fields', {})
         source_status = f.get('Source Status', '')
         ai_rec = f.get('AI Recommendation ', '')
         name = f.get('Name', 'Untitled')
         deadline = f.get('Deadline', '')
-        
+
+        # Skip expired/archived records entirely
+        if any(tag in source_status.lower() for tag in ['expired', 'archived']):
+            continue
+
+        # Skip records with passed deadlines
+        if deadline and dp:
+            try:
+                dl = dp.parse(deadline)
+                if dl < now - timedelta(days=1):
+                    continue
+            except Exception:
+                pass
+
         if 'BID NOW' in source_status or 'BID NOW' in ai_rec:
             bid_now.append(f)
         elif 'Worth A Look' in source_status or 'WORTH A LOOK' in ai_rec:
             worth_look.append(f)
         
-        if deadline:
+        if deadline and dp:
             try:
-                from dateutil import parser as dp
                 dl = dp.parse(deadline)
                 days_left = (dl - now).days
                 if 0 <= days_left <= 7:
                     upcoming_deadlines.append({**f, '_days_left': days_left})
-            except:
+            except Exception:
                 pass
     
     # Build digest

@@ -12679,6 +12679,756 @@ def handle_get_pending_purchase_orders() -> List[Dict]:
 
 
 # =====================================================================
+# DDCSS PROSPECT MINER — Corporate & Enterprise Sourcing Engine
+# Free sources: SAM.gov federal primes, job posting boards, diversity news
+# =====================================================================
+
+class DDCSSProspectMiner:
+    """
+    Automated corporate prospect mining for DDCSS.
+    Sources: SAM.gov federal primes, job postings, diversity news RSS.
+    All free. No new tools required to start.
+    """
+
+    JOB_TITLES_TO_SERVICES = {
+        'notary': 'Mobile Notary Services',
+        'signing agent': 'Mobile Notary Services',
+        'drug testing': 'Drug Testing Program Management',
+        'drug test': 'Drug Testing Program Management',
+        'fingerprint': 'Mobile Fingerprinting Services',
+        'background check': 'Background Screening Services',
+        'compliance officer': 'Compliance Consulting',
+        'medical courier': 'Medical Specimen Transport',
+        'document processor': 'Document Management Services',
+        'courier': 'Courier & Delivery Services',
+    }
+
+    # Corporate sectors that buy DDI's direct-delivery services
+    # (drug testing, fingerprinting, notary, courier, background screening)
+    CORPORATE_HR_RSS_FEEDS = [
+        # Healthcare systems — high-volume drug testing + background screening buyers
+        'https://news.google.com/rss/search?q=michigan+hospital+system+hiring+expanding&hl=en-US&gl=US&ceid=US:en',
+        'https://news.google.com/rss/search?q=michigan+healthcare+system+new+facility&hl=en-US&gl=US&ceid=US:en',
+        # Staffing agencies — drug test every placed employee, recurring volume
+        'https://news.google.com/rss/search?q=michigan+staffing+agency+expanding+workforce&hl=en-US&gl=US&ceid=US:en',
+        # Manufacturing plants — DOT and safety drug testing required
+        'https://news.google.com/rss/search?q=michigan+manufacturing+plant+opening+new&hl=en-US&gl=US&ceid=US:en',
+        'https://news.google.com/rss/search?q=michigan+auto+supplier+plant+expansion+hiring&hl=en-US&gl=US&ceid=US:en',
+        # Construction/logistics — DOT-regulated, drug testing mandatory
+        'https://news.google.com/rss/search?q=michigan+logistics+distribution+center+opening&hl=en-US&gl=US&ceid=US:en',
+    ]
+
+    DIVERSITY_RSS_FEEDS = [
+        'https://news.google.com/rss/search?q=supplier+diversity+initiative&hl=en-US&gl=US&ceid=US:en',
+        'https://news.google.com/rss/search?q=women+owned+business+program+corporate&hl=en-US&gl=US&ceid=US:en',
+        'https://news.google.com/rss/search?q=diverse+supplier+commitment+2026&hl=en-US&gl=US&ceid=US:en',
+    ]
+
+    JOB_RSS_FEEDS = [
+        'https://www.indeed.com/rss?q=notary+michigan&l=Michigan',
+        'https://www.indeed.com/rss?q=drug+testing+coordinator+michigan&l=Michigan',
+        'https://www.indeed.com/rss?q=fingerprint+technician&l=Michigan',
+        'https://www.indeed.com/rss?q=medical+courier+michigan&l=Michigan',
+        'https://www.indeed.com/rss?q=signing+agent&l=Michigan',
+    ]
+
+    def __init__(self):
+        self.airtable = AirtableClient()
+        self.ai = AnthropicClient()
+
+    # ------------------------------------------------------------------
+    # SOURCE 1: CORPORATE HR SIGNALS (Google News RSS — free)
+    # Targets sectors that buy DDI's direct-delivery services:
+    # healthcare, staffing, manufacturing, logistics, construction.
+    # These companies pay DDI directly — no government contract, no sub needed.
+    # Drug testing via Quest/CRL network. Notary via signing agent network.
+    # Fingerprinting via SWFT authorization. All DDI-deliverable without a sub.
+    # ------------------------------------------------------------------
+
+    def mine_corporate_hr_signals(self) -> List[Dict]:
+        """
+        Monitor industry news for corporate employers in sectors that need
+        DDI's direct-delivery services: drug testing, fingerprinting, notary,
+        courier, and background screening.
+
+        Target sectors and why:
+        - Healthcare systems: drug test all new hires + ongoing random testing
+        - Staffing agencies: drug test every placed employee (recurring, high volume)
+        - Manufacturing/auto: DOT and safety drug testing mandatory
+        - Logistics/distribution: DOT-regulated workforce
+        - Construction: safety-sensitive, drug testing required
+
+        DDI delivers these services directly via Quest/CRL, SWFT, and signing
+        agent networks. No subcontractor required.
+        """
+        try:
+            import feedparser
+        except ImportError:
+            return [{'error': 'feedparser not installed. Run: pip install feedparser'}]
+
+        results = []
+        seen_companies = set()
+
+        for feed_url in self.CORPORATE_HR_RSS_FEEDS:
+            try:
+                feed = feedparser.parse(feed_url)
+                for entry in feed.entries[:8]:
+                    article_title = entry.get('title', '')
+                    article_summary = entry.get('summary', '')
+                    article_link = entry.get('link', '')
+
+                    extracted = self._ai_extract_corporate_employer(article_title, article_summary)
+                    if not extracted or not extracted.get('company'):
+                        continue
+
+                    company = extracted['company']
+                    if company.lower() in seen_companies:
+                        continue
+                    seen_companies.add(company.lower())
+
+                    sector = extracted.get('sector', 'Corporate')
+                    service_need = extracted.get('service_need', 'Drug testing program')
+                    pitch = extracted.get('pitch', '')
+
+                    prospect = {
+                        'Company Name': company,
+                        'Industry': sector,
+                        'Location': 'Michigan',
+                        'Source': 'Corporate HR Signal Mining',
+                        'AI Score': 80,
+                        'Status': 'New Lead',
+                        'Current Challenge': extracted.get('trigger', article_title),
+                        'Business Goals': f'Need {service_need} — DDI delivers directly',
+                        'Notes': f'{pitch} | Article: {article_link}',
+                        'Date Found': datetime.now().strftime('%Y-%m-%d'),
+                    }
+                    saved = self._save_prospect(prospect)
+                    if saved:
+                        results.append(prospect)
+            except Exception as e:
+                results.append({'error': f'Corporate HR feed: {str(e)}'})
+
+        return results
+
+    def _ai_extract_corporate_employer(self, title: str, summary: str) -> Optional[Dict]:
+        """
+        Extract company and DDI service opportunity from a corporate expansion
+        or hiring news article.
+        """
+        try:
+            prompt = f"""Extract employer information from this business news article.
+DDI (Dee Davis Inc.) provides: drug testing, fingerprinting, mobile notary, courier, background screening.
+These services are needed by: healthcare systems, staffing agencies, manufacturers, logistics companies, construction firms.
+
+Title: {title}
+Summary: {summary}
+
+Return JSON only (no markdown):
+{{
+  "company": "company name or null if not identifiable",
+  "sector": "Healthcare | Staffing | Manufacturing | Logistics | Construction | Corporate",
+  "trigger": "what event triggered this (new facility, hiring surge, expansion, etc.)",
+  "service_need": "which DDI service this company most likely needs",
+  "pitch": "one sentence pitch for why DDI should reach out now"
+}}
+
+If no specific company is identifiable, return {{"company": null}}."""
+            response = self.ai.complete(prompt, max_tokens=200)
+            clean = response.replace('```json', '').replace('```', '').strip()
+            return json.loads(clean)
+        except Exception:
+            return None
+
+    # ------------------------------------------------------------------
+    # SOURCE 2: JOB POSTING MINING (Indeed RSS — free)
+    # Companies hiring for roles DDI can replace = budget + urgency
+    # ------------------------------------------------------------------
+
+    def mine_job_postings(self) -> List[Dict]:
+        """
+        Monitor job boards for postings DDI can replace with a vendor contract.
+        A company hiring a notary has budget approved and urgent need.
+        Pitch: vendor solution vs. W-2 hire = faster, cheaper, no overhead.
+        """
+        try:
+            import feedparser
+        except ImportError:
+            return [{'error': 'feedparser not installed. Run: pip install feedparser'}]
+
+        results = []
+        seen_companies = set()
+
+        for feed_url in self.JOB_RSS_FEEDS:
+            try:
+                feed = feedparser.parse(feed_url)
+                for entry in feed.entries[:15]:
+                    title = entry.get('title', '').lower()
+                    summary = entry.get('summary', '')
+                    company = self._extract_company_from_job(entry)
+
+                    if not company or company.lower() in seen_companies:
+                        continue
+
+                    service = self._map_job_to_service(title)
+                    if not service:
+                        continue
+
+                    seen_companies.add(company.lower())
+
+                    pitch = (
+                        f"Hiring for '{entry.get('title', '')}' — "
+                        f"DDI can provide {service} as a vendor: no W-2, no benefits, "
+                        f"certified and insured, start immediately."
+                    )
+
+                    prospect = {
+                        'Company Name': company,
+                        'Industry': 'Corporate — Active Hiring Signal',
+                        'Source': 'Job Posting Mining (Indeed)',
+                        'AI Score': 78,
+                        'Status': 'HOT LEAD',
+                        'Current Challenge': f'Actively hiring for {entry.get("title", "")}',
+                        'Business Goals': f'Need {service} capability immediately',
+                        'Notes': pitch,
+                        'Job Posting URL': entry.get('link', ''),
+                        'Date Found': datetime.now().strftime('%Y-%m-%d'),
+                    }
+                    saved = self._save_prospect(prospect)
+                    if saved:
+                        results.append(prospect)
+            except Exception as e:
+                results.append({'error': f'Job feed {feed_url}: {str(e)}'})
+
+        return results
+
+    def _extract_company_from_job(self, entry: Dict) -> str:
+        """Extract company name from Indeed RSS entry."""
+        # Indeed puts company in the title: "Job Title - Company Name"
+        title = entry.get('title', '')
+        if ' - ' in title:
+            parts = title.split(' - ')
+            if len(parts) >= 2:
+                return parts[-1].strip()
+        author = entry.get('author', '')
+        if author:
+            return author.strip()
+        return ''
+
+    def _map_job_to_service(self, job_title_lower: str) -> str:
+        """Map a job title to a DDI service type."""
+        for keyword, service in self.JOB_TITLES_TO_SERVICES.items():
+            if keyword in job_title_lower:
+                return service
+        return ''
+
+    # ------------------------------------------------------------------
+    # SOURCE 3: DIVERSITY NEWS MONITORING (Google News RSS — free)
+    # Companies announcing diversity initiatives = HOT leads with budget
+    # ------------------------------------------------------------------
+
+    def mine_diversity_news(self) -> List[Dict]:
+        """
+        Monitor Google News RSS for companies announcing diversity initiatives.
+        These are HOT leads — budget is approved, initiative is public, timing is perfect.
+        """
+        try:
+            import feedparser
+        except ImportError:
+            return [{'error': 'feedparser not installed. Run: pip install feedparser'}]
+
+        results = []
+        seen_companies = set()
+
+        for feed_url in self.DIVERSITY_RSS_FEEDS:
+            try:
+                feed = feedparser.parse(feed_url)
+                for entry in feed.entries[:10]:
+                    article_title = entry.get('title', '')
+                    article_summary = entry.get('summary', '')
+                    article_link = entry.get('link', '')
+
+                    extracted = self._ai_extract_diversity_company(article_title, article_summary)
+                    if not extracted or not extracted.get('company'):
+                        continue
+
+                    company = extracted['company']
+                    if company.lower() in seen_companies:
+                        continue
+                    seen_companies.add(company.lower())
+
+                    prospect = {
+                        'Company Name': company,
+                        'Industry': extracted.get('industry', 'Corporate'),
+                        'Source': 'Diversity News Monitoring',
+                        'AI Score': 85,
+                        'Status': 'HOT LEAD',
+                        'Current Challenge': extracted.get('initiative', 'Supplier diversity initiative announced'),
+                        'Business Goals': 'Execute on diversity spend commitment with qualified EDWOSB vendors',
+                        'Notes': f"Article: {article_title} | {article_link}",
+                        'Date Found': datetime.now().strftime('%Y-%m-%d'),
+                    }
+                    saved = self._save_prospect(prospect)
+                    if saved:
+                        results.append(prospect)
+            except Exception as e:
+                results.append({'error': f'News feed: {str(e)}'})
+
+        return results
+
+    def _ai_extract_diversity_company(self, title: str, summary: str) -> Optional[Dict]:
+        """Use AI to extract company and initiative details from a news article."""
+        try:
+            prompt = f"""Extract supplier diversity information from this article.
+
+Title: {title}
+Summary: {summary}
+
+Return JSON only (no markdown):
+{{
+  "company": "company name or null if no specific company",
+  "industry": "industry sector",
+  "initiative": "brief description of the diversity initiative"
+}}
+
+If no specific company name is identifiable, return {{"company": null}}."""
+            response = self.ai.complete(prompt, max_tokens=150)
+            clean = response.replace('```json', '').replace('```', '').strip()
+            return json.loads(clean)
+        except Exception:
+            return None
+
+    # ------------------------------------------------------------------
+    # DEDUPLICATION & SAVE
+    # ------------------------------------------------------------------
+
+    def _save_prospect(self, prospect: Dict) -> bool:
+        """
+        Save prospect to DDCSS Prospects table in Airtable.
+        Skips if a record with the same company name already exists.
+        """
+        try:
+            existing = self.airtable.get_all_records('DDCSS Prospects')
+            existing_names = {
+                r['fields'].get('Company Name', '').lower().strip()
+                for r in existing
+            }
+            if prospect.get('Company Name', '').lower().strip() in existing_names:
+                return False
+
+            fields = {
+                'Company Name': prospect.get('Company Name', ''),
+                'Industry': prospect.get('Industry', ''),
+                'Location': prospect.get('Location', ''),
+                'Company Size': prospect.get('Company Size', ''),
+                'Source': prospect.get('Source', ''),
+                'Qualification Score': prospect.get('AI Score', 0),
+                'Status': prospect.get('Status', 'New Lead'),
+                'Current Challenge': prospect.get('Current Challenge', ''),
+                'Business Goals': prospect.get('Business Goals', ''),
+                'Notes': prospect.get('Notes', ''),
+                'Created': datetime.now().isoformat(),
+            }
+            self.airtable.create_record('DDCSS Prospects', fields)
+            return True
+        except Exception:
+            return False
+
+    # ------------------------------------------------------------------
+    # MASTER RUN — executes all free sources in one call
+    # ------------------------------------------------------------------
+
+    def run_all_free_sources(self) -> Dict:
+        """
+        Run all three free mining sources and return a summary.
+        Call this daily or on-demand from the NEXUS dashboard.
+
+        Sources:
+        1. Corporate HR Signals — healthcare, staffing, manufacturing, logistics expanding in Michigan
+        2. Job Postings — companies hiring for roles DDI can replace with a vendor contract
+        3. Diversity News — companies announcing supplier diversity initiatives (hot leads)
+
+        All three target corporate clients DDI can serve DIRECTLY without a government
+        contract or a subcontractor. Drug testing via Quest/CRL, notary via signing
+        agent network, fingerprinting via SWFT.
+        """
+        summary = {
+            'corporate_hr_signals': [],
+            'job_postings': [],
+            'diversity_news': [],
+            'total_added': 0,
+            'errors': [],
+            'run_time': datetime.now().isoformat(),
+        }
+
+        print('DDCSS Mining: corporate HR signals...')
+        hr = self.mine_corporate_hr_signals()
+        summary['corporate_hr_signals'] = [p for p in hr if 'error' not in p]
+        summary['errors'] += [p['error'] for p in hr if 'error' in p]
+
+        print('DDCSS Mining: job postings...')
+        jobs = self.mine_job_postings()
+        summary['job_postings'] = [p for p in jobs if 'error' not in p]
+        summary['errors'] += [p['error'] for p in jobs if 'error' in p]
+
+        print('DDCSS Mining: diversity news...')
+        news = self.mine_diversity_news()
+        summary['diversity_news'] = [p for p in news if 'error' not in p]
+        summary['errors'] += [p['error'] for p in news if 'error' in p]
+
+        summary['total_added'] = (
+            len(summary['corporate_hr_signals']) +
+            len(summary['job_postings']) +
+            len(summary['diversity_news'])
+        )
+
+        print(f"DDCSS Mining complete — {summary['total_added']} new prospects added.")
+        return summary
+
+
+# =====================================================================
+# DDCSS PORTAL TRACKER — Corporate Supplier Registration Manager
+# Tracks which corporate supplier diversity portals DDI has registered with,
+# status, contacts, and follow-up actions.
+# =====================================================================
+
+class DDCSSPortalTracker:
+    """
+    Manages DDI's corporate supplier portal registrations.
+    Tracks status, contacts, and next actions for each portal.
+
+    Table: DDCSS Corporate Portals (Airtable)
+    """
+
+    # Pre-seeded list of priority portals for DDI's Michigan-based
+    # drug testing, fingerprinting, notary, courier, and background screening services.
+    # Grouped by sector — Michigan companies first, then national.
+    SEED_PORTALS = [
+        # ── MICHIGAN AUTOMOTIVE ────────────────────────────────────────
+        {
+            'Company': 'Kelly Services',
+            'Sector': 'Staffing',
+            'Portal URL': 'https://www.kellyservices.com/us/businesses/supplier-diversity/',
+            'Why DDI': 'Headquartered in Troy, MI — same city as DDI. Drug tests every placed employee. High-volume recurring.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting',
+            'Priority': 'HIGH',
+            'Notes': 'Troy HQ — relationship opportunity. Target: VP HR or Supplier Diversity Manager.',
+        },
+        {
+            'Company': 'General Motors',
+            'Sector': 'Automotive',
+            'Portal URL': 'https://supplier.gm.com',
+            'Why DDI': 'Active WBENC corporate member. Mandated diversity spend. Large Michigan workforce.',
+            'Services to Register': 'Drug Testing, Background Screening, Courier',
+            'Priority': 'HIGH',
+            'Notes': 'Register under supplier diversity program. EDWOSB + WBENC = double advantage.',
+        },
+        {
+            'Company': 'Ford Motor Company',
+            'Sector': 'Automotive',
+            'Portal URL': 'https://www.fordsupplier.com',
+            'Why DDI': 'Major WBENC supporter. WBE spend goals published annually.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting',
+            'Priority': 'HIGH',
+            'Notes': 'Ford Supplier Diversity has dedicated WBE portal. Upload WBENC cert.',
+        },
+        {
+            'Company': 'Stellantis',
+            'Sector': 'Automotive',
+            'Portal URL': 'https://www.stellantis.com/en/company/suppliers',
+            'Why DDI': 'Michigan-based, large hourly workforce, DOT and safety drug testing.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'HIGH',
+            'Notes': 'Supplier registration via Covisint/Ariba. Check current portal URL.',
+        },
+        {
+            'Company': 'Lear Corporation',
+            'Sector': 'Automotive Supplier',
+            'Portal URL': 'https://www.lear.com/suppliers',
+            'Why DDI': 'Southfield, MI HQ. Large manufacturing workforce, drug testing required.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'MEDIUM',
+            'Notes': 'Tier 1 auto supplier — safety-sensitive workforce.',
+        },
+        {
+            'Company': 'BorgWarner',
+            'Sector': 'Automotive Supplier',
+            'Portal URL': 'https://www.borgwarner.com/suppliers',
+            'Why DDI': 'Auburn Hills, MI HQ. Manufacturing plants statewide. DOT drug testing.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'MEDIUM',
+            'Notes': 'Ariba-based supplier portal.',
+        },
+        # ── MICHIGAN ENERGY / UTILITIES ────────────────────────────────
+        {
+            'Company': 'DTE Energy',
+            'Sector': 'Energy/Utilities',
+            'Portal URL': 'https://www.dteenergy.com/us/en/business/about-dte-energy/supplier-diversity.html',
+            'Why DDI': 'Michigan-based utility. Active supplier diversity program. Large regulated workforce requiring drug testing.',
+            'Services to Register': 'Drug Testing, Background Screening, Courier',
+            'Priority': 'HIGH',
+            'Notes': 'DTE has published WBE/MBE spend goals. EDWOSB is qualifying cert.',
+        },
+        {
+            'Company': 'Consumers Energy',
+            'Sector': 'Energy/Utilities',
+            'Portal URL': 'https://www.consumersenergy.com/company/suppliers/supplier-diversity',
+            'Why DDI': 'Michigan utility, regulated DOT workforce, drug testing mandatory.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'HIGH',
+            'Notes': 'Active supplier diversity program with WBE goals.',
+        },
+        # ── MICHIGAN HEALTHCARE ────────────────────────────────────────
+        {
+            'Company': 'Corewell Health',
+            'Sector': 'Healthcare',
+            'Portal URL': 'https://corewellhealth.org/about/suppliers',
+            'Why DDI': 'Largest health system in Michigan (Beaumont + Spectrum merger). Drug tests all new hires + random testing. High volume.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting, Courier',
+            'Priority': 'HIGH',
+            'Notes': 'Formerly Beaumont Health + Spectrum Health. Combined = 60K+ employees.',
+        },
+        {
+            'Company': 'Henry Ford Health',
+            'Sector': 'Healthcare',
+            'Portal URL': 'https://www.henryford.com/about/suppliers',
+            'Why DDI': 'Detroit-based health system. Pre-employment and random drug testing for all clinical staff.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting',
+            'Priority': 'HIGH',
+            'Notes': 'Target: Supply Chain or HR procurement contact.',
+        },
+        {
+            'Company': 'Ascension Michigan',
+            'Sector': 'Healthcare',
+            'Portal URL': 'https://ascension.org/suppliers',
+            'Why DDI': 'Multi-hospital Michigan system. Drug testing and credentialing for all clinical and non-clinical staff.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting',
+            'Priority': 'MEDIUM',
+            'Notes': 'National system with Michigan footprint. May need national supplier registration.',
+        },
+        {
+            'Company': 'McLaren Health Care',
+            'Sector': 'Healthcare',
+            'Portal URL': 'https://www.mclaren.org/main/suppliers',
+            'Why DDI': 'Michigan-based, 14 hospitals. Pre-employment drug testing for all hires.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'MEDIUM',
+            'Notes': 'Grand Blanc, MI HQ. Target procurement or HR.',
+        },
+        # ── MICHIGAN INSURANCE / FINANCE ──────────────────────────────
+        {
+            'Company': 'Blue Cross Blue Shield of Michigan',
+            'Sector': 'Insurance',
+            'Portal URL': 'https://www.bcbsm.com/index/about-bcbsm/supplier-diversity.html',
+            'Why DDI': 'Active WBENC corporate member. Detroit-based, large employer. Supplier diversity program with WBE goals.',
+            'Services to Register': 'Drug Testing, Background Screening, Notary',
+            'Priority': 'HIGH',
+            'Notes': 'BCBSM is a WBENC corporate member — actively seeking WBE vendors.',
+        },
+        {
+            'Company': 'Rocket Companies / Quicken Loans',
+            'Sector': 'Finance/Mortgage',
+            'Portal URL': 'https://www.rocketcompanies.com/suppliers/',
+            'Why DDI': 'Detroit HQ, thousands of employees. Pre-employment drug testing + notary services for mortgage closings.',
+            'Services to Register': 'Drug Testing, Background Screening, Mobile Notary',
+            'Priority': 'HIGH',
+            'Notes': 'Notary angle: Rocket processes mortgage closings — mobile notary for signing events.',
+        },
+        # ── NATIONAL STAFFING (HIGH-VOLUME DRUG TESTING BUYERS) ──────
+        {
+            'Company': 'Manpower Group',
+            'Sector': 'Staffing',
+            'Portal URL': 'https://www.manpowergroup.com/suppliers',
+            'Why DDI': 'Global staffing agency. Drug tests every placed employee. Recurring, high-volume buyer.',
+            'Services to Register': 'Drug Testing, Background Screening, Fingerprinting',
+            'Priority': 'HIGH',
+            'Notes': 'Target Michigan regional office. Volume = recurring revenue.',
+        },
+        {
+            'Company': 'Adecco Group',
+            'Sector': 'Staffing',
+            'Portal URL': 'https://www.adeccogroup.com/suppliers/',
+            'Why DDI': 'Large staffing firm placing workers in Michigan manufacturers. Drug testing on every placement.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'MEDIUM',
+            'Notes': 'Target Michigan branch managers directly.',
+        },
+        # ── NATIONAL RETAIL / LOGISTICS ──────────────────────────────
+        {
+            'Company': 'Amazon',
+            'Sector': 'Logistics/Retail',
+            'Portal URL': 'https://sellercentral.amazon.com/gp/homepage.html',
+            'Why DDI': 'Multiple Michigan fulfillment centers. Pre-employment drug testing for thousands of warehouse hires. Large WBE program.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'MEDIUM',
+            'Notes': 'Amazon Supplier Diversity portal separate from seller central. Search: amazon.com/supplier-diversity.',
+        },
+        {
+            'Company': 'Home Depot',
+            'Sector': 'Retail/Construction',
+            'Portal URL': 'https://corporate.homedepot.com/suppliers',
+            'Why DDI': 'Active supplier diversity program. Drug tests contractors and warehouse staff.',
+            'Services to Register': 'Drug Testing, Background Screening',
+            'Priority': 'LOW',
+            'Notes': 'National program — may need to work through Michigan district contact.',
+        },
+        # ── NATIONAL FINANCIAL / BANKING ─────────────────────────────
+        {
+            'Company': 'JPMorgan Chase',
+            'Sector': 'Banking/Finance',
+            'Portal URL': 'https://www.jpmorganchase.com/impact/diversity/supplier-diversity',
+            'Why DDI': 'Published $750M+ supplier diversity spend goal. Michigan offices.',
+            'Services to Register': 'Drug Testing, Background Screening, Mobile Notary',
+            'Priority': 'MEDIUM',
+            'Notes': 'Large national bank — notary services for banking docs is an angle.',
+        },
+        # ── NATIONAL HEALTHCARE ──────────────────────────────────────
+        {
+            'Company': 'CVS Health / Caremark',
+            'Sector': 'Healthcare/Retail',
+            'Portal URL': 'https://www.cvshealth.com/news-and-insights/supplier-diversity',
+            'Why DDI': 'National supplier diversity program. Michigan stores + PBM operations. Drug testing for all pharmacy staff.',
+            'Services to Register': 'Drug Testing, Background Screening, Courier',
+            'Priority': 'MEDIUM',
+            'Notes': 'Pharmacy courier angle: specimen transport between CVS MinuteClinics.',
+        },
+    ]
+
+    def __init__(self):
+        self.airtable = AirtableClient()
+
+    def seed_portals(self) -> Dict:
+        """
+        Populate the DDCSS Corporate Portals table with DDI's priority target list.
+        Safe to run multiple times — skips portals already in the table.
+        """
+        try:
+            existing = self.airtable.get_all_records('DDCSS Corporate Portals')
+            existing_companies = {
+                r['fields'].get('Company', '').lower().strip()
+                for r in existing
+            }
+        except Exception:
+            existing_companies = set()
+
+        added = []
+        skipped = []
+
+        for portal in self.SEED_PORTALS:
+            company_key = portal['Company'].lower().strip()
+            if company_key in existing_companies:
+                skipped.append(portal['Company'])
+                continue
+            try:
+                self.airtable.create_record('DDCSS Corporate Portals', {
+                    'Company': portal['Company'],
+                    'Sector': portal['Sector'],
+                    'Portal URL': portal['Portal URL'],
+                    'Why DDI': portal['Why DDI'],
+                    'Services to Register': portal['Services to Register'],
+                    'Priority': portal['Priority'],
+                    'Registration Status': 'Not Started',
+                    'Notes': portal['Notes'],
+                    'Date Added': datetime.now().strftime('%Y-%m-%d'),
+                })
+                added.append(portal['Company'])
+                existing_companies.add(company_key)
+            except Exception as e:
+                skipped.append(f"{portal['Company']} (error: {e})")
+
+        return {
+            'success': True,
+            'added': added,
+            'skipped': skipped,
+            'total_added': len(added),
+            'total_skipped': len(skipped),
+        }
+
+    def get_portals(self, status_filter: Optional[str] = None) -> List[Dict]:
+        """
+        Get all corporate portals, optionally filtered by registration status.
+        Statuses: Not Started | Registered | Pending Approval | Active | Needs Renewal
+        """
+        try:
+            records = self.airtable.get_all_records('DDCSS Corporate Portals')
+            portals = []
+            for r in records:
+                f = r['fields']
+                if status_filter and f.get('Registration Status', '') != status_filter:
+                    continue
+                portals.append({
+                    'id': r['id'],
+                    'company': f.get('Company', ''),
+                    'sector': f.get('Sector', ''),
+                    'portalUrl': f.get('Portal URL', ''),
+                    'whyDDI': f.get('Why DDI', ''),
+                    'servicesToRegister': f.get('Services to Register', ''),
+                    'priority': f.get('Priority', ''),
+                    'registrationStatus': f.get('Registration Status', 'Not Started'),
+                    'accountNumber': f.get('Account/Confirmation Number', ''),
+                    'contactName': f.get('Primary Contact Name', ''),
+                    'contactTitle': f.get('Primary Contact Title', ''),
+                    'contactEmail': f.get('Primary Contact Email', ''),
+                    'registrationDate': f.get('Registration Date', ''),
+                    'lastLogin': f.get('Last Login Date', ''),
+                    'nextAction': f.get('Next Action', ''),
+                    'nextActionDate': f.get('Next Action Date', ''),
+                    'notes': f.get('Notes', ''),
+                })
+            priority_order = {'HIGH': 0, 'MEDIUM': 1, 'LOW': 2}
+            portals.sort(key=lambda x: priority_order.get(x['priority'], 3))
+            return portals
+        except Exception as e:
+            return [{'error': str(e)}]
+
+    def update_portal(self, portal_id: str, updates: Dict) -> Dict:
+        """Update a portal record — status, contact info, next action, etc."""
+        try:
+            field_map = {
+                'registrationStatus': 'Registration Status',
+                'accountNumber': 'Account/Confirmation Number',
+                'contactName': 'Primary Contact Name',
+                'contactTitle': 'Primary Contact Title',
+                'contactEmail': 'Primary Contact Email',
+                'registrationDate': 'Registration Date',
+                'lastLogin': 'Last Login Date',
+                'nextAction': 'Next Action',
+                'nextActionDate': 'Next Action Date',
+                'notes': 'Notes',
+            }
+            fields = {field_map[k]: v for k, v in updates.items() if k in field_map}
+            self.airtable.update_record('DDCSS Corporate Portals', portal_id, fields)
+            return {'success': True, 'id': portal_id}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def get_dashboard_summary(self) -> Dict:
+        """Quick summary of portal registration progress for the DDCSS dashboard."""
+        portals = self.get_portals()
+        if portals and 'error' in portals[0]:
+            return {'error': portals[0]['error']}
+
+        status_counts = {}
+        priority_counts = {'HIGH': 0, 'MEDIUM': 0, 'LOW': 0}
+        not_started_high = []
+
+        for p in portals:
+            status = p['registrationStatus']
+            status_counts[status] = status_counts.get(status, 0) + 1
+            priority_counts[p.get('priority', 'LOW')] = priority_counts.get(p.get('priority', 'LOW'), 0) + 1
+            if status == 'Not Started' and p.get('priority') == 'HIGH':
+                not_started_high.append(p['company'])
+
+        return {
+            'total_portals': len(portals),
+            'status_breakdown': status_counts,
+            'high_priority_not_started': not_started_high,
+            'active_count': status_counts.get('Active', 0),
+            'registered_count': status_counts.get('Registered', 0) + status_counts.get('Pending Approval', 0),
+            'not_started_count': status_counts.get('Not Started', 0),
+        }
+
+
+# =====================================================================
 # MAIN - For testing
 # =====================================================================
 

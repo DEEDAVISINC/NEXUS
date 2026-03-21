@@ -261,7 +261,7 @@ export const AgendaDashboard: React.FC = () => {
 const PROJECT_COLORS: Record<string, string> = {
   'Drug Testing': 'bg-red-500/15 text-red-400',
   'DNA Testing': 'bg-purple-500/15 text-purple-400',
-  'Fingerprinting': 'bg-blue-500/15 text-blue-400',
+  'Fingerprinting': 'bg-green-400/15 text-green-400',
   'Registrations': 'bg-cyan-500/15 text-cyan-400',
   'NEMT': 'bg-teal-500/15 text-teal-400',
   'Outreach': 'bg-amber-500/15 text-amber-400',

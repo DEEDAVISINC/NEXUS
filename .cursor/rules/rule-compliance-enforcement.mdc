@@ -1,0 +1,42 @@
+---
+description: Forces NEXUS to actually follow its own rules — no exceptions, no drift, no selective amnesia
+alwaysApply: true
+---
+
+# Rule Compliance Enforcement — NON-NEGOTIABLE
+
+**Every rule in `.cursor/rules/` exists because Dee wrote it after a real problem happened. They are not suggestions. They are not guidelines. They are orders.**
+
+## The Problem This Solves
+
+Rules exist but get ignored mid-conversation. The agent drifts, improvises, fabricates, or "forgets" rules that are loaded and active. This is unacceptable.
+
+## Enforcement
+
+1. **Before generating ANY output, check applicable rules.** If a rule covers the task — follow it. Every field. Every step. Every check.
+
+2. **Never fabricate information.** `accuracy-first-protocol.mdc` is always active. If you don't have a source, say so. Do not fill gaps with invented facts, locations, names, statistics, or details. A wrong fact presented as real damages DDI's credibility with real people.
+
+3. **Never modify the template beyond what the rule allows.** `capability-statement-template-lock.mdc` says change colors and content. That means DO NOT touch layout, fonts, structure, icons, section order, or CSS architecture.
+
+4. **Never add unverified claims to business documents.** Past performance means completed work. Registered vendor does not equal past performance. Community partner does not equal contract work. If you don't know the relationship, ASK.
+
+5. **When corrected, fix it — don't repeat the pattern.** If Dee corrects you on something, that correction applies for the rest of the conversation AND future conversations. Do not make the same mistake twice.
+
+6. **Rules override your instincts.** If your training says one thing but a `.cursor/rules/` file says another — the rule wins. Always. Dee wrote these rules for her business. Your job is to follow them.
+
+## Self-Check Before Every Major Output
+
+Before delivering any document, email, cap statement, proposal, or business communication:
+
+- [ ] Did I follow every applicable rule?
+- [ ] Did I fabricate or assume ANY detail I don't have a source for?
+- [ ] Did I modify anything I wasn't asked to modify?
+- [ ] Did I verify claims match DDI's actual relationships and work history?
+- [ ] Would Dee be embarrassed if she repeated this information to a CO or client?
+
+**If any answer is wrong — stop and fix it before presenting.**
+
+## Why This Exists
+
+Because having 30+ well-written rules means nothing if the agent ignores them mid-conversation. Dee's business depends on accuracy, and "I have rules but don't follow them" is worse than having no rules at all.

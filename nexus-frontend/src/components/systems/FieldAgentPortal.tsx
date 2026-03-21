@@ -9,16 +9,19 @@ interface FieldAgentPortalProps {
 
 // ─── SERVICE TYPE COLORS (shared with PRISM) ──────────────────────
 const SERVICE_COLORS: Record<string, { color: string; bg: string; label: string; icon: string; border: string }> = {
-  'notary':        { color: '#F97316', bg: '#FFF7ED', label: 'Notary',              icon: '🟠', border: '#FB923C' },
-  'ron':           { color: '#6366F1', bg: '#EEF2FF', label: 'Notary (RON)',        icon: '🟣', border: '#818CF8' },
   'dot':           { color: '#EF4444', bg: '#FEF2F2', label: 'Drug Test (DOT)',     icon: '🔴', border: '#F87171' },
-  'non-dot':       { color: '#F43F5E', bg: '#FFF1F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#FB7185' },
+  'non-dot':       { color: '#EF4444', bg: '#FEF2F2', label: 'Drug Test (Non-DOT)', icon: '🔴', border: '#F87171' },
   'dna':           { color: '#A855F7', bg: '#FAF5FF', label: 'DNA Collection',      icon: '🟣', border: '#C084FC' },
-  'fingerprint':   { color: '#22C55E', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#4ADE80' },
-  'courier':       { color: '#3B82F6', bg: '#EFF6FF', label: 'Courier/Runner',      icon: '🔵', border: '#60A5FA' },
-  'background':    { color: '#64748B', bg: '#F8FAFC', label: 'Background Check',    icon: '⚫', border: '#94A3B8' },
-  'apostille':     { color: '#EAB308', bg: '#FEFCE8', label: 'Apostille',           icon: '🟡', border: '#FACC15' },
-  'process':       { color: '#14B8A6', bg: '#F0FDFA', label: 'Process Serving',     icon: '🟢', border: '#2DD4BF' },
+  'fingerprint':   { color: '#4ADE80', bg: '#F0FDF4', label: 'Fingerprinting/EFT',  icon: '🟢', border: '#86EFAC' },
+  'background':    { color: '#4ADE80', bg: '#F0FDF4', label: 'Background Check',    icon: '🟢', border: '#86EFAC' },
+  'notary':        { color: '#EC4899', bg: '#FDF2F8', label: 'Notary',              icon: '🩷', border: '#F472B6' },
+  'ron':           { color: '#EC4899', bg: '#FDF2F8', label: 'Notary (RON)',        icon: '🩷', border: '#F472B6' },
+  'nemt':          { color: '#14B8A6', bg: '#F0FDFA', label: 'NEMT / Transport',    icon: '🟢', border: '#2DD4BF' },
+  'courier':       { color: '#6366F1', bg: '#EEF2FF', label: 'Courier/Runner',      icon: '🟣', border: '#818CF8' },
+  'apostille':     { color: '#EC4899', bg: '#FDF2F8', label: 'Apostille',           icon: '🩷', border: '#F472B6' },
+  'process':       { color: '#EC4899', bg: '#FDF2F8', label: 'Process Serving',     icon: '🩷', border: '#F472B6' },
+  'medical_courier': { color: '#6366F1', bg: '#EEF2FF', label: 'Medical Courier',   icon: '🟣', border: '#818CF8' },
+  'phlebotomy':    { color: '#EF4444', bg: '#FEF2F2', label: 'Occ Health',          icon: '🔴', border: '#F87171' },
 };
 
 // ─── BADGES ────────────────────────────────────────────────────────

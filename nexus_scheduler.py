@@ -19,6 +19,7 @@ Usage:
   python3 nexus_scheduler.py --public-tier1  # Run public portal scan (tier 1 only: SAM, BidNet, MITN, TX)
   python3 nexus_scheduler.py --scan     # Run folder scan only
   python3 nexus_scheduler.py --gbis     # Run GBIS small grants seed only
+  python3 nexus_scheduler.py --primes   # Run prime contractor mining (find subs-needed primes)
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -170,7 +171,8 @@ def run_folder_scan():
 
 
 def run_stale_detection():
-    """Detect bids that need attention based on activity and deadlines."""
+    """Detect bids that need attention based on activity and deadlines.
+    Uses a persistent cache to avoid re-alerting on the same stale bids."""
     log.info("--- STALE BID DETECTION ---")
     try:
         from bid_folder_scanner import scan_all_bids
@@ -179,40 +181,74 @@ def run_stale_detection():
         if "error" in result:
             return False
 
+        # Load previously-flagged stale bids to avoid repeat alerts
+        stale_cache_path = os.path.join(os.path.dirname(__file__), "stale_alert_cache.json")
+        try:
+            with open(stale_cache_path, 'r') as f:
+                stale_cache = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            stale_cache = {}
+
+        # Prune cache entries older than 30 days
+        cutoff = (datetime.now() - timedelta(days=30)).isoformat()
+        stale_cache = {k: v for k, v in stale_cache.items() if v.get('first_flagged', '') > cutoff}
+
         alerts = []
+        new_alerts = []
         now = datetime.now()
 
         for bid in result.get("active", []):
-            # Flag bids with no activity in 7+ days
             if bid["days_since_activity"] >= 7:
-                alerts.append({
+                alert = {
                     "type": "stale",
                     "bid": bid["name"],
                     "days_inactive": bid["days_since_activity"],
                     "message": f"{bid['name']} has had no activity in {bid['days_since_activity']} days",
-                })
+                }
+                alerts.append(alert)
+                if bid["name"] not in stale_cache:
+                    new_alerts.append(alert)
+                    stale_cache[bid["name"]] = {
+                        "first_flagged": now.isoformat(),
+                        "days_inactive": bid["days_since_activity"],
+                    }
 
         for bid in result.get("needs_review", []):
-            # Flag unreviewed bids with minimal files
             if bid["file_count"] <= 3:
-                alerts.append({
+                alert = {
                     "type": "unreviewed",
                     "bid": bid["name"],
                     "file_count": bid["file_count"],
                     "message": f"{bid['name']} needs review — only {bid['file_count']} files",
-                })
+                }
+                alerts.append(alert)
+                key = f"review_{bid['name']}"
+                if key not in stale_cache:
+                    new_alerts.append(alert)
+                    stale_cache[key] = {
+                        "first_flagged": now.isoformat(),
+                        "file_count": bid["file_count"],
+                    }
 
-        if alerts:
-            log.warning(f"Found {len(alerts)} bids needing attention:")
-            for alert in alerts:
+        if new_alerts:
+            log.warning(f"Found {len(new_alerts)} NEW bids needing attention (skipped {len(alerts) - len(new_alerts)} already-flagged):")
+            for alert in new_alerts:
                 log.warning(f"  [{alert['type'].upper()}] {alert['message']}")
         else:
-            log.info("All bids look active and healthy")
+            log.info(f"No new stale bids ({len(alerts)} total stale, all previously flagged)")
 
-        # Save alerts for dashboard
+        # Save stale cache
+        with open(stale_cache_path, 'w') as f:
+            json.dump(stale_cache, f, indent=2)
+
+        # Save alerts for dashboard (all alerts, not just new)
         alerts_path = os.path.join(os.path.dirname(__file__), "bid_alerts.json")
         with open(alerts_path, "w") as f:
-            json.dump({"alerts": alerts, "checked_at": now.isoformat()}, f, default=str)
+            json.dump({
+                "alerts": alerts,
+                "new_alerts": len(new_alerts),
+                "checked_at": now.isoformat(),
+            }, f, default=str)
 
         return True
     except Exception as e:
@@ -361,6 +397,37 @@ def run_gbis_small_grants_seed():
         return False
 
 
+def run_prime_contractor_mining():
+    """
+    Mine USASpending.gov for prime contractors with $10M+ federal contracts
+    who are LEGALLY REQUIRED to meet diversity subcontracting goals.
+    These primes NEED EDWOSB/WOSB subs like DDI.
+    """
+    log.info("--- PRIME CONTRACTOR MINING (SUB OPPORTUNITIES) ---")
+    log.info("Finding primes with $10M+ contracts who need EDWOSB subs...")
+    try:
+        from nexus_backend import handle_ddcss_mine_prime_contractors
+        results = handle_ddcss_mine_prime_contractors(
+            min_contract_value=10000000,
+            limit=50
+        )
+
+        if results.get('success'):
+            log.info(
+                f"Prime mining complete: {results.get('total_found', 0)} primes analyzed, "
+                f"{results.get('prospects_created', 0)} new prospects created, "
+                f"{results.get('duplicates_skipped', 0)} duplicates skipped"
+            )
+        else:
+            log.error(f"Prime mining failed: {results.get('error', 'Unknown')}")
+            return False
+
+        return True
+    except Exception as e:
+        log.error(f"Prime contractor mining failed: {e}")
+        return False
+
+
 def run_public_portal_scan(tier1_only=False):
     """
     Scan ALL public procurement portals nationwide for DDI opportunities.
@@ -398,6 +465,7 @@ def run_all():
     results["state_local_mining"] = run_state_local_mining()
     results["public_portal_scan"] = run_public_portal_scan()
     results["gbis_small_grants_seed"] = run_gbis_small_grants_seed()
+    results["prime_contractor_mining"] = run_prime_contractor_mining()
     results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
     results["quote_followups"] = run_quote_followups()
 
@@ -425,6 +493,7 @@ def run_loop():
     log.info("  AI scoring + alerts:  every 2 hours")
     log.info("  Quote follow-ups:     every 4 hours")
     log.info("  GBIS small grants:    weekly (Sunday)")
+    log.info("  Prime contractor mining: weekly")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
 
@@ -439,6 +508,7 @@ def run_loop():
     last_digest = datetime.min
     last_public_scan = datetime.min
     last_gbis_seed = datetime.min
+    last_prime_mining = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
@@ -451,6 +521,7 @@ def run_loop():
     DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
     PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
     GBIS_SEED_INTERVAL = timedelta(days=7)     # Weekly — small grant sources
+    PRIME_MINING_INTERVAL = timedelta(days=7)   # Weekly — find primes needing EDWOSB subs
 
     while True:
         now = datetime.now()
@@ -497,6 +568,11 @@ def run_loop():
             run_gbis_small_grants_seed()
             last_gbis_seed = now
 
+        # Prime contractor mining — weekly (find primes needing EDWOSB subs)
+        if now - last_prime_mining >= PRIME_MINING_INTERVAL:
+            run_prime_contractor_mining()
+            last_prime_mining = now
+
         # Daily digest at 7 AM
         if now - last_digest >= DIGEST_INTERVAL:
             try:
@@ -541,6 +617,8 @@ if __name__ == "__main__":
         run_stale_detection()
     elif "--gbis" in args:
         run_gbis_small_grants_seed()
+    elif "--primes" in args:
+        run_prime_contractor_mining()
     elif not args:
         run_all()
     else:

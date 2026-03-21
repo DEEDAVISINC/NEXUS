@@ -121,7 +121,7 @@ const LANE_COLORS: Record<string, string> = {
   'Janitorial': 'bg-teal-500/20 text-teal-300',
   'Landscaping / Grounds': 'bg-green-500/20 text-green-300',
   'Medical Labs / Drug Testing': 'bg-red-500/20 text-red-300',
-  'Courier / Express Delivery': 'bg-violet-500/20 text-violet-300',
+  'Courier / Express Delivery': 'bg-indigo-500/20 text-indigo-300',
   'Temp Staffing': 'bg-cyan-500/20 text-cyan-300',
   'Security Guards': 'bg-orange-500/20 text-orange-300',
   'Office Admin': 'bg-sky-500/20 text-sky-300',

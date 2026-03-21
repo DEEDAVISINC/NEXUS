@@ -1,0 +1,55 @@
+# Mandatory Calendar Follow-Ups — NON-NEGOTIABLE
+
+**Every outbound action gets a follow-up on the calendar. No exceptions. No "I'll remember." No relying on Dee to ask.**
+
+## The Rule
+
+When ANY of the following actions occur, NEXUS MUST create a calendar event for the follow-up:
+
+### Buyer/CO Outreach Emails
+- **Follow-up event:** 7 days after send date
+- **Title format:** `FOLLOW UP — [CO Name], [Agency] — [Purpose]`
+- **Second follow-up:** 14 days if no response to first
+- **Third follow-up:** 21 days — final touch, then mark "No Response — Revisit 60 days"
+
+### Pre-Bid Conferences / Zoom Meetings
+- **Day-of reminder:** Calendar event on the day/time of the meeting
+- **Follow-up event:** 2 business days after — check for addenda, notes, contact the CO if needed
+
+### Bid Submission Deadlines
+- **7-day warning:** Calendar event 7 days before deadline
+- **3-day warning:** Calendar event 3 days before deadline
+- **Day-of reminder:** Calendar event on deadline day, 2 hours before due time
+
+### Questions Submitted to COs
+- **Follow-up event:** 5 business days after submission — check for posted answers
+
+### Subcontractor / Supplier Outreach
+- **Follow-up event:** 3 business days after send
+- **Second follow-up:** 7 days if no response
+
+### SWFT / Clearance / Registration Applications
+- **Follow-up event:** 10 business days after submission
+- **Recurring check:** Every 2 weeks until resolved
+
+## Calendar Event Requirements
+
+Every follow-up calendar event MUST include:
+- **Who** to contact (name + email in the location field)
+- **What** the follow-up is about (reference solicitation # or topic)
+- **What to do** if no response (escalation step in the description)
+
+## When This Triggers
+
+- When generating a SEND_TO_BUYER email → create follow-up event
+- When logging a CO outreach email as sent → create follow-up event
+- When a pre-bid conference is identified → create day-of event + post-conference follow-up
+- When a bid deadline is identified → create 7-day, 3-day, and day-of reminders
+- When questions are submitted → create answer-check event
+- When any application/registration is submitted → create follow-up event
+
+## No Exceptions
+
+This is not optional. This is not "when convenient." Every action gets a follow-up. The calendar is the safety net. If it's not on the calendar, it doesn't exist.
+
+**Missing the Fulton County pre-bid conference is why this rule exists. Never again.**

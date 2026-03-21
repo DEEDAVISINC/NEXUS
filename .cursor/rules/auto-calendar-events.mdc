@@ -1,0 +1,79 @@
+---
+description: Auto-generate .ics calendar events when calls, meetings, or deadlines are confirmed
+alwaysApply: true
+---
+
+# Auto Calendar Events — MANDATORY
+
+**When ANY call, meeting, or hard deadline is confirmed: AUTOMATICALLY generate an .ics calendar file and open it. No asking. No waiting. Just do it.**
+
+## When to Trigger
+
+Generate a calendar event when:
+- A call or meeting is confirmed (date, time, and contact known)
+- A bid deadline is identified with a specific date
+- A follow-up date is set
+- Any time-sensitive action is scheduled
+
+## .ics File Format
+
+Save to: `calendars/[EVENT_NAME].ics`
+
+```
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:[UNIQUE_ID]@deedavis.biz
+DTSTAMP:[NOW]
+DTSTART:[START_TIME_ET]
+DTEND:[END_TIME_ET]
+SUMMARY:[EMOJI] [TYPE]: [Description]
+DESCRIPTION:[All relevant details — contact info, dial-in, prep checklist, folder location]
+LOCATION:[Meeting link or submission method]
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:[Event] tomorrow
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:[Event] in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:[Event] in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+```
+
+## Emoji Prefixes
+
+- Calls/Meetings: 📞
+- Bid Deadlines: 🔥
+- Follow-ups: 📧
+- Portal/Registration tasks: 📋
+
+## Reminders
+
+- Calls/Meetings: 1 day, 2 hours, 30 minutes before
+- Bid Deadlines: 3 days, 1 day, 2 hours before
+- Follow-ups: 1 day before
+
+## After Creating
+
+Run `open "calendars/[FILE].ics"` to import into Apple Calendar automatically.
+
+## Time Zone
+
+Dee is in Eastern Time (America/Detroit). All DTSTART/DTEND values must be in ET. If an event is scheduled in another timezone (e.g., CT), convert to ET first.

@@ -205,18 +205,29 @@ Full strategy document: `LEAD_TESTING_STRATEGY.md`
 
 ## LABCORP — Drug Testing Lab Partnership
 
-**Account Status:** NOT YET APPLIED
-**Contact:** employersolutions@labcorp.com
+**Account Status:** APPLIED 03/10/2026 — REFERRED TO NATIONAL DRUG SCREENING (NDS)
+**LabCorp Contact:** Sciacca Campbell, Inside Sales Enterprise Manager, SalesOTS1@labcorp.com
 **Service:** Lab processing, nationwide PSCs, employer services portal
+**Form Submitted:** 03/10/2026 via go.labcorp.com employer services contact form
+**LabCorp Response:** 03/11/2026 — LabCorp no longer establishes direct accounts for 3rd party collectors. All new accounts routed through TPA: **National Drug Screening (NDS)**. LabCorp will forward DDI's info to NDS.
 
-### ACTIONS NEEDED:
-
-- [ ] Contact Labcorp Employer Solutions
-- [ ] Request TPA account application
-- [ ] Complete application and submit
-- [ ] Receive login credentials
+### WHAT HAPPENED:
+- [x] Submitted employer services web form (03/10/2026)
+- [x] LabCorp replied (03/11/2026) — directed to National Drug Screening
+- [x] **NDS contacted DDI 03/16/2026** — Jean Saporita, Drug & Alcohol Testing Specialist
+  - Direct: **321-608-0409** | jsaporita@nationaldrugscreening.com
+  - NDS, 129 W Hibiscus Blvd Ste H, Melbourne FL 32901
+  - Toll Free: 866-500-3911 | Fax: 888-585-7234
+  - Following up on CRL referral — wants a call to discuss testing needs
+- [x] Replied to Jean 03/21/2026 — proposed Monday afternoon call after 12 PM ET
+- [ ] **CALL JEAN MONDAY AFTERNOON** — 321-608-0409 — discuss account setup, pricing, lab access (LabCorp + CRL)
+- [ ] NDS account setup and onboarding
+- [ ] Receive login credentials + pricing
 - [ ] Document pricing and account rep info
-- [ ] **ASK ABOUT BLOOD LEAD LEVEL TESTING** — Labcorp offers BLL testing; inquire about adding to TPA account for lead testing services
+- [ ] **ASK NDS ABOUT BLOOD LEAD LEVEL TESTING** — LabCorp offers BLL testing; inquire about adding to TPA account for lead screening services
+
+### NOTE:
+CRL/FormFox ALSO referred DDI to National Drug Screening. NDS is the gateway to both LabCorp AND CRL networks. Getting the NDS account set up unlocks access to BOTH labs.
 
 ---
 

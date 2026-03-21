@@ -729,7 +729,50 @@
     lines.push('========================================');
     const plainText = lines.join('\n');
 
-    // Submit to Netlify Forms
+    // Submit to PRISM backend API
+    const apiPayload = {
+      confirmation: confNum,
+      service_key: svcKey,
+      service_label: svcLabel,
+      urgency: activeUrgency,
+      tier: tier,
+      client_company: val('client-name'),
+      client_contact: val('client-contact'),
+      client_phone: val('client-phone'),
+      client_email: val('client-email'),
+      client_po: val('client-po'),
+      client_address: val('client-address'),
+      subject_first: val('donor-first'),
+      subject_last: val('donor-last'),
+      subject_dob: val('donor-dob'),
+      subject_phone: val('donor-phone'),
+      subject_id: val('donor-id'),
+      subject_location: val('donor-location'),
+      sched_date: val('sched-date'),
+      sched_time: val('sched-time'),
+      sched_tz: val('sched-tz'),
+      collection_site: val('collection-site'),
+      notes: val('notes'),
+      routing_email: activeEmail,
+      details: {}
+    };
+    if (svcKey === 'testing-drug') apiPayload.details.panel = val('drug-panel');
+    if (svcKey === 'testing-occhealth') { apiPayload.details.exam = val('occ-exam-type'); apiPayload.details.compliance = val('occ-compliance'); }
+    if (svcKey === 'testing-lead') { apiPayload.details.test_type = val('lead-test-type'); apiPayload.details.program = val('lead-program'); }
+    if (svcKey === 'fingerprint') { apiPayload.details.fp_type = val('fp-type'); apiPayload.details.purpose = val('fp-purpose'); }
+    if (svcKey === 'dna') { apiPayload.details.dna_type = val('dna-type'); apiPayload.details.participants = val('dna-participants'); }
+
+    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8000' : '';
+    fetch(`${API_BASE}/prism/intake`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(apiPayload)
+    })
+    .then(r => r.json())
+    .then(res => { if (res.success) showStatus('success', 'ORDER RECEIVED — Routed to PRISM dashboard'); })
+    .catch(() => { showStatus('error', 'AUTO-SUBMIT UNAVAILABLE — Use email or copy button below'); });
+
+    // Netlify Forms fallback
     document.getElementById('nf-confirmation').value = confNum;
     document.getElementById('nf-service').value = svcLabel;
     document.getElementById('nf-urgency').value = activeUrgency.toUpperCase();
@@ -738,9 +781,7 @@
     document.getElementById('nf-summary').value = plainText;
 
     const formData = new FormData(document.getElementById('netlify-form'));
-    fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(formData).toString() })
-      .then(() => { showStatus('success', 'ORDER RECEIVED — Dee Davis Inc. has been notified'); })
-      .catch(() => { showStatus('error', 'AUTO-SUBMIT UNAVAILABLE — Use email or copy button below'); });
+    fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(formData).toString() }).catch(() => {});
 
     // Build mailto link
     const subject = encodeURIComponent(`PRISM Service Request — ${confNum} — ${svcLabel}`);

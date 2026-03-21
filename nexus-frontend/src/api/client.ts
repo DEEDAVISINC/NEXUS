@@ -28,6 +28,17 @@ export class ApiClient {
     return response.json();
   }
 
+  static async patch(endpoint: string, data: any) {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+
   static async delete(endpoint: string) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'DELETE',
@@ -42,6 +53,7 @@ export const api = {
   get: (endpoint: string) => ApiClient.get(endpoint),
   post: (endpoint: string, data?: any) => ApiClient.post(endpoint, data || {}),
   put: (endpoint: string, data: any) => ApiClient.put(endpoint, data),
+  patch: (endpoint: string, data: any) => ApiClient.patch(endpoint, data),
   delete: (endpoint: string) => ApiClient.delete(endpoint),
 
   // Health
@@ -452,6 +464,14 @@ export const api = {
     const query = params.toString();
     return ApiClient.get(`/vertex/revenue/summary${query ? `?${query}` : ''}`);
   },
+
+  // ═══════════════════════════════════════════════════════════
+  // VERTEX FINANCING — SouthStar Capital & Bankers Factoring
+  // ═══════════════════════════════════════════════════════════
+  getFinancingReferrals: () => ApiClient.get('/vertex/financing/referrals'),
+  createFinancingReferral: (data: any) => ApiClient.post('/vertex/financing/referrals', data),
+  updateFinancingReferral: (referralId: string, data: any) => ApiClient.put(`/vertex/financing/referrals/${referralId}`, data),
+  deleteFinancingReferral: (referralId: string) => ApiClient.delete(`/vertex/financing/referrals/${referralId}`),
 
   // ═══════════════════════════════════════════════════════════
   // PROPOSALBIO — Quality Analysis (10 Biohacks)

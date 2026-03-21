@@ -74,6 +74,153 @@ ATLAS tracks the overall contract
 
 ---
 
+# 2B. ON-DEMAND TESTING — TWO-TIER RAPID RESPONSE MODEL
+
+**When a test must happen NOW (post-accident, reasonable suspicion, return-to-duty), PRISM activates a two-tier response. The donor NEVER drives themselves.**
+
+### Why This Exists
+
+An employer who suspects intoxication and tells the donor to drive to a collection site is putting an impaired person behind the wheel. If that person injures someone en route, the employer is liable — they knew or suspected impairment and sent them driving anyway. DDI eliminates that risk entirely.
+
+### Tier 1 — Expedited Mobile Collector (Premium / Fastest)
+
+```
+1. Client calls DDI or submits urgent order through PRISM
+2. PRISM identifies nearest available certified mobile collector
+3. Collector dispatched directly to donor's location (job site, office, scene)
+4. Collection performed on-site — donor never leaves
+5. Specimen secured, eCCF completed, transported to lab
+```
+
+**Best for:** Post-accident at job site, remote locations, after-hours, high-security facilities, any situation where the donor cannot or should not be moved.
+
+### Tier 2 — Secure NEMT Ride to Collection Site (Cost-Effective / Fast)
+
+```
+1. Client calls DDI or submits urgent order through PRISM
+2. PRISM orders ride via Uber Health or local NEMT provider to donor's location
+3. Donor picked up — time-stamped, documented, GPS-tracked
+4. Donor transported to nearest available collection site
+5. Collection performed at site — donor rides home or back to employer after
+```
+
+**Best for:** Reasonable suspicion, return-to-duty, situations where mobile collector is unavailable within the compliance window.
+
+### Donor Security & Liability Protection
+
+| Risk | Without DDI | With DDI |
+|------|------------|----------|
+| Impaired donor drives to site | Employer liable if accident occurs | Donor never drives — ride provided |
+| Donor stops to tamper/dilute | No chain of movement documented | GPS-tracked ride = evidence trail |
+| Test window expires (donor can't get there) | Compliance violation | Mobile collector or ride dispatched immediately |
+| Employer transports impaired employee | Employer assumes liability | Independent third-party transport |
+| No documentation of transport | "He said / she said" | Time-stamped pickup, drop-off, ride record in compliance file |
+
+### Compliance Integration
+
+- Ride record (pickup time, drop-off time, route) attached to the order in PRISM
+- Becomes part of the compliance documentation package
+- Available for audit, litigation defense, or CPARS reporting
+- DOT post-accident window tracked in real-time — PRISM alerts if window is at risk
+
+**This is not a convenience feature. This is a safety and liability protection system. DDI ensures that no impaired person is ever told to drive themselves to a drug test.**
+
+---
+
+# 2C. MOBILE MASS COLLECTION EVENTS — TIER 3
+
+**When a client needs to test dozens or hundreds of people at once, DDI brings the collection operation to them.**
+
+### When Tier 3 Activates
+
+- Annual DOT random testing sweeps (trucking fleets, transit authorities, school bus operations)
+- Pre-season athletics testing (K-12 and collegiate — entire teams before competition)
+- Pre-employment screening for new project crews (construction, manufacturing)
+- Shift-wide random sweeps at manufacturing plants or warehouses
+- Government agency annual compliance testing across facilities
+- Post-incident mass testing (site-wide after a workplace incident)
+
+### How PRISM Manages Mass Events
+
+```
+1.  Client requests mass event — date, location, donor count, test types
+2.  PRISM calculates staffing requirements:
+    - Urine collection: 1 collector per 8-10 donors/hour
+    - Breath alcohol (BAT): 1 technician per 6 tests/hour
+    - Hair collection: 1 collector per 4-5 donors/hour
+    - Observed collections: 1 collector per 5-6 donors/hour
+3.  PRISM dispatches certified collection team (scaled to event size)
+4.  DDI ships collection kits, eCCF forms, supplies, and shipping materials in advance
+5.  Collection team sets up on-site (private area — conference room, trailer, or mobile unit)
+6.  Donors rotate through collection stations on a managed schedule
+7.  Every eCCF processed in real-time through PRISM
+8.  Specimens sealed, temp-logged, batch-packaged
+9.  Same-day courier pickup to lab (or DDI medical courier dispatched)
+10. Results flow back through PRISM → MRO review → client dashboard
+```
+
+### Staffing Calculator
+
+| Event Size | Collectors Needed | BATs Needed | Est. Time On-Site |
+|---|---|---|---|
+| 25 donors | 1-2 | 1 | 3 hours |
+| 50 donors | 2-3 | 1-2 | 4 hours |
+| 100 donors | 3-4 | 2 | 5 hours |
+| 200 donors | 5-6 | 2-3 | 6 hours |
+| 500+ donors | 8-10 | 4-5 | Full day (multi-station) |
+
+### Multi-Panel Flexibility
+
+One event can run multiple test types simultaneously. PRISM tracks which donor gets which panel:
+- DOT 5-panel for CDL drivers
+- Non-DOT 14-panel for warehouse staff
+- 17-panel for supervisory roles
+- Hair testing for executive leadership
+- Breath alcohol for all safety-sensitive positions
+
+Each donor's panel assignment is pre-loaded in PRISM before the event. Collectors scan the donor in, PRISM tells them which kit to use. Zero confusion at scale.
+
+### Real-Time Event Dashboard
+
+Client watches the event in real-time through PRISM:
+- Live completion count ("87 of 120 done — 33 remaining")
+- Estimated time to completion
+- No-show tracking (flagged immediately — DOT no-show = refusal = positive)
+- Station throughput metrics
+- Specimen chain-of-custody status
+
+### Athletics Testing Mode (K-12 / Collegiate)
+
+For school districts and universities:
+- Digital consent form collection (parent/guardian signatures via PRISM portal)
+- Parent notification automated before testing day
+- Roster uploaded by athletic director → PRISM manages the schedule
+- Mobile collection team arrives at school on event day
+- Results reported to athletic director within 24 hours
+- Competition clearance issued through PRISM
+- Compliant with state athletic association testing requirements
+
+### No-Show & Absentee Protocol
+
+If a donor is selected but not present at the event:
+1. PRISM flags the absence immediately and notifies the client
+2. For DOT randoms: no-show = refusal to test = treated as positive result (client notified of regulatory implications)
+3. For non-DOT: PRISM offers two options:
+   - **Tier 2 response** — order a secure NEMT ride to bring the donor to the event or nearest collection site
+   - **Tier 1 response** — dispatch a mobile collector to the donor's location
+4. Donor gets a defined window to complete (client sets the policy, PRISM enforces it)
+
+### NEMT Integration at Mass Events
+
+Even at mass events, transportation barriers exist:
+- Donor works at a different facility than the event location
+- Donor is off-site or working remotely
+- Donor doesn't have reliable transportation
+
+PRISM orders rides through Uber Health or local NEMT to get these donors to the event site. Same documentation, same GPS tracking, same compliance trail as Tier 2 on-demand.
+
+---
+
 # 3. SERVICE TYPES & COLORS
 
 ### DDI Brand Colors (Portal & Agent-Facing UI)
@@ -93,16 +240,19 @@ Every service type has a distinct color. You know what an order is without readi
 
 | Service | Color | Hex | Background |
 |---------|-------|-----|------------|
-| **Notary** | 🟠 Orange | `#F97316` | `#FFF7ED` |
-| **Notary (RON)** | 🟣 Indigo | `#6366F1` | `#EEF2FF` |
-| **Drug Test (DOT)** | 🔴 Red | `#EF4444` | `#FEF2F2` |
-| **Drug Test (Non-DOT)** | 🔴 Rose | `#F43F5E` | `#FFF1F2` |
-| **DNA Collection** | 🟣 Purple | `#A855F7` | `#FAF5FF` |
-| **Fingerprinting / EFT** | 🟢 Green | `#22C55E` | `#F0FDF4` |
-| **Courier/Runner** | 🔵 Blue | `#3B82F6` | `#EFF6FF` |
-| **Background Check** | ⚫ Slate | `#64748B` | `#F8FAFC` |
-| **Apostille** | 🟡 Gold | `#EAB308` | `#FEFCE8` |
-| **Process Serving** | 🟢 Teal | `#14B8A6` | `#F0FDFA` |
+| **Drug Test (DOT)** | Red | `#EF4444` | `#FEF2F2` |
+| **Drug Test (Non-DOT)** | Red | `#EF4444` | `#FEF2F2` |
+| **Occ Health / Phlebotomy** | Red | `#EF4444` | `#FEF2F2` |
+| **DNA Collection** | Purple | `#A855F7` | `#FAF5FF` |
+| **Fingerprinting / EFT** | Light Green | `#4ADE80` | `#F0FDF4` |
+| **Background Check** | Light Green | `#4ADE80` | `#F0FDF4` |
+| **Notary** | Pink | `#EC4899` | `#FDF2F8` |
+| **Notary (RON)** | Pink | `#EC4899` | `#FDF2F8` |
+| **Apostille** | Pink | `#EC4899` | `#FDF2F8` |
+| **Process Serving** | Pink | `#EC4899` | `#FDF2F8` |
+| **NEMT / Transport** | Teal | `#14B8A6` | `#F0FDFA` |
+| **Courier/Runner** | Indigo | `#6366F1` | `#EEF2FF` |
+| **Medical Courier** | Indigo | `#6366F1` | `#EEF2FF` |
 
 **All notary work is mobile.** DDI goes TO the signer. The only split is in-person (orange) vs. remote/digital RON (indigo) — different workflows.
 

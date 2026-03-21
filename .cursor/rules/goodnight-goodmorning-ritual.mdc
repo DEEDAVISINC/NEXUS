@@ -1,0 +1,129 @@
+---
+description: End-of-day and start-of-day ritual — triggered by "goodnight" and "good morning"
+alwaysApply: true
+---
+
+# Goodnight / Good Morning Ritual — MANDATORY
+
+---
+
+## WHEN DEE SAYS "GOODNIGHT" (or "going to bed", "done for tonight", "logging off", "we're done")
+
+Run ALL of these in order. Do not skip any. Do not wait to be asked.
+
+### STEP 1: GIT COMMIT & PUSH
+Run a git commit and push to save all work from the session:
+```bash
+cd "/Users/deedavis/NEXUS BACKEND"
+git add -A
+git commit -m "$(cat <<'EOF'
+NEXUS end-of-day save — [DATE]
+
+[Brief summary of what was done today]
+EOF
+)"
+git push
+```
+Report: "Pushed to git ✓"
+
+### STEP 2: CALENDAR CHECK
+Review all tracker files and confirm these are recorded:
+- `TODAY_AGENDA.md`
+- `BID_TRACKER_DASHBOARD.md`
+- `BID_TRACKER_COMPLETE.md`
+
+Check for:
+- [ ] All meetings have confirmed date, time, timezone, and call-in info
+- [ ] All bid deadlines are listed with due date and action needed
+- [ ] Any new contacts, replies, or opportunities logged
+- [ ] Nothing slipping through the cracks in the next 7 days
+
+Report any missing items Dee needs to add to her physical calendar.
+
+### STEP 3: PIPELINE REVENUE TALLY
+Per `nightly-pipeline-tally.mdc` — present the full pipeline table:
+- All active opportunities by category
+- Annual revenue estimate, DDI margin, contract lifetime, win probability, due date
+- Summary totals (conservative and target)
+- Risk-adjusted values
+- One grounded closing line — not cheerleader energy
+
+### STEP 4: PLAN TOMORROW
+Based on deadlines, pending tasks, and open items — build a prioritized plan for the next day:
+
+```
+TOMORROW'S PRIORITIES — [DATE]
+
+1. [Most urgent / time-sensitive task]
+2. [Second priority]
+3. [Third priority]
+...
+
+MEETINGS: [Any calls or deadlines]
+FOLLOW-UPS DUE: [7/14/21 day cadence items]
+PREP NEEDED: [Anything to prepare before a call or deadline]
+```
+
+Save this to `TODAY_AGENDA.md` so it's ready when Dee opens the system in the morning.
+
+### STEP 5: ALEXA BRIEFING UPDATE
+Update the Alexa daily briefing file so it's ready for the morning flash briefing:
+- File: `DAILY_BRIEFING.md`
+- Format: Short, spoken-word friendly. No markdown tables — Alexa reads it aloud.
+- Include: Top 3 priorities, any meetings with time, any urgent deadlines
+- Keep it under 60 seconds of speaking time
+
+---
+
+## WHEN DEE SAYS "GOOD MORNING" (or "morning", "I'm back", "what did I miss")
+
+Run ALL of these immediately:
+
+### STEP 1: SHOW TODAY'S AGENDA
+Read `TODAY_AGENDA.md` and present it clean — what's on the plate today.
+
+### STEP 2: SHOW URGENT ITEMS
+Flag anything that is:
+- Due within 48 hours
+- Awaiting a reply that's overdue (7+ days no response)
+- A meeting happening today
+- A follow-up that hit its 7/14/21 day cadence
+
+### STEP 3: SHOW OVERNIGHT ACTIVITY
+Check for anything that may have changed overnight:
+- New replies in the CO outreach log
+- Any automated alerts from NEXUS systems
+- Anything flagged as urgent in the tracker files
+
+### STEP 4: READY TO GO
+Ask: "What do you want to tackle first?"
+
+---
+
+## ALEXA INTEGRATION
+
+The `DAILY_BRIEFING.md` file is what Alexa reads. Keep it:
+- Plain text, no markdown symbols that sound weird spoken aloud
+- Short sentences — Alexa reads exactly what's written
+- Structure: Greeting → Meetings → Top priorities → Urgent deadlines → Closing
+
+Example format:
+```
+Good morning Dee. Here is your NEXUS briefing for [DAY], [DATE].
+
+You have [X] meeting today: [Meeting name] at [TIME].
+
+Your top 3 priorities are: [1], [2], and [3].
+
+Urgent: [Any deadline or follow-up due today].
+
+Have a great day.
+```
+
+---
+
+## WHY THIS EXISTS
+
+Dee needs a clean handoff between sessions — nothing falls through the cracks overnight, 
+everything is committed to git, and she wakes up knowing exactly what's on the board 
+without having to reconstruct context from scratch.
