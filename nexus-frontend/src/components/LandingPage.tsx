@@ -129,6 +129,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   // Pipeline health state
   const [pipelineHealth, setPipelineHealth] = useState<any>(null);
 
+  // Calendar state
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<string | null>(new Date().toISOString().split('T')[0]);
+  const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
+
+  // Fetch calendar events from .ics files + GPSS deadlines
+  const fetchCalendarEvents = useCallback(async () => {
+    try {
+      const res = await api.getCalendarEvents();
+      setCalendarEvents(res.events || []);
+    } catch {
+      setCalendarEvents([]);
+    }
+  }, []);
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -431,15 +446,17 @@ END:VCALENDAR`;
     fetchDeadlineData();
     fetchWorkflowQueues();
     fetchMiningStatus();
+    fetchCalendarEvents();
     
     const interval = setInterval(() => {
       fetchDashboardData();
       fetchDeadlineData();
       fetchWorkflowQueues();
-    }, 30000); // 30 seconds
+      fetchCalendarEvents();
+    }, 30000);
 
     return () => clearInterval(interval);
-  }, [fetchDashboardData, fetchDeadlineData, fetchWorkflowQueues]);
+  }, [fetchDashboardData, fetchDeadlineData, fetchWorkflowQueues, fetchCalendarEvents]);
 
   // Format large numbers
   const formatNumber = (num: number): string => {
@@ -987,61 +1004,149 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Upcoming Deadlines (2 cols) */}
+              {/* YOUR CALENDAR */}
               <div className="lg:col-span-2">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-base">📅</span>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">Upcoming Deadlines</h3>
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">My Calendar</h3>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={exportAllTasksToCalendar}
+                      className="text-xs text-blue-400 hover:text-blue-300 font-semibold transition"
+                    >
+                      Export .ics
+                    </button>
+                  </div>
+                </div>
+
+                {/* Month Navigation */}
+                <div className="flex items-center justify-between mb-2 px-1">
                   <button
-                    onClick={exportAllTasksToCalendar}
-                    className="text-xs text-blue-400 hover:text-blue-300 font-semibold transition"
-                  >
-                    Export .ics
-                  </button>
+                    onClick={() => setCalendarMonth(prev => { const d = new Date(prev); d.setMonth(d.getMonth() - 1); return d; })}
+                    className="text-xs text-gray-400 hover:text-white font-bold px-2 py-1 rounded hover:bg-gray-700 transition"
+                  >◀</button>
+                  <span className="text-sm font-bold text-white">
+                    {calendarMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  </span>
+                  <button
+                    onClick={() => setCalendarMonth(prev => { const d = new Date(prev); d.setMonth(d.getMonth() + 1); return d; })}
+                    className="text-xs text-gray-400 hover:text-white font-bold px-2 py-1 rounded hover:bg-gray-700 transition"
+                  >▶</button>
                 </div>
-                <div className="space-y-2">
-                  {upcomingDeadlines.map((deadline, i) => {
-                    const deadlineDate = new Date(deadline.timestamp);
-                    const daysLeft = Math.ceil((deadlineDate.getTime() - Date.now()) / 86400000);
-                    const isUrgent = daysLeft <= 3;
-                    const isSoon = daysLeft <= 7;
-                    return (
-                      <div
-                        key={i}
-                        className={`p-3 rounded-lg border cursor-pointer transition hover:scale-[1.01] ${
-                          isUrgent ? 'bg-red-900/10 border-red-500/40 hover:border-red-400' :
-                          isSoon ? 'bg-orange-900/10 border-orange-500/30 hover:border-orange-400' :
-                          'bg-gray-800/40 border-gray-700/50 hover:border-gray-600'
-                        }`}
-                        onClick={() => {
-                          if (deadline.system === 'GPSS') onEnterSystem('gpss');
-                          else if (deadline.system === 'ATLAS PM') onEnterSystem('atlas');
-                        }}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={`text-xs font-bold px-2 py-0.5 rounded ${
-                            isUrgent ? 'bg-red-500/20 text-red-400' :
-                            isSoon ? 'bg-orange-500/20 text-orange-400' :
-                            'bg-gray-700 text-gray-400'
-                          }`}>
-                            {isUrgent ? `${daysLeft}d LEFT` : isSoon ? `${daysLeft} days` : deadline.date}
-                          </span>
-                          <span className="text-xs text-gray-500">{deadline.system}</span>
-                        </div>
-                        <div className="text-sm font-semibold text-white truncate">{deadline.title}</div>
-                        {deadline.status && <div className="text-xs text-gray-500 mt-0.5">{deadline.status}</div>}
-                      </div>
-                    );
-                  })}
-                  {upcomingDeadlines.length === 0 && (
-                    <div className="text-center py-6 bg-gray-800/20 border border-gray-700/50 rounded-lg">
-                      <div className="text-2xl mb-2">📅</div>
-                      <p className="text-sm text-gray-500 font-semibold">No upcoming deadlines</p>
+
+                {/* Day Headers */}
+                <div className="grid grid-cols-7 gap-0.5 mb-1">
+                  {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => (
+                    <div key={d} className="text-center text-[10px] text-gray-500 font-bold py-1">{d}</div>
+                  ))}
+                </div>
+
+                {/* Calendar Grid */}
+                <div className="grid grid-cols-7 gap-0.5">
+                  {(() => {
+                    const year = calendarMonth.getFullYear();
+                    const month = calendarMonth.getMonth();
+                    const firstDay = new Date(year, month, 1).getDay();
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    const cells: React.ReactNode[] = [];
+
+                    for (let i = 0; i < firstDay; i++) {
+                      cells.push(<div key={`empty-${i}`} className="h-8" />);
+                    }
+
+                    for (let day = 1; day <= daysInMonth; day++) {
+                      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                      const isToday = dateStr === todayStr;
+                      const isSelected = dateStr === selectedDate;
+                      const dayEvents = calendarEvents.filter(e => e.date === dateStr);
+                      const deadlineEvents = upcomingDeadlines.filter(d => {
+                        const dDate = new Date(d.timestamp);
+                        return dDate.getFullYear() === year && dDate.getMonth() === month && dDate.getDate() === day;
+                      });
+                      const hasEvents = dayEvents.length > 0 || deadlineEvents.length > 0;
+                      const hasUrgent = deadlineEvents.some(d => d.priority === 'high') || dayEvents.some(e => e.title?.includes('🔥'));
+
+                      cells.push(
+                        <button
+                          key={day}
+                          onClick={() => setSelectedDate(dateStr === selectedDate ? null : dateStr)}
+                          className={`relative h-8 rounded text-xs font-semibold transition-all ${
+                            isSelected
+                              ? 'bg-blue-600 text-white ring-2 ring-blue-400'
+                              : isToday
+                              ? 'bg-blue-500/20 text-blue-400 ring-1 ring-blue-500/50'
+                              : hasEvents
+                              ? 'bg-gray-800/60 text-white hover:bg-gray-700'
+                              : 'text-gray-500 hover:bg-gray-800/40 hover:text-gray-300'
+                          }`}
+                        >
+                          {day}
+                          {hasEvents && (
+                            <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5">
+                              {hasUrgent && <div className="w-1 h-1 bg-red-400 rounded-full" />}
+                              {dayEvents.length > 0 && <div className="w-1 h-1 bg-blue-400 rounded-full" />}
+                              {deadlineEvents.length > 0 && !hasUrgent && <div className="w-1 h-1 bg-orange-400 rounded-full" />}
+                            </div>
+                          )}
+                        </button>
+                      );
+                    }
+                    return cells;
+                  })()}
+                </div>
+
+                {/* Selected Date Events */}
+                {selectedDate && (
+                  <div className="mt-3 pt-3 border-t border-gray-700/50">
+                    <div className="text-[10px] text-gray-500 font-bold mb-2 uppercase tracking-wider">
+                      {new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                     </div>
-                  )}
-                </div>
+                    <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                      {/* .ics calendar events */}
+                      {calendarEvents.filter(e => e.date === selectedDate).map((evt, i) => (
+                        <div key={`cal-${i}`} className="p-2 bg-blue-900/15 border border-blue-500/30 rounded-lg">
+                          <div className="text-xs font-bold text-white truncate">{evt.title}</div>
+                          {evt.time && <div className="text-[10px] text-blue-400">{evt.time}</div>}
+                          {evt.location && <div className="text-[10px] text-gray-500 truncate">{evt.location}</div>}
+                        </div>
+                      ))}
+                      {/* Deadline events */}
+                      {upcomingDeadlines.filter(d => {
+                        const dDate = new Date(d.timestamp);
+                        return `${dDate.getFullYear()}-${String(dDate.getMonth()+1).padStart(2,'0')}-${String(dDate.getDate()).padStart(2,'0')}` === selectedDate;
+                      }).map((d, i) => (
+                        <div
+                          key={`dl-${i}`}
+                          className={`p-2 rounded-lg border cursor-pointer hover:opacity-90 transition ${
+                            d.priority === 'high' ? 'bg-red-900/15 border-red-500/30' : 'bg-orange-900/15 border-orange-500/30'
+                          }`}
+                          onClick={() => {
+                            if (d.system === 'GPSS') onEnterSystem('gpss');
+                            else if (d.system === 'ATLAS PM') onEnterSystem('atlas');
+                          }}
+                        >
+                          <div className="text-xs font-bold text-white truncate">{d.title}</div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] text-gray-500">{d.system}</span>
+                            {d.status && <span className="text-[10px] text-gray-500">{d.status}</span>}
+                          </div>
+                        </div>
+                      ))}
+                      {calendarEvents.filter(e => e.date === selectedDate).length === 0 &&
+                       upcomingDeadlines.filter(d => {
+                        const dDate = new Date(d.timestamp);
+                        return `${dDate.getFullYear()}-${String(dDate.getMonth()+1).padStart(2,'0')}-${String(dDate.getDate()).padStart(2,'0')}` === selectedDate;
+                      }).length === 0 && (
+                        <div className="text-center py-3">
+                          <p className="text-xs text-gray-500">No events this day</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

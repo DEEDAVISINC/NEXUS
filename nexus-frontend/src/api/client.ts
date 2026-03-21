@@ -63,6 +63,7 @@ export const api = {
   getDashboardStats: () => ApiClient.get('/dashboard/stats'),
   getDashboardActivity: () => ApiClient.get('/dashboard/activity'),
   getDashboardAlerts: () => ApiClient.get('/dashboard/alerts'),
+  getCalendarEvents: () => ApiClient.get('/calendar/events'),
   getTransportationNotifications: () => ApiClient.get('/transportation-logistics/notifications'),
 
   // NEXUS Core

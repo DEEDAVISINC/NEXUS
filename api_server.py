@@ -673,6 +673,91 @@ def get_dashboard_alerts():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/calendar/events', methods=['GET'])
+def get_calendar_events():
+    """Read all .ics files from calendars/ and return events for the dashboard calendar."""
+    import re as _re
+    cal_dir = os.path.join(os.path.dirname(__file__), 'calendars')
+    events = []
+
+    if os.path.isdir(cal_dir):
+        for fname in os.listdir(cal_dir):
+            if not fname.endswith('.ics'):
+                continue
+            try:
+                with open(os.path.join(cal_dir, fname), 'r') as f:
+                    ics_text = f.read()
+
+                for block in ics_text.split('BEGIN:VEVENT')[1:]:
+                    block = block.split('END:VEVENT')[0]
+
+                    def _field(name):
+                        for line in block.splitlines():
+                            if line.startswith(name + ':') or line.startswith(name + ';'):
+                                return line.split(':', 1)[-1].strip()
+                        return ''
+
+                    raw_start = _field('DTSTART')
+                    summary = _field('SUMMARY')
+                    description = _field('DESCRIPTION').replace('\\n', '\n')
+                    location = _field('LOCATION')
+                    status = _field('STATUS')
+
+                    dt = None
+                    for fmt in ('%Y%m%dT%H%M%S', '%Y%m%dT%H%M%SZ', '%Y%m%d'):
+                        try:
+                            dt = datetime.strptime(raw_start, fmt)
+                            break
+                        except ValueError:
+                            continue
+
+                    if dt and summary:
+                        events.append({
+                            'date': dt.strftime('%Y-%m-%d'),
+                            'time': dt.strftime('%I:%M %p') if 'T' in raw_start else '',
+                            'title': summary,
+                            'description': description[:300],
+                            'location': location,
+                            'status': status,
+                            'source': 'calendar',
+                            'file': fname,
+                        })
+            except Exception:
+                continue
+
+    try:
+        airtable_client = AirtableClient()
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        for opp in opportunities:
+            fields = opp.get('fields', {})
+            deadline_str = fields.get('Response Deadline', '')
+            if not deadline_str:
+                continue
+            st = (fields.get('Status', '') or '').lower()
+            skip = any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined'])
+            if skip:
+                continue
+            try:
+                dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                events.append({
+                    'date': dt.strftime('%Y-%m-%d'),
+                    'time': dt.strftime('%I:%M %p') if 'T' in deadline_str else '',
+                    'title': f"📋 {fields.get('Name', 'Opportunity')}",
+                    'description': f"Status: {fields.get('Status', 'N/A')}\nValue: {fields.get('Estimated Value', 'N/A')}",
+                    'location': '',
+                    'status': fields.get('Status', ''),
+                    'source': 'gpss',
+                })
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    events.sort(key=lambda e: e['date'])
+    return jsonify({'events': events, 'count': len(events)})
+
+
 @app.route('/transportation-logistics/notifications', methods=['GET'])
 def get_transportation_logistics_notifications():
     """
