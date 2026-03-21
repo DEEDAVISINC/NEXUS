@@ -674,6 +674,86 @@ def get_dashboard_alerts():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/calendar/feed.ics', methods=['GET'])
+def get_calendar_feed():
+    """
+    Live iCalendar feed — subscribe to this URL in Apple Calendar.
+    Combines ALL .ics files from calendars/ + GPSS deadlines into one feed.
+    Apple Calendar will poll this URL automatically.
+    """
+    from flask import Response
+    cal_dir = os.path.join(os.path.dirname(__file__), 'calendars')
+    vevents = []
+
+    if os.path.isdir(cal_dir):
+        for fname in os.listdir(cal_dir):
+            if not fname.endswith('.ics'):
+                continue
+            try:
+                with open(os.path.join(cal_dir, fname), 'r') as f:
+                    ics_text = f.read()
+                for block in ics_text.split('BEGIN:VEVENT')[1:]:
+                    raw = block.split('END:VEVENT')[0]
+                    vevents.append('BEGIN:VEVENT\n' + raw.strip() + '\nEND:VEVENT')
+            except Exception:
+                continue
+
+    try:
+        airtable_client = AirtableClient()
+        opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
+        for opp in opportunities:
+            fields = opp.get('fields', {})
+            deadline_str = fields.get('Response Deadline', '')
+            if not deadline_str:
+                continue
+            st = (fields.get('Status', '') or '').lower()
+            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined']):
+                continue
+            try:
+                dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                uid = opp.get('id', 'unknown') + '@nexus-ddi'
+                name = fields.get('Name', 'Opportunity')
+                value = fields.get('Estimated Value', '')
+                status = fields.get('Status', '')
+                dtstr = dt.strftime('%Y%m%dT%H%M%S')
+                vevents.append(
+                    f'BEGIN:VEVENT\n'
+                    f'UID:{uid}\n'
+                    f'DTSTAMP:{datetime.now().strftime("%Y%m%dT%H%M%S")}\n'
+                    f'DTSTART:{dtstr}\n'
+                    f'DTEND:{dtstr}\n'
+                    f'SUMMARY:📋 BID DUE: {name}\n'
+                    f'DESCRIPTION:Status: {status}\\nValue: {value}\n'
+                    f'STATUS:CONFIRMED\n'
+                    f'BEGIN:VALARM\nTRIGGER:-P1D\nACTION:DISPLAY\nDESCRIPTION:Bid due tomorrow: {name}\nEND:VALARM\n'
+                    f'BEGIN:VALARM\nTRIGGER:-PT2H\nACTION:DISPLAY\nDESCRIPTION:Bid due in 2 hours: {name}\nEND:VALARM\n'
+                    f'END:VEVENT'
+                )
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    ics_body = (
+        'BEGIN:VCALENDAR\n'
+        'VERSION:2.0\n'
+        'PRODID:-//Dee Davis Inc//NEXUS Command Center//EN\n'
+        'CALSCALE:GREGORIAN\n'
+        'METHOD:PUBLISH\n'
+        'X-WR-CALNAME:NEXUS - DDI Bids & Events\n'
+        'X-WR-TIMEZONE:America/Detroit\n'
+        'X-WR-CALDESC:All NEXUS bid deadlines, calls, and events for Dee Davis Inc.\n'
+        + '\n'.join(vevents) + '\n'
+        'END:VCALENDAR\n'
+    )
+
+    return Response(
+        ics_body,
+        mimetype='text/calendar',
+        headers={'Content-Disposition': 'inline; filename="nexus_calendar.ics"'}
+    )
+
+
 @app.route('/calendar/events', methods=['GET'])
 def get_calendar_events():
     """Read all .ics files from calendars/ and return events for the dashboard calendar."""
