@@ -3,7 +3,6 @@ import { ViewType } from './Header';
 import { api } from '../api/client';
 import { ReviewOpportunityModal } from './modals/ReviewOpportunityModal';
 import { SupplierSearchModal } from './modals/SupplierSearchModal';
-import AutonomousCommandCenter from './AutonomousCommandCenter';
 
 interface LandingPageProps {
   onEnterSystem: (system: ViewType) => void;
@@ -896,346 +895,208 @@ END:VCALENDAR`;
       {/* OVERVIEW TAB */}
       {activeTab === 'overview' && (
         <>
-          {/* AUTONOMOUS COMMAND CENTER - Shows what NEXUS recommends you do */}
-          <div className="mb-8">
-            <AutonomousCommandCenter onEnterSystem={onEnterSystem} />
-          </div>
+          {/* DAILY AGENDA — Your morning briefing */}
+          <div className="mb-6">
+            <div className="mb-5">
+              <h2 className="text-2xl font-black text-white mb-1">
+                Good {(() => { const h = new Date().getHours(); return h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening'; })()}, Dee
+              </h2>
+              <p className="text-sm text-gray-400">Here's what needs your attention today.</p>
+            </div>
 
-          {/* URGENT ACTION REQUIRED - Compact */}
-          {(alerts.length > 0 || upcomingDeadlines.filter(d => d.priority === 'high').length > 0) && (
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-xl">🔥</span>
-                <div className="text-lg font-black text-white">URGENT ACTIONS</div>
-                <div className="h-px flex-1 bg-gradient-to-r from-red-500/50 to-transparent"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+              {/* Priority Actions (3 cols) */}
+              <div className="lg:col-span-3">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
+                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">Priority Actions</h3>
+                </div>
+                <div className="space-y-2">
+                  {alerts.slice(0, 3).map((alert, i) => (
+                    <div
+                      key={`a-${i}`}
+                      className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer hover:opacity-90 transition ${
+                        alert.type === 'urgent' ? 'bg-red-900/15 border-red-500/40' : 'bg-yellow-900/15 border-yellow-500/40'
+                      }`}
+                      onClick={() => {
+                        const sysMap: Record<string, ViewType> = { GPSS: 'gpss', DDCSS: 'ddcss', ATLAS: 'atlas', GBIS: 'gbis', VERTEX: 'vertex' };
+                        const sys = sysMap[alert.system];
+                        if (sys) onEnterSystem(sys);
+                      }}
+                    >
+                      <span className="text-lg">{alert.type === 'urgent' ? '🔴' : '🟡'}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-white truncate">{alert.title}</div>
+                        <div className="text-xs text-gray-400 truncate">{alert.message}</div>
+                      </div>
+                      <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold text-gray-400">{alert.system}</span>
+                    </div>
+                  ))}
+
+                  {(workflowQueues.needsReview || []).slice(0, 2).map((opp: any) => (
+                    <div
+                      key={opp.id}
+                      className="flex items-center gap-3 p-3 rounded-lg border bg-blue-900/15 border-blue-500/40 cursor-pointer hover:border-blue-500/60 transition"
+                      onClick={() => setReviewingOpportunity(opp)}
+                    >
+                      <span className="text-lg">🔍</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-white truncate">{opp.fields?.Name || 'Opportunity'}</div>
+                        <div className="text-xs text-gray-400">Needs your review</div>
+                      </div>
+                      <button className="text-xs bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded font-bold transition">Review</button>
+                    </div>
+                  ))}
+
+                  {(workflowQueues.readyToPrice || []).slice(0, 1).map((opp: any) => (
+                    <div
+                      key={opp.id}
+                      className="flex items-center gap-3 p-3 rounded-lg border bg-green-900/15 border-green-500/40 cursor-pointer hover:border-green-500/60 transition"
+                      onClick={() => onEnterSystem('documents' as ViewType)}
+                    >
+                      <span className="text-lg">💰</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-white truncate">{opp.fields?.Name || 'Opportunity'}</div>
+                        <div className="text-xs text-gray-400">{opp.fields?.['Quotes Received'] || 0} quotes ready — price & submit</div>
+                      </div>
+                      <button className="text-xs bg-green-600 hover:bg-green-700 px-3 py-1 rounded font-bold transition">Price</button>
+                    </div>
+                  ))}
+
+                  {(workflowQueues.findSuppliers || []).slice(0, 1).map((opp: any) => (
+                    <div
+                      key={opp.id}
+                      className="flex items-center gap-3 p-3 rounded-lg border bg-purple-900/15 border-purple-500/40 cursor-pointer hover:border-purple-500/60 transition"
+                      onClick={() => setSearchingSuppliersFor(opp)}
+                    >
+                      <span className="text-lg">🔎</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-white truncate">{opp.fields?.Name || 'Opportunity'}</div>
+                        <div className="text-xs text-gray-400">Find suppliers for this bid</div>
+                      </div>
+                      <button className="text-xs bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded font-bold transition">Search</button>
+                    </div>
+                  ))}
+
+                  {alerts.length === 0 && (workflowQueues.needsReview || []).length === 0 && (workflowQueues.readyToPrice || []).length === 0 && (workflowQueues.findSuppliers || []).length === 0 && (
+                    <div className="text-center py-6 bg-gray-800/20 border border-gray-700/50 rounded-lg">
+                      <div className="text-2xl mb-2">✅</div>
+                      <p className="text-sm text-gray-500 font-semibold">All clear — no urgent actions right now</p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Priority Alerts */}
-                {alerts.slice(0, 2).map((alert, index) => (
-                  <div
-                    key={index}
-                    className={`relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm cursor-pointer hover:opacity-90 transition-all ${
-                      alert.type === 'urgent'
-                        ? 'bg-red-900/20 border-red-500/50'
-                        : 'bg-yellow-900/20 border-yellow-500/50'
-                    }`}
-                    onClick={() => {
-                      const systemMap: { [key: string]: ViewType } = {
-                        'GPSS': 'gpss',
-                        'DDCSS': 'ddcss',
-                        'ATLAS': 'atlas',
-                        'GBIS': 'gbis',
-                        'VERTEX': 'vertex'
-                      };
-                      const system = systemMap[alert.system];
-                      if (system) {
-                        onEnterSystem(system);
-                      } else {
-                        window.alert(`📋 ${alert.title}\n\n${alert.message}\n\nSystem: ${alert.system}`);
-                      }
-                    }}
+
+              {/* Upcoming Deadlines (2 cols) */}
+              <div className="lg:col-span-2">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">📅</span>
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">Upcoming Deadlines</h3>
+                  </div>
+                  <button
+                    onClick={exportAllTasksToCalendar}
+                    className="text-xs text-blue-400 hover:text-blue-300 font-semibold transition"
                   >
-                    <div className="relative">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <h4 className="text-sm font-bold text-white mb-1">{alert.title}</h4>
-                          <p className="text-xs text-gray-300">{alert.message}</p>
-                        </div>
-                        <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold">{alert.system}</span>
-                      </div>
-                      <button className={`text-xs font-bold transition-colors ${
-                        alert.type === 'urgent' ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'
-                      }`} onClick={(e) => e.stopPropagation()}>
-                        {alert.action} →
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {/* Urgent Deadlines */}
-                {upcomingDeadlines.filter(d => d.priority === 'high').slice(0, 2).map((deadline, index) => (
-                  <div key={`deadline-${index}`} className="relative overflow-hidden border rounded-lg p-3 backdrop-blur-sm bg-orange-900/20 border-orange-500/50 cursor-pointer hover:bg-orange-900/30 transition-colors"
-                    onClick={() => {
-                      if (deadline.system === 'GPSS') {
-                        onEnterSystem('gpss');
-                      } else if (deadline.system === 'ATLAS') {
-                        onEnterSystem('atlas');
-                      } else {
-                        window.alert(`📋 ${deadline.title}\n\nDue: ${deadline.date}\nSystem: ${deadline.system}\n\n💡 Click on ${deadline.system} in the header to view this opportunity.`);
-                      }
-                    }}>
-                    <div className="relative">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <h4 className="text-sm font-bold text-white mb-1">{deadline.title}</h4>
-                          <p className="text-xs text-gray-300">Due: {deadline.date}</p>
-                        </div>
-                        <span className="text-xs bg-gray-800 px-2 py-0.5 rounded font-semibold">{deadline.system}</span>
-                      </div>
-                      <button className="text-xs font-bold text-orange-400 hover:text-orange-300 transition-colors" onClick={(e) => e.stopPropagation()}>
-                        Click to Open {deadline.system} →
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* WORKFLOW QUEUES - COMPACT 2-COLUMN GRID */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            
-            {/* 1. NEEDS REVIEW */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">🔍</span>
-                <div className="text-xs font-black text-white">NEEDS REVIEW</div>
-                <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-bold">
-                  {workflowCounts.needsReview || 0}
-                </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-blue-500/30 to-transparent"></div>
-              </div>
-              {workflowQueues.needsReview && workflowQueues.needsReview.length > 0 ? (
+                    Export .ics
+                  </button>
+                </div>
                 <div className="space-y-2">
-                  {workflowQueues.needsReview.slice(0, 2).map((opp: any) => (
-                    <div key={opp.id} className="bg-blue-900/10 border border-blue-500/30 rounded p-2 hover:border-blue-500/50 transition">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-white mb-0.5 truncate">
-                            {opp.fields.Name || 'Unnamed Opportunity'}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            Added: {opp.fields['Date Added'] ? new Date(opp.fields['Date Added']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recently'}
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => setReviewingOpportunity(opp)}
-                          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-xs font-bold transition shrink-0"
-                        >
-                          Review
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  {workflowQueues.needsReview.length > 2 && (
-                    <button className="text-xs text-blue-400 hover:text-blue-300 font-bold w-full text-center py-1">
-                      +{workflowQueues.needsReview.length - 2} more
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
-                  <div className="text-xs text-gray-500">✅ All caught up</div>
-                </div>
-              )}
-            </div>
-
-            {/* 2. FIND SUPPLIERS */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">🔎</span>
-                <div className="text-xs font-black text-white">FIND SUPPLIERS</div>
-                <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
-                  {workflowCounts.findSuppliers || 0}
-                </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
-              </div>
-              {workflowQueues.findSuppliers && workflowQueues.findSuppliers.length > 0 ? (
-                <div className="space-y-2">
-                  {workflowQueues.findSuppliers.slice(0, 2).map((opp: any) => (
-                    <div key={opp.id} className="bg-purple-900/10 border border-purple-500/30 rounded p-2 hover:border-purple-500/50 transition">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
-                          <div className="text-xs text-gray-500">
-                            Due: {opp.fields['Response Deadline'] ? new Date(opp.fields['Response Deadline']).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD'}
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => setSearchingSuppliersFor(opp)}
-                          className="px-2 py-1 bg-purple-600 hover:bg-purple-700 rounded text-xs font-bold transition shrink-0"
-                        >
-                          Search
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  {workflowQueues.findSuppliers.length > 2 && (
-                    <button className="text-xs text-purple-400 hover:text-purple-300 font-bold w-full text-center py-1">
-                      +{workflowQueues.findSuppliers.length - 2} more
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
-                  <div className="text-xs text-gray-500">✅ All identified</div>
-                </div>
-              )}
-            </div>
-
-            {/* 3. AWAITING QUOTES */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">⏳</span>
-                <div className="text-xs font-black text-white">AWAITING QUOTES</div>
-                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full font-bold">
-                  {workflowCounts.awaitingQuotes || 0}
-                </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/30 to-transparent"></div>
-              </div>
-              {workflowQueues.awaitingQuotes && workflowQueues.awaitingQuotes.length > 0 ? (
-                <div className="space-y-2">
-                  {workflowQueues.awaitingQuotes.slice(0, 2).map((opp: any) => {
-                    const quotesReceived = opp.fields['Quotes Received'] || 0;
-                    const quotesRequested = opp.fields['Quotes Requested'] || 0;
-                    const percentage = quotesRequested > 0 ? Math.round((quotesReceived / quotesRequested) * 100) : 0;
-                    
+                  {upcomingDeadlines.map((deadline, i) => {
+                    const deadlineDate = new Date(deadline.timestamp);
+                    const daysLeft = Math.ceil((deadlineDate.getTime() - Date.now()) / 86400000);
+                    const isUrgent = daysLeft <= 3;
+                    const isSoon = daysLeft <= 7;
                     return (
-                      <div key={opp.id} className="bg-yellow-900/10 border border-yellow-500/30 rounded p-2 hover:border-yellow-500/50 transition">
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
-                            <div className="text-xs text-gray-500">{quotesReceived}/{quotesRequested} quotes</div>
-                          </div>
+                      <div
+                        key={i}
+                        className={`p-3 rounded-lg border cursor-pointer transition hover:scale-[1.01] ${
+                          isUrgent ? 'bg-red-900/10 border-red-500/40 hover:border-red-400' :
+                          isSoon ? 'bg-orange-900/10 border-orange-500/30 hover:border-orange-400' :
+                          'bg-gray-800/40 border-gray-700/50 hover:border-gray-600'
+                        }`}
+                        onClick={() => {
+                          if (deadline.system === 'GPSS') onEnterSystem('gpss');
+                          else if (deadline.system === 'ATLAS PM') onEnterSystem('atlas');
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                            isUrgent ? 'bg-red-500/20 text-red-400' :
+                            isSoon ? 'bg-orange-500/20 text-orange-400' :
+                            'bg-gray-700 text-gray-400'
+                          }`}>
+                            {isUrgent ? `${daysLeft}d LEFT` : isSoon ? `${daysLeft} days` : deadline.date}
+                          </span>
+                          <span className="text-xs text-gray-500">{deadline.system}</span>
                         </div>
-                        <div className="w-full bg-gray-700 rounded-full h-1">
-                          <div 
-                            className="bg-gradient-to-r from-yellow-500 to-green-500 h-1 rounded-full transition-all"
-                            style={{ width: `${percentage}%` }}
-                          ></div>
-                        </div>
+                        <div className="text-sm font-semibold text-white truncate">{deadline.title}</div>
+                        {deadline.status && <div className="text-xs text-gray-500 mt-0.5">{deadline.status}</div>}
                       </div>
                     );
                   })}
-                  {workflowQueues.awaitingQuotes.length > 2 && (
-                    <button className="text-xs text-yellow-400 hover:text-yellow-300 font-bold w-full text-center py-1">
-                      +{workflowQueues.awaitingQuotes.length - 2} more
-                    </button>
+                  {upcomingDeadlines.length === 0 && (
+                    <div className="text-center py-6 bg-gray-800/20 border border-gray-700/50 rounded-lg">
+                      <div className="text-2xl mb-2">📅</div>
+                      <p className="text-sm text-gray-500 font-semibold">No upcoming deadlines</p>
+                    </div>
                   )}
                 </div>
-              ) : (
-                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
-                  <div className="text-xs text-gray-500">✅ All received</div>
-                </div>
-              )}
+              </div>
             </div>
 
-            {/* 4. READY TO PRICE */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">💰</span>
-                <div className="text-xs font-black text-white">READY TO PRICE</div>
-                <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">
-                  {workflowCounts.readyToPrice || 0}
-                </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
-              </div>
-              {workflowQueues.readyToPrice && workflowQueues.readyToPrice.length > 0 ? (
-                <div className="space-y-2">
-                  {workflowQueues.readyToPrice.slice(0, 2).map((opp: any) => (
-                    <div key={opp.id} className="bg-green-900/10 border border-green-500/30 rounded p-2 hover:border-green-500/50 transition">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-white mb-0.5 truncate">{opp.fields.Name}</div>
-                          <div className="text-xs text-gray-500">{opp.fields['Quotes Received'] || 0} quotes</div>
-                        </div>
-                        <button 
-                          onClick={() => onEnterSystem('documents' as ViewType)}
-                          className="px-2 py-1 bg-green-600 hover:bg-green-700 rounded text-xs font-bold transition shrink-0"
-                        >
-                          Price
-                        </button>
-                      </div>
+            {/* Pipeline Summary + Quick Actions */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+              <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Pipeline at a Glance</h3>
+                <div className="grid grid-cols-4 gap-3">
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-blue-400">{workflowCounts.needsReview || 0}</div>
+                    <div className="text-[10px] text-gray-500 font-semibold">REVIEW</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-purple-400">{workflowCounts.findSuppliers || 0}</div>
+                    <div className="text-[10px] text-gray-500 font-semibold">SOURCING</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-yellow-400">{workflowCounts.awaitingQuotes || 0}</div>
+                    <div className="text-[10px] text-gray-500 font-semibold">QUOTES</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-green-400">{workflowCounts.readyToPrice || 0}</div>
+                    <div className="text-[10px] text-gray-500 font-semibold">READY</div>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-700/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs text-gray-500">{stats.active_opportunities || 0} active opps</span>
+                      <span className="text-xs text-gray-600">|</span>
+                      <span className="text-xs text-gray-500">{formatNumber(stats.revenue_pipeline || 0)} pipeline</span>
                     </div>
+                    <button onClick={() => onEnterSystem('gpss')} className="text-xs text-blue-400 hover:text-blue-300 font-bold transition">
+                      Open GPSS →
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Quick Actions</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {quickActions.map((action, i) => (
+                    <button
+                      key={i}
+                      onClick={action.action}
+                      className={`flex items-center gap-2 bg-gradient-to-r ${action.gradient} px-3 py-2.5 rounded-lg font-semibold text-xs text-white hover:opacity-90 transition`}
+                    >
+                      <span className="text-base">{action.icon}</span>
+                      {action.label}
+                    </button>
                   ))}
-                  {workflowQueues.readyToPrice.length > 2 && (
-                    <button className="text-xs text-green-400 hover:text-green-300 font-bold w-full text-center py-1">
-                      +{workflowQueues.readyToPrice.length - 2} more
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-3 bg-gray-800/20 border border-gray-700 rounded">
-                  <div className="text-xs text-gray-500">✅ All priced</div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* THIS WEEK & PENDING - COMBINED ROW */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            {/* THIS WEEK'S CALENDAR - Compact */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">📆</span>
-                <div className="text-xs font-black text-white">THIS WEEK</div>
-                <div className="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {upcomingDeadlines.slice(0, 2).map((deadline, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-gray-800/40 border border-gray-700 rounded p-2 hover:border-blue-500/50 hover:bg-gray-700/50 transition cursor-pointer group"
-                    onClick={() => {
-                      if (deadline.system === 'GPSS') {
-                        onEnterSystem('gpss');
-                      } else if (deadline.system === 'ATLAS PM') {
-                        onEnterSystem('atlas');
-                      }
-                    }}
-                  >
-                    <div className="flex items-center justify-between mb-0.5">
-                      <div className="text-xs text-gray-500">{deadline.date}</div>
-                      <div className={`w-2 h-2 rounded-full ${deadline.priority === 'high' ? 'bg-red-400' : 'bg-blue-400'}`} />
-                    </div>
-                    <div className="text-xs font-bold text-white mb-0.5 line-clamp-1 group-hover:text-blue-300 transition-colors">{deadline.title}</div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs text-gray-400">{deadline.system}</div>
-                      <div className="text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">View →</div>
-                    </div>
-                  </div>
-                ))}
-                {upcomingDeadlines.length === 0 && (
-                  <div className="col-span-2 text-center py-3 bg-gray-800/30 border border-gray-700 rounded">
-                    <div className="text-xs text-gray-500">📆 No events</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* PENDING APPROVALS - Compact */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-base">✅</span>
-                <div className="text-xs font-black text-white">PENDING APPROVALS</div>
-                <div className="h-px flex-1 bg-gradient-to-r from-green-500/30 to-transparent"></div>
-              </div>
-              <div className="text-center py-8 bg-gray-800/20 border border-gray-700 rounded">
-                <div className="text-2xl mb-1 opacity-20">✅</div>
-                <p className="text-xs text-gray-500">No pending approvals</p>
-              </div>
-            </div>
-          </div>
-
-          {/* STATS GRID - Compact */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            {statCards.map((stat, index) => (
-              <div 
-                key={index} 
-                onClick={stat.action}
-                title={`${stat.tooltip}\n\nData from: ${stat.source}`}
-                className={`bg-gradient-to-br ${stat.gradient} p-4 rounded-lg relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group`}
-              >
-                <div className="text-xl mb-1">{stat.icon}</div>
-                <h3 className="text-xs font-semibold text-white/80 mb-1">{stat.label}</h3>
-                <p className="text-3xl font-bold mb-1">{stat.value}</p>
-                <div className="flex items-center gap-1">
-                  <span className={`text-xs font-semibold ${stat.change.includes('+') ? 'text-green-300' : 'text-white/70'}`}>
-                    {stat.change}
-                  </span>
-                  <span className="text-xs text-white/60">week</span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
 
           {/* NEXUS INTEGRATION PIPELINE — System Connections */}
