@@ -121,7 +121,12 @@ DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), sc
 **Legal Name:** Cause We Care  
 **Type:** 501(c)(3) Nonprofit Organization  
 **EIN:** 92-3602670  
-**Founder/Executive Director:** Dee Davis  
+**Address:** 1221 Bowers St, Unit 2141, Birmingham, Michigan 48012  
+**Email (General):** info@cwecare.org  
+**Email (Director):** ddavis@cwecare.org  
+**Phone:** 248.376.4550  
+**Website:** cwecare.org (currently 404 — needs restoration)  
+**Founder/Executive Director:** Dieasha D. Davis  
 **Board Director (Veteran):** Gary C. Felton Jr. — U.S. Army Veteran  
 **Focus Areas:** Community health, social services, veteran support, underserved populations  
 
@@ -147,11 +152,12 @@ DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), sc
 - **EIN:** 92-3602670
 
 **Registration Status:**
-- [ ] SAM.gov — UEI exists (VEJMFMVV6PQ1) but EXPIRED — **RENEW NOW at sam.gov** (1–3 days)
+- [x] SAM.gov — UEI VEJMFMVV6PQ1 — RENEWAL SUBMITTED March 22, 2026 — Ref: INC-GSAFSD8651858 — Expect validation instructions by March 26
 - [ ] Grants.gov applicant account — PENDING (activate after SAM renewal)
 - [ ] Community Foundation for SE Michigan portal — PENDING
 - [ ] Michigan Health Endowment Fund portal — PENDING
-- [ ] GiveButter "Haircuts for Heroes" — Active campaign, needs promotion push
+- [x] GiveButter "Haircuts for Heroes" — ACTIVE — givebutter.com/haircutsforheroes/causewecare — Goal: $20K — needs promotion push
+- [x] GiveButter "Kids in Comfort" — ACTIVE — givebutter.com/kidsincomfort — Goal: $40K — community underwear drive
 - [ ] Website cwecare.org — Currently 404, needs restoration or redirect
 
 **Source of Truth:** This section is the master reference for all Cause We Care grant

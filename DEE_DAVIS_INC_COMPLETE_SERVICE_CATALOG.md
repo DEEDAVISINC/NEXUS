@@ -214,14 +214,20 @@
 - Nonprofits (community health events)
 - Property management companies
 
-**Experience:** Dee Davis, founder of Cause We Care (Michigan nonprofit), has worked directly with Wayne Metro Community Action Agency as a liaison for lead-based paint awareness programs.
+**Experience:** Dieasha D. Davis, founder of Cause We Care (Michigan 501c3), has direct experience in lead-based paint awareness and community health outreach through CWC's partnership with Wayne Metro Community Action Agency. CWC provided community outreach, education, and navigation services connecting at-risk families to lead screening and remediation resources.
 
-**Business Model:** Third Party Administrator (TPA) — DDI coordinates testing, manages logistics, arranges certified phlebotomists/inspectors and labs, handles reporting. DDI does NOT perform lab analysis or abatement directly.
+**Business Model:** Third Party Administrator (TPA) — same model as DOT drug testing. DDI coordinates testing, manages logistics, schedules certified phlebotomists/inspectors and CLIA-certified labs, handles compliance reporting and invoicing. DDI does NOT perform lab analysis, inspection, or abatement directly. DDI is the program manager — the subs are the hands.
 
-**Certifications:**
-- EPA Lead-Safe Certified Firm (PENDING — cdx.epa.gov FLPP application)
-- Michigan EGLE Healthy Homes (to be evaluated)
+**Certifications & Partnerships:**
+- DDI operates as TPA — certified inspectors, risk assessors, and labs are subcontracted
+- Subcontractors must hold: EPA Lead-Safe Certified Firm, EGLE Lead Abatement Licenses
 - CLIA Lab Partnerships: Quest, CRL, Labcorp (for blood lead analysis)
+- DDI does NOT perform testing, inspection, or abatement directly — DDI manages the program
+
+**CWC Integration (Cause We Care — 501c3):**
+- CWC handles community outreach, education, family navigation, and screening referrals
+- DDI handles testing program management, inspector coordination, lab routing, and billing
+- Two entities, two funding streams, one lead program
 
 **Michigan Opportunity:**
 - Universal blood lead testing law effective April 30, 2025

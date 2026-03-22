@@ -1,5 +1,5 @@
 # GRANT ACTIVE PIPELINE — DEE DAVIS INC.
-### Live Tracker | Dieasha D. Davis | Updated: March 13, 2026
+### Live Tracker | Dieasha D. Davis | Updated: March 22, 2026
 
 **Applicant:** Dee Davis Inc. + Cause We Care (501c3)  
 **Status:** LAUNCHING — first applications going out now  
@@ -29,7 +29,7 @@
 | 7 | **FedEx Small Business Grant** | $5K–$50K | Opens Spring 2026 — CHECK NOW | FREE | 🔴 | Go to smallbusinessgrant.fedex.com — may be open |
 | 8 | **Cartier Women's Initiative** | $30K–$100K | Q1 2026 — CHECK NOW | FREE | 🔴 | Go to cartierwomensinitiative.com — may be open |
 | 9 | **Eileen Fisher Grant** | $40K–$100K | Q1/Q2 2026 — CHECK NOW | FREE | 🔴 | Go to eileenfisher.com/grants — may be open |
-| 10 | **Cause We Care SAM.gov Renewal** | Unlocks ALL federal grants | NOW — EXPIRED | FREE | 🔴 | sam.gov → UEI: VEJMFMVV6PQ1 |
+| 10 | **Cause We Care SAM.gov Renewal** | Unlocks ALL federal grants | SUBMITTED Mar 22 | FREE | 🟡 | Ref: INC-GSAFSD8651858 — validation instructions expected by Mar 26 |
 
 ---
 
@@ -64,26 +64,35 @@
 
 ## FEDERAL / FOUNDATION GRANTS — CAUSE WE CARE
 
-*Requires SAM.gov renewal first (UEI: VEJMFMVV6PQ1)*
+*SAM.gov renewal SUBMITTED March 22 — Ref: INC-GSAFSD8651858 — Expect validation by March 26*
 
 | Grant | Amount | Focus | Status |
 |---|---|---|---|
-| HRSA Community Health Grants | $100K–$500K | MIBridges, health navigation | 🔴 After SAM renewal |
-| HUD Community Development Block Grant | $25K–$500K | Southeast Michigan community | 🔴 After SAM renewal |
-| VA Grants for Veterans Organizations | $50K–$250K | Hair Cuts for Vets, veteran employment | 🔴 After SAM renewal |
-| SAMHSA Community Mental Health | $100K–$750K | Community health navigation | 🔴 After SAM renewal |
-| Michigan Health Endowment Fund | $10K–$200K | Community health programs | 🔴 Register at mihealthfund.org |
+| **MVAA Statewide Veteran Service Provision (FY27)** | $4M+ pool | Veteran services, benefits navigation | 🟢 INQUIRY SENT March 22 — FY27 opens ~April 2026 |
+| **MVAA Veteran Homelessness Prevention (MiVHPG)** | Up to $250K | Veteran homelessness, coordinated entry | 🟢 INQUIRY SENT March 22 — next cycle ~Fall 2026 |
+| **Michigan Health Endowment Fund — Capacity Building** | Up to $300K | Organizational growth | 🟢 INQUIRY SENT March 22 — awaiting portal access info |
+| **Michigan Health Endowment Fund — Community Health Impact** | Up to $750K | MIBridges, health navigation | 🔴 Opens May 2026 |
+| HRSA Community Health Grants | $100K–$500K | MIBridges, health navigation | 🟡 After SAM active (~March 26) |
+| HUD Community Development Block Grant | $25K–$500K | Southeast Michigan community | 🟡 After SAM active (~March 26) |
+| VA Supportive Services for Veteran Families (SSVF) | $50K–$500K | Veteran homelessness prevention | 🟡 After SAM active (~March 26) |
+| SAMHSA Community Mental Health | $100K–$750K | Community health navigation | 🟡 After SAM active (~March 26) |
 | CFSEM (Community Foundation SE Michigan) | $5K–$50K | Detroit-area community programs | 🔴 Register at cfsem.org |
-| Robert Wood Johnson Foundation | $50K–$500K | Health equity | 🔴 After SAM renewal |
+| Robert Wood Johnson Foundation | $50K–$500K | Health equity | 🟡 After SAM active (~March 26) |
+| **Medicaid CHW Reimbursement** | Per-service billing | MIBridges navigation work | 🔴 Call 1-800-292-2550 to set up billing |
+| **MDHHS CLPPP — Lead Prevention Grants** | $57K–$1.35M | Lead screening outreach + navigation | 🟢 INQUIRY SENT March 22 to MDHHS-CLPPP@michigan.gov |
+| **EPA Environmental Justice Thriving Communities** | $75K–$350K subgrants | Lead screening, environmental justice | 🔴 Research EPA Region 5 grantmaker |
+| **EGLE Environmental Justice Impact Grants** | Up to $500K | Lead abatement + environmental health | 🔴 Research next cycle |
 
 ---
 
 ## SUBMITTED / IN REVIEW
-*(Empty — filling this week)*
 
-| Grant | Amount | Date Submitted | Expected Response | Status |
-|---|---|---|---|---|
-| — | — | — | — | — |
+| Grant | Entity | Amount | Date Submitted | Expected Response | Status |
+|---|---|---|---|---|---|
+| MVAA Grant Inquiry — FY27 SVSPG + MiVHPG + Other Programs | CWC | $4M+ pool (SVSPG) / Up to $250K (MiVHPG) | March 22, 2026 | 7-14 days | 🟢 SENT to MVAAGrants@michigan.gov |
+| Michigan Health Endowment Fund — Capacity Building + CHI Inquiry | CWC | Up to $300K (CB) / Up to $750K (CHI) | March 22, 2026 | 7-14 days | 🟢 SENT to info@mihealthfund.org |
+| MDHHS CSBG Subgrant Inquiry | CWC | Varies (federal block grant) | March 22, 2026 | 7-14 days | 🟢 SENT to MDHHS-BCAEO@michigan.gov |
+| CWC SAM.gov Renewal | CWC | Unlocks all federal grants | March 22, 2026 | March 26 (validation instructions) | 🟡 Ref: INC-GSAFSD8651858 |
 
 ---
 

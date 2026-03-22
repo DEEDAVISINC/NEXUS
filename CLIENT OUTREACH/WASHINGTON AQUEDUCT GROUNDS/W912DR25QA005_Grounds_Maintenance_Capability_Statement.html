@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEE DAVIS INC - Grounds Maintenance Capability Statement</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: white;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .page {
+            width: 8.5in;
+            min-height: 11in;
+            margin: 0 auto;
+            padding: 0.75in;
+            background: white;
+            position: relative;
+        }
+        
+        /* Header with Gradient */
+        .header {
+            background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(20, 83, 45, 0.3);
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+        
+        .logo-section {
+            flex-shrink: 0;
+            width: 130px;
+            height: 130px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 0.75rem;
+        }
+        
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .header-content {
+            flex: 1;
+        }
+        
+        .company-name {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+        }
+        
+        .dba {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 0.75rem;
+        }
+        
+        .cage-uei {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            padding: 0.6rem 1rem;
+            background: rgba(255,255,255,0.15);
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .cage-uei-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .header-tagline {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.95;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* Title Bar */
+        .title-bar {
+            background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(146, 64, 14, 0.3);
+        }
+        
+        .title-bar h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .solicitation-number {
+            font-size: 1rem;
+            margin-top: 0.25rem;
+            opacity: 0.95;
+        }
+        
+        /* Section Headers */
+        .section {
+            margin-bottom: 1.75rem;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+            color: white;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-icon {
+            font-size: 1.25rem;
+        }
+        
+        /* Content Boxes */
+        .info-box {
+            background: #f8fafc;
+            border-left: 4px solid #166534;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid #10b981;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .edwosb-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #d97706;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        /* Key Points */
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        
+        .key-point {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+        
+        .key-point-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .key-point-content h4 {
+            font-weight: 700;
+            color: #14532d;
+            margin-bottom: 0.15rem;
+            font-size: 0.9rem;
+        }
+        
+        .key-point-content p {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        /* Lists */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+        
+        ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* Contact Info */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            background: #f1f5f9;
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.25rem;
+            color: #14532d;
+        }
+        
+        .contact-content {
+            flex: 1;
+        }
+        
+        .contact-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .contact-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e2e8f0;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .footer strong {
+            color: #14532d;
+        }
+        
+        @media print {
+            .page {
+                margin: 0;
+                padding: 0.5in;
+                page-break-after: always;
+            }
+            .page:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-section">
+            <img src="dee_davis_inc_logo.png" alt="Dee Davis Inc. Logo" class="logo-img">
+        </div>
+        
+        <div class="header-content">
+            <div class="company-name">DEE DAVIS INC</div>
+            <div class="dba">Federal Service Management &amp; Contract Administration</div>
+            
+            <div class="cage-uei">
+                <div class="cage-uei-item">
+                    <span style="opacity: 0.8;">CAGE Code:</span>
+                    <span>8UMX3</span>
+                </div>
+                <div class="cage-uei-item">
+                    <span style="opacity: 0.8;">UEI:</span>
+                    <span>HJB4KNYJVGZ1</span>
+                </div>
+                <div class="cage-uei-item">
+                    <span style="opacity: 0.8;">SAM.gov:</span>
+                    <span>ACTIVE</span>
+                </div>
+            </div>
+            
+            <div class="header-tagline">EDWOSB Prime Contractor — Service Management &amp; Quality Assurance for Federal Facilities</div>
+            
+            <div class="badges">
+                <div class="badge">🏆 EDWOSB/WOSB Certified</div>
+                <div class="badge">🌿 Grounds Maintenance Management</div>
+                <div class="badge">📋 Federal Contract Administration</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <h2>CAPABILITY STATEMENT — Grounds Maintenance Services</h2>
+        <div class="solicitation-number">Presolicitation W912DR25QA005</div>
+        <div class="solicitation-number">~129 Acres | Multi-Site Federal Facility | Washington, DC</div>
+    </div>
+    
+    <!-- EDWOSB Advantage -->
+    <div class="edwosb-box">
+        <h3 style="color: #92400e; font-weight: 700; margin-bottom: 0.5rem;">EDWOSB SET-ASIDE ADVANTAGE</h3>
+        <p style="font-size: 0.9rem;">Dee Davis Inc. is a <strong>certified Economically Disadvantaged Woman-Owned Small Business (EDWOSB)</strong>. This solicitation is set aside for EDWOSB firms, and Dee Davis Inc. is fully qualified and positioned to serve as prime contractor for this grounds maintenance requirement.</p>
+    </div>
+    
+    <!-- Company Overview -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-icon">🏢</span>
+            <span>COMPANY OVERVIEW</span>
+        </div>
+        
+        <div class="info-box">
+            <p><strong>Dee Davis Inc.</strong> is an EDWOSB/WOSB-certified service management firm specializing in federal contract administration, subcontractor coordination, and quality assurance. We serve as prime contractor on federal service contracts, partnering with qualified local contractors who perform the fieldwork while we manage compliance, invoicing, quality control, and government reporting.</p>
+            <p style="margin-top: 0.5rem;">Our model delivers <strong>dual value</strong>: agencies receive reliable, professionally managed service delivery while meeting their EDWOSB socioeconomic contracting goals.</p>
+        </div>
+    </div>
+    
+    <!-- Key Qualifications -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-icon">⚡</span>
+            <span>KEY QUALIFICATIONS</span>
+        </div>
+        
+        <div class="key-points">
+            <div class="key-point">
+                <div class="key-point-icon">🏆</div>
+                <div class="key-point-content">
+                    <h4>EDWOSB Certified</h4>
+                    <p>Meets set-aside requirement, supports 5% federal WOSB contracting goal</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-icon">🌿</div>
+                <div class="key-point-content">
+                    <h4>Grounds Maintenance Ready</h4>
+                    <p>Experienced local subcontractor team in the DC metro area</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-icon">📋</div>
+                <div class="key-point-content">
+                    <h4>Contract Administration</h4>
+                    <p>Compliance management, quality assurance, government reporting</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-icon">🤝</div>
+                <div class="key-point-content">
+                    <h4>Subcontractor Network</h4>
+                    <p>Vetted DC-area landscaping firms with federal facility experience</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-icon">📊</div>
+                <div class="key-point-content">
+                    <h4>Multi-Site Coordination</h4>
+                    <p>Route planning and scheduling across multiple locations</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-icon">✅</div>
+                <div class="key-point-content">
+                    <h4>Federal Contracting Ready</h4>
+                    <p>CAGE 8UMX3, SAM.gov Active, immediate capacity</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Service Approach -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-icon">🔧</span>
+            <span>SERVICE APPROACH — GROUNDS MAINTENANCE</span>
+        </div>
+        
+        <div class="highlight-box">
+            <h3 style="color: #059669; font-weight: 700; margin-bottom: 0.75rem;">Prime Contractor + Local Subcontractor Model</h3>
+            <ul>
+                <li><strong>Prime Contractor (Dee Davis Inc.):</strong> Contract management, compliance, quality assurance, invoicing, government liaison, safety oversight, performance monitoring</li>
+                <li><strong>Subcontractor (DC-Area Landscaping Firm):</strong> All fieldwork — mowing, trimming, leaf removal, snow removal, grounds upkeep, pest/weed management, irrigation maintenance</li>
+                <li><strong>Multi-Site Coverage:</strong> Coordinated scheduling across all facility locations (~129 acres total)</li>
+                <li><strong>Quality Control:</strong> Regular site inspections, photo documentation, performance reporting to COR</li>
+                <li><strong>Safety Compliance:</strong> OSHA compliance, PPE requirements, federal facility security protocols</li>
+                <li><strong>Seasonal Planning:</strong> Spring/summer maintenance cycles, fall cleanup, winter snow/ice management</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-grid">
+        <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-content">
+                <div class="contact-label">Email</div>
+                <div class="contact-value">info@deedavis.biz</div>
+            </div>
+        </div>
+        
+        <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-content">
+                <div class="contact-label">Phone</div>
+                <div class="contact-value">248.376.4550</div>
+            </div>
+        </div>
+        
+        <div class="contact-item">
+            <div class="contact-icon">🏢</div>
+            <div class="contact-content">
+                <div class="contact-label">Address</div>
+                <div class="contact-value">755 W. Big Beaver Rd., Suite 2020<br>Troy, Michigan 48084</div>
+            </div>
+        </div>
+        
+        <div class="contact-item">
+            <div class="contact-icon">🏆</div>
+            <div class="contact-content">
+                <div class="contact-label">Certifications</div>
+                <div class="contact-value">EDWOSB / WOSB / WBE / MBE / SBE</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Why Choose Us -->
+    <div class="section" style="margin-top: 1.5rem;">
+        <div class="section-header">
+            <span class="section-icon">💪</span>
+            <span>WHY CHOOSE DEE DAVIS INC.</span>
+        </div>
+        
+        <div class="two-col">
+            <div class="info-box">
+                <h4 style="color: #14532d; margin-bottom: 0.5rem;">For the Government</h4>
+                <ul>
+                    <li>Meets EDWOSB set-aside requirement</li>
+                    <li>Supports federal 5% WOSB goal</li>
+                    <li>Professional contract management</li>
+                    <li>Single point of accountability</li>
+                    <li>Compliance and reporting expertise</li>
+                    <li>Quality assurance oversight</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h4 style="color: #14532d; margin-bottom: 0.5rem;">Our Commitment</h4>
+                <ul>
+                    <li>Vetted, experienced subcontractors</li>
+                    <li>Regular performance monitoring</li>
+                    <li>Responsive communication</li>
+                    <li>On-time, on-budget delivery</li>
+                    <li>Safety-first culture</li>
+                    <li>Dedicated project management</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NAICS Codes -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-icon">📑</span>
+            <span>RELEVANT NAICS CODES</span>
+        </div>
+        <div class="info-box">
+            <div class="two-col">
+                <div>
+                    <ul>
+                        <li><strong>561730</strong> — Landscaping Services</li>
+                        <li><strong>561720</strong> — Janitorial Services</li>
+                        <li><strong>561790</strong> — Other Services to Buildings</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>561210</strong> — Facilities Support Services</li>
+                        <li><strong>488510</strong> — Freight Transportation Arrangement</li>
+                        <li><strong>541614</strong> — Process/Logistics Consulting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Dee Davis Inc.</strong> | Federal Service Management &amp; Contract Administration</p>
+        <p>755 W. Big Beaver Rd., Suite 2020 | Troy, Michigan 48084</p>
+        <p>Phone: 248.376.4550 | Email: info@deedavis.biz | Web: www.deedavis.biz</p>
+        <p style="margin-top: 0.75rem;"><strong>EDWOSB/WOSB Certified</strong> | CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1</p>
+        <p style="margin-top: 0.75rem; font-size: 0.75rem; color: #94a3b8;">
+            Capability Statement — Presolicitation W912DR25QA005 | February 2026
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

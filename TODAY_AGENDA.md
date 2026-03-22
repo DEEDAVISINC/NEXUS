@@ -1,4 +1,4 @@
-# YOUR AGENDA — Friday, March 20, 2026
+# YOUR AGENDA — Monday, March 23, 2026
 
 **Updated in real-time. This is what's on your plate.**
 
@@ -9,17 +9,43 @@
 ### MCO Lead Screening + NEMT Outreach (4 emails ready)
 **File:** `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/SEND_TO_BUYER/MCO_LEAD_SCREENING_EMAILS_READY.md`
 **Attach:** General DDI Capability Statement (PDF)
+**⚠️ DEPENDENCY:** These emails say "DDI is enrolled in MDHHS CHAMPS." Fix NPI login FIRST. If CHAMPS enrollment isn't verified, hold these emails until it is — or remove the CHAMPS claim before sending.
 
-| Time | Action | Target |
+| Order | Action | Target |
 |---|---|---|
-| **8:30 AM** | Send EMAIL 1 + start Molina portal registration | MHMProviderContractingMailbox@Molinahealthcare.com |
-| **9:00 AM** | Submit Meridian Contract Request Form + call | mimeridian.com form + 888-773-2647 |
-| **9:30 AM** | Call McLaren + submit via website | 1-888-327-0671 + mclarenhealthplan.org |
-| **10:00 AM** | Send EMAIL 4 to state lead program | MDHHS-CLPPP@michigan.gov |
+| **1** | Send EMAIL 1 + start Molina portal registration | MHMProviderContractingMailbox@Molinahealthcare.com |
+| **2** | Submit Meridian Contract Request Form + call | mimeridian.com form + 888-773-2647 |
+| **3** | Call McLaren + submit via website | 1-888-327-0671 + mclarenhealthplan.org |
+| **4** | Send EMAIL 4 to state lead program | MDHHS-CLPPP@michigan.gov |
+
+### 🚨 NPI FIX — CRITICAL BLOCKER (Do This Before MCO Emails)
+**The NPI login issue blocks EVERYTHING in the MCO lead screening pipeline.**
+NPI login broken → can't update NPI in NPPES → can't enroll/verify in CHAMPS → MCOs won't contract → can't bill Medicaid for lead screening.
+
+- [ ] **Call CMS EUS Help Desk: 1-800-465-3203** (Mon-Fri 7 AM - 7 PM ET)
+  - Say: "I need to reset my NPPES account access for NPI 1538939111, Dee Davis Inc. I cannot log in to update my provider information."
+  - Have ready: NPI (1538939111), EIN, Authorized Official (Dieasha D. Davis), Address (755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084)
+  - They may reset I&A credentials or send a new activation link
+- [ ] **Once back in NPPES, update:**
+  - Address: 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+  - Taxonomy codes (add lead screening / community health relevant taxonomies)
+  - Contact: info@deedavis.biz, 248.376.4550
+  - Authorized official: Dieasha D. Davis
+- [ ] **After NPI is updated — contact MDHHS Provider Enrollment:**
+  - **Phone:** 1-800-292-2550 option 4
+  - **Email:** ProviderEnrollment@michigan.gov
+  - ~~Verify DDI is in SIGMA~~ — ✅ CONFIRMED VALID
+  - ~~Get MiLogin / CHAMPS access~~ — ✅ ACCOUNT EXISTS
+  - ⚠️ PROBLEM: Applied for CHAMPS enrollment multiple times (for NEMT) — NEVER approved
+  - **Ask MDHHS these 3 questions:**
+    1. "I've applied multiple times under NPI 1538939111 for NEMT — what's the rejection reason?"
+    2. "Should NEMT be enrolled as ATYPICAL instead of FAO? MDHHS classifies NEMT as atypical."
+    3. "I also need to enroll for healthcare services (lead screening coordination) — is that a separate enrollment under FAO/Typical?"
+  - **Root cause theory:** NPI has outdated info in NPPES → CHAMPS pulls bad data → application fails. Fixing NPI login first may solve the CHAMPS rejections.
+  - They can look up all previous applications by NPI and tell you exactly what failed
 
 ### Other Monday Morning Tasks
-- [ ] **CALL Jean Saporita at National Drug Screening — 321-608-0409** (unlocks LabCorp + CRL lab networks)
-- [ ] Call CMS EUS Help Desk (1-800-465-3203) to fix NPI login
+- [ ] **CONFIRM CALL with Jean Saporita — National Drug Screening — 321-608-0409** — Email exchange complete (she emailed DDI re: Reseller Services, DDI replied Sat Mar 21 proposing Monday after 12 PM ET). Waiting for her to confirm the time. If no response by Monday noon — call her directly.
 - [ ] Send USDA REO email to charles.spicer@usda.gov (field inspection + notary signing)
 
 ---
@@ -106,4 +132,4 @@ For the VA Document Shredding bid (36C10D26Q0034):
 
 ---
 
-*Updated: Friday, March 20, 2026 — 11:19 PM*
+*Updated: Sunday, March 22, 2026 — GBIS Day Session*

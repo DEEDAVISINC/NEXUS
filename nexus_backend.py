@@ -5589,7 +5589,7 @@ class GPSSSupplierMiner:
                 # Filter by keywords if specified
                 if keywords:
                     supplier_keywords = fields.get('PRODUCT KEYWORDS', '').lower()
-                    if not any(kw.lower() in supplier_keywords for kw in keywords):
+                    if not all(kw.lower() in supplier_keywords for kw in keywords):
                         continue
                 
                 # Filter by rating

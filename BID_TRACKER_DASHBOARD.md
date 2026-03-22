@@ -39,6 +39,12 @@
 
 ---
 
+## ACTIVE OUTREACH — WAITING FOR REPLIES
+
+| Contact | Agency | Service | Date Sent | Status |
+|---|---|---|---|---|
+| Jean Saporita (jsaporita) | National Drug Screening | LabCorp + CRL lab network setup | Mar 21 | **REPLIED** — DDI sent RE: Reseller Services. Proposed Monday call after 12 PM ET. Awaiting confirmation. |
+
 ## PREP CALENDAR
 
 | Date | Task |

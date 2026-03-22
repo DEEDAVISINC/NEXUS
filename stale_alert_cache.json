@@ -78,5 +78,9 @@
   "review_COVIUS NOTARY": {
     "first_flagged": "2026-03-19T13:00:20.123965",
     "file_count": 2
+  },
+  "ARMY FT BLISS LAUNDRY DRY CLEANING": {
+    "first_flagged": "2026-03-22T15:00:01.254404",
+    "days_inactive": 7
   }
 }

@@ -703,14 +703,17 @@ def get_calendar_feed():
         opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         for opp in opportunities:
             fields = opp.get('fields', {})
-            deadline_str = fields.get('Response Deadline', '')
+            deadline_str = fields.get('Response Deadline') or fields.get('Deadline') or fields.get('Due Date') or ''
             if not deadline_str:
                 continue
             st = (fields.get('Status', '') or '').lower()
             if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined']):
                 continue
             try:
-                dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                if 'T' in deadline_str:
+                    dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                else:
+                    dt = datetime.strptime(deadline_str, '%Y-%m-%d')
                 uid = opp.get('id', 'unknown') + '@nexus-ddi'
                 name = fields.get('Name', 'Opportunity')
                 value = fields.get('Estimated Value', '')
@@ -807,26 +810,53 @@ def get_calendar_events():
                 continue
 
     try:
+        now = datetime.now()
         airtable_client = AirtableClient()
         opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
         for opp in opportunities:
             fields = opp.get('fields', {})
-            deadline_str = fields.get('Response Deadline', '')
+            deadline_str = fields.get('Response Deadline') or fields.get('Deadline') or fields.get('Due Date') or ''
             if not deadline_str:
                 continue
             st = (fields.get('Status', '') or '').lower()
-            skip = any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined'])
-            if skip:
+            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined']):
                 continue
             try:
-                dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                if 'T' in deadline_str:
+                    dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
+                    if dt.tzinfo:
+                        dt = dt.replace(tzinfo=None)
+                else:
+                    dt = datetime.strptime(deadline_str, '%Y-%m-%d')
+                if dt < now:
+                    continue
+
+                ai_rec = fields.get('AI Recommendation ', '') or ''
+                priority = (fields.get('Priority', '') or '').lower()
+                ai_score = 0
+                if '/' in ai_rec:
+                    try:
+                        ai_score = int(ai_rec.split('(')[1].split('/')[0])
+                    except (IndexError, ValueError):
+                        pass
+                ai_label = ai_rec.upper().split('(')[0].strip() if ai_rec else ''
+                is_actionable = (
+                    ai_score >= 50
+                    or 'GO' in ai_label
+                    or 'BID' in ai_label
+                    or priority == 'high'
+                )
+                if not is_actionable:
+                    continue
+
+                label = '🔥 BID DUE' if ai_score >= 70 or 'BID' in ai_label else '📋'
                 events.append({
                     'date': dt.strftime('%Y-%m-%d'),
                     'time': dt.strftime('%I:%M %p') if 'T' in deadline_str else '',
-                    'title': f"📋 {fields.get('Name', 'Opportunity')}",
-                    'description': f"Status: {fields.get('Status', 'N/A')}\nValue: {fields.get('Estimated Value', 'N/A')}",
-                    'location': '',
-                    'status': fields.get('Status', ''),
+                    'title': f"{label} {fields.get('Name', 'Opportunity')}",
+                    'description': f"AI: {ai_rec}\nSet-Aside: {fields.get('Set-Aside Type', 'N/A')}",
+                    'location': fields.get('Performance Location', ''),
+                    'status': fields.get('Source Status', ''),
                     'source': 'gpss',
                 })
             except Exception:

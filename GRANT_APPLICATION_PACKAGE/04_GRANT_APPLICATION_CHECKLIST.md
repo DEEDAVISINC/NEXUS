@@ -92,7 +92,7 @@
 | **Hello Alice** | 🔴 | DO TODAY | Register at helloalice.com — use `APPLICATIONS/HELLO_ALICE_PROFILE_SETUP.md` |
 | **Amber Grant (March)** | 🔴 | DO TODAY — Deadline March 31 | Apply at ambergrantsforwomen.com ($15) — use `APPLICATIONS/AMBER_GRANT_MARCH_2026.md` |
 | **IFundWomen Universal Grant** | 🔴 | DO TODAY | Apply at ifundwomen.com — use `APPLICATIONS/IFUNDWOMEN_Q1_2026.md` |
-| **Cause We Care SAM.gov** | 🔴 | DO TODAY — EXPIRED | Renew at sam.gov — UEI: VEJMFMVV6PQ1 — blocks ALL federal/foundation grants |
+| **Cause We Care SAM.gov** | 🟡 | SUBMITTED Mar 22 | Ref: INC-GSAFSD8651858 — validation instructions expected by Mar 26. Once active → register on Grants.gov |
 | **Grants.gov Email Alert** | 🔴 | THIS WEEK | Create account → saved search "WOSB" + NAICS → enable email alerts |
 | **SBA Newsletter** | 🔴 | THIS WEEK | Subscribe at sba.gov/about-sba/sba-newsroom + SBA Michigan District |
 | **Comcast RISE** | 🔴 | THIS WEEK | Apply at comcastrise.com — $25K–$100K services, rolling, perfect fit |
