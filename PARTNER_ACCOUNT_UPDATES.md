@@ -263,6 +263,59 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## OLIMP — Nationwide Warehouse Network
+
+**Account Status:** Active relationship
+**Service:** Warehouse sourcing — connects freight with 5,000+ warehouses nationwide
+**Website:** olimp.com
+**How It Works:** Submit RFQ → OLIMP Partner Success Manager (PSM) assigned → Price quote within 30 minutes → Approve rates → PSM coordinates warehouse address and delivery details
+**Payment Options:** Established terms, ComCheck, Credit Card, EFS, T-Check, or ACH
+
+### SERVICES AVAILABLE THROUGH OLIMP:
+
+- Cross-docking
+- Pallet reworks
+- Storage (short-term and long-term)
+- Transloading & drayage
+- Local re-delivery
+- Long-term projects
+- Custom warehousing solutions
+
+### DDI'S MODEL WITH OLIMP:
+
+- DDI primes warehousing/storage/distribution contracts with government clients
+- OLIMP sources the warehouse and provides pricing on the back end
+- DDI manages client relationship, compliance, reporting, and billing
+- DDI marks up OLIMP rates to client (target margin: 25-40%)
+- 30-minute turnaround on warehouse pricing = fast bid response capability
+
+### WHAT THIS UNLOCKS FOR DDI:
+
+- Federal/state/local warehousing & distribution RFPs
+- DoD overflow storage contracts
+- FEMA disaster response staging/warehousing
+- GSA logistics and distribution solicitations
+- Transloading and cross-dock services for government freight
+- Pairs with DDI's MC Number (1647572) and US DOT (4250594) for full logistics capability
+
+### RELEVANT NAICS CODES:
+
+- 493110 — General Warehousing and Storage
+- 493120 — Refrigerated Warehousing and Storage
+- 493190 — Other Warehousing and Storage
+- 488510 — Freight Transportation Arrangement
+- 484110 — General Freight Trucking, Local
+- 484121 — General Freight Trucking, Long-Distance, Truckload
+
+### ACTIONS NEEDED:
+
+- [ ] Document OLIMP account rep / PSM contact info
+- [ ] Confirm DDI's payment terms with OLIMP
+- [ ] Test the RFQ process — submit a sample to understand turnaround and pricing structure
+- [ ] Add warehousing/storage to DDI capability statements for logistics-lane opportunities
+
+---
+
 ## MICHIGAN CHAMPS — NEMT MEDICAID PROVIDER ENROLLMENT
 
 **Account Status:** APPLICATION SUBMITTED — AWAITING STATE REVIEW
