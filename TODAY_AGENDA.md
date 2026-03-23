@@ -157,6 +157,19 @@ For the VA Document Shredding bid (36C10D26Q0034):
 - [ ] Register on Meridian provider portal
 - [ ] Register on McLaren provider portal (website submission after call)
 - [ ] Register on OMNIA Partners as vendor (cooperative purchasing)
+- [ ] **Call National Crime Search (NCS) partner program** — background screening CRA partnership (blocks PSTA bid)
+
+## PSTA BACKGROUND CHECK RFP — 26-280182 (BLOCKED ON NCS PARTNERSHIP)
+
+| Field | Detail |
+|---|---|
+| **Agency** | Pinellas Suncoast Transit Authority, St. Petersburg FL |
+| **CO** | Edith Randle — erandle@psta.net |
+| **Pre-Proposal Conference** | **Thu March 26, 11:00 AM EST** (Teams: 289 218 345 305 6 / OV9YA9WV) |
+| **Due** | **Fri April 10, 2026, 1:00 PM EST** |
+| **Portal** | psta.bonfirehub.com |
+| **Contract** | 3-yr base + 2 option years |
+| **Blocker** | Need CRA partner (NCS) before DDI can bid |
 
 ---
 

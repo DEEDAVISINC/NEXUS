@@ -263,6 +263,94 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## NATIONAL CRIME SEARCH (NCS) — Background Screening CRA Partner
+
+**Account Status:** NOT YET CONTACTED — HIGH PRIORITY
+**Company:** National Crime Search, LLC
+**Location:** 3452 E Joyce Blvd, Fayetteville, AR 72703
+**Size:** 9 employees, 20+ years in business, 20,000+ customers
+**Website:** nationalcrimesearch.com
+**Partner Signup:** nationalcrimesearch.com/partner-signup/
+**Accreditation:** PBSA Accredited (Professional Background Screening Association)
+**USASpending Check:** No government contract wins found — IDEAL (not competing with DDI)
+
+### WHY NCS:
+
+- Explicit reseller/partner program — no setup fees
+- Co-branded website and custom packages included
+- PBSA accredited = industry gold standard for credibility in proposals
+- 9-person company — small enough to need DDI as a channel partner
+- Does NOT win government contracts on their own — they need a prime like DDI
+- Already offers drug screening — overlaps with DDI's existing drug testing model
+- Covers all standard background screening services (criminal, MVR, SSN, employment/education verification, sex offender, international)
+
+### SERVICES AVAILABLE THROUGH NCS PARTNERSHIP:
+
+- Multi-State & Single State Criminal Database Searches
+- County Criminal History Searches
+- Federal Criminal Records Search
+- Sex Offender Searches (state + national)
+- Motor Vehicle Reports (MVR)
+- Social Security Validation / Name & Address Trace
+- Employment & Education Verification
+- Professional License Verification
+- I-9/E-Verify Management
+- Drug Screening
+- International Background Screening
+- Healthcare Industry Services (OIG/GSA exclusions)
+- Social Media Searches
+- Tenant Screening
+- Volunteer Screening
+
+### DDI'S MODEL WITH NCS:
+
+- DDI primes background screening contracts with government/transit/municipal clients
+- NCS provides the CRA infrastructure, platform, database access, and FCRA compliance
+- DDI manages client relationship, proposal writing, compliance, reporting, and billing
+- DDI marks up NCS wholesale rates to client (target margin: 30-50%)
+- NCS provides co-branded platform under DDI's name
+- Same model as Quest (drug testing) and DDC (DNA testing)
+
+### WHAT THIS UNLOCKS FOR DDI:
+
+- Transit agency background screening RFPs (like PSTA 26-280182)
+- Federal/state/local pre-employment screening contracts
+- Background check services through cooperatives (Choice Partners, Sourcewell, OMNIA)
+- Bundled offering: drug testing + background screening + fingerprinting = full credentialing package
+- New NAICS codes: 561611 (Investigation Services), 561612 (Security Guards & Patrol Services)
+
+### RELEVANT SOLICITATION:
+
+- **PSTA RFP 26-280182** — Background Check Services
+  - Due: April 10, 2026, 1:00 PM EST
+  - Pre-proposal conference: March 26, 2026, 11:00 AM EST
+  - CO: Edith Randle — erandle@psta.net
+  - 3-year base + 2 option years
+  - ~120 checks/year, Best Value evaluation (1,000 pts)
+  - Portal: psta.bonfirehub.com
+  - **Cannot bid without CRA partnership — NCS call is the blocker**
+
+### ACTIONS NEEDED:
+
+- [ ] **Call NCS partner program** — introduce DDI, explain government contracting model
+- [ ] Ask about: wholesale pricing, co-branded platform setup time, FCRA compliance coverage
+- [ ] Ask about: can DDI use NCS platform screenshots in government proposals?
+- [ ] Ask about: turnaround times for transit agency volume (~120/year)
+- [ ] If NCS partnership is viable: evaluate PSTA RFP 26-280182 as first background screening bid
+- [ ] Document NCS account rep contact info
+- [ ] Add background screening to DDI capability statements
+
+### ALSO EVALUATED (BACKUP OPTIONS):
+
+| Company | Notes |
+|---|---|
+| **VICTIG** | PBSA accredited, private label platform, 1.8-day turnaround, Salt Lake City UT. More tech-forward. victig.com/private-label/ |
+| **Backgroundchecks.com** | Dallas TX, reseller program, serves transportation industry. Bigger company. backgroundchecks.com/resellers/start |
+| **Western Reporting** | 10+ years white label experience, serves 30+ state associations. westernreporting.com |
+| **Epic Data Solutions** | Cloud-based private label, fully branded portal. epicdatasolutions.net |
+
+---
+
 ## OLIMP — Nationwide Warehouse Network
 
 **Account Status:** Active relationship
