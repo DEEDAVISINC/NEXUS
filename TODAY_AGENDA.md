@@ -18,7 +18,7 @@
 | **3** | Call McLaren + submit via website | 1-888-327-0671 + mclarenhealthplan.org |
 | **4** | Send EMAIL 4 to state lead program | MDHHS-CLPPP@michigan.gov |
 
-### 🚨 NPI FIX — CRITICAL BLOCKER (Do This Before MCO Emails)
+### NPI FIX — CRITICAL BLOCKER (Do This Before MCO Emails)
 **The NPI login issue blocks EVERYTHING in the MCO lead screening pipeline.**
 NPI login broken → can't update NPI in NPPES → can't enroll/verify in CHAMPS → MCOs won't contract → can't bill Medicaid for lead screening.
 
@@ -66,7 +66,6 @@ NPI login broken → can't update NPI in NPPES → can't enroll/verify in CHAMPS
 | Tracy Riley | ICE — Courier Procurements | EDWOSB intro + courier cap statement | Response / solicitation info |
 | Matheson Gas (liquid div rep) | Supplier — LN2 | Robbie routing to liquid division | Contact from their Rockville-area rep with LN2 quote |
 | Nien-Tzu Grace Wang | HHS OMAS | LN2 Sole Source Challenge | Outcome — will they open it to competition? |
-| Lisa TerMorshuizen | Choice Partners / HCDE | Meeting request for March 24 | **CONFIRMED — Mon Mar 24 @ 2:00 PM CT / 3:00 PM ET via Teams** |
 | HUD FSM | HUD — REO Field Inspection | EDWOSB intro + field inspection cap statement | Response |
 | VA REO (3 contacts) | VA — REO Field Inspection | EDWOSB intro + field inspection cap statement | Response |
 
@@ -83,16 +82,16 @@ NPI login broken → can't update NPI in NPPES → can't enroll/verify in CHAMPS
 - [x] Choice Partners Drug Testing cap statement — BUILT (Medical Blue + Red)
 - [x] ICE Identity Verification cap statement — BUILT (Navy + Gold) — sent to David Walther
 - [x] ICE Courier/Logistics cap statement — BUILT (Purple + Teal) — sent to Tracy Riley
+- [x] Lisa call pitch document — COMPLETE (435 lines, full competitive intel, three-tier model, smart questions)
+- [x] Cooperative purchasing landscape mapped — Sourcewell, OMNIA, TIPS, BuyBoard identified as drug testing targets
 
 ---
 
 ## PREP NEEDED BEFORE MARCH 24
 
 For the Lisa TerMorshuizen / Choice Partners call:
-- [ ] Service overview document (drug testing, alcohol testing, occupational screening, credentialing)
-- [ ] Pricing sheet (agency rates for common test types)
-- [ ] Athletics testing capabilities (K-12 and collegiate)
-- [ ] Network coverage map or description (nationwide collection sites)
+- [x] Call pitch document — DONE (`CLIENT OUTREACH/CHOICE PARTNERS DRUG TESTING/SEND_TO_BUYER/LISA_CALL_PITCH_MARCH_24.md`)
+- [x] Study script + glance sheet — DONE (in chat, copy to Notes app)
 - [ ] Choice Partners drug testing cap statement converted to PDF
 - [ ] Log into Ionwave (hcdeebid.ionwave.net) and set commodity codes
 - [ ] Calendar reminder: Choice Partners Drug & Alcohol Testing rebid ~Q2 2027
@@ -108,6 +107,23 @@ For the VA Document Shredding bid (36C10D26Q0034):
 - [ ] Revenue analysis
 - [ ] Go/no-go decision
 - [ ] If GO — build bid folder, generate response
+
+---
+
+## NEW — COOPERATIVE PURCHASING EXPANSION (Added March 22)
+
+**DDI's drug testing model works across ALL cooperatives. Choice Partners is the door — these are the hallway.**
+
+| Cooperative | DDI Status | Drug Testing Contract | Action Needed |
+|---|---|---|---|
+| **Choice Partners** | ✅ Registered | Rebid June 2027 | Lisa call March 24 |
+| **Sourcewell** | ✅ Registered | Redwood Toxicology expires Feb 2027 | Watch for resolicit. Reach out to contract manager. |
+| **OMNIA Partners** | ⬜ Not registered | Accurate/First Advantage expire Dec 2027 | Register as vendor (free) |
+| **TIPS USA** | ⬜ Not checked | Unknown — check full vendor list | Search tips-usa.com/vlist.cfm for drug testing |
+| **BuyBoard** | ⬜ Not checked | May not exist yet | Check — if no category, propose it |
+| **MMCAP Infuse** | ⬜ Not researched | Has DOT/non-DOT contracts | Research current contracts and rebid schedule |
+
+**Priority order:** OMNIA registration first (they have expiring drug testing contracts). Then check TIPS and BuyBoard categories. Then research MMCAP.
 
 ---
 
@@ -129,7 +145,8 @@ For the VA Document Shredding bid (36C10D26Q0034):
 - [ ] Register on Molina provider portal
 - [ ] Register on Meridian provider portal
 - [ ] Register on McLaren provider portal (website submission after call)
+- [ ] Register on OMNIA Partners as vendor (cooperative purchasing)
 
 ---
 
-*Updated: Sunday, March 22, 2026 — GBIS Day Session*
+*Updated: Sunday, March 22, 2026 — End of Day*
