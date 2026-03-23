@@ -206,4 +206,4 @@ EDWOSB | WOSB | WBENC | MBE | SBE | SWFT Authorized
 - [x] EMAIL 2: Roxana.Cepeda@va.gov — VA REO — **SENT 03/20/2026**
 - [x] EMAIL 3: Won.Chae@va.gov — VA REO — **SENT 03/20/2026**
 - [x] EMAIL 4: Shawn.Johnson6@va.gov — VA REO — **SENT 03/20/2026**
-- [ ] EMAIL 5: charles.spicer@usda.gov — USDA RD Property Inspection & Notary Signing
+- [x] EMAIL 5: charles.spicer@usda.gov — USDA RD Property Inspection & Notary Signing — **SENT. REPLIED 03/23/2026: No current set-asides. DDI added to interested vendors list. Follow up Q3 2026.**

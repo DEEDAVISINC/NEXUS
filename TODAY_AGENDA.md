@@ -37,7 +37,7 @@
 
 ### Other Monday Morning Tasks
 - [ ] **CONFIRM CALL with Jean Saporita — National Drug Screening — 321-608-0409** — Email exchange complete (she emailed DDI re: Reseller Services, DDI replied Sat Mar 21 proposing Monday after 12 PM ET). Waiting for her to confirm the time. If no response by Monday noon — call her directly.
-- [ ] Send USDA REO email to charles.spicer@usda.gov (field inspection + notary signing)
+- [x] ~~Send USDA REO email to charles.spicer@usda.gov~~ — **REPLIED 03/23: DDI on interested vendors list. No current set-asides. Follow up Q3 2026.**
 
 ---
 
@@ -74,6 +74,9 @@
 - [x] ICE Identity Verification cap statement — BUILT (Navy + Gold) — sent to David Walther
 - [x] ICE Courier/Logistics cap statement — BUILT (Purple + Teal) — sent to Tracy Riley
 - [x] Lisa call pitch document — COMPLETE (435 lines, full competitive intel, three-tier model, smart questions)
+- [x] CHAMPS NEMT enrollment submitted — Application #20260323058125 (Atypical Agency / NEMT)
+- [x] OLIMP warehouse network documented in PARTNER_ACCOUNT_UPDATES.md
+- [x] Charles Spicer (USDA RD) replied — DDI on interested vendors list. Follow up Q3 2026.
 - [x] Cooperative purchasing landscape mapped — Sourcewell, OMNIA, TIPS, BuyBoard identified as drug testing targets
 
 ---
