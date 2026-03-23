@@ -263,4 +263,36 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## MICHIGAN CHAMPS — NEMT MEDICAID PROVIDER ENROLLMENT
+
+**Account Status:** APPLICATION SUBMITTED — AWAITING STATE REVIEW
+**System:** CHAMPS (Community Health Automated Medicaid Processing System)
+**Application Number:** 20260323058125
+**Date Submitted:** March 22, 2026
+**Provider Type:** Atypical Agency — NEMT
+**NPI:** 1538939111
+**Taxonomy Code:** 347E00000X (Transportation Broker)
+**Provider Support:** 800-979-4662, option 1
+**Enrollment Unit Email:** MSA-HomeHelpProviders@michigan.gov
+
+### WHAT HAPPENED:
+
+- [x] Initial application submitted as "Group" provider type — **REJECTED** (Application #20251210748456)
+- [x] MDHHS Provider Enrollment Unit (AJT) emailed 03/22/2026 clarifying correct type: **Atypical Agency with NEMT specialty**
+- [x] Corrected application submitted 03/22/2026 — **Application #20260323058125**
+- [ ] **Monitor application status in CHAMPS** — check weekly
+- [ ] Receive approval notification from MDHHS
+- [ ] Upon approval: begin MCO credentialing (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
+- [ ] Set up billing/claims infrastructure for NEMT services
+
+### WHY THIS MATTERS:
+
+- Michigan Medicaid NEMT is a $200M+ annual market
+- CHAMPS enrollment is the gatekeeper — no enrollment = no Medicaid NEMT contracts
+- Once approved, DDI can contract directly with MCOs as an NEMT broker/provider
+- Supports DDI's NEMT brokerage model using subcontracted transportation providers
+- Pairs with DDI's MC Number (1647572) and US DOT (4250594) for full transportation compliance
+
+---
+
 *This file tracks all partner account updates, renewals, and action items. Check monthly.*

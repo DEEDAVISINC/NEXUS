@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-03-22T20:42:30.205915",
-  "total_found": 103,
+  "scan_date": "2026-03-23T07:56:15.303004",
+  "total_found": 104,
   "min_days_to_bid": 5,
   "opportunities": [
     {
@@ -13,17 +13,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-03-22",
       "naics": "332912"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Process Improvement and Project Management Support",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
-      "deadline": "2026-04-13T12:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/d3acee1152ab4b50a03f3ab4d6a2d1da/view",
-      "type": "Presolicitation",
-      "posted": "2026-03-20",
-      "naics": "541611"
     },
     {
       "source": "SAM.gov",
@@ -137,88 +126,110 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "ANDREW JACKSON ELEMENTARY SCHOOL INTERIM HOUSING PROJECT - Electrical, Communication, Electronic Safety and SecurityCalifornia29 day(s) leftPublished03/22/2026Closing04/21/2026443932991370",
+      "title": "Purchase of Aircraft Rescue and Firefighting (ARFF) Operations Command VehicleRhode Island11 day(s) leftPublished03/23/2026Closing04/03/2026443935629481",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/ANDREW-JACKSON-ELEMENTARY-SCHOOL-INTERIM-HOUSING-PROJECT-Electrical-Communication-Electronic-Safety-and-Security/443932991370?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/rhode-island/solicitations/open-bids/statewide/Purchase-of-Aircraft-Rescue-and-Firefighting-ARFF-Operations-Command-Vehicle/443935629481?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "On-Call Electrical Repair and Maintenance ServicesOregon29 day(s) leftPublished03/22/2026Closing04/21/2026443932097908",
+      "title": "Utility Terrain Vehicle Bid - ForestryMaine16 day(s) leftPublished03/23/2026Closing04/08/2026443934712537",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/oregon/solicitations/open-bids/statewide/On-Call-Electrical-Repair-and-Maintenance-Services/443932097908?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/maine/solicitations/open-bids/statewide/Utility-Terrain-Vehicle-Bid-Forestry/443934712537?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Atherton HVAC Equipment ReplacementsMissouri29 day(s) leftPublished03/22/2026Closing04/21/2026443932011097",
+      "title": "Utility Terrain Vehicle Bid - EMS/Ocean RescueMaine16 day(s) leftPublished03/23/2026Closing04/08/2026443934651746",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/Atherton-HVAC-Equipment-Replacements/443932011097?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/maine/solicitations/open-bids/statewide/Utility-Terrain-Vehicle-Bid-EMS-Ocean-Rescue/443934651746?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "RWWPS Piping RepairsMissouri29 day(s) leftPublished03/22/2026Closing04/21/2026443932011095",
+      "title": "(3) 3500 Trucks 2026 Model Year or Newer (General Motors - No substitutions)Missouri15 day(s) leftPublished03/23/2026Closing04/07/2026443935442672",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/RWWPS-Piping-Repairs/443932011095?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/3-3500-Trucks-2026-Model-Year-or-Newer-General-Motors-No-substitutions/443935442672?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Genomics, Research Supplies, Equipment, Apparatus, Services & ChemicalsKentucky29 day(s) leftPublished03/22/2026Closing04/21/2026443932251461",
+      "title": "2026 HDPS Pump and Motor #3 Crane Support ProjectOhio15 day(s) leftPublished03/23/2026Closing04/07/2026443934813686",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/kentucky/solicitations/open-bids/statewide/Genomics-Research-Supplies-Equipment-Apparatus-Services-Chemicals/443932251461?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/2026-HDPS-Pump-and-Motor-3-Crane-Support-Project/443934813686?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "TECHNICAL ASSISTANCE IN ELECTRICAL GENERATION AND TRANSMISSION - ECONOMIC STUDIES AND SUPPORTMaryland29 day(s) leftPublished03/22/2026Closing04/21/2026443932539004",
+      "title": "Waterville WMD /CST custodial - work centers onlyMaine4 day(s) leftPublished03/23/2026Closing03/27/2026443935626027",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/maryland/solicitations/open-bids/statewide/TECHNICAL-ASSISTANCE-IN-ELECTRICAL-GENERATION-AND-TRANSMISSION-ECONOMIC-STUDIES-AND-SUPPORT/443932539004?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/maine/solicitations/open-bids/statewide/Waterville-WMD-CST-custodial-work-centers-only/443935626027?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "General Investment ConsultingPennsylvania29 day(s) leftPublished03/22/2026Closing04/21/2026443932250235",
+      "title": "FMS#2 Auburn Custodial Work - Work Centers OnlyMaine4 day(s) leftPublished03/23/2026Closing03/27/2026443935626029",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/General-Investment-Consulting/443932250235?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/maine/solicitations/open-bids/statewide/FMS-2-Auburn-Custodial-Work-Work-Centers-Only/443935626029?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Special Inspections and Materials Testing \u2013 Salt Shed and Fleet GarageMinnesota29 day(s) leftPublished03/22/2026Closing04/21/2026443932251462",
+      "title": "2026 HDPS Motor Unit #3 RepairsOhio15 day(s) leftPublished03/23/2026Closing04/07/2026443934813683",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/minnesota/solicitations/open-bids/statewide/Special-Inspections-and-Materials-Testing-Salt-Shed-and-Fleet-Garage/443932251462?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/2026-HDPS-Motor-Unit-3-Repairs/443934813683?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "2026 HDPS Pump Unit #3 RepairsOhio15 day(s) leftPublished03/23/2026Closing04/07/2026443934813682",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/2026-HDPS-Pump-Unit-3-Repairs/443934813682?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Construction of the Genoa Red Bluff Stormwater Detention Basins - Phase 2 - for the Harris County Flood Control District (CDBG-DR GLO)Texas28 day(s) leftPublished03/23/2026Closing04/20/2026443935489888",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Construction-of-the-Genoa-Red-Bluff-Stormwater-Detention-Basins-Phase-2-for-the-Harris-County-Flood-Control-District-CDBG-DR-GLO/443935489888?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"

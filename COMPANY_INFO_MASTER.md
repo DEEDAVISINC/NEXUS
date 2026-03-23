@@ -666,7 +666,54 @@ MI SIGMA VSS: VS0245604
 
 ---
 
-*Master Company Information - Updated March 14, 2026*  
+---
+
+## 🏥 MICHIGAN CHAMPS — MEDICAID PROVIDER ENROLLMENT
+
+**System:** CHAMPS (Community Health Automated Medicaid Processing System)
+**MILogin Access:** milogintp.michigan.gov
+
+### NEMT Provider Enrollment
+
+| Field | Value |
+|---|---|
+| **Application Number** | **20260323058125** |
+| **Application Type** | Atypical Agency |
+| **Specialty** | NEMT (Non-Emergency Medical Transportation) |
+| **NPI** | 1538939111 |
+| **Taxonomy Code** | 347E00000X (Transportation Broker) |
+| **Ownership Type** | Corporate - Non Charitable |
+| **Managing Employee** | Dieasha D. Davis |
+| **Date Submitted** | March 22, 2026 |
+| **Status** | Submitted for State Review |
+| **Previous Application (Rejected)** | 20251210748456 — rejected because wrong provider type ("Group" instead of "Atypical Agency") |
+
+### ACTIONS NEEDED:
+
+- [x] Submit corrected CHAMPS application as Atypical Agency / NEMT — **SUBMITTED 03/22/2026**
+- [ ] **Monitor application status** — log into CHAMPS and search by Application # 20260323058125
+- [ ] Receive CHAMPS approval notification
+- [ ] Upon approval: complete credentialing with Medicaid Health Plans (MCOs)
+- [ ] MCO outreach for NEMT contracts (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
+
+### IMPORTANT NOTES:
+
+- DDI initially submitted as "Group" provider type — **WRONG**. Must be "Atypical Agency" with NEMT specialty.
+- Email from MDHHS Provider Enrollment Unit (AJT) on 03/22/2026 clarified the correct enrollment path.
+- Contact for enrollment questions: **Provider Support 800-979-4662, option 1**
+- CHAMPS Provider Enrollment Unit email: MSA-HomeHelpProviders@michigan.gov
+
+### WHAT THIS UNLOCKS:
+
+- Medicaid NEMT provider status in Michigan
+- Ability to contract with MCOs for non-emergency medical transportation
+- Access to Michigan's $200M+ annual NEMT spend
+- Foundation for NEMT brokerage services statewide
+
+---
+
+*Master Company Information - Updated March 22, 2026*  
 *Certifications Updated: E-Verify & SWFT Certified (established 2022) documented in master file*  
 *Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
 *DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*
+*CHAMPS NEMT enrollment submitted 03/22/2026 — Application #20260323058125*

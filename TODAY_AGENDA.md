@@ -18,31 +18,22 @@
 | **3** | Call McLaren + submit via website | 1-888-327-0671 + mclarenhealthplan.org |
 | **4** | Send EMAIL 4 to state lead program | MDHHS-CLPPP@michigan.gov |
 
-### NPI FIX — CRITICAL BLOCKER (Do This Before MCO Emails)
-**The NPI login issue blocks EVERYTHING in the MCO lead screening pipeline.**
-NPI login broken → can't update NPI in NPPES → can't enroll/verify in CHAMPS → MCOs won't contract → can't bill Medicaid for lead screening.
-
+### NPI FIX — Still Needed for NPPES Updates
 - [ ] **Call CMS EUS Help Desk: 1-800-465-3203** (Mon-Fri 7 AM - 7 PM ET)
   - Say: "I need to reset my NPPES account access for NPI 1538939111, Dee Davis Inc. I cannot log in to update my provider information."
   - Have ready: NPI (1538939111), EIN, Authorized Official (Dieasha D. Davis), Address (755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084)
-  - They may reset I&A credentials or send a new activation link
 - [ ] **Once back in NPPES, update:**
   - Address: 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
   - Taxonomy codes (add lead screening / community health relevant taxonomies)
   - Contact: info@deedavis.biz, 248.376.4550
-  - Authorized official: Dieasha D. Davis
-- [ ] **After NPI is updated — contact MDHHS Provider Enrollment:**
-  - **Phone:** 1-800-292-2550 option 4
-  - **Email:** ProviderEnrollment@michigan.gov
-  - ~~Verify DDI is in SIGMA~~ — ✅ CONFIRMED VALID
-  - ~~Get MiLogin / CHAMPS access~~ — ✅ ACCOUNT EXISTS
-  - ⚠️ PROBLEM: Applied for CHAMPS enrollment multiple times (for NEMT) — NEVER approved
-  - **Ask MDHHS these 3 questions:**
-    1. "I've applied multiple times under NPI 1538939111 for NEMT — what's the rejection reason?"
-    2. "Should NEMT be enrolled as ATYPICAL instead of FAO? MDHHS classifies NEMT as atypical."
-    3. "I also need to enroll for healthcare services (lead screening coordination) — is that a separate enrollment under FAO/Typical?"
-  - **Root cause theory:** NPI has outdated info in NPPES → CHAMPS pulls bad data → application fails. Fixing NPI login first may solve the CHAMPS rejections.
-  - They can look up all previous applications by NPI and tell you exactly what failed
+
+### ✅ CHAMPS NEMT ENROLLMENT — SUBMITTED
+**Application #20260323058125 — Submitted March 22, 2026**
+- [x] Corrected application submitted as **Atypical Agency / NEMT** (previous "Group" applications were wrong)
+- [x] Taxonomy: 347E00000X (Transportation Broker)
+- [x] Ownership: Corporate - Non Charitable, Managing Employee: Dieasha D. Davis
+- [ ] **Monitor application status** — check CHAMPS weekly for approval
+- [ ] Upon approval: begin MCO credentialing (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
 
 ### Other Monday Morning Tasks
 - [ ] **CONFIRM CALL with Jean Saporita — National Drug Screening — 321-608-0409** — Email exchange complete (she emailed DDI re: Reseller Services, DDI replied Sat Mar 21 proposing Monday after 12 PM ET). Waiting for her to confirm the time. If no response by Monday noon — call her directly.
@@ -140,6 +131,23 @@ For the VA Document Shredding bid (36C10D26Q0034):
 
 ---
 
+## SATURDAY MARCH 28 — NEXUS AI COPILOT BUILD
+
+**Goal:** Upgrade the NEXUS AI Copilot so Dee can chat with the assistant from nexus.deedavis.biz on any device — phone, iPad, laptop — when traveling and away from Cursor.
+
+**What exists:** FloatingAICopilot.tsx (chat UI), /ai/chat endpoint, Airtable conversation storage. All built. Backend just needs Claude API wired in with DDI context.
+
+**Build plan (4-5 hours):**
+1. Replace keyword matching with Claude API call + DDI system prompt
+2. Add live Airtable context injection (pipeline, deadlines, contacts)
+3. Add quick actions (email drafting, pipeline check, call prep)
+4. Deploy to PythonAnywhere + Netlify
+5. Test from phone at nexus.deedavis.biz
+
+**Result:** Working mobile AI assistant that knows DDI's rules, has live pipeline data, and works from any browser.
+
+---
+
 ## PORTAL REGISTRATIONS PENDING
 
 - [ ] Register on Molina provider portal
@@ -149,4 +157,4 @@ For the VA Document Shredding bid (36C10D26Q0034):
 
 ---
 
-*Updated: Sunday, March 22, 2026 — End of Day*
+*Updated: Monday, March 23, 2026*

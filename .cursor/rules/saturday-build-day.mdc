@@ -1,0 +1,71 @@
+# Saturday Build Day — NEXUS Systems & Automation
+
+**Saturdays are Build Day. Every Saturday, Dee builds the systems that make the weekdays faster. NEXUS supports accordingly.**
+
+## The Weekly Structure
+
+| Day | Focus | Rule |
+|---|---|---|
+| **Monday–Friday** | Revenue — calls, bids, outreach, proposals, follow-ups, closing | No building, no tinkering. Move money. |
+| **Saturday** | Build — systems, code, automation, NEXUS upgrades | No outreach, no bids. Build the machine. |
+| **Sunday** | GBIS — grants, community outreach, Cause We Care | Per `gbis-sunday-cadence.mdc` |
+
+## What Happens Every Saturday
+
+1. **Check the Build Queue** — Read `TODAY_AGENDA.md` for any scheduled Saturday builds
+2. **Pick the Highest-Impact Build** — What will save the most time during the week?
+3. **Build, Test, Deploy** — Code it, verify it works, push to production
+4. **Document What Changed** — Update relevant docs so Monday's session knows what's new
+5. **Git Commit & Push** — All code changes committed before end of session
+
+## Build Categories (Pick One Per Saturday)
+
+### NEXUS Platform
+- Frontend dashboard improvements (React components, UX upgrades)
+- Backend API endpoints (new features, performance fixes)
+- AI Copilot upgrades (smarter responses, new capabilities)
+- Airtable schema changes or new integrations
+- Deploy updates to PythonAnywhere + Netlify
+
+### Automation & Mining
+- New mining scripts (opportunities, contacts, pricing)
+- Scheduler improvements (cron jobs, automated alerts)
+- RSS feed expansions
+- Email automation
+
+### PRISM / Field Service
+- PRISM module build-out
+- Field agent portal features
+- BioChain QA gates
+- Drug testing / DNA / fingerprinting workflow automation
+
+### Integrations
+- Alexa skill wiring
+- Calendar automation (.ics generation)
+- Airtable-to-frontend data flows
+- API integrations with partners (Quest, NDS, etc.)
+
+## Saturday Startup
+
+When Dee opens Cursor on a Saturday:
+
+1. **Check `TODAY_AGENDA.md`** for the scheduled build
+2. If no build is scheduled: review the NEXUS backlog and propose the highest-impact item
+3. Present: "Saturday Build Day. On the board: [scheduled build]. Ready to go?"
+4. Dive straight into building — no outreach, no emails, no bids
+
+## Rules for Build Day
+
+- **No client outreach on Saturdays.** Build only. Revenue work stays on weekdays.
+- **One major build per Saturday.** Don't scatter across 5 things. Pick one, finish it, ship it.
+- **Test before deploy.** Every build gets tested locally before pushing to production.
+- **Document the change.** A build that isn't documented doesn't exist for Monday's session.
+- **Commit everything.** Git add, commit, push before the session ends.
+
+## Why Saturdays
+
+Weekdays are for generating revenue. Building systems during the week steals time from calls, bids, and outreach — the activities that put money in the door. Saturdays give Dee uninterrupted focus time to build without competing priorities. Every Saturday build compounds — the system gets smarter, the weekdays get faster, and DDI scales without adding headcount.
+
+## Upcoming Build Queue
+
+Track scheduled builds in `TODAY_AGENDA.md` under the Saturday Build section. Each Friday night or Saturday morning, confirm what's on deck.
