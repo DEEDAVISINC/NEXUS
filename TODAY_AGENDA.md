@@ -159,6 +159,28 @@ For the VA Document Shredding bid (36C10D26Q0034):
 - [ ] Register on OMNIA Partners as vendor (cooperative purchasing)
 - [ ] **Call National Crime Search (NCS) partner program** — background screening CRA partnership (blocks PSTA bid)
 
+## 8(a) & DBE CERTIFICATION — SCHEDULE A WORK SESSION
+
+**Do NOT rush these. Dedicate a full session to each one.**
+
+### SBA 8(a) — What We'll Need:
+- Personal Narrative (specific instances of disadvantage — the make-or-break piece)
+- Personal financial statements (SBA Form 413)
+- Business financial statements (3 years tax returns, P&L, balance sheet)
+- Proof of ownership/control (articles of incorporation, operating agreement)
+- Business plan / capability statement
+- Personal net worth under $850K (excluding primary residence + business equity)
+- certify.sba.gov is the application portal
+
+### DBE (Michigan MDOT) — What We'll Need:
+- Personal net worth under $1.32M (DBE threshold)
+- Business size under SBA small business standards
+- Proof of social and economic disadvantage
+- Ownership and control documentation
+- Michigan UCP application through MDOT
+
+**When ready: tell me "let's work on 8(a)" and I'll pull the full checklist and walk through it.**
+
 ## PSTA BACKGROUND CHECK RFP — 26-280182 (BLOCKED ON NCS PARTNERSHIP)
 
 | Field | Detail |
