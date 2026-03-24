@@ -342,28 +342,46 @@ Post-surgery medical transportation for the beauty/cosmetic surgery industry. Ai
 - Recovery houses already exist — they need transport partners
 - Year-round demand (no seasonal drop-off)
 
-### Fulfillment: Uber Black (Existing Partnership)
-- DDI already has Uber Health partnership — USE IT
-- Book Uber Black for all patient rides → mark up to DDI agency rates
-- No drivers to recruit, no vehicles to insure, no fleet to manage
-- Uber Black already has the premium SUVs and sedans patients expect
-- **DDI can launch with ZERO new infrastructure — just clinic partnerships**
+### The Edge: This Is a Medical Handoff, Not a Car Ride
+- Post-surgical patients CANNOT walk to the car — clinic staff wheels them out
+- Someone must physically receive the patient, help them into the vehicle, position them correctly
+- BBL patients can't sit flat. Drain patients need careful handling. Anesthesia patients may be barely conscious.
+- The clinic will NOT discharge without someone there to take custody of the patient
+- A regular Uber driver doesn't know any of this. DDI's specialist does.
+- **DDI's pitch to clinics:** "Your staff wheels them out. Our specialist takes over. We document the handoff. Your liability ends at our car door."
+
+### DDI Certified Medical Transport Specialist
+- CPR/First Aid certified (minimum)
+- DDI Post-Surgical Patient Handling Training (DDI creates and OWNS this certification)
+- Preferred: CNA, EMT-B, Medical Assistant, Home Health Aide
+- Knows patient positioning by procedure type, mobility assistance, when to call surgeon vs. 911
+- Vehicle equipped with post-op comfort kit (BBL pillow, ice packs, emesis bags, blankets)
+- Bilingual (English/Spanish) preferred for Mexico corridor
+- **This certification is DDI's moat.** Anyone can book an Uber. Nobody else has medically trained drivers.
+- **Future: DDI sells this certification to other transport companies = training revenue stream**
+
+### Fulfillment Model (Hybrid)
+- **Phase 1 (Launch):** DDI-certified independent drivers with their own premium vehicles (SUVs, luxury sedans)
+- **Phase 1 (Supplement):** Uber Black for overflow / non-discharge rides (airport pickups, follow-up visits)
+- **Discharge rides ALWAYS use DDI-certified specialists** — this is the premium service clinics are paying for
+- DDI manages all booking, billing, and clinic communication
 
 ### The Uber Partnership Play (Phase 2 — The Big One)
-- Build volume on Uber Black for 6-12 months → collect ride data, revenue, clinic testimonials
+- Build volume for 6-12 months → collect ride data, revenue, patient outcomes, clinic testimonials
 - There is NO "Uber Medical Tourism" or "Uber Cosmetic Recovery" product anywhere
-- Nobody is packaging cosmetic surgery transport as a vertical
-- Pitch Uber Health corporate: DDI brings clinic relationships + industry expertise, Uber brings driver network
-- Co-branded or white-label product = DDI becomes the channel partner for an entirely new Uber vertical
+- Pitch Uber Health corporate: DDI has the training standard + clinic network. Uber has the driver network.
+- Uber drivers get DDI-certified → DDI's training becomes the Uber standard for medical tourism rides
+- DDI becomes the certification authority + channel partner for an entirely new Uber vertical
 - **This is how a small business becomes a platform partner with a $150B company**
 
 ### Launch Requirements (Phase 1)
 1. Identify 3-5 high-volume cosmetic surgery clinics in Miami
-2. Create a one-page clinic partnership packet (services + pricing)
-3. Set up scheduling through DDCSS (or manual to start)
-4. Use Uber Black for ALL rides — no driver recruitment needed
-5. Brand name / positioning for the service
-6. Track every ride — volume data is the ammunition for the Uber pitch
+2. Create DDI Post-Surgical Patient Handling Training program (DDI owns this IP)
+3. Recruit 2-3 drivers with CNA/EMT/MA background + premium vehicles in Miami
+4. Create one-page clinic partnership packet (discharge protocol + pricing)
+5. Set up scheduling through DDCSS
+6. Brand name / positioning ("DDI Medical Concierge" or similar)
+7. Track every ride + every patient handoff — this data is the ammunition for the Uber pitch
 
 ### Status: FUTURE SERVICE LANE — Document and plan when ready to launch
 

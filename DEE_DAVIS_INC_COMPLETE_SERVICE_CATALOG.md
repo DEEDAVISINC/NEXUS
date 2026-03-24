@@ -680,12 +680,50 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 - Premium vehicles (black SUVs, luxury sedans) already meet patient expectations
 - DDI can launch this with ZERO new infrastructure — just clinic partnerships and a booking process
 
+**The Core Differentiator — DDI Certified Medical Transport Specialists:**
+
+This is NOT a car ride. This is a **medical patient handoff.**
+
+Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a wheelchair. Someone must physically receive the patient, help them into the vehicle, position them correctly (BBL patients face-down/side — never seated flat), and transport them safely to recovery. The clinic will NOT discharge a patient without someone there to take custody.
+
+**Why clinics NEED DDI (not just "tell the patient to get an Uber"):**
+- **Discharge compliance** — documented proof patient left with trained medical transport
+- **Liability protection** — if a patient falls getting into a random Uber, that's on the clinic for no safe discharge plan
+- **Patient outcomes** — improper post-op transport causes complications that come back on the surgeon
+- **DDI's pitch to clinics:** "Your staff wheels them out. Our specialist takes over. We document the handoff. We transport safely. We confirm arrival at recovery. Your liability ends at our car door."
+
+**DDI Medical Transport Specialist Requirements:**
+- CPR/First Aid certified (minimum)
+- DDI Post-Surgical Patient Handling Training (DDI creates and owns this certification)
+- Preferred: CNA, EMT-B, Medical Assistant, or Home Health Aide certified
+- Patient mobility assistance — wheelchair-to-vehicle transfer, stairs, bed positioning
+- Post-op comfort protocols — positioning by procedure type, monitoring for distress
+- When to call the surgeon vs. 911
+- Required vehicle equipment: Post-op comfort kit (BBL pillow, ice packs, emesis bags, water, blankets, compression supply backup)
+- Bilingual (English/Spanish) preferred for Mexico corridor patients
+
+**What DDI's specialist does that a regular driver CANNOT:**
+- Physically receives patient from clinic staff at wheelchair
+- Assists patient into vehicle with correct positioning for their procedure
+- Acknowledges receipt + accepts post-op instruction sheet from clinic
+- Monitors patient during transport (consciousness, bleeding, distress)
+- Assists patient out of vehicle and into recovery house/hotel (including stairs, into bed)
+- Confirms safe arrival to clinic via DDI system
+- Documents the entire handoff chain for clinic liability records
+
+**Future revenue streams from this model:**
+- DDI's training becomes a sellable certification ("DDI Certified Medical Transport Specialist")
+- Other transport companies license DDI's training program
+- Clinics pay DDI to train THEIR existing transport staff
+- DDI's certification becomes the industry standard for cosmetic surgery transport
+
 **Phase 2 — Scale & Partner (The Billion-Dollar Play):**
-- Build volume using Uber Black → collect data on ride counts, revenue, clinic demand
-- Approach Uber Health corporate with PROOF: "We're already driving X rides/month for cosmetic surgery clinics through your platform"
-- Pitch: There is NO 'Uber Medical Tourism' or 'Uber Cosmetic Recovery' product. DDI brings clinic relationships + industry positioning. Uber brings the driver network. Co-branded or white-label product.
-- DDI becomes the industry expert / channel partner that Uber needs to enter the cosmetic surgery transport vertical
-- This is how DDI goes from broker to platform partner
+- Build volume → collect ride data, revenue, patient outcome metrics, clinic testimonials
+- Approach Uber Health corporate with PROOF: "We've built the training standard and clinic network for cosmetic surgery transport. Here's why this should be a product on your platform."
+- DDI brings clinic relationships + medical transport training + industry expertise. Uber brings the driver network.
+- Uber drivers get DDI-certified → DDI's training standard becomes the Uber standard for medical tourism rides
+- DDI becomes the channel partner / certification authority that Uber needs to enter this vertical
+- This is how DDI goes from broker to platform partner to industry standard-setter
 
 **Pricing (DDI Agency Rates — Cash Pay, Premium Market):**
 
