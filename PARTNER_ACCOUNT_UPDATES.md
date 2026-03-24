@@ -453,7 +453,8 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] Attempted multiple signups — account could not be validated for OPUS
 - [x] OMNIA OPUS support responded 02/16/2026: membership must be processed first before OPUS access
 - [x] Membership request submitted (~02/16/2026)
-- [ ] **⚠️ NO MEMBERSHIP ID RECEIVED — 5+ weeks overdue. Follow up with OMNIA.**
+- [x] **Follow-up email sent to opus.support@omniapartners.com — 03/22/2026** (5+ weeks overdue, requesting Membership ID status)
+- [ ] Awaiting response — if no reply by 03/26, call OMNIA directly
 - [ ] Once received: provide Membership ID to OPUS support → platform access granted
 - [ ] Explore drug testing contract opportunities on platform
 
