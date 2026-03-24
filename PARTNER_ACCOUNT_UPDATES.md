@@ -454,7 +454,10 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] OMNIA OPUS support responded 02/16/2026: membership must be processed first before OPUS access
 - [x] Membership request submitted (~02/16/2026)
 - [x] **Follow-up email sent to opus.support@omniapartners.com — 03/22/2026** (5+ weeks overdue, requesting Membership ID status)
-- [ ] Awaiting response — if no reply by 03/26, call OMNIA directly
+- [x] **OMNIA replied 03/23** — still asking DDI to complete membership registration. Sending DDI in circles.
+- [x] **DDI replied 03/23** — clarified DDI is a SUPPLIER, not a buyer. Requested correct supplier partner registration path and solicitation mailing list.
+- [ ] **Fill out Supplier Solicitation Mailing List form** at omniapartners.com/publicsector/become-supplier — THIS is the actual supplier path
+- [ ] Awaiting response with correct supplier registration instructions
 - [ ] Once received: provide Membership ID to OPUS support → platform access granted
 - [ ] Explore drug testing contract opportunities on platform
 

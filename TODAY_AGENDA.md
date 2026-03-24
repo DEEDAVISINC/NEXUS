@@ -131,7 +131,7 @@
 |---|---|---|---|
 | **Choice Partners** | ✅ Registered | Rebid June 2027 | Lisa call March 24 |
 | **Sourcewell** | ✅ Registered | Redwood Toxicology expires Feb 2027 | Watch for resolicit |
-| **OMNIA Partners** | ⏳ Follow-up sent 03/22 — awaiting Membership ID | Accurate/First Advantage expire Dec 2027 | If no reply by 03/26 — call OMNIA directly |
+| **OMNIA Partners** | ⚠️ Buyer vs supplier confusion — DDI clarified 03/23 | Accurate/First Advantage expire Dec 2027 | Fill out SUPPLIER mailing list form at omniapartners.com/publicsector/become-supplier |
 | **TIPS USA** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts/RFPs on TIPS |
 | **BuyBoard** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts on BuyBoard |
 | **MMCAP Infuse** | ⬜ Not researched | Has DOT/non-DOT contracts | Research current contracts and rebid schedule |
