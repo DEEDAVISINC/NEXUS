@@ -629,6 +629,82 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 
 ---
 
+### **Medical Tourism Transportation (DDCSS)** ✈️🚑
+**Target Clients:**
+- Cosmetic/plastic surgery clinics (Miami, Houston, Dallas, LA, San Diego)
+- Medical tourism facilitators and agencies
+- Med spas offering surgical procedures
+- Bariatric surgery centers
+- Dental tourism coordinators
+- Recovery houses and post-op care facilities
+
+**Why This Market:**
+- Patients are **cash pay** — no insurance billing, no Medicaid, no prior auth
+- Post-surgical patients **cannot drive themselves** — they literally need you
+- Premium pricing accepted — comfort and discretion are expected
+- Surgeons become a **referral pipeline** — they recommend transport to every patient
+- Repeat business — pre-op consult, surgery day, follow-ups, drain removals, fittings
+- Beauty/cosmetic surgery tourism is a **$50B+ global industry** growing 15-20% annually
+
+**Services:**
+- Airport-to-clinic transfers (pre-op arrivals)
+- Surgery day round-trip transport (hotel/recovery house → clinic → back)
+- Post-op recovery transport packages (3-7 day packages with daily trips)
+- Follow-up appointment transport series
+- Pharmacy and post-op supply runs
+- Airport departure transfers (post-recovery)
+- VIP/luxury vehicle options for premium clients
+- Companion/caregiver transport coordination
+
+**Model:** DDI/DDCSS manages client relationships, scheduling, billing. Subcontracted drivers with appropriate vehicles (SUVs, luxury sedans — not minivans) execute transport. Same broker model as NEMT, different payer.
+
+**Pricing (DDI Agency Rates — Cash Pay, Premium Market):**
+
+| Service | Price | Notes |
+|---------|-------|-------|
+| Airport → Clinic/Recovery House | $125-$250 | One-way, meet & greet |
+| Surgery Day Round Trip | $250-$400 | Wait time included |
+| Recovery Transport Package (3-day) | $750-$1,500 | 2 trips/day |
+| Recovery Transport Package (5-day) | $1,200-$2,500 | 2 trips/day |
+| Recovery Transport Package (7-day) | $1,500-$3,500 | 2 trips/day |
+| Follow-Up Visit Series (3 visits) | $375-$750 | Scheduled over 2-4 weeks |
+| Airport Departure Transfer | $125-$250 | Post-recovery |
+| VIP/Luxury Upgrade | +50% | Premium vehicle + concierge |
+| Companion/Caregiver Add-On | +$50/trip | Additional passenger |
+
+**DDI Gross Margin Target:** 40-55% (premium cash-pay market supports higher margins)
+
+**Medical Tourism Hubs (Priority Markets):**
+- **Miami, FL** — #1 cosmetic surgery destination in the US (BBL capital)
+- **Houston, TX** — Major medical tourism hub, bariatric + cosmetic
+- **Dallas, TX** — Growing cosmetic surgery market
+- **Los Angeles, CA** — Celebrity-driven cosmetic market
+- **San Diego, CA** — Tijuana border corridor (patients returning from Mexico procedures)
+
+**What DDI Needs to Launch:**
+- 3-5 cosmetic surgery clinic partnerships in ONE city (Miami recommended as pilot)
+- Subcontracted drivers with clean SUVs/luxury vehicles in that market
+- Simple booking system (can use existing DDCSS scheduling)
+- Liability insurance for post-surgical patient transport
+- Brand positioning (DDI Medical Concierge or similar)
+- Marketing materials for clinic waiting rooms / surgeon referral packets
+
+**DDCSS Integration:**
+- This is a DDCSS service line — corporate/private sector, not government
+- Clinic partnerships are B2B retainer opportunities (Tier 2-3 Blueprint model)
+- Can bundle with DDI's existing drug testing for clinic staff compliance
+- Revenue is immediate — cash pay, no 30/60/90 day government billing cycles
+
+**Credentials DDI Already Has:**
+- MC Number: 1647572 (motor carrier authority)
+- US DOT: 4250594 (transportation authorization)
+- CHAMPS NEMT enrollment (pending — demonstrates healthcare transport capability)
+- NEMT brokerage model experience
+
+**NAICS Codes:** 485320 (Limousine Service), 485999 (All Other Transit and Ground Passenger Transportation), 621910 (Ambulance Services — for medical transport classification)
+
+---
+
 ## 5️⃣ SERVICE CONTRACTS (PRIME CONTRACTOR MODEL)
 
 ### **Janitorial & Custodial Services** 🧹

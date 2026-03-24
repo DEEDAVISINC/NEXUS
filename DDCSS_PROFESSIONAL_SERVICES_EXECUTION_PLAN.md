@@ -313,6 +313,45 @@ The corporation pays a retainer for DDI to manage their entire employee complian
 
 ---
 
+## NEW SERVICE LANE: MEDICAL TOURISM TRANSPORTATION (Added March 22, 2026)
+
+**This is a DDCSS play — private sector, cash pay, premium market. NOT government.**
+
+### The Concept
+Post-surgery medical transportation for the beauty/cosmetic surgery industry. Airport pickups, clinic transfers, recovery transport packages, follow-up visit series. Patients are cash-pay, can't drive themselves, and expect premium service.
+
+### Why It Fits DDCSS
+- Same broker model DDI already uses (schedule drivers, manage client, bill premium)
+- DDI already has MC/DOT credentials for transportation
+- Cash pay = no insurance billing, no Medicaid, no 90-day payment cycles
+- Clinic partnerships = B2B retainers (fits the Blueprint tier model)
+- A single busy cosmetic surgery clinic sends 20-50 patients/month who ALL need transport
+
+### Revenue Potential (Per Clinic Partnership)
+- Average patient spends $500-$1,500 on transport over their visit
+- 20 patients/month × $750 avg = $15,000/month per clinic
+- 5 clinic partnerships = $75,000/month = **$900K/year**
+- DDI margin at 40-50% = **$360K-$450K/year from one city**
+
+### Pilot City: Miami, FL (Recommended)
+- #1 cosmetic surgery destination in the US
+- Massive BBL, breast augmentation, rhinoplasty, and body contouring market
+- Patients fly in from across the US and internationally
+- Recovery houses already exist — they need transport partners
+- Year-round demand (no seasonal drop-off)
+
+### Launch Requirements
+1. Identify 3-5 high-volume cosmetic surgery clinics in Miami
+2. Find 2-3 subcontracted drivers with clean SUVs/luxury sedans
+3. Create a one-page clinic partnership packet (services + pricing)
+4. Set up scheduling through DDCSS
+5. Liability insurance for post-surgical patient transport
+6. Brand name / positioning for the service
+
+### Status: FUTURE SERVICE LANE — Document and plan when ready to launch
+
+---
+
 ## THE BOTTOM LINE
 
 DDCSS sells the Blueprint — the $25K, $12K, or $5K commitment.
