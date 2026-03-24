@@ -342,13 +342,28 @@ Post-surgery medical transportation for the beauty/cosmetic surgery industry. Ai
 - Recovery houses already exist — they need transport partners
 - Year-round demand (no seasonal drop-off)
 
-### Launch Requirements
+### Fulfillment: Uber Black (Existing Partnership)
+- DDI already has Uber Health partnership — USE IT
+- Book Uber Black for all patient rides → mark up to DDI agency rates
+- No drivers to recruit, no vehicles to insure, no fleet to manage
+- Uber Black already has the premium SUVs and sedans patients expect
+- **DDI can launch with ZERO new infrastructure — just clinic partnerships**
+
+### The Uber Partnership Play (Phase 2 — The Big One)
+- Build volume on Uber Black for 6-12 months → collect ride data, revenue, clinic testimonials
+- There is NO "Uber Medical Tourism" or "Uber Cosmetic Recovery" product anywhere
+- Nobody is packaging cosmetic surgery transport as a vertical
+- Pitch Uber Health corporate: DDI brings clinic relationships + industry expertise, Uber brings driver network
+- Co-branded or white-label product = DDI becomes the channel partner for an entirely new Uber vertical
+- **This is how a small business becomes a platform partner with a $150B company**
+
+### Launch Requirements (Phase 1)
 1. Identify 3-5 high-volume cosmetic surgery clinics in Miami
-2. Find 2-3 subcontracted drivers with clean SUVs/luxury sedans
-3. Create a one-page clinic partnership packet (services + pricing)
-4. Set up scheduling through DDCSS
-5. Liability insurance for post-surgical patient transport
-6. Brand name / positioning for the service
+2. Create a one-page clinic partnership packet (services + pricing)
+3. Set up scheduling through DDCSS (or manual to start)
+4. Use Uber Black for ALL rides — no driver recruitment needed
+5. Brand name / positioning for the service
+6. Track every ride — volume data is the ammunition for the Uber pitch
 
 ### Status: FUTURE SERVICE LANE — Document and plan when ready to launch
 

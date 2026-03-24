@@ -669,7 +669,23 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 - VIP/luxury vehicle options for premium clients
 - Companion/caregiver transport coordination
 
-**Model:** DDI/DDCSS manages client relationships, scheduling, billing. Subcontracted drivers with appropriate vehicles (SUVs, luxury sedans — not minivans) execute transport. Same broker model as NEMT, different payer.
+**Model:** DDI/DDCSS manages client relationships, scheduling, billing. Same broker model as NEMT, different payer.
+
+**Fulfillment Strategy (Two Phases):**
+
+**Phase 1 — Launch Now (Uber Black Fulfillment):**
+- Use existing Uber Health partnership to book Uber Black rides for patients
+- DDI marks up the ride and bills the clinic or patient at DDI agency rates
+- Zero driver recruitment, zero fleet management, zero vehicle insurance
+- Premium vehicles (black SUVs, luxury sedans) already meet patient expectations
+- DDI can launch this with ZERO new infrastructure — just clinic partnerships and a booking process
+
+**Phase 2 — Scale & Partner (The Billion-Dollar Play):**
+- Build volume using Uber Black → collect data on ride counts, revenue, clinic demand
+- Approach Uber Health corporate with PROOF: "We're already driving X rides/month for cosmetic surgery clinics through your platform"
+- Pitch: There is NO 'Uber Medical Tourism' or 'Uber Cosmetic Recovery' product. DDI brings clinic relationships + industry positioning. Uber brings the driver network. Co-branded or white-label product.
+- DDI becomes the industry expert / channel partner that Uber needs to enter the cosmetic surgery transport vertical
+- This is how DDI goes from broker to platform partner
 
 **Pricing (DDI Agency Rates — Cash Pay, Premium Market):**
 
@@ -694,13 +710,21 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 - **Los Angeles, CA** — Celebrity-driven cosmetic market
 - **San Diego, CA** — Tijuana border corridor (patients returning from Mexico procedures)
 
-**What DDI Needs to Launch:**
+**What DDI Needs to Launch (Phase 1 — Uber Black Model):**
 - 3-5 cosmetic surgery clinic partnerships in ONE city (Miami recommended as pilot)
-- Subcontracted drivers with clean SUVs/luxury vehicles in that market
-- Simple booking system (can use existing DDCSS scheduling)
-- Liability insurance for post-surgical patient transport
+- Uber Health account already active — use Uber Black for all rides
+- Simple booking/scheduling process (DDCSS or manual to start)
+- One-page clinic partnership packet (services + pricing)
 - Brand positioning (DDI Medical Concierge or similar)
 - Marketing materials for clinic waiting rooms / surgeon referral packets
+- **NO drivers to recruit. NO vehicles to manage. NO fleet insurance. Just clinic deals and Uber Black.**
+
+**What DDI Needs for Phase 2 (Uber Partnership Pitch):**
+- 6-12 months of ride volume data (rides/month, revenue, growth rate)
+- 5+ clinic testimonials proving demand
+- Market analysis showing the gap (no one owns cosmetic surgery transport)
+- Pitch deck: DDI as Uber's channel partner for medical tourism vertical
+- Meeting with Uber Health business development team
 
 **DDCSS Integration:**
 - This is a DDCSS service line — corporate/private sector, not government
