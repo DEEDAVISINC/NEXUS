@@ -446,14 +446,14 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 | **Platform** | OMNIA Partners (Public Sector) |
 | **Website** | omniapartners.com/publicsector |
 | **OPUS Platform** | omniapartners.com (procurement technology) |
-| **DDI Status** | ⏳ **MEMBERSHIP SUBMITTED — Awaiting Membership ID** (as of 03/22/2026) |
+| **DDI Status** | ⏳ **MEMBERSHIP SUBMITTED — Awaiting Membership ID** (submitted ~02/16/2026 — OVERDUE, follow up) |
 | **Support Contact** | opus.support@omniapartners.com |
 
 ### STATUS TIMELINE:
 - [x] Attempted multiple signups — account could not be validated for OPUS
-- [x] OMNIA support responded: membership must be processed first before OPUS access
-- [x] Membership request submitted (03/22/2026)
-- [ ] **Waiting for Membership ID email from OMNIA membership team**
+- [x] OMNIA OPUS support responded 02/16/2026: membership must be processed first before OPUS access
+- [x] Membership request submitted (~02/16/2026)
+- [ ] **⚠️ NO MEMBERSHIP ID RECEIVED — 5+ weeks overdue. Follow up with OMNIA.**
 - [ ] Once received: provide Membership ID to OPUS support → platform access granted
 - [ ] Explore drug testing contract opportunities on platform
 
