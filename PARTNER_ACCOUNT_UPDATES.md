@@ -265,7 +265,8 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ## NATIONAL CRIME SEARCH (NCS) — Background Screening CRA Partner
 
-**Account Status:** NOT YET CONTACTED — HIGH PRIORITY
+**Account Status:** PARTNER SIGNUP SUBMITTED — 03/22/2026 — AWAITING RESPONSE
+**Partner Subdomain:** deedavisinc.nationalcrimesearch.com
 **Company:** National Crime Search, LLC
 **Location:** 3452 E Joyce Blvd, Fayetteville, AR 72703
 **Size:** 9 employees, 20+ years in business, 20,000+ customers
@@ -332,6 +333,8 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ### ACTIONS NEEDED:
 
+- [x] **Partner signup form submitted** — 03/22/2026, subdomain: deedavisinc.nationalcrimesearch.com
+- [ ] **Await NCS response** — follow up by phone if no response by Wednesday 03/25
 - [ ] **Call NCS partner program** — introduce DDI, explain government contracting model
 - [ ] Ask about: wholesale pricing, co-branded platform setup time, FCRA compliance coverage
 - [ ] Ask about: can DDI use NCS platform screenshots in government proposals?

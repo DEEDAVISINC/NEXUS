@@ -1,51 +1,305 @@
 {
-  "scan_date": "2026-03-23T13:23:15.851222",
-  "total_found": 89,
+  "scan_date": "2026-03-23T19:27:03.037778",
+  "total_found": 103,
   "min_days_to_bid": 5,
   "opportunities": [
     {
       "source": "BidNet Direct",
-      "title": "SODC Generator/Transfer Switch Preventive MaintenanceOhio25 day(s) leftPublished03/23/2026Closing04/17/2026443936101567",
+      "title": "ANNUAL CONTRACT FOR FLEET ON-CALL TOWING SERVICESCalifornia30 day(s) leftPublished03/23/2026Closing04/23/20268589663255",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/SODC-Generator-Transfer-Switch-Preventive-Maintenance/443936101567?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/ANNUAL-CONTRACT-FOR-FLEET-ON-CALL-TOWING-SERVICES/0000417815?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Uncouple Solenoid Assy. 2/3/4 Uncouple Solenoid Repair Kit Valve Assembly, Solenoid, Duplex 2/3/4Missouri2 day(s) leftPublished03/23/2026Closing03/26/2026443936002845",
+      "title": "First Creek Single Tree and High Point Lift Station DemolitionColorado14 day(s) leftPublished03/23/2026Closing04/07/20268589663254",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/Uncouple-Solenoid-Assy-2-3-4-Uncouple-Solenoid-Repair-Kit-Valve-Assembly-Solenoid-Duplex-2-3-4/443936002845?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/First-Creek-Single-Tree-and-High-Point-Lift-Station-Demolition/0000417814?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "0545552 - Pump Water ISL 3800-7300/7551-77/5976Missouri2 day(s) leftPublished03/23/2026Closing03/26/2026443936002850",
+      "title": "Redlands Police Department Safety Hall (Phase II) - General Package BCalifornia30 day(s) leftPublished03/23/2026Closing04/23/2026443934817147",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/0545552-Pump-Water-ISL-3800-7300-7551-77-5976/443936002850?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-General-Package-B/443934817147?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Temporary VIP StructureGeorgia6 day(s) leftPublished03/23/2026Closing03/30/2026443936047809",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Fencing C13California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817146",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/georgia/solicitations/open-bids/statewide/Temporary-VIP-Structure/443936047809?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Fencing-C13/443934817146?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Site Utilities C36California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817145",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Site-Utilities-C36/443934817145?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Landscaping & Irrigation C27California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817144",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Landscaping-Irrigation-C27/443934817144?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Electrical & Low Voltage C10California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817143",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Electrical-Low-Voltage-C10/443934817143?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - HVAC C20California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817142",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-HVAC-C20/443934817142?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Plumbing: Building C36California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817141",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Plumbing-Building-C36/443934817141?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Fire Sprinkler C16California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817140",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Fire-Sprinkler-C16/443934817140?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Painting C33California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817139",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Painting-C33/443934817139?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Acoustical Ceiling & Treatment C2California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817138",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Acoustical-Ceiling-Treatment-C2/443934817138?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Ceramic Tile C54California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817137",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Ceramic-Tile-C54/443934817137?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Finish Flooring C15California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817136",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Finish-Flooring-C15/443934817136?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Metal Stud Framing, Insulation, Drywall & Plaster C9 & C35California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817135",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Metal-Stud-Framing-Insulation-Drywall-Plaster-C9-C35/443934817135?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Aluminum & Glazing C17California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817134",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Aluminum-Glazing-C17/443934817134?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Doors, Frames & Hardware C28, D16, or D28California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817133",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Doors-Frames-Hardware-C28-D16-or-D28/443934817133?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Redlands Police Department Safety Hall (Phase II) - Sheet Metal C43California30 day(s) leftPublished03/23/2026Closing04/23/2026443934817132",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Redlands-Police-Department-Safety-Hall-Phase-II-Sheet-Metal-C43/443934817132?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "CH-25-857 City Hall Stand-by Generator ITB-W-1666",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CH-25-857-City-Hall-Stand-by-Generator-ITB-W-1666/0000417808?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "PL-25-856 Water Division Parking Lot Reconstruction ITB-W-1665",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/PL-25-856-Water-Division-Parking-Lot-Reconstruction-ITB-W-1665/0000417804?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Overhead Door Inspection and Repairs",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Overhead-Door-Inspection-and-Repairs/0000415529?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "AMBULANCE CONSULTANT- FLINT FIRE DEPARTMENT",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/AMBULANCE-CONSULTANT-FLINT-FIRE-DEPARTMENT/0000417800?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Mowing Services",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Mowing-Services/0000417770?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "2026 Concrete Road Replacement Program",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-Concrete-Road-Replacement-Program/0000417773?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "ITB 4596 - 2026 Pine River Road & Benson Street Reconstruction",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/ITB-4596-2026-Pine-River-Road-Benson-Street-Reconstruction/0000417763?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Preliminary Design for Brownfield Watermain and Street Reconstruction Project",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Preliminary-Design-for-Brownfield-Watermain-and-Street-Reconstruction-Project/0000417753?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Scientific Equipment Maintenance and Repair  2026",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Scientific-Equipment-Maintenance-and-Repair-2026/0000417711?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "CDBG- Preparation and Delivery of Home Delivered Meals in West Bloomfield Towns",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CDBG-Preparation-and-Delivery-of-Home-Delivered-Meals-in-West-Bloomfield-Towns/0000417732?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
     },
     {
       "source": "MITN (Michigan)",
@@ -104,46 +358,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Janitorial-Services-Community-Center-HAWK/0000417581?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Transportation Authority of Calhoun County (TACC) ITS, CAD, and AVL Services",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Transportation-Authority-of-Calhoun-County-TACC-ITS-CAD-and-AVL-Services/0000417566?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Emergency Outdoor Weather Alert Siren System (Including Tornado  Warnings)",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Emergency-Outdoor-Weather-Alert-Siren-System-Including-Tornado-Warnings/0000417511?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Transit Admin Vehicles",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Transit-Admin-Vehicles/0000417549?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "ELEVATOR MAINTENANCE &  REPAIR SERVICES AT DETROIT PUBLIC LIBRARY BRANCHES",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/ELEVATOR-MAINTENANCE-REPAIR-SERVICES-AT-DETROIT-PUBLIC-LIBRARY-BRANCHES/0000417536?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
@@ -221,78 +435,6 @@
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODg4YTI1YjUtMDgxYy00M2UwLWJjYzAtYWNhOWI5MTljZjZk%40thread.v2/0?context=%7b%22Tid%22%3a%222199bfba-a409-4f13-b0c4-18b45933d88d%22%2c%22Oid%22%3a%22a03d015b-3dbd-4848-b58e-55486b9eadd7%22%7d",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 FR Owen-Putnam Campgrounds Trash PickupBid DocumentsNatural Resources003000000086820RFQ # 0000086820Sourcing event 0000086820 is for obtaining bids for a NEW 2-Year contract for trash service @ Ow",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "400-26-062-Labs Microscope RFQBid DocumentsIndiana Dept of Health004000000086874Sourcing event #0000086874 is for obtaining bids for one fluorescent microscope equipped with a LED illuminator which me",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "440 Solid Waste Removal Richmond State HospitalBid DocumentsRichmond State Hospital004400000086192RFQ#004400000086192 Version 2The Indiana State Psychiatric Hospital Network (ISPHN) is seeking routine",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Patoka Lake Trash Services ContractBid DocumentsNatural Resources003000000086887RFQ# 003000000086887300 SP Patoka Lake Trash Services Contract1-YEAR contract for a total four 3-yard containers,",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Agricultural SprayerBid DocumentsNatural Resources003000000086915003000000086915Agricultural Sprayer - This is a pull behind implement that will be used at Tri-County to prepare food plots and control",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 FW Wilbur Wright FWA New Trash Bid 4-YrBid DocumentsNatural Resources003000000086909RFQ # 0000086909Sourcing event 0000086909 is for obtaining bids for a NEW 4-Year contract for trash service @ Wi",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "CAMERA AND ACCESSORIESBid DocumentsState Police001000000086882Sourcing event 001000000086882 is for obtaining bids for CAMERA AND ACCESORIES which will result in a professional services contract.Quest",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "00103 - G17 PAPER TargetsBid DocumentsLaw Enforcement Training Brd001030000086886Solicitation Event 0000086886 is for obtaining bids from a supplier that can provide 5,500 G17 PAPER Targets - 100 targ",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
       "type": "Solicitation",
       "posted": ""
     },
@@ -649,6 +791,24 @@
     },
     {
       "source": "Indiana",
+      "title": "Brother Paper, Part#PT-TP6PERF or EquivalentState Police001000000087262Bid: 001000000087262This request of items is for Brother Paper Part#PT-TP6PERF or Equivalent.This bid is good for 90 days unless ",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "KINETIC PERFORMANCE DORG FOOD ACTIVE 26K -240 BAGSState Police001000000087263Bid: 001000000087263This request of items is for KINETIC PERFORMANCE DORG FOOD ACTIVE 26K -240 BAGS (5 SKIDS)This bid is go",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "440 RSH Pest ControlBid DocumentsRichmond State Hospital004400000087202RFQ#00440000087202This Statement of Work (SOW) provides an overview of the pest control services intended for use at Richmond Sta",
       "agency": "State of Indiana",
       "deadline": "",
@@ -703,7 +863,7 @@
     },
     {
       "source": "Indiana",
-      "title": "P320M17 gun parts - LogisticsState Police001000000087265Sourcing event 001000000087265 is for obtaining bids for SIG SAUER GUN PARTS FOR P320M17Questions can be emailed to Lynne Dutton at ldutton@isp.",
+      "title": "P320M17 gun parts - LogisticsBid DocumentsState Police001000000087265Sourcing event 001000000087265 is for obtaining bids for SIG SAUER GUN PARTS FOR P320M17Questions can be emailed to Lynne Dutton at",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
