@@ -439,4 +439,35 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## OMNIA PARTNERS — Cooperative Purchasing Platform
+
+| Field | Detail |
+|---|---|
+| **Platform** | OMNIA Partners (Public Sector) |
+| **Website** | omniapartners.com/publicsector |
+| **OPUS Platform** | omniapartners.com (procurement technology) |
+| **DDI Status** | ⏳ **MEMBERSHIP SUBMITTED — Awaiting Membership ID** (as of 03/22/2026) |
+| **Support Contact** | opus.support@omniapartners.com |
+
+### STATUS TIMELINE:
+- [x] Attempted multiple signups — account could not be validated for OPUS
+- [x] OMNIA support responded: membership must be processed first before OPUS access
+- [x] Membership request submitted (03/22/2026)
+- [ ] **Waiting for Membership ID email from OMNIA membership team**
+- [ ] Once received: provide Membership ID to OPUS support → platform access granted
+- [ ] Explore drug testing contract opportunities on platform
+
+### HOW OMNIA WORKS (Different from other cooperatives):
+- **Membership** = primarily for buyers (government agencies purchasing through OMNIA)
+- **Supplier/vendor access** = typically requires winning an awarded cooperative contract through OMNIA
+- **Current drug testing contract holders:** Accurate and First Advantage (expires Dec 2027)
+- **DDI strategy:** Get membership access first → explore platform → watch for drug testing contract rebid → potentially propose new contract category
+
+### WHAT DDI WANTS FROM OMNIA:
+- Drug testing services contract (DOT & non-DOT)
+- Background screening services (once NCS partnership is active)
+- Bundled credentialing: drug testing + background checks + fingerprinting
+
+---
+
 *This file tracks all partner account updates, renewals, and action items. Check monthly.*

@@ -112,12 +112,12 @@ For the VA Document Shredding bid (36C10D26Q0034):
 |---|---|---|---|
 | **Choice Partners** | ✅ Registered | Rebid June 2027 | Lisa call March 24 |
 | **Sourcewell** | ✅ Registered | Redwood Toxicology expires Feb 2027 | Watch for resolicit. Reach out to contract manager. |
-| **OMNIA Partners** | ⬜ Not registered | Accurate/First Advantage expire Dec 2027 | Register as vendor (free) |
+| **OMNIA Partners** | ⏳ Membership submitted — awaiting Membership ID | Accurate/First Advantage expire Dec 2027 | Wait for Membership ID email → give to OPUS support → access granted |
 | **TIPS USA** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts/RFPs on TIPS |
 | **BuyBoard** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts on BuyBoard |
 | **MMCAP Infuse** | ⬜ Not researched | Has DOT/non-DOT contracts | Research current contracts and rebid schedule |
 
-**Priority order:** OMNIA registration first (they have expiring drug testing contracts). Then check TIPS and BuyBoard categories. Then research MMCAP.
+**Priority order:** OMNIA membership processing (submitted — waiting on them). Meanwhile check TIPS and BuyBoard categories. Then research MMCAP.
 
 ---
 
@@ -156,7 +156,7 @@ For the VA Document Shredding bid (36C10D26Q0034):
 - [ ] Register on Molina provider portal
 - [ ] Register on Meridian provider portal
 - [ ] Register on McLaren provider portal (website submission after call)
-- [ ] Register on OMNIA Partners as vendor (cooperative purchasing)
+- [x] ~~Register on OMNIA Partners~~ — **Membership submitted. Awaiting Membership ID from OMNIA team. Once received → give to OPUS support for platform access.**
 - [ ] **Call National Crime Search (NCS) partner program** — background screening CRA partnership (blocks PSTA bid)
 
 ## 8(a) & DBE CERTIFICATION — SCHEDULE A WORK SESSION
