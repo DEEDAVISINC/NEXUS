@@ -114,7 +114,7 @@ For the VA Document Shredding bid (36C10D26Q0034):
 | **Sourcewell** | ✅ Registered | Redwood Toxicology expires Feb 2027 | Watch for resolicit. Reach out to contract manager. |
 | **OMNIA Partners** | ⬜ Not registered | Accurate/First Advantage expire Dec 2027 | Register as vendor (free) |
 | **TIPS USA** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts/RFPs on TIPS |
-| **BuyBoard** | ⬜ Not checked | May not exist yet | Check — if no category, propose it |
+| **BuyBoard** | ✅ Registered | Unknown — check for drug testing category | Search for drug testing contracts on BuyBoard |
 | **MMCAP Infuse** | ⬜ Not researched | Has DOT/non-DOT contracts | Research current contracts and rebid schedule |
 
 **Priority order:** OMNIA registration first (they have expiring drug testing contracts). Then check TIPS and BuyBoard categories. Then research MMCAP.
