@@ -1,4 +1,4 @@
-# COMPLETE BID & PIPELINE TRACKER
+ # COMPLETE BID & PIPELINE TRACKER
 **Updated:** Wednesday, March 19, 2026
 
 ---
@@ -49,6 +49,7 @@
 | Steve Gibson | Choice Partners / HCDE | Connected us to Lisa TerMorshuizen | Call Mar 24 |
 | Lisa TerMorshuizen | Choice Partners / HCDE | **CONFIRMED Mon Mar 24 @ 2PM CT / 3PM ET Teams** | Ph: 713-696-1345. CPPB, CTCD certified. |
 | David Walther | ICE DHS | Referred us to Tracy Riley for courier | Expanded pitch to fingerprinting/DNA/E-Verify |
+| Tracy Riley + Mark + Marilyn | ICE DHS — Program Office | **REPLIED 03/23 — Intro'd program POCs. Asking for capabilities.** DDI responded with full service suite: courier, notary, apostille, DNA, fingerprinting. | Wait for program office response |
 | Tiffany Garfield | VA VBAVACO | Shredding solicitation live on SAM.gov | Pull sol, bid by Mar 31 |
 | Nien-Tzu Grace Wang | HHS OMAS | Acknowledged sole source challenge | Wait for outcome |
 | Robbie Hogue | Matheson Gas | Routing to liquid division rep | Wait for rep contact |

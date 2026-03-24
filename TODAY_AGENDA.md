@@ -88,7 +88,7 @@
 
 | Contact | Agency | What We Sent | What We're Waiting For |
 |---|---|---|---|
-| Tracy Riley | ICE — Courier Procurements | EDWOSB intro + courier cap statement | Response / solicitation info |
+| Tracy Riley + Mark + Marilyn | ICE — Program Office | **REPLIED 03/23.** DDI sent full capabilities (courier, notary, apostille, DNA, fingerprinting) | Program office response / next steps |
 | Matheson Gas (liquid div rep) | Supplier — LN2 | Robbie routing to liquid division | Contact from their Rockville-area rep |
 | Nien-Tzu Grace Wang | HHS OMAS | LN2 Sole Source Challenge | Outcome — will they open to competition? |
 | HUD FSM | HUD — REO Field Inspection | EDWOSB intro + cap statement | Response |
