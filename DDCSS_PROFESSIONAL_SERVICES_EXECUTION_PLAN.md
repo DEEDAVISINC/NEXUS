@@ -322,9 +322,11 @@ Post-surgery medical transportation for the beauty/cosmetic surgery industry. Ai
 
 ### Why It Fits DDCSS
 - Same broker model DDI already uses (schedule drivers, manage client, bill premium)
+- **Add-on to NEMT — same drivers, same scheduling, different payer.** NEMT handles Medicaid, Medical Tourism handles corporate/cash. One engine, two revenue streams.
 - DDI already has MC/DOT credentials for transportation
 - Cash pay = no insurance billing, no Medicaid, no 90-day payment cycles
 - Clinic partnerships = B2B retainers (fits the Blueprint tier model)
+- **National chains (Sono Bello 100+ locations, AirSculpt 25+, Ideal Image 150+) = one corporate deal covers ALL locations.** That's an Enterprise Blueprint client.
 - A single busy cosmetic surgery clinic sends 20-50 patients/month who ALL need transport
 
 ### Revenue Potential (Per Clinic Partnership)

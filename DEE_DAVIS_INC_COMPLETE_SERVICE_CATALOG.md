@@ -631,12 +631,25 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 
 ### **Medical Tourism Transportation (DDCSS)** ✈️🚑
 **Target Clients:**
+
+**Tier 1 — National Chains (Corporate Deals = Multi-Location Contracts):**
+- Sono Bello (100+ locations nationwide)
+- AirSculpt (25+ locations nationwide)
+- Ideal Image (150+ locations)
+- CoolSculpting centers / Allergan network
+- Plastic Surgery Group/franchise networks
+- National bariatric surgery chains
+
+**Tier 2 — Regional/Independent Clinics:**
 - Cosmetic/plastic surgery clinics (Miami, Houston, Dallas, LA, San Diego)
-- Medical tourism facilitators and agencies
 - Med spas offering surgical procedures
 - Bariatric surgery centers
-- Dental tourism coordinators
 - Recovery houses and post-op care facilities
+
+**Tier 3 — Facilitators & Agencies:**
+- Medical tourism facilitators and agencies
+- Dental tourism coordinators
+- International patient coordinators
 
 **Why This Market:**
 - Patients are **cash pay** — no insurance billing, no Medicaid, no prior auth
@@ -691,9 +704,11 @@ DDI founder Dieasha D. Davis holds active Mortgage Loan Originator (MLO) and Mor
 
 **DDCSS Integration:**
 - This is a DDCSS service line — corporate/private sector, not government
+- **Add-on to NEMT** — same broker model, same drivers, same scheduling. NEMT = Medicaid payer, Medical Tourism = corporate/cash payer. Two revenue streams from one operational engine.
 - Clinic partnerships are B2B retainer opportunities (Tier 2-3 Blueprint model)
+- **National chain deals** (Sono Bello, AirSculpt, Ideal Image) = one corporate contract covering all locations. DDCSS Enterprise Blueprint pricing.
 - Can bundle with DDI's existing drug testing for clinic staff compliance
-- Revenue is immediate — cash pay, no 30/60/90 day government billing cycles
+- Revenue is immediate — cash pay or corporate net-30, no government billing cycles
 
 **Credentials DDI Already Has:**
 - MC Number: 1647572 (motor carrier authority)
