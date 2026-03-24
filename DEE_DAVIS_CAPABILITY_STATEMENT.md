@@ -72,23 +72,45 @@
 
 ## PAST PERFORMANCE
 
+> **⚠️ WARNING — RCOC AND MUNICIPAL PAST PERFORMANCE REMOVED 03/24/2026**
+> Previous version listed RCOC contracts and "Michigan Municipal Clients" as past performance.
+> DDI never bid on RCOC. This was fabricated data. Removed per Dee's direction.
+> All past performance must come from PAST_PERFORMANCE.md (to be built).
+
 ### **Government Contracts:**
 
-**Road Commission for Oakland County (RCOC)**
-- Industrial Wipers & Cleaning Supplies
-- Disposable Paper Products
-- Small Automotive Tools & Equipment
-- Forestry Supplies & Equipment
-- Welding Supplies
-- Building Tools & Equipment
-- Contract Values: $3,000 - $15,000 per contract
-- Performance: On-time delivery, full compliance
+**State of Michigan — Immigration Clerical Assistant (ICA)**
+- Direct state government contract for immigration clerical services
+- Program has since been phased out by the state
+- Demonstrates state government contract experience in immigration services and document processing
 
-**Michigan Municipal Clients**
-- Water Infrastructure Components
-- Safety Equipment & Supplies
-- Various industrial procurement
-- Performance: Excellent customer satisfaction
+### **Private Sector Contracts (Verified):**
+
+**Gideon Logistics (Jan 2023 — Present)**
+- Courier services, logistics documentation & regulatory filings
+- Biometric fingerprinting, workforce management & recruitment support
+- DOT compliance & drug testing
+
+**The P58 Trust (Penei & Isabella Sewell)**
+- Private wealth agent services: estate documentation, notarization
+- Legal document preparation, trust administration support
+- Certified document courier services for high-profile clients
+
+**Perry Johnson Mortgage Company, Inc.**
+- Biometric fingerprinting for NMLS and regulatory compliance
+- Executive credentialing for financial securities licensing
+
+**United Wholesale Mortgage (UWM)**
+- Biometric fingerprinting for top executives including CEO
+- Financial and security licensing compliance
+
+**JMT Docs**
+- Document preparation and document delivery services
+
+**Notary & Signing Agency (20+ Years)**
+- Michigan Commissioned Notary Public since April 2005
+- CNTDA — Certified Notary & Trained Document Agent
+- Nationwide signing agency network, 2,000+ documented closings
 
 ---
 
@@ -125,26 +147,21 @@ Strategic sourcing relationships enable competitive pricing while maintaining qu
 
 ## REPRESENTATIVE PROJECTS
 
-**Industrial Supplies (RCOC)**
-- Supplied 9-item package of specialized automotive tools
-- Value: $3,977.60
-- Timeline: 10-day delivery
-- Result: Full compliance, on-time delivery
+> **⚠️ RCOC "representative projects" removed 03/24/2026 — fabricated data.**
+> Replace with real project details from PAST_PERFORMANCE.md when built.
 
-**Forestry Equipment (RCOC)**
-- Multi-item forestry supplies package
-- Specialized equipment sourcing
-- Result: Competitive pricing, met all specifications
+**Logistics & Courier Services (Gideon Logistics)**
+- Ongoing courier services and logistics documentation
+- DOT compliance and drug testing program management
+- Biometric fingerprinting and workforce management
 
-**Paper Products (RCOC)**
-- Large-volume disposable paper products
-- Multiple delivery schedules
-- Result: Cost-effective solution, reliable delivery
+**Private Wealth Document Services (P58 Trust)**
+- Estate documentation, notarization, and legal document preparation
+- Certified document courier for high-profile clients
 
-**Water Infrastructure (Municipal)**
-- Valves, fittings, and related components
-- Technical specification compliance
-- Result: Quality products, on-budget delivery
+**Executive Biometric Credentialing (Perry Johnson / UWM)**
+- Live scan fingerprinting for NMLS regulatory compliance
+- Confidential executive credentialing services
 
 ---
 

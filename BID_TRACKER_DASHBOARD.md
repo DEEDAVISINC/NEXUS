@@ -17,7 +17,7 @@
 
 | Contact | Agency | Service | Date Sent | Status |
 |---|---|---|---|---|
-| Tracy Riley | ICE DHS — Courier | Courier & Logistics | Mar 19 | SENT — awaiting response |
+| Tracy Riley | ICE DHS — Courier | Courier & Logistics | Mar 19 | **REPLIED Mar 24** — Asking for past performance / prior experience with non-gov courier customers. CC'd Mark Gonzales, Marilyn Doty, Jennifer Doran. Phone: (469) 858-2855 / Tracy.Riley@ice.dhs.gov. RESPOND TODAY. |
 | David Walther | ICE DHS — Investigations | Fingerprinting, DNA, E-Verify | Mar 19 | SENT (reply) — awaiting response |
 | Nien-Tzu Grace Wang | HHS OMAS | LN2 Sole Source Challenge | Mar 18 | REPLIED — acknowledged receipt |
 | Matheson Gas (liquid div) | Supplier | LN2 Quote — Rockville MD | Mar 18 | Routing to rep — waiting for contact |
@@ -31,7 +31,7 @@
 | Agency | Service Lane | Contact(s) | Notes |
 |---|---|---|---|
 | Choice Partners (HCDE) | Drug & Alcohol Testing | Steve Gibson, Lisa TerMorshuizen (713-696-1345) | Rebid ~Q2 2027. **CALL CONFIRMED Mon Mar 24 @ 2PM CT.** Ionwave registered. Quest pricing pending. |
-| ICE DHS | Courier Services | Tracy Riley | New contact — handles courier procurements |
+| ICE DHS | Courier Services | Tracy Riley (469) 858-2855, Tracy.Riley@ice.dhs.gov. CC: Mark R. Gonzales, Marilyn L. Doty, Jennifer Doran | **ACTIVE** — Tracy replied Mar 24 requesting past performance for courier services. Section Chief/CO, Investigations & Ops Support Division. |
 | ICE DHS | Fingerprinting / DNA / E-Verify | David Walther | Investigations & Ops Support Division |
 | HHS OMAS | LN2 / Cryogenic Delivery | Nien-Tzu Grace Wang | Sole source challenge — 75N98026Q00114 |
 | VA (multiple NCOs) | Pharmacy & Medical Courier | Multiple COs | 10+ COs emailed across NCOs |
@@ -71,4 +71,4 @@
 
 ---
 
-*Updated: March 19, 2026*
+*Updated: March 24, 2026*
