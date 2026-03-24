@@ -456,8 +456,8 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] **Follow-up email sent to opus.support@omniapartners.com — 03/22/2026** (5+ weeks overdue, requesting Membership ID status)
 - [x] **OMNIA replied 03/23** — still asking DDI to complete membership registration. Sending DDI in circles.
 - [x] **DDI replied 03/23** — clarified DDI is a SUPPLIER, not a buyer. Requested correct supplier partner registration path and solicitation mailing list.
-- [ ] **Fill out Supplier Solicitation Mailing List form** at omniapartners.com/publicsector/become-supplier — THIS is the actual supplier path
-- [ ] Awaiting response with correct supplier registration instructions
+- [x] Supplier solicitation mailing list form submitted MULTIPLE TIMES — not doing it again
+- [ ] **OMNIA status: DONE. No more chasing.** There is no supplier registration — only a mailing list + winning an RFP. Watch for drug testing contract rebid (Accurate/First Advantage expires Dec 2027). If OMNIA emails DDI about an RFP, respond. Otherwise, move on.
 - [ ] Once received: provide Membership ID to OPUS support → platform access granted
 - [ ] Explore drug testing contract opportunities on platform
 
