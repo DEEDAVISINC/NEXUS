@@ -57,6 +57,15 @@ Troy, Michigan 48084
 - E-Verify Certified (Employment Eligibility Verification)
 - SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
 
+**PENDING CERTIFICATIONS (In Progress):**
+- **8(a) Business Development Program** — SBA certification, APPLICATION PENDING
+  - Unlocks: sole-source contracts up to $4.5M (services) / $7M (manufacturing), 8(a) set-asides, mentor-protege program
+  - Once certified: NEXUS miners will add 8(a) set-aside filter to all opportunity searches
+- **DBE (Disadvantaged Business Enterprise)** — DOT/FTA certification, APPLICATION PENDING
+  - Unlocks: DOT/FTA-funded transit contracts with DBE goals, preferred vendor status at transit agencies nationwide
+  - Certifying agency: State UCP (Unified Certification Program) — Florida: Hillsborough County Aviation Authority; Michigan: MDOT
+  - Directly relevant to: PSTA, DDOT, SMART, and all FTA-funded transit procurement
+
 **⚠️ FINGERPRINTING SCOPE — CRITICAL DISTINCTION:**
 DDI's fingerprinting business is FEDERAL, not state. State-level fingerprinting in Michigan (schools, state licensing, etc.) goes through **IdentoGO (IDEMIA)** — DDI does NOT compete with IdentoGO.
 
