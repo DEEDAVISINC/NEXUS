@@ -457,7 +457,7 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - **Strategy:** Match signing agency rate, keep 100%. No pricing in initial email — ask what they currently pay, then match.
 - **Next:** Build hit list of all title agents, loan officers, and companies from DDI's signing history for direct outreach campaign.
 - [x] **Blue Cross Complete** — Email sent to BCCProviderData@mibluecrosscomplete.com on 03/26/2026.
-- [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP responded: redirected to CareSource at MI_Network@caresource.com. Follow-up email sent 03/26/2026 to CareSource directly.
+- [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP redirected to CareSource (MI_Network@caresource.com). Follow-up sent 03/26/2026. **Dana responded 03/27/2026 with FULL CONTRACTING PACKAGE** — Provider Agreement, W9, Provider Application, Services Checklist, Disclosure of Ownership. CareSource expanding MI Health Link (HIDE SNP) to DDI's region. **COMPLETE AND RETURN ASAP.**
 - [ ] Priority Health — priorityhealth.com
 - [ ] UPHP — uphp.com
 - [ ] Set up billing/claims infrastructure for NEMT services

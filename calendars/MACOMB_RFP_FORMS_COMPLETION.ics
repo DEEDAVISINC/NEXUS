@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:macomb-rfp0726-forms-20260328@deedavis.biz
+DTSTAMP:20260325T170000Z
+DTSTART;TZID=America/Detroit:20260328T120000
+DTEND;TZID=America/Detroit:20260328T170000
+SUMMARY:🔥 BID PREP: Macomb County RFP 07-26 — Complete & Ship
+DESCRIPTION:COMPLETE REMAINING DOCUMENTS FOR MACOMB COUNTY RFP 07-26\n\nDEADLINE: Monday March 31 @ 10:00 AM\n\n--- TODAY'S CHECKLIST ---\n\n1. Print RFP PDF pages 15-24 (9 forms)\n2. Fill out all forms using FORM_FILLING_GUIDE.md\n3. Get 2 forms NOTARIZED:\n   - Non-Collusion Affidavit (p.17)\n   - Supplier Certification Debarment (p.24)\n   - CANNOT notarize your own signature\n4. Convert 3 HTML files to PDF (Chrome > Cmd+P):\n   - RFP0726_Drug_Testing_Quote_Response.html\n   - DDI_Chain_of_Custody_Form.html\n   - DDI_Participant_Rules_and_Intake.html\n5. Print: 1 original (ink) + 2 copies\n6. Load USB flash drive (unencrypted)\n7. Package in sealed envelope:\n   - Mark: SEALED PROPOSAL ITEM 07-26 AND Substance Use Testing Services\n   - Label: Dee Davis Inc.\n8. SHIP via FedEx/UPS to:\n   Macomb County Purchasing\n   ATTN: Mary Schultz\n   44900 Vic Wertz Drive\n   Clinton Township MI 48036\n\nNOTE: Need DDI EIN for General Info form (p.19) and Proposer Form (p.23)\n\nFolder: BIDS:RESOURCES/MACOMB COUNTY DRUG TESTING/SEND_TO_BUYER/
+LOCATION:Home Office — then FedEx/UPS for shipping
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:Tomorrow: Complete & ship Macomb County RFP 07-26 forms
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Macomb County bid prep in 2 hours — forms + notary + ship
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Macomb County bid prep starting in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+
+END:VCALENDAR

@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:fulton-ky-bid-pricing-20260328@deedavis.biz
+DTSTAMP:20260325T170000Z
+DTSTART;TZID=America/Detroit:20260328T120000
+DTEND;TZID=America/Detroit:20260328T170000
+SUMMARY:🔥 BID WORK: Fulton County + Kentucky THVC — Finalize Pricing & Proposals
+DESCRIPTION:FINALIZE TWO DRUG TESTING BIDS — BOTH DUE APRIL 1\n\n--- FULTON COUNTY (ITB 26ITB1580280B-PS) ---\nDue: April 1 @ 11:00 AM (Electronic via BidNet)\nType: Lowest responsive bidder wins\nScope: Pre-employment physicals (250/yr) + civilian drug screens (250/yr)\nContact: Phyllis Stewart — phyllis.stewart@fultoncountyga.gov\nTODO:\n- Finalize pricing for 2 line items (sworn physical + civilian 10-panel)\n- Update quote response HTML with prices\n- Verify SAMHSA cert letter + quarterly inspection reports needed\n- Check cyber liability insurance requirement ($2M)\n- Submit electronically via BidNet\n\n--- KENTUCKY THVC (RFP 074 2600000270) ---\nDue: April 1 @ 3:00 PM EST (HARD COPY — mail or hand deliver)\nType: Best Value — Tech 52% + Cost 29% + Oral 20%\nScope: Random + new employee drug testing + DOT for Thomson-Hood Veterans Center\nContact: Cindy Walker — Cindy.walker@ky.gov — 859-858-1374\nTODO:\n- Finalize pricing (DOT panels, random selection, BAT, collection)\n- Confirm Quest collection site near Wilmore KY\n- Update technical + cost proposal HTMLs\n- Prepare hard copy submission package\n- Ship via FedEx/UPS (must arrive by April 1 @ 3 PM)\n\nFolder: BIDS:RESOURCES/FULTON COUNTY DRUG TESTING/\nFolder: BIDS:RESOURCES/KENTUCKY THVC DRUG TESTING/
+LOCATION:Home Office
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:Tomorrow: Finalize Fulton County + Kentucky THVC drug testing bids (both due April 1)
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Bid work in 2 hours — Fulton County + Kentucky THVC pricing
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Bid work starting in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+
+END:VCALENDAR
