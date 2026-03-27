@@ -185,6 +185,14 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Orders API not loaded: {e}")
 
+# Register PRISM Random Pool Engine
+try:
+    from prism_random_pool import prism_random
+    app.register_blueprint(prism_random)
+    print("✅ PRISM Random Pool Engine registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Random Pool Engine not loaded: {e}")
+
 # Register NEXUS Pipeline — Central Nervous System
 try:
     from nexus_pipeline_api import nexus_pipeline
