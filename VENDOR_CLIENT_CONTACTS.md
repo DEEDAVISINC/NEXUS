@@ -892,7 +892,22 @@
 
 ---
 
-**Contact Database Version:** 2.5  
-**Last Updated:** March 17, 2026  
-**Recent Additions:** Perry Johnson Mortgage + UWM (Danielle Doebel) added as client references  
-**Next Update:** March 24, 2026
+## 🚛 TRANSPORTATION & TRUCKING SUPPLIERS
+
+### **Travis Kott — SUMAIR TRANSPORTATION INC**
+- **Phone:** 510-779-3029
+- **Email:** sumairtransportationinc@gmail.com
+- **MC#:** 1593546
+- **Location:** Oakland, CA (Oakland ports and terminals)
+- **Fleet:** 10 trucks
+- **Specialty:** Import/export shipments, port pickups and deliveries
+- **Availability:** 24/7
+- **Status:** Inbound inquiry received Mar 24, 2026 — they reached out to DDI offering services
+- **Notes:** Could be useful for West Coast freight/logistics contracts. Verify MC authority on FMCSA before engaging.
+
+---
+
+**Contact Database Version:** 2.6  
+**Last Updated:** March 24, 2026  
+**Recent Additions:** Sumair Transportation Inc (Travis Kott) added as trucking supplier  
+**Next Update:** March 31, 2026

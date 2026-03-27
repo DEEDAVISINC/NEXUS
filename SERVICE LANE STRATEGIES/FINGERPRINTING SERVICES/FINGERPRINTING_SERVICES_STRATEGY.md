@@ -121,5 +121,125 @@ You already have **Federal Compliance & Credentialing** as a listed service line
 
 ---
 
-*Status: RESEARCHING — Need to contact A-J's Livescan for partnership discussion*
+---
+
+## FBI CHANNELER STATUS — STRATEGIC GOAL
+
+**Goal:** Become an FBI-approved Channeler (direct connection to FBI NGI system)
+
+**Current approved channelers (only ~12 nationwide):**
+Accurate Biometrics, Biometrics4All, Digital Trusted Identity (Daontis), Fieldprint, Idemia/IdentoGO, Inquiries Screening, National Background Check, National Credit Reporting, Sterling Identity, Telos Identity Management, TRP Associates/ID Solutions, VetConnex
+
+### PATHS ALREADY TRIED — DEAD ENDS (DO NOT REVISIT)
+
+| Company | What Happened | Why It Doesn't Work |
+|---|---|---|
+| **PrintScan** | DDI tried partnering | $35/print channeling fee + monthly fee. Client pays $50. Zero margin. NOT VIABLE. |
+| **Idemia/IdentoGO** | DDI contacted them | Said they don't need anyone in DDI's area. REJECTED. |
+| **Fieldprint** | DDI contacted them | Same — don't need DDI's area. REJECTED. |
+
+### CURRENT STRATEGY: SWFT APPROVAL — DIRECT APPLICATION TO DCSA (IN PROGRESS)
+
+DDI does NOT currently have SWFT authorization. **Application is actively in progress with DCSA.**
+
+**Background:** Dee previously held a SWFT account (username: DavisD) under 3D Ink and Livescan Co. This new request is under the SAM.gov-registered prime entity, Dee Davis Inc.
+
+#### APPLICATION TIMELINE
+
+| Date | Action | Status |
+|---|---|---|
+| **Mar 2, 2026** | Submitted PSSAR (DD Form 2962) to DCSA Contact Center + FTS Team | SUBMITTED |
+| | Requested: Enroller, Enroller Site Admin, Transaction Viewer, User, Site Admin | |
+| | Attached: PSSAR, Cyber Awareness Training Cert, PII Training Cert | |
+| **Mar 3, 6:54 AM** | DCSA FTS Team — form corrections needed: Part 2 Box 15 must have organizational administrator, name required at top of each page | CORRECTIONS REQUESTED |
+| **Mar 3, 7:15 AM** | DCSA FTS Team (Crissa M.) — **HARD STOP:** SSN/CAGE not verifiable in their system. Cannot grant SWFT access. **Minimum interim secret clearance required.** No personal security clearance, no facility clearance level. Previous 2022 account (username: DavisD) was created in error and should not have been granted. | **DENIED — CLEARANCE REQUIRED** |
+| **Mar 3, 8:11 AM** | Dee responded — CAGE code issue likely due to NAICS code update in progress | REPLIED |
+| **Mar 9, 2026** | Resubmitted corrected PSSAR — fixed Box 15, name on each page, clarified ATF prints were for FFL not SWFT, confirmed SAM.gov update complete | RESUBMITTED (but clearance blocker remains) |
+| **Mar 22, 2026** | No response from DCSA on resubmission | LIKELY BLOCKED |
+
+#### THE REAL BLOCKER
+
+**SWFT requires BOTH:**
+1. **Personal security clearance** — Minimum interim secret. Dee does not have one.
+2. **Facility Clearance Level (FCL)** — DDI does not have one.
+
+**Getting clearance requires:**
+- A government contract that requires classified access (the contract sponsors the clearance)
+- SF-86 submission (Questionnaire for National Security Positions)
+- DCSA background investigation (6-12+ months)
+- OR: Go through DCSA Facility Clearance Branch independently
+
+**Per Crissa M.:** "Until you are able to obtain a security clearance, we cannot grant access to our systems. If you are going through the facility clearance branch to get a facility clearance level, contact those representatives — they will upload your prints to SWFT once completed."
+
+#### DCSA CONTACTS
+- **FTS Team:** dcsa.boyers.dcsa.mbx.fts-team@mail.mil | 878-274-1171 opt 2, opt 2
+- **POC:** Crissa M. — FTS/SWFT System Liaison, Personnel Security Specialist, Customer & Stakeholder Engagement
+- **Hours:** 6AM-4:30PM
+- **DCSA Contact Center:** dcsa.ncr.nbis.list.contact-center (original submission)
+
+#### HISTORY — 2022 SWFT ACCOUNT (NOW REVOKED)
+- **Aug 4, 2022:** DCSA (Crissa M.) created SWFT account — username: DavisD
+- Account was never accessed/used
+- **Mar 3, 2026:** DCSA stated the 2022 account "should not have been granted" — they couldn't verify clearance info to complete Part 6
+- DCSA tightened verification since 2022. That window is permanently closed.
+- Original fingerprints on file were submitted to ATF for FFL license, not for SWFT
+
+#### NOTES
+- CAGE code validation issue in Mar 2026 may have been caused by NAICS code update timing
+- SAM.gov profile update is now complete
+- The barrier is NOT paperwork — it's security clearance (personal + facility)
+
+#### PATH FORWARD
+- **Option A:** Win a contract that requires FCL → contract sponsors clearance → then SWFT access
+- **Option B:** Contact DCSA Facility Clearance Branch directly to start FCL process independently
+- **Option C:** Continue fingerprinting through TPAs while building toward clearance
+- The ICE/CBP relationships (Tracy Riley, Jared Tritle, David Walther) could lead to a contract that triggers the FCL process
+
+### PARALLEL TRACK: ICE/CBP RELATIONSHIPS
+- Tracy Riley (ICE DHS) — warm, acknowledged DDI capabilities Mar 22
+- Jared Tritle (CBP) — cold intro + fingerprinting cap statement sent Mar 22
+- David Walther (ICE DHS) — follow-up sent Mar 22
+- These relationships support future fingerprinting contracts once SWFT is approved
+
+### FBI CHANNELER PATH — SEPARATE FROM SWFT (No Clearance Required)
+
+**THIS IS A DIFFERENT PROGRAM THAN SWFT. Different agency (FBI CJIS, not DCSA). No security clearance mentioned in requirements.**
+
+**Business Case:** DDI's Immigration & Document Compliance Center. The agency (immigration attorney, adoption agency, employer) requests the service. DDI coordinates with the client/donor on appointment time, date, location — including transportation if needed. Can also be a mass-coordinated event. One appointment, everything done:
+
+| Service | DDI Capability | Status |
+|---|---|---|
+| FBI fingerprints | NEED CHANNELER STATUS | **PURSUING** |
+| DNA collection (AABB) | YES — DePointe DNA | Active |
+| Drug testing | YES — Quest C/TPA | Active |
+| Notarization | YES — MI Notary Public | Active |
+| Authentication/Apostille | YES — coordination | Active |
+| E-Verify | YES — Program Admin (DDAVB62C) | Active |
+| Client transportation | YES — NEMT/rideshare coordination | Active |
+
+**Channeler status is the ONLY missing piece.** Everything else is operational.
+
+#### FBI CJIS CONTACTS (For Channeler Inquiry)
+- **FBI CJIS Customer Service:** (304) 625-4995
+- **Identity History Summary:** identity@fbi.gov
+- **Systems Access Group (ORI numbers):** (304) 625-4543
+- **CJIS HQ:** Clarksburg, WV
+- **Compact Council:** Oversees channeler approval — contact through CJIS main line
+
+#### CALL SCRIPT
+"Good afternoon, this is Dee Davis, President of Dee Davis Inc. We're an SBA-certified EDWOSB that provides fingerprinting, DNA testing, and identity verification services. We're interested in learning about the process to become an FBI-approved channeler for noncriminal justice Identity History Summary checks. Can you direct me to the right person or department for that application process?"
+
+#### ACTION
+- [ ] Call FBI CJIS (304) 625-4995 — ask about channeler application process
+- [ ] If redirected, document the correct contact/department
+- [ ] Request any application forms or requirements documentation
+- [ ] This does NOT require security clearance — it's an FBI CJIS program, not DCSA
+
+### MINING KEYWORDS (Added Mar 22, 2026)
+`channeler`, `FBI channeler`, `CJIS`, `criminal history record`, `criminal background`, `noncriminal justice`, `identity history summary` — all added to `mine_sources_sought_presolicitation.py`
+
+---
+
+*Status: ACTIVE — SWFT application resubmitted Mar 9, awaiting DCSA response. FOLLOW UP NEEDED.*
 *Created: February 10, 2026*
+*Updated: March 22, 2026*

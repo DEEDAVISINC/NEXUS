@@ -51,9 +51,12 @@
 - **DDI sent:** Full capabilities email (courier, notary, apostille, DNA, fingerprinting) on 03/24
 - **Tracy's follow-up:** "Do you have any contracts with other industry partners for which you supply courier services? Non-government customers?"
 - **BLOCKER:** DDI needs to respond with real past performance. The system couldn't surface it properly — this is what triggered the past performance audit.
-- **What DDI CAN cite:** Gideon Logistics (courier/logistics since Jan 2023), P58 Trust (certified document courier for high-profile clients), JMT Docs (document delivery)
+- **DDI RESPONDED Mar 24** — Sent full past performance package: 7 courier/delivery references (Champion Homes, UWM, 3Tone/Waterpallets, Gideon Logistics, P58 Trust, JMT Docs, SJT Transport) + State of Michigan ICA contract + MDHHS Community Partner + Perry Johnson/UWM fingerprinting + notary/apostille/DNA/drug testing capabilities. All contact info included for reference checks.
 - **POCs introduced:** Mark R. Gonzales, Marilyn L. Doty, Jennifer Doran (program office)
 - **CO contact:** Tracy Riley, Section Chief/CO, 469-858-2855, Tracy.Riley@ice.dhs.gov
+- **FOLLOW-UP SENT Mar 22** — DNA collection capabilities + SNA International stop-work reference
+- **TRACY REPLIED Mar 22** — "Interesting, thanks for the information about this capability. Take care." CC'd Marilyn Doty, Jennifer Doran, Mark Gonzales.
+- **Status:** WARM — no active need. DDI is on their radar. Next follow-up ~Apr 22 (30 days). Monitor SAM.gov for ICE solicitations.
 
 ### OMNIA Partners — CLOSED
 - **Status:** Done. No supplier registration exists. DDI submitted mailing list form multiple times. Strategy: watch for drug testing contract rebid (Accurate/First Advantage expires Dec 2027). No more chasing.
@@ -64,7 +67,7 @@
 
 | Item | Context | Due Date | Priority |
 |------|---------|----------|----------|
-| Respond to Tracy Riley (ICE) | Past performance for courier services | ASAP | HIGH |
+| ~~Respond to Tracy Riley (ICE)~~ | Follow-up sent Mar 22 — DNA capabilities + SNA stop-work | DONE | COMPLETE |
 | Build PAST_PERFORMANCE.md | Centralized source of truth | ASAP | CRITICAL |
 | Remove fabricated RCOC data | DEE_DAVIS_CAPABILITY_STATEMENT.md | ASAP | CRITICAL |
 | Lisa TerMorshuizen call prep | Choice Partners — drug testing | Check calendar | HIGH |

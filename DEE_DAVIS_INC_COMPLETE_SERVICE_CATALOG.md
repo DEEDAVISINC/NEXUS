@@ -353,6 +353,48 @@
 
 ---
 
+### **Immigration & Document Compliance Services** 🌐🔒
+**BUNDLED OFFERING — Complete Immigration Document Services Stack**
+
+**Target Clients:**
+- ICE / DHS (Investigations & Operations Support)
+- USCIS field offices
+- Immigration attorneys
+- Employers with I-9 compliance requirements
+- Federal/state agencies processing immigration cases
+- Adoption agencies (international)
+
+**The Stack — One Vendor, Full Compliance:**
+
+| Service | What DDI Does | Credential |
+|---|---|---|
+| **E-Verify** | Employment eligibility verification, case creation and management | Program Administrator (Company ID: DDAVB62C) |
+| **Notary** | Notarize I-9s, affidavits, declarations, immigration petitions | 20+ years Michigan Notary, CNTDA Certified |
+| **Apostille** | Authenticate documents for international use — birth certificates, court orders, credentials | Michigan SOS coordination |
+| **Biometric Fingerprinting** | Live scan and ink card (FD-258) identity verification | FBI/state agency submission |
+| **Immigration DNA Testing** | USCIS relationship verification — paternity, siblingship, grandparentage | DDC collection partner (AABB-accredited lab), DePointe DNA |
+
+**Why This Matters:**
+No other small business offers all five services under one contract. Agencies and attorneys typically coordinate 3-5 separate vendors for one immigration case. DDI handles it end to end — identity verification, document authentication, biological relationship proof, and employment eligibility — with full chain of custody and compliance documentation at every step.
+
+**Past Performance:**
+- State of Michigan — Immigration Clerical Assistant (ICA) contract (government, immigration document processing)
+- MDHHS Community Partner — MIBridges benefits navigation
+- Perry Johnson Mortgage / UWM — Executive biometric credentialing
+- 2,000+ documented notary closings
+
+**Pricing (DDI Agency Rates):**
+- E-Verify case management: $50/case
+- Immigration DNA collection + testing: $1,000+
+- Apostille processing: $150+/document
+- Fingerprinting (live scan): $75+
+- Notarization: $25+/signature
+- Full immigration compliance package (all services): Custom quote
+
+**NAICS Codes:** 621511, 541199, 541990, 561611, 561612
+
+---
+
 ### **Apostille & Document Authentication** 🌐
 **Target Clients:**
 - Immigration attorneys and their clients

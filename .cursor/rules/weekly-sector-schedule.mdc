@@ -1,0 +1,63 @@
+# Weekly Sector Schedule — DDI Operational Cadence
+
+**DDI operates 22+ service lanes. Until VAs and an EA are hired, Dee manages all of them. This schedule bundles related sectors by day so nothing gets neglected and Dee isn't trying to do everything every day.**
+
+---
+
+## The Weekly Structure
+
+| Day | Bundle | What's In It |
+|---|---|---|
+| **Monday** | **Healthcare & Compliance** | Drug testing (DOT, non-DOT, court-ordered), NEMT (MCOs, brokers, Uber Health), DNA testing (DePointe DNA, AABB, immigration), lead testing coordination (MCO community events), occupational health (DOT physicals, respirator, audiometric), MCO follow-ups, Quest/lab relationships, CHAMPS, collector network, PRISM |
+| **Tuesday** | **Government Contracting & Bids** | Federal CO outreach, SAM mining, presolicitation responses, state/local bids (RFPs, ITBs, RFQs), cooperative contracts (Choice Partners, TIPS, BuyBoard, OMNIA), proposal writing, bid prep, revenue analysis, archive searches, WORKFLOW_CHECKLIST progression |
+| **Wednesday** | **Credentialing & Identity Services** | Fingerprinting (SWFT, livescan, ink cards), E-Verify/I-9, background checks, portal registrations, vendor sign-ups, partner/supplier management, 8(a)/DBE certification progress, SAM.gov maintenance |
+| **Thursday** | **Document & Property Services** | Notary/signing (3D Ink Signatures), RON (ZigSig, Pavaso), apostille/document authentication, permit running (NPR), direct account outreach (JG Wentworth type, title companies, lenders, loan officers), REO/field inspections, title services, document prep, signing platform orders |
+| **Friday** | **Operations, Logistics & Follow-ups** | Courier/lab courier/medical courier, freight brokerage, service contracts (janitorial, grounds, facilities), construction (Vanessa Jimenez partnership), ALL follow-ups from the week, close open loops, update all trackers, pipeline review |
+| **Saturday** | **Build Day** | NEXUS systems, automation, code, frontend/backend, mining scripts, integrations — per `saturday-build-day.mdc` |
+| **Sunday** | **GBIS** | Grants, Cause We Care, community outreach — per `gbis-sunday-cadence.mdc` |
+
+---
+
+## Rules
+
+### 1. Sector Focus, Not Sector Exclusion
+The daily bundle is the **priority**, not a restriction. If a bid deadline falls on Thursday, you work the bid on Thursday regardless. The schedule sets the default focus when there's no fire to fight.
+
+### 2. Deadlines Override the Schedule
+Active bid deadlines, call-backs, and time-sensitive responses always take priority over the daily bundle. Handle the urgent, then return to the day's sector.
+
+### 3. Morning Ritual Stays the Same
+Every day starts with the good morning ritual (per `goodnight-goodmorning-ritual.mdc`):
+- Read `TODAY_AGENDA.md`
+- Show urgent items (48-hour deadlines, overdue follow-ups, meetings today)
+- Then default to the day's sector bundle
+
+### 4. Friday Is the Safety Net
+Friday catches everything that slipped during the week. If an MCO didn't get followed up on Monday, it gets caught Friday. If a CO email went unanswered Tuesday, Friday picks it up. Nothing survives the weekend unaddressed.
+
+### 5. Future Delegation
+Once VAs and an EA are hired, each bundle becomes a role:
+- **VA 1:** Healthcare & Compliance (Monday bundle)
+- **VA 2:** Credentialing & Identity (Wednesday bundle) + Document & Property (Thursday bundle)
+- **EA:** Government Contracting (Tuesday bundle) + Operations & Follow-ups (Friday bundle)
+- **Dee:** Strategy, closing, relationship calls, Saturday builds, Sunday GBIS
+
+The schedule is already the org chart. Hiring just means assigning the days to people.
+
+---
+
+## How NEXUS Uses This
+
+When Dee opens a session, NEXUS checks the day of the week and leads with that bundle's priorities:
+
+- **Monday:** "Healthcare & Compliance day. Here's what's open: [MCO responses pending, Quest status, drug testing bids, NEMT broker follow-ups]"
+- **Tuesday:** "Government Contracting day. Here's what's active: [bids due this week, new SAM results, CO emails to send, proposals in progress]"
+- **Wednesday:** "Credentialing & Identity day. Here's what needs attention: [SWFT status, portal registrations pending, partner accounts to update]"
+- **Thursday:** "Document & Property day. Here's the board: [signing platform orders, direct account outreach, apostille requests, REO work]"
+- **Friday:** "Follow-up Friday. Here's everything still open from this week: [unanswered emails, pending callbacks, tracker updates needed]"
+
+---
+
+## Why This Exists
+
+Dee said it: "We need to just set certain days to do certain things then it won't seem like so much." Twenty-two service lanes managed by one person requires structure. This schedule ensures every sector gets consistent attention without overwhelming any single day. When DDI grows, the schedule becomes the hiring plan.

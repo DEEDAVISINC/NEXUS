@@ -51,7 +51,7 @@
 - [ ] Upon approval: begin MCO credentialing (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
 
 ### Other Monday Tasks
-- [ ] **CONFIRM CALL with Jean Saporita — National Drug Screening — 321-608-0409** — If no response by noon — call her directly.
+- [x] **Jean Saporita — National Drug Screening — RESPONDED Mar 24** — Jean said DDI already has lab accounts (Quest), adding LabCorp/CRL would be duplication. Offered DDI to join their **collection site network** instead: nationaldrugscreening.com/collector-network/. Direct: 321-608-0409, jsaporita@nationaldrugscreening.com. **DECISION NEEDED: Register as a collection site in their network?**
 - [x] ~~Send USDA REO email to charles.spicer@usda.gov~~ — **REPLIED 03/23: DDI on interested vendors list. Follow up Q3 2026.**
 
 ---
@@ -95,7 +95,7 @@
 | VA REO (3 contacts) | VA — REO Field Inspection | EDWOSB intro + cap statement | Response |
 | OMNIA Partners | Cooperative Purchasing | Follow-up email sent 03/22 | Membership ID (submitted 02/16 — overdue) |
 | NCS (National Crime Search) | CRA Partner | Partner signup submitted 03/22 | Response / account activation |
-| Jean Saporita | National Drug Screening | Proposed Monday call | Time confirmation |
+| Jean Saporita | National Drug Screening | Responded Mar 24 — join collection site network | **DECISION: Register at nationaldrugscreening.com/collector-network/?** |
 
 ---
 

@@ -69,8 +69,8 @@ Choice Partners is a **national purchasing cooperative** operated by the **Harri
 - Services: DOT/Non-DOT drug and alcohol testing, background checks, MVRs, MRO review, random selection, clearinghouse queries
 - Collection network: Uses Quest Diagnostics collection sites
 - Technology: "DSI Live" client portal for results tracking, random testing compliance, eCCF management
-- **Contract expires: April 18, 2026** (2 renewal options remaining)
-- **No diversity certifications listed**
+- **Contract expires: April 18, 2027** (1 renewal option remaining)
+- **No diversity certifications listed (no MWBE, SBE, or VOB)**
 - **Weakness:** Standard TPA model — directs donors to Quest sites, no mobile collection emphasis, no donor transportation, no integrated NEMT
 
 **Vendor 2: Pinnacle Medical Management (Contract #23/023SG-03)**
@@ -306,7 +306,7 @@ alternative campus. One week, the entire district is cleared."
 
 1. "What are your members' biggest pain points with the current drug testing vendors? What do they wish was different?"
 
-2. "DSI's contract expires April 2026 — are they renewing, or is the category opening up sooner than June 2027?"
+2. "Both vendors expire April 2027 with one renewal left — is the plan to renew again, or will the category go out for full rebid?"
 
 3. "For the school district members specifically — is athletics testing a service they're requesting through the cooperative, or are most districts handling that separately?"
 

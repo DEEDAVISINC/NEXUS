@@ -90,11 +90,21 @@ Dee Davis Inc. | Depointe DNA
 **Account Status:** Active (certified DOT drug testing provider)
 **Service:** Lab processing for DOT and non-DOT drug/alcohol testing
 
-### ACTIONS NEEDED:
+### ACCOUNT REP:
+**Erika K. Goad** — Internal Sales Executive, Workforce Health Solutions
+- **Mobile:** 313-744-3193
+- **Email:** Erika.K.Goad@questdiagnostics.com
 
-- [ ] Confirm current lab processing fees
-- [ ] Review if Quest pricing has changed since partnership started
-- [ ] Document Quest account rep contact info
+### STATUS TIMELINE:
+- [x] Credit report pulled and approved — 03/20/2026
+- [x] Erika asked what panels DDI needs — 03/20/2026
+- [x] DDI replied with full panel list (DOT, non-DOT, hair, oral fluid) — sent same week
+- [x] **Follow-up email sent 03/24** — awaiting response
+- [x] **Erika replied 03/22** — said she didn't receive panels, asked to resend
+- [x] **Full panel list resent 03/22** — DOT, non-DOT (5/10/12/14/17), hair, oral fluid, specialty (EtG, fentanyl, synthetics, steroids), occupational health (DOT physicals, respirator, audiometric, pulmonary, vision, TB, Hep B, fit-for-duty), eCCF + PSC setup
+- [ ] Account activation pending
+- [ ] Confirm PSC nationwide access + eCCF setup
+- [ ] Receive login credentials + pricing schedule
 - [ ] **ASK ABOUT BLOOD LEAD LEVEL TESTING** — Quest offers BLL testing; inquire about adding to account for lead testing TPA services
 
 ---
@@ -220,7 +230,9 @@ Full strategy document: `LEAD_TESTING_STRATEGY.md`
   - Toll Free: 866-500-3911 | Fax: 888-585-7234
   - Following up on CRL referral — wants a call to discuss testing needs
 - [x] Replied to Jean 03/21/2026 — proposed Monday afternoon call after 12 PM ET
-- [ ] **CALL JEAN MONDAY AFTERNOON** — 321-608-0409 — discuss account setup, pricing, lab access (LabCorp + CRL)
+- [x] **Jean replied 03/24/2026** — asked if DDI needs lab accounts or TPA services
+- [x] **DDI replied 03/24/2026** — confirmed DDI is a C/TPA, needs lab accounts + collection site access via NDS/FormFox
+- [ ] **Awaiting Jean's response** — onboarding process for lab accounts
 - [ ] NDS account setup and onboarding
 - [ ] Receive login credentials + pricing
 - [ ] Document pricing and account rep info
@@ -409,9 +421,10 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ## MICHIGAN CHAMPS — NEMT MEDICAID PROVIDER ENROLLMENT
 
-**Account Status:** APPLICATION SUBMITTED — AWAITING STATE REVIEW
+**Account Status:** ✅ APPROVED — ACTIVE MEDICAID NEMT PROVIDER (as of 03/23/2026)
 **System:** CHAMPS (Community Health Automated Medicaid Processing System)
 **Application Number:** 20260323058125
+**Provider ID:** 6309049
 **Date Submitted:** March 22, 2026
 **Provider Type:** Atypical Agency — NEMT
 **NPI:** 1538939111
@@ -424,10 +437,32 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] Initial application submitted as "Group" provider type — **REJECTED** (Application #20251210748456)
 - [x] MDHHS Provider Enrollment Unit (AJT) emailed 03/22/2026 clarifying correct type: **Atypical Agency with NEMT specialty**
 - [x] Corrected application submitted 03/22/2026 — **Application #20260323058125**
-- [ ] **Monitor application status in CHAMPS** — check weekly
-- [ ] Receive approval notification from MDHHS
-- [ ] Upon approval: begin MCO credentialing (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
+- [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active, Eligibility through 12/31/2999
+- [x] **Meridian Health Plan** — Contract Request Form submitted 03/26/2026. ~30 business days for review. Contact: MIProviderContracting@mimeridian.com
+- [x] **Molina Healthcare** — Initial email sent 03/26/2026. Angelica responded with generic clinical portal link. Follow-up sent 03/26/2026 clarifying DDI is NEMT Atypical Agency (not clinical practice), requesting correct NEMT contracting process. Awaiting routing to correct department.
+- [x] **UHC Community Plan** — Application submitted 03/26/2026. Need to contact UHC via chat to finalize.
+- [x] **Aetna Better Health** — Intake form submitted 03/26/2026. Contact: 1-866-316-3784
+- [x] **McLaren Health Plan** — Email sent 03/26/2026. McLaren uses **ModivCare** for NEMT — must enroll with ModivCare directly. (866) 569-1908 / modivcare.com/drive-with-us-2025
+- [x] **ModivCare** — Follow-up email sent to Larry Smith (larry.smith@modivcare.com) on 03/26/2026, referencing CHAMPS Provider ID 6309049 and active Medicaid status. Original outreach Feb 27. Awaiting onboarding next steps.
+- [ ] **Access2Care / MTM** — NEMT broker for Aetna. Filling out application on access2care.net. Note: MTM acquired Access2Care Oct 2024 — same company. DDI may already be in MTM system from prior sign-up.
+- [x] **DMC (Detroit Medical Center)** — Follow-up email sent 03/26/2026 to credentialing@dmc.org re: patient transportation/NEMT services. Original credentialing email sent 02/20/2026.
+- [x] **Corewell Health** — Email sent 03/26/2026 to suppliermanagement@corewellhealth.org re: patient transportation/NEMT. SupplierGATEWAY profile updated with CHAMPS Medicaid NEMT provider enrollment. Originally registered 03/19/2026 for Lab Courier + Healthcare Services.
+
+## DIRECT SIGNING ACCOUNTS — 3D INK SIGNATURES
+
+### JG Wentworth (Structured Settlements / Annuities / Mortgage)
+- **Contacts:** Brittany Devine (bdevine@jgwentworth.com), Megan Ray (mray@jgwentworth.com), David Bieleski (dbieleski@jgwentworth.com)
+- **Status:** Direct partnership email sent 03/26/2026. Pitch: replace Eagle Eye Signings (middleman) with DDI direct. 
+- **Previous relationship:** DDI completed signing through Eagle Eye at $70/signing. Eagle Eye likely charges JG Wentworth $125-200.
+- **Strategy:** Match signing agency rate, keep 100%. No pricing in initial email — ask what they currently pay, then match.
+- **Next:** Build hit list of all title agents, loan officers, and companies from DDI's signing history for direct outreach campaign.
+- [x] **Blue Cross Complete** — Email sent to BCCProviderData@mibluecrosscomplete.com on 03/26/2026.
+- [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP responded: redirected to CareSource at MI_Network@caresource.com. Follow-up email sent 03/26/2026 to CareSource directly.
+- [ ] Priority Health — priorityhealth.com
+- [ ] UPHP — uphp.com
 - [ ] Set up billing/claims infrastructure for NEMT services
+- [ ] Identify and vet NEMT subcontractor drivers/companies in SE Michigan
+- [ ] Build NEMT-specific capability statement for MCO outreach
 
 ### WHY THIS MATTERS:
 
@@ -471,6 +506,30 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - Drug testing services contract (DOT & non-DOT)
 - Background screening services (once NCS partnership is active)
 - Bundled credentialing: drug testing + background checks + fingerprinting
+
+---
+
+## E-VERIFY — USCIS
+
+| Field | Details |
+|---|---|
+| **Platform** | E-Verify (everify.gov) |
+| **Purpose** | Employment eligibility verification — required for federal contracts |
+| **DDI Status** | ⚠️ **ACCESS ISSUES — Need to contact POC to resolve login + complete required training** |
+| **POC** | Donald E. McArdle Jr. |
+| **POC Title** | Management and Program Analyst |
+| **POC Office** | Buffalo Verification Operations Center — Engagement |
+| **POC Agency** | United States Citizenship and Immigration Services (USCIS), DHS |
+| **POC Cell** | 716-290-3395 |
+| **POC Email** | Donald.e.mcardle@uscis.dhs.gov |
+
+### ACTIONS NEEDED:
+- [ ] **Contact Donald McArdle** — resolve login/access issues (call 716-290-3395 or email)
+- [ ] **Get certificate for Government Contractors webinar** — completed but never received certificate
+- [ ] **Complete additional required webinar** — Donald mentioned a second webinar DDI needs to take (get registration link)
+- [ ] **Complete required E-Verify training class** once access is restored
+- [ ] **Update E-Verify account info** — confirm DDI company details are current
+- [ ] **Verify E-Verify certification is active** — needed for federal contract compliance
 
 ---
 

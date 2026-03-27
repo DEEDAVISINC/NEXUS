@@ -83,8 +83,13 @@ DDI_KEYWORDS = {
     "identity verification": "Fingerprinting & Background Checks",
     "credentialing": "Fingerprinting & Background Checks",
     "security clearance": "Fingerprinting & Background Checks",
-    "swft": "Fingerprinting & Background Checks",
-    "dcsa": "Fingerprinting & Background Checks",
+    "channeler": "Fingerprinting & Background Checks",
+    "fbi channeler": "Fingerprinting & Background Checks",
+    "cjis": "Fingerprinting & Background Checks",
+    "criminal history record": "Fingerprinting & Background Checks",
+    "criminal background": "Fingerprinting & Background Checks",
+    "noncriminal justice": "Fingerprinting & Background Checks",
+    "identity history summary": "Fingerprinting & Background Checks",
 
     # DNA / Genetic Testing
     "dna test": "DNA & Genetic Testing",

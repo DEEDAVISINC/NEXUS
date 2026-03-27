@@ -39,9 +39,9 @@
 | Jonathan Mayfield | DOJ EOUSA Acquisitions | jonathan.mayfield@usdoj.gov | 202-252-5403 | 2026-03-17 | SENT ✓ | Court reporting/legal services |
 | Terri Harvey | HHS ACF Office of Government Contracting Services | terri.harvey@acf.hhs.gov | N/A | 2026-03-17 | SENT ✓ | DNA/Genetic Testing, Child Support |
 | Daniel Zielinski | VA NCO 2 Buffalo | daniel.zielinski@va.gov | 716-862-7461 x22380 | 2026-03-17 | SENT ✓ | Lab Courier 36C24226Q0390 |
-| Katharina Washington | HUD OCPO HQ | katharina.washington@hud.gov | 202-402-3240 | 2026-03-17 | SENT ✓ | Title/Notary/Document Services |
+| Katharina Washington | HUD OCPO HQ | katharina.washington@hud.gov | 202-402-3240 | 2026-03-17 | BOUNCED ❌ | Title/Notary/Document Services — 5.7.134 sender not authenticated, not on allowed list |
 | Cheri Redding | HUD OCPO HQ | cheri.l.redding@hud.gov | 202-402-5233 | 2026-03-17 | SENT ✓ | Title/Notary/Document Services |
-| Adrian Blackman | HUD Denver / OCPO | adrian.c.blackman@hud.gov | 303-672-5482 | 2026-03-17 | SENT ✓ | Title/Notary/Document Services |
+| Adrian Blackman | HUD Denver / OCPO | adrian.c.blackman@hud.gov | 303-672-5482 | 2026-03-17 | BOUNCED ❌ | Title/Notary/Document Services — 5.7.129 permission denied, not on accept list |
 | Stacey Allen | Georgia DOT | sallen1@dot.ga.gov | 404-532-0070 | 2026-03-17 | SENT ✓ | Registered vendor follow-up — Drug Testing/Credentialing |
 | Steve Gibson | Choice Partners / HCDE Texas | sgibson@hcde-texas.org | 713-681-6052 | 2026-03-17 | **RESPONDED ✓** — Saved DDI cap statement in sourcing file. Drug/Alcohol testing rebid ~June 2027. Connected DDI with Lisa TerMorshuizen (contract manager). DDI registered on ionwave. | Registered vendor — cooperative contract catalog inquiry |
 | Michelle Ellis | USPTO Acquisitions | Michelle.Ellis@USPTO.gov | 571-270-5019 | 2026-03-17 | SENT ✓ | Document Delivery WOSB — USPTO-ACQ-24-0568 |
@@ -73,12 +73,12 @@
 | Tiffany Garfield | VA Benefits Administration (VBAVACO) | tiffany.garfield@va.gov | — | 2026-03-18 | REPLIED ✓ | Document Shredding — 36C10D26Q0034. Solicitation live on SAM.gov. **DUE MARCH 31, 2026** |
 | Stephen Fisher | VA NCO 10 (Ann Arbor MI) | stephen.fisher@va.gov | 313-576-1000 x64168 | 2026-03-18 | SENT ✓ | NEMT — Michigan local EDWOSB outreach |
 | David Walther | ICE OPLA (Dallas TX) | david.m.walther@ice.dhs.gov | 682-308-7897 | 2026-03-18 | REPLIED ✓ | Courier → referred to Tracy Riley. Fingerprinting/DNA/E-Verify → doesn't handle, no referral. Dead end on identity services at ICE. |
-| Tracy Riley | ICE — Courier Procurements | Tracy.Riley@ice.dhs.gov | — | 2026-03-19 | **REPLIED 03/23 ✓** | Courier Services — ICE DHS. **Tracy replied 03/23 — introduced program office POCs Mark & Marilyn. Asking for past performance and capabilities.** DDI responded same day with full capabilities: courier, nationwide notary, apostille, immigration DNA testing (DePointe DNA), biometric fingerprinting. TWIC + FBI/DCSA submission highlighted. No govt courier past performance — pivoted to chain of custody experience from drug/DNA testing. |
+| Tracy Riley | ICE — Courier Procurements | Tracy.Riley@ice.dhs.gov | (469) 858-2855 | 2026-03-19 | **WARM HANDOFF 03/24 ✓** | Courier Services — ICE DHS. Tracy replied 03/23 — asked for past performance. DDI responded 03/24 with full capabilities. **Tracy handed DDI to program office 03/24** — told Mark Gonzales (Mark.R.Gonzales@ice.dhs.gov) and Marilyn Doty (Marilyn.L.Doty@ice.dhs.gov) to engage directly with DDI for market research on capability. Jennifer Doran also CC'd. **Ball is in Mark/Marilyn's court — do NOT reach out first. Wait for their questions.** |
 | Brittney Miller | SEC Office of Acquisitions | millerbri@sec.gov | 202-551-3916 | 2026-03-18 | REPLIED ✓ | Process Server — Awarded Sep 2025 to **Cavalier Courier & Process Service**. Monitor for rebid. |
 | Robyn Nussbaum | VA North Texas HCS | robyn.nussbaum@va.gov | N/A | 2026-03-18 | SENT ✓ | Pharmacy Courier — 36C25725Q0512 |
 | Naana Owusu-Ansah | VA Huntington WV (Hershel Woody Williams) | naana.owusu-ansah@va.gov | N/A | 2026-03-18 | SENT ✓ | Pharmacy & General Supplies Courier — 36C24526Q0140 |
 | Tracy Dotson | VA Clarksburg WV (Louis A. Johnson) | tracy.dotson@va.gov | N/A | 2026-03-18 | SENT ✓ | Pharmacy & Biohazard Courier — Sources Sought |
-| Khalil Al-Amin | VA NCO 7 (Augusta GA / Columbia SC) | khalil.al-amin@va.gov | N/A | 2026-03-18 | SENT ✓ | Lab & Medical Courier — 36C24725Q0416 / 36C24725Q0250 |
+| Khalil Al-Amin | VA NCO 7 (Augusta GA / Columbia SC) | khalil.al-amin@va.gov | N/A | 2026-03-18 | BOUNCED ❌ | Lab & Medical Courier — 550 unknown address error, recipient rejected |
 | Joe Wells | DHA JBSA San Antonio | joe.d.wells3.civ@health.mil | N/A | 2026-03-18 | SENT ✓ | Medical Courier BPA — HT940825Q0550 (Total SB) |
 | James Johnson (CC) | DHA JBSA San Antonio | james.l.johnson280.civ@health.mil | N/A | 2026-03-18 | SENT ✓ | Medical Courier BPA — HT940825Q0550 (CC) |
 | Dawn Collins | VA NCO 9 Lexington KY | Dawn.Collins@va.gov | (423) 979-3640 | 2026-03-18 | SENT ✓ | Pharmacy Medication Courier — 36C24925Q0195 |
@@ -87,3 +87,5 @@
 | Joseph Osborn | VA NCO 7 Central Alabama | Joseph.Osborn@va.gov | (205) 561-8857 | 2026-03-18 | SENT ✓ | Lab Courier CAVHCS — 36C24725Q0261 |
 | Lisa TerMorshuizen | Choice Partners / HCDE Texas | lisa.terMorshuizen@hcde-texas.org | 713-696-1345 | 2026-03-18 | REPLIED ✓ | Drug & Alcohol Testing. **MEETING CONFIRMED: Mon Mar 24 @ 2:00 PM CT / 3:00 PM ET.** Microsoft Teams. Meeting ID: 297 814 517 321 01 / Passcode: bK6YV6Zo / Dial-in: +1 346-202-6895,,645136702# |
 | Charles Spicer, Jr. | USDA Rural Development — Strategic Acquisitions Division | charles.spicer@usda.gov | 757-279-3281 | 2026-03-23 | **REPLIED ✓** — No current EDWOSB/WOSB set-asides. No planned sources sought post-July 2025 Industry Day. **DDI ADDED TO INTERESTED VENDORS LIST.** Watch SAM.gov and GSA.gov. Follow up Q3 2026. | REO Property Preservation, Inspection, Document Services |
+| Jennifer Perez | HUD GNMA Support Division | jennifer.m.perez@hud.gov | 303-672-5019 | 2026-03-22 | SENT ✓ | Broad HUD capabilities — REO, lead hazard, mortgage consulting, document services, credentialing |
+| Tarita Leftwich | HUD GNMA Support Division | tarita.l.leftwich@hud.gov | 202-402-7610 | 2026-03-22 | SENT ✓ | Broad HUD capabilities — REO, lead hazard, mortgage consulting, document services, credentialing |

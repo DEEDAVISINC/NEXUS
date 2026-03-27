@@ -37,6 +37,27 @@ alwaysApply: true
 - `NEXUS_SYSTEM_CORRECTIONS.md` — known corrections and overrides
 - `CURRENT_SESSION_STATE.md` — last session summary if it exists
 
+### 7. DAILY VENDOR PORTAL CHECK — MANDATORY
+
+**Every session, check all registered vendor portals for new opportunities. This is not optional.**
+
+| Portal | URL | What to Check |
+|---|---|---|
+| **Ionwave (Choice Partners/HCDE)** | hcdeebid.ionwave.net | New cooperative contract postings — they post daily |
+| **BidNet Direct / MITN** | bidnetdirect.com | New Michigan municipal RFPs, RFQs, ITBs |
+| **Sourcewell** | sourcewell-mn.gov | New national cooperative solicitations |
+| **Michigan SIGMA VSS** | sigmavss.michigan.gov | New Michigan state contract opportunities |
+| **Kentucky VSS** | vss.ky.gov | New Kentucky state opportunities |
+| **Maryland eMMA** | emma.maryland.gov | New Maryland state opportunities (once registration is complete) |
+| **Oakland County** | oakgov.com/purchasing | Oakland County bids and RFPs |
+| **SAM.gov** | sam.gov | Federal opportunities (already mined by NEXUS auto scripts) |
+
+**How to check:** Log into each portal, review new postings since last check. Flag anything in DDI's service lanes: drug testing, fingerprinting, courier/delivery, notary, DNA testing, grounds maintenance, janitorial, staffing, transportation, medical supplies.
+
+**If a new opportunity is found:** Report it to Dee immediately with solicitation number, deadline, service type, and estimated value.
+
+**When confirmed sent or done:** Update trackers immediately in the same moment — not at end of session.
+
 ---
 
 ## WHAT TO DO AFTER READING
@@ -47,6 +68,7 @@ After reading the above, the chat should be able to answer:
 - Which COs are pending outreach?
 - What are the current drug testing proposal blockers?
 - What opportunities are being watched?
+- What new opportunities posted on vendor portals since last check?
 
 If any file is missing or empty, note it and continue. Do not stop and ask Dee to explain the system — read the files and figure it out.
 
@@ -57,7 +79,7 @@ If any file is missing or empty, note it and continue. Do not stop and ask Dee t
 - **Federal COs** → capabilities introduction tone, full service bullet list, smart questions
 - **State/local agency contacts** → DDI is already a registered vendor → follow-up tone, NOT cold intro
 - **Standard email closing (every CO email):**
-  > *"For immediate needs under $10,000, Dee Davis Inc. is available for direct micro-purchase — no competition required, SAM-registered and ready. For needs up to $250,000, we're available under simplified acquisition procedures with fast turnaround and reduced competition requirements."*
+  > *"For immediate needs under $15,000, Dee Davis Inc. is available for direct micro-purchase — no competition required, SAM-registered and ready. For needs up to $350,000, we're available under simplified acquisition procedures with fast turnaround and reduced competition requirements."*
 - **Signature:** Dieasha D. Davis, President & CEO
 - **After every sent email:** Update `CO_OUTREACH_TRACKER.md` immediately
 - **Never generate a CO email without checking the tracker first**

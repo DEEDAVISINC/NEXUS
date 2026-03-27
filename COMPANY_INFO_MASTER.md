@@ -54,7 +54,7 @@ Troy, Michigan 48084
   - Coupa is used by Fortune 500 companies for procurement — renewal recommended
 
 **Federal/Compliance:**
-- E-Verify Certified (Employment Eligibility Verification)
+- E-Verify Certified (Employment Eligibility Verification) — **Company ID: DDAVB62C** | Status: ACTIVE | Role: Program Administrator | Company: DEE DAVIS INC.
 - SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
 
 **PENDING CERTIFICATIONS (In Progress):**
@@ -687,7 +687,11 @@ MI SIGMA VSS: VS0245604
 | Field | Value |
 |---|---|
 | **Application Number** | **20260323058125** |
+| **Provider ID** | **6309049** |
 | **Application Type** | Atypical Agency |
+| **Business Status** | **ACTIVE — APPROVED** |
+| **Eligibility Date Range** | **03/23/2026 — 12/31/2999** |
+| **Specialty** | Non-Emergency Transportation Agency / No Subspecialty |
 | **Specialty** | NEMT (Non-Emergency Medical Transportation) |
 | **NPI** | 1538939111 |
 | **Taxonomy Code** | 347E00000X (Transportation Broker) |
@@ -700,8 +704,8 @@ MI SIGMA VSS: VS0245604
 ### ACTIONS NEEDED:
 
 - [x] Submit corrected CHAMPS application as Atypical Agency / NEMT — **SUBMITTED 03/22/2026**
-- [ ] **Monitor application status** — log into CHAMPS and search by Application # 20260323058125
-- [ ] Receive CHAMPS approval notification
+- [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
+- [ ] **BEGIN MCO CREDENTIALING**
 - [ ] Upon approval: complete credentialing with Medicaid Health Plans (MCOs)
 - [ ] MCO outreach for NEMT contracts (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
 

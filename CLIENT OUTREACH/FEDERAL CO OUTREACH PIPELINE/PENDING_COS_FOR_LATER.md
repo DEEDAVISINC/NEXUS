@@ -22,12 +22,12 @@
 **ACTION:** Also respond to Sources Sought 866141-26-SS-0001 before April 7 — DDI as prime, sub out inspectors.
 
 
-## HUD Ginnie Mae — 86615526Q00006 (Added March 17, 2026)
+## HUD Ginnie Mae — 86615526Q00006 (Added March 17, 2026) — ✅ EMAILED 03/22
 
-| # | Name | Agency | Email | Phone | Set-Aside | Lane |
-|---|---|---|---|---|---|---|
-| 9 | Jennifer Perez | HUD GNMA Support Division | jennifer.m.perez@hud.gov | 303-672-5019 | WOSB Sole Source | Mgmt Consulting 541611 |
-| 10 | Tarita Leftwich | HUD GNMA Support Division | tarita.l.leftwich@hud.gov | 202-402-7610 | WOSB Sole Source | Mgmt Consulting 541611 |
+| # | Name | Agency | Email | Phone | Set-Aside | Lane | Status |
+|---|---|---|---|---|---|---|---|
+| 9 | Jennifer Perez | HUD GNMA Support Division | jennifer.m.perez@hud.gov | 303-672-5019 | WOSB Sole Source | Mgmt Consulting 541611 | SENT 03/22 |
+| 10 | Tarita Leftwich | HUD GNMA Support Division | tarita.l.leftwich@hud.gov | 202-402-7610 | WOSB Sole Source | Mgmt Consulting 541611 | SENT 03/22 |
 
 
 ## VA National Cemetery — QNE--NCA-26-000003 (Added March 17, 2026)
@@ -135,4 +135,6 @@
 | Brandon Ledesma | Las Vegas Airport (LAS) — Contracts | Contracts@LASairport.com | 1845 E Russell Rd, Las Vegas, NV 89119 | N/A |
 | Debra Kuhn | UNLV (NSHE-Business Center South) | debra.kuhn@unlv.edu | 4505 S Maryland Pkwy, CSB Rm 235, Las Vegas, NV 89154 | (702) 895-3530 |
 | Anthony Choice | Douglas County Board of Commissioners, GA — Procurement | achoice@douglascountyga.gov | Douglas County, Georgia | (770) 920-7498. DDI registered vendor (Team Georgia Marketplace). Real estate services lane — potential for notary, RON, signing agent, title services. |
+| Tanisha Miller | Florida Department of Revenue (DOR) — Procurement | Tanisha.Miller@floridarevenue.com | Tallahassee, FL | (850) 717-7305. Source: MFMP VIP alert (ITB-15306 / DOR ITB 25/26-40). Current ITB is shredding (no-go for DDI), but DOR is a large state agency — future opportunities in document management, notary, admin services. Hold for future outreach when DDI has a relevant Florida solicitation. |
+| City of Taylor, MI | OpenGov Procurement Portal | Via OpenGov portal | Taylor, MI (Wayne County) | DDI added to vendor list 03/26/2026. Will receive notifications for upcoming projects. Watch for drug testing, NEMT, notary, fingerprinting, facilities, and admin services opportunities. |
 

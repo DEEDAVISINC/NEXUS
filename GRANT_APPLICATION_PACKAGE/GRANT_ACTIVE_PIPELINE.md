@@ -92,7 +92,7 @@
 | MVAA Grant Inquiry — FY27 SVSPG + MiVHPG + Other Programs | CWC | $4M+ pool (SVSPG) / Up to $250K (MiVHPG) | March 22, 2026 | 7-14 days | 🟢 SENT to MVAAGrants@michigan.gov |
 | Michigan Health Endowment Fund — Capacity Building + CHI Inquiry | CWC | Up to $300K (CB) / Up to $750K (CHI) | March 22, 2026 | 7-14 days | 🟢 SENT to info@mihealthfund.org |
 | MDHHS CSBG Subgrant Inquiry | CWC | Varies (federal block grant) | March 22, 2026 | 7-14 days | 🟢 SENT to MDHHS-BCAEO@michigan.gov |
-| CWC SAM.gov Renewal | CWC | Unlocks all federal grants | March 22, 2026 | March 26 (validation instructions) | 🟡 Ref: INC-GSAFSD8651858 |
+| CWC SAM.gov Renewal | CWC | Unlocks all federal grants | March 22, 2026 | 5-10 biz days after CAGE docs sent | 🟡 CAGE verification docs SENT to CAGEReview@dla.mil. Awaiting DLA validation. Ref: INC-GSAFSD8651858. If no response by ~April 3, call Federal Service Desk 866-606-8220. |
 
 ---
 
