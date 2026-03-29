@@ -40,6 +40,12 @@ try:
 except ImportError:
     raise ImportError("Run from NEXUS BACKEND root directory.")
 
+from gbis_airtable_helpers import (
+    create_grant_opportunity,
+    priority_to_recommendation,
+    today_iso,
+)
+
 
 # ---------------------------------------------------------------------------
 # FREE SMALL GRANT SOURCES — ALL 46
@@ -1151,6 +1157,126 @@ SMALL_GRANT_SOURCES: List[Dict] = [
     },
 ]
 
+# DDI priority seeds (March 2026 GBIS fix list) — merged into main list
+DDI_PRIORITY_GRANT_SOURCES: List[Dict] = [
+    {
+        'Grant Name': 'Amber Grant for Women — WomensNet',
+        'Funder Organization': 'WomensNet',
+        'Funder Type': 'Women-Focused Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://ambergrantsforwomen.com',
+        'Eligibility': 'Woman-owned business. US-based.',
+        'Grant Amount': '$10,000 monthly + $50,000 annual',
+        'Cycle': 'Monthly rolling',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 96,
+        'Application Time': '20–30 minutes',
+        'Fee': True,
+        'Notes': 'Apply every month. Women owned. Rolling deadline. $15 application fee per entry.',
+        'Action Required': 'Apply monthly at ambergrantsforwomen.com.',
+        'Check Frequency': 'Monthly',
+        'Entity': 'BOTH',
+        'Recommendation': 'Auto-Pursue',
+    },
+    {
+        'Grant Name': 'Michigan Women Forward Microloan',
+        'Funder Organization': 'Michigan Women Forward',
+        'Funder Type': 'CDFI',
+        'Funding Type': 'Loan / capital (grant-like access)',
+        'Grant URL': 'https://miwf.org/business-loans',
+        'Eligibility': 'Michigan women-owned businesses; flexible credit.',
+        'Grant Amount': '$2,500 - $50,000',
+        'Cycle': 'Rolling',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 93,
+        'Application Time': 'Varies',
+        'Fee': False,
+        'Notes': 'CDFI. Flexible underwriting. Sub-optimal credit may qualify.',
+        'Action Required': 'Start application at miwf.org.',
+        'Check Frequency': 'Rolling',
+        'Entity': 'DDI',
+        'Recommendation': 'Auto-Pursue',
+    },
+    {
+        'Grant Name': 'Goldman Sachs One Million Black Women',
+        'Funder Organization': 'Goldman Sachs',
+        'Funder Type': 'Corporate',
+        'Funding Type': 'Capital / grant programs',
+        'Grant URL': 'https://www.goldmansachs.com/citizenship/10000-small-businesses/US/one-million-black-women',
+        'Eligibility': 'Black women entrepreneurs; all industries.',
+        'Grant Amount': '$25,000 - $250,000',
+        'Cycle': 'Annual',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 94,
+        'Application Time': 'Varies',
+        'Fee': False,
+        'Notes': 'Black women entrepreneurs. All industries.',
+        'Action Required': 'Monitor program page for next cycle.',
+        'Check Frequency': 'Annual',
+        'Entity': 'DDI',
+        'Recommendation': 'Auto-Pursue',
+    },
+    {
+        'Grant Name': 'MEDC Inclusive Entrepreneurship Support Grant',
+        'Funder Organization': 'Michigan Economic Development Corporation',
+        'Funder Type': 'State Government',
+        'Funding Type': 'State Grant',
+        'Grant URL': 'https://www.michiganbusiness.org',
+        'Eligibility': 'Michigan small businesses; EDWOSB/MBE priority when programs open.',
+        'Grant Amount': 'Varies',
+        'Cycle': 'Annual',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 85,
+        'Application Time': 'Varies',
+        'Fee': False,
+        'Notes': 'Michigan EDWOSB MBE priority. Watch for next cycle.',
+        'Action Required': 'Subscribe to MEDC / michiganbusiness.org alerts.',
+        'Check Frequency': 'Monthly',
+        'Entity': 'BOTH',
+        'Recommendation': 'Review',
+    },
+    {
+        'Grant Name': "Olga's Kitchen Foundation",
+        'Funder Organization': "Olga's Kitchen Foundation",
+        'Funder Type': 'Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://olgaskitchenfoundation.org',
+        'Eligibility': 'Michigan women business owners; financial need statement.',
+        'Grant Amount': 'Up to $10,000',
+        'Cycle': 'Annual',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 91,
+        'Application Time': 'Varies',
+        'Fee': False,
+        'Notes': 'Michigan women business owners. Financial need statement required.',
+        'Action Required': 'Watch for annual application window.',
+        'Check Frequency': 'Annual',
+        'Entity': 'DDI',
+        'Recommendation': 'Auto-Pursue',
+    },
+    {
+        'Grant Name': 'Entrepreneurs of Color Fund',
+        'Funder Organization': 'Detroit Future City / partner CDFIs',
+        'Funder Type': 'CDFI / philanthropic',
+        'Funding Type': 'Grant / loan hybrid',
+        'Grant URL': 'https://detroitfuturecity.com',
+        'Eligibility': 'Detroit Metro women- and minority-owned businesses.',
+        'Grant Amount': '$10,000 - $300,000',
+        'Cycle': 'Rolling',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 92,
+        'Application Time': 'Varies',
+        'Fee': False,
+        'Notes': 'Detroit Metro. Women and minority owned. Cash flow gaps.',
+        'Action Required': 'Inquire via Detroit Future City / fund partners.',
+        'Check Frequency': 'Rolling',
+        'Entity': 'DDI',
+        'Recommendation': 'Auto-Pursue',
+    },
+]
+
+SMALL_GRANT_SOURCES.extend(DDI_PRIORITY_GRANT_SOURCES)
+
 
 # ---------------------------------------------------------------------------
 # DAILY CHECK URLS — for human monitoring
@@ -1274,6 +1400,8 @@ class GBISSmallGrantsMiner:
 
                 fee_note = " [FEE REQUIRED]" if source.get('Fee') else " [FREE]"
                 # Pack supplemental info into NOTES since those fields aren't in the table
+                ent = source.get('Entity') or 'DDI'
+                rec_label = source.get('Recommendation') or priority_to_recommendation(source.get('Priority Level', ''))
                 notes_parts = [
                     source.get('Notes', ''),
                     f"Amount: {source.get('Grant Amount', 'Varies')}",
@@ -1282,18 +1410,28 @@ class GBISSmallGrantsMiner:
                     f"Time: {source.get('Application Time', '')} | Freq: {source.get('Check Frequency', '')}",
                     f"Action: {source.get('Action Required', '')}",
                     f"Type: {source['Funder Type']} | Funding: {source.get('Funding Type', '')}",
-                    f"Lane: Small Business Grants | Applicant: DDI",
+                    f"Lane: Small Business Grants | Entity: {ent}",
                     fee_note,
                 ]
                 record = {
-                    'GRANT NAME':          source['Grant Name'],
-                    'FUNDER ORGANIZATION': source['Funder Organization'],
-                    'GRANT URL':           source['Grant URL'],
-                    'ELIGIBILITY':         source['Eligibility'],
-                    'NOTES':               '\n'.join(p for p in notes_parts if p.strip()),
+                    'Grant Name': source['Grant Name'],
+                    'Funder Organization': source['Funder Organization'],
+                    'Grant URL': source['Grant URL'],
+                    'Eligibility': source['Eligibility'],
+                    'Notes': '\n'.join(p for p in notes_parts if p.strip()),
+                    'Entity': ent,
+                    'Grant Source Type': 'TRACKED SOURCE',
+                    'Recommendation': rec_label,
+                    'Priority Level': source.get('Priority Level', ''),
+                    'Last Source Check': today_iso(),
                 }
+                if ent == 'BOTH':
+                    record['DDI Strategy Note'] = (
+                        'Cause We Care may apply where nonprofit eligibility applies; '
+                        'Dee Davis Inc. as EDWOSB prime for contract delivery where applicable.'
+                    )
 
-                self.airtable.create_record('GRANT OPPORTUNITIES', record)
+                create_grant_opportunity(self.airtable, record)
                 print(f"   ✅ {source['Grant Name'][:65]}{fee_note}")
                 print(f"      {source.get('Grant Amount', 'Varies')} | {source['Priority Level']} | {source.get('Check Frequency', '')}")
                 imported += 1
@@ -1461,11 +1599,14 @@ class GBISSmallGrantsMiner:
 
     def _is_duplicate(self, grant_name: str) -> bool:
         try:
+            from gbis_airtable_helpers import grant_name_from_fields
+
             records = self.airtable.get_all_records('GRANT OPPORTUNITIES')
-            return any(
-                r['fields'].get('GRANT NAME', '').lower() == grant_name.lower()
-                for r in records
-            )
+            g = grant_name.lower().strip()
+            for r in records:
+                if grant_name_from_fields(r.get('fields', {})).lower() == g:
+                    return True
+            return False
         except Exception:
             return False
 

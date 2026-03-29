@@ -12,6 +12,7 @@ Cause We Care Entity Info:
   Director:    Gary C. Felton Jr. (U.S. Army Veteran)
   Programs:    MIBridges (MDHHS), Hair Cuts for Vets, community health,
                veteran employment initiative
+  NAICS:       See CWC_NAICS_CODES (813319, 813211, 624190, …) for expansion programs.
 
 Funding channels covered:
   Federal:    NIH NIMHD, HRSA, SAMHSA, USDA FNS, HUD, ACF, HHS ASPE,
@@ -36,6 +37,34 @@ try:
     from nexus_backend import AirtableClient, AnthropicClient, ResearchLaneDetector
 except ImportError:
     raise ImportError("Run from NEXUS BACKEND root directory.")
+
+from gbis_airtable_helpers import (
+    create_grant_opportunity,
+    entity_from_applicant_label,
+    map_applicant_to_entity,
+    priority_to_recommendation,
+    today_iso,
+)
+
+# ---------------------------------------------------------------------------
+# CAUSE WE CARE — NAICS (expansion programs; use in proposals & GBIS notes)
+# ---------------------------------------------------------------------------
+CWC_NAICS_CODES: List[str] = [
+    "813319",  # Other social advocacy organizations
+    "813211",  # Grantmaking foundations
+    "624190",  # Other individual and family services
+    "624110",  # Child and youth services
+    "624120",  # Services for the elderly and persons with disabilities
+    "624210",  # Community food services
+    "624221",  # Temporary shelters
+    "624229",  # Other community housing services
+    "621999",  # All other miscellaneous ambulatory health care services
+    "813312",  # Environment, conservation and wildlife organizations
+    "624310",  # Vocational rehabilitation services
+    "611430",  # Professional and management development training
+]
+
+CWC_NAICS_NOTE = "CWC NAICS (expansion): " + ", ".join(CWC_NAICS_CODES)
 
 
 # ---------------------------------------------------------------------------
@@ -164,6 +193,180 @@ MICHIGAN_FOUNDATION_SOURCES = [
 ]
 
 # ---------------------------------------------------------------------------
+# CWC EXPANSION — programs & grant sources (Entity BOTH: CWC applies; DDI as TPA partner)
+# Lead-screening rows: CWC outreach; DDI TPA = testing contracts + billing.
+# ---------------------------------------------------------------------------
+
+CWC_EXPANSION_GRANT_SOURCES: List[Dict] = [
+    {
+        'Grant Name': 'Michigan Health Endowment Fund — Capacity Building RFP (April 2026)',
+        'Funder Organization': 'Michigan Health Endowment Fund',
+        'Funder Type': 'Michigan Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://mihealthfund.org/funding',
+        'Eligibility': '501(c)(3) Michigan nonprofits; capacity-building and program expansion per RFP.',
+        'Typical Award': 'Varies by RFP',
+        'Cycle': 'April 2026 — monitor funding page for Capacity Building release',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 94,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'CWC expansion track. Align MHEF capacity goals with MIBridges / community health programs. '
+                 + CWC_NAICS_NOTE,
+        'Action Required': 'Watch mihealthfund.org for April 2026 Capacity Building RFP; prep LOI materials.',
+        'DDI Strategy Note': 'BOTH: Cause We Care is prime applicant for nonprofit capacity; Dee Davis Inc. as TPA partner for subcontracted services, compliance, and reporting where the RFP allows.',
+    },
+    {
+        'Grant Name': 'CDC — CLPPP Lead Screening & Poisoning Prevention Grants',
+        'Funder Organization': 'U.S. CDC / NCEH',
+        'Funder Type': 'Federal Government',
+        'Funding Type': 'Federal Grant',
+        'Grant URL': 'https://www.cdc.gov/nceh/lead/funding/index.html',
+        'Eligibility': 'State and eligible non-federal entities per NOFO; often includes community partners for CLPPP-aligned screening and education.',
+        'Typical Award': 'Varies by announcement',
+        'Cycle': 'Monitor Grants.gov and CDC funding page for open CLPPP-related NOFOs',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 92,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'Lead screening / CLPPP lane. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Track CDC NCEH lead funding; coordinate with MDHHS if state is applicant.',
+        'DDI Strategy Note': 'BOTH — Lead screening: Cause We Care leads community outreach and education; '
+                             'Dee Davis Inc. as TPA manages testing contracts, lab/COLA coordination, and billing.',
+    },
+    {
+        'Grant Name': 'EPA — Lead Hazard Control / Mitigation Grants (e.g. up to $1.5M programs)',
+        'Funder Organization': 'U.S. Environmental Protection Agency',
+        'Funder Type': 'Federal Government',
+        'Funding Type': 'Federal Grant',
+        'Grant URL': 'https://www.epa.gov/lead/grants',
+        'Eligibility': 'Eligible entities per EPA lead grant announcements (often state/local/tribal + partners).',
+        'Typical Award': 'Up to ~$1.5M on applicable program years (verify current NOFO)',
+        'Cycle': 'Periodic — check epa.gov/lead/grants',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 91,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'Lead hazard control / healthy homes alignment. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Monitor EPA lead grants; partner with eligible prime if CWC is not direct applicant.',
+        'DDI Strategy Note': 'BOTH — Lead programs: CWC community outreach; DDI TPA for environmental health '
+                             'testing partnerships, contract structure, and billing as applicable.',
+    },
+    {
+        'Grant Name': 'Bob Woodruff Foundation — Veteran Grants (CWC + DDI TPA Partner)',
+        'Funder Organization': 'Bob Woodruff Foundation',
+        'Funder Type': 'Veteran Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://bobwoodrufffoundation.org/apply',
+        'Eligibility': '501(c)(3) veterans-services nonprofits; programs per foundation priorities.',
+        'Typical Award': '$50,000 – $500,000 (typical ranges — verify RFP)',
+        'Cycle': 'Annual / LOI windows — see apply page',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 85,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Program Evaluation',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'GBIS CWC expansion track (distinct from generic veteran reintegration seed). Gary Felton Jr. veteran leadership. '
+                 + CWC_NAICS_NOTE,
+        'Action Required': 'Use apply URL; align narrative with Hair Cuts for Vets / veteran hiring.',
+        'DDI Strategy Note': 'BOTH: CWC applies as nonprofit; DDI as TPA for contract-delivered services and employer-facing veteran employment programs where allowed.',
+    },
+    {
+        'Grant Name': 'MDHHS — Healthy Homes & Lead Prevention (State Grants)',
+        'Funder Organization': 'Michigan Department of Health and Human Services',
+        'Funder Type': 'State Government',
+        'Funding Type': 'State Grant',
+        'Grant URL': 'https://www.michigan.gov/mdhhs/',
+        'Eligibility': 'Eligible Michigan nonprofits and local partners per program NOFO (Healthy Homes, lead, housing-related prevention).',
+        'Typical Award': 'Varies',
+        'Cycle': 'Monitor MDHHS grants and Healthy Homes program announcements',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 93,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'MDHHS Healthy Homes / lead prevention — CWC already has MDHHS/MIBridges context. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Search MDHHS funding opportunities for Healthy Homes and lead; capture deadlines.',
+        'DDI Strategy Note': 'BOTH — Healthy Homes / lead: CWC outreach; DDI TPA for screening/testing contracts and billing where program design allows.',
+    },
+    {
+        'Grant Name': 'AmeriCorps VISTA — Nonprofit Capacity (Staffing)',
+        'Funder Organization': 'AmeriCorps / Corporation for National and Community Service',
+        'Funder Type': 'Federal Government',
+        'Funding Type': 'Federal Grant',
+        'Grant URL': 'https://www.americorps.gov/serve/americorps/americorps-programs/vista',
+        'Eligibility': '501(c)(3) and other eligible sponsors; VISTA members build capacity at host sites.',
+        'Typical Award': 'Full-time member slots + living allowance (program rules)',
+        'Cycle': 'Rolling / annual sponsor cycles',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 86,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Program Evaluation',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'Nonprofit staffing / capacity via VISTA. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Assess CWC as sponsor or host site; review AmeriCorps portal deadlines.',
+        'DDI Strategy Note': 'BOTH: CWC hosts or sponsors VISTA slots; DDI supports administrative, compliance, and payroll-adjacent coordination as TPA where appropriate.',
+    },
+    {
+        'Grant Name': 'United Way for Southeastern Michigan — Community Impact Grants',
+        'Funder Organization': 'United Way for Southeastern Michigan',
+        'Funder Type': 'United Way / Regional',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://www.uwsem.org/',
+        'Eligibility': 'SE Michigan nonprofits aligned with UWSEM impact priorities (education, health, financial stability).',
+        'Typical Award': 'Varies by initiative',
+        'Cycle': 'Annual / periodic RFPs — monitor uwsem.org',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 90,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'Regional CWC expansion; partner with UWSEM on health and housing-related outcomes. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Subscribe to UWSEM RFP alerts; align with CWC metrics.',
+        'DDI Strategy Note': 'BOTH: CWC applies; DDI as TPA for measurement, subcontracted service delivery, and grant reporting support.',
+    },
+    {
+        'Grant Name': 'Kresge Foundation — Detroit / Health Equity (CWC Expansion Partnership)',
+        'Funder Organization': 'Kresge Foundation',
+        'Funder Type': 'National Foundation (Detroit HQ)',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://kresge.org/grants-social-investments/how-to-apply/',
+        'Eligibility': '501(c)(3); Detroit & health equity alignment per program.',
+        'Typical Award': '$100,000 – $500,000 (typical — verify program)',
+        'Cycle': 'LOI / invited applications',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 84,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'CWC expansion partnership track (distinct from general Kresge seed row). MIBridges + lead/SDOH narrative. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Prepare LOI citing CWC programs and DDI TPA role.',
+        'DDI Strategy Note': 'BOTH: CWC as nonprofit applicant; DDI as TPA for data, subcontracted health services, and compliance.',
+    },
+    {
+        'Grant Name': 'Community Foundation for Southeast Michigan — Competitive Grants (CWC Expansion)',
+        'Funder Organization': 'Community Foundation for Southeast Michigan',
+        'Funder Type': 'Regional Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://cfsem.org/grants/',
+        'Eligibility': '501(c)(3) in eligible SE Michigan counties.',
+        'Typical Award': '$25,000 – $200,000',
+        'Cycle': 'Quarterly / rolling by program',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 95,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Community Health Assessment',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'CWC expansion priority track (distinct naming from generic CFSEM community health seed). Fast regional path. ' + CWC_NAICS_NOTE,
+        'Action Required': 'Register on CFSEM portal; apply to competitive cycles with CWC + DDI TPA story.',
+        'DDI Strategy Note': 'BOTH: CWC applicant; DDI TPA for program operations, vendor management, and reporting.',
+    },
+]
+
+# ---------------------------------------------------------------------------
 # VETERAN GRANT SOURCES
 # Unlocked by: Gary C. Felton Jr. (Army Veteran, Board Director) +
 #              DDI/CWC veteran hiring initiative + Hair Cuts for Vets program
@@ -219,20 +422,80 @@ VETERAN_GRANT_SOURCES = [
         'Funder Organization': 'Bob Woodruff Foundation',
         'Funder Type': 'Veteran Foundation',
         'Funding Type': 'Foundation Grant',
-        'Grant URL': 'https://bobwoodrufffoundation.org/how-to-apply/',
-        'Eligibility': '501(c)(3). Programs focused on post-9/11 veteran and '
-                       'caregiver reintegration into communities.',
+        'Grant URL': 'https://bobwoodrufffoundation.org/apply',
+        'Eligibility': '501(c)(3) veterans-services nonprofits; programs for post-9/11 '
+                       'veterans, caregivers, and military families (reintegration, wellness, employment).',
         'Typical Award': '$50,000 – $500,000',
-        'Cycle': 'Annual (LOI process)',
+        'Cycle': 'Annual (LOI / application windows — check apply page)',
         'Priority Level': 'High (80-89)',
         'Qualification Score': 83,
         'Service Lane': 'Community Health & Research',
         'Research Subtype': 'Program Evaluation',
+        'Applicant Entity': 'BOTH',
+        'Notes': 'Veterans services nonprofits. Entity BOTH: Cause We Care applies as 501(c)(3); '
+                 'Dee Davis Inc. may partner for contract-delivered services where programs allow. '
+                 'Gary Felton Jr. (Army Veteran, Director) + Hair Cuts for Vets / veteran hiring narrative.',
+        'Action Required': 'Monitor bobwoodrufffoundation.org/apply for open cycles; prepare LOI when window opens.',
+    },
+    {
+        'Grant Name': 'Steven A. Cohen Military Family Foundation — Veteran Mental Health',
+        'Funder Organization': 'Steven A. Cohen Military Family Foundation / Cohen Veterans Network',
+        'Funder Type': 'Veteran Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://www.cohenveteransnetwork.org/',
+        'Eligibility': '501(c)(3) and clinical partners improving veteran and military-family '
+                       'mental health; CVN clinic network and related programs.',
+        'Typical Award': 'Varies by program / partnership',
+        'Cycle': 'Ongoing — watch foundation and CVN announcements',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 81,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Program Evaluation',
         'Applicant Entity': 'Cause We Care',
-        'Notes': 'Veteran employment initiative + Gary Felton community engagement = '
-                 'strong narrative. Mid-tier foundation — more competitive than DAV '
-                 'but larger awards. Target year 2 after DAV win establishes track record.',
-        'Action Required': 'Submit LOI in 2027 after DAV win.',
+        'Notes': 'Veteran mental health focus. Align Cause We Care community programming with '
+                 'behavioral health / peer support where applicable; confirm eligibility for nonprofit vs. clinical partners.',
+        'Action Required': 'Review CVN and foundation pages for grant / partnership opportunities.',
+    },
+    {
+        'Grant Name': 'The Home Depot Foundation — Veteran Housing',
+        'Funder Organization': 'The Home Depot Foundation',
+        'Funder Type': 'Corporate Foundation',
+        'Funding Type': 'Foundation Grant',
+        'Grant URL': 'https://www.homedepotfoundation.org/',
+        'Eligibility': '501(c)(3) organizations addressing veteran housing and homelessness; '
+                       'typically construction / critical-home-repair style programs.',
+        'Typical Award': 'Varies (often high-impact national grants)',
+        'Cycle': 'Annual / rolling by initiative — monitor foundation veterans housing announcements',
+        'Priority Level': 'High (80-89)',
+        'Qualification Score': 80,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Program Evaluation',
+        'Applicant Entity': 'Cause We Care',
+        'Notes': 'Veteran housing and community stability. Strong fit if CWC partners with housing '
+                 'or shelter providers; document veteran-serving housing outcomes where possible.',
+        'Action Required': 'Subscribe to THD Foundation updates; match program year to open RFPs.',
+    },
+    {
+        'Grant Name': 'Michigan DMVA — Statewide Veterans Services Project Grant (SVSPG) FY27',
+        'Funder Organization': 'Michigan Department of Military and Veterans Affairs (DMVA)',
+        'Funder Type': 'State Government',
+        'Funding Type': 'State Grant',
+        'Grant URL': 'https://www.michigan.gov/dmva/quality-of-life',
+        'Eligibility': 'Michigan veteran-serving organizations; **Cause We Care must become a '
+                       'chartered Veterans Service Organization (VSO) or formally partner with a '
+                       'chartered VSO** to meet typical SVSPG eligibility.',
+        'Typical Award': 'Varies by appropriation (FY27 cycle — monitor)',
+        'Cycle': 'FY27 — monitor Quality of Life / grants page for SVSPG release',
+        'Priority Level': 'Critical (90-100)',
+        'Qualification Score': 88,
+        'Service Lane': 'Community Health & Research',
+        'Research Subtype': 'Program Evaluation',
+        'Applicant Entity': 'Cause We Care',
+        'Notes': 'STATE PRIORITY. Monitor michigan.gov/dmva/quality-of-life for FY27 SVSPG NOFO and '
+                 'application materials. Compliance path: obtain chartered VSO status or secure a '
+                 'written partnership with an existing chartered VSO before applying.',
+        'Action Required': 'Calendar: check Quality of Life page monthly; initiate VSO chartering '
+                           'or VSO partnership discussions with Gary Felton / board.',
     },
     {
         'Grant Name': 'VFW Foundation — Community Veteran Support',
@@ -332,7 +595,8 @@ FEDERAL_RESEARCH_CFDA_NUMBERS = [
     '93.239',   # HHS ASPE policy research
 ]
 
-FEDERAL_RESEARCH_KEYWORDS = [
+FEDERAL_RESEARCH_KEYWORDS = list(dict.fromkeys([
+    # Original community-health lane
     'community health needs assessment',
     'health disparities research',
     'social determinants of health',
@@ -343,7 +607,25 @@ FEDERAL_RESEARCH_KEYWORDS = [
     'minority health research',
     'underserved community health',
     'food insecurity research',
-]
+    # DDI-specific expansion (Grants.gov keyword search)
+    'women owned',
+    'EDWOSB',
+    'minority owned',
+    'NEMT',
+    'transportation',
+    'contract management',
+    'biometrics',
+    'DNA testing',
+    'notary',
+    'compliance',
+    'veteran',
+    'community health',
+    'dual eligible',
+    'Medicaid',
+    'healthcare transportation',
+    'specimen courier',
+    'background screening',
+]))
 
 
 class GBISCommunityHealthMiner:
@@ -368,12 +650,14 @@ class GBISCommunityHealthMiner:
         """
         print("🌱 Seeding all Community Health & Veteran grant sources into GBIS...")
         mich = self.seed_michigan_foundations()
+        cwc = self.seed_cwc_expansion_sources()
         vets = self.seed_veteran_sources()
         return {
             'michigan_foundations': mich,
+            'cwc_expansion': cwc,
             'veteran_sources': vets,
-            'total_imported': mich['imported'] + vets['imported'],
-            'total_skipped': mich['skipped'] + vets['skipped'],
+            'total_imported': mich['imported'] + cwc['imported'] + vets['imported'],
+            'total_skipped': mich['skipped'] + cwc['skipped'] + vets['skipped'],
         }
 
     def seed_veteran_sources(self) -> Dict:
@@ -401,15 +685,24 @@ class GBISCommunityHealthMiner:
                     f"Applicant: {source['Applicant Entity']}",
                     f"Action: {source.get('Action Required', '')}",
                 ]))
+                ent = entity_from_applicant_label(source.get('Applicant Entity', ''))
                 record = {
-                    'GRANT NAME':          source['Grant Name'],
-                    'FUNDER ORGANIZATION': source['Funder Organization'],
-                    'GRANT URL':           source['Grant URL'],
-                    'ELIGIBILITY':         source['Eligibility'],
-                    'NOTES':               notes,
+                    'Grant Name': source['Grant Name'],
+                    'Funder Organization': source['Funder Organization'],
+                    'Grant URL': source['Grant URL'],
+                    'Eligibility': source['Eligibility'],
+                    'Notes': notes,
+                    'Entity': ent,
+                    'Grant Source Type': 'TRACKED SOURCE',
+                    'Recommendation': priority_to_recommendation(source.get('Priority Level', '')),
+                    'Last Source Check': today_iso(),
                 }
+                if ent == 'BOTH':
+                    record['DDI Strategy Note'] = (
+                        'Cause We Care applies as nonprofit; Dee Davis Inc. executes contract services where allowed.'
+                    )
 
-                self.airtable.create_record('GRANT OPPORTUNITIES', record)
+                create_grant_opportunity(self.airtable, record)
                 print(f"   ✅ {source['Grant Name'][:60]}")
                 print(f"      Applicant: {source['Applicant Entity']} | {source['Priority Level']}")
                 imported += 1
@@ -444,15 +737,24 @@ class GBISCommunityHealthMiner:
                     f"Applicant: {source['Applicant Entity']}",
                     f"Action: {source.get('Action Required', '')}",
                 ]))
+                ent = entity_from_applicant_label(source.get('Applicant Entity', ''))
                 record = {
-                    'GRANT NAME':          source['Grant Name'],
-                    'FUNDER ORGANIZATION': source['Funder Organization'],
-                    'GRANT URL':           source['Grant URL'],
-                    'ELIGIBILITY':         source['Eligibility'],
-                    'NOTES':               notes,
+                    'Grant Name': source['Grant Name'],
+                    'Funder Organization': source['Funder Organization'],
+                    'Grant URL': source['Grant URL'],
+                    'Eligibility': source['Eligibility'],
+                    'Notes': notes,
+                    'Entity': ent,
+                    'Grant Source Type': 'TRACKED SOURCE',
+                    'Recommendation': priority_to_recommendation(source.get('Priority Level', '')),
+                    'Last Source Check': today_iso(),
                 }
+                if ent == 'BOTH':
+                    record['DDI Strategy Note'] = (
+                        'Cause We Care applies as nonprofit; Dee Davis Inc. executes contract services where allowed.'
+                    )
 
-                self.airtable.create_record('GRANT OPPORTUNITIES', record)
+                create_grant_opportunity(self.airtable, record)
                 print(f"   ✅ Added: {source['Grant Name'][:60]}")
                 print(f"      Applicant: {source['Applicant Entity']} | Priority: {source['Priority Level']}")
                 imported += 1
@@ -461,6 +763,62 @@ class GBISCommunityHealthMiner:
                 print(f"   ❌ Error adding {source['Grant Name'][:40]}: {e}")
 
         print(f"\n📊 Foundation seeds: {imported} added, {skipped} skipped")
+        return {'imported': imported, 'skipped': skipped}
+
+    def seed_cwc_expansion_sources(self) -> Dict:
+        """
+        Seeds CWC expansion programs & grant sources (CWC_EXPANSION_GRANT_SOURCES).
+        Entity BOTH: Cause We Care applies; Dee Davis Inc. as TPA partner unless noted.
+        Lead-screening rows document CWC outreach + DDI TPA testing/billing in DDI Strategy Note.
+        """
+        print("\n💛 Seeding Cause We Care expansion grant sources into GBIS...")
+        imported = 0
+        skipped = 0
+
+        for source in CWC_EXPANSION_GRANT_SOURCES:
+            try:
+                if self._is_duplicate_grant(source['Grant Name']):
+                    print(f"   ⏭️  Already exists: {source['Grant Name'][:60]}")
+                    skipped += 1
+                    continue
+
+                notes = '\n'.join(filter(None, [
+                    source['Notes'],
+                    f"Amount: {source['Typical Award']} | Priority: {source['Priority Level']} | Score: {source['Qualification Score']}",
+                    f"Type: {source['Funder Type']} | Funding: {source['Funding Type']}",
+                    f"Lane: {source['Service Lane']} | Subtype: {source['Research Subtype']}",
+                    f"Applicant: {source['Applicant Entity']}",
+                    f"Action: {source.get('Action Required', '')}",
+                ]))
+                ent = entity_from_applicant_label(source.get('Applicant Entity', 'BOTH'))
+                record = {
+                    'Grant Name': source['Grant Name'],
+                    'Funder Organization': source['Funder Organization'],
+                    'Grant URL': source['Grant URL'],
+                    'Eligibility': source['Eligibility'],
+                    'Notes': notes,
+                    'Entity': ent,
+                    'Grant Source Type': 'TRACKED SOURCE',
+                    'Recommendation': priority_to_recommendation(source.get('Priority Level', '')),
+                    'Last Source Check': today_iso(),
+                }
+                ddi_note = source.get('DDI Strategy Note')
+                if ddi_note:
+                    record['DDI Strategy Note'] = ddi_note
+                elif ent == 'BOTH':
+                    record['DDI Strategy Note'] = (
+                        'BOTH: Cause We Care is applicant; Dee Davis Inc. as TPA partner for '
+                        'contract delivery, compliance, and billing where applicable.'
+                    )
+
+                create_grant_opportunity(self.airtable, record)
+                print(f"   ✅ {source['Grant Name'][:60]}")
+                imported += 1
+
+            except Exception as e:
+                print(f"   ❌ Error: {source['Grant Name'][:40]}: {e}")
+
+        print(f"\n📊 CWC expansion seeds: {imported} added, {skipped} skipped")
         return {'imported': imported, 'skipped': skipped}
 
     # -----------------------------------------------------------------------
@@ -478,7 +836,7 @@ class GBISCommunityHealthMiner:
         imported = 0
         found = 0
 
-        for keyword in FEDERAL_RESEARCH_KEYWORDS[:5]:  # Start with top 5
+        for keyword in FEDERAL_RESEARCH_KEYWORDS:
             try:
                 payload = {
                     'keyword': keyword,
@@ -519,6 +877,9 @@ class GBISCommunityHealthMiner:
                         )
 
                         close_date = opp.get('closeDate', '')
+                        ent = map_applicant_to_entity(str(applicant))
+                        ceil = opp.get('awardCeiling')
+                        amt_note = f"Amount: Up to ${ceil:,.0f}" if ceil is not None else ''
 
                         notes_parts = [
                             f"GRANT ID: {grant_id}",
@@ -528,17 +889,27 @@ class GBISCommunityHealthMiner:
                             f"Applicant: {applicant}",
                             f"Source: Grants.gov API — Research Lane",
                             f"Deadline: {close_date}" if close_date else '',
-                            f"Amount: Up to ${opp['awardCeiling']:,}" if opp.get('awardCeiling') else '',
+                            amt_note,
                         ]
                         record = {
-                            'GRANT NAME':          title[:255],
-                            'FUNDER ORGANIZATION': agency,
-                            'GRANT URL':           f"https://www.grants.gov/search-results-detail/{grant_id}",
-                            'ELIGIBILITY':         opp.get('eligibility', ''),
-                            'NOTES':               '\n'.join(p for p in notes_parts if p),
+                            'Grant Name': title[:255],
+                            'Funder Organization': agency,
+                            'Grant URL': f"https://www.grants.gov/search-results-detail/{grant_id}",
+                            'Eligibility': opp.get('eligibility', ''),
+                            'Notes': '\n'.join(p for p in notes_parts if p),
+                            'Grant ID': str(grant_id),
+                            'Deadline': close_date or '',
+                            'Entity': ent,
+                            'Grant Source Type': 'LIVE OPPORTUNITY',
+                            'Recommendation': 'Review',
+                            'Last Source Check': today_iso(),
                         }
+                        if ent == 'BOTH':
+                            record['DDI Strategy Note'] = (
+                                'Cause We Care may apply as nonprofit; Dee Davis Inc. as contract service provider where applicable.'
+                            )
 
-                        self.airtable.create_record('GRANT OPPORTUNITIES', record)
+                        create_grant_opportunity(self.airtable, record)
                         imported += 1
                         print(f"   ✅ {title[:60]} | {applicant}")
 
@@ -571,20 +942,25 @@ class GBISCommunityHealthMiner:
         # 1. Seed Michigan foundations (idempotent — skips existing)
         results['michigan_foundations'] = self.seed_michigan_foundations()
 
-        # 2. Seed veteran grant sources
+        # 2. CWC expansion programs & grant sources (BOTH / TPA where noted)
+        results['cwc_expansion'] = self.seed_cwc_expansion_sources()
+
+        # 3. Seed veteran grant sources
         results['veteran_sources'] = self.seed_veteran_sources()
 
-        # 3. Mine Grants.gov for live federal health grants
+        # 4. Mine Grants.gov for live federal health grants
         results['grants_gov'] = self.mine_grants_gov_research()
 
         total_new = (
             results['michigan_foundations']['imported'] +
+            results['cwc_expansion']['imported'] +
             results['veteran_sources']['imported'] +
             results['grants_gov']['imported']
         )
 
         print(f"\n✅ GBIS pipeline complete — {total_new} new records added")
         print("   Community Health & Research: GBIS OPPORTUNITIES → Service Lane filter")
+        print("   CWC expansion: Filter Entity = BOTH + DDI Strategy Note (TPA / lead screening)")
         print("   Veteran Grants: Filter by Funder Type = 'Veteran Foundation'")
         print("   Cause We Care applicant: Filter Applicant Entity = 'Cause We Care'")
         return results
@@ -595,10 +971,16 @@ class GBISCommunityHealthMiner:
 
     def _is_duplicate_grant(self, grant_name: str) -> bool:
         try:
+            from gbis_airtable_helpers import grant_name_from_fields
+
             records = self.airtable.get_all_records('GRANT OPPORTUNITIES')
-            return any(r['fields'].get('GRANT NAME', '').lower() == grant_name.lower()
-                       for r in records)
-        except:
+            gnl = grant_name.lower().strip()
+            for r in records:
+                fn = grant_name_from_fields(r.get('fields', {})).lower()
+                if fn == gnl:
+                    return True
+            return False
+        except Exception:
             return False
 
     def _is_duplicate_grant_id(self, grant_id: str) -> bool:
@@ -606,8 +988,13 @@ class GBISCommunityHealthMiner:
             return False
         try:
             records = self.airtable.get_all_records('GRANT OPPORTUNITIES')
-            return any(r['fields'].get('GRANT ID') == grant_id for r in records)
-        except:
+            gid = str(grant_id)
+            for r in records:
+                f = r.get('fields', {})
+                if str(f.get('Grant ID') or f.get('GRANT ID') or '') == gid:
+                    return True
+            return False
+        except Exception:
             return False
 
 

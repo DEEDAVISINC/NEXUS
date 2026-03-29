@@ -456,6 +456,16 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - **Previous relationship:** DDI completed signing through Eagle Eye at $70/signing. Eagle Eye likely charges JG Wentworth $125-200.
 - **Strategy:** Match signing agency rate, keep 100%. No pricing in initial email — ask what they currently pay, then match.
 - **Next:** Build hit list of all title agents, loan officers, and companies from DDI's signing history for direct outreach campaign.
+
+### UPS / The UPS Store (National — Notary + Courier)
+- **Portal:** Coupa Supplier Portal (supplier.coupahost.com) — DDI already has existing Coupa account
+- **Status:** Email sent 03/27/2026 to supplyline@ups.com requesting DDI's existing Coupa account be linked to UPS. Services: notary, signing, document execution, courier/delivery.
+- **Opportunity:** 5,500+ UPS Store locations nationwide need notary coverage. Plus courier services for UPS corporate. EDWOSB/WBENC/MBE supplier diversity advantage.
+
+### Westlake Flooring Services (Auto Dealer Floor Plan Lending)
+- **Contact:** John Babon, Area Sales Manager — jbabon@wfs-flooring.com
+- **Status:** Direct partnership email sent 03/27/2026. Met in person at Atlas Motors (Clinton Twp) signing for dealer Yaas Elayas. John said to email him, he'd route to the right department. Warm lead.
+- **Opportunity:** Westlake finances dealerships nationwide — every floor plan loan needs notarized docs. Recurring, high-volume signing work across Michigan.
 - [x] **Blue Cross Complete** — Email sent to BCCProviderData@mibluecrosscomplete.com on 03/26/2026.
 - [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP redirected to CareSource (MI_Network@caresource.com). Follow-up sent 03/26/2026. **Dana responded 03/27/2026 with FULL CONTRACTING PACKAGE** — Provider Agreement, W9, Provider Application, Services Checklist, Disclosure of Ownership. CareSource expanding MI Health Link (HIDE SNP) to DDI's region. **COMPLETE AND RETURN ASAP.**
 - [ ] Priority Health — priorityhealth.com

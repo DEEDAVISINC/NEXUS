@@ -9991,11 +9991,30 @@ def get_gbis_opportunities():
                 return float(match.group(1).replace(',', ''))
             return 0.0
 
+        from datetime import date as date_cls
+
         # Get filter parameters
         priority_level = request.args.get('priority_level')
         funder_type = request.args.get('funder_type')
         division = request.args.get('division')
         status = request.args.get('status')
+        entity_filter = (request.args.get('entity') or 'all').lower()
+
+        def _grant_name_field(f):
+            return (f.get('Grant Name') or f.get('GRANT NAME') or '').strip()
+
+        def _stale_source_warning(f):
+            gst = (f.get('Grant Source Type') or f.get('grant source type') or '').upper()
+            if gst != 'TRACKED SOURCE':
+                return False
+            raw = f.get('Last Source Check') or f.get('last source check')
+            if not raw:
+                return True
+            try:
+                d = date_cls.fromisoformat(str(raw)[:10])
+                return (date_cls.today() - d).days > 7
+            except Exception:
+                return True
 
         # Primary GBIS table
         source_table = 'GRANT OPPORTUNITIES'
@@ -10005,6 +10024,17 @@ def get_gbis_opportunities():
         filtered = []
         for opp in opportunities:
             fields = opp.get('fields', {})
+            ent = (fields.get('Entity') or fields.get('ENTITY') or '').strip()
+
+            if entity_filter == 'ddi':
+                if ent not in ('DDI', 'BOTH'):
+                    continue
+            elif entity_filter == 'cwc':
+                if ent not in ('CWC', 'BOTH'):
+                    continue
+            elif entity_filter == 'both':
+                if ent != 'BOTH':
+                    continue
             
             # Apply filters if specified
             if priority_level and fields.get('Priority Level') != priority_level:
@@ -10020,16 +10050,19 @@ def get_gbis_opportunities():
             
             # Format the opportunity
             raw_grant_amount = fields.get('Grant Amount', fields.get('Max Award Amount', 0))
+            gst = fields.get('Grant Source Type') or ''
+            ddi_actionable = ent != 'CWC'
             filtered.append({
                 'id': opp.get('id'),
-                'grantName': fields.get('Grant Name', ''),
-                'funderOrganization': fields.get('Funder Organization', ''),
+                'createdTime': opp.get('createdTime', ''),
+                'grantName': _grant_name_field(fields),
+                'funderOrganization': fields.get('Funder Organization', fields.get('FUNDER ORGANIZATION', '')),
                 'funderType': fields.get('Funder Type', ''),
                 'grantAmount': parse_numeric_amount(raw_grant_amount),
                 'grantAmountDisplay': raw_grant_amount,
-                'grantUrl': fields.get('Grant URL', ''),
+                'grantUrl': fields.get('Grant URL', fields.get('GRANT URL', '')),
                 'deadline': fields.get('Deadline', ''),
-                'eligibility': fields.get('Eligibility', ''),
+                'eligibility': fields.get('Eligibility', fields.get('ELIGIBILITY', '')),
                 'focusAreas': fields.get('Focus Areas', []),
                 'divisionFit': fields.get('Division Fit', []),
                 'qualificationScore': fields.get('Qualification Score', 0),
@@ -10045,7 +10078,15 @@ def get_gbis_opportunities():
                 'roiRating': fields.get('ROI Rating', 0),
                 'daysUntilDeadline': fields.get('Days Until Deadline', 0),
                 'discoveryDate': fields.get('Discovery Date', ''),
-                'sourceTable': source_table
+                'sourceTable': source_table,
+                'entity': ent or 'DDI',
+                'grantSourceType': gst,
+                'recommendation': fields.get('Recommendation', ''),
+                'lastSourceCheck': fields.get('Last Source Check', ''),
+                'ddiStrategyNote': fields.get('DDI Strategy Note', ''),
+                'staleSourceWarning': _stale_source_warning(fields),
+                'ddiActionable': ddi_actionable,
+                'grantNameDisplay': _grant_name_field(fields),
             })
         
         return jsonify(filtered)
@@ -10645,11 +10686,12 @@ def gbis_mine_all():
         small_result     = small_miner.seed_all_sources()
 
         mich  = community_result['michigan_foundations']
+        cwc   = community_result.get('cwc_expansion', {'imported': 0, 'skipped': 0})
         vets  = community_result['veteran_sources']
         fed   = community_result['grants_gov']
         small = small_result
 
-        total_new = (mich['imported'] + vets['imported'] +
+        total_new = (mich['imported'] + cwc['imported'] + vets['imported'] +
                      fed['imported']  + small['imported'])
 
         return jsonify({
@@ -10666,6 +10708,11 @@ def gbis_mine_all():
                     'imported': mich['imported'],
                     'skipped':  mich['skipped'],
                     'label':    'Michigan Foundation Grants',
+                },
+                'cwc_expansion': {
+                    'imported': cwc['imported'],
+                    'skipped':  cwc['skipped'],
+                    'label':    'Cause We Care Expansion (BOTH / TPA)',
                 },
                 'veteran_grants': {
                     'imported': vets['imported'],
@@ -11081,6 +11128,180 @@ def create_vertex_revenue():
         return jsonify({'success': True, 'revenue': revenue})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# -------------------- VERTEX NEMT MEDICAL BILLING --------------------
+
+@app.route('/vertex/nemt/log-trip', methods=['POST'])
+def vertex_nemt_log_trip():
+    """Log a completed NEMT trip (local store); HCPCS validated against NEMT RATES in Airtable."""
+    try:
+        from nemt_billing import log_trip
+
+        d = request.json or {}
+        airtable = AirtableClient()
+        trip = log_trip(
+            airtable,
+            member_medicaid_id=d.get('member_medicaid_id', ''),
+            pickup_time=d.get('pickup_time', ''),
+            dropoff_time=d.get('dropoff_time', ''),
+            pickup_address=d.get('pickup_address', ''),
+            dropoff_address=d.get('dropoff_address', ''),
+            mileage=d.get('mileage', 0),
+            trip_purpose=d.get('trip_purpose', ''),
+            hcpcs_code=d.get('hcpcs_code', ''),
+            payer=d.get('payer'),
+        )
+        return jsonify({'success': True, 'trip': trip})
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_log_trip: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/generate-claim', methods=['POST'])
+def vertex_nemt_generate_claim():
+    """Create CMS-1500-style claim as VERTEX INVOICES row (Pending)."""
+    try:
+        from nemt_billing import generate_claim
+
+        d = request.json or {}
+        trip_id = d.get('trip_id')
+        if not trip_id:
+            return jsonify({'success': False, 'error': 'trip_id required'}), 400
+        airtable = AirtableClient()
+        result = generate_claim(airtable, trip_id)
+        return jsonify(result)
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_generate_claim: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/pending-claims', methods=['GET'])
+def vertex_nemt_pending_claims():
+    """Pending NEMT invoices + summary + logged trips + rates from Airtable NEMT RATES."""
+    try:
+        from nemt_billing import get_nemt_summary, get_pending_claims, list_logged_trips, list_nemt_rates
+
+        airtable = AirtableClient()
+        pending = get_pending_claims(airtable)
+        summary = get_nemt_summary(airtable)
+        trips = list_logged_trips()
+        rates = list_nemt_rates(airtable)
+        return jsonify(
+            {
+                'pending_claims': pending,
+                'summary': summary,
+                'logged_trips': trips,
+                'rates': rates,
+            }
+        )
+    except Exception as e:
+        print(f"vertex_nemt_pending_claims: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/rates', methods=['GET'])
+def vertex_nemt_get_rates():
+    """All rows from Airtable NEMT RATES."""
+    try:
+        from nemt_billing import list_nemt_rates
+
+        airtable = AirtableClient()
+        return jsonify({'rates': list_nemt_rates(airtable)})
+    except Exception as e:
+        print(f"vertex_nemt_get_rates: {e}")
+        return jsonify({'error': str(e), 'rates': []}), 500
+
+
+@app.route('/vertex/nemt/rates/<record_id>', methods=['PUT'])
+def vertex_nemt_update_rate(record_id):
+    """Update HCPCS, description, and/or rate amount for one NEMT RATES row."""
+    try:
+        from nemt_billing import update_nemt_rate
+
+        d = request.json or {}
+        airtable = AirtableClient()
+        rec = update_nemt_rate(
+            airtable,
+            record_id,
+            hcpcs_code=d.get('hcpcs_code'),
+            description=d.get('description'),
+            rate_amount=d.get('rate_amount'),
+        )
+        return jsonify({'success': True, 'record': rec})
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_update_rate: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/rates/seed', methods=['POST'])
+def vertex_nemt_seed_rates():
+    """Create placeholder T2002 / A0130 / A0380 rows at $0.00 when missing."""
+    try:
+        from nemt_billing import seed_placeholder_rates
+
+        airtable = AirtableClient()
+        result = seed_placeholder_rates(airtable)
+        return jsonify(result)
+    except Exception as e:
+        print(f"vertex_nemt_seed_rates: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/post-payment', methods=['POST'])
+def vertex_nemt_post_payment():
+    """ERA-style payment: mark invoice Paid, post VERTEX REVENUE."""
+    try:
+        from nemt_billing import post_payment
+
+        d = request.json or {}
+        invoice_id = d.get('invoice_id')
+        if not invoice_id:
+            return jsonify({'success': False, 'error': 'invoice_id required'}), 400
+        amount = d.get('amount')
+        if amount is None:
+            return jsonify({'success': False, 'error': 'amount required'}), 400
+        airtable = AirtableClient()
+        result = post_payment(
+            airtable,
+            invoice_id,
+            float(amount),
+            payment_date=d.get('payment_date'),
+            era_reference=d.get('era_reference'),
+            notes=d.get('notes'),
+        )
+        return jsonify(result)
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_post_payment: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/invoice/<invoice_id>/pdf', methods=['GET'])
+def vertex_nemt_invoice_pdf(invoice_id):
+    """Download factoring-compliant NEMT invoice PDF (generated from HTML)."""
+    try:
+        from nemt_billing import SOURCE_SYSTEM, _record_fields, get_nemt_invoice_pdf_path_from_record
+
+        airtable = AirtableClient()
+        rec = airtable.get_record("VERTEX INVOICES", invoice_id)
+        fields = _record_fields(rec)
+        if fields.get("Source System") != SOURCE_SYSTEM:
+            return jsonify({"error": "Not a NEMT invoice"}), 400
+        path = get_nemt_invoice_pdf_path_from_record(rec)
+        if not path:
+            return jsonify({"error": "PDF not found or not generated"}), 404
+        return send_file(path, mimetype="application/pdf", as_attachment=False)
+    except Exception as e:
+        print(f"vertex_nemt_invoice_pdf: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/vertex/revenue/summary', methods=['GET'])
@@ -12532,6 +12753,53 @@ def generate_capability_statement():
             'success': False,
             'error': str(e)
         }), 500
+
+
+# =====================================================================
+# EMAIL TEMPLATE GENERATOR (DDCSS) — HTML + {{PLACEHOLDER}} / company_info.py
+# =====================================================================
+
+@app.route('/email-templates/categories', methods=['GET'])
+def email_templates_categories():
+    """List email template categories and variants (DDCSS)."""
+    try:
+        from email_template_generator import AVAILABLE_EMAIL_CATEGORIES
+        return jsonify({"categories": AVAILABLE_EMAIL_CATEGORIES})
+    except Exception as e:
+        return jsonify({"error": str(e), "categories": []}), 500
+
+
+@app.route('/email-templates/generate', methods=['POST'])
+def email_templates_generate():
+    """
+    Generate HTML email from template. Request JSON:
+    {
+      "category": "mco_hide_snp",
+      "variant": "cold_outreach" | "warm_follow_up" | "inbound_response",
+      "recipientFirstName": "Dana",
+      "planDisplayName": "HAP CareSource MI Health Link",
+      "customParagraph": "optional extra paragraph",
+      "outputDir": "/optional/path"
+    }
+    """
+    try:
+        from email_template_generator import handle_generate_email_template
+
+        data = request.get_json() or {}
+        result = handle_generate_email_template(
+            category=data.get("category", "mco_hide_snp"),
+            variant=data.get("variant", "cold_outreach"),
+            recipient_first_name=data.get("recipientFirstName") or data.get("recipient_first_name"),
+            plan_display_name=data.get("planDisplayName") or data.get("plan_display_name"),
+            custom_paragraph=data.get("customParagraph") or data.get("custom_paragraph"),
+            extra_replacements=data.get("extraReplacements") or data.get("extra_replacements"),
+            output_dir=data.get("outputDir") or data.get("output_dir"),
+        )
+        if not result.get("success"):
+            return jsonify(result), 400
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/capability-statements/sectors', methods=['GET'])

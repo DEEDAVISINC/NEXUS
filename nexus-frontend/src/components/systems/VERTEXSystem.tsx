@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import { PnLStatement } from './PnLEngine';
+import NEMTBillingSystem from './NEMTBillingSystem';
 
 interface VERTEXSystemProps {
   onBackToNexus: () => void;
@@ -1334,7 +1335,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
       {/* Navigation Tabs */}
       <div className="mb-8 flex gap-4 overflow-x-auto">
-        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing'].map((tab) => (
+        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -1351,6 +1352,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             {tab === 'reports' && '📊 Reports'}
             {tab === 'pnl' && '📈 P&L Tracker'}
             {tab === 'financing' && '💰 Financing'}
+            {tab === 'nemt' && '🚐 NEMT Billing'}
           </button>
         ))}
         <button
@@ -1378,6 +1380,17 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
           </div>
         )}
         {activeTab === 'financing' && renderFinancing()}
+        {activeTab === 'nemt' && (
+          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white">NEMT Medical Billing</h2>
+              <p className="text-sm text-gray-400 mt-1">
+                Trip log → CMS-1500-style claims (VERTEX INVOICES) → ERA payment → VERTEX REVENUE
+              </p>
+            </div>
+            <NEMTBillingSystem />
+          </div>
+        )}
       </div>
 
       {/* Modals */}

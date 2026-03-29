@@ -6,3 +6,10 @@ __pycache__/
 .vscode/
 *.log
 BIDS:RESOURCES/
+
+# NEMT local trip log (PHI / Medicaid IDs)
+nemt_billing_data.json
+nemt_billing_data.json.tmp
+
+# NEMT factoring invoices (HTML/PDF; may contain PHI)
+GENERATED_VERTEX_INVOICES/

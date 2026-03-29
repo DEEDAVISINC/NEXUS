@@ -3,6 +3,17 @@
 NEXUS Automation Scheduler
 Runs automated tasks on schedule — no manual intervention needed.
 
+GBIS grant mining audit (built vs scheduled):
+- POST /gbis/mine-all → run_gbis_mine_all_pipeline() — SCHEDULED daily 7:00 AM ET (full pipeline).
+- Sub-APIs (POST /gbis/mine-source, research-lane seeds, mine-federal) are subsets of
+  community_miner.run_full_pipeline(); no separate schedule needed.
+- POST /gbis/mine-small-grants/seed* → covered by mine-all (seed_all_sources).
+- Weekly free-only seed removed from loop; use run_gbis_small_grants_seed() manually if needed.
+
+GPSS forecasting: run_forecast_mining() calls FederalForecastsMiner.mine_all_forecasts() — same
+orchestrator as POST /gpss/forecasting/mine (handle_mine_federal_forecasts). Tier-specific
+API routes (mine-edwosb, mine-renewals) are subsets of that default tier list.
+
 Tasks:
 1. Email monitoring — checks inbox for new solicitations (every 30 min)
 2. Federal forecasts mining — pulls SAM.gov opportunities (every 6 hours)
@@ -18,7 +29,7 @@ Usage:
   python3 nexus_scheduler.py --public   # Run public portal scan (nationwide, all tiers)
   python3 nexus_scheduler.py --public-tier1  # Run public portal scan (tier 1 only: SAM, BidNet, MITN, TX)
   python3 nexus_scheduler.py --scan     # Run folder scan only
-  python3 nexus_scheduler.py --gbis     # Run GBIS small grants seed only
+  python3 nexus_scheduler.py --gbis     # Run GBIS mine-all (full grant pipeline, same as POST /gbis/mine-all)
   python3 nexus_scheduler.py --primes   # Run prime contractor mining (find subs-needed primes)
 
 For cron (recommended):
@@ -382,10 +393,10 @@ def run_state_local_mining():
 
 def run_gbis_small_grants_seed():
     """
-    Seed GRANT OPPORTUNITIES with small business grant sources (46 sources, 45 free).
-    Safe to run anytime — skips duplicates. Keeps grant pipeline populated.
+    Legacy: seed only free small-business sources (subset of mine-all).
+    Prefer run_gbis_mine_all_pipeline() for autonomous discovery.
     """
-    log.info("--- GBIS SMALL GRANTS SEED ---")
+    log.info("--- GBIS SMALL GRANTS SEED (free-only) ---")
     try:
         from gbis_small_grants_miner import GBISSmallGrantsMiner
         miner = GBISSmallGrantsMiner()
@@ -395,6 +406,84 @@ def run_gbis_small_grants_seed():
     except Exception as e:
         log.error(f"GBIS small grants seed failed: {e}")
         return False
+
+
+def run_gbis_mine_all_pipeline():
+    """
+    Full GBIS autonomous grant discovery — mirrors POST /gbis/mine-all (api_server.gbis_mine_all):
+      - GBISCommunityHealthMiner.run_full_pipeline() (Michigan foundations + CWC expansion + veteran seeds + Grants.gov)
+      - GBISSmallGrantsMiner.seed_all_sources() (all small-business grant rows; skips duplicates)
+    Safe to run daily; does not replace GPSS/federal miners.
+    """
+    log.info("--- GBIS MINE-ALL (full pipeline) ---")
+    try:
+        from gbis_community_health_miner import GBISCommunityHealthMiner
+        from gbis_small_grants_miner import GBISSmallGrantsMiner
+
+        community_miner = GBISCommunityHealthMiner()
+        small_miner = GBISSmallGrantsMiner()
+
+        community_result = community_miner.run_full_pipeline()
+        small_result = small_miner.seed_all_sources()
+
+        mich = community_result["michigan_foundations"]
+        cwc = community_result.get("cwc_expansion", {"imported": 0, "skipped": 0})
+        vets = community_result["veteran_sources"]
+        fed = community_result["grants_gov"]
+        sm = small_result
+
+        total_new = mich["imported"] + cwc["imported"] + vets["imported"] + fed["imported"] + sm["imported"]
+        log.info(
+            f"GBIS mine-all complete: {total_new} new rows "
+            f"(foundations +{mich['imported']}, cwc_expansion +{cwc['imported']}, "
+            f"veteran +{vets['imported']}, grants.gov +{fed['imported']}, small business +{sm['imported']})"
+        )
+        return True
+    except Exception as e:
+        log.error(f"GBIS mine-all failed: {e}")
+        import traceback
+
+        traceback.print_exc()
+        return False
+
+
+GBIS_DAILY_RUN_STATE = os.path.join(LOG_DIR, "gbis_last_daily_run.json")
+
+
+def _should_run_gbis_daily_7am_et():
+    """Once per calendar day, only in the 7:00–7:14 AM America/Detroit window."""
+    try:
+        from zoneinfo import ZoneInfo
+
+        now = datetime.now(ZoneInfo("America/Detroit"))
+    except Exception:
+        now = datetime.now()
+    if now.hour != 7 or now.minute >= 15:
+        return False
+    today = now.strftime("%Y-%m-%d")
+    try:
+        if os.path.exists(GBIS_DAILY_RUN_STATE):
+            with open(GBIS_DAILY_RUN_STATE, "r") as f:
+                data = json.load(f)
+            if data.get("date") == today:
+                return False
+    except Exception:
+        pass
+    return True
+
+
+def _mark_gbis_daily_run_et():
+    try:
+        from zoneinfo import ZoneInfo
+
+        now = datetime.now(ZoneInfo("America/Detroit"))
+    except Exception:
+        now = datetime.now()
+    try:
+        with open(GBIS_DAILY_RUN_STATE, "w") as f:
+            json.dump({"date": now.strftime("%Y-%m-%d"), "iso": now.isoformat()}, f, indent=2)
+    except Exception as e:
+        log.warning(f"Could not write GBIS daily run state: {e}")
 
 
 def run_prime_contractor_mining():
@@ -464,7 +553,7 @@ def run_all():
     results["forecast_mining"] = run_forecast_mining()
     results["state_local_mining"] = run_state_local_mining()
     results["public_portal_scan"] = run_public_portal_scan()
-    results["gbis_small_grants_seed"] = run_gbis_small_grants_seed()
+    results["gbis_mine_all"] = run_gbis_mine_all_pipeline()
     results["prime_contractor_mining"] = run_prime_contractor_mining()
     results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
     results["quote_followups"] = run_quote_followups()
@@ -492,7 +581,7 @@ def run_loop():
     log.info("  Agency forecasts:     daily")
     log.info("  AI scoring + alerts:  every 2 hours")
     log.info("  Quote follow-ups:     every 4 hours")
-    log.info("  GBIS small grants:    weekly (Sunday)")
+    log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
     log.info("  Prime contractor mining: weekly")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
@@ -507,7 +596,6 @@ def run_loop():
     last_state_local = datetime.min
     last_digest = datetime.min
     last_public_scan = datetime.min
-    last_gbis_seed = datetime.min
     last_prime_mining = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
@@ -520,7 +608,6 @@ def run_loop():
     AI_SCORE_INTERVAL = timedelta(hours=2)    # Score new opps every 2h
     DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
     PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
-    GBIS_SEED_INTERVAL = timedelta(days=7)     # Weekly — small grant sources
     PRIME_MINING_INTERVAL = timedelta(days=7)   # Weekly — find primes needing EDWOSB subs
 
     while True:
@@ -563,10 +650,10 @@ def run_loop():
             run_public_portal_scan()
             last_public_scan = now
 
-        # GBIS small grants seed — weekly (Sunday preferred, but any 7-day gap)
-        if now - last_gbis_seed >= GBIS_SEED_INTERVAL:
-            run_gbis_small_grants_seed()
-            last_gbis_seed = now
+        # GBIS autonomous grant discovery — daily 7:00 AM America/Detroit (same as POST /gbis/mine-all)
+        if _should_run_gbis_daily_7am_et():
+            if run_gbis_mine_all_pipeline():
+                _mark_gbis_daily_run_et()
 
         # Prime contractor mining — weekly (find primes needing EDWOSB subs)
         if now - last_prime_mining >= PRIME_MINING_INTERVAL:
@@ -616,7 +703,7 @@ if __name__ == "__main__":
         run_folder_scan()
         run_stale_detection()
     elif "--gbis" in args:
-        run_gbis_small_grants_seed()
+        run_gbis_mine_all_pipeline()
     elif "--primes" in args:
         run_prime_contractor_mining()
     elif not args:

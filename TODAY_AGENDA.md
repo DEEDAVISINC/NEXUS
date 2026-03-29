@@ -1,30 +1,46 @@
-# YOUR AGENDA — Friday, March 28, 2026
+# YOUR AGENDA — Saturday, March 28, 2026
 
 **Schedule says:** Operations, Logistics & Follow-ups
-**Reality says:** THREE bids due next week. Pricing and forms must be locked this weekend.
+**Reality says:** THREE bids due next week. Pricing and forms must be locked this weekend — **plus** contract packets and vendor enrollments below.
+
+---
+
+## CONTRACT & VENDOR COMPLETIONS — LOCK THESE
+
+| # | Contact / Program | What to complete |
+|---|-------------------|------------------|
+| **1** | **Lauren Elkins — DDC** | **DePointe DNA:** finish all **DDC documents** with DDC (DNA channeling / lab partner stack). |
+| **2** | **Jon Shane — SouthStar Capital** | **Factoring broker:** complete **factoring broker documents** (Bankers / SouthStar pipeline). |
+| **3** | **HAP** | **NEMT provider contract packet** — full packet back to HAP / CareSource MI Network (see `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/`). |
+| **4** | **United Healthcare** | **Vendor sign-up** — finish **UHC vendor enrollment** / credentialing steps. |
+
+*Treat these like bid deadlines — incomplete packets block revenue.*
 
 ---
 
 ## CRITICAL — DO FIRST
 
-### 1. Call Quest Diagnostics — Erika Goad
+### 1. Contract & vendor items (table above)
+Lauren Elkins / DDC (DePointe DNA), Jon Shane / SouthStar (factoring), HAP NEMT packet, UHC vendor signup — **same priority tier as bids** until complete.
+
+### 2. Call Quest Diagnostics — Erika Goad
 **Why:** DDI STILL needs wholesale pricing for all three drug testing bids. Two days overdue now.
 **Action:** Call first thing. If no answer by 1 PM, finalize pricing using market benchmarks + backup sub quotes.
 **Fallback:** eScreen, Michigan Court Services, One-Stop pricing in `PRIOR_CONTRACT_PRICING_RESEARCH.md`
 
-### 2. Lock Drug Testing Bid Pricing (ALL THREE)
+### 3. Lock Drug Testing Bid Pricing (ALL THREE)
 - **Macomb County RFP 07-26** — Due MONDAY March 31 @ 10AM (hand deliver to Mt. Clemens)
 - **Fulton County GA ITB 26ITB1580280B** — Due WEDNESDAY April 1 @ 11AM (BidNet)
 - **Kentucky THVC RFP 074 2600000270** — Due WEDNESDAY April 1 @ 3PM (hard copy)
 
 These cannot wait past today. Price with Quest if you have it. Price with benchmarks if you don't. Lock it.
 
-### 3. Macomb County Forms + Print Package
+### 4. Macomb County Forms + Print Package
 - 9 required forms (2 need notarization)
 - Print and assemble this weekend
 - Must be hand-delivered MONDAY morning
 
-### 4. Kentucky Hard Copy — Ship Today or Tomorrow
+### 5. Kentucky Hard Copy — Ship Today or Tomorrow
 - RFP 074 requires hard copy delivery by April 1
 - If shipping, it needs to go out TODAY or Saturday at latest
 - Check delivery address and shipping method
@@ -89,6 +105,7 @@ These cannot wait past today. Price with Quest if you have it. Price with benchm
   - DER notification generator
   - Compliance tracking + MIS report data
   - 14 API endpoints wired into api_server.py
+- **VERTEX NEMT Medical Billing (evening):** Airtable **NEMT RATES** (no hardcoded rates), rates management UI, factoring-compliant **HTML→PDF** invoices (sequential **NEMT-INV-*******, Net 30, EIN/CAGE/NPI, payer from **VERTEX CLIENTS**, assignment + certification language, Dieasha D. Davis signature block), **Factoring Status** on VERTEX INVOICES, PDF download route + frontend links.
 
 ---
 
@@ -106,4 +123,4 @@ These cannot wait past today. Price with Quest if you have it. Price with benchm
 
 ---
 
-*Updated: Thursday, March 27, 2026 — Goodnight*
+*Updated: Friday, March 27, 2026 (good night) — NEMT factoring invoice + rates table logged above.*

@@ -835,7 +835,7 @@
 ## 🏆 DDI BUSINESS REFERENCES
 
 **Use for vendor portal registrations, proposals, and pre-qualification packages.**
-**Last Updated:** March 17, 2026
+**Last Updated:** March 27, 2026
 
 ### **1. Diane Revord — CHAMPION HOMES / SKYLINE CHAMPION**
 - **Title:** Account Contact
@@ -844,12 +844,14 @@
 - **Use For:** Logistics, courier, document preparation references
 - **Source File:** `references.pages`
 
-### **2. Shajuan Taylor — SJT TRANSPORT / BLESSED ANGELS HOME HEALTH CARE, LLC**
+### **2. Shajuan Taylor — BLESSED ANGELS HOME HEALTH CARE, LLC** *(SJT Transport — related)*
 - **Title:** Social Worker / Teacher / Business Owner
 - **Phone:** 248.525.9804
 - **Address:** 24223 Raven Ave., Eastpointe, MI 48021
-- **Relationship:** Transportation and health care services collaboration
-- **Use For:** Transportation, personnel, health services references
+- **Primary entity for DDI compliance & drug testing:** **Blessed Angels Home Health Care, LLC** — workforce / employer drug testing and compliance (non-DOT motor-carrier context). **MC/USDOT not required** for this company type (not an interstate for-hire motor carrier under FMCSA operating authority).
+- **SJT Transport:** Cited alongside Shajuan; motor-carrier authority numbers apply only if SJT operates as a regulated carrier — **do not assume** Blessed Angels has MC/DOT.
+- **Relationship:** Health care services; DDI drug testing & compliance program for the agency’s needs (not freight-broker style MC/DOT tracking).
+- **Use For:** Past performance for employer/health-care drug testing & compliance references; transportation/courier references where Shajuan is listed in federal outreach
 
 ### **3. Mohammed Slimm — UNIVERSAL MORTGAGE LLC**
 - **Title:** Broker / Owner
@@ -890,6 +892,43 @@
 - **Relationship:** CLIENT — Private biometric credentialing of top executives including CEO Mat Ishbia for financial and security licensing. Confidential live scan fingerprinting for NMLS and regulatory compliance.
 - **Use For:** Biometric fingerprinting, executive credentialing, financial compliance references
 
+### **9. God Is Good Hauling LLC**
+- **Legal name:** God Is Good Hauling LLC (matches [FMCSA SAFER](https://safer.fmcsa.dot.gov/), USDOT **4345598**)
+- **EIN:** [Confirm from W-9 — PDF on file Mar 2026]
+- **Address (FMCSA):** 4408 Antrim Ct., Aberdeen, MD 21001
+- **Phone (FMCSA):** 443-745-3802
+- **MC# / USDOT:** **MC 1698448** · **USDOT 4345598**
+- **Relationship:** CLIENT — DOT workforce compliance and drug/alcohol testing of drivers (C/TPA program; collections via certified lab network as applicable).
+- **Documentation:** W-9 received — carrier package (Freight 1st Direct / FID clients folder, Mar 2026).
+- **Use For:** Transportation compliance references, drug testing / DOT program past performance.
+
+**Full FID owner-operator roster (compliance & drug testing):** See **`FREIGHT_1ST_DIRECT_OWNER_OPERATOR_CARRIER_LIST.md`** (sourced from `OWNER OPERATORS: CARRIER LIST.pdf`, Mar 2026).
+
+### **10. UHUAD TRANSPORT LTD** *(Freight 1st Direct carrier)*
+- **Address:** 1923 Dominion Blvd., Windsor, Ontario
+- **Primary contact:** Saifuddin Jutt — 587-891-8911 — UHUADTRANSPORT@GMAIL.COM
+- **Authority IDs (as shown on carrier agreement PDF):** 137934 / 3193138 — **confirm USDOT/MC (or Canadian equivalent) on FMCSA / provincial registry**
+- **Relationship:** Motor carrier under **Dee Davis Inc. dba Freight 1st Direct** broker agreement (DDI MC **1647572** on agreement template). Cross-border / Ontario-based operation.
+- **Documentation:** `UHUAD TRANSPORT CARRIER AGREEMENT CONFIRMATION.pdf` (FID CLIENTS folder).
+- **Use For:** Carrier reference, dispatch relationship; add driver compliance / drug testing scope here if/when same as other FID fleets.
+
+### **11. Hassan Bazzi — City of Dearborn Heights, Michigan**
+- **Phone:** 313-791-3500
+- **Email:** HBazzi@dearbornheightsmi.gov
+- **Agency:** City of Dearborn Heights (government email domain)
+- **Title / role:** [Add when confirmed]
+- **Relationship:** Michigan municipal / government contact
+- **Use For:** Procurement, vendor relations, municipal opportunities (Wayne County area)
+
+### **12. Carrie Marlow — Wayne County, Michigan**
+- **Phone:** 313-967-0034
+- **Email:** cmarlow@waynecountymi.gov
+- **Agency:** Wayne County (government email domain)
+- **Notes:** Notary-related / Notary Co. context (confirm department with contact)
+- **Title / role:** [Add when confirmed]
+- **Relationship:** Michigan county government contact
+- **Use For:** County procurement, notary program or related services, Wayne County opportunities
+
 ---
 
 ## 🚛 TRANSPORTATION & TRUCKING SUPPLIERS
@@ -907,7 +946,7 @@
 
 ---
 
-**Contact Database Version:** 2.6  
-**Last Updated:** March 24, 2026  
-**Recent Additions:** Sumair Transportation Inc (Travis Kott) added as trucking supplier  
+**Contact Database Version:** 3.1  
+**Last Updated:** March 29, 2026  
+**Recent Additions:** Carrie Marlow — Wayne County; Hassan Bazzi — City of Dearborn Heights; `FREIGHT_1ST_DIRECT_OWNER_OPERATOR_CARRIER_LIST.md`; UHUAD Transport Ltd; God Is Good Hauling; Sumair Transportation Inc (supplier)  
 **Next Update:** March 31, 2026

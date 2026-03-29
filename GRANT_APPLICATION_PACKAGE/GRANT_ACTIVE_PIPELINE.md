@@ -1,5 +1,5 @@
 # GRANT ACTIVE PIPELINE — DEE DAVIS INC.
-### Live Tracker | Dieasha D. Davis | Updated: March 22, 2026
+### Live Tracker | Dieasha D. Davis | Updated: March 27, 2026
 
 **Applicant:** Dee Davis Inc. + Cause We Care (501c3)  
 **Status:** LAUNCHING — first applications going out now  
@@ -70,8 +70,8 @@
 |---|---|---|---|
 | **MVAA Statewide Veteran Service Provision (FY27)** | $4M+ pool | Veteran services, benefits navigation | 🟢 INQUIRY SENT March 22 — FY27 opens ~April 2026 |
 | **MVAA Veteran Homelessness Prevention (MiVHPG)** | Up to $250K | Veteran homelessness, coordinated entry | 🟢 INQUIRY SENT March 22 — next cycle ~Fall 2026 |
-| **Michigan Health Endowment Fund — Capacity Building** | Up to $300K | Organizational growth | 🟢 INQUIRY SENT March 22 — awaiting portal access info |
-| **Michigan Health Endowment Fund — Community Health Impact** | Up to $750K | MIBridges, health navigation | 🔴 Opens May 2026 |
+| **Michigan Health Endowment Fund — Capacity Building** | Up to $300K | Organizational growth | 🟡 **RFP early April 2026** — Sayre Corbin replied Mar 27; subscribe at mihealthfund.org; concept paper → invite to apply |
+| **Michigan Health Endowment Fund — Community Health Impact (CHI)** | (was separate pool) | Community-driven health | **CHI folded in:** work now under **Healthy Kids** + **Healthy Aging** — no separate CHI RFP |
 | HRSA Community Health Grants | $100K–$500K | MIBridges, health navigation | 🟡 After SAM active (~March 26) |
 | HUD Community Development Block Grant | $25K–$500K | Southeast Michigan community | 🟡 After SAM active (~March 26) |
 | VA Supportive Services for Veteran Families (SSVF) | $50K–$500K | Veteran homelessness prevention | 🟡 After SAM active (~March 26) |
@@ -90,7 +90,7 @@
 | Grant | Entity | Amount | Date Submitted | Expected Response | Status |
 |---|---|---|---|---|---|
 | MVAA Grant Inquiry — FY27 SVSPG + MiVHPG + Other Programs | CWC | $4M+ pool (SVSPG) / Up to $250K (MiVHPG) | March 22, 2026 | 7-14 days | 🟢 SENT to MVAAGrants@michigan.gov |
-| Michigan Health Endowment Fund — Capacity Building + CHI Inquiry | CWC | Up to $300K (CB) / Up to $750K (CHI) | March 22, 2026 | 7-14 days | 🟢 SENT to info@mihealthfund.org |
+| Michigan Health Endowment Fund — Capacity Building + CHI Inquiry | CWC | Up to $300K (CB) | March 22, 2026 | **REPLIED Mar 27** — Sayre Corbin (grants@mihealthfund.org, 810-227-5212) | ✅ Response logged — CB RFP early Apr; CHI → Healthy Kids/Aging |
 | MDHHS CSBG Subgrant Inquiry | CWC | Varies (federal block grant) | March 22, 2026 | 7-14 days | 🟢 SENT to MDHHS-BCAEO@michigan.gov |
 | CWC SAM.gov Renewal | CWC | Unlocks all federal grants | March 22, 2026 | 5-10 biz days after CAGE docs sent | 🟡 CAGE verification docs SENT to CAGEReview@dla.mil. Awaiting DLA validation. Ref: INC-GSAFSD8651858. If no response by ~April 3, call Federal Service Desk 866-606-8220. |
 

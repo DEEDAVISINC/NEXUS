@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
+import { EmailTemplateSystem } from './ddcss/EmailTemplateSystem';
 
 interface DDCSSSystemProps {
   onBackToNexus: () => void;
@@ -507,7 +508,21 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
               </button>
             </div>
 
+            <div className="mb-6">
+              <button
+                type="button"
+                onClick={() => setCorporateSection('email-templates')}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 p-4 rounded-lg text-center transition border border-indigo-500/40"
+              >
+                <div className="text-3xl mb-2">✉️</div>
+                <div className="font-bold text-sm">Email Templates (DDCSS)</div>
+                <div className="text-xs text-indigo-200 mt-1">MCO HIDE SNP — Cold / Warm / Inbound</div>
+              </button>
+            </div>
+
             {/* Framework Content */}
+            {corporateSection === 'email-templates' && <EmailTemplateSystem />}
+
             {corporateSection === 'offer-blueprint' && (
               <div className="bg-gray-800 rounded-xl p-6">
                 <h3 className="text-2xl font-bold mb-4">💰 The $25K Corporate Offer Blueprint™</h3>

@@ -1,7 +1,7 @@
 im mainly talking about adding to the website # 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
 ## Always Use These Details for Future Documents
 
-**Last Updated:** February 12, 2026
+**Last Updated:** March 28, 2026
 
 ---
 
@@ -17,6 +17,13 @@ Troy, Michigan 48084
 **Phone:** 248.376.4550 ⭐ **USE THIS NUMBER FOR ALL FUTURE DOCUMENTS**  
 **Email:** info@deedavis.biz  
 **Website:** deedavis.biz
+
+### EMAIL ROUTING
+
+- **Standard:** info@deedavis.biz (ImprovMX forwarding)
+- **Federal / DOD / .mil:** bids.deedavisinc@gmail.com  
+  **Note:** ImprovMX has .mil delivery limitation — always use the Gmail address for military and DOD contacts.
+- **NEXUS outbound bids:** bids.deedavisinc@gmail.com
 
 ---
 

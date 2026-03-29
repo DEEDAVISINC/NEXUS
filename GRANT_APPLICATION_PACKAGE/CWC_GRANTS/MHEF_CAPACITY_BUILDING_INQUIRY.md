@@ -1,71 +1,62 @@
 # MICHIGAN HEALTH ENDOWMENT FUND — Capacity Building Inquiry
 ### SENT: March 22, 2026 | Contact: info@mihealthfund.org
-### Follow-up: March 29, 2026 if no response
+### REPLIED: March 27, 2026 | **Sayre Corbin** (Grants Manager) — grants@mihealthfund.org | Direct: **810.227.5212**
 
 ---
 
-## CONTEXT
+## RESPONSE SUMMARY (Sayre Corbin — Mar 27, 2026)
 
-- **Capacity Building Grant** — OPEN NOW. Up to $300K. Funds organizational growth (staff, systems, infrastructure).
-- **Community Health Impact Grant** — Opens May 2026. Up to $750K. CWC's MIBridges work is a direct match.
-- **New for 2026:** Max grant sizes increased. 30% indirect cost rate now allowed. Smaller org restrictions removed.
-- **Portal:** Fluxx grants portal at mihealthfund.org
-- **CWC advantage:** MDHHS Community Partner, CSH-trained, veteran programs, SE Michigan service area.
+- **Community Health Impact (CHI):** No longer a distinct funding pool. That work is **integrated into Healthy Kids and Healthy Aging** programs. There is **no separate CHI RFP** going forward.
+- **Capacity Building:** Next **RFP releases early April 2026.** Subscribe to Health Fund email list (footer of mihealthfund.org — “Sign Up for Health Fund Updates”) to get notified.
+- **Process:** Concept call OR concept paper (max 2 pages / 10,000 chars in portal) → feedback → competitive concepts get **invite to full proposal** in Fluxx. Don’t start full app until invited.
+- **Resources:** Capacity Building page on site; when RFP drops: Current RFP, webinar registration, application worksheet (preview only — full app via portal after invite).
+- **FAQs:** Eligibility and common questions on site.
 
 ---
 
-## EMAIL — COPY BELOW
+## CONTEXT (UPDATED)
+
+- **Capacity Building** — Up to ~$300K range (confirm in April RFP). Organizational growth.
+- **CHI / community-driven work** — Pursue via **Healthy Kids** and **Healthy Aging** RFPs when aligned, not a standalone CHI application.
+- **Portal:** Fluxx at mihealthfund.org — register CWC before applying.
+- **CWC advantage:** MDHHS Community Partner, CSH-trained, veteran programs, SE Michigan.
+
+---
+
+## NEXT ACTIONS
+
+- [ ] **Subscribe** to Health Fund updates at bottom of www.mihealthfund.org
+- [ ] **Register CWC** on Fluxx grants portal (if not done)
+- [ ] **Early April 2026** — Watch for Capacity Building RFP + webinar registration
+- [ ] **Concept paper or concept call** — after RFP clarifies priorities
+- [ ] **Review Healthy Kids / Healthy Aging** program pages when open — for programs serving children or older adults
+
+---
+
+## ORIGINAL OUTBOUND EMAIL — ARCHIVE
+
+*(See git history or March 22 session — sent from NEXUS COMMAND CENTER to info@mihealthfund.org)*
+
+---
+
+## SUGGESTED REPLY TO SAYRE (send from ddavis@cwecare.org)
 
 ```
-To: info@mihealthfund.org
-Subject: Cause We Care — 501(c)(3) Grant Inquiry — Capacity Building + Community Health Impact
+Hi Sayre,
 
-Good evening,
+Thank you for the detailed reply — especially during such a busy week. This is exactly what we needed to plan next steps.
 
-My name is Dieasha D. Davis, founder and executive director of Cause We Care, a 501(c)(3) nonprofit serving Southeast Michigan — Wayne, Oakland, Macomb, and Washtenaw Counties.
+We’ll focus on the Capacity Building RFP when it opens in early April, subscribe for updates on the website, and get Cause We Care registered in your grants portal so we’re ready for the concept step and webinar.
 
-I'm reaching out to learn more about two of your grant programs:
+It’s also helpful to know that Community Health Impact work is now woven into Healthy Kids and Healthy Aging. We’ll review those programs as they align with our community health and navigation work in Southeast Michigan.
 
-1. The Capacity Building Grant (currently open) — Cause We Care is in a growth phase and seeking funding to strengthen our organizational infrastructure, expand staffing, and increase our service capacity across Southeast Michigan.
-
-2. The Community Health Impact Grant (opening May 2026) — Our community health programming aligns directly with this program's focus, and I'd like to understand the application timeline and any preparation we should begin now.
-
-About Cause We Care:
-
-- 501(c)(3) nonprofit (EIN: 92-3602670)
-- Official MDHHS Community Partner — enrolled in Michigan's MIBridges ecosystem providing benefits navigation (SNAP, Medicaid, childcare, energy assistance)
-- Service area: Wayne, Oakland, Macomb, and Washtenaw Counties
-- Programs: MIBridges benefits navigation, veteran services (Hair Cuts for Vets led by U.S. Army veteran Gary C. Felton Jr.), veteran employment initiatives, homelessness coordinated entry (CSH-trained, December 2023)
-- Affiliated with Dee Davis Inc., a certified EDWOSB with federal contracting infrastructure (CAGE: 8UMX3)
-
-Our immediate capacity needs include:
-- Dedicated program coordinator for MIBridges navigation (currently volunteer-driven)
-- Outreach staff to expand veteran services across four counties
-- Technology and data systems for client tracking and outcome reporting
-
-Could you point me to the Capacity Building Grant application on your Fluxx portal, and share any guidance on the Community Health Impact timeline for 2026? I'd also welcome the opportunity to speak with someone on your team about how Cause We Care's programs align with the Health Fund's priorities.
-
-Thank you for your time and the work the Health Fund does across Michigan.
+I appreciate you and the team at the Health Fund.
 
 Warm regards,
 
 Dieasha D. Davis
 Founder & Executive Director
 Cause We Care
-1221 Bowers St, Unit 2141
-Birmingham, Michigan 48012
 248.376.4550 | ddavis@cwecare.org
-
-501(c)(3) · EIN: 92-3602670
-MDHHS Community Partner · CSH Certified
+EIN: 92-3602670
 ```
-
----
-
-## AFTER SENDING
-
-- [ ] Log in grant pipeline
-- [ ] Register on Fluxx portal at mihealthfund.org (required for application)
-- [ ] Set 7-day follow-up reminder
-- [ ] When they respond — begin Capacity Building application immediately
-- [ ] May 2026 — Community Health Impact application opens (calendar reminder)

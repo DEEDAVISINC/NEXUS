@@ -348,6 +348,18 @@ export const api = {
   createDdcssSuccessPath: (data: any) => ApiClient.post('/ddcss/success-paths', data),
   createDdcssPitchmap: (data: any) => ApiClient.post('/ddcss/pitchmaps', data),
 
+  /** DDCSS email templates — HTML from disk, company_info placeholders */
+  getEmailTemplateCategories: () => ApiClient.get('/email-templates/categories'),
+  generateEmailTemplate: (data: {
+    category?: string;
+    variant?: string;
+    recipientFirstName?: string;
+    planDisplayName?: string;
+    customParagraph?: string;
+    outputDir?: string;
+    extraReplacements?: Record<string, string>;
+  }) => ApiClient.post('/email-templates/generate', data),
+
   // Mining Targets API
   getMiningTargets: () => ApiClient.get('/gpss/mining/targets'),
   createMiningTarget: (data: any) => ApiClient.post('/gpss/mining/targets', data),
@@ -465,6 +477,18 @@ export const api = {
     const query = params.toString();
     return ApiClient.get(`/vertex/revenue/summary${query ? `?${query}` : ''}`);
   },
+
+  // VERTEX NEMT Medical Billing (HAP CareSource / CHAMPS)
+  vertexNemtLogTrip: (data: any) => ApiClient.post('/vertex/nemt/log-trip', data),
+  vertexNemtGenerateClaim: (data: any) => ApiClient.post('/vertex/nemt/generate-claim', data),
+  vertexNemtPendingClaims: () => ApiClient.get('/vertex/nemt/pending-claims'),
+  vertexNemtPostPayment: (data: any) => ApiClient.post('/vertex/nemt/post-payment', data),
+  vertexNemtGetRates: () => ApiClient.get('/vertex/nemt/rates'),
+  vertexNemtUpdateRate: (recordId: string, data: any) =>
+    ApiClient.put(`/vertex/nemt/rates/${encodeURIComponent(recordId)}`, data),
+  vertexNemtSeedRates: () => ApiClient.post('/vertex/nemt/rates/seed', {}),
+  vertexNemtInvoicePdfUrl: (invoiceId: string) =>
+    `${API_BASE}/vertex/nemt/invoice/${encodeURIComponent(invoiceId)}/pdf`,
 
   // ═══════════════════════════════════════════════════════════
   // VERTEX FINANCING — SouthStar Capital & Bankers Factoring

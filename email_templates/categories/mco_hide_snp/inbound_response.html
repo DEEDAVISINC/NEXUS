@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Email — MCO HIDE SNP — Inbound Response</title>
+<style>
+  body {
+    font-family: 'Avenir', 'Avenir Next',
+    'Century Gothic', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1A1A1A;
+    max-width: 640px;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<p>Dear {{RECIPIENT_FIRST_NAME}},</p>
+
+<p>Thank you for reaching out to {{COMPANY_NAME}} regarding {{PLAN_DISPLAY_NAME}} NEMT provider opportunities. We are pleased to respond and confirm our strong interest in joining your network.</p>
+
+<p>{{COMPANY_NAME}} is a federally certified EDWOSB Contract Management &middot; TPA headquartered in Troy, Michigan. We administer NEMT benefits for HIDE SNP dual eligible members in Southeast Michigan through our established Uber Health and Lyft Healthcare delivery network — covering Oakland, Macomb, and Wayne counties with full compliance documentation, trip authorization management, and claims submission.</p>
+
+<p>We are currently contracted with HAP CareSource MI Coordinated Health for Region 10 HIDE SNP NEMT services and are actively expanding our Contract Management &middot; TPA relationships across all Region 10 MCOs.</p>
+
+{{CUSTOM_PARAGRAPH}}
+
+<p>Provider Credentials:<br>
+CHAMPS Provider ID: {{CHAMPS_PROVIDER_ID}}<br>
+NPI: {{NPI}}<br>
+CAGE: {{CAGE_CODE}}<br>
+EIN: {{EIN}}<br>
+SAM.gov: {{SAM_STATUS}}<br>
+Certifications: {{CERT_LINE}}<br>
+Delivery Network: Uber Health &middot; Lyft Healthcare<br>
+Service Area: Oakland &middot; Macomb &middot; Wayne — Southeast Michigan</p>
+
+<p>Please find our provider credentials above. We are prepared to submit any required documentation immediately. We look forward to serving your {{PLAN_DISPLAY_NAME}} members.</p>
+
+<div style="margin-top:1.25em;">{{SIGNATURE_BLOCK}}</div>
+</body>
+</html>

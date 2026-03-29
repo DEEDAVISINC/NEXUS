@@ -24,7 +24,15 @@ EMAIL = "info@deedavis.biz"
 WEBSITE = "deedavis.biz"
 
 OWNER_NAME = "Dee Davis"
+# Formal legal name — signatures, government documents, buyer-facing email intro
+OWNER_FULL_NAME = "Dieasha D. Davis"
 OWNER_TITLE = "President & CEO"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HEALTHCARE PROVIDER IDS (MDHHS / CHAMPS / billing)
+# ─────────────────────────────────────────────────────────────────────────────
+NPI = "1538939111"
+CHAMPS_PROVIDER_ID = "6309049"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FEDERAL CREDENTIALS
@@ -55,7 +63,7 @@ CERT_LINE = "EDWOSB | WOSB | WBENC | MBE | SBE | SWFT Authorized"
 # ─────────────────────────────────────────────────────────────────────────────
 # SIGNATURE BLOCK (for emails)
 # ─────────────────────────────────────────────────────────────────────────────
-SIGNATURE_BLOCK = f"""{OWNER_NAME}
+SIGNATURE_BLOCK = f"""{OWNER_FULL_NAME}
 {OWNER_TITLE}
 {COMPANY_NAME}
 {ADDRESS_FULL}
