@@ -1,23 +1,30 @@
-# YOUR AGENDA — Tuesday, March 31, 2026
+# YOUR AGENDA — Wednesday, April 1, 2026
 
-**Schedule says:** Government Contracting & Bids  
-**Reality says:** **Macomb hand-deliver is today.** Fulton + Kentucky are in 48 hours.
+**Schedule says:** Credentialing & Identity Services  
+**Reality says:** **Two drug-testing submissions today** (Fulton + Kentucky) **plus** Vanessa at 1:00 PM. Macomb is **in**.
 
 ---
 
-## CRITICAL — TODAY (MARCH 31)
+## DONE — LOCK IT IN
 
-### 1. Macomb County RFP 07-26 — HAND DELIVER **10:00 AM**
-- **Where:** 16th Judicial Circuit / 42-1 District Court — Mount Clemens (per RFP package)
-- **Status:** Forms printed, package assembled, route + parking confirmed
-- **If anything is missing:** Fix it before you leave — this is the line in the sand
+### Macomb County RFP 07-26 — **DELIVERED March 30, 2026**
+- Hand delivery completed **ahead** of the March 31 @ 10:00 AM due time
+- **Next:** watch for evaluation / award; follow up with Mary Schultz if radio silence past ~30 days post-opening
 
-### 2. After Macomb — Same-Day Lock
-- **Fulton County GA** ITB **26ITB1580280B** — Due **Wed Apr 1 @ 11:00 AM** BidNet (notarizations, upload buffer)
-- **Kentucky THVC** RFP **074 2600000270** — Due **Wed Apr 1 @ 3:00 PM** — hard copy in Wilmore; if not shipped yet, **expedited ship today** or overnight for Wednesday arrival
+---
 
-### 3. Quest / Erika — Wholesale pricing
-- Still blocking clean margins on all three lanes if unresolved — use benchmarks + sub quotes from workflow checklists if you must close without her
+## CRITICAL — TODAY (APRIL 1)
+
+### 1. Fulton County GA — ITB **26ITB1580280B-PS** — **11:00 AM** BidNet
+- Notarized forms, diversity registration if still open, upload buffer — aim to **submit by 9:00 AM** to be safe
+
+### 2. Kentucky THVC — RFP **074 2600000270** — **3:00 PM** hard copy — Wilmore, KY
+- Confirm carrier / receipt if shipped; if hand-delivering, leave buffer for traffic
+
+### 3. Vanessa Jimenez — **1:00 PM ET** — Construction Bid Coordinator — **(561) 785-2396**
+
+### 4. Quest / Erika — Wholesale pricing (still affects margin story on remaining lanes)
+- Benchmarks + sub quotes in workflow checklists if you still do not have her numbers
 
 ---
 
@@ -32,18 +39,11 @@
 
 ---
 
-## MEETINGS / CALLS
-
-| Time | What | Contact |
-|------|------|---------|
-| **Wed Apr 1 @ 1:00 PM ET** | Vanessa Jimenez — Construction Bid Coordinator | (561) 785-2396 |
-
----
-
 ## FOLLOW-UPS (THIS WEEK)
 
 | Contact | What | Cadence |
 |---------|------|---------|
+| Mary Schultz (Macomb) | Award timeline (after opening) | ~30 days if no word |
 | Tracy Riley (ICE) | Courier/DNA | ~Apr 22 |
 | Jared Tritle (CBP) | Fingerprinting BPA | Check ~Apr 5 |
 | Quest / Erika | Wholesale pricing | Overdue — call |
@@ -54,15 +54,15 @@
 
 | Date | What |
 |------|------|
-| **Mar 31 (TODAY)** | **Macomb RFP 07-26** — 10 AM hand deliver |
-| **Apr 1** | Fulton ITB + Kentucky THVC + Vanessa call |
+| **Apr 1 (TODAY)** | Fulton ITB 11 AM + Kentucky THVC 3 PM + Vanessa 1 PM |
 | **Apr 7** | Camp Kilpatrick courier (LA County) — verify portal |
+| **Apr 16** | MDHHS Navigator training (see calendar) |
 
 ---
 
-## WHAT GOT DONE YESTERDAY (MARCH 30)
+## WHAT GOT DONE (MARCH 30)
 
-- NEXUS good-night save: committed and pushed (agenda, briefing, partner docs, OASIS+ notes, SAM IDIQ pull, HIPAA/privacy policy artifacts, calendars)
+- **Macomb County RFP 07-26** — proposal **hand-delivered** (complete)
 
 ---
 
@@ -80,4 +80,4 @@
 
 ---
 
-*Updated: Monday, March 30, 2026 (good night) — Macomb is tomorrow morning; twin April first deadlines locked on the calendar.*
+*Updated: April 1, 2026 — Macomb submitted 03/30; eyes on Fulton + Kentucky + Vanessa today.*
