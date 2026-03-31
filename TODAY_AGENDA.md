@@ -1,118 +1,75 @@
-# YOUR AGENDA — Saturday, March 28, 2026
+# YOUR AGENDA — Tuesday, March 31, 2026
 
-**Schedule says:** Operations, Logistics & Follow-ups
-**Reality says:** THREE bids due next week. Pricing and forms must be locked this weekend — **plus** contract packets and vendor enrollments below.
-
----
-
-## CONTRACT & VENDOR COMPLETIONS — LOCK THESE
-
-| # | Contact / Program | What to complete |
-|---|-------------------|------------------|
-| **1** | **Lauren Elkins — DDC** | **DePointe DNA:** finish all **DDC documents** with DDC (DNA channeling / lab partner stack). |
-| **2** | **Jon Shane — SouthStar Capital** | **Factoring broker:** complete **factoring broker documents** (Bankers / SouthStar pipeline). |
-| **3** | **HAP** | **NEMT provider contract packet** — full packet back to HAP / CareSource MI Network (see `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/`). |
-| **4** | **United Healthcare** | **Vendor sign-up** — finish **UHC vendor enrollment** / credentialing steps. |
-
-*Treat these like bid deadlines — incomplete packets block revenue.*
+**Schedule says:** Government Contracting & Bids  
+**Reality says:** **Macomb hand-deliver is today.** Fulton + Kentucky are in 48 hours.
 
 ---
 
-## CRITICAL — DO FIRST
+## CRITICAL — TODAY (MARCH 31)
 
-### 1. Contract & vendor items (table above)
-Lauren Elkins / DDC (DePointe DNA), Jon Shane / SouthStar (factoring), HAP NEMT packet, UHC vendor signup — **same priority tier as bids** until complete.
+### 1. Macomb County RFP 07-26 — HAND DELIVER **10:00 AM**
+- **Where:** 16th Judicial Circuit / 42-1 District Court — Mount Clemens (per RFP package)
+- **Status:** Forms printed, package assembled, route + parking confirmed
+- **If anything is missing:** Fix it before you leave — this is the line in the sand
 
-### 2. Call Quest Diagnostics — Erika Goad
-**Why:** DDI STILL needs wholesale pricing for all three drug testing bids. Two days overdue now.
-**Action:** Call first thing. If no answer by 1 PM, finalize pricing using market benchmarks + backup sub quotes.
-**Fallback:** eScreen, Michigan Court Services, One-Stop pricing in `PRIOR_CONTRACT_PRICING_RESEARCH.md`
+### 2. After Macomb — Same-Day Lock
+- **Fulton County GA** ITB **26ITB1580280B** — Due **Wed Apr 1 @ 11:00 AM** BidNet (notarizations, upload buffer)
+- **Kentucky THVC** RFP **074 2600000270** — Due **Wed Apr 1 @ 3:00 PM** — hard copy in Wilmore; if not shipped yet, **expedited ship today** or overnight for Wednesday arrival
 
-### 3. Lock Drug Testing Bid Pricing (ALL THREE)
-- **Macomb County RFP 07-26** — Due MONDAY March 31 @ 10AM (hand deliver to Mt. Clemens)
-- **Fulton County GA ITB 26ITB1580280B** — Due WEDNESDAY April 1 @ 11AM (BidNet)
-- **Kentucky THVC RFP 074 2600000270** — Due WEDNESDAY April 1 @ 3PM (hard copy)
+### 3. Quest / Erika — Wholesale pricing
+- Still blocking clean margins on all three lanes if unresolved — use benchmarks + sub quotes from workflow checklists if you must close without her
 
-These cannot wait past today. Price with Quest if you have it. Price with benchmarks if you don't. Lock it.
+---
 
-### 4. Macomb County Forms + Print Package
-- 9 required forms (2 need notarization)
-- Print and assemble this weekend
-- Must be hand-delivered MONDAY morning
+## CONTRACT & VENDOR (STEADY STATE)
 
-### 5. Kentucky Hard Copy — Ship Today or Tomorrow
-- RFP 074 requires hard copy delivery by April 1
-- If shipping, it needs to go out TODAY or Saturday at latest
-- Check delivery address and shipping method
+| # | Item | Action |
+|---|------|--------|
+| 1 | Lauren Elkins / DDC — DePointe DNA | Push documents to done |
+| 2 | Jon Shane / SouthStar — factoring | Broker packet forward |
+| 3 | HAP / CareSource NEMT | Packet progress |
+| 4 | UnitedHealthcare vendor signup | Next credentialing step |
 
 ---
 
 ## MEETINGS / CALLS
 
 | Time | What | Contact |
-|---|---|---|
-| **April 1 @ 1:00 PM ET** | Vanessa Jimenez — Construction Bid Coordinator | (561) 785-2396 |
+|------|------|---------|
+| **Wed Apr 1 @ 1:00 PM ET** | Vanessa Jimenez — Construction Bid Coordinator | (561) 785-2396 |
 
 ---
 
-## FOLLOW-UPS DUE
+## FOLLOW-UPS (THIS WEEK)
 
-| Contact | What | Last Contact | Follow-Up |
-|---|---|---|---|
-| Tracy Riley (ICE DHS) | Courier/DNA/Full Services | Mar 22 (replied) | ~Apr 22 (30 days) |
-| Jared Tritle (CBP) | Fingerprinting BPA | Mar 22 (sent) | Check ~Apr 5 (14 days) |
-| David Walther (ICE DHS) | Fingerprinting/Biometric Equipment | Mar 22 (follow-up) | Check ~Apr 5 (14 days) |
-| Jean Saporita (NDS) | Collection site network | Mar 24 (replied) | Review collector network signup |
-
----
-
-## WAITING ON RESPONSES
-
-| Contact | What | Sent | Expected |
-|---|---|---|---|
-| Quest / Erika Goad | Wholesale drug testing pricing | Mar 26 | **2 DAYS OVERDUE** |
-| Larry Smith (ModivCare) | NEMT provider network onboarding | Mar 26 | ~Mar 31 |
-| Angelica (Molina) | Correct NEMT contracting process | Mar 26 | ~Mar 31 |
-| CareSource (HAP) | NEMT provider application | Mar 26 | ~Apr 2 |
-| Meridian Health Plan | MCO contract review | Mar 26 | ~Apr 30 |
-| Corewell Health | Patient transportation services | Mar 26 | ~Apr 5 |
-| DMC | Patient transportation services | Mar 26 | ~Apr 5 |
-| JG Wentworth | Direct signing partnership | Mar 26 | ~Apr 2 |
-| DLA / CAGE Review | CWC SAM.gov validation | Sent | ~April 3 |
-| MDHHS Community Partners | Account **reactivated** Mar 26 — MiLogin **davisd122**, LPOC set — **sign in ASAP**, save job aids, Navigator training **04/16/2026** | Mar 26 | Confirm portal access today |
+| Contact | What | Cadence |
+|---------|------|---------|
+| Tracy Riley (ICE) | Courier/DNA | ~Apr 22 |
+| Jared Tritle (CBP) | Fingerprinting BPA | Check ~Apr 5 |
+| Quest / Erika | Wholesale pricing | Overdue — call |
 
 ---
 
-## UPCOMING DEADLINES (Next 7 Days)
+## UPCOMING DEADLINES
 
-| Date | What | Method |
-|---|---|---|
-| **Mar 31 (Mon)** | Macomb County RFP 07-26 drug testing | Hand deliver @ 10AM |
-| **Apr 1 (Wed)** | Fulton County ITB 26ITB1580280B drug testing | BidNet @ 11AM |
-| **Apr 1 (Wed)** | Kentucky THVC RFP 074 drug testing | Hard copy @ 3PM |
-| **Apr 1 (Wed)** | Vanessa Jimenez call | 1:00 PM ET |
+| Date | What |
+|------|------|
+| **Mar 31 (TODAY)** | **Macomb RFP 07-26** — 10 AM hand deliver |
+| **Apr 1** | Fulton ITB + Kentucky THVC + Vanessa call |
+| **Apr 7** | Camp Kilpatrick courier (LA County) — verify portal |
 
 ---
 
-## WHAT GOT DONE TODAY (March 27)
+## WHAT GOT DONE YESTERDAY (MARCH 30)
 
-- Updated Google Business Profile (categories + description)
-- Updated NEXUS with current federal thresholds (MPT $15K, SAT $350K)
-- Updated CO email closing lines across all rules
-- Built PRISM Random Pool Engine — full randomizer for DOT drug testing programs
-  - Pool management, roster CRUD, consortium support
-  - SHA-256 seeded random draws with audit trail
-  - DER notification generator
-  - Compliance tracking + MIS report data
-  - 14 API endpoints wired into api_server.py
-- **VERTEX NEMT Medical Billing (evening):** Airtable **NEMT RATES** (no hardcoded rates), rates management UI, factoring-compliant **HTML→PDF** invoices (sequential **NEMT-INV-*******, Net 30, EIN/CAGE/NPI, payer from **VERTEX CLIENTS**, assignment + certification language, Dieasha D. Davis signature block), **Factoring Status** on VERTEX INVOICES, PDF download route + frontend links.
+- NEXUS good-night save: committed and pushed (agenda, briefing, partner docs, OASIS+ notes, SAM IDIQ pull, HIPAA/privacy policy artifacts, calendars)
 
 ---
 
 ## WEEKLY SECTOR SCHEDULE
 
 | Day | Focus |
-|---|---|
+|-----|--------|
 | Monday | Healthcare & Compliance |
 | Tuesday | Government Contracting & Bids |
 | Wednesday | Credentialing & Identity Services |
@@ -123,4 +80,4 @@ These cannot wait past today. Price with Quest if you have it. Price with benchm
 
 ---
 
-*Updated: Friday, March 27, 2026 (good night) — NEMT factoring invoice + rates table logged above.*
+*Updated: Monday, March 30, 2026 (good night) — Macomb is tomorrow morning; twin April first deadlines locked on the calendar.*

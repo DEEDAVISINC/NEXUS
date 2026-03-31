@@ -1,5 +1,21 @@
+# ALEXA MORNING READ — Tuesday March 31 2026
+
+Good morning Dee. Here is your NEXUS flash for Tuesday March thirty first.
+
+Your number one job today is Macomb County drug testing RFP zero seven twenty six. Hand deliver to Mount Clemens by ten A M Eastern. If the binder is not ready when you leave the house, stop everything else until it is.
+
+Wednesday April first you have two hard deadlines. Fulton County Georgia on Bid Net at eleven A M. Kentucky Thomson Hood Veterans Center hard copy by three P M in Wilmore. If Kentucky is not already in the mail, fix shipping today.
+
+Quest wholesale pricing is still overdue. Use your benchmark numbers from the workflow checklists if you have to submit without Erika.
+
+Wednesday at one P M you have a call with Vanessa Jimenez the construction bid coordinator.
+
+That is your briefing. Execute Macomb first.
+
+---
+
 # 📋 NEXUS DAILY BRIEFING
-**Generated:** Monday, March 30, 2026 at 06:30 AM
+**Generated:** Monday, March 30, 2026 — evening handoff for Tuesday morning
 
 ---
 
@@ -111,10 +127,10 @@
 
 ## ✅ TODAY'S TOP 5 ACTIONS
 
-1. 📅 **KENTUCKY THVC DRUG TESTING** — Due in 1 days, prepare bid
-2. 📅 **ARMY FT BLISS LAUNDRY DRY CLEANING** — Due in 2 days, prepare bid
-3. 📧 **DHC LANDSCAPING** — Email ready, SEND IT
-4. 📧 **PITTSBURGH URA TITLE SERVICES** — Email ready, SEND IT
+1. 📅 **MACOMB COUNTY DRUG TESTING RFP 07-26** — DUE TODAY — hand deliver 10 AM Mount Clemens
+2. 📅 **FULTON COUNTY GA + KENTUCKY THVC** — Due Apr 1 — finalize tonight if not done
+3. 📅 **KENTUCKY THVC** — Hard copy / shipping — confirm arrival window for Apr 1 3 PM
+4. 📧 **DHC LANDSCAPING** — Email ready, SEND IT
 5. 📧 **OHIO DOH MEDICAL COURIER** — Email ready, SEND IT
 
 ---
