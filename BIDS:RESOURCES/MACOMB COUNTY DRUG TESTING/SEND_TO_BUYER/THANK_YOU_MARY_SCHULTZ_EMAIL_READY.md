@@ -1,5 +1,9 @@
 # THANK YOU — Mary Schultz — RFP 07-26 (Post-Submission)
 
+**STATUS: SENT — March 31, 2026** (to Mary.Schultz@macombgov.org)
+
+---
+
 ## PROPOSALBIO FRAMEWORK
 
 | Biohack | Application in This Email |

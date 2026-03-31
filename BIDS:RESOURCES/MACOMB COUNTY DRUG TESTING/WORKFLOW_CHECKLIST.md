@@ -261,7 +261,7 @@ Court-ordered substance testing across 5 programs (Adult Drug Court, Mental Heal
 
 ## STEP 10: POST-SUBMISSION
 - [x] Confirm delivery (hand delivery March 30, 2026)
-- [ ] **Thank-you email to Mary Schultz** — draft in `SEND_TO_BUYER/THANK_YOU_MARY_SCHULTZ_EMAIL_READY.md` (send when ready)
+- [x] **Thank-you email to Mary Schultz** — **SENT March 31, 2026** (see `SEND_TO_BUYER/THANK_YOU_MARY_SCHULTZ_EMAIL_READY.md`)
 - [ ] Monitor for award notification
 - [ ] Follow up with Mary Schultz if no response within 30 days
 - [x] Log result in bid tracker (NEXUS — this checklist)
