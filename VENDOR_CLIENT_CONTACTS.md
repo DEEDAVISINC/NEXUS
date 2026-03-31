@@ -1,8 +1,8 @@
 # VENDOR, SUPPLIER & BUYER CONTACTS
 
 **DEE DAVIS INC Complete Contact Database**  
-**Last Updated:** February 27, 2026  
-**Recent:** NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
+**Last Updated:** March 29, 2026  
+**Recent:** UHC MI — Ken P. kprzybylowicz@uhc.com (backup; Tori Johnson PTO through 04/06/2026); Pinnacle Title & Escrow (Peoria AZ); NY DCJS; 33 MDHHS + 19 DTMB buyers
 
 ---
 
@@ -38,6 +38,19 @@
 - **DDI Vendor #:** KS0026951 (Kentucky VSS)  
 - **Due Date:** April 1, 2026, 3:00 PM EST — HARD COPY ONLY  
 - **Status:** RFP received Feb 25, 2026. Bid folder created. Written questions emailed to CO Feb 25. eScreen cert request emailed to Abbott Feb 25. Awaiting responses. Proposal due Apr 1.  
+
+---
+
+### **UHC COMMUNITY PLAN (MICHIGAN) — NEMT / PROVIDER CONTRACTING**
+
+**Tori Johnson**  
+- **Email:** tojohnson@uhc.com  
+- **Phone:** 612-642-7679  
+- **Notes:** Plan contact for Michigan NEMT / provider questions. **PTO through 04/06/2026** (per auto-reply Mar 2026).
+
+**Ken P. (urgent backup while Tori out)**  
+- **Email:** kprzybylowicz@uhc.com  
+- **Notes:** Use for urgent NEMT credentialing or application follow-up when Tori is unavailable.
 
 ---
 
@@ -829,6 +842,22 @@
 - **April 14:** Rock Island Bags due (10:00 AM CST)
 
 ---
+
+---
+
+## 🏠 TITLE & ESCROW
+
+### **Pinnacle Title & Escrow Agency — Peoria, AZ**
+
+**Ciane "CJ" Miller**  
+- **Email:** ciane.miller@pinnacletitleaz.com  
+- **Phone:** (623) 253-6160  
+- **Alt / fax:** (623) 523-3185  
+- **Company:** Pinnacle Title & Escrow Agency — Peoria  
+- **Location:** Peoria, Arizona  
+- **Type:** Title & escrow — signing / notary / document services pipeline (Arizona)  
+- **Status:** Contact on file — added March 29, 2026  
+- **Notes:** Use for Arizona title-escrow outreach, signing coordination, or referrals.
 
 ---
 

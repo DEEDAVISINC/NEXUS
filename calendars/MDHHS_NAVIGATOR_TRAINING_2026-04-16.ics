@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Ops
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:mdhhs-navigator-training-20260416@deedavis.biz
+DTSTAMP:20260328T120000Z
+DTSTART;TZID=America/Detroit:20260416T120000
+DTEND;TZID=America/Detroit:20260416T130000
+SUMMARY:📋 MDHHS Community Partners — Navigator training (check official time)
+DESCRIPTION:MDHHS Community Partners — complete Navigator training to assist clients (benefits navigation). User ID MiLogin: davisd122. Confirm exact time/location with MDHHS schedule — Gemini overview cited 04/16/2026.
+LOCATION:MiLogin / MDHHS Community Partners
+STATUS:TENTATIVE
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P7D
+DESCRIPTION:MDHHS Navigator training in 7 days — confirm time
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:Navigator training tomorrow — confirm login
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

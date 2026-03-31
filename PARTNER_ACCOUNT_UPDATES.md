@@ -1,5 +1,45 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** March 13, 2026
+**Last Updated:** March 29, 2026
+
+---
+
+## WBENC / GREAT LAKES WBC — WOSB RENEWAL (DePointe)
+
+**Certifier:** Women's Business Enterprise National Council (WBENC) — **Great Lakes Women's Business Council**  
+**Email:** greatlakeswbc@wbenclink.org | **Phone:** 734-677-1400 | **Web:** https://greatlakeswbc.wbenclink.org  
+**Address:** 33109 Schoolcraft Road, Livonia, MI 48150
+
+### STATUS (as of Mar 29, 2026)
+
+- [ ] **WOSB renewal** — **Third courtesy notice** received Mar 29, 2026 (~2:39 AM). **Expiration: 5/28/2026** (60 days from notice = act now).
+- **Business on file:** DEE DAVIS INC. dba **DEPOINTE** | Owner: DIEASHA DAVIS
+- **Certification date:** 7/31/2025
+- **System Reference ID (email):** 312449633
+- **Action:** Log into **wbenc / wbenclink** (Great Lakes portal) or follow **hardcopy/email instructions** from Great Lakes WBC if received separately. Confirm **submission received** before **5/28/2026**.
+- **If already submitted:** Keep confirmation email/PDF in compliance folder.
+
+---
+
+## MDHHS COMMUNITY PARTNERS — MI BRIDGES / NAVIGATOR (Cause We Care + Dee Davis Inc.)
+
+**Portal:** MiLogin → MDHHS Community Partners (MIBridges ecosystem)  
+**Credential label:** **MDHHS COMMUNITY PARTNER MILOGIN** (1 of 3 MiLogin profiles — see `COMPANY_INFO_MASTER.md` + optional `MILOGIN_ACCOUNTS.local.md`)  
+**User ID:** `davisd122` — use **Forgot password** on MiLogin if needed  
+**Email from:** MDHHSCommunityPartners@michigan.gov — **Mar 26, 2026 ~5:46 PM**
+
+### STATUS (Mar 2026)
+
+- [x] **Community Partner ID / LPOC request** — NEXUS outbound Mar 26; you confirmed identity same day.
+- [x] **Account reactivated** — Kenneth set you as **LPOC (Local Point of Contact)** for Dee Davis Inc.; **davisd122** reactivated.
+- [ ] **Sign in to MiLogin ASAP** — Email said sign in **within 24 hours** of reactivation to avoid deactivation again. If that window lapsed, **sign in today** and confirm access.
+- [ ] **Save attachments from that email:** *Manage Organization Job Aid* + *Provide Navigation Job Aid* (Navigator features, client benefits flow).
+- [ ] **Navigator training** — Next training cited in Gmail overview: **04/16/2026** — add to calendar; required to assist clients as Navigator.
+- [ ] **LPOC duties:** Reactivate users, add new accounts, org management (per job aid).
+
+### WHY IT MATTERS
+
+- Official **MDHHS Community Partner** status supports grants, CWC, and DDI credibility (MIBridges navigation, benefits enrollment).
+- **Navigator** role = hands-on client support; training gate must be cleared before relying on that in the field.
 
 ---
 
@@ -432,6 +472,13 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 **Provider Support:** 800-979-4662, option 1
 **Enrollment Unit Email:** MSA-HomeHelpProviders@michigan.gov
 
+### MHP NEMT — ALL MICHIGAN MCOs (CONTACT & PROCESS)
+
+**Source PDF:** `ESSENTIALS/MHP NEMT Contact and Process.pdf` (revised **02/26/2026**)  
+**NEXUS summary (searchable):** `ESSENTIALS/MHP_NEMT_CONTACT_AND_PROCESS.md`
+
+Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), **member phone numbers**, **routine vs urgent notice rules**, **complaint / grievance paths**, and **named plan contacts** (e.g. HAP CareSource, Meridian, Molina, UHC, BCC, Aetna, Priority, McLaren, UPHP). Use for operations, credentialing context, and member-issue triage — **confirm live numbers on the plan’s site** before external use.
+
 ### WHAT HAPPENED:
 
 - [x] Initial application submitted as "Group" provider type — **REJECTED** (Application #20251210748456)
@@ -441,6 +488,7 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] **Meridian Health Plan** — Contract Request Form submitted 03/26/2026. ~30 business days for review. Contact: MIProviderContracting@mimeridian.com
 - [x] **Molina Healthcare** — Initial email sent 03/26/2026. Angelica responded with generic clinical portal link. Follow-up sent 03/26/2026 clarifying DDI is NEMT Atypical Agency (not clinical practice), requesting correct NEMT contracting process. Awaiting routing to correct department.
 - [x] **UHC Community Plan** — Application submitted 03/26/2026. Need to contact UHC via chat to finalize.
+- **Tori Johnson** (tojohnson@uhc.com) — **PTO through 04/06/2026.** Urgent NEMT/credentialing: **Ken P.** — **kprzybylowicz@uhc.com** (add to contacts). Auto-reply received ~03/28/2026.
 - [x] **Aetna Better Health** — Intake form submitted 03/26/2026. Contact: 1-866-316-3784
 - [x] **McLaren Health Plan** — Email sent 03/26/2026. McLaren uses **ModivCare** for NEMT — must enroll with ModivCare directly. (866) 569-1908 / modivcare.com/drive-with-us-2025
 - [x] **ModivCare** — Follow-up email sent to Larry Smith (larry.smith@modivcare.com) on 03/26/2026, referencing CHAMPS Provider ID 6309049 and active Medicaid status. Original outreach Feb 27. Awaiting onboarding next steps.
@@ -451,7 +499,7 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 ## DIRECT SIGNING ACCOUNTS — 3D INK SIGNATURES
 
 ### JG Wentworth (Structured Settlements / Annuities / Mortgage)
-- **Contacts:** Brittany Devine (bdevine@jgwentworth.com), Megan Ray (mray@jgwentworth.com), David Bieleski (dbieleski@jgwentworth.com)
+- **Contacts:** Brittany Devine (bdevine@jgwentworth.com), Megan Ray (mray@jgwentworth.com), David Bieleski (dbieleski@jgwentworth.com), Daniel Glas (dgrass@jgwentworth.com)
 - **Status:** Direct partnership email sent 03/26/2026. Pitch: replace Eagle Eye Signings (middleman) with DDI direct. 
 - **Previous relationship:** DDI completed signing through Eagle Eye at $70/signing. Eagle Eye likely charges JG Wentworth $125-200.
 - **Strategy:** Match signing agency rate, keep 100%. No pricing in initial email — ask what they currently pay, then match.

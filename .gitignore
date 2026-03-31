@@ -13,3 +13,6 @@ nemt_billing_data.json.tmp
 
 # NEMT factoring invoices (HTML/PDF; may contain PHI)
 GENERATED_VERTEX_INVOICES/
+
+# MiLogin — optional local notes (passwords); never commit
+MILOGIN_ACCOUNTS.local.md

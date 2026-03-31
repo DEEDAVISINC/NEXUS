@@ -79,7 +79,7 @@ These cannot wait past today. Price with Quest if you have it. Price with benchm
 | DMC | Patient transportation services | Mar 26 | ~Apr 5 |
 | JG Wentworth | Direct signing partnership | Mar 26 | ~Apr 2 |
 | DLA / CAGE Review | CWC SAM.gov validation | Sent | ~April 3 |
-| MDHHS Community Partners | MI Bridges Community ID | Mar 26 | ~Apr 9 |
+| MDHHS Community Partners | Account **reactivated** Mar 26 — MiLogin **davisd122**, LPOC set — **sign in ASAP**, save job aids, Navigator training **04/16/2026** | Mar 26 | Confirm portal access today |
 
 ---
 

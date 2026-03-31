@@ -10,3 +10,5 @@ gunicorn
 feedparser
 python-dateutil
 icalendar
+python-docx
+reportlab

@@ -18,6 +18,20 @@ Troy, Michigan 48084
 **Email:** info@deedavis.biz  
 **Website:** deedavis.biz
 
+### MICHIGAN MILOGIN ACCOUNTS (Dieasha D. Davis — 3 profiles)
+
+Use the **correct MiLogin** per system — do not mix them up.
+
+| # | Label (how to remember) | User ID | Purpose |
+|---|-------------------------|---------|---------|
+| **1** | **MDHHS COMMUNITY PARTNER MILOGIN** | `davisd122` | **MDHHS Community Partners** — MIBridges / Navigator / LPOC for Dee Davis Inc. & Cause We Care. Portal after MiLogin: Community Partners. Reactivated Mar 2026. |
+| **2** | *(fill in)* | *(fill in)* | *(e.g. personal, other state program — you name it)* |
+| **3** | *(fill in)* | *(fill in)* | *(e.g. CHAMPS, employer, other — you name it)* |
+
+**Passwords are not stored in this file.** Keep them in your password manager with the **same labels** as column 2 (e.g. “MDHHS Community Partner MiLogin”). Optional local file (not in git): `MILOGIN_ACCOUNTS.local.md` in the project root.
+
+---
+
 ### EMAIL ROUTING
 
 - **Standard:** info@deedavis.biz (ImprovMX forwarding)
@@ -48,6 +62,14 @@ Troy, Michigan 48084
 - MBE (Minority Business Enterprise - NMSDC)
 - WBENC Certified (Women's Business Enterprise National Council — nationally recognized WBE)
 - SBE (Small Business Enterprise)
+
+**WBENC / Great Lakes WBC — WOSB (DePointe dba) — RENEWAL IN PROGRESS:**
+- **Profile:** WOSB — Women-Owned Small Business (WBENC / Great Lakes Women's Business Council)
+- **Business:** DEE DAVIS INC. dba **DEPOINTE** | Owner: Dieasha D. Davis
+- **Certification date:** 7/31/2025 | **Expiration:** **5/28/2026**
+- **Third courtesy notice:** March 29, 2026 (60-day window — **submit renewal before expiration**)
+- **Contact:** greatlakeswbc@wbenclink.org | **734-677-1400** | [Great Lakes WBC](https://greatlakeswbc.wbenclink.org)
+- **If renewal already submitted:** disregard notice per WBENC email
 
 **Diversity Verification (Third-Party):**
 - SupplierGateway — Certificate of Diverse Ownership (Cert #SG07252258991752)
