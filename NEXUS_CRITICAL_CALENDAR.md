@@ -78,17 +78,19 @@
 
 ---
 
-## 🔴 HARD DEADLINES — APRIL 1, 2026
+## 🔴 HARD DEADLINES — EARLY APRIL 2026
 
-### APRIL 1 — REMAINING SUBMISSIONS (Macomb already in)
+### APRIL 1 — SUBMISSIONS (Macomb already in)
 
 | Bid | Deadline | Submission Method | Contact |
 |---|---|---|---|
 | **Macomb County Drug Testing** | **SUBMITTED March 30, 2026** (hand delivery; RFP due Mar 31 @ 10 AM) | Delivered | Mary Schultz |
 | **Kentucky THVC Drug Testing** | April 1, 2026 @ 3:00 PM | Hard copy — Wilmore, KY | Cindy Walker |
-| **Fulton County ITB 26ITB1580280B-PS** | **April 1 @ 11:00 AM** | BidNet Direct | Phyllis Stewart (404) 612-4215 |
+| **Fulton County ITB 26ITB1580280B-PS** | **April 6 @ 11:00 AM** | BidNet Direct | Phyllis Stewart (404) 612-4215 |
 
-**⚠️ Fulton County has a hard 11:00 AM cutoff — submit by 9:00 AM to be safe.**
+**⚠️ Fulton County has a hard 11:00 AM cutoff — submit by 9:00 AM day-of to be safe. (Calendar updated 04/01/2026 — confirm on BidNet.)**
+
+**Blocker:** Line Item 1 pricing — Concentra (Kayla Thomas) for occupational health / clinical bundle.
 
 ---
 

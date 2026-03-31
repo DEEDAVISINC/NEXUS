@@ -142,6 +142,7 @@ Dee Davis Inc. | Depointe DNA
 - [x] **Follow-up email sent 03/24** — awaiting response
 - [x] **Erika replied 03/22** — said she didn't receive panels, asked to resend
 - [x] **Full panel list resent 03/22** — DOT, non-DOT (5/10/12/14/17), hair, oral fluid, specialty (EtG, fentanyl, synthetics, steroids), occupational health (DOT physicals, respirator, audiometric, pulmonary, vision, TB, Hep B, fit-for-duty), eCCF + PSC setup
+- [x] **Erika replied 03/31/2026** — directed DDI to **clinical components / workforce health** path for next steps (pricing, account structure)
 - [ ] Account activation pending
 - [ ] Confirm PSC nationwide access + eCCF setup
 - [ ] Receive login credentials + pricing schedule
@@ -507,7 +508,9 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 
 ### UPS / The UPS Store (National — Notary + Courier)
 - **Portal:** Coupa Supplier Portal (supplier.coupahost.com) — DDI already has existing Coupa account
-- **Status:** Email sent 03/27/2026 to supplyline@ups.com requesting DDI's existing Coupa account be linked to UPS. Services: notary, signing, document execution, courier/delivery.
+- **Status (03/31/2026):** Vendor Management (Karen Paternina) closed the **“link existing Coupa to UPS”** path. **Only a UPS representative** can initiate supplier onboarding / Coupa invite — not the central supplyline inbox.
+- **Next action:** Get a **UPS representative** to send the Coupa supplier invitation. If none: **nearest UPS Store** and ask to be assigned a rep for supplier onboarding. (Keep pitch: notary, signing, courier; EDWOSB/WBENC/MBE.)
+- **Historical:** Email sent 03/27/2026 to supplyline@ups.com — ticket showed as Processing until Karen’s reply.
 - **Opportunity:** 5,500+ UPS Store locations nationwide need notary coverage. Plus courier services for UPS corporate. EDWOSB/WBENC/MBE supplier diversity advantage.
 
 ### Westlake Flooring Services (Auto Dealer Floor Plan Lending)
