@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** Wednesday, March 19, 2026
+**Updated:** April 1, 2026
 
 ---
 
@@ -10,6 +10,17 @@
 | **Mar 24 (Tue)** | Call — Lisa TerMorshuizen | Choice Partners / HCDE (Texas) | Drug & Alcohol Testing rebid | **COMPLETED Mar 24.** Intro call. Lisa sees value in DDI. Drug testing contract is a year out. Told DDI to watch for contracts — they post daily on Ionwave (hcdeebid.ionwave.net). Monitor daily. |
 | **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
 | **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
+| **Apr 9** | **IL HFS Genetic Parentage / DNA** | Illinois HFS Child Support | **26-478HFS-CHSUP-B-49843** | **ACTIVE** — BidBuy; IFB open market |
+
+---
+
+## CLOSED TO SUBMISSION — AWARD / SUB / INTEL ONLY
+
+*These are **not** open bid deadlines. They stay in the system for award monitoring, subcontractor positioning, or re-compete watch.*
+
+| Solicitation closed | Opportunity | Folder | Why it remains tracked |
+|---|---|---|---|
+| **Proposals due Jan 7, 2025** | LA DCFS statewide genetic testing | `BIDS:RESOURCES/LOUISIANA DCFS GENETIC TESTING/` | Award TBD; DDI path = **collection TPA under lab prime**; re-compete ~2028–2030 |
 
 ---
 
@@ -74,4 +85,4 @@
 
 ---
 
-*Updated: March 22, 2026*
+*Updated: April 1, 2026 — added IL HFS Apr 9 active deadline; LA DCFS moved to post-close watch*

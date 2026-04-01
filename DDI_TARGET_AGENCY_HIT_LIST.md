@@ -1595,7 +1595,7 @@ DDI has active bid history with multiple Michigan municipalities for grounds, pr
 
 **Pain Point:** Courts order DNA testing for paternity disputes, child custody, foster care placements, and child support enforcement. State agencies need reliable, court-admissible testing.
 **DDI Match:** Depointe DNA / DDC. AABB-accredited. Court-admissible results. Mobile collection.
-**Status:** DNA PATERNITY TESTING folder exists. LOUISIANA DCFS GENETIC TESTING folder exists.
+**Status:** DNA PATERNITY TESTING folder exists. **LOUISIANA DCFS:** RFP submission window **closed** (Jan 2025); folder retained for **award/sub watch** — not an active deadline.
 
 **Priority State Agencies:**
 
@@ -1605,7 +1605,7 @@ DDI has active bid history with multiple Michigan municipalities for grounds, pr
 | **ODJFS** (Office of Child Support) | Ohio | Large state. High volume. Adjacent. |
 | **DCS** (Dept of Child Services) | Indiana | Adjacent state. |
 | **DCFS** | Illinois | Massive caseload. Chicago metro. |
-| **DCFS** | Louisiana | DDI already bid. Proven interest. |
+| **DCFS** | Louisiana | RFP **closed** — track **award + collection sub** under lab prime; re-compete later. |
 
 **Action:** Start with Michigan MDHHS Children's Services division — DDI is already a Community Partner. Cross-sell DNA testing alongside drug testing and background screening.
 
