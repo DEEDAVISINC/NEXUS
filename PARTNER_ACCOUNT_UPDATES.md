@@ -1,5 +1,5 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** March 29, 2026
+**Last Updated:** April 1, 2026
 
 ---
 
@@ -591,6 +591,34 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 - [ ] **Complete required E-Verify training class** once access is restored
 - [ ] **Update E-Verify account info** — confirm DDI company details are current
 - [ ] **Verify E-Verify certification is active** — needed for federal contract compliance
+
+---
+
+## STATE MEDICAID / MCO — CONTACT LOG
+
+### Mississippi — Division of Medicaid
+| | |
+|---|---|
+| **Contact** | Jeanette Crawford |
+| **Email** | JEANETTE.CRAWFORD@medicaid.ms.gov |
+| **Agency** | Mississippi Division of Medicaid |
+
+*(Add other states here as you collect names.)*
+
+---
+
+## POST-AWARD — MACOMB COUNTY RFP 07-26 (DRUG TESTING)
+
+**When:** After **award** on Macomb County RFP 07-26 — then establish subcontractor relationship for **collection services**.
+
+| | |
+|---|---|
+| **Organization** | Clear Choice Occupational Health Services |
+| **Contact** | Angela Coleman |
+| **Email** | info@cclabsolutions.org |
+| **Phone** | 313-855-5790 |
+
+- [ ] Reach out post-award; run full sub onboarding (vet → NDA → COI → agreement) before sharing contract specifics.
 
 ---
 

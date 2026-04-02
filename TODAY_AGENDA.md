@@ -1,84 +1,44 @@
-# YOUR AGENDA — Wednesday, April 1, 2026
+# YOUR AGENDA — FRIDAY, APRIL 3, 2026
 
-**Schedule says:** Credentialing & Identity Services  
-**Reality says:** **Send Ohio + Florida MCO batches first**, then **Kentucky THVC** + **Vanessa**. **Fulton is April 6** — chase Concentra pricing.
-
----
-
-## CRITICAL — TODAY (APRIL 1)
-
-### 1. Morning — MCO email sends (from 03/31 builds)
-- **Ohio — 7 emails** — send (built yesterday)
-- **Florida — 4 emails** — send (built yesterday)
-
-### 2. Vanessa Jimenez — **1:00 PM ET** — Construction Bid Coordinator — **(561) 785-2396**
-
-### 3. Kentucky THVC — RFP **074 2600000270** — **3:00 PM** hard copy — Wilmore, KY
-- Confirm carrier receipt / hand-delivery buffer
-
-### 4. Fulton County GA — ITB **26ITB1580280B-PS** — **DUE APRIL 6 @ 11:00 AM** BidNet (not today)
-- **Blocker:** Line Item 1 pricing — **Kayla Thomas, Concentra** (occupational health / clinical bundle)
-- Prep forms/pricing so you can submit once numbers land
+**NEXUS | Dee Davis Inc.**
 
 ---
 
-## DONE — LOCKED IN (03/31/2026)
+## TOP PRIORITIES
 
-- Ohio — 7 MCO emails built
-- Florida — 4 MCO emails built
-- Alabama — Melissa Gill inquiry sent
-- Georgia — Jody Boyer + Tanisha Holmes sent
-- Verida — no fit for DDI model (noted)
-- Henry Ford STAARS — submitted
-- CVS SupplierOne — updated
-- BCBSM — vendor portal updated
-- Supplier Clearinghouse — identified for application
-- Macomb County — thank-you to Mary Schultz sent
-- Erika (Quest) — replied; directed to clinical components path
-- Corewell HIDE SNP — sent
-- Concentra HUB — logged in
+1. **Lyft API — deadline 11:00 AM ET** — Check application status. If still pending → email **business@lyft.com** with Client ID (see secure note / env; do not post publicly).
+
+2. **Quest + Concentra follow-through** — If Erika / Kayla replied Thursday: plug numbers into `BIDS:RESOURCES/HARRIS HEALTH RFO AB02182026/PRICING_REFERENCE.md` and Fulton Line Item 1. If no reply: one polite chase before weekend.
+
+3. **Fulton County ITB 26ITB1580280B-PS** — **Due Monday April 6 @ 11:00 AM** — Finalize Attachment B pricing schedule, Addendum No. 1 acknowledgement, BidNet upload dry run.
+
+4. **Harris Health RFO AB02182026** — **Due April 10** — When pricing is firm: draft qualifications + solution sections (35% / 35%); MWBE packet.
+
+5. **Draft outreach (if Thursday not finished)** — Michigan Works PATH contacts; Harris County NEMT intros (Robert Anders, Luke Herdrich, Vernon Chambers).
 
 ---
 
-## NEXT SESSION (NOT TODAY)
+## MCO SENDS (CARRYOVER)
 
-- **Texas** — MCO / outreach batch
+- UHC NC, UHC TX (Proofpoint), Sunshine FL, Molina TX — send if not sent Thursday.
 
 ---
 
-## CONTRACT & VENDOR (STEADY STATE)
+## MONITOR / WAITING
 
-| # | Item | Action |
-|---|------|--------|
-| 1 | Quest / Erika — clinical components thread | Follow pricing + account activation |
-| 2 | Fulton — Concentra / Kayla Thomas | Line Item 1 quote |
-| 3 | Lauren Elkins / DDC — DePointe DNA | Push documents to done |
-| 4 | HAP / CareSource NEMT | Packet progress |
+- HAP CareSource | DLA CAGE (CWC) | Angela Medina | EGrAMS Help Desk | Michigan HIDE SNP replies
 
 ---
 
 ## UPCOMING DEADLINES
 
-| Date | What |
+| When | What |
 |------|------|
-| **Apr 1 (TODAY)** | Kentucky THVC 3 PM + Vanessa 1 PM + Ohio/FL sends |
-| **Apr 6** | **Fulton County ITB** — 11:00 AM BidNet |
-| **Apr 7** | Camp Kilpatrick courier (LA County) — verify portal |
+| **Apr 6 @ 11:00 AM** | Fulton County — BidNet Direct |
+| **Apr 7** | Camp Kilpatrick courier (LA County) |
+| **Apr 9** | IL HFS genetic parentage / DNA (BidBuy) |
+| **Apr 10** | Harris Health — Bonfire |
 
 ---
 
-## WEEKLY SECTOR SCHEDULE
-
-| Day | Focus |
-|-----|-------|
-| Monday | Healthcare & Compliance |
-| Tuesday | Government Contracting & Bids |
-| Wednesday | Credentialing & Identity Services |
-| Thursday | Document & Property Services |
-| **Friday** | **Operations, Logistics & Follow-ups** |
-| Saturday | Build Day (NEXUS) |
-| Sunday | GBIS (Grants, Cause We Care) |
-
----
-
-*Updated: April 1, 2026 — end-of-day Mar 31 save; Fulton due date corrected to Apr 6 per Dee.*
+*Set Thursday April 2 night — goodnight handoff. Next: execute Friday, prep Fulton for Monday.*

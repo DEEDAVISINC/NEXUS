@@ -193,6 +193,14 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Random Pool Engine not loaded: {e}")
 
+# Register PRISM Uber Health Rides (NEMT / coordinated rides API)
+try:
+    from prism_uber_health import prism_uber_health
+    app.register_blueprint(prism_uber_health)
+    print("✅ PRISM Uber Health Rides API registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Uber Health Rides API not loaded: {e}")
+
 # Register NEXUS Pipeline — Central Nervous System
 try:
     from nexus_pipeline_api import nexus_pipeline

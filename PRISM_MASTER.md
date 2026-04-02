@@ -501,6 +501,8 @@ NEXUS (Brain Hub)
 ├── GPSS — Find government opportunities → Won service contracts → PRISM
 ├── DDCSS — Sell Blueprints → Blueprint clients → PRISM client profiles
 ├── PRISM — Schedule, dispatch, execute, verify services
+├── Uber Health Rides API — NEMT/coordinated rides (OAuth, estimates, sandbox); see PRISM_UBER_HEALTH_RIDES.md + prism_uber_health.py; env vars UBER_HEALTH_*
+├── Lyft — future transport integration; env LYFT_* + prism_transport_env.py
 ├── ATLAS — Complex engagements from PRISM → project tracking
 ├── VERTEX — PRISM verified orders → auto-invoice; agent payments → expenses
 ├── GBIS — Grant discovery
