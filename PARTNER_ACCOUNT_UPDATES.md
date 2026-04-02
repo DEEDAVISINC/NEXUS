@@ -1,5 +1,5 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** April 1, 2026
+**Last Updated:** April 2, 2026
 
 ---
 
@@ -318,12 +318,17 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ## NATIONAL CRIME SEARCH (NCS) — Background Screening CRA Partner
 
-**Account Status:** PARTNER SIGNUP SUBMITTED — 03/22/2026 — AWAITING RESPONSE
+**Account Status:** **CONFIRMED PARTNER** — Dee Davis Inc. background screening stack (as of Apr 2026)
+**Primary contact:** **Mark McFadin** — *Your Background Screening Partner*
+**Email:** **mark@nationalcrimesearch.com** (also uses improvmx forward to info@deedavis.biz)
+**Direct phone (on thread):** **479.695.2111** — *alternate number seen on older message:* **817.999.2286** (confirm which is current)
+**Public switchboard:** **888-527-3282** | **support@nationalcrimesearch.com** | M–Th 8–5, Fri 8–4 **CST**
 **Partner Subdomain:** deedavisinc.nationalcrimesearch.com
-**Company:** National Crime Search, LLC
+**Company:** National Crime Search, Inc. (verify legal entity on agreement; prior notes said LLC)
 **Location:** 3452 E Joyce Blvd, Fayetteville, AR 72703
 **Size:** 9 employees, 20+ years in business, 20,000+ customers
-**Website:** nationalcrimesearch.com
+**Website:** https://www.nationalcrimesearch.com
+**Partner program:** nationalcrimesearch.com/partner-program/
 **Partner Signup:** nationalcrimesearch.com/partner-signup/
 **Accreditation:** PBSA Accredited (Professional Background Screening Association)
 **USASpending Check:** No government contract wins found — IDEAL (not competing with DDI)
@@ -373,7 +378,13 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - Bundled offering: drug testing + background screening + fingerprinting = full credentialing package
 - New NAICS codes: 561611 (Investigation Services), 561612 (Security Guards & Patrol Services)
 
-### RELEVANT SOLICITATION:
+### RELEVANT SOLICITATIONS:
+
+- **Washington LCB — LCB 2026-01** — Pre-Employment Background Check Services (WEBS 56810)
+  - Budget signal in RFP text ~**$50k/yr** (reconcile with WEBS; do not assume $100k without source) | **Due: May 11, 2026** | Questions due: **through April 20, 2026**
+  - Pre-bid: **April 8, 2026, 1:00–2:00 p.m. PT** (confirm in official notice)
+  - CO: Stacia Wasmundt — (360) 974-9333 — **lcbbids@lcb.wa.gov**
+  - **NCS = screening/CRA lane; DDI primes contract management + compliance + billing.**
 
 - **PSTA RFP 26-280182** — Background Check Services
   - Due: April 10, 2026, 1:00 PM EST
@@ -382,19 +393,29 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
   - 3-year base + 2 option years
   - ~120 checks/year, Best Value evaluation (1,000 pts)
   - Portal: psta.bonfirehub.com
-  - **Cannot bid without CRA partnership — NCS call is the blocker**
+  - **CRA partnership (NCS) required for technical compliance on background stack**
+
+### COMMUNICATION LOG (recent):
+
+| Date | What |
+|---|---|
+| Mar 24, 2026 | Mark — partner signup follow-up; Dee to schedule call |
+| Mar 27, 2026 | Mark — asked to talk same day; thread continued |
+| Apr 1, 2026 | Mark — “still interested in partnering?” |
+| Apr 2, 2026 | Dee (via bids.deedavisinc@gmail.com) — **available Fri at 2:00 PM** |
+| Apr 2, 2026 ~9:00 AM | Mark — **meeting invite sent**; “looking forward to talking” |
+
+**Next call:** **Friday, April 3, 2026 — 2:00 PM** (Dee’s availability; **America/Detroit**). Link is in Mark’s calendar invite — open that email, not this file.
 
 ### ACTIONS NEEDED:
 
 - [x] **Partner signup form submitted** — 03/22/2026, subdomain: deedavisinc.nationalcrimesearch.com
-- [ ] **Await NCS response** — follow up by phone if no response by Wednesday 03/25
-- [ ] **Call NCS partner program** — introduce DDI, explain government contracting model
-- [ ] Ask about: wholesale pricing, co-branded platform setup time, FCRA compliance coverage
-- [ ] Ask about: can DDI use NCS platform screenshots in government proposals?
-- [ ] Ask about: turnaround times for transit agency volume (~120/year)
-- [ ] If NCS partnership is viable: evaluate PSTA RFP 26-280182 as first background screening bid
-- [ ] Document NCS account rep contact info
-- [ ] Add background screening to DDI capability statements
+- [x] **Partner contact on file** — **Mark McFadin**, National Crime Search, Inc.
+- [ ] **Call Fri Apr 3, 2026 @ 2:00 PM ET** — account setup, wholesale/platform, **LCB 2026-01** scope line-by-line, written quote path
+- [ ] **Align with Mark/NCS on LCB 2026-01** — roles (prime/sub), WA requirements, pricing, timeline to proposal deadline **5/11/2026**
+- [ ] **Wholesale + platform** — co-branded setup, FCRA coverage, proposal artifacts (screenshots OK?), turnaround for expected volumes
+- [ ] **PSTA RFP 26-280182** — evaluate vs deadline **4/10/2026** if still active
+- [ ] Add background screening to DDI capability statements (where NCS-backed)
 
 ### ALSO EVALUATED (BACKUP OPTIONS):
 

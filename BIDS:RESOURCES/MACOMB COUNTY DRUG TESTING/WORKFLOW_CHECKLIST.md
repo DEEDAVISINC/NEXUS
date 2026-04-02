@@ -14,6 +14,8 @@
 **Platform:** BidNet/MITN — www.bidnetdirect.com/mitn
 **Submission Method:** PHYSICAL DELIVERY ONLY — FedEx, UPS, or hand deliver
 
+**Bid tab (PDF, in this folder):** `BID_TABULATION_2026-04-02_Circuit_Court.pdf` — public price tabulation after **Apr 2, 2026** opening; see `BID_TABULATION_NOTES.md`.
+
 ---
 
 ## SUBMISSION STATUS (AWAITING AWARD)
@@ -23,7 +25,29 @@
 | **Physically delivered** | **March 30, 2026** |
 | **Method** | Hand delivery (confirmed by Dee) |
 | **Due on RFP** | March 31, 2026 @ 10:00 AM — **submitted early** |
-| **Next** | Monitor for public opening / evaluation; follow up if no award news in 30–45 days |
+| **Next** | Award / debrief per county process |
+
+### Bid tabulation (public)
+
+| Field | Value |
+|-------|--------|
+| **Tab / opening date** | **April 2, 2026** — 10:00 AM (per county bid tab PDF) |
+| **Department** | Circuit Court (bid item line on tab) |
+| **Source file (in folder)** | `BID_TABULATION_2026-04-02_Circuit_Court.pdf` (copy of `Bid Tab.pdf` from Downloads) |
+| **MITN note on PDF** | Posting referenced **3.4.26** |
+
+**Bidders shown on tab (with Macomb County Vendor flag where listed):**
+
+| Bidder | Macomb County Vendor (per tab) |
+|--------|--------------------------------|
+| Vendor @ 25600 Schoenherr Rd, Warren | YES |
+| **Dee Davis Inc.** (Troy) | **NO** |
+| FAIS Reference Labs Inc. (Glen Allen, VA) | NO |
+| Class A Training Center LLC dba TAP (Clinton Twp.) | YES / YES |
+| Avertest LLC dba Averhealth / OccMed Connect | (see PDF) |
+| Adapt Drug & Alcohol Testing (Warren MI + IL location on tab) | (see PDF) |
+
+*“Macomb County Vendor” on the tab is the county’s vendor flag — not a determination of responsiveness.*
 
 ---
 

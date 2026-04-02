@@ -10,7 +10,7 @@
 
 2. **Quest + Concentra follow-through** — If Erika / Kayla replied Thursday: plug numbers into `BIDS:RESOURCES/HARRIS HEALTH RFO AB02182026/PRICING_REFERENCE.md` and Fulton Line Item 1. If no reply: one polite chase before weekend.
 
-3. **Fulton County ITB 26ITB1580280B-PS** — **Due Monday April 6 @ 11:00 AM** — Finalize Attachment B pricing schedule, Addendum No. 1 acknowledgement, BidNet upload dry run.
+3. **Fulton County ITB 26ITB1580280B-PS** — **Due Wednesday April 8 @ 11:00 AM ET** — **Addendum No. 2** extended deadline (was 4/6). Finalize Attachment B pricing schedule; acknowledge addenda per BidNet; upload dry run.
 
 4. **Harris Health RFO AB02182026** — **Due April 10** — When pricing is firm: draft qualifications + solution sections (35% / 35%); MWBE packet.
 
@@ -34,7 +34,7 @@
 
 | When | What |
 |------|------|
-| **Apr 6 @ 11:00 AM** | Fulton County — BidNet Direct |
+| **Apr 8 @ 11:00 AM** | Fulton County ITB — BidNet (**Addendum No. 2**) |
 | **Apr 7** | Camp Kilpatrick courier (LA County) |
 | **Apr 9** | IL HFS genetic parentage / DNA (BidBuy) |
 | **Apr 10** | Harris Health — Bonfire |

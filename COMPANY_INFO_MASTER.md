@@ -55,9 +55,11 @@ Use the **correct MiLogin** per system — do not mix them up.
 
 ## 🏆 CERTIFICATIONS
 
-**Small Business:**
-- EDWOSB (Economically Disadvantaged Women-Owned Small Business)
-- WOSB (Women-Owned Small Business)
+**SBA Women-Owned Small Business Program (federal):**
+- **EDWOSB** (Economically Disadvantaged Women-Owned Small Business)
+- **WOSB** (Women-Owned Small Business)
+
+**Other small-business / diversity (third-party & state):**
 - WBE (Woman Business Enterprise)
 - MBE (Minority Business Enterprise - NMSDC)
 - WBENC Certified (Women's Business Enterprise National Council — nationally recognized WBE)
@@ -71,13 +73,15 @@ Use the **correct MiLogin** per system — do not mix them up.
 - **Contact:** greatlakeswbc@wbenclink.org | **734-677-1400** | [Great Lakes WBC](https://greatlakeswbc.wbenclink.org)
 - **If renewal already submitted:** disregard notice per WBENC email
 
-**Diversity Verification (Third-Party):**
-- SupplierGateway — Certificate of Diverse Ownership (Cert #SG07252258991752)
-  - Certified Categories: Disadvantaged Business Enterprise, Minority Owned, Small Business, Small Disadvantaged Business, Woman Owned
-  - Primary NAICS: 488510
-  - Valid: July 10, 2025 — July 9, 2028
-  - Applicability: United States
-  - Verify: www.suppliergateway.com/verifycert
+**SupplierGateway — Certificate of Diverse Ownership (third-party verification):**
+- **Status:** Active — **Certificate of Diverse Ownership** issued by **SupplierGateway**
+- **Cert #:** SG07252258991752
+- **Certified categories:** Disadvantaged Business Enterprise, Minority Owned, Small Business, Small Disadvantaged Business, Woman Owned
+- **Primary NAICS:** 488510
+- **Valid:** July 10, 2025 — July 9, 2028
+- **Applicability:** United States
+- **Verify:** https://www.suppliergateway.com/verifycert
+- **Use:** Fortune 500 / enterprise supplier portals that accept SupplierGateway diversity verification (cite cert # on registrations).
 - Coupa Verified Supplier (Cert ID: 7002160) — ⚠️ EXPIRED 11/19/2025 — NEEDS RENEWAL
   - Verified via voided check, address confirmed: 755 W. Big Beaver Rd Ste 2020, Troy, MI 48084
   - Coupa is used by Fortune 500 companies for procurement — renewal recommended
@@ -215,9 +219,12 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 ---
 
-## 📋 INDUSTRY MEMBERSHIPS
+## 📋 INDUSTRY MEMBERSHIPS / NATIONAL CERTIFYING BODIES
 
+- **WBENC** (Women's Business Enterprise National Council) — WBE certification; regional: Great Lakes Women's Business Council
 - **NMSDC** (National Minority Supplier Development Council) — MBE certification
+
+*Harris County and many other buyers crosswalk **WBENC (WBE)** and **NMSDC (MBE)** toward local M/WBE participation goals — confirm each solicitation’s recognized agencies list.*
 
 ---
 

@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 1, 2026
+**Updated:** April 3, 2026
 
 ---
 
@@ -11,6 +11,10 @@
 | **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
 | **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
 | **Apr 9** | **IL HFS Genetic Parentage / DNA** | Illinois HFS Child Support | **26-478HFS-CHSUP-B-49843** | **ACTIVE** — BidBuy; IFB open market |
+| **Apr 8** | **Pre-bid — WA LCB Pre-Employment Background Checks** | WA Liquor & Cannabis Board | **RFP 2026-01 / WEBS 56810** | **ACTIVE** — 1:00–2:00 p.m. PT; folder `BIDS:RESOURCES/WASHINGTON LCB BACKGROUND CHECKS/` |
+| **Apr 20** | **Questions due — WA LCB Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — submit smart questions |
+| **May 11** | **Proposals due — WA LCB Pre-Employment Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — **3:00 p.m. PT**; NCS scope alignment + Attachment A |
+| **Apr 21** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — DDI prime TPA; Quest + Concentra core fulfillment; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **confirm time** Block 8 |
 
 ---
 
@@ -70,6 +74,11 @@
 | **Mar 24-30** | Download Camp Kilpatrick solicitation docs (once portal access restored) |
 | **Mar 31** | VA Document Shredding bid DUE |
 | **Apr 7** | LA County Camp Kilpatrick Courier Services bid DUE (12:00 PM PT) |
+| **Apr 3** | **NCS partnership call** — Mark McFadin — **2:00 PM ET** (LCB 2026-01 alignment); `calendars/NCS_MARK_MCFADIN_PARTNERSHIP_CALL_2026-04-03.ics` |
+| **Apr 8** | WA LCB RFP 2026-01 pre-bid conference (1:00–2:00 PM PT) |
+| **Apr 20** | WA LCB RFP 2026-01 — questions deadline |
+| **May 11** | WA LCB RFP 2026-01 — proposals due 3:00 PM PT |
+| **Apr 21** | **DHS CBP Medical Support** — **70B06C26R00000017** — proposals due (confirm local time on SAM/SF1449) |
 | **Q2 2027** | Choice Partners Drug & Alcohol Testing rebid (long-term) |
 
 ---
