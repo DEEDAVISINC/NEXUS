@@ -1,4 +1,4 @@
-# YOUR AGENDA — Saturday, April 5, 2026
+# YOUR AGENDA — Saturday, April 4, 2026
 
 **NEXUS | Dee Davis Inc.**
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Updated: April 4, 2026 (goodnight) — Monday is Fulton crunch week; Saturday = prep and build.*
+*Updated: April 3, 2026 — calendar fix: Friday = Apr 3; Saturday = Apr 4. Fulton crunch week; weekend = prep and build.*
