@@ -481,6 +481,52 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## FREIGHT CARRIER SUPPLIERS
+
+---
+
+### GLOVA-LINK CORPORATION — Southern California Asset-Based Carrier
+
+**Status:** Inbound outreach received April 2, 2026
+**Contact:** Griselda Beltran, Account Executive
+**Phone:** (714) 551-9947 | (562) 908-2728
+**Email:** Griselda@glovalink.com | GLSales3@GlovaLink.com
+**Website:** www.GlovaLink.com
+**Address:** 11637 Los Nietos Rd., SFS, CA 90670
+
+**Fleet:**
+- 37 Tractors
+- 55 Trailers
+- 35 Bobtails / Straight Trucks
+
+**Service Area:** Southern California primary; 48-state nationwide
+**Specialty:** Asset-based — own their equipment, not a broker
+
+**Services Available:**
+- Same-Day & Next-Day Pickup & Delivery
+- LTL (Less Than Truckload)
+- Hot Shots
+- Full Truckloads
+- Power Only / Drop & Hook / Trailer Drops
+- Blanket Wrap & Dedicated Routes
+- CFS Station Pickups & Warehouse Moves
+- Container Devanning & Transloading
+- Full-Service Warehousing
+- Nationwide Transportation Management (48 States)
+
+**DDI Use Case:**
+- Freight/logistics subcontractor for SoCal or West Coast delivery contracts
+- Hot shot and LTL for government supply/product bids in Southern California
+- Pairs with OLIMP warehousing for full logistics solutions in the West
+- Relevant for any DDI freight lane bid requiring California or Southwest coverage
+
+**Actions:**
+- [ ] Reply to Griselda's email to confirm receipt and establish the relationship
+- [ ] Request W-9 and insurance COI when a relevant opportunity arises
+- [ ] File rate sheet attachment from her email for bid reference
+
+---
+
 ## MICHIGAN CHAMPS — NEMT MEDICAID PROVIDER ENROLLMENT
 
 **Account Status:** ✅ APPROVED — ACTIVE MEDICAID NEMT PROVIDER (as of 03/23/2026)
