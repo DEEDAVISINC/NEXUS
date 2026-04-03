@@ -325,6 +325,9 @@ These platforms qualify DDI for SBIR/STTR grants ($50K-$2M+), SBA Growth Acceler
 
 **Tagline:** "The Professionals' Professionals"
 
+**Service commitment (proposals, capability statements, buyer-facing use):**  
+We are committed to providing the most efficient and expeditious services while always maintaining the highest ethical standards. — **Dee Davis Inc.**
+
 **What DDI Is:**
 Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity. DDI wins contracts, sources qualified subcontractors and suppliers to fulfill the work, and manages every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. DDI is the single accountable point of contact between the client and a network of vetted fulfillment partners. Nothing stops because one person, one vendor, or one system is unavailable.
 

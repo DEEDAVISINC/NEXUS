@@ -1,13 +1,16 @@
-Good morning Dee. Here is your NEXUS briefing for Friday, April 4, 2026.
+Good morning Dee. Here is your NEXUS briefing for Saturday, April 5, 2026.
 
-You have no meetings scheduled today. Use the day to chase pricing and prep bid forms.
+Today is build day for NEXUS and deep prep for next week. You have no mandatory meetings.
 
-Your top 3 priorities are: First, chase Kayla at Concentra for titer pricing. Both Fulton County and Harris Health are blocked on her. Second, email Erika at Quest to confirm the Harris Health drug panel covers all 14 substances. Third, start prepping Fulton County forms since that bid is due Tuesday.
+Your top priorities are: First, advance everything on Fulton County that does not need Kayla's pricing yet — forms, insurance, BidNet upload practice, addenda. That bid is Tuesday April eighth at eleven A M Eastern. Second, if you touch email, one clean follow to Concentra and Quest so Monday is not a cold start. Third, chip away at Harris Health for April tenth and CBP background research for April twenty first.
 
-Urgent: Fulton County ITB is due Tuesday April 8 at 11 AM Eastern. That is 4 days away and you still need Concentra pricing, 9 completed forms, insurance certificates, and BidNet upload. Harris Health is due April 10 on Bonfire.
+Urgent: Four days until Fulton. Concentra line item one pricing is still the main blocker.
 
-Good news from tonight: Harris Health is now in NEXUS GPSS with a ProposalBio score of 81, gate unlocked. That makes 3 active bids fully loaded in the system. Fulton County at 79, Harris Health at 81, and CBP at 79. All unlocked.
+Have a focused Saturday. Rest where you can — next week is heavy.
 
-Your pipeline has over 7 million dollars in potential lifetime value across active bids. Chase that pricing and keep building.
+---
 
-Have a great day.
+# 📋 NEXUS DAILY BRIEFING (DETAIL)
+**Generated:** April 4, 2026 — goodnight handoff
+
+See `TODAY_AGENDA.md` for full deadline table and GPSS notes.
