@@ -28,7 +28,7 @@ class AdaptiveBidSystem:
         self.bids_path = BIDS_PATH
         self.learning_data = self.load_learning_data()
         self.flow_state = self.load_flow_state()
-        self.today = datetime.now()
+        self.today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     
     def load_learning_data(self):
         """Load historical learning data"""
@@ -165,14 +165,24 @@ class AdaptiveBidSystem:
                 'first_seen': self.today.isoformat(),
                 'activity_log': []
             }
-        
-        self.learning_data['bid_history'][bid_name]['activity_log'].append({
+
+        log = self.learning_data['bid_history'][bid_name]['activity_log']
+        today_str = self.today.strftime('%Y-%m-%d')
+
+        # Remove any existing entry for today so a re-run never creates duplicates
+        log[:] = [e for e in log if not e.get('date', '').startswith(today_str)]
+
+        log.append({
             'date': self.today.isoformat(),
             'is_pursuing': is_pursuing,
             'days_left': days_left,
             'file_count': activity['file_count'],
             'reason': auto_reason
         })
+
+        # Keep only the most recent 30 days — older snapshots have no learning value
+        if len(log) > 30:
+            log[:] = log[-30:]
         
         return {
             'is_pursuing': is_pursuing,
@@ -182,10 +192,12 @@ class AdaptiveBidSystem:
         }
     
     def parse_deadline(self, date_str):
-        """Parse deadline"""
+        """Parse deadline — always returns midnight so day-diff math is exact."""
         for fmt in ['%B %d, %Y', '%b %d, %Y']:
             try:
-                return datetime.strptime(date_str, fmt)
+                return datetime.strptime(date_str, fmt).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
             except:
                 continue
         return None

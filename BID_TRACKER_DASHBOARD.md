@@ -14,6 +14,8 @@
 | **Apr 8** | **Pre-bid — WA LCB Pre-Employment Background Checks** | WA Liquor & Cannabis Board | **RFP 2026-01 / WEBS 56810** | **ACTIVE** — 1:00–2:00 p.m. PT; folder `BIDS:RESOURCES/WASHINGTON LCB BACKGROUND CHECKS/` |
 | **Apr 20** | **Questions due — WA LCB Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — submit smart questions |
 | **May 11** | **Proposals due — WA LCB Pre-Employment Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — **3:00 p.m. PT**; NCS scope alignment + Attachment A |
+| **Apr 8 @ 11:00 AM ET** | **Fulton County Drug Testing** | Fulton County Government | **26ITB1580280B-PS** | **ACTIVE — GPSS `rec9YQ5FE0yfjs2Pj` / PB 79 UNLOCKED** — BidNet; blocked on Concentra pricing |
+| **Apr 10** | **Harris Health Drug & Disease Testing** | Harris Health System | **AB02182026** | **ACTIVE — GPSS `recgeOG6z3FiSeYyR` / PB 81 UNLOCKED** — Bonfire; blocked on Quest panel confirm + Concentra titers |
 | **Apr 21** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — DDI prime TPA; Quest + Concentra core fulfillment; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **confirm time** Block 8 |
 
 ---
@@ -94,4 +96,4 @@
 
 ---
 
-*Updated: April 1, 2026 — added IL HFS Apr 9 active deadline; LA DCFS moved to post-close watch*
+*Updated: April 3, 2026 — Fulton County + Harris Health now in GPSS (ProposalBio UNLOCKED). ALL bids go through NEXUS.*

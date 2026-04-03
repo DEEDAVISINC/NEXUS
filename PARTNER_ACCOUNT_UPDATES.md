@@ -143,10 +143,71 @@ Dee Davis Inc. | Depointe DNA
 - [x] **Erika replied 03/22** — said she didn't receive panels, asked to resend
 - [x] **Full panel list resent 03/22** — DOT, non-DOT (5/10/12/14/17), hair, oral fluid, specialty (EtG, fentanyl, synthetics, steroids), occupational health (DOT physicals, respirator, audiometric, pulmonary, vision, TB, Hep B, fit-for-duty), eCCF + PSC setup
 - [x] **Erika replied 03/31/2026** — directed DDI to **clinical components / workforce health** path for next steps (pricing, account structure)
-- [ ] Account activation pending
+- [x] **Full Quest rate sheet received — April 3, 2026** — Complete pricing for all drug testing panels, hair testing, MRO, ePhysicals
+- [ ] Account activation pending — $200 one-time setup fee, 5-6 business days
+- [ ] Choose MRO provider for account (Doctors Review Service, Industrial Medical Testing, I3 Screen, or Total Compliance Network)
 - [ ] Confirm PSC nationwide access + eCCF setup
-- [ ] Receive login credentials + pricing schedule
+- [ ] Receive Employer Solutions Portal login credentials
 - [ ] **ASK ABOUT BLOOD LEAD LEVEL TESTING** — Quest offers BLL testing; inquire about adding to account for lead testing TPA services
+
+### CONFIRMED QUEST PRICING (Received April 3, 2026):
+
+**Account Setup:** $200.00 one-time. No annual fee. No minimum testing requirement.
+
+| Service | Cost | Attachment # |
+|---|---|---|
+| **COLLECTION** | | |
+| PSC Collection Fee (Quest location) | $20.00 | — |
+| Preferred Collection Fee (non-Quest site) | $22.00 | — |
+| **LAB-BASED URINE** | | |
+| 5-Panel Urine Drug Screen | $16.00 | 35105N |
+| 10-Panel Urine Drug Screen | $21.00 | 35190N |
+| 10-Panel Expanded Urine Drug Screen | $22.00 | 39754N |
+| 10-Panel DOT Look-a-Like + Fentanyl | $32.00 | 55775N |
+| DOT Urine Drug Screen | $22.00 | 65304N |
+| **HAIR TESTING** | | |
+| 5-Panel Hair Drug Screen | $40.00 | 37000N |
+| 5-Panel Hair + Expanded Opiates | $43.00 | 37001N |
+| 5-Panel Hair + Expanded Opiates + Fentanyl | $60.00 | 38513N |
+| 5-Panel Hair + Expanded Opiates + Fentanyl + Methadone | $65.00 | 37274N |
+| Hair Kits | $1.00 | — |
+| **CLINICAL (test codes from Erika Apr 1 email)** | | |
+| CBC (Diff/Plt) | $5.50 | 6399 |
+| Hemogram and Differential | $4.35 | 7210 |
+| CBC (H/H, RBC, Indices, WBC, Plt) | $4.07 | 1759 |
+| Hemogram | $2.86 | 7008 |
+| WBC and Differential | $2.31 | 7064 |
+| Hemoglobin and Hematocrit | $1.87 | 7998 |
+| Platelet Count | $1.21 | 723 |
+| Hemoglobin | $0.94 | 510 |
+| Hematocrit | $0.94 | 509 |
+| Red Blood Cell Count | $0.83 | 783 |
+| WBC | $0.72 | 937 |
+| Hemoglobinopathy | $2.70 | 38529 |
+| HIV-1/2 Ag/Ab with Reflexes | $25.00 | 91431 |
+| PrEP HIV-1/2 4th Gen with Reflex | $25.00 | 13591 |
+| PrEP HIV-1/2 Ag/Ab 4th Gen Reflex to Diff | $25.00 | 13595 |
+| PrEP HIV-1/2 Ag/Ab 4th Gen with Reflexes | $25.00 | 13670 |
+| Draw Fee, PSC | $25.00 | 3259 |
+| **MRO REVIEW** | | |
+| Full Review (required for DOT) | $5.00 | — |
+| Positive Review (optional Non-DOT) | $21.00/positive | — |
+| **POC DIP CARDS (SKUs from Erika Apr 1 email)** | | |
+| 5-Panel Dip Card — no kit | $10.00 | POC0152 |
+| 5-Panel Dip Card — Single Kit | $11.00 | POC0151 |
+| 5-Panel Dip Card — Split Kit | $11.50 | POC0150 |
+| **OTHER** | | |
+| ePhysicals (vision, hearing, BP, physical exam) | $159.00 | — |
+
+**MRO Options (select one for account):**
+- Doctors Review Service — 800-526-9341
+- Industrial Medical Testing — 888-808-4676
+- I3 Screen — 877-295-3381
+- Total Compliance Network — 954-677-1200
+
+**Portal:** Employer Solutions Portal (access after account setup)
+**CCF Forms:** Paper chain of custody forms + cups mailed upon setup
+**First Bill:** Mailed via paper mail
 
 ---
 
@@ -520,10 +581,22 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - Pairs with OLIMP warehousing for full logistics solutions in the West
 - Relevant for any DDI freight lane bid requiring California or Southwest coverage
 
+**Special Pallet Pricing (rate sheet on file):**
+
+| Rate | Lane |
+|---|---|
+| $65.00 | Within L.A. / O.C. / Inland Empire counties |
+| $75.00 | Within L.A. / O.C. / Inland Empire counties |
+| $85.00 | L.A. / O.C. / I.E. ↔ San Diego / Ventura |
+| $95.00 | L.A. / O.C. / I.E. ↔ San Diego / Ventura |
+
+**Rate Sheet File:** `BIDS:RESOURCES/FREIGHT CARRIER SUPPLIERS/GLOVA-LINK/GLOVA-LINK_PALLET_RATE_SHEET.pdf`
+**Orders Email:** Orders@GlovaLink.Net
+
 **Actions:**
 - [ ] Reply to Griselda's email to confirm receipt and establish the relationship
 - [ ] Request W-9 and insurance COI when a relevant opportunity arises
-- [ ] File rate sheet attachment from her email for bid reference
+- [x] Rate sheet filed — `GLOVA-LINK_PALLET_RATE_SHEET.pdf` (April 3, 2026)
 
 ---
 
