@@ -30,6 +30,7 @@
 ## 📞 LAKOTA CALL — HIGH PRIORITY MONDAY
 
 **Contact:** Sam Cilento (PMP) | sales@lakotasoftware.com | 304-816-4804
+**Relationship:** Existing paid vendor — DDI pays $85/month for EFT Creator. Prior conversations with Sam already happened. This is a follow-up, not a cold call.
 
 **🔥 KEY FINDING:** Lakota built the FBI's Electronic Departmental Order (eDO) system. The entire rap-sheet request system + CHAT team dashboard. They also built FBI NGI, DoD ABIS, and DHS HART. DDI's Lakota relationship is a direct connection to the federal EDO infrastructure.
 

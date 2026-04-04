@@ -111,17 +111,32 @@ Dee Davis Inc. | Depointe DNA
 
 ---
 
-## LAKOTA — EFT Creator System
+## LAKOTA SOFTWARE SOLUTIONS — EFT Creator System
 
-**Account Status:** Active
-**Service:** SWFT EFT file creation system
+**Account Status:** ✅ Active (paying $85/month)
+**Service:** ATF EFT file creation — NFA Form 4, FFL applications, ATF eForms
 **Monthly Cost:** $85/month flat fee
 **Replaces:** PrintScan ($60-$75 per submission)
+**Contact:** Sam Cilento, Business Development Manager | sales@lakotasoftware.com | 304-816-4804
+**Website:** lakotasoftware.com
+**Prior Contact:** Yes — DDI has spoken with Sam before. Existing vendor relationship.
+
+> ⚠️ **SWFT NOTE:** Account was previously labeled "SWFT EFT file creation system." SWFT access was denied March 2026 by DCSA. This account covers ATF EFT file creation only — not SWFT submission. Do NOT conflate the two.
+
+> 🔥 **EDO FINDING:** Lakota built the FBI's Electronic Departmental Order (eDO) system, FBI NGI, DoD ABIS, and DHS HART. DDI's existing $85/month relationship is a door into the company that runs federal biometric infrastructure. Upgrade path: WHORL Pro (~confirm pricing with Sam) adds full livescan collection + EDO capability.
+
+### UPGRADE OPPORTUNITY:
+- Current: EFT Creator only ($85/month) — ATF EFT files
+- Next tier: WHORL Standard or WHORL Pro — adds full livescan, EBTS editing, federal EDO processing
+- Ask Sam: "What does it cost to upgrade from EFT Creator to WHORL Pro, and what submission channels does it include?"
 
 ### ACTIONS NEEDED:
 
 - [ ] Confirm monthly billing is current
-- [ ] Document Lakota contact info for this file
+- [ ] Call Sam Cilento — confirm what the $85/month account covers exactly
+- [ ] Ask about WHORL upgrade pricing and what channels it includes
+- [ ] Ask about federal EDO processing capability
+- [ ] Ask about Kojak hardware sourcing (DDI needs to confirm scanner status)
 
 ---
 
