@@ -6,30 +6,33 @@
 ---
 
 ```
-Subject: Following Up — WHORL Upgrade + Federal EDO Question | Dee Davis Inc.
+Subject: Partnership Conversation — Dee Davis Inc. + Lakota | Federal Biometric Expansion
 
 Hi Sam,
 
-Hope you're doing well. Dee Davis here — we've spoken before. You may know us under 3D Ink and Livescan Co., which is connected to Dee Davis Inc. — same owner, same operation. We're consolidating everything under Dee Davis Inc. going forward, so any accounts or history you have under 3D Ink and Livescan are ours.
+Dee Davis here — we've spoken before. You may have us in your system under 3D Ink and Livescan Co. — same owner, same operation, now consolidated under Dee Davis Inc. (CAGE: 8UMX3, EDWOSB certified).
 
-Things are moving fast on our end. We're scaling our fingerprinting operations and have a few specific questions I'd love your input on:
+I'm reaching out because I think there's a real partnership opportunity here worth talking through.
 
-1. **WHORL Upgrade** — What does it cost to upgrade from EFT Creator to WHORL Pro? We're looking at adding full livescan collection capability for mobile and on-site collections.
+Here's what's happening on our end: Dee Davis Inc. is an EDWOSB contract management firm actively pursuing federal biometric contracts — agency fingerprinting, federal EDO processing, ATF/NFA services, and multi-state collection networks. We're building a subcontractor network across 10+ states and we want Lakota to be the technology backbone of that entire operation — software, training, and hardware.
 
-2. **Federal EDO Processing** — We're pursuing federal agency fingerprinting contracts and noticed that Lakota built the FBI's Electronic Departmental Order system. Does WHORL Pro support federal EDO processing, and what submission channels does it connect to (IdentoGO, Fieldprint, direct FBI channeler, or other)?
+That means we're not just looking to upgrade our own account. We're looking at:
 
-3. **Kojak Hardware** — Can Lakota source Kojak scanners for us? We're building out a multi-location setup and want to keep hardware and software under one relationship if possible.
+- **Deploying WHORL across our sub network** — standardizing every fingerprinting subcontractor we bring on with Lakota software and Kojak hardware
+- **Federal EDO capability** — we know Lakota built the FBI's eDO system, and we want to understand what it takes to process federal EDOs through WHORL as we win agency contracts
+- **Reseller/channel partner arrangement** — bundling Lakota software with Kojak scanners as a "DDI Fingerprinting Starter Kit" for subs coming into our network
+- **Pursuing state livescan certifications together** — DDI drives the demand, Lakota provides the technology
 
-We're ready to move on the upgrade — just want to make sure we're pointed at the right tier before we do.
+Our current EFT Creator account is the starting point, not the ceiling.
 
-Looking forward to hearing from you.
+I'd love to explore what a formal channel or reseller arrangement looks like. Would you be open to a conversation?
 
 Dieasha D. Davis
 President & CEO
 Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 248.376.4550 | info@deedavis.biz
-EDWOSB | WOSB | CAGE: 8UMX3
+EDWOSB | WOSB | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 ```
 
 ---
