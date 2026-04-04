@@ -27,11 +27,19 @@
 
 ---
 
-## 📞 LAKOTA / WHORL — CONFIRM BEFORE UPDATING RECORDS
+## 📞 LAKOTA CALL — HIGH PRIORITY MONDAY
 
-**Ask Lakota:** "Is WHORL configured to receive and process federal EDOs, and what submission channels are you currently connected to — IdentoGO, Fieldprint, direct FBI channeler, or other?"
+**Contact:** Sam Cilento (PMP) | sales@lakotasoftware.com | 304-816-4804
 
-Answer determines what DDI can market for federal fingerprinting and whether we need SWFT at all for that work. Holding all fingerprinting reference updates until confirmed.
+**🔥 KEY FINDING:** Lakota built the FBI's Electronic Departmental Order (eDO) system. The entire rap-sheet request system + CHAT team dashboard. They also built FBI NGI, DoD ABIS, and DHS HART. DDI's Lakota relationship is a direct connection to the federal EDO infrastructure.
+
+**Questions to ask Sam:**
+1. "What is the status of our WHORL license — is it active, and what does it cost to activate?"
+2. "Is WHORL configured to receive and process federal EDOs, and what submission channels are you connected to — IdentoGO, Fieldprint, direct FBI channeler, or other?"
+3. "Can you source Kojak scanners for us — do we have hardware in hand or do we need to order?"
+4. "What does it take to get DDI set up to process ATF EFT files today?"
+
+**After this call:** Update `FINGERPRINTING_CURRENT_STATUS.md` with confirmed capabilities. All fingerprinting reference documents will be updated from that single source.
 
 ---
 

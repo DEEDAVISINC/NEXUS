@@ -7,10 +7,12 @@
 
 | Component | Product | Vendor | Status |
 |-----------|---------|--------|--------|
-| **Scanner** | Kojak 10-Print Roll Scanner | Integrated Biometrics | ✅ Active customer |
-| **Software** | Whorl / EFTCreator | Lakota Software Solutions | ✅ Active customer (years) |
-| **Certification** | SWFT Authorization | DCSA | ✅ Active since 2022 |
-| **Certification** | FBI Appendix F (via Kojak) | FBI | ✅ Via hardware |
+| **Scanner** | Kojak 10-Print Roll Scanner | Integrated Biometrics | ⚠️ Confirm whether DDI has hardware in hand |
+| **Software** | Whorl / EFTCreator | Lakota Software Solutions | ❌ NOT YET ACTIVATED — Lakota relationship exists, WHORL license not purchased. Confirm with Sam Cilento before deploying. |
+| **Certification** | SWFT Authorization | DCSA | ❌ DENIED March 2026 — requires minimum interim Secret clearance + Facility Clearance Level. Do NOT claim. Path: win fingerprinting contract → DD Form 254 → FCL. |
+| **Certification** | FBI Appendix F (via Kojak) | FBI | ✅ Via hardware (if Kojak is confirmed in hand) |
+
+> ⚠️ **STATUS NOTE (April 2026):** This document was written February 2026 before SWFT was denied and WHORL was confirmed not yet active. The "current workflow" section below describes the INTENDED workflow, not current reality. Update this doc after Lakota call confirms actual capability. Key question for Sam Cilento: (1) Confirm WHORL license status, (2) What submission channels is WHORL connected to?, (3) Can WHORL process federal EDOs? — **Lakota built the FBI's eDO system (line 89 below) — this is a direct connection to federal EDO capability.**
 
 ---
 

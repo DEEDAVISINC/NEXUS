@@ -94,7 +94,7 @@
 **Services:**
 - Live scan electronic biometric fingerprinting (digital capture)
 - Ink fingerprinting on FBI FD-258 cards (standard federal format)
-- SWFT electronic submission to DCSA/FBI (DDI is SWFT-authorized)
+- Electronic submission via Lakota/cleared sub (DDI does NOT have direct SWFT access — denied March 2026)
 - ATF Electronic Fingerprint Transmission (EFT) file creation for FFL dealers and NFA applications
 - Mobile biometric fingerprinting services (on-site at client facilities)
 - Cross-state licensing fingerprinting
@@ -107,8 +107,8 @@
 - Per card rate: $50
 - Volume 16-50 cards/month: $45/card (travel included)
 - Volume 51+ cards/month: $40/card (travel included statewide)
-- SWFT/FBI electronic submission + results: +$50/person
-- **Bundled new client (2 cards + SWFT/FBI submission + results): $200**
+- Electronic submission + results (via Lakota/sub): +$50/person
+- **Bundled new client (2 cards + electronic submission + results): $200**
 - Prints stored on file: 1 year (reorders don't require reprinting)
 - EFT file creation: In-house via Lakota partnership
 
@@ -1140,7 +1140,7 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 - ⚠️ Coupa Verified Supplier (Cert ID: 7002160) — EXPIRED 11/2025, needs renewal
 - ✅ CMMC-AB (Cybersecurity Maturity Model Certification)
 - ✅ E-Verify Certified (Employment Eligibility Verification)
-- ✅ SWFT Authorized (Secure Web Fingerprint Transmission — DCSA/FBI)
+- ❌ SWFT — Access denied March 2026 (requires Secret clearance + FCL). Path: win fingerprinting contract → FCL via DD Form 254.
 - ✅ TWIC Credentialed (Transportation Worker Identification Credential — TSA)
 
 ### **State Licenses:**

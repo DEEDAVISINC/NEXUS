@@ -84,7 +84,7 @@ Use the **correct MiLogin** per system — do not mix them up.
 
 **Federal/Compliance:**
 - E-Verify Certified (Employment Eligibility Verification) — **Company ID: DDAVB62C** | Status: ACTIVE | Role: Program Administrator | Company: DEE DAVIS INC.
-- SWFT Authorized (Secure Web Fingerprint Transmission — DCSA electronic fingerprint submission to FBI/DCSA)
+- ~~SWFT Authorized~~ — ❌ INCORRECT. SWFT access was denied by DCSA March 2026. Requires minimum interim Secret clearance + Facility Clearance Level. Do NOT claim SWFT on any documents. Path: win a fingerprinting contract → DD Form 254 → FCL triggers automatically.
 
 **PENDING CERTIFICATIONS (In Progress):**
 - **8(a) Business Development Program** — SBA certification, APPLICATION PENDING
@@ -95,15 +95,24 @@ Use the **correct MiLogin** per system — do not mix them up.
   - Certifying agency: State UCP (Unified Certification Program) — Florida: Hillsborough County Aviation Authority; Michigan: MDOT
   - Directly relevant to: PSTA, DDOT, SMART, and all FTA-funded transit procurement
 
-**⚠️ FINGERPRINTING SCOPE — CRITICAL DISTINCTION:**
-DDI's fingerprinting business is FEDERAL, not state. State-level fingerprinting in Michigan (schools, state licensing, etc.) goes through **IdentoGO (IDEMIA)** — DDI does NOT compete with IdentoGO.
+**⚠️ FINGERPRINTING SCOPE — CURRENT STATUS (Updated April 2026):**
 
-DDI's fingerprinting services are:
-1. **Federal SWFT** — Electronic fingerprint submission to DCSA/FBI for military installations, federal agencies, security clearance processing
-2. **ATF EFT Creation** — Electronic Fingerprint Transmission for FFL dealers, NFA applications, ATF compliance
-3. **Cross-State Licensing** — State license holders who need fingerprinting for licensing OUTSIDE their home state (states that don't use IdentoGO)
+DDI provides biometric fingerprinting services through a partnership with **Lakota Software Solutions** (maker of WHORL biometric platform — built FBI NGI, eDO system, DoD ABIS, DHS HART).
 
-DDI does NOT do: Michigan state-level fingerprinting (IdentoGO handles this), school employee background check fingerprinting, or state licensing board fingerprinting within Michigan.
+**Current DDI Fingerprinting Capability:**
+- **Hardware:** Kojak 10-Print scanner (Integrated Biometrics) — FBI Appendix F certified, portable, USB-powered
+- **Software:** WHORL by Lakota — ⚠️ NOT YET ACTIVATED. Lakota relationship exists; WHORL license not yet purchased. Confirm before deploying.
+- **Submission:** SWFT — ❌ DENIED (March 2026). DCSA requires Secret clearance + FCL. Use Lakota or cleared sub for electronic submissions until FCL obtained.
+- **ATF EFT Creation** — EFT file creation for FFL dealers, NFA applications (ATF Form 4) — available via Lakota relationship
+- **FD-258 Ink Cards** — Traditional rolled prints for paper submissions — available now
+- **Federal EDOs** — ⚠️ PENDING CONFIRMATION. Lakota built the FBI's eDO system. Confirm WHORL's EDO submission capability with Sam Cilento before marketing.
+
+**Three Revenue Lanes (strategy in FINGERPRINTING_THREE_LANES.md):**
+1. Interstate professional licensure (real estate, nursing, law, insurance agents)
+2. ATF/NFA firearms (FFL dealers, suppressors, NFA Form 4)
+3. Federal agency fingerprinting (pending WHORL activation + channel confirmation)
+
+**What DDI Does NOT Do (yet):** Michigan state-level fingerprinting via IdentoGO/IDEMIA network. That requires separate state certification. Not competing with IdentoGO in Michigan.
 
 **State Partnerships:**
 - MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
@@ -360,7 +369,7 @@ We're 'The Professionals' Professionals' because we engineer solutions while oth
 "Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system based in Troy, Michigan, focused on all forms of business continuity. Powered by proprietary AI technology platforms built in-house, we win contracts, source qualified partners, and manage project delivery across every sector — ensuring nothing stops because one person or one system is unavailable."
 
 **Business Description (~1,000 characters — for SAM.gov, vendor registrations, portals):**
-Dee Davis Inc. — "The Professionals' Professionals" is a federally certified EDWOSB contract management firm and business operating system headquartered in Troy, Michigan, focused on all forms of business continuity. We win government and commercial contracts across every sector, source qualified partners to execute the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, coordination — ensuring operations never stop. Our proprietary AI technology platforms (NEXUS, ATLAS PM, FleetFlow™, COMPASS™, PRISM) automate 90% of the contract lifecycle, enabling Fortune 500-level operations at small business scale. Certified EDWOSB, WOSB, WBE, MBE, SBE, WBENC with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, SWFT registered, CMMC-AB certified. We hold DOT and MC authority for transportation, NPI for healthcare, and active Medicaid provider status in multiple states. Dee Davis Inc. doesn't do the work — we make sure the work never stops.
+Dee Davis Inc. — "The Professionals' Professionals" is a federally certified EDWOSB contract management firm and business operating system headquartered in Troy, Michigan, focused on all forms of business continuity. We win government and commercial contracts across every sector, source qualified partners to execute the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, coordination — ensuring operations never stop. Our proprietary AI technology platforms (NEXUS, ATLAS PM, FleetFlow™, COMPASS™, PRISM) automate 90% of the contract lifecycle, enabling Fortune 500-level operations at small business scale. Certified EDWOSB, WOSB, WBE, MBE, SBE, WBENC with full federal credentials (CAGE: 8UMX3, UEI: HJB4KNYJVGZ1), E-Verify enrolled, CMMC-AB certified. We hold DOT and MC authority for transportation, NPI for healthcare, and active Medicaid provider status in multiple states. Dee Davis Inc. doesn't do the work — we make sure the work never stops.
 
 ---
 
