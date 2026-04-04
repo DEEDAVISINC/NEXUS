@@ -11,7 +11,7 @@
 - ✅ WOSB — SBA Certified
 - ✅ WBENC, MBE, SBE, WBE
 - ✅ E-Verify
-- ✅ SWFT Authorized
+- ❌ SWFT — Access denied (requires minimum interim Secret clearance + Facility Clearance Level). Path: win a fingerprinting contract → DD Form 254 → FCL process triggers automatically. Use cleared sub in interim.
 - ✅ Freight 1st Direct — MC-1647572 | DOT-4250594
 - ❌ 8(a) — NOT YET CERTIFIED (apply ASAP)
 - ❌ GSA MAS — NOT YET ON SCHEDULE
@@ -213,11 +213,13 @@ GSA consolidated all schedules into one **Multiple Award Schedule (MAS)** under 
 
 | SIN | Description | DDI Service |
 |---|---|---|
-| **561-26** | Background Investigation Services | Pre-employment, security clearance support |
-| **561-27** | Guard/Security Services | TWIC escort, secure facility access |
+| **561-26** | Background Investigation Services | Pre-employment screening, live scan, ink card fingerprinting, FBI CJIS submissions |
+| **561-27** | Guard/Security Services | Secure facility access coordination |
 
 **NAICS:** 561611, 561612, 812199  
 **Market:** CBP, DHS, DOD, VA, GSA, any agency with access credentialing needs
+
+> ⚠️ **SWFT NOTE:** DDI does NOT have SWFT access. Applied March 2026 — denied by DCSA (requires minimum interim Secret clearance + Facility Clearance Level). Do NOT list SWFT on any documents. Path to get it: win a fingerprinting contract → agency issues DD Form 254 → FCL process triggers automatically. Use a cleared sub for SWFT submissions in the interim.
 
 ---
 
