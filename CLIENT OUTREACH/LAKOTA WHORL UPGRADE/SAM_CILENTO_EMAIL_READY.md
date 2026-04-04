@@ -23,9 +23,11 @@ That means we're not just looking to upgrade our own account. We're looking at:
 - **Reseller/channel partner arrangement** — bundling Lakota software with Kojak scanners as a "DDI Fingerprinting Starter Kit" for subs coming into our network
 - **Pursuing state livescan certifications together** — DDI drives the demand, Lakota provides the technology
 
+I'll be straight with you — we're a small business right now. But small is exactly where the right partnerships get built. The contracts we're pursuing, the sub network we're building, the federal biometric work coming down the pipeline — none of that happens without the right technology partner behind us. We want that to be Lakota. And when DDI scales, Lakota scales with us.
+
 Our current EFT Creator account is the starting point, not the ceiling.
 
-I'd love to explore what a formal channel or reseller arrangement looks like. Would you be open to a conversation?
+I'd love to explore what a formal channel or reseller arrangement looks like — one that works for where we are now and grows with us. Would you be open to a conversation?
 
 Dieasha D. Davis
 President & CEO
