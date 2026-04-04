@@ -110,7 +110,7 @@
 - Electronic submission + results (via Lakota/sub): +$50/person
 - **Bundled new client (2 cards + electronic submission + results): $200**
 - Prints stored on file: 1 year (reorders don't require reprinting)
-- EFT file creation: In-house via Lakota partnership
+- EFT file creation: ✅ ACTIVE IN-HOUSE — ATF EFT files for NFA Form 4, FFL applications, ATF eForms
 
 **NAICS Codes:** 561611, 541990
 

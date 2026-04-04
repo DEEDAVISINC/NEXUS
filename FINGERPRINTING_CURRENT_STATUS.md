@@ -14,7 +14,7 @@
 | **SWFT Access** | ❌ DENIED | Applied March 2026. DCSA denied — requires minimum interim Secret clearance + Facility Clearance Level. Will NOT be granted without a DD Form 254 from a contract award. |
 | **FBI Appendix F** | ✅ Via Kojak | Certified through hardware (if Kojak is confirmed in hand) |
 | **FD-258 Ink Cards** | ✅ Available | Traditional rolled prints — can be done now |
-| **ATF EFT Files** | ⚠️ Via Lakota | Available through Lakota relationship — confirm activation with Sam |
+| **ATF EFT Files** | ✅ CONFIRMED | ATF EFT file creation is active in DDI's system. Can create compliant EFT files for NFA Form 4, FFL applications, ATF eForms. |
 | **Lakota Partnership** | ✅ Relationship exists | Sam Cilento (PMP) — sales@lakotasoftware.com — 304-816-4804 |
 | **Federal EDOs** | ⚠️ PENDING | Lakota built the FBI's eDO system. Confirm with Sam whether WHORL can process federal EDOs and through which submission channel. |
 
@@ -25,7 +25,7 @@
 ✅ **"We provide biometric fingerprinting services in partnership with Lakota Software Solutions."**
 ✅ **"We offer FD-258 ink card collection for federal and ATF submissions."**
 ✅ **"We have a Kojak FBI Appendix F-certified scanner."** (if hardware confirmed)
-✅ **"We create ATF EFT files for NFA Form 4 applications."** (if Lakota confirmed)
+✅ **"We create ATF EFT files for NFA Form 4 applications, FFL submissions, and ATF eForms."** ← CONFIRMED ACTIVE
 
 ❌ **DO NOT SAY:** "SWFT authorized" — denied, no access
 ❌ **DO NOT SAY:** "SWFT certified" — never had it properly
@@ -67,7 +67,7 @@ Lakota Software Solutions built the **FBI's Electronic Departmental Order (eDO) 
 | Lane | Status | Gate |
 |---|---|---|
 | **Lane 1: Interstate Professional Licensure** | ⚠️ Partial | FD-258 cards available now. Electronic submission pending WHORL confirmation. |
-| **Lane 2: ATF / NFA Firearms** | ⚠️ Partial | FD-258 available. EFT file creation pending WHORL/Lakota confirmation. |
+| **Lane 2: ATF / NFA Firearms** | ✅ ACTIVE | FD-258 cards + ATF EFT file creation both confirmed. Can service FFL dealers, NFA Form 4, suppressors, responsible persons. |
 | **Lane 3: Federal Agency / EDO** | ❌ Not ready | Pending: WHORL activation + channel confirmation + (eventually) SWFT via FCL. |
 
 ---
