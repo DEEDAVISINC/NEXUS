@@ -59,14 +59,22 @@
 - DOT return-to-duty: $150
 - DOT random program setup: $250/year
 - Non-DOT drug test (starting price): $75
-- Non-DOT 5-panel rapid: $75
-- Non-DOT 10-panel rapid: $95
+- Non-DOT 5-panel rapid (POCT): $75
+- Non-DOT 10-panel rapid (POCT): $95
+- Non-DOT 12-panel rapid (POCT instant cup — 12PanelNow): $70
 - Non-DOT 5-panel lab-confirmed: $85
 - Non-DOT 10-panel lab-confirmed: $125
+- Non-DOT 12-panel lab-confirmed: $150
+- Non-DOT 12-panel oral fluid: $135
+- POCT positive confirmation (lab send-out): $85
 - Hair follicle 5-panel: $275
 - Hair follicle 10-panel: $275
+- Hair follicle 12-panel: $310
 - After-hours/emergency surcharge: +$125
 - Weekend surcharge: +$85
+
+**POCT Supplier:** 12PanelNow — $2.09/cup (locked quote, contact: brenda@slashmedical.com)
+**12-Panel Substances:** THC, Cocaine, Opiates, Amphetamines, Methamphetamines, PCP, Benzodiazepines, Barbiturates, Methadone, Propoxyphene, Oxycodone, Buprenorphine
 
 **NAICS Codes:** 621511, 541990
 

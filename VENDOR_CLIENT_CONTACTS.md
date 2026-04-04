@@ -1,8 +1,8 @@
 # VENDOR, SUPPLIER & BUYER CONTACTS
 
 **DEE DAVIS INC Complete Contact Database**  
-**Last Updated:** March 29, 2026  
-**Recent:** UHC MI — Ken P. kprzybylowicz@uhc.com (backup; Tori Johnson PTO through 04/06/2026); Pinnacle Title & Escrow (Peoria AZ); NY DCJS; 33 MDHHS + 19 DTMB buyers
+**Last Updated:** February 27, 2026  
+**Recent:** NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
 
 ---
 
@@ -38,19 +38,6 @@
 - **DDI Vendor #:** KS0026951 (Kentucky VSS)  
 - **Due Date:** April 1, 2026, 3:00 PM EST — HARD COPY ONLY  
 - **Status:** RFP received Feb 25, 2026. Bid folder created. Written questions emailed to CO Feb 25. eScreen cert request emailed to Abbott Feb 25. Awaiting responses. Proposal due Apr 1.  
-
----
-
-### **UHC COMMUNITY PLAN (MICHIGAN) — NEMT / PROVIDER CONTRACTING**
-
-**Tori Johnson**  
-- **Email:** tojohnson@uhc.com  
-- **Phone:** 612-642-7679  
-- **Notes:** Plan contact for Michigan NEMT / provider questions. **PTO through 04/06/2026** (per auto-reply Mar 2026).
-
-**Ken P. (urgent backup while Tori out)**  
-- **Email:** kprzybylowicz@uhc.com  
-- **Notes:** Use for urgent NEMT credentialing or application follow-up when Tori is unavailable.
 
 ---
 
@@ -845,22 +832,6 @@
 
 ---
 
-## 🏠 TITLE & ESCROW
-
-### **Pinnacle Title & Escrow Agency — Peoria, AZ**
-
-**Ciane "CJ" Miller**  
-- **Email:** ciane.miller@pinnacletitleaz.com  
-- **Phone:** (623) 253-6160  
-- **Alt / fax:** (623) 523-3185  
-- **Company:** Pinnacle Title & Escrow Agency — Peoria  
-- **Location:** Peoria, Arizona  
-- **Type:** Title & escrow — signing / notary / document services pipeline (Arizona)  
-- **Status:** Contact on file — added March 29, 2026  
-- **Notes:** Use for Arizona title-escrow outreach, signing coordination, or referrals.
-
----
-
 ## 🏆 DDI BUSINESS REFERENCES
 
 **Use for vendor portal registrations, proposals, and pre-qualification packages.**
@@ -971,7 +942,42 @@
 - **Specialty:** Import/export shipments, port pickups and deliveries
 - **Availability:** 24/7
 - **Status:** Inbound inquiry received Mar 24, 2026 — they reached out to DDI offering services
-- **Notes:** Could be useful for West Coast freight/logistics contracts. Verify MC authority on FMCSA before engaging.
+- **FID Roster:** Added to `FREIGHT_1ST_DIRECT_OWNER_OPERATOR_CARRIER_LIST.md` — Pending Onboarding section
+- **AOG/TWIC Relevance:** Port terminal specialty makes them a strong candidate for Freight 1st Direct AOG ground courier + TWIC escort expansion. Oakland port coverage = West Coast AOG capability.
+
+**Before outreach:**
+- [ ] Run FleetFlow™ carrier verification on MC 1593546
+
+**When ready to reach out — send this:**
+
+Subject: Following Up — Freight 1st Direct Carrier Partnership + TWIC Question
+
+Hi Travis,
+
+This is Dee Davis with Dee Davis Inc., operating as Freight 1st Direct (MC-1647572). Thanks for reaching out — I've had your info on my list and wanted to circle back.
+
+We're expanding our carrier network with a specific focus on port, terminal, and secure facility freight — which is exactly your lane based on your Oakland port specialty. The timing is good.
+
+A couple of quick questions before we move forward:
+
+1. Are any of your drivers TWIC certified? We're building out an AOG ground courier and TWIC escort service for port terminals and secure facilities, and TWIC-certified carriers go to the top of our dispatch list for that work.
+
+2. Do you handle cross-country loads as well, or are you primarily West Coast / Oakland port area?
+
+3. Are you available for time-critical, short-notice dispatches? We run emergency freight that needs same-day or next-day response.
+
+If the answers work, I'd like to send over our carrier agreement and get you set up in our system. We're also looking to get your drivers enrolled in our DOT drug and alcohol testing program through Freight 1st Direct — standard for all carriers in our network.
+
+Let me know a good time to connect — I'm available any day after 12:00 PM ET.
+
+Looking forward to it,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | Freight 1st Direct
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+MC-1647572 | DOT-4250594
 
 ---
 

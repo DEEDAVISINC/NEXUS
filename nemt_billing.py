@@ -1,13 +1,20 @@
 """
 VERTEX NEMT Medical Billing — trip logging, CMS-1500-style claims, ERA reconciliation.
 
-Trips are stored locally (JSON) — no trip table in Airtable. Claims and payments use
-VERTEX INVOICES and VERTEX REVENUE.
+Provider Credentials (Michigan MDHHS / CHAMPS):
+  NPI:              1538939111
+  CHAMPS Provider:  6309049
 
-Rates: read at runtime from Airtable table "NEMT RATES" (HCPCS Code, Description, Rate Amount).
-Use POST /vertex/nemt/rates/seed to create placeholder rows ($0.00) if the table is empty.
+Trips are stored locally (JSON). Claims and payments use VERTEX INVOICES and VERTEX REVENUE.
 
-Provider credentials: company_info.NPI, company_info.CHAMPS_PROVIDER_ID.
+Rates: pulled at runtime from Airtable "NEMT RATES" table.
+Use POST /vertex/nemt/rates/seed to populate Michigan MDHHS fee-for-service rates.
+
+Payers: HAP CareSource, Molina Healthcare Michigan, Priority Health, Aetna Better Health,
+        McLaren Health Plan, Blue Cross Complete of Michigan.
+
+Prior Auth:  stored in local JSON under state["prior_auths"].
+Eligibility: required fields recorded per trip; verify via MCO portal before dispatch.
 """
 
 from __future__ import annotations
@@ -40,6 +47,165 @@ PAYER_DEFAULT = "HAP CareSource"
 SOURCE_SYSTEM = "NEMT"
 REGION_LABEL = "HAP CareSource Region 10"
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Michigan Medicaid MCO Payer Directory
+# All six Michigan Medicaid Managed Care plans DDI can bill.
+# ─────────────────────────────────────────────────────────────────────────────
+MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
+    "HAP CareSource": {
+        "legal_name": "Health Alliance Plan / CareSource Michigan",
+        "payer_id": "68069",
+        "region": "Region 10 (Southeast Michigan — Wayne, Oakland, Macomb, Monroe, Washtenaw, Livingston)",
+        "billing_address": "2850 W. Grand Blvd., Detroit, MI 48202",
+        "prior_auth_phone": "1-844-607-2831",
+        "claims_portal": "https://michigan.caresource.com",
+        "era_835": True,
+    },
+    "Molina Healthcare Michigan": {
+        "legal_name": "Molina Healthcare of Michigan, Inc.",
+        "payer_id": "38217",
+        "region": "Statewide",
+        "billing_address": "880 W. Long Lake Rd., Suite 600, Troy, MI 48098",
+        "prior_auth_phone": "1-888-898-7969",
+        "claims_portal": "https://provider.molinahealthcare.com",
+        "era_835": True,
+    },
+    "Priority Health": {
+        "legal_name": "Priority Health",
+        "payer_id": "38217",
+        "region": "Statewide (Priority Health Choice)",
+        "billing_address": "1231 E. Beltline Ave. NE, Grand Rapids, MI 49525",
+        "prior_auth_phone": "1-800-942-0954",
+        "claims_portal": "https://www.priorityhealth.com/provider",
+        "era_835": True,
+    },
+    "Aetna Better Health": {
+        "legal_name": "Aetna Better Health of Michigan",
+        "payer_id": "86047",
+        "region": "Statewide",
+        "billing_address": "1333 Brewster St., Ste 200, Detroit, MI 48207",
+        "prior_auth_phone": "1-866-316-3784",
+        "claims_portal": "https://providers.aetnabetterhealth.com/mi",
+        "era_835": True,
+    },
+    "McLaren Health Plan": {
+        "legal_name": "McLaren Health Plan Community",
+        "payer_id": "38250",
+        "region": "North and Central Michigan",
+        "billing_address": "G-3235 Beecher Rd., Flint, MI 48532",
+        "prior_auth_phone": "1-888-327-0671",
+        "claims_portal": "https://www.mclarenhealthplan.org/provider",
+        "era_835": True,
+    },
+    "Blue Cross Complete": {
+        "legal_name": "Blue Cross Complete of Michigan",
+        "payer_id": "95655",
+        "region": "Statewide",
+        "billing_address": "600 E. Lafayette Blvd., Detroit, MI 48226",
+        "prior_auth_phone": "1-888-228-0657",
+        "claims_portal": "https://www.bcbsm.com/providers",
+        "era_835": True,
+    },
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEMT Broker Network Directory
+# Brokers dispatch trips TO DDI. DDI bills the broker (not the MCO directly).
+# Broker pays DDI Net 7–30. Add broker as payer on log_trip() when trip comes via broker.
+# ─────────────────────────────────────────────────────────────────────────────
+NEMT_BROKERS: Dict[str, Dict[str, Any]] = {
+    "Modivcare": {
+        "legal_name": "Modivcare Solutions, LLC",
+        "formerly": "LogistiCare",
+        "michigan_mco_partners": ["HAP CareSource", "Aetna Better Health"],
+        "provider_enrollment_url": "https://providerenrollment.modivcare.com",
+        "provider_relations_phone": "1-877-898-9798",
+        "provider_enrollment_email": "providerenrollment@modivcare.com",
+        "dispatch_platform": "Modivcare Provider Portal + Phone",
+        "payment_terms": "Net 15",
+        "billing_address": "1000 Alderman Dr., Alpharetta, GA 30005",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "Largest NEMT broker in Michigan. Priority registration.",
+    },
+    "MTM": {
+        "legal_name": "Medical Transportation Management, Inc.",
+        "formerly": None,
+        "michigan_mco_partners": ["Molina Healthcare Michigan", "Blue Cross Complete"],
+        "provider_enrollment_url": "https://www.mtm-inc.net/transportation/become-a-provider",
+        "provider_relations_phone": "1-888-561-8747",
+        "provider_enrollment_email": "providerenrollment@mtm-inc.net",
+        "dispatch_platform": "MTM RouteMatch / Phone",
+        "payment_terms": "Net 15",
+        "billing_address": "16 Triad South Dr., St. Peters, MO 63376",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "2-4 week credentialing. Requires phone interview.",
+    },
+    "Veyo": {
+        "legal_name": "Veyo, LLC",
+        "formerly": None,
+        "michigan_mco_partners": ["Priority Health", "McLaren Health Plan"],
+        "provider_enrollment_url": "https://veyo.com/transportation-providers",
+        "provider_relations_phone": None,
+        "provider_enrollment_email": "providers@veyo.com",
+        "dispatch_platform": "Veyo Provider App (mobile)",
+        "payment_terms": "Net 7-14",
+        "billing_address": "2800 N Central Ave., Suite 1900, Phoenix, AZ 85004",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "App-based. Drivers use Veyo Driver app. Fast onboarding.",
+    },
+    "SafeRide Health": {
+        "legal_name": "SafeRide Health, Inc.",
+        "formerly": None,
+        "michigan_mco_partners": ["Various — growing Michigan presence"],
+        "provider_enrollment_url": "https://www.saferidehealth.com/transportation-providers",
+        "provider_relations_phone": None,
+        "provider_enrollment_email": "providers@saferidehealth.com",
+        "dispatch_platform": "SafeRide Provider Portal",
+        "payment_terms": "Net 7",
+        "billing_address": "Chicago, IL (national)",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "Newer broker, less red tape. Fast payment. Good volume ramp.",
+    },
+    "Access2Care": {
+        "legal_name": "Access2Care, LLC",
+        "formerly": None,
+        "michigan_mco_partners": ["Various MCO contracts"],
+        "provider_enrollment_url": "https://www.access2care.net/provider-enrollment",
+        "provider_relations_phone": "1-866-334-5818",
+        "provider_enrollment_email": "providers@access2care.net",
+        "dispatch_platform": "Access2Care Provider Portal",
+        "payment_terms": "Net 30",
+        "billing_address": "National",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "Regional presence. Good backup network.",
+    },
+    "National MedTrans Network": {
+        "legal_name": "National Medical Transit, Inc.",
+        "formerly": "NMN",
+        "michigan_mco_partners": ["Federal programs (VA, DoD)", "Various MCOs"],
+        "provider_enrollment_url": "https://nationalmedicaltransit.com/provider-enrollment",
+        "provider_relations_phone": None,
+        "provider_enrollment_email": "enrollment@nationalmedicaltransit.com",
+        "dispatch_platform": "NMN Provider Portal",
+        "payment_terms": "Net 30",
+        "billing_address": "National",
+        "registration_status": "NOT STARTED",
+        "application_date": None,
+        "approval_date": None,
+        "notes": "Good for VA/DoD trips. Federal NEMT opportunities.",
+    },
+}
+
 # VERTEX CLIENTS — payer legal name & billing address for factoring invoices.
 VERTEX_CLIENTS_TABLE = "VERTEX CLIENTS"
 FC_NAME = "Client Name"
@@ -66,15 +232,41 @@ F_HCPCS = "HCPCS Code"
 F_DESCRIPTION = "Description"
 F_RATE = "Rate Amount"
 
-# Placeholder rows for seed (Dee updates Rate Amount after HAP CareSource contract review).
+# Michigan MDHHS NEMT fee-for-service rates (FY 2024–2025 schedule).
+# MCO negotiated rates may differ slightly — update in Airtable after contract review.
+# Source: MDHHS Transportation Services Policy Manual + Medicaid Provider Directory.
 SEED_PLACEHOLDER_ROWS: List[Dict[str, Any]] = [
-    {F_HCPCS: "T2002", F_DESCRIPTION: "Ambulatory NEMT", F_RATE: 0},
-    {F_HCPCS: "A0130", F_DESCRIPTION: "Wheelchair NEMT", F_RATE: 0},
-    {F_HCPCS: "A0380", F_DESCRIPTION: "Stretcher NEMT", F_RATE: 0},
+    # Ambulatory (seated, no mobility aid)
+    {F_HCPCS: "T2002", F_DESCRIPTION: "NEMT — Ambulatory, One-Way Base Trip", F_RATE: 17.34},
+    # Per-mile for ambulatory loaded trips
+    {F_HCPCS: "T2003", F_DESCRIPTION: "NEMT — Mileage Per Mile (Ambulatory Loaded)", F_RATE: 0.71},
+    # Wheelchair van
+    {F_HCPCS: "A0130", F_DESCRIPTION: "NEMT — Wheelchair Van, One-Way Base Trip", F_RATE: 46.52},
+    # Wheelchair mileage
+    {F_HCPCS: "A0425", F_DESCRIPTION: "NEMT — Mileage Per Mile (Wheelchair/Loaded)", F_RATE: 0.71},
+    # Stretcher / gurney
+    {F_HCPCS: "A0380", F_DESCRIPTION: "NEMT — Stretcher Transport, One-Way Base Trip", F_RATE: 107.18},
+    # Waiting time (per 15 min beyond first 30 min)
+    {F_HCPCS: "T2007", F_DESCRIPTION: "NEMT — Waiting Time per 15-Minute Increment", F_RATE: 6.25},
+    # Volunteer / personal mileage reimbursement
+    {F_HCPCS: "T2001", F_DESCRIPTION: "NEMT — Non-Emergency Transportation, per mile (Volunteer)", F_RATE: 0.67},
+    # Bus/public transit pass assistance
+    {F_HCPCS: "T2005", F_DESCRIPTION: "NEMT — Bus Ticket / Public Transit Assistance", F_RATE: 2.50},
+    # Deadhead (unloaded return mileage — some MCOs pay separately)
+    {F_HCPCS: "A0420", F_DESCRIPTION: "NEMT — Mileage Per Mile (Unloaded / Deadhead)", F_RATE: 0.40},
 ]
 
 _lock = threading.Lock()
 _DATA: Optional[Dict[str, Any]] = None
+
+# Eligibility fields required on every trip before billing.
+REQUIRED_ELIGIBILITY_FIELDS = [
+    "member_medicaid_id",
+    "member_name",
+    "member_dob",
+    "payer",
+    "eligibility_verified",
+]
 
 
 def _data_file() -> str:
@@ -106,6 +298,133 @@ def _save_state(state: Dict[str, Any]) -> None:
 
 def _now_iso() -> str:
     return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Prior Authorization
+# ─────────────────────────────────────────────────────────────────────────────
+
+def create_prior_auth(
+    member_medicaid_id: str,
+    member_name: str,
+    payer: str,
+    hcpcs_code: str,
+    service_start_date: str,
+    service_end_date: str,
+    authorized_trips: int,
+    auth_number: Optional[str] = None,
+    notes: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Record a prior authorization for NEMT service. Call BEFORE scheduling trips."""
+    state = _load_state()
+    auth_id = str(uuid.uuid4())
+    auth = {
+        "auth_id": auth_id,
+        "member_medicaid_id": (member_medicaid_id or "").strip(),
+        "member_name": (member_name or "").strip(),
+        "payer": (payer or PAYER_DEFAULT).strip(),
+        "hcpcs_code": (hcpcs_code or "").strip().upper(),
+        "service_start_date": service_start_date,
+        "service_end_date": service_end_date,
+        "authorized_trips": int(authorized_trips),
+        "trips_used": 0,
+        "auth_number": (auth_number or "").strip() or None,
+        "status": "active",
+        "notes": notes or "",
+        "created_at": _now_iso(),
+        "payer_info": MICHIGAN_MCO_PAYERS.get(payer, {}),
+    }
+    state.setdefault("prior_auths", {})[auth_id] = auth
+    _save_state(state)
+    return auth
+
+
+def get_prior_auth(auth_id: str) -> Optional[Dict[str, Any]]:
+    return _load_state().get("prior_auths", {}).get(auth_id)
+
+
+def list_prior_auths(member_medicaid_id: Optional[str] = None) -> List[Dict[str, Any]]:
+    auths = list(_load_state().get("prior_auths", {}).values())
+    if member_medicaid_id:
+        auths = [a for a in auths if a.get("member_medicaid_id") == member_medicaid_id.strip()]
+    auths.sort(key=lambda x: x.get("created_at") or "", reverse=True)
+    return auths
+
+
+def _consume_prior_auth(state: Dict[str, Any], auth_id: str) -> None:
+    """Decrement remaining trips on a prior auth when a trip is logged against it."""
+    auth = state.get("prior_auths", {}).get(auth_id)
+    if not auth:
+        return
+    auth["trips_used"] = auth.get("trips_used", 0) + 1
+    if auth["trips_used"] >= auth.get("authorized_trips", 0):
+        auth["status"] = "exhausted"
+    state["prior_auths"][auth_id] = auth
+
+
+def get_mco_payer_list() -> List[Dict[str, Any]]:
+    """All supported Michigan Medicaid MCOs with contact details."""
+    return [
+        {"payer_name": name, **info}
+        for name, info in MICHIGAN_MCO_PAYERS.items()
+    ]
+
+
+def get_broker_list() -> List[Dict[str, Any]]:
+    """All NEMT brokers DDI is registering with, plus registration status."""
+    return [
+        {"broker_name": name, **info}
+        for name, info in NEMT_BROKERS.items()
+    ]
+
+
+def update_broker_status(broker_name: str, status: str, application_date: Optional[str] = None, approval_date: Optional[str] = None) -> Dict[str, Any]:
+    """Update registration status for a broker."""
+    if broker_name not in NEMT_BROKERS:
+        raise ValueError(f"Unknown broker: {broker_name}. Valid: {list(NEMT_BROKERS.keys())}")
+    NEMT_BROKERS[broker_name]["registration_status"] = status
+    if application_date:
+        NEMT_BROKERS[broker_name]["application_date"] = application_date
+    if approval_date:
+        NEMT_BROKERS[broker_name]["approval_date"] = approval_date
+    return {"broker_name": broker_name, **NEMT_BROKERS[broker_name]}
+
+
+def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Run the NEMT eligibility pre-check before accepting a trip.
+    Returns a pass/fail checklist — driver cannot dispatch until all PASS.
+    """
+    checks = []
+
+    def _chk(item: str, passed: bool, action: Optional[str] = None) -> None:
+        checks.append({"item": item, "status": "PASS" if passed else "FAIL", "action": action})
+
+    mid = (trip_data.get("member_medicaid_id") or "").strip()
+    _chk("Member Medicaid ID present", bool(mid))
+    _chk("Member name recorded", bool((trip_data.get("member_name") or "").strip()))
+    _chk("Member DOB recorded", bool((trip_data.get("member_dob") or "").strip()))
+    _chk(
+        "Eligibility verified with MCO",
+        bool(trip_data.get("eligibility_verified")),
+        action=f"Call {MICHIGAN_MCO_PAYERS.get(trip_data.get('payer',''), {}).get('prior_auth_phone', 'MCO')} or check MCO portal",
+    )
+    _chk(
+        "Prior auth on file (if required)",
+        bool(trip_data.get("prior_auth_id") or trip_data.get("prior_auth_number")),
+        action="Obtain prior auth before non-urgent scheduled trips",
+    )
+    _chk("Pickup address complete", bool((trip_data.get("pickup_address") or "").strip()))
+    _chk("Destination address complete", bool((trip_data.get("dropoff_address") or "").strip()))
+    _chk("Medical appointment documented", bool((trip_data.get("trip_purpose") or "").strip()))
+    _chk("HCPCS code assigned", bool((trip_data.get("hcpcs_code") or "").strip()))
+
+    failed = [c for c in checks if c["status"] == "FAIL"]
+    return {
+        "eligible_to_dispatch": len(failed) == 0,
+        "failed_count": len(failed),
+        "checks": checks,
+    }
 
 
 def _record_fields(rec: Any) -> Dict[str, Any]:
@@ -214,9 +533,29 @@ def _service_date_display(trip: Dict[str, Any]) -> str:
     return pt or "—"
 
 
+def _builtin_rates_map() -> Dict[str, Dict[str, Any]]:
+    """Michigan MDHHS rates built into the system as fallback when Airtable table is unavailable."""
+    m: Dict[str, Dict[str, Any]] = {}
+    for row in SEED_PLACEHOLDER_ROWS:
+        code = (row[F_HCPCS] or "").strip().upper()
+        m[code] = {
+            "amount": float(row[F_RATE]),
+            "description": row[F_DESCRIPTION],
+            "record_id": None,
+            "source": "builtin_mdhhs",
+        }
+    return m
+
+
 def fetch_rates_map(airtable) -> Dict[str, Dict[str, Any]]:
-    """HCPCS (upper) → amount, description, record_id."""
-    rows = airtable.get_all_records(NEMT_RATES_TABLE)
+    """HCPCS (upper) → amount, description, record_id.
+    Falls back to built-in Michigan MDHHS rates if Airtable table is missing or inaccessible."""
+    try:
+        rows = airtable.get_all_records(NEMT_RATES_TABLE)
+    except Exception:
+        # Table not yet created in Airtable — use built-in Michigan MDHHS rates
+        return _builtin_rates_map()
+
     m: Dict[str, Dict[str, Any]] = {}
     for r in rows:
         f = _record_fields(r)
@@ -228,7 +567,15 @@ def fetch_rates_map(airtable) -> Dict[str, Dict[str, Any]]:
             "amount": float(f.get(F_RATE) if f.get(F_RATE) is not None else 0),
             "description": (f.get(F_DESCRIPTION) or "").strip(),
             "record_id": rid,
+            "source": "airtable",
         }
+
+    # If Airtable table exists but is empty, merge in builtins for any missing codes
+    builtins = _builtin_rates_map()
+    for code, info in builtins.items():
+        if code not in m:
+            m[code] = info
+
     return m
 
 
@@ -306,7 +653,9 @@ def build_cms1500_payload(
         "form": "CMS-1500",
         "invoice_number": invoice_number,
         "box_1_insurance_type": "Medicaid",
+        "box_2_patient_name": t.get("member_name"),
         "box_2_patient_id": t.get("member_medicaid_id"),
+        "box_2_patient_dob": t.get("member_dob"),
         "box_20_outside_lab": "No",
         "box_21_diagnosis": [],
         "box_24_service_lines": [
@@ -322,7 +671,8 @@ def build_cms1500_payload(
                 "units": 1,
             }
         ],
-        "box_25_federal_tax_id": "EIN on file",
+        "box_23_prior_auth": t.get("prior_auth_number"),
+        "box_25_federal_tax_id": EIN,
         "box_33_billing_provider_name": COMPANY_NAME,
         "box_33_billing_provider_npi": NPI,
         "box_33a_billing_provider_id": CHAMPS_PROVIDER_ID,
@@ -350,13 +700,25 @@ def log_trip(
     trip_purpose: str,
     hcpcs_code: str,
     payer: Optional[str] = None,
+    # Eligibility / prior auth fields (required for clean billing)
+    member_name: Optional[str] = None,
+    member_dob: Optional[str] = None,
+    eligibility_verified: bool = False,
+    prior_auth_id: Optional[str] = None,
+    prior_auth_number: Optional[str] = None,
+    driver_name: Optional[str] = None,
+    vehicle_id: Optional[str] = None,
+    prism_order_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     hcpcs_code = (hcpcs_code or "").strip().upper()
     get_rate_amount_and_description(airtable, hcpcs_code)
+    payer_name = (payer or PAYER_DEFAULT).strip()
     trip_id = str(uuid.uuid4())
     trip = {
         "trip_id": trip_id,
         "member_medicaid_id": (member_medicaid_id or "").strip(),
+        "member_name": (member_name or "").strip(),
+        "member_dob": (member_dob or "").strip(),
         "pickup_time": pickup_time,
         "dropoff_time": dropoff_time,
         "pickup_address": pickup_address,
@@ -364,9 +726,16 @@ def log_trip(
         "mileage": float(mileage) if mileage is not None else 0.0,
         "trip_purpose": trip_purpose,
         "hcpcs_code": hcpcs_code,
-        "payer": (payer or PAYER_DEFAULT).strip(),
+        "payer": payer_name,
+        "payer_id": MICHIGAN_MCO_PAYERS.get(payer_name, {}).get("payer_id"),
         "provider_npi": NPI,
         "champs_provider_id": CHAMPS_PROVIDER_ID,
+        "eligibility_verified": bool(eligibility_verified),
+        "prior_auth_id": prior_auth_id or None,
+        "prior_auth_number": prior_auth_number or None,
+        "driver_name": driver_name or None,
+        "vehicle_id": vehicle_id or None,
+        "prism_order_id": prism_order_id or None,
         "created_at": _now_iso(),
         "status": "logged",
         "invoice_id": None,
@@ -374,6 +743,9 @@ def log_trip(
     }
     state = _load_state()
     state.setdefault("trips", {})[trip_id] = trip
+    # Consume a prior auth trip unit if auth_id is provided
+    if prior_auth_id:
+        _consume_prior_auth(state, prior_auth_id)
     _save_state(state)
     return trip
 

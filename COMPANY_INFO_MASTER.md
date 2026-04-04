@@ -55,11 +55,9 @@ Use the **correct MiLogin** per system — do not mix them up.
 
 ## 🏆 CERTIFICATIONS
 
-**SBA Women-Owned Small Business Program (federal):**
-- **EDWOSB** (Economically Disadvantaged Women-Owned Small Business)
-- **WOSB** (Women-Owned Small Business)
-
-**Other small-business / diversity (third-party & state):**
+**Small Business:**
+- EDWOSB (Economically Disadvantaged Women-Owned Small Business)
+- WOSB (Women-Owned Small Business)
 - WBE (Woman Business Enterprise)
 - MBE (Minority Business Enterprise - NMSDC)
 - WBENC Certified (Women's Business Enterprise National Council — nationally recognized WBE)
@@ -73,15 +71,13 @@ Use the **correct MiLogin** per system — do not mix them up.
 - **Contact:** greatlakeswbc@wbenclink.org | **734-677-1400** | [Great Lakes WBC](https://greatlakeswbc.wbenclink.org)
 - **If renewal already submitted:** disregard notice per WBENC email
 
-**SupplierGateway — Certificate of Diverse Ownership (third-party verification):**
-- **Status:** Active — **Certificate of Diverse Ownership** issued by **SupplierGateway**
-- **Cert #:** SG07252258991752
-- **Certified categories:** Disadvantaged Business Enterprise, Minority Owned, Small Business, Small Disadvantaged Business, Woman Owned
-- **Primary NAICS:** 488510
-- **Valid:** July 10, 2025 — July 9, 2028
-- **Applicability:** United States
-- **Verify:** https://www.suppliergateway.com/verifycert
-- **Use:** Fortune 500 / enterprise supplier portals that accept SupplierGateway diversity verification (cite cert # on registrations).
+**Diversity Verification (Third-Party):**
+- SupplierGateway — Certificate of Diverse Ownership (Cert #SG07252258991752)
+  - Certified Categories: Disadvantaged Business Enterprise, Minority Owned, Small Business, Small Disadvantaged Business, Woman Owned
+  - Primary NAICS: 488510
+  - Valid: July 10, 2025 — July 9, 2028
+  - Applicability: United States
+  - Verify: www.suppliergateway.com/verifycert
 - Coupa Verified Supplier (Cert ID: 7002160) — ⚠️ EXPIRED 11/19/2025 — NEEDS RENEWAL
   - Verified via voided check, address confirmed: 755 W. Big Beaver Rd Ste 2020, Troy, MI 48084
   - Coupa is used by Fortune 500 companies for procurement — renewal recommended
@@ -219,12 +215,9 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 ---
 
-## 📋 INDUSTRY MEMBERSHIPS / NATIONAL CERTIFYING BODIES
+## 📋 INDUSTRY MEMBERSHIPS
 
-- **WBENC** (Women's Business Enterprise National Council) — WBE certification; regional: Great Lakes Women's Business Council
 - **NMSDC** (National Minority Supplier Development Council) — MBE certification
-
-*Harris County and many other buyers crosswalk **WBENC (WBE)** and **NMSDC (MBE)** toward local M/WBE participation goals — confirm each solicitation’s recognized agencies list.*
 
 ---
 
@@ -324,9 +317,6 @@ These platforms qualify DDI for SBIR/STTR grants ($50K-$2M+), SBA Growth Acceler
 **Business Identity:** FEDERALLY CERTIFIED EDWOSB CONTRACT MANAGEMENT FIRM & BUSINESS OPERATING SYSTEM — FOCUSED ON ALL FORMS OF BUSINESS CONTINUITY
 
 **Tagline:** "The Professionals' Professionals"
-
-**Service commitment (proposals, capability statements, buyer-facing use):**  
-We are committed to providing the most efficient and expeditious services while always maintaining the highest ethical standards. — **Dee Davis Inc.**
 
 **What DDI Is:**
 Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity. DDI wins contracts, sources qualified subcontractors and suppliers to fulfill the work, and manages every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination. DDI is the single accountable point of contact between the client and a network of vetted fulfillment partners. Nothing stops because one person, one vendor, or one system is unavailable.
@@ -457,6 +447,7 @@ Dee Davis Inc. — "The Professionals' Professionals" is a federally certified E
 | 492110 | Couriers and Express Delivery Services | Medical courier, specimen transport | ✅ VERIFY |
 | 492210 | Local Messengers and Delivery | Local courier, permit running | ✅ VERIFY |
 | 488510 | Freight Transportation Arrangement | Freight 1st Direct brokerage | ✅ VERIFY |
+| 488190 | Other Support Activities for Air Transportation | Freight 1st Direct AOG ground courier + TWIC escort | ⚠️ ADD |
 | 484210 | Used Household and Office Goods Moving | Moving & relocation contracts | ✅ VERIFY |
 
 ---

@@ -1,0 +1,38 @@
+{
+  "orders": {},
+  "drivers": {
+    "9a87d974-cc9a-4a0d-bd3a-be433adbd25d": {
+      "driver_id": "9a87d974-cc9a-4a0d-bd3a-be433adbd25d",
+      "name": "Marcus Williams",
+      "license_number": "W123456789",
+      "phone": "313-555-0101",
+      "contractor_type": "1099",
+      "vehicle": {
+        "vehicle_id": "VEH-ABC1234",
+        "year": 2019,
+        "make": "Toyota",
+        "model": "Camry",
+        "vin": "1HGBH41JXMN109186",
+        "plate": "ABC1234",
+        "owner": "driver_owned"
+      },
+      "wheelchair_equipped": false,
+      "stretcher_equipped": false,
+      "service_counties": [
+        "Wayne",
+        "Oakland"
+      ],
+      "compliance": {
+        "background_check_date": null,
+        "background_check_cleared": true,
+        "hipaa_trained": true,
+        "mvr_clear": true,
+        "insurance_verified": true
+      },
+      "clearance_status": "CLEARED",
+      "status": "active",
+      "created_at": "2026-04-04T02:49:17Z",
+      "trips_completed": 0
+    }
+  }
+}

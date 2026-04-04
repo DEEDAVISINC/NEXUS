@@ -1,16 +1,15 @@
-Good morning Dee. Here is your NEXUS briefing for Saturday, April 4, 2026.
+# DAILY BRIEFING — Monday, April 7, 2026
 
-Today is build day for NEXUS and deep prep for next week. You have no mandatory meetings.
+Good morning Dee. Here is your NEXUS briefing for Monday, April 7th.
 
-Your top priorities are: First, advance everything on Fulton County that does not need Kayla's pricing yet — forms, insurance, BidNet upload practice, addenda. That bid is Tuesday April eighth at eleven A M Eastern. Second, if you touch email, one clean follow to Concentra and Quest so Monday is not a cold start. Third, chip away at Harris Health for April tenth and CBP background research for April twenty first.
+You have one hard deadline this week: the CBP Medical Support proposal is due Thursday April 10th. That needs to be your top priority.
 
-Urgent: Fulton is Tuesday April eighth. Concentra line item one pricing is still the main blocker.
+Your top 3 priorities for today are: One, send the USDA emergency transport email and the Port of Detroit email to Tamura Veasy — both are ready in your SEND TO BUYER folders. Two, email DIBBS at dibbs underscore validation at dla dot mil to get your verification code by email instead of waiting for a postcard. Three, call Donald McArdle at 716-290-3395 to fix your E-Verify access.
 
-Have a focused Saturday. Rest where you can — next week is heavy.
+This week you are working through your vendor completions one per day — Lauren Elkins at DDC, Jon Shane for factoring, E-gram, HAP CareSource packet, and United Healthcare enrollment.
 
----
+Your WBENC certification expires May 28th — 51 days from today. Start the renewal process this week.
 
-# 📋 NEXUS DAILY BRIEFING (DETAIL)
-**Generated:** April 3, 2026 — calendar corrected (Friday = April 3)
+The freight first direct AOG courier and TWIC escort expansion is documented and ready to build. All research is saved in NEXUS.
 
-See `TODAY_AGENDA.md` for full deadline table and GPSS notes.
+Have a productive Monday.

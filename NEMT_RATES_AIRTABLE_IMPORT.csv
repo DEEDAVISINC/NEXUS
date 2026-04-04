@@ -1,0 +1,10 @@
+HCPCS Code,Description,Rate Amount
+T2002,"NEMT — Ambulatory, One-Way Base Trip",17.34
+T2003,NEMT — Mileage Per Mile (Ambulatory Loaded),0.71
+A0130,"NEMT — Wheelchair Van, One-Way Base Trip",46.52
+A0425,NEMT — Mileage Per Mile (Wheelchair/Loaded),0.71
+A0380,"NEMT — Stretcher Transport, One-Way Base Trip",107.18
+T2007,NEMT — Waiting Time per 15-Minute Increment,6.25
+T2001,"NEMT — Non-Emergency Transportation, per mile (Volunteer)",0.67
+T2005,NEMT — Bus Ticket / Public Transit Assistance,2.5
+A0420,NEMT — Mileage Per Mile (Unloaded / Deadhead),0.4

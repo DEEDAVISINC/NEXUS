@@ -31,7 +31,6 @@ Usage:
   python3 nexus_scheduler.py --scan     # Run folder scan only
   python3 nexus_scheduler.py --gbis     # Run GBIS mine-all (full grant pipeline, same as POST /gbis/mine-all)
   python3 nexus_scheduler.py --primes   # Run prime contractor mining (find subs-needed primes)
-  python3 nexus_scheduler.py --regulatory  # FAR / Federal Register watch (GSA + FAR term) — weekly in --loop
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -39,9 +38,6 @@ For cron (recommended):
 
   # Every 6 hours — federal forecasts mining
   0 */6 * * * cd /Users/deedavis/NEXUS\\ BACKEND && python3 nexus_scheduler.py --mine >> logs/scheduler.log 2>&1
-
-  # Weekly — regulatory watch (FAR / Federal Register via GSA)
-  0 9 * * 1 cd /Users/deedavis/NEXUS\\ BACKEND && python3 nexus_scheduler.py --regulatory >> logs/regulatory_watch.log 2>&1
 """
 
 import os
@@ -521,30 +517,6 @@ def run_prime_contractor_mining():
         return False
 
 
-def run_regulatory_watch():
-    """
-    Federal Register / FAR signal scan (not SAM.gov).
-    Appends new GSA FAR-related Federal Register notices to REGULATORY_CHANGE_LOG.md.
-    """
-    log.info("--- REGULATORY WATCH (FAR / Federal Register) ---")
-    try:
-        from regulatory_watch import run_scan
-
-        out = run_scan(lookback_days=14, dry_run=False)
-        log.info(
-            "Regulatory watch: fetched=%s new=%s gte=%s",
-            out.get("last_fetch_count") or out.get("fetched"),
-            out.get("last_new_count") if out.get("last_new_count") is not None else out.get("new_documents"),
-            out.get("last_publication_date_gte") or out.get("publication_date_gte"),
-        )
-        if out.get("bootstrap"):
-            log.info("Regulatory watch: bootstrap snapshot seeded (no log spam).")
-        return True
-    except Exception as e:
-        log.error(f"Regulatory watch failed: {e}")
-        return False
-
-
 def run_public_portal_scan(tier1_only=False):
     """
     Scan ALL public procurement portals nationwide for DDI opportunities.
@@ -611,7 +583,6 @@ def run_loop():
     log.info("  Quote follow-ups:     every 4 hours")
     log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
     log.info("  Prime contractor mining: weekly")
-    log.info("  Regulatory watch (FAR/FR): weekly")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
 
@@ -626,7 +597,6 @@ def run_loop():
     last_digest = datetime.min
     last_public_scan = datetime.min
     last_prime_mining = datetime.min
-    last_regulatory = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
@@ -639,7 +609,6 @@ def run_loop():
     DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
     PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
     PRIME_MINING_INTERVAL = timedelta(days=7)   # Weekly — find primes needing EDWOSB subs
-    REGULATORY_INTERVAL = timedelta(days=7)   # Weekly — FAR / Federal Register GSA watch
 
     while True:
         now = datetime.now()
@@ -691,11 +660,6 @@ def run_loop():
             run_prime_contractor_mining()
             last_prime_mining = now
 
-        # Regulatory watch — weekly (FAR / Federal Register, not SAM)
-        if now - last_regulatory >= REGULATORY_INTERVAL:
-            run_regulatory_watch()
-            last_regulatory = now
-
         # Daily digest at 7 AM
         if now - last_digest >= DIGEST_INTERVAL:
             try:
@@ -742,8 +706,6 @@ if __name__ == "__main__":
         run_gbis_mine_all_pipeline()
     elif "--primes" in args:
         run_prime_contractor_mining()
-    elif "--regulatory" in args:
-        run_regulatory_watch()
     elif not args:
         run_all()
     else:

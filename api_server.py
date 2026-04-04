@@ -193,13 +193,61 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Random Pool Engine not loaded: {e}")
 
-# Register PRISM Uber Health Rides (NEMT / coordinated rides API)
+# Register PRISM FMCSA Clearinghouse Compliance Module
+try:
+    from prism_clearinghouse import prism_clearinghouse
+    app.register_blueprint(prism_clearinghouse)
+    print("✅ PRISM FMCSA Clearinghouse Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Clearinghouse Module not loaded: {e}")
+
+# Register PRISM Service Router — Dual-Layer Fulfillment Engine
+try:
+    from prism_service_router import prism_router
+    app.register_blueprint(prism_router)
+    print("✅ PRISM Service Router registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Service Router not loaded: {e}")
+
+# Register PRISM Uber Health (NEMT rides API)
 try:
     from prism_uber_health import prism_uber_health
     app.register_blueprint(prism_uber_health)
-    print("✅ PRISM Uber Health Rides API registered")
+    print("✅ PRISM Uber Health NEMT registered")
 except ImportError as e:
-    print(f"⚠️ PRISM Uber Health Rides API not loaded: {e}")
+    print(f"⚠️ PRISM Uber Health not loaded: {e}")
+
+# Register PRISM POCT — Point of Care Testing Module
+try:
+    from prism_poct import prism_poct
+    app.register_blueprint(prism_poct)
+    print("✅ PRISM POCT Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM POCT Module not loaded: {e}")
+
+# Register PRISM BAT — Breath Alcohol Testing Workflow
+try:
+    from prism_bat import prism_bat
+    app.register_blueprint(prism_bat)
+    print("✅ PRISM BAT Module registered")
+except ImportError as e:
+    print(f"⚠️ PRISM BAT Module not loaded: {e}")
+
+# Register PRISM NEMT — Operations + VERTEX Billing Bridge (NPI: 1538939111 / CHAMPS: 6309049)
+try:
+    from prism_nemt import prism_nemt
+    app.register_blueprint(prism_nemt)
+    print("✅ PRISM NEMT Module registered (Michigan Medicaid / MCO billing)")
+except ImportError as e:
+    print(f"⚠️ PRISM NEMT Module not loaded: {e}")
+
+# Register PRISM Lyft Healthcare — WAV + scheduled ride fulfillment
+try:
+    from prism_lyft_healthcare import prism_lyft_healthcare
+    app.register_blueprint(prism_lyft_healthcare)
+    print("✅ PRISM Lyft Healthcare Module registered (WAV / wheelchair transport)")
+except ImportError as e:
+    print(f"⚠️ PRISM Lyft Healthcare Module not loaded: {e}")
 
 # Register NEXUS Pipeline — Central Nervous System
 try:

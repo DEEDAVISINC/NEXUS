@@ -14,43 +14,6 @@
 **Platform:** BidNet/MITN — www.bidnetdirect.com/mitn
 **Submission Method:** PHYSICAL DELIVERY ONLY — FedEx, UPS, or hand deliver
 
-**Bid tab (PDF, in this folder):** `BID_TABULATION_2026-04-02_Circuit_Court.pdf` — public price tabulation after **Apr 2, 2026** opening; see `BID_TABULATION_NOTES.md`.
-
----
-
-## SUBMISSION STATUS (AWAITING AWARD)
-
-| Field | Value |
-|-------|--------|
-| **Physically delivered** | **March 30, 2026** |
-| **Method** | Hand delivery (confirmed by Dee) |
-| **Due on RFP** | March 31, 2026 @ 10:00 AM — **submitted early** |
-| **Next** | Award / debrief per county process |
-
-### Bid tabulation (public)
-
-| Field | Value |
-|-------|--------|
-| **Tab / opening date** | **April 2, 2026** — 10:00 AM (per county bid tab PDF) |
-| **Department** | Circuit Court (bid item line on tab) |
-| **Source file (in folder)** | `BID_TABULATION_2026-04-02_Circuit_Court.pdf` (copy of `Bid Tab.pdf` from Downloads) |
-| **MITN note on PDF** | Posting referenced **3.4.26** |
-
-**Bidders shown on tab (with Macomb County Vendor flag where listed):**
-
-| Bidder | Macomb County Vendor (per tab) |
-|--------|--------------------------------|
-| Vendor @ 25600 Schoenherr Rd, Warren | YES |
-| **Dee Davis Inc.** (Troy) | **NO** |
-| FAIS Reference Labs Inc. (Glen Allen, VA) | NO |
-| Class A Training Center LLC dba TAP (Clinton Twp.) | YES / YES |
-| Avertest LLC dba Averhealth / OccMed Connect | (see PDF) |
-| Adapt Drug & Alcohol Testing (Warren MI + IL location on tab) | (see PDF) |
-
-*“Macomb County Vendor” on the tab is the county’s vendor flag — not a determination of responsiveness.*
-
----
-
 **Submission Package:**
 - 1 hard copy original
 - 1 unencrypted electronic copy (USB flash drive)
@@ -260,12 +223,12 @@ Court-ordered substance testing across 5 programs (Adult Drug Court, Mental Heal
 - [ ] Verify company info: 248.376.4550, info@deedavis.biz, Troy MI 48084
 
 ## STEP 8: PRINT & PACKAGE
-- [x] Print 1 original hard copy (sign in ink)
-- [x] Print 2 additional hard copies
-- [x] Load electronic copy onto USB flash drive (unencrypted)
-- [x] Place all in sealed envelope
-- [x] Mark envelope: "SEALED PROPOSAL ITEM 07-26 AND Substance Use Testing Services"
-- [x] Label envelope with "Dee Davis Inc." on outside
+- [ ] Print 1 original hard copy (sign in ink)
+- [ ] Print 2 additional hard copies
+- [ ] Load electronic copy onto USB flash drive (unencrypted)
+- [ ] Place all in sealed envelope
+- [ ] Mark envelope: "SEALED PROPOSAL ITEM 07-26 AND Substance Use Testing Services"
+- [ ] Label envelope with "Dee Davis Inc." on outside
 
 ## STEP 9: DELIVER PROPOSAL
 - [ ] Ship via FedEx or UPS to (include full RFP name on label / shipping reference):
@@ -278,17 +241,16 @@ Court-ordered substance testing across 5 programs (Adult Drug Court, Mental Heal
   44900 Vic Wertz Drive
   Clinton Township, MI 48036
   ```
-- [x] **Hand delivered March 30, 2026** — retain receipt / proof of drop if obtained
-- [x] Met RFP deadline window (due March 31 @ 10:00 AM)
-- [ ] DO NOT use USPS — they don't deliver to individual county buildings *(N/A — hand delivery)*
-- [ ] Ship by March 27 at latest if using FedEx/UPS *(N/A — hand delivery)*
+- [ ] OR hand deliver and GET DATE/TIME STAMPED RECEIPT
+- [ ] **MUST ARRIVE BY: March 31, 2026 @ 10:00 AM**
+- [ ] DO NOT use USPS — they don't deliver to individual county buildings
+- [ ] Ship by March 27 at latest if using FedEx/UPS
 
 ## STEP 10: POST-SUBMISSION
-- [x] Confirm delivery (hand delivery March 30, 2026)
-- [x] **Thank-you email to Mary Schultz** — **SENT March 31, 2026** (see `SEND_TO_BUYER/THANK_YOU_MARY_SCHULTZ_EMAIL_READY.md`)
+- [ ] Confirm delivery (tracking number or receipt)
 - [ ] Monitor for award notification
 - [ ] Follow up with Mary Schultz if no response within 30 days
-- [x] Log result in bid tracker (NEXUS — this checklist)
+- [ ] Log result in bid tracker
 
 ---
 
@@ -301,7 +263,6 @@ Court-ordered substance testing across 5 programs (Adult Drug Court, Mental Heal
 | **March 25, 2026** | Internal deadline — proposal complete, ready for print |
 | **March 27, 2026** | Last day to ship via FedEx/UPS |
 | **March 31, 2026 @ 10:00 AM** | PROPOSAL DUE — public opening |
-| **March 30, 2026** | **DDI proposal hand-delivered** (ahead of due date) |
 
 ---
 
@@ -315,4 +276,4 @@ Court-ordered substance testing across 5 programs (Adult Drug Court, Mental Heal
 
 ---
 
-*Dee Davis Inc. | RFP 07-26 | Macomb County Drug Testing | Created March 4, 2026 | **Submitted March 30, 2026** — awaiting award.*
+*Dee Davis Inc. | RFP 07-26 | Macomb County Drug Testing | Created March 4, 2026*

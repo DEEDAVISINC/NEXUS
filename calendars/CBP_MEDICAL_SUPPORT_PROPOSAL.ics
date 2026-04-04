@@ -1,0 +1,33 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+BEGIN:VEVENT
+UID:cbp-medical-support-20260410@deedavis.biz
+DTSTAMP:20260404T014600Z
+DTSTART:20260410T170000
+DTEND:20260410T180000
+SUMMARY:🔥 CBP Medical Support Proposal DUE — 70B06C26R00000017
+DESCRIPTION:CBP Medical Support Services Phase I proposal due.\n\nSolicitation: 70B06C26R00000017\nValue: ~$450M+ (previous Dentrust contract)\nCO: Shaun G. Saad — shaun.g.saad@cbp.dhs.gov — (317) 614-4661\nSpecialist: Peter Giambone — peter.j.giambone@cbp.dhs.gov\n\nPhase I requires: Technical/Management Approach + Past Performance + Key Personnel CVs\nPhase II: Oral Presentation + Pricing\n\nNeed eScreen Letter of Commitment before submitting.
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:CBP proposal due in 3 days — final review
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:CBP proposal DUE TOMORROW — submit today
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:CBP proposal due in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,5 +1,5 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** April 2, 2026
+**Last Updated:** March 29, 2026
 
 ---
 
@@ -142,72 +142,10 @@ Dee Davis Inc. | Depointe DNA
 - [x] **Follow-up email sent 03/24** — awaiting response
 - [x] **Erika replied 03/22** — said she didn't receive panels, asked to resend
 - [x] **Full panel list resent 03/22** — DOT, non-DOT (5/10/12/14/17), hair, oral fluid, specialty (EtG, fentanyl, synthetics, steroids), occupational health (DOT physicals, respirator, audiometric, pulmonary, vision, TB, Hep B, fit-for-duty), eCCF + PSC setup
-- [x] **Erika replied 03/31/2026** — directed DDI to **clinical components / workforce health** path for next steps (pricing, account structure)
-- [x] **Full Quest rate sheet received — April 3, 2026** — Complete pricing for all drug testing panels, hair testing, MRO, ePhysicals
-- [ ] Account activation pending — $200 one-time setup fee, 5-6 business days
-- [ ] Choose MRO provider for account (Doctors Review Service, Industrial Medical Testing, I3 Screen, or Total Compliance Network)
+- [ ] Account activation pending
 - [ ] Confirm PSC nationwide access + eCCF setup
-- [ ] Receive Employer Solutions Portal login credentials
+- [ ] Receive login credentials + pricing schedule
 - [ ] **ASK ABOUT BLOOD LEAD LEVEL TESTING** — Quest offers BLL testing; inquire about adding to account for lead testing TPA services
-
-### CONFIRMED QUEST PRICING (Received April 3, 2026):
-
-**Account Setup:** $200.00 one-time. No annual fee. No minimum testing requirement.
-
-| Service | Cost | Attachment # |
-|---|---|---|
-| **COLLECTION** | | |
-| PSC Collection Fee (Quest location) | $20.00 | — |
-| Preferred Collection Fee (non-Quest site) | $22.00 | — |
-| **LAB-BASED URINE** | | |
-| 5-Panel Urine Drug Screen | $16.00 | 35105N |
-| 10-Panel Urine Drug Screen | $21.00 | 35190N |
-| 10-Panel Expanded Urine Drug Screen | $22.00 | 39754N |
-| 10-Panel DOT Look-a-Like + Fentanyl | $32.00 | 55775N |
-| DOT Urine Drug Screen | $22.00 | 65304N |
-| **HAIR TESTING** | | |
-| 5-Panel Hair Drug Screen | $40.00 | 37000N |
-| 5-Panel Hair + Expanded Opiates | $43.00 | 37001N |
-| 5-Panel Hair + Expanded Opiates + Fentanyl | $60.00 | 38513N |
-| 5-Panel Hair + Expanded Opiates + Fentanyl + Methadone | $65.00 | 37274N |
-| Hair Kits | $1.00 | — |
-| **CLINICAL (test codes from Erika Apr 1 email)** | | |
-| CBC (Diff/Plt) | $5.50 | 6399 |
-| Hemogram and Differential | $4.35 | 7210 |
-| CBC (H/H, RBC, Indices, WBC, Plt) | $4.07 | 1759 |
-| Hemogram | $2.86 | 7008 |
-| WBC and Differential | $2.31 | 7064 |
-| Hemoglobin and Hematocrit | $1.87 | 7998 |
-| Platelet Count | $1.21 | 723 |
-| Hemoglobin | $0.94 | 510 |
-| Hematocrit | $0.94 | 509 |
-| Red Blood Cell Count | $0.83 | 783 |
-| WBC | $0.72 | 937 |
-| Hemoglobinopathy | $2.70 | 38529 |
-| HIV-1/2 Ag/Ab with Reflexes | $25.00 | 91431 |
-| PrEP HIV-1/2 4th Gen with Reflex | $25.00 | 13591 |
-| PrEP HIV-1/2 Ag/Ab 4th Gen Reflex to Diff | $25.00 | 13595 |
-| PrEP HIV-1/2 Ag/Ab 4th Gen with Reflexes | $25.00 | 13670 |
-| Draw Fee, PSC | $25.00 | 3259 |
-| **MRO REVIEW** | | |
-| Full Review (required for DOT) | $5.00 | — |
-| Positive Review (optional Non-DOT) | $21.00/positive | — |
-| **POC DIP CARDS (SKUs from Erika Apr 1 email)** | | |
-| 5-Panel Dip Card — no kit | $10.00 | POC0152 |
-| 5-Panel Dip Card — Single Kit | $11.00 | POC0151 |
-| 5-Panel Dip Card — Split Kit | $11.50 | POC0150 |
-| **OTHER** | | |
-| ePhysicals (vision, hearing, BP, physical exam) | $159.00 | — |
-
-**MRO Options (select one for account):**
-- Doctors Review Service — 800-526-9341
-- Industrial Medical Testing — 888-808-4676
-- I3 Screen — 877-295-3381
-- Total Compliance Network — 954-677-1200
-
-**Portal:** Employer Solutions Portal (access after account setup)
-**CCF Forms:** Paper chain of custody forms + cups mailed upon setup
-**First Bill:** Mailed via paper mail
 
 ---
 
@@ -334,14 +272,47 @@ Full strategy document: `LEAD_TESTING_STRATEGY.md`
 - [x] Replied to Jean 03/21/2026 — proposed Monday afternoon call after 12 PM ET
 - [x] **Jean replied 03/24/2026** — asked if DDI needs lab accounts or TPA services
 - [x] **DDI replied 03/24/2026** — confirmed DDI is a C/TPA, needs lab accounts + collection site access via NDS/FormFox
-- [ ] **Awaiting Jean's response** — onboarding process for lab accounts
+- [x] **Jean followed up 04/03/2026** — referenced 3/24 call; asked DDI to reconnect re: reseller program; direct 321-608-0409
+- [x] **DDI replied 04/03/2026** — stated active bids require MRO documentation ASAP; requested MRO setup + lab account / reseller onboarding; available for call after 12 PM ET any day
+- [ ] **Awaiting Jean's response** — MRO service setup + lab account / reseller onboarding
 - [ ] NDS account setup and onboarding
 - [ ] Receive login credentials + pricing
 - [ ] Document pricing and account rep info
 - [ ] **ASK NDS ABOUT BLOOD LEAD LEVEL TESTING** — LabCorp offers BLL testing; inquire about adding to TPA account for lead screening services
 
+### WHEN JEAN REACHES BACK OUT — TALKING POINTS
+- **$3,000 reseller program: decline** — budget doesn't support upfront commitment right now
+- **MRO is already covered** — eScreen and Quest both include MRO review in per-test pricing; no separate program needed
+- **What DDI still wants from NDS:** lab network access (CRL + LabCorp) on a **per-test / pay-as-you-go basis** — no upfront fee
+- **Frame it as:** "The reseller program doesn't fit our budget right now, but we're still interested in the lab account access on a per-test basis as our volume grows. Is there a path to that without the upfront commitment?"
+
 ### NOTE:
 CRL/FormFox ALSO referred DDI to National Drug Screening. NDS is the gateway to both LabCorp AND CRL networks. Getting the NDS account set up unlocks access to BOTH labs.
+
+---
+
+## ABBOTT / eSCREEN — TPA Partnership & Government Pricing
+
+**eScreen is Abbott's platform.** DDI currently uses eScreen Express (retail portal pricing). Goal: advance to formal TPA designation + government pricing tier.
+
+**Portal:** STARS Supplier Portal — **vendor profile already submitted**
+**Diversity Contact:** EconomicInclusion@abbott.com — Abbott Global Procurement Team
+**Abbott is:** Fortune 500, federal contractor, SAMHSA-certified labs through eScreen network
+
+### STATUS:
+- [x] Vendor profile submitted via STARS portal
+- [x] **Follow-up email sent 04/03/2026** to EconomicInclusion@abbott.com — referenced STARS submission, requested formal TPA designation, government pricing, letter of commitment, expanded panel access
+- [ ] Awaiting response — connect to eScreen enterprise/government accounts team
+- [ ] Confirm formal TPA partnership designation
+- [ ] Confirm government/volume pricing tiers vs. current retail portal rates
+- [ ] Obtain Letter of Commitment for government bid submissions (CBP IDIQ + others)
+- [ ] Confirm expanded panel access beyond eScreen Express menu
+
+### WHY THIS MATTERS:
+- DDI currently pays retail portal rates — government/TPA pricing = better margins on every bid
+- Letter of commitment naming eScreen = required for CBP IDIQ proposal (Apr 21)
+- Formal TPA designation = credibility in proposals (Abbott is Fortune 500, SAMHSA-certified)
+- EDWOSB/MBE/WBE status = exactly what Abbott's Economic Inclusion team supports
 
 ---
 
@@ -379,17 +350,12 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ## NATIONAL CRIME SEARCH (NCS) — Background Screening CRA Partner
 
-**Account Status:** **CONFIRMED PARTNER** — Dee Davis Inc. background screening stack (as of Apr 2026)
-**Primary contact:** **Mark McFadin** — *Your Background Screening Partner*
-**Email:** **mark@nationalcrimesearch.com** (also uses improvmx forward to info@deedavis.biz)
-**Direct phone (on thread):** **479.695.2111** — *alternate number seen on older message:* **817.999.2286** (confirm which is current)
-**Public switchboard:** **888-527-3282** | **support@nationalcrimesearch.com** | M–Th 8–5, Fri 8–4 **CST**
+**Account Status:** PARTNER SIGNUP SUBMITTED — 03/22/2026 — AWAITING RESPONSE
 **Partner Subdomain:** deedavisinc.nationalcrimesearch.com
-**Company:** National Crime Search, Inc. (verify legal entity on agreement; prior notes said LLC)
+**Company:** National Crime Search, LLC
 **Location:** 3452 E Joyce Blvd, Fayetteville, AR 72703
 **Size:** 9 employees, 20+ years in business, 20,000+ customers
-**Website:** https://www.nationalcrimesearch.com
-**Partner program:** nationalcrimesearch.com/partner-program/
+**Website:** nationalcrimesearch.com
 **Partner Signup:** nationalcrimesearch.com/partner-signup/
 **Accreditation:** PBSA Accredited (Professional Background Screening Association)
 **USASpending Check:** No government contract wins found — IDEAL (not competing with DDI)
@@ -439,13 +405,7 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - Bundled offering: drug testing + background screening + fingerprinting = full credentialing package
 - New NAICS codes: 561611 (Investigation Services), 561612 (Security Guards & Patrol Services)
 
-### RELEVANT SOLICITATIONS:
-
-- **Washington LCB — LCB 2026-01** — Pre-Employment Background Check Services (WEBS 56810)
-  - Budget signal in RFP text ~**$50k/yr** (reconcile with WEBS; do not assume $100k without source) | **Due: May 11, 2026** | Questions due: **through April 20, 2026**
-  - Pre-bid: **April 8, 2026, 1:00–2:00 p.m. PT** (confirm in official notice)
-  - CO: Stacia Wasmundt — (360) 974-9333 — **lcbbids@lcb.wa.gov**
-  - **NCS = screening/CRA lane; DDI primes contract management + compliance + billing.**
+### RELEVANT SOLICITATION:
 
 - **PSTA RFP 26-280182** — Background Check Services
   - Due: April 10, 2026, 1:00 PM EST
@@ -454,29 +414,19 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
   - 3-year base + 2 option years
   - ~120 checks/year, Best Value evaluation (1,000 pts)
   - Portal: psta.bonfirehub.com
-  - **CRA partnership (NCS) required for technical compliance on background stack**
-
-### COMMUNICATION LOG (recent):
-
-| Date | What |
-|---|---|
-| Mar 24, 2026 | Mark — partner signup follow-up; Dee to schedule call |
-| Mar 27, 2026 | Mark — asked to talk same day; thread continued |
-| Apr 1, 2026 | Mark — “still interested in partnering?” |
-| Apr 2, 2026 | Dee (via bids.deedavisinc@gmail.com) — **available Fri at 2:00 PM** |
-| Apr 2, 2026 ~9:00 AM | Mark — **meeting invite sent**; “looking forward to talking” |
-
-**Next call:** **Friday, April 3, 2026 — 2:00 PM** (Dee’s availability; **America/Detroit**). Link is in Mark’s calendar invite — open that email, not this file.
+  - **Cannot bid without CRA partnership — NCS call is the blocker**
 
 ### ACTIONS NEEDED:
 
 - [x] **Partner signup form submitted** — 03/22/2026, subdomain: deedavisinc.nationalcrimesearch.com
-- [x] **Partner contact on file** — **Mark McFadin**, National Crime Search, Inc.
-- [ ] **Call Fri Apr 3, 2026 @ 2:00 PM ET** — account setup, wholesale/platform, **LCB 2026-01** scope line-by-line, written quote path
-- [ ] **Align with Mark/NCS on LCB 2026-01** — roles (prime/sub), WA requirements, pricing, timeline to proposal deadline **5/11/2026**
-- [ ] **Wholesale + platform** — co-branded setup, FCRA coverage, proposal artifacts (screenshots OK?), turnaround for expected volumes
-- [ ] **PSTA RFP 26-280182** — evaluate vs deadline **4/10/2026** if still active
-- [ ] Add background screening to DDI capability statements (where NCS-backed)
+- [ ] **Await NCS response** — follow up by phone if no response by Wednesday 03/25
+- [ ] **Call NCS partner program** — introduce DDI, explain government contracting model
+- [ ] Ask about: wholesale pricing, co-branded platform setup time, FCRA compliance coverage
+- [ ] Ask about: can DDI use NCS platform screenshots in government proposals?
+- [ ] Ask about: turnaround times for transit agency volume (~120/year)
+- [ ] If NCS partnership is viable: evaluate PSTA RFP 26-280182 as first background screening bid
+- [ ] Document NCS account rep contact info
+- [ ] Add background screening to DDI capability statements
 
 ### ALSO EVALUATED (BACKUP OPTIONS):
 
@@ -542,64 +492,6 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
-## FREIGHT CARRIER SUPPLIERS
-
----
-
-### GLOVA-LINK CORPORATION — Southern California Asset-Based Carrier
-
-**Status:** Inbound outreach received April 2, 2026
-**Contact:** Griselda Beltran, Account Executive
-**Phone:** (714) 551-9947 | (562) 908-2728
-**Email:** Griselda@glovalink.com | GLSales3@GlovaLink.com
-**Website:** www.GlovaLink.com
-**Address:** 11637 Los Nietos Rd., SFS, CA 90670
-
-**Fleet:**
-- 37 Tractors
-- 55 Trailers
-- 35 Bobtails / Straight Trucks
-
-**Service Area:** Southern California primary; 48-state nationwide
-**Specialty:** Asset-based — own their equipment, not a broker
-
-**Services Available:**
-- Same-Day & Next-Day Pickup & Delivery
-- LTL (Less Than Truckload)
-- Hot Shots
-- Full Truckloads
-- Power Only / Drop & Hook / Trailer Drops
-- Blanket Wrap & Dedicated Routes
-- CFS Station Pickups & Warehouse Moves
-- Container Devanning & Transloading
-- Full-Service Warehousing
-- Nationwide Transportation Management (48 States)
-
-**DDI Use Case:**
-- Freight/logistics subcontractor for SoCal or West Coast delivery contracts
-- Hot shot and LTL for government supply/product bids in Southern California
-- Pairs with OLIMP warehousing for full logistics solutions in the West
-- Relevant for any DDI freight lane bid requiring California or Southwest coverage
-
-**Special Pallet Pricing (rate sheet on file):**
-
-| Rate | Lane |
-|---|---|
-| $65.00 | Within L.A. / O.C. / Inland Empire counties |
-| $75.00 | Within L.A. / O.C. / Inland Empire counties |
-| $85.00 | L.A. / O.C. / I.E. ↔ San Diego / Ventura |
-| $95.00 | L.A. / O.C. / I.E. ↔ San Diego / Ventura |
-
-**Rate Sheet File:** `BIDS:RESOURCES/FREIGHT CARRIER SUPPLIERS/GLOVA-LINK/GLOVA-LINK_PALLET_RATE_SHEET.pdf`
-**Orders Email:** Orders@GlovaLink.Net
-
-**Actions:**
-- [ ] Reply to Griselda's email to confirm receipt and establish the relationship
-- [ ] Request W-9 and insurance COI when a relevant opportunity arises
-- [x] Rate sheet filed — `GLOVA-LINK_PALLET_RATE_SHEET.pdf` (April 3, 2026)
-
----
-
 ## MICHIGAN CHAMPS — NEMT MEDICAID PROVIDER ENROLLMENT
 
 **Account Status:** ✅ APPROVED — ACTIVE MEDICAID NEMT PROVIDER (as of 03/23/2026)
@@ -613,13 +505,6 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 **Provider Support:** 800-979-4662, option 1
 **Enrollment Unit Email:** MSA-HomeHelpProviders@michigan.gov
 
-### MHP NEMT — ALL MICHIGAN MCOs (CONTACT & PROCESS)
-
-**Source PDF:** `ESSENTIALS/MHP NEMT Contact and Process.pdf` (revised **02/26/2026**)  
-**NEXUS summary (searchable):** `ESSENTIALS/MHP_NEMT_CONTACT_AND_PROCESS.md`
-
-Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), **member phone numbers**, **routine vs urgent notice rules**, **complaint / grievance paths**, and **named plan contacts** (e.g. HAP CareSource, Meridian, Molina, UHC, BCC, Aetna, Priority, McLaren, UPHP). Use for operations, credentialing context, and member-issue triage — **confirm live numbers on the plan’s site** before external use.
-
 ### WHAT HAPPENED:
 
 - [x] Initial application submitted as "Group" provider type — **REJECTED** (Application #20251210748456)
@@ -629,7 +514,6 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 - [x] **Meridian Health Plan** — Contract Request Form submitted 03/26/2026. ~30 business days for review. Contact: MIProviderContracting@mimeridian.com
 - [x] **Molina Healthcare** — Initial email sent 03/26/2026. Angelica responded with generic clinical portal link. Follow-up sent 03/26/2026 clarifying DDI is NEMT Atypical Agency (not clinical practice), requesting correct NEMT contracting process. Awaiting routing to correct department.
 - [x] **UHC Community Plan** — Application submitted 03/26/2026. Need to contact UHC via chat to finalize.
-- **Tori Johnson** (tojohnson@uhc.com) — **PTO through 04/06/2026.** Urgent NEMT/credentialing: **Ken P.** — **kprzybylowicz@uhc.com** (add to contacts). Auto-reply received ~03/28/2026.
 - [x] **Aetna Better Health** — Intake form submitted 03/26/2026. Contact: 1-866-316-3784
 - [x] **McLaren Health Plan** — Email sent 03/26/2026. McLaren uses **ModivCare** for NEMT — must enroll with ModivCare directly. (866) 569-1908 / modivcare.com/drive-with-us-2025
 - [x] **ModivCare** — Follow-up email sent to Larry Smith (larry.smith@modivcare.com) on 03/26/2026, referencing CHAMPS Provider ID 6309049 and active Medicaid status. Original outreach Feb 27. Awaiting onboarding next steps.
@@ -640,7 +524,7 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 ## DIRECT SIGNING ACCOUNTS — 3D INK SIGNATURES
 
 ### JG Wentworth (Structured Settlements / Annuities / Mortgage)
-- **Contacts:** Brittany Devine (bdevine@jgwentworth.com), Megan Ray (mray@jgwentworth.com), David Bieleski (dbieleski@jgwentworth.com), Daniel Glas (dgrass@jgwentworth.com)
+- **Contacts:** Brittany Devine (bdevine@jgwentworth.com), Megan Ray (mray@jgwentworth.com), David Bieleski (dbieleski@jgwentworth.com)
 - **Status:** Direct partnership email sent 03/26/2026. Pitch: replace Eagle Eye Signings (middleman) with DDI direct. 
 - **Previous relationship:** DDI completed signing through Eagle Eye at $70/signing. Eagle Eye likely charges JG Wentworth $125-200.
 - **Strategy:** Match signing agency rate, keep 100%. No pricing in initial email — ask what they currently pay, then match.
@@ -648,9 +532,7 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 
 ### UPS / The UPS Store (National — Notary + Courier)
 - **Portal:** Coupa Supplier Portal (supplier.coupahost.com) — DDI already has existing Coupa account
-- **Status (03/31/2026):** Vendor Management (Karen Paternina) closed the **“link existing Coupa to UPS”** path. **Only a UPS representative** can initiate supplier onboarding / Coupa invite — not the central supplyline inbox.
-- **Next action:** Get a **UPS representative** to send the Coupa supplier invitation. If none: **nearest UPS Store** and ask to be assigned a rep for supplier onboarding. (Keep pitch: notary, signing, courier; EDWOSB/WBENC/MBE.)
-- **Historical:** Email sent 03/27/2026 to supplyline@ups.com — ticket showed as Processing until Karen’s reply.
+- **Status:** Email sent 03/27/2026 to supplyline@ups.com requesting DDI's existing Coupa account be linked to UPS. Services: notary, signing, document execution, courier/delivery.
 - **Opportunity:** 5,500+ UPS Store locations nationwide need notary coverage. Plus courier services for UPS corporate. EDWOSB/WBENC/MBE supplier diversity advantage.
 
 ### Westlake Flooring Services (Auto Dealer Floor Plan Lending)
@@ -731,34 +613,6 @@ Contains per-plan: **NEMT broker** (MTM / ModivCare / Safe Ride / UPHP model), *
 - [ ] **Complete required E-Verify training class** once access is restored
 - [ ] **Update E-Verify account info** — confirm DDI company details are current
 - [ ] **Verify E-Verify certification is active** — needed for federal contract compliance
-
----
-
-## STATE MEDICAID / MCO — CONTACT LOG
-
-### Mississippi — Division of Medicaid
-| | |
-|---|---|
-| **Contact** | Jeanette Crawford |
-| **Email** | JEANETTE.CRAWFORD@medicaid.ms.gov |
-| **Agency** | Mississippi Division of Medicaid |
-
-*(Add other states here as you collect names.)*
-
----
-
-## POST-AWARD — MACOMB COUNTY RFP 07-26 (DRUG TESTING)
-
-**When:** After **award** on Macomb County RFP 07-26 — then establish subcontractor relationship for **collection services**.
-
-| | |
-|---|---|
-| **Organization** | Clear Choice Occupational Health Services |
-| **Contact** | Angela Coleman |
-| **Email** | info@cclabsolutions.org |
-| **Phone** | 313-855-5790 |
-
-- [ ] Reach out post-award; run full sub onboarding (vet → NDA → COI → agreement) before sharing contract specifics.
 
 ---
 
