@@ -10,7 +10,7 @@ Subject: Following Up — WHORL Upgrade + Federal EDO Question | Dee Davis Inc.
 
 Hi Sam,
 
-Hope you're doing well. Dee Davis here — we've spoken before about our EFT Creator account.
+Hope you're doing well. Dee Davis here — we've spoken before. You may know us under 3D Ink and Livescan Co., which is connected to Dee Davis Inc. — same owner, same operation. We're consolidating everything under Dee Davis Inc. going forward, so any accounts or history you have under 3D Ink and Livescan are ours.
 
 Things are moving fast on our end. We're scaling our fingerprinting operations and have a few specific questions I'd love your input on:
 
