@@ -130,13 +130,20 @@ Dee Davis Inc. | Depointe DNA
 - Next tier: WHORL Standard or WHORL Pro — adds full livescan, EBTS editing, federal EDO processing
 - Ask Sam: "What does it cost to upgrade from EFT Creator to WHORL Pro, and what submission channels does it include?"
 
+### OUTREACH LOG:
+
+| Date | Action | Status |
+|---|---|---|
+| April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent — awaiting response |
+
 ### ACTIONS NEEDED:
 
 - [ ] Confirm monthly billing is current
-- [ ] Call Sam Cilento — confirm what the $85/month account covers exactly
-- [ ] Ask about WHORL upgrade pricing and what channels it includes
-- [ ] Ask about federal EDO processing capability
-- [ ] Ask about Kojak hardware sourcing (DDI needs to confirm scanner status)
+- [ ] Follow up with Sam if no response within 5 business days (by April 11)
+- [ ] When Sam responds — confirm WHORL upgrade pricing and channels
+- [ ] When Sam responds — confirm federal EDO processing capability
+- [ ] When Sam responds — confirm Kojak hardware sourcing
+- [ ] Update FINGERPRINTING_CURRENT_STATUS.md after Sam's reply
 
 ---
 
