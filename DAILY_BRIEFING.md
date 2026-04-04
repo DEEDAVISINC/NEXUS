@@ -1,6 +1,6 @@
-# DAILY BRIEFING — Monday, April 7, 2026
+# DAILY BRIEFING — Monday, April 6, 2026
 
-Good morning Dee. Here is your NEXUS briefing for Monday, April 7th.
+Good morning Dee. Here is your NEXUS briefing for Monday, April 6th.
 
 You have one hard deadline this week: the CBP Medical Support proposal is due Thursday April 10th. That needs to be your top priority.
 

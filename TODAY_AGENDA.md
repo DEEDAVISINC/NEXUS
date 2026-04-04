@@ -1,4 +1,4 @@
-# YOUR AGENDA — Monday, April 7, 2026
+# YOUR AGENDA — Monday, April 6, 2026
 
 **Session note:** Late session ended 1:46 AM Saturday April 4. Picking up Monday.
 **This week's approach:** Knock one thing out every day until the list is cleared.
