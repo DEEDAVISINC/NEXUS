@@ -5,6 +5,18 @@
 
 ---
 
+## 🏛️ FEDERAL CERTIFICATION VEHICLES — NEW ROADMAP BUILT
+**File:** `FEDERAL_CERTIFICATION_VEHICLE_ROADMAP.md` — checklists for 8(a), GSA MAS, OASIS+, and all major vehicles.
+
+| Vehicle | Status | Immediate Action |
+|---|---|---|
+| **SBA 8(a)** | ❌ Not started | Pull Dee's last 3 years personal tax returns. Verify: net worth < $850K, AGI < $400K avg, assets < $6.5M. If clear → apply at certify.sba.gov. **Biggest unlock in federal contracting.** |
+| **GSA MAS** | ❌ Not started | Complete "Pathways to Success" training (free, 3-4 hrs) at gsa.gov/training. Start with SIN 621-1 (drug testing). |
+| **OASIS+ WOSB** | ❌ Not started | Download Attachment JP-1 scorecard from gsa.gov/oasis-plus. Self-score — deadline Jan 11, 2027. Apply by Sept 2026. |
+| **HCaTS** | ❓ Unknown | **Email hcats@gsa.gov TODAY** — confirm if enrollment window is still open. Reportedly closing Nov 2026. |
+
+---
+
 ## 🔥 SEND THESE MONDAY — READY TO GO
 
 | # | Who | What | Where |
