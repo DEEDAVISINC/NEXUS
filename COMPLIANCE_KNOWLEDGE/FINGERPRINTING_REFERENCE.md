@@ -1,8 +1,12 @@
 # FINGERPRINTING — COMPLETE COMPLIANCE REFERENCE
 
-**FBI CJIS | State Licensing Boards | SWFT Authorization | Livescan Standards**
+**FBI CJIS | State Licensing Boards | Biometric Collection | Livescan Standards**
 
-**Last Updated in NEXUS:** March 19, 2026
+**Last Updated in NEXUS:** April 2026
+
+> ⚠️ **SWFT STATUS CORRECTION:** DDI does NOT have SWFT access. Applied March 2026 — DCSA denied (requires minimum interim Secret clearance + Facility Clearance Level). All prior references to "DDI is SWFT authorized" in this document are INCORRECT and have been removed. Path to SWFT: win a contract requiring it → DD Form 254 → FCL triggers automatically. Use a cleared sub for SWFT submissions in the interim.
+>
+> **DDI's fingerprinting is provided in partnership with LAKOTA** (biometric fingerprinting partner). DDI manages the client relationship, scheduling, and compliance. Lakota performs the biometric collection and submission.
 
 ---
 
@@ -13,7 +17,7 @@ Fingerprinting services fall into two main categories:
 1. **Criminal Background Checks** — FBI/state criminal history via fingerprint submission
 2. **Identity Verification** — Biometric capture for licensing, employment, immigration
 
-DDI provides fingerprinting through the PRISM collector network as a **SWFT (Secure Web Fingerprint Transmission) authorized** provider.
+DDI provides fingerprinting services **in partnership with Lakota** as its biometric collection partner. DDI is the prime — Lakota executes the collection and submission.
 
 ---
 
@@ -405,10 +409,10 @@ If prints rejected for quality:
 
 ## SWFT SYSTEM INFORMATION
 
-### DDI SWFT Authorization
-- DDI is authorized SWFT provider
-- Can submit directly to participating states
-- Electronic results returned to requesting agency
+### DDI SWFT Status
+- ❌ DDI does NOT have SWFT access (denied March 2026 — clearance required)
+- Submissions handled through Lakota partnership or cleared sub
+- Electronic results returned to requesting agency via Lakota/sub
 
 ### SWFT Transaction Codes
 
@@ -488,7 +492,7 @@ If prints rejected for quality:
 - Smooth rolling motion
 - NFIQ 1-3 scores
 
-**DDI is SWFT authorized — direct electronic submission to participating states.**
+**DDI provides fingerprinting through its Lakota partnership. DDI does NOT have direct SWFT access (pending clearance). Submissions handled by Lakota or cleared sub.**
 
 ---
 

@@ -27,6 +27,14 @@
 
 ---
 
+## 📞 LAKOTA / WHORL — CONFIRM BEFORE UPDATING RECORDS
+
+**Ask Lakota:** "Is WHORL configured to receive and process federal EDOs, and what submission channels are you currently connected to — IdentoGO, Fieldprint, direct FBI channeler, or other?"
+
+Answer determines what DDI can market for federal fingerprinting and whether we need SWFT at all for that work. Holding all fingerprinting reference updates until confirmed.
+
+---
+
 ## ⚡ QUICK WINS — DO THESE SAME DAY (Under 15 min each)
 
 | # | Task | Details |
