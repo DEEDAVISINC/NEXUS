@@ -14,7 +14,7 @@ Dee Davis here — we've spoken before. You may have us in your system under 3D 
 
 I'm reaching out because I think there's a real partnership opportunity here worth talking through.
 
-Here's what's happening on our end: Dee Davis Inc. is an EDWOSB contract management firm actively pursuing federal biometric contracts — agency fingerprinting, federal EDO processing, ATF/NFA services, and multi-state collection networks. We're also in the process of applying to OASIS+ as an EDWOSB, which is GSA's primary professional services vehicle for federal agencies. Biometric services, credentialing, and identity verification are squarely in scope. We're building a subcontractor network across 10+ states and we want Lakota to be the technology backbone of that entire operation — software, training, and hardware.
+Here's what's happening on our end: Dee Davis Inc. is an EDWOSB contract management firm actively pursuing federal biometric contracts — agency fingerprinting, federal EDO processing, ATF/NFA services, and multi-state collection networks. We're currently applying for OASIS+ (the GSA professional services GWAC with a dedicated WOSB/EDWOSB pool) and other federal contract vehicles specifically because of our EDWOSB certification. Biometric services are a core component of the work we're positioning for. We're building a subcontractor network across 10+ states and we want Lakota to be the technology backbone of that entire operation — software, training, and hardware.
 
 That means we're not just looking to upgrade our own account. We're looking at:
 
