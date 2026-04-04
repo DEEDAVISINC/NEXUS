@@ -23,7 +23,9 @@ That means we're not just looking to upgrade our own account. We're looking at:
 - **Reseller/channel partner arrangement** — bundling Lakota software with Kojak scanners as a "DDI Fingerprinting Starter Kit" for subs coming into our network
 - **Pursuing state livescan certifications together** — DDI drives the demand, Lakota provides the technology
 
-I'll be straight with you — we're a small business right now. But small is exactly where the right partnerships get built. The contracts we're pursuing, the sub network we're building, the federal biometric work coming down the pipeline — none of that happens without the right technology partner behind us. We want that to be Lakota. And when DDI scales, Lakota scales with us.
+I'll be straight with you — we're a small business right now. We've spent years trying to partner with IDEMIA, Fieldprint, and others in this space, and we've been told repeatedly that there isn't a need for us in our location. That's a frustrating answer when you know the demand is there and you have the drive to serve it. So we stopped waiting on the big networks to let us in and started building our own.
+
+That's where Lakota fits. You're not a gatekeeper — you're a technology partner. And that's exactly what we need. The contracts we're pursuing, the sub network we're building, the federal biometric work coming down the pipeline — none of that happens without the right technology behind us. We want that to be Lakota. And when DDI scales, Lakota scales with us.
 
 Our current EFT Creator account is the starting point, not the ceiling.
 
