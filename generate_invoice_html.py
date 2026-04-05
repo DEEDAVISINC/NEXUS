@@ -122,27 +122,72 @@ def format_currency(amount):
 
 def generate_invoice_html(config):
     """Generate NEXUS-standard Invoice HTML from config"""
-    
-    invoice = config['invoice']
-    client = config.get('client', {})
-    items = config.get('line_items', [])
+
+    invoice  = config['invoice']
+    client   = config.get('client', {})
+    items    = config.get('line_items', [])
     contract = config.get('contract', {})
-    
+    banking  = config.get('banking', {})
+
     # Get sector colors
     sector = config.get('sector', 'default')
     colors = get_sector_colors(sector)
-    
+
     # Get logo
     logo_data = get_logo_data()
     logo_html = f'<img class="logo-img" src="{logo_data}" alt="Dee Davis Inc.">' if logo_data else ''
-    
-    # Build line items table
+
+    # ---------- Sector-conditional credentials ----------
+    # Transport / freight / NEMT sectors show MC + DOT + NPI
+    _transport_sectors = {'nemt', 'courier', 'freight', 'logistics'}
+    # Healthcare sectors show NPI
+    _health_sectors    = {'drug_testing', 'dna', 'nemt', 'fingerprinting', 'professional'}
+
+    show_transport_ids = sector.lower() in _transport_sectors
+    show_npi           = sector.lower() in _health_sectors
+
+    extra_ids = ''
+    if show_transport_ids:
+        extra_ids += '<br>MC: 1647572 | US DOT: 4250594'
+    if show_npi:
+        extra_ids += '<br>NPI: 1538939111'
+
+    # ---------- ACH banking block ----------
+    ach_routing = banking.get('ach_routing', '')
+    ach_account = banking.get('ach_account', '')
+    ach_bank    = banking.get('bank_name', '')
+    ach_name    = banking.get('account_name', 'Dee Davis Inc.')
+
+    if ach_routing and ach_account:
+        ach_html = (
+            f'<strong>ACH / Direct Deposit (Preferred):</strong><br>'
+            f'&nbsp;&nbsp;Bank: {ach_bank}<br>'
+            f'&nbsp;&nbsp;Account Name: {ach_name}<br>'
+            f'&nbsp;&nbsp;Routing Number: {ach_routing}<br>'
+            f'&nbsp;&nbsp;Account Number: {ach_account}<br>'
+        )
+    else:
+        ach_html = (
+            '<strong>ACH / Direct Deposit (Preferred):</strong> '
+            'Contact <strong>info@deedavis.biz</strong> or call <strong>248.376.4550</strong> '
+            'to receive ACH/direct deposit instructions.<br>'
+        )
+
+    # ---------- WAWF block ----------
+    wawf_html = ''
+    if contract.get('wawf'):
+        wawf_html = (
+            '<strong>Federal Invoice (WAWF):</strong> Submit via Wide Area Workflow — '
+            f'CAGE 8UMX3 | DODAAC: {contract.get("dodaac", "[DODAAC]")}<br>'
+        )
+
+    # ---------- Build line items table ----------
     items_rows = ''
-    subtotal = 0
+    subtotal   = 0
     for i, item in enumerate(items):
-        shade = 'row-shade' if i % 2 == 1 else ''
-        qty = item.get('quantity', 1)
-        rate = item.get('rate', 0)
+        shade  = 'row-shade' if i % 2 == 1 else ''
+        qty    = item.get('quantity', 1)
+        rate   = item.get('rate', 0)
         amount = qty * rate
         subtotal += amount
         items_rows += f'''
@@ -153,14 +198,14 @@ def generate_invoice_html(config):
         <td class="col-rate">{format_currency(rate)}</td>
         <td class="col-amount">{format_currency(amount)}</td>
       </tr>'''
-    
-    # Calculate totals
-    shipping = invoice.get('shipping', 0)
-    tax_rate = invoice.get('tax_rate', 0)
+
+    # ---------- Totals ----------
+    shipping   = invoice.get('shipping', 0)
+    tax_rate   = invoice.get('tax_rate', 0)
     tax_amount = subtotal * tax_rate
-    total = subtotal + shipping + tax_amount
-    
-    # Contract info section (for government invoices)
+    total      = subtotal + shipping + tax_amount
+
+    # ---------- Contract info (government invoices) ----------
     contract_html = ''
     if contract:
         contract_html = f'''
@@ -173,7 +218,20 @@ def generate_invoice_html(config):
   <div class="contract-item"><span class="contract-label">Contracting Officer</span><span class="contract-value">{contract.get('co_name', 'N/A')}</span></div>
   <div class="contract-item"><span class="contract-label">Payment Office</span><span class="contract-value">{contract.get('payment_office', 'N/A')}</span></div>
 </div>'''
-    
+
+    # ---------- Late fee language ----------
+    late_fee_days = invoice.get('late_fee_days', 30)
+    late_fee_rate = invoice.get('late_fee_rate', 1.5)
+    late_fee_note = (
+        f'Invoices unpaid after {late_fee_days} days are subject to a late payment fee of '
+        f'{late_fee_rate}% per month (18% annually) on the outstanding balance. '
+        'Federal government invoices: interest accrues per the Prompt Payment Act (5 CFR 1315) '
+        'after 30 days.'
+    )
+
+    # ---------- Notes ----------
+    notes_text = invoice.get('notes', 'Thank you for your business. Please remit payment by the due date.')
+
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,8 +258,9 @@ def generate_invoice_html(config):
   .addresses {{ display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 20px 24px; border-bottom: 1px solid #e5e7eb; }}
   .address-block {{ }}
   .address-title {{ font-size: 8pt; font-weight: 700; color: #6b7280; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }}
-  .address-content {{ font-size: 10pt; line-height: 1.6; color: #374151; }}
+  .address-content {{ font-size: 10pt; line-height: 1.7; color: #374151; }}
   .address-content strong {{ color: #0f172a; }}
+  .address-cred {{ font-size: 8.5pt; color: #6b7280; margin-top: 6px; line-height: 1.6; }}
 
   .section-header {{ background: {colors['primary']}; color: #fff; font-size: 9pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 16px; }}
 
@@ -226,16 +285,19 @@ def generate_invoice_html(config):
   .item-sub {{ font-size: 9pt; color: #6b7280; }}
 
   .totals-section {{ display: flex; justify-content: flex-end; padding: 0 24px 20px; }}
-  .totals-box {{ width: 280px; }}
+  .totals-box {{ width: 300px; }}
   .total-row {{ display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: 10pt; }}
   .total-row.grand {{ background: {colors['primary']}; color: #fff; font-size: 12pt; font-weight: 700; border-radius: 4px; margin-top: 8px; }}
 
   .payment-section {{ background: {colors['accent_bg']}; padding: 16px 24px; border-top: 2px solid #e5e7eb; }}
-  .payment-title {{ font-size: 9pt; font-weight: 700; color: #0f172a; text-transform: uppercase; margin-bottom: 10px; }}
-  .payment-details {{ font-size: 10pt; color: #374151; line-height: 1.6; }}
+  .payment-title {{ font-size: 9pt; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }}
+  .payment-details {{ font-size: 9.5pt; color: #374151; line-height: 1.8; }}
   .payment-details strong {{ color: #0f172a; }}
+  .payment-divider {{ border: none; border-top: 1px solid #d1d5db; margin: 10px 0; }}
 
-  .notes-section {{ padding: 16px 24px; border-top: 1px solid #e5e7eb; font-size: 9pt; color: #6b7280; line-height: 1.5; }}
+  .late-fee-section {{ padding: 10px 24px; border-top: 1px solid #e5e7eb; font-size: 8.5pt; color: #6b7280; line-height: 1.5; }}
+
+  .notes-section {{ padding: 12px 24px; border-top: 1px solid #e5e7eb; font-size: 9pt; color: #6b7280; line-height: 1.5; }}
 
   .footer {{ background: {colors['primary']}; color: #94a3b8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 8pt; }}
   .footer strong {{ color: #fff; }}
@@ -258,20 +320,22 @@ def generate_invoice_html(config):
   <div class="meta-cell"><div class="meta-label">Invoice Date</div><div class="meta-value">{invoice.get('date', '')}</div></div>
   <div class="meta-cell"><div class="meta-label">Due Date</div><div class="meta-value meta-due">{invoice.get('due_date', '')}</div></div>
   <div class="meta-cell"><div class="meta-label">Payment Terms</div><div class="meta-value">{invoice.get('terms', 'Net 30')}</div></div>
-  <div class="meta-cell"><div class="meta-label">PO Number</div><div class="meta-value">{invoice.get('po_number', 'N/A')}</div></div>
+  <div class="meta-cell"><div class="meta-label">PO / Reference No.</div><div class="meta-value">{invoice.get('po_number', 'N/A')}</div></div>
   <div class="meta-cell"><div class="meta-label">Amount Due</div><div class="meta-value meta-due">{format_currency(total)}</div></div>
 </div>
 
 <div class="addresses">
   <div class="address-block">
-    <div class="address-title">From</div>
+    <div class="address-title">Remit Payment To</div>
     <div class="address-content">
       <strong>Dee Davis Inc.</strong><br>
       755 W. Big Beaver Rd., Suite 2020<br>
-      Troy, MI 48084<br>
-      248.376.4550 | info@deedavis.biz<br>
-      <br>
-      CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+      Troy, Michigan 48084
+    </div>
+    <div class="address-cred">
+      Phone: 248.376.4550 &nbsp;|&nbsp; info@deedavis.biz<br>
+      EIN: 84-4114181 &nbsp;|&nbsp; CAGE: 8UMX3<br>
+      UEI: HJB4KNYJVGZ1 &nbsp;|&nbsp; DUNS: 002636755{extra_ids}
     </div>
   </div>
   <div class="address-block">
@@ -280,13 +344,14 @@ def generate_invoice_html(config):
       <strong>{client.get('name', '')}</strong><br>
       {client.get('address', '').replace(chr(10), '<br>')}
       {f"<br>Attn: {client.get('contact', '')}" if client.get('contact') else ''}
+      {f"<br>Email: {client.get('email', '')}" if client.get('email') else ''}
     </div>
   </div>
 </div>
 
 {contract_html}
 
-<div class="section-header">Services & Line Items</div>
+<div class="section-header">Services &amp; Line Items</div>
 <div class="table-wrap">
   <table class="items-table">
     <thead>
@@ -294,7 +359,7 @@ def generate_invoice_html(config):
         <th class="col-no">#</th>
         <th>Description</th>
         <th class="right">Qty</th>
-        <th class="right">Rate</th>
+        <th class="right">Unit Rate</th>
         <th class="right">Amount</th>
       </tr>
     </thead>
@@ -307,33 +372,39 @@ def generate_invoice_html(config):
 <div class="totals-section">
   <div class="totals-box">
     <div class="total-row"><span>Subtotal</span><span>{format_currency(subtotal)}</span></div>
-    {f'<div class="total-row"><span>Shipping & Handling</span><span>{format_currency(shipping)}</span></div>' if shipping else ''}
+    {f'<div class="total-row"><span>Shipping &amp; Handling</span><span>{format_currency(shipping)}</span></div>' if shipping else ''}
     {f'<div class="total-row"><span>Tax ({tax_rate*100:.1f}%)</span><span>{format_currency(tax_amount)}</span></div>' if tax_amount else ''}
-    <div class="total-row grand"><span>Total Due</span><span>{format_currency(total)}</span></div>
+    <div class="total-row grand"><span>Total Amount Due</span><span>{format_currency(total)}</span></div>
   </div>
 </div>
 
 <div class="payment-section">
-  <div class="payment-title">Payment Information</div>
+  <div class="payment-title">Payment Instructions</div>
   <div class="payment-details">
-    <strong>Pay by ACH (Preferred):</strong> Contact info@deedavis.biz for ACH details<br>
-    <strong>Pay by Check:</strong> Make payable to "Dee Davis Inc." and mail to address above<br>
-    {f"<strong>WAWF:</strong> Submit via Wide Area Workflow — CAGE 8UMX3" if contract.get('wawf') else ''}
+    {ach_html}
+    <hr class="payment-divider">
+    <strong>Check (Mail):</strong> Make payable to <strong>"Dee Davis Inc."</strong> and mail to 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+    <strong>Questions:</strong> info@deedavis.biz &nbsp;|&nbsp; 248.376.4550
+    {f'<hr class="payment-divider">{wawf_html}' if wawf_html else ''}
   </div>
 </div>
 
+<div class="late-fee-section">
+  <strong>Late Payment Policy:</strong> {late_fee_note}
+</div>
+
 <div class="notes-section">
-  {invoice.get('notes', 'Thank you for your business. Please remit payment by the due date.')}
+  {notes_text}
 </div>
 
 <div class="footer">
-  <div><strong>Dee Davis Inc.</strong> — EDWOSB | WOSB | WBENC | MBE | SBE | CAGE: 8UMX3</div>
-  <div>Invoice {invoice.get('number', '')} — {invoice.get('date', '')}</div>
+  <div><strong>Dee Davis Inc.</strong> &mdash; EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify | CAGE: 8UMX3 | EIN: 84-4114181</div>
+  <div>Invoice {invoice.get('number', '')} &mdash; {invoice.get('date', '')}</div>
 </div>
 
 </body>
 </html>'''
-    
+
     return html
 
 
