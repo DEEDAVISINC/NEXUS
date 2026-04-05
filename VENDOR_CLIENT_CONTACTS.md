@@ -1,12 +1,27 @@
 # VENDOR, SUPPLIER & BUYER CONTACTS
 
 **DEE DAVIS INC Complete Contact Database**  
-**Last Updated:** February 27, 2026  
-**Recent:** NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
+**Last Updated:** April 4, 2026  
+**Recent:** Amy Bavin (City of Pontiac, Community Development) added; NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
 
 ---
 
 ## 🏛️ GOVERNMENT BUYERS & PROCUREMENT OFFICERS
+
+### **CITY OF PONTIAC — COMMUNITY DEVELOPMENT DEPARTMENT**
+
+**Amy Bavin — Planning Manager**
+- **Email:** abavin@pontiac.mi.us
+- **Direct:** 248.758.2816
+- **Dept:** 248.758.2824
+- **General:** 248.758.3000
+- **Website:** www.pontiac.mi.us
+- **Organization:** City of Pontiac, Community Development Department
+- **Type:** Local Government — City of Pontiac, Michigan
+- **Tone:** Registered vendor follow-up (DDI is a registered Michigan vendor)
+- **Status:** Contact added April 4, 2026 — outreach pending
+
+---
 
 ### **DC VA MEDICAL CENTER** ⭐ ACTIVE
 
