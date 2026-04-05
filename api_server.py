@@ -2042,17 +2042,17 @@ All deliverables submitted and accepted.
     # VERTEX BRIDGE: Also create in VERTEX INVOICES so financial command center sees it
     try:
         vertex_fields = {
-            'Invoice Number': invoice_number,
-            'Invoice Date': datetime.now().isoformat(),
-            'Due Date': (datetime.now() + timedelta(days=30)).isoformat(),
-            'Client Name': client_name,
-            'Source System': source_system,
-            'Source Record ID': project_id,
-            'Invoice Type': 'Standard',
-            'Total Amount': budget,
-            'Payment Status': 'Unpaid',
-            'Payment Terms': 'Net 30',
-            'Notes': invoice_description,
+            VI['invoice_number']:  invoice_number,
+            VI['invoice_date']:    datetime.now().date().isoformat(),
+            VI['due_date']:        (datetime.now() + timedelta(days=30)).date().isoformat(),
+            VI['client_name']:     client_name,
+            VI['source_system']:   source_system,
+            VI['source_record']:   project_id,
+            VI['invoice_type']:    'Standard',
+            VI['total_amount']:    budget,
+            VI['payment_status']:  'Unpaid',
+            VI['payment_terms']:   'Net 30',
+            VI['notes']:           invoice_description,
         }
         airtable_client.create_record('VERTEX INVOICES', vertex_fields)
     except Exception as ve:
@@ -2480,23 +2480,21 @@ def update_task(task_id):
             'title': 'Title',
             'status': 'Status',
             'priority': 'Priority',
-            'owner': 'Owner',
-            'dueDate': 'Due Date',
-            'progress': 'Progress',
-            'budget': 'Budget',
+            'due_date': 'Due Date',
             'description': 'Description',
-            'project': 'Project Name'
+            'assigned_to': 'Assigned To',
+            'notes': 'Notes',
         }
-        
-        for key, airtable_field in field_mapping.items():
+        for key, airtable_key in field_mapping.items():
             if key in data:
-                update_fields[airtable_field] = data[key]
-        
-        update_fields['Last Updated'] = datetime.now().isoformat()
-        
-        airtable_client.update_record('ATLAS TASKS', task_id, update_fields)
-        return jsonify({'success': True})
-    
+                update_fields[airtable_key] = data[key]
+
+        if not update_fields:
+            return jsonify({"error": "No valid fields to update"}), 400
+
+        task = airtable_client.update_record('ATLAS TASKS', task_id, update_fields)
+        return jsonify({"success": True, "task": task})
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -3390,14 +3388,14 @@ def update_gpss_opportunity(opportunity_id):
                 contract_value = current_opp['fields'].get('Value', 0)
                 if contract_value and float(contract_value) > 0:
                     airtable_client.create_record('VERTEX REVENUE', {
-                        'Date': datetime.now().strftime('%Y-%m-%d'),
-                        'Source System': 'GPSS',
-                        'Source Record ID': opportunity_id,
-                        'Client Name': current_opp['fields'].get('Agency Name', ''),
-                        'Amount': float(contract_value),
-                        'Category': 'Contract Award',
-                        'Description': f"Contract won: {current_opp['fields'].get('Title', '')}",
-                        'Status': 'Expected',
+                        VR['revenue_date']:   datetime.now().date().isoformat(),
+                        VR['source_system']:  'GPSS',
+                        VR['source']:         current_opp['fields'].get('Agency Name', ''),
+                        VR['revenue_type']:   'Contract Award',
+                        VR['amount']:         float(contract_value),
+                        VR['taxable']:        True,
+                        VR['recurring']:      False,
+                        VR['notes']:          f"Contract won: {current_opp['fields'].get('Title', '')} | Opp ID: {opportunity_id}",
                     })
             except Exception as ve:
                 print(f"VERTEX revenue tracking: {ve}")
@@ -7571,14 +7569,14 @@ def update_ddcss_prospect(prospect_id):
                 budget_val = float(budget_str.replace('$', '').replace(',', '').replace('+', '').split('-')[0]) if budget_str else 0
                 if budget_val > 0:
                     airtable_client.create_record('VERTEX REVENUE', {
-                        'Date': datetime.now().strftime('%Y-%m-%d'),
-                        'Source System': 'DDCSS',
-                        'Source Record ID': prospect_id,
-                        'Client Name': prospect_fields.get('Company Name', ''),
-                        'Amount': budget_val,
-                        'Category': 'Corporate Client',
-                        'Description': f"Client won: {prospect_fields.get('Company Name', '')}",
-                        'Status': 'Expected',
+                        VR['revenue_date']:   datetime.now().date().isoformat(),
+                        VR['source_system']:  'DDCSS',
+                        VR['source']:         prospect_fields.get('Company Name', ''),
+                        VR['revenue_type']:   'Corporate Client',
+                        VR['amount']:         budget_val,
+                        VR['taxable']:        True,
+                        VR['recurring']:      False,
+                        VR['notes']:          f"Client won: {prospect_fields.get('Company Name', '')} | Prospect ID: {prospect_id}",
                     })
             except Exception as ve:
                 print(f"DDCSS → VERTEX revenue: {ve}")
@@ -10382,14 +10380,14 @@ def update_gbis_opportunity(opportunity_id):
             # VERTEX BRIDGE: Log grant award as revenue
             try:
                 airtable_client.create_record('VERTEX REVENUE', {
-                    'Date': datetime.now().strftime('%Y-%m-%d'),
-                    'Source System': 'GBIS',
-                    'Source Record ID': opportunity_id,
-                    'Client Name': funder,
-                    'Amount': grant_amount,
-                    'Category': 'Grant Award',
-                    'Status': 'Expected',
-                    'Notes': f"Grant awarded: {grant_name}",
+                    VR['revenue_date']:   datetime.now().date().isoformat(),
+                    VR['source_system']:  'GBIS',
+                    VR['source']:         funder,
+                    VR['revenue_type']:   'Grant Award',
+                    VR['amount']:         grant_amount,
+                    VR['taxable']:        False,
+                    VR['recurring']:      False,
+                    VR['notes']:          f"Grant awarded: {grant_name} | Opp ID: {opportunity_id}",
                 })
                 print(f"GBIS → VERTEX revenue: {grant_name} ${grant_amount}")
             except Exception as ve:
@@ -10807,6 +10805,139 @@ def gbis_research_lane_setup_checklist():
 # 💎 VERTEX FINANCIAL SYSTEM ENDPOINTS
 # =====================================================================
 
+# ---------------------------------------------------------------------------
+# VERTEX_FIELD_MAP — single source of truth for all VERTEX Airtable field names.
+# Airtable field names are ALL CAPS. All VERTEX code must use this map.
+# To rename a field: change it here only. Never hardcode field names below.
+# ---------------------------------------------------------------------------
+VI = {  # VERTEX INVOICES
+    'invoice_number':              'INVOICE NUMBER',
+    'invoice_date':                'INVOICE DATE',
+    'due_date':                    'DUE DATE',
+    'client_name':                 'CLIENT NAME',
+    'client_id':                   'CLIENT ID',
+    'source_system':               'SOURCE SYSTEM',
+    'source_record':               'SOURCE RECORD',
+    'gpss_opportunity':            'GPSS OPPORTUNITY',
+    'atlas_project':               'ATLAS PROJECT',
+    'ddcss_prospect':              'DDCSS PROSPECT',
+    'lbpc_lead':                   'LBPC LEAD',
+    'invoice_type':                'INVOICE TYPE',
+    'line_items':                  'LINE ITEMS',
+    'subtotal':                    'SUBTOTAL',
+    'tax_rate':                    'TAX RATE %',
+    'tax_amount':                  'TAX AMOUNT',
+    'discount_pct':                'DISCOUNT (%)',
+    'discount_amount':             'DISCOUNT AMOUNT',
+    'total_amount':                'TOTAL AMOUNT',
+    'amount_paid':                 'AMOUNT PAID',
+    'balance_due':                 'BALANCE DUE',
+    'payment_status':              'PAYMENT STATUS',
+    'payment_method':              'PAYMENT METHOD',
+    'payment_date':                'PAYMENT DATE',
+    'payment_terms':               'PAYMENT TERMS',
+    'days_outstanding':            'DAYS OUTSTANDING',
+    'aging_category':              'AGING CATEGORY',
+    'notes':                       'NOTES',
+    'client_notes':                'CLIENTS NOTES',
+    'po_number':                   'PO NUMBER',
+    'cage_code':                   'CAGE CODE',
+    'duns_number':                 'DUNS NUMBER',
+    'uei':                         'SAM.gov UEI',
+    'government_agency':           'GOVERNMENT AGENCY',
+    'contract_number':             'CONTRACT NUMBER',
+    'contract_type':               'CONTRACT TYPE',
+    'invoice_pdf':                 'INVOICE PDF',
+    'supporting_documents':        'SUPPORTING DOCUMENTS',
+    'sent_date':                   'SENT DATE',
+    'sent_by':                     'SENT BY',
+    'follow_up_date':              'FOLLOW-UP DATE',
+    'factoring_status':            'FACTORING STATUS',
+    'factoring_company':           'FACTORING COMPANY',
+    'factoring_fee_pct':           'FACTORING FEE (%)',
+    'factoring_fee_dollar':        'FACTORING FEE ($)',
+    'advance_rate':                'ADVANTAGE RATE',
+    'advance_amount':              'ADVANCED AMOUNT ($)',
+    'reserve_amount':              'RESERVE AMOUNT ($)',
+    'factoring_submitted_date':    'FACTORING SUBMITTED DATE',
+    'factoring_funded_date':       'FACTORING FUNDED DATE',
+    'client_payment_to_factor':    'CLIENT PAYMENT TO FACTOR DATE',
+    'reserve_released_date':       'RESERVE RELEASED DATE',
+    'vertex_revenue':              'VERTEX REVENUE',
+    'vertex_bank_transactions':    'VERTEX BANK TRANSACTIONS',
+    # --- WAWF / IPP Federal Invoicing fields (Phase 6) ---
+    'wawf_status':                 'WAWF STATUS',
+    'wawf_document_type':          'WAWF DOCUMENT TYPE',
+    'wawf_submitted_date':         'WAWF SUBMITTED DATE',
+    'wawf_accepted_date':          'WAWF ACCEPTED DATE',
+    'wawf_rejection_reason':       'WAWF REJECTION REASON',
+    'ipp_submission_date':         'IPP SUBMISSION DATE',
+    'ipp_approval_date':           'IPP APPROVAL DATE',
+    'ipp_invoice_id':              'IPP INVOICE ID',
+    'prompt_payment_interest':     'PROMPT PAYMENT INTEREST ($)',
+    'interest_start_date':         'INTEREST START DATE',
+    'clin':                        'CLIN',
+    'acrn':                        'ACRN',
+    'dodaac':                      'DODAAC',
+    'cage_code':                   'CAGE CODE',
+}
+
+VE = {  # VERTEX EXPENSES
+    'expense_date':     'EXPENSE DATE',
+    'vendor_payee':     'VENDOR/PAYEE',
+    'vendor_id':        'VENDOR ID',
+    'description':      'DESCRIPTION',
+    'category':         'CATEGORY',
+    'subcategory':      'SUBCATEGORY',
+    'amount':           'AMOUNT',
+    'payment_method':   'PAYMENT METHOD',
+    'payment_date':     'PAYMENT DATE',
+    'payment_status':   'PAYMENT STATUS',
+    'receipt':          'RECEIPT',
+    'tax_deduction':    'TAX DEDUCTION',
+    'tax_category':     'TAX CATEGORY',
+    'billable':         'BILLABLE',
+    'billable_to':      'BILLABLE TO',
+    'project':          'PROJECT',
+    'invoice':          'INVOICE',
+    'reimbursable':     'REIMBURSABLE',
+    'notes':            'NOTES',
+    'expense_type':     'EXPENSE TYPE',
+    'vendor':           'VENDOR',
+    'payment_due_date': 'PAYMENT DUE DATE',
+}
+
+VR = {  # VERTEX REVENUE
+    'revenue_date':    'REVENUE DATE',
+    'source':          'SOURCE',
+    'revenue_type':    'REVENUE TYPE',
+    'source_system':   'SOURCE SYSTEM',
+    'amount':          'AMOUNT',
+    'payment_method':  'PAYMENT METHOD',
+    'invoice':         'INVOICE',
+    'category':        'CATEGORY',
+    'taxable':         'TAXABLE',
+    'recurring':       'RECURRING',
+    'notes':           'NOTES',
+}
+
+VC = {  # VERTEX CLIENTS
+    'client_name':           'CLIENT NAME',
+    'client_type':           'CLIENT TYPE',
+    'contact_name':          'CONTACT NAME',
+    'email':                 'EMAIL',
+    'phone':                 'PHONE',
+    'address':               'ADDRESS',
+    'tax_id':                'TAX ID (EIN/SSN)',
+    'payment_terms':         'PAYMENT TERMS',
+    'credit_limit':          'CREDIT LIMIT',
+    'payment_rating':        'PAYMENT RATING',
+    'active':                'ACTIVE',
+    'notes':                 'NOTES',
+    'avg_payment_days':      'AVERAGE PAYMENT TIME (DAYS)',
+}
+
+
 @app.route('/vertex/stats', methods=['GET'])
 def get_vertex_stats():
     """Get VERTEX Financial dashboard statistics"""
@@ -10819,18 +10950,18 @@ def get_vertex_stats():
             invoices = []
         
         # Calculate invoice stats
-        total_revenue = sum(inv['fields'].get('Amount', 0) for inv in invoices if isinstance(inv['fields'].get('Amount'), (int, float)))
-        paid_invoices = [inv for inv in invoices if inv['fields'].get('Status') == 'Paid']
-        pending_invoices = [inv for inv in invoices if inv['fields'].get('Status') in ['Pending', 'Sent']]
-        overdue_invoices = [inv for inv in invoices if inv['fields'].get('Status') == 'Overdue']
-        
+        total_revenue = sum(inv['fields'].get(VI['total_amount'], 0) for inv in invoices if isinstance(inv['fields'].get(VI['total_amount']), (int, float)))
+        paid_invoices = [inv for inv in invoices if inv['fields'].get(VI['payment_status']) == 'Paid']
+        pending_invoices = [inv for inv in invoices if inv['fields'].get(VI['payment_status']) in ['Unpaid', 'Partial']]
+        overdue_invoices = [inv for inv in invoices if inv['fields'].get(VI['payment_status']) == 'Overdue']
+
         stats = {
             'totalInvoices': len(invoices),
             'paidInvoices': len(paid_invoices),
             'pendingInvoices': len(pending_invoices),
             'overdueInvoices': len(overdue_invoices),
             'totalRevenue': total_revenue,
-            'pendingRevenue': sum(inv['fields'].get('Amount', 0) for inv in pending_invoices)
+            'pendingRevenue': sum(inv['fields'].get(VI['total_amount'], 0) for inv in pending_invoices)
         }
         
         return jsonify(stats)
@@ -10857,15 +10988,15 @@ def get_vertex_invoices():
         # Build Airtable formula
         formulas = []
         if payment_status:
-            formulas.append(f"{{Payment Status}}='{payment_status}'")
+            formulas.append(f"{{{VI['payment_status']}}}='{payment_status}'")
         if source_system:
-            formulas.append(f"{{Source System}}='{source_system}'")
+            formulas.append(f"{{{VI['source_system']}}}='{source_system}'")
         if client_name:
-            formulas.append(f"FIND('{client_name}',{{Client Name}})>0")
+            formulas.append(f"FIND('{client_name}',{{{VI['client_name']}}})>0")
         if aging_category:
-            formulas.append(f"{{Aging Category}}='{aging_category}'")
+            formulas.append(f"{{{VI['aging_category']}}}='{aging_category}'")
         if factoring_status:
-            formulas.append(f"{{Factoring Status}}='{factoring_status}'")
+            formulas.append(f"{{{VI['factoring_status']}}}='{factoring_status}'")
         
         formula = "AND(" + ",".join(formulas) + ")" if formulas else None
         
@@ -10886,37 +11017,40 @@ def create_vertex_invoice():
         
         # Create invoice record
         invoice_fields = {
-            'Invoice Number': data.get('invoice_number', f"INV-{datetime.now().strftime('%Y%m%d-%H%M%S')}"),
-            'Invoice Date': data.get('invoice_date', datetime.now().isoformat()),
-            'Due Date': data.get('due_date'),
-            'Client Name': data.get('client_name'),
-            'Source System': data.get('source_system', 'Other'),
-            'Source Record ID': data.get('source_record_id'),
-            'Invoice Type': data.get('invoice_type', 'Standard'),
-            'Line Items': data.get('line_items', '[]'),
-            'Subtotal': data.get('subtotal', 0),
-            'Tax Rate (%)': data.get('tax_rate', 0),
-            'Total Amount': data.get('total_amount', 0),
-            'Payment Status': data.get('payment_status', 'Unpaid'),
-            'Payment Terms': data.get('payment_terms', 'Net 30'),
-            'Notes': data.get('notes', ''),
+            VI['invoice_number']:  data.get('invoice_number', f"INV-{datetime.now().strftime('%Y%m%d-%H%M%S')}"),
+            VI['invoice_date']:    data.get('invoice_date', datetime.now().date().isoformat()),
+            VI['due_date']:        data.get('due_date'),
+            VI['client_name']:     data.get('client_name'),
+            VI['source_system']:   data.get('source_system', 'Other'),
+            VI['source_record']:   data.get('source_record_id'),
+            VI['invoice_type']:    data.get('invoice_type', 'Standard'),
+            VI['line_items']:      data.get('line_items', '[]'),
+            VI['subtotal']:        data.get('subtotal', 0),
+            VI['tax_rate']:        data.get('tax_rate', 0),
+            VI['total_amount']:    data.get('total_amount', 0),
+            VI['payment_status']:  data.get('payment_status', 'Unpaid'),
+            VI['payment_terms']:   data.get('payment_terms', 'Net 30'),
+            VI['notes']:           data.get('notes', ''),
         }
-        
+
+        # Remove None values — Airtable rejects null on required fields
+        invoice_fields = {k: v for k, v in invoice_fields.items() if v is not None}
+
         # Add government contract fields if applicable
         if data.get('contract_number'):
-            invoice_fields['Contract Number'] = data['contract_number']
+            invoice_fields[VI['contract_number']] = data['contract_number']
         if data.get('government_agency'):
-            invoice_fields['Government Agency'] = data['government_agency']
-        
+            invoice_fields[VI['government_agency']] = data['government_agency']
+
         # Add factoring fields if applicable
         if data.get('factoring_status'):
-            invoice_fields['Factoring Status'] = data['factoring_status']
+            invoice_fields[VI['factoring_status']] = data['factoring_status']
             if data.get('factoring_company'):
-                invoice_fields['Factoring Company'] = data['factoring_company']
+                invoice_fields[VI['factoring_company']] = data['factoring_company']
             if data.get('factoring_fee_percent'):
-                invoice_fields['Factoring Fee (%)'] = data['factoring_fee_percent']
+                invoice_fields[VI['factoring_fee_pct']] = data['factoring_fee_percent']
             if data.get('advance_rate_percent'):
-                invoice_fields['Advance Rate (%)'] = data['advance_rate_percent']
+                invoice_fields[VI['advance_rate']] = data['advance_rate_percent']
         
         invoice = airtable.create_record('VERTEX INVOICES', invoice_fields)
         
@@ -10975,12 +11109,13 @@ def submit_invoice_to_factoring(invoice_id):
         
         # Update invoice with factoring details
         update_fields = {
-            'Factoring Status': 'Submitted',
-            'Factoring Company': data.get('factoring_company'),
-            'Factoring Fee (%)': data.get('factoring_fee_percent', 3),
-            'Advance Rate (%)': data.get('advance_rate_percent', 85),
-            'Factoring Submitted Date': datetime.now().isoformat()
+            VI['factoring_status']:           'Submitted',
+            VI['factoring_company']:          data.get('factoring_company'),
+            VI['factoring_fee_pct']:          data.get('factoring_fee_percent', 3),
+            VI['advance_rate']:               data.get('advance_rate_percent', 85),
+            VI['factoring_submitted_date']:   datetime.now().date().isoformat(),
         }
+        update_fields = {k: v for k, v in update_fields.items() if v is not None}
         
         invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update_fields)
         return jsonify({'success': True, 'invoice': invoice, 'message': 'Invoice submitted to factoring'})
@@ -10995,22 +11130,23 @@ def get_ar_aging_report():
         airtable = AirtableClient()
         
         # Get all unpaid/partial invoices
-        formula = "OR({Payment Status}='Unpaid',{Payment Status}='Partial',{Payment Status}='Overdue')"
+        ps = VI['payment_status']
+        formula = f"OR({{{ps}}}='Unpaid',{{{ps}}}='Partial',{{{ps}}}='Overdue')"
         invoices = airtable.search_records('VERTEX INVOICES', formula)
-        
+
         # Group by aging category
         aging = {
-            'Current': {'count': 0, 'total': 0, 'invoices': []},
+            'Current':    {'count': 0, 'total': 0, 'invoices': []},
             '31-60 Days': {'count': 0, 'total': 0, 'invoices': []},
             '61-90 Days': {'count': 0, 'total': 0, 'invoices': []},
-            '90+ Days': {'count': 0, 'total': 0, 'invoices': []}
+            '90+ Days':   {'count': 0, 'total': 0, 'invoices': []},
         }
-        
+
         for invoice in invoices:
             fields = invoice.get('fields', {})
-            category = fields.get('Aging Category', 'Current')
-            balance = fields.get('Balance Due', 0)
-            
+            category = fields.get(VI['aging_category'], 'Current')
+            balance = fields.get(VI['balance_due'], 0)
+
             if category in aging:
                 aging[category]['count'] += 1
                 aging[category]['total'] += balance
@@ -11036,11 +11172,11 @@ def get_vertex_expenses():
         if category or payment_status:
             formulas = []
             if category:
-                formulas.append(f"{{Category}}='{category}'")
+                formulas.append(f"{{{VE['category']}}}='{category}'")
             if payment_status:
-                formulas.append(f"{{Payment Status}}='{payment_status}'")
+                formulas.append(f"{{{VE['payment_status']}}}='{payment_status}'")
             formula = "AND(" + ",".join(formulas) + ")"
-        
+
         expenses = airtable.search_records('VERTEX EXPENSES', formula) if formula else airtable.get_all_records('VERTEX EXPENSES')
         
         return jsonify({'expenses': expenses})
@@ -11056,17 +11192,18 @@ def create_vertex_expense():
         airtable = AirtableClient()
         
         expense_fields = {
-            'Expense Date': data.get('expense_date', datetime.now().isoformat()),
-            'Vendor/Payee': data.get('vendor'),
-            'Description': data.get('description'),
-            'Category': data.get('category', 'Other'),
-            'Amount': data.get('amount', 0),
-            'Payment Method': data.get('payment_method', 'Credit Card'),
-            'Payment Status': data.get('payment_status', 'Paid'),
-            'Tax Deductible': data.get('tax_deductible', True),
-            'Billable': data.get('billable', False),
-            'Notes': data.get('notes', '')
+            VE['expense_date']:    data.get('expense_date', datetime.now().date().isoformat()),
+            VE['vendor_payee']:    data.get('vendor'),
+            VE['description']:     data.get('description'),
+            VE['category']:        data.get('category', 'Other'),
+            VE['amount']:          data.get('amount', 0),
+            VE['payment_method']:  data.get('payment_method', 'Credit Card'),
+            VE['payment_status']:  data.get('payment_status', 'Paid'),
+            VE['tax_deduction']:   data.get('tax_deductible', True),
+            VE['billable']:        data.get('billable', False),
+            VE['notes']:           data.get('notes', ''),
         }
+        expense_fields = {k: v for k, v in expense_fields.items() if v is not None}
         
         expense = airtable.create_record('VERTEX EXPENSES', expense_fields)
         
@@ -11148,11 +11285,11 @@ def get_vertex_revenue():
         if revenue_type or source_system:
             formulas = []
             if revenue_type:
-                formulas.append(f"{{Revenue Type}}='{revenue_type}'")
+                formulas.append(f"{{{VR['revenue_type']}}}='{revenue_type}'")
             if source_system:
-                formulas.append(f"{{Source System}}='{source_system}'")
+                formulas.append(f"{{{VR['source_system']}}}='{source_system}'")
             formula = "AND(" + ",".join(formulas) + ")"
-        
+
         revenue_records = airtable.search_records('VERTEX REVENUE', formula) if formula else airtable.get_all_records('VERTEX REVENUE')
         
         return jsonify({'revenue': revenue_records})
@@ -11168,16 +11305,17 @@ def create_vertex_revenue():
         airtable = AirtableClient()
         
         revenue_fields = {
-            'Revenue Date': data.get('revenue_date', datetime.now().isoformat()),
-            'Source': data.get('source'),
-            'Revenue Type': data.get('revenue_type', 'Invoice Payment'),
-            'Source System': data.get('source_system', 'Other'),
-            'Amount': data.get('amount', 0),
-            'Payment Method': data.get('payment_method', 'ACH'),
-            'Taxable': data.get('taxable', True),
-            'Recurring': data.get('recurring', False),
-            'Notes': data.get('notes', '')
+            VR['revenue_date']:   data.get('revenue_date', datetime.now().date().isoformat()),
+            VR['source']:         data.get('source'),
+            VR['revenue_type']:   data.get('revenue_type', 'Invoice Payment'),
+            VR['source_system']:  data.get('source_system', 'Other'),
+            VR['amount']:         data.get('amount', 0),
+            VR['payment_method']: data.get('payment_method', 'ACH'),
+            VR['taxable']:        data.get('taxable', True),
+            VR['recurring']:      data.get('recurring', False),
+            VR['notes']:          data.get('notes', ''),
         }
+        revenue_fields = {k: v for k, v in revenue_fields.items() if v is not None}
         
         revenue = airtable.create_record('VERTEX REVENUE', revenue_fields)
         
@@ -11377,22 +11515,22 @@ def get_revenue_summary():
         revenue_records = airtable.search_records('VERTEX REVENUE', formula) if formula else airtable.get_all_records('VERTEX REVENUE')
         
         # Calculate totals
-        total_revenue = sum(r.get('fields', {}).get('Amount', 0) for r in revenue_records)
-        
+        total_revenue = sum(r.get('fields', {}).get(VR['amount'], 0) for r in revenue_records)
+
         # Group by type
         by_type = {}
         for record in revenue_records:
             fields = record.get('fields', {})
-            rev_type = fields.get('Revenue Type', 'Other')
-            amount = fields.get('Amount', 0)
+            rev_type = fields.get(VR['revenue_type'], 'Other')
+            amount = fields.get(VR['amount'], 0)
             by_type[rev_type] = by_type.get(rev_type, 0) + amount
-        
+
         # Group by system
         by_system = {}
         for record in revenue_records:
             fields = record.get('fields', {})
-            system = fields.get('Source System', 'Other')
-            amount = fields.get('Amount', 0)
+            system = fields.get(VR['source_system'], 'Other')
+            amount = fields.get(VR['amount'], 0)
             by_system[system] = by_system.get(system, 0) + amount
         
         return jsonify({
@@ -11417,30 +11555,30 @@ def get_vertex_dashboard():
         invoices = airtable.get_all_records('VERTEX INVOICES')
         
         # Calculate invoice metrics
-        total_invoiced = sum(inv.get('fields', {}).get('Total Amount', 0) for inv in invoices)
-        total_paid = sum(inv.get('fields', {}).get('Amount Paid', 0) for inv in invoices)
-        total_outstanding = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue'])
-        
-        unpaid_count = len([inv for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue']])
-        
+        total_invoiced = sum(inv.get('fields', {}).get(VI['total_amount'], 0) for inv in invoices)
+        total_paid = sum(inv.get('fields', {}).get(VI['amount_paid'], 0) for inv in invoices)
+        total_outstanding = sum(inv.get('fields', {}).get(VI['balance_due'], 0) for inv in invoices if inv.get('fields', {}).get(VI['payment_status']) in ['Unpaid', 'Partial', 'Overdue'])
+
+        unpaid_count = len([inv for inv in invoices if inv.get('fields', {}).get(VI['payment_status']) in ['Unpaid', 'Partial', 'Overdue']])
+
         # Get expenses
         expenses = airtable.get_all_records('VERTEX EXPENSES')
-        total_expenses = sum(exp.get('fields', {}).get('Amount', 0) for exp in expenses)
-        
+        total_expenses = sum(exp.get('fields', {}).get(VE['amount'], 0) for exp in expenses)
+
         # Get revenue
         revenue_records = airtable.get_all_records('VERTEX REVENUE')
-        total_revenue = sum(rev.get('fields', {}).get('Amount', 0) for rev in revenue_records)
-        
+        total_revenue = sum(rev.get('fields', {}).get(VR['amount'], 0) for rev in revenue_records)
+
         # Calculate metrics
         net_income = total_revenue - total_expenses
         profit_margin = (net_income / total_revenue * 100) if total_revenue > 0 else 0
-        
+
         # Revenue by system
         revenue_by_system = {}
         for inv in invoices:
             fields = inv.get('fields', {})
-            system = fields.get('Source System', 'Other')
-            amount = fields.get('Total Amount', 0)
+            system = fields.get(VI['source_system'], 'Other')
+            amount = fields.get(VI['total_amount'], 0)
             revenue_by_system[system] = revenue_by_system.get(system, 0) + amount
         
         # Calculate cash flow forecast (simple: outstanding AR)
@@ -11481,34 +11619,34 @@ def get_profit_loss_statement():
         # Get revenue
         revenue_formula = None
         if start_date and end_date:
-            revenue_formula = f"AND(IS_AFTER({{Revenue Date}},'{start_date}'),IS_BEFORE({{Revenue Date}},'{end_date}'))"
-        
+            revenue_formula = f"AND(IS_AFTER({{{VR['revenue_date']}}},'{start_date}'),IS_BEFORE({{{VR['revenue_date']}}},'{end_date}'))"
+
         revenue_records = airtable.search_records('VERTEX REVENUE', revenue_formula) if revenue_formula else airtable.get_all_records('VERTEX REVENUE')
-        
+
         # Group revenue by system
         revenue_by_system = {}
         total_revenue = 0
         for record in revenue_records:
             fields = record.get('fields', {})
-            system = fields.get('Source System', 'Other')
-            amount = fields.get('Amount', 0)
+            system = fields.get(VR['source_system'], 'Other')
+            amount = fields.get(VR['amount'], 0)
             revenue_by_system[system] = revenue_by_system.get(system, 0) + amount
             total_revenue += amount
-        
+
         # Get expenses
         expense_formula = None
         if start_date and end_date:
-            expense_formula = f"AND(IS_AFTER({{Expense Date}},'{start_date}'),IS_BEFORE({{Expense Date}},'{end_date}'))"
-        
+            expense_formula = f"AND(IS_AFTER({{{VE['expense_date']}}},'{start_date}'),IS_BEFORE({{{VE['expense_date']}}},'{end_date}'))"
+
         expenses = airtable.search_records('VERTEX EXPENSES', expense_formula) if expense_formula else airtable.get_all_records('VERTEX EXPENSES')
-        
+
         # Group expenses by category
         expenses_by_category = {}
         total_expenses = 0
         for record in expenses:
             fields = record.get('fields', {})
-            category = fields.get('Category', 'Other')
-            amount = fields.get('Amount', 0)
+            category = fields.get(VE['category'], 'Other')
+            amount = fields.get(VE['amount'], 0)
             expenses_by_category[category] = expenses_by_category.get(category, 0) + amount
             total_expenses += amount
         
@@ -11548,11 +11686,11 @@ def get_financial_health_score():
         revenue_records = airtable.get_all_records('VERTEX REVENUE')
         
         # Calculate metrics
-        total_revenue = sum(r.get('fields', {}).get('Amount', 0) for r in revenue_records)
-        total_expenses = sum(e.get('fields', {}).get('Amount', 0) for e in expenses)
-        total_ar = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Payment Status') in ['Unpaid', 'Partial', 'Overdue'])
-        
-        overdue_ar = sum(inv.get('fields', {}).get('Balance Due', 0) for inv in invoices if inv.get('fields', {}).get('Days Outstanding', 0) > 30)
+        total_revenue = sum(r.get('fields', {}).get(VR['amount'], 0) for r in revenue_records)
+        total_expenses = sum(e.get('fields', {}).get(VE['amount'], 0) for e in expenses)
+        total_ar = sum(inv.get('fields', {}).get(VI['balance_due'], 0) for inv in invoices if inv.get('fields', {}).get(VI['payment_status']) in ['Unpaid', 'Partial', 'Overdue'])
+
+        overdue_ar = sum(inv.get('fields', {}).get(VI['balance_due'], 0) for inv in invoices if (inv.get('fields', {}).get(VI['days_outstanding']) or 0) > 30)
         
         # Calculate scores (0-100)
         cash_score = min(100, (total_revenue - total_expenses) / total_expenses * 100) if total_expenses > 0 else 50
@@ -11621,44 +11759,44 @@ def export_to_quickbooks():
         # Get invoices
         inv_formula = None
         if start_date and end_date:
-            inv_formula = f"AND(IS_AFTER({{Invoice Date}},'{start_date}'),IS_BEFORE({{Invoice Date}},'{end_date}'))"
-        
+            inv_formula = f"AND(IS_AFTER({{{VI['invoice_date']}}},'{start_date}'),IS_BEFORE({{{VI['invoice_date']}}},'{end_date}'))"
+
         invoices = airtable.search_records('VERTEX INVOICES', inv_formula) if inv_formula else airtable.get_all_records('VERTEX INVOICES')
-        
+
         # Get expenses
         exp_formula = None
         if start_date and end_date:
-            exp_formula = f"AND(IS_AFTER({{Expense Date}},'{start_date}'),IS_BEFORE({{Expense Date}},'{end_date}'))"
-        
+            exp_formula = f"AND(IS_AFTER({{{VE['expense_date']}}},'{start_date}'),IS_BEFORE({{{VE['expense_date']}}},'{end_date}'))"
+
         expenses = airtable.search_records('VERTEX EXPENSES', exp_formula) if exp_formula else airtable.get_all_records('VERTEX EXPENSES')
-        
+
         # Format for QuickBooks CSV
         qb_data = []
-        
+
         # Add invoices
         for inv in invoices:
             fields = inv.get('fields', {})
             qb_data.append({
-                'Date': fields.get('Invoice Date', ''),
-                'Type': 'Invoice',
-                'Num': fields.get('Invoice Number', ''),
-                'Name': fields.get('Client Name', ''),
+                'Date':    fields.get(VI['invoice_date'], ''),
+                'Type':    'Invoice',
+                'Num':     fields.get(VI['invoice_number'], ''),
+                'Name':    fields.get(VI['client_name'], ''),
                 'Account': 'Accounts Receivable',
-                'Amount': fields.get('Total Amount', 0),
-                'Memo': fields.get('Notes', '')
+                'Amount':  fields.get(VI['total_amount'], 0),
+                'Memo':    fields.get(VI['notes'], ''),
             })
-        
+
         # Add expenses
         for exp in expenses:
             fields = exp.get('fields', {})
             qb_data.append({
-                'Date': fields.get('Expense Date', ''),
-                'Type': 'Expense',
-                'Num': '',
-                'Name': fields.get('Vendor/Payee', ''),
-                'Account': fields.get('Category', 'Other Expenses'),
-                'Amount': fields.get('Amount', 0),
-                'Memo': fields.get('Description', '')
+                'Date':    fields.get(VE['expense_date'], ''),
+                'Type':    'Expense',
+                'Num':     '',
+                'Name':    fields.get(VE['vendor_payee'], ''),
+                'Account': fields.get(VE['category'], 'Other Expenses'),
+                'Amount':  fields.get(VE['amount'], 0),
+                'Memo':    fields.get(VE['description'], ''),
             })
         
         return jsonify({
@@ -11755,6 +11893,996 @@ def delete_financing_referral(referral_id):
         referrals = [r for r in referrals if r['id'] != referral_id]
         save_financing_referrals(referrals)
         return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX ACCOUNTS PAYABLE
+# ============================================================================
+
+# Field map for VERTEX ACCOUNTS PAYABLE table (ALL CAPS in Airtable)
+VAP = {
+    'bill_number':        'BILL NUMBER',
+    'bill_date':          'BILL DATE',
+    'due_date':           'DUE DATE',
+    'vendor_name':        'VENDOR NAME',
+    'vendor_id':          'VENDOR ID',
+    'source_system':      'SOURCE SYSTEM',
+    'source_record':      'SOURCE RECORD',
+    'category':           'CATEGORY',
+    'subcategory':        'SUBCATEGORY',
+    'description':        'DESCRIPTION',
+    'line_items':         'LINE ITEMS',
+    'subtotal':           'SUBTOTAL',
+    'tax_rate':           'TAX RATE %',
+    'tax_amount':         'TAX AMOUNT',
+    'total_amount':       'TOTAL AMOUNT',
+    'amount_paid':        'AMOUNT PAID',
+    'balance_due':        'BALANCE DUE',
+    'payment_status':     'PAYMENT STATUS',
+    'payment_method':     'PAYMENT METHOD',
+    'payment_date':       'PAYMENT DATE',
+    'payment_terms':      'PAYMENT TERMS',
+    'days_outstanding':   'DAYS OUTSTANDING',
+    'aging_category':     'AGING CATEGORY',
+    'notes':              'NOTES',
+    'po_number':          'PO NUMBER',
+    'contract_number':    'CONTRACT NUMBER',
+    'project':            'PROJECT',
+    'billable':           'BILLABLE',
+    'billable_invoice':   'BILLABLE INVOICE',
+    'recurring':          'RECURRING',
+    'recurring_frequency':'RECURRING FREQUENCY',
+    'next_bill_date':     'NEXT BILL DATE',
+    'attachment':         'ATTACHMENT',
+    'approved_by':        'APPROVED BY',
+    'approved_date':      'APPROVED DATE',
+}
+
+VERTEX_AP_TABLE = 'VERTEX ACCOUNTS PAYABLE'
+
+
+@app.route('/vertex/ap', methods=['GET'])
+def get_vertex_ap_bills():
+    """Get all Accounts Payable bills with optional filters."""
+    try:
+        airtable = AirtableClient()
+
+        payment_status = request.args.get('payment_status')
+        vendor_name    = request.args.get('vendor_name')
+        category       = request.args.get('category')
+        aging_category = request.args.get('aging_category')
+        overdue_only   = request.args.get('overdue_only', 'false').lower() == 'true'
+
+        formulas = []
+        if payment_status:
+            formulas.append(f"{{{VAP['payment_status']}}}='{payment_status}'")
+        if vendor_name:
+            formulas.append(f"FIND('{vendor_name}',{{{VAP['vendor_name']}}})>0")
+        if category:
+            formulas.append(f"{{{VAP['category']}}}='{category}'")
+        if aging_category:
+            formulas.append(f"{{{VAP['aging_category']}}}='{aging_category}'")
+        if overdue_only:
+            formulas.append(f"{{{VAP['payment_status']}}}='Overdue'")
+
+        formula = "AND(" + ",".join(formulas) + ")" if formulas else None
+        bills = airtable.search_records(VERTEX_AP_TABLE, formula) if formula else airtable.get_all_records(VERTEX_AP_TABLE)
+
+        return jsonify({'bills': bills, 'count': len(bills)})
+    except Exception as e:
+        print(f"Error getting AP bills: {e}")
+        return jsonify({'error': str(e), 'bills': []}), 500
+
+
+@app.route('/vertex/ap', methods=['POST'])
+def create_vertex_ap_bill():
+    """Create a new Accounts Payable bill."""
+    try:
+        data    = request.json
+        airtable = AirtableClient()
+
+        bill_fields = {
+            VAP['bill_number']:    data.get('bill_number', f"BILL-{datetime.now().strftime('%Y%m%d-%H%M%S')}"),
+            VAP['bill_date']:      data.get('bill_date', datetime.now().date().isoformat()),
+            VAP['due_date']:       data.get('due_date'),
+            VAP['vendor_name']:    data.get('vendor_name'),
+            VAP['source_system']:  data.get('source_system', 'Other'),
+            VAP['source_record']:  data.get('source_record'),
+            VAP['category']:       data.get('category', 'Other'),
+            VAP['description']:    data.get('description', ''),
+            VAP['line_items']:     data.get('line_items', '[]'),
+            VAP['subtotal']:       data.get('subtotal', 0),
+            VAP['tax_rate']:       data.get('tax_rate', 0),
+            VAP['total_amount']:   data.get('total_amount', 0),
+            VAP['payment_status']: data.get('payment_status', 'Unpaid'),
+            VAP['payment_terms']:  data.get('payment_terms', 'Net 30'),
+            VAP['notes']:          data.get('notes', ''),
+            VAP['billable']:       data.get('billable', False),
+            VAP['recurring']:      data.get('recurring', False),
+        }
+        if data.get('po_number'):
+            bill_fields[VAP['po_number']] = data['po_number']
+        if data.get('contract_number'):
+            bill_fields[VAP['contract_number']] = data['contract_number']
+        if data.get('project'):
+            bill_fields[VAP['project']] = data['project']
+        if data.get('recurring_frequency'):
+            bill_fields[VAP['recurring_frequency']] = data['recurring_frequency']
+        if data.get('next_bill_date'):
+            bill_fields[VAP['next_bill_date']] = data['next_bill_date']
+
+        bill_fields = {k: v for k, v in bill_fields.items() if v is not None}
+        bill = airtable.create_record(VERTEX_AP_TABLE, bill_fields)
+
+        return jsonify({'success': True, 'bill': bill})
+    except Exception as e:
+        print(f"Error creating AP bill: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ap/<bill_id>', methods=['GET'])
+def get_vertex_ap_bill(bill_id):
+    """Get a specific AP bill."""
+    try:
+        airtable = AirtableClient()
+        bill = airtable.get_record(VERTEX_AP_TABLE, bill_id)
+        return jsonify({'bill': bill})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ap/<bill_id>', methods=['PUT'])
+def update_vertex_ap_bill(bill_id):
+    """Update an AP bill (e.g. mark paid, change status)."""
+    try:
+        data    = request.json
+        airtable = AirtableClient()
+        update_fields = {k: v for k, v in data.items() if k not in ['id', 'createdTime']}
+        bill = airtable.update_record(VERTEX_AP_TABLE, bill_id, update_fields)
+        return jsonify({'success': True, 'bill': bill})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ap/<bill_id>/pay', methods=['POST'])
+def pay_vertex_ap_bill(bill_id):
+    """Mark an AP bill as paid and create a matching VERTEX EXPENSE record."""
+    try:
+        data     = request.json
+        airtable = AirtableClient()
+
+        amount_paid    = float(data.get('amount', 0))
+        payment_date   = data.get('payment_date', datetime.now().date().isoformat())
+        payment_method = data.get('payment_method', 'ACH')
+
+        bill   = airtable.get_record(VERTEX_AP_TABLE, bill_id)
+        fields = bill.get('fields', {})
+
+        total   = float(fields.get(VAP['total_amount'], 0))
+        already = float(fields.get(VAP['amount_paid'], 0))
+        new_paid = already + amount_paid
+        balance  = max(0, total - new_paid)
+        new_status = 'Paid' if balance <= 0.01 else 'Partial'
+
+        update_fields = {
+            VAP['payment_status']: new_status,
+            VAP['amount_paid']:    new_paid,
+            VAP['payment_date']:   payment_date,
+            VAP['payment_method']: payment_method,
+        }
+        airtable.update_record(VERTEX_AP_TABLE, bill_id, update_fields)
+
+        # Mirror payment as a VERTEX EXPENSE
+        expense_fields = {
+            VE['expense_date']:    payment_date,
+            VE['vendor_payee']:    fields.get(VAP['vendor_name'], ''),
+            VE['description']:     fields.get(VAP['description'], f"Payment for {fields.get(VAP['bill_number'], bill_id)}"),
+            VE['category']:        fields.get(VAP['category'], 'Other'),
+            VE['amount']:          amount_paid,
+            VE['payment_method']:  payment_method,
+            VE['payment_status']:  'Paid',
+            VE['billable']:        fields.get(VAP['billable'], False),
+            VE['notes']:           f"AP Bill: {fields.get(VAP['bill_number'], bill_id)}",
+        }
+        expense = airtable.create_record('VERTEX EXPENSES', expense_fields)
+
+        return jsonify({
+            'success':    True,
+            'new_status': new_status,
+            'balance_due': balance,
+            'expense_created': expense,
+        })
+    except Exception as e:
+        print(f"Error paying AP bill: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ap/aging', methods=['GET'])
+def get_ap_aging_report():
+    """Accounts Payable aging report — bills grouped by due date bucket."""
+    try:
+        airtable = AirtableClient()
+        ps = VAP['payment_status']
+        formula = f"OR({{{ps}}}='Unpaid',{{{ps}}}='Partial',{{{ps}}}='Overdue')"
+        bills = airtable.search_records(VERTEX_AP_TABLE, formula)
+
+        aging = {
+            'Current':    {'count': 0, 'total': 0, 'bills': []},
+            '1-30 Days':  {'count': 0, 'total': 0, 'bills': []},
+            '31-60 Days': {'count': 0, 'total': 0, 'bills': []},
+            '61-90 Days': {'count': 0, 'total': 0, 'bills': []},
+            '90+ Days':   {'count': 0, 'total': 0, 'bills': []},
+        }
+
+        today = datetime.now().date()
+        for bill in bills:
+            f = bill.get('fields', {})
+            due_str = f.get(VAP['due_date'], '')
+            balance = float(f.get(VAP['total_amount'], 0)) - float(f.get(VAP['amount_paid'], 0) or 0)
+            try:
+                due = datetime.fromisoformat(due_str[:10]).date()
+                days_past = (today - due).days
+            except Exception:
+                days_past = 0
+
+            if days_past <= 0:
+                bucket = 'Current'
+            elif days_past <= 30:
+                bucket = '1-30 Days'
+            elif days_past <= 60:
+                bucket = '31-60 Days'
+            elif days_past <= 90:
+                bucket = '61-90 Days'
+            else:
+                bucket = '90+ Days'
+
+            aging[bucket]['count'] += 1
+            aging[bucket]['total'] += balance
+            aging[bucket]['bills'].append(bill)
+
+        total_ap = sum(b['total'] for b in aging.values())
+        return jsonify({'aging_report': aging, 'total_outstanding_ap': total_ap})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX RECURRING INVOICES
+# ============================================================================
+# Recurring invoice fields live on the existing VERTEX INVOICES table.
+# Additional fields needed in Airtable (add if not yet present):
+#   RECURRING            (checkbox)
+#   RECURRING FREQUENCY  (single select: Weekly / Monthly / Quarterly / Annually)
+#   NEXT INVOICE DATE    (date)
+#   PARENT INVOICE       (text — original invoice_number this was cloned from)
+# ---------------------------------------------------------------------------
+
+VI_RECURRING = {
+    'recurring':           'RECURRING',
+    'recurring_frequency': 'RECURRING FREQUENCY',
+    'next_invoice_date':   'NEXT INVOICE DATE',
+    'parent_invoice':      'PARENT INVOICE',
+}
+
+_FREQ_DAYS = {
+    'Weekly':    7,
+    'Monthly':   30,
+    'Quarterly': 90,
+    'Annually':  365,
+}
+
+
+@app.route('/vertex/invoices/<invoice_id>/set-recurring', methods=['POST'])
+def set_invoice_recurring(invoice_id):
+    """Mark an invoice as a recurring template and set its frequency + next date."""
+    try:
+        data     = request.json
+        airtable = AirtableClient()
+
+        frequency = data.get('frequency', 'Monthly')
+        next_date = data.get('next_invoice_date')
+        if not next_date:
+            delta = _FREQ_DAYS.get(frequency, 30)
+            next_date = (datetime.now() + timedelta(days=delta)).date().isoformat()
+
+        update = {
+            VI_RECURRING['recurring']:           True,
+            VI_RECURRING['recurring_frequency']: frequency,
+            VI_RECURRING['next_invoice_date']:   next_date,
+        }
+        invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update)
+        return jsonify({'success': True, 'invoice': invoice, 'next_invoice_date': next_date})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/recurring/due', methods=['GET'])
+def get_recurring_invoices_due():
+    """Return all recurring invoice templates whose NEXT INVOICE DATE is today or past."""
+    try:
+        airtable = AirtableClient()
+        today_iso = datetime.now().date().isoformat()
+        formula = (
+            f"AND({{{VI_RECURRING['recurring']}}}=TRUE(),"
+            f"IS_BEFORE({{{VI_RECURRING['next_invoice_date']}}},'{today_iso}'))"
+        )
+        due = airtable.search_records('VERTEX INVOICES', formula)
+        return jsonify({'due': due, 'count': len(due)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/<invoice_id>/generate-next', methods=['POST'])
+def generate_next_recurring_invoice(invoice_id):
+    """Clone a recurring invoice template into a new Unpaid invoice and advance NEXT INVOICE DATE."""
+    try:
+        airtable = AirtableClient()
+        template = airtable.get_record('VERTEX INVOICES', invoice_id)
+        tf = template.get('fields', {})
+
+        frequency = tf.get(VI_RECURRING['recurring_frequency'], 'Monthly')
+        delta     = _FREQ_DAYS.get(frequency, 30)
+
+        # New invoice number
+        new_num = f"INV-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        today   = datetime.now().date()
+        due     = today + timedelta(days=30)
+
+        new_fields = {
+            VI['invoice_number']:               new_num,
+            VI['invoice_date']:                 today.isoformat(),
+            VI['due_date']:                     due.isoformat(),
+            VI['client_name']:                  tf.get(VI['client_name'], ''),
+            VI['source_system']:                tf.get(VI['source_system'], 'Other'),
+            VI['invoice_type']:                 tf.get(VI['invoice_type'], 'Standard'),
+            VI['line_items']:                   tf.get(VI['line_items'], '[]'),
+            VI['subtotal']:                     tf.get(VI['subtotal'], 0),
+            VI['tax_rate']:                     tf.get(VI['tax_rate'], 0),
+            VI['total_amount']:                 tf.get(VI['total_amount'], 0),
+            VI['payment_status']:               'Unpaid',
+            VI['payment_terms']:                tf.get(VI['payment_terms'], 'Net 30'),
+            VI['notes']:                        tf.get(VI['notes'], ''),
+            VI_RECURRING['recurring']:          False,   # clone is NOT a template
+            VI_RECURRING['parent_invoice']:     tf.get(VI['invoice_number'], invoice_id),
+        }
+
+        new_invoice = airtable.create_record('VERTEX INVOICES', new_fields)
+
+        # Advance template's next invoice date
+        next_date = (today + timedelta(days=delta)).isoformat()
+        airtable.update_record('VERTEX INVOICES', invoice_id, {
+            VI_RECURRING['next_invoice_date']: next_date
+        })
+
+        return jsonify({
+            'success':          True,
+            'new_invoice':      new_invoice,
+            'next_invoice_date': next_date,
+        })
+    except Exception as e:
+        print(f"Error generating next recurring invoice: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/recurring/run-all', methods=['POST'])
+def run_all_recurring_invoices():
+    """
+    Scheduler entry point: generate a new invoice for every recurring template that is due.
+    Called daily by nexus_scheduler.py.
+    """
+    try:
+        airtable  = AirtableClient()
+        today_iso = datetime.now().date().isoformat()
+        formula   = (
+            f"AND({{{VI_RECURRING['recurring']}}}=TRUE(),"
+            f"IS_BEFORE({{{VI_RECURRING['next_invoice_date']}}},'{today_iso}'))"
+        )
+        due = airtable.search_records('VERTEX INVOICES', formula)
+
+        generated = []
+        errors    = []
+        for template in due:
+            try:
+                tid = template['id']
+                tf  = template.get('fields', {})
+                frequency = tf.get(VI_RECURRING['recurring_frequency'], 'Monthly')
+                delta     = _FREQ_DAYS.get(frequency, 30)
+                today     = datetime.now().date()
+                new_num   = f"INV-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{tid[:6]}"
+                new_fields = {
+                    VI['invoice_number']:               new_num,
+                    VI['invoice_date']:                 today.isoformat(),
+                    VI['due_date']:                     (today + timedelta(days=30)).isoformat(),
+                    VI['client_name']:                  tf.get(VI['client_name'], ''),
+                    VI['source_system']:                tf.get(VI['source_system'], 'Other'),
+                    VI['invoice_type']:                 tf.get(VI['invoice_type'], 'Standard'),
+                    VI['line_items']:                   tf.get(VI['line_items'], '[]'),
+                    VI['subtotal']:                     tf.get(VI['subtotal'], 0),
+                    VI['tax_rate']:                     tf.get(VI['tax_rate'], 0),
+                    VI['total_amount']:                 tf.get(VI['total_amount'], 0),
+                    VI['payment_status']:               'Unpaid',
+                    VI['payment_terms']:                tf.get(VI['payment_terms'], 'Net 30'),
+                    VI['notes']:                        tf.get(VI['notes'], ''),
+                    VI_RECURRING['recurring']:          False,
+                    VI_RECURRING['parent_invoice']:     tf.get(VI['invoice_number'], tid),
+                }
+                new_inv = airtable.create_record('VERTEX INVOICES', new_fields)
+                next_date = (today + timedelta(days=delta)).isoformat()
+                airtable.update_record('VERTEX INVOICES', tid, {
+                    VI_RECURRING['next_invoice_date']: next_date
+                })
+                generated.append({'template_id': tid, 'new_invoice': new_inv['id'], 'next_date': next_date})
+            except Exception as ex:
+                errors.append({'template_id': template.get('id'), 'error': str(ex)})
+
+        return jsonify({
+            'success':   True,
+            'generated': len(generated),
+            'errors':    len(errors),
+            'detail':    generated,
+            'error_detail': errors,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX PAYMENT RECEIPT GENERATOR (Phase 8)
+# ============================================================================
+
+@app.route('/vertex/invoices/<invoice_id>/receipt', methods=['POST'])
+def generate_payment_receipt(invoice_id):
+    """
+    Mark an invoice paid (or partial) and return a branded HTML payment receipt.
+    POST body:
+      amount_paid      float  (required)
+      payment_date     str    YYYY-MM-DD (optional, defaults to today)
+      payment_method   str    (optional, default ACH)
+      reference_number str    (optional check/wire/ACH reference)
+      notes            str    (optional)
+    Returns: { success, receipt_html, revenue_record, updated_invoice }
+    """
+    try:
+        data     = request.json or {}
+        airtable = AirtableClient()
+
+        amount_paid    = float(data.get('amount_paid', 0))
+        if amount_paid <= 0:
+            return jsonify({'error': 'amount_paid must be greater than 0'}), 400
+
+        payment_date   = data.get('payment_date', datetime.now().date().isoformat())
+        payment_method = data.get('payment_method', 'ACH')
+        reference      = data.get('reference_number', '')
+        notes          = data.get('notes', '')
+
+        inv    = airtable.get_record('VERTEX INVOICES', invoice_id)
+        fields = inv.get('fields', {})
+
+        total        = float(fields.get(VI['total_amount'], 0))
+        already_paid = float(fields.get(VI['amount_paid'], 0) or 0)
+        new_paid     = already_paid + amount_paid
+        balance      = max(0.0, total - new_paid)
+        new_status   = 'Paid' if balance < 0.01 else 'Partial'
+
+        # Update VERTEX INVOICES
+        update = {
+            VI['payment_status']: new_status,
+            VI['amount_paid']:    new_paid,
+            VI['payment_date']:   payment_date,
+            VI['payment_method']: payment_method,
+        }
+        updated_invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update)
+
+        # Post to VERTEX REVENUE
+        rev_notes_parts = [f"Payment received for {fields.get(VI['invoice_number'], invoice_id)}"]
+        if reference:
+            rev_notes_parts.append(f"Ref: {reference}")
+        if notes:
+            rev_notes_parts.append(notes)
+
+        revenue_record = airtable.create_record('VERTEX REVENUE', {
+            VR['revenue_date']:   payment_date,
+            VR['source']:         fields.get(VI['client_name'], ''),
+            VR['revenue_type']:   'Invoice Payment',
+            VR['source_system']:  fields.get(VI['source_system'], 'Other'),
+            VR['amount']:         amount_paid,
+            VR['payment_method']: payment_method,
+            VR['taxable']:        True,
+            VR['recurring']:      False,
+            VR['notes']:          ' | '.join(rev_notes_parts),
+        })
+
+        # Generate branded HTML receipt
+        inv_num    = fields.get(VI['invoice_number'], invoice_id)
+        client     = fields.get(VI['client_name'], '')
+        receipt_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment Receipt — {inv_num}</title>
+<style>
+  body {{ font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; margin: 0; padding: 40px; color: #1e293b; }}
+  .receipt {{ max-width: 600px; margin: 0 auto; background: white; border-radius: 12px;
+              box-shadow: 0 4px 24px rgba(0,0,0,0.10); overflow: hidden; }}
+  .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: white;
+             padding: 32px 40px; text-align: center; }}
+  .header h1 {{ margin: 0 0 4px; font-size: 24px; letter-spacing: 1px; }}
+  .header p  {{ margin: 0; opacity: 0.85; font-size: 14px; }}
+  .badge {{ display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px;
+            padding: 4px 14px; font-size: 12px; margin-top: 10px; }}
+  .body  {{ padding: 32px 40px; }}
+  .row   {{ display: flex; justify-content: space-between; padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9; font-size: 15px; }}
+  .row:last-child {{ border-bottom: none; }}
+  .label {{ color: #64748b; }}
+  .value {{ font-weight: 600; color: #0f172a; }}
+  .paid-badge {{ background: #dcfce7; color: #166534; font-weight: 700; font-size: 16px;
+                 border-radius: 8px; padding: 10px 20px; text-align: center; margin: 24px 0 0; }}
+  .footer {{ background: #f8fafc; padding: 20px 40px; text-align: center; font-size: 12px; color: #94a3b8; }}
+</style>
+</head>
+<body>
+<div class="receipt">
+  <div class="header">
+    <h1>PAYMENT RECEIPT</h1>
+    <p>Dee Davis Inc. | info@deedavis.biz | 248.376.4550</p>
+    <span class="badge">EDWOSB | WOSB | MBE | SBE</span>
+  </div>
+  <div class="body">
+    <div class="row"><span class="label">Receipt Date</span><span class="value">{payment_date}</span></div>
+    <div class="row"><span class="label">Invoice Number</span><span class="value">{inv_num}</span></div>
+    <div class="row"><span class="label">Client</span><span class="value">{client}</span></div>
+    <div class="row"><span class="label">Invoice Total</span><span class="value">${total:,.2f}</span></div>
+    <div class="row"><span class="label">Amount Received</span><span class="value">${amount_paid:,.2f}</span></div>
+    <div class="row"><span class="label">Payment Method</span><span class="value">{payment_method}</span></div>
+    {'<div class="row"><span class="label">Reference</span><span class="value">' + reference + '</span></div>' if reference else ''}
+    <div class="row"><span class="label">Balance Remaining</span><span class="value">${balance:,.2f}</span></div>
+    <div class="paid-badge">{'✅ PAID IN FULL' if new_status == 'Paid' else f'⏳ PARTIAL — ${balance:,.2f} REMAINING'}</div>
+  </div>
+  <div class="footer">
+    755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1<br>
+    Thank you for your business.
+  </div>
+</div>
+</body>
+</html>"""
+
+        return jsonify({
+            'success':         True,
+            'new_status':      new_status,
+            'amount_paid':     amount_paid,
+            'balance_due':     balance,
+            'receipt_html':    receipt_html,
+            'revenue_record':  revenue_record,
+            'updated_invoice': updated_invoice,
+        })
+    except Exception as e:
+        print(f"generate_payment_receipt: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX WAWF / IPP FEDERAL INVOICING (Phase 6)
+# ============================================================================
+
+_WAWF_DOC_TYPES = ['2-in-1', 'Combo', 'Cost Voucher', 'FMS Invoice', 'Invoice', 'Invoice as 2-in-1']
+_WAWF_STATUSES  = ['Not Submitted', 'Submitted', 'Accepted', 'Rejected', 'Paid']
+
+_PROMPT_PAYMENT_RATE = 0.0425  # 4.25% annual — update each quarter per Treasury
+
+
+@app.route('/vertex/invoices/<invoice_id>/wawf', methods=['POST'])
+def update_invoice_wawf(invoice_id):
+    """
+    Record WAWF / IPP submission or status update for a federal invoice.
+    POST body (all optional):
+      wawf_status, wawf_document_type, wawf_submitted_date,
+      wawf_accepted_date, wawf_rejection_reason,
+      ipp_submission_date, ipp_approval_date, ipp_invoice_id,
+      clin, acrn, dodaac
+    """
+    try:
+        data     = request.json or {}
+        airtable = AirtableClient()
+
+        update = {}
+        wawf_keys = [
+            'wawf_status', 'wawf_document_type', 'wawf_submitted_date',
+            'wawf_accepted_date', 'wawf_rejection_reason',
+            'ipp_submission_date', 'ipp_approval_date', 'ipp_invoice_id',
+            'clin', 'acrn', 'dodaac', 'cage_code',
+        ]
+        for k in wawf_keys:
+            if k in data:
+                update[VI[k]] = data[k]
+
+        # Auto-set interest start date when WAWF accepted
+        if data.get('wawf_status') == 'Accepted' and VI.get('interest_start_date'):
+            update[VI['interest_start_date']] = data.get('wawf_accepted_date', datetime.now().date().isoformat())
+
+        if not update:
+            return jsonify({'error': 'No valid WAWF fields provided'}), 400
+
+        invoice = airtable.update_record('VERTEX INVOICES', invoice_id, update)
+        return jsonify({'success': True, 'invoice': invoice})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/invoices/<invoice_id>/prompt-payment-interest', methods=['GET'])
+def calculate_prompt_payment_interest(invoice_id):
+    """
+    Calculate Prompt Payment Act interest owed on a federal invoice.
+    Interest accrues if payment not received within 30 days of acceptance.
+    Returns daily rate, days overdue, and total interest.
+    """
+    try:
+        airtable = AirtableClient()
+        inv      = airtable.get_record('VERTEX INVOICES', invoice_id)
+        fields   = inv.get('fields', {})
+
+        # Interest starts 30 days after WAWF acceptance (or due date if no WAWF)
+        start_str = fields.get(VI.get('interest_start_date', 'INTEREST START DATE'), '')
+        if not start_str:
+            start_str = fields.get(VI['due_date'], '')
+
+        if not start_str:
+            return jsonify({'error': 'No due date or interest start date on this invoice'}), 400
+
+        start    = datetime.fromisoformat(start_str[:10]).date()
+        today    = datetime.now().date()
+        days_due = max(0, (today - start).days - 30)  # 30-day grace before interest accrues
+
+        total_amount = float(fields.get(VI['total_amount'], 0))
+        amount_paid  = float(fields.get(VI['amount_paid'], 0) or 0)
+        balance      = total_amount - amount_paid
+
+        daily_rate = _PROMPT_PAYMENT_RATE / 365
+        interest   = round(balance * daily_rate * days_due, 2)
+
+        return jsonify({
+            'invoice_id':          invoice_id,
+            'invoice_number':      fields.get(VI['invoice_number'], ''),
+            'balance_due':         balance,
+            'interest_start_date': start_str[:10],
+            'days_past_30':        days_due,
+            'annual_rate':         f"{_PROMPT_PAYMENT_RATE * 100:.2f}%",
+            'daily_rate':          round(daily_rate, 8),
+            'prompt_payment_interest': interest,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ar/federal-pending', methods=['GET'])
+def get_federal_invoices_pending_wawf():
+    """Return federal invoices not yet submitted to WAWF/IPP."""
+    try:
+        airtable = AirtableClient()
+        ps       = VI['payment_status']
+        formula  = f"AND(OR({{{ps}}}='Unpaid',{{{ps}}}='Partial'),{{{VI['government_agency']}}}!='')"
+        invoices = airtable.search_records('VERTEX INVOICES', formula)
+
+        pending = []
+        for inv in invoices:
+            f       = inv.get('fields', {})
+            w_stat  = f.get(VI.get('wawf_status', 'WAWF STATUS'), 'Not Submitted')
+            pending.append({
+                'id':             inv['id'],
+                'invoice_number': f.get(VI['invoice_number'], ''),
+                'client_name':    f.get(VI['client_name'], ''),
+                'government_agency': f.get(VI['government_agency'], ''),
+                'total_amount':   f.get(VI['total_amount'], 0),
+                'due_date':       f.get(VI['due_date'], ''),
+                'wawf_status':    w_stat,
+                'clin':           f.get(VI.get('clin', 'CLIN'), ''),
+                'contract_number': f.get(VI['contract_number'], ''),
+            })
+
+        return jsonify({'federal_invoices': pending, 'count': len(pending)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX INVOICE PDF GENERATION (Phase 5)
+# ============================================================================
+
+VERTEX_INVOICE_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'GENERATED_VERTEX_INVOICES', 'STANDARD')
+
+def _ensure_output_dir(path):
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+@app.route('/vertex/invoices/<invoice_id>/pdf', methods=['GET'])
+def get_vertex_invoice_pdf(invoice_id):
+    """
+    Render a NEXUS-branded invoice PDF for any VERTEX INVOICES record.
+    Returns the PDF file if wkhtmltopdf is available, else HTML.
+    Query params:
+      ?sector=drug_testing|nemt|fingerprinting|dna|janitorial|default
+      ?format=pdf|html  (default: pdf)
+    """
+    try:
+        from generate_invoice_html import generate_invoice_html
+
+        sector     = request.args.get('sector', 'default')
+        fmt        = request.args.get('format', 'pdf')
+        airtable   = AirtableClient()
+        inv        = airtable.get_record('VERTEX INVOICES', invoice_id)
+        fields     = inv.get('fields', {})
+
+        # Parse line items (stored as JSON string)
+        try:
+            line_items_raw = json.loads(fields.get(VI['line_items'], '[]') or '[]')
+            if not isinstance(line_items_raw, list):
+                line_items_raw = []
+        except Exception:
+            line_items_raw = []
+
+        config = {
+            'sector': sector,
+            'invoice': {
+                'number':       fields.get(VI['invoice_number'], invoice_id),
+                'date':         fields.get(VI['invoice_date'], ''),
+                'due_date':     fields.get(VI['due_date'], ''),
+                'payment_terms': fields.get(VI['payment_terms'], 'Net 30'),
+                'subtotal':     fields.get(VI['subtotal'], 0),
+                'tax_rate':     (fields.get(VI['tax_rate'], 0) or 0) / 100,
+                'shipping':     0,
+                'notes':        '',
+                'po_number':    fields.get(VI['po_number'], ''),
+            },
+            'client': {
+                'name':         fields.get(VI['client_name'], ''),
+                'agency':       fields.get(VI['government_agency'], ''),
+                'contract':     fields.get(VI['contract_number'], ''),
+                'address':      '',
+            },
+            'contract': {
+                'number':       fields.get(VI['contract_number'], ''),
+                'type':         fields.get(VI['contract_type'], ''),
+                'cage':         fields.get(VI['cage_code'], ''),
+                'uei':          fields.get(VI['uei'], ''),
+            },
+            'line_items': line_items_raw,
+        }
+
+        html_content = generate_invoice_html(config)
+
+        out_dir   = _ensure_output_dir(VERTEX_INVOICE_OUTPUT_DIR)
+        safe_num  = fields.get(VI['invoice_number'], invoice_id).replace('/', '-').replace(' ', '_')
+        html_path = os.path.join(out_dir, f"{safe_num}.html")
+        pdf_path  = os.path.join(out_dir, f"{safe_num}.pdf")
+
+        with open(html_path, 'w', encoding='utf-8') as fh:
+            fh.write(html_content)
+
+        if fmt == 'pdf':
+            # Try wkhtmltopdf
+            pdf_ok = False
+            try:
+                import subprocess
+                result = subprocess.run(
+                    ['wkhtmltopdf', '--page-size', 'Letter',
+                     '--margin-top', '15mm', '--margin-bottom', '15mm',
+                     '--margin-left', '15mm', '--margin-right', '15mm',
+                     '--enable-local-file-access', html_path, pdf_path],
+                    capture_output=True, timeout=30
+                )
+                pdf_ok = result.returncode == 0 and os.path.exists(pdf_path)
+            except Exception:
+                pass
+
+            if pdf_ok:
+                return send_file(pdf_path, mimetype='application/pdf',
+                                 as_attachment=False,
+                                 download_name=f"{safe_num}.pdf")
+
+        # Fallback: return HTML
+        from flask import Response
+        return Response(html_content, mimetype='text/html')
+
+    except Exception as e:
+        print(f"vertex_invoice_pdf: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# VERTEX AR COLLECTION WORKFLOW (Phase 4)
+# ============================================================================
+
+_COLLECTION_TEMPLATES = {
+    'first_reminder': {
+        'subject': 'Invoice {invoice_number} — Payment Reminder',
+        'body': (
+            "Hi {client_name},\n\n"
+            "This is a friendly reminder that Invoice {invoice_number} for ${total_amount:,.2f} "
+            "was due on {due_date}. If payment has already been sent, please disregard.\n\n"
+            "To pay or discuss payment arrangements, reply to this email or call 248.376.4550.\n\n"
+            "Thank you,\nDieasha D. Davis\nPresident & CEO, Dee Davis Inc."
+        )
+    },
+    'second_reminder': {
+        'subject': 'PAST DUE: Invoice {invoice_number} — Action Required',
+        'body': (
+            "Hi {client_name},\n\n"
+            "Invoice {invoice_number} for ${total_amount:,.2f} is now {days_outstanding} days past due. "
+            "Please remit payment immediately to avoid further escalation.\n\n"
+            "Per our payment terms ({payment_terms}), interest may accrue on overdue balances. "
+            "For government contracts, the Prompt Payment Act entitles Dee Davis Inc. to interest "
+            "at the current Treasury rate on payments received after 30 days.\n\n"
+            "Please contact us at 248.376.4550 or info@deedavis.biz to resolve this.\n\n"
+            "Dieasha D. Davis\nPresident & CEO, Dee Davis Inc."
+        )
+    },
+    'final_notice': {
+        'subject': 'FINAL NOTICE: Invoice {invoice_number} — Collections Pending',
+        'body': (
+            "Hi {client_name},\n\n"
+            "Despite previous reminders, Invoice {invoice_number} for ${total_amount:,.2f} remains unpaid "
+            "after {days_outstanding} days. This is our final notice before escalation to collections.\n\n"
+            "Payment in full is required within 5 business days.\n\n"
+            "Dieasha D. Davis\nPresident & CEO, Dee Davis Inc.\n"
+            "248.376.4550 | info@deedavis.biz"
+        )
+    }
+}
+
+
+@app.route('/vertex/ar/overdue', methods=['GET'])
+def get_overdue_invoices():
+    """Return all overdue / past-due invoices with days outstanding and suggested action."""
+    try:
+        airtable = AirtableClient()
+        ps = VI['payment_status']
+        formula = f"OR({{{ps}}}='Unpaid',{{{ps}}}='Partial',{{{ps}}}='Overdue')"
+        invoices = airtable.search_records('VERTEX INVOICES', formula)
+
+        today = datetime.now().date()
+        results = []
+        for inv in invoices:
+            f   = inv.get('fields', {})
+            due_str = f.get(VI['due_date'], '')
+            try:
+                due  = datetime.fromisoformat(due_str[:10]).date()
+                days = (today - due).days
+            except Exception:
+                days = 0
+            if days < 0:
+                continue  # not yet due
+
+            if days <= 30:
+                action = 'send_first_reminder'
+            elif days <= 60:
+                action = 'send_second_reminder'
+            else:
+                action = 'send_final_notice'
+
+            results.append({
+                'id':              inv['id'],
+                'invoice_number':  f.get(VI['invoice_number'], ''),
+                'client_name':     f.get(VI['client_name'], ''),
+                'total_amount':    f.get(VI['total_amount'], 0),
+                'balance_due':     f.get(VI['balance_due'], 0),
+                'due_date':        due_str,
+                'days_outstanding': days,
+                'suggested_action': action,
+            })
+
+        results.sort(key=lambda x: x['days_outstanding'], reverse=True)
+        return jsonify({'overdue': results, 'count': len(results)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ar/<invoice_id>/reminder', methods=['POST'])
+def send_collection_reminder(invoice_id):
+    """
+    Generate a collection reminder email for an overdue invoice.
+    Returns the draft email — does NOT send automatically.
+    POST body: { "reminder_type": "first_reminder" | "second_reminder" | "final_notice" }
+    """
+    try:
+        data     = request.json or {}
+        reminder = data.get('reminder_type', 'first_reminder')
+        airtable = AirtableClient()
+
+        inv    = airtable.get_record('VERTEX INVOICES', invoice_id)
+        fields = inv.get('fields', {})
+
+        due_str = fields.get(VI['due_date'], '')
+        try:
+            due  = datetime.fromisoformat(due_str[:10]).date()
+            days = (datetime.now().date() - due).days
+        except Exception:
+            days = 0
+
+        template = _COLLECTION_TEMPLATES.get(reminder, _COLLECTION_TEMPLATES['first_reminder'])
+        ctx = {
+            'invoice_number': fields.get(VI['invoice_number'], invoice_id),
+            'client_name':    fields.get(VI['client_name'], 'Valued Customer'),
+            'total_amount':   float(fields.get(VI['total_amount'], 0)),
+            'due_date':       due_str[:10] if due_str else '',
+            'days_outstanding': days,
+            'payment_terms':  fields.get(VI['payment_terms'], 'Net 30'),
+        }
+        subject = template['subject'].format(**ctx)
+        body    = template['body'].format(**ctx)
+
+        # Update invoice follow-up date
+        airtable.update_record('VERTEX INVOICES', invoice_id, {
+            VI['follow_up_date']: (datetime.now() + timedelta(days=7)).date().isoformat()
+        })
+
+        return jsonify({
+            'success':       True,
+            'reminder_type': reminder,
+            'to':            fields.get(VI['client_name'], ''),
+            'subject':       subject,
+            'body':          body,
+            'invoice_id':    invoice_id,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/ar/remind-batch', methods=['POST'])
+def send_collection_reminders_batch():
+    """
+    Generate collection reminders for all overdue invoices.
+    Returns list of draft emails — does NOT send automatically.
+    Scheduler entry point: called daily by nexus_scheduler.py.
+    """
+    try:
+        airtable = AirtableClient()
+        ps       = VI['payment_status']
+        formula  = f"OR({{{ps}}}='Unpaid',{{{ps}}}='Partial',{{{ps}}}='Overdue')"
+        invoices = airtable.search_records('VERTEX INVOICES', formula)
+
+        today  = datetime.now().date()
+        drafts = []
+        for inv in invoices:
+            f = inv.get('fields', {})
+            due_str = f.get(VI['due_date'], '')
+            try:
+                due  = datetime.fromisoformat(due_str[:10]).date()
+                days = (today - due).days
+            except Exception:
+                days = 0
+            if days < 1:
+                continue
+
+            if days <= 30:
+                reminder = 'first_reminder'
+            elif days <= 60:
+                reminder = 'second_reminder'
+            else:
+                reminder = 'final_notice'
+
+            template = _COLLECTION_TEMPLATES[reminder]
+            ctx = {
+                'invoice_number': f.get(VI['invoice_number'], inv['id']),
+                'client_name':    f.get(VI['client_name'], 'Valued Customer'),
+                'total_amount':   float(f.get(VI['total_amount'], 0)),
+                'due_date':       due_str[:10] if due_str else '',
+                'days_outstanding': days,
+                'payment_terms':  f.get(VI['payment_terms'], 'Net 30'),
+            }
+            drafts.append({
+                'invoice_id':    inv['id'],
+                'invoice_number': ctx['invoice_number'],
+                'client_name':   ctx['client_name'],
+                'days_outstanding': days,
+                'reminder_type': reminder,
+                'subject':       template['subject'].format(**ctx),
+                'body':          template['body'].format(**ctx),
+            })
+
+        return jsonify({'success': True, 'drafts': drafts, 'count': len(drafts)})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

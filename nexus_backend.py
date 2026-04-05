@@ -5260,18 +5260,20 @@ def handle_lbpc_create_invoice(lead_id: str) -> Dict:
 
         # VERTEX BRIDGE: Also create in VERTEX INVOICES
         try:
+            from api_server import VI
+            inv_num = invoice_data.get('Invoice Number') or invoice_data.get('INVOICE NUMBER', '')
             airtable_client.create_record('VERTEX INVOICES', {
-                'Invoice Number': invoice_data.get('Invoice Number', ''),
-                'Invoice Date': invoice_data.get('Invoice Date', ''),
-                'Due Date': invoice_data.get('Due Date', ''),
-                'Client Name': invoice_data.get('Client Name', ''),
-                'Source System': 'LBPC',
-                'Source Record ID': lead_id,
-                'Invoice Type': 'Standard',
-                'Total Amount': fee_amount,
-                'Payment Status': 'Unpaid',
-                'Payment Terms': 'Due on Receipt',
-                'Notes': invoice_data.get('Invoice Notes', ''),
+                VI['invoice_number']:  inv_num,
+                VI['invoice_date']:    invoice_data.get('Invoice Date', ''),
+                VI['due_date']:        invoice_data.get('Due Date', ''),
+                VI['client_name']:     invoice_data.get('Client Name', ''),
+                VI['source_system']:   'LBPC',
+                VI['source_record']:   lead_id,
+                VI['invoice_type']:    'Standard',
+                VI['total_amount']:    fee_amount,
+                VI['payment_status']:  'Unpaid',
+                VI['payment_terms']:   'Due on Receipt',
+                VI['notes']:           invoice_data.get('Invoice Notes', ''),
             })
         except Exception as ve:
             print(f"LBPC → VERTEX bridge: {ve}")
@@ -12564,32 +12566,32 @@ class FulfillmentManager:
             
             # Create invoice in VERTEX
             invoice_amount = quantity * unit_price
-            invoice_data = {
-                'CLIENT_NAME': client_name,
-                'INVOICE_AMOUNT': invoice_amount,
-                'INVOICE_DATE': datetime.now().strftime('%Y-%m-%d'),
-                'DUE_DATE': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
-                'STATUS': 'Sent',
-                'DESCRIPTION': f'{contract_name} - Delivery {delivery_id}\n{quantity} units of {product}',
-                'CATEGORY': 'Product Sales',
-                'NOTES': f'Fulfillment delivery - Contract {fields.get("CONTRACT_ID", "")}'
-            }
-            
-            self.airtable.create_record('VERTEX INVOICES', invoice_data)
-            
+            from api_server import VI, VE
+            self.airtable.create_record('VERTEX INVOICES', {
+                VI['invoice_number']:  f"INV-FULFIL-{delivery_id}",
+                VI['invoice_date']:    datetime.now().date().isoformat(),
+                VI['due_date']:        (datetime.now() + timedelta(days=30)).date().isoformat(),
+                VI['client_name']:     client_name,
+                VI['source_system']:   'Other',
+                VI['source_record']:   delivery_id,
+                VI['invoice_type']:    'Standard',
+                VI['total_amount']:    invoice_amount,
+                VI['payment_status']:  'Unpaid',
+                VI['payment_terms']:   'Net 30',
+                VI['notes']:           f'{contract_name} — Delivery {delivery_id} — {quantity} units of {product} — Contract {fields.get("CONTRACT_ID", "")}',
+            })
+
             # Create expense for COGS in VERTEX
             expense_amount = quantity * unit_cost
-            expense_data = {
-                'EXPENSE_NAME': f'COGS - {product}',
-                'AMOUNT': expense_amount,
-                'DATE': datetime.now().strftime('%Y-%m-%d'),
-                'CATEGORY': 'Cost of Goods Sold',
-                'DESCRIPTION': f'Inventory cost for {quantity} units delivered to {client_name}',
-                'STATUS': 'Paid',
-                'NOTES': f'Delivery {delivery_id} - Contract {fields.get("CONTRACT_ID", "")}'
-            }
-            
-            self.airtable.create_record('VERTEX EXPENSES', expense_data)
+            self.airtable.create_record('VERTEX EXPENSES', {
+                VE['expense_date']:    datetime.now().date().isoformat(),
+                VE['vendor_payee']:    f'COGS — {product}',
+                VE['description']:     f'Inventory cost for {quantity} units delivered to {client_name}',
+                VE['category']:        'Cost of Goods Sold',
+                VE['amount']:          expense_amount,
+                VE['payment_status']:  'Paid',
+                VE['notes']:           f'Delivery {delivery_id} — Contract {fields.get("CONTRACT_ID", "")}',
+            })
             
             print(f"✅ Financial records created: Revenue ${invoice_amount}, COGS ${expense_amount}, Profit ${invoice_amount - expense_amount}")
             

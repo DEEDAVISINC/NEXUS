@@ -464,13 +464,14 @@ def lookup_vertex_client(airtable, payer_name: str) -> Dict[str, str]:
 
 def _next_nemt_invoice_number(airtable) -> str:
     """Sequential NEMT-INV-000001 across VERTEX INVOICES rows with Source System NEMT."""
+    from api_server import VI
     n = 0
     try:
         for r in airtable.get_all_records("VERTEX INVOICES"):
             f = _record_fields(r)
-            if f.get("Source System") != SOURCE_SYSTEM:
+            if f.get(VI['source_system']) != SOURCE_SYSTEM:
                 continue
-            inv = str(f.get("Invoice Number") or "")
+            inv = str(f.get(VI['invoice_number']) or "")
             if inv.startswith("NEMT-INV-"):
                 try:
                     n = max(n, int(inv.replace("NEMT-INV-", "").strip()))
@@ -783,29 +784,31 @@ def _invoice_fields_for_claim(
         "nemt_invoice_pdf": nemt_pdf_path,
         "pdf_generated": pdf_generated,
     }
+    from api_server import VI
     return {
-        "Invoice Number": invoice_number,
-        "Invoice Date": invoice_date_iso,
-        "Due Date": due_date_iso,
-        "Client Name": trip.get("payer") or PAYER_DEFAULT,
-        "Source System": SOURCE_SYSTEM,
-        "Source Record ID": trip["trip_id"],
-        "Invoice Type": "CMS-1500 / NEMT / Factoring",
-        "Line Items": line_items,
-        "Subtotal": total,
-        "Total Amount": total,
-        "Payment Status": "Pending",
-        "Payment Terms": "Net 30",
-        "Notes": json.dumps(notes_obj, default=str),
-        "Government Agency": REGION_LABEL,
-        "Factoring Status": FACTORING_STATUS_UNFACTORED,
+        VI['invoice_number']:  invoice_number,
+        VI['invoice_date']:    invoice_date_iso,
+        VI['due_date']:        due_date_iso,
+        VI['client_name']:     trip.get("payer") or PAYER_DEFAULT,
+        VI['source_system']:   SOURCE_SYSTEM,
+        VI['source_record']:   trip["trip_id"],
+        VI['invoice_type']:    "CMS-1500 / NEMT / Factoring",
+        VI['line_items']:      line_items,
+        VI['subtotal']:        total,
+        VI['total_amount']:    total,
+        VI['payment_status']:  "Unpaid",
+        VI['payment_terms']:   "Net 30",
+        VI['notes']:           json.dumps(notes_obj, default=str),
+        VI['government_agency']: REGION_LABEL,
+        VI['factoring_status']:  FACTORING_STATUS_UNFACTORED,
     }
 
 
 def get_nemt_invoice_pdf_path_from_record(invoice_record: Any) -> Optional[str]:
     """Absolute path to factoring PDF from Notes JSON, if file exists."""
+    from api_server import VI
     fields = _record_fields(invoice_record)
-    raw = fields.get("Notes") or ""
+    raw = fields.get(VI['notes']) or ""
     try:
         if raw.strip().startswith("{"):
             notes = json.loads(raw)
@@ -894,7 +897,8 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
     except Exception as e:
         err = str(e).lower()
         if "factoring" in err or "unknown field" in err:
-            fields.pop("Factoring Status", None)
+            from api_server import VI
+            fields.pop(VI['factoring_status'], None)
             created = airtable.create_record("VERTEX INVOICES", fields)
         else:
             raise
@@ -921,9 +925,10 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
 
 
 def get_pending_claims(airtable) -> List[Dict[str, Any]]:
-    formula = (
-        "AND({Source System}='NEMT',OR({Payment Status}='Pending',{Payment Status}='Unpaid'))"
-    )
+    from api_server import VI
+    ss = VI['source_system']
+    ps_field = VI['payment_status']
+    formula = f"AND({{{ss}}}='NEMT',OR({{{ps_field}}}='Unpaid',{{{ps_field}}}='Partial'))"
     try:
         return airtable.search_records("VERTEX INVOICES", formula)
     except Exception:
@@ -931,38 +936,41 @@ def get_pending_claims(airtable) -> List[Dict[str, Any]]:
         out = []
         for rec in all_inv:
             f = _record_fields(rec)
-            if f.get("Source System") != SOURCE_SYSTEM:
+            if f.get(ss) != SOURCE_SYSTEM:
                 continue
-            ps = f.get("Payment Status")
-            if ps in ("Pending", "Unpaid"):
+            ps = f.get(ps_field)
+            if ps in ("Unpaid", "Partial"):
                 out.append(rec)
         return out
 
 
 def get_nemt_revenue_total(airtable) -> float:
     """Sum VERTEX REVENUE for NEMT (ERA postings)."""
+    from api_server import VI, VR
     try:
-        rev = airtable.search_records("VERTEX REVENUE", "{Source System}='NEMT'")
+        rev = airtable.search_records("VERTEX REVENUE", f"{{{VR['source_system']}}}='NEMT'")
     except Exception:
         rev = []
         for r in airtable.get_all_records("VERTEX REVENUE"):
-            if _record_fields(r).get("Source System") == SOURCE_SYSTEM:
+            if _record_fields(r).get(VR['source_system']) == SOURCE_SYSTEM:
                 rev.append(r)
+    from api_server import VI, VR
     total = 0.0
     for r in rev:
-        total += float(_record_fields(r).get("Amount") or 0)
+        total += float(_record_fields(r).get(VR['amount']) or 0)
     return round(total, 2)
 
 
 def get_nemt_summary(airtable) -> Dict[str, Any]:
+    from api_server import VI, VR
     pending = get_pending_claims(airtable)
-    total_pending = sum(float(_record_fields(r).get("Total Amount") or 0) for r in pending)
+    total_pending = sum(float(_record_fields(r).get(VI['total_amount']) or 0) for r in pending)
 
     all_nemt = []
     for rec in airtable.get_all_records("VERTEX INVOICES"):
-        if _record_fields(rec).get("Source System") == SOURCE_SYSTEM:
+        if _record_fields(rec).get(VI['source_system']) == SOURCE_SYSTEM:
             all_nemt.append(rec)
-    total_billed = sum(float(_record_fields(r).get("Total Amount") or 0) for r in all_nemt)
+    total_billed = sum(float(_record_fields(r).get(VI['total_amount']) or 0) for r in all_nemt)
 
     received = get_nemt_revenue_total(airtable)
 
@@ -982,16 +990,17 @@ def post_payment(
     era_reference: Optional[str] = None,
     notes: Optional[str] = None,
 ) -> Dict[str, Any]:
+    from api_server import VI, VR
     inv = airtable.get_record("VERTEX INVOICES", invoice_id)
     fields = _record_fields(inv)
-    if fields.get("Source System") != SOURCE_SYSTEM:
+    if fields.get(VI['source_system']) != SOURCE_SYSTEM:
         raise ValueError("Invoice is not a NEMT claim")
 
-    ps = fields.get("Payment Status")
+    ps = fields.get(VI['payment_status'])
     if ps == "Paid":
         raise ValueError("Invoice already marked Paid")
 
-    total = float(fields.get("Total Amount") or 0)
+    total = float(fields.get(VI['total_amount']) or 0)
     pay_amt = float(amount)
     if pay_amt <= 0:
         raise ValueError("Payment amount must be positive")
@@ -999,24 +1008,24 @@ def post_payment(
     new_status = "Paid" if pay_amt >= total - 0.01 else "Partial"
 
     update_fields: Dict[str, Any] = {
-        "Payment Status": new_status,
-        "Amount Paid": pay_amt,
+        VI['payment_status']: new_status,
+        VI['amount_paid']:    pay_amt,
     }
     if new_status == "Paid":
-        update_fields["Factoring Status"] = FACTORING_STATUS_PAID
+        update_fields[VI['factoring_status']] = FACTORING_STATUS_PAID
     try:
         airtable.update_record("VERTEX INVOICES", invoice_id, update_fields)
     except Exception as e:
         err = str(e).lower()
         if "factoring" in err or "unknown field" in err:
-            update_fields.pop("Factoring Status", None)
+            update_fields.pop(VI['factoring_status'], None)
             airtable.update_record("VERTEX INVOICES", invoice_id, update_fields)
         else:
             raise
 
     rev_date = payment_date or datetime.utcnow().date().isoformat()
     note_parts = [
-        f"NEMT ERA — invoice {fields.get('Invoice Number')}",
+        f"NEMT ERA — invoice {fields.get(VI['invoice_number'])}",
         f"invoice_record={invoice_id}",
     ]
     if era_reference:
@@ -1025,15 +1034,15 @@ def post_payment(
         note_parts.append(notes)
 
     revenue_fields = {
-        "Revenue Date": rev_date,
-        "Source": PAYER_DEFAULT,
-        "Revenue Type": "NEMT Medicaid Payment",
-        "Source System": SOURCE_SYSTEM,
-        "Amount": pay_amt,
-        "Payment Method": "ERA",
-        "Taxable": True,
-        "Recurring": False,
-        "Notes": " | ".join(note_parts),
+        VR['revenue_date']:   rev_date,
+        VR['source']:         PAYER_DEFAULT,
+        VR['revenue_type']:   "NEMT Medicaid Payment",
+        VR['source_system']:  SOURCE_SYSTEM,
+        VR['amount']:         pay_amt,
+        VR['payment_method']: "ERA",
+        VR['taxable']:        True,
+        VR['recurring']:      False,
+        VR['notes']:          " | ".join(note_parts),
     }
     revenue = airtable.create_record("VERTEX REVENUE", revenue_fields)
 
