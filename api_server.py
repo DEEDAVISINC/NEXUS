@@ -17766,6 +17766,518 @@ def autonomous_history():
     return jsonify({'actions': actions, 'total': len(engine.state.get('action_log', []))})
 
 
+# ============================================================================
+# VERTEX AUTO-TRIGGER API ENDPOINT
+# ============================================================================
+
+# ============================================================================
+# VERTEX BANK RECONCILIATION — Phase 12
+# ============================================================================
+
+@app.route('/vertex/bank/import', methods=['POST'])
+def vertex_bank_import():
+    """
+    Import bank transactions from CSV.
+    Accepts multipart/form-data with a 'file' field (CSV), or a JSON body with 'rows' list.
+
+    Supported CSV formats: Chase, BofA, Wells Fargo (auto-detected by column headers).
+    Columns mapped: Date, Description, Amount, Balance (optional).
+
+    After import, unmatched transactions are queued for reconciliation.
+    """
+    import csv, io
+    airtable = AirtableClient()
+
+    rows = []
+    if request.content_type and 'multipart' in request.content_type:
+        f = request.files.get('file')
+        if not f:
+            return jsonify({'error': 'No file uploaded'}), 400
+        content = f.read().decode('utf-8-sig', errors='replace')
+        reader  = csv.DictReader(io.StringIO(content))
+        rows    = list(reader)
+    else:
+        body = request.json or {}
+        rows = body.get('rows', [])
+
+    if not rows:
+        return jsonify({'error': 'No transaction rows found'}), 400
+
+    # Column normaliser — maps known bank column names to canonical names
+    _ALIASES = {
+        'date':            ['date', 'transaction date', 'posting date', 'trans date'],
+        'description':     ['description', 'desc', 'payee', 'memo', 'transaction description', 'narrative'],
+        'amount':          ['amount', 'debit', 'credit', 'transaction amount'],
+        'balance':         ['balance', 'running balance', 'ledger balance', 'ending balance'],
+    }
+
+    def _find_col(row_keys: list, aliases: list) -> str:
+        for k in row_keys:
+            if k.lower().strip() in aliases:
+                return k
+        return ''
+
+    if not rows:
+        return jsonify({'error': 'Empty CSV'}), 400
+
+    sample_keys = list(rows[0].keys())
+    col_date    = _find_col(sample_keys, _ALIASES['date'])
+    col_desc    = _find_col(sample_keys, _ALIASES['description'])
+    col_amount  = _find_col(sample_keys, _ALIASES['amount'])
+    col_balance = _find_col(sample_keys, _ALIASES['balance'])
+
+    if not (col_date and col_desc and col_amount):
+        return jsonify({
+            'error': 'Could not detect required columns (Date, Description, Amount)',
+            'detected_columns': sample_keys,
+        }), 400
+
+    imported = 0
+    skipped  = 0
+    for row in rows:
+        try:
+            date_val   = row.get(col_date, '').strip()
+            desc_val   = row.get(col_desc, '').strip()
+            amount_raw = row.get(col_amount, '0').replace('$', '').replace(',', '').strip()
+            balance_raw = row.get(col_balance, '').replace('$', '').replace(',', '').strip() if col_balance else ''
+
+            if not date_val or not desc_val:
+                skipped += 1
+                continue
+
+            amount  = float(amount_raw) if amount_raw else 0.0
+            balance = float(balance_raw) if balance_raw else None
+
+            fields = {
+                'TRANSACTION DATE': date_val,
+                'DESCRIPTION':      desc_val,
+                'AMOUNT':           amount,
+                'MATCH STATUS':     'Unmatched',
+            }
+            if balance is not None:
+                fields['RUNNING BALANCE'] = balance
+
+            airtable.create_record('VERTEX BANK TRANSACTIONS', fields)
+            imported += 1
+        except Exception as ex:
+            print(f"Bank import row error: {ex}")
+            skipped += 1
+
+    return jsonify({'imported': imported, 'skipped': skipped, 'total_rows': len(rows)})
+
+
+@app.route('/vertex/bank/reconcile', methods=['POST'])
+def vertex_bank_reconcile():
+    """
+    AI Matching Engine — auto-match unmatched bank transactions to VERTEX INVOICES and EXPENSES.
+
+    Match confidence levels:
+      HIGH:   exact amount + date within 5 days
+      MEDIUM: exact amount + client/vendor name fuzzy match
+      LOW:    amount within 5% + date within 10 days
+
+    High/Medium confidence: auto-posts payment to VERTEX INVOICES and creates VERTEX REVENUE.
+    Low confidence: flagged for manual review.
+    """
+    from difflib import SequenceMatcher
+    from datetime import timedelta
+
+    airtable = AirtableClient()
+
+    # Pull unmatched transactions
+    try:
+        unmatched_txns = airtable.search_records(
+            'VERTEX BANK TRANSACTIONS', "{MATCH STATUS}='Unmatched'"
+        )
+    except Exception:
+        unmatched_txns = []
+
+    if not unmatched_txns:
+        return jsonify({'matched': 0, 'unmatched': 0, 'message': 'No unmatched transactions found'})
+
+    # Pull open invoices
+    open_invoices = airtable.search_records(
+        'VERTEX INVOICES',
+        f"OR({{{VI['payment_status']}}}='Unpaid',{{{VI['payment_status']}}}='Partial')"
+    )
+
+    matched   = []
+    needs_review = []
+
+    def _fuzzy(a: str, b: str) -> float:
+        return SequenceMatcher(None, a.lower(), b.lower()).ratio()
+
+    for txn in unmatched_txns:
+        tf      = txn.get('fields', {})
+        txn_amt = abs(float(tf.get('AMOUNT', 0) or 0))
+        txn_date_str = tf.get('TRANSACTION DATE', '')
+        txn_desc = tf.get('DESCRIPTION', '').lower()
+
+        try:
+            txn_date = datetime.fromisoformat(txn_date_str[:10]).date()
+        except Exception:
+            txn_date = None
+
+        best_match = None
+        best_score = 0
+
+        for inv in open_invoices:
+            f       = inv.get('fields', {})
+            inv_amt = float(f.get(VI['total_amount'], 0) or 0)
+            due_str = f.get(VI['due_date'], '')
+            client  = (f.get(VI['client_name'], '') or '').lower()
+
+            if inv_amt <= 0:
+                continue
+
+            amount_match = abs(txn_amt - inv_amt) < 0.02
+
+            date_close = False
+            if txn_date and due_str:
+                try:
+                    due = datetime.fromisoformat(due_str[:10]).date()
+                    date_close = abs((txn_date - due).days) <= 5
+                except Exception:
+                    pass
+
+            name_match = _fuzzy(txn_desc, client) > 0.55
+
+            if amount_match and date_close:
+                score = 0.95
+            elif amount_match and name_match:
+                score = 0.80
+            elif amount_match:
+                score = 0.60
+            else:
+                score = 0
+
+            if score > best_score:
+                best_score = score
+                best_match = (inv, score)
+
+        if best_match and best_score >= 0.75:
+            inv, score = best_match
+            inv_f      = inv.get('fields', {})
+            inv_amt    = float(inv_f.get(VI['total_amount'], 0) or 0)
+
+            # Mark invoice paid
+            new_status = 'Paid' if abs(txn_amt - inv_amt) < 0.02 else 'Partial'
+            airtable.update_record('VERTEX INVOICES', inv['id'], {
+                VI['payment_status']:  new_status,
+                VI['payment_date']:    txn_date_str[:10] if txn_date_str else datetime.now().date().isoformat(),
+                VI['payment_method']:  'Bank Transfer',
+                VI['amount_paid']:     txn_amt,
+                VI['notes']:           (inv_f.get(VI['notes'], '') or '') + f' | Auto-reconciled (score {score:.2f})',
+            })
+
+            # Create VERTEX REVENUE record
+            airtable.create_record('VERTEX REVENUE', {
+                VR['revenue_date']:   txn_date_str[:10] if txn_date_str else datetime.now().date().isoformat(),
+                VR['source']:         inv_f.get(VI['client_name'], ''),
+                VR['revenue_type']:   'Invoice Payment',
+                VR['amount']:         txn_amt,
+                VR['source_system']:  'VERTEX',
+                VR['notes']:          f"Bank reconciliation | Invoice {inv_f.get(VI['invoice_number'], inv['id'])} | Score {score:.2f}",
+            })
+
+            # Mark transaction matched
+            airtable.update_record('VERTEX BANK TRANSACTIONS', txn['id'], {
+                'MATCH STATUS':   'Matched',
+                'MATCHED RECORD': inv['id'],
+                'MATCH SCORE':    round(score, 2),
+            })
+            matched.append({'txn': txn['id'], 'invoice': inv['id'], 'score': score})
+
+        elif best_match and best_score >= 0.50:
+            airtable.update_record('VERTEX BANK TRANSACTIONS', txn['id'], {
+                'MATCH STATUS': 'Needs Review',
+            })
+            needs_review.append({'txn': txn['id'], 'best_score': best_score})
+        else:
+            needs_review.append({'txn': txn['id'], 'best_score': best_score})
+
+    return jsonify({
+        'matched':      len(matched),
+        'unmatched':    len(needs_review),
+        'matched_list': matched,
+        'review_list':  needs_review[:10],
+    })
+
+
+@app.route('/vertex/bank/unmatched', methods=['GET'])
+def vertex_bank_unmatched():
+    """List all bank transactions that could not be auto-matched."""
+    airtable = AirtableClient()
+    try:
+        records = airtable.search_records(
+            'VERTEX BANK TRANSACTIONS',
+            "OR({MATCH STATUS}='Unmatched',{MATCH STATUS}='Needs Review')"
+        )
+        return jsonify({'unmatched': [r.get('fields', {}) for r in records], 'count': len(records)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# END BANK RECONCILIATION
+# ============================================================================
+
+
+@app.route('/vertex/ai/advisor', methods=['POST'])
+def run_vertex_financial_advisor():
+    """
+    Run the AI Financial Advisor on demand.
+    Returns full analysis: cash position, forecast, alerts, margin, collection priority, predictions.
+    Also updates DAILY_BRIEFING.md and TODAY_AGENDA.md.
+    """
+    try:
+        from vertex_ai_advisor import run_vertex_ai_advisor
+        result = run_vertex_ai_advisor()
+        return jsonify({'success': True, 'analysis': result})
+    except Exception as e:
+        print(f"AI advisor error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/vertex/nightly-tally', methods=['GET'])
+def vertex_nightly_tally():
+    """
+    Phase 13 — Nightly Pipeline Tally financial supplement.
+    Called during the goodnight ritual to append actual AR/AP/cash data
+    alongside pipeline projections.
+
+    Returns:
+      - outstanding_ar: total unpaid invoices
+      - outstanding_ap: total unpaid bills
+      - net_cash:       bank + AR - AP
+      - collected_ytd:  total VERTEX REVENUE this calendar year
+      - top_overdue:    top 3 overdue invoices by amount
+      - narrative:      one-paragraph text for the nightly tally
+    """
+    airtable = AirtableClient()
+    today    = datetime.now().date()
+    ytd_start = today.replace(month=1, day=1).isoformat()
+
+    # AR
+    try:
+        open_invs = airtable.search_records(
+            'VERTEX INVOICES',
+            f"OR({{{VI['payment_status']}}}='Unpaid',{{{VI['payment_status']}}}='Partial',{{{VI['payment_status']}}}='Overdue')"
+        )
+    except Exception:
+        open_invs = []
+
+    total_ar = sum(
+        float(inv.get('fields', {}).get(VI['balance_due']) or inv.get('fields', {}).get(VI['total_amount'], 0) or 0)
+        for inv in open_invs
+    )
+
+    # Top overdue
+    overdue = []
+    for inv in open_invs:
+        f       = inv.get('fields', {})
+        due_str = f.get(VI['due_date'], '')
+        try:
+            due = datetime.fromisoformat(due_str[:10]).date()
+            days_ov = max(0, (today - due).days)
+        except Exception:
+            days_ov = 0
+        if days_ov > 0:
+            overdue.append({
+                'invoice_number': f.get(VI['invoice_number'], ''),
+                'client_name':    f.get(VI['client_name'], ''),
+                'amount':         float(f.get(VI['total_amount'], 0) or 0),
+                'days_overdue':   days_ov,
+            })
+    overdue.sort(key=lambda x: x['amount'], reverse=True)
+    top_overdue = overdue[:3]
+
+    # AP
+    try:
+        open_ap = airtable.search_records(
+            'VERTEX ACCOUNTS PAYABLE',
+            "OR({PAYMENT STATUS}='Unpaid',{PAYMENT STATUS}='Partial')"
+        )
+    except Exception:
+        open_ap = []
+
+    total_ap = sum(
+        float(b.get('fields', {}).get('TOTAL AMOUNT', 0) or 0) - float(b.get('fields', {}).get('AMOUNT PAID', 0) or 0)
+        for b in open_ap
+    )
+
+    # Bank balance (last record)
+    try:
+        bank_txns = airtable.get_all_records('VERTEX BANK TRANSACTIONS')
+        bank_balance = 0.0
+        for txn in bank_txns:
+            f = txn.get('fields', {})
+            bal = float(f.get('RUNNING BALANCE') or f.get('BALANCE') or 0)
+            if bal:
+                bank_balance = bal
+    except Exception:
+        bank_balance = 0.0
+
+    net_cash = bank_balance + total_ar - total_ap
+
+    # Collected YTD from VERTEX REVENUE
+    try:
+        rev_records = airtable.search_records(
+            'VERTEX REVENUE',
+            f"{{{VR['revenue_date']}}}>='{ytd_start}'"
+        )
+        collected_ytd = sum(float(r.get('fields', {}).get(VR['amount'], 0) or 0) for r in rev_records)
+    except Exception:
+        collected_ytd = 0.0
+
+    narrative = (
+        f"VERTEX shows ${total_ar:,.2f} in outstanding receivables and ${total_ap:,.2f} "
+        f"in payables due. Net cash position: ${net_cash:,.2f}. "
+        f"Collected ${collected_ytd:,.2f} YTD."
+    )
+    if top_overdue:
+        top = top_overdue[0]
+        narrative += (
+            f" Top overdue: {top['client_name']} owes ${top['amount']:,.2f} "
+            f"({top['days_overdue']} days past due)."
+        )
+
+    return jsonify({
+        'outstanding_ar':  round(total_ar, 2),
+        'outstanding_ap':  round(total_ap, 2),
+        'bank_balance':    round(bank_balance, 2),
+        'net_cash':        round(net_cash, 2),
+        'collected_ytd':   round(collected_ytd, 2),
+        'top_overdue':     top_overdue,
+        'narrative':       narrative,
+    })
+
+
+@app.route('/vertex/morning-snapshot', methods=['GET'])
+def vertex_morning_snapshot():
+    """
+    Phase 13 — Morning briefing financial snapshot.
+    Called during the good morning ritual to present today's financial priorities.
+
+    Returns a concise dict suitable for Alexa briefing and TODAY_AGENDA.md.
+    """
+    airtable = AirtableClient()
+    today    = datetime.now().date()
+
+    # Overdue invoices count + amount
+    try:
+        open_invs = airtable.search_records(
+            'VERTEX INVOICES',
+            f"OR({{{VI['payment_status']}}}='Unpaid',{{{VI['payment_status']}}}='Partial',{{{VI['payment_status']}}}='Overdue')"
+        )
+    except Exception:
+        open_invs = []
+
+    overdue_count  = 0
+    overdue_total  = 0.0
+    collection_due = []
+
+    for inv in open_invs:
+        f       = inv.get('fields', {})
+        due_str = f.get(VI['due_date'], '')
+        try:
+            due      = datetime.fromisoformat(due_str[:10]).date()
+            days_ov  = max(0, (today - due).days)
+        except Exception:
+            days_ov = 0
+
+        if days_ov > 0:
+            amt = float(f.get(VI['total_amount'], 0) or 0)
+            overdue_count += 1
+            overdue_total += amt
+            collection_due.append({
+                'client':      f.get(VI['client_name'], ''),
+                'amount':      amt,
+                'days_overdue': days_ov,
+                'action':      'Call directly' if days_ov > 60 else 'Send reminder',
+            })
+
+    collection_due.sort(key=lambda x: x['amount'], reverse=True)
+
+    # AP due this week
+    try:
+        ap_recs = airtable.search_records(
+            'VERTEX ACCOUNTS PAYABLE',
+            "OR({PAYMENT STATUS}='Unpaid',{PAYMENT STATUS}='Partial')"
+        )
+    except Exception:
+        ap_recs = []
+
+    ap_due_week = []
+    for b in ap_recs:
+        f       = b.get('fields', {})
+        due_str = f.get('DUE DATE', '')
+        try:
+            due       = datetime.fromisoformat(due_str[:10]).date()
+            days_left = (due - today).days
+        except Exception:
+            days_left = 999
+        if 0 <= days_left <= 7:
+            ap_due_week.append({
+                'vendor': f.get('VENDOR NAME', ''),
+                'amount': float(f.get('TOTAL AMOUNT', 0) or 0),
+                'due_date': due_str,
+            })
+
+    alexa_snippet = (
+        f"Financial this morning: {overdue_count} invoices overdue totaling ${overdue_total:,.2f}. "
+        f"{len(ap_due_week)} sub payment(s) due this week. "
+    )
+    if collection_due:
+        top = collection_due[0]
+        alexa_snippet += f"Top priority: {top['client']} owes ${top['amount']:,.2f}. {top['action']}."
+
+    return jsonify({
+        'overdue_count':    overdue_count,
+        'overdue_total':    round(overdue_total, 2),
+        'collection_due':   collection_due[:5],
+        'ap_due_this_week': ap_due_week,
+        'alexa_snippet':    alexa_snippet,
+    })
+
+
+@app.route('/vertex/trigger', methods=['POST'])
+def vertex_trigger_event():
+    """
+    Fire a VERTEX auto-trigger event from any NEXUS module.
+
+    POST body:
+      event_type        str  (required) — e.g. 'gpss.opportunity.won'
+      source_record_id  str  (optional) — Airtable record ID of triggering entity
+      data              obj  (optional) — event-specific payload
+
+    Supported events:
+      gpss.opportunity.won | gpss.opportunity.lost
+      atlas.milestone.complete | atlas.expense.logged
+      prism.service.complete
+      ddcss.client.won
+      gbis.grant.awarded
+      lbpc.recovery.complete
+      fleetflow.delivery.confirmed
+      compass.qa.passed | compass.qa.failed
+    """
+    try:
+        from vertex_automation import vertex_auto_trigger
+        body = request.json or {}
+        event_type       = body.get('event_type', '')
+        source_record_id = body.get('source_record_id', '')
+        data             = body.get('data', {})
+
+        if not event_type:
+            return jsonify({'error': 'event_type is required'}), 400
+
+        result = vertex_auto_trigger(event_type, source_record_id, data)
+        status = 200 if result.get('outcome') == 'success' else 500
+        return jsonify(result), status
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

@@ -31,6 +31,9 @@ Usage:
   python3 nexus_scheduler.py --scan     # Run folder scan only
   python3 nexus_scheduler.py --gbis     # Run GBIS mine-all (full grant pipeline, same as POST /gbis/mine-all)
   python3 nexus_scheduler.py --primes   # Run prime contractor mining (find subs-needed primes)
+  python3 nexus_scheduler.py --vertex   # Run all VERTEX daily financial jobs (6 AM suite)
+  python3 nexus_scheduler.py --vertex-collect  # Run AR collection sweep + TODAY_AGENDA update
+  python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -538,6 +541,228 @@ def run_public_portal_scan(tier1_only=False):
         return False
 
 
+# ============================================================================
+# VERTEX FINANCIAL JOBS (Phases 10, 11, 12, 13)
+# ============================================================================
+
+def run_vertex_recurring_invoices():
+    """Phase 3: Generate all recurring invoices that are due today."""
+    log.info("--- VERTEX RECURRING INVOICES ---")
+    try:
+        import requests
+        base_url = os.environ.get("NEXUS_API_URL", "http://localhost:5000")
+        resp = requests.post(f"{base_url}/vertex/invoices/recurring/run-all", timeout=60)
+        result = resp.json()
+        generated = result.get("generated", 0)
+        errors    = result.get("errors", 0)
+        log.info(f"Recurring invoices: {generated} generated, {errors} errors")
+        return errors == 0
+    except Exception as e:
+        log.error(f"Recurring invoice run failed: {e}")
+        return False
+
+
+def run_vertex_collection_sweep():
+    """
+    Phase 11: Auto-Collection Engine.
+    Query all overdue invoices, generate tiered reminders, write to TODAY_AGENDA.md.
+    60+ days escalations flagged for Dee to call directly.
+    """
+    log.info("--- VERTEX COLLECTION SWEEP ---")
+    try:
+        from nexus_backend import AirtableClient
+        from api_server import VI
+        at    = AirtableClient()
+        today = datetime.now().date()
+
+        ps_field = VI["payment_status"]
+        formula  = f"OR({{{ps_field}}}='Unpaid',{{{ps_field}}}='Partial',{{{ps_field}}}='Overdue')"
+        invoices = at.search_records("VERTEX INVOICES", formula)
+
+        actions_due = []
+        escalations = []
+
+        for inv in invoices:
+            f       = inv.get("fields", {})
+            due_str = f.get(VI["due_date"], "")
+            if not due_str:
+                continue
+            try:
+                due  = datetime.fromisoformat(due_str[:10]).date()
+                days = (today - due).days
+            except Exception:
+                days = 0
+
+            if days < 1:
+                continue
+
+            amount  = f.get(VI["total_amount"], 0) or 0
+            client  = f.get(VI["client_name"], "")
+            inv_num = f.get(VI["invoice_number"], inv["id"])
+
+            if days >= 60:
+                escalations.append({
+                    "invoice_number": inv_num,
+                    "client_name":    client,
+                    "amount":         amount,
+                    "days_overdue":   days,
+                })
+            elif days >= 15:
+                actions_due.append({
+                    "invoice_number": inv_num,
+                    "client_name":    client,
+                    "amount":         amount,
+                    "days_overdue":   days,
+                    "action":         "second_reminder" if days >= 30 else "first_reminder",
+                })
+
+            # Advance follow-up date
+            try:
+                next_fu = (today + timedelta(days=7)).isoformat()
+                at.update_record("VERTEX INVOICES", inv["id"], {
+                    VI.get("follow_up_date", "FOLLOW-UP DATE"): next_fu
+                })
+            except Exception:
+                pass
+
+        # Write collection actions to TODAY_AGENDA.md
+        agenda_path = os.path.join(os.path.dirname(__file__), "TODAY_AGENDA.md")
+        try:
+            existing = open(agenda_path, "r", encoding="utf-8").read() if os.path.exists(agenda_path) else ""
+            marker   = "## COLLECTION ACTIONS DUE"
+            if marker in existing:
+                existing = existing[:existing.index(marker)].rstrip()
+
+            section = f"\n\n---\n## COLLECTION ACTIONS DUE — {today.isoformat()}\n\n"
+            if escalations:
+                section += "### 🚨 ESCALATIONS — CALL DIRECTLY (60+ days overdue)\n\n"
+                for item in escalations:
+                    section += (
+                        f"- **CALL {item['client_name']}** — Invoice {item['invoice_number']} "
+                        f"${item['amount']:,.2f} ({item['days_overdue']} days overdue)\n"
+                    )
+                section += "\n"
+            if actions_due:
+                section += "### 📧 SEND REMINDERS\n\n"
+                for item in actions_due:
+                    section += (
+                        f"- Email {item['client_name']} — Invoice {item['invoice_number']} "
+                        f"${item['amount']:,.2f} ({item['days_overdue']} days overdue) "
+                        f"[{item['action'].replace('_', ' ').title()}]\n"
+                    )
+                section += "\n"
+            if not escalations and not actions_due:
+                section += "_No collection actions due today. AR is current._\n"
+
+            with open(agenda_path, "w", encoding="utf-8") as fh:
+                fh.write(existing + section)
+        except Exception as e:
+            log.warning(f"Could not update TODAY_AGENDA.md collection section: {e}")
+
+        log.info(f"Collection sweep: {len(actions_due)} reminders, {len(escalations)} escalations")
+        return True
+    except Exception as e:
+        log.error(f"Collection sweep failed: {e}")
+        return False
+
+
+def run_vertex_ai_advisor():
+    """Phase 10: Run AI Financial Advisor — cash analysis, alerts, briefing update."""
+    log.info("--- VERTEX AI FINANCIAL ADVISOR ---")
+    try:
+        from vertex_ai_advisor import run_vertex_ai_advisor as _run
+        result = _run()
+        cash   = result.get("cash_position", {})
+        alerts = result.get("high_alerts_count", 0)
+        log.info(
+            f"AI Advisor: net cash ${cash.get('net_cash', 0):,.2f} | "
+            f"AR ${cash.get('total_ar', 0):,.2f} | "
+            f"AP ${cash.get('total_ap', 0):,.2f} | "
+            f"{alerts} high alerts"
+        )
+        return True
+    except Exception as e:
+        log.error(f"AI Advisor failed: {e}")
+        return False
+
+
+def run_vertex_bank_reconciliation():
+    """Phase 12: Run AI bank reconciliation on any unmatched transactions."""
+    log.info("--- VERTEX BANK RECONCILIATION ---")
+    try:
+        import requests
+        base_url = os.environ.get("NEXUS_API_URL", "http://localhost:5000")
+        resp     = requests.post(f"{base_url}/vertex/bank/reconcile", timeout=120)
+        result   = resp.json()
+        matched  = result.get("matched", 0)
+        unmatched = result.get("unmatched", 0)
+        log.info(f"Bank reconciliation: {matched} matched, {unmatched} unmatched")
+        return True
+    except Exception as e:
+        log.error(f"Bank reconciliation failed: {e}")
+        return False
+
+
+VERTEX_DAILY_RUN_STATE = os.path.join(LOG_DIR, "vertex_daily_run.json")
+
+
+def _should_run_vertex_daily_6am_et():
+    """Once per calendar day, only in the 6:00–6:14 AM America/Detroit window."""
+    try:
+        from zoneinfo import ZoneInfo
+        now = datetime.now(ZoneInfo("America/Detroit"))
+    except Exception:
+        now = datetime.now()
+    if now.hour != 6 or now.minute >= 15:
+        return False
+    today = now.strftime("%Y-%m-%d")
+    try:
+        if os.path.exists(VERTEX_DAILY_RUN_STATE):
+            with open(VERTEX_DAILY_RUN_STATE, "r") as f:
+                data = json.load(f)
+            if data.get("date") == today:
+                return False
+    except Exception:
+        pass
+    return True
+
+
+def _mark_vertex_daily_run_et():
+    try:
+        from zoneinfo import ZoneInfo
+        now = datetime.now(ZoneInfo("America/Detroit"))
+    except Exception:
+        now = datetime.now()
+    try:
+        with open(VERTEX_DAILY_RUN_STATE, "w") as f:
+            json.dump({"date": now.strftime("%Y-%m-%d"), "iso": now.isoformat()}, f, indent=2)
+    except Exception as e:
+        log.warning(f"Could not write VERTEX daily run state: {e}")
+
+
+def run_vertex_daily_jobs():
+    """
+    Run all VERTEX daily financial jobs (6 AM ET):
+      1. Recurring invoice generation
+      2. Collection sweep + agenda update
+      3. AI Financial Advisor + briefing update
+      4. Bank reconciliation
+    """
+    log.info("=== VERTEX DAILY FINANCIAL JOBS (6 AM) ===")
+    results = {}
+    results["recurring_invoices"]    = run_vertex_recurring_invoices()
+    results["collection_sweep"]      = run_vertex_collection_sweep()
+    results["ai_advisor"]            = run_vertex_ai_advisor()
+    results["bank_reconciliation"]   = run_vertex_bank_reconciliation()
+    log.info(f"=== VERTEX DAILY JOBS COMPLETE: {results} ===")
+    return all(results.values())
+
+
+# ============================================================================
+# END VERTEX FINANCIAL JOBS
+# ============================================================================
+
+
 def run_all():
     """Run all scheduled tasks."""
     log.info("=" * 60)
@@ -557,6 +782,9 @@ def run_all():
     results["prime_contractor_mining"] = run_prime_contractor_mining()
     results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
     results["quote_followups"] = run_quote_followups()
+    # VERTEX financial jobs (run on-demand or via daily 6AM trigger in loop)
+    results["vertex_collection_sweep"] = run_vertex_collection_sweep()
+    results["vertex_ai_advisor"]       = run_vertex_ai_advisor()
 
     log.info("=" * 60)
     log.info("SCHEDULER COMPLETE")
@@ -583,6 +811,7 @@ def run_loop():
     log.info("  Quote follow-ups:     every 4 hours")
     log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
     log.info("  Prime contractor mining: weekly")
+    log.info("  VERTEX financial jobs: daily 6:00 AM ET (recurring invoices, collection, AI advisor, reconciliation)")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
 
@@ -655,6 +884,11 @@ def run_loop():
             if run_gbis_mine_all_pipeline():
                 _mark_gbis_daily_run_et()
 
+        # VERTEX daily financial jobs — 6:00 AM America/Detroit
+        if _should_run_vertex_daily_6am_et():
+            if run_vertex_daily_jobs():
+                _mark_vertex_daily_run_et()
+
         # Prime contractor mining — weekly (find primes needing EDWOSB subs)
         if now - last_prime_mining >= PRIME_MINING_INTERVAL:
             run_prime_contractor_mining()
@@ -706,6 +940,12 @@ if __name__ == "__main__":
         run_gbis_mine_all_pipeline()
     elif "--primes" in args:
         run_prime_contractor_mining()
+    elif "--vertex" in args:
+        run_vertex_daily_jobs()
+    elif "--vertex-collect" in args:
+        run_vertex_collection_sweep()
+    elif "--vertex-advisor" in args:
+        run_vertex_ai_advisor()
     elif not args:
         run_all()
     else:
