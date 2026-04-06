@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "intervals": {
+    "opportunity_scan": 240,
+    "ai_scoring": 120,
+    "auto_package": 60,
+    "deadline_watch": 60,
+    "supplier_followup": 240,
+    "compass_monitor": 360,
+    "prism_compliance": 720,
+    "folder_scan": 15,
+    "learning_cycle": 360,
+    "morning_brief": 1440
+  },
+  "thresholds": {
+    "auto_package_score": 75,
+    "bid_now_score": 85,
+    "deadline_yellow_hours": 72,
+    "deadline_red_hours": 24,
+    "supplier_followup_days": 3,
+    "coi_expiry_warn_days": 30
+  },
+  "preferences": {
+    "auto_email_alerts": true,
+    "auto_generate_packages": true,
+    "morning_brief_time": "06:00",
+    "priority_naics": [],
+    "priority_agencies": [],
+    "depriority_sources": []
+  }
+}

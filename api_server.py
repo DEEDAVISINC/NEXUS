@@ -18366,6 +18366,28 @@ def vertex_trigger_event():
         return jsonify({'error': str(e)}), 500
 
 
+def _autostart_autonomous_engine():
+    """Start the self-learning autonomous engine in the background on server boot."""
+    try:
+        import threading, time
+        def _delayed_start():
+            time.sleep(5)  # wait for server to fully initialize
+            try:
+                if get_autonomous_engine:
+                    engine = get_autonomous_engine()
+                    result = engine.start()
+                    print(f"[NEXUS] Autonomous engine auto-started: {result.get('status')}")
+                else:
+                    print("[NEXUS] Autonomous engine module unavailable — skipping auto-start")
+            except Exception as e:
+                print(f"[NEXUS] Autonomous engine auto-start failed: {e}")
+        t = threading.Thread(target=_delayed_start, daemon=True, name="autonomous-autostart")
+        t.start()
+    except Exception as e:
+        print(f"[NEXUS] Could not schedule autonomous engine auto-start: {e}")
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    _autostart_autonomous_engine()
     app.run(host='0.0.0.0', port=port)
