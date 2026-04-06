@@ -2493,6 +2493,36 @@ def update_task(task_id):
             return jsonify({"error": "No valid fields to update"}), 400
 
         task = airtable_client.update_record('ATLAS TASKS', task_id, update_fields)
+
+        # VERTEX AUTO-TRIGGER: Invoice on milestone completion, expense on cost log
+        if data.get('status') == 'Complete':
+            try:
+                from vertex_automation import vertex_auto_trigger
+                task_fields = task.get('fields', {})
+                vertex_auto_trigger('atlas.milestone.complete', task_id, {
+                    'client_name':      task_fields.get('Client', ''),
+                    'milestone_name':   task_fields.get('Title', ''),
+                    'milestone_amount': float(task_fields.get('Billable Amount', 0) or 0),
+                    'project_id':       task_id,
+                    'contract_number':  task_fields.get('Contract Number', ''),
+                })
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (ATLAS milestone): {ve}")
+
+        if data.get('expense_amount'):
+            try:
+                from vertex_automation import vertex_auto_trigger
+                task_fields = task.get('fields', {})
+                vertex_auto_trigger('atlas.expense.logged', task_id, {
+                    'vendor':       data.get('expense_vendor', ''),
+                    'description':  data.get('expense_description', task_fields.get('Title', '')),
+                    'amount':       float(data.get('expense_amount', 0)),
+                    'category':     data.get('expense_category', 'Project Expense'),
+                    'billable':     data.get('billable', True),
+                })
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (ATLAS expense): {ve}")
+
         return jsonify({"success": True, "task": task})
 
     except Exception as e:
@@ -3399,6 +3429,38 @@ def update_gpss_opportunity(opportunity_id):
                     })
             except Exception as ve:
                 print(f"VERTEX revenue tracking: {ve}")
+
+        # VERTEX AUTO-TRIGGER: Fire full invoice + AP + WAWF workflow on win
+        if new_status == 'Won' and old_status != 'Won':
+            try:
+                from vertex_automation import vertex_auto_trigger
+                opp_fields    = current_opp.get('fields', {})
+                contract_val  = float(opp_fields.get('Value', 0) or 0)
+                agency        = opp_fields.get('Agency Name', '')
+                title         = opp_fields.get('Title', '')
+                agency_type   = (opp_fields.get('Agency Type', '') or '').lower()
+                is_federal    = any(k in agency_type for k in ('federal', 'dod', 'va', 'dhs', 'army', 'navy'))
+                is_service    = any(k in (title + opp_fields.get('Description', '')).lower()
+                                    for k in ('drug test', 'grounds', 'janitorial', 'courier',
+                                              'nemt', 'fingerprint', 'notary', 'staffing', 'service'))
+                vertex_auto_trigger('gpss.opportunity.won', opportunity_id, {
+                    'agency_name':       agency,
+                    'title':             title,
+                    'contract_value':    contract_val,
+                    'contract_number':   opp_fields.get('Contract Number', ''),
+                    'is_federal':        is_federal,
+                    'is_service_contract': is_service,
+                    'payment_terms':     'Net 30',
+                })
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (GPSS Won): {ve}")
+
+        if new_status == 'Lost' and old_status != 'Lost':
+            try:
+                from vertex_automation import vertex_auto_trigger
+                vertex_auto_trigger('gpss.opportunity.lost', opportunity_id, {})
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (GPSS Lost): {ve}")
 
         # NEXUS PIPELINE: Register contract in central registry
         pipeline_contract_id = None
@@ -7581,6 +7643,20 @@ def update_ddcss_prospect(prospect_id):
             except Exception as ve:
                 print(f"DDCSS → VERTEX revenue: {ve}")
 
+            # VERTEX AUTO-TRIGGER: Fire invoice on corporate client win
+            try:
+                from vertex_automation import vertex_auto_trigger
+                budget_str  = prospect_fields.get('Budget Range', '') or ''
+                budget_val  = float(budget_str.replace('$', '').replace(',', '').replace('+', '').split('-')[0]) if budget_str else 0
+                vertex_auto_trigger('ddcss.client.won', prospect_id, {
+                    'company_name':        prospect_fields.get('Company Name', ''),
+                    'service_description': prospect_fields.get('Service Needed', 'Consulting & Management Services'),
+                    'monthly_value':       budget_val,
+                    'is_recurring':        True,
+                })
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (DDCSS Client Won): {ve}")
+
             # PRISM BRIDGE: If this is a field service client, register in PRISM
             PRISM_SERVICE_KEYWORDS = [
                 'notary', 'drug test', 'drug testing', 'dna', 'dna test',
@@ -10392,6 +10468,18 @@ def update_gbis_opportunity(opportunity_id):
                 print(f"GBIS → VERTEX revenue: {grant_name} ${grant_amount}")
             except Exception as ve:
                 print(f"GBIS → VERTEX revenue: {ve}")
+
+            # VERTEX AUTO-TRIGGER: Full grant financial setup
+            try:
+                from vertex_automation import vertex_auto_trigger
+                vertex_auto_trigger('gbis.grant.awarded', opportunity_id, {
+                    'grant_name':       grant_name,
+                    'funder_name':      funder,
+                    'grant_amount':     float(grant_amount or 0),
+                    'performance_start': datetime.now().date().isoformat(),
+                })
+            except Exception as ve:
+                print(f"VERTEX auto-trigger (GBIS Awarded): {ve}")
 
             # Advisor debrief on grant win
             try:
