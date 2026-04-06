@@ -1,5 +1,23 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** March 29, 2026
+**Last Updated:** April 5, 2026
+
+---
+
+## BCBSM — STARS SUPPLIER PORTAL (Blue Cross Blue Shield of Michigan)
+
+**Portal:** [bcbsm.starssmp.com](https://bcbsm.starssmp.com/) — STARS Supplier Management Platform  
+**Diversity / supplier info:** [bcbsm.com/suppliers](https://www.bcbsm.com/suppliers) → Supplier Diversity Program  
+**Why DDI:** WBENC corporate member; WBE goals; Detroit HQ — aligns with EDWOSB/WBE credentials.
+
+### STATUS
+
+- [x] **Supplier profile / registration complete in STARS** — **04/05/2026** (confirmed by Dee)
+- [ ] Optional: save portal confirmation/screenshot in compliance folder; note primary BCBSM procurement contact when assigned
+
+### NOTE — NOT THE SAME AS ABBOTT STARS
+
+- **BCBSM STARS** = Michigan BCBS vendor portal (`bcbsm.starssmp.com`).
+- **Abbott STARS** = Abbott / eScreen supplier portal — separate system (see Abbott section below).
 
 ---
 
