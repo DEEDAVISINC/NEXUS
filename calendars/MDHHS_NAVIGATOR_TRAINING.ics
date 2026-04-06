@@ -11,13 +11,13 @@ DTSTAMP:20260404T014600Z
 DTSTART:20260416T120000
 DTEND:20260416T140000
 SUMMARY:📋 MDHHS Navigator Training — Required
-DESCRIPTION:Required Navigator training for MDHHS Community Partner status.\n\nPortal: MiLogin → MDHHS Community Partners\nUser ID: davisd122\n\nMust complete to assist clients as Navigator and maintain LPOC status.\nContact: MDHHSCommunityPartners@michigan.gov
+DESCRIPTION:Required Navigator training for MDHHS Community Partner status.\n\nPortal: MiLogin → MDHHS Community Partners\nUser ID: davisd1221\n\nMust complete to assist clients as Navigator and maintain LPOC status.\nContact: MDHHSCommunityPartners@michigan.gov
 LOCATION:Online — MiLogin Portal
 STATUS:CONFIRMED
 SEQUENCE:0
 BEGIN:VALARM
 TRIGGER:-P1D
-DESCRIPTION:MDHHS Navigator Training tomorrow — log into davisd122 and confirm access
+DESCRIPTION:MDHHS Navigator Training tomorrow — log into davisd1221 and confirm access
 ACTION:DISPLAY
 END:VALARM
 BEGIN:VALARM

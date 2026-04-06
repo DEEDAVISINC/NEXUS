@@ -24,7 +24,7 @@ Use the **correct MiLogin** per system — do not mix them up.
 
 | # | Label (how to remember) | User ID | Purpose |
 |---|-------------------------|---------|---------|
-| **1** | **MDHHS COMMUNITY PARTNER MILOGIN** | `davisd122` | **MDHHS Community Partners** — MIBridges / Navigator / LPOC for Dee Davis Inc. & Cause We Care. Portal after MiLogin: Community Partners. Reactivated Mar 2026. |
+| **1** | **MDHHS COMMUNITY PARTNER MILOGIN** | `davisd1221` | **MDHHS Community Partners** — MIBridges / Navigator / LPOC for Dee Davis Inc. & Cause We Care. Portal after MiLogin: Community Partners. Reactivated Mar 2026. |
 | **2** | *(fill in)* | *(fill in)* | *(e.g. personal, other state program — you name it)* |
 | **3** | *(fill in)* | *(fill in)* | *(e.g. CHAMPS, employer, other — you name it)* |
 

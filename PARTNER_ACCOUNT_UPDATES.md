@@ -21,6 +21,21 @@
 
 ---
 
+## MCKESSON MEDICAL-SURGICAL (wholesale med-surg)
+
+**Portal / ordering:** [McKesson Medical-Surgical](https://www.mckesson.com/Medical-Supplies/) — **SupplyManager** (log in from med-surg pages).  
+**General customer / account:** See [Contact — Medical-Surgical](https://www.mckesson.com/Contact-Us/Form/Contact-McKesson-Medical-Surgical/) — lines such as **855-571-2100** / **800-625-3776** (confirm on site before dialing).
+
+### STATUS
+
+- [x] **Business account created** — documented **Feb 2026** during NIH/Surgicel quote effort (`photos_and_videos/SURGICAL SUPPLIES SOLE SOURCE/MCKESSON_SALES_REP_READY.md` — “McKesson account created”).
+- [ ] **Re-verify before Oakland HHS Medical Supplies bid** — log into SupplyManager (password reset if needed); confirm account **active**, **ship-to** options for **Southeast Michigan**, and assigned **sales rep** if any.
+- [ ] **Quote path for ITB:** Use account + rep or **customerservice@mckesson.com** / government sales channels as applicable — **do not** put end-buyer identity in supplier email (buyer-safe RFQs only).
+
+**Note:** Customer number, login, and rep name are **not** stored in this repo — keep in your password manager / secure notes.
+
+---
+
 ## WBENC / GREAT LAKES WBC — WOSB RENEWAL (DePointe)
 
 **Certifier:** Women's Business Enterprise National Council (WBENC) — **Great Lakes Women's Business Council**  
@@ -42,13 +57,13 @@
 
 **Portal:** MiLogin → MDHHS Community Partners (MIBridges ecosystem)  
 **Credential label:** **MDHHS COMMUNITY PARTNER MILOGIN** (1 of 3 MiLogin profiles — see `COMPANY_INFO_MASTER.md` + optional `MILOGIN_ACCOUNTS.local.md`)  
-**User ID:** `davisd122` — use **Forgot password** on MiLogin if needed  
+**User ID:** `davisd1221` — use **Forgot password** on MiLogin if needed  
 **Email from:** MDHHSCommunityPartners@michigan.gov — **Mar 26, 2026 ~5:46 PM**
 
 ### STATUS (Mar 2026)
 
 - [x] **Community Partner ID / LPOC request** — NEXUS outbound Mar 26; you confirmed identity same day.
-- [x] **Account reactivated** — Kenneth set you as **LPOC (Local Point of Contact)** for Dee Davis Inc.; **davisd122** reactivated.
+- [x] **Account reactivated** — Kenneth set you as **LPOC (Local Point of Contact)** for Dee Davis Inc.; **davisd1221** reactivated.
 - [ ] **Sign in to MiLogin ASAP** — Email said sign in **within 24 hours** of reactivation to avoid deactivation again. If that window lapsed, **sign in today** and confirm access.
 - [ ] **Save attachments from that email:** *Manage Organization Job Aid* + *Provide Navigation Job Aid* (Navigator features, client benefits flow).
 - [ ] **Navigator training** — Next training cited in Gmail overview: **04/16/2026** — add to calendar; required to assist clients as Navigator.
@@ -154,9 +169,14 @@ Dee Davis Inc. | Depointe DNA
 |---|---|---|
 | April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent — awaiting response |
 
+### DECA / FEDERAL FINGERPRINTING (HQC00526QE015)
+
+- [x] **Strategic direction:** DDI will pursue **Defense Commissary Agency** electronic fingerprinting Sources Sought (**HQC00526QE015**) **with Lakota as the biometric technology partner** (WHORL path — confirm deployment details with Sam). See `BIDS:RESOURCES/DECA ELECTRONIC FINGERPRINTING/WORKFLOW_CHECKLIST.md`.
+
 ### ACTIONS NEEDED:
 
 - [ ] Confirm monthly billing is current
+- [ ] **Sam — DeCA teaming:** align on what we can state externally re **WHORL**, submission channels, and OCONUS/CONUS coverage model for **HQC00526QE015**
 - [ ] Follow up with Sam if no response within 5 business days (by April 11)
 - [ ] When Sam responds — confirm WHORL upgrade pricing and channels
 - [ ] When Sam responds — confirm federal EDO processing capability
@@ -552,12 +572,15 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [x] Corrected application submitted 03/22/2026 — **Application #20260323058125**
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active, Eligibility through 12/31/2999
 - [x] **Meridian Health Plan** — Contract Request Form submitted 03/26/2026. ~30 business days for review. Contact: MIProviderContracting@mimeridian.com
-- [x] **Molina Healthcare** — Initial email sent 03/26/2026. Angelica responded with generic clinical portal link. Follow-up sent 03/26/2026 clarifying DDI is NEMT Atypical Agency (not clinical practice), requesting correct NEMT contracting process. Awaiting routing to correct department.
+- [x] **Molina Healthcare** — Initial email sent 03/26/2026. Angelica responded with generic clinical portal link. Follow-up sent 03/26/2026 clarifying DDI is NEMT Atypical Agency (not clinical practice), requesting correct NEMT contracting process.
+- [x] **Molina — official NEMT path (email ~9:05 AM, Sheri Dankert, Apr 2026):** Molina Healthcare of Michigan **does not** contract directly for medical transportation. They use **Access2Care's Innovative Solutions**. For contracting with **that network:** **Jennifer Casbar** — **(313) 434-3008** | **jcasbar@mtm-inc.net** (MTM). **For NEMT:** submit a **Contract request** via Molina’s **online provider portal** (link in Molina email — “click here”). **Sheri Dankert** | Contracts Manager – Complex | Provider Network | Work **248-925-1711** | MHMLTSSContracting@molinahealthcare.com
+- [ ] **ACTION:** Submit Molina portal contract request + contact Jennifer Casbar re: Access2Care/MTM network alignment (same ecosystem as existing Access2Care.net task).
+- [ ] **Monday:** Send reply to **Sheri Dankert** / MHMLTSSContracting — draft in `CLIENT OUTREACH/MOLINA MICHIGAN NEMT/SEND_TO_BUYER/REPLY_SHERI_DANKERT_MOLINA_MONDAY.md` (then portal + Jennifer same day as promised in email).
 - [x] **UHC Community Plan** — Application submitted 03/26/2026. Need to contact UHC via chat to finalize.
 - [x] **Aetna Better Health** — Intake form submitted 03/26/2026. Contact: 1-866-316-3784
 - [x] **McLaren Health Plan** — Email sent 03/26/2026. McLaren uses **ModivCare** for NEMT — must enroll with ModivCare directly. (866) 569-1908 / modivcare.com/drive-with-us-2025
 - [x] **ModivCare** — Follow-up email sent to Larry Smith (larry.smith@modivcare.com) on 03/26/2026, referencing CHAMPS Provider ID 6309049 and active Medicaid status. Original outreach Feb 27. Awaiting onboarding next steps.
-- [ ] **Access2Care / MTM** — NEMT broker for Aetna. Filling out application on access2care.net. Note: MTM acquired Access2Care Oct 2024 — same company. DDI may already be in MTM system from prior sign-up.
+- [ ] **Access2Care / MTM** — NEMT broker for Aetna; **Molina MI also routes transportation via Access2Care Innovative Solutions** — MTM contact: **Jennifer Casbar** (313) 434-3008, jcasbar@mtm-inc.net. Filling out application on access2care.net. Note: MTM acquired Access2Care Oct 2024 — same company. DDI may already be in MTM system from prior sign-up.
 - [x] **DMC (Detroit Medical Center)** — Follow-up email sent 03/26/2026 to credentialing@dmc.org re: patient transportation/NEMT services. Original credentialing email sent 02/20/2026.
 - [x] **Corewell Health** — Email sent 03/26/2026 to suppliermanagement@corewellhealth.org re: patient transportation/NEMT. SupplierGATEWAY profile updated with CHAMPS Medicaid NEMT provider enrollment. Originally registered 03/19/2026 for Lab Courier + Healthcare Services.
 

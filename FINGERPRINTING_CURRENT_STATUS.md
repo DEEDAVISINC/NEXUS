@@ -15,7 +15,7 @@
 | **FBI Appendix F** | ✅ Via Kojak | Certified through hardware (if Kojak is confirmed in hand) |
 | **FD-258 Ink Cards** | ✅ Available | Traditional rolled prints — can be done now |
 | **ATF EFT Files** | ✅ CONFIRMED | ATF EFT file creation is active in DDI's system. Can create compliant EFT files for NFA Form 4, FFL applications, ATF eForms. |
-| **Lakota Partnership** | ✅ Active paid account | EFT Creator — $85/month, active billing. Sam Cilento (PMP) — sales@lakotasoftware.com — 304-816-4804. Prior conversations with Sam already on record. |
+| **Lakota Partnership** | ✅ Active paid account | EFT Creator — $85/month, active billing. Sam Cilento (PMP) — sales@lakotasoftware.com — 304-816-4804. Prior conversations with Sam already on record. **DeCA HQC00526QE015 (Apr 2026):** DDI will pursue Sources Sought / follow-on with **Lakota as biometric technology partner** — confirm WHORL tier + submission language with Sam before hard claims in proposal. |
 | **Federal EDOs** | ⚠️ PENDING | Lakota built the FBI's eDO system. Confirm with Sam whether WHORL can process federal EDOs and through which submission channel. |
 
 ---

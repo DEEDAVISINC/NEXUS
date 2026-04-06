@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 3, 2026
+**Updated:** April 5, 2026
 
 ---
 
@@ -7,6 +7,8 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **Apr 15 @ 3:00 PM EDT** | **Questions due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — submit online via MITN; draft `OAKLAND COUNTY HHS MEDICAL SUPPLIES/QUESTIONS_FOR_MITN.md` |
+| **Apr 21 @ 10:00 AM EDT** | **ITB due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — MITN/BidNet; folder `BIDS:RESOURCES/OAKLAND COUNTY HHS MEDICAL SUPPLIES/` |
 | **Mar 24 (Tue)** | Call — Lisa TerMorshuizen | Choice Partners / HCDE (Texas) | Drug & Alcohol Testing rebid | **COMPLETED Mar 24.** Intro call. Lisa sees value in DDI. Drug testing contract is a year out. Told DDI to watch for contracts — they post daily on Ionwave (hcdeebid.ionwave.net). Monitor daily. |
 | **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
 | **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
@@ -17,6 +19,8 @@
 | **Apr 8 @ 11:00 AM ET** | **Fulton County Drug Testing** | Fulton County Government | **26ITB1580280B-PS** | **ACTIVE — GPSS `rec9YQ5FE0yfjs2Pj` / PB 79 UNLOCKED** — BidNet; blocked on Concentra pricing |
 | **Apr 10** | **Harris Health Drug & Disease Testing** | Harris Health System | **AB02182026** | **ACTIVE — GPSS `recgeOG6z3FiSeYyR` / PB 81 UNLOCKED** — Bonfire; blocked on Quest panel confirm + Concentra titers |
 | **Apr 21** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — DDI prime TPA; Quest + Concentra core fulfillment; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **confirm time** Block 8 |
+
+*Same day (Apr 21): Oakland HHS ITB **Oak-0000001134** is **10:00 AM EDT MITN** — not SAM; see rows above.*
 
 ---
 
@@ -81,6 +85,8 @@
 | **Apr 20** | WA LCB RFP 2026-01 — questions deadline |
 | **May 11** | WA LCB RFP 2026-01 — proposals due 3:00 PM PT |
 | **Apr 21** | **DHS CBP Medical Support** — **70B06C26R00000017** — proposals due (confirm local time on SAM/SF1449) |
+| **Apr 15** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — questions due **3:00 PM EDT** (MITN online) |
+| **Apr 21** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — ITB due **10:00 AM EDT** (MITN) — `calendars/OAKLAND_HHS_MEDICAL_SUPPLIES_*.ics` |
 | **Q2 2027** | Choice Partners Drug & Alcohol Testing rebid (long-term) |
 
 ---
@@ -96,4 +102,4 @@
 
 ---
 
-*Updated: April 3, 2026 — Fulton County + Harris Health now in GPSS (ProposalBio UNLOCKED). ALL bids go through NEXUS.*
+*Updated: April 5, 2026 — Oakland County HHS Medical Supplies (Oak-0000001134) added; questions Apr 15, due Apr 21 MITN.*
