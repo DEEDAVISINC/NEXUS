@@ -4,6 +4,8 @@ PRISM Orders & Intake API
 =========================
 Handles:
 1.  POST  /prism/intake — receive submissions from the client intake form
+    (optional `channel`: `law_firm` or `service_key`: `notary-law-firm` — see
+    `prism_law_firm_notary_channel.py` / GET `/prism/law-firm-channel/intake-schema`)
 2.  GET   /prism/orders — list all orders (with optional filters)
 3.  GET   /prism/orders/<id> — single order detail
 4.  PATCH /prism/orders/<id> — update order status / assign agent
@@ -53,6 +55,7 @@ INTAKE_SERVICE_MAP = {
     'nemt': 'nemt',
     'transport': 'nemt',
     'notary': 'notary',
+    'notary-law-firm': 'notary',
     'apostille': 'apostille',
     'process': 'process',
     'courier': 'medical_courier',
@@ -865,10 +868,22 @@ def create_intake_order():
 
     routing_email = data.get('routing_email', SERVICE_ROUTING_EMAILS.get(svc_key, ADMIN_EMAIL))
 
+    details = dict(data.get('details') or {})
+    channel = (data.get('channel') or '').strip().lower()
+    if channel == 'law_firm' or svc_key == 'notary-law-firm':
+        try:
+            from prism_law_firm_notary_channel import extract_law_firm_account_payload
+            lf_payload = extract_law_firm_account_payload(data)
+            if lf_payload:
+                details['law_firm_account'] = lf_payload
+        except ImportError:
+            pass
+
     order = {
         'id': conf,
         'type': service_type,
         'service_key': svc_key,
+        'channel': channel or None,
         'service_label': data.get('service_label', ''),
         'status': 'New',
         'agent': '',
@@ -892,7 +907,7 @@ def create_intake_order():
         'tier': tier,
         'notes': data.get('notes', ''),
         'routing_email': routing_email,
-        'details': data.get('details', {}),
+        'details': details,
         'qc_checklist': _build_qc_checklist(service_type),
         'qc_status': 'pending',
         'workflow': _build_workflow(service_type),

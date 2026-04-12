@@ -94,6 +94,18 @@ Folders with sent SWFT outreach:
 
 ---
 
+## FBI BIOMETRIC SERVICES SECTION — INBOUND CORRESPONDENCE (LOG)
+
+| Date (received) | From | Summary | Meaning |
+|---|---|---|---|
+| **~Apr 2026** | **Identity@FBI.gov** (Terri — Biometric Services Section) | Acknowledgment: documentation for **your order** was **forwarded to the proper unit for review**. | **Routing receipt only** — not a decision. No action required unless you have a deadline or a follow-up question. |
+
+**If you need to follow up:** FBI Biometric Services Section **Customer Service Group** — **304-625-5590** — **Monday–Friday, 8:00 a.m.–5:00 p.m. ET** (or reply to the same email thread). Also referenced in `COMPLIANCE_KNOWLEDGE/FINGERPRINTING_REFERENCE.md`.
+
+**Practical note:** Do not ping daily. If nothing moves after **~2–3 weeks** (or your known internal deadline), one polite follow-up via the same channel is reasonable.
+
+---
+
 ## NEXT STEPS — IN ORDER
 
 1. **Monday: Call Sam Cilento at Lakota** (304-816-4804 / sales@lakotasoftware.com)

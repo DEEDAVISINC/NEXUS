@@ -1,9 +1,26 @@
 # DEE DAVIS INC — PROFESSIONAL SERVICES PRICING
 ## Fingerprinting | Drug Testing | Notary | Apostille | Legal Courier | Document Services
 
-**Effective:** February 2026
+**Effective:** February 2026 *(notary fee compliance updated April 2026)*  
 **Service Area:** Michigan Statewide (Mobile)
 **Appointments Required | Walk-ins Call Ahead**
+
+---
+
+## SERVICE LINES — NOT THE SAME PRODUCT
+
+**Standalone notary public work, loan signing, apostille, estate/CNTDA delivery, permit running, and courier** are **separate service lines** with **separate pricing**. A Michigan notary commission may be **used inside** more than one line of business, but **clients are billed for the service they bought** — not under a single “notary” label for everything.
+
+| Service line | Section | What the client is buying |
+|---|---|---|
+| **Notary Public** (MiLONA) | §3 | Acknowledgments, jurats, oaths, general in-person/RON **notarization** — priced per **notarial act** (+ travel when applicable). |
+| **Loan signing / Signing agent** | §7 | **Real estate closing** packages, lender workflow, table funding prep — **signing-agent** pricing (not the same as §3 walk-in notary). |
+| **Estate / CNTDA** | §4 | Trust delivery, estate document execution, POA/AHD packages — **certified document agent** work; notarizations may be **included in the package**. |
+| **Apostille & authentication** | §5 | SOS/State/embassy **authentication** chain — separate from §3 unless the client **only** orders notarization. |
+| **Permit runner (NPR)** | §6A | Building permit pull, recording, **permit-line** workflow — **not** §3 (notary may be required **on a form**; still billed as permit-runner service). |
+| **Legal courier / runner** | §6 | Filings, retrievals, SOS — distinct from §3 and §6A. |
+
+**Quote rule:** Proposals and invoices name the **primary service line**; statutory **$10/notarial act** appears when §3-style acts are itemized.
 
 ---
 
@@ -59,18 +76,28 @@
 
 ## 3. NOTARY PUBLIC SERVICES
 
+### Michigan fee rules (MiLONA) — on file for compliance
+
+- **Statutory cap:** A Michigan notary may charge **up to $10.00 for each notarial act** (each acknowledgment, jurat, oath/affirmation, or other act as defined in the **Michigan Law on Notarial Acts**), not “per signature” in the abstract — **each completed notarial act** is billed up to that maximum.
+- **Travel / mobile / scheduling / after-hours / facility surcharges** are **separate** from the notary fee. Michigan expects **travel** costs to be **agreed before travel**; **all fees** must be **clear to the signer before the notarial act** (see [Michigan SOS — Notary Services](https://www.michigan.gov/sos/notary-services)).
+- **DDI practice:** Quotes and invoices show **total** pricing where appropriate; clients may request a **breakout** of notarial-act fees vs. travel/convenience/platform fees. **Do not** mix §3 notary line items into **loan signing (§7), CNTDA (§4), or permit runner (§6A)** without showing the **primary service** — those lines have their **own** tables below.
+
 | Service | Price | Notes |
 |---------|-------|-------|
-| Standard Notarization | $10/signature | Michigan statutory rate |
-| Mobile Notary (in-person, your location) | $75-150 | Includes travel within Zone 1-2 |
-| Remote Online Notarization (RON) | $25/signature | Via ZigSig platform |
-| Witness Fee | $50 | Per witness, per signing |
-| After-Hours/Weekend Notary | +$50 surcharge | Evenings/weekends |
+| Standard notarization (in-person) | **$10 per notarial act** | **Michigan statutory maximum** per act |
+| Mobile Notary (in-person, your location) | $75–150 + **$10 per notarial act** | Travel/convenience band; **notarial component** billed per act up to $10 each |
+| Remote Online Notarization (RON) | $25/session or per platform quote | Via ZigSig; **session/agency** pricing (not the same line as MiLONA in-person cap) |
+| Witness Fee | $50 | Per witness, per signing (where offered) |
+| After-Hours/Weekend Notary | +$50 surcharge | Evenings/weekends (on top of base + per-act fees) |
 | Hospital/Jail/Facility Notary | +$75 surcharge | Specialized locations |
+
+**Source of truth (regulatory):** `COMPLIANCE_KNOWLEDGE/NOTARY_REFERENCE.md` — update if the Legislature or SOS changes the cap.
 
 ---
 
 ## 4. CNTDA — CERTIFIED NOTARY TRUST DELIVERY AGENT
+
+*Estate / trust **document delivery and execution** — separate from **§3 general notary** and **§7 loan signing**. Notarial acts may occur inside these packages; pricing is **package- and role-based**, not “§3 only.”*
 
 | Service | Price | Notes |
 |---------|-------|-------|
@@ -84,6 +111,8 @@
 ---
 
 ## 5. APOSTILLE & AUTHENTICATION SERVICES
+
+*Authentication / legalization **after** notarization when required — **separate service** from §3. Client may need §3 + §5 in sequence on the same document; **each section bills separately**.*
 
 | Service | Price | Turnaround |
 |---------|-------|-----------|
@@ -112,7 +141,17 @@
 | Process Serving (additional attempts) | $40/attempt | After first attempt |
 | Secretary of State Filings | $50 + state fees | Articles, amendments, good standing |
 | Secretary of State (Rush/Expedited) | $100 + state fees | Same-day processing |
-| Permit Running (LARA/local) | $75 + permit fees | Business permits, licenses |
+
+---
+
+## 6A. PERMIT RUNNER (NPR) — BUILDING & LARA PERMITS
+
+*Separate from **§3 notary** and **§6 general courier**. Pulling permits, plan review drops, and recording often **require notarized forms** — that does **not** reclassify the job as “§3 only”; bill **permit-runner** service + applicable **§3** notarial acts when itemized.*
+
+| Service | Price | Notes |
+|---------|-------|-------|
+| Permit Running (LARA / local building) | $75 + permit fees | Business permits, contractor permits — see also service catalog NPR tier |
+| Multiple permits (volume) | Custom | Per catalog tiers for 2+ pulls |
 
 ---
 
@@ -142,7 +181,9 @@
 
 ---
 
-## 7. SIGNING AGENT SERVICES
+## 7. SIGNING AGENT SERVICES (LOAN & REAL ESTATE — NOT §3 NOTARY)
+
+**Loan signing is not the same product as §3 Notary Public.** Signing agents manage **lender/title packages**, timing, and often multiple notarizations in one **closing** — priced as **signing services** below. Itemize **§3**-style notarial fees **only** when separately quoted for compliance or client request.
 
 | Service | Price | Notes |
 |---------|-------|-------|
@@ -219,4 +260,4 @@ EDWOSB/WOSB Certified | NPI: 153893911
 *Pricing subject to change. Travel fees apply outside Zone 1.
 Government and volume discounts available.*
 
-*Created: February 12, 2026*
+*Created: February 12, 2026 — Notary §3 MiLONA compliance language added April 2026.*

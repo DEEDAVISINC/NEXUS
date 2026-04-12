@@ -647,4 +647,169 @@ export const api = {
     ApiClient.get(`/nexus/pipeline/contracts/${contractId}/timeline`),
   dispatchPipelineOrders: (contractId: string, orders: any[]) =>
     ApiClient.post(`/nexus/pipeline/contracts/${contractId}/dispatch`, { orders }),
+
+  // ═══════════════════════════════════════════════════════════
+  // JETA — Aviation fuel buyers (Airtable JETA_Buyers)
+  // ═══════════════════════════════════════════════════════════
+  getJetaBuyers: (filters?: {
+    state?: string;
+    buyer_type?: string;
+    pipeline_stage?: string;
+    supplier_status?: string;
+    /** Minimum priority score 0–130 (e.g. 60 for top prospects) */
+    min_priority_score?: string | number;
+  }) => {
+    const params = new URLSearchParams();
+    if (filters?.state) params.set('state', filters.state);
+    if (filters?.buyer_type) params.set('buyer_type', filters.buyer_type);
+    if (filters?.pipeline_stage) params.set('pipeline_stage', filters.pipeline_stage);
+    if (filters?.supplier_status) params.set('supplier_status', filters.supplier_status);
+    if (filters?.min_priority_score != null && filters.min_priority_score !== '')
+      params.set('min_priority_score', String(filters.min_priority_score));
+    const q = params.toString();
+    return ApiClient.get(`/jeta/buyers${q ? `?${q}` : ''}`);
+  },
+  createJetaBuyer: (data: Record<string, unknown>) => ApiClient.post('/jeta/buyers', data),
+  updateJetaBuyer: (buyerId: string, data: Record<string, unknown>) =>
+    ApiClient.put(`/jeta/buyers/${buyerId}`, data),
+
+  /** Create JETA_Sellers row from buyer (supply_adjacent + Open supplier). */
+  postJetaSellerFromBuyer: (buyerId: string) =>
+    ApiClient.post('/jeta/sellers/from-buyer', { buyer_id: buyerId }),
+
+  /** Multipart CSV upload — FAA 5010 → JETA_Buyers (all states). */
+  postJetaImportFaa: async (file: File) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    const response = await fetch(`${API_BASE}/jeta/import/faa`, {
+      method: 'POST',
+      body: fd,
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return {
+        success: false,
+        error: (data as { error?: string }).error || `HTTP ${response.status}`,
+        ...data,
+      };
+    }
+    return data;
+  },
+
+  /** Multipart CSV upload — Transport Canada / NAV CANADA → JETA_Buyers. */
+  postJetaImportCanada: async (file: File) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    const response = await fetch(`${API_BASE}/jeta/import/canada`, {
+      method: 'POST',
+      body: fd,
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return {
+        success: false,
+        error: (data as { error?: string }).error || `HTTP ${response.status}`,
+        ...data,
+      };
+    }
+    return data;
+  },
+
+  getJetaOutreachDueBuyers: () => ApiClient.get('/jeta/outreach/due-buyers'),
+  getJetaOutreach: (filters?: {
+    channel?: string;
+    response_status?: string;
+    sort?: 'touch_date_desc' | 'touch_date_asc';
+  }) => {
+    const params = new URLSearchParams();
+    if (filters?.channel) params.set('channel', filters.channel);
+    if (filters?.response_status) params.set('response_status', filters.response_status);
+    if (filters?.sort) params.set('sort', filters.sort);
+    const q = params.toString();
+    return ApiClient.get(`/jeta/outreach${q ? `?${q}` : ''}`);
+  },
+  createJetaOutreach: (data: Record<string, unknown>) => ApiClient.post('/jeta/outreach', data),
+
+  /** Claude draft for JETA outreach email (Outreach Center). */
+  postJetaOutreachAiDraft: (data: {
+    buyerId?: string;
+    touchNumber: number;
+    contactName?: string;
+    companyName?: string;
+    buyerType?: string;
+    airport?: string;
+    state?: string;
+  }) => ApiClient.post('/jeta/outreach/ai-draft', data),
+
+  /** AI drafts escalation / market notices for active deals (Dashboard — counterparty notices). */
+  postJetaEscalationNoticeDraft: (data?: { dealIds?: string[] }) =>
+    ApiClient.post('/jeta/notifications/escalation-notice-draft', data ?? {}),
+
+  getJetaDeals: (filters?: { deal_stage?: string; integrity?: boolean }) => {
+    const params = new URLSearchParams();
+    if (filters?.deal_stage) params.set('deal_stage', filters.deal_stage);
+    if (filters?.integrity) params.set('integrity', '1');
+    const q = params.toString();
+    return ApiClient.get(`/jeta/deals${q ? `?${q}` : ''}`);
+  },
+  getJetaFraudDashboardAlerts: () => ApiClient.get('/jeta/fraud/dashboard-alerts'),
+  getJetaFraudGateCatalog: () => ApiClient.get('/jeta/fraud/gate-catalog'),
+  /** Master doc TABLE 11 — JETA_FraudLog (flagged_record_type, links, blacklisted, etc.). */
+  getJetaFraudLog: (filters?: {
+    flagged_record_type?: string;
+    flagged_record_id?: string;
+    record_type?: string;
+    company_name?: string;
+    blacklisted?: string;
+  }) => {
+    const p = new URLSearchParams();
+    if (filters?.flagged_record_type) p.set('flagged_record_type', filters.flagged_record_type);
+    if (filters?.flagged_record_id) p.set('flagged_record_id', filters.flagged_record_id);
+    if (filters?.record_type) p.set('record_type', filters.record_type);
+    if (filters?.company_name) p.set('company_name', filters.company_name);
+    if (filters?.blacklisted) p.set('blacklisted', filters.blacklisted);
+    const q = p.toString();
+    return ApiClient.get(`/jeta/fraud-log${q ? `?${q}` : ''}`);
+  },
+  createJetaFraudLog: (data: Record<string, unknown>) => ApiClient.post('/jeta/fraud-log', data),
+  updateJetaFraudLog: (id: string, data: Record<string, unknown>) => ApiClient.patch(`/jeta/fraud-log/${id}`, data),
+  /** Master doc — JETA_ImportLog (FAA 5010 / Canada batch audits). */
+  getJetaImportLog: (filters?: { import_source?: string; file_name?: string; imported_by?: string }) => {
+    const p = new URLSearchParams();
+    if (filters?.import_source) p.set('import_source', filters.import_source);
+    if (filters?.file_name) p.set('file_name', filters.file_name);
+    if (filters?.imported_by) p.set('imported_by', filters.imported_by);
+    const q = p.toString();
+    return ApiClient.get(`/jeta/import-log${q ? `?${q}` : ''}`);
+  },
+  createJetaImportLog: (data: Record<string, unknown>) => ApiClient.post('/jeta/import-log', data),
+  updateJetaImportLog: (id: string, data: Record<string, unknown>) => ApiClient.patch(`/jeta/import-log/${id}`, data),
+  /** Master doc TABLE 12 — JETA_Events. */
+  getJetaEvents: (filters?: { attending?: string; event_type?: string; q?: string }) => {
+    const p = new URLSearchParams();
+    if (filters?.attending) p.set('attending', filters.attending);
+    if (filters?.event_type) p.set('event_type', filters.event_type);
+    if (filters?.q) p.set('q', filters.q);
+    const qs = p.toString();
+    return ApiClient.get(`/jeta/events${qs ? `?${qs}` : ''}`);
+  },
+  createJetaEvent: (data: Record<string, unknown>) => ApiClient.post('/jeta/events', data),
+  updateJetaEvent: (id: string, data: Record<string, unknown>) => ApiClient.patch(`/jeta/events/${id}`, data),
+  /** JETA market: latest IATA jet fuel $/bbl from Airtable; use refresh=true to fetch IATA and store. */
+  getJetaMarketPrice: (opts?: { refresh?: boolean }) => {
+    const params = new URLSearchParams();
+    if (opts?.refresh) params.set('refresh', '1');
+    const q = params.toString();
+    return ApiClient.get(`/jeta/market/price${q ? `?${q}` : ''}`);
+  },
+  /** ICAO airport fuel supplier reference; persists rows to JETA_SupplierDirectory. */
+  getJetaSuppliersLookup: (icao: string) =>
+    ApiClient.get(`/jeta/suppliers/lookup?icao=${encodeURIComponent(icao)}`),
+  createJetaDeal: (data: Record<string, unknown>) => ApiClient.post('/jeta/deals', data),
+  updateJetaDeal: (dealId: string, data: Record<string, unknown>) =>
+    ApiClient.put(`/jeta/deals/${dealId}`, data),
+
+  getJetaDocuments: () => ApiClient.get('/jeta/documents'),
+  postJetaDocumentsGenerate: (data: { dealId: string; documentType: string }) =>
+    ApiClient.post('/jeta/documents/generate', data),
 };

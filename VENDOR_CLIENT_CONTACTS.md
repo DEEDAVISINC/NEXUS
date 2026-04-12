@@ -1,12 +1,35 @@
 # VENDOR, SUPPLIER & BUYER CONTACTS
 
 **DEE DAVIS INC Complete Contact Database**  
-**Last Updated:** April 4, 2026  
-**Recent:** Amy Bavin (City of Pontiac, Community Development) added; NY DCJS (Tiffanie Hinds + Natalie/SIB) added — civil fingerprint capture inquiry; 33 MDHHS + 19 DTMB buyers from State Buyer Directory
+**Last Updated:** April 7, 2026  
+**Recent:** Commonwealth of Pennsylvania Procurement Vendor registered (vendor #0000569615); Amy Bavin (City of Pontiac); NY DCJS; MDHHS/DTMB buyer directories
 
 ---
 
 ## 🏛️ GOVERNMENT BUYERS & PROCUREMENT OFFICERS
+
+### **COMMONWEALTH OF PENNSYLVANIA — PROCUREMENT / DGS (eMarketplace)**
+
+**Dee Davis Inc. registration:** **SRM confirmed** — **Vendor # 0000569615** | **Admin user ID DEEDAVISINC** | **Login:** https://www.pasupplierportal.state.pa.us/irj/portal
+
+**Systems:** **PA Supplier Portal** (solicitations, users, bank/ACH, addresses) + **JAGGAER** (ITQs/RFQs/RFPs)
+
+**Registration / SRM:** **SRMRFC@pa.gov** | **Portal support:** **1-877-435-7363**, option 1 | **ra-pscsrmportal@pa.gov** | **JAGGAER:** **1-800-233-1121**, option 2
+
+**eAlerts (solicitation notices by category):** http://www.dgs.internet.state.pa.us/EAlerts_V2/Login.aspx — **recommended** by Commonwealth after registration
+
+**DGS Small Business self-cert + Small Diverse Business:** See **COMPANY_INFO_MASTER.md** (Prism self-cert link; woman-owned may support SD verification — follow DGS process).
+
+**Courier Services ITQ (example pursuit):** Solicitation **4400028185** — statewide courier; qualification electronic via JAGGAER only.
+
+**Jason Collett** — Procurement / point of contact on advertisement  
+- **Email:** jcollett@pa.gov  
+- **Phone:** 717-346-3273  
+- **Notes:** Confirm current due dates and SOW in eMarketplace/JAGGAER (rolling ITQ).
+
+**Status:** PA Supplier registered April 2026 — complete JAGGAER qualification steps for target ITQs
+
+---
 
 ### **CITY OF PONTIAC — COMMUNITY DEVELOPMENT DEPARTMENT**
 
@@ -807,7 +830,9 @@
 ### **MOPEC**
 
 **Jill Schembari**  
-- **Email:** jschembari@mopec.com  
+- **Relationship / sales contact:** jschembari@mopec.com  
+- **Orders (POs / order placement):** **orders@mopec.com** — **use this for all purchase orders** (Mopec internal process change, ~Apr 2026).  
+- **Customer service (general inquiries, support — not orders):** customerservice@mopec.com — still active; **do not** use for new order placement.  
 - **Company:** Medical Examiner supplier  
 - **Products:** Cadaver bags, forensic supplies  
 - **Quote:** $762.92 + shipping (6 items)  
@@ -832,7 +857,7 @@
 - [ ] Email Mark Rozinsky - mrozinsky@dearborn.gov (Dearborn generators)
 - [ ] Establish Generac GSA account - 920-230-1280
 - [ ] Follow up Detroit Salt Company - (313) 841-5144
-- [ ] Email Mopec for shipping quote - jschembari@mopec.com
+- [ ] Email Mopec for shipping quote — **orders@mopec.com** for POs; CC or loop **jschembari@mopec.com** as needed; **customerservice@mopec.com** = support only (not orders)
 
 **Upcoming Deadlines:**
 - **Feb 4:** Warren Ball Mix bid due (12:30 PM)

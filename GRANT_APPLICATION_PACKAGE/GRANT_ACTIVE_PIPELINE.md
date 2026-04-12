@@ -1,5 +1,5 @@
 # GRANT ACTIVE PIPELINE — DEE DAVIS INC.
-### Live Tracker | Dieasha D. Davis | Updated: March 27, 2026
+### Live Tracker | Dieasha D. Davis | Updated: April 5, 2026
 
 **Applicant:** Dee Davis Inc. + Cause We Care (501c3)  
 **Status:** LAUNCHING — first applications going out now  
@@ -120,6 +120,28 @@
 | **Q1 annually** | Cartier Women's Initiative |
 | **Q1/Q2 annually** | Eileen Fisher Grant |
 | **Spring annually** | FedEx Small Business Grant |
+
+---
+
+## RESEARCHED — OSV (O’Shaughnessy Ventures) Fellowships & Grants
+
+**What “OSV Grant” usually means:** **O’Shaughnessy Ventures** (OSV) — **not** a Michigan state agency program (do not confuse with MiLEAP **OST** out-of-school-time grants or other “OS_” acronyms).
+
+| Field | Detail |
+|---|---|
+| **Official site** | [osvfellowship.com](https://www.osvfellowship.com/) |
+| **Form** | [forms.osv.llc/fellowships2026](https://forms.osv.llc/fellowships2026) |
+| **Help** | [help.osv.llc](https://help.osv.llc/) |
+| **Fellowship** | Up to **$100,000** equity-free, **1 year**; program cites **10 × $100K** awards |
+| **Grants** | Same ecosystem; testimonials reference **O’Shaughnessy Grants** for smaller execution funding (see site / help center for current grant tier wording) |
+| **Apply window** | **Jan 1 – Apr 30, 2026** (site: applications close **Apr 30, 2026**) |
+| **Review** | Rolling — **earlier apply = sooner decision**; many applicants hear within **~30 days** |
+| **Later stages** | Intro calls **Feb 1 – May 30, 2026**; final selections by **June 1, 2026** (per site timeline) |
+| **Who it’s for** | **Individuals** (18+) worldwide — builders, researchers, creatives (“Merchants of Light”); **no equity taken** |
+
+**Fit for Dee Davis Inc. / CWC (honest):** **Low for general business operations.** This is **not** a typical EDWOSB operating or capacity grant. It fits if **you** (or a named lead) have a **specific, demonstrable project** (product, research, film, invention, platform) that matches their moonshot framing—not “fund my federal bid pipeline.”
+
+**Verdict:** Skim [FAQ / Help Center](https://help.osv.llc/); apply **only** if you have a **clear project narrative** worth the time before **Apr 30, 2026**. Otherwise prioritize **Hello Alice, Comcast RISE, Michigan Health Endowment, WBENC portal**, etc.
 
 ---
 

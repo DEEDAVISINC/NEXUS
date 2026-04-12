@@ -1,7 +1,7 @@
 im mainly talking about adding to the website # 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
 ## Always Use These Details for Future Documents
 
-**Last Updated:** March 28, 2026
+**Last Updated:** April 7, 2026
 
 ---
 
@@ -39,6 +39,8 @@ Use the **correct MiLogin** per system — do not mix them up.
   **Note:** ImprovMX has .mil delivery limitation — always use the Gmail address for military and DOD contacts.
 - **NEXUS outbound bids:** bids.deedavisinc@gmail.com
 
+**Confidentiality footers (optional on outbound):** Full copy-paste blocks for **Dee Davis Inc.** and **Cause We Care** — `ESSENTIALS/EMAIL_FOOTER_TEMPLATES.md` — also defined in `company_info.py` as `EMAIL_FOOTER_CONFIDENTIAL_DDI` / `EMAIL_FOOTER_CONFIDENTIAL_CWC`.
+
 ---
 
 ## 🎯 FEDERAL CREDENTIALS
@@ -50,6 +52,41 @@ Use the **correct MiLogin** per system — do not mix them up.
 **SAM.gov Status:** Active
 
 > ⚠️ **WARNING:** Some older files contain an incorrect EIN (47-3015027). That is WRONG. The correct EIN is **84-4114181**. Always use this master file as the source of truth.
+
+---
+
+## COMMONWEALTH OF PENNSYLVANIA — PROCUREMENT VENDOR (DGS / eMarketplace)
+
+**Status:** Registered — **Procurement Vendor** (PA **Supplier Relationship Management / SRM**)
+**Vendor number:** **0000569615**
+**Admin user ID (portal login):** **DEEDAVISINC**
+
+**Confirmation:** SRM registration confirmed via email from **SRMRFC@pa.gov** (April 2026).
+
+**PA Supplier Portal (login):** https://www.pasupplierportal.state.pa.us/irj/portal
+
+**What you can do in the portal (per Commonwealth):**
+- View and respond to Commonwealth contract solicitations
+- Set up additional users for the organization (including bidders)
+- Maintain company data — **bank information (ACH)**, addresses
+
+**Systems:**
+- **PA Supplier Portal** — vendor profile, **ACH required** for Commonwealth payment (per standard PA contract terms).
+- **JAGGAER** — ITQs, RFQs, RFPs (electronic qualification and submissions; access per portal / SRM workflow).
+
+**Support:** PA Supplier Portal — **1-877-435-7363**, option **1** | **ra-pscsrmportal@pa.gov** | **SRM / registration:** **SRMRFC@pa.gov**  
+**JAGGAER:** **1-800-233-1121**, option **2**
+
+**eAlerts (recommended):** Register for solicitation email alerts by category — http://www.dgs.internet.state.pa.us/EAlerts_V2/Login.aspx
+
+**DGS Small Business (PA-specific):** Some solicitations are **Small Business Reserved** (DGS **self-certified** Small Business only). Criteria (Commonwealth): independently owned; not dominant in field; **≤100** FTE employees; **under $38.5 million** gross annual revenue. **Self-certify:** https://pro.prismcompliance.com/CustomCertApp/ApplicationStart.aspx?t=101&j=9qoWxXGezrY%3D *(re-verify link in DGS email if it expires).*
+
+**DGS Small Diverse Business:** First self-certify as Small Business, then verify as **≥51%** minority, woman, veteran, service-disabled veteran, disability, or LGBT-owned for **DGS-verified** Small Diverse opportunities. **Program:** https://www.dgs.pa.gov/Small%20Diverse%20Business%20Program/Pages/default.aspx
+
+**Operational notes:**
+- ITQ instructions note **Microsoft Edge or a non-Apple device** if Mac/browser issues during registration or JAGGAER.
+
+**Example active ITQ (courier lane):** Solicitation **4400028185** — Courier Services (statewide; qualification period per eMarketplace — confirm due dates in portal).
 
 ---
 
@@ -169,8 +206,8 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 **Type:** 501(c)(3) Nonprofit Organization  
 **EIN:** 92-3602670  
 **Address:** 1221 Bowers St, Unit 2141, Birmingham, Michigan 48012  
-**Email (General):** info@cwecare.org  
-**Email (Director):** ddavis@cwecare.org  
+**Email (Executive Director / primary):** ddavis@cwecare.org  
+**Email (general org inbox):** info@cwecare.org  
 **Phone:** 248.376.4550  
 **Website:** cwecare.org (currently 404 — needs restoration)  
 **Founder/Executive Director:** Dieasha D. Davis  

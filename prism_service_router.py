@@ -517,7 +517,7 @@ SERVICE_CATALOG = {
 
     # ─── NOTARY ──────────────────────────────────────────────────────
     'notary_standard': {
-        'label':            'Standard Notarization',
+        'label':            'Standard Notarization (§3 MiLONA)',
         'service_line':     'Notary',
         'ddi_capable':      True,
         'lab_required':     False,
@@ -528,7 +528,21 @@ SERVICE_CATALOG = {
         'sub_cost_high':    25,
         'ddi_direct_cost':  0,   # Dee is a notary
         'lab_cost':         0,
-        'notes':            'Dee performs locally. Mobile notary subs for out-of-area.',
+        'notes':            'General acknowledgments/jurats. Dee performs locally. Mobile notary subs for out-of-area. Distinct from CNTDA packages and loan signings.',
+    },
+    'notary_cntda_estate': {
+        'label':            'CNTDA — Trust & Estate Packages (§4)',
+        'service_line':     'Notary',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Mobile notary subs (CNTDA-capable)'],
+        'ddi_rate':         200,   # anchor: living trust / estate package band $150–250 in price book
+        'sub_cost_low':     80,
+        'sub_cost_high':    140,
+        'ddi_direct_cost':  0,
+        'lab_cost':         0,
+        'notes':            'Trust signings, POA/AHD sets, estate delivery — document-agent role; UPL boundaries. POA/AHD lines often $75–125 per set in DDI_PROFESSIONAL_SERVICES_PRICING §4.',
     },
     'notary_loan_signing': {
         'label':            'Loan Signing (NSA)',
@@ -571,6 +585,34 @@ SERVICE_CATALOG = {
         'ddi_direct_cost':  30,   # state filing fees
         'lab_cost':         0,
         'notes':            'DDI manages the apostille process. State fees are pass-through.',
+    },
+    'legal_courier_filing': {
+        'label':            'Legal Courier & Court / SOS Filing (§6)',
+        'service_line':     'Legal Courier',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Freight 1st Direct', 'Local runner subs'],
+        'ddi_rate':         65,   # typical regional filing/runner; court rush $75+ in price book
+        'sub_cost_low':     25,
+        'sub_cost_high':    45,
+        'ddi_direct_cost':  15,   # mileage/parking when DDI runs
+        'lab_cost':         0,
+        'notes':            'Filings, retrievals, SOS — not the same SKU as medical courier or §3 notary-only. Filing fees pass-through where applicable.',
+    },
+    'permit_runner_npr': {
+        'label':            'Permit Runner / NPR (§6A)',
+        'service_line':     'Permit Runner',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Local NPR subs', 'LARA/building counter runners'],
+        'ddi_rate':         75,   # base pull + permit fees pass-through per price book
+        'sub_cost_low':     35,
+        'sub_cost_high':    55,
+        'ddi_direct_cost':  20,
+        'lab_cost':         0,
+        'notes':            'Building/LARA permit pulls — may involve notarized forms but billed as permit-runner service, not generic notary.',
     },
 }
 

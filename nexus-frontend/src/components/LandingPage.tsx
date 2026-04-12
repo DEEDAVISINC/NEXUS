@@ -625,6 +625,23 @@ END:VCALENDAR`;
       status: 'online',
       lastUsed: 'NEW! 🔥',
       phase: '6. FINANCE'
+    },
+    {
+      id: 'jeta' as ViewType,
+      name: 'JETA',
+      fullName: 'JETA COURTIÈRE — Aviation Fuel Brokerage',
+      icon: '⛽',
+      description: 'Buyer pipeline • Deals • Outreach • Documents • Division of DEE DAVIS INC',
+      stats: [
+        'Dashboard',
+        'Buyer Pipeline',
+        'Deal Manager',
+        'Outreach • Docs'
+      ],
+      gradient: 'from-amber-600 to-orange-700',
+      status: 'online',
+      lastUsed: 'Shell',
+      phase: '7. FUEL'
     }
   ];
 

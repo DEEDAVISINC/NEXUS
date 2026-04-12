@@ -32,3 +32,6 @@
 
 # --- DAILY BRIEFING (6:30 AM) ---
 30 6 * * * cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_daily_briefing.py >> /tmp/nexus_briefing.log 2>&1
+
+# --- JETA: IATA jet fuel $/bbl → Airtable JETA_MarketData (weekly Monday 7 AM; api_server must be up; set NEXUS_API_URL if not localhost:5000) ---
+0 7 * * 1 cd '/Users/deedavis/NEXUS BACKEND' && /usr/local/bin/python3 nexus_scheduler.py --jeta-market >> /tmp/nexus_jeta_market.log 2>&1

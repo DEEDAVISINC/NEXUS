@@ -18,6 +18,7 @@ import FieldAgentPortal from './components/systems/FieldAgentPortal';
 import AgentPortalRouter from './components/portal/AgentPortalRouter';
 import NOVASystem from './components/systems/NOVASystem';
 import AlexaSystem from './components/systems/AlexaSystem';
+import JETASystem from './components/systems/JETASystem';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
@@ -26,7 +27,12 @@ function App() {
 
   const navigateToSystem = (system: ViewType, initialTab?: string) => {
     setCurrentView(system);
-    setCurrentSystemTab(initialTab || 'dashboard');
+    // JETA COURTIÈRE always lands on Dashboard (module home).
+    if (system === 'jeta') {
+      setCurrentSystemTab('dashboard');
+    } else {
+      setCurrentSystemTab(initialTab || 'dashboard');
+    }
   };
 
   const navigateToLanding = () => {
@@ -66,6 +72,8 @@ function App() {
         return <NOVASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'alexa':
         return <AlexaSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'jeta':
+        return <JETASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }

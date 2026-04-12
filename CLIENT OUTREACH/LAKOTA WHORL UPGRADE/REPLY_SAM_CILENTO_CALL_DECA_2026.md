@@ -34,4 +34,4 @@ Dee Davis Inc.
 
 ## LOG AFTER SEND
 
-- [ ] Update `PARTNER_ACCOUNT_UPDATES.md` — Lakota: Sam replied, call scheduled [date/time]
+- [x] Update `PARTNER_ACCOUNT_UPDATES.md` — Lakota: call scheduled **Mon Apr 13, 2026 1:30–2:00 PM ET** (Meet invite from scilento@lakotasoftware.com)

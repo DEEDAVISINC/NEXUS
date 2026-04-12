@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, Response, url_for
 from flask_cors import CORS
 import jwt
 from datetime import datetime, timedelta
@@ -87,6 +87,112 @@ from datetime import datetime, timedelta
 import jwt
 from functools import wraps
 import json
+from jeta_buyer_schema import (
+    JB,
+    jb_geo_state_raw,
+    jb_get_email,
+    jb_get_float,
+    jb_get_raw,
+    jb_get_str,
+    jb_parse_pipeline_stage_int,
+    jb_pipeline_stage_option,
+    jb_priority_write_payloads,
+    jb_tags_as_list,
+)
+from jeta_seller_schema import JS, js_fields_match_icao
+from jeta_deal_schema import (
+    JD,
+    jd_first_link_id,
+    jd_get_bool,
+    jd_get_float,
+    jd_get_raw,
+    jd_get_str,
+    jd_notes_or_description,
+)
+from jeta_outreach_schema import (
+    JO,
+    jo_first_link_id,
+    jo_get_bool,
+    jo_get_int,
+    jo_get_raw,
+    jo_get_str,
+    jo_response_received_display_string,
+)
+from jeta_document_schema import (
+    JDoc,
+    jdoc_first_link_id,
+    jdoc_get_bool,
+    jdoc_get_float,
+    jdoc_get_raw,
+    jdoc_get_str,
+    jdoc_link_ids,
+    jdoc_pdf_path_local,
+)
+from jeta_broker_chain_schema import (
+    JBC,
+    jbc_first_link_id,
+    jbc_get_bool,
+    jbc_get_float,
+    jbc_get_int,
+    jbc_get_str,
+)
+from jeta_market_data_schema import (
+    JMD,
+    compute_wow_vs_prior,
+    jmd_get_float,
+    jmd_week_sort_key,
+    monday_iso_for_date_str,
+)
+from jeta_supplier_directory_schema import JSD
+from jeta_rfp_schema import (
+    JR,
+    jr_first_link_id,
+    jr_format_date_val,
+    jr_fuel_types_list,
+    jr_get_float,
+    jr_get_raw,
+    jr_get_str,
+)
+from jeta_seller_contact_schema import (
+    JSC,
+    jsc_first_link_id,
+    jsc_format_date,
+    jsc_get_bool,
+    jsc_get_raw,
+    jsc_get_str,
+)
+from jeta_fraud_log_schema import (
+    JFL,
+    jfl_first_link_id,
+    jfl_flag_type_list,
+    jfl_flagged_record_id_display,
+    jfl_format_date,
+    jfl_get_bool,
+    jfl_get_raw,
+    jfl_get_str,
+)
+from jeta_import_log_schema import (
+    JIL,
+    jil_format_date,
+    jil_get_int,
+    jil_get_raw,
+    jil_get_str,
+    jil_long_text_as_json_str,
+)
+from jeta_events_schema import (
+    JE,
+    je_format_date,
+    je_get_bool,
+    je_get_float,
+    je_get_raw,
+    je_get_str,
+    je_link_ids,
+)
+import logging
+import csv
+import io
+import threading
+import time
 
 # Import Bid Folder Scanner (reads real filesystem data)
 from bid_folder_scanner import scan_all_bids, get_dashboard_data
@@ -111,6 +217,7 @@ from subcontractor_quote_validator import validate_subcontractor_quote, calculat
 
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Register PRISM Compliance & Document API
@@ -160,6 +267,14 @@ try:
     print("✅ PRISM Notary Compliance Module registered")
 except ImportError as e:
     print(f"⚠️ PRISM Notary Compliance Module not loaded: {e}")
+
+# Register PRISM Law Firm Notary Channel (SE Michigan — scheduling, intake schema, coverage)
+try:
+    from prism_law_firm_notary_channel import prism_law_firm_channel
+    app.register_blueprint(prism_law_firm_channel)
+    print("✅ PRISM Law Firm Notary Channel registered")
+except ImportError as e:
+    print(f"⚠️ PRISM Law Firm Notary Channel not loaded: {e}")
 
 # Register PRISM Occupational Health Compliance Module
 try:
@@ -2907,6 +3022,5100 @@ def lbpc_upload_csv():
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# =====================================================================
+# JETA — Aviation fuel buyers (Airtable: JETA_Buyers)
+# =====================================================================
+# Expected Airtable fields: Company Name, Contact Name, Email, Phone, State, City,
+# Website, Buyer Type, Pipeline Stage (1–9), Last Contact Date, Next Action, Notes,
+# Next Touch Date (date) — for Outreach Center “due today”
+# Airport (optional) — FBO / airport name for AI outreach drafts
+# Compliance (checkboxes): Legal Entity Confirmed, Aircraft Or Fuel Verified,
+# Purchasing Authority Confirmed, Compliance Review Logged, Business Email Confirmed
+# Fuel Benchmark PPG (number), Contract Status (Branded | Independent)
+# Volume Per Month (number), Not Exclusive Long-Term Contract (checkbox),
+# Decision Maker Name, Decision Maker Title (text)
+# Priority scoring: Priority Score (0–130), Score Breakdown (long text JSON), Priority Tags (long text JSON),
+# Supply Adjacent (checkbox), Canada (checkbox); ICAO Code, Supplier Status, Based Aircraft Total, Country
+#
+# JETA_Outreach: canonical snake_case (see jeta_outreach_schema.JO); legacy Buyer / Touch Date dual-read.
+
+JETA_BUYERS_TABLE = 'JETA_Buyers'
+JETA_OUTREACH_TABLE = 'JETA_Outreach'
+JETA_OUTREACH_BUYER_FIELD = 'Buyer'
+# JETA_Sellers: canonical snake_case (see jeta_seller_schema.JS); legacy Title Case dual-written where applicable.
+# Optional link: Source Buyer → JETA_Buyers (omit if column missing in base).
+JETA_SELLERS_TABLE = 'JETA_Sellers'
+
+# JETA priority persistence (add to Airtable JETA_Buyers if missing)
+JETA_F_SCORE_BREAKDOWN = 'Score Breakdown'  # Long text — JSON object
+JETA_F_PRIORITY_TAGS = 'Priority Tags'  # Long text — JSON array of tag strings
+JETA_F_SUPPLY_ADJACENT = 'Supply Adjacent'  # Checkbox
+JETA_F_CANADA = 'Canada'  # Checkbox — true when Country is Canada
+
+JETA_STAGE_LABELS = [
+    'Identified', 'Qualified', 'Contacted', 'Engaged', 'Benchmarked',
+    'Presenting', 'NCNDA Signed', 'Deal Active', 'Closed',
+]
+
+
+def _jeta_parse_pipeline_stage(fields: dict) -> int:
+    """Normalize pipeline stage to integer 1–9 (snake_case select or legacy Pipeline Stage)."""
+    return jb_parse_pipeline_stage_int(fields, JETA_STAGE_LABELS)
+
+
+def _jeta_format_date_field(val) -> str:
+    if val is None or val == '':
+        return ''
+    if hasattr(val, 'strftime'):
+        return val.strftime('%Y-%m-%d')
+    return str(val)
+
+
+def _jeta_coerce_bool(val) -> bool:
+    """Parse JSON / Airtable checkbox values to bool."""
+    if val is True:
+        return True
+    if val in (False, None, '', []):
+        return False
+    if isinstance(val, str):
+        return val.strip().lower() in ('true', '1', 'yes', 'y', 'checked')
+    return bool(val)
+
+
+def _jeta_parse_optional_float(val):
+    """Return float or None for Airtable/JSON number fields."""
+    if val is None or val == '':
+        return None
+    try:
+        return float(val)
+    except (TypeError, ValueError):
+        return None
+
+
+def _jeta_score_based_aircraft_count(val) -> int:
+    """Priority subscore from based aircraft (0–40)."""
+    try:
+        n = int(float(val))
+    except (TypeError, ValueError):
+        n = 0
+    if n <= 0:
+        return 0
+    if 1 <= n <= 5:
+        return 10
+    if 6 <= n <= 15:
+        return 20
+    if 16 <= n <= 30:
+        return 30
+    return 40
+
+
+def _jeta_score_supplier_status_field(val) -> int:
+    """Open=30, Unknown/null/empty=15, Branded=5."""
+    if val is None:
+        return 15
+    s = _jeta_normalize_supplier_status(val)
+    if s == 'Open':
+        return 30
+    if s == 'Branded':
+        return 5
+    return 15
+
+
+# JETA priority — geography proximity to Michigan (home base), 0–20 points
+JETA_US_STATE_CODES = frozenset(
+    'AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ '
+    'NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split()
+)
+JETA_CA_PROVINCE_CODES = frozenset('AB BC MB NB NL NS NT NU ON PE QC SK YT'.split())
+# Tier 1 (20): MI + Ontario
+JETA_PROXIMITY_TIER_HOME = frozenset({'MI', 'ON'})
+# Tier 2 (15): Great Lakes / adjacent US + Quebec (ON excluded — covered by tier 1)
+JETA_PROXIMITY_TIER_NEAR = frozenset({'OH', 'IN', 'IL', 'WI', 'NY', 'PA', 'QC'})
+
+_JETA_STATE_PROVINCE_NAME_TO_CODE = {
+    'ONTARIO': 'ON',
+    'QUEBEC': 'QC',
+    'BRITISH COLUMBIA': 'BC',
+    'ALBERTA': 'AB',
+    'SASKATCHEWAN': 'SK',
+    'MANITOBA': 'MB',
+    'NOVA SCOTIA': 'NS',
+    'NEW BRUNSWICK': 'NB',
+    'NEWFOUNDLAND AND LABRADOR': 'NL',
+    'NEWFOUNDLAND': 'NL',
+    'LABRADOR': 'NL',
+    'PRINCE EDWARD ISLAND': 'PE',
+    'NORTHWEST TERRITORIES': 'NT',
+    'NUNAVUT': 'NU',
+    'YUKON': 'YT',
+}
+
+
+def _jeta_normalize_state_province_code(val) -> str:
+    """Return 2-letter state/province code when possible (FAA/TC CSV or full province name)."""
+    s = (str(val or '').strip().upper())
+    if not s:
+        return ''
+    if len(s) == 2 and s.isalpha():
+        return s
+    return _JETA_STATE_PROVINCE_NAME_TO_CODE.get(s, '')
+
+
+def _jeta_score_geography_proximity(f: dict) -> int:
+    """
+    Geography proximity (max 20):
+      MI, ON = 20 | OH, IN, IL, WI, NY, PA, QC = 15 | all others (any state text) = 10 | none = 0
+    """
+    geo = jb_geo_state_raw(f)
+    raw = str(geo or '').strip()
+    code = _jeta_normalize_state_province_code(geo)
+    if not raw and not code:
+        return 0
+    if code in JETA_PROXIMITY_TIER_HOME:
+        return 20
+    if code in JETA_PROXIMITY_TIER_NEAR:
+        return 15
+    return 10
+
+
+def _jeta_score_email_present(val) -> int:
+    return 10 if str(val or '').strip() else 0
+
+
+# JETA priority — supply proximity to PADD 3 Gulf Coast refinery hub (US only), 0–30 points
+JETA_SUPPLY_PADD3_TIER1 = frozenset({'TX', 'LA'})
+JETA_SUPPLY_PADD3_TIER2 = frozenset({'MS', 'AL', 'AR'})
+JETA_SUPPLY_PADD3_TIER3 = frozenset({'OK', 'KS', 'TN'})
+JETA_SUPPLY_ADJACENT_CODES = JETA_SUPPLY_PADD3_TIER1 | JETA_SUPPLY_PADD3_TIER2 | JETA_SUPPLY_PADD3_TIER3
+
+JETA_PRIORITY_SCORE_MAX = 130
+
+
+def _jeta_score_supply_proximity_padd3(f: dict) -> int:
+    """
+    Near PADD 3 Gulf Coast hub (US state only; Canada / unknown = 0):
+      TX, LA = 30 | MS, AL, AR = 20 | OK, KS, TN = 15 | all others = 0
+    """
+    code = _jeta_normalize_state_province_code(jb_geo_state_raw(f))
+    if not code or code not in JETA_US_STATE_CODES:
+        return 0
+    if code in JETA_SUPPLY_PADD3_TIER1:
+        return 30
+    if code in JETA_SUPPLY_PADD3_TIER2:
+        return 20
+    if code in JETA_SUPPLY_PADD3_TIER3:
+        return 15
+    return 0
+
+
+def _jeta_country_is_canada(val) -> bool:
+    s = (str(val or '').strip().lower())
+    return s == 'canada'
+
+
+def _jeta_priority_tags_from_score(score: int) -> list:
+    """Single tier tag from total priority score."""
+    s = int(score)
+    if s >= 100:
+        return ['PRIORITY']
+    if s >= 70:
+        return ['HIGH VALUE']
+    if s >= 40:
+        return ['STANDARD']
+    return ['LOW PRIORITY']
+
+
+def _jeta_compute_priority_package(f: dict) -> dict:
+    """
+    Full JETA priority from Airtable field dict.
+    Returns priority_score (0–130), score_breakdown, tags, supply_adjacent, canada.
+    """
+    ba_raw = jb_get_float(f, JB.based_aircraft)
+    if ba_raw is None:
+        ba_raw = f.get('Based Aircraft Total')
+    demand = _jeta_score_based_aircraft_count(ba_raw)
+    sup_f = jb_get_raw(f, JB.supplier_status)
+    if sup_f is None:
+        sup_f = f.get('Supplier Status')
+    supplier = _jeta_score_supplier_status_field(sup_f)
+    geography = _jeta_score_geography_proximity(f)
+    contact = _jeta_score_email_present(jb_get_email(f))
+    supply = _jeta_score_supply_proximity_padd3(f)
+    total = demand + supplier + geography + contact + supply
+    total = max(0, min(JETA_PRIORITY_SCORE_MAX, int(total)))
+
+    code = _jeta_normalize_state_province_code(jb_geo_state_raw(f))
+    supply_adjacent = bool(code and code in JETA_SUPPLY_ADJACENT_CODES)
+    canada = _jeta_country_is_canada(jb_get_str(f, JB.country))
+
+    score_breakdown = {
+        'demand_signal': demand,
+        'supplier_status': supplier,
+        'geography_proximity': geography,
+        'contact_completeness': contact,
+        'supply_proximity': supply,
+        'total': total,
+    }
+    tags = _jeta_priority_tags_from_score(total)
+    return {
+        'priority_score': total,
+        'score_breakdown': score_breakdown,
+        'tags': tags,
+        'supply_adjacent': supply_adjacent,
+        'canada': canada,
+    }
+
+
+def _jeta_compute_priority_score_from_airtable_fields(f: dict) -> int:
+    """JETA buyer priority 0–130 (numeric only)."""
+    return _jeta_compute_priority_package(f)['priority_score']
+
+
+def _jeta_refresh_buyer_priority_full(airtable_client: AirtableClient, buyer_id: str) -> dict:
+    """Recompute and persist priority score, breakdown JSON, tags, supply_adjacent, canada on JETA_Buyers."""
+    rec = airtable_client.get_record(JETA_BUYERS_TABLE, buyer_id)
+    f = rec.get('fields') or {}
+    pkg = _jeta_compute_priority_package(f)
+    json_dumps_score = json.dumps(pkg['score_breakdown'], separators=(',', ':'))
+    last_err = None
+    for payload in jb_priority_write_payloads(pkg, json_dumps_score=json_dumps_score):
+        try:
+            airtable_client.update_record(JETA_BUYERS_TABLE, buyer_id, payload)
+            return pkg
+        except Exception as e:
+            last_err = e
+            logger.warning('JETA full priority update failed for %s (try next payload shape): %s', buyer_id, e)
+    for fld in (JB.priority_score, 'Priority Score'):
+        try:
+            airtable_client.update_record(JETA_BUYERS_TABLE, buyer_id, {fld: pkg['priority_score']})
+            return pkg
+        except Exception as e2:
+            logger.warning('JETA minimal priority score update failed for %s field=%s: %s', buyer_id, fld, e2)
+    if last_err:
+        raise last_err
+    raise RuntimeError('JETA priority update failed with no recoverable field shape')
+
+
+def _jeta_refresh_buyer_priority_score(airtable_client: AirtableClient, buyer_id: str) -> int:
+    """Recompute and persist priority fields on JETA_Buyers; returns numeric score."""
+    return _jeta_refresh_buyer_priority_full(airtable_client, buyer_id)['priority_score']
+
+
+def _jeta_serialize_record(record: dict) -> dict:
+    f = record.get('fields') or {}
+    pkg = _jeta_compute_priority_package(f)
+    stage = _jeta_parse_pipeline_stage(f)
+    last_raw = jb_get_raw(f, JB.last_contact_date)
+    if last_raw is None:
+        last_raw = f.get('Last Contact Date')
+    last_dt = last_raw
+    if last_dt is not None and hasattr(last_dt, 'strftime'):
+        last_dt = last_dt.strftime('%Y-%m-%d')
+    else:
+        last_dt = str(last_dt) if last_dt else ''
+    next_raw = jb_get_raw(f, JB.next_contact_date)
+    if next_raw is None:
+        next_raw = f.get('Next Touch Date')
+    tag_list = jb_tags_as_list(f)
+    ba_total = jb_get_float(f, JB.based_aircraft)
+    if ba_total is None:
+        ba_total = _jeta_parse_optional_float(f.get('Based Aircraft Total'))
+    return {
+        'id': record['id'],
+        'companyName': jb_get_str(f, JB.company_name),
+        'contactName': jb_get_str(f, JB.contact_name),
+        'contactTitle': jb_get_str(f, JB.contact_title),
+        'email': jb_get_str(f, JB.contact_email),
+        'phone': jb_get_str(f, JB.contact_phone),
+        'state': jb_get_str(f, JB.state),
+        'province': jb_get_str(f, JB.province),
+        'zipCode': jb_get_str(f, JB.zip_code),
+        'city': jb_get_str(f, JB.city),
+        'airport': jb_get_str(f, JB.airport_name),
+        'icaoCode': jb_get_str(f, JB.airport_icao),
+        'airportFaaCode': jb_get_str(f, JB.airport_faa_code),
+        'website': f.get('Website', '') or '',
+        'buyerType': jb_get_str(f, JB.buyer_type),
+        'pipelineStage': stage,
+        'stageLabel': JETA_STAGE_LABELS[stage - 1] if 1 <= stage <= 9 else JETA_STAGE_LABELS[0],
+        'lastContactDate': last_dt or '',
+        'nextTouchDate': _jeta_format_date_field(next_raw),
+        'nextAction': jb_get_str(f, JB.next_action),
+        'notes': jb_get_str(f, JB.notes),
+        'legalEntityConfirmed': _jeta_coerce_bool(f.get('Legal Entity Confirmed')),
+        'aircraftOrFuelVerified': _jeta_coerce_bool(f.get('Aircraft Or Fuel Verified')),
+        'purchasingAuthorityConfirmed': _jeta_coerce_bool(f.get('Purchasing Authority Confirmed')),
+        'complianceReviewLogged': _jeta_coerce_bool(f.get('Compliance Review Logged')),
+        'businessEmailConfirmed': _jeta_coerce_bool(f.get('Business Email Confirmed')),
+        'fuelBenchmarkPpg': _jeta_parse_optional_float(f.get('Fuel Benchmark PPG')),
+        'contractStatus': str(f.get('Contract Status') or '').strip(),
+        'volumePerMonth': _jeta_parse_optional_float(f.get('Volume Per Month')),
+        'notExclusiveLongTermContract': _jeta_coerce_bool(f.get('Not Exclusive Long-Term Contract')),
+        'decisionMakerName': str(f.get('Decision Maker Name') or '').strip(),
+        'decisionMakerTitle': str(f.get('Decision Maker Title') or '').strip(),
+        'faaRegistration': str(f.get('FAA Registration') or '').strip(),
+        'fuelConsumptionHistoryProvided': _jeta_coerce_bool(f.get('Fuel Consumption History Provided')),
+        'terminalStorageDocsUploaded': _jeta_coerce_bool(f.get('Terminal Storage Docs Uploaded')),
+        'aircraftOperationConfirmed': _jeta_coerce_bool(f.get('Aircraft Operation Confirmed')),
+        'sellerProductDescription': str(f.get('Seller Product Description') or '').strip(),
+        'fuelType': _jeta_normalize_fuel_type(jb_get_raw(f, JB.fuel_type) or f.get('Fuel Type')),
+        'country': jb_get_str(f, JB.country),
+        'importSource': jb_get_str(f, JB.source),
+        'dateAdded': _jeta_format_date_field(jb_get_raw(f, JB.date_added) or f.get('Date Added')),
+        'basedAircraftTotal': ba_total,
+        'supplierStatus': _jeta_normalize_supplier_status(jb_get_raw(f, JB.supplier_status) or f.get('Supplier Status')),
+        'priorityScore': pkg['priority_score'],
+        'scoreBreakdown': pkg['score_breakdown'],
+        'priorityTags': tag_list if tag_list else pkg['tags'],
+        'supplyAdjacent': pkg['supply_adjacent'],
+        'canada': pkg['canada'],
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_json_to_fields(data: dict, partial: bool = False) -> dict:
+    """Map API JSON (camelCase) to Airtable — canonical snake_case + legacy Title Case where applicable."""
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    mapping = [
+        ('companyName', JB.company_name, 'Company Name'),
+        ('contactName', JB.contact_name, 'Contact Name'),
+        ('contactTitle', JB.contact_title, 'Decision Maker Title'),
+        ('email', JB.contact_email, 'Email'),
+        ('phone', JB.contact_phone, 'Phone'),
+        ('state', JB.state, 'State'),
+        ('province', JB.province, 'Province'),
+        ('zipCode', JB.zip_code, 'Zip Code'),
+        ('city', JB.city, 'City'),
+        ('airport', JB.airport_name, 'Airport'),
+        ('icaoCode', JB.airport_icao, 'ICAO Code'),
+        ('airportFaaCode', JB.airport_faa_code, 'FAA Registration'),
+        ('buyerType', JB.buyer_type, 'Buyer Type'),
+        ('nextAction', JB.next_action, 'Next Action'),
+        ('notes', JB.notes, 'Notes'),
+    ]
+    for jk, canon, legacy in mapping:
+        if jk not in data:
+            continue
+        val = data[jk]
+        if val is None:
+            continue
+        put_both(canon, legacy, val)
+    if 'website' in data and data.get('website') is not None:
+        out['Website'] = str(data['website']).strip()
+
+    if 'pipelineStage' in data and data.get('pipelineStage') not in (None, ''):
+        try:
+            ps = int(data['pipelineStage'])
+            ps = max(1, min(9, ps))
+            opt = jb_pipeline_stage_option(ps, JETA_STAGE_LABELS)
+            out[JB.pipeline_stage] = opt
+            out['Pipeline Stage'] = ps
+        except (TypeError, ValueError):
+            if not partial:
+                out[JB.pipeline_stage] = jb_pipeline_stage_option(1, JETA_STAGE_LABELS)
+                out['Pipeline Stage'] = 1
+    elif not partial:
+        out[JB.pipeline_stage] = jb_pipeline_stage_option(1, JETA_STAGE_LABELS)
+        out['Pipeline Stage'] = 1
+    if 'lastContactDate' in data:
+        lcd = data['lastContactDate']
+        if lcd:
+            out[JB.last_contact_date] = lcd
+            out['Last Contact Date'] = lcd
+    if 'nextTouchDate' in data:
+        ntd = data['nextTouchDate']
+        if ntd:
+            out[JB.next_contact_date] = ntd
+            out['Next Touch Date'] = ntd
+    for jk, ak in (
+        ('legalEntityConfirmed', 'Legal Entity Confirmed'),
+        ('aircraftOrFuelVerified', 'Aircraft Or Fuel Verified'),
+        ('purchasingAuthorityConfirmed', 'Purchasing Authority Confirmed'),
+        ('complianceReviewLogged', 'Compliance Review Logged'),
+        ('businessEmailConfirmed', 'Business Email Confirmed'),
+    ):
+        if jk not in data:
+            continue
+        out[ak] = _jeta_coerce_bool(data[jk])
+    if 'fuelBenchmarkPpg' in data and data.get('fuelBenchmarkPpg') not in (None, ''):
+        fp = _jeta_parse_optional_float(data.get('fuelBenchmarkPpg'))
+        if fp is not None:
+            out['Fuel Benchmark PPG'] = fp
+    if 'contractStatus' in data and data.get('contractStatus') not in (None, ''):
+        out['Contract Status'] = str(data['contractStatus']).strip()
+    if 'volumePerMonth' in data and data.get('volumePerMonth') not in (None, ''):
+        vm = _jeta_parse_optional_float(data.get('volumePerMonth'))
+        if vm is not None:
+            out['Volume Per Month'] = vm
+    if 'notExclusiveLongTermContract' in data:
+        out['Not Exclusive Long-Term Contract'] = _jeta_coerce_bool(data['notExclusiveLongTermContract'])
+    if 'decisionMakerName' in data and data.get('decisionMakerName') is not None:
+        out['Decision Maker Name'] = str(data['decisionMakerName']).strip()
+    if 'decisionMakerTitle' in data and data.get('decisionMakerTitle') is not None:
+        out['Decision Maker Title'] = str(data['decisionMakerTitle']).strip()
+    if 'faaRegistration' in data and data.get('faaRegistration') is not None:
+        out['FAA Registration'] = str(data['faaRegistration']).strip()
+    if 'fuelConsumptionHistoryProvided' in data:
+        out['Fuel Consumption History Provided'] = _jeta_coerce_bool(data['fuelConsumptionHistoryProvided'])
+    if 'terminalStorageDocsUploaded' in data:
+        out['Terminal Storage Docs Uploaded'] = _jeta_coerce_bool(data['terminalStorageDocsUploaded'])
+    if 'aircraftOperationConfirmed' in data:
+        out['Aircraft Operation Confirmed'] = _jeta_coerce_bool(data['aircraftOperationConfirmed'])
+    if 'sellerProductDescription' in data and data.get('sellerProductDescription') is not None:
+        out['Seller Product Description'] = str(data['sellerProductDescription']).strip()
+    if 'country' in data and data.get('country') is not None:
+        c = str(data['country']).strip()
+        put_both(JB.country, 'Country', c)
+    if 'importSource' in data and data.get('importSource') is not None:
+        s = str(data['importSource']).strip()
+        put_both(JB.source, 'Source', s)
+    if 'dateAdded' in data and data.get('dateAdded') not in (None, ''):
+        da = str(data['dateAdded']).strip()
+        out[JB.date_added] = da
+        out['Date Added'] = da
+    if 'basedAircraftTotal' in data and data.get('basedAircraftTotal') not in (None, ''):
+        bt = _jeta_parse_optional_float(data.get('basedAircraftTotal'))
+        if bt is not None:
+            out[JB.based_aircraft] = bt
+            out['Based Aircraft Total'] = bt
+    if 'fuelType' in data and data.get('fuelType') is not None:
+        ft = _jeta_normalize_fuel_type(data.get('fuelType'))
+        out[JB.fuel_type] = ft
+        out['Fuel Type'] = ft
+    elif not partial:
+        out[JB.fuel_type] = 'Conventional'
+        out['Fuel Type'] = 'Conventional'
+    if 'supplierStatus' in data and data.get('supplierStatus') is not None:
+        ss = _jeta_normalize_supplier_status(data.get('supplierStatus'))
+        out[JB.supplier_status] = ss
+        out['Supplier Status'] = ss
+    elif not partial:
+        out[JB.supplier_status] = 'Unknown'
+        out['Supplier Status'] = 'Unknown'
+    return out
+
+
+def _jeta_readiness_block_message(readiness: dict) -> str:
+    """User-facing error when the JETA counterparty readiness checklist fails."""
+    if readiness.get('all_met'):
+        return ''
+    missing = []
+    if not readiness.get('no_critical_flags', True):
+        missing.append('no CRITICAL compliance flags on record')
+    if not readiness.get('legal_entity_confirmed'):
+        missing.append('legal entity name confirmed')
+    if not readiness.get('aircraft_or_fuel_verified'):
+        missing.append('aircraft or fuel consumption verified (FAA or docs)')
+    if not readiness.get('purchasing_authority_confirmed'):
+        missing.append('purchasing authority confirmed')
+    if not readiness.get('counterparty_score_ok'):
+        missing.append('counterparty score GREEN, or YELLOW with compliance review logged')
+    if not readiness.get('business_domain_email_ok'):
+        missing.append('business-domain email (or confirm free/consumer address with businessEmailConfirmed)')
+    if not readiness.get('outreach_logged'):
+        missing.append('at least one outreach row in JETA_Outreach for this buyer')
+    if not readiness.get('response_received_logged', True) and readiness.get('outreach_logged'):
+        missing.append('response received and logged on JETA_Outreach')
+    if not readiness.get('fuel_benchmark_ppg_captured'):
+        missing.append('current fuel benchmark (approximate PPG) on buyer record')
+    if not readiness.get('contract_status_known'):
+        missing.append('contract status known (branded or independent)')
+    if not readiness.get('volume_per_month_documented'):
+        missing.append('volume per month documented on buyer record')
+    if not readiness.get('not_exclusive_long_term_contract_confirmed'):
+        missing.append('buyer confirmed not locked in exclusive long-term contract')
+    if not readiness.get('decision_maker_documented'):
+        missing.append('decision maker confirmed by name and title')
+    return 'JETA counterparty readiness incomplete — ' + '; '.join(missing) + '.'
+
+
+def _jeta_compliance_block_message(compliance: dict, resource: str) -> str:
+    """User-facing error when JETA traffic-light blocks an operation."""
+    if compliance.get('critical_block'):
+        return f'JETA compliance: CRITICAL — {resource} blocked (instant stop)'
+    if compliance.get('deal_blocked') or compliance.get('traffic_light') == 'red':
+        return f'JETA compliance: RED — {resource} blocked (too many flags); see compliance.findings'
+    if compliance.get('traffic_light') == 'yellow':
+        return (
+            f'JETA compliance: YELLOW — set acknowledgeManualReview and complianceReviewLogged '
+            f'to true after manual review ({resource})'
+        )
+    return f'JETA compliance blocked ({resource})'
+
+
+def _jeta_outreach_buyer_ids(fields: dict) -> list:
+    raw = fields.get(JO.buyer_id) or fields.get(JETA_OUTREACH_BUYER_FIELD) or fields.get('Buyer')
+    if isinstance(raw, list):
+        return [x for x in raw if x]
+    return []
+
+
+def _jeta_count_outreach_for_buyer(airtable_client, buyer_id: str) -> int:
+    """Count JETA_Outreach rows linked to this buyer."""
+    if not (buyer_id or '').strip():
+        return 0
+    try:
+        outreach_raw = airtable_client.get_all_records(JETA_OUTREACH_TABLE)
+    except Exception:
+        return 0
+    n = 0
+    for rec in outreach_raw:
+        f = rec.get('fields') or {}
+        bids = _jeta_outreach_buyer_ids(f)
+        if buyer_id in bids:
+            n += 1
+    return n
+
+
+def _jeta_outreach_response_logged_for_buyer(airtable_client, buyer_id: str) -> bool:
+    """True if any JETA_Outreach row for this buyer has response text or a non-placeholder status."""
+    if not (buyer_id or '').strip():
+        return False
+    try:
+        outreach_raw = airtable_client.get_all_records(JETA_OUTREACH_TABLE)
+    except Exception:
+        return False
+    placeholders = frozenset(
+        {'', 'none', 'pending', 'n/a', 'na', 'no response', '—', '-', 'unknown'}
+    )
+    for rec in outreach_raw:
+        f = rec.get('fields') or {}
+        bids = _jeta_outreach_buyer_ids(f)
+        if buyer_id not in bids:
+            continue
+        if jo_get_bool(f, JO.response_received) is True:
+            return True
+        if jo_get_str(f, JO.response_notes):
+            return True
+        rr = f.get('Response Received')
+        if isinstance(rr, str) and rr.strip():
+            return True
+        if rr is True:
+            return True
+        rs = jo_get_str(f, JO.response_type).lower() or (f.get('Response Status') or '').strip().lower()
+        if rs and rs not in placeholders:
+            return True
+    return False
+
+
+def _jeta_serialize_outreach(record: dict, buyer_lookup: dict) -> dict:
+    """buyer_lookup: id -> {companyName, contactName}"""
+    f = record.get('fields') or {}
+    bids = _jeta_outreach_buyer_ids(f)
+    buyer_id = bids[0] if bids else ''
+    deal_id = jo_first_link_id(f, JO.deal_id)
+    info = buyer_lookup.get(buyer_id, {}) if buyer_id else {}
+    tn = jo_get_int(f, JO.touch_number)
+    if tn is None:
+        try:
+            tn = int(f.get('Touch Number') or 0) if f.get('Touch Number') is not None else 0
+        except (TypeError, ValueError):
+            tn = 0
+    od_raw = jo_get_raw(f, JO.outreach_date) or f.get('Touch Date')
+    rs_disp = jo_response_received_display_string(f)
+    rs_type = jo_get_str(f, JO.response_type) or str(f.get('Response Status') or '').strip()
+    ntn = jo_get_int(f, JO.next_touch_number)
+    return {
+        'id': record['id'],
+        'buyerId': buyer_id,
+        'dealId': deal_id,
+        'companyName': info.get('companyName', '') or '',
+        'contactName': info.get('contactName', '') or '',
+        'touchNumber': tn,
+        'channel': jo_get_str(f, JO.channel) or str(f.get('Channel') or ''),
+        'touchDate': _jeta_format_date_field(od_raw),
+        'outreachDate': _jeta_format_date_field(od_raw),
+        'outreachTime': jo_get_str(f, JO.outreach_time),
+        'subjectLine': jo_get_str(f, JO.subject_line),
+        'messageSummary': jo_get_str(f, JO.message_summary),
+        'aiDrafted': jo_get_bool(f, JO.ai_drafted) is True,
+        'responseReceived': rs_disp,
+        'responseReceivedLogged': jo_get_bool(f, JO.response_received) is True or bool(rs_disp),
+        'responseDate': _jeta_format_date_field(jo_get_raw(f, JO.response_date)),
+        'responseStatus': rs_type,
+        'responseNotes': jo_get_str(f, JO.response_notes),
+        'nextTouchNumber': ntn if ntn is not None else None,
+        'nextTouchDate': _jeta_format_date_field(jo_get_raw(f, JO.next_touch_date) or f.get('Next Touch Date')),
+        'nextTouchChannel': jo_get_str(f, JO.next_touch_channel),
+        'nextTouchNotes': jo_get_str(f, JO.next_touch_notes),
+        'sentBy': jo_get_str(f, JO.sent_by),
+        'followUpComplete': jo_get_bool(f, JO.follow_up_complete) is True,
+        'notes': jo_get_str(f, JO.notes) or str(f.get('Notes') or ''),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_outreach_json_to_fields(data: dict) -> dict:
+    """Map API JSON to Airtable — canonical snake_case + legacy columns."""
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    bid = (data.get('buyerId') or data.get('buyer_id') or '').strip()
+    if bid:
+        put_both(JO.buyer_id, JETA_OUTREACH_BUYER_FIELD, [bid])
+
+    did = (data.get('dealId') or data.get('deal_id') or '').strip()
+    if did:
+        put_both(JO.deal_id, 'Deal', [did])
+
+    if 'touchNumber' in data and data['touchNumber'] is not None:
+        try:
+            tn = int(data['touchNumber'])
+        except (TypeError, ValueError):
+            tn = 0
+        put_both(JO.touch_number, 'Touch Number', tn)
+
+    td = (data.get('touchDate') or data.get('outreach_date') or data.get('outreachDate') or '').strip()
+    if td:
+        put_both(JO.outreach_date, 'Touch Date', td)
+
+    ntd = (data.get('nextTouchDate') or data.get('next_touch_date') or '').strip()
+    if ntd:
+        put_both(JO.next_touch_date, 'Next Touch Date', ntd)
+
+    str_map = [
+        ('channel', JO.channel, 'Channel'),
+        ('outreachTime', JO.outreach_time, 'Outreach Time'),
+        ('subjectLine', JO.subject_line, 'Subject Line'),
+        ('messageSummary', JO.message_summary, 'Message Summary'),
+        ('responseStatus', JO.response_type, 'Response Status'),
+        ('responseNotes', JO.response_notes, 'Response Notes'),
+        ('nextTouchChannel', JO.next_touch_channel, 'Next Touch Channel'),
+        ('nextTouchNotes', JO.next_touch_notes, 'Next Touch Notes'),
+        ('sentBy', JO.sent_by, 'Sent By'),
+        ('notes', JO.notes, 'Notes'),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    if 'nextTouchNumber' in data and data['nextTouchNumber'] is not None:
+        try:
+            put_both(JO.next_touch_number, 'Next Touch Number', int(data['nextTouchNumber']))
+        except (TypeError, ValueError):
+            pass
+
+    if data.get('responseDate') or data.get('response_date'):
+        rd = str(data.get('responseDate') or data.get('response_date')).strip()
+        if rd:
+            put_both(JO.response_date, 'Response Date', rd)
+
+    for jk, canon, legacy in [
+        ('aiDrafted', JO.ai_drafted, 'AI Drafted'),
+        ('followUpComplete', JO.follow_up_complete, 'Follow Up Complete'),
+    ]:
+        if jk in data:
+            put_both(canon, legacy, _jeta_coerce_bool(data[jk]))
+
+    # responseReceived: bool → checkbox; string → checkbox True + response_notes (canonical schema).
+    if 'responseReceived' in data and data['responseReceived'] is not None:
+        rv = data['responseReceived']
+        if isinstance(rv, bool):
+            put_both(JO.response_received, 'Response Received', rv)
+        else:
+            s = str(rv).strip()
+            if not s:
+                put_both(JO.response_received, 'Response Received', False)
+            elif s.lower() in ('true', 'yes', '1', 'y'):
+                put_both(JO.response_received, 'Response Received', True)
+            elif s.lower() in ('false', 'no', '0', 'n'):
+                put_both(JO.response_received, 'Response Received', False)
+            else:
+                out[JO.response_received] = True
+                put_both(JO.response_notes, 'Response Notes', s)
+
+    return out
+
+
+@app.route('/api/jeta/buyers', methods=['GET'])
+@app.route('/jeta/buyers', methods=['GET'])
+def jeta_get_buyers():
+    """List JETA buyers with optional filters. Default order: priority score descending."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            records = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'buyers': [],
+                'count': 0,
+                'filterOptions': {'states': [], 'buyerTypes': []},
+                'hint': f'Create Airtable table "{JETA_BUYERS_TABLE}" with the expected fields.',
+            }), 200
+
+        state_f = (request.args.get('state') or '').strip()
+        buyer_type_f = (request.args.get('buyer_type') or '').strip()
+        stage_f = (request.args.get('pipeline_stage') or '').strip()
+        supplier_status_f = (request.args.get('supplier_status') or '').strip()
+        min_priority_f = (request.args.get('min_priority_score') or '').strip()
+
+        all_rows = [_jeta_serialize_record(rec) for rec in records]
+        states = sorted({b['state'] for b in all_rows if b['state']})
+        types = sorted({b['buyerType'] for b in all_rows if b['buyerType']})
+        supplier_statuses = sorted({(b.get('supplierStatus') or 'Unknown') for b in all_rows})
+
+        buyers = []
+        for row in all_rows:
+            if state_f and row['state'] != state_f:
+                continue
+            if buyer_type_f and row['buyerType'] != buyer_type_f:
+                continue
+            if stage_f:
+                try:
+                    if row['pipelineStage'] != int(stage_f):
+                        continue
+                except ValueError:
+                    continue
+            if supplier_status_f:
+                if _jeta_normalize_supplier_status(row.get('supplierStatus')) != _jeta_normalize_supplier_status(
+                    supplier_status_f
+                ):
+                    continue
+            if min_priority_f:
+                try:
+                    mp = int(min_priority_f)
+                    if int(row.get('priorityScore') or 0) < mp:
+                        continue
+                except ValueError:
+                    pass
+            buyers.append(row)
+
+        buyers.sort(
+            key=lambda b: (-int(b.get('priorityScore') or 0), (b.get('companyName') or '').lower()),
+        )
+
+        return jsonify({
+            'success': True,
+            'buyers': buyers,
+            'count': len(buyers),
+            'filterOptions': {
+                'states': states,
+                'buyerTypes': types,
+                'supplierStatuses': supplier_statuses,
+            },
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'buyers': []}), 500
+
+
+@app.route('/api/jeta/buyers', methods=['POST'])
+@app.route('/jeta/buyers', methods=['POST'])
+def jeta_create_buyer():
+    """Create JETA buyer record."""
+    try:
+        from jeta_compliance_layers import run_layer1_intake_screening, may_proceed_traffic_light
+        from jeta_fraud_detection import score_counterparty_intake
+
+        data = request.json or {}
+        prospect = {
+            'companyName': data.get('companyName'),
+            'contactName': data.get('contactName'),
+            'email': data.get('email'),
+            'state': data.get('state'),
+            'legalEntityConfirmed': _jeta_coerce_bool(data.get('legalEntityConfirmed')),
+            'aircraftOrFuelVerified': _jeta_coerce_bool(data.get('aircraftOrFuelVerified')),
+            'purchasingAuthorityConfirmed': _jeta_coerce_bool(data.get('purchasingAuthorityConfirmed')),
+            'complianceReviewLogged': _jeta_coerce_bool(data.get('complianceReviewLogged')),
+            'businessEmailConfirmed': _jeta_coerce_bool(data.get('businessEmailConfirmed')),
+            'fuelBenchmarkPpg': data.get('fuelBenchmarkPpg'),
+            'contractStatus': data.get('contractStatus'),
+            'volumePerMonth': data.get('volumePerMonth'),
+            'notExclusiveLongTermContract': _jeta_coerce_bool(data.get('notExclusiveLongTermContract')),
+            'decisionMakerName': data.get('decisionMakerName'),
+            'decisionMakerTitle': data.get('decisionMakerTitle'),
+            'notes': data.get('notes'),
+            'nextAction': data.get('nextAction'),
+            'website': data.get('website'),
+            'sellerProductDescription': data.get('sellerProductDescription'),
+            'faaRegistration': data.get('faaRegistration'),
+            'fuelConsumptionHistoryProvided': _jeta_coerce_bool(data.get('fuelConsumptionHistoryProvided')),
+            'terminalStorageDocsUploaded': _jeta_coerce_bool(data.get('terminalStorageDocsUploaded')),
+            'aircraftOperationConfirmed': _jeta_coerce_bool(data.get('aircraftOperationConfirmed')),
+        }
+        compliance_l1 = run_layer1_intake_screening(prospect)
+        if not compliance_l1.get('readiness', {}).get('all_met'):
+            return jsonify({
+                'success': False,
+                'error': _jeta_readiness_block_message(compliance_l1.get('readiness') or {}),
+                'compliance': compliance_l1,
+            }), 409
+        ack = _jeta_coerce_bool(data.get('acknowledgeManualReview'))
+        crm = _jeta_coerce_bool(data.get('complianceReviewLogged'))
+        if not may_proceed_traffic_light(compliance_l1, ack, crm):
+            if compliance_l1.get('deal_blocked') or compliance_l1.get('critical_block'):
+                logger.warning(
+                    'JETA intake blocked (RED/CRITICAL): %s',
+                    json.dumps(
+                        {
+                            'traffic_light': compliance_l1.get('traffic_light'),
+                            'findings': compliance_l1.get('findings'),
+                            'critical_flags': compliance_l1.get('critical_flags'),
+                        }
+                    ),
+                )
+            return jsonify({
+                'success': False,
+                'error': _jeta_compliance_block_message(compliance_l1, 'counterparty intake'),
+                'compliance': compliance_l1,
+            }), 409
+
+        role = 'seller' if 'sell' in (data.get('buyerType') or '').lower() else 'buyer'
+        fraud = score_counterparty_intake(prospect, role)
+        if fraud.get('critical_block') or fraud.get('tier') == 'RED':
+            logger.warning('JETA fraud intake blocked: %s', json.dumps({'tier': fraud.get('tier'), 'flags': fraud.get('flags')}))
+            return jsonify({
+                'success': False,
+                'error': 'JETA fraud detection: counterparty score is RED or CRITICAL — intake blocked.',
+                'fraud': fraud,
+                'compliance': compliance_l1,
+            }), 409
+        if fraud.get('tier') == 'YELLOW' and not (ack and crm):
+            return jsonify({
+                'success': False,
+                'error': (
+                    'JETA fraud detection: YELLOW score — set acknowledgeManualReview and complianceReviewLogged '
+                    'after manual review.'
+                ),
+                'fraud': fraud,
+                'compliance': compliance_l1,
+            }), 409
+
+        fields = _jeta_json_to_fields(data, partial=False)
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_BUYERS_TABLE, fields)
+        try:
+            _jeta_refresh_buyer_priority_score(airtable_client, created['id'])
+            created = airtable_client.get_record(JETA_BUYERS_TABLE, created['id'])
+        except Exception as e:
+            logger.warning('JETA priority score refresh after create failed: %s', e)
+        ser = _jeta_serialize_record(created)
+        outreach_n = _jeta_count_outreach_for_buyer(airtable_client, ser['id'])
+        response_ok = _jeta_outreach_response_logged_for_buyer(airtable_client, ser['id'])
+        compliance_l1 = run_layer1_intake_screening({
+            **ser,
+            'outreachRowCount': outreach_n,
+            'outreachResponseLogged': response_ok,
+        })
+        fraud_after = score_counterparty_intake({**ser}, role)
+        return jsonify({
+            'success': True,
+            'buyer': ser,
+            'compliance': compliance_l1,
+            'fraud': fraud_after,
+        }), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/buyers/<buyer_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/buyers/<buyer_id>', methods=['PUT', 'PATCH'])
+def jeta_update_buyer(buyer_id):
+    """Update JETA buyer."""
+    try:
+        data = request.json or {}
+        fields = _jeta_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_BUYERS_TABLE, buyer_id, fields)
+        try:
+            _jeta_refresh_buyer_priority_score(airtable_client, buyer_id)
+            updated = airtable_client.get_record(JETA_BUYERS_TABLE, buyer_id)
+        except Exception as e:
+            logger.warning('JETA priority score refresh after update failed: %s', e)
+        return jsonify({
+            'success': True,
+            'buyer': _jeta_serialize_record(updated),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+def _jeta_seller_record_for_icao_exists(airtable_client: AirtableClient, icao: str) -> dict | None:
+    """Return existing JETA_Sellers row if icao_airports_served (or legacy ICAO Code) matches this ICAO."""
+    if not icao:
+        return None
+    try:
+        rows = airtable_client.get_all_records(JETA_SELLERS_TABLE)
+    except Exception:
+        return None
+    u = str(icao).strip().upper()
+    for r in rows:
+        fld = r.get('fields') or {}
+        if js_fields_match_icao(fld, u):
+            return r
+    return None
+
+
+@app.route('/api/jeta/sellers/from-buyer', methods=['POST'])
+@app.route('/jeta/sellers/from-buyer', methods=['POST'])
+def jeta_create_seller_from_buyer():
+    """
+    Create JETA_Sellers row from a JETA_Buyers airport when supply_adjacent and Open supplier.
+    Body: { "buyer_id": "rec..." }
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        buyer_id = (data.get('buyer_id') or data.get('buyerId') or '').strip()
+        if not buyer_id:
+            return jsonify({'success': False, 'error': 'buyer_id is required'}), 400
+
+        airtable_client = AirtableClient()
+        rec = airtable_client.get_record(JETA_BUYERS_TABLE, buyer_id)
+        f = rec.get('fields') or {}
+
+        pkg = _jeta_compute_priority_package(f)
+        if not pkg.get('supply_adjacent'):
+            return jsonify({
+                'success': False,
+                'error': 'This action requires supply_adjacent (Gulf-adjacent US state).',
+            }), 400
+        sup_raw = jb_get_raw(f, JB.supplier_status) or f.get('Supplier Status')
+        if _jeta_normalize_supplier_status(sup_raw) != 'Open':
+            return jsonify({
+                'success': False,
+                'error': 'Supplier Status must be Open for this action.',
+            }), 400
+
+        airport = jb_get_str(f, JB.airport_name)
+        company = jb_get_str(f, JB.company_name)
+        icao = jb_get_str(f, JB.airport_icao).upper()
+        city = jb_get_str(f, JB.city)
+        state = jb_geo_state_raw(f)
+        country = jb_get_str(f, JB.country) or 'USA'
+        phone = jb_get_str(f, JB.contact_phone)
+        email = jb_get_email(f)
+
+        existing = _jeta_seller_record_for_icao_exists(airtable_client, icao)
+        if existing:
+            return jsonify({
+                'success': True,
+                'duplicate': True,
+                'seller_id': existing.get('id'),
+                'message': 'A JETA_Sellers record with this ICAO already exists.',
+            }), 200
+
+        display_name = airport or company or icao or 'Unknown location'
+        date_iso = datetime.utcnow().strftime('%Y-%m-%d')
+        notes_body = (
+            f'Airport / facility: {airport or "—"}\n'
+            'Potential seller from JETA supply opportunity (Gulf-adjacent, Open supplier). '
+            f'Source buyer record: {buyer_id}.'
+        )
+        icao_served = f'{icao} — {airport}' if airport else icao
+        seller_fields = {
+            JS.company_name: display_name,
+            'Company Name': display_name,
+            JS.city: city,
+            'City': city,
+            JS.state: state,
+            'State': state,
+            JS.country: country,
+            'Country': country,
+            JS.contact_phone: phone,
+            'Phone': phone,
+            JS.contact_email: email,
+            'Email': email,
+            JS.icao_airports_served: icao_served,
+            'ICAO Code': icao,
+            JS.seller_type: 'Terminal',
+            'Type': 'Terminal',
+            JS.verification_status: 'Unverified',
+            'Status': 'Unverified',
+            JS.relationship_status: 'Cold',
+            'Relationship Status': 'Cold',
+            JS.source: 'Manual Research',
+            'Source': 'Manual Research',
+            JS.near_gulf_coast: True,
+            'Near Gulf Coast': True,
+            JS.date_added: date_iso,
+            'Date Added': date_iso,
+            JS.notes: notes_body,
+            'Notes': notes_body,
+        }
+        # Optional link back to buyer — omit if field missing in base
+        seller_fields_try = {**seller_fields, 'Source Buyer': [buyer_id]}
+        try:
+            created = airtable_client.create_record(JETA_SELLERS_TABLE, seller_fields_try)
+        except Exception as e1:
+            logger.warning('JETA_Sellers create with Source Buyer failed, retrying without link: %s', e1)
+            try:
+                created = airtable_client.create_record(JETA_SELLERS_TABLE, seller_fields)
+            except Exception as e2:
+                logger.exception('JETA_Sellers create failed: %s', e2)
+                return jsonify({'success': False, 'error': str(e2)}), 400
+
+        return jsonify({
+            'success': True,
+            'duplicate': False,
+            'seller_id': created.get('id'),
+            'message': 'Created JETA_Sellers record.',
+        }), 201
+    except Exception as e:
+        logger.exception('jeta_create_seller_from_buyer: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/buyers/rescore', methods=['POST'])
+@app.route('/jeta/buyers/rescore', methods=['POST'])
+def jeta_buyers_rescore():
+    """
+    Recalculate priority_score (0–130), score_breakdown, tags, supply_adjacent, canada for all buyers
+    or a single buyer. Persists to JETA_Buyers when those fields exist.
+    JSON body optional: { "buyer_id": "rec..." }
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        buyer_id = (data.get('buyer_id') or data.get('buyerId') or '').strip()
+        airtable_client = AirtableClient()
+        errors: list = []
+        updated = 0
+        if buyer_id:
+            try:
+                pkg = _jeta_refresh_buyer_priority_full(airtable_client, buyer_id)
+                updated = 1
+                return jsonify({
+                    'success': True,
+                    'updated': 1,
+                    'buyer_id': buyer_id,
+                    'priority_score': pkg['priority_score'],
+                    'score_breakdown': pkg['score_breakdown'],
+                    'tags': pkg['tags'],
+                    'supply_adjacent': pkg['supply_adjacent'],
+                    'canada': pkg['canada'],
+                    'errors': [],
+                }), 200
+            except Exception as e:
+                logger.exception('jeta_buyers_rescore single failed: %s', e)
+                return jsonify({'success': False, 'error': str(e), 'updated': 0, 'errors': [str(e)]}), 400
+
+        raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        for rec in raw:
+            rid = rec.get('id')
+            if not rid:
+                continue
+            try:
+                _jeta_refresh_buyer_priority_full(airtable_client, rid)
+                updated += 1
+            except Exception as e:
+                errors.append({'id': rid, 'error': str(e)})
+        return jsonify({
+            'success': True,
+            'updated': updated,
+            'total_records': len(raw),
+            'errors': errors[:100],
+        }), 200
+    except Exception as e:
+        logger.exception('jeta_buyers_rescore failed: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/outreach/due', methods=['GET'])
+@app.route('/jeta/outreach/due-buyers', methods=['GET'])
+def jeta_outreach_due_buyers():
+    """Buyers with Next Touch Date today or overdue; touch # due + last response from JETA_Outreach."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            outreach_raw = airtable_client.get_all_records(JETA_OUTREACH_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'buyers': [],
+                'hint': f'Ensure tables "{JETA_BUYERS_TABLE}" and "{JETA_OUTREACH_TABLE}" exist with expected fields.',
+            }), 200
+
+        today = datetime.utcnow().date()
+        buyer_rows = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+
+        # Per buyer: max touch #, latest outreach by Touch Date for last response
+        max_touch: dict = {}
+        latest_by_buyer: dict = {}  # buyer_id -> (touch_date_key, response text, status)
+
+        def _touch_date_key(fields: dict):
+            td = jo_get_raw(fields, JO.outreach_date) or fields.get('Touch Date')
+            if td is None:
+                return ''
+            return _jeta_format_date_field(td) or ''
+
+        for rec in outreach_raw:
+            f = rec.get('fields') or {}
+            bids = _jeta_outreach_buyer_ids(f)
+            if not bids:
+                continue
+            bid = bids[0]
+            tn = jo_get_int(f, JO.touch_number)
+            if tn is None:
+                try:
+                    tn = int(f.get('Touch Number')) if f.get('Touch Number') is not None else 0
+                except (TypeError, ValueError):
+                    tn = 0
+            max_touch[bid] = max(max_touch.get(bid, 0), tn)
+            dk = _touch_date_key(f)
+            resp = jo_response_received_display_string(f).strip()
+            st = jo_get_str(f, JO.response_type) or (f.get('Response Status', '') or '').strip()
+            last_line = resp if resp else st
+            prev = latest_by_buyer.get(bid)
+            if not prev or dk > prev[0]:
+                latest_by_buyer[bid] = (dk, last_line, st)
+
+        due = []
+        for bid, row in buyer_rows.items():
+            ntd = (row.get('nextTouchDate') or '').strip()
+            if not ntd:
+                continue
+            try:
+                y, m, d = [int(x) for x in ntd.split('-')[:3]]
+                nd = datetime(y, m, d).date()
+            except (ValueError, TypeError):
+                continue
+            if nd <= today:
+                touch_due = max_touch.get(bid, 0) + 1
+                _, last_resp, _ = latest_by_buyer.get(bid, ('', '', ''))
+                due.append({
+                    **row,
+                    'touchNumberDue': touch_due,
+                    'lastResponse': last_resp or '',
+                })
+
+        due.sort(key=lambda x: (x.get('nextTouchDate') or '', x.get('companyName') or ''))
+        return jsonify({'success': True, 'buyers': due, 'count': len(due)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'buyers': []}), 500
+
+
+@app.route('/jeta/outreach', methods=['GET'])
+def jeta_get_outreach():
+    """List outreach log: sort=touch_date_desc|touch_date_asc, filter channel, response_status."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            outreach_raw = airtable_client.get_all_records(JETA_OUTREACH_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'outreach': [],
+                'filterOptions': {'channels': [], 'responseStatuses': []},
+                'hint': f'Ensure "{JETA_OUTREACH_TABLE}" exists.',
+            }), 200
+
+        buyer_lookup = {}
+        for rec in buyers_raw:
+            ser = _jeta_serialize_record(rec)
+            buyer_lookup[rec['id']] = {
+                'companyName': ser['companyName'],
+                'contactName': ser['contactName'],
+            }
+
+        rows = [_jeta_serialize_outreach(rec, buyer_lookup) for rec in outreach_raw]
+
+        channels_all = sorted({r['channel'] for r in rows if r.get('channel')})
+        statuses_all = sorted({
+            *(r.get('responseStatus') for r in rows if r.get('responseStatus')),
+        })
+
+        ch_f = (request.args.get('channel') or '').strip().lower()
+        rs_f = (request.args.get('response_status') or '').strip().lower()
+        if ch_f:
+            rows = [r for r in rows if (r.get('channel') or '').lower() == ch_f]
+        if rs_f:
+            rows = [
+                r for r in rows
+                if rs_f in (r.get('responseStatus') or '').lower()
+                or rs_f in (r.get('responseReceived') or '').lower()
+            ]
+
+        sort_mode = (request.args.get('sort') or 'touch_date_desc').strip().lower()
+        rev = sort_mode == 'touch_date_asc'
+
+        def sort_key(r):
+            return (r.get('touchDate') or '', r.get('createdTime') or '')
+
+        rows.sort(key=sort_key, reverse=not rev)
+
+        return jsonify({
+            'success': True,
+            'outreach': rows,
+            'count': len(rows),
+            'filterOptions': {'channels': channels_all, 'responseStatuses': statuses_all},
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'outreach': []}), 500
+
+
+@app.route('/api/jeta/outreach/log', methods=['POST'])
+@app.route('/jeta/outreach', methods=['POST'])
+def jeta_create_outreach():
+    """Create outreach row; optionally updates buyer Last Contact Date + Next Touch Date."""
+    try:
+        data = dict(request.json or {})
+        if not data.get('buyerId') and data.get('buyer_id'):
+            data['buyerId'] = data['buyer_id']
+        if not data.get('touchDate') and data.get('touch_date'):
+            data['touchDate'] = data['touch_date']
+        if not data.get('nextTouchDate') and data.get('next_touch_date'):
+            data['nextTouchDate'] = data['next_touch_date']
+        fields = _jeta_outreach_json_to_fields(data)
+        if not fields.get(JO.buyer_id) and not fields.get(JETA_OUTREACH_BUYER_FIELD):
+            return jsonify({'success': False, 'error': 'buyerId is required'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_OUTREACH_TABLE, fields)
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        buyer_lookup = {}
+        for rec in buyers_raw:
+            ser = _jeta_serialize_record(rec)
+            buyer_lookup[rec['id']] = {
+                'companyName': ser['companyName'],
+                'contactName': ser['contactName'],
+            }
+        out = _jeta_serialize_outreach(created, buyer_lookup)
+
+        buyer_id = data.get('buyerId')
+        if buyer_id:
+            bu = {}
+            if data.get('touchDate'):
+                bu['Last Contact Date'] = data['touchDate']
+            if data.get('nextTouchDate'):
+                bu['Next Touch Date'] = data['nextTouchDate']
+            if bu:
+                try:
+                    airtable_client.update_record(JETA_BUYERS_TABLE, buyer_id, bu)
+                except Exception:
+                    pass
+
+        return jsonify({'success': True, 'outreach': out}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+JETA_OUTREACH_AI_USER_PROMPT = (
+    'Write the complete email body only, ready to paste into an email client. '
+    'Do not wrap in markdown code fences.'
+)
+
+
+def _jeta_build_outreach_ai_system(
+    touch_number: int,
+    contact_name: str,
+    company_name: str,
+    buyer_type: str,
+    airport: str,
+    state: str,
+) -> str:
+    """System prompt for Claude: JETA cold-email draft (substituted placeholders)."""
+    tn = max(1, int(touch_number) if touch_number is not None else 1)
+    cn = (contact_name or '').strip() or 'the contact'
+    comp = (company_name or '').strip() or 'the company'
+    bt = (buyer_type or '').strip() or 'prospect'
+    ap = (airport or '').strip() or 'their airport or facility'
+    st = (state or '').strip() or 'their region'
+    extra_touch = ''
+    if tn > 4:
+        extra_touch = (
+            '\n\nFor this touch number (5 or higher), write a very brief professional '
+            'check-in that keeps the relationship warm without repeating earlier '
+            'messages verbatim. Still under 150 words.'
+        )
+    return (
+        'You are writing outreach emails for JETA COURTIÈRE, '
+        'an aviation fuel brokerage division of DEE DAVIS INC. '
+        'The company is EDWOSB/WBE/MBE certified, based in '
+        'Troy Michigan, and sources competitive Jet-A supply '
+        'for FBOs, charter operators, and regional airports.\n\n'
+        'Write a short professional cold email for Touch '
+        f'{tn} to {cn} at {comp}, '
+        f'a {bt} located at {ap} in {st}.\n\n'
+        'Touch 1: Initial introduction, one ask — '
+        '15 minute conversation.\n'
+        'Touch 2: Soft follow up, two sentences max.\n'
+        'Touch 3: Value add — mention EDWOSB certification '
+        'and competitive pricing angle.\n'
+        'Touch 4: Final follow up, leave the door open.'
+        f'{extra_touch}\n\n'
+        'Email must be under 150 words. No attachments '
+        'mentioned. No pitch deck. Sign off as Dee Davis, '
+        'JETA COURTIÈRE | DEE DAVIS INC | jeta@deedavis.biz'
+    )
+
+
+@app.route('/jeta/outreach/ai-draft', methods=['POST'])
+def jeta_outreach_ai_draft():
+    """Generate outreach email draft via Claude (same pattern as ATLAS AI routes)."""
+    try:
+        data = request.json or {}
+        buyer_id = (data.get('buyerId') or '').strip()
+
+        touch_number = data.get('touchNumber')
+        contact_name = data.get('contactName')
+        company_name = data.get('companyName')
+        buyer_type = data.get('buyerType')
+        airport = data.get('airport')
+        state = data.get('state')
+
+        if buyer_id:
+            try:
+                airtable_client = AirtableClient()
+                rec = airtable_client.get_record(JETA_BUYERS_TABLE, buyer_id)
+                ser = _jeta_serialize_record(rec)
+                if contact_name is None:
+                    contact_name = ser.get('contactName', '')
+                if company_name is None:
+                    company_name = ser.get('companyName', '')
+                if buyer_type is None:
+                    buyer_type = ser.get('buyerType', '')
+                if airport is None:
+                    airport = ser.get('airport', '')
+                if state is None:
+                    state = ser.get('state', '')
+            except Exception:
+                pass
+
+        if touch_number is None:
+            return jsonify({'success': False, 'error': 'touchNumber is required'}), 400
+        try:
+            tn = int(touch_number)
+        except (TypeError, ValueError):
+            return jsonify({'success': False, 'error': 'touchNumber must be a number'}), 400
+
+        contact_name = contact_name if contact_name is not None else ''
+        company_name = company_name if company_name is not None else ''
+        buyer_type = buyer_type if buyer_type is not None else ''
+        airport = airport if airport is not None else ''
+        state = state if state is not None else ''
+
+        import anthropic
+        anthropic_client = anthropic.Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY', ''))
+        system_prompt = _jeta_build_outreach_ai_system(
+            tn,
+            str(contact_name or ''),
+            str(company_name or ''),
+            str(buyer_type or ''),
+            str(airport or ''),
+            str(state or ''),
+        )
+        message = anthropic_client.messages.create(
+            model='claude-sonnet-4-20250514',
+            max_tokens=1200,
+            system=system_prompt,
+            messages=[{'role': 'user', 'content': JETA_OUTREACH_AI_USER_PROMPT}],
+        )
+        draft = message.content[0].text.strip()
+        return jsonify({'success': True, 'draft': draft})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+def _jeta_extract_json_object(text: str):
+    """Best-effort parse of JSON from Claude output."""
+    import json
+
+    s = (text or '').strip()
+    if not s:
+        return None
+    try:
+        return json.loads(s)
+    except json.JSONDecodeError:
+        pass
+    i = s.find('{')
+    j = s.rfind('}')
+    if i >= 0 and j > i:
+        try:
+            return json.loads(s[i : j + 1])
+        except json.JSONDecodeError:
+            pass
+    return None
+
+
+@app.route('/api/jeta/notifications/escalation-notice-draft', methods=['POST'])
+@app.route('/jeta/notifications/escalation-notice-draft', methods=['POST'])
+def jeta_escalation_notice_draft():
+    """
+    AI drafts formal counterparty notices citing fee escalation clauses (Claude).
+    Optional dealIds; if empty, uses deals flagged by weekly escalation monitoring, else active deals with base benchmark.
+    """
+    import json
+
+    import anthropic
+    from jeta_deal_schema import JD, jd_get_float, jd_get_str
+    from jeta_market_data_schema import JMD, jmd_get_bool, jmd_get_str
+    from jeta_fee_escalation import compute_escalation_price_alert
+
+    try:
+        data = request.json or {}
+        deal_ids = data.get('dealIds') or data.get('deal_ids') or []
+        if isinstance(deal_ids, str):
+            deal_ids = [x.strip() for x in deal_ids.split(',') if x.strip()]
+        deal_ids = [str(x).strip() for x in deal_ids if str(x).strip()]
+
+        airtable_client = AirtableClient()
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+
+        if not deal_ids:
+            mr = _jeta_market_records_newest_first(airtable_client)
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+            alert = compute_escalation_price_alert(market_records_newest_first=mr, deal_records=deals_raw)
+            deal_ids = [x.get('deal_id') for x in (alert.get('affected_deals') or []) if x.get('deal_id')]
+        if not deal_ids:
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+            for rec in deals_raw:
+                f = rec.get('fields') or {}
+                st = _jeta_normalize_deal_stage(jd_get_str(f, JD.deal_stage) or f.get('Deal Stage'))
+                if st in ('Closed Won', 'Closed Lost'):
+                    continue
+                if jd_get_float(f, JD.escalation_base_benchmark_bbl) is None:
+                    continue
+                rid = rec.get('id')
+                if rid:
+                    deal_ids.append(rid)
+        deal_ids = list(dict.fromkeys(deal_ids))[:25]
+
+        mr = _jeta_market_records_newest_first(airtable_client)
+        from jeta_iata_market import serialize_market_row
+
+        market_summary = serialize_market_row(mr[0]) if mr else {}
+        mf = mr[0].get('fields') if mr else {}
+        intel = {
+            'geopolitical_risk_level': jmd_get_str(mf, JMD.geopolitical_risk_level),
+            'supply_disruption_alert': jmd_get_bool(mf, JMD.supply_disruption_alert),
+            'escalation_clause_triggered_sheet': jmd_get_bool(mf, JMD.escalation_clause_triggered),
+            'hormuz_status': jmd_get_str(mf, JMD.hormuz_status),
+            'suez_status': jmd_get_str(mf, JMD.suez_status),
+            'bosphorus_status': jmd_get_str(mf, JMD.bosphorus_status),
+            'south_china_sea_status': jmd_get_str(mf, JMD.south_china_sea_status),
+        }
+
+        deal_payloads = []
+        for did in deal_ids:
+            try:
+                dr = airtable_client.get_record(JETA_DEALS_TABLE, did)
+                ser = _jeta_serialize_deal(dr, buyer_lookup)
+                bid = ser.get('buyerId') or ''
+                em = ''
+                if bid and bid in buyer_lookup:
+                    em = (buyer_lookup[bid].get('email') or '').strip()
+                deal_payloads.append(
+                    {
+                        'deal_id': did,
+                        'deal_name': ser.get('dealName') or '',
+                        'buyer_display': ser.get('buyerName') or '',
+                        'buyer_email': em,
+                        'escalation_clause_version': ser.get('escalationClauseVersion'),
+                        'base_benchmark_bbl': ser.get('escalationBaseBenchmarkBbl'),
+                        'jeta_fee_per_gallon': ser.get('jetaFeePerGallon'),
+                    }
+                )
+            except Exception:
+                continue
+
+        if not deal_payloads:
+            return jsonify({
+                'success': True,
+                'drafts': [],
+                'notice': 'No eligible deals (need active deals with Fee Agreement benchmark on file, or escalation watchlist).',
+            }), 200
+
+        blob = json.dumps({'latest_market': market_summary, 'jeta_market_intel': intel, 'deals': deal_payloads}, indent=2)
+
+        system = (
+            'You draft formal commercial email notices for JETA COURTIÈRE (DEE DAVIS INC), '
+            'an aviation fuel brokerage in Troy, Michigan (EDWOSB/WBE/MBE). '
+            'Counterparties have executed Fee Agreements with Version A, B, or C escalation language. '
+            'Given current IATA benchmark conditions and JETA_MarketData intelligence, write concise notices that:\n'
+            '- Reference that fee terms may adjust per the executed agreement when benchmark thresholds apply\n'
+            '- Mention 48-hour written notice where the agreement requires\n'
+            '- Do NOT invent specific new dollar fees; defer to the signed clause\n'
+            '- Professional tone; sign as Dee Davis, JETA COURTIÈRE | DEE DAVIS INC | jeta@deedavis.biz\n\n'
+            'Respond with VALID JSON ONLY (no markdown fences). Shape:\n'
+            '{"drafts":[{"deal_id":"recXXX","subject":"...","body":"..."}]}\n'
+            'Exactly one object per deal in the input list, same deal_id values.'
+        )
+
+        key = os.environ.get('ANTHROPIC_API_KEY', '')
+        if not key:
+            return jsonify({
+                'success': False,
+                'error': 'ANTHROPIC_API_KEY is not configured for AI drafts.',
+            }), 503
+
+        client = anthropic.Anthropic(api_key=key)
+        message = client.messages.create(
+            model='claude-sonnet-4-20250514',
+            max_tokens=8000,
+            system=system,
+            messages=[
+                {
+                    'role': 'user',
+                    'content': (
+                        'Generate escalation / market-condition notices for these deals and market context:\n\n' + blob
+                    ),
+                }
+            ],
+        )
+        raw_text = message.content[0].text.strip()
+        parsed = _jeta_extract_json_object(raw_text) or {}
+        drafts = parsed.get('drafts') if isinstance(parsed, dict) else None
+        if not isinstance(drafts, list):
+            drafts = []
+
+        email_by_deal = {d.get('deal_id'): (d.get('buyer_email') or '').strip() for d in deal_payloads}
+        for row in drafts:
+            if not isinstance(row, dict):
+                continue
+            did = row.get('deal_id')
+            row['buyer_email'] = email_by_deal.get(did, '')
+
+        return jsonify({
+            'success': True,
+            'drafts': drafts,
+            'marketContext': {'intel': intel, 'latest': market_summary},
+            'disclaimer': (
+                'AI-generated drafts require human review before sending. '
+                'Fee adjustments follow executed agreements; NEXUS does not automatically change fees or bill counterparties.'
+            ),
+        }), 200
+    except Exception as e:
+        logger.exception('jeta_escalation_notice_draft failed: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =====================================================================
+# JETA_Deals — canonical snake_case (see jeta_deal_schema.JD); dual-read legacy columns.
+# Links: buyer_id → JETA_Buyers, seller_id → JETA_Sellers; compliance still uses serialized camelCase.
+# =====================================================================
+
+JETA_DEALS_TABLE = 'JETA_Deals'
+
+# Conventional jet fuel vs SAF scope (JETA_Buyers + JETA_Deals — Airtable single select)
+JETA_FUEL_TYPE_OPTIONS = frozenset({'Conventional', 'SAF', 'Both'})
+
+
+def _jeta_normalize_fuel_type(raw) -> str:
+    s = (str(raw).strip() if raw is not None else '') or ''
+    if not s:
+        return 'Conventional'
+    for opt in JETA_FUEL_TYPE_OPTIONS:
+        if opt.lower() == s.lower():
+            return opt
+    return 'Conventional'
+
+
+JETA_SUPPLIER_STATUS_OPTIONS = frozenset({'Open', 'Branded', 'Unknown'})
+
+
+def _jeta_normalize_supplier_status(raw) -> str:
+    s = (str(raw).strip() if raw is not None else '') or ''
+    if not s:
+        return 'Unknown'
+    for opt in JETA_SUPPLIER_STATUS_OPTIONS:
+        if opt.lower() == s.lower():
+            return opt
+    return 'Unknown'
+
+
+def _jeta_supplier_name_is_branded(supplier_name: str) -> bool:
+    """
+    Major branded into-plane / fuel suppliers — approach carefully if present.
+    Avfuel, Phillips 66, World Fuel Services, Air BP.
+    """
+    n = (supplier_name or '').lower()
+    if 'avfuel' in n:
+        return True
+    if 'world fuel' in n:
+        return True
+    if re.search(r'\bair\s*bp\b', n) or 'air bp' in n:
+        return True
+    if 'phillips' in n and '66' in n:
+        return True
+    if re.search(r'\bp66\b', n):
+        return True
+    return False
+
+
+def _jeta_supplier_status_from_supplier_rows(suppliers: list) -> str:
+    """After a directory lookup: Branded if any listed supplier matches major brands; else Open."""
+    for s in suppliers or []:
+        name = (s.get('supplier_name') if isinstance(s, dict) else None) or ''
+        if _jeta_supplier_name_is_branded(name):
+            return 'Branded'
+    return 'Open'
+
+
+# Linked record on JETA_SupplierDirectory → JETA_Buyers (canonical buyer_id; legacy env override)
+JETA_SUPPLIER_DIRECTORY_BUYER_FIELD = (os.environ.get('JETA_SUPPLIER_DIRECTORY_BUYER_FIELD') or 'Buyer').strip() or 'Buyer'
+
+JETA_SUPPLIER_DIRECTORY_TABLE = 'JETA_SupplierDirectory'
+
+
+def _jeta_persist_suppliers_for_icao(
+    icao: str,
+    airtable_client: AirtableClient,
+    *,
+    buyer_id: str | None = None,
+) -> dict:
+    """
+    Core logic for GET /jeta/suppliers/lookup: OurAirports + curated suppliers → JETA_SupplierDirectory.
+    Optionally link each stored row to buyer_id.
+    Returns: success, error?, stored_count, supplier_status (Open|Branded), icao, airport_name, suppliers, ...
+    """
+    from jeta_supplier_directory import (
+        airtable_fields_for_row,
+        directory_row_fields_legacy_minimal,
+        lookup_suppliers_for_icao,
+        today_iso_utc,
+    )
+
+    err, payload = lookup_suppliers_for_icao(icao)
+    if err:
+        return {'success': False, 'error': err, 'stored_count': 0}
+
+    lookup_date = today_iso_utc()
+    stored_ids: list = []
+    seen: set = set()
+    suppliers_out = payload.get('suppliers') or []
+    supplier_status = _jeta_supplier_status_from_supplier_rows(suppliers_out)
+
+    for s in suppliers_out:
+        name = (s.get('supplier_name') or '').strip()
+        ft = (s.get('fuel_type') or '').strip()
+        if not name:
+            continue
+        key = (payload.get('icao'), name.lower(), ft.lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        note_txt = (s.get('source_note') or '').strip()
+        fields = airtable_fields_for_row(
+            payload['icao'],
+            payload['airport_name'],
+            name,
+            ft,
+            date_looked_up=lookup_date,
+            city=(payload.get('city') or ''),
+            state=(payload.get('state') or ''),
+            country=(payload.get('country') or ''),
+            notes=note_txt,
+        )
+        if buyer_id:
+            fields[JSD.buyer_id] = [buyer_id]
+            if JETA_SUPPLIER_DIRECTORY_BUYER_FIELD:
+                fields[JETA_SUPPLIER_DIRECTORY_BUYER_FIELD] = [buyer_id]
+
+        _buyer_field_keys = (JSD.buyer_id, JETA_SUPPLIER_DIRECTORY_BUYER_FIELD, 'Buyer')
+
+        def _strip_buyer_link(d: dict) -> dict:
+            return {k: v for k, v in d.items() if k not in _buyer_field_keys}
+
+        try:
+            rec = airtable_client.create_record(JETA_SUPPLIER_DIRECTORY_TABLE, fields)
+            rid = rec.get('id') if isinstance(rec, dict) else getattr(rec, 'id', None)
+            if rid:
+                stored_ids.append(rid)
+        except Exception as e1:
+            try_no_link = False
+            if buyer_id:
+                try:
+                    f2 = _strip_buyer_link(fields)
+                    rec = airtable_client.create_record(JETA_SUPPLIER_DIRECTORY_TABLE, f2)
+                    rid = rec.get('id') if isinstance(rec, dict) else getattr(rec, 'id', None)
+                    if rid:
+                        stored_ids.append(rid)
+                    try_no_link = True
+                except Exception:
+                    pass
+            if not try_no_link:
+                slim = directory_row_fields_legacy_minimal(
+                    payload['icao'],
+                    payload['airport_name'],
+                    name,
+                    ft,
+                    lookup_date,
+                )
+                if buyer_id:
+                    slim[JSD.buyer_id] = [buyer_id]
+                    if JETA_SUPPLIER_DIRECTORY_BUYER_FIELD:
+                        slim[JETA_SUPPLIER_DIRECTORY_BUYER_FIELD] = [buyer_id]
+                try:
+                    rec = airtable_client.create_record(JETA_SUPPLIER_DIRECTORY_TABLE, slim)
+                    rid = rec.get('id') if isinstance(rec, dict) else getattr(rec, 'id', None)
+                    if rid:
+                        stored_ids.append(rid)
+                except Exception as e2:
+                    try:
+                        fa = _strip_buyer_link(slim)
+                        airtable_client.create_record(JETA_SUPPLIER_DIRECTORY_TABLE, fa)
+                    except Exception as e3:
+                        logger.warning(
+                            'JETA_SupplierDirectory write failed: %s / %s / %s',
+                            e1,
+                            e2,
+                            e3,
+                        )
+
+    return {
+        'success': True,
+        'icao': payload.get('icao'),
+        'airport_name': payload.get('airport_name'),
+        'suppliers': suppliers_out,
+        'supplier_status': supplier_status,
+        'stored_count': len(stored_ids),
+        'stored_record_ids': stored_ids,
+        'lookup_date': lookup_date,
+        'notice': payload.get('notice'),
+        'iata_directory_portal': payload.get('iata_directory_portal'),
+        'iata_fuel_program_url': payload.get('iata_fuel_program_url'),
+    }
+
+
+def _jeta_faa_post_import_enrichment_worker(pairs: list) -> None:
+    """Background: supplier lookup per imported buyer ICAO; 2s spacing; updates Supplier Status."""
+    if not pairs:
+        return
+    ac = AirtableClient()
+    for i, (buyer_id, icao) in enumerate(pairs):
+        if i > 0:
+            time.sleep(2)
+        try:
+            out = _jeta_persist_suppliers_for_icao(icao, ac, buyer_id=buyer_id)
+            if out.get('success'):
+                st = out.get('supplier_status') or 'Open'
+                ac.update_record(JETA_BUYERS_TABLE, buyer_id, {'Supplier Status': _jeta_normalize_supplier_status(st)})
+                try:
+                    _jeta_refresh_buyer_priority_score(ac, buyer_id)
+                except Exception as pe:
+                    logger.warning('JETA priority score after enrichment failed %s: %s', buyer_id, pe)
+            else:
+                logger.warning(
+                    'JETA FAA enrichment skipped ICAO=%s buyer=%s: %s',
+                    icao,
+                    buyer_id,
+                    out.get('error'),
+                )
+        except Exception as e:
+            logger.exception('JETA FAA enrichment failed ICAO=%s buyer=%s: %s', icao, buyer_id, e)
+
+
+# Weekly IATA jet fuel snapshot (see GET /api/jeta/market/price, jeta_iata_market.py)
+JETA_MARKET_DATA_TABLE = 'JETA_MarketData'
+
+JETA_DEAL_STAGES = [
+    'Qualifying',
+    'Supply Sourcing',
+    'NCNDA Pending',
+    'NCNDA Signed',
+    'Docs Exchanged',
+    'IMFPA Executed',
+    'Closed Won',
+    'Closed Lost',
+]
+
+JETA_DEAL_CLOSED_STAGES = frozenset({'Closed Won', 'Closed Lost'})
+
+
+def _jeta_parse_float(val, default=0.0):
+    if val is None or val == '':
+        return default
+    try:
+        return float(val)
+    except (TypeError, ValueError):
+        return default
+
+
+def _jeta_normalize_deal_stage(raw) -> str:
+    s = (str(raw).strip() if raw is not None else '') or 'Qualifying'
+    for lab in JETA_DEAL_STAGES:
+        if lab.lower() == s.lower():
+            return lab
+    return 'Qualifying'
+
+
+def _jeta_serialize_deal(record: dict, buyer_lookup: dict) -> dict:
+    f = record.get('fields') or {}
+    buyer_id = jd_first_link_id(f, JD.buyer_id)
+    seller_id = jd_first_link_id(f, JD.seller_id)
+    company = ''
+    contact = ''
+    if buyer_id and buyer_lookup:
+        info = buyer_lookup.get(buyer_id, {})
+        company = info.get('companyName', '') or ''
+        contact = info.get('contactName', '') or ''
+    if company and contact:
+        buyer_display = f'{company} — {contact}'
+    else:
+        buyer_display = company or contact or ''
+
+    stage_raw = jd_get_str(f, JD.deal_stage) or f.get('Deal Stage')
+    stage = _jeta_normalize_deal_stage(stage_raw)
+    vol = jd_get_float(f, JD.volume_gallons)
+    if vol is None:
+        vol = _jeta_parse_float(f.get('Volume Gallons'))
+    ppg = jd_get_float(f, JD.price_per_gallon)
+    if ppg is None:
+        ppg = _jeta_parse_float(f.get('Price Per Gallon'))
+    jfg = jd_get_float(f, JD.jeta_fee_per_gallon)
+    if jfg is None:
+        jfg = _jeta_parse_float(f.get('JETA Fee Per Gallon'))
+    jtf = jd_get_float(f, JD.jeta_total_fee)
+    if jtf is None:
+        jtf = _jeta_parse_optional_float(f.get('Projected Total Fee'))
+    if jtf is not None:
+        projected_total_fee = round(float(jtf), 4)
+    else:
+        projected_total_fee = round(vol * jfg, 4) if vol and jfg else 0.0
+
+    def doc_status(canonical: str, *legacy_keys: str) -> str:
+        v = jd_get_raw(f, canonical)
+        if v is not None and str(v).strip() != '':
+            return str(v).strip()
+        for lk in legacy_keys:
+            if lk in f and f.get(lk) is not None and str(f.get(lk)).strip() != '':
+                return str(f.get(lk)).strip()
+        return ''
+
+    notes_text = jd_notes_or_description(f)
+    ncnda_st = doc_status(JD.ncnda_status, 'NCNDA Status')
+    fee_ag_st = doc_status(JD.fee_agreement_status, 'Fee Agreement Status')
+    pay_st = doc_status(JD.payment_status, 'Payment Status')
+    icpo_b = jd_get_bool(f, JD.icpo_received)
+    if icpo_b is None:
+        icpo_b = _jeta_coerce_bool(f.get('ICPO Received From Buyer'))
+    fco_b = jd_get_bool(f, JD.fco_received)
+    if fco_b is None:
+        fco_b = _jeta_coerce_bool(f.get('FCO Received From Seller'))
+    del_b = jd_get_bool(f, JD.delivery_confirmed)
+    if del_b is None:
+        del_b = _jeta_coerce_bool(f.get('Fuel Delivery Confirmed'))
+    multi_b = jd_get_bool(f, JD.multi_broker_chain)
+    if multi_b is None:
+        multi_b = _jeta_coerce_bool(f.get('Multiple Brokers In Chain'))
+    ncnda_dt = jd_get_str(f, JD.ncnda_signed_date)
+    signed_ncnda_up = bool(ncnda_dt) or _jeta_coerce_bool(f.get('Signed NCNDA Uploaded Date Stamped'))
+    fee_ag_ex = (
+        (fee_ag_st.lower() == 'signed')
+        or ('signed' in fee_ag_st.lower() and fee_ag_st)
+        or _jeta_coerce_bool(f.get('Fee Agreement Executed'))
+    )
+    fee_pay_ok = (
+        pay_st.lower() in ('received', 'partial')
+        or _jeta_coerce_bool(f.get('Fee Payment Received Or Scheduled'))
+    )
+    imfpa_pct = _jeta_parse_optional_float(jd_get_raw(f, JD.imfpa_total_pct))
+    if imfpa_pct is None:
+        imfpa_pct = _jeta_parse_optional_float(f.get('IMFPA Pct Total'))
+
+    def gate_n(n: int) -> bool:
+        canon = getattr(JD, f'gate_{n}_complete', None)
+        if canon:
+            b = jd_get_bool(f, canon)
+            if b is not None:
+                return b
+        return _jeta_coerce_bool(f.get(f'Gate {n} Complete'))
+
+    return {
+        'id': record['id'],
+        'buyerId': buyer_id,
+        'sellerId': seller_id,
+        'buyerName': buyer_display,
+        'companyName': company,
+        'contactName': contact,
+        'dealName': jd_get_str(f, JD.deal_name) or str(f.get('Deal Name') or '').strip(),
+        'dealDescription': notes_text,
+        'notes': notes_text,
+        'dealStage': stage,
+        'supplySource': str(f.get('Supply Source') or '').strip(),
+        'volumeGallons': vol,
+        'volumeFrequency': jd_get_str(f, JD.volume_frequency),
+        'pricePerGallon': ppg,
+        'marketBenchmarkPpg': jd_get_float(f, JD.market_benchmark_ppg),
+        'jetaFeePerGallon': jfg,
+        'jetaTotalFee': jd_get_float(f, JD.jeta_total_fee),
+        'projectedTotalFee': projected_total_fee,
+        'grossDealValue': jd_get_float(f, JD.gross_deal_value),
+        'fuelProduct': jd_get_str(f, JD.fuel_product),
+        'stageEnteredDate': jd_get_str(f, JD.stage_entered_date),
+        'dealOpenDate': jd_get_str(f, JD.deal_open_date),
+        'dealCloseDate': jd_get_str(f, JD.deal_close_date),
+        'brokerChainCount': jd_get_float(f, JD.broker_chain_count),
+        'imfpaRequired': jd_get_bool(f, JD.imfpa_required),
+        'jetaChainPct': jd_get_float(f, JD.jeta_chain_pct),
+        'ncndaSignedDate': ncnda_dt,
+        'feeAgreementSigned': jd_get_str(f, JD.fee_agreement_signed),
+        'imfpaSignedDate': jd_get_str(f, JD.imfpa_signed_date),
+        'paymentStatus': pay_st,
+        'paymentReceivedDate': jd_get_str(f, JD.payment_received_date),
+        'dealLostReason': jd_get_str(f, JD.deal_lost_reason),
+        'lastActivityDate': jd_get_str(f, JD.last_activity_date),
+        'fraudCleared': jd_get_bool(f, JD.fraud_cleared),
+        'staleAlert': jd_get_bool(f, JD.stale_alert),
+        'gate1Complete': gate_n(1),
+        'gate2Complete': gate_n(2),
+        'gate3Complete': gate_n(3),
+        'gate4Complete': gate_n(4),
+        'gate5Complete': gate_n(5),
+        'gate6Complete': gate_n(6),
+        'gate7Complete': gate_n(7),
+        'gate8Complete': gate_n(8),
+        'ncndaStatus': ncnda_st,
+        'imfpaStatus': doc_status(JD.imfpa_status, 'IMFPA Status'),
+        'feeAgreementStatus': fee_ag_st,
+        'icc769NcndaGenerated': _jeta_coerce_bool(f.get('ICC 769E NCNDA Generated')),
+        'notGenericNcndaTemplate': _jeta_coerce_bool(f.get('Not Generic NCNDA Template')),
+        'ncndaBuyerPartyLegalName': str(f.get('NCNDA Buyer Legal Name') or '').strip(),
+        'ncndaJetaPartyLegalName': str(f.get('NCNDA JETA Legal Name') or '').strip(),
+        'ncndaDocumentSent': _jeta_coerce_bool(f.get('NCNDA Document Sent')),
+        'ncndaExecutionTracked': _jeta_coerce_bool(f.get('NCNDA Execution Tracked')),
+        'ncndaIcc769eReferencedInDocument': _jeta_coerce_bool(f.get('NCNDA ICC769E In Document')),
+        'ncndaDealDescriptionSpecificNotGeneric': _jeta_coerce_bool(f.get('NCNDA Deal Desc Not Generic')),
+        'ncndaGenericFloatingInvalidOnUpload': _jeta_coerce_bool(f.get('NCNDA Generic Invalid On Upload')),
+        'signedNcndaUploadedDateStamped': signed_ncnda_up,
+        'fcoReceivedFromSeller': fco_b,
+        'icpoReceivedFromBuyer': icpo_b,
+        'fcoIcpoProductJetAA1Only': _jeta_coerce_bool(f.get('FCO ICPO Jet A A1 Only')),
+        'multipleBrokersInChain': multi_b,
+        'imfpaGeneratedSignedBrokerChain': _jeta_coerce_bool(f.get('IMFPA Generated Signed Broker Chain')),
+        'imfpaAllBrokersFullLegalNamesListed': _jeta_coerce_bool(f.get('IMFPA Brokers Legal Names Listed')),
+        'imfpaExactPercentagePerPartySpecified': _jeta_coerce_bool(f.get('IMFPA Pct Per Party')),
+        'imfpaLockedAfterAllSignaturesNoEdits': _jeta_coerce_bool(f.get('IMFPA Locked Post Sign')),
+        'imfpaPercentagesTotalValid': _jeta_coerce_bool(f.get('IMFPA Pct Total Valid')),
+        'imfpaBrokerChainPercentageTotal': imfpa_pct,
+        'feeAgreementExecuted': fee_ag_ex,
+        'feeAgreementExactPerGallonSpecified': _jeta_coerce_bool(f.get('Fee Agreement Per Gallon Specified')),
+        'feeAgreementPaymentTriggerSpecified': _jeta_coerce_bool(f.get('Fee Agreement Payment Trigger')),
+        'feeAgreementSignedBeforeIntroduction': _jeta_coerce_bool(f.get('Fee Agreement Before Intro')),
+        'fuelDeliveryConfirmed': del_b,
+        'feePaymentReceivedOrScheduled': fee_pay_ok,
+        'dealFileCompleteInDocuments': _jeta_coerce_bool(f.get('Deal File Complete In Documents')),
+        'fuelType': _jeta_normalize_fuel_type(jd_get_raw(f, JD.fuel_type) or f.get('Fuel Type')),
+        'dealType': jd_get_str(f, JD.deal_type) or str(f.get('Deal Type') or '').strip(),
+        'termLength': jd_get_str(f, JD.term_length) or str(f.get('Term Length') or '').strip(),
+        'escalationBaseBenchmarkBbl': jd_get_float(f, JD.escalation_base_benchmark_bbl),
+        'escalationClauseVersion': jd_get_str(f, JD.escalation_clause_version)
+        or str(f.get('Escalation Clause Version') or '').strip()
+        or None,
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_deal_json_to_fields(data: dict, partial: bool = False) -> dict:
+    """Map API JSON (camelCase) to Airtable — canonical snake_case + legacy columns."""
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    bid = (data.get('buyerId') or data.get('buyer_id') or '').strip()
+    if bid:
+        put_both(JD.buyer_id, 'Buyer', [bid])
+
+    sid = (data.get('sellerId') or data.get('seller_id') or '').strip()
+    if sid:
+        put_both(JD.seller_id, 'Seller', [sid])
+
+    if 'dealName' in data and data['dealName'] is not None:
+        put_both(JD.deal_name, 'Deal Name', str(data['dealName']).strip())
+
+    notes_val = None
+    if 'notes' in data and data['notes'] is not None:
+        notes_val = str(data['notes']).strip()
+    elif 'dealDescription' in data and data['dealDescription'] is not None:
+        notes_val = str(data['dealDescription']).strip()
+    if notes_val is not None:
+        put_both(JD.notes, 'Deal Description', notes_val)
+        out['Notes'] = notes_val
+
+    if 'dealStage' in data and data.get('dealStage'):
+        ds = _jeta_normalize_deal_stage(data['dealStage'])
+        put_both(JD.deal_stage, 'Deal Stage', ds)
+    elif not partial:
+        put_both(JD.deal_stage, 'Deal Stage', JETA_DEAL_STAGES[0])
+
+    if 'fuelType' in data and data.get('fuelType') is not None:
+        ft = _jeta_normalize_fuel_type(data.get('fuelType'))
+        put_both(JD.fuel_type, 'Fuel Type', ft)
+    elif not partial:
+        put_both(JD.fuel_type, 'Fuel Type', 'Conventional')
+
+    if 'fuelProduct' in data and data.get('fuelProduct') is not None:
+        put_both(JD.fuel_product, 'Fuel Product', str(data['fuelProduct']).strip())
+
+    for jk, canon, legacy in [
+        ('supplySource', None, 'Supply Source'),
+        ('dealType', JD.deal_type, 'Deal Type'),
+        ('termLength', JD.term_length, 'Term Length'),
+        ('escalationClauseVersion', JD.escalation_clause_version, 'Escalation Clause Version'),
+        ('ncndaStatus', JD.ncnda_status, 'NCNDA Status'),
+        ('imfpaStatus', JD.imfpa_status, 'IMFPA Status'),
+        ('feeAgreementStatus', JD.fee_agreement_status, 'Fee Agreement Status'),
+        ('volumeFrequency', JD.volume_frequency, 'Volume Frequency'),
+        ('paymentStatus', JD.payment_status, 'Payment Status'),
+        ('dealLostReason', JD.deal_lost_reason, 'Deal Lost Reason'),
+    ]:
+        if jk not in data or data[jk] is None:
+            continue
+        if canon:
+            put_both(canon, legacy, str(data[jk]).strip())
+        else:
+            out[legacy] = str(data[jk]).strip()
+
+    date_map = [
+        ('stageEnteredDate', JD.stage_entered_date, 'Stage Entered Date'),
+        ('dealOpenDate', JD.deal_open_date, 'Deal Open Date'),
+        ('dealCloseDate', JD.deal_close_date, 'Deal Close Date'),
+        ('ncndaSignedDate', JD.ncnda_signed_date, 'NCNDA Signed Date'),
+        ('feeAgreementSigned', JD.fee_agreement_signed, 'Fee Agreement Signed'),
+        ('imfpaSignedDate', JD.imfpa_signed_date, 'IMFPA Signed Date'),
+        ('paymentReceivedDate', JD.payment_received_date, 'Payment Received Date'),
+        ('lastActivityDate', JD.last_activity_date, 'Last Activity Date'),
+    ]
+    for jk, canon, legacy in date_map:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    for jk, canon, legacy in [
+        ('volumeGallons', JD.volume_gallons, 'Volume Gallons'),
+        ('pricePerGallon', JD.price_per_gallon, 'Price Per Gallon'),
+        ('jetaFeePerGallon', JD.jeta_fee_per_gallon, 'JETA Fee Per Gallon'),
+        ('marketBenchmarkPpg', JD.market_benchmark_ppg, 'Market Benchmark PPG'),
+        ('escalationBaseBenchmarkBbl', JD.escalation_base_benchmark_bbl, 'Escalation Base Benchmark Bbl'),
+        ('jetaTotalFee', JD.jeta_total_fee, 'Projected Total Fee'),
+        ('grossDealValue', JD.gross_deal_value, 'Gross Deal Value'),
+        ('brokerChainCount', JD.broker_chain_count, 'Broker Chain Count'),
+        ('jetaChainPct', JD.jeta_chain_pct, 'JETA Chain Pct'),
+    ]:
+        if jk not in data:
+            continue
+        v = data[jk]
+        if v is None or v == '':
+            if partial:
+                continue
+            put_both(canon, legacy, 0.0)
+            continue
+        try:
+            put_both(canon, legacy, float(v))
+        except (TypeError, ValueError):
+            if not partial:
+                put_both(canon, legacy, 0.0)
+
+    if 'projectedTotalFee' in data and data['projectedTotalFee'] not in (None, ''):
+        try:
+            ptf = float(data['projectedTotalFee'])
+            put_both(JD.jeta_total_fee, 'Projected Total Fee', ptf)
+        except (TypeError, ValueError):
+            pass
+
+    if 'imfpaBrokerChainPercentageTotal' in data and data.get('imfpaBrokerChainPercentageTotal') not in (None, ''):
+        pt = _jeta_parse_optional_float(data.get('imfpaBrokerChainPercentageTotal'))
+        if pt is not None:
+            put_both(JD.imfpa_total_pct, 'IMFPA Pct Total', pt)
+
+    bool_canonical_legacy = [
+        ('imfpaRequired', JD.imfpa_required, 'IMFPA Required'),
+        ('fraudCleared', JD.fraud_cleared, 'Fraud Cleared'),
+        ('staleAlert', JD.stale_alert, 'Stale Alert'),
+        ('icc769NcndaGenerated', None, 'ICC 769E NCNDA Generated'),
+        ('notGenericNcndaTemplate', None, 'Not Generic NCNDA Template'),
+        ('ncndaDocumentSent', None, 'NCNDA Document Sent'),
+        ('ncndaExecutionTracked', None, 'NCNDA Execution Tracked'),
+        ('ncndaIcc769eReferencedInDocument', None, 'NCNDA ICC769E In Document'),
+        ('ncndaDealDescriptionSpecificNotGeneric', None, 'NCNDA Deal Desc Not Generic'),
+        ('ncndaGenericFloatingInvalidOnUpload', None, 'NCNDA Generic Invalid On Upload'),
+        ('signedNcndaUploadedDateStamped', None, 'Signed NCNDA Uploaded Date Stamped'),
+        ('fcoReceivedFromSeller', JD.fco_received, 'FCO Received From Seller'),
+        ('icpoReceivedFromBuyer', JD.icpo_received, 'ICPO Received From Buyer'),
+        ('fcoIcpoProductJetAA1Only', None, 'FCO ICPO Jet A A1 Only'),
+        ('multipleBrokersInChain', JD.multi_broker_chain, 'Multiple Brokers In Chain'),
+        ('imfpaGeneratedSignedBrokerChain', None, 'IMFPA Generated Signed Broker Chain'),
+        ('imfpaAllBrokersFullLegalNamesListed', None, 'IMFPA Brokers Legal Names Listed'),
+        ('imfpaExactPercentagePerPartySpecified', None, 'IMFPA Pct Per Party'),
+        ('imfpaLockedAfterAllSignaturesNoEdits', None, 'IMFPA Locked Post Sign'),
+        ('imfpaPercentagesTotalValid', None, 'IMFPA Pct Total Valid'),
+        ('feeAgreementExecuted', None, 'Fee Agreement Executed'),
+        ('feeAgreementExactPerGallonSpecified', None, 'Fee Agreement Per Gallon Specified'),
+        ('feeAgreementPaymentTriggerSpecified', None, 'Fee Agreement Payment Trigger'),
+        ('feeAgreementSignedBeforeIntroduction', None, 'Fee Agreement Before Intro'),
+        ('fuelDeliveryConfirmed', JD.delivery_confirmed, 'Fuel Delivery Confirmed'),
+        ('feePaymentReceivedOrScheduled', None, 'Fee Payment Received Or Scheduled'),
+        ('dealFileCompleteInDocuments', None, 'Deal File Complete In Documents'),
+    ]
+    for jk, canon, legacy in bool_canonical_legacy:
+        if jk not in data:
+            continue
+        b = _jeta_coerce_bool(data[jk])
+        if canon:
+            put_both(canon, legacy, b)
+        else:
+            out[legacy] = b
+
+    for n in range(1, 9):
+        jk = f'gate{n}Complete'
+        canon = getattr(JD, f'gate_{n}_complete')
+        if jk in data:
+            b = _jeta_coerce_bool(data[jk])
+            put_both(canon, f'Gate {n} Complete', b)
+
+    if 'ncndaBuyerPartyLegalName' in data and data.get('ncndaBuyerPartyLegalName') is not None:
+        out['NCNDA Buyer Legal Name'] = str(data['ncndaBuyerPartyLegalName']).strip()
+    if 'ncndaJetaPartyLegalName' in data and data.get('ncndaJetaPartyLegalName') is not None:
+        out['NCNDA JETA Legal Name'] = str(data['ncndaJetaPartyLegalName']).strip()
+
+    return out
+
+
+@app.route('/api/jeta/deals', methods=['GET'])
+@app.route('/jeta/deals', methods=['GET'])
+def jeta_get_deals():
+    """List JETA deals; optional ?deal_stage= filter."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'deals': [],
+                'stages': JETA_DEAL_STAGES,
+                'hint': f'Create Airtable table "{JETA_DEALS_TABLE}" with expected fields.',
+            }), 200
+
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        rows = [_jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw]
+
+        want_integrity = (request.args.get('integrity') or '').strip().lower() in ('1', 'true', 'yes')
+        if want_integrity:
+            from jeta_fraud_detection import scan_deal_terminology_blacklist
+
+            for row in rows:
+                bid = row.get('buyerId') or ''
+                b = buyer_lookup.get(bid, {}) if bid else {}
+                row['integrity'] = scan_deal_terminology_blacklist(row, b)
+
+        stage_f = (request.args.get('deal_stage') or '').strip()
+        if stage_f:
+            rows = [r for r in rows if r['dealStage'] == stage_f]
+
+        rows.sort(key=lambda x: (x.get('dealStage') or '', x.get('buyerName') or '', x.get('createdTime') or ''))
+
+        return jsonify({
+            'success': True,
+            'deals': rows,
+            'count': len(rows),
+            'stages': JETA_DEAL_STAGES,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'deals': []}), 500
+
+
+@app.route('/api/jeta/fraud/dashboard-alerts', methods=['GET'])
+@app.route('/jeta/fraud/dashboard-alerts', methods=['GET'])
+def jeta_fraud_dashboard_alerts():
+    """Deal integrity alerts for JETA Dashboard (stuck deals, stale NCNDA, seller doc SLA)."""
+    try:
+        from jeta_fraud_detection import build_jeta_dashboard_alerts
+
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'alerts': [],
+                'alert_count': 0,
+            }), 200
+
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        deal_rows = [_jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw]
+        out = build_jeta_dashboard_alerts(deal_rows, buyer_lookup)
+        return jsonify({'success': True, **out})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'alerts': [], 'alert_count': 0}), 500
+
+
+@app.route('/api/jeta/fraud/gate-catalog', methods=['GET'])
+@app.route('/jeta/fraud/gate-catalog', methods=['GET'])
+def jeta_fraud_gate_catalog():
+    """Human-readable fraud / integrity gate checklist per JETA_Deals stage."""
+    try:
+        from jeta_fraud_detection import DEAL_STAGE_GATE_REQUIREMENTS
+
+        return jsonify({'success': True, 'gates': DEAL_STAGE_GATE_REQUIREMENTS, 'stages': JETA_DEAL_STAGES})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+def _jeta_market_row_sort_key(record: dict) -> str:
+    """Newest-first sort: prefer week_of (Monday), then legacy Price Date / price_date."""
+    return jmd_week_sort_key(record.get('fields') or {})
+
+
+def _jeta_market_records_newest_first(airtable_client) -> list:
+    try:
+        raw = airtable_client.get_all_records(JETA_MARKET_DATA_TABLE)
+    except Exception:
+        return []
+    raw.sort(key=_jeta_market_row_sort_key, reverse=True)
+    return raw
+
+
+@app.route('/api/jeta/market/price', methods=['GET'])
+@app.route('/jeta/market/price', methods=['GET'])
+def jeta_market_price():
+    """
+    JETA — IATA jet fuel $/bbl snapshot stored in Airtable JETA_MarketData.
+
+    - Without refresh: returns the latest stored row(s) from Airtable (dashboard-friendly).
+    - With ?refresh=1: fetches IATA Fuel Price Monitor, parses $/bbl, appends a row, returns latest.
+    - If the table is empty and refresh is not set, performs one fetch to seed data.
+
+    Airtable fields (canonical): see jeta_market_data_schema.JMD — weekly IATA snapshot with
+    price_per_gallon (bbl/42), week_of (Monday), WoW %, date_fetched, etc.; legacy Title Case dual-written.
+    Optional manual fields (geopolitical context, chokepoint statuses, price_driver, crude/jet crack, trends,
+    war premium, escalation_clause_triggered, market_notes, analyst_source, etc.) are returned on each serialized
+    row for the dashboard — see jeta_iata_market.serialize_market_row.
+    """
+    try:
+        from jeta_iata_market import (
+            SOURCE_IATA_FUEL_MONITOR,
+            fetch_iata_jet_fuel_price_usd_per_bbl,
+            price_date_today_utc,
+            serialize_market_row,
+        )
+
+        airtable_client = AirtableClient()
+        want_refresh = (request.args.get('refresh') or '').strip().lower() in ('1', 'true', 'yes', 'on')
+        rows = _jeta_market_records_newest_first(airtable_client)
+
+        def build_payload(
+            latest_row: dict,
+            prev_row: dict = None,
+            *,
+            fetch_error: str = '',
+            synced: bool = False,
+            persist_escalation_flag: bool = False,
+        ):
+            latest = serialize_market_row(latest_row) if latest_row else None
+            previous = serialize_market_row(prev_row) if prev_row else None
+            out = {
+                'success': True,
+                'sourceLabel': SOURCE_IATA_FUEL_MONITOR,
+                'latest': latest,
+                'previous': previous,
+                'synced': synced,
+                'fetchError': fetch_error or None,
+            }
+            p0 = (latest or {}).get('pricePerBarrel')
+            p1 = (previous or {}).get('pricePerBarrel')
+            if (
+                p0 is not None
+                and p1 is not None
+                and isinstance(p0, (int, float))
+                and isinstance(p1, (int, float))
+                and p1 != 0
+            ):
+                out['weekOverWeekChangeAbs'] = round(float(p0) - float(p1), 4)
+                out['weekOverWeekChangePct'] = round((float(p0) - float(p1)) / float(p1) * 100.0, 4)
+            else:
+                out['weekOverWeekChangeAbs'] = None
+                out['weekOverWeekChangePct'] = None
+            try:
+                from jeta_fee_escalation import compute_escalation_price_alert
+
+                mr = _jeta_market_records_newest_first(airtable_client)
+                deals_m = airtable_client.get_all_records(JETA_DEALS_TABLE)
+                esc = compute_escalation_price_alert(
+                    market_records_newest_first=mr,
+                    deal_records=deals_m,
+                )
+                out['escalationPriceAlert'] = esc
+                if persist_escalation_flag and mr and mr[0].get('id'):
+                    try:
+                        airtable_client.update_record(JETA_MARKET_DATA_TABLE, mr[0]['id'], {
+                            JMD.escalation_clause_triggered: bool(esc.get('triggered')),
+                            'Escalation Clause Triggered': bool(esc.get('triggered')),
+                        })
+                    except Exception:
+                        pass
+            except Exception:
+                out['escalationPriceAlert'] = None
+            return out
+
+        # Seed if empty
+        if not rows and not want_refresh:
+            want_refresh = True
+
+        if want_refresh:
+            price, err = fetch_iata_jet_fuel_price_usd_per_bbl()
+            if price is None:
+                if rows:
+                    return jsonify(
+                        build_payload(
+                            rows[0],
+                            rows[1] if len(rows) > 1 else None,
+                            fetch_error=err,
+                            synced=False,
+                            persist_escalation_flag=False,
+                        )
+                    ), 200
+                return jsonify({
+                    'success': False,
+                    'error': err or 'Failed to fetch IATA Fuel Price Monitor.',
+                    'latest': None,
+                    'sourceLabel': SOURCE_IATA_FUEL_MONITOR,
+                }), 502
+
+            pdate = price_date_today_utc()
+            monday = monday_iso_for_date_str(pdate)
+            ppg = round(float(price) / 42.0, 6)
+            prev_ppg = None
+            if rows:
+                prev_ser = serialize_market_row(rows[0])
+                prev_ppg = prev_ser.get('pricePerGallon')
+                if prev_ppg is None:
+                    prev_ppg = jmd_get_float(rows[0].get('fields') or {}, JMD.price_per_gallon)
+                if prev_ppg is None and prev_ser.get('pricePerBarrel') is not None:
+                    prev_ppg = round(float(prev_ser['pricePerBarrel']) / 42.0, 6)
+            wow_pct, wow_dir = compute_wow_vs_prior(
+                ppg,
+                float(prev_ppg) if prev_ppg is not None else None,
+            )
+
+            fields_full = {
+                JMD.price_per_barrel: price,
+                'Price Per Barrel': price,
+                JMD.price_per_gallon: ppg,
+                'Price Per Gallon': ppg,
+                JMD.week_of: monday,
+                'Week Of': monday,
+                JMD.source: SOURCE_IATA_FUEL_MONITOR,
+                'Source': SOURCE_IATA_FUEL_MONITOR,
+                JMD.date_fetched: pdate,
+                'Date Fetched': pdate,
+                'price_date': pdate,
+                'Price Date': pdate,
+            }
+            if prev_ppg is not None:
+                fields_full[JMD.prior_week_price] = prev_ppg
+                fields_full['Prior Week Price'] = prev_ppg
+            if wow_pct is not None:
+                fields_full[JMD.week_over_week_change] = wow_pct
+                fields_full['Week Over Week Change'] = wow_pct
+                fields_full[JMD.week_over_week_dir] = wow_dir
+                fields_full['Week Over Week Dir'] = wow_dir
+
+            latest_ser = serialize_market_row(rows[0]) if rows else None
+            do_insert = True
+            if latest_ser:
+                same_week = (latest_ser.get('weekOf') or '') == monday
+                same_day = (latest_ser.get('dateFetched') or latest_ser.get('priceDate') or '')[:10] == pdate
+                if same_week or (not latest_ser.get('weekOf') and same_day):
+                    lp = latest_ser.get('pricePerBarrel')
+                    if lp is not None and abs(float(lp) - float(price)) < 0.01:
+                        do_insert = False
+            if do_insert:
+                try:
+                    airtable_client.create_record(JETA_MARKET_DATA_TABLE, fields_full)
+                except Exception:
+                    airtable_client.create_record(JETA_MARKET_DATA_TABLE, {
+                        'price_per_barrel': price,
+                        'Price Per Barrel': price,
+                        'price_date': pdate,
+                        'Price Date': pdate,
+                        'source': SOURCE_IATA_FUEL_MONITOR,
+                        'Source': SOURCE_IATA_FUEL_MONITOR,
+                    })
+                rows = _jeta_market_records_newest_first(airtable_client)
+
+            top = rows[0] if rows else None
+            prev = rows[1] if len(rows) > 1 else None
+            return jsonify(
+                build_payload(top, prev, fetch_error='', synced=True, persist_escalation_flag=True)
+            ), 200
+
+        top = rows[0] if rows else None
+        prev = rows[1] if len(rows) > 1 else None
+        if not top:
+            return jsonify(
+                build_payload(None, None, synced=False, persist_escalation_flag=False)
+                | {
+                    'latest': None,
+                    'previous': None,
+                    'hint': f'No rows in {JETA_MARKET_DATA_TABLE} — call with ?refresh=1 to fetch from IATA.',
+                }
+            ), 200
+        return jsonify(build_payload(top, prev, synced=False, persist_escalation_flag=False)), 200
+    except Exception as e:
+        logger.exception('jeta_market_price failed: %s', e)
+        return jsonify({'success': False, 'error': str(e), 'latest': None}), 500
+
+
+@app.route('/api/jeta/suppliers/lookup', methods=['GET'])
+@app.route('/jeta/suppliers/lookup', methods=['GET'])
+def jeta_suppliers_lookup():
+    """
+    ICAO-based fuel supplier reference for JETA (OurAirports + NEXUS curated list).
+    Persists rows to JETA_SupplierDirectory — canonical fields per jeta_supplier_directory_schema.JSD (dual-write + legacy minimal fallback).
+    The live IATA Aviation Energy Hub Supplier Directory requires login — see response notice.
+    Optional: ?buyer_id=recXXX links stored rows to a JETA_Buyers record when the link field exists.
+    """
+    try:
+        icao = (request.args.get('icao') or '').strip()
+        buyer_id = (request.args.get('buyer_id') or '').strip() or None
+        airtable_client = AirtableClient()
+        out = _jeta_persist_suppliers_for_icao(icao, airtable_client, buyer_id=buyer_id)
+        if not out.get('success'):
+            return jsonify({'success': False, 'error': out.get('error')}), 400
+
+        # Merge with legacy response shape (payload fields + stored ids)
+        legacy_payload = {
+            'icao': out.get('icao'),
+            'airport_name': out.get('airport_name'),
+            'suppliers': out.get('suppliers'),
+            'notice': out.get('notice'),
+            'iata_directory_portal': out.get('iata_directory_portal'),
+            'iata_fuel_program_url': out.get('iata_fuel_program_url'),
+        }
+        response = {
+            'success': True,
+            **{k: v for k, v in legacy_payload.items() if v is not None},
+            'lookup_date': out.get('lookup_date'),
+            'stored_record_ids': out.get('stored_record_ids'),
+            'stored_count': out.get('stored_count', 0),
+            'supplier_status': out.get('supplier_status'),
+        }
+        return jsonify(response), 200
+    except Exception as e:
+        logger.exception('jeta_suppliers_lookup failed: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/deals', methods=['POST'])
+@app.route('/jeta/deals', methods=['POST'])
+def jeta_create_deal():
+    """Create deal; buyerId required."""
+    try:
+        data = dict(request.json or {})
+        if not data.get('buyerId') and data.get('buyer_id'):
+            data['buyerId'] = data['buyer_id']
+        if not data.get('buyerId'):
+            return jsonify({'success': False, 'error': 'buyerId is required'}), 400
+        fields = _jeta_deal_json_to_fields(data, partial=False)
+        if JD.buyer_id not in fields and 'Buyer' not in fields:
+            return jsonify({'success': False, 'error': 'buyerId is required'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_DEALS_TABLE, fields)
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        return jsonify({
+            'success': True,
+            'deal': _jeta_serialize_deal(created, buyer_lookup),
+        }), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/deals/<deal_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/deals/<deal_id>', methods=['PUT', 'PATCH'])
+def jeta_update_deal(deal_id):
+    """Update deal fields."""
+    try:
+        from jeta_compliance_layers import run_layer2_deal_progression_gate, may_proceed_traffic_light
+        from jeta_fraud_detection import evaluate_fraud_integrity_for_stage_transition
+
+        data = request.json or {}
+        airtable_client = AirtableClient()
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        existing = airtable_client.get_record(JETA_DEALS_TABLE, deal_id)
+        current_deal = _jeta_serialize_deal(existing, buyer_lookup)
+        new_stage = data.get('dealStage')
+        if new_stage is not None and (new_stage or '').strip() != (current_deal.get('dealStage') or '').strip():
+            buyer_ser = buyer_lookup.get(current_deal.get('buyerId') or '', {}) or {}
+            enriched = {**data, 'jetaDocumentsCountForDeal': _jeta_count_documents_for_deal(airtable_client, deal_id)}
+            gate = run_layer2_deal_progression_gate(current_deal, enriched, buyer_ser, (new_stage or '').strip())
+            ack = _jeta_coerce_bool(data.get('acknowledgeManualReview'))
+            crm = _jeta_coerce_bool(buyer_ser.get('complianceReviewLogged'))
+            fraud_integrity = evaluate_fraud_integrity_for_stage_transition(
+                current_deal, data, buyer_ser, (new_stage or '').strip()
+            )
+            if fraud_integrity.get('blocks_transition'):
+                logger.warning(
+                    'JETA fraud/integrity blocked deal progression: deal_id=%s detail=%s',
+                    deal_id,
+                    json.dumps({'unmet': fraud_integrity.get('unmet_conditions'), 'fraud': fraud_integrity.get('counterparty_fraud')}),
+                )
+                msg = '; '.join((fraud_integrity.get('unmet_conditions') or [])[:8]) or 'Fraud / integrity gate failed.'
+                return jsonify({
+                    'success': False,
+                    'error': 'JETA fraud / integrity: ' + msg,
+                    'fraud_integrity': fraud_integrity,
+                    'compliance': gate,
+                }), 409
+            if fraud_integrity.get('requires_yellow_ack') and not (ack and crm):
+                return jsonify({
+                    'success': False,
+                    'error': (
+                        'JETA fraud detection: counterparty YELLOW — set acknowledgeManualReview and ensure '
+                        'complianceReviewLogged on the buyer after manual review.'
+                    ),
+                    'fraud_integrity': fraud_integrity,
+                    'compliance': gate,
+                }), 409
+            if not may_proceed_traffic_light(gate, ack, crm):
+                if gate.get('deal_blocked') or gate.get('critical_block'):
+                    logger.warning(
+                        'JETA deal progression blocked (RED/CRITICAL): deal_id=%s detail=%s',
+                        deal_id,
+                        json.dumps(
+                            {
+                                'traffic_light': gate.get('traffic_light'),
+                                'blockers': gate.get('blockers'),
+                                'findings': gate.get('findings'),
+                                'critical_flags': gate.get('critical_flags'),
+                            }
+                        ),
+                    )
+                return jsonify({
+                    'success': False,
+                    'error': _jeta_compliance_block_message(gate, 'deal progression'),
+                    'compliance': gate,
+                    'fraud_integrity': fraud_integrity,
+                }), 409
+        fields = _jeta_deal_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        updated = airtable_client.update_record(JETA_DEALS_TABLE, deal_id, fields)
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        return jsonify({
+            'success': True,
+            'deal': _jeta_serialize_deal(updated, buyer_lookup),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/pipeline/summary', methods=['GET'])
+@app.route('/jeta/pipeline/summary', methods=['GET'])
+def jeta_get_pipeline_summary():
+    """Aggregates: buyer counts per pipeline stage, active deals, projected fees, outreach due today."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'buyersByStage': {},
+                'activeDealCount': 0,
+                'projectedFeeTotal': 0,
+                'outreachDueTodayCount': 0,
+            }), 200
+
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        buyer_rows = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+
+        buyers_by_stage = {str(i): 0 for i in range(1, 10)}
+        for row in buyer_rows.values():
+            try:
+                ps = int(row.get('pipelineStage') or 1)
+            except (TypeError, ValueError):
+                ps = 1
+            ps = max(1, min(9, ps))
+            buyers_by_stage[str(ps)] = buyers_by_stage.get(str(ps), 0) + 1
+
+        deal_rows = [_jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw]
+        active_deals = [d for d in deal_rows if d.get('dealStage') not in JETA_DEAL_CLOSED_STAGES]
+        active_deal_count = len(active_deals)
+        projected_fee_total = round(
+            sum(_jeta_parse_float(d.get('projectedTotalFee')) for d in active_deals),
+            4,
+        )
+
+        today = datetime.utcnow().date()
+        outreach_due_today_count = 0
+        for _, row in buyer_rows.items():
+            ntd = (row.get('nextTouchDate') or '').strip()
+            if not ntd:
+                continue
+            try:
+                y, m, d = [int(x) for x in ntd.split('-')[:3]]
+                nd = datetime(y, m, d).date()
+            except (ValueError, TypeError):
+                continue
+            if nd <= today:
+                outreach_due_today_count += 1
+
+        stage_labels = {str(i + 1): JETA_STAGE_LABELS[i] for i in range(len(JETA_STAGE_LABELS))}
+
+        return jsonify({
+            'success': True,
+            'buyersByStage': buyers_by_stage,
+            'stageLabels': stage_labels,
+            'activeDealCount': active_deal_count,
+            'projectedFeeTotal': projected_fee_total,
+            'outreachDueTodayCount': outreach_due_today_count,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =====================================================================
+# JETA — FAA 5010 / Canada airport CSV import → JETA_Buyers
+# =====================================================================
+
+JETA_IMPORT_STATUS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'jeta_import_status.json')
+
+JETA_FAA_IMPORT_ERROR_LOG_MAX = 500
+
+
+def _jeta_import_norm_header_key(h: str) -> str:
+    s = re.sub(r'[^a-z0-9]+', '_', (h or '').strip().lower()).strip('_')
+    return s
+
+
+def _jeta_import_row_to_canonical(row: dict) -> dict:
+    """Map a CSV row (any header style) to canonical snake_case keys."""
+    nm = {}
+    for k, v in (row or {}).items():
+        nk = _jeta_import_norm_header_key(k)
+        if nk and nk not in nm:
+            if v is None:
+                nm[nk] = ''
+            elif isinstance(v, str):
+                nm[nk] = v.strip()
+            else:
+                nm[nk] = str(v).strip()
+
+    def pick(*candidates: str) -> str:
+        for c in candidates:
+            ck = _jeta_import_norm_header_key(c)
+            if ck in nm and nm[ck] not in (None, ''):
+                return str(nm[ck]).strip()
+        return ''
+
+    return {
+        'facility_name': pick(
+            'facility_name', 'airport_name', 'arpt_name', 'name', 'site_name', 'location_name',
+            'arpt_name_full', 'facility',
+        ),
+        'location_identifier': pick(
+            'location_identifier', 'icao', 'icao_code', 'loc_id', 'location_id', 'lid',
+            'airport_id', 'site_no', 'icao_iata',
+        ),
+        'state_code': pick(
+            'state_code', 'state', 'st', 'province', 'prov', 'prv', 'region',
+        ),
+        'city': pick('city', 'city_name', 'municipality'),
+        'airport_use': pick('airport_use', 'arpt_use', 'use', 'airport_use_code', 'arp_use'),
+        'based_aircraft': pick(
+            'based_aircraft', 'based_aircraft_total', 'total_based_aircraft', 'based',
+            'aircraft_based', 'based_acft',
+        ),
+        'facility_type': pick(
+            'facility_type', 'type', 'site_type', 'arpt_type', 'facility_type_code',
+            'type_airport', 'airport_type',
+        ),
+        'manager_name': pick(
+            'manager_name', 'arpt_mgr', 'mgr_name', 'airport_manager', 'name_title',
+            'manager', 'site_manager',
+        ),
+        'manager_phone': pick(
+            'manager_phone', 'mgr_phone', 'phone', 'arpt_phone', 'tel', 'telephone',
+        ),
+        'manager_email': pick(
+            'manager_email', 'mgr_email', 'email', 'e_mail',
+        ),
+    }
+
+
+def _jeta_import_normalize_icao(raw: str) -> str:
+    s = (raw or '').strip().upper()
+    s = re.sub(r'[^A-Z0-9]', '', s)
+    return s[:4] if len(s) >= 4 else s
+
+
+def _jeta_import_parse_int_based(raw: str) -> int:
+    if raw is None or raw == '':
+        return 0
+    try:
+        return int(float(str(raw).replace(',', '').strip()))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _jeta_import_facility_type_faa_strict(val: str) -> bool:
+    """FAA import: facility_type must be AIRPORT only (not heliport, ultralight, etc.)."""
+    return (val or '').strip().upper() == 'AIRPORT'
+
+
+def _jeta_import_row_qualifies_5010_public_airport(canon: dict) -> bool:
+    """
+    FAA 5010 / TC-style row: public use (PU), based aircraft > 0, facility_type == AIRPORT
+    (excludes heliport, ultralight, seaplane base, etc. — those are not labeled AIRPORT).
+    No U.S. state filter — all jurisdictions.
+    """
+    au = (canon.get('airport_use') or '').strip().upper()
+    if au != 'PU':
+        return False
+    if _jeta_import_parse_int_based(canon.get('based_aircraft') or '0') <= 0:
+        return False
+    if not _jeta_import_facility_type_faa_strict(canon.get('facility_type') or ''):
+        return False
+    return True
+
+
+def _jeta_import_load_status() -> dict:
+    p = JETA_IMPORT_STATUS_FILE
+    if not os.path.isfile(p):
+        return {'faa': {}, 'canada': {}}
+    try:
+        with open(p, encoding='utf-8') as fp:
+            data = json.load(fp)
+        if not isinstance(data, dict):
+            return {'faa': {}, 'canada': {}}
+        data.setdefault('faa', {})
+        data.setdefault('canada', {})
+        return data
+    except Exception:
+        return {'faa': {}, 'canada': {}}
+
+
+def _jeta_import_save_status(data: dict) -> None:
+    os.makedirs(os.path.dirname(JETA_IMPORT_STATUS_FILE), exist_ok=True)
+    with open(JETA_IMPORT_STATUS_FILE, 'w', encoding='utf-8') as fp:
+        json.dump(data, fp, indent=2)
+
+
+def _jeta_import_today_iso() -> str:
+    return datetime.utcnow().strftime('%Y-%m-%d')
+
+
+def _jeta_import_build_airtable_fields(
+    canon: dict,
+    *,
+    country: str,
+    source_label: str,
+    date_iso: str,
+    omit_empty_email: bool = False,
+) -> dict:
+    fac = (canon.get('facility_name') or '').strip() or 'Unknown airport'
+    loc = _jeta_import_normalize_icao(canon.get('location_identifier') or '')
+    st = (canon.get('state_code') or '').strip()[:80]
+    city = (canon.get('city') or '').strip()
+    contact = (canon.get('manager_name') or '').strip()
+    phone = (canon.get('manager_phone') or '').strip()
+    email = (canon.get('manager_email') or '').strip()
+    ba = _jeta_import_parse_int_based(canon.get('based_aircraft') or '0')
+    stage_opt = jb_pipeline_stage_option(1, JETA_STAGE_LABELS)
+    fields = {
+        JB.company_name: fac,
+        'Company Name': fac,
+        JB.airport_name: fac,
+        'Airport': fac,
+        JB.airport_icao: loc,
+        'ICAO Code': loc,
+        JB.state: st,
+        'State': st,
+        JB.city: city,
+        'City': city,
+        JB.contact_name: contact,
+        'Contact Name': contact,
+        JB.contact_phone: phone,
+        'Phone': phone,
+        JB.buyer_type: 'Airport/FBO',
+        'Buyer Type': 'Airport/FBO',
+        JB.pipeline_stage: stage_opt,
+        'Pipeline Stage': 1,
+        JB.fuel_type: 'Conventional',
+        'Fuel Type': 'Conventional',
+        JB.country: country,
+        'Country': country,
+        JB.based_aircraft: float(ba),
+        'Based Aircraft Total': ba,
+        JB.source: source_label,
+        'Source': source_label,
+        JB.date_added: date_iso,
+        'Date Added': date_iso,
+    }
+    if email or not omit_empty_email:
+        fields[JB.contact_email] = email
+        fields['Email'] = email
+    return fields
+
+
+def _jeta_import_create_buyer_record(airtable_client: AirtableClient, fields: dict):
+    """
+    Create JETA_Buyers row. Retries with a slimmer field set + Notes if optional columns
+    are missing in Airtable.
+    """
+    optional_airtable = {
+        'Country', 'Based Aircraft Total', 'Source', 'Date Added', 'Supplier Status',
+        JB.country, JB.based_aircraft, JB.source, JB.date_added, JB.supplier_status,
+    }
+    try:
+        return airtable_client.create_record(JETA_BUYERS_TABLE, fields)
+    except Exception as e:
+        err = str(e)
+        logger.warning('JETA import create (full) failed: %s — retrying with core fields', err)
+        note_bits = []
+        for ak in optional_airtable:
+            if ak in fields and fields[ak] not in (None, ''):
+                note_bits.append(f'{ak}: {fields[ak]}')
+        core = {k: v for k, v in fields.items() if k not in optional_airtable}
+        prev_notes = str(core.get('Notes') or '').strip()
+        import_line = ' | '.join(note_bits)
+        if import_line:
+            core['Notes'] = (import_line + ('\n' + prev_notes if prev_notes else '')).strip()
+        return airtable_client.create_record(JETA_BUYERS_TABLE, core)
+
+
+def _jeta_import_run_csv(
+    file_storage,
+    *,
+    country: str,
+    source_label: str,
+    region_key: str,
+) -> dict:
+    """
+    region_key: 'breakdown_by_state' (FAA) or 'breakdown_by_province' (Canada).
+    """
+    raw = file_storage.read()
+    if isinstance(raw, bytes):
+        raw = raw.decode('utf-8-sig', errors='replace')
+    reader = csv.DictReader(io.StringIO(raw))
+    if not reader.fieldnames:
+        return {'success': False, 'error': 'CSV has no header row'}
+
+    airtable_client = AirtableClient()
+    buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+    existing_icao = set()
+    for rec in buyers_raw:
+        f = rec.get('fields') or {}
+        ic = jb_get_str(f, JB.airport_icao).upper()
+        if ic:
+            existing_icao.add(ic)
+
+    created = 0
+    skipped_duplicate = 0
+    skipped_filter = 0
+    skipped_invalid_icao = 0
+    errors = 0
+    breakdown: dict = {}
+    date_iso = _jeta_import_today_iso()
+
+    for row in reader:
+        canon = _jeta_import_row_to_canonical(row)
+        if not _jeta_import_row_qualifies_5010_public_airport(canon):
+            skipped_filter += 1
+            continue
+        icao = _jeta_import_normalize_icao(canon.get('location_identifier') or '')
+        if not icao or len(icao) < 3:
+            skipped_invalid_icao += 1
+            continue
+        if icao in existing_icao:
+            skipped_duplicate += 1
+            continue
+
+        fields = _jeta_import_build_airtable_fields(
+            canon, country=country, source_label=source_label, date_iso=date_iso,
+        )
+        try:
+            rec = _jeta_import_create_buyer_record(airtable_client, fields)
+            rid = rec.get('id') if isinstance(rec, dict) else getattr(rec, 'id', None)
+            existing_icao.add(icao)
+            created += 1
+            reg = (canon.get('state_code') or '').strip().upper() or 'UNKNOWN'
+            breakdown[reg] = breakdown.get(reg, 0) + 1
+            if rid:
+                try:
+                    _jeta_refresh_buyer_priority_score(airtable_client, rid)
+                except Exception as pe:
+                    logger.warning('JETA priority score after Canada import row: %s', pe)
+        except Exception as e:
+            logger.exception('JETA import row failed ICAO=%s: %s', icao, e)
+            errors += 1
+
+    summary = {
+        'success': True,
+        'created': created,
+        'skipped_duplicate': skipped_duplicate,
+        'skipped_filter': skipped_filter,
+        'skipped_invalid_icao': skipped_invalid_icao,
+        'errors': errors,
+        region_key: breakdown,
+    }
+    return summary
+
+
+def _jeta_import_run_faa_csv(file_storage) -> dict:
+    """
+    FAA 5010 CSV → JETA_Buyers. All U.S. states; PU; based > 0; facility_type AIRPORT only.
+    Same read/decode pattern as other CSV uploads (utf-8-sig, DictReader).
+    """
+    raw = file_storage.read()
+    if isinstance(raw, bytes):
+        content = raw.decode('utf-8-sig', errors='replace')
+    else:
+        content = str(raw)
+    reader = csv.DictReader(io.StringIO(content))
+    if not reader.fieldnames:
+        return {'success': False, 'error': 'CSV has no header row'}
+
+    rows = list(reader)
+    total_processed = len(rows)
+
+    airtable_client = AirtableClient()
+    buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+    existing_icao = set()
+    for rec in buyers_raw:
+        f = rec.get('fields') or {}
+        ic = jb_get_str(f, JB.airport_icao).upper()
+        if ic:
+            existing_icao.add(ic)
+
+    total_imported = 0
+    total_skipped_duplicates = 0
+    total_filtered_out = 0
+    breakdown_by_state: dict = {}
+    error_log: list = []
+    enrichment_pairs: list = []
+    date_iso = _jeta_import_today_iso()
+
+    for row in rows:
+        canon = _jeta_import_row_to_canonical(row)
+        if not _jeta_import_row_qualifies_5010_public_airport(canon):
+            total_filtered_out += 1
+            continue
+        icao = _jeta_import_normalize_icao(canon.get('location_identifier') or '')
+        if not icao or len(icao) < 3:
+            total_filtered_out += 1
+            continue
+        if icao in existing_icao:
+            total_skipped_duplicates += 1
+            continue
+
+        fields = _jeta_import_build_airtable_fields(
+            canon,
+            country='USA',
+            source_label='FAA 5010 Import',
+            date_iso=date_iso,
+            omit_empty_email=True,
+        )
+        fields[JB.supplier_status] = 'Unknown'
+        fields['Supplier Status'] = 'Unknown'
+        try:
+            rec = _jeta_import_create_buyer_record(airtable_client, fields)
+            rid = rec.get('id') if isinstance(rec, dict) else getattr(rec, 'id', None)
+            existing_icao.add(icao)
+            total_imported += 1
+            reg = (canon.get('state_code') or '').strip().upper() or 'UNKNOWN'
+            breakdown_by_state[reg] = breakdown_by_state.get(reg, 0) + 1
+            if rid:
+                try:
+                    _jeta_refresh_buyer_priority_score(airtable_client, rid)
+                except Exception as pe:
+                    logger.warning('JETA priority score after FAA import row: %s', pe)
+                enrichment_pairs.append((rid, icao))
+        except Exception as e:
+            logger.exception('JETA FAA import row failed ICAO=%s: %s', icao, e)
+            line = f'ICAO {icao}: {e}'
+            if len(error_log) < JETA_FAA_IMPORT_ERROR_LOG_MAX:
+                error_log.append(line)
+
+    if enrichment_pairs:
+        threading.Thread(
+            target=_jeta_faa_post_import_enrichment_worker,
+            args=(enrichment_pairs,),
+            daemon=True,
+            name='jeta-faa-supplier-enrichment',
+        ).start()
+
+    return {
+        'success': True,
+        'total_processed': total_processed,
+        'total_imported': total_imported,
+        'total_skipped_duplicates': total_skipped_duplicates,
+        'total_filtered_out': total_filtered_out,
+        'breakdown_by_state': breakdown_by_state,
+        'error_log': error_log,
+        'supplier_enrichment_queued': len(enrichment_pairs),
+    }
+
+
+def _jeta_import_persist(kind: str, summary: dict, region_key: str) -> None:
+    st = _jeta_import_load_status()
+    bd = summary.get(region_key) or {}
+    st[kind] = {
+        'last_import_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'records_created': summary.get('created', 0),
+        'records_skipped_duplicate': summary.get('skipped_duplicate', 0),
+        'records_skipped_filter': summary.get('skipped_filter', 0),
+        'records_skipped_invalid_icao': summary.get('skipped_invalid_icao', 0),
+        'errors': summary.get('errors', 0),
+        'breakdown': bd,
+    }
+    _jeta_import_save_status(st)
+
+
+def _jeta_import_persist_faa(summary: dict) -> None:
+    """Persist FAA-only status (counters + breakdown + error log)."""
+    st = _jeta_import_load_status()
+    st['faa'] = {
+        'last_import_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'total_processed': summary.get('total_processed', 0),
+        'total_imported': summary.get('total_imported', 0),
+        'total_skipped_duplicates': summary.get('total_skipped_duplicates', 0),
+        'total_filtered_out': summary.get('total_filtered_out', 0),
+        'breakdown_by_state': summary.get('breakdown_by_state') or {},
+        'error_log': summary.get('error_log') or [],
+    }
+    _jeta_import_save_status(st)
+
+
+@app.route('/api/jeta/import/faa', methods=['POST'])
+@app.route('/jeta/import/faa', methods=['POST'])
+def jeta_import_faa():
+    """Upload FAA 5010 Airport Master Record CSV; JETA_Buyers (all states, public, based, AIRPORT)."""
+    try:
+        f = request.files.get('file') or request.files.get('csv')
+        if not f or not getattr(f, 'filename', None):
+            return jsonify({'success': False, 'error': 'Attach CSV as multipart field "file" or "csv"'}), 400
+        summary = _jeta_import_run_faa_csv(f)
+        if not summary.get('success'):
+            return jsonify(summary), 400
+        _jeta_import_persist_faa(summary)
+        return jsonify(summary), 200
+    except Exception as e:
+        logger.exception('jeta_import_faa failed: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/import/faa/status', methods=['GET'])
+@app.route('/jeta/import/faa/status', methods=['GET'])
+def jeta_import_faa_status():
+    """Last FAA import time, record counts by state, error log."""
+    st = _jeta_import_load_status()
+    block = st.get('faa') or {}
+    # Backward compatibility with older status shape
+    breakdown = block.get('breakdown_by_state') or block.get('breakdown') or {}
+    err = block.get('error_log')
+    if err is None:
+        err = []
+    return jsonify({
+        'success': True,
+        'last_import_at': block.get('last_import_at'),
+        'record_count_by_state': breakdown,
+        'error_log': err,
+        'total_processed': block.get('total_processed'),
+        'total_imported': block.get('total_imported', block.get('records_created')),
+        'total_skipped_duplicates': block.get('total_skipped_duplicates', block.get('records_skipped_duplicate')),
+        'total_filtered_out': block.get('total_filtered_out', block.get('records_skipped_filter')),
+    }), 200
+
+
+@app.route('/api/jeta/import/canada', methods=['POST'])
+@app.route('/jeta/import/canada', methods=['POST'])
+def jeta_import_canada():
+    """Upload Transport Canada / NAV CANADA airport CSV; same filters; country Canada."""
+    try:
+        f = request.files.get('file') or request.files.get('csv')
+        if not f or not getattr(f, 'filename', None):
+            return jsonify({'success': False, 'error': 'Attach CSV as multipart field "file" or "csv"'}), 400
+        summary = _jeta_import_run_csv(
+            f,
+            country='Canada',
+            source_label='Transport Canada Import',
+            region_key='breakdown_by_province',
+        )
+        if not summary.get('success'):
+            return jsonify(summary), 400
+        _jeta_import_persist('canada', summary, 'breakdown_by_province')
+        return jsonify(summary), 200
+    except Exception as e:
+        logger.exception('jeta_import_canada failed: %s', e)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/import/status', methods=['GET'])
+@app.route('/jeta/import/status', methods=['GET'])
+def jeta_import_status():
+    """Last import timestamps and counts for FAA and Canada."""
+    st = _jeta_import_load_status()
+
+    def pack_canada(kind: str):
+        block = st.get(kind) or {}
+        return {
+            'last_import_at': block.get('last_import_at'),
+            'records_created': block.get('records_created', 0),
+            'records_skipped_duplicate': block.get('records_skipped_duplicate', 0),
+            'records_skipped_filter': block.get('records_skipped_filter', 0),
+            'records_skipped_invalid_icao': block.get('records_skipped_invalid_icao', 0),
+            'errors': block.get('errors', 0),
+            'breakdown': block.get('breakdown') or {},
+        }
+
+    def pack_faa():
+        block = st.get('faa') or {}
+        return {
+            'last_import_at': block.get('last_import_at'),
+            'total_processed': block.get('total_processed'),
+            'total_imported': block.get('total_imported', block.get('records_created', 0)),
+            'total_skipped_duplicates': block.get('total_skipped_duplicates', block.get('records_skipped_duplicate', 0)),
+            'total_filtered_out': block.get('total_filtered_out', block.get('records_skipped_filter', 0)),
+            'breakdown_by_state': block.get('breakdown_by_state') or block.get('breakdown') or {},
+            'error_log': block.get('error_log') or [],
+        }
+
+    return jsonify({
+        'success': True,
+        'faa': pack_faa(),
+        'canada': pack_canada('canada'),
+    }), 200
+
+
+# =====================================================================
+# JETA — Compliance layers (intake, gates, monitoring)
+# =====================================================================
+# Layer 1: counterparty intake — runs on POST /jeta/buyers (see jeta_compliance_layers.py).
+# Layer 2: deal progression gates — runs on PUT /jeta/deals/:id when dealStage changes.
+# Layer 3: continuous monitoring — POST /jeta/compliance/monitor (cron every 24h).
+# Optional: JETA_MONITOR_SECRET, JETA_SANCTIONS_BLOCKLIST (see jeta_compliance_layers.py).
+
+JETA_MONITOR_STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'jeta_monitor_state.json')
+
+
+def _jeta_monitor_secret_ok() -> bool:
+    expected = (os.environ.get('JETA_MONITOR_SECRET') or '').strip()
+    if not expected:
+        return True
+    got = (request.headers.get('X-JETA-Monitor-Secret') or request.args.get('secret') or '').strip()
+    return got == expected
+
+
+@app.route('/api/jeta/compliance/monitor', methods=['POST'])
+@app.route('/jeta/compliance/monitor', methods=['POST'])
+def jeta_compliance_run_monitoring():
+    """Layer 3 — scan all active deals. Intended to be called by cron every 24 hours."""
+    try:
+        from jeta_compliance_layers import run_layer3_continuous_monitoring
+
+        if not _jeta_monitor_secret_ok():
+            return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+        airtable_client = AirtableClient()
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+        outreach_raw = airtable_client.get_all_records(JETA_OUTREACH_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        deal_rows = [_jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw]
+        out_lookup = {}
+        for rec in buyers_raw:
+            ser = _jeta_serialize_record(rec)
+            out_lookup[rec['id']] = {
+                'companyName': ser['companyName'],
+                'contactName': ser['contactName'],
+            }
+        outreach_ser = [_jeta_serialize_outreach(rec, out_lookup) for rec in outreach_raw]
+        result = run_layer3_continuous_monitoring(deal_rows, buyer_lookup, outreach_ser)
+        try:
+            with open(JETA_MONITOR_STATE_FILE, 'w') as f:
+                json.dump({'last_run_at': result.get('run_at'), 'summary': result}, f, indent=2)
+        except Exception:
+            pass
+        return jsonify({'success': True, 'compliance': result})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/jeta/compliance/monitor/status', methods=['GET'])
+@app.route('/jeta/compliance/monitor/status', methods=['GET'])
+def jeta_compliance_monitor_status():
+    """Last Layer 3 run stored on the API host (jeta_monitor_state.json)."""
+    try:
+        if os.path.isfile(JETA_MONITOR_STATE_FILE):
+            with open(JETA_MONITOR_STATE_FILE, 'r') as f:
+                state = json.load(f)
+            return jsonify({'success': True, 'state': state})
+        return jsonify({
+            'success': True,
+            'state': None,
+            'hint': 'No run yet; POST /jeta/compliance/monitor (e.g. daily cron).',
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# =====================================================================
+# JETA_Documents — canonical snake_case (see jeta_document_schema.JDoc); legacy dual-read/write.
+# Local PDF filename still stored in PDF Path (server); pdf_link / Download URL for serving link.
+# =====================================================================
+
+JETA_DOCUMENTS_TABLE = 'JETA_Documents'
+
+JETA_DOCUMENT_TYPES = (
+    'NCNDA',
+    'IMFPA',
+    'Fee Agreement',
+    'LOA',
+    'Supply Agreement',
+    'ICPO',
+    'FCO',
+    'Broker Mandate',
+    'Capability Statement',
+)
+
+JETA_PARTY1_LINE = (
+    'JETA COURTIÈRE | DEE DAVIS INC | 755 W. Big Beaver Rd Ste 2020 Troy MI 48084'
+)
+
+
+def _jeta_documents_output_dir() -> str:
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'GENERATED_JETA_DOCUMENTS')
+    os.makedirs(d, exist_ok=True)
+    return d
+
+
+def _jeta_party2_from_buyer(buyer_ser: dict) -> str:
+    if not buyer_ser:
+        return 'Counterparty (buyer details on file)'
+    chunks = []
+    cn = (buyer_ser.get('companyName') or '').strip()
+    ct = (buyer_ser.get('contactName') or '').strip()
+    if cn:
+        chunks.append(cn)
+    if ct:
+        chunks.append(f'Attn: {ct}')
+    city = (buyer_ser.get('city') or '').strip()
+    st = (buyer_ser.get('state') or '').strip()
+    if city or st:
+        chunks.append(f'{city}, {st}'.strip(', '))
+    em = (buyer_ser.get('email') or '').strip()
+    ph = (buyer_ser.get('phone') or '').strip()
+    if em:
+        chunks.append(em)
+    if ph:
+        chunks.append(ph)
+    return ' | '.join(chunks) if chunks else 'Counterparty (buyer details on file)'
+
+
+def _jeta_document_deal_ids(fields: dict) -> list:
+    raw = jdoc_link_ids(fields, JDoc.deal_id) or fields.get('Deal') or []
+    return [x for x in raw] if isinstance(raw, list) else []
+
+
+def _jeta_count_documents_for_deal(airtable_client, deal_id: str) -> int:
+    """Rows in JETA_Documents linked to this deal."""
+    if not (deal_id or '').strip():
+        return 0
+    try:
+        docs_raw = airtable_client.get_all_records(JETA_DOCUMENTS_TABLE)
+    except Exception:
+        return 0
+    n = 0
+    for rec in docs_raw:
+        f = rec.get('fields') or {}
+        if deal_id in _jeta_document_deal_ids(f):
+            n += 1
+    return n
+
+
+def _jeta_document_buyer_ids(fields: dict) -> list:
+    raw = jdoc_link_ids(fields, JDoc.buyer_id) or fields.get('Buyer') or []
+    return [x for x in raw] if isinstance(raw, list) else []
+
+
+def _jeta_document_seller_ids(fields: dict) -> list:
+    raw = jdoc_link_ids(fields, JDoc.seller_id) or fields.get('Seller') or []
+    return [x for x in raw] if isinstance(raw, list) else []
+
+
+def _jeta_format_doc_date(val) -> str:
+    if val is None or val == '':
+        return ''
+    if hasattr(val, 'strftime'):
+        return val.strftime('%Y-%m-%d')
+    return str(val).strip()
+
+
+def _jeta_serialize_document(record: dict, deal_lookup: dict, buyer_lookup: dict) -> dict:
+    f = record.get('fields') or {}
+    dids = _jeta_document_deal_ids(f)
+    deal_id = dids[0] if dids else ''
+    deal_row = deal_lookup.get(deal_id) if deal_id else None
+    buyer_name = ''
+    if deal_row:
+        buyer_name = deal_row.get('buyerName') or ''
+    bids = _jeta_document_buyer_ids(f)
+    buyer_id = bids[0] if bids else ''
+    if not buyer_name and bids:
+        binfo = buyer_lookup.get(bids[0], {})
+        buyer_name = (
+            f"{binfo.get('companyName', '')} — {binfo.get('contactName', '')}".strip(' —')
+            or ''
+        )
+    sids = _jeta_document_seller_ids(f)
+    seller_id = sids[0] if sids else ''
+
+    gen_raw = jdoc_get_raw(f, JDoc.generated_date) or f.get('Generated Date')
+    gen_date = _jeta_format_doc_date(gen_raw)
+
+    pdf_path = jdoc_pdf_path_local(f)
+    dl = jdoc_get_str(f, JDoc.pdf_link) or str(f.get('Download URL') or '').strip()
+    ss = jdoc_get_str(f, JDoc.signed_status) or str(f.get('Signed Status') or '').strip()
+    if ss == 'Pending':
+        ss = 'Not Sent'
+
+    return {
+        'id': record['id'],
+        'documentType': jdoc_get_str(f, JDoc.document_type) or str(f.get('Document Type') or '').strip(),
+        'documentName': jdoc_get_str(f, JDoc.document_name) or str(f.get('Document Name') or '').strip(),
+        'dealId': deal_id,
+        'buyerId': buyer_id,
+        'sellerId': seller_id,
+        'buyerName': buyer_name,
+        'iccCompliant': jdoc_get_bool(f, JDoc.icc_compliant) is True,
+        'afsmaAligned': jdoc_get_bool(f, JDoc.afsma_aligned) is True,
+        'generatedDate': gen_date,
+        'generatedBy': jdoc_get_str(f, JDoc.generated_by) or str(f.get('Generated By') or '').strip(),
+        'party1Name': jdoc_get_str(f, JDoc.party_1_name) or str(f.get('Party 1 Name') or '').strip(),
+        'party1Entity': jdoc_get_str(f, JDoc.party_1_entity) or str(f.get('Party 1 Entity') or '').strip(),
+        'party2Name': jdoc_get_str(f, JDoc.party_2_name) or str(f.get('Party 2 Name') or '').strip(),
+        'party2Entity': jdoc_get_str(f, JDoc.party_2_entity) or str(f.get('Party 2 Entity') or '').strip(),
+        'dealDescription': jdoc_get_str(f, JDoc.deal_description) or str(f.get('Deal Description') or '').strip(),
+        'feePerGallon': jdoc_get_float(f, JDoc.fee_per_gallon),
+        'volumeGallons': jdoc_get_float(f, JDoc.volume_gallons),
+        'jetaPercentage': jdoc_get_float(f, JDoc.jeta_percentage),
+        'sentDate': _jeta_format_doc_date(jdoc_get_raw(f, JDoc.sent_date) or f.get('Sent Date')),
+        'sentTo': jdoc_get_str(f, JDoc.sent_to) or str(f.get('Sent To') or '').strip(),
+        'signedStatus': ss,
+        'signedDate': _jeta_format_doc_date(jdoc_get_raw(f, JDoc.signed_date) or f.get('Signed Date')),
+        'expiryDate': _jeta_format_doc_date(jdoc_get_raw(f, JDoc.expiry_date) or f.get('Expiry Date')),
+        'pdfLink': dl,
+        'downloadUrl': dl,
+        'notes': jdoc_get_str(f, JDoc.notes) or str(f.get('Notes') or '').strip(),
+        'escalationClauseVersion': jdoc_get_str(f, JDoc.escalation_clause_version)
+        or str(f.get('Escalation Clause Version') or '').strip()
+        or None,
+        'pdfPath': pdf_path,
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_pdf_bytes_simple_agreement(
+    title: str,
+    party1: str,
+    party2: str,
+    deal_description: str,
+    deal_name: str,
+    extra_body: str,
+) -> bytes:
+    """Generate PDF using reportlab (same stack as PRISM compliance PDF helper)."""
+    from io import BytesIO
+    try:
+        from reportlab.lib.pagesizes import letter
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import inch
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+        from reportlab.lib import colors
+        from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+    except ImportError as e:
+        raise RuntimeError(f'reportlab is required for PDF generation: {e}') from e
+
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=0.75 * inch,
+        leftMargin=0.75 * inch,
+        topMargin=0.75 * inch,
+        bottomMargin=0.75 * inch,
+    )
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(
+        'JT',
+        parent=styles['Normal'],
+        fontSize=10,
+        leading=14,
+        alignment=TA_JUSTIFY,
+        textColor=colors.HexColor('#1e293b'),
+    ))
+    styles.add(ParagraphStyle(
+        'JTH',
+        parent=styles['Heading1'],
+        fontSize=16,
+        alignment=TA_CENTER,
+        spaceAfter=16,
+        textColor=colors.HexColor('#92400e'),
+    ))
+    story = []
+    story.append(Paragraph(title.replace('&', '&amp;'), styles['JTH']))
+    story.append(Spacer(1, 0.15 * inch))
+    today_s = datetime.utcnow().strftime('%B %d, %Y')
+    story.append(Paragraph(f'<b>Effective date:</b> {today_s}', styles['JT']))
+    story.append(Spacer(1, 0.12 * inch))
+    if deal_name:
+        story.append(Paragraph(f'<b>Deal:</b> {deal_name.replace("&", "&amp;")}', styles['JT']))
+        story.append(Spacer(1, 0.08 * inch))
+    story.append(Paragraph('<b>Party 1 (Disclosing party — Broker):</b>', styles['JT']))
+    story.append(Paragraph(party1.replace('&', '&amp;'), styles['JT']))
+    story.append(Spacer(1, 0.1 * inch))
+    story.append(Paragraph('<b>Party 2 (Recipient / Counterparty):</b>', styles['JT']))
+    story.append(Paragraph(party2.replace('&', '&amp;'), styles['JT']))
+    story.append(Spacer(1, 0.12 * inch))
+    story.append(Paragraph('<b>Deal description</b>', styles['JT']))
+    desc = (deal_description or 'As described in the linked JETA deal record.').replace('&', '&amp;')
+    story.append(Paragraph(desc, styles['JT']))
+    story.append(Spacer(1, 0.12 * inch))
+    for block in extra_body.split('\n\n'):
+        if block.strip():
+            story.append(Paragraph(block.strip().replace('&', '&amp;'), styles['JT']))
+            story.append(Spacer(1, 0.08 * inch))
+    story.append(Spacer(1, 0.25 * inch))
+    story.append(Paragraph(
+        '_______________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______________________________',
+        styles['JT'],
+    ))
+    story.append(Paragraph('Party 1 — Dee Davis, JETA COURTIÈRE&nbsp;&nbsp;&nbsp;&nbsp;Party 2', styles['JT']))
+    doc.build(story)
+    data = buffer.getvalue()
+    buffer.close()
+    return data
+
+
+def _jeta_ncnda_body() -> str:
+    return (
+        'The parties wish to explore a potential business relationship concerning aviation fuel '
+        '(Jet-A) brokerage, supply introductions, and related services. Each party may disclose '
+        'Confidential Information to the other. "Confidential Information" means non-public '
+        'information disclosed in connection with the Deal description above, including pricing, '
+        'volumes, supplier identities, airport/FBO relationships, and transaction terms.\n\n'
+        'Each party agrees to: (a) use Confidential Information solely for evaluating and '
+        'pursuing the contemplated relationship; (b) not disclose Confidential Information to '
+        'third parties without prior written consent, except as required by law; (c) protect '
+        'Confidential Information using reasonable care; and (d) not circumvent, avoid, or '
+        'interfere with the other party\'s legitimate business relationships introduced in '
+        'connection with this engagement.\n\n'
+        'This Agreement does not obligate either party to proceed with any transaction. '
+        'Either party may terminate discussions at any time. The obligations herein survive '
+        'for two (2) years from the Effective Date with respect to Confidential Information '
+        'disclosed during the term.\n\n'
+        'This Agreement is governed by the laws of the State of Michigan. Entire agreement; '
+        'amendments in writing. Facsimile or electronic signatures shall be deemed originals.'
+    )
+
+
+def _jeta_generic_body(doc_label: str) -> str:
+    return (
+        f'This {doc_label} is entered between Party 1 and Party 2 in connection with the Deal '
+        'description above. The parties agree to negotiate in good faith toward definitive '
+        'documentation acceptable to both sides. Specific commercial, liability, and payment '
+        'terms will be set forth in executed agreements between the parties. This document is '
+        'a framework for discussion and is not a binding commitment to purchase or sell fuel '
+        'except as expressly stated in future signed contracts.'
+    )
+
+
+def _jeta_generate_document_pdf(
+    document_type: str,
+    buyer_ser: dict,
+    deal_description: str,
+    deal_name: str,
+) -> bytes:
+    party1 = JETA_PARTY1_LINE
+    party2 = _jeta_party2_from_buyer(buyer_ser)
+    dt = (document_type or '').strip()
+    if dt == 'NCNDA':
+        title = 'MUTUAL NON-CIRCUMVENTION AND NON-DISCLOSURE AGREEMENT (NCNDA)'
+        extra = _jeta_ncnda_body()
+        return _jeta_pdf_bytes_simple_agreement(title, party1, party2, deal_description, deal_name, extra)
+    if dt == 'IMFPA':
+        title = 'INTERMEDIARY AND MASTER FEE PROTECTION AGREEMENT (IMFPA) — DRAFT'
+        extra = _jeta_generic_body('IMFPA-style fee protection framework')
+        return _jeta_pdf_bytes_simple_agreement(title, party1, party2, deal_description, deal_name, extra)
+    if dt == 'Fee Agreement':
+        title = 'BROKER FEE AGREEMENT — DRAFT'
+        extra = _jeta_generic_body('fee agreement')
+        return _jeta_pdf_bytes_simple_agreement(title, party1, party2, deal_description, deal_name, extra)
+    if dt == 'LOA':
+        title = 'LETTER OF AUTHORITY (LOA) — DRAFT'
+        extra = _jeta_generic_body('letter of authority')
+        return _jeta_pdf_bytes_simple_agreement(title, party1, party2, deal_description, deal_name, extra)
+    if dt in (
+        'Supply Agreement',
+        'ICPO',
+        'FCO',
+        'Broker Mandate',
+        'Capability Statement',
+    ):
+        title = f'{dt.upper()} — DRAFT'
+        extra = _jeta_generic_body(dt)
+        return _jeta_pdf_bytes_simple_agreement(title, party1, party2, deal_description, deal_name, extra)
+    raise ValueError(f'Unsupported document type: {document_type}')
+
+
+def _jeta_rl_escape(s: str) -> str:
+    if not s:
+        return ''
+    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def _jeta_pdf_bytes_fee_agreement(
+    *,
+    deal_name: str,
+    deal_description: str,
+    fee_schedule_text: str,
+    version_label: str,
+    escalation_body: str,
+) -> bytes:
+    """Fee Agreement PDF: fee schedule, then populated escalation clause, then signatures."""
+    from io import BytesIO
+    try:
+        from reportlab.lib.pagesizes import letter
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import inch
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+        from reportlab.lib import colors
+        from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+    except ImportError as e:
+        raise RuntimeError(f'reportlab is required for PDF generation: {e}') from e
+
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=0.75 * inch,
+        leftMargin=0.75 * inch,
+        topMargin=0.75 * inch,
+        bottomMargin=0.75 * inch,
+    )
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(
+        'JT',
+        parent=styles['Normal'],
+        fontSize=10,
+        leading=14,
+        alignment=TA_JUSTIFY,
+        textColor=colors.HexColor('#1e293b'),
+    ))
+    styles.add(ParagraphStyle(
+        'JTH',
+        parent=styles['Heading1'],
+        fontSize=16,
+        alignment=TA_CENTER,
+        spaceAfter=12,
+        textColor=colors.HexColor('#92400e'),
+    ))
+    styles.add(ParagraphStyle(
+        'JTS',
+        parent=styles['Normal'],
+        fontSize=11,
+        leading=14,
+        alignment=TA_CENTER,
+        textColor=colors.HexColor('#b45309'),
+        spaceAfter=8,
+    ))
+    story = []
+    story.append(Paragraph('BROKER FEE AGREEMENT — DRAFT', styles['JTH']))
+    story.append(Paragraph(
+        f'<b>Escalation clause selected:</b> {_jeta_rl_escape(version_label)}',
+        styles['JTS'],
+    ))
+    today_s = datetime.utcnow().strftime('%B %d, %Y')
+    story.append(Paragraph(f'<b>Effective date:</b> {_jeta_rl_escape(today_s)}', styles['JT']))
+    story.append(Spacer(1, 0.1 * inch))
+    if deal_name:
+        story.append(Paragraph(f'<b>Deal:</b> {_jeta_rl_escape(deal_name)}', styles['JT']))
+        story.append(Spacer(1, 0.08 * inch))
+    story.append(Paragraph('<b>Deal description</b>', styles['JT']))
+    desc = (deal_description or 'As described in the linked JETA deal record.').strip()
+    story.append(Paragraph(_jeta_rl_escape(desc), styles['JT']))
+    story.append(Spacer(1, 0.12 * inch))
+    story.append(Paragraph('<b>Fee schedule</b>', styles['JT']))
+    story.append(Spacer(1, 0.06 * inch))
+    for block in fee_schedule_text.split('\n\n'):
+        b = block.strip()
+        if b:
+            story.append(Paragraph(_jeta_rl_escape(b), styles['JT']))
+            story.append(Spacer(1, 0.06 * inch))
+    story.append(Spacer(1, 0.1 * inch))
+    story.append(Paragraph('<b>Price escalation</b>', styles['JT']))
+    story.append(Spacer(1, 0.06 * inch))
+    for block in escalation_body.split('\n\n'):
+        b = block.strip()
+        if b:
+            story.append(Paragraph(_jeta_rl_escape(b), styles['JT']))
+            story.append(Spacer(1, 0.06 * inch))
+    story.append(Spacer(1, 0.2 * inch))
+    story.append(Paragraph(
+        '_______________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______________________________',
+        styles['JT'],
+    ))
+    story.append(Paragraph('Party 1 — Dee Davis, JETA COURTIÈRE&nbsp;&nbsp;&nbsp;&nbsp;Party 2', styles['JT']))
+    doc.build(story)
+    data = buffer.getvalue()
+    buffer.close()
+    return data
+
+
+def _jeta_compose_fee_agreement_pdf(deal_rec: dict, deal_row: dict, buyer_ser: dict, airtable_client) -> tuple:
+    """Returns (pdf_bytes, version_label, base_benchmark_bbl)."""
+    from jeta_fee_escalation import (
+        build_fee_schedule_block,
+        build_version_a_clause,
+        build_version_b_clause,
+        build_version_c_clause,
+        parse_term_days,
+        select_escalation_clause_version,
+    )
+
+    f = deal_rec.get('fields') or {}
+    deal_type = jd_get_str(f, JD.deal_type) or str(f.get('Deal Type') or '').strip()
+    term_raw = jd_get_str(f, JD.term_length) or str(f.get('Term Length') or '').strip()
+    term_days = parse_term_days(term_raw)
+    version = select_escalation_clause_version(deal_type or None, term_days)
+
+    mrows = _jeta_market_records_newest_first(airtable_client)
+    benchmark = None
+    if mrows:
+        benchmark = jmd_get_float((mrows[0].get('fields') or {}), JMD.price_per_barrel)
+    if benchmark is None:
+        benchmark = 200.0
+
+    fee = jd_get_float(f, JD.jeta_fee_per_gallon)
+    if fee is None:
+        fee = float(deal_row.get('jetaFeePerGallon') or 0.02)
+    vol = jd_get_float(f, JD.volume_gallons)
+    if vol is None:
+        vol = deal_row.get('volumeGallons')
+
+    today_long = datetime.utcnow().strftime('%B %d, %Y')
+    party1 = JETA_PARTY1_LINE
+    party2 = _jeta_party2_from_buyer(buyer_ser)
+
+    if version == 'Version B':
+        esc_text = build_version_b_clause(
+            base_benchmark_bbl=float(benchmark),
+            agreement_date=today_long,
+            party_1_line=party1,
+            party_2_line=party2,
+        )
+    elif version == 'Version C':
+        esc_text = build_version_c_clause(
+            base_fee_per_gallon=float(fee),
+            base_benchmark_bbl=float(benchmark),
+            agreement_date=today_long,
+            party_1_line=party1,
+            party_2_line=party2,
+        )
+    else:
+        esc_text = build_version_a_clause(
+            base_fee_per_gallon=float(fee),
+            base_benchmark_bbl=float(benchmark),
+            agreement_date=today_long,
+            party_1_line=party1,
+            party_2_line=party2,
+        )
+
+    fee_sched = build_fee_schedule_block(
+        fee_per_gallon=float(fee) if fee is not None else None,
+        volume_gallons=float(vol) if vol is not None else None,
+        base_benchmark_bbl=float(benchmark),
+        agreement_date=today_long,
+    )
+    pdf_bytes = _jeta_pdf_bytes_fee_agreement(
+        deal_name=(deal_row.get('dealName') or '').strip(),
+        deal_description=(deal_row.get('dealDescription') or '').strip(),
+        fee_schedule_text=fee_sched,
+        version_label=version,
+        escalation_body=esc_text,
+    )
+    return pdf_bytes, version, float(benchmark)
+
+
+def _jeta_documents_generate_handler():
+    """Shared logic for POST /jeta/documents/generate and /api/jeta/documents/generate."""
+    data = request.json or {}
+    deal_id = (data.get('dealId') or data.get('deal_id') or '').strip()
+    document_type = (data.get('documentType') or data.get('document_type') or '').strip()
+    return_pdf = bool(data.get('return_pdf') or data.get('returnPdf'))
+    if not deal_id:
+        return jsonify({'success': False, 'error': 'dealId or deal_id is required'}), 400
+    if document_type not in JETA_DOCUMENT_TYPES:
+        return jsonify({
+            'success': False,
+            'error': f'documentType / document_type must be one of: {", ".join(JETA_DOCUMENT_TYPES)}',
+        }), 400
+
+    airtable_client = AirtableClient()
+    buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+    buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+    deal_rec = airtable_client.get_record(JETA_DEALS_TABLE, deal_id)
+    deal_row = _jeta_serialize_deal(deal_rec, buyer_lookup)
+    buyer_id = deal_row.get('buyerId') or ''
+    buyer_ser = buyer_lookup.get(buyer_id, {}) if buyer_id else {}
+    deal_description = deal_row.get('dealDescription') or ''
+    deal_name = deal_row.get('dealName') or ''
+
+    escalation_version = None
+    base_benchmark = None
+    if document_type == 'Fee Agreement':
+        pdf_bytes, escalation_version, base_benchmark = _jeta_compose_fee_agreement_pdf(
+            deal_rec, deal_row, buyer_ser, airtable_client
+        )
+        try:
+            airtable_client.update_record(JETA_DEALS_TABLE, deal_id, {
+                JD.escalation_base_benchmark_bbl: base_benchmark,
+                'Escalation Base Benchmark Bbl': base_benchmark,
+                JD.escalation_clause_version: escalation_version,
+                'Escalation Clause Version': escalation_version,
+            })
+        except Exception as deal_exc:
+            logger.warning('JETA deal escalation fields update skipped: %s', deal_exc)
+    else:
+        pdf_bytes = _jeta_generate_document_pdf(
+            document_type,
+            buyer_ser,
+            deal_description,
+            deal_name,
+        )
+
+    today = datetime.utcnow().strftime('%Y-%m-%d')
+    doc_name = f'{document_type} — {deal_name}'[:200] if deal_name else document_type
+    stub_fields = {
+        JDoc.document_type: document_type,
+        'Document Type': document_type,
+        JDoc.document_name: doc_name,
+        'Document Name': doc_name,
+        JDoc.deal_id: [deal_id],
+        'Deal': [deal_id],
+        JDoc.generated_date: today,
+        'Generated Date': today,
+        JDoc.generated_by: 'NEXUS Auto',
+        'Generated By': 'NEXUS Auto',
+        JDoc.party_1_name: 'JETA COURTIÈRE',
+        'Party 1 Name': 'JETA COURTIÈRE',
+        JDoc.party_1_entity: 'DEE DAVIS INC',
+        'Party 1 Entity': 'DEE DAVIS INC',
+        JDoc.party_2_name: 'Counterparty',
+        'Party 2 Name': 'Counterparty',
+        JDoc.deal_description: deal_description or '',
+        'Deal Description': deal_description or '',
+        JDoc.signed_status: 'Not Sent',
+        'Signed Status': 'Not Sent',
+    }
+    if document_type == 'Fee Agreement' and escalation_version:
+        stub_fields[JDoc.escalation_clause_version] = escalation_version
+        stub_fields['Escalation Clause Version'] = escalation_version
+        jfg = deal_row.get('jetaFeePerGallon')
+        if jfg is not None:
+            try:
+                stub_fields[JDoc.fee_per_gallon] = float(jfg)
+                stub_fields['Fee Per Gallon'] = float(jfg)
+            except (TypeError, ValueError):
+                pass
+        vg = deal_row.get('volumeGallons')
+        if vg is not None:
+            try:
+                stub_fields[JDoc.volume_gallons] = float(vg)
+                stub_fields['Volume Gallons'] = float(vg)
+            except (TypeError, ValueError):
+                pass
+    if buyer_id:
+        stub_fields[JDoc.buyer_id] = [buyer_id]
+        stub_fields['Buyer'] = [buyer_id]
+    seller_id = (deal_row.get('sellerId') or '').strip()
+    if seller_id:
+        stub_fields[JDoc.seller_id] = [seller_id]
+        stub_fields['Seller'] = [seller_id]
+
+    created = airtable_client.create_record(JETA_DOCUMENTS_TABLE, stub_fields)
+    rec_id = created['id']
+    safe_name = re.sub(r'[^a-zA-Z0-9_.-]+', '_', f'{document_type}_{rec_id}')[:120]
+    fname = f'{safe_name}.pdf'
+    out_dir = _jeta_documents_output_dir()
+    full_path = os.path.join(out_dir, fname)
+    with open(full_path, 'wb') as out_f:
+        out_f.write(pdf_bytes)
+
+    download_url = f'/jeta/documents/{rec_id}/download'
+    airtable_client.update_record(JETA_DOCUMENTS_TABLE, rec_id, {
+        JDoc.pdf_link: download_url,
+        'Download URL': download_url,
+        'PDF Path': fname,
+    })
+    merged = airtable_client.get_record(JETA_DOCUMENTS_TABLE, rec_id)
+    deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+    deal_lookup = {rec['id']: _jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw}
+    serialized = _jeta_serialize_document(merged, deal_lookup, buyer_lookup)
+
+    if return_pdf:
+        try:
+            dl_abs = url_for('jeta_documents_download', doc_id=rec_id, _external=True)
+        except Exception:
+            dl_abs = download_url
+        return Response(
+            pdf_bytes,
+            status=201,
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'inline; filename="{fname}"',
+                'X-Document-Id': rec_id,
+                'X-Download-URL': dl_abs,
+            },
+        )
+
+    out_gen = {
+        'success': True,
+        'document': serialized,
+        'downloadUrl': download_url,
+        'download_url': download_url,
+    }
+    if document_type == 'Fee Agreement' and escalation_version:
+        out_gen['escalationClauseVersion'] = escalation_version
+        out_gen['escalation_base_benchmark_bbl'] = base_benchmark
+    return jsonify(out_gen), 201
+
+
+@app.route('/api/jeta/documents', methods=['GET'])
+@app.route('/jeta/documents', methods=['GET'])
+def jeta_get_documents():
+    """List all JETA document log rows."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+            deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+            docs_raw = airtable_client.get_all_records(JETA_DOCUMENTS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'documents': [],
+                'documentTypes': list(JETA_DOCUMENT_TYPES),
+                'hint': f'Create Airtable table "{JETA_DOCUMENTS_TABLE}" with expected fields.',
+            }), 200
+
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        deal_lookup = {rec['id']: _jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw}
+        rows = [_jeta_serialize_document(rec, deal_lookup, buyer_lookup) for rec in docs_raw]
+        rows.sort(key=lambda x: (x.get('generatedDate') or '', x.get('createdTime') or ''), reverse=True)
+        return jsonify({
+            'success': True,
+            'documents': rows,
+            'count': len(rows),
+            'documentTypes': list(JETA_DOCUMENT_TYPES),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'documents': []}), 500
+
+
+@app.route('/api/jeta/documents/generate', methods=['POST'])
+@app.route('/jeta/documents/generate', methods=['POST'])
+def jeta_documents_generate():
+    """Generate PDF, save file, create JETA_Documents row. Optional return_pdf for raw PDF body."""
+    try:
+        return _jeta_documents_generate_handler()
+    except RuntimeError as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/documents/<doc_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/documents/<doc_id>', methods=['PUT', 'PATCH'])
+def jeta_update_document(doc_id):
+    """Update JETA document (e.g. Signed Status)."""
+    try:
+        data = request.json or {}
+        signed = data.get('signedStatus')
+        if signed is None:
+            signed = data.get('signed_status')
+        if signed is None:
+            return jsonify({'success': False, 'error': 'signedStatus or signed_status is required'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_DOCUMENTS_TABLE, doc_id, {
+            JDoc.signed_status: signed,
+            'Signed Status': signed,
+        })
+        buyers_raw = airtable_client.get_all_records(JETA_BUYERS_TABLE)
+        deals_raw = airtable_client.get_all_records(JETA_DEALS_TABLE)
+        buyer_lookup = {rec['id']: _jeta_serialize_record(rec) for rec in buyers_raw}
+        deal_lookup = {rec['id']: _jeta_serialize_deal(rec, buyer_lookup) for rec in deals_raw}
+        return jsonify({
+            'success': True,
+            'document': _jeta_serialize_document(updated, deal_lookup, buyer_lookup),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/documents/<doc_id>/download', methods=['GET'])
+@app.route('/jeta/documents/<doc_id>/download', methods=['GET'])
+def jeta_documents_download(doc_id):
+    """Download generated PDF by document record id."""
+    try:
+        airtable_client = AirtableClient()
+        rec = airtable_client.get_record(JETA_DOCUMENTS_TABLE, doc_id)
+        f = rec.get('fields') or {}
+        fname = jdoc_pdf_path_local(f)
+        if not fname:
+            return jsonify({'success': False, 'error': 'No PDF on file'}), 404
+        full_path = os.path.join(_jeta_documents_output_dir(), fname)
+        if not os.path.isfile(full_path):
+            return jsonify({'success': False, 'error': 'PDF file missing on server'}), 404
+        doc_label = (jdoc_get_str(f, JDoc.document_type) or f.get('Document Type') or 'JETA').replace('/', '-')
+        download_name = f'{doc_label}_{doc_id[:8]}.pdf'
+        return send_file(
+            full_path,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=download_name,
+        )
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 404
+
+
+# =====================================================================
+# JETA_BrokerChain — IMFPA broker chain rows per deal (canonical: jeta_broker_chain_schema.JBC)
+# =====================================================================
+
+JETA_BROKER_CHAIN_TABLE = 'JETA_BrokerChain'
+
+
+def _jeta_serialize_broker_chain(record: dict) -> dict:
+    f = record.get('fields') or {}
+    pos = jbc_get_int(f, JBC.broker_position)
+    return {
+        'id': record['id'],
+        'dealId': jbc_first_link_id(f, JBC.deal_id),
+        'brokerPosition': pos if pos is not None else None,
+        'brokerName': jbc_get_str(f, JBC.broker_name),
+        'brokerCompany': jbc_get_str(f, JBC.broker_company),
+        'brokerEmail': jbc_get_str(f, JBC.broker_email),
+        'brokerPhone': jbc_get_str(f, JBC.broker_phone),
+        'brokerAddress': jbc_get_str(f, JBC.broker_address),
+        'chainPercentage': jbc_get_float(f, JBC.chain_percentage),
+        'jetaIntroduced': jbc_get_bool(f, JBC.jeta_introduced) is True,
+        'verified': jbc_get_bool(f, JBC.verified) is True,
+        'ncndaSigned': jbc_get_bool(f, JBC.ncnda_signed) is True,
+        'imfpaSigned': jbc_get_bool(f, JBC.imfpa_signed) is True,
+        'paymentInfo': jbc_get_str(f, JBC.payment_info),
+        'notes': jbc_get_str(f, JBC.notes),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_broker_chain_json_to_fields(data: dict, partial: bool = False) -> dict:
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    did = (data.get('dealId') or data.get('deal_id') or '').strip()
+    if did:
+        put_both(JBC.deal_id, 'Deal', [did])
+
+    if 'brokerPosition' in data and data['brokerPosition'] is not None:
+        try:
+            put_both(JBC.broker_position, 'Broker Position', int(data['brokerPosition']))
+        except (TypeError, ValueError):
+            pass
+
+    str_fields = [
+        ('brokerName', JBC.broker_name, 'Broker Name'),
+        ('brokerCompany', JBC.broker_company, 'Broker Company'),
+        ('brokerEmail', JBC.broker_email, 'Broker Email'),
+        ('brokerPhone', JBC.broker_phone, 'Broker Phone'),
+        ('brokerAddress', JBC.broker_address, 'Broker Address'),
+        ('paymentInfo', JBC.payment_info, 'Payment Info'),
+        ('notes', JBC.notes, 'Notes'),
+    ]
+    for jk, canon, legacy in str_fields:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    if 'chainPercentage' in data and data['chainPercentage'] not in (None, ''):
+        try:
+            put_both(JBC.chain_percentage, 'Chain Percentage', float(data['chainPercentage']))
+        except (TypeError, ValueError):
+            pass
+
+    for jk, canon, legacy in [
+        ('jetaIntroduced', JBC.jeta_introduced, 'JETA Introduced'),
+        ('verified', JBC.verified, 'Verified'),
+        ('ncndaSigned', JBC.ncnda_signed, 'NCNDA Signed'),
+        ('imfpaSigned', JBC.imfpa_signed, 'IMFPA Signed'),
+    ]:
+        if jk in data:
+            put_both(canon, legacy, _jeta_coerce_bool(data[jk]))
+
+    return out
+
+
+@app.route('/api/jeta/broker-chain', methods=['GET'])
+@app.route('/jeta/broker-chain', methods=['GET'])
+def jeta_get_broker_chain():
+    """List IMFPA broker chain rows; optional ?deal_id= filter."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_BROKER_CHAIN_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'rows': [],
+                'hint': f'Create Airtable table "{JETA_BROKER_CHAIN_TABLE}" with expected fields.',
+            }), 200
+
+        deal_f = (request.args.get('deal_id') or request.args.get('dealId') or '').strip()
+        rows = [_jeta_serialize_broker_chain(rec) for rec in raw]
+        if deal_f:
+            rows = [r for r in rows if r.get('dealId') == deal_f]
+
+        def sort_key(r):
+            pos = r.get('brokerPosition')
+            try:
+                p = int(pos) if pos is not None else 999
+            except (TypeError, ValueError):
+                p = 999
+            return (r.get('dealId') or '', p)
+
+        rows.sort(key=sort_key)
+        return jsonify({'success': True, 'rows': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'rows': []}), 500
+
+
+@app.route('/api/jeta/broker-chain', methods=['POST'])
+@app.route('/jeta/broker-chain', methods=['POST'])
+def jeta_create_broker_chain():
+    """Create a broker chain row; dealId links to JETA_Deals."""
+    try:
+        data = dict(request.json or {})
+        if not data.get('dealId') and data.get('deal_id'):
+            data['dealId'] = data['deal_id']
+        if not (data.get('dealId') or '').strip():
+            return jsonify({'success': False, 'error': 'dealId is required'}), 400
+        fields = _jeta_broker_chain_json_to_fields(data, partial=False)
+        if JBC.deal_id not in fields and 'Deal' not in fields:
+            return jsonify({'success': False, 'error': 'dealId is required'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_BROKER_CHAIN_TABLE, fields)
+        return jsonify({
+            'success': True,
+            'row': _jeta_serialize_broker_chain(created),
+        }), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/broker-chain/<row_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/broker-chain/<row_id>', methods=['PUT', 'PATCH'])
+def jeta_update_broker_chain(row_id):
+    """Update a broker chain row."""
+    try:
+        data = request.json or {}
+        fields = _jeta_broker_chain_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_BROKER_CHAIN_TABLE, row_id, fields)
+        return jsonify({
+            'success': True,
+            'row': _jeta_serialize_broker_chain(updated),
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+# =====================================================================
+# JETA_RFPs — fuel RFP tracking (canonical: jeta_rfp_schema.JR)
+# =====================================================================
+
+JETA_RFPS_TABLE = 'JETA_RFPs'
+
+
+def _jeta_serialize_rfp(record: dict) -> dict:
+    f = record.get('fields') or {}
+    return {
+        'id': record['id'],
+        'rfpTitle': jr_get_str(f, JR.rfp_title),
+        'issuingEntity': jr_get_str(f, JR.issuing_entity),
+        'entityType': jr_get_str(f, JR.entity_type),
+        'state': jr_get_str(f, JR.state),
+        'country': jr_get_str(f, JR.country),
+        'fuelTypeRequired': jr_fuel_types_list(f),
+        'estimatedVolume': jr_get_float(f, JR.estimated_volume),
+        'contractTerm': jr_get_str(f, JR.contract_term),
+        'rfpNumber': jr_get_str(f, JR.rfp_number),
+        'issueDate': jr_format_date_val(jr_get_raw(f, JR.issue_date)),
+        'questionsDue': jr_format_date_val(jr_get_raw(f, JR.questions_due)),
+        'submissionDeadline': jr_format_date_val(jr_get_raw(f, JR.submission_deadline)),
+        'awardDate': jr_format_date_val(jr_get_raw(f, JR.award_date)),
+        'submissionMethod': jr_get_str(f, JR.submission_method),
+        'portalLink': jr_get_str(f, JR.portal_link),
+        'rfpDocumentLink': jr_get_str(f, JR.rfp_document_link),
+        'status': jr_get_str(f, JR.status),
+        'bidDecision': jr_get_str(f, JR.bid_decision),
+        'noBidReason': jr_get_str(f, JR.no_bid_reason),
+        'incumbent': jr_get_str(f, JR.incumbent),
+        'competitorsKnown': jr_get_str(f, JR.competitors_known),
+        'ourPpgProposed': jr_get_float(f, JR.our_ppg_proposed),
+        'estimatedFee': jr_get_float(f, JR.estimated_fee),
+        'linkedBuyerId': jr_first_link_id(f, JR.linked_buyer),
+        'source': jr_get_str(f, JR.source),
+        'notes': jr_get_str(f, JR.notes),
+        'dateAdded': jr_format_date_val(jr_get_raw(f, JR.date_added)),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_rfp_json_to_fields(data: dict, partial: bool = False) -> dict:
+    """API camelCase / snake_case → Airtable canonical + legacy."""
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    bid = (data.get('linkedBuyerId') or data.get('linked_buyer_id') or data.get('buyerId') or '').strip()
+    if bid:
+        put_both(JR.linked_buyer, 'Linked Buyer', [bid])
+
+    str_map = [
+        ('rfpTitle', JR.rfp_title, 'RFP Title'),
+        ('rfp_title', JR.rfp_title, 'RFP Title'),
+        ('issuingEntity', JR.issuing_entity, 'Issuing Entity'),
+        ('issuing_entity', JR.issuing_entity, 'Issuing Entity'),
+        ('entityType', JR.entity_type, 'Entity Type'),
+        ('entity_type', JR.entity_type, 'Entity Type'),
+        ('state', JR.state, 'State'),
+        ('country', JR.country, 'Country'),
+        ('contractTerm', JR.contract_term, 'Contract Term'),
+        ('contract_term', JR.contract_term, 'Contract Term'),
+        ('rfpNumber', JR.rfp_number, 'RFP Number'),
+        ('rfp_number', JR.rfp_number, 'RFP Number'),
+        ('submissionMethod', JR.submission_method, 'Submission Method'),
+        ('submission_method', JR.submission_method, 'Submission Method'),
+        ('portalLink', JR.portal_link, 'Portal Link'),
+        ('portal_link', JR.portal_link, 'Portal Link'),
+        ('rfpDocumentLink', JR.rfp_document_link, 'RFP Document Link'),
+        ('rfp_document_link', JR.rfp_document_link, 'RFP Document Link'),
+        ('status', JR.status, 'Status'),
+        ('bidDecision', JR.bid_decision, 'Bid Decision'),
+        ('bid_decision', JR.bid_decision, 'Bid Decision'),
+        ('noBidReason', JR.no_bid_reason, 'No Bid Reason'),
+        ('no_bid_reason', JR.no_bid_reason, 'No Bid Reason'),
+        ('incumbent', JR.incumbent, 'Incumbent'),
+        ('competitorsKnown', JR.competitors_known, 'Competitors Known'),
+        ('competitors_known', JR.competitors_known, 'Competitors Known'),
+        ('source', JR.source, 'Source'),
+        ('notes', JR.notes, 'Notes'),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    ft = data.get('fuelTypeRequired') or data.get('fuel_type_required')
+    if ft is not None:
+        if isinstance(ft, list):
+            lst = [str(x).strip() for x in ft if str(x).strip()]
+        else:
+            lst = [x.strip() for x in str(ft).split(',') if x.strip()]
+        if lst:
+            put_both(JR.fuel_type_required, 'Fuel Type Required', lst)
+
+    for jk, canon, legacy in [
+        ('estimatedVolume', JR.estimated_volume, 'Estimated Volume'),
+        ('estimated_volume', JR.estimated_volume, 'Estimated Volume'),
+        ('ourPpgProposed', JR.our_ppg_proposed, 'Our PPG Proposed'),
+        ('our_ppg_proposed', JR.our_ppg_proposed, 'Our PPG Proposed'),
+        ('estimatedFee', JR.estimated_fee, 'Estimated Fee'),
+        ('estimated_fee', JR.estimated_fee, 'Estimated Fee'),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        try:
+            put_both(canon, legacy, float(data[jk]))
+        except (TypeError, ValueError):
+            pass
+
+    date_map = [
+        ('issueDate', JR.issue_date, 'Issue Date'),
+        ('issue_date', JR.issue_date, 'Issue Date'),
+        ('questionsDue', JR.questions_due, 'Questions Due'),
+        ('questions_due', JR.questions_due, 'Questions Due'),
+        ('submissionDeadline', JR.submission_deadline, 'Submission Deadline'),
+        ('submission_deadline', JR.submission_deadline, 'Submission Deadline'),
+        ('awardDate', JR.award_date, 'Award Date'),
+        ('award_date', JR.award_date, 'Award Date'),
+        ('dateAdded', JR.date_added, 'Date Added'),
+        ('date_added', JR.date_added, 'Date Added'),
+    ]
+    for jk, canon, legacy in date_map:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip()[:10])
+
+    return out
+
+
+@app.route('/api/jeta/rfps', methods=['GET'])
+@app.route('/jeta/rfps', methods=['GET'])
+def jeta_get_rfps():
+    """List JETA RFP rows; optional ?status=, ?linked_buyer_id= filters."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_RFPS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'rfps': [],
+                'hint': f'Create Airtable table "{JETA_RFPS_TABLE}" with expected fields.',
+            }), 200
+
+        st_f = (request.args.get('status') or '').strip().lower()
+        lb_f = (request.args.get('linked_buyer_id') or request.args.get('linkedBuyerId') or '').strip()
+        rows = [_jeta_serialize_rfp(rec) for rec in raw]
+        if st_f:
+            rows = [r for r in rows if (r.get('status') or '').lower() == st_f]
+        if lb_f:
+            rows = [r for r in rows if r.get('linkedBuyerId') == lb_f]
+
+        rows.sort(key=lambda x: (x.get('submissionDeadline') or '', x.get('createdTime') or ''), reverse=True)
+        return jsonify({'success': True, 'rfps': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'rfps': []}), 500
+
+
+@app.route('/api/jeta/rfps', methods=['POST'])
+@app.route('/jeta/rfps', methods=['POST'])
+def jeta_create_rfp():
+    """Create an RFP tracking row."""
+    try:
+        data = dict(request.json or {})
+        fields = _jeta_rfp_json_to_fields(data, partial=False)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields provided'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_RFPS_TABLE, fields)
+        return jsonify({'success': True, 'rfp': _jeta_serialize_rfp(created)}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/rfps/<rfp_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/rfps/<rfp_id>', methods=['PUT', 'PATCH'])
+def jeta_update_rfp(rfp_id):
+    """Update an RFP row."""
+    try:
+        data = request.json or {}
+        fields = _jeta_rfp_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_RFPS_TABLE, rfp_id, fields)
+        return jsonify({'success': True, 'rfp': _jeta_serialize_rfp(updated)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+# =====================================================================
+# JETA_SellerContacts — contacts linked to JETA_Sellers (canonical: jeta_seller_contact_schema.JSC)
+# =====================================================================
+
+JETA_SELLER_CONTACTS_TABLE = 'JETA_SellerContacts'
+
+
+def _jeta_serialize_seller_contact(record: dict) -> dict:
+    f = record.get('fields') or {}
+    return {
+        'id': record['id'],
+        'sellerId': jsc_first_link_id(f, JSC.seller_id),
+        'contactName': jsc_get_str(f, JSC.contact_name),
+        'contactTitle': jsc_get_str(f, JSC.contact_title),
+        'contactEmail': jsc_get_str(f, JSC.contact_email),
+        'contactPhone': jsc_get_str(f, JSC.contact_phone),
+        'contactLinkedin': jsc_get_str(f, JSC.contact_linkedin),
+        'department': jsc_get_str(f, JSC.department),
+        'decisionAuthority': jsc_get_str(f, JSC.decision_authority),
+        'relationshipStatus': jsc_get_str(f, JSC.relationship_status),
+        'lastContactDate': jsc_format_date(jsc_get_raw(f, JSC.last_contact_date)),
+        'nextContactDate': jsc_format_date(jsc_get_raw(f, JSC.next_contact_date)),
+        'outreachNotes': jsc_get_str(f, JSC.outreach_notes),
+        'loaSignatory': jsc_get_bool(f, JSC.loa_signatory) is True,
+        'notes': jsc_get_str(f, JSC.notes),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_seller_contact_json_to_fields(data: dict, partial: bool = False) -> dict:
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    sid = (data.get('sellerId') or data.get('seller_id') or '').strip()
+    if sid:
+        put_both(JSC.seller_id, 'Seller', [sid])
+
+    str_map = [
+        ('contactName', JSC.contact_name, 'Contact Name'),
+        ('contact_name', JSC.contact_name, 'Contact Name'),
+        ('contactTitle', JSC.contact_title, 'Contact Title'),
+        ('contact_title', JSC.contact_title, 'Contact Title'),
+        ('contactEmail', JSC.contact_email, 'Contact Email'),
+        ('contact_email', JSC.contact_email, 'Contact Email'),
+        ('contactPhone', JSC.contact_phone, 'Contact Phone'),
+        ('contact_phone', JSC.contact_phone, 'Contact Phone'),
+        ('contactLinkedin', JSC.contact_linkedin, 'Contact LinkedIn'),
+        ('contact_linkedin', JSC.contact_linkedin, 'Contact LinkedIn'),
+        ('department', JSC.department, 'Department'),
+        ('decisionAuthority', JSC.decision_authority, 'Decision Authority'),
+        ('decision_authority', JSC.decision_authority, 'Decision Authority'),
+        ('relationshipStatus', JSC.relationship_status, 'Relationship Status'),
+        ('relationship_status', JSC.relationship_status, 'Relationship Status'),
+        ('outreachNotes', JSC.outreach_notes, 'Outreach Notes'),
+        ('outreach_notes', JSC.outreach_notes, 'Outreach Notes'),
+        ('notes', JSC.notes, 'Notes'),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    for jk, canon, legacy in [
+        ('lastContactDate', JSC.last_contact_date, 'Last Contact Date'),
+        ('last_contact_date', JSC.last_contact_date, 'Last Contact Date'),
+        ('nextContactDate', JSC.next_contact_date, 'Next Contact Date'),
+        ('next_contact_date', JSC.next_contact_date, 'Next Contact Date'),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip()[:10])
+
+    for jk, canon, legacy in [
+        ('loaSignatory', JSC.loa_signatory, 'LOA Signatory'),
+        ('loa_signatory', JSC.loa_signatory, 'LOA Signatory'),
+    ]:
+        if jk in data:
+            put_both(canon, legacy, _jeta_coerce_bool(data[jk]))
+
+    return out
+
+
+@app.route('/api/jeta/seller-contacts', methods=['GET'])
+@app.route('/jeta/seller-contacts', methods=['GET'])
+def jeta_get_seller_contacts():
+    """List seller contact rows; optional ?seller_id= filter."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_SELLER_CONTACTS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'contacts': [],
+                'hint': f'Create Airtable table "{JETA_SELLER_CONTACTS_TABLE}" with expected fields.',
+            }), 200
+
+        sf = (request.args.get('seller_id') or request.args.get('sellerId') or '').strip()
+        rows = [_jeta_serialize_seller_contact(rec) for rec in raw]
+        if sf:
+            rows = [r for r in rows if r.get('sellerId') == sf]
+
+        rows.sort(key=lambda x: (x.get('sellerId') or '', x.get('contactName') or ''))
+        return jsonify({'success': True, 'contacts': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'contacts': []}), 500
+
+
+@app.route('/api/jeta/seller-contacts', methods=['POST'])
+@app.route('/jeta/seller-contacts', methods=['POST'])
+def jeta_create_seller_contact():
+    """Create a seller contact; sellerId links to JETA_Sellers."""
+    try:
+        data = dict(request.json or {})
+        if not data.get('sellerId') and data.get('seller_id'):
+            data['sellerId'] = data['seller_id']
+        if not (data.get('sellerId') or '').strip():
+            return jsonify({'success': False, 'error': 'sellerId is required'}), 400
+        fields = _jeta_seller_contact_json_to_fields(data, partial=False)
+        if JSC.seller_id not in fields and 'Seller' not in fields:
+            return jsonify({'success': False, 'error': 'sellerId is required'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_SELLER_CONTACTS_TABLE, fields)
+        return jsonify({'success': True, 'contact': _jeta_serialize_seller_contact(created)}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/seller-contacts/<contact_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/seller-contacts/<contact_id>', methods=['PUT', 'PATCH'])
+def jeta_update_seller_contact(contact_id):
+    """Update a seller contact row."""
+    try:
+        data = request.json or {}
+        fields = _jeta_seller_contact_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_SELLER_CONTACTS_TABLE, contact_id, fields)
+        return jsonify({'success': True, 'contact': _jeta_serialize_seller_contact(updated)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+# =====================================================================
+# JETA_FraudLog — compliance / fraud audit rows (canonical: jeta_fraud_log_schema.JFL)
+# =====================================================================
+
+JETA_FRAUD_LOG_TABLE = 'JETA_FraudLog'
+
+
+def _jeta_serialize_fraud_log(record: dict) -> dict:
+    """Master doc TABLE 11 + legacy aliases for older clients."""
+    f = record.get('fields') or {}
+    flagged_type = jfl_get_str(f, JFL.flagged_record_type)
+    flagged_id = jfl_flagged_record_id_display(f)
+    flag_types = jfl_flag_type_list(f)
+    detail = jfl_get_str(f, JFL.flag_detail)
+    res_notes = jfl_get_str(f, JFL.resolution_notes)
+    date_fl = jfl_format_date(jfl_get_raw(f, JFL.date_flagged))
+    blk = jfl_get_bool(f, JFL.blacklisted)
+    ld = jfl_first_link_id(f, JFL.linked_deal)
+    lb = jfl_first_link_id(f, JFL.linked_buyer)
+    ls = jfl_first_link_id(f, JFL.linked_seller)
+    out = {
+        'id': record['id'],
+        'flaggedRecordType': flagged_type,
+        'flaggedRecordId': flagged_id,
+        'flagLevel': jfl_get_str(f, JFL.flag_level),
+        'flagType': flag_types,
+        'flagDetail': detail,
+        'triggeredBy': jfl_get_str(f, JFL.triggered_by),
+        'actionTaken': jfl_get_str(f, JFL.action_taken),
+        'reviewedBy': jfl_get_str(f, JFL.reviewed_by),
+        'reviewDate': jfl_format_date(jfl_get_raw(f, JFL.review_date)),
+        'resolutionNotes': res_notes,
+        'blacklisted': blk,
+        'dateFlagged': date_fl,
+        'linkedDealId': ld,
+        'linkedBuyerId': lb,
+        'linkedSellerId': ls,
+        'companyName': jfl_get_str(f, JFL.company_name),
+        'finalDecision': jfl_get_str(f, JFL.final_decision),
+        'createdTime': record.get('createdTime', ''),
+        # Legacy aliases (same row data)
+        'recordType': flagged_type,
+        'recordId': flagged_id,
+        'flagsTriggered': flag_types,
+        'blacklistTerms': detail,
+        'reviewNotes': res_notes,
+        'dateLogged': date_fl,
+    }
+    return out
+
+
+def _jeta_fraud_log_json_to_fields(data: dict, partial: bool = False) -> dict:
+    out = {}
+
+    def put_both(canon: str, legacy: str | None, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        if legacy:
+            out[legacy] = val
+
+    str_map = [
+        ('flaggedRecordType', JFL.flagged_record_type, 'Flagged Record Type'),
+        ('flagged_record_type', JFL.flagged_record_type, 'Flagged Record Type'),
+        ('recordType', JFL.flagged_record_type, 'Flagged Record Type'),
+        ('record_type', JFL.flagged_record_type, 'Flagged Record Type'),
+        ('flaggedRecordId', JFL.flagged_record_id, 'Flagged Record ID'),
+        ('flagged_record_id', JFL.flagged_record_id, 'Flagged Record ID'),
+        ('recordId', JFL.flagged_record_id, 'Flagged Record ID'),
+        ('record_id', JFL.flagged_record_id, 'Flagged Record ID'),
+        ('flagLevel', JFL.flag_level, 'Flag Level'),
+        ('flag_level', JFL.flag_level, 'Flag Level'),
+        ('flagDetail', JFL.flag_detail, 'Flag Detail'),
+        ('flag_detail', JFL.flag_detail, 'Flag Detail'),
+        ('blacklistTerms', JFL.flag_detail, 'Flag Detail'),
+        ('blacklist_terms', JFL.flag_detail, 'Flag Detail'),
+        ('triggeredBy', JFL.triggered_by, 'Triggered By'),
+        ('triggered_by', JFL.triggered_by, 'Triggered By'),
+        ('actionTaken', JFL.action_taken, 'Action Taken'),
+        ('action_taken', JFL.action_taken, 'Action Taken'),
+        ('reviewedBy', JFL.reviewed_by, 'Reviewed By'),
+        ('reviewed_by', JFL.reviewed_by, 'Reviewed By'),
+        ('resolutionNotes', JFL.resolution_notes, 'Resolution Notes'),
+        ('resolution_notes', JFL.resolution_notes, 'Resolution Notes'),
+        ('reviewNotes', JFL.resolution_notes, 'Resolution Notes'),
+        ('review_notes', JFL.resolution_notes, 'Resolution Notes'),
+        ('companyName', JFL.company_name, 'Company Name'),
+        ('company_name', JFL.company_name, 'Company Name'),
+        ('finalDecision', JFL.final_decision, 'Final Decision'),
+        ('final_decision', JFL.final_decision, 'Final Decision'),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    if JFL.flagged_record_type in out:
+        out['Record Type'] = out[JFL.flagged_record_type]
+    if JFL.flagged_record_id in out:
+        out['Record ID'] = out[JFL.flagged_record_id]
+
+    ft = data.get('flagType') if 'flagType' in data else data.get('flag_type')
+    if ft is None:
+        ft = data.get('flagsTriggered') if 'flagsTriggered' in data else data.get('flags_triggered')
+    if ft is not None:
+        if isinstance(ft, list):
+            lst = [str(x).strip() for x in ft if str(x).strip()]
+        else:
+            lst = [x.strip() for x in str(ft).split(',') if x.strip()]
+        if lst:
+            out[JFL.flag_type] = lst
+            out['Flag Type'] = lst
+            out['Flags Triggered'] = lst
+
+    for jk, canon, legacy in [
+        ('reviewDate', JFL.review_date, 'Review Date'),
+        ('review_date', JFL.review_date, 'Review Date'),
+        ('dateFlagged', JFL.date_flagged, 'Date Flagged'),
+        ('date_flagged', JFL.date_flagged, 'Date Flagged'),
+        ('dateLogged', JFL.date_flagged, 'Date Flagged'),
+        ('date_logged', JFL.date_flagged, 'Date Flagged'),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip()[:10])
+
+    def _bool_key(jk: str) -> bool | None:
+        if jk not in data:
+            return None
+        v = data[jk]
+        if v is None:
+            return None
+        if isinstance(v, bool):
+            return v
+        s = str(v).strip().lower()
+        if s in ('', '0', 'false', 'no'):
+            return False
+        return True
+
+    for jk, canon, legacy in [
+        ('blacklisted', JFL.blacklisted, 'Blacklisted'),
+    ]:
+        b = _bool_key(jk)
+        if b is not None:
+            put_both(canon, legacy, b)
+
+    def _link_val(jk_alt: tuple) -> str | None:
+        for k in jk_alt:
+            if k in data and data[k] not in (None, ''):
+                return str(data[k]).strip()
+        return None
+
+    deal_id = _link_val(('linkedDealId', 'linked_deal_id', 'linked_deal'))
+    buyer_id = _link_val(('linkedBuyerId', 'linked_buyer_id', 'linked_buyer'))
+    seller_id = _link_val(('linkedSellerId', 'linked_seller_id', 'linked_seller'))
+    if deal_id:
+        put_both(JFL.linked_deal, 'Linked Deal', [deal_id])
+    if buyer_id:
+        put_both(JFL.linked_buyer, 'Linked Buyer', [buyer_id])
+    if seller_id:
+        put_both(JFL.linked_seller, 'Linked Seller', [seller_id])
+
+    return out
+
+
+@app.route('/api/jeta/fraud-log', methods=['GET'])
+@app.route('/jeta/fraud-log', methods=['GET'])
+def jeta_get_fraud_log():
+    """List fraud/compliance log rows; optional ?flagged_record_type=, ?record_type=, ?flagged_record_id=, ?company_name=, ?blacklisted=."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_FRAUD_LOG_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'entries': [],
+                'hint': f'Create Airtable table "{JETA_FRAUD_LOG_TABLE}" with expected fields.',
+            }), 200
+
+        rt_f = (
+            request.args.get('flagged_record_type')
+            or request.args.get('record_type')
+            or ''
+        ).strip().lower()
+        rid_f = (
+            request.args.get('flagged_record_id')
+            or request.args.get('record_id')
+            or request.args.get('recordId')
+            or ''
+        ).strip()
+        co_f = (request.args.get('company_name') or request.args.get('companyName') or '').strip().lower()
+        bl_f = (request.args.get('blacklisted') or '').strip().lower()
+        rows = [_jeta_serialize_fraud_log(rec) for rec in raw]
+        if rt_f:
+            rows = [r for r in rows if (r.get('flaggedRecordType') or r.get('recordType') or '').lower() == rt_f]
+        if rid_f:
+            rows = [r for r in rows if str(r.get('flaggedRecordId') or r.get('recordId') or '') == rid_f]
+        if co_f:
+            rows = [r for r in rows if co_f in (r.get('companyName') or '').lower()]
+        if bl_f in ('1', 'true', 'yes'):
+            rows = [r for r in rows if r.get('blacklisted') is True]
+        elif bl_f in ('0', 'false', 'no'):
+            rows = [r for r in rows if r.get('blacklisted') is not True]
+
+        rows.sort(key=lambda x: (x.get('dateFlagged') or x.get('dateLogged') or '', x.get('createdTime') or ''), reverse=True)
+        return jsonify({'success': True, 'entries': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'entries': []}), 500
+
+
+@app.route('/api/jeta/fraud-log', methods=['POST'])
+@app.route('/jeta/fraud-log', methods=['POST'])
+def jeta_create_fraud_log():
+    """Append a fraud/compliance log row."""
+    try:
+        data = dict(request.json or {})
+        fields = _jeta_fraud_log_json_to_fields(data, partial=False)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields provided'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_FRAUD_LOG_TABLE, fields)
+        return jsonify({'success': True, 'entry': _jeta_serialize_fraud_log(created)}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/fraud-log/<log_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/fraud-log/<log_id>', methods=['PUT', 'PATCH'])
+def jeta_update_fraud_log(log_id):
+    """Update a log row (e.g. after manual review)."""
+    try:
+        data = request.json or {}
+        fields = _jeta_fraud_log_json_to_fields(data, partial=True)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_FRAUD_LOG_TABLE, log_id, fields)
+        return jsonify({'success': True, 'entry': _jeta_serialize_fraud_log(updated)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+# =====================================================================
+# JETA_ImportLog — FAA 5010 / Canada batch import audit rows (canonical: jeta_import_log_schema.JIL)
+# =====================================================================
+
+JETA_IMPORT_LOG_TABLE = 'JETA_ImportLog'
+
+
+def _jeta_serialize_import_log(record: dict) -> dict:
+    f = record.get('fields') or {}
+    tp = jil_get_int(f, JIL.total_processed)
+    ti = jil_get_int(f, JIL.total_imported)
+    ts = jil_get_int(f, JIL.total_skipped)
+    tf = jil_get_int(f, JIL.total_filtered)
+    return {
+        'id': record['id'],
+        'importSource': jil_get_str(f, JIL.import_source),
+        'importDate': jil_format_date(jil_get_raw(f, JIL.import_date)),
+        'fileName': jil_get_str(f, JIL.file_name),
+        'totalProcessed': tp if tp is not None else None,
+        'totalImported': ti if ti is not None else None,
+        'totalSkipped': ts if ts is not None else None,
+        'totalFiltered': tf if tf is not None else None,
+        'breakdownByState': jil_get_str(f, JIL.breakdown_by_state),
+        'breakdownByType': jil_get_str(f, JIL.breakdown_by_type),
+        'errors': jil_get_str(f, JIL.errors),
+        'importedBy': jil_get_str(f, JIL.imported_by),
+        'notes': jil_get_str(f, JIL.notes),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_import_log_num(val):
+    if val is None or val == '':
+        return None
+    try:
+        return int(float(val))
+    except (TypeError, ValueError):
+        return None
+
+
+def _jeta_import_log_json_to_fields(data: dict) -> dict:
+    out = {}
+
+    def put_both(canon: str, legacy: tuple, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        for leg in legacy:
+            if leg:
+                out[leg] = val
+
+    str_map = [
+        ('importSource', JIL.import_source, ('Import Source',)),
+        ('import_source', JIL.import_source, ('Import Source',)),
+        ('fileName', JIL.file_name, ('File Name',)),
+        ('file_name', JIL.file_name, ('File Name',)),
+        ('errors', JIL.errors, ('Errors',)),
+        ('importedBy', JIL.imported_by, ('Imported By',)),
+        ('imported_by', JIL.imported_by, ('Imported By',)),
+        ('notes', JIL.notes, ('Notes',)),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    for jk, canon, legacy in [
+        ('importDate', JIL.import_date, ('Import Date',)),
+        ('import_date', JIL.import_date, ('Import Date',)),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip()[:10])
+
+    num_keys = [
+        ('totalProcessed', JIL.total_processed, ('Total Processed',)),
+        ('total_processed', JIL.total_processed, ('Total Processed',)),
+        ('totalImported', JIL.total_imported, ('Total Imported',)),
+        ('total_imported', JIL.total_imported, ('Total Imported',)),
+        ('totalSkipped', JIL.total_skipped, ('Total Skipped',)),
+        ('total_skipped', JIL.total_skipped, ('Total Skipped',)),
+        ('totalFiltered', JIL.total_filtered, ('Total Filtered',)),
+        ('total_filtered', JIL.total_filtered, ('Total Filtered',)),
+    ]
+    for jk, canon, legacy in num_keys:
+        if jk not in data:
+            continue
+        n = _jeta_import_log_num(data[jk])
+        if n is not None:
+            put_both(canon, legacy, n)
+
+    for jk, canon, legacy in [
+        ('breakdownByState', JIL.breakdown_by_state, ('Breakdown By State', 'Breakdown by State')),
+        ('breakdown_by_state', JIL.breakdown_by_state, ('Breakdown By State', 'Breakdown by State')),
+        ('breakdownByType', JIL.breakdown_by_type, ('Breakdown By Type', 'Breakdown by Type')),
+        ('breakdown_by_type', JIL.breakdown_by_type, ('Breakdown By Type', 'Breakdown by Type')),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        raw = data[jk]
+        if isinstance(raw, (dict, list)):
+            s = jil_long_text_as_json_str(raw)
+        else:
+            s = str(raw).strip()
+        if s:
+            put_both(canon, legacy, s)
+
+    return out
+
+
+@app.route('/api/jeta/import-log', methods=['GET'])
+@app.route('/jeta/import-log', methods=['GET'])
+def jeta_get_import_log():
+    """List import batch log rows; optional ?import_source=, ?file_name=, ?imported_by=."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_IMPORT_LOG_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'entries': [],
+                'hint': f'Create Airtable table "{JETA_IMPORT_LOG_TABLE}" with expected fields.',
+            }), 200
+
+        src_f = (request.args.get('import_source') or request.args.get('importSource') or '').strip().lower()
+        fn_f = (request.args.get('file_name') or request.args.get('fileName') or '').strip().lower()
+        by_f = (request.args.get('imported_by') or request.args.get('importedBy') or '').strip().lower()
+        rows = [_jeta_serialize_import_log(rec) for rec in raw]
+        if src_f:
+            rows = [r for r in rows if src_f in (r.get('importSource') or '').lower()]
+        if fn_f:
+            rows = [r for r in rows if fn_f in (r.get('fileName') or '').lower()]
+        if by_f:
+            rows = [r for r in rows if by_f in (r.get('importedBy') or '').lower()]
+
+        rows.sort(key=lambda x: (x.get('importDate') or '', x.get('createdTime') or ''), reverse=True)
+        return jsonify({'success': True, 'entries': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'entries': []}), 500
+
+
+@app.route('/api/jeta/import-log', methods=['POST'])
+@app.route('/jeta/import-log', methods=['POST'])
+def jeta_create_import_log():
+    """Append an import batch log row (after FAA 5010 / Canada CSV runs, etc.)."""
+    try:
+        data = dict(request.json or {})
+        fields = _jeta_import_log_json_to_fields(data)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields provided'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_IMPORT_LOG_TABLE, fields)
+        return jsonify({'success': True, 'entry': _jeta_serialize_import_log(created)}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/import-log/<log_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/import-log/<log_id>', methods=['PUT', 'PATCH'])
+def jeta_update_import_log(log_id):
+    """Update an import log row."""
+    try:
+        data = request.json or {}
+        fields = _jeta_import_log_json_to_fields(data)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_IMPORT_LOG_TABLE, log_id, fields)
+        return jsonify({'success': True, 'entry': _jeta_serialize_import_log(updated)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+# =====================================================================
+# JETA_Events — conferences & trade shows (Master doc TABLE 12; jeta_events_schema.JE)
+# =====================================================================
+
+JETA_EVENTS_TABLE = 'JETA_Events'
+
+
+def _jeta_serialize_event(record: dict) -> dict:
+    f = record.get('fields') or {}
+    c = je_get_float(f, JE.cost)
+    return {
+        'id': record['id'],
+        'eventName': je_get_str(f, JE.event_name),
+        'organizer': je_get_str(f, JE.organizer),
+        'eventType': je_get_str(f, JE.event_type),
+        'locationCity': je_get_str(f, JE.location_city),
+        'locationState': je_get_str(f, JE.location_state),
+        'virtual': je_get_bool(f, JE.virtual),
+        'startDate': je_format_date(je_get_raw(f, JE.start_date)),
+        'endDate': je_format_date(je_get_raw(f, JE.end_date)),
+        'registrationDeadline': je_format_date(je_get_raw(f, JE.registration_deadline)),
+        'registrationUrl': je_get_str(f, JE.registration_url),
+        'cost': c if c is not None else None,
+        'attending': je_get_str(f, JE.attending),
+        'registrationStatus': je_get_str(f, JE.registration_status),
+        'contactsMet': je_get_str(f, JE.contacts_met),
+        'followUpsNeeded': je_get_str(f, JE.follow_ups_needed),
+        'linkedBuyerIds': je_link_ids(f, JE.linked_buyers),
+        'linkedSellerIds': je_link_ids(f, JE.linked_sellers),
+        'notes': je_get_str(f, JE.notes),
+        'dateAdded': je_format_date(je_get_raw(f, JE.date_added)),
+        'createdTime': record.get('createdTime', ''),
+    }
+
+
+def _jeta_events_json_to_fields(data: dict) -> dict:
+    out = {}
+
+    def put_both(canon: str, legacy: tuple, val) -> None:
+        if val is None:
+            return
+        out[canon] = val
+        for leg in legacy:
+            if leg:
+                out[leg] = val
+
+    str_map = [
+        ('eventName', JE.event_name, ('Event Name',)),
+        ('event_name', JE.event_name, ('Event Name',)),
+        ('organizer', JE.organizer, ('Organizer',)),
+        ('eventType', JE.event_type, ('Event Type',)),
+        ('event_type', JE.event_type, ('Event Type',)),
+        ('locationCity', JE.location_city, ('Location City',)),
+        ('location_city', JE.location_city, ('Location City',)),
+        ('locationState', JE.location_state, ('Location State',)),
+        ('location_state', JE.location_state, ('Location State',)),
+        ('registrationUrl', JE.registration_url, ('Registration URL',)),
+        ('registration_url', JE.registration_url, ('Registration URL',)),
+        ('attending', JE.attending, ('Attending',)),
+        ('registrationStatus', JE.registration_status, ('Registration Status',)),
+        ('registration_status', JE.registration_status, ('Registration Status',)),
+        ('contactsMet', JE.contacts_met, ('Contacts Met',)),
+        ('contacts_met', JE.contacts_met, ('Contacts Met',)),
+        ('followUpsNeeded', JE.follow_ups_needed, ('Follow Ups Needed', 'Follow-ups Needed')),
+        ('follow_ups_needed', JE.follow_ups_needed, ('Follow Ups Needed', 'Follow-ups Needed')),
+        ('notes', JE.notes, ('Notes',)),
+    ]
+    for jk, canon, legacy in str_map:
+        if jk not in data or data[jk] is None:
+            continue
+        put_both(canon, legacy, str(data[jk]).strip())
+
+    for jk, canon, legacy in [
+        ('startDate', JE.start_date, ('Start Date',)),
+        ('start_date', JE.start_date, ('Start Date',)),
+        ('endDate', JE.end_date, ('End Date',)),
+        ('end_date', JE.end_date, ('End Date',)),
+        ('registrationDeadline', JE.registration_deadline, ('Registration Deadline',)),
+        ('registration_deadline', JE.registration_deadline, ('Registration Deadline',)),
+        ('dateAdded', JE.date_added, ('Date Added',)),
+        ('date_added', JE.date_added, ('Date Added',)),
+    ]:
+        if jk not in data or data[jk] in (None, ''):
+            continue
+        put_both(canon, legacy, str(data[jk]).strip()[:10])
+
+    if 'virtual' in data and data['virtual'] is not None:
+        v = data['virtual']
+        b = v if isinstance(v, bool) else str(v).strip().lower() in ('1', 'true', 'yes')
+        put_both(JE.virtual, ('Virtual',), b)
+
+    if 'cost' in data and data['cost'] not in (None, ''):
+        try:
+            put_both(JE.cost, ('Cost',), float(data['cost']))
+        except (TypeError, ValueError):
+            pass
+
+    def _ids(key_snake: str, key_camel: str) -> list[str] | None:
+        raw = data.get(key_camel) if key_camel in data else data.get(key_snake)
+        if raw is None:
+            return None
+        if isinstance(raw, list):
+            return [str(x).strip() for x in raw if str(x).strip()]
+        s = str(raw).strip()
+        return [s] if s else None
+
+    lb = _ids('linked_buyers', 'linkedBuyerIds')
+    if lb:
+        put_both(JE.linked_buyers, ('Linked Buyers',), lb)
+    ls = _ids('linked_sellers', 'linkedSellerIds')
+    if ls:
+        put_both(JE.linked_sellers, ('Linked Sellers',), ls)
+
+    return out
+
+
+@app.route('/api/jeta/events', methods=['GET'])
+@app.route('/jeta/events', methods=['GET'])
+def jeta_get_events():
+    """List JETA_Events rows; optional ?attending=, ?event_type=, ?q= (name/organizer/city)."""
+    try:
+        airtable_client = AirtableClient()
+        try:
+            raw = airtable_client.get_all_records(JETA_EVENTS_TABLE)
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e),
+                'events': [],
+                'hint': f'Create Airtable table "{JETA_EVENTS_TABLE}" with fields from Master doc TABLE 12.',
+            }), 200
+
+        att_f = (request.args.get('attending') or '').strip().lower()
+        et_f = (request.args.get('event_type') or request.args.get('eventType') or '').strip().lower()
+        q_f = (request.args.get('q') or '').strip().lower()
+        rows = [_jeta_serialize_event(rec) for rec in raw]
+        if att_f:
+            rows = [r for r in rows if att_f in (r.get('attending') or '').lower()]
+        if et_f:
+            rows = [r for r in rows if et_f in (r.get('eventType') or '').lower()]
+        if q_f:
+            rows = [
+                r
+                for r in rows
+                if q_f in (r.get('eventName') or '').lower()
+                or q_f in (r.get('organizer') or '').lower()
+                or q_f in (r.get('locationCity') or '').lower()
+            ]
+        rows.sort(key=lambda x: (x.get('startDate') or '', x.get('createdTime') or ''), reverse=True)
+        return jsonify({'success': True, 'events': rows, 'count': len(rows)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e), 'events': []}), 500
+
+
+@app.route('/api/jeta/events', methods=['POST'])
+@app.route('/jeta/events', methods=['POST'])
+def jeta_create_event():
+    try:
+        data = dict(request.json or {})
+        fields = _jeta_events_json_to_fields(data)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields provided'}), 400
+        airtable_client = AirtableClient()
+        created = airtable_client.create_record(JETA_EVENTS_TABLE, fields)
+        return jsonify({'success': True, 'event': _jeta_serialize_event(created)}), 201
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+
+@app.route('/api/jeta/events/<event_id>', methods=['PUT', 'PATCH'])
+@app.route('/jeta/events/<event_id>', methods=['PUT', 'PATCH'])
+def jeta_update_event(event_id):
+    try:
+        data = request.json or {}
+        fields = _jeta_events_json_to_fields(data)
+        if not fields:
+            return jsonify({'success': False, 'error': 'No fields to update'}), 400
+        airtable_client = AirtableClient()
+        updated = airtable_client.update_record(JETA_EVENTS_TABLE, event_id, fields)
+        return jsonify({'success': True, 'event': _jeta_serialize_event(updated)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
 
 
 # =====================================================================

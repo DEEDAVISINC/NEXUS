@@ -1,0 +1,62 @@
+{
+  "$schema": "JETA knowledge manifest v1",
+  "description": "Public sources for JETA learning corpus. Run scripts/fetch_jeta_public_sources.sh to download PDFs locally. Do not commit large PDFs unless policy allows.",
+  "sources": [
+    {
+      "id": "rfp-clinton-ia-2024",
+      "type": "airport_rfp",
+      "title": "Clinton Municipal Airport — Aviation Fuel Supplier RFP",
+      "url": "https://www.cityofclintoniowa.gov/DocumentCenter/View/1276/Aviation-Fuel-Supplier---Request-for-Proposals-PDF",
+      "format": "pdf",
+      "topics": ["Jet A", "100LL", "ASTM D1655", "branded supply", "municipal procurement"],
+      "notes": "Example municipal airport fuel-supplier structure; due date historical."
+    },
+    {
+      "id": "rfp-truckee-ktrk-2024",
+      "type": "airport_rfp",
+      "title": "Truckee Tahoe Airport — Aviation Fuel Suppliers RFP",
+      "url": "https://truckeetahoeairport.com/documents/928-ktrk-rfp-07-29-2024_-_final-pdf",
+      "format": "pdf",
+      "topics": ["Jet A", "SAF", "ASTM D1655", "index pricing", "FBO"],
+      "notes": "Includes SAF/Jet A blend context; historical schedule."
+    },
+    {
+      "id": "eia-jet-production",
+      "type": "government_data",
+      "title": "EIA — Refinery net production kerosene-type jet fuel (commercial)",
+      "url": "https://www.eia.gov/dnav/pet/PET_PNP_REFP2_A_EPJKC_YPY_MBBL_M.htm",
+      "format": "web",
+      "topics": ["PADD regions", "production volumes", "benchmark context"]
+    },
+    {
+      "id": "eia-refinery-capacity",
+      "type": "government_data",
+      "title": "EIA — Refinery capacity report (operable refineries)",
+      "url": "https://www.eia.gov/petroleum/refinerycapacity/",
+      "format": "web_pdf",
+      "topics": ["refinery list", "kerosene jet capacity by site", "state operator"]
+    },
+    {
+      "id": "eia-refinery-rankings",
+      "type": "government_data",
+      "title": "EIA — Refinery rankings (top U.S. sites)",
+      "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/refining-crude-oil-refinery-rankings.php",
+      "format": "web",
+      "topics": ["major refiners", "Gulf Coast concentration"]
+    },
+    {
+      "id": "astm-d1655",
+      "type": "standard_reference",
+      "title": "ASTM D1655 — Aviation turbine fuels (purchase spec reference)",
+      "url": "https://www.astm.org/d1655-25.html",
+      "format": "web",
+      "topics": ["Jet A", "Jet A-1", "specs"],
+      "notes": "Official standard is paid; page is reference for procurement language."
+    }
+  ],
+  "ingestion_rules": {
+    "chunk_by": ["section_heading", "rfp_section", "table"],
+    "metadata_required": ["source_id", "doc_type", "year_or_unknown", "verified_flag"],
+    "disclaimer": "Training examples only; not legal advice. Airport RFPs are buyer-specific."
+  }
+}

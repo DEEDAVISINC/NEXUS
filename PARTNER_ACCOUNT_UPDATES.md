@@ -167,7 +167,8 @@ Dee Davis Inc. | Depointe DNA
 
 | Date | Action | Status |
 |---|---|---|
-| April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent — awaiting response |
+| April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent |
+| **April 13, 2026** | **Partnership call — Sam Cilento** | ✅ **Scheduled — 1:30–2:00 PM ET** — Google Meet `meet.google.com/php-xxbr-ewa` — phone +1 567-455-3991 PIN 509525744 — `calendars/LAKOTA_SAM_CILENTO_PARTNERSHIP_2026-04-13.ics` |
 
 ### DECA / FEDERAL FINGERPRINTING (HQC00526QE015)
 
@@ -177,7 +178,7 @@ Dee Davis Inc. | Depointe DNA
 
 - [ ] Confirm monthly billing is current
 - [ ] **Sam — DeCA teaming:** align on what we can state externally re **WHORL**, submission channels, and OCONUS/CONUS coverage model for **HQC00526QE015**
-- [ ] Follow up with Sam if no response within 5 business days (by April 11)
+- [x] **Call scheduled** Apr 13, 2026 1:30 PM ET — see calendar `.ics` above
 - [ ] When Sam responds — confirm WHORL upgrade pricing and channels
 - [ ] When Sam responds — confirm federal EDO processing capability
 - [ ] When Sam responds — confirm Kojak hardware sourcing

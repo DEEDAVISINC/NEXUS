@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 5, 2026
+**Updated:** April 7, 2026
 
 ---
 
@@ -7,6 +7,7 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |
 | **Apr 15 @ 3:00 PM EDT** | **Questions due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — submit online via MITN; draft `OAKLAND COUNTY HHS MEDICAL SUPPLIES/QUESTIONS_FOR_MITN.md` |
 | **Apr 21 @ 10:00 AM EDT** | **ITB due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — MITN/BidNet; folder `BIDS:RESOURCES/OAKLAND COUNTY HHS MEDICAL SUPPLIES/` |
 | **Mar 24 (Tue)** | Call — Lisa TerMorshuizen | Choice Partners / HCDE (Texas) | Drug & Alcohol Testing rebid | **COMPLETED Mar 24.** Intro call. Lisa sees value in DDI. Drug testing contract is a year out. Told DDI to watch for contracts — they post daily on Ionwave (hcdeebid.ionwave.net). Monitor daily. |

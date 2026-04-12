@@ -720,11 +720,17 @@ Orders → VERTEX Invoices (revenue)
 
 # 17. API ENDPOINTS
 
-**Orders:** CRUD + assign, confirm, complete, close
-**Scanbacks:** Upload, get, inspect, report
-**Field Agents:** CRUD + orders, performance
-**Clients:** List, orders, compliance
-**Rules:** List, add, view learned patterns
+**Orders:** CRUD + assign, confirm, complete, close  
+**Scanbacks:** Upload, get, inspect, report  
+**Field Agents:** CRUD + orders, performance  
+**Clients:** List, orders, compliance  
+**Rules:** List, add, view learned patterns  
+
+**SE Michigan law firm notary channel (scheduling SOP, coverage schema, service menu, intake field schema):**  
+- `GET /prism/law-firm-channel` — full playbook JSON  
+- `GET /prism/law-firm-channel/scheduling` | `/coverage` | `/intake-schema` | `/service-menu` — partials  
+- **Live coverage** (counties, agents, capacity, platforms, pitch lines): edit `uploads/prism/law_firm_coverage.json` — merged into `GET .../coverage` and full playbook  
+- `POST /prism/intake` with `channel: law_firm` or `service_key: notary-law-firm` — merges body fields into `order.details.law_firm_account` per schema in `prism_law_firm_notary_channel.py`
 
 ---
 

@@ -2,7 +2,7 @@
 
 **State Commissioning | Notarial Acts | Remote Online Notarization (RON) | Journal Requirements**
 
-**Last Updated in NEXUS:** March 19, 2026
+**Last Updated in NEXUS:** March 19, 2026 *(DDI agency rate card cross-ref: `DDI_PROFESSIONAL_SERVICES_PRICING.md` §3 — April 2026)*
 
 ---
 

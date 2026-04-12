@@ -1,0 +1,26 @@
+{
+  "_comment": "Live SE Michigan law-firm coverage — edit this file; no code deploy. PRISM reloads on each GET.",
+  "updated_at": null,
+  "hq_overrides": {},
+  "counties": [
+    {"name": "Oakland", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": "e.g. Birmingham, Troy, Royal Oak"},
+    {"name": "Wayne", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": "e.g. Detroit, Dearborn"},
+    {"name": "Macomb", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": "e.g. Warren, Sterling Heights"},
+    {"name": "Washtenaw", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": "e.g. Ann Arbor"},
+    {"name": "Livingston", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": ""},
+    {"name": "Genesee", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": "Flint — confirm radius"},
+    {"name": "St. Clair", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": ""},
+    {"name": "Monroe", "zone": null, "typical_travel_fee_usd": null, "covered": null, "notes": ""}
+  ],
+  "agents": [],
+  "capacity": {
+    "same_day_typical_per_day": null,
+    "same_day_hard_max_per_day": null
+  },
+  "platforms": {
+    "snapdocs": null,
+    "zigsig": null
+  },
+  "out_of_zone_policy": null,
+  "public_pitch_lines": []
+}

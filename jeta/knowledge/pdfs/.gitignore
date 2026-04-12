@@ -1,0 +1,2 @@
+# Large downloaded PDFs — regenerate with ../scripts/fetch_jeta_public_sources.sh
+*.pdf

@@ -1,0 +1,38 @@
+---
+description: Before grant/funding/strategy answers about DDI, read COMPANY_INFO_MASTER.md first — no fabricated company facts.
+alwaysApply: true
+---
+
+# Grant & Strategy Answers — Company Info Gate
+
+**User confirmed:** Advisory replies about money and positioning must be grounded in the real company record, not generic grant-blog answers.
+
+## When This Rule Triggers
+
+Before answering questions about **any** of the following — for **Dee Davis Inc.**, **Cause We Care**, **DePointe**, or combined applicant identity:
+
+- Grant fit, eligibility, or “should we apply?”
+- Funding strategy, capital, fellowships, or nonprofit vs for-profit framing
+- How to describe the business, certifications, or credentials in an application context
+- Comparing opportunities (e.g., OSV vs SBA vs foundation) **as they relate to DDI’s actual profile**
+
+## Mandatory First Step
+
+1. **Read** `COMPANY_INFO_MASTER.md` in the project root (or confirm its contents from the current session if already loaded this turn).
+2. **Align** any statement about legal name, EIN, CAGE, UEI, address, phone, email, website, certifications, DBAs, and related entities with that file — **the master file wins** on conflict.
+3. **Do not invent** revenue figures, award history, program participation, or cert details not supported by the master file or another cited workspace source.
+
+## What This Does Not Require
+
+- Re-reading the full master file for **every** unrelated technical or coding question.
+- Treating OSV/NIH/etc. **pure program facts** (deadlines on a public site) as needing the master file — but **any sentence that ties the program to DDI** must be grounded.
+
+## Self-Check Before Sending
+
+- [ ] Did I read `COMPANY_INFO_MASTER.md` (or use verified session content) before describing DDI/CWC/DePointe in a grant or strategy answer?
+- [ ] Are cert names, EIN, and contact lines correct per master?
+- [ ] Did I flag uncertainty instead of guessing?
+
+---
+
+*Added after user confirmation: “the word” — apply this gate to grant/strategy replies, not only to generated documents.*

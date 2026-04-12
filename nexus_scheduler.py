@@ -34,6 +34,7 @@ Usage:
   python3 nexus_scheduler.py --vertex   # Run all VERTEX daily financial jobs (6 AM suite)
   python3 nexus_scheduler.py --vertex-collect  # Run AR collection sweep + TODAY_AGENDA update
   python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
+  python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -541,6 +542,35 @@ def run_public_portal_scan(tier1_only=False):
         return False
 
 
+def run_jeta_market_price_sync():
+    """
+    JETA — weekly IATA Jet Fuel Price Monitor sync.
+    Calls GET /api/jeta/market/price?refresh=1 (stores USD/bbl in Airtable JETA_MarketData).
+    """
+    log.info("--- JETA IATA MARKET PRICE SYNC ---")
+    try:
+        import requests
+
+        base_url = os.environ.get("NEXUS_API_URL", "http://127.0.0.1:5000")
+        url = f"{base_url.rstrip('/')}/api/jeta/market/price"
+        resp = requests.get(url, params={"refresh": "1"}, timeout=120)
+        data = resp.json()
+        if resp.status_code >= 400 or not data.get("success"):
+            log.error("JETA market price sync failed: %s %s", resp.status_code, data.get("error"))
+            return False
+        latest = data.get("latest") or {}
+        log.info(
+            "JETA market price: $%s/bbl (%s) synced=%s",
+            latest.get("pricePerBarrel"),
+            latest.get("priceDate"),
+            data.get("synced"),
+        )
+        return True
+    except Exception as e:
+        log.error("JETA market price sync failed: %s", e)
+        return False
+
+
 # ============================================================================
 # VERTEX FINANCIAL JOBS (Phases 10, 11, 12, 13)
 # ============================================================================
@@ -811,6 +841,7 @@ def run_loop():
     log.info("  Quote follow-ups:     every 4 hours")
     log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
     log.info("  Prime contractor mining: weekly")
+    log.info("  JETA IATA market price: weekly (jet fuel $/bbl → JETA_MarketData)")
     log.info("  VERTEX financial jobs: daily 6:00 AM ET (recurring invoices, collection, AI advisor, reconciliation)")
     log.info("  Press Ctrl+C to stop")
     log.info("=" * 60)
@@ -826,6 +857,7 @@ def run_loop():
     last_digest = datetime.min
     last_public_scan = datetime.min
     last_prime_mining = datetime.min
+    last_jeta_market = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
@@ -838,6 +870,7 @@ def run_loop():
     DIGEST_INTERVAL = timedelta(hours=24)     # Daily digest email
     PUBLIC_SCAN_INTERVAL = timedelta(hours=6)  # Public portal scan every 6h
     PRIME_MINING_INTERVAL = timedelta(days=7)   # Weekly — find primes needing EDWOSB subs
+    JETA_MARKET_INTERVAL = timedelta(days=7)    # Weekly — IATA jet fuel $/bbl
 
     while True:
         now = datetime.now()
@@ -894,6 +927,11 @@ def run_loop():
             run_prime_contractor_mining()
             last_prime_mining = now
 
+        # JETA — IATA jet fuel price weekly sync (requires api_server reachable at NEXUS_API_URL)
+        if now - last_jeta_market >= JETA_MARKET_INTERVAL:
+            run_jeta_market_price_sync()
+            last_jeta_market = now
+
         # Daily digest at 7 AM
         if now - last_digest >= DIGEST_INTERVAL:
             try:
@@ -946,6 +984,8 @@ if __name__ == "__main__":
         run_vertex_collection_sweep()
     elif "--vertex-advisor" in args:
         run_vertex_ai_advisor()
+    elif "--jeta-market" in args:
+        run_jeta_market_price_sync()
     elif not args:
         run_all()
     else:
