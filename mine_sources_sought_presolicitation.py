@@ -16,7 +16,7 @@ RELEVANCE FILTER: Only returns opportunities matching DDI's actual service lanes
 
 DDI SERVICE LANES:
   1. Drug & Alcohol Testing (DOT/Non-DOT, occupational health screening)
-  2. Biometric Fingerprinting & Background Checks (SWFT-authorized)
+  2. Biometric Fingerprinting & Background Checks (LiveScan / FD-258; channel per client — no DCSA SWFT claim)
   3. DNA / Genetic Testing (DePointe DNA — court-admissible)
   4. NEMT / Healthcare Transportation (NPI active, Uber Health partner)
   5. Freight Brokerage & Logistics (MC-1647572, DOT-4250594)
@@ -421,14 +421,14 @@ def generate_co_outreach_email(co: dict, opp: dict) -> str:
 
 Hi {first_name},
 
-My name is Dieasha D. Davis, President & CEO of Dee Davis Inc. — a Michigan-based, federally certified Economically Disadvantaged Woman-Owned Small Business (EDWOSB) and SWFT-authorized contractor.
+My name is Dieasha D. Davis, President & CEO of Dee Davis Inc. — a Michigan-based, federally certified Economically Disadvantaged Woman-Owned Small Business (EDWOSB).
 
 I came across your procurement office at {agency_short}{sol_ref} and wanted to formally introduce Dee Davis Inc. and get on your radar for any upcoming WOSB or EDWOSB set-aside opportunities.
 
 Dee Davis Inc. is a contract management firm that primes federal service contracts and coordinates delivery through vetted, qualified subcontractors and field partners. Our core service lanes include:
 
 - Drug & Alcohol Testing (DOT/non-DOT, pre-employment, random, post-incident)
-- Biometric Fingerprinting & Background Checks (SWFT-authorized, FBI-channeled)
+- Biometric Fingerprinting & Background Checks (LiveScan / FD-258; FBI/state channels per program)
 - DNA & Genetic Testing (court-admissible, AABB-accredited network)
 - Credentialing & Identity Verification (workforce compliance programs)
 - NEMT & Healthcare Transportation (NPI active, Uber Health partner)
@@ -450,7 +450,7 @@ Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020 | Troy, MI 48084
 (248) 376-4550 | info@deedavis.biz | deedavis.biz
 CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | SAM: Active
-EDWOSB | WOSB | WBENC | MBE | SBE | SWFT Authorized"""
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify"""
     return email
 
 

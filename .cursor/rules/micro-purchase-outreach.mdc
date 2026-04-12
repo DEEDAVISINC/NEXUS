@@ -117,7 +117,7 @@ CAGE 8UMX3 | [Service Description] | EDWOSB | [Agency/Installation Name]
 ```
 
 **Examples:**
-- `CAGE 8UMX3 | DCSA SWFT-Authorized Fingerprinting Provider | EDWOSB | Selfridge ANGB`
+- `CAGE 8UMX3 | Fingerprinting & Credentialing Services | EDWOSB | Selfridge ANGB`
 - `CAGE 8UMX3 | FTA-Compliant C/TPA | 5,100+ Collection Sites | EDWOSB | SMART`
 - `CAGE 8UMX3 | EDWOSB Emergency Logistics Contractor | TWIC-Credentialed | MSP/EMHSD`
 
@@ -126,7 +126,7 @@ CAGE 8UMX3 | [Service Description] | EDWOSB | [Agency/Installation Name]
 - ALWAYS attach a cap statement to every email
 - Use the CORRECT sector version (fingerprinting = green, drug testing = blue/red, etc.)
 - Must be v3 format (see `cap-statement-v3-enforcement.mdc`)
-- If a contact serves dual sectors (e.g., VA = SWFT + NEMT), use the primary sector cap statement and mention the second service in the email body
+- If a contact serves dual sectors (e.g., VA = fingerprinting + NEMT), use the primary sector cap statement and mention the second service in the email body
 
 ---
 

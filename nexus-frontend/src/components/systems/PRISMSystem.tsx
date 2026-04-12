@@ -91,7 +91,7 @@ const SERVICE_INSPECTION: Record<string, { title: string; certs: string[]; funda
   },
   'fingerprint': {
     title: 'Fingerprinting & Background',
-    certs: ['SWFT Authorization (electronic submission)', 'Livescan Equipment Training', 'FD-258 Ink Card Procedures'],
+    certs: ['LiveScan & FD-258 capture', 'Channel per client program rules', 'Livescan equipment training'],
     fundamentals: [
       { id: 'FP-1', check: 'Government photo ID verified (current, not expired)?', severity: 'FATAL' },
       { id: 'FP-2', check: 'Correct ORI code entered?', severity: 'FATAL' },

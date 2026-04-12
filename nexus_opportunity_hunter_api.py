@@ -21,7 +21,7 @@ opportunity_hunter = Blueprint('opportunity_hunter', __name__)
 
 # DDI Profile (constant)
 DDI_PROFILE = {
-    'certifications': ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'SBE', 'SWFT', 'E-Verify'],
+    'certifications': ['EDWOSB', 'WOSB', 'WBE', 'MBE', 'SBE', 'E-Verify'],
     'naics_codes': [
         # Healthcare, Testing & Compliance
         '621511', '621999', '621910', '541620', '541380',
@@ -54,7 +54,7 @@ DDI_PROFILE = {
     ],
     'services': [
         'Drug Testing/TPA',
-        'SWFT Fingerprinting',
+        'Fingerprinting / Credentialing',
         'Medical Courier',
         'NEMT',
         'Grounds Maintenance',
@@ -133,7 +133,7 @@ DDI_PROFILE = {
         'require_factoring_plan': True,
         'preferred_lanes': [
             'Drug Testing/TPA',
-            'SWFT Fingerprinting',
+            'Fingerprinting / Credentialing',
             'NEMT',
             'Janitorial Services',
             'Grounds Maintenance',
@@ -141,7 +141,7 @@ DDI_PROFILE = {
             'Staffing & Workforce',
             'DNA/Paternity Testing',
         ],
-        'past_performance_strategy': 'Package Gideon Logistics, NEMT brokerage, SWFT authorization, and State of Michigan ICA contract as formal past performance references',
+        'past_performance_strategy': 'Package Gideon Logistics, NEMT brokerage, fingerprinting/credentialing work, and State of Michigan ICA contract as formal past performance references',
     }
 }
 
@@ -760,7 +760,7 @@ def hunt_strategic_contracts():
             },
             'strategy_notes': {
                 'edwosb_sole_source': f'EDWOSB sole-source up to ${DDI_PROFILE["edwosb_sole_source_ceiling"]:,} — CO awards directly to DDI, zero competition',
-                'past_performance': 'Contracts $350K+ require past performance — package Gideon, NEMT, SWFT, State of MI ICA as references',
+                'past_performance': 'Contracts $350K+ require past performance — package Gideon, NEMT, fingerprinting lanes, State of MI ICA as references',
                 'bonding': 'Contracts $500K+ may require performance bond — confirm capacity with SuretyCloud',
                 'cash_flow': 'Large contracts have 30-90 day payment cycles — invoice factoring handles the float',
                 'sub_strategy': 'DDI primes, subs execute — identify regional partners BEFORE bidding',

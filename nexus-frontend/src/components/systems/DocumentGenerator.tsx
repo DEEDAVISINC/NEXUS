@@ -505,7 +505,7 @@ function QuoteGeneratorContent({ selectedOpportunity }: { selectedOpportunity?: 
 const SECTOR_OPTIONS = [
   { key: 'main', label: 'Main — Contract Management Firm (All Sectors)', color: '#c5963a' },
   { key: 'drug_testing', label: 'Drug & Alcohol Testing / TPA', color: '#a78bfa' },
-  { key: 'fingerprinting', label: 'Fingerprinting / Background Screening / SWFT', color: '#4ade80' },
+  { key: 'fingerprinting', label: 'Fingerprinting / Background Screening', color: '#4ade80' },
   { key: 'nemt', label: 'NEMT / Medical Transportation', color: '#dc2626' },
   { key: 'courier', label: 'Courier / Delivery / Logistics', color: '#fb923c' },
   { key: 'dna_testing', label: 'DNA / Paternity / Genetic Testing', color: '#2dd4bf' },
@@ -721,7 +721,7 @@ function CapabilityStatementContent({ selectedOpportunity }: { selectedOpportuni
           </div>
           <div className="flex items-start gap-2">
             <span style={{ color: selectedColor }}>&#9632;</span>
-            <span><strong className="text-white">Differentiators</strong> — EDWOSB, facilities, SWFT, compliance</span>
+            <span><strong className="text-white">Differentiators</strong> — EDWOSB, facilities, credentialing, compliance</span>
           </div>
           <div className="flex items-start gap-2">
             <span style={{ color: selectedColor }}>&#9632;</span>

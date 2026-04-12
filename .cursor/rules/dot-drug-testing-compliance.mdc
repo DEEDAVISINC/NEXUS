@@ -130,12 +130,12 @@ DDI provides:
 - Paternity, siblingship, grandparentage testing
 - Informational (non-legal) DNA testing
 
-### Fingerprinting (SWFT Authorized)
+### Fingerprinting (capture & channel per contract)
 DDI provides:
 - Livescan electronic fingerprinting
 - Ink card (FD-258) fingerprinting
 - Mobile fingerprinting services
-- Direct SWFT submission to FBI/state agencies
+- Electronic submission **per client-approved channel** (state/federal program rules). **Do not claim DCSA SWFT** — access denied March 2026 per `COMPANY_INFO_MASTER.md`; use partner/cleared-sub path where required.
 
 ### Notary Services
 DDI provides:
@@ -209,7 +209,7 @@ DDI is a **C/TPA (Consortium/Third Party Administrator)** that:
 |---|---|
 | FBI criminal background checks | FBI CJIS |
 | State channeling agencies | State-specific |
-| SWFT submission | FDLE/State DOJ |
+| DCSA SWFT (Secure Web Fingerprint Transmission) | Not claimed by DDI — see `COMPANY_INFO_MASTER.md` |
 | Print quality (NFIQ) | NIST standards |
 
 ### Notary

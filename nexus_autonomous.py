@@ -431,7 +431,7 @@ President & CEO
 Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 (248) 376-4550 | info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | SBE | SWFT Authorized
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify
 """
 
     def _build_workflow_checklist(self, agency: str, title: str, sol_number: str,

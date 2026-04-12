@@ -8883,7 +8883,7 @@ KEY INFO TO INCLUDE: {config['key_info']}
 COMPANY INFO:
 - Company: Dee Davis Inc.
 - Owner: Dieasha Davis (goes by Dee)
-- Certifications: EDWOSB, WOSB, MBE, WBE, E-Verify, SWFT, CMMC-AB
+- Certifications: EDWOSB, WOSB, MBE, WBE, E-Verify, CMMC-AB (do not claim SWFT — see COMPANY_INFO_MASTER.md)
 - CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 - MC: 1647572 | DOT: 4250594
 - Location: Troy, Michigan
@@ -12744,7 +12744,7 @@ class DDCSSProspectMiner:
     # healthcare, staffing, manufacturing, logistics, construction.
     # These companies pay DDI directly — no government contract, no sub needed.
     # Drug testing via Quest/CRL network. Notary via signing agent network.
-    # Fingerprinting via SWFT authorization. All DDI-deliverable without a sub.
+    # Fingerprinting: capture + channel per contract; DCSA SWFT not claimed (denied Mar 2026). Lakota/partner subs as needed.
     # ------------------------------------------------------------------
 
     def mine_corporate_hr_signals(self) -> List[Dict]:
@@ -12760,8 +12760,8 @@ class DDCSSProspectMiner:
         - Logistics/distribution: DOT-regulated workforce
         - Construction: safety-sensitive, drug testing required
 
-        DDI delivers these services directly via Quest/CRL, SWFT, and signing
-        agent networks. No subcontractor required.
+        DDI delivers these services directly via Quest/CRL, fingerprinting
+        partners (e.g. Lakota/WHORL path), and signing agent networks as applicable.
         """
         try:
             import feedparser
@@ -13051,7 +13051,7 @@ If no specific company name is identifiable, return {{"company": null}}."""
 
         All three target corporate clients DDI can serve DIRECTLY without a government
         contract or a subcontractor. Drug testing via Quest/CRL, notary via signing
-        agent network, fingerprinting via SWFT.
+        agent network, fingerprinting via partner/cleared channel per solicitation.
         """
         summary = {
             'corporate_hr_signals': [],

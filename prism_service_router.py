@@ -309,7 +309,7 @@ SERVICE_CATALOG = {
         'sub_cost_high':    90,
         'ddi_direct_cost':  5,    # 3D Ink & Livescan Co equipment amortized
         'lab_cost':         0,
-        'notes':            '3D Ink & Livescan Co. DDI is SWFT-authorized. Mobile to employer sites.',
+        'notes':            '3D Ink & Livescan Co. LiveScan capture; submission per client channel (no DCSA SWFT claim — COMPANY_INFO_MASTER). Mobile to employer sites.',
     },
     'fingerprint_ink_card': {
         'label':            'Ink Card Fingerprinting (FD-258)',
@@ -323,21 +323,21 @@ SERVICE_CATALOG = {
         'sub_cost_high':    60,
         'ddi_direct_cost':  5,
         'lab_cost':         0,
-        'notes':            'FBI FD-258 ink cards. DDI prints and submits via SWFT.',
+        'notes':            'FBI FD-258 ink cards. DDI prints; submission via mail/state channel or partner per program (no DCSA SWFT claim).',
     },
     'fingerprint_swft_submission': {
-        'label':            'SWFT Electronic Submission to FBI',
+        'label':            'Electronic submission add-on (partner/cleared channel)',
         'service_line':     'Fingerprinting',
         'ddi_capable':      True,
         'lab_required':     False,
         'lab_partners':     [],
-        'collection_partners': [],
+        'collection_partners': ['Lakota'],
         'ddi_rate':         50,
         'sub_cost_low':     0,
         'sub_cost_high':    0,
         'ddi_direct_cost':  0,
         'lab_cost':         0,
-        'notes':            'Add-on to any print service. DDI submits directly — 100% margin.',
+        'notes':            'DCSA SWFT not held by DDI (denied Mar 2026). Coordinate via Lakota/cleared sub when program requires electronic submission.',
     },
     'fingerprint_background_check': {
         'label':            'Background Check + Fingerprinting Bundle',
@@ -351,7 +351,7 @@ SERVICE_CATALOG = {
         'sub_cost_high':    120,
         'ddi_direct_cost':  10,
         'lab_cost':         0,
-        'notes':            'Bundled: print + SWFT + background check coordination.',
+        'notes':            'Bundled: print + electronic channel (as applicable) + background check coordination.',
     },
 
     # ─── MEDICAL COURIER ────────────────────────────────────────────

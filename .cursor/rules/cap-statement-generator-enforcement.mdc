@@ -35,7 +35,7 @@ These are TWO DIFFERENT THINGS. Do not mix them.
 |---|---|
 | `main` | General contract management, emergency management, consulting, 3PL, catch-all |
 | `drug_testing` | DOT/FTA drug & alcohol testing, TPA contracts |
-| `fingerprinting` | DCSA SWFT, background screening, credentialing |
+| `fingerprinting` | Fingerprinting / background screening / credentialing (no SWFT claim — `COMPANY_INFO_MASTER.md`) |
 | `nemt` | Non-emergency medical transport, rideshare, passenger transport |
 | `courier` | Courier, express delivery, medical specimen transport, trucking, freight |
 | `dna_testing` | DNA, paternity, genetic testing, AABB |

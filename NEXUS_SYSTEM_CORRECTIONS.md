@@ -4,6 +4,20 @@
 
 ---
 
+## CORRECTION 0: SWFT / DCSA — DO NOT CLAIM (AUTHORITATIVE)
+
+**Source of truth:** `COMPANY_INFO_MASTER.md` (Federal/Compliance section).
+
+- **~~SWFT Authorized~~** is **incorrect** for Dee Davis Inc. marketing, signatures, capability statements, emails, and code defaults.
+- **SWFT access was denied by DCSA (March 2026).** DCSA indicated requirements including **minimum interim Secret clearance** and **Facility Clearance Level (FCL)** for that path.
+- **Do not** list “SWFT Authorized,” “SWFT-approved,” or “DCSA SWFT-authorized” on any outbound document or system template.
+- **Accurate fingerprinting positioning:** FD-258 / LiveScan capture; **Lakota/WHORL** partnership where licensed; electronic submission **per client-approved channel**; use **cleared subcontractor** for DCSA electronic submission where required until FCL path exists.
+- **Path to future SWFT (if pursued):** win applicable contract → **DD Form 254** → FCL triggers per security process — see master file.
+
+**NEXUS / agents must read `COMPANY_INFO_MASTER.md` before asserting any fingerprinting submission authority.**
+
+---
+
 ## CORRECTION 1: VERTEX Scope
 
 ### ❌ WRONG: Forecasting in VERTEX

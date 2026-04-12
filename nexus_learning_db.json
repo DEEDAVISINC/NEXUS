@@ -3338,6 +3338,20 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "5600f989d5be",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260412_13",
+      "action": "scored",
+      "timestamp": "2026-04-12T13:18:13.881399",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [
@@ -3913,9 +3927,9 @@
     }
   ],
   "stats": {
-    "total_events": 237,
+    "total_events": 238,
     "events_by_domain": {
-      "opportunities": 192,
+      "opportunities": 193,
       "outreach": 3,
       "bids": 6,
       "suppliers": 34,
