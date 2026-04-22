@@ -1,4 +1,30 @@
-# YOUR AGENDA — Tuesday, April 7, 2026
+# YOUR AGENDA — Wednesday, April 22, 2026
+
+**Session close (Apr 21, 2026 ~11:55 PM):** Good night — end-of-day save and tomorrow plan logged.
+
+**This week:** Complete factoring broker paperwork and get it in motion; keep Kentucky Mine Safety questions and May proposal on rails; don’t let outbound queue starve the pipeline.
+
+---
+
+```
+TOMORROW'S PRIORITIES — Wednesday, April 22, 2026
+
+1. **Factoring broker agreement** — Finish the agreement, send it, and confirm next steps with the broker so the process starts.
+2. **Kentucky DMS (Mine Safety) RFP 128 2600000415** — Finalize and queue **written questions** due **Thu Apr 23, 3:30 PM ET**; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `.ics` on calendar.
+3. **Post-deadline sweep (if applicable)** — If Oakland HHS (Oak-0000001134) and/or CBP Medical Support (70B06C26R00000017) were due **Apr 21**, confirm **submission/confirmation of receipt** in the morning and file proof in the bid folder.
+4. **ICE / Tracy Riley** — Dashboard shows follow-up ~**Apr 22** (30-day cadence from prior reply); one tight touch.
+5. **One outbound touch** — Pick one “ready to send” from `DAILY_BRIEFING.md` if time allows (don’t let broker work erase the queue).
+
+MEETINGS: (none in `calendars/SCHEDULED_AGENDA.md` for Apr 22 — add broker call or any internal block to your physical calendar if needed.)
+
+FOLLOW-UPS DUE: Tracy Riley (ICE) ~Apr 22; next hard date **Apr 23** KY questions; **Apr 27** Laguna Beach 3:00 PM PT; **May 7** KY proposals.
+
+PREP NEEDED: Broker agreement final review/signature path; any MITN/SAM proof-of-submission for Apr 21 bids.
+```
+
+---
+
+# YOUR AGENDA — Tuesday, April 7, 2026 (archived)
 
 **Session close:** Good night save — BCBSM STARS supplier profile logged complete in `PARTNER_ACCOUNT_UPDATES.md`.
 
