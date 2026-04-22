@@ -19,6 +19,8 @@
 
 **Operating rule (Dee):** Once **Dee Davis Inc. (DDI)** is onboarded under SouthStar’s **Wholesale / Broker Agreement** (see e.g. `SouthStar Broker Agreement - 010626 v10.02.pdf` in Downloads), DDI **can broker its own government / commercial deals** through that relationship—not only third-party referrals. NEXUS should treat that as the intended path: same entity packages the deal, remains subject to the agreement’s **warranties**, **commission** schedule, and **independent contractor** / **non-circumvent** terms. If SouthStar or counsel draws a line between “self-brokered” and “referred” for a given fee or disclosure, that control lies with the executed agreement and the **counterparty**—not with NEXUS.
 
+**Execution checklist (fill, sign, send):** `SOUTHSTAR_BROKER_AGREEMENT_COMPLETION.md`
+
 ---
 
 ## 🎯 YOUR SOUTHSTAR STRATEGY:
