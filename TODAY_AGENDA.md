@@ -1,4 +1,29 @@
-# YOUR AGENDA — Wednesday, April 22, 2026
+# YOUR AGENDA — Thursday, April 23, 2026
+
+**Session close (Apr 22, 2026):** Good night — Dee: **work on CBP 70B06 response prep tomorrow** (NEXUS + ProposalBio, `CBP_70B06C26R00000017_RESPONSE_PLAN.md`, `00_SOURCE_PACKAGE/`); goodnight save and Thursday plan logged.
+
+**This week:** **CBP** path to **Apr 28 5 PM ET**; **KY** questions **4/23** and proposals **5/7**; factoring broker if still open; protect margin time.
+
+---
+
+```
+TODAY'S PRIORITIES — Thursday, April 23, 2026
+
+1. **🔥 Kentucky DMS (Mine Safety) RFP 128 2600000415 — written questions DUE 3:30 PM ET** — Submit to Robin.Uphoff@ky.gov; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `calendars/KENTUCKY_DMS_DRUG_TESTING_QUESTIONS_2026-04-23.ics`
+2. **CBP Medical 70B06C26R00000017** — Active build day: **Phase 0** (SAM + amendments into `01_SOLICITATION_AMENDMENTS/`) → start **SOW compliance matrix** from `00_SOURCE_PACKAGE` SOW; keep **NEXUS + ProposalBio** pipeline per `CBP_70B06C26R00000017_RESPONSE_PLAN.md` (nothing final to CO until gates pass). Proposal **due Apr 28, 5:00 PM Eastern** (verify SAM).
+3. **Factoring broker agreement** — If not sent yet: complete, send, confirm broker next steps.
+4. **One outbound or follow-up** — One touch from `DAILY_BRIEFING.md` if energy remains after 1–2.
+
+MEETINGS: See `calendars/SCHEDULED_AGENDA.md` — no standing meeting row for 4/23 except KY questions deadline (above).
+
+FOLLOW-UPS / DEADLINES: **4/23** KY questions; **4/28** CBP; **4/27** Laguna Beach 3:00 PM PT; **5/7** KY proposals.
+
+PREP: SAM screenshot/PDF of CBP notice for bid folder; matrix template started in CBP working folder.
+```
+
+---
+
+# YOUR AGENDA — Wednesday, April 22, 2026 (archived)
 
 **Session close (Apr 21, 2026 ~11:55 PM):** Good night — end-of-day save and tomorrow plan logged.
 
@@ -7,7 +32,7 @@
 ---
 
 ```
-TOMORROW'S PRIORITIES — Wednesday, April 22, 2026
+TOMORROW'S PRIORITIES — Wednesday, April 22, 2026 (past)
 
 1. **Factoring broker agreement** — Finish the agreement, send it, and confirm next steps with the broker so the process starts.
 2. **Kentucky DMS (Mine Safety) RFP 128 2600000415** — Finalize and queue **written questions** due **Thu Apr 23, 3:30 PM ET**; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `.ics` on calendar.

@@ -1,11 +1,11 @@
 # 📋 NEXUS DAILY BRIEFING
-**Generated:** Wednesday, April 22, 2026 at 06:00 AM (America/Detroit)
+**Generated:** Thursday, April 23, 2026 at 06:00 AM (America/Detroit)
 
 ---
 
 ## Alexa flash briefing (read aloud; no tables)
 
-Good morning, Dee. Here is NEXUS for Wednesday, April twenty second. Your number one job is the factoring broker agreement: finish it, send it, and make sure the broker can move. Number two, lock in Kentucky Division of Mine Safety written questions for the mine drug testing RFP, because questions are due Thursday the twenty third by three thirty P M Eastern, with proposals due the seventh of May. Number three, if you submitted Oakland County H H S medical supplies for yesterday, confirm receipt and file proof. C B P medical support is due Tuesday, April twenty eighth, at five P M — not the twenty first. Watch for Laguna Beach senior transportation the twenty seventh, Pacific time, and keep one outbound or follow-up in play. End of line.
+Good morning, Dee. Here is NEXUS for Thursday, April twenty third. First: Kentucky Division of Mine Safety **written questions** for mine drug testing — **due today by three thirty P M Eastern**; use the address and draft in your Kentucky mine drug testing folder. Second: **C B P medical** — your build day: SAM first, then S O W matrix and NEXUS response pipeline with Proposal Bio; final package only after gates. C B P still **due April twenty eighth five P M Eastern** — double-check S A M. Third: factoring broker agreement if it is still unsigned. End of line.
 
 ---
 
