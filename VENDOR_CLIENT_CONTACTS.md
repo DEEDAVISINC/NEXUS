@@ -388,26 +388,27 @@
 
 ### **CBP — CUSTOMS AND BORDER PROTECTION** ⭐ ACTIVE — MAJOR OPPORTUNITY
 
+**Solicitation:** `70B06C26R00000017` — Medical Support Services (RFP, single-award **IDIQ** / **FFP** task orders)  
+**NEXUS one-pager:** `CBP_70B06C26R00000017_SOLICITATION_FACTS.md` (reconciles local PDF vs SAM vs Dee’s dates)
+
+**Proposals due (operating / Dee):** **April 28, 2026 — 5:00 PM Eastern** — **verify** in **latest SAM.gov** + amendments (local `SF 1449` in Downloads still shows **04/21/2026** in Block 8 until you save the amended notice).  
+**Set-aside (downloaded SF 1449):** **HUBZone Small Business** — if SAM says otherwise, **SAM wins**.  
+**NAICS (from SF 1449 text):** **621999** (older notes had 621399 — use SAM line item if different). | **PSC:** Q999 (verify on posting).  
+**Ceiling (SF 1449):** **$19.0M** — not the legacy “Dentrust / ~$450M” program scale.  
+**Submission:** Email **CO + CS in Block 7**; **solicitation # in subject**; **confirm receipt** (per RFP text).
+
 **Shaun G. Saad - Contracting Officer**  
 - **Email:** shaun.g.saad@cbp.dhs.gov  
-- **Organization:** CBP Procurement Directorate, Enterprise Services Division  
-- **Type:** Federal — Department of Homeland Security  
-- **Phone:** (317) 614-4661  
-- **Location:** Indianapolis, IN  
-- **Solicitation:** 70B06C26R00000017 — Medical Support Services  
-- **Contract Type:** 5-Year IDIQ (FFP), Two-Phase Evaluation  
-- **NAICS:** 621399 | **PSC:** Q999  
-- **Value:** ~$450M+ (previous Dentrust contract)  
-- **Notes:** Full & Open. Phase I: Technical/Management Approach + Past Performance + Key Personnel CVs. Phase II: Oral Presentation + Pricing. DDI model: Prime as TPA using eScreen + Concentra for nationwide medical/drug testing. Proposals due April 10, 2026.  
-- **Status:** Strategy in progress
+- **Phone (on downloaded SF 1449 Block 7):** 202-425-1732  
+- **Phone (on file, unverified to this RFP’s Block 7):** (317) 614-4661 — treat as **secondary**; confirm in SAM or with CO.  
+- **Organization:** CBP, Mission Support Contracting / Procurement (DHS)  
+- **Type:** Federal — DHS
 
 **Peter Giambone - Contract Specialist**  
-- **Email:** peter.j.giambone@cbp.dhs.gov  
-- **Organization:** CBP Procurement Directorate  
-- **Type:** Federal — Department of Homeland Security  
-- **Solicitation:** 70B06C26R00000017 — Medical Support Services  
-- **Notes:** Secondary POC on CBP Medical Support solicitation  
-- **Status:** Contact logged
+- **Email:** peter.j.giambone@cbp.dhs.gov (confirm vs SAM — some OCRs show *peter.a.*)  
+- **Solicitation:** 70B06C26R00000017  
+- **Notes:** CC on submission emails per RFP; see fact sheet for package paths.
+- **Status:** Logged; execution tracked with bid folder + calendar.
 
 ---
 

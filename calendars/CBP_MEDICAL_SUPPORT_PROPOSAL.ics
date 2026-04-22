@@ -7,13 +7,13 @@ X-WR-CALNAME:NEXUS Bids
 X-WR-TIMEZONE:America/Detroit
 BEGIN:VEVENT
 UID:cbp-medical-support-20260428@deedavis.biz
-DTSTAMP:20260422T060000Z
+DTSTAMP:20260422T120000Z
 DTSTART:20260428T170000
 DTEND:20260428T180000
 SUMMARY:🔥 CBP Medical Support proposal DUE — 70B06C26R00000017
-DESCRIPTION:70B06C26R00000017 — Proposals due April 28 2026 5:00 PM (Dee confirmed\; supersedes earlier SF 1449 PDF scrape). RFP/IDIQ. Email CO/CS in Block 7\; solicitation in subject\; confirm receipt. Check SAM for amendments. CO: Shaun G. Saad 202-425-1732. Attachments: SOW\, SB plan\, price\, past perf\, prior exp\, wage det.
+DESCRIPTION:70B06C26R00000017 — Proposals: Apr 28 2026 5:00 PM Eastern (confirm SAM\; Dee). Local copy Block 8 shows 4/21 — save SAM amendment. HUBZone\, $19.0M ceiling (SF 1449). CO Shaun Saad 202-425-1732 shaun.g.saad@cbp.dhs.gov. CS Peter Giambone peter.j.giambone@cbp.dhs.gov. Subj = sol number. NEXUS: CBP_70B06C26R00000017_SOLICITATION_FACTS.md
 STATUS:CONFIRMED
-SEQUENCE:1
+SEQUENCE:2
 BEGIN:VALARM
 TRIGGER:-P3D
 DESCRIPTION:CBP proposal due in 3 days — final review

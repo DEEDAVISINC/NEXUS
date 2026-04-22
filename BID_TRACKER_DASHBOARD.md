@@ -23,7 +23,7 @@
 | **May 11** | **Proposals due — WA LCB Pre-Employment Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — **WEBS Date Closed 5/11/2026**; proposals **3:00 p.m. PT** per RFP; NCS + Attachment A |
 | **Apr 8 @ 11:00 AM ET** | **Fulton County Drug Testing** | Fulton County Government | **26ITB1580280B-PS** | **ACTIVE — GPSS `rec9YQ5FE0yfjs2Pj` / PB 79 UNLOCKED** — BidNet; blocked on Concentra pricing |
 | **Apr 10** | **Harris Health Drug & Disease Testing** | Harris Health System | **AB02182026** | **ACTIVE — GPSS `recgeOG6z3FiSeYyR` / PB 81 UNLOCKED** — Bonfire; blocked on Quest panel confirm + Concentra titers |
-| **Apr 28 @ 5:00 PM** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — DDI prime TPA; Quest + Concentra core fulfillment; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **Dee: Apr 28 5 PM** (amendment / CO — verify in SAM) |
+| **Apr 28 @ 5:00 PM ET** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — **HUBZone** (per downloaded SF 1449; confirm SAM) \| NAICS **621999** (form text) \| ceiling **$19.0M** (SF 1449) \| DDI TPA; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **Dee: Apr 28 5 PM ET** — `CBP_70B06C26R00000017_SOLICITATION_FACTS.md` |
 | **Apr 27 @ 3:00 PM PT** (6 PM ET) | **Senior Transportation Services** | **City of Laguna Beach, CA** — Transit & Community Services | **T&CS 26-002** (PlanetBids; RFP; lump sum; cost + response files) | **ACTIVE** — NAICS **485991 / 485999**; bid valid **180 days**; folder `BIDS:RESOURCES/LAGUNA BEACH SENIOR TRANSPORTATION/`; `calendars/LAGUNA_BEACH_SENIOR_TRANSPORTATION_2026-04-27.ics` |
 
 *Same day (Apr 21): Oakland HHS ITB **Oak-0000001134** is **10:00 AM EDT MITN** — not SAM; see rows above.*
@@ -91,7 +91,7 @@
 | **Apr 13** | WA LCB **Amendment 01** on WEBS — pull PDF, reconcile checklist |
 | **Apr 20** | WA LCB RFP 2026-01 — questions deadline |
 | **May 11** | WA LCB RFP 2026-01 — proposals due 3:00 PM PT |
-| **Apr 28 @ 5:00 PM** | **DHS CBP Medical Support** — **70B06C26R00000017** — proposals due (Dee: 5 PM ET) |
+| **Apr 28 @ 5:00 PM ET** | **DHS CBP Medical Support** — **70B06C26R00000017** — proposals due (Dee: 5 PM ET; **SAM** governs; local PDF Block 8 may show 4/21 until amended copy saved) |
 | **Apr 15** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — questions due **3:00 PM EDT** (MITN online) |
 | **Apr 21** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — ITB due **10:00 AM EDT** (MITN) — `calendars/OAKLAND_HHS_MEDICAL_SUPPLIES_*.ics` |
 | **Apr 27** | **Laguna Beach T&CS 26-002** — Senior Transportation — **3:00 PM PT** — `calendars/LAGUNA_BEACH_SENIOR_TRANSPORTATION_2026-04-27.ics` |
