@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 7, 2026
+**Updated:** April 16, 2026
 
 ---
 
@@ -7,6 +7,9 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **Apr 23 @ 3:30 PM ET** | **Written questions** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — Drug testing PSC; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/`; draft `WRITTEN_QUESTIONS_DUE_2026-04-23.md` |
+| **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
+| **Apr 17 @ 4:00 PM ET** | **Drug test kits (on-site)** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **ACTIVE** — Bid Net Direct; folder `BIDS:RESOURCES/DUTCHESS COUNTY DRUG TEST KITS/`; **Addendum 1** + CS-2(2); load distributor pricing |
 | **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |
 | **Apr 15 @ 3:00 PM EDT** | **Questions due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — submit online via MITN; draft `OAKLAND COUNTY HHS MEDICAL SUPPLIES/QUESTIONS_FOR_MITN.md` |
 | **Apr 21 @ 10:00 AM EDT** | **ITB due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — MITN/BidNet; folder `BIDS:RESOURCES/OAKLAND COUNTY HHS MEDICAL SUPPLIES/` |
@@ -14,12 +17,14 @@
 | **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
 | **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
 | **Apr 9** | **IL HFS Genetic Parentage / DNA** | Illinois HFS Child Support | **26-478HFS-CHSUP-B-49843** | **ACTIVE** — BidBuy; IFB open market |
-| **Apr 8** | **Pre-bid — WA LCB Pre-Employment Background Checks** | WA Liquor & Cannabis Board | **RFP 2026-01 / WEBS 56810** | **ACTIVE** — 1:00–2:00 p.m. PT; folder `BIDS:RESOURCES/WASHINGTON LCB BACKGROUND CHECKS/` |
+| **Apr 8** | **Pre-bid — WA LCB Pre-Employment Background Checks** | WA Liquor & Cannabis Board | **RFP 2026-01 / WEBS 56810** | **ACTIVE** — **1:45 p.m. PT** (per WEBS); folder `BIDS:RESOURCES/WASHINGTON LCB BACKGROUND CHECKS/` |
+| **Apr 13** | **Amendment 01 posted** | WA LCB | RFP 2026-01 | **ACTION** — download `RFP 2026-01 Amendment 01.pdf` from WEBS; diff vs base + update compliance matrix |
 | **Apr 20** | **Questions due — WA LCB Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — submit smart questions |
-| **May 11** | **Proposals due — WA LCB Pre-Employment Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — **3:00 p.m. PT**; NCS scope alignment + Attachment A |
+| **May 11** | **Proposals due — WA LCB Pre-Employment Background Checks** | WA LCB | RFP 2026-01 | **ACTIVE** — **WEBS Date Closed 5/11/2026**; proposals **3:00 p.m. PT** per RFP; NCS + Attachment A |
 | **Apr 8 @ 11:00 AM ET** | **Fulton County Drug Testing** | Fulton County Government | **26ITB1580280B-PS** | **ACTIVE — GPSS `rec9YQ5FE0yfjs2Pj` / PB 79 UNLOCKED** — BidNet; blocked on Concentra pricing |
 | **Apr 10** | **Harris Health Drug & Disease Testing** | Harris Health System | **AB02182026** | **ACTIVE — GPSS `recgeOG6z3FiSeYyR` / PB 81 UNLOCKED** — Bonfire; blocked on Quest panel confirm + Concentra titers |
 | **Apr 21** | **Proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — GO** — DDI prime TPA; Quest + Concentra core fulfillment; folder `DHS CBP MEDICAL SUPPORT SERVICES/`; **confirm time** Block 8 |
+| **Apr 27 @ 3:00 PM PT** (6 PM ET) | **Senior Transportation Services** | **City of Laguna Beach, CA** — Transit & Community Services | **T&CS 26-002** (PlanetBids; RFP; lump sum; cost + response files) | **ACTIVE** — NAICS **485991 / 485999**; bid valid **180 days**; folder `BIDS:RESOURCES/LAGUNA BEACH SENIOR TRANSPORTATION/`; `calendars/LAGUNA_BEACH_SENIOR_TRANSPORTATION_2026-04-27.ics` |
 
 *Same day (Apr 21): Oakland HHS ITB **Oak-0000001134** is **10:00 AM EDT MITN** — not SAM; see rows above.*
 
@@ -53,7 +58,7 @@
 
 | Agency | Service Lane | Contact(s) | Notes |
 |---|---|---|---|
-| Choice Partners (HCDE) | Drug & Alcohol Testing | Steve Gibson, Lisa TerMorshuizen (713-696-1345) | Rebid ~Q2 2027. **CALL CONFIRMED Mon Mar 24 @ 2PM CT.** Ionwave registered. Quest pricing pending. |
+| Choice Partners (HCDE) | Drug & Alcohol Testing | Steve Gibson, Lisa TerMorshuizen (713-696-1345) | **Est. advertise Jun 1, 2027** (Ionwave Upcoming Contracts). Mar 24 intro call done. Monitor **hcdeebid.ionwave.net** + current RFPs. Quest pricing pending. |
 | ICE DHS | Courier / DNA / Full Services | Tracy Riley (469) 858-2855, Tracy.Riley@ice.dhs.gov. CC: Mark R. Gonzales, Marilyn L. Doty, Jennifer Doran | **WARM** — Tracy acknowledged DNA capability Mar 22. No active need currently. Whole team is aware of DDI. Follow-up Apr 22. Monitor SAM.gov for ICE solicitations. |
 | CBP | Electronic Fingerprinting BPA | Jared Tritle, CBP Office of Human Resources Management | **NEW Mar 22** — Cold intro sent with fingerprinting cap statement. |
 | ICE DHS | Fingerprinting / Biometric Equipment / E-Verify | David Walther | Follow-up sent Mar 22 re: biometric equipment + full services. Awaiting response. |
@@ -82,13 +87,16 @@
 | **Mar 31** | VA Document Shredding bid DUE |
 | **Apr 7** | LA County Camp Kilpatrick Courier Services bid DUE (12:00 PM PT) |
 | **Apr 3** | **NCS partnership call** — Mark McFadin — **2:00 PM ET** (LCB 2026-01 alignment); `calendars/NCS_MARK_MCFADIN_PARTNERSHIP_CALL_2026-04-03.ics` |
-| **Apr 8** | WA LCB RFP 2026-01 pre-bid conference (1:00–2:00 PM PT) |
+| **Apr 8** | WA LCB RFP 2026-01 pre-bid conference (**1:45 PM PT** per WEBS) |
+| **Apr 13** | WA LCB **Amendment 01** on WEBS — pull PDF, reconcile checklist |
 | **Apr 20** | WA LCB RFP 2026-01 — questions deadline |
 | **May 11** | WA LCB RFP 2026-01 — proposals due 3:00 PM PT |
 | **Apr 21** | **DHS CBP Medical Support** — **70B06C26R00000017** — proposals due (confirm local time on SAM/SF1449) |
 | **Apr 15** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — questions due **3:00 PM EDT** (MITN online) |
 | **Apr 21** | **Oakland HHS Medical Supplies** — **Oak-0000001134** — ITB due **10:00 AM EDT** (MITN) — `calendars/OAKLAND_HHS_MEDICAL_SUPPLIES_*.ics` |
-| **Q2 2027** | Choice Partners Drug & Alcohol Testing rebid (long-term) |
+| **Apr 27** | **Laguna Beach T&CS 26-002** — Senior Transportation — **3:00 PM PT** — `calendars/LAGUNA_BEACH_SENIOR_TRANSPORTATION_2026-04-27.ics` |
+| **Apr 17, 2026** | Choice Partners — **Modular Buildings JOC** est. advertise (Ionwave) — see `CHOICE_PARTNERS_PIPELINE.md` |
+| **Jun 1, 2027** | Choice Partners — **Drug & Alcohol Testing Services** est. advertise (Ionwave Upcoming Contracts) |
 
 ---
 

@@ -74,6 +74,10 @@ DDI_KEYWORDS = [
     # Transportation & Logistics
     "transportation", "freight", "courier", "delivery", "fleet",
     "vehicle", "truck", "motor coach", "nemt", "ambulance",
+    # AOG courier (not fuel) vs JETA jet fuel — both scanned; triage by title
+    "aog", "aircraft on ground", "aviation courier",
+    "jet fuel", "aviation fuel", "turbine fuel", "into-plane", "into plane",
+    "jp-8", "fixed base operator", "airport fuel",
     # Professional Services
     "staffing", "temporary", "administrative", "consulting", "management",
     "data entry", "front desk", "clerical", "it services", "training",

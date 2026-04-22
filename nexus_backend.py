@@ -9180,7 +9180,11 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 621511 - Medical Laboratories (Drug Testing, Genetic Testing)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621511',
         'type': 'Federal',
-        'keywords': ['drug testing', 'laboratory', 'lab testing', 'specimen', 'urinalysis', 'genetic', 'DNA', 'toxicology', 'SAMHSA'],
+        'keywords': [
+            'drug testing', 'drug and alcohol testing', 'workplace drug testing', 'DOT drug testing',
+            'laboratory', 'lab testing', 'specimen', 'urinalysis', 'genetic', 'DNA', 'toxicology', 'SAMHSA',
+            'C/TPA', 'consortium', 'random testing', 'pre-employment', 'Part 40',
+        ],
         'enabled': True,
         'naics': '621511',
         'description': 'Drug Testing, Genetic Testing, Medical Lab Services — ACTIVE DDI SERVICE LINE'
@@ -9189,7 +9193,11 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 621999 - All Other Ambulatory Health Care (Drug Testing Services)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621999',
         'type': 'Federal',
-        'keywords': ['drug testing', 'health screening', 'workplace testing', 'substance abuse', 'DOT testing'],
+        'keywords': [
+            'drug testing', 'drug and alcohol testing', 'alcohol testing', 'health screening', 'workplace testing',
+            'workplace drug testing', 'substance abuse', 'DOT testing', 'DOT drug', 'occupational testing',
+            'C/TPA', 'consortium', 'SAMHSA',
+        ],
         'enabled': True,
         'naics': '621999',
         'description': 'Drug Testing Services — ACTIVE DDI SERVICE LINE'
@@ -9198,7 +9206,10 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 541380 - Testing Laboratories & Services (Drug/Substance Testing)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=541380',
         'type': 'Federal',
-        'keywords': ['testing laboratory', 'drug testing', 'substance testing', 'forensic testing', 'analytical testing', 'lab services'],
+        'keywords': [
+            'testing laboratory', 'drug testing', 'drug and alcohol testing', 'substance testing',
+            'forensic testing', 'analytical testing', 'lab services', 'toxicology', 'workplace drug testing',
+        ],
         'enabled': True,
         'naics': '541380',
         'description': 'Testing Laboratories — Drug/Substance/Forensic Testing — ACTIVE DDI SERVICE LINE'
@@ -9207,7 +9218,11 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 561611 - Investigation Services (Fingerprinting)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=561611',
         'type': 'Federal',
-        'keywords': ['fingerprinting', 'fingerprint', 'background check', 'investigation', 'identity verification', 'livescan', 'ink rolling'],
+        'keywords': [
+            'biometrics', 'biometric', 'fingerprinting', 'fingerprint', 'background check', 'investigation',
+            'identity verification', 'livescan', 'live scan', 'electronic fingerprinting', 'ink rolling',
+            'FD-258', 'criminal history fingerprinting', 'applicant fingerprint',
+        ],
         'enabled': True,
         'naics': '561611',
         'description': 'Fingerprinting, Background Checks — ACTIVE DDI SERVICE LINE'
@@ -9216,7 +9231,7 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 621910 - Ambulance Services (NEMT)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=621910',
         'type': 'Federal',
-        'keywords': ['NEMT', 'non-emergency', 'medical transportation', 'patient transport', 'ambulance', 'medical transit'],
+        'keywords': ['NEMT', 'non-emergency', 'medical transportation', 'patient transport', 'patient transportation', 'ambulance', 'medical transit', 'paratransit'],
         'enabled': True,
         'naics': '621910',
         'description': 'Non-Emergency Medical Transportation — ACTIVE DDI SERVICE LINE'
@@ -9225,7 +9240,7 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 485991 - Special Needs Transportation (PRIMARY NEMT)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485991',
         'type': 'Federal',
-        'keywords': ['NEMT', 'non-emergency medical transportation', 'special needs', 'medical transport', 'patient transport', 'wheelchair', 'disabled transport'],
+        'keywords': ['NEMT', 'non-emergency medical transportation', 'non-emergency medical transport', 'special needs', 'medical transport', 'patient transport', 'patient transportation', 'wheelchair', 'stretcher', 'disabled transport', 'paratransit', 'Medicaid transportation'],
         'enabled': True,
         'naics': '485991',
         'description': 'PRIMARY NAICS for NEMT — ACTIVE DDI SERVICE LINE'
@@ -9234,7 +9249,7 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 485999 - All Other Transit & Ground Passenger (NEMT/Shuttle)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=485999',
         'type': 'Federal',
-        'keywords': ['NEMT', 'shuttle', 'passenger transport', 'transit', 'transportation services', 'medical transport'],
+        'keywords': ['NEMT', 'shuttle', 'passenger transport', 'transit', 'transportation services', 'medical transport', 'patient transport', 'paratransit'],
         'enabled': True,
         'naics': '485999',
         'description': 'NEMT, Shuttle Services — ACTIVE DDI SERVICE LINE'
@@ -9261,10 +9276,10 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 492110 - Couriers & Express Delivery (Medical Courier)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=492110',
         'type': 'Federal',
-        'keywords': ['courier', 'medical courier', 'specimen transport', 'express delivery', 'laboratory courier'],
+        'keywords': ['courier', 'medical courier', 'healthcare logistics', 'specimen transport', 'express delivery', 'laboratory courier', 'chain of custody'],
         'enabled': True,
         'naics': '492110',
-        'description': 'Medical Courier, Express Delivery — ACTIVE DDI SERVICE LINE'
+        'description': 'Healthcare logistics / medical courier, express delivery — ACTIVE DDI SERVICE LINE'
     },
     {
         'name': 'NAICS 492210 - Local Messengers & Local Delivery',
@@ -9279,7 +9294,12 @@ GOVERNMENT_RSS_FEEDS = [
         'name': 'NAICS 541199 - All Other Legal Services (Notary)',
         'url': 'https://sam.gov/api/prod/opps/v3/opportunities/rss?naics=541199',
         'type': 'Federal',
-        'keywords': ['notary', 'notarization', 'legal services', 'document authentication', 'signing agent'],
+        'keywords': [
+            'notary', 'notary public', 'notarization', 'notarial', 'legal services', 'document authentication',
+            'signing agent', 'mobile notary', 'loan signing', 'RON', 'remote online notarization',
+            'acknowledgment', 'jurat', 'apostille', 'witness', 'witnessing', 'subscribing witness',
+            'credentialing', 'provider credentialing', 'primary source verification', 'PSV',
+        ],
         'enabled': True,
         'naics': '541199',
         'description': 'Notary Services — ACTIVE DDI SERVICE LINE'

@@ -1,7 +1,7 @@
 # DEE DAVIS INC — PROFESSIONAL SERVICES PRICING
 ## Fingerprinting | Drug Testing | Notary | Apostille | Legal Courier | Document Services
 
-**Effective:** February 2026 *(notary fee compliance updated April 2026)*  
+**Effective:** February 2026 *(§3 April 2026 — $10/act; witness $50 standalone / $25 with stamps; +$75 mobile)*  
 **Service Area:** Michigan Statewide (Mobile)
 **Appointments Required | Walk-ins Call Ahead**
 
@@ -78,20 +78,38 @@
 
 ### Michigan fee rules (MiLONA) — on file for compliance
 
-- **Statutory cap:** A Michigan notary may charge **up to $10.00 for each notarial act** (each acknowledgment, jurat, oath/affirmation, or other act as defined in the **Michigan Law on Notarial Acts**), not “per signature” in the abstract — **each completed notarial act** is billed up to that maximum.
-- **Travel / mobile / scheduling / after-hours / facility surcharges** are **separate** from the notary fee. Michigan expects **travel** costs to be **agreed before travel**; **all fees** must be **clear to the signer before the notarial act** (see [Michigan SOS — Notary Services](https://www.michigan.gov/sos/notary-services)).
-- **DDI practice:** Quotes and invoices show **total** pricing where appropriate; clients may request a **breakout** of notarial-act fees vs. travel/convenience/platform fees. **Do not** mix §3 notary line items into **loan signing (§7), CNTDA (§4), or permit runner (§6A)** without showing the **primary service** — those lines have their **own** tables below.
+**Law:** Michigan Law on Notarial Acts (MiLONA), Act 238 of 2003 — **MCL 55.285(7)**.  
+**Official text (subsection (7)):**
 
-| Service | Price | Notes |
-|---------|-------|-------|
-| Standard notarization (in-person) | **$10 per notarial act** | **Michigan statutory maximum** per act |
-| Mobile Notary (in-person, your location) | $75–150 + **$10 per notarial act** | Travel/convenience band; **notarial component** billed per act up to $10 each |
-| Remote Online Notarization (RON) | $25/session or per platform quote | Via ZigSig; **session/agency** pricing (not the same line as MiLONA in-person cap) |
-| Witness Fee | $50 | Per witness, per signing (where offered) |
-| After-Hours/Weekend Notary | +$50 surcharge | Evenings/weekends (on top of base + per-act fees) |
-| Hospital/Jail/Facility Notary | +$75 surcharge | Specialized locations |
+> *(7) The fee charged by a notary public for performing a notarial act shall not be more than $10.00 for any individual transaction or notarial act. A notary public shall either conspicuously display a sign or expressly advise an individual concerning the fee amount to be charged for a notarial act before the notary public performs the act. Before the notary public commences to travel in order to perform a notarial act, the notary public and client may agree concerning a separate travel fee to be charged by the notary public for traveling to perform the notarial act.*
 
-**Source of truth (regulatory):** `COMPLIANCE_KNOWLEDGE/NOTARY_REFERENCE.md` — update if the Legislature or SOS changes the cap.
+**Source:** [Michigan Legislature — MCL 55.285](https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-55-285) (Michigan Compiled Laws; verify current text if statute is amended).
+
+**Disclaimer:** This document is **Dee Davis Inc.’s internal pricing and compliance reference**, not legal advice. Statutory language is quoted or summarized for **operational clarity**; it does not create an attorney–client relationship. For **interpretation of law** or **specific transactions**, consult **qualified legal counsel** or the **Michigan Secretary of State** notary resources. DDI does not warrant that this page reflects every amendment to MiLONA or related rules.
+
+**How this page applies it**
+
+- **Statutory cap:** The fee for a notarial act **shall not be more than $10.00** for any **individual transaction or notarial act**. That is the **maximum**; a notary may charge **less**. Each acknowledgment, jurat, oath/affirmation, or other **completed notarial act** is its own fee event (not a vague “per signature” unless the act itself is defined that way). Charging more than the statutory maximum for the **notarial fee** can constitute **official misconduct** under MiLONA (see `COMPLIANCE_KNOWLEDGE/NOTARY_REFERENCE.md`).
+- **Disclosure:** Fees must be **conspicuously displayed** or **expressly advised before** the act — DDI quotes/invoices satisfy **advance disclosure** of notarial-act fees vs. travel and other components.
+- **Travel / mobile / scheduling / after-hours / facility surcharges** are **separate** from the notary fee. Michigan allows a **separate travel fee** **agreed before travel begins**; **all fees** must be **clear to the signer before the notarial act** (see [Michigan SOS — Notary Services](https://www.michigan.gov/sos/notary-services)).
+- **DDI practice:** Quotes and invoices show **total** pricing where appropriate; clients may request a **breakout** of notarial-act fees vs. witnessing vs. mobile/convenience fees. **Witnessing** is priced **by context**: **$50.00** when witnessing is the **only** service on the appointment; **$25.00** when witnessing is **on the same appointment as** one or more notarial acts (“accompanied with stamps”). **All-in minimum** for a typical job with stamps = (number of notarial acts × $10) + ($25 if witness + stamps, or $50 if witness-only) + ($75 mobile if applicable) + surcharges below. **Do not** mix §3 notary line items into **loan signing (§7), CNTDA (§4), or permit runner (§6A)** without showing the **primary service** — those lines have their **own** tables below.
+
+| Component | Price | Notes |
+|-----------|-------|-------|
+| **Notarial act** (each stamp / completed act) | **$10.00** | **Michigan statutory maximum** per act (MCL 55.285(7)); multiply by count of acts |
+| **Witnessing — with notarial act(s) same appointment** | **$25.00** | When the job includes **one or more** §3 notarial acts **and** witnessing |
+| **Witnessing — only service** (no notarial acts on visit) | **$50.00** | Standalone witness engagement (no stamps / notarial fees on that appointment) |
+| **Mobile** (your location) | **$75.00** | Flat mobile / travel-service add-on for the appointment (in addition to per-act fees) |
+| Remote Online Notarization (RON) | $25/session or per platform quote | Via ZigSig; **session/agency** pricing (not the same as in-person §3 stack) |
+| After-Hours/Weekend Notary | +$50 surcharge | Evenings/weekends (on top of components above) |
+| Hospital/Jail/Facility Notary | +$75 surcharge | Specialized locations (on top of components above) |
+
+**Example — minimum for one mobile job (witness + stamps):** **10 notarial acts** + **one witness (bundled)** + **mobile**  
+→ (10 × $10.00) + $25.00 + $75.00 = **$200.00 minimum** (before after-hours/facility surcharges).
+
+**Example — witness-only:** **Witnessing only** + **mobile** → $50.00 + $75.00 = **$125.00 minimum** (no notarial acts on that appointment).
+
+**Source of truth (regulatory):** `COMPLIANCE_KNOWLEDGE/NOTARY_REFERENCE.md` — update if the Legislature or SOS changes the notarial-fee cap.
 
 ---
 

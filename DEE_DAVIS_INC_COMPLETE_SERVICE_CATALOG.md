@@ -290,7 +290,7 @@
 
 **Separate service lines (do not merge on invoices):** **Standalone notary (MiLONA), loan signing / signing agent, apostille, estate & CNTDA delivery, permit runner (NPR), and courier/filing** are **different offerings**. A notary seal may appear in several of them; **pricing follows the service the client purchased** — see **`DDI_PROFESSIONAL_SERVICES_PRICING.md`** (opening **SERVICE LINES** table + §§3–7, 6A).
 
-**Michigan pricing (fee structure):** In-person notarial acts are billed **up to $10.00 per notarial act** (Michigan statutory maximum / MiLONA) when **§3 standalone notary** applies. Travel, mobile, after-hours, facility, and RON/session fees are **separate** and must be **disclosed and agreed** before the service.
+**Michigan pricing (fee structure):** **§3** — **$10.00 per notarial act** (MiLONA statutory max, **MCL 55.285(7)**); **witnessing** **$50.00** if witness-only, **$25.00** if on the same appointment as notarial acts; **$75.00 mobile** when applicable. **`DDI_PROFESSIONAL_SERVICES_PRICING.md` §3** includes the **verbatim Michigan statute** (fee cap, advance disclosure, separate travel fee) plus examples. After-hours, facility, and RON/session fees are **separate** and must be **disclosed and agreed** before the service.
 
 **Three Service Tiers:**
 

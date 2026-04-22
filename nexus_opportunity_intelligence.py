@@ -623,6 +623,9 @@ class MichiganLocalMiner:
         'pipes', 'valves', 'water', 'tools', 'hardware',
         'trucks', 'vehicles', 'fleet', 'equipment', 'chemicals',
         'paper', 'products', 'materials', 'delivery', 'distribution',
+        # AOG courier (Freight) vs jet fuel JETA — both flagged; classify by title
+        'aog', 'aircraft on ground', 'aviation courier',
+        'jet fuel', 'aviation fuel', 'airport fuel', 'into-plane', 'fbo',
     ]
     
     def __init__(self):

@@ -170,7 +170,7 @@ Need to manually check these in a browser:
 | **Sourcewell** | sourcewell-mn.gov | Government-focused, huge catalog |
 | **OMNIA Partners** | omniapartners.com | Public sector pricing |
 | **National IPA** | nationalipa.org | Piggyback existing contracts |
-| **Choice Partners** | choicepartners.org | Texas-based, national reach |
+| **Choice Partners (HCDE)** | [choicepartners.org](https://www.choicepartners.org) · bids **[hcdeebid.ionwave.net](https://hcdeebid.ionwave.net)** | Texas-based (HCDE), national cooperative; **Upcoming Contracts** + daily postings on Ionwave |
 | **GSA Advantage** | gsaadvantage.gov | Federal pricing |
 
 ---
@@ -190,5 +190,5 @@ Need to manually check these in a browser:
 
 ---
 
-*Master Procurement Portals List — Updated February 12, 2026*
+*Master Procurement Portals List — Updated April 16, 2026*
 *Public access verified via automated checks*

@@ -277,12 +277,46 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - MC Number: 1647572 (Freight Broker)
 - US DOT: 4250594
 
+### Terminology — Healthcare logistics & medical courier (both in NEXUS)
+
+- **Healthcare logistics** — Preferred **umbrella** for buyer-facing positioning: coordination of medical-related transport, specimens, supplies, chain of custody, and compliance (cap statements, general outreach when not mirroring a specific RFx).
+- **Medical courier** — **Keep** for solicitations, NAICS-aligned bids, SAM/keyword discovery, and whenever the buyer’s document says **medical courier** — mirror their language.
+- **Code:** `company_info.py` — `HEALTHCARE_LOGISTICS_PRIMARY_LABEL`, `MEDICAL_COURIER_RFP_KEYWORD`, `HEALTHCARE_LOGISTICS_SEARCH_KEYWORDS`.
+
+### Terminology — NEMT, patient transport & RFx language (both in NEXUS)
+
+- **Non-emergency medical transportation (NEMT)** — Preferred **umbrella**; **NEMT** is the usual government/Medicaid shorthand.
+- **Patient transport / medical transport / paratransit / wheelchair or stretcher** — Use when the **solicitation, MCO, or state portal** uses those words — **mirror the buyer**.
+- **Code:** `company_info.py` — `NEMT_PRIMARY_LABEL`, `NEMT_SHORT`, `NEMT_SEARCH_KEYWORDS`.
+
+### Terminology — Biometrics & fingerprinting (both in NEXUS)
+
+- **Biometrics** — Preferred **umbrella** for positioning (identity capture, fingerprint-based services).
+- **Fingerprinting / livescan / electronic fingerprinting / FD-258 / criminal history / applicant prints** — Use when the **solicitation** uses those words — **mirror the buyer**. Channeling/submission is **per contract**; do not claim DCSA SWFT unless `COMPANY_INFO_MASTER.md` / NEXUS corrections say so.
+- **Code:** `company_info.py` — `BIOMETRICS_PRIMARY_LABEL`, `FINGERPRINTING_RFX_KEYWORD`, `BIOMETRICS_FINGERPRINTING_SEARCH_KEYWORDS`.
+
+### Terminology — Drug & alcohol testing (both in NEXUS)
+
+- **Drug and alcohol testing** — Preferred **umbrella** (occupational / workplace programs; DOT vs non-DOT per contract).
+- **Drug testing** alone — Fine when RFx uses that shorthand; **mirror** terms like **DOT**, **SAMHSA**, **C/TPA / consortium**, **random**, **pre-employment**, **post-accident**, **Part 40** when the buyer does.
+- **Code:** `company_info.py` — `DRUG_ALCOHOL_TESTING_PRIMARY_LABEL`, `DRUG_TESTING_RFX_KEYWORD`, `DRUG_ALCOHOL_TESTING_SEARCH_KEYWORDS`.
+
+### Terminology — Notary, authentication, witnessing & credentialing (both in NEXUS)
+
+- **Notarial services** — Preferred **umbrella** for notary-facing positioning.
+- **Notary / mobile notary / RON / signing agent / loan signing** — Mirror **RFx** language; state law governs acts (acknowledgment, jurat, copy certification, etc.).
+- **Document authentication** — Often paired with notary/apostille in solicitations — **mirror the buyer’s terms** (authentication vs apostille vs legalization).
+- **Witnessing** — Use when the solicitation says **witness** / **subscribing witness**; do not conflate with notarial acts unless the RFx does.
+- **Credentialing** — Umbrella for **workforce / healthcare / provider** credentialing; mirror **primary source verification (PSV)**, **enrollment**, **privileging**, **licensure verification** when those appear.
+- **Code:** `company_info.py` — `NOTARY_PRIMARY_LABEL`, `NOTARY_RFX_KEYWORD`, `NOTARY_AUTHENTICATION_WITNESSING_SEARCH_KEYWORDS`, `CREDENTIALING_PRIMARY_LABEL`, `CREDENTIALING_SEARCH_KEYWORDS`.
+
 ---
 
 ## 🤝 STRATEGIC PARTNERSHIPS
 
 **Healthcare & Testing:**
 - Quest Diagnostics (Certified DOT drug testing provider)
+- Concentra — Occupational health and clinical services network partner (nationwide occ health locations; DOT physicals, titers, and clinical bundles as scoped per contract; complements Quest/eScreen for integrated TPA fulfillment)
 - DDC (DNA Diagnostics Center) - Court-admissible DNA testing (DDI is a collection partner via Depointe DNA DBA)
 - Uber Health (NEMT transportation platform)
 - **USDTL (United States Drug Testing Laboratories)** — OUTREACH SENT 03/20/2026 — Hair, nail, umbilical cord, oral fluid testing. SAMHSA-certified, CAP/CLIA accredited. Des Plaines, IL. Contact: Jenny Rodriguez, forensictesting@usdtl.com. Expands DDI's testing menu beyond urine/oral fluid into alternative specimen testing (90-day detection window). Collection partner agreement pending.

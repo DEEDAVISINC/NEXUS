@@ -20,6 +20,8 @@ DDI SERVICE LANES:
   3. DNA / Genetic Testing (DePointe DNA — court-admissible)
   4. NEMT / Healthcare Transportation (NPI active, Uber Health partner)
   5. Freight Brokerage & Logistics (MC-1647572, DOT-4250594)
+  5b. AOG courier — time-critical / aircraft-on-ground ground courier (Freight 1st Direct lane; not jet fuel)
+  5c. JETA — jet fuel brokerage / into-plane supply (separate from AOG; combine only when solicitation is broker + delivery)
   6. Notary & Document Services (RON, mobile, apostille)
   7. Project Management & Consulting (ATLAS PM, federal contract execution)
   8. Staffing & Administrative Support (Michigan Personnel Agency License)
@@ -131,6 +133,34 @@ DDI_KEYWORDS = {
     "medical delivery": "Freight & Logistics",
     "supply chain": "Freight & Logistics",
 
+    # AOG — aircraft-on-ground / time-critical AVIATION COURIER (not jet fuel; pairs with Freight 1st Direct)
+    # Longer phrases before "aog" so titles like "AOG courier" map to courier, not bare token
+    "aircraft parts courier": "Freight & Logistics / AOG Courier",
+    "aog courier": "Freight & Logistics / AOG Courier",
+    "aog delivery": "Freight & Logistics / AOG Courier",
+    "aviation courier": "Freight & Logistics / AOG Courier",
+    "aircraft on ground": "Freight & Logistics / AOG Courier",
+    "aog": "Freight & Logistics / AOG Courier",
+
+    # JETA — jet fuel / aviation fuel / into-plane (brokerage; separate lane from AOG courier)
+    # Longer phrases first so substring matches prefer the specific lane (e.g. into plane fuel vs into plane)
+    "into plane fuel": "JETA / Jet Fuel Supply",
+    "flight line fuel": "JETA / Jet Fuel Supply",
+    "jet fuel": "JETA / Jet Fuel Supply",
+    "aviation fuel": "JETA / Jet Fuel Supply",
+    "turbine fuel": "JETA / Jet Fuel Supply",
+    "jp-8": "JETA / Jet Fuel Supply",
+    "jp 8": "JETA / Jet Fuel Supply",
+    "jet a-1": "JETA / Jet Fuel Supply",
+    "jet a1": "JETA / Jet Fuel Supply",
+    "into-plane": "JETA / Jet Fuel Supply",
+    "into plane": "JETA / Jet Fuel Supply",
+    "fixed base operator": "JETA / Jet Fuel Supply",
+    "fbo fuel": "JETA / Jet Fuel Supply",
+    "airport fuel": "JETA / Jet Fuel Supply",
+    "fuel farm": "JETA / Jet Fuel Supply",
+    "avgas": "JETA / Jet Fuel Supply",
+
     # Notary & Document Services
     "notary": "Notary & Document Services",
     "notarization": "Notary & Document Services",
@@ -183,6 +213,7 @@ DDI_NAICS = {
     "561612",  # Security Guards & Patrol
     "485999",  # All Other Transit & Ground Passenger Transportation (NEMT)
     "488510",  # Freight Transportation Arrangement (brokerage)
+    "488190",  # Other Support Activities for Air Transportation — triage title: AOG courier vs jet fuel / FBO fuel
     "561410",  # Document Preparation Services (notary)
     "541611",  # Administrative Management Consulting
     "541618",  # Other Management Consulting
@@ -229,6 +260,7 @@ def is_ddi_relevant(opp: Dict) -> tuple:
             "492110": "Freight & Logistics / Courier",
             "492210": "Freight & Logistics / Local Delivery",
             "621610": "Healthcare Transportation",
+            "488190": "Air Transport Support (classify: AOG courier vs JETA fuel)",
         }
         return True, naics_lanes.get(naics, f"NAICS {naics}")
 

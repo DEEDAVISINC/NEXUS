@@ -36,7 +36,7 @@ DDI_PROFILE = {
         # IT & Technology
         '541512', '541519', '541511', '518210',
         # Transportation, Courier & Logistics
-        '485991', '485999', '492110', '492210', '488510', '484210',
+        '485991', '485999', '492110', '492210', '488510', '488190', '484210',
         # Facilities, Construction & Grounds
         '561720', '561730', '561210', '561790', '561990',
         '236220', '238990', '238160', '238330',
@@ -70,6 +70,9 @@ DDI_PROFILE = {
         'Environmental Services',
         'Emergency & Disaster Response',
         'Freight & Logistics Brokerage',
+        'AOG Courier (time-critical / aircraft-on-ground — Freight 1st Direct)',
+        'Jet Fuel — JETA (brokerage / into-plane; separate from AOG courier)',
+        'Jet fuel broker + delivery (single solicitation — when buyer bundles)',
     ],
     'location': 'Michigan',
     'nationwide': True,

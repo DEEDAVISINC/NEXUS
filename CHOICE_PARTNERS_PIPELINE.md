@@ -1,9 +1,9 @@
 # CHOICE PARTNERS CONTRACT PIPELINE — Dee Davis Inc.
 
-**Source:** https://www.choicepartners.org/upcoming-contracts
-**DDI Vendor Status:** REGISTERED
-**Last Updated:** February 11, 2026
-**Next Review:** March 1, 2026
+**Sources:** [Choice Partners — Upcoming Contracts](https://www.choicepartners.org/upcoming-contracts) · **Ionwave (HCDE):** [hcdeebid.ionwave.net — Vendors → Upcoming Contracts](https://hcdeebid.ionwave.net) (same schedule; posts daily)
+**DDI Vendor Status:** REGISTERED (Choice Partners + Ionwave vendor login)
+**Last Updated:** April 16, 2026 *(synced to Ionwave “Upcoming Contracts” table — 122 rows)*
+**Next Review:** May 1, 2026
 
 ---
 
@@ -26,11 +26,70 @@ DDI wins contracts, sources qualified subcontractors/suppliers to perform the wo
 
 ---
 
+## DDI-FIT OPPORTUNITIES — INDEX BY SERVICE LANE
+
+**Source of truth for “does this fit DDI?”:** `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` + prime/contract-management model (subs for execution).
+
+**Rule:** If it is on the Ionwave **Upcoming Contracts** list and is **not** in **Tier Z (no-fit)** below, it belongs in DDI’s Choice Partners watch list — prep partner(s), then respond when the RFP posts.
+
+### Tier S — Highest strategic fit (core lanes / already in motion)
+
+| Ionwave title (as listed) | Est. advertise | DDI lane |
+|---|---|---|
+| **Drug and Alcohol Testing Services** | Jun 1, 2027 | DOT / non-DOT testing, C/TPA, athletics, school-bus programs |
+| **Health and Wellness Screening and Related Services** | Apr 1, 2027 | Occupational health, screenings, program management |
+| **Transportation** | Apr 1, 2027 | NEMT / ground passenger (broker + partners; MC/DOT on file) |
+| **Medicaid Claiming & Billing Services** | Apr 1, 2027 | Enrollment / billing support — **only if** RFP is management/consulting-heavy vs pure software |
+| **Health, Medical, Veterinary Supplies, and Related Items** | Aug 1, 2027 | Medical supplies reseller / prime + distributor |
+| **Security Officer Services and Private Investigation Work (Off-Duty Police)** | Sep 1, 2026 | Prime + licensed security / off-duty law enforcement partners |
+| **Staffing and Related Services** | Sep 1, 2029 | Prime + staffing agency (compliance + reporting) |
+
+### Tier A — Strong prime + sub (facilities, environmental, ops)
+
+Includes: **Waste and Recycling Services**; **Disaster Mitigation Services**; **Disaster Recovery Consultants**; **Custodial Supplies and Services**; **Janitorial Cleaning Services**; **Tree Trimming, Landscaping, Debris Removal**; **Building Cleaning, Exterior**; **Parking and Street Cleaning Services**; **Pest/Lawn/Pool Chemical Supplies and Services**; **M&O Parts and Equipment** (all advertise dates on Ionwave). Maps to **Service Contracts** + facilities lanes in the catalog.
+
+### Tier B — Supplies, chemicals, MRO, educational, fleet (reseller / distributor prime)
+
+Includes: **Water Treatment Chemicals**; **Chemical Products and Services**; **Office Supplies**; **Educational Materials**; **Technology Hardware, Software, and Related Items** (evaluate software %); **Athletic and Physical Education Supplies**; **STEM & CTE Materials**; **Fuel Card Monitoring, GPS**; **Industrial Equipment Rent, Lease or Purchase**; **Motor & Aviation Fuel…**; **Automotive Equipment, Tires, Parts…**; **Bottled Drinking Water, Coolers…**; **Commercial Printing**; **Promotional and Commemorative Items**; **Graduation Items / Yearbooks**; **Fine Paper**; **Highway Safety, Traffic Control**; **Road Products**; **Moving and Storage**; **Coffee, Tea**; **Dairy**; **Frozen and Chilled Beverage**; **Ice Cream**; **Frozen Dessert**; **Produce** — **prime + qualified food/beverage distributor** (cold chain = partner due diligence, not auto–no-bid).
+
+### Tier C — Construction JOC / IDIQ clusters (prime + GC / trade subs)
+
+All **JOC-IDIQ** and trade-specific lines (e.g. **Construction-JOC**, **Roofing**, **Paving**, **Electrical**, **Mechanical**, **Flooring**, **Signage**, **Fencing**, **Athletic Surfaces**, **Modular Buildings**, **Waterproofing/Masonry**, etc.) — DDI primes; subs execute. Same for **Third Party Code Inspection Service** and **Construction Photographic Documentation Service**.
+
+### Tier D — Professional / creative / language (evaluate RFP shape)
+
+| Ionwave title | Est. advertise | Note |
+|---|---|---|
+| **Communications, Creative, Language, and Marketing Services** | Sep 1, 2027 | Prime + agency partner if deliverables match |
+| **Language Access Products and Services** | Aug 30, 2030 | Prime + interpretation / language-access vendors |
+| **Human Resources Support Software and Services** | Jul 1, 2028 | Often software-heavy — **go** if managed services / PE layer; else Tier Z |
+| **Insurance and Third-Party Administration Services** | Jul 1, 2028 | Employee benefits/TPA — **bid/no-bid** vs DDI lane (see PSJA-style health RFP NO-GO precedent) |
+
+### Tier Z — Default NO-GO unless RFP proves otherwise (pure product / SaaS / utility)
+
+| Title | Why |
+|---|---|
+| **Event Space Scheduling System** | Pure SaaS — no meaningful CM role |
+| **Financial Software, Enterprise Resource Planning (ERP Systems)** | Pure SaaS / implementation-only |
+| **Electronic Procurement Software** | Pure SaaS |
+| **Payables Solutions, Purchasing Card Programs** | Financial products |
+| **College Readiness Test Software & Materials** | Assessment platform / content lock-in |
+| **Retail Energy Purchase** | Utility aggregation — specialized regulatory risk |
+| **Commodity Processing (USDA)** | Requires USDA processor license / plant |
+| **Site-Based Pizza Program** | Brand/franchise lock-in |
+| **Hydroponic Farm** | Capital / ops model mismatch |
+| **Bus Fleet Modifications, Upgrades…** | OEM / fleet-specific — rarely CM-fit |
+
+**122-row note:** Ionwave repeats titles across years (renewal cycles). This index covers **categories**; use the dated rows in the tables below for prep.
+
+---
+
 ## 🔴 PREP NOW — Advertise 2026
 
 | # | Contract | Est. Advertise | Fulfillment Partner Needed | Prep Start | Status |
 |---|---|---|---|---|---|
-| 1 | **Modular Buildings and Related Items JOC** | Feb 17, 2026 | Modular building manufacturer/dealer | ⚠️ NOW | ⬜ CHECK IF RFP IS LIVE |
+| 0 | **Waterproofing/Masonry** | Jan 1, 2026 | Waterproofing / masonry contractor | ⚠️ VERIFY | ⬜ CHECK Ionwave + current RFPs — date may have passed; confirm if re-solicitation |
+| 1 | **Modular Buildings and Related Items JOC** | Apr 17, 2026 | Modular building manufacturer/dealer | Feb 2026 | ⬜ NOT STARTED *(was incorrectly Feb 17 in older scrape — official schedule = **Apr 17, 2026**)* |
 | 2 | **Construction-JOC (JOC-IDIQ)** | Apr 1, 2026 | General contractor / specialty trade subs | Feb 2026 | ⬜ NOT STARTED |
 | 3 | **Cafeteria Trades** | Apr 23, 2026 | Food service equipment/trade contractors | Feb 2026 | ⬜ NOT STARTED |
 | 4 | **Waste and Recycling Services** | Jul 1, 2026 | Waste hauler / recycling processor | Apr 2026 | ⬜ NOT STARTED |
@@ -148,25 +207,16 @@ DDI wins contracts, sources qualified subcontractors/suppliers to perform the wo
 | 106 | **Technology Recycling** | Nov 1, 2029 | E-waste recycler | Aug 2029 | ⬜ NOT STARTED |
 | 107 | **Commercial Printing, Copying Services** | Dec 1, 2029 | Print shop / managed print provider | Sep 2029 | ⬜ NOT STARTED |
 | 108 | **Bottled Drinking Water, Coolers, Beverage Products** | Feb 1, 2030 | Water / beverage distributor | Nov 2029 | ⬜ NOT STARTED |
+| 109 | **Construction Photographic Documentation Service** | Jun 1, 2027 | Construction photo / as-built documentation vendor | Mar 2027 | ⬜ NOT STARTED *(on Ionwave 122-line feed; aligns with REO/inspection-style documentation — prime + specialist sub)* |
+| 110 | **Language Access Products and Services** | Aug 30, 2030 | Interpretation / translation / language-access vendors | May 2030 | ⬜ NOT STARTED *(Ionwave list — Tier D)* |
 
 ---
 
-## TOTAL: 108 out of 121 contracts DDI can compete on.
+## TOTAL: 110 detailed rows in this doc; Ionwave lists **122** upcoming contract lines (includes renewal cycles / duplicate titles in outer years).
 
-**The only contracts excluded:**
-- Event Space Scheduling System (pure SaaS — no management layer)
-- Financial Software / ERP Systems (pure SaaS)
-- Electronic Procurement Software (pure SaaS)
-- Payables Solutions / Purchasing Card Programs (financial products)
-- College Readiness Test Software (pure SaaS)
-- Retail Energy Purchase (utility-level energy buying)
-- Commodity Processing USDA (requires USDA processor license)
-- Site-Based Pizza Program (franchise/brand-specific)
-- Ice Cream Products (brand-specific distribution)
-- Hydroponic Farm (requires physical farm infrastructure)
-- Bus Fleet Modifications (OEM-specific)
-- Frozen Dessert Products (brand-specific)
-- Produce (requires cold chain infrastructure + perishable logistics)
+**Official schedule note (Apr 2026):** Harris County Department of Education (HCDE) operates Choice Partners; cooperative procurement complies with **EDGAR / Uniform Guidance / 2 CFR 200** per Choice Partners site.
+
+**Tier Z — default NO-GO** (see table in **DDI-FIT OPPORTUNITIES** above). **Not excluded but conditional (prime + distributor / cold chain partner):** Produce, Dairy, Frozen Dessert, Ice Cream, Frozen/Chilled Beverage — **bid only** with vetted perishable distributor; otherwise pass.
 
 ---
 
@@ -180,7 +230,7 @@ DDI wins contracts, sources qualified subcontractors/suppliers to perform the wo
 **DDI certifications to highlight on ALL Choice Partners bids:**
 - EDWOSB/WOSB Certified
 - MBE / WBE / SBE
-- E-Verify & SWFT Certified
+- E-Verify *(do **not** claim DCSA SWFT — see `COMPANY_INFO_MASTER.md`)*
 - CAGE Code: 8UMX3
 - UEI: HJB4KNYJVGZ1
 
@@ -191,11 +241,11 @@ DDI wins contracts, sources qualified subcontractors/suppliers to perform the wo
 
 ## ACTION ITEMS
 
-### Immediate (Feb-Mar 2026)
-- [ ] Verify DDI vendor login still active at choicepartners.org
-- [ ] Check if Modular Buildings RFP (#1, Feb 17) is live — may already be posted
-- [ ] Download current RFPs (Roofing, Law Enforcement, Bus Fleet) to study format
-- [ ] Set calendar alerts for ALL prep-start dates
+### Immediate (Apr 2026)
+- [ ] Verify DDI vendor login still active at choicepartners.org + Ionwave
+- [ ] Check **Modular Buildings JOC** (est. advertise **Apr 17, 2026**) on Ionwave current RFPs
+- [ ] Download sample posted RFPs to study Choice Partners format / scoring
+- [ ] Set calendar alerts for **Tier S** prep dates (drug testing Jun 2027, transportation & wellness Apr 2027, etc.)
 
 ### Q2 2026 (Apr-Jun)
 - [ ] Begin identifying fulfillment partners for Jul 2026 contracts (#4-6)
@@ -216,10 +266,10 @@ DDI wins contracts, sources qualified subcontractors/suppliers to perform the wo
 
 **Weekly:** Check https://www.choicepartners.org/current-rfps for new RFP postings
 **Monthly:** Review this pipeline, update statuses
-**Quarterly:** Re-scrape https://www.choicepartners.org/upcoming-contracts for changes/additions
+**Quarterly:** Re-scrape https://www.choicepartners.org/upcoming-contracts and confirm against **Ionwave → Vendors → Upcoming Contracts** for changes/additions
 
 ---
 
 *Nexus — Choice Partners Pipeline Tracker | Created February 11, 2026*
 *DDI Model: Contract Management Firm — win it, source it, manage it.*
-*Source: https://www.choicepartners.org/upcoming-contracts*
+*Sources: https://www.choicepartners.org/upcoming-contracts · https://hcdeebid.ionwave.net*

@@ -16,7 +16,7 @@ API routes (mine-edwosb, mine-renewals) are subsets of that default tier list.
 
 Tasks:
 1. Email monitoring — checks inbox for new solicitations (every 30 min)
-2. Federal forecasts mining — pulls SAM.gov opportunities (every 6 hours)
+2. Federal forecasts mining — pulls SAM.gov opportunities (every 6 hours); includes **AOG / 488190** scan → `aog_sam_cache.json`
 3. Folder scan — updates workflow queues from BIDS:RESOURCES/ (every 15 min)
 4. Stale bid detection — flags bids with no activity near deadline (hourly)
 
@@ -35,6 +35,7 @@ Usage:
   python3 nexus_scheduler.py --vertex-collect  # Run AR collection sweep + TODAY_AGENDA update
   python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
   python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
+  python3 nexus_scheduler.py --aog           # AOG / 488190 SAM scan only → aog_sam_cache.json (also runs inside --mine)
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -138,6 +139,24 @@ def run_federal_mining():
             log.info(f"EDWOSB/WOSB miner: added {new_opps} new eligible opportunities")
         except Exception as e:
             log.warning(f"EDWOSB/WOSB miner skipped: {e}")
+
+        # AOG / NAICS 488190 — Freight 1st Direct lane (SAM keyword + NAICS scan → aog_sam_cache.json)
+        log.info("Running AOG / 488190 SAM scan (mine_aog_sam)...")
+        try:
+            from mine_aog_sam import run_aog_sam_scan
+
+            aog_result = run_aog_sam_scan(days_back=90)
+            if aog_result.get("skipped"):
+                log.info("AOG SAM scan skipped: %s", aog_result.get("reason", "unknown"))
+            else:
+                log.info(
+                    "AOG SAM scan: %s notices (%s AOG_COURIER, %s TRIAGE_488190) → aog_sam_cache.json",
+                    aog_result.get("count", 0),
+                    aog_result.get("aog_courier_count", 0),
+                    aog_result.get("triage_488190_count", 0),
+                )
+        except Exception as e:
+            log.warning(f"AOG SAM scan failed: {e}")
 
         log.info("Federal mining completed successfully")
         return True
@@ -957,6 +976,10 @@ if __name__ == "__main__":
         run_email_monitor()
     elif "--mine" in args:
         run_federal_mining()
+    elif "--aog" in args:
+        from mine_aog_sam import run_aog_sam_scan
+
+        run_aog_sam_scan(days_back=90)
     elif "--portals" in args:
         run_portal_mining()
     elif "--forecasts" in args:

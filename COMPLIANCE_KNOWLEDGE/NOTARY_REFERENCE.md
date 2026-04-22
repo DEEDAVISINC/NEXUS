@@ -2,7 +2,7 @@
 
 **State Commissioning | Notarial Acts | Remote Online Notarization (RON) | Journal Requirements**
 
-**Last Updated in NEXUS:** March 19, 2026 *(DDI agency rate card cross-ref: `DDI_PROFESSIONAL_SERVICES_PRICING.md` §3 — April 2026)*
+**Last Updated in NEXUS:** April 16, 2026 *(DDI agency rate card cross-ref: `DDI_PROFESSIONAL_SERVICES_PRICING.md` §3)*
 
 ---
 
@@ -331,11 +331,20 @@ Loan signings require additional training beyond basic notary commission:
 
 ## FEES AND LIMITATIONS
 
+### Michigan (MiLONA) — statutory fee cap (primary source)
+
+- **Law:** Michigan Law on Notarial Acts (MiLONA), Act 238 of 2003, **MCL 55.285(7)**.
+- **Cap:** A notary public’s fee for performing a notarial act **shall not be more than $10.00** for any **individual transaction or notarial act**. Charging more can constitute **official misconduct** under MiLONA.
+- **Display:** Notaries must **conspicuously display** a sign **or** **expressly advise** the person of the fee **before** performing the act (same section / SOS guidance).
+- **Remote (RON):** Michigan’s maximum for the **notarial fee** is also **$10** per act (same statutory framework; confirm current SOS / NNA tables if a client disputes).
+- **“Standard” in practice:** The **legal ceiling** is **$10 per notarial act**; notaries may charge **less**; many charge the **maximum** for in-person acknowledgments/jurats/oaths.
+- **Official reference:** [Michigan Secretary of State — Notary Services](https://www.michigan.gov/sos/notary-services) (manual includes fee section; statutory text in Michigan Compiled Laws).
+
 ### Maximum Fees by State
 
 | State | Max Fee per Notarial Act |
 |---|---|
-| Michigan | $10 per notarial act |
+| Michigan | $10 per notarial act (MCL 55.285(7)) |
 | California | $15 per signature |
 | Florida | $10 per notarial act |
 | Texas | $6 per notarial act |

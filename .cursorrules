@@ -7,10 +7,10 @@ These rules are NON-NEGOTIABLE. Follow them every time, every chat, no exception
 ## RULE 1: GOOD MORNING / GOOD NIGHT RITUAL
 
 ### When Dee says "good morning" (or "morning", "I'm back"):
-1. Read `TODAY_AGENDA.md` and `DAILY_BRIEFING.md`
+1. Read `TODAY_AGENDA.md`, `calendars/SCHEDULED_AGENDA.md` (today’s date section), and `DAILY_BRIEFING.md`
 2. Present the morning briefing:
    - Hard deadlines (next 7 days)
-   - Meetings today
+   - Meetings today (include items from `SCHEDULED_AGENDA.md` for today)
    - Urgent items (due within 48 hours)
    - What's waiting for replies
    - Top 3 priorities
@@ -18,7 +18,7 @@ These rules are NON-NEGOTIABLE. Follow them every time, every chat, no exception
 
 ### When Dee says "goodnight" (or "going to bed", "logging off", "we're done"):
 1. Git commit and push all changes
-2. Check calendar/tracker files for completeness
+2. Check calendar/tracker files for completeness (including `calendars/SCHEDULED_AGENDA.md` matches new `calendars/*.ics` entries)
 3. Present the PIPELINE REVENUE TALLY (per nightly-pipeline-tally.mdc):
    - All active opportunities with revenue estimates
    - Win probability and risk-adjusted values
@@ -80,7 +80,13 @@ DO NOT WAIT. DO NOT ASK. JUST DO IT.
 
 ---
 
-## RULE 6: BID FOLDER STRUCTURE
+## RULE 6: ALL RESPONSES USE NEXUS
+
+Solicitation **responses** (technical, cost, buyer Q&A, transmittals, caps) are **created with the NEXUS system** — outbound pipeline + workspace rules + `SEND_TO_*` / bid folders. No final buyer-facing package is drafted “off-system” in a way that skips verification, templates, or placement. See `.cursor/rules/nexus-outbound-workflow.mdc` (NEXUS-SYSTEM-ONLY).
+
+---
+
+## RULE 7: BID FOLDER STRUCTURE
 
 Every bid gets this structure:
 ```
@@ -94,7 +100,7 @@ BIDS:RESOURCES/[CLIENT] [BID TYPE]/
 
 ---
 
-## RULE 7: REVENUE ANALYSIS ON EVERY SOLICITATION
+## RULE 8: REVENUE ANALYSIS ON EVERY SOLICITATION
 
 Before GO/NO-GO on any opportunity, calculate and present:
 - Annual revenue estimate
@@ -108,13 +114,13 @@ NO BID WITHOUT NUMBERS.
 
 ---
 
-## RULE 8: COPYABLE MEANS CODE BLOCK
+## RULE 9: COPYABLE MEANS CODE BLOCK
 
 When Dee says "copyable" — put the content in a code block so the copy icon appears.
 
 ---
 
-## RULE 9: ALWAYS ASK QUESTIONS ON SOLICITATIONS
+## RULE 10: ALWAYS ASK QUESTIONS ON SOLICITATIONS
 
 If a solicitation has a question period — DRAFT AND SUBMIT QUESTIONS.
 - Shows DDI did homework
@@ -123,7 +129,7 @@ If a solicitation has a question period — DRAFT AND SUBMIT QUESTIONS.
 
 ---
 
-## RULE 10: COMPLIANCE KNOWLEDGE
+## RULE 11: COMPLIANCE KNOWLEDGE
 
 For drug testing, DNA, fingerprinting, notary, occupational health questions:
 - READ the files in `/COMPLIANCE_KNOWLEDGE/` before answering
@@ -134,6 +140,7 @@ For drug testing, DNA, fingerprinting, notary, occupational health questions:
 ## QUICK REFERENCE FILES
 
 - `TODAY_AGENDA.md` — Current day priorities
+- `calendars/SCHEDULED_AGENDA.md` — Calendar mirror by date (must update whenever NEXUS creates an `.ics`)
 - `DAILY_BRIEFING.md` — Alexa briefing / morning summary
 - `BID_TRACKER_DASHBOARD.md` — Active deadlines
 - `BID_TRACKER_COMPLETE.md` — Full pipeline

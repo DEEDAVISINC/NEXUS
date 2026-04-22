@@ -1,5 +1,5 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** April 5, 2026
+**Last Updated:** April 12, 2026
 
 ---
 
@@ -207,6 +207,27 @@ Dee Davis Inc. | Depointe DNA
 - [ ] Confirm PSC nationwide access + eCCF setup
 - [ ] Receive login credentials + pricing schedule
 - [ ] **ASK ABOUT BLOOD LEAD LEVEL TESTING** — Quest offers BLL testing; inquire about adding to account for lead testing TPA services
+
+---
+
+## CONCENTRA — Occupational Health Partnership
+
+**Account Status:** Active network partner (occ health / clinical services)  
+**Service:** Nationwide occupational health sites — DOT physicals, titers/immunizations, pulmonary/respiratory and other clinical bundles as scoped per contract; complements Quest/eScreen for integrated TPA fulfillment.
+
+### PRIMARY CONTACT:
+**Kayla Thomas** — Clinical bundle / pricing coordination (named in `NEXUS_CRITICAL_CALENDAR.md` as Concentra contact for Line Item 1 occ health / clinical bundle).  
+- **Phone / email:** Add here when confirmed from CRM or latest email thread — not yet stored in NEXUS.
+
+### REFERENCE:
+- **Network scale:** 500+ U.S. locations (see `OCCUPATIONAL_HEALTH_TPA_STRATEGY.md`)
+- **Site:** https://www.concentra.com
+
+### STATUS TIMELINE / ACTIONS:
+- [x] Listed under strategic partnerships in `COMPANY_INFO_MASTER.md` (occupational health + clinical bundle role)
+- [ ] Log Kayla Thomas phone + email in this section (next live touch)
+- [ ] Pricing schedule + Letter of Commitment package where RFPs require named occ health partner (sync with `TODAY_AGENDA.md` / GPSS checklists)
+- [ ] Resolve open bid dependencies on Concentra pricing / titers — track dates and status in `BID_TRACKER_DASHBOARD.md` (update this section when blockers clear)
 
 ---
 
@@ -550,6 +571,15 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - [ ] Confirm DDI's payment terms with OLIMP
 - [ ] Test the RFQ process — submit a sample to understand turnaround and pricing structure
 - [ ] Add warehousing/storage to DDI capability statements for logistics-lane opportunities
+
+---
+
+## COX TRANSPORTATION SERVICES LLC — VENDOR (TRANSPORTATION)
+
+**Legal name:** COX TRANSPORTATION SERVICES LLC  
+**USDOT:** 3484994 | **MC:** 1145050 | **Ref / ID (confirm):** 3138051832  
+
+**Note:** General vendor / carrier for quotes and capacity — same treatment as other transportation vendors. Logged **April 12, 2026**.
 
 ---
 

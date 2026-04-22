@@ -34,6 +34,7 @@ Review all tracker files and confirm these are recorded:
 
 Check for:
 - [ ] All meetings have confirmed date, time, timezone, and call-in info
+- [ ] New or updated `calendars/*.ics` entries have a matching line under the correct date in `calendars/SCHEDULED_AGENDA.md`
 - [ ] All bid deadlines are listed with due date and action needed
 - [ ] Any new contacts, replies, or opportunities logged
 - [ ] Nothing slipping through the cracks in the next 7 days
@@ -80,7 +81,7 @@ Update the Alexa daily briefing file so it's ready for the morning flash briefin
 Run ALL of these immediately:
 
 ### STEP 1: SHOW TODAY'S AGENDA
-Read `TODAY_AGENDA.md` and present it clean — what's on the plate today.
+Read `TODAY_AGENDA.md` **and** `calendars/SCHEDULED_AGENDA.md` for **today’s date** (America/Detroit — match the `## YYYY-MM-DD — [Weekday]` section). Present both: priorities from `TODAY_AGENDA.md`, plus any calls, meetings, or scheduled deadlines from the calendar mirror for that day.
 
 ### STEP 2: SHOW URGENT ITEMS
 Flag anything that is:

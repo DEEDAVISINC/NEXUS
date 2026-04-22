@@ -3,7 +3,7 @@
 
 ---
 
-## NEXT AVAILABLE RFQ NUMBER: **DDI-2026-005**
+## NEXT AVAILABLE RFQ NUMBER: **DDI-2026-049**
 
 ---
 
@@ -15,6 +15,7 @@
 | DDI-2026-002 | Feb 4, 2026 | RCOC 7814 Trucks | Monroe Truck Equipment | Sent |
 | DDI-2026-003 | Feb 4, 2026 | Genesee Wood Poles | Brooks Manufacturing Co. | Ready to Send |
 | DDI-2026-004 | Feb 4, 2026 | Genesee Wood Poles | Koppers Inc. | Ready to Send |
+| DDI-2026-048 | Apr 17, 2026 | Multi-site urine drug testing network (internal) | TBD (lab/TPA) | Ready to Send — `KENTUCKY DMS MINE DRUG TESTING/SEND_TO_SUPPLIER/` |
 
 ---
 

@@ -24,6 +24,15 @@ alwaysApply: true
 
 ---
 
+## NEXUS-SYSTEM-ONLY — NO SIDE-CHANNEL SUBMISSIONS
+
+**All responses** to solicitations (technical volumes, cost/price, transmittal letters, Q&A or written questions to the buyer, capability statements, and bundled email) **must be created with the NEXUS system** — meaning: they are produced in this workspace **through** the steps in this document and the applicable `.cursor/rules/` (company info verification, buyer/supplier protection, capability-statement template lock where relevant, ProposalBio for buyer-facing narrative where required, correct **SEND_TO_*** or bid-folder placement).
+
+- **Do not** treat a quick ChatGPT window, blank Word doc, or paste from memory as the **final** artifact if it bypasses NEXUS classification, verification, and folder rules.
+- **Exception:** Raw **forms mandated by the buyer** (e.g., state PDFs, notarized affidavits) may be **filled** from NEXUS-prepared content; the **controlled source** for wording still flows from NEXUS drafts in the bid folder.
+
+---
+
 ## STEP 1: CLASSIFY — What Are We Sending and To Whom?
 
 ### Document Types

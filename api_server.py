@@ -713,8 +713,9 @@ def get_dashboard_alerts():
             # Check for new transportation opportunities added recently (last 24 hours)
             transportation_keywords = ['airport', 'aviation', 'marine', 'port', 'cargo', 'freight', 
                                      'courier', 'postal', 'USPS', 'transit', 'transportation',
-                                     'NEMT', 'non-emergency medical', 'medical transportation', 
-                                     'patient transportation', 'healthcare transportation']
+                                     'NEMT', 'non-emergency medical', 'medical transportation',
+                                     'medical transport', 'patient transport', 'patient transportation',
+                                     'paratransit', 'healthcare transportation']
             
             recent_transportation = []
             for opp in opportunities:
@@ -1070,7 +1071,8 @@ def get_transportation_logistics_notifications():
             transportation_keywords = ['airport', 'aviation', 'marine', 'port', 'maritime', 'cargo', 
                                      'freight', 'courier', 'postal', 'USPS', 'transit', 'transportation',
                                      'shipping', 'warehouse', 'logistics', 'NEMT', 'non-emergency medical',
-                                     'medical transportation', 'patient transportation', 'healthcare transportation',
+                                     'medical transportation', 'medical transport', 'patient transport',
+                                     'patient transportation', 'paratransit', 'healthcare transportation',
                                      'ambulatory', 'Medicaid transportation', 'Medicare transportation']
             
             all_transportation = []
@@ -8738,9 +8740,11 @@ def update_gpss_opportunity(opportunity_id):
 
             # PRISM BRIDGE: If this is a field service contract, register it in PRISM
             PRISM_SERVICE_KEYWORDS = [
-                'notary', 'drug test', 'drug testing', 'dna', 'dna test',
-                'fingerprint', 'livescan', 'phlebotomy', 'courier',
-                'medical courier', 'specimen', 'signing', 'mobile notary',
+                'notary', 'notarization', 'RON', 'signing agent', 'credentialing', 'apostille',
+                'drug test', 'drug testing', 'drug and alcohol testing', 'DOT drug', 'workplace drug',
+                'SAMHSA', 'dna', 'dna test',
+                'fingerprint', 'fingerprinting', 'biometrics', 'biometric', 'livescan', 'phlebotomy', 'courier',
+                'medical courier', 'healthcare logistics', 'specimen', 'signing', 'mobile notary',
             ]
             opp_title = (current_opp['fields'].get('Title', '') or '').lower()
             opp_category = (current_opp['fields'].get('Opportunity Category', '') or '').lower()
@@ -12868,9 +12872,11 @@ def update_ddcss_prospect(prospect_id):
 
             # PRISM BRIDGE: If this is a field service client, register in PRISM
             PRISM_SERVICE_KEYWORDS = [
-                'notary', 'drug test', 'drug testing', 'dna', 'dna test',
-                'fingerprint', 'livescan', 'phlebotomy', 'courier',
-                'medical courier', 'specimen', 'signing', 'mobile notary',
+                'notary', 'notarization', 'RON', 'signing agent', 'credentialing', 'apostille',
+                'drug test', 'drug testing', 'drug and alcohol testing', 'DOT drug', 'workplace drug',
+                'SAMHSA', 'dna', 'dna test',
+                'fingerprint', 'fingerprinting', 'biometrics', 'biometric', 'livescan', 'phlebotomy', 'courier',
+                'medical courier', 'healthcare logistics', 'specimen', 'signing', 'mobile notary',
                 'background check', 'screening', 'collection',
             ]
             prospect_industry = (prospect_fields.get('Industry', '') or '').lower()
@@ -14941,7 +14947,7 @@ Founded 2018 by Dieasha D. Davis. "The Professionals' Professionals."
 
 BUSINESS MODEL: DDI wins government and commercial contracts across every sector, sources qualified subcontractors and suppliers to execute the work, and manages the entire delivery — compliance, invoicing, quality assurance, reporting, coordination. We don't do the work. We make sure the work gets done right. One point of contact. Full accountability.
 
-26+ SERVICE LINES across 6 categories: (1) Federal Compliance — drug testing (Quest C-TPA), fingerprinting (3D Ink & Livescan, Top 10% nationally), DNA testing (DePointe DNA, DDC partner), lead testing, background screening; (2) Professional Services — notary, document prep, permit running, RON, healthcare credentialing; (3) Healthcare Transportation — NEMT brokerage (MC-1647572), medical courier; (4) Service Contracts as Prime — janitorial, landscaping, grounds, facility maintenance, IT, security, construction, moving, events, staffing; (5) Logistics — freight brokerage (Freight 1st Direct), FleetFlow; (6) Project Executive — contract management, crisis coordination, emergency logistics.
+26+ SERVICE LINES across 6 categories: (1) Federal Compliance — drug & alcohol testing / C-TPA (Quest), biometrics / fingerprinting (3D Ink & Livescan, Top 10% nationally), DNA testing (DePointe DNA, DDC partner), lead testing, background screening; (2) Professional Services — notarial services (notary / RON / signing), document authentication & witnessing per RFx, credentialing / PSV when scoped; (3) Healthcare Transportation — NEMT brokerage (MC-1647572), patient transport / paratransit when RFx language; healthcare logistics / medical courier; (4) Service Contracts as Prime — janitorial, landscaping, grounds, facility maintenance, IT, security, construction, moving, events, staffing; (5) Logistics — freight brokerage (Freight 1st Direct), FleetFlow; (6) Project Executive — contract management, crisis coordination, emergency logistics.
 
 OPERATING DIVISIONS: 3D Ink & Livescan Co (fingerprinting, drug testing), DePointe DNA (DNA testing, DDC collection partner), Freight 1st Direct (freight brokerage), FleetFlow TMS LLC (logistics platform). Cause We Care — affiliated 501(c)(3), MIBridges, veteran services, homelessness coordinated entry. MDHHS Community Partner.
 

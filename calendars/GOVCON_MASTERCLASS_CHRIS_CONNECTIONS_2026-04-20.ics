@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:govcon-masterclass-chris-20260420@deedavis.biz
+DTSTAMP:20260416T040000Z
+DTSTART;TZID=America/Detroit:20260420T190000
+DTEND;TZID=America/Detroit:20260420T203000
+SUMMARY:📞 GovCon Masterclass With Chris (Chris Connections)
+DESCRIPTION:GovCon Masterclass With Chris — Chris Connections\n\nZoom: https://us06web.zoom.us/j/5880131794\n\nConfirmation from Chris Connections. If duration differs\, adjust in your calendar.
+LOCATION:https://us06web.zoom.us/j/5880131794
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:GovCon Masterclass tomorrow at 7 PM ET
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:GovCon Masterclass in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:GovCon Masterclass in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -24,6 +24,7 @@ alwaysApply: true
 - `NEW_SOURCES_SOUGHT_MAR17.md` (or most recent dated file) — latest miner results
 - `NEXUS_WATCH_LIST.md` — solicitations being monitored for full RFQ release
 - `FORECAST_OPPORTUNITIES_TRACKER.md` — pipeline of upcoming opportunities
+- `aog_sam_cache.json` — last automated AOG / NAICS 488190 SAM.gov scan (updated by `nexus_scheduler.py --mine` / federal mining; Freight 1st Direct lane)
 
 ### 4. Active Drug Testing Bids (PRIORITY)
 - `BIDS:RESOURCES/DRUG TESTING SUPPLIES/` — all three active proposals (Macomb County MI, Lexington KY, Fulton County GA)
@@ -36,6 +37,9 @@ alwaysApply: true
 ### 6. System Notes
 - `NEXUS_SYSTEM_CORRECTIONS.md` — known corrections and overrides
 - `CURRENT_SESSION_STATE.md` — last session summary if it exists
+
+### 6b. Calendar commitments (today)
+- `calendars/SCHEDULED_AGENDA.md` — read the section for **today’s date** (`## YYYY-MM-DD — [Weekday]`). These mirror `calendars/*.ics` so meetings and scheduled deadlines show on the agenda for the day they occur.
 
 ### 7. DAILY VENDOR PORTAL CHECK — MANDATORY
 
@@ -63,6 +67,7 @@ alwaysApply: true
 ## WHAT TO DO AFTER READING
 
 After reading the above, the chat should be able to answer:
+- What calls, meetings, or calendar deadlines are on the agenda **today** (`calendars/SCHEDULED_AGENDA.md`)?
 - What bids are active and what's the next deadline?
 - Which COs have already been emailed (check tracker before drafting anything)?
 - Which COs are pending outreach?

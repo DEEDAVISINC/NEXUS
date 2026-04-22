@@ -74,6 +74,24 @@ END:VCALENDAR
 
 Run `open "calendars/[FILE].ics"` to import into Apple Calendar automatically.
 
+### Scheduled agenda mirror (MANDATORY — same session)
+
+**Calendar entries must also appear on the agenda for the day they occur.** After the `.ics` file is written:
+
+1. Open or create `calendars/SCHEDULED_AGENDA.md`.
+2. Find or add a section header for that event date, using this exact pattern (ISO date first so sections stay chronological):
+   - `## YYYY-MM-DD — [Weekday]`
+   - Example: `## 2026-04-20 — Monday`
+3. Under that section, add one bullet with:
+   - **Time range in ET** (from DTSTART–DTEND), emoji by type (📞 call/meeting, 🔥 deadline, 📧 follow-up, 📋 portal/task)
+   - Short **title**
+   - **Location or link** (Zoom URL, portal, or “submission per solicitation”)
+   - **`.ics` filename** under `calendars/` for traceability
+4. If the same event is already listed (same date + same title + same start time), **do not duplicate** — update the line if details changed.
+5. If an all-day deadline, use **All day** or **Due by [time] ET** as appropriate.
+
+**Good morning / briefings:** Read `calendars/SCHEDULED_AGENDA.md` for **today’s** date section (America/Detroit) together with `TODAY_AGENDA.md` so scheduled calls and deadlines are never agenda-only in Calendar.
+
 ## Time Zone
 
 Dee is in Eastern Time (America/Detroit). All DTSTART/DTEND values must be in ET. If an event is scheduled in another timezone (e.g., CT), convert to ET first.

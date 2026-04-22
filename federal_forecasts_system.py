@@ -111,12 +111,17 @@ DDI_PROFILE = {
     ],
     'services': [
         # Active service lines (what DDI is actually pursuing)
-        'drug testing', 'workplace drug testing', 'DOT drug testing', 'SAMHSA testing',
-        'fingerprinting', 'livescan fingerprinting', 'ink fingerprinting', 'background checks',
-        'NEMT', 'non-emergency medical transportation', 'patient transport',
-        'medical courier', 'specimen transport', 'laboratory courier',
+        'drug testing', 'drug and alcohol testing', 'workplace drug testing', 'occupational drug testing',
+        'DOT drug testing', 'DOT drug and alcohol', 'SAMHSA testing', 'C/TPA', 'consortium', 'Part 40',
+        'biometrics', 'biometric fingerprinting', 'fingerprinting', 'livescan fingerprinting',
+        'ink fingerprinting', 'electronic fingerprinting', 'background checks',
+        'NEMT', 'non-emergency medical transportation', 'non-emergency medical transport',
+        'patient transport', 'patient transportation', 'paratransit', 'Medicaid transportation',
+        'medical courier', 'healthcare logistics', 'specimen transport', 'laboratory courier',
         'genetic testing', 'DNA testing', 'paternity testing',
-        'notary services', 'mobile notary', 'signing agent',
+        'notary services', 'notarial', 'mobile notary', 'signing agent', 'loan signing',
+        'RON', 'remote online notarization', 'document authentication', 'apostille',
+        'witness', 'witnessing', 'credentialing', 'healthcare credentialing', 'primary source verification',
         'shuttle transportation', 'employee shuttle', 'passenger transport',
         # Disaster Relief & Emergency
         'disaster relief', 'emergency shelter', 'emergency management', 'disaster coordination',
@@ -130,6 +135,10 @@ DDI_PROFILE = {
         'contract management', 'product distribution', 'supply chain management',
         'transportation', 'freight brokerage', 'delivery coordination',
         'construction trades management', 'professional services',
+        # AOG courier vs JETA jet fuel — separate business lanes; same NAICS/text may need triage
+        'aog', 'aircraft on ground', 'aviation courier',
+        'jet fuel', 'aviation fuel', 'turbine fuel', 'into-plane fuel', 'into plane',
+        'airport fuel', 'fbo', 'fixed base operator',
     ],
     'location': 'Troy, Michigan',
     'region': 'Nationwide — can bid in any state',
@@ -221,6 +230,7 @@ DDI_PROFILE = {
         '484110',  # General Freight Trucking, Local
         '484121',  # General Freight Trucking, Long-Distance TL
         '488510',  # Freight Transportation Arrangement
+        '488190',  # Other Support Activities for Air Transportation — FBO, AOG support, airport fuel
     ],
     'psc_codes': [
         # ===== DRUG TESTING & MEDICAL LAB SERVICES (HIGHEST PRIORITY) =====

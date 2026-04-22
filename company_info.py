@@ -46,6 +46,172 @@ US_DOT = "4250594"
 SAM_STATUS = "Active"
 
 # ─────────────────────────────────────────────────────────────────────────────
+# HEALTHCARE LOGISTICS / MEDICAL COURIER — TERMINOLOGY (both in system)
+# ─────────────────────────────────────────────────────────────────────────────
+# Preferred buyer-facing umbrella: "healthcare logistics" (coordination, compliance,
+# chain of custody, transport). "Medical courier" stays as RFP/solicitation keyword —
+# mirror buyer language when the RFx uses that exact phrase. Miners and keyword lists
+# include both.
+HEALTHCARE_LOGISTICS_PRIMARY_LABEL = "healthcare logistics"
+MEDICAL_COURIER_RFP_KEYWORD = "medical courier"
+HEALTHCARE_LOGISTICS_SEARCH_KEYWORDS = [
+    "healthcare logistics",
+    "medical courier",
+    "specimen transport",
+    "laboratory courier",
+    "chain of custody",
+    "medical delivery",
+    "healthcare transportation logistics",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEMT / PATIENT TRANSPORT — TERMINOLOGY (both in system)
+# ─────────────────────────────────────────────────────────────────────────────
+# Preferred spell-out: "non-emergency medical transportation"; shorthand "NEMT" is
+# standard in Medicaid/government. "Patient transport," "medical transport,"
+# "paratransit," "wheelchair/stretcher" — mirror solicitation / MCO language.
+NEMT_PRIMARY_LABEL = "non-emergency medical transportation"
+NEMT_SHORT = "NEMT"
+NEMT_SEARCH_KEYWORDS = [
+    "NEMT",
+    "non-emergency medical transportation",
+    "non-emergency medical transport",
+    "patient transport",
+    "patient transportation",
+    "medical transport",
+    "medical transportation",
+    "paratransit",
+    "wheelchair transport",
+    "stretcher transport",
+    "ambulatory transport",
+    "special needs transportation",
+    "Medicaid transportation",
+    "Medicaid transport",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BIOMETRICS / FINGERPRINTING — TERMINOLOGY (both in system)
+# ─────────────────────────────────────────────────────────────────────────────
+# Preferred umbrella: "biometrics" for buyer-facing positioning. "Fingerprinting,"
+# "livescan," "electronic fingerprinting," "FD-258," "criminal history" — mirror RFx.
+# Submission channel is per contract; do not claim DCSA SWFT unless master file says so.
+BIOMETRICS_PRIMARY_LABEL = "biometrics"
+FINGERPRINTING_RFX_KEYWORD = "fingerprinting"
+BIOMETRICS_FINGERPRINTING_SEARCH_KEYWORDS = [
+    "biometrics",
+    "biometric",
+    "biometric fingerprinting",
+    "biometric identity",
+    "fingerprinting",
+    "fingerprint",
+    "fingerprinting services",
+    "livescan",
+    "live scan",
+    "electronic fingerprinting",
+    "digital fingerprinting",
+    "ink fingerprint",
+    "rolled fingerprint",
+    "FD-258",
+    "ten-print",
+    "criminal history fingerprinting",
+    "applicant fingerprint",
+    "fingerprint capture",
+    "identity verification",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DRUG & ALCOHOL TESTING — TERMINOLOGY (both in system)
+# ─────────────────────────────────────────────────────────────────────────────
+# Preferred umbrella: "drug and alcohol testing" / occupational testing. RFx may say
+# "workplace," "DOT," "SAMHSA," "C/TPA," "consortium," "random," "pre-employment" — mirror buyer.
+DRUG_ALCOHOL_TESTING_PRIMARY_LABEL = "drug and alcohol testing"
+DRUG_TESTING_RFX_KEYWORD = "drug testing"
+DRUG_ALCOHOL_TESTING_SEARCH_KEYWORDS = [
+    "drug and alcohol testing",
+    "drug testing",
+    "alcohol testing",
+    "workplace drug testing",
+    "occupational drug testing",
+    "DOT drug testing",
+    "DOT drug and alcohol testing",
+    "49 CFR Part 40",
+    "Part 40",
+    "SAMHSA",
+    "C/TPA",
+    "consortium",
+    "third party administrator",
+    "TPA",
+    "random drug testing",
+    "pre-employment drug testing",
+    "post-accident testing",
+    "reasonable suspicion",
+    "return-to-duty",
+    "follow-up testing",
+    "urine drug screen",
+    "oral fluid drug testing",
+    "hair drug testing",
+    "breath alcohol",
+    "BAT",
+    "substance abuse screening",
+    "toxicology",
+    "specimen collection",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NOTARY, AUTHENTICATION, WITNESSING & CREDENTIALING — TERMINOLOGY (both in system)
+# ─────────────────────────────────────────────────────────────────────────────
+# Notary / legal doc lane: lead with "notarial services"; mirror "notary," "RON,"
+# "signing agent," "apostille," "acknowledgment/jurat" per RFx. Witnessing rules
+# vary by state — mirror solicitation language.
+NOTARY_PRIMARY_LABEL = "notarial services"
+NOTARY_RFX_KEYWORD = "notary"
+NOTARY_AUTHENTICATION_WITNESSING_SEARCH_KEYWORDS = [
+    "notary",
+    "notary public",
+    "notarization",
+    "notarial",
+    "notarial act",
+    "mobile notary",
+    "RON",
+    "remote online notarization",
+    "online notary",
+    "loan signing",
+    "signing agent",
+    "document authentication",
+    "authentication of documents",
+    "acknowledgment",
+    "jurat",
+    "apostille",
+    "apostille coordination",
+    "witness",
+    "witnessing",
+    "subscribing witness",
+    "witness signature",
+    "copy certification",
+]
+
+# Credentialing: workforce / healthcare / provider enrollment — umbrella "credentialing";
+# mirror "primary source verification," "enrollment," "privileging" when buyer uses them.
+CREDENTIALING_PRIMARY_LABEL = "credentialing"
+CREDENTIALING_SEARCH_KEYWORDS = [
+    "credentialing",
+    "healthcare credentialing",
+    "workforce credentialing",
+    "provider credentialing",
+    "enrollment and credentialing",
+    "credentialing verification",
+    "primary source verification",
+    "PSV",
+    "privileging",
+    "licensure verification",
+    "license verification",
+    "badge",
+    "badging",
+    "identity credentialing",
+    "employment credentialing",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
 # COMMONWEALTH OF PENNSYLVANIA — PROCUREMENT (DGS / eMarketplace)
 # Registered PA Supplier / SRM vendor — use on PA bids and invoices as required.
 # ─────────────────────────────────────────────────────────────────────────────

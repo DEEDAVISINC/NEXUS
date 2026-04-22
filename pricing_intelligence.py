@@ -39,24 +39,37 @@ except ImportError:
 # ─── SERVICE LANE KEYWORD MAPPING ───────────────────────────────────────────
 
 SERVICE_LANE_KEYWORDS = {
+    'notary_credentialing': [
+        'notary', 'notarization', 'mobile notary', 'RON', 'remote online notarization',
+        'signing agent', 'loan signing', 'document authentication', 'apostille',
+        'witness', 'witnessing', 'credentialing', 'provider credentialing', 'PSV',
+        'primary source verification', 'enrollment and credentialing',
+    ],
     'drug_testing_per_test': [
-        'drug test', 'drug screen', 'substance abuse', 'urine test',
-        'DOT testing', 'SAMHSA', 'chain of custody', 'specimen collection',
+        'drug test', 'drug testing', 'drug and alcohol testing', 'drug screen', 'substance abuse', 'urine test',
+        'DOT testing', 'DOT drug', 'workplace drug testing', 'occupational drug testing',
+        'SAMHSA', 'C/TPA', 'consortium', 'Part 40', '49 CFR Part 40',
+        'chain of custody', 'specimen collection',
         'alcohol testing', 'oral fluid', 'breathalyzer', 'BAT',
+        'pre-employment', 'random testing', 'post-accident',
     ],
     'fingerprinting_per_person': [
-        'fingerprint', 'livescan', 'SWFT', 'background check',
-        'FBI check', 'identity verification', 'biometric',
+        'fingerprint', 'fingerprinting', 'livescan', 'live scan', 'biometrics', 'biometric',
+        'electronic fingerprinting', 'background check',
+        'FBI check', 'identity verification', 'FD-258',
     ],
     'medical_courier_ohio': [
-        'medical courier', 'specimen transport', 'lab transport',
+        'medical courier', 'healthcare logistics', 'specimen transport', 'lab transport',
         'biological specimen', 'temperature controlled', 'IATA',
         'medical delivery', 'pathology transport',
     ],
     'nemt_per_mile': [
-        'non-emergency medical transport', 'NEMT', 'medical transport',
+        'non-emergency medical transport', 'non-emergency medical transportation',
+        'NEMT', 'medical transport', 'medical transportation',
+        'patient transport', 'patient transportation',
         'wheelchair transport', 'stretcher transport', 'ambulatory transport',
-        'Medicaid transport', 'paratransit',
+        'Medicaid transport', 'Medicaid transportation', 'paratransit',
+        'special needs transportation',
     ],
     'grounds_maintenance_per_acre': [
         'grounds maintenance', 'landscaping', 'lawn care', 'mowing',
