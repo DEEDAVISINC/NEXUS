@@ -64,3 +64,10 @@
 ---
 
 *Last reconciled: 2026-04-22 — NEXUS. Next action: user pulls current SAM record + amendment PDFs and attaches to `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` (or your active bid path).*
+
+---
+
+## Response preparation (NEXUS)
+
+- **Checklist and phases (tracked):** `CBP_70B06C26R00000017_RESPONSE_PLAN.md`  
+- **Working folder (gitignored):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — use `SEND_TO_BUYER/` for final email attachments only.

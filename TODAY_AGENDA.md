@@ -2,7 +2,7 @@
 
 **Session close (Apr 21, 2026 ~11:55 PM):** Good night — end-of-day save and tomorrow plan logged.
 
-**This week:** Complete factoring broker paperwork and get it in motion; keep Kentucky Mine Safety questions and May proposal on rails; don’t let outbound queue starve the pipeline.
+**This week:** Complete factoring broker paperwork and get it in motion; **CBP Medical 70B06C26R00000017** — follow `CBP_70B06C26R00000017_RESPONSE_PLAN.md` (SAM first, then SOW matrix + volumes); Kentucky Mine Safety questions and May proposal on rails; don’t let outbound queue starve the pipeline.
 
 ---
 
