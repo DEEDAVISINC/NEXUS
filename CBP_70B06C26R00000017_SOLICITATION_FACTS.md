@@ -1,7 +1,7 @@
 # CBP — Medical Support Services (authoritative NEXUS summary)
 
 **Solicitation / RFP:** `70B06C26R00000017`  
-**Local package (mirror of SAM download):** `~/Downloads/Medical Support Services for CBP (including medical exams fitness for duty drug testing and related services)/`  
+**Local package (full folder mirrored for prep):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` — same contents as `~/Downloads/Medical+Support+Services+for+CBP+.../` (user-provided). **Downloads** remains a second copy; **work from `00_SOURCE_PACKAGE` for NEXUS.**  
 **Primary calendar:** `calendars/CBP_MEDICAL_SUPPORT_PROPOSAL.ics`  
 **NEXUS mirror:** `calendars/SCHEDULED_AGENDA.md` (date header **2026-04-28**)
 
@@ -70,4 +70,5 @@
 ## Response preparation (NEXUS)
 
 - **Checklist and phases (tracked):** `CBP_70B06C26R00000017_RESPONSE_PLAN.md`  
-- **Working folder (gitignored):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — use `SEND_TO_BUYER/` for final email attachments only.
+- **Working folder (gitignored):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — use `SEND_TO_BUYER/` for final email attachments only.  
+- **RFP + attachments (entire package):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` (mirrored from your Downloads folder).

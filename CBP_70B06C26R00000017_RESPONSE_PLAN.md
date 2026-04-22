@@ -4,7 +4,8 @@
 **Operating due (Dee):** **2026-04-28, 5:00 PM Eastern** — **confirm in SAM.gov** (authority)  
 **Facts / POCs / ceiling:** `CBP_70B06C26R00000017_SOLICITATION_FACTS.md`  
 **Working folder (local, not in git):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/`  
-**Source package (copy into working folder when refreshed):** `~/Downloads/Medical Support Services for CBP (including medical exams fitness for duty drug testing and related services)/`
+**Source package (mirrored — use this for all prep):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` — full copy of your `~/Downloads/...Medical+Support+Services+for+CBP+.../` folder (SF 1449, SOW, Attachments 1–7, draft Q&A).  
+**Downloads original (backup):** same tree under the space-named folder in `~/Downloads/` if you need it.
 
 ---
 
@@ -21,7 +22,7 @@
 ## Phase 0 — Authority & package (block everything else on this)
 
 - [ ] **SAM.gov** — Open active notice `70B06C26R00000017`. Record: **exact** due date, time, **time zone**, set-aside, NAICS, PSC, and **all amendment numbers** (download PDFs).
-- [ ] **Save** those PDFs to `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` (root or `01_SOLICITATION/`) and name with amendment IDs.
+- [ ] **Save** new SAM PDFs to `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/01_SOLICITATION_AMENDMENTS/` and name with amendment IDs. (Baseline RFP **already** mirrored in `00_SOURCE_PACKAGE/`.)
 - [ ] If Block 8 in your local `SF 1449` still disagrees with SAM, **replace** local file from SAM — the operating schedule is **SAM + Dee**, not a stale download.
 - [ ] **Acknowledgment** — RFP may require **listing addenda in the offer**; add a one-page **Amendment / Addenda Acknowledgment** to the transmittal (template line in Phase 8).
 
@@ -38,7 +39,7 @@
 
 ## Phase 2 — SOW / RFP → compliance matrix (core technical work)
 
-**Input:** `2.1.1- ATTACHMENT 1- FINAL SOW_Medical_Services - March 2026.docx` (and any SOW in amended PDFs).
+**Input:** `00_SOURCE_PACKAGE/2.1.1- ATTACHMENT 1- FINAL SOW_Medical_Services - March 2026.docx` (and any SOW in amended PDFs).
 
 **Deliverable (internal, root folder):** `SOW_COMPLIANCE_MATRIX.xlsx` or `.md` table with at least:
 
@@ -81,7 +82,7 @@
 
 ## Phase 6 — Price (Attachment 4)
 
-- [ ] **Use only** `2.1.1- ATTACHMENT 4_CBP Medical Services Price Proposal Template_70B06C26R00000017.xlsx` (or current amendment version).
+- [ ] **Use only** `00_SOURCE_PACKAGE/2.1.1- ATTACHMENT 4_CBP Medical Services Price Proposal Template_70B06C26R00000017.xlsx` (or current amendment version).
 - [ ] **Trace** every priced line to SOW/schedule; double-check **units**, **FAR 52.212** commercial pricing, and **60-day** validity (per RFP text).
 - [ ] **Internal** price build workbook (for margin review) — root folder, not the submitted file, unless you merge deliberately.
 
