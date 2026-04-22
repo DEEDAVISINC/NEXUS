@@ -392,7 +392,7 @@ CRL/FormFox ALSO referred DDI to National Drug Screening. NDS is the gateway to 
 
 ### WHY THIS MATTERS:
 - DDI currently pays retail portal rates — government/TPA pricing = better margins on every bid
-- Letter of commitment naming eScreen = required for CBP IDIQ proposal (Apr 21)
+- Letter of commitment naming eScreen = required for CBP IDIQ proposal (due Apr 28, 5:00 PM per Dee)
 - Formal TPA designation = credibility in proposals (Abbott is Fortune 500, SAMHSA-certified)
 - EDWOSB/MBE/WBE status = exactly what Abbott's Economic Inclusion team supports
 

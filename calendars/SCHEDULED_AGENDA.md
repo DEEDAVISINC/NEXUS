@@ -6,12 +6,6 @@
 
 ---
 
-## 2026-04-21 — Tuesday
-
-- **5:00 PM (local on SF 1449 — re-read your PDF; Eastern matches Detroit in April)** — **CBP / DHS — Medical Support Services** — Solicitation **70B06C26R00000017** — RFP / IDIQ; submit per Block 7 email instructions — `.ics`: `calendars/CBP_MEDICAL_SUPPORT_PROPOSAL.ics` — source package: `~/Downloads/Medical Support Services for CBP (including medical exams fitness for duty drug testing and related services)/`
-
----
-
 ## 2026-04-17 — Thursday
 
 - **12:00 PM ET** — 📋 Portal — **Choice Partners (Ionwave)** — Confirm whether **Modular Buildings and Related Items JOC** RFP posted (est. advertise Apr 17 per Upcoming Contracts). `CHOICE_PARTNERS_PIPELINE.md` · https://hcdeebid.ionwave.net
@@ -27,6 +21,12 @@
 ## 2026-04-23 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **KY DMS — written questions** — RFP 128 2600000415 — submit to Robin.Uphoff@ky.gov; draft `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` — `.ics`: `calendars/KENTUCKY_DMS_DRUG_TESTING_QUESTIONS_2026-04-23.ics`
+
+---
+
+## 2026-04-28 — Tuesday
+
+- **5:00 PM (per Dee — supersedes Block 8 PDF scrape)** — **CBP / DHS — Medical Support Services** — Solicitation **70B06C26R00000017** — RFP / IDIQ; submit per Block 7 + latest SAM email instructions — `.ics`: `calendars/CBP_MEDICAL_SUPPORT_PROPOSAL.ics` — source package: `~/Downloads/Medical Support Services for CBP (including medical exams fitness for duty drug testing and related services)/`
 
 ---
 

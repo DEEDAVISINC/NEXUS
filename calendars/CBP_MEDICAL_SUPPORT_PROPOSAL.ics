@@ -6,14 +6,14 @@ METHOD:PUBLISH
 X-WR-CALNAME:NEXUS Bids
 X-WR-TIMEZONE:America/Detroit
 BEGIN:VEVENT
-UID:cbp-medical-support-20260421@deedavis.biz
-DTSTAMP:20260422T050000Z
-DTSTART:20260421T170000
-DTEND:20260421T180000
+UID:cbp-medical-support-20260428@deedavis.biz
+DTSTAMP:20260422T060000Z
+DTSTART:20260428T170000
+DTEND:20260428T180000
 SUMMARY:🔥 CBP Medical Support proposal DUE — 70B06C26R00000017
-DESCRIPTION:70B06C26R00000017 — Block 8 on SF 1449: 04/21/2026 local (5:00 PM per package PDF text layer). Single-award IDIQ / FFP task orders\; RFO FAR Part 12 + FAR Part 15. Submit per RFP: email to CO/CS in Block 7\; put solicitation in subject line\; confirm receipt.\n\nSF 1449 shows estimated ceiling $19.0M (see form)\; CO: Shaun G. Saad 202-425-1732. Full package: Downloads folder Medical Support Services for CBP (including...).\n\nPer solicitation: complete SOW (Attachment 1)\, SB plan (2)\, pricing (4)\, past performance (5)\, prior experience (6)\, wage det. (7).
+DESCRIPTION:70B06C26R00000017 — Proposals due April 28 2026 5:00 PM (Dee confirmed\; supersedes earlier SF 1449 PDF scrape). RFP/IDIQ. Email CO/CS in Block 7\; solicitation in subject\; confirm receipt. Check SAM for amendments. CO: Shaun G. Saad 202-425-1732. Attachments: SOW\, SB plan\, price\, past perf\, prior exp\, wage det.
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-P3D
 DESCRIPTION:CBP proposal due in 3 days — final review

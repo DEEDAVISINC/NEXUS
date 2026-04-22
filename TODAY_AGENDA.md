@@ -11,7 +11,7 @@ TOMORROW'S PRIORITIES — Wednesday, April 22, 2026
 
 1. **Factoring broker agreement** — Finish the agreement, send it, and confirm next steps with the broker so the process starts.
 2. **Kentucky DMS (Mine Safety) RFP 128 2600000415** — Finalize and queue **written questions** due **Thu Apr 23, 3:30 PM ET**; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `.ics` on calendar.
-3. **Post-deadline sweep (if applicable)** — If Oakland HHS (Oak-0000001134) and/or CBP Medical Support (70B06C26R00000017) were due **Apr 21**, confirm **submission/confirmation of receipt** in the morning and file proof in the bid folder.
+3. **Post-deadline sweep (if applicable)** — If Oakland HHS (Oak-0000001134) was due **Apr 21**, confirm **submission/confirmation of receipt** and file proof. **CBP Medical Support (70B06C26R00000017)** is due **Apr 28, 5:00 PM** — track toward that, not Apr 21.
 4. **ICE / Tracy Riley** — Dashboard shows follow-up ~**Apr 22** (30-day cadence from prior reply); one tight touch.
 5. **One outbound touch** — Pick one “ready to send” from `DAILY_BRIEFING.md` if time allows (don’t let broker work erase the queue).
 
@@ -40,7 +40,7 @@ PREP NEEDED: Broker agreement final review/signature path; any MITN/SAM proof-of
 
 ---
 
-## Priority 2 — CBP Medical Support 70B06C26R00000017 (DUE APR 21, 2026 — confirm time Block 8 SF1449)
+## Priority 2 — CBP Medical Support 70B06C26R00000017 (DUE APR 28, 2026 — 5:00 PM, Dee confirmed)
 
 - Folder: `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/`
 - GPSS record `recuIBuYAPagC27qt` — technical narrative in progress; **close gaps** in `WORKFLOW_CHECKLIST.md` (PFT partner, LRP, psych/vision consultants, Quest/Concentra LoCs, Attachment 4 pricing, Attachments 5–6, SB plan)
@@ -84,7 +84,7 @@ PREP NEEDED: Broker agreement final review/signature path; any MITN/SAM proof-of
 | ------ | -------------------------------------------- |
 | Apr 8  | Fulton County drug testing                   |
 | Apr 10 | Harris Health RFO (if still current)         |
-| Apr 21 | **CBP Medical Support — proposals due**      |
+| Apr 28 | **CBP Medical Support — proposals due 5:00 PM**      |
 | Apr 16 | MDHHS Navigator training (if enrolling)      |
 | Apr 13 | **Lakota / Sam Cilento** — 1:30 PM ET (Meet) |
 | May 28 | WBENC renewal expires                        |
@@ -98,7 +98,7 @@ HAP CareSource packet, UHC credentialing, Access2Care/MTM app, WBENC renewal, Ab
 
 ---
 
-*Updated: April 7, 2026 — CBP due date aligned to SF1449 (Apr 21).*
+*Updated: April 7, 2026 — CBP due date: Dee confirmed **Apr 28, 5:00 PM** (amendment/CO; not Apr 21 SF1449 scan).*
 
 ---
 
