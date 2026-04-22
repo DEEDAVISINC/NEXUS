@@ -3,6 +3,10 @@
 **Source PDF (your Downloads):** `SouthStar Broker Agreement - 010626 v10.02.pdf`  
 **Strategy context:** `SOUTHSTAR_PRIMARY_STRATEGY.md` (brokerage model: DDI can broker own deals once approved)
 
+**Document stack (typical):** The PDF you have is the **Wholesale / Broker *Agreement*** — a **contract** (not always the same as a one-page “application” title). In practice, providers usually need the **agreement executed** plus a **W-9** so they have your **EIN** and can issue **1099s** on **commissions** (see IRS Form W-9). They may also use a **separate** broker *application* (portal or PDF) — **confirm** with your SouthStar rep; if they only ask for “contract + W-9,” you’re in the common pattern.
+
+**EIN (DDI):** **84-4114181** per `COMPANY_INFO_MASTER.md` (use on W-9; never the old wrong EIN).
+
 **This is not legal advice.** If you want attorney review on the **§8 warranties** and **§13** confidentiality / non-circumvent, do that *before* you sign.
 
 ---
@@ -48,6 +52,8 @@
 
 - [ ] All Broker fields on page 1 + 6 are complete and **legible** (typed PDF is best).
 - [ ] **Dieasha D. Davis** has signed the Broker signature line (wet ink on printed copy, or **qualified e-sign** if SouthStar approves that method only).
+- [ ] **W-9** completed (current IRS form) for **Dee Davis Inc.**, EIN **84-4114181**, name/TIN matching how payments will be made — *same* packet as the agreement if they asked for that pair.
+- [ ] Any **separate** “broker application” (if they use one) submitted per their instructions — only if they require it.
 - [ ] You have **at least one** complete PDF: (a) for SouthStar, (b) one **retained for DDI** records.
 - [ ] You sent the package the way your **SouthStar contact** directed and **confirmed receipt** (email read-receipt, ticket #, or named contact acknowledged).
 
