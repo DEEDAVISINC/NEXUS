@@ -5,6 +5,8 @@
 
 **Document stack (typical):** The PDF you have is the **Wholesale / Broker *Agreement*** — a **contract** (not always the same as a one-page “application” title). In practice, providers usually need the **agreement executed** plus a **W-9** so they have your **EIN** and can issue **1099s** on **commissions** (see IRS Form W-9). They may also use a **separate** broker *application* (portal or PDF) — **confirm** with your SouthStar rep; if they only ask for “contract + W-9,” you’re in the common pattern.
 
+**Commission payment (DDI file in Downloads):** `Broker Commission Payment Information Form 121925.pdf` (updated **12/19/2025**) — one page. You choose **check** (mailed) vs **direct deposit** (faster to bank). For **#2 direct deposit:** attach a **voided check** *or* complete **company name, bank name, checking/savings, routing, account (with confirm lines)** and **sign + date**. Commissions are usually processed in accounting **within the first 5 days of the month**; payment **1–3 business days after** that per the form. **Do not** commit bank data to git; keep a filled copy local or only what SouthStar’s portal requires.
+
 **EIN (DDI):** **84-4114181** per `COMPANY_INFO_MASTER.md` (use on W-9; never the old wrong EIN).
 
 **This is not legal advice.** If you want attorney review on the **§8 warranties** and **§13** confidentiality / non-circumvent, do that *before* you sign.
@@ -53,6 +55,7 @@
 - [ ] All Broker fields on page 1 + 6 are complete and **legible** (typed PDF is best).
 - [ ] **Dieasha D. Davis** has signed the Broker signature line (wet ink on printed copy, or **qualified e-sign** if SouthStar approves that method only).
 - [ ] **W-9** completed (current IRS form) for **Dee Davis Inc.**, EIN **84-4114181**, name/TIN matching how payments will be made — *same* packet as the agreement if they asked for that pair.
+- [ ] **Broker Commission Payment Information** form completed (`Broker Commission Payment Information Form 121925.pdf`): check **or** direct deposit; if DD, voided check **or** full ACH fields; **signed and dated** (Dee or authorized signatory per SouthStar).
 - [ ] Any **separate** “broker application” (if they use one) submitted per their instructions — only if they require it.
 - [ ] You have **at least one** complete PDF: (a) for SouthStar, (b) one **retained for DDI** records.
 - [ ] You sent the package the way your **SouthStar contact** directed and **confirmed receipt** (email read-receipt, ticket #, or named contact acknowledged).
