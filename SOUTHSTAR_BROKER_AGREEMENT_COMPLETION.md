@@ -80,4 +80,14 @@ UEI HJB4KNYJVGZ1 | CAGE 8UMX3
 
 ---
 
+## Submission log (internal)
+
+| Field | Value |
+|--------|--------|
+| **Sent** | **2026-04-23** — email to **Jon Shane**, VP Broker Relations, SouthStar Capital (reply re: broker documentation) |
+| **Attached** | Completed broker application + supporting documents (Agreement, W-9, Commission Payment Information, as included in your send) |
+| **Next** | Await SouthStar **confirmation email** re: registration and **approval as a SouthStar broker** (per Jon’s prior message). File any reply in DDI records. |
+
+---
+
 *Last updated by NEXUS — execution checklist only; contract text is in the SouthStar PDF.*
