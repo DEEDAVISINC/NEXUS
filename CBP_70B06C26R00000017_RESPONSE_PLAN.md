@@ -9,9 +9,27 @@
 
 ---
 
+## NEXUS response system + ProposalBio (mandatory)
+
+**No buyer-facing response leaves NEXUS without this pipeline** (see `.cursor/rules/nexus-outbound-workflow.mdc` — NEXUS-SYSTEM-ONLY):
+
+1. **CLASSIFY** — Document type and recipient (here: **Proposal** to CO/CS; government templates in `00_SOURCE_PACKAGE/`).  
+2. **BUILD** — Technical/cost/attachment content in the bid folder; any **narrative** the evaluator reads must be NEXUS-generated and solicitation-tuned.  
+3. **APPLY ProposalBio** — For proposals: **all 10 biohacks**; per pipeline: **composite ≥ 75**, **no critical failures**, **ProposalBio Gate = UNLOCKED** before “ready to send” (see outbound workflow table).  
+4. **VERIFY** — Buyer/supplier protection, company info (`COMPANY_INFO_MASTER.md` / `.cursorrules`), and **Proposal Readiness Gate** (`.cursor/rules/proposal-readiness-gate.mdc`): Strategy Fit, Evaluator Risk, Differentiation, Read Pattern — each **PASS**; **ProposalBio applied = documented**.  
+5. **PLACE** — Only **final** PDFs/attachments the CO will receive go in **`SEND_TO_BUYER/`** after the gates above.  
+6. **PRESENT** — Package is shown as complete in session (Dee) before email send.
+
+**Government-mandated forms** (e.g. Attachment 4 xlsx, Attachment 2 docx) are **filled** from NEXUS-approved text and numbers; the **controlling** drafts still live in the NEXUS workflow — not a one-off Word session that bypasses ProposalBio for narrative volume.
+
+**Reference:** `PROPOSALBIO_QUICK_START.md`, `NEXUS_COMMAND_REFERENCE.md` (e.g. `POST /gpss/proposalbio/analyze` if using the API). Airtable/GPSS tracking: `PROPOSALBIO_AIRTABLE_SETUP_GUIDE.md` when you log scores to **GPSS ProposalBio Scores**.
+
+---
+
 ## How to use this file
 
 - Check off **Phase** items in order.  
+- **NEXUS + ProposalBio + readiness gate** (above) govern **every** final artifact to the buyer.  
 - **Submission docs** (final, buyer-safe) go only in `SEND_TO_BUYER/`.  
 - **Supplier** RFQs, LoC requests, no-buyer-id drafts → `SEND_TO_SUPPLIER/`.  
 - **Sub** packages → `SEND_TO_SUBCONTRACTOR/`.  
@@ -95,27 +113,33 @@
 
 ---
 
-## Phase 8 — Transmittal and email submission (buyer)
+## Phase 8 — Transmittal and email submission (buyer) — NEXUS only
 
+- [ ] **ProposalBio + Readiness gate** already **PASS** for every narrative/technical volume; composite **≥ 75** and gate **UNLOCKED** (or document explicit waiver in internal notes — default is no send without pass).  
 - [ ] **Email** to: **CO + CS** (see fact sheet) — `shaun.g.saad@cbp.dhs.gov` + `peter.j.giambone@cbp.dhs.gov` (verify in SAM).  
 - [ ] **Subject line:** `70B06C26R00000017` — (short title) — [DDI / team name]  
-- [ ] **Body:** Short transmittal (who, what volumes, # of files, **addenda acknowledged**), request **read-receipt** or **acknowledgment** if acceptable.
-- [ ] **Attach** (per RFP + matrix): final PDFs of **volumes** (tech + business + price + reps), in **SEND_TO_BUYER/** only after QA.
+- [ ] **Body:** NEXUS-generated transmittal (who, what volumes, # of files, **addenda acknowledged**), request **read-receipt** or **acknowledgment** if acceptable.  
+- [ ] **Attach** (per RFP + matrix): final PDFs of **volumes** (tech + business + price + reps) and completed templates — only files copied into **`SEND_TO_BUYER/`** after Phase 9.  
 - [ ] **After send:** Get **written confirmation of receipt** from CO/CS; file in `BIDS:RESOURCES/.../PROOF_OF_SUBMISSION/`.
 
 ---
 
 ## Phase 9 — Final QA (before send)
 
-- [ ] **HUBZone / set-aside** language matches **SAM** notice.
-- [ ] **Solicitation number** and **amendment** list on transmittal.
-- [ ] **Page limits / format** (if any) from Section L/M equivalent in PDFs.
-- [ ] **Two-person read** of executive summary + price cross-check to matrix.
+- [ ] **Readiness gate checklist** (document in folder or GPSS): Strategy Fit, Evaluator Risk, Differentiation, Read Pattern — all **PASS**; **ProposalBio Applied: PASS** (`proposal-readiness-gate.mdc`).  
+- [ ] **HUBZone / set-aside** language matches **SAM** notice.  
+- [ ] **Solicitation number** and **amendment** list on transmittal.  
+- [ ] **Page limits / format** (if any) from Section L/M equivalent in PDFs.  
+- [ ] **Two-person read** of executive summary + price cross-check to matrix.  
+- [ ] Only then: move **final** attachments into `SEND_TO_BUYER/` and send.
 
 ---
 
 ## NEXUS / repo pointers
 
+- **Outbound + ProposalBio:** `.cursor/rules/nexus-outbound-workflow.mdc`  
+- **Readiness gate + ProposalBio documentation:** `.cursor/rules/proposal-readiness-gate.mdc`  
+- `PROPOSALBIO_QUICK_START.md` · `NEXUS_COMMAND_REFERENCE.md`  
 - Calendar: `calendars/CBP_MEDICAL_SUPPORT_PROPOSAL.ics`  
 - Trackers: `BID_TRACKER_DASHBOARD.md`, `TODAY_AGENDA.md`  
 - Contacts: `VENDOR_CLIENT_CONTACTS.md` (CBP block)

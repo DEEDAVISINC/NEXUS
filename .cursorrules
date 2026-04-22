@@ -82,7 +82,7 @@ DO NOT WAIT. DO NOT ASK. JUST DO IT.
 
 ## RULE 6: ALL RESPONSES USE NEXUS
 
-Solicitation **responses** (technical, cost, buyer Q&A, transmittals, caps) are **created with the NEXUS system** — outbound pipeline + workspace rules + `SEND_TO_*` / bid folders. No final buyer-facing package is drafted “off-system” in a way that skips verification, templates, or placement. See `.cursor/rules/nexus-outbound-workflow.mdc` (NEXUS-SYSTEM-ONLY).
+Solicitation **responses** (technical, cost, buyer Q&A, transmittals, caps) are **created with the NEXUS system** — outbound pipeline + **ProposalBio** (buyer-facing narrative) + **proposal-readiness-gate** (strategy/risk/differentiation/read-pattern) + workspace rules + `SEND_TO_*` / bid folders. No final buyer-facing package is drafted “off-system” in a way that skips verification, ProposalBio, templates, or placement. See `.cursor/rules/nexus-outbound-workflow.mdc` (NEXUS-SYSTEM-ONLY) and `.cursor/rules/proposal-readiness-gate.mdc`.
 
 ---
 

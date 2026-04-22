@@ -69,6 +69,7 @@
 
 ## Response preparation (NEXUS)
 
+- **All buyer-facing responses** go through the **NEXUS response system**: outbound workflow + **ProposalBio** (narrative quality) + **proposal-readiness-gate** (strategy/risk/differentiation/structure) — see `.cursor/rules/nexus-outbound-workflow.mdc` and `CBP_70B06C26R00000017_RESPONSE_PLAN.md` § *NEXUS response system + ProposalBio*.  
 - **Checklist and phases (tracked):** `CBP_70B06C26R00000017_RESPONSE_PLAN.md`  
-- **Working folder (gitignored):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — use `SEND_TO_BUYER/` for final email attachments only.  
+- **Working folder (gitignored):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — use `SEND_TO_BUYER/` for final email attachments only (after gates).  
 - **RFP + attachments (entire package):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` (mirrored from your Downloads folder).
