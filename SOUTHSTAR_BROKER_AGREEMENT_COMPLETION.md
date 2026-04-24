@@ -24,7 +24,7 @@
 
 | Blank | Use |
 |--------|-----|
-| **Date** (day of ________, 20___) | **Date you sign** (e.g. *April 23, 2026*) — must match or precede “Executed” on page 6. |
+| **Date** (day of ________, 20___) | **Date you sign** (e.g. *April 22, 2026*) — must match or precede “Executed” on page 6. |
 | **“Broker” name** (after “between … and __”) | **Dee Davis Inc.** |
 | **Broker business address** | **755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084** |
 
@@ -84,7 +84,7 @@ UEI HJB4KNYJVGZ1 | CAGE 8UMX3
 
 | Field | Value |
 |--------|--------|
-| **Sent** | **2026-04-23** — email to **Jon Shane**, VP Broker Relations, SouthStar Capital (reply re: broker documentation) |
+| **Sent** | **2026-04-22** — email to **Jon Shane**, VP Broker Relations, SouthStar Capital (reply re: broker documentation) |
 | **Attached** | Completed broker application + supporting documents (Agreement, W-9, Commission Payment Information, as included in your send) |
 | **Next** | Await SouthStar **confirmation email** re: registration and **approval as a SouthStar broker** (per Jon’s prior message). File any reply in DDI records. |
 

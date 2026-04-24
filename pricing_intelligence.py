@@ -305,6 +305,18 @@ class PricingIntelligence:
             'notes': benchmark.get('notes', ''),
         }
 
+    def solicitation_award_intel(self, opportunity_fields: Dict) -> Dict:
+        """
+        USASpending incumbent + comparable award totals for a GPSS opportunity row.
+        Use alongside get_market_benchmarks when building price narratives.
+        """
+        try:
+            from solicitation_market_research import SolicitationMarketResearch
+
+            return SolicitationMarketResearch().research_from_airtable_fields(opportunity_fields)
+        except Exception as e:
+            return {'source': 'usaspending.gov', 'error': str(e), 'award_rows_returned': 0}
+
     # ─── 3. MARKUP RECOMMENDATIONS ──────────────────────────────────────────
 
     def recommend_markup(

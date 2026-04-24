@@ -1666,9 +1666,23 @@ def query_agency_contacts(agency_name: str) -> List[Dict]:
 
 
 def query_agency_incumbents(agency_name: str) -> List[Dict]:
-    """Query incumbent contractors for an agency"""
-    # Would query from USASpending
-    return []
+    """Query incumbent contractors for an agency (USASpending award sample)."""
+    try:
+        from solicitation_market_research import SolicitationMarketResearch
+
+        smr = SolicitationMarketResearch()
+        r = smr.research_for_opportunity({
+            'title': '',
+            'description': '',
+            'agency': agency_name or '',
+            'solicitation_number': '',
+            'state': '',
+            'naics_codes': [],
+            'estimated_value': None,
+        })
+        return r.get('likely_incumbents') or []
+    except Exception:
+        return []
 
 
 def calculate_detailed_match_score(agency_name: str, opportunities: List[Dict], spending: Dict) -> int:

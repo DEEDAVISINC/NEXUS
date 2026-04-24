@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'opportunity-hunter': return '🌟 NOVA v1.0 - New Opportunity Vetting & Acquisition';
       case 'alexa': return '🎙️ ALEXA NEXUS - Voice Command Center';
       case 'jeta': return '⛽ JETA COURTIÈRE — Aviation Fuel Brokerage';
+      case 'shield': return '🛡️ SHIELD v1.0 — Lead Screening & MDHHS Referral';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
@@ -44,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus }) => {
       case 'opportunity-hunter': return 'Live Federal Search • Quick Wins • Agency Intelligence • 3 Opportunities/Day Target';
       case 'alexa': return '98 Voice Commands • NEXUS Integration • Test Lab • All Systems Connected';
       case 'jeta': return 'Division of DEE DAVIS INC • Jet A / Jet A-1 • Mandates & Execution';
+      case 'shield': return 'DDI + CWC • MI PA 146 of 2023 • Referral Intake • Navigator Dashboard • AI Assistant';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

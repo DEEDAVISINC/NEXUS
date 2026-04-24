@@ -3780,108 +3780,203 @@ class AIRecommendationAgent:
                 "message": "Failed to analyze capability gap"
             }
     
-    def recommend_subcontractors(self, opportunity_id: str, needed_skills: List[str], contract_value: float = None) -> Dict:
+    def _opportunity_fields_for_sub_ranking(self, opportunity_id: str) -> Dict:
+        """Load opportunity text/location for job-specific sub ranking."""
+        fields = {}
+        for table in ('GPSS OPPORTUNITIES', 'Opportunities', 'GPSS Opportunities'):
+            try:
+                rec = self.airtable.get_record(table, opportunity_id)
+                if rec and rec.get('fields'):
+                    fields = dict(rec['fields'])
+                    break
+            except Exception:
+                continue
+        return fields
+
+    @staticmethod
+    def _sub_row_company_name(sub: Dict) -> str:
+        return (sub.get('COMPANY NAME') or sub.get('COMPANY_NAME') or '').strip() or 'Unknown'
+
+    @staticmethod
+    def _sub_row_should_skip(sub: Dict) -> bool:
+        """Exclude only explicitly disqualified rows; do not require Active-only."""
+        st = (sub.get('STATUS') or sub.get('RELATIONSHIP STATUS') or '').strip().lower()
+        if not st:
+            return False
+        blocked = {'inactive', 'disqualified', 'blacklisted', 'do not use', 'archived', 'closed — do not use'}
+        return st in blocked
+
+    def recommend_subcontractors(
+        self,
+        opportunity_id: str,
+        needed_skills: List[str],
+        contract_value: float = None,
+        minimal_research: bool = True,
+    ) -> Dict:
         """
-        Find and rank subcontractors based on needed skills
-        Returns: Top 5 recommended subcontractors with AI reasoning
+        Rank subcontractors for best fit on this job. When minimal_research=True, NEXUS pulls
+        a homepage excerpt and optional Google CSE snippets so scoring is not only stale DB fields.
         """
         try:
-            # Search subcontractor database
+            miner = GPSSSubcontractorMiner()
+            opp = self._opportunity_fields_for_sub_ranking(opportunity_id)
+            title = opp.get('TITLE') or opp.get('Title') or opp.get('OPPORTUNITY TITLE') or ''
+            desc = opp.get('DESCRIPTION') or opp.get('Description') or opp.get('description') or ''
+            job_location = (
+                opp.get('PLACE OF PERFORMANCE') or opp.get('Place of Performance')
+                or opp.get('LOCATION') or opp.get('State') or opp.get('STATE') or ''
+            )
+            if isinstance(job_location, list):
+                job_location = ', '.join(str(x) for x in job_location if x)
+            job_summary = f"{title}\n{desc}".strip()[:6000]
+
             all_subs = self.airtable.get_all_records("GPSS SUBCONTRACTORS")
-            
             if not all_subs:
                 return {
                     "success": False,
-                    "message": "No subcontractors found in database. Please add subcontractors first.",
-                    "recommended_subcontractors": []
+                    "message": "No subcontractors found in database. Mine or import subs first, then re-run ranking.",
+                    "recommended_subcontractors": [],
                 }
-            
-            # AI scores each subcontractor
+
             scored_subs = []
             for sub_record in all_subs:
                 sub = sub_record['fields']
-                
-                # Skip if not available
-                if sub.get('STATUS', '').lower() not in ['active', 'available', '']:
+                if self._sub_row_should_skip(sub):
                     continue
-                
-                # AI scores this subcontractor
+
+                cname = self._sub_row_company_name(sub)
+                website = (sub.get('WEBSITE') or sub.get('Website') or '').strip()
+                caps = sub.get('CAPABILITIES') or sub.get('DESCRIPTION') or sub.get('Description') or ''
+                past = sub.get('PAST_PERFORMANCE') or sub.get('PAST PERFORMANCE') or ''
+                rating = sub.get('RATING') or sub.get('RELIABILITY RATING') or 'N/A'
+                loc = sub.get('LOCATION') or f"{sub.get('CITY', '')} {sub.get('STATE', '')}".strip()
+                certs = sub.get('CERTIFICATIONS') or ''
+                contact = sub.get('CONTACT_EMAIL') or sub.get('EMAIL') or ''
+
+                research = {
+                    "minimal_research_enabled": bool(minimal_research),
+                    "sources_used": [],
+                    "research_summary": "",
+                    "website_excerpt_preview": "",
+                    "cse_highlights": [],
+                }
+                if minimal_research:
+                    full_research = miner.minimal_research_for_ranking(
+                        company_name=cname,
+                        website=website,
+                        needed_skills=needed_skills,
+                        job_location=str(job_location) if job_location else '',
+                        job_summary=job_summary,
+                    )
+                    research["sources_used"] = full_research.get("sources_used") or []
+                    research["research_summary"] = full_research.get("research_summary") or ""
+                    excerpt = full_research.get("website_excerpt") or ""
+                    research["website_excerpt_preview"] = excerpt.replace("\n", " ")[:900]
+                    research["cse_highlights"] = [
+                        {"title": x.get("title"), "snippet": x.get("snippet"), "link": x.get("link")}
+                        for x in (full_research.get("cse_results") or [])[:4]
+                    ]
+                    research["website_fetch_error"] = full_research.get("website_fetch_error")
+
                 score_prompt = f"""
-                Score this subcontractor for a contract requiring: {', '.join(needed_skills)}
-                Contract value: ${contract_value if contract_value else 'Unknown'}
-                
-                SUBCONTRACTOR:
-                Name: {sub.get('COMPANY_NAME', 'N/A')}
-                Capabilities: {sub.get('CAPABILITIES', 'N/A')}
-                Past Performance: {sub.get('PAST_PERFORMANCE', 'N/A')}
-                Rating: {sub.get('RATING', 'N/A')}/5
-                Location: {sub.get('LOCATION', 'N/A')}
-                Certifications: {sub.get('CERTIFICATIONS', 'N/A')}
-                
-                Score 0-100 based on:
-                - Skills match (most important)
-                - Past performance and rating
-                - Availability
-                - Certifications
-                
-                Return JSON:
-                {{
-                    "score": 85,
-                    "reason": "Strong cybersecurity expertise with 5 similar contracts completed. 4.8★ rating.",
-                    "strengths": ["skill1", "skill2"],
-                    "concerns": ["concern1"] or []
-                }}
-                """
-                
+You rank subcontractors for a SPECIFIC contract. Decide who is BEST FOR THIS JOB — not who has
+the nicest database row. Use INTERNAL RECORD + FRESH RESEARCH; if they conflict, trust public
+signals from research for current services and geography, and note uncertainty.
+
+JOB (prime is Dee Davis Inc. — do not reveal buyer/agency names to subs in real outreach):
+Required skills / scope focus: {', '.join(needed_skills)}
+Contract value (if known): ${contract_value if contract_value else 'Unknown'}
+Place / region context: {job_location or 'Not specified'}
+Opportunity summary:
+{job_summary or '(No opportunity text loaded — rely on skills + research.)'}
+
+INTERNAL DATABASE RECORD:
+Company: {cname}
+Capabilities / notes: {caps}
+Past performance (may be stale): {past}
+Rating field: {rating}
+Location fields: {loc}
+Certifications: {certs}
+Website on file: {website or 'None'}
+
+FRESH MINIMAL RESEARCH (homepage excerpt + short web snippets; may be empty):
+{research.get('research_summary') or 'No live research — score conservatively and flag data gaps.'}
+Website excerpt (truncated): {research.get('website_excerpt_preview') or 'None'}
+Search snippets: {json.dumps(research.get('cse_highlights'), indent=0) if research.get('cse_highlights') else 'None'}
+
+Score 0-100 for FIT FOR THIS JOB:
+- Match of services to required skills and region (highest weight)
+- Evidence from research that they still perform this work (not a dead site or unrelated business)
+- Past performance / rating / certs when credible; penalize if research contradicts the record
+- If research is empty, cap score at 78 unless the internal record is exceptionally strong, and say why
+
+Return JSON only:
+{{
+  "score": 85,
+  "reason": "2-4 sentences: why this score for THIS job, citing research if used.",
+  "strengths": ["..."],
+  "concerns": ["..."],
+  "research_used": "how research influenced the score (or 'none available')"
+}}
+"""
+
                 try:
                     scoring = self.ai.generate_with_json(score_prompt, model="claude-sonnet-4-20250514")
                     scored_subs.append({
                         "id": sub_record['id'],
-                        "name": sub.get('COMPANY_NAME', 'Unknown'),
+                        "name": cname,
                         "score": scoring.get('score', 0),
                         "reason": scoring.get('reason', ''),
                         "strengths": scoring.get('strengths', []),
                         "concerns": scoring.get('concerns', []),
-                        "capabilities": sub.get('CAPABILITIES', ''),
-                        "rating": sub.get('RATING', 'N/A'),
-                        "location": sub.get('LOCATION', ''),
-                        "contact": sub.get('CONTACT_EMAIL', '')
+                        "capabilities": caps,
+                        "rating": rating,
+                        "location": loc,
+                        "contact": contact,
+                        "website": website,
+                        "research": research,
+                        "research_used": scoring.get('research_used', ''),
                     })
                 except Exception as e:
-                    print(f"Error scoring subcontractor {sub.get('COMPANY_NAME')}: {e}")
+                    print(f"Error scoring subcontractor {cname}: {e}")
                     continue
-            
-            # Sort by score
+
             scored_subs.sort(key=lambda x: x['score'], reverse=True)
             top_5 = scored_subs[:5]
-            
-            # Store recommendation
+
             if top_5:
+                reasoning_block = top_5[0]['reason']
+                if top_5[0].get('research_used'):
+                    reasoning_block = f"{reasoning_block}\n\nResearch note: {top_5[0]['research_used']}"
                 recommendation_record = self.airtable.create_record("AI RECOMMENDATIONS", {
                     "OPPORTUNITY": [opportunity_id],
                     "TYPE": "Subcontractor Recommendation",
                     "RECOMMENDATION": f"Top choice: {top_5[0]['name']}",
                     "CONFIDENCE": top_5[0]['score'],
-                    "REASONING": top_5[0]['reason'],
+                    "REASONING": reasoning_block[:95000],
                     "STATUS": "Pending Approval",
                     "CREATED": datetime.now().isoformat()
                 })
-                
+
                 return {
                     "success": True,
                     "recommended_subcontractors": top_5,
-                    "total_found": len(scored_subs),
+                    "total_ranked": len(scored_subs),
                     "recommendation_id": recommendation_record['id'],
                     "ai_top_pick": top_5[0] if top_5 else None,
-                    "message": f"AI analyzed {len(scored_subs)} subcontractors. Top recommendation: {top_5[0]['name']} (score: {top_5[0]['score']}/100)"
+                    "minimal_research": minimal_research,
+                    "message": (
+                        f"Ranked {len(scored_subs)} subcontractors for this job (research={'on' if minimal_research else 'off'}). "
+                        f"Top pick: {top_5[0]['name']} ({top_5[0]['score']}/100)."
+                    ),
                 }
-            else:
-                return {
-                    "success": False,
-                    "message": "No suitable subcontractors found",
-                    "recommended_subcontractors": []
-                }
-            
+
+            return {
+                "success": False,
+                "message": "No suitable subcontractors found after ranking",
+                "recommended_subcontractors": [],
+            }
+
         except Exception as e:
             return {
                 "success": False,
@@ -5487,13 +5582,19 @@ def handle_analyze_capability_gap(opportunity_id: str) -> Dict:
     return agent.analyze_capability_gap(opportunity_id)
 
 
-def handle_recommend_subcontractors(opportunity_id: str, needed_skills: List[str], contract_value: float = None) -> Dict:
+def handle_recommend_subcontractors(
+    opportunity_id: str,
+    needed_skills: List[str],
+    contract_value: float = None,
+    minimal_research: bool = True,
+) -> Dict:
     """
-    AI recommends top 5 subcontractors based on needed skills
-    Returns ranked list with reasoning for each
+    AI recommends top 5 subcontractors based on needed skills and optional live research.
     """
     agent = AIRecommendationAgent()
-    return agent.recommend_subcontractors(opportunity_id, needed_skills, contract_value)
+    return agent.recommend_subcontractors(
+        opportunity_id, needed_skills, contract_value, minimal_research=minimal_research
+    )
 
 
 def handle_recommend_suppliers(opportunity_id: str, product_description: str) -> Dict:
@@ -5503,6 +5604,39 @@ def handle_recommend_suppliers(opportunity_id: str, product_description: str) ->
     """
     agent = AIRecommendationAgent()
     return agent.recommend_suppliers(opportunity_id, product_description)
+
+
+def handle_solicitation_market_research(opportunity_id: str, persist_notes: bool = False) -> Dict:
+    """
+    USASpending pass: likely incumbents + award-value benchmarks for proposal pricing.
+    GPSS should call this when qualifying or pricing a solicitation (federal-focused).
+    """
+    try:
+        from solicitation_market_research import SolicitationMarketResearch
+
+        airtable = AirtableClient()
+        rec = airtable.get_record("GPSS OPPORTUNITIES", opportunity_id)
+        if not rec:
+            return {"success": False, "error": "Opportunity not found in GPSS OPPORTUNITIES"}
+        fields = rec.get("fields") or {}
+        smr = SolicitationMarketResearch()
+        payload = smr.research_from_airtable_fields(fields)
+        payload["success"] = True
+        payload["opportunity_id"] = opportunity_id
+
+        if persist_notes:
+            block = smr.format_notes_block(payload)
+            existing = (fields.get("Notes") or "").strip()
+            merged = f"{existing}\n\n{block}".strip() if existing else block
+            airtable.update_record(
+                "GPSS OPPORTUNITIES",
+                opportunity_id,
+                {"Notes": merged[:100000]},
+            )
+            payload["notes_persisted"] = True
+        return payload
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 
 def handle_approve_recommendation(recommendation_id: str, user_decision: str, user_notes: str = "", selected_id: str = None) -> Dict:
@@ -6878,6 +7012,107 @@ class GPSSSubcontractorMiner:
     def __init__(self):
         self.airtable = AirtableClient()
         self.ai = AnthropicClient()
+
+    def _fetch_url_text_excerpt(self, url: str, max_chars: int = 12000) -> Dict:
+        """Pull visible text from a homepage for ranking context (best-effort)."""
+        out = {'text': '', 'error': None}
+        if not url or not str(url).strip().startswith('http'):
+            out['error'] = 'no_url'
+            return out
+        try:
+            from bs4 import BeautifulSoup
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (compatible; NEXUS/1.0; business research; +https://deedavis.biz)'
+            }
+            r = requests.get(url.strip(), headers=headers, timeout=14, allow_redirects=True)
+            if r.status_code != 200:
+                out['error'] = f'http_{r.status_code}'
+                return out
+            soup = BeautifulSoup(r.content, 'html.parser')
+            for tag in soup(['script', 'style', 'noscript', 'svg']):
+                tag.decompose()
+            text = soup.get_text(separator='\n', strip=True)
+            lines = [ln for ln in text.splitlines() if ln.strip()]
+            text = '\n'.join(lines[:500])
+            if len(text) > max_chars:
+                text = text[:max_chars] + '\n...[truncated]'
+            out['text'] = text
+        except Exception as e:
+            out['error'] = str(e)[:240]
+        return out
+
+    def _cse_snippets_for_query(self, query: str, num: int = 4) -> List[Dict]:
+        """Optional Google Custom Search snippets (same env as subcontractor discovery)."""
+        api_key = os.environ.get('GOOGLE_CSE_API_KEY')
+        cse_id = os.environ.get('GOOGLE_CSE_ID')
+        if not api_key or not cse_id or not (query or '').strip():
+            return []
+        try:
+            url = 'https://www.googleapis.com/customsearch/v1'
+            params = {'key': api_key, 'cx': cse_id, 'q': query.strip()[:200], 'num': min(num, 10)}
+            response = requests.get(url, params=params, timeout=12)
+            if response.status_code != 200:
+                return []
+            items = []
+            for item in response.json().get('items', []) or []:
+                items.append({
+                    'title': item.get('title', ''),
+                    'snippet': item.get('snippet', ''),
+                    'link': item.get('link', ''),
+                })
+            time.sleep(0.35)
+            return items
+        except Exception:
+            return []
+
+    def minimal_research_for_ranking(
+        self,
+        company_name: str,
+        website: str = '',
+        needed_skills: Optional[List[str]] = None,
+        job_location: str = '',
+        job_summary: str = '',
+    ) -> Dict:
+        """
+        Minimal fresh research so ranking reflects fit-for-job, not only Airtable fields.
+        Uses homepage text when WEBSITE is set, plus one CSE query when keys exist.
+        """
+        needed_skills = needed_skills or []
+        primary_skill = needed_skills[0] if needed_skills else ''
+        fetched = self._fetch_url_text_excerpt(website) if website else {'text': '', 'error': 'no_url'}
+        cse_query_parts = [f'"{company_name}"']
+        if primary_skill:
+            cse_query_parts.append(primary_skill)
+        if job_location:
+            cse_query_parts.append(job_location)
+        cse_query = ' '.join(cse_query_parts)
+        cse_items = self._cse_snippets_for_query(cse_query, num=4)
+        sources = []
+        if fetched.get('text'):
+            sources.append('website')
+        if cse_items:
+            sources.append('google_cse')
+        return {
+            'company_name': company_name,
+            'website_excerpt': fetched.get('text', ''),
+            'website_fetch_error': fetched.get('error'),
+            'cse_query': cse_query if cse_items or os.environ.get('GOOGLE_CSE_API_KEY') else '',
+            'cse_results': cse_items,
+            'sources_used': sources,
+            'research_summary': self._brief_research_summary(fetched.get('text', ''), cse_items),
+        }
+
+    @staticmethod
+    def _brief_research_summary(website_text: str, cse_items: List[Dict]) -> str:
+        parts = []
+        if website_text:
+            preview = website_text.replace('\n', ' ')[:420]
+            parts.append(f'Website: {preview}')
+        for it in (cse_items or [])[:2]:
+            sn = (it.get('snippet') or '').replace('\n', ' ')
+            if sn:
+                parts.append(f'Search: {sn[:320]}')
+        return ' | '.join(parts) if parts else 'No live research retrieved (add WEBSITE or configure Google CSE).'
     
     # ============================================
     # FUNCTION 1: FIND SUBCONTRACTORS IN AREA

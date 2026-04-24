@@ -51,6 +51,35 @@ interface Activity {
   time: string;
   icon: string;
   color: string;
+  ddi_score?: number;
+  ddi_lane?: string;
+  ddi_relevant?: boolean;
+  ddi_subcontract?: boolean;
+  ddi_sub_score?: number;
+  ddi_sub_headline?: string;
+  ddi_sub_blurb?: string;
+  recordId?: string;
+}
+
+interface DdiTopPick {
+  title: string;
+  lane: string;
+  score: number;
+  source: string;
+  time: string;
+  recordId?: string;
+  status?: string;
+}
+
+interface DdiSubHint {
+  title: string;
+  headline: string;
+  blurb: string;
+  score: number;
+  hits: string[];
+  time: string;
+  recordId?: string;
+  status?: string;
 }
 
 interface Alert {
@@ -82,6 +111,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats>(defaultStats);
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [ddiTopPicks, setDdiTopPicks] = useState<DdiTopPick[]>([]);
+  const [ddiSubHints, setDdiSubHints] = useState<DdiSubHint[]>([]);
+  const [ddiSummary, setDdiSummary] = useState<{
+    lane_matches_in_recent?: number;
+    subcontract_hints_in_recent?: number;
+    opportunities_scanned?: number;
+  } | null>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
@@ -183,6 +219,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
 
       setStats(merged);
       setActivities(activityData.activities || []);
+      setDdiTopPicks(activityData.ddi_top_picks || []);
+      setDdiSubHints(activityData.ddi_subcontract_hints || []);
+      setDdiSummary(activityData.ddi_summary || null);
       setAlerts(alertsData.alerts || []);
       setLastUpdated(new Date());
       setLoading(false);
@@ -692,6 +731,28 @@ END:VCALENDAR`;
       lastUsed: 'Available'
     },
     {
+      id: 'fleetflow-cape' as ViewType,
+      name: 'FleetFlow™ CAPE',
+      fullName: 'Tariff Refund Navigator (IEEPA)',
+      icon: '📦',
+      description: 'Public intake • AI screening • Agreement download • Lead email to DDI',
+      stats: ['CAPE intake', 'Gmail notify', 'Claude qualification'],
+      gradient: 'from-amber-700 to-yellow-600',
+      status: 'online',
+      lastUsed: 'NEW',
+    },
+    {
+      id: 'shield' as ViewType,
+      name: 'SHIELD',
+      fullName: 'Screening · Health · Intake · Enrollment · Linkage · Defense',
+      icon: '🛡️',
+      description: 'Michigan PA 146 of 2023 • MDHHS lead-screening intake • Navigator dashboard • CWC + DDI',
+      stats: ['Intake Portal', 'Case Manager', 'AI Assistant', 'Outcomes Reports'],
+      gradient: 'from-amber-500 to-blue-700',
+      status: 'online',
+      lastUsed: 'NEW',
+    },
+    {
       id: 'alexa' as ViewType,
       name: 'ALEXA',
       fullName: 'Voice Command Center',
@@ -937,6 +998,106 @@ END:VCALENDAR`;
               </h2>
               <p className="text-sm text-gray-400">Here's what needs your attention today.</p>
             </div>
+
+            {/* NEXUS highlights: opportunities that match your core service lanes (auto-scored; no manual hunting) */}
+            {lastUpdated && !loading && (
+              <div className="mb-6 rounded-xl border border-emerald-500/35 bg-gradient-to-br from-emerald-950/40 to-gray-900/60 p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                  <div>
+                    <h3 className="text-lg font-black text-white flex items-center gap-2">
+                      <span className="text-emerald-400">★</span> Matched for your lanes
+                    </h3>
+                    <p className="text-xs text-gray-400 mt-1">
+                      NEXUS surfaces GPSS opportunities that fit your DDI lanes (occupational health, drug testing, credentialing, NEMT, logistics, notary, etc.). The Activity feed also lists lane matches first.
+                    </p>
+                  </div>
+                  {ddiSummary ? (
+                    <div className="text-xs text-gray-500 font-mono text-right">
+                      <div>{ddiSummary.lane_matches_in_recent ?? 0} core lane hits</div>
+                      <div>{ddiSummary.subcontract_hints_in_recent ?? 0} sub/teaming nudges</div>
+                      <div>{ddiSummary.opportunities_scanned ?? 0} scanned (recent)</div>
+                    </div>
+                  ) : null}
+                </div>
+                {ddiTopPicks.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {ddiTopPicks.map((pick, i) => (
+                      <button
+                        key={pick.recordId || `${i}-${pick.title}`}
+                        type="button"
+                        onClick={() => onEnterSystem('gpss')}
+                        className="text-left rounded-lg border border-emerald-600/30 bg-gray-900/50 hover:border-emerald-500/50 hover:bg-gray-900/80 transition p-4"
+                      >
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <span className="text-xs font-bold uppercase tracking-wide text-emerald-400/90">{pick.lane}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-900/50 text-emerald-200 font-mono">
+                            {pick.score >= 100 ? 'NAICS' : pick.source === 'title' ? 'TITLE' : 'TEXT'} · {pick.score}
+                          </span>
+                        </div>
+                        <div className="text-sm font-semibold text-white line-clamp-2">{pick.title}</div>
+                        {pick.status ? (
+                          <div className="text-[11px] text-gray-500 mt-2 truncate">{pick.status}</div>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-amber-200/90">
+                    {(ddiSummary?.opportunities_scanned ?? 0) === 0
+                      ? 'No recent rows in GPSS OPPORTUNITIES to score yet. As soon as solicitations land in Airtable, matches appear here automatically.'
+                      : 'No open (non-closed) opportunities in the recent batch matched your lanes. Ingestion is still working—lane-filtered miners (e.g. presolicitation script) reduce off-lane volume upstream.'}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Softer tier: not core lane, but NEXUS nudges you for subcontract / teaming */}
+            {lastUpdated && !loading && (ddiSubHints.length > 0 || (ddiSummary && (ddiSummary.subcontract_hints_in_recent ?? 0) > 0)) && (
+              <div className="mb-6 rounded-xl border border-amber-500/40 bg-gradient-to-br from-amber-950/35 to-gray-900/60 p-5">
+                <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                  <div>
+                    <h3 className="text-lg font-black text-white flex items-center gap-2">
+                      <span className="text-amber-300">🤝</span> Hey — worth a quick look (sub / teaming)
+                    </h3>
+                    <p className="text-xs text-amber-100/80 mt-1 max-w-3xl">
+                      These are a little outside your core lanes, but NEXUS noticed teaming language, subcontract-friendly patterns,
+                      or work adjacent to what you usually touch. Open them when you have bandwidth — prime or partner, not a mandate.
+                    </p>
+                  </div>
+                </div>
+                {ddiSubHints.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {ddiSubHints.map((h, i) => (
+                      <button
+                        key={h.recordId || `${i}-${h.title}`}
+                        type="button"
+                        onClick={() => onEnterSystem('gpss')}
+                        className="text-left rounded-lg border border-amber-600/35 bg-gray-900/50 hover:border-amber-500/55 hover:bg-gray-900/80 transition p-4"
+                      >
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <span className="text-xs font-bold text-amber-200/95 line-clamp-2">{h.headline}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-900/45 text-amber-100 font-mono shrink-0">
+                            nudge {h.score}
+                          </span>
+                        </div>
+                        <div className="text-sm font-semibold text-white line-clamp-2">{h.title}</div>
+                        {h.blurb ? (
+                          <p className="text-[11px] text-gray-400 mt-2 line-clamp-2">{h.blurb}</p>
+                        ) : null}
+                        {h.status ? (
+                          <div className="text-[11px] text-gray-500 mt-1 truncate">{h.status}</div>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-400">
+                    Sub/teaming nudges are computed on recent GPSS rows. When something looks adjacent, it will show up here so you
+                    do not have to hunt alone.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
               {/* Priority Actions (3 cols) */}
@@ -1407,6 +1568,18 @@ END:VCALENDAR`;
                         <span className="text-sm text-gray-500">{activity.time}</span>
                       </div>
                       <p className="text-gray-300 mb-2">{activity.title}</p>
+                      {activity.ddi_relevant && activity.ddi_lane ? (
+                        <p className="text-xs text-emerald-400/95 mb-2 font-medium">
+                          Lane: {activity.ddi_lane}
+                          {typeof activity.ddi_score === 'number' ? ` · score ${activity.ddi_score}` : ''}
+                        </p>
+                      ) : null}
+                      {activity.ddi_subcontract && !activity.ddi_relevant ? (
+                        <p className="text-xs text-amber-200/95 mb-2 font-medium">
+                          {activity.ddi_sub_headline || 'Subcontract / teaming angle'}
+                          {activity.ddi_sub_blurb ? ` — ${activity.ddi_sub_blurb}` : ''}
+                        </p>
+                      ) : null}
                       <div className="flex gap-2">
                         <button className="text-xs text-blue-400 hover:text-blue-300">View Details</button>
                         <button className="text-xs text-gray-500 hover:text-gray-400">Dismiss</button>

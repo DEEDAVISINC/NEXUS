@@ -1,50 +1,95 @@
-# YOUR AGENDA — Thursday, April 23, 2026
+# YOUR AGENDA — Friday, April 24, 2026
 
-**Session close (Apr 22, 2026):** Good night — Dee: **work on CBP 70B06 response prep tomorrow** (NEXUS + ProposalBio, `CBP_70B06C26R00000017_RESPONSE_PLAN.md`, `00_SOURCE_PACKAGE/`); goodnight save and Thursday plan logged.
+**Today (authoritative date):** **Friday, April 24, 2026.**
 
-**This week:** **CBP** path to **Apr 28 5 PM ET**; **KY** questions **4/23** and proposals **5/7**; factoring broker if still open; protect margin time.
+**This week:** **CBP** path to **Apr 28 5 PM ET** (4 days); **KY** questions **submitted**, proposals **5/7**; SouthStar broker package **sent 4/22**; **MDHHS EHB partnership meeting held yesterday 4/23 — brief + one-pager delivered 7:04 PM to both Angela Medina and Aimee Surma** (see milestone below, follow-up owed within 2 weeks).
 
 ---
 
 ```
-TODAY'S PRIORITIES — Thursday, April 23, 2026
+TOMORROW'S PRIORITIES — Friday, April 24, 2026
 
-1. **🔥 Kentucky DMS (Mine Safety) RFP 128 2600000415 — written questions DUE 3:30 PM ET** — Submit to Robin.Uphoff@ky.gov; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `calendars/KENTUCKY_DMS_DRUG_TESTING_QUESTIONS_2026-04-23.ics`
-2. **CBP Medical 70B06C26R00000017** — Active build day: **Phase 0** (SAM + amendments into `01_SOLICITATION_AMENDMENTS/`) → start **SOW compliance matrix** from `00_SOURCE_PACKAGE` SOW; keep **NEXUS + ProposalBio** pipeline per `CBP_70B06C26R00000017_RESPONSE_PLAN.md` (nothing final to CO until gates pass). Proposal **due Apr 28, 5:00 PM Eastern** (verify SAM).
-3. **Factoring broker agreement** — If not sent yet: complete, send, confirm broker next steps.
-4. **One outbound or follow-up** — One touch from `DAILY_BRIEFING.md` if energy remains after 1–2.
+1. 🛠  **FIRST THING: SHIELD Airtable build** — Create `nexus_lead_screening`
+     base in Airtable with all 10 tables (Referrals, Families, Children,
+     Navigators, Service_Activations, Case_Milestones, Contractors, Billing,
+     Outcomes_Reporting, Referral_Source_Accounts). Set `LEAD_SCREENING_BASE_ID`
+     in `.env`. Run `python3 seed_shield_referral_source_accounts.py --apply`
+     to seed Angela Medina + Aimee Surma + 6 LHD placeholders. Verify seed
+     results in Airtable UI before moving on.
 
-MEETINGS: See `calendars/SCHEDULED_AGENDA.md` — no standing meeting row for 4/23 except KY questions deadline (above).
+2. 📝  **CBP Medical Support 70B06C26R00000017** — 4 DAYS OUT. Close remaining
+     gaps in `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/WORKFLOW_CHECKLIST.md`:
+     PFT partner, LRP, psych/vision consultants, Quest/Concentra LoCs,
+     Attachment 4 pricing, Attachments 5–6, SB plan. Due **Apr 28 5 PM ET**.
 
-FOLLOW-UPS / DEADLINES: **4/23** KY questions; **4/28** CBP; **4/27** Laguna Beach 3:00 PM PT; **5/7** KY proposals.
+3. 🚗  **Laguna Beach Senior Transportation T&CS 26-002** — 3 days out.
+     Due **Apr 27 3:00 PM PT** (6 PM ET). PlanetBids lump sum + cost + response
+     files. `BIDS:RESOURCES/LAGUNA BEACH SENIOR TRANSPORTATION/`.
 
-PREP: SAM screenshot/PDF of CBP notice for bid folder; matrix template started in CBP working folder.
+4. 📄  **MDHHS pilot structure prep (10-member demo)** — Start the outline —
+     selection criteria, 90-day outcomes framework, roles matrix,
+     SHIELD outcomes-report export format. Owed at the 5/4-week follow-up.
+
+5. 📬  **Top 5 ready-to-send emails** — DHC Landscaping, Pittsburgh URA Title
+     Services, Ohio DOH Medical Courier, USACE Palatka Custodial, OCTA Bicycle
+     Count. All have cap statements staged in SEND_TO_BUYER folders.
+
+MEETINGS: None scheduled tomorrow. MDHHS follow-up to be requested for
+          week of 5/4 (5/4–5/8).
+FOLLOW-UPS DUE:
+  - KY DMS addendum watch ~4/30 (6 days)
+  - ICE DHS (Tracy Riley) — 30-day follow-up window from Mar 22 reply → hit
+  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (33 days silent)
+PREP NEEDED:
+  - CBP proposal package — confirm HUBZone status in SAM before final pricing
+  - MDHHS pilot doc outline — primary source is
+    `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf`
 ```
+
+---
+
+## 🏛️ BUSINESS MILESTONE — MDHHS Environmental Health Bureau Partnership Meeting (held 4/23/2026)
+
+**Meeting:** Microsoft Teams · **Thursday 4/23, 3:00–3:30 PM ET** · CWC+DDI-requested pitch
+**Attendees:** Angela Medina (Section Manager, Care Coordination, EHB — `MedinaA@michigan.gov`, 517-897-5203) · Aimee Surma (EHB — `SurmaA@michigan.gov`) · Dieasha D. Davis (CWC+DDI)
+**Outcome:** Favorable reception of the **community navigation + program administration partnership model**. MDHHS-committed next steps confirmed. **Positioning: "Partner in Michigan's lead-safe ecosystem."**
+
+**CWC+DDI 24-hour commitment:**
+- [x] Send meeting brief + one-pager to Angela and Aimee — **✅ DONE 4/23 7:04 PM ET to both**
+
+**MDHHS committed to (3):**
+1. Schedule formal follow-up within 2 weeks (target week of **May 4, 2026**)
+2. Share CWC+DDI brief + one-pager with LHD directors in **Wayne, Oakland, Macomb, Genesee, Kent (Grand Rapids), Muskegon**
+3. Facilitate introductions to those LHD directors once documentation is reviewed
+
+**CWC+DDI owed at follow-up:**
+- [ ] Pilot structure documentation — **10-member demo** for lead screening navigation + housing stability, **90-day outcomes framework**, selection criteria, roles matrix
+- [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path)
+
+**Where this lives in NEXUS:**
+- Master reference: `COMPANY_INFO_MASTER.md` → "🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM"
+- Primary source PDFs: `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf` + `CWC_DDI_Overview_OnePager.pdf`
+- SHIELD `Referral_Source_Accounts` seed: `seed_shield_referral_source_accounts.py` (dry-run shows 2 MDHHS + 6 LHD placeholders; run with `--apply` after `LEAD_SCREENING_BASE_ID` is set in `.env`)
 
 ---
 
 # YOUR AGENDA — Wednesday, April 22, 2026 (archived)
 
-**Session close (Apr 21, 2026 ~11:55 PM):** Good night — end-of-day save and tomorrow plan logged.
+**Authoritative date at time of write:** **Wednesday, April 22, 2026.**
 
-**This week:** Complete factoring broker paperwork and get it in motion; **CBP Medical 70B06C26R00000017** — follow `CBP_70B06C26R00000017_RESPONSE_PLAN.md` (SAM first, then SOW matrix + volumes); Kentucky Mine Safety questions and May proposal on rails; don’t let outbound queue starve the pipeline.
+**This week:** **CBP** path to **Apr 28 5 PM ET**; **KY** questions **submitted**; **KY** proposals **5/7**; SouthStar broker package **sent 4/22** (`SOUTHSTAR_BROKER_AGREEMENT_COMPLETION.md`).
 
 ---
 
 ```
-TOMORROW'S PRIORITIES — Wednesday, April 22, 2026 (past)
+TODAY'S PRIORITIES — Wednesday, April 22, 2026
 
-1. **Factoring broker agreement** — Finish the agreement, send it, and confirm next steps with the broker so the process starts.
-2. **Kentucky DMS (Mine Safety) RFP 128 2600000415** — Finalize and queue **written questions** due **Thu Apr 23, 3:30 PM ET**; draft: `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/WRITTEN_QUESTIONS_DUE_2026-04-23.md` · `.ics` on calendar.
-3. **Post-deadline sweep (if applicable)** — If Oakland HHS (Oak-0000001134) was due **Apr 21**, confirm **submission/confirmation of receipt** and file proof. **CBP Medical Support (70B06C26R00000017)** is due **Apr 28, 5:00 PM Eastern** (verify in **SAM**; full facts in `CBP_70B06C26R00000017_SOLICITATION_FACTS.md`) — not Apr 21 on your stale PDF.
-4. **ICE / Tracy Riley** — Dashboard shows follow-up ~**Apr 22** (30-day cadence from prior reply); one tight touch.
-5. **One outbound touch** — Pick one “ready to send” from `DAILY_BRIEFING.md` if time allows (don’t let broker work erase the queue).
+1. **SouthStar** — Broker application + supporting docs **emailed to Jon Shane** **2026-04-22** ✓ — await registration / approval email.
+2. **Kentucky DMS (Mine Safety) RFP 128 2600000415** — Written questions **e‑mailed 2026-04-22** ✓ (Robin.Uphoff@ky.gov); await addendum ~**4/30** per RFP — `WRITTEN_QUESTIONS_DUE_2026-04-23.md` in bid folder.
+3. **CBP Medical 70B06C26R00000017** — Phase 0 (SAM) + start **SOW compliance matrix** (`00_SOURCE_PACKAGE/`); `CBP_70B06C26R00000017_RESPONSE_PLAN.md` · due **Apr 28, 5:00 PM ET** (verify SAM).
+4. **One outbound or follow-up** — If bandwidth after 1–3.
 
-MEETINGS: (none in `calendars/SCHEDULED_AGENDA.md` for Apr 22 — add broker call or any internal block to your physical calendar if needed.)
-
-FOLLOW-UPS DUE: Tracy Riley (ICE) ~Apr 22; next hard date **Apr 23** KY questions; **Apr 27** Laguna Beach 3:00 PM PT; **May 7** KY proposals.
-
-PREP NEEDED: Broker agreement final review/signature path; any MITN/SAM proof-of-submission for Apr 21 bids.
+DEADLINES: **4/28** CBP; **4/27** Laguna 3 PM PT; **5/7** KY proposals; KY addendum watch **~4/30**.
 ```
 
 ---

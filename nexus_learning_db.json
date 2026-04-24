@@ -5662,9 +5662,223 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "b92690aac159",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260422",
+      "action": "discovered",
+      "timestamp": "2026-04-22T02:20:35.421532",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "19db5aee3220",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260422",
+      "action": "discovered",
+      "timestamp": "2026-04-22T02:20:35.429854",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "83d5e3393cee",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260422",
+      "action": "discovered",
+      "timestamp": "2026-04-22T02:20:35.437110",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "8fe2feece365",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260422",
+      "action": "discovered",
+      "timestamp": "2026-04-22T02:20:35.443388",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "b50f21144d61",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260422_02",
+      "action": "scored",
+      "timestamp": "2026-04-22T02:22:59.687618",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "83a7889b4593",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260422",
+      "action": "rfq_sent",
+      "timestamp": "2026-04-22T02:24:01.784534",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "353f34f49fb2",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260422_04",
+      "action": "scored",
+      "timestamp": "2026-04-22T04:26:09.097550",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "b41e68d02d08",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T00:00:02.633385",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d75cfc8efd93",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T00:00:02.638139",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "f133cb5bedda",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T00:00:02.642171",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "26e077a8e68c",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T00:00:02.646130",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "8885064ba52c",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260424_00",
+      "action": "scored",
+      "timestamp": "2026-04-24T00:15:49.534910",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "8f1e0d910c7f",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260424",
+      "action": "rfq_sent",
+      "timestamp": "2026-04-24T00:18:23.452034",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 1% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-04-24T00:18:24.887940"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-04-24T00:18:24.887955"
+    },
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 1% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-04-22T03:56:27.812118"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-04-22T03:56:27.812135"
+    },
     {
       "title": "Opportunity Mining: Needs attention",
       "body": "Only 1% positive rate. Review strategy for this area.",
@@ -6785,18 +6999,44 @@
       "events_count": 402,
       "insights_generated": 2,
       "weights_updated": false
+    },
+    {
+      "timestamp": "2026-04-22T03:56:27.812153",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence"
+      ],
+      "events_count": 409,
+      "insights_generated": 2,
+      "weights_updated": false
+    },
+    {
+      "timestamp": "2026-04-24T00:18:24.887968",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence"
+      ],
+      "events_count": 416,
+      "insights_generated": 2,
+      "weights_updated": false
     }
   ],
   "stats": {
-    "total_events": 403,
+    "total_events": 416,
     "events_by_domain": {
-      "opportunities": 336,
+      "opportunities": 347,
       "outreach": 3,
       "bids": 6,
-      "suppliers": 56,
+      "suppliers": 58,
       "intelligence": 2
     },
-    "total_analyses": 46,
-    "last_analysis": "2026-04-21T21:56:08.300239"
+    "total_analyses": 48,
+    "last_analysis": "2026-04-24T00:18:24.887964"
   }
 }

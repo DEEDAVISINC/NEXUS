@@ -17,6 +17,13 @@ import subprocess
 import tempfile
 from pathlib import Path
 import re
+
+from ddi_opportunity_fit import (
+    analyze_ddi_fit,
+    analyze_subcontract_stretch,
+    airtable_fields_to_opp_dict,
+    gpss_opportunity_is_closed,
+)
 from nexus_backend import (
     Config,
     AirtableClient,
@@ -76,6 +83,7 @@ from nexus_backend import (
     handle_analyze_capability_gap,
     handle_recommend_subcontractors,
     handle_recommend_suppliers,
+    handle_solicitation_market_research,
     handle_approve_recommendation,
     handle_get_pending_recommendations,
     handle_calculate_compliance
@@ -299,6 +307,14 @@ try:
     print("✅ PRISM Orders & Intake API registered")
 except ImportError as e:
     print(f"⚠️ PRISM Orders API not loaded: {e}")
+
+# FleetFlow™ CAPE (IEEPA) refund navigator intake + admin email
+try:
+    from fleetflow_cape_intake_api import fleetflow_cape
+    app.register_blueprint(fleetflow_cape)
+    print("✅ FleetFlow CAPE intake API registered")
+except ImportError as e:
+    print(f"⚠️ FleetFlow CAPE intake API not loaded: {e}")
 
 # Register PRISM Random Pool Engine
 try:
@@ -603,13 +619,17 @@ def get_dashboard_stats():
 @app.route('/dashboard/activity', methods=['GET'])
 def get_dashboard_activity():
     """
-    Get recent activity feed from all systems
-    Returns: recent records sorted by creation date
+    Recent activity plus DDI lane matches — surfaces opportunities that fit core service lanes first.
     """
     try:
         airtable_client = AirtableClient()
         activities = []
-        
+        ddi_top_picks = []
+        ddi_subcontract_hints = []
+        ddi_lane_match_count = 0
+        ddi_subcontract_flag_count = 0
+        ddi_scanned = 0
+
         # Get recent contacts
         try:
             contacts = airtable_client.get_all_records('GPSS CONTACTS', sort=['Created'])
@@ -626,26 +646,124 @@ def get_dashboard_activity():
                 })
         except Exception as e:
             print(f"Error fetching contacts: {e}")
-        
-        # Get recent opportunities
+
+        # GPSS opportunities: score for DDI lanes, prioritize matches in feed + ddi_top_picks
         try:
             opportunities = airtable_client.get_all_records('GPSS OPPORTUNITIES')
-            # Sort by Airtable's createdTime
-            sorted_opps = sorted(opportunities, key=lambda x: x.get('createdTime', ''), reverse=True)
-            for opp in sorted_opps[:5]:  # Last 5 opportunities
-                fields = opp['fields']
-                activities.append({
+            sorted_opps = sorted(
+                opportunities,
+                key=lambda x: x.get('createdTime', '') or '',
+                reverse=True,
+            )
+            recent_window = sorted_opps[:350]
+            ddi_scanned = len(recent_window)
+
+            opp_activities = []
+            pick_candidates = []
+            sub_candidates = []
+            prime_ids = set()
+            for opp in recent_window:
+                fields = opp.get('fields') or {}
+                opp_dict = airtable_fields_to_opp_dict(fields)
+                fit = analyze_ddi_fit(opp_dict)
+                closed = gpss_opportunity_is_closed(fields)
+                sub = (
+                    analyze_subcontract_stretch(opp_dict)
+                    if not fit['relevant']
+                    else {'suggest': False, 'score': 0, 'headline': '', 'blurb': '', 'hits': []}
+                )
+
+                if fit['relevant']:
+                    ddi_lane_match_count += 1
+                    if not closed:
+                        rid = opp.get('id')
+                        pick_candidates.append({
+                            'title': fields.get('Name', 'Untitled'),
+                            'lane': fit['lane'],
+                            'score': fit['score'],
+                            'source': fit['source'],
+                            'time': opp.get('createdTime', ''),
+                            'recordId': rid,
+                            'status': fields.get('Status') or fields.get('Source Status') or '',
+                        })
+                        if rid:
+                            prime_ids.add(rid)
+
+                if sub.get('suggest') and not closed:
+                    ddi_subcontract_flag_count += 1
+
+                action = 'Lane match — Review'
+                if fit['score'] >= 100:
+                    action = 'Strong lane match (NAICS)'
+                elif fit['score'] >= 80:
+                    action = 'Lane match — Review'
+                elif fit['relevant']:
+                    action = 'Possible lane match (description)'
+                elif sub.get('suggest'):
+                    action = sub.get('headline') or 'Worth a look — subcontract / teaming'
+
+                if sub.get('suggest') and not closed:
+                    rid = opp.get('id')
+                    if rid and rid not in prime_ids:
+                        sub_candidates.append({
+                            'title': fields.get('Name', 'Untitled'),
+                            'headline': sub.get('headline', ''),
+                            'blurb': sub.get('blurb', ''),
+                            'score': sub.get('score', 0),
+                            'hits': sub.get('hits') or [],
+                            'time': opp.get('createdTime', ''),
+                            'recordId': rid,
+                            'status': fields.get('Status') or fields.get('Source Status') or '',
+                        })
+
+                opp_activities.append({
                     'type': 'opportunity',
                     'system': 'GPSS',
-                    'action': 'New Opportunity',
+                    'action': 'New Opportunity' if not fit['relevant'] and not sub.get('suggest') else action,
                     'title': fields.get('Name', 'Untitled'),
                     'time': opp.get('createdTime', ''),
-                    'icon': '🎯',
-                    'color': 'text-yellow-400'
+                    'icon': '⭐' if fit['relevant'] else ('🤝' if sub.get('suggest') else '🎯'),
+                    'color': (
+                        'text-emerald-400'
+                        if fit['relevant']
+                        else ('text-amber-300' if sub.get('suggest') else 'text-yellow-400')
+                    ),
+                    'ddi_score': fit['score'],
+                    'ddi_lane': fit['lane'] if fit['relevant'] else '',
+                    'ddi_relevant': fit['relevant'],
+                    'ddi_subcontract': bool(sub.get('suggest')),
+                    'ddi_sub_score': int(sub.get('score') or 0) if sub.get('suggest') else 0,
+                    'ddi_sub_headline': sub.get('headline', '') if sub.get('suggest') else '',
+                    'ddi_sub_blurb': sub.get('blurb', '') if sub.get('suggest') else '',
+                    'recordId': opp.get('id'),
                 })
+
+            pick_candidates.sort(
+                key=lambda x: (-int(x.get('score') or 0), str(x.get('time') or '')),
+            )
+            ddi_top_picks = pick_candidates[:8]
+
+            sub_candidates.sort(
+                key=lambda x: (-int(x.get('score') or 0), str(x.get('time') or '')),
+            )
+            ddi_subcontract_hints = sub_candidates[:6]
+
+            opp_activities.sort(
+                key=lambda x: (
+                    0 if x.get('ddi_relevant') else (1 if x.get('ddi_subcontract') else 2),
+                    -int(x.get('ddi_score') or 0) if x.get('ddi_relevant') else (
+                        -int(x.get('ddi_sub_score') or 0) if x.get('ddi_subcontract') else 0
+                    ),
+                    str(x.get('time') or ''),
+                ),
+                reverse=False,
+            )
+            for oa in opp_activities[:12]:
+                activities.append(oa)
+
         except Exception as e:
             print(f"Error fetching opportunities: {e}")
-        
+
         # Get recent ATLAS projects
         try:
             projects = airtable_client.get_all_records('ATLAS PROJECTS', sort=['Created Date'])
@@ -662,14 +780,120 @@ def get_dashboard_activity():
                 })
         except Exception as e:
             print(f"Error fetching projects: {e}")
-        
-        # Sort by time (most recent first)
-        activities.sort(key=lambda x: x['time'], reverse=True)
-        
-        return jsonify({'activities': activities[:10]})  # Return top 10
-    
+
+        def _activity_sort_key(a):
+            if a.get('type') != 'opportunity':
+                return (3, 0, str(a.get('time') or ''))
+            if a.get('ddi_relevant'):
+                return (0, -int(a.get('ddi_score') or 0), str(a.get('time') or ''))
+            if a.get('ddi_subcontract'):
+                return (1, -int(a.get('ddi_sub_score') or 0), str(a.get('time') or ''))
+            return (2, 0, str(a.get('time') or ''))
+
+        activities.sort(key=_activity_sort_key, reverse=False)
+
+        return jsonify({
+            'activities': activities[:16],
+            'ddi_top_picks': ddi_top_picks[:8],
+            'ddi_subcontract_hints': ddi_subcontract_hints,
+            'ddi_summary': {
+                'lane_matches_in_recent': ddi_lane_match_count,
+                'subcontract_hints_in_recent': ddi_subcontract_flag_count,
+                'opportunities_scanned': ddi_scanned,
+            },
+        })
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/subnet/opportunities', methods=['GET'])
+def subnet_opportunities_search():
+    """
+    Search SBA SubNet (subcontracting opportunities posted by primes).
+    Query: state=MI|All, keyword=, max_pages=5, details=true|false
+    """
+    try:
+        from sba_subnet_client import search_subnet_opportunities
+
+        state = request.args.get('state', 'All') or 'All'
+        keyword = request.args.get('keyword', '') or ''
+        try:
+            max_pages = int(request.args.get('max_pages', 5))
+        except (TypeError, ValueError):
+            max_pages = 5
+        max_pages = max(1, min(30, max_pages))
+        fetch_details = str(request.args.get('details', '')).lower() in ('1', 'true', 'yes')
+        data = search_subnet_opportunities(
+            state=state,
+            keyword=keyword,
+            max_pages=max_pages,
+            fetch_details=fetch_details,
+        )
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/subnet/sync', methods=['POST'])
+def subnet_sync_to_gpss():
+    """
+    Pull SubNet pages and create GPSS OPPORTUNITIES rows (skips existing RFP NUMBER SUBNET-{slug}).
+    JSON body: { "state": "MI", "keyword": "", "max_pages": 3, "fetch_details": false }
+    """
+    try:
+        from sba_subnet_client import search_subnet_opportunities, opportunity_to_gpss_fields
+
+        body = request.get_json(force=True, silent=True) or {}
+        state = body.get('state', 'All') or 'All'
+        keyword = (body.get('keyword') or '') or ''
+        max_pages = max(1, min(20, int(body.get('max_pages', 3))))
+        fetch_details = bool(body.get('fetch_details', False))
+
+        pull = search_subnet_opportunities(
+            state=state,
+            keyword=keyword,
+            max_pages=max_pages,
+            fetch_details=fetch_details,
+        )
+        if not pull.get('success'):
+            return jsonify(pull), 502
+
+        airtable_client = AirtableClient()
+        created = 0
+        skipped = 0
+        errors: list = []
+
+        for rec in pull.get('opportunities') or []:
+            fields = opportunity_to_gpss_fields(rec)
+            rfp = fields.get('RFP NUMBER') or ''
+            safe = rfp.replace("'", "\\'")
+            try:
+                existing = airtable_client.search_records(
+                    'GPSS OPPORTUNITIES',
+                    f"{{RFP NUMBER}}='{safe}'",
+                )
+            except Exception as ex:
+                errors.append({'rfp': rfp, 'error': str(ex)})
+                continue
+            if existing:
+                skipped += 1
+                continue
+            try:
+                airtable_client.create_record('GPSS OPPORTUNITIES', fields)
+                created += 1
+            except Exception as ex:
+                errors.append({'rfp': rfp, 'error': str(ex)})
+
+        return jsonify({
+            'success': True,
+            'created': created,
+            'skipped_existing': skipped,
+            'pulled': pull.get('count', 0),
+            'errors': errors[:20],
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @app.route('/dashboard/alerts', methods=['GET'])
@@ -2092,6 +2316,24 @@ def manual_create_atlas_project_from_opportunity(opportunity_id):
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/solicitation-market-research', methods=['POST'])
+def gpss_solicitation_market_research(opportunity_id):
+    """
+    Incumbent + award pricing research via USASpending (federal awards).
+    Body JSON: { "persist_notes": false } — append summary to GPSS OPPORTUNITIES Notes when true.
+    """
+    try:
+        data = request.get_json() or {}
+        persist = data.get('persist_notes', False)
+        if isinstance(persist, str):
+            persist = persist.strip().lower() in ('1', 'true', 'yes', 'on')
+        result = handle_solicitation_market_research(opportunity_id, persist_notes=bool(persist))
+        status = 200 if result.get('success') else 400
+        return jsonify(result), status
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 def create_invoice_from_atlas_project(project_id: str, airtable_client=None) -> dict:
@@ -18968,7 +19210,8 @@ def recommend_subcontractors():
     {
         "opportunity_id": "rec123abc",
         "needed_skills": ["cybersecurity", "penetration testing"],
-        "contract_value": 500000  // optional
+        "contract_value": 500000,  // optional
+        "minimal_research": true   // optional, default true — homepage + Google CSE snippets for ranking
     }
     
     Response:
@@ -18994,11 +19237,16 @@ def recommend_subcontractors():
         opportunity_id = data.get('opportunity_id')
         needed_skills = data.get('needed_skills', [])
         contract_value = data.get('contract_value')
+        minimal_research = data.get('minimal_research', True)
+        if isinstance(minimal_research, str):
+            minimal_research = minimal_research.strip().lower() not in ('0', 'false', 'no', 'off')
         
         if not opportunity_id or not needed_skills:
             return jsonify({'error': 'opportunity_id and needed_skills required'}), 400
         
-        result = handle_recommend_subcontractors(opportunity_id, needed_skills, contract_value)
+        result = handle_recommend_subcontractors(
+            opportunity_id, needed_skills, contract_value, minimal_research=bool(minimal_research)
+        )
         
         if result.get('success'):
             return jsonify(result), 200
@@ -23579,6 +23827,211 @@ def vertex_trigger_event():
         return jsonify(result), status
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SHIELD — Lead Screening & MDHHS Referral Module
+# Anchored by Michigan Public Act 146 of 2023 (universal blood lead screening,
+# effective April 30, 2025). Two-sided system: DDI/CWC internal case management
+# + external referral portal for MDHHS / county health department case workers.
+# All Airtable calls routed through shield_lead_screening.py (backend-only).
+# ═══════════════════════════════════════════════════════════════════════════
+try:
+    from shield_lead_screening import (
+        handle_shield_dashboard,
+        handle_shield_list_referrals,
+        handle_shield_get_referral,
+        handle_shield_create_referral,
+        handle_shield_update_referral,
+        handle_shield_list_families,
+        handle_shield_list_children,
+        handle_shield_list_navigators,
+        handle_shield_list_activations,
+        handle_shield_activate_service,
+        handle_shield_log_milestone,
+        handle_shield_list_billing,
+        handle_shield_create_billing,
+        handle_shield_generate_outcomes_report,
+        handle_shield_ai_chat,
+        handle_shield_ai_external,
+        handle_shield_sla_override,
+        handle_shield_update_child,
+    )
+    _SHIELD_AVAILABLE = True
+except ImportError as _shield_err:
+    print(f"[NEXUS] SHIELD module unavailable: {_shield_err}")
+    _SHIELD_AVAILABLE = False
+
+
+def _shield_unavailable():
+    return jsonify({
+        'success': False,
+        'error': 'SHIELD module not available on this server',
+        'configured': False,
+    }), 503
+
+
+@app.route('/shield/dashboard', methods=['GET'])
+def shield_dashboard():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_dashboard())
+
+
+@app.route('/shield/referrals', methods=['GET'])
+def shield_list_referrals():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    filters = {
+        'status': request.args.get('status'),
+        'county': request.args.get('county'),
+        'urgency': request.args.get('urgency'),
+        'referral_source': request.args.get('referral_source'),
+    }
+    return jsonify(handle_shield_list_referrals(filters))
+
+
+@app.route('/shield/referrals', methods=['POST'])
+def shield_create_referral():
+    """External intake form submission. Public endpoint — no auth required."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    result = handle_shield_create_referral(payload)
+    status_code = 200 if result.get('success') else 400
+    return jsonify(result), status_code
+
+
+@app.route('/shield/referrals/<referral_id>', methods=['GET'])
+def shield_get_referral(referral_id):
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_get_referral(referral_id))
+
+
+@app.route('/shield/referrals/<referral_id>', methods=['PUT', 'PATCH'])
+def shield_update_referral(referral_id):
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    updates = request.get_json(silent=True) or {}
+    return jsonify(handle_shield_update_referral(referral_id, updates))
+
+
+@app.route('/shield/families', methods=['GET'])
+def shield_list_families():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_list_families())
+
+
+@app.route('/shield/children', methods=['GET'])
+def shield_list_children():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_list_children())
+
+
+@app.route('/shield/navigators', methods=['GET'])
+def shield_list_navigators():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_list_navigators())
+
+
+@app.route('/shield/activations', methods=['GET'])
+def shield_list_activations():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    referral_id = request.args.get('referral_id')
+    return jsonify(handle_shield_list_activations(referral_id))
+
+
+@app.route('/shield/activations', methods=['POST'])
+def shield_activate_service():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    result = handle_shield_activate_service(payload)
+    return jsonify(result), (200 if result.get('success') else 400)
+
+
+@app.route('/shield/milestones', methods=['POST'])
+def shield_log_milestone():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    return jsonify(handle_shield_log_milestone(payload))
+
+
+@app.route('/shield/billing', methods=['GET'])
+def shield_list_billing():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    status = request.args.get('status')
+    return jsonify(handle_shield_list_billing(status))
+
+
+@app.route('/shield/billing', methods=['POST'])
+def shield_create_billing():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    return jsonify(handle_shield_create_billing(payload))
+
+
+@app.route('/shield/outcomes-report', methods=['GET'])
+def shield_outcomes_report():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    period = request.args.get('period')
+    county = request.args.get('county')
+    return jsonify(handle_shield_generate_outcomes_report(period, county))
+
+
+@app.route('/shield/ai/chat', methods=['POST'])
+def shield_ai_chat():
+    """Internal SHIELD AI — navigator case Q&A."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    message = (payload.get('message') or '').strip()
+    if not message:
+        return jsonify({'success': False, 'error': 'message required'}), 400
+    return jsonify(handle_shield_ai_chat(message, payload.get('context')))
+
+
+@app.route('/shield/ai/external', methods=['POST'])
+def shield_ai_external():
+    """External SHIELD AI — scoped to referring agency's own cases."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    message = (payload.get('message') or '').strip()
+    agency_email = (payload.get('agency_email') or '').strip()
+    if not message or not agency_email:
+        return jsonify({'success': False, 'error': 'message and agency_email required'}), 400
+    return jsonify(handle_shield_ai_external(message, payload.get('case_ref'), agency_email))
+
+
+@app.route('/shield/referrals/<referral_id>/sla-override', methods=['POST'])
+def shield_sla_override(referral_id):
+    """Supervisor-only: set or clear the SLA override on a referral."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    payload = request.get_json(silent=True) or {}
+    result = handle_shield_sla_override(referral_id, payload)
+    status = result.pop('status_code', None) or (200 if result.get('success') else 400)
+    return jsonify(result), status
+
+
+@app.route('/shield/children/<child_id>', methods=['PUT', 'PATCH'])
+def shield_update_child(child_id):
+    """Update a child record. Auto re-evaluates referral urgency on BLL change."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    updates = request.get_json(silent=True) or {}
+    result = handle_shield_update_child(child_id, updates)
+    return jsonify(result), (200 if result.get('success') else 400)
 
 
 def _autostart_autonomous_engine():

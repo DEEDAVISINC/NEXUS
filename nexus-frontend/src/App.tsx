@@ -19,8 +19,19 @@ import AgentPortalRouter from './components/portal/AgentPortalRouter';
 import NOVASystem from './components/systems/NOVASystem';
 import AlexaSystem from './components/systems/AlexaSystem';
 import JETASystem from './components/systems/JETASystem';
+import SHIELDSystem from './components/systems/SHIELDSystem';
+import PublicReferrerIntake from './components/public/PublicReferrerIntake';
+import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
 
 function App() {
+  const isPublicReferrer = typeof window !== 'undefined' && window.location.pathname === '/refer';
+  if (isPublicReferrer) {
+    return <PublicReferrerIntake />;
+  }
+  return <NexusApp />;
+}
+
+function NexusApp() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
   // Simplified: Single Command Center view, no confusing tab switching
@@ -74,6 +85,8 @@ function App() {
         return <AlexaSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'jeta':
         return <JETASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'shield':
+        return <SHIELDSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }
@@ -82,6 +95,10 @@ function App() {
   // ─── STANDALONE AGENT PORTAL (own header, no NEXUS chrome) ───
   if (currentView === 'agent-login' || currentView === 'agent-portal') {
     return <AgentPortalRouter onBackToNexus={navigateToLanding} skipLogin />;
+  }
+
+  if (currentView === 'fleetflow-cape') {
+    return <TariffRefundNavigator onBackToNexus={navigateToLanding} />;
   }
 
   return (

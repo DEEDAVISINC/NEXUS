@@ -63,6 +63,29 @@ export const api = {
   getDashboardStats: () => ApiClient.get('/dashboard/stats'),
   getDashboardActivity: () => ApiClient.get('/dashboard/activity'),
   getDashboardAlerts: () => ApiClient.get('/dashboard/alerts'),
+
+  /** SBA SubNet — subcontracting opportunities (scrape-backed; use modest max_pages). */
+  searchSubnetOpportunities: (params?: {
+    state?: string;
+    keyword?: string;
+    max_pages?: number;
+    details?: boolean;
+  }) => {
+    const q = new URLSearchParams();
+    if (params?.state) q.set('state', params.state);
+    if (params?.keyword) q.set('keyword', params.keyword);
+    if (params?.max_pages != null) q.set('max_pages', String(params.max_pages));
+    if (params?.details) q.set('details', 'true');
+    const qs = q.toString();
+    return ApiClient.get(`/subnet/opportunities${qs ? `?${qs}` : ''}`);
+  },
+  syncSubnetToGpss: (body: {
+    state?: string;
+    keyword?: string;
+    max_pages?: number;
+    fetch_details?: boolean;
+  }) => ApiClient.post('/subnet/sync', body || {}),
+
   getCalendarEvents: () => ApiClient.get('/calendar/events'),
   getTransportationNotifications: () => ApiClient.get('/transportation-logistics/notifications'),
 
@@ -812,4 +835,94 @@ export const api = {
   getJetaDocuments: () => ApiClient.get('/jeta/documents'),
   postJetaDocumentsGenerate: (data: { dealId: string; documentType: string }) =>
     ApiClient.post('/jeta/documents/generate', data),
+
+  // ═══════════════════════════════════════════════════════════
+  // SHIELD — Lead Screening & MDHHS Referral Module
+  // Michigan PA 146 of 2023 — universal blood lead screening mandate
+  // ═══════════════════════════════════════════════════════════
+  getShieldDashboard: () => ApiClient.get('/shield/dashboard'),
+  getShieldReferrals: (filters?: {
+    status?: string;
+    county?: string;
+    urgency?: string;
+    referral_source?: string;
+  }) => {
+    const p = new URLSearchParams();
+    if (filters?.status) p.set('status', filters.status);
+    if (filters?.county) p.set('county', filters.county);
+    if (filters?.urgency) p.set('urgency', filters.urgency);
+    if (filters?.referral_source) p.set('referral_source', filters.referral_source);
+    const q = p.toString();
+    return ApiClient.get(`/shield/referrals${q ? `?${q}` : ''}`);
+  },
+  getShieldReferral: (referralId: string) =>
+    ApiClient.get(`/shield/referrals/${encodeURIComponent(referralId)}`),
+  createShieldReferral: (data: Record<string, unknown>) =>
+    ApiClient.post('/shield/referrals', data),
+  updateShieldReferral: (referralId: string, data: Record<string, unknown>) =>
+    ApiClient.patch(`/shield/referrals/${encodeURIComponent(referralId)}`, data),
+
+  getShieldFamilies: () => ApiClient.get('/shield/families'),
+  getShieldChildren: () => ApiClient.get('/shield/children'),
+  getShieldNavigators: () => ApiClient.get('/shield/navigators'),
+
+  getShieldActivations: (referralId?: string) => {
+    const q = referralId ? `?referral_id=${encodeURIComponent(referralId)}` : '';
+    return ApiClient.get(`/shield/activations${q}`);
+  },
+  activateShieldService: (data: {
+    referral_id: string;
+    family_id?: string;
+    service_line: string;
+    vendor?: string;
+    authorization_number?: string;
+    appointment_date?: string;
+    notes?: string;
+    status?: string;
+    navigator_name?: string;
+    displacement_required?: boolean;
+  }) => ApiClient.post('/shield/activations', data),
+
+  logShieldMilestone: (data: {
+    referral_id?: string;
+    family_id?: string;
+    milestone_type: string;
+    recorded_by?: string;
+    notes?: string;
+  }) => ApiClient.post('/shield/milestones', data),
+
+  getShieldBilling: (status?: string) => {
+    const q = status ? `?status=${encodeURIComponent(status)}` : '';
+    return ApiClient.get(`/shield/billing${q}`);
+  },
+  createShieldBilling: (data: Record<string, unknown>) =>
+    ApiClient.post('/shield/billing', data),
+
+  getShieldOutcomesReport: (period?: string, county?: string) => {
+    const p = new URLSearchParams();
+    if (period) p.set('period', period);
+    if (county) p.set('county', county);
+    const q = p.toString();
+    return ApiClient.get(`/shield/outcomes-report${q ? `?${q}` : ''}`);
+  },
+
+  shieldAiChat: (message: string, context?: Record<string, unknown>) =>
+    ApiClient.post('/shield/ai/chat', { message, context }),
+  shieldAiExternal: (data: { message: string; case_ref?: string; agency_email: string }) =>
+    ApiClient.post('/shield/ai/external', data),
+
+  // SLA override — supervisor / admin only; backend enforces via Navigators.role.
+  // Pass target_hours = null (or 0) to CLEAR an existing override.
+  overrideShieldSLA: (
+    referralId: string,
+    data: { user_email: string; target_hours: number | null; reason?: string },
+  ) =>
+    ApiClient.post(
+      `/shield/referrals/${encodeURIComponent(referralId)}/sla-override`,
+      data,
+    ),
+
+  // Update a child record (triggers BLL auto-escalation server-side)
+  updateShieldChild: (childId: string, data: Record<string, unknown>) =>
+    ApiClient.patch(`/shield/children/${encodeURIComponent(childId)}`, data),
 };

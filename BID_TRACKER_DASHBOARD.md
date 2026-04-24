@@ -7,7 +7,7 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
-| **Apr 23 @ 3:30 PM ET** | **Written questions** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — Drug testing PSC; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/`; draft `WRITTEN_QUESTIONS_DUE_2026-04-23.md` |
+| **Apr 22, 2026 (e‑mailed)** | **Written questions** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **SUBMITTED** — E‑mailed Robin.Uphoff@ky.gov **today**; agency deadline was **4/23 3:30 PM ET**; await addendum ~**4/30**; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` |
 | **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
 | **Apr 17 @ 4:00 PM ET** | **Drug test kits (on-site)** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **ACTIVE** — Bid Net Direct; folder `BIDS:RESOURCES/DUTCHESS COUNTY DRUG TEST KITS/`; **Addendum 1** + CS-2(2); load distributor pricing |
 | **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |

@@ -153,6 +153,7 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 
 **State Partnerships:**
 - MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
+- **MDHHS Environmental Health Bureau — Lead Safe Ecosystem Partner (April 23, 2026)** — CWC+DDI pitched and had favorably received a community navigation + program administration partnership model. **Positioning: "Partner in Michigan's lead-safe ecosystem."** See `🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM` section below for contacts, commitments, and deliverables.
 
 **Technical:**
 - CMMC-AB (Cybersecurity Maturity Model Certification)
@@ -206,8 +207,12 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 **Type:** 501(c)(3) Nonprofit Organization  
 **EIN:** 92-3602670  
 **Address:** 1221 Bowers St, Unit 2141, Birmingham, Michigan 48012  
-**Email (Executive Director / primary):** ddavis@cwecare.org  
-**Email (general org inbox):** info@cwecare.org  
+**EMAIL ROUTING (FYI — use the right inbox):**
+| Inbox | Address | Use for |
+|-------|---------|---------|
+| **Executive Director / primary** | **ddavis@cwecare.org** | Dieasha D. Davis (ED); leadership, grantor/partner-facing where the ED is the contact, strategic nonprofit correspondence |
+| **General organization** | **info@cwecare.org** | General inquiries, public routing, org-wide notices (board/team can triage) |
+
 **Phone:** 248.376.4550  
 **Website:** cwecare.org (currently 404 — needs restoration)  
 **Founder/Executive Director:** Dieasha D. Davis  
@@ -840,3 +845,92 @@ MI SIGMA VSS: VS0245604
 *Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
 *DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*
 *CHAMPS NEMT enrollment submitted 03/22/2026 — Application #20260323058125*
+
+---
+
+## 🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM
+
+**Status (as of April 23, 2026):** Active partnership development. CWC+DDI pitched a community navigation + program administration model to the MDHHS Environmental Health Bureau. Model was **received positively** by both attendees. Formal follow-up committed within 2 weeks. Local health department introductions committed for 6 target counties.
+
+**Positioning statement (approved):** *"Partner in Michigan's lead-safe ecosystem."* Use this phrasing in all CWC/DDI public materials, the SHIELD `/refer` public intake page, and outbound correspondence with MDHHS and local health departments. Do **not** claim to be an MDHHS contractor, grantee, or subgrantee — the relationship is a **referral partnership**, not a funded contract (yet).
+
+**Operating model (three words, memorable):** **MDHHS refers. CWC navigates. DDI administers.**
+- CWC (501c3) — community trust + navigation layer (MIBridges-certified, MDHHS Community Partner)
+- DDI (EDWOSB) — program administration + compliance + billing layer
+- Cost to MDHHS: **Zero** — every service line funded through existing Medicaid MCO billing, court contracts, federal grant channels, or HRSN/HCBS waiver pathways
+
+**Reference documents (confidential, internal-use only):**
+- `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf` — full 3-page meeting brief (attendees, 8 outcomes, 6 next-steps, contact info)
+- `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_Overview_OnePager.pdf` — 3-page one-pager (6 service lines, EHB-specific program fit, 3-point ask)
+
+---
+
+### MDHHS PARTNER CONTACTS
+
+| Contact | Role | Email | Phone | Notes |
+|---------|------|-------|-------|-------|
+| **Angela Medina** | Care Coordination Section Manager, Division of Environmental Community Services, **Environmental Health Bureau** | MedinaA@michigan.gov | **517-897-5203** | **Primary decision-maker.** Confirmed Apr 23: timing is "perfect" given PA 146 of 2023. Owns referral-pathway decisions and LHD-director intros. |
+| **Aimee Surma** | Environmental Health Bureau | SurmaA@michigan.gov | — | Program contact. Surfaced the housing + food navigation need during abatement discussion (personal emphasis). Sent follow-up email Apr 23 with MiLeadSafe + Apply for Home Lead Services links. |
+
+### LOCAL HEALTH DEPARTMENT DIRECTORS (MDHHS-FACILITATED INTROS — INBOUND EXPECTED)
+
+MDHHS committed on Apr 23 to share the CWC+DDI brief + one-pager with LHD directors in the following counties. When introductions arrive, log each director as a separate `Referral_Source_Accounts` record in SHIELD and link the intro email to this partnership record.
+
+| County | Director | Email | Phone | Status |
+|--------|----------|-------|-------|--------|
+| Wayne | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+| Oakland | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+| Macomb | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+| Genesee | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+| Kent (Grand Rapids) | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+| Muskegon | *(pending — MDHHS intro)* | — | — | Awaiting intro from Angela/Aimee |
+
+---
+
+### APRIL 23, 2026 MEETING — SUMMARY
+
+**Meeting:** MDHHS Environmental Health Bureau · Microsoft Teams · **3:00–3:30 PM ET**
+**Attendees:** Angela Medina + Aimee Surma (MDHHS) · Dieasha D. Davis (CWC+DDI)
+**Nature:** CWC+DDI-requested pitch to introduce the community navigation and program administration partnership model. **Not a grant request.**
+
+**What CWC+DDI asked for (5 items):**
+1. Formal recognition as a community navigation + program administration partner within MDHHS program referral infrastructure
+2. Referral pathway — MDHHS case workers refer enrolled members to CWC by service-line need
+3. Introduction to MDHHS Medicaid managed care liaison or MCO contract leads (payer-side)
+4. Environmental Health pilot — one EHB program area for a 2026 DDI TPA pilot
+5. Pilot authorization — **10-member demonstration** for lead screening navigation + housing stability, with **90-day outcomes documentation**
+
+**What MDHHS committed to (3 items):**
+1. Schedule a formal follow-up meeting with CWC+DDI (within 2 weeks)
+2. Share the CWC+DDI one-pager and meeting brief with local health department directors in Wayne, Oakland, Macomb, Genesee, Grand Rapids, and Muskegon
+3. Facilitate introductions to those LHD directors once they have reviewed the documentation
+
+**Commitment CWC+DDI delivered:**
+- Submit meeting brief + one-pager to Angela and Aimee within 24 hours — **✅ DONE: sent 4/23/2026 at 7:04 PM ET to both MedinaA@michigan.gov and SurmaA@michigan.gov**
+
+**Prior credibility anchor (raised during the meeting):** CWC previously participated in Wayne Metro's Lead Screening Outreach Program serving the Pontiac, Michigan area, partnering with Grandparents on the Go and local public schools. Angela acknowledged this history.
+
+---
+
+### MDHHS-SIDE TOOLING TO ALIGN WITH
+
+CWC+DDI's public `/refer` page and navigator AI should reference these state programs as **complements**, never as substitutes:
+
+| Program | URL | How CWC+DDI fits |
+|---------|-----|------------------|
+| MI Lead Safe — Get Ahead of Lead | https://www.michigan.gov/mileadsafe/get-ahead-of-lead | State-facing info hub on drinking water programs |
+| Apply for Home Lead Services | https://www.michigan.gov/mileadsafe/lead-services/apply-for-home-lead-services | State intake that routes families to the correct lead services program. CWC+DDI are the **navigation + admin layer** families receive after they qualify. |
+
+---
+
+### ACTION ITEMS (OWED BY CWC+DDI)
+
+- [x] Submit meeting brief + one-pager to Angela and Aimee within 24 hours — **DONE 4/23 7:04 PM ET**
+- [ ] **Schedule formal follow-up meeting** with Angela/Aimee within 2 weeks (target: week of May 4, 2026)
+- [ ] **Prepare pilot structure documentation** for follow-up meeting — 10-member demo spec: selection criteria, 90-day outcomes framework, roles matrix, how SHIELD produces the outcomes report
+- [ ] When LHD-director intros arrive, log each contact as a `Referral_Source_Accounts` record in SHIELD (one per director)
+- [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path to sustained reimbursement)
+
+---
+
+*MDHHS Partnership section added April 23, 2026 — post-meeting. Seed script: `seed_shield_referral_source_accounts.py`.*

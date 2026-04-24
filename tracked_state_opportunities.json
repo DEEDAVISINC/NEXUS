@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "updated": "2026-04-23",
+  "opportunities": [
+    {
+      "id": "ma-dph-rfr-221931-courier",
+      "title": "Courier Services",
+      "rfr_number": "RFR 221931",
+      "opportunity_identifier": "BD-21-1031-ADMIN-ADM08-60554",
+      "opportunity_type": "Bid notification",
+      "agency": "Massachusetts Department of Public Health",
+      "agency_abbrev": "MA DPH",
+      "location": "24 Beacon Street, Boston, MA 02133",
+      "source_portal": "COMMBUYS / InstantMarkets (verify listing)",
+      "start_date": "2021-04-13",
+      "contract_or_listing_due": "2031-06-30",
+      "service_alignment": "Healthcare logistics / medical courier; state public health",
+      "notes": "Long-horizon state contract/notification. Track for renewal, amendments, and COMMBUYS follow-on. Add official COMMBUYS deep link when captured from the portal 'Visit Official Site' control.",
+      "official_url": null,
+      "contacts": [
+        {
+          "name": "David Harvey",
+          "email": "david.harvey@mass.gov",
+          "role": "Agency contact (listed on opportunity)"
+        },
+        {
+          "name": "Elizabeth Nguyen-Vu",
+          "email": "dphprocurementteam@state.ma.us",
+          "phone": "617-624-5800",
+          "role": "Purchaser / DPH procurement team"
+        }
+      ],
+      "outreach": {
+        "priority": "Future",
+        "registered_vendor_context": true,
+        "next_actions": [
+          "Confirm DDI profile on MA COMMBUYS",
+          "Save official bid package URL to this record",
+          "Calendar touchpoint before 2031-06-30 renewal window; monitor for recompete"
+        ]
+      }
+    },
+    {
+      "id": "md-mva-itq-v-hq-26065-s-courier",
+      "title": "Courier Services (Invitation to Qualify)",
+      "primary_reference": "User-provided ITQ PDF (authoritative; no need to resolve a separate web listing)",
+      "solicitation_number": "ITQ V-HQ-26065-S",
+      "opportunity_type": "ITQ / qualification",
+      "agency": "Maryland Motor Vehicle Administration (MVA)",
+      "parent_agency": "Maryland Department of Transportation",
+      "agency_abbrev": "MD MVA",
+      "location": "6601 Ritchie Highway N.E., Glen Burnie, MD 21062",
+      "source_portal": "eMarylandMarketplace (eMMA) — per ITQ: register at https://procurement.maryland.gov/ if needed; submit on emma.maryland.gov under ITQ No. V-HQ-26065-S",
+      "official_url": null,
+      "official_url_note": "No indexed URL is required when the full ITQ is in hand; per Key Information, submit on eMMA under V-HQ-26065-S",
+      "issue_date": "2026-04-15",
+      "questions_due": "2026-04-21T13:00:00-04:00",
+      "application_due": "2026-05-06T13:00:00-04:00",
+      "contract_model": "No cost to the MVA — contractor performs at no charge to the state; compensation from dealers, title agents, and/or certified ERT vendors (not MVA). Independent contractor status for tag delivery per ITQ.",
+      "contract_duration": "Initial 5 years, multiple 5-year renewals if qualified",
+      "scope_summary": "Secure pickup, transport, delivery, storage, and records for MVA tags, stickers, decals, and related inventory from MVA warehouse to dealerships, title service agents, and certified ERT vendors in MD, VA, and DE. Surety bond, insurance, chain of custody, secure storage, weekly counts.",
+      "fit_notes": "Structurally different from fee-for-service medical courier: zero state payment. Pursue only if aligned with dealer/ERT network economics and bond/insurance capacity.",
+      "contacts": [
+        {
+          "name": "Gayloy Martin",
+          "email": "gmartin5@mdot.maryland.gov",
+          "phone": "410-768-7640",
+          "role": "Procurement Officer, MVA Procurement"
+        }
+      ],
+      "outreach": {
+        "priority": "Active",
+        "registered_vendor_context": false,
+        "next_actions": [
+          "Register on eMMA if not already; submit complete package before 2026-05-06 1:00 PM ET",
+          "Written questions to PO by 2026-04-21 1:00 PM ET (subject: V-HQ-26065-S, Courier Services)",
+          "Decide go/no-go on no-cost model vs. DDI revenue requirements"
+        ]
+      }
+    },
+    {
+      "id": "il-idph-eps-26-482dph-prepd-b-51271",
+      "title": "Emergency medical courier (Federal Warehouse to statewide partners)",
+      "document_type": "Emergency Purchase Statement",
+      "form_version": "V.25.2",
+      "reference_number": "26-482DPH-PREPD-B-51271",
+      "agency": "Illinois Department of Public Health",
+      "division": "Office of Preparedness and Response",
+      "agency_abbrev": "IL IDPH",
+      "source": "State of Illinois CPO for General Services — Emergency Purchase Statement (user PDF)",
+      "incumbent_or_awarded_vendor": "Fortune Carrier INC.",
+      "vendor_address": "422 S. 5th St., Springfield, IL 62702",
+      "emergency_category": "Prevent/minimize serious disruption in critical state services (health, safety, revenue)",
+      "amount": 30015,
+      "amount_basis": "Actual",
+      "expected_start": "2026-02-20",
+      "estimated_end": "2026-05-20",
+      "funding_type_note": "PDF shows funding type line not fully selected in extract — confirm from signed PDF",
+      "summary": "Prior courier contract from Federal Warehouse expired; no active vehicle for emergency medical courier. Emergency transport of vaccines, countermeasures, and heavy/sensitive equipment; 2-hour response, 24/7; temperature control with IDPH-provided equipment. BEP best-efforts noted. Upcoming IFB expected for competitive follow-on.",
+      "signatory": {
+        "name": "Mike Caceres",
+        "title": "Agency Procurement Officer",
+        "date": "2026-03-03"
+      },
+      "contacts": [],
+      "outreach": {
+        "priority": "Market intel / competitive",
+        "next_actions": [
+          "Watch Illinois Bid Buy / IDPH for forthcoming IFB (document references competitive solicitation to follow)",
+          "Map IDPH Preparedness courier needs to DDI healthcare logistics / DOT credentials for future RFP"
+        ]
+      }
+    }
+  ]
+}

@@ -225,6 +225,16 @@ PA_DGS_EALERTS_URL = "http://www.dgs.internet.state.pa.us/EAlerts_V2/Login.aspx"
 PA_JAGGAER_SUPPORT_PHONE = "1-800-233-1121"
 
 # ─────────────────────────────────────────────────────────────────────────────
+# CAUSE WE CARE — affiliated 501(c)(3) (Dieasha D. Davis, Executive Director)
+# Source of truth: COMPANY_INFO_MASTER.md — use CWC footers/grant apps as required.
+# ─────────────────────────────────────────────────────────────────────────────
+CWC_LEGAL_NAME = "Cause We Care"
+CWC_EIN = "92-3602670"
+CWC_EMAIL_EXECUTIVE = "ddavis@cwecare.org"  # ED / primary — Dieasha D. Davis
+CWC_EMAIL_GENERAL = "info@cwecare.org"  # General org inbox
+CWC_PHONE = "248.376.4550"  # Same main line as DDI per master
+
+# ─────────────────────────────────────────────────────────────────────────────
 # CERTIFICATIONS
 # ─────────────────────────────────────────────────────────────────────────────
 CERTIFICATIONS = [
