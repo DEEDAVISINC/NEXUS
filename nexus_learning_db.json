@@ -5844,9 +5844,123 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "2720d2ae7da0",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260424_02",
+      "action": "scored",
+      "timestamp": "2026-04-24T02:18:33.054519",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "1cce235a81d3",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T04:38:02.378926",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "97b2717ea83d",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T04:38:02.399250",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "5292dc8f936b",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T04:38:02.417674",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "acf9bd71d685",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260424",
+      "action": "discovered",
+      "timestamp": "2026-04-24T04:38:02.436103",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "47ba38c55e0e",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260424_04",
+      "action": "scored",
+      "timestamp": "2026-04-24T04:40:27.270563",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "2ead93abddb3",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260424",
+      "action": "rfq_sent",
+      "timestamp": "2026-04-24T04:41:29.014892",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 1% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-04-24T06:18:43.665788"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-04-24T06:18:43.665809"
+    },
     {
       "title": "Opportunity Mining: Needs attention",
       "body": "Only 1% positive rate. Review strategy for this area.",
@@ -7025,18 +7139,31 @@
       "events_count": 416,
       "insights_generated": 2,
       "weights_updated": false
+    },
+    {
+      "timestamp": "2026-04-24T06:18:43.665825",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence"
+      ],
+      "events_count": 423,
+      "insights_generated": 2,
+      "weights_updated": false
     }
   ],
   "stats": {
-    "total_events": 416,
+    "total_events": 423,
     "events_by_domain": {
-      "opportunities": 347,
+      "opportunities": 353,
       "outreach": 3,
       "bids": 6,
-      "suppliers": 58,
+      "suppliers": 59,
       "intelligence": 2
     },
-    "total_analyses": 48,
-    "last_analysis": "2026-04-24T00:18:24.887964"
+    "total_analyses": 49,
+    "last_analysis": "2026-04-24T06:18:43.665820"
   }
 }

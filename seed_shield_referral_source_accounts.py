@@ -80,7 +80,7 @@ MDHHS_CONTACTS: List[Dict[str, Any]] = [
         "contact_title": "Environmental Health Bureau",
         "contact_email": "SurmaA@michigan.gov",
         "contact_phone": "",
-        "relationship_tier": "Program Contact",
+        "relationship_tier": "Secondary",
         "status": "Active",
         "first_contact_date": "2026-04-23",
         "notes": (
