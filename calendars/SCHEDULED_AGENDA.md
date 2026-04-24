@@ -39,7 +39,13 @@
 
 ## 2026-04-28 — Tuesday
 
-- **5:00 PM Eastern (Dee; verify in SAM)** — **CBP / DHS — Medical Support Services** — **70B06C26R00000017** — HUBZone (confirm) \| RFP/IDIQ; email CO+CS; see `CBP_70B06C26R00000017_SOLICITATION_FACTS.md` — full package locally: `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` — `.ics`: `calendars/CBP_MEDICAL_SUPPORT_PROPOSAL.ics`
+- *(CBP Medical Support moved — see May 5 below. Amendment posted 4/22/2026 extended deadline.)*
+
+---
+
+## 2026-05-05 — Tuesday
+
+- **5:00 PM EDT** — 🔥 **CBP / DHS — Medical Support Services — Phase I due** — **70B06C26R00000017** — Full & Open / NAICS 621399 / $175M ceiling — Two-phase: Phase I = written tech approach + past performance. Phase II = oral + SB plan + price (date TBD after Phase I evaluation). CO: shaungalen.saad@cbp.dhs.gov · CS: peter.a.giambone@cbp.dhs.gov. DDI path = **sub under Acuity-CHS (incumbent)** — drug testing TPA (Tasks 6–7 / Section A, Tasks 4–5 / Section B). Teaming outreach: `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/TEAMING_OUTREACH/`. Update `.ics` file to reflect new date.
 
 ---
 

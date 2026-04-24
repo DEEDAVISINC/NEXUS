@@ -1,7 +1,7 @@
 # CBP Medical Support Services — Response preparation (70B06C26R00000017)
 
 **Status:** IN PREPARATION — NEXUS kickoff  
-**Operating due (Dee):** **2026-04-28, 5:00 PM Eastern** — **confirm in SAM.gov** (authority)  
+**Operating due (Dee):** **2026-05-05, 5:00 PM EDT (Phase I)** ⚠️ *Extended via SAM amendment 4/22/2026* — **confirm in SAM.gov** (authority)  
 **Facts / POCs / ceiling:** `CBP_70B06C26R00000017_SOLICITATION_FACTS.md`  
 **Working folder (local, not in git):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/`  
 **Source package (mirrored — use this for all prep):** `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/00_SOURCE_PACKAGE/` — full copy of your `~/Downloads/...Medical+Support+Services+for+CBP+.../` folder (SF 1449, SOW, Attachments 1–7, draft Q&A).  
