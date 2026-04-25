@@ -259,6 +259,24 @@ const SERVICE_MARGIN_RATES: Record<string, number> = {
   'apostille': 0.60, 'process': 0.50,
 };
 
+/** Every PRISM lane — no exemptions. Drives order QC, scanback review, inspection, and payout gates. */
+const PRISM_MANDATORY_QC_DUE_DILIGENCE = {
+  headline: 'Mandatory QC due diligence',
+  policy:
+    'Every PRISM service system must be verified against the Inspection Engine before orders close, scanbacks are approved, and agent payouts release: DOT and non-DOT drug testing, DNA, fingerprinting, notary and loan signing, RON, apostille, process serving, occupational health, NEMT, medical courier, general courier, and background screening. Field operations (REO, preservation, inspections) follow program photo and documentation standards. No lane is optional.',
+} as const;
+
+const MandatoryQcDueDiligenceNotice: React.FC<{ compact?: boolean; className?: string }> = ({ compact, className = '' }) => (
+  <div
+    className={`rounded-xl border border-amber-500/50 bg-gradient-to-r from-amber-500/10 to-orange-900/20 ${compact ? 'p-3' : 'p-4'} ${className}`}
+    role="region"
+    aria-label={PRISM_MANDATORY_QC_DUE_DILIGENCE.headline}
+  >
+    <h3 className={`font-bold text-amber-200 ${compact ? 'text-xs' : 'text-sm'}`}>🛡️ {PRISM_MANDATORY_QC_DUE_DILIGENCE.headline}</h3>
+    <p className={`text-gray-300 mt-1 leading-relaxed ${compact ? 'text-[11px]' : 'text-sm'}`}>{PRISM_MANDATORY_QC_DUE_DILIGENCE.policy}</p>
+  </div>
+);
+
 // ─── STATUS BADGES ─────────────────────────────────────────────────
 const STATUS_STYLES: Record<string, string> = {
   'New':                  'bg-blue-500/20 text-blue-400 border-blue-500/30',
@@ -284,6 +302,15 @@ interface ScanbackData { status: string; uploads: ScanbackUpload[]; reviewed_by?
 interface PrismOrder { id: string; type: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; qc_checklist?: QCItem[]; qc_status?: string; qc_progress?: number; workflow?: WorkflowStage[]; workflow_stage?: number; workflow_stage_label?: string; scanback?: ScanbackData; }
 interface PrismAgent { id: string; name: string; specialties: string[]; status: string; city: string; state: string; completionRate: number; onTimeRate: number; errorRate: number; rating: number; ordersCompleted: number; activeOrders: number; }
 interface PrismClient { id: string; name: string; type: string; services: string[]; orders: number; revenue: number; status: string; retainer: number; }
+
+/** PRISM API `/prism/dot/collector-due-diligence` — operator “basics” (audit / autopilot risk) */
+interface PrismDotDueDiligencePayload {
+  title?: string;
+  summary?: string;
+  reminders?: { order: number; title: string; body: string; reference?: string; prism_workflow_ref?: string }[];
+  mindset?: string;
+  closing?: string;
+}
 
 // ─── FIELD OPS (REO / MORTGAGE FIELD SERVICES) ─────────────────────
 interface PropertyWorkOrder {
@@ -387,6 +414,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [scanbackFilter, setScanbackFilter] = useState('all');
   const [agentFilter, setAgentFilter] = useState('all');
   const [inspSvc, setInspSvc] = useState('dot');
+  /** Loaded from GET /prism/dot/collector-due-diligence — same contract as `prism_dot_compliance.DOT_COLLECTOR_DUE_DILIGENCE` */
+  const [dotDueDiligence, setDotDueDiligence] = useState<PrismDotDueDiligencePayload | null>(null);
+  const [dotDueDiligenceLoad, setDotDueDiligenceLoad] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
   const [stageFilter, setStageFilter] = useState('all');
   const [fieldOpsFilter, setFieldOpsFilter] = useState('all');
   const [fieldOpsView, setFieldOpsView] = useState<'list' | 'route' | 'photos'>('list');
@@ -442,6 +472,31 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   }, [loadNotifications]);
 
   useEffect(() => { loadPrismData(); loadNotifications(); }, [loadPrismData, loadNotifications]);
+
+  useEffect(() => {
+    if (activeTab !== 'inspection' && activeTab !== 'scanbacks') return;
+    let cancelled = false;
+    setDotDueDiligenceLoad('loading');
+    (async () => {
+      try {
+        const d = await api.getPrismDotCollectorDueDiligence() as PrismDotDueDiligencePayload;
+        if (cancelled) return;
+        if (d && Array.isArray(d.reminders)) {
+          setDotDueDiligence(d);
+          setDotDueDiligenceLoad('ok');
+        } else {
+          setDotDueDiligence(null);
+          setDotDueDiligenceLoad('error');
+        }
+      } catch {
+        if (!cancelled) {
+          setDotDueDiligence(null);
+          setDotDueDiligenceLoad('error');
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [activeTab]);
 
   useEffect(() => {
     const interval = setInterval(loadNotifications, 15000);
@@ -600,6 +655,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 )}
               </div>
             </div>
+
+            <MandatoryQcDueDiligenceNotice className="mb-6" />
 
             {/* ── Notification Panel ── */}
             {showNotifPanel && (
@@ -809,7 +866,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">📋 Orders</h2>
-                <p className="text-gray-400">{orders.length} total orders</p>
+                <p className="text-gray-400">{orders.length} total orders — each order carries mandatory QC due diligence on close</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
@@ -817,6 +874,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 </button>
               </div>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             {/* View toggles + stage filter */}
             <div className="flex items-center justify-between mb-4">
@@ -1306,6 +1365,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                         <p className="text-green-400 text-sm font-semibold mt-1">Agent Fee: ${order.fee}</p>
                       </div>
 
+                      <MandatoryQcDueDiligenceNotice compact className="mb-1" />
+
                       {/* ── MANDATORY QC CHECKLIST ── */}
                       {(() => {
                         const checklist = order.qc_checklist || [];
@@ -1338,7 +1399,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                                 <span className="text-lg">{gatePass ? '✅' : '🛑'}</span>
                                 <div>
                                   <h4 className="text-sm font-bold text-white uppercase tracking-wide">
-                                    Mandatory QC
+                                    Mandatory QC due diligence
                                   </h4>
                                   <p className="text-[10px] text-white/70">{SERVICE_INSPECTION[order.type]?.title || order.type}</p>
                                 </div>
@@ -1396,7 +1457,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                                 </div>
                               ))}
                               {checklist.length === 0 && (
-                                <p className="text-gray-500 text-sm text-center py-4">No QC checklist for this service type</p>
+                                <p className="text-amber-200/90 text-sm text-center py-3 border border-amber-500/30 rounded-lg bg-amber-500/5">
+                                  No per-order checklist loaded — use <strong className="text-white">mandatory due diligence reference</strong> below (Inspection Engine) until the API syncs items for this type.
+                                </p>
                               )}
                             </div>
 
@@ -1410,6 +1473,38 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                                 </div>
                               </div>
                             )}
+
+                            {/* Full rule set — same engine as Inspection tab + scanback due diligence; applies to all service types */}
+                            {SERVICE_INSPECTION[order.type] && (() => {
+                              const ref = SERVICE_INSPECTION[order.type];
+                              return (
+                                <div className="mt-4 pt-4 border-t border-gray-600 space-y-3">
+                                  <h5 className="text-xs font-bold text-amber-300 uppercase tracking-wide">Mandatory due diligence — full reference</h5>
+                                  <p className="text-[10px] text-gray-500">Complete rule set for <span className="text-gray-300 font-semibold">{ref.title}</span>. Check each fundamental against documentation and field execution.</p>
+                                  <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+                                    {ref.fundamentals.map((rule) => (
+                                      <div key={rule.id} className="text-xs text-gray-300 flex gap-2">
+                                        <span className={`flex-shrink-0 font-mono text-[9px] px-1 rounded ${rule.severity === 'FATAL' ? 'bg-red-500/20 text-red-300' : 'bg-gray-700 text-gray-400'}`}>{rule.id}</span>
+                                        <span>{rule.check}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] font-bold text-red-400/90 mb-1">Fatal / zero-tolerance</p>
+                                    <ul className="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+                                      {ref.fatalFlaws.slice(0, 6).map((f, i) => <li key={i}>{f}</li>)}
+                                      {ref.fatalFlaws.length > 6 && <li className="text-gray-600">+ {ref.fatalFlaws.length - 6} more (see Inspection)</li>}
+                                    </ul>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] font-bold text-yellow-500/80 mb-1">Common errors</p>
+                                    <ul className="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+                                      {ref.commonErrors.map((e, i) => <li key={i}>{e}</li>)}
+                                    </ul>
+                                  </div>
+                                </div>
+                              );
+                            })()}
                           </div>
                         );
                       })()}
@@ -1488,6 +1583,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <h2 className="text-3xl font-bold mb-1">🚀 Dispatch</h2>
               <p className="text-gray-400">{unassigned.length} orders need agents</p>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Unassigned Orders */}
@@ -1602,6 +1699,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               <div>
                 <h2 className="text-3xl font-bold mb-1">🏠 Field Operations</h2>
                 <p className="text-gray-400">REO & Mortgage Field Services — Property Inspections, Preservation, Maintenance</p>
+                <p className="text-[11px] text-amber-200/80 mt-1">Mandatory QC due diligence: photo counts, program standards, and vendor documentation are required before work orders close (same quality bar as other PRISM lanes).</p>
               </div>
               <div className="flex gap-2">
                 {(['list', 'route', 'photos'] as const).map(v => (
@@ -1984,7 +2082,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">📸 Scanbacks</h2>
-                <p className="text-gray-400">{scanbacks.length} orders in document pipeline</p>
+                <p className="text-gray-400">{scanbacks.length} orders in document pipeline — mandatory QC due diligence on every review</p>
               </div>
               <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
                 {[
@@ -2007,6 +2105,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 })}
               </div>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             {/* Summary Cards */}
             <div className="grid grid-cols-4 gap-4 mb-6">
@@ -2117,6 +2217,61 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                           </div>
                         )}
 
+                        {/* Scanback due diligence — same QC context as order slide-out (signing agent / notary = SERVICE_INSPECTION fundamentals) */}
+                        {SERVICE_INSPECTION[sb.type] && (() => {
+                          const insp = SERVICE_INSPECTION[sb.type];
+                          const isSigningLane = ['notary', 'ron', 'apostille', 'process'].includes(sb.type);
+                          return (
+                            <div className={`mb-4 rounded-xl border p-4 ${
+                              isSigningLane ? 'border-pink-500/30 bg-pink-500/5' : 'border-gray-600 bg-gray-800/50'
+                            }`}>
+                              <h4 className="text-sm font-bold text-white mb-0.5">
+                                Mandatory QC due diligence — {insp.title}
+                              </h4>
+                              <p className="text-xs text-gray-500 mb-2">
+                                {isSigningLane
+                                  ? 'Loan signing & notary: verify uploads against these fundamentals before marking clean (same engine as order Mandatory QC).'
+                                  : 'Match uploaded documentation to these checks before review — required for every service lane.'}
+                              </p>
+                              <ul className="text-xs text-gray-300 space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                                {insp.fundamentals.map((rule) => (
+                                  <li key={rule.id} className="flex gap-2">
+                                    <span className={`flex-shrink-0 text-[9px] font-bold px-1.5 py-0 rounded ${
+                                      rule.severity === 'FATAL' ? 'bg-red-500/25 text-red-300' : 'bg-orange-500/20 text-orange-200'
+                                    }`}>{rule.severity}</span>
+                                    <span>{rule.check}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                              <p className="text-[10px] text-gray-600 mt-2">Full fatal/common lists: PRISM → Inspection → select service.</p>
+                            </div>
+                          );
+                        })()}
+
+                        {/* DOT: operator “basics” brief (autopilot / audit) — PRISM API */}
+                        {sb.type === 'dot' && (
+                          <div className="mb-4 rounded-xl border border-orange-500/30 bg-orange-500/5 p-4">
+                            <h4 className="text-sm font-bold text-orange-200 mb-1">DOT — operator due diligence (scanback)</h4>
+                            <p className="text-xs text-gray-500 mb-2">Experienced collectors: small misses void collections. 49 CFR Part 40.</p>
+                            {dotDueDiligenceLoad === 'loading' && (
+                              <p className="text-xs text-gray-500">Loading brief…</p>
+                            )}
+                            {dotDueDiligenceLoad === 'error' && (
+                              <p className="text-xs text-red-300">Could not load <code className="bg-gray-900 px-1 rounded">/prism/dot/collector-due-diligence</code></p>
+                            )}
+                            {dotDueDiligenceLoad === 'ok' && dotDueDiligence && (
+                              <ul className="text-xs text-gray-300 space-y-2 max-h-48 overflow-y-auto">
+                                {(dotDueDiligence.reminders || []).map((r) => (
+                                  <li key={r.order} className="border-l-2 border-orange-500/50 pl-2">
+                                    <span className="font-bold text-white">{r.order}. {r.title}</span>
+                                    <p className="text-gray-400 mt-0.5 leading-snug">{r.body}</p>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        )}
+
                         {/* Awaiting Upload State */}
                         {sb.status === 'Awaiting Upload' && (
                           <div className="mb-4 p-4 rounded-lg border-2 border-dashed border-yellow-500/30 bg-yellow-500/5 text-center">
@@ -2166,7 +2321,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold mb-1">👤 Field Agents</h2>
-                <p className="text-gray-400">{agents.length} agents in network</p>
+                <p className="text-gray-400">{agents.length} agents in network — must meet lane credentials for mandatory QC due diligence</p>
               </div>
               <div className="flex gap-2">
                 <select value={agentFilter} onChange={e => setAgentFilter(e.target.value)}
@@ -2181,6 +2336,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 </button>
               </div>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {filteredAgents.map(agent => (
@@ -2262,6 +2419,8 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </button>
             </div>
 
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
+
             <div className="space-y-4">
               {clients.map(client => (
                 <div key={client.id} className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:border-gray-600 transition cursor-pointer">
@@ -2314,10 +2473,12 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
 
           return (
           <div>
-            <div className="mb-6">
+            <div className="mb-4">
               <h2 className="text-3xl font-bold mb-1">🔍 Inspection Engine</h2>
-              <p className="text-gray-400">Service-specific compliance fundamentals, certifications & QC rules</p>
+              <p className="text-gray-400">Authoritative rule sets for mandatory QC due diligence across all PRISM service systems</p>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             {/* Stats Bar */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -2424,6 +2585,54 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </div>
             </div>
 
+            {/* DOT: operator due diligence (same lane as signing-agent “never skip basics” — loaded from PRISM API) */}
+            {inspSvc === 'dot' && (
+              <div className="mb-6">
+                <h3 className="text-lg font-bold mb-1 text-orange-300">🛡️ Mandatory QC due diligence — DOT operator basics</h3>
+                <p className="text-sm text-gray-500 mb-3">Experienced collectors: audit risk from autopilot, not ignorance. Sourced from PRISM DOT compliance engine.</p>
+                {dotDueDiligenceLoad === 'loading' && (
+                  <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 text-sm text-gray-400">Loading due diligence brief…</div>
+                )}
+                {dotDueDiligenceLoad === 'error' && (
+                  <div className="bg-gray-800 border border-red-500/30 rounded-xl p-5 text-sm text-red-300">
+                    Could not load due diligence (is the API running?). Endpoint: <code className="text-xs bg-gray-900 px-1 rounded">GET /prism/dot/collector-due-diligence</code>
+                  </div>
+                )}
+                {dotDueDiligenceLoad === 'ok' && dotDueDiligence && (
+                  <div className="space-y-4">
+                    <div className="bg-gray-800 border border-orange-500/30 rounded-xl p-5" style={{ borderLeftWidth: '5px', borderLeftColor: SERVICE_COLORS.dot.color }}>
+                      <h4 className="font-bold text-white mb-1">{dotDueDiligence.title || 'DOT collector due diligence'}</h4>
+                      {dotDueDiligence.summary && <p className="text-sm text-gray-300 mb-0">{dotDueDiligence.summary}</p>}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {(dotDueDiligence.reminders || []).map((r) => (
+                        <div key={r.order} className="bg-gray-800 border border-gray-700 rounded-lg p-4 flex gap-3">
+                          <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 bg-orange-500/20 text-orange-300">{r.order}</div>
+                          <div>
+                            <p className="text-sm font-bold text-white mb-1">{r.title}</p>
+                            <p className="text-sm text-gray-300 leading-relaxed">{r.body}</p>
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              {r.reference && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-700 text-gray-400">{r.reference}</span>}
+                              {r.prism_workflow_ref && <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-300">{r.prism_workflow_ref}</span>}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {dotDueDiligence.mindset && (
+                      <div className="bg-gray-800/80 border border-gray-600 rounded-xl p-4">
+                        <p className="text-xs text-gray-500 uppercase mb-1">Mindset</p>
+                        <p className="text-sm text-gray-200 leading-relaxed">{dotDueDiligence.mindset}</p>
+                      </div>
+                    )}
+                    {dotDueDiligence.closing && (
+                      <p className="text-center text-sm font-semibold text-orange-300/90 py-2">{dotDueDiligence.closing}</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Adaptive Learning */}
             <div>
               <h3 className="text-lg font-bold mb-3">🧠 Adaptive Learning</h3>
@@ -2456,8 +2665,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
           <div>
             <div className="mb-6">
               <h2 className="text-3xl font-bold mb-1">💰 Payments</h2>
-              <p className="text-gray-400">Agent payouts & margin tracking</p>
+              <p className="text-gray-400">Agent payouts & margin tracking — gated on mandatory QC due diligence (clean scanback / order verification)</p>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <StatCard label="Pending Payouts" value={prismStats?.pending_payouts || '$0'} icon="⏳" color="yellow" />
@@ -2548,8 +2759,10 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
           <div>
             <div className="mb-6">
               <h2 className="text-3xl font-bold mb-1">📊 Analytics</h2>
-              <p className="text-gray-400">Volume, quality, revenue, and agent performance</p>
+              <p className="text-gray-400">Volume, quality, revenue, and agent performance — quality metrics track mandatory due diligence outcomes by lane</p>
             </div>
+
+            <MandatoryQcDueDiligenceNotice compact className="mb-6" />
 
             {/* Volume by Service Type */}
             <div className="mb-8">

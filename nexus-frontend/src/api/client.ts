@@ -246,6 +246,64 @@ export const api = {
   },
   getTracking: (orderId: string) => ApiClient.get(`/prism/tracking/${orderId}`),
   updateTracking: (orderId: string, data: any) => ApiClient.put(`/prism/tracking/${orderId}`, data),
+  /** PRISM DOT: collector operator due-diligence brief (49 CFR Part 40 basics / audit risk) */
+  getPrismDotCollectorDueDiligence: () => ApiClient.get('/prism/dot/collector-due-diligence'),
+
+  /** PRISM Auto-QC: run automated compliance checks on demand */
+  runPrismAutoQc: (orderId: string) => ApiClient.post(`/prism/orders/${orderId}/auto-qc`, {}),
+
+  /** PRISM Document AI: full pipeline (signature, OCR, classify, seal, photo QC) */
+  runPrismDocAiPipeline: (data: { images_b64: string[]; service_type: string; order_id?: string }) =>
+    ApiClient.post('/prism/doc-ai/pipeline', data),
+  getPrismDocAiSchemas: () => ApiClient.get('/prism/doc-ai/schemas'),
+  detectPrismSignatures: (data: { image_b64: string; service_type: string }) =>
+    ApiClient.post('/prism/doc-ai/detect-signatures', data),
+  extractPrismFormFields: (data: { image_b64: string; form_type: string }) =>
+    ApiClient.post('/prism/doc-ai/extract-fields', data),
+  classifyPrismPage: (data: { image_b64: string }) =>
+    ApiClient.post('/prism/doc-ai/classify-page', data),
+
+  /** PRISM QC Learning: risk scoring + agent profiling */
+  getPrismRiskScore: (data: { order_id: string }) =>
+    ApiClient.post('/prism/qc-learning/risk-score', data),
+  trainPrismRiskModel: () => ApiClient.post('/prism/qc-learning/train', {}),
+  getPrismAgentProfile: (agentName: string) =>
+    ApiClient.get(`/prism/qc-learning/agent-profile/${encodeURIComponent(agentName)}`),
+  getPrismAgentProfiles: () => ApiClient.get('/prism/qc-learning/agent-profiles'),
+  getPrismAgentsActionNeeded: () => ApiClient.get('/prism/qc-learning/agents-action-needed'),
+  recordPrismQcOutcome: (data: { agent_name: string; order_id: string; service_type: string; outcome: string; errors?: any[] }) =>
+    ApiClient.post('/prism/qc-learning/record-outcome', data),
+  rebuildPrismAgentProfiles: () => ApiClient.post('/prism/qc-learning/rebuild-profiles', {}),
+  getPrismRiskModelWeights: () => ApiClient.get('/prism/qc-learning/model-weights'),
+
+  /** PRISM Router: credential check */
+  checkPrismAgentCredentials: (data: { agent: any; service_type: string }) =>
+    ApiClient.post('/prism/router/credential-check', data),
+
+  /** PRISM Signature Reference Map — Phase A (reference doc from escrow/title/lender) */
+  createOrderSignatureMap: (
+    orderId: string,
+    data: { images_b64: string[]; document_type?: string; document_context?: string }
+  ) => ApiClient.post(`/prism/orders/${orderId}/signature-map`, data),
+  getOrderSignatureMap: (orderId: string) =>
+    ApiClient.get(`/prism/orders/${orderId}/signature-map`),
+
+  /** PRISM Signature Verification — Phase B (verify completed scanback against map) */
+  verifyOrderSignatures: (data: { order_id: string; images_b64: string[] }) =>
+    ApiClient.post('/prism/doc-ai/verify-signatures', data),
+  getSignatureVerificationResult: (orderId: string) =>
+    ApiClient.get(`/prism/doc-ai/verification-result/${orderId}`),
+
+  /** PRISM Signature Map — direct doc-ai endpoints */
+  mapDocumentSignatures: (data: {
+    order_id: string;
+    images_b64: string[];
+    document_type?: string;
+    document_context?: string;
+  }) => ApiClient.post('/prism/doc-ai/map-signatures', data),
+  deleteOrderSignatureMap: (orderId: string) =>
+    ApiClient.delete(`/prism/doc-ai/signature-map/${orderId}`),
+  getSignerTypes: () => ApiClient.get('/prism/doc-ai/signer-types'),
 
   // GPSS Proposals API
   getGpssProposals: () => ApiClient.get('/gpss/proposals'),

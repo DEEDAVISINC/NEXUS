@@ -12,6 +12,7 @@ Includes:
 - Shy Bladder Protocol
 - Temperature Out of Range Handler
 - Random Selection System
+- Collector due diligence: operational basics (autopilot / audit risk)
 
 Reference: 49 CFR Part 40, FMCSA Part 382
 """
@@ -405,6 +406,88 @@ CORRECTABLE_FLAWS = [
         'deadline': '5 business days',
     },
 ]
+
+# Due diligence: experienced-collector "basics" that drive audit findings
+DOT_COLLECTOR_DUE_DILIGENCE = {
+    'id': 'DOT_COLLECTOR_BASICS_DD',
+    'title': "DOT Collectors — Don't Let the Basics Slip",
+    'category': 'due_diligence',
+    'audience': ['DOT collectors', 'C/TPA QA', 'PRISM field ops'],
+    'reference': '49 CFR Part 40',
+    'version': '1.0',
+    'summary': (
+        "Most DOT collection errors are not from ignorance of the process — they come from "
+        "relaxing small compliance steps over time. This brief is for QA, onboarding refreshers, "
+        "and PRISM due-diligence checks."
+    ),
+    'reminders': [
+        {
+            'order': 1,
+            'title': 'ID verification must be intentional',
+            'body': (
+                "A quick glance is not enough. Always confirm the donor's identity using acceptable "
+                "documentation. No assumptions. No shortcuts."
+            ),
+            'prism_workflow_ref': 'DOT_URINE step 1',
+        },
+        {
+            'order': 2,
+            'title': 'Temperature check is not optional',
+            'body': (
+                "The 4-minute window after collection matters. If temperature is not documented "
+                "correctly, the collection can be invalidated even when everything else was done "
+                "correctly. Follow the CCF and Part 40 timing rules."
+            ),
+            'prism_workflow_ref': 'DOT_URINE step 8',
+            'reference': '49 CFR Part 40 Subpart C (collection procedures)',
+        },
+        {
+            'order': 3,
+            'title': 'CCF accuracy is everything',
+            'body': (
+                "Wrong test reason, missing signatures, incorrect dates, and step omissions can "
+                "constitute fatal flaws or uncorrectable problems in some situations. Treat the CCF "
+                "as a legal document every time."
+            ),
+            'reference': '49 CFR §40.199 (fatal flaws)',
+        },
+        {
+            'order': 4,
+            'title': 'Direct observation rules are strict',
+            'body': (
+                "Observed collection is not based on preference — it is based on regulatory triggers "
+                "(e.g., temperature out of range, suspected tampering, return-to-duty / follow-up as "
+                "applicable). Know when observation is required to protect the donor, the employer, and "
+                "the defensibility of the test."
+            ),
+        },
+        {
+            'order': 5,
+            'title': 'Shy bladder timing still applies',
+            'body': (
+                "Collectors may rush or improvise. The 3-hour window and required documentation for "
+                "insufficient volume / shy bladder must be followed as outlined in 49 CFR Part 40. Do "
+                "not shortcut the stated sequence."
+            ),
+            'reference': '49 CFR Part 40 (shy bladder / insufficient volume)',
+        },
+        {
+            'order': 6,
+            'title': 'Specimen security never changes',
+            'body': (
+                "From sealing bottles to package and shipping procedures, chain of custody and "
+                "integrity are what make a test legally defensible."
+            ),
+            'prism_workflow_ref': 'DOT_URINE steps 11-18',
+        },
+    ],
+    'mindset': (
+        "The difference between a collector and a compliance professional is attention to detail. "
+        "Employers are not only paying for a sample — they are paying for protection from violations, "
+        "penalties, and audit findings. When that is understood, the role in the industry shifts."
+    ),
+    'closing': 'Stay sharp. Stay compliant. Stay valuable.',
+}
 
 
 def detect_fatal_flaws(scanback_data: dict) -> dict:
@@ -1014,3 +1097,12 @@ def api_get_fatal_flaws():
 def api_get_collector_requirements():
     """Get collector certification requirements."""
     return jsonify(COLLECTOR_CERT_REQUIREMENTS)
+
+
+@prism_dot.route('/prism/dot/collector-due-diligence', methods=['GET'])
+def api_get_collector_due_diligence():
+    """
+    PRISM / QA: DOT collector due-diligence brief — 'basics' that slip under autopilot
+    (ID, temperature, CCF, observation, shy bladder, custody). Not a substitute for 49 CFR.
+    """
+    return jsonify(DOT_COLLECTOR_DUE_DILIGENCE)

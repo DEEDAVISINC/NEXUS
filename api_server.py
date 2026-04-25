@@ -380,6 +380,22 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Lyft Healthcare Module not loaded: {e}")
 
+# Register PRISM Document AI — Tier 2 vision-based QC
+try:
+    from prism_document_ai import prism_doc_ai
+    app.register_blueprint(prism_doc_ai)
+    print("✅ PRISM Document AI Module registered (signature, OCR, page classify)")
+except ImportError as e:
+    print(f"⚠️ PRISM Document AI Module not loaded: {e}")
+
+# Register PRISM QC Learning — Tier 3 risk scoring + agent profiling
+try:
+    from prism_qc_learning import prism_qc_learning
+    app.register_blueprint(prism_qc_learning)
+    print("✅ PRISM QC Learning Module registered (risk scoring, agent profiling)")
+except ImportError as e:
+    print(f"⚠️ PRISM QC Learning Module not loaded: {e}")
+
 # Register NEXUS Pipeline — Central Nervous System
 try:
     from nexus_pipeline_api import nexus_pipeline

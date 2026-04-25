@@ -36,6 +36,9 @@ Usage:
   python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
   python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
   python3 nexus_scheduler.py --aog           # AOG / 488190 SAM scan only → aog_sam_cache.json (also runs inside --mine)
+  python3 nexus_scheduler.py --sync-cos                    # Harvest SAM.gov COs → GPSS CONTACTS (manual only; not in --mine)
+  python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
+  python3 nexus_scheduler.py --sync-cos --days 7           # Custom look-back window
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -157,6 +160,11 @@ def run_federal_mining():
                 )
         except Exception as e:
             log.warning(f"AOG SAM scan failed: {e}")
+
+        # NOTE: SAM.gov CO contact sync (sam_co_contact_sync) is intentionally
+        # NOT called from --mine. It's bandwidth-heavy (sweeps ~50 NAICS codes
+        # against api.sam.gov). Run it explicitly when desired:
+        #   python3 nexus_scheduler.py --sync-cos --limit-naics 5
 
         log.info("Federal mining completed successfully")
         return True
@@ -980,6 +988,34 @@ if __name__ == "__main__":
         from mine_aog_sam import run_aog_sam_scan
 
         run_aog_sam_scan(days_back=90)
+    elif "--sync-cos" in args:
+        from sam_co_contact_sync import sync_co_contacts_from_sam
+
+        # Optional: --limit-naics N (caps the sweep to the first N NAICS codes)
+        limit_naics = None
+        if "--limit-naics" in args:
+            try:
+                limit_naics = int(args[args.index("--limit-naics") + 1])
+            except (ValueError, IndexError):
+                log.warning("--limit-naics requires an integer; ignoring")
+
+        # Optional: --days N (default 14)
+        days_back = 14
+        if "--days" in args:
+            try:
+                days_back = int(args[args.index("--days") + 1])
+            except (ValueError, IndexError):
+                log.warning("--days requires an integer; using default 14")
+
+        result = sync_co_contacts_from_sam(days_back=days_back, limit_naics=limit_naics)
+        log.info(
+            "CO sync: %s opps, %s POCs, %s created, %s updated, %s skipped",
+            result.get("opps_seen", 0),
+            result.get("pocs_extracted", 0),
+            result.get("created", 0),
+            result.get("updated", 0),
+            result.get("skipped", 0),
+        )
     elif "--portals" in args:
         run_portal_mining()
     elif "--forecasts" in args:

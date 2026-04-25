@@ -110,6 +110,46 @@
           "Map IDPH Preparedness courier needs to DDI healthcare logistics / DOT credentials for future RFP"
         ]
       }
+    },
+    {
+      "id": "ca-ccc-bh-dmc-ods-rfq-vendor-pool-recovery-2026",
+      "title": "Recovery Residences and Employment / Supportive Services — Vendor Pool (SOQ)",
+      "rfq_number": "RFQ_QUAL_F-Contr-0000000039",
+      "opportunity_type": "Request for Qualifications (pre-qualified vendor pool; future RFPs from pool)",
+      "agency": "Contra Costa County Behavioral Health — Drug Medi-Cal Organized Delivery System (DMC-ODS) / Contra Costa Health (CCH)",
+      "program_context": "AODS recovery housing continuum; BHBH, DSH-IST, opioid settlement–aligned work. Establishes pool for later RFPs — no guaranteed value.",
+      "location": "1220 Morello Ave, Suite 101, Martinez, CA 94553",
+      "primary_reference": "User-provided RFQ PDF (authoritative)",
+      "source_portal": "Contra Costa County — Bid Opportunities & RFPs on BidNet Direct (submittal electronic only; no other method)",
+      "release_date": "2026-04-02",
+      "questions_deadline": "2026-04-17T17:00:00-07:00",
+      "soq_deadline": "2026-04-27T17:00:00-07:00",
+      "soq_review_begins": "2026-05-05",
+      "selection_notification": "2026-05-19",
+      "exhibits_user_files": {
+        "attachment_a": "Contra Costa County General Conditions — Standard Form L-5 (Purchase of Services, Long), Rev. 2014 — insurance (CGL $500K ≤$500K contract; $1M if >$500K), additional insured, records 5+ years, Medicare 1861(v) access, 30-day termination, indemnity, A-133 if ≥$500K federal, etc.",
+        "exhibit_d": "CCC Business Opportunity / SBE-style registration (user file RegistrationCertForm_Updated.doc) — not machine-readable in NEXUS; use County Exhibit D in SOQ. Non-SBE: submit with NOT QUALIFIED UNDER COUNTY SBE PROGRAM across sheet per RFQ."
+      },
+      "submission_rules": "Do not contact County staff for meetings/technical discussion on this RFQ; Q&A only through BidNet through question deadline. BidNet help 800-835-4603 opt 2.",
+      "contacts": [
+        {
+          "name": "Fatima Matal Sol",
+          "title": "Alcohol and Other Drugs Program Chief",
+          "address": "Contra Costa County Behavioral Health — AOD, 1220 Morello, Suite 101, Martinez, CA 94553",
+          "role": "Protest / RFQ process dispute (Section IV–E) — not for general RFQ questions"
+        }
+      ],
+      "fit_notes": "CORRECTED ASSESSMENT (2026-04-24): Two hooks missed on first read. (1) CAUSE WE CARE (CWC), DDI's affiliated 501(c)(3), holds CSH Supportive Housing Onboarding and CSH Building Community in Supportive Housing certifications (Dec 2023); CWC's focus areas include homelessness/coordinated entry and community health for underserved populations — this aligns directly with the RFQ's CBO framing, OUD recovery housing, and opioid settlement scope. (2) Category 1 includes transportation support (bus passes, work transportation, transportation referrals) and the OSF Approved Uses explicitly include transportation to treatment — DDI's NEMT/DOT credentials could underpin that sub-element in CWC's service plan. Real barrier: DDI and CWC are Michigan-based; Contra Costa County gives explicit preference to organizations with principal place of business in CCC for ≥6 months. If no CA delivery partner, prime pursuit is at a disadvantage. Most viable path: CWC as applicant (not DDI) with a California-based recovery residence or employment org as a delivery sub/partner. Questions deadline was April 17 (passed). SOQ deadline April 27 (3 days).",
+      "outreach": {
+        "priority": "URGENT DECISION — deadline 2026-04-27 5:00 PM PDT (3 days)",
+        "next_actions": [
+          "DECIDE TODAY: CWC go/no-go — does CWC have California delivery partners for recovery housing/employment?",
+          "If yes: CWC applies via BidNet Direct as 501(c)(3) CBO; use CSH certifications + homelessness/coordinated entry experience in Exhibit A / Section 3A",
+          "Service Category selection: Category 1 (Employment — CWC programs + DDI transport sub-element) and/or Category 2 (Housing support — CWC coordinated entry/homelessness background)",
+          "If no CA partner: flag as vendor pool to revisit if CWC expands to CA; close for now",
+          "Exhibits needed: A (SOQ), B (references), C (Anti-Collusion), D (SBE reg — submit with NOT QUALIFIED if not CA SBE), E (Addenda ack), W-9, COI (CGL $500K min + workers comp + addl insured CCC)"
+        ]
+      }
     }
   ]
 }

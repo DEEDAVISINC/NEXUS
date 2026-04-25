@@ -601,6 +601,7 @@ def handle_shield_create_referral(payload: Dict[str, Any]) -> Dict[str, Any]:
         }
 
     try:
+        ins_type = (payload.get("insurance_type") or "").strip()
         family_fields = {
             "family_name": payload.get("family_name", "").strip(),
             "address": payload.get("address", "").strip(),
@@ -610,7 +611,18 @@ def handle_shield_create_referral(payload: Dict[str, Any]) -> Dict[str, Any]:
             "primary_contact_name": payload.get("primary_contact_name", "").strip(),
             "primary_contact_phone": payload.get("primary_contact_phone", "").strip(),
             "primary_contact_email": payload.get("primary_contact_email", "").strip(),
-            "medicaid_enrolled": bool(payload.get("medicaid_enrolled")),
+            "insurance_type": ins_type or "Unknown",
+            "medicaid_id": payload.get("medicaid_id", "").strip(),
+            "mco_plan": (payload.get("mco_plan") or "").strip() if payload.get("mco_plan") != "Other"
+                        else (payload.get("mco_plan_other") or "").strip(),
+            "prior_auth_on_file": bool(payload.get("prior_auth_on_file")),
+            "prior_auth_number": payload.get("prior_auth_number", "").strip(),
+            "insurance_carrier": payload.get("insurance_carrier", "").strip(),
+            "policy_number": payload.get("policy_number", "").strip(),
+            "group_number": payload.get("group_number", "").strip(),
+            "payment_source": payload.get("payment_source", "").strip(),
+            "payment_source_detail": payload.get("payment_source_other", "").strip(),
+            "payment_notes": payload.get("payment_notes", "").strip(),
             "snap_enrolled": bool(payload.get("snap_enrolled")),
             "language": payload.get("language", "English"),
             "status": "Active",

@@ -78,7 +78,8 @@ def query_one_naics(naics: str, api_key: str, days_back: int = 90) -> dict:
 
     params = {
         "api_key": api_key,
-        "naics": naics,
+        # ncode is the canonical SAM.gov v2 NAICS filter; "naics" is silently ignored.
+        "ncode": naics,
         "limit": 50,
         "postedFrom": posted_from,
         "postedTo": posted_to,

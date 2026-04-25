@@ -20,6 +20,12 @@ Handles:
 QC ENFORCEMENT: Every order auto-receives a service-specific compliance
 checklist at creation. FATAL items must be checked before order can be
 marked Complete. No exceptions.
+
+AUTOMATED QC (Tier 1):
+- Fatal flaw / DNA error detection auto-runs on scanback upload
+- Workflow gates auto-evaluate from real data (page count, scanback, QC)
+- Page-count enforcement flags under-count uploads
+- Temporal compliance cross-checks (4-min temp, post-accident windows, shy bladder, cert expiry)
 """
 
 import os
@@ -252,6 +258,183 @@ def _qc_gate_passed(order):
 
 
 # ═══════════════════════════════════════════════════════════════════
+# AUTOMATED QC ENGINE — Tier 1 deterministic checks
+# Runs on scanback upload, status change, and review.
+# ═══════════════════════════════════════════════════════════════════
+
+def _auto_run_compliance_checks(order):
+    """Run service-specific compliance rule engines against order data.
+    Populates order['auto_qc'] with results. Does NOT block — advisory
+    layer that feeds the inspection engine and human reviewer."""
+    svc_type = order.get('type', '')
+    scanback = order.get('scanback', {})
+    details = order.get('details', {})
+    auto_qc = {
+        'ran_at': datetime.now().isoformat(),
+        'service_type': svc_type,
+        'checks': [],
+        'fatal_flags': [],
+        'warnings': [],
+        'page_count_ok': None,
+        'temporal_ok': None,
+    }
+
+    # --- DOT fatal flaw check ---
+    if svc_type in ('dot', 'non-dot'):
+        try:
+            from prism_dot_compliance import detect_fatal_flaws
+            scanback_fields = details.get('scanback_fields', {})
+            if scanback_fields:
+                result = detect_fatal_flaws(scanback_fields)
+                auto_qc['checks'].append({
+                    'engine': 'DOT Fatal Flaw Detection',
+                    'result': result.get('result', 'UNKNOWN'),
+                    'message': result.get('message', ''),
+                    'fatal_flaws': result.get('fatal_flaws', []),
+                    'correctable_flaws': result.get('correctable_flaws', []),
+                })
+                for ff in result.get('fatal_flaws', []):
+                    auto_qc['fatal_flags'].append(ff.get('notes', ff.get('name', 'DOT fatal flaw')))
+        except ImportError:
+            pass
+
+    # --- DNA collection error check ---
+    if svc_type == 'dna':
+        try:
+            from prism_dna_compliance import detect_dna_collection_errors
+            collection_fields = details.get('collection_fields', {})
+            if collection_fields:
+                result = detect_dna_collection_errors(collection_fields)
+                auto_qc['checks'].append({
+                    'engine': 'DNA Collection Error Detection',
+                    'collection_valid': result.get('collection_valid', True),
+                    'recommendation': result.get('recommendation', ''),
+                    'fatal_flaws': result.get('fatal_flaws', []),
+                })
+                for ff in result.get('fatal_flaws', []):
+                    auto_qc['fatal_flags'].append(ff.get('description', 'DNA fatal flaw'))
+        except ImportError:
+            pass
+
+    # --- Page count enforcement ---
+    expected_info = SERVICE_EXPECTED_DOCS.get(svc_type, {})
+    expected_pages = expected_info.get('pages', 0)
+    uploads = scanback.get('uploads', [])
+    if uploads:
+        actual_pages = uploads[-1].get('pages', 0)
+        auto_qc['page_count_ok'] = actual_pages >= expected_pages
+        if actual_pages < expected_pages:
+            auto_qc['warnings'].append(
+                f'Page count under minimum: {actual_pages} uploaded vs {expected_pages} expected for {svc_type}'
+            )
+            if uploads[-1].get('errors') is None:
+                uploads[-1]['errors'] = []
+            uploads[-1]['errors'].append({
+                'severity': 'WARNING',
+                'page': 0,
+                'description': f'Automated QC: {actual_pages} page(s) uploaded, {expected_pages} expected',
+                'source': 'PRISM_AUTO_QC',
+            })
+
+    # --- Temporal compliance ---
+    temporal_issues = _check_temporal_compliance(order)
+    if temporal_issues:
+        auto_qc['temporal_ok'] = False
+        auto_qc['warnings'].extend(temporal_issues)
+    else:
+        auto_qc['temporal_ok'] = True
+
+    # --- Tier 3: Risk scoring (if learning module available) ---
+    try:
+        from prism_qc_learning import compute_risk_score, load_agent_profiles
+        agent_name = order.get('agent', '')
+        agent_profile = None
+        if agent_name:
+            profiles = load_agent_profiles()
+            agent_profile = profiles.get(agent_name)
+        risk = compute_risk_score(order, agent_profile)
+        auto_qc['risk_score'] = risk.get('risk_score', None)
+        auto_qc['risk_routing'] = risk.get('routing', 'standard_review')
+    except ImportError:
+        auto_qc['risk_score'] = None
+        auto_qc['risk_routing'] = 'standard_review'
+
+    order['auto_qc'] = auto_qc
+    return auto_qc
+
+
+def _check_temporal_compliance(order):
+    """Cross-check timestamps for regulatory windows. Returns list of issues."""
+    issues = []
+    svc_type = order.get('type', '')
+    details = order.get('details', {})
+
+    if svc_type == 'dot':
+        collection_time_str = details.get('collection_time')
+        temp_recorded_str = details.get('temp_recorded_time')
+        if collection_time_str and temp_recorded_str:
+            try:
+                ct = datetime.fromisoformat(collection_time_str)
+                tr = datetime.fromisoformat(temp_recorded_str)
+                diff = (tr - ct).total_seconds()
+                if diff > 240:
+                    issues.append(
+                        f'Temperature recorded {int(diff)}s after collection — exceeds 4-minute (240s) rule per 49 CFR Part 40'
+                    )
+            except (ValueError, TypeError):
+                pass
+
+        if details.get('test_reason') == 'post_accident':
+            accident_time_str = details.get('accident_time')
+            if accident_time_str and collection_time_str:
+                try:
+                    at = datetime.fromisoformat(accident_time_str)
+                    ct = datetime.fromisoformat(collection_time_str)
+                    drug_hrs = (ct - at).total_seconds() / 3600
+                    if drug_hrs > 32:
+                        issues.append(
+                            f'Post-accident drug test collected {drug_hrs:.1f}h after accident — exceeds 32-hour window'
+                        )
+                    alcohol_time_str = details.get('alcohol_collection_time')
+                    if alcohol_time_str:
+                        act = datetime.fromisoformat(alcohol_time_str)
+                        alc_hrs = (act - at).total_seconds() / 3600
+                        if alc_hrs > 8:
+                            issues.append(
+                                f'Post-accident alcohol test {alc_hrs:.1f}h after accident — exceeds 8-hour window'
+                            )
+                except (ValueError, TypeError):
+                    pass
+
+        shy_bladder_start = details.get('shy_bladder_start')
+        shy_bladder_end = details.get('shy_bladder_end')
+        if shy_bladder_start and shy_bladder_end:
+            try:
+                sbs = datetime.fromisoformat(shy_bladder_start)
+                sbe = datetime.fromisoformat(shy_bladder_end)
+                window_hrs = (sbe - sbs).total_seconds() / 3600
+                if window_hrs > 3:
+                    issues.append(
+                        f'Shy bladder window {window_hrs:.1f}h — exceeds 3-hour maximum per 49 CFR Part 40'
+                    )
+            except (ValueError, TypeError):
+                pass
+
+    return issues
+
+
+def _check_scanback_received(order):
+    """Returns True if at least one scanback upload exists with sufficient pages."""
+    sb = order.get('scanback', {})
+    uploads = sb.get('uploads', [])
+    if not uploads:
+        return False
+    svc = order.get('type', '')
+    expected = SERVICE_EXPECTED_DOCS.get(svc, {}).get('pages', 1)
+    return uploads[-1].get('pages', 0) >= expected
+
+
+# ═══════════════════════════════════════════════════════════════════
 # ORDER WORKFLOW ENGINE
 # Each order follows a sequential pipeline. You cannot advance
 # to the next stage unless every gate condition on the current
@@ -314,9 +497,10 @@ WORKFLOW_COMMON = [
     {
         'stage': 'documentation',
         'label': 'Documentation',
-        'auto': False,
+        'auto': True,
         'gates': [
-            {'id': 'G-DOC-1', 'check': 'Service documentation uploaded', 'field': None, 'rule': 'manual'},
+            {'id': 'G-DOC-1', 'check': 'Scanback uploaded with sufficient pages', 'field': None, 'rule': 'scanback_received'},
+            {'id': 'G-DOC-2', 'check': 'Automated QC passed (no fatal flags)', 'field': None, 'rule': 'auto_qc_clean'},
         ],
     },
     {
@@ -577,7 +761,9 @@ def _build_workflow(service_type):
 
 
 def _evaluate_auto_gates(order):
-    """Auto-evaluate gates that check order fields (not manual)."""
+    """Auto-evaluate gates that check order fields (not manual).
+    Also handles scanback_received and auto-QC fatal checks."""
+    now_iso = datetime.now().isoformat()
     workflow = order.get('workflow', [])
     for stage in workflow:
         for gate in stage.get('gates', []):
@@ -590,12 +776,23 @@ def _evaluate_auto_gates(order):
                 if val and str(val).strip():
                     gate['passed'] = True
                     gate['passed_by'] = 'System'
-                    gate['passed_at'] = datetime.now().isoformat()
+                    gate['passed_at'] = now_iso
             elif rule == 'qc_fatal_pass':
                 if _qc_gate_passed(order):
                     gate['passed'] = True
                     gate['passed_by'] = 'System (QC Engine)'
-                    gate['passed_at'] = datetime.now().isoformat()
+                    gate['passed_at'] = now_iso
+            elif rule == 'scanback_received':
+                if _check_scanback_received(order):
+                    gate['passed'] = True
+                    gate['passed_by'] = 'System (Scanback Auto-Gate)'
+                    gate['passed_at'] = now_iso
+            elif rule == 'auto_qc_clean':
+                aqc = order.get('auto_qc', {})
+                if aqc and not aqc.get('fatal_flags') and aqc.get('page_count_ok') and aqc.get('temporal_ok'):
+                    gate['passed'] = True
+                    gate['passed_by'] = 'System (Auto QC — no fatal flags)'
+                    gate['passed_at'] = now_iso
     order['workflow'] = workflow
     _update_workflow_position(order)
     return order
@@ -1211,11 +1408,52 @@ def submit_scanback(order_id):
     sb['uploads'].append(upload)
     sb['status'] = 'Needs Review'
 
+    auto_qc = _auto_run_compliance_checks(orders[idx])
+
+    # Auto-verify against signature map if one exists for this order
+    sig_verify = None
+    images_b64 = data.get('images_b64', [])
+    if images_b64:
+        try:
+            from prism_document_ai import verify_signatures_against_map, load_signature_map
+            existing_map = load_signature_map(order_id)
+            if existing_map:
+                sig_verify = verify_signatures_against_map(
+                    images_b64=images_b64,
+                    order_id=order_id,
+                    sig_map=existing_map,
+                )
+                orders[idx]['signature_verification'] = {
+                    'all_satisfied': sig_verify.get('all_satisfied', False),
+                    'has_fatal_errors': sig_verify.get('has_fatal_errors', False),
+                    'error_count': len(sig_verify.get('errors', [])),
+                    'warning_count': len(sig_verify.get('warnings', [])),
+                    'verified_at': sig_verify.get('verified_at', ''),
+                }
+                # Append signature errors to the upload record
+                sig_errors = sig_verify.get('errors', []) + sig_verify.get('warnings', [])
+                if sig_errors:
+                    if sb['uploads'][-1].get('errors') is None:
+                        sb['uploads'][-1]['errors'] = []
+                    sb['uploads'][-1]['errors'].extend(sig_errors)
+                if sig_verify.get('has_fatal_errors'):
+                    auto_qc['fatal_flags'].extend([
+                        e['description'] for e in sig_verify.get('errors', []) if e.get('fatal')
+                    ])
+        except ImportError:
+            pass
+
     _evaluate_auto_gates(orders[idx])
     orders[idx]['updated_at'] = now_iso
     _save(ORDERS_FILE, orders)
 
-    return jsonify({'success': True, 'scanback': sb, 'order': orders[idx]})
+    return jsonify({
+        'success': True,
+        'scanback': sb,
+        'auto_qc': auto_qc,
+        'signature_verification': sig_verify,
+        'order': orders[idx],
+    })
 
 
 @prism_orders.route('/prism/orders/<order_id>/scanback/review', methods=['PATCH'])
@@ -1259,7 +1497,102 @@ def review_scanback(order_id):
     else:
         _fire_pipeline_event('scanback_errors', orders[idx], {'error_count': len(data.get('errors', []))})
 
+    # Tier 3: Record QC outcome for agent quality profiling
+    agent_name = orders[idx].get('agent', '')
+    if agent_name:
+        try:
+            from prism_qc_learning import record_qc_outcome
+            record_qc_outcome(
+                agent_name=agent_name,
+                order_id=order_id,
+                service_type=orders[idx].get('type', ''),
+                outcome='clean' if action == 'clean' else 'errors',
+                errors=data.get('errors') if action == 'errors' else None,
+            )
+        except ImportError:
+            pass
+
     return jsonify({'success': True, 'scanback': sb, 'order': orders[idx]})
+
+
+@prism_orders.route('/prism/orders/<order_id>/signature-map', methods=['POST'])
+def create_order_signature_map(order_id):
+    """Attach a signature reference map to an order.
+    Call when the reference document arrives from escrow / title / lender.
+
+    Body: {
+      images_b64: ["<page1_base64>", ...],
+      document_type: "Deed of Trust",
+      document_context: "Michigan closing, 2 buyers"
+    }
+    """
+    orders = _load(ORDERS_FILE, [])
+    idx = next((i for i, o in enumerate(orders) if o['id'] == order_id), None)
+    if idx is None:
+        return jsonify({'error': 'Order not found'}), 404
+
+    data = request.get_json(silent=True) or {}
+    images_b64 = data.get('images_b64', [])
+    if not images_b64:
+        return jsonify({'error': 'images_b64 is required'}), 400
+
+    try:
+        from prism_document_ai import map_document_signatures
+        sig_map = map_document_signatures(
+            images_b64=images_b64,
+            order_id=order_id,
+            document_type=data.get('document_type', ''),
+            document_context=data.get('document_context', ''),
+        )
+    except ImportError:
+        return jsonify({'error': 'Document AI module not available'}), 503
+
+    orders[idx]['signature_map_attached'] = True
+    orders[idx]['signature_map_requirements'] = sig_map.get('total_requirements', 0)
+    orders[idx]['signature_map_document_type'] = data.get('document_type', '')
+    orders[idx]['updated_at'] = datetime.now().isoformat()
+    _save(ORDERS_FILE, orders)
+
+    return jsonify({
+        'success': True,
+        'order_id': order_id,
+        'signature_map': sig_map,
+    })
+
+
+@prism_orders.route('/prism/orders/<order_id>/signature-map', methods=['GET'])
+def get_order_signature_map(order_id):
+    """Return the stored signature map for an order."""
+    try:
+        from prism_document_ai import load_signature_map
+        sig_map = load_signature_map(order_id)
+    except ImportError:
+        return jsonify({'error': 'Document AI module not available'}), 503
+
+    if not sig_map:
+        return jsonify({'error': 'No signature map found for this order'}), 404
+    return jsonify(sig_map)
+
+
+@prism_orders.route('/prism/orders/<order_id>/auto-qc', methods=['POST'])
+def run_auto_qc(order_id):
+    """On-demand automated QC check for an order.
+    Re-runs fatal flaw detection, page count, and temporal compliance."""
+    orders = _load(ORDERS_FILE, [])
+    idx = next((i for i, o in enumerate(orders) if o['id'] == order_id), None)
+    if idx is None:
+        return jsonify({'error': 'Order not found'}), 404
+
+    auto_qc = _auto_run_compliance_checks(orders[idx])
+    _evaluate_auto_gates(orders[idx])
+    orders[idx]['updated_at'] = datetime.now().isoformat()
+    _save(ORDERS_FILE, orders)
+
+    return jsonify({
+        'success': True,
+        'auto_qc': auto_qc,
+        'order': orders[idx],
+    })
 
 
 # ═══════════════════════════════════════════════════════════════════

@@ -9,10 +9,10 @@
 |---|---|---|---|---|
 | **Apr 22, 2026 (e‑mailed)** | **Written questions** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **SUBMITTED** — E‑mailed Robin.Uphoff@ky.gov **today**; agency deadline was **4/23 3:30 PM ET**; await addendum ~**4/30**; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` |
 | **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
-| **Apr 17 @ 4:00 PM ET** | **Drug test kits (on-site)** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **ACTIVE** — Bid Net Direct; folder `BIDS:RESOURCES/DUTCHESS COUNTY DRUG TEST KITS/`; **Addendum 1** + CS-2(2); load distributor pricing |
+| **Apr 17 @ 4:00 PM ET** | **Drug Test Kits** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **✅ SUBMITTED** — Apr 17, 2026 · CS-1 + CS-2(2) signed · 6 items priced (12-panel cup $64.68, 13-panel oral fluid $77.68, 14-panel $71.18, 18-panel $84.18, kratom strips $19.18, psilocybin dip $23.08) · Total $339.98 · PDF archived PROOF_OF_SUBMISSION · Award watch |
 | **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |
 | **Apr 15 @ 3:00 PM EDT** | **Questions due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — submit online via MITN; draft `OAKLAND COUNTY HHS MEDICAL SUPPLIES/QUESTIONS_FOR_MITN.md` |
-| **Apr 21 @ 10:00 AM EDT** | **ITB due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — MITN/BidNet; folder `BIDS:RESOURCES/OAKLAND COUNTY HHS MEDICAL SUPPLIES/` |
+| **Apr 21 @ 10:00 AM EDT** | **ITB — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **✅ SUBMITTED** — Apr 20, 2026 10:39 PM EDT · Submitted by Dieasha Davis · Confirmation **#0000406543** · Closed 4/21 10:00 AM EDT · Monitoring for award |
 | **Mar 24 (Tue)** | Call — Lisa TerMorshuizen | Choice Partners / HCDE (Texas) | Drug & Alcohol Testing rebid | **COMPLETED Mar 24.** Intro call. Lisa sees value in DDI. Drug testing contract is a year out. Told DDI to watch for contracts — they post daily on Ionwave (hcdeebid.ionwave.net). Monitor daily. |
 | **Mar 31** | Document Shredding | VA Benefits Administration (VBAVACO) | 36C10D26Q0034 | NEED TO PULL SOL FROM SAM.GOV |
 | **Apr 7** | Camp Kilpatrick Courier Services 3YR | LA County ISD (Probation Dept) | RFB-IS-26200696 | PENDING — Need vendor portal access |
@@ -24,9 +24,17 @@
 | **Apr 8 @ 11:00 AM ET** | **Fulton County Drug Testing** | Fulton County Government | **26ITB1580280B-PS** | **ACTIVE — GPSS `rec9YQ5FE0yfjs2Pj` / PB 79 UNLOCKED** — BidNet; blocked on Concentra pricing |
 | **Apr 10** | **Harris Health Drug & Disease Testing** | Harris Health System | **AB02182026** | **ACTIVE — GPSS `recgeOG6z3FiSeYyR` / PB 81 UNLOCKED** — Bonfire; blocked on Quest panel confirm + Concentra titers |
 | **May 5 @ 5:00 PM EDT** | **Phase I proposals due — DHS CBP Medical Support Services** | **CBP / DHS** | **70B06C26R00000017** | **ACTIVE — PREP** — Response track: `CBP_70B06C26R00000017_RESPONSE_PLAN.md` \| folder `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/` — **HUBZone** (confirm SAM) \| NAICS **621999** \| ceiling **$19.0M** \| **Dee: May 5 5 PM EDT (Phase I)** \| `CBP_70B06C26R00000017_SOLICITATION_FACTS.md` |
-| **Apr 27 @ 3:00 PM PT** (6 PM ET) | **Senior Transportation Services** | **City of Laguna Beach, CA** — Transit & Community Services | **T&CS 26-002** (PlanetBids; RFP; lump sum; cost + response files) | **ACTIVE** — NAICS **485991 / 485999**; bid valid **180 days**; folder `BIDS:RESOURCES/LAGUNA BEACH SENIOR TRANSPORTATION/`; `calendars/LAGUNA_BEACH_SENIOR_TRANSPORTATION_2026-04-27.ics` |
+| **Apr 27 @ 3:00 PM PT** (6 PM ET) | ~~Senior Transportation Services~~ | City of Laguna Beach, CA | T&CS 26-002 | **NO-GO** — Apr 24, 2026. Physical van service / CA fleet ops required. Not DDI's lane. |
 
 *Same day (Apr 21): Oakland HHS ITB **Oak-0000001134** is **10:00 AM EDT MITN** — not SAM; see rows above.*
+
+---
+
+## VENDOR REGISTRATIONS / QUALIFICATIONS SUBMITTED
+
+| Date | Agency | Application | Confirmation | Status |
+|---|---|---|---|---|
+| **Apr 24, 2026 1:35 PM EDT** | **San Diego County Water Authority** | **Small Business Application** | **#0000018654** | **PENDING** — Submitted by Dee Davis · Download PDF for records · Awaiting approval |
 
 ---
 
@@ -44,6 +52,8 @@
 
 | Contact | Agency | Service | Date Sent | Status |
 |---|---|---|---|---|
+| **Acuity-CHS BD** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Drug Testing TPA sub (Sec A T6-7, Sec B T4-5)** | **Apr 24, 2026 1:15 PM ET** | **SUBMITTED** — acuityinternational.com/become-an-acuity-partner · Follow-up if no reply Mon 4/27 AM |
+| **Kayla Thomas — Concentra** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Teaming inquiry — existing partner — drug testing TPA** | **Apr 24, 2026 1:18 PM ET** | **SENT** — direct email to Kayla · Follow-up if no reply Mon 4/27 AM |
 | Tracy Riley | ICE DHS — Courier | Courier, DNA, Fingerprinting, E-Verify | Mar 19 | **REPLIED Mar 22** — "Interesting, thanks for the information about this capability." Acknowledged DNA capability. No active need. CC'd Marilyn Doty, Jennifer Doran, Mark Gonzales. **Next follow-up: ~Apr 22 (30 days).** |
 | Jared Tritle | CBP — Fingerprinting BPA | Electronic Fingerprinting Services | Mar 22 | **SENT Mar 22** — Cold intro + tailored fingerprinting cap statement (Forest Green). CBP Office of Human Resources Management. |
 | David Walther | ICE DHS — Investigations | Fingerprinting, Biometric Equipment, E-Verify | Mar 19 | **FOLLOW-UP SENT Mar 22** — Biometric equipment reseller capabilities + full service overview. Awaiting response. |

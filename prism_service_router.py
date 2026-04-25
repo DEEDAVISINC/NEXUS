@@ -689,6 +689,71 @@ PARTNER_DIRECTORY = {
 
 
 # ═══════════════════════════════════════════════════════════════════
+# AGENT CREDENTIAL GATE — runs before dispatch / assignment
+# ═══════════════════════════════════════════════════════════════════
+
+SERVICE_REQUIRED_CREDENTIALS = {
+    'dot_drug_test':         ['ctpa_collector_cert'],
+    'non_dot_drug_test':     ['ctpa_collector_cert'],
+    'non_dot_drug_test_10panel': ['ctpa_collector_cert'],
+    'non_dot_drug_test_12panel_rapid': ['ctpa_collector_cert'],
+    'non_dot_drug_test_12panel_lab': ['ctpa_collector_cert'],
+    'non_dot_drug_test_12panel_oral': ['ctpa_collector_cert'],
+    'dot_alcohol_test':      ['bat_cert'],
+    'post_accident_drug':    ['ctpa_collector_cert'],
+    'return_to_duty_test':   ['ctpa_collector_cert'],
+    'dna_legal_paternity':   ['dna_collector_cert'],
+    'dna_immigration':       ['dna_collector_cert'],
+    'dna_siblingship':       ['dna_collector_cert'],
+    'fingerprint_livescan':  ['livescan_trained'],
+    'fingerprint_ink_card':  ['ink_card_trained'],
+    'notary_standard':       ['notary_commission'],
+    'notary_loan_signing':   ['notary_commission', 'nsa_certified'],
+    'notary_cntda_estate':   ['notary_commission'],
+    'notary_ron':            ['ron_cert'],
+    'notary_apostille':      ['notary_commission'],
+    'phlebotomy_blood_draw': ['phlebotomy_cert'],
+    'nemt_scheduled':        ['driver_license', 'vehicle_insurance'],
+    'medical_courier_specimen': ['biohazard_transport_trained'],
+}
+
+
+def check_agent_qualified(agent: dict, service_type: str) -> dict:
+    """Verify an agent holds every credential required for a service type.
+    Returns {qualified: bool, missing: [...], warnings: [...]}."""
+    required = SERVICE_REQUIRED_CREDENTIALS.get(service_type, [])
+    if not required:
+        return {'qualified': True, 'missing': [], 'warnings': []}
+
+    agent_creds = agent.get('credentials', {})
+    missing = []
+    warnings = []
+
+    for cred_key in required:
+        cred = agent_creds.get(cred_key)
+        if not cred or not cred.get('active', False):
+            missing.append(cred_key)
+            continue
+        expiry_str = cred.get('expires')
+        if expiry_str:
+            try:
+                expiry = datetime.fromisoformat(expiry_str)
+                days_left = (expiry - datetime.now()).days
+                if days_left < 0:
+                    missing.append(f'{cred_key} (EXPIRED {expiry_str})')
+                elif days_left <= 30:
+                    warnings.append(f'{cred_key} expires in {days_left} day(s) — schedule renewal')
+            except (ValueError, TypeError):
+                pass
+
+    return {
+        'qualified': len(missing) == 0,
+        'missing': missing,
+        'warnings': warnings,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════
 # ROUTING ENGINE
 # ═══════════════════════════════════════════════════════════════════
 
@@ -699,6 +764,7 @@ def route_order(
     client_city: str = '',
     urgent: bool = False,
     override_fulfillment: str = None,
+    agent: dict = None,
 ) -> dict:
     """
     Core routing decision for a service order.
@@ -709,6 +775,7 @@ def route_order(
     - rationale: why this decision was made
     - revenue_model: full breakdown of DDI's financials on this order
     - next_steps: what to do right now
+    - credential_check: agent qualification status (if agent provided)
     """
     if service_type not in SERVICE_CATALOG:
         return {
@@ -809,6 +876,14 @@ def route_order(
         if clearinghouse_action:
             next_steps.append('After completion: report to FMCSA Clearinghouse')
 
+    credential_check = None
+    if agent:
+        credential_check = check_agent_qualified(agent, service_type)
+        if not credential_check['qualified']:
+            next_steps.insert(0, f'CREDENTIAL BLOCK — agent missing: {", ".join(credential_check["missing"])}')
+        elif credential_check.get('warnings'):
+            next_steps.insert(0, f'CREDENTIAL WARNING — {"; ".join(credential_check["warnings"])}')
+
     return {
         'service_type':       service_type,
         'service_label':      svc['label'],
@@ -819,6 +894,7 @@ def route_order(
         'revenue_model':      revenue_model,
         'lab_routing':        lab_routing,
         'clearinghouse_action': clearinghouse_action,
+        'credential_check':   credential_check,
         'next_steps':         next_steps,
         'service_notes':      svc['notes'],
         'routed_at':          datetime.now().isoformat(),
@@ -1018,6 +1094,7 @@ def api_route_order():
         client_city=data.get('client_city', ''),
         urgent=data.get('urgent', False),
         override_fulfillment=data.get('override_fulfillment'),
+        agent=data.get('agent'),
     )
     return jsonify(result)
 
@@ -1132,3 +1209,18 @@ def api_revenue_calculator():
         summary['annual_margin_projection'] = summary['total_margin'] * 52
 
     return jsonify({'summary': summary, 'routes': results})
+
+
+@prism_router.route('/prism/router/credential-check', methods=['POST'])
+def api_credential_check():
+    """Check if an agent is qualified for a service type before dispatch.
+    Body: { agent: {credentials: {...}}, service_type: "dot_drug_test" }"""
+    data = request.get_json() or {}
+    agent = data.get('agent')
+    service_type = data.get('service_type')
+    if not agent or not service_type:
+        return jsonify({'error': 'agent and service_type are required'}), 400
+    result = check_agent_qualified(agent, service_type)
+    result['service_type'] = service_type
+    result['required_credentials'] = SERVICE_REQUIRED_CREDENTIALS.get(service_type, [])
+    return jsonify(result)
