@@ -104,6 +104,9 @@ SLA_DOWNSTREAM_HOURS: Dict[str, int] = {
 _URGENCY_RANK: Dict[str, int] = {"Standard": 0, "Urgent": 1, "Emergency": 2}
 SUPERVISOR_ROLES = {"Supervisor", "Admin"}
 
+# SHIELD case-number prefix + format: SHD-YYYY-NNNN
+_SHIELD_PREFIX = "SHD"
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Airtable client — dedicated base for SHIELD
@@ -190,6 +193,34 @@ def _safe_all(client: ShieldAirtableClient, table_name: str) -> List[Dict[str, A
         return client.all(table_name)
     except Exception:
         return []
+
+
+def _generate_case_number(client: ShieldAirtableClient) -> str:
+    """Generate next sequential SHIELD case number: SHD-YYYY-NNNN.
+
+    Scans existing referral_id fields, finds the highest sequence for the
+    current year, and increments. Thread-safe enough for low-volume intake
+    (Airtable is the source of truth — two near-simultaneous submissions
+    would both scan, but the primary field uniqueness in the review step
+    catches duplicates before they matter).
+    """
+    import re
+    year = datetime.now(EASTERN).strftime("%Y")
+    prefix = f"{_SHIELD_PREFIX}-{year}-"
+    max_seq = 0
+
+    try:
+        rows = client.all(TABLE_REFERRALS)
+        for row in rows:
+            rid = (row.get("fields") or {}).get("referral_id", "")
+            if isinstance(rid, str) and rid.startswith(prefix):
+                match = re.search(r"(\d+)$", rid)
+                if match:
+                    max_seq = max(max_seq, int(match.group(1)))
+    except Exception:
+        pass
+
+    return f"{prefix}{max_seq + 1:04d}"
 
 
 def _parse_iso(value: Optional[str]) -> Optional[datetime]:
@@ -301,6 +332,46 @@ def _enriched(record: Dict[str, Any]) -> Dict[str, Any]:
     row = _serialize(record)
     row["sla"] = _sla_snapshot(record.get("fields", {}) or {})
     return row
+
+
+def _resolve_family_phone(client: ShieldAirtableClient, family_id: Optional[str]) -> str:
+    """Look up primary contact phone from the Families table."""
+    if not family_id:
+        return ""
+    try:
+        fam = client.get(TABLE_FAMILIES, family_id)
+        return ((fam.get("fields") or {}).get("primary_contact_phone") or
+                (fam.get("fields") or {}).get("phone") or "")
+    except Exception:
+        return ""
+
+
+def _resolve_family_name(client: ShieldAirtableClient, family_id: Optional[str]) -> str:
+    if not family_id:
+        return ""
+    try:
+        fam = client.get(TABLE_FAMILIES, family_id)
+        return (fam.get("fields") or {}).get("family_name", "")
+    except Exception:
+        return ""
+
+
+def _resolve_navigator(client: ShieldAirtableClient, referral_id: Optional[str]) -> tuple:
+    """Return (name, phone) for the navigator assigned to a referral."""
+    if not referral_id:
+        return ("", "")
+    try:
+        ref = client.get(TABLE_REFERRALS, referral_id)
+        nav_email = (ref.get("fields") or {}).get("navigator_email", "")
+        if not nav_email:
+            return ("", "")
+        for n in _safe_all(client, TABLE_NAVIGATORS):
+            nf = n.get("fields") or {}
+            if (nf.get("email") or "").lower() == nav_email.lower():
+                return (nf.get("name", ""), nf.get("phone", ""))
+    except Exception:
+        pass
+    return ("", "")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -655,7 +726,10 @@ def handle_shield_create_referral(payload: Dict[str, Any]) -> Dict[str, Any]:
             displacement_required=bool(payload.get("displacement_required")),
         )
 
+        case_number = _generate_case_number(client)
+
         referral_fields: Dict[str, Any] = {
+            "referral_id": case_number,
             "date_received": _now_eastern_iso(),
             "referral_source": payload.get("referral_source", "MDHHS"),
             "referring_agency": payload.get("referring_agency", "").strip(),
@@ -704,16 +778,43 @@ def handle_shield_create_referral(payload: Dict[str, Any]) -> Dict[str, Any]:
             except Exception:
                 pass
 
+        # Fire automated notifications (SMS + email) — non-blocking
+        try:
+            import threading
+            from shield_notifications import notify_referral_received
+            threading.Thread(
+                target=notify_referral_received,
+                kwargs={
+                    "client": client,
+                    "case_number": case_number,
+                    "family_name": payload.get("family_name", "").strip(),
+                    "family_phone": payload.get("primary_contact_phone", "").strip(),
+                    "family_email": payload.get("primary_contact_email", "").strip(),
+                    "caseworker_name": payload.get("case_worker_name", "").strip(),
+                    "caseworker_email": payload.get("case_worker_email", "").strip(),
+                    "county": payload.get("county", ""),
+                    "urgency": escalated_urgency,
+                    "referral_id": referral_id,
+                    "family_id": family_id,
+                },
+                daemon=True,
+                name=f"shield-notify-{case_number}",
+            ).start()
+        except Exception:
+            pass
+
         return {
             "success": True,
             "configured": True,
             "referral_id": referral_id,
-            "reference_number": (referral.get("fields") or {}).get("referral_id") or referral_id,
+            "case_number": case_number,
+            "reference_number": case_number,
             "family_id": family_id,
             "confirmation": {
-                "message": "Referral received. A DDI/CWC navigator will contact the family within 48 hours.",
+                "message": f"Referral {case_number} received. A DDI/CWC navigator will contact the family within 48 hours.",
                 "expected_contact_hours": 48,
                 "received_at": _now_eastern_iso(),
+                "case_number": case_number,
             },
         }
     except Exception as e:
@@ -1005,6 +1106,33 @@ def handle_shield_activate_service(payload: Dict[str, Any]) -> Dict[str, Any]:
         except Exception:
             pass
 
+    # Notify family of scheduled appointment (non-blocking)
+    if payload.get("appointment_date"):
+        try:
+            import threading
+            from shield_notifications import notify_appointment_scheduled
+            family_phone = _resolve_family_phone(client, family_id)
+            family_name = _resolve_family_name(client, family_id)
+            nav_name, nav_phone = _resolve_navigator(client, referral_id)
+            threading.Thread(
+                target=notify_appointment_scheduled,
+                kwargs={
+                    "client": client,
+                    "family_name": family_name,
+                    "family_phone": family_phone,
+                    "service_name": service_line,
+                    "appointment_date": payload["appointment_date"],
+                    "vendor": payload.get("vendor", ""),
+                    "navigator_name": nav_name,
+                    "navigator_phone": nav_phone,
+                    "referral_id": referral_id,
+                    "family_id": family_id,
+                },
+                daemon=True,
+            ).start()
+        except Exception:
+            pass
+
     return {
         "success": True,
         "configured": True,
@@ -1270,3 +1398,128 @@ def handle_shield_ai_external(message: str, case_ref: Optional[str], agency_emai
         return {"success": True, "reply": reply, "scoped": True, "case_matched": bool(case_context)}
     except Exception as e:
         return {"success": False, "error": str(e), "reply": ""}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Family Status Lookup — public, no auth
+#
+# Privacy gate: case number + family last name must both match. This is the
+# same level of auth as package tracking — good enough for non-PHI status
+# data, and families don't need to create accounts.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def handle_shield_family_lookup(case_number: str, last_name: str) -> Dict[str, Any]:
+    """Public endpoint: look up referral status by case number + last name."""
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return {"success": False, "error": "System temporarily unavailable. Please try again later."}
+
+    cn = (case_number or "").strip().upper()
+    ln = (last_name or "").strip().lower()
+
+    if not cn or not ln:
+        return {"success": False, "error": "We just need both your case number and last name to look you up."}
+
+    try:
+        referrals = _safe_all(client, TABLE_REFERRALS)
+        referral = None
+        for r in referrals:
+            fields = r.get("fields") or {}
+            rid = (fields.get("referral_id") or "").strip().upper()
+            if rid == cn:
+                referral = r
+                break
+
+        if not referral:
+            return {"success": False, "error": "We couldn't find that case number. Check the text or email from your navigator and try again."}
+
+        ref_fields = referral.get("fields") or {}
+
+        # Resolve linked family and verify last name
+        family_ids = ref_fields.get("family_id") or []
+        if isinstance(family_ids, str):
+            family_ids = [family_ids]
+
+        family_record = None
+        if family_ids:
+            try:
+                family_record = client.get(TABLE_FAMILIES, family_ids[0])
+            except Exception:
+                pass
+
+        family_name = ""
+        if family_record:
+            family_name = ((family_record.get("fields") or {}).get("family_name") or "").strip()
+
+        # Last-name check: compare against family_name
+        if not family_name or ln not in family_name.lower():
+            return {"success": False, "error": "That last name doesn't match what we have for that case. Try the last name exactly as your navigator has it."}
+
+        # Resolve navigator
+        nav_email = ref_fields.get("navigator_email", "")
+        navigator_info = None
+        if nav_email:
+            for n in _safe_all(client, TABLE_NAVIGATORS):
+                nf = n.get("fields") or {}
+                if (nf.get("email") or "").lower() == nav_email.lower():
+                    navigator_info = {
+                        "name": nf.get("name", ""),
+                        "phone": nf.get("phone", ""),
+                        "email": nf.get("email", ""),
+                    }
+                    break
+
+        # Gather activations
+        ref_id = referral.get("id")
+        acts = []
+        for a in _safe_all(client, TABLE_ACTIVATIONS):
+            af = a.get("fields") or {}
+            links = af.get("referral_id") or []
+            if isinstance(links, list) and ref_id in links:
+                acts.append({
+                    "service_line": af.get("service_line", ""),
+                    "status": af.get("status", "Pending"),
+                    "vendor": af.get("vendor", ""),
+                    "appointment_date": af.get("appointment_date"),
+                    "notes": af.get("notes", ""),
+                })
+
+        # Gather milestones (limited fields — no internal notes)
+        milestones = []
+        for m in _safe_all(client, TABLE_MILESTONES):
+            mf = m.get("fields") or {}
+            links = mf.get("referral_id") or []
+            if isinstance(links, list) and ref_id in links:
+                milestones.append({
+                    "milestone_type": mf.get("milestone_type", ""),
+                    "timestamp": mf.get("timestamp", ""),
+                })
+        milestones.sort(key=lambda x: x.get("timestamp", ""))
+
+        # Build safe referral view (no internal-only fields)
+        safe_referral = {
+            "referral_id": ref_fields.get("referral_id", ""),
+            "status": ref_fields.get("status", "New"),
+            "stage": ref_fields.get("stage", ref_fields.get("status", "Intake")),
+            "urgency": ref_fields.get("urgency", "Standard"),
+            "county": ref_fields.get("county", ""),
+            "services_requested": ref_fields.get("services_requested") or [],
+            "date_received": ref_fields.get("date_received", ""),
+        }
+
+        safe_family = {
+            "family_name": family_name,
+            "county": (family_record.get("fields") or {}).get("county", "") if family_record else "",
+        }
+
+        return {
+            "success": True,
+            "referral": safe_referral,
+            "family": safe_family,
+            "navigator": navigator_info,
+            "activations": acts,
+            "milestones": milestones,
+        }
+
+    except Exception as e:
+        return {"success": False, "error": "Something didn't work right — try again in a sec. If it keeps happening, just call your navigator."}

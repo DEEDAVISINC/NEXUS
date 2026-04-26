@@ -1,49 +1,58 @@
-# YOUR AGENDA — Friday, April 24, 2026
+# YOUR AGENDA — Saturday, April 25, 2026
 
-**Today (authoritative date):** **Friday, April 24, 2026.**
+**Today (authoritative date):** **Saturday, April 25, 2026.**
 
-**This week:** **CBP** path to **Apr 28 5 PM ET** (4 days); **KY** questions **submitted**, proposals **5/7**; SouthStar broker package **sent 4/22**; **MDHHS EHB partnership meeting held yesterday 4/23 — brief + one-pager delivered 7:04 PM to both Angela Medina and Aimee Surma** (see milestone below, follow-up owed within 2 weeks).
+**This week completed:** SHIELD Airtable base created + seeded. SHIELD intake form rebuilt with Insurance & Billing step (Medicaid/MCO/CHIP/Private/Uninsured gating), service line descriptions, and full DDI proposal language alignment. CBP extended to **May 5**. Acuity-CHS + Concentra teaming outreach sent. Oakland HHS + Dutchess County submitted. Laguna Beach NO-GO. San Diego Water Authority SB app submitted. SAM CO contact sync built.
 
 ---
 
 ```
-TOMORROW'S PRIORITIES — Friday, April 24, 2026
+TOMORROW'S PRIORITIES — Sunday, April 26, 2026
 
-1. 🛠  **FIRST THING: SHIELD Airtable build** — Create `nexus_lead_screening`
-     base in Airtable with all 10 tables (Referrals, Families, Children,
-     Navigators, Service_Activations, Case_Milestones, Contractors, Billing,
-     Outcomes_Reporting, Referral_Source_Accounts). Set `LEAD_SCREENING_BASE_ID`
-     in `.env`. Run `python3 seed_shield_referral_source_accounts.py --apply`
-     to seed Angela Medina + Aimee Surma + 6 LHD placeholders. Verify seed
-     results in Airtable UI before moving on.
+1. 🗺️  **SHIELD — Full Service Fulfillment Map** — Map every SHIELD service
+     line to the actual vendor/contractor/staff who delivers it. For each of
+     the 9 service lines: who does it, where, are they on contract, do we
+     need to source them? Identify which come from MDHHS directly (Aimee/Angela),
+     which DDI subs out, and which CWC navigators handle internally.
 
-2. 📝  **CBP Medical Support 70B06C26R00000017** — 4 DAYS OUT. Close remaining
-     gaps in `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/WORKFLOW_CHECKLIST.md`:
-     PFT partner, LRP, psych/vision consultants, Quest/Concentra LoCs,
-     Attachment 4 pricing, Attachments 5–6, SB plan. Due **Apr 28 5 PM ET**.
+     Service Lines to map:
+     • Blood Lead Level (BLL) Testing
+     • CLPPP Case Management
+     • NEMT — Non-Emergency Medical Transportation
+     • Lead Remediation Coordination
+     • Housing Navigation
+     • MIBridges Benefits Navigation
+     • Filter Safety Net / Drinking Water
+     • Community Health Worker Home Visit
+     • Nurse Home Visit
 
-3. 🚗  **Laguna Beach Senior Transportation T&CS 26-002** — 3 days out.
-     Due **Apr 27 3:00 PM PT** (6 PM ET). PlanetBids lump sum + cost + response
-     files. `BIDS:RESOURCES/LAGUNA BEACH SENIOR TRANSPORTATION/`.
+2. 📧  **Package & send to the agency (MDHHS)** — Compile the fulfillment
+     map into a clean deliverable for Aimee Surma + Angela Medina. Show them
+     the service delivery model: who's doing what, where DDI needs MDHHS
+     vendor lists, and how SHIELD connects it all.
 
-4. 📄  **MDHHS pilot structure prep (10-member demo)** — Start the outline —
-     selection criteria, 90-day outcomes framework, roles matrix,
-     SHIELD outcomes-report export format. Owed at the 5/4-week follow-up.
+3. 📝  **CBP Medical Support 70B06C26R00000017** — 9 DAYS OUT (May 5).
+     Check Acuity-CHS + Concentra outreach for replies. Continue Phase I
+     prep: written tech approach + past performance questionnaire.
 
-5. 📬  **Top 5 ready-to-send emails** — DHC Landscaping, Pittsburgh URA Title
-     Services, Ohio DOH Medical Courier, USACE Palatka Custodial, OCTA Bicycle
-     Count. All have cap statements staged in SEND_TO_BUYER folders.
+4. 📄  **MDHHS pilot structure prep (10-member demo)** — Selection criteria,
+     90-day outcomes framework, roles matrix, SHIELD outcomes-report export.
+     Owed at the 5/4-week follow-up with Angela Medina + Aimee Surma.
 
-MEETINGS: None scheduled tomorrow. MDHHS follow-up to be requested for
-          week of 5/4 (5/4–5/8).
+5. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30. Proposals
+     due 5/7 @ 3:30 PM ET. Start assembling proposal package.
+
+MEETINGS: None scheduled.
 FOLLOW-UPS DUE:
-  - KY DMS addendum watch ~4/30 (6 days)
-  - ICE DHS (Tracy Riley) — 30-day follow-up window from Mar 22 reply → hit
-  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (33 days silent)
+  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, follow-up if no
+    reply Mon 4/27 AM
+  - KY DMS addendum watch ~4/30 (5 days)
+  - ICE DHS (Tracy Riley) — 30-day follow-up overdue from Mar 22 reply
+  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (34 days silent)
 PREP NEEDED:
-  - CBP proposal package — confirm HUBZone status in SAM before final pricing
   - MDHHS pilot doc outline — primary source is
     `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf`
+  - KY DMS proposal package assembly — technical + cost + proprietary
 ```
 
 ---
@@ -65,6 +74,11 @@ PREP NEEDED:
 **CWC+DDI owed at follow-up:**
 - [ ] Pilot structure documentation — **10-member demo** for lead screening navigation + housing stability, **90-day outcomes framework**, selection criteria, roles matrix
 - [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path)
+- [ ] **SHIELD vendor sourcing ask** — Request current contracted vendors in Wayne/Oakland/Macomb/Genesee for: **(a)** certified lead abatement contractors, **(b)** emergency/temp housing partners + MSHDA regional reps, **(c)** CHW agencies, **(d)** nurse home visit agencies, **(e)** Get Ahead of Lead filter supplier pipeline. Goal: get on speed dial, not cold-source.
+- [ ] **CHW Medicaid reimbursement rate** — Confirm exact per-unit rate for CPT 98960/98961/98962 in Michigan. Check CHAMPS (MiLogin: **davisd1221**) or ask Aimee/Angela directly. This number decides whether DDI can hire navigators profitably. Also confirm: can DDI (Type 2 NPI) bill as the org with CHW-certified navigators as rendering providers?
+- [ ] **CHAMPS taxonomy check** — DDI's current taxonomy is 347E00000X (Transportation Broker). To bill CHW/care coordination codes (98960-98962), DDI likely needs to add a healthcare taxonomy (e.g., 171400000X — Health Education/Community Health Worker). Log into CHAMPS and check if the current provider enrollment covers CHW services, or if a new service category / taxonomy needs to be added.
+- [ ] **CMS-855B Medicare enrollment** — DDI is enrolled in Michigan Medicaid but NOT Medicare. To bill Medicare CHI codes (G0019/G0022), DDI needs to submit CMS-855B via PECOS. Application fee ~$700 (hardship waiver available if needed — submit letter with application, saved in `ESSENTIALS/DDI_Medicare_Hardship_Waiver_Letter.docx`). This opens the Medicare billing path for navigator services in addition to Medicaid.
+- [ ] **Attending physician NPI** — CHW claims require an attending provider NPI. Determine if the referring physician's NPI comes with the MDHHS/LHD referral, or if DDI needs to contract with an FQHC or physician to serve as the attending/ordering provider on claims. Ask at 5/4 meeting.
 
 **Where this lives in NEXUS:**
 - Master reference: `COMPANY_INFO_MASTER.md` → "🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM"

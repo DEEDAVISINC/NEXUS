@@ -1,4 +1,4 @@
-# 🎯 YOUR ADAPTIVE FLOW - Friday, April 24
+# 🎯 YOUR ADAPTIVE FLOW - Saturday, April 25
 
 **System learned from your behavior and auto-cleaned your list.**
 
@@ -11,9 +11,9 @@
 **Why this one:** Has 4 files (analysis started)
 
 - 💰 Value: $15,000
-- ⏰ Deadline: February 11, 2026 (-72 days)
+- ⏰ Deadline: February 11, 2026 (-73 days)
 - 📂 Folder: `BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/`
-- 📊 Activity: 4 files, last edited 67 days ago
+- 📊 Activity: 4 files, last edited 68 days ago
 
 **YOUR NEXT ACTION (Click to open):**
 
@@ -32,12 +32,12 @@ open 'BIDS:RESOURCES/HENRY FORD BATTERY CABINETS/'
 
 ## ⚠️ ALSO URGENT (6 bids)
 
-- **CPS ENERGY PADLOCKS** - -70d - $32,000
-- **AUBURN HILLS PRESSURE WASHING** - -70d - $5,000
-- **OAKLAND COUNTY TRUCK EQUIPMENT** - -66d - $20,000
-- **LIVONIA MATERIALS** - -60d - $15,000
-- **HCMA UTILITY VEHICLES** - -58d - $120,000
-- **ALASKA STEEL CONTAINERS** - -53d - $85,000
+- **CPS ENERGY PADLOCKS** - -71d - $32,000
+- **AUBURN HILLS PRESSURE WASHING** - -71d - $5,000
+- **OAKLAND COUNTY TRUCK EQUIPMENT** - -67d - $20,000
+- **LIVONIA MATERIALS** - -61d - $15,000
+- **HCMA UTILITY VEHICLES** - -59d - $120,000
+- **ALASKA STEEL CONTAINERS** - -54d - $85,000
 
 ---
 

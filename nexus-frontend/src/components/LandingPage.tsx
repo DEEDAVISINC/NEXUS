@@ -180,16 +180,30 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     }
   }, []);
 
-  // Fetch dashboard data
+  // Fetch dashboard data — use allSettled so one failing /dashboard/* call does not drop lane data
+  // (Promise.all would skip setLastUpdated → "Matched for your lanes" never renders).
   const fetchDashboardData = useCallback(async () => {
     try {
-      const [statsData, activityData, alertsData] = await Promise.all([
+      const settled = await Promise.allSettled([
         api.getDashboardStats(),
         api.getDashboardActivity(),
-        api.getDashboardAlerts()
+        api.getDashboardAlerts(),
       ]);
+      if (settled[0].status === 'rejected') {
+        console.error('getDashboardStats failed:', settled[0].reason);
+      }
+      if (settled[1].status === 'rejected') {
+        console.error('getDashboardActivity failed:', settled[1].reason);
+      }
+      if (settled[2].status === 'rejected') {
+        console.error('getDashboardAlerts failed:', settled[2].reason);
+      }
 
-      const merged = { ...defaultStats, ...statsData };
+      const statsData = settled[0].status === 'fulfilled' ? settled[0].value : null;
+      const activityData = settled[1].status === 'fulfilled' ? settled[1].value : null;
+      const alertsData = settled[2].status === 'fulfilled' ? settled[2].value : null;
+
+      const merged = { ...defaultStats, ...(statsData && typeof statsData === 'object' ? statsData : {}) };
       if (!merged.systems.gbis) merged.systems.gbis = defaultStats.systems.gbis;
       if (!merged.systems.lbpc) merged.systems.lbpc = defaultStats.systems.lbpc;
 
@@ -218,11 +232,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       } catch { /* fallback to zeros */ }
 
       setStats(merged);
-      setActivities(activityData.activities || []);
-      setDdiTopPicks(activityData.ddi_top_picks || []);
-      setDdiSubHints(activityData.ddi_subcontract_hints || []);
-      setDdiSummary(activityData.ddi_summary || null);
-      setAlerts(alertsData.alerts || []);
+      setActivities((activityData as any)?.activities || []);
+      setDdiTopPicks((activityData as any)?.ddi_top_picks || []);
+      setDdiSubHints((activityData as any)?.ddi_subcontract_hints || []);
+      setDdiSummary((activityData as any)?.ddi_summary || null);
+      setAlerts((alertsData as any)?.alerts || []);
       setLastUpdated(new Date());
       setLoading(false);
 
@@ -233,6 +247,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       setStats(defaultStats);
+      setLastUpdated(new Date());
       setLoading(false);
     }
   }, [defaultStats]);

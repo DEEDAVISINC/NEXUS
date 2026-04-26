@@ -21,14 +21,75 @@ import AlexaSystem from './components/systems/AlexaSystem';
 import JETASystem from './components/systems/JETASystem';
 import SHIELDSystem from './components/systems/SHIELDSystem';
 import PublicReferrerIntake from './components/public/PublicReferrerIntake';
+import FamilyStatusTracker from './components/public/FamilyStatusTracker';
+import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
 import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
 
 function App() {
-  const isPublicReferrer = typeof window !== 'undefined' && window.location.pathname === '/refer';
-  if (isPublicReferrer) {
-    return <PublicReferrerIntake />;
-  }
+  const path = typeof window !== 'undefined' ? window.location.pathname : '';
+  if (path === '/refer') return <PublicReferrerIntake />;
+  if (path === '/status') return <FamilyStatusTracker />;
+  if (path === '/navigator') return <NavigatorWorkspace navigator={{ email: 'navigator@cwcare.org', name: 'CWC Navigator', role: 'Navigator' }} onLogout={() => window.location.href = '/'} />;
   return <NexusApp />;
+}
+
+function NavigatorLogin() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [nav, setNav] = useState<{ email: string; name: string; role: string } | null>(null);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+
+  if (loggedIn && nav) {
+    return <NavigatorWorkspace navigator={nav} onLogout={() => { setLoggedIn(false); setNav(null); }} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-[#050f2e] flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <img src="/cwc-logo.png" alt="CWC" className="w-20 h-20 rounded-xl object-contain bg-[#f5c23e]/20 p-2 mx-auto mb-4" />
+          <h1 className="text-2xl font-black text-white">🛡️ SHIELD Navigator</h1>
+          <p className="text-xs text-[#8ea2d6] mt-1">Care. Navigate. Transform.</p>
+        </div>
+        <div className="bg-[#081849] border border-[#1c2f6a] rounded-xl p-6 space-y-4">
+          <div>
+            <label className="text-[10px] text-[#8ea2d6] uppercase tracking-wider font-bold block mb-1">Your name</label>
+            <input
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="e.g. Angela Johnson"
+              className="w-full bg-[#050f2e] border border-[#1c2f6a] rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#6b7ba6] focus:border-[#f5c23e] focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="text-[10px] text-[#8ea2d6] uppercase tracking-wider font-bold block mb-1">Email</label>
+            <input
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="navigator@cwcare.org"
+              className="w-full bg-[#050f2e] border border-[#1c2f6a] rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#6b7ba6] focus:border-[#f5c23e] focus:outline-none"
+            />
+          </div>
+          {error && <div className="text-xs text-red-400">{error}</div>}
+          <button
+            onClick={() => {
+              if (!name.trim() || !email.trim()) { setError('Name and email are required.'); return; }
+              setNav({ email: email.trim(), name: name.trim(), role: 'Navigator' });
+              setLoggedIn(true);
+              setError('');
+            }}
+            className="w-full bg-[#f5c23e] hover:bg-[#fcd75a] text-[#081849] py-3 rounded-xl text-sm font-black transition"
+          >
+            Sign In
+          </button>
+        </div>
+        <div className="text-center mt-4 text-[10px] text-[#8ea2d6]">
+          Every Family Deserves a SHIELD 🛡️
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function NexusApp() {

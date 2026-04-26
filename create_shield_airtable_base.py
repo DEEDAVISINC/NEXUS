@@ -327,6 +327,20 @@ TABLES = [
             url_f("portal_url"),
         ],
     },
+    {
+        "name": "Notification_Log",
+        "description": "Audit trail for every SMS and email sent by SHIELD. Linked to referrals for dashboard visibility.",
+        "fields": [
+            txt("notification_id"),
+            select("channel", ["sms", "email"]),
+            txt("template"),
+            txt("to"),
+            select("status", ["Sent", "Failed", "Skipped"]),
+            txt("error"),
+            dt("sent_at"),
+            mltext("raw_response"),
+        ],
+    },
 ]
 
 

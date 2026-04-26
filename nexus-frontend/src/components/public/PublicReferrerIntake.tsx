@@ -13,6 +13,18 @@ import SHIELDAcronym from '../shield/Acronym';
 
 const COUNTIES = ['Wayne', 'Oakland', 'Macomb', 'Genesee', 'Kent', 'Muskegon', 'Other'];
 const URGENCY_LEVELS = ['Standard', 'Urgent', 'Emergency'];
+const SERVICE_COLOR_MAP: Record<string, string> = {
+  'Blood Lead Level (BLL) Testing':    '#026666',
+  'CLPPP Case Management':             '#17415f',
+  'NEMT — Non-Emergency Medical Transportation': '#CA4D22',
+  'Lead Remediation Coordination':      '#862074',
+  'Housing Navigation':                 '#093C44',
+  'MIBridges Benefits Navigation':      '#76BAB2',
+  'Filter Safety Net / Drinking Water': '#046791',
+  'Community Health Worker Home Visit':  '#2F8D98',
+  'Nurse Home Visit':                   '#115E6E',
+};
+
 const SERVICE_CHOICES: { name: string; desc: string }[] = [
   { name: 'Blood Lead Level (BLL) Testing', desc: 'Mobile capillary or venous blood draw coordination — DDI schedules a certified phlebotomist, transports specimens to MDHHS-approved lab, and reports results to MCIR.' },
   { name: 'CLPPP Case Management', desc: 'Childhood Lead Poisoning Prevention Program follow-up — ensures the child is enrolled in CLPPP, tracks referral status, and coordinates required follow-up visits per state protocol.' },
@@ -136,8 +148,8 @@ const PublicReferrerIntake: React.FC = () => {
       const result: any = await api.createShieldReferral(form);
       if (result?.success) {
         setSubmitted({
-          reference: String(result.reference_number ?? result.referral_id ?? 'received'),
-          navigatorMessage: result.navigator_message || 'A navigator will reach out within 48 hours.',
+          reference: String(result.case_number ?? result.reference_number ?? result.referral_id ?? 'received'),
+          navigatorMessage: result.confirmation?.message || result.navigator_message || 'A navigator will reach out within 48 hours.',
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -163,8 +175,8 @@ const PublicReferrerIntake: React.FC = () => {
                 <h1 className="text-3xl md:text-4xl font-black text-[#1f3fae] leading-tight mt-1">
                   Refer a family. We handle everything else.
                 </h1>
-                <div className="text-[11px] uppercase tracking-[0.25em] text-[#1f3fae]/70 font-black italic mt-2">
-                  One referral. Full wrap-around. One accountable point of contact.
+                <div className="text-[11px] uppercase tracking-[0.25em] text-[#1f3fae]/70 font-black mt-2">
+                  Care. Navigate. Transform.
                 </div>
                 <p className="text-sm text-[#1f3fae]/90 mt-3 max-w-2xl">
                   A Cause We Care community health navigator will reach the family within <strong>48 hours</strong> to coordinate BLL testing, CLPPP follow-up, NEMT, lead remediation, housing navigation, and MIBridges benefits enrollment — resolving barriers so the family doesn't fall through the cracks. No SSN collected. HIPAA compliant. Michigan Public Act 146 of 2023.
@@ -179,7 +191,7 @@ const PublicReferrerIntake: React.FC = () => {
           {/* SHIELD acronym — mission variant — the brand moment for family-facing pages */}
           <div className="mt-7 pt-5 border-t-2 border-[#1f3fae]/25">
             <div className="flex items-center justify-between gap-4 flex-wrap mb-3">
-              <div className="text-[10px] uppercase tracking-[0.28em] text-[#1f3fae] font-black">SHIELD stands for</div>
+              <div className="text-[10px] uppercase tracking-[0.28em] text-[#1f3fae] font-black">Every Family Deserves a SHIELD 🛡️</div>
               <div className="text-[10px] text-[#1f3fae]/70 italic">Protecting Michigan's children from lead</div>
             </div>
             <SHIELDAcronym
@@ -225,7 +237,11 @@ const PublicReferrerIntake: React.FC = () => {
                 <svg viewBox="0 0 24 24" className="w-8 h-8 text-[#f5c23e]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
               </div>
               <div className="text-2xl font-black text-[#1f3fae]">Referral received — SLA clock started.</div>
-              <div className="text-sm text-[#1f3fae]/80 mt-1">Reference #{submitted.reference}</div>
+              <div className="inline-flex items-center gap-2 mt-3 bg-[#1f3fae] text-white text-lg font-mono font-black tracking-wider px-5 py-2 rounded-lg shadow-md">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#f5c23e] shrink-0" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12h6M12 9v6M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                {submitted.reference}
+              </div>
+              <div className="text-xs text-[#1f3fae]/70 mt-1.5">🛡️ SHIELD Case Number — save this for your records</div>
             </div>
             <div className="px-6 py-6 text-slate-700">
               <p className="text-base">{submitted.navigatorMessage}</p>
@@ -572,14 +588,28 @@ const PublicReferrerIntake: React.FC = () => {
                   <div className="space-y-2">
                     {SERVICE_CHOICES.map(svc => {
                       const on = form.services_requested.includes(svc.name);
+                      const hex = SERVICE_COLOR_MAP[svc.name] || '#1f3fae';
                       return (
-                        <label key={svc.name} className={`flex items-start gap-3 border-2 rounded-lg px-4 py-3 cursor-pointer transition ${
-                          on ? 'bg-[#f5c23e]/20 border-[#1f3fae]' : 'bg-white border-slate-200 hover:border-slate-400'
-                        }`}>
-                          <input type="checkbox" checked={on} onChange={() => toggleService(svc.name)} className="w-4 h-4 accent-[#1f3fae] mt-0.5 shrink-0" />
-                          <div className="min-w-0">
-                            <div className={`text-sm font-bold ${on ? 'text-[#1f3fae]' : 'text-slate-700'}`}>{svc.name}</div>
-                            <div className="text-xs text-slate-500 mt-0.5 leading-relaxed">{svc.desc}</div>
+                        <label
+                          key={svc.name}
+                          className={`flex items-start gap-3 rounded-lg px-4 py-3 cursor-pointer transition border-2 ${
+                            on ? 'bg-white shadow-sm' : 'bg-white border-slate-200 hover:border-slate-400'
+                          }`}
+                          style={on ? { borderColor: hex, backgroundColor: `${hex}08` } : undefined}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={on}
+                            onChange={() => toggleService(svc.name)}
+                            className="w-4 h-4 mt-0.5 shrink-0"
+                            style={{ accentColor: hex }}
+                          />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: hex }} />
+                              <span className={`text-sm font-bold ${on ? '' : 'text-slate-700'}`} style={on ? { color: hex } : undefined}>{svc.name}</span>
+                            </div>
+                            <div className="text-xs text-slate-500 mt-0.5 leading-relaxed ml-[18px]">{svc.desc}</div>
                           </div>
                         </label>
                       );
@@ -613,7 +643,21 @@ const PublicReferrerIntake: React.FC = () => {
                       <Review label="Family" value={form.family_name || '—'} />
                       <Review label="County" value={form.county} />
                       <Review label="Children" value={`${form.children.length}`} />
-                      <Review label="Services" value={form.services_requested.length ? form.services_requested.join(', ') : '—'} />
+                      <div className="col-span-full">
+                        <dt className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Services</dt>
+                        {form.services_requested.length ? (
+                          <dd className="flex flex-wrap gap-1.5 mt-1">
+                            {form.services_requested.map((s: string) => (
+                              <span key={s} className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-2.5 py-0.5 border" style={{ borderColor: SERVICE_COLOR_MAP[s] || '#1f3fae', color: SERVICE_COLOR_MAP[s] || '#1f3fae', backgroundColor: `${SERVICE_COLOR_MAP[s] || '#1f3fae'}10` }}>
+                                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: SERVICE_COLOR_MAP[s] || '#1f3fae' }} />
+                                {s}
+                              </span>
+                            ))}
+                          </dd>
+                        ) : (
+                          <dd className="text-xs text-slate-700">—</dd>
+                        )}
+                      </div>
                       <Review label="Insurance" value={form.insurance_type || '—'} />
                       <Review label="Payer" value={
                         form.insurance_type === 'Medicaid / MIChild' ? `Medicaid ${form.medicaid_id ? `#${form.medicaid_id}` : ''} ${form.mco_plan ? `· ${form.mco_plan === 'Other' ? form.mco_plan_other : form.mco_plan}` : ''}`.trim() :
@@ -715,7 +759,9 @@ const PublicReferrerIntake: React.FC = () => {
             </div>
           </div>
           <div className="text-xs text-[#8ea2d6] text-center leading-relaxed">
-            <span className="text-[#f5c23e] font-black uppercase tracking-wider">Partner in Michigan's Lead-Safe Ecosystem</span><br />
+            <span className="text-[#f5c23e] font-black uppercase tracking-wider">Care. Navigate. Transform.</span><br />
+            <span className="text-[#f5c23e]/60 italic text-[10px]">More than a mission — a movement.</span><br />
+            <span className="text-[#8ea2d6]/70">Partner in Michigan's Lead-Safe Ecosystem</span><br />
             Michigan Public Act 146 of 2023 &middot; Universal BLL Testing Mandate<br />
             HIPAA compliant &middot; MDHHS data retention policy &middot; EDWOSB &middot; CAGE 8UMX3
           </div>

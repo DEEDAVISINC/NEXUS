@@ -161,6 +161,33 @@ const SERVICE_CHOICES = [
   'Filter Safety Net',
 ];
 
+const SERVICE_COLOR_MAP: Record<string, string> = {
+  'Lead Screening':     '#026666',
+  'CLPPP Follow-up':    '#17415f',
+  'NEMT':               '#CA4D22',
+  'Lead Remediation':   '#862074',
+  'Housing':            '#093C44',
+  'Food Navigation':    '#76BAB2',
+  'Drug Testing':       '#046791',
+  'DNA':                '#2F8D98',
+  'Specimen Transport': '#115E6E',
+  'Filter Safety Net':  '#046791',
+  'Medical Monitoring': '#026666',
+  'Blood Lead Level (BLL) Testing':             '#026666',
+  'CLPPP Case Management':                      '#17415f',
+  'NEMT — Non-Emergency Medical Transportation': '#CA4D22',
+  'Lead Remediation Coordination':               '#862074',
+  'Housing Navigation':                          '#093C44',
+  'MIBridges Benefits Navigation':               '#76BAB2',
+  'Filter Safety Net / Drinking Water':          '#046791',
+  'Community Health Worker Home Visit':           '#2F8D98',
+  'Nurse Home Visit':                            '#115E6E',
+};
+
+function svcColor(name: string): string {
+  return SERVICE_COLOR_MAP[name] || '#8ea2d6';
+}
+
 // Brand tokens (used in arbitrary Tailwind values)
 const BG_APP = 'bg-[#050f2e]';
 const BG_SURFACE = 'bg-[#081849]';
@@ -323,7 +350,7 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
           <div className="flex items-center gap-3">
             <ShieldMark />
             <div className="leading-tight min-w-0">
-              <div className="text-base font-black tracking-wide text-white">SHIELD</div>
+              <div className="text-base font-black tracking-wide text-white">🛡️ SHIELD</div>
               <div className="text-[9px] text-[#8ea2d6] tracking-wider uppercase font-bold mt-0.5 leading-snug">
                 Support · Health · Intake<br />
                 Enrollment · Linkage · Delivery
@@ -338,6 +365,10 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
               <CWCWordmark />
               <div className="text-[#3b4a80] text-sm font-black">×</div>
               <DDIWordmark />
+            </div>
+            <div className="mt-3">
+              <div className="text-[10px] font-black text-[#f5c23e] tracking-wider uppercase">Care. Navigate. Transform.</div>
+              <div className="text-[9px] text-[#f5c23e]/50 italic mt-0.5">More than a mission — a movement.</div>
             </div>
           </div>
         </div>
@@ -413,10 +444,11 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
           )}
         </div>
 
-        {/* Regulatory anchor footer */}
+        {/* Mission + regulatory anchor footer */}
         <div className={`px-4 py-4 border-t ${BORDER_SOFT}`}>
           <div className={`text-[10px] ${TEXT_MUTED} leading-relaxed`}>
-            <div className="font-bold text-[#f5c23e] mb-1 tracking-wider uppercase">Mandate</div>
+            <div className="font-black text-[#f5c23e] mb-1.5 tracking-wider uppercase">Care. Navigate. Transform.</div>
+            <div className="font-bold text-[#8ea2d6] mb-1 tracking-wider uppercase text-[9px]">Mandate</div>
             Michigan Public Act 146 of 2023 — universal blood lead screening, effective April 30, 2025.
           </div>
         </div>
@@ -440,6 +472,7 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
             </div>
             <div className="flex items-center gap-3">
               <StatusChip active={configured} />
+              <NotificationChannels />
               <button
                 onClick={fetchDashboard}
                 disabled={loading}
@@ -581,7 +614,7 @@ const AcronymKey: React.FC = () => {
       <div className="flex items-center gap-3 mb-4">
         <div className="w-8 h-8 rounded-md bg-[#f5c23e] text-[#1f3fae] font-black text-sm flex items-center justify-center">S</div>
         <div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-[#f5c23e] font-bold">What SHIELD stands for</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-[#f5c23e] font-bold">Every Family Deserves a SHIELD 🛡️</div>
           <div className="text-xs text-[#8ea2d6] mt-0.5">One name, three audiences — we use whichever fits the situation.</div>
         </div>
       </div>
@@ -729,6 +762,28 @@ const StatusChip: React.FC<{ active: boolean }> = ({ active }) => (
     {active ? 'Live' : 'Setup'}
   </span>
 );
+
+const NotificationChannels: React.FC = () => {
+  const [status, setStatus] = React.useState<any>(null);
+  React.useEffect(() => {
+    api.getShieldNotificationStatus().then((r: any) => { if (r?.success) setStatus(r); }).catch(() => {});
+  }, []);
+  if (!status) return null;
+  const sms = status.sms?.enabled;
+  const email = status.email?.enabled;
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${sms ? 'bg-sky-900/50 text-sky-300' : 'bg-slate-800 text-slate-500'}`}>
+        <span className={`w-1 h-1 rounded-full ${sms ? 'bg-sky-400' : 'bg-slate-600'}`} />
+        SMS
+      </span>
+      <span className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${email ? 'bg-violet-900/50 text-violet-300' : 'bg-slate-800 text-slate-500'}`}>
+        <span className={`w-1 h-1 rounded-full ${email ? 'bg-violet-400' : 'bg-slate-600'}`} />
+        Email
+      </span>
+    </div>
+  );
+};
 
 const StatCard: React.FC<{ label: string; value: number | string; hint?: string; tone?: 'alert' | 'warn' | 'ok' | 'info' | 'neutral' | 'brand' }> = ({ label, value, hint, tone = 'neutral' }) => {
   const toneCls =
@@ -1149,8 +1204,11 @@ const ReferralsSection: React.FC<{
                   <td className="py-3 px-4 text-slate-300">{r.county || '—'}</td>
                   <td className="py-3 px-4">
                     <div className="flex flex-wrap gap-1">
-                      {(r.services_requested || []).slice(0, 3).map((s, i) => (
-                        <span key={i} className="text-[10px] bg-[#081849] text-slate-200 px-2 py-0.5 rounded border border-[#1c2f6a]">{s}</span>
+                      {(r.services_requested || []).slice(0, 3).map((s: string, i: number) => (
+                        <span key={i} className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border font-medium" style={{ borderColor: `${svcColor(s)}88`, color: svcColor(s), backgroundColor: `${svcColor(s)}18` }}>
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: svcColor(s) }} />
+                          {s}
+                        </span>
                       ))}
                       {(r.services_requested || []).length > 3 && (
                         <span className="text-[10px] text-[#8ea2d6]">+{(r.services_requested || []).length - 3}</span>
@@ -1437,8 +1495,11 @@ const CaseDetailPanel: React.FC<{
               {activations.map((a: any) => (
                 <div key={a.id} className="px-5 py-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="text-sm font-bold text-slate-100">{a.service_line}</div>
-                    <div className="text-xs text-[#8ea2d6]">
+                    <div className="flex items-center gap-2 text-sm font-bold text-slate-100">
+                      <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: svcColor(a.service_line || '') }} />
+                      {a.service_line}
+                    </div>
+                    <div className="text-xs text-[#8ea2d6] ml-[18px]">
                       {a.vendor || 'Vendor TBD'}{a.authorization_number ? ` · Auth ${a.authorization_number}` : ''}
                     </div>
                     {a.appointment_date && <div className="text-xs text-sky-300 mt-0.5">{new Date(a.appointment_date).toLocaleString()}</div>}
@@ -1770,7 +1831,7 @@ const IntakeWizard: React.FC<{ onSuccess: (ref: string) => void; onError: (msg: 
       setSubmitting(true);
       const result: any = await api.createShieldReferral(form);
       if (result?.success) {
-        onSuccess(String(result.reference_number ?? result.referral_id ?? 'new'));
+        onSuccess(String(result.case_number ?? result.reference_number ?? result.referral_id ?? 'new'));
       } else {
         onError(result?.error || 'Submission failed');
       }
@@ -1793,6 +1854,7 @@ const IntakeWizard: React.FC<{ onSuccess: (ref: string) => void; onError: (msg: 
               <div className="text-2xl font-black text-[#1f3fae] leading-tight">
                 Refer a Michigan family — we'll take it from here.
               </div>
+              <div className="text-[10px] uppercase tracking-wider text-[#f5c23e] font-black mt-1">Care. Navigate. Transform.</div>
               <div className="text-xs text-[#1f3fae]/80 mt-1 max-w-xl">
                 A CWC/DDI navigator will reach out within <strong>48 hours</strong>. No SSN or full date of birth collected — HIPAA compliant. Michigan Public Act 146 of 2023.
               </div>
@@ -1940,12 +2002,20 @@ const IntakeWizard: React.FC<{ onSuccess: (ref: string) => void; onError: (msg: 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {SERVICE_CHOICES.map(svc => {
                 const on = form.services_requested.includes(svc);
+                const hex = svcColor(svc);
                 return (
-                  <label key={svc} className={`flex items-center gap-3 border rounded-md px-3 py-2.5 cursor-pointer transition ${
-                    on ? 'bg-[#f5c23e]/10 border-[#f5c23e] text-[#fcd75a]' : 'bg-[#081849]/50 border-[#1c2f6a] text-slate-200 hover:border-[#1c2f6a]'
-                  }`}>
-                    <input type="checkbox" checked={on} onChange={() => toggleService(svc)} className="accent-[#f5c23e]" />
-                    <span className="text-sm font-medium">{svc}</span>
+                  <label
+                    key={svc}
+                    className={`flex items-center gap-3 border rounded-md px-3 py-2.5 cursor-pointer transition ${
+                      on ? '' : 'bg-[#081849]/50 border-[#1c2f6a] text-slate-200 hover:border-[#1c2f6a]'
+                    }`}
+                    style={on ? { borderColor: hex, backgroundColor: `${hex}18`, color: hex } : undefined}
+                  >
+                    <input type="checkbox" checked={on} onChange={() => toggleService(svc)} style={{ accentColor: hex }} />
+                    <span className="flex items-center gap-2 text-sm font-medium">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: hex }} />
+                      {svc}
+                    </span>
                   </label>
                 );
               })}
@@ -1975,7 +2045,21 @@ const IntakeWizard: React.FC<{ onSuccess: (ref: string) => void; onError: (msg: 
                 <InfoRow label="Family" value={form.family_name || '—'} />
                 <InfoRow label="County" value={form.county} />
                 <InfoRow label="Children" value={`${form.children.length}`} />
-                <InfoRow label="Services" value={form.services_requested.length ? form.services_requested.join(', ') : '—'} />
+                <div className="col-span-full">
+                  <dt className="text-[10px] uppercase tracking-wider text-[#8ea2d6] font-semibold">Services</dt>
+                  {form.services_requested.length ? (
+                    <dd className="flex flex-wrap gap-1.5 mt-1">
+                      {form.services_requested.map((s: string) => (
+                        <span key={s} className="inline-flex items-center gap-1 text-[10px] font-medium rounded-full px-2 py-0.5 border" style={{ borderColor: `${svcColor(s)}66`, color: svcColor(s), backgroundColor: `${svcColor(s)}18` }}>
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: svcColor(s) }} />
+                          {s}
+                        </span>
+                      ))}
+                    </dd>
+                  ) : (
+                    <dd className="text-xs text-slate-400">—</dd>
+                  )}
+                </div>
                 <InfoRow label="Medicaid" value={form.medicaid_enrolled ? 'Yes' : 'No'} />
                 <InfoRow label="SNAP" value={form.snap_enrolled ? 'Yes' : 'No'} />
               </dl>

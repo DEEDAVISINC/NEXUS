@@ -40,6 +40,7 @@
 ## 2026-04-28 — Tuesday
 
 - *(CBP Medical Support moved — see May 5 below. Amendment posted 4/22/2026 extended deadline.)*
+- 📋 **CMS-855B + Hardship Waiver submission** — Submit CMS-855B initial Medicare enrollment via PECOS with hardship exception letter (saved: `ESSENTIALS/DDI_Medicare_Hardship_Waiver_Letter.docx`). Also: log into CHAMPS (MiLogin: **davisd1221**) and check/add CHW taxonomy (171400000X) to DDI's existing provider enrollment. Pull CHW fee schedule (98960-98962 rates).
 
 ---
 
@@ -52,6 +53,10 @@
 ## 2026-05-04 — Monday *(MDHHS follow-up target window opens)*
 
 - **Watch item** — 📅 **MDHHS follow-up meeting — CWC+DDI** — Angela Medina + Aimee Surma committed to a formal follow-up within 2 weeks of 4/23. Target schedule: **week of 5/4 (5/4–5/8)**. Deliverable owed: **pilot structure documentation** (10-member demo — lead screening navigation + housing stability, 90-day outcomes framework, selection criteria, roles matrix).
+- **ASK at meeting** — 🛡️ **SHIELD vendor sourcing** — Request from Aimee/Angela: "Who are your current contracted vendors for lead abatement, emergency/temp housing, CHW home visits, and nurse home visits in Wayne, Oakland, Macomb, and Genesee counties — and can CWC/DDI be credentialed to coordinate through them?" Also ask about Get Ahead of Lead filter supplier pipeline and any existing MSHDA regional contacts for housing navigation.
+- **ASK at meeting** — 💰 **CHW Medicaid reimbursement rates** — Confirm Michigan Medicaid per-unit rate for CPT 98960/98961/98962 (CHW services). DDI needs the exact number to model navigator staffing costs vs. reimbursement. Also ask: what billing provider structure does MDHHS expect for CHW claims — can DDI bill as the Type 2 NPI org with CWC navigators as rendering providers?
+- **ASK at meeting** — 🏥 **Provider enrollment for CHW billing** — DDI's current Medicaid taxonomy is Transportation Broker (347E00000X). Ask Aimee/Angela: does DDI need to add a CHW taxonomy (171400000X) to bill 98960-98962? What's the fastest path to get DDI set up as a CHW billing provider in CHAMPS? Also: does MDHHS have guidance on CMS-855B Medicare enrollment for organizations billing CHI codes (G0019/G0022)?
+- **ASK at meeting** — 🩺 **Attending physician NPI for CHW claims** — Michigan Medicaid requires an attending provider NPI on every CHW claim (98960-98962 + modifier CG). When a family is referred through MDHHS/LHD for lead follow-up, does the referring physician's NPI travel with the referral? Or does DDI need to establish its own attending provider relationship (e.g., contract with an FQHC or physician)? This is the "MRO equivalent" for care coordination billing.
 
 ---
 

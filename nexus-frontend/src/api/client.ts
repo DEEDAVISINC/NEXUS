@@ -983,4 +983,40 @@ export const api = {
   // Update a child record (triggers BLL auto-escalation server-side)
   updateShieldChild: (childId: string, data: Record<string, unknown>) =>
     ApiClient.patch(`/shield/children/${encodeURIComponent(childId)}`, data),
+
+  // Public: family status lookup by case number + last name
+  shieldFamilyLookup: (caseNumber: string, lastName: string) =>
+    ApiClient.post('/shield/family-status', { case_number: caseNumber, last_name: lastName }),
+
+  // Notification channels status (SMS/email enabled?)
+  getShieldNotificationStatus: () => ApiClient.get('/shield/notifications/status'),
+
+  // Notification log for a referral
+  getShieldNotificationLog: (referralId?: string) => {
+    const q = referralId ? `?referral_id=${encodeURIComponent(referralId)}` : '';
+    return ApiClient.get(`/shield/notifications/log${q}`);
+  },
+
+  // Call log — navigator phone system
+  getShieldCallLog: (navigatorEmail?: string) => {
+    const q = navigatorEmail ? `?navigator=${encodeURIComponent(navigatorEmail)}` : '';
+    return ApiClient.get(`/shield/calls${q}`);
+  },
+  logShieldCall: (data: {
+    referral_id?: string;
+    phone: string;
+    direction: 'outbound' | 'inbound';
+    duration_sec: number;
+    notes?: string;
+    navigator_email: string;
+    status: string;
+  }) => ApiClient.post('/shield/calls', data),
+
+  // Twilio click-to-call — initiates outbound call through backend
+  shieldInitiateCall: (data: {
+    to: string;
+    navigator_phone: string;
+    referral_id?: string;
+    navigator_email: string;
+  }) => ApiClient.post('/shield/calls/initiate', data),
 };

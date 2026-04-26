@@ -228,6 +228,27 @@ app = Flask(__name__)
 logger = logging.getLogger(__name__)
 CORS(app)  # Enable CORS for all routes
 
+# ---------------------------------------------------------------------------
+# Simple in-memory cache for slow dashboard endpoints
+# ---------------------------------------------------------------------------
+import threading as _threading
+_CACHE: dict = {}
+_CACHE_LOCK = _threading.Lock()
+
+def _cache_get(key: str):
+    """Return cached value if still fresh, else None."""
+    with _CACHE_LOCK:
+        entry = _CACHE.get(key)
+        if entry and (datetime.utcnow() - entry['ts']).total_seconds() < entry['ttl']:
+            return entry['value']
+    return None
+
+def _cache_set(key: str, value, ttl: int = 300):
+    """Store value in cache with a TTL (seconds)."""
+    with _CACHE_LOCK:
+        _CACHE[key] = {'value': value, 'ts': datetime.utcnow(), 'ttl': ttl}
+# ---------------------------------------------------------------------------
+
 # Register PRISM Compliance & Document API
 try:
     from prism_compliance_api import prism_compliance
@@ -636,7 +657,15 @@ def get_dashboard_stats():
 def get_dashboard_activity():
     """
     Recent activity plus DDI lane matches — surfaces opportunities that fit core service lanes first.
+    Cached for 5 minutes to avoid slow Airtable full-table scans on every page load.
+    Pass ?refresh=1 to bust the cache manually.
     """
+    cache_key = 'dashboard_activity'
+    if not request.args.get('refresh'):
+        cached = _cache_get(cache_key)
+        if cached is not None:
+            return jsonify(cached)
+
     try:
         airtable_client = AirtableClient()
         activities = []
@@ -808,7 +837,7 @@ def get_dashboard_activity():
 
         activities.sort(key=_activity_sort_key, reverse=False)
 
-        return jsonify({
+        payload = {
             'activities': activities[:16],
             'ddi_top_picks': ddi_top_picks[:8],
             'ddi_subcontract_hints': ddi_subcontract_hints,
@@ -817,7 +846,9 @@ def get_dashboard_activity():
                 'subcontract_hints_in_recent': ddi_subcontract_flag_count,
                 'opportunities_scanned': ddi_scanned,
             },
-        })
+        }
+        _cache_set(cache_key, payload, ttl=300)  # cache 5 minutes
+        return jsonify(payload)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -23872,8 +23903,15 @@ try:
         handle_shield_ai_external,
         handle_shield_sla_override,
         handle_shield_update_child,
+        handle_shield_family_lookup,
     )
     _SHIELD_AVAILABLE = True
+    try:
+        from shield_notifications import notification_channels_status as _shield_notification_status
+        _SHIELD_NOTIFICATIONS = True
+    except ImportError:
+        _SHIELD_NOTIFICATIONS = False
+        _shield_notification_status = None
 except ImportError as _shield_err:
     print(f"[NEXUS] SHIELD module unavailable: {_shield_err}")
     _SHIELD_AVAILABLE = False
@@ -24048,6 +24086,44 @@ def shield_update_child(child_id):
     updates = request.get_json(silent=True) or {}
     result = handle_shield_update_child(child_id, updates)
     return jsonify(result), (200 if result.get('success') else 400)
+
+
+@app.route('/shield/family-status', methods=['POST'])
+def shield_family_lookup():
+    """Public: family status lookup by case number + last name. No auth."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    body = request.get_json(silent=True) or {}
+    result = handle_shield_family_lookup(body.get('case_number', ''), body.get('last_name', ''))
+    return jsonify(result), (200 if result.get('success') else 404)
+
+
+@app.route('/shield/notifications/status', methods=['GET'])
+def shield_notification_status():
+    """Dashboard: check which notification channels (SMS, email) are active."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    if _SHIELD_NOTIFICATIONS and _shield_notification_status:
+        return jsonify({"success": True, **_shield_notification_status()})
+    return jsonify({"success": True, "sms": {"enabled": False}, "email": {"enabled": False}})
+
+
+@app.route('/shield/notifications/log', methods=['GET'])
+def shield_notification_log():
+    """Dashboard: fetch notification history for a referral."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    from shield_lead_screening import ShieldAirtableClient, _safe_all, _serialize
+    from shield_notifications import TABLE_NOTIFICATIONS
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return jsonify({"success": False, "notifications": [], "count": 0})
+    referral_id = request.args.get('referral_id')
+    rows = [_serialize(r) for r in _safe_all(client, TABLE_NOTIFICATIONS)]
+    if referral_id:
+        rows = [r for r in rows if referral_id in (r.get("referral_id") or [])]
+    rows.sort(key=lambda x: x.get("sent_at", ""), reverse=True)
+    return jsonify({"success": True, "notifications": rows, "count": len(rows)})
 
 
 def _autostart_autonomous_engine():
