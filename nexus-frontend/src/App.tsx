@@ -24,12 +24,14 @@ import PublicReferrerIntake from './components/public/PublicReferrerIntake';
 import FamilyStatusTracker from './components/public/FamilyStatusTracker';
 import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
 import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
+import MDHHSPartnerPortal from './components/public/MDHHSPartnerPortal';
 
 function App() {
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
   if (path === '/refer') return <PublicReferrerIntake />;
   if (path === '/status') return <FamilyStatusTracker />;
   if (path === '/navigator') return <NavigatorWorkspace navigator={{ email: 'navigator@cwcare.org', name: 'CWC Navigator', role: 'Navigator' }} onLogout={() => window.location.href = '/'} />;
+  if (path === '/mdhhs') return <MDHHSPartnerPortal />;
   return <NexusApp />;
 }
 

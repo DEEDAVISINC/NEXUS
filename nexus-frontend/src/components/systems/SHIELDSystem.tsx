@@ -2268,28 +2268,62 @@ const BillingSection: React.FC<{ billing: any[] }> = ({ billing }) => {
 };
 
 const OutcomesSection: React.FC<{ outcomes: any; onRefresh: () => void }> = ({ outcomes, onRefresh }) => (
-  <div>
+  <div className="space-y-5">
     <SectionHeader
       eyebrow="MDHHS Report"
       title={outcomes ? `${outcomes.report_period} · ${outcomes.county}` : 'Outcomes (live)'}
-      action={<button onClick={onRefresh} className="bg-[#f5c23e] hover:bg-[#fcd75a] text-[#081849] text-xs font-black px-3 py-1.5 rounded-md">Regenerate</button>}
+      action={
+        <div className="flex items-center gap-2">
+          <a
+            href="/mdhhs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#046791] hover:bg-[#035980] text-white text-xs font-black px-3 py-1.5 rounded-md transition"
+          >
+            Open MDHHS Portal ↗
+          </a>
+          <button onClick={onRefresh} className="bg-[#f5c23e] hover:bg-[#fcd75a] text-[#081849] text-xs font-black px-3 py-1.5 rounded-md">Regenerate</button>
+        </div>
+      }
     />
     {!outcomes ? (
       <div className="bg-[#0a1a52]/40 border border-[#1c2f6a] rounded-xl p-12 text-center text-[#8ea2d6] text-sm">
         Click Regenerate to build a live MDHHS outcomes report from Airtable data.
       </div>
     ) : (
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <StatCard label="Total Referrals" value={outcomes.total_referrals ?? 0} tone="brand" />
-        <StatCard label="Families Served" value={outcomes.total_families_served ?? 0} tone="brand" />
-        <StatCard label="Children Screened" value={outcomes.total_children_screened ?? 0} tone="brand" />
-        <StatCard label="EBL Cases" value={outcomes.ebl_cases_navigated ?? 0} tone="alert" />
-        <StatCard label="Remediations Done" value={outcomes.remediation_cases_completed ?? 0} tone="ok" />
-        <StatCard label="NEMT Trips" value={outcomes.nemt_trips_authorized ?? 0} />
-        <StatCard label="Housing Placements" value={outcomes.housing_placements ?? 0} />
-        <StatCard label="SNAP Navigations" value={outcomes.snap_navigations ?? 0} />
-        <StatCard label="Filter Safety Net" value={outcomes.filter_safety_net_enrollments ?? 0} />
-        <StatCard label="Avg Contact (hrs)" value={outcomes.avg_contact_time_hours ?? '—'} hint="Target: 48" tone="info" />
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <StatCard label="Total Referrals" value={outcomes.total_referrals ?? 0} tone="brand" />
+          <StatCard label="Families Served" value={outcomes.total_families_served ?? 0} tone="brand" />
+          <StatCard label="Children Screened" value={outcomes.total_children_screened ?? 0} tone="brand" />
+          <StatCard label="EBL Cases" value={outcomes.ebl_cases_navigated ?? 0} tone="alert" />
+          <StatCard label="Remediations Done" value={outcomes.remediation_cases_completed ?? 0} tone="ok" />
+          <StatCard label="NEMT Trips" value={outcomes.nemt_trips_authorized ?? 0} />
+          <StatCard label="Housing Placements" value={outcomes.housing_placements ?? 0} />
+          <StatCard label="SNAP Navigations" value={outcomes.snap_navigations ?? 0} />
+          <StatCard label="Filter Safety Net" value={outcomes.filter_safety_net_enrollments ?? 0} />
+          <StatCard label="Avg Contact (hrs)" value={outcomes.avg_contact_time_hours ?? '—'} hint="Target: 48" tone="info" />
+        </div>
+        <div className="bg-[#0a1a52]/40 border border-[#1c2f6a] rounded-xl p-5">
+          <div className="flex items-center gap-3">
+            <span className="text-lg">🏛️</span>
+            <div className="flex-1">
+              <div className="text-xs font-bold text-white">MDHHS Partner Portal</div>
+              <div className="text-[10px] text-[#8ea2d6]">
+                Share this link with Aimee Surma and Angela Medina — they see referral tracking,
+                SLA compliance, county breakdowns, and a printable outcomes report. No internal DDI data exposed.
+              </div>
+            </div>
+            <a
+              href="/mdhhs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-[#f5c23e] hover:text-[#fcd75a] transition shrink-0"
+            >
+              /mdhhs ↗
+            </a>
+          </div>
+        </div>
       </div>
     )}
   </div>
