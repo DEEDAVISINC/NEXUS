@@ -110,51 +110,108 @@ def run():
             r = at.table(BASE_ID, "Referrals").create(referral_fields)
             ref_airtable_id = r["id"]
 
+            nav = next((n for n in NAVIGATORS if n["county"] == ref["county"]), NAVIGATORS[0])
+
             # Family
             fam = at.table(BASE_ID, "Families").create({
                 "family_name": ref["family"],
-                "phone_primary": f"(313) 555-{random.randint(1000, 9999)}",
-                "address": f"{random.randint(100, 9999)} {random.choice(['Woodward', 'Michigan', 'Grand River', 'Gratiot', 'Telegraph', 'Mound', 'Van Dyke'])} Ave, {ref['county']} County, MI",
+                "primary_contact_name": ref["family"],
+                "primary_contact_phone": f"(313) 555-{random.randint(1000, 9999)}",
+                "primary_contact_email": f"{ref['family'].lower()}@example.com",
+                "address": f"{random.randint(100, 9999)} {random.choice(['Woodward', 'Michigan', 'Grand River', 'Gratiot', 'Telegraph', 'Mound', 'Van Dyke'])} Ave",
+                "city": f"{ref['county']} County",
                 "county": ref["county"],
-                "referral_id": [ref_airtable_id],
+                "insurance_type": random.choice(["Medicaid / MIChild", "CHIP", "Private Insurance"]),
+                "language": random.choice(["English", "English", "English", "Spanish", "Arabic"]),
+                "status": "Active",
             })
 
+            # Link family to referral
+            try:
+                at.table(BASE_ID, "Referrals").update(ref_airtable_id, {"family_id": [fam["id"]], "navigator_email": nav["email"]})
+            except Exception:
+                pass
+
             # Children
-            for child_name, age_months, bll, test_status in ref["children"]:
+            BLL_TO_STATUS = {True: "Confirmed EBL", False: "Tested - Normal"}
+            for child_name, age_months, bll, _ in ref["children"]:
+                test_status = "Confirmed EBL" if bll >= 5 else "Tested - Normal"
+                clppp = "Enrolled" if bll >= 5 else "Not Referred"
                 at.table(BASE_ID, "Children").create({
                     "child_name": child_name,
                     "age_months": age_months,
                     "blood_lead_level": bll,
                     "lead_test_status": test_status,
-                    "clppp_status": "Active" if bll >= 5 else "Monitoring",
+                    "clppp_status": clppp,
                     "family_id": [fam["id"]],
-                    "referral_id": [ref_airtable_id],
                 })
-
-            # Navigator assignment
-            nav = next((n for n in NAVIGATORS if n["county"] == ref["county"]), NAVIGATORS[0])
 
             # Service activations
             for svc in ref["services"]:
-                status = "Delivered" if ref["stage"] == "Closed" else "Active" if ref["stage"] == "In Service" else "Pending"
+                status = "Completed" if ref["stage"] == "Closed" else "Active" if ref["stage"] == "In Service" else "Pending"
                 at.table(BASE_ID, "Service_Activations").create({
                     "referral_id": [ref_airtable_id],
                     "service_line": svc,
                     "status": status,
+                    "activated_date": date_received.isoformat(),
                     "navigator_name": nav["name"],
+                    "vendor": random.choice(["CWC Internal", "DDI Partner", "County Health Dept"]),
                 })
 
-            # Milestones
-            milestones = MILESTONE_TEMPLATES.get(ref["stage"], ["Referral received"])
+            # Milestones — use valid milestone_type values
+            STAGE_MILESTONES = {
+                "Intake": ["Referral Received"],
+                "Outreach": ["Referral Received", "Navigator Assigned", "First Contact Attempt"],
+                "Engaged": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged"],
+                "In Service": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged", "Service Activated"],
+                "Closed": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged", "Service Activated", "Service Completed", "Case Closed"],
+            }
+            milestones = STAGE_MILESTONES.get(ref["stage"], ["Referral Received"])
             for j, ms in enumerate(milestones):
                 ms_date = date_received + timedelta(days=j * random.randint(1, 3))
                 at.table(BASE_ID, "Case_Milestones").create({
                     "referral_id": [ref_airtable_id],
                     "milestone_type": ms,
-                    "date_logged": ms_date.isoformat(),
-                    "logged_by": nav["name"],
-                    "notes": f"Auto-seeded demo milestone",
+                    "timestamp": ms_date.isoformat(),
+                    "recorded_by": nav["name"],
+                    "notes": f"Demo data — {ms}",
                 })
+
+    # ─── Seed Navigators table ───────────────────────────────────────────
+    nav_count = 0
+    if not DRY_RUN:
+        print("\n  Seeding Navigators table...")
+        for nav in NAVIGATORS:
+            try:
+                at.table(BASE_ID, "Navigators").create({
+                    "name": nav["name"],
+                    "email": nav["email"],
+                    "phone": nav["phone"],
+                    "county": nav["county"],
+                    "role": "Navigator",
+                    "status": "Active",
+                })
+                nav_count += 1
+            except Exception as e:
+                print(f"    ⚠ Navigator {nav['name']}: {e}")
+        # Dee Davis as Ultimate Supervisor
+        try:
+            at.table(BASE_ID, "Navigators").create({
+                "name": "Dee Davis",
+                "email": "dee@deedavisinc.com",
+                "phone": "(313) 555-0100",
+                "county": "All",
+                "role": "Ultimate Supervisor",
+                "supervisor_access": True,
+                "status": "Active",
+            })
+            nav_count += 1
+        except Exception as e:
+            print(f"    ⚠ Dee Davis: {e}")
+        print(f"  ✓ {nav_count} navigators created")
+    else:
+        nav_count = len(NAVIGATORS) + 1
+        print(f"\n  Would create {nav_count} navigators (including Dee Davis as Ultimate Supervisor)")
 
     total_children = sum(len(r["children"]) for r in DEMO_REFERRALS)
     ebl = sum(1 for r in DEMO_REFERRALS for _, _, bll, _ in r["children"] if bll >= 5)
@@ -162,6 +219,7 @@ def run():
     print(f"  {len(DEMO_REFERRALS)} referrals")
     print(f"  {len(DEMO_REFERRALS)} families")
     print(f"  {total_children} children ({ebl} with EBL >= 5 µg/dL)")
+    print(f"  {nav_count} navigators")
     print(f"  Across: Wayne ({sum(1 for r in DEMO_REFERRALS if r['county']=='Wayne')}), "
           f"Oakland ({sum(1 for r in DEMO_REFERRALS if r['county']=='Oakland')}), "
           f"Macomb ({sum(1 for r in DEMO_REFERRALS if r['county']=='Macomb')}), "

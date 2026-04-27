@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from '../../api/client';
 import SHIELDAcronym from '../shield/Acronym';
+import HIPAAGate from '../shield/HIPAAGate';
 
 /**
  * SHIELD — Lead Screening & MDHHS Referral Command Center
@@ -77,10 +78,23 @@ type ReferralRow = {
   sla_override_at?: string;
 };
 
-// Role-based access — mirrors backend SUPERVISOR_ROLES
-type CurrentUser = { email: string; name: string; role: string };
-const SUPERVISOR_ROLES = ['Supervisor', 'Admin'];
-const isSupervisor = (u: CurrentUser | null) => !!u && SUPERVISOR_ROLES.includes(u.role);
+// Role-based access — mirrors shield_lead_screening._is_supervisor_role
+type CurrentUser = { email: string; name: string; role: string; supervisor_access?: boolean };
+
+function isUltimateSupervisor(u: CurrentUser | null): boolean {
+  if (!u?.role) return false;
+  const rl = (u.role || '').trim().toLowerCase();
+  return rl.includes('ultimate') && rl.includes('supervisor');
+}
+
+/** Full supervisor powers: SLA overrides everywhere, no stage lockout. */
+function isSupervisor(u: CurrentUser | null): boolean {
+  if (!u) return false;
+  if (u.supervisor_access === true) return true;
+  const rl = (u.role || '').trim().toLowerCase();
+  if (rl === 'supervisor' || rl === 'admin' || rl === 'ultimate supervisor') return true;
+  return rl.includes('ultimate') && rl.includes('supervisor');
+}
 
 type ChildRow = {
   id: string;
@@ -211,7 +225,9 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
 
   // Acting user — drives supervisor gating (SLA override etc.)
   // Persisted to localStorage so the selection survives reloads.
-  const [navigators, setNavigators] = useState<Array<{ id: string; name?: string; email?: string; role?: string }>>([]);
+  const [navigators, setNavigators] = useState<
+    Array<{ id: string; name?: string; email?: string; role?: string; supervisor_access?: boolean }>
+  >([]);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(() => {
     try {
       const raw = localStorage.getItem('shield_current_user');
@@ -297,11 +313,12 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
       // Auto-select previously saved user if still present & fresh their role
       if (currentUser) {
         const match = list.find((n: any) => (n.email || '').toLowerCase() === currentUser.email.toLowerCase());
-        if (match && match.role !== currentUser.role) {
+        if (match && (match.role !== currentUser.role || match.supervisor_access !== currentUser.supervisor_access)) {
           updateCurrentUser({
             email: match.email || currentUser.email,
             name: match.name || currentUser.name,
             role: match.role || currentUser.role,
+            supervisor_access: !!match.supervisor_access,
           });
         }
       }
@@ -342,6 +359,7 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
   const configured = dashboard?.configured !== false;
 
   return (
+    <HIPAAGate>
     <div className={`flex min-h-screen ${BG_APP} text-slate-100`}>
       {/* ───────── LEFT SIDEBAR ───────── */}
       <aside className={`w-64 ${BG_SURFACE} border-r ${BORDER_SOFT} flex flex-col sticky top-0 h-screen`}>
@@ -409,7 +427,10 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
         <div className={`px-4 py-3 border-t ${BORDER_SOFT}`}>
           <div className={`text-[10px] uppercase tracking-widest ${TEXT_MUTED} font-bold mb-1.5 flex items-center justify-between`}>
             <span>Acting as</span>
-            {isSupervisor(currentUser) && (
+            {isUltimateSupervisor(currentUser) && (
+              <span className="text-[9px] text-[#f5c23e] bg-[#f5c23e]/15 border border-[#f5c23e]/50 rounded px-1.5 py-0.5">ULTIMATE SUPERVISOR</span>
+            )}
+            {!isUltimateSupervisor(currentUser) && isSupervisor(currentUser) && (
               <span className="text-[9px] text-[#f5c23e] bg-[#f5c23e]/15 border border-[#f5c23e]/50 rounded px-1.5 py-0.5">SUPERVISOR</span>
             )}
           </div>
@@ -424,6 +445,7 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
                   email: match.email || '',
                   name: match.name || match.email || 'Navigator',
                   role: match.role || 'Navigator',
+                  supervisor_access: !!match.supervisor_access,
                 });
               }
             }}
@@ -567,6 +589,7 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
         </main>
       </div>
     </div>
+    </HIPAAGate>
   );
 };
 
@@ -1347,7 +1370,8 @@ const CaseDetailPanel: React.FC<{
             <StatusPill status={referral.status || 'New'} />
             <UrgencyPill urgency={referral.urgency || 'Standard'} />
             <SLABar sla={referral.sla} dateReceived={referral.date_received} stage={currentStage} />
-            {canOverride && (currentStage === 'Intake' || currentStage === 'Triage' || currentStage === 'Outreach') && (
+            {/* Supervisors (incl. Ultimate): SLA override at any stage — no lockout */}
+            {canOverride && (
               <button
                 onClick={() => setOverrideOpen(true)}
                 className={`text-[11px] font-black uppercase tracking-wider px-3 py-1.5 rounded-md border transition ${

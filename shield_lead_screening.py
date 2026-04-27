@@ -85,8 +85,9 @@ REFERRAL_STATUSES = ["New", "Assigned", "Active", "Pending", "Completed", "Close
 #   BLL ≥ 5                      → Urgent     (EBL threshold, CDC)
 #   Confirmed EBL + displacement → Emergency
 #
-# Only Supervisor / Admin navigators can override an SLA. Enforced by
-# _is_supervisor() via the Navigators table `role` field.
+# Only Supervisor / Admin / Ultimate Supervisor navigators can override an SLA.
+# Also: SHIELD_ULTIMATE_SUPERVISOR_EMAILS (comma-separated) grants full supervisor API access.
+# Enforced by _is_supervisor_role() via the Navigators table `role` field + allowlist.
 # ─────────────────────────────────────────────────────────────────────────────
 SLA_FIRST_CONTACT_HOURS: Dict[str, int] = {
     "Emergency": 24,
@@ -102,7 +103,31 @@ SLA_DOWNSTREAM_HOURS: Dict[str, int] = {
 
 # Urgency ordering for escalation comparisons
 _URGENCY_RANK: Dict[str, int] = {"Standard": 0, "Urgent": 1, "Emergency": 2}
-SUPERVISOR_ROLES = {"Supervisor", "Admin"}
+
+# Legacy exact-match set (kept for reference). Canonical check is _is_supervisor_role().
+SUPERVISOR_ROLES = {"Supervisor", "Admin", "Ultimate Supervisor"}
+
+
+def _ultimate_supervisor_emails() -> set:
+    """Comma-separated allowlist: full supervisor powers even if Airtable role is wrong."""
+    raw = os.environ.get("SHIELD_ULTIMATE_SUPERVISOR_EMAILS", "").strip()
+    return {e.strip().lower() for e in raw.split(",") if e.strip()}
+
+
+def _is_supervisor_role(role: str, email: str = "") -> bool:
+    """Supervisor, Admin, Ultimate Supervisor (any wording), or email allowlist."""
+    em = (email or "").strip().lower()
+    if em and em in _ultimate_supervisor_emails():
+        return True
+    r = (role or "").strip()
+    if not r:
+        return False
+    rl = r.lower()
+    if rl in ("supervisor", "admin", "ultimate supervisor"):
+        return True
+    if "ultimate" in rl and "supervisor" in rl:
+        return True
+    return False
 
 # SHIELD case-number prefix + format: SHD-YYYY-NNNN
 _SHIELD_PREFIX = "SHD"
@@ -442,10 +467,6 @@ def _role_for_email(client: ShieldAirtableClient, email: str) -> str:
     if not record:
         return ""
     return (record.get("fields", {}) or {}).get("role", "") or ""
-
-
-def _is_supervisor(client: ShieldAirtableClient, email: str) -> bool:
-    return _role_for_email(client, email) in SUPERVISOR_ROLES
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -827,6 +848,95 @@ def handle_shield_update_referral(referral_id: str, updates: Dict[str, Any]) -> 
         return {"success": False, "configured": False}
     try:
         updated = client.update(TABLE_REFERRALS, referral_id, updates)
+
+        fields = updated.get("fields", {}) or {}
+
+        # Trigger notify_navigator_assigned when navigator_email is set
+        if updates.get("navigator_email") or updates.get("status") == "Assigned":
+            try:
+                import threading
+                from shield_notifications import notify_navigator_assigned
+                fam_id = (fields.get("family_id") or [None])[0]
+                family_phone = _resolve_family_phone(client, fam_id)
+                family_name = _resolve_family_name(client, fam_id)
+                family_email = ""
+                try:
+                    if fam_id:
+                        fam = client.get(TABLE_FAMILIES, fam_id)
+                        family_email = (fam.get("fields", {}) or {}).get("primary_contact_email", "")
+                except Exception:
+                    pass
+                nav_name, nav_phone = _resolve_navigator(client, referral_id)
+                nav_email = updates.get("navigator_email") or fields.get("navigator_email", "")
+                case_number = fields.get("referral_id", referral_id)
+                threading.Thread(
+                    target=notify_navigator_assigned,
+                    kwargs={
+                        "client": client,
+                        "case_number": case_number,
+                        "family_name": family_name,
+                        "family_phone": family_phone,
+                        "family_email": family_email,
+                        "navigator_name": nav_name,
+                        "navigator_phone": nav_phone,
+                        "navigator_email": nav_email,
+                        "referral_id": referral_id,
+                        "family_id": fam_id,
+                    },
+                    daemon=True,
+                ).start()
+            except Exception:
+                pass
+
+        # Trigger notify_case_closed when status becomes Closed or Completed
+        new_status = (updates.get("status") or "").lower()
+        if new_status in ("closed", "completed"):
+            try:
+                import threading
+                from shield_notifications import notify_case_closed
+                fam_id = (fields.get("family_id") or [None])[0]
+                family_phone = _resolve_family_phone(client, fam_id)
+                family_name = _resolve_family_name(client, fam_id)
+                family_email = ""
+                try:
+                    if fam_id:
+                        fam = client.get(TABLE_FAMILIES, fam_id)
+                        family_email = (fam.get("fields", {}) or {}).get("primary_contact_email", "")
+                except Exception:
+                    pass
+                case_number = fields.get("referral_id", referral_id)
+                caseworker_email = fields.get("case_worker_email", "")
+                caseworker_name = fields.get("case_worker_name", "")
+                services_list = ", ".join(fields.get("services_requested", []) or [])
+                duration_days = 0
+                try:
+                    from datetime import datetime
+                    dr = fields.get("date_received", "")
+                    if dr:
+                        start = datetime.fromisoformat(dr.replace("Z", "+00:00"))
+                        duration_days = (datetime.now(start.tzinfo) - start).days
+                except Exception:
+                    pass
+                threading.Thread(
+                    target=notify_case_closed,
+                    kwargs={
+                        "client": client,
+                        "case_number": case_number,
+                        "family_name": family_name,
+                        "family_phone": family_phone,
+                        "family_email": family_email,
+                        "caseworker_name": caseworker_name,
+                        "caseworker_email": caseworker_email,
+                        "services_list": services_list or "Lead screening & navigation",
+                        "duration_days": duration_days,
+                        "referral_id": referral_id,
+                        "family_id": fam_id,
+                    },
+                    daemon=True,
+                ).start()
+            except Exception:
+                pass
+
         return {"success": True, "referral": _enriched(updated)}
     except Exception as e:
         return {"success": False, "error": str(e)}
@@ -839,7 +949,7 @@ def handle_shield_sla_override(referral_id: str, payload: Dict[str, Any]) -> Dic
     Body:
       { user_email, target_hours, reason }
 
-    Only navigators whose Navigators.role ∈ {Supervisor, Admin} may override.
+    Only Supervisor, Admin, Ultimate Supervisor (or SHIELD_ULTIMATE_SUPERVISOR_EMAILS) may override.
     Stores the override + a milestone so the audit trail is permanent.
     Pass target_hours <= 0 or null to CLEAR an existing override (reverts to
     urgency-derived SLA).
@@ -857,10 +967,13 @@ def handle_shield_sla_override(referral_id: str, payload: Dict[str, Any]) -> Dic
 
     nav = _find_navigator_by_email(client, user_email)
     role = (nav.get("fields", {}) or {}).get("role", "") if nav else ""
-    if role not in SUPERVISOR_ROLES:
+    if not _is_supervisor_role(role, user_email):
         return {
             "success": False,
-            "error": "SLA overrides are restricted to Supervisor or Admin navigators.",
+            "error": (
+                "SLA overrides require Supervisor, Admin, Ultimate Supervisor, "
+                "or an email listed in SHIELD_ULTIMATE_SUPERVISOR_EMAILS."
+            ),
             "your_role": role or "Unknown",
             "status_code": 403,
         }
@@ -1027,7 +1140,64 @@ def handle_shield_list_navigators() -> Dict[str, Any]:
     if not client.is_configured:
         return _unconfigured_hint("navigators")
     records = _safe_all(client, TABLE_NAVIGATORS)
-    return {"success": True, "configured": True, "navigators": [_serialize(r) for r in records], "count": len(records)}
+    rows: List[Dict[str, Any]] = []
+    for r in records:
+        row = _serialize(r)
+        fields = r.get("fields", {}) or {}
+        em = (fields.get("email") or "").strip()
+        role = (fields.get("role") or "").strip()
+        row["supervisor_access"] = _is_supervisor_role(role, em)
+        rows.append(row)
+    return {"success": True, "configured": True, "navigators": rows, "count": len(rows)}
+
+
+def handle_shield_navigator_login(email: str, name: str) -> Dict[str, Any]:
+    """Verify a navigator's identity against the Navigators table.
+
+    Looks up by email. If found, returns their profile. If not found but
+    the table is empty or unconfigured, allows a 'demo mode' login.
+    """
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return {
+            "success": True, "demo_mode": True,
+            "navigator": {
+                "email": email,
+                "name": name,
+                "role": "Navigator",
+                "supervisor_access": _is_supervisor_role("Navigator", email),
+            },
+        }
+    nav = _find_navigator_by_email(client, email)
+    if nav:
+        fields = nav.get("fields", {}) or {}
+        em = (fields.get("email") or email or "").strip()
+        role = (fields.get("role") or "Navigator")
+        return {
+            "success": True,
+            "navigator": {
+                "id": nav.get("id"),
+                "email": fields.get("email", email),
+                "name": fields.get("name", name),
+                "role": role,
+                "phone": fields.get("phone", ""),
+                "assigned_counties": fields.get("assigned_counties", ""),
+                "status": fields.get("status", "Active"),
+                "supervisor_access": _is_supervisor_role(role, em),
+            },
+        }
+    records = _safe_all(client, TABLE_NAVIGATORS)
+    if len(records) == 0:
+        return {
+            "success": True, "demo_mode": True,
+            "navigator": {
+                "email": email,
+                "name": name,
+                "role": "Navigator",
+                "supervisor_access": _is_supervisor_role("Navigator", email),
+            },
+        }
+    return {"success": False, "error": "Navigator not found. Contact your supervisor to be added to the system."}
 
 
 # ── SERVICE ACTIVATIONS ─────────────────────────────────────────────────────
@@ -1133,6 +1303,31 @@ def handle_shield_activate_service(payload: Dict[str, Any]) -> Dict[str, Any]:
         except Exception:
             pass
 
+    # Notify family when a service is completed/delivered
+    svc_status = (payload.get("status") or "").lower()
+    if svc_status in ("completed", "delivered"):
+        try:
+            import threading
+            from shield_notifications import notify_service_completed
+            family_phone = _resolve_family_phone(client, family_id)
+            family_name = _resolve_family_name(client, family_id)
+            nav_name, _ = _resolve_navigator(client, referral_id)
+            threading.Thread(
+                target=notify_service_completed,
+                kwargs={
+                    "client": client,
+                    "family_name": family_name,
+                    "family_phone": family_phone,
+                    "service_name": service_line,
+                    "navigator_name": nav_name or payload.get("navigator_name", ""),
+                    "referral_id": referral_id,
+                    "family_id": family_id,
+                },
+                daemon=True,
+            ).start()
+        except Exception:
+            pass
+
     return {
         "success": True,
         "configured": True,
@@ -1195,6 +1390,54 @@ def handle_shield_create_billing(payload: Dict[str, Any]) -> Dict[str, Any]:
     try:
         record = client.create(TABLE_BILLING, fields)
         return {"success": True, "billing": _serialize(record)}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ── CONTRACTORS ────────────────────────────────────────────────────────────
+def handle_shield_list_contractors(service_line: Optional[str] = None, county: Optional[str] = None) -> Dict[str, Any]:
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return _unconfigured_hint("contractors")
+    rows = [_serialize(r) for r in _safe_all(client, TABLE_CONTRACTORS)]
+    if service_line:
+        rows = [r for r in rows if r.get("service_line") == service_line]
+    if county:
+        rows = [r for r in rows if county in (r.get("counties_served") or [])]
+    return {"success": True, "configured": True, "contractors": rows, "count": len(rows)}
+
+
+def handle_shield_create_contractor(payload: Dict[str, Any]) -> Dict[str, Any]:
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return {"success": False, "configured": False}
+    fields = {k: v for k, v in payload.items() if v not in (None, "", [])}
+    try:
+        record = client.create(TABLE_CONTRACTORS, fields)
+        return {"success": True, "contractor": _serialize(record)}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ── OUTCOMES (CRUD) ────────────────────────────────────────────────────────
+def handle_shield_list_outcomes(referral_id: Optional[str] = None) -> Dict[str, Any]:
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return _unconfigured_hint("outcomes")
+    rows = [_serialize(r) for r in _safe_all(client, TABLE_OUTCOMES)]
+    if referral_id:
+        rows = [r for r in rows if referral_id in (r.get("referral_id") or [])]
+    return {"success": True, "configured": True, "outcomes": rows, "count": len(rows)}
+
+
+def handle_shield_create_outcome(payload: Dict[str, Any]) -> Dict[str, Any]:
+    client = ShieldAirtableClient()
+    if not client.is_configured:
+        return {"success": False, "configured": False}
+    fields = {k: v for k, v in payload.items() if v not in (None, "", [])}
+    try:
+        record = client.create(TABLE_OUTCOMES, fields)
+        return {"success": True, "outcome": _serialize(record)}
     except Exception as e:
         return {"success": False, "error": str(e)}
 

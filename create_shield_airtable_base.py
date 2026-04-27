@@ -1,6 +1,6 @@
 """
 SHIELD — Airtable Base Builder
-Creates the `nexus_lead_screening` base with all 10 tables + fields,
+Creates the `nexus_lead_screening` base with all 11 tables + fields,
 then writes LEAD_SCREENING_BASE_ID into .env automatically.
 
 Run once:  python3 create_shield_airtable_base.py
@@ -48,7 +48,7 @@ def link(name, table): return {"name": name, "type": "multipleRecordLinks", "opt
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Table schemas  (10 tables)
+# Table schemas  (11 tables)
 # Primary field is always first in the fields list.
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -60,13 +60,19 @@ TABLES = [
         "name": "Referrals",
         "description": "One row per referral intake. Hub table — all service activations, milestones, and billing link here.",
         "fields": [
-            txt("referral_id"),           # primary — human-readable ID e.g. REF-2026-0001
+            txt("referral_id"),           # primary — human-readable SHD-YYYY-NNNN
             select("status", ["New", "Assigned", "Active", "Pending", "Completed", "Closed"]),
             select("stage", ["Intake", "Triage", "Outreach", "Engaged", "In Service", "Closed"]),
             select("urgency", ["Standard", "Urgent", "Emergency"]),
             select("county", COUNTIES),
             txt("referral_source"),
+            txt("referring_agency"),
+            txt("case_worker_name"),
+            email_f("case_worker_email"),
+            phone_f("case_worker_phone"),
+            multi("services_requested", SERVICE_LINES),
             txt("navigator_email"),
+            txt("intake_method"),
             dt("date_received"),
             dt("first_contact_at"),
             # SLA override (supervisor-only)
@@ -79,12 +85,6 @@ TABLES = [
             txt("urgency_escalated_from"),
             mltext("urgency_escalated_reason"),
             dt("urgency_escalated_at"),
-            # Contact / referral party
-            txt("referrer_name"),
-            txt("referrer_organization"),
-            email_f("referrer_email"),
-            phone_f("referrer_phone"),
-            txt("referrer_title"),
             # Pilot
             txt("pilot_id"),
             mltext("notes"),
@@ -100,8 +100,8 @@ TABLES = [
             txt("city"),
             txt("zip"),
             select("county", COUNTIES),
-            phone_f("phone"),
-            email_f("email"),
+            phone_f("primary_contact_phone"),
+            email_f("primary_contact_email"),
             select("insurance_type", ["Medicaid / MIChild", "CHIP", "Private Insurance", "Uninsured", "Unknown"]),
             txt("medicaid_id"),
             txt("mco_plan"),
@@ -121,10 +121,11 @@ TABLES = [
             txt("payment_source_detail"),
             mltext("payment_notes"),
             chk("snap_enrolled"),
-            select("preferred_language", ["English", "Spanish", "Arabic", "Bengali", "Other"]),
+            select("language", ["English", "Spanish", "Arabic", "Bengali", "Other"]),
             chk("housing_instability"),
             chk("displacement_required"),
             txt("mdhhs_case_number"),
+            select("status", ["Active", "Inactive", "Closed"]),
             mltext("notes"),
         ],
     },
@@ -138,6 +139,7 @@ TABLES = [
             num("blood_lead_level", 2),
             select("lead_test_status", ["Not Tested", "Tested - Normal", "Tested - Elevated", "Confirmed EBL"]),
             select("clppp_status", ["Not Referred", "Referred", "Enrolled", "Closed"]),
+            txt("clppp_case_number"),
             dt("test_date"),
             dt("clppp_referral_date"),
             chk("filter_deployed"),
@@ -169,15 +171,20 @@ TABLES = [
         "fields": [
             txt("activation_id"),
             select("service_line", SERVICE_LINES),
-            select("status", ["Pending", "Auth Requested", "Active", "Completed", "Denied", "Cancelled"]),
+            select("status", ["Pending", "Pending Approval", "Auth Requested", "Active", "In Progress", "Completed", "Delivered", "Verified Complete", "Denied", "Cancelled"]),
+            dt("activated_date"),
+            dt("completion_date"),
+            txt("vendor"),
+            txt("vendor_phone"),
+            txt("authorization_number"),
+            dt("appointment_date"),
+            txt("navigator_name"),
+            mltext("verification_steps"),
             txt("billed_to"),
             currency_f("service_rate"),
             pct("admin_fee_rate"),
             currency_f("admin_fee_amount"),
-            txt("auth_number"),
             txt("prior_auth_status"),
-            date_f("activation_date"),
-            date_f("completion_date"),
             txt("contractor_name"),
             mltext("notes"),
         ],
@@ -199,20 +206,24 @@ TABLES = [
                 "CLPPP Referral Sent",
                 "Housing Intake Completed",
                 "Service Activated",
+                "Appointment Scheduled",
+                "Service Completed",
                 "Prior Auth Submitted",
                 "Prior Auth Approved",
                 "Remediation Scheduled",
                 "Filter Deployed",
                 "Case Review",
                 "Case Closed",
-                "SLA Override Applied",
-                "Urgency Escalated",
+                "SLA Override (Supervisor)",
+                "SLA Override Cleared",
+                "Urgency Auto-Escalated",
+                "Navigator Note",
+                "Activity Log",
                 "Other",
             ]),
             dt("timestamp"),
-            txt("navigator_email"),
-            txt("referral_id_text"),
-            mltext("details"),
+            txt("recorded_by"),
+            mltext("notes"),
         ],
     },
     {
@@ -328,6 +339,22 @@ TABLES = [
         ],
     },
     {
+        "name": "Call_Log",
+        "description": "Logged inbound and outbound calls by navigators. Linked to referrals for case history.",
+        "fields": [
+            txt("navigator_email"),
+            txt("navigator_name"),
+            txt("family_name"),
+            txt("phone_number"),
+            select("direction", ["Outbound", "Inbound"]),
+            select("outcome", ["Reached — Appointment Set", "Reached — Info Provided", "Reached — Follow-Up Needed", "Voicemail Left", "No Answer", "Wrong Number", "Refused"]),
+            num("duration_seconds"),
+            mltext("notes"),
+            dt("called_at"),
+            txt("referral_id_text"),
+        ],
+    },
+    {
         "name": "Notification_Log",
         "description": "Audit trail for every SMS and email sent by SHIELD. Linked to referrals for dashboard visibility.",
         "fields": [
@@ -338,6 +365,8 @@ TABLES = [
             select("status", ["Sent", "Failed", "Skipped"]),
             txt("error"),
             dt("sent_at"),
+            txt("referral_id_text"),
+            txt("family_id_text"),
             mltext("raw_response"),
         ],
     },

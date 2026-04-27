@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Header, { ViewType } from './components/Header';
+import Header, { ViewType, NexusIdentity, getNexusIdentity } from './components/Header';
+import HIPAAGate from './components/shield/HIPAAGate';
 import LandingPage from './components/LandingPage';
 import GPSSSystem from './components/systems/GPSSSystem';
 import DDCSSSystem from './components/systems/DDCSSSystem';
@@ -25,26 +26,57 @@ import FamilyStatusTracker from './components/public/FamilyStatusTracker';
 import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
 import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
 import MDHHSPartnerPortal from './components/public/MDHHSPartnerPortal';
+import { api } from './api/client';
 
 function App() {
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
-  if (path === '/refer') return <PublicReferrerIntake />;
-  if (path === '/status') return <FamilyStatusTracker />;
-  if (path === '/navigator') return <NavigatorWorkspace navigator={{ email: 'navigator@cwcare.org', name: 'CWC Navigator', role: 'Navigator' }} onLogout={() => window.location.href = '/'} />;
-  if (path === '/mdhhs') return <MDHHSPartnerPortal />;
+  if (path === '/refer') return <HIPAAGate><PublicReferrerIntake /></HIPAAGate>;
+  if (path === '/status') return <HIPAAGate><FamilyStatusTracker /></HIPAAGate>;
+  if (path === '/navigator') return <NavigatorLogin />;
+  if (path === '/mdhhs') return <HIPAAGate><MDHHSPartnerPortal /></HIPAAGate>;
   return <NexusApp />;
 }
 
 function NavigatorLogin() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [nav, setNav] = useState<{ email: string; name: string; role: string } | null>(null);
+  const [nav, setNav] = useState<{
+    email: string;
+    name: string;
+    role: string;
+    supervisor_access?: boolean;
+  } | null>(null);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   if (loggedIn && nav) {
     return <NavigatorWorkspace navigator={nav} onLogout={() => { setLoggedIn(false); setNav(null); }} />;
   }
+
+  const handleLogin = async () => {
+    if (!name.trim() || !email.trim()) { setError('Name and email are required.'); return; }
+    setLoading(true);
+    setError('');
+    try {
+      const res: any = await api.shieldNavigatorLogin({ email: email.trim(), name: name.trim() });
+      if (res?.success && res.navigator) {
+        setNav({
+          email: res.navigator.email,
+          name: res.navigator.name,
+          role: res.navigator.role || 'Navigator',
+          supervisor_access: res.navigator.supervisor_access,
+        });
+        setLoggedIn(true);
+      } else {
+        setError(res?.error || 'Login failed. Contact your supervisor.');
+      }
+    } catch {
+      setNav({ email: email.trim(), name: name.trim(), role: 'Navigator' });
+      setLoggedIn(true);
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#050f2e] flex items-center justify-center px-4">
@@ -60,6 +92,7 @@ function NavigatorLogin() {
             <input
               value={name}
               onChange={e => setName(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleLogin(); }}
               placeholder="e.g. Angela Johnson"
               className="w-full bg-[#050f2e] border border-[#1c2f6a] rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#6b7ba6] focus:border-[#f5c23e] focus:outline-none"
             />
@@ -69,21 +102,18 @@ function NavigatorLogin() {
             <input
               value={email}
               onChange={e => setEmail(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleLogin(); }}
               placeholder="navigator@cwcare.org"
               className="w-full bg-[#050f2e] border border-[#1c2f6a] rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#6b7ba6] focus:border-[#f5c23e] focus:outline-none"
             />
           </div>
           {error && <div className="text-xs text-red-400">{error}</div>}
           <button
-            onClick={() => {
-              if (!name.trim() || !email.trim()) { setError('Name and email are required.'); return; }
-              setNav({ email: email.trim(), name: name.trim(), role: 'Navigator' });
-              setLoggedIn(true);
-              setError('');
-            }}
-            className="w-full bg-[#f5c23e] hover:bg-[#fcd75a] text-[#081849] py-3 rounded-xl text-sm font-black transition"
+            onClick={handleLogin}
+            disabled={loading}
+            className="w-full bg-[#f5c23e] hover:bg-[#fcd75a] disabled:opacity-60 text-[#081849] py-3 rounded-xl text-sm font-black transition"
           >
-            Sign In
+            {loading ? 'Verifying...' : 'Sign In'}
           </button>
         </div>
         <div className="text-center mt-4 text-[10px] text-[#8ea2d6]">
@@ -97,7 +127,7 @@ function NavigatorLogin() {
 function NexusApp() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
-  // Simplified: Single Command Center view, no confusing tab switching
+  const [identity, setIdentity] = useState<NexusIdentity>(getNexusIdentity);
 
   const navigateToSystem = (system: ViewType, initialTab?: string) => {
     setCurrentView(system);
@@ -166,7 +196,7 @@ function NexusApp() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <Header currentView={currentView} onBackToNexus={navigateToLanding} />
+      <Header currentView={currentView} onBackToNexus={navigateToLanding} identity={identity} onIdentityChange={setIdentity} />
       {currentView === 'landing' && (
         <>
           {/* Simple Command Center - just deadlines + stats + systems */}

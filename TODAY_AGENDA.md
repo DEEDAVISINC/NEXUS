@@ -31,6 +31,12 @@ TOMORROW'S PRIORITIES — Sunday, April 26, 2026
      the service delivery model: who's doing what, where DDI needs MDHHS
      vendor lists, and how SHIELD connects it all.
 
+3. 🎥  **SHIELD training materials / demo video** — Create walkthrough
+     instructions or screen-record a demo video of the full SHIELD system:
+     caseworker intake (/refer), MDHHS partner portal (/mdhhs), family
+     status tracker (/status), and navigator workspace (/navigator). This
+     becomes the "here's how it works" deliverable for the 5/4 meeting.
+
 3. 📝  **CBP Medical Support 70B06C26R00000017** — 9 DAYS OUT (May 5).
      Check Acuity-CHS + Concentra outreach for replies. Continue Phase I
      prep: written tech approach + past performance questionnaire.

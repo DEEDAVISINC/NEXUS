@@ -508,7 +508,9 @@ export const api = {
   gbisSmallGrantsDailyDigest: () =>
     ApiClient.get('/gbis/mine-small-grants/daily-digest'),
 
-  // VERTEX Financial System - Essential endpoints only
+  // VERTEX Financial System
+  createVertexInvoice: (data: any) => ApiClient.post('/vertex/invoices', data),
+  updateVertexInvoice: (invoiceId: string, data: any) => ApiClient.put(`/vertex/invoices/${invoiceId}`, data),
   createVertexExpense: (data: any) => ApiClient.post('/vertex/expenses', data),
   exportToQuickBooks: (data: any) => ApiClient.post('/vertex/export/quickbooks', data),
   getVertexDashboard: () => ApiClient.get('/vertex/dashboard'),
@@ -955,6 +957,8 @@ export const api = {
   },
   createShieldBilling: (data: Record<string, unknown>) =>
     ApiClient.post('/shield/billing', data),
+  approveShieldBilling: (recordId: string, data: { supervisor_email: string; supervisor_name: string; vertex_invoice_id?: string }) =>
+    ApiClient.post(`/shield/billing/${recordId}/approve`, data),
 
   getShieldOutcomesReport: (period?: string, county?: string) => {
     const p = new URLSearchParams();
@@ -1019,4 +1023,53 @@ export const api = {
     referral_id?: string;
     navigator_email: string;
   }) => ApiClient.post('/shield/calls/initiate', data),
+
+  // SMS — send text to family from navigator
+  shieldSendSMS: (data: {
+    to: string;
+    message: string;
+    referral_id?: string;
+    navigator_email: string;
+  }) => ApiClient.post('/shield/sms/send', data),
+
+  // Activity log — navigator time tracking
+  logShieldActivity: (data: {
+    referral_id: string;
+    activity_type: string;
+    duration_minutes: number;
+    note?: string;
+    navigator_email: string;
+  }) => ApiClient.post('/shield/activity-log', data),
+
+  getShieldActivityLog: (navigatorEmail?: string) => {
+    const q = navigatorEmail ? `?navigator_email=${encodeURIComponent(navigatorEmail)}` : '';
+    return ApiClient.get(`/shield/activity-log${q}`);
+  },
+
+  // Document upload stub
+  shieldUploadDocument: (data: FormData) =>
+    ApiClient.post('/shield/documents/upload', data),
+
+  // Navigator login — verify against Navigators table
+  shieldNavigatorLogin: (data: { email: string; name: string }) =>
+    ApiClient.post('/shield/navigator/login', data),
+
+  // Service Verification Engine
+  getVerificationStatus: (activationId: string) =>
+    ApiClient.get(`/shield/verification/${encodeURIComponent(activationId)}`),
+
+  completeVerificationStep: (activationId: string, data: {
+    step_key: string;
+    verified_by: string;
+    evidence?: string;
+  }) => ApiClient.post(`/shield/verification/${encodeURIComponent(activationId)}/complete`, data),
+
+  sendVerificationRequest: (activationId: string, stepKey: string) =>
+    ApiClient.post(`/shield/verification/${encodeURIComponent(activationId)}/send-request`, { step_key: stepKey }),
+
+  getOverdueVerifications: () =>
+    ApiClient.get('/shield/verification/overdue'),
+
+  getVerificationWorkflow: (serviceLine: string) =>
+    ApiClient.get(`/shield/verification/workflow/${encodeURIComponent(serviceLine)}`),
 };

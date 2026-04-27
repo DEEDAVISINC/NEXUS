@@ -25,6 +25,9 @@ Event types:
     lbpc.recovery.complete        → Contingency fee invoice (30%)
     nemt.trip.complete            → Delegated to nemt_billing.generate_claim()
     fleetflow.delivery.confirmed  → Freight/logistics invoice
+    shield.service.verified       → SHIELD service invoice (Medicaid CHW billing)
+    shield.time.verified          → Navigator time-based invoice (15-min units)
+    shield.billing.approved       → Move invoice Pending Approval → Ready to Submit
 """
 
 import json
@@ -449,6 +452,104 @@ def _handle_compass_qa_failed(source_record_id: str, data: Dict, at) -> Dict:
     return {"held": invoice_id}
 
 
+def _handle_shield_service_verified(source_record_id: str, data: Dict, at) -> Dict:
+    """Create a VERTEX invoice when a SHIELD service is verified complete."""
+    VI = _vi()
+
+    service_line = data.get("service_line", "SHIELD Service")
+    family_name = data.get("family_name", "")
+    case_number = data.get("case_number", "")
+    county = data.get("county", "")
+    service_amount = float(data.get("service_amount", 0) or 0)
+    admin_fee_rate = float(data.get("admin_fee_rate", 0.225) or 0.225)
+    admin_fee = round(service_amount * admin_fee_rate, 2)
+    total = round(service_amount + admin_fee, 2)
+    cpt_code = data.get("cpt_code", "")
+    billing_type = data.get("billing_type", "Medicaid CHW")
+    payer = data.get("payer", "Michigan Medicaid")
+    navigator_name = data.get("navigator_name", "")
+
+    line_items = json.dumps([
+        {"description": f"{service_line} — {family_name} family ({case_number})", "amount": service_amount, "cpt": cpt_code},
+        {"description": f"DDI Admin Fee ({admin_fee_rate*100:.1f}%)", "amount": admin_fee},
+    ])
+
+    inv_fields = {
+        VI["invoice_number"]: _inv_number("SHD"),
+        VI["invoice_date"]: _now_date(),
+        VI["due_date"]: _due_date(30),
+        VI["client_name"]: payer,
+        VI["source_system"]: "SHIELD",
+        VI["source_record"]: source_record_id,
+        VI["invoice_type"]: billing_type,
+        VI["line_items"]: line_items,
+        VI["subtotal"]: service_amount,
+        VI["total_amount"]: total,
+        VI["payment_status"]: "Pending Approval",
+        VI["payment_terms"]: "Net 30",
+        VI["notes"]: f"SHIELD service: {service_line} | Case #{case_number} | {county} County | Navigator: {navigator_name} | CPT: {cpt_code} | Verified Complete — awaiting supervisor approval",
+    }
+
+    invoice = at.create_record("VERTEX INVOICES", inv_fields)
+    log.info(f"[SHIELD Verified] Invoice created: {invoice.get('id')} for ${total:,.2f} ({service_line})")
+    return {"invoice": invoice.get("id"), "total": total}
+
+
+def _handle_shield_time_verified(source_record_id: str, data: Dict, at) -> Dict:
+    """Create a VERTEX invoice for verified navigator time billing."""
+    VI = _vi()
+
+    navigator_name = data.get("navigator_name", "")
+    case_number = data.get("case_number", "")
+    duration_minutes = int(data.get("duration_minutes", 0) or 0)
+    cpt_code = data.get("cpt_code", "98960")
+    billing_type = data.get("billing_type", "Medicaid CHW")
+    rate_per_unit = float(data.get("rate_per_unit", 25.0) or 25.0)
+    units = max(1, duration_minutes // 15)
+    service_amount = round(rate_per_unit * units, 2)
+    admin_fee = round(service_amount * 0.225, 2)
+    total = round(service_amount + admin_fee, 2)
+
+    line_items = json.dumps([
+        {"description": f"CHW Navigation — {navigator_name} ({duration_minutes} min / {units} units @ ${rate_per_unit}/unit)", "amount": service_amount, "cpt": cpt_code},
+        {"description": "DDI Admin Fee (22.5%)", "amount": admin_fee},
+    ])
+
+    inv_fields = {
+        VI["invoice_number"]: _inv_number("SHD-T"),
+        VI["invoice_date"]: _now_date(),
+        VI["due_date"]: _due_date(30),
+        VI["client_name"]: data.get("payer", "Michigan Medicaid"),
+        VI["source_system"]: "SHIELD",
+        VI["source_record"]: source_record_id,
+        VI["invoice_type"]: billing_type,
+        VI["line_items"]: line_items,
+        VI["subtotal"]: service_amount,
+        VI["total_amount"]: total,
+        VI["payment_status"]: "Pending Approval",
+        VI["notes"]: f"Navigator time: {navigator_name} | Case #{case_number} | CPT {cpt_code} | {duration_minutes} min ({units} units)",
+    }
+
+    invoice = at.create_record("VERTEX INVOICES", inv_fields)
+    log.info(f"[SHIELD Time] Invoice created: {invoice.get('id')} for ${total:,.2f} ({navigator_name})")
+    return {"invoice": invoice.get("id"), "total": total, "units": units}
+
+
+def _handle_shield_billing_approved(source_record_id: str, data: Dict, at) -> Dict:
+    """Move a VERTEX invoice from Pending Approval to Ready to Submit."""
+    VI = _vi()
+    invoice_id = data.get("vertex_invoice_id", "")
+    supervisor = data.get("supervisor_name", "")
+    if not invoice_id:
+        return {"skipped": "No vertex_invoice_id provided"}
+    at.update_record("VERTEX INVOICES", invoice_id, {
+        VI["payment_status"]: "Ready to Submit",
+        VI["notes"]: (data.get("existing_notes", "") or "") + f" | APPROVED by {supervisor} on {_now_date()}",
+    })
+    log.info(f"[SHIELD Approved] Invoice {invoice_id} approved by {supervisor}")
+    return {"approved": invoice_id}
+
+
 # ---------------------------------------------------------------------------
 # Event Router — the single public entry point
 # ---------------------------------------------------------------------------
@@ -465,6 +566,9 @@ _EVENT_HANDLERS = {
     "fleetflow.delivery.confirmed":  _handle_fleetflow_delivery_confirmed,
     "compass.qa.passed":             _handle_compass_qa_passed,
     "compass.qa.failed":             _handle_compass_qa_failed,
+    "shield.service.verified":       _handle_shield_service_verified,
+    "shield.time.verified":          _handle_shield_time_verified,
+    "shield.billing.approved":       _handle_shield_billing_approved,
 }
 
 

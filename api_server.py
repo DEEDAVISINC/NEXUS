@@ -23898,12 +23898,17 @@ try:
         handle_shield_log_milestone,
         handle_shield_list_billing,
         handle_shield_create_billing,
+        handle_shield_list_contractors,
+        handle_shield_create_contractor,
+        handle_shield_list_outcomes,
+        handle_shield_create_outcome,
         handle_shield_generate_outcomes_report,
         handle_shield_ai_chat,
         handle_shield_ai_external,
         handle_shield_sla_override,
         handle_shield_update_child,
         handle_shield_family_lookup,
+        handle_shield_navigator_login,
     )
     _SHIELD_AVAILABLE = True
     try:
@@ -24098,6 +24103,50 @@ def shield_family_lookup():
     return jsonify(result), (200 if result.get('success') else 404)
 
 
+@app.route('/shield/contractors', methods=['GET'])
+def shield_list_contractors():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_list_contractors(
+        service_line=request.args.get('service_line'),
+        county=request.args.get('county'),
+    ))
+
+
+@app.route('/shield/contractors', methods=['POST'])
+def shield_create_contractor():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_create_contractor(request.json or {}))
+
+
+@app.route('/shield/outcomes', methods=['GET'])
+def shield_list_outcomes():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_list_outcomes(
+        referral_id=request.args.get('referral_id'),
+    ))
+
+
+@app.route('/shield/outcomes', methods=['POST'])
+def shield_create_outcome():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    return jsonify(handle_shield_create_outcome(request.json or {}))
+
+
+@app.route('/shield/navigator/login', methods=['POST'])
+def shield_navigator_login():
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    data = request.json or {}
+    return jsonify(handle_shield_navigator_login(
+        email=data.get('email', ''),
+        name=data.get('name', ''),
+    ))
+
+
 @app.route('/shield/notifications/status', methods=['GET'])
 def shield_notification_status():
     """Dashboard: check which notification channels (SMS, email) are active."""
@@ -24124,6 +24173,373 @@ def shield_notification_log():
         rows = [r for r in rows if referral_id in (r.get("referral_id") or [])]
     rows.sort(key=lambda x: x.get("sent_at", ""), reverse=True)
     return jsonify({"success": True, "notifications": rows, "count": len(rows)})
+
+
+# ---------------------------------------------------------------------------
+# SHIELD Navigator — Call Log, SMS, Documents, Activity Log
+# ---------------------------------------------------------------------------
+
+@app.route('/shield/calls', methods=['GET'])
+def shield_get_calls():
+    """Fetch call log entries, optionally filtered by navigator email."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient, _safe_all, _serialize
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "calls": [], "count": 0})
+        rows = [_serialize(r) for r in _safe_all(client, "Call_Log")]
+        navigator = request.args.get('navigator')
+        if navigator:
+            rows = [r for r in rows if r.get("navigator_email") == navigator]
+        rows.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        return jsonify({"success": True, "calls": rows, "count": len(rows)})
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/calls', methods=['POST'])
+def shield_create_call():
+    """Log a completed call to the Call_Log table."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient
+        body = request.get_json(silent=True) or {}
+        required = ("phone", "direction", "duration_sec", "navigator_email", "status")
+        missing = [f for f in required if not body.get(f)]
+        if missing:
+            return jsonify({"success": False, "error": f"Missing fields: {', '.join(missing)}"}), 400
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "error": "Airtable not configured"}), 503
+        fields = {
+            "phone": body["phone"],
+            "direction": body["direction"],
+            "duration_sec": body["duration_sec"],
+            "navigator_email": body["navigator_email"],
+            "status": body["status"],
+        }
+        if body.get("referral_id"):
+            fields["referral_id"] = body["referral_id"]
+        if body.get("notes"):
+            fields["notes"] = body["notes"]
+        record = client.create("Call_Log", fields)
+        return jsonify({"success": True, "call": {"id": record.get("id"), **fields}})
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/calls/initiate', methods=['POST'])
+def shield_initiate_call():
+    """Initiate an outbound call via Twilio (stub — wiring Monday)."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        body = request.get_json(silent=True) or {}
+        if not body.get("to") or not body.get("navigator_phone"):
+            return jsonify({"success": False, "error": "Missing 'to' or 'navigator_phone'"}), 400
+        print(f"[SHIELD] Call initiate stub: {body.get('navigator_email', 'unknown')} -> {body['to']}")
+        return jsonify({
+            "success": True,
+            "message": "Call initiated",
+            "call_sid": "pending_twilio_setup",
+        })
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/sms/send', methods=['POST'])
+def shield_send_sms():
+    """Send SMS to a family member (stub — Twilio wiring Monday). Logs attempt."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient
+        body = request.get_json(silent=True) or {}
+        if not body.get("to") or not body.get("message"):
+            return jsonify({"success": False, "error": "Missing 'to' or 'message'"}), 400
+        print(f"[SHIELD] SMS stub: -> {body['to']} ({len(body['message'])} chars)")
+        client = ShieldAirtableClient()
+        if client.is_configured:
+            try:
+                from shield_notifications import TABLE_NOTIFICATIONS
+            except ImportError:
+                TABLE_NOTIFICATIONS = "Notification_Log"
+            log_fields = {
+                "channel": "sms",
+                "recipient": body["to"],
+                "body": body["message"],
+                "status": "queued_pending_twilio",
+            }
+            if body.get("referral_id"):
+                log_fields["referral_id"] = body["referral_id"]
+            if body.get("navigator_email"):
+                log_fields["navigator_email"] = body["navigator_email"]
+            client.create(TABLE_NOTIFICATIONS, log_fields)
+        return jsonify({"success": True, "message": "SMS queued"})
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/documents/upload', methods=['POST'])
+def shield_upload_document():
+    """Upload a document/photo to a case (stub — Airtable attachment wiring separate)."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        referral_id = request.form.get("referral_id")
+        doc_type = request.form.get("doc_type")
+        if not referral_id or not doc_type:
+            return jsonify({"success": False, "error": "Missing 'referral_id' or 'doc_type'"}), 400
+        uploaded = request.files.get("file")
+        if not uploaded:
+            return jsonify({"success": False, "error": "No file provided"}), 400
+        note = request.form.get("note", "")
+        print(f"[SHIELD] Document upload stub: referral={referral_id} type={doc_type} "
+              f"file={uploaded.filename} note={note[:60]}")
+        return jsonify({
+            "success": True,
+            "message": "Document received",
+            "doc_id": "pending",
+        })
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/activity-log', methods=['POST'])
+def shield_create_activity():
+    """Log a navigator activity/time entry as a Case_Milestones record."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient, TABLE_MILESTONES
+        body = request.get_json(silent=True) or {}
+        required = ("referral_id", "activity_type", "duration_minutes", "navigator_email")
+        missing = [f for f in required if not body.get(f)]
+        if missing:
+            return jsonify({"success": False, "error": f"Missing fields: {', '.join(missing)}"}), 400
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "error": "Airtable not configured"}), 503
+        note_parts = []
+        if body.get("note"):
+            note_parts.append(body["note"])
+        note_parts.append(f"Duration: {body['duration_minutes']} min")
+        if body.get("timer_start"):
+            note_parts.append(f"Start: {body['timer_start']}")
+        if body.get("timer_stop"):
+            note_parts.append(f"Stop: {body['timer_stop']}")
+        if body.get("cpt_code"):
+            note_parts.append(f"CPT: {body['cpt_code']}")
+        if body.get("billable"):
+            note_parts.append("BILLABLE")
+        if body.get("billing_type"):
+            note_parts.append(f"Billing: {body['billing_type']}")
+        if body.get("auto_recorded"):
+            note_parts.append("AUTO-RECORDED")
+        evidence = body.get("evidence", [])
+        if evidence and isinstance(evidence, list):
+            note_parts.append(f"Evidence: {'; '.join(str(e) for e in evidence[:5])}")
+        from shield_lead_screening import _now_eastern_iso
+        fields = {
+            "referral_id": body["referral_id"],
+            "milestone_type": f"Activity Log — {body['activity_type']}",
+            "timestamp": _now_eastern_iso(),
+            "recorded_by": body["navigator_email"],
+            "notes": " | ".join(note_parts),
+        }
+        record = client.create(TABLE_MILESTONES, fields)
+        entry = {
+            "id": record.get("id"),
+            **fields,
+            "duration_minutes": body["duration_minutes"],
+            "cpt_code": body.get("cpt_code", ""),
+            "billable": body.get("billable", False),
+            "status": "logged",
+        }
+        return jsonify({"success": True, "entry": entry})
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+@app.route('/shield/activity-log', methods=['GET'])
+def shield_get_activity():
+    """Fetch activity-log entries (Case_Milestones where type starts with 'Activity')."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient, _safe_all, _serialize, TABLE_MILESTONES
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "entries": [], "count": 0})
+        rows = [_serialize(r) for r in _safe_all(client, TABLE_MILESTONES)]
+        rows = [r for r in rows if (r.get("milestone_type") or "").startswith("Activity")]
+        nav = request.args.get('navigator_email')
+        if nav:
+            rows = [r for r in rows if r.get("navigator_email") == nav]
+        rows.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        return jsonify({"success": True, "entries": rows, "count": len(rows)})
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
+
+
+# ---------------------------------------------------------------------------
+# SHIELD — Service Verification Engine
+# ---------------------------------------------------------------------------
+
+@app.route('/shield/verification/<activation_id>', methods=['GET'])
+def shield_verification_status(activation_id):
+    """Get verification workflow status for a service activation."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_verification import get_activation_verification_status
+        from shield_lead_screening import ShieldAirtableClient
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "configured": False})
+        result = get_activation_verification_status(client, activation_id)
+        return jsonify({"success": True, **result})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/shield/verification/<activation_id>/complete', methods=['POST'])
+def shield_complete_verification(activation_id):
+    """Mark a verification step as complete."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_verification import complete_verification_step
+        from shield_lead_screening import ShieldAirtableClient
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "configured": False})
+        data = request.json or {}
+        result = complete_verification_step(
+            client,
+            activation_id,
+            step_key=data.get('step_key', ''),
+            verified_by=data.get('verified_by', 'navigator'),
+            evidence=data.get('evidence', ''),
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/shield/verification/<activation_id>/send-request', methods=['POST'])
+def shield_send_verification_request(activation_id):
+    """Send verification request SMS for a specific step."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_verification import send_verification_request
+        from shield_lead_screening import ShieldAirtableClient
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "configured": False})
+        data = request.json or {}
+        result = send_verification_request(client, activation_id, data.get('step_key', ''))
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/shield/webhook/twilio-inbound', methods=['POST'])
+def shield_twilio_inbound():
+    """Twilio webhook — process inbound SMS for verification confirmations.
+
+    Twilio sends form-encoded POST with From, Body, MessageSid, etc.
+    We match the number, parse the reply, and complete verification steps.
+    Returns TwiML response.
+    """
+    try:
+        from shield_verification import handle_inbound_verification
+        from shield_lead_screening import ShieldAirtableClient
+        client = ShieldAirtableClient()
+
+        from_number = request.form.get('From', '')
+        body = request.form.get('Body', '')
+        message_sid = request.form.get('MessageSid', '')
+
+        if client.is_configured:
+            result = handle_inbound_verification(client, from_number, body)
+        else:
+            result = {"success": False, "error": "SHIELD not configured"}
+
+        twiml = '<?xml version="1.0" encoding="UTF-8"?><Response>'
+        if result.get("reply_message"):
+            twiml += f'<Message>{result["reply_message"]}</Message>'
+        twiml += '</Response>'
+
+        return twiml, 200, {'Content-Type': 'text/xml'}
+    except Exception as e:
+        return '<?xml version="1.0" encoding="UTF-8"?><Response></Response>', 200, {'Content-Type': 'text/xml'}
+
+
+@app.route('/shield/verification/overdue', methods=['GET'])
+def shield_overdue_verifications():
+    """Get all overdue verification steps for escalation."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_verification import check_overdue_verifications
+        from shield_lead_screening import ShieldAirtableClient
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "configured": False})
+        overdue = check_overdue_verifications(client)
+        return jsonify({"success": True, "overdue": overdue, "count": len(overdue)})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/shield/verification/workflow/<path:service_line>', methods=['GET'])
+def shield_verification_workflow(service_line):
+    """Get the verification workflow template for a service type."""
+    try:
+        from shield_verification import get_verification_workflow
+        workflow = get_verification_workflow(service_line)
+        return jsonify({"success": True, "service_line": service_line, "workflow": workflow})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/shield/billing/<record_id>/approve', methods=['POST'])
+def shield_approve_billing(record_id):
+    """Supervisor approves a billing record — triggers VERTEX invoice status update."""
+    if not _SHIELD_AVAILABLE:
+        return _shield_unavailable()
+    try:
+        from shield_lead_screening import ShieldAirtableClient, TABLE_BILLING, _serialize
+        data = request.json or {}
+        supervisor_name = data.get('supervisor_name', '')
+
+        client = ShieldAirtableClient()
+        if not client.is_configured:
+            return jsonify({"success": False, "configured": False})
+
+        updated = client.update(TABLE_BILLING, record_id, {"status": "Approved"})
+
+        try:
+            from vertex_automation import vertex_auto_trigger
+            vertex_auto_trigger(
+                "shield.billing.approved",
+                source_record_id=record_id,
+                data={
+                    "vertex_invoice_id": data.get("vertex_invoice_id", ""),
+                    "supervisor_name": supervisor_name,
+                },
+            )
+        except Exception:
+            pass
+
+        return jsonify({"success": True, "billing": _serialize(updated)})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 def _autostart_autonomous_engine():
