@@ -1,64 +1,49 @@
-# YOUR AGENDA — Saturday, April 25, 2026
+# YOUR AGENDA — Monday, April 27, 2026
 
-**Today (authoritative date):** **Saturday, April 25, 2026.**
+**Today (authoritative date):** **Monday, April 27, 2026.**
 
-**This week completed:** SHIELD Airtable base created + seeded. SHIELD intake form rebuilt with Insurance & Billing step (Medicaid/MCO/CHIP/Private/Uninsured gating), service line descriptions, and full DDI proposal language alignment. CBP extended to **May 5**. Acuity-CHS + Concentra teaming outreach sent. Oakland HHS + Dutchess County submitted. Laguna Beach NO-GO. San Diego Water Authority SB app submitted. SAM CO contact sync built.
+**This weekend completed:** SHIELD verification engine built (9 service lines, automated two-way SMS, status-driven billing). VERTEX integration wired (3 event handlers: shield.service.verified, shield.time.verified, shield.billing.approved). Supervisor approval workflow + global role switcher + HIPAA gate. Navigator auto-time-tracking with CPT code mapping. Service Fulfillment Map delivered. MDHHS Partner Portal built (/mdhhs). TypeScript fixes for billing types in client.ts. Full VERTEX supervisor approval UI.
 
 ---
 
 ```
-TOMORROW'S PRIORITIES — Sunday, April 26, 2026
+TODAY'S PRIORITIES — Monday, April 27, 2026
 
-1. 🗺️  **SHIELD — Full Service Fulfillment Map** — Map every SHIELD service
-     line to the actual vendor/contractor/staff who delivers it. For each of
-     the 9 service lines: who does it, where, are they on contract, do we
-     need to source them? Identify which come from MDHHS directly (Aimee/Angela),
-     which DDI subs out, and which CWC navigators handle internally.
+1. 📞  **Twilio + SendGrid signup** — Register and configure both services.
+     Get API keys, set TWILIO_SID / TWILIO_AUTH_TOKEN / TWILIO_PHONE and
+     SENDGRID_API_KEY / SENDGRID_FROM_EMAIL in .env. Test a real SMS send
+     and email send through the SHIELD notification engine.
 
-     Service Lines to map:
-     • Blood Lead Level (BLL) Testing
-     • CLPPP Case Management
-     • NEMT — Non-Emergency Medical Transportation
-     • Lead Remediation Coordination
-     • Housing Navigation
-     • MIBridges Benefits Navigation
-     • Filter Safety Net / Drinking Water
-     • Community Health Worker Home Visit
-     • Nurse Home Visit
-
-2. 📧  **Package & send to the agency (MDHHS)** — Compile the fulfillment
-     map into a clean deliverable for Aimee Surma + Angela Medina. Show them
-     the service delivery model: who's doing what, where DDI needs MDHHS
-     vendor lists, and how SHIELD connects it all.
-
-3. 🎥  **SHIELD training materials / demo video** — Create walkthrough
-     instructions or screen-record a demo video of the full SHIELD system:
+2. 🎥  **SHIELD demo video** — Figure out tooling (OBS, Loom, or native
+     screen record) and create a walkthrough video of the full SHIELD system:
      caseworker intake (/refer), MDHHS partner portal (/mdhhs), family
-     status tracker (/status), and navigator workspace (/navigator). This
-     becomes the "here's how it works" deliverable for the 5/4 meeting.
+     status tracker (/status), navigator workspace (/navigator), VERTEX
+     billing pipeline, and supervisor approval flow. This is the "wow factor"
+     deliverable for the 5/4 meeting.
 
-3. 📝  **CBP Medical Support 70B06C26R00000017** — 9 DAYS OUT (May 5).
-     Check Acuity-CHS + Concentra outreach for replies. Continue Phase I
-     prep: written tech approach + past performance questionnaire.
+3. 📝  **CBP Medical Support 70B06C26R00000017** — 8 DAYS OUT (May 5).
+     Check Acuity-CHS + Concentra outreach for replies (sent 4/24, 3 days
+     ago). Continue Phase I prep: written tech approach + past performance.
 
 4. 📄  **MDHHS pilot structure prep (10-member demo)** — Selection criteria,
      90-day outcomes framework, roles matrix, SHIELD outcomes-report export.
      Owed at the 5/4-week follow-up with Angela Medina + Aimee Surma.
 
-5. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30. Proposals
-     due 5/7 @ 3:30 PM ET. Start assembling proposal package.
+5. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (3 days).
+     Proposals due 5/7 @ 3:30 PM ET. Start assembling proposal package.
 
 MEETINGS: None scheduled.
 FOLLOW-UPS DUE:
-  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, follow-up if no
-    reply Mon 4/27 AM
-  - KY DMS addendum watch ~4/30 (5 days)
-  - ICE DHS (Tracy Riley) — 30-day follow-up overdue from Mar 22 reply
-  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (34 days silent)
+  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, FOLLOW UP TODAY
+  - KY DMS addendum watch ~4/30 (3 days)
+  - ICE DHS (Tracy Riley) — 30-day follow-up OVERDUE from Mar 22 reply (35 days)
+  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (36 days silent)
 PREP NEEDED:
   - MDHHS pilot doc outline — primary source is
     `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf`
   - KY DMS proposal package assembly — technical + cost + proprietary
+  - Demo video tooling research — OBS Studio (free), Loom (easy), macOS
+    native screen recording (Cmd+Shift+5)
 ```
 
 ---
