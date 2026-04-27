@@ -2,7 +2,7 @@
 
 **Today (authoritative date):** **Monday, April 27, 2026.**
 
-**This weekend completed:** SHIELD verification engine built (9 service lines, automated two-way SMS, status-driven billing). VERTEX integration wired (3 event handlers: shield.service.verified, shield.time.verified, shield.billing.approved). Supervisor approval workflow + global role switcher + HIPAA gate. Navigator auto-time-tracking with CPT code mapping. Service Fulfillment Map delivered. MDHHS Partner Portal built (/mdhhs). TypeScript fixes for billing types in client.ts. Full VERTEX supervisor approval UI.
+**This weekend completed:** SHIELD verification engine (9 service lines, automated two-way SMS, status-driven billing). VERTEX integration (3 event handlers). Supervisor approval + global role switcher + HIPAA gate. Navigator auto-time-tracking with CPT code mapping. Service Fulfillment Map. MDHHS Partner Portal (/mdhhs). Full VERTEX supervisor approval UI. **SHIELD Revenue Model built** — DDI as TPA for all mandatory BLL testing: 90-day pilot $460K-$764K, Year 1 Wayne $6.1M, 4-county full scale $27.7M/yr, 3-year $83.1M.
 
 ---
 
@@ -14,22 +14,31 @@ TODAY'S PRIORITIES — Monday, April 27, 2026
      SENDGRID_API_KEY / SENDGRID_FROM_EMAIL in .env. Test a real SMS send
      and email send through the SHIELD notification engine.
 
-2. 🎥  **SHIELD demo video** — Figure out tooling (OBS, Loom, or native
-     screen record) and create a walkthrough video of the full SHIELD system:
-     caseworker intake (/refer), MDHHS partner portal (/mdhhs), family
-     status tracker (/status), navigator workspace (/navigator), VERTEX
-     billing pipeline, and supervisor approval flow. This is the "wow factor"
-     deliverable for the 5/4 meeting.
+2. 💰  **CHAMPS rate verification** — Log into CHAMPS (MiLogin davisd1221).
+     Pull exact Medicaid fee screen rate for CPT 98960 (CHW). Check DDI
+     taxonomy — does it cover CHW (171400000X) or just Transportation Broker
+     (347E00000X)? If CHW taxonomy missing, start the add process.
+     This number feeds the entire revenue model.
 
-3. 📝  **CBP Medical Support 70B06C26R00000017** — 8 DAYS OUT (May 5).
-     Check Acuity-CHS + Concentra outreach for replies (sent 4/24, 3 days
-     ago). Continue Phase I prep: written tech approach + past performance.
+3. 🎥  **SHIELD demo video — RECORD THIS WEEK** — Pre-recorded walkthrough.
+     Tool: Loom (loom.com, free, records screen + webcam, shareable link).
+     PREP: Run seed_shield_demo_data.py so screens have real-looking data.
+     Start frontend + backend locally. Script the narration.
+     4 screens, 4-5 minutes: /refer → /navigator → /mdhhs → /status.
+     Closing line: "Every test scheduled. Every service verified. Every
+     payment earned. Zero cost to MDHHS."
 
-4. 📄  **MDHHS pilot structure prep (10-member demo)** — Selection criteria,
-     90-day outcomes framework, roles matrix, SHIELD outcomes-report export.
-     Owed at the 5/4-week follow-up with Angela Medina + Aimee Surma.
+4. 📄  **MDHHS pilot structure doc — REFRAME** — NOT 10 families / 1 year.
+     New framing: DDI as TPA for all mandatory BLL testing in Wayne County.
+     90-day intake window, open enrollment (every referral served).
+     Revenue model: SHIELD_REVENUE_MODEL.md. Pilot = proof of concept
+     that scales to 4 counties. Deliverable for 5/4 meeting.
 
-5. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (3 days).
+5. 📝  **CBP Medical Support 70B06C26R00000017** — 8 DAYS OUT (May 5).
+     Follow up with Acuity-CHS + Concentra TODAY (sent 4/24, 3 days ago).
+     Continue Phase I prep: written tech approach + past performance.
+
+6. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (3 days).
      Proposals due 5/7 @ 3:30 PM ET. Start assembling proposal package.
 
 MEETINGS: None scheduled.
@@ -39,11 +48,11 @@ FOLLOW-UPS DUE:
   - ICE DHS (Tracy Riley) — 30-day follow-up OVERDUE from Mar 22 reply (35 days)
   - CBP (Jared Tritle) — no reply since Mar 22 cold intro (36 days silent)
 PREP NEEDED:
-  - MDHHS pilot doc outline — primary source is
-    `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf`
+  - CHAMPS login + rate pull (MiLogin davisd1221)
+  - Loom signup + desktop app install
+  - Seed demo data before recording (seed_shield_demo_data.py)
+  - MDHHS pilot doc rewrite — 90-day open enrollment, not 10 families
   - KY DMS proposal package assembly — technical + cost + proprietary
-  - Demo video tooling research — OBS Studio (free), Loom (easy), macOS
-    native screen recording (Cmd+Shift+5)
 ```
 
 ---
