@@ -6614,6 +6614,90 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "ce63e388abb2",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260426",
+      "action": "discovered",
+      "timestamp": "2026-04-26T21:54:25.839539",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "6d0a03a86f12",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260426",
+      "action": "discovered",
+      "timestamp": "2026-04-26T21:54:25.848023",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "dccb790f678b",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260426",
+      "action": "discovered",
+      "timestamp": "2026-04-26T21:54:25.855020",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "92f6a3e562bd",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260426",
+      "action": "discovered",
+      "timestamp": "2026-04-26T21:54:25.860987",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "74ff4d6b8b6c",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260426_21",
+      "action": "scored",
+      "timestamp": "2026-04-26T21:56:30.614431",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d7881df5788e",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260426",
+      "action": "rfq_sent",
+      "timestamp": "2026-04-26T21:57:30.166191",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [
@@ -8001,12 +8085,12 @@
     }
   ],
   "stats": {
-    "total_events": 471,
+    "total_events": 477,
     "events_by_domain": {
-      "opportunities": 394,
+      "opportunities": 399,
       "outreach": 3,
       "bids": 6,
-      "suppliers": 66,
+      "suppliers": 67,
       "intelligence": 2
     },
     "total_analyses": 55,

@@ -1013,6 +1013,7 @@ export const api = {
     duration_sec: number;
     notes?: string;
     navigator_email: string;
+    navigator_name?: string;
     status: string;
   }) => ApiClient.post('/shield/calls', data),
 
@@ -1047,7 +1048,7 @@ export const api = {
   },
 
   // Document upload stub
-  shieldUploadDocument: (data: FormData) =>
+  shieldUploadDocument: (data: Record<string, unknown>) =>
     ApiClient.post('/shield/documents/upload', data),
 
   // Navigator login — verify against Navigators table

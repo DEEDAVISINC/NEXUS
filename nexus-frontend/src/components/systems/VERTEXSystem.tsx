@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
+import { getNexusIdentity, isNexusSupervisor } from '../Header';
 import { PnLStatement } from './PnLEngine';
 import NEMTBillingSystem from './NEMTBillingSystem';
 
@@ -18,6 +19,14 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
   const [invoices, setInvoices] = useState<any[]>([]);
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const [invoiceFormData, setInvoiceFormData] = useState({
+    client_name: '',
+    invoice_type: 'Standard',
+    source_system: 'SHIELD',
+    total_amount: 0,
+    payment_terms: 'Net 30',
+    notes: '',
+  });
   const [invoiceFilters, setInvoiceFilters] = useState({
     payment_status: 'all',
     source_system: 'all'
@@ -233,6 +242,44 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
       });
     } catch (error) {
       showNotification('❌ Error creating expense', 'error');
+    }
+  };
+
+  const createInvoice = async () => {
+    try {
+      await api.createVertexInvoice(invoiceFormData);
+      showNotification('✅ Invoice created successfully!');
+      setShowInvoiceModal(false);
+      fetchInvoices();
+      fetchDashboardData();
+      setInvoiceFormData({
+        client_name: '',
+        invoice_type: 'Standard',
+        source_system: 'SHIELD',
+        total_amount: 0,
+        payment_terms: 'Net 30',
+        notes: '',
+      });
+    } catch (error) {
+      showNotification('❌ Error creating invoice', 'error');
+    }
+  };
+
+  const approveInvoice = async (invoiceId: string) => {
+    const id = getNexusIdentity();
+    if (!isNexusSupervisor(id)) {
+      showNotification('❌ Only supervisors can approve invoices', 'error');
+      return;
+    }
+    try {
+      await api.updateVertexInvoice(invoiceId, {
+        'PAYMENT STATUS': 'Ready to Submit',
+        'NOTES': `Approved by ${id.name} (${id.role}) on ${new Date().toLocaleDateString()}`,
+      });
+      showNotification(`✅ Invoice approved by ${id.name} — ready to submit`);
+      fetchInvoices();
+    } catch (error) {
+      showNotification('❌ Error approving invoice', 'error');
     }
   };
 
@@ -472,11 +519,14 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             className="bg-gray-700 rounded-lg px-4 py-2 text-white"
           >
             <option value="all">All Payment Status</option>
+            <option value="Pending Approval">Pending Approval</option>
+            <option value="Ready to Submit">Ready to Submit</option>
             <option value="Unpaid">Unpaid</option>
             <option value="Partial">Partial</option>
             <option value="Paid">Paid</option>
             <option value="Overdue">Overdue</option>
             <option value="Factored">Factored</option>
+            <option value="On Hold">On Hold</option>
           </select>
 
           <select
@@ -485,11 +535,14 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             className="bg-gray-700 rounded-lg px-4 py-2 text-white"
           >
             <option value="all">All Systems</option>
+            <option value="SHIELD">SHIELD</option>
             <option value="GPSS">GPSS</option>
             <option value="ATLAS">ATLAS</option>
             <option value="DDCSS">DDCSS</option>
             <option value="LBPC">LBPC</option>
             <option value="GBIS">GBIS</option>
+            <option value="NEMT">NEMT</option>
+            <option value="FleetFlow">FleetFlow</option>
           </select>
         </div>
       </div>
@@ -506,36 +559,57 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">System</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-700">
               {invoices.map((invoice) => {
                 const fields = invoice.fields || {};
+                const status = fields['Payment Status'] || 'Unknown';
+                const source = fields['Source System'] || 'N/A';
+                const statusColor =
+                  status === 'Paid' ? 'bg-green-500/20 text-green-400' :
+                  status === 'Overdue' ? 'bg-red-500/20 text-red-400' :
+                  status === 'Pending Approval' ? 'bg-amber-500/20 text-amber-400' :
+                  status === 'Ready to Submit' ? 'bg-blue-500/20 text-blue-400' :
+                  status === 'On Hold' ? 'bg-red-500/20 text-red-300' :
+                  'bg-yellow-500/20 text-yellow-400';
                 return (
-                  <tr key={invoice.id} className="hover:bg-gray-700/50 cursor-pointer">
+                  <tr key={invoice.id} className="hover:bg-gray-700/50 cursor-pointer" onClick={() => setSelectedInvoice(invoice)}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                      {fields['Invoice Number'] || 'N/A'}
+                      {fields['Invoice Number'] || fields['INVOICE NUMBER'] || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                      {fields['Client Name'] || 'N/A'}
+                      {fields['Client Name'] || fields['CLIENT NAME'] || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {fields['Invoice Date'] ? new Date(fields['Invoice Date']).toLocaleDateString() : 'N/A'}
+                      {fields['Invoice Date'] || fields['INVOICE DATE'] ? new Date(fields['Invoice Date'] || fields['INVOICE DATE']).toLocaleDateString() : 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-bold">
-                      {formatCurrency(fields['Total Amount'] || 0)}
+                      {formatCurrency(fields['Total Amount'] || fields['TOTAL AMOUNT'] || 0)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        fields['Payment Status'] === 'Paid' ? 'bg-green-500/20 text-green-400' :
-                        fields['Payment Status'] === 'Overdue' ? 'bg-red-500/20 text-red-400' :
-                        'bg-yellow-500/20 text-yellow-400'
-                      }`}>
-                        {fields['Payment Status'] || 'Unknown'}
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}>
+                        {status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {fields['Source System'] || 'N/A'}
+                      {source === 'SHIELD' ? (
+                        <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full text-xs font-bold">SHIELD</span>
+                      ) : source}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {status === 'Pending Approval' && isNexusSupervisor() && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); approveInvoice(invoice.id); }}
+                          className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition-all"
+                        >
+                          Approve
+                        </button>
+                      )}
+                      {status === 'Pending Approval' && !isNexusSupervisor() && (
+                        <span className="text-[10px] text-amber-400 italic">Supervisor only</span>
+                      )}
                     </td>
                   </tr>
                 );
@@ -1188,6 +1262,201 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
     );
   };
 
+  // ========== INVOICE MODAL ==========
+  const renderInvoiceModal = () => {
+    if (!showInvoiceModal) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+          <div className="p-6 border-b border-gray-700">
+            <h3 className="text-2xl font-bold text-white">New Invoice</h3>
+          </div>
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Client / Payer</label>
+                <input
+                  type="text"
+                  value={invoiceFormData.client_name}
+                  onChange={(e) => setInvoiceFormData({...invoiceFormData, client_name: e.target.value})}
+                  className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                  placeholder="Michigan Medicaid, MDHHS, etc."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Total Amount</label>
+                <input
+                  type="number"
+                  value={invoiceFormData.total_amount}
+                  onChange={(e) => setInvoiceFormData({...invoiceFormData, total_amount: parseFloat(e.target.value) || 0})}
+                  className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Invoice Type</label>
+                <select
+                  value={invoiceFormData.invoice_type}
+                  onChange={(e) => setInvoiceFormData({...invoiceFormData, invoice_type: e.target.value})}
+                  className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                >
+                  <option value="Standard">Standard</option>
+                  <option value="Medicaid CHW">Medicaid CHW</option>
+                  <option value="Medicaid NEMT">Medicaid NEMT</option>
+                  <option value="Admin Fee">Admin Fee (22.5%)</option>
+                  <option value="Service Contract">Service Contract</option>
+                  <option value="Consulting">Consulting</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Source System</label>
+                <select
+                  value={invoiceFormData.source_system}
+                  onChange={(e) => setInvoiceFormData({...invoiceFormData, source_system: e.target.value})}
+                  className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                >
+                  <option value="SHIELD">SHIELD</option>
+                  <option value="GPSS">GPSS</option>
+                  <option value="ATLAS">ATLAS</option>
+                  <option value="DDCSS">DDCSS</option>
+                  <option value="LBPC">LBPC</option>
+                  <option value="NEMT">NEMT</option>
+                  <option value="FleetFlow">FleetFlow</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Payment Terms</label>
+              <select
+                value={invoiceFormData.payment_terms}
+                onChange={(e) => setInvoiceFormData({...invoiceFormData, payment_terms: e.target.value})}
+                className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+              >
+                <option value="Net 30">Net 30</option>
+                <option value="Net 15">Net 15</option>
+                <option value="Net 45">Net 45</option>
+                <option value="Net 60">Net 60</option>
+                <option value="Due on Receipt">Due on Receipt</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Notes</label>
+              <textarea
+                value={invoiceFormData.notes}
+                onChange={(e) => setInvoiceFormData({...invoiceFormData, notes: e.target.value})}
+                className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                rows={3}
+                placeholder="Service details, CPT codes, case references..."
+              />
+            </div>
+          </div>
+          <div className="p-6 border-t border-gray-700 flex justify-end gap-3">
+            <button
+              onClick={() => setShowInvoiceModal(false)}
+              className="px-6 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={createInvoice}
+              className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:from-purple-500 hover:to-pink-500 transition-all"
+            >
+              Create Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ========== INVOICE DETAIL MODAL ==========
+  const renderInvoiceDetailModal = () => {
+    if (!selectedInvoice) return null;
+    const f = selectedInvoice.fields || {};
+    const status = f['Payment Status'] || f['PAYMENT STATUS'] || 'Unknown';
+    const source = f['Source System'] || f['SOURCE SYSTEM'] || '';
+    let lineItems: Array<{description: string; amount: number; cpt?: string}> = [];
+    try { lineItems = JSON.parse(f['Line Items'] || f['LINE ITEMS'] || '[]'); } catch {}
+
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+          <div className="p-6 border-b border-gray-700 flex justify-between items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-white">{f['Invoice Number'] || f['INVOICE NUMBER'] || 'Invoice'}</h3>
+              <div className="text-sm text-gray-400 mt-1">{f['Client Name'] || f['CLIENT NAME']}</div>
+            </div>
+            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+              status === 'Paid' ? 'bg-green-500/20 text-green-400' :
+              status === 'Pending Approval' ? 'bg-amber-500/20 text-amber-400' :
+              status === 'Ready to Submit' ? 'bg-blue-500/20 text-blue-400' :
+              'bg-yellow-500/20 text-yellow-400'
+            }`}>{status}</span>
+          </div>
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div><span className="text-gray-400">Date:</span> <span className="text-white ml-2">{f['Invoice Date'] || f['INVOICE DATE'] || 'N/A'}</span></div>
+              <div><span className="text-gray-400">Due:</span> <span className="text-white ml-2">{f['Due Date'] || f['DUE DATE'] || 'N/A'}</span></div>
+              <div><span className="text-gray-400">Type:</span> <span className="text-white ml-2">{f['Invoice Type'] || f['INVOICE TYPE'] || 'Standard'}</span></div>
+              <div><span className="text-gray-400">System:</span> <span className="text-white ml-2">{source}</span></div>
+            </div>
+
+            {lineItems.length > 0 && (
+              <div className="border border-gray-700 rounded-lg overflow-hidden">
+                <div className="bg-gray-700 px-4 py-2 text-xs font-bold text-gray-300 uppercase">Line Items</div>
+                {lineItems.map((item, i) => (
+                  <div key={i} className="px-4 py-3 flex justify-between items-center border-t border-gray-700">
+                    <div>
+                      <div className="text-sm text-white">{item.description}</div>
+                      {item.cpt && <div className="text-xs text-gray-400">CPT {item.cpt}</div>}
+                    </div>
+                    <div className="text-sm font-bold text-white">{formatCurrency(item.amount)}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex justify-between items-center pt-4 border-t border-gray-700">
+              <span className="text-lg font-bold text-gray-300">Total</span>
+              <span className="text-2xl font-bold text-white">{formatCurrency(f['Total Amount'] || f['TOTAL AMOUNT'] || 0)}</span>
+            </div>
+
+            {f['Notes'] || f['NOTES'] ? (
+              <div className="bg-gray-700/50 rounded-lg p-4 text-sm text-gray-300">{f['Notes'] || f['NOTES']}</div>
+            ) : null}
+          </div>
+          <div className="p-6 border-t border-gray-700 flex justify-between">
+            <button
+              onClick={() => setSelectedInvoice(null)}
+              className="px-6 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-all"
+            >
+              Close
+            </button>
+            <div className="flex gap-3">
+              {status === 'Pending Approval' && isNexusSupervisor() && (
+                <button
+                  onClick={() => { approveInvoice(selectedInvoice.id); setSelectedInvoice(null); }}
+                  className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all"
+                >
+                  Approve for Submission
+                </button>
+              )}
+              {status === 'Pending Approval' && !isNexusSupervisor() && (
+                <span className="text-sm text-amber-400 italic">Supervisor approval required</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // ========== EXPENSE MODAL ==========
   const renderExpenseModal = () => {
     if (!showExpenseModal) return null;
@@ -1394,6 +1663,8 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
       </div>
 
       {/* Modals */}
+      {renderInvoiceModal()}
+      {renderInvoiceDetailModal()}
       {renderExpenseModal()}
       {renderReferralModal()}
     </div>
