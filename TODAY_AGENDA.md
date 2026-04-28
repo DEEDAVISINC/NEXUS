@@ -1,18 +1,21 @@
-# YOUR AGENDA — Monday, April 27, 2026
+# YOUR AGENDA — Tuesday, April 28, 2026
 
-**Today (authoritative date):** **Monday, April 27, 2026.**
+**Today (authoritative date):** **Tuesday, April 28, 2026.**
 
-**This weekend completed:** SHIELD verification engine (9 service lines, automated two-way SMS, status-driven billing). VERTEX integration (3 event handlers). Supervisor approval + global role switcher + HIPAA gate. Navigator auto-time-tracking with CPT code mapping. Service Fulfillment Map. MDHHS Partner Portal (/mdhhs). Full VERTEX supervisor approval UI. **SHIELD Revenue Model built** — DDI as TPA for all mandatory BLL testing: 90-day pilot $460K-$764K, Year 1 Wayne $6.1M, 4-county full scale $27.7M/yr, 3-year $83.1M.
+**Monday completed:** SHIELD code fixes (8/8 — NavigatorLogin, doc upload, activity log filter, contractors/outcomes API, Twilio/SendGrid wiring, calendar, milestone types). Airtable schema migration (added 25+ missing fields, created Call_Log + Notification_Log tables). **Seeded demo data** — 20 referrals, 20 families, 25 children (16 EBL), 61 service activations, 85 milestones, 6 navigators across 4 counties. **Navigator Training Guide** written (17 sections). **Navigator Training Video Script** written (13 chapters, ~30 min). Twilio + SendGrid credentials configured in .env (trial accounts). MDHHS pilot doc rewritten.
 
 ---
 
 ```
-TODAY'S PRIORITIES — Monday, April 27, 2026
+TODAY'S PRIORITIES — Tuesday, April 28, 2026
 
-1. 📞  **Twilio + SendGrid signup** — Register and configure both services.
-     Get API keys, set TWILIO_SID / TWILIO_AUTH_TOKEN / TWILIO_PHONE and
-     SENDGRID_API_KEY / SENDGRID_FROM_EMAIL in .env. Test a real SMS send
-     and email send through the SHIELD notification engine.
+1. 🎥  **SHIELD Navigator Training Video — Guidde recording**
+     Sign up at guidde.com (free tier, 25 videos).
+     Install Chrome extension. Start frontend + backend locally.
+     Walk through SHIELD screens using the training video script
+     as a click-through checklist — Guidde auto-generates AI voiceover,
+     annotations, and transitions. No manual voiceover needed.
+     Reference: SHIELD_NAVIGATOR_TRAINING_VIDEO_SCRIPT.md (13 chapters)
 
 2. 💰  **CHAMPS rate verification** — Log into CHAMPS (MiLogin davisd1221).
      Pull exact Medicaid fee screen rate for CPT 98960 (CHW). Check DDI
@@ -20,39 +23,31 @@ TODAY'S PRIORITIES — Monday, April 27, 2026
      (347E00000X)? If CHW taxonomy missing, start the add process.
      This number feeds the entire revenue model.
 
-3. 🎥  **SHIELD demo video — RECORD THIS WEEK** — Pre-recorded walkthrough.
-     Tool: Loom (loom.com, free, records screen + webcam, shareable link).
-     PREP: Run seed_shield_demo_data.py so screens have real-looking data.
-     Start frontend + backend locally. Script the narration.
-     4 screens, 4-5 minutes: /refer → /navigator → /mdhhs → /status.
-     Closing line: "Every test scheduled. Every service verified. Every
-     payment earned. Zero cost to MDHHS."
-
-4. 📄  **MDHHS pilot structure doc — REFRAME** — NOT 10 families / 1 year.
-     New framing: DDI as TPA for all mandatory BLL testing in Wayne County.
-     90-day intake window, open enrollment (every referral served).
-     Revenue model: SHIELD_REVENUE_MODEL.md. Pilot = proof of concept
-     that scales to 4 counties. Deliverable for 5/4 meeting.
-
-5. 📝  **CBP Medical Support 70B06C26R00000017** — 8 DAYS OUT (May 5).
-     Follow up with Acuity-CHS + Concentra TODAY (sent 4/24, 3 days ago).
+3. 📝  **CBP Medical Support 70B06C26R00000017** — 7 DAYS OUT (May 5).
+     Follow up with Acuity-CHS + Concentra (sent 4/24, 4 days ago).
      Continue Phase I prep: written tech approach + past performance.
 
-6. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (3 days).
+4. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (2 days).
      Proposals due 5/7 @ 3:30 PM ET. Start assembling proposal package.
+
+5. 🎬  **MDHHS Demo Video — Prep for later this week**
+     Separate from navigator training. This is the 5/4 pitch video.
+     Tool: Synthesia ($22/mo) — AI avatar + script = polished demo.
+     Script: needs to be written (focused on MDHHS outcomes, not training).
+     Target: record Wed or Thu, deliver before 5/4 meeting.
 
 MEETINGS: None scheduled.
 FOLLOW-UPS DUE:
-  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, FOLLOW UP TODAY
-  - KY DMS addendum watch ~4/30 (3 days)
-  - ICE DHS (Tracy Riley) — 30-day follow-up OVERDUE from Mar 22 reply (35 days)
-  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (36 days silent)
+  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, FOLLOW UP
+  - KY DMS addendum watch ~4/30 (2 days)
+  - ICE DHS (Tracy Riley) — 30-day follow-up OVERDUE from Mar 22 reply (36 days)
+  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (37 days silent)
 PREP NEEDED:
+  - Guidde signup + Chrome extension install
+  - Start frontend (npm start) + backend (python3 api_server.py) locally
   - CHAMPS login + rate pull (MiLogin davisd1221)
-  - Loom signup + desktop app install
-  - Seed demo data before recording (seed_shield_demo_data.py)
-  - MDHHS pilot doc rewrite — 90-day open enrollment, not 10 families
-  - KY DMS proposal package assembly — technical + cost + proprietary
+  - KY DMS proposal package assembly
+  - MDHHS demo video script (separate from training — write Wed)
 ```
 
 ---

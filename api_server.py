@@ -24233,26 +24233,43 @@ def shield_create_call():
 
 @app.route('/shield/calls/initiate', methods=['POST'])
 def shield_initiate_call():
-    """Initiate an outbound call via Twilio (stub — wiring Monday)."""
+    """Initiate an outbound call via Twilio. Falls back to stub if not configured."""
     if not _SHIELD_AVAILABLE:
         return _shield_unavailable()
     try:
         body = request.get_json(silent=True) or {}
         if not body.get("to") or not body.get("navigator_phone"):
             return jsonify({"success": False, "error": "Missing 'to' or 'navigator_phone'"}), 400
-        print(f"[SHIELD] Call initiate stub: {body.get('navigator_email', 'unknown')} -> {body['to']}")
-        return jsonify({
-            "success": True,
-            "message": "Call initiated",
-            "call_sid": "pending_twilio_setup",
-        })
+
+        call_sid = None
+        try:
+            from shield_notifications import _twilio_configured
+            if _twilio_configured():
+                import os
+                from twilio.rest import Client as TwilioClient
+                tw = TwilioClient(os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
+                call = tw.calls.create(
+                    to=body["to"],
+                    from_=os.getenv("TWILIO_FROM_NUMBER"),
+                    url="http://demo.twilio.com/docs/voice.xml",
+                )
+                call_sid = call.sid
+        except ImportError:
+            pass
+
+        if call_sid:
+            print(f"[SHIELD] Call initiated via Twilio: {body.get('navigator_email', 'unknown')} -> {body['to']} sid={call_sid}")
+            return jsonify({"success": True, "message": "Call initiated", "call_sid": call_sid})
+
+        print(f"[SHIELD] Call initiate (Twilio not configured): {body.get('navigator_email', 'unknown')} -> {body['to']}")
+        return jsonify({"success": True, "message": "Call logged (Twilio pending)", "call_sid": "pending_twilio_setup"})
     except Exception as exc:
         return jsonify({"success": False, "error": str(exc)}), 500
 
 
 @app.route('/shield/sms/send', methods=['POST'])
 def shield_send_sms():
-    """Send SMS to a family member (stub — Twilio wiring Monday). Logs attempt."""
+    """Send SMS to a family member via Twilio. Falls back to log-only if Twilio not configured."""
     if not _SHIELD_AVAILABLE:
         return _shield_unavailable()
     try:
@@ -24260,7 +24277,23 @@ def shield_send_sms():
         body = request.get_json(silent=True) or {}
         if not body.get("to") or not body.get("message"):
             return jsonify({"success": False, "error": "Missing 'to' or 'message'"}), 400
-        print(f"[SHIELD] SMS stub: -> {body['to']} ({len(body['message'])} chars)")
+
+        sms_status = "queued_pending_twilio"
+        sms_sid = None
+        try:
+            from shield_notifications import send_raw_sms, _twilio_configured
+            if _twilio_configured():
+                result = send_raw_sms(body["to"], body["message"])
+                if result and result.get("success"):
+                    sms_status = "sent"
+                    sms_sid = result.get("sid")
+                else:
+                    sms_status = "send_failed"
+            else:
+                print(f"[SHIELD] Twilio not configured — logging SMS only: -> {body['to']}")
+        except ImportError:
+            print(f"[SHIELD] shield_notifications not available — logging SMS only")
+
         client = ShieldAirtableClient()
         if client.is_configured:
             try:
@@ -24271,38 +24304,56 @@ def shield_send_sms():
                 "channel": "sms",
                 "recipient": body["to"],
                 "body": body["message"],
-                "status": "queued_pending_twilio",
+                "status": sms_status,
             }
+            if sms_sid:
+                log_fields["external_id"] = sms_sid
             if body.get("referral_id"):
                 log_fields["referral_id"] = body["referral_id"]
             if body.get("navigator_email"):
                 log_fields["navigator_email"] = body["navigator_email"]
             client.create(TABLE_NOTIFICATIONS, log_fields)
-        return jsonify({"success": True, "message": "SMS queued"})
+        return jsonify({"success": True, "message": "SMS sent" if sms_status == "sent" else "SMS logged (Twilio pending)", "status": sms_status})
     except Exception as exc:
         return jsonify({"success": False, "error": str(exc)}), 500
 
 
 @app.route('/shield/documents/upload', methods=['POST'])
 def shield_upload_document():
-    """Upload a document/photo to a case (stub — Airtable attachment wiring separate)."""
+    """Log a document upload to a case. Accepts JSON metadata or multipart form data."""
     if not _SHIELD_AVAILABLE:
         return _shield_unavailable()
     try:
-        referral_id = request.form.get("referral_id")
-        doc_type = request.form.get("doc_type")
+        if request.is_json:
+            body = request.get_json(silent=True) or {}
+            referral_id = body.get("referral_id")
+            doc_type = body.get("doc_type")
+            file_name = body.get("file_name", "unknown")
+            file_size = body.get("file_size", 0)
+            note = body.get("note", "")
+        else:
+            referral_id = request.form.get("referral_id")
+            doc_type = request.form.get("doc_type")
+            file_name = None
+            file_size = 0
+            note = request.form.get("note", "")
+            uploaded = request.files.get("file")
+            if uploaded:
+                file_name = uploaded.filename
+                file_size = 0
+
         if not referral_id or not doc_type:
             return jsonify({"success": False, "error": "Missing 'referral_id' or 'doc_type'"}), 400
-        uploaded = request.files.get("file")
-        if not uploaded:
+        if not file_name:
             return jsonify({"success": False, "error": "No file provided"}), 400
-        note = request.form.get("note", "")
-        print(f"[SHIELD] Document upload stub: referral={referral_id} type={doc_type} "
-              f"file={uploaded.filename} note={note[:60]}")
+        print(f"[SHIELD] Document upload: referral={referral_id} type={doc_type} "
+              f"file={file_name} size={file_size} note={note[:60]}")
         return jsonify({
             "success": True,
             "message": "Document received",
             "doc_id": "pending",
+            "file_name": file_name,
+            "file_size": file_size,
         })
     except Exception as exc:
         return jsonify({"success": False, "error": str(exc)}), 500
@@ -24345,10 +24396,10 @@ def shield_create_activity():
         from shield_lead_screening import _now_eastern_iso
         fields = {
             "referral_id": body["referral_id"],
-            "milestone_type": f"Activity Log — {body['activity_type']}",
+            "milestone_type": "Activity Log",
             "timestamp": _now_eastern_iso(),
             "recorded_by": body["navigator_email"],
-            "notes": " | ".join(note_parts),
+            "notes": f"[{body['activity_type']}] " + " | ".join(note_parts),
         }
         record = client.create(TABLE_MILESTONES, fields)
         entry = {
@@ -24378,7 +24429,7 @@ def shield_get_activity():
         rows = [r for r in rows if (r.get("milestone_type") or "").startswith("Activity")]
         nav = request.args.get('navigator_email')
         if nav:
-            rows = [r for r in rows if r.get("navigator_email") == nav]
+            rows = [r for r in rows if r.get("recorded_by") == nav or r.get("navigator_email") == nav]
         rows.sort(key=lambda x: x.get("created_at", ""), reverse=True)
         return jsonify({"success": True, "entries": rows, "count": len(rows)})
     except Exception as exc:

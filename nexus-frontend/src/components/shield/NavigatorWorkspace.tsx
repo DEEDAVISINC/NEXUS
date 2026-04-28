@@ -181,6 +181,7 @@ const NavigatorWorkspace: React.FC<NavigatorWorkspaceProps> = ({ navigator, onLo
   const [loading, setLoading] = useState(false);
   const [navStatus, setNavStatus] = useState('online');
   const [showStatusMenu, setShowStatusMenu] = useState(false);
+  const [allActivations, setAllActivations] = useState<any[]>([]);
   const currentStatus = STATUS_OPTIONS.find(s => s.id === navStatus) || STATUS_OPTIONS[0];
 
   // ─── Data fetching ──────────────────────────────────────────────────────
@@ -192,6 +193,10 @@ const NavigatorWorkspace: React.FC<NavigatorWorkspaceProps> = ({ navigator, onLo
       setReferrals(all);
     } catch { /* silent */ }
     finally { setLoading(false); }
+    try {
+      const actData = await api.getShieldActivations();
+      setAllActivations((actData?.activations || []) as any[]);
+    } catch { /* silent */ }
   }, []);
 
   const fetchCaseDetail = useCallback(async (refId: string) => {
@@ -406,7 +411,7 @@ const NavigatorWorkspace: React.FC<NavigatorWorkspaceProps> = ({ navigator, onLo
             />
           )}
           {section === 'calendar' && (
-            <CalendarView referrals={referrals} />
+            <CalendarView referrals={referrals} activations={allActivations} />
           )}
           {section === 'sms' && (
             <SMSPanel referrals={referrals} navigatorName={navigator.name} navigatorEmail={navigator.email} />
@@ -1551,28 +1556,50 @@ function calendarUrl(appt: { family_name: string; service_line: string; date: st
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(start)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(appt.address || '')}`;
 }
 
-const CalendarView: React.FC<{ referrals: Referral[] }> = ({ referrals }) => {
+const CalendarView: React.FC<{ referrals: Referral[]; activations?: any[] }> = ({ referrals, activations = [] }) => {
   const appointments = useMemo<Appointment[]>(() => {
     const appts: Appointment[] = [];
-    referrals.forEach(r => {
-      if (r.services_requested) {
-        r.services_requested.forEach((svc, i) => {
-          appts.push({
-            id: `${r.id}-svc-${i}`,
-            referral_id: r.referral_id || r.id.slice(-8),
-            family_name: r.referral_id || r.id.slice(-6),
-            service_line: svc,
-            date: r.date_received?.split('T')[0] || new Date().toISOString().split('T')[0],
-            time: '09:00',
-            address: r.county ? `${r.county} County, Michigan` : undefined,
-            type: svc.includes('Home Visit') ? 'home-visit' : svc.includes('NEMT') ? 'transport' : 'office',
-          });
+    const refMap = new Map(referrals.map(r => [r.id, r]));
+
+    activations.forEach((a: any, i: number) => {
+      if (a.appointment_date) {
+        const ref = a.referral_id ? refMap.get(a.referral_id) : undefined;
+        const dt = a.appointment_date.split('T');
+        appts.push({
+          id: a.id || `act-${i}`,
+          referral_id: ref?.referral_id || a.referral_id || '',
+          family_name: ref?.referral_id || a.referral_id?.slice(-6) || 'Unknown',
+          service_line: a.service_line || 'Service',
+          date: dt[0],
+          time: dt[1]?.slice(0, 5) || '09:00',
+          address: ref?.county ? `${ref.county} County, Michigan` : a.address,
+          type: (a.service_line || '').includes('Home Visit') ? 'home-visit' : (a.service_line || '').includes('NEMT') ? 'transport' : 'office',
         });
       }
     });
+
+    if (appts.length === 0) {
+      referrals.forEach(r => {
+        if (r.services_requested) {
+          r.services_requested.forEach((svc, i) => {
+            appts.push({
+              id: `${r.id}-svc-${i}`,
+              referral_id: r.referral_id || r.id.slice(-8),
+              family_name: r.referral_id || r.id.slice(-6),
+              service_line: svc,
+              date: r.date_received?.split('T')[0] || new Date().toISOString().split('T')[0],
+              time: '09:00',
+              address: r.county ? `${r.county} County, Michigan` : undefined,
+              type: svc.includes('Home Visit') ? 'home-visit' : svc.includes('NEMT') ? 'transport' : 'office',
+            });
+          });
+        }
+      });
+    }
+
     appts.sort((a, b) => a.date.localeCompare(b.date));
     return appts;
-  }, [referrals]);
+  }, [referrals, activations]);
 
   const today = new Date().toISOString().split('T')[0];
   const upcoming = appointments.filter(a => a.date >= today);

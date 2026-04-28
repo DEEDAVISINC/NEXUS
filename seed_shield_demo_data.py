@@ -29,11 +29,11 @@ if not DRY_RUN:
 DEMO_REFERRALS = [
     # Wayne County (8 referrals — highest volume, Flint-adjacent crisis awareness)
     {"county": "Wayne", "agency": "Wayne County Health Dept", "worker": "Maria Gonzalez", "urgency": "Emergency", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination", "Housing Navigation"], "family": "Johnson", "children": [("Amari Johnson", 24, 12.3, "Completed"), ("Layla Johnson", 8, 6.1, "Completed")], "status": "Active", "stage": "In Service"},
-    {"county": "Wayne", "agency": "MDHHS Region 10", "worker": "Angela Medina", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT — Non-Emergency Medical Transportation", "MIBridges Benefits Navigation"], "family": "Williams", "children": [("Jaylen Williams", 36, 7.8, "Completed")], "status": "Active", "stage": "Engaged"},
+    {"county": "Wayne", "agency": "MDHHS Region 10", "worker": "Angela Medina", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT - Non-Emergency Medical Transportation", "MIBridges Benefits Navigation"], "family": "Williams", "children": [("Jaylen Williams", 36, 7.8, "Completed")], "status": "Active", "stage": "Engaged"},
     {"county": "Wayne", "agency": "Wayne County Health Dept", "worker": "David Park", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "Filter Safety Net / Drinking Water"], "family": "Davis", "children": [("Kaia Davis", 18, 4.2, "Completed")], "status": "Active", "stage": "Outreach"},
     {"county": "Wayne", "agency": "Detroit Health Dept", "worker": "Tanya Brooks", "urgency": "Emergency", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination", "Community Health Worker Home Visit", "Housing Navigation"], "family": "Thomas", "children": [("Marcus Thomas", 14, 18.7, "Completed"), ("Nia Thomas", 30, 9.4, "Completed")], "status": "Active", "stage": "In Service"},
     {"county": "Wayne", "agency": "MDHHS Region 10", "worker": "Angela Medina", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "MIBridges Benefits Navigation"], "family": "Robinson", "children": [("Elijah Robinson", 42, 3.1, "Completed")], "status": "Completed", "stage": "Closed"},
-    {"county": "Wayne", "agency": "Dearborn Health Dept", "worker": "Fatima Hassan", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT — Non-Emergency Medical Transportation", "Filter Safety Net / Drinking Water"], "family": "Ahmed", "children": [("Yasmin Ahmed", 12, 8.9, "Completed")], "status": "Active", "stage": "In Service"},
+    {"county": "Wayne", "agency": "Dearborn Health Dept", "worker": "Fatima Hassan", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT - Non-Emergency Medical Transportation", "Filter Safety Net / Drinking Water"], "family": "Ahmed", "children": [("Yasmin Ahmed", 12, 8.9, "Completed")], "status": "Active", "stage": "In Service"},
     {"county": "Wayne", "agency": "Wayne County Health Dept", "worker": "Maria Gonzalez", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "Community Health Worker Home Visit"], "family": "Garcia", "children": [("Sofia Garcia", 20, 2.8, "Pending")], "status": "Pending", "stage": "Intake"},
     {"county": "Wayne", "agency": "Detroit Health Dept", "worker": "Tanya Brooks", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Nurse Home Visit"], "family": "Brown", "children": [("Zion Brown", 16, 11.2, "Completed")], "status": "Active", "stage": "Engaged"},
 
@@ -41,7 +41,7 @@ DEMO_REFERRALS = [
     {"county": "Oakland", "agency": "Oakland County Health Dept", "worker": "Jennifer Liu", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "Filter Safety Net / Drinking Water"], "family": "Chen", "children": [("Lily Chen", 28, 3.9, "Completed")], "status": "Active", "stage": "Outreach"},
     {"county": "Oakland", "agency": "Oakland County Health Dept", "worker": "Jennifer Liu", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination"], "family": "Okonkwo", "children": [("Adaeze Okonkwo", 22, 9.6, "Completed"), ("Chidi Okonkwo", 48, 5.3, "Completed")], "status": "Active", "stage": "In Service"},
     {"county": "Oakland", "agency": "MDHHS Region 10", "worker": "Aimee Surma", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "MIBridges Benefits Navigation", "Community Health Worker Home Visit"], "family": "Patel", "children": [("Arjun Patel", 15, 4.1, "Completed")], "status": "Active", "stage": "Engaged"},
-    {"county": "Oakland", "agency": "Oakland County Health Dept", "worker": "Jennifer Liu", "urgency": "Emergency", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination", "Housing Navigation", "NEMT — Non-Emergency Medical Transportation"], "family": "Miller", "children": [("Isaiah Miller", 10, 15.4, "Completed")], "status": "Active", "stage": "In Service"},
+    {"county": "Oakland", "agency": "Oakland County Health Dept", "worker": "Jennifer Liu", "urgency": "Emergency", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination", "Housing Navigation", "NEMT - Non-Emergency Medical Transportation"], "family": "Miller", "children": [("Isaiah Miller", 10, 15.4, "Completed")], "status": "Active", "stage": "In Service"},
     {"county": "Oakland", "agency": "Pontiac Health Dept", "worker": "Robert Taylor", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing"], "family": "Jackson", "children": [("Aaliyah Jackson", 32, 2.4, "Pending")], "status": "Pending", "stage": "Intake"},
 
     # Macomb County (4 referrals)
@@ -52,7 +52,7 @@ DEMO_REFERRALS = [
 
     # Genesee County (3 referrals — Flint water crisis legacy)
     {"county": "Genesee", "agency": "Genesee County Health Dept", "worker": "Patricia Washington", "urgency": "Emergency", "services": ["Blood Lead Level (BLL) Testing", "CLPPP Case Management", "Lead Remediation Coordination", "Filter Safety Net / Drinking Water", "Housing Navigation", "Community Health Worker Home Visit"], "family": "Carter", "children": [("Destiny Carter", 11, 22.4, "Completed"), ("Jayden Carter", 36, 14.8, "Completed")], "status": "Active", "stage": "In Service"},
-    {"county": "Genesee", "agency": "Genesee County Health Dept", "worker": "Patricia Washington", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT — Non-Emergency Medical Transportation", "MIBridges Benefits Navigation"], "family": "Wilson", "children": [("Aiden Wilson", 24, 8.3, "Completed")], "status": "Active", "stage": "Engaged"},
+    {"county": "Genesee", "agency": "Genesee County Health Dept", "worker": "Patricia Washington", "urgency": "Urgent", "services": ["Blood Lead Level (BLL) Testing", "NEMT - Non-Emergency Medical Transportation", "MIBridges Benefits Navigation"], "family": "Wilson", "children": [("Aiden Wilson", 24, 8.3, "Completed")], "status": "Active", "stage": "Engaged"},
     {"county": "Genesee", "agency": "MDHHS — Flint Lead Recovery", "worker": "Aimee Surma", "urgency": "Standard", "services": ["Blood Lead Level (BLL) Testing", "Filter Safety Net / Drinking Water", "Community Health Worker Home Visit"], "family": "Taylor", "children": [("Chloe Taylor", 30, 5.7, "Completed")], "status": "Active", "stage": "Outreach"},
 ]
 
@@ -77,6 +77,19 @@ def generate_case_number(idx: int) -> str:
     return f"SHD-2026-{str(idx + 1).zfill(4)}"
 
 
+SERVICE_LINE_MAP = {
+    "Blood Lead Level (BLL) Testing": "Lead Screening",
+    "CLPPP Case Management": "Lead Screening",
+    "Lead Remediation Coordination": "Lead Remediation",
+    "Housing Navigation": "Housing",
+    "NEMT - Non-Emergency Medical Transportation": "NEMT",
+    "Community Health Worker Home Visit": "Medical Monitoring",
+    "Nurse Home Visit": "Medical Monitoring",
+    "Filter Safety Net / Drinking Water": "Filter Safety Net",
+    "MIBridges Benefits Navigation": "Food Navigation",
+}
+
+
 def random_date_recent(days_back: int = 30) -> datetime:
     return datetime.now(ET) - timedelta(days=random.randint(1, days_back), hours=random.randint(0, 12))
 
@@ -93,16 +106,17 @@ def run():
         referral_fields = {
             "referral_id": case_num,
             "date_received": date_received.isoformat(),
-            "first_contact_at": first_contact.isoformat() if first_contact else None,
             "referral_source": "MDHHS / LHD",
             "referring_agency": ref["agency"],
             "case_worker_name": ref["worker"],
             "county": ref["county"],
-            "services_requested": json.dumps(ref["services"]),
+            "services_requested": ref["services"],
             "urgency": ref["urgency"],
             "status": ref["status"],
             "intake_method": "Portal",
         }
+        if first_contact:
+            referral_fields["first_contact_at"] = first_contact.isoformat()
 
         print(f"  [{case_num}] {ref['family']} Family — {ref['county']} — {ref['urgency']} — {len(ref['children'])} children — {len(ref['services'])} services")
 
@@ -147,24 +161,27 @@ def run():
                 })
 
             # Service activations
-            for svc in ref["services"]:
+            for svc_idx, svc in enumerate(ref["services"]):
                 status = "Completed" if ref["stage"] == "Closed" else "Active" if ref["stage"] == "In Service" else "Pending"
-                at.table(BASE_ID, "Service_Activations").create({
+                svc_fields = {
                     "referral_id": [ref_airtable_id],
-                    "service_line": svc,
+                    "service_line": SERVICE_LINE_MAP.get(svc, svc),
                     "status": status,
                     "activated_date": date_received.isoformat(),
                     "navigator_name": nav["name"],
                     "vendor": random.choice(["CWC Internal", "DDI Partner", "County Health Dept"]),
-                })
+                }
+                if status in ("Active", "Pending") and svc_idx < 3:
+                    appt = datetime.now(ET) + timedelta(days=random.randint(1, 14), hours=random.randint(8, 16))
+                    svc_fields["appointment_date"] = appt.isoformat()
+                at.table(BASE_ID, "Service_Activations").create(svc_fields)
 
-            # Milestones — use valid milestone_type values
             STAGE_MILESTONES = {
                 "Intake": ["Referral Received"],
                 "Outreach": ["Referral Received", "Navigator Assigned", "First Contact Attempt"],
                 "Engaged": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged"],
                 "In Service": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged", "Service Activated"],
-                "Closed": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged", "Service Activated", "Service Completed", "Case Closed"],
+                "Closed": ["Referral Received", "Navigator Assigned", "First Contact Made", "Family Engaged", "Service Activated", "Case Review", "Case Closed"],
             }
             milestones = STAGE_MILESTONES.get(ref["stage"], ["Referral Received"])
             for j, ms in enumerate(milestones):
@@ -194,14 +211,13 @@ def run():
                 nav_count += 1
             except Exception as e:
                 print(f"    ⚠ Navigator {nav['name']}: {e}")
-        # Dee Davis as Ultimate Supervisor
         try:
             at.table(BASE_ID, "Navigators").create({
                 "name": "Dee Davis",
                 "email": "dee@deedavisinc.com",
                 "phone": "(313) 555-0100",
                 "county": "All",
-                "role": "Ultimate Supervisor",
+                "role": "Admin",
                 "supervisor_access": True,
                 "status": "Active",
             })

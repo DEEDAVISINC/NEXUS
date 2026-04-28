@@ -72,8 +72,7 @@ function NavigatorLogin() {
         setError(res?.error || 'Login failed. Contact your supervisor.');
       }
     } catch {
-      setNav({ email: email.trim(), name: name.trim(), role: 'Navigator' });
-      setLoggedIn(true);
+      setError('Unable to reach server. Check your connection and try again.');
     }
     setLoading(false);
   };

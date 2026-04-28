@@ -710,4 +710,39 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## AMERICAN MEDICAL REVIEW OFFICER (AMRO) — MRO Services
+
+| Field | Details |
+|---|---|
+| **Company** | American Medical Review Officer Inc. (AMRO) |
+| **Address** | 4237 Salisbury Rd, Suite 312, Jacksonville, FL 32216 |
+| **Phone** | (904) 332-0472 / Toll Free: (800) 550-9640 |
+| **Email** | info@americanmedicalreviewofficer.com |
+| **Named MRO** | **Dr. Donald S. Freedman, M.D.** — Certified Medical Review Officer |
+| **President/COO** | LindaRose Griffin — C-MROA Certified |
+| **DDI Status** | 🟡 **OUTREACH SENT — Apr 27, 2026** |
+
+### WHY AMRO (Not NDS):
+- **MRO-only provider** — does NOT compete with DDI on drug testing contracts
+- NDS is bidding on City of Yonkers RFP-546 (same contract DDI is bidding)
+- AMRO has no conflict of interest — they want DDI to win contracts
+
+### WHAT DDI NEEDS FROM AMRO:
+1. Bundled MRO pricing (per-test rate)
+2. Letter of Commitment with Dr. Freedman's credentials:
+   - State medical license number and jurisdiction
+   - MRO certification number and certifying board (49 CFR Part 40 §40.121)
+3. DOT-compliant MRO process (24-hr donor contact, split specimen support)
+4. National coverage capability
+5. **Reseller rights** — DDI wants to offer MRO services to other small TPAs
+
+### ACTIONS:
+- [x] Partnership inquiry email sent — Apr 27, 2026 ~3:00 PM ET
+- [ ] Follow-up if no reply by May 1
+- [ ] Get Dr. Freedman credentials for Letter of Commitment
+- [ ] Negotiate per-test pricing
+- [ ] Confirm reseller/sub-partnership rights
+
+---
+
 *This file tracks all partner account updates, renewals, and action items. Check monthly.*

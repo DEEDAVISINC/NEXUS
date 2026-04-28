@@ -7,6 +7,7 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **May 1, 2026** | **Proposals due** | **City of Yonkers, NY** | **RFP-546** | **ACTIVE — GO** — Drug & Alcohol Testing Services; ~300 CDL drivers; 4-year contract; $162.5K/yr est. revenue; WBE advantage; BidNet submission; folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/`; St. John's confirmed; **4 files needed on BidNet** |
 | **Apr 22, 2026 (e‑mailed)** | **Written questions** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **SUBMITTED** — E‑mailed Robin.Uphoff@ky.gov **today**; agency deadline was **4/23 3:30 PM ET**; await addendum ~**4/30**; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` |
 | **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
 | **Apr 17 @ 4:00 PM ET** | **Drug Test Kits** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **✅ SUBMITTED** — Apr 17, 2026 · CS-1 + CS-2(2) signed · 6 items priced (12-panel cup $64.68, 13-panel oral fluid $77.68, 14-panel $71.18, 18-panel $84.18, kratom strips $19.18, psilocybin dip $23.08) · Total $339.98 · PDF archived PROOF_OF_SUBMISSION · Award watch |
@@ -52,7 +53,7 @@
 
 | Contact | Agency | Service | Date Sent | Status |
 |---|---|---|---|---|
-| **Acuity-CHS BD** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Drug Testing TPA sub (Sec A T6-7, Sec B T4-5)** | **Apr 24, 2026 1:15 PM ET** | **SUBMITTED** — acuityinternational.com/become-an-acuity-partner · Follow-up if no reply Mon 4/27 AM |
+| **Russ Langford — Acuity CGO** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Drug Testing TPA sub (Sec A T6-7, Sec B T4-5)** | **Apr 27, 2026 ~2:45 PM ET** | **FOLLOW-UP SENT** — Direct email to Russ.Langford@acuityinternational.com · Phase I due May 5 · Follow-up Wed 4/30 if no reply |
 | **Kayla Thomas — Concentra** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Teaming inquiry — existing partner — drug testing TPA** | **Apr 24, 2026 1:18 PM ET** | **SENT** — direct email to Kayla · Follow-up if no reply Mon 4/27 AM |
 | Tracy Riley | ICE DHS — Courier | Courier, DNA, Fingerprinting, E-Verify | Mar 19 | **REPLIED Mar 22** — "Interesting, thanks for the information about this capability." Acknowledged DNA capability. No active need. CC'd Marilyn Doty, Jennifer Doran, Mark Gonzales. **Next follow-up: ~Apr 22 (30 days).** |
 | Jared Tritle | CBP — Fingerprinting BPA | Electronic Fingerprinting Services | Mar 22 | **SENT Mar 22** — Cold intro + tailored fingerprinting cap statement (Forest Green). CBP Office of Human Resources Management. |

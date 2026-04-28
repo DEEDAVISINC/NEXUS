@@ -1055,6 +1055,16 @@ export const api = {
   shieldNavigatorLogin: (data: { email: string; name: string }) =>
     ApiClient.post('/shield/navigator/login', data),
 
+  // SHIELD Contractors
+  getShieldContractors: () => ApiClient.get('/shield/contractors'),
+  createShieldContractor: (data: Record<string, unknown>) =>
+    ApiClient.post('/shield/contractors', data),
+
+  // SHIELD Outcomes Reporting
+  getShieldOutcomes: () => ApiClient.get('/shield/outcomes'),
+  createShieldOutcome: (data: Record<string, unknown>) =>
+    ApiClient.post('/shield/outcomes', data),
+
   // Service Verification Engine
   getVerificationStatus: (activationId: string) =>
     ApiClient.get(`/shield/verification/${encodeURIComponent(activationId)}`),

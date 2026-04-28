@@ -4,13 +4,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -41,
-          "file_count": 36,
-          "reason": "Has 36 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -42,
@@ -210,6 +203,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -74,
+          "file_count": 36,
+          "reason": "Has 36 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -75,
           "file_count": 36,
           "reason": "Has 36 files (analysis started)"
         }
@@ -219,13 +219,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -41,
-          "file_count": 4,
-          "reason": "Has 4 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -42,
@@ -425,6 +418,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -74,
+          "file_count": 4,
+          "reason": "Has 4 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -75,
           "file_count": 4,
           "reason": "Has 4 files (analysis started)"
         }
@@ -1079,13 +1079,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -39,
-          "file_count": 20,
-          "reason": "Has 20 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -40,
@@ -1285,6 +1278,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -72,
+          "file_count": 20,
+          "reason": "Has 20 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -73,
           "file_count": 20,
           "reason": "Has 20 files (analysis started)"
         }
@@ -1294,13 +1294,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -39,
-          "file_count": 10,
-          "reason": "Has 10 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -40,
@@ -1500,6 +1493,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -72,
+          "file_count": 10,
+          "reason": "Has 10 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -73,
           "file_count": 10,
           "reason": "Has 10 files (analysis started)"
         }
@@ -1509,13 +1509,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -39,
-          "file_count": 8,
-          "reason": "Has 8 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -40,
@@ -1717,19 +1710,19 @@
           "days_left": -72,
           "file_count": 8,
           "reason": "Has 8 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -73,
+          "file_count": 8,
+          "reason": "Has 8 files (analysis started)"
         }
       ]
     },
     "OAKLAND COUNTY EXAM STOOLS": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": false,
-          "days_left": -36,
-          "file_count": 2,
-          "reason": "No activity in 35d, deadline in -36d"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": false,
@@ -1932,19 +1925,19 @@
           "days_left": -69,
           "file_count": 2,
           "reason": "No activity in 69d, deadline in -69d"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": false,
+          "days_left": -70,
+          "file_count": 2,
+          "reason": "No activity in 70d, deadline in -70d"
         }
       ]
     },
     "OAKLAND COUNTY TRUCK EQUIPMENT": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -35,
-          "file_count": 11,
-          "reason": "Has 11 files (analysis started)"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
@@ -2145,6 +2138,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -68,
+          "file_count": 11,
+          "reason": "Has 11 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -69,
           "file_count": 11,
           "reason": "Has 11 files (analysis started)"
         }
@@ -2154,13 +2154,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -35,
-          "file_count": 29,
-          "reason": "Has 29 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -36,
@@ -2360,6 +2353,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -68,
+          "file_count": 29,
+          "reason": "Has 29 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -69,
           "file_count": 29,
           "reason": "Has 29 files (analysis started)"
         }
@@ -2369,13 +2369,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -35,
-          "file_count": 5,
-          "reason": "Has 5 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -36,
@@ -2577,19 +2570,19 @@
           "days_left": -68,
           "file_count": 5,
           "reason": "Has 5 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -69,
+          "file_count": 5,
+          "reason": "Has 5 files (analysis started)"
         }
       ]
     },
     "GENESEE WOOD POLES": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -34,
-          "file_count": 32,
-          "reason": "Has 32 files (analysis started)"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
@@ -2790,6 +2783,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -67,
+          "file_count": 32,
+          "reason": "Has 32 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -68,
           "file_count": 32,
           "reason": "Has 32 files (analysis started)"
         }
@@ -2799,13 +2799,6 @@
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
         {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -34,
-          "file_count": 17,
-          "reason": "Has 17 files (analysis started)"
-        },
-        {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
           "days_left": -35,
@@ -3007,19 +3000,19 @@
           "days_left": -67,
           "file_count": 17,
           "reason": "Has 17 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -68,
+          "file_count": 17,
+          "reason": "Has 17 files (analysis started)"
         }
       ]
     },
     "LIVONIA MATERIALS": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -29,
-          "file_count": 20,
-          "reason": "Has 20 files (analysis started)"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
@@ -3222,19 +3215,19 @@
           "days_left": -62,
           "file_count": 20,
           "reason": "Has 20 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -63,
+          "file_count": 20,
+          "reason": "Has 20 files (analysis started)"
         }
       ]
     },
     "HCMA UTILITY VEHICLES": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -27,
-          "file_count": 8,
-          "reason": "Has 8 files (analysis started)"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
@@ -3437,19 +3430,19 @@
           "days_left": -60,
           "file_count": 8,
           "reason": "Has 8 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -61,
+          "file_count": 8,
+          "reason": "Has 8 files (analysis started)"
         }
       ]
     },
     "ALASKA STEEL CONTAINERS": {
       "first_seen": "2026-02-08T17:33:31.101994",
       "activity_log": [
-        {
-          "date": "2026-03-23T07:00:03.947377",
-          "is_pursuing": true,
-          "days_left": -22,
-          "file_count": 9,
-          "reason": "Has 9 files (analysis started)"
-        },
         {
           "date": "2026-03-24T07:00:04.875491",
           "is_pursuing": true,
@@ -3650,6 +3643,13 @@
           "date": "2026-04-26T00:00:00",
           "is_pursuing": true,
           "days_left": -55,
+          "file_count": 9,
+          "reason": "Has 9 files (analysis started)"
+        },
+        {
+          "date": "2026-04-27T00:00:00",
+          "is_pursuing": true,
+          "days_left": -56,
           "file_count": 9,
           "reason": "Has 9 files (analysis started)"
         }

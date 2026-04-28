@@ -1,11 +1,127 @@
-Good morning Dee. Here is your NEXUS briefing for Monday, April 27, 2026.
+# 📋 NEXUS DAILY BRIEFING
+**Generated:** Monday, April 27, 2026 at 06:30 AM
 
-You have 6 priorities today. Number one, sign up for Twilio and SendGrid to activate SHIELD notifications. Number two, log into CHAMPS and pull the exact Medicaid rate for CHW code 98960, that number feeds your entire revenue model. Number three, sign up for Loom and start prepping the SHIELD demo video for the May 4th meeting, a pre-recorded walkthrough, 4 screens, 4 minutes.
+---
 
-The SHIELD revenue model is done. DDI as TPA for all mandatory childhood lead testing. 90-day Wayne County pilot projects at $460,000 to $764,000. Year 1 Wayne County is $6.1 million. All 4 counties at full scale is $27.7 million per year. Three-year contract value is $83 million. And MDHHS pays nothing.
+## 🚀 READY TO SEND — ACTION REQUIRED
 
-CBP Medical Support is 8 days out, due May 5th. Follow up with Acuity and Concentra today, they have been waiting 3 days. Kentucky DMS addendum expected around April 30th.
+**44 emails ready to send:**
 
-The pilot structure doc needs to be rewritten. Not 10 families for a year. DDI as TPA, 90-day open enrollment, every child in Wayne County. That is the 5/4 deliverable.
+| Opportunity | Cap Statement | Folder | Days Waiting |
+|---|---|---|---|
+| FEMA LANDSCAPE SNOW | 70FBR126R00000003_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/FEMA LANDSCAPE SNOW/SEND_TO_BUYER) | 70 days |
+| DOJ COURT REPORTING MI | 15JA0526Q00000029_Court_Reporting_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DOJ COURT REPORTING MI/SEND_TO_BUYER) | 70 days |
+| DLA WARREN CIRCUIT CARD | SPRDL1-26-Q-0057_Circuit_Card_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DLA WARREN CIRCUIT CARD/SEND_TO_BUYER) | 70 days |
+| VA DRY ICE DELIVERY | 36C25626Q0360_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/VA DRY ICE DELIVERY/SEND_TO_BUYER) | 70 days |
+| DLA POWER CABLE | SPE7M126T5731_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DLA POWER CABLE/SEND_TO_BUYER) | 70 days |
+| HUD CONSTRUCTION INSPECTION | 86614126R00001_Construction_Inspection_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/HUD CONSTRUCTION INSPECTION/SEND_TO_BUYER) | 70 days |
+| USACE DETROIT DREDGING | PANGLR-26-P-0000028626_Dredging_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USACE DETROIT DREDGING/SEND_TO_BUYER) | 70 days |
+| VA DETROIT RADIATION SAFETY | 36C25026Q0275_Radiation_Safety_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/VA DETROIT RADIATION SAFETY/SEND_TO_BUYER) | 70 days |
+| DLA SAFETY VALVE | SPE7MC26T5407_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DLA SAFETY VALVE/SEND_TO_BUYER) | 70 days |
+| USCG GRAND HAVEN SNOW GUARD | 70Z03026QCLEV0034_Snow_Guard_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USCG GRAND HAVEN SNOW GUARD/SEND_TO_BUYER) | 70 days |
+| LOUISIANA DCFS GENETIC TESTING | LA_DCFS_Genetic_Testing_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/LOUISIANA DCFS GENETIC TESTING/SEND_TO_BUYER) | 68 days |
+| USACE DESIGN BUILD MATOC | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USACE DESIGN BUILD MATOC/SEND_TO_BUYER) | 68 days |
+| AF POU CONSUMABLES | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/AF POU CONSUMABLES/SEND_TO_BUYER) | 68 days |
+| NY DCJS FINGERPRINTING | NY_DCJS_Fingerprint_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/NY DCJS FINGERPRINTING/SEND_TO_BUYER) | 68 days |
+| FORT MCCOY GROUNDS | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/FORT MCCOY GROUNDS/SEND_TO_BUYER) | 68 days |
+| NSWC INDIAN HEAD SWFT | N0017426Q1009_SWFT_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/NSWC INDIAN HEAD SWFT/SEND_TO_BUYER) | 68 days |
+| VA MEDICAL CODING | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/VA MEDICAL CODING/SEND_TO_BUYER) | 68 days |
+| DOD GROUNDS MAINTENANCE MS | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DOD GROUNDS MAINTENANCE MS/SEND_TO_BUYER) | 68 days |
+| OHIO DOH MEDICAL COURIER | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/OHIO DOH MEDICAL COURIER/SEND_TO_BUYER) | 63 days |
+| DC VAMC WHEELCHAIR VAN | 36C24526Q0301_Wheelchair_Van_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DC VAMC WHEELCHAIR VAN/SEND_TO_BUYER) | 62 days |
+| AFDW DRUG SCREENING | FA701426RAFDW_Drug_Screening_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/AFDW DRUG SCREENING/SEND_TO_BUYER) | 62 days |
+| SMART DRUG TESTING | SMART_Drug_Alcohol_Testing_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/SMART DRUG TESTING/SEND_TO_BUYER) | 60 days |
+| MDHHS CROSS-SELL | MDHHS_Multi_Service_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/MDHHS CROSS-SELL/SEND_TO_BUYER) | 60 days |
+| MDHHS NEMT BROKERAGE | MDHHS_NEMT_Brokerage_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/MDHHS NEMT BROKERAGE/SEND_TO_BUYER) | 60 days |
+| PITTSBURGH URA TITLE SERVICES | URA_Title_Settlement_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/PITTSBURGH URA TITLE SERVICES/SEND_TO_BUYER) | 52 days |
+| MICHIGAN ARMY RESERVE GROUNDS | W911SA26QA090_Grounds_Maintenance_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/MICHIGAN ARMY RESERVE GROUNDS/SEND_TO_BUYER) | 52 days |
+| DDOT DRUG TESTING | DDOT_Drug_Alcohol_Testing_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DDOT DRUG TESTING/SEND_TO_BUYER) | 52 days |
+| USACE MOBILE EMERGENCY MANAGEMENT | W9127826RA045_Emergency_Management_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USACE MOBILE EMERGENCY MANAGEMENT/SEND_TO_BUYER) | 42 days |
+| ARMY FT BLISS LAUNDRY DRY CLEANING | W911SG_Laundry_Dry_Cleaning_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/ARMY FT BLISS LAUNDRY DRY CLEANING/SEND_TO_BUYER) | 42 days |
+| DHC LANDSCAPING | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DHC LANDSCAPING/SEND_TO_BUYER) | 39 days |
+| OCTA HEAVY FREIGHT | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/OCTA HEAVY FREIGHT/SEND_TO_BUYER) | 39 days |
+| USACE PALATKA CUSTODIAL | W912EP26QA006_Custodial_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USACE PALATKA CUSTODIAL/SEND_TO_BUYER) | 0 days |
+| OCTA BICYCLE COUNT | 250219_Bicycle_Count_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/OCTA BICYCLE COUNT/SEND_TO_BUYER) | 0 days |
+| NIH NCI LN2 DELIVERY | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/NIH NCI LN2 DELIVERY/SEND_TO_BUYER) | 0 days |
+| MACOMB COUNTY DRUG TESTING | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/MACOMB COUNTY DRUG TESTING/SEND_TO_BUYER) | 0 days |
+| DECA ELECTRONIC FINGERPRINTING | HQC00526QE015_Electronic_Fingerprinting_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DECA ELECTRONIC FINGERPRINTING/SEND_TO_BUYER) | 0 days |
+| ARMY 3PL LOGISTICS | PANRSA26P0000032900_3PL_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/ARMY 3PL LOGISTICS/SEND_TO_BUYER) | 0 days |
+| STATE DEPT RIDE SHARE | 19AQMM26N0154_Ride_Share_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/STATE DEPT RIDE SHARE/SEND_TO_BUYER) | 0 days |
+| DECA FORT BRAGG LANDSCAPING | HQC00526QE011_Landscaping_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/DECA FORT BRAGG LANDSCAPING/SEND_TO_BUYER) | 0 days |
+| MICC FT RILEY MHE TRUCKING | W911RX25RA003_Trucking_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/MICC FT RILEY MHE TRUCKING/SEND_TO_BUYER) | 0 days |
+| USDA APHIS EMERGENCY TRANSPORT | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/USDA APHIS EMERGENCY TRANSPORT/SEND_TO_BUYER) | 0 days |
+| KENTUCKY THVC DRUG TESTING | None | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/KENTUCKY THVC DRUG TESTING/SEND_TO_BUYER) | 0 days |
+| FULTON COUNTY DRUG TESTING | 26ITB1580280B_Drug_Testing_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/FULTON COUNTY DRUG TESTING/SEND_TO_BUYER) | 0 days |
+| FORT HUACHUCA NETCOM | Fort_Huachuca_Courier_Capability_Statement.html | [Open](/Users/deedavis/NEXUS BACKEND/BIDS:RESOURCES/FORT HUACHUCA NETCOM/SEND_TO_BUYER) | 0 days |
 
-Have a great day.
+**To send:** Open folder → Open HTML in Chrome → Cmd+P → Save as PDF → Copy email → Send
+
+## ⏳ SENT — WAITING FOR RESPONSE
+
+**6 outreach emails sent, no response yet:**
+
+- VA CLEVELAND NEMT
+- LOUISIANA DCFS GENETIC TESTING
+- MDHHS CROSS-SELL
+- MDHHS NEMT BROKERAGE
+- KENTUCKY OAG GENETIC TESTING
+- OCTA HEAVY FREIGHT
+
+**Action:** Follow up on any sent 7+ days ago
+
+## 📅 UPCOMING DEADLINES
+
+| Opportunity | Deadline | Days Until |
+|---|---|---|
+| 🔴 KENTUCKY DMS MINE DRUG TESTING | April 30, 2026 | 2 days |
+| 🔴 KENTUCKY DMS MINE DRUG TESTING | May 02, 2026 | 4 days |
+| 🟡 KENTUCKY DMS MINE DRUG TESTING | May 07, 2026 | 9 days |
+| 🟡 KENTUCKY DMS MINE DRUG TESTING | May 07, 2026 | 9 days |
+| 🟡 KENTUCKY DMS MINE DRUG TESTING | May 07, 2026 | 9 days |
+|  KENTUCKY DMS MINE DRUG TESTING | July 01, 2026 | 64 days |
+|  KENTUCKY DMS MINE DRUG TESTING | June 30, 2028 | 794 days |
+
+## ⚠️ STALE BIDS — NO ACTIVITY
+
+**114 bids with no activity in 14+ days:**
+
+- RFP 033126_PreviewBidDocuments (70 days)
+- WAYNE COUNTY BARRICADES (70 days)
+- UCF PASCO SCIENCE SUPPLIES (70 days)
+- RCOC 7790 SIGNS (70 days)
+- DLA WARREN VALVE (70 days)
+- AUBURN HILLS YARD CLEANUP (70 days)
+- CPS ENERGY (70 days)
+- GENESEE WOOD POLES (70 days)
+- USACE BUCKHORN LAKE GROUNDS (70 days)
+- RCOC 7799 GREASE AIR COUPLER (70 days)
+- HUBBARD MANOR GENERATORS (70 days)
+- FEMA LANDSCAPE SNOW (70 days)
+- DOJ COURT REPORTING MI (70 days)
+- MIDLAND GENERATORS (70 days)
+- WARREN DDA LANDSCAPE (70 days)
+- ... and 99 more
+
+**Action:** Review each — send outreach, close out, or delete
+
+## 📊 PIPELINE SUMMARY
+
+| Status | Count |
+|---|---|
+| Ready to Send | 44 |
+| Sent, Waiting | 6 |
+| Needs Action | 61 |
+| Stale (14+ days) | 114 |
+| Upcoming Deadlines | 7 |
+
+## ✅ TODAY'S TOP 5 ACTIONS
+
+1. 📅 **KENTUCKY DMS MINE DRUG TESTING** — Due in 2 days, prepare bid
+2. 📅 **KENTUCKY DMS MINE DRUG TESTING** — Due in 4 days, prepare bid
+3. 📧 **DHC LANDSCAPING** — Email ready, SEND IT
+4. 📧 **PITTSBURGH URA TITLE SERVICES** — Email ready, SEND IT
+5. 📧 **OHIO DOH MEDICAL COURIER** — Email ready, SEND IT
+
+---
+
+*Next briefing will regenerate automatically. Check `DAILY_BRIEFING.md` each morning.*

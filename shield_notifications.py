@@ -213,6 +213,33 @@ def send_sms(to_number: str, template_key: str, context: Dict[str, Any]) -> Dict
         return {"success": False, "channel": "sms", "error": str(e), "template": template_key}
 
 
+def send_raw_sms(to_number: str, message_body: str) -> Dict[str, Any]:
+    """Send a freeform SMS via Twilio (no template). Used by navigator SMS panel."""
+    if not _twilio_configured():
+        return {"success": False, "channel": "sms", "error": "Twilio not configured", "skipped": True}
+
+    to_clean = _clean_phone(to_number)
+    if not to_clean:
+        return {"success": False, "channel": "sms", "error": "Invalid phone number"}
+
+    try:
+        from twilio.rest import Client
+        client = Client(
+            os.environ["TWILIO_ACCOUNT_SID"],
+            os.environ["TWILIO_AUTH_TOKEN"],
+        )
+        msg = client.messages.create(
+            body=message_body,
+            from_=os.environ["TWILIO_FROM_NUMBER"],
+            to=to_clean,
+        )
+        logger.info(f"Raw SMS sent → {to_clean} (SID: {msg.sid})")
+        return {"success": True, "channel": "sms", "sid": msg.sid, "status": msg.status}
+    except Exception as e:
+        logger.error(f"Raw SMS failed → {to_clean}: {e}")
+        return {"success": False, "channel": "sms", "error": str(e)}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Dispatch — Email via SendGrid
 # ─────────────────────────────────────────────────────────────────────────────

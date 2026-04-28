@@ -37,6 +37,12 @@
 
 ---
 
+## 2026-05-01 — Friday
+
+- **Due by 5:00 PM ET** — 🔥 **City of Yonkers — Drug & Alcohol Testing RFP-546** — Submit 4 files via BidNet (empirestatebidsystem.com); folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` — St. John's Riverside confirmed — Corey.Amundson@YonkersNY.gov
+
+---
+
 ## 2026-04-28 — Tuesday
 
 - *(CBP Medical Support moved — see May 5 below. Amendment posted 4/22/2026 extended deadline.)*
