@@ -4,6 +4,58 @@
 
 ---
 
+## ⚡ RELATIONSHIP WITH NEXUS AUTO-LEARNING AI
+
+**NEXUS has TWO learning systems that work together:**
+
+### **1. STATIC INTELLIGENCE (This Directory)**
+**What:** Documented market research, known contract lanes, priority NAICS codes  
+**Source:** Manual research, market analysis, strategic decisions  
+**Purpose:** Provides the STARTING POINT — what to look for before outcomes exist  
+**Files:** `PRIORITY_TARGETS_INDEX.json`, `MEDICAL_COURIER_CONTRACT_TARGETS.md`  
+**Example:** "NAICS 492110 lab courier contracts are Tier 1 priority for DDI"
+
+### **2. DYNAMIC LEARNING ENGINE (`nexus_learning_engine.py`)**
+**What:** Tracks every action Dee takes, analyzes outcomes, adjusts scoring weights  
+**Source:** Real bid outcomes (won/lost), response rates, actual margins  
+**Purpose:** REFINES priorities based on what actually works  
+**Storage:** `nexus_learning_db.json`, `bid_learning_data.json`  
+**Example:** "Lab courier bids have 60% win rate → increase weight by +5"
+
+### **How They Work Together:**
+
+```
+STEP 1: Static Intelligence Seeds the System
+├─ Mining script searches SAM.gov for NAICS 492110 (from PRIORITY_TARGETS_INDEX.json)
+├─ Scores it as Tier 1 priority (from MEDICAL_COURIER_CONTRACT_TARGETS.md)
+└─ Initial score: 75/100 (based on documented strategy)
+
+STEP 2: Dynamic Learning Refines Over Time
+├─ DDI bids on 5 lab courier contracts
+├─ Outcome: 3 wins, 2 losses (60% win rate)
+├─ Learning engine adjusts weight: lab_courier priority +5
+└─ New score for next lab courier opportunity: 82/100
+
+STEP 3: Continuous Improvement
+├─ After 20 lab courier bids, pattern emerges:
+│   - State health labs: 80% win rate → weight +10
+│   - County clinics: 40% win rate → weight -5
+├─ Static intelligence updated with findings
+└─ Next time, prioritize state health labs over county clinics
+```
+
+### **Integration Points:**
+
+| Static Intelligence Provides | Dynamic Learning Adjusts |
+|---|---|
+| Priority NAICS codes to search | Which NAICS codes have highest win rates |
+| Documented entry points | Which entry points actually work |
+| Estimated margins (40-50%) | Actual margins achieved (55% avg) |
+| Priority buying agencies | Which agencies respond/award most |
+| Sub requirements | Which subs actually perform well |
+
+---
+
 ## HOW NEXUS USES THIS INTELLIGENCE
 
 **1. Opportunity Mining:**
@@ -137,7 +189,7 @@ This list grows as new intelligence is added. NEXUS mining scripts prioritize th
 
 ## INTEGRATION WITH EXISTING SYSTEMS
 
-**NEXUS_LEARNING files are referenced by:**
+### **A. Static Intelligence (This Directory) Referenced By:**
 
 - `auto_mine.py` — Prioritizes NAICS codes from intelligence files
 - `mine_sources_sought_presolicitation.py` — Matches keywords to documented lanes
@@ -145,6 +197,64 @@ This list grows as new intelligence is added. NEXUS mining scripts prioritize th
 - `historical_pricing_scraper.py` — Validates typical contract values for each lane
 - `capability_statement_generator.py` — Uses entry points for positioning language
 - ProposalBio — References buyer pain points and DDI differentiators
+
+### **B. Dynamic Learning Engine Integration:**
+
+**When an opportunity is discovered:**
+```python
+from nexus_learning_engine import nxlearn
+
+# Load static priority from NEXUS_LEARNING
+with open('NEXUS_LEARNING/PRIORITY_TARGETS_INDEX.json') as f:
+    priorities = json.load(f)
+    
+# Score opportunity using static intelligence
+if opp_naics in tier1_naics:
+    base_score = 75  # High priority from static intelligence
+
+# Get learned weights from dynamic engine
+from nexus_learning_engine import get_engine
+engine = get_engine()
+learned_weights = engine.get_weights('opportunities')
+
+# Apply learned adjustments
+if 'naics_match' in learned_weights:
+    adjusted_score = base_score + learned_weights['naics_match']
+```
+
+**When an outcome occurs:**
+```python
+# Log outcome to learning engine (auto-updates weights)
+nxlearn('opportunities', opp_id, 'won', {
+    'naics': '492110',
+    'agency': 'Michigan State Public Health Lab',
+    'set_aside': 'EDWOSB',
+    'value_range': '$100K-$500K',
+    'source': 'SAM.gov'
+})
+
+# After 10+ outcomes, analyze patterns
+engine.analyze('opportunities')  # Adjusts weights automatically
+
+# Check for insights
+insights = engine.get_insights('opportunities')
+# Example insight: "NAICS 492110 + State Health Labs = 80% win rate"
+```
+
+**Updating static intelligence with learned patterns:**
+```python
+# After significant data (20+ bids in a lane), update static files
+status = engine.get_status()
+if status['domains']['opportunities']['level'] == 'mature':
+    # Get learned patterns
+    insights = engine.get_insights('opportunities', limit=50)
+    
+    # Update MEDICAL_COURIER_CONTRACT_TARGETS.md with:
+    # - Actual win rates by lane
+    # - Actual margins achieved
+    # - Agency-specific success patterns
+    # - Which subs performed best
+```
 
 ---
 
