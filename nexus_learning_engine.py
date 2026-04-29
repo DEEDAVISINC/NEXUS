@@ -40,6 +40,7 @@ LEARNING_DB_PATH = Path(os.environ.get(
 # ─── DOMAIN DEFINITIONS ─────────────────────────────────────────────────────
 
 DOMAINS = {
+    # ─── GPSS: Government Pipeline & Sourcing ─────────────────────────────────
     'opportunities': {
         'name': 'Opportunity Mining',
         'actions': [
@@ -119,6 +120,92 @@ DOMAINS = {
         'terminal': {'won', 'lost', 'skipped', 'no_response'},
         'key_fields': ['lane', 'agency', 'avenue', 'value_range', 'prime_company'],
     },
+
+    # ─── PRISM: Service Delivery & QC ─────────────────────────────────────────
+    'service_orders': {
+        'name': 'PRISM Service Orders',
+        'actions': [
+            'order_created', 'order_routed', 'agent_assigned', 'in_progress',
+            'completed', 'failed', 'cancelled', 'rescheduled',
+            'scanback_received', 'qc_passed', 'qc_failed', 'qc_rework',
+            'invoiced', 'paid',
+        ],
+        'positive': {'completed', 'qc_passed', 'paid'},
+        'negative': {'failed', 'cancelled', 'qc_failed'},
+        'terminal': {'completed', 'failed', 'cancelled', 'paid'},
+        'key_fields': ['service_type', 'division', 'agent_id', 'region', 'client_id', 'turnaround_hours'],
+    },
+    'agent_performance': {
+        'name': 'PRISM Agent Performance',
+        'actions': [
+            'order_assigned', 'order_completed', 'order_failed',
+            'qc_passed', 'qc_failed', 'client_complaint', 'client_praise',
+            'certified', 'decertified', 'training_completed',
+        ],
+        'positive': {'order_completed', 'qc_passed', 'client_praise', 'certified', 'training_completed'},
+        'negative': {'order_failed', 'qc_failed', 'client_complaint', 'decertified'},
+        'terminal': {'decertified'},
+        'key_fields': ['agent_id', 'service_type', 'division', 'region', 'certification_level'],
+    },
+
+    # ─── VERTEX: Billing & Revenue ────────────────────────────────────────────
+    'billing': {
+        'name': 'VERTEX Billing',
+        'actions': [
+            'invoice_created', 'invoice_sent', 'payment_received', 'payment_late',
+            'claim_submitted', 'claim_approved', 'claim_denied', 'claim_appealed',
+            'write_off', 'collection_started',
+        ],
+        'positive': {'payment_received', 'claim_approved'},
+        'negative': {'payment_late', 'claim_denied', 'write_off'},
+        'terminal': {'payment_received', 'write_off'},
+        'key_fields': ['client_id', 'service_type', 'invoice_amount', 'days_to_pay', 'payer_type'],
+    },
+
+    # ─── COMPASS: Relationships & CRM ─────────────────────────────────────────
+    'relationships': {
+        'name': 'COMPASS Relationships',
+        'actions': [
+            'contact_added', 'contact_updated', 'touchpoint_logged',
+            'meeting_held', 'proposal_sent', 'contract_signed',
+            'relationship_cold', 'relationship_warm', 'relationship_hot',
+            'referral_received', 'referral_given',
+        ],
+        'positive': {'meeting_held', 'contract_signed', 'relationship_hot', 'referral_received'},
+        'negative': {'relationship_cold'},
+        'terminal': {'contract_signed'},
+        'key_fields': ['contact_type', 'organization', 'industry', 'relationship_stage', 'last_touchpoint_days'],
+    },
+
+    # ─── ATLAS: Partner Onboarding ────────────────────────────────────────────
+    'partner_onboarding': {
+        'name': 'ATLAS Partner Onboarding',
+        'actions': [
+            'lead_identified', 'outreach_sent', 'interest_confirmed',
+            'nda_sent', 'nda_signed', 'credentials_verified',
+            'training_assigned', 'training_completed', 'activated',
+            'first_order_completed', 'churned',
+        ],
+        'positive': {'interest_confirmed', 'nda_signed', 'activated', 'first_order_completed'},
+        'negative': {'churned'},
+        'terminal': {'activated', 'churned'},
+        'key_fields': ['partner_type', 'service_types', 'region', 'onboarding_days', 'source'],
+    },
+
+    # ─── TRANSPORT: NEMT & Courier ────────────────────────────────────────────
+    'transport': {
+        'name': 'Transport & Courier',
+        'actions': [
+            'trip_requested', 'trip_scheduled', 'driver_assigned',
+            'trip_started', 'trip_completed', 'trip_cancelled', 'trip_no_show',
+            'delivery_completed', 'delivery_failed', 'delivery_rescheduled',
+            'client_satisfied', 'client_complaint',
+        ],
+        'positive': {'trip_completed', 'delivery_completed', 'client_satisfied'},
+        'negative': {'trip_cancelled', 'trip_no_show', 'delivery_failed', 'client_complaint'},
+        'terminal': {'trip_completed', 'trip_cancelled', 'trip_no_show', 'delivery_completed', 'delivery_failed'},
+        'key_fields': ['transport_type', 'region', 'driver_id', 'mco_id', 'trip_distance', 'fulfillment_partner'],
+    },
 }
 
 # ─── BASELINE WEIGHTS PER DOMAIN ────────────────────────────────────────────
@@ -194,6 +281,58 @@ BASELINE_WEIGHTS = {
             'value_under_100m': 15,
             'high_sub_availability': 20,
         },
+    },
+
+    # ─── PRISM: Service Delivery ──────────────────────────────────────────────
+    'service_orders': {
+        'agent_certified': 25,
+        'same_day_completion': 20,
+        'qc_first_pass': 30,
+        'client_repeat': 15,
+        'region_match': 10,
+    },
+    'agent_performance': {
+        'completion_rate': 30,
+        'qc_pass_rate': 25,
+        'client_satisfaction': 25,
+        'certifications_current': 10,
+        'response_time': 10,
+    },
+
+    # ─── VERTEX: Billing ──────────────────────────────────────────────────────
+    'billing': {
+        'payment_under_30_days': 30,
+        'payment_under_60_days': 15,
+        'claim_first_submission_approval': 25,
+        'no_write_offs': 20,
+        'client_payment_history': 10,
+    },
+
+    # ─── COMPASS: Relationships ───────────────────────────────────────────────
+    'relationships': {
+        'recent_touchpoint': 25,
+        'multiple_contacts_at_org': 15,
+        'past_contract': 30,
+        'referral_source': 20,
+        'industry_match': 10,
+    },
+
+    # ─── ATLAS: Partner Onboarding ────────────────────────────────────────────
+    'partner_onboarding': {
+        'fast_nda_turnaround': 15,
+        'credentials_verified': 25,
+        'training_completed': 20,
+        'first_order_success': 30,
+        'geographic_coverage': 10,
+    },
+
+    # ─── TRANSPORT: NEMT & Courier ────────────────────────────────────────────
+    'transport': {
+        'on_time_arrival': 30,
+        'no_cancellations': 20,
+        'client_satisfaction': 25,
+        'driver_rating': 15,
+        'route_efficiency': 10,
     },
 }
 

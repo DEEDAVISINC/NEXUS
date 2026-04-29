@@ -27,6 +27,13 @@ from typing import Any, Dict, List, Optional
 
 from flask import Blueprint, jsonify, request
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 from nemt_billing import (
     MICHIGAN_MCO_PAYERS,
     NEMT_BROKERS,
@@ -216,6 +223,15 @@ def create_nemt_order(
     state = _load_state()
     state.setdefault("orders", {})[order_id] = order
     _save_state(state)
+
+    # ─── LEARNING ENGINE: Log trip scheduled ──────────────────────────────────
+    nxlearn('transport', order_id, 'trip_scheduled', {
+        'transport_type': transport_type,
+        'region': 'MI',  # All Michigan Medicaid for now
+        'mco_id': payer,
+        'trip_distance': mileage,
+    })
+
     return order
 
 
@@ -324,6 +340,15 @@ def dispatch_order(
     order["platform_response"] = platform_response
     state["orders"][order_id] = order
     _save_state(state)
+
+    # ─── LEARNING ENGINE: Log driver assigned ─────────────────────────────────
+    nxlearn('transport', order_id, 'driver_assigned', {
+        'transport_type': transport_type,
+        'fulfillment_partner': platform,
+        'mco_id': order.get('payer'),
+        'region': 'MI',
+    })
+
     return {"order": order, "dispatch": platform_response}
 
 
@@ -385,6 +410,15 @@ def complete_trip(
 
     state["orders"][order_id] = order
     _save_state(state)
+
+    # ─── LEARNING ENGINE: Log trip completed ──────────────────────────────────
+    nxlearn('transport', order_id, 'trip_completed', {
+        'transport_type': order.get('transport_type'),
+        'trip_distance': order.get('actual_mileage', 0),
+        'fulfillment_partner': order.get('fulfillment_platform'),
+        'mco_id': order.get('payer'),
+        'region': 'MI',
+    })
 
     return {
         "order": order,

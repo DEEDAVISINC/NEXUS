@@ -33,6 +33,13 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from flask import Blueprint, request, jsonify
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 prism_router = Blueprint('prism_router', __name__)
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1155,7 +1162,20 @@ def route_order(
         elif credential_check.get('warnings'):
             next_steps.insert(0, f'CREDENTIAL WARNING — {"; ".join(credential_check["warnings"])}')
 
+    # ─── LEARNING ENGINE: Log order routing decision ──────────────────────────
+    order_id = str(uuid.uuid4())[:12]
+    nxlearn('service_orders', order_id, 'order_routed', {
+        'service_type': service_type,
+        'division': svc['service_line'],
+        'region': client_state or 'MI',
+        'fulfillment_mode': fulfillment_mode,
+        'partner': partner,
+        'ddi_rate': ddi_rate,
+        'margin_pct': margin_pct,
+    })
+
     return {
+        'order_id':           order_id,  # Add order_id to response for tracking
         'service_type':       service_type,
         'service_label':      svc['label'],
         'service_line':       svc['service_line'],

@@ -9,8 +9,16 @@ import json
 import subprocess
 import tempfile
 import os
+import uuid
 from pathlib import Path
 import re
+
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React frontend
@@ -230,6 +238,13 @@ def generate_quote():
                 dest = OUTPUT_DIR / filename
                 os.rename(filename, dest)
                 files[file_type] = str(dest)
+        
+        # ─── LEARNING ENGINE: Log supplier RFQ generated ─────────────────────
+        rfq_id = data.get('rfq_number', f'DDI-{uuid.uuid4().hex[:8]}')
+        nxlearn('suppliers', rfq_id, 'rfq_sent', {
+            'product_type': data.get('title', 'Unknown'),
+            'items_count': len(data.get('items', [])),
+        })
         
         # Extract just the filename (without GENERATED_QUOTES/ path) for download URL
         pdf_filename = os.path.basename(files.get('pdf', ''))
