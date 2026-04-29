@@ -181,6 +181,69 @@ When signer lacks acceptable ID:
 
 ---
 
+## STATE-SPECIFIC WITNESS REQUIREMENTS
+
+### Why This Matters
+
+Some states require **additional witnesses** beyond the notary for certain documents — especially real estate transactions (deeds, mortgages, powers of attorney). Missing a required witness can void the document or cause recording rejection. DDI's PRISM notary network must know these rules before dispatching a signing agent.
+
+### States Requiring Witnesses at Signing
+
+| State | Witnesses Required | Can Notary Be a Witness? | Notes |
+|---|---|---|---|
+| **Connecticut** | 2 witnesses | YES — one witness may be the notary or attorney | Both witnesses must be present at signing |
+| **Florida** | 2 witnesses | YES — one witness may be the notary | Witnesses required on deeds of conveyance (quit-claim deed, deed of gift, etc.). Mortgage signatures do NOT require witnesses — but if the package includes a deed of conveyance, witnesses are required for that document. |
+| **Georgia** | 1 witness | NO — witness cannot be the notary or attorney | Witness must be a disinterested third party |
+| **Louisiana** | 2 witnesses | NO — neither witness can be the notary | Both witnesses must be independent of the notary |
+| **South Carolina** | 2 witnesses | YES — one witness may be the notary or attorney | Both witnesses must be present at signing |
+
+### Florida — Special Rule for Deeds vs. Mortgages
+
+Florida is a common source of confusion:
+- **Mortgage only:** No witnesses required on the mortgage itself
+- **Deed of conveyance in the package** (quit-claim deed, deed of gift, warranty deed, etc.): **Two witnesses required** on the deed
+- **Practical impact:** If the loan signing package includes ANY deed of conveyance, the signing agent must have two witnesses present for that document — one of whom may be the notary
+
+### PRISM Dispatch Rule
+
+**Before dispatching a notary/signing agent to any of these states, confirm:**
+- [ ] Signing agent is aware of the witness requirement
+- [ ] Witness(es) are arranged — either brought by the agent, provided by the signer, or coordinated in advance
+- [ ] For Florida packages: check whether a deed of conveyance is included (not just a mortgage)
+- [ ] For Georgia and Louisiana: witness CANNOT be the notary — a separate person must be present
+- [ ] Witnesses are disinterested parties (no financial interest in the transaction)
+
+### Quick Decision Guide
+
+```
+Q: Does this state require witnesses?
+├── Connecticut → YES: 2 witnesses (notary can be 1)
+├── Florida → DEPENDS: Mortgage only = NO. Deed in package = YES: 2 witnesses (notary can be 1)
+├── Georgia → YES: 1 witness (NOT the notary)
+├── Louisiana → YES: 2 witnesses (NEITHER can be the notary)
+├── South Carolina → YES: 2 witnesses (notary can be 1)
+└── Other states → Check state-specific requirements before signing
+```
+
+### Pricing Impact
+
+Witness-required states carry a surcharge on signing agent services — see `DDI_PROFESSIONAL_SERVICES_PRICING.md` §7 for the full breakdown:
+- **+$50** for 2-witness states where notary can serve as one (CT, FL deeds, SC)
+- **+$60** for Georgia (1 independent witness, notary excluded)
+- **+$75** for Louisiana (2 independent witnesses, notary excluded)
+
+These surcharges must be **built into the quote upfront**, not added after the fact.
+
+### Common Mistakes to Avoid
+
+- **Assuming a notarization alone is sufficient** — In these states, notarization WITHOUT the required witnesses may result in the document being rejected at recording
+- **Using the notary as the sole witness in Georgia or Louisiana** — The notary CANNOT serve as a witness in these states
+- **Skipping witnesses on Florida deeds** — The mortgage doesn't need witnesses, but the deed does — signing agents miss this when a deed is buried in a large loan package
+- **Not bringing a witness** — Mobile notaries in these states should always have a plan for witness availability
+- **Not pricing for it** — Witness coordination is a real cost; quoting standard signing rates to these states loses money
+
+---
+
 ## JOURNAL REQUIREMENTS
 
 ### Mandatory Journal States

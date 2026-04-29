@@ -330,6 +330,7 @@
 - Standard mobile notarization: $75+ per appointment
 - Hospital/jail/facility notarization: $150-$300
 - After-hours/weekend: 1.5x-2x standard rate
+- Witness-required state surcharge: +$35-$75 (CT, FL deed packages, GA, LA, SC — see `DDI_PROFESSIONAL_SERVICES_PRICING.md` §7 for state-by-state breakdown)
 
 **Platform:** Direct scheduling and ZigSig
 
@@ -836,6 +837,55 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 
 ---
 
+### **Prescription Delivery** 💊
+**Added April 2026.** Pharmacy-to-patient prescription delivery, billed under NEMT or pharmacy benefit codes. Natural extension of DDI's existing NEMT dispatch and medical courier infrastructure.
+
+**Target Clients:**
+- Managed care organizations (CareSource, Molina, UHC, BCBSM, Priority Health, Meridian)
+- Retail and specialty pharmacies (CVS, Walgreens, independent)
+- Hospital discharge pharmacy programs
+- Long-term care and assisted living facilities
+- Specialty pharmacy networks (oncology, infusion, biologics)
+
+**Three Service Tiers:**
+
+| Tier | Description | DDI Rate | Use Case |
+|---|---|---|---|
+| **Standard** | Non-controlled Rx, same-day delivery | $25/trip | Maintenance meds, refills, new prescriptions |
+| **Controlled Substance** | DEA Schedule II-V, signature required | $45/trip | Pain management, ADHD meds, anxiety meds |
+| **Cold Chain** | Temperature-sensitive (insulin, biologics, vaccines) | $40/trip | Insulin, specialty biologics, immunizations |
+
+**Compliance Requirements:**
+- HIPAA — no PHI on exterior packaging
+- DEA — controlled substances require patient signature, no leave-at-door, DDI driver only
+- State Board of Pharmacy — delivery agent registration where required
+- Temperature control — insulated containers + temp monitors for cold-chain
+- Identity verification — photo ID match or patient signature at delivery
+
+**Revenue Model:**
+- MCO reimbursement: $12-$30/standard delivery (HCPCS T2002-RX, S0215, S9977)
+- Controlled substance premium: $30-$45/delivery (HCPCS S5001)
+- Cold-chain premium: $25-$40/delivery (HCPCS S5000)
+- Bulk pharmacy programs: 50-200 deliveries/day at $8-$15 each = $120K-$1M+/year
+- DDI margin: 35-50% (higher on DDI-direct controlled substance runs)
+
+**Why MCOs Pay for This:**
+- Medication adherence reduces hospital readmissions ($3K-$10K saved per avoided readmission)
+- Members who can't get to pharmacies skip doses → costly ER visits
+- CMS Star Ratings reward plans with high medication adherence scores
+- Rx delivery is cheaper than the medical consequences of non-adherence
+
+**Fulfillment:**
+- Uber Health (standard Rx — API supports prescription delivery natively)
+- DDI drivers (controlled substances, cold-chain — chain of custody cannot be delegated)
+- Local courier subs (overflow standard Rx)
+
+**PRISM Integration:** Orders created as `rx_delivery` type → routed through Transport & Courier division → compliance inspection (12-point checklist) → billing auto-bridges to VERTEX with correct HCPCS codes.
+
+**NAICS Codes:** 492110 (Couriers and Express Delivery Services), 492210 (Local Messengers and Local Delivery), 446110 (Pharmacies and Drug Stores — delivery services)
+
+---
+
 ## 5️⃣ SERVICE CONTRACTS (PRIME CONTRACTOR MODEL)
 
 ### **Janitorial & Custodial Services** 🧹
@@ -1174,6 +1224,66 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 - SuretyCloud (surety bonds)
 - Uber Health (NEMT)
 - Freight 1st Direct (DDI's independent freight brokerage — MC-1647572, DOT-4250594)
+
+---
+
+## 🎓 AGENT CREDENTIALING PROGRAM (Revenue Line)
+
+**DDI offers — but does NOT pay for — compliance training for all subcontractors and independent agents.** All subs are independent contractors responsible for their own credentialing costs. DDI provides access to vetted, nationally-recognized training platforms through its referral partner relationships. Subs pay DDI's credentialing fee, which includes platform access, completion tracking, cert verification, and audit-ready record-keeping.
+
+### Training Platforms
+| Platform | Courses | DDI Relationship |
+|---|---|---|
+| **North American Learning Institute (NALI)** | HIPAA, Bloodborne Pathogens, First Aid, CPR, Drug & Alcohol Awareness, Sexual Harassment, Diversity, Ethics, Fraud/Waste/Abuse, HazCom, Fire Safety, Human Trafficking, Theft Awareness, + 16 more (29 total) | Registered Referral Partner (nalearning.org/partner) |
+| **Quest Employer Solutions Online Training Center** | DOT Supervisor Reasonable Suspicion, DOT Drug & Alcohol, FMCSA Compliance, Collector Certification, BAT Certification | Lab partner training portal |
+
+### Individual Course Credentialing Fees (Sub Pays DDI)
+| Course Category | DDI Cost | DDI Credentialing Fee | DDI Margin |
+|---|---|---|---|
+| Standard course (HIPAA, BBP, HIV/AIDS, Conflict Resolution) | $15 | $45 | $30 |
+| Premium course (First Aid, CPR, Drug & Alcohol, HazCom, etc.) | $25 | $50 | $25 |
+| DOT-specific training (Quest platform) | Varies | $75 | ~$40-50 |
+| Background check (NCS) | ~$15-25 | $65 | ~$40-50 |
+
+### Service-Line Credentialing Bundles (Sub Pays DDI)
+| Bundle | Courses Included | DDI Cost | DDI Fee | DDI Margin |
+|---|---|---|---|---|
+| **Rx Delivery Ready** | HIPAA + Drug & Alcohol Awareness + Theft Awareness | ~$55 | $125 | $70 |
+| **NEMT Driver Ready** | HIPAA + First Aid + CPR + Human Trafficking + Drug & Alcohol | ~$115 | $250 | $135 |
+| **Medical Courier Ready** | HIPAA + Bloodborne Pathogens + HazCom | ~$55 | $125 | $70 |
+| **Drug Testing Collector Ready** | HIPAA + Bloodborne Pathogens + Drug & Alcohol + DOT Training | ~$80 | $200 | $120 |
+| **Notary / Signing Agent Ready** | Ethics + Conflict Resolution + Fraud/Waste/Abuse | ~$65 | $150 | $85 |
+| **Field Ops Ready** | First Aid + CPR + Fire Safety + Confined Space | ~$100 | $200 | $100 |
+
+### DDI Baseline Package (Required for ALL Agents)
+| Package | Courses Included | DDI Cost | DDI Fee | DDI Margin |
+|---|---|---|---|---|
+| **DDI Agent Baseline** | Sexual Harassment + Diversity Awareness + Ethics + Conflict Resolution + Workplace Violence | ~$115 | $250 | $135 |
+
+### Full Credentialing Package (Baseline + Service-Line Bundle)
+| Example | Courses | DDI Cost | DDI Fee | DDI Margin |
+|---|---|---|---|---|
+| **Full Rx Delivery Agent** | Baseline (5) + Rx Ready (3) = 8 courses | ~$170 | $350 | $180 |
+| **Full NEMT Driver** | Baseline (5) + NEMT Ready (5) = 10 courses | ~$230 | $450 | $220 |
+| **Full Drug Testing Collector** | Baseline (5) + DT Ready (4) = 9 courses | ~$195 | $400 | $205 |
+
+### What the Credentialing Fee Covers (Why Subs Pay DDI, Not NALI Directly)
+- Access to DDI's vetted, nationally-recognized training platform (guaranteed acceptance)
+- DDI assigns and tracks course completion through partner portal
+- Audit-ready certification records maintained by DDI for MCO/government compliance reviews
+- DDI verifies cert meets specific MCO and contract requirements before activating agent
+- PRISM credential gate — agent cannot receive dispatch until DDI confirms all certs are valid
+- Cert expiration monitoring and renewal alerts
+- DDI's MCO contracts and government compliance standing backs the credential
+
+### Revenue at Scale
+| Scenario | Agents Onboarded | Avg Fee | Credentialing Revenue |
+|---|---|---|---|
+| Year 1 (pilot — 25 agents) | 25 | $350 | $8,750 |
+| Year 2 (growth — 100 agents) | 100 | $375 | $37,500 |
+| Year 3 (scale — 300 agents) | 300 | $400 | $120,000 |
+
+**Plus annual recertification revenue** — most certs need renewal every 1-2 years. At 300 agents renewing 3-4 certs each at $45-$50/cert, that's $40,000-$60,000/year in recurring credentialing revenue.
 
 ---
 

@@ -254,6 +254,14 @@ SEED_PLACEHOLDER_ROWS: List[Dict[str, Any]] = [
     {F_HCPCS: "T2005", F_DESCRIPTION: "NEMT — Bus Ticket / Public Transit Assistance", F_RATE: 2.50},
     # Deadhead (unloaded return mileage — some MCOs pay separately)
     {F_HCPCS: "A0420", F_DESCRIPTION: "NEMT — Mileage Per Mile (Unloaded / Deadhead)", F_RATE: 0.40},
+    # ─── PRESCRIPTION DELIVERY ──────────────────────────────────────
+    # S codes for pharmacy delivery — reimbursed by MCOs under pharmacy benefit or NEMT benefit
+    {F_HCPCS: "S0215", F_DESCRIPTION: "Rx Delivery — Non-Emergency Transport of Prescription, Per Trip", F_RATE: 15.00},
+    {F_HCPCS: "S9977", F_DESCRIPTION: "Rx Delivery — Prescription Delivery to Home, Per Delivery", F_RATE: 12.00},
+    {F_HCPCS: "T2002-RX", F_DESCRIPTION: "Rx Delivery — Ambulatory Base Trip (Pharmacy-to-Patient)", F_RATE: 17.34},
+    {F_HCPCS: "T2003-RX", F_DESCRIPTION: "Rx Delivery — Per Mile (Pharmacy-to-Patient)", F_RATE: 0.71},
+    {F_HCPCS: "S5000", F_DESCRIPTION: "Rx Delivery — Cold Chain / Temperature-Controlled, Per Trip", F_RATE: 25.00},
+    {F_HCPCS: "S5001", F_DESCRIPTION: "Rx Delivery — Controlled Substance (Signature Required), Per Trip", F_RATE: 30.00},
 ]
 
 _lock = threading.Lock()

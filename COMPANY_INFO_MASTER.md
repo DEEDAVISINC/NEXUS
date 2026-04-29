@@ -172,6 +172,57 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 - **Mortgage Loan Originator (MLO) — Michigan** | NMLS# 2099291 | Dieasha D. Davis (active)
 - **Mortgage Loan Originator / Mortgage Broker — Georgia** | NMLS# 2099291 | Dieasha D. Davis (active)
 
+**Training Platform Partnerships:**
+- **North American Learning Institute (NALI)** — https://nalearning.org/partner — DDI is a registered **Referral Partner** (username: deedav1sinc). Workplace compliance portal: https://courseforwork.com. Used to credential DDI agents, drivers, and subcontractors. DDI can assign courses, track completion, and pull certification proof through the partner portal. 100% online, self-paced, nationally recognized, guaranteed acceptance. Courses start at $15-$25 each.
+
+  **Full NALI Workplace Compliance Course Catalog (29 courses):**
+
+  | Course | Price | DDI Use Case |
+  |---|---|---|
+  | **HIPAA** | $15 | ALL medical service agents — Rx delivery, NEMT, medical courier, DNA, drug testing |
+  | **Bloodborne Pathogens** | $15 | Medical courier, specimen transport, phlebotomy, drug testing collectors |
+  | **First Aid** | $25 | NEMT drivers, field agents, all mobile service agents |
+  | **CPR** | $25 | NEMT drivers, field agents, all mobile service agents |
+  | **Drug & Alcohol Awareness** | $25 | All agents — especially drug testing collectors and supervisors |
+  | **HIV/AIDS Awareness** | $15 | Medical service agents, specimen handlers |
+  | **HazCom** | $25 | Medical courier, specimen transport, chemical handling |
+  | **Fire Safety** | $25 | Field ops, property preservation, facility services |
+  | **Confined Space** | $25 | Field ops, property preservation, grounds maintenance |
+  | **Ergonomics** | $25 | All field agents — injury prevention |
+  | **Sexual Harassment** | $25 | ALL agents — workplace compliance requirement |
+  | **Diversity Awareness** | $25 | ALL agents — workplace compliance |
+  | **Workplace Violence** | $25 | ALL agents — workplace safety |
+  | **Ethics** | $25 | ALL agents — professional conduct |
+  | **Conflict Resolution** | $15 | ALL agents — client-facing de-escalation |
+  | **Fraud, Waste, and Abuse** | $25 | Billing staff, compliance officers — Medicaid/Medicare FWA requirement |
+  | **Human Trafficking** | $25 | NEMT drivers — federally recommended awareness |
+  | **Theft Awareness & Prevention** | $25 | Rx delivery (controlled substances), courier, field ops |
+  | **Bullying** | $25 | Supervisors, team leads |
+  | **Anger Management** | $25 | Court-referral, employee development |
+  | **Behavior Modification** | $25 | Court-referral, employee development |
+  | **Marijuana Education** | $25 | Drug testing staff — policy awareness |
+  | **Tobacco Awareness** | $25 | Occupational health, wellness programs |
+  | **Vaping** | $25 | Occupational health, student/athlete testing |
+  | **Virus Awareness (COVID-19)** | $25 | All field agents — infection control |
+  | **Food Safety** | $25 | Facility services, janitorial |
+  | **Food Allergens** | $25 | Facility services |
+  | **Concussions** | $25 | Athletics testing programs (K-12/collegiate) |
+  | **PIPEDA Training** | $25 | Canadian privacy compliance (if cross-border work) |
+
+  **IMPORTANT: DDI offers access to training through the NALI partner portal — DDI does NOT pay for agent/sub training. All subcontractors and independent agents are responsible for their own training costs. DDI provides the platform and referral access; the sub pays for and completes the courses themselves.**
+
+  **Credentialing fees (sub pays DDI):** DDI charges a **credentialing fee** above partner list price for assignment, completion tracking, audit-ready records, MCO/contract gate checks, and PRISM activation. Published fee table and bundles: `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` (section *Agent Credentialing Program*). Machine-readable fees: `prism_service_router.py` — `CREDENTIAL_TRAINING_SOURCES`, `CREDENTIALING_BUNDLES`, `CREDENTIALING_FULL_PACKAGES`.
+
+  **Key DDI-required courses by service line (agent/sub pays):**
+  - Rx Delivery drivers: HIPAA + Drug & Alcohol Awareness + Theft Awareness
+  - NEMT drivers: HIPAA + First Aid + CPR + Human Trafficking + Drug & Alcohol Awareness
+  - Medical Courier: HIPAA + Bloodborne Pathogens + HazCom
+  - Drug Testing Collectors: HIPAA + Bloodborne Pathogens + Drug & Alcohol Awareness
+  - ALL agents (baseline): Sexual Harassment + Diversity Awareness + Ethics + Conflict Resolution + Workplace Violence
+
+  **Additional Training Platform:**
+  - **Quest Employer Solutions Online Training Center** — DOT-specific training (DOT Supervisor Reasonable Suspicion, DOT Drug & Alcohol Awareness, FMCSA compliance). Used for drug testing collector and C/TPA supervisor training requirements.
+
 **Professional Training & Certifications:**
 - **Property Data Collection Training Certificate #I-03** (Walitt Solutions, September 25, 2022) — HUD/Fannie Mae PDC report format, residential property condition assessment, data collection protocols
 - **Property & Casualty Insurance Prelicense Certificate** (A.D. Banker & Company, Course #0432, September 22, 2022) — property risk assessment, casualty evaluation, insurance compliance
@@ -816,13 +867,28 @@ MI SIGMA VSS: VS0245604
 | **Status** | Submitted for State Review |
 | **Previous Application (Rejected)** | 20251210748456 — rejected because wrong provider type ("Group" instead of "Atypical Agency") |
 
+### MCO CREDENTIALING STATUS
+
+| MCO | Status | Vendor ID / Details |
+|---|---|---|
+| **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — provider portal access active. Dana Drew (Enterprise Health Partner Network Manager) — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — orientation outreach pending. **Confirmation of executed contract emailed 04/29/2026 10:00 AM ET.** |
+| Molina Healthcare of Michigan | Pending | Troy HQ — same city as DDI |
+| Meridian Health Plan | Pending | Detroit HQ — largest MI Medicaid MCO |
+| UnitedHealthcare Community Plan | Pending | |
+| Aetna Better Health | Pending | |
+| Blue Cross Complete | Pending | |
+| HAP CareSource | Pending | Related to CareSource contract above — confirm coverage |
+| McLaren Health Plan | Pending | Flint HQ |
+| Priority Health Choice | Pending | Grand Rapids |
+
 ### ACTIONS NEEDED:
 
 - [x] Submit corrected CHAMPS application as Atypical Agency / NEMT — **SUBMITTED 03/22/2026**
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
-- [ ] **BEGIN MCO CREDENTIALING**
-- [ ] Upon approval: complete credentialing with Medicaid Health Plans (MCOs)
-- [ ] MCO outreach for NEMT contracts (Molina, UHC, Meridian, HAP, Priority Health, McLaren, Aetna Better Health)
+- [x] **CareSource NEMT contract executed Apr 28, 2026** — Vendor ID 100000469269
+- [ ] **Orientation with Brian Grcevich (CareSource)** — confirm date, activate portal, understand service scope
+- [ ] **Continue MCO credentialing** — Molina, Meridian, UHC, Aetna, Blue Cross Complete, McLaren, Priority Health
+- [ ] **Confirm with CareSource on orientation** — does this contract cover HAP CareSource (Michigan) as well?
 
 ### IMPORTANT NOTES:
 

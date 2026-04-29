@@ -634,7 +634,7 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 - **Status:** Direct partnership email sent 03/27/2026. Met in person at Atlas Motors (Clinton Twp) signing for dealer Yaas Elayas. John said to email him, he'd route to the right department. Warm lead.
 - **Opportunity:** Westlake finances dealerships nationwide — every floor plan loan needs notarized docs. Recurring, high-volume signing work across Michigan.
 - [x] **Blue Cross Complete** — Email sent to BCCProviderData@mibluecrosscomplete.com on 03/26/2026.
-- [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP redirected to CareSource (MI_Network@caresource.com). Follow-up sent 03/26/2026. **Dana responded 03/27/2026 with FULL CONTRACTING PACKAGE** — Provider Agreement, W9, Provider Application, Services Checklist, Disclosure of Ownership. CareSource expanding MI Health Link (HIDE SNP) to DDI's region. **COMPLETE AND RETURN ASAP.**
+- [x] **HAP CareSource** — Email sent to providernetwork@hap.org on 03/26/2026. HAP redirected to CareSource (MI_Network@caresource.com). Follow-up sent 03/26/2026. **Dana responded 03/27/2026 with FULL CONTRACTING PACKAGE** — Provider Agreement, W9, Provider Application, Services Checklist, Disclosure of Ownership. CareSource expanding MI Health Link (HIDE SNP) to DDI's region. **CONTRACT EXECUTED 04/28/2026. Vendor ID 100000469269.** Confirmation email sent 04/29/2026 10:00 AM ET.
 - [ ] Priority Health — priorityhealth.com
 - [ ] UPHP — uphp.com
 - [ ] Set up billing/claims infrastructure for NEMT services
@@ -736,12 +736,33 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 4. National coverage capability
 5. **Reseller rights** — DDI wants to offer MRO services to other small TPAs
 
-### ACTIONS:
+### AMRO FEE SCHEDULE (Received Apr 29, 2026):
+| Service | Price |
+|---|---|
+| **DOT MRO review** (negative + abnormal) | **$4.00 per screen** |
+| **Non-DOT MRO review** | **$4.00 per screen** |
+| **Non-DOT abnormal/positive/adulterated/substituted only** | **$30.00 per screen** |
+| **Payment terms** | Net 30 days |
+
+**Attached documents received:**
+- `self bill 4- 30.docx` — AMRO website setup form + fee schedule
+- `Dr. Freedman and Dr. Masters 03-2024.pdf` — Physician credentials (22 pages)
+
+**DDI analysis:** $4/test is competitive. Quest includes MRO in lab cost (~$7-10 bundled). AMRO standalone at $4 allows DDI to source lab separately if needed (flexibility). For 6,000 tests/year: $24K MRO cost vs Quest bundled model. Viable for mixed-lab strategy or as backup MRO.
+
+### STATUS TIMELINE:
 - [x] Partnership inquiry email sent — Apr 27, 2026 ~3:00 PM ET
-- [ ] Follow-up if no reply by May 1
-- [ ] Get Dr. Freedman credentials for Letter of Commitment
-- [ ] Negotiate per-test pricing
-- [ ] Confirm reseller/sub-partnership rights
+- [x] **Barbara responded Apr 28** — requested call at 2:00 PM ET
+- [x] **Dee spoke with AMRO (Barbara) — Apr 28, 2026** — Positive call. AMRO is open to TPA partnership. They understand the conflict issue (MRO-only, no TPA competition). AMRO has in-house TPA (Medical Express) but willing to help small TPAs. They want to know what DDI is working on.
+- [x] **Follow-up email sent Apr 28 ~4:27 PM ET** — Detailed all 6 active drug testing bids (NY, KY, federal CBP, GA, TX hospital, TX cooperative). Requested: per-test MRO pricing, Letter of Commitment with Dr. Freedman credentials, turnaround times, process documentation. Emphasized May 1 and May 5 urgency.
+- [x] **FEE SCHEDULE + DR. FREEDMAN INFO RECEIVED — Apr 29, 2026 ~1:01 PM ET** — Barbara sent pricing ($4 DOT/Non-DOT, $30 abnormal-only) + 22-page physician credentials PDF. Files: `self bill 4- 30.docx`, `Dr. Freedman and Dr. Masters 03-2024.pdf` (Downloads folder).
+- [ ] **Dee drafting response — sending evening of Apr 29, 2026** — Reviewing fee structure, will reply to Barbara with decision/next steps
+- [ ] **URGENT: Finalize partnership by Apr 30 (Wed)** — Yonkers due May 1, CBP due May 5, Kentucky due May 7
+- [ ] Decision: Use AMRO or stay with Quest bundled MRO? (Fee comparison complete, flexibility vs simplicity tradeoff)
+- [ ] If proceeding: Get Letter of Commitment with Dr. Freedman credentials for proposals
+- [ ] Confirm Dr. Freedman licensed in NY, KY, TX, GA (check credentials PDF)
+- [ ] Confirm reseller/sub-partnership rights (can DDI offer AMRO MRO to other TPAs?)
+- [ ] **Get Medical Express conflict protection in writing** — AMRO's in-house TPA won't compete on DDI's opportunities
 
 ---
 

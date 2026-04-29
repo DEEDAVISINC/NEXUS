@@ -66,7 +66,7 @@
 | **Contracting Portal** | apps.andros.co/HAPCareSourceGroup |
 | **Contracting Help** | 1-833-230-2102 or providernetwork@hap.org |
 | **Provider Services** | 1-833-230-2101 |
-| **DDI Note** | Joint venture — HAP's local presence + CareSource's Medicaid expertise. If already contracted with HAP Empowered, same terms apply. |
+| **DDI Note** | Joint venture — HAP's local presence + CareSource's Medicaid expertise. CareSource NEMT contract already executed (see COMPANY_INFO_MASTER.md). |
 
 ### 7. MCLAREN HEALTH PLAN
 | Field | Detail |

@@ -251,6 +251,7 @@ Every service type has a distinct color. You know what an order is without readi
 | **Apostille** | Pink | `#EC4899` | `#FDF2F8` |
 | **Process Serving** | Pink | `#EC4899` | `#FDF2F8` |
 | **NEMT / Transport** | Teal | `#14B8A6` | `#F0FDFA` |
+| **Rx Delivery** | Teal | `#14B8A6` | `#F0FDFA` |
 | **Courier/Runner** | Indigo | `#6366F1` | `#EEF2FF` |
 | **Medical Courier** | Indigo | `#6366F1` | `#EEF2FF` |
 
@@ -405,74 +406,164 @@ Start with human + system. System earns autonomy over time through demonstrated 
 
 ---
 
-# 10. ADMIN DASHBOARD (What Dee Sees)
+# 10. ADMIN DASHBOARD — DIVISION-BASED ARCHITECTURE
 
-### 9 Tabs:
+### The Structure
+
+PRISM is organized into **6 Divisions**. Each division is a self-contained service line with its own orders, agents, scanbacks, compliance rules, and analytics. The main dashboard is a **Division Hub** — a snapshot of all 6 divisions at a glance.
+
+### 6 Divisions
+
+| # | Division | Icon | Color | Service Types | Agent Specialties |
+|---|---|---|---|---|---|
+| 1 | **Drug Testing & Occ Health** | 🧪 | Red | DOT, Non-DOT, Phlebotomy/BAT | Collection Agent, BAT, Phlebotomist |
+| 2 | **DNA / Genetic Testing** | 🧬 | Purple | DNA Collection | DNA Collector, Collection Agent |
+| 3 | **Fingerprinting & Background** | 🖐️ | Green | Fingerprinting, EFT, Background Check | Print Technician, Background Specialist |
+| 4 | **Notary & Legal Services** | ✍️ | Pink | Notary, RON, Apostille, Process Serving | Signing Agent, Notary, Process Server |
+| 5 | **Transport & Courier** | 🚐 | Teal | NEMT, Rx Delivery, Medical Courier, Courier/Runner | NEMT Driver, Rx Delivery Driver, Medical Courier, Courier |
+| 6 | **Field Ops** | 🏠 | Blue | REO, Property Preservation, Inspections | Field Inspector, Preservation Tech |
+
+### Division Hub (Main Landing Page)
+
+**What Dee sees when she opens PRISM:**
 
 ```
-🎯 Command Center | 📋 Orders | 🚀 Dispatch | 📸 Scanbacks | 👤 Field Agents
-🏢 Clients | 🔍 Inspection | 💰 Payments | 📊 Analytics
+┌──────────────────────────────────────────────────────────────┐
+│  🎯 PRISM Command Center                                     │
+│  Total Active: 24 | Today: 8 | Awaiting Scanback: 3 | Errors: 2 │
+├──────────────┬──────────────┬──────────────┐                 │
+│ 🧪 Drug Test │ 🧬 DNA      │ 🖐️ Fingerprint│                 │
+│ Active: 8    │ Active: 3    │ Active: 4    │                 │
+│ Today: 3     │ Today: 1     │ Today: 2     │                 │
+│ Errors: 1    │ ✓ Clean      │ ✓ Clean      │                 │
+│ ⚠ 1 unassign │              │              │                 │
+├──────────────┼──────────────┼──────────────┤                 │
+│ ✍️ Notary    │ 🚐 Transport │ 🏠 Field Ops  │                 │
+│ Active: 5    │ Active: 2    │ Active: 2    │                 │
+│ Today: 2     │ Today: 0     │ Today: 1     │                 │
+│ Errors: 1    │ ✓ Clean      │ ✓ Clean      │                 │
+│ ⚠ 2 scanback │              │              │                 │
+└──────────────┴──────────────┴──────────────┘                 │
+│  ⚠️ Needs Attention (cross-division alerts)                   │
+│  🏆 Top Agents (cross-division leaderboard)                   │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-### Command Center (Landing Page)
-**Top row cards:** Active Orders | Today's Appointments | Awaiting Scanback | Errors Found
-**Second row:** Orders This Month | Active Field Agents | First-Pass Clean Rate | Revenue This Week
+Each division card shows:
+- Active order count
+- Today's appointments
+- Errors / Clean status
+- Status tags (unassigned, awaiting scanback, errors)
+- Red pulse badge if anything needs attention
 
-**Needs Your Attention:** Red/yellow alerts — errors found, unassigned orders, expiring certs
+**Click a division card → enter that division's focused view.**
 
-**Today's Schedule:** Color-coded by service type
+### Division View (Inside a Division)
+
+When you click into a division, the entire PRISM interface scopes to that service line. The layout is a **single page with 4 sections** (not 9 tabs):
+
 ```
-9:00 AM  │ 🔴 DOT Drug Test    │ Champion Homes, Auburn Hills │ Marcus Brown
-10:30 AM │ 🟢 Fingerprinting   │ Staffing Solutions, Southfield │ Dee Davis
-1:00 PM  │ 🟠 Notary           │ Troy, MI │ Sarah Chen
-3:00 PM  │ 🟣 DNA Collection   │ Law Office, Royal Oak │ Dee Davis
-4:30 PM  │ 🟠 Notary           │ Farmington Hills │ Lisa Park
+[← Back to Hub] | 🧪 Drug Testing & Occ Health
+──────────────────────────────────────────────────
+[Overview] [Orders (8)] [Agents (3)] [Scanbacks]
+──────────────────────────────────────────────────
 ```
 
-**Order Pipeline:** Live status counts across all stages
-**Agent Leaderboard:** Top agents by performance this month
+**Overview section:**
+- Stats row (Active, Today, Errors, Awaiting Scanback, Revenue)
+- Needs Your Attention (division-specific alerts only)
+- Today's Schedule (only this division's appointments)
+- Recent Orders (quick table, click to expand)
+- Division Agents (who's working this line)
+- Compliance Quick Reference (FATAL rules for this service type)
 
-### Orders Tab
-- List view, Kanban view, Calendar view
-- Color-coded rows/cards by service type
-- Create new order modal with color-coded dropdown
-- Filter by status, type, agent, client, date
+**Orders section:**
+- Full order table scoped to this division only
+- Same columns: Order, Service, Status, Agent, Client, Date, Fee
+- Click to open order detail slide-out (with QC checklist, workflow)
 
-### Dispatch Tab
-- Unassigned orders with qualified agents ranked by distance/availability/score
-- Agent timeline (schedule blocks colored by service type)
-- One-click assign
+**Agents section:**
+- Agent cards with performance metrics
+- Only agents qualified for this division's service types
+- Completion rate, on-time rate, error rate, rating
 
-### Scanbacks Tab
-- Filter: Needs Review | Clean | Errors
-- Document viewer with red/green highlights on flagged pages
-- Override, send correction, re-inspect actions
+**Scanbacks section:**
+- Filter by status (All, Awaiting, Needs Review, Errors, Clean)
+- Scanback table with page counts, error counts, upload dates
 
-### Field Agents Tab
-- Agent cards with specialties, performance scores, cert status
-- Certification expiration alerts (90-day, 30-day, expired)
-- Auto-suspend if critical cert expires
+### Global Tabs (Still Available)
 
-### Clients Tab
-- Blueprint clients with retainer info, saved rules, order volume
-- Title companies, one-offs, government agencies
+The existing tabs (Orders, Dispatch, Field Ops, Scanbacks, Agents, Clients, Inspection, Payments, Analytics) are still accessible from the top bar — they show ALL orders across ALL divisions. The division view is the focused, scoped experience. The tabs are the cross-division operational view.
 
-### Inspection Tab
-- Active rules with accuracy rates
-- Learned patterns with confidence scores
-- Recent misses (post-ship rejections) → create new rules
+When inside a division, the tab bar shows the division name and icon, plus a "← Hub" button to return to the division hub.
 
-### Payments Tab
-- Agent payouts: pending, processing, paid
-- Margin report: revenue vs agent cost by service type
-- Export to VERTEX
+### Why Divisions
 
-### Analytics Tab
-- Volume by service type (color-coded bars)
-- Quality metrics: first-pass rate, rejection rate, correction time
-- Revenue/margin breakdowns
-- Agent utilization
-- Geographic distribution
+1. **Focus** — When you're doing notary work, you don't need to see drug testing orders
+2. **Clarity** — Each division has its own compliance rules, agent types, and workflows
+3. **Speed** — Smaller lists, faster decisions, less scrolling
+4. **Delegation** — As DDI grows, a division can be handed to a coordinator
+5. **Brand alignment** — Notary division maps to 3D Ink Signatures, DNA maps to DePointe DNA
+
+### How It Maps to DDI's Service Lines
+
+| Division | DDI Brand / DBA | Rate Sheet |
+|---|---|---|
+| Drug Testing & Occ Health | Dee Davis Inc. (C/TPA) | DDI_PROFESSIONAL_SERVICES_PRICING.md §2 |
+| DNA / Genetic Testing | DePointe DNA | DDI_PROFESSIONAL_SERVICES_PRICING.md (DNA section) |
+| Fingerprinting & Background | Dee Davis Inc. | DDI_PROFESSIONAL_SERVICES_PRICING.md §1 |
+| Notary & Legal Services | 3D Ink Signatures | 3D_Ink_Signatures_AGENCY_Rate_Sheet.html |
+| Transport & Courier | Freight 1st Direct / DDI | DDI_PROFESSIONAL_SERVICES_PRICING.md §6 |
+| Field Ops | Dee Davis Inc. (REO/FSM) | Program-specific pricing |
+
+---
+
+# 10b. PRESCRIPTION DELIVERY SERVICE LINE
+
+**Added April 2026.** Prescription delivery is a natural extension of DDI's Transport & Courier division. MCOs (CareSource, Molina, United, etc.) reimburse pharmacy-to-patient delivery under NEMT or pharmacy benefit codes. Uber Health supports prescription delivery natively.
+
+## Three Delivery Tiers
+
+| Tier | Type | HCPCS | DDI Rate | Routing | Chain of Custody |
+|---|---|---|---|---|---|
+| **Standard** | Non-controlled Rx | T2002-RX | $25/trip | Uber Health or DDI driver | Pharmacy manifest → ID verification → signature/photo |
+| **Controlled** | Schedule II-V | S5001 | $45/trip | DDI driver ONLY | Pharmacy manifest → ID verification → patient signature (no leave-at-door) |
+| **Cold Chain** | Temp-sensitive (insulin, biologics) | S5000 | $40/trip | DDI driver (insulated container) | Pharmacy manifest → temp monitor → ID verification → signature |
+
+## Compliance Framework (SERVICE_INSPECTION: rx_delivery)
+
+12 inspection checkpoints. Fatal flaws include:
+- Wrong patient receives medication
+- Controlled substance left unattended (DEA violation)
+- Temperature excursion on cold-chain medication
+- Tampered packaging delivered
+- HIPAA breach on exterior packaging
+- Broken chain of custody
+
+## Regulatory Requirements
+
+| Requirement | Authority | DDI Approach |
+|---|---|---|
+| HIPAA — no PHI on exterior | 45 CFR 164 | Plain packaging, no medication names visible. All agents HIPAA-trained through DDI's NALI partner path; subs pay DDI **credentialing fee** (see `prism_service_router.py` / service catalog). |
+| DEA — controlled substance delivery | 21 CFR 1301-1321 | Signature required, no leave-at-door, DDI driver only |
+| State Board of Pharmacy | Varies by state | Register as delivery agent where required (MI: no separate registration needed for non-dispensing delivery) |
+| Temperature control | USP <797>, FDA | Insulated containers + temp monitors for cold-chain |
+| Identity verification | MCO policy + HIPAA | Photo ID match or patient signature at point of delivery |
+
+## Revenue Opportunity
+
+- **Per-trip reimbursement:** $12-$30 per standard delivery (MCO-dependent)
+- **Volume contracts:** Pharmacy programs with 50-200 deliveries/day at $8-$15/delivery = $120K-$1M+/year
+- **Controlled substance premium:** $30-$45/delivery (DDI-direct only, higher margin)
+- **Cold-chain premium:** $25-$40/delivery
+- **MCO pitch:** Rx delivery reduces missed medications, hospital readmissions, and ER visits — MCOs save $3K-$10K per avoided readmission
+
+## CareSource Pitch (During Orientation)
+
+Position prescription delivery as a value-add when DDI meets with CareSource for NEMT orientation:
+- "We already have the vehicles, drivers, HIPAA training, and dispatch infrastructure for NEMT — Rx delivery is a natural extension"
+- "Members who can't get to appointments often can't get to pharmacies either"
+- "Medication adherence directly reduces your medical loss ratio"
 
 ---
 

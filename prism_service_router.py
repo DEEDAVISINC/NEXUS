@@ -457,6 +457,64 @@ SERVICE_CATALOG = {
         'notes':            'DDI is the broker. All trips dispatched through network. DDI keeps broker margin.',
     },
 
+    # ─── PRESCRIPTION DELIVERY ──────────────────────────────────────
+    'rx_delivery_standard': {
+        'label':            'Prescription Delivery — Standard (Same-Day)',
+        'service_line':     'Prescription Delivery',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Uber Health', 'Local courier subs'],
+        'ddi_rate':         25,
+        'sub_cost_low':     12,
+        'sub_cost_high':    18,
+        'ddi_direct_cost':  8,    # mileage + packaging
+        'lab_cost':         0,
+        'notes':            'Non-controlled Rx. DDI driver or Uber Health. HIPAA-compliant packaging, ID verification at delivery, photo proof.',
+    },
+    'rx_delivery_controlled': {
+        'label':            'Prescription Delivery — Controlled Substance (Schedule II-V)',
+        'service_line':     'Prescription Delivery',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': [],   # DDI-direct only for controlled substances — chain of custody is critical
+        'ddi_rate':         45,
+        'sub_cost_low':     None,    # DDI-direct only
+        'sub_cost_high':    None,
+        'ddi_direct_cost':  12,
+        'lab_cost':         0,
+        'notes':            'DEA-regulated. Signature required, no leave-at-door. Chain of custody pharmacy→patient. DDI driver only — no sub routing.',
+    },
+    'rx_delivery_cold_chain': {
+        'label':            'Prescription Delivery — Temperature-Sensitive / Cold Chain',
+        'service_line':     'Prescription Delivery',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Specialized cold-chain courier subs'],
+        'ddi_rate':         40,
+        'sub_cost_low':     18,
+        'sub_cost_high':    25,
+        'ddi_direct_cost':  15,   # insulated container + temp monitor + mileage
+        'lab_cost':         0,
+        'notes':            'Insulin, biologics, vaccines. Requires insulated container with temp monitor. Temp log uploaded as scanback. Delivery within 2-hour window.',
+    },
+    'rx_delivery_bulk_pharmacy': {
+        'label':            'Prescription Delivery — Bulk Pharmacy Program',
+        'service_line':     'Prescription Delivery',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Uber Health', 'Local courier subs'],
+        'ddi_rate':         None,   # per contract (volume-based pricing)
+        'sub_cost_low':     None,
+        'sub_cost_high':    None,
+        'ddi_direct_cost':  0,
+        'lab_cost':         0,
+        'notes':            'DDI manages delivery program for pharmacy or MCO. Volume pricing. Daily scheduled routes + on-demand overflow.',
+    },
+
     # ─── OCCUPATIONAL HEALTH ─────────────────────────────────────────
     'dot_physical': {
         'label':            'DOT Physical Examination (FMCSA)',
@@ -650,6 +708,13 @@ PARTNER_DIRECTORY = {
         'contact_key':  'ddc_account',
         'notes':        'Primary lab for all DePointe DNA testing. AABB-accredited. Immigration and legal.',
     },
+    'American Medical Review Officer (AMRO)': {
+        'role':         'MRO Services',
+        'services':     ['Drug Testing'],
+        'coverage':     'Nationwide',
+        'contact_key':  'amro_account',
+        'notes':        'MRO-only provider (no TPA conflict). Dr. Donald S. Freedman, M.D. Pricing: $4/test DOT/Non-DOT, $30 abnormal-only. Alternative to Quest bundled MRO.',
+    },
     'Lakota': {
         'role':         'Fingerprinting Partner',
         'services':     ['Fingerprinting', 'Background Checks'],
@@ -714,8 +779,214 @@ SERVICE_REQUIRED_CREDENTIALS = {
     'notary_apostille':      ['notary_commission'],
     'phlebotomy_blood_draw': ['phlebotomy_cert'],
     'nemt_scheduled':        ['driver_license', 'vehicle_insurance'],
+    'rx_delivery_standard':  ['driver_license', 'hipaa_trained'],
+    'rx_delivery_controlled': ['driver_license', 'hipaa_trained', 'background_check_clear'],
+    'rx_delivery_cold_chain': ['driver_license', 'hipaa_trained', 'cold_chain_trained'],
     'medical_courier_specimen': ['biohazard_transport_trained'],
 }
+
+# Partner list price (approx.) in USD where known; subs still purchase through DDI credentialing.
+# ddi_credentialing_fee = what the sub pays DDI (access, assignment, tracking, audit trail, PRISM gate).
+CREDENTIAL_TRAINING_SOURCES = {
+    'hipaa_trained':            {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 15, 'ddi_credentialing_fee': 45, 'note': 'DDI referral partner portal'},
+    'bloodborne_pathogens':     {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 15, 'ddi_credentialing_fee': 45, 'note': 'OSHA Bloodborne Pathogens'},
+    'first_aid':                {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'First Aid certification'},
+    'cpr':                      {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'CPR certification'},
+    'drug_alcohol_awareness':   {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Drug & Alcohol Awareness'},
+    'fraud_waste_abuse':        {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Medicaid/Medicare FWA compliance'},
+    'sexual_harassment':        {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Workplace compliance — all agents'},
+    'hazcom':                   {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Hazard Communication — chemical/specimen handling'},
+    'human_trafficking':        {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'NEMT driver awareness — federally recommended'},
+    'theft_awareness':          {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Rx delivery / controlled substance handling'},
+    'hiv_aids_awareness':       {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 15, 'ddi_credentialing_fee': 45, 'note': 'Medical service agent awareness'},
+    'diversity_awareness':      {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Workplace compliance — all agents'},
+    'ethics':                   {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Professional conduct — all agents'},
+    'conflict_resolution':      {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 15, 'ddi_credentialing_fee': 45, 'note': 'Client-facing de-escalation'},
+    'fire_safety':              {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Field ops / facility services'},
+    'workplace_violence':       {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 25, 'ddi_credentialing_fee': 50, 'note': 'Workplace safety — all agents'},
+    'dot_supervisor_training':  {'provider': 'Quest Employer Solutions', 'url': 'Quest Employer Solutions Online Training Center', 'cost': None, 'ddi_credentialing_fee': 75, 'note': 'DOT Reasonable Suspicion, DOT Drug & Alcohol, FMCSA compliance. Sub pays DDI credentialing fee.'},
+    'ctpa_collector_cert':      {'provider': 'Quest Employer Solutions', 'url': 'Quest Employer Solutions Online Training Center', 'cost': None, 'ddi_credentialing_fee': 75, 'note': 'SAMHSA-aligned collector training. Sub pays DDI credentialing fee.'},
+    'bat_cert':                 {'provider': 'Quest Employer Solutions', 'url': 'Quest Employer Solutions Online Training Center', 'cost': None, 'ddi_credentialing_fee': 75, 'note': 'Breath Alcohol Technician certification. Sub pays DDI credentialing fee.'},
+    'dna_collector_cert':       {'provider': 'DDC Laboratories', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'AABB-accredited DNA collector training — quote per DDC'},
+    'livescan_trained':         {'provider': 'DDI / Lakota', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'LiveScan equipment training through DDI or Lakota partnership'},
+    'ink_card_trained':         {'provider': 'DDI onboarding', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'FD-258 ink card rolling technique — DDI hands-on training'},
+    'notary_commission':        {'provider': 'State of Michigan', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'Michigan notary commission — state-issued'},
+    'nsa_certified':            {'provider': 'NNA / LSS', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'Notary Signing Agent certification'},
+    'ron_cert':                 {'provider': 'State + ZigSig', 'url': None, 'cost': None, 'ddi_credentialing_fee': None, 'note': 'Remote Online Notarization certification'},
+    'cold_chain_trained':       {'provider': 'NALI + DDI onboarding', 'url': 'https://nalearning.org/partner', 'cost': None, 'ddi_credentialing_fee': None, 'note': 'Temperature-controlled transport — use Medical Courier / cold-chain bundle pricing in CREDENTIALING_BUNDLES'},
+    'background_check_clear':   {'provider': 'National Crime Search (NCS)', 'url': 'https://deedavisinc.nationalcrimesearch.com', 'cost': None, 'ddi_credentialing_fee': 65, 'note': 'FCRA-compliant background check through DDI NCS portal'},
+    'biohazard_transport_trained': {'provider': 'NALI', 'url': 'https://nalearning.org/partner', 'cost': 15, 'ddi_credentialing_fee': 45, 'note': 'Bloodborne pathogens (NALI) + DOT/IATA Category B (DDI onboarding)'},
+}
+
+# Bundled credentialing (sub pays DDI bundle fee; aligns with DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md).
+CREDENTIALING_BUNDLES = {
+    'ddi_agent_baseline': {
+        'label': 'DDI Agent Baseline',
+        'credential_keys': ['sexual_harassment', 'diversity_awareness', 'ethics', 'conflict_resolution', 'workplace_violence'],
+        'platform_cost_estimate': 115,
+        'ddi_credentialing_fee': 250,
+    },
+    'medical_courier_ready': {
+        'label': 'Medical Courier Ready',
+        'credential_keys': ['hipaa_trained', 'bloodborne_pathogens', 'hazcom'],
+        'platform_cost_estimate': 55,
+        'ddi_credentialing_fee': 125,
+    },
+    'rx_delivery_ready': {
+        'label': 'Rx Delivery Ready',
+        'credential_keys': ['hipaa_trained', 'drug_alcohol_awareness', 'theft_awareness'],
+        'platform_cost_estimate': 55,
+        'ddi_credentialing_fee': 125,
+    },
+    'nemt_driver_ready': {
+        'label': 'NEMT Driver Ready',
+        'credential_keys': ['hipaa_trained', 'first_aid', 'cpr', 'human_trafficking', 'drug_alcohol_awareness'],
+        'platform_cost_estimate': 115,
+        'ddi_credentialing_fee': 250,
+    },
+    'drug_testing_collector_ready': {
+        'label': 'Drug Testing Collector Ready',
+        'credential_keys': ['hipaa_trained', 'bloodborne_pathogens', 'drug_alcohol_awareness', 'ctpa_collector_cert'],
+        'platform_cost_estimate': 80,
+        'ddi_credentialing_fee': 200,
+    },
+    'notary_signing_ready': {
+        'label': 'Notary / Signing Agent Ready',
+        'credential_keys': ['ethics', 'conflict_resolution', 'fraud_waste_abuse'],
+        'platform_cost_estimate': 65,
+        'ddi_credentialing_fee': 150,
+    },
+    'field_ops_ready': {
+        'label': 'Field Ops Ready',
+        'credential_keys': ['first_aid', 'cpr', 'fire_safety'],
+        'platform_cost_estimate': 75,
+        'ddi_credentialing_fee': 200,
+        'note': 'Catalog also references confined-space training where contract requires — add course or adjust fee.',
+    },
+}
+
+# Full-stack combos (baseline + service bundle) per service catalog — package fees are
+# intentionally below the sum of constituent bundles (volume/onboarding incentive).
+CREDENTIALING_FULL_PACKAGES = {
+    'full_rx_delivery_agent': {
+        'bundles': ['ddi_agent_baseline', 'rx_delivery_ready'],
+        'sum_of_bundle_fees': 375,
+        'ddi_credentialing_fee': 350,
+    },
+    'full_nemt_driver': {
+        'bundles': ['ddi_agent_baseline', 'nemt_driver_ready'],
+        'sum_of_bundle_fees': 500,
+        'ddi_credentialing_fee': 450,
+    },
+    'full_drug_testing_collector': {
+        'bundles': ['ddi_agent_baseline', 'drug_testing_collector_ready'],
+        'sum_of_bundle_fees': 450,
+        'ddi_credentialing_fee': 400,
+    },
+}
+
+
+def get_credential_training_pricing(credential_key: str) -> dict:
+    """Return training source row for a credential, or empty dict."""
+    return dict(CREDENTIAL_TRAINING_SOURCES.get(credential_key) or {})
+
+
+def sum_individual_credentialing_fees(credential_keys: list) -> dict:
+    """Sum ddi_credentialing_fee for a list of credential keys (skips None)."""
+    total = 0
+    breakdown = []
+    for k in credential_keys:
+        row = CREDENTIAL_TRAINING_SOURCES.get(k) or {}
+        fee = row.get('ddi_credentialing_fee')
+        if fee is not None:
+            total += fee
+        breakdown.append({'credential': k, 'ddi_credentialing_fee': fee})
+    return {'total_ddi_credentialing_fee': total, 'breakdown': breakdown}
+
+
+def get_credentialing_pricing_catalog() -> dict:
+    """Serializable catalog for GET /prism/router/credentialing-pricing."""
+    return {
+        'credentials': dict(CREDENTIAL_TRAINING_SOURCES),
+        'bundles': {bid: {**meta, 'id': bid} for bid, meta in CREDENTIALING_BUNDLES.items()},
+        'full_packages': dict(CREDENTIALING_FULL_PACKAGES),
+        'policy': (
+            'Subs and independent agents pay DDI credentialing fees (not DDI). '
+            'Fees cover partner portal access, assignment, tracking, audit records, and PRISM gate checks.'
+        ),
+    }
+
+
+def compute_credentialing_quote(data: dict) -> dict:
+    """
+    Body keys (one mode):
+      - full_package: str (e.g. full_rx_delivery_agent)
+      - bundles: [str, ...] bundle ids
+      - credentials: [str, ...] à la carte credential keys
+    Precedence if multiple sent: full_package > bundles > credentials.
+    """
+    fp = data.get('full_package')
+    if fp:
+        if fp not in CREDENTIALING_FULL_PACKAGES:
+            return {'error': f'Unknown full_package: {fp}', '_http_status': 400}
+        pkg = CREDENTIALING_FULL_PACKAGES[fp]
+        bundle_rows = []
+        for bid in pkg['bundles']:
+            b = CREDENTIALING_BUNDLES.get(bid)
+            if not b:
+                continue
+            bundle_rows.append({'id': bid, 'label': b.get('label'), 'ddi_credentialing_fee': b['ddi_credentialing_fee']})
+        savings = None
+        if 'sum_of_bundle_fees' in pkg:
+            savings = pkg['sum_of_bundle_fees'] - pkg['ddi_credentialing_fee']
+        return {
+            'mode': 'full_package',
+            'package_id': fp,
+            'ddi_credentialing_fee_total': pkg['ddi_credentialing_fee'],
+            'sum_of_bundle_fees': pkg.get('sum_of_bundle_fees'),
+            'package_savings_vs_separate_bundles': savings,
+            'bundles_in_package': bundle_rows,
+        }
+
+    bundles = data.get('bundles') or data.get('bundle_ids')
+    if bundles:
+        if not isinstance(bundles, list):
+            return {'error': 'bundles must be a list of bundle id strings', '_http_status': 400}
+        total = 0
+        detail = []
+        for bid in bundles:
+            b = CREDENTIALING_BUNDLES.get(bid)
+            if not b:
+                return {'error': f'Unknown bundle id: {bid}', '_http_status': 400}
+            fee = b['ddi_credentialing_fee']
+            total += fee
+            detail.append({
+                'id': bid,
+                'label': b.get('label'),
+                'ddi_credentialing_fee': fee,
+                'credential_keys': b.get('credential_keys', []),
+            })
+        return {
+            'mode': 'bundles',
+            'ddi_credentialing_fee_total': total,
+            'bundles': detail,
+        }
+
+    creds = data.get('credentials') or data.get('credential_keys')
+    if creds:
+        if not isinstance(creds, list):
+            return {'error': 'credentials must be a list of credential keys', '_http_status': 400}
+        unknown = [c for c in creds if c not in CREDENTIAL_TRAINING_SOURCES]
+        if unknown:
+            return {'error': f'Unknown credential keys: {unknown}', '_http_status': 400}
+        summed = sum_individual_credentialing_fees(creds)
+        return {
+            'mode': 'credentials',
+            'ddi_credentialing_fee_total': summed['total_ddi_credentialing_fee'],
+            'breakdown': summed['breakdown'],
+        }
+
+    return {'error': 'Provide full_package, bundles, or credentials', '_http_status': 400}
 
 
 def check_agent_qualified(agent: dict, service_type: str) -> dict:
@@ -1209,6 +1480,21 @@ def api_revenue_calculator():
         summary['annual_margin_projection'] = summary['total_margin'] * 52
 
     return jsonify({'summary': summary, 'routes': results})
+
+
+@prism_router.route('/prism/router/credentialing-pricing', methods=['GET'])
+def api_credentialing_pricing():
+    """Full credentialing fee catalog: per-credential, bundles, full packages (subs pay DDI)."""
+    return jsonify(get_credentialing_pricing_catalog())
+
+
+@prism_router.route('/prism/router/credentialing-quote', methods=['POST'])
+def api_credentialing_quote():
+    """Quote DDI credentialing fees. Body: { full_package } | { bundles: [] } | { credentials: [] }."""
+    data = request.get_json() or {}
+    result = compute_credentialing_quote(data)
+    code = result.pop('_http_status', 200)
+    return jsonify(result), code
 
 
 @prism_router.route('/prism/router/credential-check', methods=['POST'])

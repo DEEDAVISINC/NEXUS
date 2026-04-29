@@ -118,3 +118,22 @@ Once per week, NEXUS must produce:
 ## Guardrail
 
 Do not overfit to one bid. Build systems that improve the next 50 bids.
+
+## NEXUS_LEARNING Directory Integration
+
+**Location:** `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/`
+
+**Purpose:** All market intelligence, contract targeting strategies, and business development playbooks that inform opportunity mining, bid prioritization, and capability positioning.
+
+**How to Use:**
+1. **Before mining SAM.gov or other sources:** Check `PRIORITY_TARGETS_INDEX.json` for priority NAICS codes, keywords, and buying agencies
+2. **When analyzing a new opportunity:** Cross-reference against documented contract lanes in `*_CONTRACT_TARGETS.md` files to understand typical margins, entry points, and DDI positioning
+3. **When generating capability statements:** Reference documented buyer pain points and DDI differentiators for the specific contract lane
+4. **After win/loss:** Update intelligence files with lessons learned, adjust priority tiers based on results
+
+**Key Files:**
+- `README.md` — Overview of how NEXUS uses intelligence files
+- `PRIORITY_TARGETS_INDEX.json` — Machine-readable priority NAICS, keywords, agencies
+- `MEDICAL_COURIER_CONTRACT_TARGETS.md` — 15 medical courier lanes, 3-tier prioritization, prime/sub strategy
+
+**Learning Loop:** Every bid outcome (win/loss) should trigger an update to relevant intelligence files. After 10+ data points in a contract lane, adjust priority tier based on actual win rate vs. projected.

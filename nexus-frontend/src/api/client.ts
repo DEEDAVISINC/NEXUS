@@ -280,6 +280,13 @@ export const api = {
   checkPrismAgentCredentials: (data: { agent: any; service_type: string }) =>
     ApiClient.post('/prism/router/credential-check', data),
 
+  /** PRISM Router: sub/agent credentialing fee catalog (NALI / Quest / bundles) */
+  getPrismCredentialingPricing: () => ApiClient.get('/prism/router/credentialing-pricing'),
+
+  /** PRISM Router: quote DDI credentialing fees — body: { full_package } | { bundles: string[] } | { credentials: string[] } */
+  postPrismCredentialingQuote: (data: { full_package?: string; bundles?: string[]; credentials?: string[] }) =>
+    ApiClient.post('/prism/router/credentialing-quote', data),
+
   /** PRISM Signature Reference Map — Phase A (reference doc from escrow/title/lender) */
   createOrderSignatureMap: (
     orderId: string,

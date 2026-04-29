@@ -211,6 +211,32 @@
 | General Document Signing | $75-125 | Non-loan packages |
 | E-Signing (hybrid/RON) | $75-100 | Remote portion |
 
+### Witness-Required State Surcharge
+
+Some states require one or two witnesses at signing — especially on deeds of conveyance and real estate documents. Coordinating or providing witnesses adds logistics and time. **This surcharge applies automatically when the signing is in a witness-required state.**
+
+| Surcharge | Amount | When It Applies |
+|-----------|--------|-----------------|
+| **Witness coordination — 1 witness** | **+$35** | Georgia (1 witness, cannot be notary) |
+| **Witness coordination — 2 witnesses** | **+$50** | Connecticut, Florida (deed in package), Louisiana, South Carolina |
+| **Independent witness required (notary excluded)** | **+$25 additional** | Georgia, Louisiana — notary CANNOT serve as witness; must source independent person(s) |
+
+**State-by-state witness rules:**
+
+| State | Witnesses | Notary Can Be Witness? | Surcharge |
+|-------|-----------|------------------------|-----------|
+| **Connecticut** | 2 | YES (1 of 2) | +$50 |
+| **Florida** | 2 (deeds only — NOT mortgages) | YES (1 of 2) | +$50 (only when deed of conveyance is in package) |
+| **Georgia** | 1 | NO | +$35 + $25 independent witness = **+$60** |
+| **Louisiana** | 2 | NO (neither) | +$50 + $25 independent witness = **+$75** |
+| **South Carolina** | 2 | YES (1 of 2) | +$50 |
+
+**Florida note:** Mortgages alone do NOT require witnesses. The surcharge applies only when the package includes a deed of conveyance (quit-claim deed, deed of gift, warranty deed, etc.).
+
+**Georgia/Louisiana note:** Because the notary cannot serve as a witness in these states, DDI must source independent witness(es) — the additional $25 covers that coordination cost.
+
+**Quoting rule:** When quoting a signing in any of these five states, the witness surcharge is **built into the quote** — do not list it as a surprise line item after the fact. Disclose upfront.
+
 *Available through Snapdocs and direct scheduling*
 
 ---

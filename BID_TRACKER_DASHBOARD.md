@@ -62,6 +62,8 @@
 | Matheson Gas (liquid div) | Supplier | LN2 Quote — Rockville MD | Mar 18 | Routing to rep — waiting for contact |
 | Steve Gibson | Choice Partners / HCDE | Drug Testing cooperative | Mar 18 | REPLIED — connected us to Lisa |
 | Lisa TerMorshuizen | Choice Partners / HCDE | Drug Testing cooperative | Mar 18 | **CONFIRMED — Mon Mar 24 @ 2:00 PM CT / 3:00 PM ET via Teams** |
+| **Eileen Meyer** | **VA Illiana Health Care System** | **Medical Courier — 36C25226Q0235** | **Apr 28, 2026** | **FOLLOW-UP SENT** — Sources Sought response submitted Feb 1; follow-up checking on RFP timeline. $300K-$500K/yr, 5-year potential. |
+| **Barbara — AMRO** | **American Medical Review Officer** | **MRO Partnership — all drug testing bids** | **Apr 28, 2026** | **FOLLOW-UP SENT** — Call completed; detailed email with all 6 active bids sent. Need LOC + pricing by Apr 30. |
 
 ---
 

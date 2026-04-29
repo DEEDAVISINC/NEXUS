@@ -24,6 +24,7 @@ const SERVICE_COLORS: Record<string, { color: string; solid: string; bg: string;
   'nemt':            { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', label: 'NEMT / Transport',    icon: '🟢', border: '#2DD4BF' },
   'medical_courier': { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Medical Courier',     icon: '🟣', border: '#818CF8' },
   'courier':         { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Courier/Runner',      icon: '🟣', border: '#818CF8' },
+  'rx_delivery':     { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', label: 'Rx Delivery',         icon: '💊', border: '#2DD4BF' },
   'phlebotomy':      { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', label: 'Occ Health',          icon: '🔴', border: '#F87171' },
 };
 
@@ -32,8 +33,90 @@ const SERVICE_GROUPS: { id: string; label: string; icon: string; types: string[]
   { id: 'dna',            label: 'DNA Collection',       icon: '🟣', types: ['dna'],                         color: '#A855F7', solid: '#7C3AED' },
   { id: 'fingerprint',    label: 'Fingerprint / BG',     icon: '🟢', types: ['fingerprint', 'background'],   color: '#4ADE80', solid: '#16A34A' },
   { id: 'notary_legal',   label: 'Notary & Legal',       icon: '🩷', types: ['notary', 'ron', 'apostille', 'process'], color: '#EC4899', solid: '#DB2777' },
-  { id: 'nemt',           label: 'NEMT / Transport',     icon: '🚐', types: ['nemt'],                        color: '#14B8A6', solid: '#0D9488' },
+  { id: 'nemt',           label: 'NEMT / Transport',     icon: '🚐', types: ['nemt', 'rx_delivery'],          color: '#14B8A6', solid: '#0D9488' },
   { id: 'courier',        label: 'Courier / Delivery',   icon: '📦', types: ['medical_courier', 'courier'],  color: '#6366F1', solid: '#4F46E5' },
+];
+
+// ─── PRISM DIVISIONS ─────────────────────────────────────────────
+interface PrismDivision {
+  id: string;
+  name: string;
+  subtitle: string;
+  icon: string;
+  color: string;
+  solid: string;
+  gradient: string;
+  types: string[];
+  agentSpecialties: string[];
+}
+
+const PRISM_DIVISIONS: PrismDivision[] = [
+  {
+    id: 'drug_testing',
+    name: 'Drug Testing & Occ Health',
+    subtitle: 'DOT • Non-DOT • BAT • Random Pools • Mass Events • Clearinghouse',
+    icon: '🧪',
+    color: '#EF4444',
+    solid: '#DC2626',
+    gradient: 'from-red-600 to-red-800',
+    types: ['dot', 'non-dot', 'phlebotomy'],
+    agentSpecialties: ['Collection Agent', 'BAT', 'Phlebotomist'],
+  },
+  {
+    id: 'dna_testing',
+    name: 'DNA / Genetic Testing',
+    subtitle: 'DePointe DNA • Legal • Immigration • Paternity • Informational',
+    icon: '🧬',
+    color: '#A855F7',
+    solid: '#7C3AED',
+    gradient: 'from-purple-600 to-purple-800',
+    types: ['dna'],
+    agentSpecialties: ['Collection Agent', 'DNA Collector'],
+  },
+  {
+    id: 'fingerprint_bg',
+    name: 'Fingerprinting & Background',
+    subtitle: 'LiveScan • FD-258 Ink Cards • EFT • FCRA Background Checks',
+    icon: '🖐️',
+    color: '#4ADE80',
+    solid: '#16A34A',
+    gradient: 'from-green-600 to-green-800',
+    types: ['fingerprint', 'background'],
+    agentSpecialties: ['Print Technician', 'Background Specialist'],
+  },
+  {
+    id: 'notary_legal',
+    name: 'Notary & Legal Services',
+    subtitle: '3D Ink Signatures • Loan Signing • RON • Apostille • CNTDA • Process Serving',
+    icon: '✍️',
+    color: '#EC4899',
+    solid: '#DB2777',
+    gradient: 'from-pink-600 to-pink-800',
+    types: ['notary', 'ron', 'apostille', 'process'],
+    agentSpecialties: ['Signing Agent', 'Notary', 'Process Server'],
+  },
+  {
+    id: 'transport',
+    name: 'Transport & Courier',
+    subtitle: 'NEMT • Rx Delivery • Medical Courier • Legal Courier • Specimen Transport',
+    icon: '🚐',
+    color: '#14B8A6',
+    solid: '#0D9488',
+    gradient: 'from-teal-600 to-teal-800',
+    types: ['nemt', 'rx_delivery', 'medical_courier', 'courier'],
+    agentSpecialties: ['Courier', 'NEMT Driver', 'Medical Courier', 'Rx Delivery Driver'],
+  },
+  {
+    id: 'field_ops',
+    name: 'Field Ops',
+    subtitle: 'REO • Property Preservation • Inspections • HUD FSM',
+    icon: '🏠',
+    color: '#3B82F6',
+    solid: '#2563EB',
+    gradient: 'from-blue-600 to-blue-800',
+    types: [],
+    agentSpecialties: ['Field Inspector', 'Preservation Tech'],
+  },
 ];
 
 // ─── SERVICE-SPECIFIC INSPECTION FUNDAMENTALS ─────────────────────
@@ -172,6 +255,33 @@ const SERVICE_INSPECTION: Record<string, { title: string; certs: string[]; funda
     fatalFlaws: ['Expired license → DRIVER CANNOT OPERATE', 'Lapsed insurance → DRIVER CANNOT OPERATE', 'ADA non-compliance → FEDERAL VIOLATION', 'HIPAA breach → FINE + LIABILITY', 'Wrong passenger transported → LIABILITY'],
     commonErrors: ['Missing trip log signatures', 'Pre-trip inspection skipped', 'No-show not documented', 'Late pickup outside SLA window', 'Passenger complaint not escalated'],
   },
+  'rx_delivery': {
+    title: 'Prescription Delivery',
+    certs: ['HIPAA Compliance Training', 'State Board of Pharmacy Delivery Registration (if required)', 'Background Check (no drug-related offenses)', 'Valid Driver License', 'Temperature-Controlled Transport Training'],
+    fundamentals: [
+      { id: 'RX-1', check: 'Prescription verified against delivery manifest (patient name, Rx number, pharmacy)?', severity: 'FATAL' },
+      { id: 'RX-2', check: 'Recipient identity verified (photo ID or signature match)?', severity: 'FATAL' },
+      { id: 'RX-3', check: 'Chain of custody maintained — pharmacy to patient with no unauthorized access?', severity: 'FATAL' },
+      { id: 'RX-4', check: 'Temperature-sensitive medications stored in insulated container with temp monitor?', severity: 'FATAL' },
+      { id: 'RX-5', check: 'Controlled substance delivery follows DEA requirements (Schedule II-V — signature required, no leave-at-door)?', severity: 'FATAL' },
+      { id: 'RX-6', check: 'Delivery timestamp and GPS coordinates recorded?', severity: 'CRITICAL' },
+      { id: 'RX-7', check: 'Patient signature or electronic proof of delivery captured?', severity: 'CRITICAL' },
+      { id: 'RX-8', check: 'Failed delivery attempt documented with timestamp and reason?', severity: 'CRITICAL' },
+      { id: 'RX-9', check: 'HIPAA — no patient health information visible on exterior packaging?', severity: 'FATAL' },
+      { id: 'RX-10', check: 'Undeliverable medications returned to pharmacy within required timeframe?', severity: 'CRITICAL' },
+      { id: 'RX-11', check: 'Tamper-evident packaging intact upon delivery?', severity: 'FATAL' },
+      { id: 'RX-12', check: 'Delivery window SLA met (same-day if ordered before 2 PM)?', severity: 'CRITICAL' },
+    ],
+    fatalFlaws: [
+      'Wrong patient receives medication → PATIENT SAFETY + LIABILITY',
+      'Controlled substance left unattended → DEA VIOLATION',
+      'Temperature excursion on cold-chain medication → MEDICATION DESTROYED + LIABILITY',
+      'Tampered packaging delivered → PATIENT SAFETY CRISIS',
+      'HIPAA breach on packaging → FINE + LIABILITY',
+      'Chain of custody broken → MEDICATION CANNOT BE DELIVERED',
+    ],
+    commonErrors: ['Missing delivery signature', 'Temperature monitor not activated', 'Delivery photo not uploaded', 'Wrong delivery address (old address on file)', 'Failed attempt not documented in system'],
+  },
   'medical_courier': {
     title: 'Medical Courier / Specimen Transport',
     certs: ['OSHA Bloodborne Pathogens Training', 'DOT/IATA Dangerous Goods (Category B)', 'HIPAA Compliance Training', 'Temperature-Controlled Transport Certification'],
@@ -255,7 +365,7 @@ const SERVICE_INSPECTION: Record<string, { title: string; certs: string[]; funda
 const SERVICE_MARGIN_RATES: Record<string, number> = {
   'dot': 0.35, 'non-dot': 0.40, 'dna': 0.50, 'fingerprint': 0.55,
   'notary': 0.60, 'ron': 0.65, 'phlebotomy': 0.35, 'nemt': 0.30,
-  'medical_courier': 0.35, 'courier': 0.35, 'background': 0.50,
+  'rx_delivery': 0.35, 'medical_courier': 0.35, 'courier': 0.35, 'background': 0.50,
   'apostille': 0.60, 'process': 0.50,
 };
 
@@ -406,6 +516,8 @@ const StatCard: React.FC<{ label: string; value: string | number; sub?: string; 
 
 // ─── MAIN COMPONENT ────────────────────────────────────────────────
 const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
+  const [activeDivision, setActiveDivision] = useState<string | null>(null);
+  const [divisionSection, setDivisionSection] = useState<'overview' | 'orders' | 'agents' | 'scanbacks'>('overview');
   const [orderView, setOrderView] = useState<'list' | 'kanban' | 'calendar'>('list');
   const [orderFilter, setOrderFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
@@ -414,7 +526,6 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [scanbackFilter, setScanbackFilter] = useState('all');
   const [agentFilter, setAgentFilter] = useState('all');
   const [inspSvc, setInspSvc] = useState('dot');
-  /** Loaded from GET /prism/dot/collector-due-diligence — same contract as `prism_dot_compliance.DOT_COLLECTOR_DUE_DILIGENCE` */
   const [dotDueDiligence, setDotDueDiligence] = useState<PrismDotDueDiligencePayload | null>(null);
   const [dotDueDiligenceLoad, setDotDueDiligenceLoad] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
   const [stageFilter, setStageFilter] = useState('all');
@@ -422,6 +533,44 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [fieldOpsView, setFieldOpsView] = useState<'list' | 'route' | 'photos'>('list');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
   const [propertyOrders] = useState<PropertyWorkOrder[]>(MOCK_PROPERTY_ORDERS);
+
+  const [credentialingOpen, setCredentialingOpen] = useState(false);
+  const [credentialingCatalog, setCredentialingCatalog] = useState<{
+    credentials?: Record<string, unknown>;
+    bundles?: Record<string, unknown>;
+    full_packages?: Record<string, unknown>;
+    policy?: string;
+  } | null>(null);
+  const [credentialingLoad, setCredentialingLoad] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
+  const [credQuoteMode, setCredQuoteMode] = useState<'package' | 'bundles' | 'credentials'>('package');
+  const [selectedFullPackage, setSelectedFullPackage] = useState('');
+  const [selectedBundleIds, setSelectedBundleIds] = useState<string[]>([]);
+  const [selectedCredKeys, setSelectedCredKeys] = useState<string[]>([]);
+  const [credQuoteResult, setCredQuoteResult] = useState<Record<string, unknown> | null>(null);
+  const [credQuoteLoading, setCredQuoteLoading] = useState(false);
+
+  const enterDivision = (divId: string) => {
+    setActiveDivision(divId);
+    setDivisionSection('overview');
+    setSelectedOrder(null);
+    if (divId === 'field_ops') {
+      setActiveTab('fieldops');
+    } else {
+      setActiveTab('dashboard');
+    }
+  };
+
+  const exitDivision = () => {
+    setActiveDivision(null);
+    setActiveTab('dashboard');
+    setSelectedOrder(null);
+  };
+
+  const currentDivision = PRISM_DIVISIONS.find(d => d.id === activeDivision);
+
+  const getDivisionOrders = (div: PrismDivision) => orders.filter(o => div.types.includes(o.type));
+  const getDivisionAgents = (div: PrismDivision) => agents.filter(a => a.specialties?.some(s => div.agentSpecialties.some(ds => s.toLowerCase().includes(ds.toLowerCase()))) || div.types.some(t => a.specialties?.map(s => s.toLowerCase()).includes(t)));
+  const getDivisionScanbacks = (div: PrismDivision) => scanbacks.filter(s => div.types.includes(s.type));
 
   const [orders, setOrders] = useState<PrismOrder[]>([]);
   const [agents, setAgents] = useState<PrismAgent[]>([]);
@@ -503,6 +652,68 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
     return () => clearInterval(interval);
   }, [loadNotifications]);
 
+  useEffect(() => {
+    if (!credentialingOpen) return;
+    let cancelled = false;
+    setCredentialingLoad('loading');
+    (async () => {
+      try {
+        const d = (await api.getPrismCredentialingPricing()) as Record<string, unknown>;
+        if (cancelled) return;
+        setCredentialingCatalog(d);
+        setCredentialingLoad('ok');
+        const fp = d.full_packages as Record<string, unknown> | undefined;
+        if (fp) {
+          const keys = Object.keys(fp);
+          setSelectedFullPackage(prev => (prev && keys.includes(prev) ? prev : keys[0] || ''));
+        }
+      } catch {
+        if (!cancelled) setCredentialingLoad('error');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [credentialingOpen]);
+
+  const runCredentialQuote = useCallback(async () => {
+    setCredQuoteLoading(true);
+    setCredQuoteResult(null);
+    try {
+      let body: { full_package?: string; bundles?: string[]; credentials?: string[] } = {};
+      if (credQuoteMode === 'package') {
+        if (!selectedFullPackage) {
+          setCredQuoteResult({ error: 'Select a full package' });
+          setCredQuoteLoading(false);
+          return;
+        }
+        body = { full_package: selectedFullPackage };
+      } else if (credQuoteMode === 'bundles') {
+        if (selectedBundleIds.length === 0) {
+          setCredQuoteResult({ error: 'Select one or more bundles' });
+          setCredQuoteLoading(false);
+          return;
+        }
+        body = { bundles: selectedBundleIds };
+      } else {
+        if (selectedCredKeys.length === 0) {
+          setCredQuoteResult({ error: 'Select one or more credentials' });
+          setCredQuoteLoading(false);
+          return;
+        }
+        body = { credentials: selectedCredKeys };
+      }
+      const r = (await api.postPrismCredentialingQuote(body)) as Record<string, unknown>;
+      setCredQuoteResult(r);
+    } catch (e: unknown) {
+      setCredQuoteResult({ error: e instanceof Error ? e.message : 'Quote request failed' });
+    } finally {
+      setCredQuoteLoading(false);
+    }
+  }, [credQuoteMode, selectedFullPackage, selectedBundleIds, selectedCredKeys]);
+
+  const toggleCredBundle = (id: string) => {
+    setSelectedBundleIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+  };
+
   const tabs = [
     { id: 'dashboard', label: '🎯 Command Center' },
     { id: 'orders', label: '📋 Orders' },
@@ -534,7 +745,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       signer: o.signer,
       status: sbStatus,
       pages: latest?.pages || 0,
-      expected: ({'dot':3,'non-dot':2,'dna':3,'fingerprint':2,'background':2,'notary':2,'ron':3,'apostille':2,'process':2,'nemt':2,'medical_courier':2,'courier':1,'phlebotomy':2} as Record<string,number>)[o.type] || 2,
+      expected: ({'dot':3,'non-dot':2,'dna':3,'fingerprint':2,'background':2,'notary':2,'ron':3,'apostille':2,'process':2,'nemt':2,'rx_delivery':2,'medical_courier':2,'courier':1,'phlebotomy':2} as Record<string,number>)[o.type] || 2,
       expectedDocs: [] as string[],
       uploadDate: latest?.uploaded_at || '',
       attempt: sb?.uploads?.length || 0,
@@ -590,16 +801,30 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       {/* ─── TABS ───────────────────────────────────────── */}
       <div className="bg-gray-800 border-b border-gray-700 sticky top-[73px] z-40">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-1 overflow-x-auto py-1">
+          <div className="flex gap-1 overflow-x-auto py-1 items-center">
+            {activeDivision && currentDivision && (
+              <button onClick={exitDivision} className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-t-lg transition text-gray-400 hover:text-white hover:bg-gray-700 mr-1 border-r border-gray-700 pr-3">
+                ← Hub
+              </button>
+            )}
+            {activeDivision && currentDivision && (
+              <div className="flex items-center gap-2 mr-3 pr-3 border-r border-gray-700">
+                <span className="text-lg">{currentDivision.icon}</span>
+                <span className="text-sm font-bold" style={{ color: currentDivision.color }}>{currentDivision.name}</span>
+              </div>
+            )}
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-3 text-sm font-semibold rounded-t-lg transition whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white'
+                    ? activeDivision && currentDivision
+                      ? 'text-white'
+                      : 'bg-gradient-to-r from-orange-500 to-amber-500 text-white'
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'
                 }`}
+                style={activeTab === tab.id && activeDivision && currentDivision ? { backgroundColor: currentDivision.solid } : {}}
               >
                 {tab.label}
                 {tab.id === 'scanbacks' && needsReview.length > 0 && (
@@ -618,14 +843,14 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       <div className="max-w-7xl mx-auto px-6 py-6">
 
         {/* ════════════════════════════════════════════════════
-            TAB: COMMAND CENTER
+            DIVISION HUB — Main PRISM Landing
         ════════════════════════════════════════════════════ */}
-        {activeTab === 'dashboard' && (
+        {!activeDivision && activeTab === 'dashboard' && (
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold mb-1">🎯 Command Center</h2>
-                <p className="text-gray-400">PRISM — See every detail. Miss nothing.</p>
+                <h2 className="text-3xl font-bold mb-1">🎯 PRISM Command Center</h2>
+                <p className="text-gray-400">See every detail. Miss nothing. — Select a division.</p>
               </div>
               <div className="flex gap-2 items-center">
                 <button onClick={() => setShowNotifPanel(!showNotifPanel)}
@@ -640,194 +865,307 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                 <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
                   + New Order
                 </button>
-                <button onClick={() => setActiveTab('dispatch')} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
-                  🚀 Dispatch
-                </button>
-                {onNavigate && (
-                  <>
-                    <button onClick={() => onNavigate('agent-login')} className="px-4 py-2 rounded-lg font-semibold text-sm text-white transition" style={{ background: 'linear-gradient(135deg, #EC4899, #DB2777)' }}>
-                      🔮 Agent Login Portal
-                    </button>
-                    <button onClick={() => onNavigate('agent-portal')} className="px-4 py-2 rounded-lg font-semibold text-sm text-white transition" style={{ background: '#1B2A4A', border: '1px solid rgba(45, 212, 191, 0.3)' }}>
-                      👤 Preview (No Login)
-                    </button>
-                  </>
-                )}
               </div>
             </div>
 
-            <MandatoryQcDueDiligenceNotice className="mb-6" />
-
-            {/* ── Notification Panel ── */}
-            {showNotifPanel && (
-              <div className="relative mb-4 z-50">
-                <div className="absolute right-0 top-0 w-[420px] rounded-xl shadow-2xl max-h-[60vh] overflow-hidden" style={{ background: '#0F1A2E', border: '1px solid rgba(45, 212, 191, 0.2)' }}>
-                  <div className="p-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(45, 212, 191, 0.1)' }}>
-                    <h3 className="font-bold text-sm">🔔 Notifications {unreadCount > 0 && <span className="text-orange-400 ml-1">({unreadCount} new)</span>}</h3>
-                    <div className="flex gap-2">
-                      {unreadCount > 0 && (
-                        <button onClick={() => markNotificationsRead()} className="text-xs text-teal-400 hover:text-teal-300 font-semibold">Mark all read</button>
-                      )}
-                      <button onClick={() => setShowNotifPanel(false)} className="text-gray-500 hover:text-white text-sm">✕</button>
-                    </div>
-                  </div>
-                  <div className="divide-y divide-gray-800 overflow-y-auto max-h-[50vh]">
-                    {notifications.length === 0 && (
-                      <div className="p-6 text-center text-gray-500 text-sm">No notifications yet</div>
-                    )}
-                    {notifications.map(n => {
-                      const severityBorder = n.severity === 'error' ? 'border-l-red-500' : n.severity === 'warning' ? 'border-l-yellow-500' : n.severity === 'success' ? 'border-l-green-500' : 'border-l-blue-500';
-                      const age = (() => {
-                        const diff = Date.now() - new Date(n.created_at).getTime();
-                        const mins = Math.floor(diff / 60000);
-                        if (mins < 1) return 'just now';
-                        if (mins < 60) return `${mins}m ago`;
-                        const hrs = Math.floor(mins / 60);
-                        if (hrs < 24) return `${hrs}h ago`;
-                        return `${Math.floor(hrs / 24)}d ago`;
-                      })();
-                      return (
-                        <div key={n.id} className={`px-4 py-3 hover:bg-gray-800/50 transition cursor-pointer border-l-4 ${severityBorder} ${!n.read ? 'bg-gray-800/30' : ''}`}
-                          onClick={() => { if (!n.read) markNotificationsRead([n.id]); if (n.order_id) { setSelectedOrder(n.order_id); setActiveTab('orders'); setShowNotifPanel(false); } }}>
-                          <div className="flex items-start gap-2">
-                            {!n.read && <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-orange-400"></div>}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-0.5">
-                                <span className="text-sm">{n.icon}</span>
-                                <span className="text-xs font-bold text-white">{n.title}</span>
-                                <span className="text-[10px] text-gray-500 ml-auto flex-shrink-0">{age}</span>
-                              </div>
-                              <p className="text-xs text-gray-400 truncate">{n.message}</p>
-                              {n.order_id && <span className="text-[10px] text-gray-600 font-mono">{n.order_id}</span>}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ── Stat Cards ── */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <StatCard label="Active Orders" value={activeOrders.length} icon="📋" color="orange" sub="In pipeline" />
-              <StatCard label="Today's Appointments" value={todayOrders.length} icon="📅" color="blue" sub="Scheduled today" />
+            {/* Cross-Division Summary */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <StatCard label="Total Active Orders" value={activeOrders.length} icon="📋" color="orange" sub="All divisions" />
+              <StatCard label="Today's Appointments" value={todayOrders.length} icon="📅" color="blue" sub="Across all divisions" />
               <StatCard label="Awaiting Scanback" value={awaitingScanback.length} icon="📸" color="yellow" sub="Service done, no upload" />
               <StatCard label="Errors Found" value={errorsFound.length} icon="🚨" color="red" sub="Need correction" />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <StatCard label="Orders This Month" value={orders.length} icon="📊" color="purple" />
-              <StatCard label="Active Field Agents" value={agents.filter(a => a.status === 'Active').length} icon="👤" color="green" />
-              <StatCard label="First-Pass Clean Rate" value={prismStats?.clean_rate || '—'} icon="✅" color="emerald" sub="No errors on first scan" />
-              <StatCard label="Revenue This Week" value={prismStats?.weekly_revenue || '—'} icon="💰" color="blue" />
+            {/* Sub / agent credentialing quote (API-backed) */}
+            <div className="mb-8 rounded-2xl border border-teal-500/35 bg-gradient-to-br from-teal-500/10 to-gray-900/80 overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setCredentialingOpen(v => !v)}
+                className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left hover:bg-teal-500/10 transition"
+              >
+                <div>
+                  <h3 className="font-bold text-white text-base">🎓 Sub credentialing fees</h3>
+                  <p className="text-sm text-gray-400 mt-0.5">Quote DDI credentialing (NALI / Quest / NCS) — subs pay DDI, not the other way around.</p>
+                </div>
+                <span className="text-teal-400 font-semibold text-sm shrink-0">{credentialingOpen ? 'Hide ▲' : 'Expand ▼'}</span>
+              </button>
+              {credentialingOpen && (
+                <div className="px-5 pb-5 border-t border-teal-500/20">
+                  {credentialingLoad === 'loading' && <p className="text-gray-400 text-sm py-4">Loading fee catalog…</p>}
+                  {credentialingLoad === 'error' && <p className="text-red-400 text-sm py-4">Could not load /prism/router/credentialing-pricing. Is the API server running?</p>}
+                  {credentialingLoad === 'ok' && credentialingCatalog && (
+                    <div className="pt-4 space-y-4">
+                      {credentialingCatalog.policy && (
+                        <p className="text-xs text-gray-500 leading-relaxed">{String(credentialingCatalog.policy)}</p>
+                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {(['package', 'bundles', 'credentials'] as const).map(m => (
+                          <button
+                            key={m}
+                            type="button"
+                            onClick={() => { setCredQuoteMode(m); setCredQuoteResult(null); }}
+                            className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
+                              credQuoteMode === m ? 'bg-teal-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                          >
+                            {m === 'package' ? 'Full package' : m === 'bundles' ? 'Bundles' : 'À la carte'}
+                          </button>
+                        ))}
+                      </div>
+
+                      {credQuoteMode === 'package' && credentialingCatalog.full_packages && (
+                        <div>
+                          <label className="text-xs text-gray-500 uppercase font-bold block mb-1">Full package</label>
+                          <select
+                            value={selectedFullPackage}
+                            onChange={e => setSelectedFullPackage(e.target.value)}
+                            className="w-full max-w-md bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white"
+                          >
+                            {Object.keys(credentialingCatalog.full_packages).map(pid => (
+                              <option key={pid} value={pid}>{pid.replace(/_/g, ' ')}</option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      {credQuoteMode === 'bundles' && credentialingCatalog.bundles && (
+                        <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
+                          {Object.entries(credentialingCatalog.bundles).map(([bid, row]) => {
+                            const label = (row as { label?: string })?.label || bid;
+                            const fee = (row as { ddi_credentialing_fee?: number })?.ddi_credentialing_fee;
+                            return (
+                              <label key={bid} className="flex items-start gap-2 cursor-pointer text-sm text-gray-300 hover:text-white">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedBundleIds.includes(bid)}
+                                  onChange={() => toggleCredBundle(bid)}
+                                  className="mt-1 rounded border-gray-500"
+                                />
+                                <span><span className="font-semibold text-white">{label}</span> <span className="text-teal-400">${fee}</span></span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {credQuoteMode === 'credentials' && credentialingCatalog.credentials && (
+                        <div>
+                          <label className="text-xs text-gray-500 uppercase font-bold block mb-1">Credentials (multi-select)</label>
+                          <select
+                            multiple
+                            size={8}
+                            value={selectedCredKeys}
+                            onChange={e => {
+                              const opts = Array.from(e.target.selectedOptions).map(o => o.value);
+                              setSelectedCredKeys(opts);
+                            }}
+                            className="w-full max-w-lg bg-gray-800 border border-gray-600 rounded-lg px-2 py-2 text-sm text-white font-mono"
+                          >
+                            {Object.keys(credentialingCatalog.credentials).sort().map(ck => (
+                              <option key={ck} value={ck}>{ck}</option>
+                            ))}
+                          </select>
+                          <p className="text-[11px] text-gray-500 mt-1">Hold Cmd/Ctrl to select multiple.</p>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          disabled={credQuoteLoading}
+                          onClick={() => void runCredentialQuote()}
+                          className="bg-teal-600 hover:bg-teal-500 disabled:opacity-50 px-4 py-2 rounded-lg font-semibold text-sm text-white"
+                        >
+                          {credQuoteLoading ? 'Quoting…' : 'Get quote'}
+                        </button>
+                      </div>
+
+                      {credQuoteResult && (
+                        <div className={`rounded-xl border px-4 py-3 text-sm ${credQuoteResult.error ? 'border-red-500/40 bg-red-500/10' : 'border-teal-500/40 bg-teal-500/10'}`}>
+                          {credQuoteResult.error ? (
+                            <p className="text-red-300 font-semibold">{String(credQuoteResult.error)}</p>
+                          ) : (
+                            <div className="space-y-2 text-gray-200">
+                              <p className="text-lg font-bold text-white">
+                                DDI credentialing total:{' '}
+                                <span className="text-teal-400">${String(credQuoteResult.ddi_credentialing_fee_total ?? '—')}</span>
+                              </p>
+                              {credQuoteResult.mode === 'full_package' && credQuoteResult.package_savings_vs_separate_bundles != null && Number(credQuoteResult.package_savings_vs_separate_bundles) > 0 && (
+                                <p className="text-xs text-teal-200/90">
+                                  Package savings vs buying bundles separately: ${String(credQuoteResult.package_savings_vs_separate_bundles)}
+                                </p>
+                              )}
+                              {Array.isArray(credQuoteResult.bundles_in_package) && (
+                                <ul className="text-xs text-gray-400 list-disc list-inside">
+                                  {(credQuoteResult.bundles_in_package as { label?: string; ddi_credentialing_fee?: number }[]).map((b, i) => (
+                                    <li key={i}>{b.label} — ${b.ddi_credentialing_fee}</li>
+                                  ))}
+                                </ul>
+                              )}
+                              {Array.isArray(credQuoteResult.bundles) && credQuoteResult.mode === 'bundles' && (
+                                <ul className="text-xs text-gray-400 list-disc list-inside">
+                                  {(credQuoteResult.bundles as { label?: string; ddi_credentialing_fee?: number }[]).map((b, i) => (
+                                    <li key={i}>{b.label} — ${b.ddi_credentialing_fee}</li>
+                                  ))}
+                                </ul>
+                              )}
+                              {Array.isArray(credQuoteResult.breakdown) && (
+                                <ul className="text-xs text-gray-400 list-disc list-inside max-h-32 overflow-y-auto font-mono">
+                                  {(credQuoteResult.breakdown as { credential?: string; ddi_credentialing_fee?: number | null }[]).map((row, i) => (
+                                    <li key={i}>{row.credential}: {row.ddi_credentialing_fee != null ? `$${row.ddi_credentialing_fee}` : '—'}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* ── Needs Your Attention ── */}
-            {(errorsFound.length > 0 || unassigned.length > 0 || needsReview.length > 0) && (
+            {/* Division Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+              {PRISM_DIVISIONS.map(div => {
+                const divOrders = div.id === 'field_ops' ? propertyOrders : getDivisionOrders(div);
+                const divActive = div.id === 'field_ops'
+                  ? propertyOrders.filter(p => !['complete'].includes(p.status)).length
+                  : (divOrders as PrismOrder[]).filter(o => !['Closed', 'Verified'].includes(o.status)).length;
+                const divErrors = div.id === 'field_ops'
+                  ? propertyOrders.filter(p => p.status === 'rejected').length
+                  : getDivisionScanbacks(div).filter(s => s.status === 'Errors Found').length;
+                const divToday = div.id === 'field_ops'
+                  ? 0
+                  : (divOrders as PrismOrder[]).filter(o => o.date === today).length;
+                const divUnassigned = div.id === 'field_ops'
+                  ? propertyOrders.filter(p => !p.assigned_to).length
+                  : (divOrders as PrismOrder[]).filter(o => o.status === 'New').length;
+                const divAwaitingScanback = div.id === 'field_ops'
+                  ? 0
+                  : getDivisionScanbacks(div).filter(s => s.status === 'Awaiting Upload').length;
+                const needsAttention = divErrors + divUnassigned + divAwaitingScanback;
+
+                return (
+                  <div key={div.id}
+                    onClick={() => enterDivision(div.id)}
+                    className="group relative cursor-pointer rounded-2xl border-2 overflow-hidden transition-all hover:scale-[1.02] hover:shadow-2xl"
+                    style={{ borderColor: div.color + '40', background: `linear-gradient(135deg, ${div.solid}15 0%, ${div.color}08 100%)` }}>
+                    {needsAttention > 0 && (
+                      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold animate-pulse"
+                        style={{ backgroundColor: '#EF444430', color: '#EF4444', border: '1px solid #EF444450' }}>
+                        ⚠ {needsAttention}
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-3xl">{div.icon}</span>
+                        <div>
+                          <h3 className="text-lg font-bold text-white group-hover:text-opacity-100">{div.name}</h3>
+                          <p className="text-[11px] text-gray-500 leading-tight">{div.subtitle}</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-3 mt-4">
+                        <div className="text-center">
+                          <p className="text-2xl font-bold" style={{ color: div.color }}>{divActive}</p>
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Active</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-2xl font-bold text-blue-400">{divToday}</p>
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Today</p>
+                        </div>
+                        <div className="text-center">
+                          <p className={`text-2xl font-bold ${divErrors > 0 ? 'text-red-400' : 'text-green-400'}`}>{divErrors > 0 ? divErrors : '✓'}</p>
+                          <p className="text-[10px] text-gray-500 uppercase font-semibold">{divErrors > 0 ? 'Errors' : 'Clean'}</p>
+                        </div>
+                      </div>
+                      {/* Status tags */}
+                      <div className="flex flex-wrap gap-1.5 mt-4">
+                        {divUnassigned > 0 && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                            {divUnassigned} unassigned
+                          </span>
+                        )}
+                        {divAwaitingScanback > 0 && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                            {divAwaitingScanback} awaiting scanback
+                          </span>
+                        )}
+                        {divErrors > 0 && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30">
+                            {divErrors} errors
+                          </span>
+                        )}
+                        {needsAttention === 0 && divActive > 0 && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">
+                            All clear
+                          </span>
+                        )}
+                        {divActive === 0 && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-500/20 text-gray-500 border border-gray-500/30">
+                            No active orders
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="h-1.5 w-full transition-all group-hover:h-2" style={{ backgroundColor: div.color }} />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Cross-Division Needs Attention */}
+            {(errorsFound.length > 0 || unassigned.length > 0) && (
               <div className="mb-8">
-                <h3 className="text-lg font-bold mb-3 text-red-400">⚠️ Needs Your Attention</h3>
+                <h3 className="text-lg font-bold mb-3 text-red-400">⚠️ Needs Your Attention — All Divisions</h3>
                 <div className="space-y-2">
-                  {errorsFound.map(o => (
-                    <div key={o.id} className="flex items-center justify-between bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 hover:bg-red-500/15 transition cursor-pointer"
-                      onClick={() => { setActiveTab('scanbacks'); }}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-red-400 font-bold text-sm">ERRORS</span>
-                        <ServiceBadge type={o.type} />
-                        <span className="text-sm">{o.id}</span>
-                        <span className="text-gray-400 text-sm">— {o.agent}</span>
+                  {errorsFound.slice(0, 5).map(o => {
+                    const matchDiv = PRISM_DIVISIONS.find(d => d.types.includes(o.type));
+                    return (
+                      <div key={o.id} className="flex items-center justify-between bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 hover:bg-red-500/15 transition cursor-pointer"
+                        onClick={() => matchDiv && enterDivision(matchDiv.id)}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-red-400 font-bold text-sm">ERRORS</span>
+                          <ServiceBadge type={o.type} />
+                          <span className="text-sm">{o.orderId}</span>
+                          <span className="text-gray-400 text-sm">— {o.agent}</span>
+                        </div>
+                        <span className="text-red-400 text-sm font-semibold">{matchDiv?.name} →</span>
                       </div>
-                      <span className="text-red-400 text-sm font-semibold">Review →</span>
-                    </div>
-                  ))}
-                  {unassigned.map(o => (
-                    <div key={o.id} className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-3 hover:bg-yellow-500/15 transition cursor-pointer"
-                      onClick={() => { setActiveTab('dispatch'); }}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-yellow-400 font-bold text-sm">UNASSIGNED</span>
-                        <ServiceBadge type={o.type} />
-                        <span className="text-sm">{o.id}</span>
-                        <span className="text-gray-400 text-sm">— {o.client}</span>
+                    );
+                  })}
+                  {unassigned.slice(0, 5).map(o => {
+                    const matchDiv = PRISM_DIVISIONS.find(d => d.types.includes(o.type));
+                    return (
+                      <div key={o.id} className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-3 hover:bg-yellow-500/15 transition cursor-pointer"
+                        onClick={() => matchDiv && enterDivision(matchDiv.id)}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-yellow-400 font-bold text-sm">UNASSIGNED</span>
+                          <ServiceBadge type={o.type} />
+                          <span className="text-sm">{o.id}</span>
+                          <span className="text-gray-400 text-sm">— {o.client}</span>
+                        </div>
+                        <span className="text-yellow-400 text-sm font-semibold">{matchDiv?.name} →</span>
                       </div>
-                      <span className="text-yellow-400 text-sm font-semibold">Assign →</span>
-                    </div>
-                  ))}
-                  {needsReview.map(s => (
-                    <div key={s.id} className="flex items-center justify-between bg-blue-500/10 border border-blue-500/30 rounded-lg px-4 py-3 hover:bg-blue-500/15 transition cursor-pointer"
-                      onClick={() => { setActiveTab('scanbacks'); }}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-blue-400 font-bold text-sm">REVIEW</span>
-                        <ServiceBadge type={s.type} />
-                        <span className="text-sm">{s.orderId}</span>
-                        <span className="text-gray-400 text-sm">— {s.agent}</span>
-                      </div>
-                      <span className="text-blue-400 text-sm font-semibold">Review →</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {/* ── Today's Schedule ── */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold mb-3">📅 Today's Schedule</h3>
-              <div className="space-y-2">
-                {todayOrders.sort((a, b) => a.time.localeCompare(b.time)).map(order => {
-                  const svc = SERVICE_COLORS[order.type];
-                  return (
-                    <div key={order.id} className="flex items-center gap-4 border rounded-lg px-4 py-3 hover:brightness-110 transition cursor-pointer"
-                      style={{ borderLeftWidth: '6px', borderLeftColor: svc?.color || '#6B7280', backgroundColor: svc?.color + '18', borderColor: svc?.color + '35' }}
-                      onClick={() => { setSelectedOrder(order.id); setActiveTab('orders'); }}>
-                      <span className="text-sm font-mono font-bold w-20" style={{ color: svc?.color }}>{order.time}</span>
-                      <ServiceBadge type={order.type} />
-                      <span className="text-sm font-semibold flex-1">{order.signer}</span>
-                      <span className="text-sm text-gray-400">{order.address}</span>
-                      <span className="text-sm text-gray-500">{order.agent || 'Unassigned'}</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ backgroundColor: svc?.solid, color: '#FFFFFF' }}>
-                        {order.workflow_stage_label || order.status}
-                      </span>
-                    </div>
-                  );
-                })}
-                {todayOrders.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
-                    <p className="text-lg mb-1">No appointments today</p>
-                    <p className="text-sm">Create an order or check tomorrow's schedule</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* ── Order Pipeline ── */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold mb-3">Order Pipeline</h3>
-              <div className="flex gap-1 overflow-x-auto pb-2">
-                {kanbanColumns.map((col, i) => (
-                  <div key={col.status} className="flex-shrink-0 text-center flex items-center">
-                    <div className="px-3 py-2 rounded-lg border border-gray-700 min-w-[72px]" style={{ backgroundColor: col.orders.length > 0 ? col.color + '15' : undefined }}>
-                      <p className="text-lg font-bold" style={{ color: col.orders.length > 0 ? col.color : '#6B7280' }}>{col.orders.length}</p>
-                      <p className="text-[10px]" style={{ color: col.orders.length > 0 ? col.color : '#6B7280' }}>{col.status}</p>
-                    </div>
-                    {i < kanbanColumns.length - 1 && <span className="text-gray-700 mx-0.5">→</span>}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Agent Leaderboard ── */}
+            {/* Agent Leaderboard (cross-division) */}
             <div>
-              <h3 className="text-lg font-bold mb-3">🏆 Agent Leaderboard</h3>
+              <h3 className="text-lg font-bold mb-3">🏆 Top Agents — All Divisions</h3>
               <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-700 text-gray-400 text-xs uppercase">
                       <th className="text-left px-4 py-3">#</th>
                       <th className="text-left px-4 py-3">Agent</th>
+                      <th className="text-center px-4 py-3">Specialties</th>
                       <th className="text-center px-4 py-3">Orders</th>
-                      <th className="text-center px-4 py-3">Completion</th>
                       <th className="text-center px-4 py-3">On-Time</th>
-                      <th className="text-center px-4 py-3">Error Rate</th>
                       <th className="text-center px-4 py-3">Rating</th>
                     </tr>
                   </thead>
@@ -835,19 +1173,20 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
                     {agents
                       .filter(a => a.status === 'Active')
                       .sort((a, b) => b.ordersCompleted - a.ordersCompleted)
+                      .slice(0, 8)
                       .map((agent, i) => (
-                        <tr key={agent.id} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer"
-                          onClick={() => setActiveTab('agents')}>
+                        <tr key={agent.id} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition">
                           <td className="px-4 py-3 font-bold text-gray-500">{i + 1}</td>
                           <td className="px-4 py-3 font-semibold">{agent.name}</td>
-                          <td className="text-center px-4 py-3">{agent.ordersCompleted}</td>
-                          <td className="text-center px-4 py-3 text-green-400">{agent.completionRate}%</td>
-                          <td className="text-center px-4 py-3 text-blue-400">{agent.onTimeRate}%</td>
                           <td className="text-center px-4 py-3">
-                            <span className={agent.errorRate <= 2 ? 'text-green-400' : agent.errorRate <= 5 ? 'text-yellow-400' : 'text-red-400'}>
-                              {agent.errorRate}%
-                            </span>
+                            <div className="flex flex-wrap gap-1 justify-center">
+                              {(agent.specialties || []).slice(0, 2).map((s, si) => (
+                                <span key={si} className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-700 text-gray-400">{s}</span>
+                              ))}
+                            </div>
                           </td>
+                          <td className="text-center px-4 py-3">{agent.ordersCompleted}</td>
+                          <td className="text-center px-4 py-3 text-blue-400">{agent.onTimeRate}%</td>
                           <td className="text-center px-4 py-3 text-yellow-400">⭐ {agent.rating}</td>
                         </tr>
                       ))}
@@ -857,6 +1196,417 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             </div>
           </div>
         )}
+
+        {/* ════════════════════════════════════════════════════
+            DIVISION VIEW — Focused single-division page
+        ════════════════════════════════════════════════════ */}
+        {activeDivision && currentDivision && activeTab === 'dashboard' && currentDivision.id !== 'field_ops' && (() => {
+          const div = currentDivision;
+          const divOrders = getDivisionOrders(div);
+          const divAgents = getDivisionAgents(div);
+          const divScanbacks = getDivisionScanbacks(div);
+          const divActive = divOrders.filter(o => !['Closed', 'Verified'].includes(o.status));
+          const divToday = divOrders.filter(o => o.date === today);
+          const divErrors = divScanbacks.filter(s => s.status === 'Errors Found');
+          const divUnassigned = divOrders.filter(o => o.status === 'New');
+          const divAwaitingScanback = divScanbacks.filter(s => s.status === 'Awaiting Upload');
+          const divNeedsReview = divScanbacks.filter(s => s.status === 'Needs Review');
+          const divRevenue = divOrders.reduce((sum, o) => sum + (o.fee || 0), 0);
+          const divInspection = div.types.map(t => SERVICE_INSPECTION[t]).filter(Boolean);
+
+          return (
+            <div>
+              {/* Division Header */}
+              <div className="mb-6">
+                <button onClick={exitDivision} className="flex items-center gap-2 text-gray-400 hover:text-white text-sm mb-3 transition">
+                  ← Back to PRISM Hub
+                </button>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ backgroundColor: div.color + '20', border: `2px solid ${div.color}50` }}>
+                      {div.icon}
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold">{div.name}</h2>
+                      <p className="text-sm text-gray-500">{div.subtitle}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => setShowNewOrderModal(true)} className="px-4 py-2 rounded-lg font-semibold text-sm transition text-white" style={{ backgroundColor: div.solid }}>
+                      + New Order
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Division Section Nav */}
+              <div className="flex gap-1 bg-gray-800 rounded-xl p-1 mb-6 border border-gray-700">
+                {[
+                  { id: 'overview' as const, label: 'Overview', icon: '🎯' },
+                  { id: 'orders' as const, label: `Orders (${divActive.length})`, icon: '📋' },
+                  { id: 'agents' as const, label: `Agents (${divAgents.length})`, icon: '👤' },
+                  { id: 'scanbacks' as const, label: `Scanbacks${divErrors.length > 0 ? ` (${divErrors.length} errors)` : ''}`, icon: '📸' },
+                ].map(sec => (
+                  <button key={sec.id} onClick={() => setDivisionSection(sec.id)}
+                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition ${
+                      divisionSection === sec.id
+                        ? 'text-white shadow-lg'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                    }`}
+                    style={divisionSection === sec.id ? { backgroundColor: div.solid } : {}}>
+                    {sec.icon} {sec.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* OVERVIEW */}
+              {divisionSection === 'overview' && (
+                <div className="space-y-6">
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <StatCard label="Active" value={divActive.length} icon={div.icon} color="orange" />
+                    <StatCard label="Today" value={divToday.length} icon="📅" color="blue" />
+                    <StatCard label="Errors" value={divErrors.length} icon="🚨" color="red" />
+                    <StatCard label="Awaiting Scanback" value={divAwaitingScanback.length} icon="📸" color="yellow" />
+                    <StatCard label="Revenue" value={`$${divRevenue.toLocaleString()}`} icon="💰" color="green" />
+                  </div>
+
+                  {/* Needs Attention */}
+                  {(divErrors.length > 0 || divUnassigned.length > 0 || divNeedsReview.length > 0 || divAwaitingScanback.length > 0) && (
+                    <div className="rounded-xl border-2 p-5" style={{ borderColor: '#EF444440', backgroundColor: '#EF444408' }}>
+                      <h3 className="text-base font-bold text-red-400 mb-3">⚠️ Needs Your Attention</h3>
+                      <div className="space-y-2">
+                        {divErrors.map(s => (
+                          <div key={s.id} className="flex items-center justify-between bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2.5 cursor-pointer hover:bg-red-500/15 transition"
+                            onClick={() => setDivisionSection('scanbacks')}>
+                            <div className="flex items-center gap-3">
+                              <span className="text-red-400 font-bold text-xs">ERRORS</span>
+                              <span className="text-sm">{s.orderId}</span>
+                              <span className="text-gray-500 text-sm">{s.agent}</span>
+                            </div>
+                            <span className="text-red-400 text-xs font-semibold">Review →</span>
+                          </div>
+                        ))}
+                        {divUnassigned.map(o => (
+                          <div key={o.id} className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-2.5 cursor-pointer hover:bg-yellow-500/15 transition"
+                            onClick={() => setDivisionSection('orders')}>
+                            <div className="flex items-center gap-3">
+                              <span className="text-yellow-400 font-bold text-xs">UNASSIGNED</span>
+                              <ServiceBadge type={o.type} />
+                              <span className="text-sm">{o.id}</span>
+                            </div>
+                            <span className="text-yellow-400 text-xs font-semibold">Assign →</span>
+                          </div>
+                        ))}
+                        {divAwaitingScanback.map(s => (
+                          <div key={s.id} className="flex items-center justify-between bg-orange-500/10 border border-orange-500/30 rounded-lg px-4 py-2.5 cursor-pointer hover:bg-orange-500/15 transition"
+                            onClick={() => setDivisionSection('scanbacks')}>
+                            <div className="flex items-center gap-3">
+                              <span className="text-orange-400 font-bold text-xs">SCANBACK</span>
+                              <span className="text-sm">{s.orderId}</span>
+                              <span className="text-gray-500 text-sm">{s.agent}</span>
+                            </div>
+                            <span className="text-orange-400 text-xs font-semibold">Awaiting →</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Today's Schedule */}
+                  <div>
+                    <h3 className="text-base font-bold mb-3">📅 Today's Schedule</h3>
+                    {divToday.length > 0 ? (
+                      <div className="space-y-2">
+                        {divToday.sort((a, b) => a.time.localeCompare(b.time)).map(order => {
+                          const svc = SERVICE_COLORS[order.type];
+                          return (
+                            <div key={order.id} className="flex items-center gap-4 border rounded-lg px-4 py-3 hover:brightness-110 transition cursor-pointer"
+                              style={{ borderLeftWidth: '5px', borderLeftColor: div.color, backgroundColor: div.color + '10', borderColor: div.color + '30' }}
+                              onClick={() => { setSelectedOrder(order.id); setDivisionSection('orders'); }}>
+                              <span className="text-sm font-mono font-bold w-20" style={{ color: div.color }}>{order.time}</span>
+                              <ServiceBadge type={order.type} />
+                              <span className="text-sm font-semibold flex-1">{order.signer}</span>
+                              <span className="text-sm text-gray-400 truncate max-w-[200px]">{order.address}</span>
+                              <span className="text-sm text-gray-500">{order.agent || 'Unassigned'}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="text-center py-6 text-gray-500 bg-gray-800/50 rounded-xl border border-gray-700">
+                        <p className="text-sm">No {div.name.toLowerCase()} appointments today</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Recent Orders */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-base font-bold">Recent Orders</h3>
+                      <button onClick={() => setDivisionSection('orders')} className="text-xs font-semibold hover:text-white transition" style={{ color: div.color }}>
+                        View All →
+                      </button>
+                    </div>
+                    <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-gray-700 text-gray-400 text-xs uppercase">
+                            <th className="text-left px-4 py-2">Order</th>
+                            <th className="text-left px-4 py-2">Type</th>
+                            <th className="text-left px-4 py-2">Status</th>
+                            <th className="text-left px-4 py-2">Agent</th>
+                            <th className="text-left px-4 py-2">Subject</th>
+                            <th className="text-right px-4 py-2">Fee</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {divOrders.slice(0, 8).map(order => {
+                            const svc = SERVICE_COLORS[order.type];
+                            return (
+                              <tr key={order.id} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer"
+                                style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color || div.color }}
+                                onClick={() => { setSelectedOrder(order.id); setDivisionSection('orders'); }}>
+                                <td className="px-4 py-2.5 font-mono text-xs">{order.id}</td>
+                                <td className="px-4 py-2.5"><ServiceBadge type={order.type} /></td>
+                                <td className="px-4 py-2.5"><StatusBadge status={order.status} /></td>
+                                <td className="px-4 py-2.5 text-sm">{order.agent || <span className="text-yellow-400 text-xs">UNASSIGNED</span>}</td>
+                                <td className="px-4 py-2.5 text-sm text-gray-300">{order.signer}</td>
+                                <td className="px-4 py-2.5 text-right font-semibold text-green-400">${order.fee}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Division Agents */}
+                  {divAgents.length > 0 && (
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-base font-bold">👤 Division Agents</h3>
+                        <button onClick={() => setDivisionSection('agents')} className="text-xs font-semibold hover:text-white transition" style={{ color: div.color }}>
+                          View All →
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {divAgents.slice(0, 6).map(agent => (
+                          <div key={agent.id} className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-gray-600 transition">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="font-semibold text-sm">{agent.name}</span>
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${agent.status === 'Active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
+                                {agent.status}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-4 text-xs text-gray-400">
+                              <span>📦 {agent.ordersCompleted} completed</span>
+                              <span>⭐ {agent.rating}</span>
+                              <span className={agent.errorRate <= 2 ? 'text-green-400' : 'text-yellow-400'}>{agent.errorRate}% errors</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Compliance Quick Ref */}
+                  {divInspection.length > 0 && (
+                    <div>
+                      <h3 className="text-base font-bold mb-3">🔍 Compliance Quick Reference</h3>
+                      <div className="space-y-3">
+                        {divInspection.map(insp => (
+                          <div key={insp.title} className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+                            <h4 className="text-sm font-bold mb-2" style={{ color: div.color }}>{insp.title}</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              {insp.fundamentals.filter(f => f.severity === 'FATAL').slice(0, 4).map(f => (
+                                <div key={f.id} className="flex items-start gap-2 text-xs">
+                                  <span className="px-1.5 py-0.5 rounded bg-red-600 text-white text-[9px] font-bold flex-shrink-0">FATAL</span>
+                                  <span className="text-gray-300">{f.check}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-2 pt-2 border-t border-gray-700">
+                              <p className="text-[10px] text-gray-500">Required certs: {insp.certs.join(' • ')}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ORDERS (within division) */}
+              {divisionSection === 'orders' && (
+                <div>
+                  <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-700 text-gray-400 text-xs uppercase">
+                          <th className="text-left px-4 py-3">Order</th>
+                          <th className="text-left px-4 py-3">Service</th>
+                          <th className="text-left px-4 py-3">Status</th>
+                          <th className="text-left px-4 py-3">Agent</th>
+                          <th className="text-left px-4 py-3">Client / Subject</th>
+                          <th className="text-left px-4 py-3">Date</th>
+                          <th className="text-right px-4 py-3">Fee</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {divOrders.map(order => {
+                          const svc = SERVICE_COLORS[order.type];
+                          const isSelected = selectedOrder === order.id;
+                          return (
+                            <tr key={order.id}
+                              className={`border-b border-gray-700/50 hover:brightness-110 transition cursor-pointer ${isSelected ? 'ring-2 ring-inset' : ''}`}
+                              style={{ borderLeftWidth: '5px', borderLeftColor: svc?.color || div.color, backgroundColor: isSelected ? svc?.color + '30' : svc?.color + '10' }}
+                              onClick={() => setSelectedOrder(isSelected ? null : order.id)}>
+                              <td className="px-4 py-3">
+                                <span className="font-mono text-xs">{order.id}</span>
+                                {order.priority !== 'Standard' && (
+                                  <span className={`ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold ${order.priority === 'STAT' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                                    {order.priority}
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3"><ServiceBadge type={order.type} /></td>
+                              <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
+                              <td className="px-4 py-3">{order.agent || <span className="text-yellow-400 text-xs font-semibold">UNASSIGNED</span>}</td>
+                              <td className="px-4 py-3">
+                                <div className="text-gray-300 text-sm">{order.client}</div>
+                                <div className="text-gray-500 text-xs">{order.signer}</div>
+                              </td>
+                              <td className="px-4 py-3 text-gray-400 text-xs">{order.date}<br/><span className="text-gray-500">{order.time}</span></td>
+                              <td className="px-4 py-3 text-right font-semibold text-green-400">${order.fee}</td>
+                            </tr>
+                          );
+                        })}
+                        {divOrders.length === 0 && (
+                          <tr><td colSpan={7} className="text-center py-8 text-gray-500">No orders in this division</td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* AGENTS (within division) */}
+              {divisionSection === 'agents' && (
+                <div className="space-y-4">
+                  {divAgents.length > 0 ? divAgents.map(agent => (
+                    <div key={agent.id} className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:border-gray-600 transition">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="font-bold text-lg">{agent.name}</h4>
+                          <p className="text-sm text-gray-400">{agent.city}, {agent.state}</p>
+                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${agent.status === 'Active' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'}`}>
+                          {agent.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-5 gap-4 text-center">
+                        <div>
+                          <p className="text-xl font-bold text-white">{agent.ordersCompleted}</p>
+                          <p className="text-[10px] text-gray-500 uppercase">Completed</p>
+                        </div>
+                        <div>
+                          <p className="text-xl font-bold text-blue-400">{agent.activeOrders}</p>
+                          <p className="text-[10px] text-gray-500 uppercase">Active</p>
+                        </div>
+                        <div>
+                          <p className="text-xl font-bold text-green-400">{agent.completionRate}%</p>
+                          <p className="text-[10px] text-gray-500 uppercase">Completion</p>
+                        </div>
+                        <div>
+                          <p className="text-xl font-bold text-blue-400">{agent.onTimeRate}%</p>
+                          <p className="text-[10px] text-gray-500 uppercase">On-Time</p>
+                        </div>
+                        <div>
+                          <p className={`text-xl font-bold ${agent.errorRate <= 2 ? 'text-green-400' : agent.errorRate <= 5 ? 'text-yellow-400' : 'text-red-400'}`}>{agent.errorRate}%</p>
+                          <p className="text-[10px] text-gray-500 uppercase">Error Rate</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 mt-3">
+                        {(agent.specialties || []).map((s, i) => (
+                          <span key={i} className="text-[10px] px-2 py-0.5 rounded-full border" style={{ backgroundColor: div.color + '15', borderColor: div.color + '30', color: div.color }}>{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )) : (
+                    <div className="text-center py-12 text-gray-500 bg-gray-800/50 rounded-xl border border-gray-700">
+                      <p>No agents assigned to this division yet</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* SCANBACKS (within division) */}
+              {divisionSection === 'scanbacks' && (
+                <div>
+                  <div className="flex gap-2 mb-4">
+                    {['all', 'Awaiting Upload', 'Needs Review', 'Errors Found', 'Clean'].map(f => (
+                      <button key={f} onClick={() => setScanbackFilter(f)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition border ${
+                          scanbackFilter === f ? 'text-white border-opacity-60' : 'bg-gray-800 border-gray-700 text-gray-400 hover:text-white'
+                        }`}
+                        style={scanbackFilter === f ? { backgroundColor: div.solid, borderColor: div.color } : {}}>
+                        {f === 'all' ? 'All' : f}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-700 text-gray-400 text-xs uppercase">
+                          <th className="text-left px-4 py-3">Order</th>
+                          <th className="text-left px-4 py-3">Type</th>
+                          <th className="text-left px-4 py-3">Agent</th>
+                          <th className="text-left px-4 py-3">Status</th>
+                          <th className="text-center px-4 py-3">Pages</th>
+                          <th className="text-center px-4 py-3">Errors</th>
+                          <th className="text-left px-4 py-3">Uploaded</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(scanbackFilter === 'all' ? divScanbacks : divScanbacks.filter(s => s.status === scanbackFilter)).map(sb => {
+                          const svc = SERVICE_COLORS[sb.type];
+                          return (
+                            <tr key={sb.id} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition cursor-pointer"
+                              style={{ borderLeftWidth: '4px', borderLeftColor: svc?.color || div.color }}>
+                              <td className="px-4 py-3 font-mono text-xs">{sb.orderId}</td>
+                              <td className="px-4 py-3"><ServiceBadge type={sb.type} /></td>
+                              <td className="px-4 py-3 text-sm">{sb.agent}</td>
+                              <td className="px-4 py-3">
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                  sb.status === 'Clean' ? 'bg-green-500/20 text-green-400' :
+                                  sb.status === 'Errors Found' ? 'bg-red-500/20 text-red-400' :
+                                  sb.status === 'Awaiting Upload' ? 'bg-yellow-500/20 text-yellow-400' :
+                                  'bg-blue-500/20 text-blue-400'
+                                }`}>{sb.status}</span>
+                              </td>
+                              <td className="px-4 py-3 text-center text-sm">{sb.pages}/{sb.expected}</td>
+                              <td className="px-4 py-3 text-center">
+                                {sb.errors.length > 0
+                                  ? <span className="text-red-400 font-bold text-sm">{sb.errors.length}</span>
+                                  : <span className="text-green-400 text-sm">✓</span>
+                                }
+                              </td>
+                              <td className="px-4 py-3 text-xs text-gray-400">{sb.uploadDate || '—'}</td>
+                            </tr>
+                          );
+                        })}
+                        {divScanbacks.length === 0 && (
+                          <tr><td colSpan={7} className="text-center py-8 text-gray-500">No scanbacks in this division</td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* ════════════════════════════════════════════════════
             TAB: ORDERS

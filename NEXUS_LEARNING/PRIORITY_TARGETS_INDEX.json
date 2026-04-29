@@ -1,0 +1,200 @@
+{
+  "last_updated": "2026-04-29",
+  "priority_naics": {
+    "tier_1_ready_now": [
+      {
+        "naics": "492110",
+        "description": "Couriers and Express Delivery Services",
+        "lanes": [
+          "Lab Courier Services",
+          "Medication Delivery",
+          "Specimen Pickup Routes",
+          "Vaccine Transport (Cold Chain)",
+          "Home Health Equipment Delivery"
+        ],
+        "keywords": [
+          "lab courier",
+          "specimen pickup",
+          "medical courier",
+          "vaccine transport",
+          "medication delivery",
+          "pharmacy delivery",
+          "DME delivery",
+          "home health equipment"
+        ],
+        "buying_agencies": [
+          "State Public Health Laboratories",
+          "County Clinics",
+          "FQHCs",
+          "State Immunization Programs",
+          "County Jail Medical Units",
+          "Medicare Contractors",
+          "Community Care Networks"
+        ],
+        "ddi_advantage": "Uber Health partnership + HIPAA + CHAMPS Medicaid provider",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      },
+      {
+        "naics": "621511",
+        "description": "Medical Laboratories",
+        "lanes": [
+          "Lab Courier Services",
+          "Specimen Pickup Routes",
+          "Mobile Phlebotomy Support"
+        ],
+        "keywords": [
+          "specimen transport",
+          "lab courier",
+          "clinical specimen",
+          "blood draw",
+          "phlebotomy"
+        ],
+        "buying_agencies": [
+          "State Public Health Laboratories",
+          "State Lab Vendors",
+          "Medicaid Lab Networks"
+        ],
+        "ddi_advantage": "DePointe DNA lab operations = credible lab courier",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      },
+      {
+        "naics": "812990",
+        "description": "All Other Personal Services (Drug Testing)",
+        "lanes": [
+          "DOT Drug & Alcohol Testing",
+          "Random Drug Testing Programs",
+          "Municipal Drug Testing Services"
+        ],
+        "keywords": [
+          "drug testing",
+          "alcohol testing",
+          "DOT testing",
+          "49 CFR Part 40",
+          "random testing",
+          "breath alcohol",
+          "urine drug screen"
+        ],
+        "buying_agencies": [
+          "Municipal governments",
+          "County transit authorities",
+          "Public works departments",
+          "School districts (CDL drivers)",
+          "State DOT agencies"
+        ],
+        "ddi_advantage": "C/TPA + Quest partnership + AMRO MRO",
+        "intel_source": "Active bids (Yonkers RFP-546)"
+      }
+    ],
+    "tier_2_build_capability": [
+      {
+        "naics": "562112",
+        "description": "Hazardous Waste Collection (Medical Waste)",
+        "lanes": ["Regulated Medical Waste Transport"],
+        "keywords": [
+          "medical waste",
+          "biohazard",
+          "sharps disposal",
+          "regulated waste"
+        ],
+        "buying_agencies": [
+          "State Psychiatric Hospitals",
+          "Public Hospital Systems"
+        ],
+        "sub_requirement": "EPA/DOT hazmat certified carrier",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      },
+      {
+        "naics": "621512",
+        "description": "Diagnostic Imaging Centers",
+        "lanes": ["Mobile Imaging Logistics"],
+        "keywords": [
+          "mobile imaging",
+          "x-ray transport",
+          "ultrasound equipment",
+          "diagnostic equipment"
+        ],
+        "buying_agencies": [
+          "Medicaid Imaging Vendors",
+          "State Health Agencies"
+        ],
+        "sub_requirement": "Equipment transport insurance + technician routing",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      }
+    ],
+    "tier_3_specialized": [
+      {
+        "naics": "621991",
+        "description": "Blood and Organ Banks (OPO)",
+        "lanes": ["Organ Procurement Transport"],
+        "keywords": [
+          "organ transport",
+          "OPO",
+          "organ procurement",
+          "surgical kit",
+          "emergency medical courier"
+        ],
+        "buying_agencies": [
+          "Regional Organ Procurement Organizations"
+        ],
+        "sub_requirement": "OPO-certified emergency transport + 24/7 response",
+        "margin_note": "Highest margin, highest barrier to entry",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      },
+      {
+        "naics": "541714",
+        "description": "Research and Development in Biotechnology",
+        "lanes": ["Clinical Trial Logistics"],
+        "keywords": [
+          "clinical trial",
+          "research specimen",
+          "lab kit",
+          "biomedical research"
+        ],
+        "buying_agencies": [
+          "University Research Hospitals",
+          "Biomedical Research Agencies"
+        ],
+        "sub_requirement": "GCP-compliant clinical trial logistics specialist",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md"
+      }
+    ]
+  },
+  "priority_keywords_global": [
+    "EDWOSB",
+    "WOSB",
+    "woman-owned",
+    "small business",
+    "set-aside",
+    "best value",
+    "Michigan",
+    "specimen",
+    "courier",
+    "lab",
+    "medical transport",
+    "NEMT",
+    "drug testing",
+    "DOT testing",
+    "fingerprinting",
+    "DNA testing",
+    "notary"
+  ],
+  "buying_agencies_priority": [
+    "State Public Health Laboratories",
+    "County Health Departments",
+    "Municipal Governments",
+    "State DOT",
+    "County Jails",
+    "Public Hospital Systems",
+    "FQHCs",
+    "State Immunization Programs",
+    "Medicare Contractors",
+    "Medicaid MCOs"
+  ],
+  "ddi_credentials_checklist": {
+    "federal": ["EDWOSB", "WOSB", "CAGE: 8UMX3", "UEI: HJB4KNYJVGZ1", "SAM.gov Active"],
+    "transport": ["USDOT: 4250594", "MC: 1647572", "CHAMPS Provider ID: 6309069"],
+    "healthcare": ["HIPAA Compliant", "E-Verify Program Administrator", "DePointe DNA lab"],
+    "diversity": ["WBENC", "MBE", "WBE", "SBE"],
+    "partnerships": ["Uber Health", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO"]
+  }
+}

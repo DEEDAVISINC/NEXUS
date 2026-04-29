@@ -81,6 +81,24 @@ TRANSPORT_TYPES = {
         "hcpcs_mileage": None,
         "description": "Bus ticket or transit pass assistance.",
     },
+    "rx_standard": {
+        "label": "Prescription Delivery (Standard)",
+        "hcpcs_base": "T2002-RX",
+        "hcpcs_mileage": "T2003-RX",
+        "description": "Pharmacy-to-patient prescription delivery. Non-controlled. ID verification required.",
+    },
+    "rx_controlled": {
+        "label": "Prescription Delivery (Controlled Substance)",
+        "hcpcs_base": "S5001",
+        "hcpcs_mileage": "T2003-RX",
+        "description": "DEA Schedule II-V. Signature required, no leave-at-door. DDI driver only.",
+    },
+    "rx_cold_chain": {
+        "label": "Prescription Delivery (Cold Chain)",
+        "hcpcs_base": "S5000",
+        "hcpcs_mileage": "T2003-RX",
+        "description": "Temperature-sensitive medications (insulin, biologics). Insulated container + temp monitor required.",
+    },
 }
 
 TRIP_STATUSES = ["scheduled", "dispatched", "in_progress", "completed", "cancelled", "no_show"]
@@ -95,6 +113,9 @@ FULFILLMENT_ROUTING = {
     "stretcher":    {"primary": "subcontractor",    "fallback": None,              "platform_type": None},
     "volunteer":    {"primary": "manual",           "fallback": None,              "platform_type": None},
     "bus":          {"primary": "manual",           "fallback": None,              "platform_type": None},
+    "rx_standard":  {"primary": "uber_health",      "fallback": "ddi_driver",      "platform_type": "delivery"},
+    "rx_controlled": {"primary": "ddi_driver",       "fallback": None,              "platform_type": None},
+    "rx_cold_chain": {"primary": "ddi_driver",       "fallback": None,              "platform_type": None},
 }
 
 

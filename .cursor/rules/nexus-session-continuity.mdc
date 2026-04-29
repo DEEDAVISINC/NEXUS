@@ -25,6 +25,7 @@ alwaysApply: true
 - `NEXUS_WATCH_LIST.md` — solicitations being monitored for full RFQ release
 - `FORECAST_OPPORTUNITIES_TRACKER.md` — pipeline of upcoming opportunities
 - `aog_sam_cache.json` — last automated AOG / NAICS 488190 SAM.gov scan (updated by `nexus_scheduler.py --mine` / federal mining; Freight 1st Direct lane)
+- `NEXUS_LEARNING/` — market intelligence files for strategic targeting (contract lanes, NAICS priorities, buyer patterns, DDI positioning)
 
 ### 4. Active Drug Testing Bids (PRIORITY)
 - `BIDS:RESOURCES/DRUG TESTING SUPPLIES/` — all three active proposals (Macomb County MI, Lexington KY, Fulton County GA)
