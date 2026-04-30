@@ -206,6 +206,128 @@ DOMAINS = {
         'terminal': {'trip_completed', 'trip_cancelled', 'trip_no_show', 'delivery_completed', 'delivery_failed'},
         'key_fields': ['transport_type', 'region', 'driver_id', 'mco_id', 'trip_distance', 'fulfillment_partner'],
     },
+
+    # ─── DDCSS: Corporate Sales System ─────────────────────────────────────────
+    'ddcss_prospects': {
+        'name': 'DDCSS Corporate Prospects',
+        'actions': [
+            'lead_identified', 'lead_qualified', 'avatar_built', 'pitch_generated',
+            'outreach_sent', 'responded', 'meeting_scheduled', 'proposal_sent',
+            'contract_signed', 'lost', 'nurturing', 'disqualified',
+        ],
+        'positive': {'lead_qualified', 'responded', 'meeting_scheduled', 'proposal_sent', 'contract_signed'},
+        'negative': {'lost', 'disqualified'},
+        'terminal': {'contract_signed', 'lost', 'disqualified'},
+        'key_fields': ['sector', 'company_size', 'industry', 'source', 'deal_value', 'sales_cycle_days'],
+    },
+    'ddcss_pipeline': {
+        'name': 'DDCSS Sales Pipeline',
+        'actions': [
+            'stage_discovery', 'stage_qualification', 'stage_proposal',
+            'stage_negotiation', 'stage_closed_won', 'stage_closed_lost',
+            'deal_stalled', 'deal_reactivated',
+        ],
+        'positive': {'stage_proposal', 'stage_negotiation', 'stage_closed_won'},
+        'negative': {'stage_closed_lost', 'deal_stalled'},
+        'terminal': {'stage_closed_won', 'stage_closed_lost'},
+        'key_fields': ['sector', 'deal_value', 'probability', 'days_in_stage', 'competitor'],
+    },
+
+    # ─── JETA: Jet Fuel Trading & Fraud Detection ──────────────────────────────
+    'jeta_deals': {
+        'name': 'JETA Trading Deals',
+        'actions': [
+            'deal_created', 'counterparty_scored', 'kyc_started', 'kyc_passed', 'kyc_failed',
+            'deal_approved', 'deal_blocked', 'contract_drafted', 'contract_signed',
+            'shipment_started', 'shipment_completed', 'payment_received',
+            'fraud_flagged', 'deal_cancelled',
+        ],
+        'positive': {'kyc_passed', 'deal_approved', 'contract_signed', 'shipment_completed', 'payment_received'},
+        'negative': {'kyc_failed', 'deal_blocked', 'fraud_flagged', 'deal_cancelled'},
+        'terminal': {'payment_received', 'deal_blocked', 'deal_cancelled'},
+        'key_fields': ['product_type', 'counterparty_type', 'deal_value', 'fraud_score', 'region'],
+    },
+    'jeta_fraud': {
+        'name': 'JETA Fraud Detection',
+        'actions': [
+            'term_flagged', 'pattern_detected', 'manual_review', 'cleared',
+            'blocked', 'reported', 'false_positive',
+        ],
+        'positive': {'cleared', 'false_positive'},
+        'negative': {'blocked', 'reported'},
+        'terminal': {'cleared', 'blocked', 'reported'},
+        'key_fields': ['flag_type', 'severity', 'counterparty', 'product_type'],
+    },
+
+    # ─── SHIELD: Service Verification (Cause We Care) ──────────────────────────
+    'shield_referrals': {
+        'name': 'SHIELD Referrals',
+        'actions': [
+            'referral_received', 'screened', 'qualified', 'disqualified',
+            'family_enrolled', 'services_assigned', 'services_started',
+            'services_completed', 'billing_submitted', 'payment_received',
+            'case_closed', 'case_escalated',
+        ],
+        'positive': {'qualified', 'family_enrolled', 'services_completed', 'payment_received'},
+        'negative': {'disqualified', 'case_escalated'},
+        'terminal': {'case_closed', 'disqualified'},
+        'key_fields': ['referral_source', 'service_type', 'county', 'payer', 'family_size'],
+    },
+    'shield_verification': {
+        'name': 'SHIELD Service Verification',
+        'actions': [
+            'verification_started', 'sms_sent', 'sms_response_received',
+            'step_completed', 'step_failed', 'all_steps_complete',
+            'verification_passed', 'verification_failed', 'escalated',
+        ],
+        'positive': {'sms_response_received', 'step_completed', 'all_steps_complete', 'verification_passed'},
+        'negative': {'step_failed', 'verification_failed', 'escalated'},
+        'terminal': {'verification_passed', 'verification_failed'},
+        'key_fields': ['service_type', 'contractor_id', 'response_time_hours', 'steps_completed'],
+    },
+
+    # ─── LBPC: Surplus Recovery ────────────────────────────────────────────────
+    'lbpc_leads': {
+        'name': 'LBPC Surplus Recovery Leads',
+        'actions': [
+            'lead_mined', 'lead_scored', 'initial_notice_sent', 'response_received',
+            'claim_filed', 'documentation_submitted', 'claim_approved', 'claim_denied',
+            'payment_received', 'lead_expired', 'lead_disqualified',
+        ],
+        'positive': {'response_received', 'claim_filed', 'claim_approved', 'payment_received'},
+        'negative': {'claim_denied', 'lead_expired', 'lead_disqualified'},
+        'terminal': {'payment_received', 'claim_denied', 'lead_expired', 'lead_disqualified'},
+        'key_fields': ['county', 'property_type', 'estimated_value', 'source', 'claim_type'],
+    },
+
+    # ─── GBIS: Grants Intelligence System ──────────────────────────────────────
+    'gbis_grants': {
+        'name': 'GBIS Grant Opportunities',
+        'actions': [
+            'grant_discovered', 'grant_scored', 'eligibility_checked', 'eligible', 'ineligible',
+            'application_started', 'application_submitted', 'awarded', 'not_awarded',
+            'reporting_completed', 'grant_closed',
+        ],
+        'positive': {'eligible', 'application_submitted', 'awarded', 'reporting_completed'},
+        'negative': {'ineligible', 'not_awarded'},
+        'terminal': {'awarded', 'not_awarded', 'ineligible', 'grant_closed'},
+        'key_fields': ['funding_agency', 'grant_type', 'applicant_entity', 'award_amount', 'research_subtype'],
+    },
+
+    # ─── ATLAS PM: Project Management ──────────────────────────────────────────
+    'atlas_projects': {
+        'name': 'ATLAS Project Management',
+        'actions': [
+            'project_created', 'rfp_analyzed', 'wbs_generated', 'tasks_assigned',
+            'milestone_reached', 'milestone_missed', 'change_order_submitted',
+            'change_order_approved', 'change_order_denied',
+            'project_completed', 'project_cancelled', 'project_on_hold',
+        ],
+        'positive': {'rfp_analyzed', 'milestone_reached', 'change_order_approved', 'project_completed'},
+        'negative': {'milestone_missed', 'change_order_denied', 'project_cancelled'},
+        'terminal': {'project_completed', 'project_cancelled'},
+        'key_fields': ['project_type', 'client_id', 'budget', 'duration_days', 'team_size'],
+    },
 }
 
 # ─── BASELINE WEIGHTS PER DOMAIN ────────────────────────────────────────────
@@ -333,6 +455,81 @@ BASELINE_WEIGHTS = {
         'client_satisfaction': 25,
         'driver_rating': 15,
         'route_efficiency': 10,
+    },
+
+    # ─── DDCSS: Corporate Sales ─────────────────────────────────────────────────
+    'ddcss_prospects': {
+        'qualified_lead': 25,
+        'avatar_quality': 15,
+        'pitch_personalization': 20,
+        'response_rate': 30,
+        'deal_value_match': 10,
+    },
+    'ddcss_pipeline': {
+        'stage_velocity': 25,
+        'win_rate_by_sector': 30,
+        'deal_size_accuracy': 20,
+        'competitor_presence': 15,
+        'qualification_accuracy': 10,
+    },
+
+    # ─── JETA: Jet Fuel Trading ─────────────────────────────────────────────────
+    'jeta_deals': {
+        'kyc_pass_rate': 30,
+        'fraud_score_accuracy': 25,
+        'deal_completion_rate': 25,
+        'payment_on_time': 15,
+        'counterparty_reliability': 5,
+    },
+    'jeta_fraud': {
+        'flag_accuracy': 35,
+        'false_positive_rate': 25,
+        'detection_speed': 20,
+        'pattern_recognition': 15,
+        'manual_review_quality': 5,
+    },
+
+    # ─── SHIELD: Service Verification ───────────────────────────────────────────
+    'shield_referrals': {
+        'qualification_accuracy': 25,
+        'enrollment_rate': 25,
+        'service_completion_rate': 30,
+        'billing_accuracy': 15,
+        'referral_source_quality': 5,
+    },
+    'shield_verification': {
+        'sms_response_rate': 25,
+        'verification_completion_rate': 30,
+        'step_pass_rate': 25,
+        'escalation_rate': 15,
+        'response_time': 5,
+    },
+
+    # ─── LBPC: Surplus Recovery ─────────────────────────────────────────────────
+    'lbpc_leads': {
+        'lead_quality_score': 25,
+        'response_rate': 25,
+        'claim_approval_rate': 30,
+        'payment_success_rate': 15,
+        'county_performance': 5,
+    },
+
+    # ─── GBIS: Grants Intelligence ──────────────────────────────────────────────
+    'gbis_grants': {
+        'eligibility_accuracy': 25,
+        'application_quality': 25,
+        'award_rate': 30,
+        'funding_agency_match': 15,
+        'applicant_entity_fit': 5,
+    },
+
+    # ─── ATLAS PM: Project Management ───────────────────────────────────────────
+    'atlas_projects': {
+        'on_time_delivery': 30,
+        'budget_accuracy': 25,
+        'milestone_hit_rate': 25,
+        'change_order_approval': 15,
+        'client_satisfaction': 5,
     },
 }
 

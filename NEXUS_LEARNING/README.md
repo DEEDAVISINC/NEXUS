@@ -4,6 +4,28 @@
 
 ---
 
+## ⚡ ALL NEXUS SECTORS — LEARNING ENGINE INTEGRATION
+
+**The NEXUS Learning Engine (`nexus_learning_engine.py`) is integrated across ALL sectors:**
+
+| Sector | Learning Domain(s) | Integration File | Status |
+|--------|-------------------|------------------|--------|
+| **GPSS** | `opportunities`, `outreach`, `bids`, `suppliers`, `subcontractors`, `pricing`, `intelligence` | `api_server.py`, `nexus_pipeline_api.py` | ✅ LIVE |
+| **PRISM** | `service_orders`, `agent_performance` | `prism_service_router.py`, `prism_orders_api.py`, `prism_nemt.py` | ✅ LIVE |
+| **VERTEX** | `billing` | `vertex_automation.py` | ✅ LIVE |
+| **DDCSS** | `ddcss_prospects`, `ddcss_pipeline` | `nexus_backend.py` | ✅ DOMAIN READY |
+| **ATLAS PM** | `atlas_projects`, `partner_onboarding` | `nexus_backend.py` | ✅ DOMAIN READY |
+| **JETA** | `jeta_deals`, `jeta_fraud` | `jeta_fraud_detection.py` | ✅ LIVE |
+| **SHIELD** | `shield_referrals`, `shield_verification` | `shield_verification.py`, `shield_lead_screening.py` | ✅ LIVE |
+| **LBPC** | `lbpc_leads` | `nexus_backend.py` | ✅ DOMAIN READY |
+| **GBIS** | `gbis_grants` | `gbis_community_health_miner.py` | ✅ IMPORT READY |
+| **COMPASS** | `relationships` | `compass_api.py` | ✅ IMPORT READY |
+| **TRANSPORT** | `transport` | `prism_nemt.py` | ✅ LIVE |
+
+**See `MODULE_INTEGRATION_HOOKS.md` for detailed integration instructions per sector.**
+
+---
+
 ## ⚡ RELATIONSHIP WITH NEXUS AUTO-LEARNING AI
 
 **NEXUS has TWO learning systems that work together:**

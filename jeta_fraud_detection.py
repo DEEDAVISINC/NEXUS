@@ -21,6 +21,13 @@ from jeta_compliance_layers import (
     find_jeta_blocked_term_findings,
 )
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 # Re-export for callers that only need terminology scan
 __all__ = [
     "score_counterparty_intake",
@@ -195,6 +202,20 @@ def score_counterparty_intake(payload: Dict[str, Any], role: str) -> Dict[str, A
         traffic = "green"
 
     role_out = "seller" if r in ("seller", "sell", "supplier") else "buyer"
+    
+    # ─── LEARNING ENGINE: Log counterparty scoring ────────────────────────────
+    counterparty_id = payload.get('id') or payload.get('companyName', 'unknown')[:20]
+    action = 'counterparty_scored'
+    if tier == "CRITICAL_BLOCK" or tier == "RED":
+        action = 'fraud_flagged'
+    nxlearn('jeta_fraud', str(counterparty_id), action, {
+        'counterparty_type': role_out,
+        'fraud_score': tier_count,
+        'severity': tier,
+        'flags_count': len(flags),
+        'critical': has_critical,
+    })
+    
     return {
         "role": role_out,
         "flags": flags,

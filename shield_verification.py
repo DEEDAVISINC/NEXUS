@@ -40,6 +40,13 @@ from shield_lead_screening import (
     _serialize,
 )
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 logger = logging.getLogger("shield.verification")
 
 EASTERN = ZoneInfo("America/New_York")
@@ -278,6 +285,13 @@ def seed_verification_steps(client: ShieldAirtableClient, activation_id: str, se
             })
         _write_steps(client, activation_id, steps)
         logger.info(f"Seeded {len(steps)} verification steps for activation {activation_id}")
+        
+        # ─── LEARNING ENGINE: Log verification started ────────────────────────
+        nxlearn('shield_verification', activation_id, 'verification_started', {
+            'service_type': service_line,
+            'steps_required': len(steps),
+        })
+        
         return steps
     except Exception as exc:
         logger.error(f"seed_verification_steps failed for {activation_id}: {exc}")
@@ -387,6 +401,13 @@ def complete_verification_step(
 
         # Log milestone
         _log_milestone(client, activation_id, fields, f"Verification step complete: {step_key}", verified_by)
+        
+        # ─── LEARNING ENGINE: Log step completed ──────────────────────────────
+        nxlearn('shield_verification', activation_id, 'step_completed', {
+            'service_type': fields.get('service_line', ''),
+            'step_key': step_key,
+            'verified_by': verified_by,
+        })
 
         all_done = all(s.get("completed_at") for s in steps)
         billing_result = None
@@ -394,6 +415,12 @@ def complete_verification_step(
         if all_done:
             client.update(TABLE_ACTIVATIONS, activation_id, {"status": "Verified Complete"})
             _log_milestone(client, activation_id, fields, "Service Verified — Payment Eligible", "system")
+            
+            # ─── LEARNING ENGINE: Log verification passed ─────────────────────
+            nxlearn('shield_verification', activation_id, 'verification_passed', {
+                'service_type': fields.get('service_line', ''),
+                'steps_completed': len(steps),
+            })
 
             referral_ids = fields.get("referral_id") or []
             referral_id = referral_ids[0] if isinstance(referral_ids, list) and referral_ids else (referral_ids if isinstance(referral_ids, str) else "")

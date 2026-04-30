@@ -41,6 +41,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 log = logging.getLogger("vertex_automation")
+
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
 if not log.handlers:
     logging.basicConfig(
         level=logging.INFO,
@@ -609,6 +616,25 @@ def vertex_auto_trigger(
         log.error(f"vertex_auto_trigger FAILED: {event_type} — {e}")
 
     _log_to_vertex_reports(event_type, source_system, source_record_id, outcome, detail, at)
+    
+    # ─── LEARNING ENGINE: Log billing event ───────────────────────────────────
+    billing_action = 'invoice_created'
+    if 'claim' in event_type:
+        billing_action = 'claim_submitted'
+    elif 'payment' in event_type:
+        billing_action = 'payment_received'
+    elif outcome == 'error':
+        billing_action = 'billing_error'
+    
+    nxlearn('billing', source_record_id or event_type, billing_action, {
+        'event_type': event_type,
+        'source_system': source_system,
+        'outcome': outcome,
+        'invoice_amount': data.get('amount') or data.get('invoice_amount'),
+        'payer_type': data.get('payer_type') or data.get('client_type'),
+        'service_type': data.get('service_type'),
+    })
+    
     return {
         "event_type":       event_type,
         "source_record_id": source_record_id,

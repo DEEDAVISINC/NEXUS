@@ -38,6 +38,13 @@ try:
 except ImportError:
     raise ImportError("Run from NEXUS BACKEND root directory.")
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 from gbis_airtable_helpers import (
     create_grant_opportunity,
     entity_from_applicant_label,

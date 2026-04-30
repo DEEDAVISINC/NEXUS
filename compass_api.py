@@ -18,6 +18,13 @@ from flask import Blueprint, request, jsonify
 
 compass = Blueprint('compass', __name__)
 
+# ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
+try:
+    from nexus_learning_engine import nxlearn
+except ImportError:
+    def nxlearn(*args, **kwargs):
+        pass  # Graceful fallback if learning engine not available
+
 
 def get_airtable():
     try:
