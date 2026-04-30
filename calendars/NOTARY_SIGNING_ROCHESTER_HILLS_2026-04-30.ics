@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:notary-signing-rochester-hills-20260430@deedavis.biz
+DTSTAMP:20260429T215300Z
+DTSTART;TZID=America/Detroit:20260430T160000
+DTEND;TZID=America/Detroit:20260430T170000
+SUMMARY:📝 SIGNING: Rochester Hills Notary Appointment
+DESCRIPTION:Notary signing appointment in Rochester Hills, MI.\n\nPrep: Bring notary stamp, journal, ID verification checklist.
+LOCATION:Rochester Hills, MI
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours - leave soon
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

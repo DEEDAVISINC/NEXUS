@@ -37,7 +37,13 @@
 
 ---
 
-## 2026-05-01 — Friday
+## 2026-04-30 — Wednesday
+
+- **4:00 PM ET** — 📝 **Notary Signing — Rochester Hills, MI** — Bring notary stamp, journal, ID verification checklist. `.ics`: `calendars/NOTARY_SIGNING_ROCHESTER_HILLS_2026-04-30.ics`
+
+---
+
+## 2026-05-01 — Thursday
 
 - **Due by 5:00 PM ET** — 🔥 **City of Yonkers — Drug & Alcohol Testing RFP-546** — Submit 4 files via BidNet (empirestatebidsystem.com); folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` — St. John's Riverside confirmed — Corey.Amundson@YonkersNY.gov
 

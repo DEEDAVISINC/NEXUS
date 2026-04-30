@@ -1,53 +1,49 @@
-# YOUR AGENDA — Tuesday, April 28, 2026
+# YOUR AGENDA — Wednesday, April 30, 2026
 
-**Today (authoritative date):** **Tuesday, April 28, 2026.**
+**Today (authoritative date):** **Wednesday, April 30, 2026.**
 
-**Monday completed:** SHIELD code fixes (8/8 — NavigatorLogin, doc upload, activity log filter, contractors/outcomes API, Twilio/SendGrid wiring, calendar, milestone types). Airtable schema migration (added 25+ missing fields, created Call_Log + Notification_Log tables). **Seeded demo data** — 20 referrals, 20 families, 25 children (16 EBL), 61 service activations, 85 milestones, 6 navigators across 4 counties. **Navigator Training Guide** written (17 sections). **Navigator Training Video Script** written (13 chapters, ~30 min). Twilio + SendGrid credentials configured in .env (trial accounts). MDHHS pilot doc rewritten.
+**Tuesday completed:** NEXUS Learning Engine fully integrated across ALL 11 sectors (GPSS, PRISM, VERTEX, DDCSS, ATLAS, JETA, SHIELD, LBPC, GBIS, COMPASS, TRANSPORT). MCO Rx Delivery outreach emails ready for 8 Michigan MCOs (CareSource, Molina, Meridian, UHC, Aetna, BCBS Complete, McLaren, Priority Health, UPHP). Medical courier market intelligence documented.
 
 ---
 
 ```
-TODAY'S PRIORITIES — Tuesday, April 28, 2026
+TODAY'S PRIORITIES — Wednesday, April 30, 2026
 
-1. 🎥  **SHIELD Navigator Training Video — Guidde recording**
-     Sign up at guidde.com (free tier, 25 videos).
-     Install Chrome extension. Start frontend + backend locally.
-     Walk through SHIELD screens using the training video script
-     as a click-through checklist — Guidde auto-generates AI voiceover,
-     annotations, and transitions. No manual voiceover needed.
-     Reference: SHIELD_NAVIGATOR_TRAINING_VIDEO_SCRIPT.md (13 chapters)
+1. 📝  **NOTARY SIGNING — Rochester Hills @ 4:00 PM ET**
+     Bring: notary stamp, journal, ID verification checklist.
+     Plan travel time — leave by 3:15 PM latest.
 
-2. 💰  **CHAMPS rate verification** — Log into CHAMPS (MiLogin davisd1221).
-     Pull exact Medicaid fee screen rate for CPT 98960 (CHW). Check DDI
-     taxonomy — does it cover CHW (171400000X) or just Transportation Broker
-     (347E00000X)? If CHW taxonomy missing, start the add process.
-     This number feeds the entire revenue model.
+2. 🔥  **Yonkers Drug Testing RFP-546 — DUE TOMORROW (May 1)**
+     Folder: BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/
+     - Convert technical proposal HTML to PDF
+     - Complete Cost Proposal (Schedule B)
+     - Complete all Appendices (7 signed/notarized forms)
+     - Upload 4 files to BidNet by 5:00 PM ET tomorrow
+     DO MORNING WORK ON THIS BEFORE THE SIGNING.
 
-3. 📝  **CBP Medical Support 70B06C26R00000017** — 7 DAYS OUT (May 5).
-     Follow up with Acuity-CHS + Concentra (sent 4/24, 4 days ago).
-     Continue Phase I prep: written tech approach + past performance.
+3. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
+     Follow up with Acuity-CHS + Concentra if no reply.
+     Phase I prep: written tech approach + past performance.
 
-4. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch ~4/30 (2 days).
-     Proposals due 5/7 @ 3:30 PM ET. Start assembling proposal package.
+4. 🔍  **KY DMS RFP 128 2600000415** — Addendum expected today (~4/30).
+     Proposals due 5/7 @ 3:30 PM ET. Check Kentucky VSS for addendum.
 
-5. 🎬  **MDHHS Demo Video — Prep for later this week**
-     Separate from navigator training. This is the 5/4 pitch video.
-     Tool: Synthesia ($22/mo) — AI avatar + script = polished demo.
-     Script: needs to be written (focused on MDHHS outcomes, not training).
-     Target: record Wed or Thu, deliver before 5/4 meeting.
+5. 📧  **MCO Rx Delivery Outreach — SEND IF TIME**
+     8 emails ready in BIDS:RESOURCES/MCO RX DELIVERY OUTREACH/SEND_TO_BUYER/
+     CareSource, Molina, Meridian, UHC, Aetna, BCBS, McLaren, Priority, UPHP
 
-MEETINGS: None scheduled.
+MEETINGS:
+  - 📝 4:00 PM ET — Notary signing, Rochester Hills
+
+DEADLINES:
+  - 🔥 May 1 (TOMORROW) — Yonkers RFP-546 @ 5:00 PM ET
+  - 🔥 May 5 — CBP Medical Support Phase I @ 5:00 PM ET
+  - May 7 — KY DMS proposals @ 3:30 PM ET
+
 FOLLOW-UPS DUE:
-  - Acuity-CHS + Concentra (CBP teaming) — sent 4/24, FOLLOW UP
-  - KY DMS addendum watch ~4/30 (2 days)
-  - ICE DHS (Tracy Riley) — 30-day follow-up OVERDUE from Mar 22 reply (36 days)
-  - CBP (Jared Tritle) — no reply since Mar 22 cold intro (37 days silent)
-PREP NEEDED:
-  - Guidde signup + Chrome extension install
-  - Start frontend (npm start) + backend (python3 api_server.py) locally
-  - CHAMPS login + rate pull (MiLogin davisd1221)
-  - KY DMS proposal package assembly
-  - MDHHS demo video script (separate from training — write Wed)
+  - Acuity-CHS + Concentra (CBP teaming)
+  - ICE DHS (Tracy Riley) — OVERDUE
+  - CareSource orientation date with Brian Grcevich — not yet scheduled
 ```
 
 ---
