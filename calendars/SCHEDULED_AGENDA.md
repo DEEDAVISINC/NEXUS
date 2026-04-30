@@ -37,8 +37,9 @@
 
 ---
 
-## 2026-04-30 — Wednesday
+## 2026-04-30 — Thursday
 
+- **1:30–2:30 PM ET** — 📞 **EMERGENCY meeting** — Update location/link in Calendar. `.ics`: `calendars/EMERGENCY_MEETING_2026-04-30.ics`
 - **4:00 PM ET** — 📝 **Notary Signing — Rochester Hills, MI** — Bring notary stamp, journal, ID verification checklist. `.ics`: `calendars/NOTARY_SIGNING_ROCHESTER_HILLS_2026-04-30.ics`
 
 ---

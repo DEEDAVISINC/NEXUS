@@ -1,44 +1,41 @@
-# YOUR AGENDA — Wednesday, April 30, 2026
+# YOUR AGENDA — Thursday, April 30, 2026
 
-**Today (authoritative date):** **Wednesday, April 30, 2026.**
+**Today (authoritative date):** **Thursday, April 30, 2026.**
 
 **Tuesday completed:** NEXUS Learning Engine fully integrated across ALL 11 sectors (GPSS, PRISM, VERTEX, DDCSS, ATLAS, JETA, SHIELD, LBPC, GBIS, COMPASS, TRANSPORT). MCO Rx Delivery outreach emails ready for 8 Michigan MCOs (CareSource, Molina, Meridian, UHC, Aetna, BCBS Complete, McLaren, Priority Health, UPHP). Medical courier market intelligence documented.
 
 ---
 
 ```
-TODAY'S PRIORITIES — Wednesday, April 30, 2026
+TODAY'S PRIORITIES — Thursday, April 30, 2026
 
-1. 📧  **AMRO / Barbara — URGENT (target Apr 30)**
+1. 📧  **AMRO / Barbara — URGENT (target today)**
      `PARTNER_ACCOUNT_UPDATES.md` — Fee schedule received Apr 29. You owe:
      decision/next steps, request **Letter of Commitment** (Dr. Freedman credentials),
      confirm NY/KY/TX/GA licensing from PDF, **Medical Express non-compete in writing**.
-     Yonkers is due May 1 — do this in the morning, not after the signing.
+     Yonkers is due May 1 — **before 1:30 emergency block**.
 
-2. 📝  **NOTARY SIGNING — Rochester Hills @ 4:00 PM ET**
+2. 📧  **MCO Rx delivery — SEND before 1:30** if you can (8 emails in SEND_TO_BUYER).
+
+3. 🔥  **Yonkers RFP-546 — DUE TOMORROW May 1 @ 5pm** — Folder: `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/`
+     Schedule B + sign, convert tech proposal to PDF, appendices, upload 4 files BidNet.
+     **Work windows:** before 1:30 **or** after emergency until you leave for signing (~3:15).
+
+4. 📞  **EMERGENCY MEETING — 1:30 PM ET** (placeholder: 1 hour in Calendar — change end when you know).
+     After it ends: buffer, then **leave for Rochester by ~3:15 PM**.
+
+5. 📝  **NOTARY SIGNING — Rochester Hills @ 4:00 PM ET**
      Bring: notary stamp, journal, ID verification checklist.
-     Plan travel time — leave by 3:15 PM latest.
 
-3. 🔥  **Yonkers Drug Testing RFP-546 — DUE TOMORROW (May 1)**
-     Folder: BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/
-     - Convert technical proposal HTML to PDF
-     - Complete Cost Proposal (Schedule B)
-     - Complete all Appendices (7 signed/notarized forms)
-     - Upload 4 files to BidNet by 5:00 PM ET tomorrow
-     DO MORNING WORK ON THIS BEFORE THE SIGNING.
-
-4. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
+6. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
      Follow up with Acuity-CHS + Concentra if no reply.
      Phase I prep: written tech approach + past performance.
 
-5. 🔍  **KY DMS RFP 128 2600000415** — Addendum expected today (~4/30).
+7. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch (**today ~4/30**).
      Proposals due 5/7 @ 3:30 PM ET. Check Kentucky VSS for addendum.
 
-6. 📧  **MCO Rx Delivery Outreach — SEND IF TIME**
-     8 emails ready in BIDS:RESOURCES/MCO RX DELIVERY OUTREACH/SEND_TO_BUYER/
-     CareSource, Molina, Meridian, UHC, Aetna, BCBS, McLaren, Priority, UPHP
-
 MEETINGS:
+  - 📞 1:30 PM ET — Emergency meeting (update Calendar with link/location)
   - 📝 4:00 PM ET — Notary signing, Rochester Hills
 
 DEADLINES:
