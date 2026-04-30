@@ -9,11 +9,17 @@
 ```
 TODAY'S PRIORITIES — Wednesday, April 30, 2026
 
-1. 📝  **NOTARY SIGNING — Rochester Hills @ 4:00 PM ET**
+1. 📧  **AMRO / Barbara — URGENT (target Apr 30)**
+     `PARTNER_ACCOUNT_UPDATES.md` — Fee schedule received Apr 29. You owe:
+     decision/next steps, request **Letter of Commitment** (Dr. Freedman credentials),
+     confirm NY/KY/TX/GA licensing from PDF, **Medical Express non-compete in writing**.
+     Yonkers is due May 1 — do this in the morning, not after the signing.
+
+2. 📝  **NOTARY SIGNING — Rochester Hills @ 4:00 PM ET**
      Bring: notary stamp, journal, ID verification checklist.
      Plan travel time — leave by 3:15 PM latest.
 
-2. 🔥  **Yonkers Drug Testing RFP-546 — DUE TOMORROW (May 1)**
+3. 🔥  **Yonkers Drug Testing RFP-546 — DUE TOMORROW (May 1)**
      Folder: BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/
      - Convert technical proposal HTML to PDF
      - Complete Cost Proposal (Schedule B)
@@ -21,14 +27,14 @@ TODAY'S PRIORITIES — Wednesday, April 30, 2026
      - Upload 4 files to BidNet by 5:00 PM ET tomorrow
      DO MORNING WORK ON THIS BEFORE THE SIGNING.
 
-3. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
+4. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
      Follow up with Acuity-CHS + Concentra if no reply.
      Phase I prep: written tech approach + past performance.
 
-4. 🔍  **KY DMS RFP 128 2600000415** — Addendum expected today (~4/30).
+5. 🔍  **KY DMS RFP 128 2600000415** — Addendum expected today (~4/30).
      Proposals due 5/7 @ 3:30 PM ET. Check Kentucky VSS for addendum.
 
-5. 📧  **MCO Rx Delivery Outreach — SEND IF TIME**
+6. 📧  **MCO Rx Delivery Outreach — SEND IF TIME**
      8 emails ready in BIDS:RESOURCES/MCO RX DELIVERY OUTREACH/SEND_TO_BUYER/
      CareSource, Molina, Meridian, UHC, Aetna, BCBS, McLaren, Priority, UPHP
 
@@ -41,6 +47,7 @@ DEADLINES:
   - May 7 — KY DMS proposals @ 3:30 PM ET
 
 FOLLOW-UPS DUE:
+  - **Barbara / AMRO** — LOC + partnership wrap by Apr 30 (tracker)
   - Acuity-CHS + Concentra (CBP teaming)
   - ICE DHS (Tracy Riley) — OVERDUE
   - CareSource orientation date with Brian Grcevich — not yet scheduled
