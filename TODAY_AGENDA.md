@@ -7,72 +7,49 @@
 ```
 TODAY'S PRIORITIES — Friday, May 1, 2026
 
-1. 📧  **Maryland MVA Courier — SEND PARTNER EMAILS (OLIMP + God Is Good Hauling)**
-     Emails ready in: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_SUBCONTRACTOR/`
-       - OLIMP_OUTREACH_EMAIL.md — warehouse partnership (fill in contact name/email, send)
-       - GOD_IS_GOOD_HAULING_OUTREACH_EMAIL.md — courier offer: $55-$115/delivery (fill in contact, send)
-     Need responses by May 3. ITQ due May 11 @ 1:00 PM ET on eMMA.
-     Full bid folder built: pricing model, ops plan, revenue analysis, 7 of 12 application sections drafted.
+1. 🎥  **SHIELD Demo Video Recording — Guidde**
+     Record SHIELD navigator training video using Guidde.
+     Reference: GUIDDE_WALKTHROUGH_FOR_DEE.md (step-by-step recording instructions)
+     Reference: SHIELD_NAVIGATOR_TRAINING_VIDEO_SCRIPT.md (13 chapters, ~25-30 min)
+     Setup: Start backend (python3 api_server.py) + frontend (npm start)
+     Target: At least first 5-7 Guidde recordings today.
 
 2. 🌐  **Cause We Care — WEBSITE WORK**
-     Build out / update CWC website. [Details TBD — pick up in morning session]
+     Build out / update cwecare.org. Migrate domain + configure hosting.
+     This is the public face for SHIELD + CWC navigator portal.
 
-3. 🛡️  **SHIELD — PACKAGE FOR MDHHS MEETING**
-     SHIELD build is DONE. Deliverables are built. What's needed now:
-     
-     **READY (6 of 9):**
-       ✅ Pilot structure — `MDHHS_SHIELD_PILOT_PROPOSAL.md` (90-day Wayne County pilot)
-       ✅ Lead screening navigation model — SHIELD (9 service lines, verification engine)
-       ✅ Housing stability model — `SHIELD_SERVICE_FULFILLMENT_MAP.md` (service line #5)
-       ✅ 90-day outcomes framework — Pilot proposal (7 KPIs, auto-tracked)
-       ✅ Selection criteria + roles matrix — Pilot proposal staffing table + Navigator Training Guide
-       ✅ SHIELD vendor sourcing ask list — Fulfillment map "Top 3 Asks for MDHHS" section
-       ✅ Revenue model — `SHIELD_REVENUE_MODEL.md` ($460K-$764K pilot / $6.1M Year 1 / $83.1M 3-year)
-     
-     **NEEDS CHAMPS PULL (2 of 9):**
-       ⬜ CHW Medicaid rate — MiLogin (davisd1221) → CHAMPS → verify CPT 98960 rate
-       ⬜ Provider enrollment — Taxonomy check (171400000X) + CMS-855B Medicare path
-     
-     **ASK AT MEETING (1 of 9):**
-       ⬜ Attending physician NPI — Does referring physician NPI come with referral?
-     
-     **REAL REMAINING WORK:**
-       ⬜ Package everything into ONE clean handoff document for Angela + Aimee
-         — Combine: pilot proposal + fulfillment map + revenue model + asks
-         — Format as PDF or deck they can share internally with LHD directors
-         — This is the presentation layer, not new content
+3. 📧  **Maryland MVA Courier — SEND PARTNER EMAILS (OLIMP + God Is Good Hauling)**
+     Emails ready in: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_SUBCONTRACTOR/`
+       - OLIMP_OUTREACH_EMAIL.md — warehouse partnership
+       - GOD_IS_GOOD_HAULING_OUTREACH_EMAIL.md — courier offer: $55-$115/delivery
+     Need responses by May 3. ITQ due May 11 @ 1:00 PM ET on eMMA.
 
-4. 📝  **Maryland MVA Courier — Get surety bond quote**
-     Small bond needed: $10K-$15K (est. $200-$300/year premium).
-     Contact SuretyCloud or local agent.
-
-5. 📝  **Maryland MVA Courier — Pull DDI business docs for application**
-     - W-9 (EIN: 84-4114181)
-     - DDI business registration / good standing
-     - Check: Does DDI need Maryland foreign entity registration?
-
-6. 📧  **AMRO / Barbara — EMAIL SENT 04/30** — Fee schedule received Apr 29.
-     Awaiting response. Follow up if no reply by May 5.
-
-7. 📝  **CBP Medical Support 70B06C26R00000017** — 4 DAYS OUT (May 5).
+4. 📝  **CBP Medical Support 70B06C26R00000017** — 4 DAYS OUT (May 5).
      Phase I prep: written tech approach + past performance.
+     This must be worked on this weekend if submitting Monday.
 
-8. 🔍  **KY DMS RFP 128 2600000415** — Addendum posted? Proposals due 5/7 @ 3:30 PM ET.
+5. 🔍  **KY DMS RFP 128 2600000415** — Addendum posted? Proposals due 5/7 @ 3:30 PM ET.
 
 DEADLINES:
-  - ✅ May 1 — Yonkers RFP-546 — SUBMITTED
-  - 🔥 May 5 — CBP Medical Support Phase I @ 5:00 PM ET
-  - 🔥 May 7 — KY DMS proposals @ 3:30 PM ET
-  - 🔥 May 11 — Maryland MVA Courier ITQ @ 1:00 PM ET (NEW)
+  - 🔥 May 5 (Mon) — CBP Medical Support Phase I @ 5:00 PM ET
+  - 🔥 May 7 (Wed) — KY DMS proposals @ 3:30 PM ET
+  - 🔥 May 11 (Sun) — Maryland MVA Courier ITQ @ 1:00 PM ET
+  - 🔥 May 11 (Sun) — WA LCB Background Checks proposals @ 3:00 PM PT
 
-MEETINGS:
-  - 📞 6:00 PM ET — Meeting (already on calendar)
+CALENDAR:
+  - 🎥 10:00 AM – 4:00 PM ET — SHIELD Demo Recording + CWC Website
 
 FOLLOW-UPS DUE:
   - Barbara / AMRO — Email sent 04/30, awaiting response (follow up by May 5)
+  - OLIMP + God Is Good Hauling responses by May 3 (Maryland MVA)
   - Acuity-CHS + Concentra (CBP teaming)
   - ICE DHS (Tracy Riley) — OVERDUE
-  - OLIMP + God Is Good Hauling responses by May 3 (Maryland MVA)
+
+WEEKEND MAP:
+  - Fri 5/1 — Demo recording + CWC website + MVA emails
+  - Sat 5/2 — Finish demo + CWC website + CBP prep
+  - Sun 5/3 — Send MDHHS package to Angela + Aimee (2 PM target)
+  - Mon 5/5 — Brian Grcevich CareSource follow-up (2nd outreach) + CBP due + KY prep
 ```
 
 ---
@@ -146,7 +123,7 @@ FOLLOW-UPS DUE:
 3. Facilitate introductions to those LHD directors once documentation is reviewed
 
 **CWC+DDI owed at follow-up:**
-- [ ] Pilot structure documentation — **10-member demo** for lead screening navigation + housing stability, **90-day outcomes framework**, selection criteria, roles matrix
+- [ ] Pilot structure documentation — **Full program proposal** for lead screening navigation + housing stability, performance metrics, selection criteria, roles matrix
 - [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path)
 - [ ] **SHIELD vendor sourcing ask** — Request current contracted vendors in Wayne/Oakland/Macomb/Genesee for: **(a)** certified lead abatement contractors, **(b)** emergency/temp housing partners + MSHDA regional reps, **(c)** CHW agencies, **(d)** nurse home visit agencies, **(e)** Get Ahead of Lead filter supplier pipeline. Goal: get on speed dial, not cold-source.
 - [ ] **CHW Medicaid reimbursement rate** — Confirm exact per-unit rate for CPT 98960/98961/98962 in Michigan. Check CHAMPS (MiLogin: **davisd1221**) or ask Aimee/Angela directly. This number decides whether DDI can hire navigators profitably. Also confirm: can DDI (Type 2 NPI) bill as the org with CHW-certified navigators as rendering providers?

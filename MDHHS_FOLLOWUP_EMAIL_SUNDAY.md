@@ -9,7 +9,7 @@
 
 ---
 
-**Subject:** SHIELD Pilot Documentation — Follow-Up from Our April 23 Meeting
+**Subject:** SHIELD Program Documentation — Follow-Up from Our April 23 Meeting
 
 ---
 
@@ -19,7 +19,7 @@ I hope you're both having a good weekend. I wanted to follow up on our April 23 
 
 Attached you'll find the full package:
 
-1. **Pilot Proposal** — 90-day Wayne County pilot structure. Open enrollment, DDI as TPA, CWC navigators on the ground. Zero cost to MDHHS.
+1. **Program Proposal** — Full multi-year program structure starting in Wayne County. DDI as TPA, CWC navigators on the ground, every family served. Zero cost to MDHHS.
 
 2. **Service Fulfillment Map** — All 9 SHIELD service lines broken down by who delivers, what's in place, and what we need from your end to get operational.
 
@@ -29,7 +29,7 @@ Attached you'll find the full package:
 
 5. **SHIELD System Demo** — A walkthrough of the live system showing caseworker intake, navigator workspace, the MDHHS partner portal, and family status tracker. [Link below]
 
-We've built SHIELD specifically so that MDHHS can monitor outcomes in real time without any manual reporting — everything from SLA compliance to service completion rates is visible on the partner portal. The system is live and ready for a pilot launch.
+We've built SHIELD specifically so that MDHHS can monitor outcomes in real time without any manual reporting — everything from SLA compliance to service completion rates is visible on the partner portal. The system is live and ready to launch.
 
 I know you mentioned scheduling a follow-up meeting for the week of May 4. We're flexible on timing and would love to walk through any of this in more detail. Whatever works best for your schedules.
 
@@ -49,7 +49,7 @@ EDWOSB | WOSB | WBENC | MBE | SBE
 
 **Attachments:**
 - MDHHS_5_4_MEETING_PACKAGE.pdf (combined deliverable)
-- SHIELD_Pilot_Proposal_Wayne_County.pdf
+- SHIELD_Program_Proposal_Wayne_County.pdf
 - SHIELD_Service_Fulfillment_Map.pdf
 - SHIELD_Demo_Video link (paste in body once recorded)
 - CWC_DDI_Overview_OnePager.pdf (original from 4/23 — include again for easy reference)

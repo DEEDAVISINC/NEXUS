@@ -1,9 +1,9 @@
-# SHIELD Pilot Proposal — Wayne County Lead-Safe Navigation
+# SHIELD Program Proposal — Wayne County Lead-Safe Navigation
 
 **From:** Dee Davis Inc. (DDI) + Community Wellness Connections (CWC)
 **To:** Angela Medina, Section Manager, Care Coordination, EHB | Aimee Surma, EHB
-**Date:** April 27, 2026
-**Re:** Pilot structure for DDI/CWC as Third-Party Administrator for childhood blood lead testing and follow-up navigation in Wayne County
+**Date:** April 30, 2026
+**Re:** DDI/CWC as Third-Party Administrator for childhood blood lead testing and follow-up navigation — starting Wayne County, expanding statewide
 
 ---
 
@@ -19,11 +19,13 @@ There is no unified system that schedules the test, tracks the result, activates
 
 ## The Proposal
 
-DDI proposes a **90-day pilot** in Wayne County in which DDI operates as the **Third-Party Administrator (TPA)** for all mandatory childhood blood lead testing and follow-up services.
+DDI proposes a **multi-year program** starting in Wayne County in which DDI operates as the **Third-Party Administrator (TPA)** for all mandatory childhood blood lead testing and follow-up services.
+
+This is not a short-term pilot that ends and leaves families without services. This is a full operational program designed to run continuously — because the law doesn't pause and neither should the families' access to care.
 
 ### What DDI Does
 
-- **Schedules every mandatory BLL test** for children at 12 and 24 months in the pilot area
+- **Schedules every mandatory BLL test** for children at 12 and 24 months — every child, every payer, no exceptions
 - **Manages the testing workflow** — routes families to Quest Diagnostics or LHD labs, arranges NEMT when needed, tracks results in SHIELD
 - **Activates the full service cascade** when a child tests elevated: navigator assigned, home visit conducted, CLPPP referral submitted, remediation coordinated, emergency housing placed, benefits enrolled, retesting scheduled
 - **Verifies every service delivery** through automated two-way confirmation (contractor confirms, family confirms, both sides verified before payment)
@@ -45,31 +47,47 @@ DDI proposes a **90-day pilot** in Wayne County in which DDI operates as the **T
 
 ---
 
-## Pilot Structure
+## Program Structure
 
-### Geography
+### Geography — Start Wayne County, Expand by Performance
 
 **Wayne County** — Michigan's largest county by population (1.77M), highest birth volume (~19,730/year), and high prevalence of pre-1978 housing stock and elevated blood lead levels. CWC already has community presence here.
 
-### Duration
+### Timeline
 
-| Phase | Duration | What Happens |
-|-------|----------|-------------|
-| **Ramp-Up** | Weeks 1-2 | DDI onboards navigator team, seeds SHIELD with LHD referral sources, configures vendor network, trains CWC navigators on system |
-| **Active Intake** | Weeks 3-14 (90 days) | Open enrollment — every referral served. DDI schedules tests, activates services, verifies delivery, bills payers |
-| **Evaluation Gate** | Day 90 | MDHHS reviews pilot data: SLA compliance, service completion rates, family satisfaction, billing accuracy, volume handled |
-| **Decision** | Day 90-100 | Go/no-go on Phase 2 expansion based on real data |
+| Phase | Period | Scope | What Happens |
+|-------|--------|-------|-------------|
+| **Phase 1** | Year 1 | Wayne County | Full operations — DDI schedules all mandatory tests, activates all 9 service lines, bills payers, builds vendor network. 3-5 CWC navigators deployed. |
+| **Phase 2** | Year 2 | + Oakland County | Add 2-3 navigators. Leverage Wayne County vendor relationships. Oakland has higher private insurance mix = higher reimbursement. |
+| **Phase 3** | Year 2-3 | + Macomb + Genesee | Add 2-3 navigators per county. Genesee (Flint) has highest BLL elevation rates and greatest need. |
+| **Steady State** | Year 3+ | 4 counties, 10-15 navigators | Full compliance pipeline across SE Michigan. Performance data supports statewide expansion. |
 
-### Volume
+### Performance Accountability Built In
 
-**Open enrollment** — every CLPPP/LHD referral and every test DDI schedules during the 90-day window is served. No artificial cap.
+DDI isn't asking MDHHS to take a leap of faith. Every metric is tracked in real time. MDHHS has live visibility into the partner portal and can evaluate DDI's performance at any point — not after a fixed trial period, but continuously.
 
-Projected volume at 25% capture in first 90 days:
-- ~2,466 tests scheduled
-- ~101 elevated cases entering full service cascade
-- ~740 NEMT trips arranged
+| Metric | Target | How Measured |
+|--------|--------|-------------|
+| **Referral-to-first-contact** | < 48 hours | SHIELD SLA tracker (automated) |
+| **Test scheduling rate** | 90%+ of referred families tested within 14 days | SHIELD activation records |
+| **Service completion rate** | 85%+ of activated services reach "Verified Complete" | Two-way verification engine |
+| **Family satisfaction** | 4.0+ / 5.0 | Survey at case closure |
+| **Billing accuracy** | 95%+ clean claims (first-pass) | VERTEX claim submission records |
+| **Navigator utilization** | 80%+ of available hours logged | Auto time tracking in SHIELD |
+| **Elevated case resolution** | Average < 90 days from referral to retest | SHIELD case lifecycle timestamps |
 
-This is not a 10-family demonstration. This is a real operational pilot at real volume.
+All metrics are available in real time on the MDHHS partner portal. No manual reporting. No quarterly spreadsheets. If DDI isn't performing, MDHHS will see it before DDI does.
+
+### Volume — Year 1 Wayne County Projections
+
+DDI targets 50% capture of Wayne County's mandatory testing volume in Year 1:
+
+- **~19,730 tests scheduled**
+- **~809 elevated cases** entering full service cascade
+- **~5,919 NEMT trips** arranged
+- **Thousands of families connected to benefits, housing, and follow-up they wouldn't have gotten otherwise**
+
+This is not a demonstration. This is a real program serving every family that comes through the door.
 
 ### Staffing
 
@@ -128,42 +146,11 @@ DDI does not request funding from MDHHS. DDI bills existing payers — Medicaid 
 
 ---
 
-## 90-Day Success Metrics
-
-| Metric | Target | How Measured |
-|--------|--------|-------------|
-| **Referral-to-first-contact** | < 48 hours | SHIELD SLA tracker (automated) |
-| **Test scheduling rate** | 90%+ of referred families tested within 14 days | SHIELD activation records |
-| **Service completion rate** | 85%+ of activated services reach "Verified Complete" | Two-way verification engine |
-| **Family satisfaction** | 4.0+ / 5.0 | Survey at case closure |
-| **Billing accuracy** | 95%+ clean claims (first-pass) | VERTEX claim submission records |
-| **Navigator utilization** | 80%+ of available hours logged | Auto time tracking in SHIELD |
-| **Elevated case resolution** | Average < 90 days from referral to retest | SHIELD case lifecycle timestamps |
-
-All metrics are available in real time on the MDHHS partner portal. No manual reporting. No quarterly spreadsheets.
-
----
-
-## Phase 2 Expansion Plan
-
-If the 90-day Wayne County pilot meets success metrics:
-
-| Phase | Timeline | Scope |
-|-------|----------|-------|
-| **Phase 1** (this proposal) | Months 1-3 | Wayne County — 3-5 navigators |
-| **Phase 2** | Months 4-6 | Add Oakland County — 2-3 navigators |
-| **Phase 3** | Months 7-9 | Add Macomb + Genesee — 2-3 navigators each |
-| **Steady State** | Month 10+ | 4 counties, 10-15 navigators, full compliance pipeline |
-
-Each phase uses the same SHIELD platform, same verification engine, same billing pipeline. Adding a county means adding navigators and vendor relationships — the system scales without rebuilding anything.
-
----
-
 ## What We Need from MDHHS
 
 ### At the 5/4 Meeting
 
-1. **Agreement on Wayne County as pilot geography** and referral routing through CLPPP/LHD into SHIELD
+1. **Agreement on Wayne County as the starting geography** and referral routing through CLPPP/LHD into SHIELD
 
 2. **Vendor introductions** in Wayne County:
    - Certified lead abatement contractors

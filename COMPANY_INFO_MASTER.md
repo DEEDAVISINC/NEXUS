@@ -965,8 +965,8 @@ MDHHS committed on Apr 23 to share the CWC+DDI brief + one-pager with LHD direct
 1. Formal recognition as a community navigation + program administration partner within MDHHS program referral infrastructure
 2. Referral pathway — MDHHS case workers refer enrolled members to CWC by service-line need
 3. Introduction to MDHHS Medicaid managed care liaison or MCO contract leads (payer-side)
-4. Environmental Health pilot — one EHB program area for a 2026 DDI TPA pilot
-5. Pilot authorization — **10-member demonstration** for lead screening navigation + housing stability, with **90-day outcomes documentation**
+4. Environmental Health pilot — one EHB program area for a 2026 DDI TPA program
+5. Program authorization — **Full multi-year program** starting Wayne County for lead screening navigation + housing stability, with **continuous real-time outcomes reporting**
 
 **What MDHHS committed to (3 items):**
 1. Schedule a formal follow-up meeting with CWC+DDI (within 2 weeks)
@@ -995,7 +995,7 @@ CWC+DDI's public `/refer` page and navigator AI should reference these state pro
 
 - [x] Submit meeting brief + one-pager to Angela and Aimee within 24 hours — **DONE 4/23 7:04 PM ET**
 - [ ] **Schedule formal follow-up meeting** with Angela/Aimee within 2 weeks (target: week of May 4, 2026)
-- [ ] **Prepare pilot structure documentation** for follow-up meeting — 10-member demo spec: selection criteria, 90-day outcomes framework, roles matrix, how SHIELD produces the outcomes report
+- [ ] **Prepare program proposal documentation** for follow-up meeting — full multi-year program: staffing, expansion plan, performance metrics, roles matrix, how SHIELD produces real-time outcomes reporting
 - [ ] When LHD-director intros arrive, log each contact as a `Referral_Source_Accounts` record in SHIELD (one per director)
 - [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path to sustained reimbursement)
 

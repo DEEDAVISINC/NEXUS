@@ -3,7 +3,7 @@
 **Prepared for:** Angela Medina, Section Manager, Care Coordination, Environmental Health Bureau | Aimee Surma, EHB
 **Prepared by:** Dieasha D. Davis, Dee Davis Inc. + Community Wellness Connections
 **Date:** May 2026
-**Re:** Follow-up from April 23, 2026 partnership meeting — pilot proposal and operational documentation
+**Re:** Follow-up from April 23, 2026 partnership meeting — program proposal and operational documentation
 
 ---
 
@@ -13,7 +13,7 @@ This package contains everything discussed and committed to at our April 23 meet
 
 | # | Document | What It Covers |
 |---|----------|---------------|
-| 1 | **Pilot Proposal** | 90-day Wayne County pilot structure — what DDI does, what CWC does, what MDHHS does, staffing, technology, volume projections, success metrics, Phase 2 expansion |
+| 1 | **Program Proposal** | Full multi-year program structure — what DDI does, what CWC does, what MDHHS does, staffing, technology, volume projections, success metrics, expansion plan |
 | 2 | **Service Fulfillment Map** | All 9 SHIELD service lines — who delivers each one, contract status, county coverage, and specific asks for MDHHS vendor introductions |
 | 3 | **Vendor Sourcing Ask List** | Consolidated list of what DDI needs from MDHHS to activate all service lines at scale |
 | 4 | **Questions for MDHHS** | Provider enrollment and billing structure questions that require MDHHS input |
@@ -21,17 +21,17 @@ This package contains everything discussed and committed to at our April 23 meet
 
 ---
 
-## 1. Pilot Proposal Summary
+## 1. Program Proposal Summary
 
-**Full document:** `SHIELD Pilot Proposal — Wayne County Lead-Safe Navigation`
+**Full document:** `SHIELD Program Proposal — Wayne County Lead-Safe Navigation`
 
-- **Model:** DDI operates as Third-Party Administrator for all mandatory childhood BLL testing and follow-up navigation in Wayne County
-- **Duration:** 90-day pilot with open enrollment — every referral served, no artificial cap
+- **Model:** DDI operates as Third-Party Administrator for all mandatory childhood BLL testing and follow-up navigation — starting Wayne County, expanding across SE Michigan
+- **Structure:** Multi-year program. Year 1 in Wayne County, Year 2 adds Oakland, Year 3 adds Macomb + Genesee. No time-limited trial — families are served continuously from day one.
 - **Staffing:** 3-5 CWC navigators, 1 supervisor, 1 program director (Dee Davis)
 - **Cost to MDHHS:** Zero. DDI bills MCOs, Medicaid FFS, and private insurers directly.
-- **Projected volume (25% capture):** ~2,466 tests, ~101 elevated cases, ~740 NEMT trips
+- **Year 1 volume (50% capture):** ~19,730 tests, ~809 elevated cases, ~5,919 NEMT trips
 - **Technology:** SHIELD — live system with caseworker intake, navigator workspace, MDHHS partner portal, family status tracker, automated service verification
-- **Success metrics:** 7 KPIs tracked in real time through the MDHHS portal — no manual reporting
+- **Performance accountability:** 7 KPIs tracked in real time through the MDHHS portal — continuous visibility, no manual reporting
 
 ---
 
@@ -102,7 +102,7 @@ These are billing and provider enrollment questions where DDI needs MDHHS input 
 
 | Question | Context |
 |----------|---------|
-| How will CLPPP/LHD referrals be routed to DDI during the pilot? | SHIELD has a caseworker intake portal (`/refer`). DDI can also accept referrals via secure email, fax, or direct Airtable integration. What works best for Wayne County LHDs? |
+| How will CLPPP/LHD referrals be routed to DDI? | SHIELD has a caseworker intake portal (`/refer`). DDI can also accept referrals via secure email, fax, or direct Airtable integration. What works best for Wayne County LHDs? |
 
 ---
 
@@ -123,12 +123,12 @@ A pre-recorded walkthrough of the SHIELD system is available showing:
 
 | # | Action | Owner |
 |---|--------|-------|
-| 1 | Confirm Wayne County as pilot geography | MDHHS + DDI |
+| 1 | Confirm Wayne County as starting geography | MDHHS + DDI |
 | 2 | Agree on referral routing mechanism (portal, email, fax) | MDHHS + DDI |
 | 3 | Provide vendor introductions (abatement, nursing, housing) | MDHHS |
 | 4 | Confirm CHW billing structure + attending NPI question | MDHHS |
 | 5 | Share this package with Wayne County LHD director | MDHHS |
-| 6 | Set pilot start date (target: 30 days from agreement) | Joint |
+| 6 | Set program launch date (target: 30 days from agreement) | Joint |
 
 ---
 

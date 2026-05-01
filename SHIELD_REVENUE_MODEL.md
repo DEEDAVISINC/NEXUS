@@ -186,32 +186,31 @@ When a child tests elevated (BLL >= 3.5 mcg/dL), the full SHIELD cascade activat
 
 ---
 
-## 90-Day Pilot — Wayne County
+## Year 1 — Wayne County (Full Year)
 
-Realistic ramp: DDI captures 15-25% of Wayne County testing volume in first 90 days.
+DDI ramps through Year 1: conservative = 25% capture growing to 50%, target = 50% capture.
 
-| Metric | Conservative (15%) | Target (25%) |
-|--------|-------------------|--------------|
-| Tests scheduled | 1,480 | 2,466 |
-| CHW on all tests ($99/test) | $146,520 | $244,134 |
-| NEMT on routine (30% × $49) | $21,756 | $36,249 |
-| Elevated cases (4.1%) | 61 | 101 |
-| Elevated case revenue ($4,790 avg) | $292,190 | $483,790 |
-| **90-DAY PILOT TOTAL** | **$460,466** | **$764,173** |
-| **Annualized** | **$1,841,864** | **$3,056,692** |
-
----
-
-## Year 1 — Wayne County (50% Capture)
+### Conservative (25% average capture)
 
 | Revenue Stream | Annual |
 |----------------|--------|
-| Tests scheduled: 19,730 | |
+| Tests scheduled: ~9,865 | |
+| CHW on all tests ($99/test) | $976,635 |
+| NEMT routine (30% × $49) | $145,019 |
+| Elevated cases: ~404 | |
+| Elevated case revenue ($4,790 avg) | $1,935,160 |
+| **WAYNE COUNTY YEAR 1 (CONSERVATIVE)** | **$3,056,814** |
+
+### Target (50% capture)
+
+| Revenue Stream | Annual |
+|----------------|--------|
+| Tests scheduled: ~19,730 | |
 | CHW on all tests ($99/test) | $1,953,270 |
 | NEMT routine (30% × $49) | $290,037 |
-| Elevated cases: 809 | |
+| Elevated cases: ~809 | |
 | Elevated case revenue ($4,790 avg) | $3,875,110 |
-| **WAYNE COUNTY YEAR 1** | **$6,118,417** |
+| **WAYNE COUNTY YEAR 1 (TARGET)** | **$6,118,417** |
 
 ---
 
@@ -245,7 +244,7 @@ This is the target. The law says every child gets tested. DDI schedules every te
 
 | Scenario | Annual Revenue | DDI Annual Margin | 3-Year Value |
 |----------|---------------|-------------------|--------------|
-| **90-Day Pilot (Wayne, 25%)** | $764K (prorated) | ~$305K | — |
+| **Year 1 (Wayne, 25% avg)** | $3.1M | $1.1M-$1.2M | $9.2M |
 | **Year 1 (Wayne, 50%)** | $6.1M | $2.1M-$2.4M | $18.4M |
 | **Year 2+ (4 Counties, 50%)** | $13.8M | $4.8M-$5.5M | $41.5M |
 | **Full Scale (4 Counties, 100%)** | $27.7M | $9.7M-$11.1M | $83.1M |
