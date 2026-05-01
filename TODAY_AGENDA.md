@@ -38,6 +38,7 @@ DEADLINES:
 
 CALENDAR:
   - 🎥 10:00 AM – 4:00 PM ET — SHIELD Demo Recording + CWC Website
+  - 📞 3:00 PM ET — Steven Ralph Shultz · 52486 Hummingbird Ct, Shelby Township, MI 48316
 
 FOLLOW-UPS DUE:
   - Barbara / AMRO — Email sent 04/30, awaiting response (follow up by May 5)
@@ -47,9 +48,9 @@ FOLLOW-UPS DUE:
 
 WEEKEND MAP:
   - Fri 5/1 — Demo recording + CWC website + MVA emails
-  - Sat 5/2 — Finish demo + CWC website + CBP prep
-  - Sun 5/3 — Send MDHHS package to Angela + Aimee (2 PM target)
-  - Mon 5/5 — Brian Grcevich CareSource follow-up (2nd outreach) + CBP due + KY prep
+  - Sat 5/2 — Finish demo + CWC website + CBP prep + MMCAP INFUSE PREP (research, insurance check, one-pager, facility map)
+  - Sun 5/3 — Send MDHHS package to Angela + Aimee (2 PM target) + MMCAP: Submit Cardinal Health app + draft vendor outreach emails
+  - Mon 5/5 — Brian Grcevich CareSource follow-up (2nd outreach) + CBP due + KY prep + Send MMCAP vendor outreach
 ```
 
 ---

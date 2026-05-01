@@ -26,10 +26,16 @@ import FamilyStatusTracker from './components/public/FamilyStatusTracker';
 import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
 import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
 import MDHHSPartnerPortal from './components/public/MDHHSPartnerPortal';
+import CWCSite from './components/cwc/CWCSite';
 import { api } from './api/client';
 
 function App() {
+  const host = typeof window !== 'undefined' ? window.location.hostname : '';
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
+
+  const isCWC = host === 'cwecare.org' || host === 'www.cwecare.org' || host === 'app.cwecare.org' || path.startsWith('/cwc');
+  if (isCWC && !['/refer', '/status', '/navigator', '/mdhhs'].includes(path)) return <CWCSite />;
+
   if (path === '/refer') return <HIPAAGate><PublicReferrerIntake /></HIPAAGate>;
   if (path === '/status') return <HIPAAGate><FamilyStatusTracker /></HIPAAGate>;
   if (path === '/navigator') return <NavigatorLogin />;

@@ -48,17 +48,20 @@
 
 - **Due by 5:00 PM ET** — 🔥 **City of Yonkers — Drug & Alcohol Testing RFP-546** — Submit 4 files via BidNet (empirestatebidsystem.com); folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` — St. John's Riverside confirmed — Corey.Amundson@YonkersNY.gov
 - **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD Demo Video Recording + CWC Website** — Record SHIELD navigator training video (Guidde). Build out cwecare.org. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_2026-05-01.ics`
+- **3:00 PM ET** — 📞 **MEETING: Steven Ralph Shultz** — 52486 Hummingbird Ct, Shelby Township, MI 48316 · `.ics`: `calendars/SHULTZ_MEETING_MAY01.ics`
 
 ---
 
-## 2026-05-02 — Friday
+## 2026-05-02 — Saturday
 
 - **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD Demo + CWC Website — Day 2** — Continue demo recording and website build. Target: ready for Sunday send. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_DAY2_2026-05-02.ics`
+- **12:00 – 4:00 PM ET** — 📋 **MMCAP Infuse — Research + Prep** — Confirm DOT/MC status, verify cargo insurance ($250K med / $1MM pharma), research Morris & Dickson, draft capabilities one-pager, map Michigan MMCAP facilities. `.ics`: `calendars/MMCAP_INFUSE_PREP_2026-05-02.ics`
 
 ---
 
-## 2026-05-03 — Saturday
+## 2026-05-03 — Sunday
 
+- **12:00 – 2:00 PM ET** — 📋 **MMCAP Infuse — Submit Cardinal Health App + Draft Outreach** — Submit carrier application at cardinalhealth.com/en/support/transportation-carriers.html. Draft outreach emails for McKesson, Medline, Henry Schein, Concordance, Morris & Dickson. Identify LinkedIn contacts. `.ics`: `calendars/MMCAP_INFUSE_SUBMIT_2026-05-03.ics`
 - **2:00 – 4:00 PM ET** — 📧 **Send MDHHS Package — Angela Medina + Aimee Surma** — Follow-up email with full SHIELD program package (proposal, fulfillment map, demo video, asks). MedinaA@michigan.gov + SurmaA@michigan.gov. Draft: `MDHHS_FOLLOWUP_EMAIL_SUNDAY.md`. `.ics`: `calendars/MDHHS_PACKAGE_EMAIL_2026-05-03.ics`
 
 ---
