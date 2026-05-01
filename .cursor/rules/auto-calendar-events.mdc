@@ -5,57 +5,46 @@ alwaysApply: true
 
 # Auto Calendar Events — MANDATORY
 
-**When ANY call, meeting, or hard deadline is confirmed: AUTOMATICALLY generate an .ics calendar file and open it. No asking. No waiting. Just do it.**
+**When Dee tells you to add something to the calendar: ADD IT DIRECTLY TO APPLE CALENDAR. No asking. No waiting. No import dialogs. Just do it.**
 
 ## When to Trigger
 
-Generate a calendar event when:
+Add a calendar event when:
 - A call or meeting is confirmed (date, time, and contact known)
 - A bid deadline is identified with a specific date
 - A follow-up date is set
 - Any time-sensitive action is scheduled
+- Dee says "add to calendar", "put it on the calendar", "schedule it", etc.
 
-## .ics File Format
+## HOW TO ADD — AppleScript (REQUIRED)
 
-Save to: `calendars/[EVENT_NAME].ics`
+**Use this AppleScript pattern to add events DIRECTLY to Apple Calendar:**
 
+```bash
+osascript <<'APPLESCRIPT'
+tell application "Calendar"
+  set startDate to current date
+  set year of startDate to [YEAR]
+  set month of startDate to [MONTH]
+  set day of startDate to [DAY]
+  set hours of startDate to [HOUR_24]
+  set minutes of startDate to [MINUTES]
+  set seconds of startDate to 0
+  set endDate to startDate + ([DURATION_SECONDS])
+
+  tell calendar "bids.deedavisinc@gmail.com"
+    make new event with properties {summary:"[EMOJI] [TYPE]: [Description]", start date:startDate, end date:endDate, location:"[LOCATION]", description:"[DETAILS]"}
+  end tell
+end tell
+APPLESCRIPT
 ```
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEXUS Bids
-X-WR-TIMEZONE:America/Detroit
 
-BEGIN:VEVENT
-UID:[UNIQUE_ID]@deedavis.biz
-DTSTAMP:[NOW]
-DTSTART:[START_TIME_ET]
-DTEND:[END_TIME_ET]
-SUMMARY:[EMOJI] [TYPE]: [Description]
-DESCRIPTION:[All relevant details — contact info, dial-in, prep checklist, folder location]
-LOCATION:[Meeting link or submission method]
-STATUS:CONFIRMED
-SEQUENCE:0
-BEGIN:VALARM
-TRIGGER:-P1D
-DESCRIPTION:[Event] tomorrow
-ACTION:DISPLAY
-END:VALARM
-BEGIN:VALARM
-TRIGGER:-PT2H
-DESCRIPTION:[Event] in 2 hours
-ACTION:DISPLAY
-END:VALARM
-BEGIN:VALARM
-TRIGGER:-PT30M
-DESCRIPTION:[Event] in 30 minutes
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
-END:VCALENDAR
-```
+**Target calendar:** `bids.deedavisinc@gmail.com` — this is Dee's bids/business calendar.
+
+**Duration in seconds:**
+- 30 minutes = 1800
+- 1 hour = 3600
+- 2 hours = 7200
 
 ## Emoji Prefixes
 
@@ -66,13 +55,11 @@ END:VCALENDAR
 
 ## Reminders
 
-- Calls/Meetings: 1 day, 2 hours, 30 minutes before
-- Bid Deadlines: 3 days, 1 day, 2 hours before
-- Follow-ups: 1 day before
+AppleScript events don't add alarms automatically. For critical deadlines, mention in the description that Dee should set reminders manually, OR create a backup .ics file with alarms.
 
-## After Creating
+## Backup .ics File (Optional)
 
-Run `open "calendars/[FILE].ics"` to import into Apple Calendar automatically.
+Also save to `calendars/[EVENT_NAME].ics` for git tracking — but the AppleScript is what actually adds it to Calendar. The .ics is just a record.
 
 ### Scheduled agenda mirror (MANDATORY — same session)
 
