@@ -1,8 +1,87 @@
-# YOUR AGENDA — Thursday, April 30, 2026
+# YOUR AGENDA — Friday, May 1, 2026
 
-**Today (authoritative date):** **Thursday, April 30, 2026.**
+**Today (authoritative date):** **Friday, May 1, 2026.**
 
-**Tuesday completed:** NEXUS Learning Engine fully integrated across ALL 11 sectors (GPSS, PRISM, VERTEX, DDCSS, ATLAS, JETA, SHIELD, LBPC, GBIS, COMPASS, TRANSPORT). MCO Rx Delivery outreach emails ready for 8 Michigan MCOs (CareSource, Molina, Meridian, UHC, Aetna, BCBS Complete, McLaren, Priority Health, UPHP). Medical courier market intelligence documented.
+---
+
+```
+TODAY'S PRIORITIES — Friday, May 1, 2026
+
+1. 📧  **Maryland MVA Courier — SEND PARTNER EMAILS (OLIMP + God Is Good Hauling)**
+     Emails ready in: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_SUBCONTRACTOR/`
+       - OLIMP_OUTREACH_EMAIL.md — warehouse partnership (fill in contact name/email, send)
+       - GOD_IS_GOOD_HAULING_OUTREACH_EMAIL.md — courier offer: $55-$115/delivery (fill in contact, send)
+     Need responses by May 3. ITQ due May 11 @ 1:00 PM ET on eMMA.
+     Full bid folder built: pricing model, ops plan, revenue analysis, 7 of 12 application sections drafted.
+
+2. 🌐  **Cause We Care — WEBSITE WORK**
+     Build out / update CWC website. [Details TBD — pick up in morning session]
+
+3. 🛡️  **SHIELD — PACKAGE FOR MDHHS MEETING**
+     SHIELD build is DONE. Deliverables are built. What's needed now:
+     
+     **READY (6 of 9):**
+       ✅ Pilot structure — `MDHHS_SHIELD_PILOT_PROPOSAL.md` (90-day Wayne County pilot)
+       ✅ Lead screening navigation model — SHIELD (9 service lines, verification engine)
+       ✅ Housing stability model — `SHIELD_SERVICE_FULFILLMENT_MAP.md` (service line #5)
+       ✅ 90-day outcomes framework — Pilot proposal (7 KPIs, auto-tracked)
+       ✅ Selection criteria + roles matrix — Pilot proposal staffing table + Navigator Training Guide
+       ✅ SHIELD vendor sourcing ask list — Fulfillment map "Top 3 Asks for MDHHS" section
+       ✅ Revenue model — `SHIELD_REVENUE_MODEL.md` ($460K-$764K pilot / $6.1M Year 1 / $83.1M 3-year)
+     
+     **NEEDS CHAMPS PULL (2 of 9):**
+       ⬜ CHW Medicaid rate — MiLogin (davisd1221) → CHAMPS → verify CPT 98960 rate
+       ⬜ Provider enrollment — Taxonomy check (171400000X) + CMS-855B Medicare path
+     
+     **ASK AT MEETING (1 of 9):**
+       ⬜ Attending physician NPI — Does referring physician NPI come with referral?
+     
+     **REAL REMAINING WORK:**
+       ⬜ Package everything into ONE clean handoff document for Angela + Aimee
+         — Combine: pilot proposal + fulfillment map + revenue model + asks
+         — Format as PDF or deck they can share internally with LHD directors
+         — This is the presentation layer, not new content
+
+4. 📝  **Maryland MVA Courier — Get surety bond quote**
+     Small bond needed: $10K-$15K (est. $200-$300/year premium).
+     Contact SuretyCloud or local agent.
+
+5. 📝  **Maryland MVA Courier — Pull DDI business docs for application**
+     - W-9 (EIN: 84-4114181)
+     - DDI business registration / good standing
+     - Check: Does DDI need Maryland foreign entity registration?
+
+6. 📧  **AMRO / Barbara — EMAIL SENT 04/30** — Fee schedule received Apr 29.
+     Awaiting response. Follow up if no reply by May 5.
+
+7. 📝  **CBP Medical Support 70B06C26R00000017** — 4 DAYS OUT (May 5).
+     Phase I prep: written tech approach + past performance.
+
+8. 🔍  **KY DMS RFP 128 2600000415** — Addendum posted? Proposals due 5/7 @ 3:30 PM ET.
+
+DEADLINES:
+  - ✅ May 1 — Yonkers RFP-546 — SUBMITTED
+  - 🔥 May 5 — CBP Medical Support Phase I @ 5:00 PM ET
+  - 🔥 May 7 — KY DMS proposals @ 3:30 PM ET
+  - 🔥 May 11 — Maryland MVA Courier ITQ @ 1:00 PM ET (NEW)
+
+MEETINGS:
+  - 📞 6:00 PM ET — Meeting (already on calendar)
+
+FOLLOW-UPS DUE:
+  - Barbara / AMRO — Email sent 04/30, awaiting response (follow up by May 5)
+  - Acuity-CHS + Concentra (CBP teaming)
+  - ICE DHS (Tracy Riley) — OVERDUE
+  - OLIMP + God Is Good Hauling responses by May 3 (Maryland MVA)
+```
+
+---
+
+# YOUR AGENDA — Thursday, April 30, 2026 (archived)
+
+**Archived from:** Thursday, April 30, 2026.
+
+**Session accomplishment:** Maryland MVA Courier Services ITQ V-HQ-26065-S — full bid package built. Pricing model ($95-$185/delivery, 25-30% DDI margin), operations plan (DDI prime / OLIMP warehouse / God Is Good Hauling courier), revenue analysis ($241K-$384K 5-year margin), 7 of 12 application sections drafted, partner outreach emails ready. Multi-state courier expansion concept parked for mid-May.
 
 ---
 
@@ -28,7 +107,7 @@ TODAY'S PRIORITIES — Thursday, April 30, 2026
      Bring: notary stamp, journal, ID verification checklist.
 
 6. 📝  **CBP Medical Support 70B06C26R00000017** — 5 DAYS OUT (May 5).
-     Follow up with Acuity-CHS + Concentra if no reply.
+     Acuity: **Felecia Younger** (Federal BD Exec) + **Fadi Bahou** (VP Growth Strategy) + **Rich Bamonte** + **Leslie Wood**; **Russ stale**. Concentra follow-up if no reply.
      Phase I prep: written tech approach + past performance.
 
 7. 🔍  **KY DMS RFP 128 2600000415** — Addendum watch (**today ~4/30**).

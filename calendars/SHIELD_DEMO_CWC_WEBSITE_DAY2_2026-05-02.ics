@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:shield-demo-cwc-website-day2-20260502@deedavis.biz
+DTSTAMP:20260430T224600
+DTSTART;TZID=America/Detroit:20260502T100000
+DTEND;TZID=America/Detroit:20260502T160000
+SUMMARY:🎥 SHIELD Demo + CWC Website — Day 2
+DESCRIPTION:Continue SHIELD demo video and cwecare.org website build.\nFinalize Guidde recordings if not completed Friday.\nTarget: have demo video and website ready for Sunday send.
+LOCATION:Local — localhost:3000
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:SHIELD demo + CWC website — Day 2
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

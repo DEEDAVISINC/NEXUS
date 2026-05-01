@@ -47,6 +47,19 @@
 ## 2026-05-01 — Thursday
 
 - **Due by 5:00 PM ET** — 🔥 **City of Yonkers — Drug & Alcohol Testing RFP-546** — Submit 4 files via BidNet (empirestatebidsystem.com); folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` — St. John's Riverside confirmed — Corey.Amundson@YonkersNY.gov
+- **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD Demo Video Recording + CWC Website** — Record SHIELD navigator training video (Guidde). Build out cwecare.org. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_2026-05-01.ics`
+
+---
+
+## 2026-05-02 — Friday
+
+- **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD Demo + CWC Website — Day 2** — Continue demo recording and website build. Target: ready for Sunday send. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_DAY2_2026-05-02.ics`
+
+---
+
+## 2026-05-03 — Saturday
+
+- **2:00 – 4:00 PM ET** — 📧 **Send MDHHS Package — Angela Medina + Aimee Surma** — Follow-up email with full SHIELD pilot package (proposal, fulfillment map, demo video, asks). MedinaA@michigan.gov + SurmaA@michigan.gov. Draft: `MDHHS_FOLLOWUP_EMAIL_SUNDAY.md`. `.ics`: `calendars/MDHHS_PACKAGE_EMAIL_2026-05-03.ics`
 
 ---
 
@@ -57,15 +70,18 @@
 
 ---
 
-## 2026-05-05 — Tuesday
+## 2026-05-05 — Monday
 
-- **5:00 PM EDT** — 🔥 **CBP / DHS — Medical Support Services — Phase I due** — **70B06C26R00000017** — Full & Open / NAICS 621399 / $175M ceiling — Two-phase: Phase I = written tech approach + past performance. Phase II = oral + SB plan + price (date TBD after Phase I evaluation). CO: shaungalen.saad@cbp.dhs.gov · CS: peter.a.giambone@cbp.dhs.gov. DDI path = **sub under Acuity-CHS (incumbent)** — drug testing TPA (Tasks 6–7 / Section A, Tasks 4–5 / Section B). Teaming outreach: `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/TEAMING_OUTREACH/`. Update `.ics` file to reflect new date.
+- **10:00 – 10:30 AM ET** — 📧 **Follow Up — Brian Grcevich (CareSource) Orientation** — Second outreach. Brian.Grcevich@CareSource.com. CareSource contract executed 4/28, Vendor ID 100000469269. Escalation: Dana Drew — Dana.Drew@CareSource.com — 937.926.5848. `.ics`: `calendars/CARESOURCE_BRIAN_FOLLOWUP_2026-05-05.ics`
+- **12:00 PM ET** — 📋 **KY DMS — review full proposal package** — RFP 128 2600000415 — Technical + Cost + Proprietary in `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/SEND_TO_BUYER/` (TE merges, pricing lock, affidavits/SOS) — **VSS submit due 5/7 3:30 PM ET** — `.ics`: `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics`
+- **5:00 PM EDT** — 🔥 **CBP / DHS — Medical Support Services — Phase I due** — **70B06C22R00000017** — Full & Open / NAICS 621399 / $175M ceiling — Two-phase: Phase I = written tech approach + past performance. Phase II = oral + SB plan + price (date TBD after Phase I evaluation). CO: shaungalen.saad@cbp.dhs.gov · CS: peter.a.giambone@cbp.dhs.gov. DDI path = **sub under Acuity-CHS (incumbent)** — drug testing TPA (Tasks 6–7 / Section A, Tasks 4–5 / Section B). Teaming outreach: `BIDS:RESOURCES/DHS CBP MEDICAL SUPPORT SERVICES/TEAMING_OUTREACH/`. Update `.ics` file to reflect new date.
 
 ---
 
 ## 2026-05-04 — Monday *(MDHHS follow-up target window opens)*
 
-- **Watch item** — 📅 **MDHHS follow-up meeting — CWC+DDI** — Angela Medina + Aimee Surma committed to a formal follow-up within 2 weeks of 4/23. Target schedule: **week of 5/4 (5/4–5/8)**. Deliverable owed: **pilot structure documentation** (10-member demo — lead screening navigation + housing stability, 90-day outcomes framework, selection criteria, roles matrix).
+- **Watch item** — 📅 **MDHHS follow-up meeting — CWC+DDI** — Angela Medina + Aimee Surma committed to a formal follow-up within 2 weeks of 4/23. Target schedule: **week of 5/4 (5/4–5/8)**. 
+  **Package status:** 6 of 9 deliverables BUILT (pilot proposal, SHIELD fulfillment map, revenue model, outcomes framework, staffing/roles, vendor sourcing asks). 2 need CHAMPS data pull (CHW rate + taxonomy). 1 is a meeting question (attending physician NPI). **Real work remaining:** package into one clean PDF/deck handoff for Angela + Aimee to share with LHD directors.
 - **ASK at meeting** — 🛡️ **SHIELD vendor sourcing** — Request from Aimee/Angela: "Who are your current contracted vendors for lead abatement, emergency/temp housing, CHW home visits, and nurse home visits in Wayne, Oakland, Macomb, and Genesee counties — and can CWC/DDI be credentialed to coordinate through them?" Also ask about Get Ahead of Lead filter supplier pipeline and any existing MSHDA regional contacts for housing navigation.
 - **ASK at meeting** — 💰 **CHW Medicaid reimbursement rates** — Confirm Michigan Medicaid per-unit rate for CPT 98960/98961/98962 (CHW services). DDI needs the exact number to model navigator staffing costs vs. reimbursement. Also ask: what billing provider structure does MDHHS expect for CHW claims — can DDI bill as the Type 2 NPI org with CWC navigators as rendering providers?
 - **ASK at meeting** — 🏥 **Provider enrollment for CHW billing** — DDI's current Medicaid taxonomy is Transportation Broker (347E00000X). Ask Aimee/Angela: does DDI need to add a CHW taxonomy (171400000X) to bill 98960-98962? What's the fastest path to get DDI set up as a CHW billing provider in CHAMPS? Also: does MDHHS have guidance on CMS-855B Medicare enrollment for organizations billing CHI codes (G0019/G0022)?
@@ -76,3 +92,15 @@
 ## 2026-05-07 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **KY DMS — proposals** — RFP 128 2600000415 — Kentucky VSS (Technical + Cost + Proprietary); folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` — `.ics`: `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics`
+
+---
+
+## 2026-05-11 — Monday
+
+- **Due by 1:00 PM ET** — 🔥 **Maryland MVA — Courier Services ITQ V-HQ-26065-S** — Submit qualification application on eMMA (emma.maryland.gov). Folder: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_BUYER/`. 12 submission items required (7 drafted, 3 waiting on partners, 2 on Dee). CO: Gayloy Martin (gmartin5@mdot.maryland.gov / 410-768-7640). DDI prime / OLIMP warehouse / God Is Good Hauling courier. Contract: 5 years + unlimited renewals, no cost to state, revenue from dealers. Target DDI margin: $33K-$116K/year.
+
+---
+
+## 2026-05-03 — Saturday
+
+- **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling** — Need warehouse details + insurance certificates for Maryland MVA Courier ITQ. Emails sent from `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_SUBCONTRACTOR/`. If no response by end of day, follow up immediately — application due May 11.

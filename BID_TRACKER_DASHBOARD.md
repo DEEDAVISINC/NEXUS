@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 22, 2026
+**Updated:** April 30, 2026
 
 ---
 
@@ -7,8 +7,8 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
-| **May 1, 2026** | **Proposals due** | **City of Yonkers, NY** | **RFP-546** | **ACTIVE — GO** — Drug & Alcohol Testing Services; ~300 CDL drivers; 4-year contract; $162.5K/yr est. revenue; WBE advantage; BidNet submission; folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/`; St. John's confirmed; **4 files needed on BidNet** |
-| **Apr 22, 2026 (e‑mailed)** | **Written questions** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **SUBMITTED** — E‑mailed Robin.Uphoff@ky.gov **today**; agency deadline was **4/23 3:30 PM ET**; await addendum ~**4/30**; folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` |
+| **May 1, 2026** | **Proposals due** | **City of Yonkers, NY** | **RFP-546** | **✅ SUBMITTED Apr 30, 2026 8:44 PM EDT** — Confirmation **#0000411244** · Drug & Alcohol Testing Services · ~300 CDL drivers · 4-year contract · $162.5K/yr est. revenue · WBE advantage · folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` · **AWAITING AWARD** |
+| **Apr 28, 2026** | **Addendum posted** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **RECEIVED** — Modification **Version 2** / Addendum #1 in folder `Final_RFP_128_2600000415_2_SO_FORM.PDF`; **15-panel** authoritative; Commonwealth **~1,500**/yr estimate; Attachment A reconcile Random Selection (**100/year** admin); **`WORKFLOW_CHECKLIST.md` updated** |
 | **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
 | **Apr 17 @ 4:00 PM ET** | **Drug Test Kits** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **✅ SUBMITTED** — Apr 17, 2026 · CS-1 + CS-2(2) signed · 6 items priced (12-panel cup $64.68, 13-panel oral fluid $77.68, 14-panel $71.18, 18-panel $84.18, kratom strips $19.18, psilocybin dip $23.08) · Total $339.98 · PDF archived PROOF_OF_SUBMISSION · Award watch |
 | **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |
@@ -53,7 +53,7 @@
 
 | Contact | Agency | Service | Date Sent | Status |
 |---|---|---|---|---|
-| **Russ Langford — Acuity CGO** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Drug Testing TPA sub (Sec A T6-7, Sec B T4-5)** | **Apr 27, 2026 ~2:45 PM ET** | **FOLLOW-UP SENT** — Direct email to Russ.Langford@acuityinternational.com · Phase I due May 5 · Follow-up Wed 4/30 if no reply |
+| **Acuity-CHS / Federal BD (Russ STALE)** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Drug Testing TPA sub (Sec A T6-7, Sec B T4-5)** | **Apr 27, 2026** (Russ); **PIVOT** | **Russ Langford** — stale POC. **Federal BD lane:** **Felecia Younger** — **Federal Business Development Executive** (LinkedIn: `linkedin.com/in/felecia-younger`; user cited **Youngers** — confirm spelling on profile). **Growth / exec lane:** **Fadi Bahou** — **VP, Growth Strategy**. **Also:** **Rich Bamonte** — **CGO, Federal** (Acuity **2025-06-16** announcement). **Leslie Wood** — `Leslie.Wood@acuityinternational.com`. **Phone:** verify on live site (**703-261-1110** / **703-673-5700**). Confirm work emails via InMail/EA — do not guess. Folder: `TEAMING_OUTREACH/`. |
 | **Kayla Thomas — Concentra** | **CBP Medical Support Re-compete 70B06C26R00000017** | **Teaming inquiry — existing partner — drug testing TPA** | **Apr 24, 2026 1:18 PM ET** | **SENT** — direct email to Kayla · Follow-up if no reply Mon 4/27 AM |
 | Tracy Riley | ICE DHS — Courier | Courier, DNA, Fingerprinting, E-Verify | Mar 19 | **REPLIED Mar 22** — "Interesting, thanks for the information about this capability." Acknowledged DNA capability. No active need. CC'd Marilyn Doty, Jennifer Doran, Mark Gonzales. **Next follow-up: ~Apr 22 (30 days).** |
 | Jared Tritle | CBP — Fingerprinting BPA | Electronic Fingerprinting Services | Mar 22 | **SENT Mar 22** — Cold intro + tailored fingerprinting cap statement (Forest Green). CBP Office of Human Resources Management. |

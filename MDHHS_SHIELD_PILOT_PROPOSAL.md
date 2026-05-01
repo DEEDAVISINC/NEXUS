@@ -98,17 +98,17 @@ All data is HIPAA-compliant. Every entry point displays a mandatory compliance a
 
 ## Service Lines — 9 Total
 
-| # | Service Line | Delivered By | Billing |
-|---|-------------|-------------|---------|
-| 1 | Blood Lead Level (BLL) Testing | Quest Diagnostics / LHD Labs | CHW navigation (CPT 98960) |
-| 2 | CLPPP Case Management | MDHHS CLPPP (DDI navigates into) | CHW navigation (CPT 98960) |
-| 3 | NEMT | DDI / Uber Health | Medicaid NEMT (T2002 + mileage) |
-| 4 | Lead Remediation Coordination | Subcontracted abatement vendors | 22.5% DDI admin fee |
-| 5 | Housing Navigation | CWC Navigators + MSHDA | CHW navigation (CPT 98960) |
-| 6 | MIBridges Benefits Navigation | CWC Navigators | CHW navigation (CPT 98960) |
-| 7 | Filter Safety Net / Drinking Water | Get Ahead of Lead program | CHW navigation (CPT 98960) |
-| 8 | Community Health Worker Home Visit | CWC Navigators (CHW certified) | Medicaid CHW (CPT 98960) |
-| 9 | Nurse Home Visit | Subcontracted nurse agency | 22.5% DDI admin fee |
+| # | Service Line | Delivered By |
+|---|-------------|-------------|
+| 1 | Blood Lead Level (BLL) Testing | Quest Diagnostics / LHD Labs |
+| 2 | CLPPP Case Management | MDHHS CLPPP (DDI navigates families into program) |
+| 3 | NEMT | DDI / Uber Health |
+| 4 | Lead Remediation Coordination | Subcontracted abatement vendors |
+| 5 | Housing Navigation | CWC Navigators + MSHDA |
+| 6 | MIBridges Benefits Navigation | CWC Navigators |
+| 7 | Filter Safety Net / Drinking Water | Get Ahead of Lead program |
+| 8 | Community Health Worker Home Visit | CWC Navigators (CHW certified) |
+| 9 | Nurse Home Visit | Subcontracted nurse agency |
 
 Full service delivery map with vendor details, contract status, and MDHHS asks: see attached **SHIELD Service Fulfillment Map**.
 
@@ -116,16 +116,15 @@ Full service delivery map with vendor details, contract status, and MDHHS asks: 
 
 ## How DDI Gets Paid (Zero Cost to MDHHS)
 
-DDI does not request funding from MDHHS. All revenue comes from existing payer obligations:
+DDI does not request funding from MDHHS. DDI bills existing payers — Medicaid MCOs, Medicaid FFS, and private insurers — for services already covered under their benefit structures.
 
-| Revenue Source | Payer | Billing Mechanism |
-|---------------|-------|-------------------|
-| CHW navigation on every test | MCOs / Medicaid FFS / Private insurers | CPT 98960-98962 (15-min units) |
-| NEMT to appointments | Michigan Medicaid / MCOs | HCPCS T2002 + T2003 mileage |
-| Admin fee on subcontracted services | Pass-through on remediation, nurse visits, housing | 22.5% of service cost |
-| Elevated case full service cascade | All payers | Combined CHW + NEMT + admin fees |
+| What DDI Bills For | Who Pays |
+|--------------------|----------|
+| Community Health Worker navigation time | MCOs / Medicaid / Private insurers |
+| Non-Emergency Medical Transportation | Michigan Medicaid / MCOs |
+| Coordination of subcontracted services (remediation, nurse visits) | Pass-through from payer reimbursement |
 
-**Why this works:** The universal testing law creates a mandate. Medicaid and MCOs are already obligated to cover BLL testing, CHW services, and NEMT for enrolled children. Private insurers cover the same for their members. DDI is simply the TPA that organizes and manages what the payers are already required to fund.
+**Why this works:** The universal testing law creates a mandate. Medicaid and MCOs are already obligated to cover BLL testing, CHW services, and NEMT for enrolled children. Private insurers cover the same for their members. DDI organizes and manages what the payers are already required to fund — MDHHS just provides the referral pipeline.
 
 ---
 

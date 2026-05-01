@@ -224,6 +224,8 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
   - **Quest Employer Solutions Online Training Center** — DOT-specific training (DOT Supervisor Reasonable Suspicion, DOT Drug & Alcohol Awareness, FMCSA compliance). Used for drug testing collector and C/TPA supervisor training requirements.
 
 **Professional Training & Certifications:**
+- **Legal Support Specialist Certification** — certificate on file (`COMPANY_DOCUMENTS/CERTIFICATIONS/LEGAL_SUPPORT_SPECIALIST_CERTIFICATION.pdf`; synced from iCloud CERTIFICATES)
+- **Virtual Transaction Coordination Certification** — certificate on file (`COMPANY_DOCUMENTS/CERTIFICATIONS/VIRTUAL_TRANSACTION_COORDINATION_CERTIFICATE.pdf`; synced from iCloud `CERTIFICATES/VIRTUAL TRANSACTION COORIDNATION CERTIFICATE.pdf`)
 - **Property Data Collection Training Certificate #I-03** (Walitt Solutions, September 25, 2022) — HUD/Fannie Mae PDC report format, residential property condition assessment, data collection protocols
 - **Property & Casualty Insurance Prelicense Certificate** (A.D. Banker & Company, Course #0432, September 22, 2022) — property risk assessment, casualty evaluation, insurance compliance
 - **Real Estate Prelicense Certificate** — Michigan real estate principles, property law, transaction documentation

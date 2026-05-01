@@ -119,7 +119,6 @@ SHIELD coordinates **9 service lines** for lead-affected families across **Wayne
 | **Delivery Model** | CWC navigator direct service |
 | **Primary Provider** | CWC Navigators (to be CHW certified) |
 | **CWC Navigator Role** | Conduct home visits: needs assessment, environmental scan, service plan development, benefit enrollment assistance, education on lead exposure prevention, follow-up visits |
-| **Billing** | Medicaid CHW codes CPT 98960/98961/98962 (pending DDI taxonomy update to 171400000X + CHAMPS enrollment for CHW services) |
 | **Contract Status** | CWC navigators deliver directly. DDI hiring/training navigators per county. |
 | **Counties** | All 4 |
 | **MDHHS Ask** | Confirm CHW Medicaid reimbursement rate for CPT 98960-98962 in Michigan. Can DDI (Type 2 NPI) bill as org with CHW-certified navigators as rendering providers? If DDI needs a CHW agency partner short-term while building internal capacity, provide recommendations. |
@@ -170,7 +169,7 @@ Every service line above flows through SHIELD with **automated verification and 
 Referral → Navigator → Service Activated → Vendor Dispatched → TWO-WAY VERIFICATION → Payment Released
   /refer     SHIELD       Supervisor OK       Auto-SMS            Contractor ✓            VERTEX
                                                                   + Family ✓              Billing
-                                                                  = Verified Complete      22.5% admin
+                                                                  = Verified Complete
 ```
 
 ### Verification Chain (No Manual Trust Required)
