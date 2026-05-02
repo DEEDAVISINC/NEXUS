@@ -61,6 +61,7 @@
 
 ## 2026-05-03 — Sunday
 
+- **12:30–1:30 PM ET** — 📞 **MEETING: Donald Krause** — 26 Moross St, Mount Clemens, MI 48043 — `.ics`: `calendars/KRAUSE_MEETING_2026-05-03.ics`
 - **12:00 – 2:00 PM ET** — 📋 **MMCAP Infuse — Submit Cardinal Health App + Draft Outreach** — Submit carrier application at cardinalhealth.com/en/support/transportation-carriers.html. Draft outreach emails for McKesson, Medline, Henry Schein, Concordance, Morris & Dickson. Identify LinkedIn contacts. `.ics`: `calendars/MMCAP_INFUSE_SUBMIT_2026-05-03.ics`
 - **2:00 – 4:00 PM ET** — 📧 **Send MDHHS Package — Angela Medina + Aimee Surma** — Follow-up email with full SHIELD program package (proposal, fulfillment map, demo video, asks). MedinaA@michigan.gov + SurmaA@michigan.gov. Draft: `MDHHS_FOLLOWUP_EMAIL_SUNDAY.md`. `.ics`: `calendars/MDHHS_PACKAGE_EMAIL_2026-05-03.ics`
 
@@ -95,6 +96,12 @@
 ## 2026-05-07 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **KY DMS — proposals** — RFP 128 2600000415 — Kentucky VSS (Technical + Cost + Proprietary); folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` — `.ics`: `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics`
+
+---
+
+## 2026-05-15 — Thursday
+
+- **Due by 3:30 PM ET** — 🔥 **DHA Fingerprinting Support Services — RFQ expected to post** — HT001126QE014 — Defense Health Agency — Fingerprint collection + SWFT submission, 50 states + territories. DDI ON INTERESTED VENDORS LIST. Presolicitation closes this date; RFQ will post ~30 days. Buyer email + cap statement READY in `BIDS:RESOURCES/DHA FINGERPRINTING SUPPORT SERVICES/SEND_TO_BUYER/`. Send email to Mary Anne Young (mary.a.young138.ctr@health.mil) + CC Cherish Young (cherish.d.young2.civ@health.mil). **CRITICAL:** Call Sam Cilento (Lakota) before RFQ drops to discuss teaming/SWFT path.
 
 ---
 
