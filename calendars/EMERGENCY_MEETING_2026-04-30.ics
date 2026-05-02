@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:emergency-meeting-20260430@deedavis.biz
+DTSTAMP:20260430T144600Z
+DTSTART;TZID=America/Detroit:20260430T133000
+DTEND;TZID=America/Detroit:20260430T143000
+SUMMARY:📞 EMERGENCY Meeting
+DESCRIPTION:Emergency meeting (user-reported). Add dial-in / location in Calendar if not virtual.\n\nBuffer before 4:00 PM Rochester Hills notary signing — leave for signing by ~3:15 PM ET.
+LOCATION:TBD — update in Calendar
+STATUS:TENTATIVE
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT15M
+DESCRIPTION:Emergency meeting in 15 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

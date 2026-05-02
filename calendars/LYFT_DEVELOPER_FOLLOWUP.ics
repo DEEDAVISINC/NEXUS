@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:lyft-dev-followup-2026@deedavis.biz
+DTSTAMP:20260403T120000Z
+DTSTART;TZID=America/Detroit:20260410T120000
+DTEND;TZID=America/Detroit:20260410T120300
+SUMMARY:📋 FOLLOW UP: Lyft Developer Account Approval Status
+DESCRIPTION:Follow up on Lyft Healthcare / Lyft Concierge developer account approval.\n\n1. Check email for approval notification\n2. If not approved: email developers@lyft.com referencing your application\n3. Once approved: go to https://www.lyft.com/developers → get Client ID + Secret\n4. Add to NEXUS .env: LYFT_HEALTHCARE_CLIENT_ID and LYFT_HEALTHCARE_CLIENT_SECRET\n5. Test: GET /prism/lyft-healthcare/status → should show configured: true\n\nDashboard (once active): https://concierge.lyft.com\nContact: developers@lyft.com\n\nWhy it matters: Lyft WAV is DDIs only wheelchair (A0130) NEMT dispatch path.\nUber Health handles ambulatory. Lyft handles wheelchair. Both needed for full broker network coverage.
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:Lyft developer followup tomorrow
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Lyft developer followup in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

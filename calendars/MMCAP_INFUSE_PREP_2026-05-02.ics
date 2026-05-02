@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:mmcap-infuse-prep-20260502@deedavis.biz
+DTSTAMP:20260501T160000
+DTSTART;TZID=America/Detroit:20260502T120000
+DTEND;TZID=America/Detroit:20260502T160000
+SUMMARY:📋 MMCAP Infuse — Research + Prep Day
+DESCRIPTION:MMCAP INFUSE OPTION B — LAST-MILE PARTNER STRATEGY\n\nTASKS:\n1. Confirm DOT/MC number status (research if required for non-CDL cargo van medical courier)\n2. Verify cargo insurance levels — need $250K (medical) + $1MM (pharma)\n3. Research Morris & Dickson — find logistics/ops contact\n4. Draft capabilities one-pager (EDWOSB/MBE/WBENC/PRISM/Michigan)\n5. Map Michigan MMCAP facilities (MDOC corrections, county jails, public health, VA)\n\nREFERENCE: MMCAP_INFUSE_STRATEGY.md\nCARDINAL HEALTH PORTAL: https://www.cardinalhealth.com/en/support/transportation-carriers.html
+LOCATION:Home Office
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:MMCAP Infuse prep day tomorrow
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:MMCAP Infuse prep in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:MMCAP Infuse prep in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Chicago
+
+BEGIN:VEVENT
+UID:univ-health-eap-rfp-20260423@deedavis.biz
+DTSTAMP:20260407T180000Z
+DTSTART;TZID=America/Chicago:20260423T140000
+DTEND;TZID=America/Chicago:20260423T140001
+SUMMARY:🔥 DEADLINE: University Health EAP RFP (2 PM CT)
+DESCRIPTION:University Health (San Antonio TX) — Employee Assistance Program RFP.\n\nDue: April 23\, 2:00 PM Central.\n\nBuyer: Brenda Martinez — brenda.martinez@uhtx.com\nProcurement / registration: Procurement.Services@uhtx.com\nVendor engagement (sender): Latifah.Jackson@uhtx.com\n\nNote: EAP is clinical/counseling-network heavy — confirm subcontract EAP partner + RFP fit before committing.\n
+LOCATION:University Health procurement portal (see RFP link from invite)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:University Health EAP RFP due in 3 days
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:University Health EAP RFP due tomorrow
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:University Health EAP RFP due in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

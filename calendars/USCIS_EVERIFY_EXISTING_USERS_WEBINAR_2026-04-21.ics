@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:e-verify-existing-users-20260421@deedavis.biz
+DTSTAMP:20260407T170000Z
+DTSTART;TZID=America/Detroit:20260421T140000
+DTEND;TZID=America/Detroit:20260421T150000
+SUMMARY:📞 USCIS Webinar: E-Verify for Existing Users
+DESCRIPTION:USCIS / Webex — E-Verify for Existing Users\n\nJoin (Webex):\nhttps://uscis.webex.com/uscis/j.php?MTID=m5d27474e091b9f69d732dcb56f994eb9\n\nCovers: creating a case\, case alerts\, TNC handling\, employer responsibilities\, common user mistakes. Useful for existing users\, new users\, and HR.\n\nWebinar questions: e-verifyoutreach@uscis.dhs.gov\nOrganizer: Fisher\, Steve R\n\nE-Verify Company ID (DDI): DDAVB62C
+LOCATION:Webex — https://uscis.webex.com/uscis/j.php?MTID=m5d27474e091b9f69d732dcb56f994eb9
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:E-Verify webinar tomorrow
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:E-Verify webinar in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:E-Verify webinar in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
