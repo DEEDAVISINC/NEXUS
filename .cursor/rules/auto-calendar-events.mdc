@@ -5,19 +5,68 @@ alwaysApply: true
 
 # Auto Calendar Events — MANDATORY
 
-**When ANY call, meeting, or hard deadline is confirmed: ADD IT DIRECTLY TO APPLE CALENDAR via AppleScript. No asking. No waiting. Just do it.**
+## Why AppleScript felt “wrong”
+
+**AppleScript `make new event` writes straight into Calendar.** There is **no** invite, **no** import sheet, **nothing to accept** — macOS treats it like *you* created the event yourself. That matches automation; it does **not** match Dee’s required **review + accept** step.
+
+**Default for Dee: use `.ics` + she accepts the import** (double‑click / Add in Calendar). Do **not** use AppleScript unless she **explicitly** opts in to silent add (e.g. *“put it on the calendar, no prompt”*).
+
+---
 
 ## When to Trigger
 
-Add a calendar event when:
-- A call or meeting is confirmed (date, time, and contact known)
-- A bid deadline is identified with a specific date
-- A follow-up date is set
-- Any time-sensitive action is scheduled
+Create a calendar commitment when:
+- A call or meeting is confirmed (date, time, contact, location as known)
+- A bid deadline has a specific date/time
+- A follow-up or time-sensitive action is set
 
-## PRIMARY METHOD: AppleScript (REQUIRED)
+---
 
-**The `open` command on .ics files is UNRELIABLE. Use AppleScript to add events directly.**
+## PRIMARY METHOD (default): `.ics` + accept in Calendar
+
+1. **Write** `calendars/[EVENT_NAME].ics` with **valid iCal** and **timezone**.
+2. **Mirror** the same commitment in `calendars/SCHEDULED_AGENDA.md` (same session).
+3. **Handoff for accept:** run **`open -R "/path/to/calendars/[FILE].ics"`** so Finder shows the file. Tell Dee: **double‑click the `.ics`** → Calendar opens the **Add** sheet → that is the **accept** step.
+
+**Do not rely on `open file.ics` alone** for the accept UX — it is inconsistent. **Finder + double‑click** is the reliable path Dee already uses.
+
+### `.ics` format (REQUIRED)
+
+- **`DTSTART;TZID=America/Detroit:`** and **`DTEND;TZID=America/Detroit:`** — **always** (same pattern as Rochester / SHIELD `.ics` that imported correctly).
+- **Do not** use bare floating `DTSTART:...` without TZID.
+- **Do not** use “fix it with `Z` UTC” unless you have verified import; TZID+Detroit matches NEXUS working files.
+
+Template:
+
+```
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:[unique]@deedavis.biz
+DTSTAMP:[YYYYMMDDTHHMMSSZ]
+DTSTART;TZID=America/Detroit:[YYYYMMDDTHHMMSS]
+DTEND;TZID=America/Detroit:[YYYYMMDDTHHMMSS]
+SUMMARY:[EMOJI] [TITLE]
+DESCRIPTION:[details]
+LOCATION:[address or link]
+STATUS:CONFIRMED
+SEQUENCE:0
+...
+END:VEVENT
+END:VCALENDAR
+```
+
+---
+
+## OPTIONAL: AppleScript (silent add — **only if Dee explicitly requests it**)
+
+Use **only** when she says silent add is OK. This **skips** accept/import.
 
 ```bash
 osascript <<'APPLESCRIPT'
@@ -30,25 +79,16 @@ tell application "Calendar"
   set minutes of startDate to [MINUTES]
   set seconds of startDate to 0
   set endDate to startDate + [DURATION_SECONDS]
-
   tell calendar "bids.deedavisinc@gmail.com"
-    make new event with properties {summary:"[EMOJI] [TITLE]", start date:startDate, end date:endDate, location:"[LOCATION]", description:"[DETAILS]"}
+    make new event with properties {summary:"…", start date:startDate, end date:endDate, location:"…", description:"…"}
   end tell
 end tell
 APPLESCRIPT
 ```
 
-**Target calendar:** `bids.deedavisinc@gmail.com`
+If you use AppleScript **and** also ship an `.ics`, warn Dee she may get a **duplicate** if she later imports the same `.ics`.
 
-**Duration in seconds:**
-- 30 min = 1800
-- 1 hour = 3600
-- 2 hours = 7200
-- 6 hours = 21600
-
-**Month names:** January, February, March, April, May, June, July, August, September, October, November, December
-
-**Verify success:** The command returns `event id [UUID]` if it worked. If no event ID returned, it failed.
+---
 
 ## Emoji Prefixes
 
@@ -57,35 +97,17 @@ APPLESCRIPT
 - Follow-ups: 📧
 - Portal/Registration tasks: 📋
 
-## BACKUP: .ics File (for git tracking only)
-
-Also save to `calendars/[EVENT_NAME].ics` for version control. Use `;TZID=America/Detroit:` format:
-
-```
-DTSTART;TZID=America/Detroit:20260501T150000
-DTEND;TZID=America/Detroit:20260501T160000
-```
-
-**The .ics file is NOT the primary method. AppleScript is.**
+---
 
 ### Scheduled agenda mirror (MANDATORY — same session)
 
-**Calendar entries must also appear on the agenda for the day they occur.** After the `.ics` file is written:
+After the `.ics` file is written:
 
-1. Open or create `calendars/SCHEDULED_AGENDA.md`.
-2. Find or add a section header for that event date, using this exact pattern (ISO date first so sections stay chronological):
-   - `## YYYY-MM-DD — [Weekday]`
-   - Example: `## 2026-04-20 — Monday`
-3. Under that section, add one bullet with:
-   - **Time range in ET** (from DTSTART–DTEND), emoji by type (📞 call/meeting, 🔥 deadline, 📧 follow-up, 📋 portal/task)
-   - Short **title**
-   - **Location or link** (Zoom URL, portal, or “submission per solicitation”)
-   - **`.ics` filename** under `calendars/` for traceability
-4. If the same event is already listed (same date + same title + same start time), **do not duplicate** — update the line if details changed.
-5. If an all-day deadline, use **All day** or **Due by [time] ET** as appropriate.
+1. Update `calendars/SCHEDULED_AGENDA.md` under `## YYYY-MM-DD — [Weekday]` (America/Detroit).
+2. Bullet: time **ET**, emoji, title, location/link, **`.ics` filename**.
 
-**Good morning / briefings:** Read `calendars/SCHEDULED_AGENDA.md` for **today’s** date section (America/Detroit) together with `TODAY_AGENDA.md` so scheduled calls and deadlines are never agenda-only in Calendar.
+---
 
 ## Time Zone
 
-Dee is in Eastern Time (America/Detroit). All DTSTART/DTEND values must be in ET. If an event is scheduled in another timezone (e.g., CT), convert to ET first.
+Dee uses **America/Detroit**. Times in `SCHEDULED_AGENDA` are **ET**. If another TZ is given, convert to Detroit ET for the `.ics` `TZID` times.
