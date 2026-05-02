@@ -5,38 +5,24 @@ alwaysApply: true
 
 # Auto Calendar Events — MANDATORY
 
-## Why AppleScript felt “wrong”
-
-**AppleScript `make new event` writes straight into Calendar.** There is **no** invite, **no** import sheet, **nothing to accept** — macOS treats it like *you* created the event yourself. That matches automation; it does **not** match Dee’s required **review + accept** step.
-
-**Default for Dee: use `.ics` + she accepts the import** (double‑click / Add in Calendar). Do **not** use AppleScript unless she **explicitly** opts in to silent add (e.g. *“put it on the calendar, no prompt”*).
+**When a calendar event is created, the "Add event" dialog MUST appear automatically. No exceptions. No manual steps. No double-clicking.**
 
 ---
 
 ## When to Trigger
 
-Create a calendar commitment when:
-- A call or meeting is confirmed (date, time, contact, location as known)
+Create a calendar event when:
+- A call or meeting is confirmed (date, time, contact, location known)
 - A bid deadline has a specific date/time
 - A follow-up or time-sensitive action is set
 
 ---
 
-## PRIMARY METHOD (default): `.ics` + accept in Calendar
+## HOW TO CREATE — Two steps, dialog appears automatically
 
-1. **Write** `calendars/[EVENT_NAME].ics` with **valid iCal** and **timezone**.
-2. **Mirror** the same commitment in `calendars/SCHEDULED_AGENDA.md` (same session).
-3. **Handoff for accept:** run **`open -R "/path/to/calendars/[FILE].ics"`** so Finder shows the file. Tell Dee: **double‑click the `.ics`** → Calendar opens the **Add** sheet → that is the **accept** step.
+### Step 1: Write the `.ics` file
 
-**Do not rely on `open file.ics` alone** for the accept UX — it is inconsistent. **Finder + double‑click** is the reliable path Dee already uses.
-
-### `.ics` format (REQUIRED)
-
-- **`DTSTART;TZID=America/Detroit:`** and **`DTEND;TZID=America/Detroit:`** — **always** (same pattern as Rochester / SHIELD `.ics` that imported correctly).
-- **Do not** use bare floating `DTSTART:...` without TZID.
-- **Do not** use “fix it with `Z` UTC” unless you have verified import; TZID+Detroit matches NEXUS working files.
-
-Template:
+Save to `calendars/[EVENT_NAME].ics` using this **EXACT** format:
 
 ```
 BEGIN:VCALENDAR
@@ -48,45 +34,61 @@ X-WR-CALNAME:NEXUS Bids
 X-WR-TIMEZONE:America/Detroit
 
 BEGIN:VEVENT
-UID:[unique]@deedavis.biz
-DTSTAMP:[YYYYMMDDTHHMMSSZ]
-DTSTART;TZID=America/Detroit:[YYYYMMDDTHHMMSS]
-DTEND;TZID=America/Detroit:[YYYYMMDDTHHMMSS]
-SUMMARY:[EMOJI] [TITLE]
-DESCRIPTION:[details]
-LOCATION:[address or link]
+UID:[unique-id]@deedavis.biz
+DTSTAMP:20260501T120000Z
+DTSTART;TZID=America/Detroit:20260503T123000
+DTEND;TZID=America/Detroit:20260503T133000
+SUMMARY:📞 MEETING: [Name]
+DESCRIPTION:[Details]
+LOCATION:[Address]
 STATUS:CONFIRMED
 SEQUENCE:0
-...
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Meeting in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Meeting in 30 minutes
+ACTION:DISPLAY
+END:VALARM
 END:VEVENT
 END:VCALENDAR
 ```
 
----
+### CRITICAL FORMAT RULES — NO EXCEPTIONS
 
-## OPTIONAL: AppleScript (silent add — **only if Dee explicitly requests it**)
-
-Use **only** when she says silent add is OK. This **skips** accept/import.
-
-```bash
-osascript <<'APPLESCRIPT'
-tell application "Calendar"
-  set startDate to current date
-  set year of startDate to [YEAR]
-  set month of startDate to [MONTH_NAME]
-  set day of startDate to [DAY]
-  set hours of startDate to [HOUR_24]
-  set minutes of startDate to [MINUTES]
-  set seconds of startDate to 0
-  set endDate to startDate + [DURATION_SECONDS]
-  tell calendar "bids.deedavisinc@gmail.com"
-    make new event with properties {summary:"…", start date:startDate, end date:endDate, location:"…", description:"…"}
-  end tell
-end tell
-APPLESCRIPT
+**CORRECT (dialog appears):**
+```
+DTSTART;TZID=America/Detroit:20260503T123000
+DTEND;TZID=America/Detroit:20260503T133000
 ```
 
-If you use AppleScript **and** also ship an `.ics`, warn Dee she may get a **duplicate** if she later imports the same `.ics`.
+**WRONG (dialog does NOT appear):**
+```
+DTSTART:20260503T123000          ← NO — missing TZID
+DTSTART:20260503T163000Z         ← NO — UTC with Z doesn't work
+DTSTART:20260503T123000Z         ← NO — Z suffix breaks import
+```
+
+**The ONLY format that works is `;TZID=America/Detroit:` — use it every time.**
+
+### Step 2: Run `open` on the file
+
+```bash
+open "/Users/deedavis/NEXUS BACKEND/calendars/[FILE].ics"
+```
+
+**The "Add event" dialog appears automatically. User selects calendar, clicks OK. Done.**
+
+---
+
+## Also update the agenda mirror
+
+After the `.ics` is written, update `calendars/SCHEDULED_AGENDA.md`:
+- Find or add `## YYYY-MM-DD — [Weekday]`
+- Add bullet: time ET, emoji, title, location, `.ics` filename
 
 ---
 
@@ -99,15 +101,6 @@ If you use AppleScript **and** also ship an `.ics`, warn Dee she may get a **dup
 
 ---
 
-### Scheduled agenda mirror (MANDATORY — same session)
-
-After the `.ics` file is written:
-
-1. Update `calendars/SCHEDULED_AGENDA.md` under `## YYYY-MM-DD — [Weekday]` (America/Detroit).
-2. Bullet: time **ET**, emoji, title, location/link, **`.ics` filename**.
-
----
-
 ## Time Zone
 
-Dee uses **America/Detroit**. Times in `SCHEDULED_AGENDA` are **ET**. If another TZ is given, convert to Detroit ET for the `.ics` `TZID` times.
+Dee is in **America/Detroit** (Eastern). All times in `.ics` use `TZID=America/Detroit`. Convert other timezones to ET first.

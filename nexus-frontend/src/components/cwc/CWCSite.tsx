@@ -23,7 +23,6 @@ const MovementWord: React.FC<{ color?: string; className?: string }> = ({ color,
 );
 
 const YELLOW = '#F5C23E';
-const YELLOW_LIGHT = '#FCD75A';
 const YELLOW_PALE = '#FEF3D0';
 const BLUE = '#1F3FAE';
 const BLUE_DARK = '#142A7A';
@@ -767,12 +766,13 @@ function ShieldPage() {
           <h2 className="text-2xl font-black mb-2 text-center" style={{ color: BLUE }}>Resources For You</h2>
           <p className="text-center text-sm mb-10" style={{ color: '#999' }}>You don't have to wait for us. These links connect you directly to Michigan programs you may qualify for.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FAMILY_RESOURCES.slice(0, 9).map(r => (
+            {FAMILY_RESOURCES.slice(0, 9).map(r => {
+              const isPhone = r.url.startsWith('tel:');
+              return (
               <a
                 key={r.title}
                 href={r.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(!isPhone ? { target: '_blank', rel: 'noopener noreferrer' } as const : {})}
                 className="rounded-2xl p-5 transition-all hover:shadow-lg hover:scale-[1.02] group flex flex-col"
                 style={{ background: '#F8F9FB', border: '1px solid #E8EBF0' }}
               >
@@ -780,9 +780,10 @@ function ShieldPage() {
                 <h4 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: BLUE }}>{r.title}</h4>
                 <p className="text-xs leading-relaxed flex-1" style={{ color: '#666' }}>{r.desc}</p>
                 {r.phone && <p className="text-xs font-bold mt-2" style={{ color: BLUE }}>{r.phone}</p>}
-                <div className="mt-3 text-[10px] uppercase tracking-wider font-bold" style={{ color: YELLOW }}>Visit &rarr;</div>
+                <div className="mt-3 text-[10px] uppercase tracking-wider font-bold" style={{ color: YELLOW }}>{isPhone ? 'Call →' : 'Visit →'}</div>
               </a>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -836,12 +837,13 @@ function ResourcesPage() {
       <section className="py-16" style={{ background: WHITE }}>
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FAMILY_RESOURCES.map(r => (
+            {FAMILY_RESOURCES.map(r => {
+              const isPhone = r.url.startsWith('tel:');
+              return (
               <a
                 key={r.title}
                 href={r.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(!isPhone ? { target: '_blank', rel: 'noopener noreferrer' } as const : {})}
                 className="rounded-2xl p-6 transition-all hover:shadow-lg hover:scale-[1.02] group flex flex-col"
                 style={{ background: '#F8F9FB', border: '1px solid #E8EBF0' }}
               >
@@ -849,9 +851,10 @@ function ResourcesPage() {
                 <h4 className="text-base font-bold mb-1 group-hover:underline" style={{ color: BLUE }}>{r.title}</h4>
                 <p className="text-sm leading-relaxed flex-1" style={{ color: '#666' }}>{r.desc}</p>
                 {r.phone && <p className="text-sm font-bold mt-3" style={{ color: BLUE }}>{r.phone}</p>}
-                <div className="mt-4 text-xs uppercase tracking-wider font-bold" style={{ color: YELLOW }}>Visit &rarr;</div>
+                <div className="mt-4 text-xs uppercase tracking-wider font-bold" style={{ color: YELLOW }}>{isPhone ? 'Call →' : 'Visit →'}</div>
               </a>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

@@ -82,7 +82,7 @@ Cardinal Health has a public **Transportation Carriers** application:
 | Cargo Insurance | **Medical Segment ($250K)** and **Pharmaceutical Segment ($1MM)** |
 | Coverage Area | **Midwest** *(Michigan primary)* |
 | Diversity Classification | **Woman-Owned Small Business, Minority-Owned, Small Business, Small Disadvantaged Business** |
-| Specialization | Medical courier, pharmaceutical delivery, chain-of-custody transport, specimen logistics, HIPAA-compliant delivery, notarized document transport |
+| Specialization | Medical courier, pharmaceutical delivery, chain-of-custody transport, specimen logistics, HIPAA-compliant delivery, TWIC-certified drivers (100% of fleet), TWIC escort services for secure facility access, notarized document transport |
 
 ### WHY DDI STANDS OUT
 
@@ -218,11 +218,12 @@ This scales with each additional vendor partnership and geographic expansion.
 ## DDI COMPETITIVE ADVANTAGES FOR THIS PLAY
 
 1. **Diversity certifications** — Cardinal Health, McKesson, Medline all have FAR small business subcontracting goals. DDI's EDWOSB/MBE/WBENC stack makes DDI a compliance asset, not just a vendor.
-2. **PRISM platform** — real-time order tracking, automated QC, chain-of-custody documentation. Vendors can see delivery status without building their own system.
-3. **Healthcare compliance DNA** — HIPAA training, drug testing protocols, background checks already in DDI's operational DNA.
-4. **Michigan footprint** — local presence in the densest government facility corridor in the state.
-5. **Existing courier infrastructure** — DDI already runs field operations (fingerprinting, notarial, drug testing) requiring same-day dispatch and chain-of-custody.
-6. **8(a) pending** — once certified, DDI becomes even more valuable to large primes needing small business subcontracting credit.
+2. **TWIC-cleared operation (100%)** — ALL DDI drivers and couriers must be TWIC-certified. Management (Dee + spouse) TWIC-certified. Subcontractor fleet (God Is Good Hauling) — all main drivers TWIC-certified. DDI also offers TWIC escort services for restricted-access facility deliveries. Most small couriers cannot say their entire chain of custody is TSA security-vetted.
+3. **PRISM platform** — real-time order tracking, automated QC, chain-of-custody documentation. Vendors can see delivery status without building their own system.
+4. **Healthcare compliance DNA** — HIPAA training, drug testing protocols, background checks already in DDI's operational DNA.
+5. **Michigan footprint** — local presence in the densest government facility corridor in the state.
+6. **Existing courier infrastructure** — DDI already runs field operations (fingerprinting, notarial, drug testing) requiring same-day dispatch and chain-of-custody.
+7. **8(a) pending** — once certified, DDI becomes even more valuable to large primes needing small business subcontracting credit.
 
 ---
 

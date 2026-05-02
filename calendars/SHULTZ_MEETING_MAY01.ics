@@ -7,12 +7,12 @@ X-WR-CALNAME:NEXUS Bids
 X-WR-TIMEZONE:America/Detroit
 
 BEGIN:VEVENT
-UID:shultz-meeting-20260501-v2@deedavis.biz
-DTSTAMP:20260501T124800
+UID:shultz-meeting-20260501-final@deedavis.biz
+DTSTAMP:20260501T232500Z
 DTSTART;TZID=America/Detroit:20260501T150000
 DTEND;TZID=America/Detroit:20260501T160000
 SUMMARY:📞 MEETING: Steven Ralph Shultz
-DESCRIPTION:Meeting with Steven Ralph Shultz\n\nLocation: 52486 Hummingbird Ct, Shelby Township, MI 48316
+DESCRIPTION:Meeting with Steven Ralph Shultz
 LOCATION:52486 Hummingbird Ct, Shelby Township, MI 48316
 STATUS:CONFIRMED
 SEQUENCE:0

@@ -236,6 +236,10 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 
 **Security:**
 - TWIC-Certified Personnel (Transportation Worker Identification Credential — secure facility access)
+- **ALL DDI drivers and couriers MUST be TWIC-certified** — non-negotiable requirement for DDI operations
+- TWIC Escort Services — DDI provides escorts for non-cleared personnel in restricted/secure areas (ports, maritime terminals, government installations)
+- DDI ownership (Dieasha D. Davis + spouse) — both TWIC-certified
+- Subcontractor fleet (God Is Good Hauling) — all main drivers TWIC-certified
 
 **Business Model:**
 - Value-Added Reseller (VAR) — DDI sources products from manufacturer-authorized distributors, adds procurement management, compliance documentation, quality assurance, and logistics coordination, then delivers to the end client. This is DDI's core product supply model for government contracts. Used across medical supplies, industrial equipment, IT hardware, office products, and all commodity categories.
