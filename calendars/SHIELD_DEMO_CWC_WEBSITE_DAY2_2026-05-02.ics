@@ -11,8 +11,8 @@ UID:shield-demo-cwc-website-day2-20260502@deedavis.biz
 DTSTAMP:20260430T224600
 DTSTART;TZID=America/Detroit:20260502T100000
 DTEND;TZID=America/Detroit:20260502T160000
-SUMMARY:🎥 SHIELD Demo + CWC Website — Day 2
-DESCRIPTION:Continue SHIELD demo video and cwecare.org website build.\nFinalize Guidde recordings if not completed Friday.\nTarget: have demo video and website ready for Sunday send.
+SUMMARY:🎥 SHIELD demo video — Day 2 (primary)
+DESCRIPTION:5/1: video not started — focus Saturday on recorded SHIELD walkthrough (Guidde or chosen tool).\nRefs: SHIELD_NAVIGATOR_TRAINING_VIDEO_SCRIPT.md · GUIDDE_WALKTHROUGH_FOR_DEE.md\nLocal: backend + frontend · CWC site polish if time only.\nTarget: demo link ready for Sunday MDHHS package send.
 LOCATION:Local — localhost:3000
 STATUS:CONFIRMED
 SEQUENCE:0

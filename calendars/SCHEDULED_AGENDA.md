@@ -54,15 +54,15 @@
 
 ## 2026-05-02 — Saturday
 
-- **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD Demo + CWC Website — Day 2** — Continue demo recording and website build. Target: ready for Sunday send. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_DAY2_2026-05-02.ics`
-- **12:00 – 4:00 PM ET** — 📋 **MMCAP Infuse — Research + Prep** — Confirm DOT/MC status, verify cargo insurance ($250K med / $1MM pharma), research Morris & Dickson, draft capabilities one-pager, map Michigan MMCAP facilities. `.ics`: `calendars/MMCAP_INFUSE_PREP_2026-05-02.ics`
+- **10:00 AM – 4:00 PM ET** — 🎥 **SHIELD demo video (primary) + CWC site polish** — **Video not started 5/1** — recorded walkthrough (Guidde or chosen tool); navigator/MDHHS storyline as planned. CWC site: quick pass only if time. Target: usable demo link for Sunday MDHHS package. `.ics`: `calendars/SHIELD_DEMO_CWC_WEBSITE_DAY2_2026-05-02.ics`
+- **5:00 – 7:30 PM ET** — 📋 **MMCAP Infuse — Research + Prep** — *Moved off 12–4 so it does not stack on video day.* Confirm DOT/MC status, verify cargo insurance ($250K med / $1MM pharma), research Morris & Dickson, draft capabilities one-pager, map Michigan MMCAP facilities. `.ics`: `calendars/MMCAP_INFUSE_PREP_2026-05-02.ics`
 
 ---
 
 ## 2026-05-03 — Sunday
 
+- **9:00 – 11:30 AM ET** — 📋 **MMCAP Infuse — Submit Cardinal Health App + Draft Outreach** — *Was 12–2; moved to avoid overlap with Krause meeting.* Submit carrier application at cardinalhealth.com/en/support/transportation-carriers.html. Draft outreach emails for McKesson, Medline, Henry Schein, Concordance, Morris & Dickson. Identify LinkedIn contacts. `.ics`: `calendars/MMCAP_INFUSE_SUBMIT_2026-05-03.ics`
 - **12:30–1:30 PM ET** — 📞 **MEETING: Donald Krause** — 26 Moross St, Mount Clemens, MI 48043 — `.ics`: `calendars/KRAUSE_MEETING_2026-05-03.ics`
-- **12:00 – 2:00 PM ET** — 📋 **MMCAP Infuse — Submit Cardinal Health App + Draft Outreach** — Submit carrier application at cardinalhealth.com/en/support/transportation-carriers.html. Draft outreach emails for McKesson, Medline, Henry Schein, Concordance, Morris & Dickson. Identify LinkedIn contacts. `.ics`: `calendars/MMCAP_INFUSE_SUBMIT_2026-05-03.ics`
 - **2:00 – 4:00 PM ET** — 📧 **Send MDHHS Package — Angela Medina + Aimee Surma** — Follow-up email with full SHIELD program package (proposal, fulfillment map, demo video, asks). MedinaA@michigan.gov + SurmaA@michigan.gov. Draft: `MDHHS_FOLLOWUP_EMAIL_SUNDAY.md`. `.ics`: `calendars/MDHHS_PACKAGE_EMAIL_2026-05-03.ics`
 
 ---

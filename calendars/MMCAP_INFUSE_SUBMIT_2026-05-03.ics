@@ -9,13 +9,13 @@ X-WR-TIMEZONE:America/Detroit
 BEGIN:VEVENT
 UID:mmcap-infuse-submit-20260503@deedavis.biz
 DTSTAMP:20260501T160000
-DTSTART;TZID=America/Detroit:20260503T120000
-DTEND;TZID=America/Detroit:20260503T140000
+DTSTART;TZID=America/Detroit:20260503T090000
+DTEND;TZID=America/Detroit:20260503T113000
 SUMMARY:📋 MMCAP Infuse — Submit Cardinal Health App + Draft Outreach
-DESCRIPTION:MMCAP INFUSE OPTION B — SUBMIT + OUTREACH\n\nTASKS:\n1. Submit Cardinal Health carrier application\n   URL: https://www.cardinalhealth.com/en/support/transportation-carriers.html\n   Pre-filled details in MMCAP_INFUSE_STRATEGY.md\n2. Draft outreach emails for McKesson MSGS, Medline, Henry Schein, Concordance, Morris & Dickson\n3. Identify LinkedIn contacts at each vendor (supply chain / transportation / govt solutions)\n4. Update BID_TRACKER_DASHBOARD with MMCAP Infuse pipeline entry\n\nNOTE: MDHHS package send at 2 PM — do Cardinal Health app first (12-2 PM)\n\nREFERENCE: MMCAP_INFUSE_STRATEGY.md
+DESCRIPTION:Moved to 9-11:30 AM — avoids overlap with Krause 12:30.\n\nMMCAP INFUSE OPTION B — SUBMIT + OUTREACH\n\nTASKS:\n1. Submit Cardinal Health carrier application\n   URL: https://www.cardinalhealth.com/en/support/transportation-carriers.html\n   Pre-filled details in MMCAP_INFUSE_STRATEGY.md\n2. Draft outreach emails for McKesson MSGS, Medline, Henry Schein, Concordance, Morris & Dickson\n3. Identify LinkedIn contacts at each vendor (supply chain / transportation / govt solutions)\n4. Update BID_TRACKER_DASHBOARD with MMCAP Infuse pipeline entry\n\nNOTE: MDHHS package send at 2 PM — finish Cardinal Health app + outreach drafts by noon.\n\nREFERENCE: MMCAP_INFUSE_STRATEGY.md
 LOCATION:https://www.cardinalhealth.com/en/support/transportation-carriers.html
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-P1D
 DESCRIPTION:MMCAP Infuse submit day tomorrow — Cardinal Health app + outreach drafts
