@@ -1,6 +1,51 @@
-# YOUR AGENDA — Friday, May 1, 2026
+# YOUR AGENDA — Saturday, May 2, 2026
 
-**Today (authoritative date):** **Friday, May 1, 2026.**
+**Today (authoritative date):** **Saturday, May 2, 2026.**
+
+---
+
+```
+TODAY'S PRIORITIES — Saturday, May 2, 2026
+
+1. 🎥 **SHIELD Demo + CWC Website — Day 2**
+     calendars/SHIELD_DEMO_CWC_WEBSITE_DAY2_2026-05-02.ics — 10:00 AM – 4:00 PM ET
+     Finish Guidde recordings; cwecare.org build toward Sunday send.
+
+2. 📋 **MMCAP Infuse — Prep block**
+     12:00 – 4:00 PM ET — MMCAP Infuse prep: insurance, one-pager, facility map
+     calendars/MMCAP_INFUSE_PREP_2026-05-02.ics
+
+3. 📝 **CBP Medical Support 70B06C26R00000017 — Phase I**
+     Due Monday May 5, 5:00 PM ET. Weekend carve-out: tech approach + past performance draft.
+     Teaming: Acuity pivot contacts (Felecia Younger, Fadi Bahou, Rich Bamonte, Leslie Wood).
+
+4. 🔍 **KY DMS RFP 128 2600000415**
+     Review session Monday May 5 noon — VSS submit Wed May 7, 3:30 PM ET.
+     Folder: BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/SEND_TO_BUYER/
+
+5. 📧 **Maryland MVA — partner responses**
+     OLIMP + God Is Good Hauling by May 3 target; ITQ due May 11.
+
+DEADLINES:
+  - Sun 5/3 — Krause meeting 12:30 PM Mount Clemens | MDHHS package send | MMCAP Cardinal app
+  - Mon 5/5 — CBP Phase I 5 PM ET | CareSource follow-up | KY package review noon
+  - Wed 5/7 — KY DMS VSS 3:30 PM ET
+
+CALENDAR (today):
+  - 🎥 10:00 AM – 4:00 PM ET — SHIELD Demo Day 2
+  - 📋 12:00 – 4:00 PM ET — MMCAP Infuse prep
+
+FOLLOW-UPS DUE:
+  - Barbara / AMRO — LOC + pricing (CBP/KY path)
+  - Acuity-CHS + Concentra (CBP)
+  - OLIMP + God Is Good Hauling (Maryland MVA)
+```
+
+---
+
+# YOUR AGENDA — Friday, May 1, 2026 (archived)
+
+**Archived from:** Friday, May 1, 2026.
 
 ---
 
