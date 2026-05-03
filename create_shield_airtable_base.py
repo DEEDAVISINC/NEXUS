@@ -53,7 +53,26 @@ def link(name, table): return {"name": name, "type": "multipleRecordLinks", "opt
 # ─────────────────────────────────────────────────────────────────────────────
 
 COUNTIES = ["Wayne", "Oakland", "Macomb", "Genesee", "Washtenaw", "Kent", "Muskegon", "Other"]
-SERVICE_LINES = ["Lead Screening", "NEMT", "Housing", "Drug Testing", "DNA", "Food Navigation", "Specimen Transport", "Lead Remediation", "Filter Safety Net", "Medical Monitoring"]
+
+# Community SHIELD expanded service lines (5-pillar model)
+SERVICE_LINES = [
+    # Healthcare Access
+    "NEMT", "Medical Courier", "Healthcare Navigation", "CHW Home Visit", "Nurse Home Visit",
+    "Medical Monitoring", "Specimen Transport", "Lead Screening", "Lead Remediation",
+    "Filter Safety Net", "CLPPP Follow-up",
+    # Workforce Development
+    "Drug Testing", "Fingerprinting", "Background Check", "Occupational Health",
+    "DOT Physical", "Credentialing Support", "I-9 Verification",
+    # Administrative Equity
+    "Notary Services", "Apostille/Authentication", "Estate Planning", "Document Preparation",
+    "Immigration Documents", "Vital Records", "Legal Document Support",
+    # Family Stability
+    "DNA Testing", "Housing Navigation", "Food Navigation", "MIBridges Benefits",
+    "Court Document Support", "Child Support Navigation", "Utility Assistance",
+    # Veteran Services
+    "VA Navigation", "Veteran Employment", "Treatment Court Support",
+    "Benefits Coordination", "DD-214 Support", "Veteran Housing",
+]
 
 TABLES = [
     {

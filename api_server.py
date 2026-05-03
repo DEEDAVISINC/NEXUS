@@ -425,6 +425,107 @@ try:
 except ImportError as e:
     print(f"⚠️ NEXUS Pipeline API not loaded: {e}")
 
+# ─── NEXUS Calendar Service — system-wide calendar for all modules ───────────
+try:
+    from nexus_calendar_service import nexus_calendar
+    app.register_blueprint(nexus_calendar)
+    print("✅ NEXUS Calendar Service registered (/nexus/calendar/*)")
+except Exception as e:
+    print(f"⚠️ NEXUS Calendar Service not loaded: {e}")
+
+# ─── Serve calendars/*.ics as static files ───────────────────────────────────
+@app.route("/static/calendars/<path:filename>")
+def serve_ics(filename):
+    from flask import send_from_directory
+    _base = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(os.path.join(_base, "calendars"), filename)
+
+# ─── NEXUS Confirmation Engine — system-wide appointment/meeting confirmations ───
+try:
+    from nexus_confirmation_engine import mark_confirmed, mark_cancelled, get_pending_confirmations
+    from flask import render_template_string
+
+    _CONFIRM_PAGE = """
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>{{ title }} — Dee Davis Inc.</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font-family:Arial,sans-serif;background:#f0f9ff;display:flex;align-items:center;
+       justify-content:center;min-height:100vh;margin:0;}
+  .card{background:#fff;border-radius:12px;padding:40px 36px;max-width:440px;
+        width:90%;box-shadow:0 4px 24px rgba(0,0,0,.10);text-align:center;}
+  .icon{font-size:52px;margin-bottom:12px;}
+  h1{color:{{ color }};font-size:22px;margin:0 0 10px;}
+  p{color:#374151;font-size:15px;line-height:1.6;margin:0 0 8px;}
+  .ref{color:#9ca3af;font-size:12px;margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">{{ icon }}</div>
+  <h1>{{ title }}</h1>
+  <p>{{ message }}</p>
+  <p class="ref">Dee Davis Inc. · 248.376.4550 · info@deedavis.biz</p>
+</div>
+</body>
+</html>"""
+
+    @app.route('/nexus/confirm/<token>', methods=['GET'])
+    def nexus_confirm(token):
+        result = mark_confirmed(token, channel="link")
+        if not result.get("success"):
+            return render_template_string(
+                _CONFIRM_PAGE,
+                icon="❓", color="#6b7280",
+                title="Link Not Found",
+                message="This confirmation link has expired or is invalid. "
+                        "Please contact Dee Davis Inc. at 248.376.4550."
+            ), 404
+        if result.get("already"):
+            return render_template_string(
+                _CONFIRM_PAGE,
+                icon="✅", color="#059669",
+                title="Already Confirmed",
+                message=f"Your appointment is confirmed. We look forward to seeing you!"
+            )
+        return render_template_string(
+            _CONFIRM_PAGE,
+            icon="✅", color="#059669",
+            title="Confirmed!",
+            message=f"Thank you, {result.get('party', 'you')}! "
+                    "Your appointment is confirmed. "
+                    "We'll see you soon."
+        )
+
+    @app.route('/nexus/cancel/<token>', methods=['GET'])
+    def nexus_cancel(token):
+        result = mark_cancelled(token, channel="link")
+        if not result.get("success"):
+            return render_template_string(
+                _CONFIRM_PAGE,
+                icon="❓", color="#6b7280",
+                title="Link Not Found",
+                message="This link has expired or is invalid. "
+                        "Please contact Dee Davis Inc. at 248.376.4550."
+            ), 404
+        return render_template_string(
+            _CONFIRM_PAGE,
+            icon="❌", color="#dc2626",
+            title="Appointment Cancelled",
+            message=f"We've noted the cancellation for {result.get('party', 'you')}. "
+                    "Please call 248.376.4550 to reschedule."
+        )
+
+    @app.route('/nexus/confirmations/pending', methods=['GET'])
+    def nexus_pending_confirmations():
+        from flask import jsonify as _json
+        return _json({"pending": get_pending_confirmations()})
+
+    print("✅ NEXUS Confirmation Engine registered (/nexus/confirm, /nexus/cancel, /nexus/confirmations/pending)")
+except Exception as e:
+    print(f"⚠️ NEXUS Confirmation Engine not loaded: {e}")
+
 # Register COMPASS — Post-Award Operations
 try:
     from compass_api import compass
@@ -24678,9 +24779,54 @@ def shield_twilio_inbound():
         client = ShieldAirtableClient()
 
         from_number = request.form.get('From', '')
-        body = request.form.get('Body', '')
+        body        = request.form.get('Body', '').strip()
         message_sid = request.form.get('MessageSid', '')
 
+        keyword = body.upper().split()[0] if body else ''
+
+        # ── NEXUS Confirmation Engine: CONFIRM / CANCEL replies ──────────────
+        # Check confirmation log first — match by sender phone number.
+        # If a pending confirmation exists for this number, handle it here
+        # before routing to SHIELD verification.
+        nexus_reply = None
+        if keyword in ('CONFIRM', 'CANCEL', 'YES', 'NO'):
+            try:
+                from nexus_confirmation_engine import (
+                    _load_log, _clean_phone, mark_confirmed, mark_cancelled
+                )
+                clean_from = _clean_phone(from_number)
+                pending = [
+                    r for r in _load_log()
+                    if _clean_phone(r.get('party_phone', '')) == clean_from
+                    and r.get('status') == 'pending'
+                ]
+                if pending:
+                    # Act on the most recent pending confirmation for this number
+                    rec = pending[0]
+                    if keyword in ('CONFIRM', 'YES'):
+                        mark_confirmed(rec['token'], channel='sms')
+                        nexus_reply = (
+                            "✅ Confirmed! We have your appointment on file. "
+                            "See you then. Questions? Call 248.376.4550"
+                        )
+                    elif keyword in ('CANCEL', 'NO'):
+                        mark_cancelled(rec['token'], channel='sms')
+                        nexus_reply = (
+                            "We've noted your cancellation. "
+                            "Call Dee Davis Inc. at 248.376.4550 to reschedule."
+                        )
+            except Exception:
+                pass  # Fall through to SHIELD handler
+
+        if nexus_reply:
+            twiml = (
+                '<?xml version="1.0" encoding="UTF-8"?><Response>'
+                f'<Message>{nexus_reply}</Message>'
+                '</Response>'
+            )
+            return twiml, 200, {'Content-Type': 'text/xml'}
+
+        # ── SHIELD Verification: all other keywords ──────────────────────────
         if client.is_configured:
             result = handle_inbound_verification(client, from_number, body)
         else:

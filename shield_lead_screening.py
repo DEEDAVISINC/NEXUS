@@ -41,18 +41,63 @@ TABLE_SOURCE_ACCOUNTS = "Referral_Source_Accounts"
 
 EASTERN = ZoneInfo("America/New_York")
 
-SERVICE_LINES = [
-    "Lead Screening",
-    "NEMT",
-    "Housing",
-    "Drug Testing",
-    "DNA",
-    "Food Navigation",
-    "Specimen Transport",
-    "Lead Remediation",
-    "Filter Safety Net",
-    "Medical Monitoring",
-]
+# ─────────────────────────────────────────────────────────────────────────────
+# SERVICE PILLARS — Community SHIELD (5 pillars) + Lead-Safe (specialized)
+# ─────────────────────────────────────────────────────────────────────────────
+SERVICE_PILLARS = {
+    "Healthcare Access": [
+        "NEMT",
+        "Medical Courier",
+        "Healthcare Navigation",
+        "CHW Home Visit",
+        "Nurse Home Visit",
+        "Medical Monitoring",
+        "Specimen Transport",
+        "Lead Screening",
+        "Lead Remediation",
+        "Filter Safety Net",
+    ],
+    "Workforce Development": [
+        "Drug Testing",
+        "Fingerprinting",
+        "Background Check",
+        "Occupational Health",
+        "DOT Physical",
+        "Credentialing Support",
+        "I-9 Verification",
+    ],
+    "Administrative Equity": [
+        "Notary Services",
+        "Apostille/Authentication",
+        "Estate Planning",
+        "Document Preparation",
+        "Immigration Documents",
+        "Vital Records",
+        "Legal Document Support",
+    ],
+    "Family Stability": [
+        "DNA Testing",
+        "Housing Navigation",
+        "Food Navigation",
+        "MIBridges Benefits",
+        "Court Document Support",
+        "Child Support Navigation",
+        "Utility Assistance",
+    ],
+    "Veteran Services": [
+        "VA Navigation",
+        "Veteran Employment",
+        "Treatment Court Support",
+        "Benefits Coordination",
+        "DD-214 Support",
+        "Veteran Housing",
+    ],
+}
+
+# Flat list of all services for backward compatibility
+SERVICE_LINES = []
+for pillar, services in SERVICE_PILLARS.items():
+    SERVICE_LINES.extend([s for s in services if s not in SERVICE_LINES])
 
 COUNTIES = [
     "Wayne",
@@ -1282,7 +1327,7 @@ def handle_shield_activate_service(payload: Dict[str, Any]) -> Dict[str, Any]:
             import threading
             from shield_notifications import notify_appointment_scheduled
             family_phone = _resolve_family_phone(client, family_id)
-            family_name = _resolve_family_name(client, family_id)
+            family_name  = _resolve_family_name(client, family_id)
             nav_name, nav_phone = _resolve_navigator(client, referral_id)
             threading.Thread(
                 target=notify_appointment_scheduled,
@@ -1300,6 +1345,28 @@ def handle_shield_activate_service(payload: Dict[str, Any]) -> Dict[str, Any]:
                 },
                 daemon=True,
             ).start()
+            # ── Add to NEXUS Calendar ────────────────────────────────────────
+            def _add_to_nexus_cal():
+                try:
+                    from nexus_calendar_service import create_calendar_event
+                    appt_iso = payload["appointment_date"]
+                    if len(appt_iso) <= 10:
+                        appt_iso += "T09:00:00"
+                    create_calendar_event(
+                        title=f"SHIELD — {service_line} — {family_name}",
+                        start_iso=appt_iso,
+                        location=payload.get("vendor", ""),
+                        description=f"Navigator: {nav_name} · Referral: {referral_id}",
+                        system="SHIELD",
+                        event_type="appointment",
+                        internal_id=referral_id or family_id or "",
+                        assigned_to=nav_name,
+                        party_name=family_name,
+                        party_phone=family_phone,
+                    )
+                except Exception:
+                    pass
+            threading.Thread(target=_add_to_nexus_cal, daemon=True).start()
         except Exception:
             pass
 

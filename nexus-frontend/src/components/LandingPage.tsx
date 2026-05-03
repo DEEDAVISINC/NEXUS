@@ -787,6 +787,17 @@ END:VCALENDAR`;
       gradient: 'from-cyan-600 to-blue-600',
       status: 'online',
       lastUsed: 'Connected'
+    },
+    {
+      id: 'calendar' as ViewType,
+      name: 'CALENDAR',
+      fullName: 'NEXUS Command Calendar',
+      icon: '📅',
+      description: 'All systems · All events · Meetings, appointments, deadlines — one view',
+      stats: ['All Systems', 'Live Feed', 'Confirmation Engine'],
+      gradient: 'from-violet-600 to-purple-700',
+      status: 'online',
+      lastUsed: 'All Systems'
     }
   ];
 

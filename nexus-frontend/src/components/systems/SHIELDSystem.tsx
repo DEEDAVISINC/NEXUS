@@ -162,41 +162,123 @@ function stageMeta(key: Stage) {
 
 const COUNTIES = ['Wayne', 'Oakland', 'Macomb', 'Genesee', 'Kent', 'Muskegon', 'Other'];
 const URGENCY_LEVELS = ['Standard', 'Urgent', 'Emergency'];
-const SERVICE_CHOICES = [
+
+// Program modes — Lead-Safe (MDHHS pilot) vs. Community SHIELD (full 5-pillar)
+type ProgramMode = 'lead-safe' | 'community';
+
+// Service pillars — Community SHIELD (5 pillars)
+const SERVICE_PILLARS: Record<string, { label: string; color: string; icon: string; services: string[] }> = {
+  healthcare: {
+    label: 'Healthcare Access',
+    color: '#026666',
+    icon: '🏥',
+    services: [
+      'NEMT',
+      'Medical Courier',
+      'Healthcare Navigation',
+      'CHW Home Visit',
+      'Nurse Home Visit',
+      'Medical Monitoring',
+      'Specimen Transport',
+      'Lead Screening',
+      'Lead Remediation',
+      'Filter Safety Net',
+      'CLPPP Follow-up',
+    ],
+  },
+  workforce: {
+    label: 'Workforce Development',
+    color: '#046791',
+    icon: '💼',
+    services: [
+      'Drug Testing',
+      'Fingerprinting',
+      'Background Check',
+      'Occupational Health',
+      'DOT Physical',
+      'Credentialing Support',
+      'I-9 Verification',
+    ],
+  },
+  administrative: {
+    label: 'Administrative Equity',
+    color: '#862074',
+    icon: '📋',
+    services: [
+      'Notary Services',
+      'Apostille/Authentication',
+      'Estate Planning',
+      'Document Preparation',
+      'Immigration Documents',
+      'Vital Records',
+      'Legal Document Support',
+    ],
+  },
+  family: {
+    label: 'Family Stability',
+    color: '#CA4D22',
+    icon: '👨‍👩‍👧‍👦',
+    services: [
+      'DNA Testing',
+      'Housing Navigation',
+      'Food Navigation',
+      'MIBridges Benefits',
+      'Court Document Support',
+      'Child Support Navigation',
+      'Utility Assistance',
+    ],
+  },
+  veteran: {
+    label: 'Veteran Services',
+    color: '#17415f',
+    icon: '🎖️',
+    services: [
+      'VA Navigation',
+      'Veteran Employment',
+      'Treatment Court Support',
+      'Benefits Coordination',
+      'DD-214 Support',
+      'Veteran Housing',
+    ],
+  },
+};
+
+// Flat list for backward compatibility
+const SERVICE_CHOICES = Object.values(SERVICE_PILLARS).flatMap(p => p.services);
+
+// Lead-Safe specific services (MDHHS pilot subset)
+const LEAD_SAFE_SERVICES = [
   'Lead Screening',
   'CLPPP Follow-up',
   'NEMT',
   'Lead Remediation',
-  'Housing',
+  'Housing Navigation',
   'Food Navigation',
-  'Drug Testing',
-  'DNA',
-  'Specimen Transport',
   'Filter Safety Net',
+  'Specimen Transport',
+  'Medical Monitoring',
+  'CHW Home Visit',
+  'Nurse Home Visit',
 ];
 
-const SERVICE_COLOR_MAP: Record<string, string> = {
-  'Lead Screening':     '#026666',
-  'CLPPP Follow-up':    '#17415f',
-  'NEMT':               '#CA4D22',
-  'Lead Remediation':   '#862074',
-  'Housing':            '#093C44',
-  'Food Navigation':    '#76BAB2',
-  'Drug Testing':       '#046791',
-  'DNA':                '#2F8D98',
-  'Specimen Transport': '#115E6E',
-  'Filter Safety Net':  '#046791',
-  'Medical Monitoring': '#026666',
-  'Blood Lead Level (BLL) Testing':             '#026666',
-  'CLPPP Case Management':                      '#17415f',
-  'NEMT — Non-Emergency Medical Transportation': '#CA4D22',
-  'Lead Remediation Coordination':               '#862074',
-  'Housing Navigation':                          '#093C44',
-  'MIBridges Benefits Navigation':               '#76BAB2',
-  'Filter Safety Net / Drinking Water':          '#046791',
-  'Community Health Worker Home Visit':           '#2F8D98',
-  'Nurse Home Visit':                            '#115E6E',
-};
+// Build color map from pillars + legacy mappings
+const SERVICE_COLOR_MAP: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  Object.values(SERVICE_PILLARS).forEach(p => {
+    p.services.forEach(s => { map[s] = p.color; });
+  });
+  // Legacy aliases
+  map['Housing'] = SERVICE_PILLARS.family.color;
+  map['DNA'] = SERVICE_PILLARS.family.color;
+  map['Blood Lead Level (BLL) Testing'] = SERVICE_PILLARS.healthcare.color;
+  map['CLPPP Case Management'] = SERVICE_PILLARS.healthcare.color;
+  map['NEMT — Non-Emergency Medical Transportation'] = SERVICE_PILLARS.healthcare.color;
+  map['Lead Remediation Coordination'] = SERVICE_PILLARS.healthcare.color;
+  map['MIBridges Benefits Navigation'] = SERVICE_PILLARS.family.color;
+  map['Filter Safety Net / Drinking Water'] = SERVICE_PILLARS.healthcare.color;
+  map['Community Health Worker Home Visit'] = SERVICE_PILLARS.healthcare.color;
+  return map;
+})();
 
 function svcColor(name: string): string {
   return SERVICE_COLOR_MAP[name] || '#8ea2d6';
@@ -222,6 +304,23 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{ tone: 'ok' | 'err' | 'info'; message: string } | null>(null);
   const [filters, setFilters] = useState({ status: '', county: '', urgency: '' });
+
+  // Program mode — Lead-Safe (MDHHS pilot) vs. Community SHIELD (full 5-pillar)
+  const [programMode, setProgramMode] = useState<ProgramMode>(() => {
+    try {
+      const raw = localStorage.getItem('shield_program_mode');
+      return (raw === 'lead-safe' || raw === 'community') ? raw : 'community';
+    } catch { return 'community'; }
+  });
+  const updateProgramMode = useCallback((mode: ProgramMode) => {
+    setProgramMode(mode);
+    try { localStorage.setItem('shield_program_mode', mode); } catch { /* quota */ }
+  }, []);
+
+  // Active services based on program mode
+  const activeServices = useMemo(() => {
+    return programMode === 'lead-safe' ? LEAD_SAFE_SERVICES : SERVICE_CHOICES;
+  }, [programMode]);
 
   // Acting user — drives supervisor gating (SLA override etc.)
   // Persisted to localStorage so the selection survives reloads.
@@ -388,6 +487,40 @@ const SHIELDSystem: React.FC<SHIELDSystemProps> = ({ activeTab, setActiveTab }) 
               <div className="text-[10px] font-black text-[#f5c23e] tracking-wider uppercase">Care. Navigate. Transform.</div>
               <div className="text-[9px] text-[#f5c23e]/50 italic mt-0.5">More than a mission — a movement.</div>
             </div>
+          </div>
+        </div>
+
+        {/* Program Mode Selector — Lead-Safe (MDHHS) vs. Community SHIELD (5-pillar) */}
+        <div className={`px-4 py-3 border-b ${BORDER_SOFT}`}>
+          <div className={`text-[10px] uppercase tracking-widest ${TEXT_MUTED} font-bold mb-2`}>Program</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => updateProgramMode('community')}
+              className={`flex-1 text-[10px] font-bold px-2 py-1.5 rounded-md transition border ${
+                programMode === 'community'
+                  ? 'bg-[#f5c23e] text-[#081849] border-[#f5c23e]'
+                  : 'bg-[#050f2e] text-[#8ea2d6] border-[#1c2f6a] hover:border-[#f5c23e]/50'
+              }`}
+            >
+              Community SHIELD
+            </button>
+            <button
+              onClick={() => updateProgramMode('lead-safe')}
+              className={`flex-1 text-[10px] font-bold px-2 py-1.5 rounded-md transition border ${
+                programMode === 'lead-safe'
+                  ? 'bg-[#026666] text-white border-[#026666]'
+                  : 'bg-[#050f2e] text-[#8ea2d6] border-[#1c2f6a] hover:border-[#026666]/50'
+              }`}
+            >
+              Lead-Safe
+            </button>
+          </div>
+          <div className="text-[9px] text-[#8ea2d6] mt-1.5">
+            {programMode === 'community' ? (
+              <span>5-pillar equity program — all service lines</span>
+            ) : (
+              <span>MDHHS pilot — lead screening & navigation</span>
+            )}
           </div>
         </div>
 
@@ -2022,25 +2155,47 @@ const IntakeWizard: React.FC<{ onSuccess: (ref: string) => void; onError: (msg: 
 
         {step === 4 && (
           <div>
-            <div className="text-sm text-[#8ea2d6] mb-3">Select all services the family needs. Activation chains will auto-trigger (e.g., Remediation + Housing if family is displaced).</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {SERVICE_CHOICES.map(svc => {
-                const on = form.services_requested.includes(svc);
-                const hex = svcColor(svc);
+            <div className="text-sm text-[#8ea2d6] mb-4">Select all services the family needs. Services are grouped by pillar — expand each to see options.</div>
+            <div className="space-y-3">
+              {Object.entries(SERVICE_PILLARS).map(([key, pillar]) => {
+                const pillarServices = pillar.services;
+                const selectedCount = form.services_requested.filter((s: string) => pillarServices.includes(s)).length;
                 return (
-                  <label
-                    key={svc}
-                    className={`flex items-center gap-3 border rounded-md px-3 py-2.5 cursor-pointer transition ${
-                      on ? '' : 'bg-[#081849]/50 border-[#1c2f6a] text-slate-200 hover:border-[#1c2f6a]'
-                    }`}
-                    style={on ? { borderColor: hex, backgroundColor: `${hex}18`, color: hex } : undefined}
-                  >
-                    <input type="checkbox" checked={on} onChange={() => toggleService(svc)} style={{ accentColor: hex }} />
-                    <span className="flex items-center gap-2 text-sm font-medium">
-                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: hex }} />
-                      {svc}
-                    </span>
-                  </label>
+                  <details key={key} className="group bg-[#081849]/50 border border-[#1c2f6a] rounded-lg overflow-hidden" open={key === 'healthcare'}>
+                    <summary className="flex items-center gap-3 px-4 py-3 cursor-pointer list-none select-none hover:bg-[#0f2468]/40 transition">
+                      <span className="text-xl">{pillar.icon}</span>
+                      <span className="flex-1">
+                        <span className="text-sm font-bold text-slate-200">{pillar.label}</span>
+                        <span className="text-[10px] text-[#8ea2d6] block">{pillarServices.length} services available</span>
+                      </span>
+                      {selectedCount > 0 && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${pillar.color}33`, color: pillar.color, border: `1px solid ${pillar.color}66` }}>
+                          {selectedCount} selected
+                        </span>
+                      )}
+                      <span className="text-[#8ea2d6] text-xs group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div className="px-4 pb-4 pt-2 grid grid-cols-1 md:grid-cols-2 gap-2 border-t border-[#1c2f6a]">
+                      {pillarServices.map(svc => {
+                        const on = form.services_requested.includes(svc);
+                        return (
+                          <label
+                            key={svc}
+                            className={`flex items-center gap-3 border rounded-md px-3 py-2 cursor-pointer transition ${
+                              on ? '' : 'bg-[#050f2e]/50 border-[#1c2f6a]/60 text-slate-300 hover:border-[#1c2f6a]'
+                            }`}
+                            style={on ? { borderColor: pillar.color, backgroundColor: `${pillar.color}18`, color: pillar.color } : undefined}
+                          >
+                            <input type="checkbox" checked={on} onChange={() => toggleService(svc)} style={{ accentColor: pillar.color }} />
+                            <span className="flex items-center gap-2 text-xs font-medium">
+                              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: pillar.color }} />
+                              {svc}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </details>
                 );
               })}
             </div>

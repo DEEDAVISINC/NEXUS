@@ -443,6 +443,85 @@ def handle_process_new_opportunities() -> Dict:
     }
 
 
+def send_meeting_confirmation(
+    party_name: str,
+    party_email: str,
+    party_phone: str,
+    datetime_str: str,
+    location: str,
+    event_id: str,
+    event_type: str = "calendar_event",
+    notes: str = "",
+    who: str = "Dieasha D. Davis, President & CEO — Dee Davis Inc.",
+    what: str = "",
+    why: str = "",
+    bring: str = "",
+) -> dict:
+    """
+    Send a confirmation request to the other party when a meeting or signing is created.
+
+    Call this any time a calendar event is created that involves an external party
+    (CO meeting, notary signing, partner call, etc.).
+
+    Args:
+        party_name:    Name of the other party
+        party_email:   Their email (empty = skip email channel)
+        party_phone:   Their phone (empty = skip SMS channel)
+        datetime_str:  Human-readable date/time ("Mon May 5, 2026 at 2:00 PM ET")
+        location:      Address or "Zoom / Video Call"
+        event_id:      ICS filename or calendar event ID for reference
+        event_type:    Confirmation engine event type key (default: 'calendar_event')
+        notes:         Optional extra detail
+        who:           Who from DDI (default: Dieasha D. Davis)
+        what:          What the meeting is about
+                       e.g. "Capability review call — drug testing services"
+                       e.g. "Follow-up to solicitation W912DR25QA005"
+        why:           Purpose / agenda
+                       e.g. "To discuss DDI's qualifications for upcoming contract"
+        bring:         What they should prepare or bring
+
+    Returns:
+        Result dict from nexus_confirmation_engine.send_confirmation_request
+    """
+    try:
+        # Add to NEXUS calendar
+        from nexus_calendar_service import create_calendar_event
+        create_calendar_event(
+            title=what or event_id,
+            start_iso=datetime_str,  # caller should pass ISO; human strings handled gracefully
+            location=location,
+            description=f"{why}\n{notes}".strip(),
+            system="NEXUS",
+            event_type=event_type,
+            internal_id=event_id,
+            party_name=party_name,
+            party_email=party_email,
+            party_phone=party_phone,
+        )
+    except Exception as exc:
+        print(f"⚠️ Calendar service error: {exc}")
+
+    try:
+        from nexus_confirmation_engine import send_confirmation_request
+        return send_confirmation_request(
+            event_type=event_type,
+            party_name=party_name,
+            party_email=party_email,
+            party_phone=party_phone,
+            datetime_str=datetime_str,
+            location=location,
+            internal_id=event_id,
+            notes=notes,
+            who=who,
+            what=what,
+            why=why,
+            bring=bring,
+        )
+    except Exception as exc:
+        print(f"⚠️ Confirmation engine error: {exc}")
+        return {"success": False, "error": str(exc)}
+
+
 if __name__ == '__main__':
     """
     Test the calendar automation system

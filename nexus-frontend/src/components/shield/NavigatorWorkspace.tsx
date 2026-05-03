@@ -570,16 +570,59 @@ const CaseloadView: React.FC<{
 // ═══════════════════════════════════════════════════════════════════════════
 // FAMILY DETAIL VIEW — single case deep-dive
 // ═══════════════════════════════════════════════════════════════════════════
+// Full Community SHIELD service lines (5-pillar model)
 const SHIELD_SERVICE_LINES = [
+  // Healthcare Access
+  'NEMT',
+  'Medical Courier',
+  'Healthcare Navigation',
+  'CHW Home Visit',
+  'Nurse Home Visit',
+  'Medical Monitoring',
+  'Specimen Transport',
+  'Lead Screening',
+  'Lead Remediation',
+  'Filter Safety Net',
+  'CLPPP Follow-up',
+  // Workforce Development
+  'Drug Testing',
+  'Fingerprinting',
+  'Background Check',
+  'Occupational Health',
+  'DOT Physical',
+  'Credentialing Support',
+  'I-9 Verification',
+  // Administrative Equity
+  'Notary Services',
+  'Apostille/Authentication',
+  'Estate Planning',
+  'Document Preparation',
+  'Immigration Documents',
+  'Vital Records',
+  'Legal Document Support',
+  // Family Stability
+  'DNA Testing',
+  'Housing Navigation',
+  'Food Navigation',
+  'MIBridges Benefits',
+  'Court Document Support',
+  'Child Support Navigation',
+  'Utility Assistance',
+  // Veteran Services
+  'VA Navigation',
+  'Veteran Employment',
+  'Treatment Court Support',
+  'Benefits Coordination',
+  'DD-214 Support',
+  'Veteran Housing',
+  // Legacy aliases for existing data
   'Blood Lead Level (BLL) Testing',
   'CLPPP Case Management',
   'NEMT — Non-Emergency Medical Transportation',
   'Lead Remediation Coordination',
-  'Housing Navigation',
   'MIBridges Benefits Navigation',
   'Filter Safety Net / Drinking Water',
   'Community Health Worker Home Visit',
-  'Nurse Home Visit',
 ];
 
 const FamilyDetailView: React.FC<{

@@ -552,6 +552,119 @@ def get_dashboard() -> Dict[str, Any]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Confirmation helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+_TRANSPORT_LABELS = {
+    "ambulatory":    "ambulatory transport (standard vehicle)",
+    "wheelchair":    "wheelchair-accessible van transport",
+    "stretcher":     "stretcher / gurney transport",
+    "volunteer":     "volunteer driver transport",
+    "bus":           "public transit pass",
+    "rx_standard":   "prescription delivery",
+    "rx_controlled": "controlled substance prescription delivery",
+    "rx_cold_chain": "cold-chain prescription delivery",
+}
+
+_BRING_BY_TRANSPORT = {
+    "ambulatory":    "Be ready at your pickup address at the scheduled time. Have your Medicaid ID available.",
+    "wheelchair":    "Have your wheelchair secured and be ready at your pickup address. Have your Medicaid ID available.",
+    "stretcher":     "Medical transport crew will assist. Have your Medicaid ID and any required paperwork ready.",
+    "rx_standard":   "A valid photo ID is required for delivery. Someone must be present to sign.",
+    "rx_controlled": "A valid photo ID is REQUIRED. You must sign in person — no leave-at-door.",
+    "rx_cold_chain": "A valid photo ID required. Please have refrigerator space ready for temperature-sensitive medication.",
+}
+
+
+def _send_nemt_confirmation_async(order: Dict[str, Any], req_data: Dict[str, Any]) -> None:
+    """
+    Send initial appointment confirmation + schedule day-of reminder for NEMT.
+    En route / arrived / completion tracking is handled by Uber Health /
+    Lyft Healthcare webhooks once API credentials are active.
+    """
+    phone = (req_data.get("member_phone") or "").strip()
+    email = (req_data.get("member_email") or "").strip()
+
+    if not phone and not email:
+        return
+
+    transport_type = order.get("transport_type", "ambulatory")
+    what_str  = _TRANSPORT_LABELS.get(transport_type, "medical transport")
+    bring_str = _BRING_BY_TRANSPORT.get(transport_type, "Have your Medicaid ID available.")
+    pickup    = order.get("pickup_address", "your pickup address")
+    dropoff   = order.get("dropoff_address", "your destination")
+    pickup_t  = order.get("pickup_time", "")
+    appt_t    = order.get("appointment_time", "")
+    purpose   = order.get("trip_purpose", "Medical appointment")
+    ref       = order.get("order_id", "")
+    name      = order.get("member_name", "there")
+    payer     = order.get("payer", "")
+
+    dt_str   = pickup_t
+    location = f"Pickup: {pickup} → Drop-off: {dropoff}"
+    why_str  = f"{purpose}" + (f" · Payer: {payer}" if payer else "")
+    if appt_t:
+        why_str += f" · Appointment time at destination: {appt_t}"
+
+    def _do() -> None:
+        try:
+            # Add to NEXUS calendar
+            from nexus_calendar_service import create_calendar_event
+            create_calendar_event(
+                title=f"NEMT — {name} → {dropoff.split(',')[0]}",
+                start_iso=pickup_t if "T" in pickup_t else pickup_t + "T09:00:00",
+                location=location,
+                description=f"{why_str}\n{bring_str}",
+                system="NEMT",
+                event_type="ride",
+                internal_id=ref,
+                party_name=name,
+                party_email=email,
+                party_phone=phone,
+            )
+        except Exception:
+            pass
+        try:
+            from nexus_confirmation_engine import send_confirmation_request
+            send_confirmation_request(
+                event_type="nemt_ride",
+                party_name=name,
+                party_email=email,
+                party_phone=phone,
+                datetime_str=dt_str,
+                location=location,
+                internal_id=ref,
+                notes=order.get("notes", ""),
+                who="Dee Davis Inc. NEMT — your driver will be assigned before pickup",
+                what=what_str.capitalize(),
+                why=why_str,
+                bring=bring_str,
+            )
+            # Day-of reminder via PRISM orders helper
+            # Build a minimal order-shaped dict so _fire_dayon_reminder works
+            from prism_orders_api import _fire_dayon_reminder
+            proxy = {
+                "service_key": "nemt",
+                "subject_phone": phone,
+                "client_phone": phone,
+                "date": pickup_t.split("T")[0] if "T" in pickup_t else pickup_t.split(" ")[0],
+                "time": pickup_t.split("T")[1][:5] if "T" in pickup_t else "",
+                "timezone": "ET",
+                "address": pickup,
+                "collection_site": "",
+                "id": ref,
+                "service_label": what_str,
+                "notes": order.get("notes", ""),
+            }
+            _fire_dayon_reminder(proxy)
+        except Exception as exc:
+            import logging
+            logging.getLogger("prism.nemt").warning("Confirmation engine error: %s", exc)
+
+    threading.Thread(target=_do, daemon=True).start()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # API Routes
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -635,6 +748,10 @@ def route_create_order():
             vehicle_id=data.get("vehicle_id"),
             notes=data.get("notes"),
         )
+        # ── Initial appointment confirmation + day-of reminder ──────────────
+        # En route / arrived / departed tracking comes from Uber Health /
+        # Lyft Healthcare webhooks once API credentials are active.
+        _send_nemt_confirmation_async(order, data)
         return jsonify(order), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
@@ -693,6 +810,25 @@ def route_complete(order_id: str):
             actual_mileage=float(data["actual_mileage"]),
             auto_generate_claim=bool(data.get("auto_generate_claim", False)),
         )
+        # ── Completion notification to member ───────────────────────────────
+        state = _load_state()
+        order = state.get("orders", {}).get(order_id, {})
+        member_phone = data.get("member_phone") or order.get("_member_phone", "")
+        if member_phone:
+            def _notify_complete():
+                try:
+                    from nexus_confirmation_engine import _send_sms_raw
+                    transport_type = order.get("transport_type", "ambulatory")
+                    what_str = _TRANSPORT_LABELS.get(transport_type, "transport")
+                    _send_sms_raw(
+                        member_phone,
+                        f"✅ Your {what_str} with Dee Davis Inc. is complete.\n\n"
+                        f"You have arrived at your destination.\n"
+                        f"Questions? Call 248.376.4550 · Ref: {order_id}"
+                    )
+                except Exception:
+                    pass
+            threading.Thread(target=_notify_complete, daemon=True).start()
         return jsonify(result)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400

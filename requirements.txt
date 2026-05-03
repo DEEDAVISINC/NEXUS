@@ -12,3 +12,5 @@ python-dateutil
 icalendar
 python-docx
 reportlab
+twilio
+sendgrid

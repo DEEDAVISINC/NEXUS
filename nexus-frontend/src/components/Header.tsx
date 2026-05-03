@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield' | 'calendar';
 
 export type NexusRole = 'Ultimate Supervisor' | 'Supervisor' | 'Navigator' | 'Viewer';
 

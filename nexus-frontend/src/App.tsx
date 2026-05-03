@@ -27,6 +27,7 @@ import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
 import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator';
 import MDHHSPartnerPortal from './components/public/MDHHSPartnerPortal';
 import CWCSite from './components/cwc/CWCSite';
+import NexusCalendarSystem from './components/systems/NexusCalendarSystem';
 import { api } from './api/client';
 
 function App() {
@@ -185,6 +186,8 @@ function NexusApp() {
         return <JETASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'shield':
         return <SHIELDSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'calendar':
+        return <NexusCalendarSystem onBackToNexus={navigateToLanding} />;
       default:
         return <LandingPage onEnterSystem={navigateToSystem} />;
     }

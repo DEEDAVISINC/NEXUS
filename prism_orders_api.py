@@ -933,6 +933,347 @@ def _send_order_email_async(order):
     threading.Thread(target=_send_order_email, args=(order,), daemon=True).start()
 
 
+# ── Status-driven notification messages ──────────────────────────────────────
+# Fires automatically when order status changes. Skips NEMT (handled by
+# Uber Health / Lyft Healthcare API webhooks when credentials are active).
+
+# NEMT ride-tracking statuses (En Route, Arrived, Departed) are owned by
+# Uber Health / Lyft Healthcare webhooks once API credentials are active.
+# We still fire initial confirmation, day-of reminder, and completion for NEMT —
+# just not the mid-ride position updates.
+_NEMT_RIDE_TRACKING_STATUSES = {'En Route', 'Arrived', 'Departed', 'Driver Assigned'}
+_SKIP_STATUS_NOTIFY_SERVICES = set()  # No service fully skipped — NEMT handled below
+
+_STATUS_SMS = {
+    'Agent Assigned': (
+        "📋 Update on your {what} with Dee Davis Inc.\n\n"
+        "A collector has been assigned to your order and will contact you "
+        "before heading your way.\n\n"
+        "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
+        "Questions? Call/text 248.376.4550"
+    ),
+    'En Route': (
+        "🚗 Your collector is on the way!\n\n"
+        "📋 {what}\n"
+        "📍 Heading to: {location}\n"
+        "📅 Scheduled: {dt_str}\n\n"
+        "Please be ready at your location.\n"
+        "Ref: {ref} · Questions? 248.376.4550"
+    ),
+    'Arrived': (
+        "✅ Your collector has arrived!\n\n"
+        "📋 {what}\n"
+        "📍 {location}\n\n"
+        "Please come to the door / front desk now.\n"
+        "Ref: {ref} · Questions? 248.376.4550"
+    ),
+    'In Progress': (
+        "🔬 Your {what} is now in progress.\n\n"
+        "📍 {location}\n"
+        "Ref: {ref}\n\n"
+        "Dee Davis Inc. · 248.376.4550"
+    ),
+    'Complete': (
+        "✅ Your {what} is complete!\n\n"
+        "Results will be processed and delivered per standard protocol.\n"
+        "If you have questions, contact Dee Davis Inc. at 248.376.4550.\n\n"
+        "Ref: {ref}"
+    ),
+    'No Show': (
+        "⚠️ We attempted to complete your {what} but were unable to reach you "
+        "at {location}.\n\n"
+        "Please call Dee Davis Inc. at 248.376.4550 to reschedule.\n"
+        "Ref: {ref}"
+    ),
+    'Cancelled': (
+        "Your {what} (Ref: {ref}) has been cancelled.\n\n"
+        "To reschedule, call Dee Davis Inc. at 248.376.4550 or reply to this message."
+    ),
+}
+
+_SVC_LABELS_SHORT = {
+    'dot':             'drug screen',
+    'phlebotomy':      'occupational health appointment',
+    'fingerprint':     'fingerprinting appointment',
+    'dna':             'DNA collection',
+    'notary':          'notary signing',
+    'apostille':       'notary / apostille service',
+    'medical_courier': 'courier pickup',
+    'background':      'background check appointment',
+    'process':         'process service appointment',
+}
+
+_COMPLETION_TIMEFRAMES = {
+    'dot':        '24–48 hours via your MRO',
+    'phlebotomy': '3–5 business days',
+    'fingerprint':'3–5 business days via the submitting agency',
+    'dna':        '3–5 business days from the lab',
+    'background': '1–3 business days',
+    'notary':     'immediately — your documents are complete',
+}
+
+
+def _fire_status_notification(order: dict, new_status: str) -> None:
+    """
+    Fire an SMS (and optionally email) to the subject/client when order status
+    changes to a meaningful milestone. Non-blocking daemon thread.
+    For NEMT: skips ride-tracking statuses (En Route, Arrived, Departed) —
+    those come from Uber Health / Lyft Healthcare webhooks once APIs are active.
+    Initial confirmation, day-of reminder, and completion fire for all services.
+    """
+    svc = order.get('service_key', '')
+    # NEMT ride-tracking = Uber/Lyft's job, not ours
+    if svc in ('nemt', 'transport') and new_status in _NEMT_RIDE_TRACKING_STATUSES:
+        return
+
+    template = _STATUS_SMS.get(new_status)
+    if not template:
+        return
+
+    phone = order.get('subject_phone') or order.get('client_phone', '')
+    email = order.get('client_email', '')
+    name  = order.get('signer') or order.get('client_contact') or order.get('client', '')
+
+    if not phone and not email:
+        return
+
+    what_str  = _SVC_LABELS_SHORT.get(svc, order.get('service_label', 'appointment'))
+    dt_str    = f"{order.get('date', '')} at {order.get('time', '')} {order.get('timezone', 'ET')}".strip()
+    location  = order.get('address') or order.get('collection_site') or 'your location'
+    ref       = order.get('id', '')
+
+    # For completion, swap in the timeframe line
+    if new_status == 'Complete':
+        timeframe = _COMPLETION_TIMEFRAMES.get(svc, 'per standard protocol')
+        body = (
+            f"✅ Your {what_str} is complete!\n\n"
+            f"Results: {timeframe}.\n"
+            f"Questions? Call Dee Davis Inc. at 248.376.4550.\n\n"
+            f"Ref: {ref}"
+        )
+    else:
+        body = template.format(
+            what=what_str, dt_str=dt_str,
+            location=location, ref=ref, name=name or 'there'
+        )
+
+    # Dee alert on No Show — immediate text to +12483764550
+    dee_alert = new_status == 'No Show'
+
+    def _do() -> None:
+        try:
+            from nexus_confirmation_engine import _send_sms_raw, _send_email_raw
+            if phone:
+                _send_sms_raw(phone, body)
+            # Email on completion and no-show only (not every status ping)
+            if email and new_status in ('Complete', 'No Show', 'Cancelled'):
+                subj = f"{'✅' if new_status == 'Complete' else '⚠️'} {what_str.capitalize()} — {new_status} · Ref {ref}"
+                html = f"<p>Hi {name or 'there'},</p><p>{body.replace(chr(10), '<br/>')}</p>"
+                _send_email_raw(email, subj, html, cc='info@deedavis.biz')
+            if dee_alert:
+                dee_phone = os.environ.get('DEE_PHONE', '')
+                if dee_phone:
+                    _send_sms_raw(
+                        dee_phone,
+                        f"⚠️ NO SHOW: {name or 'Subject'} was not present for {what_str} "
+                        f"at {location}. Ref: {ref}"
+                    )
+        except Exception as exc:
+            import logging
+            logging.getLogger('prism.orders').warning('Status notification error: %s', exc)
+
+    threading.Thread(target=_do, daemon=True).start()
+
+
+def _fire_dayon_reminder(order: dict) -> None:
+    """
+    Schedule a day-of reminder SMS at 7 AM on the appointment date.
+    Called when an order is created or rescheduled with a future date.
+    Fires for ALL services including NEMT.
+    """
+    import time as _time
+
+    svc = order.get('service_key', '')
+
+    phone = order.get('subject_phone') or order.get('client_phone', '')
+    if not phone:
+        return
+
+    date_str = order.get('date', '')
+    time_str = order.get('time', '')
+    if not date_str:
+        return
+
+    what_str = _SVC_LABELS_SHORT.get(svc, order.get('service_label', 'appointment'))
+    location = order.get('address') or order.get('collection_site') or 'your scheduled location'
+    ref      = order.get('id', '')
+    name     = order.get('signer') or order.get('client_contact') or order.get('client', 'there')
+    tz_str   = order.get('timezone', 'ET')
+    bring    = ''
+    if svc in ('dot', 'phlebotomy'):
+        bring = "Bring a valid photo ID. Do not use the restroom immediately before."
+    elif svc == 'fingerprint':
+        bring = "Bring a valid photo ID. Clean, dry hands required."
+    elif svc == 'dna':
+        bring = "Bring a valid photo ID. No eating or drinking 30 minutes before."
+    elif svc in ('notary', 'apostille'):
+        bring = "Bring all documents to be notarized and a valid photo ID."
+
+    def _schedule() -> None:
+        try:
+            from datetime import datetime as _dt
+            from zoneinfo import ZoneInfo
+            eastern = ZoneInfo('America/Detroit')
+
+            # Parse appointment date
+            for fmt in ('%m/%d/%Y', '%Y-%m-%d', '%B %d, %Y'):
+                try:
+                    appt_date = _dt.strptime(date_str.strip(), fmt).date()
+                    break
+                except ValueError:
+                    continue
+            else:
+                return  # Unparseable date
+
+            # Target: 7 AM ET on appointment day
+            target = _dt(appt_date.year, appt_date.month, appt_date.day,
+                         7, 0, 0, tzinfo=eastern)
+            now    = _dt.now(eastern)
+            delay  = (target - now).total_seconds()
+
+            if delay < 0:
+                return  # Appointment already passed or same-day past 7 AM
+
+            _time.sleep(delay)
+
+            body = (
+                f"⏰ Reminder — your {what_str} is TODAY!\n\n"
+                f"📅 {date_str} at {time_str} {tz_str}\n"
+                f"📍 {location}\n"
+            )
+            if bring:
+                body += f"\n🎒 {bring}\n"
+            body += (
+                f"\nRef: {ref}\n"
+                "Questions? Call/text Dee Davis Inc. at 248.376.4550"
+            )
+
+            from nexus_confirmation_engine import _send_sms_raw
+            _send_sms_raw(phone, body)
+
+        except Exception as exc:
+            import logging
+            logging.getLogger('prism.orders').warning('Day-of reminder error: %s', exc)
+
+    threading.Thread(target=_schedule, daemon=True).start()
+
+
+def _send_confirmation_async(order):
+    """
+    Fire a confirmation request to the subject/donor if a scheduled date is present.
+    Uses the NEXUS Confirmation Engine — non-blocking, daemon thread.
+    """
+    # Only fire if there's actually a scheduled date/time on the order
+    if not order.get('date') or not order.get('time'):
+        return
+
+    # Who to notify: prefer subject phone/email, fall back to client
+    phone = order.get('subject_phone') or order.get('client_phone', '')
+    email = order.get('client_email', '')
+    name  = order.get('signer') or order.get('client_contact') or order.get('client', 'there')
+
+    # Need at least one channel
+    if not phone and not email:
+        return
+
+    # Map PRISM service type to confirmation event_type
+    svc_map = {
+        'dot':             'drug_test',
+        'phlebotomy':      'occ_health',
+        'fingerprint':     'fingerprint',
+        'dna':             'dna_collection',
+        'nemt':            'nemt_ride',
+        'notary':          'notary_signing',
+        'apostille':       'notary_signing',
+        'medical_courier': 'prism_appointment',
+    }
+    event_type = svc_map.get(order.get('service_key', ''), 'prism_appointment')
+
+    dt_str   = f"{order['date']} at {order['time']} {order.get('timezone', 'ET')}"
+    location = order.get('address') or order.get('collection_site') or 'TBD — details to follow'
+
+    # Build who/what/why/bring from order data
+    svc_labels = {
+        'dot':             'DOT urine drug screen (5-panel)',
+        'phlebotomy':      'Occupational health / blood draw',
+        'fingerprint':     'Electronic fingerprinting (LiveScan)',
+        'dna':             'DNA collection (chain of custody)',
+        'nemt':            'Non-emergency medical transport pickup',
+        'notary':          'Notary signing service',
+        'apostille':       'Apostille / notary service',
+        'medical_courier': 'Medical courier pickup',
+    }
+    what_str = svc_labels.get(order.get('service_key', ''), order.get('service_label', '') or 'Service appointment')
+    who_str  = 'Dee Davis Inc. — your assigned collector will contact you to confirm arrival'
+    why_str  = order.get('notes', '') or 'As requested through Dee Davis Inc.'
+    bring_str = ''
+    svc = order.get('service_key', '')
+    if svc in ('dot', 'phlebotomy'):
+        bring_str = 'Government-issued photo ID required. Do not use the restroom immediately before your appointment.'
+    elif svc == 'fingerprint':
+        bring_str = 'Government-issued photo ID required. Clean, dry hands.'
+    elif svc == 'dna':
+        bring_str = 'Government-issued photo ID required. Do not eat or drink 30 minutes before.'
+    elif svc == 'notary':
+        bring_str = 'Bring all documents to be notarized and a valid government-issued photo ID.'
+
+    def _do():
+        try:
+            # Add to NEXUS calendar
+            from nexus_calendar_service import create_calendar_event
+            svc_title = {
+                'dot': 'DOT Drug Screen', 'phlebotomy': 'Occ Health Appointment',
+                'fingerprint': 'Fingerprinting', 'dna': 'DNA Collection',
+                'notary': 'Notary Signing', 'apostille': 'Apostille/Notary',
+                'medical_courier': 'Medical Courier Pickup', 'background': 'Background Check',
+            }.get(svc, order.get('service_label', 'PRISM Appointment'))
+            create_calendar_event(
+                title=f"{svc_title} — {name or order.get('client', '')}",
+                start_iso=order.get('date', '') + 'T' + (order.get('time', '09:00').replace(' ', '') or '09:00') + ':00',
+                location=location,
+                description=order.get('notes', ''),
+                system='PRISM',
+                event_type='appointment',
+                internal_id=order.get('id', ''),
+                party_name=name,
+                party_email=email,
+                party_phone=phone,
+            )
+        except Exception:
+            pass
+        try:
+            from nexus_confirmation_engine import send_confirmation_request
+            send_confirmation_request(
+                event_type=event_type,
+                party_name=name,
+                party_email=email,
+                party_phone=phone,
+                datetime_str=dt_str,
+                location=location,
+                internal_id=order.get('id', ''),
+                notes=order.get('notes', ''),
+                who=who_str,
+                what=what_str,
+                why=why_str,
+                bring=bring_str,
+            )
+        except Exception as exc:
+            import logging
+            logging.getLogger('prism.orders').warning('Confirmation engine error: %s', exc)
+
+    threading.Thread(target=_do, daemon=True).start()
+
+
 def _fire_pipeline_event(event_type, order, extra=None):
     """Fire a cross-system event to the NEXUS pipeline (non-blocking)."""
     def _do_fire():
@@ -1123,6 +1464,8 @@ def create_intake_order():
     _fire_notification(order)
     _send_order_email_async(order)
     _fire_pipeline_event('order_created', order)
+    _send_confirmation_async(order)
+    _fire_dayon_reminder(order)
 
     return jsonify({'success': True, 'order': order}), 201
 
@@ -1205,8 +1548,16 @@ def update_order(order_id):
 
     if new_status and new_status.lower() in ('complete', 'completed'):
         _fire_pipeline_event('order_completed', orders[idx])
+        _fire_status_notification(orders[idx], 'Complete')
     elif new_status:
         _fire_pipeline_event('order_status_changed', orders[idx], {'new_status': new_status})
+        _fire_status_notification(orders[idx], new_status)
+
+    # Re-schedule day-of reminder if date/time was updated
+    if 'date' in data or 'time' in data:
+        _fire_dayon_reminder(orders[idx])
+        # Re-send reschedule confirmation to subject
+        _send_confirmation_async(orders[idx])
 
     return jsonify({'success': True, 'order': orders[idx]})
 

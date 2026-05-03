@@ -1,8 +1,52 @@
 {
-  "scan_date": "2026-04-27T20:10:33.576973",
-  "total_found": 103,
+  "scan_date": "2026-05-03T03:25:42.034747",
+  "total_found": 93,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "61--CABLE ASSEMBLY,SPEC",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-05-11",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/e77f797c90954a8e9d1ae5bd157c7934/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-03",
+      "naics": "332510"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "WWYK190230 - REPAIR ARNOLD AVE BETWEEN H AVE AND M AVE WWYK150185 - REPAIR ROADWAYS, PARKING AT MUNITIONS AREA",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE SUSTAINMENT CENTER.FA8137  AFSC PZIOC",
+      "deadline": "2026-05-14T15:00:00-05:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/9d371c84e63f4acfa86e86ec4759191f/view",
+      "type": "Presolicitation",
+      "posted": "2026-04-30",
+      "naics": "237310"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "WA-RIDGEFIELD NWR JANITORIAL SERVICES",
+      "agency": "INTERIOR, DEPARTMENT OF THE.US FISH AND WILDLIFE SERVICE.FWS, SAT TEAM 1",
+      "deadline": "2026-05-14T13:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/9b5376e0816d439684cfb0ea940a95fa/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-04-30",
+      "naics": "561720"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "WCF SAFETY EYEWEAR SUPPLY SERVICES",
+      "agency": "TREASURY, DEPARTMENT OF THE.BUREAU OF ENGRAVING AND PRINTING.OFFICE OF THE CHIEF PROCUREMENT OFFICER",
+      "deadline": "2026-05-18T16:00:00-05:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/499d2e0b7db94fe7a2092c1a616254a7/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-04-28",
+      "naics": "339115"
+    },
     {
       "source": "SAM.gov",
       "title": "XTLF 14-1010 Repair HVAC F826",
@@ -24,17 +68,6 @@
       "type": "Solicitation",
       "posted": "2026-04-27",
       "naics": "236220"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "59--STRIP,ELECTRICAL GR",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-07",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/7d553eeb1c2947b58b49ec8556934626/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-04-26",
-      "naics": "335999"
     },
     {
       "source": "SAM.gov",
@@ -60,207 +93,189 @@
     },
     {
       "source": "SAM.gov",
-      "title": "48--VALVE,REGULATING,FL",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-04",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/15b4e7ea14ab44798cc82b32e1fd03fa/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-04-23",
-      "naics": "332911"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "25--PARTS KIT,FRICTION",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-04",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/3684286a7d05444ab9c6594d66934bff/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-04-22",
-      "naics": "333613"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "48--VALVE,RELIEF,PRESSU",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-04",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/3170889cd17440beb83fb6ae8e282a20/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-04-22",
-      "naics": "332911"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Z--Provide Maintenance Repairs of Unpaved Roads - Big South Fork National River an",
-      "agency": "INTERIOR, DEPARTMENT OF THE.NATIONAL PARK SERVICE.SER EAST MABO(51000)",
-      "deadline": "2026-05-05T13:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/8b8693158b234e988b463bdac37f0cd4/view",
-      "type": "Presolicitation",
-      "posted": "2026-04-21",
-      "naics": "237310"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Grounds Maintenance at 10 Sites in Arkansas",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
-      "deadline": "2026-05-22T10:00:00-05:00",
+      "title": "Mud Mountain Dam Janitorial Services",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.US ARMY CORPS OF ENGINEERS.ENGINEER DIVISION NORTHWESTERN.ENDIST SEATTLE.W071 ENDIST SEATTLE",
+      "deadline": "2026-05-15T12:00:00-07:00",
       "set_aside": "EDWOSB",
-      "url": "https://sam.gov/opp/847de016c12d4c63a5ec682d5ee5e306/view",
+      "url": "https://sam.gov/opp/3a07eaee48a94ea19458fdd4b3950114/view",
       "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-04-16",
+      "posted": "2026-05-01",
+      "naics": "561720"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Grounds Maintenance Services for USDA, AMS, Cotton & Tobacco Program, Memphis, TN",
+      "agency": "AGRICULTURE, DEPARTMENT OF.ANIMAL AND PLANT HEALTH INSPECTION SERVICE.MRPBS MINNEAPOLIS MN",
+      "deadline": "2026-05-18T17:00:00-05:00",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/b091e412180044efbdf9e24dc4021e65/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-04-29",
       "naics": "561730"
     },
     {
+      "source": "SAM.gov",
+      "title": "Janitorial Services for USDA, AMS, Cotton & Tobacco Program in Memphis, TN",
+      "agency": "AGRICULTURE, DEPARTMENT OF.ANIMAL AND PLANT HEALTH INSPECTION SERVICE.MRPBS MINNEAPOLIS MN",
+      "deadline": "2026-05-18T17:00:00-05:00",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/05d1fe41937f47f582c36a6be66b008f/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-04-29",
+      "naics": "561720"
+    },
+    {
       "source": "BidNet Direct",
-      "title": "Banking and Treasury ManagementColorado36 day(s) leftPublished04/27/2026Closing06/03/20268736350951",
+      "title": "CELL AND VALVE ASSEMBLY, SALINITY DETECTORWashington2 day(s) leftPublished05/02/2026Closing05/05/20262686796327",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Banking-and-Treasury-Management/0000420536?origin=0",
+      "url": "https://www.bidnetdirect.com/washington/solicitations/open-bids/statewide/CELL-AND-VALVE-ASSEMBLY-SALINITY-DETECTOR/2686796327?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "IFB-2026-WW-002 Generator Installation ServicesColorado22 day(s) leftPublished04/27/2026Closing05/20/20268821666053",
+      "title": "Contract Delivery Service (CDS) HCR 935C3 PALMDALE, CA to H045, CACalifornia15 day(s) leftPublished05/02/2026Closing05/18/20262686791737",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/IFB-2026-WW-002-Generator-Installation-Services/0000422205?origin=0",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Contract-Delivery-Service-CDS-HCR-935C3-PALMDALE-CA-to-H045-CA/2686791737?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Weight Room Equipment - South HighWyoming20 day(s) leftPublished04/27/2026Closing05/18/20268818085469",
+      "title": "1HM 4820 LLH889803 D0, DISK VALVEPennsylvania26 day(s) leftPublished05/02/2026Closing05/29/20262686794032",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Weight-Room-Equipment-South-High/0000422207?origin=0",
+      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/1HM-4820-LLH889803-D0-DISK-VALVE/2686794032?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Construction/Financial and Lean Sigma ServicesCalifornia24 day(s) leftPublished04/27/2026Closing05/22/20268821721603",
+      "title": "Contract Delivery Service (CDS) HCR 935C1 PALMDALE, CA to H001, CACalifornia15 day(s) leftPublished05/02/2026Closing05/18/20262686793012",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/Construction-Financial-and-Lean-Sigma-Services/0000422202?origin=0",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Contract-Delivery-Service-CDS-HCR-935C1-PALMDALE-CA-to-H001-CA/2686793012?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Managed Print Services and Related EquipmentArizona29 day(s) leftPublished04/27/2026Closing05/27/2026443988079790",
+      "title": "Expand Emergency Power to HVAC Systems (Phoenix VA Hospital)Arizona19 day(s) leftPublished05/02/2026Closing05/22/20262686795562",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/arizona/solicitations/open-bids/statewide/Managed-Print-Services-and-Related-Equipment/443988079790?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/arizona/solicitations/open-bids/statewide/Expand-Emergency-Power-to-HVAC-Systems-Phoenix-VA-Hospital/2686795562?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Sources Sought - TDA Transformer 9-11 Interim RepairOregon15 day(s) leftPublished05/02/2026Closing05/18/20262686798367",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/oregon/solicitations/open-bids/statewide/Sources-Sought-TDA-Transformer-9-11-Interim-Repair/2686798367?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "59--SIEMENS EQUIPMENT COMPONENTSMontana5 day(s) leftPublished05/02/2026Closing05/08/20262686797347",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/montana/solicitations/open-bids/statewide/59-SIEMENS-EQUIPMENT-COMPONENTS/2686797347?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Cyclic Inspection and Cleaning Water Reservoirs, BGeorgia26 day(s) leftPublished05/02/2026Closing05/29/20262686797602",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/georgia/solicitations/open-bids/statewide/Cyclic-Inspection-and-Cleaning-Water-Reservoirs-B/2686797602?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "DCPPennsylvania8 day(s) leftPublished05/01/2026Closing05/11/20262686579832",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/DCP/2686579832?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "MITN (Michigan)",
-      "title": "IT Service Management Software",
+      "title": "Water Valve Repair",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/IT-Service-Management-Software/0000422200?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Water-Valve-Repair/0000422846?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "RFQ 1968 - Infusion Pumps",
+      "title": "RFP for Janitorial Services",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFQ-1968-Infusion-Pumps/0000422187?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFP-for-Janitorial-Services/0000422782?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "CITY OF STERLING HEIGHTS 2025 SANITARY SEWER CLEANING AND CCTV INVESTIGATION",
+      "title": "RFP-043026-SANITATION STUDY & WASTE MANAGEMENT STRATEGY  FOR DEARBORN DOWNTOWNS",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CITY-OF-STERLING-HEIGHTS-2025-SANITARY-SEWER-CLEANING-AND-CCTV-INVESTIGATION/0000422154?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFP-043026-SANITATION-STUDY-WASTE-MANAGEMENT-STRATEGY-FOR-DEARBORN-DOWNTOWNS/0000422637?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Tank Painting & Upgrade - Engineering Services",
+      "title": "Roofing Inspections, Design / Specifications, Bid Assistance and Quality Control",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Tank-Painting-Upgrade-Engineering-Services/0000422146?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Roofing-Inspections-Design-Specifications-Bid-Assistance-and-Quality-Control/0000422473?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "I-94 Industrial Park Project - Landscape Maintenance Services",
+      "title": "Centennial Park Gazeebo ADA construction",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/I-94-Industrial-Park-Project-Landscape-Maintenance-Services/0000420916?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Misc. Plumbing Repair, Installations, and Maintenance as Needed Bid #26-0529",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Misc-Plumbing-Repair-Installations-and-Maintenance-as-Needed-Bid-26-0529/0000421509?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Miscellaneous HVAC Repair, Installations, and Maintenance as Needed Bid #26-0528",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Miscellaneous-HVAC-Repair-Installations-and-Maintenance-as-Needed-Bid-26-0528/0000421507?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Misc. Electrical Repair, Installations, and Maintenance as Needed Bid #26-0527",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Misc-Electrical-Repair-Installations-and-Maintenance-as-Needed-Bid-26-0527/0000421498?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "2026 Concrete and Asphalt Pavement Crack Sealing Program",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-Concrete-and-Asphalt-Pavement-Crack-Sealing-Program/0000422054?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Centennial-Park-Gazeebo-ADA-construction/0000422368?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "Texas ESBD",
-      "title": "THP HOUSTON - NEW GYM EQUIPMENT",
+      "title": "Roofing Renovations for Jefferson County Courthouse",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -270,7 +285,7 @@
     },
     {
       "source": "Texas ESBD",
-      "title": "RAPID HIT ID ACE",
+      "title": "Adapter Kits and Diagnostic Software with NextStep Repair Maintenance and Support",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -280,7 +295,7 @@
     },
     {
       "source": "Texas ESBD",
-      "title": "Request for Offers (RFO) for Workstation Management Services (WMS)",
+      "title": "COURIER SERVICES \u2013 MAIL & PHARMACEUTICALS RFP",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -290,7 +305,7 @@
     },
     {
       "source": "Texas ESBD",
-      "title": "UH Fine Arts Classroom Renovation FY26",
+      "title": "As-Needed Plumbing Repairs and Boiler Inspections Richmond State Supported Living Center",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -300,27 +315,7 @@
     },
     {
       "source": "Texas ESBD",
-      "title": "LOCAL LET MAINTENANCE CONTRACT, RANDALL CO, MOWING HIGHWAY RIGHT OF WAY",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "Rehabilitation Supplies for Vocational Rehabilitation Customers",
-      "agency": "State of Texas",
-      "deadline": "",
-      "set_aside": "",
-      "url": "",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Texas ESBD",
-      "title": "RFP FOR BLANKET ORDER FOR MASONRY RESTORATION, BRICK & PAVER REPAIRS & INSTALLATION, AND FACILITIES WATERPROOFING",
+      "title": "Ultra High-Pressure Water Blasting Equipment",
       "agency": "State of Texas",
       "deadline": "",
       "set_aside": "",
@@ -357,118 +352,10 @@
     },
     {
       "source": "Indiana",
-      "title": "300 FW Crosley FWA Trash ServicesBid DocumentsNatural Resources003000000087304RFQ# 003000000087304300 FW Crosley Fish and Wildlife Area Trash Services3-YEAR Contract for Trash Services at Crosley Fish",
+      "title": "RFP 23420 Group 71022 - Business Consulting ServicesState of New York Executive Department - Office of General ServicesNAThe NASPO ValuePoint Request for Proposal (RFP) forBusiness Consulting Services",
       "agency": "State of Indiana",
       "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Concrete for JacksonWashington SF 156808Bid DocumentsNatural Resources003000000087285Responses to 003000000087285 can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275ORmailed to:Amber Sim",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Forklift for Vallonia Nursery   156825Bid DocumentsNatural Resources003000000087296Responses to 003000000087296 can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275ORmailed to:Amber Simon",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "440 RSH Pest ControlBid DocumentsRichmond State Hospital004400000087202RFQ#00440000087202This Statement of Work (SOW) provides an overview of the pest control services intended for use at Richmond Sta",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Lincoln State Park Concrete MixBid DocumentsNatural Resources003000000087328Sourcing event 003000000087328 is for obtaining bids for Pea Gravel 4000lb mix for 2-inch lineLincoln State Park Concrete Mi",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Cistern 4200 Gallon Water Storage TankBid DocumentsNatural Resources003000000087302003000000087302Cistern 4200 Gallon Water Storage TankPurchase of Pre cast cistern for repairing the water at property",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "RFQ Kenworthy Site Waste Tire ContractBid DocumentsEnvironmental Management004950000086911The Indiana Department of Environmental Management is seeking contractual services to provide IDEM staff with ",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "RFQ Gastineau Site Waste Tire ContractBid DocumentsEnvironmental Management004950000086910The Indiana Department of Environmental Management is seeking contractual services to provide IDEM staff with ",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Concession Opportunity McCormick's CreekBid DocumentsNatural Resources003000000086565RFQ# 003000000086565Sourcing Event 003000000086565 is for obtaining bids for a Concession Contract for Saddl",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "TRAINING -- SIMUNITION FX MARKING CARTRIDGESBid DocumentsState Police001000000087183Sourcing event 001000000087183 is for obtaining bids for SIMUNTION FX MARKING CARTRIDGES (MULTIPLE CALIBERS)Question",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Maintenance Items for Jasper-Pulaski 156870Natural Resources003000000087329Responses to 003000000087329 can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber SimontonIN D",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Brother Paper, Part#PT-TP6PERF or EquivalentBid DocumentsState Police001000000087262Bid: 001000000087262This request of items is for Brother Paper Part#PT-TP6PERF or Equivalent.This bid is good for 90",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "KINETIC PERFORMANCE DOG FOOD ACTIVE 26K -240 BAGSBid DocumentsState Police001000000087263Bid: 001000000087263This request of items is for KINETIC PERFORMANCE DOG FOOD ACTIVE 26K -240 BAGS (5 SKIDS)Thi",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "url": "https://protect.checkpoint.com/v2/r01/___https:/ogs.ny.gov/procurement/bid-opportunities___.YzJ1OnN0YXRlb2ZpbmRpYW5hOmM6bzplOTE1NDE1Y2Y4MDBhNWRmMDMzMTQ1NGY4ODlhMDliMzo3OmUxZWI6OGQ0MzlkNmNjNjA4NmM2YWM0MGQyODJkZWFiNDk0YmFmYzRkOWRlN2FkMzI3M2M3Y2MwOTRjZDY2Mzk4NjVmMTpoOlQ6Tg",
       "type": "Solicitation",
       "posted": ""
     },
@@ -744,7 +631,7 @@
     },
     {
       "source": "Indiana",
-      "title": "300 FW HVAC Preventative Maintenance NERONatural Resources003000000087550RFQ # 0000087550Sourcing event 0000087550 is for obtaining bids for a NEW two (2) year contract for the Preventative Maintenanc",
+      "title": "300 FW HVAC Preventative Maintenance NEROBid DocumentsNatural Resources003000000087550RFQ # 0000087550Sourcing event 0000087550 is for obtaining bids for a NEW two (2) year contract for the Preventati",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -834,7 +721,25 @@
     },
     {
       "source": "Indiana",
-      "title": "Crane MatsNatural Resources003000000087581003000000087581Crane Mats - the mats are used to assist equipment for lake dredging.  Mats are put in muddy areas so equipment can drive over them.If you are ",
+      "title": "400-27-065-Safety Glasses RFQBid DocumentsIndiana Dept of Health004000000087585Sourcing event # 0000087585 is for obtaining bids for a vendor to fabricate and supply prescription safety glasses, per t",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "400-27-113-CTSI Support RFQBid DocumentsIndiana Dept of Health004000000087584Sourcing event #0000087584 is for obtaining bids for a one-year contract to help the IDOH Trauma team with administrative s",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Crane MatsBid DocumentsNatural Resources003000000087581003000000087581Crane Mats - the mats are used to assist equipment for lake dredging.  Mats are put in muddy areas so equipment can drive over the",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -844,6 +749,15 @@
     {
       "source": "Indiana",
       "title": "00515 40' x 60' POLE BUILDINGBid DocumentsCorrectional Industries00515000008697900515  EVENT# 86979POLE BUILDING - 40'x60'CONTACT FOR QUESTIONS AND FOR SITE VISITS:JEFF MEECEjmeece@idoc.in.govCOMPLETE",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "300 FW BFO Wildlife Tooth AgingBid DocumentsNatural Resources003000000087594RFQ# 0030000000300 FW BFO Wildlife Tooth Aging for Otter, Badger and Bobcat4-YEAR ContractServices provided by vendor includ",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
