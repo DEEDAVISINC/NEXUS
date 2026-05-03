@@ -187,6 +187,8 @@ export const api = {
     return response.json();
   },
   updateGpssOpportunity: (id: string, data: any) => ApiClient.put(`/gpss/opportunities/${id}`, data),
+  getOpportunityDetails: (id: string) => ApiClient.get(`/gpss/opportunities/${id}/details`),
+  generateCapabilityStatement: (opportunityId: string) => ApiClient.post(`/gpss/opportunities/${opportunityId}/generate-cap-statement`, {}),
   getGpssStats: () => ApiClient.get('/gpss/stats'),
   
   // GPSS Suppliers
@@ -709,6 +711,22 @@ export const api = {
     ApiClient.post(`/api/forecasts/${forecastId}/generate-capstat-outreach`, {}),
   batchForecastOutreach: (forecastIds: string[]) =>
     ApiClient.post('/api/forecasts/batch-outreach', { forecast_ids: forecastIds }),
+
+  // ═══════════════════════════════════════════════════════════
+  // COMPASS — Post-Award Contract Management
+  // ═══════════════════════════════════════════════════════════
+  getCompassStats: () => ApiClient.get('/compass/stats'),
+  getCompassContracts: () => ApiClient.get('/compass/contracts'),
+  getCompassContract: (contractId: string) => ApiClient.get(`/compass/contracts/${contractId}`),
+  createCompassContract: (data: any) => ApiClient.post('/compass/contracts', data),
+  updateCompassContract: (contractId: string, data: any) => ApiClient.put(`/compass/contracts/${contractId}`, data),
+  getCompassContractHealth: (contractId: string) => ApiClient.get(`/compass/contracts/${contractId}/health`),
+  generatePerformanceReport: (contractId: string) => ApiClient.post(`/compass/contracts/${contractId}/performance-report`, {}),
+  createCompassDeliverable: (data: any) => ApiClient.post('/compass/deliverables', data),
+  updateCompassDeliverable: (deliverableId: string, data: any) => ApiClient.put(`/compass/deliverables/${deliverableId}`, data),
+  createCompassCommunication: (data: any) => ApiClient.post('/compass/communications', data),
+  getCompassCommunications: (contractId: string) => ApiClient.get(`/compass/communications/${contractId}`),
+  createCompassModification: (data: any) => ApiClient.post('/compass/modifications', data),
 
   // ═══════════════════════════════════════════════════════════
   // NEXUS PIPELINE — Central Nervous System

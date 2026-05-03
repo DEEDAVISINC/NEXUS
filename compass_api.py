@@ -155,11 +155,13 @@ def get_contract(contract_id):
         table = api.table(base_id, 'COMPASS Contracts')
         record = table.get(contract_id)
         f = record.get('fields', {})
+        contract_number = f.get('Contract Number', '')
 
         deliverables = []
         try:
             d_table = api.table(base_id, 'COMPASS Deliverables')
-            d_records = d_table.all(formula=f"FIND('{contract_id}', ARRAYJOIN({{Contract}}, ','))")
+            # Query by contract number (text field), not record ID
+            d_records = d_table.all(formula=f"{{Contract}}='{contract_number}'")
             for d in d_records:
                 df = d.get('fields', {})
                 deliverables.append({
@@ -176,7 +178,7 @@ def get_contract(contract_id):
         comms = []
         try:
             c_table = api.table(base_id, 'COMPASS Communications')
-            c_records = c_table.all(formula=f"FIND('{contract_id}', ARRAYJOIN({{Contract}}, ','))")
+            c_records = c_table.all(formula=f"{{Contract}}='{contract_number}'")
             for c in c_records:
                 cf = c.get('fields', {})
                 comms.append({
@@ -194,7 +196,7 @@ def get_contract(contract_id):
         mods = []
         try:
             m_table = api.table(base_id, 'COMPASS Modifications')
-            m_records = m_table.all(formula=f"FIND('{contract_id}', ARRAYJOIN({{Contract}}, ','))")
+            m_records = m_table.all(formula=f"{{Contract}}='{contract_number}'")
             for m in m_records:
                 mf = m.get('fields', {})
                 mods.append({
@@ -212,7 +214,29 @@ def get_contract(contract_id):
         return jsonify({
             'contract': {
                 'id': record['id'],
-                **{k: v for k, v in f.items()},
+                'contract_number': f.get('Contract Number', ''),
+                'title': f.get('Title', ''),
+                'agency': f.get('Agency', ''),
+                'value': f.get('Value', 0) or 0,
+                'type': f.get('Contract Type', ''),
+                'status': f.get('Status', ''),
+                'start_date': f.get('Start Date', ''),
+                'end_date': f.get('End Date', ''),
+                'pop': f.get('Period of Performance', ''),
+                'co_name': f.get('CO Name', ''),
+                'co_email': f.get('CO Email', ''),
+                'cor_name': f.get('COR Name', ''),
+                'naics': f.get('NAICS', ''),
+                'set_aside': f.get('Set Aside', ''),
+                'health_score': f.get('Health Score', 0) or 0,
+                'compliance_status': f.get('Compliance Status', ''),
+                'invoiced_amount': f.get('Invoiced Amount', 0) or 0,
+                'paid_amount': f.get('Paid Amount', 0) or 0,
+                'deliverables_total': f.get('Deliverables Total', 0) or 0,
+                'deliverables_complete': f.get('Deliverables Complete', 0) or 0,
+                'next_report_due': f.get('Next Report Due', ''),
+                'cpars_rating': f.get('CPARS Rating', ''),
+                'notes': f.get('Notes', ''),
             },
             'deliverables': deliverables,
             'communications': comms,

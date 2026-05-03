@@ -722,6 +722,22 @@ def get_dashboard_activity():
                     ddi_lane_match_count += 1
                     if not closed:
                         rid = opp.get('id')
+                        # Build SAM URL from Notice ID or Source URL field
+                        notice_id = (
+                            fields.get('Notice ID') or
+                            fields.get('RFP NUMBER') or
+                            fields.get('Solicitation Number') or
+                            ''
+                        )
+                        sam_url = (
+                            fields.get('Source URL') or
+                            fields.get('URL') or
+                            fields.get('SAM URL') or
+                            ''
+                        )
+                        # If we have a notice ID but no URL, construct SAM URL
+                        if notice_id and not sam_url:
+                            sam_url = f"https://sam.gov/opp/{notice_id}/view"
                         pick_candidates.append({
                             'title': fields.get('Name', 'Untitled'),
                             'lane': fit['lane'],
@@ -730,6 +746,12 @@ def get_dashboard_activity():
                             'time': opp.get('createdTime', ''),
                             'recordId': rid,
                             'status': fields.get('Status') or fields.get('Source Status') or '',
+                            'notice_id': notice_id,
+                            'sam_url': sam_url,
+                            'agency': fields.get('Agency') or fields.get('Department') or '',
+                            'deadline': fields.get('Response Deadline') or fields.get('Deadline') or '',
+                            'co_email': fields.get('CO Email') or fields.get('Contact Email') or '',
+                            'co_name': fields.get('CO Name') or fields.get('Contact Name') or '',
                         })
                         if rid:
                             prime_ids.add(rid)
@@ -8747,6 +8769,149 @@ def get_gpss_opportunities():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/generate-cap-statement', methods=['POST'])
+def generate_cap_statement_for_opportunity(opportunity_id):
+    """
+    Generate a capability statement for a specific opportunity.
+    Uses the opportunity details to create a tailored cap statement.
+    """
+    try:
+        from capability_statement_generator import handle_generate_capability_statement
+        
+        airtable_client = AirtableClient()
+        record = airtable_client.get_record('GPSS OPPORTUNITIES', opportunity_id)
+        
+        if not record:
+            return jsonify({"success": False, "error": "Opportunity not found"}), 404
+        
+        fields = record.get('fields', {})
+        
+        # Extract details for the cap statement
+        agency_name = fields.get('Agency') or fields.get('Agency Name') or fields.get('Department') or 'Federal Agency'
+        solicitation_number = fields.get('RFP Number') or fields.get('Solicitation Number') or fields.get('RFP NUMBER') or fields.get('Notice ID') or ''
+        naics = fields.get('NAICS') or fields.get('NAICS Code') or ''
+        description = fields.get('Description') or fields.get('Synopsis') or fields.get('Name') or ''
+        
+        # Determine sector from NAICS or description
+        sector = 'main'  # default
+        naics_lower = naics.lower() if naics else ''
+        desc_lower = description.lower() if description else ''
+        
+        if any(x in naics_lower or x in desc_lower for x in ['medical', 'health', 'drug', 'lab', 'clinical']):
+            sector = 'medical'
+        elif any(x in naics_lower or x in desc_lower for x in ['defense', 'military', 'dod', 'army', 'navy', 'air force']):
+            sector = 'defense'
+        elif any(x in naics_lower or x in desc_lower for x in ['facilities', 'grounds', 'janitorial', 'maintenance']):
+            sector = 'facilities'
+        elif any(x in naics_lower or x in desc_lower for x in ['transport', 'logistics', 'courier', 'freight', 'delivery']):
+            sector = 'transportation'
+        elif any(x in naics_lower or x in desc_lower for x in ['construction', 'industrial', 'manufacturing']):
+            sector = 'industrial'
+        
+        result = handle_generate_capability_statement(
+            sector=sector,
+            agency_name=agency_name,
+            solicitation_number=solicitation_number,
+            naics_code=naics,
+        )
+        
+        return jsonify({
+            "success": True,
+            "message": f"Capability statement generated for {agency_name}",
+            "html_file": result.get('html_file'),
+            "folder": result.get('folder'),
+        })
+        
+    except ImportError:
+        return jsonify({
+            "success": False,
+            "error": "Capability statement generator module not available"
+        }), 500
+    except Exception as e:
+        print(f"Error generating cap statement: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/gpss/opportunities/<opportunity_id>/details', methods=['GET'])
+def get_gpss_opportunity_details(opportunity_id):
+    """
+    Get full details for a single opportunity - used by the OpportunityDetailModal.
+    Returns all fields needed for the detail view without leaving NEXUS.
+    """
+    try:
+        airtable_client = AirtableClient()
+        record = airtable_client.get_record('GPSS OPPORTUNITIES', opportunity_id)
+        
+        if not record:
+            return jsonify({"success": False, "error": "Opportunity not found"}), 404
+        
+        fields = record.get('fields', {})
+        
+        # Build the SAM URL if we have a notice ID
+        notice_id = (
+            fields.get('Notice ID') or 
+            fields.get('RFP NUMBER') or 
+            fields.get('Solicitation Number') or 
+            ''
+        )
+        sam_url = (
+            fields.get('Source URL') or 
+            fields.get('URL') or 
+            fields.get('SAM URL') or 
+            ''
+        )
+        if notice_id and not sam_url:
+            sam_url = f"https://sam.gov/opp/{notice_id}/view"
+        
+        # Extract all relevant fields
+        opportunity = {
+            'id': record.get('id'),
+            'name': fields.get('Name') or fields.get('Title') or 'Untitled Opportunity',
+            'notice_id': notice_id,
+            'solicitation_number': fields.get('RFP Number') or fields.get('Solicitation Number') or fields.get('RFP NUMBER') or '',
+            'agency': fields.get('Agency') or fields.get('Agency Name') or fields.get('Department') or '',
+            'department': fields.get('Department') or fields.get('Agency') or '',
+            'description': fields.get('Description') or fields.get('Synopsis') or fields.get('Notes') or '',
+            'naics_codes': fields.get('NAICS') or fields.get('NAICS Code') or fields.get('NAICS Codes') or '',
+            'set_aside': fields.get('Set-Aside Type') or fields.get('Set-Aside') or fields.get('Set Aside') or '',
+            'deadline': fields.get('Response Deadline') or fields.get('Deadline') or fields.get('Due Date') or '',
+            'posted_date': fields.get('Posted Date') or fields.get('Posted') or fields.get('Created Date') or '',
+            'status': fields.get('Status') or fields.get('Source Status') or fields.get('Internal Status') or '',
+            'estimated_value': fields.get('Estimated Value') or fields.get('Value') or fields.get('Contract Value') or '',
+            'place_of_performance': fields.get('Place of Performance') or fields.get('Performance Location') or fields.get('State') or '',
+            'co_name': fields.get('CO Name') or fields.get('Contact Name') or fields.get('Contracting Officer') or '',
+            'co_email': fields.get('CO Email') or fields.get('Contact Email') or fields.get('Email') or '',
+            'co_phone': fields.get('CO Phone') or fields.get('Contact Phone') or fields.get('Phone') or '',
+            'sam_url': sam_url,
+            'source_url': fields.get('Source URL') or fields.get('URL') or '',
+            'attachments': [],
+            'notes': fields.get('Notes') or '',
+        }
+        
+        # Format estimated value if it's a number
+        if isinstance(opportunity['estimated_value'], (int, float)):
+            val = opportunity['estimated_value']
+            if val >= 1000000:
+                opportunity['estimated_value'] = f"${val/1000000:,.1f}M"
+            elif val >= 1000:
+                opportunity['estimated_value'] = f"${val/1000:,.0f}K"
+            elif val > 0:
+                opportunity['estimated_value'] = f"${val:,.0f}"
+        
+        return jsonify({
+            "success": True,
+            "opportunity": opportunity
+        })
+        
+    except Exception as e:
+        print(f"Error fetching opportunity details: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/gpss/opportunities', methods=['POST'])

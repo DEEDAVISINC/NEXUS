@@ -150,7 +150,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
   const loadStats = useCallback(async () => {
     try {
       const res = await api.get('/compass/stats');
-      setStats(res.data);
+      setStats(res); // API returns data directly, not wrapped in .data
     } catch { /* no stats yet */ }
   }, []);
 
@@ -158,7 +158,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
     setLoading(true);
     try {
       const res = await api.get('/compass/contracts');
-      setContracts(res.data.contracts || []);
+      setContracts(res.contracts || []); // API returns { contracts: [...] }
     } catch { setContracts([]); }
     setLoading(false);
   }, []);
@@ -166,16 +166,16 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
   const loadContractDetail = useCallback(async (id: string) => {
     try {
       const res = await api.get(`/compass/contracts/${id}`);
-      setDeliverables(res.data.deliverables || []);
-      setCommunications(res.data.communications || []);
-      setModifications(res.data.modifications || []);
+      setDeliverables(res.deliverables || []);
+      setCommunications(res.communications || []);
+      setModifications(res.modifications || []);
     } catch { /* empty */ }
   }, []);
 
   const loadHealth = useCallback(async (id: string) => {
     try {
       const res = await api.get(`/compass/contracts/${id}/health`);
-      setHealthReport(res.data);
+      setHealthReport(res); // API returns data directly
     } catch { setHealthReport(null); }
   }, []);
 
@@ -252,7 +252,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
     try {
       const res = await api.post(`/compass/contracts/${selectedContract.id}/performance-report`);
       notify('Performance report generated');
-      console.log('Report:', res.data.report);
+      console.log('Report:', res.report); // API returns data directly
     } catch { notify('Failed to generate report', 'error'); }
   };
 

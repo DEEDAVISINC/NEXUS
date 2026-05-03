@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+type Page = 'home' | 'about' | 'programs' | 'shield' | 'resources' | 'contact';
+
 const movementKeyframes = `
 @keyframes cwc-drift {
   0%, 100% { transform: translateX(0); }
@@ -67,7 +69,7 @@ const PROGRAMS = [
   },
 ];
 
-const NAV_LINKS = [
+const NAV_LINKS: { id: Page; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'programs', label: 'Programs' },
@@ -105,7 +107,7 @@ const STATS = [
 ];
 
 export default function CWCSite() {
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState<Page>('home');
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -145,6 +147,8 @@ export default function CWCSite() {
       page === 'contact' ? 'Contact' : 'Cause We Care';
     document.title = page === 'home' ? `${label} | Michigan` : `${label} | Cause We Care`;
   }, [page]);
+
+  const onNavigate = useCallback((p: Page) => {
     setPage(p);
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -165,7 +169,7 @@ export default function CWCSite() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            <button onClick={() => navigate('home')} className="flex items-center gap-3 group">
+            <button onClick={() => onNavigate('home')} className="flex items-center gap-3 group">
               <img src="/cwc-logo.png" alt="Cause We Care" className="h-10 sm:h-12 rounded-lg" />
               <div className="hidden sm:block">
                 <div className="text-lg font-bold" style={{ color: YELLOW }}>CAUSE WE CARE</div>
@@ -178,7 +182,7 @@ export default function CWCSite() {
               {NAV_LINKS.map(l => (
                 <button
                   key={l.id}
-                  onClick={() => navigate(l.id)}
+                  onClick={() => onNavigate(l.id)}
                   className="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
                   style={{
                     color: page === l.id ? BLUE : WHITE,
@@ -222,7 +226,7 @@ export default function CWCSite() {
             {NAV_LINKS.map(l => (
               <button
                 key={l.id}
-                onClick={() => navigate(l.id)}
+                onClick={() => onNavigate(l.id)}
                 className="block w-full text-left px-4 py-3 rounded-lg text-base font-semibold mb-1"
                 style={{
                   color: page === l.id ? BLUE : WHITE,
@@ -246,9 +250,9 @@ export default function CWCSite() {
       </nav>
 
       {/* PAGE CONTENT */}
-      {page === 'home' && <HomePage onNavigate={navigate} />}
-      {page === 'about' && <AboutPage onNavigate={navigate} />}
-      {page === 'programs' && <ProgramsPage onNavigate={navigate} />}
+      {page === 'home' && <HomePage onNavigate={onNavigate} />}
+      {page === 'about' && <AboutPage onNavigate={onNavigate} />}
+      {page === 'programs' && <ProgramsPage onNavigate={onNavigate} />}
       {page === 'shield' && <ShieldPage />}
       {page === 'resources' && <ResourcesPage />}
       {page === 'contact' && <ContactPage />}
@@ -268,7 +272,7 @@ export default function CWCSite() {
             <div>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-4" style={{ color: YELLOW }}>Programs</h4>
               {PROGRAMS.map(p => (
-                <button key={p.id} onClick={() => navigate('programs')} className="block text-sm mb-2 hover:underline" style={{ color: 'rgba(255,255,255,.7)' }}>
+                <button key={p.id} onClick={() => onNavigate('programs')} className="block text-sm mb-2 hover:underline" style={{ color: 'rgba(255,255,255,.7)' }}>
                   {p.icon} {p.name}
                 </button>
               ))}
@@ -280,10 +284,9 @@ export default function CWCSite() {
               <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,.7)' }}>cwecare.org</p>
               <div className="flex gap-3">
                 {[
-                  { name: 'Facebook', url: 'https://www.facebook.com/causewecare' },
-                  { name: 'Instagram', url: 'https://www.instagram.com/causewecare' },
-                  { name: 'LinkedIn', url: 'https://www.linkedin.com/company/causewecare' },
-                  { name: 'YouTube', url: 'https://www.youtube.com/@causewecare' },
+                  { name: 'Facebook', url: 'https://www.facebook.com/cwecare.org' },
+                  { name: 'Instagram', url: 'https://www.instagram.com/causewecarenpo' },
+                  { name: 'LinkedIn', url: 'https://www.linkedin.com/company/cause-we-care-michigan' },
                 ].map(s => (
                   <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all hover:scale-110" style={{ background: 'rgba(255,255,255,.1)', color: YELLOW }}>
                     {s.name[0]}
@@ -305,7 +308,7 @@ export default function CWCSite() {
 /* ═══════════════════════════════════════════════════════════════════
    HOME PAGE
    ═══════════════════════════════════════════════════════════════════ */
-function HomePage({ onNavigate }: { onNavigate: (p: string) => void }) {
+function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
   return (
     <>
       {/* HERO */}
@@ -471,7 +474,7 @@ function HomePage({ onNavigate }: { onNavigate: (p: string) => void }) {
 /* ═══════════════════════════════════════════════════════════════════
    ABOUT PAGE
    ═══════════════════════════════════════════════════════════════════ */
-function AboutPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+function AboutPage({ onNavigate }: { onNavigate: (p: Page) => void }) {
   return (
     <>
       <section className="pt-28 pb-16" style={{ background: `linear-gradient(135deg, ${BLUE_DARK}, ${BLUE})` }}>
@@ -482,35 +485,138 @@ function AboutPage({ onNavigate }: { onNavigate: (p: string) => void }) {
         </div>
       </section>
 
+      {/* OUR STORY */}
       <section className="py-16" style={{ background: WHITE }}>
         <div className="max-w-4xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <div>
+          <h2 className="text-3xl font-black mb-6 text-center" style={{ color: BLUE }}>Our Story</h2>
+          <div className="max-w-3xl mx-auto">
+            <p className="text-lg leading-relaxed mb-6 text-center" style={{ color: '#555' }}>
+              Cause We Care started with a simple question: <em>What if every family in crisis had someone in their corner?</em>
+            </p>
+            <p className="text-base leading-relaxed mb-6" style={{ color: '#555' }}>
+              Founded in 2023, we saw too many families falling through the cracks — children sleeping on floors, parents choosing between groceries and rent, families displaced by unsafe housing with nowhere to turn. Government programs exist, but navigating them is overwhelming. Community resources are out there, but finding them takes time families don't have.
+            </p>
+            <p className="text-base leading-relaxed mb-6" style={{ color: '#555' }}>
+              So we built something different. Not another referral list. Not another hotline. A hands-on, navigator-driven approach where real people walk with families through every step — from the first call to the final solution. We don't point fingers at problems. We solve them.
+            </p>
+            <p className="text-base leading-relaxed" style={{ color: '#555' }}>
+              Today, Cause We Care operates five direct-service programs across Michigan, partnering with state agencies, healthcare systems, and community organizations to reach families who need us most. We're a 501(c)(3) nonprofit and State Community Partner — and we're just getting started.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* MISSION & VISION */}
+      <section className="py-16" style={{ background: '#F8F9FB' }}>
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="rounded-2xl p-8" style={{ background: WHITE, border: '1px solid #E8EBF0' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-6" style={{ background: YELLOW }}>🎯</div>
               <h2 className="text-2xl font-black mb-4" style={{ color: BLUE }}>Our Mission</h2>
-              <p className="text-base leading-relaxed mb-6" style={{ color: '#555' }}>
-                Cause We Care was founded with one belief: no family should face hardship alone. We serve families across Michigan through direct community programs — putting resources in the hands of families who need them, when they need them.
-              </p>
-              <p className="text-base leading-relaxed mb-6" style={{ color: '#555' }}>
-                From providing beds and bedding through Kids in Comfort, to feeding families through the Forever Food Fund, to grooming confidence through Hair Cuts for Heroes, to navigating health and housing through SHIELD — every initiative is built around the same principle: meet people where they are, and don't stop until the problem is solved.
+              <p className="text-base leading-relaxed mb-4" style={{ color: '#555' }}>
+                To connect Michigan families with the resources, support, and navigation they need to overcome hardship — without barriers, without judgment, and without delay.
               </p>
               <p className="text-base leading-relaxed" style={{ color: '#555' }}>
-                We're a 501(c)(3) nonprofit and State Community Partner. Every dollar donated goes directly to serving families. Your contribution is tax-deductible to the fullest extent allowed by law.
+                We meet people where they are. We walk with them until the problem is solved. And we never stop fighting for their success.
               </p>
             </div>
-            <div className="rounded-2xl p-8" style={{ background: YELLOW_PALE }}>
-              <h3 className="text-xl font-bold mb-6" style={{ color: BLUE }}>Our Values</h3>
-              {[
-                { title: 'Community First', text: 'Every decision starts with the families we serve.' },
-                { title: 'No Strings Attached', text: 'We don\'t gatekeep resources in the areas we provide. If you need help in those areas, you get it — without unnecessary hoops.' },
-                { title: 'Accountability', text: 'Every program is tracked, measured, and improved. Real data, real outcomes.' },
-                { title: 'Dignity', text: 'We treat every family with the respect they deserve — always.' },
-              ].map(v => (
-                <div key={v.title} className="mb-4 last:mb-0">
-                  <h4 className="text-sm font-bold" style={{ color: BLUE }}>{v.title}</h4>
-                  <p className="text-sm" style={{ color: '#666' }}>{v.text}</p>
-                </div>
-              ))}
+            <div className="rounded-2xl p-8" style={{ background: WHITE, border: '1px solid #E8EBF0' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-6" style={{ background: YELLOW }}>🔮</div>
+              <h2 className="text-2xl font-black mb-4" style={{ color: BLUE }}>Our Vision</h2>
+              <p className="text-base leading-relaxed mb-4" style={{ color: '#555' }}>
+                A Michigan where no family faces crisis alone. Where every child sleeps in a safe bed. Where every parent knows where their next meal is coming from. Where health hazards don't force families from their homes.
+              </p>
+              <p className="text-base leading-relaxed" style={{ color: '#555' }}>
+                We envision a future where community care is the standard — not the exception.
+              </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OUR VALUES */}
+      <section className="py-16" style={{ background: BLUE }}>
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-black mb-4 text-center" style={{ color: YELLOW }}>Our Values</h2>
+          <p className="text-base text-center mb-12 max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,.7)' }}>
+            These are not words on a wall. This is how we make decisions, every single day.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { 
+                icon: '❤️', 
+                title: 'Community First', 
+                text: "Every decision we make starts with one question: what does the family need? Not what is convenient for us. Not what looks good on paper. What actually helps." 
+              },
+              { 
+                icon: '🚪', 
+                title: 'No Barriers', 
+                text: "In the services we provide, we do not gatekeep resources. If you need help with something we offer, you get it — without unnecessary hoops, paperwork, or waiting periods." 
+              },
+              { 
+                icon: '📊', 
+                title: 'Accountability', 
+                text: "Every program is tracked, measured, and improved. We use real data to drive real outcomes. If something is not working, we fix it. Period." 
+              },
+              { 
+                icon: '🤝', 
+                title: 'Dignity Always', 
+                text: "We treat every family with the respect they deserve. Hardship does not define people — it is just a moment they are moving through. We are honored to help." 
+              },
+              { 
+                icon: '💪', 
+                title: 'Relentless Follow-Through', 
+                text: "We do not hand someone a phone number and wish them luck. We stay with families from first contact to final resolution. We do not stop until the problem is solved." 
+              },
+              { 
+                icon: '🌉', 
+                title: 'Bridge Building', 
+                text: "No organization can do it alone. We partner with state agencies, healthcare systems, businesses, and community groups to build networks that actually work." 
+              },
+            ].map(v => (
+              <div key={v.title} className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,.1)' }}>
+                <div className="text-3xl mb-4">{v.icon}</div>
+                <h4 className="text-base font-bold mb-2" style={{ color: YELLOW }}>{v.title}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.8)' }}>{v.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT MAKES US DIFFERENT */}
+      <section className="py-16" style={{ background: WHITE }}>
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-black mb-8 text-center" style={{ color: BLUE }}>What Makes Us Different</h2>
+          <div className="space-y-6">
+            {[
+              {
+                title: 'We Navigate, Not Just Refer',
+                text: "Most organizations give you a list of phone numbers. We give you a navigator — a real person who walks with you through every step, makes the calls with you, fills out the forms with you, and doesn't stop until you're taken care of."
+              },
+              {
+                title: 'We Move Fast',
+                text: "When a family is in crisis, they can't wait weeks for a committee to approve help. Our programs are designed for speed — getting resources in hands within days, not months."
+              },
+              {
+                title: 'We Track Everything',
+                text: "Every family, every service, every outcome is documented. Not for bureaucracy — for accountability. We know exactly who we've helped, how we helped them, and what happened next."
+              },
+              {
+                title: 'We Partner Strategically',
+                text: "We don't try to do everything ourselves. We build relationships with the best organizations in each space — so when a family needs specialized help, we know exactly who to call."
+              },
+            ].map((item, i) => (
+              <div key={item.title} className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-lg font-black" style={{ background: YELLOW, color: BLUE }}>
+                  {i + 1}
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold mb-1" style={{ color: BLUE }}>{item.title}</h4>
+                  <p className="text-base" style={{ color: '#555' }}>{item.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -551,7 +657,7 @@ function AboutPage({ onNavigate }: { onNavigate: (p: string) => void }) {
 /* ═══════════════════════════════════════════════════════════════════
    PROGRAMS PAGE
    ═══════════════════════════════════════════════════════════════════ */
-function ProgramsPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+function ProgramsPage({ onNavigate }: { onNavigate: (p: Page) => void }) {
   return (
     <>
       <section className="pt-28 pb-16" style={{ background: `linear-gradient(135deg, ${BLUE_DARK}, ${BLUE})` }}>
@@ -611,10 +717,10 @@ function ShieldPage() {
     {
       name: 'Blood Lead Level Testing',
       icon: '🩸',
-      headline: 'It starts with one simple test.',
-      story: 'Every child in Michigan under the age of four is required to be tested for lead exposure. But for many families, getting to that appointment is the hardest part — no ride, no time off work, no idea where to go. That\'s where we come in. We schedule the test, arrange the transportation, and make sure the family gets the results. One test can change everything.',
-      who: 'Certified labs perform the test — we handle everything else.',
-      how: 'Your navigator schedules the appointment, arranges the ride, and follows up with results — the family doesn\'t have to chase anything.',
+      headline: 'It starts with one simple test — and we bring it to you.',
+      story: "Every child in Michigan under the age of four is required to be tested for lead exposure. But for many families, finding time to get to a clinic is the hardest part. That is why we come to you. We send a certified technician directly to your home to perform a quick and painless blood draw — no clinic visit, no waiting room, no time off work. We schedule the test, we send the technician, and we make sure you get the results. One simple test can change everything.",
+      who: 'We provide the mobile testing — a certified technician comes to your home at a time that works for you.',
+      how: 'Your navigator schedules the mobile blood draw, our technician arrives at your door, performs the test, and results come directly to your navigator who follows up with next steps.',
     },
     {
       name: 'Case Management',
@@ -627,10 +733,10 @@ function ShieldPage() {
     {
       name: 'NEMT Transportation',
       icon: '🚗',
-      headline: 'No ride should ever be the reason a child misses care.',
-      story: 'A mom in Detroit has a 2-year-old who needs a blood draw. She doesn\'t have a car. The bus takes an hour each way with a toddler. She cancels the appointment. This happens every day across Michigan. We make sure no family ever has to choose between getting to the doctor and everything else. The ride shows up. The child gets tested. It\'s that simple.',
-      who: 'Our team coordinates transportation for every appointment.',
-      how: 'When a navigator schedules an appointment, the ride is automatically arranged — door to door, no cost to the family.',
+      headline: 'When follow-up is needed, the ride is already handled.',
+      story: "If a child's initial blood test comes back elevated, follow-up appointments are critical — specialist visits, confirmatory testing, developmental screenings. But a mom without a car, working two jobs, cannot take three buses with a toddler to get there. So she cancels. This happens every day across Michigan. When lead is found and follow-up care is needed, we make sure transportation is never the barrier. The ride shows up. The child gets the care they need. It is that simple.",
+      who: 'Our team coordinates transportation for every follow-up appointment.',
+      how: 'When elevated results require follow-up care, your navigator arranges the ride — door to door, no cost to the family, no appointments missed.',
     },
     {
       name: 'Lead Remediation',
@@ -958,10 +1064,9 @@ function ContactPage() {
             </div>
             <div className="flex gap-3 mb-8">
               {[
-                { name: 'Facebook', url: 'https://www.facebook.com/causewecare' },
-                { name: 'Instagram', url: 'https://www.instagram.com/causewecare' },
-                { name: 'LinkedIn', url: 'https://www.linkedin.com/company/causewecare' },
-                { name: 'YouTube', url: 'https://www.youtube.com/@causewecare' },
+                { name: 'Facebook', url: 'https://www.facebook.com/cwecare.org' },
+                { name: 'Instagram', url: 'https://www.instagram.com/causewecarenpo' },
+                { name: 'LinkedIn', url: 'https://www.linkedin.com/company/cause-we-care-michigan' },
               ].map(s => (
                 <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all hover:scale-110" style={{ background: YELLOW_PALE, color: BLUE }}>
                   {s.name[0]}

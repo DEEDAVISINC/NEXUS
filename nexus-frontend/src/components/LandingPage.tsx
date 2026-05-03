@@ -3,6 +3,7 @@ import { ViewType } from './Header';
 import { api } from '../api/client';
 import { ReviewOpportunityModal } from './modals/ReviewOpportunityModal';
 import { SupplierSearchModal } from './modals/SupplierSearchModal';
+import { OpportunityDetailModal } from './modals/OpportunityDetailModal';
 
 interface LandingPageProps {
   onEnterSystem: (system: ViewType) => void;
@@ -69,6 +70,12 @@ interface DdiTopPick {
   time: string;
   recordId?: string;
   status?: string;
+  notice_id?: string;
+  sam_url?: string;
+  agency?: string;
+  deadline?: string;
+  co_email?: string;
+  co_name?: string;
 }
 
 interface DdiSubHint {
@@ -161,6 +168,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
   
   // Supplier search modal state
   const [searchingSuppliersFor, setSearchingSuppliersFor] = useState<any>(null);
+
+  // Lane match detail modal state
+  const [selectedLaneMatch, setSelectedLaneMatch] = useState<DdiTopPick | null>(null);
 
   // Pipeline health state
   const [pipelineHealth, setPipelineHealth] = useState<any>(null);
@@ -1037,11 +1047,10 @@ END:VCALENDAR`;
                 {ddiTopPicks.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {ddiTopPicks.map((pick, i) => (
-                      <button
+                      <div
                         key={pick.recordId || `${i}-${pick.title}`}
-                        type="button"
-                        onClick={() => onEnterSystem('gpss')}
-                        className="text-left rounded-lg border border-emerald-600/30 bg-gray-900/50 hover:border-emerald-500/50 hover:bg-gray-900/80 transition p-4"
+                        className="text-left rounded-lg border border-emerald-600/30 bg-gray-900/50 hover:border-emerald-500/50 hover:bg-gray-900/80 transition p-4 cursor-pointer"
+                        onClick={() => pick.recordId && setSelectedLaneMatch(pick)}
                       >
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <span className="text-xs font-bold uppercase tracking-wide text-emerald-400/90">{pick.lane}</span>
@@ -1050,10 +1059,23 @@ END:VCALENDAR`;
                           </span>
                         </div>
                         <div className="text-sm font-semibold text-white line-clamp-2">{pick.title}</div>
-                        {pick.status ? (
-                          <div className="text-[11px] text-gray-500 mt-2 truncate">{pick.status}</div>
-                        ) : null}
-                      </button>
+                        {pick.agency && (
+                          <div className="text-[11px] text-gray-400 mt-1 truncate">📋 {pick.agency}</div>
+                        )}
+                        {pick.notice_id && (
+                          <div className="text-[11px] text-blue-400 mt-1 font-mono">ID: {pick.notice_id}</div>
+                        )}
+                        {pick.deadline && (
+                          <div className="text-[11px] text-amber-400 mt-1">⏰ Due: {pick.deadline}</div>
+                        )}
+                        {pick.status && (
+                          <div className="text-[11px] text-gray-500 mt-1 truncate">{pick.status}</div>
+                        )}
+                        {/* Click for details hint */}
+                        <div className="text-[10px] text-emerald-400/60 mt-3 flex items-center gap-1">
+                          <span>👆</span> Click for full details
+                        </div>
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -2056,6 +2078,18 @@ END:VCALENDAR`;
         opportunity={searchingSuppliersFor}
         onClose={() => setSearchingSuppliersFor(null)}
         onSuccess={handleReviewSuccess}
+      />
+    )}
+
+    {/* Lane Match Detail Modal - Full opportunity info without leaving NEXUS */}
+    {selectedLaneMatch && selectedLaneMatch.recordId && (
+      <OpportunityDetailModal
+        recordId={selectedLaneMatch.recordId}
+        onClose={() => setSelectedLaneMatch(null)}
+        onOpenInGPSS={() => {
+          setSelectedLaneMatch(null);
+          onEnterSystem('gpss');
+        }}
       />
     )}
   </>
