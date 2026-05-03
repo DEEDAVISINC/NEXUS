@@ -1,8 +1,10 @@
 # MMCAP INFUSE — OPTION B: LAST-MILE DELIVERY PARTNER STRATEGY
 
 **Created:** May 1, 2026  
-**Strategy:** Partner with existing MMCAP-contracted product vendors to handle their last-mile delivery/logistics  
-**Owner:** Dee Davis Inc.
+**Updated:** May 2, 2026  
+**Strategy:** Partner with existing MMCAP-contracted product vendors to coordinate their last-mile delivery/logistics  
+**Owner:** Dee Davis Inc.  
+**Business Model:** DDI = TPA/Prime (contract management, coordination, billing) | Subcontractors = Actual delivery fleet
 
 ---
 
@@ -73,16 +75,46 @@ Cardinal Health has a public **Transportation Carriers** application:
 | Contact Title | President/CEO |
 | Contact Phone | 248.376.4550 |
 | Contact Email | info@deedavis.biz |
-| DOT/MC Number | *(confirm — if DDI has one, enter it; if not, note N/A)* |
+| DOT/MC Number | MC# 1647572 / DOT# 4250594 |
 | Segment Applied | **Medical** and **Pharmaceutical** |
 | Cardinal Health Incumbent? | No |
-| Asset Based? | Yes *(if DDI owns/leases vehicles)* or No *(if using contracted drivers)* |
-| Equipment Operated | **Cargo van, Sprinter van** |
-| Services Offered | **Courier (last mile/direct to store/emergency delivery), White glove, Expedite/Spot load** |
-| Cargo Insurance | **Medical Segment ($250K)** and **Pharmaceutical Segment ($1MM)** |
-| Coverage Area | **Midwest** *(Michigan primary)* |
-| Diversity Classification | **Woman-Owned Small Business, Minority-Owned, Small Business, Small Disadvantaged Business** |
-| Specialization | Medical courier, pharmaceutical delivery, chain-of-custody transport, specimen logistics, HIPAA-compliant delivery, TWIC-certified drivers (100% of fleet), TWIC escort services for secure facility access, notarized document transport |
+| Asset Based? | **No** — DDI is a TPA using contracted courier subcontractors |
+| Equipment Operated | **Contracted courier fleet** (cargo vans, box trucks via subs) |
+| Services Offered | **Courier coordination, White glove, Expedite/Spot load** |
+| Cargo Insurance | **Subs carry coverage** — DDI verifies $250K med / $1MM pharma |
+| Coverage Area | **Midwest** *(Michigan primary, expandable)* |
+| Diversity Classification | **EDWOSB, WOSB, MBE, SBE, WBENC** |
+| Specialization | Courier coordination, chain-of-custody management, HIPAA ops, contract/sub QA |
+
+### DDI TPA MODEL — HOW IT WORKS
+
+```
+VENDOR (Cardinal Health, McKesson, etc.)
+         ↓
+    DDI (TPA/Prime)
+    - Receives delivery orders
+    - Coordinates scheduling
+    - Dispatches subcontractors
+    - Manages compliance & QA
+    - Handles billing & reporting
+         ↓
+    SUBCONTRACTOR COURIER
+    - God Is Good Hauling LLC
+    - CURRI / CB Driver
+    - Other contracted couriers
+    - Owns vehicles, carries insurance
+    - Executes actual delivery
+         ↓
+    GOVERNMENT FACILITY
+    (Correctional, VA, Public Health, etc.)
+```
+
+**DDI's Value:**
+- Diverse certification (EDWOSB/MBE/WBENC) for vendor subcontracting goals
+- Single point of contact for Michigan/Midwest deliveries
+- QA and compliance management (HIPAA, chain-of-custody)
+- PRISM platform for tracking and documentation
+- Subcontractor vetting and oversight
 
 ### WHY DDI STANDS OUT
 
@@ -100,13 +132,13 @@ Cardinal Health needs diverse suppliers to hit FAR 52.219-8 small business subco
 
 ### SATURDAY MAY 2 — RESEARCH + PREP (after 12:00 PM ET)
 
-- [ ] **Confirm DOT/MC number status** — research whether medical courier requires DOT/MC for non-CDL cargo van operations. If needed, start FMCSA registration.
-- [ ] **Verify cargo insurance levels** — check current policy. Need $250K (medical segment) and $1MM (pharmaceutical segment). Note any gaps to address Monday with broker.
+- [x] **DOT/MC confirmed** — DDI has MC# 1647572 / DOT# 4250594 (per COMPANY_INFO_MASTER.md)
+- [ ] **Verify subcontractor insurance** — Confirm God Is Good Hauling carries $250K (med) / $1MM (pharma) cargo coverage. If not, identify backup sub or negotiate upgrade.
 - [ ] **Research Morris & Dickson** — smaller regional wholesaler, likely most receptive to a direct partnership pitch. Find logistics/operations contact.
-- [ ] **Draft capabilities one-pager** for medical courier/last-mile positioning:
+- [ ] **Draft capabilities one-pager** for medical courier TPA positioning:
   - EDWOSB/MBE/WBENC certified
   - Michigan coverage area (expandable)
-  - HIPAA-compliant, chain-of-custody certified
+  - TPA model: DDI coordinates, subs deliver
   - PRISM-managed operations with real-time tracking
   - Emergency/STAT capable
 - [ ] **Map Michigan MMCAP facilities** — build initial list of correctional, public health, VA, and county jail facilities in Metro Detroit + statewide
@@ -218,12 +250,12 @@ This scales with each additional vendor partnership and geographic expansion.
 ## DDI COMPETITIVE ADVANTAGES FOR THIS PLAY
 
 1. **Diversity certifications** — Cardinal Health, McKesson, Medline all have FAR small business subcontracting goals. DDI's EDWOSB/MBE/WBENC stack makes DDI a compliance asset, not just a vendor.
-2. **TWIC-cleared operation (100%)** — ALL DDI drivers and couriers must be TWIC-certified. Management (Dee + spouse) TWIC-certified. Subcontractor fleet (God Is Good Hauling) — all main drivers TWIC-certified. DDI also offers TWIC escort services for restricted-access facility deliveries. Most small couriers cannot say their entire chain of custody is TSA security-vetted.
+2. **TPA/Contract Management expertise** — DDI specializes in winning contracts, sourcing qualified subcontractors, and managing delivery operations. Vendors get one point of contact for Michigan/Midwest without managing multiple couriers themselves.
 3. **PRISM platform** — real-time order tracking, automated QC, chain-of-custody documentation. Vendors can see delivery status without building their own system.
-4. **Healthcare compliance DNA** — HIPAA training, drug testing protocols, background checks already in DDI's operational DNA.
-5. **Michigan footprint** — local presence in the densest government facility corridor in the state.
-6. **Existing courier infrastructure** — DDI already runs field operations (fingerprinting, notarial, drug testing) requiring same-day dispatch and chain-of-custody.
-7. **8(a) pending** — once certified, DDI becomes even more valuable to large primes needing small business subcontracting credit.
+4. **Healthcare compliance DNA** — HIPAA training, drug testing protocols, background checks already in DDI's operational DNA. DDI vets all subcontractors for compliance.
+5. **Michigan footprint** — local presence in the densest government facility corridor in the state. DDI coordinates subcontractors across Wayne, Oakland, Macomb counties and statewide.
+6. **Existing operations infrastructure** — DDI already runs field operations (fingerprinting, notarial, drug testing) requiring same-day dispatch and chain-of-custody. Same model applies to medical courier coordination.
+7. **Subcontractor network** — DDI has existing relationships with Maryland/Michigan courier companies (God Is Good Hauling, OLIMP network) and platforms (CURRI, CB Driver) for rapid scaling.
 
 ---
 
@@ -232,10 +264,11 @@ This scales with each additional vendor partnership and geographic expansion.
 | Risk | Mitigation |
 |------|------------|
 | Vendors have internal fleets (Medline MedTrans) | Target overflow, after-hours, surge, and rural — not core routes |
-| Insurance requirements ($1MM pharma) | Verify current coverage; upgrade if needed before applying |
-| DOT/MC number may be required | Research exemptions for non-CDL medical courier; obtain if needed |
+| Insurance requirements ($1MM pharma) | DDI vets subcontractors for coverage before dispatch — not DDI's policy |
+| Vendors want asset-based carriers | Position DDI as TPA/coordinator — value is diversity certs + single point of contact + QA |
 | Low initial volume | Start with one vendor, prove reliability, expand from track record |
 | Cardinal Health already has 1,700 couriers | They're always looking for diverse-certified regional partners — DDI fills a gap |
+| Subcontractor reliability | DDI uses proven subs (God Is Good Hauling, OLIMP network, CURRI/CB Driver) + PRISM tracking |
 
 ---
 
@@ -243,10 +276,10 @@ This scales with each additional vendor partnership and geographic expansion.
 
 | Milestone | Target Date | Status |
 |-----------|-------------|--------|
-| DOT/MC number status confirmed | Sat May 2 | NOT STARTED |
-| Insurance levels verified ($250K med / $1MM pharma) | Sat May 2 | NOT STARTED |
+| DOT/MC number confirmed | Sat May 2 | ✅ DONE — MC# 1647572 / DOT# 4250594 |
+| Subcontractor insurance verified | Sat May 2 | NOT STARTED — verify God Is Good Hauling coverage |
 | Morris & Dickson research | Sat May 2 | NOT STARTED |
-| Capabilities one-pager drafted | Sat May 2 | NOT STARTED |
+| Capabilities one-pager drafted (TPA model) | Sat May 2 | NOT STARTED |
 | Michigan facility map (initial) | Sat May 2 | NOT STARTED |
 | Cardinal Health carrier application submitted | Sun May 3 | NOT STARTED |
 | Vendor outreach emails drafted | Sun May 3 | NOT STARTED |

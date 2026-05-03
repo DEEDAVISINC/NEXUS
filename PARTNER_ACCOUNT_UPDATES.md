@@ -1,5 +1,53 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** April 12, 2026
+**Last Updated:** May 2, 2026
+
+---
+
+## OLIMP WAREHOUSING (Warehouse Network Platform)
+
+**Website:** olimpwarehousing.com  
+**Support Email:** support@olimpwarehousing.com  
+**Customer Support:** customersupport@olimpwarehousing.com  
+**Phone:** 773-570-3481  
+**How It Works:** Submit RFQ → PSM assigned → Quote within 30 min → Confirm to book → Pay via ComCheck, Credit Card, EFS, T-Check, or ACH
+
+### STATUS (as of May 2, 2026)
+
+- [x] **RFQ submitted** — May 2, 2026 — Secure warehouse in Baltimore metro for MD state courier contract
+- [x] **Auto-confirmation received** — May 2, 2026 at 4:31 PM ET
+- [ ] **Awaiting PSM quote** — Need: warehouse address, security features, pricing
+- [ ] **Response deadline:** Monday, May 4, 2026
+
+### USE CASE
+
+DDI is pursuing Maryland MVA Courier Services ITQ. Need OLIMP to provide a secure warehouse within 50 miles of Glen Burnie, MD (21060) for receiving, storing, and staging state inventory for delivery
+
+---
+
+## GOD IS GOOD HAULING LLC (Courier Subcontractor — Maryland)
+
+**Contact:** Stanley Dennis  
+**Email:** [TBD — Dee to confirm]  
+**Role:** Transportation subcontractor for Maryland MVA Courier Services
+
+### STATUS (as of May 2, 2026)
+
+- [x] **Subcontractor offer sent** — May 2, 2026 — Per-delivery rates: $55-$115 by zone
+- [ ] **Awaiting response** — Need: acceptance, insurance certs, background check confirmation, vehicle info, business registration
+- [ ] **Response deadline:** Monday, May 4, 2026
+
+### OFFER TERMS
+
+| Zone | 1 Pallet | 2 Pallets |
+|---|---|---|
+| Local MD (<25 mi) | $55 | $65 |
+| Regional MD (25-80 mi) | $75 | $90 |
+| Virginia (up to 120 mi) | $100 | $115 |
+| Delaware (up to 120 mi) | $95 | $110 |
+| Rush (+40%) | Add 40% | Add 40% |
+
+**Payment:** Net 7 (weekly based on completed deliveries)  
+**Contract:** 5-year term with DDI as prime
 
 ---
 

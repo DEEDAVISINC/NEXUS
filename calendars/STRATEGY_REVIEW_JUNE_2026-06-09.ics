@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:strategy-review-june-2026@deedavis.biz
+DTSTAMP:20260502T210000Z
+DTSTART;TZID=America/Detroit:20260609T120000
+DTEND;TZID=America/Detroit:20260609T140000
+SUMMARY:📋 STRATEGY REVIEW — MMCAP + AOG + IAC
+DESCRIPTION:Parked strategies ready for review and action planning.\n\n1. MMCAP INFUSE — Last-mile delivery partner for Cardinal Health, McKesson\n   File: MMCAP_INFUSE_STRATEGY.md\n\n2. AOG DIRECT — Airlines + Ports (Delta, Spirit, Port of Detroit)\n   File: AOG_DIRECT_STRATEGY.md\n\n3. IAC REGISTRATION — Indirect Air Carrier (TSA certification)\n   Cost: ~$598 (2x IACSC training)\n   Timeline: 3-4 months\n   File: IAC_REGISTRATION_STRATEGY.md\n\nAll use DDI TPA model. Both owners + God Is Good drivers already TWIC-cleared.
+LOCATION:NEXUS
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:Strategy review in 3 days
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:Strategy review tomorrow
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

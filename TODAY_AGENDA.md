@@ -23,8 +23,8 @@ TODAY'S PRIORITIES — Saturday, May 2, 2026
      Review session Monday May 5 noon — VSS submit Wed May 7, 3:30 PM ET.
      Folder: BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/SEND_TO_BUYER/
 
-5. 📧 **Maryland MVA — partner responses**
-     OLIMP + God Is Good Hauling by May 3 target; ITQ due May 11.
+5. ✅ **Maryland MVA — partner emails SENT**
+     OLIMP + God Is Good Hauling (Stanley Dennis) — both sent May 2. Response deadline Monday May 4. ITQ due May 11.
 
 DEADLINES:
   - Sun 5/3 — Krause meeting 12:30 PM Mount Clemens | MDHHS package send | MMCAP Cardinal app
@@ -38,7 +38,7 @@ CALENDAR (today):
 FOLLOW-UPS DUE:
   - Barbara / AMRO — LOC + pricing (CBP/KY path)
   - Acuity-CHS + Concentra (CBP)
-  - OLIMP + God Is Good Hauling (Maryland MVA)
+  - OLIMP + God Is Good Hauling — EMAILS SENT 5/2, response by Mon 5/4
 ```
 
 ---

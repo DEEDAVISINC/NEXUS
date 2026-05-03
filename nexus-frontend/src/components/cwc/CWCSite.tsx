@@ -115,7 +115,36 @@ export default function CWCSite() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navigate = useCallback((p: string) => {
+  useEffect(() => {
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    const prevTitle = document.title;
+    const prevDesc = metaDesc?.getAttribute('content') ?? '';
+    const prevTheme = themeColor?.getAttribute('content') ?? '';
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        'content',
+        'Cause We Care — Michigan 501(c)(3). We connect families to food, housing, health navigation, education support, and community resources. Care. Navigate. Transform.',
+      );
+    }
+    if (themeColor) themeColor.setAttribute('content', BLUE);
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc.setAttribute('content', prevDesc);
+      if (themeColor) themeColor.setAttribute('content', prevTheme);
+    };
+  }, []);
+
+  useEffect(() => {
+    const label =
+      page === 'home' ? 'Cause We Care' :
+      page === 'about' ? 'About' :
+      page === 'programs' ? 'Programs' :
+      page === 'shield' ? 'SHIELD' :
+      page === 'resources' ? 'Resources' :
+      page === 'contact' ? 'Contact' : 'Cause We Care';
+    document.title = page === 'home' ? `${label} | Michigan` : `${label} | Cause We Care`;
+  }, [page]);
     setPage(p);
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });

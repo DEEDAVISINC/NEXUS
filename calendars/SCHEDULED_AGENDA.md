@@ -111,6 +111,12 @@
 
 ---
 
-## 2026-05-03 — Saturday
+## 2026-05-04 — Monday
 
-- **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling** — Need warehouse details + insurance certificates for Maryland MVA Courier ITQ. Emails sent from `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_SUBCONTRACTOR/`. If no response by end of day, follow up immediately — application due May 11.
+- **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling (Stanley Dennis)** — Both emails sent May 2. Need: warehouse details from OLIMP, acceptance + insurance certs from Stanley. If no response by EOD Monday, follow up immediately — ITQ due May 11.
+
+---
+
+## 2026-06-09 — Tuesday
+
+- **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`

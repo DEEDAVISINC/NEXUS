@@ -753,7 +753,7 @@ Troy, Michigan 48084
 Phone: 248.376.4550
 Email: info@deedavis.biz
 
-EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Certified
+EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Program Administrator
 CAGE Code: 8UMX3 | UEI: HJB4KNYJVGZ1
 MI SIGMA VSS: VS0245604
 ```
@@ -766,7 +766,7 @@ MI SIGMA VSS: VS0245604
 DEE DAVIS INC
 755 W. Big Beaver Rd., Suite 2020 | Troy, MI 48084
 Phone: 248.376.4550 | Email: info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Certified | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
+EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Program Administrator | CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1
 MI SIGMA VSS: VS0245604
 ```
 
