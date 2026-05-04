@@ -38,7 +38,7 @@ function App() {
   if (isCWC && !['/refer', '/status', '/navigator', '/mdhhs'].includes(path)) return <CWCSite />;
 
   if (path === '/refer') return <HIPAAGate><PublicReferrerIntake /></HIPAAGate>;
-  if (path === '/status') return <HIPAAGate><FamilyStatusTracker /></HIPAAGate>;
+  if (path === '/status') return <HIPAAGate sessionKey="shield_family_status_ack"><FamilyStatusTracker /></HIPAAGate>;
   if (path === '/navigator') return <NavigatorLogin />;
   if (path === '/mdhhs') return <HIPAAGate><MDHHSPartnerPortal /></HIPAAGate>;
   return <NexusApp />;

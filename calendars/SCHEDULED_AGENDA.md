@@ -27,7 +27,7 @@
 ## 2026-04-23 — Thursday
 
 - *(No KY questions action — **submitted 4/22**; deadline was 4/23.)*
-- **3:00–3:30 PM ET** — ✓ 🏛️ **MDHHS Environmental Health Bureau — Partnership meeting (HELD)** — CWC+DDI pitched community navigation + program admin model to Angela Medina (Section Manager, Care Coordination, EHB) + Aimee Surma (EHB). Favorable reception; LHD director intros committed for 6 counties. Brief + one-pager delivered **4/23 7:04 PM ET** to both. Follow-up owed within 2 weeks. See `COMPANY_INFO_MASTER.md` → 🏛️ MDHHS PARTNERSHIP section.
+- **3:00–3:30 PM ET** — ✓ 🏛️ **MDHHS Environmental Health Bureau — Partnership meeting (HELD)** — CWC+DDI pitched community navigation + program admin model to Angela Medina (Section Manager, Care Coordination, EHB) + Aimee Surma (EHB). Favorable reception; LHD director intros committed for 6 counties. Brief + one-pager delivered **4/23 7:04 PM ET** to both. **FOLLOW-UP SENT 5/3/2026** — Full SHIELD proposal package + 4 demo videos. See `COMPANY_INFO_MASTER.md` → 🏛️ MDHHS PARTNERSHIP section.
 
 ---
 
@@ -108,6 +108,12 @@
 ## 2026-05-11 — Monday
 
 - **Due by 1:00 PM ET** — 🔥 **Maryland MVA — Courier Services ITQ V-HQ-26065-S** — Submit qualification application on eMMA (emma.maryland.gov). Folder: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_BUYER/`. 12 submission items required (7 drafted, 3 waiting on partners, 2 on Dee). CO: Gayloy Martin (gmartin5@mdot.maryland.gov / 410-768-7640). DDI prime / OLIMP warehouse / God Is Good Hauling courier. Contract: 5 years + unlimited renewals, no cost to state, revenue from dealers. Target DDI margin: $33K-$116K/year.
+
+---
+
+## 2026-05-03 — Sunday
+
+- **10:41 PM ET** — ✓ 📧 **MDHHS SHIELD Follow-Up SENT** — Angela Medina (MedinaA@michigan.gov) + Aimee Surma (SurmaA@michigan.gov). Full package: Program Proposal, Service Fulfillment Map, Vendor Sourcing Ask List, Questions for MDHHS, 4 SHIELD demo videos (Guidde links). Sent from ddavis@cwecare.org. Awaiting response / meeting scheduling.
 
 ---
 

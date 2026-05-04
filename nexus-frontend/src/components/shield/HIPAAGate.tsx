@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-const SESSION_KEY = 'shield_hipaa_ack';
-
-function hasAcknowledged(): boolean {
-  try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch { return false; }
-}
-
-function setAcknowledged(): void {
-  try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* ignore */ }
-}
-
 interface HIPAAGateProps {
   children: React.ReactNode;
+  sessionKey?: string;  // optional per-page key
 }
 
-const HIPAAGate: React.FC<HIPAAGateProps> = ({ children }) => {
+const HIPAAGate: React.FC<HIPAAGateProps> = ({ children, sessionKey }) => {
+  const key = sessionKey || 'shield_hipaa_ack';
+  
+  const hasAcknowledged = (): boolean => {
+    try { return sessionStorage.getItem(key) === '1'; } catch { return false; }
+  };
+  
+  const setAcknowledged = (): void => {
+    try { sessionStorage.setItem(key, '1'); } catch { /* ignore */ }
+  };
+  
   const [acked, setAcked] = useState(hasAcknowledged);
 
   useEffect(() => {
     setAcked(hasAcknowledged());
-  }, []);
+  }, [key]);
 
   if (acked) return <>{children}</>;
 

@@ -5,7 +5,7 @@
 - Aimee Surma — SurmaA@michigan.gov
 
 **Send date:** Sunday, May 3, 2026
-**Send from:** dee@deedavisinc.com (or cwecare.org once migrated)
+**Send from:** ddavis@cwecare.org
 
 ---
 
@@ -19,7 +19,7 @@ I hope you're both having a good weekend. I wanted to follow up on our April 23 
 
 Attached you'll find the full package:
 
-1. **Program Proposal** — Full multi-year program structure starting in Wayne County. DDI as TPA, CWC navigators on the ground, every family served. Zero cost to MDHHS.
+1. **Program Proposal** — Full multi-year program structure starting in Wayne County. DDI as TPA, CWC navigators on the ground, every family served. No new budget allocation required — services funded through existing Medicaid reimbursement structures.
 
 2. **Service Fulfillment Map** — All 9 SHIELD service lines broken down by who delivers, what's in place, and what we need from your end to get operational.
 
@@ -27,7 +27,11 @@ Attached you'll find the full package:
 
 4. **Questions for MDHHS** — A few billing and provider enrollment items where we need your guidance, particularly around CHW reimbursement structure and attending provider NPIs.
 
-5. **SHIELD System Demo** — A walkthrough of the live system showing caseworker intake, navigator workspace, the MDHHS partner portal, and family status tracker. [Link below]
+5. **SHIELD System Demo** — A walkthrough of the live system showing caseworker intake, navigator workspace, the MDHHS partner portal, and family status tracker.
+   - MDHHS Partner Portal: https://app.guidde.com/share/playbooks/hdZPdKRadD2Ehbkq2dEzRs
+   - Caseworker Referral: https://app.guidde.com/share/playbooks/6RWfFbQZPNwL4abvLs4Bjs
+   - Navigator Workspace: https://app.guidde.com/share/playbooks/phNqrnSr9iWy95FHZvh2hp
+   - Family Status Tracker: https://app.guidde.com/share/playbooks/fUCjbzC8paF2YpDi8J9Zak
 
 We've built SHIELD specifically so that MDHHS can monitor outcomes in real time without any manual reporting — everything from SLA compliance to service completion rates is visible on the partner portal. The system is live and ready to launch.
 
@@ -37,13 +41,13 @@ Looking forward to the next conversation.
 
 Warm regards,
 
-Dee Davis
-President & CEO
-Dee Davis Inc. + Community Wellness Connections
-755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
-(248) 376-4550 | dee@deedavisinc.com
+Dieasha D. Davis
+Executive Director, Cause We Care (501(c)(3))
+President & CEO, Dee Davis Inc.
+1221 Bowers St, Unit 2141, Birmingham, MI 48012
+(248) 376-4550
+ddavis@cwecare.org | info@deedavis.biz
 cwecare.org
-EDWOSB | WOSB | WBENC | MBE | SBE
 
 ---
 
@@ -51,5 +55,4 @@ EDWOSB | WOSB | WBENC | MBE | SBE
 - MDHHS_5_4_MEETING_PACKAGE.pdf (combined deliverable)
 - SHIELD_Program_Proposal_Wayne_County.pdf
 - SHIELD_Service_Fulfillment_Map.pdf
-- SHIELD_Demo_Video link (paste in body once recorded)
 - CWC_DDI_Overview_OnePager.pdf (original from 4/23 — include again for easy reference)

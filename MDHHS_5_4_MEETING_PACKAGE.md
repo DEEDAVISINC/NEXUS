@@ -28,7 +28,7 @@ This package contains everything discussed and committed to at our April 23 meet
 - **Model:** DDI operates as Third-Party Administrator for all mandatory childhood BLL testing and follow-up navigation — starting Wayne County, expanding across SE Michigan
 - **Structure:** Multi-year program. Year 1 in Wayne County, Year 2 adds Oakland, Year 3 adds Macomb + Genesee. No time-limited trial — families are served continuously from day one.
 - **Staffing:** 3-5 CWC navigators, 1 supervisor, 1 program director (Dee Davis)
-- **Cost to MDHHS:** Zero. DDI bills MCOs, Medicaid FFS, and private insurers directly.
+- **Cost to MDHHS:** No new budget allocation required. DDI bills MCOs, Medicaid FFS, and private insurers directly through existing reimbursement structures.
 - **Year 1 volume (50% capture):** ~19,730 tests, ~809 elevated cases, ~5,919 NEMT trips
 - **Technology:** SHIELD — live system with caseworker intake, navigator workspace, MDHHS partner portal, family status tracker, automated service verification
 - **Performance accountability:** 7 KPIs tracked in real time through the MDHHS portal — continuous visibility, no manual reporting
