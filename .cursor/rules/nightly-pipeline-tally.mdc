@@ -15,6 +15,22 @@ alwaysApply: true
 
 ## What to Include
 
+### MANDATORY: Save to PIPELINE_TALLY.md
+
+**Before presenting the tally in chat, WRITE it to `/Users/deedavis/NEXUS BACKEND/PIPELINE_TALLY.md`.**
+
+This file is the source of truth. Future sessions read it at startup. If you only present in chat without saving, the numbers get lost and recalculated inconsistently.
+
+**Format:**
+```markdown
+# PIPELINE REVENUE TALLY
+**Last Updated:** [Date] @ [Time] ET
+
+## TOTAL PIPELINE: $[X]M+ LIFETIME
+
+[Full breakdown by program, bids, MCOs, etc.]
+```
+
 ### Pipeline Table (Every Active Opportunity)
 
 For EACH active bid/opportunity in `BIDS:RESOURCES/`, present:

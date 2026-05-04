@@ -39,6 +39,9 @@ alwaysApply: true
 - `NEXUS_SYSTEM_CORRECTIONS.md` — known corrections and overrides
 - `CURRENT_SESSION_STATE.md` — last session summary if it exists
 
+### 6a. Pipeline Revenue (MANDATORY)
+- `PIPELINE_TALLY.md` — **Source of truth for pipeline revenue.** Read this FIRST before recalculating any pipeline numbers. The tally is saved nightly per `nightly-pipeline-tally.mdc`. DO NOT recalculate from scratch — use the documented figures unless something has changed.
+
 ### 6b. Calendar commitments (today)
 - `calendars/SCHEDULED_AGENDA.md` — read the section for **today’s date** (`## YYYY-MM-DD — [Weekday]`). These mirror `calendars/*.ics` so meetings and scheduled deadlines show on the agenda for the day they occur.
 
