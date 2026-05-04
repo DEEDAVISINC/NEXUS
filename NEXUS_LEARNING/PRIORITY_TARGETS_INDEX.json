@@ -87,6 +87,94 @@
     ],
     "tier_2_build_capability": [
       {
+        "naics": "541612",
+        "description": "Human Resources Consulting Services (Workforce Compliance TPA)",
+        "lanes": [
+          "DOT Fleet Compliance Management",
+          "I-9 / E-Verify Administration",
+          "Employer Compliance Programs",
+          "EAP Coordination"
+        ],
+        "keywords": [
+          "workforce compliance",
+          "DOT compliance",
+          "driver qualification",
+          "I-9 administration",
+          "E-Verify",
+          "employee assistance program",
+          "EAP",
+          "HR compliance",
+          "third party administrator"
+        ],
+        "buying_agencies": [
+          "Municipal governments (fleet compliance)",
+          "Transit agencies (FTA 49 CFR Part 655)",
+          "Federal contractors (FAR compliance)",
+          "School districts (CDL bus drivers)",
+          "State DPW agencies"
+        ],
+        "ddi_advantage": "C/TPA already active + NCS background checks + E-Verify certified + EDWOSB",
+        "intel_source": "DDI_TPA_DIVISIONS.md"
+      },
+      {
+        "naics": "561499",
+        "description": "All Other Business Support Services (Medical Credentialing TPA)",
+        "lanes": [
+          "Medical Professional Credentialing",
+          "Multi-State License Coordination",
+          "Telehealth Provider Credentialing",
+          "Hospital Privileging Support"
+        ],
+        "keywords": [
+          "medical credentialing",
+          "provider credentialing",
+          "telehealth credentialing",
+          "license verification",
+          "multi-state licensing",
+          "CAQH",
+          "NPDB",
+          "physician credentialing",
+          "nurse credentialing",
+          "allied health credentialing"
+        ],
+        "buying_agencies": [
+          "VA VHA (telehealth provider credentialing)",
+          "Indian Health Service",
+          "DoD TRICARE",
+          "HRSA FQHCs",
+          "State Medicaid telehealth programs",
+          "Telehealth platform companies"
+        ],
+        "ddi_advantage": "99.5% biometric fingerprint acceptance rate + NCS background checks + notary network + EDWOSB",
+        "intel_source": "DDI_TPA_DIVISIONS.md"
+      },
+      {
+        "naics": "621111",
+        "description": "Offices of Physicians / Occupational Health Coordination",
+        "lanes": [
+          "DOT Physical Examinations",
+          "Pre-Employment Physicals",
+          "Occupational Health Program Management"
+        ],
+        "keywords": [
+          "DOT physical",
+          "occupational health",
+          "pre-employment physical",
+          "fitness for duty",
+          "respirator medical evaluation",
+          "audiometric testing",
+          "OSHA medical surveillance"
+        ],
+        "buying_agencies": [
+          "Municipal governments (fleet drivers)",
+          "Transit agencies",
+          "Federal agencies (safety-sensitive positions)",
+          "Construction contractors"
+        ],
+        "ddi_advantage": "PRISM dispatch + drug testing TPA = natural bundled service",
+        "intel_source": "DDI_TPA_DIVISIONS.md"
+      },
+      {
         "naics": "562112",
         "description": "Hazardous Waste Collection (Medical Waste)",
         "lanes": ["Regulated Medical Waste Transport"],
@@ -176,7 +264,24 @@
     "DOT testing",
     "fingerprinting",
     "DNA testing",
-    "notary"
+    "notary",
+    "credentialing",
+    "medical credentialing",
+    "provider credentialing",
+    "telehealth credentialing",
+    "license verification",
+    "background check",
+    "pre-employment screening",
+    "workforce compliance",
+    "DOT compliance",
+    "driver qualification",
+    "occupational health",
+    "I-9",
+    "E-Verify",
+    "EAP",
+    "employee assistance",
+    "third party administrator",
+    "TPA"
   ],
   "buying_agencies_priority": [
     "State Public Health Laboratories",
@@ -188,13 +293,19 @@
     "FQHCs",
     "State Immunization Programs",
     "Medicare Contractors",
-    "Medicaid MCOs"
+    "Medicaid MCOs",
+    "VA VHA (telehealth + credentialing)",
+    "Indian Health Service",
+    "DoD TRICARE",
+    "Transit Agencies (FTA)",
+    "School Districts (CDL compliance)",
+    "Federal Contractors (FAR compliance)"
   ],
   "ddi_credentials_checklist": {
     "federal": ["EDWOSB", "WOSB", "CAGE: 8UMX3", "UEI: HJB4KNYJVGZ1", "SAM.gov Active"],
     "transport": ["USDOT: 4250594", "MC: 1647572", "CHAMPS Provider ID: 6309069"],
     "healthcare": ["HIPAA Compliant", "E-Verify Program Administrator", "DePointe DNA lab"],
     "diversity": ["WBENC", "MBE", "WBE", "SBE"],
-    "partnerships": ["Uber Health", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO"]
+    "partnerships": ["Uber Health", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO", "NCS (National Crime Search — Channel Partner, signed May 2026)"]
   }
 }

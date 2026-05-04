@@ -6,8 +6,8 @@
 
 | Time | What | Notes |
 |---|---|---|
-| **10:00–10:30 AM ET** | 📧 Brian Grcevich follow-up | CareSource orientation — 2nd outreach |
 | **Watch** | 📅 MDHHS response | Angela/Aimee may schedule meeting this week |
+| **Watch** | 📧 Brian Grcevich (CareSource) | Emailed 4/28 — 7-day follow-up is TOMORROW (5/5) if no response today |
 
 ---
 
@@ -35,8 +35,9 @@
 
 ## WAITING FOR REPLIES
 
-- **OLIMP** — Warehouse details for Maryland MVA (email sent May 2)
-- **Stanley Dennis / God Is Good Hauling** — Acceptance + insurance for Maryland MVA (email sent May 2)
+- **OLIMP** — Warehouse broker (like DDI model) — Clarified, awaiting OLIMP docs + facility details by May 7
+- **✅ Stanley Dennis / God Is Good Hauling** — CONFIRMED IN! Now need docs by May 7 (insurance certs, letter of commitment, business reg, driver list)
+- **Brian Grcevich (CareSource)** — Orientation scheduling (emailed 4/28) — 7-day mark is tomorrow 5/5
 - **Acuity-CHS** — CBP teaming status (Russ stale, need Felecia Younger)
 - **MDHHS** — Angela Medina + Aimee Surma response to SHIELD package (sent May 3)
 

@@ -74,11 +74,13 @@ DTSTART:20260503T123000Z         ← NO — Z suffix breaks import
 
 **The ONLY format that works is `;TZID=America/Detroit:` — use it every time.**
 
-### Step 2: Run `open` on the file
+### Step 2: Kill Calendar first, then open the file
 
 ```bash
-open "/Users/deedavis/NEXUS BACKEND/calendars/[FILE].ics"
+pkill -x Calendar 2>/dev/null; sleep 2; open "/Users/deedavis/NEXUS BACKEND/calendars/[FILE].ics"
 ```
+
+**CRITICAL:** Calendar must be fully closed before opening the `.ics` file or the import dialog will not appear. The `pkill` command closes it, `sleep 2` waits for it to fully quit, then `open` triggers the "Add event" dialog.
 
 **The "Add event" dialog appears automatically. User selects calendar, clicks OK. Done.**
 

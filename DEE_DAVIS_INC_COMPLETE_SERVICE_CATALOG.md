@@ -1,7 +1,7 @@
 # DEE DAVIS INC - COMPLETE SERVICE CATALOG
 ## All Services Available for Government & Corporate Clients
 
-**Last Updated:** March 14, 2026  
+**Last Updated:** May 4, 2026  
 **Source:** deedavis.biz + existing NEXUS integrations + verified partner agreements
 
 **IDENTITY:** Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity. Every service in this catalog exists to keep client operations running without interruption — powered by proprietary AI technology platforms built in-house by founder Dee Davis.
@@ -12,7 +12,7 @@
 
 ## 🎯 SERVICE PORTFOLIO OVERVIEW
 
-**DDI delivers business continuity across 7 major service lines — all managed through proprietary AI technology:**
+**DDI delivers business continuity across 9 major service lines — all managed through proprietary AI technology:**
 
 1. Credentialing, Identity Verification & Federal Compliance — ensuring workforce compliance, security clearances, and document integrity never lapse
 2. Professional Business Services — ensuring document, legal, and administrative operations never stop
@@ -21,10 +21,12 @@
 5. Service Contracts (Prime Contractor Model) — ensuring facility and operational services never interrupt
 6. Logistics & Fleet Optimization — ensuring supply chains and deliveries never break
 7. Project Executive Services — ensuring complex projects, crisis response, and continuity planning execute flawlessly
+8. Medical Professional Credentialing TPA — ensuring physicians, nurses, and allied health providers are licensed, credentialed, and compliant in every state they practice
+9. Workforce Compliance TPA — ensuring employers meet every DOT, occupational health, background check, I-9, and EAP compliance requirement under one contract
 
-**Total Services:** 30+  
-**Target Markets:** Government (Federal/State/Local) + Corporations  
-**Revenue Potential:** $5M-$20M+ annually  
+**Total Services:** 40+
+**Target Markets:** Government (Federal/State/Local) + Corporations + Healthcare Employers + Telehealth Platforms
+**Revenue Potential:** $8M-$35M+ annually
 **Technology Backbone:** NEXUS, GPSS, ATLAS PM, FleetFlow™, COMPASS™, PRISM, DDCSS, VERTEX, GBIS (all proprietary, founder-built)
 
 ---
@@ -123,6 +125,8 @@
 - School districts
 - Healthcare facilities
 - Transportation providers
+- Staffing agencies
+- Employers (bundled with drug testing)
 
 **Services:**
 - Criminal history checks (local, state, federal)
@@ -130,14 +134,37 @@
 - Education verification
 - Professional license verification
 - Credit checks (when permitted)
-- Motor vehicle records
-- Sex offender registry checks
-- Drug testing coordination
+- Motor vehicle records (MVR)
+- Sex offender / government watch list
+- Social media screening
+- Medical professional screening (MedCHECK Pro)
+- Volunteer/nonprofit screening (SafeChoice)
+- Tenant screening
+- Drug screening (5-panel, oral fluid, instant onsite)
+- BOI filing
+- Custom & international searches
 
-**Pricing Model:**
-- Basic check: starting at $55
-- Comprehensive check: $75-$150
-- Ongoing monitoring: Monthly fee
+**Fulfillment Partner:** National Crime Search (NCS) — Channel Partner Agreement signed May 4, 2026
+
+**DDI Pricing (NCS Reseller Rates):**
+
+| Service | DDI Cost (NCS) | DDI Agency Rate | DDI Margin |
+|---|---|---|---|
+| Basic Package | $25.46 | $55 | $29.54 |
+| Essential Package | $38.00 | $75 | $37.00 |
+| Enhanced Package | $55.00 | $95 | $40.00 |
+| Expanded Package | $62.00 | $110 | $48.00 |
+| National Quick Check | $15.00 | $35 | $20.00 |
+| County Criminal | $12.00 | $30 | $18.00 |
+| MVR | $9.00 | $25 | $16.00 |
+| Education Verification | $14.00 | $30 | $16.00 |
+| Employment Verification | $12.00 | $28 | $16.00 |
+| Social Media Search | $60.00 | $85 | $25.00 |
+| 5-panel drug screen (lab) | $39.00 | $75 | $36.00 |
+| Oral fluid (10 min order) | $310.00 | $425 | $115.00 |
+| SafeChoice Level I (volunteer) | $10.00 | $22 | $12.00 |
+| SafeChoice Level II (volunteer) | $22.00 | $38 | $16.00 |
+| MedCHECK Pro | $10.00 | $20 | $10.00 |
 
 **NAICS Codes:** 561611, 561612
 
@@ -1287,6 +1314,172 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 
 ---
 
+---
+
+## 8️⃣ MEDICAL PROFESSIONAL CREDENTIALING TPA
+
+**DDI manages the entire credentialing lifecycle for physicians, nurses, PAs, NPs, and allied health professionals — including multi-state licensing, biometric fingerprinting, background checks, notarization, and ongoing license monitoring. One firm. Everything handled.**
+
+**The DDI Advantage:** 99.5% biometric fingerprint acceptance rate. Most credentialing firms outsource fingerprinting — DDI owns it. This eliminates the #1 cause of state medical board application delays.
+
+**Target Clients:**
+- Telehealth platforms (provider network credentialing at scale)
+- Hospitals & health systems (new provider onboarding)
+- Staffing agencies (travel nurses, locum tenens)
+- Individual physicians, NPs, PAs, RNs applying in multiple states
+- FQHCs (Federally Qualified Health Centers)
+- VA, Indian Health Service, DoD (federal healthcare provider credentialing)
+- Medical schools (resident/fellow licensing support)
+
+**Services:**
+- Multi-state medical license application coordination (IMLC, NLC, state-by-state)
+- Biometric fingerprinting for state medical board submission (FD-258 ink cards + livescan)
+- Criminal background checks (NCS — medical board compliant)
+- NPDB (National Practitioner Data Bank) queries
+- CAQH ProView profile setup, maintenance, and attestation management
+- Document notarization for state licensing applications
+- Apostille coordination for international credentials
+- Hospital privileging application support
+- License expiration monitoring and renewal alerts (all active states)
+- DEA registration verification
+- Education, employment, and board certification verification (NCS)
+- CME tracking coordination
+- Fitness for duty / pre-employment physicals (occupational health TPA)
+- I-9 / E-Verify for telehealth employer clients
+
+**Fulfillment Partners:** PRISM fingerprinting network (biometric), NCS (background checks), DDI notary network
+
+**Pricing Tiers:**
+
+| Package | States | Fingerprinting | Background Check | Application Mgmt | DDI Price | DDI Cost | Margin |
+|---|---|---|---|---|---|---|---|
+| Single State Credential | 1 | $150 (2 cards) | $55 | $150 | $500 | $225 | 55% |
+| 3-State Package | 3 | $250 (6 cards) | $75 | $300 | $900 | $400 | 56% |
+| 5-State Package | 5 | $550 (10 cards) | $100 | $500 | $1,800 | $800 | 56% |
+| 10-State Package | 10 | $1,050 (20 cards) | $150 | $800 | $3,500 | $1,500 | 57% |
+| Full IMLC Compact | 40+ states | $1,050 (20 cards) | $200 | $1,200 | $5,500 | $2,000 | 64% |
+
+**Annual Monitoring (after initial credentialing):**
+
+| Service | Annual DDI Price | DDI Cost | Margin |
+|---|---|---|---|
+| License monitoring (1–5 states) | $300/yr | $50/yr | 83% |
+| License monitoring (6–15 states) | $500/yr | $75/yr | 85% |
+| License monitoring (16+ states) | $750/yr | $100/yr | 87% |
+| Re-credentialing coordination | $400–$800 | $150–$250 | ~60% |
+
+**Telehealth / Enterprise Pricing:**
+
+| Volume | Annual DDI Revenue | DDI Cost | Margin |
+|---|---|---|---|
+| 10 providers, 5 states avg | $18,000–$25,000 | $8,000–$10,000 | ~55% |
+| 50 providers, 5 states avg | $75,000–$100,000 | $35,000–$45,000 | ~55% |
+| 100 providers, 5 states avg | $140,000–$200,000 | $60,000–$80,000 | ~57% |
+
+**Government Contract Targets:**
+- VA Telehealth Provider Credentialing (VHA)
+- Indian Health Service provider onboarding
+- DoD TRICARE network credentialing
+- HRSA FQHC credentialing support contracts
+- State Medicaid telehealth provider enrollment
+
+**NAICS Codes:** 621111 (Offices of Physicians), 541612 (HR Consulting), 561611 (Background Checks), 561499 (Admin Services)
+
+---
+
+## 9️⃣ WORKFORCE COMPLIANCE TPA
+
+**DDI manages the full employer compliance burden — drug testing, background checks, DOT fleet compliance, occupational health, I-9/E-Verify, and EAP coordination — under one contract, one invoice, one point of contact. Built for government contractors, municipalities, transit agencies, school districts, and any employer with a regulated workforce.**
+
+**Target Clients:**
+- Federal contractors (FAR-required compliance)
+- Municipal governments (city/county fleets, DPW, transit)
+- School districts (CDL bus drivers, staff screenings)
+- Trucking and fleet operators (DOT compliance)
+- Construction firms (safety compliance)
+- Healthcare employers (pre-employment + DOT)
+- Staffing agencies (ongoing compliance management)
+
+**Services:**
+
+### DOT & Fleet Compliance Management
+- Driver Qualification (DQ) file setup and management
+- DOT random drug testing pool administration (C/TPA)
+- FMCSA Drug & Alcohol Clearinghouse queries and reporting
+- MVR (Motor Vehicle Record) monitoring
+- SAP (Substance Abuse Professional) referral coordination
+- Hours of Service compliance support
+- Annual DOT physical coordination
+
+### Occupational Health Coordination
+- DOT physical examinations (49 CFR Part 391)
+- Pre-employment physicals
+- Return-to-duty physicals
+- Respirator medical evaluations (29 CFR 1910.134)
+- Fit testing (QLFT/QNFT)
+- Audiometric / hearing conservation testing
+- OSHA medical surveillance coordination
+
+### I-9 / E-Verify Administration
+- New hire I-9 completion and audit
+- E-Verify query submission and case resolution
+- Reverification tracking (expiring work authorization)
+- Annual I-9 compliance audit
+- Corrective action documentation
+
+### Employee Assistance Program (EAP) Coordination
+- Substance abuse referrals (required for DOT SAP process)
+- Mental health resource access coordination
+- Crisis referral management
+- Return-to-work coordination
+- Per-employee-per-month (PEPM) program management
+
+### Pre-Employment Screening (via NCS)
+- Criminal background checks (county, state, federal)
+- Employment and education verification
+- Professional license verification
+- Credit checks (permissible purpose)
+- Sex offender / government watch list
+- Social media screening
+- Drug screening coordination
+
+**Fulfillment Partners:** Quest Diagnostics / eScreen (drug testing), NCS (background checks), PRISM network (occupational health), E-Verify (I-9), EAP referral network
+
+**Pricing:**
+
+| Service | Unit | DDI Price | DDI Cost | Margin |
+|---|---|---|---|---|
+| DOT fleet compliance management | Per driver/year | $65 | $20 | 69% |
+| Random drug testing (DOT) | Per test | $75 | $45 | 40% |
+| Occupational health (DOT physical) | Per exam | $165 | $95 | 42% |
+| Pre-employment background check (Essential) | Per hire | $75 | $38 | 49% |
+| I-9 completion service | Per hire | $45 | $12 | 73% |
+| I-9 annual compliance audit | Per employer | $750–$2,500 | $200–$400 | ~70% |
+| EAP coordination | Per employee/month | $18 | $8 | 56% |
+
+**Bundled Account Revenue Example (200-employee employer, 50 DOT drivers):**
+
+| Service | Annual DDI Revenue |
+|---|---|
+| Drug testing (random pool, 200 employees) | $12,000 |
+| DOT fleet compliance management (50 drivers) | $3,250 |
+| Background checks (50 new hires/yr) | $3,750 |
+| DOT physicals (50 drivers) | $8,250 |
+| I-9 administration (50 new hires) | $2,250 |
+| EAP coordination (200 employees) | $3,600 |
+| **Total annual per account** | **$33,100** |
+
+**Government Contract Targets:**
+- Municipal fleet compliance programs
+- Transit agency DOT compliance (FTA 49 CFR Part 655)
+- Federal contractor compliance management (FAR 52.222-26)
+- State DOT / DPW driver compliance
+- School district bus driver compliance programs
+
+**NAICS Codes:** 812990 (Drug Testing), 561612 (Background Checks — Physical), 621111 (Occupational Health Coordination), 541612 (HR Consulting), 561499 (Administrative Services)
+
+---
+
 ## 📊 REVENUE POTENTIAL BY SERVICE LINE
 
 | Service Line | Annual Potential | Margin | Effort Level |
@@ -1298,8 +1491,10 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 | Service Contracts | $1M-$10M | 10-25% | Medium |
 | Logistics | $500K-$3M | 15-30% | Medium |
 | Project Executive | $1M-$5M | 60-80% | High |
+| **Medical Professional Credentialing TPA** | **$500K-$3M** | **55-65%** | **Medium** |
+| **Workforce Compliance TPA** | **$750K-$4M** | **45-70%** | **Medium** |
 
-**Total Potential:** $4M-$28M annually
+**Total Potential:** $5.2M-$35M annually
 
 ---
 
@@ -1309,6 +1504,11 @@ Post-surgical patients cannot walk to the car. Clinic staff wheels them out in a
 - Service Contracts (8 categories)
 - NEMT (healthcare transportation)
 - Notary/Courier (corporate partnerships)
+
+**🔄 Added (May 2026):**
+- Medical Professional Credentialing TPA (multi-state licensing, biometric fingerprinting, CAQH, NPDB)
+- Workforce Compliance TPA (DOT fleet, occupational health, I-9/E-Verify, EAP)
+- Background Checks via NCS Channel Partner Agreement (signed May 4, 2026)
 
 **🔄 Added (March 2026):**
 - DOT Testing

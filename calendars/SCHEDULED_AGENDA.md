@@ -74,6 +74,12 @@
 
 ---
 
+## 2026-05-05 — Tuesday
+
+- **3:00 PM ET** — 📋 **NOTARY SIGNING — Steven & Jennifer Rachocki (Refi)** — 53267 Sophia Dr, Shelby Township, MI 48316 · PSS Order #PSS1-40607 · File #NSWREF26989289 · EDOCS · Scanbacks required · Signer: 586-489-8354 · PSS: 310-227-1229 · `.ics`: `calendars/PSS_SIGNING_RACHOCKI_2026-05-05.ics`
+
+---
+
 ## 2026-05-05 — Monday
 
 - **10:00 – 10:30 AM ET** — 📧 **Follow Up — Brian Grcevich (CareSource) Orientation** — Second outreach. Brian.Grcevich@CareSource.com. CareSource contract executed 4/28, Vendor ID 100000469269. Escalation: Dana Drew — Dana.Drew@CareSource.com — 937.926.5848. `.ics`: `calendars/CARESOURCE_BRIAN_FOLLOWUP_2026-05-05.ics`

@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:pss-rachocki-2026-05-05@deedavis.biz
+DTSTAMP:20260504T123200Z
+DTSTART;TZID=America/Detroit:20260505T150000
+DTEND;TZID=America/Detroit:20260505T160000
+SUMMARY:📋 NOTARY SIGNING — Rachocki Refi (PSS)
+DESCRIPTION:Premium Signature Services\nOrder #: PSS1-40607\nFile #: NSWREF26989289\nSigning Type: Refi\nSigners: Steven Rachocki / Jennifer Rachocki\nSigner Contact: 586-489-8354 (cell)\nDocuments: EDOCS\nScanbacks Required\nPSS Phone: 310-227-1229
+LOCATION:53267 Sophia Dr\, Shelby Township\, MI 48316
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Notary signing in 2 hours — Rachocki Refi
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Notary signing in 30 minutes — 53267 Sophia Dr, Shelby Township
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -216,7 +216,8 @@ Dee Davis Inc. | Depointe DNA
 | Date | Action | Status |
 |---|---|---|
 | April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent |
-| **April 13, 2026** | **Partnership call — Sam Cilento** | ✅ **Scheduled — 1:30–2:00 PM ET** — Google Meet `meet.google.com/php-xxbr-ewa` — phone +1 567-455-3991 PIN 509525744 — `calendars/LAKOTA_SAM_CILENTO_PARTNERSHIP_2026-04-13.ics` |
+| **April 13, 2026** | **Partnership call — Sam Cilento** | ✅ **Completed** |
+| **May 4, 2026** | **Follow-up email sent to scilento@lakotasoftware.com** — DeCA + Medical Credentialing TPA WHORL questions | ✅ **Sent** |
 
 ### DECA / FEDERAL FINGERPRINTING (HQC00526QE015)
 
