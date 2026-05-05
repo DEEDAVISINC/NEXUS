@@ -1,15 +1,17 @@
-Good morning Dee. Here is your NEXUS briefing for Tuesday, May fifth, twenty twenty-six.
+# DAILY BRIEFING — Tuesday, May 5, 2026
 
-Your hottest deadline is CBP Medical Support Phase One. It is due today at five P M Eastern. That is the bar.
+Good morning Dee. Here is your NEXUS briefing for Tuesday, May 5.
 
-Kentucky DMS mine drug testing closes Thursday May seventh at three thirty P M Eastern.
+You have one appointment today: a notary signing at 3 PM for the Rachocki refinance at 53267 Sophia Drive in Shelby Township. Bring your notary seal. Scanbacks required.
 
-If Brian Grcevich at CareSource has not replied about orientation, send your seven-day follow-up today.
+Your number one priority today is submitting the CBP Medical Support Phase I proposal. It is due at 5 PM Eastern today. The package is built. Open the folder, attach, and send.
 
-Yesterday you pushed Region Ten managed care outreach to seven plans and started Molina's LTSS non-medical transportation path. Still open: send Molina Contract Configuration the HCBS waiver attestation request email when you can.
+Your second priority is finding a Baltimore warehouse partner for the Maryland MVA courier contract. OLIMP declined yesterday. You have until May 11. Search for owner-operated warehouses in Glen Burnie or Anne Arundel County and make direct calls today or tomorrow.
 
-Pipeline tally on file is eighty-eight million dollars plus lifetime. That number comes from SHIELD Lead-Safe at forty-one point five million, Community Equity SHIELD at twenty-four million, MCO contracts at ten million, and active bids at twelve point six million. Full detail is in PIPELINE TALLY dot markdown.
+Third, send the Brian Grcevich follow-up. He was emailed April 28th. Today is the 7-day mark.
 
-Your top three today: one, get CBP Phase One submitted before five P M Eastern. Two, advance Kentucky DMS so Thursday is calm. Three, Molina HCBS attestation email.
+The KY DMS drug testing proposal is due Thursday May 7. Review the full package today after CBP is submitted.
 
-Have a strong Tuesday.
+Your total pipeline stands at 88 million dollars lifetime.
+
+Have a focused day.

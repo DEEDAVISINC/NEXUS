@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 4, 2026 @ 11:25 PM ET — **RESTORED SOURCE TALLY** (operational note + Region 10 activity log below)
+**Last Updated:** May 4, 2026 @ 11:29 PM ET
 
 ---
 
@@ -68,8 +68,8 @@
 | Fulton County 26ITB1580280B | $320K | 45% | Blocked |
 | Harris Health AB02182026 | $600K | 40% | Blocked |
 | CBP Medical Support 70B06C26R00000017 | $5M | 25% | May 5 |
-| WA LCB Background Checks RFP 2026-01 | $1M | 40% | May 11 |
-| Maryland MVA Courier V-HQ-26065-S | $375K | 50% | May 11 |
+| WA LCB Background Checks RFP 2026-01 | $1M | ~~PASS~~ — NCS not qualified for law enforcement scope | — |
+| Maryland MVA Courier V-HQ-26065-S | $375K | 45% — OLIMP declined, warehouse search active | May 11 |
 | DHA Fingerprinting HT001126QE014 | $2.5M | 35% | ~May 15 |
 | VA Illiana Courier | $2M | 35% | Watch |
 | **TOTAL ACTIVE BIDS** | **$12.6M** | | |

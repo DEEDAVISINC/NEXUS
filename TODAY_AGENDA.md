@@ -6,18 +6,20 @@
 
 | Time | What | Notes |
 |---|---|---|
-| **Watch** | 📅 MDHHS response | Angela/Aimee may schedule meeting this week |
-| **Watch** | 📧 Brian Grcevich (CareSource) | Emailed 4/28 — 7-day follow-up due today if no response |
+| **3:00 PM ET** | 📋 NOTARY SIGNING — Rachocki Refi (PSS) | 53267 Sophia Dr, Shelby Township MI 48316 — Steven & Jennifer Rachocki — 586-489-8354 — EDOCS — Scanbacks required — PSS #PSS1-40607 |
+| **Watch** | 📧 Brian Grcevich (CareSource) | Emailed 4/28 — **7-day follow-up DUE TODAY** if no reply |
+| **Watch** | 📅 MDHHS / Angela + Aimee | Response to SHIELD package (sent May 3) |
+| **Watch** | 📧 Sam Cilento (Lakota) | Follow-up sent May 4 — reply expected this week |
 
 ---
 
 ## TOP 3 PRIORITIES
 
-1. **CBP MEDICAL SUPPORT** — Phase I due **TODAY May 5, 5:00 PM EDT**. Final push. Confirm sub path (Acuity-CHS or Concentra teaming). SUBMIT TODAY.
+1. **🔥 CBP MEDICAL SUPPORT — Phase I DUE TODAY 5:00 PM EDT** — Submit. This is done. Open the folder, attach, send.
 
-2. **KY DMS DRUG TESTING** — Due **May 7, 3:30 PM ET**. Two days out. Review full package today.
+2. **🔥 BALTIMORE WAREHOUSE SEARCH** — OLIMP declined May 4. Maryland MVA deadline is May 11. Need a direct owner-operated warehouse in Baltimore/Glen Burnie/Anne Arundel County TODAY or tomorrow. Search Google Maps, call 3–4 directly.
 
-3. **MOLINA HCBS WAIVER EMAIL** — Email MHMContractConfigDept@MolinaHealthCare.com asking for HCBS Waiver Attestation form. (Drafted and ready — just send it.)
+3. **KY DMS DRUG TESTING** — Due **May 7, 3:30 PM ET**. Two days. Review full package today after CBP is submitted.
 
 ---
 
@@ -25,32 +27,45 @@
 
 | Date | Deadline | Status |
 |---|---|---|
-| **May 5 (Tue)** | 🔥 CBP Medical Support Phase I — 5:00 PM EDT | **TODAY** |
-| **May 7 (Thu)** | 🔥 KY DMS Drug Testing — 3:30 PM ET | ACTIVE |
-| **May 11 (Mon)** | 🔥 Maryland MVA Courier ITQ — 1:00 PM ET | Waiting on partners |
-| **May 11 (Mon)** | WA LCB Background Checks — 3:00 PM PT | ACTIVE |
-| **~May 15** | DHA Fingerprinting — RFQ expected | Watch |
+| **May 5 (TODAY)** | 🔥 CBP Medical Support Phase I — 5:00 PM EDT | SUBMIT TODAY |
+| **May 5 (TODAY)** | 📋 Rachocki Notary Signing — 3:00 PM ET | Shelby Township |
+| **May 7 (Thu)** | 🔥 KY DMS Drug Testing — 3:30 PM ET | Review today |
+| **May 11 (Mon)** | 🔥 Maryland MVA Courier ITQ — 1:00 PM ET | ⚠️ Warehouse partner needed |
+| **~May 15** | DHA Fingerprinting — RFQ expected to post | Watch |
 
 ---
 
 ## WAITING FOR REPLIES
 
-- **OLIMP** — Warehouse broker (like DDI model) — Clarified, awaiting OLIMP docs + facility details by May 7
-- **✅ Stanley Dennis / God Is Good Hauling** — CONFIRMED IN! Now need docs by May 7 (insurance certs, letter of commitment, business reg, driver list)
-- **Brian Grcevich (CareSource)** — Orientation scheduling (emailed 4/28) — 7-day follow-up due today if no reply
-- **Acuity-CHS** — CBP teaming status (Russ stale, need Felecia Younger)
+- **Sam Cilento (Lakota)** — Follow-up sent May 4 — WHORL upgrade + medical credentialing TPA channel questions + DeCA teaming
+- **Stanley Dennis / God Is Good Hauling** — CONFIRMED IN. Docs due May 7 (insurance, letter of commitment, business reg, driver list)
+- **Brian Grcevich (CareSource)** — 7-day follow-up DUE TODAY (emailed 4/28)
 - **MDHHS** — Angela Medina + Aimee Surma response to SHIELD package (sent May 3)
+- **Molina** — HCBS Waiver Attestation email ready to send → MHMContractConfigDept@MolinaHealthCare.com
 
 ---
 
-## COMPLETED YESTERDAY (Monday May 4)
+## BUILD TASKS (When Time Allows)
 
-- [x] 7 Region 10 MCO NEMT TPA emails sent (Aetna, AmeriHealth, Humana, UHC, Priority Health, Meridian, Molina)
-- [x] Molina portal Contract Request started — LTSS / Non-Medical Transportation / Transportation Broker
-- [x] HCBS Waiver Attestation email drafted (ready to send to MHMContractConfigDept)
-- [x] Walgreens SupplierOne registration at 33% — needs password step to complete
-- [x] MCO follow-up calendar reminder set for May 11
-- [x] Note May 5: prior nightly step mistakenly overwrote `PIPELINE_TALLY.md` with guesses — **restored** May 3 sourced tally + May 4 activity log only
+- [ ] **NPDB registration** — npdb.hrsa.gov — Authorized Agent registration for Medical Credentialing TPA (Dee's task)
+- [ ] **CAQH ProView application** — proview.caqh.org — Participating Organization registration (Dee's task)
+- [ ] **Walgreens SupplierOne** — Registration at 33% — complete password/register step
+- [ ] **NAMSS job board post** — Post credentialing coordinator role (careers.namss.org)
+
+---
+
+## COMPLETED MONDAY MAY 4
+
+- [x] TPA 8 (Medical Professional Credentialing) + TPA 9 (Workforce Compliance) added to service catalog
+- [x] DDI_TPA_DIVISIONS.md created — 9-division TPA master reference
+- [x] 50-state medical board fingerprinting matrix built
+- [x] Credentialing coordinator hiring plan built (CPCS-certified sourcing)
+- [x] NEXUS LEARNING priority targets updated with new TPA NAICS codes
+- [x] NCS background check pricing added to service catalog (Channel Partner signed)
+- [x] Lakota follow-up email sent to Sam Cilento (scilento@lakotasoftware.com)
+- [x] OLIMP declined — logged, workflow checklist updated
+- [x] Rachocki notary signing ICS created (May 5, 3:00 PM ET)
+- [x] Git committed and pushed at 6:09 PM ET + 11:29 PM ET
 
 ---
 
@@ -69,4 +84,4 @@ See `PIPELINE_TALLY.md` for full breakdown.
 
 ---
 
-*Updated: May 4, 2026 @ 11:25 PM ET*
+*Updated: May 4, 2026 @ 11:29 PM ET*
