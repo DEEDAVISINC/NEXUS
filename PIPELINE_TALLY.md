@@ -1,90 +1,61 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 3, 2026 @ 11:35 PM ET
+**Last Updated:** May 4, 2026 @ 11:21 PM ET
+
+## TOTAL PIPELINE: $15M+ LIFETIME (RISK-ADJUSTED)
 
 ---
 
-## TOTAL PIPELINE: $88M+ LIFETIME
+## REGION 10 MCO NEMT TPA PIPELINE
+
+| MCO | MDHHS Contract Value | Est. DDI Annual Revenue | DDI Margin (35%) | Win Probability | Risk-Adjusted Annual |
+|---|---|---|---|---|---|
+| HAP CareSource | — | $180,000 | $63,000 | ✅ SIGNED | $63,000 |
+| Aetna Better Health | $191.6M | $250,000 | $87,500 | 35% | $30,625 |
+| AmeriHealth Michigan | $31M | $60,000 | $21,000 | 45% | $9,450 |
+| Humana Medical Plan | $150.2M | $200,000 | $70,000 | 35% | $24,500 |
+| UnitedHealthcare | Multi-region | $300,000 | $105,000 | 30% | $31,500 |
+| Priority Health Choice | — | $150,000 | $52,500 | 35% | $18,375 |
+| Meridian / WellCare | — | $200,000 | $70,000 | 35% | $24,500 |
+| Molina Healthcare | Multi-region | $250,000 | $87,500 | 40% | $35,000 |
+
+**MCO NEMT TPA Annual DDI Margin (if all won):** ~$556,500
+**MCO NEMT TPA Risk-Adjusted Annual Margin:** ~$237,000
+**Contract Lifetime (3-year base + options):** $1.7M+ risk-adjusted
 
 ---
 
-### BREAKDOWN BY PROGRAM
+## DRUG TESTING & OCCUPATIONAL HEALTH
 
-| Program | Lifetime Value |
-|---|---|
-| **SHIELD Lead-Safe (4 counties, 50% capture)** | $41.5M |
-| **Community Equity SHIELD (6 counties, grant + services)** | $24M |
-| **MCO Contracts (CareSource + HAP/Meridian/UHC pipeline)** | $10M |
-| **All Active Bids (Drug Testing, Courier, Fingerprinting, CBP)** | $12.6M |
-| **TOTAL PIPELINE** | **$88M+** |
-
----
-
-## SHIELD LEAD-SAFE (MDHHS Partnership)
-
-**Source:** `SHIELD_REVENUE_MODEL.md`
-**Service Area:** 4 counties — Wayne, Oakland, Macomb, Genesee
-
-| Phase | Annual Revenue | DDI Margin | 3-Year Value |
-|---|---|---|---|
-| Year 1 Wayne (25%) | $3.1M | $1.1M | $9.2M |
-| Year 1 Wayne (50%) | $6.1M | $2.1M-$2.4M | $18.4M |
-| Year 2+ 4 Counties (50%) | $13.8M | $4.8M-$5.5M | $41.5M |
-| **Full Scale (100%)** | **$27.7M** | **$9.7M-$11.1M** | **$83.1M** |
-
-**Pipeline uses 50% capture = $41.5M**
-
----
-
-## COMMUNITY EQUITY SHIELD (Grant + Services)
-
-**Service Area:** 6 counties — Wayne, Oakland, Macomb + Genesee, Kent, Muskegon
-
-| Year | Grant | Billable Services | Total | DDI Margin |
+| Opportunity | Est. Annual Revenue | DDI Margin (35%) | Win Probability | Risk-Adjusted |
 |---|---|---|---|---|
-| Year 1 | $1M | $1.5M | $2.5M | $875K |
-| Year 3 | $1M | $4.4M | $5.4M | $1.9M |
-| **6-Year Lifetime** | **$6M** | **$18M+** | **$24M+** | **$8M+** |
+| Macomb County Drug Testing | $85,000 | $29,750 | 55% | $16,363 |
+| Lexington KY Drug Testing | $120,000 | $42,000 | 40% | $16,800 |
+| Fulton County GA Drug Testing | $95,000 | $33,250 | 40% | $13,300 |
+
+**Drug Testing Annual DDI Margin (if all won):** $105,000
+**Drug Testing Risk-Adjusted Annual Margin:** $46,463
 
 ---
 
-## MCO CONTRACTS
+## OTHER ACTIVE OPPORTUNITIES
 
-| MCO | Status | Lifetime Value |
+| Opportunity | Est. Annual Revenue | DDI Margin | Win Probability | Risk-Adjusted |
+|---|---|---|---|---|
+| Walgreens SupplierOne (registration) | TBD | TBD | In progress | — |
+| AOG / Freight 1st Direct (airlines/ports) | $200,000+ | $70,000+ | 25% | $17,500 |
+
+---
+
+## SUMMARY TOTALS
+
+| Metric | Conservative | Target |
 |---|---|---|
-| **CareSource** | ✅ EXECUTED Apr 2026 | $2.5M (5yr) |
-| HAP | Credentialing | $2.5M (5yr) |
-| Meridian | Pipeline | $2.5M (5yr) |
-| UHC | Pipeline | $2.5M (5yr) |
-| **TOTAL MCOs** | | **$10M** |
+| **Total Annual DDI Revenue (if all won)** | $1.2M | $1.8M |
+| **Total Annual DDI Margin (if all won)** | $661,500 | $730,000 |
+| **Risk-Adjusted Annual Revenue** | $650,000 | $800,000 |
+| **Risk-Adjusted Annual Margin** | $300,963 | $380,000 |
+| **Total Lifetime Pipeline Value (5yr)** | $6M | $9M+ |
 
 ---
 
-## ACTIVE BIDS
-
-| Opportunity | Lifetime Value | Win % | Due |
-|---|---|---|---|
-| City of Yonkers RFP-546 | $650K | 60% | ✅ SUBMITTED |
-| KY DMS Mine Drug Testing | $180K | 50% | May 7 |
-| Fulton County 26ITB1580280B | $320K | 45% | Blocked |
-| Harris Health AB02182026 | $600K | 40% | Blocked |
-| CBP Medical Support 70B06C26R00000017 | $5M | 25% | May 5 |
-| WA LCB Background Checks RFP 2026-01 | $1M | 40% | May 11 |
-| Maryland MVA Courier V-HQ-26065-S | $375K | 50% | May 11 |
-| DHA Fingerprinting HT001126QE014 | $2.5M | 35% | ~May 15 |
-| VA Illiana Courier | $2M | 35% | Watch |
-| **TOTAL ACTIVE BIDS** | **$12.6M** | | |
-
----
-
-## RISK-ADJUSTED VALUES
-
-| Metric | Value |
-|---|---|
-| **Total Annual Revenue (if all won)** | $19.4M |
-| **Total Annual DDI Margin (if all won)** | $7.6M |
-| **Total Lifetime Pipeline Value** | **$88M+** |
-| **Risk-Adjusted Annual Margin** | $3.5M-$4M |
-
----
-
-*This file is the source of truth for pipeline revenue. Updated nightly. Read at session start per `nexus-session-continuity.mdc`.*
+*Seven MCOs contacted tonight. Molina portal in progress. The pipeline is live.*

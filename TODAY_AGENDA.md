@@ -1,4 +1,4 @@
-# TODAY'S AGENDA — Monday, May 4, 2026
+# TODAY'S AGENDA — Tuesday, May 5, 2026
 
 ---
 
@@ -13,11 +13,11 @@
 
 ## TOP 3 PRIORITIES
 
-1. **CBP MEDICAL SUPPORT** — Phase I due **TOMORROW May 5, 5:00 PM EDT**. Final prep today. Confirm sub path (Acuity-CHS or Concentra teaming).
+1. **CBP MEDICAL SUPPORT** — Phase I due **TODAY May 5, 5:00 PM EDT**. Final push. Confirm sub path (Acuity-CHS or Concentra teaming). SUBMIT TODAY.
 
-2. **KY DMS DRUG TESTING** — Due **May 7, 3:30 PM ET**. Technical + Cost + Proprietary volumes. Review full package at noon.
+2. **KY DMS DRUG TESTING** — Due **May 7, 3:30 PM ET**. Two days out. Review full package today.
 
-3. **OLIMP + GOD IS GOOD HAULING** — Partner response deadline TODAY for Maryland MVA courier. Follow up if no response by noon.
+3. **MOLINA HCBS WAIVER EMAIL** — Email MHMContractConfigDept@MolinaHealthCare.com asking for HCBS Waiver Attestation form. (Drafted and ready — just send it.)
 
 ---
 
@@ -43,13 +43,14 @@
 
 ---
 
-## COMPLETED YESTERDAY (Sunday May 3)
+## COMPLETED YESTERDAY (Monday May 4)
 
-- [x] MDHHS SHIELD package SENT — Angela + Aimee
-- [x] 4 SHIELD demo videos completed + linked
-- [x] HTML documents updated (CWC colors, Avenir font, DDI TPA/NEMT corrections)
-- [x] Pipeline tally fixed — $88M+ documented in PIPELINE_TALLY.md
-- [x] System fix: nightly-pipeline-tally now SAVES to file, not just chat
+- [x] 7 Region 10 MCO NEMT TPA emails sent (Aetna, AmeriHealth, Humana, UHC, Priority Health, Meridian, Molina)
+- [x] Molina portal Contract Request started — LTSS / Non-Medical Transportation / Transportation Broker
+- [x] HCBS Waiver Attestation email drafted (ready to send to MHMContractConfigDept)
+- [x] Walgreens SupplierOne registration at 33% — needs password step to complete
+- [x] MCO follow-up calendar reminder set for May 11
+- [x] Pipeline tally updated and saved to PIPELINE_TALLY.md
 
 ---
 
@@ -68,4 +69,4 @@ See `PIPELINE_TALLY.md` for full breakdown.
 
 ---
 
-*Updated: May 3, 2026 @ 11:35 PM ET*
+*Updated: May 4, 2026 @ 11:21 PM ET*
