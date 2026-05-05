@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:mco-region10-followup-20260511@deedavis.biz
+DTSTAMP:20260504T220800Z
+DTSTART;TZID=America/Detroit:20260511T120000
+DTEND;TZID=America/Detroit:20260511T123000
+SUMMARY:📧 FOLLOW-UP: Region 10 MCO NEMT TPA Outreach (7 MCOs)
+DESCRIPTION:7-day follow-up for Region 10 MCO NEMT/Pharmacy TPA outreach.\n\nCheck responses from:\n- AmeriHealth (Christopher McDade)\n- Aetna (Jason Harbitz)\n- Humana (Eric Doeh)\n- UnitedHealthcare (Network Team)\n- Meridian (Patty Graham)\n- Priority Health (Heather DeHaan)\n- Molina (Michael R. Steele)\n\nFolder: BIDS:RESOURCES/REGION 10 MCO NEMT TPA/
+LOCATION:Email follow-up
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:MCO follow-up due in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:MCO follow-up due in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

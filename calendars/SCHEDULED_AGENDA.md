@@ -114,6 +114,7 @@
 ## 2026-05-11 — Monday
 
 - **Due by 1:00 PM ET** — 🔥 **Maryland MVA — Courier Services ITQ V-HQ-26065-S** — Submit qualification application on eMMA (emma.maryland.gov). Folder: `BIDS:RESOURCES/MARYLAND MVA COURIER/SEND_TO_BUYER/`. 12 submission items required (7 drafted, 3 waiting on partners, 2 on Dee). CO: Gayloy Martin (gmartin5@mdot.maryland.gov / 410-768-7640). DDI prime / OLIMP warehouse / God Is Good Hauling courier. Contract: 5 years + unlimited renewals, no cost to state, revenue from dealers. Target DDI margin: $33K-$116K/year.
+- **12:00 PM ET** — 📧 **FOLLOW-UP: Region 10 MCO NEMT TPA Outreach** — 7-day follow-up for all 7 MCOs (AmeriHealth, Aetna, Humana, UHC, Meridian, Priority Health, Molina). Check for responses. For non-responders, send follow-up email. Folder: `BIDS:RESOURCES/REGION 10 MCO NEMT TPA/`. `.ics`: `calendars/MCO_REGION10_FOLLOWUP.ics`
 
 ---
 
