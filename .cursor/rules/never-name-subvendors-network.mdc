@@ -1,0 +1,45 @@
+---
+description: Never name DDI fulfillment network, subcontractors, or sub-vendors in outbound communications
+alwaysApply: true
+---
+
+# Never Name Network / Sub-Vendors — NON-NEGOTIABLE
+
+## The Rule
+
+When generating **any outbound document or correspondence** intended for external recipients (buyers, MCOs, government, suppliers, subcontractors in discovery, portal posts, cold emails, capability statements, proposals, RFQs, marketing):
+
+**NEVER name:**
+- ❌ DDI’s transportation, pharmacy delivery, lab, courier, or logistics **network partners**
+- ❌ **Subcontractors** or **sub-vendors** by trade name
+- ❌ Consumer-facing **rideshare / delivery brands** used as fulfillment
+- ❌ “Who we use” lists unless **explicitly required** by a sealed legal exhibit after counsel / compliance approval (rare)
+
+**Why:** Protects leverage in negotiation, avoids procurement/legal lock-in language, prevents competitors from mapping your stack, and stops accidental conflicts with the recipient’s existing vendor relationships.
+
+## What To Say Instead
+
+Use **vendor-neutral, role-based language:**
+- ✅ “Credentialed HIPAA-aligned mobility and pharmacy logistics partners under DDI contract management”
+- ✅ “Fulfillment layer managed and overseen by DDI”
+- ✅ “Zero-fleet — national/regional logistics capacity without consumer-brand lock-in for the plan”
+- ✅ “Specific fulfillment partners disclosed under NDA / credentialing / attachment review per plan requirements”
+
+## Scope
+
+| Recipient | Name subs/network? |
+|-----------|-------------------|
+| Buyer / MCO / CO | **NO** (intro emails, caps, proposals — neutral language only) |
+| Supplier RFQ | **NO** (already governed by buyer protection; also do not expose DDI stack) |
+| Subcontractor outreach (discovery) | **NO** until NDA/teaming path clear |
+| **Internal-only** checklists, vetting notes, compliance files | OK for operations — **do not paste into SEND_TO_* buyer/supplier bodies** |
+
+## Self-Check Before Send
+
+- [ ] No third-party fulfillment brand names in email body or buyer-facing PDF/HTML
+- [ ] No “we use [Company X]” unless mandated by buyer exhibit
+- [ ] Proof points emphasize **DDI program management**, not partner logos
+
+## Integration
+
+This rule is **additive**. It does not replace `never-reveal-buyer-to-supplier.mdc`, `never-reveal-end-buyer.mdc`, or subcontractor framework rules — it adds **confidentiality of DDI’s fulfillment stack** on outbound messaging.
