@@ -69,4 +69,4 @@ See `PIPELINE_TALLY.md` for full breakdown.
 
 ---
 
-*Updated: May 4, 2026 @ 11:21 PM ET*
+*Updated: May 4, 2026 @ 11:25 PM ET*

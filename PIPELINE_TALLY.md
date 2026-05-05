@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 5, 2026 — **PIPELINE SECTIONS RESTORED** (May 4 nightly overwrite reverted; see note below)
+**Last Updated:** May 4, 2026 @ 11:25 PM ET — **RESTORED SOURCE TALLY** (operational note + Region 10 activity log below)
 
 ---
 
@@ -98,7 +98,7 @@
 | Follow-up reminder | `calendars/MCO_REGION10_FOLLOWUP.ics` — **May 11, 2026** (also in `calendars/SCHEDULED_AGENDA.md`) |
 | Walgreens SupplierOne | Registration incomplete (~33% — finish password / register step later) |
 
-**Correction (May 5):** On May 4 @ 11:21 PM ET this file was overwritten with **unsourced per-MCO revenue guesses**. That was wrong and conflicted with this document’s role as source of truth. The **May 3, 2026** pipeline tables above are restored from git. When you want **Region 10 MCO economics** in this file, we should add them **only** after a proper revenue pass tied to `WORKFLOW_CHECKLIST.md` / your approved assumptions — not chat improvisation.
+**Correction:** On May 4 @ 11:21 PM ET this file was briefly overwritten with **unsourced per-MCO revenue guesses**. That was wrong. The pipeline tables above match the **May 3, 2026** sourced tally (git restore). Add **Region 10 MCO economics** here only after a proper revenue pass tied to `WORKFLOW_CHECKLIST.md` / your approved assumptions.
 
 ---
 
