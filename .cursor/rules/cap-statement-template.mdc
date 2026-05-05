@@ -37,7 +37,7 @@ Every capability statement generated MUST match this exact structure:
 │ • Item 5                  │ • TWIC-CLEARED                  │
 │ • Item 6                  │ • MULTI-STATE PRIME             │
 ├─────────────────────────────────────────────────────────────┤
-│ EDWOSB | WOSB | WBE | MBE | SBE | E-Verify | TWIC   │
+│ EDWOSB | WOSB | WBE | MBE | SBE | E-Verify Program Administrator | TWIC   │
 ├─────────────────────────────────────────────────────────────┤
 │ STRATEGIC ALLIANCE PARTNERS: [Partner list]                 │
 ├─────────────────────────────────────────────────────────────┤
@@ -93,7 +93,7 @@ Every capability statement generated MUST match this exact structure:
 
 ### 7. CERTIFICATIONS BAR
 - Navy/teal gradient background, white text
-- "EDWOSB | WOSB | WBE | MBE | SBE | E-Verify Participant | TWIC Credentialed (TSA)" — **do not** add SWFT (see `COMPANY_INFO_MASTER.md`)
+- "EDWOSB | WOSB | WBE | MBE | SBE | E-Verify Program Administrator | TWIC Credentialed (TSA)" — **do not** add SWFT (see `COMPANY_INFO_MASTER.md`)
 
 ### 8. STRATEGIC ALLIANCE PARTNERS
 - List relevant partners for the service type
