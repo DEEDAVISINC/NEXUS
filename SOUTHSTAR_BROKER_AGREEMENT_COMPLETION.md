@@ -90,4 +90,8 @@ UEI HJB4KNYJVGZ1 | CAGE 8UMX3
 
 ---
 
-*Last updated by NEXUS — execution checklist only; contract text is in the SouthStar PDF.*
+| **Follow-up #1** | **2026-05-05** — follow-up email sent to brokers@southstar.com requesting confirmation of receipt and timeline to broker approval |
+
+---
+
+*Last updated by NEXUS 05/05/2026 — execution checklist only; contract text is in the SouthStar PDF.*

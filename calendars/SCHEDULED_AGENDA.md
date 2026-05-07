@@ -99,6 +99,12 @@
 
 ---
 
+## 2026-05-06 — Wednesday
+
+- **1:00 – 2:00 PM ET** — 📞 **CARESOURCE ORIENTATION — Brian Grcevich** — Provider onboarding call. Microsoft Teams: https://teams.microsoft.com/meet/29381927614300?p=ggLQAA10NED9tDPUqx · Passcode: pc2Zc2PJ · Dial-in: +1 937-739-0091, conf ID 669 941 346#. **PREP:** Review `CARESOURCE_ORIENTATION_QUESTIONS.md` (42 questions). CareSource contract executed 4/28 — Vendor ID 100000469269. Dana Drew (Enterprise Health Partner Network Manager): Dana.Drew@CareSource.com / 937.926.5848. `.ics`: `calendars/CARESOURCE_ORIENTATION_2026-05-06.ics`
+
+---
+
 ## 2026-05-07 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **KY DMS — proposals** — RFP 128 2600000415 — Kentucky VSS (Technical + Cost + Proprietary); folder `BIDS:RESOURCES/KENTUCKY DMS MINE DRUG TESTING/` — `.ics`: `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics`

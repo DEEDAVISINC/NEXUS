@@ -71,6 +71,23 @@ SHIELD coordinates **9 service lines** for lead-affected families across **Wayne
 | **Counties** | All 4 — each county has different contractors |
 | **MDHHS Ask** | **HIGH PRIORITY** — Provide current contracted/approved lead abatement vendors in Wayne, Oakland, Macomb, and Genesee counties. DDI will sub-contract with 1-2 per county. Also: are there state-funded remediation programs families can access directly (like MiLeadSafe Home Lead Services)? If so, DDI navigates families into those programs rather than sourcing separately. |
 
+#### Macomb County — City of Warren Lead Hazard Control & Healthy Homes Program
+
+**Identified May 5, 2026** — Warren issued RFP-W-1826 for residential lead abatement services under their LHRG (Lead Hazard Reduction Grant) program. 48-month program, CDBG-funded, awarding to multiple certified contractors on rotating basis.
+
+| Field | Detail |
+|-------|--------|
+| **Program** | City of Warren Lead Hazard Control & Healthy Homes Program |
+| **Funding** | LHRG / CDBG (Federal) |
+| **Duration** | 48 months (4 years) |
+| **Contact** | Craig Treppa, Purchasing Agent |
+| **Email** | ctreppa@cityofwarren.org |
+| **Phone** | (586) 574-4675 |
+| **Address** | One City Square, 4th Floor, Suite 425, Warren, MI 48093 |
+| **RFP** | RFP-W-1826 (closes 05/20/2026) |
+| **SHIELD Relevance** | Referral pathway for Macomb County families identified through SHIELD screening. Warren already has contractor pool and funding for abatement — SHIELD navigates families INTO this program. |
+| **Next Step** | After Warren awards abatement contracts, request list of awarded contractors from Craig Treppa. These become SHIELD's Macomb County abatement referral partners. |
+
 ---
 
 ### 5. Housing Navigation

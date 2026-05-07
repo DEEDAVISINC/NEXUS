@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Purchase of one (1) fuel test kit and calibrati
+ on
+DTSTART:20260104T000000
+DTEND:20260104T010000
+DTSTAMP:20260506T210113Z
+UID:recIqwm13lAKeKEe6@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Purchase of one (1) fuel tes
+ t kit and calibration\nAgency: \nSolicitation: \nDeadline: January 04\, 20
+ 26 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/
+ recIqwm13lAKeKEe6\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\
+ n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 
+ ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Colle
+ ct all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fi
+ nal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerate
+ d by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Purchase of one (1) fuel test kit and calibratio
+ n
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Purchase of one (1) fuel test kit and calibratio
+ n
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Purchase of one (1) fuel test kit and calibratio
+ n
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Purchase of one (1) fuel test kit and calibratio
+ n
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: J2 Integrated Survey Program (ISP) Autonomous S
+ olutions CE
+DTSTART:20260303T000000
+DTEND:20260303T010000
+DTSTAMP:20260506T210121Z
+UID:recm1g5UPH6npm1jN@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: J2 Integrated Survey Program
+  (ISP) Autonomous Solutions CE\nAgency: \nSolicitation: \nDeadline: March 
+ 03\, 2026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn
+ 3yJ7ma/recm1g5UPH6npm1jN\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days 
+ before\n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n
+ \n🎯 ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2
+ . Collect all quotes (2 days before)\n3. Complete bid forms (1 day before)
+ \n4. Final review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nG
+ enerated by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: J2 Integrated Survey Program (ISP) Autonomous So
+ lutions CE
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: J2 Integrated Survey Program (ISP) Autonomous So
+ lutions CE
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: J2 Integrated Survey Program (ISP) Autonomous So
+ lutions CE
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: J2 Integrated Survey Program (ISP) Autonomous So
+ lutions CE
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

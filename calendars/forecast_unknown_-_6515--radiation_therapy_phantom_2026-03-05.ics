@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: [Forecast] Unknown - 6515--Radiation Therapy Ph
+ antom
+DTSTART:20260305T000000
+DTEND:20260305T010000
+DTSTAMP:20260506T210122Z
+UID:recnuYkcWVzFOnCqW@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: [Forecast] Unknown - 6515--R
+ adiation Therapy Phantom\nAgency: \nSolicitation: \nDeadline: March 05\, 2
+ 026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma
+ /recnuYkcWVzFOnCqW\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before
+ \n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯
+  ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Coll
+ ect all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. F
+ inal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerat
+ ed by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: [Forecast] Unknown - 6515--Radiation Therapy Pha
+ ntom
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: [Forecast] Unknown - 6515--Radiation Therapy Pha
+ ntom
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: [Forecast] Unknown - 6515--Radiation Therapy Pha
+ ntom
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: [Forecast] Unknown - 6515--Radiation Therapy Pha
+ ntom
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

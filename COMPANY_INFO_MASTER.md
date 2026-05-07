@@ -877,12 +877,12 @@ MI SIGMA VSS: VS0245604
 
 | MCO | Status | Vendor ID / Details |
 |---|---|---|
-| **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — provider portal access active. Dana Drew (Enterprise Health Partner Network Manager) — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — orientation outreach pending. **Confirmation of executed contract emailed 04/29/2026 10:00 AM ET.** |
+| **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — provider portal access active. Dana Drew (Enterprise Health Partner Network Manager) — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — **2nd outreach sent May 5, 2026 (CC'd Dana)**. **✅ ORIENTATION SCHEDULED May 6, 2026 1:00 PM ET** — Teams meeting. **Confirmation of executed contract emailed 04/29/2026 10:00 AM ET.** |
 | Molina Healthcare of Michigan | Pending | Troy HQ — same city as DDI |
 | Meridian Health Plan | Pending | Detroit HQ — largest MI Medicaid MCO |
 | UnitedHealthcare Community Plan | Pending | |
 | Aetna Better Health | Pending | |
-| Blue Cross Complete | Pending | |
+| Blue Cross Complete | ✅ **MEETING SCHEDULED** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026, requesting 30-min intro call before Memorial Day. Scheduling in progress (DDI available May 12-16 or May 19-23). |
 | HAP CareSource | Pending | Related to CareSource contract above — confirm coverage |
 | McLaren Health Plan | Pending | Flint HQ |
 | Priority Health Choice | Pending | Grand Rapids |
@@ -892,7 +892,7 @@ MI SIGMA VSS: VS0245604
 - [x] Submit corrected CHAMPS application as Atypical Agency / NEMT — **SUBMITTED 03/22/2026**
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
 - [x] **CareSource NEMT contract executed Apr 28, 2026** — Vendor ID 100000469269
-- [ ] **Orientation with Brian Grcevich (CareSource)** — confirm date, activate portal, understand service scope
+- [x] **Orientation with Brian Grcevich (CareSource)** — ✅ SCHEDULED May 6, 2026 1:00 PM ET — Teams meeting
 - [ ] **Continue MCO credentialing** — Molina, Meridian, UHC, Aetna, Blue Cross Complete, McLaren, Priority Health
 - [ ] **Confirm with CareSource on orientation** — does this contract cover HAP CareSource (Michigan) as well?
 

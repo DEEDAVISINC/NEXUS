@@ -1,4 +1,4 @@
-# TODAY'S AGENDA — Tuesday, May 5, 2026
+# TODAY'S AGENDA — Thursday, May 7, 2026
 
 ---
 
@@ -6,20 +6,21 @@
 
 | Time | What | Notes |
 |---|---|---|
-| **3:00 PM ET** | 📋 NOTARY SIGNING — Rachocki Refi (PSS) | 53267 Sophia Dr, Shelby Township MI 48316 — Steven & Jennifer Rachocki — 586-489-8354 — EDOCS — Scanbacks required — PSS #PSS1-40607 |
-| **Watch** | 📧 Brian Grcevich (CareSource) | Emailed 4/28 — **7-day follow-up DUE TODAY** if no reply |
+| **TBD** | 📞 Wood County Ohio | Call 419-352-8402 — confirm RFP status (rolled from May 6) |
+| **TBD** | 📋 BCC Meeting | Pitch pharmacy delivery? (rolled from May 6) |
 | **Watch** | 📅 MDHHS / Angela + Aimee | Response to SHIELD package (sent May 3) |
 | **Watch** | 📧 Sam Cilento (Lakota) | Follow-up sent May 4 — reply expected this week |
+| **Watch** | 📧 carGO Health | Lab courier partnership inquiry sent May 6 |
 
 ---
 
 ## TOP 3 PRIORITIES
 
-1. **🔥 CBP MEDICAL SUPPORT — Phase I DUE TODAY 5:00 PM EDT** — Submit. This is done. Open the folder, attach, send.
+1. **🔥 HAP CARESOURCE — ACTIVATE IN PORTAL** — Portal is set up, DDI needs to turn on availability to receive trips. This is your first MCO revenue. Do it first thing.
 
-2. **🔥 BALTIMORE WAREHOUSE SEARCH** — OLIMP declined May 4. Maryland MVA deadline is May 11. Need a direct owner-operated warehouse in Baltimore/Glen Burnie/Anne Arundel County TODAY or tomorrow. Search Google Maps, call 3–4 directly.
+2. **📞 Wood County Ohio** — Call 419-352-8402, confirm RFP status
 
-3. **KY DMS DRUG TESTING** — Due **May 7, 3:30 PM ET**. Two days. Review full package today after CBP is submitted.
+3. **🔥 BALTIMORE WAREHOUSE SEARCH** — Maryland MVA deadline is May 11. Need a direct owner-operated warehouse in Baltimore/Glen Burnie/Anne Arundel County.
 
 ---
 
@@ -27,61 +28,91 @@
 
 | Date | Deadline | Status |
 |---|---|---|
-| **May 5 (TODAY)** | 🔥 CBP Medical Support Phase I — 5:00 PM EDT | SUBMIT TODAY |
-| **May 5 (TODAY)** | 📋 Rachocki Notary Signing — 3:00 PM ET | Shelby Township |
-| **May 7 (Thu)** | 🔥 KY DMS Drug Testing — 3:30 PM ET | Review today |
-| **May 11 (Mon)** | 🔥 Maryland MVA Courier ITQ — 1:00 PM ET | ⚠️ Warehouse partner needed |
+| **May 11 (Sun)** | 🔥 Maryland MVA Courier ITQ — 1:00 PM ET | ⚠️ Warehouse partner needed |
+| **May 12 (Mon)** | City of Taylor LTL — Questions due 5:00 PM | Draft questions |
+| **May 15 (Thu)** | City of Taylor LTL — BAFO due 5:00 PM | Need carrier quotes by May 10 |
+| **May 18 (Sun)** | 🔥 University Health Pharmacy Courier (TX) | Pending ScriptDrop verification |
+| **May 18 (Sun)** | 🔥 University Health Lab Courier (TX) | Pending carGO Health response |
 | **~May 15** | DHA Fingerprinting — RFQ expected to post | Watch |
+
+---
+
+## MCO STATUS
+
+| MCO | Status | Action |
+|---|---|---|
+| **HAP CareSource** | ✅ ACTIVE — Portal live | **ACTIVATE** to receive trips |
+| **BCBSM** | 🔥 Alina call pending | After Memorial Day |
+| **Molina** | ⏳ Contract request submitted May 6 | Await review email |
+| UHC | ⏳ Outreach sent | Await response |
+| Aetna | ⏳ Outreach sent | Await response |
 
 ---
 
 ## WAITING FOR REPLIES
 
-- **Sam Cilento (Lakota)** — Follow-up sent May 4 — WHORL upgrade + medical credentialing TPA channel questions + DeCA teaming
-- **Stanley Dennis / God Is Good Hauling** — CONFIRMED IN. Docs due May 7 (insurance, letter of commitment, business reg, driver list)
-- **Brian Grcevich (CareSource)** — 7-day follow-up DUE TODAY (emailed 4/28)
-- **MDHHS** — Angela Medina + Aimee Surma response to SHIELD package (sent May 3)
-- **Molina** — HCBS Waiver Attestation email ready to send → MHMContractConfigDept@MolinaHealthCare.com
+- **Alina (BCBSM)** — Waiting for her to pick a call date after Memorial Day
+- **Molina** — Contract request submitted May 6, awaiting review
+- **carGO Health** — Lab courier partnership inquiry sent May 6
+- **Uber Health (Ticket #00876837)** — ScriptDrop San Antonio verification for TX Pharmacy Courier
+- **Sam Cilento (Lakota)** — Follow-up sent May 4
+- **MDHHS** — Angela Medina + Aimee Surma response to SHIELD package
+- **Chris Jenkins / Colleen Giebe (MTM)** — NEMT/pharmacy delivery enrollment
+
+---
+
+## HAP CARESOURCE — QUICK REFERENCE
+
+| Item | Value |
+|---|---|
+| **Vendor ID** | 100000469269 |
+| **Rates** | $28 standard / $35 ambulatory-wheelchair |
+| **Service Area** | Wayne County, Macomb County |
+| **Members** | 4,500 (HIDE program, unlimited rides) |
+| **Provider Services** | Medicaid: 1-833-230-2102 / MICH: 1-833-230-2159 |
+| **Portal** | HAPCareSource.com/Providers/Provider-Portal |
+
+**See:** `HAP_CARESOURCE_OPERATIONS.md` for full details
 
 ---
 
 ## BUILD TASKS (When Time Allows)
 
-- [ ] **NPDB registration** — npdb.hrsa.gov — Authorized Agent registration for Medical Credentialing TPA (Dee's task)
-- [ ] **CAQH ProView application** — proview.caqh.org — Participating Organization registration (Dee's task)
-- [ ] **Walgreens SupplierOne** — Registration at 33% — complete password/register step
-- [ ] **NAMSS job board post** — Post credentialing coordinator role (careers.namss.org)
+- [ ] **HAP Model of Care training** — Required for MI Coordinated Health
+- [ ] **HAP FWA attestation** — HealthPlanResources.com
+- [ ] **ECHO EFT enrollment** — After first payment (1-888-834-3511)
+- [ ] **NPDB registration** — npdb.hrsa.gov
+- [ ] **CAQH ProView application** — proview.caqh.org
+- [ ] **Walgreens SupplierOne** — Registration at 33%
 
 ---
 
-## COMPLETED MONDAY MAY 4
+## COMPLETED TUESDAY MAY 6
 
-- [x] TPA 8 (Medical Professional Credentialing) + TPA 9 (Workforce Compliance) added to service catalog
-- [x] DDI_TPA_DIVISIONS.md created — 9-division TPA master reference
-- [x] 50-state medical board fingerprinting matrix built
-- [x] Credentialing coordinator hiring plan built (CPCS-certified sourcing)
-- [x] NEXUS LEARNING priority targets updated with new TPA NAICS codes
-- [x] NCS background check pricing added to service catalog (Channel Partner signed)
-- [x] Lakota follow-up email sent to Sam Cilento (scilento@lakotasoftware.com)
-- [x] OLIMP declined — logged, workflow checklist updated
-- [x] Rachocki notary signing ICS created (May 5, 3:00 PM ET)
-- [x] Git committed and pushed at 6:09 PM ET + 11:29 PM ET
+- [x] HAP CareSource orientation completed (Brian Grcevich)
+- [x] HAP CareSource portal set up
+- [x] HAP CareSource operations doc created (`HAP_CARESOURCE_OPERATIONS.md`)
+- [x] Molina contract request submitted
+- [x] carGO Health outreach sent (TX Lab Courier)
+- [x] University Health bid folders created (Pharmacy + Lab Courier)
+- [x] Pipeline updated to $98M+ (BCBSM added as hot lead)
+- [x] MCO broker landscape mapped (SafeRide = Meridian + Priority; MTM = Molina)
 
 ---
 
 ## PIPELINE REMINDER
 
-**Total Lifetime Pipeline: $88M+**
+**Total Lifetime Pipeline: $98M+**
 
 | Program | Lifetime |
 |---|---|
 | SHIELD Lead-Safe (4 counties) | $41.5M |
 | Community Equity SHIELD (6 counties) | $24M |
-| MCO Contracts | $10M |
-| Active Bids | $12.6M |
+| MCO Contracts (HAP active + BCBSM pending + pipeline) | $13M-$20M |
+| Active Bids (TX Courier, Drug Testing, Fingerprinting) | $17M-$20M |
 
 See `PIPELINE_TALLY.md` for full breakdown.
 
 ---
 
-*Updated: May 4, 2026 @ 11:29 PM ET*
+*Updated: May 6, 2026 @ 10:00 PM ET*

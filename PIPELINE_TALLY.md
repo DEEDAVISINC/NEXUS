@@ -1,9 +1,9 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 4, 2026 @ 11:29 PM ET
+**Last Updated:** May 6, 2026 @ 7:20 PM ET
 
 ---
 
-## TOTAL PIPELINE: $88M+ LIFETIME
+## TOTAL PIPELINE: $98M+ LIFETIME
 
 ---
 
@@ -13,9 +13,9 @@
 |---|---|
 | **SHIELD Lead-Safe (4 counties, 50% capture)** | $41.5M |
 | **Community Equity SHIELD (6 counties, grant + services)** | $24M |
-| **MCO Contracts (CareSource + HAP/Meridian/UHC pipeline)** | $10M |
-| **All Active Bids (Drug Testing, Courier, Fingerprinting, CBP)** | $12.6M |
-| **TOTAL PIPELINE** | **$88M+** |
+| **MCO Contracts (HAP CareSource ACTIVE + BCBSM pending + pipeline)** | $13M-$20M |
+| **All Active Bids (Drug Testing, Courier, Fingerprinting, TX Courier)** | $17M-$20M |
+| **TOTAL PIPELINE** | **$98M+** |
 
 ---
 
@@ -49,13 +49,22 @@
 
 ## MCO CONTRACTS
 
-| MCO | Status | Lifetime Value |
-|---|---|---|
-| **CareSource** | ✅ EXECUTED Apr 2026 | $2.5M (5yr) |
-| HAP | Credentialing | $2.5M (5yr) |
-| Meridian | Pipeline | $2.5M (5yr) |
-| UHC | Pipeline | $2.5M (5yr) |
-| **TOTAL MCOs** | | **$10M** |
+| MCO | Status | Details | Lifetime Value |
+|---|---|---|---|
+| **HAP CareSource** | ✅ ACTIVE — Portal live May 6, 2026 | Wayne/Macomb · 4,500 members · $28/$35 per trip · Unlimited rides | $375K-$900K (5yr conservative) |
+| **BCBSM** | 🔥 HOT LEAD — Call pending with Alina | Waiting on date after Memorial Day | $5M-$10M (5yr est.) |
+| Meridian | Pipeline | | $2.5M (5yr) |
+| UHC | Pipeline | | $2.5M (5yr) |
+| Molina/MTM | Outreach in progress | Chris Jenkins / Colleen Giebe | $2.5M (5yr) |
+| **TOTAL MCOs** | | | **$13M-$20M** |
+
+**HAP CareSource Notes:**
+- NEMT Transportation Broker · Vendor ID: 100000469269
+- Rates: $28 standard, $35 ambulatory/wheelchair
+- Service area: Wayne County, Macomb County
+- Member population: 4,500 with unlimited rides
+- Trip channels: Direct member calls, portal queue, Care Manager referrals
+- See `HAP_CARESOURCE_OPERATIONS.md` for full operational details
 
 ---
 
@@ -64,7 +73,7 @@
 | Opportunity | Lifetime Value | Win % | Due |
 |---|---|---|---|
 | City of Yonkers RFP-546 | $650K | 60% | ✅ SUBMITTED |
-| KY DMS Mine Drug Testing | $180K | 50% | May 7 |
+| ~~KY DMS Mine Drug Testing~~ | ~~$180K~~ | **PASS** — 15-panel pricing gap, tight timeline | — |
 | Fulton County 26ITB1580280B | $320K | 45% | Blocked |
 | Harris Health AB02182026 | $600K | 40% | Blocked |
 | CBP Medical Support 70B06C26R00000017 | $5M | 25% | May 5 |
@@ -72,7 +81,9 @@
 | Maryland MVA Courier V-HQ-26065-S | $375K | 45% — OLIMP declined, warehouse search active | May 11 |
 | DHA Fingerprinting HT001126QE014 | $2.5M | 35% | ~May 15 |
 | VA Illiana Courier | $2M | 35% | Watch |
-| **TOTAL ACTIVE BIDS** | **$12.6M** | | |
+| University Health Pharmacy Courier (TX) | $3.8M-$7M | 40% | May 18 |
+| University Health Lab Courier (TX) | $765K-$1.3M | 35% | May 18 |
+| **TOTAL ACTIVE BIDS** | **$17M-$20M** | | |
 
 ---
 

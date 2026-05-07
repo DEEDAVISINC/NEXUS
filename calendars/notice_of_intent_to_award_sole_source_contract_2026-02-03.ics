@@ -1,0 +1,41 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Notice of intent to award sole source contract
+DTSTART:20260203T000000
+DTEND:20260203T010000
+DTSTAMP:20260506T210112Z
+UID:recG7elJE03TnDIUt@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Notice of intent to award so
+ le source contract\nAgency: \nSolicitation: \nDeadline: February 03\, 2026
+  at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/re
+ cG7elJE03TnDIUt\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n-
+  1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 AC
+ TION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collect
+  all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fina
+ l review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated 
+ by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Notice of intent to award sole source contract
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Notice of intent to award sole source contract
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Notice of intent to award sole source contract
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Notice of intent to award sole source contract
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

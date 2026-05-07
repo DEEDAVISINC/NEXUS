@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: 7F20--Performax | Base Plus 4 OYs | 36C26121F01
+ 93
+DTSTART:20260204T000000
+DTEND:20260204T010000
+DTSTAMP:20260506T210117Z
+UID:recWGnv6NONyi2YLD@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: 7F20--Performax | Base Plus 
+ 4 OYs | 36C26121F0193\nAgency: \nSolicitation: \nDeadline: February 04\, 2
+ 026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma
+ /recWGnv6NONyi2YLD\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before
+ \n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯
+  ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Coll
+ ect all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. F
+ inal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerat
+ ed by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 7F20--Performax | Base Plus 4 OYs | 36C26121F019
+ 3
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 7F20--Performax | Base Plus 4 OYs | 36C26121F019
+ 3
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 7F20--Performax | Base Plus 4 OYs | 36C26121F019
+ 3
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 7F20--Performax | Base Plus 4 OYs | 36C26121F019
+ 3
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

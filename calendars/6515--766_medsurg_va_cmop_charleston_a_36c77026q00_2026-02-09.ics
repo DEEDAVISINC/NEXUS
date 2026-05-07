@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: 6515--766_MedSurg_VA CMOP Charleston A_36C77026
+ Q0081
+DTSTART:20260209T000000
+DTEND:20260209T010000
+DTSTAMP:20260506T210113Z
+UID:recJ4kCSyroebEIFt@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: 6515--766_MedSurg_VA CMOP Ch
+ arleston A_36C77026Q0081\nAgency: \nSolicitation: \nDeadline: February 09\
+ , 2026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ
+ 7ma/recJ4kCSyroebEIFt\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days bef
+ ore\n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n
+ 🎯 ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. 
+ Collect all quotes (2 days before)\n3. Complete bid forms (1 day before)\n
+ 4. Final review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGen
+ erated by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6515--766_MedSurg_VA CMOP Charleston A_36C77026Q
+ 0081
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6515--766_MedSurg_VA CMOP Charleston A_36C77026Q
+ 0081
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6515--766_MedSurg_VA CMOP Charleston A_36C77026Q
+ 0081
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6515--766_MedSurg_VA CMOP Charleston A_36C77026Q
+ 0081
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

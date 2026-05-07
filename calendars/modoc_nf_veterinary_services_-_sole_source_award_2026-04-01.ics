@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Modoc NF Veterinary Services - Sole Source Awar
+ d
+DTSTART:20260401T000000
+DTEND:20260401T010000
+DTSTAMP:20260506T210119Z
+UID:reccFT2SAXwHM8c3g@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Modoc NF Veterinary Services
+  - Sole Source Award\nAgency: \nSolicitation: \nDeadline: April 01\, 2026 
+ at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/rec
+ cFT2SAXwHM8c3g\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n- 
+ 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 ACT
+ ION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collect 
+ all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Final
+  review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated b
+ y NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Modoc NF Veterinary Services - Sole Source Award
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Modoc NF Veterinary Services - Sole Source Award
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Modoc NF Veterinary Services - Sole Source Award
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Modoc NF Veterinary Services - Sole Source Award
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

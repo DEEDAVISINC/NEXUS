@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Bahrain Critical Spares and Frequency Converter
+ s
+DTSTART:20260223T000000
+DTEND:20260223T010000
+DTSTAMP:20260506T210124Z
+UID:recyIZeLAonMo6Pgk@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Bahrain Critical Spares and 
+ Frequency Converters\nAgency: \nSolicitation: \nDeadline: February 23\, 20
+ 26 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/
+ recyIZeLAonMo6Pgk\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\
+ n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 
+ ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Colle
+ ct all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fi
+ nal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerate
+ d by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Bahrain Critical Spares and Frequency Converters
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Bahrain Critical Spares and Frequency Converters
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Bahrain Critical Spares and Frequency Converters
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Bahrain Critical Spares and Frequency Converters
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

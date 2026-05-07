@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** April 30, 2026
+**Updated:** May 6, 2026
 
 ---
 
@@ -7,9 +7,14 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **NEW** — 7,900 deliveries/month · 7 pharmacy locations + 3 community hospitals · Rx delivery (cold chain + controlled substances) · 3+2yr contract · Est. $760K-$1.4M/yr · TPA model: Uber Health + ScriptDrop · Bonfire portal · **CONDITIONAL GO — pending ScriptDrop verification** · folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` |
+| **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **NEW** — 850 deliveries/month · 70+ facilities · Lab specimens, slides, equipment · 3+2yr contract · Est. $153K-$255K/yr · TPA model: need lab courier sub · Bonfire portal · **CONDITIONAL GO — need fulfillment partner** · folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` |
+
+| Deadline | Opportunity | Agency | Solicitation | Status |
+|---|---|---|---|---|
 | **May 1, 2026** | **Proposals due** | **City of Yonkers, NY** | **RFP-546** | **✅ SUBMITTED Apr 30, 2026 8:44 PM EDT** — Confirmation **#0000411244** · Drug & Alcohol Testing Services · ~300 CDL drivers · 4-year contract · $162.5K/yr est. revenue · WBE advantage · folder `BIDS:RESOURCES/YONKERS DRUG ALCOHOL TESTING/` · **AWAITING AWARD** |
 | **Apr 28, 2026** | **Addendum posted** ✓ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **RECEIVED** — Modification **Version 2** / Addendum #1 in folder `Final_RFP_128_2600000415_2_SO_FORM.PDF`; **15-panel** authoritative; Commonwealth **~1,500**/yr estimate; Attachment A reconcile Random Selection (**100/year** admin); **`WORKFLOW_CHECKLIST.md` updated** |
-| **May 7 @ 3:30 PM ET** | **Proposals** | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **ACTIVE — GO** — VSS submission; `calendars/KENTUCKY_DMS_DRUG_TESTING_PROPOSAL_2026-05-07.ics` |
+| ~~**May 7 @ 3:30 PM ET**~~ | ~~**Proposals**~~ | **KY — Division of Mine Safety** | **RFP 128 2600000415** | **PASS** — May 5, 2026 · 15-panel pricing not confirmed in time · Tight runway · No submission |
 | **Apr 17 @ 4:00 PM ET** | **Drug Test Kits** | **County of Dutchess, NY** | **RFQ-DCP-40-26** | **✅ SUBMITTED** — Apr 17, 2026 · CS-1 + CS-2(2) signed · 6 items priced (12-panel cup $64.68, 13-panel oral fluid $77.68, 14-panel $71.18, 18-panel $84.18, kratom strips $19.18, psilocybin dip $23.08) · Total $339.98 · PDF archived PROOF_OF_SUBMISSION · Award watch |
 | **Apr 10 @ 3:00 PM CT** (4 PM ET) | **PSJA ISD — Employee Health TPA / PBM / Stop-Loss** | Pharr-San Juan-Alamo ISD | **25-26-019 Add. 1** | **REFERENCE — NO-GO direct** (benefits/TPA lane; extension logged). Folder `BIDS:RESOURCES/PSJA ISD EMPLOYEE HEALTH TPA/` — calendar `calendars/PSJA_ISD_HEALTH_INSURANCE_RFP_25-26-019_2026-04-10.ics` |
 | **Apr 15 @ 3:00 PM EDT** | **Questions due — Oakland HHS Medical Supplies** | Oakland County HHS | **Oak-0000001134** | **ACTIVE** — submit online via MITN; draft `OAKLAND COUNTY HHS MEDICAL SUPPLIES/QUESTIONS_FOR_MITN.md` |

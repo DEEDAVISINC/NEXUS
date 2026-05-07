@@ -6,8 +6,9 @@ echo "🚀 Setting up NEXUS Calendar Automation System..."
 echo ""
 
 # Install required Python packages
-echo "📦 Installing dependencies..."
-pip3 install icalendar pyairtable
+# Cron uses /usr/bin/python3 (Apple CLT). Plain `pip3` may target Homebrew — then imports fail in cron.
+echo "📦 Installing dependencies for cron Python (/usr/bin/python3)..."
+/usr/bin/python3 -m pip install --user icalendar pyairtable python-dotenv
 
 # Make scripts executable
 chmod +x calendar_automation.py
@@ -60,7 +61,7 @@ echo "   2. Every hour: Check for new opportunities and generate calendars"
 echo "   3. Every 6 hours: Alert for urgent deadlines (< 24 hours)"
 echo ""
 echo "📁 Calendar files saved to: $NEXUS_DIR/calendars/"
-echo "📧 Daily reports emailed to: info@deedavis.biz"
+echo "📧 Daily reports emailed to: USER_EMAIL from .env (default info@deedavis.biz). Set USER_EMAIL=bids.deedavisinc@gmail.com if that is your NEXUS inbox."
 echo ""
 echo "🎯 NEVER MISS A DEADLINE AGAIN!"
 echo ""

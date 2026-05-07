@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Paving Materials Blanket Purchasing Agreement (
+ BPA)
+DTSTART:20260422T000000
+DTEND:20260422T010000
+DTSTAMP:20260506T210123Z
+UID:recrD22vpsFFSU3ue@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Paving Materials Blanket Pur
+ chasing Agreement (BPA)\nAgency: \nSolicitation: \nDeadline: April 22\, 20
+ 26 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/
+ recrD22vpsFFSU3ue\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\
+ n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 
+ ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Colle
+ ct all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fi
+ nal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerate
+ d by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Paving Materials Blanket Purchasing Agreement (B
+ PA)
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Paving Materials Blanket Purchasing Agreement (B
+ PA)
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Paving Materials Blanket Purchasing Agreement (B
+ PA)
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Paving Materials Blanket Purchasing Agreement (B
+ PA)
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

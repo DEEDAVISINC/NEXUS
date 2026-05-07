@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:caresource-orientation-20260506@deedavis.biz
+DTSTAMP:20260505T130000Z
+DTSTART;TZID=America/Detroit:20260506T130000
+DTEND;TZID=America/Detroit:20260506T140000
+SUMMARY:📞 CARESOURCE ORIENTATION — Brian Grcevich
+DESCRIPTION:CareSource Provider/Vendor Orientation\n\nOrganizer: Brian L. Grcevich\n\nMicrosoft Teams:\nhttps://teams.microsoft.com/meet/29381927614300?p=ggLQAA10NED9tDPUqx\nPasscode: pc2Zc2PJ\n\nDial-in: +1 937-739-0091\nConference ID: 669 941 346#\n\nPREP: Review CareSource relationship history, confirm NEMT TPA pitch points
+LOCATION:Microsoft Teams
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:CareSource Orientation in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:CareSource Orientation in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

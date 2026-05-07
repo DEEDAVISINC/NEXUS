@@ -1,17 +1,19 @@
-# DAILY BRIEFING — Tuesday, May 5, 2026
+Good morning Dee. Here is your NEXUS briefing for Thursday, May 7th.
 
-Good morning Dee. Here is your NEXUS briefing for Tuesday, May 5.
+Your first MCO contract is live. HAP CareSource portal is set up. Log in and activate DDI to start receiving trips. 28 dollars standard, 35 dollars for wheelchair or ambulatory assist. 4,500 members with unlimited rides in Wayne and Macomb counties.
 
-You have one appointment today: a notary signing at 3 PM for the Rachocki refinance at 53267 Sophia Drive in Shelby Township. Bring your notary seal. Scanbacks required.
+You have two calls to make today. First, Wood County Ohio at 419-352-8402 to confirm RFP status. Second, BCC meeting to pitch pharmacy delivery.
 
-Your number one priority today is submitting the CBP Medical Support Phase I proposal. It is due at 5 PM Eastern today. The package is built. Open the folder, attach, and send.
+BCBSM is the big one pending. Alina will pick a date after Memorial Day. If that lands, you're looking at 400,000 plus Medicaid members.
 
-Your second priority is finding a Baltimore warehouse partner for the Maryland MVA courier contract. OLIMP declined yesterday. You have until May 11. Search for owner-operated warehouses in Glen Burnie or Anne Arundel County and make direct calls today or tomorrow.
+Molina contract request was submitted last night. Waiting for their review.
 
-Third, send the Brian Grcevich follow-up. He was emailed April 28th. Today is the 7-day mark.
+Maryland MVA deadline is May 11th. You still need a Baltimore warehouse partner.
 
-The KY DMS drug testing proposal is due Thursday May 7. Review the full package today after CBP is submitted.
+University Health Texas has two courier bids due May 18th. Waiting on carGO Health and Uber Health ScriptDrop verification.
 
-Your total pipeline stands at 88 million dollars lifetime.
+Your pipeline is now 98 million dollars lifetime.
 
-Have a focused day.
+First priority today: activate HAP CareSource and book your first trip.
+
+Have a great day.

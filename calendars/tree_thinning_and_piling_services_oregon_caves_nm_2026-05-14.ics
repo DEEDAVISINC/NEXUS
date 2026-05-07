@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Tree Thinning and Piling Services\, Oregon Cave
+ s NM
+DTSTART:20260514T000000
+DTEND:20260514T010000
+DTSTAMP:20260506T210124Z
+UID:recxYr6ruBi1LQvps@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Tree Thinning and Piling Ser
+ vices\, Oregon Caves NM\nAgency: \nSolicitation: \nDeadline: May 14\, 2026
+  at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/re
+ cxYr6ruBi1LQvps\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n-
+  1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 AC
+ TION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collect
+  all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fina
+ l review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated 
+ by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Tree Thinning and Piling Services\, Oregon Caves
+  NM
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Tree Thinning and Piling Services\, Oregon Caves
+  NM
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Tree Thinning and Piling Services\, Oregon Caves
+  NM
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Tree Thinning and Piling Services\, Oregon Caves
+  NM
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
