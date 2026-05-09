@@ -111,6 +111,12 @@
 
 ---
 
+## 2026-05-09 — Friday
+
+- **10:00 AM ET** — 📝 **SIGNING: Warren Castor — Deed ($65)** — 56225 Chesapeake Trail, Shelby Township, MI 48316 · Order SOSS-9475 · File 26-151118 · Signer: 586-243-8402 · EDOCS · Scanbacks required · Signature One Signing Services (702-509-1321). `.ics`: `calendars/soss-9475_deed_signing_castor_2026-05-09.ics`
+
+---
+
 ## 2026-05-15 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **DHA Fingerprinting Support Services — RFQ expected to post** — HT001126QE014 — Defense Health Agency — Fingerprint collection + SWFT submission, 50 states + territories. DDI ON INTERESTED VENDORS LIST. Presolicitation closes this date; RFQ will post ~30 days. Buyer email + cap statement READY in `BIDS:RESOURCES/DHA FINGERPRINTING SUPPORT SERVICES/SEND_TO_BUYER/`. Send email to Mary Anne Young (mary.a.young138.ctr@health.mil) + CC Cherish Young (cherish.d.young2.civ@health.mil). **CRITICAL:** Call Sam Cilento (Lakota) before RFQ drops to discuss teaming/SWFT path.
@@ -133,6 +139,12 @@
 ## 2026-05-04 — Monday
 
 - **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling (Stanley Dennis)** — Both emails sent May 2. Need: warehouse details from OLIMP, acceptance + insurance certs from Stanley. If no response by EOD Monday, follow up immediately — ITQ due May 11.
+
+---
+
+## 2026-06-01 — Monday
+
+- **12:00 PM ET** — 📧 **FOLLOW-UP: Alina Pabin (BCBSM)** — If no meeting scheduled by Memorial Day week, send follow-up email to apabin@mibluecrosscomplete.com. Template: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/SCHEDULE_EMAIL_TO_ALINA.md`. `.ics`: `calendars/bcbsm_alina_followup_2026-06-01.ics`
 
 ---
 

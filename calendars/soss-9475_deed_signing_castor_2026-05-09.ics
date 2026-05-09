@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Notary//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Signings
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:soss-9475-castor@deedavis.biz
+DTSTAMP:20260508T191400Z
+DTSTART;TZID=America/Detroit:20260509T100000
+DTEND;TZID=America/Detroit:20260509T110000
+SUMMARY:📝 SIGNING: Warren Castor - Deed ($65)
+DESCRIPTION:Order: SOSS-9475 | File: 26-151118\nSigner: Warren Castor\nPhone: 586-243-8402\nType: Deed Signing\nDocs: EDOCS\nScanbacks Required\n\nProperty: 1124 Silver Stone Way, Las Vegas, NV 89123\n\nCompany: Signature One Signing Services\nContact: 702-509-1321
+LOCATION:56225 Chesapeake Trail, Shelby Township, MI 48316
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours - Warren Castor
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes - Leave now
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

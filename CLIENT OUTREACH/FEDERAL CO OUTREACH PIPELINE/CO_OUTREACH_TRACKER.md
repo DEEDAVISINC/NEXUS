@@ -89,3 +89,17 @@
 | Charles Spicer, Jr. | USDA Rural Development — Strategic Acquisitions Division | charles.spicer@usda.gov | 757-279-3281 | 2026-03-23 | **REPLIED ✓** — No current EDWOSB/WOSB set-asides. No planned sources sought post-July 2025 Industry Day. **DDI ADDED TO INTERESTED VENDORS LIST.** Watch SAM.gov and GSA.gov. Follow up Q3 2026. | REO Property Preservation, Inspection, Document Services |
 | Jennifer Perez | HUD GNMA Support Division | jennifer.m.perez@hud.gov | 303-672-5019 | 2026-03-22 | SENT ✓ | Broad HUD capabilities — REO, lead hazard, mortgage consulting, document services, credentialing |
 | Tarita Leftwich | HUD GNMA Support Division | tarita.l.leftwich@hud.gov | 202-402-7610 | 2026-03-22 | SENT ✓ | Broad HUD capabilities — REO, lead hazard, mortgage consulting, document services, credentialing |
+
+## LA28 / RAMPLA OUTREACH
+
+| Contact | Agency | Email | Phone | Date Sent | Response | Notes |
+|---|---|---|---|---|---|---|
+| Melissa Savage | City of LA — BCA Certifications | bca.certifications@lacity.org | — | ✅ May 8, 2026 | Pending | Requested WOSB/EDWOSB added to RAMPLA profile (CAGE 8UMX3) |
+
+---
+
+## STATE & LOCAL — NEMT OUTREACH
+
+| Contact | Agency | Email | Phone | Date Sent | Response | Notes |
+|---|---|---|---|---|---|---|
+| Spencer Ebann (Director) | Harford County MD Procurement | HCGProcurement2@harfordcountymd.gov | 410-638-3550 | PENDING | | NEMT — HCHD 25-001. Current provider: All American Ambulance. Build relationship for next contract. |

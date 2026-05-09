@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Pipeline
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:bcbsm-alina-followup-0601@deedavis.biz
+DTSTAMP:20260508T210400Z
+DTSTART;TZID=America/Detroit:20260601T120000
+DTEND;TZID=America/Detroit:20260601T123000
+SUMMARY:📧 FOLLOW-UP: Alina Pabin (BCBSM) — if no meeting scheduled
+DESCRIPTION:If no meeting happened with Alina Pabin (BCBSM) by Memorial Day week:\n\nSend follow-up email to apabin@mibluecrosscomplete.com\n\nContext: She responded 05/06 requesting 30-min intro call. Target was May 12-23 (before Memorial Day).\n\nEmail template: BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/SCHEDULE_EMAIL_TO_ALINA.md
+LOCATION:Email
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+DESCRIPTION:Follow up with Alina Pabin if no BCBSM meeting scheduled
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

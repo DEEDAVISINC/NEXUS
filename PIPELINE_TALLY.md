@@ -55,7 +55,7 @@
 | **BCBSM** | 🔥 HOT LEAD — Call pending with Alina | Waiting on date after Memorial Day | $5M-$10M (5yr est.) |
 | Meridian | Pipeline | | $2.5M (5yr) |
 | UHC | Pipeline | | $2.5M (5yr) |
-| Molina/MTM | Outreach in progress | Chris Jenkins / Colleen Giebe | $2.5M (5yr) |
+| Molina | ⏳ Application + Attestation SUBMITTED — Awaiting review | Sheri Dankert (MHMLTSSContracting@MolinaHealthCare.com) | $2.5M (5yr) |
 | **TOTAL MCOs** | | | **$13M-$20M** |
 
 **HAP CareSource Notes:**

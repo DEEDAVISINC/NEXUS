@@ -218,10 +218,21 @@ Dee Davis Inc. | Depointe DNA
 | April 4, 2026 | Partnership email sent to sales@lakotasoftware.com | ✅ Sent |
 | **April 13, 2026** | **Partnership call — Sam Cilento** | ✅ **Completed** |
 | **May 4, 2026** | **Follow-up email sent to scilento@lakotasoftware.com** — DeCA + Medical Credentialing TPA WHORL questions | ✅ **Sent** |
+| **May 7, 2026** | **Sam replied** — confirmed interest in teaming call with bosses, FBI channeling workflow via EFTCreator | ✅ **Received** |
+| **May 8, 2026** | **Meeting confirmation + SSA RFI (28321326RI0000015) added to agenda** — scilento@lakotasoftware.com | ✅ **Sent** |
 
 ### DECA / FEDERAL FINGERPRINTING (HQC00526QE015)
 
 - [x] **Strategic direction:** DDI will pursue **Defense Commissary Agency** electronic fingerprinting Sources Sought (**HQC00526QE015**) **with Lakota as the biometric technology partner** (WHORL path — confirm deployment details with Sam). See `BIDS:RESOURCES/DECA ELECTRONIC FINGERPRINTING/WORKFLOW_CHECKLIST.md`.
+
+### SSA LIVESCAN FINGERPRINTING (28321326RI0000015) — NEW
+
+- [x] **RFI identified May 8, 2026** — Social Security Administration livescan fingerprinting services
+- [x] **Added to Lakota call agenda** — same use case as DeCA (federal employment vetting)
+- **Volume:** ~22,000 fingerprints/year (5x DeCA)
+- **Incumbent:** Fieldprint Inc (contract expired 2021)
+- **RFI due:** May 19, 2026
+- See `BIDS:RESOURCES/SSA LIVESCAN FINGERPRINTING/WORKFLOW_CHECKLIST.md`
 
 ### ACTIONS NEEDED:
 

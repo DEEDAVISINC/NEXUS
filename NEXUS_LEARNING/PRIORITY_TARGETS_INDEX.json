@@ -85,6 +85,101 @@
         "intel_source": "Active bids (Yonkers RFP-546)"
       }
     ],
+    "tier_1b_freight_logistics": [
+      {
+        "naics": "488510",
+        "description": "Freight Transportation Arrangement",
+        "lanes": [
+          "Freight Brokerage",
+          "LTL Coordination",
+          "Government Equipment Shipping",
+          "Reverse Logistics / Returns"
+        ],
+        "keywords": [
+          "freight",
+          "shipping",
+          "logistics",
+          "LTL",
+          "transportation of goods",
+          "trucking",
+          "freight forwarding",
+          "3PL",
+          "freight management"
+        ],
+        "buying_agencies": [
+          "DLA (Defense Logistics Agency)",
+          "TRANSCOM",
+          "SDDC",
+          "GSA",
+          "VA",
+          "USDA",
+          "Municipal governments"
+        ],
+        "ddi_advantage": "Uber Freight shipper account + zero asset model + EDWOSB",
+        "intel_source": "FREIGHT_LOGISTICS_SEARCH_STRATEGY.md"
+      },
+      {
+        "naics": "484110",
+        "description": "General Freight Trucking, Local",
+        "lanes": [
+          "Local Equipment Delivery",
+          "Metro Area Freight"
+        ],
+        "keywords": [
+          "local freight",
+          "local trucking",
+          "equipment delivery"
+        ],
+        "buying_agencies": [
+          "Municipal governments",
+          "County agencies",
+          "State agencies"
+        ],
+        "ddi_advantage": "Uber Freight + local market knowledge",
+        "intel_source": "FREIGHT_LOGISTICS_SEARCH_STRATEGY.md"
+      },
+      {
+        "naics": "484121",
+        "description": "General Freight Trucking, Long-Distance, Truckload",
+        "lanes": [
+          "Interstate Equipment Shipping",
+          "Full Truckload Services"
+        ],
+        "keywords": [
+          "long-distance freight",
+          "FTL",
+          "truckload",
+          "interstate shipping"
+        ],
+        "buying_agencies": [
+          "DLA",
+          "GSA",
+          "Federal agencies"
+        ],
+        "ddi_advantage": "Uber Freight national capacity",
+        "intel_source": "FREIGHT_LOGISTICS_SEARCH_STRATEGY.md"
+      },
+      {
+        "naics": "484122",
+        "description": "General Freight Trucking, Long-Distance, LTL",
+        "lanes": [
+          "Less-Than-Truckload Services",
+          "Consolidated Shipments"
+        ],
+        "keywords": [
+          "LTL",
+          "less than truckload",
+          "consolidated freight"
+        ],
+        "buying_agencies": [
+          "DLA",
+          "GSA",
+          "Municipal governments"
+        ],
+        "ddi_advantage": "Uber Freight LTL rates + coordination",
+        "intel_source": "FREIGHT_LOGISTICS_SEARCH_STRATEGY.md"
+      }
+    ],
     "tier_2_build_capability": [
       {
         "naics": "541612",
@@ -281,7 +376,17 @@
     "EAP",
     "employee assistance",
     "third party administrator",
-    "TPA"
+    "TPA",
+    "freight",
+    "shipping",
+    "logistics",
+    "LTL",
+    "trucking",
+    "transportation of goods",
+    "3PL",
+    "freight forwarding",
+    "freight management",
+    "distribution"
   ],
   "buying_agencies_priority": [
     "State Public Health Laboratories",
@@ -306,6 +411,6 @@
     "transport": ["USDOT: 4250594", "MC: 1647572", "CHAMPS Provider ID: 6309069"],
     "healthcare": ["HIPAA Compliant", "E-Verify Program Administrator", "DePointe DNA lab"],
     "diversity": ["WBENC", "MBE", "WBE", "SBE"],
-    "partnerships": ["Uber Health", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO", "NCS (National Crime Search — Channel Partner, signed May 2026)"]
+    "partnerships": ["Uber Health", "Uber Freight", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO", "NCS (National Crime Search — Channel Partner, signed May 2026)", "HAP CareSource (Active MCO Contract)"]
   }
 }

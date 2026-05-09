@@ -79,7 +79,7 @@ Dayton, OH 45401
 
 ## PORTAL ACCESS
 
-- **URL:** HAPCareSource.com/Providers/Provider-Portal
+- **URL:** https://providerportal.caresource.com/MI/User/Login.aspx
 - **Login:** Set up May 6, 2026 ✅
 - **Capabilities:**
   - Check member eligibility
