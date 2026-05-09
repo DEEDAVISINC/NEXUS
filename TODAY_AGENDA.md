@@ -25,6 +25,14 @@
 - Check: Aetna, AmeriHealth, Humana, UHC, Priority Health, Meridian
 - Molina: Portal enrollment in progress — separate track
 
+### 4. NEXT SESSION: HAVEN Partner Network Outreach
+- Identify regional NEMT companies in TX, FL, LA, SC (wheelchair/stretcher fleets)
+- Identify hotel chains with healthcare/emergency housing programs
+- Identify home health agencies in hurricane corridor states
+- Generate partner outreach emails using `haven_outreach_engine.py`
+- One-pagers ready: Transport, Housing, Medical
+- Partners just DocuSign — engine handles the rest
+
 ---
 
 ## PENDING RESPONSES
