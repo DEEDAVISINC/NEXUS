@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield' | 'calendar';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield' | 'calendar' | 'haven';
 
 export type NexusRole = 'Ultimate Supervisor' | 'Supervisor' | 'Navigator' | 'Viewer';
 
@@ -90,6 +90,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'alexa': return '🎙️ ALEXA NEXUS - Voice Command Center';
       case 'jeta': return '⛽ JETA COURTIÈRE — Aviation Fuel Brokerage';
       case 'shield': return '🛡️ SHIELD v1.0 — Lead Screening & MDHHS Referral';
+      case 'haven': return '🏠 HAVEN v1.0 — Disaster Response TPA';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
@@ -111,6 +112,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'alexa': return '98 Voice Commands • NEXUS Integration • Test Lab • All Systems Connected';
       case 'jeta': return 'Division of DEE DAVIS INC • Jet A / Jet A-1 • Mandates & Execution';
       case 'shield': return 'DDI + CWC • MI PA 146 of 2023 • Referral Intake • Navigator Dashboard • AI Assistant';
+      case 'haven': return 'Housing • Transport • Medical Continuity • FL · TX · LA · MI • MCO Pipeline';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

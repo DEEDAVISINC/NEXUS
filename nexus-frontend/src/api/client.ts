@@ -1108,4 +1108,39 @@ export const api = {
 
   getVerificationWorkflow: (serviceLine: string) =>
     ApiClient.get(`/shield/verification/workflow/${encodeURIComponent(serviceLine)}`),
+
+  // ═══════════════════════════════════════════════════════════
+  // HAVEN — Disaster Response TPA
+  // Housing · Assistance · Vital Emergency Network
+  // ═══════════════════════════════════════════════════════════
+  getHavenStatus: () => ApiClient.get('/haven/status'),
+  getHavenReadiness: () => ApiClient.get('/haven/readiness'),
+  getHavenNetworkStats: () => ApiClient.get('/haven/network'),
+  getHavenTransportPartners: (state?: string) => {
+    const q = state ? `?state=${state}` : '';
+    return ApiClient.get(`/haven/partners/transport${q}`);
+  },
+  getHavenHousingPartners: (state?: string) => {
+    const q = state ? `?state=${state}` : '';
+    return ApiClient.get(`/haven/partners/housing${q}`);
+  },
+  getHavenMedicalPartners: (state?: string) => {
+    const q = state ? `?state=${state}` : '';
+    return ApiClient.get(`/haven/partners/medical${q}`);
+  },
+  updateHavenPartner: (table: string, recordId: string, data: Record<string, unknown>) =>
+    ApiClient.patch(`/haven/partners/${table}/${recordId}`, data),
+  getHavenMCOs: (state?: string) => {
+    const q = state ? `?state=${state}` : '';
+    return ApiClient.get(`/haven/mcos${q}`);
+  },
+  updateHavenMCO: (recordId: string, data: Record<string, unknown>) =>
+    ApiClient.patch(`/haven/mcos/${recordId}`, data),
+  getHavenMCOPipeline: () => ApiClient.get('/haven/mcos/pipeline'),
+  createHavenEvent: (data: Record<string, unknown>) =>
+    ApiClient.post('/haven/events', data),
+  getHavenEvents: () => ApiClient.get('/haven/events'),
+  createHavenCase: (data: Record<string, unknown>) =>
+    ApiClient.post('/haven/cases', data),
+  getHavenCases: () => ApiClient.get('/haven/cases'),
 };

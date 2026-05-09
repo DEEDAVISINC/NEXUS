@@ -24904,6 +24904,204 @@ def shield_approve_billing(record_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# HAVEN — Disaster Response TPA API
+# Housing · Assistance · Vital Emergency Network
+# ═══════════════════════════════════════════════════════════════════════════
+
+try:
+    from haven_module import (
+        HavenDashboard as _HavenDashboard,
+        HavenNetworkManager as _HavenNetwork,
+        HavenMCOManager as _HavenMCO,
+        HavenEventManager as _HavenEvents,
+        HavenCaseManager as _HavenCases,
+        HavenServiceManager as _HavenServices,
+        HavenAirtableClient as _HavenDB,
+    )
+    _haven_available = True
+except ImportError:
+    _haven_available = False
+    print("[HAVEN] Module not available — haven_module.py not found")
+
+
+@app.route('/haven/status', methods=['GET'])
+def haven_status():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        dash = _HavenDashboard()
+        return jsonify(dash.get_system_status())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/readiness', methods=['GET'])
+def haven_readiness():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        dash = _HavenDashboard()
+        return jsonify(dash.get_readiness_report())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/network', methods=['GET'])
+def haven_network():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        net = _HavenNetwork()
+        return jsonify(net.get_network_stats())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/partners/transport', methods=['GET'])
+def haven_transport_partners():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        net = _HavenNetwork()
+        state = request.args.get('state')
+        partners = net.get_transport_partners(state=state) if state else net.get_transport_partners()
+        return jsonify({"partners": partners, "count": len(partners)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/partners/housing', methods=['GET'])
+def haven_housing_partners():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        net = _HavenNetwork()
+        state = request.args.get('state')
+        partners = net.get_housing_partners(state=state) if state else net.get_housing_partners()
+        return jsonify({"partners": partners, "count": len(partners)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/partners/medical', methods=['GET'])
+def haven_medical_partners():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        net = _HavenNetwork()
+        state = request.args.get('state')
+        partners = net.get_medical_partners(state=state) if state else net.get_medical_partners()
+        return jsonify({"partners": partners, "count": len(partners)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/partners/<table>/<record_id>', methods=['PATCH'])
+def haven_update_partner(table, record_id):
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        db = _HavenDB()
+        data = request.get_json() or {}
+        result = db.update_record(table, record_id, data)
+        return jsonify({"success": True, "record": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/mcos', methods=['GET'])
+def haven_mcos():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        mco_mgr = _HavenMCO()
+        state = request.args.get('state')
+        mcos = mco_mgr.get_mcos_by_state(state) if state else mco_mgr.get_all_mcos()
+        return jsonify({"mcos": mcos, "count": len(mcos)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/mcos/pipeline', methods=['GET'])
+def haven_mco_pipeline():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        mco_mgr = _HavenMCO()
+        return jsonify(mco_mgr.get_mco_stats())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/mcos/<record_id>', methods=['PATCH'])
+def haven_update_mco(record_id):
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        db = _HavenDB()
+        data = request.get_json() or {}
+        result = db.update_record("mco", record_id, data)
+        return jsonify({"success": True, "record": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/events', methods=['GET'])
+def haven_get_events():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        evt_mgr = _HavenEvents()
+        events = evt_mgr.get_active_events()
+        return jsonify({"events": events, "count": len(events)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/events', methods=['POST'])
+def haven_create_event():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        evt_mgr = _HavenEvents()
+        data = request.get_json() or {}
+        result = evt_mgr.create_event(
+            event_name=data.get('event_name', ''),
+            event_type=data.get('event_type', ''),
+            states_affected=data.get('states_affected', []),
+            fema_declaration=data.get('fema_declaration'),
+        )
+        return jsonify({"success": True, "event": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/cases', methods=['GET'])
+def haven_get_cases():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        case_mgr = _HavenCases()
+        cases = case_mgr.get_active_cases()
+        return jsonify({"cases": cases, "count": len(cases)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/cases', methods=['POST'])
+def haven_create_case():
+    if not _haven_available:
+        return jsonify({"error": "HAVEN module not available"}), 503
+    try:
+        case_mgr = _HavenCases()
+        data = request.get_json() or {}
+        result = case_mgr.create_case(**data)
+        return jsonify({"success": True, "case": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 def _autostart_autonomous_engine():
     """Start the self-learning autonomous engine in the background on server boot."""
     try:

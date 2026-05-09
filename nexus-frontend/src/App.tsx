@@ -21,6 +21,7 @@ import NOVASystem from './components/systems/NOVASystem';
 import AlexaSystem from './components/systems/AlexaSystem';
 import JETASystem from './components/systems/JETASystem';
 import SHIELDSystem from './components/systems/SHIELDSystem';
+import HAVENSystem from './components/systems/HAVENSystem';
 import PublicReferrerIntake from './components/public/PublicReferrerIntake';
 import FamilyStatusTracker from './components/public/FamilyStatusTracker';
 import NavigatorWorkspace from './components/shield/NavigatorWorkspace';
@@ -186,6 +187,8 @@ function NexusApp() {
         return <JETASystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'shield':
         return <SHIELDSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'haven':
+        return <HAVENSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'calendar':
         return <NexusCalendarSystem onBackToNexus={navigateToLanding} />;
       default:

@@ -767,6 +767,17 @@ END:VCALENDAR`;
       lastUsed: 'NEW',
     },
     {
+      id: 'haven' as ViewType,
+      name: 'HAVEN',
+      fullName: 'Housing · Assistance · Vital Emergency Network',
+      icon: '🏠',
+      description: 'Disaster Response TPA • Housing · Transport · Medical Continuity • FL · TX · LA · MI',
+      stats: ['92 Partners', '31 MCOs', '19.1M Members', '4 States'],
+      gradient: 'from-blue-800 to-emerald-700',
+      status: 'online',
+      lastUsed: 'NEW',
+    },
+    {
       id: 'shield' as ViewType,
       name: 'SHIELD',
       fullName: 'Screening · Health · Intake · Enrollment · Linkage · Defense',
