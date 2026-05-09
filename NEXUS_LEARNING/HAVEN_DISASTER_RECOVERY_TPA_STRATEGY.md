@@ -523,31 +523,149 @@ Same buyer DDI is already pursuing for NEMT. Add disaster response as a service 
 
 ---
 
-## ACTION PLAN — APPROVED MAY 8, 2026
+## STATE EXPANSION PLAN — ADDED MAY 9, 2026
 
-### Transport Network (Priority 1)
+### Target States: Florida, Texas, Louisiana
+
+| State | Filing Fee | Registered Agent | Business Address | Total Entry Cost |
+|---|---|---|---|---|
+| **Florida** | ~$70 | Family (FREE) | Virtual (~$10-15/mo) | ~$190/yr |
+| **Texas** | $750 | Family (FREE) | Virtual (~$10-15/mo) | ~$870/yr |
+| **Louisiana** | $100 | Paid service (~$100/yr) | Virtual (~$10-15/mo) | ~$320/yr |
+| **TOTAL** | **$920** | | | **~$1,380/yr** |
+
+### Foreign Corporation Registration Requirements
+
+**Florida (Sunbiz):**
+- File: Application for Authorization to Transact Business
+- Need: FL registered agent (family), Certificate of Good Standing from MI
+- Timeline: 3-4 weeks
+- Annual report: $150/year (due May 1)
+
+**Texas (SOS):**
+- File: Form 301 — Application for Registration
+- Need: TX registered agent (family), Certificate of Good Standing from MI
+- Timeline: 2-3 weeks
+- Franchise tax: varies by revenue
+
+**Louisiana (SOS):**
+- File: Form SS326 — Application for Authority
+- Need: LA registered agent, Certificate of Good Standing from MI
+- Timeline: 24 hours (expedited) to 2 weeks
+- Annual report: minimal
+
+### Key Insight: MCO Contracting Path
+
+DDI does NOT need direct Medicaid provider enrollment in these states. The path is:
+1. Register as foreign corporation (legal authority to do business)
+2. Contract directly with MCOs as a TPA vendor
+3. MCO handles Medicaid billing — DDI is a contractor to the MCO
+
+**Same model as Michigan:** HAP CareSource (MCO) → DDI (TPA) → Medicaid
+
+---
+
+## FLORIDA MCO TARGETS
+
+| MCO | Parent Company | Medicaid Lives | Contact Path |
+|---|---|---|---|
+| **Sunshine Health** | Centene | 2M+ | Provider Relations |
+| **Molina Healthcare of FL** | Molina | 1.5M+ | Provider Network |
+| **Simply Healthcare** | Anthem/Elevance | 1M+ | Network Development |
+| **Humana Healthy Horizons** | Humana | 800K+ | Provider Contracting |
+| **Aetna Better Health FL** | CVS/Aetna | 600K+ | Network Management |
+| **Florida Community Care** | Independent | 400K+ | Provider Services |
+
+**Florida SMMC 3.0** (Feb 2025 - 2030): New contracts, new regions, actively building networks.
+
+---
+
+## TEXAS MCO TARGETS
+
+| MCO | Parent Company | Medicaid Lives | Contact Path |
+|---|---|---|---|
+| **Superior HealthPlan** | Centene | 2M+ | Provider Relations |
+| **Molina Healthcare of TX** | Molina | 1.5M+ | Provider Network |
+| **UnitedHealthcare Community Plan TX** | UHC | 1.2M+ | Network Development |
+| **Amerigroup Texas** | Anthem/Elevance | 1M+ | Provider Contracting |
+| **Community Health Choice** | Independent | 500K+ | Provider Services |
+| **Dell Children's Health Plan** | Seton/Ascension | 300K+ | Network Management |
+
+**Texas STAR, STAR+PLUS, STAR Kids**: Multiple Medicaid managed care programs.
+
+---
+
+## LOUISIANA MCO TARGETS
+
+| MCO | Parent Company | Medicaid Lives | Contact Path |
+|---|---|---|---|
+| **Louisiana Healthcare Connections** | Centene | 500K+ | Provider Relations |
+| **Healthy Blue** | Anthem/Elevance | 450K+ | Network Development |
+| **AmeriHealth Caritas LA** | AmeriHealth | 400K+ | Provider Network |
+| **Aetna Better Health LA** | CVS/Aetna | 350K+ | Network Management |
+| **UnitedHealthcare Community Plan LA** | UHC | 300K+ | Provider Contracting |
+
+**Louisiana Healthy Louisiana**: Single managed care program for Medicaid.
+
+---
+
+## HAVEN MCO PITCH POSITIONING
+
+**The Pitch (Disaster Continuity TPA):**
+
+> "DDI is an active NEMT broker for HAP CareSource in Michigan — portal live, trips running, members served. HAVEN extends that capability to disaster continuity in your service area.
+>
+> When disaster strikes, your members need:
+> - **Housing** — temporary placement when homes are destroyed
+> - **Transportation** — evacuation and medical access
+> - **Medical Continuity** — Rx, DME, home health when local providers are down
+>
+> DDI coordinates all three through our pre-staged vendor network. Same TPA model you already use for NEMT — scaled for crisis events."
+
+**Differentiator:** Pre-built network + live MCO experience + EDWOSB
+
+---
+
+## ACTION PLAN — UPDATED MAY 9, 2026
+
+### State Expansion (Priority 0) — NEW
+- [ ] Confirm family registered agents in FL and TX
+- [ ] File Florida foreign corporation registration (~$70)
+- [ ] File Texas foreign corporation registration (~$750)
+- [ ] File Louisiana foreign corporation registration (~$100)
+- [ ] Set up virtual business addresses in FL/TX/LA (if not already have)
+- [ ] Obtain Certificates of Good Standing from Michigan
+
+### MCO Outreach — FL/TX/LA (Priority 1) — NEW
+- [x] Build FL/TX/LA MCO target list (see above)
+- [x] Create MCO outreach templates (`HAVEN_MCO_OUTREACH_TEMPLATES.md`)
+- [ ] Identify specific contacts at each target MCO
+- [ ] Begin outreach sequence (after foreign corp registration complete)
+
+### Network Registry (Priority 2) — NEW
+- [x] Design Airtable schema (`HAVEN_NETWORK_REGISTRY_SCHEMA.md`)
+- [ ] Create Airtable base `HAVEN_Network`
+- [ ] Build all 7 tables per schema
+- [ ] Seed with initial partner prospects
+
+### Transport Network (Priority 3)
 - [ ] Research Uber Health partnership process
 - [ ] Research Lyft Healthcare partnership process
-- [ ] Draft partnership pitch deck/one-pager
+- [x] Draft partnership one-pager (`HAVEN_Transport_Partnership_OnePager.html`)
 - [ ] Identify contact paths for both
-- [ ] Initial outreach
+- [ ] Initial outreach (Lyft contact form submitted May 8)
 
-### Hotel/Housing Network (Priority 2)
+### Hotel/Housing Network (Priority 4)
 - [ ] Identify major hotel chains with disaster/emergency programs
-- [ ] Research corporate housing/extended stay options in FL/TX
+- [ ] Research corporate housing/extended stay options in FL/TX/LA
 - [ ] Draft hotel partnership pitch
 - [ ] Begin outreach to regional hotel contacts
 
-### Home Health Agency Network (Priority 3)
-- [ ] Identify top home health agencies in FL and TX
+### Home Health Agency Network (Priority 5)
+- [ ] Identify top home health agencies in FL, TX, and LA
 - [ ] Research their disaster response capabilities
 - [ ] Draft HHA partnership pitch
 - [ ] Begin outreach
-
-### MCO Integration (Ongoing)
-- [ ] Add disaster response language to NEMT contract templates
-- [ ] Mention disaster capability in MCO conversations
-- [ ] Position as "and when disaster hits, we're ready"
 
 ---
 

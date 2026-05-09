@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Z--Theodore Roosevelt National Park-Replace Bou
+ ndary 
+DTSTART:20260521T000000
+DTEND:20260521T010000
+DTSTAMP:20260509T120113Z
+UID:rechd5KJ6YmfSlyWs@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Z--Theodore Roosevelt Nation
+ al Park-Replace Boundary \nAgency: \nSolicitation: \nDeadline: May 21\, 20
+ 26 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/
+ rechd5KJ6YmfSlyWs\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\
+ n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 
+ ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Colle
+ ct all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fi
+ nal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerate
+ d by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Z--Theodore Roosevelt National Park-Replace Boun
+ dary 
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Z--Theodore Roosevelt National Park-Replace Boun
+ dary 
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Z--Theodore Roosevelt National Park-Replace Boun
+ dary 
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Z--Theodore Roosevelt National Park-Replace Boun
+ dary 
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
