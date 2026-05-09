@@ -13686,6 +13686,111 @@ class DDCSSPortalTracker:
 
 
 # =====================================================================
+# HAVEN SYSTEM — Disaster Response TPA Integration
+# =====================================================================
+
+class HAVENSystem:
+    """
+    HAVEN — Housing, Assistance, Vital Emergency Network
+    Disaster Response TPA System Integration
+    
+    Connects to HAVEN_Network Airtable base for:
+    - Partner Network Management (Transport, Housing, Medical)
+    - MCO Contract Management
+    - Disaster Event Operations
+    - Case/Service Activation Tracking
+    """
+
+    def __init__(self):
+        # Import HAVEN module
+        try:
+            from haven_module import (
+                HavenDashboard,
+                HavenNetworkManager,
+                HavenMCOManager,
+                HavenEventManager,
+                HavenCaseManager,
+                HavenServiceManager,
+                HavenNexusIntegration,
+            )
+            self.dashboard = HavenDashboard()
+            self.network = HavenNetworkManager()
+            self.mco = HavenMCOManager()
+            self.events = HavenEventManager()
+            self.cases = HavenCaseManager()
+            self.services = HavenServiceManager()
+            self.integration = HavenNexusIntegration()
+            self._available = True
+        except ImportError as e:
+            print(f"[HAVEN] Module not available: {e}")
+            self._available = False
+
+    def is_available(self) -> bool:
+        """Check if HAVEN module is available"""
+        return self._available
+
+    def get_system_status(self) -> Dict:
+        """Get HAVEN system status"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.dashboard.get_system_status()
+
+    def get_readiness_report(self) -> Dict:
+        """Get HAVEN hurricane season readiness report"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.dashboard.get_readiness_report()
+
+    def get_network_stats(self) -> Dict:
+        """Get HAVEN partner network statistics"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.network.get_network_stats()
+
+    def get_mco_pipeline(self) -> Dict:
+        """Get HAVEN MCO contract pipeline"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.mco.get_mco_stats()
+
+    def get_mcos_by_state(self, state: str) -> List[Dict]:
+        """Get MCOs in a specific state"""
+        if not self._available:
+            return [{"error": "HAVEN module not available"}]
+        return self.mco.get_mcos_by_state(state)
+
+    def get_partners_for_event(self, event_id: str) -> Dict:
+        """Get available partners for a disaster event"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.events.get_available_partners_for_event(event_id)
+
+    def create_disaster_event(
+        self,
+        event_name: str,
+        event_type: str,
+        states_affected: List[str],
+        fema_declaration: Optional[str] = None,
+    ) -> Dict:
+        """Create a new disaster event"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.events.create_event(event_name, event_type, states_affected, fema_declaration)
+
+    def create_case(self, **kwargs) -> Dict:
+        """Create a new member case"""
+        if not self._available:
+            return {"error": "HAVEN module not available"}
+        return self.cases.create_case(**kwargs)
+
+    def get_gpss_opportunities(self) -> List[Dict]:
+        """Get HAVEN MCO targets as GPSS-style opportunities"""
+        if not self._available:
+            return [{"error": "HAVEN module not available"}]
+        return self.integration.get_gpss_opportunities()
+
+
+# =====================================================================
 # MAIN - For testing
 # =====================================================================
 

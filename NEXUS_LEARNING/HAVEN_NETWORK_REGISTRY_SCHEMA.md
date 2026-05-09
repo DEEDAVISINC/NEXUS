@@ -1,6 +1,8 @@
 # HAVEN Network Registry — Airtable Schema
 
 **Created:** May 9, 2026
+**NEXUS Module:** `haven_module.py`
+**Backend Integration:** `nexus_backend.py` → `HAVENSystem` class
 **Purpose:** Database structure for HAVEN disaster response vendor network
 **Platform:** Airtable (manual Phase 1) → NEXUS integration (Phase 3)
 
