@@ -12,7 +12,17 @@
 - **Docs:** EDOCS — check before leaving
 - **Scanbacks:** Required
 
-### 2. Review BCBSM Meeting Materials
+### 2. 🏗️ BUILD HAVEN SYSTEM IN NEXUS
+- **Strategy doc:** `NEXUS_LEARNING/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md`
+- **Master proposal:** `NEXUS_LEARNING/HAVEN_Master_Proposal.html`
+- **Three pillars:** Housing, Transportation, Medical Continuity
+- **Next steps:**
+  - Design HAVEN module architecture
+  - Build network registry (hotels, transport, HHAs)
+  - MCO outreach templates for disaster TPA services
+  - Pricing/rate card structure
+
+### 3. Review BCBSM Meeting Materials
 - Talk track: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md`
 - One-pager: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/BCBSM_ONE_PAGER.html`
 - Convert one-pager to PDF before the call (Cmd+P in Chrome)
