@@ -15,6 +15,64 @@ HAVEN is a proposed Disaster Recovery TPA vertical for Dee Davis Inc. The model 
 
 ---
 
+## INSTANT CREDIBILITY MODEL
+
+**The Problem:** When approaching MCOs about disaster response, DDI could look like another vendor with a pitch deck and no track record.
+
+**The Solution:** Leverage the **HAP CareSource NEMT contract** as instant proof.
+
+### What We Have (LIVE as of May 6, 2026)
+| Credential | Details |
+|---|---|
+| **Contract** | HAP CareSource — NEMT Transportation Broker |
+| **Vendor ID** | 100000469269 |
+| **Service Area** | Wayne County, Macomb County |
+| **Member Population** | 4,500 with unlimited rides |
+| **Rates** | $28 standard, $35 ambulatory/wheelchair |
+| **Status** | Portal LIVE — accepting trip requests |
+
+### How This Changes the HAVEN Pitch
+
+**Before (Cold Pitch):**
+> "We're building a disaster response TPA. Here's our concept..."
+
+**After (Credibility-First Pitch):**
+> "DDI is the NEMT broker for HAP CareSource. We already manage transportation for 4,500 Michigan members. HAVEN extends our existing MCO infrastructure to disaster continuity — same operations, scaled for crisis events."
+
+### The Credibility Cascade
+
+```
+HAP CareSource (LIVE) → Proves we can manage MCO contracts
+        ↓
+HAVEN Transport Pillar → "Same capability, disaster mode"
+        ↓
+HAVEN Housing + Medical → "Now let us expand the model"
+        ↓
+Other MCOs → "You already trust HAP CareSource — here's how we serve you"
+```
+
+### Leverage Points
+
+| When Talking To | Leverage HAP CareSource By Saying |
+|---|---|
+| **Other MCOs** | "We already manage NEMT for a Michigan Medicaid MCO. Our portal, dispatch, and billing are live. HAVEN is that system in disaster mode." |
+| **Transport Partners** | "We're an active NEMT broker — not a startup. Here are the trip volumes we're already managing." |
+| **State Emergency Mgmt** | "DDI is a credentialed healthcare TPA with live MCO contracts. We're not building this from scratch." |
+| **Insurance Carriers** | "Health plan TPAs already trust us with member transportation. Property carriers should trust us with ALE coordination." |
+
+### Building the Case File
+
+Document every HAP CareSource success:
+- Total trips completed
+- Member satisfaction scores
+- Response time metrics
+- Zero complaint rate
+- Network utilization
+
+This becomes the proof deck for HAVEN. Real numbers, not projections.
+
+---
+
 ## THE INITIAL TRIANGLE: THREE SERVICE LINES
 
 ### 1. HOUSING (Temporary Housing Placement)

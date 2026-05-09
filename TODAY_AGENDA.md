@@ -16,11 +16,14 @@
 - **Strategy doc:** `NEXUS_LEARNING/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md`
 - **Master proposal:** `NEXUS_LEARNING/HAVEN_Master_Proposal.html`
 - **Three pillars:** Housing, Transportation, Medical Continuity
+- **Instant Credibility Model:** Leverage HAP CareSource NEMT contract as proof point
 - **Next steps:**
+  - Build case file: HAP CareSource metrics (trips, response time, satisfaction)
   - Design HAVEN module architecture
   - Build network registry (hotels, transport, HHAs)
   - MCO outreach templates for disaster TPA services
   - Pricing/rate card structure
+  - Create "credibility cascade" pitch deck (HAP → HAVEN → other MCOs)
 
 ### 3. Review BCBSM Meeting Materials
 - Talk track: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md`
