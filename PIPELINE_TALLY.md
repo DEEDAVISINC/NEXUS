@@ -1,9 +1,22 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 6, 2026 @ 7:20 PM ET
+**Last Updated:** May 9, 2026 @ 12:15 AM ET
 
 ---
 
 ## TOTAL PIPELINE: $98M+ LIFETIME
+
+### NEW VERTICAL IN DEVELOPMENT: HAVEN (Disaster Recovery TPA)
+| Element | Status |
+|---|---|
+| **Concept** | Housing, Assistance, Vital Emergency Network — disaster response coordination |
+| **Three Pillars** | Housing, Transportation, Medical Continuity |
+| **Instant Credibility** | HAP CareSource NEMT contract (LIVE) as proof point |
+| **Master Proposal** | Complete (`NEXUS_LEARNING/HAVEN_Master_Proposal.html`) |
+| **Strategy Doc** | Complete (`NEXUS_LEARNING/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md`) |
+| **Revenue Model** | TBD — Phase 1 build Saturday May 9 |
+| **Target Buyers** | MCOs (disaster continuity), State EM agencies, Property insurers |
+
+*HAVEN is not yet in pipeline revenue — adds to total once first contract is secured.*
 
 ---
 
