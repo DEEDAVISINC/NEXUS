@@ -650,6 +650,9 @@ Dee Davis Inc. — "The Professionals' Professionals" is a federally certified E
 | 562910 | Remediation Services | Environmental remediation contracts | ✅ VERIFY |
 | 562119 | Other Waste Collection | Waste/debris contracts | ✅ VERIFY |
 | 562112 | Hazardous Waste Collection | Medical/hazardous waste | ✅ VERIFY |
+| **721110** | Hotels (except Casino Hotels) and Motels | HAVEN disaster housing coordination | ⚠️ ADD |
+| **621610** | Home Health Care Services | HAVEN medical continuity post-disaster | ⚠️ ADD |
+| **488999** | All Other Support Activities for Transportation | HAVEN evacuation logistics | ⚠️ ADD |
 
 ---
 

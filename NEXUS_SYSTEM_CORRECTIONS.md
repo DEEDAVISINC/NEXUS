@@ -406,3 +406,25 @@ def get_dashboard():
 4. **Update all system documentation** with corrected scopes
 
 **Does this correction align with your vision?**
+
+---
+
+## CORRECTION: CHAMPS PROVIDER ID — 6309049 (NOT 6309069)
+
+**Date:** May 9, 2026
+**Source of truth:** `COMPANY_INFO_MASTER.md` — Michigan CHAMPS section
+
+- **Correct CHAMPS Provider ID:** **6309049**
+- **Wrong ID that was in multiple files:** ~~6309069~~
+- **Approved:** 03/23/2026, Active through 12/31/2999
+- **Application #:** 20260323058125
+
+**Files corrected May 9, 2026:**
+- `NEMT_TPA_EXPANSION_STRATEGY.md`
+- `NEXUS_LEARNING/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md` (3 occurrences)
+- `NEXUS_TRAINING_DOCUMENT.md` (2 occurrences)
+- `DDI_TPA_DIVISIONS.md` (1 occurrence)
+
+**Files already correct:** `COMPANY_INFO_MASTER.md`, `PARTNER_ACCOUNT_UPDATES.md`, `HAP_CARESOURCE_OPERATIONS.md`, `SHIELD_SERVICE_FULFILLMENT_MAP.md`, `MDHHS_SHIELD_PILOT_PROPOSAL.md`, `ESSENTIALS/DDI_CONTRACT_MANAGEMENT_TPA_POSITIONING.md`, `CLIENT OUTREACH/MCO_MEDICAL_LAB_PHARMACY_COURIER_TARGETS.md`
+
+**Rule:** Always pull CHAMPS ID from `COMPANY_INFO_MASTER.md`. It is **6309049**.

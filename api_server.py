@@ -25102,6 +25102,147 @@ def haven_create_case():
         return jsonify({"error": str(e)}), 500
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# HAVEN — Disaster Watch System (FEMA + NWS live monitoring)
+# ═══════════════════════════════════════════════════════════════════════════
+try:
+    from haven_disaster_watch import get_watch_feed as _haven_watch_feed
+    from haven_disaster_watch import get_threat_assessment as _haven_threat
+    from haven_disaster_watch import get_fema_disasters as _haven_fema
+    from haven_disaster_watch import get_nws_alerts as _haven_nws
+    _haven_watch_available = True
+except ImportError:
+    _haven_watch_available = False
+    print("[HAVEN WATCH] Module not available — haven_disaster_watch.py not found")
+
+
+@app.route('/haven/watch/feed', methods=['GET'])
+def haven_watch_feed():
+    if not _haven_watch_available:
+        return jsonify({"error": "Disaster Watch module not available"}), 503
+    try:
+        feed = _haven_watch_feed()
+        return jsonify(feed)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/watch/threat', methods=['GET'])
+def haven_watch_threat():
+    if not _haven_watch_available:
+        return jsonify({"error": "Disaster Watch module not available"}), 503
+    try:
+        assessment = _haven_threat()
+        return jsonify(assessment)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/watch/fema', methods=['GET'])
+def haven_watch_fema():
+    if not _haven_watch_available:
+        return jsonify({"error": "Disaster Watch module not available"}), 503
+    try:
+        days = request.args.get('days', 90, type=int)
+        disasters = _haven_fema(days_back=days)
+        return jsonify({"disasters": disasters, "count": len(disasters)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/watch/nws', methods=['GET'])
+def haven_watch_nws():
+    if not _haven_watch_available:
+        return jsonify({"error": "Disaster Watch module not available"}), 503
+    try:
+        alerts = _haven_nws()
+        return jsonify({"alerts": alerts, "count": len(alerts)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# HAVEN — Outreach Engine (automated partner/MCO onboarding)
+# ═══════════════════════════════════════════════════════════════════════════
+try:
+    from haven_outreach_engine import (
+        generate_outreach as _haven_gen_outreach,
+        generate_followup as _haven_gen_followup,
+        generate_nda as _haven_gen_nda,
+        generate_agreement as _haven_gen_agreement,
+        get_pipeline_actions as _haven_pipeline_actions,
+    )
+    _haven_outreach_available = True
+except ImportError:
+    _haven_outreach_available = False
+    print("[HAVEN OUTREACH] Module not available — haven_outreach_engine.py not found")
+
+
+@app.route('/haven/outreach/generate', methods=['POST'])
+def haven_generate_outreach():
+    if not _haven_outreach_available:
+        return jsonify({"error": "Outreach engine not available"}), 503
+    try:
+        data = request.get_json() or {}
+        partner_type = data.get('partner_type', 'transport')
+        partner = data.get('partner', {})
+        result = _haven_gen_outreach(partner_type, partner)
+        return jsonify({"success": True, "package": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/outreach/followup', methods=['POST'])
+def haven_generate_followup():
+    if not _haven_outreach_available:
+        return jsonify({"error": "Outreach engine not available"}), 503
+    try:
+        data = request.get_json() or {}
+        partner_type = data.get('partner_type', 'transport')
+        partner = data.get('partner', {})
+        days = data.get('days_since', 7)
+        result = _haven_gen_followup(partner_type, partner, days)
+        return jsonify({"success": True, "package": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/outreach/nda', methods=['POST'])
+def haven_generate_nda():
+    if not _haven_outreach_available:
+        return jsonify({"error": "Outreach engine not available"}), 503
+    try:
+        data = request.get_json() or {}
+        result = _haven_gen_nda(data.get('partner_type', 'transport'), data.get('partner', {}))
+        return jsonify({"success": True, "nda": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/outreach/agreement', methods=['POST'])
+def haven_generate_agreement():
+    if not _haven_outreach_available:
+        return jsonify({"error": "Outreach engine not available"}), 503
+    try:
+        data = request.get_json() or {}
+        result = _haven_gen_agreement(data.get('partner_type', 'transport'), data.get('partner', {}))
+        return jsonify({"success": True, "agreement": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/haven/outreach/actions', methods=['POST'])
+def haven_pipeline_actions():
+    if not _haven_outreach_available:
+        return jsonify({"error": "Outreach engine not available"}), 503
+    try:
+        data = request.get_json() or {}
+        actions = _haven_pipeline_actions(data.get('partner', {}))
+        return jsonify({"actions": actions})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 def _autostart_autonomous_engine():
     """Start the self-learning autonomous engine in the background on server boot."""
     try:

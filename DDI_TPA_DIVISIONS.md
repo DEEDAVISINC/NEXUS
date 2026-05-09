@@ -99,7 +99,7 @@
 ## TPA 5: HEALTHCARE TRANSPORTATION TPA (NEMT)
 
 **DDI Role:** Program manager, MCO prime contractor
-**Key Asset:** CHAMPS Medicaid Provider ID 6309069, Uber Health partnership
+**Key Asset:** CHAMPS Medicaid Provider ID 6309049, Uber Health partnership
 
 **Core Services:**
 - Non-Emergency Medical Transportation (NEMT) program management

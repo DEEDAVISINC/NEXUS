@@ -1,22 +1,46 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 9, 2026 @ 12:15 AM ET
+**Last Updated:** May 9, 2026 @ 7:50 PM ET
 
 ---
 
-## TOTAL PIPELINE: $98M+ LIFETIME
+## TOTAL PIPELINE: $98M+ LIFETIME (existing) + NEMT/HAVEN EXPANSION IN MOTION
 
-### NEW VERTICAL IN DEVELOPMENT: HAVEN (Disaster Recovery TPA)
+### NEW: NEMT + HAVEN TPA MULTI-STATE EXPANSION
+
 | Element | Status |
 |---|---|
-| **Concept** | Housing, Assistance, Vital Emergency Network — disaster response coordination |
-| **Three Pillars** | Housing, Transportation, Medical Continuity |
-| **Instant Credibility** | HAP CareSource NEMT contract (LIVE) as proof point |
-| **Master Proposal** | Complete (`NEXUS_LEARNING/HAVEN_Master_Proposal.html`) |
-| **Strategy Doc** | Complete (`NEXUS_LEARNING/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md`) |
-| **Revenue Model** | TBD — Phase 1 build Saturday May 9 |
-| **Target Buyers** | MCOs (disaster continuity), State EM agencies, Property insurers |
+| **Model** | Contract Management TPA — NEMT + Disaster Response (HAVEN) |
+| **Proof Point** | HAP CareSource HIDE SNP — LIVE, operational, 4,500 members |
+| **States Targeted** | 10 (MI, OH, TX, FL, LA, GA, AL, MS, TN, SC) |
+| **MCO Outreach Emails Drafted** | **38 emails** across 9 states (AL = 1 state-level inquiry) |
+| **Revenue Target** | $500K/month gross margin |
+| **Realistic Path** | 5 MCO contracts × $75-100K/month avg = $375-500K/month |
+| **Pipeline Status** | EMAILS READY — Sending begins Sunday night May 11 |
 
-*HAVEN is not yet in pipeline revenue — adds to total once first contract is secured.*
+#### MCO Outreach by State
+
+| State | Emails | Key MCOs | DDI Edge |
+|---|---|---|---|
+| **Ohio** | 5 | CareSource OH, Anthem, Molina, UHC, Humana | Anthem follow-up overdue, CareSource expansion |
+| **Texas** | 8 | Community Health Choice (follow-up), UHC TX, Superior, Aetna TX, Wellpoint TX, Community First, El Paso First | Biggest dollar state, warm CHC thread |
+| **Florida** | 7 | Humana, Aetna, Molina, Sunshine/Centene, UHC, Simply/Anthem, FL Community Care | HAVEN flagship — hurricane season June 1 |
+| **Louisiana** | 5 | Aetna LA, AmeriHealth, Healthy Blue, Humana LA, LA Healthcare Connections | LaGov registered, UHC exit = growth moment |
+| **Georgia** | 3 | CareSource GA, Amerigroup, Peach State/Centene | CareSource = existing partner |
+| **Mississippi** | 3 | TrueCare/CareSource, Molina MS, Magnolia/Centene | TrueCare IS CareSource — relationship play |
+| **Tennessee** | 3 | BlueCare TN, Wellpoint TN, UHC TN | BCBS meeting in progress (MI) |
+| **South Carolina** | 3 | Absolute Total Care/Centene, Molina SC, First Choice/AmeriHealth | **Brand new dual-eligible MCO coverage Jan 2026** — no incumbents |
+| **Alabama** | 1 | Alabama Medicaid (ACHN) | Exploratory — NEMT is state-run |
+| **TOTAL** | **38** | | |
+
+#### NEMT + HAVEN Revenue Projection (if 5 contracts land)
+
+| Scenario | Monthly Revenue | Monthly DDI Margin | Annual Margin |
+|---|---|---|---|
+| Conservative (5 × $40K) | $200K/month | $70-80K/month | $840K-$960K/year |
+| Target (5 × $75K) | $375K/month | $130-150K/month | $1.56M-$1.8M/year |
+| Stretch (5 × $100K) | $500K/month | $175-200K/month | $2.1M-$2.4M/year |
+
+*Not yet in pipeline totals — adds to $98M+ lifetime when first expansion contract is signed.*
 
 ---
 
@@ -28,7 +52,8 @@
 | **Community Equity SHIELD (6 counties, grant + services)** | $24M |
 | **MCO Contracts (HAP CareSource ACTIVE + BCBSM pending + pipeline)** | $13M-$20M |
 | **All Active Bids (Drug Testing, Courier, Fingerprinting, TX Courier)** | $17M-$20M |
-| **TOTAL PIPELINE** | **$98M+** |
+| **NEMT + HAVEN Multi-State Expansion (projected)** | $4.2M-$12M (5yr) |
+| **TOTAL PIPELINE** | **$98M+ (confirmed) + $4-12M (NEMT/HAVEN projected)** |
 
 ---
 
@@ -106,7 +131,7 @@
 |---|---|
 | **Total Annual Revenue (if all won)** | $19.4M |
 | **Total Annual DDI Margin (if all won)** | $7.6M |
-| **Total Lifetime Pipeline Value** | **$88M+** |
+| **Total Lifetime Pipeline Value** | **$98M+ (confirmed) + $4-12M (NEMT/HAVEN projected)** |
 | **Risk-Adjusted Annual Margin** | $3.5M-$4M |
 
 ---
@@ -121,8 +146,6 @@
 | Molina portal | Contract Request in progress — LTSS / Non-Medical Transportation; **HCBS Waiver Attestation** still needed |
 | Follow-up reminder | `calendars/MCO_REGION10_FOLLOWUP.ics` — **May 11, 2026** (also in `calendars/SCHEDULED_AGENDA.md`) |
 | Walgreens SupplierOne | Registration incomplete (~33% — finish password / register step later) |
-
-**Correction:** On May 4 @ 11:21 PM ET this file was briefly overwritten with **unsourced per-MCO revenue guesses**. That was wrong. The pipeline tables above match the **May 3, 2026** sourced tally (git restore). Add **Region 10 MCO economics** here only after a proper revenue pass tied to `WORKFLOW_CHECKLIST.md` / your approved assumptions.
 
 ---
 

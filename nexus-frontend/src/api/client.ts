@@ -1143,4 +1143,25 @@ export const api = {
   createHavenCase: (data: Record<string, unknown>) =>
     ApiClient.post('/haven/cases', data),
   getHavenCases: () => ApiClient.get('/haven/cases'),
+
+  // HAVEN Disaster Watch — FEMA + NWS live monitoring
+  getHavenWatchFeed: () => ApiClient.get('/haven/watch/feed'),
+  getHavenThreatAssessment: () => ApiClient.get('/haven/watch/threat'),
+  getHavenFemaDisasters: (days?: number) => {
+    const q = days ? `?days=${days}` : '';
+    return ApiClient.get(`/haven/watch/fema${q}`);
+  },
+  getHavenNwsAlerts: () => ApiClient.get('/haven/watch/nws'),
+
+  // HAVEN Outreach Engine — automated partner/MCO onboarding
+  generateHavenOutreach: (partnerType: string, partner: Record<string, unknown>) =>
+    ApiClient.post('/haven/outreach/generate', { partner_type: partnerType, partner }),
+  generateHavenFollowup: (partnerType: string, partner: Record<string, unknown>, daysSince?: number) =>
+    ApiClient.post('/haven/outreach/followup', { partner_type: partnerType, partner, days_since: daysSince || 7 }),
+  generateHavenNDA: (partnerType: string, partner: Record<string, unknown>) =>
+    ApiClient.post('/haven/outreach/nda', { partner_type: partnerType, partner }),
+  generateHavenAgreement: (partnerType: string, partner: Record<string, unknown>) =>
+    ApiClient.post('/haven/outreach/agreement', { partner_type: partnerType, partner }),
+  getHavenPipelineActions: (partner: Record<string, unknown>) =>
+    ApiClient.post('/haven/outreach/actions', { partner }),
 };

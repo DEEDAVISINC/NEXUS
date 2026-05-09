@@ -16,3 +16,6 @@ GENERATED_VERTEX_INVOICES/
 
 # MiLogin — optional local notes (passwords); never commit
 MILOGIN_ACCOUNTS.local.md
+
+# Local Netlify folder
+.netlify

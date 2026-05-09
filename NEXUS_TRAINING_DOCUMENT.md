@@ -91,7 +91,7 @@ NEXUS — Master operating system
 | **MC Number** | 1647572 |
 | **US DOT** | 4250594 |
 | **EIN** | 84-4114181 |
-| **CHAMPS Medicaid ID** | 6309069 |
+| **CHAMPS Medicaid ID** | 6309049 |
 
 ### Certifications
 
@@ -185,7 +185,7 @@ Targets: Title companies, lenders, law firms, government agencies
 
 **TPA 5 — Healthcare Transportation (NEMT)**  
 Role: Program manager, MCO prime contractor  
-Key Asset: CHAMPS Medicaid Provider ID 6309069, Uber Health partnership  
+Key Asset: CHAMPS Medicaid Provider ID 6309049, Uber Health partnership  
 Partners: Uber Health, certified NEMT carriers  
 NAICS: 485991, 621610  
 Pipeline: $41.5M+ (SHIELD program alone)

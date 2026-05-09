@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-29",
+  "last_updated": "2026-05-09",
   "priority_naics": {
     "tier_1_ready_now": [
       {
@@ -178,6 +178,85 @@
         ],
         "ddi_advantage": "Uber Freight LTL rates + coordination",
         "intel_source": "FREIGHT_LOGISTICS_SEARCH_STRATEGY.md"
+      }
+    ],
+    "tier_1_haven_disaster": [
+      {
+        "naics": "624230",
+        "description": "Emergency and Other Relief Services",
+        "lanes": [
+          "Disaster Response TPA",
+          "Emergency Housing Coordination",
+          "Disaster Transportation Services",
+          "Medical Continuity Post-Disaster",
+          "FEMA Disaster Recovery Support"
+        ],
+        "keywords": [
+          "disaster response",
+          "emergency relief",
+          "disaster housing",
+          "evacuation transport",
+          "disaster recovery",
+          "emergency shelter",
+          "FEMA",
+          "hurricane response"
+        ],
+        "buying_agencies": [
+          "FEMA",
+          "FL FDEM",
+          "TX TDEM",
+          "LA GOHSEP",
+          "MI EMHSD",
+          "Medicaid MCOs (FL, TX, LA, MI)"
+        ],
+        "ddi_advantage": "Pre-built credentialed network: 92 partners (transport + housing + medical) across 4 states + EDWOSB",
+        "intel_source": "HAVEN_ACTION_PLAN.md"
+      },
+      {
+        "naics": "624190",
+        "description": "Other Individual and Family Services",
+        "lanes": [
+          "Displaced Member Services",
+          "Social Services Coordination",
+          "Benefits Navigation (MIBridges)"
+        ],
+        "keywords": [
+          "individual assistance",
+          "family services",
+          "displaced persons",
+          "social services coordination",
+          "emergency case management"
+        ],
+        "buying_agencies": [
+          "FEMA Individual Assistance",
+          "State HHS agencies",
+          "Medicaid MCOs"
+        ],
+        "ddi_advantage": "HAVEN case management + member intake system",
+        "intel_source": "HAVEN_ACTION_PLAN.md"
+      },
+      {
+        "naics": "721110",
+        "description": "Hotels (except Casino Hotels) and Motels",
+        "lanes": [
+          "Disaster Housing Coordination",
+          "Temporary Relocation Housing",
+          "FEMA Transitional Sheltering"
+        ],
+        "keywords": [
+          "temporary housing",
+          "disaster housing",
+          "transitional shelter",
+          "hotel room block",
+          "emergency lodging"
+        ],
+        "buying_agencies": [
+          "FEMA TSA Program",
+          "State EMAs",
+          "Medicaid MCOs"
+        ],
+        "ddi_advantage": "Pre-positioned housing partner network (19 partners across FL, TX, LA, MI)",
+        "intel_source": "HAVEN_ACTION_PLAN.md"
       }
     ],
     "tier_2_build_capability": [
@@ -386,7 +465,23 @@
     "3PL",
     "freight forwarding",
     "freight management",
-    "distribution"
+    "distribution",
+    "disaster response",
+    "disaster relief",
+    "emergency shelter",
+    "emergency housing",
+    "hurricane response",
+    "hurricane relief",
+    "evacuation transport",
+    "FEMA",
+    "emergency management",
+    "disaster recovery",
+    "displaced persons",
+    "emergency relocation",
+    "disaster logistics",
+    "emergency medical services",
+    "continuity of care",
+    "disaster TPA"
   ],
   "buying_agencies_priority": [
     "State Public Health Laboratories",
@@ -404,7 +499,14 @@
     "DoD TRICARE",
     "Transit Agencies (FTA)",
     "School Districts (CDL compliance)",
-    "Federal Contractors (FAR compliance)"
+    "Federal Contractors (FAR compliance)",
+    "FEMA (Federal Emergency Management Agency)",
+    "FL Division of Emergency Management (FDEM)",
+    "TX Division of Emergency Management (TDEM)",
+    "LA GOHSEP",
+    "MI Emergency Management & Homeland Security Division",
+    "State Emergency Management Agencies",
+    "Medicaid MCOs (disaster response TPA)"
   ],
   "ddi_credentials_checklist": {
     "federal": ["EDWOSB", "WOSB", "CAGE: 8UMX3", "UEI: HJB4KNYJVGZ1", "SAM.gov Active"],
