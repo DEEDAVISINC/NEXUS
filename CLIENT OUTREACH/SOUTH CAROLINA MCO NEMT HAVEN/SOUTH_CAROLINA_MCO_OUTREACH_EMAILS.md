@@ -3,6 +3,17 @@
 **Source:** South Carolina DHHS Managed Care Health Plan Contact Information (scdhhs.gov)
 **Status:** Ready to send
 
+## ATTACHMENT — EVERY MCO EMAIL
+
+Attach the **HAVEN Master Proposal** PDF with every outbound MCO message in this deck.
+
+| Source HTML | `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/HAVEN_Master_Proposal.html` |
+|---|---|
+| **To PDF** | Open in Chrome → Print → Save as PDF (e.g. `HAVEN_Master_Proposal_DDI_MCO.pdf`). |
+| **Do not use for MCOs** | Partner one-pagers (`HAVEN_*_Partnership_OnePager.html`) — those are **partner-only** outreach. |
+
+Tip: In each email closing, optional one line — *Attached: HAVEN overview deck (disaster continuity + daily NEMT TPA).* — so the attachment is intentional.
+
 ---
 
 ## SOUTH CAROLINA MCO LANDSCAPE

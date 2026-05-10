@@ -2,6 +2,15 @@
 **Generated:** May 9, 2026
 **Status:** DIFFERENT STRUCTURE — NOT TRADITIONAL MCO
 
+## ATTACHMENT — IF YOU EMAIL ABOUT HAVEN / NEMT TPA
+
+For any exploratory outreach tied to continuity of care, disaster displacement, or TPA partnering, attach:
+
+| Source HTML | `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/HAVEN_Master_Proposal.html` |
+|---|---|
+| **To PDF** | Open in Chrome → Print → Save as PDF (e.g. `HAVEN_Master_Proposal_DDI_MCO.pdf`). |
+| **Partner one-pagers** | Not primary for Medicaid agency messages — reserve for fleet/housing/medical vendors. |
+
 ---
 
 ## ALABAMA MEDICAID LANDSCAPE

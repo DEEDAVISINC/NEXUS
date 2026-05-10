@@ -13,6 +13,7 @@
 | **Proof Point** | HAP CareSource HIDE SNP — LIVE, operational, 4,500 members |
 | **States Targeted** | 10 (MI, OH, TX, FL, LA, GA, AL, MS, TN, SC) |
 | **MCO Outreach Emails Drafted** | **38 emails** across 9 states (AL = 1 state-level inquiry) |
+| **MCO Attachment (standard)** | `NEXUS_LEARNING/HAVEN_Master_Proposal.html` → save as PDF → attach to **every** MCO email (see headers in `CLIENT OUTREACH/* MCO NEMT HAVEN/*_MCO_OUTREACH_EMAILS.md`). Partner one-pagers are **not** for MCO sends. |
 | **Revenue Target** | $500K/month gross margin |
 | **Realistic Path** | 5 MCO contracts × $75-100K/month avg = $375-500K/month |
 | **Pipeline Status** | EMAILS READY — Sending begins Sunday night May 11 |

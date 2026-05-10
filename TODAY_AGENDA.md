@@ -29,13 +29,14 @@
 - `NEXUS_LEARNING/HAVEN_Medical_Partnership_OnePager.html`
 
 **Priority send order:**
-1. ⭐ **Skyline Champion** — In-person meeting (same building!)
+1. **Skyline Champion** — Outreach (Joseph Kimmell — professional pitch first)
 2. **Transport** — Wheelchair/stretcher fleets in TX, FL, LA, SC
 3. **Housing** — Red Roof, Extended Stay, WoodSpring, La Quinta, Motel 6, Clayton, Boxabl
 4. **Medical** — Amedisys, Enhabit, VitalCaring, LHC, CenterWell
 
 ### 3. THEN: Send MCO Outreach Emails (NEMT + HAVEN)
 - **38 emails ready across 9 states** — all in `CLIENT OUTREACH/[STATE] MCO NEMT HAVEN/` folders
+- **Attachment for every MCO email:** Convert `NEXUS_LEARNING/HAVEN_Master_Proposal.html` → PDF (`HAVEN_Master_Proposal_DDI_MCO.pdf`). **Do not** attach partner one-pagers to MCOs.
 - **Priority send order:**
   1. **Texas** — Community Health Choice follow-up (overdue 23 days) + 6 new MCOs
   2. **South Carolina** — Brand new market, no incumbents for dual-eligible NEMT

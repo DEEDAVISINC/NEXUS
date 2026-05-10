@@ -1,6 +1,6 @@
 # NEMT + HAVEN TPA EXPANSION STRATEGY — DDI / DEPOINTE
 
-**Created:** May 5, 2026 | **Updated:** May 9, 2026  
+**Created:** May 5, 2026 | **Updated:** May 10, 2026  
 **Owner:** Dee Davis Inc. dba DePointe  
 **Business Model:** Zero-fleet Contract Management TPA for NEMT + Disaster Response (HAVEN) + Pharmacy Delivery  
 **Revenue Target:** $500K/month gross margin  
@@ -139,6 +139,8 @@ When a Michigan MCO relationship lands, DDI already knows which states to pitch 
 - When Blue Cross meeting happens → ask about their Southeast footprint
 
 **Outreach method: EMAIL ONLY.** DDI emails the MCO contact. If they want to talk, they'll ask. DDI follows their lead on communication format.
+
+**MCO attachment (standard):** With every first touch and major follow-up, attach **`NEXUS_LEARNING/HAVEN_Master_Proposal.html`** as PDF (Chrome → Print → Save as PDF). Do **not** attach transport/housing/medical **partner** one-pagers to MCOs — those are partner outreach only. Instructions are in each `CLIENT OUTREACH/[STATE] MCO NEMT HAVEN/*_MCO_OUTREACH_EMAILS.md` header.
 
 ### Phase 4: Later / Research Required
 **California & New York** — Largest markets but hardest entry:
