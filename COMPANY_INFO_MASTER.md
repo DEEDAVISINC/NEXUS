@@ -333,7 +333,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 **Healthcare:**
 - NPI: 1538939111 (Healthcare Provider)
-- Active Medicaid Provider (Michigan, Maryland)
+- Active Medicaid Provider (Michigan, Maryland); **Texas — TMHP:** portal access Provider Administrator granted (Enrollment Transaction **D19273048**) — verify **effective / approved** Medicaid provider status inside TMHP (access ≠ final approval alone)
 
 **Transportation/Logistics:**
 - MC Number: 1647572 (Freight Broker)
@@ -915,7 +915,35 @@ MI SIGMA VSS: VS0245604
 
 ---
 
-*Master Company Information - Updated March 22, 2026*  
+## 🏥 TEXAS TMHP — MEDICAID PORTAL ACCESS (RECORDED)
+
+**System:** TMHP ([tmhp.com](https://www.tmhp.com)) — Texas Medicaid & Healthcare Partnership (administrative services for Texas Medicaid, per HHSC/TMHP scope).
+
+### Portal access (Texas HHS notification)
+
+| Field | Value |
+|-------|-------|
+| **Enrollment transaction** | **D19273048** |
+| **Access granted** | **Provider Administrator** — per automated email from `DONOTREPLY@hhs.texas.gov` (TMHP notices) |
+| **Account / name on notice** | Dieasha Davis |
+| **Recorded in NEXUS** | May 10, 2026 |
+
+**What Provider Administrator typically means:** You can administer the enrolling organization’s TMHP enrollment record — including linking/unlinking **users** to the **Provider Identifier** (revoking unlink removes that user’s access). It is **portal administration**, not proof by itself that Texas Medicaid enrollment is **fully approved / active**. Confirm final status inside TMHP (application status / effective dates / notices).
+
+### Next steps for Dee
+
+1. Log in to **TMHP.com** → open transaction **D19273048** → confirm enrollment **status**, any conditions, effective date, and whether a **Texas Medicaid Provider Identifier** issued (if enrollment completed).
+2. Save PDF/screenshot of the approval or pending status — file in compliance bundle for Texas STAR+ PLUS / partner credentialing conversations.
+3. Keep **Enrollment Transaction Name** handy for HHSC Provider Enrollment inquiries.
+
+### WHAT THIS SUPPORTS
+
+- Texas Medicaid enrollment track for **NEMT TPA / HAVEN** credentialing asks from Texas MCOs
+- User management for whoever else needs TMHP portal access **without** exposing admin rights broadly
+
+---
+
+*Master Company Information — Michigan CHAMPS section updated March 22, 2026; Texas TMHP portal noted May 10, 2026*  
 *Certifications Updated: E-Verify & SWFT Certified (established 2022) documented in master file*  
 *Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
 *DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*
