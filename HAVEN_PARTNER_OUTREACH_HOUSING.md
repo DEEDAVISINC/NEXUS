@@ -240,7 +240,157 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
+---
+
+## MODULAR/PREFAB HOUSING — EXTENDED DISPLACEMENT (Months, Not Weeks)
+
+When disasters destroy homes for months, hotels aren't enough. FEMA deploys manufactured housing units (MHUs) for up to 18 months. DDI coordinates member placement and care continuity in these units.
+
+---
+
+### EMAIL 6: SKYLINE CHAMPION ⭐ PRIORITY — SAME BUILDING AS DDI
+
+**To:** Joseph Kimmell, EVP US Operations — 574-971-0018 (call first, then email)
+**Address:** 755 W. Big Beaver Road, **Suite 1000**, Troy, MI 48084 (DDI is Suite 2020)
+**Subject:** HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA (Same Building)
+
+```
+Subject: HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA (Same Building)
+
+Good morning Joseph,
+
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — we're your neighbors at 755 W. Big Beaver Road, Suite 2020.
+
+I wanted to reach out directly because I believe there's a natural partnership opportunity between DDI and Skyline Champion's FEMA manufactured housing program.
+
+DDI is a federally certified EDWOSB Contract Management TPA. We're launching HAVEN (Housing, Assistance, Vital Emergency Network), a disaster response coordination service for Medicaid managed care organizations. When hurricanes displace dual-eligible members, MCOs need to track and care for members throughout the entire displacement period — including the 18-month FEMA MHU placement phase.
+
+Here's where Skyline Champion fits:
+
+**The Gap We're Solving:** When a dual-eligible member is placed in a FEMA MHU, their MCO still needs to:
+- Coordinate NEMT to medical appointments
+- Ensure home health services continue at the MHU location
+- Manage pharmacy delivery
+- Track member location and status for HEDIS compliance
+
+DDI does all of that. We're the MCO's single point of contact for displaced members.
+
+**Why Partner with DDI:**
+- MCO contracts across hurricane corridor states (TX, FL, LA, MS, GA, SC)
+- Member tracking through the entire displacement timeline (TSA → MHU → permanent housing)
+- Coordination of care services at MHU locations
+- Existing HAP CareSource HIDE SNP contract (live in Michigan)
+
+I'd love to grab coffee downstairs and discuss how DDI's MCO relationships could create referral opportunities for Skyline Champion's FEMA MHU program — and vice versa.
+
+Available after 12:00 PM ET.
+
+Warm regards,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | DEPOINTE
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+```
+
+---
+
+### EMAIL 7: CLAYTON HOMES — Government/Community Sales
+
+**To:** claytonbuilt.com → Government/Community Sales contact form
+**Subject:** HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
+
+```
+Subject: HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
+
+Good morning,
+
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA.
+
+We are launching HAVEN, a disaster response coordination service for Medicaid MCOs. When hurricanes displace dual-eligible members and FEMA deploys manufactured housing units, MCOs still need to track and care for those members throughout the 18-month MHU period.
+
+DDI coordinates that care — NEMT, home health, pharmacy delivery, member tracking — for MCOs in hurricane corridor states.
+
+Clayton Homes is the historic scale leader in FEMA MHU production. I'm reaching out to explore whether there's a partnership opportunity:
+
+**What DDI brings:**
+- MCO contracts across TX, FL, LA, MS, GA, SC
+- Member tracking through TSA → MHU → permanent housing transitions
+- Care coordination at MHU locations (NEMT, home health, pharmacy)
+
+**Potential partnership:**
+- DDI refers MCO members to FEMA MHU programs where Clayton units are deployed
+- Clayton connects DDI with state/local emergency management agencies using Clayton MHUs
+- Joint marketing to MCOs: "Turnkey disaster member management"
+
+Would someone on your government/community sales team be open to a conversation?
+
+Available after 12:00 PM ET.
+
+Warm regards,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | DEPOINTE
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+```
+
+---
+
+### EMAIL 8: BOXABL — Public Sector / FEMA
+
+**To:** boxabl.com/public-sector contact
+**Subject:** HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
+
+```
+Subject: HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
+
+Good morning,
+
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA.
+
+I saw Boxabl's work sending Casita units to Maui for disaster relief, and I wanted to reach out about a potential partnership.
+
+DDI is launching HAVEN, a disaster response coordination service for Medicaid MCOs. When disasters displace dual-eligible members, MCOs need to:
+- Track member locations throughout displacement
+- Coordinate NEMT, home health, and pharmacy delivery to temporary housing
+- Maintain HEDIS compliance and care continuity
+
+Boxabl's foldable housing could be a game-changer for rapid deployment in hurricane corridor states. DDI coordinates the care side — you provide the housing side.
+
+**What DDI brings:**
+- MCO contracts across TX, FL, LA, MS, GA, SC
+- Member tracking and care coordination at temporary housing locations
+- Existing HAP CareSource HIDE SNP contract (live in Michigan)
+
+**Potential partnership:**
+- DDI coordinates member placement in Boxabl-deployed units during disasters
+- Joint approach to FEMA and state emergency management agencies
+- Care continuity services at Boxabl housing sites
+
+Would someone on your public sector team be open to a conversation?
+
+Available after 12:00 PM ET.
+
+Warm regards,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | DEPOINTE
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+```
+
+---
+
 ## HOUSING OUTREACH SUMMARY
+
+### Hotels/Extended Stay (Short-Term: Weeks)
 
 | # | Chain | Locations | Program | Contact Method | Status |
 |---|-------|-----------|---------|----------------|--------|
@@ -250,6 +400,14 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 | 4 | La Quinta by Wyndham | 900+ | Wyndham Business, FEMA participating | wyndhamhotels.com | ✉️ READY |
 | 5 | Motel 6 / Studio 6 | 1,400+ | G6 Hospitality Corporate | motel6.com | ✉️ READY |
 
-**Total Housing Outreach: 5 emails**
+### Modular/Prefab (Extended: Months to 18 Months)
+
+| # | Company | FEMA Status | Contact Method | Status |
+|---|---------|-------------|----------------|--------|
+| 6 | **Skyline Champion** ⭐ | $800M FEMA IDC | Joseph Kimmell, **SAME BUILDING** (Suite 1000), 574-971-0018 | ✉️ **PRIORITY** |
+| 7 | Clayton Homes | Historic FEMA scale leader | claytonbuilt.com → Government Sales | ✉️ READY |
+| 8 | Boxabl | Targeting FEMA, Maui deployment | boxabl.com/public-sector | ✉️ READY |
+
+**Total Housing Outreach: 8 emails** (5 hotels + 3 modular)
 
 **Attachment:** Convert `NEXUS_LEARNING/HAVEN_Housing_Partnership_OnePager.html` to PDF before sending

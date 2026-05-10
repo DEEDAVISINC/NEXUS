@@ -65,6 +65,28 @@
 | **La Quinta by Wyndham** | Wyndham Business (Corporate), FEMA participating | 900+ locations | wyndhamhotels.com → Group/Corporate Sales | ⬜ OUTREACH |
 | **Motel 6 / Studio 6** | G6 Hospitality Corporate, Extended Stay | 1,400+ locations | motel6.com → Corporate Sales | ⬜ OUTREACH |
 
+---
+
+### MODULAR/PREFAB HOUSING — EXTENDED DISPLACEMENT (Months, Not Weeks)
+
+When disasters destroy homes for months, hotels aren't enough. FEMA deploys manufactured housing units (MHUs) for up to 18 months.
+
+| Company | FEMA Status | Products | Coverage | Contact | Status |
+|---------|-------------|----------|----------|---------|--------|
+| **Skyline Champion** ⭐ | **$800M FEMA IDC** (70FB7021D00000008), $211M obligated | NextGen MHUs (1-3 BR) | Nationwide, 900+ disaster units/year | **SAME BUILDING AS DDI** — Joseph Kimmell, EVP US Ops, Suite 1000, 574-971-0018 | ⬜ **PRIORITY** |
+| **Clayton Homes** | Historic FEMA scale leader | MHUs, modulars | Nationwide | claytonbuilt.com → Government/Community Sales | ⬜ OUTREACH |
+| **Cavco Industries** | Strong FEMA/state history | MHUs, park models | Nationwide | cavco.com → Business Development | ⬜ OUTREACH |
+| **Boxabl** | Targeting FEMA, sent units to Maui | Casita foldable homes (361 sq ft) | Emerging, 190K reservations | boxabl.com/public-sector | ⬜ OUTREACH |
+| **NanoNest** | Steel modular homes | Steel modular | Emerging | nanonest.com | ⬜ OUTREACH |
+
+**DDI's Role with MHU Partners:**
+- Coordinate placement of displaced MCO members in FEMA MHUs
+- Track members during the 18-month MHU period
+- Coordinate home health, NEMT, and pharmacy delivery to MHU locations
+- Serve as MCO's point of contact for member continuity in temporary housing
+
+---
+
 ### FEMA TRANSITIONAL SHELTERING ASSISTANCE (TSA) PROGRAM
 
 **How it works:** FEMA directly pays room costs + taxes to participating hotels for disaster survivors. Hotels enroll via Corporate Lodging Consultants (CLC) at ela.corplodging.com.
@@ -141,10 +163,17 @@
 | Transport — FL | 7 | 0 | 0 | 0 |
 | Transport — LA | 3 | 0 | 0 | 0 |
 | Transport — SC | 5 | 0 | 0 | 0 |
-| Housing — National | 5 | 0 | 0 | 0 |
+| Housing — Hotels | 5 | 0 | 0 | 0 |
+| Housing — Modular/Prefab | 3 | 0 | 0 | 0 |
 | Medical — National | 5 | 0 | 0 | 0 |
 | Medical — Regional | 2 | 0 | 0 | 0 |
-| **TOTAL** | **36** | **0** | **0** | **0** |
+| **TOTAL** | **39** | **0** | **0** | **0** |
+
+### PRIORITY PARTNER: SKYLINE CHAMPION ⭐
+**SAME BUILDING AS DDI** — 755 W. Big Beaver Road, Suite 1000
+- Joseph Kimmell, EVP US Operations — 574-971-0018
+- $800M FEMA contract for manufactured housing units
+- **ACTION:** Walk downstairs and introduce yourself
 
 ---
 

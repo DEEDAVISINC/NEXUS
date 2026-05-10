@@ -10,12 +10,19 @@
 ### 2. HAVEN PARTNER OUTREACH — SEND FIRST ✅ READY
 **Partners BEFORE MCOs** — so when an MCO asks "who's in your network?", you have an answer.
 
-**20 partner emails ready:**
+**23 partner emails ready:**
 | Category | Emails | File |
 |----------|--------|------|
 | **Transport** (TX, FL, LA, SC) | 10 | `HAVEN_PARTNER_OUTREACH_TRANSPORT.md` |
-| **Housing** (National chains) | 5 | `HAVEN_PARTNER_OUTREACH_HOUSING.md` |
+| **Housing — Hotels** | 5 | `HAVEN_PARTNER_OUTREACH_HOUSING.md` |
+| **Housing — Modular/Prefab** | 3 | `HAVEN_PARTNER_OUTREACH_HOUSING.md` |
 | **Medical** (Home health) | 5 | `HAVEN_PARTNER_OUTREACH_MEDICAL.md` |
+
+⭐ **PRIORITY: SKYLINE CHAMPION — SAME BUILDING AS DDI**
+- 755 W. Big Beaver Road, **Suite 1000** (DDI is Suite 2020)
+- Joseph Kimmell, EVP US Operations — 574-971-0018
+- **$800M FEMA contract** for manufactured housing units
+- **ACTION: Walk downstairs and introduce yourself**
 
 **Before sending:** Convert one-pagers to PDF:
 - `NEXUS_LEARNING/HAVEN_Transport_Partnership_OnePager.html`
@@ -23,9 +30,10 @@
 - `NEXUS_LEARNING/HAVEN_Medical_Partnership_OnePager.html`
 
 **Priority send order:**
-1. **Transport** — Wheelchair/stretcher fleets in TX, FL, LA, SC
-2. **Housing** — Red Roof, Extended Stay, WoodSpring, La Quinta, Motel 6
-3. **Medical** — Amedisys, Enhabit, VitalCaring, LHC, CenterWell
+1. ⭐ **Skyline Champion** — In-person meeting (same building!)
+2. **Transport** — Wheelchair/stretcher fleets in TX, FL, LA, SC
+3. **Housing** — Red Roof, Extended Stay, WoodSpring, La Quinta, Motel 6, Clayton, Boxabl
+4. **Medical** — Amedisys, Enhabit, VitalCaring, LHC, CenterWell
 
 ### 3. THEN: Send MCO Outreach Emails (NEMT + HAVEN)
 - **38 emails ready across 9 states** — all in `CLIENT OUTREACH/[STATE] MCO NEMT HAVEN/` folders
