@@ -248,26 +248,25 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 
 ---
 
-### EMAIL 6: SKYLINE CHAMPION ⭐ PRIORITY — SAME BUILDING AS DDI
+### EMAIL 6: SKYLINE CHAMPION — FEMA MHU Partnership
 
-**To:** Joseph Kimmell, EVP US Operations — 574-971-0018 (call first, then email)
-**Address:** 755 W. Big Beaver Road, **Suite 1000**, Troy, MI 48084 (DDI is Suite 2020)
-**Subject:** HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA (Same Building)
+**To:** Joseph Kimmell, EVP US Operations — 574-971-0018
+**Subject:** HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
 
 ```
-Subject: HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA (Same Building)
+Subject: HAVEN Partnership Inquiry — Dee Davis Inc. | MCO Disaster Response TPA
 
 Good morning Joseph,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — we're your neighbors at 755 W. Big Beaver Road, Suite 2020.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA.
 
-I wanted to reach out directly because I believe there's a natural partnership opportunity between DDI and Skyline Champion's FEMA manufactured housing program.
+I'm reaching out because I see a natural partnership opportunity between DDI and Skyline Champion's FEMA manufactured housing program.
 
-DDI is a federally certified EDWOSB Contract Management TPA. We're launching HAVEN (Housing, Assistance, Vital Emergency Network), a disaster response coordination service for Medicaid managed care organizations. When hurricanes displace dual-eligible members, MCOs need to track and care for members throughout the entire displacement period — including the 18-month FEMA MHU placement phase.
+DDI is launching HAVEN (Housing, Assistance, Vital Emergency Network), a disaster response coordination service for Medicaid managed care organizations. When hurricanes displace dual-eligible members, MCOs need to track and care for those members throughout the entire displacement period — including the 18-month FEMA MHU placement phase.
 
-Here's where Skyline Champion fits:
+**The Gap We're Solving:**
 
-**The Gap We're Solving:** When a dual-eligible member is placed in a FEMA MHU, their MCO still needs to:
+When a dual-eligible member is placed in a FEMA MHU, their MCO still needs to:
 - Coordinate NEMT to medical appointments
 - Ensure home health services continue at the MHU location
 - Manage pharmacy delivery
@@ -281,7 +280,12 @@ DDI does all of that. We're the MCO's single point of contact for displaced memb
 - Coordination of care services at MHU locations
 - Existing HAP CareSource HIDE SNP contract (live in Michigan)
 
-I'd love to grab coffee downstairs and discuss how DDI's MCO relationships could create referral opportunities for Skyline Champion's FEMA MHU program — and vice versa.
+**Potential Partnership:**
+- DDI coordinates member placement and care continuity at MHU sites
+- Skyline Champion connects DDI with state/local emergency management using Champion MHUs
+- Joint positioning to MCOs: "Turnkey displaced member management"
+
+Would you be open to a brief conversation about how our models might work together?
 
 Available after 12:00 PM ET.
 
@@ -404,7 +408,7 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 | # | Company | FEMA Status | Contact Method | Status |
 |---|---------|-------------|----------------|--------|
-| 6 | **Skyline Champion** ⭐ | $800M FEMA IDC | Joseph Kimmell, **SAME BUILDING** (Suite 1000), 574-971-0018 | ✉️ **PRIORITY** |
+| 6 | **Skyline Champion** ⭐ | $800M FEMA IDC | Joseph Kimmell, EVP US Ops, 574-971-0018 | ✉️ **PRIORITY** |
 | 7 | Clayton Homes | Historic FEMA scale leader | claytonbuilt.com → Government Sales | ✉️ READY |
 | 8 | Boxabl | Targeting FEMA, Maui deployment | boxabl.com/public-sector | ✉️ READY |
 

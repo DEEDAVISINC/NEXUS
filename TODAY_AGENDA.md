@@ -18,11 +18,10 @@
 | **Housing — Modular/Prefab** | 3 | `HAVEN_PARTNER_OUTREACH_HOUSING.md` |
 | **Medical** (Home health) | 5 | `HAVEN_PARTNER_OUTREACH_MEDICAL.md` |
 
-⭐ **PRIORITY: SKYLINE CHAMPION — SAME BUILDING AS DDI**
-- 755 W. Big Beaver Road, **Suite 1000** (DDI is Suite 2020)
+⭐ **PRIORITY: SKYLINE CHAMPION**
 - Joseph Kimmell, EVP US Operations — 574-971-0018
 - **$800M FEMA contract** for manufactured housing units
-- **ACTION: Walk downstairs and introduce yourself**
+- Troy, MI based
 
 **Before sending:** Convert one-pagers to PDF:
 - `NEXUS_LEARNING/HAVEN_Transport_Partnership_OnePager.html`

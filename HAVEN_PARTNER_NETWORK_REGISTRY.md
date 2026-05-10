@@ -73,7 +73,7 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 
 | Company | FEMA Status | Products | Coverage | Contact | Status |
 |---------|-------------|----------|----------|---------|--------|
-| **Skyline Champion** ⭐ | **$800M FEMA IDC** (70FB7021D00000008), $211M obligated | NextGen MHUs (1-3 BR) | Nationwide, 900+ disaster units/year | **SAME BUILDING AS DDI** — Joseph Kimmell, EVP US Ops, Suite 1000, 574-971-0018 | ⬜ **PRIORITY** |
+| **Skyline Champion** ⭐ | **$800M FEMA IDC** (70FB7021D00000008), $211M obligated | NextGen MHUs (1-3 BR) | Nationwide, 900+ disaster units/year | Joseph Kimmell, EVP US Ops, 574-971-0018 | ⬜ **PRIORITY** |
 | **Clayton Homes** | Historic FEMA scale leader | MHUs, modulars | Nationwide | claytonbuilt.com → Government/Community Sales | ⬜ OUTREACH |
 | **Cavco Industries** | Strong FEMA/state history | MHUs, park models | Nationwide | cavco.com → Business Development | ⬜ OUTREACH |
 | **Boxabl** | Targeting FEMA, sent units to Maui | Casita foldable homes (361 sq ft) | Emerging, 190K reservations | boxabl.com/public-sector | ⬜ OUTREACH |
@@ -170,10 +170,9 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 | **TOTAL** | **39** | **0** | **0** | **0** |
 
 ### PRIORITY PARTNER: SKYLINE CHAMPION ⭐
-**SAME BUILDING AS DDI** — 755 W. Big Beaver Road, Suite 1000
 - Joseph Kimmell, EVP US Operations — 574-971-0018
 - $800M FEMA contract for manufactured housing units
-- **ACTION:** Walk downstairs and introduce yourself
+- Troy, MI based (755 W. Big Beaver Road, Suite 1000)
 
 ---
 
