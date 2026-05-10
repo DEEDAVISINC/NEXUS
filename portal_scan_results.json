@@ -1,8 +1,52 @@
 {
-  "scan_date": "2026-05-09T16:36:11.937016",
-  "total_found": 106,
+  "scan_date": "2026-05-10T04:04:55.631110",
+  "total_found": 109,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "48--VALVE,REGULATING,FL",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-05-21",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/f0b93e81b20348eda8ccca1580b600ed/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-10",
+      "naics": "332912"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "25--PARTS KIT,STEERING",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-05-21",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/c0c0251305004e77a7045192017de70a/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-10",
+      "naics": "332510"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "59--CABLE ASSEMBLY,POWE",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-05-18",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/b0ead3726a90438cab900b7363e666fa/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-10",
+      "naics": "335931"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "16--PARTS KIT,SEAL REPL",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-05-18",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/42b6a00847bf4bc8b34f0d08cb5130ec/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-10",
+      "naics": "336413"
+    },
     {
       "source": "SAM.gov",
       "title": "Personnel Travel Administration Support Services for Commander, Naval Surface Force, Atlantic Fleet",
@@ -137,6 +181,17 @@
     },
     {
       "source": "SAM.gov",
+      "title": "59--HEADSET,ELECTRICAL",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-05-21",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/693119c0b597468ea2ebb77550cbf96a/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-10",
+      "naics": "334310"
+    },
+    {
+      "source": "SAM.gov",
       "title": "Cable Assembly, Power - NSN Number 6150-01-713-7202",
       "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AVIATION HUNTSVILLE.DLA AVIATION AT HUNTSVILLE, AL",
       "deadline": "2026-06-05T15:00:00-05:00",
@@ -155,17 +210,6 @@
       "url": "https://sam.gov/opp/30dac444fe204a5ba3481d3d0a760890/view",
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-05",
-      "naics": "561720"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Mud Mountain Dam Janitorial Services",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.US ARMY CORPS OF ENGINEERS.ENGINEER DIVISION NORTHWESTERN.ENDIST SEATTLE.W071 ENDIST SEATTLE",
-      "deadline": "2026-05-15T12:00:00-07:00",
-      "set_aside": "EDWOSB",
-      "url": "https://sam.gov/opp/3a07eaee48a94ea19458fdd4b3950114/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-01",
       "naics": "561720"
     },
     {
@@ -236,22 +280,11 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "Photon Stopper HoldersCalifornia26 day(s) leftPublished05/08/2026Closing06/04/20262689113002",
+      "title": "Photon Stopper HoldersCalifornia25 day(s) leftPublished05/08/2026Closing06/04/20262689113002",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Photon-Stopper-Holders/2689113002?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Masonry Repair ServicesColorado13 day(s) leftPublished05/08/2026Closing05/22/20268910621109",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Masonry-Repair-Services/0000423696?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"

@@ -7,7 +7,27 @@
 ### 1. Happy Mother's Day
 - Enjoy the day. You earned it.
 
-### 2. EVENING: Send MCO Outreach Emails (NEMT + HAVEN)
+### 2. HAVEN PARTNER OUTREACH — SEND FIRST ✅ READY
+**Partners BEFORE MCOs** — so when an MCO asks "who's in your network?", you have an answer.
+
+**20 partner emails ready:**
+| Category | Emails | File |
+|----------|--------|------|
+| **Transport** (TX, FL, LA, SC) | 10 | `HAVEN_PARTNER_OUTREACH_TRANSPORT.md` |
+| **Housing** (National chains) | 5 | `HAVEN_PARTNER_OUTREACH_HOUSING.md` |
+| **Medical** (Home health) | 5 | `HAVEN_PARTNER_OUTREACH_MEDICAL.md` |
+
+**Before sending:** Convert one-pagers to PDF:
+- `NEXUS_LEARNING/HAVEN_Transport_Partnership_OnePager.html`
+- `NEXUS_LEARNING/HAVEN_Housing_Partnership_OnePager.html`
+- `NEXUS_LEARNING/HAVEN_Medical_Partnership_OnePager.html`
+
+**Priority send order:**
+1. **Transport** — Wheelchair/stretcher fleets in TX, FL, LA, SC
+2. **Housing** — Red Roof, Extended Stay, WoodSpring, La Quinta, Motel 6
+3. **Medical** — Amedisys, Enhabit, VitalCaring, LHC, CenterWell
+
+### 3. THEN: Send MCO Outreach Emails (NEMT + HAVEN)
 - **38 emails ready across 9 states** — all in `CLIENT OUTREACH/[STATE] MCO NEMT HAVEN/` folders
 - **Priority send order:**
   1. **Texas** — Community Health Choice follow-up (overdue 23 days) + 6 new MCOs
@@ -20,18 +40,10 @@
   8. **Tennessee** — 3 MCOs, BCBS connection
   9. **Alabama** — 1 exploratory email (state-level)
 
-### 3. Region 10 MCO Follow-Ups (7-day)
+### 4. Region 10 MCO Follow-Ups (7-day)
 - May 11 = 7-day follow-up for Michigan MCOs that haven't responded
 - Check: Aetna, AmeriHealth, Humana, UHC, Priority Health, Meridian
 - Molina: Portal enrollment in progress — separate track
-
-### 4. NEXT SESSION: HAVEN Partner Network Outreach
-- Identify regional NEMT companies in TX, FL, LA, SC (wheelchair/stretcher fleets)
-- Identify hotel chains with healthcare/emergency housing programs
-- Identify home health agencies in hurricane corridor states
-- Generate partner outreach emails using `haven_outreach_engine.py`
-- One-pagers ready: Transport, Housing, Medical
-- Partners just DocuSign — engine handles the rest
 
 ---
 
@@ -76,6 +88,19 @@
 - Updated NEMT expansion strategy with MCO-by-state map
 - Created Ohio, Texas, Florida, Louisiana, Georgia, Alabama, Mississippi, Tennessee, South Carolina outreach packages
 
+## WHAT WAS ACCOMPLISHED MAY 10 (This Morning)
+
+**Partner network research completed — 20 outreach emails ready:**
+- Identified **24 regional transport companies** across TX, FL, LA, SC (wheelchair/stretcher fleets)
+- Identified **5 national hotel chains** with emergency/healthcare housing programs
+- Identified **7 home health agencies** with hurricane corridor coverage
+- Created **HAVEN_PARTNER_NETWORK_REGISTRY.md** — complete database of all partners
+- Generated **10 transport partner emails** (3 TX, 3 FL, 2 LA, 2 SC)
+- Generated **5 housing partner emails** (Red Roof, ESA, WoodSpring, La Quinta, Motel 6)
+- Generated **5 medical partner emails** (Amedisys, Enhabit, VitalCaring, LHC, CenterWell)
+
+**Sequencing updated:** Partners FIRST → then MCOs
+
 ---
 
-*Happy Mother's Day, Dee. Rest up. Tomorrow night we send.*
+*Happy Mother's Day, Dee. Partner outreach ready. MCO outreach ready. The pipeline is loaded.*
