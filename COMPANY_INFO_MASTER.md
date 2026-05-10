@@ -333,7 +333,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 **Healthcare:**
 - NPI: 1538939111 (Healthcare Provider)
-- Active Medicaid Provider (Michigan, Maryland); **Texas — TMHP:** portal access Provider Administrator granted (Enrollment Transaction **D19273048**) — verify **effective / approved** Medicaid provider status inside TMHP (access ≠ final approval alone)
+- Active Medicaid Provider (**Michigan**, **Maryland**). **Texas:** TMHP portal login / **Provider Administrator** on enrollment transaction **D19273048** only — **Texas Medicaid provider enrollment not yet applied / not submitted** per Dee; TMHP access can exist before a complete application.
 
 **Transportation/Logistics:**
 - MC Number: 1647572 (Freight Broker)
@@ -915,31 +915,35 @@ MI SIGMA VSS: VS0245604
 
 ---
 
-## 🏥 TEXAS TMHP — MEDICAID PORTAL ACCESS (RECORDED)
+## 🏥 TEXAS TMHP — PORTAL ACCESS vs. ENROLLMENT (RECORDED)
 
 **System:** TMHP ([tmhp.com](https://www.tmhp.com)) — Texas Medicaid & Healthcare Partnership (administrative services for Texas Medicaid, per HHSC/TMHP scope).
 
-### Portal access (Texas HHS notification)
+### What we know (Texas HHS notification + Dee confirmation)
 
 | Field | Value |
 |-------|-------|
 | **Enrollment transaction** | **D19273048** |
-| **Access granted** | **Provider Administrator** — per automated email from `DONOTREPLY@hhs.texas.gov` (TMHP notices) |
-| **Account / name on notice** | Dieasha Davis |
+| **Portal access** | **Provider Administrator** — automated email from `DONOTREPLY@hhs.texas.gov` (TMHP notices) |
+| **Name on notice** | Dieasha Davis |
+| **Texas Medicaid enrollment application** | **Not yet submitted** — per Dee (NEXUS update: user confirmed has not applied yet) |
 | **Recorded in NEXUS** | May 10, 2026 |
 
-**What Provider Administrator typically means:** You can administer the enrolling organization’s TMHP enrollment record — including linking/unlinking **users** to the **Provider Identifier** (revoking unlink removes that user’s access). It is **portal administration**, not proof by itself that Texas Medicaid enrollment is **fully approved / active**. Confirm final status inside TMHP (application status / effective dates / notices).
+**Plain English:** The TMHP email means you have **portal permissions** on that enrollment transaction (typically to manage **users** linked to a provider identifier workflow). It does **not** mean Texas Medicaid has **approved** Dee Davis Inc. as a provider yet. **Applying** = completing and submitting the Medicaid provider enrollment through TMHP (or as TMHP directs).
+
+**What Provider Administrator typically means:** Administer **users** for the enrollment transaction / provider identifier path in TMHP (“Unlinking a user will restrict all access…”). Still log in and confirm what **D19273048** is (draft, initiated file, etc.).
 
 ### Next steps for Dee
 
-1. Log in to **TMHP.com** → open transaction **D19273048** → confirm enrollment **status**, any conditions, effective date, and whether a **Texas Medicaid Provider Identifier** issued (if enrollment completed).
-2. Save PDF/screenshot of the approval or pending status — file in compliance bundle for Texas STAR+ PLUS / partner credentialing conversations.
-3. Keep **Enrollment Transaction Name** handy for HHSC Provider Enrollment inquiries.
+1. Log in to **TMHP.com** → locate **D19273048** → note whether it is **empty/draft**, **in progress**, or **submitted** — align with “haven’t applied yet.”
+2. When ready: start or continue **Texas Medicaid provider enrollment** in TMHP per the path for your **entity type** (NEMT broker / TPA as Texas classifies it — follow TMHP prompts and any HHSC provider manual).
+3. After **submit**: track notices, **effective date**, and **Texas Medicaid Provider Identifier** — then update this section.
+4. PDF/screenshot milestones (submitted, pending, approved).
 
-### WHAT THIS SUPPORTS
+### WHAT THIS SUPPORTS (once enrollment is approved)
 
-- Texas Medicaid enrollment track for **NEMT TPA / HAVEN** credentialing asks from Texas MCOs
-- User management for whoever else needs TMHP portal access **without** exposing admin rights broadly
+- Credentialing with Texas MCOs for **NEMT / HAVEN** TPA work
+- Controlled portal access for billing/credentialing staff when you add them
 
 ---
 
