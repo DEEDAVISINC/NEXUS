@@ -421,7 +421,7 @@ def get_dashboard():
 
 **Files corrected May 9, 2026:**
 - `NEMT_TPA_EXPANSION_STRATEGY.md`
-- `NEXUS_LEARNING/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md` (3 occurrences)
+- `HAVEN/STRATEGY/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md` (3 occurrences) — canonical path; ~~`NEXUS_LEARNING/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md`~~ superseded May 2026
 - `NEXUS_TRAINING_DOCUMENT.md` (2 occurrences)
 - `DDI_TPA_DIVISIONS.md` (1 occurrence)
 

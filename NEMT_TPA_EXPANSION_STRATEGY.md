@@ -107,7 +107,7 @@ At 35% margin, this requires ~$1.4M/month in billed services ($17M/year).
 | **Tennessee** | ~1.8 million | Tornadoes + severe storms | TennCare managed care heavy | Large, MCO-driven |
 | **South Carolina** | ~1.3 million | Hurricanes — HIGH | Growing managed care | Recent expansion, underserved |
 
-**Medicaid enrollment:** Per NEXUS research (HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md):
+**Medicaid enrollment:** Per `HAVEN/STRATEGY/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md`:
 - LA, TX, FL: Can enroll as Medicaid provider WITHOUT foreign entity registration
 - Foreign entity filing done in parallel, not as prerequisite
 - DDI Michigan CHAMPS ID (6309049) + NPI (1538939111) serve as domicile-state proof
