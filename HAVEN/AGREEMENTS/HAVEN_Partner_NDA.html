@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAVEN Partner NDA — Dee Davis Inc.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #1e293b;
+            background: white;
+        }
+        
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.75in 1in;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #0f172a;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+        
+        .header .subtitle {
+            font-size: 10pt;
+            color: #64748b;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 11pt;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .parties {
+            background: #f8fafc;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .party-line {
+            margin-bottom: 8px;
+        }
+        
+        .party-label {
+            font-weight: 600;
+        }
+        
+        .fill-line {
+            border-bottom: 1px solid #64748b;
+            min-width: 200px;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        ol {
+            padding-left: 20px;
+        }
+        
+        ol li {
+            margin-bottom: 12px;
+        }
+        
+        ol ol {
+            margin-top: 10px;
+        }
+        
+        ol ol li {
+            margin-bottom: 8px;
+        }
+        
+        .signature-block {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .sig-party {
+            padding-top: 20px;
+        }
+        
+        .sig-party h4 {
+            font-size: 10pt;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #0f172a;
+        }
+        
+        .sig-line {
+            border-bottom: 1px solid #0f172a;
+            margin-bottom: 5px;
+            height: 30px;
+        }
+        
+        .sig-label {
+            font-size: 9pt;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 9pt;
+            color: #64748b;
+            text-align: center;
+        }
+        
+        @media print {
+            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .page { padding: 0.5in 0.75in; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <h1>MUTUAL NON-DISCLOSURE AGREEMENT</h1>
+            <div class="subtitle">HAVEN Disaster Response TPA — Partner Confidentiality Agreement</div>
+        </div>
+        
+        <div class="parties">
+            <div class="party-line">
+                <span class="party-label">This Agreement</span> is entered into as of <strong>{{EFFECTIVE_DATE}}</strong> (the "Effective Date")
+            </div>
+            <div class="party-line">
+                <span class="party-label">By and Between:</span>
+            </div>
+            <div class="party-line" style="margin-left: 20px;">
+                <strong>Dee Davis Inc.</strong>, a Michigan corporation ("DDI")<br>
+                755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+            </div>
+            <div class="party-line" style="margin-left: 20px; margin-top: 10px;">
+                <span class="party-label">AND</span>
+            </div>
+            <div class="party-line" style="margin-left: 20px;">
+                <strong>{{PARTNER_NAME}}</strong> ("Partner")<br>
+                {{PARTNER_ADDRESS}}
+            </div>
+        </div>
+        
+        <div class="section">
+            <p><strong>WHEREAS</strong>, DDI operates the HAVEN (Housing, Assistance, Vital Emergency Network) disaster response third-party administration program for managed care organizations; and</p>
+            <p><strong>WHEREAS</strong>, the parties wish to explore a potential business relationship whereby Partner may provide housing, transportation, and/or medical continuity services under the HAVEN program; and</p>
+            <p><strong>WHEREAS</strong>, in the course of such discussions and any subsequent partnership, the parties may disclose confidential information to each other;</p>
+            <p><strong>NOW, THEREFORE</strong>, in consideration of the mutual covenants herein, the parties agree as follows:</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">1. DEFINITION OF CONFIDENTIAL INFORMATION</div>
+            <p>"Confidential Information" means any non-public information disclosed by either party, including but not limited to:</p>
+            <ol type="a">
+                <li>Names, contact information, and contract terms of DDI's managed care organization (MCO) clients</li>
+                <li>Protected Health Information (PHI) of health plan members</li>
+                <li>Pricing, rates, fee structures, and revenue arrangements</li>
+                <li>Business strategies, operational procedures, and proprietary methodologies</li>
+                <li>Technology platforms, APIs, and integration specifications</li>
+                <li>Partner network information and subcontractor relationships</li>
+                <li>Any information marked "Confidential" or reasonably understood to be confidential</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">2. OBLIGATIONS OF RECEIVING PARTY</div>
+            <p>Each party receiving Confidential Information agrees to:</p>
+            <ol type="a">
+                <li>Hold all Confidential Information in strict confidence</li>
+                <li>Use Confidential Information solely for purposes of the HAVEN partnership</li>
+                <li>Not disclose Confidential Information to any third party without prior written consent</li>
+                <li>Limit internal disclosure to employees with a need to know</li>
+                <li>Protect Confidential Information with at least the same degree of care used to protect its own confidential information, but no less than reasonable care</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">3. MCO CLIENT PROTECTION</div>
+            <p>Partner specifically agrees that it shall NOT:</p>
+            <ol type="a">
+                <li>Contact any MCO client of DDI directly for purposes of soliciting business</li>
+                <li>Use MCO client information to compete with DDI for the same or similar contracts</li>
+                <li>Disclose MCO client identities to any third party</li>
+                <li>Attempt to circumvent DDI's relationship with any MCO client</li>
+            </ol>
+            <p>This obligation survives termination of this Agreement for a period of two (2) years.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">4. HIPAA COMPLIANCE</div>
+            <p>To the extent Partner receives access to Protected Health Information (PHI), Partner agrees to:</p>
+            <ol type="a">
+                <li>Comply with all applicable provisions of HIPAA and HITECH</li>
+                <li>Execute a Business Associate Agreement (BAA) prior to receiving PHI</li>
+                <li>Implement appropriate administrative, physical, and technical safeguards</li>
+                <li>Report any breach or suspected breach of PHI within 24 hours</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">5. EXCLUSIONS</div>
+            <p>Confidential Information does not include information that:</p>
+            <ol type="a">
+                <li>Is or becomes publicly available through no fault of the receiving party</li>
+                <li>Was rightfully in the receiving party's possession prior to disclosure</li>
+                <li>Is independently developed without use of Confidential Information</li>
+                <li>Is rightfully obtained from a third party without restriction</li>
+                <li>Is required to be disclosed by law, provided the disclosing party is given reasonable notice</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">6. TERM AND TERMINATION</div>
+            <p>This Agreement shall remain in effect for two (2) years from the Effective Date, unless terminated earlier by either party upon thirty (30) days written notice. The confidentiality obligations herein shall survive termination for a period of two (2) years.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">7. RETURN OF MATERIALS</div>
+            <p>Upon termination or request, each party shall promptly return or destroy all Confidential Information received from the other party, and certify in writing that it has done so.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">8. REMEDIES</div>
+            <p>The parties acknowledge that a breach of this Agreement may cause irreparable harm for which monetary damages would be inadequate. Accordingly, either party may seek injunctive relief in addition to any other remedies available at law or in equity.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">9. GOVERNING LAW</div>
+            <p>This Agreement shall be governed by and construed in accordance with the laws of the State of Michigan, without regard to conflicts of law principles.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">10. ENTIRE AGREEMENT</div>
+            <p>This Agreement constitutes the entire agreement between the parties concerning the subject matter hereof and supersedes all prior agreements, understandings, and communications.</p>
+        </div>
+        
+        <div class="signature-block">
+            <div class="sig-party">
+                <h4>DEE DAVIS INC.</h4>
+                <div class="sig-line"></div>
+                <div class="sig-label">Signature</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Printed Name: Dieasha D. Davis</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Title: President & CEO</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Date</div>
+            </div>
+            <div class="sig-party">
+                <h4>PARTNER: {{PARTNER_NAME}}</h4>
+                <div class="sig-line"></div>
+                <div class="sig-label">Signature</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Printed Name: {{CONTACT_NAME}}</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Title</div>
+                <div class="sig-line"></div>
+                <div class="sig-label">Date</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Dee Davis Inc. | 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 | 248.376.4550 | info@deedavis.biz<br>
+            HAVEN Disaster Response TPA — Confidential
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
-# HAVEN PARTNER NETWORK REGISTRY — Transport, Housing, Medical
-**Generated:** May 10, 2026
+# HAVEN PARTNER NETWORK REGISTRY — Transport, Housing, Medical, Personal Care
+**Generated:** May 10, 2026 | **Updated:** May 10, 2026
 **Status:** Outreach Ready
-**Purpose:** Fulfillment network for NEMT + HAVEN disaster response TPA services
+**Purpose:** Fulfillment network for NEMT + HAVEN disaster response + Personal Care TPA services
 
 ---
 
@@ -118,6 +118,30 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 
 ---
 
+## PERSONAL CARE PARTNERS — National Platforms (Like Lyft/Uber for Caregiving)
+
+### NATIONAL PLATFORMS
+
+| Platform | Model | Coverage | MCO Relationships | Contact | Status |
+|----------|-------|----------|-------------------|---------|--------|
+| **Papa** ⭐ | Companionship + light personal care | Nationwide | **200+ MCOs already** (dual-eligible focus) | **FORM:** papa.com/contact, Phone: 1-800-348-7951 | ✅ SENT 5/10 |
+| **CareLinx** | Caregiver marketplace (Sharecare) | Nationwide | B2B partnerships available | **FORM:** carelinx.com/health-plan | ✅ SENT 5/10 |
+| **Honor** | Tech-enabled care agencies | Major metros | B2B partnerships available | carepro@honorcare.com, Phone: 877-777-5116 | ✅ SENT 5/10 |
+
+**DDI's Role with Personal Care Platforms:**
+- Coordinate member authorizations from MCO Care Managers
+- Dispatch personal care through platform network
+- Handle compliance documentation and MCO billing
+- Serve as MCO's single point of contact for personal care coordination
+
+**Why Platforms vs. Direct Agencies:**
+- Instant nationwide coverage (like Lyft/Uber for NEMT)
+- No individual agency credentialing needed
+- MCO-ready on day one
+- Scalable across all 10 target states
+
+---
+
 ## HAVEN PARTNER VALUE PROPOSITION
 
 ### What DDI Offers Partners:
@@ -140,18 +164,28 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 - Portable care plans — DDI ensures records follow the member
 - No claims delays — DDI manages MCO billing
 
+**Personal Care Platforms:**
+- Guaranteed volume from MCO contracts (authorization-based)
+- B2B invoicing (DDI as intermediary, reliable payment)
+- Scalable across 10 states (DDI's expansion footprint)
+- Single relationship = national coverage
+
 ---
 
 ## OUTREACH PRIORITY ORDER
 
 ### Phase 1 — Before MCO Emails (TODAY)
-1. **Transport:** 2-3 providers per state (TX, FL, LA, SC) — wheelchair/stretcher focus
-2. **Housing:** Red Roof, Extended Stay America, WoodSpring (national chains with FEMA/healthcare programs)
-3. **Medical:** Amedisys, Enhabit, VitalCaring (multi-state footprint in hurricane corridor)
+1. **Brian Grcevich (HAP CareSource):** Thank you + personal care expansion ask
+2. **Personal Care Platforms:** Papa, CareLinx, Honor — national coverage, MCO-ready
+3. **Skyline Champion:** FEMA MHU partnership (Joseph Kimmell) — $800M contract
+4. **Transport:** 2-3 providers per state (TX, FL, LA, SC) — wheelchair/stretcher focus
+5. **Housing:** Red Roof, Extended Stay America, WoodSpring (national chains with FEMA/healthcare programs)
+6. **Medical:** Amedisys, Enhabit, VitalCaring (multi-state footprint in hurricane corridor)
 
 ### Phase 2 — After MCO Responses
 - Fill gaps based on which states respond first
 - Add local providers as needed for specific MCO service areas
+- Add more personal care agencies if platform partnerships don't materialize
 
 ---
 
@@ -159,6 +193,7 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 
 | Category | Target Count | Outreach Sent | Responses | Agreements |
 |----------|-------------|---------------|-----------|------------|
+| **Personal Care Platforms** | 3 | 0 | 0 | 0 |
 | Transport — TX | 9 | 0 | 0 | 0 |
 | Transport — FL | 7 | 0 | 0 | 0 |
 | Transport — LA | 3 | 0 | 0 | 0 |
@@ -167,7 +202,13 @@ When disasters destroy homes for months, hotels aren't enough. FEMA deploys manu
 | Housing — Modular/Prefab | 3 | 0 | 0 | 0 |
 | Medical — National | 5 | 0 | 0 | 0 |
 | Medical — Regional | 2 | 0 | 0 | 0 |
-| **TOTAL** | **39** | **0** | **0** | **0** |
+| **TOTAL** | **42** | **0** | **0** | **0** |
+
+### PRIORITY PARTNER: PAPA ⭐ (Personal Care)
+- partnerships@papa.com
+- (786) 749-2972
+- **Already works with 200+ MCOs** — fastest path to personal care coverage
+- Dual-eligible focus = perfect for DDI's HIDE SNP / D-SNP member population
 
 ### PRIORITY PARTNER: SKYLINE CHAMPION ⭐
 - Joseph Kimmell, EVP US Operations — 574-971-0018

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAVEN Medical Partnership — Dee Davis Inc.</title>
+    <title>HAVEN Partnership Overview — Dee Davis Inc.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -15,10 +15,16 @@
         
         :root {
             --primary: #0f172a;
-            --accent: #0ea5e9;
-            --accent-dark: #0284c7;
-            --emergency: #dc2626;
-            --success: #059669;
+            --housing: #2563eb;
+            --housing-light: #dbeafe;
+            --assistance: #8b5cf6;
+            --assistance-light: #ede9fe;
+            --transport: #059669;
+            --transport-light: #d1fae5;
+            --medical: #dc2626;
+            --medical-light: #fee2e2;
+            --network: #ffffff;
+            --accent: #8b5cf6;
             --light: #f8fafc;
             --gray: #64748b;
             --border: #e2e8f0;
@@ -73,9 +79,11 @@
             margin-bottom: 5px;
         }
         
-        .header-left h1 span {
-            color: var(--accent);
-        }
+        .header-left h1 .h { color: var(--housing); }
+        .header-left h1 .a { color: var(--assistance); }
+        .header-left h1 .v { color: var(--transport); }
+        .header-left h1 .e { color: var(--medical); }
+        .header-left h1 .n { color: var(--network); }
         
         .header-left .tagline {
             font-size: 16px;
@@ -83,6 +91,25 @@
             opacity: 0.9;
             margin-bottom: 8px;
         }
+        
+        .acronym-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .acronym-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .acronym-badge.h-word { background: rgba(37, 99, 235, 0.35); }
+        .acronym-badge.a-word { background: rgba(139, 92, 246, 0.35); }
+        .acronym-badge.v-word { background: rgba(5, 150, 105, 0.35); }
+        .acronym-badge.e-word { background: rgba(220, 38, 38, 0.35); }
+        .acronym-badge.n-word { background: rgba(255, 255, 255, 0.2); }
         
         .header-left .subtitle {
             font-size: 13px;
@@ -139,7 +166,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--accent);
+            color: var(--assistance);
             font-weight: 700;
             margin-bottom: 12px;
             display: flex;
@@ -151,7 +178,7 @@
             content: '';
             width: 20px;
             height: 3px;
-            background: var(--accent);
+            background: var(--assistance);
             border-radius: 2px;
         }
         
@@ -186,7 +213,7 @@
             content: '→';
             position: absolute;
             left: 0;
-            color: var(--accent);
+            color: var(--assistance);
             font-weight: 600;
         }
         
@@ -225,15 +252,18 @@
         }
         
         .triangle-item:nth-child(1) .triangle-icon {
-            background: #dbeafe;
+            background: var(--housing-light);
+            border: 2px solid var(--housing);
         }
         
         .triangle-item:nth-child(2) .triangle-icon {
-            background: #d1fae5;
+            background: var(--transport-light);
+            border: 2px solid var(--transport);
         }
         
         .triangle-item:nth-child(3) .triangle-icon {
-            background: #fce7f3;
+            background: var(--medical-light);
+            border: 2px solid var(--medical);
         }
         
         .triangle-item h4 {
@@ -248,10 +278,7 @@
         }
         
         /* Partnership Section */
-        .partnership-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        .partnership-section {
             margin-bottom: 30px;
         }
         
@@ -259,11 +286,12 @@
             border: 2px solid var(--border);
             border-radius: 10px;
             padding: 20px;
+            margin-bottom: 20px;
         }
         
         .partnership-box.highlight {
-            border-color: var(--accent);
-            background: linear-gradient(135deg, rgba(14,165,233,0.03) 0%, rgba(14,165,233,0.08) 100%);
+            border-color: var(--assistance);
+            background: linear-gradient(135deg, rgba(139,92,246,0.03) 0%, rgba(139,92,246,0.08) 100%);
         }
         
         .partnership-box h3 {
@@ -276,7 +304,7 @@
         }
         
         .partnership-box.highlight h3 {
-            color: var(--accent-dark);
+            color: #7c3aed;
         }
         
         .role-tag {
@@ -289,14 +317,59 @@
         }
         
         .role-tag.ddi {
-            background: var(--accent);
+            background: var(--assistance);
             color: white;
         }
         
-        .role-tag.partner {
-            background: var(--border);
-            color: var(--gray);
+        .partner-types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
         }
+        
+        .partner-type {
+            border-radius: 10px;
+            padding: 18px;
+        }
+        
+        .partner-type h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .partner-type ul {
+            margin: 0;
+        }
+        
+        .partner-type ul li {
+            font-size: 11px;
+            padding: 4px 0;
+        }
+        
+        .housing-partner {
+            background: var(--housing-light);
+            border: 2px solid var(--housing);
+        }
+        
+        .housing-partner h4 { color: var(--housing); }
+        .housing-partner ul li::before { color: var(--housing); }
+        
+        .transport-partner {
+            background: var(--transport-light);
+            border: 2px solid var(--transport);
+        }
+        
+        .transport-partner h4 { color: var(--transport); }
+        .transport-partner ul li::before { color: var(--transport); }
+        
+        .medical-partner {
+            background: var(--medical-light);
+            border: 2px solid var(--medical);
+        }
+        
+        .medical-partner h4 { color: var(--medical); }
+        .medical-partner ul li::before { color: var(--medical); }
         
         /* Volume Box */
         .volume-box {
@@ -321,7 +394,7 @@
         .volume-number {
             font-size: 28px;
             font-weight: 800;
-            color: var(--accent);
+            color: var(--assistance);
         }
         
         .volume-label {
@@ -348,7 +421,7 @@
         .why-number {
             width: 28px;
             height: 28px;
-            background: var(--accent);
+            background: var(--assistance);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -401,7 +474,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--accent);
+            color: var(--assistance);
             margin-bottom: 8px;
         }
         
@@ -429,13 +502,19 @@
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>H<span>A</span>VEN</h1>
-                    <div class="tagline">Housing, Assistance, Vital Emergency Network</div>
-                    <div class="subtitle">Disaster Response TPA — Medical Services Partnership Overview</div>
+                    <h1><span class="h">H</span><span class="a">A</span><span class="v">V</span><span class="e">E</span><span class="n">N</span></h1>
+                    <div class="acronym-badges">
+                        <span class="acronym-badge h-word">Housing</span>
+                        <span class="acronym-badge a-word">Assistance</span>
+                        <span class="acronym-badge v-word">Vital</span>
+                        <span class="acronym-badge e-word">Emergency</span>
+                        <span class="acronym-badge n-word">Network</span>
+                    </div>
+                    <div class="subtitle">Disaster Response TPA — Partnership Overview</div>
                 </div>
                 <div class="header-right">
                     <div class="company-name">Dee Davis Inc.</div>
-                    <div class="company-tagline">Contract Management Firm</div>
+                    <div class="company-tagline">Contract Management TPA</div>
                     <div class="cert-badges">
                         <span class="cert-badge">EDWOSB</span>
                         <span class="cert-badge">WOSB</span>
@@ -452,20 +531,21 @@
             <div class="two-col">
                 <div>
                     <div class="section-title">Who We Are</div>
-                    <h2>Healthcare TPA Services</h2>
-                    <p>Dee Davis Inc. is a Michigan-based, woman-owned contract management firm specializing in healthcare coordination. We manage networks of credentialed providers for MCOs, health plans, and government agencies.</p>
+                    <h2>Contract Management TPA</h2>
+                    <p>Dee Davis Inc. is a Michigan-based EDWOSB Contract Management TPA. We manage networks of credentialed service providers for Medicaid MCOs and government agencies — zero-fleet, zero-staff, full coordination.</p>
                     <ul>
-                        <li>Drug testing program administration (C/TPA)</li>
-                        <li>Non-emergency medical transportation</li>
-                        <li>Occupational health services</li>
-                        <li>Healthcare compliance & credentialing</li>
+                        <li>NEMT program administration — HAP CareSource HIDE SNP (live, 4,500+ members)</li>
+                        <li>Personal care coordination (companion care, ADL support)</li>
+                        <li>HAVEN disaster response — housing, transport, medical continuity</li>
+                        <li>Pharmacy delivery coordination</li>
                     </ul>
                 </div>
                 <div>
-                    <div class="section-title">What We're Building</div>
-                    <h2>Medical Continuity Network</h2>
-                    <p>When disasters displace members, they don't stop needing medications, home health visits, or DME. Their usual providers are unreachable. Pharmacies are closed. Equipment is lost in the flood.</p>
-                    <p><strong>DDI fills the gap</strong> — pre-credentialed medical partners activated instantly to deliver care wherever displaced members land.</p>
+                    <div class="section-title">HAVEN Program</div>
+                    <h2>Disaster Response TPA</h2>
+                    <p>When disasters strike, health plan members are displaced. MCOs are responsible for continuity of care but lack disaster response infrastructure.</p>
+                    <p><strong>DDI provides the coordination layer</strong> — pre-built partner networks, instant activation, seamless member services across housing, transport, and medical continuity.</p>
+                    <p style="font-size:12px; color:#059669; font-weight:600;">✓ Active MCO contracts · 10 states · Hurricane season June 1</p>
                 </div>
             </div>
             
@@ -496,41 +576,60 @@
                 <div class="section-title" style="color: rgba(255,255,255,0.7);">Volume Potential</div>
                 <div class="volume-grid">
                     <div class="volume-item">
-                        <div class="volume-number">50,000+</div>
-                        <div class="volume-label">Displaced members needing medical continuity per event</div>
+                        <div class="volume-number">4,500+</div>
+                        <div class="volume-label">Dual-eligible members under DDI management (HAP CareSource — live)</div>
                     </div>
                     <div class="volume-item">
-                        <div class="volume-number">90-180</div>
-                        <div class="volume-label">Days of elevated demand per hurricane</div>
+                        <div class="volume-number">10</div>
+                        <div class="volume-label">States targeted — FL, TX, LA, GA, OH, MI, SC, TN, MS, AL</div>
                     </div>
                     <div class="volume-item">
-                        <div class="volume-number">FL • TX • LA</div>
-                        <div class="volume-label">Initial geographic focus</div>
+                        <div class="volume-number">June 1</div>
+                        <div class="volume-label">Hurricane season start — network building now</div>
                     </div>
                 </div>
             </div>
             
             <!-- Partnership -->
-            <div class="partnership-grid">
-                <div class="partnership-box highlight">
+            <div class="partnership-section">
+                <div class="partnership-box highlight ddi-box">
                     <h3><span class="role-tag ddi">DDI</span> Our Role</h3>
                     <ul>
                         <li>MCO relationships and contracts</li>
-                        <li>Care coordination and member intake</li>
-                        <li>Clinical needs assessment and dispatch</li>
+                        <li>Member intake and needs assessment</li>
+                        <li>Dispatch coordination and case management</li>
                         <li>Billing and reporting to payers</li>
-                        <li>Compliance documentation and QA</li>
+                        <li>Quality monitoring and compliance</li>
                     </ul>
                 </div>
-                <div class="partnership-box">
-                    <h3><span class="role-tag partner">Partner</span> Your Role</h3>
-                    <ul>
-                        <li>Clinical service delivery (nursing, therapy, aide visits)</li>
-                        <li>DME delivery and setup at temporary locations</li>
-                        <li>Pharmacy delivery and Rx continuity</li>
-                        <li>Telehealth capability for displaced members</li>
-                        <li>Wound care, chronic disease management</li>
-                    </ul>
+                <div class="partner-types-grid">
+                    <div class="partner-type housing-partner">
+                        <h4>🏠 Housing Partners</h4>
+                        <ul>
+                            <li>Hotel/extended-stay room blocks</li>
+                            <li>FEMA-approved locations</li>
+                            <li>Modular/manufactured housing (MHUs)</li>
+                            <li>Pre-negotiated disaster rates</li>
+                        </ul>
+                    </div>
+                    <div class="partner-type transport-partner">
+                        <h4>🚗 Transport Partners</h4>
+                        <ul>
+                            <li>Wheelchair/stretcher NEMT fleets</li>
+                            <li>Evacuation surge capacity</li>
+                            <li>Daily NEMT trip volume (ongoing)</li>
+                            <li>Medicaid-credentialed providers</li>
+                        </ul>
+                    </div>
+                    <div class="partner-type medical-partner">
+                        <h4>💊 Medical &amp; Care Partners</h4>
+                        <ul>
+                            <li>Home health continuity in temp housing</li>
+                            <li>Personal care (companion, ADL)</li>
+                            <li>Pharmacy/Rx delivery</li>
+                            <li>DME equipment fulfillment</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
@@ -539,28 +638,28 @@
             <div class="why-grid">
                 <div class="why-item">
                     <div class="why-number">1</div>
-                    <h4>Patient Flow</h4>
-                    <p>DDI dispatches members to you, no marketing needed</p>
+                    <h4>Guaranteed Volume</h4>
+                    <p>MCO contracts = steady trip &amp; service volume, daily and during disasters</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">2</div>
-                    <h4>Guaranteed Payment</h4>
-                    <p>DDI bills MCOs, you bill DDI. Net 30.</p>
+                    <h4>Faster Payment</h4>
+                    <p>DDI pays within 30 days — no waiting on Medicaid direct billing</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">3</div>
-                    <h4>Disaster Demand</h4>
-                    <p>Elevated volume for 90-180 days per event</p>
+                    <h4>We Handle Admin</h4>
+                    <p>DDI manages intake, billing, compliance, and MCO reporting</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">4</div>
-                    <h4>Credentialed</h4>
-                    <p>Pre-credentialed before disaster = immediate activation</p>
+                    <h4>No Acquisition Cost</h4>
+                    <p>DDI brings the members — no marketing, no cold calls</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">5</div>
-                    <h4>Complementary</h4>
-                    <p>We coordinate, you deliver care</p>
+                    <h4>10-State Reach</h4>
+                    <p>FL, TX, LA, GA, OH, MI, SC, TN, MS, AL — one agreement, multi-state</p>
                 </div>
             </div>
         </div>
@@ -576,8 +675,8 @@
             <div class="next-steps">
                 <h4>Next Steps</h4>
                 <p>1. Introductory call</p>
-                <p>2. Review service capabilities and geography</p>
-                <p>3. Credentialing and pilot agreement</p>
+                <p>2. Review service areas (FL, TX, LA, GA, OH, SC, TN, MS, AL)</p>
+                <p>3. Pilot agreement for first disaster event</p>
             </div>
         </div>
     </div>

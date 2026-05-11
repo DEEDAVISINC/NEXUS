@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAVEN COI Request — Dee Davis Inc.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #1e293b;
+            background: white;
+        }
+        
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.75in 1in;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #0f172a;
+        }
+        
+        .header-left h1 {
+            font-size: 24pt;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -1px;
+        }
+        
+        .header-left h1 .h { color: #2563eb; }
+        .header-left h1 .a { color: #8b5cf6; }
+        .header-left h1 .v { color: #059669; }
+        .header-left h1 .e { color: #dc2626; }
+        
+        .header-left .subtitle {
+            font-size: 10pt;
+            color: #64748b;
+            margin-top: 5px;
+        }
+        
+        .header-right {
+            text-align: right;
+            font-size: 10pt;
+        }
+        
+        .header-right strong {
+            font-size: 12pt;
+        }
+        
+        .intro {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .intro p {
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 12pt;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #0f172a;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            font-size: 10pt;
+        }
+        
+        td {
+            font-size: 10pt;
+        }
+        
+        .highlight-row {
+            background: #fef3c7;
+        }
+        
+        .checkbox {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #64748b;
+            border-radius: 3px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        
+        .partner-type-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .partner-type-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .partner-type-card.housing { border-color: #2563eb; background: #eff6ff; }
+        .partner-type-card.transport { border-color: #059669; background: #ecfdf5; }
+        .partner-type-card.medical { border-color: #dc2626; background: #fef2f2; }
+        
+        .partner-type-card h4 {
+            font-size: 11pt;
+            margin-bottom: 10px;
+        }
+        
+        .partner-type-card.housing h4 { color: #2563eb; }
+        .partner-type-card.transport h4 { color: #059669; }
+        .partner-type-card.medical h4 { color: #dc2626; }
+        
+        .partner-type-card ul {
+            font-size: 9.5pt;
+            padding-left: 18px;
+            margin: 0;
+        }
+        
+        .partner-type-card li {
+            margin-bottom: 4px;
+        }
+        
+        .instructions {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+        }
+        
+        .instructions h4 {
+            font-size: 11pt;
+            margin-bottom: 8px;
+            color: #92400e;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            font-size: 10pt;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .contact-box {
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .contact-box h4 {
+            margin-bottom: 10px;
+            font-size: 11pt;
+        }
+        
+        .contact-box p {
+            font-size: 10pt;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 9pt;
+            color: #64748b;
+            text-align: center;
+        }
+        
+        @media print {
+            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .page { padding: 0.5in 0.75in; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header-left">
+                <h1><span class="h">H</span><span class="a">A</span><span class="v">V</span><span class="e">E</span>N</h1>
+                <div class="subtitle">Certificate of Insurance Request</div>
+            </div>
+            <div class="header-right">
+                <strong>Dee Davis Inc.</strong><br>
+                755 W. Big Beaver Rd., Suite 2020<br>
+                Troy, MI 48084<br>
+                248.376.4550 | info@deedavis.biz
+            </div>
+        </div>
+        
+        <div class="intro">
+            <p><strong>To:</strong> Prospective HAVEN Network Partner</p>
+            <p><strong>From:</strong> Dee Davis Inc., HAVEN Program Administrator</p>
+            <p><strong>Re:</strong> Certificate of Insurance Requirements for HAVEN Partnership</p>
+            <p>Thank you for your interest in joining the HAVEN disaster response network. Prior to activating your partnership, we require proof of insurance coverage as outlined below. Please have your insurance provider submit a Certificate of Insurance (COI) meeting these requirements.</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Insurance Requirements by Partner Type</div>
+            
+            <div class="partner-type-section">
+                <div class="partner-type-card housing">
+                    <h4>🏠 Housing Partners</h4>
+                    <ul>
+                        <li>General Liability: $1M/$2M</li>
+                        <li>Property Coverage: As required</li>
+                        <li>Workers' Comp: State statutory</li>
+                    </ul>
+                </div>
+                <div class="partner-type-card transport">
+                    <h4>🚗 Transport Partners</h4>
+                    <ul>
+                        <li>General Liability: $1M/$2M</li>
+                        <li>Commercial Auto: $1M+</li>
+                        <li>Workers' Comp: State statutory</li>
+                        <li>Professional Liability: $1M (NEMT)</li>
+                    </ul>
+                </div>
+                <div class="partner-type-card medical">
+                    <h4>💊 Medical Partners</h4>
+                    <ul>
+                        <li>General Liability: $1M/$2M</li>
+                        <li>Professional Liability: $1M+</li>
+                        <li>Workers' Comp: State statutory</li>
+                        <li>Product Liability: As applicable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Minimum Coverage Requirements</div>
+            <table>
+                <tr>
+                    <th>Coverage Type</th>
+                    <th>Minimum Limit</th>
+                    <th>Required For</th>
+                </tr>
+                <tr>
+                    <td>Commercial General Liability</td>
+                    <td>$1,000,000 per occurrence<br>$2,000,000 aggregate</td>
+                    <td>All Partners</td>
+                </tr>
+                <tr>
+                    <td>Workers' Compensation</td>
+                    <td>State statutory limits</td>
+                    <td>All Partners with employees</td>
+                </tr>
+                <tr>
+                    <td>Commercial Auto Liability</td>
+                    <td>$1,000,000 per occurrence</td>
+                    <td>Transport Partners</td>
+                </tr>
+                <tr>
+                    <td>Professional Liability / E&O</td>
+                    <td>$1,000,000 per occurrence</td>
+                    <td>Medical Partners, NEMT</td>
+                </tr>
+                <tr>
+                    <td>Umbrella / Excess Liability</td>
+                    <td>$2,000,000 (recommended)</td>
+                    <td>High-volume partners</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">COI Requirements Checklist</div>
+            <table>
+                <tr>
+                    <th style="width: 40px;"></th>
+                    <th>Requirement</th>
+                    <th>Details</th>
+                </tr>
+                <tr class="highlight-row">
+                    <td><div class="checkbox"></div></td>
+                    <td><strong>Additional Insured</strong></td>
+                    <td>Dee Davis Inc. must be listed as Additional Insured</td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox"></div></td>
+                    <td>Policy Effective Dates</td>
+                    <td>Coverage must be active for full contract period</td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox"></div></td>
+                    <td>Coverage Limits</td>
+                    <td>Meet or exceed minimums listed above</td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox"></div></td>
+                    <td>Cancellation Notice</td>
+                    <td>30-day notice to DDI for cancellation or material change</td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox"></div></td>
+                    <td>Insurance Carrier Rating</td>
+                    <td>A- or better by AM Best</td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox"></div></td>
+                    <td>Certificate Holder</td>
+                    <td>Dee Davis Inc., 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="instructions">
+            <h4>📋 Submission Instructions</h4>
+            <ul>
+                <li>Have your insurance provider send the COI directly to: <strong>info@deedavis.biz</strong></li>
+                <li>Subject line: <strong>HAVEN COI — [Your Company Name]</strong></li>
+                <li>Include your company name and partner type (Housing/Transport/Medical)</li>
+                <li>COI must be received before services can be activated</li>
+                <li>Submit updated COI upon each policy renewal</li>
+            </ul>
+        </div>
+        
+        <div class="contact-box">
+            <h4>Questions?</h4>
+            <p><strong>Dieasha D. Davis</strong>, President & CEO</p>
+            <p>📞 248.376.4550</p>
+            <p>📧 info@deedavis.biz</p>
+            <p>🏢 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</p>
+        </div>
+        
+        <div class="footer">
+            Dee Davis Inc. | EDWOSB | WOSB | WBENC | MBE | SBE<br>
+            HAVEN Disaster Response TPA — Partner Insurance Requirements
+        </div>
+    </div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAVEN Transport Partnership — Dee Davis Inc.</title>
+    <title>HAVEN Housing Partnership — Dee Davis Inc.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -15,10 +15,15 @@
         
         :root {
             --primary: #0f172a;
-            --accent: #0ea5e9;
-            --accent-dark: #0284c7;
-            --emergency: #dc2626;
-            --success: #059669;
+            --housing: #2563eb;
+            --housing-light: #dbeafe;
+            --transport: #059669;
+            --transport-light: #d1fae5;
+            --medical: #dc2626;
+            --medical-light: #fee2e2;
+            --accent: #8b5cf6;
+            --accent-light: #ede9fe;
+            --accent-dark: #7c3aed;
             --light: #f8fafc;
             --gray: #64748b;
             --border: #e2e8f0;
@@ -73,9 +78,11 @@
             margin-bottom: 5px;
         }
         
-        .header-left h1 span {
-            color: var(--accent);
-        }
+        .header-left h1 .h { color: var(--housing); }
+        .header-left h1 .a { color: var(--accent); }
+        .header-left h1 .v { color: var(--transport); }
+        .header-left h1 .e { color: var(--medical); }
+        .header-left h1 .n { color: white; }
         
         .header-left .tagline {
             font-size: 16px;
@@ -429,13 +436,13 @@
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>H<span>A</span>VEN</h1>
+                    <h1><span class="h">H</span><span class="a">A</span><span class="v">V</span><span class="e">E</span><span class="n">N</span></h1>
                     <div class="tagline">Housing, Assistance, Vital Emergency Network</div>
-                    <div class="subtitle">Disaster Response TPA — Transport Partnership Overview</div>
+                    <div class="subtitle">Disaster Response TPA — Housing Partnership Overview</div>
                 </div>
                 <div class="header-right">
                     <div class="company-name">Dee Davis Inc.</div>
-                    <div class="company-tagline">Contract Management Firm</div>
+                    <div class="company-tagline">Contract Management TPA</div>
                     <div class="cert-badges">
                         <span class="cert-badge">EDWOSB</span>
                         <span class="cert-badge">WOSB</span>
@@ -452,20 +459,20 @@
             <div class="two-col">
                 <div>
                     <div class="section-title">Who We Are</div>
-                    <h2>Healthcare TPA Services</h2>
-                    <p>Dee Davis Inc. is a Michigan-based, woman-owned contract management firm specializing in healthcare coordination. We manage networks of credentialed providers for MCOs, health plans, and government agencies.</p>
+                    <h2>Contract Management TPA</h2>
+                    <p>Dee Davis Inc. is a Michigan-based EDWOSB Contract Management TPA. We manage networks of credentialed service partners for Medicaid MCOs — zero-fleet, zero-staff, full coordination.</p>
                     <ul>
-                        <li>Drug testing program administration (C/TPA)</li>
-                        <li>Non-emergency medical transportation</li>
-                        <li>Occupational health services</li>
-                        <li>Healthcare compliance & credentialing</li>
+                        <li>NEMT TPA — HAP CareSource HIDE SNP (live, 4,500+ members)</li>
+                        <li>HAVEN disaster response — housing, transport, medical continuity</li>
+                        <li>Personal care coordination (companion care, ADL support)</li>
+                        <li>10-state expansion: FL, TX, LA, GA, OH, MI, SC, TN, MS, AL</li>
                     </ul>
                 </div>
                 <div>
                     <div class="section-title">What We're Building</div>
                     <h2>Disaster Response TPA</h2>
                     <p>When disasters strike, health plan members are displaced. MCOs are responsible for continuity of care but lack disaster response infrastructure.</p>
-                    <p><strong>DDI provides the coordination layer</strong> — pre-built networks, instant activation, seamless member services during the chaos.</p>
+                    <p><strong>DDI provides the coordination layer</strong> — pre-built housing networks, instant activation, seamless member placement during the chaos.</p>
                 </div>
             </div>
             
@@ -496,16 +503,16 @@
                 <div class="section-title" style="color: rgba(255,255,255,0.7);">Volume Potential</div>
                 <div class="volume-grid">
                     <div class="volume-item">
-                        <div class="volume-number">10,000+</div>
-                        <div class="volume-label">Transport requests per hurricane event</div>
+                        <div class="volume-number">5,000+</div>
+                        <div class="volume-label">Room nights per hurricane event</div>
                     </div>
                     <div class="volume-item">
                         <div class="volume-number">30-90</div>
                         <div class="volume-label">Days of elevated demand per event</div>
                     </div>
                     <div class="volume-item">
-                        <div class="volume-number">FL • TX • LA</div>
-                        <div class="volume-label">Initial geographic focus</div>
+                        <div class="volume-number">10 States</div>
+                        <div class="volume-label">FL, TX, LA, GA, OH, MI, SC, TN, MS, AL</div>
                     </div>
                 </div>
             </div>
@@ -516,8 +523,8 @@
                     <h3><span class="role-tag ddi">DDI</span> Our Role</h3>
                     <ul>
                         <li>MCO relationships and contracts</li>
-                        <li>Member intake and needs assessment</li>
-                        <li>Dispatch coordination and case management</li>
+                        <li>Member placement and needs assessment</li>
+                        <li>Check-in coordination and case management</li>
                         <li>Billing and reporting to payers</li>
                         <li>Quality monitoring and compliance</li>
                     </ul>
@@ -525,11 +532,11 @@
                 <div class="partnership-box">
                     <h3><span class="role-tag partner">Partner</span> Your Role</h3>
                     <ul>
-                        <li>Ride fulfillment (drivers, vehicles)</li>
-                        <li>Surge capacity during disasters</li>
-                        <li>HIPAA-compliant service delivery</li>
-                        <li>API or concierge dispatch integration</li>
-                        <li>Geographic coverage in target markets</li>
+                        <li>Room block availability (10-50+ rooms)</li>
+                        <li>ADA accessible accommodations</li>
+                        <li>Government/corporate billing accepted</li>
+                        <li>Extended stay capability (7-30 days)</li>
+                        <li>Geographic coverage in evacuation corridors</li>
                     </ul>
                 </div>
             </div>
@@ -539,28 +546,28 @@
             <div class="why-grid">
                 <div class="why-item">
                     <div class="why-number">1</div>
-                    <h4>MCO Access</h4>
-                    <p>Volume through our health plan contracts</p>
+                    <h4>Guaranteed Occupancy</h4>
+                    <p>Blocks filled during disasters, no vacancy risk</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">2</div>
-                    <h4>Disaster Focus</h4>
-                    <p>Not competing for everyday NEMT</p>
+                    <h4>Reliable Payment</h4>
+                    <p>DDI pays, not individuals. Government rates.</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">3</div>
-                    <h4>Coordination</h4>
-                    <p>We handle intake, billing, compliance</p>
+                    <h4>Volume</h4>
+                    <p>Multiple MCOs mean significant room nights</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">4</div>
-                    <h4>Pre-Built</h4>
+                    <h4>Pre-Positioned</h4>
                     <p>Partnership ready before disaster hits</p>
                 </div>
                 <div class="why-item">
                     <div class="why-number">5</div>
-                    <h4>Complementary</h4>
-                    <p>We need your network, not building our own</p>
+                    <h4>No Sales Required</h4>
+                    <p>DDI handles member placement, you provide rooms</p>
                 </div>
             </div>
         </div>
@@ -576,8 +583,8 @@
             <div class="next-steps">
                 <h4>Next Steps</h4>
                 <p>1. Introductory call</p>
-                <p>2. Review service areas (FL, TX, LA, NC)</p>
-                <p>3. Pilot agreement for first disaster event</p>
+                <p>2. Review property/room availability</p>
+                <p>3. Rate agreement for disaster activations</p>
             </div>
         </div>
     </div>
