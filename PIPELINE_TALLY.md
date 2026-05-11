@@ -1,153 +1,100 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 9, 2026 @ 7:50 PM ET
+**Last Updated:** May 10, 2026 @ 11:10 PM ET
 
 ---
 
-## TOTAL PIPELINE: $98M+ LIFETIME (existing) + NEMT/HAVEN EXPANSION IN MOTION
-
-### NEW: NEMT + HAVEN TPA MULTI-STATE EXPANSION
-
-| Element | Status |
-|---|---|
-| **Model** | Contract Management TPA — NEMT + Disaster Response (HAVEN) |
-| **Proof Point** | HAP CareSource HIDE SNP — LIVE, operational, 4,500 members |
-| **States Targeted** | 10 (MI, OH, TX, FL, LA, GA, AL, MS, TN, SC) |
-| **MCO Outreach Emails Drafted** | **38 emails** across 9 states (AL = 1 state-level inquiry) |
-| **MCO Attachment (standard)** | `NEXUS_LEARNING/HAVEN_Master_Proposal.html` → save as PDF → attach to **every** MCO email (see headers in `CLIENT OUTREACH/* MCO NEMT HAVEN/*_MCO_OUTREACH_EMAILS.md`). Partner one-pagers are **not** for MCO sends. |
-| **Revenue Target** | $500K/month gross margin |
-| **Realistic Path** | 5 MCO contracts × $75-100K/month avg = $375-500K/month |
-| **Pipeline Status** | EMAILS READY — Sending begins Sunday night May 11 |
-
-#### MCO Outreach by State
-
-| State | Emails | Key MCOs | DDI Edge |
-|---|---|---|---|
-| **Ohio** | 5 | CareSource OH, Anthem, Molina, UHC, Humana | Anthem follow-up overdue, CareSource expansion |
-| **Texas** | 8 | Community Health Choice (follow-up), UHC TX, Superior, Aetna TX, Wellpoint TX, Community First, El Paso First | Biggest dollar state, warm CHC thread |
-| **Florida** | 7 | Humana, Aetna, Molina, Sunshine/Centene, UHC, Simply/Anthem, FL Community Care | HAVEN flagship — hurricane season June 1 |
-| **Louisiana** | 5 | Aetna LA, AmeriHealth, Healthy Blue, Humana LA, LA Healthcare Connections | LaGov registered, UHC exit = growth moment |
-| **Georgia** | 3 | CareSource GA, Amerigroup, Peach State/Centene | CareSource = existing partner |
-| **Mississippi** | 3 | TrueCare/CareSource, Molina MS, Magnolia/Centene | TrueCare IS CareSource — relationship play |
-| **Tennessee** | 3 | BlueCare TN, Wellpoint TN, UHC TN | BCBS meeting in progress (MI) |
-| **South Carolina** | 3 | Absolute Total Care/Centene, Molina SC, First Choice/AmeriHealth | **Brand new dual-eligible MCO coverage Jan 2026** — no incumbents |
-| **Alabama** | 1 | Alabama Medicaid (ACHN) | Exploratory — NEMT is state-run |
-| **TOTAL** | **38** | | |
-
-#### NEMT + HAVEN Revenue Projection (if 5 contracts land)
-
-| Scenario | Monthly Revenue | Monthly DDI Margin | Annual Margin |
-|---|---|---|---|
-| Conservative (5 × $40K) | $200K/month | $70-80K/month | $840K-$960K/year |
-| Target (5 × $75K) | $375K/month | $130-150K/month | $1.56M-$1.8M/year |
-| Stretch (5 × $100K) | $500K/month | $175-200K/month | $2.1M-$2.4M/year |
-
-*Not yet in pipeline totals — adds to $98M+ lifetime when first expansion contract is signed.*
+## TOTAL PIPELINE: $15M+ LIFETIME (Conservative)
 
 ---
 
-### BREAKDOWN BY PROGRAM
+## ACTIVE MCO CONTRACTS
 
-| Program | Lifetime Value |
-|---|---|
-| **SHIELD Lead-Safe (4 counties, 50% capture)** | $41.5M |
-| **Community Equity SHIELD (6 counties, grant + services)** | $24M |
-| **MCO Contracts (HAP CareSource ACTIVE + BCBSM pending + pipeline)** | $13M-$20M |
-| **All Active Bids (Drug Testing, Courier, Fingerprinting, TX Courier)** | $17M-$20M |
-| **NEMT + HAVEN Multi-State Expansion (projected)** | $4.2M-$12M (5yr) |
-| **TOTAL PIPELINE** | **$98M+ (confirmed) + $4-12M (NEMT/HAVEN projected)** |
+| Program | Status | Annual Revenue | DDI Margin | Lifetime Value |
+|---------|--------|----------------|------------|----------------|
+| **HAP CareSource MI HIDE SNP** | ✅ LIVE | $540K | $216K (40%) | $2.7M (5yr) |
 
 ---
 
-## SHIELD LEAD-SAFE (MDHHS Partnership)
+## MCO OUTREACH IN PROGRESS (NEMT + HAVEN TPA)
 
-**Source:** `SHIELD_REVENUE_MODEL.md`
-**Service Area:** 4 counties — Wayne, Oakland, Macomb, Genesee
+### Louisiana (5 MCOs — SENT 5/10)
+| MCO | Members Est. | Annual Revenue Potential | Win Prob | Risk-Adj Value |
+|-----|--------------|-------------------------|----------|----------------|
+| Aetna LA | 50K | $600K | 25% | $150K |
+| AmeriHealth Caritas LA | 75K | $900K | 25% | $225K |
+| Healthy Blue LA | 60K | $720K | 20% | $144K |
+| Humana LA | 80K | $960K | 30% | $288K |
+| LA Healthcare Connections | 100K | $1.2M | 25% | $300K |
+| **LA Subtotal** | — | **$4.38M** | — | **$1.1M** |
 
-| Phase | Annual Revenue | DDI Margin | 3-Year Value |
-|---|---|---|---|
-| Year 1 Wayne (25%) | $3.1M | $1.1M | $9.2M |
-| Year 1 Wayne (50%) | $6.1M | $2.1M-$2.4M | $18.4M |
-| Year 2+ 4 Counties (50%) | $13.8M | $4.8M-$5.5M | $41.5M |
-| **Full Scale (100%)** | **$27.7M** | **$9.7M-$11.1M** | **$83.1M** |
+### South Carolina (2 MCOs — SENT 5/10, 1 pending)
+| MCO | Annual Revenue Potential | Win Prob | Risk-Adj Value |
+|-----|-------------------------|----------|----------------|
+| Absolute Total Care | $500K | 30% | $150K |
+| Molina SC | $400K | 25% | $100K |
+| First Choice (pending) | $350K | 25% | $88K |
+| **SC Subtotal** | **$1.25M** | — | **$338K** |
 
-**Pipeline uses 50% capture = $41.5M**
+### Mississippi (3 MCOs — SENT 5/10)
+| MCO | Annual Revenue Potential | Win Prob | Risk-Adj Value |
+|-----|-------------------------|----------|----------------|
+| TrueCare (CareSource) | $600K | **45%** | $270K |
+| Molina MS | $400K | 25% | $100K |
+| Magnolia Health | $450K | 25% | $113K |
+| **MS Subtotal** | **$1.45M** | — | **$483K** |
 
----
-
-## COMMUNITY EQUITY SHIELD (Grant + Services)
-
-**Service Area:** 6 counties — Wayne, Oakland, Macomb + Genesee, Kent, Muskegon
-
-| Year | Grant | Billable Services | Total | DDI Margin |
-|---|---|---|---|---|
-| Year 1 | $1M | $1.5M | $2.5M | $875K |
-| Year 3 | $1M | $4.4M | $5.4M | $1.9M |
-| **6-Year Lifetime** | **$6M** | **$18M+** | **$24M+** | **$8M+** |
-
----
-
-## MCO CONTRACTS
-
-| MCO | Status | Details | Lifetime Value |
-|---|---|---|---|
-| **HAP CareSource** | ✅ ACTIVE — Portal live May 6, 2026 | Wayne/Macomb · 4,500 members · $28/$35 per trip · Unlimited rides | $375K-$900K (5yr conservative) |
-| **BCBSM** | 🔥 HOT LEAD — Call pending with Alina | Waiting on date after Memorial Day | $5M-$10M (5yr est.) |
-| Meridian | Pipeline | | $2.5M (5yr) |
-| UHC | Pipeline | | $2.5M (5yr) |
-| Molina | ⏳ Application + Attestation SUBMITTED — Awaiting review | Sheri Dankert (MHMLTSSContracting@MolinaHealthCare.com) | $2.5M (5yr) |
-| **TOTAL MCOs** | | | **$13M-$20M** |
-
-**HAP CareSource Notes:**
-- NEMT Transportation Broker · Vendor ID: 100000469269
-- Rates: $28 standard, $35 ambulatory/wheelchair
-- Service area: Wayne County, Macomb County
-- Member population: 4,500 with unlimited rides
-- Trip channels: Direct member calls, portal queue, Care Manager referrals
-- See `HAP_CARESOURCE_OPERATIONS.md` for full operational details
+### Remaining States (Not Yet Sent)
+| State | MCOs | Est. Annual Total | Win Prob | Risk-Adj |
+|-------|------|-------------------|----------|----------|
+| Georgia | 4 | $2.0M | 20% | $400K |
+| Tennessee | 3 | $1.2M | 20% | $240K |
+| Ohio | 6 | $3.0M | 25% | $750K |
+| Texas | 7 | $4.5M | 20% | $900K |
+| Florida | 8 | $5.0M | 20% | $1.0M |
+| Alabama | 1 | $300K | 10% | $30K |
 
 ---
 
-## ACTIVE BIDS
+## HAVEN PARTNER NETWORK (Outreach Sent 5/10)
 
-| Opportunity | Lifetime Value | Win % | Due |
-|---|---|---|---|
-| City of Yonkers RFP-546 | $650K | 60% | ✅ SUBMITTED |
-| ~~KY DMS Mine Drug Testing~~ | ~~$180K~~ | **PASS** — 15-panel pricing gap, tight timeline | — |
-| Fulton County 26ITB1580280B | $320K | 45% | Blocked |
-| Harris Health AB02182026 | $600K | 40% | Blocked |
-| CBP Medical Support 70B06C26R00000017 | $5M | 25% | May 5 |
-| WA LCB Background Checks RFP 2026-01 | $1M | ~~PASS~~ — NCS not qualified for law enforcement scope | — |
-| Maryland MVA Courier V-HQ-26065-S | $375K | 45% — OLIMP declined, warehouse search active | May 11 |
-| DHA Fingerprinting HT001126QE014 | $2.5M | 35% | ~May 15 |
-| VA Illiana Courier | $2M | 35% | Watch |
-| University Health Pharmacy Courier (TX) | $3.8M-$7M | 40% | May 18 |
-| University Health Lab Courier (TX) | $765K-$1.3M | 35% | May 18 |
-| **TOTAL ACTIVE BIDS** | **$17M-$20M** | | |
+| Category | Partners Contacted | Purpose |
+|----------|-------------------|---------|
+| Transport (TX, FL, LA, SC) | 10 | NEMT fulfillment |
+| Housing (Hotels + Modular) | 7 | Disaster housing |
+| Medical (Home Health) | 2 | Care continuity |
+| Personal Care | 3 | Companion/aide services |
+| FEMA MHU (Skyline Champion) | 1 | 18-month displacement |
 
 ---
 
-## RISK-ADJUSTED VALUES
+## SUMMARY TOTALS
 
-| Metric | Value |
-|---|---|
-| **Total Annual Revenue (if all won)** | $19.4M |
-| **Total Annual DDI Margin (if all won)** | $7.6M |
-| **Total Lifetime Pipeline Value** | **$98M+ (confirmed) + $4-12M (NEMT/HAVEN projected)** |
-| **Risk-Adjusted Annual Margin** | $3.5M-$4M |
-
----
-
-## REGION 10 MCO OUTREACH — May 4, 2026 (ACTIVITY LOG — NOT A NEW REVENUE MODEL)
-
-**These lines are operational facts from the session, not recalculated pipeline dollars.**
-
-| Item | Status |
-|---|---|
-| Outbound NEMT TPA emails | Sent to **7** MCOs: Aetna, AmeriHealth, Humana, UHC, Priority Health, Meridian, Molina (per your confirmation + `TODAY_AGENDA.md`) |
-| Molina portal | Contract Request in progress — LTSS / Non-Medical Transportation; **HCBS Waiver Attestation** still needed |
-| Follow-up reminder | `calendars/MCO_REGION10_FOLLOWUP.ics` — **May 11, 2026** (also in `calendars/SCHEDULED_AGENDA.md`) |
-| Walgreens SupplierOne | Registration incomplete (~33% — finish password / register step later) |
+| Metric | Conservative | Target |
+|--------|--------------|--------|
+| **Active Annual Revenue** | $540K | $540K |
+| **Pipeline Annual (if all won)** | $18M+ | $22M+ |
+| **Risk-Adjusted Annual** | $3.5M | $5M |
+| **Active DDI Margin** | $216K | $216K |
+| **Risk-Adjusted Margin** | $1.4M | $2M |
+| **5-Year Lifetime Value** | $15M+ | $25M+ |
 
 ---
 
-*This file is the source of truth for pipeline revenue. Updated nightly. Read at session start per `nexus-session-continuity.mdc`.*
+## STRONGEST LEADS
+
+1. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
+2. **Humana Louisiana** — Active MI relationship. 30% win probability.
+3. **Louisiana MCOs broadly** — DDI is registered LA vendor, UHC exit = growth pressure.
+4. **South Carolina MCOs** — Brand new dual-eligible managed care (Jan 2026).
+
+---
+
+## MOMENTUM CHECK
+
+**Tonight: 35 emails sent.**
+- 24 partner outreach
+- 11 MCO outreach
+- 4 states covered (LA, SC, MS, AL)
+- 5 more states remaining
+
+You just planted 35 seeds. Some will grow. Keep watering.
