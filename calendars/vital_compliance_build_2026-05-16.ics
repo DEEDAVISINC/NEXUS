@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:vital-compliance-build-20260516@deedavis.biz
+DTSTAMP:20260513T143500Z
+DTSTART;TZID=America/Detroit:20260516T120000
+DTEND;TZID=America/Detroit:20260516T180000
+SUMMARY:🔧 BUILD: VITAL Compliance Module (prism_vital_compliance.py)
+DESCRIPTION:Build VITAL PRISM modules per University Health RFP specs.\n\nMASTER SPEC: /VITAL_SYSTEM_SPECIFICATION.md\n\nPhase 1 - Core Modules:\n- prism_vital_orders.py (intake schema)\n- prism_vital_compliance.py (QC checklists)\n- prism_vital_sla.py (85% on-time SLA)\n- prism_vital_pod.py (proof of delivery)\n- prism_vital_credentials.py (Symplr integration)\n\nPhase 2 - Operations:\n- prism_vital_routing.py (dynamic routing)\n- prism_vital_pricing.py (zone/mile/flat)\n- Partner API integration
+LOCATION:NEXUS Backend Development
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:VITAL build session in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

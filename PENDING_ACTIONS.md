@@ -64,6 +64,7 @@ All pending MCO emails need audit before sending.
 | May 12 | Rick Johnson | Buckeye Ohio | ❌ Declined — referred to Natalie Lukaszewicz |
 | May 12 | Sandra Salas | Molina Texas | ❌ Declined — services in-house |
 | May 12 | Natalie Lukaszewicz | Centene Corporate | ✅ SENT (VP referral from Rick) |
+| May 13 | Natalie Lukaszewicz | Buckeye/Centene | Network closed — follow up Q3 2026 (mid-July) |
 
 ---
 
@@ -73,6 +74,7 @@ All pending MCO emails need audit before sending.
 |---|---|---|---|
 | Bennett Emfinger | Alabama Medicaid NET | May 12 | May 26 (14 days) |
 | Kristen Halsey | CareSource Ohio | May 12 | May 19 (7 days) |
+| Natalie Lukaszewicz | Buckeye Health Plan / Centene | May 13 | Mid-July 2026 (Q3) — "network closed, reach out later this year" |
 
 ---
 

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBER HEALTH CALL PREP — May 13, 2026</title>
+    <style>
+        :root {
+            --uber-black: #000000;
+            --uber-green: #276EF1;
+            --vital-lab: #1e40af;
+            --vital-pharma: #dc2626;
+            --vital-accent: #059669;
+            --alert: #dc2626;
+            --success: #059669;
+            --warning: #d97706;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-bg);
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--uber-black) 0%, #1a1a2e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header h1 span {
+            color: var(--uber-green);
+        }
+        
+        .call-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .call-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .call-info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+        
+        .call-info-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .call-info-value.phone {
+            color: #22c55e;
+            font-size: 20px;
+        }
+        
+        /* Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, var(--alert) 0%, #b91c1c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-box h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alert-box .deadline {
+            background: white;
+            color: var(--alert);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            font-size: 18px;
+            color: var(--uber-black);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--uber-green);
+        }
+        
+        .section h3 {
+            font-size: 15px;
+            color: #475569;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        th {
+            background: #1e293b;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tr:hover {
+            background: #f1f5f9;
+        }
+        
+        .confirm-cell {
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        /* Question List */
+        .question-list {
+            list-style: none;
+            counter-reset: question;
+        }
+        
+        .question-list li {
+            counter-increment: question;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8fafc;
+            border-left: 4px solid var(--uber-green);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .question-list li::before {
+            content: counter(question) ".";
+            font-weight: 700;
+            color: var(--uber-green);
+            margin-right: 10px;
+        }
+        
+        .question-list li strong {
+            color: var(--uber-black);
+        }
+        
+        .question-list li.priority {
+            border-left-color: var(--alert);
+            background: #fef2f2;
+        }
+        
+        .question-list li.priority::before {
+            color: var(--alert);
+        }
+        
+        /* Checklist */
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .checklist li::before {
+            content: "☐";
+            font-size: 18px;
+            color: #94a3b8;
+        }
+        
+        /* Two Column Grid */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+        
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .tag-vital { background: #dbeafe; color: var(--vital-lab); }
+        .tag-haven { background: #dcfce7; color: var(--vital-accent); }
+        .tag-priority { background: #fee2e2; color: var(--alert); }
+        
+        /* Talking Points */
+        .talking-point {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .talking-point .quote {
+            font-style: italic;
+            font-size: 16px;
+            color: #166534;
+            margin-bottom: 8px;
+        }
+        
+        .talking-point .why {
+            font-size: 13px;
+            color: #475569;
+        }
+        
+        /* Outcome Box */
+        .outcome-box {
+            background: linear-gradient(135deg, var(--vital-accent) 0%, #047857 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .outcome-box h3 {
+            color: white;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        
+        .outcome-box ul {
+            list-style: none;
+            margin: 0;
+        }
+        
+        .outcome-box li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .outcome-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .section { box-shadow: none; border: 1px solid #e2e8f0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1><span>UBER HEALTH</span> INTRO CALL — PREP SHEET</h1>
+            <p>Partnership Discussion: VITAL + HAVEN + MCO NEMT</p>
+            
+            <div class="call-info">
+                <div class="call-info-item">
+                    <span class="call-info-label">Date & Time</span>
+                    <span class="call-info-value">Wed, May 13, 2026 — 1:30 PM ET</span>
+                </div>
+                <div class="call-info-item">
+                    <span class="call-info-label">Contact</span>
+                    <span class="call-info-value">Ariana Cirkelis, Sales Dev</span>
+                </div>
+                <div class="call-info-item">
+                    <span class="call-info-label">Format</span>
+                    <span class="call-info-value phone">SHE CALLS YOU: 248.376.4550</span>
+                </div>
+                <div class="call-info-item">
+                    <span class="call-info-label">Email</span>
+                    <span class="call-info-value">acirkelis@uber.com</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VITAL Alert -->
+        <div class="alert-box">
+            <h2>🔥 UNIVERSITY HEALTH BIDS <span class="deadline">DUE MAY 18</span></h2>
+            <p>Two active RFPs in San Antonio — need to confirm Uber Health can support:</p>
+            <table style="margin-top: 15px; color: white;">
+                <tr style="background: rgba(255,255,255,0.1);">
+                    <th style="background: transparent; color: white;">RFP</th>
+                    <th style="background: transparent; color: white;">Service</th>
+                    <th style="background: transparent; color: white;">Volume</th>
+                    <th style="background: transparent; color: white;">Value</th>
+                </tr>
+                <tr>
+                    <td><strong>RFP-226-03-068-SVC</strong></td>
+                    <td>Pharmacy Courier</td>
+                    <td>7,900/mo</td>
+                    <td>$760K–$1.4M/yr</td>
+                </tr>
+                <tr>
+                    <td><strong>RFP-226-04-073-SVC</strong></td>
+                    <td>Lab Courier</td>
+                    <td>850/mo</td>
+                    <td>$153K–$255K/yr</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- MCO Volume Potential -->
+        <div class="section" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white;">
+            <h2 style="color: white; border-bottom-color: rgba(255,255,255,0.3);"><span class="tag" style="background: white; color: #059669;">MCO NEMT</span> Potential Volume for Uber Health</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px;">
+                <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700;">4,500+</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Members — HAP CareSource MI (LIVE)</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700;">15,000+</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Est. Annual Trips per MCO</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700;">10</div>
+                    <div style="font-size: 12px; opacity: 0.9;">States in DDI Expansion Pipeline</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700;">$500K+</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Annual Transport Revenue per MCO</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">DDI MCO Pipeline States</h3>
+                    <p style="font-size: 14px;">Michigan (LIVE) • Ohio • Georgia • Tennessee • Texas • Florida • Louisiana • South Carolina • Mississippi • Alabama</p>
+                </div>
+                <div>
+                    <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">Volume Per State (Conservative)</h3>
+                    <p style="font-size: 14px;"><strong>15,000 trips/year × 10 states = 150,000+ annual trips</strong><br>
+                    If Uber Health captures 30% = <strong>45,000+ rides/year for Uber Health</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VITAL Requirements -->
+        <div class="section">
+            <h2><span class="tag tag-vital">VITAL</span> What University Health Needs — PHARMACY COURIER</h2>
+            
+            <table>
+                <tr>
+                    <th style="width: 25%;">Requirement</th>
+                    <th style="width: 50%;">Detail</th>
+                    <th style="width: 25%;">Confirm?</th>
+                </tr>
+                <tr>
+                    <td><strong>Location</strong></td>
+                    <td>San Antonio / Bexar County, TX</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Volume</strong></td>
+                    <td>7,900 deliveries/month</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Scheduled</strong></td>
+                    <td>95% of volume — 2-hour delivery window</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>STAT</strong></td>
+                    <td>&lt;5% — 1-hour emergency delivery</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>After Hours</strong></td>
+                    <td>&lt;10% — 8 PM to 7 AM</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Weekends</strong></td>
+                    <td>25% of volume</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Cold Chain</strong></td>
+                    <td>Ice packs for temp-controlled meds</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr style="background: #fef2f2;">
+                    <td><strong>Controlled Substances</strong></td>
+                    <td>Schedule II-V — chain of custody</td>
+                    <td class="confirm-cell">❓ <em style="font-size:11px;">ScriptDrop?</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Proof of Delivery</strong></td>
+                    <td>Signature, photo, timestamp</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>SLA</strong></td>
+                    <td>85% on-time success rate</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+            </table>
+            
+            <h3>LAB COURIER — May Need Different Partner</h3>
+            <table>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Detail</th>
+                    <th>Confirm?</th>
+                </tr>
+                <tr>
+                    <td><strong>Volume</strong></td>
+                    <td>850 deliveries/month</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Locations</strong></td>
+                    <td>70+ facilities + CDC Austin</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+                <tr>
+                    <td><strong>Items</strong></td>
+                    <td>Lab specimens, slides, instruments</td>
+                    <td class="confirm-cell">❓ <em style="font-size:11px;">carGO?</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Biohazard</strong></td>
+                    <td>Blood, urine, tissue specimens</td>
+                    <td class="confirm-cell">❓</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Questions to Ask -->
+        <div class="section">
+            <h2>QUESTIONS TO ASK ARIANA</h2>
+            
+            <h3><span class="tag tag-priority">PRIORITY</span> VITAL / University Health</h3>
+            <ol class="question-list">
+                <li class="priority">Does Uber Health cover <strong>San Antonio / Bexar County, Texas</strong>?</li>
+                <li class="priority">Does Uber Health handle <strong>controlled substance delivery (Schedule II-V)</strong>? Or is that ScriptDrop?</li>
+                <li class="priority">Can Uber Health do <strong>cold chain</strong> (ice pack) Rx delivery?</li>
+                <li class="priority">Can Uber Health do <strong>STAT (1-hour)</strong> and <strong>after-hours (8 PM - 7 AM)</strong>?</li>
+                <li class="priority">What's your <strong>pricing model</strong> — per delivery, per mile, zone-based?</li>
+                <li class="priority">Can we get a <strong>LOC or partnership letter by May 16</strong>?</li>
+            </ol>
+            
+            <h3><span class="tag tag-vital">LAB COURIER</span></h3>
+            <ol class="question-list" start="7">
+                <li>Does Uber Health handle <strong>lab specimens</strong> or only pharmacy?</li>
+                <li>Can Uber Health transport <strong>biohazard materials</strong> (blood, tissue)?</li>
+                <li>If not, can you connect us to <strong>carGO Health</strong> or similar?</li>
+            </ol>
+            
+            <h3><span class="tag tag-haven">HAVEN / MCO Partnership</span></h3>
+            <ol class="question-list" start="10">
+                <li>How does Uber Health partner with <strong>TPAs vs. direct MCO contracts</strong>?</li>
+                <li>What's Uber Health's capacity for <strong>emergency/disaster response</strong>?</li>
+                <li>Existing MCO relationships in <strong>Michigan, Ohio, Georgia, Texas, Florida</strong>?</li>
+                <li><strong>Who's the next person</strong> to speak with if this moves forward?</li>
+            </ol>
+        </div>
+        
+        <!-- Two Column: Talking Points + Ideal Outcome -->
+        <div class="two-col">
+            <div class="section">
+                <h2>KEY TALKING POINTS</h2>
+                
+                <div class="talking-point">
+                    <div class="quote">"DDI is a Contract Management TPA — not a transportation company."</div>
+                    <div class="why">We manage MCO contracts. Transport partners like Uber Health execute under our management. This is partnership, not competition.</div>
+                </div>
+                
+                <div class="talking-point">
+                    <div class="quote">"We're live and operational in Michigan."</div>
+                    <div class="why">HAP CareSource HIDE SNP contract active. 4,500+ members. Proof of concept exists.</div>
+                </div>
+                
+                <div class="talking-point">
+                    <div class="quote">"We're expanding to 10 states."</div>
+                    <div class="why">Ohio, Georgia, Tennessee, Texas, Florida, Louisiana. Each state = volume for Uber Health.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>IDEAL OUTCOME</h2>
+                
+                <div class="outcome-box">
+                    <h3>🔥 VITAL — Immediate (May 18)</h3>
+                    <ul>
+                        <li>Confirm Uber Health covers San Antonio</li>
+                        <li>Clarify controlled substance capability</li>
+                        <li>Get pricing model for bid</li>
+                        <li>LOC commitment by May 16</li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <h3 style="color: #475569; margin-bottom: 10px;">HAVEN / MCO (Ongoing)</h3>
+                    <ul class="checklist">
+                        <li>Ariana understands DDI/HAVEN</li>
+                        <li>Connected to partnerships team</li>
+                        <li>Next meeting scheduled</li>
+                        <li>Uber Health in partner pipeline</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Post-Call Actions -->
+        <div class="section">
+            <h2>POST-CALL ACTIONS</h2>
+            
+            <div class="two-col">
+                <div>
+                    <h3><span class="tag tag-priority">VITAL — URGENT</span></h3>
+                    <ul class="checklist">
+                        <li><strong>If confirmed:</strong> Update University Health WORKFLOWs — partner verified</li>
+                        <li><strong>If NOT confirmed:</strong> Pivot to backups (carGO, MEDS, Medical Services Plus)</li>
+                        <li>Get pricing for bid calculations</li>
+                        <li>Request LOC by May 16</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3><span class="tag tag-haven">HAVEN / General</span></h3>
+                    <ul class="checklist">
+                        <li>Send thank-you email within 24 hours</li>
+                        <li>Send HAVEN + VITAL materials if requested</li>
+                        <li>Log call notes in HAVEN/OUTREACH/</li>
+                        <li>Update partner registry</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Your Positioning -->
+        <div class="section" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white;">
+            <h2 style="color: white; border-bottom-color: white;">YOUR POSITIONING</h2>
+            
+            <div class="two-col" style="margin-top: 15px;">
+                <div>
+                    <h3 style="color: #94a3b8;">Who You Are</h3>
+                    <p><strong>Dieasha D. Davis</strong><br>President & CEO, Dee Davis Inc.</p>
+                    <p style="margin-top: 10px;">EDWOSB-certified Contract Management TPA<br>
+                    Contracted TPA for HAP CareSource Michigan</p>
+                </div>
+                <div>
+                    <h3 style="color: #94a3b8;">What You Need from Uber Health</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 5px 0;">🔥 <strong>VITAL:</strong> Fulfillment for University Health (May 18)</li>
+                        <li style="padding: 5px 0;">🏠 <strong>HAVEN:</strong> Disaster response transport partner</li>
+                        <li style="padding: 5px 0;">🏥 <strong>MCO NEMT:</strong> Integration as we expand to 10 states</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Review 15 minutes before the call. SHE CALLS YOU at 1:30 PM ET.</strong><br>
+            Dee Davis Inc. | 248.376.4550 | info@deedavis.biz
+        </div>
+        
+    </div>
+</body>
+</html>

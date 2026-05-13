@@ -148,6 +148,12 @@
 
 ---
 
+## 2026-05-16 — Saturday
+
+- **12:00 – 6:00 PM ET** — 🔧 **BUILD: VITAL PRISM Modules** — Based on University Health RFP specs (`/VITAL_SYSTEM_SPECIFICATION.md`). Phase 1: `prism_vital_orders.py`, `prism_vital_compliance.py` (7 pharma + 8 lab QC checks), `prism_vital_sla.py` (85% on-time SLA), `prism_vital_pod.py`, `prism_vital_credentials.py` (Symplr). Phase 2: routing, pricing (zone/mile/flat), partner API integration. `.ics`: `calendars/vital_compliance_build_2026-05-16.ics`
+
+---
+
 ## 2026-05-18 — Monday
 
 - **12:00 PM ET** — 🔥 **CHECK: Michigan NEMT Broker Recompete — SIGMA VSS** — ModivCare contract MA190000000912 expires July 31, 2026. Log into SIGMA VSS (sigma.michigan.gov) and check for NEMT broker RFP. Also check michigan.gov/dtmb/procurement. If RFP posted — create bid folder immediately. Contract value ~$103M. `.ics`: `calendars/modivcare_nemt_recompete_check_2026-05-18.ics`
