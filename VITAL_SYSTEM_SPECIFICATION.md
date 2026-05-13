@@ -359,21 +359,55 @@ DDI_METRICS = {
 
 ### 7.1 Pharmacy Courier Partners
 
-| Partner | Capability | Coverage | Status |
-|---------|------------|----------|--------|
-| **Uber Health** | General Rx delivery | National | ✅ Active |
-| **ScriptDrop** | Controlled substances | National | ⚠️ Verify San Antonio |
-| **Local courier** | Backup | Regional | 🔍 Research |
+| Partner | Capability | Coverage | Volume Min | Status |
+|---------|------------|----------|------------|--------|
+| **Uber Health** | General Rx delivery, cold chain | National (San Antonio ✅) | None stated | ✅ CONFIRMED May 13, 2026 |
+| **ScriptDrop** | Controlled substances (Schedule II-V) | National | TBD | ⚠️ Verify San Antonio |
+| **Local courier** | Backup | Regional | None | 🔍 Research |
+
+**Uber Health Pharmacy Notes (May 13, 2026 call):**
+- San Antonio / Bexar County = CONFIRMED coverage
+- Rx courier / pharmacy delivery = CONFIRMED capability
+- Cold chain (ice packs) = CONFIRMED
+- 7,900/month volume = NO ISSUE
+- AE follow-up call scheduled (May 13 evening or May 14 AM)
 
 ### 7.2 Lab Courier Partners
 
-| Partner | Capability | Coverage | Status |
-|---------|------------|----------|--------|
-| **carGO Health** | Lab specimens | National | ⚠️ Awaiting response |
-| **MEDS (meds-inc.com)** | Lab specimens, 24/7 | San Antonio | 🔍 Backup option |
-| **Medical Services Plus** | STAT, lab courier | San Antonio | 🔍 Backup option |
+| Partner | Capability | Coverage | Volume Min | Status |
+|---------|------------|----------|------------|--------|
+| **Uber Health** | Lab specimens, biohazard | National (San Antonio ✅) | **2,000/month** | ⚠️ VOLUME THRESHOLD |
+| **carGO Health** | Lab specimens | National | TBD | ⚠️ Awaiting response |
+| **MEDS (meds-inc.com)** | Lab specimens, 24/7 | San Antonio | TBD | 🔍 Backup option |
+| **Medical Services Plus** | STAT, lab courier | San Antonio | TBD | 🔍 Backup option |
 
-### 7.3 Partner API Integration
+**Uber Health Lab Notes (May 13, 2026 call):**
+- Lab courier = CONFIRMED capability
+- **MINIMUM VOLUME: 2,000 deliveries/month**
+- University Health lab RFP = 850/month = BELOW THRESHOLD
+- San Antonio coverage = CONFIRMED
+
+### 7.3 VOLUME AGGREGATION STRATEGY
+
+**Problem:** University Health lab courier (850/mo) is below Uber Health's 2,000/mo minimum.
+
+**Solution:** Aggregate lab courier volume across multiple MCO/health system contracts to hit threshold.
+
+| Client | Est. Lab Volume | Status |
+|--------|-----------------|--------|
+| University Health (San Antonio) | 850/mo | RFP due May 18 |
+| **Additional MCO contracts needed** | **1,150+/mo** | 🎯 TARGET |
+| **TOTAL NEEDED** | **2,000/mo** | Uber Health minimum |
+
+**Action Items:**
+1. Bid University Health lab courier — even if below threshold, win establishes relationship
+2. Pursue additional Texas MCO lab courier contracts (Superior, UHC, Aetna, Amerigroup, BCBS)
+3. Once aggregated volume hits 2,000/mo — activate Uber Health for all lab courier
+4. Until then — use backup partners (carGO Health, MEDS, Medical Services Plus) for University Health
+
+**Alternative:** Use non-Uber partner for University Health lab (850/mo) while building MCO volume toward Uber threshold.
+
+### 7.4 Partner API Integration
 
 ```python
 PARTNER_API_SCHEMA = {

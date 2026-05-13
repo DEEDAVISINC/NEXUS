@@ -7,8 +7,8 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
-| **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **NEW** — 7,900 deliveries/month · 7 pharmacy locations + 3 community hospitals · Rx delivery (cold chain + controlled substances) · 3+2yr contract · Est. $760K-$1.4M/yr · TPA model: Uber Health + ScriptDrop · Bonfire portal · **CONDITIONAL GO — pending ScriptDrop verification** · folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` |
-| **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **NEW** — 850 deliveries/month · 70+ facilities · Lab specimens, slides, equipment · 3+2yr contract · Est. $153K-$255K/yr · TPA model: need lab courier sub · Bonfire portal · **CONDITIONAL GO — need fulfillment partner** · folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` |
+| **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **🔥 ACTIVE — GO** — 7,900/month · Uber Health CONFIRMED (May 13) · Need: AE call pricing + controlled substance confirm (ScriptDrop?) + LOC by May 16 · Bonfire portal · folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` |
+| **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **🔥 ACTIVE — GO** — 850/month · 70+ facilities · **BLOCKER: Need lab courier sub** (carGO Health, MEDS, Medical Services Plus) · Uber Health below 2,000/mo min · Sub outreach in SEND_TO_SUBCONTRACTOR/ · folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` |
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|

@@ -8,6 +8,28 @@
 
 ---
 
+## ✅ CALL COMPLETED — May 13, 2026
+
+### Key Findings:
+- **Ariana's role:** SDR (Sales Development Rep) — intake for Account Executives
+- **San Antonio / Bexar County:** ✅ CONFIRMED coverage
+- **Rx / Pharmacy Courier:** ✅ CONFIRMED capability
+- **Lab Courier:** ✅ CONFIRMED capability
+- **Lab Courier Minimum:** ⚠️ **2,000 deliveries/month threshold**
+
+### University Health Impact:
+| RFP | Volume | Uber Health? |
+|-----|--------|--------------|
+| Pharmacy Courier | 7,900/mo | ✅ YES |
+| Lab Courier | 850/mo | ❌ NO — below 2,000/mo minimum |
+
+### Next Steps:
+- **AE Call:** Scheduled for May 13 evening or May 14 morning
+- **Strategy:** Aggregate MCO lab courier volume to hit 2,000/mo threshold
+- **University Health Lab:** Use backup partner (carGO Health, MEDS, or Medical Services Plus)
+
+---
+
 ## OBJECTIVE
 
 Introduce DDI to Uber Health as a potential TPA partner for:
