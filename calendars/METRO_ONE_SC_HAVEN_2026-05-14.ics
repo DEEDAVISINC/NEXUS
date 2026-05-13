@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:metro-one-sc-haven-20260514@deedavis.biz
+DTSTAMP:20260511T184500Z
+DTSTART;TZID=America/Detroit:20260514T143000
+DTEND;TZID=America/Detroit:20260514T150000
+SUMMARY:📞 HAVEN PARTNER CALL — Metro One SC (NEMT/Transport)
+DESCRIPTION:Metro One SC — Medicaid-approved NEMT provider\n95+ vehicles\, statewide South Carolina coverage\nResponded to HAVEN outreach same day.\n\nTopics: NEMT subcontract terms\, HAVEN activation\, MCO contract positioning\, insurance/capacity\nGoogle Meet: meet.google.com/gow-hhyw-dzb\nPhone: +1 414-797-1743 PIN: 891291169\n\nPrep: HAVEN/OUTREACH/HAVEN_PARTNER_OUTREACH_TRANSPORT.md
+LOCATION:Google Meet — meet.google.com/gow-hhyw-dzb
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Metro One SC HAVEN call in 2 hours — review prep notes
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Metro One SC HAVEN call in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,89 +1,76 @@
-# TODAY'S AGENDA — Monday, May 11, 2026
-
-## MORNING BRIEFING
-
-**Last night was massive.** 35 outreach emails sent in one session — partners AND MCOs.
+# TODAY'S AGENDA — Wednesday, May 13, 2026
 
 ---
 
-## TOP 3 PRIORITIES
+## 🔥 PRIORITY CALL TODAY
 
-1. **Monitor inbox for replies** — You seeded 35 conversations last night. Responses will come.
-
-2. **Finish MCO outreach** — Remaining states:
-   - Georgia (4 MCOs)
-   - Tennessee (3 MCOs)
-   - Ohio (6 MCOs)
-   - Texas (7 MCOs)
-   - Florida (8 MCOs)
-   - South Carolina: First Choice (needs phone call for email)
-
-3. **Follow up on warm leads** — If TrueCare/CareSource (MS) or any CareSource affiliate responds, prioritize that conversation.
+**Uber Health — Ariana Cirkelis**
+- **When:** Wednesday May 13 @ 1:30 PM ET
+- **What:** HAVEN partnership discussion — disaster transport, medical delivery
+- **Prep:** `HAVEN/OUTREACH/UBER_HEALTH_CALL_PREP_MAY13.md`
 
 ---
 
-## WHAT WAS SENT LAST NIGHT (35 Total)
+## ⚠️ CRITICAL — EMAIL SERVICE FIX
 
-### Partner Outreach (24)
-| Category | Count | Status |
-|----------|-------|--------|
-| Personal Care (Papa, CareLinx, Honor) | 3 | ✅ SENT 5/10 |
-| Brian Grcevich (HAP CareSource) | 1 | ✅ SENT 5/10 |
-| Skyline Champion (FEMA MHU) | 1 | ✅ SENT 5/10 |
-| Transport Partners (TX, FL, LA, SC) | 10 | ✅ SENT 5/10 |
-| Housing Partners (Hotels + Modular) | 7 | ✅ SENT 5/10 |
-| Medical Partners (Enhabit, VitalCaring) | 2 | ✅ SENT 5/10 |
+**70+ emails sent with incomplete service list.** All future emails MUST include:
+- **NEMT TPA** — trip coordination, provider credentialing, compliance
+- **Personal Care TPA** — companion care, ADL support, homemaker services
+- **DME** — durable medical equipment coordination and delivery
+- **HAVEN** — disaster transport, emergency pharmacy delivery, temporary housing
 
-### MCO Outreach (11)
-| State | MCOs | Status |
-|-------|------|--------|
-| Louisiana | 5 | ✅ SENT 5/10 |
-| South Carolina | 2 | ✅ SENT 5/10 |
-| Mississippi | 3 | ✅ SENT 5/10 |
-| Alabama | 1 | ✅ SENT 5/10 |
+**Before sending ANY email:** Verify all 4 services are listed.
 
 ---
 
-## REMAINING MCO OUTREACH (28 emails)
+## 🔴 OVERDUE — SEND FIRST THING
 
-| State | MCOs | Priority |
-|-------|------|----------|
-| Georgia | 4 | High — hurricane corridor |
-| Tennessee | 3 | Medium |
-| Ohio | 6 | Medium — CareSource home state |
-| Texas | 7 | High — largest market |
-| Florida | 8 | High — hurricane corridor |
-| South Carolina (First Choice) | 1 | Needs phone call first |
+| # | To | Action |
+|---|---|---|
+| 1 | Daniel Rivera (Anthem Ohio) | Reply with FULL service pitch (NEMT, Personal Care, DME, HAVEN) |
+| 2 | Kristen Halsey (CareSource Ohio) | Reply with FULL service pitch (NEMT, Personal Care, DME, HAVEN) |
 
 ---
 
-## SKIPPED / NEEDS FOLLOW-UP
+## 📞 CALLS THIS WEEK
 
-- **Medical Partners:** Amedisys, LHC Group, CenterWell — websites difficult, circle back
-- **SC First Choice:** Call 1-800-741-6605 to get contracting email
-
----
-
-## AUTO-REPLIES RECEIVED (Good Signs)
-
-| MCO | Reply | Backup Contact |
-|-----|-------|----------------|
-| Healthy Blue LA | Nick Daigle OOO | Bryson.Blount@healthybluela.com |
-| AmeriHealth Caritas LA | Glynda Hurm OOO until 5/18 | Ahmed Olayanju, Lynette Hinton |
-| Absolute Total Care SC | Received, 90-day processing | — |
-| Molina MS | Received, will respond | — |
-| Magnolia Health MS | Received, forwarded to contracting | — |
+| Date | Time | Who | Status |
+|---|---|---|---|
+| Wed May 13 | 1:30 PM ET | Uber Health — Ariana Cirkelis | 🔥 TODAY |
+| Wed May 14 | TBD | Metro One SC — Michelle Ebert | Confirm time |
 
 ---
 
-## MEETINGS / DEADLINES
+## 📋 PORTAL TASKS (Weekend)
 
-- No scheduled meetings today
-- Hurricane season starts June 1 — HAVEN network build in progress
+- [ ] Michigan SIGMA VSS — Add commodity code 9S3
+- [ ] Florida FMMIS — Medicaid enrollment
+- [ ] Ohio ODM PNM/MITS — Medicaid enrollment
+- [ ] Texas TMHP — Medicaid enrollment
+- [ ] Molina Ohio — Provider contracting portal
+
+---
+
+## RESPONSES LOGGED (May 12)
+
+| From | Company | Result |
+|---|---|---|
+| Sarah Oumedian | Michigan DHHS | No timeline — add 9S3 to SIGMA |
+| Rick Johnson | Buckeye Ohio | ❌ Declined — referred to Natalie Lukaszewicz (VP) |
+| Sandra Salas | Molina Texas | ❌ Declined — services in-house |
+| Natalie Lukaszewicz | Centene Corporate | ✅ SENT (VP referral) |
+
+---
+
+## PIPELINE STATUS
+
+- **Active:** HAP CareSource MI — $540K/yr
+- **Pipeline:** $18M+ annual (if all won)
+- **Risk-Adjusted:** $3.5M annual
+- **Strongest Leads:** TrueCare MS (45%), Humana LA (30%), LA MCOs broadly
 
 ---
 
 ## NOTES
 
-All HAVEN one-pagers corrected for branding consistency and sub-vendor naming removed.
-HAVEN folder reorganized with proper structure (ONE_PAGERS, OUTREACH, STRATEGY, AGREEMENTS).
+Lakota call (May 12) completed — review notes for DeCA teaming and WHORL capabilities.

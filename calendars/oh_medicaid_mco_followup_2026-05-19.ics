@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:oh-medicaid-mco-followup-20260519@deedavis.biz
+DTSTAMP:20260511T215200Z
+DTSTART;TZID=America/Detroit:20260519T103000
+DTEND;TZID=America/Detroit:20260519T110000
+SUMMARY:📋 CHECK: OH Medicaid Enrollment → Molina + Humana Follow-up
+DESCRIPTION:Weekend task: Ohio MITS Medicaid enrollment.\n\nIf APPROVED:\n1. MOLINA OHIO: Submit via Ohio Provider Contracting Guide portal\n2. HUMANA OHIO: Re-send to ohionetworkspecialist@humana.com with Medicaid ID\n\nIf STILL PENDING:\n- Check status at medicaid.ohio.gov\n- Set new reminder\n\nTracker: HAVEN/STRATEGY/STATE_MEDICAID_ENROLLMENT_TRACKER.md
+LOCATION:medicaid.ohio.gov
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Check OH Medicaid enrollment status
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

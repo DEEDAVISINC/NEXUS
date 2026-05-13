@@ -108,59 +108,59 @@ SECTOR_COLORS = {
 SECTOR_CONTENT = {
     "main": {
         "service_model": "Identify &rarr; Bid &rarr; Award &rarr; Fulfill &rarr; Execute &rarr; Report",
-        "header_tag": "Contract Management &bull; Federal &bull; State &bull; Commercial",
+        "header_tag": "Contract Management TPA &bull; Federal &bull; State &bull; MCO",
         "header_creds": [
             *DEFAULT_HEADER_CREDS,
+            "NPI: 1538939111",
         ],
         "gold_bar_title": "CONTRACT MANAGEMENT FIRM",
         "overview": (
-            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; Woman-Owned Small Business</strong> &mdash; '
-            'Dee Davis Inc. (DDI) is an SBA-certified EDWOSB prime contractor delivering end-to-end contract '
-            'management across federal, state, and commercial sectors. With <strong>7+ years of proven '
-            'performance</strong>, 5,100+ managed service locations nationwide, and <strong>zero compliance '
-            'deficiencies</strong>, DDI executes complex, multi-stakeholder contracts through strategic '
-            'alliance partners &mdash; from regulated healthcare operations and federal security credentialing '
-            'to emergency logistics and business continuity. Multi-state licensed. CONUS/OCONUS deployment-ready.'
+            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; NPI: 1538939111 &bull; Woman-Owned Small Business</strong> &mdash; '
+            'Dee Davis Inc. (DDI) is an SBA-certified EDWOSB prime contractor and Third Party Administrator delivering end-to-end contract '
+            'management across federal, state, and managed care sectors. <strong>Active HAP CareSource NEMT TPA contract</strong> managing '
+            '4,500+ dual-eligible members. <strong>HAVEN disaster response program</strong> for automatic member relocation during '
+            'FEMA-declared events. 5,100+ managed service locations nationwide through eScreen/Quest. Multi-state MCO expansion in progress. '
+            'FBI Appendix F fingerprinting. DOT/SAMHSA drug testing. DNA testing. Medical courier. Zero compliance deficiencies.'
         ),
         "competencies_header": "CORE COMPETENCIES",
         "competencies": [
-            {"title": "Business Continuity &amp; Disaster Relief", "desc": "COOP execution, FEMA-coordinated disaster logistics, emergency supply chain activation, rapid contractor mobilization", "style": "c-primary"},
-            {"title": "Regulated Healthcare Operations", "desc": "DOT/FTA/SAMHSA drug &amp; alcohol programs, AABB-accredited DNA testing, medical specimen transport, NEMT, Medicaid provider operations", "style": "c-light1"},
-            {"title": "Federal Security &amp; Credentialing", "desc": "DCSA SWFT electronic fingerprinting, FBI NCHC submissions, TWIC-cleared facility access, personnel vetting", "style": "c-light2"},
-            {"title": "Logistics &amp; Fleet Operations", "desc": "Licensed freight brokerage (MC-1647572), DOT-regulated fleet coordination, time-critical delivery, chain-of-custody transport", "style": "c-light3"},
+            {"title": "NEMT &amp; Personal Care TPA", "desc": "HAP CareSource HIDE SNP contract (live). 4,500+ dual-eligible members. NEMT benefit administration. Personal Care TPA (ADL, homemaker, companion). Zero-fleet model.", "style": "c-primary"},
+            {"title": "HAVEN Disaster Response", "desc": "Automatic member relocation during FEMA events. Temporary housing, transport continuity, pharmacy access, care handoff. Pre-positioned partner network.", "style": "c-light1"},
+            {"title": "Regulated Healthcare Operations", "desc": "DOT/FTA/SAMHSA drug &amp; alcohol TPA (5,100+ sites). AABB-accredited DNA testing. Medical specimen transport. Medicaid provider operations.", "style": "c-light2"},
+            {"title": "Federal Security &amp; Credentialing", "desc": "FBI Appendix F fingerprinting (Kojak/Lakota). FD-258 ink cards. 99.5% acceptance rate. ATF/NFA trust fingerprinting.", "style": "c-light3"},
         ],
         "service_capabilities": [
+            "NEMT TPA program administration for MCOs",
+            "Personal Care TPA (ADL, homemaker, companion)",
+            "HAVEN disaster response and member relocation",
             "DOT/FTA drug &amp; alcohol testing program administration",
-            "DCSA SWFT electronic fingerprinting &amp; background screening",
-            "Non-emergency medical transportation brokerage",
+            "FBI Appendix F electronic fingerprinting",
             "Medical specimen &amp; pharmaceutical courier",
+            "AABB-accredited DNA and paternity testing",
             "Federal supply &amp; commodity contract execution",
-            "Workforce staffing &amp; regulatory training",
             "Mobile notary &amp; document execution services",
             "Management consulting &amp; compliance auditing",
-            "Emergency logistics &amp; disaster response",
             "Fleet coordination &amp; freight brokerage",
-            "Government procurement &amp; contract management",
             "HIPAA/DOT/SAMHSA compliance program design",
         ],
         "differentiators": [
+            {"title": "HAP CareSource HIDE SNP &mdash; Live Contract", "desc": "Contracted NEMT TPA. 4,500+ dual-eligible members. Wayne and Macomb counties. Portal active. Trips running."},
+            {"title": "HAVEN Disaster Response", "desc": "Automatic member safety activation during FEMA-declared emergencies. Transport, housing, pharmacy, care continuity."},
             {"title": "EDWOSB sole-source eligible &mdash; up to $7M", "desc": "SBA-certified. Streamlined procurement path. Reduces acquisition timeline by 60%+"},
-            {"title": "5,100+ deployment-ready facilities", "desc": "Nationwide operational coverage through eScreen/Quest. Activate within 24 hours of award"},
-            {"title": "SWFT authorized &mdash; top 10% nationally", "desc": "3+ consecutive years DCSA authorization. Electronic submission to DCSA &amp; FBI CJIS"},
-            {"title": "Zero compliance deficiencies", "desc": "1,500+ regulated deliveries across DOT, SAMHSA, HIPAA, and AABB environments"},
-            {"title": "Proven contract management model", "desc": "DDI primes the contract, qualified regional partners execute. Single point of accountability"},
+            {"title": "5,100+ drug testing locations", "desc": "Nationwide coverage through eScreen/Quest. Same-day activation. Zero compliance deficiencies."},
+            {"title": "Proven TPA model", "desc": "DDI primes the contract, credentialed partners execute. Single point of accountability for compliance and reporting."},
         ],
         "past_performance": [
-            {"title": "NEMT Brokerage &amp; Coordination", "desc": "Managed non-emergency medical transportation across Wayne, Oakland, and Macomb Counties. Full compliance, scheduling, invoicing, and quality assurance."},
-            {"title": "Gideon Logistics (2023 &ndash; Present)", "desc": "Courier services, logistics documentation &amp; regulatory filings, biometric fingerprinting, workforce management &amp; recruitment support."},
-            {"title": "Contract Management", "desc": "Active prime contractor on federal supply and delivery contracts. Full VAAR/FAR compliance, CO/COR communication, monthly performance reporting."},
+            {"title": "HAP CareSource Michigan HIDE SNP (2026 &ndash; Present)", "desc": "Contracted NEMT TPA. Managing full NEMT benefit for 4,500+ dual-eligible members in Wayne and Macomb counties. Portal operational. Zero deficiencies."},
+            {"title": "HAVEN Disaster Response Program (2026)", "desc": "Built and launched comprehensive disaster response for Medicaid populations. Transport, housing, pharmacy, and care partners pre-staged."},
+            {"title": "Drug Testing TPA (Ongoing)", "desc": "DOT/FTA/SAMHSA-compliant program administration. 5,100+ sites via eScreen/Quest. Random pools, post-accident, pre-employment. Zero audit findings."},
         ],
         "naics_detailed": [
-            {"code": "541611", "desc": "Admin Management Consulting"},
-            {"code": "541614", "desc": "Process &amp; Logistics Consulting"},
+            {"code": "524292", "desc": "Third Party Admin of Insurance"},
+            {"code": "485991", "desc": "Special Needs Transportation"},
             {"code": "621511", "desc": "Medical Laboratories"},
             {"code": "561611", "desc": "Investigation Services"},
-            {"code": "485991", "desc": "Special Needs Transportation"},
+            {"code": "624120", "desc": "Services for Elderly/Disabled"},
             {"code": "492110", "desc": "Couriers &amp; Express Delivery"},
         ],
         "cert_badges": [
@@ -170,68 +170,68 @@ SECTOR_CONTENT = {
             {"text": "MBE", "cls": ""},
             {"text": "SBE", "cls": ""},
             {"text": "E-Verify", "cls": "accent"},
-            {"text": "SWFT Authorized", "cls": "accent"},
+            {"text": "NPI Active", "cls": "accent"},
         ],
-        "footer_extra": "",
-        "naics": "541611 | 541614 | 541618 | 541690 | 541990 | 621511 | 621999 | 561611 | 561612 | 485991 | 492110 | 484230 | 423450",
+        "footer_extra": "NPI: 1538939111",
+        "naics": "524292 | 541611 | 541614 | 541618 | 541690 | 541990 | 621511 | 621999 | 561611 | 561612 | 485991 | 492110 | 484230 | 624120",
     },
     "nemt": {
-        "service_model": "Schedule &rarr; Dispatch &rarr; Transport &rarr; Document &rarr; Invoice &rarr; Report",
-        "header_tag": "Non-Emergency Medical Transportation &amp; Delivery Services",
+        "service_model": "Authorize &rarr; Schedule &rarr; Dispatch &rarr; Transport &rarr; Document &rarr; Invoice",
+        "header_tag": "NEMT TPA &bull; Personal Care TPA &bull; MCO Contract Management",
         "header_creds": [
             *DEFAULT_HEADER_CREDS,
-            "US DOT: 4250594", "MC: 1647572",
+            "NPI: 1538939111", "US DOT: 4250594", "MC: 1647572",
         ],
-        "gold_bar_title": "NON-EMERGENCY MEDICAL TRANSPORTATION (NEMT)",
+        "gold_bar_title": "NEMT &amp; PERSONAL CARE TPA &mdash; MANAGED CARE CONTRACT MANAGEMENT",
         "overview": (
-            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; Woman-Owned Small Business</strong> &mdash; '
-            'Dee Davis Inc. (DDI) is a Michigan-based, EDWOSB-certified contract management firm specializing '
-            'in non-emergency medical transportation, medical courier, and delivery services for federal, state, '
-            'and local government clients. DDI operates as prime contractor, managing the full contract '
-            'lifecycle&mdash;compliance, scheduling, quality assurance, driver credentialing, and electronic '
-            'invoicing&mdash;through a nationwide network of vetted, regionally licensed transportation partners. '
-            'With active DOT and MC authority, DDI delivers reliable, regulation-compliant transportation services '
-            'across the Midwest, Southeast, and nationwide.'
+            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; NPI: 1538939111 &bull; Woman-Owned Small Business</strong> &mdash; '
+            'Dee Davis Inc. (DDI) is the <strong>contracted NEMT TPA for HAP CareSource&rsquo;s Michigan HIDE SNP program</strong>, '
+            'managing the full NEMT benefit for <strong>4,500+ dual-eligible members</strong> in Wayne and Macomb counties. '
+            'DDI operates as a Contract Management TPA&mdash;not a transportation provider&mdash;administering scheduling, dispatch coordination, '
+            'compliance documentation, and claims through credentialed transport partners. DDI also provides <strong>Personal Care TPA</strong> services '
+            '(ADL support, homemaker, companion care) and <strong>HAVEN disaster response</strong> for automatic member relocation during FEMA-declared events. '
+            'Zero-fleet model. Multi-state MCO expansion in progress.'
         ),
-        "competencies_header": "CORE COMPETENCIES",
+        "competencies_header": "CORE COMPETENCIES &mdash; MCO TPA OPERATIONS",
         "competencies": [
-            {"title": "NEMT Services", "desc": "Ambulatory, wheelchair/ambulette, stretcher transport. Door-to-door assistance. ADA-compliant vehicles. Scheduled and on-demand trips.", "style": "c-primary"},
-            {"title": "Medical Courier &amp; Delivery", "desc": "Specimen transport, medical supply delivery, pharmacy distribution, temperature-controlled logistics, recurring route management.", "style": "c-light1"},
-            {"title": "Contract Management", "desc": "Prime contractor accountability. CO/COR communication. VAAR/FAR compliance. Electronic invoicing (FSC e-Invoice). Monthly reporting and quality metrics.", "style": "c-light2"},
-            {"title": "Fleet &amp; Compliance", "desc": "DOT/FTA/FMCSA regulatory compliance. Driver background checks and credentialing. Vehicle inspection and maintenance programs. Insurance and COI management.", "style": "c-light3"},
+            {"title": "NEMT TPA Administration", "desc": "Full NEMT benefit management for MCOs. Scheduling, dispatch coordination, trip documentation, claims processing, quality assurance. Zero-fleet model with credentialed transport partners.", "style": "c-primary"},
+            {"title": "Personal Care TPA", "desc": "ADL support, homemaker services, and companion care coordination for LTSS/MLTSS populations. DDI administers the benefit through credentialed care partner networks.", "style": "c-light1"},
+            {"title": "HAVEN Disaster Response", "desc": "Automatic member safety activation during FEMA-declared events. Temporary housing coordination, transport continuity, pharmacy continuity, and care handoff.", "style": "c-light2"},
+            {"title": "MCO Contract Management", "desc": "DDI primes the TPA contract. Credentialed partners execute transport and care services. Single point of accountability for compliance, reporting, and member outcomes.", "style": "c-light3"},
         ],
         "service_capabilities": [
-            "Non-emergency ambulatory transportation",
-            "Wheelchair and ambulette services",
-            "Medical specimen and lab courier",
-            "Pharmacy and medical supply delivery",
-            "Recurring scheduled route management",
-            "Same-day and next-day urgent transport",
-            "Door-to-door patient assistance",
-            "ADA-compliant vehicle fleet coordination",
-            "Temperature-controlled specimen transport",
+            "NEMT TPA program administration for MCOs",
+            "Personal care coordination (ADL, IADL, homemaker)",
+            "Scheduling, dispatch, and trip management",
+            "Credentialed transport partner network",
             "HIPAA-compliant documentation and reporting",
-            "Electronic scheduling and trip tracking",
-            "Federal, state, and Medicaid NEMT compliance",
+            "Electronic claims submission and reconciliation",
+            "Real-time trip tracking and member communication",
+            "HAVEN disaster response and member relocation",
+            "Temporary housing coordination during emergencies",
+            "Pharmacy continuity during displacement",
+            "Quality assurance and compliance monitoring",
+            "Dual-eligible and LTSS population expertise",
         ],
         "differentiators": [
-            {"title": "EDWOSB/WOSB certified", "desc": "supports agency small business and socioeconomic contracting goals"},
-            {"title": "Active US DOT (4250594) and MC (1647572) authority", "desc": "federally registered motor carrier"},
-            {"title": "Nationwide network of vetted, insured transportation partners", "desc": "COI on file with DDI as additional insured"},
-            {"title": "Single point of contact", "desc": "Dee Davis manages every contract personally, from award through closeout"},
-            {"title": "Proven contract management model", "desc": "DDI primes the contract, qualified regional partners execute"},
+            {"title": "HAP CareSource HIDE SNP &mdash; Live &amp; Operational", "desc": "Contracted NEMT TPA for Michigan HIDE SNP. Portal active. Trips running. 4,500+ dual-eligible members."},
+            {"title": "Zero-Fleet Contract Management Model", "desc": "DDI administers the benefit at the TPA level. Credentialed transport partners execute under DDI management."},
+            {"title": "HAVEN Disaster Response", "desc": "Automatic member relocation and continuity of care during FEMA-declared emergencies. Pre-positioned partner network."},
+            {"title": "EDWOSB/WOSB Certified", "desc": "Supports MCO diversity contracting goals and federal small business requirements."},
+            {"title": "Multi-State MCO Expansion", "desc": "Active outreach across MI, OH, GA, TN, TX, FL, LA, SC, MS, AL. Scalable TPA model."},
         ],
         "past_performance": [
-            {"title": "NEMT Brokerage &amp; Coordination", "desc": "Managed non-emergency medical transportation services across Michigan including Medicaid-eligible patient transport, wheelchair/ambulette coordination, and door-to-door assistance for Wayne, Oakland, and Macomb Counties."},
-            {"title": "Gideon Logistics (Jan 2023 &ndash; Present)", "desc": "Courier services, logistics documentation &amp; regulatory filings, biometric fingerprinting, workforce management &amp; recruitment support, and DOT compliance &amp; drug testing."},
-            {"title": "Contract Management", "desc": "Active prime contractor on federal supply and delivery contracts. Full VAAR/FAR compliance, CO/COR communication, monthly performance reporting, and quality assurance oversight across multiple service lines."},
+            {"title": "HAP CareSource Michigan HIDE SNP (Jan 2026 &ndash; Present)", "desc": "Contracted NEMT TPA for HAP CareSource&rsquo;s MI Coordinated Health (HIDE SNP) program. Managing full NEMT benefit for 4,500+ dual-eligible members in Wayne and Macomb counties. Portal operational. Zero compliance deficiencies."},
+            {"title": "HAVEN Disaster Response Program (2026)", "desc": "Built and launched disaster response program for Medicaid populations. Partner network includes transport, housing, pharmacy, and care coordination. Designed for automatic activation during FEMA-declared events."},
+            {"title": "MCO TPA Expansion (2026 &ndash; Present)", "desc": "Active MCO outreach across 10 states. CareSource affiliate relationships. Personal Care TPA service line in development. Scalable contract management model."},
         ],
         "naics_detailed": [
             {"code": "485991", "desc": "Special Needs Transportation"},
-            {"code": "484110", "desc": "General Freight Trucking, Local"},
-            {"code": "492110", "desc": "Couriers &amp; Express Delivery"},
-            {"code": "561599", "desc": "All Other Travel Arrangement"},
+            {"code": "524292", "desc": "Third Party Admin of Insurance"},
+            {"code": "621999", "desc": "Miscellaneous Ambulatory Health"},
+            {"code": "561499", "desc": "Other Business Support"},
             {"code": "485999", "desc": "All Other Transit &amp; Ground Passenger"},
+            {"code": "624120", "desc": "Services for Elderly/Disabled"},
         ],
         "cert_badges": [
             {"text": "EDWOSB", "cls": "gold"},
@@ -240,11 +240,82 @@ SECTOR_CONTENT = {
             {"text": "MBE", "cls": ""},
             {"text": "SBE", "cls": ""},
             {"text": "E-Verify", "cls": "accent"},
+            {"text": "NPI Active", "cls": "accent"},
             {"text": "US DOT", "cls": "accent"},
-            {"text": "MC Authority", "cls": "accent"},
         ],
-        "footer_extra": "US DOT: 4250594 &nbsp;|&nbsp; MC: 1647572",
-        "naics": "485991 | 485999 | 485310 | 492110 | 484230 | 621910 | 561599",
+        "footer_extra": "NPI: 1538939111 &nbsp;|&nbsp; US DOT: 4250594 &nbsp;|&nbsp; MC: 1647572",
+        "naics": "485991 | 524292 | 621999 | 561499 | 485999 | 624120 | 492110",
+    },
+    "haven": {
+        "service_model": "Declare &rarr; Activate &rarr; Relocate &rarr; Stabilize &rarr; Recover &rarr; Return",
+        "header_tag": "Disaster Response TPA &bull; Member Relocation &bull; Care Continuity",
+        "header_creds": [
+            *DEFAULT_HEADER_CREDS,
+            "NPI: 1538939111", "US DOT: 4250594", "MC: 1647572",
+        ],
+        "gold_bar_title": "HAVEN &mdash; DISASTER RESPONSE &amp; MEMBER SAFETY PROGRAM",
+        "overview": (
+            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; NPI: 1538939111 &bull; Woman-Owned Small Business</strong> &mdash; '
+            'Dee Davis Inc. (DDI) operates <strong>HAVEN</strong>&mdash;a comprehensive disaster response and member safety program '
+            'designed for MCOs, Medicaid agencies, and health plans with vulnerable member populations. When FEMA declares a disaster, '
+            'HAVEN activates automatically: <strong>member relocation</strong>, <strong>temporary housing</strong>, <strong>pharmacy continuity</strong>, '
+            '<strong>transport coordination</strong>, and <strong>care handoff documentation</strong>. Pre-positioned partner network. '
+            'Contract Management TPA model&mdash;DDI administers the program, credentialed partners execute. Critical for hurricane, tornado, flood, '
+            'and wildfire exposure zones.'
+        ),
+        "competencies_header": "CORE COMPETENCIES &mdash; DISASTER RESPONSE OPERATIONS",
+        "competencies": [
+            {"title": "Automatic Disaster Activation", "desc": "FEMA declaration triggers immediate member safety protocol. No manual escalation required. Pre-staged partner network activates within hours.", "style": "c-primary"},
+            {"title": "Member Relocation &amp; Housing", "desc": "Emergency transport to safe zones. Temporary housing placement (Wyndham, Red Roof, regional partners). ADA-accessible options. Family unit accommodation.", "style": "c-light1"},
+            {"title": "Pharmacy &amp; Care Continuity", "desc": "Medication access during displacement. Prescription transfer coordination. Provider handoff documentation. HEDIS-relevant care continuity.", "style": "c-light2"},
+            {"title": "TPA Contract Management", "desc": "DDI administers HAVEN at the program level. Transport, housing, pharmacy, and care partners operate under DDI coordination. Single point of accountability.", "style": "c-light3"},
+        ],
+        "service_capabilities": [
+            "Automatic FEMA-declaration activation",
+            "Member safety and wellness checks",
+            "Emergency transport coordination",
+            "Temporary housing placement",
+            "Pharmacy access and prescription transfer",
+            "Provider handoff and care continuity",
+            "HEDIS-aligned documentation",
+            "Family unit and ADA-accessible housing",
+            "Post-disaster return coordination",
+            "Real-time member location tracking",
+            "MCO/agency reporting and compliance",
+            "Hurricane, tornado, flood, wildfire coverage",
+        ],
+        "differentiators": [
+            {"title": "Automatic Activation &mdash; No Escalation Required", "desc": "FEMA declaration = immediate partner network activation. Members protected within hours of disaster onset."},
+            {"title": "Pre-Positioned Partner Network", "desc": "Transport, housing, pharmacy, and care partners contracted and staged before disaster season."},
+            {"title": "TPA Model &mdash; Not a Vendor", "desc": "DDI administers HAVEN at the program level. MCOs get single-point accountability, not a vendor list."},
+            {"title": "EDWOSB/WOSB Certified", "desc": "Supports MCO diversity contracting goals and federal small business requirements."},
+            {"title": "Proven NEMT TPA Operations", "desc": "HAVEN built on DDI&rsquo;s active HAP CareSource HIDE SNP contract. Same infrastructure, disaster-extended."},
+        ],
+        "past_performance": [
+            {"title": "HAP CareSource Michigan HIDE SNP (2026)", "desc": "Contracted NEMT TPA managing 4,500+ dual-eligible members. HAVEN disaster layer built on this operational foundation."},
+            {"title": "HAVEN Partner Network (2026)", "desc": "Transport partners (MedRide, regional ambulette networks), housing partners (Wyndham, Red Roof), pharmacy continuity infrastructure. Pre-staged for activation."},
+            {"title": "Multi-State MCO Outreach (2026)", "desc": "Active expansion across hurricane/tornado belt states: TX, FL, LA, MS, AL, GA, TN, SC. HAVEN positioned as differentiator."},
+        ],
+        "naics_detailed": [
+            {"code": "524292", "desc": "Third Party Admin of Insurance"},
+            {"code": "561499", "desc": "Other Business Support"},
+            {"code": "561210", "desc": "Facilities Support Services"},
+            {"code": "721110", "desc": "Hotels and Motels"},
+            {"code": "485991", "desc": "Special Needs Transportation"},
+            {"code": "624230", "desc": "Emergency &amp; Relief Services"},
+        ],
+        "cert_badges": [
+            {"text": "EDWOSB", "cls": "gold"},
+            {"text": "WOSB", "cls": "gold"},
+            {"text": "WBENC WBE", "cls": ""},
+            {"text": "MBE", "cls": ""},
+            {"text": "SBE", "cls": ""},
+            {"text": "E-Verify", "cls": "accent"},
+            {"text": "NPI Active", "cls": "accent"},
+            {"text": "HAVEN Ready", "cls": "accent"},
+        ],
+        "footer_extra": "HAVEN Disaster Response Program &nbsp;|&nbsp; NPI: 1538939111",
+        "naics": "524292 | 561499 | 561210 | 721110 | 485991 | 624230",
     },
     "notary": {
         "service_model": "Engage &rarr; Search &rarr; Commit &rarr; Clear &rarr; Close &rarr; Record",
@@ -385,49 +456,49 @@ SECTOR_CONTENT = {
     },
     "fingerprinting": {
         "service_model": "Enroll &rarr; Schedule &rarr; Capture &rarr; Transmit &rarr; Adjudicate &rarr; Credential",
-        "header_tag": "Electronic Fingerprinting &amp; Background Screening &bull; DCSA SWFT Authorized",
+        "header_tag": "Electronic Fingerprinting &amp; Background Screening &bull; FBI Appendix F Certified",
         "header_creds": [
             *DEFAULT_HEADER_CREDS,
         ],
         "gold_bar_title": "ELECTRONIC FINGERPRINTING &amp; BACKGROUND SCREENING",
         "overview": (
-            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; SWFT Authorized &bull; Woman-Owned Small Business</strong> &mdash; '
-            'Dee Davis Inc. (DDI) is a DCSA-authorized SWFT electronic fingerprinting provider delivering FBI/CJIS-compliant '
-            'biometric capture and background screening for federal agencies, military installations, and cleared facilities. '
-            'DDI operates as prime contractor with <strong>3+ consecutive years of DCSA authorization</strong>, '
-            'ranking in the <strong>top 10% nationally</strong> for SWFT submission volume and quality.'
+            '<strong>EDWOSB-Certified &bull; SBA Verified &bull; FBI Appendix F Hardware &bull; Woman-Owned Small Business</strong> &mdash; '
+            'Dee Davis Inc. (DDI) provides FBI/CJIS-compliant biometric fingerprint capture and background screening for federal agencies, '
+            'state licensing boards, military installations, and commercial clients. DDI operates FBI Appendix F certified Kojak livescan equipment '
+            'with Lakota WHORL software&mdash;the same technology stack used by the FBI, DoD, and DHS. Electronic and ink card (FD-258) capture. '
+            '99.5% acceptance rate on submissions. Mobile deployment capability.'
         ),
-        "competencies_header": "CORE COMPETENCIES &mdash; FEDERAL SECURITY CREDENTIALING",
+        "competencies_header": "CORE COMPETENCIES &mdash; BIOMETRIC CREDENTIALING",
         "competencies": [
-            {"title": "DCSA SWFT Fingerprinting", "desc": "Electronic capture and submission to DCSA &amp; FBI CJIS. Livescan equipment. Top 10% nationally for submission quality. 3+ years authorized.", "style": "c-primary"},
-            {"title": "Background Screening", "desc": "FBI National Criminal History Check (NCHC). State and county criminal searches. Employment verification. Identity validation.", "style": "c-light1"},
-            {"title": "Mobile Deployment", "desc": "Portable livescan units for on-site capture at federal facilities, military installations, and secure locations. Scheduled and on-demand.", "style": "c-light2"},
-            {"title": "DDI Service Model", "desc": "DDI primes the contract, manages scheduling, compliance, and reporting. SWFT-authorized technicians execute biometric capture. Single point of accountability.", "style": "c-light3"},
+            {"title": "Electronic Fingerprinting", "desc": "FBI Appendix F certified Kojak livescan. Lakota WHORL software. EBTS-compliant file creation. Electronic submission via authorized channeling partners.", "style": "c-primary"},
+            {"title": "FD-258 Ink Card Capture", "desc": "Traditional ink card fingerprinting with 99.5% acceptance rate. Federal, state, and licensing board submissions. Chain-of-custody documentation.", "style": "c-light1"},
+            {"title": "Background Screening", "desc": "FBI National Criminal History Check (NCHC). State and county criminal searches. Employment verification. Identity validation.", "style": "c-light2"},
+            {"title": "Mobile Deployment", "desc": "Portable Kojak units (1.6 lbs, USB-powered) for on-site capture at federal facilities, military installations, and secure locations. Scheduled and on-demand.", "style": "c-light3"},
         ],
         "service_capabilities": [
-            "DCSA SWFT electronic fingerprinting",
+            "FBI Appendix F certified livescan capture",
+            "FD-258 ink card fingerprinting",
+            "Electronic submission via authorized channelers",
             "FBI CJIS criminal history submissions",
-            "Livescan biometric capture (fixed and mobile)",
+            "State licensing board submissions",
             "Federal employee and contractor screening",
-            "Military installation access credentialing",
-            "TWIC and transportation worker screening",
+            "ATF/NFA firearms trust fingerprinting",
             "State and county criminal background checks",
             "Employment and education verification",
-            "Identity validation and document authentication",
             "Scheduled and on-demand mobile fingerprinting",
             "Bulk enrollment events for large workforces",
-            "Electronic results delivery and tracking",
+            "Chain-of-custody documentation",
         ],
         "differentiators": [
-            {"title": "DCSA SWFT authorized &mdash; top 10% nationally", "desc": "3+ consecutive years. Electronic submission to DCSA &amp; FBI CJIS. Quality rating consistently above threshold"},
+            {"title": "FBI Appendix F Certified Equipment", "desc": "Kojak livescan + Lakota WHORL&mdash;same technology used by FBI, DoD, DHS. Quality-first capture process."},
+            {"title": "99.5% Acceptance Rate", "desc": "FD-258 and electronic submissions. Image quality validation before transmission. Minimal rejections."},
             {"title": "EDWOSB sole-source eligible &mdash; up to $7M", "desc": "SBA-certified. Streamlined procurement path for federal fingerprinting contracts"},
-            {"title": "Mobile livescan deployment", "desc": "Portable equipment for on-site capture at secure facilities. No need to transport personnel off-site"},
-            {"title": "Proven prime/sub contract management model", "desc": "DDI manages compliance, scheduling, and reporting. Authorized technicians execute capture"},
-            {"title": "Zero submission rejections", "desc": "Quality-first capture process. Image quality validation before transmission. Audit-ready documentation"},
+            {"title": "Mobile livescan deployment", "desc": "Portable Kojak units for on-site capture at secure facilities. USB-powered, 1.6 lbs."},
+            {"title": "Lakota Technology Partnership", "desc": "DDI + Lakota (builders of FBI NGI, DoD ABIS, DHS HART). Federal-grade biometric technology stack."},
         ],
         "past_performance": [
-            {"title": "DCSA SWFT Authorization (3+ Years)", "desc": "Continuous DCSA authorization for electronic fingerprinting. FBI/CJIS submissions for federal employees, contractors, and military personnel. Top 10% submission quality nationally."},
-            {"title": "Federal Installation Credentialing", "desc": "On-site biometric capture at military bases and federal facilities. Scheduled and on-demand deployment. Mobile livescan operations."},
+            {"title": "Federal &amp; State Fingerprinting", "desc": "FBI/CJIS submissions, state licensing board fingerprinting, ATF/NFA trust applications. Mobile and fixed-site deployment. 99.5% acceptance rate."},
+            {"title": "Lakota WHORL Platform (Active)", "desc": "Long-time Lakota customer. FBI Appendix F certified capture with electronic EBTS file creation. DeCA fingerprinting teaming in progress."},
             {"title": "Prime/Sub Contract Management", "desc": "Managing multi-location fingerprinting operations as prime contractor. Compliance oversight, scheduling coordination, quality assurance, and electronic reporting."},
         ],
         "naics_detailed": [
@@ -443,7 +514,7 @@ SECTOR_CONTENT = {
             {"text": "MBE", "cls": ""},
             {"text": "SBE", "cls": ""},
             {"text": "E-Verify", "cls": "accent"},
-            {"text": "SWFT Authorized", "cls": "accent"},
+            {"text": "FBI Appendix F", "cls": "accent"},
         ],
         "footer_extra": "",
         "naics": "561611 | 561612 | 541990 | 561499",
@@ -910,10 +981,11 @@ def generate_capability_statement(
 
 
 AVAILABLE_SECTORS = [
-    {"key": "main", "label": "Main — Contract Management Firm (All Sectors)"},
+    {"key": "main", "label": "Main — Contract Management TPA (All Sectors)"},
+    {"key": "nemt", "label": "NEMT / Personal Care TPA / MCO Contract Management"},
+    {"key": "haven", "label": "HAVEN — Disaster Response / Member Relocation"},
     {"key": "drug_testing", "label": "Drug & Alcohol Testing / TPA"},
-    {"key": "fingerprinting", "label": "Fingerprinting / Background Screening / SWFT"},
-    {"key": "nemt", "label": "NEMT / Medical Transportation"},
+    {"key": "fingerprinting", "label": "Fingerprinting / Background Screening / FBI Appendix F"},
     {"key": "courier", "label": "Courier / Delivery / Logistics"},
     {"key": "dna_testing", "label": "DNA / Paternity / Genetic Testing"},
     {"key": "janitorial", "label": "Janitorial / Grounds Maintenance / Facilities"},

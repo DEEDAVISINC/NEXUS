@@ -1,13 +1,9 @@
-Good morning Dee. Here is your NEXUS briefing for Monday, May 11th, 2026.
+Good morning Dee. Here is your NEXUS briefing for Wednesday, May 13th.
 
-Last night was massive. You sent 35 outreach emails. 24 to partners, 11 to MCOs across Louisiana, South Carolina, Mississippi, and Alabama.
+You have one call today. Uber Health with Ariana Cirkelis at 1:30 PM Eastern. This is about HAVEN partnership for disaster transport and medical delivery.
 
-You have no scheduled meetings today.
+Your top 3 priorities are: First, send the corrected replies to Daniel Rivera at Anthem Ohio and Kristen Halsey at CareSource Ohio with the full service pitch. Second, prepare for the Uber Health call at 1:30. Third, confirm the Metro One South Carolina call time for tomorrow.
 
-Your top 3 priorities are: First, check your inbox for replies. You seeded 35 conversations. Second, continue MCO outreach. Georgia, Tennessee, Ohio, Texas, and Florida are still pending. Third, if TrueCare CareSource in Mississippi responds, prioritize that conversation. They are your existing partner.
+Reminder. All future outreach emails must include all four services: NEMT, Personal Care, DME, and HAVEN.
 
-You received auto-replies from Healthy Blue Louisiana, AmeriHealth Caritas Louisiana, Absolute Total Care South Carolina, Molina Mississippi, and Magnolia Health. All confirmed receipt.
-
-Hurricane season starts June 1st. Your HAVEN network is building.
-
-Have a great day.
+Have a good day.

@@ -1,60 +1,38 @@
-# LOUISIANA D-SNP MCO OUTREACH — NEMT + HAVEN TPA
-**Generated:** May 9, 2026
-**Source:** Louisiana Department of Health — Healthy Louisiana MCO Provider Contracting Contacts (ldh.la.gov)
-**Status:** Ready to send
+# LOUISIANA MCO OUTREACH — NEMT / PERSONAL CARE / HAVEN
 
-## ATTACHMENT — EVERY MCO EMAIL
-
-Attach the **HAVEN Master Proposal** PDF with every outbound MCO message in this deck.
-
-| Source HTML | `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/HAVEN_Master_Proposal.html` |
-|---|---|
-| **To PDF** | Open in Chrome → Print → Save as PDF (e.g. `HAVEN_Master_Proposal_DDI_MCO.pdf`). |
-| **Do not use for MCOs** | Partner one-pagers (`HAVEN_*_Partnership_OnePager.html`) — those are **partner-only** outreach. |
-
-Tip: In each email closing, optional one line — *Attached: HAVEN overview deck (disaster continuity + daily NEMT TPA).* — so the attachment is intentional.
+**Created:** May 11, 2026
+**Status:** READY TO SEND
+**Note:** UHC Louisiana exiting market April 2026 — skipped
 
 ---
 
-## KEY INTEL: UHC EXITING LOUISIANA MEDICAID APRIL 1, 2026
+## EMAIL 1: HEALTHY BLUE LOUISIANA
 
-UnitedHealthcare is no longer available to Louisiana Medicaid members as of April 1, 2026. Those members are being redistributed to the remaining 5 Healthy Louisiana MCOs. This creates an immediate growth moment — every remaining MCO is absorbing new dual-eligible members and may need additional NEMT capacity.
-
-**Use this in emails:** "As your plan absorbs members from the recent UHC transition..."
-
----
-
-## EMAIL 1: AETNA BETTER HEALTH OF LOUISIANA
-
-**To:** LAContract@Aetna.com (Melissa Bezet, Provider Contracting)
-**CC:** LAProvider@aetna.com (General Provider Relations)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Aetna Louisiana D-SNP
+**TO:** LANetworkDevelopment@healthybluela.com
+**ATTACH:** Capability statement (DOING BUSINESS W:DDI.pdf)
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Aetna Louisiana D-SNP
+Subject: TPA Program Administration — DEE DAVIS INC | Healthy Blue Louisiana
 
-Good afternoon Melissa,
+Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding NEMT TPA services into Louisiana.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB and the contracted TPA for HAP CareSource's Michigan HIDE SNP program, currently managing NEMT and care coordination benefits for 4,500+ dual-eligible members.
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination through credentialed transport partners, compliance documentation, claims, and member communication.
+I am reaching out to explore TPA partnership opportunities with Healthy Blue Louisiana for NEMT, Personal Care, and our HAVEN disaster response program.
 
-DDI has an active outreach relationship with Aetna Better Health of Michigan for NEMT TPA services and is extending that to Aetna's Louisiana operations. DDI is also a newly registered LaGov vendor (Vendor ID V31033172101).
+What DDI brings as a Contract Management TPA:
 
-As Aetna Louisiana absorbs members from the recent UHC Medicaid transition, we understand the increased pressure on NEMT capacity. DDI is positioned to support that growth immediately.
+• Live MCO contract — HAP CareSource Michigan HIDE SNP (4,500+ dual-eligible members)
+• Zero-fleet TPA model — DDI administers the benefit, credentialed partners execute under DDI management
+• NEMT TPA — scheduling, dispatch coordination, trip documentation, claims, compliance
+• Personal Care TPA — ADL support, homemaker, companion care coordination for LTSS populations
+• HAVEN Disaster Response — automatic member relocation during FEMA-declared emergencies, temporary housing, pharmacy continuity, transport coordination
+• EDWOSB | WOSB | WBENC WBE | MBE | SBE — supports diversity contracting goals
+• NPI: 1538939111 | CAGE: 8UMX3
 
-What DDI brings to Aetna Louisiana:
+Louisiana's hurricane exposure makes HAVEN particularly relevant — DDI's disaster response program ensures continuity of care when members are displaced.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with Aetna Better Health of Michigan
-• Registered Louisiana vendor — LaGov Vendor ID V31033172101
-• Zero-fleet model — credentialed transport partners under DDI management, statewide LA coverage
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared hurricane events. Louisiana's dual-eligible members are among the most hurricane-exposed in the country.
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you connect me with Aetna Louisiana's NEMT program management or TPA vendor partnerships team?
+I have attached our capability statement for your review.
 
 Available after 12:00 PM ET.
 
@@ -62,44 +40,42 @@ Warm regards,
 
 Dieasha D. Davis
 President & CEO
-Dee Davis Inc. | DEPOINTE
+Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 248.376.4550 | info@deedavis.biz
 EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+NPI: 1538939111 | CAGE: 8UMX3
 ```
 
 ---
 
-## EMAIL 2: AMERIHEALTH CARITAS LOUISIANA
+## EMAIL 2: LOUISIANA HEALTHCARE CONNECTIONS (Centene)
 
-**To:** GMatthews@AmeriHealthCaritasLA.com (Gwen Matthews, Provider Contracting)
-**CC:** GHurm1@AmeriHealthCaritasLA.com (Glynda Hurm, Provider Contracting)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | AmeriHealth Caritas Louisiana D-SNP
+**TO:** CONTACT_US_PROVIDER_LA@CENTENE.COM
+**ATTACH:** Capability statement (DOING BUSINESS W:DDI.pdf)
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | AmeriHealth Caritas Louisiana D-SNP
+Subject: TPA Program Administration — DEE DAVIS INC | Louisiana Healthcare Connections
 
-Good afternoon Gwen,
+Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Louisiana.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB and the contracted TPA for HAP CareSource's Michigan HIDE SNP program, currently managing NEMT and care coordination benefits for 4,500+ dual-eligible members.
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
+I am reaching out to explore TPA partnership opportunities with Louisiana Healthcare Connections for NEMT, Personal Care, and our HAVEN disaster response program.
 
-DDI has an active outreach relationship with AmeriHealth Caritas in Michigan for NEMT TPA services and is extending that to Louisiana. DDI is also a newly registered LaGov vendor (V31033172101).
+What DDI brings as a Contract Management TPA:
 
-As AmeriHealth Caritas Louisiana absorbs members from the recent UHC Medicaid transition, DDI is positioned to support that growth with immediate NEMT capacity.
+• Live MCO contract — HAP CareSource Michigan HIDE SNP (4,500+ dual-eligible members)
+• Zero-fleet TPA model — DDI administers the benefit, credentialed partners execute under DDI management
+• NEMT TPA — scheduling, dispatch coordination, trip documentation, claims, compliance
+• Personal Care TPA — ADL support, homemaker, companion care coordination for LTSS populations
+• HAVEN Disaster Response — automatic member relocation during FEMA-declared emergencies, temporary housing, pharmacy continuity, transport coordination
+• EDWOSB | WOSB | WBENC WBE | MBE | SBE — supports diversity contracting goals
+• NPI: 1538939111 | CAGE: 8UMX3
 
-What DDI brings to AmeriHealth Caritas Louisiana:
+Louisiana's hurricane exposure makes HAVEN particularly relevant — DDI's disaster response program ensures continuity of care when members are displaced.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with AmeriHealth Caritas Michigan
-• Registered Louisiana vendor — LaGov Vendor ID V31033172101
-• Zero-fleet model — credentialed transport partners, statewide LA coverage
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared hurricane events. Louisiana's hurricane exposure makes this critical for dual-eligible members.
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you direct me to AmeriHealth Caritas Louisiana's NEMT program management or TPA vendor partnerships team?
+I have attached our capability statement for your review.
 
 Available after 12:00 PM ET.
 
@@ -107,43 +83,42 @@ Warm regards,
 
 Dieasha D. Davis
 President & CEO
-Dee Davis Inc. | DEPOINTE
+Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 248.376.4550 | info@deedavis.biz
 EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+NPI: 1538939111 | CAGE: 8UMX3
 ```
 
 ---
 
-## EMAIL 3: HEALTHY BLUE LOUISIANA (Anthem/Elevance)
+## EMAIL 3: AETNA BETTER HEALTH LOUISIANA
 
-**To:** Nicholas.Daigle@HealthyBlueLA.com (Nick Daigle, Provider Contracting)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Healthy Blue Louisiana D-SNP
+**TO:** LAProvider@Aetna.com
+**ATTACH:** Capability statement (DOING BUSINESS W:DDI.pdf)
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Healthy Blue Louisiana D-SNP
+Subject: TPA Program Administration — DEE DAVIS INC | Aetna Better Health Louisiana
 
-Good afternoon Nick,
+Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Louisiana.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB and the contracted TPA for HAP CareSource's Michigan HIDE SNP program, currently managing NEMT and care coordination benefits for 4,500+ dual-eligible members.
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication.
+I am reaching out to explore TPA partnership opportunities with Aetna Better Health of Louisiana for NEMT, Personal Care, and our HAVEN disaster response program.
 
-DDI is a newly registered LaGov vendor (V31033172101), and we have active outreach with Anthem/Elevance affiliates in other states.
+What DDI brings as a Contract Management TPA:
 
-As Healthy Blue Louisiana absorbs members from the recent UHC Medicaid transition, DDI is positioned to provide immediate NEMT capacity and program administration support.
+• Live MCO contract — HAP CareSource Michigan HIDE SNP (4,500+ dual-eligible members)
+• Zero-fleet TPA model — DDI administers the benefit, credentialed partners execute under DDI management
+• NEMT TPA — scheduling, dispatch coordination, trip documentation, claims, compliance
+• Personal Care TPA — ADL support, homemaker, companion care coordination for LTSS populations
+• HAVEN Disaster Response — automatic member relocation during FEMA-declared emergencies, temporary housing, pharmacy continuity, transport coordination
+• EDWOSB | WOSB | WBENC WBE | MBE | SBE — supports diversity contracting goals
+• NPI: 1538939111 | CAGE: 8UMX3
 
-What DDI brings to Healthy Blue Louisiana:
+Louisiana's hurricane exposure makes HAVEN particularly relevant — DDI's disaster response program ensures continuity of care when members are displaced.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Registered Louisiana vendor — LaGov Vendor ID V31033172101
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared hurricane events. Louisiana's I-10 corridor and coastal parishes face annual hurricane exposure.
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you connect me with the NEMT program management or TPA vendor partnerships team?
+I have attached our capability statement for your review.
 
 Available after 12:00 PM ET.
 
@@ -151,44 +126,42 @@ Warm regards,
 
 Dieasha D. Davis
 President & CEO
-Dee Davis Inc. | DEPOINTE
+Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 248.376.4550 | info@deedavis.biz
 EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+NPI: 1538939111 | CAGE: 8UMX3
 ```
 
 ---
 
-## EMAIL 4: HUMANA HEALTHY HORIZONS IN LOUISIANA
+## EMAIL 4: AMERIHEALTH CARITAS LOUISIANA
 
-**To:** hmcarthur@humana.com (Heather McArthur, Provider Contracting)
-**CC:** lamedicaidproviderrelations@humana.com (General Provider Relations)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Humana Louisiana D-SNP
+**TO:** network@amerihealthcaritasla.com
+**ATTACH:** Capability statement (DOING BUSINESS W:DDI.pdf)
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Humana Louisiana D-SNP
+Subject: TPA Program Administration — DEE DAVIS INC | AmeriHealth Caritas Louisiana
 
-Good afternoon Heather,
+Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Louisiana.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB and the contracted TPA for HAP CareSource's Michigan HIDE SNP program, currently managing NEMT and care coordination benefits for 4,500+ dual-eligible members.
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication.
+I am reaching out to explore TPA partnership opportunities with AmeriHealth Caritas Louisiana for NEMT, Personal Care, and our HAVEN disaster response program.
 
-DDI has an active outreach relationship with Humana in Michigan for NEMT TPA services and is extending that to Humana's Louisiana operations. DDI is also a newly registered LaGov vendor (V31033172101).
+What DDI brings as a Contract Management TPA:
 
-As Humana Healthy Horizons absorbs members from the recent UHC Medicaid transition, DDI is positioned to support immediate NEMT capacity growth.
+• Live MCO contract — HAP CareSource Michigan HIDE SNP (4,500+ dual-eligible members)
+• Zero-fleet TPA model — DDI administers the benefit, credentialed partners execute under DDI management
+• NEMT TPA — scheduling, dispatch coordination, trip documentation, claims, compliance
+• Personal Care TPA — ADL support, homemaker, companion care coordination for LTSS populations
+• HAVEN Disaster Response — automatic member relocation during FEMA-declared emergencies, temporary housing, pharmacy continuity, transport coordination
+• EDWOSB | WOSB | WBENC WBE | MBE | SBE — supports diversity contracting goals
+• NPI: 1538939111 | CAGE: 8UMX3
 
-What DDI brings to Humana Louisiana:
+Louisiana's hurricane exposure makes HAVEN particularly relevant — DDI's disaster response program ensures continuity of care when members are displaced.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with Humana Michigan
-• Registered Louisiana vendor — LaGov Vendor ID V31033172101
-• Zero-fleet model — credentialed transport partners, statewide LA coverage
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared hurricane events
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you direct me to Humana Louisiana's NEMT program management or TPA vendor partnerships team?
+I have attached our capability statement for your review.
 
 Available after 12:00 PM ET.
 
@@ -196,74 +169,33 @@ Warm regards,
 
 Dieasha D. Davis
 President & CEO
-Dee Davis Inc. | DEPOINTE
+Dee Davis Inc.
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
 248.376.4550 | info@deedavis.biz
 EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+NPI: 1538939111 | CAGE: 8UMX3
 ```
 
 ---
 
-## EMAIL 5: LOUISIANA HEALTHCARE CONNECTIONS (Centene)
+## CONTACT SUMMARY
 
-**To:** RPolitz@LouisianaHealthConnect.com (Russell Politz, Provider Contracting)
-**CC:** BRO_PR_Operations@louisianahealthconnect.com (Provider Relations)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Louisiana Healthcare Connections D-SNP
-
-```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Louisiana Healthcare Connections D-SNP
-
-Good afternoon Russell,
-
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Louisiana.
-
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication.
-
-DDI has an active outreach relationship with Centene's Michigan affiliate, Meridian Health Plan, for NEMT TPA services and is extending that to Louisiana Healthcare Connections. DDI is also a newly registered LaGov vendor (V31033172101).
-
-As Louisiana Healthcare Connections absorbs members from the recent UHC Medicaid transition, DDI is positioned to support that growth with immediate NEMT capacity.
-
-What DDI brings to Louisiana Healthcare Connections:
-
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with Centene/Meridian Michigan
-• Registered Louisiana vendor — LaGov Vendor ID V31033172101
-• Zero-fleet model — credentialed transport partners, statewide LA coverage
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared hurricane events. Louisiana's coastal parishes face annual hurricane exposure.
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you connect me with the NEMT program management or TPA vendor partnerships team?
-
-Available after 12:00 PM ET.
-
-Warm regards,
-
-Dieasha D. Davis
-President & CEO
-Dee Davis Inc. | DEPOINTE
-755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
-248.376.4550 | info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
-```
+| MCO | Email | Source | Notes |
+|-----|-------|--------|-------|
+| Healthy Blue LA | LANetworkDevelopment@healthybluela.com | Provider website | Network development/contracting |
+| LA Healthcare Connections | CONTACT_US_PROVIDER_LA@CENTENE.COM | Provider data page | Centene corporate |
+| Aetna Better Health LA | LAProvider@Aetna.com | Provider training page | General provider inbox |
+| AmeriHealth Caritas LA | network@amerihealthcaritasla.com | Contracting page | Network management team |
+| ~~UHC Louisiana~~ | ~~SKIP~~ | — | Exiting market April 2026 |
 
 ---
 
-## LOUISIANA OUTREACH SUMMARY
+## LOUISIANA MEDICAID NOTE
 
-| # | MCO | Contact | Email | Status |
-|---|-----|---------|-------|--------|
-| 1 | **Aetna LA** | Melissa Bezet (Contracting) | LAContract@Aetna.com | ✉️ READY |
-| 2 | **AmeriHealth Caritas LA** | Gwen Matthews + Glynda Hurm | GMatthews@AmeriHealthCaritasLA.com | ✉️ READY |
-| 3 | **Healthy Blue LA** | Nick Daigle (Contracting) | Nicholas.Daigle@HealthyBlueLA.com | ✉️ READY |
-| 4 | **Humana LA** | Heather McArthur (Contracting) | hmcarthur@humana.com | ✉️ READY |
-| 5 | **LA Healthcare Connections** | Russell Politz (Contracting) | RPolitz@LouisianaHealthConnect.com | ✉️ READY |
-| — | ~~UHC LA~~ | — | — | ❌ EXITED LA MEDICAID 04/01/2026 |
+Louisiana Medicaid enrollment portal: **lamedicaid.com**
 
-**Total Louisiana: 5 emails, all new, all with named contracting contacts**
+If MCOs require Louisiana Medicaid ID (like Ohio/Florida), add to weekend priority list.
 
-**DDI Advantage in LA:**
-- LaGov registered vendor (V31033172101) — already in the system
-- LABEOC registration in progress
-- UHC exit = member redistribution = every remaining MCO is growing and may need additional NEMT capacity
-- Hurricane corridor — HAVEN is the strongest differentiator in this state
+---
+
+*Ready to send — 4 emails, attach capability statement to each*

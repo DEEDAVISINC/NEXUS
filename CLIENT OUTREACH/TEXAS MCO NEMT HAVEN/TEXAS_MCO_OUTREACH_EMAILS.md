@@ -1,92 +1,48 @@
-# TEXAS D-SNP MCO OUTREACH — NEMT + HAVEN TPA
-**Generated:** May 9, 2026
-**Source:** Texas HHS MCO Provider Relations Contacts (hhs.texas.gov, revised 09/2024)
-**Status:** Ready to send
+# TEXAS STAR+PLUS MCO OUTREACH — NEMT + PERSONAL CARE + HAVEN TPA
+**Generated:** May 11, 2026
+**Status:** Ready to send — THREE-SERVICE PITCH
 
-## ATTACHMENT — EVERY MCO EMAIL
+## CONTEXT
+Texas STAR+PLUS is the largest MLTSS program in the country.
+Personal care (ADL support, homemaker services) is a managed benefit under STAR+PLUS.
+This is DDI's highest-dollar-opportunity state.
 
-Attach the **HAVEN Master Proposal** PDF with every outbound MCO message in this deck.
-
-| Source HTML | `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/HAVEN_Master_Proposal.html` |
-|---|---|
-| **To PDF** | Open in Chrome → Print → Save as PDF (e.g. `HAVEN_Master_Proposal_DDI_MCO.pdf`). |
-| **Do not use for MCOs** | Partner one-pagers (`HAVEN_*_Partnership_OnePager.html`) — those are **partner-only** outreach. |
-
-Tip: In each email closing, optional one line — *Attached: HAVEN overview deck (disaster continuity + daily NEMT TPA).* — so the attachment is intentional.
+## ATTACHMENT — EVERY EMAIL
+Attach **HAVEN Master Proposal** PDF.
+Source: `/Users/deedavis/NEXUS BACKEND/HAVEN/ONE_PAGERS/HAVEN_Master_Proposal.html`
 
 ---
 
-## ALREADY CONTACTED
+## EMAIL 1: MOLINA HEALTHCARE OF TEXAS ⭐ PRIORITY
 
-| MCO | Contact | Status |
-|-----|---------|--------|
-| **Community Health Choice** | Wanda Henry → forwarded to TPA team 04/16 | ⏳ FOLLOW-UP OVERDUE (23 days) |
-| **Molina TX** | Sandra Jung (Mgr, Provider Relations) | ❌ DECLINED — "NEMT managed in-house" |
-
----
-
-## EMAIL 1: COMMUNITY HEALTH CHOICE — FOLLOW-UP (Wanda Henry)
-
-**To:** Wanda.Henry@CommunityHealthChoice.org
-**CC:** Michael.banda@CommunityHealthChoice.org (Director, Network Development — Jefferson area)
-**Subject:** RE: NEMT TPA Services — DEE DAVIS INC | DEPOINTE — Texas STAR+PLUS
+**TO:** mhtxproviderservices@molinahealthcare.com
+**CC:** Denise.arvia@molinahealthcare.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | Molina STAR+PLUS Texas
 
 ```
-Subject: RE: NEMT TPA Services — DEE DAVIS INC | DEPOINTE — Texas STAR+PLUS
-
-Hi Wanda,
-
-Thank you again for forwarding my information to your TPA vendor team on April 16th. I wanted to follow up and see if there is a specific contact on that team I should reach out to directly.
-
-Since our last exchange, DDI has gone fully operational as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program — managing the complete NEMT benefit for 4,500+ dual-eligible members. We are actively expanding into Texas.
-
-As a reminder, DDI operates at the program administration level — we are not a transportation provider. We manage the NEMT benefit on behalf of MCOs: scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under our management.
-
-We also now offer HAVEN — our disaster response and member relocation program. When a hurricane or FEMA-declared event hits the Gulf Coast, DDI automatically activates member relocation, temporary housing coordination, and continuity of care services. This is a capability that pairs directly with daily NEMT management.
-
-Would you be able to share the contact name on your TPA vendor team, or should I direct my follow-up to Michael Banda in Network Development?
-
-Available after 12:00 PM ET.
-
-Warm regards,
-
-Dieasha D. Davis
-President & CEO
-Dee Davis Inc. | DEPOINTE
-755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
-248.376.4550 | info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
-```
-
----
-
-## EMAIL 2: UNITEDHEALTHCARE TX (STAR+PLUS — All Service Areas)
-
-**To:** uhc_cp_prov_relations@uhc.com
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | UHC Texas STAR+PLUS D-SNP
-
-```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | UHC Texas STAR+PLUS D-SNP
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | Molina STAR+PLUS Texas
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding NEMT TPA services into Texas.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-To clarify our positioning upfront: DDI is not a transportation provider seeking to join UHC's network. We are a Contract Management TPA that administers the NEMT benefit at the program level on behalf of MCOs — scheduling, dispatch coordination through credentialed transport partners, compliance documentation, claims submission, and member communication.
+I am reaching out regarding NEMT and personal care program administration for Molina Healthcare of Texas's STAR+PLUS population.
 
-DDI has an active NEMT TPA outreach relationship with UnitedHealthcare Community Plan of Michigan and is now extending that conversation to UHC's Texas STAR+PLUS operations.
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-What DDI brings to UHC Texas:
+DDI has active outreach relationships with Molina Healthcare in Michigan and Mississippi and is now expanding into Texas.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with UHC Community Plan Michigan
-• Zero-fleet model — credentialed transport partners under DDI management, statewide TX coverage
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events (Gulf Coast hurricane season)
+What DDI brings to Molina Texas STAR+PLUS:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Active relationships with Molina Michigan and Molina Mississippi
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for STAR+PLUS LTSS members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events (critical for Texas hurricane and flood exposure)
+• Zero-fleet model — credentialed service partners under DDI management, no capital risk to Molina
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you direct me to the NEMT program management or TPA vendor partnerships team for UHC Texas STAR+PLUS?
+Could you direct me to the appropriate contact for NEMT program management or LTSS vendor partnerships at Molina Texas?
 
 Available after 12:00 PM ET.
 
@@ -102,34 +58,36 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## EMAIL 3: SUPERIOR HEALTHPLAN / CENTENE (STAR+PLUS — Statewide)
+## EMAIL 2: SUPERIOR HEALTH PLAN (CENTENE/TEXAS)
 
-**To:** SHP-NetworkDevelopment@centene.com
-**CC:** tiffany.stewart@superiorhealthplan.com (Manager, Provider Network)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Superior STAR+PLUS D-SNP
+**TO:** SHP-NetworkDevelopment@centene.com
+**CC:** AM.LTSS@SuperiorHealthPlan.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | Superior STAR+PLUS Texas
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Superior STAR+PLUS D-SNP
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | Superior STAR+PLUS Texas
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Texas.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
+I am reaching out regarding NEMT and personal care program administration for Superior Health Plan's STAR+PLUS LTSS population.
 
-DDI also has an active outreach relationship with Centene's Michigan affiliate, Meridian Health Plan, for NEMT TPA services.
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, managing scheduling, dispatch coordination, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-What DDI brings to Superior HealthPlan:
+DDI has active outreach relationships with Centene affiliates in Michigan (Meridian Health Plan) and Ohio (Buckeye Health Plan) and is now expanding into Texas.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with Centene/Meridian in Michigan
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared events (Gulf Coast hurricane season critical for STAR+PLUS members)
+What DDI brings to Superior Health Plan STAR+PLUS:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Active relationships with Centene/Meridian Michigan and Centene/Buckeye Ohio
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for STAR+PLUS LTSS members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you connect me with Superior's NEMT program management or TPA vendor partnerships team?
+Could you direct me to the NEMT program management or LTSS vendor partnerships team?
 
 Available after 12:00 PM ET.
 
@@ -145,34 +103,35 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## EMAIL 4: AETNA BETTER HEALTH OF TEXAS (STAR — Bexar)
+## EMAIL 3: UNITEDHEALTHCARE STAR+PLUS TEXAS
 
-**To:** ABHTXcredentialing@aetna.com
-**CC:** GravesL@aetna.com (Linda Graves, Ld. Director, Network Management)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Aetna Texas D-SNP
+**TO:** uhc_cp_prov_relations@uhc.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | UHC STAR+PLUS Texas
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Aetna Texas D-SNP
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | UHC STAR+PLUS Texas
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding NEMT TPA services into Texas.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-DDI is not a transportation provider. We operate at the program administration level — managing the NEMT benefit on behalf of MCOs. We handle scheduling, dispatch coordination through credentialed transport partners, compliance documentation, claims, and member communication.
+I am reaching out regarding NEMT and personal care program administration for UnitedHealthcare's STAR+PLUS LTSS population in Texas.
 
-DDI has an active outreach relationship with Aetna Better Health of Michigan for NEMT TPA services and is extending that conversation to Aetna's Texas operations.
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-What DDI brings to Aetna Texas:
+DDI has active outreach relationships with UHC Community Plan in Michigan and Tennessee and is now expanding into Texas.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with Aetna Better Health of Michigan
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared Gulf Coast events
+What DDI brings to UHC STAR+PLUS Texas:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Active relationships with UHC Community Plan Michigan and Tennessee
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for STAR+PLUS LTSS members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you connect me with Aetna Texas's NEMT program management or TPA vendor partnerships team?
+Could you direct me to the LTSS program management or TPA vendor partnerships team for Texas STAR+PLUS?
 
 Available after 12:00 PM ET.
 
@@ -188,71 +147,35 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## EMAIL 5: WELLPOINT (STAR+PLUS — Multiple Service Areas)
+## EMAIL 4: AETNA BETTER HEALTH OF TEXAS
 
-**To:** Greg.gilmore@Wellpoint.com (Director, Provider Relationship Account Management)
-**CC:** Taylor.Blake@Wellpoint.com (Director, Network Management)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Wellpoint Texas STAR+PLUS
-
-```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Wellpoint Texas STAR+PLUS
-
-Good afternoon Greg,
-
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Texas.
-
-DDI is not a transportation provider — we are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs. We coordinate scheduling, dispatch, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
-
-What DDI brings to Wellpoint Texas:
-
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared Gulf Coast events
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you connect me with the appropriate contact for NEMT program management or TPA vendor partnerships at Wellpoint Texas?
-
-Available after 12:00 PM ET.
-
-Warm regards,
-
-Dieasha D. Davis
-President & CEO
-Dee Davis Inc. | DEPOINTE
-755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
-248.376.4550 | info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
-```
-
----
-
-## EMAIL 6: COMMUNITY FIRST HEALTH PLAN (Bexar — STAR+PLUS)
-
-**To:** ProviderRelations@CFHP.com
-**CC:** KBiediger@cfhp.com (Kathryn Biediger, Executive Director, Medicare Plans & Network Management)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Community First STAR+PLUS
+**TO:** ABHTXcredentialing@aetna.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | Aetna STAR+PLUS Texas
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Community First STAR+PLUS
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | Aetna STAR+PLUS Texas
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Texas.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
+I am reaching out regarding NEMT and personal care program administration for Aetna Better Health of Texas's STAR+PLUS LTSS population.
 
-What DDI brings to Community First Health Plan:
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared Gulf Coast events
+DDI has active outreach relationships with Aetna Better Health in Michigan and Louisiana and is now expanding into Texas.
+
+What DDI brings to Aetna Better Health Texas STAR+PLUS:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Active relationships with Aetna Michigan and Aetna Louisiana
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for STAR+PLUS LTSS members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you direct me to Community First's NEMT program management or TPA vendor partnerships team?
+Could you direct me to the NEMT program management or LTSS TPA vendor partnerships team?
 
 Available after 12:00 PM ET.
 
@@ -268,31 +191,32 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## EMAIL 7: EL PASO FIRST (El Paso — STAR+PLUS)
+## EMAIL 5: AMERIGROUP TEXAS (WELLPOINT/ANTHEM)
 
-**To:** Eozuna@elpasohealth.com (Erika Ozuna, Director, Provider Contracting & Credentialing)
-**CC:** Dgillis@elpasohealth.com (Don Gillis, VP Medicaid Operations)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | El Paso First STAR+PLUS
+**TO:** TXProviderRelations@amerigroup.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | Amerigroup STAR+PLUS Texas
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | El Paso First STAR+PLUS
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | Amerigroup STAR+PLUS Texas
 
-Good afternoon Erika,
+Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Texas.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
+I am reaching out regarding NEMT and personal care program administration for Amerigroup Texas's STAR+PLUS LTSS population.
 
-What DDI brings to El Paso First:
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared events
+What DDI brings to Amerigroup Texas STAR+PLUS:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for STAR+PLUS LTSS members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you connect me with El Paso First's NEMT program management team?
+Could you direct me to the NEMT program management or LTSS vendor partnerships team at Amerigroup Texas?
 
 Available after 12:00 PM ET.
 
@@ -308,17 +232,14 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## TEXAS OUTREACH SUMMARY
+## TEXAS SEND SUMMARY
 
-| # | MCO | Contact | Email | Status |
-|---|-----|---------|-------|--------|
-| 1 | **Community Health Choice** | Wanda Henry + Michael Banda | Wanda.Henry@ / Michael.banda@CommunityHealthChoice.org | ⏳ FOLLOW-UP READY |
-| 2 | **Molina TX** | Sandra Jung | MHTXProviderServices@MolinaHealthcare.com | ❌ DECLINED (NEMT in-house) |
-| 3 | **UnitedHealthcare TX** | Provider Relations | uhc_cp_prov_relations@uhc.com | ✉️ READY TO SEND |
-| 4 | **Superior/Centene TX** | Tiffany Stewart (Network) | SHP-NetworkDevelopment@centene.com | ✉️ READY TO SEND |
-| 5 | **Aetna TX** | Linda Graves (Network Mgmt) | ABHTXcredentialing@aetna.com | ✉️ READY TO SEND |
-| 6 | **Wellpoint TX** | Greg Gilmore (Director) | Greg.gilmore@Wellpoint.com | ✉️ READY TO SEND |
-| 7 | **Community First** | Kathryn Biediger (Exec Dir) | ProviderRelations@CFHP.com | ✉️ READY TO SEND |
-| 8 | **El Paso First** | Erika Ozuna (Director) | Eozuna@elpasohealth.com | ✉️ READY TO SEND |
-
-**Total Texas: 8 MCOs — 1 follow-up, 1 declined, 6 new emails ready**
+| # | MCO | Email | Priority | Notes |
+|---|-----|-------|----------|-------|
+| 1 | **Molina TX** | mhtxproviderservices@molinahealthcare.com + Denise.arvia@molinahealthcare.com | ❌ DECLINED | "Services in-house, no plans to change" — Sandra Salas, May 12, 2026 |
+| 2 | **Superior/Centene TX** | SHP-NetworkDevelopment@centene.com + AM.LTSS@SuperiorHealthPlan.com | High | Centene family — Meridian MI + Buckeye OH relationships |
+| 3 | **UHC STAR+PLUS TX** | uhc_cp_prov_relations@uhc.com | High | UHC MI + TN relationships |
+| 4 | **Aetna TX** | ABHTXcredentialing@aetna.com | High | Aetna MI + LA relationships |
+| 5 | **Amerigroup TX** | TXProviderRelations@amerigroup.com | Medium | If bounces, call 1-800-454-3730 |
+| 6 | **Humana TX** | OHMedicaidProviderRelations@humana.com | Medium | ⚠️ Use general Humana Medicaid email — confirm TX-specific |
+| 7 | **BCBS TX** | deshay@bcbstx.com | Low | STAR (not STAR+PLUS) — lower LTSS priority |

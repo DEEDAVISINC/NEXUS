@@ -45,8 +45,9 @@
 
 | Company | Region | Services | Contact | Status |
 |---------|--------|----------|---------|--------|
-| **Carolina First EMS** | Midlands + statewide | Wheelchair, stretcher, 24/7, 15+ vehicles, dialysis | carolinafirstems.com | ⬜ OUTREACH |
-| **Metro One** | Statewide SC | Ambulatory, wheelchair, 95+ vehicles, Medicaid-approved | metro1sc.com | ⬜ OUTREACH |
+| **Carolina First EMS** | Midlands + statewide | Wheelchair, stretcher, 24/7, 15+ vehicles, dialysis | carolinafirstems.com | ✅ SENT 5/10 |
+| **Metro One** | Statewide SC | Ambulatory, wheelchair, 95+ vehicles, Medicaid-approved | metro1sc.com | ✅ SENT 5/10 |
+| **MedRide Co.** | SC accounts (CO-based, expanding) | Wheelchair, stretcher, 300+ vehicles, founded 2018 | michelle.ebert@medrideco.com / 719-828-2004 | ✅ RESPONDED 5/11 — Michelle Ebert (Biz Dev) + Ops Manager joining call — awaiting scheduling |
 | **ProMed Express (PROMEDXP)** | Charleston, Columbia, Greenville, Myrtle Beach | Wheelchair, stretcher, long-distance | promedxp.com | ⬜ OUTREACH |
 | **TruExpress Medical Transportation** | Upstate SC, Rock Hill | Medicaid NEMT, eligibility verification | truexpressnemt.com | ⬜ OUTREACH |
 | **Paramount Transit Services** | Statewide SC | Wheelchair, stretcher, Medicaid/Medicare | paramounttransit.com | ⬜ OUTREACH |
@@ -62,7 +63,7 @@
 | **Red Roof Inn** | Tailored by Red Roof (Corporate), FEMA-approved locations, Gov't rates, RediBill | 600+ locations | redroof.com/why-red-roof/tailored → Corporate Sales | ⬜ OUTREACH |
 | **WoodSpring Suites** | Major Accounts, Natural Disaster Extended Stay, Emergency Housing | 300+ locations | woodspring.com/majoraccounts → Sales Inquiry Form | ⬜ OUTREACH |
 | **Extended Stay America** | Client Connect (Corporate), Healthcare Support, Gov't/Military rates | 650+ locations | extendedstayamerica.com/esa-works → Corporate Inquiry | ⬜ OUTREACH |
-| **La Quinta by Wyndham** | Wyndham Business (Corporate), FEMA participating | 900+ locations | wyndhamhotels.com → Group/Corporate Sales | ⬜ OUTREACH |
+| **La Quinta by Wyndham** | Wyndham Business (Corporate), FEMA participating | 900+ locations | WyndhamBusiness@wyndham.com | ✅ CORPORATE ACCOUNT: Code **1000097874** — ✅ HAVEN partnership redirect sent 5/11 — awaiting business dev/group sales contact |
 | **Motel 6 / Studio 6** | G6 Hospitality Corporate, Extended Stay | 1,400+ locations | motel6.com → Corporate Sales | ⬜ OUTREACH |
 
 ---

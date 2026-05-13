@@ -1,57 +1,92 @@
-# TENNESSEE MCO OUTREACH — NEMT + HAVEN TPA
-**Generated:** May 9, 2026
-**Source:** Tennessee TennCare Managed Care Contractors (tn.gov/tenncare)
-**Status:** Ready to send
+# TENNESSEE TENNCARE MCO OUTREACH — NEMT + PERSONAL CARE + HAVEN TPA
+**Generated:** May 11, 2026
+**Status:** Ready to send — THREE-SERVICE PITCH
 
-## ATTACHMENT — EVERY MCO EMAIL
-
-Attach the **HAVEN Master Proposal** PDF with every outbound MCO message in this deck.
-
-| Source HTML | `/Users/deedavis/NEXUS BACKEND/NEXUS_LEARNING/HAVEN_Master_Proposal.html` |
-|---|---|
-| **To PDF** | Open in Chrome → Print → Save as PDF (e.g. `HAVEN_Master_Proposal_DDI_MCO.pdf`). |
-| **Do not use for MCOs** | Partner one-pagers (`HAVEN_*_Partnership_OnePager.html`) — those are **partner-only** outreach. |
-
-Tip: In each email closing, optional one line — *Attached: HAVEN overview deck (disaster continuity + daily NEMT TPA).* — so the attachment is intentional.
-
----
-
-## TENNESSEE MCO LANDSCAPE
-
-TennCare is served by 3 Managed Care Contractors (MCCs):
-- **BlueCare Tennessee** (BCBS of Tennessee) — also operates TennCare Select
-- **Wellpoint Tennessee** (formerly Amerigroup / Anthem/Elevance)
+## CONTEXT
+Tennessee TennCare has three managed care contractors (MCCs):
+- **Amerigroup Tennessee (WellPoint/Anthem)**
+- **BlueCare Tennessee (BCBS of Tennessee)**
 - **UnitedHealthcare Community Plan of Tennessee**
 
+TennCare CHOICES program manages LTSS including personal care for dual-eligibles and elderly/disabled members. This is a direct personal care TPA opportunity.
+
+## ATTACHMENT — EVERY EMAIL
+Attach **HAVEN Master Proposal** PDF.
+Source: `/Users/deedavis/NEXUS BACKEND/HAVEN/ONE_PAGERS/HAVEN_Master_Proposal.html`
+
 ---
 
-## EMAIL 1: BLUECARE TENNESSEE (BCBS of Tennessee)
+## EMAIL 1: AMERIGROUP TENNESSEE (WELLPOINT/ANTHEM)
 
-**To:** BlueCare@bcbst.com
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | BlueCare Tennessee D-SNP
+**TO:** TNProviderRelations@amerigroup.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | Amerigroup TennCare
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | BlueCare Tennessee D-SNP
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | Amerigroup TennCare
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Tennessee.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination through credentialed transport partners, compliance documentation, claims, and member communication.
+I am reaching out regarding NEMT and personal care program administration services for Amerigroup Tennessee's TennCare CHOICES member population.
 
-DDI has an active outreach relationship with Blue Cross Blue Shield of Michigan for NEMT TPA services, with a meeting in progress.
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer these benefits at the program level on behalf of MCOs, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
+
+What DDI brings to Amerigroup Tennessee:
+
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for TennCare CHOICES members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events (relevant for Tennessee's tornado corridor)
+• Zero-fleet model — credentialed service partners under DDI management, no capital risk to Amerigroup
+• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
+
+Could you direct me to the appropriate contact for NEMT program management or LTSS vendor partnerships at Amerigroup Tennessee?
+
+Available after 12:00 PM ET.
+
+Warm regards,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | DEPOINTE
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
+```
+
+---
+
+## EMAIL 2: BLUECARE TENNESSEE (BCBS)
+
+**BOUNCE (May 11, 2026):** `tnproviderrelations@bcbst.com` — **Undeliverable** (address not found). Postmaster: postmaster@bcbst.com.
+
+**RE-SEND — TO:** Contracts_Reqs_GM@bcbst.com  
+**ALT — PHONE (contracts / enrollment):** 1-800-924-7141 (per BCBST provider site)
+
+**SUBJECT:** TPA Program Administration — DEE DAVIS INC | BlueCare TennCare CHOICES
+
+```
+Subject: TPA Program Administration — DEE DAVIS INC | BlueCare TennCare CHOICES
+
+Good afternoon,
+
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
+
+I am reaching out regarding NEMT and personal care program administration services for BlueCare Tennessee's TennCare CHOICES member population.
+
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, handling scheduling, dispatch coordination, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
 What DDI brings to BlueCare Tennessee:
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Active relationship with BCBSM — meeting in progress
-• Zero-fleet model — credentialed transport partners under DDI management, statewide TN coverage
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared tornado, flood, and severe storm events. Tennessee's dual-eligible members face significant severe weather exposure.
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for TennCare CHOICES members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you direct me to BlueCare's NEMT program management or TPA vendor partnerships team?
+Could you direct me to the appropriate contact for NEMT program management or LTSS vendor partnerships at BlueCare?
 
 Available after 12:00 PM ET.
 
@@ -67,72 +102,35 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 ---
 
-## EMAIL 2: WELLPOINT TENNESSEE (formerly Amerigroup / Anthem/Elevance)
+## EMAIL 3: UNITEDHEALTHCARE COMMUNITY PLAN OF TENNESSEE
 
-**To:** tnltssprovidercontracting@wellpoint.com (LTSS Provider Contracting)
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | Wellpoint Tennessee TennCare
+**TO:** uhc_cp_prov_relations@uhc.com
+**SUBJECT:** NEMT + Personal Care TPA — DEE DAVIS INC | UHC TennCare CHOICES
 
 ```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | Wellpoint Tennessee TennCare
+Subject: NEMT + Personal Care TPA — DEE DAVIS INC | UHC TennCare CHOICES
 
 Good afternoon,
 
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Tennessee.
+My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — a federally certified EDWOSB Contract Management TPA operating as the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program (live, operational May 2026).
 
-To clarify our positioning: DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication. Transport vendors operate under DDI management.
+I am reaching out regarding NEMT and personal care program administration services for UnitedHealthcare Community Plan of Tennessee's TennCare CHOICES member population.
 
-What DDI brings to Wellpoint Tennessee:
+DDI is a Contract Management TPA — not a transportation or personal care provider. We administer NEMT and personal care benefits at the program level on behalf of MCOs, coordinating scheduling, dispatch, compliance documentation, claims, and member communication through credentialed service partners under DDI management.
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
-• Zero-fleet model — credentialed transport partners under DDI management
-• Real-time trip tracking and HIPAA-compliant documentation
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared tornado, flood, and severe storm events
-• EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
-
-Could you connect me with Wellpoint Tennessee's NEMT program management or TPA vendor partnerships team?
-
-Available after 12:00 PM ET.
-
-Warm regards,
-
-Dieasha D. Davis
-President & CEO
-Dee Davis Inc. | DEPOINTE
-755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
-248.376.4550 | info@deedavis.biz
-EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
-```
-
----
-
-## EMAIL 3: UNITEDEALTHCARE COMMUNITY PLAN OF TENNESSEE
-
-**To:** UHC TN Provider Services (submit via UHCprovider.com portal or call 1-800-690-1606)
-**Mailing:** UnitedHealthcare Community Plan, 10 Cadillac Drive, Suite 200, Brentwood, TN 37027
-**Subject:** NEMT TPA Program Administration — DEE DAVIS INC | UHC Tennessee TennCare
-
-```
-Subject: NEMT TPA Program Administration — DEE DAVIS INC | UHC Tennessee TennCare
-
-Good afternoon,
-
-My name is Dieasha D. Davis, President and CEO of Dee Davis Inc. — the contracted NEMT TPA for HAP CareSource's Michigan HIDE SNP program, managing the full NEMT benefit for 4,500+ dual-eligible members. We are expanding into Tennessee.
-
-DDI is not a transportation provider. We are a Contract Management TPA that administers the NEMT benefit at the program level for MCOs — scheduling, dispatch coordination, compliance documentation, claims, and member communication.
-
-DDI has an active outreach relationship with UnitedHealthcare Community Plan of Michigan for NEMT TPA services.
+DDI has an active outreach relationship with UHC Community Plan in Michigan and is now expanding into Tennessee.
 
 What DDI brings to UHC Tennessee:
 
-• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
+• Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational May 2026)
 • Active relationship with UHC Community Plan Michigan
-• Zero-fleet model — credentialed transport partners under DDI management, statewide TN coverage
-• HAVEN Disaster Response — automatic member relocation during FEMA-declared tornado, flood, and severe storm events
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for TennCare CHOICES members through DDI-managed care partner network
+• HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
+• Zero-fleet model — credentialed service partners under DDI management
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
-• NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
+• NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
-Could you direct me to UHC Tennessee's NEMT program management or TPA vendor partnerships team?
+Could you direct me to the NEMT program management or LTSS vendor partnerships team at UHC Tennessee?
 
 Available after 12:00 PM ET.
 
@@ -146,18 +144,12 @@ Dee Davis Inc. | DEPOINTE
 EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 ```
 
-**NOTE:** UHC TN does not have a direct contracting email in public docs. Submit via UHCprovider.com portal or call 1-800-690-1606 to request the network development email.
-
 ---
 
-## TENNESSEE OUTREACH SUMMARY
+## TENNESSEE SEND SUMMARY
 
-| # | MCO | Contact Method | Email | Status |
-|---|-----|---------------|-------|--------|
-| 1 | **BlueCare TN** | Direct email | BlueCare@bcbst.com | ✉️ READY |
-| 2 | **Wellpoint TN** | Direct email (LTSS) | tnltssprovidercontracting@wellpoint.com | ✉️ READY |
-| 3 | **UHC TN** | Portal/phone | UHCprovider.com or 1-800-690-1606 | ✉️ READY (need to obtain email via portal) |
-
-**Total Tennessee: 3 emails**
-
-**DDI's Tennessee edge:** BCBS relationship (meeting in progress in MI), tornado/severe storm HAVEN relevance, and UHC national relationship.
+| # | MCO | Email | Notes |
+|---|-----|-------|-------|
+| 1 | **Amerigroup TN** | TNProviderRelations@amerigroup.com | WellPoint/Anthem — if bounces, call 1-800-454-3730 |
+| 2 | **BlueCare TN** | **Contracts_Reqs_GM@bcbst.com** (re-send) | **BOUNCED** `tnproviderrelations@bcbst.com` 5/11/26. Alt: 800-924-7141 |
+| 3 | **UHC Community Plan TN** | uhc_cp_prov_relations@uhc.com | Leverage MI UHC relationship |

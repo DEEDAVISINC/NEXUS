@@ -138,6 +138,15 @@ Accurate Biometrics, Biometrics4All, Digital Trusted Identity (Daontis), Fieldpr
 | **Idemia/IdentoGO** | DDI contacted them | Said they don't need anyone in DDI's area. REJECTED. |
 | **Fieldprint** | DDI contacted them | Same — don't need DDI's area. REJECTED. |
 
+### ACTIVE TEAMING OUTREACH — PENDING RESPONSE (Added May 2026)
+
+| Company | Outreach Date | Contact | Status | Notes |
+|---|---|---|---|---|
+| **Accurate Biometrics** | May 8, 2026 | sales@accuratebiometrics.com | **PENDING** | **WOSB**, FBI Channeler since 2006, 700+ locations nationwide. SSA Livescan RFI teaming inquiry. |
+| **Certifix** | May 8, 2026 | hi@certifix.com | **PENDING** | California-based livescan network. SSA teaming inquiry. |
+
+**Context:** These outreach emails were sent during Medical Credentialing TPA discussions. Both are potential partners for federal fingerprinting (DeCA, SSA) and state medical board fingerprinting work. Accurate Biometrics is the most promising since they're also WOSB — they understand DDI's positioning.
+
 ### CURRENT STRATEGY: SWFT APPROVAL — DIRECT APPLICATION TO DCSA (IN PROGRESS)
 
 DDI does NOT currently have SWFT authorization. **Application is actively in progress with DCSA.**

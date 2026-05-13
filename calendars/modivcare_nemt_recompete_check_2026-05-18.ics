@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:modivcare-nemt-recompete-check1@deedavis.biz
+DTSTAMP:20260511T220000Z
+DTSTART;TZID=America/Detroit:20260518T120000
+DTEND;TZID=America/Detroit:20260518T130000
+SUMMARY:🔥 CHECK: Michigan NEMT Broker Recompete — SIGMA VSS
+DESCRIPTION:ModivCare contract MA190000000912 expires July 31, 2026.\nContract value: ~$103M | 187,551 eligible members | $6.24 PMPM\n\nACTION: Log into Michigan SIGMA VSS (sigma.michigan.gov/PRDVSS1X1/Advantage4)\nSearch for NEMT broker RFP or sources sought posted by MDHHS/DTMB.\nAlso check: michigan.gov/dtmb/procurement/contractconnect/bid-proposals\n\nIf RFP is posted — IMMEDIATELY create bid folder and start bid strategy.\nIf nothing posted — set next check for June 1.\n\nThis is a $103M+ contract. DDI is already operating as NEMT TPA in Region 10.
+LOCATION:Michigan SIGMA VSS — sigma.michigan.gov/PRDVSS1X1/Advantage4
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Michigan NEMT Broker recompete check due today
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

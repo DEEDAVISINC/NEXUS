@@ -1,6 +1,6 @@
-# OHIO D-SNP MCO OUTREACH — NEMT + HAVEN TPA
-**Generated:** May 9, 2026
-**Status:** Ready to send
+# OHIO D-SNP MCO OUTREACH — NEMT + PERSONAL CARE + HAVEN TPA
+**Generated:** May 9, 2026 | **Updated:** May 11, 2026
+**Status:** Ready to send — THREE-SERVICE PITCH (NEMT + Personal Care + HAVEN)
 
 ## ATTACHMENT — EVERY MCO EMAIL
 
@@ -36,6 +36,7 @@ What DDI brings to Anthem Ohio's MyCare program:
 • Contracted NEMT TPA — HAP CareSource Michigan HIDE SNP (live, operational)
 • Zero-fleet model — credentialed transport partners under DDI management
 • Real-time trip tracking, HIPAA-compliant documentation on every trip
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for MyCare Ohio LTSS members through DDI-managed care partner network
 • HAVEN Disaster Response — automatic member relocation and continuity of care during FEMA-declared events
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
 • NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
@@ -79,6 +80,7 @@ What DDI brings to CareSource Ohio:
 • Live NEMT TPA operations for HIDE SNP dual-eligible members
 • Zero-fleet model — no overhead, no liability transfer to CareSource
 • Real-time trip tracking and full compliance documentation
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for MyCare Ohio LTSS members through DDI-managed care partner network
 • HAVEN Disaster Response — automatic member relocation and continuity of care during declared emergencies
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
 • NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
@@ -123,6 +125,7 @@ What DDI brings to Buckeye Health Plan:
 • Active relationship with Centene/Meridian in Michigan
 • Zero-fleet model — credentialed transport partners under DDI management
 • Real-time trip tracking and HIPAA-compliant documentation
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for MyCare Ohio LTSS members through DDI-managed care partner network
 • HAVEN Disaster Response — automatic member relocation during FEMA-declared events
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
 • NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
@@ -167,6 +170,7 @@ What DDI brings to Molina Ohio:
 • Active relationship with Molina Michigan — portal enrollment in progress
 • Zero-fleet model — credentialed transport partners under DDI management
 • Real-time trip tracking and HIPAA-compliant documentation
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for MyCare Ohio LTSS members through DDI-managed care partner network
 • HAVEN Disaster Response — automatic member relocation during FEMA-declared events
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
 • NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
@@ -211,6 +215,7 @@ What DDI brings to Humana Ohio:
 • Active relationship with Humana Michigan
 • Zero-fleet model — credentialed transport partners under DDI management
 • Real-time trip tracking and HIPAA-compliant documentation
+• Personal Care TPA — companion care, ADL support, and homemaker service coordination for dual-eligible LTSS members through DDI-managed care partner network
 • HAVEN Disaster Response — automatic member relocation during FEMA-declared events
 • EDWOSB | WOSB | WBENC WBE | MBE — supports diversity contracting goals
 • NPI: 1538939111 | CHAMPS Provider ID: 6309049 | CAGE: 8UMX3
@@ -248,7 +253,52 @@ UnitedHealthcare Ohio does not have a public provider relations email for networ
 |---|-----|---------|-------|--------|
 | 1 | **Anthem Ohio** | Shelley Brown (follow-up) | OhioMedicaidProvider@anthem.com | ⏳ FOLLOW-UP READY |
 | 2 | **CareSource Ohio** | Tye Hill (AVP) | Tye.Hill@CareSource.com | ✉️ READY TO SEND |
-| 3 | **Buckeye/Centene** | Rick Johnson (Sr Dir Network Dev) | Richard.Johnson3@centene.com | ✉️ READY TO SEND |
+| 3 | **Buckeye/Centene** | Rick Johnson (Sr Dir Network Dev) | Richard.Johnson3@centene.com | ❌ DECLINED — redirected to Natalie Lukaszewicz (VP) |
+| 4 | **Centene Corporate** | Natalie Lukaszewicz (VP Network Dev & Contracting) | Natalie.A.Lukaszewicz@CENTENE.COM | ✅ SENT May 12, 2026 — Rick Johnson referral |
 | 4 | **Molina Ohio** | Provider Relations | OHProviderRelations@MolinaHealthcare.com | ✉️ READY TO SEND |
 | 5 | **Humana Ohio** | Provider Relations | OHMedicaidProviderRelations@humana.com | ✉️ READY TO SEND |
 | 6 | **UHC Ohio** | TBD — leverage MI relationship | — | ⏸️ HOLD |
+
+---
+
+## EMAIL: NATALIE LUKASZEWICZ — CENTENE CORPORATE (VP REFERRAL)
+
+**To:** Natalie.A.Lukaszewicz@CENTENE.COM
+**Subject:** Referred by Rick Johnson — NEMT + Emergency Logistics TPA | Multi-State Centene Opportunity
+**Status:** ✅ SENT May 12, 2026 — VP-level, multi-state opportunity
+**Referred By:** Rick Johnson (Buckeye Health Plan) — May 12, 2026
+
+```
+Subject: Referred by Rick Johnson — NEMT + Personal Care + Emergency Logistics TPA | Multi-State Centene Opportunity
+
+Hi Natalie,
+
+Rick Johnson at Buckeye suggested I reach out to you regarding TPA program administration.
+
+Dee Davis Inc. is an EDWOSB-certified Contract Management TPA based in Michigan. We're actively engaging Centene affiliates across multiple states — Meridian (Michigan), Superior (Texas), Peach State (Georgia), and now Ohio — to discuss TPA services for NEMT, personal care, and emergency member support.
+
+What DDI brings to Centene plans:
+
+• NEMT TPA Services — Trip coordination, provider credentialing, compliance monitoring, claims reconciliation, and member communication for D-SNP and LTSS populations
+
+• Personal Care TPA Services — Companion care, ADL support, and homemaker service coordination for STAR+PLUS and MLTSS members through DDI-managed care partner network
+
+• HAVEN Emergency Logistics — Disaster-triggered member transport, emergency pharmacy/medical delivery, and temporary housing coordination when members are displaced by weather, fire, or infrastructure emergencies
+
+• Zero-Fleet Model — DDI manages, credentials, and dispatches — no capital equipment, no liability transferred to the plan
+
+We're already registered as a Medicaid provider in Michigan and pursuing enrollment in Ohio, Texas, Florida, and Georgia to support Centene affiliates in those markets.
+
+Would it make sense to schedule a brief call to discuss how DDI's model could support Centene's NEMT, personal care, and emergency preparedness programs at a network level?
+
+I'm available any time after 12:00 PM ET.
+
+Very respectfully,
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc.
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | SBE
+```

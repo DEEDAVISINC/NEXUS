@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:uber-health-intro-20260513@deedavis.biz
+DTSTAMP:20260511T213800Z
+DTSTART;TZID=America/Detroit:20260513T133000
+DTEND;TZID=America/Detroit:20260513T140000
+SUMMARY:📞 UBER HEALTH Intro Call — Ariana Cirkelis
+DESCRIPTION:Uber Health Sales Development intro call for HAVEN partnership.\n\nAriana Cirkelis will CALL YOU at 248.376.4550.\n\nTopics: HAVEN disaster response, emergency medical transport, Uber Health integration for MCO NEMT programs.\n\nPREP: /HAVEN/OUTREACH/UBER_HEALTH_CALL_PREP_MAY13.md
+LOCATION:Phone — They call you at 248.376.4550
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Uber Health call in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Uber Health call in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

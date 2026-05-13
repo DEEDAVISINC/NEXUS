@@ -117,6 +117,18 @@
 
 ---
 
+## 2026-05-13 — Wednesday
+
+- **1:30 – 2:00 PM ET** — 📞 **UBER HEALTH Intro Call — Ariana Cirkelis (Sales Dev)** — HAVEN partnership discussion. Ariana CALLS YOU at 248.376.4550. Topics: HAVEN disaster transport, MCO NEMT integration, Uber Health as fulfillment partner. Prep: `HAVEN/OUTREACH/UBER_HEALTH_CALL_PREP_MAY13.md`. `.ics`: `calendars/uber_health_intro_call_2026-05-13.ics`
+
+---
+
+## 2026-05-14 — Thursday
+
+- **2:30 – 3:00 PM ET** — 📞 **HAVEN PARTNER CALL — Metro One SC (NEMT/Transport)** — Metro One responded to HAVEN outreach same day. Medicaid-approved, 95+ vehicles, statewide SC. Topics: subcontract structure, fleet capacity, HAVEN disaster activation, NDA next step. Google Meet: meet.google.com/gow-hhyw-dzb | Phone: +1 414-797-1743 PIN: 891291169. Prep: `HAVEN/OUTREACH/METRO_ONE_SC_CALL_PREP_MAY14.md`. `.ics`: `calendars/METRO_ONE_SC_HAVEN_2026-05-14.ics`
+
+---
+
 ## 2026-05-15 — Thursday
 
 - **Due by 3:30 PM ET** — 🔥 **DHA Fingerprinting Support Services — RFQ expected to post** — HT001126QE014 — Defense Health Agency — Fingerprint collection + SWFT submission, 50 states + territories. DDI ON INTERESTED VENDORS LIST. Presolicitation closes this date; RFQ will post ~30 days. Buyer email + cap statement READY in `BIDS:RESOURCES/DHA FINGERPRINTING SUPPORT SERVICES/SEND_TO_BUYER/`. Send email to Mary Anne Young (mary.a.young138.ctr@health.mil) + CC Cherish Young (cherish.d.young2.civ@health.mil). **CRITICAL:** Call Sam Cilento (Lakota) before RFQ drops to discuss teaming/SWFT path.
@@ -136,6 +148,25 @@
 
 ---
 
+## 2026-05-18 — Monday
+
+- **12:00 PM ET** — 🔥 **CHECK: Michigan NEMT Broker Recompete — SIGMA VSS** — ModivCare contract MA190000000912 expires July 31, 2026. Log into SIGMA VSS (sigma.michigan.gov) and check for NEMT broker RFP. Also check michigan.gov/dtmb/procurement. If RFP posted — create bid folder immediately. Contract value ~$103M. `.ics`: `calendars/modivcare_nemt_recompete_check_2026-05-18.ics`
+
+---
+
+## 2026-05-19 — Tuesday
+
+- **10:00 AM ET** — 📋 **CHECK: FL Medicaid Enrollment → Reply to Humana FL LTC** — Weekend task was Florida FMMIS enrollment. If approved, reply to Humana FL LTC (LTCnetworkrequests@humana.com) with: Legal name, TIN, NPI, FL Medicaid ID, effective date, service address, service county. Tracker: `HAVEN/STRATEGY/STATE_MEDICAID_ENROLLMENT_TRACKER.md`. `.ics`: `calendars/fl_medicaid_humana_followup_2026-05-19.ics`
+- **10:30 AM ET** — 📋 **CHECK: OH Medicaid Enrollment → Molina + Humana Follow-up** — Weekend task was Ohio MITS enrollment. If approved: (1) Submit Molina via Ohio Provider Contracting Guide portal, (2) Re-send Humana to ohionetworkspecialist@humana.com with Medicaid ID. Tracker: `HAVEN/STRATEGY/STATE_MEDICAID_ENROLLMENT_TRACKER.md`. `.ics`: `calendars/oh_medicaid_mco_followup_2026-05-19.ics`
+
+---
+
+## 2026-05-12 — Tuesday
+
+- **1:45 – 2:15 PM ET** — 📹 **Lakota Partnership Call — WHORL / Medical Credentialing** — **Google Meet (video):** meet.google.com/hue-qddn-ydo | Phone backup: +1 307-429-2120 PIN: 160107237 — Sam Cilento + Aaron Wilson (Lakota). Topics: (1) DeCA fingerprinting solicitation HQC00526QE015 — WHORL tier, teaming letter; (2) Medical Credentialing — WHORL capabilities for healthcare worker licensing. Prep: `BIDS:RESOURCES/DECA MEDICAL CREDENTIALING/DECA_LAKOTA_CALL_PREP_MAY12.md`. `.ics`: `calendars/deca_ddi_medical_credentialing_lakota_2026-05-12.ics`
+
+---
+
 ## 2026-05-04 — Monday
 
 - **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling (Stanley Dennis)** — Both emails sent May 2. Need: warehouse details from OLIMP, acceptance + insurance certs from Stanley. If no response by EOD Monday, follow up immediately — ITQ due May 11.
@@ -144,7 +175,15 @@
 
 ## 2026-06-01 — Monday
 
+- **12:00 PM ET** — 🔥 **CHECK #2: Michigan NEMT Broker Recompete** — If no RFP posted by today, call MDHHS Procurement (517-335-5100). Ask about recompete status for contract MA190000000912 (ModivCare, expires July 31). DDI has HAP CareSource proof of concept. `.ics`: `calendars/modivcare_nemt_recompete_check2_2026-06-01.ics`
+
 - **12:00 PM ET** — 📧 **FOLLOW-UP: Alina Pabin (BCBSM)** — If no meeting scheduled by Memorial Day week, send follow-up email to apabin@mibluecrosscomplete.com. Template: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/SCHEDULE_EMAIL_TO_ALINA.md`. `.ics`: `calendars/bcbsm_alina_followup_2026-06-01.ics`
+
+---
+
+## 2026-05-18 — Monday
+
+- **10:00 AM ET** — 📧 **MDHHS SHIELD Follow-Up — Angela Medina** — SHIELD proposal sent May 3, no acknowledgment after 15 days. Angela initiated contact asking for ideas — DDI delivered. If still no reply, call Angela directly or send brief follow-up email. Angela Medina — Angela.Medina@michigan.gov. Aimee Surma — Aimee.Surma@michigan.gov. `.ics`: `calendars/MDHHS_SHIELD_FOLLOWUP_2026-05-18.ics`
 
 ---
 

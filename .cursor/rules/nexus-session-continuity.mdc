@@ -11,6 +11,9 @@ alwaysApply: true
 
 ## MANDATORY STARTUP READS (In This Order)
 
+### 0. Pending Actions (CHECK FIRST)
+- `PENDING_ACTIONS.md` — **READ THIS FIRST.** Present any overdue or pending items to Dee BEFORE asking what she wants to work on.
+
 ### 1. Active Bids & Deadlines
 - `BIDS:RESOURCES/` — folder structure shows all active bid folders
 - `BID_TRACKER_DASHBOARD.md` — current bid status and deadlines

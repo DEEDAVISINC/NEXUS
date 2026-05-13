@@ -1,6 +1,6 @@
 # 🧠 SYSTEM LEARNING INSIGHTS
 
-**Updated:** Sunday, May 10, 2026 at 12:00 AM
+**Updated:** Tuesday, May 12, 2026 at 12:00 AM
 
 ---
 
@@ -19,7 +19,7 @@
 - HCMA CHLORINE ($30,000)
 
 ### 🗑️ Auto-Removed (No Activity):
-- OAKLAND COUNTY EXAM STOOLS - No activity in 83d, deadline in -83d
+- OAKLAND COUNTY EXAM STOOLS - No activity in 85d, deadline in -85d
 
 ---
 

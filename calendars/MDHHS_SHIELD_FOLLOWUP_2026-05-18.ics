@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:mdhhs-shield-followup-20260518@deedavis.biz
+DTSTAMP:20260511T144300Z
+DTSTART;TZID=America/Detroit:20260518T100000
+DTEND;TZID=America/Detroit:20260518T103000
+SUMMARY:📧 MDHHS SHIELD Follow-Up — Angela Medina
+DESCRIPTION:SHIELD proposal sent May 3 — no acknowledgment after 15 days.\nAngela initiated contact asking for ideas. DDI delivered.\nFollow up: Call Angela directly or send brief email.\nAngela Medina — Angela.Medina@michigan.gov\nAimee Surma — Aimee.Surma@michigan.gov
+LOCATION:Phone/Email
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+DESCRIPTION:MDHHS SHIELD follow-up today
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
