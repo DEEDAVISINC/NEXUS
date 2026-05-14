@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:sc-newborn-prebid-20260604@deedavis.biz
+DTSTAMP:20260514T132100Z
+DTSTART;TZID=America/Detroit:20260604T100000
+DTEND;TZID=America/Detroit:20260604T110000
+SUMMARY:📋 PRE-BID: SC Newborn Screening Courier (Intel Only)
+DESCRIPTION:SC DPH Newborn Screening Courier - Pre-Bid Conference\n\nINTEL ONLY - NO-GO on bid (requires direct employees, no subs)\n\nTeams: https://teams.microsoft.com/meet/235127563810896?p=QPmvOOSo4HBLKeHFY8\nMeeting ID: 235 127 563 810 896\nPasscode: aa3FE2AM\n\nContact: Kelly Cobian - cobiankl@dph.sc.gov\n\n⚠️ NO RECORDING OR AI TOOLS ALLOWED
+LOCATION:Microsoft Teams
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+DESCRIPTION:SC Newborn Screening Pre-Bid in 1 hour
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

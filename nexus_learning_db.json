@@ -9059,6 +9059,22 @@
       "impact": "high",
       "category": "opportunities",
       "domain": "opportunities",
+      "generated_at": "2026-05-14T00:55:54.843715"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-05-14T00:55:54.843744"
+    },
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 0% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
       "generated_at": "2026-05-13T18:50:17.667723"
     },
     {
@@ -9836,22 +9852,6 @@
       "category": "opportunities",
       "domain": "opportunities",
       "generated_at": "2026-04-12T22:20:15.167588"
-    },
-    {
-      "title": "Bid Workflow: Needs attention",
-      "body": "Only 20% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "bids",
-      "domain": "bids",
-      "generated_at": "2026-04-12T22:20:15.167613"
-    },
-    {
-      "title": "Bid Workflow: Needs attention",
-      "body": "Only 20% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "bids",
-      "domain": "bids",
-      "generated_at": "2026-04-12T16:19:20.055028"
     }
   ],
   "learned_weights": {},
@@ -10856,6 +10856,19 @@
       "events_count": 638,
       "insights_generated": 2,
       "weights_updated": false
+    },
+    {
+      "timestamp": "2026-05-14T00:55:54.843761",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence"
+      ],
+      "events_count": 645,
+      "insights_generated": 2,
+      "weights_updated": false
     }
   ],
   "stats": {
@@ -10867,7 +10880,7 @@
       "suppliers": 91,
       "intelligence": 2
     },
-    "total_analyses": 77,
-    "last_analysis": "2026-05-13T18:50:17.667754"
+    "total_analyses": 78,
+    "last_analysis": "2026-05-14T00:55:54.843757"
   }
 }

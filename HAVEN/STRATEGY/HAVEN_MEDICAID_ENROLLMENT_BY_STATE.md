@@ -1,5 +1,5 @@
 # HAVEN — Medicaid Provider Enrollment: Foreign Entity Requirements by State
-**Updated:** May 10, 2026
+**Updated:** May 14, 2026
 **Purpose:** Does DDI need to register as a foreign entity before enrolling as a Medicaid provider?
 
 ---
@@ -64,6 +64,35 @@ The Texas enrollment application asks for business information and NPI — no Se
 **VERDICT: DDI can apply for TX Medicaid enrollment without foreign entity registration.**
 
 **NEXUS note (May 2026):** TMHP may issue **portal access** and an **Enrollment Transaction** (e.g. **D19273048**) **before** a full application is filed. Dee confirmed **Texas Medicaid enrollment not yet submitted** — next step is to complete TMHP enrollment when prioritized.
+
+---
+
+### ⭐ TEXAS HHSC NEMT OPEN ENROLLMENT (HHS0016482)
+
+**MAJOR OPPORTUNITY IDENTIFIED MAY 14, 2026**
+
+Texas is **unique** — it has a state-level FFS NEMT Open Enrollment where DDI can be **TPA prime**.
+
+**OE Details:**
+- **Closes:** September 15, 2026 (rolling applications)
+- **Contract:** 3 years base + 2 one-year extensions
+- **Subcontracting:** ✅ Allowed — can subcontract "all or part" of transportation
+- **DDI Model:** TPA prime, subcontract to Uber Health + local NEMT providers
+
+**Requirements:**
+- TX Secretary of State registration (~$750) — **REQUIRED by OE Section 7.3**
+- TMHP enrollment (to bill Medicaid)
+- Insurance: CGL $1M/$2M, Auto $1M, Cyber $1M, Umbrella $1M, Workers' Comp
+- Physical TX office (can use sub's address)
+
+**Reimbursement Rates:**
+- Metro (urban): $32.38/one-way leg
+- Micro (suburban): $59.64/one-way leg
+- Rural: $76.22/one-way leg
+
+**Why This Matters:** Most states use statewide brokers (Verida, Modivcare) who ARE the TPAs. Texas is the only HAVEN target state where DDI can be the TPA prime at the state level.
+
+**See:** `STATE_NEMT_STRUCTURE_INTELLIGENCE.md` for full analysis
 
 ---
 

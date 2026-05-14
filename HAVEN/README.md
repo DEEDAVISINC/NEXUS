@@ -25,6 +25,9 @@ HAVEN/
 │
 ├── STRATEGY/             ← Planning docs, registries, action plans
 │   ├── HAVEN_ACTION_PLAN.md
+│   ├── STATE_NEMT_STRUCTURE_INTELLIGENCE.md  ← ⭐ KEY: How each state structures NEMT
+│   ├── STATE_MEDICAID_ENROLLMENT_TRACKER.md
+│   ├── HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md
 │   └── [Strategy and planning docs]
 │
 ├── GENERATED/            ← Auto-created: personalized docs per partner

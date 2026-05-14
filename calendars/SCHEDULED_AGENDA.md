@@ -168,6 +168,12 @@
 
 ---
 
+## 2026-05-22 — Friday
+
+- **10:00 AM – 12:00 PM ET** — 📝 **SIGNING: Gerald F. Paquette** — Order: 26-48826-001 · 4500 Dobry Dr, APT 168, Sterling Heights, MI 48314 · Bring: Notary stamp, journal, ID verification checklist. `.ics`: `calendars/paquette_signing_2026-05-22.ics`
+
+---
+
 ## 2026-05-12 — Tuesday
 
 - **1:45 – 2:15 PM ET** — 📹 **Lakota Partnership Call — WHORL / Medical Credentialing** — **Google Meet (video):** meet.google.com/hue-qddn-ydo | Phone backup: +1 307-429-2120 PIN: 160107237 — Sam Cilento + Aaron Wilson (Lakota). Topics: (1) DeCA fingerprinting solicitation HQC00526QE015 — WHORL tier, teaming letter; (2) Medical Credentialing — WHORL capabilities for healthcare worker licensing. Prep: `BIDS:RESOURCES/DECA MEDICAL CREDENTIALING/DECA_LAKOTA_CALL_PREP_MAY12.md`. `.ics`: `calendars/deca_ddi_medical_credentialing_lakota_2026-05-12.ics`
@@ -177,6 +183,12 @@
 ## 2026-05-04 — Monday
 
 - **Partner response deadline** — 📧 **OLIMP + God Is Good Hauling (Stanley Dennis)** — Both emails sent May 2. Need: warehouse details from OLIMP, acceptance + insurance certs from Stanley. If no response by EOD Monday, follow up immediately — ITQ due May 11.
+
+---
+
+## 2026-06-04 — Thursday
+
+- **10:00 AM ET** — 📋 **PRE-BID: SC Newborn Screening Courier (Intel Only)** — NO-GO on bid (requires direct employees). Attending for intel on SC DPH processes. Teams: https://teams.microsoft.com/meet/235127563810896?p=QPmvOOSo4HBLKeHFY8 | Meeting ID: 235 127 563 810 896 | Passcode: aa3FE2AM | Contact: Kelly Cobian (cobiankl@dph.sc.gov). ⚠️ No recording or AI tools allowed. `.ics`: `calendars/sc_newborn_screening_prebid_2026-06-04.ics`
 
 ---
 
@@ -197,3 +209,9 @@
 ## 2026-06-09 — Tuesday
 
 - **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`
+
+---
+
+## 2026-06-16 — Tuesday
+
+- **Due by 3:00 PM ET (2:00 PM CT)** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374** — San Antonio TX. IDIQ contract. FTA-regulated (49 CFR Part 655). Submit via via.sbecompliance.com. Folder: `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`. `.ics`: `calendars/via_transit_drug_testing_2026-06-16.ics`

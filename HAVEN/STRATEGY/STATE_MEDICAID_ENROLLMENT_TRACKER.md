@@ -11,7 +11,7 @@
 | State | System | Portal URL | Status | Provider ID | Enrolled Date | Notes |
 |-------|--------|------------|--------|-------------|---------------|-------|
 | **Michigan** | CHAMPS | milogintp.michigan.gov | ✅ **ENROLLED** | 6309049 | 03/23/2026 | Active through 12/31/2999. HAP CareSource contract live. |
-| **Texas** | TMHP | tmhp.com | 🔲 Not Started | — | — | Portal noted 05/10/2026. Need to initiate enrollment. |
+| **Texas** | TMHP | tmhp.com | 🔲 **PRIORITY** | — | — | ⚠️ **HHSC NEMT OE (HHS0016482) closes Sept 15, 2026** — DDI can be TPA prime. Requires: TX SOS ($750) + TMHP + insurance. See `STATE_NEMT_STRUCTURE_INTELLIGENCE.md` |
 | **Ohio** | MITS | medicaid.ohio.gov | 🔲 **PRIORITY — WEEKEND** | — | — | ⚠️ **ALERT:** Both Molina + Humana require OH Medicaid enrollment. Once approved: (1) Submit Molina via portal, (2) Re-send Humana to ohionetworkspecialist@humana.com with Medicaid ID. |
 | **Georgia** | GAMMIS | gammis.georgia.gov | 🔲 Not Started | — | — | — |
 | **Florida** | FMMIS | mymedicaid-florida.com | 🔲 **PRIORITY — WEEKEND** | — | — | ⚠️ **ALERT:** Once approved, reply to Humana FL LTC (LTCnetworkrequests@humana.com) with Medicaid ID. They requested: Legal name, TIN, NPI, Medicaid ID, effective date, service address, service county. |
@@ -100,5 +100,11 @@
 
 ---
 
-*Last Updated: May 11, 2026 @ 9:50 PM*
+*Last Updated: May 14, 2026 @ 6:20 PM*
 *Next Review: May 19 (Monday) — Check FL Medicaid enrollment status, reply to Humana FL LTC if approved*
+
+---
+
+## KEY REFERENCE
+
+**See `STATE_NEMT_STRUCTURE_INTELLIGENCE.md`** for how NEMT is structured in each state (FFS vs MCO-only vs Broker). This determines DDI's path — TPA prime opportunity vs MCO contracts only.
