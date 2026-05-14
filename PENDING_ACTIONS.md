@@ -6,10 +6,14 @@
 
 ## 🔴 OVERDUE — SEND NOW
 
-| # | Action | To | Status |
-|---|---|---|---|
-| 1 | ODM clarification reply (FULL SERVICE: NEMT, Personal Care, DME, HAVEN) | Daniel Rivera (Anthem Ohio) | ⬜ SEND |
-| 2 | Intro reply (FULL SERVICE: NEMT, Personal Care, DME, HAVEN) | Kristen Halsey (CareSource Ohio) | ⬜ SEND |
+*None — cleared*
+
+## ⏳ AWAITING RESPONSE
+
+| Contact | Company | Notes |
+|---|---|---|
+| Daniel Rivera | Anthem Ohio | Awaiting response — will reply when he does |
+| Uber Health | Uber Health (AE assignment) | Intake call completed May 13 — AE callback expected **May 14** |
 
 ## ⚠️ CRITICAL FIX NEEDED
 
@@ -73,7 +77,7 @@ All pending MCO emails need audit before sending.
 | Contact | Company | Last Contact | Next Follow-Up |
 |---|---|---|---|
 | Bennett Emfinger | Alabama Medicaid NET | May 12 | May 26 (14 days) |
-| Kristen Halsey | CareSource Ohio | May 12 | May 19 (7 days) |
+| Kristen Halsey | CareSource Ohio | May 13 | May 20 (7 days) — SENT full service pitch |
 | Natalie Lukaszewicz | Buckeye Health Plan / Centene | May 13 | Mid-July 2026 (Q3) — "network closed, reach out later this year" |
 
 ---

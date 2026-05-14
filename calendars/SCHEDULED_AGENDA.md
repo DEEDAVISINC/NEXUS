@@ -125,6 +125,7 @@
 
 ## 2026-05-14 — Thursday
 
+- **TBD** — 📞 **UBER HEALTH — AE Callback** — Intake call completed May 13 with Ariana (Sales Dev). Uber Health assigning Account Executive — callback expected today. No specific time given.
 - **2:30 – 3:00 PM ET** — 📞 **HAVEN PARTNER CALL — Metro One SC (NEMT/Transport)** — Metro One responded to HAVEN outreach same day. Medicaid-approved, 95+ vehicles, statewide SC. Topics: subcontract structure, fleet capacity, HAVEN disaster activation, NDA next step. Google Meet: meet.google.com/gow-hhyw-dzb | Phone: +1 414-797-1743 PIN: 891291169. Prep: `HAVEN/OUTREACH/METRO_ONE_SC_CALL_PREP_MAY14.md`. `.ics`: `calendars/METRO_ONE_SC_HAVEN_2026-05-14.ics`
 
 ---

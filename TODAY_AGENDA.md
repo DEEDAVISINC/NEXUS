@@ -27,8 +27,9 @@
 
 | # | To | Action |
 |---|---|---|
-| 1 | Daniel Rivera (Anthem Ohio) | Reply with FULL service pitch (NEMT, Personal Care, DME, HAVEN) |
-| 2 | Kristen Halsey (CareSource Ohio) | Reply with FULL service pitch (NEMT, Personal Care, DME, HAVEN) |
+| ~~1~~ | ~~Kristen Halsey (CareSource Ohio)~~ | ✅ SENT 10:03 AM May 13 |
+
+**Daniel Rivera (Anthem Ohio)** — moved to awaiting response
 
 ---
 

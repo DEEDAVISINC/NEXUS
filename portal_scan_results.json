@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-05-13T11:38:55.728454",
-  "total_found": 90,
+  "scan_date": "2026-05-13T17:19:37.974912",
+  "total_found": 96,
   "min_days_to_bid": 5,
   "opportunities": [
     {
@@ -13,6 +13,50 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-13",
       "naics": "561730"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "CA-CA/NV FHC-JANITORIAL SERVICES",
+      "agency": "INTERIOR, DEPARTMENT OF THE.US FISH AND WILDLIFE SERVICE.FWS, SAT TEAM 1",
+      "deadline": "2026-05-28T13:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/bef77dab62254a4c8639896d963b8a5d/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-13",
+      "naics": "561720"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "732 OG Heritage Room Renovation",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR COMBAT COMMAND.FA4861  99 CONS LGC",
+      "deadline": "2026-06-15T10:00:00-07:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/89e50492a51d4cf48d2b0c7ecef11b48/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-13",
+      "naics": "236220"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "146 MXG INDUSTRIAL EQUIPMENT & FURNITURE MOVING SERVICES",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.NATIONAL GUARD BUREAU.JFHQ USPFO CA.USPFO CA PROCUREMENT.W7MX USPFO ACTIVITY CAANG 146",
+      "deadline": "2026-05-28T12:00:00-07:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/420edade41a44c4d99d1257bf849ba8c/view",
+      "type": "Presolicitation",
+      "posted": "2026-05-13",
+      "naics": null
+    },
+    {
+      "source": "SAM.gov",
+      "title": "ENTERPRISE HEALTH UNIT SERVICES",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF.FEDERAL LAW ENFORCEMENT TRAINING CENTER.FLETC GLYNCO OPERATIONS",
+      "deadline": "2026-06-04T12:30:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/08e67526c2d0464bb60ae14df46e260d/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-13",
+      "naics": "621999"
     },
     {
       "source": "SAM.gov",
@@ -93,17 +137,6 @@
     },
     {
       "source": "SAM.gov",
-      "title": "Parking Garage Management Services",
-      "agency": "GENERAL SERVICES ADMINISTRATION.PUBLIC BUILDINGS SERVICE.PBS FACILITY MANAGEMENT EAST - BRANCH C",
-      "deadline": "2026-05-29T15:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/fef67d64afe4450f9b7eef3de242fbd1/view",
-      "type": "Presolicitation",
-      "posted": "2026-05-05",
-      "naics": "812930"
-    },
-    {
-      "source": "SAM.gov",
       "title": "59--HEADSET,ELECTRICAL",
       "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
       "deadline": "2026-05-21",
@@ -126,113 +159,173 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "HOUSING REHABILITATION PROGRAM TEMPORARY RELOCATION LODGING SERVICESNorth Carolina9 day(s) leftPublished05/13/2026Closing05/22/2026444017307405",
+      "title": "Parking Management Services for the Aurora Municipal Parking OperationColorado47 day(s) leftPublished05/13/2026Closing06/29/20268944208001",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/north-carolina/solicitations/open-bids/statewide/HOUSING-REHABILITATION-PROGRAM-TEMPORARY-RELOCATION-LODGING-SERVICES/444017307405?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Parking-Management-Services-for-the-Aurora-Municipal-Parking-Operation/0000424178?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "New Emergency Operations CenterTennessee21 day(s) leftPublished05/13/2026Closing06/04/20268938366854",
+      "title": "Utility Vehicle \u2013 4WD, Enclosed Cab, Hydraulic System (Brand Name or Equal)New York7 day(s) leftPublished05/13/2026Closing05/21/20268725260990",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/tennessee/solicitations/open-bids/New-Emergency-Operations-Center/0000424095?origin=0",
+      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/Utility-Vehicle-4WD-Enclosed-Cab-Hydraulic-System-Brand-Name-or-Equal/0000420389?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "ISTHA I-20-4720 Roadway & Bridge Construction I-490 - Steel (FOB)Illinois14 day(s) leftPublished05/13/2026Closing05/28/2026444016957855",
+      "title": "ANNUAL CONTRACT FOR PASSIVE PARK MOWING & AERATION SERVICESCalifornia35 day(s) leftPublished05/13/2026Closing06/18/20268939905156",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/illinois/solicitations/open-bids/statewide/ISTHA-I-20-4720-Roadway-Bridge-Construction-I-490-Steel-FOB/444016957855?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/ANNUAL-CONTRACT-FOR-PASSIVE-PARK-MOWING-AERATION-SERVICES/0000424177?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Industrial Park Road \u2013 Roadway & Drainage ImprovementsLouisiana14 day(s) leftPublished05/13/2026Closing05/28/2026444016965846",
+      "title": "Helicopter Turbine Engine Parts, Special Tools and ServiceArizona35 day(s) leftPublished05/13/2026Closing06/18/20268801485556",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/louisiana/solicitations/open-bids/statewide/Industrial-Park-Road-Roadway-Drainage-Improvements/444016965846?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/arizona/solicitations/open-bids/Helicopter-Turbine-Engine-Parts-Special-Tools-and-Service/0000421838?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "DCF/HOMELESS STUDENT TRANSPORTATIONMassachusetts14 day(s) leftPublished05/13/2026Closing05/28/2026444016836894",
+      "title": "Final Settlement: Construction Contract for Arapahoe Buckley Turn Lane ProjectColorado14 day(s) leftPublished05/13/2026Closing05/28/20268943604353",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/massachusetts/solicitations/open-bids/statewide/DCF-HOMELESS-STUDENT-TRANSPORTATION/444016836894?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Final-Settlement-Construction-Contract-for-Arapahoe-Buckley-Turn-Lane-Project/0000424184?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "2026 Manhole Maintenance & Repair ServicesNew Hampshire14 day(s) leftPublished05/13/2026Closing05/28/2026444017070100",
+      "title": "Construction Contract for Huntington Estates Privacy Wall ProjectColorado13 day(s) leftPublished05/13/2026Closing05/27/20268943604351",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-hampshire/solicitations/open-bids/statewide/2026-Manhole-Maintenance-Repair-Services/444017070100?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Construction-Contract-for-Huntington-Estates-Privacy-Wall-Project/0000424172?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Hackler Golf Course - Hole 4 FencingSouth Carolina8 day(s) leftPublished05/13/2026Closing05/21/2026444017192423",
+      "title": "Denver Zoo RFP for Professional Services - Flamingo Netting Schematic DesignColorado20 day(s) leftPublished05/13/2026Closing06/03/20268937684410",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/south-carolina/solicitations/open-bids/statewide/Hackler-Golf-Course-Hole-4-Fencing/444017192423?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Denver-Zoo-RFP-for-Professional-Services-Flamingo-Netting-Schematic-Design/0000424152?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Sams Stadium Structural RepairsTexas14 day(s) leftPublished05/13/2026Closing05/28/2026444016762139",
+      "title": "AMBULANCE CONSULTANT- FLINT FIRE DEPARTMENTMichigan20 day(s) leftPublished05/13/2026Closing06/03/20268939905154",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Sams-Stadium-Structural-Repairs/444016762139?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/AMBULANCE-CONSULTANT-FLINT-FIRE-DEPARTMENT/0000424164?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "2026 Concrete ProgramPennsylvania14 day(s) leftPublished05/13/2026Closing05/28/2026444016762145",
+      "title": "GAS DETECTION EQUIPMENTNew York5 day(s) leftPublished05/13/2026Closing05/19/20268938036959",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/2026-Concrete-Program/444016762145?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/GAS-DETECTION-EQUIPMENT/0000424163?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "TRANSPORTATION TO AND FROM SCHOOLNew Jersey14 day(s) leftPublished05/13/2026Closing05/28/2026444016845004",
+      "title": "UNH Food Management SystemNew Hampshire19 day(s) leftPublished05/13/2026Closing06/02/2026444016760395",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-jersey/solicitations/open-bids/statewide/TRANSPORTATION-TO-AND-FROM-SCHOOL/444016845004?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/new-hampshire/solicitations/open-bids/statewide/UNH-Food-Management-System/444016760395?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "AMBULANCE CONSULTANT- FLINT FIRE DEPARTMENT",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/AMBULANCE-CONSULTANT-FLINT-FIRE-DEPARTMENT/0000424164?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "DPW Generator Replacement & Portable Generator Upgrades",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/DPW-Generator-Replacement-Portable-Generator-Upgrades/0000424138?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "TWIST & FILL CLEANING FLUIDS, ANNUAL ESTIMATED QUANTITIES",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/TWIST-FILL-CLEANING-FLUIDS-ANNUAL-ESTIMATED-QUANTITIES/0000424147?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Oakwood Cemetery Fencing and Decorative Arch",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Oakwood-Cemetery-Fencing-and-Decorative-Arch/0000424134?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "CHAINSAW PARTS, ANNUAL ESTIMATED QUANTITIES",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CHAINSAW-PARTS-ANNUAL-ESTIMATED-QUANTITIES/0000424135?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Municipal Fleet Repair & Maintenance Contractor",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Municipal-Fleet-Repair-Maintenance-Contractor/0000424112?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
     },
     {
       "source": "MITN (Michigan)",
@@ -291,36 +384,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Clinton-County-Sheriff-s-Office-Vehicle-Upfitting/0000423996?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Furnish & Install Precast Concrete & Repairs",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Furnish-Install-Precast-Concrete-Repairs/0000423991?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "PLUMBING SUPPLY VACUUM BREAKERS FOR RESIDENTIAL CORSS CONNECTION PROGRAM",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/PLUMBING-SUPPLY-VACUUM-BREAKERS-FOR-RESIDENTIAL-CORSS-CONNECTION-PROGRAM/0000423266?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "City of Warren Seeking Short-Term Lease for Law Enforcement Training",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/City-of-Warren-Seeking-Short-Term-Lease-for-Law-Enforcement-Training/0000423911?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
