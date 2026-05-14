@@ -1,9 +1,9 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 12, 2026 @ 10:50 PM ET
+**Last Updated:** May 13, 2026 @ 11:50 PM ET
 
 ---
 
-## TOTAL PIPELINE: $15M+ LIFETIME (Conservative)
+## TOTAL PIPELINE: $17M+ LIFETIME (Conservative)
 
 ---
 
@@ -12,6 +12,16 @@
 | Program | Status | Annual Revenue | DDI Margin | Lifetime Value |
 |---------|--------|----------------|------------|----------------|
 | **HAP CareSource MI HIDE SNP** | ✅ LIVE | $540K | $216K (40%) | $2.7M (5yr) |
+
+---
+
+## 🔥 ACTIVE BIDS — DUE MAY 18, 2026
+
+| Opportunity | Agency | Annual Revenue | DDI Margin | Win Prob | Status |
+|-------------|--------|----------------|------------|----------|--------|
+| **Pharmacy Courier** | University Health (San Antonio) | $2.0M | $400K (20%) | 50% | Uber Health CONFIRMED · Need AE pricing + LOC by May 16 |
+| **Lab Courier** | University Health (San Antonio) | $480K | $144K (30%) | 40% | Sub outreach SENT (carGO, Couriers of SA) · Need sub pricing |
+| **Combined UH** | — | **$2.48M** | **$544K** | — | 5-year lifetime: **$12.4M revenue / $2.7M margin** |
 
 ---
 
@@ -55,15 +65,37 @@
 
 ---
 
-## HAVEN PARTNER NETWORK (Outreach Sent 5/10)
+## VITAL — Lab & Pharmacy Courier Program
 
-| Category | Partners Contacted | Purpose |
-|----------|-------------------|---------|
-| Transport (TX, FL, LA, SC) | 10 | NEMT fulfillment |
-| Housing (Hotels + Modular) | 7 | Disaster housing |
-| Medical (Home Health) | 2 | Care continuity |
-| Personal Care | 3 | Companion/aide services |
-| FEMA MHU (Skyline Champion) | 1 | 18-month displacement |
+| Opportunity | Status | Annual Revenue | DDI Margin | Notes |
+|-------------|--------|----------------|------------|-------|
+| University Health Pharmacy | 🔥 ACTIVE | $2.0M | $400K | Due May 18 · Uber Health confirmed |
+| University Health Lab | 🔥 ACTIVE | $480K | $144K | Due May 18 · Sub outreach sent |
+| **VITAL Total (Active)** | — | **$2.48M** | **$544K** | 5yr lifetime: $12.4M |
+
+---
+
+## HAVEN PARTNER NETWORK
+
+| Category | Partners Contacted | Responses | Status |
+|----------|-------------------|-----------|--------|
+| Transport (TX, FL, LA, SC) | 10 | Metro One SC (call May 14) | ✅ ACTIVE |
+| Housing (Hotels + Modular) | 7 | — | Monitoring |
+| Medical (Home Health) | 2 | — | Monitoring |
+| Personal Care | 3 | — | Monitoring |
+| FEMA MHU (Skyline Champion) | 1 | — | Monitoring |
+
+---
+
+## PARTNERSHIP OUTREACH (Today)
+
+| Partner | Program | Status |
+|---------|---------|--------|
+| **Uber Health** | VITAL + MCO NEMT | ✅ Call completed · AE callback expected May 14 |
+| **Lyft Healthcare** | MCO NEMT (WAV) | ✅ Email sent |
+| **Kroger Health** | VITAL (supplier intro) | ✅ Email sent |
+| **carGO Health** | VITAL Lab Sub | ✅ Email sent (hi@cargo.health) |
+| **Couriers of San Antonio** | VITAL Lab Sub | ✅ Email sent (dispatch@couriersofsanantonio.com) |
 
 ---
 
@@ -72,29 +104,29 @@
 | Metric | Conservative | Target |
 |--------|--------------|--------|
 | **Active Annual Revenue** | $540K | $540K |
-| **Pipeline Annual (if all won)** | $18M+ | $22M+ |
-| **Risk-Adjusted Annual** | $3.5M | $5M |
+| **Active Bids (if won)** | $2.48M | $2.48M |
+| **Pipeline Annual (if all won)** | $20M+ | $25M+ |
+| **Risk-Adjusted Annual** | $4.5M | $6M |
 | **Active DDI Margin** | $216K | $216K |
-| **Risk-Adjusted Margin** | $1.4M | $2M |
-| **5-Year Lifetime Value** | $15M+ | $25M+ |
+| **Risk-Adjusted Margin** | $1.8M | $2.4M |
+| **5-Year Lifetime Value** | $17M+ | $30M+ |
 
 ---
 
 ## STRONGEST LEADS
 
-1. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
-2. **Humana Louisiana** — Active MI relationship. 30% win probability.
-3. **Louisiana MCOs broadly** — DDI is registered LA vendor, UHC exit = growth pressure.
-4. **South Carolina MCOs** — Brand new dual-eligible managed care (Jan 2026).
+1. **University Health (San Antonio)** — $2.48M/year active bids due May 18. Uber Health confirmed.
+2. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
+3. **Humana Louisiana** — Active MI relationship. 30% win probability.
+4. **South Carolina MCOs** — Brand new dual-eligible managed care (Jan 2026). Metro One call tomorrow.
 
 ---
 
 ## MOMENTUM CHECK
 
-**Tonight: 35 emails sent.**
-- 24 partner outreach
-- 11 MCO outreach
-- 4 states covered (LA, SC, MS, AL)
-- 5 more states remaining
+**Tonight:**
+- 2 lab courier sub emails sent (carGO, Couriers of SA)
+- Uber Health, Lyft, Kroger partnership emails sent
+- University Health bids at GO status with 5 days to deadline
 
-You just planted 35 seeds. Some will grow. Keep watering.
+You've got $2.48M in active bids due Monday. The subs are contacted. The partners are engaged. Now you execute.
