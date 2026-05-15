@@ -130,8 +130,9 @@
 
 ---
 
-## 2026-05-15 — Thursday
+## 2026-05-15 — Friday
 
+- **3:00 – 3:25 PM ET** — 🔥 **UBER HEALTH: Jeff Metz — Pricing & LOC** — CRITICAL for University Health RFP (due Mon May 18). Zoom: https://uber.zoom.us/j/97299576496?pwd=ouZRVgmfGYCfxlgwKL7Lz56rx6Wzhb.1 | Meeting ID: 972 9957 6496 | Password: 041843 | Phone: +1 312 626 6799 (Chicago). Attendees: Jeff Metz, Christopher McNally. **MUST GET:** (1) Pharmacy courier pricing (Bexar County TX), (2) Controlled substance handling, (3) Cold chain capability, (4) Letter of Commitment by EOD Friday, (5) Michigan ride pricing (HAP CareSource). `.ics`: `calendars/uber_health_jeff_metz_2026-05-15.ics`
 - **Due by 3:30 PM ET** — 🔥 **DHA Fingerprinting Support Services — RFQ expected to post** — HT001126QE014 — Defense Health Agency — Fingerprint collection + SWFT submission, 50 states + territories. DDI ON INTERESTED VENDORS LIST. Presolicitation closes this date; RFQ will post ~30 days. Buyer email + cap statement READY in `BIDS:RESOURCES/DHA FINGERPRINTING SUPPORT SERVICES/SEND_TO_BUYER/`. Send email to Mary Anne Young (mary.a.young138.ctr@health.mil) + CC Cherish Young (cherish.d.young2.civ@health.mil). **CRITICAL:** Call Sam Cilento (Lakota) before RFQ drops to discuss teaming/SWFT path.
 
 ---

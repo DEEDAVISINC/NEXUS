@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:uber-health-jeff-metz-20260515@deedavis.biz
+DTSTAMP:20260514T191400Z
+DTSTART;TZID=America/Detroit:20260515T150000
+DTEND;TZID=America/Detroit:20260515T152500
+SUMMARY:🔥 UBER HEALTH: Jeff Metz — Pricing & LOC
+DESCRIPTION:CRITICAL CALL — University Health RFP due Monday May 18\n\nZoom: https://uber.zoom.us/j/97299576496?pwd=ouZRVgmfGYCfxlgwKL7Lz56rx6Wzhb.1\nMeeting ID: 972 9957 6496\nPassword: 041843\nPhone: +1 312 626 6799 (Chicago)\n\nMUST GET:\n1. Pharmacy courier pricing (Bexar County TX)\n2. Controlled substance handling confirmation\n3. Cold chain capability\n4. Letter of Commitment by EOD Friday\n5. Michigan ride pricing (HAP CareSource)\n\nAttendees: Jeff Metz, Christopher McNally
+LOCATION:https://uber.zoom.us/j/97299576496?pwd=ouZRVgmfGYCfxlgwKL7Lz56rx6Wzhb.1
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+DESCRIPTION:Uber Health call in 1 hour - CRITICAL
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT15M
+DESCRIPTION:Uber Health call in 15 minutes - Get ready
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

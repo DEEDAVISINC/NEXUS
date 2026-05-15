@@ -1,8 +1,52 @@
 {
-  "scan_date": "2026-05-13T22:58:08.874604",
-  "total_found": 94,
+  "scan_date": "2026-05-15T12:12:21.612425",
+  "total_found": 92,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "Furniture Move",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR EDUCATION AND TRAINING COMMAND.FA3010  81 CONS CC",
+      "deadline": "2026-06-04T10:00:00-05:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/34917cc734234ca89dc732f230fd211a/view",
+      "type": "Solicitation",
+      "posted": "2026-05-15",
+      "naics": "484210"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "25--CABLE KIT,ELECTRICA",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-05-26",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/f01eee8127b14b59b7da4a33b29d4c4d/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-14",
+      "naics": "336390"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Personnel Travel Administration Support Services for Commander, Naval Surface Force, Atlantic Fleet",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
+      "deadline": "2026-05-21T14:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/e450e9e554bb4b4c8a518cab6de1e1a2/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-14",
+      "naics": "541330"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "ENTERPRISE HEALTH UNIT SERVICES",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF.FEDERAL LAW ENFORCEMENT TRAINING CENTER.FLETC GLYNCO OPERATIONS",
+      "deadline": "2026-06-04T12:30:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/487c5336c17f4e9083956939c32e1b15/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-14",
+      "naics": "621999"
+    },
     {
       "source": "SAM.gov",
       "title": "BLM-CO LSFO LAWN AND SNOW REMOVAL SERVICES",
@@ -46,17 +90,6 @@
       "type": "Presolicitation",
       "posted": "2026-05-13",
       "naics": null
-    },
-    {
-      "source": "SAM.gov",
-      "title": "ENTERPRISE HEALTH UNIT SERVICES",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF.FEDERAL LAW ENFORCEMENT TRAINING CENTER.FLETC GLYNCO OPERATIONS",
-      "deadline": "2026-06-04T12:30:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/08e67526c2d0464bb60ae14df46e260d/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-13",
-      "naics": "621999"
     },
     {
       "source": "SAM.gov",
@@ -126,14 +159,14 @@
     },
     {
       "source": "SAM.gov",
-      "title": "Bricker Parking Garage Management Services",
-      "agency": "GENERAL SERVICES ADMINISTRATION.PUBLIC BUILDINGS SERVICE.PBS FACILITY MANAGEMENT EAST - BRANCH C",
-      "deadline": "2026-05-29T15:00:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/536c57459e8140aaaacb6c5ad1a41de1/view",
-      "type": "Solicitation",
-      "posted": "2026-05-06",
-      "naics": "812930"
+      "title": "Grounds Maintenance at 10 Sites in Arkansas",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
+      "deadline": "2026-05-22T10:00:00-05:00",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/5184ba932e674390a267329b4534d8c6/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-14",
+      "naics": "561730"
     },
     {
       "source": "SAM.gov",
@@ -159,88 +192,110 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "Deep Cleaning ServicesColorado22 day(s) leftPublished05/13/2026Closing06/05/20268939905161",
+      "title": "Bid #3866 - Refrigeration RepairsTennessee14 day(s) leftPublished05/15/2026Closing05/29/20268957405257",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/Deep-Cleaning-Services/0000424222?origin=0",
+      "url": "https://www.bidnetdirect.com/tennessee/solicitations/open-bids/Bid-3866-Refrigeration-Repairs/0000424491?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Plumbing Maintenance & Repair ServicesOhio20 day(s) leftPublished05/13/2026Closing06/03/2026444017192407",
+      "title": "(E) Music: Instrument RepairKentucky13 day(s) leftPublished05/15/2026Closing05/28/2026444021401218",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/Plumbing-Maintenance-Repair-Services/444017192407?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/kentucky/solicitations/open-bids/statewide/E-Music-Instrument-Repair/444021401218?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Runway 16/34 ReconstructionMinnesota20 day(s) leftPublished05/13/2026Closing06/03/2026444016760371",
+      "title": "RFP 2026-08 Professional Consulting Services for Bay County Materials ManagementMichigan20 day(s) leftPublished05/15/2026Closing06/05/20268956490963",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/minnesota/solicitations/open-bids/statewide/Runway-16-34-Reconstruction/444016760371?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFP-2026-08-Professional-Consulting-Services-for-Bay-County-Materials-Management/0000424476?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "EM Johnson WTP Liquid Oxygen and Equipment LeaseNorth Carolina29 day(s) leftPublished05/13/2026Closing06/12/2026444017065606",
+      "title": "Safety Shoes/Boots for Men & Women (Percentage)Kentucky12 day(s) leftPublished05/15/2026Closing05/28/2026444021433264",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/north-carolina/solicitations/open-bids/statewide/EM-Johnson-WTP-Liquid-Oxygen-and-Equipment-Lease/444017065606?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/kentucky/solicitations/open-bids/statewide/Safety-Shoes-Boots-for-Men-Women-Percentage/444021433264?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Parking Lot Maintenance & RepairOhio20 day(s) leftPublished05/13/2026Closing06/03/2026444017065645",
+      "title": "Parking Lot Slurry Seal Coat, Parking Stall Striping, and Asphalt and Curb Repair Services in Sacramento CountyCalifornia14 day(s) leftPublished05/15/2026Closing05/29/2026444021433259",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/Parking-Lot-Maintenance-Repair/444017065645?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Parking-Lot-Slurry-Seal-Coat-Parking-Stall-Striping-and-Asphalt-and-Curb-Repair-Services-in-Sacramento-County/444021433259?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Pest ControlOhio20 day(s) leftPublished05/13/2026Closing06/03/2026444017065647",
+      "title": "HVAC Split System ReplacementNew Hampshire18 day(s) leftPublished05/15/2026Closing06/03/20268954454109",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/Pest-Control/444017065647?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/new-hampshire/solicitations/open-bids/HVAC-Split-System-Replacement/0000424482?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Provide Chevrolet Silverado VehiclesAlaska20 day(s) leftPublished05/13/2026Closing06/03/2026444017201586",
+      "title": "RFP 26-033 non-profit services to increase college enrollment for D2 promiseColorado31 day(s) leftPublished05/15/2026Closing06/15/20268954534758",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/alaska/solicitations/open-bids/statewide/Provide-Chevrolet-Silverado-Vehicles/444017201586?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/RFP-26-033-non-profit-services-to-increase-college-enrollment-for-D2-promise/0000424475?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "(2) - Vegetation Safety Management Project I-280, I-195New Jersey20 day(s) leftPublished05/13/2026Closing06/03/2026444016876523",
+      "title": "Pilot Rock Fire Center Electrical Upgrade ServicesCalifornia19 day(s) leftPublished05/15/2026Closing06/03/2026444021380513",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-jersey/solicitations/open-bids/statewide/2-Vegetation-Safety-Management-Project-I-280-I-195/444016876523?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Pilot-Rock-Fire-Center-Electrical-Upgrade-Services/444021380513?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "IN000A Site FY26 Parking Lot Repairs Lots 63 & 69Indiana18 day(s) leftPublished05/15/2026Closing06/02/2026444021306292",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/indiana/solicitations/open-bids/statewide/IN000A-Site-FY26-Parking-Lot-Repairs-Lots-63-69/444021306292?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "REGISTRATION DEPARTMENT RENOVATIONOklahoma21 day(s) leftPublished05/15/2026Closing06/05/2026444021380511",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/oklahoma/solicitations/open-bids/statewide/REGISTRATION-DEPARTMENT-RENOVATION/444021380511?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
@@ -262,106 +317,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/DPW-Generator-Replacement-Portable-Generator-Upgrades/0000424138?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "TWIST & FILL CLEANING FLUIDS, ANNUAL ESTIMATED QUANTITIES",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/TWIST-FILL-CLEANING-FLUIDS-ANNUAL-ESTIMATED-QUANTITIES/0000424147?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Oakwood Cemetery Fencing and Decorative Arch",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Oakwood-Cemetery-Fencing-and-Decorative-Arch/0000424134?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "CHAINSAW PARTS, ANNUAL ESTIMATED QUANTITIES",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CHAINSAW-PARTS-ANNUAL-ESTIMATED-QUANTITIES/0000424135?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Municipal Fleet Repair & Maintenance Contractor",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Municipal-Fleet-Repair-Maintenance-Contractor/0000424112?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Nankin Square Decorative Fencing",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Nankin-Square-Decorative-Fencing/0000424094?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Demolition of Garage Only at 25458 Peter Kaltz Warren MI 48091",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Demolition-of-Garage-Only-at-25458-Peter-Kaltz-Warren-MI-48091/0000424069?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Allison Transmission & Torque Converter Parts, Repair, Remanufacture Services",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Allison-Transmission-Torque-Converter-Parts-Repair-Remanufacture-Services/0000423837?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Bid 2563 - Golf Course Club House & Maintenance Building Roof Repair",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Bid-2563-Golf-Course-Club-House-Maintenance-Building-Roof-Repair/0000424005?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Demolition Work 3077 Auburn Road",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Demolition-Work-3077-Auburn-Road/0000424000?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Clinton County Sheriff's Office Vehicle Upfitting",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Clinton-County-Sheriff-s-Office-Vehicle-Upfitting/0000423996?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
@@ -468,24 +423,6 @@
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://protect.checkpoint.com/v2/r01/___https:/ogs.ny.gov/procurement/bid-opportunities___.YzJ1OnN0YXRlb2ZpbmRpYW5hOmM6bzplOTE1NDE1Y2Y4MDBhNWRmMDMzMTQ1NGY4ODlhMDliMzo3OmUxZWI6OGQ0MzlkNmNjNjA4NmM2YWM0MGQyODJkZWFiNDk0YmFmYzRkOWRlN2FkMzI3M2M3Y2MwOTRjZDY2Mzk4NjVmMTpoOlQ6Tg",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "400-27-062-Dry Ice Shipping RFQBid DocumentsIndiana Dept of Health004000000087465Sourcing event #0000087465 is for obtaining bids for dry ice delivery services on the dates listed.Questions can be ema",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "300 SP Abe Martin HVAC Preventative MaintenanceBid DocumentsNatural Resources003000000086293RFQ # 0000086293 - UPDATED with new construction templateSourcing event 0000086293 is for obtaining bids for",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
       "type": "Solicitation",
       "posted": ""
     },
@@ -770,7 +707,16 @@
     },
     {
       "source": "Indiana",
-      "title": "300 FW Curtis Creek Fish Hatchery Trash ServicesBid DocumentsNatural Resources003000000087410RFQ#  0030087410Sourcing event 0030087410 is for obtaining bids for Trash Services at Curtis Creek Fish Hat",
+      "title": "300 FW Curtis Creek Fish Hatchery Trash ServicesBid DocumentsNatural Resources003000000087410RFQ#  00300874105/13/26 - A notice of Addendum has been posted. Use the bid documents link to view the Adde",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "40ft Semi TrailerCorrectional Industries005150000087665Sourcing event 0000087665 is for obtaining bids for one (1) 40 ft semi trailer equipped with air ride tandem axles, roll-up rear door, LED lighti",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -788,7 +734,43 @@
     },
     {
       "source": "Indiana",
+      "title": "RHTP Initiative 10 Preceptor RegistryBid DocumentsIndiana Dept of Health004000000087556RFP 26-87556Preceptor Registry for the State of Indiana. This is Initiative 10 of the Rural Health Transformation",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Onsite Clinic ServicesBid DocumentsPersonnel000700000087397RFP 26-87397SPD seeks a clinic to provide, at a minimum, the following services to eligible health plan participants at the Indiana Governmen",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RFP 26-87486 21st CCLC Data ManagementBid DocumentsEducation007000000087486IDOE seeks a vendor to house all of the 21st CCLC required data, communicate all required data directly to the FDOE, interfac",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "DCS Healthy Families Indiana (HFI)Bid DocumentsChild Services005020000087334RFP 26-87334Healthy Families Indiana (HFI) is a voluntary multi-faceted home visitation program designed to promote healthy ",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Police Medical and Psychological ExamsBid DocumentsState Police001000000083596The purpose of this solicitation is to select a respondent that can satisfy the State\u2019s need for Indiana State Police Heal",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
