@@ -412,6 +412,53 @@ Between screening and confirmation:
 
 ---
 
+## CARD 15: MRO MARIJUANA VERIFICATION — NO EXCEPTIONS
+
+**Source:** ODAPC Q&A published May 15, 2026 | 49 CFR Part 40
+
+### The Rule
+
+**There is NO legitimate medical explanation for a marijuana positive on a DOT test.**
+
+MRO MUST verify as POSITIVE — regardless of:
+
+| Excuse Given | Valid? | Why |
+|---|---|---|
+| State medical marijuana card | ❌ NO | Federal law applies — marijuana is Schedule I |
+| State recreational legalization | ❌ NO | DOT is federal — state law doesn't matter |
+| Foreign country prescription | ❌ NO | Even legally obtained abroad — NO |
+| "It was CBD" | ❌ NO | If it tested positive for THC, it's positive |
+| "I didn't know it had THC" | ❌ NO | Not a legitimate medical explanation |
+| Marinol (synthetic THC prescription) | ⚠️ MAYBE | MRO must verify valid Rx + appropriate use |
+| Hemp product claim | ❌ NO | If positive, it's positive |
+
+### Key Citation
+
+> *"Marijuana can never constitute a legitimate medical explanation, even if obtained legally in a foreign country, as it cannot be viewed as having a legitimate medical use."* — 49 CFR § 40.137
+
+### Rescheduling Status (As of May 2026)
+
+| Status | Details |
+|---|---|
+| Executive Order | Dec 18, 2025 — directed rescheduling Schedule I → III |
+| Current Status | **NOT complete** — marijuana STILL Schedule I |
+| DOT Testing | **NO CHANGE** — rules remain the same |
+| MRO Guidance | Continue following 49 CFR Part 40 |
+
+### What to Tell Employers/Donors
+
+*"DOT drug testing is governed by federal law. Marijuana remains a Schedule I controlled substance under federal law. Regardless of state medical marijuana programs or recreational legalization, a confirmed positive marijuana result on a DOT test will be verified as positive by the MRO. There is no legitimate medical explanation for marijuana under DOT regulations. This has not changed with rescheduling discussions — until the process is complete and DOT updates its regulations, the rules remain the same."*
+
+### Bottom Line
+
+- **Positive THC = Positive result**
+- **No medical marijuana exception**
+- **No state law exception**
+- **No foreign prescription exception**
+- **Rescheduling not complete — rules unchanged**
+
+---
+
 *Keep this document accessible for quick reference during calls and bid reviews.*
 
-*Last updated: March 19, 2026*
+*Last updated: May 15, 2026*

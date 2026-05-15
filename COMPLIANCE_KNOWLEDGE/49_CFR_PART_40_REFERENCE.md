@@ -456,6 +456,34 @@ Even with valid prescription, MRO may:
 - NOT reveal specific medication or condition
 - Employer determines fitness for duty with company medical officer
 
+### §40.137 — Marijuana Verification (NO Legitimate Medical Explanation)
+
+**ODAPC Q&A Published May 15, 2026**
+
+**Critical Rule:** There is NO legitimate medical explanation for a marijuana positive on a DOT test.
+
+**MRO MUST verify as POSITIVE regardless of:**
+
+| Claim | Valid Excuse? | Reason |
+|---|---|---|
+| State medical marijuana card | ❌ NO | Federal law governs DOT — marijuana is Schedule I |
+| State recreational legalization | ❌ NO | State law does not override federal DOT regulations |
+| Foreign country prescription | ❌ NO | Cannot constitute legitimate medical use |
+| CBD product ("I thought it was THC-free") | ❌ NO | If positive for THC, result is positive |
+| Hemp-derived product | ❌ NO | If positive for THC, result is positive |
+| Marinol (dronabinol) prescription | ⚠️ MAYBE | MRO must verify valid Rx and appropriate use — synthetic THC may be valid |
+
+**Key ODAPC Statement:**
+> *"Marijuana can never constitute a legitimate medical explanation, even if obtained legally in a foreign country, as it cannot be viewed as having a legitimate medical use."*
+
+**Rescheduling Status (May 2026):**
+- Executive Order (Dec 18, 2025) directed rescheduling from Schedule I to Schedule III
+- Process is **NOT complete** — marijuana remains Schedule I
+- DOT drug testing regulations have **NOT changed**
+- MROs must continue following existing 49 CFR Part 40 procedures
+
+**Until rescheduling is complete AND DOT updates its regulations, marijuana positive = verified positive. No exceptions.**
+
 ---
 
 ## SUBPART H — SPLIT SPECIMEN TESTS

@@ -47,7 +47,38 @@ DDI is a **Contract Management TPA** — not a service provider. The model:
 
 | Rank | TPA Type | Why Strong | Barrier | Revenue Model | Target Buyers |
 |---|---|---|---|---|---|
-| **4** | **Medical Credentialing TPA** | Already building with Lakota — see service catalog | None | $75-500/provider | Telehealth, hospitals, health systems |
+| **4** | **Medical Credentialing TPA** | Already building with Lakota — see service catalog + CalOptima intel below | None | $75-500/provider | Telehealth, hospitals, health systems, MCOs |
+
+---
+
+### 🔒 MEDICAL CREDENTIALING TPA — WHAT HEALTH PLANS ACTUALLY NEED
+
+**Source:** CalOptima Health RFP 26-050 (May 2026) — passed on this, but saved for intel
+
+**What a health plan (MCO) expects from a Credentialing TPA:**
+
+| Requirement | What It Means | DDI Status |
+|---|---|---|
+| **CVO (Credentialing Verification Organization)** | Accredited org that verifies provider credentials | ❌ Need NCQA accreditation or CVO partner |
+| **Credentialing Technology Platform** | Software for provider onboarding, tracking, verification | ❌ Need to license/build or white-label |
+| **Provider Lifecycle Management** | Onboarding → credentialing → recredentialing → termination | ⚠️ Can do manually, need software at scale |
+| **Provider Data Management** | Enterprise database of all provider info, licenses, sanctions | ❌ Need technology platform |
+| **Primary Source Verification (PSV)** | Verify directly with licensing boards, schools, hospitals | ✅ Can do (Lakota for fingerprints, manual for rest) |
+| **Third-Party Screening** | OIG, SAM, NPDB, state sanctions checks | ✅ Can do |
+| **Multi-Network Support** | Handle multiple provider networks for one health plan | ⚠️ Process capability, need tech |
+| **Enterprise Security** | SOC 2, HIPAA, security questionnaire compliance | ⚠️ Partial — need SOC 2 |
+
+**To win MCO credentialing contracts, DDI needs:**
+1. NCQA CVO accreditation — OR — partner with accredited CVO
+2. Credentialing software platform (Symplr, Modio, VerityStream, or white-label)
+3. SOC 2 Type II certification
+4. Demonstrated scale (# of providers credentialed)
+
+**DDI's current advantage:** Fingerprinting via Lakota (99.5% acceptance rate) — this is the #1 bottleneck in provider credentialing. Build from there.
+
+**Strategy:** Start with telehealth platforms and small health systems (don't require NCQA CVO). Build track record. Then pursue MCO contracts.
+
+---
 | **5** | **Credentialing TPA (General)** | Compliance-heavy, verification-based — same skills | None | $75-200/person | Healthcare, staffing, government |
 | **6** | **Staffing MSP/VMS TPA** | Manage contingent workforce — same "prime + subs" model | None | 2-5% of spend | Government, healthcare, enterprise |
 | **7** | **Vendor Management TPA** | Manage supplier compliance, performance, payments | None | % of spend or PEPM | Government agencies, healthcare |
