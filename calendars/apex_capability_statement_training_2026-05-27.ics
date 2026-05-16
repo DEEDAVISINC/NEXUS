@@ -1,0 +1,31 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:apex-cap-statement-training-20260527@deedavis.biz
+DTSTAMP:20260515T161700Z
+DTSTART;TZID=America/Detroit:20260527T130000
+DTEND;TZID=America/Detroit:20260527T143000
+SUMMARY:📋 TRAINING: Capability Statement (APEX Accelerator)
+DESCRIPTION:Macomb Regional APEX Accelerator — Capability Statement Virtual Training\n\nTopics:\n- Essential elements of an effective Capability Statement\n- What information to include and where\n- Strong differentiators that set you apart\n- Design best practices (images, logos, color, font, layout)\n\nZoom: https://macomb.zoom.us/s/92019644331\n\nContact: apex@macomb.edu
+LOCATION:Online — Zoom
+URL:https://macomb.zoom.us/s/92019644331
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:APEX Cap Statement Training in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:APEX Cap Statement Training in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -826,4 +826,72 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ---
 
+## AIRSPACE TECHNOLOGIES — Critical Logistics Fulfillment Partner (NEW)
+
+| Field | Details |
+|---|---|
+| **Company** | Airspace Technologies, Inc. |
+| **HQ** | Carlsbad, California |
+| **Website** | airspace.com |
+| **Sales Email** | info@airspace.com |
+| **Sales Phone** | +1-855-524-0089 (9am–5pm PST) |
+| **Operations** | ops@airspace.com (24/7) |
+| **BD Contact** | **Diana Tash** — VP Global Accounts |
+| **BD Email** | Diana.Tash@airspace.com (or DianaTash@airspace.com) |
+| **Service Type** | Time-Critical / AOG / Medical / Life Sciences / High-Tech Logistics |
+| **DDI Status** | 🆕 **READY TO SEND — May 16, 2026** |
+
+### WHY AIRSPACE:
+
+- **USASpending Check: PASSED** — Zero federal contract wins (2018-2026). IDEAL sub profile.
+- **Capability without federal sales infrastructure** — They need a prime like DDI
+- **Six service verticals align with DDI lanes:**
+  1. Aerospace & Defense / AOG
+  2. Health Systems & Labs
+  3. Life Sciences (organs, tissue, cell therapy)
+  4. Medical Devices
+  5. High-Tech & Semiconductor
+  6. Manufacturing & Automotive
+- **One partnership covers all six lanes** — single sub relationship, multiple contract types
+
+### DDI MODEL WITH AIRSPACE:
+
+- DDI primes government contracts as EDWOSB
+- Airspace executes under DDI subcontract (NDA + Non-Compete required)
+- DDI manages: compliance, CO communication, invoicing, quality reporting
+- DDI bills agency rate, pays Airspace sub cost, keeps margin (target: 25-40%)
+- Airspace is invisible to the CO — DDI is the contract holder
+
+### STATUS TIMELINE:
+
+- [x] **USASpending vetting completed** — May 16, 2026 — PASSED (zero federal contract wins)
+- [x] **Partnership folder created** — `BIDS:RESOURCES/AIRSPACE CRITICAL LOGISTICS PARTNERSHIP/`
+- [x] **Outreach email drafted** — `SEND_TO_SUBCONTRACTOR/AIRSPACE_OUTREACH_EMAIL.md`
+- [x] **Vetting checklist created** — `SUBCONTRACTOR_VETTING_CHECKLIST.md`
+- [x] **BD contact identified** — Diana Tash, VP Global Accounts — Diana.Tash@airspace.com
+- [ ] **Send outreach email** — READY (email in SEND_TO_SUBCONTRACTOR/)
+- [ ] **NDA signed** — Required before sharing pipeline details
+- [ ] **Non-Compete signed** — Required before contract-specific details
+- [ ] **COI received** — Required before any work begins
+- [ ] **Intro call scheduled** — After email response
+- [ ] **Pricing structure received** — For margin modeling
+
+### WHAT DDI NEEDS FROM AIRSPACE:
+
+1. Willingness to sub under EDWOSB prime (not compete for government direct)
+2. Pricing structure by service type (AOG, medical, cold-chain, etc.)
+3. Geographic coverage and response time commitments
+4. Insurance certificates with DDI as Additional Insured
+5. Signed NDA + Non-Compete before any contract details shared
+
+### ACTIONS NEEDED:
+
+- [x] Find Airspace BD contact — **Diana Tash, VP Global Accounts — Diana.Tash@airspace.com**
+- [ ] **Send outreach email from `SEND_TO_SUBCONTRACTOR/AIRSPACE_OUTREACH_EMAIL.md`** — READY
+- [ ] Attach DDI NDA template to initial outreach
+- [ ] Schedule intro call after response
+- [ ] Complete SAM.gov registration check (verify if they have CAGE code)
+
+---
+
 *This file tracks all partner account updates, renewals, and action items. Check monthly.*

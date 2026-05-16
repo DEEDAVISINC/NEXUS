@@ -13,6 +13,17 @@ VITAL is DDI's healthcare logistics TPA platform for:
 - **Lab Courier** — Specimen transport, slides, instruments, equipment
 - **Pharmaceutical Courier** — Medication delivery, cold chain, controlled substances
 
+### ⛔ EXPLICIT EXCLUSIONS — OUT OF SCOPE FOR VITAL
+
+| Item | Why Excluded |
+|------|--------------|
+| **Vital organs / transplant tissue** | Requires UNOS coordination, dedicated medical transport, aircraft — not a courier lane |
+| **Emergency / 911 response** | Uber Health is non-emergency only (per Terms 9.2.3) |
+| **Hazardous materials (beyond biohazard specimens)** | Requires separate DOT HazMat certification |
+| **Blood products for transfusion** | Separate regulatory chain (FDA 21 CFR 606) — not standard courier |
+
+**Uber Health specifically:** Handles "certain prescription drugs" and general Rx delivery only. Does NOT handle vital organs, surgical tissue for transplant, or emergency medical transport.
+
 Built to the spec of University Health (San Antonio) contracts:
 - Combined volume: **8,750 deliveries/month**
 - Combined value: **$913K–$1.65M/year**

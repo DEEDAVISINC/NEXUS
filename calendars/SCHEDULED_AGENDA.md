@@ -152,6 +152,7 @@
 
 ## 2026-05-16 — Saturday
 
+- **10:00 AM ET** — 📝 **SIGNING: Mies Order #951754** — 20914 Lantz St, Clinton Township, MI 48035 · Bring: Notary stamp, journal, ID verification checklist. `.ics`: `calendars/mies_signing_951754_2026-05-16.ics`
 - **12:00 – 6:00 PM ET** — 🔧 **BUILD: VITAL PRISM Modules** — Based on University Health RFP specs (`/VITAL_SYSTEM_SPECIFICATION.md`). Phase 1: `prism_vital_orders.py`, `prism_vital_compliance.py` (7 pharma + 8 lab QC checks), `prism_vital_sla.py` (85% on-time SLA), `prism_vital_pod.py`, `prism_vital_credentials.py` (Symplr). Phase 2: routing, pricing (zone/mile/flat), partner API integration. `.ics`: `calendars/vital_compliance_build_2026-05-16.ics`
 
 ---
@@ -172,6 +173,12 @@
 ## 2026-05-22 — Friday
 
 - **10:00 AM – 12:00 PM ET** — 📝 **SIGNING: Gerald F. Paquette** — Order: 26-48826-001 · 4500 Dobry Dr, APT 168, Sterling Heights, MI 48314 · Bring: Notary stamp, journal, ID verification checklist. `.ics`: `calendars/paquette_signing_2026-05-22.ics`
+
+---
+
+## 2026-05-27 — Tuesday
+
+- **1:00 PM – 2:30 PM ET** — 📋 **TRAINING: Capability Statement (APEX Accelerator)** — Macomb Regional APEX Accelerator virtual training. Topics: Essential elements, differentiators, design best practices (images, logos, color, font, layout). Zoom: https://macomb.zoom.us/s/92019644331 | Contact: apex@macomb.edu. `.ics`: `calendars/apex_capability_statement_training_2026-05-27.ics`
 
 ---
 
