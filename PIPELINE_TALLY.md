@@ -1,9 +1,9 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 13, 2026 @ 11:50 PM ET
+**Last Updated:** May 16, 2026 @ 10:10 PM ET
 
 ---
 
-## TOTAL PIPELINE: $17M+ LIFETIME (Conservative)
+## TOTAL PIPELINE: $25M+ LIFETIME (Conservative)
 
 ---
 
@@ -15,13 +15,25 @@
 
 ---
 
-## 🔥 ACTIVE BIDS — DUE MAY 18, 2026
+## 🔥 ACTIVE BIDS — DUE MAY 18, 2026 (MONDAY)
 
-| Opportunity | Agency | Annual Revenue | DDI Margin | Win Prob | Status |
-|-------------|--------|----------------|------------|----------|--------|
-| **Pharmacy Courier** | University Health (San Antonio) | $2.0M | $400K (20%) | 50% | Uber Health CONFIRMED · Need AE pricing + LOC by May 16 |
-| **Lab Courier** | University Health (San Antonio) | $480K | $144K (30%) | 40% | Sub outreach SENT (carGO, Couriers of SA) · Need sub pricing |
-| **Combined UH** | — | **$2.48M** | **$544K** | — | 5-year lifetime: **$12.4M revenue / $2.7M margin** |
+| Opportunity | Agency | Annual Revenue | DDI Margin | Win Prob | Fulfillment |
+|-------------|--------|----------------|------------|----------|-------------|
+| **Pharmacy Courier** | University Health (San Antonio) | **$4.26M** | **$2.0M (47%)** | 55% | ✅ Roadie ACTIVE |
+| **Lab Courier** | University Health (San Antonio) | $480K | $144K (30%) | 45% | ✅ Uber Health ACTIVE |
+| **Combined UH** | — | **$4.74M** | **$2.15M** | — | **5-year lifetime: $23.7M revenue / $10.7M margin** |
+
+**Pricing Final:** $43.00 scheduled (pharmacy), zone-based matrix complete
+
+---
+
+## FULFILLMENT PLATFORM STATUS
+
+| Platform | Status | Backed By | Use Case |
+|----------|--------|-----------|----------|
+| **Uber Health** | ✅ Active | Uber | Lab Courier, NEMT |
+| **Roadie** | ✅ Active | UPS | Pharmacy Courier |
+| **DoorDash Drive** | ⏳ Pending | DoorDash | Future / backup |
 
 ---
 
@@ -65,68 +77,39 @@
 
 ---
 
-## VITAL — Lab & Pharmacy Courier Program
-
-| Opportunity | Status | Annual Revenue | DDI Margin | Notes |
-|-------------|--------|----------------|------------|-------|
-| University Health Pharmacy | 🔥 ACTIVE | $2.0M | $400K | Due May 18 · Uber Health confirmed |
-| University Health Lab | 🔥 ACTIVE | $480K | $144K | Due May 18 · Sub outreach sent |
-| **VITAL Total (Active)** | — | **$2.48M** | **$544K** | 5yr lifetime: $12.4M |
-
----
-
-## HAVEN PARTNER NETWORK
-
-| Category | Partners Contacted | Responses | Status |
-|----------|-------------------|-----------|--------|
-| Transport (TX, FL, LA, SC) | 10 | Metro One SC (call May 14) | ✅ ACTIVE |
-| Housing (Hotels + Modular) | 7 | — | Monitoring |
-| Medical (Home Health) | 2 | — | Monitoring |
-| Personal Care | 3 | — | Monitoring |
-| FEMA MHU (Skyline Champion) | 1 | — | Monitoring |
-
----
-
-## PARTNERSHIP OUTREACH (Today)
-
-| Partner | Program | Status |
-|---------|---------|--------|
-| **Uber Health** | VITAL + MCO NEMT | ✅ Call completed · AE callback expected May 14 |
-| **Lyft Healthcare** | MCO NEMT (WAV) | ✅ Email sent |
-| **Kroger Health** | VITAL (supplier intro) | ✅ Email sent |
-| **carGO Health** | VITAL Lab Sub | ✅ Email sent (hi@cargo.health) |
-| **Couriers of San Antonio** | VITAL Lab Sub | ✅ Email sent (dispatch@couriersofsanantonio.com) |
-
----
-
 ## SUMMARY TOTALS
 
 | Metric | Conservative | Target |
 |--------|--------------|--------|
-| **Active Annual Revenue** | $540K | $540K |
-| **Active Bids (if won)** | $2.48M | $2.48M |
-| **Pipeline Annual (if all won)** | $20M+ | $25M+ |
-| **Risk-Adjusted Annual** | $4.5M | $6M |
-| **Active DDI Margin** | $216K | $216K |
-| **Risk-Adjusted Margin** | $1.8M | $2.4M |
-| **5-Year Lifetime Value** | $17M+ | $30M+ |
+| **Active Annual Revenue (HAP)** | $540K | $540K |
+| **Active Bids (UH if won)** | $4.74M | $4.74M |
+| **Pipeline Annual (if all won)** | $25M+ | $30M+ |
+| **Risk-Adjusted Annual** | $6.5M | $8M |
+| **Active DDI Margin (HAP)** | $216K | $216K |
+| **Bid DDI Margin (UH if won)** | $2.15M | $2.15M |
+| **Risk-Adjusted Margin** | $2.8M | $3.5M |
+| **5-Year Lifetime Value** | $25M+ | $40M+ |
 
 ---
 
 ## STRONGEST LEADS
 
-1. **University Health (San Antonio)** — $2.48M/year active bids due May 18. Uber Health confirmed.
+1. **University Health (San Antonio)** — $4.74M/year active bids due MONDAY. Roadie + Uber Health fulfillment CONFIRMED.
 2. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
 3. **Humana Louisiana** — Active MI relationship. 30% win probability.
-4. **South Carolina MCOs** — Brand new dual-eligible managed care (Jan 2026). Metro One call tomorrow.
+4. **South Carolina MCOs** — Brand new dual-eligible managed care. Metro One partnership building.
 
 ---
 
-## MOMENTUM CHECK
+## TONIGHT'S WINS
 
-**Tonight:**
-- 2 lab courier sub emails sent (carGO, Couriers of SA)
-- Uber Health, Lyft, Kroger partnership emails sent
-- University Health bids at GO status with 5 days to deadline
+- ✅ Roadie account ACTIVE — pharmacy courier fulfillment secured
+- ✅ DoorDash Drive contact submitted — third platform in pipeline
+- ✅ Pricing finalized at $43.00 scheduled (market rate, sustainable)
+- ✅ Win strategy rules added to NEXUS
+- ✅ PRISM Fulfillment Tracker spec created (build tomorrow)
+- ✅ All bid documents ready for Monday submission
 
-You've got $2.48M in active bids due Monday. The subs are contacted. The partners are engaged. Now you execute.
+---
+
+**University Health alone is $10.7M in DDI margin over 5 years. You have the fulfillment. You have the pricing. You have the documents. Submit Monday and execute.**
