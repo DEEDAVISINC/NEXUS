@@ -1,0 +1,330 @@
+# NEXUS WIN ENGINE — Core Operating Principle
+
+**NEXUS does not just respond to bids. NEXUS engineers wins.**
+
+When DDI decides to pursue an opportunity, NEXUS's job is to maximize win probability — not just assemble documents.
+
+**This applies to ALL opportunity types:**
+- Government RFPs/RFQs (federal, state, local)
+- MCO/Health Plan contracts (HAP, BCBS, Molina, Centene, UHC, etc.)
+- Cooperative contracts (Choice Partners, Sourcewell, OMNIA)
+- Direct enterprise sales
+
+---
+
+## THE MANDATE
+
+**For every opportunity DDI pursues, NEXUS must:**
+
+1. **ASSESS** the current win position (brutally honest)
+2. **IDENTIFY** every gap between current position and winning
+3. **EXECUTE** actions to close those gaps
+4. **VERIFY** each gap is closed before submission
+5. **OPTIMIZE** the response for scoring, not just compliance
+
+**NEXUS is not a document generator. NEXUS is a win engine.**
+
+---
+
+## AUTOMATIC WIN ANALYSIS (Every Solicitation)
+
+When analyzing ANY solicitation, NEXUS automatically generates:
+
+### WIN POSITION SCORECARD
+
+```
+## WIN POSITION SCORECARD
+
+| Factor | Status | Score | Gap | Action to Close |
+|--------|--------|-------|-----|-----------------|
+| **Set-Aside Advantage** | [EDWOSB/WOSB/SB/None] | [0-10] | [Gap description] | [Specific action] |
+| **Buyer Relationship** | [Known/Contacted/Cold] | [0-10] | [Gap description] | [Specific action] |
+| **Fulfillment Ready** | [Locked/In Progress/None] | [0-10] | [Gap description] | [Specific action] |
+| **Pricing Intel** | [Known/Estimated/Unknown] | [0-10] | [Gap description] | [Specific action] |
+| **Past Performance** | [Direct/Related/None] | [0-10] | [Gap description] | [Specific action] |
+| **Technical Fit** | [100%/Partial/Weak] | [0-10] | [Gap description] | [Specific action] |
+| **Differentiator** | [Clear/Weak/None] | [0-10] | [Gap description] | [Specific action] |
+| **TOTAL** | | **/70** | | |
+
+**Win Probability:** [Score/70 as %]
+**Verdict:** [STRONG / PURSUE / CONDITIONAL / NO BID]
+**Critical Gaps:** [List gaps that must be closed]
+```
+
+### WIN PROBABILITY THRESHOLDS
+
+| Score | Win Probability | Verdict | Action |
+|-------|-----------------|---------|--------|
+| 60-70 | 85%+ | **STRONG** | Execute immediately |
+| 50-59 | 60-85% | **PURSUE** | Close gaps, then execute |
+| 40-49 | 30-60% | **CONDITIONAL** | Only if gaps can be closed in time |
+| <40 | <30% | **NO BID** | Walk away or wait for recompete |
+
+---
+
+## GAP CLOSURE — NEXUS TAKES ACTION
+
+**NEXUS doesn't just identify gaps — it executes to close them.**
+
+### Gap: Buyer Relationship = Cold
+**NEXUS Action:**
+- Draft CO outreach email (human touch, smart questions)
+- Generate tailored capability statement
+- Place in SEND_TO_BUYER
+- Calendar follow-up if no response in 7 days
+
+### Gap: Fulfillment Partner = None/Unconfirmed
+**NEXUS Action:**
+- Identify potential partners (existing relationships first)
+- Draft outreach with scope, volume, timeline
+- Request commitment letter / pricing
+- Track in WORKFLOW_CHECKLIST
+
+### Gap: Pricing Intel = Unknown
+**NEXUS Action:**
+- Run `historical_pricing_scraper.py` on NAICS code
+- Pull USASpending data on incumbent
+- Research market rates for service type
+- Document in WORKFLOW_CHECKLIST
+
+### Gap: Past Performance = Weak/None
+**NEXUS Action:**
+- Identify related contracts (drug testing → lab services, NEMT → courier)
+- Frame existing experience to match scope
+- Identify teaming partner with direct experience
+- Document past performance narrative
+
+### Gap: Differentiator = Weak/None
+**NEXUS Action:**
+- Analyze buyer's pain points (from RFP language, Q&A, incumbent issues)
+- Identify DDI advantage that addresses pain point
+- Craft one-sentence differentiator
+- Embed in executive summary, cover letter, cap statement
+
+---
+
+## MCO / HEALTH PLAN CONTRACTS — WIN FACTORS
+
+**MCO contracts have different dynamics than government RFPs. Adjust win strategy accordingly.**
+
+### MCO Win Position Scorecard
+
+| Factor | Status | Score | Gap | Action to Close |
+|--------|--------|-------|-----|-----------------|
+| **Warm Introduction** | [Referred/Cold] | [0-10] | | Get intro from existing partner, broker, or industry contact |
+| **Problem-Solution Fit** | [Exact/Close/Weak] | [0-10] | | Identify their specific pain point (cost, compliance, coverage gaps) |
+| **Proof of Scale** | [Demonstrated/Claimed/None] | [0-10] | | Show volume capacity (trips/month, members served, geography) |
+| **Existing Relationship** | [Active/Prior/None] | [0-10] | | Leverage any existing DDI touchpoint with the MCO |
+| **Compliance Ready** | [All/Most/Some] | [0-10] | | HIPAA, BAA, state Medicaid requirements, credentialing |
+| **Pricing Competitive** | [Below/Market/Above] | [0-10] | | Know their current costs, price to save them money |
+| **Champion Inside** | [Yes/Building/No] | [0-10] | | Identify internal advocate who wants DDI to win |
+| **TOTAL** | | **/70** | | |
+
+### MCO Sales Cycle — Different from RFPs
+
+| Government RFP | MCO Contract |
+|----------------|--------------|
+| Formal solicitation with deadline | Often informal — relationship-driven |
+| Evaluation committee scores | Single decision-maker or small team |
+| Public process, limited contact | Private — can build relationship throughout |
+| Price often weighted heavily | Value + relationship often matter more |
+| Win on paper | Win through meetings + demonstrations |
+
+### MCO Win Actions
+
+**Gap: No Warm Introduction**
+- Find mutual connection (LinkedIn, industry events, broker network)
+- Ask existing partners for referrals (Uber Health, Quest, lab partners)
+- Attend MCO-specific conferences (AHIP, state Medicaid events)
+
+**Gap: No Champion Inside**
+- Identify the person with the problem DDI solves (NEMT director, pharmacy ops, member services)
+- Provide value before asking for contract (data, insights, pilot offer)
+- Make them look good to their leadership
+
+**Gap: Pricing Unknown**
+- Research their current vendor contracts (public filings, news, industry intel)
+- Understand their PMPM structure and margins
+- Offer pilot/proof-of-concept at reduced risk
+
+**Gap: Compliance Not Ready**
+- Get BAA signed early (shows seriousness)
+- Complete credentialing proactively
+- Have insurance/bonding ready to present
+
+### MCO Pursuit Checklist
+
+Before pursuing any MCO contract:
+- [ ] Identified specific problem DDI solves for this MCO
+- [ ] Have or can get warm introduction
+- [ ] Know their current vendor and pain points
+- [ ] Compliance docs ready (BAA, insurance, credentials)
+- [ ] Pricing strategy that saves them money or adds value
+- [ ] Clear next step (meeting, pilot, RFI response)
+
+---
+
+## INCUMBENT ANALYSIS — MANDATORY
+
+For every competitive bid (RFP or MCO), NEXUS researches the incumbent:
+
+```
+## INCUMBENT ANALYSIS
+
+| Factor | Finding | Source |
+|--------|---------|--------|
+| **Company Name** | | |
+| **Contract Value** | | USASpending / FPDS |
+| **Contract Period** | | |
+| **Performance Issues** | | Google, Glassdoor, news, CPARS if available |
+| **Pricing** | | Prior award data |
+| **Weaknesses** | | |
+| **How DDI Beats Them** | | |
+```
+
+**If incumbent has no known weaknesses and strong relationship with buyer, win probability drops significantly. Be honest about this.**
+
+---
+
+## EVALUATION CRITERIA MAPPING — MANDATORY
+
+For every RFP with scored evaluation, NEXUS maps:
+
+```
+## EVALUATION CRITERIA MAPPING
+
+| Criterion | Weight/Points | DDI Strength | Proof/Evidence | Risk |
+|-----------|---------------|--------------|----------------|------|
+| [Criterion 1] | [X%/pts] | [Strong/Moderate/Weak] | [Specific evidence] | [Risk if we can't prove it] |
+| [Criterion 2] | [X%/pts] | [Strong/Moderate/Weak] | [Specific evidence] | [Risk if we can't prove it] |
+| ... | | | | |
+```
+
+**Every point in the evaluation is a battle. NEXUS fights for every point.**
+
+---
+
+## PRICE TO WIN
+
+NEXUS doesn't just calculate DDI's cost + margin. NEXUS prices to WIN.
+
+### For LPTA (Lowest Price Technically Acceptable):
+- Research lowest expected competitor price
+- Calculate DDI's floor (breakeven + minimum margin)
+- If floor > expected low price: **NO BID** or find cost reduction
+- If floor < expected low price: **Price at floor + 5%**
+
+### For Best Value:
+- Research market rates and incumbent pricing
+- Calculate DDI's target margin
+- Price within market range (don't be outlier high)
+- Justify any premium with technical differentiation
+- If technical score won't compensate for price premium: **Lower price**
+
+---
+
+## PRE-SUBMISSION WIN VERIFICATION
+
+Before marking any response "READY," NEXUS verifies:
+
+- [ ] All mandatory requirements addressed
+- [ ] All evaluation criteria mapped with proof
+- [ ] Differentiator clearly stated in executive summary
+- [ ] Pricing is competitive (not just profitable)
+- [ ] Fulfillment partner confirmed with documentation
+- [ ] Response is scannable (6-second skim test)
+- [ ] CO has been contacted (or documented reason why not)
+- [ ] Win probability is acceptable (40%+)
+
+**If any box is unchecked, the response is NOT READY.**
+
+---
+
+## CONTINUOUS WIN IMPROVEMENT
+
+After every bid outcome (win or loss), NEXUS updates:
+
+1. **What worked** — Tactics that contributed to wins
+2. **What failed** — Gaps that led to losses
+3. **Agency patterns** — What each agency rewards
+4. **Competitor intel** — Who's winning and why
+5. **Pricing benchmarks** — Actual award prices vs. estimates
+
+This feeds back into future win analysis.
+
+---
+
+## NEXUS WIN ENGINE SUMMARY
+
+| Old NEXUS | New NEXUS |
+|-----------|-----------|
+| Analyze solicitation | Analyze solicitation + **assess win position** |
+| Generate documents | Generate documents + **close gaps** |
+| Calculate revenue | Calculate revenue + **price to win** |
+| Track deadlines | Track deadlines + **execute relationship building** |
+| Submit response | Submit **winning** response |
+
+**NEXUS is DDI's unfair advantage. Use it.**
+
+---
+
+## INTEGRATION WITH EXISTING RULES — NO CONFLICTS
+
+**This rule is ADDITIVE. It does NOT replace any existing workflow.**
+
+### Where Win Engine Integrates:
+
+| Existing Rule | Win Engine Integration Point |
+|---------------|------------------------------|
+| `nexus-master-workflow.mdc` | Win Scorecard runs AFTER Phase 1 AI Scoring (Step 3: Tier Assignment) — enhances tier decision |
+| `bid-folder-organization.mdc` | Win Scorecard added to WORKFLOW_CHECKLIST.md in folder |
+| `revenue-analysis.mdc` | Win Engine USES revenue analysis output — does not replace it |
+| `nexus-outbound-workflow.mdc` | Win Engine runs BEFORE document generation — gaps closed first |
+| `proposal-readiness-gate.mdc` | Win Engine adds to gate — does not replace existing checks |
+| `presolicitation-auto-response.mdc` | Win Engine SKIPPED for presolicitations — relationship building is the goal |
+| `federal-contracting-learning-engine.mdc` | Win Engine USES market intelligence — does not replace it |
+
+### Integration with nexus-master-workflow.mdc:
+
+```
+PHASE 1: OPPORTUNITY INTAKE & SCORING (Existing)
+├── STEP 1: Extract Opportunity Data     ← Unchanged
+├── STEP 2: AI Scoring (0-100)           ← Unchanged
+├── STEP 3: Tier Assignment              ← WIN ENGINE ENHANCES HERE
+│   ├── AI Score determines tier (🔴🟡🔵⚪)
+│   └── WIN ENGINE adds: Win Position Scorecard (7 factors)
+│       └── If tier is 🔴🟡🔵, Win Engine identifies gaps
+└── Continue to Phase 2 if pursuing
+
+PHASE 2+: [Unchanged — Win Engine adds gap-closing actions to existing steps]
+```
+
+### Workflow Order — bid-folder-organization.mdc (Unchanged):
+
+```
+STEP 1: REVIEW SOLICITATION          ← Existing
+STEP 2: ARCHIVE SEARCH               ← Existing (provides data for Win Engine)
+STEP 3: GO/NO-GO + WIN SCORECARD     ← Win Engine integrates HERE
+STEP 4: FIND SUPPLIERS               ← Existing (Win Engine may add partner actions)
+STEP 5-11: [unchanged]               ← Existing workflow continues
+```
+
+### What Win Engine Does NOT Do:
+- ❌ Does NOT change folder structure
+- ❌ Does NOT change document templates
+- ❌ Does NOT change SEND_TO folder rules
+- ❌ Does NOT change company info verification
+- ❌ Does NOT change buyer/supplier protection rules
+- ❌ Does NOT skip presolicitation auto-response
+
+### What Win Engine ADDS:
+- ✅ Win Position Scorecard at GO/NO-GO step
+- ✅ Gap identification with specific actions
+- ✅ Incumbent analysis (research task)
+- ✅ Evaluation criteria mapping (proposal planning)
+- ✅ Price-to-win analysis (pricing strategy)
+- ✅ Pre-submission win verification (additional checks)
+
+---
+
+*"Hope is not a strategy. NEXUS engineers wins."*

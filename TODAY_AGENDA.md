@@ -1,99 +1,97 @@
-# TODAY'S AGENDA — Friday, May 15, 2026
+# TODAY'S AGENDA — Sunday, May 17, 2026
 
 ---
 
-## 🔥 HARD DEADLINE: May 18, 2026 (3 days)
+## 🔥 HARD DEADLINE: May 18, 2026 (TOMORROW)
 
-**University Health RFPs — Both due Monday**
-- Pharmacy Courier (RFP-226-03-068-SVC) — $2M/year
-- Lab Courier (RFP-226-04-073-SVC) — $480K/year
+**University Health RFPs — Both due Monday 2:00 PM CDT**
+- Pharmacy Courier (RFP-226-03-068-SVC) — $4.26M/year → Roadie fulfillment ✅
+- Lab Courier (RFP-226-04-073-SVC) — $480K/year → Uber Health fulfillment ✅
 
 ---
 
 ## TODAY'S PRIORITIES
 
-### 1. 🔥 UBER HEALTH — Jeff Metz Pricing Call (3:00 PM ET)
-**THIS IS THE MOST IMPORTANT CALL OF THE WEEK**
-- **Zoom:** https://uber.zoom.us/j/97299576496?pwd=ouZRVgmfGYCfxlgwKL7Lz56rx6Wzhb.1
-- **Meeting ID:** 972 9957 6496 | **Password:** 041843
-- **Phone:** +1 312 626 6799 (Chicago)
-- **Attendees:** Jeff Metz (Partnership Lead), Christopher McNally
+### 1. 🔥 SUBMIT UNIVERSITY HEALTH BIDS (Final Prep)
+- [ ] Register on Bonfire portal (if not done)
+- [ ] Convert HTML responses to PDF (Cmd+P in Chrome)
+- [ ] Review all attachments one more time
+- [ ] Upload Pharmacy Courier package
+- [ ] Upload Lab Courier package
+- [ ] Save confirmation screenshots
 
-**MUST GET BY EOD TODAY:**
-- [ ] Pharmacy courier pricing for Bexar County TX (scheduled, STAT, after-hours)
-- [ ] Controlled substance confirmation — Uber Health or ScriptDrop?
-- [ ] Cold chain capability confirmation
-- [ ] Letter of Commitment / Partnership Letter
-- [ ] Michigan ride pricing for HAP CareSource
+**Fulfillment Proof:**
+- Pharmacy → Roadie dashboard screenshot ✅
+- Lab → Uber Health dashboard screenshot ✅
 
-**Prep:** `HAVEN/OUTREACH/UBER_HEALTH_JEFF_METZ_PREP_MAY15.html`
+### 2. 🛠️ BUILD: PRISM Fulfillment Tracker Module (Phase 1)
+**Spec:** `PRISM/SPECS/FULFILLMENT_TRACKER_MODULE_SPEC.md`
 
-### 2. CREATE METRO ONE SC FOLLOW-UP
-- Call went well yesterday — document key points
-- Draft follow-up email with NDA and next steps
-- Confirm partnership structure for HAVEN
+**Scope:**
+- Delivery log (platform, status, POD, timestamps)
+- Dashboard view (today's stats, SLA tracking)
+- Manual entry form
+- CSV bulk import
+- Quick links to Uber Health / Roadie / DoorDash dashboards
 
-### 3. CHECK FOR SUB RESPONSES
-- carGO Health (hi@cargo.health) — Lab courier sub
-- Couriers of San Antonio (dispatch@couriersofsanantonio.com) — Lab courier sub
-- **Need:** Pricing + capability confirmation TODAY
+**Why NOW:** Core DDI infrastructure for MCOs, VITAL, HAVEN, University Health, and all future logistics contracts.
 
-### 4. AFTER UBER HEALTH CALL — BUILD PRICING
-- Build pharmacy courier pricing sheet with confirmed rates
-- Build lab courier pricing sheet (pending sub confirmation)
+### 3. CHECK FOR JEFF METZ RESPONSE
+- Follow-up email sent Saturday night
+- If response: Review Uber Health pricing / confirmation
+- If no response: Proceed with Roadie for pharmacy, Uber for lab
+
+### 4. STUDY ROADIE PLATFORM
+- Explore dashboard features
+- Test "Create A Delivery" flow
+- Understand pricing structure
+- Document for operations
+
+---
+
+## FULFILLMENT PLATFORM STATUS
+
+| Platform | Status | Use For |
+|----------|--------|---------|
+| **Uber Health** | ✅ Active | Lab Courier |
+| **Roadie** | ✅ Active | Pharmacy Courier |
+| **DoorDash Drive** | ⏳ Pending callback Monday | Future / backup |
 
 ---
 
 ## MEETINGS
 
-| Time | Meeting | Platform | Status |
-|------|---------|----------|--------|
-| **3:00 – 3:25 PM ET** | 🔥 Uber Health — Jeff Metz | Zoom | CONFIRMED |
+None scheduled.
 
 ---
 
 ## WAITING ON
 
-| Item | From | Deadline | Status |
-|------|------|----------|--------|
-| Pharmacy pricing + LOC | Uber Health (Jeff Metz) | EOD TODAY | Call at 3 PM |
-| Lab sub pricing | carGO / Couriers of SA | TODAY | Outreach sent |
-| Lyft Healthcare response | Lyft | — | Email sent May 13 |
-| Kroger response | Kroger Supplier Inclusion | — | Email sent May 13 |
+| Item | From | Status |
+|------|------|--------|
+| Uber Health confirmation | Jeff Metz | Email sent Sat night |
+| DoorDash Drive callback | DoorDash sales | Contact form submitted |
 
 ---
 
-## UNIVERSITY HEALTH SUBMISSION CHECKLIST
+## MONDAY SUBMISSION CHECKLIST
 
 ### Pharmacy Courier (RFP-226-03-068-SVC)
-- [→] Uber Health pricing call — **TODAY 3 PM**
-- [ ] Confirm ScriptDrop for controlled substances
-- [ ] Get LOC from Uber Health — **NEED BY EOD TODAY**
-- [ ] Complete pricing sheet — after call
-- [ ] Complete Solicitation Questionnaire
-- [ ] Sign Master Solicitation cover page
-- [ ] Sign Exhibits A, B, C, F
-- [ ] Complete Exhibit D (BAA)
-- [ ] Complete Good Faith Effort Plan
-- [ ] Upload to Bonfire by May 18
+- [x] Quote Response built
+- [x] Capability Statement built
+- [x] Pricing sheet complete ($43 scheduled)
+- [x] Exhibit D answers ready
+- [x] Exhibit F references ready
+- [x] Fulfillment partner active (Roadie)
+- [ ] Register Bonfire
+- [ ] Upload and submit
 
 ### Lab Courier (RFP-226-04-073-SVC)
-- [ ] Confirm lab sub (carGO or Couriers of SA)
-- [ ] Get sub pricing
-- [ ] Get LOC from sub — **NEED BY EOD TODAY**
-- [ ] Sign Addendum 1
-- [ ] Complete pricing sheet
-- [ ] Complete Solicitation Questionnaire
-- [ ] Complete Exhibit D (BAA)
-- [ ] Upload to Bonfire by May 18
+- [x] Quote Response built
+- [x] Fulfillment partner active (Uber Health)
+- [ ] Register Bonfire
+- [ ] Upload and submit
 
 ---
 
-## FOLLOW-UPS DUE
-
-- MDHHS SHIELD (Angela Medina) — 15 days since package sent, follow-up due May 18
-- BCBSM (Alina Pabin) — If no meeting by Memorial Day, follow up June 1
-
----
-
-*Updated May 14, 2026 @ 7:20 PM ET — NEXUS*
+*Updated May 16, 2026 @ 10:09 PM ET — NEXUS*

@@ -5,37 +5,50 @@ alwaysApply: true
 
 # Never Name Network / Sub-Vendors — NON-NEGOTIABLE
 
-## The Rule
+## 🚨 THE RULE — NEVER NAME PARTNERS TO PROSPECTS. EVER.
+
+**If you tell a prospect who DDI uses for fulfillment, they WILL contact that partner directly and cut DDI out. This is not theoretical — it happens.**
 
 When generating **any outbound document or correspondence** intended for external recipients (buyers, MCOs, government, suppliers, subcontractors in discovery, portal posts, cold emails, capability statements, proposals, RFQs, marketing):
 
 **NEVER name:**
-- ❌ DDI’s transportation, pharmacy delivery, lab, courier, or logistics **network partners**
+- ❌ DDI's transportation, pharmacy delivery, lab, courier, or logistics **network partners**
 - ❌ **Subcontractors** or **sub-vendors** by trade name
 - ❌ Consumer-facing **rideshare / delivery brands** used as fulfillment
-- ❌ “Who we use” lists unless **explicitly required** by a sealed legal exhibit after counsel / compliance approval (rare)
+- ❌ "Who we use" lists unless **explicitly required** by a sealed legal exhibit after counsel / compliance approval (rare)
 
-**Why:** Protects leverage in negotiation, avoids procurement/legal lock-in language, prevents competitors from mapping your stack, and stops accidental conflicts with the recipient’s existing vendor relationships.
+**Specific examples — NEVER say to prospects:**
+- ❌ "We partner with Uber Health" — **THEY WILL CALL UBER DIRECTLY**
+- ❌ "Quest Diagnostics processes our tests" — **THEY WILL CALL QUEST DIRECTLY**
+- ❌ "We use ScriptDrop for pharmacy delivery" — **THEY WILL BYPASS DDI**
+- ❌ "Our drivers come from [platform]" — **THEY DON'T NEED TO KNOW**
 
-## Positioning Truth — Who Is **NOT** DDI’s Sub-Vendor
+**Why:** Protects leverage in negotiation, avoids procurement/legal lock-in language, prevents competitors from mapping your stack, and stops accidental conflicts with the recipient's existing vendor relationships.
 
-**Do not confuse the health plan’s incumbent trip-level brokers or legacy NEMT managers with DDI subcontractors.**
+**The prospect doesn't need to know WHO fulfills. They need to know DDI DELIVERS.**
+
+## What To Say Instead
+
+Use **vendor-neutral, role-based language:**
+- ✅ "Credentialed HIPAA-aligned mobility and pharmacy logistics partners under DDI contract management"
+- ✅ "Fulfillment layer managed and overseen by DDI"
+- ✅ "Zero-fleet — national/regional logistics capacity without consumer-brand lock-in for the plan"
+- ✅ "Our nationwide courier network"
+- ✅ "DDI-managed credentialed fulfillment partners"
+- ✅ "Specific fulfillment partners disclosed under NDA / credentialing / attachment review per plan requirements"
+- ✅ "Vetted driver network with background checks and BAA coverage"
+
+## Positioning Truth — Who Is **NOT** DDI's Sub-Vendor
+
+**Do not confuse the health plan's incumbent trip-level brokers or legacy NEMT managers with DDI subcontractors.**
 
 Examples of entities that are **typically plan-side / incumbent brokerage or dispatch**, **not** Dee Davis Inc. fulfillment subs:
 
 - ❌ **Not DDI sub-vendors:** SafeRide, MTM, Access2Care (and similar national or regional NEMT brokers the plan already uses)
 
-**Correct framing:** DDI is **program-level Contract Management TPA** — above trip dispatch and brokerage — with **DDI-managed credentialed fulfillment partners** for execution. Incumbent brokers may remain in the member’s benefit stack; DDI does **not** list them as “our network” or “our subs.”
+**Correct framing:** DDI is **program-level Contract Management TPA** — above trip dispatch and brokerage — with **DDI-managed credentialed fulfillment partners** for execution. Incumbent brokers may remain in the member's benefit stack; DDI does **not** list them as "our network" or "our subs."
 
-**Outbound discipline:** Never name those incumbents in cold outreach or buyer-facing copy (avoid mapping their vendor stack for them and avoid implying a head-to-head “we replace X” narrative unless strategy explicitly calls for it under counsel).
-
-## What To Say Instead
-
-Use **vendor-neutral, role-based language:**
-- ✅ “Credentialed HIPAA-aligned mobility and pharmacy logistics partners under DDI contract management”
-- ✅ “Fulfillment layer managed and overseen by DDI”
-- ✅ “Zero-fleet — national/regional logistics capacity without consumer-brand lock-in for the plan”
-- ✅ “Specific fulfillment partners disclosed under NDA / credentialing / attachment review per plan requirements”
+**Outbound discipline:** Never name those incumbents in cold outreach or buyer-facing copy (avoid mapping their vendor stack for them and avoid implying a head-to-head "we replace X" narrative unless strategy explicitly calls for it under counsel).
 
 ## Scope
 
@@ -49,9 +62,12 @@ Use **vendor-neutral, role-based language:**
 ## Self-Check Before Send
 
 - [ ] No third-party fulfillment brand names in email body or buyer-facing PDF/HTML
-- [ ] No “we use [Company X]” unless mandated by buyer exhibit
-- [ ] Proof points emphasize **DDI program management**, not partner logos
+- [ ] No "we use [Company X]" unless mandated by buyer exhibit
+- [ ] No partner logos or partner branding
+- [ ] Proof points emphasize **DDI program management**, not partner identity
 
 ## Integration
 
-This rule is **additive**. It does not replace `never-reveal-buyer-to-supplier.mdc`, `never-reveal-end-buyer.mdc`, or subcontractor framework rules — it adds **confidentiality of DDI’s fulfillment stack** on outbound messaging.
+This rule is **additive**. It does not replace `never-reveal-buyer-to-supplier.mdc`, `never-reveal-end-buyer.mdc`, or subcontractor framework rules — it adds **confidentiality of DDI's fulfillment stack** on outbound messaging.
+
+**Related rules:** `win-focused-emails.mdc` (reinforces this for email content)
