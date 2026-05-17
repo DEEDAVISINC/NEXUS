@@ -69,6 +69,43 @@ alwaysApply: true
 
 **When confirmed sent or done:** Update trackers immediately in the same moment — not at end of session.
 
+### 8. PARTNER-CAPABILITY OPPORTUNITY MINING — MANDATORY
+
+**Every session, actively mine for opportunities that match DDI's partners. This is proactive, not reactive.**
+
+**Full mining protocol:** See `partner-opportunity-mining.mdc` for complete NAICS codes, keywords, and search protocol.
+
+**ALL 12 DDI PARTNERS — Match opportunities to:**
+
+| Partner | Capability | NAICS to Mine | Contract Types |
+|---------|-----------|---------------|----------------|
+| **Roadie** | Gig courier, same-day | 492110, 492210 | Pharmacy delivery, medical supply |
+| **Uber Health** | NEMT, Rx delivery | 485320, 492110 | MCO NEMT, lab courier, Medicaid transport |
+| **DoorDash** | On-demand delivery | 492110, 492210 | Last-mile, supply delivery |
+| **Airspace** | AOG, critical logistics | 488190, 488510 | AOG parts, organ transport, defense |
+| **Quest** | SAMHSA lab testing | 621511, 541380 | DOT programs, FTA, FMCSA |
+| **eScreen** | eCCF platform | 621511, 541380 | Drug testing management |
+| **AMRO** | MRO review | 621511 | Any drug testing (MRO required) |
+| **12PanelNow** | Rapid test kits | 339113, 423450 | On-site testing, instant results |
+| **DDC** | DNA testing | 621511, 541380 | Child support, immigration, courts |
+| **Concentra** | DOT physicals, occ health | 621498, 621999 | CMV physicals, respirator, audiometric |
+| **Lakota** | Fingerprinting, biometrics | 561611, 541512 | Federal credentialing, licensing |
+| **NCS** | Background screening | 561611, 561612 | Transit, housing, volunteer, pre-employment |
+
+**When presenting opportunities to Dee, ALWAYS state which partner fulfills it:**
+- "New VA drug testing RFP — **Quest + AMRO + 12PanelNow** can fulfill"
+- "Transit background check — **NCS** ready"
+- "MCO NEMT brokerage — **Uber Health** fulfills"
+- "Pharmacy courier — **Roadie or Uber Health**"
+- "AOG parts contract — **Airspace** ready"
+- "DOT physicals — **Concentra** has 500+ locations"
+- "Fingerprinting contract — **Lakota** for capture/submission"
+- "DNA testing for child support — **DDC** is AABB accredited"
+
+**If an opportunity matches NO partners:** Flag it as needing partner sourcing before GO decision.
+
+**The rule:** Partnerships without contracts are paperwork. Every session should be mining for partner revenue.
+
 ---
 
 ## WHAT TO DO AFTER READING
@@ -81,6 +118,11 @@ After reading the above, the chat should be able to answer:
 - What are the current drug testing proposal blockers?
 - What opportunities are being watched?
 - What new opportunities posted on vendor portals since last check?
+- **Which partners are waiting for contracts?** (Check `PARTNERSHIPS/PARTNERSHIPS_INDEX.md`)
+- **Which new opportunities match which partners?** (Present this proactively)
+
+**Morning briefing MUST include:**
+> "Partners ready but waiting on contracts: [list]. New opportunities that match: [list with partner assignments]."
 
 If any file is missing or empty, note it and continue. Do not stop and ask Dee to explain the system — read the files and figure it out.
 

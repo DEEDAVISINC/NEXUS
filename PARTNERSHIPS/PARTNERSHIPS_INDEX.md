@@ -1,0 +1,110 @@
+# DDI PARTNERSHIPS — Master Index
+
+**Last Updated:** May 16, 2026
+
+---
+
+## FULFILLMENT PARTNERS (Courier / Delivery / NEMT)
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**Roadie**](ROADIE_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | Gig-Economy Courier | Pharmacy Courier (UH) |
+| [**Uber Health**](UBER_HEALTH_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | NEMT + Rx Delivery | Lab Courier (UH), NEMT (HAP) |
+| [**DoorDash Drive**](DOORDASH_DRIVE_PARTNERSHIP_SUMMARY.md) | ⏳ PENDING | Gig-Economy Delivery | Backup fulfillment |
+| [**Airspace Technologies**](AIRSPACE_TECHNOLOGIES_PARTNERSHIP_SUMMARY.md) | 🆕 READY | Critical Logistics | AOG, Medical, Life Sciences |
+
+---
+
+## DRUG TESTING PARTNERS (Labs / MRO / Platforms / Supplies)
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**Quest Diagnostics**](QUEST_DIAGNOSTICS_PARTNERSHIP_SUMMARY.md) | ⏳ PENDING | SAMHSA Lab | DOT/Non-DOT testing |
+| [**eScreen / Abbott**](ESCREEN_ABBOTT_PARTNERSHIP_SUMMARY.md) | ⏳ PENDING | Testing Platform | DOT/Non-DOT + eCCF |
+| [**AMRO**](AMRO_MRO_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | MRO Services | $4/test MRO review |
+| [**12PanelNow / Slash Medical**](12PANELNOW_SLASH_MEDICAL_PARTNERSHIP_SUMMARY.md) | ✅ APPROVED | Test Kit Supplies | Rapid cups $2.09, strips |
+
+---
+
+## DNA TESTING PARTNERS
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**DDC (DNA Diagnostics Center)**](DDC_DNA_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | DNA Lab | Depointe DNA services |
+
+---
+
+## OCCUPATIONAL HEALTH PARTNERS
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**Concentra**](CONCENTRA_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | Occ Health Network | DOT physicals, clinical bundles |
+
+---
+
+## FINGERPRINTING / BIOMETRICS PARTNERS
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**Lakota Software**](LAKOTA_SOFTWARE_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | Biometric Tech | EFT Creator, WHORL path |
+
+---
+
+## BACKGROUND SCREENING PARTNERS
+
+| Partner | Status | Type | Primary Use |
+|---------|--------|------|-------------|
+| [**National Crime Search**](NATIONAL_CRIME_SEARCH_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | CRA Partner | Background checks, tenant, volunteer |
+
+---
+
+## STATUS LEGEND
+
+| Status | Meaning |
+|--------|---------|
+| ✅ ACTIVE | Partnership established, account active |
+| ⏳ PENDING | Application submitted, awaiting response |
+| 🆕 READY | Outreach prepared, not yet sent |
+| ❌ DECLINED | Partnership not available |
+
+---
+
+## PARTNERSHIP DOCUMENTATION STANDARD
+
+Each partnership summary includes:
+
+1. **Company Information** — Legal name, HQ, website, contacts
+2. **DDI Account Status** — Current access level, account rep
+3. **Services Available** — What DDI can access through the partnership
+4. **Pricing** — Wholesale/partner rates (if known)
+5. **Competitive Advantages** — Why this partner
+6. **Communication Log** — Outreach history
+7. **Agreement Documents** — What's on file
+8. **Actions Needed** — Next steps
+
+---
+
+## QUICK REFERENCE — KEY CONTACTS
+
+| Partner | Contact | Role | Phone/Email |
+|---------|---------|------|-------------|
+| **Uber Health** | Jeff Metz | Account Executive | jeffm@uber.com / 312-847-1182 |
+| **Roadie** | — | Support | operations@roadie.com |
+| **Quest** | Erika K. Goad | Inside Sales | Erika.K.Goad@questdiagnostics.com / 313-744-3193 |
+| **DDC** | Jason Judd | President | jjudd@dnacenter.com |
+| **Lakota** | Sam Cilento | BD Manager | scilento@lakotasoftware.com / 304-816-4804 |
+| **AMRO** | Barbara | Operations | (904) 332-0472 |
+| **Airspace** | Diana Tash | VP Global Accounts | Diana.Tash@airspace.com |
+| **NCS** | Mark McFadin | Partner Rep | mark@nationalcrimesearch.com / 479-695-2111 |
+| **12PanelNow** | Brenda Alicia | Operations Mgr | brenda@slashmedical.com |
+
+---
+
+## ALSO SEE
+
+- `PARTNER_ACCOUNT_UPDATES.md` — Detailed action tracker for all partners
+- `PRISM_INTEGRATION_NOTES.md` — API access status for fulfillment platforms
+
+---
+
+*Master index for all DDI partnerships. Update when partnerships change status.*

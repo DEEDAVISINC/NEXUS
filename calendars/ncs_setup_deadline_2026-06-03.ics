@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:ncs-setup-deadline-20260603@deedavis.biz
+DTSTAMP:20260517T034500Z
+DTSTART;TZID=America/Detroit:20260603T090000
+DTEND;TZID=America/Detroit:20260603T100000
+SUMMARY:🔥 DEADLINE: NCS Setup Must Be Complete (30-Day Window)
+DESCRIPTION:National Crime Search partner setup must be completed by this date or commission payments are forfeited.\n\nRequired:\n- Upload DDI logo to co-branded portal\n- Add link from deedavis.biz to NCS site\n- Complete training with NCS rep\n\nContact: Travis Fink, CEO\ntravis@nationalcrimesearch.com\n479-695-2111
+LOCATION:deedavisinc.nationalcrimesearch.com
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P7D
+DESCRIPTION:NCS setup deadline in 7 days - complete logo, link, and training!
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:NCS setup deadline in 3 days!
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+DESCRIPTION:NCS setup deadline TOMORROW - must complete!
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

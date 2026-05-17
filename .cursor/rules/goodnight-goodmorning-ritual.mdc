@@ -96,7 +96,56 @@ Check for anything that may have changed overnight:
 - Any automated alerts from NEXUS systems
 - Anything flagged as urgent in the tracker files
 
-### STEP 4: READY TO GO
+### STEP 4: PARTNER STATUS & OPPORTUNITY MATCH — MANDATORY
+
+**Read `PARTNERSHIPS/PARTNERSHIPS_INDEX.md` and `partner-opportunity-mining.mdc`. Report on ALL 12 partners:**
+
+**ALL DDI PARTNERS — Check each one:**
+
+| Partner | Type | What They Need |
+|---------|------|----------------|
+| Roadie | Courier | Pharmacy delivery, medical supply contracts |
+| Uber Health | NEMT/Courier | MCO NEMT brokerage, lab courier, Medicaid transport |
+| DoorDash | Delivery | Last-mile contracts (pending activation) |
+| Airspace | Critical | AOG, organ transport, defense logistics |
+| Quest | Lab Testing | DOT programs, FTA, FMCSA contracts |
+| eScreen | Platform | Drug testing management contracts |
+| AMRO | MRO | Any drug testing contract (MRO component) |
+| 12PanelNow | Supplies | On-site testing, rapid test contracts |
+| DDC | DNA | Child support agencies, immigration, courts |
+| Concentra | Occ Health | DOT physicals, respirator, audiometric |
+| Lakota | Fingerprinting | Federal credentialing, licensing, biometrics |
+| NCS | Background | Transit, housing, volunteer, pre-employment |
+
+**Report format:**
+```
+PARTNER STATUS — [DATE]
+
+ACTIVE PARTNERS NEEDING CONTRACTS:
+- Roadie (courier) — pharmacy/medical delivery
+- Uber Health (NEMT) — MCO brokerage, lab courier
+- Quest (lab) — DOT drug testing programs
+- AMRO (MRO) — drug testing contracts
+- 12PanelNow (supplies) — on-site testing
+- DDC (DNA) — child support, immigration
+- Concentra (occ health) — DOT physicals
+- Lakota (fingerprinting) — credentialing contracts
+- NCS (background) — transit, housing, pre-employment
+- Airspace (critical) — AOG, medical devices
+
+NEW OPPORTUNITIES BY PARTNER:
+- [Solicitation] → [Partner] can fulfill
+- [Solicitation] → [Partner] can fulfill
+
+PARTNER FOLLOW-UPS DUE:
+- [Partner] — [what's pending]
+```
+
+**Run the mining protocol from `partner-opportunity-mining.mdc` to find new opportunities.**
+
+**The point:** 12 partners ready. Find them contracts. Every session.
+
+### STEP 5: READY TO GO
 Ask: "What do you want to tackle first?"
 
 ---

@@ -194,6 +194,12 @@
 
 ---
 
+## 2026-06-03 — Wednesday
+
+- **9:00 AM ET** — 🔥 **DEADLINE: NCS Partner Setup Must Be Complete (30-Day Window)** — National Crime Search channel partner agreement executed May 4. Setup MUST be complete within 30 days or commission payments forfeited. **Required:** (1) Upload DDI logo to co-branded portal, (2) Add link from deedavis.biz to NCS site, (3) Complete training with NCS rep. Contact: Travis Fink, CEO — travis@nationalcrimesearch.com / 479-695-2111. Portal: deedavisinc.nationalcrimesearch.com. `.ics`: `calendars/ncs_setup_deadline_2026-06-03.ics`
+
+---
+
 ## 2026-06-04 — Thursday
 
 - **10:00 AM ET** — 📋 **PRE-BID: SC Newborn Screening Courier (Intel Only)** — NO-GO on bid (requires direct employees). Attending for intel on SC DPH processes. Teams: https://teams.microsoft.com/meet/235127563810896?p=QPmvOOSo4HBLKeHFY8 | Meeting ID: 235 127 563 810 896 | Passcode: aa3FE2AM | Contact: Kelly Cobian (cobiankl@dph.sc.gov). ⚠️ No recording or AI tools allowed. `.ics`: `calendars/sc_newborn_screening_prebid_2026-06-04.ics`
