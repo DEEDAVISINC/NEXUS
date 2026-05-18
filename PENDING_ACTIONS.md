@@ -48,6 +48,7 @@ All pending MCO emails need audit before sending.
 | Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ Weekend |
 | Texas Medicaid enrollment | TMHP | ⬜ Weekend |
 | Molina Ohio portal submission | Provider Contracting Guide | ⬜ Weekend |
+| **Maryland eMMA registration** | emma.maryland.gov | ⬜ TODO — missed NEMT RFP (BPM056475) May 14. Complete to catch future MD opportunities. |
 
 ---
 

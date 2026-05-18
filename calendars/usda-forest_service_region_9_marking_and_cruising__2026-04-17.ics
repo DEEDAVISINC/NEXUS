@@ -3,15 +3,15 @@ VERSION:2.0
 PRODID:-//DEE DAVIS INC//NEXUS//EN
 BEGIN:VEVENT
 SUMMARY:🚨 BID DEADLINE: USDA-Forest Service Region 9 Marking and Cruisi
- ng BPA Call. Otter Timber Marking/Cruising on Ottawa 
+ ng BPA Call.  Jackalope Timber Marking/Cruising on Ot
 DTSTART:20260417T000000
 DTEND:20260417T010000
-DTSTAMP:20260517T220119Z
-UID:recxdgdTNcl2pzdsn@nexus.deedavis.biz
+DTSTAMP:20260517T230116Z
+UID:recMwBVm0JTmtIGdN@nexus.deedavis.biz
 DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: USDA-Forest Service Region 9
-  Marking and Cruising BPA Call. Otter Timber Marking/Cruising on Ottawa \n
+  Marking and Cruising BPA Call.  Jackalope Timber Marking/Cruising on Ot\n
  Agency: \nSolicitation: \nDeadline: April 17\, 2026 at 12:00 AM\n\nAIRTABL
- E RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/recxdgdTNcl2pzdsn\n\n⏰ 
+ E RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/recMwBVm0JTmtIGdN\n\n⏰ 
  REMINDERS SET:\n- 7 days before\n- 3 days before\n- 1 day before\n- Mornin
  g of deadline\n- 2 hours before deadline\n\n🎯 ACTION ITEMS:\n1. Send su
  pplier quote requests (3-5 days before)\n2. Collect all quotes (2 days bef
@@ -22,25 +22,25 @@ LOCATION:
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: USDA-Forest Service Region 9 Marking and Cruisin
- g BPA Call. Otter Timber Marking/Cruising on Ottawa 
+ g BPA Call.  Jackalope Timber Marking/Cruising on Ot
 TRIGGER:-P7D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: USDA-Forest Service Region 9 Marking and Cruisin
- g BPA Call. Otter Timber Marking/Cruising on Ottawa 
+ g BPA Call.  Jackalope Timber Marking/Cruising on Ot
 TRIGGER:-P3D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: USDA-Forest Service Region 9 Marking and Cruisin
- g BPA Call. Otter Timber Marking/Cruising on Ottawa 
+ g BPA Call.  Jackalope Timber Marking/Cruising on Ot
 TRIGGER:-P1D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: USDA-Forest Service Region 9 Marking and Cruisin
- g BPA Call. Otter Timber Marking/Cruising on Ottawa 
+ g BPA Call.  Jackalope Timber Marking/Cruising on Ot
 TRIGGER:-PT2H
 END:VALARM
 END:VEVENT
