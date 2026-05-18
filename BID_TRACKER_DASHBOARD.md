@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** May 6, 2026
+**Updated:** May 17, 2026
 
 ---
 
@@ -7,8 +7,8 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
-| **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **🔥 ACTIVE — GO** — 7,900/month · Uber Health CONFIRMED (May 13) · Need: AE call pricing + controlled substance confirm (ScriptDrop?) + LOC by May 16 · Bonfire portal · folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` |
-| **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **🔥 ACTIVE — GO** — 850/month · 70+ facilities · **BLOCKER: Need lab courier sub** (carGO Health, MEDS, Medical Services Plus) · Uber Health below 2,000/mo min · Sub outreach in SEND_TO_SUBCONTRACTOR/ · folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` |
+| **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **✅ SUBMITTED May 17, 2026 @ 3:51 PM CDT** — Bonfire portal · 7,900/month volume · Folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` · **AWAITING AWARD** |
+| **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **✅ SUBMITTED May 17, 2026 @ 6:12 PM CDT** — Confirmation **ODM0MjU1** · Bonfire portal · 850/month volume · 70+ facilities · Folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` · **AWAITING AWARD** |
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
@@ -130,3 +130,14 @@
 ---
 
 *Updated: April 5, 2026 — Oakland County HHS Medical Supplies (Oak-0000001134) added; questions Apr 15, due Apr 21 MITN.*
+
+
+## University Health Pharmacy Courier — SUBMITTED
+- **Solicitation:** RFP-226-03-068-SVC
+- **Submitted:** May 17, 2026 @ 3:51 PM CDT
+- **Confirmation Code:** ODM0MjQ0
+- **Contract Value:** ~$2M/year × 5 years = $10M lifetime
+- **DDI Margin:** ~$600K/year = $3M lifetime
+- **Status:** AWAITING AWARD DECISION
+
+

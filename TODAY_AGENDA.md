@@ -1,97 +1,53 @@
 # TODAY'S AGENDA — Sunday, May 17, 2026
 
----
+## PRIORITY 1: FIX NEXUS AUTOMATION
 
-## 🔥 HARD DEADLINE: May 18, 2026 (TOMORROW)
+**The system is broken. Fix it.**
 
-**University Health RFPs — Both due Monday 2:00 PM CDT**
-- Pharmacy Courier (RFP-226-03-068-SVC) — $4.26M/year → Roadie fulfillment ✅
-- Lab Courier (RFP-226-04-073-SVC) — $480K/year → Uber Health fulfillment ✅
+- [ ] Audit all cron scripts — identify what's running, what's broken
+- [ ] Fix Airtable field mapping (Phone, Contact Type errors)
+- [ ] Consolidate to ONE mining script with ONE output file
+- [ ] Test that results actually appear in `DAILY_OPPORTUNITIES.md`
+- [ ] Verify I can read and present results at session start
 
----
-
-## TODAY'S PRIORITIES
-
-### 1. 🔥 SUBMIT UNIVERSITY HEALTH BIDS (Final Prep)
-- [ ] Register on Bonfire portal (if not done)
-- [ ] Convert HTML responses to PDF (Cmd+P in Chrome)
-- [ ] Review all attachments one more time
-- [ ] Upload Pharmacy Courier package
-- [ ] Upload Lab Courier package
-- [ ] Save confirmation screenshots
-
-**Fulfillment Proof:**
-- Pharmacy → Roadie dashboard screenshot ✅
-- Lab → Uber Health dashboard screenshot ✅
-
-### 2. 🛠️ BUILD: PRISM Fulfillment Tracker Module (Phase 1)
-**Spec:** `PRISM/SPECS/FULFILLMENT_TRACKER_MODULE_SPEC.md`
-
-**Scope:**
-- Delivery log (platform, status, POD, timestamps)
-- Dashboard view (today's stats, SLA tracking)
-- Manual entry form
-- CSV bulk import
-- Quick links to Uber Health / Roadie / DoorDash dashboards
-
-**Why NOW:** Core DDI infrastructure for MCOs, VITAL, HAVEN, University Health, and all future logistics contracts.
-
-### 3. CHECK FOR JEFF METZ RESPONSE
-- Follow-up email sent Saturday night
-- If response: Review Uber Health pricing / confirmation
-- If no response: Proceed with Roadie for pharmacy, Uber for lab
-
-### 4. STUDY ROADIE PLATFORM
-- Explore dashboard features
-- Test "Create A Delivery" flow
-- Understand pricing structure
-- Document for operations
+**Goal:** When Dee says "good morning" Monday, she sees opportunities matched to partners. Automatically. Without asking.
 
 ---
 
-## FULFILLMENT PLATFORM STATUS
+## PARTNER STATUS
 
-| Platform | Status | Use For |
-|----------|--------|---------|
-| **Uber Health** | ✅ Active | Lab Courier |
-| **Roadie** | ✅ Active | Pharmacy Courier |
-| **DoorDash Drive** | ⏳ Pending callback Monday | Future / backup |
+**12 partners ready. 0 contracts using them.**
 
----
-
-## MEETINGS
-
-None scheduled.
-
----
-
-## WAITING ON
-
-| Item | From | Status |
-|------|------|--------|
-| Uber Health confirmation | Jeff Metz | Email sent Sat night |
-| DoorDash Drive callback | DoorDash sales | Contact form submitted |
+| Partner | Status | Needs |
+|---------|--------|-------|
+| NCS | ✅ Active | Background screening contracts |
+| 12PanelNow | ✅ Approved | On-site testing contracts |
+| Quest | ⏳ Pending | Drug testing programs |
+| AMRO | ✅ Active | Drug testing contracts |
+| DDC | ✅ Active | DNA testing contracts |
+| Concentra | ✅ Active | DOT physicals, occ health |
+| Lakota | ✅ Active | Fingerprinting contracts |
+| Uber Health | ✅ Active | NEMT, pharmacy courier |
+| Roadie | ✅ Active | Pharmacy, lab courier |
+| DoorDash | ⏳ Pending | Delivery contracts |
+| Airspace | 🆕 Ready | AOG, critical logistics |
+| eScreen | ⏳ Pending | Testing platform contracts |
 
 ---
 
-## MONDAY SUBMISSION CHECKLIST
+## NCS SETUP — Due June 3
 
-### Pharmacy Courier (RFP-226-03-068-SVC)
-- [x] Quote Response built
-- [x] Capability Statement built
-- [x] Pricing sheet complete ($43 scheduled)
-- [x] Exhibit D answers ready
-- [x] Exhibit F references ready
-- [x] Fulfillment partner active (Roadie)
-- [ ] Register Bonfire
-- [ ] Upload and submit
-
-### Lab Courier (RFP-226-04-073-SVC)
-- [x] Quote Response built
-- [x] Fulfillment partner active (Uber Health)
-- [ ] Register Bonfire
-- [ ] Upload and submit
+- [x] Logo sent to Mark McFadin
+- [ ] Training call — waiting on Mark to schedule
+- [ ] Add NCS link to deedavis.biz
 
 ---
 
-*Updated May 16, 2026 @ 10:09 PM ET — NEXUS*
+## OTHER
+
+- University Health RFP status
+- Jeff Metz / Uber Health follow-up if needed
+
+---
+
+*Pushed to git: 12:21 AM*

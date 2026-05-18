@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 16, 2026 @ 10:10 PM ET
+**Last Updated:** May 17, 2026 @ 7:15 PM ET
 
 ---
 
@@ -15,15 +15,15 @@
 
 ---
 
-## 🔥 ACTIVE BIDS — DUE MAY 18, 2026 (MONDAY)
+## ✅ SUBMITTED — AWAITING AWARD (UNIVERSITY HEALTH, SAN ANTONIO)
 
-| Opportunity | Agency | Annual Revenue | DDI Margin | Win Prob | Fulfillment |
-|-------------|--------|----------------|------------|----------|-------------|
-| **Pharmacy Courier** | University Health (San Antonio) | **$4.26M** | **$2.0M (47%)** | 55% | ✅ Roadie ACTIVE |
-| **Lab Courier** | University Health (San Antonio) | $480K | $144K (30%) | 45% | ✅ Uber Health ACTIVE |
-| **Combined UH** | — | **$4.74M** | **$2.15M** | — | **5-year lifetime: $23.7M revenue / $10.7M margin** |
+| Opportunity | Solicitation | Submitted | Confirmation | Annual Revenue | DDI Margin | Win Prob | Fulfillment |
+|-------------|--------------|-----------|--------------|----------------|------------|----------|-------------|
+| **Pharmacy Courier** | RFP-226-03-068-SVC | May 17 @ 3:51 PM CDT | (logged) | **$4.26M** | **$2.0M (47%)** | 55% | Vendor-neutral fulfillment layer |
+| **Lab Courier** | RFP-226-04-073-SVC | May 17 @ 6:12 PM CDT | **ODM0MjU1** | $480K | $144K (30%) | 45% | Vendor-neutral fulfillment layer |
+| **Combined UH** | — | — | — | **$4.74M** | **$2.15M** | — | **5-year lifetime: $23.7M revenue / $10.7M margin** |
 
-**Pricing Final:** $43.00 scheduled (pharmacy), zone-based matrix complete
+**Pricing Final:** $43.00 scheduled (pharmacy), zone-based matrix (lab) — both locked at submission
 
 ---
 
