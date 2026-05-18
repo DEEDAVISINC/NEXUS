@@ -209,12 +209,32 @@ Only add if NCS collection network is insufficient:
 
 ---
 
-## THE REAL "UBER OF DRUG TESTING" FOR DDI
+## DDI C/TPA COLLECTION STRATEGY
 
-**NCS is already it.** No setup fees. No monthly minimums. Background + drug testing bundled. Co-branded portal. DDI bills client, NCS invoices DDI.
+**See full strategy:** `NEXUS_LEARNING/DDI_DRUG_TESTING_CTPA_STRATEGY.md`
 
-Don't pay to access collection networks. Use what's already working:
-1. **NCS** — Primary for background + drug (already partnered)
-2. **AMRO** — MRO at $4/review (already partnered)
-3. **Quest** — Secondary for high-volume C/TPA or Quest-specific requests
-4. **Concentra** — Add later for DOT physicals if trucking volume grows
+**DDI is the broker. Win the contract, dispatch the work, keep 30-50%+.**
+
+### Three Fulfillment Models (by margin)
+
+| Model | DDI Margin | Best For |
+|---|---|---|
+| **1099 Collectors** | 55-70% | Local contracts, scheduled collective events |
+| **Sub Collection Company** | 40-50% | New markets, guaranteed coverage |
+| **National Network** | 30-45% | Out-of-state, overflow, urgent |
+
+### DDI Sets the Rate
+
+- 1099 Collectors: $35/collection, $200/collective event
+- Collection Companies: $45/collection, $350/collective event
+- DDI charges client: $75-125/test
+- **DDI keeps the spread**
+
+### Current Partners
+
+1. **AMRO** — MRO at $4/review (already partnered)
+2. **Quest** — Lab processing, PSC network (already partnered)
+3. **NCS** — Background + drug bundled (already partnered, but thin margins on drug-only)
+4. **Collection Network** — TBD (eScreen, On-Time, 24/7 Onsite for national coverage)
+5. **Local 1099 Collectors** — TBD (recruit in MI, TX)
+6. **Local Collection Companies** — TBD (sub for mobile)

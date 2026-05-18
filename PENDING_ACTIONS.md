@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 17, 2026 @ 11:40 PM ET
+**Last Updated:** May 18, 2026 @ 12:20 AM ET
 
 ---
 
@@ -92,6 +92,24 @@ All pending MCO emails need audit before sending.
 | Bennett Emfinger | Alabama Medicaid NET | May 12 | May 26 (14 days) |
 | Kristen Halsey | CareSource Ohio | May 13 | May 20 (7 days) — SENT full service pitch |
 | Natalie Lukaszewicz | Buckeye Health Plan / Centene | May 13 | Mid-July 2026 (Q3) — "network closed, reach out later this year" |
+
+---
+
+## 🧪 DRUG TESTING C/TPA — BUILD COLLECTION NETWORK
+
+**Strategy doc:** `NEXUS_LEARNING/DDI_DRUG_TESTING_CTPA_STRATEGY.md`
+
+| Task | Priority | Status |
+|---|---|---|
+| Contact eScreen for C/TPA partner pricing | Medium | ⬜ TODO — National network for overflow |
+| Contact On-Time Screening for fleet event pricing | Medium | ⬜ TODO — Trucking collective events |
+| Contact 24/7 Onsite for mobile dispatch pricing | Medium | ⬜ TODO — Urgent/post-accident |
+| Draft 1099 Collector Agreement | High | ⬜ TODO — For local collectors |
+| Draft Collection Company Subcontract Agreement | High | ⬜ TODO — For sub collection companies |
+| Post collector job listing (MI, TX) | Medium | ⬜ TODO — Recruit local 1099 |
+| Identify small collection companies in metro Detroit | Medium | ⬜ TODO — Sub for mobile |
+| Build prospect list from FMCSA SAFER | Medium | ⬜ TODO — Target 50-200 driver fleets |
+| **Complete NCS training** | **⚠️ June 3** | ⬜ TODO — Background + drug portal |
 
 ---
 
