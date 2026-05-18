@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 17, 2026 @ 7:15 PM ET
+**Last Updated:** May 18, 2026 @ 12:25 AM ET
 
 ---
 
@@ -92,24 +92,50 @@
 
 ---
 
+## 🧪 DRUG TESTING C/TPA — NEW PIPELINE (Building)
+
+**Strategy doc:** `NEXUS_LEARNING/DDI_DRUG_TESTING_CTPA_STRATEGY.md`
+
+| Target Segment | Est. Contracts | Annual Revenue/Contract | Total Annual | DDI Margin |
+|---|---|---|---|---|
+| **Trucking (50-200 drivers)** | 10 fleets | $35K | $350K | $250K (71%) |
+| **Trucking (200-500 drivers)** | 5 fleets | $75K | $375K | $270K (72%) |
+| **Trucking (500+ drivers)** | 2 fleets | $150K | $300K | $200K (67%) |
+| **Transit/Municipal** | 3 contracts | $50K | $150K | $100K (67%) |
+| **TOTAL DRUG TESTING** | 20 contracts | — | **$1.175M** | **$820K (70%)** |
+
+**Fulfillment Model:** DDI is C/TPA. 1099 collectors + sub collection companies do the work. 50-70% margin.
+
+**Partners Ready:**
+- ✅ AMRO (MRO @ $4/review)
+- ✅ Quest Diagnostics (lab)
+- ✅ NCS (background + drug bundled)
+- ⬜ Collection network (eScreen, On-Time, 24/7 Onsite — evaluate)
+- ⬜ Local 1099 collectors (recruit)
+
+---
+
 ## STRONGEST LEADS
 
-1. **University Health (San Antonio)** — $4.74M/year active bids due MONDAY. Roadie + Uber Health fulfillment CONFIRMED.
+1. **University Health (San Antonio)** — $4.74M/year SUBMITTED. Roadie + Uber Health fulfillment CONFIRMED.
 2. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
 3. **Humana Louisiana** — Active MI relationship. 30% win probability.
 4. **South Carolina MCOs** — Brand new dual-eligible managed care. Metro One partnership building.
+5. **Drug Testing C/TPA** — NEW. Trucking companies need DOT compliance. DDI keeps 70%.
 
 ---
 
-## TONIGHT'S WINS
+## TONIGHT'S WORK (May 17-18)
 
-- ✅ Roadie account ACTIVE — pharmacy courier fulfillment secured
-- ✅ DoorDash Drive contact submitted — third platform in pipeline
-- ✅ Pricing finalized at $43.00 scheduled (market rate, sustainable)
-- ✅ Win strategy rules added to NEXUS
-- ✅ PRISM Fulfillment Tracker spec created (build tomorrow)
-- ✅ All bid documents ready for Monday submission
+- ✅ Drug Testing C/TPA Strategy documented (3 fulfillment models, pricing, margins)
+- ✅ NEMT underserved area mining expanded (nationwide)
+- ✅ Courier search expanded (Medical, Lab, Pharmacy, Legal)
+- ✅ Drug testing search expanded (services + supplies)
+- ✅ Commercial trucking strategy documented
+- ✅ NCS confirmed as drug testing partner (background + drug bundled)
+- ✅ Collection network analysis completed
+- ✅ VIA Transit drug testing = NO-GO (low value)
 
 ---
 
-**University Health alone is $10.7M in DDI margin over 5 years. You have the fulfillment. You have the pricing. You have the documents. Submit Monday and execute.**
+**University Health is $10.7M margin over 5 years. Drug testing C/TPA is $820K/year at 70% margin. Both are TPA models — win contracts, dispatch work, keep the spread.**

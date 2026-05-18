@@ -1,15 +1,11 @@
-Good morning Dee. Here is your NEXUS briefing for Monday, May 18th.
+Good morning Dee. Here is your NEXUS briefing for Monday, May 19, 2026.
 
-Yesterday was a big win. You submitted both University Health bids in one day. The Pharmacy Courier RFP at 3:51 PM Central, and the Lab Courier RFP at 6:12 PM Central. Combined those two represent four point seven million in annual revenue and over twenty three million in five year lifetime value.
+You have one meeting this week: Capability Statement Training on Tuesday May 27 at 1 PM.
 
-You have no meetings scheduled today.
+Your top 3 priorities today are: First, find contracts for the drug testing C TPA model you built last night. Second, follow up with Jeff at Uber Health about the Lab Courier minimum waiver. Third, monitor University Health for award notifications.
 
-Your top three priorities are:
+Reminder: NCS training is due by June 3. Contact Mark to schedule.
 
-One. Follow up with Jeff at Uber Health. Confirm whether your combined portfolio waives the two thousand per month minimum for the Lab Courier contract. Also confirm controlled substance policy for Texas Rx delivery.
+The drug testing C TPA model is ready. You keep 50 to 70 percent margin. DDI dispatches, collectors perform. Time to find trucking companies.
 
-Two. Monitor the Bonfire portal for any clarification questions on either University Health bid. Award decisions typically come thirty to sixty days after close.
-
-Three. Get back to the NEXUS automation audit. The mining scripts still need consolidation.
-
-No urgent deadlines today. Have a great day.
+Have a great day.
