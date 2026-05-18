@@ -208,6 +208,8 @@
 
 ## 2026-06-01 — Monday
 
+- **10:00 AM ET** — 📋 **TARGET: NC Secretary of State Registration (NEMT TPA)** — Register DDI with NC SOS. Required before NCTracks enrollment. Path: ncsos.gov. DDI enrolling as Transportation Broker (347E00000X) for NEMT TPA model. `.ics`: `calendars/nc_sos_registration_nemt_2026-06-01.ics`
+
 - **12:00 PM ET** — 🔥 **CHECK #2: Michigan NEMT Broker Recompete** — If no RFP posted by today, call MDHHS Procurement (517-335-5100). Ask about recompete status for contract MA190000000912 (ModivCare, expires July 31). DDI has HAP CareSource proof of concept. `.ics`: `calendars/modivcare_nemt_recompete_check2_2026-06-01.ics`
 
 - **12:00 PM ET** — 📧 **FOLLOW-UP: Alina Pabin (BCBSM)** — If no meeting scheduled by Memorial Day week, send follow-up email to apabin@mibluecrosscomplete.com. Template: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/SCHEDULE_EMAIL_TO_ALINA.md`. `.ics`: `calendars/bcbsm_alina_followup_2026-06-01.ics`
@@ -226,6 +228,20 @@
 
 ---
 
+## 2026-06-15 — Sunday
+
+- **10:00 AM ET** — 📋 **TARGET: NC NCTracks Enrollment (Transportation Broker 347E00000X)** — Submit NCTracks enrollment application. DDI's path to NC NEMT as TPA. After enrollment, pursue MCO contracts: AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya. `.ics`: `calendars/nc_nctracks_enrollment_nemt_2026-06-15.ics`
+
+- **2:00 PM ET** — 📧 **TARGET: Arizona MCO NEMT Outreach** — AZ has no state-level NEMT TPA enrollment. DDI's path = MCO contracts. Targets: Mercy Care, UHC AZ, Banner-University, Arizona Complete Health, Care1st. Offer NEMT TPA services. `.ics`: `calendars/az_mco_nemt_outreach_2026-06-15.ics`
+
+---
+
 ## 2026-06-16 — Tuesday
 
 - **Due by 3:00 PM ET (2:00 PM CT)** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374** — San Antonio TX. IDIQ contract. FTA-regulated (49 CFR Part 655). Submit via via.sbecompliance.com. Folder: `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`. `.ics`: `calendars/via_transit_drug_testing_2026-06-16.ics`
+
+---
+
+## 2026-09-15 — Monday
+
+- **Due by 5:00 PM CT** — 🔥 **Texas HHSC NEMT Open Enrollment (HHS0016482) — FINAL DEADLINE** — DDI applying as TPA prime, subcontracting ALL transport to Uber Health + local NEMT. Requirements: TX SOS registration, TMHP enrollment, insurance certs, HUB subcontracting plan, key personnel. Reimbursement: Metro $32.38, Suburban $59.64, Rural $76.22 per one-way leg. `.ics`: `calendars/texas_hhsc_nemt_oe_2026-09-15.ics`

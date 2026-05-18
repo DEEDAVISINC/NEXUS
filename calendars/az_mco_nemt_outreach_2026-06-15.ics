@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:az-mco-nemt-outreach-20260615@deedavis.biz
+DTSTAMP:20260517T234000Z
+DTSTART;TZID=America/Detroit:20260615T140000
+DTEND;TZID=America/Detroit:20260615T150000
+SUMMARY:📧 TARGET: Arizona MCO NEMT Outreach (TPA Services)
+DESCRIPTION:Arizona has no state-level NEMT TPA enrollment. DDI's path is MCO contracts. Targets: Mercy Care, UnitedHealthcare Community Plan AZ, Banner-University Family Care, Arizona Complete Health, Care1st. Offer NEMT TPA services to their existing operations.
+LOCATION:Email outreach
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:AZ MCO outreach target in 3 days
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:nc-sos-registration-nemt-20260601@deedavis.biz
+DTSTAMP:20260517T234000Z
+DTSTART;TZID=America/Detroit:20260601T100000
+DTEND;TZID=America/Detroit:20260601T110000
+SUMMARY:📋 TARGET: NC Secretary of State Registration (NEMT TPA)
+DESCRIPTION:Register DDI with North Carolina Secretary of State. Required before NCTracks enrollment. Path: ncsos.gov. DDI enrolling as Transportation Broker (347E00000X) for NEMT TPA model.
+LOCATION:Online - ncsos.gov
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:NC SOS Registration target in 3 days
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

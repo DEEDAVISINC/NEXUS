@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:nc-nctracks-enrollment-nemt-20260615@deedavis.biz
+DTSTAMP:20260517T234000Z
+DTSTART;TZID=America/Detroit:20260615T100000
+DTEND;TZID=America/Detroit:20260615T110000
+SUMMARY:📋 TARGET: NC NCTracks Enrollment (Transportation Broker 347E00000X)
+DESCRIPTION:Submit NCTracks enrollment application as Transportation Broker (347E00000X). This is DDI's path to NC NEMT as TPA. After enrollment, pursue MCO contracts: AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya.
+LOCATION:Online - nctracks.nc.gov
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:NCTracks enrollment target in 3 days
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

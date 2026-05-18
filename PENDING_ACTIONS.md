@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 12, 2026 @ 10:36 PM ET
+**Last Updated:** May 17, 2026 @ 11:40 PM ET
 
 ---
 
@@ -49,6 +49,18 @@ All pending MCO emails need audit before sending.
 | Texas Medicaid enrollment | TMHP | ⬜ Weekend |
 | Molina Ohio portal submission | Provider Contracting Guide | ⬜ Weekend |
 | **Maryland eMMA registration** | emma.maryland.gov | ⬜ TODO — missed NEMT RFP (BPM056475) May 14. Complete to catch future MD opportunities. |
+
+---
+
+## 🚐 NEMT STATE ENROLLMENT — TPA MODEL
+
+| State | Task | Portal/Path | Deadline | Status |
+|---|---|---|---|---|
+| **Texas** | HHSC NEMT Open Enrollment (HHS0016482) | TMHP + TX SOS | **Sept 15, 2026** | ⬜ TODO — TPA prime, sub to Uber Health |
+| **North Carolina** | NC SOS Registration | ncsos.gov | Target: June 2026 | ⬜ TODO |
+| **North Carolina** | NCTracks Enrollment (Transportation Broker 347E00000X) | nctracks.nc.gov | Target: June 2026 | ⬜ TODO — after SOS |
+| **North Carolina** | MCO Outreach (AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya) | Direct contact | Ongoing | ⬜ TODO — after NCTracks |
+| **Arizona** | MCO Outreach (Mercy Care, UHC AZ, Banner-University, Arizona Complete Health) | Direct contact | Ongoing | ⬜ TODO — no state TPA enrollment available |
 
 ---
 

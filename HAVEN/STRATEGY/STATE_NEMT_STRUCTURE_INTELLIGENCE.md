@@ -1,5 +1,5 @@
 # STATE NEMT STRUCTURE INTELLIGENCE
-**Updated:** May 14, 2026
+**Updated:** May 17, 2026
 **Purpose:** Understand how NEMT is structured in each state — determines DDI's path (TPA prime vs MCO-only)
 
 ---
@@ -213,6 +213,7 @@ In broker/MCO states, DDI's path is **MCO contracts for HAVEN services**.
 |-------|-------------|--------|
 | **Michigan** | FFS via CHAMPS | ✅ **ENROLLED** — Can bill FFS NEMT now |
 | **Texas** | HHSC OE (HHS0016482) | ⬜ Pursue — closes Sept 15, 2026 |
+| **North Carolina** | NCTracks (Transportation Broker 347E00000X) | ⬜ Target: June 2026 |
 
 ### States Where DDI = MCO Contracts Only
 | State | Reason | Path |
@@ -223,12 +224,65 @@ In broker/MCO states, DDI's path is **MCO contracts for HAVEN services**.
 | Georgia | Statewide broker (Verida) | MCO contracts for HAVEN |
 | Mississippi | Statewide broker (Modivcare) | MCO contracts for HAVEN |
 | Alabama | State Medicaid + MCOs | MCO contracts for HAVEN |
+| **Arizona** | No state TPA enrollment (PT-28 = vehicle operators only) | MCO contracts — target June 2026 |
 
 ### States to Research Further
 | State | Notes |
 |-------|-------|
 | South Carolina | Has state enrollment — explore as TPA option |
 | Louisiana | Research NEMT structure |
+
+---
+
+### NORTH CAROLINA — TRANSPORTATION BROKER PATH ✅
+
+**Structure:** MCOs manage NEMT + Transportation Broker enrollment available
+
+**State Enrollment (TPA Path):**
+- Portal: nctracks.nc.gov
+- Taxonomy: **347E00000X (Transportation Broker)** — THIS IS DDI's LANE
+- Requires: NC Secretary of State registration first
+- Process: NCTracks enrollment → MCO contracts
+
+**Target MCOs (after NCTracks enrollment):**
+- AmeriHealth Caritas NC
+- Carolina Complete Health
+- Healthy Blue
+- UnitedHealthcare Community Plan NC
+- Alliance Health
+- Partners Health Management
+- Trillium Health Resources
+- Vaya Total Care
+
+**DDI Path:** 
+1. Register with NC Secretary of State (target: June 1, 2026)
+2. Enroll in NCTracks as Transportation Broker (target: June 15, 2026)
+3. Pursue MCO contracts for NEMT TPA services
+
+**Key Finding:** NC has a specific taxonomy code for Transportation Brokers — companies that arrange transportation without operating vehicles. This is DDI's TPA model.
+
+---
+
+### ARIZONA — MCO-ONLY (No State TPA Enrollment)
+
+**Structure:** MCO managed care — no state-level NEMT TPA enrollment
+
+**State NEMT:** Arizona explored an NEMT Broker model (2014 RFI with MTM, Logisticare, etc.) but primarily for tribal FFS populations. Current PT-28 enrollment is for direct transportation providers (requires vehicles, drivers, ADOT permits) — NOT TPAs.
+
+**DDI Path:** MCO contracts only — no state TPA opening
+
+**Target MCOs:**
+- Mercy Care (Arizona)
+- UnitedHealthcare Community Plan AZ
+- Banner-University Family Care
+- Arizona Complete Health
+- Care1st Health Plan
+
+**Target Date:** MCO outreach by June 15, 2026
+
+**Key Finding:** Arizona's PT-28 provider enrollment requires actual vehicle operations with company logos, driver employment, and site visits. DDI's zero-fleet TPA model doesn't fit state enrollment. MCO contracts are the path.
+
+---
 
 ### States Clarified
 | State | Finding |
@@ -265,5 +319,5 @@ In broker/MCO states, DDI's path is **MCO contracts for HAVEN services**.
 
 ---
 
-*Last Updated: May 14, 2026*
-*Source: Web research on state Medicaid NEMT structures*
+*Last Updated: May 17, 2026*
+*Source: Web research on state Medicaid NEMT structures, NCTracks enrollment documentation, Arizona AHCCCS research*
