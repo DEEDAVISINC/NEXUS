@@ -1,25 +1,55 @@
-# TODAY'S AGENDA — Sunday, May 17, 2026
+# TODAY'S AGENDA — Monday, May 18, 2026
 
-## PRIORITY 1: FIX NEXUS AUTOMATION
+## YESTERDAY'S WINS (May 17)
+- ✅ **University Health Pharmacy Courier** (RFP-226-03-068-SVC) — SUBMITTED 3:51 PM CDT
+- ✅ **University Health Lab Courier** (RFP-226-04-073-SVC) — SUBMITTED 6:12 PM CDT · Confirmation **ODM0MjU1**
+- Combined pipeline impact: **$4.74M annual / $23.7M 5yr lifetime**
 
-**The system is broken. Fix it.**
+---
+
+## PRIORITY 1: FOLLOW-UP — JEFF AT UBER HEALTH
+
+**CRITICAL OPEN ITEM**
+
+- [ ] Ask Jeff if Uber Health portfolio (Pharmacy + Lab combined) waives the 2,000/mo minimum for the Lab Courier RFP
+- [ ] Confirm controlled substance policy for TX Rx delivery (still pending from May 13 call)
+- [ ] Get BAA, T&Cs, Driver Safety Deck from Jeff
+
+**Why it matters:** If you win Lab Courier and Uber Health enforces the 2,000/mo minimum on the lab volume (850/mo) alone, you need a backup sub identified BEFORE award. Don't wait until award to find out.
+
+---
+
+## PRIORITY 2: UNIVERSITY HEALTH AWARD MONITORING
+
+| Bid | Submitted | Award Window |
+|---|---|---|
+| Pharmacy Courier | May 17 | 30-60 days (mid-June to mid-July) |
+| Lab Courier | May 17 | 30-60 days (mid-June to mid-July) |
+
+- [ ] Watch Bonfire for clarification questions or shortlist notifications
+- [ ] Monitor email for award/non-award notice
+
+---
+
+## PRIORITY 3: NEXUS AUTOMATION AUDIT (CARRIED FROM YESTERDAY)
+
+The system needs a fix-it pass — but UH submissions came first. Now back to this.
 
 - [ ] Audit all cron scripts — identify what's running, what's broken
 - [ ] Fix Airtable field mapping (Phone, Contact Type errors)
 - [ ] Consolidate to ONE mining script with ONE output file
 - [ ] Test that results actually appear in `DAILY_OPPORTUNITIES.md`
-- [ ] Verify I can read and present results at session start
-
-**Goal:** When Dee says "good morning" Monday, she sees opportunities matched to partners. Automatically. Without asking.
 
 ---
 
 ## PARTNER STATUS
 
-**12 partners ready. 0 contracts using them.**
+**12 partners ready. UH submissions are the first to actually use Roadie + Uber Health together.**
 
 | Partner | Status | Needs |
 |---------|--------|-------|
+| Roadie | ✅ Active | NOW DEPLOYED — UH Pharmacy primary fulfillment |
+| Uber Health | ✅ Active | NOW DEPLOYED — UH Pharmacy backup + Lab pending min waiver |
 | NCS | ✅ Active | Background screening contracts |
 | 12PanelNow | ✅ Approved | On-site testing contracts |
 | Quest | ⏳ Pending | Drug testing programs |
@@ -27,27 +57,23 @@
 | DDC | ✅ Active | DNA testing contracts |
 | Concentra | ✅ Active | DOT physicals, occ health |
 | Lakota | ✅ Active | Fingerprinting contracts |
-| Uber Health | ✅ Active | NEMT, pharmacy courier |
-| Roadie | ✅ Active | Pharmacy, lab courier |
-| DoorDash | ⏳ Pending | Delivery contracts |
-| Airspace | 🆕 Ready | AOG, critical logistics |
-| eScreen | ⏳ Pending | Testing platform contracts |
+| eScreen | ⏳ Pending | Drug testing management |
+| Airspace | ✅ Ready | AOG, critical logistics |
+| DoorDash Drive | ⏳ Pending | Future / backup |
 
 ---
 
-## NCS SETUP — Due June 3
+## OPEN BIDS (NOT YET DUE)
 
-- [x] Logo sent to Mark McFadin
-- [ ] Training call — waiting on Mark to schedule
-- [ ] Add NCS link to deedavis.biz
-
----
-
-## OTHER
-
-- University Health RFP status
-- Jeff Metz / Uber Health follow-up if needed
+| Bid | Deadline | Status |
+|---|---|---|
+| DHS CBP Medical Support (70B06C26R00000017) | Phase II TBD | Phase I submitted |
+| KY HFS Genetic Parentage / DNA (26-478HFS) | TBD | Active |
 
 ---
 
-*Pushed to git: 12:21 AM*
+## START THE DAY WITH
+
+1. Email Jeff (Uber Health) about Lab Courier minimum waiver
+2. Check Bonfire portal for any UH clarification questions
+3. Then back to NEXUS automation audit
