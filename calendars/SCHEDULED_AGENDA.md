@@ -238,7 +238,7 @@
 
 ## 2026-06-16 — Tuesday
 
-- **Due by 3:00 PM ET (2:00 PM CT)** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374** — San Antonio TX. IDIQ contract. FTA-regulated (49 CFR Part 655). Submit via via.sbecompliance.com. Folder: `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`. `.ics`: `calendars/via_transit_drug_testing_2026-06-16.ics`
+- ~~**Due by 3:00 PM ET (2:00 PM CT)** — VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374~~ — **NO-GO.** Contract value (~$73K/yr) too low to justify TX SOS registration + setup costs. AMRO MRO = $4.00 but margins still thin. Revisit TX drug testing when HHSC NEMT OE pursued.
 
 ---
 
