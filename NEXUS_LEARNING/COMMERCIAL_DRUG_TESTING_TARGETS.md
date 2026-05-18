@@ -15,7 +15,7 @@
 - SAP for return-to-duty
 - Record-keeping for 5+ years
 
-**DDI is a TPA — Quest does collections, AMRO does MRO. DDI can handle ANY fleet size.**
+**DDI is a TPA — NCS (primary) + Quest (volume) do collections, AMRO does MRO. DDI can handle ANY fleet size. No setup fees with NCS.**
 
 **Value prop for ALL companies:**
 - Program management and compliance oversight
@@ -32,16 +32,25 @@
 
 ## DDI DRUG TESTING SERVICES
 
-| Service | DDI Role | Fulfillment | DDI Pricing |
-|---|---|---|---|
-| **Consortium Membership** | Program admin, random selection, record-keeping | DDI direct | $75-150/driver/year |
-| **Drug Tests (urine)** | Schedule, receive results | Quest Diagnostics | $45-65/test |
-| **Alcohol Tests (breath)** | Schedule, receive results | Quest/local BAT | $35-45/test |
-| **MRO Review** | Route positives to MRO | AMRO ($4/review) | $15-25/review |
-| **SAP Services** | Referral + coordination | AMRO/partner SAP | $250-400/evaluation |
-| **Clearinghouse Queries** | Pre-employment + annual | DDI direct (C/TPA access) | $10-15/query |
-| **DOT Physicals** | Schedule with CME network | National CME network | $75-125/exam |
-| **Driver Qualification Files** | DQ file management | DDI direct | $25-50/driver/year |
+| Service | DDI Role | Fulfillment | DDI Cost | DDI Pricing |
+|---|---|---|---|---|
+| **Consortium Membership** | Program admin, random selection, record-keeping | DDI direct | — | $75-150/driver/year |
+| **Drug Tests (urine)** | Schedule, receive results | **NCS (primary, no setup)** | $39/test | $45-65/test |
+| **Drug Tests (urine)** | Schedule, receive results | Quest (high volume) | $30-35/test | $45-65/test |
+| **Alcohol Tests (breath)** | Schedule, receive results | NCS/Quest/local BAT | $25-35 | $35-45/test |
+| **MRO Review** | Route positives to MRO | AMRO | $4/review | $15-25/review |
+| **SAP Services** | Referral + coordination | AMRO/partner SAP | $150-200 | $250-400/evaluation |
+| **Clearinghouse Queries** | Pre-employment + annual | DDI direct (C/TPA access) | $2.50 | $10-15/query |
+| **DOT Physicals** | Schedule with CME network | Concentra/National CME | $50-75 | $75-125/exam |
+| **Driver Qualification Files** | DQ file management | DDI direct | — | $25-50/driver/year |
+
+**PRIMARY PARTNER: NCS (National Crime Search)**
+- ✅ Already partnered (May 2026)
+- ✅ No setup fee, no monthly minimums
+- ✅ Background + drug testing in one portal
+- ✅ Co-branded: deedavisinc.nationalcrimesearch.com
+- ✅ $39/test (DDI cost) — $43+ to client
+- ✅ Same-day scheduling, instant results on some tests
 
 **Typical Small Fleet (25 drivers):**
 - Consortium: $2,500/year
@@ -56,7 +65,7 @@
 
 ## TARGET INDUSTRIES (FMCSA-Regulated)
 
-**DDI is a TPA — can handle ANY fleet size. Quest + AMRO scale infinitely.**
+**DDI is a TPA — can handle ANY fleet size. NCS + Quest + AMRO scale infinitely.**
 
 ### Large National Carriers (1,000+ drivers)
 | Company | Fleet Size | Opportunity |
@@ -187,12 +196,14 @@ Dee Davis Inc.
 
 | Factor | DDI | Typical C/TPA |
 |---|---|---|
+| **Setup Fee** | $0 (NCS = no setup fee) | $100-500 |
 | **MRO Cost** | $4/review (AMRO) | $8-15/review |
-| **Collection Network** | Quest Diagnostics (nationwide) | Regional labs |
+| **Collection Network** | NCS + Quest (nationwide) | Regional labs |
 | **Responsiveness** | Same-day setup | Days/weeks |
-| **Technology** | Real-time results, online portal | Paper/fax |
+| **Technology** | Real-time results, online portal (NCS) | Paper/fax |
 | **Clearinghouse** | Full-service queries | Extra charge or DIY |
-| **Bundle** | Drug testing + DOT physicals + DQ files | Testing only |
+| **Bundle** | Drug testing + background + DOT physicals + DQ files | Testing only |
+| **No Monthly Minimums** | ✅ Pay per test | Often require minimums |
 
 ---
 
@@ -205,7 +216,7 @@ Dee Davis Inc.
 4. **Florida** — Port/drayage + distribution
 5. **Georgia** — Atlanta logistics corridor
 
-**Expand based on Quest collection site density.**
+**Expand based on NCS + Quest collection site density.**
 
 ---
 
@@ -255,4 +266,4 @@ Dee Davis Inc.
 
 ---
 
-*Trucking companies NEED C/TPA services. DDI has Quest + AMRO + nationwide collection. This is a recurring revenue stream with minimal fulfillment complexity.*
+*Trucking companies NEED C/TPA services. DDI has NCS (no setup fee) + Quest (volume) + AMRO ($4 MRO) + nationwide collection. This is a recurring revenue stream with minimal fulfillment complexity. No paying to access collection networks — NCS is already partnered and ready.*

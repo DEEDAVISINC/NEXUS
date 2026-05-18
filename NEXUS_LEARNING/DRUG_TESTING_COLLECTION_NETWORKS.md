@@ -121,27 +121,44 @@ DDI needs collection network partners that provide:
 
 ## RECOMMENDED STRATEGY
 
-### Primary Network: Quest Diagnostics (Current)
-- ✅ Already partnered
-- ✅ 2,200+ PSCs
-- ✅ SAMHSA labs
-- ✅ Strong DOT compliance
+### PRIMARY: NCS (National Crime Search) — ALREADY PARTNERED ⭐
+**DDI has an active partnership with NCS (executed May 4, 2026)**
 
-### Add: eScreen (Abbott) as Secondary
-- 5,100 sites expands coverage
-- Tech platform is excellent (eCCF, instant testing)
-- Abbott backing = stable partner
-- Doesn't compete with Quest (uses Quest/Labcorp for lab confirmation)
+| Advantage | Detail |
+|---|---|
+| **No Setup Fee** | Already done |
+| **No Monthly Minimums** | Pay per test |
+| **Bundled Services** | Background + Drug Testing in one portal |
+| **Co-Branded Portal** | deedavisinc.nationalcrimesearch.com |
+| **Billing** | DDI bills client → NCS invoices DDI monthly |
 
-### Add: Mobile On-Demand Partner
-Pick ONE for mobile/on-site:
-- **24/7 Onsite** — Best for post-accident, after-hours
-- **On-Time Screening** — Best for high-volume trucking
+**NCS Drug Testing Pricing (DDI Cost):**
+- 5-Panel Lab-Based Urine: $39
+- Instant Onsite (25 kit min): $17.60/test
+- Oral Fluid (25 kit min): $12.40/test
 
-### Bundle Opportunity: Concentra
+**Why NCS over "pay to play" networks:**
+- No network access fees
+- No collection site fees to DDI
+- One vendor for background + drug + tenant screening
+- Already integrated — just use it
+
+### SECONDARY: Quest Diagnostics
+- Keep Quest for high-volume C/TPA clients
+- Slightly cheaper ($30-35/test) at volume
+- 2,200+ PSCs for walk-in convenience
+- Use when client specifically needs Quest
+
+### FOR DOT PHYSICALS: Concentra
 - 525 locations
 - DOT physicals + drug testing in one visit
 - Good for trucking clients who need CME exams + testing
+- NCS doesn't do physicals
+
+### FOR MOBILE ON-DEMAND: Evaluate
+Only add if NCS collection network is insufficient:
+- 24/7 Onsite — Post-accident, after-hours
+- On-Time Screening — High-volume trucking
 
 ---
 
@@ -184,14 +201,20 @@ Pick ONE for mobile/on-site:
 
 | Partner | Contact | Status | Notes |
 |---|---|---|---|
-| Quest Diagnostics | [Current rep] | ✅ Active | Primary network |
-| AMRO (MRO) | [Current rep] | ✅ Active | $4/review |
-| eScreen | TBD | ⬜ Contact | Secondary network candidate |
-| 24/7 Onsite | TBD | ⬜ Contact | Mobile on-demand |
-| On-Time Screening | TBD | ⬜ Contact | High-volume mobile |
+| **NCS (National Crime Search)** | Travis Fink (CEO) / Mark McFadin | ✅ **ACTIVE** | Background + Drug Testing — deedavisinc.nationalcrimesearch.com |
+| **AMRO (MRO)** | [Current rep] | ✅ Active | $4/review |
+| **Quest Diagnostics** | [Current rep] | ✅ Active | Secondary — use for high volume or Quest-specific requests |
 | Concentra | TBD | ⬜ Contact | DOT physical bundle |
-| Labcorp | TBD | ⬜ Contact | Backup to Quest |
+| 24/7 Onsite | TBD | ⬜ Evaluate | Only if NCS mobile is insufficient |
 
 ---
 
-*DDI doesn't need to pick just one. Build a network of partners to offer clients the best coverage and flexibility. Quest for primary, eScreen for tech/instant, mobile partner for on-site — that's the "Uber of drug testing" stack.*
+## THE REAL "UBER OF DRUG TESTING" FOR DDI
+
+**NCS is already it.** No setup fees. No monthly minimums. Background + drug testing bundled. Co-branded portal. DDI bills client, NCS invoices DDI.
+
+Don't pay to access collection networks. Use what's already working:
+1. **NCS** — Primary for background + drug (already partnered)
+2. **AMRO** — MRO at $4/review (already partnered)
+3. **Quest** — Secondary for high-volume C/TPA or Quest-specific requests
+4. **Concentra** — Add later for DOT physicals if trucking volume grows
