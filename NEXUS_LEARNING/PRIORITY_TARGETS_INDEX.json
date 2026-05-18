@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-17",
+  "last_updated": "2026-05-18",
   "priority_naics": {
     "tier_1_ready_now": [
       {
@@ -444,6 +444,155 @@
         "market_note": "Large underserved market with recurring contracts. Most areas lack sophisticated NEMT coordination. DDI TPA model fits perfectly."
       }
     ],
+    "tier_1d_courier_services": [
+      {
+        "naics": "492110",
+        "description": "Couriers and Express Delivery Services — Medical",
+        "lanes": [
+          "Medical Courier (Records, Documents, Equipment)",
+          "Hospital System Courier Routes",
+          "DME Delivery",
+          "Medical Supply Delivery"
+        ],
+        "keywords": [
+          "medical courier",
+          "healthcare courier",
+          "hospital courier",
+          "medical delivery",
+          "medical records delivery",
+          "medical document delivery",
+          "dme delivery",
+          "medical equipment delivery",
+          "medical supply delivery",
+          "organ transport",
+          "blood transport",
+          "tissue transport"
+        ],
+        "buying_agencies": [
+          "Hospital Systems (Henry Ford, Beaumont/Corewell, University Health)",
+          "Hospital Networks",
+          "Medical Centers",
+          "VA Medical Centers",
+          "DoD Military Treatment Facilities"
+        ],
+        "ddi_advantage": "TPA model + Uber Health + HIPAA + temp-controlled capability",
+        "intel_source": "Active bid: University Health Pharmacy Courier",
+        "market_note": "Recurring contracts, route-based. Hospitals need reliable HIPAA-compliant delivery."
+      },
+      {
+        "naics": "492110",
+        "description": "Couriers and Express Delivery Services — Lab/Specimen",
+        "lanes": [
+          "Lab Courier / Specimen Transport",
+          "Clinical Sample Pickup Routes",
+          "Newborn Screening Transport",
+          "Reference Lab Logistics"
+        ],
+        "keywords": [
+          "lab courier",
+          "laboratory courier",
+          "specimen transport",
+          "specimen pickup",
+          "specimen delivery",
+          "clinical specimen",
+          "clinical sample",
+          "lab sample transport",
+          "diagnostic specimen",
+          "pathology courier",
+          "reference lab",
+          "newborn screening",
+          "blood sample transport",
+          "urine sample transport"
+        ],
+        "buying_agencies": [
+          "State Public Health Laboratories",
+          "Reference Laboratories (Quest, Labcorp)",
+          "Hospital Lab Networks",
+          "County Health Departments",
+          "State Newborn Screening Programs"
+        ],
+        "ddi_advantage": "DePointe DNA lab credibility + Quest partnership + HIPAA",
+        "intel_source": "MEDICAL_COURIER_CONTRACT_TARGETS.md",
+        "market_note": "Time-sensitive, chain-of-custody critical. Cold chain capability = differentiator."
+      },
+      {
+        "naics": "492110",
+        "description": "Couriers and Express Delivery Services — Pharmacy",
+        "lanes": [
+          "Pharmacy Courier / Prescription Delivery",
+          "Specialty Pharmacy Delivery",
+          "Controlled Substance Transport",
+          "Wholesale Pharmaceutical Distribution"
+        ],
+        "keywords": [
+          "pharmacy courier",
+          "pharmacy delivery",
+          "prescription delivery",
+          "medication delivery",
+          "rx delivery",
+          "pharmaceutical delivery",
+          "pharmaceutical courier",
+          "controlled substance delivery",
+          "specialty pharmacy",
+          "mail order pharmacy",
+          "pharmacy distribution",
+          "medication distribution",
+          "pharmaceutical distribution",
+          "cold chain",
+          "temperature controlled",
+          "refrigerated delivery"
+        ],
+        "buying_agencies": [
+          "Pharmacy Chains (CVS, Walgreens, Rite Aid)",
+          "Specialty Pharmacies",
+          "Hospital Pharmacies",
+          "Long-Term Care Pharmacies",
+          "State Medicaid Pharmacy Programs",
+          "340B Covered Entities",
+          "Wholesale Distributors (Cardinal, McKesson, AmerisourceBergen)"
+        ],
+        "ddi_advantage": "HIPAA + controlled substance handling + cold chain + Uber Health",
+        "intel_source": "Active bid: University Health Pharmacy Courier",
+        "market_note": "High volume, recurring. Controlled substance handling = barrier to entry."
+      },
+      {
+        "naics": "561499",
+        "description": "All Other Business Support Services — Legal Courier",
+        "lanes": [
+          "Legal Courier / Court Filing",
+          "Process Serving",
+          "Legal Document Delivery",
+          "Court Filing Services"
+        ],
+        "keywords": [
+          "legal courier",
+          "court courier",
+          "court filing",
+          "legal document delivery",
+          "process server",
+          "process serving",
+          "legal messenger",
+          "court filing service",
+          "legal filing",
+          "document filing service",
+          "court document",
+          "legal records",
+          "subpoena service",
+          "summons service"
+        ],
+        "buying_agencies": [
+          "Law Firms",
+          "Corporate Legal Departments",
+          "Court Systems (State and Federal)",
+          "Title Companies",
+          "Insurance Companies (Claims)",
+          "Government Agencies (Legal Affairs)"
+        ],
+        "ddi_advantage": "Notary services + document handling experience + professional reliability",
+        "intel_source": "DDI service catalog expansion",
+        "market_note": "Time-sensitive, chain-of-custody for legal documents. Court deadlines are non-negotiable."
+      }
+    ],
     "tier_3_specialized": [
       {
         "naics": "621991",
@@ -586,7 +735,64 @@
     "department of corrections",
     "DOC transport",
     "jail medical transport",
-    "detainee transport"
+    "detainee transport",
+    "medical courier",
+    "healthcare courier",
+    "hospital courier",
+    "medical delivery",
+    "medical document delivery",
+    "medical records delivery",
+    "medical supply delivery",
+    "dme delivery",
+    "medical equipment delivery",
+    "organ transport",
+    "blood transport",
+    "tissue transport",
+    "lab courier",
+    "laboratory courier",
+    "specimen pickup",
+    "specimen delivery",
+    "specimen courier",
+    "clinical specimen",
+    "clinical sample",
+    "lab sample transport",
+    "diagnostic specimen",
+    "pathology courier",
+    "lab logistics",
+    "reference lab courier",
+    "newborn screening courier",
+    "blood sample transport",
+    "urine sample transport",
+    "pharmacy courier",
+    "pharmacy delivery",
+    "prescription delivery",
+    "medication delivery",
+    "rx delivery",
+    "pharmaceutical delivery",
+    "pharmaceutical courier",
+    "controlled substance delivery",
+    "specialty pharmacy delivery",
+    "mail order pharmacy",
+    "pharmacy distribution",
+    "medication distribution",
+    "pharmaceutical distribution",
+    "cold chain",
+    "temperature controlled delivery",
+    "refrigerated delivery",
+    "legal courier",
+    "court courier",
+    "court filing",
+    "legal document delivery",
+    "process server",
+    "process serving",
+    "legal messenger",
+    "court filing service",
+    "legal filing",
+    "document filing service",
+    "court document",
+    "legal records",
+    "subpoena service",
+    "summons service"
   ],
   "buying_agencies_priority": [
     "State Public Health Laboratories",

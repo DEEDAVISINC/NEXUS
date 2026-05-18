@@ -82,9 +82,33 @@ HEALTHCARE_KEYWORDS = [
     "veteran", "veterans home", "corrections", "inmate", "prisoner",
     "behavioral health", "mental health", "senior transport", "elderly",
     "tribal", "rural health", "underserved",
-    # Courier/Logistics
-    "courier", "specimen transport", "lab courier", "pharmacy delivery",
-    "medical courier", "medication delivery", "cold chain",
+    # Medical Courier
+    "medical courier", "healthcare courier", "hospital courier",
+    "medical delivery", "medical document delivery", "medical records delivery",
+    "medical supply delivery", "dme delivery", "medical equipment delivery",
+    "organ transport", "blood transport", "tissue transport",
+    # Lab Courier / Specimen Transport
+    "lab courier", "laboratory courier", "specimen transport",
+    "specimen pickup", "specimen delivery", "specimen courier",
+    "clinical specimen", "clinical sample", "lab sample",
+    "diagnostic specimen", "pathology courier", "lab logistics",
+    "reference lab", "newborn screening", "blood sample", "urine sample",
+    # Pharmacy Courier
+    "pharmacy courier", "pharmacy delivery", "prescription delivery",
+    "medication delivery", "rx delivery", "pharmaceutical delivery",
+    "pharmaceutical courier", "controlled substance delivery",
+    "specialty pharmacy", "mail order pharmacy",
+    "pharmacy distribution", "medication distribution",
+    "drug distribution", "pharmaceutical distribution",
+    "cold chain", "temperature controlled", "refrigerated delivery",
+    # Legal Courier
+    "legal courier", "court courier", "court filing",
+    "legal document delivery", "process server", "process serving",
+    "legal messenger", "court filing service", "legal filing",
+    "document filing service", "court document", "legal records",
+    "subpoena", "summons service",
+    # General Courier
+    "courier", "courier service", "delivery service",
     # Drug Testing
     "drug testing", "drug screen", "substance abuse testing",
     "occupational health", "dot testing",

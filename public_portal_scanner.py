@@ -79,6 +79,32 @@ DDI_KEYWORDS = [
     "aog", "aircraft on ground", "aviation courier",
     "jet fuel", "aviation fuel", "turbine fuel", "into-plane", "into plane",
     "jp-8", "fixed base operator", "airport fuel",
+    # Medical Courier
+    "medical courier", "healthcare courier", "hospital courier",
+    "medical delivery", "medical document delivery", "medical records delivery",
+    "medical supply delivery", "dme delivery", "medical equipment delivery",
+    "organ transport", "blood transport", "tissue transport",
+    # Lab Courier / Specimen Transport
+    "lab courier", "laboratory courier", "specimen transport",
+    "specimen pickup", "specimen delivery", "specimen courier",
+    "clinical specimen", "clinical sample", "lab sample",
+    "diagnostic specimen", "pathology courier", "lab logistics",
+    "reference lab courier", "newborn screening courier",
+    "blood sample transport", "urine sample transport",
+    # Pharmacy Courier
+    "pharmacy courier", "pharmacy delivery", "prescription delivery",
+    "medication delivery", "rx delivery", "pharmaceutical delivery",
+    "pharmaceutical courier", "controlled substance delivery",
+    "specialty pharmacy delivery", "mail order pharmacy",
+    "pharmacy distribution", "medication distribution",
+    "drug distribution", "pharmaceutical distribution",
+    "cold chain", "temperature controlled", "refrigerated delivery",
+    # Legal Courier
+    "legal courier", "court courier", "court filing",
+    "legal document delivery", "process server", "process serving",
+    "legal messenger", "court filing service", "legal filing",
+    "document filing service", "court document", "legal records",
+    "subpoena service", "summons service",
     # NEMT — Underserved Areas (nationwide)
     "medical transportation", "patient transport", "non-emergency medical",
     "paratransit", "demand response", "dial-a-ride",
