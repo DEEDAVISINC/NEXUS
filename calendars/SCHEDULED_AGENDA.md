@@ -176,9 +176,21 @@
 
 ---
 
+## 2026-05-26 — Tuesday
+
+- **5:00 PM ET** — 🔥 **INTERNAL HARD STOP — Submit Hall County GA 012-47 Drug Screen Kits & Services** — Official deadline is May 28 @ 2:00 PM ET, but Georgia GPR portal goes READ-ONLY on/after May 27 (GA@WORK transition). Must submit via GPR by today OR confirm alternate submission path with Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) before May 25. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_internal_cutoff_2026-05-26.ics`
+
+---
+
 ## 2026-05-27 — Tuesday
 
 - **1:00 PM – 2:30 PM ET** — 📋 **TRAINING: Capability Statement (APEX Accelerator)** — Macomb Regional APEX Accelerator virtual training. Topics: Essential elements, differentiators, design best practices (images, logos, color, font, layout). Zoom: https://macomb.zoom.us/s/92019644331 | Contact: apex@macomb.edu. `.ics`: `calendars/apex_capability_statement_training_2026-05-27.ics`
+
+---
+
+## 2026-05-28 — Thursday
+
+- **2:00 PM ET** — 🔥 **BID DUE: Hall County GA 012-47 Drug Screen Kits & Services (Annual Contract)** — Event PE-77129-NONST-2027-000000060 · NIGP 95207 · Buyer: Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) · Submit via GPR `ssl.doas.state.ga.us/gpr` (read-only since May 27 — confirm alternate path with Connie). Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_deadline_2026-05-28.ics`
 
 ---
 

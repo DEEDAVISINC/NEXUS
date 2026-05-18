@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../../api/client';
+import PartnerWebview from '../PartnerWebview';
+
+// Check if we're running in Electron
+const isElectron = () => {
+  return typeof window !== 'undefined' && 
+         (window as any).electronAPI?.isElectron === true;
+};
 
 interface PRISMSystemProps {
   onBackToNexus: () => void;
@@ -37,6 +44,62 @@ const SERVICE_GROUPS: { id: string; label: string; icon: string; types: string[]
   { id: 'courier',        label: 'Courier / Delivery',   icon: '📦', types: ['medical_courier', 'courier'],  color: '#6366F1', solid: '#4F46E5' },
 ];
 
+// ─── PARTNER PORTALS (Direct Login Links for Each TPA Sector) ────
+interface PartnerPortal {
+  id: string;
+  name: string;
+  url: string;
+  icon: string;
+  description: string;
+  loginType: 'dashboard' | 'portal' | 'api' | 'phone';
+  credentials?: string;
+  status: 'active' | 'pending' | 'api_only';
+}
+
+const PARTNER_PORTALS: Record<string, PartnerPortal[]> = {
+  drug_testing: [
+    { id: 'quest', name: 'Quest Diagnostics', url: 'https://employer.questdiagnostics.com', icon: '🧪', description: 'Lab results, scheduling, chain of custody', loginType: 'portal', status: 'active' },
+    { id: 'amro', name: 'AMRO (MRO Services)', url: 'https://amro.com', icon: '👨‍⚕️', description: 'MRO review status, result verification', loginType: 'portal', status: 'active' },
+    { id: 'clearinghouse', name: 'FMCSA Clearinghouse', url: 'https://clearinghouse.fmcsa.dot.gov', icon: '🚛', description: 'DOT queries, violations, reporting', loginType: 'dashboard', status: 'active' },
+    { id: 'escreen', name: 'eScreen Network', url: 'https://escreen.com', icon: '📍', description: 'Collection site network, scheduling', loginType: 'portal', status: 'active' },
+  ],
+  dna_testing: [
+    { id: 'ddc', name: 'DNA Diagnostics Center', url: 'https://dnacenter.com/professional', icon: '🧬', description: 'Case management, kit orders, results', loginType: 'portal', status: 'active' },
+  ],
+  fingerprint_bg: [
+    { id: 'ncs', name: 'National Crime Search', url: 'https://nationalcrimesearch.com', icon: '🔍', description: 'Background checks, drug screening, verifications', loginType: 'portal', status: 'active' },
+    { id: 'fieldprint', name: 'FieldPrint (if contracted)', url: 'https://fieldprintfbi.com', icon: '🖐️', description: 'FBI channeling, livescan management', loginType: 'portal', status: 'pending' },
+  ],
+  notary_legal: [
+    { id: 'zigsig', name: 'ZigSig RON Platform', url: 'https://zigsig.com', icon: '✍️', description: 'Remote Online Notarization sessions', loginType: 'dashboard', status: 'active' },
+    { id: 'notarize', name: 'Notarize.com', url: 'https://app.notarize.com', icon: '📄', description: 'Additional RON platform', loginType: 'dashboard', status: 'pending' },
+  ],
+  transport: [
+    { id: 'uber_health', name: 'Uber Health', url: 'https://health.uber.com', icon: '🚗', description: 'NEMT rides, Rx delivery, WAV transport', loginType: 'dashboard', status: 'active', credentials: 'Dashboard live since May 15, 2026' },
+    { id: 'uber_business', name: 'Uber Business Portal', url: 'https://business.uber.com', icon: '💼', description: 'Admin, reporting, expense management', loginType: 'portal', status: 'active' },
+    { id: 'doordash_drive', name: 'DoorDash Drive', url: 'https://drive.doordash.com', icon: '📦', description: 'Item delivery, pharmacy fulfillment', loginType: 'portal', status: 'pending' },
+  ],
+  field_ops: [
+    { id: 'ivueit', name: 'iVueit', url: 'https://ivueit.com', icon: '📱', description: 'Property inspections, field tasks', loginType: 'portal', status: 'active' },
+    { id: 'csfield', name: 'CS Field Services', url: 'https://csfield.com', icon: '🏠', description: 'REO, preservation dispatch', loginType: 'portal', status: 'pending' },
+  ],
+  logistics: [
+    { id: 'dat', name: 'DAT Load Board', url: 'https://one.dat.com', icon: '🚚', description: 'Load matching, carrier network', loginType: 'portal', status: 'pending' },
+    { id: 'truckstop', name: 'Truckstop.com', url: 'https://truckstop.com', icon: '📦', description: 'Load board, rate data', loginType: 'portal', status: 'pending' },
+  ],
+  background: [
+    { id: 'ncs_bg', name: 'NCS Portal', url: 'https://nationalcrimesearch.com', icon: '🔐', description: 'Full background suite, verifications', loginType: 'portal', status: 'active' },
+  ],
+  credentialing: [
+    { id: 'caqh', name: 'CAQH ProView', url: 'https://proview.caqh.org', icon: '🏥', description: 'Provider credentialing database', loginType: 'portal', status: 'pending' },
+    { id: 'npdb', name: 'NPDB', url: 'https://npdb.hrsa.gov', icon: '📋', description: 'National Practitioner Data Bank queries', loginType: 'portal', status: 'pending' },
+  ],
+  workforce: [
+    { id: 'everify', name: 'E-Verify', url: 'https://everify.gov', icon: '✅', description: 'Work authorization verification', loginType: 'dashboard', status: 'active' },
+    { id: 'clearinghouse2', name: 'FMCSA Clearinghouse', url: 'https://clearinghouse.fmcsa.dot.gov', icon: '🚛', description: 'Fleet compliance, DOT queries', loginType: 'dashboard', status: 'active' },
+  ],
+};
+
 // ─── PRISM DIVISIONS ─────────────────────────────────────────────
 interface PrismDivision {
   id: string;
@@ -48,6 +111,9 @@ interface PrismDivision {
   gradient: string;
   types: string[];
   agentSpecialties: string[];
+  portalKey: string;
+  revenueTarget: string;
+  status: 'active' | 'building';
 }
 
 const PRISM_DIVISIONS: PrismDivision[] = [
@@ -61,6 +127,9 @@ const PRISM_DIVISIONS: PrismDivision[] = [
     gradient: 'from-red-600 to-red-800',
     types: ['dot', 'non-dot', 'phlebotomy'],
     agentSpecialties: ['Collection Agent', 'BAT', 'Phlebotomist'],
+    portalKey: 'drug_testing',
+    revenueTarget: '$500K–$2M',
+    status: 'active',
   },
   {
     id: 'dna_testing',
@@ -72,17 +141,23 @@ const PRISM_DIVISIONS: PrismDivision[] = [
     gradient: 'from-purple-600 to-purple-800',
     types: ['dna'],
     agentSpecialties: ['Collection Agent', 'DNA Collector'],
+    portalKey: 'dna_testing',
+    revenueTarget: '$200K–$750K',
+    status: 'active',
   },
   {
     id: 'fingerprint_bg',
     name: 'Fingerprinting & Background',
-    subtitle: 'LiveScan • FD-258 Ink Cards • EFT • FCRA Background Checks',
+    subtitle: 'LiveScan • FD-258 Ink Cards • EFT • NCS Background Checks',
     icon: '🖐️',
     color: '#4ADE80',
     solid: '#16A34A',
     gradient: 'from-green-600 to-green-800',
     types: ['fingerprint', 'background'],
     agentSpecialties: ['Print Technician', 'Background Specialist'],
+    portalKey: 'fingerprint_bg',
+    revenueTarget: '$550K–$2M',
+    status: 'active',
   },
   {
     id: 'notary_legal',
@@ -94,17 +169,23 @@ const PRISM_DIVISIONS: PrismDivision[] = [
     gradient: 'from-pink-600 to-pink-800',
     types: ['notary', 'ron', 'apostille', 'process'],
     agentSpecialties: ['Signing Agent', 'Notary', 'Process Server'],
+    portalKey: 'notary_legal',
+    revenueTarget: '$200K–$500K',
+    status: 'active',
   },
   {
     id: 'transport',
-    name: 'Transport & Courier',
-    subtitle: 'NEMT • Rx Delivery • Medical Courier • Legal Courier • Specimen Transport',
+    name: 'NEMT & Transport',
+    subtitle: 'NEMT • Rx Delivery • Medical Courier • Legal Courier • Uber Health',
     icon: '🚐',
     color: '#14B8A6',
     solid: '#0D9488',
     gradient: 'from-teal-600 to-teal-800',
     types: ['nemt', 'rx_delivery', 'medical_courier', 'courier'],
     agentSpecialties: ['Courier', 'NEMT Driver', 'Medical Courier', 'Rx Delivery Driver'],
+    portalKey: 'transport',
+    revenueTarget: '$2M–$10M',
+    status: 'active',
   },
   {
     id: 'field_ops',
@@ -116,8 +197,128 @@ const PRISM_DIVISIONS: PrismDivision[] = [
     gradient: 'from-blue-600 to-blue-800',
     types: [],
     agentSpecialties: ['Field Inspector', 'Preservation Tech'],
+    portalKey: 'field_ops',
+    revenueTarget: '$300K–$1M',
+    status: 'active',
+  },
+  {
+    id: 'logistics',
+    name: 'Logistics & Fleet (Freight 1st)',
+    subtitle: 'Freight Brokerage • Government Courier • Last-Mile • Fleet Dispatch',
+    icon: '🚚',
+    color: '#F59E0B',
+    solid: '#D97706',
+    gradient: 'from-amber-600 to-amber-800',
+    types: ['courier'],
+    agentSpecialties: ['Driver', 'Logistics Coordinator'],
+    portalKey: 'logistics',
+    revenueTarget: '$500K–$2M',
+    status: 'active',
+  },
+  {
+    id: 'credentialing',
+    name: 'Medical Credentialing',
+    subtitle: 'Provider Licensing • CAQH • NPDB • Hospital Privileging',
+    icon: '🏥',
+    color: '#06B6D4',
+    solid: '#0891B2',
+    gradient: 'from-cyan-600 to-cyan-800',
+    types: [],
+    agentSpecialties: ['Credentialing Specialist'],
+    portalKey: 'credentialing',
+    revenueTarget: '$500K–$3M',
+    status: 'building',
+  },
+  {
+    id: 'workforce',
+    name: 'Workforce Compliance',
+    subtitle: 'DOT DQ Files • I-9/E-Verify • Occ Health • Fleet Compliance',
+    icon: '👷',
+    color: '#8B5CF6',
+    solid: '#7C3AED',
+    gradient: 'from-violet-600 to-violet-800',
+    types: ['phlebotomy'],
+    agentSpecialties: ['Compliance Admin', 'Fleet Manager'],
+    portalKey: 'workforce',
+    revenueTarget: '$750K–$4M',
+    status: 'building',
   },
 ];
+
+// ─── COMPACT TPA DIVISION ROW (Minimal accordion style) ─────────────
+const TPADivisionRow: React.FC<{
+  division: PrismDivision;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onEnterDivision: () => void;
+  orderCount: number;
+  onOpenPortal: (portal: PartnerPortal, division: PrismDivision) => void;
+}> = ({ division, isExpanded, onToggle, onEnterDivision, orderCount, onOpenPortal }) => {
+  const portals = PARTNER_PORTALS[division.portalKey] || [];
+  const activePortals = portals.filter(p => p.status === 'active');
+
+  return (
+    <div className={`border-b border-gray-700/50 ${isExpanded ? 'bg-gray-800/30' : ''}`}>
+      {/* Compact Row - Always visible */}
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-800/50 transition text-left"
+      >
+        <span className="text-xl w-8 text-center">{division.icon}</span>
+        <span className="font-semibold text-sm flex-1" style={{ color: division.color }}>{division.name}</span>
+        {division.status === 'building' && (
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-yellow-500/20 text-yellow-400">BUILD</span>
+        )}
+        {orderCount > 0 && (
+          <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: `${division.color}30`, color: division.color }}>
+            {orderCount}
+          </span>
+        )}
+        <span className="text-gray-500 text-sm">{isExpanded ? '▲' : '▼'}</span>
+      </button>
+
+      {/* Expanded Content - Compact */}
+      {isExpanded && (
+        <div className="px-4 pb-4 pt-2 ml-11 border-l-2" style={{ borderColor: division.color }}>
+          <p className="text-xs text-gray-500 mb-3">{division.subtitle}</p>
+          
+          {/* Partner Links - Open in Webview (Electron) or New Tab (Browser) */}
+          {activePortals.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {activePortals.map(portal => (
+                <button
+                  key={portal.id}
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    onOpenPortal(portal, division);
+                  }}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-gray-700 hover:bg-gray-600 transition"
+                >
+                  <span>{portal.icon}</span>
+                  <span>{portal.name}</span>
+                  {isElectron() ? (
+                    <span className="text-green-400 text-[10px]">●</span>
+                  ) : (
+                    <span className="text-gray-500">↗</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+          
+          {/* Enter Button */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onEnterDivision(); }}
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition hover:opacity-90"
+            style={{ backgroundColor: division.solid }}
+          >
+            Open Workspace →
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // ─── SERVICE-SPECIFIC INSPECTION FUNDAMENTALS ─────────────────────
 const SERVICE_INSPECTION: Record<string, { title: string; certs: string[]; fundamentals: { id: string; check: string; severity: string }[]; fatalFlaws: string[]; commonErrors: string[] }> = {
@@ -517,7 +718,40 @@ const StatCard: React.FC<{ label: string; value: string | number; sub?: string; 
 // ─── MAIN COMPONENT ────────────────────────────────────────────────
 const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
   const [activeDivision, setActiveDivision] = useState<string | null>(null);
+  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
   const [divisionSection, setDivisionSection] = useState<'overview' | 'orders' | 'agents' | 'scanbacks'>('overview');
+  
+  // Portal Webview State (for Electron embedded browser)
+  const [activePortal, setActivePortal] = useState<{
+    portal: PartnerPortal;
+    division: PrismDivision;
+  } | null>(null);
+
+  const handleOpenPortal = (portal: PartnerPortal, division: PrismDivision) => {
+    if (isElectron()) {
+      // In Electron: open in embedded webview
+      setActivePortal({ portal, division });
+    } else {
+      // In browser: open in new tab
+      window.open(portal.url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleClosePortal = () => {
+    setActivePortal(null);
+  };
+  
+  const toggleDivisionExpand = (divisionId: string) => {
+    setExpandedDivisions(prev => {
+      const next = new Set(prev);
+      if (next.has(divisionId)) {
+        next.delete(divisionId);
+      } else {
+        next.add(divisionId);
+      }
+      return next;
+    });
+  };
   const [orderView, setOrderView] = useState<'list' | 'kanban' | 'calendar'>('list');
   const [orderFilter, setOrderFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
@@ -797,7 +1031,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const filteredAgents = agentFilter === 'all' ? agents : agents.filter(a => a.status === agentFilter);
 
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen ${activePortal ? 'flex' : ''}`}>
+      {/* ─── MAIN PRISM CONTENT (full width or half width) ─── */}
+      <div className={`${activePortal ? 'w-1/2 overflow-y-auto h-[calc(100vh-73px)] border-r border-gray-700' : 'w-full'}`}>
       {/* ─── TABS ───────────────────────────────────────── */}
       <div className="bg-gray-800 border-b border-gray-700 sticky top-[73px] z-40">
         <div className="max-w-7xl mx-auto px-6">
@@ -847,270 +1083,66 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
         ════════════════════════════════════════════════════ */}
         {!activeDivision && activeTab === 'dashboard' && (
           <div>
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <h2 className="text-3xl font-bold mb-1">🎯 PRISM Command Center</h2>
-                <p className="text-gray-400">See every detail. Miss nothing. — Select a division.</p>
-              </div>
+            {/* Simplified Header */}
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold">🎯 PRISM Command Center</h2>
               <div className="flex gap-2 items-center">
                 <button onClick={() => setShowNotifPanel(!showNotifPanel)}
-                  className="relative text-gray-400 hover:text-white transition bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg">
-                  🔔
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                      {unreadCount > 9 ? '9+' : unreadCount}
-                    </span>
-                  )}
+                  className="relative text-gray-400 hover:text-white transition bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded-lg text-sm">
+                  🔔 {unreadCount > 0 && <span className="text-red-400 font-bold">{unreadCount}</span>}
                 </button>
-                <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
-                  + New Order
+                <button onClick={() => setShowNewOrderModal(true)} className="bg-orange-500 hover:bg-orange-600 px-3 py-1.5 rounded-lg font-semibold text-sm transition">
+                  + Order
                 </button>
               </div>
             </div>
 
-            {/* Cross-Division Summary */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <StatCard label="Total Active Orders" value={activeOrders.length} icon="📋" color="orange" sub="All divisions" />
-              <StatCard label="Today's Appointments" value={todayOrders.length} icon="📅" color="blue" sub="Across all divisions" />
-              <StatCard label="Awaiting Scanback" value={awaitingScanback.length} icon="📸" color="yellow" sub="Service done, no upload" />
-              <StatCard label="Errors Found" value={errorsFound.length} icon="🚨" color="red" sub="Need correction" />
-            </div>
-
-            {/* Sub / agent credentialing quote (API-backed) */}
-            <div className="mb-8 rounded-2xl border border-teal-500/35 bg-gradient-to-br from-teal-500/10 to-gray-900/80 overflow-hidden">
-              <button
-                type="button"
-                onClick={() => setCredentialingOpen(v => !v)}
-                className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left hover:bg-teal-500/10 transition"
-              >
-                <div>
-                  <h3 className="font-bold text-white text-base">🎓 Sub credentialing fees</h3>
-                  <p className="text-sm text-gray-400 mt-0.5">Quote DDI credentialing (NALI / Quest / NCS) — subs pay DDI, not the other way around.</p>
+            {/* Compact Stats Row */}
+            <div className="flex gap-4 mb-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-orange-400 font-bold">{activeOrders.length}</span>
+                <span className="text-gray-500">active</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-blue-400 font-bold">{todayOrders.length}</span>
+                <span className="text-gray-500">today</span>
+              </div>
+              {errorsFound.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-red-400 font-bold">{errorsFound.length}</span>
+                  <span className="text-gray-500">errors</span>
                 </div>
-                <span className="text-teal-400 font-semibold text-sm shrink-0">{credentialingOpen ? 'Hide ▲' : 'Expand ▼'}</span>
-              </button>
-              {credentialingOpen && (
-                <div className="px-5 pb-5 border-t border-teal-500/20">
-                  {credentialingLoad === 'loading' && <p className="text-gray-400 text-sm py-4">Loading fee catalog…</p>}
-                  {credentialingLoad === 'error' && <p className="text-red-400 text-sm py-4">Could not load /prism/router/credentialing-pricing. Is the API server running?</p>}
-                  {credentialingLoad === 'ok' && credentialingCatalog && (
-                    <div className="pt-4 space-y-4">
-                      {credentialingCatalog.policy && (
-                        <p className="text-xs text-gray-500 leading-relaxed">{String(credentialingCatalog.policy)}</p>
-                      )}
-                      <div className="flex flex-wrap gap-2">
-                        {(['package', 'bundles', 'credentials'] as const).map(m => (
-                          <button
-                            key={m}
-                            type="button"
-                            onClick={() => { setCredQuoteMode(m); setCredQuoteResult(null); }}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
-                              credQuoteMode === m ? 'bg-teal-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                            }`}
-                          >
-                            {m === 'package' ? 'Full package' : m === 'bundles' ? 'Bundles' : 'À la carte'}
-                          </button>
-                        ))}
-                      </div>
-
-                      {credQuoteMode === 'package' && credentialingCatalog.full_packages && (
-                        <div>
-                          <label className="text-xs text-gray-500 uppercase font-bold block mb-1">Full package</label>
-                          <select
-                            value={selectedFullPackage}
-                            onChange={e => setSelectedFullPackage(e.target.value)}
-                            className="w-full max-w-md bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white"
-                          >
-                            {Object.keys(credentialingCatalog.full_packages).map(pid => (
-                              <option key={pid} value={pid}>{pid.replace(/_/g, ' ')}</option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-
-                      {credQuoteMode === 'bundles' && credentialingCatalog.bundles && (
-                        <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
-                          {Object.entries(credentialingCatalog.bundles).map(([bid, row]) => {
-                            const label = (row as { label?: string })?.label || bid;
-                            const fee = (row as { ddi_credentialing_fee?: number })?.ddi_credentialing_fee;
-                            return (
-                              <label key={bid} className="flex items-start gap-2 cursor-pointer text-sm text-gray-300 hover:text-white">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedBundleIds.includes(bid)}
-                                  onChange={() => toggleCredBundle(bid)}
-                                  className="mt-1 rounded border-gray-500"
-                                />
-                                <span><span className="font-semibold text-white">{label}</span> <span className="text-teal-400">${fee}</span></span>
-                              </label>
-                            );
-                          })}
-                        </div>
-                      )}
-
-                      {credQuoteMode === 'credentials' && credentialingCatalog.credentials && (
-                        <div>
-                          <label className="text-xs text-gray-500 uppercase font-bold block mb-1">Credentials (multi-select)</label>
-                          <select
-                            multiple
-                            size={8}
-                            value={selectedCredKeys}
-                            onChange={e => {
-                              const opts = Array.from(e.target.selectedOptions).map(o => o.value);
-                              setSelectedCredKeys(opts);
-                            }}
-                            className="w-full max-w-lg bg-gray-800 border border-gray-600 rounded-lg px-2 py-2 text-sm text-white font-mono"
-                          >
-                            {Object.keys(credentialingCatalog.credentials).sort().map(ck => (
-                              <option key={ck} value={ck}>{ck}</option>
-                            ))}
-                          </select>
-                          <p className="text-[11px] text-gray-500 mt-1">Hold Cmd/Ctrl to select multiple.</p>
-                        </div>
-                      )}
-
-                      <div className="flex flex-wrap items-center gap-3">
-                        <button
-                          type="button"
-                          disabled={credQuoteLoading}
-                          onClick={() => void runCredentialQuote()}
-                          className="bg-teal-600 hover:bg-teal-500 disabled:opacity-50 px-4 py-2 rounded-lg font-semibold text-sm text-white"
-                        >
-                          {credQuoteLoading ? 'Quoting…' : 'Get quote'}
-                        </button>
-                      </div>
-
-                      {credQuoteResult && (
-                        <div className={`rounded-xl border px-4 py-3 text-sm ${credQuoteResult.error ? 'border-red-500/40 bg-red-500/10' : 'border-teal-500/40 bg-teal-500/10'}`}>
-                          {credQuoteResult.error ? (
-                            <p className="text-red-300 font-semibold">{String(credQuoteResult.error)}</p>
-                          ) : (
-                            <div className="space-y-2 text-gray-200">
-                              <p className="text-lg font-bold text-white">
-                                DDI credentialing total:{' '}
-                                <span className="text-teal-400">${String(credQuoteResult.ddi_credentialing_fee_total ?? '—')}</span>
-                              </p>
-                              {credQuoteResult.mode === 'full_package' && credQuoteResult.package_savings_vs_separate_bundles != null && Number(credQuoteResult.package_savings_vs_separate_bundles) > 0 && (
-                                <p className="text-xs text-teal-200/90">
-                                  Package savings vs buying bundles separately: ${String(credQuoteResult.package_savings_vs_separate_bundles)}
-                                </p>
-                              )}
-                              {Array.isArray(credQuoteResult.bundles_in_package) && (
-                                <ul className="text-xs text-gray-400 list-disc list-inside">
-                                  {(credQuoteResult.bundles_in_package as { label?: string; ddi_credentialing_fee?: number }[]).map((b, i) => (
-                                    <li key={i}>{b.label} — ${b.ddi_credentialing_fee}</li>
-                                  ))}
-                                </ul>
-                              )}
-                              {Array.isArray(credQuoteResult.bundles) && credQuoteResult.mode === 'bundles' && (
-                                <ul className="text-xs text-gray-400 list-disc list-inside">
-                                  {(credQuoteResult.bundles as { label?: string; ddi_credentialing_fee?: number }[]).map((b, i) => (
-                                    <li key={i}>{b.label} — ${b.ddi_credentialing_fee}</li>
-                                  ))}
-                                </ul>
-                              )}
-                              {Array.isArray(credQuoteResult.breakdown) && (
-                                <ul className="text-xs text-gray-400 list-disc list-inside max-h-32 overflow-y-auto font-mono">
-                                  {(credQuoteResult.breakdown as { credential?: string; ddi_credentialing_fee?: number | null }[]).map((row, i) => (
-                                    <li key={i}>{row.credential}: {row.ddi_credentialing_fee != null ? `$${row.ddi_credentialing_fee}` : '—'}</li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
+              )}
+              {awaitingScanback.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-yellow-400 font-bold">{awaitingScanback.length}</span>
+                  <span className="text-gray-500">pending</span>
                 </div>
               )}
             </div>
 
-            {/* Division Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            {/* TPA Divisions — Compact Accordion */}
+            <div className="rounded-xl border border-gray-700 overflow-hidden mb-6">
+              <div className="bg-gray-800 px-4 py-2 border-b border-gray-700 flex items-center justify-between">
+                <h3 className="text-sm font-bold text-gray-300">📂 TPA Divisions</h3>
+                <span className="text-xs text-gray-500">{PRISM_DIVISIONS.filter(d => d.status === 'active').length} active</span>
+              </div>
               {PRISM_DIVISIONS.map(div => {
-                const divOrders = div.id === 'field_ops' ? propertyOrders : getDivisionOrders(div);
+                const divOrders = div.id === 'field_ops' ? [] : getDivisionOrders(div);
                 const divActive = div.id === 'field_ops'
                   ? propertyOrders.filter(p => !['complete'].includes(p.status)).length
                   : (divOrders as PrismOrder[]).filter(o => !['Closed', 'Verified'].includes(o.status)).length;
-                const divErrors = div.id === 'field_ops'
-                  ? propertyOrders.filter(p => p.status === 'rejected').length
-                  : getDivisionScanbacks(div).filter(s => s.status === 'Errors Found').length;
-                const divToday = div.id === 'field_ops'
-                  ? 0
-                  : (divOrders as PrismOrder[]).filter(o => o.date === today).length;
-                const divUnassigned = div.id === 'field_ops'
-                  ? propertyOrders.filter(p => !p.assigned_to).length
-                  : (divOrders as PrismOrder[]).filter(o => o.status === 'New').length;
-                const divAwaitingScanback = div.id === 'field_ops'
-                  ? 0
-                  : getDivisionScanbacks(div).filter(s => s.status === 'Awaiting Upload').length;
-                const needsAttention = divErrors + divUnassigned + divAwaitingScanback;
 
                 return (
-                  <div key={div.id}
-                    onClick={() => enterDivision(div.id)}
-                    className="group relative cursor-pointer rounded-2xl border-2 overflow-hidden transition-all hover:scale-[1.02] hover:shadow-2xl"
-                    style={{ borderColor: div.color + '40', background: `linear-gradient(135deg, ${div.solid}15 0%, ${div.color}08 100%)` }}>
-                    {needsAttention > 0 && (
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold animate-pulse"
-                        style={{ backgroundColor: '#EF444430', color: '#EF4444', border: '1px solid #EF444450' }}>
-                        ⚠ {needsAttention}
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-3xl">{div.icon}</span>
-                        <div>
-                          <h3 className="text-lg font-bold text-white group-hover:text-opacity-100">{div.name}</h3>
-                          <p className="text-[11px] text-gray-500 leading-tight">{div.subtitle}</p>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-3 gap-3 mt-4">
-                        <div className="text-center">
-                          <p className="text-2xl font-bold" style={{ color: div.color }}>{divActive}</p>
-                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Active</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-2xl font-bold text-blue-400">{divToday}</p>
-                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Today</p>
-                        </div>
-                        <div className="text-center">
-                          <p className={`text-2xl font-bold ${divErrors > 0 ? 'text-red-400' : 'text-green-400'}`}>{divErrors > 0 ? divErrors : '✓'}</p>
-                          <p className="text-[10px] text-gray-500 uppercase font-semibold">{divErrors > 0 ? 'Errors' : 'Clean'}</p>
-                        </div>
-                      </div>
-                      {/* Status tags */}
-                      <div className="flex flex-wrap gap-1.5 mt-4">
-                        {divUnassigned > 0 && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
-                            {divUnassigned} unassigned
-                          </span>
-                        )}
-                        {divAwaitingScanback > 0 && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                            {divAwaitingScanback} awaiting scanback
-                          </span>
-                        )}
-                        {divErrors > 0 && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30">
-                            {divErrors} errors
-                          </span>
-                        )}
-                        {needsAttention === 0 && divActive > 0 && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">
-                            All clear
-                          </span>
-                        )}
-                        {divActive === 0 && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-500/20 text-gray-500 border border-gray-500/30">
-                            No active orders
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="h-1.5 w-full transition-all group-hover:h-2" style={{ backgroundColor: div.color }} />
-                  </div>
+                  <TPADivisionRow
+                    key={div.id}
+                    division={div}
+                    isExpanded={expandedDivisions.has(div.id)}
+                    onToggle={() => toggleDivisionExpand(div.id)}
+                    onEnterDivision={() => enterDivision(div.id)}
+                    orderCount={divActive}
+                    onOpenPortal={handleOpenPortal}
+                  />
                 );
               })}
             </div>
@@ -3668,6 +3700,20 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
               </button>
             </div>
           </div>
+        </div>
+      )}
+      </div>{/* End of main PRISM content wrapper */}
+      
+      {/* ─── SPLIT VIEW: PARTNER PORTAL ON THE RIGHT ─── */}
+      {activePortal && (
+        <div className="w-1/2 h-[calc(100vh-73px)] overflow-hidden flex-shrink-0">
+          <PartnerWebview
+            url={activePortal.portal.url}
+            name={activePortal.portal.name}
+            icon={activePortal.portal.icon}
+            color={activePortal.division.color}
+            onClose={handleClosePortal}
+          />
         </div>
       )}
     </div>

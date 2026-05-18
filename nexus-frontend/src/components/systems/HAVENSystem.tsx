@@ -1484,7 +1484,7 @@ const HAVENSystem: React.FC<HAVENSystemProps> = ({ onBackToNexus, activeTab, set
         </Card>
 
         {/* MCO Outreach Preview */}
-        {outreachPackage && section === 'mcos' && (
+        {outreachPackage && mappedTab === 'mcos' && (
           <Card title="MCO Outreach Preview" titleColor="#8b5cf6">
             <div className="space-y-3">
               <div>

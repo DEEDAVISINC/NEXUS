@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** May 17, 2026
+**Updated:** May 18, 2026
 
 ---
 
@@ -7,6 +7,7 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **May 28, 2026 @ 2:00 PM ET** | **Drug Screen Kits & Services Annual Contract** | **Hall County, GA Board of Commissioners** | **012-47 / PE-77129-NONST-2027-000000060** | **🆕 NEW — Amendment 1 received 5/18 from Connie Barnes (cbarnes@hallcounty.org / 770.535.8263).** Hybrid kits + services scope · NIGP 95207 · Annual contract · DDI is registered GPR vendor · Folder `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/` · **🚨 GA@WORK PORTAL READ-ONLY ON/AFTER 5/27 — INTERNAL HARD STOP 5/26 5 PM ET** · Cap statement + buyer email READY in `SEND_TO_BUYER/` · Awaiting reply from Connie on submission method during read-only window |
 | **May 18, 2026** | **Pharmacy Courier Services** | **University Health (San Antonio)** | **RFP-226-03-068-SVC** | **✅ SUBMITTED May 17, 2026 @ 3:51 PM CDT** — Bonfire portal · 7,900/month volume · Folder `BIDS:RESOURCES/UNIVERSITY HEALTH PHARMACY COURIER/` · **AWAITING AWARD** |
 | **May 18, 2026** | **Lab Courier Services** | **University Health (San Antonio)** | **RFP-226-04-073-SVC** | **✅ SUBMITTED May 17, 2026 @ 6:12 PM CDT** — Confirmation **ODM0MjU1** · Bonfire portal · 850/month volume · 70+ facilities · Folder `BIDS:RESOURCES/UNIVERSITY HEALTH LAB COURIER/` · **AWAITING AWARD** |
 

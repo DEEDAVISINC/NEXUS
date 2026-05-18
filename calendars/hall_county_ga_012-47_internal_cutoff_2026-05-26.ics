@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:hall-county-ga-012-47-internal-cutoff-2026-05-26@deedavis.biz
+DTSTAMP:20260518T153700Z
+DTSTART;TZID=America/Detroit:20260526T170000
+DTEND;TZID=America/Detroit:20260526T173000
+SUMMARY:🔥 INTERNAL HARD STOP — Submit Hall County GA 012-47 by today
+DESCRIPTION:Internal hard stop for Hall County 012-47 Drug Screen Kits & Services bid submission.\n\nWhy today (May 26) instead of the May 28 official deadline:\nGeorgia is transitioning to GA@WORK ERP. All suppliers go to READ-ONLY access on and after May 27 2026. The official deadline is May 28 at 2:00 PM ET, but the portal is read-only by then.\n\nMust be submitted via GPR by 5:00 PM ET today, or confirmed alternate submission path with Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) BEFORE May 25.\n\nFolder: BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/
+LOCATION:Georgia Procurement Registry (GPR)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT24H
+DESCRIPTION:Internal hard stop for Hall County 012-47 in 24 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT4H
+DESCRIPTION:Internal hard stop for Hall County 012-47 in 4 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
