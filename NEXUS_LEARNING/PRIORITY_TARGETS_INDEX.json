@@ -122,8 +122,31 @@
           "Manufacturing facilities",
           "Logistics and trucking companies"
         ],
-        "ddi_advantage": "C/TPA + Quest partnership + AMRO MRO + nationwide collection network",
-        "intel_source": "Active bids (Yonkers RFP-546, VIA Transit 26-374)"
+        "commercial_targets": [
+          "Trucking companies (FMCSA-regulated)",
+          "Freight brokers with owner-operators",
+          "LTL carriers",
+          "Intermodal/drayage companies",
+          "Bus and motor coach companies",
+          "Limousine and sedan services",
+          "School bus contractors",
+          "Ambulance services (private)",
+          "Pipeline companies (PHMSA-regulated)",
+          "Railroad contractors (FRA-regulated)",
+          "Maritime/port operators (USCG-regulated)",
+          "Construction companies with CDL fleet",
+          "Concrete/aggregate haulers",
+          "Waste management companies",
+          "Moving and storage companies",
+          "Auto haulers/car carriers",
+          "Tanker/hazmat carriers",
+          "Oilfield services companies",
+          "Food/beverage distributors",
+          "Agricultural haulers"
+        ],
+        "ddi_advantage": "C/TPA + Quest partnership + AMRO MRO ($4/review) + nationwide collection network + Clearinghouse queries",
+        "intel_source": "Active bids (Yonkers RFP-546), FMCSA Clearinghouse database",
+        "commercial_strategy": "Trucking companies need C/TPA services for FMCSA compliance. Target small-medium fleets (10-200 drivers) who can't afford in-house compliance. DDI value = one-stop DOT compliance (random pool, MRO, SAP, Clearinghouse, record-keeping). Pricing: $75-150/driver/year consortium fee + per-test fees."
       },
       {
         "naics": "325413",
