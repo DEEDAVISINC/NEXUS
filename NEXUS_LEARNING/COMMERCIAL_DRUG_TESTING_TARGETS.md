@@ -15,13 +15,18 @@
 - SAP for return-to-duty
 - Record-keeping for 5+ years
 
-**Small-medium trucking companies (10-200 drivers) don't have:**
-- In-house compliance staff
-- Volume to negotiate lab pricing
-- Expertise to manage Clearinghouse
-- Time to track random selection
+**DDI is a TPA — Quest does collections, AMRO does MRO. DDI can handle ANY fleet size.**
 
-**DDI's C/TPA model solves all of this.**
+**Value prop for ALL companies:**
+- Program management and compliance oversight
+- Random pool administration
+- Clearinghouse query management
+- MRO/SAP coordination
+- Audit-ready record-keeping
+- One point of contact for all DOT testing
+
+**Small fleets (10-200):** Don't have in-house compliance staff
+**Large fleets (500+):** May want to outsource compliance admin, or need backup C/TPA, or are unhappy with current provider
 
 ---
 
@@ -51,23 +56,49 @@
 
 ## TARGET INDUSTRIES (FMCSA-Regulated)
 
-### Tier 1 — High Volume, Recurring
-| Industry | Typical Fleet Size | Why They Need C/TPA |
-|---|---|---|
-| **LTL Carriers** | 50-500 drivers | High turnover, constant hiring = lots of pre-employment tests |
-| **Truckload Carriers** | 20-1000+ drivers | Scale makes C/TPA cost-effective vs. in-house |
-| **Intermodal/Drayage** | 10-100 drivers | Port operations = strict compliance enforcement |
-| **Tanker/Hazmat** | 20-200 drivers | Higher scrutiny from DOT = need bulletproof compliance |
-| **Food/Beverage Distribution** | 25-150 drivers | Brand reputation = zero tolerance for compliance failures |
+**DDI is a TPA — can handle ANY fleet size. Quest + AMRO scale infinitely.**
 
-### Tier 2 — Steady Business
-| Industry | Typical Fleet Size | Why They Need C/TPA |
+### Large National Carriers (1,000+ drivers)
+| Company | Fleet Size | Opportunity |
 |---|---|---|
-| **Concrete/Aggregate Haulers** | 10-50 drivers | Construction cycles = seasonal hiring spikes |
-| **Waste Management** | 20-100 drivers | Municipal contracts require compliance proof |
-| **Moving & Storage** | 10-75 drivers | Interstate moves = FMCSA jurisdiction |
-| **Auto Haulers** | 15-100 drivers | OEM contracts require compliance documentation |
-| **Agricultural Haulers** | 5-50 drivers | Seasonal but essential |
+| **Werner Enterprises** | 8,000+ drivers | Backup C/TPA, regional divisions, owner-operator program |
+| **J.B. Hunt** | 12,000+ drivers | Intermodal, dedicated, final mile divisions |
+| **Schneider** | 10,000+ drivers | Multiple divisions, owner-operator program |
+| **Swift/Knight** | 18,000+ drivers | Largest TL carrier, multiple brands |
+| **Landstar** | 10,000+ agents | Owner-operator model = C/TPA value |
+| **Old Dominion** | 10,000+ drivers | LTL leader |
+| **XPO Logistics** | 7,000+ drivers | LTL + logistics |
+| **Saia** | 5,000+ drivers | Regional LTL |
+| **Estes Express** | 7,000+ drivers | Family-owned LTL |
+| **ABF Freight** | 5,000+ drivers | LTL division of ArcBest |
+
+**Why large carriers use outside C/TPAs:**
+- Owner-operator programs (not employees, need separate consortium)
+- Multiple divisions with different compliance needs
+- Backup/redundancy for in-house programs
+- Acquisitions (inherited fleets need integration)
+- Unhappy with current C/TPA service
+
+### Regional Carriers (100-1,000 drivers)
+| Industry | Examples | Opportunity |
+|---|---|---|
+| **Regional LTL** | Dayton Freight, Central Transport, AAA Cooper | Full C/TPA services |
+| **Regional Truckload** | Heartland Express, Celadon, USA Truck | Program management |
+| **Dedicated Fleets** | Penske, Ryder dedicated divisions | Compliance oversight |
+| **Specialty Haulers** | Tank carriers, flatbed, oversized | High-compliance industries |
+
+### Small-Medium Fleets (10-200 drivers)
+| Industry | Why They Need C/TPA |
+|---|---|
+| **LTL Carriers** | High turnover, constant hiring = lots of pre-employment tests |
+| **Truckload Carriers** | Don't have in-house compliance staff |
+| **Intermodal/Drayage** | Port operations = strict compliance enforcement |
+| **Tanker/Hazmat** | Higher scrutiny from DOT = need bulletproof compliance |
+| **Food/Beverage Distribution** | Brand reputation = zero tolerance for compliance failures |
+| **Concrete/Aggregate** | Construction cycles = seasonal hiring spikes |
+| **Waste Management** | Municipal contracts require compliance proof |
+| **Moving & Storage** | Interstate moves = FMCSA jurisdiction |
+| **Auto Haulers** | OEM contracts require compliance documentation |
 
 ### Tier 3 — Other DOT-Regulated
 | Industry | Regulation | Notes |
@@ -181,13 +212,15 @@ Dee Davis Inc.
 ## PRICING STRATEGY
 
 ### Consortium Fee Model
-| Fleet Size | Annual Fee/Driver | Total Annual Fee |
-|---|---|---|
-| 1-10 drivers | $150/driver | $150 - $1,500 |
-| 11-25 drivers | $125/driver | $1,375 - $3,125 |
-| 26-50 drivers | $100/driver | $2,600 - $5,000 |
-| 51-100 drivers | $85/driver | $4,335 - $8,500 |
-| 101-200 drivers | $75/driver | $7,575 - $15,000 |
+| Fleet Size | Annual Fee/Driver | Total Annual Fee | Annual Revenue Potential |
+|---|---|---|---|
+| 1-10 drivers | $150/driver | $150 - $1,500 | $2,000 - $5,000 |
+| 11-25 drivers | $125/driver | $1,375 - $3,125 | $5,000 - $10,000 |
+| 26-50 drivers | $100/driver | $2,600 - $5,000 | $10,000 - $20,000 |
+| 51-100 drivers | $85/driver | $4,335 - $8,500 | $15,000 - $30,000 |
+| 101-500 drivers | $65/driver | $6,565 - $32,500 | $25,000 - $75,000 |
+| 501-1,000 drivers | $50/driver | $25,050 - $50,000 | $75,000 - $150,000 |
+| 1,000+ drivers | $35-45/driver (negotiated) | $35,000+ | $150,000+ |
 
 **Plus per-test fees:**
 - Drug test: $55-65
@@ -195,10 +228,20 @@ Dee Davis Inc.
 - Clearinghouse query: $10-15
 - DOT physical: $85-125
 
+### Enterprise/Large Fleet Value Prop
+- **Owner-operator programs** — Carriers with O/O programs need separate consortium (not employees)
+- **Division management** — One C/TPA for all divisions, consolidated reporting
+- **Acquisition integration** — New acquisitions need compliance program fast
+- **Backup C/TPA** — Redundancy for in-house programs
+- **White-label** — DDI manages program under carrier's brand
+- **Compliance consulting** — Audit prep, policy review, training
+
 ### Competitive Positioning
-- **Cheaper than big nationals** (DISA, US Healthworks) on per-driver fees
+- **Cheaper than big nationals** (DISA, US Healthworks, Foley) on per-driver fees
+- **More responsive than big nationals** — DDI answers the phone
 - **Better service than cheap online C/TPAs** (DrugTestingUSA, etc.)
-- **Local/regional responsiveness** with national collection network
+- **National collection network** (Quest) with local responsiveness
+- **Integrated services** — Drug testing + DOT physicals + DQ files + Clearinghouse
 
 ---
 
