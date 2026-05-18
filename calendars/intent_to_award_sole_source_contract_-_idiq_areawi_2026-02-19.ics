@@ -3,15 +3,15 @@ VERSION:2.0
 PRODID:-//DEE DAVIS INC//NEXUS//EN
 BEGIN:VEVENT
 SUMMARY:🚨 BID DEADLINE: Intent to Award Sole Source Contract - ID/IQ ar
- eawide Beckman Coulter\, Inc - Automated Urine Chemist
+ eawide Siemens Healthcare Diagnostic Inc - RapidPoint
 DTSTART:20260219T000000
 DTEND:20260219T010000
-DTSTAMP:20260517T230115Z
-UID:recHyPZHHBoUVSmNa@nexus.deedavis.biz
+DTSTAMP:20260517T230122Z
+UID:recidwKFT8xOhMJet@nexus.deedavis.biz
 DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Intent to Award Sole Source 
- Contract - ID/IQ areawide Beckman Coulter\, Inc - Automated Urine Chemist\
- nAgency: \nSolicitation: \nDeadline: February 19\, 2026 at 12:00 AM\n\nAIR
- TABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/recHyPZHHBoUVSmNa\n\n
+ Contract - ID/IQ areawide Siemens Healthcare Diagnostic Inc - RapidPoint\n
+ Agency: \nSolicitation: \nDeadline: February 19\, 2026 at 12:00 AM\n\nAIRT
+ ABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/recidwKFT8xOhMJet\n\n
  ⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n- 1 day before\n- Mo
  rning of deadline\n- 2 hours before deadline\n\n🎯 ACTION ITEMS:\n1. Sen
  d supplier quote requests (3-5 days before)\n2. Collect all quotes (2 days
@@ -22,25 +22,25 @@ LOCATION:
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: Intent to Award Sole Source Contract - ID/IQ are
- awide Beckman Coulter\, Inc - Automated Urine Chemist
+ awide Siemens Healthcare Diagnostic Inc - RapidPoint
 TRIGGER:-P7D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: Intent to Award Sole Source Contract - ID/IQ are
- awide Beckman Coulter\, Inc - Automated Urine Chemist
+ awide Siemens Healthcare Diagnostic Inc - RapidPoint
 TRIGGER:-P3D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: Intent to Award Sole Source Contract - ID/IQ are
- awide Beckman Coulter\, Inc - Automated Urine Chemist
+ awide Siemens Healthcare Diagnostic Inc - RapidPoint
 TRIGGER:-P1D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:BID DEADLINE: Intent to Award Sole Source Contract - ID/IQ are
- awide Beckman Coulter\, Inc - Automated Urine Chemist
+ awide Siemens Healthcare Diagnostic Inc - RapidPoint
 TRIGGER:-PT2H
 END:VALARM
 END:VEVENT
