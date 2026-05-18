@@ -127,8 +127,26 @@ DDI_KEYWORDS = [
     "container", "modular", "parts", "cable", "valve", "pump",
     # Emergency
     "emergency", "disaster", "rapid", "temporary facility",
-    # Drug Testing & Compliance
-    "drug testing", "drug screen", "alcohol testing", "dot testing",
+    # Drug Testing Services
+    "drug testing", "drug screen", "drug test", "drug and alcohol testing",
+    "alcohol testing", "breath alcohol", "dot testing", "dot drug testing",
+    "dot compliance", "dot physical", "fmcsa testing", "fta testing",
+    "49 cfr part 40", "random drug testing", "random testing", "random pool",
+    "pre-employment drug", "pre-employment screening", "post-accident testing",
+    "reasonable suspicion", "return to duty", "follow-up testing",
+    "workplace drug testing", "employee drug testing", "employee testing",
+    "mro service", "medical review officer", "sap service",
+    "substance abuse professional", "substance abuse testing",
+    "urine drug screen", "oral fluid testing", "hair follicle", "hair testing",
+    "instant drug test", "rapid drug test", "point of collection", "poct",
+    "samhsa certified", "c/tpa", "consortium", "clearinghouse",
+    # Drug Testing Supplies
+    "drug testing supplies", "drug test supplies", "drug test kit",
+    "urine collection", "urine cup", "specimen cup", "collection cup",
+    "collection kit", "drug screen cup", "5 panel", "10 panel", "12 panel",
+    "oral fluid device", "breathalyzer", "breath alcohol device",
+    "chain of custody form", "ccf", "collection supplies",
+    # Background Check & Fingerprinting
     "background check", "fingerprint", "livescan",
     # DNA & Lab
     "dna testing", "paternity", "specimen transport", "lab courier",

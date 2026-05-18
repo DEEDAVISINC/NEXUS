@@ -109,9 +109,24 @@ HEALTHCARE_KEYWORDS = [
     "subpoena", "summons service",
     # General Courier
     "courier", "courier service", "delivery service",
-    # Drug Testing
-    "drug testing", "drug screen", "substance abuse testing",
-    "occupational health", "dot testing",
+    # Drug Testing Services
+    "drug testing", "drug screen", "drug test", "drug and alcohol testing",
+    "alcohol testing", "breath alcohol", "dot testing", "dot drug testing",
+    "dot compliance", "fmcsa testing", "fta testing", "49 cfr part 40",
+    "random drug testing", "random testing", "pre-employment drug",
+    "post-accident testing", "reasonable suspicion", "return to duty",
+    "workplace drug testing", "employee drug testing", "employee testing",
+    "mro service", "medical review officer", "substance abuse testing",
+    "substance abuse professional", "urine drug screen", "oral fluid testing",
+    "hair follicle", "instant drug test", "rapid drug test",
+    "samhsa certified", "c/tpa", "consortium", "clearinghouse",
+    # Drug Testing Supplies
+    "drug testing supplies", "drug test supplies", "drug test kit",
+    "urine collection", "urine cup", "specimen cup", "collection cup",
+    "collection kit", "drug screen cup", "5 panel", "10 panel", "12 panel",
+    "oral fluid device", "breathalyzer", "chain of custody form", "ccf",
+    # Occupational Health
+    "occupational health", "dot physical", "pre-employment physical",
     # TPA Services
     "third party administrator", "tpa", "broker", "brokerage",
     "transportation broker", "nemt broker",
