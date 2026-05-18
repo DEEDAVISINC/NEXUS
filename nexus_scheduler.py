@@ -39,6 +39,7 @@ Usage:
   python3 nexus_scheduler.py --sync-cos                    # Harvest SAM.gov COs → GPSS CONTACTS (manual only; not in --mine)
   python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
   python3 nexus_scheduler.py --sync-cos --days 7           # Custom look-back window
+  python3 nexus_scheduler.py --healthcare     # Healthcare & MCO scanner (State Medicaid, hospitals, MCO portals)
 
 For cron (recommended):
   # Every 30 minutes — email + folder scan
@@ -569,6 +570,28 @@ def run_public_portal_scan(tier1_only=False):
         return False
 
 
+def run_healthcare_mco_scan(tier1_only=False):
+    """
+    Scan Healthcare & MCO portals for NEMT, transportation, courier opportunities.
+    Sources: State Medicaid portals, Hospital RFP sites, MCO vendor portals (manual checklist).
+    THIS IS THE COMMERCIAL/ENTERPRISE HEALTHCARE SEARCH.
+    """
+    log.info("--- HEALTHCARE & MCO SCANNER ---")
+    log.info(f"Mode: {'Tier 1 (State Medicaid) Only' if tier1_only else 'Full Scan'}")
+    try:
+        from healthcare_mco_scanner import run_scan
+        result = run_scan(tier1_only=tier1_only)
+        
+        total = result.get('total_found', 0)
+        log.info(f"Healthcare scan complete: {total} opportunities found")
+        log.info(f"Report saved to HEALTHCARE_OPPORTUNITIES_REPORT.md")
+        log.info(f"MCO checklist saved to MCO_PORTAL_DAILY_CHECKLIST.md")
+        return True
+    except Exception as e:
+        log.error(f"Healthcare/MCO scan failed: {e}")
+        return False
+
+
 def run_jeta_market_price_sync():
     """
     JETA — weekly IATA Jet Fuel Price Monitor sync.
@@ -1030,6 +1053,8 @@ if __name__ == "__main__":
         run_public_portal_scan()
     elif "--public-tier1" in args:
         run_public_portal_scan(tier1_only=True)
+    elif "--healthcare" in args:
+        run_healthcare_mco_scan()
     elif "--scan" in args:
         run_folder_scan()
         run_stale_detection()

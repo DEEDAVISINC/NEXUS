@@ -1,8 +1,30 @@
 {
-  "scan_date": "2026-05-15T23:51:54.453695",
+  "scan_date": "2026-05-17T23:08:50.294925",
   "total_found": 98,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "28--PILOT VALVE AND STE",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-05-28",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/d31fd9cf058f4f40a2088eaca2830d50/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-17",
+      "naics": "333611"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "59--COIL,ELECTRICAL",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-06-01",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/5cb250b4884443468addab4405676a5b/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-17",
+      "naics": "334416"
+    },
     {
       "source": "SAM.gov",
       "title": "Furniture Move",
@@ -27,17 +49,6 @@
     },
     {
       "source": "SAM.gov",
-      "title": "Personnel Travel Administration Support Services for Commander, Naval Surface Force, Atlantic Fleet",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
-      "deadline": "2026-05-21T14:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/e450e9e554bb4b4c8a518cab6de1e1a2/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-14",
-      "naics": "541330"
-    },
-    {
-      "source": "SAM.gov",
       "title": "ENTERPRISE HEALTH UNIT SERVICES",
       "agency": "HOMELAND SECURITY, DEPARTMENT OF.FEDERAL LAW ENFORCEMENT TRAINING CENTER.FLETC GLYNCO OPERATIONS",
       "deadline": "2026-06-04T12:30:00-04:00",
@@ -46,17 +57,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-14",
       "naics": "621999"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "BLM-CO LSFO LAWN AND SNOW REMOVAL SERVICES",
-      "agency": "INTERIOR, DEPARTMENT OF THE.BUREAU OF LAND MANAGEMENT.COLORADO STATE OFFICE",
-      "deadline": "2026-05-22T15:00:00-06:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/c398c367fce94804bd469c8769a2ad58/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-13",
-      "naics": "561730"
     },
     {
       "source": "SAM.gov",
@@ -115,17 +115,6 @@
     },
     {
       "source": "SAM.gov",
-      "title": "48--VALVE,CHECK",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-22",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/fbf6bccc8d824deb936d54615bcc109b/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-11",
-      "naics": "332911"
-    },
-    {
-      "source": "SAM.gov",
       "title": "HVAC Chemical Water Treatment",
       "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR EDUCATION AND TRAINING COMMAND.FA4887  56 CONS CC",
       "deadline": "2026-06-11T12:00:00-07:00",
@@ -134,50 +123,6 @@
       "type": "Solicitation",
       "posted": "2026-05-11",
       "naics": "811310"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "48--VALVE,REGULATING,FL",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-21",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/f0b93e81b20348eda8ccca1580b600ed/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-10",
-      "naics": "332912"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "25--PARTS KIT,STEERING",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA LAND.DLA LAND COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-21",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/c0c0251305004e77a7045192017de70a/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-10",
-      "naics": "332510"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Grounds Maintenance at 10 Sites in Arkansas",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.419TH CSB.W6QM MICC FT MCCOY (RC)",
-      "deadline": "2026-05-22T10:00:00-05:00",
-      "set_aside": "EDWOSB",
-      "url": "https://sam.gov/opp/5184ba932e674390a267329b4534d8c6/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-14",
-      "naics": "561730"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "59--HEADSET,ELECTRICAL",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-05-21",
-      "set_aside": "EDWOSB",
-      "url": "https://sam.gov/opp/693119c0b597468ea2ebb77550cbf96a/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-10",
-      "naics": "334310"
     },
     {
       "source": "SAM.gov",
@@ -192,7 +137,40 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "Exhibit Hall PaintingColorado13 day(s) leftPublished05/15/2026Closing05/29/20268984571951",
+      "title": "Agricultural Cleaning Services at Subic Bay, PhilippinesHawaii7 day(s) leftPublished05/16/2026Closing05/25/20262691491387",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/hawaii/solicitations/open-bids/statewide/Agricultural-Cleaning-Services-at-Subic-Bay-Philippines/2691491387?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "3/0 CABLE ASSEMBLY W/CONDUCTORHawaii2 day(s) leftPublished05/15/2026Closing05/20/20262691358277",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/hawaii/solicitations/open-bids/statewide/3-0-CABLE-ASSEMBLY-W-CONDUCTOR/2691358277?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Z2DZ--Modernize Generator ProjectHawaii11 day(s) leftPublished05/15/2026Closing05/29/20262691308807",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/hawaii/solicitations/open-bids/statewide/Z2DZ-Modernize-Generator-Project/2691308807?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Exhibit Hall PaintingColorado11 day(s) leftPublished05/15/2026Closing05/29/20268984571951",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
@@ -203,7 +181,29 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "TELECOM CABLE INSTALLATION AND REPAIRNew Jersey12 day(s) leftPublished05/15/2026Closing05/28/20268949840859",
+      "title": "Maintenance Diagnostics Scanner/Tablet for Ford Integrated Diagnostic System : 1996 to present coverage of Ford/ Lincoln/ Mercury vehicles.Hawaii4 day(s) leftPublished05/15/2026Closing05/22/20262691422792",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/hawaii/solicitations/open-bids/statewide/Maintenance-Diagnostics-Scanner-Tablet-for-Ford-Integrated-Diagnostic-System-1996-to-present-coverage-of-Ford-Lincoln-Mercury-vehicles/2691422792?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Z1DA--Correct Martinez and Mare Island  Generator Fuel LinesCalifornia28 day(s) leftPublished05/15/2026Closing06/15/20262691282542",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Z1DA-Correct-Martinez-and-Mare-Island-Generator-Fuel-Lines/2691282542?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "TELECOM CABLE INSTALLATION AND REPAIRNew Jersey10 day(s) leftPublished05/15/2026Closing05/28/20268949840859",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
@@ -214,77 +214,33 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "BCP Visitor Center Building Remodel and LandscapingTexas40 day(s) leftPublished05/15/2026Closing06/25/20268597528807",
+      "title": "Medium Voltage Electrical Equipment Maintenance ServicesDistrict of Columbia42 day(s) leftPublished05/15/2026Closing06/29/20262691416417",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/BCP-Visitor-Center-Building-Remodel-and-Landscaping/0000418019?origin=0",
+      "url": "https://www.bidnetdirect.com/district-of-columbia/solicitations/open-bids/statewide/Medium-Voltage-Electrical-Equipment-Maintenance-Services/2691416417?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Library Book SuppliesTexas4 year(s) leftPublished05/15/2026Closing06/30/2030444021595158",
+      "title": "MSHA -Concrete Demolition and Installation ProjectWest Virginia4 day(s) leftPublished05/15/2026Closing05/22/20262691466142",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Library-Book-Supplies/444021595158?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/west-virginia/solicitations/open-bids/statewide/MSHA-Concrete-Demolition-and-Installation-Project/2691466142?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "District Instructional Supplies & EquipmentTexas4 year(s) leftPublished05/15/2026Closing06/30/2030444021544368",
+      "title": "Cyber Security Training for Federal Contracting ProfessionalsCalifornia4 day(s) leftPublished05/15/2026Closing05/22/20262691371282",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/District-Instructional-Supplies-Equipment/444021544368?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Athletic & Extracurricular Supplies and EquipmentTexas4 year(s) leftPublished05/15/2026Closing06/30/2030444021577511",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Athletic-Extracurricular-Supplies-and-Equipment/444021577511?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Maintenance, Transportation, and Security General ServicesTexas4 year(s) leftPublished05/15/2026Closing06/30/2030444021595160",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Maintenance-Transportation-and-Security-General-Services/444021595160?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Open Enrollment (OE) for Diabetes Self-Management Education ServicesTexas178 day(s) leftPublished05/15/2026Closing11/10/2026444021147106",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/Open-Enrollment-OE-for-Diabetes-Self-Management-Education-Services/444021147106?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Painting ServicesFlorida53 day(s) leftPublished05/15/2026Closing07/08/2026444020976072",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/florida/solicitations/open-bids/statewide/Painting-Services/444020976072?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Cyber-Security-Training-for-Federal-Contracting-Professionals/2691371282?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
@@ -550,6 +506,24 @@
     },
     {
       "source": "Indiana",
+      "title": "RHTP07: Teleconsult/Telehealth Landscape AssessmenBid DocumentsIndiana Dept of Health004000000087449RFP 26-87449Teleconsult/Telehealth Landscape Assessment for the State of Indiana. This is Initiative",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RHTP Admin: Program EvaluatorBid DocumentsIndiana Dept of Health004000000087450RFP 26-87450Program Evaluator for the Rural Health Transformation Program (RHTP).On Dec. 29, 2026, Indiana was awarded a ",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "Floor Type Electric Tilt KettleBid DocumentsVeterans Home005700000087535Indiana Veterans' Home is looking to purchase an Electric steam kettle,  20-gallon capacity, 2/3 steam jacket design, self-conta",
       "agency": "State of Indiana",
       "deadline": "",
@@ -659,6 +633,15 @@
     {
       "source": "Indiana",
       "title": "FSSA Learning Management System (LMS)Bid DocumentsFamily & Social Svcs Admin004050000085939RFP 26-85939The purpose of this solicitation is to select a respondent that can satisfy the State\u2019s need for ",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Wisewoman & INBCCP Data Mgmt & Claims AdjudicationBid DocumentsIndiana Dept of Health004000000085965Assist the Indiana Department of Health (IDOH) Chronic Disease, Primary Care and Rural Health Divisi",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -812,6 +795,15 @@
     {
       "source": "Indiana",
       "title": "RFP 26-87486 21st CCLC Data ManagementBid DocumentsEducation007000000087486IDOE seeks a vendor to house all of the 21st CCLC required data, communicate all required data directly to the FDOE, interfac",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RFP 26-87624 IVH Hospice CareBid DocumentsVeterans Home005700000087624RFP 26-87624 IVH Hospice CareThe Indiana Veteran's Home seeks to contract with Hospice services.06/24/2026  3:00:00PM ESTAlexis Hu",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
