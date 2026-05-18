@@ -78,6 +78,18 @@ DDI_KEYWORDS = [
     "aog", "aircraft on ground", "aviation courier",
     "jet fuel", "aviation fuel", "turbine fuel", "into-plane", "into plane",
     "jp-8", "fixed base operator", "airport fuel",
+    # NEMT — Underserved Areas (nationwide)
+    "medical transportation", "patient transport", "non-emergency medical",
+    "paratransit", "demand response", "dial-a-ride",
+    "veteran home", "veterans home", "state veteran",
+    "corrections transport", "prisoner transport", "inmate transport",
+    "doc transport", "detainee transport", "jail medical",
+    "community mental health", "cmh transport", "behavioral health transport",
+    "area agency on aging", "senior transport", "elderly transport",
+    "tribal health", "tribal transport", "indian health service",
+    "rural health", "rural transportation", "critical access hospital",
+    "hcbs transport", "waiver transport", "developmental disabilities",
+    "medically underserved", "health shortage",
     # Professional Services
     "staffing", "temporary", "administrative", "consulting", "management",
     "data entry", "front desk", "clerical", "it services", "training",
@@ -88,6 +100,13 @@ DDI_KEYWORDS = [
     "container", "modular", "parts", "cable", "valve", "pump",
     # Emergency
     "emergency", "disaster", "rapid", "temporary facility",
+    # Drug Testing & Compliance
+    "drug testing", "drug screen", "alcohol testing", "dot testing",
+    "background check", "fingerprint", "livescan",
+    # DNA & Lab
+    "dna testing", "paternity", "specimen transport", "lab courier",
+    # Notary
+    "notary", "document services", "mobile notary",
 ]
 
 # Exclude keywords (things DDI definitely doesn't do)
