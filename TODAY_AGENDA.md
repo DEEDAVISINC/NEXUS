@@ -1,4 +1,10 @@
-# TODAY'S AGENDA — Tuesday, May 20, 2026
+# TODAY'S AGENDA — Tuesday, May 19, 2026
+
+---
+
+## ✅ YESTERDAY'S WINS (May 18)
+- Airspace Technologies vetted — PASSED USASpending (zero federal wins). Partnership folder ready.
+- GSA OASIS+ WOSB requirements documented — Not ready yet, revisit 2027-2028.
 
 ---
 
@@ -12,13 +18,16 @@
 
 ---
 
-## 📧 OVERDUE REPLIES — SEND TODAY
+## 📧 OUTREACH — SEND TODAY
 
 | # | To | Action |
 |---|---|---|
 | 1 | Daniel Rivera (Anthem Ohio) | ODM clarification — full service pitch (NEMT, Personal Care, DME, HAVEN) |
 | 2 | Kristen Halsey (CareSource Ohio) | Intro reply — full service pitch (NEMT, Personal Care, DME, HAVEN) |
 | 3 | Brian Grcevich (HAP CareSource) | Thank you for clarification — keep NEMT relationship warm |
+| **4** | **Diana Tash (Airspace Technologies)** | **Partnership outreach — AOG, Critical Logistics** |
+
+**Airspace folder:** `BIDS:RESOURCES/AIRSPACE CRITICAL LOGISTICS PARTNERSHIP/SEND_TO_SUBCONTRACTOR/`
 
 ---
 
