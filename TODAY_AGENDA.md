@@ -1,61 +1,52 @@
-# TODAY'S AGENDA — Monday, May 19, 2026
+# TODAY'S AGENDA — Tuesday, May 19, 2026
 
-## YESTERDAY'S WINS (May 17-18)
-- ✅ **Drug Testing C/TPA Strategy** documented — 3 fulfillment models, 50-70% margin
-- ✅ **NEMT search expanded** — nationwide underserved areas (veterans homes, DOCs, CMH, AAA)
-- ✅ **Courier search expanded** — Medical, Lab, Pharmacy, Legal
-- ✅ **Commercial trucking strategy** documented — FMCSA SAFER prospecting
-- ✅ **NCS confirmed** as drug testing partner (background + drug bundled)
-- ✅ VIA Transit drug testing = NO-GO (low value vs setup cost)
+## YESTERDAY'S WINS (May 18)
+- ✅ **Anchorage Background Checks proposal COMPLETE** — 8-page HTML + Fee Schedule in NEXUS format
+- ✅ **University Health Pharmacy Courier SUBMITTED** (May 17)
+- ✅ **University Health Lab Courier SUBMITTED** (May 17)
+- ✅ **Florida Medicaid inquiry submitted** — Tracking #218601133, TPA/broker enrollment path
 
 ---
 
-## PRIORITY 1: FIND CONTRACTS FOR TPA MODELS
+## PRIORITY 1: SUBMIT ANCHORAGE PROPOSAL
 
-**Drug Testing C/TPA** — `NEXUS_LEARNING/DDI_DRUG_TESTING_CTPA_STRATEGY.md`
-- [ ] Run FMCSA SAFER search for trucking fleets (50-200 drivers) in MI
-- [ ] Identify 5 trucking companies to target for C/TPA outreach
-- [ ] Draft cold outreach email for trucking companies
-- [ ] Search SAM.gov / BidNet for DOT drug testing RFPs
+| Task | Deadline |
+|---|---|
+| **Sign Letter of Transmittal + Fee Schedule** | Before May 28 |
+| **Verify $3M cyber liability insurance** | Before submission |
+| **Convert HTML to PDF** | Before submission |
+| **Submit via BidExpress** | **May 28 @ 12 PM AKT (4 PM ET)** |
 
-**NEMT TPA** — `HAVEN/STRATEGY/STATE_NEMT_STRUCTURE_INTELLIGENCE.md`
-- [ ] North Carolina: Start SOS registration (target June 1)
-- [ ] Arizona: Begin MCO outreach (no state enrollment needed)
-- [ ] Check daily opportunity reports for NEMT bids
-
-**Courier TPA** — Watch for bids
-- [ ] Check NEXUS opportunity reports for medical/lab/pharmacy/legal courier
+Folder: `BIDS:RESOURCES/ANCHORAGE BACKGROUND CHECKS/SEND_TO_BUYER/`
 
 ---
 
-## PRIORITY 2: FOLLOW-UP — JEFF AT UBER HEALTH
+## PRIORITY 2: HALL COUNTY GA — SHIP BY TUESDAY MAY 26
 
-**CRITICAL OPEN ITEM**
-
-- [ ] Ask Jeff if Uber Health portfolio waives 2,000/mo minimum for Lab Courier
-- [ ] Confirm controlled substance policy for TX Rx delivery
-- [ ] Get BAA, T&Cs, Driver Safety Deck
-
----
-
-## PRIORITY 3: UNIVERSITY HEALTH AWARD MONITORING
-
-| Bid | Submitted | Award Window |
-|---|---|---|
-| Pharmacy Courier | May 17 | 30-60 days (mid-June to mid-July) |
-| Lab Courier | May 17 | 30-60 days (mid-June to mid-July) |
-
-- [ ] Watch Bonfire for clarification questions
-- [ ] Monitor email for award notice
+| Task | Status |
+|---|---|
+| Awaiting 12PanelNow + Quest quotes | Due **Fri May 22** |
+| Build sealed bid package | After pricing received |
+| **SHIP via FedEx Priority Overnight** | **Tue May 26 @ 12 PM ET** (Mon is Memorial Day) |
+| Delivery address | 2875 Browns Bridge Rd, Gainesville GA 30504, 4th Floor |
 
 ---
 
-## PRIORITY 4: DRUG TESTING C/TPA BUILD
+## PRIORITY 3: CCRTA OCCUPATIONAL MEDICAL
 
-- [ ] Draft 1099 Collector Agreement
-- [ ] Draft Collection Company Subcontract Agreement  
-- [ ] Contact eScreen for C/TPA partner pricing
-- [ ] Identify small collection companies in metro Detroit
+| Task | Status |
+|---|---|
+| Concentra pricing | ⏳ Awaiting response (follow up Thu 5/22) |
+| Confirm local office satisfies RFP | ⏳ Need to clarify with CCRTA |
+| **Deadline** | **June 1, 2026 @ 3:00 PM CST** |
+
+---
+
+## PRIORITY 4: WATCH FOR FL MEDICAID RESPONSE
+
+- Tracking #218601133
+- Expected response by **May 22** (3 business days)
+- Question: How do NEMT brokers/TPAs enroll without auto insurance?
 
 ---
 
@@ -63,9 +54,27 @@
 
 | Item | Deadline | Status |
 |---|---|---|
-| **NCS Training** | June 3 | ⬜ Schedule with Mark |
-| Capability Statement Training (APEX) | May 27 @ 1:00 PM | ✅ Calendar |
-| Mies Order #951754 | May 16 @ 10am | ✅ Completed |
+| Hall County quotes needed | Fri May 22 | ⏳ Awaiting |
+| Concentra follow-up | Thu May 22 | ⬜ TODO |
+| Sam (Lakota) back in office | Thu May 22 | Coordinate Minneapolis |
+| Minneapolis questions answered | Tue May 27 | ⏳ Awaiting |
+| **Anchorage proposal DUE** | **Wed May 28 @ 12 PM AKT** | ✅ Ready to submit |
+| **Hall County SHIP** | **Tue May 26 @ 12 PM ET** | ⬜ Pending pricing |
+| Capability Statement Training (APEX) | Tue May 27 @ 1:00 PM | ✅ Calendar |
+| NCS Training | June 3 | ⬜ Schedule with Mark |
+| CCRTA proposal DUE | June 1 @ 3 PM CST | ⏳ Conditional GO |
+
+---
+
+## AWAITING RESPONSES
+
+| Contact | Company | Expected |
+|---|---|---|
+| FL Medicaid | Gainwell Technologies | May 22 |
+| Concentra | National Accounts | Thu May 22 |
+| 12PanelNow | Supplier quotes | Fri May 22 |
+| Quest | Supplier quotes | Fri May 22 |
+| Sam | Lakota Software | Thu May 22 |
 
 ---
 
@@ -73,20 +82,19 @@
 
 | Partner | Status | Use Case |
 |---|---|---|
-| Roadie | ✅ Active | Pharmacy courier |
-| Uber Health | ✅ Active | Lab courier, NEMT |
+| Roadie | ✅ Active | Pharmacy + Lab Courier |
+| Uber Health | ✅ Active | NEMT primary, backup courier |
 | NCS | ✅ Active | Background + drug testing |
 | AMRO | ✅ Active | MRO @ $4/review |
 | Quest | ⏳ Pending | Drug testing labs |
-| eScreen | ⬜ Contact | Collection network |
-| 24/7 Onsite | ⬜ Contact | Mobile collection |
-| On-Time Screening | ⬜ Contact | Fleet collective events |
+| Concentra | ⏳ Awaiting | Occ health / DOT physicals |
+| Lakota | ✅ Active | Fingerprinting / biometrics |
 
 ---
 
 ## START THE DAY WITH
 
-1. Check daily opportunity reports (NEMT, courier, drug testing)
-2. Run FMCSA SAFER search for MI trucking companies
-3. Email Jeff (Uber Health) about Lab Courier minimum
-4. Draft 1099 Collector Agreement
+1. Check email for FL Medicaid response
+2. Check email for Concentra / 12PanelNow / Quest responses
+3. Review Anchorage proposal — verify ready to submit
+4. Check daily opportunity reports (NEMT, courier, drug testing)

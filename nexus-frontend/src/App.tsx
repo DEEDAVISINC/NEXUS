@@ -29,6 +29,7 @@ import TariffRefundNavigator from './components/fleetflow/TariffRefundNavigator'
 import MDHHSPartnerPortal from './components/public/MDHHSPartnerPortal';
 import CWCSite from './components/cwc/CWCSite';
 import NexusCalendarSystem from './components/systems/NexusCalendarSystem';
+import ClientPortal from './components/prism/ClientPortal';
 import { api } from './api/client';
 
 function App() {
@@ -42,6 +43,13 @@ function App() {
   if (path === '/status') return <HIPAAGate sessionKey="shield_family_status_ack"><FamilyStatusTracker /></HIPAAGate>;
   if (path === '/navigator') return <NavigatorLogin />;
   if (path === '/mdhhs') return <HIPAAGate><MDHHSPartnerPortal /></HIPAAGate>;
+  
+  // Client Portal - magic link access (e.g., /client/ABC-7X9K2)
+  if (path.startsWith('/client/')) {
+    const clientCode = path.replace('/client/', '');
+    return <ClientPortal clientCode={clientCode} />;
+  }
+  
   return <NexusApp />;
 }
 

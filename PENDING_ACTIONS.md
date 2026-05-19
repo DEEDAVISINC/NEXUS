@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 18, 2026 @ 12:20 AM ET
+**Last Updated:** May 18, 2026 @ 4:18 PM ET
 
 ---
 
@@ -14,6 +14,15 @@
 |---|---|---|
 | Daniel Rivera | Anthem Ohio | Awaiting response — will reply when he does |
 | Uber Health | Uber Health (AE assignment) | Intake call completed May 13 — AE callback expected **May 14** |
+| **FL Medicaid** | Gainwell Technologies | Tracking #218601133 — TPA/broker enrollment question (no auto insurance). Expect response by **May 22** |
+
+---
+
+## 📞 PARTNER ONBOARDING — SCHEDULE
+
+| Partner | Task | Questions to Ask | Status |
+|---|---|---|---|
+| **Lyft Healthcare** | Schedule AE sales call | 1) When is Lyft Assisted coming to MI? 2) Medicaid approval timeline for MI? 3) Healthcare broker program available? | ⬜ TODO |
 
 ## ⚠️ CRITICAL FIX NEEDED
 
@@ -44,7 +53,7 @@ All pending MCO emails need audit before sending.
 | Task | Portal | Status |
 |---|---|---|
 | Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
-| Florida Medicaid enrollment | FMMIS | ⬜ Weekend |
+| Florida Medicaid enrollment | FMMIS | ⏳ Question submitted #218601133 — awaiting guidance on TPA/broker enrollment |
 | Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ Weekend |
 | Texas Medicaid enrollment | TMHP | ⬜ Weekend |
 | Molina Ohio portal submission | Provider Contracting Guide | ⬜ Weekend |

@@ -1,6 +1,6 @@
 # UBER HEALTH — Fulfillment Partnership Summary
 
-**Last Updated:** May 16, 2026  
+**Last Updated:** May 18, 2026  
 **Status:** ✅ ACTIVE — Dashboard Live  
 **Partnership Type:** Healthcare Transportation & Rx Delivery Platform  
 **Parent Company:** Uber Technologies, Inc.
@@ -41,9 +41,9 @@
 - **Door-to-Door Rides** — assisted transport (CA, GA, NC, TX initially)
 
 ### Delivery
-- ✅ **Prescription Delivery** — Rx fulfillment
+- ✅ **Prescription Delivery** — Rx fulfillment (OTC only)
 - ✅ **Item Delivery** — general healthcare items
-- ❓ **Controlled Substances** — Pending confirmation from Jeff
+- ❌ **Controlled Substances** — **CONFIRMED NO** (Jeff Metz email May 18, 2026) — cannot support Schedule II-V
 
 ### Platform Features
 - **Real-Time Tracking** — GPS monitoring
@@ -86,8 +86,8 @@
 - [ ] Account consolidation assistance
 
 **Outstanding DDI Requests:**
-- [ ] Letter of Commitment for bid submission
-- [ ] Controlled substance confirmation (Schedule II-V in TX)
+- [ ] Letter of Commitment for bid submission (not critical — bids submitted)
+- [x] ~~Controlled substance confirmation~~ — **NO** (confirmed May 18, 2026)
 
 ---
 
@@ -130,9 +130,9 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 ### Active Use Cases
 | Use Case | Contract | Status |
 |----------|----------|--------|
-| **Lab Courier** | University Health (San Antonio) | Assigned for Lab Courier RFP |
-| **NEMT** | HAP CareSource (Michigan) | ✅ Contracted TPA |
-| **Rx Delivery** | University Health (San Antonio) | Backup to Roadie |
+| **Lab Courier** | University Health (San Antonio) | ✅ Backup to Roadie — RFP SUBMITTED May 17, 2026 |
+| **NEMT** | HAP CareSource (Michigan) | ✅ Contracted TPA — A Tier coverage |
+| **Rx Delivery** | University Health (San Antonio) | Backup to Roadie (OTC only — no controlled substances) |
 
 ---
 
@@ -160,6 +160,15 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 
 ---
 
+## COVERAGE TIERS (Confirmed May 18, 2026)
+
+| Region | Tier | Completion Rate | Source |
+|--------|------|-----------------|--------|
+| **Bexar County, TX (San Antonio)** | **A Tier** | 90%+ | Jeff Metz email May 18 |
+| **Michigan (NEMT territory)** | **A Tier** | 90%+ | Jeff Metz email May 18 |
+
+---
+
 ## COMMUNICATION LOG
 
 | Date | Action | Notes |
@@ -170,16 +179,17 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 | May 15, 2026 | Dashboard activated | health.uber.com live |
 | May 15, 2026 | Follow-up email sent | LOC + controlled substance request |
 | May 16, 2026 | Follow-up email sent | Second request for LOC |
+| **May 18, 2026** | **Email from Jeff** | **Rx Addendum attached. CONFIRMED: No controlled substances. CONFIRMED: Bexar County TX = A Tier (90%+). CONFIRMED: Michigan = A Tier (90%+).** |
 
 ---
 
 ## NEXT ACTIONS
 
 - [ ] Receive BAA, T&Cs, Driver Safety Deck from Jeff
-- [ ] Confirm controlled substance policy for TX Rx delivery
+- [x] ~~Confirm controlled substance policy for TX Rx delivery~~ — **CONFIRMED NO** (May 18, 2026)
+- [ ] Review Rx Addendum attached to Jeff's May 18 email
 - [ ] Resolve account consolidation (personal vs business)
 - [ ] Document pricing structure received
-- [ ] Capture dashboard screenshot for Lab Courier bid proof
 - [ ] After $200K revenue: Request API access
 
 ---

@@ -1,7 +1,33 @@
 # MCO VENDOR PORTAL MANUAL CHECK LIST
-**Generated:** May 17, 2026 at 11:17 PM
+**Generated:** May 17, 2026 at 11:17 PM | **Updated:** May 18, 2026
 
 These portals require login. Check each one for NEMT, transportation, and courier RFPs.
+
+---
+
+## ⚠️ OUTREACH PROTOCOL — READ BEFORE CONTACTING ANY MCO
+
+**Lesson learned from Aetna (May 2026):** Generic credentialing inboxes and intake forms route to automated PRMS systems. They return "No Action Required" because there's no provider to credential. DDI is a TPA, not a provider.
+
+### The Right Outreach Path — Every MCO:
+
+1. **Find the Director of Network Management or VP Network Development** for the specific state plan
+   - Source: Texas HHS MCO Provider Relations directory (hhs.texas.gov), state Medicaid agency contact lists, LinkedIn, MCO provider manuals
+   - Email format examples: `GravesL@aetna.com`, `SHP-NetworkDevelopment@centene.com`
+
+2. **Do NOT use credentialing inboxes** — these are automated PRMS systems that close TPA inquiries as "No Action Required"
+   - Wrong: `ABHTXcredentialing@aetna.com`, generic intake forms, provider enrollment portals
+   - Right: Named director, network development team inbox, or VP-level contact
+
+3. **Email opens with:** "I'm reaching out about TPA subcontracting opportunities — not as a provider seeking credentialing, but as a program-level administrator."
+
+4. **CC a secondary contact** (Sr. Manager level) whenever available
+
+5. **After sending:** Log in `PARTNER_ACCOUNT_UPDATES.md` immediately with name, email, date sent, and 14-day follow-up date
+
+6. **CVS Health Supplier Portal** (`cvshealth.com/suppliers`) covers all Aetna/CVS brands — register once, applies across Aetna Better Health states ✅ DONE
+
+---
 
 ---
 

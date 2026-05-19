@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 18, 2026 @ 12:25 AM ET
+**Last Updated:** May 18, 2026 @ 7:10 PM ET
 
 ---
 
@@ -103,6 +103,21 @@
 | **Trucking (500+ drivers)** | 2 fleets | $150K | $300K | $200K (67%) |
 | **Transit/Municipal** | 3 contracts | $50K | $150K | $100K (67%) |
 | **TOTAL DRUG TESTING** | 20 contracts | — | **$1.175M** | **$820K (70%)** |
+
+### ACTIVE BID — CCRTA Occupational Medical (RFP No. 2026-S-08)
+
+| Field | Value |
+|-------|-------|
+| **Agency** | Corpus Christi Regional Transportation Authority |
+| **Deadline** | June 1, 2026 @ 3:00 PM CST |
+| **Incumbent** | Alliance Health Resources |
+| **Annual Revenue Est.** | $48,500 |
+| **Contract Lifetime (5 yr)** | $242,500 |
+| **DDI Margin (Est. 35%)** | $84,875 lifetime |
+| **Win Probability** | 30% (local office requirement is blocker) |
+| **Risk-Adjusted Value** | $25,500 lifetime |
+| **Status** | **⏳ CONDITIONAL GO** — Need Concentra wholesale pricing |
+| **Key Advantage** | MRO: AMRO $4 vs Alliance $16 = $12/test advantage |
 
 **Fulfillment Model:** DDI is C/TPA. 1099 collectors + sub collection companies do the work. 50-70% margin.
 

@@ -1,11 +1,11 @@
-Good morning Dee. Here is your NEXUS briefing for Monday, May 19, 2026.
+Good morning Dee. Here is your NEXUS briefing for Tuesday, May 19th.
 
-You have one meeting this week: Capability Statement Training on Tuesday May 27 at 1 PM.
+You have no meetings scheduled today.
 
-Your top 3 priorities today are: First, find contracts for the drug testing C TPA model you built last night. Second, follow up with Jeff at Uber Health about the Lab Courier minimum waiver. Third, monitor University Health for award notifications.
+Your top 3 priorities are: First, check for the Florida Medicaid response about TPA enrollment. Second, follow up on Hall County pricing from 12PanelNow and Quest, needed by Friday. Third, verify your cyber liability insurance for the Anchorage proposal.
 
-Reminder: NCS training is due by June 3. Contact Mark to schedule.
+Deadlines this week: Anchorage background checks proposal is due Wednesday May 28th. Hall County sealed bid must ship Tuesday May 26th. Sam from Lakota is back Thursday.
 
-The drug testing C TPA model is ready. You keep 50 to 70 percent margin. DDI dispatches, collectors perform. Time to find trucking companies.
+The University Health proposals are submitted and awaiting award. The pipeline stands at over 25 million lifetime.
 
 Have a great day.

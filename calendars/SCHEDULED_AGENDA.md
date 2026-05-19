@@ -159,7 +159,7 @@
 
 ## 2026-05-18 — Monday
 
-- **12:00 PM ET** — 🔥 **CHECK: Michigan NEMT Broker Recompete — SIGMA VSS** — ModivCare contract MA190000000912 expires July 31, 2026. Log into SIGMA VSS (sigma.michigan.gov) and check for NEMT broker RFP. Also check michigan.gov/dtmb/procurement. If RFP posted — create bid folder immediately. Contract value ~$103M. `.ics`: `calendars/modivcare_nemt_recompete_check_2026-05-18.ics`
+- **12:00 PM ET** — ✅ **COMPLETE: Michigan NEMT Broker Recompete — SIGMA VSS** — Email sent to Marissa Gove (DTMB) May 11 → routed to Sarah Oumedian (MDHHS Bureau of Grants and Purchasing, OumedianS@michigan.gov, 517-335-1969). Sarah confirmed: **RFP will post in SIGMA VSS during FY2026 (before Sept 30, 2026). No specific quarter, no pre-bid conference decision yet, no statewide vs. regional decision made.** Sarah's instruction: add commodity code **9S3** to SIGMA VSS vendor profile for auto-notification. ⬜ **REMAINING: Log into SIGMA VSS → My Account → Commodities → Add 9S3 → Save.** Contract value ~$103M (Wayne, Oakland, Macomb counties). ModivCare incumbent expires July 31, 2026.
 
 ---
 
@@ -178,7 +178,7 @@
 
 ## 2026-05-26 — Tuesday
 
-- **5:00 PM ET** — 🔥 **INTERNAL HARD STOP — Submit Hall County GA 012-47 Drug Screen Kits & Services** — Official deadline is May 28 @ 2:00 PM ET, but Georgia GPR portal goes READ-ONLY on/after May 27 (GA@WORK transition). Must submit via GPR by today OR confirm alternate submission path with Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) before May 25. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_internal_cutoff_2026-05-26.ics`
+- **12:00 PM ET** — 🔥 **SHIP DAY — FedEx Hall County GA 012-47 Drug Screen Kits & Services** — Drop sealed bid package at FedEx Office (Troy, MI) for Priority Overnight + signature required to Hall County Government Center, ATTN: Connie Barnes, Purchasing Division — 4th Floor, 2875 Browns Bridge Rd, Gainesville, GA 30504. Package = 4 hard copies (1 Original + 3 Copy) + 1 separate hard copy of Exhibit C + 1 USB drive in sealed envelope. Save FedEx tracking to `PROOF_OF_SUBMISSION/`. Email Connie with tracking on May 26 PM. Mon May 25 = Memorial Day (no ship). Tue May 26 ship → Wed May 27 delivery → Thu May 28 @ 2 PM ET deadline. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_internal_cutoff_2026-05-26.ics`
 
 ---
 
@@ -190,7 +190,7 @@
 
 ## 2026-05-28 — Thursday
 
-- **2:00 PM ET** — 🔥 **BID DUE: Hall County GA 012-47 Drug Screen Kits & Services (Annual Contract)** — Event PE-77129-NONST-2027-000000060 · NIGP 95207 · Buyer: Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) · Submit via GPR `ssl.doas.state.ga.us/gpr` (read-only since May 27 — confirm alternate path with Connie). Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_deadline_2026-05-28.ics`
+- **2:00 PM ET** — 🔥 **BID OPENING: Hall County GA IFB #012-47 Drug Screen Kits & Services (Annual Contract)** — Event PE-77129-NONST-2027-000000060 · NIGP 95207 · Buyer: Connie Barnes (cbarnes@hallcounty.org / 770.535.8263). **Hard-copy sealed-bid IFB delivered to 4th-floor reception at 2875 Browns Bridge Rd, Gainesville, GA 30504** (NOT a portal submission — faxed/emailed bids not accepted). Public bid opening immediately after deadline. Confirm FedEx delivery tracking via `PROOF_OF_SUBMISSION/`. Term: 1 base year + 2 one-year renewals. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_deadline_2026-05-28.ics`
 
 ---
 

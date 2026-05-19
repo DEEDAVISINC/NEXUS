@@ -8,27 +8,27 @@ X-WR-TIMEZONE:America/Detroit
 
 BEGIN:VEVENT
 UID:hall-county-ga-012-47-deadline-2026-05-28@deedavis.biz
-DTSTAMP:20260518T153700Z
+DTSTAMP:20260518T160000Z
 DTSTART;TZID=America/Detroit:20260528T140000
 DTEND;TZID=America/Detroit:20260528T143000
-SUMMARY:🔥 BID DUE: Hall County GA 012-47 Drug Screen Kits & Services
-DESCRIPTION:Hall County Board of Commissioners — 012-47 Drug Screen Kits and Services Annual Contract.\n\nEvent Number: PE-77129-NONST-2027-000000060\nNIGP: 95207 — Alcohol and Drug Testing Services\nBuyer: Connie Barnes — cbarnes@hallcounty.org — 770.535.8263\nPortal: https://ssl.doas.state.ga.us/gpr/eventDetails?eSourceNumber=PE-77129-NONST-2027-000000060\n\n*** CRITICAL: GA portal goes READ-ONLY on May 27, 2026 (one day before this deadline). Submit via GPR no later than Tuesday May 26 5:00 PM ET, OR confirm alternate submission method with Connie before May 25. ***\n\nFolder: BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/
-LOCATION:Georgia Procurement Registry (GPR) — ssl.doas.state.ga.us
+SUMMARY:🔥 BID OPENING: Hall County GA IFB #012-47 Drug Screen Kits & Services
+DESCRIPTION:Hall County Board of Commissioners — IFB #012-47 Drug Screen Kits and Services Annual Contract.\n\nGPR Event: PE-77129-NONST-2027-000000060\nNIGP: 95207\nBuyer: Connie Barnes — cbarnes@hallcounty.org — 770.535.8263\n\n*** SUBMISSION IS HARD COPY — NOT PORTAL ***\n4 hard copies (1 Original + 3 Copy) + 1 hard copy of Exhibit C + 1 USB drive in sealed envelope marked "IFB #012-47, Drug Screen Kits & Services Annual Contract"\n\nDelivered to: Hall County Government Center, Connie Barnes, Issuing Officer, Purchasing Division — 4th Floor, 2875 Browns Bridge Road, Gainesville, GA 30504\n\nMust be time-stamped at 4th-floor reception by 2:00 PM EST today. Public bid opening immediately after deadline.\n\nFolder: BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/
+LOCATION:Hall County Government Center — 2875 Browns Bridge Rd, Gainesville GA 30504
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT24H
-DESCRIPTION:Hall County GA bid due in 24 hours
+DESCRIPTION:Hall County GA bid opens in 24 hours — confirm FedEx delivery
 ACTION:DISPLAY
 END:VALARM
 BEGIN:VALARM
 TRIGGER:-PT4H
-DESCRIPTION:Hall County GA bid due in 4 hours
+DESCRIPTION:Hall County GA bid opening in 4 hours
 ACTION:DISPLAY
 END:VALARM
 BEGIN:VALARM
 TRIGGER:-PT30M
-DESCRIPTION:Hall County GA bid due in 30 minutes
+DESCRIPTION:Hall County GA bid opening in 30 minutes
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT

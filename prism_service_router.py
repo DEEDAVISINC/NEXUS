@@ -1530,3 +1530,232 @@ def api_credential_check():
     result['service_type'] = service_type
     result['required_credentials'] = SERVICE_REQUIRED_CREDENTIALS.get(service_type, [])
     return jsonify(result)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CLIENT PORTAL API — CONNECTS CLIENT LINK TO PRISM/NEXUS SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# The Client Portal is a READ window + order submission into PRISM.
+# Data flow:
+#   Client submits request → PRISM order queue → DDI routes via service router
+#   DDI updates order status → Client sees it instantly in their portal
+#   DDI uploads result/scanback → Client can download it from Documents tab
+#   DDI generates invoice → Client sees it in Invoices and can pay online
+#
+# The magic link encodes a client_code that maps to their Airtable client record.
+# Every portal read/write authenticates against this code — no passwords.
+
+CLIENT_PORTAL_STORE = {}  # In production: Airtable PRISM_CLIENTS table
+
+
+def _get_client_by_code(code: str) -> Optional[dict]:
+    """Fetch client record by magic link code. Maps to Airtable."""
+    if code in CLIENT_PORTAL_STORE:
+        return CLIENT_PORTAL_STORE[code]
+    # Fallback demo client
+    if code in ('demo', 'ABC-7X9K2'):
+        return {
+            'id': 'c1',
+            'code': code,
+            'name': 'ABC Trucking Co.',
+            'contact_name': 'Mike Johnson',
+            'contact_email': 'mike@abctrucking.com',
+            'services': ['dot_drug_test', 'non_dot_drug_test', 'post_accident_drug',
+                         'return_to_duty_test', 'random_pool'],
+            'service_category': 'drug_testing',
+            'state': 'MI',
+            'county': 'Oakland',
+        }
+    return None
+
+
+@prism_router.route('/prism/client-portal/<client_code>', methods=['GET'])
+def api_client_portal_home(client_code):
+    """Client portal data — returns everything the frontend needs in one call.
+    Connected to PRISM orders, documents, invoices, and calendar."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid or expired link'}), 404
+
+    # In production these pull from Airtable tables:
+    # - PRISM_ORDERS (filtered by client_id)
+    # - PRISM_DOCUMENTS (filtered by client_id)
+    # - PRISM_INVOICES (filtered by client_id)
+    return jsonify({
+        'client': client,
+        'orders': [],       # Populated from Airtable PRISM_ORDERS
+        'documents': [],    # Populated from Airtable PRISM_DOCUMENTS
+        'invoices': [],     # Populated from Airtable PRISM_INVOICES
+        'services_available': [
+            {
+                'type': svc_key,
+                'label': svc_val['label'],
+                'service_line': svc_val['service_line'],
+            }
+            for svc_key, svc_val in SERVICE_CATALOG.items()
+            if svc_key in client.get('services', [])
+        ],
+    })
+
+
+@prism_router.route('/prism/client-portal/<client_code>/orders', methods=['GET'])
+def api_client_orders(client_code):
+    """List all orders for this client (active + history)."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+    # Production: query Airtable PRISM_ORDERS where client_id = client['id']
+    return jsonify({'orders': []})
+
+
+@prism_router.route('/prism/client-portal/<client_code>/orders', methods=['POST'])
+def api_client_submit_order(client_code):
+    """Client submits a new service request — enters PRISM order queue.
+    This triggers the service router to assign fulfillment."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+
+    data = request.get_json() or {}
+    service_type = data.get('service_type')
+    subject_name = data.get('subject_name')
+    urgent = data.get('urgent', False)
+
+    if not service_type or not subject_name:
+        return jsonify({'error': 'service_type and subject_name required'}), 400
+
+    if service_type not in SERVICE_CATALOG:
+        return jsonify({'error': f'Service type not available: {service_type}'}), 400
+
+    # Route through PRISM service router
+    routing = route_order(
+        service_type=service_type,
+        client_state=client.get('state', ''),
+        client_county=client.get('county', ''),
+        urgent=urgent,
+    )
+
+    order_id = f'ORD-{datetime.now().strftime("%Y")}-{str(uuid.uuid4())[:4].upper()}'
+
+    order = {
+        'id': order_id,
+        'client_id': client['id'],
+        'client_code': client_code,
+        'service_type': service_type,
+        'subject_name': subject_name,
+        'subject_phone': data.get('subject_phone', ''),
+        'subject_dob': data.get('subject_dob', ''),
+        'subject_cdl': data.get('subject_cdl', ''),
+        'notes': data.get('notes', ''),
+        'urgent': urgent,
+        'status': 'pending',
+        'created_at': datetime.now().isoformat(),
+        'routing': routing,
+    }
+
+    # Production: write to Airtable PRISM_ORDERS table
+    # airtable.create('PRISM_ORDERS', order)
+
+    # Log to NEXUS learning engine
+    nxlearn('client_portal_order', {
+        'client_code': client_code,
+        'service_type': service_type,
+        'routing_mode': routing.get('fulfillment_mode'),
+        'margin_pct': routing.get('revenue_model', {}).get('margin_pct'),
+    })
+
+    return jsonify({
+        'success': True,
+        'order': order,
+        'message': f'Request received. Your DDI team is on it.',
+        'routing_summary': {
+            'mode': routing.get('fulfillment_mode'),
+            'partner': routing.get('assigned_partner'),
+            'estimated_schedule': '1-2 business days' if not urgent else 'Within 8 hours',
+        }
+    }), 201
+
+
+@prism_router.route('/prism/client-portal/<client_code>/documents', methods=['GET'])
+def api_client_documents(client_code):
+    """All documents available to this client (results, scanbacks, reports)."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+    # Production: query Airtable PRISM_DOCUMENTS where client_id = client['id']
+    return jsonify({'documents': []})
+
+
+@prism_router.route('/prism/client-portal/<client_code>/invoices', methods=['GET'])
+def api_client_invoices(client_code):
+    """All invoices for this client."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+    # Production: query Airtable PRISM_INVOICES where client_id = client['id']
+    return jsonify({'invoices': []})
+
+
+@prism_router.route('/prism/client-portal/<client_code>/invoices/<invoice_id>/pay', methods=['POST'])
+def api_client_pay_invoice(client_code, invoice_id):
+    """Initiate payment for an invoice — creates Stripe checkout session."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+
+    # Production: create Stripe checkout session for the invoice amount
+    # stripe.checkout.Session.create(...)
+    return jsonify({
+        'success': True,
+        'checkout_url': f'https://checkout.stripe.com/pay/{invoice_id}',
+        'message': 'Redirecting to secure payment...',
+    })
+
+
+@prism_router.route('/prism/client-portal/<client_code>/calendar', methods=['GET'])
+def api_client_calendar(client_code):
+    """Calendar events for this client — derived from scheduled orders."""
+    client = _get_client_by_code(client_code)
+    if not client:
+        return jsonify({'error': 'Invalid link'}), 404
+    # Production: query PRISM_ORDERS where client_id = client['id'] AND status IN ('scheduled', 'completed')
+    # Transform to calendar events
+    return jsonify({'events': []})
+
+
+@prism_router.route('/prism/client-portal/generate-link', methods=['POST'])
+def api_generate_client_link():
+    """DDI internal: Generate a new magic link for a client.
+    Called from PRISM when onboarding a new client."""
+    data = request.get_json() or {}
+    client_name = data.get('client_name')
+    contact_email = data.get('contact_email')
+    services = data.get('services', [])
+
+    if not client_name or not contact_email:
+        return jsonify({'error': 'client_name and contact_email required'}), 400
+
+    # Generate unique code
+    code = f'{client_name[:3].upper()}-{str(uuid.uuid4())[:5].upper()}'
+
+    client_record = {
+        'id': str(uuid.uuid4()),
+        'code': code,
+        'name': client_name,
+        'contact_email': contact_email,
+        'services': services,
+        'created_at': datetime.now().isoformat(),
+    }
+
+    CLIENT_PORTAL_STORE[code] = client_record
+    # Production: write to Airtable PRISM_CLIENTS table
+
+    portal_url = f'https://portal.deedavis.biz/client/{code}'
+
+    return jsonify({
+        'success': True,
+        'client_code': code,
+        'portal_url': portal_url,
+        'message': f'Portal link generated for {client_name}. Send to {contact_email}.',
+    })

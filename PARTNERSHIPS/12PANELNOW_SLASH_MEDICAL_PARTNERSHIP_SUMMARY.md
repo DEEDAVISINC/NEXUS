@@ -89,22 +89,36 @@ Product: https://12panelnow.com/product/17-panel-drug-test-cup-gabapentin/
 
 ---
 
-## OUTSTANDING RFQ — DDI-2026-DTK001
+## RFQ DDI-2026-DTK001 — RESPONSE RECEIVED
 
-**Sent:** April 12, 2026  
-**Status:** ⏳ Awaiting response
+**Sent:** April 12, 2026
+**Brenda Response:** May 18, 2026 (PDF: `PARTNERSHIPS/12PanelNow_Pricing_Proposal_May2026.pdf`)
+**Status:** ✅ PRICING RECEIVED — but at **box-of-25 rate**, not wholesale
 
-| Line | Product | SKU Requested |
-|------|---------|---------------|
-| 1 | 12-panel urine cup | CDOA-6125-90 |
-| 2 | 13-panel oral fluid pen | SMSPD-1227NT-EUO |
-| 3 | 14-panel urine cup | CDOA-8145FUO |
-| 4 | 18-panel urine cup | CDOA-9185 |
-| 5 | Kratom test strip | PREDX-KRA-114N |
-| 6 | Psilocybin dip card | PREDX-PY-114N |
+### Quoted Prices (Box of 25 — wholesale tier requires monthly volume estimate)
 
-**For:** Northeast U.S. public-sector client  
-**Deadline requested:** April 15, 2026
+| SKU | Product | Format | Box-of-25 Unit Price |
+|---|---|---|---|
+| **CDOA-6125-90** | 12-Panel Urine Cup (no-drip lid, temp strip) | Integrated cup | **$2.29/cup** |
+| **SMSPD-1227NT-EUO** | 13-Panel Oral Fluid Drug Test Pen | Oral swab/pen | **$2.69/pen** |
+| **CDOA-8145FUO** | 14-Panel Urine Cup (incl. Fentanyl FUO) | Integrated cup | **$2.79/cup** |
+| **CDOA-9185** | 18-Panel Urine Cup | Integrated cup | **$2.59/cup** |
+| **PREDX-KRA-114N** | Kratom (Mitragynine) Test Strip | Dip card strip | **$0.79/strip** |
+| **PREDX-PY-114N** | Psilocybin (Magic Mushroom) Test Card | Dip card | **$2.69/card** |
+
+### Brenda's Direct Quote
+> *"these prices are for Quantities of 25. I can't offer wholesale prices unless we have an estimate for monthly orders. We encourage you to discuss your forecasted annual volume with us to lock in the absolute lowest possible cost."*
+
+### Updated Logistics (per May 18 proposal)
+
+- **Shipping cutoff: 3:00 PM EST** (was 2:00 PM previously — 1 hour later)
+- **Free ground shipping on 100+ units** (4+ boxes of 25)
+- **Inventory: 500M+ cups in stock** (network-wide)
+- **Same-day shipment confirmation** when ordered before cutoff
+
+### Action Required
+- [ ] **Reply to Brenda with annual volume forecast** to unlock wholesale tier (likely 10-25% off box-of-25 rate)
+- [ ] **Request pricing on missing SKUs:** 5-panel cup, 9-panel WITH LSD, K2/synthetic marijuana, fentanyl single-panel dip, synthetic opiates single-panel, biohazard specimen bags, urine collection cup (Therapak #39415 equivalent)
 
 ---
 
@@ -150,9 +164,9 @@ Product: https://12panelnow.com/product/17-panel-drug-test-cup-gabapentin/
 
 ## ACTIONS NEEDED
 
-- [ ] Follow up on RFQ DDI-2026-DTK001 (April 12 quote request)
+- [ ] **Reply to Brenda (May 18, 2026 proposal)** with annual volume forecast across all active bids (Hall County GA, Dutchess County NY, Macomb MI, Lexington KY) — unlock wholesale tier
+- [ ] **Request pricing on missing SKUs** for Hall County GA IFB #012-47: 5-panel BZO/COC/MET cup, 9-panel with LSD, K2/synthetic marijuana, fentanyl single-panel dip, synth opiate single-panel, urine collection cup (Therapak #39415 equiv 90mL × 53mm sterile, 300/case), biohazard bags (clear, 1000/case)
 - [ ] Submit credit application when first drug testing contract awarded
-- [ ] Place initial 400-cup order to lock in $2.09 rate
 - [ ] Add 12PanelNow to PRISM supplier database
 
 ---

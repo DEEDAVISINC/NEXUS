@@ -8,22 +8,27 @@ X-WR-TIMEZONE:America/Detroit
 
 BEGIN:VEVENT
 UID:hall-county-ga-012-47-internal-cutoff-2026-05-26@deedavis.biz
-DTSTAMP:20260518T153700Z
-DTSTART;TZID=America/Detroit:20260526T170000
-DTEND;TZID=America/Detroit:20260526T173000
-SUMMARY:🔥 INTERNAL HARD STOP — Submit Hall County GA 012-47 by today
-DESCRIPTION:Internal hard stop for Hall County 012-47 Drug Screen Kits & Services bid submission.\n\nWhy today (May 26) instead of the May 28 official deadline:\nGeorgia is transitioning to GA@WORK ERP. All suppliers go to READ-ONLY access on and after May 27 2026. The official deadline is May 28 at 2:00 PM ET, but the portal is read-only by then.\n\nMust be submitted via GPR by 5:00 PM ET today, or confirmed alternate submission path with Connie Barnes (cbarnes@hallcounty.org / 770.535.8263) BEFORE May 25.\n\nFolder: BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/
-LOCATION:Georgia Procurement Registry (GPR)
+DTSTAMP:20260518T160000Z
+DTSTART;TZID=America/Detroit:20260526T120000
+DTEND;TZID=America/Detroit:20260526T130000
+SUMMARY:🔥 SHIP DAY — FedEx Hall County GA IFB #012-47 (Priority Overnight to Gainesville)
+DESCRIPTION:Internal hard stop for Hall County 012-47 — drop bid package at FedEx Office (Troy MI) by 12:00 PM ET for Priority Overnight + signature required to:\n\nHall County Government Center\nATTN: Connie Barnes, Issuing Officer\nPurchasing Division — 4th Floor\n2875 Browns Bridge Road\nGainesville, GA 30504\n\nPackage contents:\n• 4 hard paper copies of full bid (1 Original + 3 Copy)\n• 1 separate hard paper copy of Exhibit C — Cost Proposal Worksheet\n• 1 USB drive with all PDFs\n• Sealed envelope exterior marked "IFB #012-47, Drug Screen Kits & Services Annual Contract"\n\nMonday May 25 = Memorial Day (no shipping). Tuesday May 26 ship → Wednesday May 27 delivery → Thursday May 28 @ 2 PM ET deadline. Multi-day buffer.\n\nAfter ship: capture FedEx tracking number, save to PROOF_OF_SUBMISSION/, email Connie with tracking on May 26 afternoon.\n\nFolder: BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/
+LOCATION:FedEx Office — Troy, MI
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
-TRIGGER:-PT24H
-DESCRIPTION:Internal hard stop for Hall County 012-47 in 24 hours
+TRIGGER:-PT48H
+DESCRIPTION:Ship Hall County 012-47 package in 48 hours — confirm forms signed and notarized
 ACTION:DISPLAY
 END:VALARM
 BEGIN:VALARM
-TRIGGER:-PT4H
-DESCRIPTION:Internal hard stop for Hall County 012-47 in 4 hours
+TRIGGER:-PT24H
+DESCRIPTION:Ship Hall County 012-47 package tomorrow — final assembly tonight
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Ship Hall County 012-47 — leave for FedEx Office in 2 hours
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
