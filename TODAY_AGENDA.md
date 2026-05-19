@@ -1,100 +1,80 @@
-# TODAY'S AGENDA — Tuesday, May 19, 2026
-
-## YESTERDAY'S WINS (May 18)
-- ✅ **Anchorage Background Checks proposal COMPLETE** — 8-page HTML + Fee Schedule in NEXUS format
-- ✅ **University Health Pharmacy Courier SUBMITTED** (May 17)
-- ✅ **University Health Lab Courier SUBMITTED** (May 17)
-- ✅ **Florida Medicaid inquiry submitted** — Tracking #218601133, TPA/broker enrollment path
+# TODAY'S AGENDA — Tuesday, May 20, 2026
 
 ---
 
-## PRIORITY 1: SUBMIT ANCHORAGE PROPOSAL
+## 🔥 PRIORITY — AWAITING RESULTS
 
-| Task | Deadline |
-|---|---|
-| **Sign Letter of Transmittal + Fee Schedule** | Before May 28 |
-| **Verify $3M cyber liability insurance** | Before submission |
-| **Convert HTML to PDF** | Before submission |
-| **Submit via BidExpress** | **May 28 @ 12 PM AKT (4 PM ET)** |
-
-Folder: `BIDS:RESOURCES/ANCHORAGE BACKGROUND CHECKS/SEND_TO_BUYER/`
+**University Health (San Antonio) — SUBMITTED**
+- Pharmacy Courier: $4.26M/yr — submitted May 17
+- Lab Courier: $480K/yr — submitted May 17
+- **Combined 5-year value: $23.7M revenue / $10.7M margin**
+- Waiting for award decision
 
 ---
 
-## PRIORITY 2: HALL COUNTY GA — SHIP BY TUESDAY MAY 26
+## 📧 OVERDUE REPLIES — SEND TODAY
 
-| Task | Status |
-|---|---|
-| Awaiting 12PanelNow + Quest quotes | Due **Fri May 22** |
-| Build sealed bid package | After pricing received |
-| **SHIP via FedEx Priority Overnight** | **Tue May 26 @ 12 PM ET** (Mon is Memorial Day) |
-| Delivery address | 2875 Browns Bridge Rd, Gainesville GA 30504, 4th Floor |
-
----
-
-## PRIORITY 3: CCRTA OCCUPATIONAL MEDICAL
-
-| Task | Status |
-|---|---|
-| Concentra pricing | ⏳ Awaiting response (follow up Thu 5/22) |
-| Confirm local office satisfies RFP | ⏳ Need to clarify with CCRTA |
-| **Deadline** | **June 1, 2026 @ 3:00 PM CST** |
-
----
-
-## PRIORITY 4: WATCH FOR FL MEDICAID RESPONSE
-
-- Tracking #218601133
-- Expected response by **May 22** (3 business days)
-- Question: How do NEMT brokers/TPAs enroll without auto insurance?
-
----
-
-## DEADLINES THIS WEEK
-
-| Item | Deadline | Status |
+| # | To | Action |
 |---|---|---|
-| Hall County quotes needed | Fri May 22 | ⏳ Awaiting |
-| Concentra follow-up | Thu May 22 | ⬜ TODO |
-| Sam (Lakota) back in office | Thu May 22 | Coordinate Minneapolis |
-| Minneapolis questions answered | Tue May 27 | ⏳ Awaiting |
-| **Anchorage proposal DUE** | **Wed May 28 @ 12 PM AKT** | ✅ Ready to submit |
-| **Hall County SHIP** | **Tue May 26 @ 12 PM ET** | ⬜ Pending pricing |
-| Capability Statement Training (APEX) | Tue May 27 @ 1:00 PM | ✅ Calendar |
-| NCS Training | June 3 | ⬜ Schedule with Mark |
-| CCRTA proposal DUE | June 1 @ 3 PM CST | ⏳ Conditional GO |
+| 1 | Daniel Rivera (Anthem Ohio) | ODM clarification — full service pitch (NEMT, Personal Care, DME, HAVEN) |
+| 2 | Kristen Halsey (CareSource Ohio) | Intro reply — full service pitch (NEMT, Personal Care, DME, HAVEN) |
+| 3 | Brian Grcevich (HAP CareSource) | Thank you for clarification — keep NEMT relationship warm |
 
 ---
 
-## AWAITING RESPONSES
+## ⚠️ SERVICE PITCH RULE
 
-| Contact | Company | Expected |
+**All emails MUST include full service list:**
+- NEMT TPA — trip coordination, provider credentialing, compliance
+- Personal Care TPA — companion care, ADL support, homemaker services
+- DME — durable medical equipment coordination and delivery
+- HAVEN — disaster transport, emergency pharmacy delivery, temporary housing
+
+---
+
+## 📋 PORTAL TASKS
+
+| Task | Portal | Status |
 |---|---|---|
-| FL Medicaid | Gainwell Technologies | May 22 |
-| Concentra | National Accounts | Thu May 22 |
-| 12PanelNow | Supplier quotes | Fri May 22 |
-| Quest | Supplier quotes | Fri May 22 |
-| Sam | Lakota Software | Thu May 22 |
+| Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
+| Florida Medicaid enrollment | FMMIS | ⬜ |
+| Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ |
+| Texas Medicaid enrollment | TMHP | ⬜ |
 
 ---
 
-## PARTNER STATUS
+## 📞 FOLLOW-UPS DUE
 
-| Partner | Status | Use Case |
+| Contact | Company | Last Contact | Next Action |
+|---|---|---|---|
+| Natalie Lukaszewicz | Centene Corporate | May 13 | Mid-July 2026 (Q3) |
+| Bennett Emfinger | Alabama Medicaid | May 12 | May 26 |
+
+---
+
+## 🚀 ACTIVE BIDS
+
+| Opportunity | Deadline | Status |
 |---|---|---|
-| Roadie | ✅ Active | Pharmacy + Lab Courier |
-| Uber Health | ✅ Active | NEMT primary, backup courier |
-| NCS | ✅ Active | Background + drug testing |
-| AMRO | ✅ Active | MRO @ $4/review |
-| Quest | ⏳ Pending | Drug testing labs |
-| Concentra | ⏳ Awaiting | Occ health / DOT physicals |
-| Lakota | ✅ Active | Fingerprinting / biometrics |
+| **University Health Pharmacy Courier** | May 18 ✅ | SUBMITTED |
+| **University Health Lab Courier** | May 18 ✅ | SUBMITTED |
+| **CCRTA Occupational Medical** | June 1 | ⏳ Conditional GO — need Concentra pricing |
 
 ---
 
-## START THE DAY WITH
+## PIPELINE SNAPSHOT
 
-1. Check email for FL Medicaid response
-2. Check email for Concentra / 12PanelNow / Quest responses
-3. Review Anchorage proposal — verify ready to submit
-4. Check daily opportunity reports (NEMT, courier, drug testing)
+| Metric | Value |
+|---|---|
+| **Active Revenue (HAP)** | $540K/yr |
+| **Submitted Bids (UH)** | $4.74M/yr |
+| **Risk-Adjusted Annual** | $6.5M |
+| **5-Year Lifetime Value** | $25M+ |
+
+---
+
+## NOTES
+
+- Uber Health: AE call pending (scheduled May 13 evening / May 14) — follow up if not received
+- HAP CareSource: Personal Care = in-house, NEMT relationship continues
+- Magnolia MS: Clarification sent — waiting for correct routing

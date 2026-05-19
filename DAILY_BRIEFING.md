@@ -1,11 +1,11 @@
-Good morning Dee. Here is your NEXUS briefing for Tuesday, May 19th.
+Good morning Dee. Here is your NEXUS briefing for Tuesday, May 20th.
 
-You have no meetings scheduled today.
+You have no scheduled calls today.
 
-Your top 3 priorities are: First, check for the Florida Medicaid response about TPA enrollment. Second, follow up on Hall County pricing from 12PanelNow and Quest, needed by Friday. Third, verify your cyber liability insurance for the Anchorage proposal.
+Your top 3 priorities are: First, send the overdue replies to Daniel Rivera at Anthem Ohio and Kristen Halsey at CareSource Ohio with the full service pitch. Second, send the thank you reply to Brian Grcevich at HAP CareSource. Third, follow up on the Uber Health AE call if you haven't received it yet.
 
-Deadlines this week: Anchorage background checks proposal is due Wednesday May 28th. Hall County sealed bid must ship Tuesday May 26th. Sam from Lakota is back Thursday.
+Reminder. University Health bids were submitted on May 17th. Combined value is 4.74 million dollars per year. Waiting for award decision.
 
-The University Health proposals are submitted and awaiting award. The pipeline stands at over 25 million lifetime.
+Reminder. All outreach emails must include all four services: NEMT, Personal Care, DME, and HAVEN.
 
-Have a great day.
+Have a good day.
