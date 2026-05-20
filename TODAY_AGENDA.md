@@ -1,47 +1,61 @@
-# TODAY'S AGENDA — Tuesday, May 19, 2026
+# TODAY'S AGENDA — Wednesday, May 20, 2026
 
 ---
 
-## ✅ TODAY'S WINS (May 19)
-- **University Health Lab Courier** — Files corrected per Isabelle Vallejo (Exhibits A/B/C, Master Sol, Bid Table). Submission confirmed complete.
-- **Humana Ohio D-SNP** — Redirected from Provider Relations to Vendor Management/Procurement. Awaiting correct contact.
-
-## ✅ YESTERDAY'S WINS (May 18)
-- Airspace Technologies vetted — PASSED USASpending (zero federal wins). Partnership folder ready.
-- GSA OASIS+ WOSB requirements documented — Not ready yet, revisit 2027-2028.
-
----
-
-## 🔥 PRIORITY — AWAITING RESULTS
-
-**University Health (San Antonio) — SUBMITTED**
-- Pharmacy Courier: $4.26M/yr — submitted May 17
-- Lab Courier: $480K/yr — submitted May 17
-- **Combined 5-year value: $23.7M revenue / $10.7M margin**
-- Waiting for award decision
+## ✅ YESTERDAY'S WINS (May 19)
+- **University Health Lab Courier** — Files corrected per Isabelle Vallejo. Submission confirmed complete.
+- **Humana Ohio D-SNP** — Redirected from Provider Relations to Vendor Management/Procurement.
+- **Louisiana OGB** — Emailed Liam Thomas (buyer) re: TPA services for MA HMO supplemental benefits.
+- **DRPA** — Ariba supplier registration submitted @ 10:21 AM. Pending approval.
+- **Eric Coffie intel** — Incumbent vulnerability signals added to NEXUS Learning.
 
 ---
 
-## 📧 OUTREACH — SEND TODAY
+## 🔥 HARD DEADLINES — NEXT 8 DAYS
 
-| # | To | Action |
+| Deadline | Opportunity | Status | Action |
+|---|---|---|---|
+| **May 22** | Hall County GA supplier quotes | ⏳ Awaiting | Follow up 12PanelNow + Quest |
+| **May 22** | DRPA Ariba approval check | ⏳ Pending | If no approval, contact DRPA |
+| **May 22** | Concentra pricing (CCRTA) | ⏳ Awaiting | Follow up if no reply |
+| **May 26 @ 12 PM ET** | Hall County GA — SHIP DAY | ⏳ Prep | FedEx sealed bid package |
+| **May 28 @ 12 PM AKT** | Anchorage Background Checks | ✅ READY | Submit on BidExpress |
+| **May 28 @ 2 PM ET** | Hall County GA — BID OPENING | ⏳ | Hard-copy sealed bid |
+| **June 1 @ 3 PM CST** | CCRTA Occ Health | ⏳ CONDITIONAL | Need Concentra pricing |
+| **June 3** | ⚠️ NCS Training DEADLINE | ⬜ TODO | Complete or lose commission |
+| **June 5** | DRPA Occ Health/Drug Testing | ⏳ | Need Ariba approval first |
+
+---
+
+## 💰 AWAITING AWARD
+
+| Opportunity | Value | Submitted |
 |---|---|---|
-| 1 | Daniel Rivera (Anthem Ohio) | ODM clarification — full service pitch (NEMT, Personal Care, DME, HAVEN) |
-| 2 | Kristen Halsey (CareSource Ohio) | Intro reply — full service pitch (NEMT, Personal Care, DME, HAVEN) |
-| 3 | Brian Grcevich (HAP CareSource) | Thank you for clarification — keep NEMT relationship warm |
-| **4** | **Diana Tash (Airspace Technologies)** | **Partnership outreach — AOG, Critical Logistics** |
-
-**Airspace folder:** `BIDS:RESOURCES/AIRSPACE CRITICAL LOGISTICS PARTNERSHIP/SEND_TO_SUBCONTRACTOR/`
+| **University Health Pharmacy Courier** | $4.26M/yr | May 17 ✅ |
+| **University Health Lab Courier** | $480K/yr | May 17 ✅ (files corrected May 19) |
+| **City of Yonkers Drug Testing** | $162.5K/yr | Apr 30 ✅ |
 
 ---
 
-## ⚠️ SERVICE PITCH RULE
+## 📧 FOLLOW-UPS DUE TODAY
 
-**All emails MUST include full service list:**
-- NEMT TPA — trip coordination, provider credentialing, compliance
-- Personal Care TPA — companion care, ADL support, homemaker services
-- DME — durable medical equipment coordination and delivery
-- HAVEN — disaster transport, emergency pharmacy delivery, temporary housing
+| Contact | Company | Last Contact | Action |
+|---|---|---|---|
+| **Kristen Halsey** | CareSource Ohio | May 13 | 7-day follow-up — full service pitch |
+
+---
+
+## ⏳ AWAITING RESPONSE
+
+| Contact | Notes |
+|---|---|
+| **Uber Health AE** | Callback expected May 14 — **6 days overdue** — escalate |
+| **Lyft Healthcare AE** | Account created — schedule sales call |
+| **Liam Thomas (Louisiana OGB)** | May 19 — TPA services for MA HMO |
+| **Humana Ohio D-SNP** | May 19 — Awaiting vendor management routing |
+| **Concentra (CCRTA)** | May 18 — Need pricing by May 26 |
+| **FL Medicaid (Gainwell)** | Tracking #218601133 — expect by May 22 |
+| **Labcorp Employer Services** | May 19 — TPA account inquiry |
 
 ---
 
@@ -50,32 +64,14 @@
 | Task | Portal | Status |
 |---|---|---|
 | Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
-| Florida Medicaid enrollment | FMMIS | ⬜ |
+| Check DRPA Ariba approval | SAP Ariba | ⬜ May 22 if not approved |
+| Florida Medicaid enrollment | FMMIS | ⏳ Question pending |
 | Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ |
 | Texas Medicaid enrollment | TMHP | ⬜ |
 
 ---
 
-## 📞 FOLLOW-UPS DUE
-
-| Contact | Company | Last Contact | Next Action |
-|---|---|---|---|
-| Natalie Lukaszewicz | Centene Corporate | May 13 | Mid-July 2026 (Q3) |
-| Bennett Emfinger | Alabama Medicaid | May 12 | May 26 |
-
----
-
-## 🚀 ACTIVE BIDS
-
-| Opportunity | Deadline | Status |
-|---|---|---|
-| **University Health Pharmacy Courier** | May 18 ✅ | SUBMITTED |
-| **University Health Lab Courier** | May 18 ✅ | SUBMITTED |
-| **CCRTA Occupational Medical** | June 1 | ⏳ Conditional GO — need Concentra pricing |
-
----
-
-## PIPELINE SNAPSHOT
+## 🚀 PIPELINE SNAPSHOT
 
 | Metric | Value |
 |---|---|
@@ -88,6 +84,6 @@
 
 ## NOTES
 
-- Uber Health: AE call pending (scheduled May 13 evening / May 14) — follow up if not received
-- HAP CareSource: Personal Care = in-house, NEMT relationship continues
-- Magnolia MS: Clarification sent — waiting for correct routing
+- Uber Health AE callback overdue — consider escalation
+- Canada parked for Q4 2026 (Ontario registration)
+- DRPA same lane as CCRTA — Concentra + Quest + AMRO fulfillment
