@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 19, 2026 @ 12:15 AM ET
+**Last Updated:** May 20, 2026 @ 12:48 AM ET
 
 ---
 
