@@ -1,12 +1,17 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 19, 2026 @ 7:50 PM ET
+**Last Updated:** May 20, 2026 @ 12:10 PM ET
 
 ---
 
-## 🔴 OVERDUE — SEND NOW
+## 🔴 ACTION REQUIRED — TODAY
 
-*None — cleared*
+| Task | Details | Status |
+|---|---|---|
+| **Connect Cause We Care to Netlify** | Deploy CWC website — carried over from previous session | ⬜ TODO |
+| **Log into HAP CareSource portal** | Check for trip requests, confirm DDI is active/receiving | ⬜ TODO |
+| **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
+| **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
 
 ## ⏳ AWAITING RESPONSE
 

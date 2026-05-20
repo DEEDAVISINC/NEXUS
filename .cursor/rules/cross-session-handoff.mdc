@@ -1,0 +1,90 @@
+# Cross-Session Handoff — NON-NEGOTIABLE
+
+**Every chat session that identifies a future task, agenda item, or follow-up MUST write it to the shared files on `main` before the session ends. No exceptions.**
+
+---
+
+## THE PROBLEM THIS SOLVES
+
+Dee works across multiple chat sessions. If Session A says "let's do X tomorrow" but doesn't write it to `TODAY_AGENDA.md` or `PENDING_ACTIONS.md`, Session B has no idea it exists. Tasks fall through the cracks. This is unacceptable.
+
+---
+
+## MANDATORY RULES
+
+### 1. NEVER COMMIT TO A SESSION BRANCH
+
+- ALL commits go to `main` unless Dee explicitly requests a branch
+- Before committing, run `git branch` to verify you're on `main`
+- If on a different branch, switch to `main` first: `git checkout main`
+- Session branches cause isolation — other chats can't see the work
+
+### 2. WRITE IT OR IT DOESN'T EXIST
+
+When Dee says ANY of the following (or similar):
+- "Let's do that tomorrow"
+- "Add that to the agenda"
+- "We'll handle that next session"
+- "Remind me to..."
+- "I need to..."
+- "Put that on the list"
+
+**IMMEDIATELY write it to the appropriate file:**
+
+| What | Where to Write |
+|---|---|
+| Tomorrow's task | `TODAY_AGENDA.md` (update tomorrow's section) |
+| Future task (no specific date) | `PENDING_ACTIONS.md` |
+| Follow-up with a contact | `PENDING_ACTIONS.md` → Follow-Up Cadence section |
+| Bid deadline | `BID_TRACKER_DASHBOARD.md` + calendar event |
+| Portal/enrollment task | `PENDING_ACTIONS.md` → Portal Tasks section |
+
+**Do NOT just acknowledge it verbally. WRITE IT TO THE FILE.**
+
+### 3. COMMIT AND PUSH BEFORE SESSION ENDS
+
+Every session must end with:
+```bash
+git checkout main  # Verify on main
+git add -A
+git commit -m "Session handoff — [brief summary]"
+git push
+```
+
+### 4. VERIFY BRANCH ON SESSION START
+
+First command of every session:
+```bash
+git branch
+```
+
+If not on `main`, switch immediately unless there's a specific reason not to.
+
+### 5. MERGE STALE BRANCHES
+
+If you discover work trapped on a session branch:
+1. `git checkout main`
+2. `git merge [branch-name]`
+3. Resolve any conflicts
+4. `git push`
+5. Delete the stale branch: `git branch -d [branch-name]`
+
+---
+
+## SELF-CHECK
+
+Before ending ANY session:
+
+- [ ] Am I on `main`?
+- [ ] Did Dee mention any future tasks this session?
+- [ ] Are ALL future tasks written to `TODAY_AGENDA.md` or `PENDING_ACTIONS.md`?
+- [ ] Did I commit and push?
+- [ ] Will the next chat session see everything from this session?
+
+**If any answer is NO — fix it before ending the session.**
+
+---
+
+## WHY THIS EXISTS
+
+Because Dee said "why are all the chats not talking to each other" and she was right. The system failed her. Agenda items got lost between sessions because they were either spoken but not written, or written to branches that other sessions couldn't see. This rule makes sure that never happens again.
