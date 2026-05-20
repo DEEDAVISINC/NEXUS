@@ -13,7 +13,7 @@
 | Contact | Company | Notes |
 |---|---|---|
 | Daniel Rivera | Anthem Ohio | Awaiting response — will reply when he does |
-| Uber Health | Uber Health (AE assignment) | Intake call completed May 13 — AE callback expected **May 14** |
+| ~~Uber Health~~ | ~~Uber Health (AE assignment)~~ | **✅ RESOLVED May 15** — Jeff Metz (AE) + Chris McNally assigned. Dashboard LIVE. Bexar + MI = A Tier. |
 | **FL Medicaid** | Gainwell Technologies | Tracking #218601133 — TPA/broker enrollment question (no auto insurance). Expect response by **May 22** |
 | **Labcorp Employer Services** | Labcorp | TPA account inquiry submitted May 19 via web form — awaiting rep assignment. Need: wholesale pricing, collection site network, eCCF access |
 | **Humana Ohio D-SNP** | Humana (Denise — Provider Relations) | May 19 — Misrouted to provider relations. Redirected to Vendor Management/Procurement for TPA partnership (NEMT, Personal Care, DME, HAVEN). Awaiting correct contact routing. |

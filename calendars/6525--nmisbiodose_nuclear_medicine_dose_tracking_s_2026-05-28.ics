@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: 6525--NMIS/Biodose Nuclear Medicine Dose Tracki
+ ng Software
+DTSTART:20260528T000000
+DTEND:20260528T010000
+DTSTAMP:20260520T120117Z
+UID:recUhLfIr9JSix1rx@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: 6525--NMIS/Biodose Nuclear M
+ edicine Dose Tracking Software\nAgency: \nSolicitation: \nDeadline: May 28
+ \, 2026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3y
+ J7ma/recUhLfIr9JSix1rx\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days be
+ fore\n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n
+ 🎯 ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. 
+ Collect all quotes (2 days before)\n3. Complete bid forms (1 day before)\n
+ 4. Final review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGen
+ erated by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6525--NMIS/Biodose Nuclear Medicine Dose Trackin
+ g Software
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6525--NMIS/Biodose Nuclear Medicine Dose Trackin
+ g Software
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6525--NMIS/Biodose Nuclear Medicine Dose Trackin
+ g Software
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 6525--NMIS/Biodose Nuclear Medicine Dose Trackin
+ g Software
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
