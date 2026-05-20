@@ -712,6 +712,82 @@
         "market_note": "Time-sensitive, chain-of-custody for legal documents. Court deadlines are non-negotiable."
       }
     ],
+    "tier_1e_aging_senior_services": [
+      {
+        "naics": "624120",
+        "description": "Services for the Elderly and Persons with Disabilities",
+        "lanes": [
+          "Senior NEMT (medical appointments, dialysis, therapy)",
+          "Personal Care Aide Coordination",
+          "Adult Day Care Transportation",
+          "Caregiver Support Services",
+          "Elder Care Staff Screening (background + drug + fingerprinting)",
+          "DME / Adaptive Equipment Delivery"
+        ],
+        "keywords": [
+          "area agency on aging",
+          "AAA",
+          "senior services",
+          "elderly services",
+          "aging services",
+          "older adults",
+          "personal care services",
+          "in-home care",
+          "homemaker services",
+          "respite care",
+          "adult day care",
+          "caregiver support",
+          "elder care",
+          "aging in place",
+          "Older Americans Act",
+          "Title III",
+          "HCBS waiver",
+          "state unit on aging",
+          "long-term services and supports",
+          "LTSS"
+        ],
+        "buying_agencies": [
+          "Administration for Community Living (ACL)",
+          "Administration on Aging (AoA)",
+          "State Units on Aging (all 50 states)",
+          "Area Agencies on Aging (620+ nationwide)",
+          "Medicaid MCOs (HCBS programs)",
+          "Veterans Affairs (aging veteran programs)",
+          "CMS (HCBS waivers)"
+        ],
+        "ddi_advantage": "Full TPA model covering NEMT + meals + personal care + staff screening under one contract. EDWOSB on federally-funded AAA contracts.",
+        "intel_source": "partner-opportunity-mining.mdc Channel 31",
+        "market_note": "$2.3B+ annual AAA spending. Low competition from sophisticated TPA firms. Recurring contracts."
+      },
+      {
+        "naics": "624210",
+        "description": "Community Food Services (Home Delivered Meals)",
+        "lanes": [
+          "Home Delivered Meals Coordination (Meals on Wheels type)",
+          "Congregate Meal Program Logistics",
+          "Senior Nutrition Program Management"
+        ],
+        "keywords": [
+          "home delivered meals",
+          "meals on wheels",
+          "congregate meals",
+          "senior nutrition",
+          "senior meals",
+          "elderly nutrition",
+          "meal delivery",
+          "nutrition program",
+          "Title III nutrition"
+        ],
+        "buying_agencies": [
+          "Area Agencies on Aging (620+ nationwide)",
+          "State Units on Aging",
+          "Administration for Community Living (ACL)",
+          "Municipal governments"
+        ],
+        "ddi_advantage": "VITAL courier network (Roadie, Uber Health, DoorDash) + route optimization + delivery confirmation tracking",
+        "intel_source": "partner-opportunity-mining.mdc Channel 31"
+      }
+    ],
     "tier_3_specialized": [
       {
         "naics": "621991",
@@ -950,7 +1026,33 @@
     "court document",
     "legal records",
     "subpoena service",
-    "summons service"
+    "summons service",
+    "area agency on aging",
+    "AAA aging",
+    "senior services",
+    "elderly services",
+    "aging services",
+    "older adults",
+    "home delivered meals",
+    "meals on wheels",
+    "congregate meals",
+    "senior nutrition",
+    "senior meals",
+    "personal care services",
+    "in-home care",
+    "homemaker services",
+    "respite care",
+    "adult day care",
+    "caregiver support",
+    "elder care",
+    "aging in place",
+    "Older Americans Act",
+    "Title III",
+    "state unit on aging",
+    "long-term services and supports",
+    "LTSS",
+    "senior center",
+    "elder abuse prevention"
   ],
   "buying_agencies_priority": [
     "State Public Health Laboratories",
@@ -994,7 +1096,11 @@
     "State Developmental Disabilities Agencies",
     "Behavioral Health Authorities",
     "County Health Departments (underserved)",
-    "State Medicaid Agencies (NEMT programs)"
+    "State Medicaid Agencies (NEMT programs)",
+    "Administration for Community Living (ACL)",
+    "Administration on Aging (AoA)",
+    "State Units on Aging (all 50 states)",
+    "Area Agencies on Aging (620+ nationwide, 16 in Michigan)"
   ],
   "ddi_credentials_checklist": {
     "federal": ["EDWOSB", "WOSB", "CAGE: 8UMX3", "UEI: HJB4KNYJVGZ1", "SAM.gov Active"],

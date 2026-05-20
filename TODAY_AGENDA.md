@@ -2,6 +2,10 @@
 
 ---
 
+## ✅ TODAY'S WINS (May 19)
+- **University Health Lab Courier** — Files corrected per Isabelle Vallejo (Exhibits A/B/C, Master Sol, Bid Table). Submission confirmed complete.
+- **Humana Ohio D-SNP** — Redirected from Provider Relations to Vendor Management/Procurement. Awaiting correct contact.
+
 ## ✅ YESTERDAY'S WINS (May 18)
 - Airspace Technologies vetted — PASSED USASpending (zero federal wins). Partnership folder ready.
 - GSA OASIS+ WOSB requirements documented — Not ready yet, revisit 2027-2028.

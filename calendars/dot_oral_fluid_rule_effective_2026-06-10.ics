@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:dot-oral-fluid-rule-20260610@deedavis.biz
+DTSTAMP:20260519T175200Z
+DTSTART;TZID=America/Detroit:20260610T090000
+DTEND;TZID=America/Detroit:20260610T093000
+SUMMARY:🔥 DOT Oral Fluid / Observed Collection Rule EFFECTIVE TODAY
+DESCRIPTION:Final Rule effective today — (1) Oral fluid unavailable = directly observed urine required. (2) Observer assignment uses biological sex per E.O. 14168. Verify Quest/collection sites are updated. Update client notifications.
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P3D
+DESCRIPTION:DOT Oral Fluid Rule effective in 3 days — verify compliance updates
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:DOT Oral Fluid Rule effective TODAY
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

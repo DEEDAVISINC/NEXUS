@@ -4,7 +4,7 @@
 
 **Authority:** U.S. Department of Transportation (DOT), Office of Drug and Alcohol Policy and Compliance (ODAPC)
 
-**Last Updated in NEXUS:** March 19, 2026
+**Last Updated in NEXUS:** May 19, 2026
 
 ---
 
@@ -270,6 +270,11 @@ Collectors MUST:
 
 ### §40.67 — Observed Collections
 
+**REGULATORY UPDATE — Final Rule effective June 10, 2026:**
+- When oral fluid testing is required but unavailable at the site → directly observed urine collection is mandatory
+- Observer assignment terminology updated to **biological sex** per Executive Order 14168
+- See: https://www.transportation.gov/odapc/frpubs
+
 **When required:**
 - Temperature out of range
 - Previous specimen was reported substituted or adulterated
@@ -277,9 +282,10 @@ Collectors MUST:
 - Follow-up test
 - Collector observes conduct suggesting substitution/adulteration
 - MRO or employer directs observed collection
+- Oral fluid required but not available at site (effective 6/10/2026)
 
 **Who may observe:**
-- Same gender as donor (or donor may request)
+- Same **biological sex** as donor (updated per E.O. 14168, effective 6/10/2026)
 - Trained collector (may be different person)
 
 **Procedure:**

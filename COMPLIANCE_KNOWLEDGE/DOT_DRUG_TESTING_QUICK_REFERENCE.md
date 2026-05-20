@@ -161,6 +161,26 @@ Create written policy on how to handle negative-dilute results BEFORE they occur
 
 ## CARD 6: OBSERVED COLLECTION REQUIREMENTS
 
+### REGULATORY UPDATE — Effective June 10, 2026
+**Final Rule published May 11, 2026 (Federal Register)**
+
+Two changes to 49 CFR Part 40:
+
+1. **Oral Fluid Unavailability → Directly Observed Urine Required**
+When a situation requires oral fluid testing but the collection site cannot perform oral fluid collection, the employer/C/TPA must default to a **directly observed urine collection**. No exceptions. This closes the gap where oral fluid was authorized but sites hadn't implemented it yet.
+
+2. **Terminology Update per Executive Order 14168**
+Observer requirements now use **biological sex** definitions consistent with E.O. 14168 ("Defending Women from Gender Ideology Extremism and Restoring Biological Truth to the Federal Government"). All observer assignment documentation and collector training must reflect updated terminology by June 10, 2026.
+
+**DDI C/TPA Action Items:**
+- [ ] Verify Quest/collection site oral fluid capability status
+- [ ] Update collector guidance: if oral fluid unavailable → directly observed urine
+- [ ] Update observer assignment language to reflect biological sex terminology
+- [ ] Update client notification templates before June 10, 2026
+- [ ] Reference: https://www.transportation.gov/odapc/frpubs
+
+---
+
 ### When Observation is REQUIRED
 
 | Situation | Observation Required? |
@@ -172,11 +192,12 @@ Create written policy on how to handle negative-dilute results BEFORE they occur
 | Collector observes suspicious conduct | YES |
 | MRO directs observation | YES |
 | Employer directs (follow-up) | YES |
+| Oral fluid required but unavailable at site | YES (directly observed urine — effective 6/10/2026) |
 | Random, pre-employment (routine) | NO |
 
 ### Observer Requirements
 
-- **Same gender** as donor (or donor may request)
+- **Same biological sex** as donor (updated per E.O. 14168, effective 6/10/2026)
 - **Trained collector** (may be different person)
 - Must **watch urine leave body** into collection container
 - Must have **unobstructed view**

@@ -241,6 +241,9 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 - DDI ownership (Dieasha D. Davis + spouse) — both TWIC-certified
 - Subcontractor fleet (God Is Good Hauling) — all main drivers TWIC-certified
 
+**TWIC Credentials (CONFIDENTIAL):**
+- **Dieasha D. Davis — TWIC PIN:** 68527963
+
 **Business Model:**
 - Value-Added Reseller (VAR) — DDI sources products from manufacturer-authorized distributors, adds procurement management, compliance documentation, quality assurance, and logistics coordination, then delivers to the end client. This is DDI's core product supply model for government contracts. Used across medical supplies, industrial equipment, IT hardware, office products, and all commodity categories.
 

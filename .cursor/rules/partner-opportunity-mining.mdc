@@ -610,6 +610,67 @@ Search contracts expiring in next 6 months matching partner NAICS codes.
 
 ---
 
+### CHANNEL 31: AGING & SENIOR SERVICES (AAAs, State Units on Aging)
+
+| Opportunity Type | Partners |
+|------------------|----------|
+| Senior NEMT (medical appointments, dialysis, therapy) | Uber Health |
+| Home delivered meals coordination | Roadie, Uber Health, DoorDash |
+| Personal care aide coordination | DDI TPA (direct) |
+| Adult day care transportation | Uber Health |
+| Senior wellness / health screening coordination | Concentra, Quest |
+| Elder care staff background checks | NCS |
+| Elder care staff drug testing | Quest, AMRO |
+| Elder care staff fingerprinting (licensing) | Lakota |
+| DME / adaptive equipment delivery | Roadie, Uber Health |
+| Caregiver support services coordination | DDI TPA (direct) |
+
+**NAICS Codes:** 624120 (Services for Elderly/Disabled), 624210 (Community Food Services), 624190 (Other Individual/Family Services), 621610 (Home Health Care Services), 485999 (Transit/Paratransit)
+
+**Keywords:** area agency on aging, AAA, senior services, elderly services, aging services, older adults, home delivered meals, meals on wheels, congregate meals, senior transportation, senior NEMT, senior medical transport, paratransit, dial-a-ride, personal care services, in-home care, homemaker services, respite care, adult day care, caregiver support, elder care, aging in place, Older Americans Act, OAA, Title III, HCBS waiver, state unit on aging, senior center, senior nutrition, elder abuse prevention, long-term services and supports, LTSS
+
+**Buying Agencies:**
+- **Federal:** Administration for Community Living (ACL), Administration on Aging (AoA), CMS (HCBS waivers)
+- **State:** State Units on Aging (every state has one — Michigan = AASA under MDHHS)
+- **Local:** Area Agencies on Aging (620+ nationwide, 16 in Michigan alone)
+- **Other:** Medicaid MCOs (HCBS programs), Veterans Affairs (aging veteran programs)
+
+**Michigan AAAs (16 — mine all of them):**
+- Region 1B AAA (Southeast MI — Livingston, Macomb, Monroe, Oakland, St. Clair, Washtenaw)
+- Detroit AAA (Wayne County)
+- Region 2 AAA (Hillsdale, Jackson, Lenawee)
+- Region 3B AAA (Barry, Branch, Calhoun, Kalamazoo, St. Joseph)
+- Region 3C AAA (Berrien, Cass, Van Buren)
+- Region 4 AAA (Allegan, Ionia, Kent, Lake, Mason, Mecosta, Montcalm, Newaygo, Osceola)
+- Region 5 AAA (Arenac, Bay, Clare, Gladwin, Gratiot, Huron, Iosco, Isabella, Midland, Ogemaw, Roscommon, Saginaw, Sanilac, Tuscola)
+- Region 6 AAA (Clinton, Eaton, Ingham)
+- Region 7 AAA (Genesee, Lapeer, Shiawassee)
+- Region 8 AAA (Oceana, Ottawa, Muskegon)
+- Region 9 AAA (Antrim, Benzie, Charlevoix, Emmet, Grand Traverse, Kalkaska, Leelanau, Manistee, Missaukee, Northwest, Wexford)
+- Region 10 AAA (Alcona, Alpena, Cheboygan, Crawford, Montmorency, Oscoda, Otsego, Presque Isle)
+- Region 11 AAA (Alger, Baraga, Delta, Dickinson, Gogebic, Houghton, Iron, Keweenaw, Luce, Mackinac, Marquette, Menominee, Ontonagon, Schoolcraft)
+- Region 14 AAA (Muskegon/Oceana — cross-reference with Region 8)
+- UPCAP (Upper Peninsula Commission for Area Progress)
+
+**Mining Protocol:**
+1. Check each Michigan AAA website for open RFPs/RFQs quarterly
+2. Search SAM.gov for NAICS 624120 + 624210 + keywords
+3. Search state procurement portals (SIGMA) for aging services
+4. Monitor ACL.gov grant announcements (pass-through to AAAs)
+5. Search BidNet/MITN for "senior" "aging" "meals" "elder"
+6. LinkedIn outreach to AAA directors and aging services coordinators
+7. Monitor n4a.org (National Association of Area Agencies on Aging) for industry RFPs
+
+**Why This Lane Matters:**
+- AAAs spend **$2.3B+ annually** (Older Americans Act + state/local matching)
+- Contracts are **recurring** (annual renewals, multi-year)
+- **Low competition** — most AAA vendors are small local nonprofits, not sophisticated TPA firms
+- DDI's model (one contract, one invoice, full compliance) is exactly what AAAs need but don't currently have
+- EDWOSB advantage on any federally-funded AAA contract
+- **Every service DDI already offers** maps to AAA needs: NEMT, meals delivery, personal care coordination, staff screening, health screenings
+
+---
+
 ## SEARCH TOOLS & METHODS
 
 **Don't just check portals. Actively hunt.**
@@ -642,6 +703,7 @@ Search contracts expiring in next 6 months matching partner NAICS codes.
 | Maritime | Maritime associations |
 | Nursing Homes | AHCA |
 | Home Health | NAHC |
+| Aging / Senior Services | n4a (National Association of Area Agencies on Aging), USAging, state aging associations |
 
 ### Networking & Outreach
 
