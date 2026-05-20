@@ -49,7 +49,7 @@
 
 | Contact | Notes |
 |---|---|
-| **Uber Health AE** | Callback expected May 14 — **6 days overdue** — escalate |
+| ~~Uber Health AE~~ | **✅ RESOLVED** — Jeff Metz assigned, dashboard live May 15 |
 | **Lyft Healthcare AE** | Account created — schedule sales call |
 | **Liam Thomas (Louisiana OGB)** | May 19 — TPA services for MA HMO |
 | **Humana Ohio D-SNP** | May 19 — Awaiting vendor management routing |
