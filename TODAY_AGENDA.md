@@ -1,28 +1,25 @@
-# TODAY'S AGENDA — Wednesday, May 20, 2026
+# TODAY'S AGENDA — Thursday, May 22, 2026
 
 ---
 
-## ✅ YESTERDAY'S WINS (May 19)
-- **University Health Lab Courier** — Files corrected per Isabelle Vallejo. Submission confirmed complete.
-- **Humana Ohio D-SNP** — Redirected from Provider Relations to Vendor Management/Procurement.
-- **Louisiana OGB** — Emailed Liam Thomas (buyer) re: TPA services for MA HMO supplemental benefits.
-- **DRPA** — Ariba supplier registration submitted @ 10:21 AM. Pending approval.
-- **Eric Coffie intel** — Incumbent vulnerability signals added to NEXUS Learning.
+## 🗓 MEETING TODAY
+
+- **1:00 PM ET** — Notary Signing: Timothy L Hood & Laura L Hood — 52716 Sequoia Circle, Chesterfield, MI 48047 — Order LMI26232009 — Premium Closing Solutions Inc (951-479-1450). Bring: notary stamp, journal, ID verification checklist.
 
 ---
 
-## 🔥 HARD DEADLINES — NEXT 8 DAYS
+## 🔥 HARD DEADLINES — NEXT 7 DAYS
 
 | Deadline | Opportunity | Status | Action |
 |---|---|---|---|
-| **May 22** | Hall County GA supplier quotes | ⏳ Awaiting | Follow up 12PanelNow + Quest |
-| **May 22** | DRPA Ariba approval check | ⏳ Pending | If no approval, contact DRPA |
-| **May 22** | Concentra pricing (CCRTA) | ⏳ Awaiting | Follow up if no reply |
-| **May 26 @ 12 PM ET** | Hall County GA — SHIP DAY | ⏳ Prep | FedEx sealed bid package |
+| **TODAY May 22** | Hall County GA supplier quotes | ⏳ Awaiting | Follow up 12PanelNow + Quest — need pricing TODAY |
+| **TODAY May 22** | DRPA Ariba approval check | ⏳ Pending | Check SAP Ariba — if not approved, contact DRPA |
+| **TODAY May 22** | Concentra pricing (CCRTA) | ⏳ Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
+| **May 26 @ 12 PM ET** | Hall County GA — SHIP DAY | ⏳ Prep | FedEx Priority Overnight sealed bid to Gainesville GA |
 | **May 28 @ 12 PM AKT** | Anchorage Background Checks | ✅ READY | Submit on BidExpress |
 | **May 28 @ 2 PM ET** | Hall County GA — BID OPENING | ⏳ | Hard-copy sealed bid |
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | ⏳ CONDITIONAL | Need Concentra pricing |
-| **June 3** | ⚠️ NCS Training DEADLINE | ⬜ TODO | Complete or lose commission |
+| **June 3** | NCS Training DEADLINE | ⬜ TODO | Complete setup or lose commission |
 | **June 5** | DRPA Occ Health/Drug Testing | ⏳ | Need Ariba approval first |
 
 ---
@@ -31,9 +28,9 @@
 
 | Opportunity | Value | Submitted |
 |---|---|---|
-| **University Health Pharmacy Courier** | $4.26M/yr | May 17 ✅ |
-| **University Health Lab Courier** | $480K/yr | May 17 ✅ (files corrected May 19) |
-| **City of Yonkers Drug Testing** | $162.5K/yr | Apr 30 ✅ |
+| **University Health Pharmacy Courier** | $4.26M/yr | May 17 |
+| **University Health Lab Courier** | $480K/yr | May 17 |
+| **City of Yonkers Drug Testing** | $162.5K/yr | Apr 30 |
 
 ---
 
@@ -41,7 +38,11 @@
 
 | Contact | Company | Last Contact | Action |
 |---|---|---|---|
-| **Kristen Halsey** | CareSource Ohio | May 13 | 7-day follow-up — full service pitch |
+| **12PanelNow** | Test kit supplier | ~May 18 | Need Hall County GA pricing — DEADLINE TODAY |
+| **Quest Diagnostics** | Lab partner | ~May 18 | Need Hall County GA lab pricing — DEADLINE TODAY |
+| **Concentra** | Kellie McKay + Steve | May 18 | Need CCRTA pricing — follow up if no reply |
+| **DRPA** | SAP Ariba portal | May 19 | Check supplier registration status |
+| **Sam Cilento (Lakota)** | Minneapolis MPD | May 12 | Sam back May 22 — check in on background software teaming |
 
 ---
 
@@ -49,25 +50,24 @@
 
 | Contact | Notes |
 |---|---|
-| ~~Uber Health AE~~ | **✅ RESOLVED** — Jeff Metz assigned, dashboard live May 15 |
-| **Lyft Healthcare AE** | Account created — schedule sales call |
 | **Liam Thomas (Louisiana OGB)** | May 19 — TPA services for MA HMO |
 | **Humana Ohio D-SNP** | May 19 — Awaiting vendor management routing |
-| **Concentra (CCRTA)** | May 18 — Need pricing by May 26 |
-| **FL Medicaid (Gainwell)** | Tracking #218601133 — CLOSED. Call AHCA 1-877-254-1055 to get provider type (Type 41/Specialty 941?), then resubmit to Gainwell with correct code. |
+| **FL Medicaid (Gainwell)** | Call AHCA 1-877-254-1055 — get provider type for NEMT coordinator/broker |
 | **Labcorp Employer Services** | May 19 — TPA account inquiry |
+| **Gainwell FL** | Tracking #218601133 — expect response by May 22 |
 
 ---
 
-## 📋 PORTAL TASKS
+## 📋 PRIORITY TASKS
 
-| Task | Portal | Status |
-|---|---|---|
-| Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
-| Check DRPA Ariba approval | SAP Ariba | ⬜ May 22 if not approved |
-| Florida Medicaid enrollment | AHCA/Gainwell | ⬜ Call AHCA 1-877-254-1055 — ask provider type for NEMT coordinator/broker (likely Type 41, Specialty 941). Then resubmit to Gainwell. |
-| Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ |
-| Texas Medicaid enrollment | TMHP | ⬜ |
+| Priority | Task |
+|---|---|
+| 1 | Follow up 12PanelNow + Quest for Hall County GA pricing |
+| 2 | Check DRPA Ariba approval status |
+| 3 | Follow up Concentra (CCRTA pricing) |
+| 4 | Notary signing at 1:00 PM (prep + travel) |
+| 5 | Check Sam Cilento (Lakota) — Minneapolis MPD teaming |
+| 6 | NCS training — schedule before June 3 deadline |
 
 ---
 
@@ -84,6 +84,7 @@
 
 ## NOTES
 
-- Uber Health AE callback overdue — consider escalation
-- Canada parked for Q4 2026 (Ontario registration)
-- DRPA same lane as CCRTA — Concentra + Quest + AMRO fulfillment
+- RADAR system now wired — "What's on the RADAR" runs all mining
+- SCAC renewal still blocking USPS HCR routes (URGENT)
+- FEMA TSP registration needed before June 1 hurricane season
+- Hall County GA bid SHIPS Monday May 26 — pricing must be locked by Friday
