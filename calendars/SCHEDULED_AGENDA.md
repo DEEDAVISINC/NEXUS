@@ -170,6 +170,12 @@
 
 ---
 
+## 2026-05-21 — Thursday
+
+- **1:00 PM ET** — 📝 **SIGNING: Timothy L Hood & Laura L Hood** — Order: LMI26232009 · 52716 Sequoia Circle, Chesterfield, MI 48047 · Premium Closing Solutions Inc (951-479-1450 / updates@premiumclosingsolutions.com) · Bring: Notary stamp, journal, ID verification checklist. `.ics`: `calendars/pcs_hood_signing_LMI26232009_2026-05-21.ics`
+
+---
+
 ## 2026-05-22 — Friday
 
 - **10:00 AM – 12:00 PM ET** — 📝 **SIGNING: Gerald F. Paquette** — Order: 26-48826-001 · 4500 Dobry Dr, APT 168, Sterling Heights, MI 48314 · Bring: Notary stamp, journal, ID verification checklist. `.ics`: `calendars/paquette_signing_2026-05-22.ics`

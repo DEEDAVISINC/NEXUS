@@ -262,6 +262,25 @@
 
 ---
 
-**Last Updated:** January 14, 2026  
-**Status:** Systems tested and verified functional  
+---
+
+## NEXUS SUBSYSTEM NAMING REGISTRY
+
+| Name | Full Name | Status | What It Does |
+|---|---|---|---|
+| **NEXUS** | AI-Assisted Contract Acquisition OS | ACTIVE | Overall command center |
+| **GPSS** | Government Procurement Strategic System | ACTIVE | Federal/state/local bid pipeline |
+| **PRISM** | Field Service Dispatch & Management | ACTIVE | Drug testing, fingerprinting, DNA, notary dispatch |
+| **VERTEX** | Financial Management System | ACTIVE | Invoicing, AR/AP, collections, AI advisor |
+| **ATLAS** | Project Management | ACTIVE | PM for active contracts |
+| **DDCSS** | Corporate Sales System | ACTIVE | Enterprise/commercial outreach |
+| **COMPASS** | TBD | RESERVED | Future use |
+| **RADAR** | Revenue Acquisition Discovery And Reconnaissance | ACTIVE | ALL opportunity mining across all channels |
+| **FleetFlow** | Logistics Intelligence Platform | ACTIVE | TMS, dispatch, freight quoting, compliance |
+| **JETA** | Jet Fuel Market Intelligence | ACTIVE | IATA jet fuel price tracking |
+| **SONAR** | TBD | RESERVED | Future system — name reserved |
+| **SCOUT** | TBD | RESERVED | Future system — name reserved |
+
+**Last Updated:** May 20, 2026
+**Status:** Systems tested and verified functional
 **Next Action:** Begin using production systems or complete remaining features

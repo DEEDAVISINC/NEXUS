@@ -54,7 +54,7 @@
 | **Liam Thomas (Louisiana OGB)** | May 19 — TPA services for MA HMO |
 | **Humana Ohio D-SNP** | May 19 — Awaiting vendor management routing |
 | **Concentra (CCRTA)** | May 18 — Need pricing by May 26 |
-| **FL Medicaid (Gainwell)** | Tracking #218601133 — expect by May 22 |
+| **FL Medicaid (Gainwell)** | Tracking #218601133 — CLOSED. Call AHCA 1-877-254-1055 to get provider type (Type 41/Specialty 941?), then resubmit to Gainwell with correct code. |
 | **Labcorp Employer Services** | May 19 — TPA account inquiry |
 
 ---
@@ -65,7 +65,7 @@
 |---|---|---|
 | Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
 | Check DRPA Ariba approval | SAP Ariba | ⬜ May 22 if not approved |
-| Florida Medicaid enrollment | FMMIS | ⏳ Question pending |
+| Florida Medicaid enrollment | AHCA/Gainwell | ⬜ Call AHCA 1-877-254-1055 — ask provider type for NEMT coordinator/broker (likely Type 41, Specialty 941). Then resubmit to Gainwell. |
 | Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ |
 | Texas Medicaid enrollment | TMHP | ⬜ |
 

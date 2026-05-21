@@ -4,14 +4,18 @@
 
 ---
 
-## 🔴 ACTION REQUIRED — TODAY
+## 🔴 ACTION REQUIRED — PRIORITY
 
 | Task | Details | Status |
 |---|---|---|
+| **RENEW SCAC CODE (DFCL)** | **EXPIRED Feb 3, 2026.** Go to https://scaccode.com — renew for $97. If can't renew lapsed code, call NMFTA (866) 411-6632. Update company name from DEPOINTE → DEE DAVIS INC and address to Troy. **This is the single blocker for USPS HCR routes.** | ⬜ URGENT |
+| **Register on USPS Logistics Gateway** | After SCAC renewal → https://logistics.usps.com/ — register with DFCL code. This is the portal for Highway Contract Routes (DDI's current eSourcing registration is for small deliveries only). | ⬜ BLOCKED (needs SCAC) |
+| **Add freight NAICS to SAM.gov** | DDI needs ALL freight lanes visible: **484110** (local), **484121** (long-distance TL), **484122** (LTL), **484220** (specialized long-distance — heavy haul, tanker), **484230** (specialized — auto transport). DDI already has 484210 + 488510. Without these 5, DDI is invisible to reefer, flatbed, heavy haul, auto transport, and tanker contract searches. Log into SAM.gov → Edit Registration → NAICS Codes → Add all five. | ⬜ TODO |
 | **Connect Cause We Care to Netlify** | Deploy CWC website — carried over from previous session | ⬜ TODO |
 | **Log into HAP CareSource portal** | Check for trip requests, confirm DDI is active/receiving | ⬜ TODO |
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
+| **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
 
 ## ⏳ AWAITING RESPONSE
 

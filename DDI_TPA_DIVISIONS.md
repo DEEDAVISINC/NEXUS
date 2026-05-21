@@ -1,7 +1,9 @@
 # DEE DAVIS INC — TPA DIVISION MASTER REFERENCE
-**Last Updated:** May 4, 2026
+**Last Updated:** May 20, 2026
 
 **DDI is a federally certified EDWOSB Contract Management Multi-TPA Firm.** Each division is a fully functioning Third-Party Administrator — managing compliance, coordination, billing, and quality assurance for its service sector. Every division runs on the same NEXUS/PRISM infrastructure. Every client gets one contract, one invoice, one point of contact.
+
+**CAPACITY CAP:** 9 TPA divisions is DDI's operational ceiling. Once Medical Credentialing (TPA 8) and Workforce Compliance (TPA 9) are fully launched, no new TPA verticals will be added. Growth comes from deepening contracts within existing divisions — not adding more divisions.
 
 ---
 
@@ -14,7 +16,7 @@
 | 3 | DNA Testing TPA (DePointe DNA) | ✅ Active | Courts, immigration, private | $200K–$750K |
 | 4 | Notary & Document Services TPA | ✅ Active | Title companies, lenders, law firms | $200K–$500K |
 | 5 | Healthcare Transportation TPA (NEMT) | ✅ Active | MCOs, Medicaid, hospitals | $2M–$10M |
-| 6 | Logistics & Fleet TPA (Freight 1st Direct) | ✅ Active | Government agencies, MVA, distributors | $500K–$2M |
+| 6 | Logistics & Fleet TPA (Freight 1st Direct) | ✅ Active | Government agencies, FEMA, USPS, DOD, OOs | $500K–$3.5M |
 | 7 | Background Checks TPA | ✅ Active (NCS May 2026) | Employers, government contractors | $250K–$1M |
 | 8 | Medical Professional Credentialing TPA | 🟡 Building | Telehealth platforms, hospitals, IHS, VA | $500K–$3M |
 | 9 | Workforce Compliance TPA | 🟡 Building | Federal contractors, fleets, school districts | $750K–$4M |
@@ -117,18 +119,36 @@
 
 ## TPA 6: LOGISTICS & FLEET TPA (Freight 1st Direct)
 
-**DDI Role:** Licensed freight broker (MC-1647572, DOT-4250594)
+**DDI Role:** Licensed freight broker (MC-1647572, DOT-4250594), Owner-Operator TPA
+**Program:** Federal Carrier Qualification Program (see `FREIGHT_1ST_DIRECT_OO_PROGRAM.md`)
 
 **Core Services:**
 - Freight brokerage and load coordination
+- **Owner-Operator TPA — federal carrier qualification and dispatch**
+- **DOT/FMCSA compliance management for carrier network (DQ files, Clearinghouse, random pools)**
+- **Federal freight contract pursuit (FEMA, USPS HCR, DOD/SDDC, DLA, GSA, VA)**
 - Government courier contract management (Maryland MVA)
 - Last-mile delivery coordination
 - Vehicle title and document delivery
 - Fleet dispatch and tracking
+- Detention & layover pay recovery
+- TONU protection and recovery
+- Factoring coordination (Bankers Factoring)
 
-**Fulfillment Partners:** God Is Good Hauling LLC, OLIMP Warehousing, certified carriers
-**NAICS Codes:** 488510, 492110, 492210
-**Target Agencies:** Maryland MVA, state DMVs, government logistics contracts
+**Owner-Operator Program (Full Ecosystem — No Monthly Fees):**
+| Tier | Level | DDI Revenue |
+|---|---|---|
+| Tier 1 | Commercial Dispatch | 20-25% load spread + factoring commission + compliance services |
+| Tier 2 | Federal Qualification Track | 20-25% spread + factoring + compliance (DDI absorbs registration) |
+| Tier 3 | Federal Freight Operator | 20-30% federal contract spread + factoring + compliance |
+
+**Cross-Division Revenue Per OO:** Drug testing (TPA 1), fingerprinting (TPA 2), background checks (TPA 7), workforce compliance (TPA 9) + mandatory Bankers Factoring
+**Year 1 Target (25 OOs):** $1.1M–$1.5M | **Year 3 Target (50-75 OOs):** $2.5M–$4.5M
+
+**Fulfillment Partners:** God Is Good Hauling LLC, OLIMP Warehousing, credentialed OO carrier network
+**NAICS Codes:** 488510, 492110, 492210, 484110, 484121, 484122, 488999
+**Target Agencies:** FEMA, USPS (HCR routes), DOD/SDDC/TRANSCOM, DLA, GSA, VA, Maryland MVA, state DOTs
+**Revenue Target (with OO program):** $500K–$3.5M (scales with network size — see program doc)
 
 ---
 
@@ -296,7 +316,7 @@
 | DNA Testing (DePointe) | Active | $200K–$750K |
 | Notary & Documents | Active | $200K–$500K |
 | NEMT (Healthcare Transport) | Active | $2M–$10M |
-| Logistics & Fleet | Active | $500K–$2M |
+| Logistics & Fleet (+ OO Program) | Active | $500K–$3.5M |
 | Background Checks | Active | $250K–$1M |
 | Medical Credentialing | Building | $500K–$3M |
 | Workforce Compliance | Building | $750K–$4M |

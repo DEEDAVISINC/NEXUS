@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:pcs-hood-lmi26232009-20260521@deedavis.biz
+DTSTAMP:20260520T201800Z
+DTSTART;TZID=America/Detroit:20260521T130000
+DTEND;TZID=America/Detroit:20260521T140000
+SUMMARY:📝 SIGNING: Timothy & Laura Hood — LMI26232009
+DESCRIPTION:Premium Closing Solutions Inc\nOrder: LMI26232009\nSigners: Timothy L Hood and Laura L Hood\nAddress: 52716 Sequoia Circle, Chesterfield, MI 48047\nContact: 951-479-1450 | updates@premiumclosingsolutions.com\nBring: Notary stamp, journal, ID verification checklist
+LOCATION:52716 Sequoia Circle, Chesterfield, MI 48047
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

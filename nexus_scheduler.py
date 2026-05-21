@@ -3,6 +3,12 @@
 NEXUS Automation Scheduler
 Runs automated tasks on schedule — no manual intervention needed.
 
+RADAR — Revenue Acquisition Discovery And Reconnaissance
+  The --radar flag runs the FULL DDI opportunity mining sweep:
+    Government (SAM.gov EDWOSB/WOSB/SB) + Healthcare/MCO + Sources Sought +
+    AOG/Freight + Federal Forecasts + Public Portals + State/Local + AI Scoring.
+  This is DDI's unified mining system. One command, every channel.
+
 GBIS grant mining audit (built vs scheduled):
 - POST /gbis/mine-all → run_gbis_mine_all_pipeline() — SCHEDULED daily 7:00 AM ET (full pipeline).
 - Sub-APIs (POST /gbis/mine-source, research-lane seeds, mine-federal) are subsets of
@@ -19,15 +25,18 @@ Tasks:
 2. Federal forecasts mining — pulls SAM.gov opportunities (every 6 hours); includes **AOG / 488190** scan → `aog_sam_cache.json`
 3. Folder scan — updates workflow queues from BIDS:RESOURCES/ (every 15 min)
 4. Stale bid detection — flags bids with no activity near deadline (hourly)
+5. Healthcare/MCO scan — state Medicaid + hospital + MCO portals (every 6 hours)
 
 Usage:
   python3 nexus_scheduler.py            # Run all tasks once
   python3 nexus_scheduler.py --loop     # Run continuously on schedule
+  python3 nexus_scheduler.py --radar    # Run FULL RADAR sweep (all mining channels)
   python3 nexus_scheduler.py --email    # Run email check only
   python3 nexus_scheduler.py --mine     # Run federal mining only
   python3 nexus_scheduler.py --portals  # Run vendor portal mining only
   python3 nexus_scheduler.py --public   # Run public portal scan (nationwide, all tiers)
   python3 nexus_scheduler.py --public-tier1  # Run public portal scan (tier 1 only: SAM, BidNet, MITN, TX)
+  python3 nexus_scheduler.py --healthcare    # Healthcare & MCO scanner (State Medicaid, hospitals, MCO portals)
   python3 nexus_scheduler.py --scan     # Run folder scan only
   python3 nexus_scheduler.py --gbis     # Run GBIS mine-all (full grant pipeline, same as POST /gbis/mine-all)
   python3 nexus_scheduler.py --primes   # Run prime contractor mining (find subs-needed primes)
@@ -39,9 +48,11 @@ Usage:
   python3 nexus_scheduler.py --sync-cos                    # Harvest SAM.gov COs → GPSS CONTACTS (manual only; not in --mine)
   python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
   python3 nexus_scheduler.py --sync-cos --days 7           # Custom look-back window
-  python3 nexus_scheduler.py --healthcare     # Healthcare & MCO scanner (State Medicaid, hospitals, MCO portals)
 
 For cron (recommended):
+  # RADAR full sweep — daily at 6:30 AM ET
+  30 6 * * * cd /Users/deedavis/NEXUS\\ BACKEND && python3 nexus_scheduler.py --radar >> logs/radar.log 2>&1
+
   # Every 30 minutes — email + folder scan
   */30 * * * * cd /Users/deedavis/NEXUS\\ BACKEND && python3 nexus_scheduler.py --email --scan >> logs/scheduler.log 2>&1
 
@@ -843,6 +854,63 @@ def run_vertex_daily_jobs():
 # ============================================================================
 
 
+def run_radar():
+    """
+    RADAR — Revenue Acquisition Discovery And Reconnaissance.
+    Full DDI opportunity mining sweep across ALL channels:
+      1. Federal SAM.gov (EDWOSB/WOSB/SB set-asides + AOG/freight)
+      2. Healthcare & MCO (State Medicaid, hospitals, MCO portals)
+      3. Federal forecasts (agency procurement pipelines)
+      4. State & local (Michigan portals)
+      5. Public portal scan (nationwide)
+      6. AI scoring & email alerts (score all new opps, email BID NOW)
+
+    Run with:  python3 nexus_scheduler.py --radar
+    """
+    log.info("=" * 60)
+    log.info("RADAR — Revenue Acquisition Discovery And Reconnaissance")
+    log.info("Full opportunity sweep: Government + Healthcare + Commercial")
+    log.info("=" * 60)
+
+    results = {}
+
+    # Channel 1: Federal SAM.gov (EDWOSB/WOSB/SB + AOG/freight)
+    log.info("[RADAR 1/6] Federal SAM.gov mining...")
+    results["federal_mining"] = run_federal_mining()
+
+    # Channel 2: Healthcare & MCO (commercial/enterprise)
+    log.info("[RADAR 2/6] Healthcare & MCO scanner...")
+    results["healthcare_mco"] = run_healthcare_mco_scan()
+
+    # Channel 3: Federal forecasts
+    log.info("[RADAR 3/6] Federal forecasts...")
+    results["forecast_mining"] = run_forecast_mining()
+
+    # Channel 4: State & local (Michigan)
+    log.info("[RADAR 4/6] State & local mining...")
+    results["state_local"] = run_state_local_mining()
+
+    # Channel 5: Public portals (nationwide)
+    log.info("[RADAR 5/6] Public portal scan...")
+    results["public_portals"] = run_public_portal_scan()
+
+    # Channel 6: AI scoring + email alerts (process everything found above)
+    log.info("[RADAR 6/6] AI scoring & alerts...")
+    results["ai_scoring"] = run_ai_scoring_and_alerts()
+
+    passed = sum(1 for v in results.values() if v)
+    failed = sum(1 for v in results.values() if not v)
+
+    log.info("=" * 60)
+    log.info(f"RADAR SWEEP COMPLETE — {passed} passed, {failed} failed")
+    for task, success in results.items():
+        status = "OK" if success else "FAILED"
+        log.info(f"  {task}: {status}")
+    log.info("=" * 60)
+
+    return results
+
+
 def run_all():
     """Run all scheduled tasks."""
     log.info("=" * 60)
@@ -858,6 +926,7 @@ def run_all():
     results["forecast_mining"] = run_forecast_mining()
     results["state_local_mining"] = run_state_local_mining()
     results["public_portal_scan"] = run_public_portal_scan()
+    results["healthcare_mco_scan"] = run_healthcare_mco_scan()
     results["gbis_mine_all"] = run_gbis_mine_all_pipeline()
     results["prime_contractor_mining"] = run_prime_contractor_mining()
     results["ai_scoring_alerts"] = run_ai_scoring_and_alerts()
@@ -885,6 +954,7 @@ def run_loop():
     log.info("  Folder scan:          every 15 minutes")
     log.info("  Federal mining:       every 4 hours")
     log.info("  Portal mining:        every 4 hours")
+    log.info("  Healthcare/MCO:       every 6 hours (RADAR)")
     log.info("  State/local mining:   every 6 hours")
     log.info("  Agency forecasts:     daily")
     log.info("  AI scoring + alerts:  every 2 hours")
@@ -908,12 +978,14 @@ def run_loop():
     last_public_scan = datetime.min
     last_prime_mining = datetime.min
     last_jeta_market = datetime.min
+    last_healthcare = datetime.min
 
     EMAIL_INTERVAL = timedelta(minutes=30)
     SCAN_INTERVAL = timedelta(minutes=15)
     MINE_INTERVAL = timedelta(hours=4)       # Federal mining every 4h (was 6h)
     PORTAL_INTERVAL = timedelta(hours=4)
     STATE_LOCAL_INTERVAL = timedelta(hours=6) # Michigan portals every 6h
+    HEALTHCARE_INTERVAL = timedelta(hours=6)  # Healthcare/MCO scan every 6h (RADAR)
     FORECAST_INTERVAL = timedelta(hours=24)   # Daily — forecasts don't change fast
     FOLLOWUP_INTERVAL = timedelta(hours=4)    # Check for outstanding quotes
     AI_SCORE_INTERVAL = timedelta(hours=2)    # Score new opps every 2h
@@ -962,6 +1034,11 @@ def run_loop():
             run_public_portal_scan()
             last_public_scan = now
 
+        # RADAR: Healthcare & MCO scanner (State Medicaid, hospitals, MCO portals)
+        if now - last_healthcare >= HEALTHCARE_INTERVAL:
+            run_healthcare_mco_scan()
+            last_healthcare = now
+
         # GBIS autonomous grant discovery — daily 7:00 AM America/Detroit (same as POST /gbis/mine-all)
         if _should_run_gbis_daily_7am_et():
             if run_gbis_mine_all_pipeline():
@@ -1003,6 +1080,8 @@ if __name__ == "__main__":
             run_loop()
         except KeyboardInterrupt:
             log.info("Scheduler stopped by user")
+    elif "--radar" in args:
+        run_radar()
     elif "--email" in args:
         run_email_monitor()
     elif "--mine" in args:

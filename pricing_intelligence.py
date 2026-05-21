@@ -83,6 +83,42 @@ SERVICE_LANE_KEYWORDS = {
         'shuttle service', 'passenger transport', 'vehicle service',
         'driver service', 'transportation service',
     ],
+    'freight_dry_van': [
+        'dry van', 'general freight', 'truckload', 'LTL', 'mail transport',
+        'general cargo', 'consumer goods transport', 'retail freight',
+        'highway contract route', 'HCR', 'surface transport',
+    ],
+    'freight_reefer': [
+        'refrigerated', 'reefer', 'cold chain', 'temperature controlled',
+        'frozen transport', 'produce', 'food distribution', 'TEFAP',
+        'pharmaceutical transport', 'cold storage', 'commodity distribution',
+    ],
+    'freight_flatbed': [
+        'flatbed', 'step deck', 'construction materials', 'steel transport',
+        'lumber', 'building materials', 'open deck', 'heavy equipment transport',
+    ],
+    'freight_heavy_haul': [
+        'heavy haul', 'oversize', 'overweight', 'oversized load', 'lowboy',
+        'RGN', 'crane transport', 'specialized transport', 'wide load',
+    ],
+    'freight_auto_transport': [
+        'auto transport', 'vehicle transport', 'car hauling', 'car carrier',
+        'GSA Fleet', 'PCS vehicle', 'driveaway', 'vehicle relocation',
+        'fleet vehicle distribution',
+    ],
+    'freight_tanker': [
+        'tanker', 'bulk fuel', 'JP-8', 'fuel transport', 'petroleum',
+        'bulk liquid', 'chemical transport', 'fuel distribution',
+    ],
+    'freight_hhg': [
+        'household goods', 'HHG', 'PCS move', 'military move',
+        'relocation', 'GBL', 'personal property', 'office move',
+        'government relocation',
+    ],
+    'freight_hotshot': [
+        'hotshot', 'expedited freight', 'time-critical', 'AOG',
+        'urgent delivery', 'emergency shipment', 'same-day freight',
+    ],
 }
 
 # ─── DEFAULT MARKUP RECOMMENDATIONS ─────────────────────────────────────────
@@ -102,6 +138,16 @@ DEFAULT_MARKUP_RANGES = {
         'aggressive': {'min': 20, 'max': 30, 'label': 'Win on price'},
         'competitive': {'min': 30, 'max': 40, 'label': 'Balanced'},
         'premium': {'min': 40, 'max': 55, 'label': 'Maximize margin'},
+    },
+    'freight_commercial': {
+        'aggressive': {'min': 15, 'max': 20, 'label': 'Win on volume/relationship'},
+        'competitive': {'min': 20, 'max': 25, 'label': 'Standard dispatch margin'},
+        'premium': {'min': 25, 'max': 30, 'label': 'Specialized/urgent/low competition'},
+    },
+    'freight_federal': {
+        'aggressive': {'min': 20, 'max': 25, 'label': 'LPTA — price wins'},
+        'competitive': {'min': 25, 'max': 30, 'label': 'Best value — standard'},
+        'premium': {'min': 30, 'max': 40, 'label': 'Set-aside/sole source/emergency'},
     },
 }
 

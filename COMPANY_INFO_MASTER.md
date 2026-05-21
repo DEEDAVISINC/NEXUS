@@ -341,6 +341,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 **Transportation/Logistics:**
 - MC Number: 1647572 (Freight Broker)
 - US DOT: 4250594
+- **SCAC Code: DFCL** (Standard Carrier Alpha Code — NMFTA) — ⚠️ **EXPIRED Feb 3, 2026 — RENEWAL REQUIRED** — Originally assigned to DEPOINTE, needs update to DEE DAVIS INC + Troy address. Certificate: `BIDS:RESOURCES/CERTIFICATES FOR NEXUS REFERENCES/certificate.pdf`. Renew at https://scaccode.com ($97/year). Required for USPS Logistics Gateway (HCR routes) and federal freight contracts.
 
 ### Terminology — Healthcare logistics & medical courier (both in NEXUS)
 

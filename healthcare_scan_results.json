@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-05-17T23:17:48.436067",
-  "total_found": 83,
+  "scan_date": "2026-05-20T21:24:31.448922",
+  "total_found": 84,
   "opportunities": [
     {
       "source": "Arizona AHCCCS",
@@ -27,6 +27,13 @@
       "source": "Arizona AHCCCS",
       "title": "Solicitations & Contracts",
       "link": "https://www.azahcccs.gov/PlansProviders/HealthPlans/purchasing.html",
+      "state": "AZ",
+      "type": "State Medicaid"
+    },
+    {
+      "source": "Arizona AHCCCS",
+      "title": "Technical Consortium and Workgroups",
+      "link": "https://www.azahcccs.gov/PlansProviders/HealthPlans/technicalconsortiumandworkgroups.html",
       "state": "AZ",
       "type": "State Medicaid"
     },
