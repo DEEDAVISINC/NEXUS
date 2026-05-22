@@ -158,7 +158,7 @@
 - ✅ Commercial trucking strategy documented
 - ✅ NCS confirmed as drug testing partner (background + drug bundled)
 - ✅ Collection network analysis completed
-- ✅ VIA Transit drug testing = NO-GO (low value)
+- ✅ VIA Transit drug testing = **GO** (Addendum No. 1 confirmed 2,662 tests/yr — $146K/yr, $732K lifetime)
 
 ---
 

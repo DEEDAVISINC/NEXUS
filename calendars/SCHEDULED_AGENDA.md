@@ -254,9 +254,21 @@
 
 ---
 
+## 2026-05-26 — Tuesday (Dee's Birthday)
+
+- **10:00 AM CST / 11:00 AM ET** — 📞 **VIA Metropolitan Transit Pre-Bid Conference — IFB 26-374 Drug & Alcohol Testing** — Teams call. Link: https://teams.microsoft.com/meet/288040301702239?p=EsCyryrSORrubgQ6nF · Meeting ID: 288 040 301 702 239 · Passcode: EE3MA2Jf · List name/company/email in chat. Take notes on Q&A + incumbent info. CO: Kim Turner. `.ics`: `calendars/VIA_TRANSIT_PREBID_IFB_26-374_2026-05-26.ics`
+
+---
+
+## 2026-06-02 — Tuesday
+
+- **4:45 PM CST** — 📧 **VIA IFB 26-374 — Questions deadline** — Submit smart questions to Kim Turner (kim.turner@viainfo.net). Must be received by close of business.
+
+---
+
 ## 2026-06-16 — Tuesday
 
-- ~~**Due by 3:00 PM ET (2:00 PM CT)** — VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374~~ — **NO-GO.** Contract value (~$73K/yr) too low to justify TX SOS registration + setup costs. AMRO MRO = $4.00 but margins still thin. Revisit TX drug testing when HHSC NEMT OE pursued.
+- **2:00 PM CST / 3:00 PM ET** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374 — BID DUE** — Hard-copy sealed bid. Ship by June 12 via FedEx Priority Overnight. **GO** — Addendum No. 1 confirmed 2,662 tests/yr, $146K/yr, $732K lifetime (5 yr). Folder `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`
 
 ---
 

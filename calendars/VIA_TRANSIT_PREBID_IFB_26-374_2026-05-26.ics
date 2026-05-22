@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Chicago
+
+BEGIN:VEVENT
+UID:via-prebid-26374-20260526@deedavis.biz
+DTSTAMP:20260522T202700Z
+DTSTART;TZID=America/Chicago:20260526T100000
+DTEND;TZID=America/Chicago:20260526T110000
+SUMMARY:📞 VIA Transit Pre-Bid Conference — IFB 26-374 Drug Testing
+DESCRIPTION:Pre-Bid Conference for VIA Metropolitan Transit Drug & Alcohol Testing IFB #26-374.\n\nTeams Link: https://teams.microsoft.com/meet/288040301702239?p=EsCyryrSORrubgQ6nF\nMeeting ID: 288 040 301 702 239\nPasscode: EE3MA2Jf\n\nCO: Kim Turner (kim.turner@viainfo.net / 210-362-2402)\n\nList name, company, email in chat upon entry.\nTake notes on Q&A and incumbent info.
+LOCATION:Microsoft Teams
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:VIA Pre-Bid Conference in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT10M
+DESCRIPTION:VIA Pre-Bid Conference in 10 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

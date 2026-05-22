@@ -1,5 +1,5 @@
 # BID TRACKER DASHBOARD
-**Updated:** May 19, 2026
+**Updated:** May 22, 2026
 
 ---
 
@@ -7,6 +7,7 @@
 
 | Deadline | Opportunity | Agency | Solicitation | Status |
 |---|---|---|---|---|
+| **June 16, 2026 @ 2:00 PM CST** | **Drug & Alcohol Testing (FTA/DOT)** | **VIA Metropolitan Transit (San Antonio, TX)** | **IFB #26-374** | **✅ GO (flipped from NO-GO)** — Addendum No. 1 confirmed 2,662 tests/yr (2,074 drug + 588 alcohol) · IDIQ · 2 base + 3 option years = 5 years · $146K/yr revenue · $732K lifetime · IFB = lowest price wins · **Pre-bid conference May 26 @ 10 AM CST (Teams)** · Questions due **June 2** · Hard-copy sealed bid · CO: Kim Turner (kim.turner@viainfo.net / 210-362-2402) · Quest + AMRO + local 1099 collectors · Same city as University Health · Folder `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/` |
 | **June 23, 2026 @ 2:00 PM EST** | **Drug & Alcohol Testing (DTC Program)** | **Oakland County — 52nd District Court** | **Event #001186 / MITN** | **🆕 NEW (Released TODAY 5/21)** — Observed drug testing + EtG/EtS + breathalyzer + randomized frequency program for Drug Therapy Court · 500 tests/yr · 5-year HIPAA contract + extensions · Best Value (100 pts) · **DDI IS IN OAKLAND COUNTY — LOCAL PREFERENCE** · Questions due **June 1** · 5 collection sites Oakland/Macomb · Quest + AMRO + 12PanelNow + 1099 collectors · TPA model · Buyer: Michelle Brown · Folder `BIDS:RESOURCES/OAKLAND COUNTY DTC DRUG TESTING/` |
 | **June 5, 2026** | **Occupational Health, Drug & Alcohol Testing** | **Delaware River Port Authority (DRPA)** | **RFP (SAP Ariba)** | **🆕 NEW** — DOT/CDL drug testing, occ health screenings, medical surveillance, respirator medicals · Est. $250K-$1.2M · NAICS 541380 · **⏳ Ariba Supplier Registration submitted May 19 @ 10:21 AM** — Doc3702732901 — **Pending Approval** · Same lane as CCRTA — Concentra + Quest + AMRO fulfillment · Folder `BIDS:RESOURCES/NJ DRPA OCC HEALTH DRUG TESTING/` |
 | **June 15, 2026** | **Background Check Software (SaaS)** | **City of Minneapolis — MPD** | **eSupplier** | **✅ QUESTIONS SUBMITTED May 18** — 20 questions sent to Mohammed Walji · Answers expected **May 27** · Sam (Lakota) back **May 22** · Partnership email sent to Sam · DDI primes, Lakota subs SaaS platform · Est. $400K-$700K (5 yr) · NAICS 541512/561611 · Folder `BIDS:RESOURCES/MINNEAPOLIS MPD BACKGROUND SOFTWARE/` |
