@@ -272,6 +272,68 @@
 
 ---
 
+## 2026-05-25 — Monday (Memorial Day)
+
+- **💰 PAYMENT CHECK:** @SigningAgents / NTS — $125.00 (Maxine Smith reverse closing, 4/25). 30-day mark. Check email for Deluxe eCheck.
+- **💰 PAYMENT CHECK:** Premium Closing Solutions — $145.00 (Jijo James $80 + Hurban $65). April files — last week of May payout. Check email for DeluxeChecks eCheck.
+
+---
+
+## 2026-06-04 — Thursday
+
+- **💰 PAYMENT DUE:** $435.00 deposit expected — Kriss Law Smith ($300) + Turbo Signing Warthen ($75) + Mosaic Aiad ($60). All transferred 5/20. **Did the $435 hit your account?**
+
+---
+
+## 2026-06-07 — Sunday
+
+- **💰 PAYMENT DUE:** Title Processing Center — $100.00 (Steven Shultz, May file). They pay 7th of each month. **Check email for eCheck.**
+
+---
+
+## 2026-06-08 — Monday
+
+- **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
+
+---
+
+## 2026-06-09 — Tuesday
+
+- **💰 PAYMENT CHECK:** @SigningAgents / NTS — If $125.00 (Maxine Smith) has NOT arrived yet, today is day 45. Email kevin@atsigningagents.com to inquire.
+- **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`
+
+---
+
+## 2026-06-12 — Friday
+
+- **💰 PAYMENT DUE:** Standard Notary Services — $100.00 (John Cahill, Net 45 from 4/28). **Check email for NotaryPay Deluxe eCheck.**
+
+---
+
+## 2026-06-22 — Monday
+
+- **💰 BIGGEST PAYOUT — $785.00 expected:** First Class x7 ($525) + Kriss Law Bitti ($150) + Doma Title Rayes ($110). All transfer June 5 → deposit by June 22. **Did the $785 hit?** Doma Rayes is 5+ years old — if it doesn't clear, follow up.
+
+---
+
+## 2026-06-23 — Tuesday
+
+- **💰 PAYMENT DUE:** Signature One Signing Services — $65.00 (Warren Castor deed, Net 45 from 5/9). **Check email for eCheck.**
+
+---
+
+## 2026-06-25 — Thursday
+
+- **💰 PAYMENT CHECK:** Premium Closing Solutions — $155.00 (Hood $80 + Foradori $75). May non-Silk files. Last week of June payout window opens. **Check email for DeluxeChecks eCheck through June 30.**
+
+---
+
+## 2026-07-16 — Thursday
+
+- **💰 PAYMENT CHECK:** Premium Closing Solutions SILK — $80.00 (Barnes Refi, file H-316268-SFB). 75-day cycle from 5/2. Deposit window: July 16-31. **Check email for DeluxeChecks eCheck.**
+
+---
+
 ## 2026-09-15 — Monday
 
 - **Due by 5:00 PM CT** — 🔥 **Texas HHSC NEMT Open Enrollment (HHS0016482) — FINAL DEADLINE** — DDI applying as TPA prime, subcontracting ALL transport to Uber Health + local NEMT. Requirements: TX SOS registration, TMHP enrollment, insurance certs, HUB subcontracting plan, key personnel. Reimbursement: Metro $32.38, Suburban $59.64, Rural $76.22 per one-way leg. `.ics`: `calendars/texas_hhsc_nemt_oe_2026-09-15.ics`
