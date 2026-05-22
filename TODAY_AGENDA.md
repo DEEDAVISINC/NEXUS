@@ -2,9 +2,11 @@
 
 ---
 
-## MEETING TODAY
+## MEETINGS TODAY
 
+- **10:00 AM ET** — Notary Signing
 - **1:00 PM ET** — Notary Signing: Timothy L Hood & Laura L Hood — 52716 Sequoia Circle, Chesterfield, MI 48047 — Order LMI26232009 — Premium Closing Solutions Inc (951-479-1450). Bring: notary stamp, journal, ID verification checklist.
+- **2:00 PM ET** — Notary Signing
 
 ---
 
