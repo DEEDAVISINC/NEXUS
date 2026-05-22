@@ -16793,6 +16793,10 @@ VC = {  # VERTEX CLIENTS
     'active':                'ACTIVE',
     'notes':                 'NOTES',
     'avg_payment_days':      'AVERAGE PAYMENT TIME (DAYS)',
+    'billing_tier':          'BILLING TIER',
+    'contract_id':           'CONTRACT ID',
+    'card_on_file':          'CARD ON FILE',
+    'autopay':               'AUTOPAY',
 }
 
 

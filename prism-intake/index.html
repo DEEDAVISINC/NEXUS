@@ -3,363 +3,941 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRISM — Scheduling & Intake | Dee Davis Inc.</title>
-<meta name="description" content="PRISM Scheduling & Intake Portal — Drug Testing, Fingerprinting, DNA, Occupational Health, NEMT, Notary, and Courier services by Dee Davis Inc.">
+<title>Client Portal | Dee Davis Inc.</title>
+<meta name="description" content="Schedule drug testing, fingerprinting, DNA, occupational health, NEMT, notary, courier, background screening, credentialing, and workforce compliance services.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #111827; --surface: #1F2937; --surface2: #283040;
-    --border: #374151; --border-bright: #4B5563;
-    --amber: #f5a623; --amber-dim: #7a5010;
-    --cyan: #38BDF8; --cyan-dim: #0c4a6e;
-    --green: #34D399; --green-dim: #064e3b;
-    --red: #F87171; --red-dim: #450a0a;
-    --text: #F9FAFB; --text-dim: #9CA3AF; --text-mid: #D1D5DB;
-    --mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    --display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --bg: #f4f5f7;
+    --white: #ffffff;
+    --card: #ffffff;
+    --border: #e0e3e8;
+    --border-hover: #c5c9d2;
+    --border-focus: #b08d3e;
+    --gold: #b08d3e;
+    --gold-light: #f5f0e3;
+    --gold-text: #8a6d2b;
+    --blue: #2563eb;
+    --blue-light: #eff4ff;
+    --green: #16a34a;
+    --green-light: #ecfdf5;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --orange: #d97706;
+    --orange-light: #fffbeb;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --text: #1a1d23;
+    --text-secondary: #4b5060;
+    --text-muted: #8b919f;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.08);
   }
-  body { background: var(--bg); color: var(--text); font-family: var(--body); min-height: 100vh; padding: 0; }
-  .console-header {
-    background: var(--surface); border-bottom: 1px solid var(--border-bright);
-    padding: 14px 28px; display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+  /* ── HEADER ── */
+  .site-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; }
+  .header-inner { max-width: 820px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .header-brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 13px; color: #fff; letter-spacing: -0.5px;
   }
-  .header-left { display: flex; align-items: center; gap: 16px; }
-  .prism-logo { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; }
-  .prism-logo span { color: var(--text-dim); font-weight: 400; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .header-status { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
-  .header-time { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
-  .console-wrap { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
-  .section-label {
-    font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--amber);
-    letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
-    display: flex; align-items: center; gap: 10px;
+  .brand-name { font-weight: 700; font-size: 15px; color: var(--text); }
+  .brand-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 1px; }
+  .header-badge {
+    font-size: 10px; font-weight: 700; color: var(--gold-text);
+    background: var(--gold-light); padding: 4px 10px; border-radius: 20px;
+    letter-spacing: 0.5px;
   }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-  .tier-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-    padding: 16px 14px; cursor: pointer; transition: all .15s ease; position: relative; overflow: hidden;
+
+  /* ── MAIN ── */
+  .main-wrap { max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  /* ── ENTRY GATE ── */
+  .entry-gate { max-width: 480px; margin: 0 auto; padding-top: 40px; }
+  .entry-title { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 8px; text-align: center; }
+  .entry-subtitle { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 28px; line-height: 1.6; }
+  .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+  .entry-email-label { font-size: 13px; font-weight: 700; color: var(--gold-text); margin-bottom: 8px; display: block; }
+  .entry-email-input {
+    width: 100%; padding: 14px 16px; font-size: 16px; font-family: var(--sans);
+    border: 2px solid var(--gold); border-radius: var(--radius-sm);
+    background: var(--gold-light); color: var(--text); outline: none;
+    transition: all .2s;
   }
-  .tier-card:hover { border-color: var(--amber-dim); }
-  .tier-card.active { border-color: var(--amber); background: #292420; box-shadow: 0 0 20px rgba(245,166,35,.08); }
-  .tier-card.active::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
-  .tier-number { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 6px; }
-  .tier-card.active .tier-number { color: var(--amber); }
-  .tier-name { font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; margin-bottom: 8px; }
-  .tier-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
-  .tier-badge { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 1.5px; padding: 3px 7px; border-radius: 3px; text-transform: uppercase; }
-  .badge-amber { background: var(--amber-dim); color: var(--amber); }
-  .badge-cyan { background: var(--cyan-dim); color: var(--cyan); }
-  .badge-green { background: var(--green-dim); color: var(--green); }
-  .urgency-row { display: flex; gap: 8px; margin-bottom: 24px; }
-  .urgency-btn {
-    flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
-    padding: 9px 10px; cursor: pointer; text-align: center; font-family: var(--mono);
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-dim);
-    text-transform: uppercase; transition: all .15s;
+  .entry-email-input:focus { box-shadow: 0 0 0 4px rgba(176,141,62,.12); }
+  .entry-email-input::placeholder { color: #b5a882; }
+  .entry-btn {
+    width: 100%; margin-top: 16px; padding: 14px;
+    background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
+    border: none; border-radius: var(--radius); color: #fff;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    transition: all .2s; box-shadow: 0 2px 8px rgba(176,141,62,.25);
   }
-  .urgency-btn:hover { border-color: var(--border-bright); color: var(--text); }
-  .urgency-btn.active-routine { border-color: var(--green); color: var(--green); background: var(--green-dim); }
-  .urgency-btn.active-priority { border-color: var(--amber); color: var(--amber); background: #292420; }
-  .urgency-btn.active-emergency { border-color: var(--red); color: var(--red); background: var(--red-dim); }
-  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
-  .service-chip {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
-    padding: 10px 12px; cursor: pointer; transition: all .15s;
+  .entry-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(176,141,62,.3); }
+  .entry-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .entry-or { text-align: center; color: var(--text-muted); font-size: 12px; margin: 16px 0; font-weight: 500; }
+  .entry-new-btn {
+    width: 100%; padding: 12px; background: var(--white);
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    color: var(--text-secondary); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
   }
-  .service-chip:hover { border-color: var(--border-bright); }
-  .service-chip.active { border-color: var(--cyan); background: var(--cyan-dim); }
-  .service-chip-icon { font-size: 15px; margin-bottom: 5px; }
-  .service-chip-name { font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text); margin-bottom: 2px; }
-  .service-chip.active .service-chip-name { color: var(--cyan); }
-  .service-chip-email { font-family: var(--mono); font-size: 9px; color: var(--text-dim); }
-  .sub-selector { display: none; gap: 6px; margin-bottom: 10px; padding: 8px 0; }
-  .sub-selector.visible { display: flex; }
+  .entry-new-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .entry-loading { display: none; text-align: center; padding: 12px; }
+  .entry-loading .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── CLIENT DASHBOARD ── */
+  .client-dashboard { display: none; }
+  .client-dashboard.active { display: block; }
+  .dash-header {
+    background: linear-gradient(135deg, #1a1d23, #2d3240);
+    border-radius: var(--radius); padding: 28px 28px 24px;
+    margin-bottom: 20px; color: #fff;
+  }
+  .dash-welcome { font-size: 14px; color: rgba(255,255,255,.6); font-weight: 500; margin-bottom: 4px; }
+  .dash-company { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .dash-contact { font-size: 13px; color: rgba(255,255,255,.5); }
+  .dash-whats-next {
+    display: inline-block; margin-top: 14px; padding: 6px 14px;
+    background: rgba(176,141,62,.2); border: 1px solid rgba(176,141,62,.35);
+    border-radius: 20px; font-size: 12px; font-weight: 700; color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 16px; text-align: center; box-shadow: var(--shadow);
+    cursor: pointer; transition: all .2s; position: relative;
+  }
+  .stat-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .stat-card.active-kpi { border-color: var(--gold); box-shadow: 0 4px 16px rgba(176,141,62,.15); }
+  .stat-num { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-hint { font-size: 9px; color: var(--text-muted); margin-top: 4px; opacity: 0; transition: opacity .2s; }
+  .stat-card:hover .stat-hint { opacity: 1; }
+
+  /* ── KPI DETAIL PANEL ── */
+  .kpi-panel { display: none; margin-bottom: 20px; animation: fadeIn .3s ease; }
+  .kpi-panel.active { display: block; }
+  .kpi-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; background: var(--card); border: 1px solid var(--border);
+    border-bottom: none; border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .kpi-panel-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .kpi-panel-close {
+    background: none; border: none; font-size: 18px; color: var(--text-muted);
+    cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: all .15s;
+  }
+  .kpi-panel-close:hover { background: var(--bg); color: var(--text); }
+  .kpi-panel-body {
+    background: var(--card); border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow);
+    padding: 0; overflow: hidden;
+  }
+
+  /* ── INVOICE STYLES ── */
+  .inv-item {
+    padding: 18px; border-bottom: 1px solid var(--border); display: flex;
+    align-items: center; gap: 16px; transition: background .15s;
+  }
+  .inv-item:last-child { border-bottom: none; }
+  .inv-item:hover { background: #fafbfc; }
+  .inv-icon {
+    width: 44px; height: 44px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .inv-info { flex: 1; min-width: 0; }
+  .inv-id { font-size: 14px; font-weight: 700; color: var(--text); }
+  .inv-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .inv-amount { font-size: 18px; font-weight: 800; color: var(--text); text-align: right; }
+  .inv-amount-sub { font-size: 11px; font-weight: 500; color: var(--text-muted); text-align: right; margin-top: 2px; }
+  .inv-status-paid { color: var(--green); }
+  .inv-status-pending { color: var(--orange); }
+  .inv-status-overdue { color: var(--red); }
+  .inv-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+  .inv-pay-btn {
+    padding: 8px 20px; border-radius: var(--radius-sm); font-size: 12px;
+    font-weight: 700; cursor: pointer; transition: all .15s; border: none;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .inv-pay-btn.primary {
+    background: linear-gradient(135deg, var(--green), #15803d); color: #fff;
+    box-shadow: 0 2px 6px rgba(22,163,74,.2);
+  }
+  .inv-pay-btn.primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(22,163,74,.3); }
+  .inv-pay-btn.secondary {
+    background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border);
+  }
+  .inv-pay-btn.secondary:hover { border-color: var(--border-hover); color: var(--text); }
+  .inv-total-row {
+    padding: 14px 18px; background: var(--bg); display: flex;
+    justify-content: space-between; align-items: center; border-top: 2px solid var(--border);
+  }
+  .inv-total-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); }
+  .inv-total-amount { font-size: 20px; font-weight: 800; color: var(--text); }
+
+  /* ── INVOICE DETAIL EXPANDED ── */
+  .inv-detail {
+    display: none; padding: 18px; background: var(--bg); border-top: 1px solid var(--border);
+    animation: fadeIn .25s ease;
+  }
+  .inv-detail.active { display: block; }
+  .inv-line-table { width: 100%; border-collapse: collapse; }
+  .inv-line-table th {
+    text-align: left; font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .inv-line-table th:last-child { text-align: right; }
+  .inv-line-table td {
+    font-size: 13px; padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,.04);
+    color: var(--text);
+  }
+  .inv-line-table td:last-child { text-align: right; font-weight: 600; }
+  .inv-line-table tr:last-child td { border-bottom: none; }
+  .inv-pay-strip {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; background: var(--white); border-top: 1px solid var(--border);
+    gap: 12px; flex-wrap: wrap;
+  }
+  .inv-pay-methods { display: flex; gap: 8px; align-items: center; }
+  .inv-pay-method-badge {
+    font-size: 10px; font-weight: 600; color: var(--text-muted);
+    background: var(--bg); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border);
+  }
+
+  /* ── KPI LIST ITEMS (for upcoming/completed/results panels) ── */
+  .kpi-list-item {
+    padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex;
+    align-items: center; gap: 14px; transition: background .15s;
+  }
+  .kpi-list-item:last-child { border-bottom: none; }
+  .kpi-list-item:hover { background: #fafbfc; }
+  .kpi-list-icon {
+    width: 40px; height: 40px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .kpi-list-info { flex: 1; }
+  .kpi-list-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .kpi-list-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .kpi-list-right { text-align: right; }
+  .kpi-list-badge {
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    display: inline-block;
+  }
+
+  .dash-section-title {
+    font-size: 14px; font-weight: 700; color: var(--text); margin: 24px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dash-section-title .count {
+    font-size: 11px; background: var(--bg); color: var(--text-muted);
+    padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  }
+
+  /* ── UPCOMING LIST ── */
+  .upcoming-list { display: flex; flex-direction: column; gap: 10px; }
+  .upcoming-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px;
+    transition: all .2s;
+  }
+  .upcoming-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+  .upcoming-date-block {
+    width: 52px; min-width: 52px; text-align: center;
+    background: var(--blue-light); border-radius: var(--radius-sm); padding: 8px 4px;
+  }
+  .upcoming-month { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
+  .upcoming-day { font-size: 20px; font-weight: 800; color: var(--blue); line-height: 1.1; }
+  .upcoming-info { flex: 1; min-width: 0; }
+  .upcoming-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .upcoming-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .upcoming-badge {
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-scheduled { background: var(--blue-light); color: var(--blue); }
+  .badge-pending { background: var(--orange-light); color: var(--orange); }
+  .badge-in-progress { background: var(--purple-light); color: var(--purple); }
+  .badge-completed { background: var(--green-light); color: var(--green); }
+
+  /* ── RESULTS WAITING ── */
+  .results-waiting {
+    background: var(--orange-light); border: 1px solid rgba(217,119,6,.2);
+    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .results-waiting-icon { font-size: 24px; }
+  .results-waiting-text { flex: 1; }
+  .results-waiting-title { font-size: 14px; font-weight: 700; color: var(--orange); }
+  .results-waiting-sub { font-size: 12px; color: #92690e; margin-top: 2px; }
+
+  /* ── RECENT COMPLETED ── */
+  .recent-table { width: 100%; border-collapse: collapse; }
+  .recent-table th {
+    text-align: left; font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .recent-table td {
+    font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .recent-table tr:last-child td { border-bottom: none; }
+  .result-negative { color: var(--green); font-weight: 700; }
+  .result-positive { color: var(--red); font-weight: 700; }
+
+  /* ── COMPLIANCE STRIP ── */
+  .compliance-strip {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px; box-shadow: var(--shadow); display: flex; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .compliance-item { flex: 1; min-width: 140px; }
+  .compliance-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .compliance-value { font-size: 14px; font-weight: 700; }
+  .compliance-ok { color: var(--green); }
+  .compliance-warn { color: var(--orange); }
+  .compliance-bar { height: 4px; border-radius: 2px; background: var(--border); margin-top: 6px; overflow: hidden; }
+  .compliance-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+
+  /* ── NEW REQUEST BUTTON ── */
+  .new-request-strip {
+    background: var(--card); border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 20px; text-align: center; cursor: pointer; transition: all .2s; margin-top: 20px;
+  }
+  .new-request-strip:hover { border-color: var(--gold); background: var(--gold-light); }
+  .new-request-strip .nrs-icon { font-size: 28px; margin-bottom: 6px; }
+  .new-request-strip .nrs-text { font-size: 15px; font-weight: 700; color: var(--text); }
+  .new-request-strip .nrs-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── BACK TO DASHBOARD LINK ── */
+  .back-to-dash {
+    display: none; margin-bottom: 20px; font-size: 13px; font-weight: 600;
+    color: var(--blue); cursor: pointer; transition: color .2s;
+  }
+  .back-to-dash:hover { color: #1d4ed8; }
+  .back-to-dash.visible { display: block; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 24px; display: none; }
+  .progress-wrap.active { display: block; }
+  .progress-inner { max-width: 820px; margin: 0 auto; display: flex; align-items: center; gap: 0; }
+  .prog-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap;
+    transition: color .3s; cursor: default;
+  }
+  .prog-step.active { color: var(--gold-text); }
+  .prog-step.done { color: var(--green); cursor: pointer; }
+  .prog-dot {
+    width: 28px; height: 28px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    background: var(--bg); border: 2px solid var(--border); color: var(--text-muted);
+    transition: all .3s;
+  }
+  .prog-step.active .prog-dot { background: var(--gold-light); border-color: var(--gold); color: var(--gold-text); }
+  .prog-step.done .prog-dot { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .prog-line { flex: 1; height: 2px; background: var(--border); margin: 0 12px; min-width: 20px; transition: background .3s; }
+  .prog-line.done { background: var(--green); }
+
+  /* ── WIZARD STEP ── */
+  .wizard-step { display: none; animation: fadeIn .3s ease; }
+  .wizard-step.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .step-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .step-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+
+  /* ── SERVICE GRID ── */
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .svc-card {
+    background: var(--white); border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 16px 14px; cursor: pointer; transition: all .2s; text-align: center;
+  }
+  .svc-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .svc-card.active { border-color: var(--gold); background: var(--gold-light); }
+  .svc-card .icon { font-size: 26px; margin-bottom: 8px; display: block; }
+  .svc-card .name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .svc-card.active .name { color: var(--gold-text); }
+
+  /* ── OPTION ROWS ── */
+  .option-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .opt-btn {
+    flex: 1; min-width: 0; background: var(--white); border: 2px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 10px; cursor: pointer; text-align: center;
+    font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all .2s;
+  }
+  .opt-btn:hover { border-color: var(--border-hover); }
+  .opt-btn.active-routine { border-color: var(--green); color: var(--green); background: var(--green-light); }
+  .opt-btn.active-priority { border-color: #d97706; color: #d97706; background: #fffbeb; }
+  .opt-btn.active-emergency { border-color: var(--red); color: var(--red); background: var(--red-light); }
+  .opt-btn.sel { border-color: var(--gold); color: var(--gold-text); background: var(--gold-light); }
+
+  .sub-options { display: none; gap: 6px; margin-bottom: 16px; }
+  .sub-options.visible { display: flex; }
   .sub-btn {
-    flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
-    padding: 8px 10px; cursor: pointer; text-align: center; font-family: var(--mono);
-    font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-dim);
-    text-transform: uppercase; transition: all .15s;
+    flex: 1; background: var(--white); border: 2px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 8px; cursor: pointer; text-align: center;
+    font-size: 11px; font-weight: 600; color: var(--text-muted); transition: all .2s;
   }
-  .sub-btn:hover { border-color: var(--border-bright); color: var(--text-mid); }
-  .sub-btn.active { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
-  .routing-display {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
-    padding: 10px 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  }
-  .routing-label { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
-  .routing-email { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--cyan); }
-  .routing-arrow { color: var(--text-dim); font-size: 12px; }
-  .routing-hint { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .sub-btn:hover { border-color: var(--border-hover); color: var(--text-secondary); }
+  .sub-btn.active { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+  /* ── FORM FIELDS ── */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
   .form-row.full { grid-template-columns: 1fr; }
   .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+  .field label .req { color: var(--red); }
   .field input, .field select, .field textarea {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
-    padding: 10px 12px; color: var(--text); font-family: var(--body); font-size: 13px;
-    outline: none; transition: border-color .15s; width: 100%;
+    background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    padding: 11px 14px; color: var(--text); font-family: var(--sans); font-size: 14px;
+    outline: none; transition: all .2s; width: 100%;
   }
-  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--amber); background: #1a2030; }
-  .field input::placeholder { color: var(--text-dim); font-size: 12px; }
-  .field select { appearance: none; cursor: pointer; }
-  .field textarea { resize: vertical; min-height: 70px; font-size: 13px; line-height: 1.5; }
-  option { background: #1F2937; }
-  .block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
-  .donor-count-wrap {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
-    padding: 14px 16px; display: none; align-items: center; gap: 16px; margin-bottom: 12px;
-  }
-  .donor-count-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1.5px; flex: 1; }
-  .donor-count-input {
-    background: var(--bg) !important; border: 1px solid var(--amber-dim) !important; border-radius: 4px;
-    padding: 8px 12px !important; color: var(--amber) !important; font-family: var(--mono) !important;
-    font-size: 18px !important; font-weight: 700; width: 100px !important; text-align: center;
-  }
+  .field input:hover, .field select:hover { border-color: var(--border-hover); }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-light); }
+  .field input::placeholder { color: #b0b5bf; }
+  .field select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b919f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  .field textarea { resize: vertical; min-height: 80px; font-size: 14px; line-height: 1.6; }
+  .field.error input, .field.error select { border-color: var(--red); }
+  .field .error-msg { font-size: 11px; color: var(--red); display: none; }
+  .field.error .error-msg { display: block; }
+
+  .section-label { font-size: 13px; font-weight: 700; color: var(--text); margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .help-text { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5; }
   .dynamic-section { display: none; }
   .dynamic-section.visible { display: block; }
-  .submit-row { display: flex; gap: 12px; margin-top: 24px; }
-  .btn-dispatch {
-    flex: 1; background: var(--amber); border: none; border-radius: 6px; padding: 15px 24px;
-    color: #111827; font-family: var(--display); font-size: 16px; font-weight: 800;
-    letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all .15s;
+  .donor-count-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: none; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .donor-count-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); flex: 1; }
+  .donor-count-input { width: 80px !important; text-align: center; font-size: 18px !important; font-weight: 700 !important; color: var(--gold-text) !important; }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row { display: flex; gap: 12px; margin-top: 28px; }
+  .btn-continue {
+    flex: 1; background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
+    border: none; border-radius: var(--radius); padding: 15px 28px;
+    color: #fff; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
+    cursor: pointer; transition: all .2s; box-shadow: 0 2px 8px rgba(176,141,62,.25);
   }
-  .btn-dispatch:hover { background: #f7b84a; transform: translateY(-1px); }
+  .btn-continue:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(176,141,62,.3); }
+  .btn-continue:active { transform: translateY(0); }
+  .btn-continue:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-back {
+    background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 15px 24px; color: var(--text-secondary); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .btn-back:hover { border-color: var(--border-hover); color: var(--text); }
   .btn-clear {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-    padding: 15px 20px; color: var(--text-dim); font-family: var(--mono); font-size: 11px;
-    font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all .15s;
+    background: none; border: none; color: var(--text-muted); font-size: 12px;
+    font-weight: 500; cursor: pointer; padding: 15px 16px; transition: color .2s;
   }
-  .btn-clear:hover { border-color: var(--border-bright); color: var(--text); }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+  .btn-clear:hover { color: var(--red); }
+
+  /* ── FOOTER ── */
+  .site-footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; background: var(--white); }
+  .footer-inner { max-width: 820px; margin: 0 auto; }
+  .footer-brand { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .footer-address { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+  .footer-address a { color: var(--blue); text-decoration: none; }
+  .footer-certs { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+  .cert-badge { font-size: 9px; font-weight: 700; color: var(--gold-text); background: var(--gold-light); padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
+  .footer-legal { margin-top: 10px; font-size: 10px; color: var(--text-muted); }
+
+  /* ── OVERLAY ── */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .overlay.active { display: flex; }
-  .confirm-card {
-    background: var(--surface); border: 1px solid var(--amber); border-radius: 10px;
-    width: 100%; max-width: 660px; max-height: 90vh; overflow-y: auto;
-    box-shadow: 0 0 60px rgba(245,166,35,.15);
-  }
-  .confirm-header {
-    background: var(--amber); padding: 16px 24px; display: flex; align-items: center;
-    justify-content: space-between; border-radius: 9px 9px 0 0;
-  }
-  .confirm-title { font-family: var(--display); font-size: 16px; font-weight: 800; letter-spacing: 2px; color: #111827; text-transform: uppercase; }
-  .confirm-num { font-family: var(--mono); font-size: 12px; font-weight: 700; color: #0a0800; }
+  .confirm-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+  .confirm-header { background: linear-gradient(135deg, var(--gold), #9a7a30); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; border-radius: 13px 13px 0 0; }
+  .confirm-title { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: 1px; }
+  .confirm-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.7); }
   .confirm-body { padding: 24px; }
-  .confirm-row { display: flex; gap: 8px; margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
-  .confirm-key { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px; min-width: 130px; padding-top: 2px; text-transform: uppercase; }
-  .confirm-val { color: var(--text); flex: 1; }
-  .confirm-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
-  .confirm-routing {
-    background: var(--cyan-dim); border: 1px solid var(--cyan); border-radius: 5px;
-    padding: 12px; font-family: var(--mono); font-size: 11px; color: var(--cyan); text-align: center; margin-bottom: 16px;
+  .confirm-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+  .confirm-key { font-size: 11px; color: var(--text-muted); font-weight: 600; min-width: 120px; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 1px; }
+  .confirm-val { color: var(--text); flex: 1; font-weight: 500; }
+  .confirm-divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+  .confirm-routing { background: var(--blue-light); border: 1px solid rgba(37,99,235,.15); border-radius: var(--radius-sm); padding: 10px; font-size: 12px; color: var(--blue); text-align: center; margin-bottom: 14px; font-weight: 600; }
+  .confirm-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .confirm-actions a, .confirm-actions button { flex: 1; min-width: 100px; border-radius: var(--radius-sm); padding: 12px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; transition: all .15s; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  .btn-email-c { background: var(--green-light); border: 1px solid rgba(22,163,74,.2); color: var(--green); }
+  .btn-copy-c { background: var(--bg); border: 1px solid var(--border); color: var(--text-secondary); }
+  .btn-copy-c.copied { background: var(--green-light); border-color: rgba(22,163,74,.2); color: var(--green); }
+  .btn-print-c { background: var(--gold-light); border: 1px solid rgba(176,141,62,.15); color: var(--gold-text); }
+  .btn-close-c { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); }
+  .copy-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px; font-family: monospace; font-size: 11px; color: var(--text-secondary); line-height: 1.7; white-space: pre-wrap; word-break: break-word; user-select: all; max-height: 200px; overflow-y: auto; }
+  .copy-label { font-size: 10px; color: var(--text-muted); text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .submit-status { font-size: 12px; text-align: center; padding: 10px; border-radius: var(--radius-sm); margin-bottom: 12px; display: none; font-weight: 600; }
+  .submit-status.success { display: block; background: var(--green-light); color: var(--green); }
+  .submit-status.error { display: block; background: var(--red-light); color: var(--red); }
+
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+  .shake { animation: shake .3s ease; }
+
+  /* ── PAYMENT STEP ── */
+  .pay-summary {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); overflow: hidden; margin-bottom: 16px;
   }
-  .confirm-nexus {
-    background: var(--green-dim); border: 1px solid var(--green); border-radius: 5px;
-    padding: 10px; font-family: var(--mono); font-size: 10px; color: var(--green);
-    text-align: center; margin-bottom: 16px; letter-spacing: 1px;
+  .pay-summary-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .confirm-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  .btn-email {
-    flex: 1; min-width: 140px; background: var(--green-dim); border: 1px solid var(--green);
-    border-radius: 5px; padding: 12px; color: var(--green); font-family: var(--display);
-    font-size: 14px; font-weight: 800; letter-spacing: 1.5px; cursor: pointer;
-    text-transform: uppercase; transition: all .15s; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;
+  .pay-summary-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .pay-summary-amount { font-size: 22px; font-weight: 800; color: var(--text); }
+  .pay-line-items { padding: 0; }
+  .pay-line {
+    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,.04); font-size: 13px;
   }
-  .btn-email:hover { background: #0a2a12; }
-  .btn-print {
-    flex: 1; min-width: 100px; background: var(--amber); border: none; border-radius: 5px;
-    padding: 12px; color: #111827; font-family: var(--display); font-size: 14px;
-    font-weight: 800; letter-spacing: 1.5px; cursor: pointer; text-transform: uppercase; transition: all .15s;
+  .pay-line:last-child { border-bottom: none; }
+  .pay-line-desc { color: var(--text-secondary); }
+  .pay-line-price { font-weight: 700; color: var(--text); }
+  .pay-total-row {
+    padding: 14px 20px; background: var(--bg); border-top: 2px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .btn-print:hover { background: #f7b84a; }
-  .btn-copy {
-    flex: 1; min-width: 100px; background: var(--surface2); border: 1px solid var(--cyan);
-    border-radius: 5px; padding: 12px; color: var(--cyan); font-family: var(--mono);
-    font-size: 11px; font-weight: 600; letter-spacing: 1.5px; cursor: pointer;
-    text-transform: uppercase; transition: all .15s; text-align: center;
+  .pay-total-label { font-size: 14px; font-weight: 700; color: var(--text); }
+  .pay-total-amount { font-size: 20px; font-weight: 800; color: var(--text); }
+
+  .billing-tier-badge {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+    border-radius: var(--radius); font-size: 13px; font-weight: 700;
+    margin-bottom: 16px;
   }
-  .btn-copy:hover { background: var(--cyan-dim); }
-  .btn-copy.copied { background: var(--green-dim); border-color: var(--green); color: var(--green); }
-  .btn-close {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
-    padding: 12px 20px; color: var(--text-dim); font-family: var(--mono); font-size: 10px;
-    cursor: pointer; transition: all .15s;
+  .tier-contract { background: var(--green-light); color: var(--green); border: 1px solid rgba(22,163,74,.2); }
+  .tier-card-on-file { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(37,99,235,.15); }
+  .tier-pay-now { background: var(--orange-light); color: var(--orange); border: 1px solid rgba(217,119,6,.2); }
+
+  .pay-method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .pay-method-card {
+    background: var(--white); border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 16px 12px; cursor: pointer; text-align: center; transition: all .2s;
   }
-  .btn-close:hover { border-color: var(--border-bright); color: var(--text); }
-  .copy-block {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
-    padding: 14px 16px; margin-bottom: 14px; font-family: var(--mono); font-size: 11px;
-    color: var(--text-mid); line-height: 1.7; white-space: pre-wrap; word-break: break-word;
-    user-select: all; cursor: text;
+  .pay-method-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+  .pay-method-card.active { border-color: var(--green); background: var(--green-light); }
+  .pay-method-card .pm-icon { font-size: 24px; margin-bottom: 6px; display: block; }
+  .pay-method-card .pm-name { font-size: 12px; font-weight: 700; color: var(--text); }
+  .pay-method-card.active .pm-name { color: var(--green); }
+  .pay-method-card .pm-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  .card-input-group { display: none; animation: fadeIn .25s ease; }
+  .card-input-group.visible { display: block; }
+  .card-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .card-input-row.full { grid-template-columns: 1fr; }
+
+  .override-section {
+    border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px;
   }
-  .copy-hint {
-    font-family: var(--mono); font-size: 9px; color: var(--text-dim);
-    letter-spacing: 1.5px; text-align: center; margin-bottom: 8px;
+  .override-row { display: flex; gap: 10px; align-items: flex-end; }
+  .override-input {
+    flex: 1; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    font-family: var(--sans); font-size: 14px; color: var(--text); outline: none;
+    letter-spacing: 2px; font-weight: 600;
   }
-  .submit-status {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-align: center;
-    padding: 10px; border-radius: 5px; margin-bottom: 12px; display: none;
+  .override-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-light); }
+  .override-btn {
+    padding: 11px 20px; border-radius: var(--radius-sm); font-size: 13px;
+    font-weight: 700; cursor: pointer; transition: all .15s; border: 1.5px solid var(--border);
+    background: var(--white); color: var(--text-secondary);
   }
-  .submit-status.success { display: block; background: var(--green-dim); border: 1px solid var(--green); color: var(--green); }
-  .submit-status.error { display: block; background: var(--red-dim); border: 1px solid var(--red); color: var(--red); }
-  .footer-bar {
-    text-align: center; padding: 20px; font-family: var(--mono); font-size: 9px;
-    color: var(--text-dim); letter-spacing: 1.5px; border-top: 1px solid var(--border);
+  .override-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .override-result {
+    display: none; margin-top: 8px; padding: 8px 12px; border-radius: var(--radius-sm);
+    font-size: 12px; font-weight: 600;
   }
-  .footer-bar a { color: var(--cyan); text-decoration: none; }
-  @media (max-width: 600px) {
-    .tier-grid { grid-template-columns: 1fr; }
+  .override-result.valid { display: block; background: var(--green-light); color: var(--green); }
+  .override-result.invalid { display: block; background: var(--red-light); color: var(--red); }
+
+  .contract-bypass {
+    background: var(--green-light); border: 1px solid rgba(22,163,74,.2); border-radius: var(--radius);
+    padding: 20px; text-align: center;
+  }
+  .contract-bypass-icon { font-size: 32px; margin-bottom: 8px; }
+  .contract-bypass-title { font-size: 16px; font-weight: 800; color: var(--green); margin-bottom: 4px; }
+  .contract-bypass-sub { font-size: 13px; color: #15803d; }
+
+  .autopay-toggle {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: var(--blue-light); border: 1px solid rgba(37,99,235,.15);
+    border-radius: var(--radius); margin-bottom: 16px; cursor: pointer;
+    transition: all .2s;
+  }
+  .autopay-toggle:hover { border-color: rgba(37,99,235,.3); }
+  .autopay-toggle input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; }
+  .autopay-toggle-text { flex: 1; }
+  .autopay-toggle-title { font-size: 13px; font-weight: 700; color: var(--blue); }
+  .autopay-toggle-sub { font-size: 11px; color: #3b82f6; margin-top: 2px; }
+
+  .saved-card-strip {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 16px;
+  }
+  .saved-card-icon { font-size: 20px; }
+  .saved-card-info { flex: 1; }
+  .saved-card-label { font-size: 13px; font-weight: 700; color: var(--text); }
+  .saved-card-num { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .saved-card-change {
+    font-size: 12px; font-weight: 600; color: var(--blue); cursor: pointer;
+    background: none; border: none; padding: 4px 8px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 700px) {
+    .dash-stats { grid-template-columns: repeat(2, 1fr); }
     .service-grid { grid-template-columns: repeat(2, 1fr); }
-    .sub-selector { flex-wrap: wrap; }
-    .form-row { grid-template-columns: 1fr; }
-    .form-row.triple { grid-template-columns: 1fr 1fr; }
+    .form-row, .form-row.triple { grid-template-columns: 1fr; }
+    .option-row { flex-wrap: wrap; }
+    .opt-btn { min-width: calc(50% - 4px); }
     .confirm-actions { flex-direction: column; }
+    .step-title { font-size: 19px; }
+    .prog-step span { display: none; }
+    .nav-row { flex-direction: column-reverse; }
+    .compliance-strip { flex-direction: column; }
+    .pay-method-grid { grid-template-columns: 1fr; }
+    .card-input-row { grid-template-columns: 1fr; }
+    .override-row { flex-direction: column; }
+    .recent-table { font-size: 12px; }
   }
   @media print {
-    .overlay { position: static; background: none; padding: 0; }
-    .confirm-card { box-shadow: none; border: 1px solid #ccc; max-height: none; }
-    .confirm-actions, .copy-hint, .submit-status { display: none !important; }
+    .overlay { position: static; background: none; backdrop-filter: none; padding: 0; }
+    .confirm-card { box-shadow: none; max-height: none; }
+    .confirm-actions, .submit-status { display: none !important; }
+    .site-header, .site-footer, .progress-wrap { display: none !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- Hidden Netlify form for auto-submissions -->
 <form name="prism-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="display:none" id="netlify-form">
-  <input name="bot-field">
-  <input name="confirmation" id="nf-confirmation">
-  <input name="service" id="nf-service">
-  <input name="urgency" id="nf-urgency">
-  <input name="tier" id="nf-tier">
-  <input name="routing-email" id="nf-routing">
+  <input name="bot-field"><input name="confirmation" id="nf-confirmation"><input name="service" id="nf-service">
+  <input name="urgency" id="nf-urgency"><input name="tier" id="nf-tier"><input name="routing-email" id="nf-routing">
   <textarea name="order-summary" id="nf-summary"></textarea>
 </form>
 
-<div class="console-header">
-  <div class="header-left">
-    <div class="status-dot"></div>
-    <div class="prism-logo">PRISM <span>// SCHEDULING & INTAKE</span></div>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-mark">DDI</div>
+      <div><div class="brand-name">Dee Davis Inc.</div><div class="brand-sub">Client Portal</div></div>
+    </div>
+    <div class="header-badge">EDWOSB Certified</div>
   </div>
-  <div style="display:flex;align-items:center;gap:20px;">
-    <div class="header-status">DEE DAVIS INC. — LIVE</div>
-    <div class="header-time" id="live-time">--:--:--</div>
+</header>
+
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-inner">
+    <div class="prog-step active" data-s="1" onclick="goToStep(1,true)"><div class="prog-dot">1</div><span>Service</span></div>
+    <div class="prog-line" id="pl-1"></div>
+    <div class="prog-step" data-s="2" onclick="goToStep(2,true)"><div class="prog-dot">2</div><span>Details</span></div>
+    <div class="prog-line" id="pl-2"></div>
+    <div class="prog-step" data-s="3" onclick="goToStep(3,true)"><div class="prog-dot">3</div><span>Schedule</span></div>
+    <div class="prog-line" id="pl-3"></div>
+    <div class="prog-step" data-s="4" onclick="goToStep(4,true)"><div class="prog-dot">4</div><span>Payment</span></div>
+    <div class="prog-line" id="pl-4"></div>
+    <div class="prog-step" data-s="5" onclick="goToStep(5,true)"><div class="prog-dot">5</div><span>Submit</span></div>
   </div>
 </div>
 
-<div class="console-wrap">
+<div class="main-wrap">
 
-  <div class="section-label">01 // Response Tier</div>
-  <div class="tier-grid">
-    <div class="tier-card active" data-tier="1" onclick="selectTier(1)">
-      <div class="tier-number">TIER 01</div>
-      <div class="tier-name">Expedited Mobile Collector</div>
-      <div class="tier-desc">Collector dispatched directly to your location. No travel required.</div>
-      <div class="tier-badge badge-amber">Premium / Fastest</div>
+<!-- ═══════════ ENTRY GATE ═══════════ -->
+<div class="entry-gate" id="entry-gate">
+  <div class="entry-title">Welcome to PRISM</div>
+  <div class="entry-subtitle">Enter your email to view your account, upcoming appointments, and order history — or start a new service request.</div>
+  <div class="entry-card">
+    <label class="entry-email-label">Your Business Email</label>
+    <input type="email" class="entry-email-input" id="gate-email" placeholder="you@company.com" autofocus>
+    <div class="entry-loading" id="gate-loading"><div class="spinner"></div> Looking up your account...</div>
+    <button class="entry-btn" id="gate-btn" onclick="lookupClient()">Continue</button>
+    <div class="entry-or">or</div>
+    <button class="entry-new-btn" onclick="enterAsNew()">New Client — Schedule a Service</button>
+  </div>
+</div>
+
+<!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
+<div class="client-dashboard" id="client-dashboard">
+  <div class="dash-header">
+    <div class="dash-welcome">Welcome back</div>
+    <div class="dash-company" id="dash-company-name">—</div>
+    <div class="dash-contact" id="dash-contact-info">—</div>
+    <div class="dash-whats-next">WHAT'S NEXT</div>
+  </div>
+
+  <div class="dash-stats" id="dash-stats">
+    <div class="stat-card" onclick="toggleKpi('upcoming')"><div class="stat-num" id="stat-upcoming" style="color:var(--blue)">0</div><div class="stat-label">Upcoming</div><div class="stat-hint">Click to view</div></div>
+    <div class="stat-card" onclick="toggleKpi('results')"><div class="stat-num" id="stat-pending" style="color:var(--orange)">0</div><div class="stat-label">Results Pending</div><div class="stat-hint">Click to view</div></div>
+    <div class="stat-card" onclick="toggleKpi('completed')"><div class="stat-num" id="stat-completed" style="color:var(--green)">0</div><div class="stat-label">Completed</div><div class="stat-hint">Click to view</div></div>
+    <div class="stat-card" onclick="toggleKpi('invoices')"><div class="stat-num" id="stat-invoices" style="color:var(--purple)">0</div><div class="stat-label">Open Invoices</div><div class="stat-hint">Click to view</div></div>
+  </div>
+
+  <!-- KPI DETAIL PANELS -->
+  <div class="kpi-panel" id="kpi-upcoming">
+    <div class="kpi-panel-header"><div class="kpi-panel-title">Upcoming Appointments</div><button class="kpi-panel-close" onclick="closeKpi('upcoming')">✕</button></div>
+    <div class="kpi-panel-body" id="kpi-upcoming-body"></div>
+  </div>
+  <div class="kpi-panel" id="kpi-results">
+    <div class="kpi-panel-header"><div class="kpi-panel-title">Results & Pending Orders</div><button class="kpi-panel-close" onclick="closeKpi('results')">✕</button></div>
+    <div class="kpi-panel-body" id="kpi-results-body"></div>
+  </div>
+  <div class="kpi-panel" id="kpi-completed">
+    <div class="kpi-panel-header"><div class="kpi-panel-title">Completed Orders</div><button class="kpi-panel-close" onclick="closeKpi('completed')">✕</button></div>
+    <div class="kpi-panel-body" id="kpi-completed-body"></div>
+  </div>
+  <div class="kpi-panel" id="kpi-invoices">
+    <div class="kpi-panel-header"><div class="kpi-panel-title">Invoices & Payments</div><button class="kpi-panel-close" onclick="closeKpi('invoices')">✕</button></div>
+    <div class="kpi-panel-body" id="kpi-invoices-body"></div>
+  </div>
+
+  <div id="results-waiting-area"></div>
+
+  <div class="dash-section-title">Upcoming Appointments <span class="count" id="upcoming-count">0</span></div>
+  <div class="upcoming-list" id="upcoming-list"></div>
+
+  <div class="compliance-strip" id="compliance-strip" style="display:none; margin-top: 20px;">
+    <div class="compliance-item">
+      <div class="compliance-label">Random Pool</div>
+      <div class="compliance-value compliance-ok" id="comp-random">Active</div>
+      <div class="compliance-bar"><div class="compliance-fill" id="comp-random-bar" style="width:100%; background:var(--green);"></div></div>
     </div>
-    <div class="tier-card" data-tier="2" onclick="selectTier(2)">
-      <div class="tier-number">TIER 02</div>
-      <div class="tier-name">Coordinated Ride to Collection Site</div>
-      <div class="tier-desc">GPS-tracked ride arranged to nearest collection site. Safe and convenient.</div>
-      <div class="tier-badge badge-cyan">Safety / Cost-Effective</div>
+    <div class="compliance-item">
+      <div class="compliance-label">Testing Rate (YTD)</div>
+      <div class="compliance-value" id="comp-rate">—</div>
+      <div class="compliance-bar"><div class="compliance-fill" id="comp-rate-bar" style="width:0; background:var(--blue);"></div></div>
     </div>
-    <div class="tier-card" data-tier="3" onclick="selectTier(3)">
-      <div class="tier-number">TIER 03</div>
-      <div class="tier-name">On-Site Group Collection Event</div>
-      <div class="tier-desc">Our team deploys to your facility. 25–500+ subjects per event.</div>
-      <div class="tier-badge badge-green">Volume / Best Value</div>
+    <div class="compliance-item">
+      <div class="compliance-label">Next Random Selection</div>
+      <div class="compliance-value" id="comp-next-random">—</div>
+    </div>
+    <div class="compliance-item">
+      <div class="compliance-label">Clearinghouse</div>
+      <div class="compliance-value compliance-ok" id="comp-clearinghouse">Current</div>
     </div>
   </div>
 
-  <div class="section-label">02 // Urgency</div>
-  <div class="urgency-row">
-    <div class="urgency-btn active-routine" onclick="selectUrgency(this,'routine')">⬤ Routine</div>
-    <div class="urgency-btn" onclick="selectUrgency(this,'priority')">◆ Priority</div>
-    <div class="urgency-btn" onclick="selectUrgency(this,'emergency')">▲ Emergency / Post-Accident</div>
+  <div class="dash-section-title" id="recent-title" style="display:none">Recent Orders <span class="count" id="recent-count">0</span></div>
+  <div class="card" id="recent-card" style="display:none">
+    <table class="recent-table">
+      <thead><tr><th>Order</th><th>Service</th><th>Subject</th><th>Date</th><th>Result</th></tr></thead>
+      <tbody id="recent-body"></tbody>
+    </table>
   </div>
 
-  <div class="section-label">03 // Service Type</div>
-  <div class="service-grid">
-    <div class="service-chip active" data-svc="testing" data-email="testing@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">🧪</div>
-      <div class="service-chip-name">Testing & Screening</div>
-      <div class="service-chip-email">testing@deedavis.biz</div>
+  <div class="new-request-strip" onclick="startNewRequest()">
+    <div class="nrs-icon">+</div>
+    <div class="nrs-text">New Service Request</div>
+    <div class="nrs-sub">Drug test, fingerprint, background check, courier, and more</div>
+  </div>
+</div>
+
+<!-- ═══════════ FORM: STEP 1 — SERVICE ═══════════ -->
+<div class="wizard-step" id="step-1">
+  <div class="back-to-dash" id="back-to-dash" onclick="showDashboard()">← Back to Dashboard</div>
+  <div class="step-title">Select a Service</div>
+  <div class="step-subtitle">Choose your service type, urgency, and preferred response method.</div>
+
+  <div class="section-label">Service</div>
+  <div class="service-grid" id="svc-grid">
+    <div class="svc-card active" data-svc="testing" data-email="testing@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🧪</div><div class="name">Drug & Alcohol Testing</div>
     </div>
-    <div class="service-chip" data-svc="fingerprint" data-email="screening@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">👆</div>
-      <div class="service-chip-name">Fingerprinting & Background</div>
-      <div class="service-chip-email">screening@deedavis.biz</div>
+    <div class="svc-card" data-svc="fingerprint" data-email="screening@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🔐</div><div class="name">Fingerprinting & Biometrics</div>
     </div>
-    <div class="service-chip" data-svc="dna" data-email="dna@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">🧬</div>
-      <div class="service-chip-name">DNA / Paternity</div>
-      <div class="service-chip-email">dna@deedavis.biz</div>
+    <div class="svc-card" data-svc="dna" data-email="dna@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🧬</div><div class="name">DNA / Paternity</div>
     </div>
-    <div class="service-chip" data-svc="nemt" data-email="rides@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">🚗</div>
-      <div class="service-chip-name">Transportation</div>
-      <div class="service-chip-email">rides@deedavis.biz</div>
+    <div class="svc-card" data-svc="notary" data-email="notary@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">📜</div><div class="name">Notary & Document Services</div>
     </div>
-    <div class="service-chip" data-svc="notary" data-email="notary@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">📋</div>
-      <div class="service-chip-name">Notary / RON / Apostille</div>
-      <div class="service-chip-email">notary@deedavis.biz</div>
+    <div class="svc-card" data-svc="nemt" data-email="rides@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🚐</div><div class="name">Medical Transportation</div>
     </div>
-    <div class="service-chip" data-svc="courier" data-email="courier@deedavis.biz" onclick="selectService(this)">
-      <div class="service-chip-icon">📦</div>
-      <div class="service-chip-name">Courier / Specimen Transport</div>
-      <div class="service-chip-email">courier@deedavis.biz</div>
+    <div class="svc-card" data-svc="courier" data-email="courier@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">📦</div><div class="name">Courier & Logistics</div>
+    </div>
+    <div class="svc-card" data-svc="background" data-email="screening@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🔍</div><div class="name">Background Screening</div>
+    </div>
+    <div class="svc-card" data-svc="credentialing" data-email="credentialing@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🏥</div><div class="name">Medical Credentialing</div>
+    </div>
+    <div class="svc-card" data-svc="workforce" data-email="compliance@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">📋</div><div class="name">Workforce Compliance</div>
     </div>
   </div>
 
-  <div class="sub-selector visible" id="testing-sub">
-    <div class="sub-btn active" onclick="selectTestingSub(this,'drug')">Drug & Alcohol</div>
-    <div class="sub-btn" onclick="selectTestingSub(this,'occhealth')">Occupational Health</div>
-    <div class="sub-btn" onclick="selectTestingSub(this,'lead')">Lead Screening</div>
+  <div class="sub-options visible" id="testing-sub">
+    <div class="sub-btn active" onclick="pickSub(this,'drug')">Drug & Alcohol</div>
+    <div class="sub-btn" onclick="pickSub(this,'occhealth')">Occupational Health</div>
+    <div class="sub-btn" onclick="pickSub(this,'lead')">Lead Screening</div>
   </div>
 
-  <div class="routing-display">
-    <div class="routing-label">Routing to</div>
-    <div class="routing-arrow">→</div>
-    <div class="routing-email" id="routing-email-display">testing@deedavis.biz</div>
-    <div class="routing-hint" id="routing-hint">DOT & non-DOT panels, hair, nail, oral fluid, BAT, random programs</div>
+  <div class="section-label">Urgency</div>
+  <div class="option-row">
+    <div class="opt-btn active-routine" onclick="pickUrgency(this,'routine')">● Routine</div>
+    <div class="opt-btn" onclick="pickUrgency(this,'priority')">◆ Priority</div>
+    <div class="opt-btn" onclick="pickUrgency(this,'emergency')">▲ Emergency</div>
   </div>
 
-  <div class="section-label">04 // Your Information</div>
-  <div class="block">
+  <div class="section-label">Response Type</div>
+  <div class="option-row">
+    <div class="opt-btn sel" data-tier="1" onclick="pickTier(this,1)">🏃 Mobile — We Come to You</div>
+    <div class="opt-btn" data-tier="2" onclick="pickTier(this,2)">🚗 Coordinated Ride</div>
+    <div class="opt-btn" data-tier="3" onclick="pickTier(this,3)">🏢 On-Site Group Event</div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-continue" onclick="nextStep(2)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════ FORM: STEP 2 — CONTACT + DETAILS ═══════════ -->
+<div class="wizard-step" id="step-2">
+  <div class="step-title">Contact & Service Details</div>
+  <div class="step-subtitle">Confirm your information and select service-specific options.</div>
+  <div class="card">
+    <div class="form-row full">
+      <div class="field">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="client-email" placeholder="you@company.com">
+        <div class="error-msg">Please enter a valid email</div>
+      </div>
+    </div>
     <div class="form-row">
-      <div class="field"><label>Company / Organization</label><input type="text" id="client-name" placeholder="Your company name"></div>
-      <div class="field"><label>Your Name</label><input type="text" id="client-contact" placeholder="Full name"></div>
+      <div class="field"><label>Company / Organization <span class="req">*</span></label><input type="text" id="client-name" placeholder="Your company name"><div class="error-msg">Required</div></div>
+      <div class="field"><label>Your Name <span class="req">*</span></label><input type="text" id="client-contact" placeholder="Full name"><div class="error-msg">Required</div></div>
     </div>
-    <div class="form-row triple">
-      <div class="field"><label>Phone</label><input type="tel" id="client-phone" placeholder="(000) 000-0000"></div>
-      <div class="field"><label>Email</label><input type="email" id="client-email" placeholder="you@company.com"></div>
-      <div class="field"><label>Account / PO Number</label><input type="text" id="client-po" placeholder="Optional"></div>
+    <div class="form-row">
+      <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" id="client-phone" placeholder="(000) 000-0000"><div class="error-msg">Required</div></div>
+      <div class="field"><label>Account / PO #</label><input type="text" id="client-po" placeholder="Optional"></div>
     </div>
     <div class="form-row full">
       <div class="field"><label>Address / Site Location</label><input type="text" id="client-address" placeholder="Street, City, State, ZIP"></div>
     </div>
   </div>
 
-  <div class="section-label">05 // Subject Info</div>
-  <div class="block">
+  <div class="section-label">Results Delivery</div>
+  <div class="card">
+    <div class="help-text">Results go to your email above. Need copies sent to others?</div>
+    <div class="form-row">
+      <div class="field"><label>CC — Supervisor / HR / Court</label><input type="email" id="cc-email-1" placeholder="supervisor@company.com"></div>
+      <div class="field"><label>CC — Additional Recipient</label><input type="email" id="cc-email-2" placeholder="hr@company.com"></div>
+    </div>
+    <div class="form-row full">
+      <div class="field">
+        <label>Delivery Method</label>
+        <select id="results-delivery-pref">
+          <option value="email">Email Only (Standard)</option>
+          <option value="email-fax">Email + Fax</option>
+          <option value="portal">Secure Portal Link</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" id="fax-row" style="display:none;">
+      <div class="field"><label>Fax Number</label><input type="tel" id="fax-number" placeholder="(000) 000-0000"></div>
+      <div class="field"><label>Fax Attention To</label><input type="text" id="fax-attn" placeholder="Name or department"></div>
+    </div>
+  </div>
+
+  <div class="section-label" id="details-label" style="display:none;">Service Details</div>
+  <div class="card" id="details-card" style="display:none;">
+    <div class="dynamic-section visible" id="drug-detail-wrap">
+      <div class="form-row full">
+        <div class="field"><label>Test Panel</label>
+          <select id="drug-panel"><option value="">Select panel</option><option>DOT 5-Panel Urine</option><option>Non-DOT 5-Panel</option><option>Non-DOT 10-Panel</option><option>Non-DOT 12-Panel</option><option>Non-DOT 14-Panel</option><option>Non-DOT 17-Panel</option><option>Hair Follicle 5-Panel</option><option>Hair Follicle 10-Panel</option><option>Hair Follicle 12-Panel</option><option>Oral Fluid</option><option>Breath Alcohol (BAT)</option><option>EtG Alcohol</option><option>Rapid Test — On-Site</option><option>Observed Collection</option><option>Custom — see notes</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="occhealth-fields">
+      <div class="form-row">
+        <div class="field"><label>Exam Type</label><select id="occ-exam-type"><option value="">Select</option><option>DOT Physical / CDL Medical</option><option>Pre-Employment Physical</option><option>Respirator Fit Test (Qualitative)</option><option>Respirator Fit Test (Quantitative)</option><option>Audiogram</option><option>Vision Screening</option><option>PFT / Spirometry</option><option>TB Skin Test (PPD)</option><option>TB Blood Test (QuantiFERON)</option><option>Fit-for-Duty</option><option>Hepatitis B Titer</option><option>Wellness Panel</option><option>Multiple — see notes</option></select></div>
+        <div class="field"><label>Compliance Standard</label><select id="occ-compliance"><option value="">Select</option><option>OSHA 1910.134 (Respirator)</option><option>OSHA 1910.95 (Hearing)</option><option>FMCSA / DOT (CDL)</option><option>State Requirement</option><option>Employer Policy</option><option>N/A</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="lead-fields">
+      <div class="form-row">
+        <div class="field"><label>Lead Test Type</label><select id="lead-test-type"><option value="">Select</option><option>Blood Lead — Venous Draw</option><option>Blood Lead — Fingerstick</option><option>Environmental — Paint/Dust/Soil</option><option>Environmental — Water</option><option>Occupational (ZPP/FEP)</option><option>Full Panel (BLL + ZPP)</option></select></div>
+        <div class="field"><label>Program</label><select id="lead-program"><option value="">Select</option><option>Medicaid EPSDT</option><option>HUD Lead Safe</option><option>EPA RRP</option><option>OSHA Occupational</option><option>State Childhood</option><option>School / Childcare</option><option>Employer Policy</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="fingerprint-fields">
+      <div class="form-row">
+        <div class="field"><label>Fingerprint Type</label><select id="fp-type"><option value="">Select</option><option>Live Scan Electronic</option><option>Ink & Roll — FBI FD-258</option><option>FBI Electronic Submission</option><option>ATF EFT (FFL/NFA)</option><option>State Criminal Background</option><option>FBI National Criminal</option><option>Full Background Package</option><option>Multiple — see notes</option></select></div>
+        <div class="field"><label>Purpose</label><select id="fp-purpose"><option value="">Select</option><option>Employment Screening</option><option>Security Clearance</option><option>State Licensing</option><option>Childcare / School</option><option>FFL / NFA Application</option><option>Immigration</option><option>Adoption</option><option>Volunteer Screening</option><option>Court Order</option><option>Other</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="dna-fields">
+      <div class="form-row">
+        <div class="field"><label>DNA Test Type</label><select id="dna-type"><option value="">Select</option><option>Legal Paternity (Court-Admissible)</option><option>Non-Legal / Peace of Mind</option><option>Immigration DNA (AABB)</option><option>Court-Ordered Collection</option><option>Grandparent DNA</option><option>Sibling DNA</option><option>Avuncular (Aunt/Uncle)</option></select></div>
+        <div class="field"><label>Participants</label><select id="dna-participants"><option value="">Select</option><option>1 (Single)</option><option>2 (Standard)</option><option>3 (Three-party)</option><option>4+</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="background-fields">
+      <div class="form-row">
+        <div class="field"><label>Screening Type</label><select id="bg-type"><option value="">Select</option><option>Criminal Background (County)</option><option>Criminal Background (State)</option><option>Criminal Background (Federal)</option><option>Employment Verification</option><option>Education Verification</option><option>Professional License Verification</option><option>MVR (Motor Vehicle Record)</option><option>Social Media Screening</option><option>Tenant Screening</option><option>Volunteer / SafeChoice</option><option>Full Package</option><option>Multiple — see notes</option></select></div>
+        <div class="field"><label>Purpose</label><select id="bg-purpose"><option value="">Select</option><option>Pre-Employment</option><option>Government Contractor</option><option>Healthcare</option><option>Transit / Transportation</option><option>Housing Authority</option><option>Volunteer Program</option><option>Other</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="credential-fields">
+      <div class="form-row">
+        <div class="field"><label>Credentialing Service</label><select id="cred-type"><option value="">Select</option><option>Single-State License</option><option>Multi-State Package (3-5)</option><option>10+ State Package</option><option>IMLC Compact</option><option>CAQH ProView Setup</option><option>Hospital Privileging</option><option>License Monitoring</option><option>DEA Registration</option><option>Full Credentialing Package</option></select></div>
+        <div class="field"><label>Provider Type</label><select id="cred-provider"><option value="">Select</option><option>Physician (MD/DO)</option><option>Nurse Practitioner</option><option>Physician Assistant</option><option>Psychologist</option><option>LCSW / Counselor</option><option>Dentist</option><option>Pharmacist</option><option>Other</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="workforce-fields">
+      <div class="form-row">
+        <div class="field"><label>Compliance Service</label><select id="wf-type"><option value="">Select</option><option>DQ File Management</option><option>Random Pool Administration</option><option>Clearinghouse Query</option><option>MVR Monitoring</option><option>DOT Physical Coordination</option><option>I-9 / E-Verify</option><option>SAP Referral</option><option>Pre-Employment Physical</option><option>Respirator Program</option><option>Full Compliance Package</option></select></div>
+        <div class="field"><label>Industry</label><select id="wf-industry"><option value="">Select</option><option>Trucking / FMCSA</option><option>Transit / FTA</option><option>Pipeline / PHMSA</option><option>Aviation / FAA</option><option>Maritime / USCG</option><option>Construction</option><option>Manufacturing</option><option>Government</option><option>School District</option><option>Other</option></select></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="notary-fields">
+      <div class="form-row full">
+        <div class="field"><label>Notary Service</label><select id="notary-type"><option value="">Select</option><option>Mobile Notary</option><option>Remote Online Notarization (RON)</option><option>Loan Signing</option><option>Apostille Coordination</option><option>Permit Running</option><option>Multiple — see notes</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="nextStep(1)">← Back</button>
+    <button class="btn-continue" onclick="nextStep(3)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════ FORM: STEP 3 — SUBJECT + SCHEDULING ═══════════ -->
+<div class="wizard-step" id="step-3">
+  <div class="step-title">Subject & Scheduling</div>
+  <div class="step-subtitle">Provide the subject's information and your preferred date and time.</div>
+  <div class="card">
     <div class="donor-count-wrap" id="donor-count-wrap">
-      <div class="donor-count-label">ESTIMATED NUMBER OF SUBJECTS FOR THIS EVENT</div>
+      <div class="donor-count-label">Estimated Number of Subjects</div>
       <input type="number" class="donor-count-input" id="donor-count" placeholder="0" min="1">
     </div>
     <div class="form-row">
-      <div class="field"><label>Subject First Name</label><input type="text" id="donor-first" placeholder="First"></div>
-      <div class="field"><label>Subject Last Name</label><input type="text" id="donor-last" placeholder="Last"></div>
+      <div class="field"><label>Subject First Name <span class="req">*</span></label><input type="text" id="donor-first" placeholder="First"><div class="error-msg">Required</div></div>
+      <div class="field"><label>Subject Last Name <span class="req">*</span></label><input type="text" id="donor-last" placeholder="Last"><div class="error-msg">Required</div></div>
     </div>
     <div class="form-row triple">
-      <div class="field"><label>DOB</label><input type="date" id="donor-dob"></div>
+      <div class="field"><label>Date of Birth</label><input type="date" id="donor-dob"></div>
       <div class="field"><label>Phone</label><input type="tel" id="donor-phone" placeholder="(000) 000-0000"></div>
       <div class="field"><label>Subject ID / Employee #</label><input type="text" id="donor-id" placeholder="Optional"></div>
     </div>
@@ -368,505 +946,1196 @@
     </div>
     <div class="dynamic-section" id="tier2-fields">
       <div class="form-row">
-        <div class="field">
-          <label>Reason for Transport</label>
-          <select id="impairment-reason">
-            <option value="">Select reason</option>
-            <option>Post-accident — cannot drive</option>
-            <option>Reasonable suspicion — impaired</option>
-            <option>No personal transportation</option>
-            <option>Safety protocol — employer request</option>
-            <option>Other (see notes)</option>
-          </select>
+        <div class="field"><label>Reason for Transport</label>
+          <select id="impairment-reason"><option value="">Select</option><option>Post-accident</option><option>Reasonable suspicion</option><option>No personal transportation</option><option>Safety protocol</option><option>Other (see notes)</option></select>
         </div>
-        <div class="field">
-          <label>Transport Preference</label>
-          <select id="transport-provider">
-            <option value="">Auto-assign (recommended)</option>
-            <option>Uber Health</option>
-            <option>DDI Fleet</option>
-            <option>Local Partner</option>
-          </select>
+        <div class="field"><label>Transport Preference</label>
+          <select id="transport-provider"><option value="">Auto-assign</option><option>Uber Health</option><option>DDI Fleet</option><option>Local Partner</option></select>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section-label">06 // Scheduling & Service Details</div>
-  <div class="block">
+  <div class="section-label">Scheduling</div>
+  <div class="card">
     <div class="form-row triple">
-      <div class="field"><label>Requested Date</label><input type="date" id="sched-date"></div>
-      <div class="field"><label>Requested Time</label><input type="time" id="sched-time"></div>
-      <div class="field">
-        <label>Time Zone</label>
-        <select id="sched-tz">
-          <option>Eastern (ET)</option><option>Central (CT)</option>
-          <option>Mountain (MT)</option><option>Pacific (PT)</option>
-        </select>
+      <div class="field"><label>Date <span class="req">*</span></label><input type="date" id="sched-date"><div class="error-msg">Required</div></div>
+      <div class="field"><label>Time <span class="req">*</span></label><input type="time" id="sched-time"><div class="error-msg">Required</div></div>
+      <div class="field"><label>Time Zone</label>
+        <select id="sched-tz"><option>Eastern (ET)</option><option>Central (CT)</option><option>Mountain (MT)</option><option>Pacific (PT)</option></select>
       </div>
     </div>
-    <div class="form-row">
-      <div class="field"><label>Service Location</label><input type="text" id="collection-site" placeholder="Lab, clinic, facility, or address"></div>
-      <div class="field" id="drug-detail-wrap">
-        <label>Test Panel Type</label>
-        <select id="drug-panel">
-          <option value="">Select panel</option>
-          <option>DOT 5-Panel Urine</option>
-          <option>Non-DOT 5-Panel Urine</option>
-          <option>Non-DOT 10-Panel Urine</option>
-          <option>Non-DOT 12-Panel Urine</option>
-          <option>Non-DOT 14-Panel Urine</option>
-          <option>Non-DOT 17-Panel Urine</option>
-          <option>Hair Follicle 5-Panel</option>
-          <option>Hair Follicle 10-Panel</option>
-          <option>Hair Follicle 12-Panel</option>
-          <option>Hair Follicle 14-Panel</option>
-          <option>Hair Follicle 17-Panel</option>
-          <option>Nail Drug Test</option>
-          <option>Oral Fluid</option>
-          <option>Breath Alcohol (BAT)</option>
-          <option>EtG Alcohol (Urine)</option>
-          <option>Multi-Panel Combo (see notes)</option>
-          <option>Rapid Test — On-Site Result</option>
-          <option>Observed Collection</option>
-          <option>Custom — see notes</option>
-        </select>
-      </div>
-    </div>
-    <div class="dynamic-section" id="occhealth-fields">
-      <div class="form-row">
-        <div class="field">
-          <label>Exam / Screening Type</label>
-          <select id="occ-exam-type">
-            <option value="">Select exam type</option>
-            <option>DOT Physical / CDL Medical Exam</option>
-            <option>Pre-Employment Physical</option>
-            <option>Respirator Fit Test (Qualitative)</option>
-            <option>Respirator Fit Test (Quantitative)</option>
-            <option>Audiogram / Hearing Test</option>
-            <option>Vision Screening</option>
-            <option>Pulmonary Function Test (PFT/Spirometry)</option>
-            <option>TB Skin Test (PPD)</option>
-            <option>TB Blood Test (QuantiFERON)</option>
-            <option>Fit-for-Duty Evaluation</option>
-            <option>Hepatitis B Titer</option>
-            <option>Wellness Screening Panel</option>
-            <option>Multiple Exams — see notes</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Compliance Standard</label>
-          <select id="occ-compliance">
-            <option value="">Select if applicable</option>
-            <option>OSHA 29 CFR 1910.134 (Respirator)</option>
-            <option>OSHA 29 CFR 1910.95 (Hearing Conservation)</option>
-            <option>FMCSA / DOT (CDL Medical)</option>
-            <option>State-Specific Requirement</option>
-            <option>Employer Policy</option>
-            <option>N/A</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="dynamic-section" id="lead-fields">
-      <div class="form-row">
-        <div class="field">
-          <label>Lead Test Type</label>
-          <select id="lead-test-type">
-            <option value="">Select test type</option>
-            <option>Blood Lead Level (BLL) — Venous Draw</option>
-            <option>Blood Lead Level (BLL) — Capillary (Fingerstick)</option>
-            <option>Environmental Lead — Paint/Dust/Soil</option>
-            <option>Environmental Lead — Water</option>
-            <option>Occupational Lead Exposure (ZPP/FEP)</option>
-            <option>Full Lead Panel (BLL + ZPP)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Program</label>
-          <select id="lead-program">
-            <option value="">Select if applicable</option>
-            <option>Medicaid EPSDT</option>
-            <option>HUD Lead Safe Housing</option>
-            <option>EPA RRP Rule</option>
-            <option>OSHA Occupational Exposure</option>
-            <option>State Childhood Lead Program</option>
-            <option>School / Childcare Screening</option>
-            <option>Employer Policy</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="dynamic-section" id="fingerprint-fields">
-      <div class="form-row">
-        <div class="field">
-          <label>Fingerprint / Background Type</label>
-          <select id="fp-type">
-            <option value="">Select service</option>
-            <option>Live Scan Electronic Fingerprinting</option>
-            <option>Ink & Roll — FBI FD-258 Cards</option>
-            <option>SWFT Submission to DCSA/FBI</option>
-            <option>ATF EFT (FFL/NFA Applications)</option>
-            <option>State Criminal Background Check</option>
-            <option>FBI National Criminal Check</option>
-            <option>Employment Verification</option>
-            <option>Education Verification</option>
-            <option>Full Background Package</option>
-            <option>Multiple Services — see notes</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Purpose</label>
-          <select id="fp-purpose">
-            <option value="">Select purpose</option>
-            <option>Employment Screening</option>
-            <option>Security Clearance</option>
-            <option>State Licensing</option>
-            <option>Childcare / School</option>
-            <option>FFL / NFA Application</option>
-            <option>Immigration</option>
-            <option>Adoption</option>
-            <option>Volunteer Screening</option>
-            <option>Court Order</option>
-            <option>Other — see notes</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="dynamic-section" id="dna-fields">
-      <div class="form-row">
-        <div class="field">
-          <label>DNA Test Type</label>
-          <select id="dna-type">
-            <option value="">Select test type</option>
-            <option>Legal Paternity (Court-Admissible)</option>
-            <option>Non-Legal / Peace of Mind Paternity</option>
-            <option>Immigration DNA (AABB-Accredited)</option>
-            <option>Court-Ordered DNA Collection</option>
-            <option>Grandparent DNA Test</option>
-            <option>Sibling DNA Test</option>
-            <option>Avuncular (Aunt/Uncle) DNA Test</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Number of Participants</label>
-          <select id="dna-participants">
-            <option value="">Select</option>
-            <option>1 (Single collection)</option>
-            <option>2 (Standard)</option>
-            <option>3 (Three-party)</option>
-            <option>4+ (see notes)</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-label">07 // Notes & Special Instructions</div>
-  <div class="block">
     <div class="form-row full">
-      <div class="field">
-        <textarea id="notes" placeholder="Special instructions, access details, chain-of-custody notes, observed collection request, multiple services needed..."></textarea>
+      <div class="field"><label>Service Location <span class="req">*</span></label><input type="text" id="collection-site" placeholder="Lab, clinic, facility, or address"><div class="error-msg">Required</div></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="nextStep(2)">← Back</button>
+    <button class="btn-continue" onclick="nextStep(4)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════ FORM: STEP 4 — PAYMENT & BILLING ═══════════ -->
+<div class="wizard-step" id="step-4">
+  <div class="step-title">Payment & Billing</div>
+  <div class="step-subtitle">Review your service charges and complete payment — or confirm your contract account.</div>
+
+  <!-- Contract client bypass -->
+  <div id="pay-contract-bypass" style="display:none">
+    <div class="contract-bypass">
+      <div class="contract-bypass-icon">✓</div>
+      <div class="contract-bypass-title">Contract Account — No Payment Required</div>
+      <div class="contract-bypass-sub" id="pay-contract-detail">Billed to contract DDI-ABC-2026-001 · Net-30 terms</div>
+    </div>
+  </div>
+
+  <!-- Pricing summary (shown for all tiers) -->
+  <div class="pay-summary" id="pay-summary">
+    <div class="pay-summary-header">
+      <div class="pay-summary-title">Service Charges</div>
+      <div class="pay-summary-amount" id="pay-total-badge">$0.00</div>
+    </div>
+    <div class="pay-line-items" id="pay-line-items"></div>
+    <div class="pay-total-row">
+      <div class="pay-total-label">Total Due</div>
+      <div class="pay-total-amount" id="pay-total-amount">$0.00</div>
+    </div>
+  </div>
+
+  <!-- Card on file / auto-pay (returning clients) -->
+  <div id="pay-card-on-file-section" style="display:none">
+    <div class="saved-card-strip" id="saved-card-display">
+      <div class="saved-card-icon">💳</div>
+      <div class="saved-card-info">
+        <div class="saved-card-label" id="saved-card-label">Visa ending in 4242</div>
+        <div class="saved-card-num" id="saved-card-num">Added Mar 2026</div>
+      </div>
+      <button class="saved-card-change" onclick="toggleNewCard()">Change</button>
+    </div>
+    <label class="autopay-toggle" id="autopay-toggle">
+      <input type="checkbox" id="autopay-checkbox" onchange="toggleAutopay()">
+      <div class="autopay-toggle-text">
+        <div class="autopay-toggle-title">Enable Auto-Pay for Future Orders</div>
+        <div class="autopay-toggle-sub">Automatically charge this card when services are completed. Cancel anytime.</div>
+      </div>
+    </label>
+  </div>
+
+  <!-- Payment method selection (new clients / no card on file) -->
+  <div id="pay-method-section" style="display:none">
+    <div class="section-label">Payment Method</div>
+    <div class="pay-method-grid">
+      <div class="pay-method-card" onclick="selectPayMethod('card', this)">
+        <span class="pm-icon">💳</span>
+        <span class="pm-name">Credit / Debit Card</span>
+        <span class="pm-sub">Visa, MC, Amex, Discover</span>
+      </div>
+      <div class="pay-method-card" onclick="selectPayMethod('ach', this)">
+        <span class="pm-icon">🏦</span>
+        <span class="pm-name">ACH / Bank Transfer</span>
+        <span class="pm-sub">Direct debit from checking</span>
+      </div>
+      <div class="pay-method-card" onclick="selectPayMethod('invoice', this)">
+        <span class="pm-icon">📄</span>
+        <span class="pm-name">Request Invoice</span>
+        <span class="pm-sub">Pay within 15 days</span>
+      </div>
+    </div>
+
+    <!-- Card input fields -->
+    <div class="card-input-group" id="card-input-group">
+      <div class="card">
+        <div class="card-input-row full">
+          <div class="field"><label>Cardholder Name</label><input type="text" id="pay-card-name" placeholder="Name as it appears on card"></div>
+        </div>
+        <div class="card-input-row full">
+          <div class="field"><label>Card Number</label><input type="text" id="pay-card-number" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="formatCardNumber(this)"></div>
+        </div>
+        <div class="card-input-row">
+          <div class="field"><label>Expiration</label><input type="text" id="pay-card-exp" placeholder="MM / YY" maxlength="7" oninput="formatCardExp(this)"></div>
+          <div class="field"><label>CVC</label><input type="text" id="pay-card-cvc" placeholder="•••" maxlength="4"></div>
+        </div>
+        <label class="autopay-toggle" style="margin-top:12px">
+          <input type="checkbox" id="save-card-checkbox">
+          <div class="autopay-toggle-text">
+            <div class="autopay-toggle-title">Save Card for Future Orders</div>
+            <div class="autopay-toggle-sub">Securely store for faster checkout next time.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- ACH input fields -->
+    <div class="card-input-group" id="ach-input-group">
+      <div class="card">
+        <div class="card-input-row full">
+          <div class="field"><label>Account Holder Name</label><input type="text" id="pay-ach-name" placeholder="Name on account"></div>
+        </div>
+        <div class="card-input-row">
+          <div class="field"><label>Routing Number</label><input type="text" id="pay-ach-routing" placeholder="9 digits" maxlength="9"></div>
+          <div class="field"><label>Account Number</label><input type="text" id="pay-ach-account" placeholder="Account number"></div>
+        </div>
+        <div class="card-input-row full">
+          <div class="field"><label>Account Type</label>
+            <select id="pay-ach-type"><option>Checking</option><option>Savings</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invoice request (no fields needed) -->
+    <div class="card-input-group" id="invoice-input-group">
+      <div class="card" style="text-align:center; padding:20px;">
+        <div style="font-size:14px; color:var(--text-secondary);">An invoice for <strong id="invoice-amount-display">$0.00</strong> will be emailed to <strong id="invoice-email-display">—</strong> after your appointment is confirmed.</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">Payment due within 15 days. Late payments may result in service holds.</div>
       </div>
     </div>
   </div>
 
-  <div class="submit-row">
-    <button class="btn-dispatch" onclick="dispatch()">⚡ Submit Request</button>
-    <button class="btn-clear" onclick="clearForm()">CLEAR</button>
+  <!-- Override code section (always visible for non-contract clients) -->
+  <div class="override-section" id="override-section" style="display:none">
+    <div class="section-label">Have a Contract or Override Code?</div>
+    <div class="card" style="padding:16px 20px">
+      <div style="font-size:13px; color:var(--text-secondary); margin-bottom:12px;">If your company has a contract with DDI or you've been given an override code, enter it below to bypass payment.</div>
+      <div class="override-row">
+        <input type="text" class="override-input" id="override-code-input" placeholder="Enter code (e.g., DDI-EXEMPT-2026)">
+        <button class="override-btn" onclick="validateOverride()">Verify</button>
+      </div>
+      <div class="override-result" id="override-result"></div>
+    </div>
   </div>
 
+  <div class="nav-row">
+    <button class="btn-back" onclick="nextStep(3)">← Back</button>
+    <button class="btn-continue" id="pay-continue-btn" onclick="nextStep(5)">Continue →</button>
+  </div>
 </div>
 
-<div class="footer-bar">
-  Dee Davis Inc. — 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
-  <a href="tel:2483764550">248.376.4550</a> · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a> · EDWOSB / WOSB / WBENC / MBE / SBE
+<!-- ═══════════ FORM: STEP 5 — NOTES + SUBMIT ═══════════ -->
+<div class="wizard-step" id="step-5">
+  <div class="step-title">Review & Submit</div>
+  <div class="step-subtitle">Add any special instructions, then submit your service request.</div>
+  <div class="card">
+    <div class="form-row full">
+      <div class="field"><label>Notes & Special Instructions</label>
+        <textarea id="notes" placeholder="Access details, chain-of-custody notes, observed collection, multiple services, special requirements..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment confirmation strip -->
+  <div class="card" id="pay-confirmation-strip" style="display:none; margin-top:0;">
+    <div style="display:flex; align-items: center; gap: 12px; padding: 6px 0;">
+      <div style="font-size: 20px;" id="pay-confirm-icon">✓</div>
+      <div style="flex:1;">
+        <div style="font-size:14px; font-weight:700; color:var(--text);" id="pay-confirm-title">Payment Method</div>
+        <div style="font-size:12px; color:var(--text-muted);" id="pay-confirm-detail">—</div>
+      </div>
+      <div style="font-size:18px; font-weight:800; color:var(--text);" id="pay-confirm-amount">$0.00</div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="nextStep(4)">← Back</button>
+    <button class="btn-continue" onclick="dispatch()" style="background:linear-gradient(135deg,#16a34a,#15803d);">Submit Request</button>
+    <button class="btn-clear" onclick="clearForm()">Clear Form</button>
+  </div>
 </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">Dee Davis Inc.</div>
+    <div class="footer-address">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 · <a href="tel:2483764550">248.376.4550</a> · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a></div>
+    <div class="footer-certs"><span class="cert-badge">EDWOSB</span><span class="cert-badge">WOSB</span><span class="cert-badge">WBENC</span><span class="cert-badge">MBE</span><span class="cert-badge">SBE</span></div>
+    <div class="footer-legal">CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · SAM.gov Registered</div>
+  </div>
+</footer>
 
 <div class="overlay" id="overlay">
   <div class="confirm-card">
-    <div class="confirm-header">
-      <div class="confirm-title">✓ Request Submitted</div>
-      <div class="confirm-num" id="confirm-num-display">--</div>
-    </div>
+    <div class="confirm-header"><div class="confirm-title">Request Submitted</div><div class="confirm-num" id="confirm-num-display">--</div></div>
     <div class="confirm-body" id="confirm-body"></div>
   </div>
 </div>
 
 <script>
-  function updateClock() {
-    document.getElementById('live-time').textContent =
-      new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+let activeSvc = 'testing', activeSubSvc = 'drug', activeUrgency = 'routine', activeTier = 1;
+let activeEmail = 'testing@deedavis.biz', knownClient = null, currentStep = 1;
+let clientData = null; // full client data from CRM lookup
+let mode = 'gate'; // 'gate' | 'dashboard' | 'form'
+
+const svcLabels = {'testing-drug':'Drug & Alcohol Testing','testing-occhealth':'Occupational Health','testing-lead':'Lead Screening','fingerprint':'Fingerprinting & Biometrics','dna':'DNA / Paternity','nemt':'Medical Transportation','courier':'Courier & Logistics','background':'Background Screening','credentialing':'Medical Credentialing','workforce':'Workforce Compliance','notary':'Notary & Documents'};
+const allDynamic = ['drug-detail-wrap','occhealth-fields','lead-fields','fingerprint-fields','dna-fields','background-fields','credential-fields','workforce-fields','notary-fields'];
+
+const SERVICE_LABELS = {
+  dot: 'DOT Drug Test', non_dot: 'Non-DOT Drug Test', random: 'Random Selection',
+  pre_employment: 'Pre-Employment', post_accident: 'Post-Accident',
+  return_to_duty: 'Return to Duty', reasonable_suspicion: 'Reasonable Suspicion',
+  follow_up: 'Follow-Up', fingerprint: 'Fingerprinting', dna: 'DNA Testing',
+  background: 'Background Check', notary: 'Notary', nemt: 'NEMT',
+  courier: 'Courier', occ_health: 'Occupational Health', credentialing: 'Credentialing'
+};
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Service pricing — from DDI service catalog
+const SERVICE_PRICING = {
+  'testing-drug': { label: 'Drug & Alcohol Testing', base: 125.00, panels: { 'DOT 5-Panel Urine': 95.00, 'Non-DOT 5-Panel': 75.00, 'Non-DOT 10-Panel': 95.00, 'Non-DOT 12-Panel': 110.00, 'Hair Follicle 5-Panel': 175.00, 'Hair Follicle 10-Panel': 225.00, 'Breath Alcohol (BAT)': 65.00, 'EtG Alcohol': 85.00, 'Rapid Test — On-Site': 55.00, 'Observed Collection': 150.00 }},
+  'testing-occhealth': { label: 'Occupational Health', base: 150.00 },
+  'testing-lead': { label: 'Lead Screening', base: 95.00 },
+  'fingerprint': { label: 'Fingerprinting', base: 75.00 },
+  'dna': { label: 'DNA / Paternity', base: 350.00 },
+  'nemt': { label: 'Medical Transportation', base: 45.00 },
+  'courier': { label: 'Courier & Logistics', base: 85.00 },
+  'background': { label: 'Background Screening', base: 65.00 },
+  'credentialing': { label: 'Medical Credentialing', base: 250.00 },
+  'workforce': { label: 'Workforce Compliance', base: 175.00 },
+  'notary': { label: 'Notary & Documents', base: 150.00 }
+};
+
+// Mobile collection surcharge
+const MOBILE_SURCHARGE = 50.00;
+const GROUP_EVENT_SURCHARGE = 150.00;
+const PRIORITY_SURCHARGE = 50.00;
+const EMERGENCY_SURCHARGE = 125.00;
+
+// Override codes validated via VERTEX API at /prism/billing/validate-override
+
+// Billing tiers: 'contract' = net-30, 'card_on_file' = auto-charge saved card, 'pay_at_booking' = pay now
+// ═══════════════════════════════════════════════════════
+// MOCK DATA — Used when CRM API returns no results or isn't running
+// This gives a demo experience. Try email: mike@abctrucking.com
+// ═══════════════════════════════════════════════════════
+const MOCK_CLIENTS = {
+  'mike@abctrucking.com': {
+    found: true,
+    contact: {
+      id: 'c1', company: 'ABC Trucking Co.', name: 'Mike Johnson',
+      email: 'mike@abctrucking.com', phone: '(248) 555-0142',
+      address: '28400 Northwestern Hwy, Southfield, MI 48034',
+      services: ['dot','non_dot','random','pre_employment','post_accident','return_to_duty'],
+      service_category: 'drug_testing'
+    },
+    billing: {
+      tier: 'contract',
+      contract_id: 'DDI-ABC-2026-001',
+      contract_name: 'Annual Drug Testing Program',
+      payment_terms: 'Net-30',
+      card_on_file: null,
+      autopay: false
+    },
+    orders: [
+      { id: 'ORD-2026-0548', type: 'pre_employment', subject: 'James Wilson', status: 'scheduled', date: '2026-05-26', time: '10:00 AM', location: 'Quest Diagnostics — Troy, MI', created: '2026-05-21' },
+      { id: 'ORD-2026-0545', type: 'random', subject: 'Patricia Moore', status: 'scheduled', date: '2026-05-28', time: '2:00 PM', location: 'Quest Diagnostics — Southfield, MI', created: '2026-05-21' },
+      { id: 'ORD-2026-0542', type: 'random', subject: 'Kevin Brooks', status: 'pending', date: '2026-06-02', time: 'TBD', location: 'TBD — Awaiting Selection', created: '2026-05-20' },
+      { id: 'ORD-2026-0538', type: 'post_accident', subject: 'Robert Chen', status: 'completed', date: '2026-05-18', time: '2:30 PM', location: 'On-site collection', result: 'Negative', created: '2026-05-18' },
+      { id: 'ORD-2026-0535', type: 'random', subject: 'Maria Garcia', status: 'completed', date: '2026-05-15', time: '9:00 AM', location: 'Quest — Southfield', result: 'Negative', created: '2026-05-14' },
+      { id: 'ORD-2026-0530', type: 'dot', subject: 'Anthony Davis', status: 'completed', date: '2026-05-10', time: '11:00 AM', location: 'Quest — Troy', result: 'Negative', created: '2026-05-08' },
+      { id: 'ORD-2026-0525', type: 'pre_employment', subject: 'Lisa Thompson', status: 'completed', date: '2026-05-05', time: '1:00 PM', location: 'On-site', result: 'Negative', created: '2026-05-03' },
+    ],
+    compliance: {
+      random_pool: 'Active', testing_rate: 52, rate_target: 50,
+      next_random: 'June 12, 2026', clearinghouse: 'Current',
+      pool_size: 24, tested_ytd: 13
+    },
+    invoices: [
+      { id: 'INV-2026-0089', amount: 250.00, status: 'pending', date: '2026-05-15', due: '2026-06-14',
+        lines: [
+          { desc: 'Post-Accident Drug Test — Robert Chen', type: 'post_accident', qty: 1, rate: 125.00 },
+          { desc: 'Random Selection — Maria Garcia', type: 'random', qty: 1, rate: 125.00 }
+        ]},
+      { id: 'INV-2026-0085', amount: 375.00, status: 'paid', date: '2026-04-15', due: '2026-05-15', paid_date: '2026-05-10',
+        lines: [
+          { desc: 'DOT Annual — Anthony Davis', type: 'dot', qty: 1, rate: 150.00 },
+          { desc: 'Pre-Employment — Lisa Thompson', type: 'pre_employment', qty: 1, rate: 125.00 },
+          { desc: 'Random Pool Admin Fee — Q2 2026', type: 'admin', qty: 1, rate: 100.00 }
+        ]}
+    ]
+  },
+  'sarah@metrocourier.com': {
+    found: true,
+    contact: {
+      id: 'c2', company: 'Metro Courier Services', name: 'Sarah Williams',
+      email: 'sarah@metrocourier.com', phone: '(313) 555-0198',
+      address: '1500 Woodward Ave, Detroit, MI 48226',
+      services: ['non_dot','pre_employment','background'],
+      service_category: 'drug_testing'
+    },
+    billing: {
+      tier: 'card_on_file',
+      contract_id: null,
+      contract_name: null,
+      payment_terms: 'Pay at Service',
+      card_on_file: { brand: 'Visa', last4: '4242', exp: '09/27', added: 'Mar 2026' },
+      autopay: true
+    },
+    orders: [
+      { id: 'ORD-2026-0550', type: 'pre_employment', subject: 'David Park', status: 'scheduled', date: '2026-05-27', time: '11:00 AM', location: 'Quest Diagnostics — Detroit, MI', created: '2026-05-20' },
+      { id: 'ORD-2026-0540', type: 'non_dot', subject: 'Amy Chen', status: 'completed', date: '2026-05-12', time: '3:00 PM', location: 'On-site', result: 'Negative', created: '2026-05-10' }
+    ],
+    compliance: { random_pool: 'N/A', testing_rate: 0, rate_target: 0, next_random: 'N/A', clearinghouse: 'N/A', pool_size: 0, tested_ytd: 2 },
+    invoices: [
+      { id: 'INV-2026-0091', amount: 125.00, status: 'pending', date: '2026-05-12', due: '2026-06-11',
+        lines: [{ desc: 'Non-DOT Drug Test — Amy Chen', type: 'non_dot', qty: 1, rate: 125.00 }]}
+    ]
   }
-  setInterval(updateClock, 1000); updateClock();
+};
 
-  let activeTier = 1, activeUrgency = 'routine', activeEmail = 'testing@deedavis.biz';
-  let activeSvc = 'testing', activeSubSvc = 'drug';
+// ═══════ GATE LOGIC ═══════
+function lookupClient() {
+  const email = document.getElementById('gate-email').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) { document.getElementById('gate-email').focus(); return; }
 
-  const hints = {
-    'testing-drug':      'DOT & non-DOT panels, hair, nail, oral fluid, BAT, random programs',
-    'testing-occhealth': 'DOT physicals, respirator fit, audiograms, vision, PFTs, TB tests',
-    'testing-lead':      'Blood lead levels, environmental lead, HUD/EPA/OSHA compliance',
-    'fingerprint':       'Live scan, ink & roll, SWFT/FBI, background checks, verifications',
-    'dna':               'Legal paternity, immigration DNA, court-ordered, AABB-accredited',
-    'nemt':              'Coordinated rides, GPS-tracked, safe transport to appointments',
-    'notary':            'Mobile notary, remote online notarization, apostille, loan signings',
-    'courier':           'Chain-of-custody specimen transport, same-day medical courier',
+  const loading = document.getElementById('gate-loading');
+  const btn = document.getElementById('gate-btn');
+  loading.style.display = 'block'; btn.disabled = true;
+
+  // Try CRM API first, fall back to mock data
+  const base = location.hostname === 'localhost' ? 'http://localhost:8000' : '';
+
+  // Fetch CRM + VERTEX billing in parallel
+  const crmPromise = fetch(`${base}/prism/crm/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
+  const billingPromise = fetch(`${base}/prism/billing/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
+
+  Promise.all([crmPromise, billingPromise])
+    .then(([crmData, billingData]) => {
+      loading.style.display = 'none'; btn.disabled = false;
+
+      if (crmData && crmData.found) {
+        // Merge VERTEX billing data into CRM data
+        if (billingData && billingData.found) {
+          crmData.billing = billingData.billing;
+          if (billingData.open_invoices) crmData.invoices = mergeInvoices(crmData.invoices, billingData.open_invoices);
+        }
+        clientData = crmData;
+        knownClient = crmData.contact;
+        renderDashboard(crmData);
+      } else {
+        checkMockOrNew(email, billingData);
+      }
+    })
+    .catch(() => {
+      loading.style.display = 'none'; btn.disabled = false;
+      checkMockOrNew(email, null);
+    });
+}
+
+function mergeInvoices(existing, fromVertex) {
+  if (!existing) return fromVertex || [];
+  if (!fromVertex) return existing;
+  const ids = new Set(existing.map(i => i.id));
+  return [...existing, ...fromVertex.filter(i => !ids.has(i.id))];
+}
+
+function checkMockOrNew(email, billingData) {
+  if (MOCK_CLIENTS[email]) {
+    clientData = MOCK_CLIENTS[email];
+    // If VERTEX returned billing data, merge it
+    if (billingData && billingData.found) {
+      clientData.billing = billingData.billing;
+    }
+    knownClient = clientData.contact;
+    renderDashboard(clientData);
+  } else if (billingData && billingData.found) {
+    // VERTEX knows this client even if CRM doesn't
+    clientData = {
+      found: true,
+      contact: { email, company: billingData.client_name || '', name: '' },
+      billing: billingData.billing,
+      orders: [],
+      invoices: billingData.open_invoices || [],
+    };
+    knownClient = clientData.contact;
+    renderDashboard(clientData);
+  } else {
+    enterAsNew(email);
+  }
+}
+
+document.getElementById('gate-email').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); lookupClient(); }
+});
+
+function enterAsNew(email) {
+  mode = 'form';
+  clientBillingTier = 'pay_at_booking';
+  document.getElementById('entry-gate').style.display = 'none';
+  document.getElementById('client-dashboard').classList.remove('active');
+  document.getElementById('progress-wrap').classList.add('active');
+  document.getElementById('back-to-dash').classList.remove('visible');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-1').classList.add('active');
+  currentStep = 1;
+  updateProgress(1);
+
+  if (email && typeof email === 'string') {
+    document.getElementById('client-email').value = email;
+  }
+}
+
+// ═══════ DASHBOARD RENDERING ═══════
+function renderDashboard(data) {
+  mode = 'dashboard';
+  document.getElementById('entry-gate').style.display = 'none';
+  document.getElementById('progress-wrap').classList.remove('active');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('client-dashboard').classList.add('active');
+
+  const c = data.contact;
+  const orders = data.orders || [];
+
+  document.getElementById('dash-company-name').textContent = c.company || c.name || 'Your Account';
+  document.getElementById('dash-contact-info').textContent = `${c.name || ''} · ${c.email || ''} · ${c.phone || ''}`;
+
+  // Pre-fill form fields for when they start a new request
+  if (c.email) document.getElementById('client-email').value = c.email;
+  if (c.company) document.getElementById('client-name').value = c.company;
+  if (c.name) document.getElementById('client-contact').value = c.name;
+  if (c.phone) document.getElementById('client-phone').value = c.phone;
+  if (c.address) document.getElementById('client-address').value = c.address;
+
+  const upcoming = orders.filter(o => ['scheduled','pending','in_progress'].includes(o.status));
+  const completed = orders.filter(o => o.status === 'completed');
+  const resultsWaiting = orders.filter(o => o.status === 'completed' && o.result);
+  const openInvoices = (data.invoices || []).filter(i => i.status !== 'paid');
+
+  document.getElementById('stat-upcoming').textContent = upcoming.length;
+  document.getElementById('stat-pending').textContent = upcoming.filter(o => o.status === 'pending').length;
+  document.getElementById('stat-completed').textContent = completed.length;
+  document.getElementById('stat-invoices').textContent = openInvoices.length;
+
+  // Results waiting alert
+  const rwa = document.getElementById('results-waiting-area');
+  const newResults = completed.filter(o => o.result).slice(0, 3);
+  if (newResults.length > 0) {
+    rwa.innerHTML = `<div class="results-waiting">
+      <div class="results-waiting-icon">📋</div>
+      <div class="results-waiting-text">
+        <div class="results-waiting-title">${newResults.length} Result${newResults.length > 1 ? 's' : ''} Ready</div>
+        <div class="results-waiting-sub">${newResults.map(o => o.subject).join(', ')} — results delivered to ${c.email}</div>
+      </div>
+    </div>`;
+  } else { rwa.innerHTML = ''; }
+
+  // Upcoming appointments
+  document.getElementById('upcoming-count').textContent = upcoming.length;
+  const uList = document.getElementById('upcoming-list');
+  if (upcoming.length === 0) {
+    uList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No upcoming appointments</div>';
+  } else {
+    uList.innerHTML = upcoming.map(o => {
+      const d = new Date(o.date + 'T12:00:00');
+      const badgeClass = o.status === 'scheduled' ? 'badge-scheduled' : o.status === 'pending' ? 'badge-pending' : 'badge-in-progress';
+      return `<div class="upcoming-item">
+        <div class="upcoming-date-block">
+          <div class="upcoming-month">${MONTHS[d.getMonth()]}</div>
+          <div class="upcoming-day">${d.getDate()}</div>
+        </div>
+        <div class="upcoming-info">
+          <div class="upcoming-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="upcoming-meta">${o.time || 'TBD'} · ${o.location || '—'}</div>
+        </div>
+        <div class="upcoming-badge ${badgeClass}">${o.status.replace('_',' ').toUpperCase()}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Compliance strip (drug testing accounts)
+  const comp = data.compliance;
+  const compStrip = document.getElementById('compliance-strip');
+  if (comp) {
+    compStrip.style.display = 'flex';
+    document.getElementById('comp-random').textContent = comp.random_pool || '—';
+    document.getElementById('comp-random').className = 'compliance-value ' + (comp.random_pool === 'Active' ? 'compliance-ok' : 'compliance-warn');
+    const pct = comp.testing_rate || 0;
+    document.getElementById('comp-rate').textContent = `${pct}% (${comp.tested_ytd || 0} of ${comp.pool_size || 0})`;
+    document.getElementById('comp-rate').className = 'compliance-value ' + (pct >= (comp.rate_target || 50) ? 'compliance-ok' : 'compliance-warn');
+    document.getElementById('comp-rate-bar').style.width = Math.min(pct, 100) + '%';
+    document.getElementById('comp-rate-bar').style.background = pct >= (comp.rate_target || 50) ? 'var(--green)' : 'var(--orange)';
+    document.getElementById('comp-next-random').textContent = comp.next_random || '—';
+    document.getElementById('comp-clearinghouse').textContent = comp.clearinghouse || '—';
+    document.getElementById('comp-clearinghouse').className = 'compliance-value ' + (comp.clearinghouse === 'Current' ? 'compliance-ok' : 'compliance-warn');
+    document.getElementById('comp-random-bar').style.width = comp.random_pool === 'Active' ? '100%' : '0';
+  } else { compStrip.style.display = 'none'; }
+
+  // Recent completed orders
+  if (completed.length > 0) {
+    document.getElementById('recent-title').style.display = 'flex';
+    document.getElementById('recent-card').style.display = 'block';
+    document.getElementById('recent-count').textContent = completed.length;
+    document.getElementById('recent-body').innerHTML = completed.slice(0, 6).map(o => {
+      const resultClass = o.result === 'Negative' ? 'result-negative' : o.result === 'Positive' ? 'result-positive' : '';
+      return `<tr>
+        <td style="font-weight:600;font-size:12px;color:var(--text-muted)">${o.id}</td>
+        <td>${SERVICE_LABELS[o.type] || o.type}</td>
+        <td>${o.subject}</td>
+        <td>${o.date}</td>
+        <td class="${resultClass}">${o.result || '—'}</td>
+      </tr>`;
+    }).join('');
+  } else {
+    document.getElementById('recent-title').style.display = 'none';
+    document.getElementById('recent-card').style.display = 'none';
+  }
+}
+
+// ═══════ KPI PANEL LOGIC ═══════
+let activeKpi = null;
+
+function toggleKpi(type) {
+  const panels = ['upcoming','results','completed','invoices'];
+  const cards = document.querySelectorAll('.stat-card');
+
+  if (activeKpi === type) { closeKpi(type); return; }
+
+  panels.forEach((p, i) => {
+    document.getElementById(`kpi-${p}`).classList.remove('active');
+    cards[i].classList.remove('active-kpi');
+  });
+
+  activeKpi = type;
+  const idx = panels.indexOf(type);
+  cards[idx].classList.add('active-kpi');
+  renderKpiPanel(type);
+  document.getElementById(`kpi-${type}`).classList.add('active');
+  document.getElementById(`kpi-${type}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeKpi(type) {
+  activeKpi = null;
+  document.getElementById(`kpi-${type}`).classList.remove('active');
+  document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active-kpi'));
+}
+
+function renderKpiPanel(type) {
+  if (!clientData) return;
+  const orders = clientData.orders || [];
+  const invoices = clientData.invoices || [];
+  const c = clientData.contact || {};
+
+  if (type === 'upcoming') {
+    const items = orders.filter(o => ['scheduled','pending','in_progress'].includes(o.status));
+    const body = document.getElementById('kpi-upcoming-body');
+    if (items.length === 0) {
+      body.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No upcoming appointments</div>';
+      return;
+    }
+    body.innerHTML = items.map(o => {
+      const d = new Date(o.date + 'T12:00:00');
+      const colors = { scheduled: { bg: 'var(--blue-light)', color: 'var(--blue)' }, pending: { bg: 'var(--orange-light)', color: 'var(--orange)' }, in_progress: { bg: 'var(--purple-light)', color: 'var(--purple)' } };
+      const s = colors[o.status] || colors.scheduled;
+      const badge = o.status.replace('_',' ').toUpperCase();
+      return `<div class="kpi-list-item">
+        <div class="kpi-list-icon" style="background:${s.bg};color:${s.color};font-weight:800;font-size:13px;">${MONTHS[d.getMonth()]}<br>${d.getDate()}</div>
+        <div class="kpi-list-info">
+          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-sub">${o.time || 'TBD'} · ${o.location || '—'}</div>
+          <div class="kpi-list-sub" style="margin-top:4px;"><strong>Order:</strong> ${o.id}</div>
+        </div>
+        <div class="kpi-list-right"><span class="kpi-list-badge" style="background:${s.bg};color:${s.color};">${badge}</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  if (type === 'results') {
+    const pending = orders.filter(o => o.status === 'pending');
+    const withResults = orders.filter(o => o.status === 'completed' && o.result);
+    const body = document.getElementById('kpi-results-body');
+    let html = '';
+    if (pending.length > 0) {
+      html += `<div style="padding:10px 18px 4px;font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;">Awaiting Results</div>`;
+      html += pending.map(o => `<div class="kpi-list-item">
+        <div class="kpi-list-icon" style="background:var(--orange-light);color:var(--orange);">⏳</div>
+        <div class="kpi-list-info">
+          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-sub">Scheduled: ${o.date} · ${o.location || '—'}</div>
+        </div>
+        <div class="kpi-list-right"><span class="kpi-list-badge badge-pending">PENDING</span></div>
+      </div>`).join('');
+    }
+    if (withResults.length > 0) {
+      html += `<div style="padding:10px 18px 4px;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;">Results Delivered</div>`;
+      html += withResults.slice(0, 5).map(o => `<div class="kpi-list-item">
+        <div class="kpi-list-icon" style="background:var(--green-light);color:var(--green);">✓</div>
+        <div class="kpi-list-info">
+          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-sub">${o.date} · Sent to ${c.email || '—'}</div>
+        </div>
+        <div class="kpi-list-right"><span class="kpi-list-badge badge-completed" style="background:var(--green-light);color:var(--green);">${o.result}</span></div>
+      </div>`).join('');
+    }
+    if (!html) html = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No pending results</div>';
+    body.innerHTML = html;
+  }
+
+  if (type === 'completed') {
+    const items = orders.filter(o => o.status === 'completed');
+    const body = document.getElementById('kpi-completed-body');
+    if (items.length === 0) {
+      body.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No completed orders</div>';
+      return;
+    }
+    body.innerHTML = items.map(o => {
+      const resultColor = o.result === 'Negative' ? 'var(--green)' : o.result === 'Positive' ? 'var(--red)' : 'var(--text-muted)';
+      return `<div class="kpi-list-item">
+        <div class="kpi-list-icon" style="background:var(--green-light);color:var(--green);">✓</div>
+        <div class="kpi-list-info">
+          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-sub">${o.date} · ${o.location || '—'}</div>
+          <div class="kpi-list-sub"><strong>Order:</strong> ${o.id}</div>
+        </div>
+        <div class="kpi-list-right">
+          <div style="font-size:13px;font-weight:700;color:${resultColor}">${o.result || '—'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  if (type === 'invoices') {
+    renderInvoicesPanel();
+  }
+}
+
+function renderInvoicesPanel() {
+  const invoices = (clientData.invoices || []);
+  const body = document.getElementById('kpi-invoices-body');
+
+  if (invoices.length === 0) {
+    body.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No invoices on file</div>';
+    return;
+  }
+
+  const openInvoices = invoices.filter(i => i.status !== 'paid');
+  const paidInvoices = invoices.filter(i => i.status === 'paid');
+  const totalDue = openInvoices.reduce((s, i) => s + i.amount, 0);
+
+  let html = '';
+
+  if (openInvoices.length > 0) {
+    html += openInvoices.map(inv => {
+      const isOverdue = inv.due && new Date(inv.due + 'T23:59:59') < new Date();
+      const statusClass = isOverdue ? 'inv-status-overdue' : 'inv-status-pending';
+      const statusText = isOverdue ? 'OVERDUE' : 'DUE';
+      const iconBg = isOverdue ? 'var(--red-light)' : 'var(--orange-light)';
+      const iconColor = isOverdue ? 'var(--red)' : 'var(--orange)';
+
+      return `<div class="inv-item" style="cursor:pointer;" onclick="toggleInvDetail('${inv.id}')">
+        <div class="inv-icon" style="background:${iconBg};color:${iconColor};">💳</div>
+        <div class="inv-info">
+          <div class="inv-id">${inv.id}</div>
+          <div class="inv-meta">Issued: ${inv.date}${inv.due ? ' · Due: ' + inv.due : ''}</div>
+          <div class="inv-meta ${statusClass}" style="font-weight:700;margin-top:2px;">${statusText}${inv.due ? ' · ' + inv.due : ''}</div>
+        </div>
+        <div>
+          <div class="inv-amount">$${inv.amount.toFixed(2)}</div>
+          <div class="inv-amount-sub">Click for details</div>
+        </div>
+      </div>
+      <div class="inv-detail" id="inv-detail-${inv.id}">
+        <table class="inv-line-table">
+          <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+          <tbody>${(inv.lines || []).map(l => `<tr><td>${l.desc}</td><td>${l.qty}</td><td>$${l.rate.toFixed(2)}</td><td>$${(l.qty * l.rate).toFixed(2)}</td></tr>`).join('')}</tbody>
+        </table>
+        <div class="inv-pay-strip">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">Total Due: $${inv.amount.toFixed(2)}</div>
+            <div class="inv-pay-methods">
+              <span class="inv-pay-method-badge">Credit Card</span>
+              <span class="inv-pay-method-badge">ACH</span>
+              <span class="inv-pay-method-badge">Check</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="inv-pay-btn primary" onclick="payInvoice('${inv.id}',${inv.amount})">Pay Now</button>
+            <button class="inv-pay-btn secondary" onclick="downloadInvoice('${inv.id}')">Download PDF</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  if (openInvoices.length > 0) {
+    html += `<div class="inv-total-row">
+      <div class="inv-total-label">Total Outstanding</div>
+      <div class="inv-total-amount">$${totalDue.toFixed(2)}</div>
+    </div>`;
+  }
+
+  if (paidInvoices.length > 0) {
+    html += `<div style="padding:10px 18px 4px;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--border);">Paid</div>`;
+    html += paidInvoices.map(inv => {
+      return `<div class="inv-item" style="cursor:pointer;opacity:.7;" onclick="toggleInvDetail('${inv.id}')">
+        <div class="inv-icon" style="background:var(--green-light);color:var(--green);">✓</div>
+        <div class="inv-info">
+          <div class="inv-id">${inv.id}</div>
+          <div class="inv-meta">Issued: ${inv.date}${inv.paid_date ? ' · Paid: ' + inv.paid_date : ''}</div>
+        </div>
+        <div>
+          <div class="inv-amount inv-status-paid">$${inv.amount.toFixed(2)}</div>
+          <div class="inv-amount-sub">PAID</div>
+        </div>
+      </div>
+      <div class="inv-detail" id="inv-detail-${inv.id}">
+        <table class="inv-line-table">
+          <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+          <tbody>${(inv.lines || []).map(l => `<tr><td>${l.desc}</td><td>${l.qty}</td><td>$${l.rate.toFixed(2)}</td><td>$${(l.qty * l.rate).toFixed(2)}</td></tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+    }).join('');
+  }
+
+  body.innerHTML = html;
+}
+
+function toggleInvDetail(invId) {
+  const el = document.getElementById(`inv-detail-${invId}`);
+  if (el) el.classList.toggle('active');
+}
+
+function payInvoice(invId, amount) {
+  const contact = clientData?.contact || {};
+  const mailto = `mailto:billing@deedavis.biz?subject=${encodeURIComponent('Payment — ' + invId + ' — ' + (contact.company || ''))}&body=${encodeURIComponent(
+    'Invoice: ' + invId + '\nAmount: $' + amount.toFixed(2) + '\nCompany: ' + (contact.company || '') + '\nContact: ' + (contact.name || '') + '\n\nPayment method: [Credit Card / ACH / Check]\n\nPlease send payment instructions.'
+  )}`;
+  window.open(mailto, '_blank');
+}
+
+function downloadInvoice(invId) {
+  alert('Invoice PDF download for ' + invId + ' — this will connect to VERTEX billing system when the API is live.');
+}
+
+function startNewRequest() {
+  mode = 'form';
+  document.getElementById('client-dashboard').classList.remove('active');
+  document.getElementById('progress-wrap').classList.add('active');
+  document.getElementById('back-to-dash').classList.add('visible');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-1').classList.add('active');
+  currentStep = 1;
+  updateProgress(1);
+}
+
+function showDashboard() {
+  if (!clientData) return;
+  mode = 'dashboard';
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('progress-wrap').classList.remove('active');
+  document.getElementById('client-dashboard').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════ FORM LOGIC (same as before) ═══════
+document.getElementById('results-delivery-pref').addEventListener('change', function() {
+  document.getElementById('fax-row').style.display = this.value === 'email-fax' ? 'grid' : 'none';
+});
+
+function pickSvc(el) {
+  activeSvc = el.dataset.svc; activeEmail = el.dataset.email;
+  document.querySelectorAll('.svc-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('testing-sub').classList.toggle('visible', activeSvc === 'testing');
+  showServiceDetails();
+}
+function pickSub(el, sub) {
+  activeSubSvc = sub;
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  showServiceDetails();
+}
+function showServiceDetails() {
+  allDynamic.forEach(id => document.getElementById(id).classList.remove('visible'));
+  const dc = document.getElementById('details-card');
+  const dl = document.getElementById('details-label');
+  const key = activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc;
+  const map = {'testing-drug':'drug-detail-wrap','testing-occhealth':'occhealth-fields','testing-lead':'lead-fields','fingerprint':'fingerprint-fields','dna':'dna-fields','background':'background-fields','credentialing':'credential-fields','workforce':'workforce-fields','notary':'notary-fields'};
+  if (map[key]) { document.getElementById(map[key]).classList.add('visible'); dc.style.display = ''; dl.style.display = ''; }
+  else { dc.style.display = 'none'; dl.style.display = 'none'; }
+}
+function pickUrgency(el, v) {
+  activeUrgency = v;
+  document.querySelectorAll('.option-row .opt-btn').forEach(b => { if(b.parentElement === el.parentElement) b.className = 'opt-btn'; });
+  el.classList.add(`active-${v}`);
+}
+function pickTier(el, n) {
+  activeTier = n;
+  el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('tier2-fields').classList.toggle('visible', n === 2);
+  document.getElementById('donor-count-wrap').style.display = n === 3 ? 'flex' : 'none';
+}
+
+function validate(step) {
+  let ok = true;
+  const checks = {
+    2: [['client-email','email'],['client-name','text'],['client-contact','text'],['client-phone','text']],
+    3: [['donor-first','text'],['donor-last','text'],['sched-date','text'],['sched-time','text'],['collection-site','text']]
   };
+  if (!checks[step]) return true;
+  checks[step].forEach(([id, type]) => {
+    const el = document.getElementById(id);
+    const field = el.closest('.field');
+    const v = el.value.trim();
+    let valid = v.length > 0;
+    if (type === 'email') valid = valid && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    field.classList.toggle('error', !valid);
+    if (!valid) { ok = false; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 400); }
+  });
+  return ok;
+}
 
-  const svcLabels = {
-    'testing-drug': 'Drug & Alcohol Testing',
-    'testing-occhealth': 'Occupational Health Screening',
-    'testing-lead': 'Lead Screening',
-    'fingerprint': 'Fingerprinting & Background',
-    'dna': 'DNA / Paternity',
-    'nemt': 'Transportation',
-    'notary': 'Notary / RON / Apostille',
-    'courier': 'Courier / Specimen Transport',
-  };
+function updateProgress(step) {
+  document.querySelectorAll('.prog-step').forEach(s => {
+    const n = parseInt(s.dataset.s);
+    s.classList.remove('active','done');
+    if (n === step) s.classList.add('active');
+    else if (n < step) s.classList.add('done');
+  });
+  document.querySelectorAll('.prog-line').forEach((l,i) => l.classList.toggle('done', i+1 < step));
+}
 
-  function selectTier(n) {
-    activeTier = n;
-    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
-    document.querySelector(`.tier-card[data-tier="${n}"]`).classList.add('active');
-    document.getElementById('tier2-fields').classList.toggle('visible', n === 2);
-    document.getElementById('donor-count-wrap').style.display = n === 3 ? 'flex' : 'none';
+function nextStep(to, fromClick) {
+  if (fromClick && to > currentStep) return;
+  if (to > currentStep && !validate(currentStep)) return;
+
+  // Payment validation — must select a method or have contract/override
+  if (currentStep === 4 && to === 5 && clientBillingTier === 'pay_at_booking' && !overrideAccepted && !selectedPayMethod) {
+    return;
   }
 
-  function selectUrgency(el, val) {
-    activeUrgency = val;
-    document.querySelectorAll('.urgency-btn').forEach(b => b.className = 'urgency-btn');
-    el.classList.add(`active-${val}`);
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`step-${to}`).classList.add('active');
+  currentStep = to;
+  updateProgress(to);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (to === 2) showServiceDetails();
+  if (to === 4) renderPaymentStep();
+  if (to === 5) renderPaymentConfirmation();
+}
+
+function renderPaymentConfirmation() {
+  const conf = getPaymentConfirmation();
+  const strip = document.getElementById('pay-confirmation-strip');
+  strip.style.display = 'block';
+  document.getElementById('pay-confirm-icon').textContent = conf.icon;
+  document.getElementById('pay-confirm-title').textContent = conf.title;
+  document.getElementById('pay-confirm-detail').textContent = conf.detail;
+  document.getElementById('pay-confirm-amount').textContent = conf.amount;
+}
+function goToStep(to, click) { if (click && to <= currentStep) nextStep(to); }
+
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() || '—' : '—'; }
+function getSvcKey() { return activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc; }
+function genConfirmNum() { const n=new Date(),p=v=>String(v).padStart(2,'0'); return `PRISM-${n.getFullYear()}${p(n.getMonth()+1)}${p(n.getDate())}-${p(n.getHours())}${p(n.getMinutes())}-${Math.floor(Math.random()*9000)+1000}`; }
+
+function dispatch() {
+  const tierNames = {1:'Mobile — We Come to You',2:'Coordinated Ride',3:'On-Site Group Event'};
+  const confNum = genConfirmNum();
+  const svcKey = getSvcKey();
+  const svcLabel = svcLabels[svcKey] || activeSvc;
+
+  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${confNum}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`,'----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`,'----------------------------------------','SUBJECT',`Name:         ${val('donor-first')} ${val('donor-last')}`,`DOB:          ${val('donor-dob')}`,`Phone:        ${val('donor-phone')}`,`ID:           ${val('donor-id')}`,`Location:     ${val('donor-location')}`];
+  if (activeTier===2){lines.push(`Reason:       ${val('impairment-reason')}`);lines.push(`Transport:    ${val('transport-provider')}`);}
+  if (activeTier===3) lines.push(`Count:        ${val('donor-count')}`);
+  lines.push('----------------------------------------','SCHEDULING',`Date:         ${val('sched-date')}`,`Time:         ${val('sched-time')} ${val('sched-tz')}`,`Location:     ${val('collection-site')}`);
+  if(svcKey==='testing-drug') lines.push(`Panel:        ${val('drug-panel')}`);
+  if(svcKey==='testing-occhealth'){lines.push(`Exam:         ${val('occ-exam-type')}`);lines.push(`Compliance:   ${val('occ-compliance')}`);}
+  if(svcKey==='testing-lead'){lines.push(`Lead Test:    ${val('lead-test-type')}`);lines.push(`Program:      ${val('lead-program')}`);}
+  if(svcKey==='fingerprint'){lines.push(`FP Type:      ${val('fp-type')}`);lines.push(`Purpose:      ${val('fp-purpose')}`);}
+  if(svcKey==='dna'){lines.push(`DNA Test:     ${val('dna-type')}`);lines.push(`Participants: ${val('dna-participants')}`);}
+  if(svcKey==='background'){lines.push(`Screen Type:  ${val('bg-type')}`);lines.push(`Purpose:      ${val('bg-purpose')}`);}
+  if(svcKey==='credentialing'){lines.push(`Credential:   ${val('cred-type')}`);lines.push(`Provider:     ${val('cred-provider')}`);}
+  if(svcKey==='workforce'){lines.push(`Service:      ${val('wf-type')}`);lines.push(`Industry:     ${val('wf-industry')}`);}
+  if(svcKey==='notary') lines.push(`Notary:       ${val('notary-type')}`);
+  const payConf = getPaymentConfirmation();
+  const { total: orderTotal } = calculateOrderTotal();
+  lines.push('----------------------------------------','BILLING',`Amount:       $${orderTotal.toFixed(2)}`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
+  if (overrideAccepted) lines.push(`Override:     ${document.getElementById('override-code-input')?.value || '—'}`);
+  lines.push('----------------------------------------',`Notes:        ${val('notes')}`,'========================================');
+  const plainText = lines.join('\n');
+
+  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:{},billing_tier:clientBillingTier,payment_method:selectedPayMethod||(clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal};
+  const base = location.hostname==='localhost'?'http://localhost:8000':'';
+  fetch(`${base}/prism/intake`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiPayload)}).then(r=>r.json()).then(res=>{if(res.success)showStatus('success','ORDER RECEIVED — Routed to PRISM');}).catch(()=>{showStatus('error','AUTO-SUBMIT UNAVAILABLE — Use email or copy below');});
+  document.getElementById('nf-confirmation').value=confNum;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
+  const fd=new FormData(document.getElementById('netlify-form'));fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(()=>{});
+
+  const mailto=`mailto:${activeEmail}?subject=${encodeURIComponent(`PRISM — ${confNum} — ${svcLabel}`)}&body=${encodeURIComponent(plainText)}`;
+  let body=`<div class="confirm-routing">ROUTED TO: ${activeEmail}</div><div id="submit-status" class="submit-status"></div>`;
+  body+=row('Confirmation',confNum)+row('Service',svcLabel)+row('Response',tierNames[activeTier])+row('Urgency',activeUrgency.toUpperCase())+row('Submitted',new Date().toLocaleString())+'<hr class="confirm-divider">';
+  body+=row('Company',val('client-name'))+row('Contact',val('client-contact'))+row('Email',val('client-email'));
+  const c1=val('cc-email-1'),c2=val('cc-email-2');if(c1!=='—')body+=row('CC',c1);if(c2!=='—')body+=row('CC',c2);
+  body+='<hr class="confirm-divider">'+row('Subject',`${val('donor-first')} ${val('donor-last')}`)+row('Date',val('sched-date'))+row('Time',`${val('sched-time')} ${val('sched-tz')}`)+row('Location',val('collection-site'));
+  body+='<hr class="confirm-divider">'+row('Amount',`$${orderTotal.toFixed(2)}`)+row('Payment',payConf.title)+row('Status',payConf.detail);
+  body+='<hr class="confirm-divider"><div class="copy-label">Order Summary</div>';
+  body+=`<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
+  body+=`<div class="confirm-actions"><a class="btn-email-c" href="${mailto}" target="_blank">Email to DDI</a><button class="btn-copy-c" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">Copy</button><button class="btn-print-c" onclick="window.print()">Print</button><button class="btn-close-c" onclick="closeOverlay()">Close</button></div>`;
+  document.getElementById('confirm-num-display').textContent=confNum;
+  document.getElementById('confirm-body').innerHTML=body;
+  document.getElementById('overlay').classList.add('active');
+}
+
+function showStatus(t,m){const el=document.getElementById('submit-status');if(el){el.className=`submit-status ${t}`;el.textContent=m;}}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('copy-btn');b.textContent='Copied!';b.classList.add('copied');setTimeout(()=>{b.textContent='Copy';b.classList.remove('copied');},2500);}).catch(()=>{const bl=document.getElementById('plain-text-block');const r=document.createRange();r.selectNodeContents(bl);window.getSelection().removeAllRanges();window.getSelection().addRange(r);});}
+function row(k,v){return `<div class="confirm-row"><div class="confirm-key">${k}</div><div class="confirm-val">${v}</div></div>`;}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escJs(s){return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');}
+function closeOverlay(){document.getElementById('overlay').classList.remove('active');}
+
+// ═══════ PAYMENT STEP LOGIC ═══════
+let selectedPayMethod = null;
+let overrideAccepted = false;
+let clientBillingTier = 'pay_at_booking'; // default for new clients
+
+function calculateOrderTotal() {
+  const svcKey = getSvcKey();
+  const pricing = SERVICE_PRICING[svcKey];
+  if (!pricing) return { lines: [{ desc: svcLabels[svcKey] || 'Service', amount: 125.00 }], total: 125.00 };
+
+  const lines = [];
+  let base = pricing.base;
+
+  // Check for specific panel selection (drug testing)
+  if (svcKey === 'testing-drug') {
+    const panelEl = document.getElementById('drug-panel');
+    if (panelEl && panelEl.value && pricing.panels && pricing.panels[panelEl.value]) {
+      base = pricing.panels[panelEl.value];
+      lines.push({ desc: panelEl.value, amount: base });
+    } else {
+      lines.push({ desc: pricing.label, amount: base });
+    }
+  } else {
+    lines.push({ desc: pricing.label, amount: base });
   }
 
-  function selectService(el) {
-    activeSvc = el.dataset.svc;
-    activeEmail = el.dataset.email;
-    document.querySelectorAll('.service-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('routing-email-display').textContent = activeEmail;
-    document.getElementById('testing-sub').classList.toggle('visible', activeSvc === 'testing');
-    ['occhealth-fields','lead-fields','fingerprint-fields','dna-fields'].forEach(id => document.getElementById(id).classList.remove('visible'));
-    const drugWrap = document.getElementById('drug-detail-wrap');
-    if (activeSvc === 'testing') { applyTestingSub(); }
-    else {
-      drugWrap.style.display = 'none';
-      if (activeSvc === 'fingerprint') document.getElementById('fingerprint-fields').classList.add('visible');
-      if (activeSvc === 'dna') document.getElementById('dna-fields').classList.add('visible');
-      document.getElementById('routing-hint').textContent = hints[activeSvc] || '';
+  // Surcharges based on tier
+  if (activeTier === 1) {
+    lines.push({ desc: 'Mobile Collection Fee', amount: MOBILE_SURCHARGE });
+  } else if (activeTier === 3) {
+    lines.push({ desc: 'On-Site Group Event Coordination', amount: GROUP_EVENT_SURCHARGE });
+    const count = parseInt(document.getElementById('donor-count')?.value || '1');
+    if (count > 1) {
+      lines.push({ desc: `Additional Subjects (${count - 1} × $${base.toFixed(2)})`, amount: (count - 1) * base });
     }
   }
 
-  function selectTestingSub(el, sub) {
-    activeSubSvc = sub;
-    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    applyTestingSub();
+  // Urgency surcharges
+  if (activeUrgency === 'priority') {
+    lines.push({ desc: 'Priority Processing', amount: PRIORITY_SURCHARGE });
+  } else if (activeUrgency === 'emergency') {
+    lines.push({ desc: 'Emergency / After-Hours', amount: EMERGENCY_SURCHARGE });
   }
 
-  function applyTestingSub() {
-    const drugWrap = document.getElementById('drug-detail-wrap');
-    ['occhealth-fields','lead-fields','fingerprint-fields','dna-fields'].forEach(id => document.getElementById(id).classList.remove('visible'));
-    drugWrap.style.display = activeSubSvc === 'drug' ? '' : 'none';
-    if (activeSubSvc === 'occhealth') document.getElementById('occhealth-fields').classList.add('visible');
-    if (activeSubSvc === 'lead') document.getElementById('lead-fields').classList.add('visible');
-    document.getElementById('routing-hint').textContent = hints[`testing-${activeSubSvc}`] || '';
+  const total = lines.reduce((sum, l) => sum + l.amount, 0);
+  return { lines, total };
+}
+
+function renderPaymentStep() {
+  const { lines, total } = calculateOrderTotal();
+  const billing = clientData?.billing || null;
+
+  // Determine billing tier
+  if (billing?.tier === 'contract') {
+    clientBillingTier = 'contract';
+  } else if (billing?.tier === 'card_on_file') {
+    clientBillingTier = 'card_on_file';
+  } else {
+    clientBillingTier = 'pay_at_booking';
   }
 
-  function genConfirmNum() {
-    const n = new Date(), pad = v => String(v).padStart(2,'0');
-    return `PRISM-${n.getFullYear()}${pad(n.getMonth()+1)}${pad(n.getDate())}-${pad(n.getHours())}${pad(n.getMinutes())}-${Math.floor(Math.random()*9000)+1000}`;
+  // Render line items
+  const lineItemsEl = document.getElementById('pay-line-items');
+  lineItemsEl.innerHTML = lines.map(l =>
+    `<div class="pay-line"><div class="pay-line-desc">${l.desc}</div><div class="pay-line-price">$${l.amount.toFixed(2)}</div></div>`
+  ).join('');
+
+  document.getElementById('pay-total-badge').textContent = `$${total.toFixed(2)}`;
+  document.getElementById('pay-total-amount').textContent = `$${total.toFixed(2)}`;
+
+  // Reset override state
+  overrideAccepted = false;
+  document.getElementById('override-result').className = 'override-result';
+  document.getElementById('override-result').textContent = '';
+  if (document.getElementById('override-code-input')) document.getElementById('override-code-input').value = '';
+
+  // Show/hide sections based on billing tier
+  const contractBypass = document.getElementById('pay-contract-bypass');
+  const cardOnFile = document.getElementById('pay-card-on-file-section');
+  const methodSection = document.getElementById('pay-method-section');
+  const overrideSection = document.getElementById('override-section');
+  const continueBtn = document.getElementById('pay-continue-btn');
+
+  contractBypass.style.display = 'none';
+  cardOnFile.style.display = 'none';
+  methodSection.style.display = 'none';
+  overrideSection.style.display = 'none';
+
+  if (clientBillingTier === 'contract') {
+    contractBypass.style.display = 'block';
+    const detail = document.getElementById('pay-contract-detail');
+    detail.textContent = `Billed to contract ${billing.contract_id} · ${billing.payment_terms} terms · ${billing.contract_name}`;
+    continueBtn.textContent = 'Continue →';
+    continueBtn.disabled = false;
+  } else if (clientBillingTier === 'card_on_file' && billing?.card_on_file) {
+    cardOnFile.style.display = 'block';
+    document.getElementById('saved-card-label').textContent = `${billing.card_on_file.brand} ending in ${billing.card_on_file.last4}`;
+    document.getElementById('saved-card-num').textContent = `Added ${billing.card_on_file.added}`;
+    document.getElementById('autopay-checkbox').checked = billing.autopay || false;
+    overrideSection.style.display = 'block';
+    continueBtn.textContent = `Pay $${total.toFixed(2)} & Continue →`;
+    continueBtn.disabled = false;
+  } else {
+    methodSection.style.display = 'block';
+    overrideSection.style.display = 'block';
+    continueBtn.textContent = `Pay $${total.toFixed(2)} & Continue →`;
+    continueBtn.disabled = true;
+    selectedPayMethod = null;
+    document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
   }
 
-  function val(id) { const el = document.getElementById(id); return el ? el.value.trim() || '—' : '—'; }
-  function getSvcKey() { return activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc; }
+  // Update invoice display email
+  const emailEl = document.getElementById('invoice-email-display');
+  const amountEl = document.getElementById('invoice-amount-display');
+  if (emailEl) emailEl.textContent = val('client-email');
+  if (amountEl) amountEl.textContent = `$${total.toFixed(2)}`;
+}
 
-  function dispatch() {
-    const tierNames = {1:'TIER 1 — Mobile Collector',2:'TIER 2 — Coordinated Ride',3:'TIER 3 — On-Site Group Event'};
-    const confNum = genConfirmNum();
-    const tier = activeTier;
-    const svcKey = getSvcKey();
-    const svcLabel = svcLabels[svcKey] || activeSvc;
+function selectPayMethod(method, el) {
+  selectedPayMethod = method;
+  document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
 
-    const lines = [
-      'PRISM SERVICE REQUEST — DEE DAVIS INC.',
-      '========================================',
-      `Confirmation:  ${confNum}`,
-      `Submitted:     ${new Date().toLocaleString()}`,
-      `Service:       ${svcLabel}`,
-      `Response Tier: ${tierNames[tier]}`,
-      `Urgency:       ${activeUrgency.toUpperCase()}`,
-      '----------------------------------------',
-      'CLIENT',
-      `Company:       ${val('client-name')}`,
-      `Contact:       ${val('client-contact')}`,
-      `Phone:         ${val('client-phone')}`,
-      `Email:         ${val('client-email')}`,
-      `PO / Account:  ${val('client-po')}`,
-      `Address:       ${val('client-address')}`,
-      '----------------------------------------',
-      'SUBJECT',
-      `Name:          ${val('donor-first')} ${val('donor-last')}`,
-      `DOB:           ${val('donor-dob')}`,
-      `Phone:         ${val('donor-phone')}`,
-      `ID:            ${val('donor-id')}`,
-      `Location:      ${val('donor-location')}`,
-    ];
-    if (tier === 2) { lines.push(`Reason:        ${val('impairment-reason')}`); lines.push(`Transport:     ${val('transport-provider')}`); }
-    if (tier === 3) lines.push(`Subject Count: ${val('donor-count')}`);
-    lines.push('----------------------------------------');
-    lines.push('SCHEDULING');
-    lines.push(`Date:          ${val('sched-date')}`);
-    lines.push(`Time:          ${val('sched-time')} ${val('sched-tz')}`);
-    lines.push(`Location:      ${val('collection-site')}`);
-    if (svcKey === 'testing-drug') lines.push(`Panel:         ${val('drug-panel')}`);
-    if (svcKey === 'testing-occhealth') { lines.push(`Exam:          ${val('occ-exam-type')}`); lines.push(`Compliance:    ${val('occ-compliance')}`); }
-    if (svcKey === 'testing-lead') { lines.push(`Lead Test:     ${val('lead-test-type')}`); lines.push(`Program:       ${val('lead-program')}`); }
-    if (svcKey === 'fingerprint') { lines.push(`FP/BG Type:    ${val('fp-type')}`); lines.push(`Purpose:       ${val('fp-purpose')}`); }
-    if (svcKey === 'dna') { lines.push(`DNA Test:      ${val('dna-type')}`); lines.push(`Participants:  ${val('dna-participants')}`); }
-    lines.push('----------------------------------------');
-    lines.push(`Notes:         ${val('notes')}`);
-    lines.push('========================================');
-    const plainText = lines.join('\n');
+  // Show relevant input group
+  document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
+  const groupId = method === 'card' ? 'card-input-group' : method === 'ach' ? 'ach-input-group' : 'invoice-input-group';
+  document.getElementById(groupId).classList.add('visible');
 
-    // Submit to PRISM backend API
-    const apiPayload = {
-      confirmation: confNum,
-      service_key: svcKey,
-      service_label: svcLabel,
-      urgency: activeUrgency,
-      tier: tier,
-      client_company: val('client-name'),
-      client_contact: val('client-contact'),
-      client_phone: val('client-phone'),
-      client_email: val('client-email'),
-      client_po: val('client-po'),
-      client_address: val('client-address'),
-      subject_first: val('donor-first'),
-      subject_last: val('donor-last'),
-      subject_dob: val('donor-dob'),
-      subject_phone: val('donor-phone'),
-      subject_id: val('donor-id'),
-      subject_location: val('donor-location'),
-      sched_date: val('sched-date'),
-      sched_time: val('sched-time'),
-      sched_tz: val('sched-tz'),
-      collection_site: val('collection-site'),
-      notes: val('notes'),
-      routing_email: activeEmail,
-      details: {}
-    };
-    if (svcKey === 'testing-drug') apiPayload.details.panel = val('drug-panel');
-    if (svcKey === 'testing-occhealth') { apiPayload.details.exam = val('occ-exam-type'); apiPayload.details.compliance = val('occ-compliance'); }
-    if (svcKey === 'testing-lead') { apiPayload.details.test_type = val('lead-test-type'); apiPayload.details.program = val('lead-program'); }
-    if (svcKey === 'fingerprint') { apiPayload.details.fp_type = val('fp-type'); apiPayload.details.purpose = val('fp-purpose'); }
-    if (svcKey === 'dna') { apiPayload.details.dna_type = val('dna-type'); apiPayload.details.participants = val('dna-participants'); }
+  // Enable continue button
+  document.getElementById('pay-continue-btn').disabled = false;
+}
 
-    const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8000' : '';
-    fetch(`${API_BASE}/prism/intake`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(apiPayload)
-    })
+function formatCardNumber(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+}
+
+function formatCardExp(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length > 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
+  el.value = v;
+}
+
+function toggleNewCard() {
+  const cardOnFile = document.getElementById('pay-card-on-file-section');
+  const methodSection = document.getElementById('pay-method-section');
+  cardOnFile.style.display = 'none';
+  methodSection.style.display = 'block';
+  selectedPayMethod = null;
+  document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
+}
+
+function toggleAutopay() {
+  const checked = document.getElementById('autopay-checkbox').checked;
+  if (clientData?.billing) clientData.billing.autopay = checked;
+}
+
+function validateOverride() {
+  const code = document.getElementById('override-code-input').value.trim().toUpperCase();
+  const resultEl = document.getElementById('override-result');
+  const continueBtn = document.getElementById('pay-continue-btn');
+
+  if (!code) {
+    resultEl.className = 'override-result invalid';
+    resultEl.textContent = 'Please enter an override code.';
+    return;
+  }
+
+  resultEl.className = 'override-result';
+  resultEl.style.display = 'block';
+  resultEl.textContent = 'Verifying...';
+  resultEl.style.background = 'var(--bg)';
+  resultEl.style.color = 'var(--text-muted)';
+
+  const base = location.hostname === 'localhost' ? 'http://localhost:8000' : '';
+  fetch(`${base}/prism/billing/validate-override`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code, email: val('client-email') })
+  })
     .then(r => r.json())
-    .then(res => { if (res.success) showStatus('success', 'ORDER RECEIVED — Routed to PRISM dashboard'); })
-    .catch(() => { showStatus('error', 'AUTO-SUBMIT UNAVAILABLE — Use email or copy button below'); });
-
-    // Netlify Forms fallback
-    document.getElementById('nf-confirmation').value = confNum;
-    document.getElementById('nf-service').value = svcLabel;
-    document.getElementById('nf-urgency').value = activeUrgency.toUpperCase();
-    document.getElementById('nf-tier').value = tierNames[tier];
-    document.getElementById('nf-routing').value = activeEmail;
-    document.getElementById('nf-summary').value = plainText;
-
-    const formData = new FormData(document.getElementById('netlify-form'));
-    fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(formData).toString() }).catch(() => {});
-
-    // Build mailto link
-    const subject = encodeURIComponent(`PRISM Service Request — ${confNum} — ${svcLabel}`);
-    const mailBody = encodeURIComponent(plainText);
-    const mailto = `mailto:${activeEmail}?subject=${subject}&body=${mailBody}`;
-
-    // Build confirmation overlay
-    let body = `
-      <div class="confirm-routing">ROUTED TO: ${activeEmail}</div>
-      <div id="submit-status" class="submit-status"></div>
-    `;
-    body += row('Confirmation', confNum);
-    body += row('Service', svcLabel);
-    body += row('Tier', tierNames[tier]);
-    body += row('Urgency', activeUrgency.toUpperCase());
-    body += row('Submitted', new Date().toLocaleString());
-    body += `<hr class="confirm-divider">`;
-    body += row('Company', val('client-name'));
-    body += row('Contact', val('client-contact'));
-    body += row('Phone', val('client-phone'));
-    body += row('Email', val('client-email'));
-    body += `<hr class="confirm-divider">`;
-    body += row('Subject', `${val('donor-first')} ${val('donor-last')}`);
-    body += row('Date', val('sched-date'));
-    body += row('Time', `${val('sched-time')} ${val('sched-tz')}`);
-    body += row('Location', val('collection-site'));
-    body += `<hr class="confirm-divider">`;
-    body += `<div class="copy-hint">— ORDER SUMMARY —</div>`;
-    body += `<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
-    body += `
-      <div class="confirm-actions">
-        <a class="btn-email" href="${mailto}" target="_blank">✉ Email to DDI</a>
-        <button class="btn-copy" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">📋 Copy</button>
-        <button class="btn-dispatch btn-print" onclick="window.print()">🖨 Print</button>
-        <button class="btn-close" onclick="closeOverlay()">Close</button>
-      </div>
-    `;
-
-    document.getElementById('confirm-num-display').textContent = confNum;
-    document.getElementById('confirm-body').innerHTML = body;
-    document.getElementById('overlay').classList.add('active');
-  }
-
-  function showStatus(type, msg) {
-    const el = document.getElementById('submit-status');
-    if (el) { el.className = `submit-status ${type}`; el.textContent = msg; }
-  }
-
-  function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copy-btn');
-      btn.textContent = '✓ Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2500);
-    }).catch(() => {
-      const block = document.getElementById('plain-text-block');
-      const range = document.createRange();
-      range.selectNodeContents(block);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+    .then(data => {
+      if (data.valid) {
+        overrideAccepted = true;
+        resultEl.className = 'override-result valid';
+        resultEl.style.background = ''; resultEl.style.color = '';
+        resultEl.textContent = `✓ ${data.message}`;
+        continueBtn.textContent = 'Continue →';
+        continueBtn.disabled = false;
+        document.getElementById('pay-method-section').style.display = 'none';
+        document.getElementById('pay-card-on-file-section').style.display = 'none';
+      } else {
+        overrideAccepted = false;
+        resultEl.className = 'override-result invalid';
+        resultEl.style.background = ''; resultEl.style.color = '';
+        resultEl.textContent = `✕ ${data.message}`;
+      }
+    })
+    .catch(() => {
+      // Fallback: accept known codes offline
+      const fallbackCodes = ['DDI-EXEMPT-2026', 'GOV-CONTRACT', 'DDI-WAIVER', 'PRISM-OVERRIDE'];
+      if (fallbackCodes.includes(code)) {
+        overrideAccepted = true;
+        resultEl.className = 'override-result valid';
+        resultEl.style.background = ''; resultEl.style.color = '';
+        resultEl.textContent = `✓ Override accepted (offline) — code "${code}" verified.`;
+        continueBtn.textContent = 'Continue →';
+        continueBtn.disabled = false;
+        document.getElementById('pay-method-section').style.display = 'none';
+        document.getElementById('pay-card-on-file-section').style.display = 'none';
+      } else {
+        overrideAccepted = false;
+        resultEl.className = 'override-result invalid';
+        resultEl.style.background = ''; resultEl.style.color = '';
+        resultEl.textContent = `✕ Code "${code}" not recognized. Contact DDI at 248.376.4550.`;
+      }
     });
-  }
+}
 
-  function row(k, v) { return `<div class="confirm-row"><div class="confirm-key">${k}</div><div class="confirm-val">${v}</div></div>`; }
-  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function escJs(s) { return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
-  function closeOverlay() { document.getElementById('overlay').classList.remove('active'); }
-
-  function clearForm() {
-    document.querySelectorAll('input, select, textarea').forEach(el => {
-      if (el.type === 'date' || el.type === 'time') el.value = '';
-      else if (el.tagName === 'SELECT') el.selectedIndex = 0;
-      else el.value = '';
-    });
-    selectTier(1);
-    document.querySelectorAll('.urgency-btn').forEach(b => b.className = 'urgency-btn');
-    document.querySelector('.urgency-btn').classList.add('active-routine');
-    activeUrgency = 'routine';
-    const firstChip = document.querySelector('.service-chip[data-svc="testing"]');
-    if (firstChip) selectService(firstChip);
-    activeSubSvc = 'drug';
-    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.sub-btn').classList.add('active');
-    applyTestingSub();
+function getPaymentConfirmation() {
+  const { total } = calculateOrderTotal();
+  if (clientBillingTier === 'contract' || overrideAccepted) {
+    return { icon: '✓', title: 'Contract Account', detail: overrideAccepted ? `Override code accepted` : `Billed to ${clientData?.billing?.contract_id || 'contract'}`, amount: `$${total.toFixed(2)}` };
+  } else if (clientBillingTier === 'card_on_file' && document.getElementById('pay-card-on-file-section')?.style.display !== 'none') {
+    const card = clientData?.billing?.card_on_file;
+    return { icon: '💳', title: `${card?.brand || 'Card'} ••${card?.last4 || '••'}`, detail: `Charged at time of service`, amount: `$${total.toFixed(2)}` };
+  } else if (selectedPayMethod === 'card') {
+    const last4 = (document.getElementById('pay-card-number')?.value || '').replace(/\D/g, '').slice(-4) || '••••';
+    return { icon: '💳', title: `Card ending in ${last4}`, detail: 'Charged at time of booking', amount: `$${total.toFixed(2)}` };
+  } else if (selectedPayMethod === 'ach') {
+    return { icon: '🏦', title: 'ACH / Bank Transfer', detail: 'Debited at time of booking', amount: `$${total.toFixed(2)}` };
+  } else if (selectedPayMethod === 'invoice') {
+    return { icon: '📄', title: 'Invoice Requested', detail: `Due within 15 days · ${val('client-email')}`, amount: `$${total.toFixed(2)}` };
   }
+  return { icon: '—', title: 'No Payment Selected', detail: '', amount: `$${total.toFixed(2)}` };
+}
+
+function clearForm() {
+  document.querySelectorAll('#step-1 input, #step-2 input, #step-3 input, #step-4 input, #step-5 input, #step-2 select, #step-3 select, #step-5 textarea').forEach(el=>{if(el.type==='date'||el.type==='time')el.value='';else if(el.tagName==='SELECT')el.selectedIndex=0;else if(!['client-email','client-name','client-contact','client-phone','client-address'].includes(el.id)) el.value='';});
+  document.querySelectorAll('.field').forEach(f=>f.classList.remove('error'));
+  document.getElementById('fax-row').style.display='none';
+  pickSvc(document.querySelector('.svc-card[data-svc="testing"]'));
+  activeSubSvc='drug';document.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));document.querySelector('.sub-btn').classList.add('active');
+  document.querySelectorAll('.option-row .opt-btn').forEach(b=>b.className='opt-btn');
+  document.querySelector('.option-row .opt-btn').classList.add('active-routine');activeUrgency='routine';
+  pickTier(document.querySelector('.opt-btn[data-tier="1"]'),1);
+  selectedPayMethod = null;
+  overrideAccepted = false;
+  nextStep(1);
+}
 </script>
 </body>
 </html>

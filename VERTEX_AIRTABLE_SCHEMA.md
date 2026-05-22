@@ -281,6 +281,10 @@
 | **Average Payment Time (Days)** | Number | Average days to payment |
 | **Payment Rating** | Single select | Options: `Excellent`, `Good`, `Fair`, `Poor`, `New` |
 | **Active** | Checkbox | Is this client/vendor active? |
+| **Billing Tier** | Single select | Options: `contract`, `card_on_file`, `pay_at_booking` — determines payment flow on PRISM intake |
+| **Contract ID** | Single line text | Active contract number (e.g., DDI-ABC-2026-001) — links to NEXUS CONTRACTS |
+| **Card on File** | Long text | JSON: `{"brand":"Visa","last4":"4242","exp":"09/27","token":"tok_xxx"}` — encrypted card reference |
+| **Autopay** | Checkbox | Auto-charge card on file when service is completed |
 | **Notes** | Long text | Additional notes |
 | **Created Date** | Created time | Auto-generated |
 

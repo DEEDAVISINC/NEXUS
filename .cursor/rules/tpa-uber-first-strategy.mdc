@@ -1,0 +1,97 @@
+# TPA "Uber-First" Strategy — DDI's First Line of Defense
+
+**When DDI pursues ANY opportunity as a TPA, the FIRST move is: find the "Uber-like" platform partner for that service type.**
+
+---
+
+## The Principle
+
+DDI does NOT perform field services directly. DDI is the **prime contractor / TPA** that manages contracts, compliance, billing, and quality. The actual work is performed by a gig-economy or network-based fulfillment partner — the "Uber" for that service.
+
+Before bidding on any TPA contract, answer this question:
+
+**"Who is the Uber for this job?"**
+
+If there's a platform that already has boots on the ground, a dispatch system, and a network of independent contractors — PARTNER with them. Don't compete with them. Don't try to build what they've already built. Use them as the fulfillment layer. DDI manages everything above them.
+
+---
+
+## The Pattern
+
+```
+Government/Client Contract
+        ↓
+   DDI is PRIME (TPA)
+        ↓
+   "Uber" Partner dispatches workers
+        ↓
+   DDI manages compliance, billing, reporting, QA
+        ↓
+   Client sees ONE company: DDI
+```
+
+---
+
+## Current "Uber" Partners by TPA Division
+
+| TPA # | Division | "Uber" Partner | What They Do | DDI's Role |
+|---|---|---|---|---|
+| 1 | Drug Testing | **FINDING** (READI Collect, DATCS, or PRISM-built) | Dispatch collectors on demand | C/TPA — program management, compliance, reporting |
+| 2 | Fingerprinting | **Lakota Software** | Livescan platform, biometric capture, EDO (FBI background checks) | Prime — dispatch, submission, QC |
+| 3 | DNA Testing | **DDC** | AABB-accredited lab, collection kits | Prime — collection coordination, chain of custody |
+| 4 | Notary | **Snapdocs** (agency side) | Dispatch signing agents | Prime — dispatch, QC, document inspection |
+| 5 | NEMT | **Uber Health** | Dispatch medical transport | TPA — contract management, MCO billing |
+| 6 | Logistics/Freight | **Roadie** / gig couriers | Dispatch drivers | TPA — contract management, compliance |
+| 7 | Background Checks | **NCS** | Screening platform | Prime — bundled packages, client management |
+| 8 | Medical Credentialing | **Building** | — | TPA — credentialing management |
+| 9 | Workforce Compliance | **Building** | — | TPA — compliance program management |
+
+---
+
+## Rules
+
+1. **Partner FIRST, build SECOND.** If an existing platform already has the network, use it. Only build in PRISM if no viable partner exists or if the partner's pricing doesn't work at scale.
+
+2. **DDI does NOT buy software licenses.** DDI builds its own systems (NEXUS, PRISM, FleetFlow). Partnership means API integration, reseller agreements, or white-label — not purchasing seats.
+
+3. **The "Uber" partner is fulfillment, not the face.** The client never sees the partner. DDI is the contract holder, the invoice sender, the compliance manager, and the single point of contact.
+
+4. **Pricing must work at TPA margins.** If the "Uber" partner charges more per unit than DDI can bill the client, they're not a volume partner — they're emergency-only. Find a partner whose pricing allows DDI's 25-50% margin target.
+
+5. **Never depend on one "Uber" partner.** Always have a backup. If Uber Health goes down, Roadie covers NEMT. If DATCS doesn't work, recruit 1099 collectors into PRISM directly.
+
+---
+
+## When Evaluating a New "Uber" Partner
+
+Ask these questions:
+
+- [ ] Do they compete with DDI for contracts? (If YES → competitor, not partner)
+- [ ] Do they have a TPA/reseller/partnership program? (If NO → can we negotiate one?)
+- [ ] What is their per-unit pricing? (Does it leave room for DDI's margin?)
+- [ ] Do they have geographic coverage where DDI needs it?
+- [ ] Can they integrate with DDI's systems (API, eScreen, FormFox, PRISM)?
+- [ ] Are they a platform or a service company? (Platforms partner. Service companies compete.)
+- [ ] Is their email server working? (Seriously — if they can't keep email up, don't depend on them for court-mandated compliance.)
+
+---
+
+## The Drug Testing Gap — Active Search
+
+TPA 1 (Drug Testing) currently lacks a true "Uber" partner for collector dispatch. Status:
+
+| Candidate | Type | Verdict |
+|---|---|---|
+| National Drug Screening | Competitor | CROSSED OFF — they compete for same contracts |
+| CourtFact | Competitor | CROSSED OFF — appears on same bid lists |
+| TestDay / PSI | Dead infrastructure | CROSSED OFF — website down, both emails bounce |
+| READI Collect | Gig dispatch platform | EXPENSIVE ($250+/dispatch) — emergency only, not volume |
+| DATCS | Collection network | EXPLORING — $38/DOT test all-in, TPA-friendly pricing |
+| FieldWare | Randomized call-in software | EXPLORING — technology partner for court programs |
+| NexaScreen | Clinic management SaaS | WATCHING — one-man operation, white-label available |
+| AsapScreens | Gig dispatch (also a TPA) | CAUTION — they're also a C/TPA, could be competitor |
+| PRISM (DDI-built) | Own platform | LONG-TERM — build collector dispatch into PRISM |
+
+---
+
+*DDI's competitive advantage is NOT performing the service. It's managing the contract. Find the Uber. Partner with the Uber. Manage everything above them.*

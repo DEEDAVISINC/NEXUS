@@ -1461,11 +1461,46 @@ def create_intake_order():
     orders.insert(0, order)
     _save(ORDERS_FILE, orders)
 
+    # Billing data from intake form
+    billing_tier = data.get('billing_tier', 'pay_at_booking')
+    payment_method = data.get('payment_method', '')
+    override_code = data.get('override_code', '')
+    order_total = float(data.get('order_total', fee) or fee)
+    order['billing'] = {
+        'tier': billing_tier,
+        'payment_method': payment_method,
+        'override_code': override_code,
+        'order_total': order_total,
+    }
+
     _fire_notification(order)
     _send_order_email_async(order)
     _fire_pipeline_event('order_created', order)
     _send_confirmation_async(order)
     _fire_dayon_reminder(order)
+
+    # Fire VERTEX invoice creation async
+    def _vertex_invoice():
+        try:
+            from vertex_automation import vertex_auto_trigger
+            vertex_auto_trigger(
+                'prism.service.complete',
+                source_record_id=order['id'],
+                data={
+                    'client_name': order.get('client', ''),
+                    'client_email': order.get('client_email', ''),
+                    'service_type': order.get('service_label', order.get('type', '')),
+                    'amount': order_total,
+                    'payment_method': payment_method,
+                    'billing_tier': billing_tier,
+                    'override_code': override_code,
+                },
+            )
+        except Exception as e:
+            import logging
+            logging.getLogger("prism_billing").warning(f"VERTEX auto-trigger failed: {e}")
+
+    threading.Thread(target=_vertex_invoice, daemon=True).start()
 
     return jsonify({'success': True, 'order': order}), 201
 
@@ -2066,3 +2101,293 @@ def list_clients():
         if clients:
             _save(CLIENTS_FILE, clients)
     return jsonify({'clients': clients})
+
+
+# ═══════════════════════════════════════════════════════════════════
+# PRISM BILLING — VERTEX Integration
+# ═══════════════════════════════════════════════════════════════════
+
+BILLING_OVERRIDE_FILE = os.path.join(DATA_DIR, 'billing_overrides.json')
+
+def _get_airtable():
+    """Lazy import to avoid circular deps."""
+    try:
+        from nexus_backend import AirtableClient
+        return AirtableClient()
+    except Exception:
+        return None
+
+
+def _get_vertex_client_by_email(email):
+    """Look up a VERTEX Client record by email. Returns dict or None."""
+    at = _get_airtable()
+    if not at:
+        return None
+    try:
+        formula = f"LOWER({{EMAIL}})='{email.lower()}'"
+        records = at.search_records("VERTEX CLIENTS", formula)
+        if records:
+            return records[0]
+    except Exception as e:
+        import logging
+        logging.getLogger("prism_billing").warning(f"VERTEX client lookup failed: {e}")
+    return None
+
+
+@prism_orders.route('/prism/billing/lookup', methods=['GET'])
+def billing_lookup():
+    """
+    Look up billing tier for a client email.
+    Returns: billing tier (contract / card_on_file / pay_at_booking),
+    contract details, card on file status, and open invoices.
+    """
+    email = (request.args.get('email') or '').strip().lower()
+    if not email:
+        return jsonify({'error': 'Email required'}), 400
+
+    vc = _get_vertex_client_by_email(email)
+    if not vc:
+        return jsonify({
+            'found': False,
+            'billing': {
+                'tier': 'pay_at_booking',
+                'contract_id': None,
+                'contract_name': None,
+                'payment_terms': 'Due on Receipt',
+                'card_on_file': None,
+                'autopay': False,
+            }
+        })
+
+    fields = vc.get('fields', {})
+    payment_terms = fields.get('PAYMENT TERMS', 'Due on Receipt')
+    client_name = fields.get('CLIENT NAME', '')
+
+    # Determine billing tier from payment terms
+    is_contract = payment_terms in ('Net 15', 'Net 30', 'Net 45', 'Net 60')
+
+    # Check for contract linkage
+    contract_id = None
+    contract_name = None
+    try:
+        at = _get_airtable()
+        if at and is_contract:
+            c_formula = f"AND(FIND('{client_name}',{{CLIENT NAME}}),{{STATUS}}='Active')"
+            try:
+                contracts = at.search_records("NEXUS CONTRACTS", c_formula)
+                if contracts:
+                    cf = contracts[0].get('fields', {})
+                    contract_id = cf.get('CONTRACT NUMBER', cf.get('CONTRACT ID', ''))
+                    contract_name = cf.get('TITLE', cf.get('CONTRACT NAME', ''))
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # Check for card on file (stored in VERTEX CLIENTS NOTES as JSON or dedicated field)
+    card_on_file = None
+    card_data = fields.get('CARD ON FILE', '') or fields.get('NOTES', '')
+    if card_data and 'card_on_file' in str(card_data).lower():
+        try:
+            parsed = json.loads(card_data) if isinstance(card_data, str) else card_data
+            if isinstance(parsed, dict) and parsed.get('card_on_file'):
+                card_on_file = parsed['card_on_file']
+        except (json.JSONDecodeError, TypeError):
+            pass
+
+    autopay = 'autopay' in str(fields.get('NOTES', '')).lower()
+
+    if is_contract:
+        tier = 'contract'
+    elif card_on_file:
+        tier = 'card_on_file'
+    else:
+        tier = 'pay_at_booking'
+
+    # Pull open invoices from VERTEX
+    open_invoices = []
+    try:
+        at = _get_airtable()
+        if at:
+            inv_formula = f"AND({{CLIENT NAME}}='{client_name}',OR({{PAYMENT STATUS}}='Unpaid',{{PAYMENT STATUS}}='Partial',{{PAYMENT STATUS}}='Overdue'))"
+            invs = at.search_records("VERTEX INVOICES", inv_formula)
+            for inv in invs:
+                inf = inv.get('fields', {})
+                open_invoices.append({
+                    'id': inf.get('INVOICE NUMBER', inv.get('id', '')),
+                    'amount': inf.get('TOTAL AMOUNT', 0),
+                    'status': inf.get('PAYMENT STATUS', 'Unpaid'),
+                    'date': inf.get('INVOICE DATE', ''),
+                    'due': inf.get('DUE DATE', ''),
+                })
+    except Exception:
+        pass
+
+    return jsonify({
+        'found': True,
+        'client_name': client_name,
+        'record_id': vc.get('id'),
+        'billing': {
+            'tier': tier,
+            'contract_id': contract_id,
+            'contract_name': contract_name,
+            'payment_terms': payment_terms,
+            'card_on_file': card_on_file,
+            'autopay': autopay,
+        },
+        'open_invoices': open_invoices,
+    })
+
+
+@prism_orders.route('/prism/billing/validate-override', methods=['POST'])
+def validate_override():
+    """
+    Validate a billing override code against VERTEX.
+    Override codes are stored in billing_overrides.json or VERTEX REPORTS.
+    """
+    data = request.get_json(silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+    email = (data.get('email') or '').strip().lower()
+
+    if not code:
+        return jsonify({'valid': False, 'message': 'Override code required'}), 400
+
+    # Check local override file first
+    overrides = _load(BILLING_OVERRIDE_FILE, {})
+    if not overrides:
+        overrides = {
+            'DDI-EXEMPT-2026': {'type': 'global', 'description': 'DDI internal exempt', 'active': True},
+            'GOV-CONTRACT': {'type': 'contract', 'description': 'Government contract billing', 'active': True},
+            'DDI-WAIVER': {'type': 'waiver', 'description': 'Fee waiver authorized by management', 'active': True},
+            'PRISM-OVERRIDE': {'type': 'system', 'description': 'System-level override', 'active': True},
+        }
+        _save(BILLING_OVERRIDE_FILE, overrides)
+
+    if code in overrides and overrides[code].get('active'):
+        override_info = overrides[code]
+
+        # Log override usage to VERTEX REPORTS
+        try:
+            at = _get_airtable()
+            if at:
+                at.create_record("VERTEX REPORTS", {
+                    "REPORT DATE": datetime.now().date().isoformat(),
+                    "REPORT TYPE": "Billing Override Used",
+                    "SOURCE SYSTEM": "PRISM",
+                    "EVENT TYPE": f"override.{override_info['type']}",
+                    "OUTCOME": "Approved",
+                    "DETAILS": json.dumps({
+                        'code': code,
+                        'type': override_info['type'],
+                        'email': email,
+                        'timestamp': datetime.now().isoformat(),
+                    }),
+                    "GENERATED BY": "prism_orders_api.py",
+                })
+        except Exception:
+            pass
+
+        return jsonify({
+            'valid': True,
+            'code': code,
+            'type': override_info['type'],
+            'message': f'Override accepted — {override_info["description"]}',
+        })
+
+    return jsonify({
+        'valid': False,
+        'code': code,
+        'message': f'Code "{code}" not recognized. Contact DDI at 248.376.4550.',
+    })
+
+
+@prism_orders.route('/prism/billing/create-service-invoice', methods=['POST'])
+def create_service_invoice():
+    """
+    Create a VERTEX invoice when a PRISM service is booked.
+    Fires vertex_auto_trigger('prism.service.complete') to create the invoice.
+    """
+    data = request.get_json(silent=True) or {}
+    order_id = data.get('order_id', '')
+    client_name = data.get('client_name', '')
+    client_email = data.get('client_email', '')
+    service_type = data.get('service_type', 'Field Service')
+    amount = float(data.get('amount', 0) or 0)
+    payment_method = data.get('payment_method', '')
+    billing_tier = data.get('billing_tier', 'pay_at_booking')
+    override_code = data.get('override_code', '')
+    line_items = data.get('line_items', [])
+
+    if amount <= 0:
+        return jsonify({'error': 'Amount must be greater than zero'}), 400
+
+    try:
+        from vertex_automation import vertex_auto_trigger
+
+        trigger_data = {
+            'client_name': client_name,
+            'client_email': client_email,
+            'service_type': service_type,
+            'amount': amount,
+            'payment_method': payment_method,
+            'billing_tier': billing_tier,
+            'override_code': override_code,
+            'line_items': line_items,
+        }
+
+        # Adjust payment terms based on billing tier
+        if billing_tier == 'contract':
+            trigger_data['payment_terms'] = 'Net 30'
+        elif billing_tier == 'card_on_file':
+            trigger_data['payment_terms'] = 'Due on Receipt'
+            trigger_data['auto_charge'] = True
+        else:
+            trigger_data['payment_terms'] = 'Due on Receipt'
+
+        result = vertex_auto_trigger(
+            'prism.service.complete',
+            source_record_id=order_id,
+            data=trigger_data,
+        )
+
+        return jsonify({
+            'success': True,
+            'invoice': result,
+            'message': f'VERTEX invoice created for ${amount:.2f}',
+        })
+
+    except Exception as e:
+        import logging
+        logging.getLogger("prism_billing").error(f"VERTEX invoice creation failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'Invoice creation failed — will retry on service completion',
+        }), 500
+
+
+@prism_orders.route('/prism/billing/override-codes', methods=['GET'])
+def list_override_codes():
+    """Admin endpoint: list all active override codes."""
+    overrides = _load(BILLING_OVERRIDE_FILE, {})
+    return jsonify({'codes': overrides})
+
+
+@prism_orders.route('/prism/billing/override-codes', methods=['POST'])
+def create_override_code():
+    """Admin endpoint: create or update an override code."""
+    data = request.get_json(silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+    if not code:
+        return jsonify({'error': 'Code required'}), 400
+
+    overrides = _load(BILLING_OVERRIDE_FILE, {})
+    overrides[code] = {
+        'type': data.get('type', 'custom'),
+        'description': data.get('description', ''),
+        'active': data.get('active', True),
+        'created': datetime.now().isoformat(),
+        'client_email': data.get('client_email', ''),
+    }
+    _save(BILLING_OVERRIDE_FILE, overrides)
+    return jsonify({'success': True, 'code': code, 'override': overrides[code]})
