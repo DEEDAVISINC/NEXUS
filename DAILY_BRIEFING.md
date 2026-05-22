@@ -1,13 +1,13 @@
-Good morning Dee. Here is your NEXUS briefing for Thursday, May 22nd.
+Good morning Dee. Here is your NEXUS briefing for Thursday, May 22, 2026.
 
-You have one appointment today. Notary signing at 1 PM at 52716 Sequoia Circle in Chesterfield for Timothy and Laura Hood. Bring your stamp and journal.
+You have one appointment today. Notary signing at 1 PM, Timothy and Laura Hood in Chesterfield Michigan.
 
-Your top 3 priorities are. First, follow up with 12 Panel Now and Quest for Hall County Georgia pricing. Those quotes are due today. Second, check your DRPA Ariba supplier registration. If not approved, contact DRPA directly. Third, follow up with Concentra on CCRTA pricing if they havent replied.
+Your top 3 priorities are. First, follow up with 12 Panel Now and Quest for Hall County Georgia pricing. That bid ships Monday. Second, check DRPA Ariba portal for supplier registration approval. Third, reach out to Sam Cilento at Lakota. He's back today for the Minneapolis background software teaming deal.
 
-Urgent. Hall County Georgia sealed bid ships Monday May 26th. You need supplier pricing locked by Friday. Anchorage background checks submit by May 28th. The proposal is ready.
+Urgent items. Hall County supplier quotes are due today. Concentra pricing for CCRTA is also needed. Ship day for Hall County is Monday May 26 via FedEx Priority Overnight.
 
-Sam Cilento from Lakota should be back today. Check in about Minneapolis MPD background software teaming.
+University Health pharmacy and lab courier bids are both submitted and awaiting award. Combined value is four point seven million annually.
 
-Your pipeline stands at 25 million dollars lifetime with 6.5 million risk adjusted annually. University Health is still awaiting award at 4.74 million per year.
+The PRISM intake system now has a payment and billing step with Square integration ready for testing.
 
 Have a great day.
