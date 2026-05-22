@@ -16,7 +16,7 @@
 | **TODAY May 22** | DRPA Ariba approval check | Pending | Check SAP Ariba — if not approved, contact DRPA |
 | **TODAY May 22** | Concentra pricing (CCRTA) | Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
 | **TODAY May 22** | Sam Cilento (Lakota) | Back today | Check in on Minneapolis MPD background software teaming |
-| **Fri May 23 @ 12 PM ET** | Hall County GA — SHIP DAY (MOVED UP) | Prep | FedEx Priority Overnight sealed bid to Gainesville GA — Mon 5/26 is Memorial Day, ship FRIDAY |
+| **Fri May 23 @ 12 PM ET** | Hall County GA — SHIP DAY (MOVED UP) | Prep | FedEx Priority Overnight sealed bid to Gainesville GA — Mon 5/25 is Memorial Day, ship FRIDAY |
 | **May 28 @ 12 PM AKT** | Anchorage Background Checks | READY | Submit on BidExpress |
 | **May 28 @ 2 PM ET** | Hall County GA — BID OPENING | Hard copy sealed bid |
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | CONDITIONAL | Need Concentra pricing |
