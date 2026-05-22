@@ -13,7 +13,7 @@
 
 | Deadline | Opportunity | Status | Action |
 |---|---|---|---|
-| **TODAY Fri May 22** | Hall County GA supplier quotes + SHIP | URGENT | Get 12PanelNow + Quest pricing, finalize bid, ship FedEx Priority Overnight TODAY |
+| **TODAY Fri May 22** | Hall County GA — CONDITIONAL | CHECK INBOX | If 12PanelNow emailed pricing → finalize + ship FedEx Priority Overnight. If NO email → SKIP THIS BID. Not worth chasing. |
 | **TODAY Fri May 22** | DRPA Ariba approval check | Pending | Check SAP Ariba — if not approved, contact DRPA |
 | **TODAY Fri May 22** | Concentra pricing (CCRTA) | Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
 | **TODAY Fri May 22** | Sam Cilento (Lakota) | Back today | Check in on Minneapolis MPD background software teaming |
