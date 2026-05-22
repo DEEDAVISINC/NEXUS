@@ -28,6 +28,10 @@
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | CONDITIONAL | Need Concentra pricing |
 | **June 3** | NCS Training DEADLINE | TODO | Complete setup or lose commission |
 | **June 5** | DRPA Occ Health/Drug Testing | Pending | Need Ariba approval first |
+| **Tue May 26 @ 10 AM CST** | VIA Transit Pre-Bid Conference (Teams) | NEW — GO | Join Teams call. Take notes on incumbent + pricing format. Birthday but 30 min from the couch. |
+| **June 2** | VIA Transit — Questions deadline | DRAFTED | 5 questions ready in `QUESTIONS_FOR_VIA.md` — submit to Kim Turner |
+| **~June 12-14** | TX SOS Registration — INITIATE | PENDING | Start registration before bid ships. Say "pending" on bid. Complete only if awarded. |
+| **June 16 @ 2 PM CST** | VIA Transit — BID DUE | GO | Hard-copy sealed bid. Ship by June 12. $146K/yr, $732K lifetime (5 yr). |
 | **June 23 @ 2 PM EST** | Oakland County DTC Drug Testing | NEW | Questions due June 1 — start prep |
 
 ---
