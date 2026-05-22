@@ -1,5 +1,10 @@
 # TODAY'S AGENDA — Friday, May 22, 2026
 
+## FIRST THING — FIX RADAR
+- Add `--radar` cron job (6:30 AM daily full sweep)
+- Fix daily briefing script overwriting Alexa briefing
+- Test RADAR runs and delivers morning report
+
 ---
 
 ## APPOINTMENTS TODAY
