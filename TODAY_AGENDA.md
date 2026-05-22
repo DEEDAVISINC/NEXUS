@@ -1,12 +1,11 @@
-# TODAY'S AGENDA — Thursday, May 22, 2026
+# TODAY'S AGENDA — Friday, May 22, 2026
 
 ---
 
-## MEETINGS TODAY
+## APPOINTMENTS TODAY
 
 - **10:00 AM ET** — Notary Signing
-- **1:00 PM ET** — Notary Signing: Timothy L Hood & Laura L Hood — 52716 Sequoia Circle, Chesterfield, MI 48047 — Order LMI26232009 — Premium Closing Solutions Inc (951-479-1450). Bring: notary stamp, journal, ID verification checklist.
-- **2:00 PM ET** — Notary Signing
+- **2:00 PM ET** — Notary Signing: Timothy L Hood & Laura L Hood — 52716 Sequoia Circle, Chesterfield, MI 48047 — Order LMI26232009 — Premium Closing Solutions Inc (951-479-1450). Bring: notary stamp, journal, ID verification checklist.
 
 ---
 
@@ -14,11 +13,11 @@
 
 | Deadline | Opportunity | Status | Action |
 |---|---|---|---|
-| **TODAY May 22** | Hall County GA supplier quotes | Awaiting | Follow up 12PanelNow + Quest — need pricing TODAY |
-| **TODAY May 22** | DRPA Ariba approval check | Pending | Check SAP Ariba — if not approved, contact DRPA |
-| **TODAY May 22** | Concentra pricing (CCRTA) | Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
-| **TODAY May 22** | Sam Cilento (Lakota) | Back today | Check in on Minneapolis MPD background software teaming |
-| **Fri May 23 @ 12 PM ET** | Hall County GA — SHIP DAY (MOVED UP) | Prep | FedEx Priority Overnight sealed bid to Gainesville GA — Mon 5/25 is Memorial Day, ship FRIDAY |
+| **TODAY Fri May 22** | Hall County GA supplier quotes + SHIP | URGENT | Get 12PanelNow + Quest pricing, finalize bid, ship FedEx Priority Overnight TODAY |
+| **TODAY Fri May 22** | DRPA Ariba approval check | Pending | Check SAP Ariba — if not approved, contact DRPA |
+| **TODAY Fri May 22** | Concentra pricing (CCRTA) | Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
+| **TODAY Fri May 22** | Sam Cilento (Lakota) | Back today | Check in on Minneapolis MPD background software teaming |
+| **TODAY Fri May 22** | Hall County GA — SHIP DAY | URGENT | FedEx Priority Overnight sealed bid to Gainesville GA — Sat 5/23 + Mon 5/25 Memorial Day = ship TODAY or bid won't arrive in time |
 | **May 28 @ 12 PM AKT** | Anchorage Background Checks | READY | Submit on BidExpress |
 | **May 28 @ 2 PM ET** | Hall County GA — BID OPENING | Hard copy sealed bid |
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | CONDITIONAL | Need Concentra pricing |
