@@ -1,16 +1,10 @@
-# TODAY'S AGENDA — Friday, May 22, 2026
+# TODAY'S AGENDA — Saturday, May 23, 2026
 
-## FIRST THING — FIX RADAR
-- Add `--radar` cron job (6:30 AM daily full sweep)
-- Fix daily briefing script overwriting Alexa briefing
-- Test RADAR runs and delivers morning report
+## TOP 3 PRIORITIES
 
----
-
-## APPOINTMENTS TODAY
-
-- **10:00 AM ET** — Notary Signing
-- **2:00 PM ET** — Notary Signing: Timothy L Hood & Laura L Hood — 52716 Sequoia Circle, Chesterfield, MI 48047 — Order LMI26232009 — Premium Closing Solutions Inc (951-479-1450). Bring: notary stamp, journal, ID verification checklist.
+1. **FIX RADAR** — Add `--radar` cron job (6:30 AM daily full sweep). Fix daily briefing script overwriting Alexa briefing. Test RADAR runs and delivers morning report.
+2. **3D Ink Signatures — Start Email Outreach** — 130+ targets ready with verified emails. Begin Tier 1 (hospitals + commercial title companies with confirmed emails). TPA model replaces signing agency middlemen.
+3. **Notary Permit Runner — Build Contractor Target List** — Research Michigan construction companies for permit runner outreach. Update pricing ($100-200/run). Add as service line to 3D Ink targets.
 
 ---
 
@@ -18,21 +12,28 @@
 
 | Deadline | Opportunity | Status | Action |
 |---|---|---|---|
-| **TODAY Fri May 22** | Hall County GA — CONDITIONAL | CHECK INBOX | If 12PanelNow emailed pricing → finalize + ship FedEx Priority Overnight. If NO email → SKIP THIS BID. Not worth chasing. |
-| **TODAY Fri May 22** | DRPA Ariba approval check | Pending | Check SAP Ariba — if not approved, contact DRPA |
-| **TODAY Fri May 22** | Concentra pricing (CCRTA) | Awaiting | Follow up if no reply — Kellie McKay + Steve Hernandez |
-| **TODAY Fri May 22** | Sam Cilento (Lakota) | Back today | Check in on Minneapolis MPD background software teaming |
-| **TODAY Fri May 22** | Hall County GA — SHIP DAY | URGENT | FedEx Priority Overnight sealed bid to Gainesville GA — Sat 5/23 + Mon 5/25 Memorial Day = ship TODAY or bid won't arrive in time |
-| **May 28 @ 12 PM AKT** | Anchorage Background Checks | READY | Submit on BidExpress |
-| **May 28 @ 2 PM ET** | Hall County GA — BID OPENING | Hard copy sealed bid |
+| **Mon May 25** | **MEMORIAL DAY** | Holiday | No shipping, banks closed |
+| **Mon May 25** | **Payment Check** | @SigningAgents NTS ($125 Maxine Smith) | 30-day mark. Check email for Deluxe eCheck. Also PCS ($145 Jijo James + Hurban). |
+| **Tue May 26** | **DEE'S BIRTHDAY** | 🎂 | |
+| **Tue May 26 @ 10 AM CST** | VIA Transit Pre-Bid Conference | GO | Join Teams call from couch. Take notes on incumbent + pricing format. 30 min max. |
+| **Tue May 27 @ 1 PM ET** | APEX Accelerator Training | Zoom | Capability statement design best practices |
+| **Wed May 28 @ 12 PM AKT** | Anchorage Background Checks | READY | Submit on BidExpress |
+| **Wed May 28 @ 2 PM ET** | Hall County GA Bid Opening | CONDITIONAL | Only if 12PanelNow + Quest quotes received and bid was shipped |
+| **June 1** | Oakland County DTC — Questions due | PREP | Draft smart questions |
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | CONDITIONAL | Need Concentra pricing |
+| **June 2** | VIA Transit — Questions deadline | DRAFTED | Submit to Kim Turner |
 | **June 3** | NCS Training DEADLINE | TODO | Complete setup or lose commission |
-| **June 5** | DRPA Occ Health/Drug Testing | Pending | Need Ariba approval first |
-| **Tue May 26 @ 10 AM CST** | VIA Transit Pre-Bid Conference (Teams) | NEW — GO | Join Teams call. Take notes on incumbent + pricing format. Birthday but 30 min from the couch. |
-| **June 2** | VIA Transit — Questions deadline | DRAFTED | 5 questions ready in `QUESTIONS_FOR_VIA.md` — submit to Kim Turner |
-| **~June 12-14** | TX SOS Registration — INITIATE | PENDING | Start registration before bid ships. Say "pending" on bid. Complete only if awarded. |
-| **June 16 @ 2 PM CST** | VIA Transit — BID DUE | GO | Hard-copy sealed bid. Ship by June 12. $146K/yr, $732K lifetime (5 yr). |
-| **June 23 @ 2 PM EST** | Oakland County DTC Drug Testing | NEW | Questions due June 1 — start prep |
+
+---
+
+## FOLLOW-UPS DUE
+
+| Contact | Company | What | When |
+|---|---|---|---|
+| **12PanelNow** | Test kit supplier | Hall County GA pricing — did they respond? | Check email |
+| **Concentra** | Kellie McKay + Steve | CCRTA pricing — any reply? | Follow up Monday if not |
+| **DRPA** | SAP Ariba portal | Supplier registration status | Check portal |
+| **Sam Cilento (Lakota)** | Minneapolis MPD | Background software teaming — he's back | Check in |
 
 ---
 
@@ -46,42 +47,28 @@
 
 ---
 
-## FOLLOW-UPS DUE TODAY
+## PAYMENT WATCH — NEXT 7 DAYS
 
-| Contact | Company | Last Contact | Action |
-|---|---|---|---|
-| **12PanelNow** | Test kit supplier | ~May 18 | Need Hall County GA pricing — DEADLINE TODAY |
-| **Quest Diagnostics** | Lab partner | ~May 18 | Need Hall County GA lab pricing — DEADLINE TODAY |
-| **Concentra** | Kellie McKay + Steve | May 18 | Need CCRTA pricing — follow up if no reply |
-| **DRPA** | SAP Ariba portal | May 19 | Check supplier registration status |
-| **Sam Cilento (Lakota)** | Minneapolis MPD | May 12 | Sam back May 22 — check in on background software teaming |
+| Expected | Amount | From |
+|---|---|---|
+| **May 25-31** | $145 | Premium Closing Solutions (Jijo James $80 + Hurban $65) |
+| **May 25 - June 9** | $125 | @SigningAgents / NTS (Maxine Smith) |
 
 ---
 
-## AWAITING RESPONSE
+## PENDING SYSTEM BUILDS
 
-| Contact | Company | What | Last Contact | Follow-up Due |
-|---|---|---|---|---|
-| Isabelle Vallejo | University Health | Lab courier award decision | May 19 | Monitor |
-| Michelle Brown | Oakland County 52nd Dist Court | DTC Drug Testing questions due June 1 | — | Prep questions |
-| Humana OH | Provider Relations | D-SNP vendor setup | May 19 | 7-day cadence |
-
----
-
-## PRISM / SYSTEM BUILD
-
-- **PRISM Intake**: 5-step wizard LIVE with Payment & Billing (Step 4)
-- **Square Integration**: Sandbox credentials configured — wire SDK into intake page
-- **VERTEX**: Billing lookup + override validation + auto-invoice endpoints wired
-- **Next**: Square Web Payments SDK integration into Step 4
+- **RADAR cron job** — FIRST THING. Fix daily briefing overwrite issue.
+- **Square SDK** — Wire into PRISM Step 4 (Payment & Billing)
+- **3D Ink Outreach** — Begin email campaigns to Tier 1 targets
+- **Permit Runner** — Build Michigan contractor target list + finalize pricing
 
 ---
 
-## SESSION SUMMARY — May 21, 2026
+## SESSION SUMMARY — May 22, 2026
 
-- Built PRISM intake Payment & Billing step (Step 4) — dynamic 3-tier billing
-- Connected PRISM to VERTEX for billing lookup, override validation, auto-invoicing
-- Evaluated payment processors (Stripe rejected, chose Square)
-- Configured Square sandbox credentials (App ID, Access Token, Location ID)
-- Oakland County DTC Drug Testing opportunity identified (June 23 deadline)
-- All changes committed and pushed to git
+- ✅ Notary signing payment tracker built — 11 companies, $2,230 outstanding
+- ✅ 3D Ink Signatures master outreach list — 130+ targets, 6 categories, verified emails
+- ✅ Payment check-in reminders added to calendar through July
+- ✅ Notary Permit Runner pricing updated to 2026 rates ($100-200/run)
+- ✅ VIA Transit pre-bid + questions prepped

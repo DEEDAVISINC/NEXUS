@@ -154,8 +154,8 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 ### May 2026 (Signings Performed)
 | Metric | Count/Amount |
 |---|---|
-| **Signings Completed** | 9 |
-| **Revenue Earned** | $765.00+ (excl Hood fee TBD) |
+| **Signings Completed** | 10 |
+| **Revenue Earned** | $845.00 |
 | **Revenue Collected** | $0 |
 | **Expected Collection Month** | June 2026 (VendorPay) + late June (PCS) |
 
@@ -163,7 +163,7 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 | Date | Company | Borrower | Fee |
 |---|---|---|---|
 | 5/22 | First Class | Teresa Kay Harder | $90 |
-| 5/22 | Premium Closing Solutions | Hood | TBD |
+| 5/21 | Premium Closing Solutions | Hood | $80 |
 | 5/20 | First Class | MacCready | $90 |
 | 5/16 | First Class | Mies | $65 |
 | 5/15 | First Class | Hallman | $90 |

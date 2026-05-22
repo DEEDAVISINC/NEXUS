@@ -1,9 +1,9 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 20, 2026 @ 12:48 AM ET
+**Last Updated:** May 22, 2026 @ 7:55 PM ET
 
 ---
 
-## TOTAL PIPELINE: $25M+ LIFETIME (Conservative)
+## TOTAL PIPELINE: $27M+ LIFETIME (Conservative)
 
 ---
 
@@ -17,84 +17,39 @@
 
 ## ✅ SUBMITTED — AWAITING AWARD (UNIVERSITY HEALTH, SAN ANTONIO)
 
-| Opportunity | Solicitation | Submitted | Confirmation | Annual Revenue | DDI Margin | Win Prob | Fulfillment |
-|-------------|--------------|-----------|--------------|----------------|------------|----------|-------------|
-| **Pharmacy Courier** | RFP-226-03-068-SVC | May 17 @ 3:51 PM CDT | (logged) | **$4.26M** | **$2.0M (47%)** | 55% | Vendor-neutral fulfillment layer |
-| **Lab Courier** | RFP-226-04-073-SVC | May 17 @ 6:12 PM CDT | **ODM0MjU1** | $480K | $144K (30%) | 45% | Vendor-neutral fulfillment layer |
-| **Combined UH** | — | — | — | **$4.74M** | **$2.15M** | — | **5-year lifetime: $23.7M revenue / $10.7M margin** |
-
-**Pricing Final:** $43.00 scheduled (pharmacy), zone-based matrix (lab) — both locked at submission
+| Opportunity | Solicitation | Submitted | Annual Revenue | DDI Margin | Win Prob | Lifetime |
+|-------------|--------------|-----------|----------------|------------|----------|----------|
+| **Pharmacy Courier** | RFP-226-03-068-SVC | May 17 | **$4.26M** | **$2.0M (47%)** | 55% | $21.3M / $10M margin |
+| **Lab Courier** | RFP-226-04-073-SVC | May 17 | $480K | $144K (30%) | 45% | $2.4M / $720K margin |
+| **Combined UH** | — | — | **$4.74M** | **$2.15M** | — | **$23.7M revenue / $10.7M margin** |
 
 ---
 
-## FULFILLMENT PLATFORM STATUS
+## ACTIVE BIDS — HARD DEADLINES
 
-| Platform | Status | Backed By | Use Case |
-|----------|--------|-----------|----------|
-| **Uber Health** | ✅ Active | Uber | Lab Courier, NEMT |
-| **Roadie** | ✅ Active | UPS | Pharmacy Courier |
-| **DoorDash Drive** | ⏳ Pending | DoorDash | Future / backup |
-
----
-
-## MCO OUTREACH IN PROGRESS (NEMT + HAVEN TPA)
-
-### Louisiana (5 MCOs — SENT 5/10)
-| MCO | Members Est. | Annual Revenue Potential | Win Prob | Risk-Adj Value |
-|-----|--------------|-------------------------|----------|----------------|
-| Aetna LA | 50K | $600K | 25% | $150K |
-| AmeriHealth Caritas LA | 75K | $900K | 25% | $225K |
-| Healthy Blue LA | 60K | $720K | 20% | $144K |
-| Humana LA | 80K | $960K | 30% | $288K |
-| LA Healthcare Connections | 100K | $1.2M | 25% | $300K |
-| **LA Subtotal** | — | **$4.38M** | — | **$1.1M** |
-
-### South Carolina (2 MCOs — SENT 5/10, 1 pending)
-| MCO | Annual Revenue Potential | Win Prob | Risk-Adj Value |
-|-----|-------------------------|----------|----------------|
-| Absolute Total Care | $500K | 30% | $150K |
-| Molina SC | $400K | 25% | $100K |
-| First Choice (pending) | $350K | 25% | $88K |
-| **SC Subtotal** | **$1.25M** | — | **$338K** |
-
-### Mississippi (3 MCOs — SENT 5/10)
-| MCO | Annual Revenue Potential | Win Prob | Risk-Adj Value |
-|-----|-------------------------|----------|----------------|
-| TrueCare (CareSource) | $600K | **45%** | $270K |
-| Molina MS | $400K | 25% | $100K |
-| Magnolia Health | $450K | 25% | $113K |
-| **MS Subtotal** | **$1.45M** | — | **$483K** |
-
-### Remaining States (Not Yet Sent)
-| State | MCOs | Est. Annual Total | Win Prob | Risk-Adj |
-|-------|------|-------------------|----------|----------|
-| Georgia | 4 | $2.0M | 20% | $400K |
-| Tennessee | 3 | $1.2M | 20% | $240K |
-| Ohio | 6 | $3.0M | 25% | $750K |
-| Texas | 7 | $4.5M | 20% | $900K |
-| Florida | 8 | $5.0M | 20% | $1.0M |
-| Alabama | 1 | $300K | 10% | $30K |
+| Opportunity | Agency | Annual Revenue | DDI Margin | Lifetime | Win Prob | Due Date |
+|-------------|--------|----------------|------------|----------|----------|----------|
+| **Anchorage Background Checks** | Municipality of Anchorage | $40K | $16K (40%) | $160K (4yr) | 35% | **May 28** |
+| **Hall County GA Drug Kits** | Hall County BOC | $85-130K | $50K (45%) | $300K (3yr) | 25% | **May 28** (CONDITIONAL) |
+| **CCRTA Occ Medical** | CCRTA (Corpus Christi) | $48.5K | $17K (35%) | $242K (5yr) | 30% | **June 1** |
+| **DRPA Occ Health/Drug** | Delaware River Port Auth | $250K-1.2M | $100K+ | $1.5M+ (5yr) | 20% | **June 5** |
+| **Minneapolis MPD Background** | City of Minneapolis | $80-140K | $50K+ | $700K (5yr) | 35% | **June 15** |
+| **VIA Transit Drug Testing** | VIA Metropolitan Transit | **$146K** | **$102K (70%)** | **$732K (5yr)** | 40% | **June 16** |
+| **Oakland County DTC Drug** | 52nd District Court | $65K | $45K (70%) | $325K (5yr) | 50% | **June 23** |
 
 ---
 
-## SUMMARY TOTALS
+## SUBMITTED — AWAITING AWARD (OTHER)
 
-| Metric | Conservative | Target |
-|--------|--------------|--------|
-| **Active Annual Revenue (HAP)** | $540K | $540K |
-| **Active Bids (UH if won)** | $4.74M | $4.74M |
-| **Pipeline Annual (if all won)** | $25M+ | $30M+ |
-| **Risk-Adjusted Annual** | $6.5M | $8M |
-| **Active DDI Margin (HAP)** | $216K | $216K |
-| **Bid DDI Margin (UH if won)** | $2.15M | $2.15M |
-| **Risk-Adjusted Margin** | $2.8M | $3.5M |
-| **5-Year Lifetime Value** | $25M+ | $40M+ |
+| Opportunity | Agency | Annual Revenue | DDI Margin | Lifetime | Win Prob | Submitted |
+|-------------|--------|----------------|------------|----------|----------|-----------|
+| **City of Yonkers Drug Testing** | City of Yonkers | $162.5K | $97.5K (60%) | $650K (4yr) | 40% | Apr 30 |
+| **Oakland County HHS Medical** | Oakland County | $50K | $20K (40%) | $150K (3yr) | 30% | Apr 20 |
+| **Dutchess County Drug Kits** | County of Dutchess | $5K | $2.5K (50%) | $15K (3yr) | 35% | Apr 17 |
 
 ---
 
-## 🧪 DRUG TESTING C/TPA — NEW PIPELINE (Building)
-
-**Strategy doc:** `NEXUS_LEARNING/DDI_DRUG_TESTING_CTPA_STRATEGY.md`
+## 🧪 DRUG TESTING C/TPA — PIPELINE (Building)
 
 | Target Segment | Est. Contracts | Annual Revenue/Contract | Total Annual | DDI Margin |
 |---|---|---|---|---|
@@ -104,62 +59,87 @@
 | **Transit/Municipal** | 3 contracts | $50K | $150K | $100K (67%) |
 | **TOTAL DRUG TESTING** | 20 contracts | — | **$1.175M** | **$820K (70%)** |
 
-### ACTIVE BID — CCRTA Occupational Medical (RFP No. 2026-S-08)
+---
 
-| Field | Value |
-|-------|-------|
-| **Agency** | Corpus Christi Regional Transportation Authority |
-| **Deadline** | June 1, 2026 @ 3:00 PM CST |
-| **Incumbent** | Alliance Health Resources |
-| **Annual Revenue Est.** | $48,500 |
-| **Contract Lifetime (5 yr)** | $242,500 |
-| **DDI Margin (Est. 35%)** | $84,875 lifetime |
-| **Win Probability** | 30% (local office requirement is blocker) |
-| **Risk-Adjusted Value** | $25,500 lifetime |
-| **Status** | **⏳ CONDITIONAL GO** — Need Concentra wholesale pricing |
-| **Key Advantage** | MRO: AMRO $4 vs Alliance $16 = $12/test advantage |
+## MCO OUTREACH IN PROGRESS (NEMT + HAVEN TPA)
 
-**Fulfillment Model:** DDI is C/TPA. 1099 collectors + sub collection companies do the work. 50-70% margin.
+| State | MCOs | Est. Annual Total | Win Prob | Risk-Adj |
+|-------|------|-------------------|----------|----------|
+| **Louisiana** | 5 | $4.38M | 25% avg | $1.1M |
+| **South Carolina** | 3 | $1.25M | 27% avg | $338K |
+| **Mississippi** | 3 | $1.45M | 32% avg | $483K |
+| **Georgia** | 4 | $2.0M | 20% | $400K |
+| **Tennessee** | 3 | $1.2M | 20% | $240K |
+| **Ohio** | 6 | $3.0M | 25% | $750K |
+| **Texas** | 7 | $4.5M | 20% | $900K |
+| **Florida** | 8 | $5.0M | 20% | $1.0M |
+| **Alabama** | 1 | $300K | 10% | $30K |
+| **MCO TOTAL** | 40 | **$23.1M** | — | **$5.2M** |
 
-**Partners Ready:**
-- ✅ AMRO (MRO @ $4/review)
-- ✅ Quest Diagnostics (lab)
-- ✅ NCS (background + drug bundled)
-- ⬜ Collection network (eScreen, On-Time, 24/7 Onsite — evaluate)
-- ⬜ Local 1099 collectors (recruit)
+---
+
+## 3D INK SIGNATURES — DIRECT CLIENT PIPELINE (New)
+
+| Category | Targets Identified | Avg Contract Value | Total Pipeline | Status |
+|----------|-------------------|-------------------|----------------|--------|
+| **Hospitals** | 10 | $12K/yr | $120K | Outreach ready |
+| **Commercial Title** | 10 | $8K/yr | $80K | Outreach ready |
+| **Estate Attorneys** | 10 | $6K/yr | $60K | Outreach ready |
+| **Elder Care** | 10 | $5K/yr | $50K | Outreach ready |
+| **Immigration Attorneys** | 10 | $6K/yr | $60K | Outreach ready |
+| **Structured Settlement** | 50 | $4K/yr | $200K | Outreach ready |
+| **3D INK TOTAL** | 100+ | — | **$570K** | Email outreach starting |
+
+**+ Notary Permit Runner** (new service line — pricing updated to 2026 market rates: $100-200/run, $75-200/hr)
+
+---
+
+## NOTARY SIGNING INCOME (Active)
+
+| Metric | May 2026 |
+|--------|----------|
+| **Signings Completed** | 10 |
+| **Revenue Earned** | $845 |
+| **Outstanding (all companies)** | $2,230 |
+| **Next big deposit** | June 22 — $785 (First Class x7 + Kriss Law + Doma) |
+
+---
+
+## SUMMARY TOTALS
+
+| Metric | Conservative | Target |
+|--------|--------------|--------|
+| **Active Annual Revenue (HAP)** | $540K | $540K |
+| **Active Bids (UH if won)** | $4.74M | $4.74M |
+| **Active Bids (Other if won)** | $677K | $1.8M |
+| **Pipeline Annual (if all won)** | $27M+ | $32M+ |
+| **Risk-Adjusted Annual** | $7.2M | $9M |
+| **Active DDI Margin (HAP)** | $216K | $216K |
+| **Bid DDI Margin (UH if won)** | $2.15M | $2.15M |
+| **Risk-Adjusted Margin** | $3.2M | $4.0M |
+| **5-Year Lifetime Value** | $27M+ | $45M+ |
 
 ---
 
 ## STRONGEST LEADS
 
 1. **University Health (San Antonio)** — $4.74M/year SUBMITTED. Roadie + Uber Health fulfillment CONFIRMED.
-2. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
-3. **Humana Louisiana** — Active MI relationship. 30% win probability.
-4. **South Carolina MCOs** — Brand new dual-eligible managed care. Metro One partnership building.
-5. **Drug Testing C/TPA** — NEW. Trucking companies need DOT compliance. DDI keeps 70%.
+2. **Oakland County DTC Drug Testing** — LOCAL. DDI is in Oakland County. Best value scoring. 50% win prob.
+3. **VIA Transit Drug Testing** — $146K/yr, 70% margin. Same city as University Health.
+4. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
+5. **Drug Testing C/TPA (Trucking)** — $1.175M pipeline at 70% margin. TPA model.
+6. **3D Ink Signatures Direct** — $570K pipeline. Eliminate middleman signing agencies. TPA model ready.
 
 ---
 
-## TODAY'S ACTIVITY (May 19)
+## TODAY'S SESSION (May 22)
 
-- ✅ University Health Lab Courier — Files corrected per Isabelle Vallejo, submission confirmed
-- ✅ Humana Ohio D-SNP — Redirected from provider relations to vendor management
-- ✅ Louisiana OGB — TPA services outreach to Liam Thomas (buyer)
-- ✅ DRPA — Ariba supplier registration submitted, pending approval
-- ✅ Eric Coffie incumbent vulnerability signals added to NEXUS Learning
-- ✅ TWIC PIN saved to credentials
-
-## PREVIOUS WORK (May 17-18)
-
-- ✅ Drug Testing C/TPA Strategy documented (3 fulfillment models, pricing, margins)
-- ✅ NEMT underserved area mining expanded (nationwide)
-- ✅ Courier search expanded (Medical, Lab, Pharmacy, Legal)
-- ✅ Drug testing search expanded (services + supplies)
-- ✅ Commercial trucking strategy documented
-- ✅ NCS confirmed as drug testing partner (background + drug bundled)
-- ✅ Collection network analysis completed
-- ✅ VIA Transit drug testing = **GO** (Addendum No. 1 confirmed 2,662 tests/yr — $146K/yr, $732K lifetime)
+- ✅ Notary signing payment tracker built — 11 companies, $2,230 outstanding, payment calendar through July
+- ✅ 3D Ink Signatures direct client master list — 130+ targets across 6 categories with verified emails
+- ✅ Payment check-in reminders added to SCHEDULED_AGENDA through July
+- ✅ Notary Permit Runner service researched — 2026 market pricing updated ($100-200/run, $75-200/hr)
+- ✅ VIA Transit questions drafted for June 2 deadline
 
 ---
 
-**University Health is $10.7M margin over 5 years. Drug testing C/TPA is $820K/year at 70% margin. Both are TPA models — win contracts, dispatch work, keep the spread.**
+**University Health is $10.7M margin over 5 years. 3D Ink direct contracts replace signing agency middlemen. Permit Runner opens construction trades. Every piece is a TPA model — win contracts, dispatch work, keep the spread.**
