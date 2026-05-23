@@ -11129,7 +11129,7 @@ class GovConAPIClient:
         
         # Add optional fields only if they have values
         if agency:
-            fields['AGENCY'] = agency[:255]
+            fields['AGENCY NAME'] = agency[:255]  # Fixed: was 'AGENCY'
         if description:
             fields['Notes'] = description[:2000]
         if set_aside:

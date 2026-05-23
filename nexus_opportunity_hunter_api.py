@@ -1741,28 +1741,20 @@ def add_to_pipeline():
             }), 500
         
         # Prepare opportunity record for Airtable GPSS
+        # FIXED: Use correct Airtable field names (AGENCY NAME not AGENCY, etc.)
         opportunity_record = {
             'Name': data['title'],
-            'AGENCY': data['agency'],
+            'AGENCY NAME': data['agency'],  # Fixed: was 'AGENCY'
             'RFP NUMBER': data.get('solicitation_number', 'TBD'),
-            'ESTIMATED VALUE': data.get('contract_value', 0),
-            'Response Deadline': data.get('due_date'),
-            'Description': data.get('description', ''),
+            'VALUE': data.get('contract_value', 0),  # Fixed: was 'ESTIMATED VALUE'
+            'Deadline': data.get('due_date'),  # Fixed: was 'Response Deadline'
+            'Notes': data.get('description', ''),  # Fixed: was 'Description'
             'Set-Aside Type': data.get('set_aside_type', ''),
-            'NAICS CODES': ', '.join(data.get('naics_codes', [])) if isinstance(data.get('naics_codes'), list) else data.get('naics_codes', ''),
-            'SAM.gov URL': data.get('url', ''),
-            'Source': data.get('source', 'NOVA - Federal Search'),
-            'Status': 'Pipeline - Needs Review',  # Initial workflow status
-            'Date Added': datetime.now().isoformat(),
+            'NAISC Codes': ', '.join(data.get('naics_codes', [])) if isinstance(data.get('naics_codes'), list) else data.get('naics_codes', ''),  # Fixed: was 'NAICS CODES'
+            'Source URL': data.get('url', ''),  # Fixed: was 'SAM.gov URL'
+            'SOURCE': data.get('source', 'NOVA - Federal Search'),  # Fixed: was 'Source'
+            'Status': 'Pipeline - Needs Review',
             'Priority': 'Medium',
-            'Pipeline': True,
-            'isPipeline': True,
-            'internalStatus': 'nova_discovered',
-            'discovery_method': 'nova_automated',
-            'requires_capability_statement': data.get('auto_generate_cap_statement', True),
-            'past_perf_required': data.get('past_perf_required', False),
-            'low_hanging_score': data.get('low_hanging_score', 0),
-            'match_score': data.get('match_score', 0)
         }
         
         # Create record in Airtable GPSS OPPORTUNITIES table
@@ -1901,15 +1893,16 @@ def get_autonomous_actions():
             )
             for opp in review_opps:
                 fields = opp.get('fields', {})
+                agency = fields.get('AGENCY NAME') or fields.get('AGENCY') or 'Unknown'
                 actions.append({
                     'type': 'review_opportunity',
                     'priority': 'high',
                     'title': fields.get('Name', 'Unnamed Opportunity'),
-                    'agency': fields.get('AGENCY', 'Unknown'),
-                    'value': fields.get('ESTIMATED VALUE', 0),
-                    'deadline': fields.get('Response Deadline'),
+                    'agency': agency,
+                    'value': fields.get('VALUE') or fields.get('ESTIMATED VALUE', 0),
+                    'deadline': fields.get('Deadline') or fields.get('Response Deadline'),
                     'airtable_id': opp.get('id'),
-                    'action_text': f'Review and approve opportunity from {fields.get("AGENCY", "Unknown")}',
+                    'action_text': f'Review and approve opportunity from {agency}',
                     'auto_generated': fields.get('discovery_method') == 'nova_automated',
                     'low_hanging_score': fields.get('low_hanging_score', 0)
                 })
@@ -1924,14 +1917,15 @@ def get_autonomous_actions():
             )
             for opp in cap_stat_opps:
                 fields = opp.get('fields', {})
+                agency = fields.get('AGENCY NAME') or fields.get('AGENCY') or 'Unknown'
                 if fields.get('cap_statement_status') != 'generated':
                     actions.append({
                         'type': 'generate_cap_statement',
                         'priority': 'medium',
                         'title': fields.get('Name', 'Unnamed'),
-                        'agency': fields.get('AGENCY', 'Unknown'),
+                        'agency': agency,
                         'airtable_id': opp.get('id'),
-                        'action_text': f'Generate capability statement for {fields.get("AGENCY", "Unknown")}',
+                        'action_text': f'Generate capability statement for {agency}',
                         'can_auto': True
                     })
         except Exception as e:

@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-05-20T21:24:31.448922",
-  "total_found": 84,
+  "scan_date": "2026-05-23T07:01:33.577051",
+  "total_found": 83,
   "opportunities": [
     {
       "source": "Arizona AHCCCS",
@@ -405,13 +405,6 @@
       "source": "Texas HHSC",
       "title": "Rural Mental Health Initiative Grant Program",
       "link": "https://www.hhs.texas.gov/business/grants/grant-programs/behavioral-health-services-grants/rural-mental-health-initiative-grant-program",
-      "state": "TX",
-      "type": "State Medicaid"
-    },
-    {
-      "source": "Texas HHSC",
-      "title": "Texas Veterans and Family Alliance Grant Program",
-      "link": "https://www.hhs.texas.gov/business/grants/grant-programs/behavioral-health-services-grants/texas-veterans-family-alliance-grant-program",
       "state": "TX",
       "type": "State Medicaid"
     },

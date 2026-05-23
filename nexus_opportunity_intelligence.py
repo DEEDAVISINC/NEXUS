@@ -494,7 +494,7 @@ class OpportunityIntelligenceEngine:
             fields = item['fields']
             name = fields.get('Name', 'Untitled')
             rfp = fields.get('RFP NUMBER', 'N/A')
-            agency = fields.get('AGENCY', 'Unknown')
+            agency = fields.get('AGENCY NAME') or fields.get('AGENCY') or 'Unknown'  # Support both field names
             set_aside = fields.get('Set-Aside Type', 'N/A')
             deadline = fields.get('Deadline', 'N/A')
             state = fields.get('State', 'N/A')
@@ -1090,7 +1090,7 @@ class MichiganLocalMiner:
             if opp.get('naics'):
                 fields['NAISC Codes'] = opp['naics'][:100]
             if opp.get('agency'):
-                fields['AGENCY'] = opp['agency'][:255]
+                fields['AGENCY NAME'] = opp['agency'][:255]  # Fixed: was 'AGENCY'
             if opp.get('deadline'):
                 fields['Deadline'] = opp['deadline']
             

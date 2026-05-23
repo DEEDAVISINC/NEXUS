@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: AK ARCTIC NWR BIG RAM LAKE Soil & Hazardous Mat
+ eri
+DTSTART:20260607T000000
+DTEND:20260607T010000
+DTSTAMP:20260523T150124Z
+UID:recUOaK9VRjM0cLCT@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: AK ARCTIC NWR BIG RAM LAKE S
+ oil & Hazardous Materi\nAgency: \nSolicitation: \nDeadline: June 07\, 2026
+  at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/re
+ cUOaK9VRjM0cLCT\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n-
+  1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 AC
+ TION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collect
+  all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fina
+ l review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated 
+ by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: AK ARCTIC NWR BIG RAM LAKE Soil & Hazardous Mate
+ ri
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: AK ARCTIC NWR BIG RAM LAKE Soil & Hazardous Mate
+ ri
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: AK ARCTIC NWR BIG RAM LAKE Soil & Hazardous Mate
+ ri
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: AK ARCTIC NWR BIG RAM LAKE Soil & Hazardous Mate
+ ri
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
