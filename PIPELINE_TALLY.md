@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 22, 2026 @ 7:55 PM ET
+**Last Updated:** May 23, 2026 @ 1:52 AM ET
 
 ---
 
@@ -132,13 +132,14 @@
 
 ---
 
-## TODAY'S SESSION (May 22)
+## TODAY'S SESSION (May 22-23)
 
 - ✅ Notary signing payment tracker built — 11 companies, $2,230 outstanding, payment calendar through July
 - ✅ 3D Ink Signatures direct client master list — 130+ targets across 6 categories with verified emails
 - ✅ Payment check-in reminders added to SCHEDULED_AGENDA through July
 - ✅ Notary Permit Runner service researched — 2026 market pricing updated ($100-200/run, $75-200/hr)
 - ✅ VIA Transit questions drafted for June 2 deadline
+- ✅ **RADAR cron job FIXED** — Now runs daily at 6:30 AM ET (`nexus_scheduler.py --radar`)
 
 ---
 
