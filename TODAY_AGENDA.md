@@ -2,7 +2,7 @@
 
 ## TOP 3 PRIORITIES
 
-1. **FIX RADAR** — Add `--radar` cron job (6:30 AM daily full sweep). Fix daily briefing script overwriting Alexa briefing. Test RADAR runs and delivers morning report.
+1. ~~**FIX RADAR**~~ ✅ DONE — Cron job added: `30 6 * * * nexus_scheduler.py --radar` logs to `radar_daily.log`. Tomorrow (Saturday) will be first automated run.
 2. **3D Ink New Service Lines — Due Diligence + Target Lists:**
    - **Notary Permit Runner** — Build Michigan contractor target list. Finalize pricing ($150/run, $200 full application, retainers $500-1K/mo). Research which SE Michigan building departments accept third-party runners vs online-only.
    - **TWIC Escort Services** — Full due diligence: how TWIC escort work goes, regulations (TSA/DHS 49 CFR 1572), pricing, contract models. Build target list of ports, refineries, chemical plants, LNG terminals, maritime facilities NATIONWIDE (not just Michigan). Same TPA model: DDI holds the contract, dispatches credentialed 1099 escorts, keeps the spread.
@@ -60,7 +60,7 @@
 
 ## PENDING SYSTEM BUILDS
 
-- **RADAR cron job** — FIRST THING. Fix daily briefing overwrite issue.
+- ~~**RADAR cron job**~~ ✅ DONE — Set at 6:30 AM daily.
 - **Square SDK** — Wire into PRISM Step 4 (Payment & Billing)
 - **3D Ink Outreach** — Begin email campaigns to Tier 1 targets
 - **Permit Runner** — Build Michigan contractor target list + finalize pricing
