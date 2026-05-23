@@ -88,4 +88,45 @@
 
 ---
 
+## 3D INK SIGNATURES — SERVICE LINE EXPANSION (Documented 05/22/2026)
+
+**Full strategy doc:** `3D_INK_SERVICE_EXPANSION.md`
+**Outreach targets:** `CLIENT OUTREACH/3D_INK_DIRECT_CLIENT_TARGETS.md` (130+ targets)
+**Payment tracker:** `NOTARY_SIGNING_TRACKER.md` (11 companies, $2,230 outstanding)
+**TPA Division:** TPA 4 in `DDI_TPA_DIVISIONS.md`
+
+### Three Service Lines Under 3D Ink — All TPA Model via PRISM + FLEETFLOW:
+
+1. **Mobile Notary / Loan Signing** — ✅ Active. Transitioning from signing agencies ($40-90/signing) to direct client contracts ($150-300+/signing). 130+ targets identified. Email outreach starting.
+
+2. **Notary Permit Runner (NPR)** — 🟡 Due diligence complete. Submit/pick up building permits for contractors. $150-750/assignment, 50% margin. Many permit forms require notarization = synergy. Michigan first, then expand. 2026 market rates: $100-200/run (simple), $75-200/hr, $500-2K (full expediting). Contractor target list being built May 23. Training program potential: existing courses charge $49-147, DDI could charge $199-299 based on real operational experience.
+
+3. **TWIC Escort Services** — 🔴 Due diligence scheduled May 23. Escort non-TWIC visitors/vendors at ports, refineries, chemical plants, LNG terminals. NATIONWIDE market (not just Michigan). TSA/DHS regulated = compliance barrier favors DDI. Same TPA model.
+
+### Key Integration:
+- **PRISM** dispatches all three service types to multi-credentialed 1099 agents
+- **FLEETFLOW** handles routing and logistics for all field assignments
+- **VERTEX** handles billing, invoicing, payment tracking
+- Agents can hold multiple credentials (notary + NPR + TWIC) = higher utilization
+
+### Revenue Projection:
+- Mobile Notary Direct: $570K/yr pipeline
+- Permit Runner (Michigan): $200K-400K/yr
+- TWIC Escort (Nationwide): TBD after May 23 research
+- **Combined 3D Ink: $770K-$1M+ Michigan, $1M-3M+ nationwide**
+
+---
+
+## NOTARY SIGNING PAYMENT TRACKER (Created 05/22/2026)
+
+**File:** `NOTARY_SIGNING_TRACKER.md`
+- Tracks payments from 11 signing companies with different payment terms
+- $2,230 currently outstanding
+- Payment calendar with expected deposit dates through July 2026
+- Check-in reminders added to `calendars/SCHEDULED_AGENDA.md`
+- Biggest upcoming deposit: $785 on June 22 (First Class x7 + Kriss Law + Doma)
+- **Alert:** Doma Title Rayes #16022 ($110) is 5+ years old — watch closely
+
+---
+
 *This file is the handoff document. Next session reads this FIRST.*

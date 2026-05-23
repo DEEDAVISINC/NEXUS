@@ -14,7 +14,7 @@
 | 1 | Drug Testing & Compliance TPA | ✅ Active | Employers, municipalities, transit | $500K–$2M |
 | 2 | Identity & Biometric Services TPA | ✅ Active | Law enforcement, courts, immigration, medical boards | $300K–$1M |
 | 3 | DNA Testing TPA (DePointe DNA) | ✅ Active | Courts, immigration, private | $200K–$750K |
-| 4 | Notary & Document Services TPA | ✅ Active | Title companies, lenders, law firms | $200K–$500K |
+| 4 | Notary & Document Services TPA (3D Ink Signatures) | ✅ Active + Expanding | Title companies, lenders, law firms, **contractors (NPR), ports (TWIC)** | $200K–$1M+ |
 | 5 | Healthcare Transportation TPA (NEMT) | ✅ Active | MCOs, Medicaid, hospitals | $2M–$10M |
 | 6 | Logistics & Fleet TPA (Freight 1st Direct) | ✅ Active | Government agencies, FEMA, USPS, DOD, OOs | $500K–$3.5M |
 | 7 | Background Checks TPA | ✅ Active (NCS May 2026) | Employers, government contractors | $250K–$1M |
@@ -80,21 +80,27 @@
 
 ---
 
-## TPA 4: NOTARY & DOCUMENT SERVICES TPA
+## TPA 4: NOTARY & DOCUMENT SERVICES TPA (3D Ink Signatures)
 
 **DDI Role:** Dispatch coordinator, direct service provider (Dee as CNTDA)
+**Brand:** 3D Ink Signatures (DDI field services division)
+**Expansion Doc:** `3D_INK_SERVICE_EXPANSION.md` (full strategy, pricing, process, integration)
 
 **Core Services:**
 - Notary Signing Agent (NSA) dispatch
 - Remote Online Notarization (RON) via ZigSig
 - CNTDA (Certified Notary Trust Deed Agent) — high-value signings
 - Apostille coordination
-- Permit running (NPR)
+- **Permit Running (NPR)** — submit/pick up building permits for contractors. TPA model: DDI contracts with builders, dispatches 1099 NPR-certified notaries. $150-750/assignment, 50% margin. Many permit forms require notarization = built-in synergy. Due diligence complete May 22, 2026.
+- **TWIC Escort Services** — escort non-TWIC visitors/vendors at ports, refineries, chemical plants, LNG terminals. TPA model: DDI contracts with facilities NATIONWIDE, dispatches TWIC-credentialed 1099 escorts. Due diligence scheduled May 23, 2026.
 - Mobile notary dispatch (PRISM)
 
-**Fulfillment Partners:** DDI notary network, ZigSig (RON platform), PSS (Premium Signature Services)
-**NAICS Codes:** 541199, 561499
-**Target Clients:** Title companies, lenders, law firms, government agencies, real estate agents
+**System Integration:** PRISM (dispatch) + FLEETFLOW (routing/logistics) + VERTEX (billing)
+**Fulfillment Partners:** DDI notary network, ZigSig (RON platform), PSS (Premium Signature Services), 1099 NPR-certified agents, 1099 TWIC escorts
+**NAICS Codes:** 541199, 561499, 561990
+**Target Clients:** Title companies, lenders, law firms, government agencies, real estate agents, **construction contractors (permit running), ports/refineries/maritime facilities (TWIC escorts)**
+**Outreach List:** `CLIENT OUTREACH/3D_INK_DIRECT_CLIENT_TARGETS.md` (130+ targets across 6 categories)
+**Payment Tracker:** `NOTARY_SIGNING_TRACKER.md` (11 signing companies, terms, expected payment dates)
 
 ---
 
@@ -314,7 +320,7 @@
 | Drug Testing & Compliance | Active | $500K–$2M |
 | Identity & Biometric | Active | $300K–$1M |
 | DNA Testing (DePointe) | Active | $200K–$750K |
-| Notary & Documents | Active | $200K–$500K |
+| Notary & Documents (3D Ink) | Active + Expanding | $200K–$1M+ |
 | NEMT (Healthcare Transport) | Active | $2M–$10M |
 | Logistics & Fleet (+ OO Program) | Active | $500K–$3.5M |
 | Background Checks | Active | $250K–$1M |
