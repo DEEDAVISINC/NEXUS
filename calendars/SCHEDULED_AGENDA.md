@@ -184,7 +184,7 @@
 
 ## 2026-05-26 — Tuesday
 
-- **12:00 PM ET** — 🔥 **SHIP DAY — FedEx Hall County GA 012-47 Drug Screen Kits & Services** — Drop sealed bid package at FedEx Office (Troy, MI) for Priority Overnight + signature required to Hall County Government Center, ATTN: Connie Barnes, Purchasing Division — 4th Floor, 2875 Browns Bridge Rd, Gainesville, GA 30504. Package = 4 hard copies (1 Original + 3 Copy) + 1 separate hard copy of Exhibit C + 1 USB drive in sealed envelope. Save FedEx tracking to `PROOF_OF_SUBMISSION/`. Email Connie with tracking on May 26 PM. Mon May 25 = Memorial Day (no ship). Tue May 26 ship → Wed May 27 delivery → Thu May 28 @ 2 PM ET deadline. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_internal_cutoff_2026-05-26.ics`
+- ~~**12:00 PM ET** — 🔥 **SHIP DAY — FedEx Hall County GA 012-47**~~ — **CANCELLED (NO-GO decided May 22)**
 
 ---
 
@@ -196,7 +196,7 @@
 
 ## 2026-05-28 — Thursday
 
-- **2:00 PM ET** — 🔥 **BID OPENING: Hall County GA IFB #012-47 Drug Screen Kits & Services (Annual Contract)** — Event PE-77129-NONST-2027-000000060 · NIGP 95207 · Buyer: Connie Barnes (cbarnes@hallcounty.org / 770.535.8263). **Hard-copy sealed-bid IFB delivered to 4th-floor reception at 2875 Browns Bridge Rd, Gainesville, GA 30504** (NOT a portal submission — faxed/emailed bids not accepted). Public bid opening immediately after deadline. Confirm FedEx delivery tracking via `PROOF_OF_SUBMISSION/`. Term: 1 base year + 2 one-year renewals. Folder: `BIDS:RESOURCES/HALL COUNTY GA DRUG SCREEN KITS/`. `.ics`: `calendars/hall_county_ga_012-47_deadline_2026-05-28.ics`
+- ~~**2:00 PM ET** — 🔥 **BID OPENING: Hall County GA IFB #012-47**~~ — **CANCELLED (NO-GO decided May 22)**
 
 ---
 

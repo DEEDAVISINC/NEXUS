@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 20, 2026 @ 12:10 PM ET
+**Last Updated:** May 23, 2026 @ 4:05 PM ET
 
 ---
 
@@ -113,6 +113,33 @@ All pending MCO emails need audit before sending.
 | Bennett Emfinger | Alabama Medicaid NET | May 12 | May 26 (14 days) |
 | Kristen Halsey | CareSource Ohio | May 13 | May 20 (7 days) — SENT full service pitch |
 | Natalie Lukaszewicz | Buckeye Health Plan / Centene | May 13 | Mid-July 2026 (Q3) — "network closed, reach out later this year" |
+
+---
+
+## 🔬 FORENSIC KIT DISTRIBUTOR RELATIONSHIP — NEW CONTRACT LANE
+
+**Target: Mid-June 2026**
+
+DDI should become an authorized distributor for forensic evidence collection kits (sexual assault kits, DNA collection kits, gunshot residue kits, toxicology kits). Every state police agency and crime lab in the country buys these on recurring 3-5 year contracts. EDWOSB set-asides apply.
+
+| Company | Location | Phone | Contact | Priority |
+|---|---|---|---|---|
+| **Tri-Tech Forensics** | Leland, NC | 800-438-7884 | TBD | **#1 — largest, 40+ years, custom kit mfg, supplies GA/VA/TX** |
+| **Sirchie Acquisition Co.** | Youngsville, NC | 800-356-7311 | Dan O'Neil (danoneil@sirchie.com) | #2 — IL State Police 5-yr blanket, TX DPS |
+| **Lynn Peavey Company** | Omaha, NE | TBD | TBD | #3 — forensic supplies, TX approved vendor |
+| **Arrowhead Forensics** | Lenexa, KS | TBD | TBD | #4 — blood/DNA kits, state contracts |
+
+**The play:** Distributor/reseller agreement → DDI buys at wholesale, wins state contracts using EDWOSB, handles distribution and contract management. Pairs with existing forensic division (Lakota fingerprinting, DDC DNA, Quest drug testing).
+
+**Source:** Indiana State Police NB 26-87598 (DNA Collection Kits) — DDI passed on this bid but identified the supply chain.
+
+| Task | Status |
+|---|---|
+| Research Tri-Tech distributor/reseller program | ⬜ Mid-June |
+| Draft outreach email to Tri-Tech | ⬜ Mid-June |
+| Contact Sirchie (Dan O'Neil) re: distributor terms | ⬜ Mid-June |
+| Search USASpending for EDWOSB forensic kit awards | ⬜ Mid-June |
+| Identify which state contracts are recompeting 2026-2027 | ⬜ Mid-June |
 
 ---
 

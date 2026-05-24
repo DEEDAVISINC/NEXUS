@@ -20,7 +20,7 @@
 | **Tue May 26 @ 10 AM CST** | VIA Transit Pre-Bid Conference | GO | Join Teams call from couch. Take notes on incumbent + pricing format. 30 min max. |
 | **Tue May 27 @ 1 PM ET** | APEX Accelerator Training | Zoom | Capability statement design best practices |
 | **Wed May 28 @ 12 PM AKT** | Anchorage Background Checks | READY | Submit on BidExpress |
-| **Wed May 28 @ 2 PM ET** | Hall County GA Bid Opening | CONDITIONAL | Only if 12PanelNow + Quest quotes received and bid was shipped |
+| ~~**Wed May 28 @ 2 PM ET**~~ | ~~Hall County GA Bid Opening~~ | **NO-GO** | Decided May 22 — not pursuing |
 | **June 1** | Oakland County DTC — Questions due | PREP | Draft smart questions |
 | **June 1 @ 3 PM CST** | CCRTA Occ Health | CONDITIONAL | Need Concentra pricing |
 | **June 2** | VIA Transit — Questions deadline | DRAFTED | Submit to Kim Turner |
@@ -32,7 +32,7 @@
 
 | Contact | Company | What | When |
 |---|---|---|---|
-| **12PanelNow** | Test kit supplier | Hall County GA pricing — did they respond? | Check email |
+| ~~**12PanelNow**~~ | ~~Test kit supplier~~ | ~~Hall County GA pricing~~ | **NO-GO — cancelled** |
 | **Concentra** | Kellie McKay + Steve | CCRTA pricing — any reply? | Follow up Monday if not |
 | **DRPA** | SAP Ariba portal | Supplier registration status | Check portal |
 | **Sam Cilento (Lakota)** | Minneapolis MPD | Background software teaming — he's back | Check in |

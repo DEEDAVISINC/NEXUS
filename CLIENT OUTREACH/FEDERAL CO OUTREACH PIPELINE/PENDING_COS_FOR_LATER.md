@@ -125,6 +125,22 @@
 
 ---
 
+## INDIANA STATE CONTACTS — TPA Outreach (Added May 23, 2026)
+
+| # | Name | Agency | Email | Phone | Lane | Notes |
+|---|---|---|---|---|---|---|
+| 27 | Christina Garcia | Indiana Dept of Administration (on behalf of ISP) | cgarcia@idoa.in.gov | N/A | Procurement Consultant — ISP Medical/Psych (RFP 25-83596), DWD Workforce Skills (86367) | Manages multiple ISP and state agency solicitations. DDI intro: TPA services for drug testing, fingerprinting, background checks, occupational health. NOT bidding current RFP — introduce for future ISP needs. Mid-June outreach. |
+
+---
+
+## MICHIGAN LOCAL — TPA / Services Outreach (Added May 23, 2026)
+
+| # | Name | Agency | Email | Phone | Lane | Notes |
+|---|---|---|---|---|---|---|
+| 28 | Purchasing Department | Genesee County Fiscal Services | Via geneseecountymi.gov procurement portal | 810-257-3030 | Drug testing, occupational health, background checks, fingerprinting | Genesee County (Flint) buys medical services for inmates (25-438), jail services, justice center services. DDI intro: TPA services for drug testing (Quest), physicals (Concentra), background checks (NCS), fingerprinting (Lakota). DDI home turf — 45 min from Troy. Mid-June outreach. |
+
+---
+
 ## OTHER CONTACTS (Non-Solicitation / Economic Development)
 
 | Name | Agency/Org | Email | Location | Notes |

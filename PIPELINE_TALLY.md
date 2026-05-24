@@ -30,7 +30,7 @@
 | Opportunity | Agency | Annual Revenue | DDI Margin | Lifetime | Win Prob | Due Date |
 |-------------|--------|----------------|------------|----------|----------|----------|
 | **Anchorage Background Checks** | Municipality of Anchorage | $40K | $16K (40%) | $160K (4yr) | 35% | **May 28** |
-| **Hall County GA Drug Kits** | Hall County BOC | $85-130K | $50K (45%) | $300K (3yr) | 25% | **May 28** (CONDITIONAL) |
+| ~~**Hall County GA Drug Kits**~~ | ~~Hall County BOC~~ | ~~$85-130K~~ | ~~$50K (45%)~~ | ~~$300K (3yr)~~ | ~~25%~~ | **NO-GO (May 22)** |
 | **CCRTA Occ Medical** | CCRTA (Corpus Christi) | $48.5K | $17K (35%) | $242K (5yr) | 30% | **June 1** |
 | **DRPA Occ Health/Drug** | Delaware River Port Auth | $250K-1.2M | $100K+ | $1.5M+ (5yr) | 20% | **June 5** |
 | **Minneapolis MPD Background** | City of Minneapolis | $80-140K | $50K+ | $700K (5yr) | 35% | **June 15** |
