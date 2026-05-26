@@ -198,5 +198,9 @@
   "AIRSPACE CRITICAL LOGISTICS PARTNERSHIP": {
     "first_flagged": "2026-05-23T15:00:01.215156",
     "days_inactive": 7
+  },
+  "FULTON COUNTY DRUG TESTING - CANCELLED": {
+    "first_flagged": "2026-05-25T07:00:00.905606",
+    "days_inactive": 7
   }
 }

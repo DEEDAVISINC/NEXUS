@@ -1,9 +1,19 @@
 # HAVEN Action Plan
 
 **Created:** May 9, 2026
-**Updated:** May 9, 2026
-**Status:** Phase 1 — Network Building + NEXUS Module COMPLETE
+**Updated:** May 25, 2026
+**Status:** ACTIVE EMERGENCY RESPONSE — Louisiana Flooding
 **Goal:** HAVEN ready to pitch MCOs by June 2026 (before hurricane season)
+
+---
+
+## ⚠️ EMERGENCY STATUS (May 25, 2026)
+
+**Louisiana Flood Watch in effect.** SE Louisiana experiencing flash flooding. MCO outreach initiated — emergency follow-ups being sent today.
+
+**New Rule:** Active emergencies override registration gates. Reach out NOW, sort paperwork after.
+
+**Tracker:** `HAVEN/OUTREACH/HAVEN_MCO_OUTREACH_TRACKER.md`
 
 ---
 
@@ -107,9 +117,11 @@ DDI must be legally authorized to do business in FL, TX, LA before signing contr
 ### National Chains (Volume)
 | Partner | Contact Target | Next Action |
 |---|---|---|
-| Extended Stay America | Corporate sales / emergency housing | Research contact, send H1 |
-| Marriott Extended Stay | Disaster housing program contact | Research contact, send H1 |
-| Hilton Extended Stay | Corporate relocation contact | Research contact, send H1 |
+| Extended Stay America | Client Connect / Tim Horan (Group VP) | **SEND Tuesday May 27** — Email ready in `HAVEN/OUTREACH/EXTENDED_STAY_AMERICA_OUTREACH.md` |
+| Marriott Extended Stay | Sameh Sekina (sameh.sekina@marriott.com) — Gov Group Sales | **SEND Tuesday May 27** — Email ready in `HAVEN/OUTREACH/MARRIOTT_EXTENDED_STAY_OUTREACH.md` |
+| Hilton Extended Stay | GovernmentSales@hilton.com / Katherine Lugar (EVP Corp Affairs) | **SEND Tuesday May 27** — Email ready in `HAVEN/OUTREACH/HILTON_EXTENDED_STAY_OUTREACH.md` |
+| Wyndham Extended Stay | Max Izmaylov (max.izmaylov@wyndham.com) — Gov & Agencies | **SEND Tuesday May 27** — Email ready in `HAVEN/OUTREACH/WYNDHAM_EXTENDED_STAY_OUTREACH.md` |
+| Sonesta Extended Stay | Sonesta GSO / development@sonesta.com | **SEND Tuesday May 27** — Email ready in `HAVEN/OUTREACH/SONESTA_EXTENDED_STAY_OUTREACH.md` |
 
 ### Disaster Specialists (Priority — they get it)
 | Partner | State | Next Action |
@@ -143,15 +155,20 @@ DDI must be legally authorized to do business in FL, TX, LA before signing contr
 
 ---
 
-## PRIORITY 4: MCO OUTREACH (After State Registration)
+## PRIORITY 4: MCO OUTREACH
 
-**Do NOT start MCO outreach until:**
-- [ ] FL foreign corp registration complete
-- [ ] TX foreign corp registration complete
-- [ ] LA foreign corp registration complete
-- [ ] At least 3 transport partners signed
-- [ ] At least 2 housing partners signed
-- [ ] At least 2 medical partners signed
+**~~Do NOT start MCO outreach until:~~** ← OVERRIDDEN May 25, 2026
+
+**NEW RULE:** Active emergencies bypass all gates. When members are being displaced, we reach out immediately.
+
+**Registration status (still needed for contracts):**
+- [ ] FL foreign corp registration — in progress
+- [ ] TX foreign corp registration — in progress  
+- [ ] LA foreign corp registration — in progress
+
+**But outreach happens NOW during emergencies.**
+
+**Tracker:** `HAVEN/OUTREACH/HAVEN_MCO_OUTREACH_TRACKER.md`
 
 ### MCO Priority Targets
 
@@ -237,3 +254,13 @@ Each working day on HAVEN:
 ---
 
 *Hurricane season starts June 1. Work backward from there.*
+
+---
+
+## EMERGENCY OUTREACH LOG
+
+| Date | Event | MCOs Contacted | Response |
+|------|-------|----------------|----------|
+| May 25, 2026 | LA Flood Watch | LA MCOs (5) — emergency follow-up | PENDING |
+
+**Full tracker:** `HAVEN/OUTREACH/HAVEN_MCO_OUTREACH_TRACKER.md`

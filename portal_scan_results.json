@@ -1,19 +1,8 @@
 {
-  "scan_date": "2026-05-23T08:22:37.732386",
+  "scan_date": "2026-05-24T08:22:13.927754",
   "total_found": 83,
   "min_days_to_bid": 5,
   "opportunities": [
-    {
-      "source": "SAM.gov",
-      "title": "IDIQ MACC Commercial and Institutional Building Construction, Southern California and Arizona",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVFAC.NAVFAC PACIFIC CMD.NAVFAC SOUTHWEST SW.NAVFACSYSCOM SOUTHWEST",
-      "deadline": "2026-05-29T12:00:00-07:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/fecbd22b1041446f8909809f171a87ef/view",
-      "type": "Solicitation",
-      "posted": "2026-05-21",
-      "naics": "236220"
-    },
     {
       "source": "SAM.gov",
       "title": "732 OG Heritage Room Renovation",
@@ -24,17 +13,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-21",
       "naics": "236220"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Records Administration and Management Services",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
-      "deadline": "2026-05-29T12:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/c56974a3cb284a0bb332babcaddbba09/view",
-      "type": "Solicitation",
-      "posted": "2026-05-21",
-      "naics": "541611"
     },
     {
       "source": "SAM.gov",
@@ -68,17 +46,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-21",
       "naics": "333914"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "Bricker Parking Garage Management Services",
-      "agency": "GENERAL SERVICES ADMINISTRATION.PUBLIC BUILDINGS SERVICE.PBS FACILITY MANAGEMENT EAST - BRANCH C",
-      "deadline": "2026-05-29T15:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/1e292ba004f54a55ab77418415785d0e/view",
-      "type": "Solicitation",
-      "posted": "2026-05-21",
-      "naics": "812930"
     },
     {
       "source": "SAM.gov",
@@ -247,22 +214,66 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "6515--Umano Beds - VA Palo Alto Medical Center - Menlo Park  36C261-26-AP-3677Not Stated16 day(s) leftPublished05/22/2026Closing06/08/20262693734877",
+      "title": "Repair of qty 2 EA, 13NL45+ high pressure air compressorNot Stated3 day(s) leftPublished05/23/2026Closing05/27/20262693744057",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/not-stated/solicitations/open-bids/statewide/6515-Umano-Beds-VA-Palo-Alto-Medical-Center-Menlo-Park-36C261-26-AP-3677/2693734877?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/not-stated/solicitations/open-bids/statewide/Repair-of-qty-2-EA-13NL45-high-pressure-air-compressor/2693744057?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "H265--FY27: Medical Physics Inspection ServicesFlorida9 day(s) leftPublished05/22/2026Closing06/01/20262693585192",
+      "title": "GENERATOR 3PHHawaii3 day(s) leftPublished05/23/2026Closing05/28/20262693744312",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/florida/solicitations/open-bids/statewide/H265-FY27-Medical-Physics-Inspection-Services/2693585192?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/hawaii/solicitations/open-bids/statewide/GENERATOR-3PH/2693744312?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "BIOSONICS ACOUSTIC EQUIPMENTColorado12 day(s) leftPublished05/23/2026Closing06/05/20262693745842",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/colorado/solicitations/open-bids/statewide/BIOSONICS-ACOUSTIC-EQUIPMENT/2693745842?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Web-based Platforms for Interlibrary Loan Management, Cataloging, and Metadata ServicesRhode Island2 day(s) leftPublished05/23/2026Closing05/26/20262693744567",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/rhode-island/solicitations/open-bids/statewide/Web-based-Platforms-for-Interlibrary-Loan-Management-Cataloging-and-Metadata-Services/2693744567?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "CDC NIOSH on campus Medical Services 2026 - Total Small Business Set AsideWest Virginia9 day(s) leftPublished05/23/2026Closing06/02/20262693747372",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/west-virginia/solicitations/open-bids/statewide/CDC-NIOSH-on-campus-Medical-Services-2026-Total-Small-Business-Set-Aside/2693747372?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "6515--Umano Beds - VA Palo Alto Medical Center - Menlo Park  36C261-26-AP-3677Not Stated15 day(s) leftPublished05/22/2026Closing06/08/20262693734877",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/not-stated/solicitations/open-bids/statewide/6515-Umano-Beds-VA-Palo-Alto-Medical-Center-Menlo-Park-36C261-26-AP-3677/2693734877?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
@@ -314,16 +325,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Retention-Basin-Pumping-and-Electrical-Improvements/0000425351?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "2026 RFB Local Streets Reconstruction (Southland Plat)",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-RFB-Local-Streets-Reconstruction-Southland-Plat/0000425324?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },

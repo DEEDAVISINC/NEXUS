@@ -1,6 +1,27 @@
-# TODAY'S AGENDA — Tuesday, May 27, 2026
+# TODAY'S AGENDA — Tuesday, May 26, 2026
 
-**Updated:** May 23, 2026 (planned during goodnight ritual)
+**Updated:** May 25, 2026 @ 10:10 PM ET
+
+---
+
+## FIRST THING — HAVEN EMERGENCY OUTREACH (Before anything else)
+
+**Send all 6 Louisiana MCO emergency emails.**
+File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`
+
+| # | MCO | Send To | CC |
+|---|-----|---------|-----|
+| 1 | LA Healthcare Connections | Russell.Politz@centene.com | Adam.Fruge@centene.com |
+| 2 | Healthy Blue LA | LANetworkDevelopment@healthybluela.com | LAinterPR@HealthyBlueLA.com |
+| 3 | Aetna Better Health LA | Lewisc8@aetna.com | Lemondst@aetna.com + LAProvider@aetna.com |
+| 4 | AmeriHealth Caritas LA | gmatthews@amerihealthcaritasla.com | network@amerihealthcaritasla.com |
+| 5 | Humana Healthy Horizons LA | LAMedicaidProviderRelations@humana.com | — |
+| 6 | UnitedHealthcare LA | Susan_j_mieras@uhc.com | laproviders@uhc.com |
+
+**If no response by 4 PM, call:**
+- Nick Daigle (Healthy Blue): (225) 953-0699
+- Heather McArthur (Humana): (504) 219-5446
+- Melissa Bezet (Aetna): (225) 678-2074
 
 ---
 
@@ -8,22 +29,30 @@
 
 | Date | Opportunity | Action |
 |---|---|---|
-| **Tue May 27 @ 10 AM CST (11 ET)** | VIA Transit Pre-Bid Conference | JOIN Teams call — take notes, listen for incumbent info |
-| **Tue May 27** | APEX Accelerator Training | Zoom — Capability statement design best practices |
+| **TODAY — Tue May 26** | HAVEN LA MCO Emergency Emails (6) | SEND FIRST — all emails in `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md` |
 | **Wed May 28 @ 12 PM AKT (4 PM ET)** | Anchorage Background Checks | SUBMIT on BidExpress — proposal is READY |
 | **Sun June 1** | Oakland County DTC — Questions answered June 8 | SUBMITTED May 23 |
 | **Sun June 1 @ 3 PM CST** | CCRTA Occ Health deadline | CONDITIONAL — Need Concentra pricing |
 | **Mon June 2** | VIA Transit — questions deadline | SUBMITTED May 23 (email to Kim Turner) |
+| **Thu June 5** | DRPA Occ Health/Drug | CONDITIONAL — Ariba approval pending |
 
 ---
 
 ## PRIORITY ACTIONS
 
-1. **JOIN VIA pre-bid conference** — Teams link in VIA TRANSIT DRUG TESTING folder. Note: who's the incumbent? What do they ask? Who else attends?
-2. **Submit Anchorage proposal on BidExpress** — Proposal is built. Verify $3M cyber liability req, then submit.
+1. **SEND HAVEN emergency emails** — 6 Louisiana MCO emails, vetted and ready. File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`. Active flooding in SE Louisiana. Send ALL before noon.
+2. **Submit Anchorage proposal on BidExpress** — Proposal is built. Verify $3M cyber liability req, then submit by Wed May 28.
 3. **Concentra follow-up** — Kellie McKay + Steve Hernandez. CCRTA pricing needed. June 1 deadline.
 4. **DRPA Ariba** — Check SAP Ariba supplier registration status. Can't bid without approval.
-5. **Minneapolis MPD** — Q&A answers expected today. Review when posted.
+5. **HAVEN phone follow-ups by 4 PM** — If no email response from Healthy Blue (Nick Daigle 225-953-0699), Humana (Heather McArthur 504-219-5446), or Aetna (Melissa Bezet 225-678-2074).
+
+---
+
+## MEETINGS / CALENDAR
+
+| Time | Event |
+|---|---|
+| **1:00 – 2:30 PM ET** | APEX Accelerator Training — Capability Statement Design (Zoom: macomb.zoom.us/s/92019644331) |
 
 ---
 
@@ -31,30 +60,10 @@
 
 | Contact | Company | What | When |
 |---|---|---|---|
-| **Concentra** | Kellie McKay + Steve | CCRTA pricing — any reply? | Follow up Tuesday AM if not |
+| **Concentra** | Kellie McKay + Steve | CCRTA pricing — any reply? | Follow up today if not |
 | **DRPA** | SAP Ariba portal | Supplier registration status | Check portal |
-| ~~**12PanelNow**~~ | ~~Test kit supplier~~ | ~~Hall County GA pricing~~ | **NO-GO — cancelled** |
 | **Labcorp** | Employer Services | TPA account inquiry — awaiting rep assignment | Check email |
 | **FL Medicaid** | Gainwell Technologies | TPA/broker enrollment #218601133 | Check for response |
-
----
-
-## VIA TRANSIT PRE-BID CONFERENCE PREP
-
-**Teams Link:** https://teams.microsoft.com/meet/288040301702239?p=EsCyryrSORrubgQ6nF
-**Meeting ID:** 288 040 301 702 239
-**Passcode:** EE3MA2Jf
-**Time:** 10:00 AM CST / 11:00 AM ET
-
-**Listen for:**
-- Incumbent contractor name
-- Number of bidders / attendees
-- Answers to questions already submitted
-- Clarifications on DrugPak integration
-- Collection site proximity requirement
-- Any changes to volumes or scope
-
-**Take notes and save to:** `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/PRE_BID_CONFERENCE_NOTES.md`
 
 ---
 
@@ -62,7 +71,7 @@
 
 | Date | Event |
 |---|---|
-| Tue 5/27 | VIA pre-bid + APEX training |
+| **Tue 5/26 (TODAY)** | HAVEN emails + APEX training |
 | Wed 5/28 | Anchorage submit |
 | Sun 6/1 | CCRTA deadline (conditional) |
 | Mon 6/2 | VIA questions deadline (DONE) |
