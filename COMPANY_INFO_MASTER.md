@@ -152,7 +152,7 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 **What DDI Does NOT Do (yet):** Michigan state-level fingerprinting via IdentoGO/IDEMIA network. That requires separate state certification. Not competing with IdentoGO in Michigan.
 
 **State Partnerships:**
-- MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner
+- MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner. **MI Bridges Community Partner since May 15, 2020 (6+ years).** Digital benefits navigation — helping residents create accounts, apply for assistance (SNAP, Medicaid, cash, child care), navigate the online portal, and access referral services. **Past performance: DDI — 200+ benefits applications facilitated; CWC — 50+ benefits applications facilitated.**
 - **MDHHS Environmental Health Bureau — Lead Safe Ecosystem Partner (April 23, 2026)** — CWC+DDI pitched and had favorably received a community navigation + program administration partnership model. **Positioning: "Partner in Michigan's lead-safe ecosystem."** See `🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM` section below for contacts, commitments, and deliverables.
 
 **Technical:**

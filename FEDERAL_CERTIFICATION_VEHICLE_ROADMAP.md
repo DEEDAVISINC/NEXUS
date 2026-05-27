@@ -2,7 +2,7 @@
 ## Dee Davis Inc. — Action Checklist
 
 **Owner:** Dieasha D. Davis, President & CEO  
-**Updated:** April 2026  
+**Updated:** May 26, 2026  
 **Purpose:** Complete checklist for 8(a), GSA MAS, OASIS+, and all major federal contract vehicles DDI must get on.
 
 **Current DDI Status:**
@@ -195,69 +195,64 @@ STEP 6: Program participation (Year 1-4.5 Developmental)
 
 GSA consolidated all schedules into one **Multiple Award Schedule (MAS)** under one solicitation number: **47QSMD20R0001**. You apply to specific **Special Item Numbers (SINs)** within the MAS.
 
-### PRIORITY 1 — MAS Schedule for Drug Testing & Occupational Health
+### ⚠️ SIN MAPPING — CORRECTED MAY 2026
 
-| SIN | Description | DDI Service |
-|---|---|---|
-| **621-1** | Drug/Alcohol Testing Services | DOT drug testing C/TPA services |
-| **621-2** | Medical Laboratory Services | DNA testing, specimen processing |
-| **621-3** | Occupational Health Services | DOT physicals, respirator clearance, audiometric |
-| **621-5** | Healthcare Staffing | Medical personnel, clinical support |
+**IMPORTANT CORRECTION:** Prior version listed "SIN 621-1" for drug testing — that SIN does not exist as described. The actual SIN structure for DDI's services is more nuanced. DDI's C/TPA model (program management, scheduling, compliance) is best served by Professional Services SINs, NOT healthcare lab SINs.
 
-**NAICS:** 621999, 812990, 561611  
-**Market:** VA, DoD, DHS, federal agencies with employee drug testing programs
+- **SIN 621-032** (Schedule 621 I) = Healthcare STAFFING only — places Drug & Alcohol Testing Schedulers/Technicians as labor hours. Not DDI's model.
+- **SIN 621-204** (Schedule 621 II) = Clinical lab testing — **EXCLUDES employment and forensic testing** (DDI's core DOT/workplace market).
 
----
+**Full corrected SIN strategy → see `GSA_SCHEDULE_STRATEGY.md` (updated May 26, 2026)**
 
-### PRIORITY 2 — MAS Schedule for Fingerprinting & Background Screening
+### PRIORITY 1 — Professional Services / Program Management (DDI's Lead SINs)
 
-| SIN | Description | DDI Service |
-|---|---|---|
-| **561-26** | Background Investigation Services | Pre-employment screening, live scan, ink card fingerprinting, FBI CJIS submissions |
-| **561-27** | Guard/Security Services | Secure facility access coordination |
+| SIN | Large Category | Description | DDI Fit |
+|---|---|---|---|
+| **541-1** | Professional Services | Program Management / Management Consulting | C/TPA drug testing program admin, contract management |
+| **541-4G** | Professional Services | Business Process Improvement | Operations management, compliance consulting |
+| **541-3** | Professional Services | Other Professional Services | Fingerprinting admin, background check coordination |
 
-**NAICS:** 561611, 561612, 812199  
-**Market:** CBP, DHS, DOD, VA, GSA, any agency with access credentialing needs
-
-> ⚠️ **SWFT NOTE:** DDI does NOT have SWFT access. Applied March 2026 — denied by DCSA (requires minimum interim Secret clearance + Facility Clearance Level). Do NOT list SWFT on any documents. Path to get it: win a fingerprinting contract → agency issues DD Form 254 → FCL process triggers automatically. Use a cleared sub for SWFT submissions in the interim.
+**NAICS:** 541611, 541614, 541618  
+**Market:** VA, DoD, DHS, GSA — any agency needing program management or C/TPA services  
+**Why lead here:** DDI manages programs. DDI doesn't perform lab tests (Quest does) or physical exams (Concentra does). DDI is the TPA/administrator = professional services.
 
 ---
 
-### PRIORITY 3 — MAS Schedule for Courier & Logistics
+### PRIORITY 2 — Transportation / Courier / Logistics
 
-| SIN | Description | DDI Service |
-|---|---|---|
-| **048-1** | Transportation/Courier Services | Medical courier, specimen transport, AOG ground courier |
-| **048-2** | Freight/Logistics Arrangement | Freight 1st Direct brokerage |
-| **048-3** | Delivery and Distribution | Last-mile, scheduled delivery runs |
+| SIN | Large Category | Description | DDI Fit |
+|---|---|---|---|
+| **048-1** (verify in eLibrary) | Transportation | Courier / Delivery Services | Medical courier, specimen transport, AOG ground courier |
+| **048-2** (verify in eLibrary) | Transportation | Freight / Logistics Services | Freight 1st Direct brokerage |
 
 **NAICS:** 492110, 492210, 488510  
 **Market:** VA, DLA, USPS, DHS, any agency requiring courier or logistics services
 
 ---
 
-### PRIORITY 4 — MAS Schedule for Professional Services
+### PRIORITY 3 — Facilities / Grounds / Janitorial
 
-| SIN | Description | DDI Service |
-|---|---|---|
-| **541-1** | Program Management | Contract/project management, C/TPA program admin |
-| **541-4B** | Logistics Support Services | Supply chain, logistics consulting |
-| **541-4G** | Business Process Reengineering | Operations improvement consulting |
-
-**NAICS:** 541614, 541611, 541618  
-**Market:** Any federal agency needing professional/management services
-
----
-
-### PRIORITY 5 — MAS Schedule for Facilities (Grounds, Janitorial)
-
-| SIN | Description | DDI Service |
-|---|---|---|
-| **561-5** | Janitorial and Facilities Maintenance | Janitorial subcontract services |
-| **561-17** | Grounds Maintenance | Landscaping, grounds maintenance subcontract |
+| SIN | Large Category | Description | DDI Fit |
+|---|---|---|---|
+| **561-5** (verify in eLibrary) | Facilities | Janitorial Services | Subcontract management |
+| **561-17** (verify in eLibrary) | Facilities | Grounds Maintenance | Subcontract management |
 
 **NAICS:** 561720, 561730  
 **Market:** GSA PBS, USACE, NAVFAC, VA facilities
+
+---
+
+### PRIORITY 4 — Healthcare Staffing (Lower Priority — Only If DDI Enters Staffing Lane)
+
+| SIN | Large Category | Description | DDI Fit |
+|---|---|---|---|
+| **621-032** | Healthcare Staffing (621 I) | Drug & Alcohol Testing Scheduler/Technician | Only if DDI places collectors as temp staff |
+
+> ⚠️ **SWFT NOTE:** DDI does NOT have SWFT access. Applied March 2026 — denied by DCSA (requires minimum interim Secret clearance + Facility Clearance Level). Do NOT list SWFT on any documents. Path to get it: win a fingerprinting contract → agency issues DD Form 254 → FCL process triggers automatically. Use a cleared sub for SWFT submissions in the interim.
+
+### ⚠️ SIN VERIFICATION REQUIRED BEFORE SUBMISSION
+
+All SIN numbers above must be verified against the current GSA eLibrary (gsaelibrary.gsa.gov) before submitting an offer. SIN descriptions and requirements change with each Refresh. Download the SIN-specific tabs from the New Offeror Checklist (XLSX on gsa.gov).
 
 ---
 
@@ -319,69 +314,98 @@ GSA consolidated all schedules into one **Multiple Award Schedule (MAS)** under 
 
 ---
 
-## APPLICATION PROCESS — STEP BY STEP
+## APPLICATION PROCESS — STEP BY STEP (Updated May 2026)
+
+> ⚠️ **FASt Lane / Startup Springboard:** As of Refresh 31 (April 2, 2026), FASt Lane is **LIMITED to IT Category (ITC) offers only**. DDI's service lines (drug testing, courier, fingerprinting) are NOT IT. DDI must use the **standard MAS offer process** (3-6 month review timeline).
+
+> ⚠️ **TDR (Transactional Data Reporting):** As of Refresh 31, TDR is **mandatory for ALL SINs and ALL MAS vendors**. DDI must be prepared to report every transaction to GSA quarterly.
 
 ```
 STEP 1: Complete "Pathways to Success" training (mandatory)
-         → Register at gsa.gov/training → take the free MAS course
-         → Print certificate
+         → Download PDF from gsa.gov/masroadmap → 3-4 hours
+         → Must be completed by Dee (Authorized Negotiator / employee)
+         → Certificate valid for 12 months from completion
+         → DO THIS FIRST — nothing else can proceed without it
 
-STEP 2: Identify your SINs (use the table above)
-         → Start with your strongest service lines (drug testing + occupational health)
-         → Can add SINs later via contract modification
+STEP 2: Complete Readiness Assessment (mandatory)
+         → Same page: gsa.gov/masroadmap → under "Training"
+         → Must be completed by an officer of the firm (Dee)
+         → Valid for 12 months — acknowledge in eOffer at submission
 
-STEP 3: Build your commercial price list
-         → What do you charge non-government clients for these services?
-         → This is your starting point — GSA negotiates from here
-         → Reference DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md for DDI agency rates
+STEP 3: Verify SINs in GSA eLibrary
+         → Go to gsaelibrary.gsa.gov → browse by Large Category
+         → Read FULL SIN descriptions for Professional Services (541-series),
+            Transportation (048-series), Facilities (561-series)
+         → Confirm DDI services match SIN scope
+         → Download New Offeror Checklist (XLSX) from gsa.gov → check SIN-specific tabs
 
-STEP 4: Gather all documents from the checklist above
-         → Past performance is critical — contact 2-3 former clients now
-         → Financial statements — if you don't have formal ones, use tax returns
+STEP 4: Build commercial price list
+         → Start from DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md
+         → Research CALC+ ceiling rates at buy.gsa.gov (see what competitors charge)
+         → Research BLS wage data at buy.gsa.gov (unburdened labor rates)
+         → GSA negotiates DOWN from your commercial list — build in 10-30% room
 
-STEP 5: Register in eOffer.gsa.gov
-         → Create account using SAM.gov UEI
+STEP 5: Gather all documents from the checklist above
+         → Past performance is critical — CALL 2-3 former clients NOW
+         → Confirm they will pick up the phone when GSA's CO contacts them
+         → Financial: 2 years of business tax returns sufficient (DDI < $2M revenue)
+
+STEP 6: Register in eOffer.gsa.gov
+         → Create FAS ID (required for login)
          → Start a new offer for solicitation 47QSMD20R0001
+         → Select your verified SINs
 
-STEP 6: Submit the offer
-         → Upload all volumes (Technical + Price + Supporting Docs)
+STEP 7: Submit the offer
+         → Upload Technical Proposal (company overview, experience per SIN, past performance, QC plan, staffing, geographic coverage)
+         → Upload Price Proposal (commercial price list, GSA pricing, discount structure)
+         → Upload Financial Docs (tax returns, P&L, credit report, banking refs)
+         → Upload Reps & Certs (EDWOSB, size cert, E-Verify, SAM.gov)
+         → Acknowledge Pathways + Readiness in eOffer
          → GSA assigns a Contracting Officer to review
 
-STEP 7: GSA review and negotiation (3-6 months)
-         → CO may request additional info
+STEP 8: GSA review and negotiation (3-6 months)
+         → CO may request additional info — respond FAST
          → Price negotiation — expect to give 10-30% below your commercial list
          → Terms and conditions negotiation
+         → TDR setup and compliance discussion
 
-STEP 8: Contract award
+STEP 9: Contract award + post-award setup
          → Sign GSA Schedule contract
          → Set up GSA Advantage! profile (public catalog listing)
-         → Activate GSA eBuy to receive RFQ notifications
-         → Start marketing to federal COs
+         → Activate GSA eBuy to receive task order RFQ notifications
+         → Set up TDR reporting (mandatory quarterly)
+         → Start marketing to federal COs — add GSA contract number to all outreach
 ```
 
 ---
 
-## TIMELINE ESTIMATE
+## TIMELINE ESTIMATE (FROM MAY 26, 2026)
 
-| Phase | Timeline |
-|---|---|
-| Training + document gathering | 3-4 weeks |
-| Offer preparation | 2-4 weeks |
-| GSA review and negotiation | 3-6 months |
-| **Target MAS award** | **October-December 2026** |
+| Phase | Target Date | Duration |
+|---|---|---|
+| Pathways to Success + Readiness Assessment | **July 15, 2026** (scheduled) | 1 day |
+| SIN verification + selection | **July 21, 2026** | 1 week |
+| Price list + pricing research (buy.gsa.gov) | **August 4, 2026** | 2 weeks |
+| Document gathering + past performance refs | **August 18, 2026** | 2 weeks |
+| eOffer registration + offer prep | **September 1, 2026** | 2 weeks |
+| **OFFER SUBMISSION** | **September 15, 2026** | — |
+| GSA review + negotiation | Sep 2026 - Feb 2027 | 3-6 months |
+| **TARGET MAS AWARD** | **Q1-Q2 2027 (Mar-May)** | — |
 
 ---
 
-## QUICK START — APPLY TO THIS SIN FIRST
+## QUICK START — LEAD SIN (CORRECTED)
 
-**Recommended First SIN: 621-1 (Drug/Alcohol Testing Services)**
-- DDI is already an active C/TPA in this space
-- Real past performance exists (active drug testing accounts)
-- Revenue is established — meets the $25K minimum easily
-- Federal demand is high — VA, DHS, DOD, GSA all have employee drug testing programs
-- EDWOSB set-aside in drug testing SINs = limited competition
+**Recommended First SIN: 541-1 (Program Management) or 541-3 (Other Professional Services)**
+- DDI is a C/TPA — program management is the core business model
+- Past performance: active drug testing C/TPA accounts, courier coordination, contract management
+- Revenue established — meets $25K minimum
+- Federal demand: every agency with employees needs drug testing program management
+- EDWOSB advantage in professional services SINs
 
-**Once 621-1 is awarded, add the rest via contract modification (much faster than the original application).**
+**Once the lead SIN is awarded, add courier (048-series), facilities (561-series), and other SINs via contract modification — much faster than the original application.**
+
+> ❌ **PRIOR RECOMMENDATION CORRECTED:** The old "621-1" SIN recommendation was wrong. SIN 621-032 is healthcare staffing (placing labor), not program management. SIN 621-204 explicitly excludes employment/forensic testing. DDI's C/TPA model = professional services, not healthcare lab or staffing.
 
 ---
 
@@ -628,15 +652,17 @@ Be honest about past performance before applying. OASIS+ requires **verifiable p
 
 | Vehicle | Status | Next Action | Owner | Target Date |
 |---|---|---|---|---|
-| **SBA 8(a)** | ❌ Not started | Verify personal financial thresholds (net worth, AGI, assets) | Dee | Week of April 7, 2026 |
-| **GSA MAS** | ❌ Not started | Complete "Pathways to Success" training | Dee | Week of April 7, 2026 |
-| **OASIS+ WOSB** | ❌ Not started | Download JP-1 scorecard and self-score | Dee | Week of April 7, 2026 |
-| **HCaTS** | ❌ Unknown | Email hcats@gsa.gov — confirm window still open | Dee | Monday April 6, 2026 |
-| **Polaris GWAC** | ❌ Not started | Monitor for open season | NEXUS | Quarterly check |
-| **Sourcewell** | 🟡 In progress | Follow up — confirm active vendor listing | Dee | April 2026 |
+| **SBA 8(a)** | ❌ Not started | Verify personal financial thresholds (net worth, AGI, assets) — this is OVERDUE, was due April 2026 | Dee | **ASAP — June 2026** |
+| **GSA MAS** | 📅 Training scheduled | Complete "Pathways to Success" training (3-4 hrs, free, online) — **SCHEDULED July 15, 2026** | Dee | **July 15, 2026** |
+| **OASIS+ WOSB** | ❌ Not started | Download JP-1 scorecard and self-score — deadline Jan 11, 2027 | Dee | **July 2026** |
+| **HCaTS** | ❌ Unknown — URGENT | Email hcats@gsa.gov — confirm if window is still open (reportedly closes Nov 2026) — OVERDUE | Dee | **This week** |
+| **Polaris GWAC** | ❌ Not started | Monitor for open season — IT focus, lower priority unless DDI expands IT services | NEXUS | Quarterly check |
+| **Sourcewell** | 🟡 In progress | Follow up — confirm active vendor listing | Dee | June 2026 |
 | **Choice Partners/HCDE** | ✅ Monitoring | Daily portal checks continue | NEXUS | Ongoing |
-| **Michigan SIGMA VSS** | ✅ Registered | Monitor for new opportunities | NEXUS | Ongoing |
-| **MIDEAL/DTMB** | ❓ Unknown | Confirm DDI is registered as MIDEAL vendor | Dee | April 2026 |
+| **Michigan SIGMA VSS** | ✅ Registered (VS0245604) | Monitor for new opportunities | NEXUS | Ongoing |
+| **MIDEAL/DTMB** | ❓ Unknown | Confirm DDI is registered as MIDEAL vendor | Dee | June 2026 |
+
+**⚠️ STATUS NOTE (May 26, 2026):** Every action item from the April 2026 roadmap has slipped. None of the target dates were met. The 8(a), GSA MAS, and OASIS+ applications are all still at zero. Reset dates above reflect realistic new targets. HCaTS window may be closing — check IMMEDIATELY.
 
 ---
 
@@ -698,4 +724,6 @@ Call them BEFORE submitting your 8(a) application — they'll review it for free
 
 *This document is the master roadmap. Every vehicle on this list has real money behind it. 8(a) is the biggest unlock — start there. GSA MAS and OASIS+ run parallel. Don't chase them sequentially — build all three simultaneously.*
 
-*Updated: April 2026 | Owner: Dieasha D. Davis, President & CEO, Dee Davis Inc.*
+*Updated: May 26, 2026 | Owner: Dieasha D. Davis, President & CEO, Dee Davis Inc.*
+*GSA MAS SIN corrections applied May 26, 2026 — see GSA_SCHEDULE_STRATEGY.md for full updated strategy.*
+*FASt Lane limitation (IT-only) and TDR mandatory requirement added per GSA Refresh 31 (April 2, 2026).*

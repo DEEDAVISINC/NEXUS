@@ -804,6 +804,61 @@ STAFFING / HR:
 
 ---
 
+## CHANNEL 32: DIGITAL NAVIGATION / BENEFITS ENROLLMENT / SDOH
+
+**DDI IS ALREADY IN THIS LANE — 6+ YEARS AS MDHHS MI BRIDGES COMMUNITY PARTNER (Since May 15, 2020). 200+ applications facilitated. This is not aspirational — this is proven past performance.**
+
+| Opportunity Type | Fulfillment | How to Find |
+|---|---|---|
+| Benefits navigation / enrollment assistance | DDI direct (MI Bridges certified) | State HHS departments, AAAs, MCOs |
+| Digital equity / digital navigator programs | DDI direct + local community org sub | NTIA/FCC subcontracts through states, SIGMA, SAM.gov |
+| SDOH navigation (social determinants of health) | DDI direct (CareSource contract in hand) | MCO procurement, CMS HRSN requirements |
+| Internet/broadband enrollment assistance | DDI direct | State broadband offices, Digital Equity Act grantees |
+| ACA navigator / enrollment assister | DDI direct | CMS annual navigator grants, state marketplaces |
+| 211/resource navigation contracts | DDI direct + CWC teaming | United Way networks, county/city social services |
+| Community health worker programs | CWC (501c3) + DDI admin | MDHHS, local health departments, MCOs |
+| Medicare/Medicaid enrollment assistance (SHIP) | DDI direct | ACL/Administration for Community Living, AAAs |
+
+**NAICS Codes:** 624190 (Other Individual/Family Services), 624210 (Community Food Services), 561499 (All Other Business Support Services), 541720 (R&D Social Sciences — program evaluation)
+
+**Keywords:** digital navigator, benefits navigation, enrollment assistance, MI Bridges, community partner, digital equity, digital inclusion, digital literacy, broadband adoption, SDOH, social determinants, health-related social needs, HRSN, community health worker, resource navigation, benefits enrollment, ACA navigator, SHIP, information and referral
+
+**DDI Proof Points:**
+- MDHHS MI Bridges Community Partner since May 15, 2020 (6+ years)
+- 200+ benefits applications facilitated (DDI)
+- 50+ benefits applications facilitated (CWC)
+- MiLogin ID: davisd1221 (MDHHS Community Partners portal)
+- NAICS 624190 already in SAM.gov
+- CareSource NEMT contract executed (MCO relationship = SDOH entry point)
+- MDHHS Environmental Health Bureau partnership (Angela Medina, Aimee Surma)
+- CWC = 501(c)(3) teaming partner for grant-funded navigation programs
+
+**Priority Targets:**
+1. **Michigan DTMB/SIGMA** — State digital equity subcontracts (NTIA money flowing NOW)
+2. **MCOs (CareSource first)** — SDOH/HRSN navigation contracts (CMS mandate)
+3. **Michigan AAAs (all 16)** — Benefits enrollment, Medicare counseling, SHIP
+4. **SAM.gov** — NAICS 624190 + "navigation" "digital" "enrollment" "benefits"
+5. **NTIA/FCC** — Digital Equity Competitive Grant Program subcontracts
+6. **ACL grants** — Benefits enrollment, aging services navigation
+7. **County/city social services** — Wayne, Oakland, Macomb digital access programs
+
+**Mining Protocol:**
+1. Search SIGMA for "digital equity" "navigator" "benefits" "enrollment" quarterly
+2. Search SAM.gov for NAICS 624190 + keywords weekly
+3. Monitor Michigan's Digital Equity plan implementation (DTMB)
+4. Check ACL.gov for navigator/enrollment grant announcements
+5. Ask CareSource (Brian Grcevich): "SDOH/HRSN navigation needs?"
+6. Monitor all 16 Michigan AAAs for benefits navigation RFPs
+7. Search BidNet/MITN for "digital" "navigator" "enrollment" "benefits"
+8. Track NTIA Digital Equity grant awards — identify Michigan subcontract opportunities
+
+**Presentation to Dee:**
+When navigation/SDOH opportunities are found, present as:
+- "[Opportunity] — DDI qualifies DIRECTLY (6-year MI Bridges partner, 200+ applications)"
+- Always note whether DDI bids solo or DDI+CWC teams
+
+---
+
 ## COMBINED NAICS CODES — MASTER LIST
 
 Use these for broad sweeps:
@@ -817,10 +872,11 @@ Use these for broad sweeps:
 | **Occupational Health** | 621498, 621999 |
 | **Critical Logistics** | 488190, 488510 |
 | **DNA Testing** | 621511, 541380 |
+| **Digital Navigation / SDOH** | 624190, 624210, 561499, 541720 |
 
 **All DDI NAICS (combined):**
 ```
-485320, 488190, 488510, 492110, 492210, 493110, 541380, 541512, 561450, 561611, 561612, 621498, 621511, 621910, 621999, 339113, 423450
+485320, 488190, 488510, 492110, 492210, 493110, 541380, 541512, 541720, 561450, 561499, 561611, 561612, 621498, 621511, 621910, 621999, 624190, 624210, 339113, 423450
 ```
 
 ---

@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:gsa-pathways-training-july2026@deedavis.biz
+DTSTAMP:20260526T182300Z
+DTSTART;TZID=America/Detroit:20260715T120000
+DTEND;TZID=America/Detroit:20260715T160000
+SUMMARY:📋 GSA Pathways to Success Training (MAS Application)
+DESCRIPTION:Complete the mandatory Pathways to Success training (3-4 hrs) + Readiness Assessment for GSA MAS application. Download PDF from gsa.gov/masroadmap. Print certificate. Both valid for 12 months from completion. This is Step 1 — nothing else can proceed without it.
+LOCATION:Online — gsa.gov/masroadmap
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-P2D
+DESCRIPTION:GSA Pathways Training in 2 days — block 4 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:GSA Pathways Training starts in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1102,11 +1102,59 @@
     "State Units on Aging (all 50 states)",
     "Area Agencies on Aging (620+ nationwide, 16 in Michigan)"
   ],
-  "ddi_credentials_checklist": {
+    "ddi_credentials_checklist": {
     "federal": ["EDWOSB", "WOSB", "CAGE: 8UMX3", "UEI: HJB4KNYJVGZ1", "SAM.gov Active"],
     "transport": ["USDOT: 4250594", "MC: 1647572", "CHAMPS Provider ID: 6309069"],
     "healthcare": ["HIPAA Compliant", "E-Verify Program Administrator", "DePointe DNA lab"],
     "diversity": ["WBENC", "MBE", "WBE", "SBE"],
-    "partnerships": ["Uber Health", "Uber Freight", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO", "NCS (National Crime Search — Channel Partner, signed May 2026)", "HAP CareSource (Active MCO Contract)"]
+    "partnerships": ["Uber Health", "Uber Freight", "Quest Diagnostics", "St. John's Riverside", "AMRO MRO", "NCS (National Crime Search — Channel Partner, signed May 2026)", "HAP CareSource (Active MCO Contract)"],
+    "digital_navigation": ["MDHHS MI Bridges Community Partner (since May 15, 2020)", "200+ benefits applications (DDI)", "50+ benefits applications (CWC)", "NAICS 624190 in SAM", "CareSource MCO contract (SDOH entry)", "MiLogin davisd1221"]
+  },
+  "digital_navigation_mining_lane": {
+    "status": "ACTIVE — PROVEN PAST PERFORMANCE",
+    "added": "2026-05-26",
+    "naics": ["624190", "624210", "561499", "541720"],
+    "keywords": [
+      "digital navigator",
+      "benefits navigation",
+      "enrollment assistance",
+      "MI Bridges",
+      "community partner",
+      "digital equity",
+      "digital inclusion",
+      "digital literacy",
+      "broadband adoption",
+      "SDOH",
+      "social determinants",
+      "health-related social needs",
+      "HRSN",
+      "community health worker",
+      "resource navigation",
+      "benefits enrollment",
+      "ACA navigator",
+      "SHIP",
+      "information and referral",
+      "internet subsidy",
+      "affordable connectivity"
+    ],
+    "priority_sources": [
+      "Michigan SIGMA (digital equity, navigator, benefits, enrollment)",
+      "SAM.gov (NAICS 624190 + keywords)",
+      "MCOs — CareSource SDOH/HRSN (Brian Grcevich)",
+      "Michigan AAAs (all 16 — benefits navigation RFPs)",
+      "NTIA Digital Equity Competitive Grant subcontracts",
+      "ACL/AoA (navigator, enrollment, SHIP)",
+      "BidNet/MITN (digital, navigator, enrollment, benefits)",
+      "FCC broadband adoption programs"
+    ],
+    "ddi_proof_points": {
+      "partner_since": "2020-05-15",
+      "years_active": "6+",
+      "ddi_applications": "200+",
+      "cwc_applications": "50+",
+      "combined": "250+",
+      "authority": "MDHHS-recognized Community Partner",
+      "portal_login": "davisd1221"
+    }
   }
 }

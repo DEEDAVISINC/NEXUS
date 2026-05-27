@@ -10,8 +10,11 @@
 
 | Date | Event | States Affected | DDI Action |
 |------|-------|-----------------|------------|
-| **May 25, 2026** | Flood Watch — SE Louisiana | LA | Emergency follow-up to LA MCOs |
+| **May 25, 2026** | Flood Watch — SE Louisiana | LA | Emergency emails drafted — 6 LA MCOs |
 | May 25, 2026 | Scattered storms | TN | Monitor — no action yet |
+| **May 26, 2026** | Flood Watch continues | LA | **ALL 6 LA MCO EMERGENCY EMAILS SENT @ 11:30 AM ET** |
+| **May 26, 2026** | Flash flood warnings | TX | 17 TX MCO emergency emails drafted — ready to send |
+| **May 26, 2026** | Flood watch + hurricane prep | FL | 8 FL MCO emergency emails drafted — ready to send |
 
 ---
 
@@ -25,7 +28,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — Russell.Politz@centene.com + Adam.Fruge@centene.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — Russell.Politz@centene.com + Adam.Fruge@centene.com |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 1 |
 
 ### Healthy Blue Louisiana (Anthem/Elevance)
@@ -36,7 +39,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — LANetworkDevelopment@healthybluela.com + LAinterPR@HealthyBlueLA.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — LANetworkDevelopment@healthybluela.com + LAinterPR@HealthyBlueLA.com |
 | **Phone Backup** | Nick Daigle (225) 953-0699 — call if no email response |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 2 |
 
@@ -48,7 +51,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — Lewisc8@aetna.com + Lemondst@aetna.com + LAProvider@aetna.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — Lewisc8@aetna.com + Lemondst@aetna.com + LAProvider@aetna.com |
 | **Phone Backup** | Melissa Bezet (225) 678-2074 — call if no email response |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 3 |
 
@@ -60,7 +63,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — gmatthews@amerihealthcaritasla.com + network@amerihealthcaritasla.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — gmatthews@amerihealthcaritasla.com + network@amerihealthcaritasla.com |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 4 |
 
 ### UnitedHealthcare Community Plan Louisiana
@@ -71,7 +74,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — Susan_j_mieras@uhc.com + laproviders@uhc.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — Susan_j_mieras@uhc.com + laproviders@uhc.com |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 6 |
 
 ### Humana Healthy Horizons Louisiana
@@ -82,7 +85,7 @@
 | **Initial Outreach** | [DATE — fill in from prior session] |
 | **Contact Used** | [NAME/EMAIL — fill in from prior session] |
 | **Response** | ❌ NO RESPONSE |
-| **Emergency Follow-Up** | ⬜ READY — LAMedicaidProviderRelations@humana.com |
+| **Emergency Follow-Up** | ✅ SENT May 26, 2026 — LAMedicaidProviderRelations@humana.com |
 | **Phone Backup** | Heather McArthur (504) 219-5446 — call if no email response |
 | **Email File** | `LA_MCO_EMERGENCY_EMAILS_MAY25.md` — Email 5 |
 

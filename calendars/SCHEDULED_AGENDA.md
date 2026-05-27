@@ -328,6 +328,12 @@
 
 ---
 
+## 2026-07-15 — Wednesday
+
+- **12:00–4:00 PM ET** — 📋 **GSA Pathways to Success Training + Readiness Assessment** — Mandatory Step 1 for GSA MAS application. 3-4 hours, online (PDF from gsa.gov/masroadmap). Print certificate — valid 12 months. Also complete Readiness Assessment same session. `.ics`: `calendars/gsa_pathways_training_2026-07-15.ics`
+
+---
+
 ## 2026-07-16 — Thursday
 
 - **💰 PAYMENT CHECK:** Premium Closing Solutions SILK — $80.00 (Barnes Refi, file H-316268-SFB). 75-day cycle from 5/2. Deposit window: July 16-31. **Check email for DeluxeChecks eCheck.**
