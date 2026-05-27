@@ -1,27 +1,32 @@
-# TODAY'S AGENDA — Tuesday, May 26, 2026
+# TODAY'S AGENDA — Wednesday, May 27, 2026
 
-**Updated:** May 25, 2026 @ 10:10 PM ET
+**Updated:** May 26, 2026 @ 9:15 PM ET
 
 ---
 
-## FIRST THING — HAVEN EMERGENCY OUTREACH (Before anything else)
+## FIRST THING — THREE OUTREACH TYPES (Know the difference)
 
-**Send all 6 Louisiana MCO emergency emails.**
-File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`
+### Type 1: DISASTER CONTINUITY (HAVEN) — Send these FIRST
+**Only MCOs with members in active flood zones. 4 emails ready.**
 
-| # | MCO | Send To | CC |
-|---|-----|---------|-----|
-| 1 | LA Healthcare Connections | Russell.Politz@centene.com | Adam.Fruge@centene.com |
-| 2 | Healthy Blue LA | LANetworkDevelopment@healthybluela.com | LAinterPR@HealthyBlueLA.com |
-| 3 | Aetna Better Health LA | Lewisc8@aetna.com | Lemondst@aetna.com + LAProvider@aetna.com |
-| 4 | AmeriHealth Caritas LA | gmatthews@amerihealthcaritasla.com | network@amerihealthcaritasla.com |
-| 5 | Humana Healthy Horizons LA | LAMedicaidProviderRelations@humana.com | — |
-| 6 | UnitedHealthcare LA | Susan_j_mieras@uhc.com | laproviders@uhc.com |
+| # | MCO | State | Send To |
+|---|-----|-------|---------|
+| 16 | Amerigroup / Wellpoint | TX | Greg.gilmore@Wellpoint.com |
+| 17 | BCBS of Texas | TX | deshay@bcbstx.com |
+| 19 | Scott & White / RightCare | TX | Neha.Patel1@BSWHealth.org |
+| 23 | Sendero | TX | senderoprovidercontracts@senderohealth.com |
 
-**If no response by 4 PM, call:**
-- Nick Daigle (Healthy Blue): (225) 953-0699
-- Heather McArthur (Humana): (504) 219-5446
-- Melissa Bezet (Aetna): (225) 678-2074
+File: `HAVEN/OUTREACH/TX_FL_MCO_EMERGENCY_EMAILS_REFRAMED.md`
+
+### Type 2: GENERAL CONTRACT MANAGEMENT TPA — Rewrite needed
+**MCOs not in disaster zones. DDI pitch with HAVEN as one capability, not the lead. 12 emails to rewrite.**
+- Parkland CHP, Cook Children's, El Paso First, FirstCare (TX)
+- All 8 FL MCOs (Sunshine, Humana, Molina, UHC, Simply, Aetna, Community Care Plan, FL Community Care)
+
+### Type 3: DIGITAL NAVIGATION / SDOH — Build from scratch
+**New campaign. DDI = 6+ years MI Bridges Community Partner, 200+ applications. Target MCO population health / SDOH contacts.**
+- No emails exist yet
+- Build outreach template + identify contacts
 
 ---
 
@@ -29,30 +34,26 @@ File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`
 
 | Date | Opportunity | Action |
 |---|---|---|
-| **TODAY — Tue May 26** | HAVEN LA MCO Emergency Emails (6) | SEND FIRST — all emails in `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md` |
-| **Wed May 28 @ 12 PM AKT (4 PM ET)** | Anchorage Background Checks | SUBMIT on BidExpress — proposal is READY |
-| **Sun June 1** | Oakland County DTC — Questions answered June 8 | SUBMITTED May 23 |
+| **TODAY — Wed May 27** | HAVEN reframed emails (16) | SEND — file is ready |
+| **TODAY — Wed May 27 1-2:30 PM ET** | APEX Accelerator Training — Capability Statement Design | Zoom: macomb.zoom.us/s/92019644331 |
+| **Thu May 28 @ 12 PM AKT (4 PM ET)** | Anchorage Background Checks | SUBMIT on BidExpress — proposal is READY |
 | **Sun June 1 @ 3 PM CST** | CCRTA Occ Health deadline | CONDITIONAL — Need Concentra pricing |
-| **Mon June 2** | VIA Transit — questions deadline | SUBMITTED May 23 (email to Kim Turner) |
+| **Mon June 2** | VIA Transit — questions deadline | SUBMITTED May 23 |
+| **Wed June 3** | NCS Partner Setup — 30-day window | Complete training + portal setup |
 | **Thu June 5** | DRPA Occ Health/Drug | CONDITIONAL — Ariba approval pending |
 
 ---
 
 ## PRIORITY ACTIONS
 
-1. **SEND HAVEN emergency emails** — 6 Louisiana MCO emails, vetted and ready. File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`. Active flooding in SE Louisiana. Send ALL before noon.
-2. **Submit Anchorage proposal on BidExpress** — Proposal is built. Verify $3M cyber liability req, then submit by Wed May 28.
-3. **Concentra follow-up** — Kellie McKay + Steve Hernandez. CCRTA pricing needed. June 1 deadline.
-4. **DRPA Ariba** — Check SAP Ariba supplier registration status. Can't bid without approval.
-5. **HAVEN phone follow-ups by 4 PM** — If no email response from Healthy Blue (Nick Daigle 225-953-0699), Humana (Heather McArthur 504-219-5446), or Aetna (Melissa Bezet 225-678-2074).
-
----
-
-## MEETINGS / CALENDAR
-
-| Time | Event |
-|---|---|
-| **1:00 – 2:30 PM ET** | APEX Accelerator Training — Capability Statement Design (Zoom: macomb.zoom.us/s/92019644331) |
+1. **SEND 4 HAVEN disaster emails** — ONLY the MCOs in active flood zones: Amerigroup TX, BCBS TX, Scott & White, Sendero. File: `HAVEN/OUTREACH/TX_FL_MCO_EMERGENCY_EMAILS_REFRAMED.md` (Emails 16, 17, 19, 23).
+2. **REWRITE 12 emails as General Contract Management TPA outreach** — Parkland, Cook Children's, El Paso First, FirstCare (TX) + all 8 FL MCOs. These are NOT disaster emails — DDI contract management pitch with HAVEN as one capability.
+3. **BUILD Digital Navigation outreach** — New campaign. DDI as MI Bridges Community Partner (6+ years, 200+ apps). Target MCO population health / SDOH / community engagement contacts. No emails exist yet — build from scratch.
+4. **Attend APEX training** — 1:00-2:30 PM ET. Capability statement design.
+5. **Submit Anchorage proposal on BidExpress** — Due TOMORROW May 28. Verify $3M cyber liability, then submit.
+6. **Concentra follow-up** — Kellie McKay + Steve Hernandez. CCRTA pricing needed. June 1 deadline.
+7. **Check for responses** — Any replies from yesterday's 15 TX/FL + 6 LA MCO emails?
+8. **DRPA Ariba** — Check SAP Ariba supplier registration status.
 
 ---
 
@@ -62,8 +63,9 @@ File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`
 |---|---|---|---|
 | **Concentra** | Kellie McKay + Steve | CCRTA pricing — any reply? | Follow up today if not |
 | **DRPA** | SAP Ariba portal | Supplier registration status | Check portal |
-| **Labcorp** | Employer Services | TPA account inquiry — awaiting rep assignment | Check email |
-| **FL Medicaid** | Gainwell Technologies | TPA/broker enrollment #218601133 | Check for response |
+| **LA MCOs** | 6 MCOs emailed yesterday | Any responses to HAVEN emergency emails? | Check inbox |
+| **TX MCOs** | 9 MCOs emailed yesterday | Any responses? (incl. Dell Children's MTM redirect) | Check inbox |
+| **NCS** | Travis Fink | Partner setup deadline June 3 | Start training |
 
 ---
 
@@ -71,10 +73,11 @@ File: `HAVEN/OUTREACH/LA_MCO_EMERGENCY_EMAILS_MAY25.md`
 
 | Date | Event |
 |---|---|
-| **Tue 5/26 (TODAY)** | HAVEN emails + APEX training |
-| Wed 5/28 | Anchorage submit |
+| **Wed 5/27 (TOMORROW)** | HAVEN reframed emails + APEX training |
+| Thu 5/28 | Anchorage submit |
 | Sun 6/1 | CCRTA deadline (conditional) |
 | Mon 6/2 | VIA questions deadline (DONE) |
+| Wed 6/3 | NCS partner setup deadline |
 | Thu 6/5 | DRPA deadline (conditional on Ariba) |
 | Sun 6/8 | Oakland County Q&A answers published |
 | Sun 6/15 | Minneapolis MPD deadline |
