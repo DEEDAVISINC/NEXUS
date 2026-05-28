@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:uber-health-jeff-followup-20260530@deedavis.biz
+DTSTAMP:20260527T202900Z
+DTSTART;TZID=America/Detroit:20260530T140000
+DTEND;TZID=America/Detroit:20260530T143000
+SUMMARY:📞 Uber Health Follow-Up — Jeff Metz
+DESCRIPTION:Follow-up call with Jeff Metz (Uber Health).\n\nTopics:\n- Michigan route pricing (Jeff preparing averages)\n- 3P NEMT (wheelchair) availability in Detroit metro\n- ACH billing setup confirmation\n- Account consolidation status\n\nJeff will send calendar invite with Zoom link.
+LOCATION:Zoom (Jeff sending invite)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Uber Health call in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Uber Health call in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

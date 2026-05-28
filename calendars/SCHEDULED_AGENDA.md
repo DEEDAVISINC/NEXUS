@@ -200,6 +200,12 @@
 
 ---
 
+## 2026-05-30 — Friday
+
+- **2:00 PM ET** — 📞 **Uber Health Follow-Up — Jeff Metz** — MI route pricing review, 3P NEMT availability in Detroit, ACH billing confirmation, account consolidation. Jeff sending Zoom invite. `.ics`: `calendars/uber_health_jeff_metz_followup_2026-05-30.ics`
+
+---
+
 ## 2026-05-12 — Tuesday
 
 - **1:45 – 2:15 PM ET** — 📹 **Lakota Partnership Call — WHORL / Medical Credentialing** — **Google Meet (video):** meet.google.com/hue-qddn-ydo | Phone backup: +1 307-429-2120 PIN: 160107237 — Sam Cilento + Aaron Wilson (Lakota). Topics: (1) DeCA fingerprinting solicitation HQC00526QE015 — WHORL tier, teaming letter; (2) Medical Credentialing — WHORL capabilities for healthcare worker licensing. Prep: `BIDS:RESOURCES/DECA MEDICAL CREDENTIALING/DECA_LAKOTA_CALL_PREP_MAY12.md`. `.ics`: `calendars/deca_ddi_medical_credentialing_lakota_2026-05-12.ics`

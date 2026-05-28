@@ -145,7 +145,9 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 
 | Date Received | Company | Order # | Amount | Days to Pay | Notes |
 |---|---|---|---|---|---|
-| | | | | | |
+| 5/26/26 | Kriss Law / Atlantic Closing | #13506 | $300.00 | 28 days | Smith — transferred 5/20, deposited 5/26 |
+| 5/26/26 | Mosaic Signing Services | #35861 | $60.00 | 19 days | Aiad — transferred 5/20, deposited 5/26 |
+| 5/26/26 | First Class Signing Service | #935625 | $75.00 | 55 days | Osteen — transferred 5/22, deposited 5/26 (early) |
 
 ---
 
@@ -156,7 +158,7 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 |---|---|
 | **Signings Completed** | 10 |
 | **Revenue Earned** | $845.00 |
-| **Revenue Collected** | $0 |
+| **Revenue Collected** | $435 (as of 5/26) |
 | **Expected Collection Month** | June 2026 (VendorPay) + late June (PCS) |
 
 ### Signing Detail — May 2026

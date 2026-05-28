@@ -153,9 +153,12 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 
 | Document | Status | Notes |
 |----------|--------|-------|
-| **BAA** | ⏳ Pending from Jeff | Requested May 15 |
-| **Terms of Service** | ⏳ Pending from Jeff | Requested May 15 |
-| **Driver Safety Deck** | ⏳ Pending from Jeff | Requested May 15 |
+| **BAA** | ✅ Included in standard TOU | Per FAQ doc — BAA is embedded in Uber Health Terms of Use |
+| **Terms of Use (TOU)** | ✅ Link provided May 15 | Jeff's post-call email included T&Cs link |
+| **Driver Safety Deck** | ✅ Received May 27 | 35-page deck — saved as `UBER_HEALTH_SAFETY_PITCH_DECK.pdf` |
+| **Booking One-Pager** | ✅ Received May 27 | 4-page guide — saved as `UBER_HEALTH_ONE_PAGER_BOOKING_GUIDE.pdf` |
+| **FAQ / Legal Overview** | ✅ Received May 27 | 6-page legal FAQ — saved as `UBER_HEALTH_FAQ_LEGAL_OVERVIEW.pdf` |
+| **Rx Addendum** | ✅ Received May 18 | Attached to Jeff's email |
 | **Dashboard Access** | ✅ Active | health.uber.com |
 
 ---
@@ -177,20 +180,65 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 | May 14, 2026 | Pre-call questionnaire sent | Pricing, compliance, commitment items |
 | May 15, 2026 | Intro call completed | Jeff + Chris, 25 min |
 | May 15, 2026 | Dashboard activated | health.uber.com live |
+| May 15, 2026 | Post-call email from Jeff | T&Cs link, training videos, onboarding resources, BAA promise |
 | May 15, 2026 | Follow-up email sent | LOC + controlled substance request |
 | May 16, 2026 | Follow-up email sent | Second request for LOC |
 | **May 18, 2026** | **Email from Jeff** | **Rx Addendum attached. CONFIRMED: No controlled substances. CONFIRMED: Bexar County TX = A Tier (90%+). CONFIRMED: Michigan = A Tier (90%+).** |
+| **May 27, 2026** | **Jeff follow-up (2x)** | Asked for call this week. Dee replied asking for booking guide + MI pricing |
+| **May 27, 2026** | **Jeff reply with attachments** | One-Pager booking guide, Safety Pitch Deck (35pg), FAQ/Legal Overview (6pg). Billing: 3 options (pay-per-trip, monthly CC, monthly ACH Net 30). MI pricing = dynamic, needs sample routes. |
+| **May 27, 2026** | **Dee sent sample routes** | 4 MI routes for pricing: Detroit→Henry Ford, Southfield→Beaumont Troy, Pontiac→McLaren Oakland, Warren→St. John Macomb |
+
+---
+
+## BILLING OPTIONS (Confirmed May 27, 2026)
+
+| Option | Terms | How It Works |
+|--------|-------|--------------|
+| **Pay-per-trip** | Immediate | Credit card on file charged after each ride |
+| **Monthly Credit Card** | Net 8 | Invoice on 1st, card charged on 8th |
+| **Monthly ACH** | **Net 30** | **DDI's choice — cash flow positive with weekly MCO payments** |
+
+**Setup for ACH:** Send PO number, Tax ID, and DDI address to Jeff to activate monthly billing.
+
+---
+
+## RIDE TYPES AVAILABLE
+
+| Type | Service Level | Best For |
+|------|--------------|----------|
+| **UberX** | Curb-to-curb, 5-min cancel window | Ambulatory members, pharmacy runs |
+| **Uber Comfort** | Larger vehicle, highly rated drivers, 10-min cancel | Members needing extra time/space |
+| **Uber NEMT (3P)** | Door-to-door + wheelchair, credentialed W-2 drivers | Mobility impaired, physical/visual needs |
+
+**3P NEMT:** Not gig workers — these are full-time employees of third-party healthcare transport companies, trained for NEMT. Available in select locations (confirm MI availability with Jeff).
+
+---
+
+## SAFETY & COMPLIANCE (For Bid Proposals)
+
+| Feature | Detail |
+|---------|--------|
+| **Background Checks** | Criminal + MVR + OIG/SAM healthcare exclusions, rerun annually |
+| **HIPAA** | BAA included in TOU, ISO 27001 certified, SOC 2 audited |
+| **Insurance** | $1M commercial auto liability per trip |
+| **Rider Privacy** | Drivers see first name only, don't know it's healthcare |
+| **RideCheck** | GPS/sensor crash detection, route deviation alerts |
+| **ADT Safety** | Live safety agents riders can call/text mid-trip |
+| **Rx Delivery** | Digital proof of delivery, discreet packaging, vetted couriers |
+| **No Controlled Substances** | Confirmed May 18 — OTC and non-controlled Rx only |
 
 ---
 
 ## NEXT ACTIONS
 
-- [ ] Receive BAA, T&Cs, Driver Safety Deck from Jeff
+- [x] ~~Receive BAA, T&Cs, Driver Safety Deck from Jeff~~ — **ALL RECEIVED** (BAA in TOU, T&Cs linked May 15, Safety Deck + One-Pager + FAQ received May 27)
 - [x] ~~Confirm controlled substance policy for TX Rx delivery~~ — **CONFIRMED NO** (May 18, 2026)
-- [ ] Review Rx Addendum attached to Jeff's May 18 email
+- [ ] Set up Monthly ACH billing (Net 30) — send PO, Tax ID, address to Jeff
+- [ ] Get Michigan ride pricing — sample routes sent to Jeff May 27
+- [ ] Confirm 3P NEMT (door-to-door/wheelchair) availability in Michigan
 - [ ] Resolve account consolidation (personal vs business)
-- [ ] Document pricing structure received
-- [ ] After $200K revenue: Request API access
+- [ ] Review Rx Addendum attached to Jeff's May 18 email
+- [ ] After $200K revenue: Request API access for PRISM integration
 
 ---
 

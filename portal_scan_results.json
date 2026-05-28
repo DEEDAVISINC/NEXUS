@@ -1,8 +1,63 @@
 {
-  "scan_date": "2026-05-26T08:26:26.349440",
-  "total_found": 84,
+  "scan_date": "2026-05-27T13:18:38.692503",
+  "total_found": 80,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "HQMC DC P&R B&E Financial Management Support Services",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.USMC.MARCORP I&L.MARINE CORPS INSTALLATIONS COMMAND.MARINE CORPS INSTALLATIONS COMMAND HQ.COMMANDING OFFICER",
+      "deadline": "2026-06-07T12:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/8f0c708c0c9b480d97e189510fd6153f/view",
+      "type": "Presolicitation",
+      "posted": "2026-05-27",
+      "naics": "541611"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "42--SLEEVE,SAFETY,CLIMB",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.TROOP SUPPORT CONSTRUCTION & EQUIPMENT.DLA TROOP SUPPORT",
+      "deadline": "2026-06-08",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/605c1cfb3c8c4d0fb3fae5a8af0c534c/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-27",
+      "naics": "332999"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "Fort Meade Laundry and Dry Cleaning",
+      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.FDO SAM HOUSTON.W6QM MICC-FT BELVOIR",
+      "deadline": "2026-06-09T12:00:00-04:00",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/164e1ec87c174d19aa79b73842d7c80d/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-27",
+      "naics": "812320"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "59--CABLE ASSEMBLY,RADI",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA AVIATION.DLA AV RICHMOND.DLA AVIATION",
+      "deadline": "2026-06-03",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/95d78b8666ee4ef7951205b888eaf646/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-26",
+      "naics": "335931"
+    },
+    {
+      "source": "SAM.gov",
+      "title": "48--VALVE,DISCHARGE TOI",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-06-08",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/5e647cf9bbda443ea793b7d8b5803868/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-26",
+      "naics": "332911"
+    },
     {
       "source": "SAM.gov",
       "title": "732 OG Heritage Room Renovation",
@@ -13,50 +68,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-21",
       "naics": "236220"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "48--VALVE,BALL",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/9598883b5aef43b6894a89eb7b84fea4/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-21",
-      "naics": "332911"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "48--VALVE,REGULATING,TE",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/561af7e5f99f4932920dc994d957dfe0/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-21",
-      "naics": "332911"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "43--ROTOR,PUMP",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/3e9b853299e54e39a3d3f677ca2ea305/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-21",
-      "naics": "333914"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "43--PUMP,RECIPROCATING",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/051fd4886d3d4c1e9c498e252deaf432/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-21",
-      "naics": "333996"
     },
     {
       "source": "SAM.gov",
@@ -71,17 +82,6 @@
     },
     {
       "source": "SAM.gov",
-      "title": "Fort Meade Laundry and Dry Cleaning",
-      "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.FDO SAM HOUSTON.W6QM MICC-FT BELVOIR",
-      "deadline": "2026-06-09T12:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/ba188148efc54eee9093b93fb3a437f5/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-20",
-      "naics": "812320"
-    },
-    {
-      "source": "SAM.gov",
       "title": "HVAC Chemical Water Treatment",
       "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR EDUCATION AND TRAINING COMMAND.FA4887  56 CONS CC",
       "deadline": "2026-06-11T12:00:00-07:00",
@@ -90,17 +90,6 @@
       "type": "Solicitation",
       "posted": "2026-05-20",
       "naics": "811310"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "48--VALVE,HYDRAULIC,DUM",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/7458ac9dfd70491b80e2d4ef3e432b7b/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-20",
-      "naics": "332912"
     },
     {
       "source": "SAM.gov",
@@ -159,17 +148,6 @@
     },
     {
       "source": "SAM.gov",
-      "title": "Support for Development, Maintenance and Distribution of Identifiers for Research Resources to Serve Replicable, Reproducible and Generalizable Biomedical Research",
-      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF.NATIONAL INSTITUTES OF HEALTH.NATIONAL INSTITUTES OF HEALTH OLAO",
-      "deadline": "2026-06-01T09:00:00-04:00",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/1dfd85e38cb04ca9bce255fd8b53df5b/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-18",
-      "naics": "541690"
-    },
-    {
-      "source": "SAM.gov",
       "title": "ENTERPRISE HEALTH UNIT SERVICES",
       "agency": "HOMELAND SECURITY, DEPARTMENT OF.FEDERAL LAW ENFORCEMENT TRAINING CENTER.FLETC GLYNCO OPERATIONS",
       "deadline": "2026-06-04T12:30:00-04:00",
@@ -178,17 +156,6 @@
       "type": "Combined Synopsis/Solicitation",
       "posted": "2026-05-18",
       "naics": "621999"
-    },
-    {
-      "source": "SAM.gov",
-      "title": "59--COIL,ELECTRICAL",
-      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
-      "deadline": "2026-06-01",
-      "set_aside": "WOSB",
-      "url": "https://sam.gov/opp/5cb250b4884443468addab4405676a5b/view",
-      "type": "Combined Synopsis/Solicitation",
-      "posted": "2026-05-17",
-      "naics": "334416"
     },
     {
       "source": "SAM.gov",
@@ -203,6 +170,17 @@
     },
     {
       "source": "SAM.gov",
+      "title": "59--HEADSET,ELECTRICAL",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-06-08",
+      "set_aside": "EDWOSB",
+      "url": "https://sam.gov/opp/94da24b1dcc546a18ee9863a8e3ead63/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-27",
+      "naics": "334310"
+    },
+    {
+      "source": "SAM.gov",
       "title": "PRE-DEMOLITION SURVEY VARIOUS BUILDINGS NASA WALLOPS FLIGHT FACILITY SURVEY WALLOPS, VA",
       "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.US ARMY CORPS OF ENGINEERS.SCO ALEXANDRIA.SUPPORT CENTER HUNTSVILLE.W2V6 USA ENG SPT CTR HUNTSVIL",
       "deadline": "2026-06-04T14:00:00-05:00",
@@ -214,161 +192,145 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "ElectricalCalifornia8 day(s) leftPublished05/26/2026Closing06/03/2026444037554432",
+      "title": "Repair & Replacement Parts for Ford Cars/TrucksOhio8 day(s) leftPublished05/27/2026Closing06/04/2026444039217891",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Electrical/444037554432?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/Repair-Replacement-Parts-for-Ford-Cars-Trucks/444039217891?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "PlumbingCalifornia8 day(s) leftPublished05/26/2026Closing06/03/2026444037554431",
+      "title": "Pollard Hydrantpro Replacement PartsOhio8 day(s) leftPublished05/27/2026Closing06/04/2026444039314673",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Plumbing/444037554431?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/ohio/solicitations/open-bids/statewide/Pollard-Hydrantpro-Replacement-Parts/444039314673?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "District Campus Phase III- Child Development - PaintingCalifornia20 day(s) leftPublished05/26/2026Closing06/15/2026444037568460",
+      "title": "SW District, Stone County, Jasmine Road Box Culvert, Construction of a 20-foot span by 5-foot rise single cell reinforced concrete box culvert, approach roadwayMissouri21 day(s) leftPublished05/27/2026Closing06/18/2026444039217870",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/District-Campus-Phase-III-Child-Development-Painting/444037568460?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/missouri/solicitations/open-bids/statewide/SW-District-Stone-County-Jasmine-Road-Box-Culvert-Construction-of-a-20-foot-span-by-5-foot-rise-single-cell-reinforced-concrete-box-culvert-approach-roadway/444039217870?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Mechanical (HVAC)California8 day(s) leftPublished05/26/2026Closing06/03/2026444037554429",
+      "title": "Valve Maintenance TrailerGeorgia21 day(s) leftPublished05/27/2026Closing06/18/2026444039085536",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Mechanical-HVAC/444037554429?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "District Campus Phase III- Child Development - Roofing, Metal Wall Panel and Sheet Metal FlashingCalifornia20 day(s) leftPublished05/26/2026Closing06/15/2026444037568458",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/District-Campus-Phase-III-Child-Development-Roofing-Metal-Wall-Panel-and-Sheet-Metal-Flashing/444037568458?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "District Campus Phase III- Child Development - Rough CarpentryCalifornia20 day(s) leftPublished05/26/2026Closing06/15/2026444037568454",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/District-Campus-Phase-III-Child-Development-Rough-Carpentry/444037568454?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Computer PartsArizona13 day(s) leftPublished05/26/2026Closing06/08/2026444037364545",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/arizona/solicitations/open-bids/statewide/Computer-Parts/444037364545?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "Electric Vehicle Charging at Civic Arts Plaza (CI 5708)California15 day(s) leftPublished05/26/2026Closing06/10/2026444037364543",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Electric-Vehicle-Charging-at-Civic-Arts-Plaza-CI-5708/444037364543?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "District Campus Phase III - Child Development - Earthwork, Paving and DemolitionCalifornia20 day(s) leftPublished05/26/2026Closing06/15/2026444037568451",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/District-Campus-Phase-III-Child-Development-Earthwork-Paving-and-Demolition/444037568451?origin=0&target=view",
-      "type": "Solicitation",
-      "posted": "",
-      "search_term": "janitorial"
-    },
-    {
-      "source": "BidNet Direct",
-      "title": "District Campus Phase III - Child Development - Concrete with RebarCalifornia20 day(s) leftPublished05/26/2026Closing06/15/2026444037568452",
-      "agency": "",
-      "deadline": "Closing Date\u00a0(Oldest first)",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/District-Campus-Phase-III-Child-Development-Concrete-with-Rebar/444037568452?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/georgia/solicitations/open-bids/statewide/Valve-Maintenance-Trailer/444039085536?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Tree Fort Cleaning Services",
+      "title": "Library Juniors Renovation",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Tree-Fort-Cleaning-Services/0000425411?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Library-Juniors-Renovation/0000425720?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Transportation Services for Genesee County Juvenile Justice Center (GCJJC)",
+      "title": "2026  LOBBY EXPOSED CEILING PAINTING PROJECT AT KIRKSEY REC CENTER",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Transportation-Services-for-Genesee-County-Juvenile-Justice-Center-GCJJC/0000425036?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-LOBBY-EXPOSED-CEILING-PAINTING-PROJECT-AT-KIRKSEY-REC-CENTER/0000425689?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "2026 SANITARY SEWER CLEANING AND CCTV",
+      "title": "Golf Club Road at Eager Road Roundabout Construction",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-SANITARY-SEWER-CLEANING-AND-CCTV/0000425369?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Golf-Club-Road-at-Eager-Road-Roundabout-Construction/0000425709?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Athletic Court Repairs - Gilbert Willis Park",
+      "title": "FLOORING REPLACEMENT AND INSTALLATION SERVICES - (BOOKER T. DOZIER)",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Athletic-Court-Repairs-Gilbert-Willis-Park/0000425321?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/FLOORING-REPLACEMENT-AND-INSTALLATION-SERVICES-BOOKER-T-DOZIER/0000425687?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "MITN (Michigan)",
-      "title": "Retention Basin Pumping and Electrical Improvements",
+      "title": "Clintonwood Park Restroom Renovation Project",
       "agency": "Michigan Local Government",
       "deadline": "",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Retention-Basin-Pumping-and-Electrical-Improvements/0000425351?purchasingGroupId=8412351&origin=1",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Clintonwood-Park-Restroom-Renovation-Project/0000425665?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "2026 SHELBY TOWNSHIP DPW HVAC IMPROVEMENTS",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-SHELBY-TOWNSHIP-DPW-HVAC-IMPROVEMENTS/0000425646?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "As-Needed Water & Sewer System Excavation and Repair Services",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/As-Needed-Water-Sewer-System-Excavation-and-Repair-Services/0000425644?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "RFP - Janitorial Services (Booker T. Dozier Recreation Center)",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/RFP-Janitorial-Services-Booker-T-Dozier-Recreation-Center/0000425636?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "LARGE PUMP REPAIR AND MACHINING (WATER POLLUTION CONTROL)",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/LARGE-PUMP-REPAIR-AND-MACHINING-WATER-POLLUTION-CONTROL/0000425611?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "INDUSTRIAL HVAC SERVICES (WATER POLLUTION CONTROL)",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/INDUSTRIAL-HVAC-SERVICES-WATER-POLLUTION-CONTROL/0000425605?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
@@ -479,34 +441,7 @@
     },
     {
       "source": "Indiana",
-      "title": "300 SP Skakamak State Park Water/Wastewater PMBid DocumentsNatural Resources003000000087560RFQ# 003000000087560300 SP Shakamak State Park 2-Year Preventative Maintenance Contract for Water/Wastewater ",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "103 Mental Health ServicesBid DocumentsLaw Enforcement Training Brd001030000087561Indiana Law Enforcement Training Board (ILEA) is looking for a supplier that can provide counseling sessions and emerg",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
       "title": "FSSA Learning Management System (LMS)Bid DocumentsFamily & Social Svcs Admin004050000085939RFP 26-85939The purpose of this solicitation is to select a respondent that can satisfy the State\u2019s need for ",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "Wisewoman & INBCCP Data Mgmt & Claims AdjudicationBid DocumentsIndiana Dept of Health004000000085965Assist the Indiana Department of Health (IDOH) Chronic Disease, Primary Care and Rural Health Divisi",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -525,15 +460,6 @@
     {
       "source": "Indiana",
       "title": "Crane MatsBid DocumentsNatural Resources003000000087581003000000087581Crane Mats - the mats are used to assist equipment for lake dredging.  Mats are put in muddy areas so equipment can drive over the",
-      "agency": "State of Indiana",
-      "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "Indiana",
-      "title": "00515 40' x 60' POLE BUILDINGBid DocumentsCorrectional Industries00515000008697900515  EVENT# 86979POLE BUILDING - 40'x60'CONTACT FOR QUESTIONS AND FOR SITE VISITS:JEFF MEECEjmeece@idoc.in.govCOMPLETE",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -605,7 +531,25 @@
     },
     {
       "source": "Indiana",
+      "title": "Wisewoman & INBCCP Data Mgmt & Claims AdjudicationBid DocumentsIndiana Dept of Health004000000085965Assist the Indiana Department of Health (IDOH) Chronic Disease, Primary Care and Rural Health Divisi",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
       "title": "400-27-065-Safety Glasses RFQBid DocumentsIndiana Dept of Health004000000087647Sourcing event # 0000087647 is for obtaining bids for a vendor to fabricate and supply prescription safety glasses, per t",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "00515 40' x 60' POLE BUILDINGBid DocumentsCorrectional Industries00515000008697900515  EVENT# 86979POLE BUILDING - 40'x60'CONTACT FOR QUESTIONS AND FOR SITE VISITS:JEFF MEECEjmeece@idoc.in.govCOMPLETE",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -696,6 +640,15 @@
     {
       "source": "Indiana",
       "title": "RFP 26-87486 21st CCLC Data ManagementBid DocumentsEducation007000000087486IDOE seeks a vendor to house all of the 21st CCLC required data, communicate all required data directly to the FDOE, interfac",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Road Salt QPA - Select districtsBid DocumentsDept of Administration000610000087757NB 26-87757. The state is sourcing treated and untreated road salt for the Department of Transportation as well as num",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
