@@ -1,5 +1,5 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 23, 2026 @ 1:52 AM ET
+**Last Updated:** May 27, 2026 @ 10:40 PM ET
 
 ---
 
@@ -132,15 +132,19 @@
 
 ---
 
-## TODAY'S SESSION (May 22-23)
+## TODAY'S SESSION (May 27)
 
-- ✅ Notary signing payment tracker built — 11 companies, $2,230 outstanding, payment calendar through July
-- ✅ 3D Ink Signatures direct client master list — 130+ targets across 6 categories with verified emails
-- ✅ Payment check-in reminders added to SCHEDULED_AGENDA through July
-- ✅ Notary Permit Runner service researched — 2026 market pricing updated ($100-200/run, $75-200/hr)
-- ✅ VIA Transit questions drafted for June 2 deadline
-- ✅ **RADAR cron job FIXED** — Now runs daily at 6:30 AM ET (`nexus_scheduler.py --radar`)
+- ✅ Uber Health ACH billing initiated — EIN, AP email, business details sent to Jeff Metz
+- ✅ Uber Health 3 account consolidation request submitted (personal, old business, current)
+- ✅ Uber Health follow-up call booked — Fri May 30, 2:00 PM ET (Jeff sending Zoom)
+- ✅ Uber Health documents saved — one-pager, safety deck, FAQ legal overview
+- ✅ Senpex emailed for San Antonio lab courier coverage + per-mile pricing
+- ✅ University Health bid table rates confirmed — ready to fill once Senpex responds
+- ✅ Radar sweep run manually — 80 opportunities reviewed, Indiana DNA Collection Kits flagged
+- ✅ Sam Cilento (Lakota) requests Minneapolis MPD requirement docs — sent
+- ✅ Notary payments received — Kriss Law $300, Mosaic $60, First Class $75 (May 26 deposits)
+- ✅ PRISM system audit — all modules confirmed aligned with latest Uber Health docs
 
 ---
 
-**University Health is $10.7M margin over 5 years. 3D Ink direct contracts replace signing agency middlemen. Permit Runner opens construction trades. Every piece is a TPA model — win contracts, dispatch work, keep the spread.**
+**University Health is $10.7M margin over 5 years. Uber Health partnership operationalizing — ACH billing, pricing data, and 3P wheelchair access moving forward. Senpex fills the lab courier gap Uber can't. Every partner is a tool in the fulfillment belt — DDI keeps the contract, keeps the spread.**
