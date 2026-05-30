@@ -17,6 +17,9 @@
 | **4** | 5 Component Program Checkup | `FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | ✅ Saved |
 | **5** | Priorities & Next Steps | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | ✅ Saved |
 | **6** | Commitment (webinar) | `FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | ✅ Saved |
+| **Summary** | Completed + score analysis (62%) | `FEAST_OF_FUNDS_WORKBOOK_COMPLETED_SUMMARY.md` | ✅ May 30, 2026 |
+
+**Score drag:** Priorities (4) + Commitment (3) — update quick wins to revenue version if platform allows edit.
 
 ---
 
