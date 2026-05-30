@@ -99,21 +99,28 @@ MDHHS, HAP CareSource, MHEF, CFSEM, LHDs, AAAs, United Way SEM, MVAA, Medicaid/C
 ### COPYABLE
 
 ```
+FOUNDATIONS / GOVERNMENT GRANT GATEKEEPERS:
 • Sayre Corbin — Grants Manager, Michigan Health Endowment Fund (grants@mihealthfund.org; 810-227-5212) — replied Mar 27, 2026
 • Angela Medina — MDHHS Environmental Health Bureau, Care Coordination (MedinaA@michigan.gov) — met Apr 23, 2026; LHD intros in six counties
 • Aimee Surma — MDHHS Environmental Health Bureau (SurmaA@michigan.gov) — met Apr 23, 2026
-• Brian Grcevich — HAP CareSource NEMT (Brian.Grcevich@CareSource.com)
-• Dana Drew — HAP CareSource network/contracting (Dana.Drew@CareSource.com)
-• Board members and community champions — names as roster is updated (Detroit / SE Michigan relationships to foundations)
-• MDHHS CLPPP — MDHHS-CLPPP@michigan.gov (inquiry sent Mar 22, 2026)
+• MDHHS CLPPP — MDHHS-CLPPP@michigan.gov (lead prevention inquiry sent Mar 22, 2026)
 • MVAA grants — MVAAGrants@michigan.gov (FY27 inquiry sent Mar 22, 2026)
 • CFSEM program officer — after Cause We Care registers at cfsem.org/grants
+• Board members and community champions — Detroit / SE Michigan relationships to foundations (names per roster)
+
+HEALTH PLANS / CONTRACT REVENUE:
+• Brian Grcevich — HAP CareSource NEMT (Brian.Grcevich@CareSource.com)
+• Dana Drew — HAP CareSource network/contracting (Dana.Drew@CareSource.com)
+
+FULFILLMENT & FEDERAL CONTRACT CHAMPIONS (strengthen bids + live ops — via Dee Davis Inc.):
+• Jeff Metz — Uber Health Account Executive (jeffm@uber.com; 312-847-1182) — active AE on our account; Michigan NEMT pricing, 3P/wheelchair, pharmacy/courier LOCs for health-plan and hospital RFPs; supports live HAP trip fulfillment
+• Sam Cilento — Lakota Software Solutions, Business Development (scilento@lakotasoftware.com; 304-816-4804) — biometric technology partner; federal fingerprinting teaming (DHA, DeCA, WHORL path); SWFT submission through Lakota on joint federal bids
 ```
 
 ### SHORT
 
 ```
-Sayre Corbin (MHEF), Angela Medina + Aimee Surma (MDHHS), Brian Grcevich + Dana Drew (HAP), CLPPP + MVAA inboxes, board champions, CFSEM (after register).
+Sayre Corbin (MHEF), Angela Medina + Aimee Surma (MDHHS), Brian + Dana (HAP), CLPPP + MVAA + CFSEM, board champions, Jeff Metz (Uber Health AE), Sam Cilento (Lakota BD).
 ```
 
 ---
