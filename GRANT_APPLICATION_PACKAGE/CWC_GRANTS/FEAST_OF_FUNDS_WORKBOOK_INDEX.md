@@ -12,7 +12,7 @@
 | Step | Title | File | Status |
 |------|--------|------|--------|
 | **1** | Program Snapshot | `FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` | ✅ Saved |
-| **2** | Collaborators | — | ⏳ Not built yet |
+| **2** | Collaborators (Collaboration Pod) | `FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | ✅ Saved |
 | **3** | Funding Pathways & Possibilities | `FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | ✅ Saved |
 | **4** | Checkup | — | ⏳ Not built yet |
 | **5** | Priorities & Next Steps | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | ✅ Saved |
