@@ -15,7 +15,7 @@
 | **2** | Collaborators | — | ⏳ Not built yet |
 | **3** | Funding Pathways & Possibilities | `FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | ✅ Saved |
 | **4** | Checkup | — | ⏳ Not built yet |
-| **5** | Priorities | — | ⏳ Not built yet |
+| **5** | Priorities & Next Steps | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | ✅ Saved |
 | **6** | Commitment | — | ⏳ Not built yet |
 
 ---
