@@ -5,7 +5,7 @@
 **Applicant:** **Cause We Care** (501c3) · Programs operated with **Dee Davis Inc.** systems (SHIELD, HAVEN, NEMT)  
 **Programs:** SHIELD (lead-safe navigation) · HAVEN (disaster continuity) · HAP NEMT (live proof)
 
-*If the form’s fifth field title differs on scroll, use the matching section below.*
+**Five components on the form:** (1) Theory of Change · (2) Data & Evidence · (3) Collaborative Relationships · (4) Sustainability Plan · (5) **Compelling Story**
 
 ---
 
@@ -124,7 +124,7 @@ MDHHS EHB + CLPPP; LHD intros; HAP CareSource live; MCO expansion; Jeff Metz (Ub
 
 ## 4 — Sustainability Plan
 
-**Question:** *(Sustainability / long-term viability — confirm exact wording on form.)*
+**Question:** Can you show how this program will sustain itself beyond initial funding?
 
 ### COPYABLE
 
@@ -161,47 +161,34 @@ Sustain via MCO/Medicaid billing (HAP live + SHIELD payers), CHW billing, founda
 
 ---
 
-## 5 — Operational Capacity & Systems
+## 5 — Compelling Story
 
-*Use this block if the fifth field is about team, technology, or organizational capacity. If the form says **Financial Management** or **Budget**, use the alternate block below instead.*
+**Question:** Can you tell a story that moves funders emotionally and logically?
 
-### COPYABLE (Operational Capacity & Systems)
-
-```
-Cause We Care’s capacity is amplified by program-grade infrastructure already built and running:
-
-• NEXUS — program command; SHIELD — lead navigation + MDHHS portal; PRISM — field verification; VERTEX — billing and clean claims; HAVEN — disaster continuity registry (activating).
-• Founder-led execution already delivered: live MCO contract, MDHHS partnership meeting, MI Bridges 6+ years, multi-program architecture — not waiting to “build a platform.”
-• Scale gap is funded staffing (3–5 CHWs + supervisor), not vision: MHEF/CFSEM capital → navigators → county KPIs → more contract and grant revenue.
-• EDWOSB TPA model — one prime contract, credentialed fulfillment network, auditable outcomes for every payer and funder.
-```
-
-### SHORT
-
-```
-Systems built and live (SHIELD/HAVEN/VERTEX/PRISM/NEMT). Need funding for CHW team to scale — not for more software. EDWOSB prime + auditable ops.
-```
-
----
-
-## 5 — ALTERNATE — Financial Management & Revenue Diversification
-
-*Use if the fifth field on the workbook is financial/budget focused.*
+*A story — not a partner list (that’s #3), not a budget (that’s #4). Heart + proof in one narrative.*
 
 ### COPYABLE
 
 ```
-• Live revenue: HAP CareSource NEMT (Vendor 100000469269).
-• Billing infrastructure: VERTEX (95%+ clean claims target); factoring path for AR.
-• Diversification: MCO fees + Medicaid CHW + foundations + state/federal contracts — no 100% reliance on one grant.
-• Use of $250K–$500K grant: navigator salaries and supervisor (Cause We Care), not overhead-heavy new builds.
-• Financial gap today: capital to staff SHIELD at county scale while HAP cash flow ramps — not lack of revenue model.
+A mother in Wayne County gets the call: her toddler’s blood lead level came back elevated. She is scared, angry, and tired. The lab tells her to “follow up.” The health department sends a pamphlet. Medicaid says call another number for benefits. The abatement contractor needs access she cannot schedule because she has no ride. CLPPP has a form she does not understand. She is not failing — the system is fragmented, and she is alone in the middle.
+
+Cause We Care exists for that moment.
+
+Our community health worker shows up within 48 hours — not two weeks. She schedules the retest, walks the family through MIBridges for Medicaid and SNAP, books the medical trip through our live Medicaid transportation contract so the child gets to the follow-up, and stays with CLPPP and remediation until the home is on a verified path to safe retest. One door. One person who does not disappear after the first call.
+
+That is SHIELD — and it is not theoretical. Michigan told us the timing is right. MDHHS Environmental Health met with us in April 2026 and committed to introduce us to local health directors across six counties because the state needs partners who show outcomes in real time. We already run Medicaid transportation for thousands of dual-eligible members in Wayne and Macomb. We have helped more than 200 families through MI Bridges since 2020. The infrastructure is live. What we need from you is funding to put navigators in the room for every elevated child — starting in Wayne, then Oakland, Macomb, and Genesee.
+
+The logic is simple: only about 20% of Michigan children get their mandatory lead tests today. The law expects every child. Every missed test is a child we never see. Every elevated result without a navigator is a family left to call ten agencies alone. Your investment does not buy another brochure — it buys staffed follow-through on a system that already runs.
+
+When the next disaster displaces families, the same trust applies: a grandmother who still gets to dialysis and still gets her prescriptions after the shelter move — because continuity was credentialed before the storm, not scrambled after it. That is HAVEN.
+
+Fund Cause We Care to scale the human moment — the 48-hour knock on the door — across Southeast Michigan. The systems are built. The contract is live. The families are waiting.
 ```
 
 ### SHORT
 
 ```
-Live HAP revenue; VERTEX billing; diversified MCO/Medicaid/grants/federal stack; grant dollars → navigators; gap = staffing capital now.
+Elevated lead result → mom alone with ten agencies. Cause We Care CHW in 48 hours: retest, benefits, ride, CLPPP, remediation — one door (SHIELD). MDHHS partnership Apr 2026; live NEMT; MI Bridges since 2020. Funding = navigators for every child, not more software. HAVEN = care continues after disasters. Built. Live. Waiting.
 ```
 
 ---
