@@ -170,25 +170,25 @@ Sustain via MCO/Medicaid billing (HAP live + SHIELD payers), CHW billing, founda
 ### COPYABLE
 
 ```
-A mother in Wayne County gets the call: her toddler’s blood lead level came back elevated. She is scared, angry, and tired. The lab tells her to “follow up.” The health department sends a pamphlet. Medicaid says call another number for benefits. The abatement contractor needs access she cannot schedule because she has no ride. CLPPP has a form she does not understand. She is not failing — the system is fragmented, and she is alone in the middle.
+A mother in Wayne County gets the call: her toddler’s blood lead level came back elevated. Then comes the harder news — the home cannot stay occupied while lead remediation happens. The family is not failing; the house is. Tonight she needs somewhere safe to sleep. Tomorrow she needs a ride to the follow-up lab at a new address. MIBridges has to match the temporary location. CLPPP still has to move. The contractor needs access to a home the family no longer lives in. Retest has to prove the child is safe before anyone says they can go home. She is standing in the middle of a lead crisis that became a displacement crisis — and the system hands her ten phone numbers.
 
 Cause We Care exists for that moment.
 
-Our community health worker shows up within 48 hours — not two weeks. She schedules the retest, walks the family through MIBridges for Medicaid and SNAP, books the medical trip through our live Medicaid transportation contract so the child gets to the follow-up, and stays with CLPPP and remediation until the home is on a verified path to safe retest. One door. One person who does not disappear after the first call.
+Our community health worker shows up within 48 hours — not two weeks. SHIELD is not “lead education.” It is the full arc: retest scheduled, CLPPP and remediation coordinated, temporary housing placed when abatement means the family cannot stay in the home, benefits and food navigation while they are displaced, medical trips booked through our live Medicaid transportation contract to wherever they are staying — and verified follow-through until retest shows it is safe to return. One door. One person who does not disappear when the family has to leave their house.
 
-That is SHIELD — and it is not theoretical. Michigan told us the timing is right. MDHHS Environmental Health met with us in April 2026 and committed to introduce us to local health directors across six counties because the state needs partners who show outcomes in real time. We already run Medicaid transportation for thousands of dual-eligible members in Wayne and Macomb. We have helped more than 200 families through MI Bridges since 2020. The infrastructure is live. What we need from you is funding to put navigators in the room for every elevated child — starting in Wayne, then Oakland, Macomb, and Genesee.
+That is still SHIELD — same program, same navigator, whether the family stays during work or must move out. Michigan told us the timing is right. MDHHS Environmental Health met with us in April 2026 and committed to introduce us to local health directors across six counties. We already run Medicaid transportation for thousands of dual-eligible members in Wayne and Macomb. We have helped more than 200 families through MI Bridges since 2020. The infrastructure is live. What we need from you is funding to staff navigators for every elevated child — including the cases where remediation forces a family out of their home.
 
-The logic is simple: only about 20% of Michigan children get their mandatory lead tests today. The law expects every child. Every missed test is a child we never see. Every elevated result without a navigator is a family left to call ten agencies alone. Your investment does not buy another brochure — it buys staffed follow-through on a system that already runs.
+The logic is simple: only about 20% of Michigan children get their mandatory lead tests today. The law expects every child. Every elevated result without a navigator is a family left alone — and the hardest cases are not pamphlets; they are displacement during abatement. Your investment buys that follow-through on a system that already runs.
 
-When the next disaster displaces families, the same trust applies: a grandmother who still gets to dialysis and still gets her prescriptions after the shelter move — because continuity was credentialed before the storm, not scrambled after it. That is HAVEN.
+When a flood or ice storm displaces hundreds of families at once, the same continuity playbook applies at plan scale — that is HAVEN. SHIELD is the one-family version when lead forces them out of the house.
 
-Fund Cause We Care to scale the human moment — the 48-hour knock on the door — across Southeast Michigan. The systems are built. The contract is live. The families are waiting.
+Fund Cause We Care to scale the 48-hour knock on the door — and the nights that come after it — across Southeast Michigan. The systems are built. The contract is live. The families are waiting.
 ```
 
 ### SHORT
 
 ```
-Elevated lead result → mom alone with ten agencies. Cause We Care CHW in 48 hours: retest, benefits, ride, CLPPP, remediation — one door (SHIELD). MDHHS partnership Apr 2026; live NEMT; MI Bridges since 2020. Funding = navigators for every child, not more software. HAVEN = care continues after disasters. Built. Live. Waiting.
+Elevated lead → home not habitable during abatement → family displaced. SHIELD navigator in 48 hrs: temp housing, benefits at new address, rides to follow-up, CLPPP/remediation, retest before return home — one door. Not separate from lead; the hardest part of the same case. HAVEN = same continuity at disaster scale. Live NEMT + MDHHS Apr 2026 + MI Bridges since 2020. Funding = navigators. Built. Live. Waiting.
 ```
 
 ---
