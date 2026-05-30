@@ -170,25 +170,34 @@ Sustain via MCO/Medicaid billing (HAP live + SHIELD payers), CHW billing, founda
 ### COPYABLE
 
 ```
-A mother in Wayne County gets the call: her toddler’s blood lead level came back elevated. Then comes the harder news — the home cannot stay occupied while lead remediation happens. The family is not failing; the house is. Tonight she needs somewhere safe to sleep. Tomorrow she needs a ride to the follow-up lab at a new address. MIBridges has to match the temporary location. CLPPP still has to move. The contractor needs access to a home the family no longer lives in. Retest has to prove the child is safe before anyone says they can go home. She is standing in the middle of a lead crisis that became a displacement crisis — and the system hands her ten phone numbers.
+Two kinds of displacement break Michigan families the same way — and Cause We Care answers both through SHIELD and HAVEN.
 
-Cause We Care exists for that moment.
+SHIELD — when lead forces a family out of their home:
+A mother in Wayne County learns her toddler’s blood lead is elevated. Then she learns the home cannot stay occupied while remediation happens. Tonight she needs somewhere safe to sleep. Tomorrow she needs a ride to the follow-up lab — at a new address. Benefits have to follow the family, not the house. CLPPP and the contractor still have to move forward while the children are somewhere else. Retest has to prove safety before anyone says they can go home. Lead did not only create a medical problem; it created a displacement crisis — and the system hands her ten phone numbers.
 
-Our community health worker shows up within 48 hours — not two weeks. SHIELD is not “lead education.” It is the full arc: retest scheduled, CLPPP and remediation coordinated, temporary housing placed when abatement means the family cannot stay in the home, benefits and food navigation while they are displaced, medical trips booked through our live Medicaid transportation contract to wherever they are staying — and verified follow-through until retest shows it is safe to return. One door. One person who does not disappear when the family has to leave their house.
+Our SHIELD navigator shows up within 48 hours. Not a pamphlet. Not a referral list. One person who schedules the retest, coordinates CLPPP and remediation, places temporary housing when the family cannot stay during abatement, updates MIBridges, books medical trips through our live Medicaid transportation operations, and stays until the case is verified closed. SHIELD is childhood lead — including the nights a family cannot sleep in their own home.
 
-That is still SHIELD — same program, same navigator, whether the family stays during work or must move out. Michigan told us the timing is right. MDHHS Environmental Health met with us in April 2026 and committed to introduce us to local health directors across six counties. We already run Medicaid transportation for thousands of dual-eligible members in Wayne and Macomb. We have helped more than 200 families through MI Bridges since 2020. The infrastructure is live. What we need from you is funding to staff navigators for every elevated child — including the cases where remediation forces a family out of their home.
+HAVEN — when disaster forces a plan’s members out of their homes:
+Six months later, a grandmother in the same region loses her apartment in a flood. Her health plan still owes her dialysis, prescriptions, and a way to get there — but her pharmacy, her clinic, and her address no longer match what the system has on file. She is not in a lead case. She is in a mass displacement event — and the same fragmentation hits at scale.
 
-The logic is simple: only about 20% of Michigan children get their mandatory lead tests today. The law expects every child. Every elevated result without a navigator is a family left alone — and the hardest cases are not pamphlets; they are displacement during abatement. Your investment buys that follow-through on a system that already runs.
+HAVEN is the continuity layer health plans activate before the next crisis: pre-credentialed housing, medical transport, and Rx/DME/home health partners so when a disaster declaration comes, members are not rebuilding their care from zero. Shelter. Rides to the new location. Medications that still show up. Same TPA discipline — different trigger, bigger volume.
 
-When a flood or ice storm displaces hundreds of families at once, the same continuity playbook applies at plan scale — that is HAVEN. SHIELD is the one-family version when lead forces them out of the house.
+One infrastructure, two front doors:
+Cause We Care delivers the human navigation. Our affiliated program systems and live Medicaid NEMT contract (Wayne and Macomb today) are already running — not a slide deck. MDHHS Environmental Health met with us in April 2026 and committed to county health introductions for SHIELD. HAP CareSource proves we can move members to care every day; HAVEN extends that proof when networks break overnight.
 
-Fund Cause We Care to scale the 48-hour knock on the door — and the nights that come after it — across Southeast Michigan. The systems are built. The contract is live. The families are waiting.
+The logic for funders:
+• SHIELD — ~20% of Michigan children get mandatory lead tests today; the law expects 100%. Every elevated child without a navigator is a family alone — especially when abatement means moving out.
+• HAVEN — disasters are not if; they are when. Plans need a partner credentialed before the storm, not vendors scrambled after it.
+
+Your investment staffs SHIELD navigators and builds HAVEN’s partner registry and activation — so whether a family is displaced by lead in one home or by a flood across a county, someone answers the door and the system keeps running.
+
+Fund Cause We Care to scale SHIELD and HAVEN across Southeast Michigan. The playbook is built. The contract is live. The families are waiting.
 ```
 
 ### SHORT
 
 ```
-Elevated lead → home not habitable during abatement → family displaced. SHIELD navigator in 48 hrs: temp housing, benefits at new address, rides to follow-up, CLPPP/remediation, retest before return home — one door. Not separate from lead; the hardest part of the same case. HAVEN = same continuity at disaster scale. Live NEMT + MDHHS Apr 2026 + MI Bridges since 2020. Funding = navigators. Built. Live. Waiting.
+SHIELD: elevated lead → home uninhabitable during abatement → family displaced → one navigator in 48 hrs (housing, benefits, rides, CLPPP, remediation, retest before return). HAVEN: disaster displaces many families → same continuity (shelter, care trips, meds) pre-credentialed before the next crisis. Cause We Care navigates; live NEMT + MDHHS partnership prove ops. Fund navigators + HAVEN registry. Built. Live. Waiting.
 ```
 
 ---
