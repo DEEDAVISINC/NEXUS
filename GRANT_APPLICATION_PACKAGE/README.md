@@ -20,6 +20,7 @@
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | **Feast of Funds** Step 3 — funders by category + 90-day top 2 (copyable) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | **Feast of Funds** Step 4 — 5-component readiness checkup (copyable) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | **Feast of Funds** Step 5 — priorities, 30-day wins, obstacles (copyable) |
+| `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | **Feast of Funds** Step 6 — webinar commitment + questions (copyable) |
 | `UPLOAD_READY/` | All upload-ready files (logos, headshot, certs, financials) — attach from here |
 
 ## APPLICATIONS FOLDER — READY NOW

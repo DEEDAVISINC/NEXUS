@@ -38,6 +38,8 @@
 | **Feast of Funds workbook (Step 3)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | Corporations, foundations, MCOs, public — copyable |
 | **Feast of Funds workbook (Step 4)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | Theory of change, evidence, partners, sustainability — copyable |
 | **Feast of Funds workbook (Step 5)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | Proof-first priorities, 30-day wins, obstacles — copyable |
+| **Feast of Funds workbook (Step 6)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | Webinar commitments + accountability — copyable |
+| **Feast of Funds index (all steps)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | Steps 1–6 complete |
 
 ---
 

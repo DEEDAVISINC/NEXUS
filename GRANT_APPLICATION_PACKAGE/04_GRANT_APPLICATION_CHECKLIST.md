@@ -44,6 +44,7 @@
 | Feast of Funds workbook — Step 3 (funding pathways) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` |
 | Feast of Funds workbook — Step 4 (5-component checkup) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` |
 | Feast of Funds workbook — Step 5 (priorities) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` |
+| Feast of Funds workbook — Step 6 (commitment) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` |
 
 ---
 
