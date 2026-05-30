@@ -34,23 +34,37 @@ We lead outreach with systems + live Michigan operations. We do not lead with �
 
 ## QUESTION 2 — What are 2–3 quick wins you could accomplish in the next 30 days?
 
+**Standard:** Revenue or **funding dollars in motion** — not admin, not “finish the workbook.”
+
 ### COPYABLE
 
 ```
-1) Finish this Feast of Funds workbook and lock our funder target list (MHEF Capacity Building RFP early April 2026 + register Cause We Care on CFSEM).
+1) Pull cash from the contract we already won — HAP CareSource NEMT (~$540K annual run-rate at full utilization). In 30 days: invoice every completed trip through VERTEX (no leakage), submit Bankers Factoring on HAP AR so we are not waiting 60–90 days on Medicaid pay, and push HAP for Oakland County approval (pending) plus member/outreach tactics that increase trip volume ($28 standard / $35 wheelchair). That is real money this month — not a grant application.
 
-2) Build the HAP “proof pack” — one PDF: vendor ID, counties served, trip/SLA snapshot, how HAVEN extends the same TPA — ready to attach before any foundation or MCO call.
+2) Submit fast-turn grant applications that can pay within 30–90 days — Cause We Care and Dee Davis Inc. lanes:
+• Amber Grant ($10K + annual pool) — apply this month ($15 fee)
+• IFundWomen Universal ($10K) — free, Q1 open
+• CFSEM rolling ($5K–$50K) — register + submit one Detroit community health / SHIELD navigator request
+• MHEF Capacity Building — concept paper / invite request the week the April 2026 RFP drops (up to ~$300K; 30-day win = invited to apply, not awarded yet)
+• Hello Alice + WBENC portal — unlock auto-matched corporate grants (DDI capacity / CWC programs)
 
-3) Schedule or complete two relationship moves: (a) MHEF — follow Sayre Corbin thread for Capacity Building invite; (b) HAP CareSource — 30-minute ask for Oakland expansion + HAVEN disaster-continuity rider language in the existing contract.
+3) Turn on Medicaid revenue for work Cause We Care already does — call MDHHS (1-800-292-2550) and complete CHW / community partner **billing enrollment** so MIBridges navigation and eligible SHIELD-adjacent services bill Medicaid instead of staying volunteer-cost. Parallel: hard follow-up on MDHHS CLPPP lead inquiry ($57K–$1.35M state band) — one meeting scheduled = pipeline money, not inbox silence.
 
-Bonus if time allows: SHIELD one-pager for MDHHS/CLPPP follow-up; confirm CWC SAM.gov validation status so federal grant doors open.
+Stretch (still revenue, not paperwork): one federal CO micro-purchase email batch (≤$15K each, SAM-ready DDI) + start **one** second Michigan MCO NEMT conversation (Molina or Blue Cross Complete) using HAP live ops as proof — second six-figure contract is the multiplier; 30-day win is signed meeting or vendor packet submitted.
 ```
 
 ### SHORT
 
 ```
-30-day wins: complete workbook + CFSEM registration; HAP proof PDF; MHEF CB follow-up + HAP meeting (Oakland + HAVEN rider); SAM validation check.
+30-day money wins: (1) HAP — invoice + factor AR + Oakland approval + more trips; (2) submit Amber, IFundWomen, CFSEM, MHEF CB invite, Hello Alice; (3) MDHHS CHW billing live + CLPPP meeting. Stretch: federal micro-purchases + second MCO pitch.
 ```
+
+### NOT quick wins (do not list on funder forms)
+
+- Finishing the Feast of Funds workbook
+- Building a proof PDF (sales tool — not cash)
+- “Register on a portal” without a submitted application
+- SAM.gov waiting period (unlock — not payment)
 
 ---
 
