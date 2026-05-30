@@ -36,6 +36,7 @@
 | **Feast of Funds workbook (Step 1)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` | SHIELD + HAVEN — copyable program snapshot for funders |
 | **Feast of Funds workbook (Step 2)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | Collaboration pod — orgs, experts, institutions, funder contacts |
 | **Feast of Funds workbook (Step 3)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | Corporations, foundations, MCOs, public — copyable |
+| **Feast of Funds workbook (Step 4)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | Theory of change, evidence, partners, sustainability — copyable |
 | **Feast of Funds workbook (Step 5)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | Proof-first priorities, 30-day wins, obstacles — copyable |
 
 ---

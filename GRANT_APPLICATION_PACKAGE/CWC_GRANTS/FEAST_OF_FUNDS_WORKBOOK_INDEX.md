@@ -14,7 +14,7 @@
 | **1** | Program Snapshot | `FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` | ✅ Saved |
 | **2** | Collaborators (Collaboration Pod) | `FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | ✅ Saved |
 | **3** | Funding Pathways & Possibilities | `FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | ✅ Saved |
-| **4** | Checkup | — | ⏳ Not built yet |
+| **4** | 5 Component Program Checkup | `FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | ✅ Saved |
 | **5** | Priorities & Next Steps | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | ✅ Saved |
 | **6** | Commitment | — | ⏳ Not built yet |
 

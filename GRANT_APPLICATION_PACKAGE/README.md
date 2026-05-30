@@ -18,6 +18,7 @@
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` | **Feast of Funds** Step 1 — SHIELD + HAVEN snapshot (copyable blocks) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | **Feast of Funds** Step 2 — collaboration pod (copyable) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | **Feast of Funds** Step 3 — funders by category + 90-day top 2 (copyable) |
+| `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | **Feast of Funds** Step 4 — 5-component readiness checkup (copyable) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | **Feast of Funds** Step 5 — priorities, 30-day wins, obstacles (copyable) |
 | `UPLOAD_READY/` | All upload-ready files (logos, headshot, certs, financials) — attach from here |
 
