@@ -91,22 +91,33 @@ Need: navigator grant funding (MHEF/CFSEM), warm intros (MHEF, CFSEM, MDHHS, HAP
 
 ## QUESTION 4 — What is the biggest obstacle standing in your way right now?
 
+**Standard:** Name the real blocker. Systems and execution capacity already exist — **capital does not.**
+
 ### COPYABLE
 
 ```
-Founder bandwidth — we are operating live NEMT, building SHIELD and HAVEN proof, and running grant outreach at the same time. Funders want evidence and meetings; operations want daily dispatch and billing. Both cannot be “later.”
+Funding — plain and simple.
 
-Second: capital timing — navigator hires and marketing scale need grant dollars or contract expansion before we can hit public SHIELD KPIs at county scale.
+The operating system is built (NEXUS, SHIELD, PRISM, VERTEX, HAVEN). Live Michigan MCO NEMT is running (HAP CareSource). The founder already proved execution without a big team. What we do not have yet is enough **grant and contract capital** to:
 
-Third: dependency on external gates — CWC SAM.gov validation (unlocks federal grants), MHEF Capacity Building RFP window (early April 2026), and health-plan meeting access for HAVEN rider language. We control the proof pack; we do not control their calendars.
+• Hire 3–5 Cause We Care community health workers + a supervisor to run SHIELD caseloads at county scale
+• Fund the HAVEN partner registry and pilot activation (housing, transport, Rx/DME continuity) beyond clause language
+• Expand NEMT revenue (Oakland approval, second MCO slice) faster than organic trip growth alone
+• Stop funding navigator and outreach work out of pocket while waiting on award cycles
 
-Not the obstacle: lack of vision or systems — the systems exist. The obstacle is proving and staffing them fast enough that funders see a running machine, not a promise.
+Secondary (funding-access, not “bandwidth”):
+• Award timing — MHEF Capacity Building RFP (~$300K) early April 2026; CFSEM and fast grants ($5K–$50K) in flight; federal doors tied to CWC SAM.gov validation
+• Payer decisions — health-plan meetings for Oakland expansion and HAVEN disaster rider (revenue and proof, not charity)
+
+Not the obstacle:
+• Founder bandwidth — the hard build is already done
+• Lack of vision, systems, or capability — those exist; **capital to staff and scale them** is what’s missing
 ```
 
 ### SHORT
 
 ```
-Biggest obstacle: founder time split between live ops and funder proof; need grant capital for navigators before county-scale SHIELD; waiting on SAM + MHEF RFP + MCO meeting access.
+Biggest obstacle: funding — not systems, not bandwidth. Need grant/contract dollars to hire navigators, scale SHIELD/HAVEN, and expand live NEMT before county KPIs and six-figure growth.
 ```
 
 ---
