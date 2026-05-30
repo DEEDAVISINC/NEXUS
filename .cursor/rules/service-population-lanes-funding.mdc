@@ -1,0 +1,67 @@
+---
+description: Always classify end populations by service lane (Plan NEMT vs HAVEN vs Freight) for grants, funding, and "who we serve" narratives.
+alwaysApply: true
+---
+
+# Service Population Lanes — Funding & Narrative Discipline
+
+**Source of truth:** `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md`
+
+DDI wins funding when applications name the **correct end population** for the **correct program** — not generic “transport” or “healthcare.”
+
+---
+
+## Mandatory split — mobility (never merge)
+
+| Lane | Use for | End population |
+|------|---------|----------------|
+| **MOB-A — Plan NEMT (TPA 5)** | Daily MCO/Medicaid medical trips | Enrolled members with authorized NEMT (HIDE SNP dual-eligible, LTSS/SNP, county slices) |
+| **MOB-B — HAVEN transport** | Disaster continuity only | **Displaced plan members** — evacuation, continuity trips, pharmacy/medical access when networks fail |
+| **MOB-C — Freight (TPA 6)** | Logistics grants / federal freight | Cargo, agencies, owner-operators — **not** patient NEMT populations |
+
+**HAVEN** = Housing + Assistance + Vital Emergency Network (housing + MOB-B + medical continuity). It is **MCO NEMT infrastructure in disaster mode**, not a general courier or rideshare program.
+
+---
+
+## When this rule applies
+
+Before generating or advising on:
+
+- Grant applications, LOIs, or funder inquiries (DDI or Cause We Care)
+- “Who we serve” / community impact sections
+- MCO, FEMA, state EM, ACL/AAA, or Medicaid waiver narratives
+- Capability statements that describe **populations** (not just buyers)
+- Funding strategy, capital, or program-fit answers
+
+**Also read:** `COMPANY_INFO_MASTER.md` per `grant-strategy-company-info-gate.mdc`.
+
+---
+
+## Required behavior
+
+1. **Classify** every mention of transport into MOB-A, MOB-B, or MOB-C — or state non-mobility TPA (1–9 / navigation / facilities).
+2. **Match funder to population** using the funding map in `DDI_SERVICE_POPULATION_LANES.md`.
+3. **Anchor HAVEN** to displaced populations + continuity of care + live MCO proof (e.g. HAP CareSource NEMT where documented) — never as routine Medicaid rides.
+4. **Do not fabricate** member counts, grant awards, or program participation.
+
+---
+
+## Hard stops
+
+Do not publish grant/funding/population copy if:
+
+- “Transportation services” appears without lane classification
+- HAVEN and plan NEMT are described as the same population
+- Freight/OO logistics is bundled into senior/medical member access grants
+- Population claims are not sourced from workspace docs
+
+---
+
+## Self-check (PASS/FAIL)
+
+- Population lane named: PASS/FAIL
+- HAVEN vs plan NEMT separated: PASS/FAIL
+- Funder alignment explicit: PASS/FAIL
+- Company info gate satisfied: PASS/FAIL
+
+If any FAIL → revise using `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md` before presenting to Dee.

@@ -39,6 +39,8 @@
 | Technology blurbs by grant type | ✅ | `05_TECHNOLOGY_PROFILE.md` → bottom section |
 | Developer/founder tech story | ✅ | `05_TECHNOLOGY_PROFILE.md` → "Founder as Developer" |
 | Hello Alice profile answers | ✅ | `01_GRANT_MASTER_PROFILE.md` → Section 13 |
+| Feast of Funds workbook — Step 1 (SHIELD + HAVEN) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` |
+| Feast of Funds workbook — Step 3 (funding pathways) | ✅ | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` |
 
 ---
 
@@ -105,6 +107,8 @@
 | **CFSEM Portal (Cause We Care)** | 🔴 | THIS MONTH | Register CWC at cfsem.org/grants |
 | **MHEF Portal (Cause We Care)** | 🔴 | THIS MONTH | Register CWC at mihealthfund.org |
 | **Cause We Care Grants.gov** | 🔴 | AFTER SAM RENEWAL | Create applicant account once SAM is active |
+| **DDI_FOUNDATION_TARGETS.md** | ✅ | REFERENCE | Foundation list by issue/population — use with `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md` |
+| **DDI_STRATEGIC_KNOWLEDGE_INDEX.md** | ✅ | REFERENCE | Buyers, outcomes, community impact, 12–18 mo plan |
 
 ---
 

@@ -124,6 +124,41 @@ STEP 3: Continuous Improvement
 
 ---
 
+### **BANKRUPTCY_AND_CONTRACT_ELIGIBILITY.md**
+**Added:** May 29, 2026  
+**Purpose:** Bankruptcy vs government contract bidding — responsibility determinations, solicitation certifications, bonding, ModivCare case study, DDI financial-stability framing.
+
+**Use when:** Recompetes vs distressed incumbents; RFP financial attestation sections; ModivCare / MI-Maine NEMT strategy.
+
+**Cross-links:** `MODIVCARE_COMPETITIVE_INTEL.md` · `INCUMBENT_VULNERABILITY_SIGNALS.md` (Signal #11)
+
+---
+
+### **NEMT_CONTRACT_SLICE_STRATEGY.md**
+**Added:** May 29, 2026  
+**Purpose:** DDI default on large NEMT/broker programs — **a piece of the contract** (TPA layer, teaming, sub, MCO slice), not sole prime on entire megacontract.
+
+**Use when:** Maine/Michigan recompetes, MCO outreach, revenue analysis on broker RFPs, GO/NO-GO on statewide programs.
+
+---
+
+### **DDI Strategic Knowledge Pack (May 30, 2026)**
+
+**Master index:** `DDI_STRATEGIC_KNOWLEDGE_INDEX.md`
+
+| File | Purpose |
+|------|---------|
+| `DDI_SERVICE_POPULATION_LANES.md` | MOB-A / MOB-B / MOB-C; grant funder map; never merge “transport” |
+| `DDI_BUYERS_AND_MARKETS.md` | Who pays DDI (buyers) — not fulfillment partners |
+| `DDI_PROGRAM_OUTCOMES_WHEN_WORKING.md` | SHIELD, HAVEN, NEMT, PRISM, VERTEX outcomes when working |
+| `DDI_COMMUNITY_IMPACT_SUMMARY.md` | Short community narrative for grants/outreach |
+| `DDI_12_18_MONTH_EXECUTION_WITH_CAPITAL.md` | Multiple six-figure packages — 12–18 month ops plan |
+| `../GRANT_APPLICATION_PACKAGE/DDI_FOUNDATION_TARGETS.md` | Local/regional/national foundation targets |
+
+**Use when:** Grants, “who we serve,” buyer vs partner questions, community impact, foundation research, scaling with capital.
+
+---
+
 ## ADDING NEW INTELLIGENCE
 
 When new market intelligence is identified:
