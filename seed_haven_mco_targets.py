@@ -43,7 +43,7 @@ MCO_TARGETS = [
         "contract_status": "Active",
         "credentialing_status": "Complete",
         "portal_access": True,
-        "notes": "LIVE as of May 6, 2026. Vendor ID: 100000469269. Rates: $28 standard, $35 ambulatory/wheelchair. INSTANT CREDIBILITY for HAVEN pitches.",
+        "notes": "LIVE as of May 6, 2026. Vendor ID: 100000469269. NEMT counties: Wayne + Macomb (Oakland pending). Rates: $28 standard, $35 ambulatory/wheelchair. INSTANT CREDIBILITY for HAVEN pitches.",
     },
     
     # ─── FLORIDA MCOs ───────────────────────────────────────────────────────

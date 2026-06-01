@@ -3,7 +3,9 @@
 **Workbook URL:** https://feastoffundsworkbook.my.canva.site  
 **Last Updated:** May 30, 2026  
 **Applicant:** Cause We Care (501c3) · **Systems/TPA:** Dee Davis Inc. (EDWOSB)  
-**Programs:** SHIELD · HAVEN · HAP NEMT (live proof)
+**Programs:** SHIELD · HAVEN · HAP NEMT (live proof)  
+**Live status (done vs next):** `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md` — **updated May 30, 2026**  
+**Workbook:** ✅ Complete — Step 5/6 revised so priorities are **execution**, not prep
 
 ---
 

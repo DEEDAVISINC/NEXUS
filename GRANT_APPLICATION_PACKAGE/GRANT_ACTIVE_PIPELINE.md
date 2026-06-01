@@ -1,8 +1,9 @@
 # GRANT ACTIVE PIPELINE — DEE DAVIS INC.
-### Live Tracker | Dieasha D. Davis | Updated: April 5, 2026
+### Live Tracker | Dieasha D. Davis | Updated: May 30, 2026
 
 **Applicant:** Dee Davis Inc. + Cause We Care (501c3)  
-**Status:** LAUNCHING — first applications going out now  
+**Status:** EXECUTING — inquiries sent, MDHHS + HAP live; **next = MHEF concept + CFSEM submit**  
+**Done vs next (read first):** `CWC_GRANT_OPERATIONS_STATUS.md` · **Funder map:** `NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md` · **Session:** `SESSION_SUMMARY_MAY_30_2026.md`
 
 ---
 
@@ -29,7 +30,7 @@
 | 7 | **FedEx Small Business Grant** | $5K–$50K | Opens Spring 2026 — CHECK NOW | FREE | 🔴 | Go to smallbusinessgrant.fedex.com — may be open |
 | 8 | **Cartier Women's Initiative** | $30K–$100K | Q1 2026 — CHECK NOW | FREE | 🔴 | Go to cartierwomensinitiative.com — may be open |
 | 9 | **Eileen Fisher Grant** | $40K–$100K | Q1/Q2 2026 — CHECK NOW | FREE | 🔴 | Go to eileenfisher.com/grants — may be open |
-| 10 | **Cause We Care SAM.gov Renewal** | Unlocks ALL federal grants | SUBMITTED Mar 22 | FREE | 🟡 | Ref: INC-GSAFSD8651858 — validation instructions expected by Mar 26 |
+| 10 | **Cause We Care SAM.gov Renewal** | Unlocks ALL federal grants | SUBMITTED Mar 22 | FREE | 🟡 | Ref: INC-GSAFSD8651858 — CAGE docs sent; chase validation if stalled (FSD 866-606-8220) |
 
 ---
 
@@ -42,8 +43,8 @@
 | 13 | **JPMorgan Chase Small Business Forward** | $10K–$150K | Rolling | FREE | 🔴 | Check via Hello Alice + jpmorganchase.com |
 | 14 | **Michigan SBDC — Advisor Appointment** | Free consulting + grant intel | ASAP | FREE | 🔴 | michigansbdc.org — schedule meeting |
 | 15 | **Nav Grants Database** | $500–$100K | Rolling | FREE | 🔴 | Bookmark nav.com/grants — check Mondays |
-| 16 | **CFSEM (Cause We Care)** | $5K–$50K | Rolling (foundation) | FREE | 🔴 | Register CWC at cfsem.org/grants |
-| 17 | **Michigan Health Endowment Fund (Cause We Care)** | $10K–$200K | Multiple cycles | FREE | 🔴 | Register CWC at mihealthfund.org |
+| 16 | **CFSEM (Cause We Care)** | $5K–$50K | Rolling (foundation) | FREE | 🔴 | **NEXT:** Register + submit SHIELD navigator pilot — see `CWC_GRANT_OPERATIONS_STATUS.md` |
+| 17 | **Michigan Health Endowment Fund (Cause We Care)** | Up to ~$300K CB | **RFP early Apr 2026** | FREE | 🟡 | Inquiry ✅ · Sayre replied Mar 27 — **submit concept in Fluxx** |
 | 18 | **NAWBO Michigan Chapter** | $1K–$25K | Rolling/chapter-based | FREE | 🔴 | Contact Detroit chapter — attend meeting |
 | 19 | **SBA InnovateHER** | $30K–$70K | Opens Fall 2026 | FREE | 🔴 | Monitor sba.gov — prepare application now |
 | 20 | **Walmart Women Owned** | $5K–$25K | Rolling | FREE | 🔴 | Check via Hello Alice |
@@ -76,7 +77,7 @@
 | HUD Community Development Block Grant | $25K–$500K | Southeast Michigan community | 🟡 After SAM active (~March 26) |
 | VA Supportive Services for Veteran Families (SSVF) | $50K–$500K | Veteran homelessness prevention | 🟡 After SAM active (~March 26) |
 | SAMHSA Community Mental Health | $100K–$750K | Community health navigation | 🟡 After SAM active (~March 26) |
-| CFSEM (Community Foundation SE Michigan) | $5K–$50K | Detroit-area community programs | 🔴 Register at cfsem.org |
+| CFSEM (Community Foundation SE Michigan) | $5K–$50K | Detroit-area community programs | 🔴 Register + submit (not started) |
 | Robert Wood Johnson Foundation | $50K–$500K | Health equity | 🟡 After SAM active (~March 26) |
 | **Medicaid CHW Reimbursement** | Per-service billing | MIBridges navigation work | 🔴 Call 1-800-292-2550 to set up billing |
 | **MDHHS CLPPP — Lead Prevention Grants** | $57K–$1.35M | Lead screening outreach + navigation | 🟢 INQUIRY SENT March 22 to MDHHS-CLPPP@michigan.gov |

@@ -172,13 +172,7 @@ Any federal facility within driving distance of DDI's collector network:
 
 ### 🔵 NEMT STRATEGY
 
-**Michigan is the #1 priority.** Contract MA190000000912 (ModivCare) expires July 31, 2026. That is 5 months away. DTMB will be issuing an RFP imminently if not already. DDI has:
-- Sarah Oumedian (Buyer) — OumedianS@michigan.gov
-- Kyle London, Marissa Gove, Jillian Yeates (DTMB Contract Admins)
-- Spring McKeever, Ashlee Diaz (MDHHS Program Managers)
-- Larry Smith, Jason Harbitz (ModivCare — sub opportunity)
-
-**Action:** Check SIGMA VSS immediately for Michigan NEMT re-compete RFP.
+**Michigan recompete watch:** Contract MA190000000912 expires July 31, 2026. **DDI wants a slice** (TPA/teaming/sub) — not default sole prime on full tri-county broker. Check SIGMA VSS; see `NEMT_CONTRACT_SLICE_STRATEGY.md`.
 
 ---
 

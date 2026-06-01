@@ -38,8 +38,8 @@ At 35% margin, this requires ~$1.4M/month in billed services ($17M/year).
 
 | MCO | HIDE Region | Contact | Date | Status |
 |-----|-------------|---------|------|--------|
-| **HAP CareSource** | Region 10 (Wayne, Macomb, Oakland) | Brian Grcevich (orientation) | 04/28/2026 | ✅ **CONTRACTED** — Vendor ID 100000469269, orientation 05/06 |
-| **Blue Cross Complete of MI** | Multiple | Alina Pabin (VP, Provider Network Mgmt) | 05/05/2026 | ✅ **MEETING SCHEDULED** — 30-min intro call (before Memorial Day) |
+| **HAP CareSource** | **Wayne + Macomb** (Oakland pending) — Region 10 HIDE SNP | Brian Grcevich (orientation) | 04/28/2026 | ✅ **CONTRACTED** — Vendor ID 100000469269, orientation 05/06 |
+| **Blue Cross Complete of MI** | Multiple | Alina Pabin (VP, Provider Network Mgmt) | 05/05/2026 | ⏳ **SCHEDULING** — post–Memorial Day follow-up sent; June 2 & 9 afternoons ET offered |
 | **Molina Healthcare of MI** | 11 regions statewide | Michael R. Steele | 05/04/2026 | 📧 Email sent; portal enrollment in progress (LTSS/NEMT) |
 | **Meridian Health Plan** | Multiple | Patty Graham | 05/04/2026 | 📧 Email sent |
 | **UnitedHealthcare Community Plan** | Multiple | Network Team | 05/04/2026 | 📧 Email sent |
@@ -77,7 +77,7 @@ At 35% margin, this requires ~$1.4M/month in billed services ($17M/year).
 - State Medicaid enrollment follows contracts, not the other way around
 
 **Combined pitch to every MCO:**
-> "DDI already manages NEMT for HAP CareSource's HIDE SNP population in Michigan — 4,500 dual-eligible members, unlimited rides, zero-fleet TPA model. We want to bring that to your membership: daily NEMT plus automatic HAVEN disaster response activation when FEMA declares. One vendor, both services, already operational."
+> "DDI already manages NEMT for HAP CareSource's HIDE SNP population in Wayne and Macomb counties — ~4,500 dual-eligible members, unlimited rides, zero-fleet TPA model. We want to bring that to your membership: daily NEMT plus automatic HAVEN disaster response activation when FEMA declares. One vendor, both services, already operational."
 
 ---
 

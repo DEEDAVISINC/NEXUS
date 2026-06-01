@@ -14,9 +14,13 @@ alwaysApply: true
 ### 0. Pending Actions (CHECK FIRST)
 - `PENDING_ACTIONS.md` — **READ THIS FIRST.** Present any overdue or pending items to Dee BEFORE asking what she wants to work on.
 
+### 0b. Outbound email log (CHECK BEFORE ANY SEND RECOMMENDATION)
+- `OUTBOUND_EMAIL_LOG.md` — **every email Dee has sent.** Grep TO address before recommending outreach. See `.cursor/rules/log-every-send-immediately.mdc`.
+
 ### 1. Active Bids & Deadlines
 - `BIDS:RESOURCES/` — folder structure shows all active bid folders
 - `BID_TRACKER_DASHBOARD.md` — current bid status and deadlines
+- `QUESTIONS_SUBMISSION_TRACKER.md` — **written questions submitted vs still due** (check before telling Dee to submit questions)
 - `MINIMIZED_DEADLINES.md` — upcoming deadline summary
 
 ### 2. CO Outreach Pipeline
@@ -24,10 +28,17 @@ alwaysApply: true
 - `BIDS:RESOURCES/FEDERAL CO OUTREACH PIPELINE/PENDING_COS_FOR_LATER.md` — COs identified but not yet emailed (pick up where we left off)
 
 ### 3. Opportunity Intelligence
-- `NEW_SOURCES_SOUGHT_MAR17.md` (or most recent dated file) — latest miner results
+- **`NEXUS_LEARNING/DDI_STRATEGIC_KNOWLEDGE_INDEX.md`** — Buyers vs partners, population lanes (MOB-A/B/C), community impact, foundations, 12–18 mo scaling (May 2026 pack)
+- **`SESSION_SUMMARY_MAY_30_2026.md`** — Four Pillars, program packaging, Michigan funder map, MDHHS/BCC follow-ups, LHD contacts
+- **`NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`** — Tier 1–4 funders (state, foundations, MCO, county opioid)
+- **`NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`** — Healthcare Access, Family Stability, Substance Use programs
+- **`CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md`** — BCC (Alina), MDHHS (Angela/Aimee), HAP status
+- **`RADAR_RESULTS.md`** — **RADAR compiled output (NEW opportunity mining). Read when Dee asks "what's on the RADAR" — NOT the bid tracker.**
+- `NEW_SOURCES_SOUGHT_MAR17.md` (or most recent `NEW_SOURCES_SOUGHT_*.md`) — latest federal sources sought digest
 - `NEXUS_WATCH_LIST.md` — solicitations being monitored for full RFQ release
 - `FORECAST_OPPORTUNITIES_TRACKER.md` — pipeline of upcoming opportunities
-- `aog_sam_cache.json` — last automated AOG / NAICS 488190 SAM.gov scan (updated by `nexus_scheduler.py --mine` / federal mining; Freight 1st Direct lane)
+- `aog_sam_cache.json` — last automated AOG / NAICS 488190 SAM.gov scan (updated by `nexus_scheduler.py --mine` / `--radar`)
+- `digital_nav_sam_cache.json` — digital navigation / benefits enrollment lane (updated by `--digital-nav` / `--radar`)
 - `NEXUS_LEARNING/` — market intelligence files for strategic targeting (contract lanes, NAICS priorities, buyer patterns, DDI positioning)
 
 ### 4. Active Drug Testing Bids (PRIORITY)
@@ -108,6 +119,23 @@ alwaysApply: true
 
 ---
 
+## RADAR — WHEN DEE ASKS "WHAT'S ON THE RADAR?" (MANDATORY)
+
+**Full rule:** `.cursor/rules/radar-system.mdc`
+
+**RADAR** = Revenue Acquisition Discovery And Reconnaissance — **automated NEW opportunity mining only.**
+
+| Dee asks | Read / run | Do NOT substitute |
+|----------|------------|-------------------|
+| "What's on the RADAR?" / "RADAR report" / "What did RADAR find?" | **`RADAR_RESULTS.md`** first | ❌ `BID_TRACKER_DASHBOARD.md`, `PENDING_ACTIONS.md`, `TODAY_AGENDA.md` |
+| "Run RADAR" / "Refresh RADAR" | `python3 nexus_scheduler.py --radar` → then **`RADAR_RESULTS.md`** | — |
+
+Present: new finds by channel + **partner fulfillment** on each line. Offer to promote a find to `NEXUS_WATCH_LIST.md` or create a bid folder after GO.
+
+**Bid deadlines ≠ RADAR. Pending tasks ≠ RADAR. Watch list ≠ RADAR.**
+
+---
+
 ## WHAT TO DO AFTER READING
 
 After reading the above, the chat should be able to answer:
@@ -118,6 +146,7 @@ After reading the above, the chat should be able to answer:
 - What are the current drug testing proposal blockers?
 - What opportunities are being watched?
 - What new opportunities posted on vendor portals since last check?
+- **What did RADAR find?** (`RADAR_RESULTS.md` — only when Dee asks about RADAR)
 - **Which partners are waiting for contracts?** (Check `PARTNERSHIPS/PARTNERSHIPS_INDEX.md`)
 - **Which new opportunities match which partners?** (Present this proactively)
 

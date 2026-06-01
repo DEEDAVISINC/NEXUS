@@ -23,6 +23,23 @@
 
 ---
 
+## Session source — May 30, 2026
+
+**Full session record:** `SESSION_SUMMARY_MAY_30_2026.md`
+
+| Topic | File |
+|-------|------|
+| Four Pillars brand | `NEXUS_LEARNING/DDI_FOUR_PILLARS_BRAND_FRAMEWORK.md` |
+| Program packaging (3 built + housing future) | `NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md` |
+| Partner → program map (internal) | `NEXUS_LEARNING/DDI_PARTNER_PROGRAM_MAP.md` |
+| Michigan funder tiers | `NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md` |
+| CLPPP / HRSN / multi-state | `NEXUS_LEARNING/MULTI_STATE_LANDSCAPE_RESEARCH.md` |
+| LHD backup contacts | `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` |
+| Active relationships (BCC, MDHHS) | `CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md` |
+| BCC call prep | `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` |
+
+---
+
 ## Files in this pack
 
 | File | Location | Use |
@@ -37,9 +54,10 @@
 | **Feast of Funds workbook (Step 2)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | Collaboration pod — orgs, experts, institutions, funder contacts |
 | **Feast of Funds workbook (Step 3)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | Corporations, foundations, MCOs, public — copyable |
 | **Feast of Funds workbook (Step 4)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` | Theory of change, evidence, partners, sustainability — copyable |
-| **Feast of Funds workbook (Step 5)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | Proof-first priorities, 30-day wins, obstacles — copyable |
-| **Feast of Funds workbook (Step 6)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | Webinar commitments + accountability — copyable |
-| **Feast of Funds index (all steps)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | Steps 1–6 complete |
+| **CWC grant ops status** | `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md` | **Done vs next** — read before grant sessions (May 30, 2026) |
+| **Feast of Funds workbook (Step 5)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | Execution priorities (MHEF concept, CFSEM) — not prep — copyable |
+| **Feast of Funds workbook (Step 6)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | Post-workbook commitments — copyable |
+| **Feast of Funds index (all steps)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | Steps 1–6 complete · aligned to ops status |
 
 ---
 
@@ -60,4 +78,4 @@
 
 ---
 
-*Session source: May 30, 2026 — population lanes, buyers vs partners, community impact, foundations, capital scaling.*
+*Session sources: May 30, 2026 — population lanes, buyers vs partners, community impact, foundations, capital scaling; May 30 program packaging, four pillars, Michigan funder map, multi-state CLPPP/HRSN, LHD contacts (`SESSION_SUMMARY_MAY_30_2026.md`).*

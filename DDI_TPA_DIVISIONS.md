@@ -5,6 +5,8 @@
 
 **CAPACITY CAP:** 9 TPA divisions is DDI's operational ceiling. Once Medical Credentialing (TPA 8) and Workforce Compliance (TPA 9) are fully launched, no new TPA verticals will be added. Growth comes from deepening contracts within existing divisions — not adding more divisions.
 
+**Population lanes (grants & funding):** Do not describe all mobility as one “transport” bucket. **Plan NEMT (TPA 5)** = enrolled members with routine medical trips. **HAVEN** = displaced populations + disaster continuity (housing, MOB-B transport, medical continuity) — not daily NEMT. **Freight 1st Direct (TPA 6)** = logistics/carriers — not patients. Full map: `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md` · Rule: `service-population-lanes-funding.mdc`.
+
 ---
 
 ## TPA DIVISION OVERVIEW
@@ -108,6 +110,7 @@
 
 **DDI Role:** Program manager, MCO prime contractor
 **Key Asset:** CHAMPS Medicaid Provider ID 6309049, Uber Health partnership
+**Population lane:** **MOB-A** — enrolled plan members with authorized non-emergency **medical** trips (e.g. HIDE SNP dual-eligible). **Not** HAVEN disaster evacuations (see HAVEN / MOB-B) and **not** freight (TPA 6).
 
 **Core Services:**
 - Non-Emergency Medical Transportation (NEMT) program management
@@ -120,6 +123,8 @@
 **NAICS Codes:** 485991, 621610
 **Target Agencies:** Michigan Medicaid MCOs, MDHHS, VA, IHS
 **Pipeline:** $41.5M+ (SHIELD program alone)
+
+**HAVEN link:** Live MCO NEMT (e.g. HAP CareSource) is the credibility base for **MOB-B** disaster continuity pitches — separate populations and funders. See `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md`.
 
 ---
 

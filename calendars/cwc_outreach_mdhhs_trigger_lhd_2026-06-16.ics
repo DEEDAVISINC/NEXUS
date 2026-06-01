@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS CWC DDI Outreach//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS CWC DDI Outreach
+X-WR-TIMEZONE:America/Detroit
+BEGIN:VEVENT
+UID:cwc-outreach-20260616-120000@deedavis.biz
+DTSTAMP:20260530T120000Z
+DTSTART;TZID=America/Detroit:20260616T120000
+DTEND;TZID=America/Detroit:20260616T130000
+SUMMARY:🔥 MDHHS TRIGGER: Go Direct to LHDs
+DESCRIPTION:If Angela/Aimee silent — direct LHD outreach. Wayne (Kennyle Johnson interim — ready-to-launch SHIELD) + Detroit (Denise Fair Razo — separate jurisdiction\; engage BOTH). Call Angela 517-897-5203.
+LOCATION:NEXUS / Remote
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:If Angela/Aimee silent — direct LHD outreach. Wayne (Kennyle Johnson interim — ready-to-launch SHIELD) + Detroit (Denise Fair Razo — separate jurisdiction\; engage BOTH). Call Angela 517-897-5203.
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:If Angela/Aimee silent — direct LHD outreach. Wayne (Kennyle Johnson interim — ready-to-launch SHIELD) + Detroit (Denise Fair Razo — separate jurisdiction\; engage BOTH). Call Angela 517-897-5203.
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

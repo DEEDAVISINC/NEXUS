@@ -1,0 +1,137 @@
+---
+description: Buyer positioning — default complement on relationship outreach; case-by-case prime/slice/bid on RFPs, recompetes, set-asides, and direct buys. All 9 TPA sectors.
+alwaysApply: true
+---
+
+# Complement by Default — Case-by-Case Escalation
+
+**Default:** Relationship outreach = **complement the incumbent** (toolbelt, wedge, get on file).  
+**Exception:** When the opportunity **is** a competition or direct buy → **bid prime, slice, or team** — do not undersell with backup language.
+
+**Full playbook + decision tree:** `NEXUS_LEARNING/COMPLEMENT_NOT_REPLACE_ALL_TPA_SECTORS.md`
+
+This rule is **additive**. Applies to all **buyer-facing** documents.
+
+---
+
+## STEP 0 — CLASSIFY BEFORE YOU WRITE (MANDATORY)
+
+Every outbound package must tag **one** opportunity type:
+
+| Type | When | Posture |
+|------|------|---------|
+| **RELATIONSHIP** | Intro, follow-up, presolicitation, sources sought, warm title/MCO/agency email, no open competition | **Complement** — toolbelt, wedge, vendor list / credentialing |
+| **COMPETITIVE** | RFP, RFQ, ITB, recompete, expiring contract, formal solicitation with evaluation | **Bid** — prime, slice, or best-value; EDWOSB/set-aside explicit |
+| **DIRECT** | Micro-purchase (≤$15K), SAT (≤$350K), CO direct need, single PO | **Direct prime** — ready to perform, sole-source eligible where true |
+| **ALTERNATIVE** | Incumbent failing (SLA, bankruptcy, protest, public recompete driver) | **Credible alternative** — risk reduction; no trash-talk by name in email |
+| **SUB / SLICE** | Locked single broker, teaming RFP, regional award (e.g. Maine NET) | **Sub to prime** or **regional/slice awardee** — see `DDI_BUSINESS_MODEL.md`, NEMT slice strategy |
+
+**If type is wrong, the opening paragraph will be wrong. Classify first.**
+
+---
+
+## DECISION TREE (QUICK)
+
+```
+Open solicitation / recompete / bid deadline?
+  YES → COMPETITIVE or SUB/SLICE (read RFP) → bid language, NOT toolbelt opener
+
+Micro-purchase / SAT / CO says "quote now"?
+  YES → DIRECT → prime / ready-to-award
+
+Incumbent publicly failing + buyer recompeting?
+  YES → ALTERNATIVE → low-risk replacement candidate (professional tone)
+
+Locked broker / single vendor by statute or contract?
+  YES → SUB/SLICE or MCO line credentialing — NOT "second broker" cold email
+
+Otherwise (intro, warm, presol, network email, overflow ask)?
+  YES → RELATIONSHIP → complement default
+```
+
+---
+
+## RELATIONSHIP MODE (DEFAULT)
+
+1. Assume buyer has a vendor — normal.
+2. Position DDI as **second chair** — overflow, geography, plan line, rush, specialty.
+3. **One wedge** per first touch.
+4. **CTA:** vendor list, credentialing, secondary TPA, on-file packet.
+
+**Opening pattern:**
+
+> We are not asking [Buyer] to replace [incumbent category]. Dee Davis Inc. is a nationwide contract management TPA (EDWOSB) available as **additional capacity** for [wedge].
+
+**Pushback:**
+
+> Most partners keep their primary and add DDI for [wedge]. Who should receive our vendor packet?
+
+---
+
+## COMPETITIVE / DIRECT / ALTERNATIVE MODE (EXCEPTIONS)
+
+**Do NOT open with** "we're backup" or "add us to overflow" when:
+
+- Formal solicitation requires **prime proposal**, **price**, **compliance matrix**
+- EDWOSB/WOSB **set-aside** — you **are** the target vendor
+- **Recompete** after flawed award or incumbent distress — position **capability + risk reduction**
+- **Micro-purchase / SAT** — CO needs a vendor **now**
+
+**Use instead:**
+
+- Evaluation criteria mapping, win theme, defensible past performance
+- EDWOSB sole-source / simplified acquisition closing (federal CO emails)
+- Slice/teaming: "DDI seeks **[region / CLIN / plan line]**" not whole-program sole prime unless RFP supports it
+
+**Still banned:** Trash-talking incumbents by name in unsolicited email; unverifiable claims.
+
+---
+
+## ESCALATION PATH (RELATIONSHIP → GROWTH)
+
+Complement is often **entry**, not ceiling:
+
+1. **On file** → prove on overflow wedge  
+2. **Volume + quality** → ask for preferred / primary share on that wedge  
+3. **Open competition** → switch to COMPETITIVE posture for that contract  
+
+Document escalation in `WORKFLOW_CHECKLIST.md` when opportunity type changes.
+
+---
+
+## SECTOR WEDGES (RELATIONSHIP MODE ONLY)
+
+| TPA | Default wedge |
+|-----|----------------|
+| 1 Drug testing | Post-accident rush, new site, secondary C/TPA |
+| 2 Fingerprinting | Mobile, rural, bulk events, QA |
+| 3 DNA | Collection + COC alongside lab |
+| 4 Notary | Overflow, rush, county, RON |
+| 5 NEMT | SNP/LTSS slice, county credentialing, TPA admin |
+| 6 Logistics | Second broker, federal lane, OO compliance |
+| 7 Background | Second vendor, bundled screening |
+| 8 Med credentialing | Surge onboarding, multi-state bundle |
+| 9 Workforce compliance | Terminal add-on, audit remediation |
+
+---
+
+## OUTBOUND VERIFICATION
+
+Before marking buyer-facing package ready:
+
+- [ ] **Opportunity type classified** (RELATIONSHIP / COMPETITIVE / DIRECT / ALTERNATIVE / SUB-SLICE): PASS/FAIL
+- [ ] **Opening matches type** (complement vs bid vs direct prime): PASS/FAIL
+- [ ] **One clear wedge or win theme** (max 2 for relationship): PASS/FAIL
+- [ ] **CTA matches type** (on-file vs submit bid vs quote): PASS/FAIL
+- [ ] No trash-talk; proof defensible: PASS/FAIL
+
+If any FAIL → revise before release.
+
+---
+
+## INTEGRATION
+
+- `nexus-outbound-workflow.mdc` — STEP 0 classify, STEP 4 verify by type
+- `presolicitation-auto-response.mdc` — usually RELATIONSHIP (complement) unless NOI challenges sole source → ALTERNATIVE
+- `federal-contracting-learning-engine.mdc` — COMPETITIVE path
+- `proposal-readiness-gate.mdc` — required for COMPETITIVE packages

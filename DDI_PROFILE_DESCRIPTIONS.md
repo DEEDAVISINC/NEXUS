@@ -6,19 +6,19 @@
 
 ## STANDARD DESCRIPTION (Full)
 
-Dee Davis Inc. — "The Professionals' Professionals" — is a federally certified EDWOSB contract management and third-party administration (TPA) firm headquartered in Troy, Michigan. We deliver comprehensive program administration across drug and alcohol testing, DNA testing, biometric fingerprinting, mobile notary services, non-emergency medical transportation (NEMT), freight brokerage, and healthcare logistics. Our model ensures seamless compliance, credentialing, and quality assurance — so our clients never have to manage the details.
+Dee Davis Inc. — "The Professionals' Professionals" — is a federally certified EDWOSB **nationwide contract management and third-party administration (TPA) firm** headquartered in Troy, Michigan. We deliver program administration in **all 50 states + DC** across drug and alcohol testing, DNA testing, biometric fingerprinting, mobile notary and signing-agent dispatch, non-emergency medical transportation (NEMT), freight brokerage, medical courier, facilities services, and healthcare logistics. One contract with DDI — fulfillment dispatched where the work is performed.
 
 ---
 
 ## SHORT DESCRIPTION
 
-Dee Davis Inc. — "The Professionals' Professionals" — is a certified EDWOSB contract management and TPA firm delivering drug testing, DNA testing, fingerprinting, mobile notary, NEMT, freight, and healthcare logistics with full compliance and program administration.
+Dee Davis Inc. — nationwide EDWOSB contract management TPA — drug testing, DNA, fingerprinting, notary/signing dispatch, NEMT, freight, medical courier, facilities. 50 states + DC. Full program administration.
 
 ---
 
 ## PRODUCT/SERVICES DESCRIPTION (Under 500 characters)
 
-Dee Davis Inc. is a certified EDWOSB contract management TPA firm. We win contracts, source qualified partners, and manage full program delivery — compliance, billing, credentialing, and quality assurance. Service lines include drug testing, DNA testing, fingerprinting, mobile notary, NEMT, freight brokerage, and medical courier.
+Dee Davis Inc. is a certified EDWOSB nationwide contract management TPA. We win contracts in all 50 states + DC, source qualified partners, and manage delivery — compliance, billing, credentialing, QA. Drug testing, DNA, fingerprinting, notary/signing, NEMT, freight, courier, facilities.
 
 ---
 

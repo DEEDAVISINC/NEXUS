@@ -2,7 +2,8 @@
 
 **Last Updated:** May 30, 2026  
 **Purpose:** Foundations and funders aligned with DDI populations and systems (SHIELD, NEMT, HAVEN, navigation).  
-**Pipeline tracker:** `GRANT_ACTIVE_PIPELINE.md` · **Population lanes:** `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md`
+**Pipeline tracker:** `GRANT_ACTIVE_PIPELINE.md` · **Population lanes:** `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md`  
+**Tiered Michigan map (May 30, 2026):** `NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md` · **Session record:** `SESSION_SUMMARY_MAY_30_2026.md`
 
 ---
 

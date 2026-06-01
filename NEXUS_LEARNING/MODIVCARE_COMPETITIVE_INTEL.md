@@ -12,6 +12,8 @@ ModivCare Solutions, LLC (formerly LogistiCare) is the **incumbent in both Michi
 
 ## MODIVCARE TIMELINE — NATIONAL COLLAPSE
 
+> **Bankruptcy ≠ automatic bid ban.** See `BANKRUPTCY_AND_CONTRACT_ELIGIBILITY.md` for how responsibility determinations, bonding, and solicitation certs actually work.
+
 | Date | Event | Impact |
 |---|---|---|
 | **2023** | Awarded Maine $750M/10yr MaineCare NET contract | Later proven to be flawed procurement |
@@ -143,14 +145,18 @@ These MCOs use ModivCare/Access2Care in MULTIPLE states — their contracts are 
 
 ## ACTION ITEMS — WHEN RFP DROPS
 
-- [ ] Build full proposal immediately (bid folder, compliance matrix, pricing)
-- [ ] Lead with financial stability and local presence in executive summary
+**Default posture:** DDI wants **a piece of the contract**, not the entire broker program as sole operator. See `NEMT_CONTRACT_SLICE_STRATEGY.md`.
+
+- [ ] **Read RFP structure first** — CLINs, regions, subcontracting, admin-only vs broker-of-record
+- [ ] **Identify DDI slice:** TPA/admin CLIN · regional piece · sub to prime · teaming (Maine model)
+- [ ] Revenue analysis on **DDI scope only** — not full $103M headline
+- [ ] Lead with financial stability and local presence in executive summary (for whatever slice DDI bids)
 - [ ] Reference "industry challenges facing national transportation brokers" without naming ModivCare
-- [ ] Include DDI's clean litigation record and zero-deficiency performance under CareSource
-- [ ] Include Uber Health Letter of Commitment for statewide coverage
-- [ ] Contact Ashlee Diaz (MDHHS Program Manager) for pre-bid relationship
-- [ ] Attend pre-bid conference if one is held
-- [ ] Consider teaming with a local Michigan transportation operator (similar to Maine strategy)
+- [ ] Include DDI's clean litigation record and CareSource operational proof
+- [ ] **Team with local Michigan transportation operator** — preferred path vs whole-program prime
+- [ ] Contact Ashlee Diaz (MDHHS Program Manager) — ask about subcontracting / TPA components on recompete
+- [ ] Attend pre-bid conference if held
+- [ ] Full prime on entire broker **only if** Dee approves after RFP review + margin on DDI slice
 
 ---
 

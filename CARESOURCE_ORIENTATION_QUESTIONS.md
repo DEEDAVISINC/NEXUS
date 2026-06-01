@@ -2,7 +2,8 @@
 
 **Dee Davis Inc.** | Vendor ID: **100000469269**  
 **Contract Effective Date:** March 29, 2026  
-**Contract Type:** HCBS/LTSS Provider Agreement  
+**Contract Type:** NEMT Transportation Broker / TPA (HAP CareSource MI Coordinated Health — HIDE SNP)  
+**Executed service area:** Wayne + Macomb counties (Oakland pending — see `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md`)
 **CareSource Contact:** Dana Drew — Dana.Drew@CareSource.com — 937.926.5848  
 **Orientation Contact:** Brian Grcevich — Brian.Grcevich@CareSource.com  
 **CareSource Address:** 2850 W. Grand Blvd., Detroit, MI 48202  

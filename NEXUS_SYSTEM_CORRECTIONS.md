@@ -4,17 +4,29 @@
 
 ---
 
-## CORRECTION 0: SWFT / DCSA — DO NOT CLAIM (AUTHORITATIVE)
+## CORRECTION 0: SWFT / DCSA — DDI vs LAKOTA (AUTHORITATIVE)
 
-**Source of truth:** `COMPANY_INFO_MASTER.md` (Federal/Compliance section).
+**Source of truth:** `COMPANY_INFO_MASTER.md` (Federal/Compliance section) · `PARTNERSHIPS/LAKOTA_SOFTWARE_PARTNERSHIP_SUMMARY.md`
 
-- **~~SWFT Authorized~~** is **incorrect** for Dee Davis Inc. marketing, signatures, capability statements, emails, and code defaults.
-- **SWFT access was denied by DCSA (March 2026).** DCSA indicated requirements including **minimum interim Secret clearance** and **Facility Clearance Level (FCL)** for that path.
-- **Do not** list “SWFT Authorized,” “SWFT-approved,” or “DCSA SWFT-authorized” on any outbound document or system template.
-- **Accurate fingerprinting positioning:** FD-258 / LiveScan capture; **Lakota/WHORL** partnership where licensed; electronic submission **per client-approved channel**; use **cleared subcontractor** for DCSA electronic submission where required until FCL path exists.
-- **Path to future SWFT (if pursued):** win applicable contract → **DD Form 254** → FCL triggers per security process — see master file.
+### DDI — DO NOT CLAIM SWFT
 
-**NEXUS / agents must read `COMPANY_INFO_MASTER.md` before asserting any fingerprinting submission authority.**
+- **~~SWFT Authorized~~** is **incorrect for Dee Davis Inc.** on marketing, signatures, capability statements, emails, and code defaults.
+- **DDI's SWFT access was denied by DCSA (March 2026).** DCSA indicated requirements including **minimum interim Secret clearance** and **Facility Clearance Level (FCL)** for that path.
+- **Do not** list “SWFT Authorized,” “SWFT-approved,” or “DCSA SWFT-authorized” **on DDI outbound documents**.
+
+### Lakota — SWFT ACTIVE (partner)
+
+- **Lakota Software IS SWFT-authorized** — Lakota can submit to DCSA SWFT.
+- **Internal / ops docs:** “Lakota/SWFT (active)” is correct.
+- **DDI primes; Lakota provides SWFT technology and submission** under the platform model.
+
+### Buyer-facing fingerprinting positioning (DDI)
+
+- FD-258 / LiveScan **capture** by DDI
+- Electronic submission via **SWFT-authorized technology partner (Lakota)** where contract requires — do not say “DDI is SWFT authorized”
+- **Path to future DDI-direct SWFT (if pursued):** win applicable contract → **DD Form 254** → FCL triggers per security process — see master file.
+
+**NEXUS / agents must read `COMPANY_INFO_MASTER.md` before asserting who holds SWFT authority — Lakota yes, DDI no.**
 
 ---
 

@@ -18,7 +18,7 @@
    (Example: MI Health Link, MIChoice, regular Medicaid, etc.)
 
 2. **What counties/areas are we approved to serve?**  
-   (Is it just Region 10 — Wayne, Oakland, Macomb — or statewide?)
+   (Executed contract: **Wayne + Macomb**. Oakland expected — confirm timeline with Brian.)
 
 3. **What types of trips can we arrange?**  
    (Medical appointments only? Pharmacy pickup? Dialysis? Anything else?)

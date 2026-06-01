@@ -45,6 +45,8 @@ Usage:
   python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
   python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
   python3 nexus_scheduler.py --aog           # AOG / 488190 SAM scan only → aog_sam_cache.json (also runs inside --mine)
+  python3 nexus_scheduler.py --compile-radar # Rebuild RADAR_RESULTS.md from caches (no full sweep)
+  python3 nexus_scheduler.py --digital-nav   # Digital navigation SAM scan → digital_nav_sam_cache.json
   python3 nexus_scheduler.py --sync-cos                    # Harvest SAM.gov COs → GPSS CONTACTS (manual only; not in --mine)
   python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
   python3 nexus_scheduler.py --sync-cos --days 7           # Custom look-back window
@@ -172,6 +174,22 @@ def run_federal_mining():
                 )
         except Exception as e:
             log.warning(f"AOG SAM scan failed: {e}")
+
+        # Digital navigation / benefits enrollment — NAICS 624190 lane → digital_nav_sam_cache.json
+        log.info("Running digital navigation SAM scan (mine_digital_navigation_sam)...")
+        try:
+            from mine_digital_navigation_sam import run_digital_nav_scan
+
+            nav_result = run_digital_nav_scan(days_back=90)
+            if nav_result.get("skipped"):
+                log.info("Digital nav SAM scan skipped: %s", nav_result.get("reason", "unknown"))
+            else:
+                log.info(
+                    "Digital nav SAM scan: %s notices → digital_nav_sam_cache.json",
+                    nav_result.get("count", 0),
+                )
+        except Exception as e:
+            log.warning(f"Digital nav SAM scan failed: {e}")
 
         # NOTE: SAM.gov CO contact sync (sam_co_contact_sync) is intentionally
         # NOT called from --mine. It's bandwidth-heavy (sweeps ~50 NAICS codes
@@ -898,6 +916,17 @@ def run_radar():
     log.info("[RADAR 6/6] AI scoring & alerts...")
     results["ai_scoring"] = run_ai_scoring_and_alerts()
 
+    log.info("[RADAR COMPILE] Writing RADAR_RESULTS.md...")
+    try:
+        from compile_radar_results import compile_radar
+
+        out = compile_radar()
+        log.info("RADAR results compiled → %s", out.name)
+        results["compile_radar"] = True
+    except Exception as e:
+        log.warning("RADAR compile failed: %s", e)
+        results["compile_radar"] = False
+
     passed = sum(1 for v in results.values() if v)
     failed = sum(1 for v in results.values() if not v)
 
@@ -1090,6 +1119,15 @@ if __name__ == "__main__":
         from mine_aog_sam import run_aog_sam_scan
 
         run_aog_sam_scan(days_back=90)
+    elif "--compile-radar" in args:
+        from compile_radar_results import compile_radar
+
+        path = compile_radar()
+        print(f"Compiled {path}")
+    elif "--digital-nav" in args:
+        from mine_digital_navigation_sam import run_digital_nav_scan
+
+        run_digital_nav_scan(days_back=90)
     elif "--sync-cos" in args:
         from sam_co_contact_sync import sync_co_contacts_from_sam
 

@@ -1,6 +1,6 @@
 # DDI PARTNERSHIPS — Master Index
 
-**Last Updated:** May 16, 2026
+**Last Updated:** May 30, 2026
 
 ---
 
@@ -10,6 +10,7 @@
 |---------|--------|------|-------------|
 | [**Roadie**](ROADIE_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | Gig-Economy Courier | Pharmacy Courier (UH) |
 | [**Uber Health**](UBER_HEALTH_PARTNERSHIP_SUMMARY.md) | ✅ ACTIVE | NEMT + Rx Delivery | Lab Courier (UH), NEMT (HAP) |
+| [**Lyft Healthcare**](LYFT_HEALTHCARE_PARTNERSHIP_SUMMARY.md) | ⏳ PENDING | NEMT + WAV | Wheelchair (WAV), ambulatory NEMT — developer app + AE call in progress |
 | [**DoorDash Drive**](DOORDASH_DRIVE_PARTNERSHIP_SUMMARY.md) | ⏳ PENDING | Gig-Economy Delivery | Backup fulfillment |
 | [**Airspace Technologies**](AIRSPACE_TECHNOLOGIES_PARTNERSHIP_SUMMARY.md) | 🆕 READY | Critical Logistics | AOG, Medical, Life Sciences |
 
@@ -58,6 +59,14 @@
 
 ---
 
+## MCO CLIENT CONTRACTS (Live Revenue)
+
+| Client | Status | Type | Primary Use |
+|--------|--------|------|-------------|
+| [**HAP CareSource**](HAP_CARESOURCE_PARTNERSHIP_SUMMARY.md) | ✅ **CONTRACT LIVE** | MCO — HIDE SNP NEMT/LTSS | Wayne + Macomb NEMT (Oakland pending) — Vendor ID 100000469269 |
+
+---
+
 ## STATUS LEGEND
 
 | Status | Meaning |
@@ -96,7 +105,22 @@ Each partnership summary includes:
 | **AMRO** | Barbara | Operations | (904) 332-0472 |
 | **Airspace** | Diana Tash | VP Global Accounts | Diana.Tash@airspace.com |
 | **NCS** | Mark McFadin | Partner Rep | mark@nationalcrimesearch.com / 479-695-2111 |
-| **12PanelNow** | Brenda Alicia | Operations Mgr | brenda@slashmedical.com |
+| **HAP CareSource** | Brian Grcevich | NEMT / Network | Brian.Grcevich@CareSource.com |
+
+---
+
+## PROGRAM MAPPING (May 30, 2026)
+
+Partners mapped to CWC/DDI program packaging strategy — **internal only** (do not name partners in buyer-facing copy).
+
+| Program | Key partners |
+|---------|--------------|
+| Healthcare Access & Transportation Equity | Uber Health, Roadie, Airspace, HAP CareSource (live) |
+| Family Stability & Child Welfare | DDC, Lakota/SWFT (Lakota SWFT-active), NCS, 3D Ink/CNTDA |
+| Substance Use Monitoring & Recovery | AMRO, 12PanelNow, Concentra, Quest (pending), eScreen (pending) |
+| Housing Stability (future) | Champion Homes/Skyline |
+
+**Full map:** `NEXUS_LEARNING/DDI_PARTNER_PROGRAM_MAP.md` · **Programs:** `NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`
 
 ---
 
@@ -104,6 +128,7 @@ Each partnership summary includes:
 
 - `PARTNER_ACCOUNT_UPDATES.md` — Detailed action tracker for all partners
 - `PRISM_INTEGRATION_NOTES.md` — API access status for fulfillment platforms
+- `SESSION_SUMMARY_MAY_30_2026.md` — strategic session record
 
 ---
 

@@ -1,0 +1,32 @@
+# Cause We Care ONLY — deploy to Netlify site "cwecare" (NOT nexus-command).
+# cwecare.org must be primary on this site so Netlify does not redirect to nexus.deedavis.biz.
+#
+# Deploy:
+#   cd nexus-frontend && npm run build && netlify deploy --prod --dir=build --site=fca93390-2675-4550-a30a-54a0748ef250
+
+[build]
+  base = "nexus-frontend"
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  CI = "false"
+  REACT_APP_PUBLIC_SITE = "cwc"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
+  REACT_APP_PUBLIC_SITE = "cwc"
+
+[context.deploy-preview.environment]
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
+  REACT_APP_PUBLIC_SITE = "cwc"
+
+[context.branch-deploy.environment]
+  REACT_APP_API_BASE = "https://deedavis.pythonanywhere.com"
+  REACT_APP_PUBLIC_SITE = "cwc"

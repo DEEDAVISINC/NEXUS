@@ -1,0 +1,28 @@
+# Email Preview Before Save — MANDATORY
+
+**Every outbound email draft MUST be shown to Dee in chat for review BEFORE writing to any file.**
+
+## Workflow
+
+1. **Draft in chat first** — full copyable body (code block), TO, CC, subject, attach notes
+2. **Wait for approval** — Dee says approve, edit, or reject
+3. **Then save** — only after approval → `SEND_TO_*` folder or outreach queue file
+4. **Never bulk-write** 10+ emails to disk without showing them in chat first
+
+## What to show in chat
+
+- TO / CC
+- Subject line
+- Full email body (copyable code block)
+- Attachment list
+- Which queue number (if part of a series)
+
+## Exception
+
+Buyer emails that are part of NEXUS outbound pipeline (cap statement + email pair) still follow `nexus-outbound-workflow.mdc` — but the **email body** must appear in chat or in `SEND_TO_BUYER_EMAIL_READY.md` only **after** Dee has seen the draft in chat when she is actively reviewing.
+
+## May 31, 2026 note
+
+`CLIENT OUTREACH/MCO_SEND_ONE_AT_A_TIME.md` (38 emails) was saved **before** Dee reviewed them in chat. **Do not send from that queue without registry check.**
+
+**Hard rule:** `.cursor/rules/no-re-email-sent-contacts.mdc` — grep `CLIENT OUTREACH/EMAIL_SENT_REGISTRY.md` before every outbound email. Dee's sent folder wins over stale ⬜ checkboxes.

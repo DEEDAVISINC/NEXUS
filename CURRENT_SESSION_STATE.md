@@ -2,7 +2,77 @@
 
 **Purpose:** Persistent record of session findings, active work, and system corrections. Cursor reads this at session start.
 
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-05-31
+
+---
+
+## 🔴 ACTIVE THREAD — MEDICARE / MEDICAID DIGITAL NAVIGATION (DO NOT LOSE THIS)
+
+**This is the main work from May 30–31. Not drug-testing bids. Not random RADAR unless Dee picks one.**
+
+### What we built (May 30)
+- **Four Pillars:** Stability · Accessibility · Capability · Equitability
+- **3 program narratives** (priority order): **1 Healthcare Access** · 2 Family Stability · 3 Substance Use
+- **Michigan funder map** + **6-county LHD backup contacts** + **Jun–Jul outreach calendar**
+- Full record: `SESSION_SUMMARY_MAY_30_2026.md`
+
+### What we already sent (ball in their court)
+- **May 30** — MDHHS **Angela Medina + Aimee Surma** (SHIELD / lead + MI Bridges navigation follow-up)
+- **May 30** — **Blue Cross Complete / Alina Pabin** (dual-eligible MCO · nav + NEMT TPA) — **no more touches until she replies** (Jun 9 final touch only if silent)
+- **May 31** — **HAP CareSource / Brian Grcevich** — SDOH / dual-eligible navigation routing ask
+- **May 31** — **HAP CareSource / Dana Drew** — Oakland county NEMT enrollment (separate thread, no nav ask)
+
+### What WE have not done yet (navigation lane — do these)
+| # | Task | File / portal |
+|---|------|----------------|
+| **1** | **MHEF Capacity Building concept paper** — Sayre replied Mar 27; **submit in Fluxx** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/MHEF_CAPACITY_BUILDING_INQUIRY.md` · mihealthfund.org |
+| **2** | **CFSEM** — register + submit **SHIELD navigator pilot** | `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md` |
+| **3** | **Jun 2 @ 12 PM** — Check BCC + MDHHS inboxes only (no new email unless they replied) | `CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md` |
+| **4** | **Jun 4** — LinkedIn verify **Oakland, Macomb, Muskegon** LHD directors (before cold outreach) | `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` |
+| **5** | **Jun 16 trigger** — If Angela still silent → call **517-897-5203** → direct LHD outreach Wayne + Detroit | Calendar: `CWC_DDI_OUTREACH_FOLLOWUP_CALENDAR.md` |
+
+### Wait — do not chase before triggers
+- Angela / Aimee (MDHHS) — until **Jun 16**
+- Alina (BCC) — until **Jun 9** (one final touch max)
+- **Brian / Dana (HAP CareSource)** — until **~Jun 7** (7-day follow-up if silent)
+
+### May 31 — digital navigation outreach (same session, before FAP detour)
+- **Dual-eligible scan:** `NEXUS_LEARNING/DUAL_ELIGIBLE_NAVIGATION_SCAN_2026-05-31.md`
+- **Outreach queue:** `CLIENT OUTREACH/MCO_SEND_ONE_AT_A_TIME.md` — **send one at a time**
+- **#1 Brian Grcevich (SDOH)** — **✅ SENT May 31** · await reply
+- **#1B Dana Drew (Oakland)** — **✅ SENT May 31** · await reply
+- **Next:** **#5 CareSource Ohio** — ⚠️ verify first: **Kristen Halsey pitched May 13** (`PENDING_ACTIONS.md`) — may also skip as existing CareSource OH thread
+- **Skipped:** **#4 Anthem Ohio (Shelley)** — already emailed **03/31/2026**
+
+### Side quest completed May 31 (not the main thread)
+- **FAP2026SS** — cap via generator + email to Sandy Thompson ✅ · **Survey still required** by Jun 6 · `BIDS:RESOURCES/DAF FAMILY ADVOCACY/`
+
+---
+
+## MAY 30, 2026 — STRATEGIC PROGRAM PACKAGING SESSION
+
+**Full record:** `SESSION_SUMMARY_MAY_30_2026.md`
+
+### What was produced
+- **Four Pillars brand:** Stability · Accessibility · Capability · Equitability → `NEXUS_LEARNING/DDI_FOUR_PILLARS_BRAND_FRAMEWORK.md`
+- **3 program narratives** (+ Housing future) → `NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`
+- **Michigan funder map** (4 tiers) → `NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`
+- **Multi-state CLPPP/HRSN research** → `NEXUS_LEARNING/MULTI_STATE_LANDSCAPE_RESEARCH.md`
+- **Partner-program map** → `NEXUS_LEARNING/DDI_PARTNER_PROGRAM_MAP.md`
+- **LHD backup directory** (6 counties) → `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md`
+
+### Emails sent May 30
+- **Blue Cross Complete** — Alina Pabin follow-up (await response — no more touches)
+- **MDHHS** — Angela Medina + Aimee Surma SHIELD follow-up (May 3 package may have been filtered)
+
+### Triggers
+- **Mid-June 2026:** No MDHHS reply → go direct to LHDs (Wayne **and** Detroit — separate jurisdictions; Johnson interim = opportunity)
+- **Jun 4:** LinkedIn verify Oakland, Macomb, Muskegon directors only
+- **Genesee:** crowded field — lead with TPA + NEXUS differentiator; not first direct wave
+- **Aug 5 / Nov 18, 2026:** BCBSM Foundation board reviews
+
+### Program priority (confirmed)
+1. Healthcare Access · 2. Family Stability · 3. Substance Use · 4. Housing (future)
 
 ---
 

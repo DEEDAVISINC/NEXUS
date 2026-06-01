@@ -1,0 +1,74 @@
+# No Re-Email — Already Sent Contacts — NON-NEGOTIABLE
+
+**We reach NEW opportunities. We do NOT re-pitch contacts we have already emailed.**
+
+This rule applies to **every** outbound email: MCO queue, HAVEN, grants, CO outreach, partners, subs, buyers.
+
+---
+
+## THE RULE
+
+**The moment Dee says "sent", pastes a reply, or confirms an email went out:**
+
+1. **LOG** to `OUTBOUND_EMAIL_LOG.md` first — same chat turn, before anything else
+2. **UPDATE** source draft checkbox (⬜ → ✅ with date/time)
+3. **UPDATE** `EMAIL_SENT_REGISTRY.md` and relevant tracker (`PENDING_ACTIONS`, `ACTIVE_RELATIONSHIP_STATUS`, etc.)
+4. **Optional CLI:** `python3 log_outbound_email.py` (see `log-every-send-immediately.mdc`)
+
+**Before drafting, recommending, or saving ANY outbound email:**
+
+1. **Search** `OUTBOUND_EMAIL_LOG.md` for the **exact TO address** (primary)
+2. **Search** `CLIENT OUTREACH/EMAIL_SENT_REGISTRY.md` for the **exact TO address**
+3. **Search** `PENDING_ACTIONS.md` and `ACTIVE_RELATIONSHIP_STATUS.md` for active threads
+
+**If that email address was already sent → STOP.** Never trust ⬜ in a draft file.
+
+Follow-up is **cadence only** (7/14/21 days per tracker) — **not** a second cold pitch from a batch queue.
+
+---
+
+## HARD STOPS
+
+Do **NOT**:
+- ❌ Re-send from `MCO_SEND_ONE_AT_A_TIME.md` because the row is "next in sequence"
+- ❌ Mark a contact "net-new" because a checklist shows ⬜ when Dee already sent
+- ❌ Email a **different inbox at the same org** to bypass a skip (e.g. Tye Hill when Kristen was already pitched)
+- ❌ Bulk-save emails to disk without Dee approving each one in chat (see `email-preview-before-save.mdc`)
+- ❌ Suggest "forward to backup contact" at same agency without confirming that **specific email** was never sent
+
+Do:
+- ✅ Log to `OUTBOUND_EMAIL_LOG.md` **immediately** when Dee confirms a send
+- ✅ Update `EMAIL_SENT_REGISTRY.md` and source checkboxes same session
+- ✅ Present only **verified net-new** contacts in chat — one at a time
+- ✅ Use **follow-up cadence** from `PENDING_ACTIONS.md` for existing threads
+
+---
+
+## PRE-SEND CHECKLIST (PASS/FAIL)
+
+- [ ] TO email searched in `EMAIL_SENT_REGISTRY.md` — not found OR explicit follow-up date reached
+- [ ] Contact searched in `PENDING_ACTIONS.md` — not awaiting reply on duplicate thread
+- [ ] Queue row not marked SKIP/HOLD
+- [ ] Email body shown in chat — Dee approved
+- [ ] After send: registry + queue checkbox updated same session
+
+**Any FAIL → do not send.**
+
+---
+
+## SOURCE OF TRUTH ORDER
+
+1. **Dee's confirmation** in chat (inbox / "sent") — wins over stale ⬜ checkboxes
+2. `OUTBOUND_EMAIL_LOG.md` — **master for all outbound**
+3. `CLIENT OUTREACH/EMAIL_SENT_REGISTRY.md`
+4. `PENDING_ACTIONS.md`
+5. `HAVEN/OUTREACH/HAVEN_MCO_OUTREACH_TRACKER.md`
+6. State outreach files (checkboxes are draft status only — not proof of send)
+
+---
+
+## WHY THIS EXISTS
+
+May 31, 2026: Stephanie Logan was re-emailed from the MCO batch because NEXUS showed ⬜ not sent — Dee had sent **May 11 @ 7:53 PM ET**. Duplicate sends burn relationships and waste the net-new strategy.
+
+**No exceptions unless Dee explicitly says "send follow-up to [name]" for that thread.**

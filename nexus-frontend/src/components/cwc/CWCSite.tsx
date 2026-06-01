@@ -1,4 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import {
+  MI_BRIDGES_PARTNER,
+  MI_BRIDGES_HELP_DESK,
+  MI_BRIDGES_CLIENT_FAQ,
+  FAP_TOOLKIT,
+  MI_BRIDGES_FAMILY_RESOURCES,
+} from '../../data/cwcMiBridgesResources';
 
 type Page = 'home' | 'about' | 'programs' | 'shield' | 'resources' | 'contact';
 
@@ -61,6 +68,13 @@ const PROGRAMS = [
     icon: '💈',
   },
   {
+    id: 'benefits-navigation',
+    name: 'Benefits Navigation',
+    tagline: 'MDHHS MI Bridges Community Partner',
+    description: 'Official MI Bridges navigators help Michigan families apply for SNAP, Medicaid, cash assistance, childcare, and energy help — from account setup through approval. CWC has been an MDHHS Community Partner since May 2020.',
+    icon: '📱',
+  },
+  {
     id: 'shield',
     name: 'SHIELD',
     tagline: 'Family Health & Safety Navigation',
@@ -78,10 +92,19 @@ const NAV_LINKS: { id: Page; label: string }[] = [
   { id: 'contact', label: 'Contact' },
 ];
 
-const FAMILY_RESOURCES = [
+type FamilyResource = {
+  icon: string;
+  title: string;
+  desc: string;
+  url: string;
+  category: string;
+  phone?: string;
+};
+
+const FAMILY_RESOURCES: FamilyResource[] = [
   { icon: '🏠', title: 'Apply for Home Lead Services', desc: 'Find out if your home qualifies for free lead inspection and repair.', url: 'https://www.michigan.gov/mileadsafe/lead-services/apply-for-home-lead-services', category: 'home' },
   { icon: '💧', title: 'Get Ahead of Lead', desc: 'Learn about Michigan\'s drinking water safety and lead prevention programs.', url: 'https://www.michigan.gov/mileadsafe/get-ahead-of-lead', category: 'home' },
-  { icon: '📱', title: 'Apply for Benefits', desc: 'Food assistance, health coverage, childcare, energy help — apply online in one place.', url: 'https://newmibridges.michigan.gov', category: 'benefits' },
+  ...MI_BRIDGES_FAMILY_RESOURCES.filter(r => r.title !== 'Michigan 211'),
   { icon: '🍎', title: 'WIC — Nutrition for Families', desc: 'Healthy food and nutrition support for pregnant women, new moms, and young children.', url: 'https://www.michigan.gov/mdhhs/assistance-programs/wic', category: 'food' },
   { icon: '🏩', title: 'Housing Assistance', desc: 'Emergency housing, rental help, and affordable housing programs across Michigan.', url: 'https://www.michigan.gov/mshda', category: 'housing' },
   { icon: '🔥', title: 'Utility Bill Help (THAW)', desc: 'Struggling with heat or electric bills? THAW can help keep the lights on.', url: 'https://www.thawfund.org', category: 'housing' },
@@ -101,10 +124,17 @@ const TEAM = [
 
 const STATS = [
   { value: '500+', label: 'Families Served' },
-  { value: '5', label: 'Active Programs' },
-  { value: 'MI', label: 'Statewide' },
-  { value: '2023', label: 'Founded' },
+  { value: '6', label: 'Active Programs' },
+  { value: '50+', label: 'Benefits Applications' },
+  { value: '2020', label: 'MI Bridges Partner' },
 ];
+
+/** Home / Programs card click → page */
+function programDestination(id: string): Page {
+  if (id === 'shield') return 'shield';
+  if (id === 'benefits-navigation') return 'resources';
+  return 'programs';
+}
 
 export default function CWCSite() {
   const [page, setPage] = useState<Page>('home');
@@ -173,7 +203,7 @@ export default function CWCSite() {
               <img src="/cwc-logo.png" alt="Cause We Care" className="h-10 sm:h-12 rounded-lg" />
               <div className="hidden sm:block">
                 <div className="text-lg font-bold" style={{ color: YELLOW }}>CAUSE WE CARE</div>
-                <div className="text-[10px] uppercase tracking-[.2em]" style={{ color: 'rgba(255,255,255,.7)' }}>501(c)(3) &middot; State Community Partner</div>
+                <div className="text-[10px] uppercase tracking-[.2em]" style={{ color: 'rgba(255,255,255,.7)' }}>501(c)(3) &middot; MI Bridges Community Partner</div>
               </div>
             </button>
 
@@ -266,7 +296,7 @@ export default function CWCSite() {
               <p className="text-sm font-black tracking-wider uppercase mb-1" style={{ color: YELLOW }}>Care. Navigate. Transform.</p>
               <p className="text-[10px] italic mb-3" style={{ color: 'rgba(245,194,62,.5)' }}>More than a mission — a <MovementWord color="rgba(245,194,62,.7)" /></p>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.6)' }}>
-                Cause We Care is a 501(c)(3) nonprofit and State Community Partner serving families across Michigan. Your donation is tax-deductible to the fullest extent allowed by law.
+                Cause We Care is a 501(c)(3) nonprofit and MDHHS MI Bridges Community Partner serving families across Michigan. Your donation is tax-deductible to the fullest extent allowed by law.
               </p>
             </div>
             <div>
@@ -322,7 +352,7 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <div className="inline-block mb-6 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider" style={{ background: 'rgba(245,194,62,.15)', color: YELLOW }}>
-            501(c)(3) &middot; State Community Partner &middot; Michigan
+            501(c)(3) &middot; MI Bridges Community Partner &middot; Michigan
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-4" style={{ color: WHITE }}>
             Cause We Care,{' '}
@@ -372,7 +402,7 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
           <div className="text-center mb-14">
             <h2 className="text-3xl sm:text-4xl font-black mb-4" style={{ color: BLUE }}>What We Do</h2>
             <p className="text-lg max-w-2xl mx-auto" style={{ color: '#555' }}>
-              Five programs, one mission: make sure no family faces hardship alone.
+              Six programs, one mission: make sure no family faces hardship alone.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -381,7 +411,7 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
                 key={p.id}
                 className="relative rounded-2xl p-6 transition-all duration-300 hover:shadow-xl cursor-pointer group flex flex-col"
                 style={{ background: '#F8F9FB', border: '1px solid #E8EBF0' }}
-                onClick={() => onNavigate(p.id === 'shield' ? 'shield' : 'programs')}
+                onClick={() => onNavigate(programDestination(p.id))}
               >
                 <div className="text-3xl mb-3">{p.icon}</div>
                 <h3 className="text-lg font-bold mb-1" style={{ color: BLUE }}>{p.name}</h3>
@@ -389,7 +419,7 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
                 <p className="text-sm leading-relaxed flex-1" style={{ color: '#666' }}>{p.description}</p>
                 <div className="mt-4 pt-4 border-t" style={{ borderColor: '#E8EBF0' }}>
                   <span className="text-sm font-bold group-hover:underline" style={{ color: BLUE }}>
-                    Learn how you can help &rarr;
+                    {p.id === 'benefits-navigation' ? 'Get MI Bridges help →' : p.id === 'shield' ? 'Learn about SHIELD →' : 'Learn how you can help →'}
                   </span>
                 </div>
               </div>
@@ -500,7 +530,7 @@ function AboutPage({ onNavigate }: { onNavigate: (p: Page) => void }) {
               So we built something different. Not another referral list. Not another hotline. A hands-on, navigator-driven approach where real people walk with families through every step — from the first call to the final solution. We don't point fingers at problems. We solve them.
             </p>
             <p className="text-base leading-relaxed" style={{ color: '#555' }}>
-              Today, Cause We Care operates five direct-service programs across Michigan, partnering with state agencies, healthcare systems, and community organizations to reach families who need us most. We're a 501(c)(3) nonprofit and State Community Partner — and we're just getting started.
+              Today, Cause We Care operates six direct-service programs across Michigan, partnering with state agencies, healthcare systems, and community organizations to reach families who need us most. We're a 501(c)(3) nonprofit and official <strong>MDHHS MI Bridges Community Partner since {MI_BRIDGES_PARTNER.partnerSince}</strong> — our navigators help families apply for food assistance, Medicaid, cash, childcare, and more through MI Bridges.
             </p>
           </div>
         </div>
@@ -663,7 +693,7 @@ function ProgramsPage({ onNavigate }: { onNavigate: (p: Page) => void }) {
       <section className="pt-28 pb-16" style={{ background: `linear-gradient(135deg, ${BLUE_DARK}, ${BLUE})` }}>
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl sm:text-5xl font-black mb-4" style={{ color: WHITE }}>Our <span style={{ color: YELLOW }}>Programs</span></h1>
-          <p className="text-lg" style={{ color: 'rgba(255,255,255,.7)' }}>Five initiatives, one mission: meet families where they are.</p>
+          <p className="text-lg" style={{ color: 'rgba(255,255,255,.7)' }}>Six initiatives, one mission: meet families where they are.</p>
         </div>
       </section>
 
@@ -688,14 +718,25 @@ function ProgramsPage({ onNavigate }: { onNavigate: (p: Page) => void }) {
                       <button onClick={() => onNavigate('shield')} className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105" style={{ background: YELLOW, color: BLUE }}>
                         Learn More About SHIELD
                       </button>
+                    ) : p.id === 'benefits-navigation' ? (
+                      <>
+                        <button onClick={() => onNavigate('resources')} className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105" style={{ background: YELLOW, color: BLUE }}>
+                          MI Bridges Resources
+                        </button>
+                        <a href="/refer" className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 border-2" style={{ borderColor: BLUE, color: BLUE, background: 'transparent' }}>
+                          Request a Navigator
+                        </a>
+                      </>
                     ) : (
                       <button onClick={() => onNavigate('contact')} className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105" style={{ background: YELLOW, color: BLUE }}>
                         Get Involved
                       </button>
                     )}
+                    {p.id !== 'benefits-navigation' && (
                     <button onClick={() => onNavigate('contact')} className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 border-2" style={{ borderColor: BLUE, color: BLUE, background: 'transparent' }}>
                       Donate to This Cause
                     </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -964,13 +1005,59 @@ function ResourcesPage() {
             Resources <span style={{ color: YELLOW }}>For You</span>
           </h1>
           <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,.7)' }}>
-            You don't have to wait for anyone. These are real Michigan programs that can help your family right now — food, housing, health, utilities, and more.
+            Cause We Care is an official MI Bridges Community Partner. Use these links to apply for benefits, track your application, upload documents, and find help across Michigan.
           </p>
+        </div>
+      </section>
+
+      {/* MI Bridges partner + client help */}
+      <section className="py-14" style={{ background: YELLOW_PALE }}>
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="rounded-2xl p-8 mb-10" style={{ background: WHITE, border: `2px solid ${YELLOW}` }}>
+            <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: BLUE }}>MDHHS MI Bridges Community Partner</div>
+            <h2 className="text-2xl font-black mb-3" style={{ color: BLUE }}>Need Help With Benefits?</h2>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: '#555' }}>
+              Our navigators can sit with you, walk through MI Bridges applications, help upload documents, and follow up until your case is complete — food assistance, Medicaid, cash, childcare, and energy help.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a href={MI_BRIDGES_PARTNER.clientPortal} target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-full text-sm font-bold text-center transition-all hover:scale-105" style={{ background: YELLOW, color: BLUE }}>
+                Open MI Bridges
+              </a>
+              <a href="/refer" className="px-6 py-3 rounded-full text-sm font-bold text-center transition-all hover:scale-105 border-2" style={{ borderColor: BLUE, color: BLUE }}>
+                Ask a CWC Navigator for Help
+              </a>
+            </div>
+            <p className="text-xs mt-4" style={{ color: '#888' }}>
+              MI Bridges Help Desk: {MI_BRIDGES_HELP_DESK.phone} · TTY {MI_BRIDGES_HELP_DESK.tty} · {MI_BRIDGES_HELP_DESK.hours}
+            </p>
+          </div>
+
+          <h3 className="text-lg font-black mb-4 text-center" style={{ color: BLUE }}>Common MI Bridges Questions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+            {MI_BRIDGES_CLIENT_FAQ.map(f => (
+              <div key={f.q} className="rounded-xl p-5" style={{ background: WHITE, border: '1px solid #E8EBF0' }}>
+                <h4 className="text-sm font-bold mb-2" style={{ color: BLUE }}>{f.q}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: '#666' }}>{f.a}</p>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="text-lg font-black mb-4 text-center" style={{ color: BLUE }}>SNAP &amp; Food Assistance</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {FAP_TOOLKIT.filter(t => t.category !== 'staff').map(t => (
+              <a key={t.title} href={t.url} target="_blank" rel="noopener noreferrer" className="rounded-xl p-5 transition-all hover:shadow-md group block" style={{ background: WHITE, border: '1px solid #E8EBF0' }}>
+                <h4 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: BLUE }}>{t.title}</h4>
+                <p className="text-xs leading-relaxed" style={{ color: '#666' }}>{t.desc}</p>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="py-16" style={{ background: WHITE }}>
         <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl font-black mb-2 text-center" style={{ color: BLUE }}>All Michigan Resources</h2>
+          <p className="text-sm text-center mb-10" style={{ color: '#888' }}>Food, housing, health, utilities, lead safety, and more.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FAMILY_RESOURCES.map(r => {
               const isPhone = r.url.startsWith('tel:');
@@ -1076,7 +1163,7 @@ function ContactPage() {
             <div className="rounded-2xl p-6" style={{ background: YELLOW_PALE }}>
               <h3 className="text-base font-bold mb-2" style={{ color: BLUE }}>Tax-Deductible Donations</h3>
               <p className="text-sm leading-relaxed mb-4" style={{ color: '#666' }}>
-                CAUSE WE CARE is a 501(c)(3) nonprofit and State Community Partner (EIN 92-3602670). Your donation is tax-deductible to the fullest extent allowed by law.
+                CAUSE WE CARE is a 501(c)(3) nonprofit and MDHHS MI Bridges Community Partner (EIN 92-3602670). Your donation is tax-deductible to the fullest extent allowed by law.
               </p>
               <div className="space-y-2">
                 {[

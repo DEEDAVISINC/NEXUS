@@ -56,6 +56,8 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "legal_name": "Health Alliance Plan / CareSource Michigan",
         "payer_id": "68069",
         "region": "Region 10 (Southeast Michigan — Wayne, Oakland, Macomb, Monroe, Washtenaw, Livingston)",
+        "executed_service_counties": ["Wayne", "Macomb"],
+        "pending_service_counties": ["Oakland"],
         "billing_address": "2850 W. Grand Blvd., Detroit, MI 48202",
         "prior_auth_phone": "1-844-607-2831",
         "claims_portal": "https://michigan.caresource.com",

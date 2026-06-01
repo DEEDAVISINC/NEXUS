@@ -19,8 +19,9 @@ Before answering questions about **any** of the following — for **Dee Davis In
 ## Mandatory First Step
 
 1. **Read** `COMPANY_INFO_MASTER.md` in the project root (or confirm its contents from the current session if already loaded this turn).
-2. **Align** any statement about legal name, EIN, CAGE, UEI, address, phone, email, website, certifications, DBAs, and related entities with that file — **the master file wins** on conflict.
-3. **Do not invent** revenue figures, award history, program participation, or cert details not supported by the master file or another cited workspace source.
+2. **Read** `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md` when the answer describes **who DDI serves**, **transport/NEMT/HAVEN**, or **program/funding fit** — classify **MOB-A (plan NEMT)**, **MOB-B (HAVEN continuity)**, or **MOB-C (freight)**; never merge lanes. See `service-population-lanes-funding.mdc`.
+3. **Align** any statement about legal name, EIN, CAGE, UEI, address, phone, email, website, certifications, DBAs, and related entities with that file — **the master file wins** on conflict.
+4. **Do not invent** revenue figures, award history, program participation, member counts, or cert details not supported by the master file or another cited workspace source.
 
 ## What This Does Not Require
 

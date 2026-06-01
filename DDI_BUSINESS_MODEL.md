@@ -7,6 +7,8 @@
 
 **Dee Davis Inc. is a federally certified EDWOSB contract management firm and business operating system focused on all forms of business continuity.**
 
+**Geographic scope:** **Nationwide TPA** — DDI contracts in all 50 states + DC (and territories as required). Troy, Michigan is headquarters, not a service boundary. Fulfillment is dispatched where each contract is performed.
+
 Everything DDI does — every service line, every contract, every subsidiary — exists to ensure operations never stop. When a subcontractor falls through, DDI's systems reroute. When a compliance deadline shifts, DDI's systems adapt. When a client needs emergency response at 2 AM, DDI's systems respond. That is business continuity — and it is the foundation of DDI's entire model.
 
 ---
@@ -71,6 +73,8 @@ DDI's management includes: opportunity identification, bid preparation, contract
 | Document Prep | Direct service (DDI team) | Minimal sub needed | 60-80% |
 | Project Executive | Direct service (DDI leadership) | Minimal sub needed | 60-80% |
 | Consulting | Direct service (DDI expertise) | Minimal sub needed | 60-80% |
+
+**Large NEMT / Medicaid broker programs:** Default = **contract slice** (TPA layer, MCO program, teaming/sub, CLIN/region) — not sole prime on entire statewide megacontract unless RFP and margin support it. `NEXUS_LEARNING/NEMT_CONTRACT_SLICE_STRATEGY.md`.
 
 ---
 

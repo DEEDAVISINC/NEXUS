@@ -16,7 +16,9 @@ Troy, Michigan 48084
 
 **Phone:** 248.376.4550 ⭐ **USE THIS NUMBER FOR ALL FUTURE DOCUMENTS**  
 **Email:** info@deedavis.biz  
-**Website:** deedavis.biz
+**Website:** deedavis.biz  
+**Website copy (national TPA — all sectors):** `ESSENTIALS/DEEDAVIS_WEBSITE_NATIONAL_TPA_COPY.md`  
+**Scope on all pages:** Nationwide contract management TPA — 50 states + DC. Troy, MI = headquarters only.
 
 ### MICHIGAN MILOGIN ACCOUNTS (Dieasha D. Davis — 3 profiles)
 
@@ -139,7 +141,7 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 **Current DDI Fingerprinting Capability:**
 - **Hardware:** Kojak 10-Print scanner (Integrated Biometrics) — FBI Appendix F certified, portable, USB-powered
 - **Software:** WHORL by Lakota — ⚠️ NOT YET ACTIVATED. Lakota relationship exists; WHORL license not yet purchased. Confirm before deploying.
-- **Submission:** SWFT — ❌ DENIED (March 2026). DCSA requires Secret clearance + FCL. Use Lakota or cleared sub for electronic submissions until FCL obtained.
+- **Submission:** DDI direct SWFT — ❌ DENIED (March 2026). **Lakota Software — ✅ SWFT-authorized** (partner handles DCSA SWFT submission). DDI primes; Lakota provides SWFT technology. Do NOT claim DDI holds SWFT on outbound docs.
 - **ATF EFT Creation** — EFT file creation for FFL dealers, NFA applications (ATF Form 4) — available via Lakota relationship
 - **FD-258 Ink Cards** — Traditional rolled prints for paper submissions — available now
 - **Federal EDOs** — ⚠️ PENDING CONFIRMATION. Lakota built the FBI's eDO system. Confirm WHORL's EDO submission capability with Sam Cilento before marketing.
@@ -884,12 +886,12 @@ MI SIGMA VSS: VS0245604
 
 | MCO | Status | Vendor ID / Details |
 |---|---|---|
-| **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — provider portal access active. Dana Drew (Enterprise Health Partner Network Manager) — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — **2nd outreach sent May 5, 2026 (CC'd Dana)**. **✅ ORIENTATION SCHEDULED May 6, 2026 1:00 PM ET** — Teams meeting. **Confirmation of executed contract emailed 04/29/2026 10:00 AM ET.** |
+| **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — **NEMT TPA, Wayne + Macomb counties** (Oakland pending). Provider portal active. Dana Drew — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — orientation ✅ May 6, 2026. **Scope doc:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md` |
 | Molina Healthcare of Michigan | Pending | Troy HQ — same city as DDI |
 | Meridian Health Plan | Pending | Detroit HQ — largest MI Medicaid MCO |
 | UnitedHealthcare Community Plan | Pending | |
 | Aetna Better Health | Pending | |
-| Blue Cross Complete | ✅ **MEETING SCHEDULED** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026, requesting 30-min intro call before Memorial Day. Scheduling in progress (DDI available May 12-16 or May 19-23). |
+| Blue Cross Complete | ⏳ **SCHEDULING** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026 (30-min intro). **Post–Memorial Day follow-up SENT** early June 2026 — availability weeks of **June 2 & June 9, afternoons ET**; awaiting her time. |
 | HAP CareSource | Pending | Related to CareSource contract above — confirm coverage |
 | McLaren Health Plan | Pending | Flint HQ |
 | Priority Health Choice | Pending | Grand Rapids |
@@ -981,7 +983,7 @@ MI SIGMA VSS: VS0245604
 | Contact | Role | Email | Phone | Notes |
 |---------|------|-------|-------|-------|
 | **Angela Medina** | Care Coordination Section Manager, Division of Environmental Community Services, **Environmental Health Bureau** | MedinaA@michigan.gov | **517-897-5203** | **Primary decision-maker.** Confirmed Apr 23: timing is "perfect" given PA 146 of 2023. Owns referral-pathway decisions and LHD-director intros. |
-| **Aimee Surma** | Environmental Health Bureau | SurmaA@michigan.gov | — | Program contact. Surfaced the housing + food navigation need during abatement discussion (personal emphasis). Sent follow-up email Apr 23 with MiLeadSafe + Apply for Home Lead Services links. |
+| **Aimee Surma** | Environmental Health Bureau | SurmaA@michigan.gov | — | Program contact. Surfaced housing + food navigation need (Apr 23). **OOO auto-reply** received early June 2026 (same day as SHIELD follow-up) — back TBD; non-urgent CLPPP: **517-335-8885** / MDHHS-CLPPP@michigan.gov. |
 
 ### LOCAL HEALTH DEPARTMENT DIRECTORS (MDHHS-FACILITATED INTROS — INBOUND EXPECTED)
 
@@ -1037,8 +1039,8 @@ CWC+DDI's public `/refer` page and navigator AI should reference these state pro
 ### ACTION ITEMS (OWED BY CWC+DDI)
 
 - [x] Submit meeting brief + one-pager to Angela and Aimee within 24 hours — **DONE 4/23 7:04 PM ET**
-- [ ] **Schedule formal follow-up meeting** with Angela/Aimee within 2 weeks (target: week of May 4, 2026)
-- [ ] **Prepare program proposal documentation** for follow-up meeting — full multi-year program: staffing, expansion plan, performance metrics, roles matrix, how SHIELD produces real-time outcomes reporting
+- [x] **Prepare program proposal documentation** for follow-up meeting — **✅ SENT early May 2026** (full package + Guidde demos)
+- [ ] **Schedule formal follow-up meeting** — **June 2026 follow-up email SENT** to Angela/Aimee (meeting + LHD intros). ⏳ Await reply · call Angela **517-897-5203** if no response by ~June 9
 - [ ] When LHD-director intros arrive, log each contact as a `Referral_Source_Accounts` record in SHIELD (one per director)
 - [ ] Request introduction to MDHHS Medicaid MCO contract leads (payer-side path to sustained reimbursement)
 

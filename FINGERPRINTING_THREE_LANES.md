@@ -1,6 +1,6 @@
 # DDI FINGERPRINTING — THREE REVENUE LANES
-**Last Updated:** February 15, 2026
-**Strategy:** Federal-grade fingerprinting (FD-258 / EFT) across three high-volume markets
+**Last Updated:** May 28, 2026
+**Strategy:** Federal-grade fingerprinting (FD-258 / EFT / SWFT) across three high-volume markets — Lane 3 is the DDI+Lakota nationwide platform play
 
 ---
 
@@ -81,34 +81,53 @@
 
 ---
 
-### LANE 3: FEDERAL SECURITY CLEARANCES (MILITARY / GOVERNMENT)
-**What:** DCSA (Defense Counterintelligence and Security Agency) requires electronic fingerprints via SWFT for:
-- Security clearance investigations (Secret, Top Secret, TS/SCI)
-- Contractor onboarding at military installations
-- Federal employee background investigations
-- Suitability determinations
+### LANE 3: FEDERAL CONTRACTS — DDI + LAKOTA NATIONWIDE PLATFORM
+**What:** Federal agencies (DHA, DeCA, SSA, DoD branches) require nationwide fingerprinting services with SWFT submission to DCSA. DDI primes these contracts. Lakota provides SWFT technology. Independent operators provide collection sites.
+
+**The Platform Model:**
+- DDI = Prime contractor / TPA (contract management, compliance, reporting, QA, network management)
+- Lakota = Technology partner (SWFT submission, WHORL livescan software, portal/scheduling)
+- Independent livescan operators = Collection network (physical sites in all 50 states + territories)
+- This is the ONLY open-network alternative to Fieldprint in the federal fingerprinting market
 
 **Who Needs It:**
-- Defense contractors onboarding employees at military bases
-- Federal agencies onboarding new employees
-- Military installations processing civilian workers
-- Government contractors processing subcontractor personnel
+- Defense Health Agency (DHA) — background investigations for military/civilian/contractor employees
+- Defense Commissary Agency (DeCA) — all DeCA position background checks
+- Social Security Administration (SSA) — employee background investigations (~22,000/year)
+- DoD branches — security clearances, contractor onboarding, suitability determinations
+- Any federal agency requiring nationwide SWFT fingerprinting
 
 **The Buyers:**
-- Military base security offices (Selfridge, Detroit Arsenal, etc.)
+- Federal agency security divisions and HR departments
+- Military base security offices
 - Defense contractor HR departments
-- Federal agency security divisions
-- DCSA directly (for SWFT-enrolled fingerprinting)
+- DCSA (for SWFT-enrolled fingerprinting programs)
 
 **DDI's Edge:**
-- SWFT AUTHORIZED since 2022 — can submit electronically to FBI/DCSA
-- Mobile service to military bases and contractor facilities
-- Local to Michigan military installations (Selfridge ANGB 30 min, Detroit Arsenal 15 min)
-- Can bundle with drug testing for contractor onboarding packages
+- EDWOSB/WOSB — set-aside eligible (DHA HT001126QE014 is WOSB set-aside)
+- Lakota built FBI NGI, DoD ABIS, DHS HART — unmatched technology credibility
+- TPA model proven across drug testing (PRISM) and NEMT (Uber Health)
+- Open network model = scalable without building/owning physical sites
+- Only competitor to Fieldprint's closed 2,200-site network
 
-**Volume:** Every new contractor employee at a military installation. Every security clearance investigation.
+**DDI SWFT Status:**
+- DDI's own SWFT access was DENIED by DCSA (March 2026) — requires FCL + DD Form 254
+- Lakota HAS SWFT authorization — handles SWFT submission as DDI's technology partner
+- In proposals: "our SWFT-authorized biometric technology partner" — never claim DDI holds SWFT directly
+- Long-term: winning a contract with DD Form 254 unlocks DDI's own SWFT access via FCL
 
-**Pricing:** $150/person (2 FD-258 cards + mobile) + $50 SWFT/FBI submission = $200 bundled. Volume rates: $95/person (16-50/mo), $90/person (51+/mo).
+**Active Opportunities:**
+| Solicitation | Agency | Volume | Due | Set-Aside |
+|---|---|---|---|---|
+| HT001126QE014 | DHA | 4,800/yr | Questions Jun 8 | WOSB |
+| HQC00526QE015 | DeCA | ~3,200/yr | Monitoring | SB |
+| 28321326RI0000015 | SSA | ~22,000/yr | Monitoring | TBD |
+
+**Volume:** Thousands of federal fingerprinting contracts hit SAM.gov every year. Fieldprint wins most by default because nobody else has nationwide coverage. The DDI+Lakota platform changes that.
+
+**Pricing:** Per-transaction FFP. DHA example: $X per electronic set + $Y per hard copy set (pricing TBD based on Lakota costs + operator fees + DDI margin). Target 40-50% margin.
+
+**Network Build Status:** TO BE BUILT. Need independent livescan operators in all 50 states + territories. Sources: existing notary network, 3D Ink Signatures contacts, UPS Store operators, independent fingerprinting businesses.
 
 ---
 

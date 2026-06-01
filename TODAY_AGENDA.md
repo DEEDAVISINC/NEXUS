@@ -1,51 +1,59 @@
-# TODAY'S AGENDA — Thursday, May 28, 2026
+# TODAY'S AGENDA — Monday, June 1, 2026
 
-**Updated:** May 27, 2026 @ 10:37 PM ET
-
----
-
-## HARD DEADLINES TODAY
-
-| Time | What | Action |
-|---|---|---|
-| **12:00 PM AKT (4:00 PM ET)** | **Anchorage Background Checks** | SUBMIT on BidExpress — proposal is READY. Verify $3M cyber liability first. |
+**Updated:** May 31, 2026 @ goodnight
 
 ---
 
-## PRIORITY ACTIONS — IN ORDER
+## TOP 3 PRIORITIES
 
-1. **CHECK SENPEX REPLY** — Emailed last night for San Antonio lab courier coverage + pricing. Need answer by end of day to finalize University Health bid table rates.
-2. **FILL IN ISABELLE'S BID TABLE** — `BidTable-LAB-COURIER.xlsx` — per-mile rates for 6 line items. Due Friday. Change "No Bid" to "Bid" + enter rates. Email back to Isabelle.Vallejo@uhtx.com.
-3. **SUBMIT ANCHORAGE** — BidExpress by 4 PM ET today. Proposal is ready in `BIDS:RESOURCES/ANCHORAGE BACKGROUND CHECKS/`.
-4. **SEND 4 HAVEN DISASTER EMAILS** — Amerigroup TX, BCBS TX, Scott & White, Sendero. File: `HAVEN/OUTREACH/TX_FL_MCO_EMERGENCY_EMAILS_REFRAMED.md` (Emails 16, 17, 19, 23).
-5. **REWRITE 12 MCO EMAILS** — General Contract Management TPA outreach. Parkland, Cook Children's, El Paso First, FirstCare (TX) + all 8 FL MCOs. NOT disaster framing.
-6. **3D INK OUTREACH** — Direct client pipeline — 130+ targets across 6 categories. Start with hospitals and commercial title companies.
-7. **INDIANA DNA COLLECTION KITS** — Pull full solicitation details. State Police need DNA kits — DePointe DNA lane. GO/NO-GO with real numbers.
-8. **DIGITAL NAVIGATION / SDOH** — New MCO campaign to build. DDI = 6+ years MI Bridges Community Partner. Target population health / SDOH contacts.
+1. **CCRTA Occ Medical RFP** — Due **3:00 PM CST / 4:00 PM ET** — `BIDS:RESOURCES/CCRTA OCC MEDICAL/` — submit before deadline
+2. **NC SOS registration** — **10:00 AM ET** — NCTracks path · `.ics`: `nc_sos_registration_nemt_2026-06-01.ics`
+3. **MDHHS NEMT recompete check** — **12:00 PM ET** — Call procurement if no RFP posted · `.ics`: `modivcare_nemt_recompete_check2_2026-06-01.ics`
 
 ---
 
-## WAITING ON REPLIES
+## CALENDAR (from SCHEDULED_AGENDA)
 
-| From | What | When Sent | Follow Up If No Reply |
-|---|---|---|---|
-| **Senpex** (contact@senpex.com) | San Antonio coverage + per-mile pricing | May 27 night | Follow up by noon Thursday |
-| **Concentra** (Kellie McKay) | CCRTA pricing | May 18 | Follow up — June 1 deadline |
-| **Sam Cilento** (Lakota) | Minneapolis MPD go/no-go + requirements review | May 27 — docs sent | Check for reply |
-| **LA MCOs** (6 emailed) | HAVEN disaster responses | May 26 | Aetna auto-ack received — others pending |
-| **TX MCOs** (9 emailed) | HAVEN responses | May 26 | UHC redirected to SafeRide — others pending |
+| Time ET | Item |
+|---------|------|
+| 10:00 AM | NC Secretary of State registration (NEMT TPA) |
+| 12:00 PM | Michigan NEMT broker recompete check #2 |
+| 4:00 PM | **CCRTA RFP deadline** (3 PM CST) |
+
+**Note:** Uber Health Jeff Metz call is **Tuesday Jun 2 @ 1:00 PM ET** (not today).
 
 ---
 
-## UPCOMING DEADLINES
+## INBOX CHECK (no new follow-ups unless reply)
 
-| Date | Opportunity | Action |
-|---|---|---|
-| **Fri May 30 — 2:00 PM ET** | Uber Health follow-up call — Jeff Metz | MI route pricing, 3P NEMT, ACH billing confirmation |
-| **Fri May 30** | University Health bid table due to Isabelle | Email updated BidTable-LAB-COURIER.xlsx |
-| **Sun June 1 @ 3 PM CST** | CCRTA Occ Health deadline | CONDITIONAL — Need Concentra pricing |
-| **Wed June 3** | NCS Partner Setup | Complete training + portal setup |
-| **Thu June 5** | DRPA Occ Health/Drug | CONDITIONAL — Ariba approval pending |
-| **Sun June 15** | Minneapolis MPD Background Software | With Lakota — Sam reviewing docs |
-| **Mon June 16** | VIA Transit Drug Testing bid | Questions submitted May 23 |
-| **Mon June 23** | Oakland County DTC Drug Testing | LOCAL — 50% win prob |
+- BCC / Alina — wait for her to pick Jun 2 or Jun 9 slot
+- MDHHS Angela/Aimee — check only; no chase until mid-June
+- Stephanie Logan — back from OOO Jun 2; personal follow-up **Jun 3+** if silent (no duplicate pitch)
+
+---
+
+## THIS WEEK
+
+| Date | Item |
+|------|------|
+| **Jun 2** | Uber Health call 1 PM ET · BCC + MDHHS inbox check (no follow-ups) |
+| **Jun 3** | NCS partner setup deadline 9 AM · MHEF concept paper window check |
+| **Jun 5** | DRPA Occ Health/Drug due |
+| **Jun 6** | FAP survey due 2 PM ET |
+| **Jun 16** | VIA Transit IFB 26-374 sealed bid |
+
+---
+
+## OUTBOUND EMAIL RULE (new)
+
+**Before any send:** grep `OUTBOUND_EMAIL_LOG.md`. **After "sent":** log same turn. No MCO batch re-pitches.
+
+---
+
+## WAITING — DO NOT CHASE
+
+- Alina (BCC), Angela/Aimee (MDHHS), Daniel Rivera (Anthem OH), Natalie Centene (mid-July)
+
+---
+
+*Pipeline: `PIPELINE_TALLY.md` · Sends log: `OUTBOUND_EMAIL_LOG.md`*

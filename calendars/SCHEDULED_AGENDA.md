@@ -4,6 +4,8 @@
 
 **Rules for NEXUS:** See `.cursor/rules/auto-calendar-events.mdc`.
 
+**CWC/DDI outreach calendar (Jun–Sep 2026):** `calendars/CWC_DDI_OUTREACH_FOLLOWUP_CALENDAR.md` · Import: `calendars/CWC_DDI_OUTREACH_FOLLOWUP_JUN_JUL_2026.ics`
+
 ---
 
 ## 2026-04-17 — Thursday
@@ -200,9 +202,12 @@
 
 ---
 
-## 2026-05-30 — Friday
+## 2026-05-29 — Friday
 
-- **2:00 PM ET** — 📞 **Uber Health Follow-Up — Jeff Metz** — MI route pricing review, 3P NEMT availability in Detroit, ACH billing confirmation, account consolidation. Jeff sending Zoom invite. `.ics`: `calendars/uber_health_jeff_metz_followup_2026-05-30.ics`
+- **1:30 PM ET (appt 1:40 PM)** — 📋 **MI SOS — License renewal** (already REAL ID) — 7917 19 Mile Rd, Sterling Heights · Conf **PXKQ7N** · Bring: **current license + payment** (not birth cert/SS card) · Try online first · `.ics`: `calendars/MI_SOS_VISIT_STERLING_HEIGHTS_2026-05-29.ics`
+- ~~**2:00 PM ET** — 📞 **Uber Health Follow-Up — Jeff Metz**~~ → **RESCHEDULED to Mon June 1 @ 2:00 PM ET** — email Jeff to confirm · was on calendar as Sat May 30 in error
+- **3:00 PM ET** — 📝 **SIGNING: William & Doris Herd** — 1285 Concord Rd, Rochester Hills, MI 48309 · Snapdocs Order #292933 · File #29232 · ASAP Pro Notary / Gibson Kohl · Fee $125 (w/ scans) · Confirm w/ William: (248) 318-4217 · Scanbacks ASAP by 5:00 PM ET · FedEx drop Fri/Sat AM for Mon delivery · `.ics`: `calendars/SNAPDOCS_HERD_CLOSING_292933.ics`
+- **5:00 PM ET** — 📧 **3D Ink Wave 1 Send Session** — Session 1: 10 outreach emails (Rutkowski, BBA, Hilf, GMH, Capital Troy, Legacy, Logan, Finn, Jay Scarola, Kelly Firm). Attach rate sheet PDF. Tracker: `3D INK SIGNATURES/WAVE1_OUTREACH_TRACKER.md` · `.ics`: `calendars/3D_INK_WAVE1_SEND_SESSION_2026-05-29.ics`
 
 ---
 
@@ -221,34 +226,32 @@
 ## 2026-06-03 — Wednesday
 
 - **9:00 AM ET** — 🔥 **DEADLINE: NCS Partner Setup Must Be Complete (30-Day Window)** — National Crime Search channel partner agreement executed May 4. Setup MUST be complete within 30 days or commission payments forfeited. **Required:** (1) Upload DDI logo to co-branded portal, (2) Add link from deedavis.biz to NCS site, (3) Complete training with NCS rep. Contact: Travis Fink, CEO — travis@nationalcrimesearch.com / 479-695-2111. Portal: deedavisinc.nationalcrimesearch.com. `.ics`: `calendars/ncs_setup_deadline_2026-06-03.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: MHEF capacity building deadlines** — mihealthfund.org — concept paper window. CWC applicant. Begin Healthcare Access or Family Stability paper if due soon. `.ics`: `cwc_outreach_mhef_deadlines_2026-06-03.ics`
 
 ---
 
 ## 2026-06-04 — Thursday
 
 - **10:00 AM ET** — 📋 **PRE-BID: SC Newborn Screening Courier (Intel Only)** — NO-GO on bid (requires direct employees). Attending for intel on SC DPH processes. Teams: https://teams.microsoft.com/meet/235127563810896?p=QPmvOOSo4HBLKeHFY8 | Meeting ID: 235 127 563 810 896 | Passcode: aa3FE2AM | Contact: Kelly Cobian (cobiankl@dph.sc.gov). ⚠️ No recording or AI tools allowed. `.ics`: `calendars/sc_newborn_screening_prebid_2026-06-04.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Verify 3 LHD directors (LinkedIn)** — **Oakland, Macomb, Muskegon only** — week before direct outreach. Do not cold-email wrong names. Wayne/Detroit/Kent confirmed separately. `LHD_BACKUP_CONTACTS_SIX_COUNTIES.md`. `.ics`: `cwc_outreach_lhd_linkedin_verify_2026-06-04.ics`
 
 ---
 
 ## 2026-06-01 — Monday
 
+- **✓ SENT** — 📧 **MDHHS SHIELD follow-up** — Angela + Aimee. **Aimee OOO auto-reply** (same day) — not a rejection. **⏳ Await Angela or Aimee when back.** ~**June 9** → call Angela **517-897-5203**
+- ~~**2:00 PM ET** — Uber Health Follow-Up — Jeff Metz~~ → **MOVED to Tue Jun 2 @ 1:00 PM ET** (official Zoom invite from Jeff May 29)
 - **10:00 AM ET** — 📋 **TARGET: NC Secretary of State Registration (NEMT TPA)** — Register DDI with NC SOS. Required before NCTracks enrollment. Path: ncsos.gov. DDI enrolling as Transportation Broker (347E00000X) for NEMT TPA model. `.ics`: `calendars/nc_sos_registration_nemt_2026-06-01.ics`
 
 - **12:00 PM ET** — 🔥 **CHECK #2: Michigan NEMT Broker Recompete** — If no RFP posted by today, call MDHHS Procurement (517-335-5100). Ask about recompete status for contract MA190000000912 (ModivCare, expires July 31). DDI has HAP CareSource proof of concept. `.ics`: `calendars/modivcare_nemt_recompete_check2_2026-06-01.ics`
 
-- **12:00 PM ET** — 📧 **FOLLOW-UP: Alina Pabin (BCBSM)** — If no meeting scheduled by Memorial Day week, send follow-up email to apabin@mibluecrosscomplete.com. Template: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/SCHEDULE_EMAIL_TO_ALINA.md`. `.ics`: `calendars/bcbsm_alina_followup_2026-06-01.ics`
+- **✓ SENT (early June 2026)** — 📧 **Alina Pabin (BCBSM)** — Post–Memorial Day scheduling follow-up (June 2 & June 9 afternoons ET). **⏳ Await her time → send Zoom invite.** Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md`. Log: `SCHEDULE_EMAIL_TO_ALINA.md`
 
 ---
 
 ## 2026-05-18 — Monday
 
 - **10:00 AM ET** — 📧 **MDHHS SHIELD Follow-Up — Angela Medina** — SHIELD proposal sent May 3, no acknowledgment after 15 days. Angela initiated contact asking for ideas — DDI delivered. If still no reply, call Angela directly or send brief follow-up email. Angela Medina — Angela.Medina@michigan.gov. Aimee Surma — Aimee.Surma@michigan.gov. `.ics`: `calendars/MDHHS_SHIELD_FOLLOWUP_2026-05-18.ics`
-
----
-
-## 2026-06-09 — Tuesday
-
-- **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`
 
 ---
 
@@ -268,12 +271,15 @@
 
 ## 2026-06-02 — Tuesday
 
-- **4:45 PM CST** — 📧 **VIA IFB 26-374 — Questions deadline** — Submit smart questions to Kim Turner (kim.turner@viainfo.net). Must be received by close of business.
+- **12:00 PM ET** — 📧 **CWC OUTREACH: Check BCC + MDHHS inbox** — Alina Pabin (BCC), Angela Medina/Aimee Surma (MDHHS). Check only — **do not send follow-ups.** If BCC responds → schedule 30-min call + `ALINA_MEETING_TALK_TRACK.md`. `.ics`: `cwc_outreach_check_bcc_mdhhs_inbox_2026-06-02.ics`
+- **1:00 – 1:25 PM ET** — 📞 **Dee Davis Inc. + Uber Health — Jeff Metz** — Zoom: https://uber.zoom.us/j/95238699419?pwd=IOG7laf5x4QbnSw3I6cBfRaRaZeybH.1 | ID **952 3869 9419** | PW **512360** | Guests: Jeff Metz (organizer), Christopher McNally (cmcnally@uber.com). **Topics:** HAP MI pricing, 3P/wheelchair Detroit, ACH billing, account consolidation. `.ics`: `calendars/uber_health_jeff_metz_2026-06-02.ics`
+- **✓ DONE May 23** — ~~VIA IFB 26-374 questions~~ — Submitted to Kim Turner (kim.turner@viainfo.net). Monitor via.diversitycompliance.com for answers before bid (due Jun 16).
 
 ---
 
 ## 2026-06-16 — Tuesday
 
+- **12:00 PM ET** — 🔥 **CWC OUTREACH: MDHHS trigger — go direct to LHDs** — If Angela/Aimee silent → **Wayne (Kennyle Johnson, interim — ready-to-launch SHIELD pitch) + Detroit (Denise Fair Razo — separate from Wayne; engage both by family location)**. Call Angela **517-897-5203**. `.ics`: `cwc_outreach_mdhhs_trigger_lhd_2026-06-16.ics`
 - **2:00 PM CST / 3:00 PM ET** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374 — BID DUE** — Hard-copy sealed bid. Ship by June 12 via FedEx Priority Overnight. **GO** — Addendum No. 1 confirmed 2,662 tests/yr, $146K/yr, $732K lifetime (5 yr). Folder `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`
 
 ---
@@ -300,6 +306,7 @@
 ## 2026-06-08 — Monday
 
 - **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
+- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — William S. Middleton VA · 5-year · SAM 93414ce3396e45c4891cb0130cf77c14 · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-08.ics`
 
 ---
 
@@ -307,12 +314,14 @@
 
 - **💰 PAYMENT CHECK:** @SigningAgents / NTS — If $125.00 (Maxine Smith) has NOT arrived yet, today is day 45. Email kevin@atsigningagents.com to inquire.
 - **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`
+- **2:30 PM ET** — 📧 **CWC OUTREACH: BCC final follow-up if no response** — Alina Pabin — one touch only if silent. No follow-up after today. `.ics`: `cwc_outreach_bcc_final_followup_2026-06-09.ics`
 
 ---
 
 ## 2026-06-12 — Friday
 
 - **💰 PAYMENT DUE:** Standard Notary Services — $100.00 (John Cahill, Net 45 from 4/28). **Check email for NotaryPay Deluxe eCheck.**
+- **1:00 PM ET** — 📋 **CWC OUTREACH: County opioid settlement administrators** — Wayne, Oakland, Macomb grant admins + cycles. CWC applicant. `.ics`: `cwc_outreach_county_opioid_admins_2026-06-12.ics`
 
 ---
 
@@ -337,11 +346,13 @@
 ## 2026-07-15 — Wednesday
 
 - **12:00–4:00 PM ET** — 📋 **GSA Pathways to Success Training + Readiness Assessment** — Mandatory Step 1 for GSA MAS application. 3-4 hours, online (PDF from gsa.gov/masroadmap). Print certificate — valid 12 months. Also complete Readiness Assessment same session. `.ics`: `calendars/gsa_pathways_training_2026-07-15.ics`
+- **4:30 PM ET** — 📧 **CWC OUTREACH: Priority Health + UHC Community Plan** — Region 10 MCO NEMT TPA pitch. **Only if BCC call done or dead.** `.ics`: `cwc_outreach_priority_uhc_mco_2026-07-15.ics`
 
 ---
 
 ## 2026-07-16 — Thursday
 
+- **5:00 PM ET** — 📋 **MANDATORY: ELARC ARFPSHN Orientation (CA)** — Eastern LA Regional Center · ARFPSHN #1/#2 · 2:00 PM PT · Folder `ELARC ARFPSHN BH/` · `.ics`: `ELARC_ARFPSHN_ORIENTATION_2026-07-16.ics`
 - **💰 PAYMENT CHECK:** Premium Closing Solutions SILK — $80.00 (Barnes Refi, file H-316268-SFB). 75-day cycle from 5/2. Deposit window: July 16-31. **Check email for DeluxeChecks eCheck.**
 
 ---
@@ -349,3 +360,78 @@
 ## 2026-09-15 — Monday
 
 - **Due by 5:00 PM CT** — 🔥 **Texas HHSC NEMT Open Enrollment (HHS0016482) — FINAL DEADLINE** — DDI applying as TPA prime, subcontracting ALL transport to Uber Health + local NEMT. Requirements: TX SOS registration, TMHP enrollment, insurance certs, HUB subcontracting plan, key personnel. Reimbursement: Metro $32.38, Suburban $59.64, Rural $76.22 per one-way leg. `.ics`: `calendars/texas_hhsc_nemt_oe_2026-09-15.ics`
+
+---
+
+## 2026-06-05 — Friday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: MDHHS HRSN waiver implementation lead** — Find who leads 1115 HRSN implementation. Position DDI/CWC as community delivery partner. `.ics`: `cwc_outreach_hrsn_lead_research_2026-06-05.ics`
+
+---
+
+## 2026-06-06 — Saturday
+
+- **2:00 PM ET** — 🔥 **BID DEADLINE: DAF Family Advocacy Program Sources Sought (FAP2026SS)** — Email Sandy Thompson + complete survey. Folder: `BIDS:RESOURCES/DAF FAMILY ADVOCACY/SEND_TO_BUYER/`. `.ics`: `daf_fap2026ss_2026-06-06.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: DWIHN PIHP subcontracting research** — Substance Use program — SAMHSA/SOR via PIHP. dwihn.org. `.ics`: `cwc_outreach_dwihn_research_2026-06-06.ics`
+
+---
+
+## 2026-06-10 — Wednesday
+
+- **1:00 PM ET** — 📧 **CWC OUTREACH: Jennifer Casbar — Access2Care/MTM** — jcasbar@mtm-inc.net · Molina sub path · NEMT TPA pitch. `.ics`: `cwc_outreach_jennifer_casbar_mtm_2026-06-10.ics`
+
+---
+
+## 2026-06-18 — Thursday
+
+- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Oakland + Macomb** — If MDHHS trigger activated. SHIELD + community partner language. `.ics`: `cwc_outreach_lhd_oakland_macomb_2026-06-18.ics`
+- **3:00 PM ET** — 🔥 **BID DEADLINE: Pasco-Pinellas AAA Senior Transport** — OAA/LSP RFP 2026 · agingcarefl.org · Folder `PASCO PINELLAS AAA TRANSPORT/` · `.ics`: `PASCO_PINELLAS_AAA_TRANSPORT_2026-06-18.ics`
+
+---
+
+## 2026-06-19 — Friday
+
+- **4:00 PM ET** — 🔥 **BID DEADLINE: Worcester ESWA Elder Transport** — Confirm LOI waiver with jgiombetti@eswa.org first · Folder `WORCESTER ELDER TRANSPORT/` · `.ics`: `WORCESTER_ELDER_TRANSPORT_2026-06-19.ics`
+
+---
+
+## 2026-06-20 — Saturday
+
+- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Kent + Muskegon** — Adam London (Kent). Early relationship building. `.ics`: `cwc_outreach_lhd_kent_muskegon_2026-06-20.ics`
+
+---
+
+## 2026-07-01 — Wednesday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Begin BCBSM Foundation concept paper** — Healthcare Access via CWC. Board review **Aug 5**. `.ics`: `cwc_outreach_bcbsm_concept_begin_2026-07-01.ics`
+
+---
+
+## 2026-07-06 — Monday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS GFOs · Wayne/Oakland/Macomb opioid grants · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-07-06.ics`
+- **5:00 PM ET** — 🔥 **BID DEADLINE: Nevada NHA NET Broker 41NHA-S3848** — Due 2:00 PM PT · NevadaEPro · Folder `NEVADA NET BROKER/` · `.ics`: `NEVADA_NET_BROKER_2026-07-06.ics`
+
+---
+
+## 2026-07-07 — Tuesday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Kresge Foundation program officer** — Health/Human Services PO. Troy HQ. Relationship-first via CWC. `.ics`: `cwc_outreach_kresge_officer_research_2026-07-07.ics`
+
+---
+
+## 2026-07-21 — Tuesday
+
+- **2:00 PM ET** — 🔥 **CWC OUTREACH: Submit BCBSM Foundation concept paper** — Final review + submit via CWC (2 weeks before Aug 5 board). `.ics`: `cwc_outreach_bcbsm_concept_submit_2026-07-21.ics`
+
+---
+
+## 2026-08-03 — Monday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-08-03.ics`
+
+---
+
+## 2026-09-07 — Monday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-09-07.ics`

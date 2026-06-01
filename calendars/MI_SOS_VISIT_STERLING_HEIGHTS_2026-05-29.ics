@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:mi-sos-visit-pxkq7n-20260529@deedavis.biz
+DTSTAMP:20260528T120000Z
+DTSTART;TZID=America/Detroit:20260529T133000
+DTEND;TZID=America/Detroit:20260529T143000
+SUMMARY:📋 MI SOS Appointment — Sterling Heights
+DESCRIPTION:RESCHEDULED — Michigan Secretary of State — DRIVER LICENSE RENEWAL (already REAL ID).\n\nConfirmation code: PXKQ7N\nAppointment: 1:40 PM (arrive by 1:30 PM)\n\nBRING:\n- Current REAL ID license (star on card)\n- Renewal notice (if you have it)\n- Payment (~$18 standard renewal)\n\nYou do NOT need birth certificate or SS card again — those were for first-time REAL ID only.\n\nTry online first: michigan.gov/sos/all-services/license-or-id-renewal — cancel appt if online works.\n\nManage: https://SOSVisit.mi.gov/s/OJ3Nr3yIOt8\n\nSAME DAY: Herd signing 3:00 PM Rochester Hills.
+LOCATION:7917 19 Mile Rd, Sterling Heights, MI 48314
+STATUS:CONFIRMED
+SEQUENCE:1
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:MI SOS Sterling Heights — leave soon (appt 1:40 PM)
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Leave for SOS — arrive by 1:30 PM
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

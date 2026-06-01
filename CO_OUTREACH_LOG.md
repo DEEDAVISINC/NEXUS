@@ -1,5 +1,9 @@
 # CO OUTREACH LOG — EVERY EMAIL SENT TO A CONTRACTING OFFICER
 
+**⚠️ MCO / buyer / partner emails:** use **`OUTBOUND_EMAIL_LOG.md`** (master for ALL outbound).
+
+**This file:** federal/state/local CO history (March 2026 batch). Still update when CO emails sent.
+
 **This log is updated THE MOMENT Dee confirms an email is sent. No exceptions.**
 
 ---

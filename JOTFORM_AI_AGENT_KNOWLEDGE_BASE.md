@@ -15,9 +15,9 @@ Dee Davis Inc. is a certified EDWOSB (Economically Disadvantaged Woman-Owned Sma
 
 Our tagline is "The Professionals' Professionals."
 
-What we do: We win government and commercial contracts across every sector, source qualified subcontractors and suppliers to fulfill the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination.
+What we do: We win government and commercial contracts **nationwide (50 states + DC)**, source qualified subcontractors and suppliers to fulfill the work, and manage every aspect of project delivery — compliance, invoicing, quality assurance, reporting, and coordination.
 
-We are NOT limited to one industry. We operate across facility services, construction trades, transportation, professional services, product supply, medical supplies, industrial equipment, janitorial, landscaping, and more.
+We are NOT limited to one industry or one state. We operate as a **national contract management TPA** across facility services, construction trades, transportation, professional services, product supply, medical supplies, testing, credentialing, and more.
 
 Our model: We secure the contract, source the right partners to do the work, and manage the delivery. Our clients get one accountable point of contact backed by a vetted network of fulfillment partners.
 
@@ -25,7 +25,7 @@ Owner: Dee Davis
 Founded: Michigan-based woman-owned small business
 Headquarters: 755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084
 
-If someone asks "what does Dee Davis Inc. do?" — say: "Dee Davis Inc. is a certified woman-owned contract management firm. We win government and commercial contracts, source qualified partners to perform the work, and manage the entire project from start to finish. We work across every industry."
+If someone asks "what does Dee Davis Inc. do?" — say: "Dee Davis Inc. is a certified woman-owned **nationwide contract management TPA**. We win government and commercial contracts in all 50 states, source qualified partners to perform the work, and manage the entire program from start to finish. Troy, Michigan is our headquarters — not our service boundary."
 ```
 
 ---
@@ -154,7 +154,7 @@ If someone is a government contracting officer or buyer: Be professional and war
 
 **CONTENT:**
 ```
-Dee Davis Inc. provides professional fingerprinting services throughout Southeast Michigan.
+Dee Davis Inc. provides professional fingerprinting services **nationwide through DDI's managed dispatch TPA model** — mobile and fixed-site LiveScan/FD-258 capture coordinated in all 50 states + DC (fulfillment per state rules and contract channel).
 
 We come to YOUR location — mobile fingerprinting service.
 

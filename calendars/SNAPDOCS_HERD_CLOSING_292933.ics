@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:snapdocs-herd-292933@deedavis.biz
+DTSTAMP:20260528T234500Z
+DTSTART;TZID=America/Detroit:20260529T150000
+DTEND;TZID=America/Detroit:20260529T163000
+SUMMARY:📞 SIGNING: Herd — Rochester Hills (Snapdocs #292933)
+DESCRIPTION:Snapdocs Order #292933 | File #29232\nASAP Pro Notary Services / Gibson Kohl\nFee: $125 (Signing w Scans)\n\nSigners:\n- William Herd — (248) 318-4217\n- Doris Herd — (248) 765-1325\n\nLocation: 1285 Concord Rd\, Rochester Hills\, MI 48309\n\nBEFORE CLOSING:\n- Confirm appt with William Herd\n- Print all docs (115+ pg loan pkg)\n- Print 2nd set for signers\n- Blue ink only\n\nAFTER CLOSING (ASAP by 5:00 PM ET):\n- Scan ALL docs + upload to Snapdocs\n- Collect ID copies (PDF upload)\n- Drop FedEx same day (Fri/Sat AM OK for Mon delivery)\n\nASAP day: 888-702-1226 | After 7 PM CST: 888-681-2068\nJess Israileff (contact) | lisa@asappro.com
+LOCATION:1285 Concord Rd, Rochester Hills, MI 48309
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours — Herd Rochester Hills
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes — Herd Rochester Hills
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

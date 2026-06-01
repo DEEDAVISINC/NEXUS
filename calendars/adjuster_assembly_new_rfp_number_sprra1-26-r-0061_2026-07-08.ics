@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Adjuster Assembly (New RFP number SPRRA1-26-R-0
+ 061)
+DTSTART:20260708T000000
+DTEND:20260708T010000
+DTSTAMP:20260531T230059Z
+UID:recmAvCeNICzfdsZ0@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Adjuster Assembly (New RFP n
+ umber SPRRA1-26-R-0061)\nAgency: \nSolicitation: \nDeadline: July 08\, 202
+ 6 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/r
+ ecmAvCeNICzfdsZ0\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n
+ - 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 A
+ CTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collec
+ t all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fin
+ al review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated
+  by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Adjuster Assembly (New RFP number SPRRA1-26-R-00
+ 61)
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Adjuster Assembly (New RFP number SPRRA1-26-R-00
+ 61)
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Adjuster Assembly (New RFP number SPRRA1-26-R-00
+ 61)
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Adjuster Assembly (New RFP number SPRRA1-26-R-00
+ 61)
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

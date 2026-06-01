@@ -84,7 +84,7 @@ Together:
 
 ```
 Months 0–6 (prove the system — SHIELD + HAVEN foundation):
-• Publish proof pack: live HAP NEMT (trips, SLAs, vendor credentialing) + SHIELD portal demo + HAVEN registry overview for funders and MCO buyers
+• Proof largely delivered: HAP NEMT live + MDHHS SHIELD package (proposal, fulfillment map, 4 demo videos, May 2026); optional one-page funder PDF from same materials for MHEF/CFSEM only
 • SHIELD: hire 3–5 Cause We Care CHW navigators + part-time supervisor; ramp Wayne County to ~25% mandatory testing capture; complete MDHHS vendor introductions for all 9 SHIELD service lines; VERTEX billing live on SHIELD and NEMT
 • HAVEN Phase 1–2: build pre-credentialed partner registry (housing, charter/NEMT transport, mail-order pharmacy/DME/home health); draft MCO disaster-continuity contract language; run manual test dispatch from a displaced-member list (tabletop + small pilot with one MCO or state EM contact); document HAP trip/SLA data as the credibility deck — “same TPA, disaster mode”
 
@@ -122,7 +122,7 @@ SHIELD: on-time lead tests, <48 hr navigator contact, verified remediation/retes
 
 **Q4 SHORT:**
 ```
-$250K–$500K: proof pack (HAP + SHIELD + HAVEN registry); 3–5 navigators + supervisor; HAVEN partner registry + MCO disaster clauses + pilot dispatch; hit SHIELD KPIs in Wayne; expand Oakland/HAVEN MCO lines months 6–18; hire program manager; pursue larger grants with outcomes data.
+$250K–$500K: hire 3–5 navigators + supervisor (proof ops live — HAP + MDHHS package); HAVEN partner registry + MCO disaster clauses + pilot dispatch; hit SHIELD KPIs in Wayne; expand Oakland/HAVEN MCO lines months 6–18; hire program manager; pursue larger grants with outcomes data.
 ```
 
 ---

@@ -144,7 +144,8 @@ STEP 3: Continuous Improvement
 
 ### **DDI Strategic Knowledge Pack (May 30, 2026)**
 
-**Master index:** `DDI_STRATEGIC_KNOWLEDGE_INDEX.md`
+**Master index:** `DDI_STRATEGIC_KNOWLEDGE_INDEX.md`  
+**Session record:** `SESSION_SUMMARY_MAY_30_2026.md`
 
 | File | Purpose |
 |------|---------|
@@ -153,9 +154,16 @@ STEP 3: Continuous Improvement
 | `DDI_PROGRAM_OUTCOMES_WHEN_WORKING.md` | SHIELD, HAVEN, NEMT, PRISM, VERTEX outcomes when working |
 | `DDI_COMMUNITY_IMPACT_SUMMARY.md` | Short community narrative for grants/outreach |
 | `DDI_12_18_MONTH_EXECUTION_WITH_CAPITAL.md` | Multiple six-figure packages — 12–18 month ops plan |
+| `DDI_FOUR_PILLARS_BRAND_FRAMEWORK.md` | Stability · Accessibility · Capability · Equitability |
+| `DDI_PROGRAM_PACKAGING_STRATEGY.md` | 3 program narratives + Housing (future) |
+| `DDI_PARTNER_PROGRAM_MAP.md` | Internal partner → program mapping |
+| `MICHIGAN_FUNDER_MAP.md` | Tier 1–4 Michigan funders and actions |
+| `MULTI_STATE_LANDSCAPE_RESEARCH.md` | CLPPP, HRSN, NC model, expansion targets |
 | `../GRANT_APPLICATION_PACKAGE/DDI_FOUNDATION_TARGETS.md` | Local/regional/national foundation targets |
+| `../CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` | LHD direct outreach if MDHHS silent mid-June |
+| `../CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md` | BCC, MDHHS, HAP relationship tracker |
 
-**Use when:** Grants, “who we serve,” buyer vs partner questions, community impact, foundation research, scaling with capital.
+**Use when:** Grants, “who we serve,” buyer vs partner questions, community impact, foundation research, scaling with capital, program packaging pitches.
 
 ---
 

@@ -26,9 +26,10 @@ CLIENT (builder/port/facility) → CONTRACT with 3D Ink / DDI
 
 ## SERVICE LINE 1: MOBILE NOTARY / LOAN SIGNING (EXISTING)
 
-**Status:** ✅ Active — Dee performing directly + accepting assignments from signing agencies
-**Target Model:** Contract directly with title companies, attorneys, hospitals, facilities
-**Outreach List:** `CLIENT OUTREACH/3D_INK_DIRECT_CLIENT_TARGETS.md` (130+ targets, 6 categories)
+**Status:** ✅ Active — Dee performing directly + accepting assignments from signing agencies  
+**Target Model:** Contract directly with title companies, attorneys, hospitals, facilities, **structured settlement consultants**  
+**Outreach List:** `CLIENT OUTREACH/3D_INK_DIRECT_CLIENT_TARGETS.md` (130+ targets, 6 categories)  
+**Structured settlement lane (Wave 1B):** `CLIENT OUTREACH/3D INK SIGNATURES/WAVE1B_STRUCTURED_SETTLEMENT_TRACKER.md` — 10 verified broker emails, nationwide closing signings  
 **Revenue Target:** $570K/yr pipeline from direct contracts
 
 ---

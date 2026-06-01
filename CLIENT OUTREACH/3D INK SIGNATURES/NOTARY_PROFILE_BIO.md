@@ -1,18 +1,21 @@
-# 3D INK SIGNATURES — NOTARY PROFILE BIOS
+# 3D Ink Signatures — Profile Bio (National TPA)
 
-## LONG VERSION
-3D Ink Signatures is a professional notary and document signing firm based in Troy, Michigan, with over 20 years of commissioned notary experience in the State of Michigan.
+3D Ink Signatures is the notary and document signing division of Dee Davis Inc. — a **nationwide contract management TPA** headquartered in Troy, Michigan. Dieasha Davis brings 20+ years of commissioned notary experience and CNTDA/NPR credentials.
 
-We specialize in mobile loan signings, estate and trust document execution, general notarizations, and permit running — serving clients throughout Metro Detroit and Southeast Michigan. Our signings are handled by a Certified Notary & Trained Document Agent (CNTDA) and Notary Permit Runner (NPR), bringing both legal precision and practical experience to every appointment.
+**Scope:** Managed notary and signing-agent dispatch across **all 50 states + DC** — in-person where the act is performed, RON where state law and document type allow. One contract with DDI. One invoice. Full compliance documentation on every act.
 
-3D Ink Signatures is backed by the infrastructure of Dee Davis Inc., a federally certified EDWOSB contract management firm, which means your signings are supported by professional-grade compliance systems, digital record-keeping, and the accountability of a registered government-contracting business — not just an individual with a stamp.
-
-We carry E&O insurance, conduct signings at client-preferred locations, and are available for real estate closings, reverse mortgages, seller packages, estate documents, affidavits, powers of attorney, and time-sensitive commercial signings.
-
-Based in Troy, MI. Serving Wayne, Oakland, Macomb, Washtenaw, and surrounding counties.
+**Services:** Loan signings, estate and trust execution, immigration affidavits, structured settlement closings, vehicle title signings (assignments, POAs, lien releases), general notarizations, apostille coordination, and permit running.
 
 ---
 
-## SHORT VERSION (~200 characters)
-Troy, MI mobile notary | 20+ yrs experience | CNTDA & NPR certified | Loan signings, estate docs, affidavits | Metro Detroit & SE Michigan | E&O insured
+## Short Bio (directories / Snapdocs / LinkedIn)
 
+```
+Nationwide managed notary TPA | 20+ yrs experience | CNTDA & NPR certified | Loan, estate, immigration, vehicle title, settlement signings | 50 states + DC | EDWOSB | E&O insured
+```
+
+## Long Bio
+
+```
+3D Ink Signatures (Dee Davis Inc.) operates as a nationwide managed notary and signing-agent TPA. We contract directly with law firms, title companies, brokers, dealers, fleets, and health systems — then dispatch credentialed notaries and signing agents where each act must be performed. Mobile, in-office, and RON where permitted. One operations contact. One invoice. Troy, MI headquarters — national reach.
+```

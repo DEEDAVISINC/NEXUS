@@ -1,8 +1,10 @@
-# Structured settlement notary / signing outreach — saved for next week
+# Structured settlement notary / signing outreach — ACTIVE (3D Ink Signatures)
 
-**Status:** Parked — resume next week.  
-**Lane:** DDCSS / enterprise (not government).  
-**Offer:** Dee Davis Inc. nationwide notary / signing-agent support for settlement closings (confirm RON vs IPS vs mobile by state and document type).
+**Status:** **ACTIVE** — Wave 1B integrated into 3D Ink Signatures outreach.  
+**Send package:** `CLIENT OUTREACH/3D INK SIGNATURES/SEND_TO_BUYER/WAVE1B_STRUCTURED_SETTLEMENT_SEND_NOW.md`  
+**Tracker:** `CLIENT OUTREACH/3D INK SIGNATURES/WAVE1B_STRUCTURED_SETTLEMENT_TRACKER.md`  
+**Lane:** 3D Ink Signatures / enterprise (not government).  
+**Offer:** Dee Davis Inc. nationwide notary / signing-agent support for settlement closings (confirm RON vs in-person vs mobile by state and document type).
 
 ---
 
@@ -59,19 +61,23 @@ Dedupe any overlaps (some firms share metro numbers). Confirm phones and contact
 
 ---
 
-## Verified public emails (confirm before sending)
+## Verified public emails — audit May 28, 2026
 
-| Company | Email | Source |
-|---------|--------|--------|
-| Chronovo | info@chronovo.com | chronovo.com contact |
-| NFP Structured Settlements | nfpssinfo@nfp.com | nfpstructures.com homepage |
-| Medivest | customerservice@medivest.com; claims@medivest.com | medivest.com contact |
-| Summit Structured Settlements | info@summitsettlements.com | summitsettlements.com |
-| Milestone | info@milestoneseventh.com | milestoneseventh.com contact |
-| Forge Consulting | info@forgeconsulting.com | forgeconsulting.com contact-us |
-| CW Settlements | info@cwsettlements.com | cwsettlements.com contact |
-| Finn Financial Group | Dan@FinnFinancialGroup.com | Principal inbox on contact page |
-| Jay Scarola | jscarola@sagesettlements.com | settlewithjay.com contact |
+**Standard:** Listed on company website, NSSTA member profile, or principal contact page. **Not** inbox-tested (no send/bounce confirmation). Re-check before bulk send.
+
+| Company | Email | Verified? | Source (May 28, 2026) | Send notes |
+|---------|--------|-----------|------------------------|------------|
+| Logan Settlement Services | clogan@logansettlements.com | ✅ Yes | NSSTA member profile (Christine Logan, principal) | Website lists **info@logansettlements.com** for general — use **clogan@** for principal/direct |
+| Logan Settlement Services | info@logansettlements.com | ✅ Yes | logansettlements.com homepage | Alternate if clogan@ bounces |
+| Chronovo | info@chronovo.com | ✅ Yes | chronovo.com/contact | |
+| NFP Structured Settlements | nfpssinfo@nfp.com | ✅ Yes | nfpstructures.com homepage | |
+| Medivest | customerservice@medivest.com | ✅ Yes | medivest.com/contact-us | **Buyer fit:** MSP/lien — not classic structured settlement broker |
+| Summit Structured Settlements | info@summitsettlements.com | ✅ Yes | summitsettlements.com/locate-a-broker | |
+| Forge Consulting | info@forgeconsulting.com | ✅ Yes | forgeconsulting.com/contact-us | |
+| CW Settlements | info@cwsettlements.com | ✅ Yes | cwsettlements.com/contact | Southfield, MI office |
+| Finn Financial Group | Dan@FinnFinancialGroup.com | ✅ Yes | finnfinancialgroup.com/contact | Principal inbox |
+| Jay Scarola | jscarola@sagesettlements.com | ✅ Yes | settlewithjay.com/contact | |
+| Milestone Consulting | info@milestoneseventh.com | ⚠️ **NOT VERIFIED** | milestoneseventh.com/contact shows **phones only** — no info@ on page | **Wrong lane?** Post-settlement trustee (mass tort payments), not structured settlement consultant. **Hold — remove from Wave 1B until ops contact confirmed** |
 
 **Form-only or consultant-specific (no single verified corporate inbox from main page):** Ringler (consultant directory), Arcadia, Synergy, Sage (form + phone), Structures (form; NSSTA may list individual `@structures.com` for members).
 

@@ -1,184 +1,157 @@
 # RADAR — Revenue Acquisition Discovery And Reconnaissance
 
-**RADAR is DDI's unified opportunity mining system. When Dee says "run RADAR" or "what did RADAR find" — this is what she means.**
+**When Dee says "what's on the RADAR", "run RADAR", "RADAR report", or "what did RADAR find" — she means THIS system. Not the bid tracker. Not pending actions. Not the morning briefing.**
+
+Full rule: `.cursor/rules/radar-system.mdc` · Compile script: `compile_radar_results.py` · Output: **`RADAR_RESULTS.md`**
 
 ---
 
 ## WHAT RADAR IS
 
-RADAR is the collection of ALL mining, scanning, and scoring scripts that find opportunities for Dee Davis Inc. across government, commercial, enterprise, and healthcare channels. It is NOT one script — it is the entire intelligence pipeline.
+**RADAR finds NEW opportunities** — automated mining across government, healthcare/MCO, commercial, and enterprise channels.
 
-**One name. One system. Every opportunity channel.**
+| Property | Value |
+|----------|--------|
+| **Acronym** | **R**evenue **A**cquisition **D**iscovery **A**nd **R**econnaissance |
+| **Purpose** | Discover solicitations, sources sought, portal postings, and MCO signals DDI has **not** committed to yet |
+| **Command** | `python3 nexus_scheduler.py --radar` |
+| **Source of truth** | **`RADAR_RESULTS.md`** (compiled after every sweep) |
+| **Brain** | `ddi_opportunity_fit.py` — scores relevance to DDI service lanes |
+| **Partner map** | `partner-opportunity-mining.mdc` — every find shows which partner fulfills |
 
----
-
-## RADAR COMPONENTS
-
-### 1. THE BRAIN — Opportunity Scoring
-| Script | What It Does |
-|---|---|
-| `ddi_opportunity_fit.py` | Scores every opportunity against DDI's service lanes (0-100). Keywords + NAICS matching + subcontract/teaming detection. This is the filter — everything runs through it. |
-
-### 2. GOVERNMENT MINING (Federal / State / Local)
-| Script | What It Does | Source |
-|---|---|---|
-| `auto_mine_edwosb_wosb_only.py` | SAM.gov — EDWOSB/WOSB/SB set-aside opportunities | SAM.gov API |
-| `mine_sources_sought_presolicitation.py` | Sources sought & presolicitation notices | SAM.gov API |
-| `mine_all_sources_sought.py` | Broad sources sought sweep | SAM.gov API |
-| `mine_aog_sam.py` | AOG / freight-specific mining (NAICS 488190) | SAM.gov API |
-| `mine_usaspending_buyers.py` | USASpending buyer discovery by NAICS | USASpending API |
-| `mine_co_contacts.py` | Contracting officer contact extraction | SAM.gov API |
-| `mine_prime_contractors.py` | Prime contractor mining (sub opportunities) | SAM.gov / USASpending |
-| `mine_real_federal_forecasts.py` | Federal procurement forecasts | Federal sources |
-| `federal_forecasts_system.py` | Federal forecast pipeline | Multiple federal sources |
-
-### 3. COMMERCIAL / ENTERPRISE / HEALTHCARE MINING
-| Script | What It Does | Source |
-|---|---|---|
-| `healthcare_mco_scanner.py` | State Medicaid portals (10 states), hospital RFP sites, MCO vendor portals | State agency websites, hospital procurement |
-| `instant_markets_scanner.py` | InstantMarkets categories (janitorial, landscape, healthcare, transportation, etc.) | InstantMarkets.com |
-| `instant_markets_scraper.py` | InstantMarkets detailed scraping | InstantMarkets.com |
-| `public_portal_scanner.py` | Public procurement portal scanning | Multiple portals |
-
-### 4. INTELLIGENCE & ANALYSIS
-| Script | What It Does |
-|---|---|
-| `nexus_opportunity_intelligence.py` | AI scorer + email alerts + Michigan local mining (MichiganLocalMiner) |
-| `nexus_opportunity_hunter_api.py` | API endpoints for the opportunity hunter interface |
-| `contract_intelligence.py` | Expiring contract intel, prime/sub/recompete analysis |
-| `historical_pricing_scraper.py` | USASpending pricing history for competitive benchmarking |
-| `pricing_intelligence.py` | Market rate benchmarks + markup recommendations |
-| `solicitation_market_research.py` | Deep-dive market research on specific solicitations |
-
-### 5. PARTNER MATCHING
-| Component | What It Does |
-|---|---|
-| `partner-opportunity-mining.mdc` | Maps every opportunity to DDI's 12 fulfillment partners |
-| Partner matrix in every RADAR report | Shows which partner fulfills each opportunity found |
+**One name. One pipeline. Mining output only.**
 
 ---
 
-## HOW TO RUN RADAR
+## WHAT RADAR IS NOT — HARD STOP
 
-### Full Sweep (All Channels)
-```bash
-cd "/Users/deedavis/NEXUS BACKEND"
-export SAM_GOV_API_KEY=$(grep SAM_GOV_API_KEY .env | cut -d= -f2)
+If Dee asks about RADAR, **do NOT** substitute these files:
 
-# Government mining
-python3 auto_mine_edwosb_wosb_only.py
-python3 mine_sources_sought_presolicitation.py
-python3 mine_aog_sam.py
+| ❌ NOT RADAR | ✅ Use instead when Dee asks for… |
+|-------------|----------------------------------|
+| `BID_TRACKER_DASHBOARD.md` | Active bids, deadlines, submission status |
+| `PENDING_ACTIONS.md` | Tasks, follow-ups, blockers |
+| `NEXUS_WATCH_LIST.md` | Solicitations already identified — waiting for full RFP |
+| `TODAY_AGENDA.md` / `SCHEDULED_AGENDA.md` | Calendar, today's priorities |
+| `PIPELINE_TALLY.md` | Revenue totals, risk-adjusted pipeline dollars |
+| `FORECAST_OPPORTUNITIES_TRACKER.md` | Long-cycle forecast intel (subset of mining, not the RADAR report) |
 
-# Commercial / Healthcare mining
-python3 healthcare_mco_scanner.py
+**Wrong answer example:** Dee says *"what's on the RADAR?"* → you dump bid deadlines and pending tasks. **That is incorrect.**
 
-# Intelligence scoring
-python3 nexus_opportunity_intelligence.py
+---
+
+## RADAR CHANNELS (6 + compile)
+
+| # | Channel | Script / runner | Output cache |
+|---|---------|-----------------|--------------|
+| 1 | Federal SAM.gov (EDWOSB/WOSB/SB + AOG + digital nav) | `run_federal_mining()` in `nexus_scheduler.py` | `aog_sam_cache.json`, `digital_nav_sam_cache.json`, Airtable/GPSS |
+| 2 | Healthcare & MCO | `healthcare_mco_scanner.py` | `healthcare_scan_results.json`, `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
+| 3 | Federal forecasts | `mine_real_federal_forecasts.py` | GPSS / forecast trackers |
+| 4 | State & local | `nexus_opportunity_intelligence.py` (MichiganLocalMiner) | state opportunity files |
+| 5 | Public portals (nationwide) | `public_portal_scanner.py` | `portal_scan_results.json` |
+| 6 | AI scoring + alerts | `nexus_opportunity_intelligence.py` | email / GPSS scores |
+| ✓ | **Compile** | `compile_radar_results.py` | **`RADAR_RESULTS.md`** |
+
+Standalone lane scans (also feed compile when cache exists):
+- `python3 nexus_scheduler.py --digital-nav` → `digital_nav_sam_cache.json`
+- `python3 nexus_scheduler.py --aog` → `aog_sam_cache.json`
+- `python3 auto_mine_edwosb_wosb_only.py` → `NEW_SOURCES_SOUGHT_*.md`
+
+---
+
+## SESSION PROTOCOL — WHEN DEE ASKS ABOUT RADAR
+
+### Step 1: Read `RADAR_RESULTS.md` first
+Do not re-run the full sweep unless:
+- File is missing, or
+- `Last compiled` is **>24 hours** old, or
+- Dee explicitly says **"run RADAR"** / **"refresh RADAR"**
+
+### Step 2: Present in RADAR format only
+Use the report structure below. Include **partner fulfillment** on every line.
+
+### Step 3: Offer one next action
+Example: *"Want me to run a full `--radar` refresh, or promote [X] to the watch list?"*
+
+**Do NOT ask "what do you mean by RADAR?" — just read the file and present.**
+
+---
+
+## TRIGGER PHRASES
+
+| Dee says | NEXUS does |
+|----------|------------|
+| **"What's on the RADAR?"** | Read `RADAR_RESULTS.md` → present compiled mining finds + partner match |
+| **"Run RADAR"** / **"Refresh RADAR"** | `python3 nexus_scheduler.py --radar` → then read `RADAR_RESULTS.md` |
+| **"What did RADAR find?"** | Same as above; compile-only if caches fresh: `python3 compile_radar_results.py` |
+| **"RADAR report"** | Present full `RADAR_RESULTS.md` sections |
+| **"Anything on RADAR?"** | Top 5 highlights from `RADAR_RESULTS.md` only — no bid tracker |
+| **"RADAR is down"** | Check `logs/radar.log`, `radar_daily.log`, scheduler errors |
+
+| Dee says (different systems) | NOT RADAR — use |
+|------------------------------|-----------------|
+| "What's due?" / "deadlines" | `BID_TRACKER_DASHBOARD.md` |
+| "What's pending?" / "what am I forgetting?" | `PENDING_ACTIONS.md` |
+| "Good morning" / "what's today?" | `TODAY_AGENDA.md` + morning ritual |
+| "Pipeline" / "how much money?" | `PIPELINE_TALLY.md` |
+
+---
+
+## RADAR REPORT FORMAT (chat presentation)
+
 ```
+RADAR — [DATE] (from RADAR_RESULTS.md)
 
-### Quick Scan (Healthcare + MCO only)
-```bash
-python3 healthcare_mco_scanner.py
-```
+=== NEW FINDS — GOVERNMENT ===
+- [Title] | [Agency] | Due [Date] | [Set-aside] → [Partner]
 
-### Government Only
-```bash
-python3 auto_mine_edwosb_wosb_only.py
-python3 mine_sources_sought_presolicitation.py
+=== NEW FINDS — HEALTHCARE / MCO ===
+- [Title] | [State/Source] → [Partner]
+
+=== DIGITAL NAV / BENEFITS (if any) ===
+- [Title] | [Agency] → DDI/CWC direct
+
+=== MANUAL MCO CHECK ===
+- [ ] Portals in MCO_PORTAL_DAILY_CHECKLIST.md
+
+Last sweep: [timestamp] · Full file: RADAR_RESULTS.md
 ```
 
 ---
 
 ## RADAR OUTPUT FILES
 
-| File | What It Contains |
-|---|---|
-| `healthcare_scan_results.json` | Raw healthcare scanner results |
-| `HEALTHCARE_OPPORTUNITIES_REPORT.md` | Formatted healthcare opportunity report |
-| `MCO_PORTAL_DAILY_CHECKLIST.md` | MCO portals requiring manual login check |
-| `aog_sam_cache.json` | Last AOG/freight scan results |
-| `logs/healthcare_scanner.log` | Scanner execution log |
+| File | Role |
+|------|------|
+| **`RADAR_RESULTS.md`** | **Primary — read this for every RADAR question** |
+| `portal_scan_results.json` | Raw public portal scan |
+| `healthcare_scan_results.json` | Raw healthcare/MCO scan |
+| `HEALTHCARE_OPPORTUNITIES_REPORT.md` | Full healthcare detail |
+| `aog_sam_cache.json` | AOG / freight lane |
+| `digital_nav_sam_cache.json` | Digital navigation / benefits enrollment lane |
+| `NEW_SOURCES_SOUGHT_*.md` | Latest federal sources sought / presol digest |
+| `MCO_PORTAL_DAILY_CHECKLIST.md` | Login-required MCO portals |
+| `logs/radar.log` | Scheduled sweep log |
 
 ---
 
-## RADAR SCHEDULE (Target — Wire Into Scheduler)
+## SCHEDULE
 
-| Time | What Runs | Frequency |
-|---|---|---|
-| 6:00 AM ET | Government mining (SAM.gov) | Daily |
-| 7:00 AM ET | Healthcare/MCO scanner | Daily |
-| 8:00 AM ET | Intelligence scoring + email report | Daily |
-| 12:00 PM ET | Federal forecasts check | Weekly (Monday) |
-| On session start | Present RADAR results to Dee | Every session |
-
----
-
-## RADAR REPORT FORMAT (Present to Dee)
-
-```
-RADAR SCAN — [DATE]
-
-=== GOVERNMENT (SAM.gov) ===
-[X] new opportunities found
-- [Title] | [Agency] | [Value] | Due [Date] → [Partner]
-
-=== HEALTHCARE / COMMERCIAL ===
-[X] new opportunities found
-- [Title] | [Source] | [State] | [Type] → [Partner]
-
-=== MCO PORTALS (Manual Check Needed) ===
-- [ ] Centene
-- [ ] Molina
-- [ ] UnitedHealth
-- [ ] HAP CareSource (DDI has active contract)
-
-=== PARTNER MATCH ===
-- [Opportunity] → [Partner] can fulfill
-```
-
----
-
-## TRIGGER PHRASES — WHAT DEE SAYS AND WHAT TO DO
-
-| Dee Says | What NEXUS Does |
-|---|---|
-| **"What's on the RADAR"** | Run all RADAR mining scripts → present results organized by partner fulfillment |
-| **"Run RADAR"** | Same as above — full sweep |
-| **"What did RADAR find"** | Show most recent RADAR results (check output files first, don't re-run unless stale) |
-| **"RADAR report"** | Compiled results from all channels, formatted for Dee |
-| **"RADAR is down"** | Mining scripts aren't running — troubleshoot scheduler |
-| **"Anything on RADAR?"** | Quick summary of recent finds — check output files, present highlights |
-
-**When Dee asks any of these: DO NOT ask clarifying questions. DO NOT explain what RADAR is. Just run it and present results.**
-
----
-
-## RESERVED SYSTEM NAMES
-
-| Name | Acronym | Reserved For |
-|---|---|---|
-| **SONAR** | Strategic Opportunity Notification And Research | Future use |
-| **SCOUT** | Strategic Contract Opportunity Unified Tracker | Future use |
+| When | Action |
+|------|--------|
+| Daily 6:30 AM ET (target) | `nexus_scheduler.py --radar` via cron |
+| Every session (if Dee asks) | Read `RADAR_RESULTS.md` — do not confuse with bid tracker |
+| After manual mining | `python3 compile_radar_results.py` |
 
 ---
 
 ## INTEGRATION
 
-RADAR feeds into:
-- `NEXUS` — Overall command center
-- `GPSS` — Government procurement pipeline
-- `BID_TRACKER_DASHBOARD.md` — Active bid tracking
-- `PARTNER_ACCOUNT_UPDATES.md` — Partner capability matching
-- `nexus_scheduler.py` — Automated daily execution
-- `NEXUS_WATCH_LIST.md` — Solicitations being monitored
-
-RADAR uses:
-- `ddi_opportunity_fit.py` — Scoring brain
-- `partner-opportunity-mining.mdc` — Partner matching matrix
-- SAM.gov API key from `.env`
-- Anthropic API for AI scoring (in `nexus_opportunity_intelligence.py`)
+RADAR **feeds** (does not replace):
+- `NEXUS_WATCH_LIST.md` — promote high-value RADAR finds here
+- `BID_TRACKER_DASHBOARD.md` — after GO decision and folder created
+- `PARTNER_ACCOUNT_UPDATES.md` — partner-ready opportunities
 
 ---
 
-*RADAR exists because DDI was missing opportunities. The system was built, but nobody was running it. Now it has a name, and when Dee says "run RADAR" — everything fires. No more hunting for scripts.*
+*RADAR finds money you don't know about yet. The bid tracker manages money you're already chasing. Never swap them.*

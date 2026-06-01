@@ -58,7 +58,7 @@
 
 | Name | Role | Contact |
 |------|------|---------|
-| **Jeff Metz** | Account Executive | jeffm@uber.com / 312-847-1182 |
+| **Jeff Metz** | Account Executive | jeffm@uber.com / 312-867-1183 |
 | **Chris McNally** | Sales Manager | cmcnally@uber.com / 516-967-9107 |
 
 ---

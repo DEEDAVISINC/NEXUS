@@ -13,8 +13,9 @@
 | `04_GRANT_APPLICATION_CHECKLIST.md` | Status of every document — what's ready, what's missing, and the exact action plan |
 | `05_TECHNOLOGY_PROFILE.md` | Full technology story — NEXUS, FleetFlow, ATLAS, all 9 systems, developer story, grant-ready language |
 | `GRANT_ACTIVE_PIPELINE.md` | **LIVE TRACKER** — every grant: open, submitted, awarded. Update this every time you apply. |
+| `CWC_GRANT_OPERATIONS_STATUS.md` | **DONE vs NEXT** — Cause We Care grant/program truth (read before any grant session) |
 | `APPLICATIONS/` | **READY-TO-SUBMIT applications** — copy, paste, go |
-| `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | **Feast of Funds** — master index (all steps) |
+| `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | **Feast of Funds** — ✅ workbook complete; Steps 5–6 = execution (not prep) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` | **Feast of Funds** Step 1 — SHIELD + HAVEN snapshot (copyable blocks) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` | **Feast of Funds** Step 2 — collaboration pod (copyable) |
 | `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` | **Feast of Funds** Step 3 — funders by category + 90-day top 2 (copyable) |

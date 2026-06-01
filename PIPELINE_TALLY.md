@@ -1,7 +1,14 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 27, 2026 @ 10:40 PM ET
+**Last Updated:** May 31, 2026 @ 10:00 PM ET
 
 ---
+
+## SESSION NOTE (May 31)
+
+- Outbound email master log created: `OUTBOUND_EMAIL_LOG.md` — grep before every send
+- MCO batch frozen — net-new only; Stephanie Logan duplicate logged (first send May 11)
+- FAP2026SS cap + email sent to Sandy Thompson
+- HAP Brian SDOH + Dana Oakland emails sent May 31
 
 ## TOTAL PIPELINE: $27M+ LIFETIME (Conservative)
 
@@ -136,10 +143,9 @@
 
 - ✅ Uber Health ACH billing initiated — EIN, AP email, business details sent to Jeff Metz
 - ✅ Uber Health 3 account consolidation request submitted (personal, old business, current)
-- ✅ Uber Health follow-up call booked — Fri May 30, 2:00 PM ET (Jeff sending Zoom)
+- ✅ Uber Health follow-up call — **Mon June 1, 2:00 PM ET** (rescheduled from **Fri May 29**; confirm with Jeff)
 - ✅ Uber Health documents saved — one-pager, safety deck, FAQ legal overview
-- ✅ Senpex emailed for San Antonio lab courier coverage + per-mile pricing
-- ✅ University Health bid table rates confirmed — ready to fill once Senpex responds
+- ✅ Senpex follow-up sent May 29 — San Antonio lab courier pricing (contact@senpex.com); response due June 4
 - ✅ Radar sweep run manually — 80 opportunities reviewed, Indiana DNA Collection Kits flagged
 - ✅ Sam Cilento (Lakota) requests Minneapolis MPD requirement docs — sent
 - ✅ Notary payments received — Kriss Law $300, Mosaic $60, First Class $75 (May 26 deposits)

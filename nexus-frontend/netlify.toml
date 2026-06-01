@@ -1,7 +1,6 @@
-# NEXUS frontend (CRA). Same build can serve:
-#   - nexus.deedavis.biz (or your ops hostname)
-#   - cwecare.org + www.cwecare.org (Netlify: Domain settings → Add custom domain → point DNS per Netlify panel)
-# App.tsx routes CWCSite when Host is cwecare.org / www / app.cwecare.org OR path starts with /cwc
+# NEXUS frontend (CRA) — site: nexus-command → nexus.deedavis.biz ONLY.
+# Cause We Care (cwecare.org) uses a SEPARATE Netlify site — see netlify.cwc.toml and CWC_DEPLOY.md.
+# Do NOT add cwecare.org as a domain alias here; Netlify redirects aliases to the primary domain.
 
 [build]
   base = "nexus-frontend"

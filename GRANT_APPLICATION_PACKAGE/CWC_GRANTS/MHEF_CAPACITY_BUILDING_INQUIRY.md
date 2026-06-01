@@ -23,13 +23,17 @@
 
 ---
 
-## NEXT ACTIONS
+## NEXT ACTIONS (May 30, 2026 — inquiry/reply ✅ done)
 
-- [ ] **Subscribe** to Health Fund updates at bottom of www.mihealthfund.org
-- [ ] **Register CWC** on Fluxx grants portal (if not done)
-- [ ] **Early April 2026** — Watch for Capacity Building RFP + webinar registration
-- [ ] **Concept paper or concept call** — after RFP clarifies priorities
-- [ ] **Review Healthy Kids / Healthy Aging** program pages when open — for programs serving children or older adults
+- [x] **Inquiry sent** — March 22, 2026  
+- [x] **Sayre Corbin reply logged** — March 27, 2026  
+- [ ] **Subscribe** to Health Fund updates (mihealthfund.org footer) — confirm ☐  
+- [ ] **Register CWC** on Fluxx — confirm ☐  
+- [ ] **Capacity Building RFP** — concept paper in Fluxx (**primary grant action now**)  
+- [ ] **Webinar** — register when RFP posts  
+- [ ] **Healthy Kids / Healthy Aging** — review when aligned to SHIELD youth/senior lanes  
+
+**Status file:** `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md`
 
 ---
 

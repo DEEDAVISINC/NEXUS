@@ -1,0 +1,49 @@
+# Log Every Send Immediately — NON-NEGOTIABLE
+
+**Every email Dee sends must appear in the system without her re-explaining it.**
+
+---
+
+## THE RULE
+
+**The moment Dee says "sent", pastes an OOO reply, or confirms an email went out:**
+
+1. **STOP** — do not draft the next email first
+2. **LOG** to `OUTBOUND_EMAIL_LOG.md` (master) — same turn, before any other work
+3. **UPDATE** source file checkbox (⬜ → ✅ with date/time)
+4. **UPDATE** `CLIENT OUTREACH/EMAIL_SENT_REGISTRY.md` if not duplicate row
+5. **UPDATE** relevant tracker (`HAVEN_MCO_OUTREACH_TRACKER.md`, `ACTIVE_RELATIONSHIP_STATUS.md`, `PENDING_ACTIONS.md`, `CO_OUTREACH_TRACKER.md` as applicable)
+
+**Optional CLI (same data):**
+```bash
+python3 log_outbound_email.py --to EMAIL --contact "Name" --org "Org" \
+  --subject "Subject line" --date "YYYY-MM-DD HH:MM" --category mco \
+  --source "path/to/draft/file.md"
+```
+
+---
+
+## BEFORE RECOMMENDING ANY OUTBOUND EMAIL
+
+1. **Grep** `OUTBOUND_EMAIL_LOG.md` for the TO address (case-insensitive)
+2. **Grep** `CLIENT OUTREACH/EMAIL_SENT_REGISTRY.md`
+3. If found → **do not send** (follow-up cadence only if date reached AND Dee approves)
+
+**Never trust ⬜ in a draft file.** Draft status is not send status. The log is truth.
+
+---
+
+## WHY THIS EXISTS
+
+Dee sent Stephanie Logan **May 11 @ 7:53 PM ET**. NEXUS showed ⬜ not sent. May 31 the MCO batch re-emailed her. That happened because sends from Dee's inbox were not logged to the master file.
+
+**Dee should not have to tell NEXUS what she already sent. NEXUS logs it the instant she confirms — and searches the log before every recommendation.**
+
+---
+
+## INTEGRATION
+
+- `no-re-email-sent-contacts.mdc` — grep master log before send
+- `email-preview-before-save.mdc` — show in chat before save; log after send
+- `nexus-session-continuity.mdc` — read `OUTBOUND_EMAIL_LOG.md` at session start
+- `goodnight-goodmorning-ritual.mdc` — session handoff includes log completeness check

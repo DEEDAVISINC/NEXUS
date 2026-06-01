@@ -1,6 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../../api/client';
 import HIPAAGate from './HIPAAGate';
+import {
+  MI_BRIDGES_PARTNER,
+  MI_BRIDGES_HELP_DESK,
+  MI_BRIDGES_PARTNER_FAQ,
+  FAP_TOOLKIT,
+  NAVIGATION_TRAININGS,
+} from '../../data/cwcMiBridgesResources';
 
 /**
  * SHIELD Navigator Workspace
@@ -2246,9 +2253,22 @@ const TimeLogPanel: React.FC<{ referrals: Referral[]; navigatorName: string; nav
 const ResourceDirectory: React.FC = () => {
   const categories = [
     {
+      title: '🤝 MI Bridges Community Partner',
+      items: [
+        { name: 'MI Bridges Client Portal', desc: 'Residents apply for Medicaid, SNAP, cash, childcare', url: MI_BRIDGES_PARTNER.clientPortal, phone: MI_BRIDGES_HELP_DESK.phone },
+        { name: 'Partner Hub & Tools', desc: 'Job aids, videos, outreach materials', url: MI_BRIDGES_PARTNER.partnerHub },
+        { name: 'Partner Training Registration', desc: 'Navigation partner webinars — register early', url: MI_BRIDGES_PARTNER.trainingUrl },
+        { name: 'Community Partner FAQ', desc: 'CP ID, client benefits view, technical help', url: MI_BRIDGES_PARTNER.partnerFaqUrl },
+        { name: 'MDHHS Community Partners', desc: `Partner support: ${MI_BRIDGES_PARTNER.partnerEmail}`, url: `mailto:${MI_BRIDGES_PARTNER.partnerEmail}` },
+        ...FAP_TOOLKIT.map(t => ({ name: t.title, desc: t.desc, url: t.url, phone: '' })),
+      ],
+    },
+    {
       title: '🏛️ State Programs',
       items: [
-        { name: 'MIBridges Portal', desc: 'Benefits application — Medicaid, SNAP, WIC, childcare', url: 'https://newmibridges.michigan.gov', phone: '1-844-799-9876' },
+        { name: 'MIBridges Portal', desc: 'Benefits application — Medicaid, SNAP, WIC, childcare', url: MI_BRIDGES_PARTNER.clientPortal, phone: MI_BRIDGES_HELP_DESK.phone },
+        { name: 'MI Bridges Help Desk', desc: `${MI_BRIDGES_HELP_DESK.desc} TTY ${MI_BRIDGES_HELP_DESK.tty}`, phone: MI_BRIDGES_HELP_DESK.phone },
+        { name: 'Michigan 211', desc: '27,000+ programs — search by need and location', url: MI_BRIDGES_PARTNER.mi211Url, phone: '211' },
         { name: 'MDHHS — Get Ahead of Lead', desc: 'MI Lead Safe drinking water programs', url: 'https://www.michigan.gov/mileadsafe/get-ahead-of-lead' },
         { name: 'Apply for Home Lead Services', desc: 'State intake for lead services eligibility', url: 'https://www.michigan.gov/mileadsafe/lead-services/apply-for-home-lead-services' },
         { name: 'MDHHS Provider Support', desc: 'Medicaid provider inquiries', phone: '1-800-292-2550' },
@@ -2292,7 +2312,39 @@ const ResourceDirectory: React.FC = () => {
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-black text-white">Resource Directory</h2>
-      <div className={`text-xs ${MUTED}`}>Quick-access numbers, links, and contacts for navigators in the field.</div>
+      <div className={`text-xs ${MUTED}`}>
+        MI Bridges Community Partner since {MI_BRIDGES_PARTNER.partnerSince}. Spring 2026 MDHHS newsletter resources loaded.
+      </div>
+
+      {/* Upcoming navigation trainings */}
+      <div className={`${CARD} border ${BORDER} rounded-xl p-4`}>
+        <div className="text-xs font-bold text-[#f5c23e] uppercase tracking-wider mb-2">Upcoming Navigation Trainings</div>
+        <div className={`text-[10px] ${MUTED} mb-3`}>Register at MDHHS training page. CP accounts must exist before training.</div>
+        <ul className="space-y-1.5">
+          {NAVIGATION_TRAININGS.map(t => (
+            <li key={t.date} className="text-[11px] text-white">
+              <span className="font-bold">{t.date}</span>
+              <span className={`${MUTED}`}> — {t.time}</span>
+            </li>
+          ))}
+        </ul>
+        <a href={MI_BRIDGES_PARTNER.trainingUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-3 text-[10px] font-bold text-blue-400 hover:text-blue-300">
+          Register →
+        </a>
+      </div>
+
+      {/* Partner FAQ */}
+      <div className={`${CARD} border ${BORDER} rounded-xl p-4`}>
+        <div className="text-xs font-bold text-[#f5c23e] uppercase tracking-wider mb-3">MI Bridges FAQ (Navigators)</div>
+        <div className="space-y-3">
+          {MI_BRIDGES_PARTNER_FAQ.map(f => (
+            <div key={f.q}>
+              <div className="text-[11px] font-bold text-white">{f.q}</div>
+              <div className={`text-[10px] ${MUTED} mt-0.5`}>{f.a}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {categories.map(cat => (

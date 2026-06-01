@@ -17,6 +17,7 @@
 | **Political Environment** | Bipartisan demand to void ModivCare contract and re-award to Maine-based providers |
 | **Prior Process** | 2023 RFP was ruled "flawed and unfair" — evaluators admitted under oath they had no scoring formula and improperly advantaged ModivCare |
 | **Pending Litigation** | Penquis CAP + Waldo CAP have Supreme Court appeal pending against prior award |
+| **Multi-vendor model** | **8 regions** — 2023 RFP had **multiple bidders per region** (Penquis, Waldo, ModivCare, Verida, MTM, etc.). State wrongly consolidated to ModivCare statewide. Recompete expected to restore **2–3+ awardees**. **DDI goal = one of those companies**, not whole program. |
 
 ## TARGET TEAMING PARTNERS
 
@@ -29,19 +30,23 @@
 
 ## DDI'S ROLE IN THE TEAMING ARRANGEMENT
 
-Penquis and Waldo CAP are transportation operators and community nonprofits. They are NOT TPAs. They do not have:
-- Program-level benefit administration infrastructure
-- Compliance reporting systems
-- TPA management layer
-- Technology platform for scheduling, dispatch, compliance
+Penquis and Waldo CAP are transportation operators and community nonprofits. They bid **by region** — they were **one of several companies** on Maine NET before the flawed statewide ModivCare award.
 
-DDI fills exactly this gap:
+**DDI's goal:** Be **one of the companies on the contract** — not the whole $750M program.
+
+Paths:
+1. **On Penquis/Waldo's regional award** — EDWOSB + TPA/management listed on their winning proposal (preferred teaming path)
+2. **Regional co-bidder** — if RFP allows and structure fits
+3. **Network vendor** under whichever brokers win each of the 8 regions
+
+Penquis/Waldo are NOT TPAs at scale. DDI adds on **their regional bid** so the award lists multiple capabilities:
+
 - **Program-level TPA** — benefit administration, member communication, compliance, CO reporting
-- **EDWOSB** — adds socioeconomic value to the bid
+- **EDWOSB** — socioeconomic value on the **joint** proposal
 - **Active HAP CareSource contract** — proof of TPA execution in Medicaid managed care
-- **Zero-fleet model** — DDI manages, Penquis/Waldo execute. Clean division of labor.
+- **Zero-fleet management** — DDI manages program layer; Penquis/Waldo execute in-region
 
-The pitch: "You have the community trust and transportation network. We have the management infrastructure and TPA credentials. Together the bid is stronger than either of us alone."
+The pitch: "You bid the region. We get **on the contract with you** — EDWOSB + TPA infrastructure — so DHHS sees a stronger regional team, not one out-of-state broker for the whole state."
 
 ---
 

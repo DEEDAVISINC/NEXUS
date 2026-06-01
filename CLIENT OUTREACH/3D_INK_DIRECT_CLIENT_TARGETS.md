@@ -1,12 +1,14 @@
 # 3D INK SIGNATURES — MASTER OUTREACH TARGET LIST
 
-**Notary Services | Legal Document Courier | Apostille | Estate Document Signing | Reverse Mortgage Closings**
+**Notary Services | Legal Document Courier | Apostille | Estate Document Signing | Reverse Mortgage Closings | Vehicle Title Signings**
 
-**DEE DAVIS INC. | 3D Ink Signatures Division | Last Updated: May 22, 2026**
+**DEE DAVIS INC. | 3D Ink Signatures Division | Last Updated: May 28, 2026**
 
 ---
 
 ## STANDING RULES
+
+**NATIONAL TPA SCOPE:** Dee Davis Inc. is a **contract management TPA**. 3D Ink dispatches notaries/signing agents **nationwide** (50 states + DC). Michigan is headquarters — **not** a geographic limit. Use local geography only when targeting a specific local buyer (e.g., "across the hall" to BBA Law).
 
 - Every engagement = notary fee + travel fee + mailing/courier fee + **22.5% admin fee on ALL**
 - Michigan statutory notarization fee: **$15.00 per notarial act** (MCL 55.285) — non-negotiable
@@ -18,11 +20,15 @@
 
 ## STRATEGY
 
+**DDI IS A NATIONAL TPA — NOT A MICHIGAN-ONLY NOTARY SHOP.**
+
+- **Home base:** Troy, MI — **service area:** all 50 states + DC (dispatch model).
+- DDI holds the client contract. 3D Ink dispatches commissioned notaries / signing agents where the act is performed (in-person or RON per state rules).
+- **Geographic priority for outreach** = where Dee has relationships or targets are dense (SE Michigan, Florida RON, nationwide brokers/dealers/fleet) — **not** a cap on where DDI works.
+
 **Current Model:** Signing agencies pay Dee $40-90 per signing, bill the client $200-400+. Dee does all the work, agency takes 50-70%.
 
-**Target Model:** 3D Ink contracts directly with title companies, attorneys, hospitals, and facilities. Bill $150-300+ per signing. Dispatch 1099 notaries at $60-100. Keep $50-200 spread per signing without being in the car.
-
-**Priority:** Michigan first (Oakland, Macomb, Wayne counties). Florida RON capability as expansion.
+**Target Model:** 3D Ink contracts directly with title companies, attorneys, hospitals, structured settlement brokers, **vehicle title processors**, dealers, and fleet operators **nationwide**. Bill $150-300+ per signing. Dispatch network at $60-100. Keep spread without being in every car yourself.
 
 ---
 
@@ -36,7 +42,7 @@
 
 ---
 
-## CATEGORY 1: MICHIGAN TITLE & ESCROW COMPANIES
+## CATEGORY 1: MICHIGAN TITLE & ESCROW COMPANIES *(outreach targets — DDI scope is national TPA)*
 
 ### TIER 1 — Verified Emails (Send Today)
 
@@ -196,13 +202,77 @@
 
 ## CATEGORY 7: STRUCTURED SETTLEMENT FIRMS
 
-**Already built.** See `STRUCTURED_SETTLEMENT_NOTARY_OUTREACH.md` — 50 companies, 9 verified emails.
+**Active Wave 1B — 10 verified emails ready to send.**
 
-| # | Firm / Company | Email | Phone | Notes |
+| File | Purpose |
+|------|---------|
+| `3D INK SIGNATURES/SEND_TO_BUYER/WAVE1B_STRUCTURED_SETTLEMENT_SEND_NOW.md` | Copyable emails (all 10) |
+| `3D INK SIGNATURES/WAVE1B_STRUCTURED_SETTLEMENT_TRACKER.md` | Send status tracker |
+| `STRUCTURED_SETTLEMENT_NOTARY_OUTREACH.md` | Full 50-firm research list + Tier 2 |
+
+### TIER 1 — Verified Emails (Wave 1B — Send Now)
+
+**Audit:** Public-source verified May 28, 2026. Not inbox-tested. Full audit: `STRUCTURED_SETTLEMENT_NOTARY_OUTREACH.md`
+
+| # | Firm / Company | Email | Verified | Notes |
 |---|---|---|---|---|
-| 1 | **Logan Settlement Services** | clogan@logansettlements.com | — | Christine Logan. First female-owned independent firm in US. Licensed all 50 states |
+| 1 | **Logan Settlement Services** ⭐ | clogan@logansettlements.com | ✅ NSSTA + principal | Backup: **info@logansettlements.com** (website). Nationwide. **SEND FIRST** |
+| 2 | Chronovo | info@chronovo.com | ✅ Website | Nationwide |
+| 3 | NFP Structured Settlements | nfpssinfo@nfp.com | ✅ Website | Nationwide |
+| 4 | Medivest | customerservice@medivest.com | ✅ Website | MSP/lien lane — weaker fit |
+| 5 | Summit Structured Settlements | info@summitsettlements.com | ✅ Website | Nationwide |
+| 6 | Milestone Consulting | info@milestoneseventh.com | ⚠️ **HOLD** | Email not on live contact page; post-settlement trustee — skip for now |
+| 7 | Forge Consulting | info@forgeconsulting.com | ✅ Website | Nationwide |
+| 8 | CW Settlements | info@cwsettlements.com | ✅ Website | Southfield MI + national |
+| 9 | Finn Financial Group | Dan@FinnFinancialGroup.com | ✅ Website | Principal inbox |
+| 10 | Jay Scarola | jscarola@sagesettlements.com | ✅ Website | Consultant |
 
-Plus 49 additional firms in the structured settlement outreach file.
+**Send-ready count: 9** (exclude Milestone until verified).
+
+### TIER 2 — 40+ Additional Brokers (Nationwide)
+
+See `STRUCTURED_SETTLEMENT_NOTARY_OUTREACH.md` — Ringler, Arcadia, Synergy, Structures, Atlas, etc.
+
+---
+
+## CATEGORY 8: VEHICLE TITLE & AUTO — NATIONWIDE (TPA LANE)
+
+**Yes — vehicle titles often need notarization.** Rules vary by **state**, not by where DDI is headquartered:
+
+| Situation | Notary often required? |
+|-----------|------------------------|
+| Seller signature on title assignment | **Yes in many states** (e.g. LA, OH, KY, OK, WV, and others); **MI in-state private sale** = seller signature, not always notary on title itself |
+| Power of Attorney for title (TR-128 / state POA forms) | **Often yes** |
+| Lien release / duplicate title / bonded title packages | **Often yes** |
+| Out-of-state buyer + seller in different states | **High notary demand** — dealers and title processors need signers everywhere |
+| Fleet / auction / lender bulk title work | **Recurring volume** — ideal TPA contract |
+
+**3D Ink offer (national):** Managed notary dispatch for title assignments, POAs, odometer affidavits, lien releases, and closing packages — **50 states**, in-person + RON where permitted. One contract with DDI. One invoice.
+
+**Full target list:** `CLIENT OUTREACH/VEHICLE_TITLE_NOTARY_TARGETS.md`
+
+### TIER 1 — Verified Email (Add as confirmed)
+
+| # | Company | Email | Notes |
+|---|---|---|---|
+| — | *Research sprint* | — | Building Wave 1C — national title processors, dealer groups, fleet titling |
+
+### TIER 2 — National Priority (Form / ops contact — pursue now)
+
+| # | Company | Scope | Why |
+|---|---|---|---|
+| 1 | **ACERTUS** | 50-state title & registration | acertusdelivers.com — high volume, explicit nationwide |
+| 2 | **ITS Nationwide** | Dealer OOS title tech | interstatetitlesolutions.com — 37-dealership groups |
+| 3 | **DVS Corp** | Nationwide titling BMV partner | dvs-corp.com — manufacturers, auctions, fleets, banks |
+| 4 | **Fleetflo** | Equipment/fleet titling | fleetflo.com — Top 100 carriers, all 50 states |
+| 5 | **National Fleet Services (TitleFocused)** | Fleet title vault + docs | nationalfleetservicesllc.com |
+| 6 | **CHAMP Titles** | Digital title platform | Research ops/vendor contact |
+| 7 | **Manheim / ADESA (Cox Automotive)** | Auction title volume | National — find title ops |
+| 8 | **Dealertrack / VINTek / ELT vendors** | Lien + title electronic | Partner / vendor notary layer |
+| 9 | **Suburban Collection / Lithia / Penske / AutoNation** | Dealer groups | F&I + title office — form outreach |
+| 10 | **Michigan Auto Title Services** | Title problem-solving + notary | michigan-autotitle.com — also models **national** title-assistance firms |
+
+**Wave 1C next:** Copyable outreach + verified emails for top 5 national title processors.
 
 ---
 
@@ -300,11 +370,13 @@ EDWOSB  |  CAGE 8UMX3  |  NPI 1538939111
 
 ### Category-Specific Adjustments
 
-**For Hospitals:** Replace first paragraph with: *"3D Ink Signatures provides bedside mobile notary services for hospitals and health systems across Southeast Michigan. We understand that patients often need urgent notarization of advance directives, powers of attorney, and HIPAA authorizations — and they can't come to us."*
+**For Hospitals:** Replace first paragraph with: *"3D Ink Signatures provides bedside mobile notary services for hospitals and health systems nationwide. We dispatch commissioned notaries where patients are — advance directives, powers of attorney, HIPAA authorizations — with one contract and one invoice to your organization."*
 
-**For Elder Care:** Replace first paragraph with: *"3D Ink Signatures provides scheduled and on-call mobile notary services for senior living communities across Southeast Michigan. Your residents regularly need powers of attorney, advance directives, trust amendments, and HIPAA authorizations — and we come directly to them."*
+**For Elder Care:** Replace first paragraph with: *"3D Ink Signatures provides scheduled and on-call mobile notary services for senior living communities nationwide. POAs, advance directives, trust amendments, HIPAA authorizations — we dispatch to your campus or resident location."*
 
-**For Immigration:** Replace first paragraph with: *"3D Ink Signatures provides professional mobile notary services for immigration law firms across Southeast Michigan. We handle affidavits of support, I-864 forms, translation certifications, and birth certificate affidavits with the patience and professionalism your clients deserve."*
+**For Immigration:** Replace first paragraph with: *"3D Ink Signatures provides professional mobile notary services for immigration law firms nationwide. Affidavits of support, I-864 forms, translation certifications, birth certificate affidavits — in-office, mobile, or RON where permitted."*
+
+**For Vehicle Title / Fleet / Dealers:** Replace first paragraph with: *"3D Ink Signatures operates as a nationwide managed notary TPA for vehicle title operations — assignments, POAs, odometer affidavits, lien releases — dispatched in every state where the act is performed."*
 
 **For Florida Title:** Add: *"We offer Remote Online Notarization (RON) capability via ZigSig and Pavaso, with nationwide coverage for your out-of-state closings."*
 
@@ -330,10 +402,11 @@ EDWOSB  |  CAGE 8UMX3  |  NPI 1538939111
 | Immigration | 3 | 7 | 10 |
 | Elder Care / Senior Living | 3 | 7 | 10 |
 | Hospitals | 0 | 10 | 10 |
-| Structured Settlements | 1 | 49 | 50 |
-| **TOTAL** | **34** | **96** | **130** |
+| Structured Settlements | 9 | 40+ | 50+ |
+| Vehicle Title / Auto (National) | 0 | 20+ | 20+ |
+| **TOTAL** | **43** | **156+** | **200+** |
 
-**34 emails ready to send. 96 require a phone call first. 130 total targets.**
+**43 emails ready to send (Wave 1 + Wave 1B). Vehicle title Wave 1C in build. 156+ require form/phone research.**
 
 ---
 

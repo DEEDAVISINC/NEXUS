@@ -52,7 +52,7 @@ Problem: lead testing gaps + fragmented elevated-BLL follow-up + broken care aft
 PROMISING + OPERATING EVIDENCE (not startup theory):
 
 LIVE OPERATIONS — Dee Davis Inc. / Cause We Care:
-• HAP CareSource NEMT — Vendor ID 100000469269; CHAMPS 6309049; Wayne + Macomb active; Oakland pending; ~4,500 dual-eligible HIDE SNP members in service area; portal accepting trips (proof pack in progress: trip volume, SLA, completion).
+• HAP CareSource NEMT — Vendor ID 100000469269; CHAMPS 6309049; Wayne + Macomb active; Oakland pending; ~4,500 dual-eligible HIDE SNP members; trips invoiced via VERTEX (attach trip/SLA screenshots to MHEF/CFSEM; full SHIELD package + demo videos sent to MDHHS May 2026).
 • Cause We Care — MDHHS MI Bridges Community Partner since May 2020; 200+ benefits applications facilitated (documented community partner activity).
 
 SHIELD — DEFINED METRICS (MDHHS-aligned, tracked in SHIELD/VERTEX):

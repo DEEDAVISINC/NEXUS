@@ -224,6 +224,12 @@ Run these checks from `company-info-verification.mdc`:
 
 ### For Buyer-Facing Documents
 
+Run these checks from `complement-not-replace.mdc`:
+- [ ] **Opportunity type classified** (RELATIONSHIP / COMPETITIVE / DIRECT / ALTERNATIVE / SUB-SLICE)
+- [ ] **Opening matches type** — complement only for RELATIONSHIP; bid/direct for others
+- [ ] One clear wedge (relationship) or win theme (competitive) — max 2 wedges
+- [ ] CTA matches type — on-file vs submit bid vs quote vs teaming
+
 Run these checks:
 - [ ] Agency name used 3+ times (Biohack #7)
 - [ ] Solicitation number referenced

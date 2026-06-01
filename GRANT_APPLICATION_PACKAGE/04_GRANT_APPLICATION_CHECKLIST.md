@@ -1,6 +1,8 @@
 # GRANT APPLICATION MASTER CHECKLIST
 ### What's ready. What's missing. What to do next.
 
+**May 30, 2026 — Cause We Care:** Many items below are **not** first-time tasks. Read **`CWC_GRANT_OPERATIONS_STATUS.md`** first (MDHHS meeting done, MHEF inquiry replied, HAP live, workbook complete). **Real next:** MHEF Fluxx concept · CFSEM submit · CHW billing · SAM validation chase.
+
 ---
 
 ## STATUS KEY

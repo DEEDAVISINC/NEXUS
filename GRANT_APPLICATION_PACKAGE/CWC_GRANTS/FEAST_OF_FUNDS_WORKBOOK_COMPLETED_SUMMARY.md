@@ -1,120 +1,98 @@
-# Feast of Funds — Completed Workbook Summary
+# Feast of Funds Workbook — Completed Summary & System Alignment
 
-**Completed:** May 30, 2026  
-**Applicant:** Cause We Care · **Programs:** SHIELD + HAVEN  
-**Workbook score shown:** **62%** Non-Competitive Funding Readiness · Target **90%+**
+**Last Updated:** May 30, 2026  
+**Purpose:** Archive what was submitted on the Canva workbook + align NEXUS with **what is already done**.
 
----
-
-## Assessment breakdown (from workbook)
-
-| Section | Points | NEXUS file |
-|---------|--------|------------|
-| Program Snapshot | 12 | `FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` |
-| Collaboration Pod | 10 | `FEAST_OF_FUNDS_WORKBOOK_STEP2_COLLABORATORS.md` |
-| Funding Pathways | 13 | `FEAST_OF_FUNDS_WORKBOOK_STEP3_FUNDING_PATHWAYS.md` |
-| Program Checkup | **20** | `FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` |
-| Priorities & Next Steps | **4** | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` |
-| Commitment | **3** | `FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` |
-| **Total** | **62%** | `FEAST_OF_FUNDS_WORKBOOK_INDEX.md` |
-
-**Drag scores:** Priorities (4) + Commitment (3) = **7 points** vs Checkup (20). Fixing those two sections is the fastest path to 90%+.
+**Source of truth for live status:** `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md`
 
 ---
 
-## ⚠️ Form vs NEXUS — Step 5 quick wins mismatch
+## Workbook platform score (submitted)
 
-**What you submitted on the workbook summary** (old version):
-1. Finish Feast of Funds workbook + CFSEM register  
-2. Build HAP proof pack  
-3. MHEF + HAP meetings  
+| Section | Score (of max) | Notes |
+|---------|----------------|-------|
+| Snapshot | 12 | Strong — SHIELD + HAVEN + live HAP |
+| Collaborators | 10 | External partners only (correct) |
+| Funding | 13 | Pathways mapped |
+| **Checkup** | **20** | Full marks — compelling story landed |
+| Priorities | 4 | **Under-scored** — form listed prep tasks as “quick wins” |
+| Commitment | 3 | **Under-scored** — generic commitments vs dated execution |
+| **Total** | **62%** | Target 90%+ |
 
-**What NEXUS has now** (revenue version — use if you can still edit):
-1. HAP invoice + factor AR + Oakland + trip volume  
-2. Amber, IFundWomen, CFSEM, MHEF CB invite, Hello Alice  
-3. MDHHS CHW billing + CLPPP meeting  
-
-If the platform allows edits before the webinar, swap Step 5 quick wins to the revenue block in `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md`.
-
----
-
-## ⚠️ Step 3 — “Two funders in 90 days” on your summary
-
-You entered: **MDHHS** + **FEMA**
-
-**NEXUS recommendation was:** **MHEF (Sayre Corbin)** + **CFSEM** — grant dollars in 90 days.
-
-- **MDHHS** = referral partner / state pipeline — not typically a “funder” for CHW salaries in this model.  
-- **FEMA** = disaster contract path (HAVEN) — long cycle, not a 90-day grant meeting.
-
-Consider reframing for funders: *“90-day relationship targets: MHEF Capacity Building invite + CFSEM submission; parallel MDHHS for referrals and HAP for contract revenue.”*
+**Interpretation:** Program readiness is **higher than 62%**. Low sections reflected **outdated priority language** (finish workbook, build proof pack), not weak programs. NEXUS Step 5/6 files are **revised May 30, 2026** to match execution.
 
 ---
 
-## What’s strong (keep)
+## What was already done (do not re-assign as homework)
 
-- **Program Checkup (20)** — Theory of change, SHIELD+HAVEN compelling story, displacement during abatement, honest evidence gap.  
-- **Snapshot (12)** — Two programs, live HAP proof, 12–18 month plan.  
-- **Funding (13)** — Broad funder map; Jeff Metz + Sam Cilento on connections list.
-
----
-
-## Boost plan: 62% → 90%+ (action, not more writing)
-
-### Priorities section (was 4 — target 18+)
-
-| Fix | Why |
-|-----|-----|
-| Replace quick wins with **revenue actions** (HAP cash, grants submitted, CHW billing) | Scorers reward “money in motion,” not workbook completion |
-| Top priority stays **proof pack** — add **one number**: e.g. “Attach HAP Vendor 100000469269 + trip/SLA screenshot to every MHEF/CFSEM packet” | Specific beats generic |
-| Obstacle = **funding** only — drop bandwidth language | You already corrected this in NEXUS; form matches ✅ |
-| Support needed — shorten to **3 lines**: CHW grant $, MHEF/CFSEM intros, fractional billing | Long lists read as unfocused |
-
-### Commitment section (was 3 — target 15+)
-
-| Fix | Why |
-|-----|-----|
-| Add **dates**: “MHEF concept due by [date]”, “CFSEM submit by [date]” | Commitments without dates score low |
-| One measurable: “Invoice 100% of HAP trips in VERTEX by [date]” | Ties commitment to revenue |
-| Accountability = **one primary** (board liaison **or** weekly NEXUS check) + optional MHEF draft review | Clear owner |
-
-### Collaboration Pod (10 → higher)
-
-- Add **one line** under realistic 6-month: *“First Wayne LHD intro call completed by [date]”*  
-- Board member **name** on accountability / champions when roster is ready (placeholder hurts score)
-
-### Funding (13 → higher)
-
-- Align **Priority Funder 1 & 2** with 90-day ask: **MHEF** + **CFSEM** (or **HAP** if field means “payer” not “grant”)  
-- Note **$250K–$500K ask** explicitly in corporate/foundation section (MHEF CB + Healthy Kids)
+| Accomplishment | Date / evidence |
+|----------------|-----------------|
+| Feast of Funds Steps 1–6 | Complete in `CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_*.md` |
+| MDHHS Environmental Health meeting | Apr 23, 2026 — Medina + Surma |
+| MDHHS SHIELD follow-up package + demo videos | Sent May 2026 — `SCHEDULED_AGENDA.md` |
+| MHEF inquiry + Sayre Corbin reply | Mar 22 / Mar 27, 2026 |
+| MVAA, CLPPP, CSBG inquiries | Mar 22, 2026 |
+| CWC SAM renewal submitted | Mar 22 — ref INC-GSAFSD8651858 |
+| HAP CareSource NEMT live | Vendor **100000469269** — Wayne + Macomb |
+| SHIELD / HAVEN / NEXUS stack | Built |
+| Jeff Metz (Uber Health) / Lakota (Sam Cilento) | Collaborator lane documented |
 
 ---
 
-## Copyable — revised Step 5 quick wins (if you can update the platform)
+## Real next 30 days (May 30, 2026 →)
+
+Use these if updating the **Canva workbook** or talking to the webinar host:
 
 ```
-1) Pull cash from live HAP CareSource NEMT: invoice all trips in VERTEX, submit factoring on AR, push Oakland county approval, increase trip volume ($28/$35 per trip).
+1) MHEF Capacity Building — concept paper in Fluxx (RFP early April 2026; inquiry/reply already done).
 
-2) Submit grant applications with cash in 30–90 days: Amber ($10K), IFundWomen ($10K), CFSEM ($5K–$50K), MHEF Capacity Building concept when April 2026 RFP drops (~$300K invite track), Hello Alice profile.
+2) CFSEM — register + submit SHIELD navigator pilot (not started).
 
-3) Start MDHHS CHW/community partner billing enrollment (1-800-292-2550) + schedule CLPPP follow-up meeting; stretch: second MCO NEMT conversation (Molina or Blue Cross Complete).
+3) MDHHS — confirm follow-up meeting; CHW billing + LHD intros on agenda.
+
+4) HAP — Oakland approval + consistent VERTEX invoicing.
+
+5) SAM — chase CWC validation if still pending.
+```
+
+**Obstacle (unchanged):** funding to hire 3–5 CHWs — not systems, not founder bandwidth.
+
+---
+
+## Priority funders — workbook vs NEXUS
+
+| Workbook (submitted) | NEXUS recommendation | Use |
+|----------------------|----------------------|-----|
+| MDHHS + FEMA | MHEF + CFSEM for **90-day grant dollars** | **MDHHS** = relationship/referrals (meeting done, package sent). **MHEF + CFSEM** = near-term awards. **FEMA** = HAVEN TSP registration (separate lane). |
+
+**Talking point:** *“MDHHS is partnership and referrals; MHEF and CFSEM are where we need checks in the next 90 days.”*
+
+---
+
+## If re-scoring the workbook today
+
+| Fix | Impact |
+|-----|--------|
+| Replace quick wins with **MHEF concept + CFSEM submit + MDHHS follow-up + HAP Oakland** | Priorities ↑ |
+| Top priority = **convert pipeline to awards + hires**, not proof pack from scratch | Priorities ↑ |
+| Commitments with **dates** (Fluxx submit by ___, CFSEM by ___) | Commitment ↑ |
+| Obstacle = **funding for navigators** only | Priorities ↑ |
+
+---
+
+## Copyable — one paragraph for webinar / host
+
+```
+Cause We Care runs SHIELD (lead → abatement displacement → one navigator) and HAVEN (disaster continuity at plan scale) on infrastructure that is already live: HAP CareSource NEMT, MDHHS Environmental Health partnership in motion, MHEF inquiry with staff reply, and full SHIELD demo package delivered. The Feast workbook scored 62% because priorities still listed prep work; operationally we are past that. The gap is grant capital to hire community health workers in Wayne County — not vision or technology.
 ```
 
 ---
 
-## Copyable — Step 3 priority funders (90-day field)
+## File index
 
-```
-Priority funder 1: Michigan Health Endowment Fund (Sayre Corbin — Capacity Building RFP April 2026)
-Priority funder 2: Community Foundation for Southeast Michigan (rolling — SHIELD navigator pilot)
-```
-
----
-
-## Webinar positioning (one paragraph)
-
-Cause We Care runs **SHIELD** (lead → abatement displacement → one navigator) and **HAVEN** (disaster continuity at plan scale) on infrastructure that is **already live** (HAP NEMT, MDHHS partnership April 2026). Workbook score 62% reflects **execution gaps in priorities/commitments**, not program weakness — Checkup scored 20/20. Ask the host how to present **CWC + affiliated TPA** and **dual displacement programs** without looking like two grants.
-
----
-
-*Full step files: `FEAST_OF_FUNDS_WORKBOOK_INDEX.md`*
+| Step | File |
+|------|------|
+| Index | `FEAST_OF_FUNDS_WORKBOOK_INDEX.md` |
+| 1–4 | `FEAST_OF_FUNDS_WORKBOOK_STEP1_SNAPSHOT.md` … `STEP4_CHECKUP.md` |
+| 5–6 (revised) | `STEP5_PRIORITIES.md` · `STEP6_COMMITMENT.md` |
+| Status | `../CWC_GRANT_OPERATIONS_STATUS.md` |

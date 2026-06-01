@@ -1,8 +1,7 @@
 # Feast of Funds Workbook — Step 6: Your Commitment
 
-**Source:** [Feast of Funds Workbook](https://feastoffundsworkbook.my.canva.site) — Step 6  
-**Last Updated:** May 30, 2026  
-**Applicant:** **Cause We Care** · Programs: **SHIELD** + **HAVEN** (operated with Dee Davis Inc. systems)
+**Last Updated:** May 30, 2026 (revised — post-workbook execution)  
+**Status source:** `CWC_GRANT_OPERATIONS_STATUS.md`
 
 ---
 
@@ -13,21 +12,21 @@
 ```
 By the end of this webinar series, I commit to:
 
-1) Submit Michigan Health Endowment Fund Capacity Building concept paper or attend concept call the week the April 2026 RFP drops — and register Cause We Care on the MHEF Fluxx portal if not already complete.
+1) Submit the Michigan Health Endowment Fund Capacity Building concept paper in Fluxx as soon as the RFP is open (Sayre Corbin relationship already established — inquiry sent and replied March 2026).
 
-2) Register Cause We Care on CFSEM and submit one Southeast Michigan grant request for SHIELD community health workers (navigator pilot in Wayne County).
+2) Register Cause We Care on CFSEM and submit one Southeast Michigan SHIELD navigator pilot grant.
 
-3) Finish and use our funder package: HAP proof deck (live NEMT) + SHIELD/HAVEN one-pager — and schedule the two relationship moves that unlock money: follow-up with Sayre Corbin (MHEF) and HAP CareSource (Oakland county + HAVEN disaster-continuity rider).
+3) Secure the MDHHS Environmental Health follow-up meeting (package already sent May 2026) and document CHW Medicaid billing + LHD introduction outcomes.
 
-4) Complete at least three fast-turn applications in 30 days (Amber Grant, IFundWomen, Hello Alice profile) and start MDHHS CHW/community partner billing enrollment so navigation work can bill Medicaid — not stay unfunded labor.
+4) Push HAP CareSource for Oakland county approval and maintain weekly HAP trip invoicing through VERTEX — revenue while grants are in review.
 
-5) Hold myself accountable to revenue first: invoice HAP trips weekly, pursue factoring on AR, and not chase new software builds until navigators are funded and SHIELD KPIs are live in Wayne County.
+5) Not start new software modules — invest outreach time only in funders and payers that unlock navigator salaries (MHEF, CFSEM, CLPPP path, MCO expansion).
 ```
 
 ### SHORT
 
 ```
-MHEF CB concept + CFSEM submit; HAP proof deck + meetings (MHEF, HAP); Amber/IFundWomen/Hello Alice; MDHHS CHW billing; invoice/factor HAP — fund navigators, not more builds.
+Commit: MHEF concept submit, CFSEM submit, MDHHS follow-up meeting, HAP Oakland + invoicing, no new software until CHWs funded.
 ```
 
 ---
@@ -37,17 +36,17 @@ MHEF CB concept + CFSEM submit; HAP proof deck + meetings (MHEF, HAP); Amber/IFu
 ### COPYABLE
 
 ```
-1) For a 501c3 (Cause We Care) teamed with an affiliated EDWOSB TPA (Dee Davis Inc.) running live Medicaid NEMT + SHIELD/HAVEN — how do collaborative funders want that relationship described so it reads as capacity, not pass-through?
+1) Cause We Care already operates with Dee Davis Inc. systems and live HAP NEMT — how should we describe that relationship in MHEF Capacity Building and Healthy Kids applications so it reads as established capacity, not pass-through?
 
-2) We have two displacement programs — SHIELD (lead abatement forces a family out of the home) and HAVEN (disaster continuity at plan scale). What is the clearest way to present both to a health foundation without sounding like two unrelated grants?
+2) SHIELD (lead abatement displacement) and HAVEN (disaster continuity) share one TPA model — what is the best single grant narrative for both without two competing applications?
 
-3) What grant size and structure (MHEF Capacity Building vs. Healthy Kids vs. rolling community foundations) realistically funds 3–5 CHWs + a supervisor in Year 1 without over-promising county-wide scale before proof?
+3) With MDHHS partnership and demo package already delivered, what do funders expect next to justify a $250K–$500K navigator award in Year 1 Wayne County?
 ```
 
 ### SHORT
 
 ```
-(1) CWC + DDI teaming without pass-through look? (2) Pitch SHIELD + HAVEN together to health funders? (3) Realistic Year 1 $ for 3–5 CHWs + supervisor in Wayne?
+(1) CWC+DDI framing for MHEF apps? (2) One grant narrative for SHIELD+HAVEN? (3) What proof after MDHHS package for $250K–$500K navigators?
 ```
 
 ---
@@ -57,35 +56,21 @@ MHEF CB concept + CFSEM submit; HAP proof deck + meetings (MHEF, HAP); Amber/IFu
 ### COPYABLE
 
 ```
-• Cause We Care board (or designated board liaison) — review commitment and 30-day grant/revenue checklist within one week of the webinar.
+• Dieasha D. Davis — weekly review of `CWC_GRANT_OPERATIONS_STATUS.md` and `GRANT_ACTIVE_PIPELINE.md` (only 🔴 items are real next steps).
 
-• Dieasha D. Davis — weekly checkpoint against NEXUS grant pipeline and HAP/SHIELD proof milestones (documented in GRANT_ACTIVE_PIPELINE.md).
+• Cause We Care board liaison — review MHEF concept + CFSEM submission dates within 7 days of webinar.
 
-• Sayre Corbin, Michigan Health Endowment Fund — not for daily accountability, but will send MHEF concept paper draft for alignment before submission when Capacity Building RFP opens.
+• Sayre Corbin (MHEF) — send concept paper draft before Fluxx submit when Capacity Building RFP is open.
 ```
 
 ### SHORT
 
 ```
-CWC board liaison (1-week review), Dieasha D. Davis (weekly NEXUS pipeline check), Sayre Corbin (MHEF concept draft review before submit).
-```
-
-### ALTERNATE (if you prefer one accountability partner only)
-
-```
-Dieasha D. Davis, President — Cause We Care / Dee Davis Inc. — weekly review of this workbook commitments against GRANT_ACTIVE_PIPELINE and revenue actions (HAP invoice/factor, grant submissions).
+Dieasha D. Davis (weekly pipeline), CWC board (submission dates), Sayre Corbin (MHEF concept draft review).
 ```
 
 ---
 
 ## Cross-references
 
-| Step | File |
-|------|------|
-| 1–5 | `FEAST_OF_FUNDS_WORKBOOK_INDEX.md` |
-| 30-day money wins | `FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` |
-| MHEF | `CWC_GRANTS/MHEF_CAPACITY_BUILDING_INQUIRY.md` |
-
----
-
-*Workbook complete Steps 1–6 in NEXUS after this file.*
+`CWC_GRANT_OPERATIONS_STATUS.md` · `FEAST_OF_FUNDS_WORKBOOK_INDEX.md`

@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:uber-health-jeff-metz-20260602@deedavis.biz
+DTSTAMP:20260530T120000Z
+DTSTART;TZID=America/Detroit:20260602T130000
+DTEND;TZID=America/Detroit:20260602T132500
+SUMMARY:📞 Dee Davis Inc. + Uber Health — Jeff Metz
+DESCRIPTION:Uber Health — Jeff Metz (organizer) + Christopher McNally.\n\nZoom: https://uber.zoom.us/j/95238699419?pwd=IOG7laf5x4QbnSw3I6cBfRaRaZeybH.1\nMeeting ID: 952 3869 9419 | Password: 512360\n\nTopics: MI/HAP route pricing, 3P NEMT Detroit, ACH billing, account consolidation, pharmacy/courier LOCs as needed.\n\nInvite received May 29, 2026 (replaces placeholder Mon Jun 1 @ 2pm ET).
+LOCATION:https://uber.zoom.us/j/95238699419?pwd=IOG7laf5x4QbnSw3I6cBfRaRaZeybH.1
+STATUS:CONFIRMED
+SEQUENCE:1
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Uber Health call in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Uber Health call in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

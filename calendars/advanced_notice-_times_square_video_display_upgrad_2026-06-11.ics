@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Advanced Notice- Times Square Video Display Upg
+ rade
+DTSTART:20260611T000000
+DTEND:20260611T010000
+DTSTAMP:20260531T230059Z
+UID:reck2ewKiz80WLJdf@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Advanced Notice- Times Squar
+ e Video Display Upgrade\nAgency: \nSolicitation: \nDeadline: June 11\, 202
+ 6 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/r
+ eck2ewKiz80WLJdf\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n
+ - 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 A
+ CTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collec
+ t all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fin
+ al review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated
+  by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Advanced Notice- Times Square Video Display Upgr
+ ade
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Advanced Notice- Times Square Video Display Upgr
+ ade
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Advanced Notice- Times Square Video Display Upgr
+ ade
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Advanced Notice- Times Square Video Display Upgr
+ ade
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

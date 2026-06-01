@@ -36,7 +36,13 @@ function App() {
   const host = typeof window !== 'undefined' ? window.location.hostname : '';
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
 
-  const isCWC = host === 'cwecare.org' || host === 'www.cwecare.org' || host === 'app.cwecare.org' || path.startsWith('/cwc');
+  // CWC-only Netlify site sets REACT_APP_PUBLIC_SITE=cwc (see netlify.cwc.toml).
+  const isCWC =
+    process.env.REACT_APP_PUBLIC_SITE === 'cwc' ||
+    host === 'cwecare.org' ||
+    host === 'www.cwecare.org' ||
+    host === 'app.cwecare.org' ||
+    path.startsWith('/cwc');
   if (isCWC && !['/refer', '/status', '/navigator', '/mdhhs'].includes(path)) return <CWCSite />;
 
   if (path === '/refer') return <HIPAAGate><PublicReferrerIntake /></HIPAAGate>;

@@ -329,6 +329,27 @@ DDI_KEYWORDS = {
     "medical surveillance": "Occupational Health Services",
     "eap": "Occupational Health Services",
     "employee assistance": "Occupational Health Services",
+    # Digital Navigation / SDOH / Benefits Enrollment
+    "digital navigator": "Digital Navigation & Benefits Enrollment",
+    "digital navigation": "Digital Navigation & Benefits Enrollment",
+    "benefits navigation": "Digital Navigation & Benefits Enrollment",
+    "benefits enrollment": "Digital Navigation & Benefits Enrollment",
+    "enrollment assistance": "Digital Navigation & Benefits Enrollment",
+    "digital equity": "Digital Navigation & Benefits Enrollment",
+    "digital inclusion": "Digital Navigation & Benefits Enrollment",
+    "digital literacy": "Digital Navigation & Benefits Enrollment",
+    "community health worker": "Digital Navigation & Benefits Enrollment",
+    "community partner": "Digital Navigation & Benefits Enrollment",
+    "ship counselor": "Digital Navigation & Benefits Enrollment",
+    "aca navigator": "Digital Navigation & Benefits Enrollment",
+    "health-related social needs": "Digital Navigation & Benefits Enrollment",
+    "social determinants": "Digital Navigation & Benefits Enrollment",
+    "resource navigation": "Digital Navigation & Benefits Enrollment",
+    "information and referral": "Digital Navigation & Benefits Enrollment",
+    "broadband adoption": "Digital Navigation & Benefits Enrollment",
+    "affordable connectivity": "Digital Navigation & Benefits Enrollment",
+    "mi bridges": "Digital Navigation & Benefits Enrollment",
+    "mibridges": "Digital Navigation & Benefits Enrollment",
 }
 
 DDI_NAICS = {
@@ -353,6 +374,11 @@ DDI_NAICS = {
     "492210",
     "621610",
     "339113",
+    "624190",
+    "624210",
+    "624230",
+    "561499",
+    "541720",
 }
 
 NAICS_LANE_LABELS: Dict[str, str] = {
@@ -377,6 +403,11 @@ NAICS_LANE_LABELS: Dict[str, str] = {
     "339113": "Medical Supplies & Equipment",
     "561421": "Telephone Answering Services",
     "491110": "Postal Service",
+    "624190": "Digital Navigation & Benefits Enrollment",
+    "624210": "Digital Navigation / Community Services",
+    "624230": "Social Services / Emergency Assistance",
+    "561499": "Digital Navigation / Business Support Services",
+    "541720": "Digital Navigation / Program Evaluation & Research",
 }
 
 

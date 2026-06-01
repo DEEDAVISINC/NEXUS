@@ -1,0 +1,89 @@
+---
+description: DDI is a nationwide contract management TPA — all sectors, all categories, all modules
+alwaysApply: true
+---
+
+# National TPA Scope — NON-NEGOTIABLE (ALL SECTORS)
+
+**Dee Davis Inc. is a contract management TPA. DDI works nationwide — not Michigan-only. This applies to EVERY category, sector, service line, module, and outbound document.**
+
+## The Rule
+
+**Default company scope = United States (50 states + DC + territories where contracts require).**
+
+DDI holds the client contract. DDI manages compliance, billing, QA, reporting, and escalation. DDI dispatches credentialed fulfillment partners **where the work is performed** — not where DDI is headquartered.
+
+**Michigan (Troy HQ)** = headquarters, proof of operational discipline, and often **first mining priority** — **never** the geographic ceiling on capability statements, CO emails, proposals, rate sheets, bios, or strategy unless the solicitation explicitly limits place of performance.
+
+## Applies To — ALL OF THESE
+
+| Lane | Examples |
+|------|----------|
+| **Professional services** | Notary, CNTDA, RON, permit running, apostille, legal courier |
+| **Testing & compliance** | DOT drug/alcohol TPA, DNA, lead, occ health, background screening |
+| **Credentialing** | Fingerprinting (mobile/livescan), I-9, E-Verify program admin |
+| **Transportation** | NEMT brokerage/TPA, medical courier, pharmacy delivery, freight, AOG |
+| **Facilities** | Janitorial, landscaping, grounds, snow, facility maintenance |
+| **Supply & product** | Industrial, medical supplies, equipment, reseller lanes |
+| **Healthcare ops** | Lab courier, specimen transport, hospital support services |
+| **Navigation / SDOH** | Benefits navigation, digital navigator, community partner programs |
+| **Structured settlement / legal** | Settlement closings, vehicle title signings, estate signings |
+| **Federal / state / local / MCO / commercial** | Every buyer type, every portal, every GPSS/DDCSS/PRISM/ATLAS bid |
+| **HAVEN / disaster recovery** | Emergency TPA coordination — inherently multi-state |
+| **Subsidiaries / DBAs** | 3D Ink, DePointe DNA, Freight 1st Direct, CNTDA — all under national TPA model |
+
+**Cause We Care (501c3)** may have a **regional community service footprint** — that does NOT shrink **DDI's** contracting scope as prime/TPA.
+
+## Required Default Language (Buyer-Facing)
+
+- ✅ "Nationwide contract management TPA"
+- ✅ "One contract with Dee Davis Inc. — fulfillment dispatched in all 50 states"
+- ✅ "Headquartered in Troy, Michigan — national program administration"
+- ✅ "In-person where required; RON / mobile / network dispatch per state rules"
+- ✅ "EDWOSB prime — vendor diversity on national contracts"
+
+## Banned Default Language (Company Scope)
+
+- ❌ "Michigan only" / "Southeast Michigan only" / "Metro Detroit only" / "Michigan first" as **DDI service area**
+- ❌ "We serve Michigan" without **also** stating national TPA dispatch
+- ❌ "Local provider" as **DDI's identity** (local vendor preference in a **buyer's** RFP is fine to address)
+- ❌ "Regional coverage" without national TPA framing
+- ❌ Any draft that reads like a single-county shop instead of a **program-level TPA**
+
+## When Local / State Geography IS OK
+
+1. **Deliberate local hook** for a specific buyer (e.g., BBA Law "across the hall")
+2. **Solicitation place of performance** is limited (bid to that — still note national TPA capacity for overflow/multi-site)
+3. **Supplier/sub RFQs** — generic region only (never reveal buyer) — see buyer-protection rules
+4. **Mining priority** — "check Michigan SIGMA first" = **where to hunt**, not **where DDI stops**
+5. **Cause We Care** grant/community materials — actual nonprofit service area
+6. **Pricing zones** — OK as **example dispatch pricing** if national TPA is stated first
+
+## Sector-Specific Reminders
+
+| Sector | National TPA framing |
+|--------|---------------------|
+| Drug testing | C/TPA — consortium, collectors, labs, MRO coordination nationwide |
+| Fingerprinting | Capture + channel per contract; dispatch mobile/livescan nationally |
+| NEMT | Program-level TPA above trip brokers; fulfillment partners under DDI contract |
+| Courier / medical logistics | National network — never name consumer fulfillment brands to prospects |
+| Janitorial / grounds | Prime manages subs in **each** contract geography |
+| Federal CO outreach | SAM-registered, nationwide capability — micro-purchase/SAT thresholds |
+| MCO / Medicaid | Enroll per state; **model** scales state-by-state — not Michigan-only MCO shop |
+
+## Hard Stop
+
+Before presenting **any** buyer-facing document, email, cap statement, proposal, rate sheet, or strategy summary:
+
+- [ ] Does this read as **national TPA** or **local vendor**?
+- [ ] If local geography appears, is it a **hook** or an **accidental scope limit**?
+- [ ] Are all **service lines** in the doc consistent (not notary=national but fingerprinting=Michigan-only)?
+
+**If it reads like a local shop — rewrite before showing Dee.**
+
+## Cross-References
+
+- `ddi-business-model.mdc` — prime/sub model
+- `never-name-subvendors-network.mdc` — do not expose fulfillment stack
+- `COMPANY_INFO_MASTER.md` — company facts
+- `DDI_NATIONAL_SERVICE_PIPELINE.md` — national pipeline by service line

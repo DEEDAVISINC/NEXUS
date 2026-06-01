@@ -1,6 +1,6 @@
 # NOTARY SIGNING PAYMENT TRACKER
-**Last Updated:** May 22, 2026
-**Total Outstanding:** $2,230.00 (confirmed)
+**Last Updated:** May 31, 2026
+**Total Outstanding:** ~$1,500.00 (Cucchiara $75 received 5/28; stale received items cleared from outstanding)
 
 ---
 
@@ -20,15 +20,31 @@
 | **Premium Signature Services** | **TBD — no terms listed on order page** | TBD | $75+ | 310-227-1229 / Contact: Mark Delgadillo |
 | **Signature One Signing Services** | **Net 45** from service date. Paid after closing completes + funds received. | eCheck to email on file | $65+ ($25 missed scan fee, $45 late drop-off penalty, $30 stale check reissue fee) | 702-509-1321 / scheduling@signatureoness.com / E-checks valid 180 days |
 | **Signing Solutions Group Inc** | **Mailed check** — no specific timeline stated | Physical check mailed to address on profile | $90+ | 949-229-3861 / 1099-NEC issued at $600+ |
+| **ASAP Pro Notary Services, LLC** | **Bill.com — ~45 business days from closing** (excludes Sundays/holidays). Snapdocs auto-creates free Bill.com vendor account; email asapaccounting@asappro.com to set up **direct deposit**. Do not pay fees if Bill.com prompts. Cancel/no-print = no fee. Cancel after print = $25. Cancel during signing = $50 trip fee (includes print). | Bill.com (direct deposit if enrolled) | $125+ (w/ scans) | 888-702-1226 (day until 7 PM CST) / 888-681-2068 (after hrs) / **asapaccounting@asappro.com** (payment only — not lisa@) |
 
 ### Premium Closing Solutions — Key Notes
 - E-checks valid for **90 days** from issue — must cash within that window or request reissue
 - W9 pulled from SigningOrder.com profile at first payment — any changes email accounting@premiumclosingsolutions.com
 - Payment stub lists all order numbers for the pay period in one check
 
+### ASAP Pro Notary Services — Key Notes
+- **All payments via Bill.com** — Snapdocs should auto-create a free vendor account when you accept orders
+- Email **asapaccounting@asappro.com** to enroll in **direct deposit** (don't use lisa@ or general ASAP emails for payment setup)
+- **Do not pay** if Bill.com prompts for fees during setup
+- Timeline: ~**45 business days** from closing date (Sundays/holidays excluded)
+- Retain Snapdocs confirmation until paid — ASAP won't adjust fees without it
+
 ---
 
-## OUTSTANDING PAYMENTS — $1,375.00+
+## SCHEDULED SIGNINGS — NOT YET PERFORMED
+
+| Date | Company | Order # / File # | Borrower | Fee | Expected Payment | Status |
+|---|---|---|---|---|---|---|
+| 5/29/26 | ASAP Pro Notary Services | Snapdocs #292933 / File #29232 | William & Doris Herd (Gibson Kohl) | $125.00 | **~7/13/26** (~45 business days via Bill.com) | **Fri 5/29 @ 3:00 PM** — Rochester Hills · Confirm William (248) 318-4217 · Scanbacks by 5 PM · FedEx Fri/Sat AM · **Set up Bill.com direct deposit if not done** |
+
+---
+
+## OUTSTANDING PAYMENTS — ~$1,500.00
 
 ### Expected NOW — Due Any Day
 
@@ -36,30 +52,12 @@
 |---|---|---|---|---|---|---|
 | 4/28/26 | Standard Notary Services | STND-89730 / ce260264~b | John Cahill (Buyer Only) | $100.00 | **6/12** (Net 45 from 4/28) | DUE ~June 12 — NotaryPay Deluxe eCheck |
 | 4/25/26 | @SigningAgents / NTS | 2026-3409 | Maxine Smith (Reverse Closing) | $125.00 | **5/25 - 6/9** (30-45 days from 4/25) | DUE NOW — check email for Deluxe eCheck |
-| 4/30/26 | Premium Closing Solutions | PMCS-243837 / W-05020-26-SL | Viorel & Angelica Hurban (Deed) | $65.00 | **Last week of May (5/25-5/31)** | April file — same payout as Jijo James |
-| 4/24/26 | Premium Closing Solutions | PMCS-242781 / LMI26229656 | Jijo James (HELOC Hybrid) | $80.00 | **Last week of May (5/25-5/31)** | EXPECTING THIS WEEK — check DeluxeChecks email |
 
 ### Deposit Expected: June 7, 2026 (Title Processing Center — 7th of month)
 
 | Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
 |---|---|---|---|---|---|---|
 | 5/1/26 | Title Processing Center | 266014-81~a | Steven Ralph Shultz (Seller + witness) | $100.00 | **6/7/26** | May file → paid June 7 |
-
-### Deposit Expected: June 4, 2026 (Already Transferred)
-
-| Date | Company | Order # | Borrower | Fee | Transferred | Deposit By |
-|---|---|---|---|---|---|---|
-| 4/28/26 | Kriss Law / Atlantic Closing | #13506 | Smith | $300.00 | 5/20/26 | **6/4/26** |
-| 5/13/26 | Turbo Signing | #13822 | Warthen | $75.00 | 5/20/26 | **6/4/26** |
-| 5/7/26 | Mosaic Signing Services | #35861 | Aiad | $60.00 | 5/20/26 | **6/4/26** |
-| **Subtotal** | | | | **$435.00** | | **June 4** |
-
-### Deposit Expected: June 8, 2026 (Transferring May 22)
-
-| Date | Company | Order # | Borrower | Fee | Transferred | Deposit By |
-|---|---|---|---|---|---|---|
-| 4/1/26 | First Class Signing Service | #935625 | Osteen | $75.00 | 5/22/26 | **6/8/26** |
-| **Subtotal** | | | | **$75.00** | | **June 8** |
 
 ### Deposit Expected: June 22, 2026 (Transfers June 5)
 
@@ -71,10 +69,9 @@
 | 5/15/26 | First Class Signing Service | #948682 | Hallman | $90.00 | 6/5/26 | **6/22/26** |
 | 5/12/26 | First Class Signing Service | #950057 | Hauk | $40.00 | 6/5/26 | **6/22/26** |
 | 5/11/26 | First Class Signing Service | #948852 | Ahmed | $75.00 | 6/5/26 | **6/22/26** |
-| 4/30/26 | First Class Signing Service | #946251 | Cucchiara | $75.00 | 6/5/26 | **6/22/26** |
 | 5/12/26 | Kriss Law / Atlantic Closing | #13568 | Bitti | $150.00 | 6/5/26 | **6/22/26** |
 | 2/16/21 | Doma Title | #16022 | Rayes | $110.00 | 6/5/26 | **6/22/26** |
-| **Subtotal** | | | | **$785.00** | | **June 22** |
+| **Subtotal** | | | | **$710.00** | | **June 22** |
 
 ### Deposit Expected: Mid-July to Early August — Premium Closing Solutions (Silk Title — 75-Day Cycle)
 
@@ -116,25 +113,20 @@
 | **May 25 - June 9** | **$125.00** | @SigningAgents / NTS (Maxine Smith — 30-45 days from 4/25) |
 | **June 7** | **$100.00** | Title Processing Center (Steven Shultz — May file, paid 7th of following month) |
 | **~June 12** | **$100.00** | Standard Notary Services (John Cahill — Net 45 from 4/28) |
-| **May 25-31** | **$145.00** | Premium Closing Solutions (Jijo James $80 + Hurban $65 — April files, one e-check) |
-| **June 4** | **$435.00** | Turbo ($75) + Mosaic ($60) + Kriss Law Smith ($300) |
-| **June 8** | **$75.00** | First Class (Osteen) |
-| **June 22** | **$785.00** | First Class x7 ($525) + Kriss Law Bitti ($150) + Doma Rayes ($110) |
-| **June 25-30** | **$TBD** | Premium Closing Solutions (Hood — May file) |
+| **June 22** | **$710.00** | First Class x6 ($450) + Kriss Law Bitti ($150) + Doma Rayes ($110) |
 | **~June 23** | **$65.00** | Signature One (Warren Castor Deed — Net 45 from 5/9) |
+| **June 25-30** | **$155.00** | Premium Closing Solutions — May non-Silk batch (Hood $80 + Foradori $75) |
 | **TBD** | **$90.00** | Signing Solutions Group (Paquette — mailed check, watch mailbox) |
 | **TBD** | **$75.00** | Premium Signature Services (Rachocki Refi — terms unknown) |
 | **July 16-31** | **$80.00** | Premium Closing Solutions — SILK TITLE (Barnes Refi — 75-day cycle) |
-| **June 25-30** | **$155.00** | Premium Closing Solutions — May non-Silk batch (Hood $80 + Foradori $75) |
-| **TOTAL INCOMING** | **$2,230.00** | |
+| **TOTAL INCOMING** | **$1,500.00** | |
 
 ---
 
 ## ALERTS
 
 **Check this week:** 
-- **@SigningAgents** e-check for Maxine Smith ($125) — 27 days since closing, within 30-45 day window NOW. Check email from Deluxe eCheck.
-- **Premium Closing Solutions** e-check for Jijo James ($80) — April file, should be paid last week of May. Check email from DeluxeChecks.
+- **@SigningAgents** e-check for Maxine Smith ($125) — 30-45 day window NOW. Check email from Deluxe eCheck.
 
 **Doma Title — Rayes #16022 — $110.00 — SIGNED FEBRUARY 16, 2021**
 Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may finally be clearing. If it doesn't hit by June 22, follow up directly.
@@ -148,6 +140,9 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 | 5/26/26 | Kriss Law / Atlantic Closing | #13506 | $300.00 | 28 days | Smith — transferred 5/20, deposited 5/26 |
 | 5/26/26 | Mosaic Signing Services | #35861 | $60.00 | 19 days | Aiad — transferred 5/20, deposited 5/26 |
 | 5/26/26 | First Class Signing Service | #935625 | $75.00 | 55 days | Osteen — transferred 5/22, deposited 5/26 (early) |
+| 5/28/26 | Turbo Signing | #13822 | $75.00 | 15 days | Warthen — transferred 5/20, deposited 5/28 |
+| 5/28/26 | Premium Closing Solutions | PMCS-243837 + PMCS-242781 + PMCS-240906 | $225.00 | ~30 days | Hurban $65 (4/30) + Jijo James $80 (4/24) + PMCS-240906 $80 (4/03) — one e-check |
+| 5/28/26 | First Class Signing Service | #946251 | $75.00 | 28 days | Cucchiara — transferred 5/28, deposited 5/28 |
 
 ---
 
@@ -158,7 +153,7 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 |---|---|
 | **Signings Completed** | 10 |
 | **Revenue Earned** | $845.00 |
-| **Revenue Collected** | $435 (as of 5/26) |
+| **Revenue Collected** | $810 (as of 5/28) — Kriss Law $300, Mosaic $60, First Class $150 (Osteen + Cucchiara), Turbo $75, PCS $225 |
 | **Expected Collection Month** | June 2026 (VendorPay) + late June (PCS) |
 
 ### Signing Detail — May 2026
@@ -183,6 +178,7 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 | 4/30 | Premium Closing Solutions | Hurban (Deed) | $65 |
 | 4/25 | @SigningAgents / NTS | Maxine Smith | $125 |
 | 4/24 | Premium Closing Solutions | Jijo James | $80 |
+| 4/3 | Premium Closing Solutions | PMCS-240906 (borrower TBD) | $80 |
 | 4/1 | First Class | Osteen | $75 |
 
 ---

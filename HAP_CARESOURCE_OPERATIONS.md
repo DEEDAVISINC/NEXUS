@@ -1,7 +1,7 @@
 # HAP CARESOURCE NEMT OPERATIONS — DEE DAVIS INC.
 
-**Contract Type:** NEMT Transportation Broker/TPA  
-**Vendor ID:** 100000469269  
+**Contract Type:** HAP CareSource Provider Agreement + Michigan LTSS Comp Schedule (MA_SNP) — NEMT credentialed service line  
+**Vendor ID:** 100000469269 (issued Apr 28, 2026 after credentialing; agreement signed Mar 29, 2026)  
 **Go-Live:** Activate in portal — READY NOW  
 **Orientation Completed:** May 6, 2026 (Brian Grcevich)
 
@@ -9,12 +9,17 @@
 
 ## SERVICE AREA
 
+**Source of truth:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md`
+
 | County | Status |
 |--------|--------|
-| **Wayne County** | ✅ Active |
-| **Macomb County** | ✅ Active |
+| **Wayne County** | ✅ Active (executed contract) |
+| **Macomb County** | ✅ Active (executed contract) |
+| **Oakland County** | ⏳ Not active — expansion expected soon (confirm with Brian/Dana before claiming live) |
 
-**Member Population:** ~4,500 members in program  
+**Not the same contract as MDHHS ModivCare broker MA190000000912** (state tri-county broker — separate opportunity).
+
+**Member Population:** ~4,500 members in program (Wayne + Macomb service area per orientation)  
 **Ride Benefit:** Unlimited rides (no trip cap)
 
 ---

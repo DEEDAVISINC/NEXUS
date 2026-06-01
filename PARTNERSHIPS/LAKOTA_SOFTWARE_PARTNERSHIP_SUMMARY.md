@@ -70,11 +70,24 @@
 
 ## ACTIVE OPPORTUNITIES (Joint Pursuit)
 
+### DHA Fingerprinting Support Services (HT001126QE014) — PRIORITY
+- **Agency:** Defense Health Agency (DoD)
+- **Type:** RFQ — WOSB set-aside
+- **Volume:** 4,800 fingerprints/year (3,600 electronic SWFT + 1,200 hard copy)
+- **Coverage:** All 50 states + Guam, PR, USVI
+- **Period:** Sep 2026 – Sep 2031 (base + 4 option years)
+- **Evaluation:** Best Value (Tech + Past Performance > Price)
+- **Questions Due:** June 8, 2026
+- **CO:** Cherish D. Young (cherish.d.young2.civ@health.mil)
+- **Strategy:** DDI primes (WOSB), Lakota provides SWFT technology, build collection network
+- **Status:** Full RFQ dropped May 28, 2026. Need to build nationwide collection network.
+- **Blocker:** Collection sites in all 50 states + territories
+
 ### DeCA Electronic Fingerprinting (HQC00526QE015)
 - **Agency:** Defense Commissary Agency
 - **Type:** Sources Sought
 - **Strategy:** DDI primes as EDWOSB, Lakota provides WHORL technology
-- **Status:** Strategic partnership confirmed
+- **Status:** Monitoring for follow-on RFQ
 
 ### SSA Livescan Fingerprinting (28321326RI0000015)
 - **Agency:** Social Security Administration
@@ -104,22 +117,30 @@
 - [ ] Confirm WHORL upgrade pricing
 - [ ] Confirm federal EDO processing capability
 - [ ] Confirm Kojak hardware sourcing
+- [ ] **Kojak wholesale/reseller pricing** — What can DDI offer operators through Lakota?
+- [ ] **WHORL device compatibility** — What livescan hardware (besides Kojak) does WHORL support? Operators already own various brands.
+- [ ] **Operator onboarding tech lift** — Software install, config, test submission per new operator — how long?
+- [ ] **Volume licensing for WHORL** — Per-seat or network license pricing at 50+ operators?
 - [ ] Update FINGERPRINTING_CURRENT_STATUS.md after call
+- [ ] See full discussion agenda: `FINGERPRINT_OPERATOR_RECRUITMENT/SAM_CILENTO_EMAIL_READY.md`
 
 ---
 
 ## ⚠️ IMPORTANT NOTES
 
-**SWFT vs ATF EFT:**
-- This account was previously labeled "SWFT EFT file creation system"
-- **SWFT access was DENIED by DCSA March 2026**
-- This account covers **ATF EFT file creation ONLY** — NOT SWFT submission
-- Do NOT conflate the two
+**DDI SWFT vs Lakota SWFT:**
+- **DDI's own SWFT access was DENIED by DCSA March 2026** — DDI cannot submit to SWFT directly
+- **Lakota HAS SWFT authorization** — Lakota can submit to DCSA SWFT
+- Under the DDI+Lakota platform model, Lakota handles SWFT submission as DDI's technology partner
+- DDI primes contracts, Lakota provides SWFT technology — DDI does NOT need its own SWFT
+- In proposals: say "our SWFT-authorized technology partner" — never claim DDI holds SWFT directly
 
-**Lakota ≠ SWFT Channel:**
-- Lakota provides the technology (WHORL, EFT Creator)
-- Submission channel depends on contract requirements
-- DCSA SWFT requires separate authorization DDI doesn't have
+**Platform Strategy (CONFIRMED — Sam is on board):**
+- DDI and Lakota are building a nationwide fingerprinting platform
+- Lakota provides: SWFT technology, WHORL livescan software, portal/scheduling
+- DDI provides: contract management (TPA), network recruitment, compliance, QA
+- Independent livescan operators provide: physical collection sites
+- This is the only open-network alternative to Fieldprint in the federal market
 
 ---
 

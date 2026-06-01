@@ -27,6 +27,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:cwc": "REACT_APP_PUBLIC_SITE=cwc react-scripts build",
+    "deploy:cwc": "npm run build:cwc && netlify deploy --prod --dir=build --site=fca93390-2675-4550-a30a-54a0748ef250 --no-build",
+    "deploy:nexus": "npm run build && netlify deploy --prod --dir=build --site=288ca3f0-61b8-4732-8519-19f6d5411b7c --no-build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",

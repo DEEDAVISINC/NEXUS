@@ -95,5 +95,5 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify Program Administrator
 
 | # | To | Subject | Attachment | Sent? |
 |---|---|---|---|---|
-| 1 | stephanie.logan@medicaid.alabama.gov | NEMT TPA Program Administration — DEE DAVIS INC \| Alabama Medicaid | HAVEN Master Proposal PDF | ⬜ |
-| 2 | andrew.hill@adph.state.al.us | HAVEN Disaster Response — DEE DAVIS INC \| Alabama Emergency Preparedness | HAVEN Master Proposal PDF | ⬜ |
+| 1 | stephanie.logan@medicaid.alabama.gov | NEMT TPA Program Administration — DEE DAVIS INC \| Alabama Medicaid | HAVEN Master Proposal PDF | ✅ **2026-05-11 @ 7:53 PM ET** |
+| 2 | andrew.hill@adph.state.al.us | HAVEN Disaster Response — DEE DAVIS INC \| Alabama Emergency Preparedness | HAVEN Master Proposal PDF | ✅ **2026-05-11 19:53 ET** |

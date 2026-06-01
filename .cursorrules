@@ -143,8 +143,11 @@ For drug testing, DNA, fingerprinting, notary, occupational health questions:
 - `calendars/SCHEDULED_AGENDA.md` — Calendar mirror by date (must update whenever NEXUS creates an `.ics`)
 - `DAILY_BRIEFING.md` — Alexa briefing / morning summary
 - `BID_TRACKER_DASHBOARD.md` — Active deadlines
+- `QUESTIONS_SUBMISSION_TRACKER.md` — Questions submitted vs still due (check before nagging Dee)
 - `BID_TRACKER_COMPLETE.md` — Full pipeline
 - `COMPANY_INFO_MASTER.md` — Contact info source of truth
+- `NEXUS_LEARNING/DDI_STRATEGIC_KNOWLEDGE_INDEX.md` — Buyers, populations, community impact, foundations, 12–18 mo plan (May 2026 pack)
+- `SESSION_SUMMARY_MAY_30_2026.md` — Program packaging, four pillars, funder map, relationship status (May 30, 2026)
 
 ---
 
