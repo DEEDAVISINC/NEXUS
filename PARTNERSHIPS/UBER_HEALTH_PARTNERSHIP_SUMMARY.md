@@ -1,7 +1,7 @@
 # UBER HEALTH — Fulfillment Partnership Summary
 
-**Last Updated:** May 18, 2026  
-**Status:** ✅ ACTIVE — Dashboard Live  
+**Last Updated:** June 2, 2026  
+**Status:** ✅ ACTIVE — Dashboard Live · **ACH Net 30 approved ($15K credit limit)**
 **Partnership Type:** Healthcare Transportation & Rx Delivery Platform  
 **Parent Company:** Uber Technologies, Inc.
 
@@ -187,20 +187,36 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 | **May 27, 2026** | **Jeff follow-up (2x)** | Asked for call this week. Dee replied asking for booking guide + MI pricing |
 | **May 27, 2026** | **Jeff reply with attachments** | One-Pager booking guide, Safety Pitch Deck (35pg), FAQ/Legal Overview (6pg). Billing: 3 options (pay-per-trip, monthly CC, monthly ACH Net 30). MI pricing = dynamic, needs sample routes. |
 | **May 27, 2026** | **Dee sent sample routes** | 4 MI routes for pricing: Detroit→Henry Ford, Southfield→Beaumont Troy, Pontiac→McLaren Oakland, Warren→St. John Macomb |
+| **June 2, 2026** | **Follow-up call — SUCCESS** | **ACH Net 30 approved — $15,000 starting credit limit.** MI ambulatory pricing **~$5–$24/trip by mileage.** **Detroit metro wheelchair / 3P NEMT = sparse** (limited supply — plan Lyft WAV or local subs). NY Rx band pricing — confirm if Jeff sends written quote by Jun 10. Nevada Medicaid NEMT — **not logged this call** — follow up if still needed by Jun 7 gate. |
 
 ---
 
-## BILLING OPTIONS (Confirmed May 27, 2026)
+## BILLING OPTIONS (Confirmed May 27, 2026 · Updated Jun 2, 2026)
 
 | Option | Terms | How It Works |
 |--------|-------|--------------|
 | **Pay-per-trip** | Immediate | Credit card on file charged after each ride |
 | **Monthly Credit Card** | Net 8 | Invoice on 1st, card charged on 8th |
-| **Monthly ACH** | **Net 30** | **DDI's choice — cash flow positive with weekly MCO payments** |
+| **Monthly ACH** | **Net 30** | **✅ APPROVED Jun 2, 2026 — $15,000 starting credit limit** |
 
-**Setup for ACH:** Send PO number, Tax ID, and DDI address to Jeff to activate monthly billing.
+**Setup for ACH:** Confirmed on Jun 2 call with Jeff Metz. Monitor first invoice cycle; request limit increase as HAP + bid volume grows.
 
----
+### Michigan Ambulatory Pricing (Jeff Metz — Jun 2, 2026)
+
+| Detail | Value |
+|--------|--------|
+| **Uber fulfillment range** | **~$5.00 – $24.00 per trip** (mileage-dependent) |
+| **HAP pays DDI (flat)** | **$28.00** standard ambulatory · **$35.00** WAV / ambulatory assist |
+| **DDI gross margin (ambulatory)** | **~$4 – $23/trip** before admin — best on short trips |
+| **Use** | HAP dispatch planning — route long trips carefully |
+| **Written band quote** | Request email confirmation if not yet received |
+
+### Detroit Wheelchair / 3P NEMT (Jeff Metz — Jun 2, 2026)
+
+| Detail | Value |
+|--------|--------|
+| **Availability** | **Sparse** in Detroit metro — do not rely as primary WAV mode |
+| **DDI action** | Prioritize **Lyft Healthcare WAV** + local wheelchair subs for HAP WAV trips |
 
 ## RIDE TYPES AVAILABLE
 
@@ -233,9 +249,9 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 
 - [x] ~~Receive BAA, T&Cs, Driver Safety Deck from Jeff~~ — **ALL RECEIVED** (BAA in TOU, T&Cs linked May 15, Safety Deck + One-Pager + FAQ received May 27)
 - [x] ~~Confirm controlled substance policy for TX Rx delivery~~ — **CONFIRMED NO** (May 18, 2026)
-- [ ] Set up Monthly ACH billing (Net 30) — send PO, Tax ID, address to Jeff
-- [ ] Get Michigan ride pricing — sample routes sent to Jeff May 27
-- [ ] Confirm 3P NEMT (door-to-door/wheelchair) availability in Michigan
+- [x] ~~Set up Monthly ACH billing (Net 30)~~ — **✅ APPROVED Jun 2, 2026 — $15K credit limit**
+- [x] ~~Get Michigan ride pricing~~ — **Range confirmed $5–$24 by mileage (Jun 2)** — written quote optional follow-up
+- [x] ~~Confirm 3P NEMT (door-to-door/wheelchair) availability in Michigan~~ — **Detroit metro = sparse (Jun 2)** — use Lyft WAV + subs
 - [ ] Resolve account consolidation (personal vs business)
 - [ ] Review Rx Addendum attached to Jeff's May 18 email
 - [ ] After $200K revenue: Request API access for PRISM integration

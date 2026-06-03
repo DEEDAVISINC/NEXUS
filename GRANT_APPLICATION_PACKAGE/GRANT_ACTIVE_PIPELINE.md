@@ -30,7 +30,7 @@
 | 7 | **FedEx Small Business Grant** | $5K–$50K | Opens Spring 2026 — CHECK NOW | FREE | 🔴 | Go to smallbusinessgrant.fedex.com — may be open |
 | 8 | **Cartier Women's Initiative** | $30K–$100K | Q1 2026 — CHECK NOW | FREE | 🔴 | Go to cartierwomensinitiative.com — may be open |
 | 9 | **Eileen Fisher Grant** | $40K–$100K | Q1/Q2 2026 — CHECK NOW | FREE | 🔴 | Go to eileenfisher.com/grants — may be open |
-| 10 | **Cause We Care SAM.gov Renewal** | Unlocks ALL federal grants | SUBMITTED Mar 22 | FREE | 🟡 | Ref: INC-GSAFSD8651858 — CAGE docs sent; chase validation if stalled (FSD 866-606-8220) |
+| 10 | **Cause We Care SAM.gov** | Unlocks ALL federal grants | **ENTITY REGISTRATION SUBMITTED** | FREE | 🟡 | UEI VEJMFMVV6PQ1 · Confirm **nsa@deedavis.ink** · No action required — await **Active** in SAM → then Grants.gov |
 
 ---
 

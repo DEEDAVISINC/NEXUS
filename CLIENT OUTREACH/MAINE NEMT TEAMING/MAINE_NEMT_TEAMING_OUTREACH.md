@@ -137,6 +137,8 @@ NPI: 1538939111 | CAGE: 8UMX3 | SAM.gov Active
 
 - [x] **SENT May 20, 2026** — Email 1 to Kara Hay at Penquis (info@penquis.org)
 - [x] **SENT May 20, 2026** — Email 2 to Donna Kelley at Waldo CAP (info@waldocap.org)
-- [ ] Register on Maine VSS portal if not already registered
+- [x] **Follow-up SENT June 3, 2026** — Penquis + Waldo (see `MAINE_FOLLOWUP_JUN3_EMAIL.md`)
+- [x] Register on Maine VSS portal — **VS0000032746** (Jun 3, 2026)
+- [ ] **Mail/fax Substitute W-9** (download from VSS registration confirmation)
 - [ ] Pull the full solicitation document from Maine VSS (Opportunity 0520260310)
-- [ ] **Follow-up June 3, 2026** — 14-day cadence if no response from either
+- [ ] **Next follow-up:** June 17, 2026 if no response

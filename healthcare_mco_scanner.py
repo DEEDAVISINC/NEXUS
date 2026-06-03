@@ -366,26 +366,87 @@ def scan_michigan_mdhhs() -> List[Dict]:
 # HOSPITAL SYSTEM RFP PORTALS
 # ============================================================================
 
+UMMS_OPEN_RFP_URL = (
+    "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp"
+)
+
+# Page boilerplate — not actionable solicitations (RADAR false positives)
+_UMMS_BOILERPLATE_MARKERS = (
+    "umms open rfps",
+    "should you have additional questions",
+    "umms representative listed in the rfp",
+    "committed to an open and transparent",
+    "posting the upcoming",
+    "prospective vendors maximum time",
+    "ongoing effort to ensure equitability",
+)
+
+
+def _normalize_href(href: str, base: str = "https://www.umms.org") -> str:
+    if href.startswith("http"):
+        return href.split("#")[0].rstrip("/")
+    if href.startswith("/"):
+        return (base + href).split("#")[0].rstrip("/")
+    return href
+
+
+def _is_umms_portal_boilerplate(text: str, link: str) -> bool:
+    """True when text is index-page prose, not an actual RFP listing."""
+    t = text.lower().strip()
+    if len(t) < 12:
+        return True
+    if any(m in t for m in _UMMS_BOILERPLATE_MARKERS):
+        return True
+    if link.rstrip("/") == UMMS_OPEN_RFP_URL.rstrip("/"):
+        return True
+    return False
+
+
+def _looks_like_rfp_listing(text: str, href: str) -> bool:
+    """Require signals of a real posted solicitation, not portal navigation."""
+    t = text.lower()
+    h = href.lower()
+    if is_relevant(text):
+        return True
+    if re.search(r"\brfp\s*#|\brfi\s*#|\bsolicitation\b|\bdue\s+\d", t):
+        return True
+    if any(ext in h for ext in (".pdf", ".doc", ".docx", "solicitation", "procurement")):
+        return True
+    if "rfp" in t and len(t) < 120 and "request for proposal" not in t:
+        return True
+    return False
+
+
 def scan_umms() -> List[Dict]:
-    """Scan University of Maryland Medical System RFPs."""
+    """Scan University of Maryland Medical System — actual open RFP links only."""
     log.info("Scanning UMMS...")
     opportunities = []
+    seen: set = set()
     try:
-        url = "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp"
-        resp = requests.get(url, timeout=30)
+        resp = requests.get(UMMS_OPEN_RFP_URL, timeout=30)
         soup = BeautifulSoup(resp.text, "html.parser")
-        
-        for item in soup.find_all(["h3", "h4", "li", "p"]):
-            text = item.get_text(strip=True)
-            if is_relevant(text) or "rfp" in text.lower() or "ambulance" in text.lower() or "transport" in text.lower():
-                link = item.find("a")
-                opportunities.append({
-                    "source": "UMMS (Univ of Maryland)",
-                    "title": text[:200],
-                    "link": link["href"] if link and link.get("href") else url,
-                    "state": "MD",
-                    "type": "Hospital System",
-                })
+
+        for anchor in soup.find_all("a", href=True):
+            text = anchor.get_text(strip=True)
+            href = _normalize_href(anchor["href"])
+            if _is_umms_portal_boilerplate(text, href):
+                continue
+            if not _looks_like_rfp_listing(text, href):
+                continue
+            key = (text[:120].lower(), href)
+            if key in seen:
+                continue
+            seen.add(key)
+            opportunities.append({
+                "source": "UMMS (Univ of Maryland)",
+                "title": text[:200],
+                "link": href,
+                "state": "MD",
+                "type": "Hospital System",
+            })
+
+        if not opportunities:
+            log.info("UMMS: no active open RFP listings (portal index only)")
     except Exception as e:
         log.error(f"UMMS error: {e}")
     return opportunities

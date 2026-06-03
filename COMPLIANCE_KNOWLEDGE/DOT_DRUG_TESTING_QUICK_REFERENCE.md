@@ -425,6 +425,7 @@ Between screening and confirmation:
 **Registration, queries, reporting**
 - Phone: 844-955-0207
 - Web: clearinghouse.fmcsa.dot.gov
+- **Identity verification (C/TPA):** Required by **July 6, 2026** for existing C/TPAs — My Dashboard → My Profile → **Begin Identity Verification**. See `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md`
 
 ### SAMHSA
 **Lab certification, workplace testing**

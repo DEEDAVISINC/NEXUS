@@ -7,112 +7,107 @@ alwaysApply: true
 
 **The master capability statement template EXISTS in the system. USE IT. Do not rebuild, recreate, or generate new HTML from scratch. EVER.**
 
-## The Template
+**Dee confirmed June 2026: NO EXCEPTIONS. This structure only.**
 
-**Source file:** `ESSENTIALS/DDI_CAP_STATEMENT_DONE.html`
+## The Template (ONLY SOURCE)
 
-**NOT** `ESSENTIALS/DDI_Main_Capability_Statement.html` (different file)
-**NOT** `BIDS:RESOURCES/ESSENTIALS/DDI_Main_Capability_Statement.html` (different file)
-**NOT** `BIDS:RESOURCES/MICRO-PURCHASE OUTREACH/SEND_TO_BUYER/DDI_Main_Contract_Management_Capability_Statement.html` (stripped-down version)
+**Source file:** `BIDS:RESOURCES/DAF FAMILY ADVOCACY/SEND_TO_BUYER/FAP2026SS_Family_Advocacy_Capability_Statement.html`
 
-**The file `ESSENTIALS/DDI_CAP_STATEMENT_DONE.html` is the master. 558KB. Has partner logos, cert badges, NAICS grid with labels, POINT OF CONTACT section, Company Data block, Differentiators section, CONTRACT READY badge. This is the ONLY source.**
+**Also valid copy path after sync:** `ESSENTIALS/DDI_CAP_STATEMENT_MASTER.html` (when present — must match DAF structure)
 
-**This is the ONLY template used for generating capability statements. Period.**
+**BANNED — do NOT use as template:**
+- ❌ `ESSENTIALS/DDI_CAP_STATEMENT_DONE.html` (retired layout)
+- ❌ `ESSENTIALS/DDI_Main_Capability_Statement.html`
+- ❌ University Health / pharmacy courier caps (old 8-box + `who-photo` layout)
+- ❌ Any HTML built from scratch
+- ❌ Any cap that omits sections below
 
-## The Standard
+## Mandatory Section Order (DO NOT CHANGE)
 
-**DDI is pursuing multi-million dollar federal contracts. The capability statement must look like it.**
+Copy template → change **colors + content only**. Section order is fixed:
 
-- The UI / visual design / layout of the template is the standard. It does not change.
-- Content CAN be added if it strengthens the presentation (solicitation-specific sections, additional relevant past performance, etc.)
-- The document is NOT limited to one page. If it needs two pages to look professional, it gets two pages.
-- NEVER cram, compress, shrink fonts, or cut off content to force a single page.
-- White space is professional. Breathing room is professional. Cramped is not.
-- The footer MUST always be visible in the PDF — no `overflow:hidden`, no fixed `height` that cuts it off.
+```
+1. .header          — Logo + DEE DAVIS INC. + sector .tag + .h-creds (CAGE, UEI, DUNS, SAM, NPI, DOT, MC)
+2. .title-bar       — h2: CAPABILITY STATEMENT — [SOLICITATION-SPECIFIC TITLE]
+3. .body
+   a. .edwosb-box   — EDWOSB callout + SERVICE MODEL one-liner (sector-specific)
+   b. .sh + .comp-grid (4 boxes) — CORE COMPETENCIES — ★ on top 2–3 relevant boxes
+   c. .sh + .cols (2 ul.svc)     — SERVICE CAPABILITIES
+   d. .sh + ul.why               — DIFFERENTIATORS
+   e. .sh + .pp-grid (3 .pp)     — PAST PERFORMANCE & RELEVANT EXPERIENCE
+   f. .naics-strip               — NAICS pills (solicitation NAICS FIRST + highlighted)
+   g. .cert-row                  — Cert badges (EDWOSB/WOSB gold, others standard)
+4. .footer          — .f-left contact | .f-right CAGE/UEI + "Prepared for [Agency] — [Sol#]"
+```
 
-## Template vs Content — THE DIFFERENCE
+**NO `who-photo` block. NO alternate layouts. NO section reordering.**
 
-**TEMPLATE = the design, layout, CSS, visual structure, UI, section order, logo, fonts, spacing.**
-This NEVER changes. It comes from the master HTML file. Period.
+## Template vs Content
 
-**CONTENT = the words, competencies, past performance, differentiators inside each section.**
-This gets TAILORED to the specific solicitation. Every single time.
+**TEMPLATE** = layout, CSS architecture, section order, logo embed, fonts, spacing — **from DAF master only.**
 
-A rideshare cap statement has rideshare competencies.
-A custodial cap statement has facilities competencies.
-A fingerprinting cap statement has security/credentialing competencies.
-The DESIGN is the same. The CONTENT speaks to what the CO is buying.
+**CONTENT** = words in each section — **tailored every time** to the solicitation.
 
 ## What You Do
 
-1. **COPY** the template HTML file into the target `SEND_TO_BUYER/` folder
-2. **CHANGE COLORS** to match the sector (per `cap-statement-colors.mdc`)
-3. **TAILOR CONTENT** — rewrite core competencies, past performance, differentiators, and company overview to speak directly to the solicitation's scope
-4. **HIGHLIGHT** the solicitation's NAICS code first in the NAICS section
-5. **UPDATE** the footer solicitation reference line
-6. **VERIFY** the full document renders in PDF with nothing cut off
+```
+STEP 1: cp FAP2026SS_Family_Advocacy_Capability_Statement.html → SEND_TO_BUYER/[Sol#]_[Type]_Capability_Statement.html
+STEP 2: Change colors per cap-statement-colors.mdc (sector lane — NOT the old purple/teal table below)
+STEP 3: Replace .tag line (sector + buyer type + EDWOSB)
+STEP 4: Replace title-bar h2 + footer "Prepared for" line
+STEP 5: Rewrite edwosb-box SERVICE MODEL + comp-grid (4) + svc bullets + why + pp-grid (3)
+STEP 6: NAICS — solicitation code FIRST pill with highlight class
+STEP 7: Verify PDF — footer visible, nothing cut off
+```
 
-## Content Tailoring Rules
+## Colors — USE cap-statement-colors.mdc
 
-- **Company Overview:** Rewrite to lead with DDI's relevant experience for THIS contract type
-- **Core Competencies (8 boxes):** All 8 should be relevant to the solicitation. If the solicitation is for rideshare, the 8 boxes are about transportation, fleet, dispatch, compliance, reporting — NOT generic DDI services
-- **Past Performance:** Lead with the most relevant track record items for THIS service type
-- **Differentiators:** Emphasize the credentials and advantages that matter to THIS CO
-- **NAICS Codes:** Solicitation NAICS first and highlighted, then related codes
+**Authoritative color assignments:** `.cursor/rules/cap-statement-colors.mdc`
+
+Do NOT use retired hex tables from old templates. Match **primary + secondary** gradients in:
+- `.header`
+- `.title-bar` / `.sh`
+- `.footer`
+- `.c-primary` competency box
+- `.edwosb-box` accent text where applicable
+
+| Example lane | Primary | Secondary |
+|---|---|---|
+| Courier / Delivery | `#7c2d12` | `#ea580c` |
+| NEMT / Medical Transport | `#1e3a5f` | `#dc2626` |
+| Drug Testing | `#3b0764` | `#7c3aed` |
+| Fingerprinting | `#1a2e1a` | `#2d5016` |
+| (full list) | see cap-statement-colors.mdc | |
+
+**EDWOSB box:** Always gold/amber — never change (`#fef3c7` / `#d97706`).
+
+## Content Rules
+
+- **Core competencies:** Exactly **4 boxes** in `comp-grid`. Star (★) the solicitation's top 2–3.
+- **Service capabilities:** Two columns, solicitation language mirrored.
+- **Past performance:** Exactly **3** `.pp` cards — most relevant first.
+- **NAICS:** Solicitation NAICS **first** pill, highlighted.
+- **Certs:** Only claim certifications verified in `COMPANY_INFO_MASTER.md` (e.g. do NOT claim NYS MWBE unless documented).
+- **Company contact:** Per `company-info-verification.mdc` — 248.376.4550, info@deedavis.biz, 48084.
 
 ## What You Do NOT Do
 
-- ❌ Do NOT write new HTML/CSS from scratch — the design comes from the template
-- ❌ Do NOT change the layout, section order, visual structure, or UI
-- ❌ Do NOT change the logo, company data, certifications, or contact details
-- ❌ Do NOT copy the template content word-for-word and just change colors — that is NOT tailoring
-- ❌ Do NOT cram content to force a single page
-- ❌ Do NOT use `overflow:hidden` or fixed `height` that cuts off content
+- ❌ Do NOT write new HTML/CSS from scratch
+- ❌ Do NOT use old ESSENTIALS/DDI_CAP_STATEMENT_DONE.html
+- ❌ Do NOT use University Health / legacy courier cap as template
+- ❌ Do NOT add `who-photo` or 8-box layouts
+- ❌ Do NOT skip edwosb-box, naics-strip, cert-row, or pp-grid
+- ❌ Do NOT copy DAF **content** word-for-word — only the **structure**
+- ❌ Do NOT claim certs or past performance not in master file
 
-## Color Changes ONLY — By Sector
+## PDF Output
 
-| Sector | Primary | Accent |
-|---|---|---|
-| Medical / Healthcare | Blue (#1e40af) | Red (#dc2626) |
-| Defense / DLA | Navy (#1e3a5f) | Gold (#d97706) |
-| Facilities / Grounds | Forest Green (#166534) | Slate (#475569) |
-| Industrial / Construction | Charcoal (#374151) | Orange (#ea580c) |
-| Transportation / Logistics | Deep Purple (#6b21a8) | Teal (#0d9488) |
-| Reseller / Wholesale | Steel Blue (#2563eb) | Emerald (#059669) |
+- Test Cmd+P — footer must print completely
+- If content overflows one page, extend layout per template CSS — do not cram or shrink fonts
+- Logo stays base64 `<img class="h-logo-img">` from master — never text placeholder
 
-## Highlighting Relevant Competencies
+## Why This Exists
 
-For the solicitation's relevant core competencies:
-- Add a star (★) before the competency name
-- Add a highlighted border/background using the primary color
-- This tells the CO exactly which competencies match their requirement
+Inconsistent cap layouts damage credibility on multi-million-dollar bids. One structure. Every sector. Colors and words change — **the skeleton never does.**
 
-## Highlighting Solicitation NAICS
-
-- The solicitation's NAICS code goes FIRST in the NAICS grid
-- It gets a filled primary-color background to stand out
-
-## Process
-
-```
-STEP 1: cp template → SEND_TO_BUYER/[SolNumber]_[Type]_Capability_Statement.html
-STEP 2: Find-and-replace primary color hex values
-STEP 3: Find-and-replace accent color hex values
-STEP 4: Add star + highlight to relevant competency boxes
-STEP 5: Move solicitation NAICS to first position + highlight
-STEP 6: Update footer solicitation reference line
-STEP 7: Done. Do not touch anything else.
-```
-
-## PDF Output Rule
-
-- `.page` CSS must use `min-height:11in` — NEVER `height:11in`
-- NEVER use `overflow:hidden` on `.page` or `body`
-- `@media print` must set `min-height:auto` so content flows naturally
-- Test: if the footer is cut off in Cmd+P, the CSS is wrong. Fix it.
-
-## Why This Rule Exists
-
-Because the agent keeps rebuilding cap statements from scratch instead of using the template that already exists. This causes missing logos, wrong layouts, inconsistent formatting, and wasted time.
-
-**DDI competes for $7M contracts. The cap statement must look like it. Use the template. Change colors. Highlight relevant items. Make sure NOTHING is cut off in the PDF. That's it.**
+**Master reference:** `BIDS:RESOURCES/DAF FAMILY ADVOCACY/SEND_TO_BUYER/FAP2026SS_Family_Advocacy_Capability_Statement.html`

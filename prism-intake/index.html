@@ -325,6 +325,64 @@
   .new-request-strip .nrs-text { font-size: 15px; font-weight: 700; color: var(--text); }
   .new-request-strip .nrs-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
+  /* ── ORDER CALENDAR ── */
+  .order-calendar {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px 14px; box-shadow: var(--shadow); margin-bottom: 20px;
+  }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .cal-header-title { font-size: 15px; font-weight: 800; color: var(--text); }
+  .cal-nav { display: flex; gap: 6px; }
+  .cal-nav-btn {
+    width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); color: var(--text-secondary); font-size: 18px; line-height: 1;
+    cursor: pointer; transition: all .15s;
+  }
+  .cal-nav-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .cal-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px;
+  }
+  .cal-weekday {
+    text-align: center; font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: .4px; padding: 4px 0;
+  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-day {
+    min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-sm);
+    padding: 4px; text-align: center; cursor: pointer; transition: all .15s; background: var(--bg);
+  }
+  .cal-day:hover:not(.cal-empty) { border-color: var(--border-hover); background: var(--white); }
+  .cal-day.cal-empty { background: transparent; cursor: default; }
+  .cal-day.cal-today { border-color: var(--gold); background: var(--gold-light); }
+  .cal-day.cal-selected { border-color: var(--blue); background: var(--blue-light); }
+  .cal-day-num { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .cal-day-dots { display: flex; justify-content: center; gap: 3px; margin-top: 3px; flex-wrap: wrap; }
+  .cal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+  .cal-dot.pending { background: var(--orange); }
+  .cal-dot.completed { background: var(--green); }
+  .cal-day-detail {
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+    display: none;
+  }
+  .cal-day-detail.active { display: block; }
+  .cal-day-detail-title { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .4px; }
+  .cal-order-item {
+    display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cal-order-item:last-child { border-bottom: none; }
+  .cal-order-time { font-size: 11px; font-weight: 700; color: var(--blue); min-width: 52px; }
+  .cal-order-info { flex: 1; min-width: 0; }
+  .cal-order-title { font-size: 13px; font-weight: 700; color: var(--text); }
+  .cal-order-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .dash-signout {
+    margin-left: auto; font-size: 12px; font-weight: 600; color: var(--text-muted);
+    background: none; border: none; cursor: pointer; padding: 4px 8px;
+  }
+  .dash-signout:hover { color: var(--text); }
+  .dash-header { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+  .dash-header-main { flex: 1; min-width: 200px; }
+
   /* ── BACK TO DASHBOARD LINK ── */
   .back-to-dash {
     display: none; margin-bottom: 20px; font-size: 13px; font-weight: 600;
@@ -511,6 +569,12 @@
   .pay-line:last-child { border-bottom: none; }
   .pay-line-desc { color: var(--text-secondary); }
   .pay-line-price { font-weight: 700; color: var(--text); }
+  .pay-line-scoped { font-size: 11px; font-weight: 600; color: var(--gold-text); text-transform: uppercase; letter-spacing: .04em; }
+  .pay-scoped-notice {
+    background: var(--gold-light); border: 1px solid rgba(176,141,62,.2); border-radius: var(--radius-sm);
+    padding: 14px 16px; margin-bottom: 16px; font-size: 12px; line-height: 1.65; color: var(--text-secondary);
+  }
+  .pay-scoped-notice strong { color: var(--text); }
   .pay-total-row {
     padding: 14px 20px; background: var(--bg); border-top: 2px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
@@ -663,24 +727,47 @@
 <!-- ═══════════ ENTRY GATE ═══════════ -->
 <div class="entry-gate" id="entry-gate">
   <div class="entry-title">Welcome to PRISM</div>
-  <div class="entry-subtitle">Enter your email to view your account, upcoming appointments, and order history — or start a new service request.</div>
+  <div class="entry-subtitle">Enter your email to view your order calendar, upcoming appointments, and history — or start a new service request.</div>
   <div class="entry-card">
     <label class="entry-email-label">Your Business Email</label>
     <input type="email" class="entry-email-input" id="gate-email" placeholder="you@company.com" autofocus>
     <div class="entry-loading" id="gate-loading"><div class="spinner"></div> Looking up your account...</div>
     <button class="entry-btn" id="gate-btn" onclick="lookupClient()">Continue</button>
     <div class="entry-or">or</div>
-    <button class="entry-new-btn" onclick="enterAsNew()">New Client — Schedule a Service</button>
+    <button class="entry-new-btn" onclick="enterAsNew(null, true)">New Client — Schedule a Service</button>
   </div>
 </div>
 
 <!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
 <div class="client-dashboard" id="client-dashboard">
   <div class="dash-header">
-    <div class="dash-welcome">Welcome back</div>
-    <div class="dash-company" id="dash-company-name">—</div>
-    <div class="dash-contact" id="dash-contact-info">—</div>
-    <div class="dash-whats-next">WHAT'S NEXT</div>
+    <div class="dash-header-main">
+      <div class="dash-welcome">Welcome back</div>
+      <div class="dash-company" id="dash-company-name">—</div>
+      <div class="dash-contact" id="dash-contact-info">—</div>
+      <div class="dash-whats-next">YOUR ORDERS &amp; SCHEDULE</div>
+    </div>
+    <button type="button" class="dash-signout" onclick="signOut()">Sign out</button>
+  </div>
+
+  <div class="dash-section-title">Order Calendar</div>
+  <div class="order-calendar" id="order-calendar">
+    <div class="cal-header">
+      <div class="cal-header-title" id="cal-month-label">—</div>
+      <div class="cal-nav">
+        <button type="button" class="cal-nav-btn" onclick="calPrevMonth()" aria-label="Previous month">‹</button>
+        <button type="button" class="cal-nav-btn" onclick="calNextMonth()" aria-label="Next month">›</button>
+      </div>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div>
+      <div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="cal-day-detail" id="cal-day-detail">
+      <div class="cal-day-detail-title" id="cal-day-detail-title"></div>
+      <div id="cal-day-detail-body"></div>
+    </div>
   </div>
 
   <div class="dash-stats" id="dash-stats">
@@ -769,11 +856,15 @@
     <div class="svc-card" data-svc="notary" data-email="notary@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">📜</div><div class="name">Notary & Document Services</div>
     </div>
-    <div class="svc-card" data-svc="nemt" data-email="rides@deedavis.biz" onclick="pickSvc(this)">
-      <div class="icon">🚐</div><div class="name">Medical Transportation</div>
+    <div class="svc-card" data-svc="nemt" data-email="nemt@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🚐</div><div class="name">NEMT &amp; Medical Mobility</div>
+    </div>
+    <div class="svc-card" data-svc="arena" data-email="rides@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🎟️</div><div class="name">ARENA</div>
+      <div class="name" style="font-size:10px;font-weight:500;opacity:.72;margin-top:2px">Event Mobility · PRIME</div>
     </div>
     <div class="svc-card" data-svc="courier" data-email="courier@deedavis.biz" onclick="pickSvc(this)">
-      <div class="icon">📦</div><div class="name">Courier & Logistics</div>
+      <div class="icon">📦</div><div class="name">Courier &amp; Delivery</div>
     </div>
     <div class="svc-card" data-svc="background" data-email="screening@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">🔍</div><div class="name">Background Screening</div>
@@ -799,11 +890,13 @@
     <div class="opt-btn" onclick="pickUrgency(this,'emergency')">▲ Emergency</div>
   </div>
 
-  <div class="section-label">Response Type</div>
-  <div class="option-row">
-    <div class="opt-btn sel" data-tier="1" onclick="pickTier(this,1)">🏃 Mobile — We Come to You</div>
-    <div class="opt-btn" data-tier="2" onclick="pickTier(this,2)">🚗 Coordinated Ride</div>
-    <div class="opt-btn" data-tier="3" onclick="pickTier(this,3)">🏢 On-Site Group Event</div>
+  <div id="response-type-section">
+    <div class="section-label" id="response-type-label">Response Type</div>
+    <div class="option-row" id="response-type-row">
+      <div class="opt-btn sel" data-tier="1" onclick="pickTier(this,1)">🏃 Mobile — We Come to You</div>
+      <div class="opt-btn" data-tier="2" onclick="pickTier(this,2)">🚗 Coordinated Ride</div>
+      <div class="opt-btn" data-tier="3" onclick="pickTier(this,3)">🏢 On-Site Group Event</div>
+    </div>
   </div>
 
   <div class="nav-row">
@@ -836,6 +929,7 @@
     </div>
   </div>
 
+  <div id="results-delivery-section">
   <div class="section-label">Results Delivery</div>
   <div class="card">
     <div class="help-text">Results go to your email above. Need copies sent to others?</div>
@@ -857,6 +951,7 @@
       <div class="field"><label>Fax Number</label><input type="tel" id="fax-number" placeholder="(000) 000-0000"></div>
       <div class="field"><label>Fax Attention To</label><input type="text" id="fax-attn" placeholder="Name or department"></div>
     </div>
+  </div>
   </div>
 
   <div class="section-label" id="details-label" style="display:none;">Service Details</div>
@@ -915,6 +1010,69 @@
         <div class="field"><label>Notary Service</label><select id="notary-type"><option value="">Select</option><option>Mobile Notary</option><option>Remote Online Notarization (RON)</option><option>Loan Signing</option><option>Apostille Coordination</option><option>Permit Running</option><option>Multiple — see notes</option></select></div>
       </div>
     </div>
+    <div class="dynamic-section" id="nemt-fields">
+      <p class="help-text" style="margin-top:0">Medicaid/plan and other <strong>medical</strong> trips — all route to <strong>nemt@</strong>. Stadiums, festivals, and venue programs → use the <strong>ARENA</strong> card.</p>
+      <div class="form-row full">
+        <div class="field" id="field-nemt-program"><label>Coverage / Program Type <span class="req">*</span></label>
+          <select id="nemt-program">
+            <option value="">Select</option>
+            <option value="medicaid">Medicaid / MCO / Plan NEMT</option>
+            <option value="medical">Other medical mobility (dialysis, VA, senior medical, etc.)</option>
+          </select>
+          <div class="error-msg">Required</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="field-nemt-trip-type"><label>Trip Type <span class="req">*</span></label><select id="nemt-trip-type"><option value="">Select</option><option>Ambulatory</option><option>Wheelchair (WAV)</option><option>Stretcher / BLS</option></select><div class="error-msg">Required</div></div>
+        <div class="field"><label>Leg Type</label><select id="nemt-leg-type"><option>One-way</option><option>Return trip (schedule separately)</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Appointment Purpose</label><select id="nemt-purpose"><option value="">Select</option><option>Medical appointment</option><option>Dialysis</option><option>Pharmacy</option><option>Lab / imaging</option><option>Therapy / rehab</option><option>Discharge</option><option>Other</option></select></div>
+        <div class="field"><label>Member ID / Medicaid #</label><input type="text" id="nemt-member-id" placeholder="If applicable"></div>
+      </div>
+    </div>
+    <div class="dynamic-section" id="arena-fields">
+      <p class="help-text" style="margin-top:0"><strong>ARENA</strong> — Access, Routing &amp; Event Navigation Administration. Trip execution runs on the <strong>PRIME</strong> framework. Pricing is <strong>dynamic</strong> (mileage, timing, scale, PUDO complexity, payment model) — no flat rates; proposal follows consultation. Routes to <strong>rides@</strong>.</p>
+      <div class="form-row">
+        <div class="field" id="field-event-type"><label>Event Type <span class="req">*</span></label>
+          <select id="event-type"><option value="">Select</option><option>Stadium / arena</option><option>Festival / concert</option><option>Convention center</option><option>University / campus</option><option>Municipal / civic event</option><option>Corporate / private event</option><option>Other</option></select>
+          <div class="error-msg">Required</div>
+        </div>
+        <div class="field" id="field-event-scope"><label>Service Scope <span class="req">*</span></label>
+          <select id="event-scope"><option value="">Select</option><option>PUDO design &amp; planning</option><option>Day-of trip dispatch</option><option>Rider / driver communications</option><option>Full event mobility program</option><option>Consultation only</option></select>
+          <div class="error-msg">Required</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="field-event-name"><label>Event Name <span class="req">*</span></label><input type="text" id="event-name" placeholder="e.g. Summer Music Festival"><div class="error-msg">Required</div></div>
+        <div class="field"><label>Expected Riders / Volume</label><input type="text" id="event-volume" placeholder="e.g. 500–2,000 trips/day"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Venue / Event Location</label><input type="text" id="event-venue" placeholder="Venue name and city"></div>
+        <div class="field"><label>Trip Payment Model</label>
+          <select id="event-payment-model"><option value="">Select</option><option>Passenger pays</option><option>Organizer / venue pays</option><option>Split / sponsor model</option><option>Undecided — include in proposal</option></select>
+        </div>
+      </div>
+      <div class="form-row full">
+        <label class="autopay-toggle" style="margin:0;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg)">
+          <input type="checkbox" id="event-valet" onchange="if(typeof renderPaymentStep==='function'&&document.getElementById('step-4')?.classList.contains('active'))renderPaymentStep()">
+          <div class="autopay-toggle-text">
+            <div class="autopay-toggle-title">Include PRIME Valet (optional add-on)</div>
+            <div class="autopay-toggle-sub">Guest vehicle staging, VIP service, coordinated with PUDO zones — fulfilled through DEPOINTE under the same DDI contract.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="dynamic-section" id="courier-fields">
+      <p class="help-text" style="margin-top:0">Medical &amp; pharma logistics route to <strong>courier@</strong>; legal / court / title document delivery routes to <strong>notary@</strong> (3D Ink lane).</p>
+      <div class="form-row">
+        <div class="field" id="field-courier-type"><label>Delivery Type <span class="req">*</span></label><select id="courier-type" onchange="syncCourierRoutingEmail()"><option value="">Select</option><optgroup label="Medical &amp; Pharma — courier@"><option>Medical specimen / lab</option><option>Pharmacy / Rx</option><option>Medical supplies</option><option>STAT / same-day (medical)</option><option>Scheduled route</option></optgroup><optgroup label="Legal &amp; Documents — notary@"><option>Legal documents</option><option>Court filing / courthouse</option><option>Title / escrow documents</option><option>Permit running / agency filing</option></optgroup><option>Other</option></select><div class="error-msg">Required</div></div>
+        <div class="field"><label>Temperature Control</label><select id="courier-temp"><option>Not required</option><option>Refrigerated (2–8°C)</option><option>Frozen</option><option>Room temperature</option></select></div>
+      </div>
+      <div class="form-row full">
+        <div class="field"><label>Package Description</label><input type="text" id="courier-package" placeholder="Contents, quantity, special handling"></div>
+      </div>
+    </div>
   </div>
 
   <div class="nav-row">
@@ -925,24 +1083,24 @@
 
 <!-- ═══════════ FORM: STEP 3 — SUBJECT + SCHEDULING ═══════════ -->
 <div class="wizard-step" id="step-3">
-  <div class="step-title">Subject & Scheduling</div>
-  <div class="step-subtitle">Provide the subject's information and your preferred date and time.</div>
-  <div class="card">
+  <div class="step-title" id="step3-title">Subject & Scheduling</div>
+  <div class="step-subtitle" id="step3-subtitle">Provide the subject's information and your preferred date and time.</div>
+  <div class="card" id="subject-card">
     <div class="donor-count-wrap" id="donor-count-wrap">
       <div class="donor-count-label">Estimated Number of Subjects</div>
       <input type="number" class="donor-count-input" id="donor-count" placeholder="0" min="1">
     </div>
-    <div class="form-row">
-      <div class="field"><label>Subject First Name <span class="req">*</span></label><input type="text" id="donor-first" placeholder="First"><div class="error-msg">Required</div></div>
-      <div class="field"><label>Subject Last Name <span class="req">*</span></label><input type="text" id="donor-last" placeholder="Last"><div class="error-msg">Required</div></div>
+    <div class="form-row" id="subject-name-row">
+      <div class="field" id="field-donor-first"><label><span id="label-donor-first">Subject First Name</span> <span class="req" id="req-donor-first">*</span></label><input type="text" id="donor-first" placeholder="First"><div class="error-msg">Required</div></div>
+      <div class="field" id="field-donor-last"><label><span id="label-donor-last">Subject Last Name</span> <span class="req" id="req-donor-last">*</span></label><input type="text" id="donor-last" placeholder="Last"><div class="error-msg">Required</div></div>
     </div>
-    <div class="form-row triple">
-      <div class="field"><label>Date of Birth</label><input type="date" id="donor-dob"></div>
-      <div class="field"><label>Phone</label><input type="tel" id="donor-phone" placeholder="(000) 000-0000"></div>
-      <div class="field"><label>Subject ID / Employee #</label><input type="text" id="donor-id" placeholder="Optional"></div>
+    <div class="form-row triple" id="subject-meta-row">
+      <div class="field" id="field-wrap-donor-dob"><label><span id="label-donor-dob">Date of Birth</span> <span class="req" id="req-donor-dob" style="display:none">*</span></label><input type="date" id="donor-dob"><div class="error-msg">Required</div></div>
+      <div class="field" id="field-wrap-donor-phone"><label><span id="label-donor-phone">Phone</span> <span class="req" id="req-donor-phone" style="display:none">*</span></label><input type="tel" id="donor-phone" placeholder="(000) 000-0000"><div class="error-msg">Required</div></div>
+      <div class="field" id="field-wrap-donor-id"><label><span id="label-donor-id">Subject ID / Employee #</span></label><input type="text" id="donor-id" placeholder="Optional"></div>
     </div>
-    <div class="form-row full">
-      <div class="field"><label>Subject Current Location</label><input type="text" id="donor-location" placeholder="Street address or landmark"></div>
+    <div class="form-row full" id="field-wrap-donor-location">
+      <div class="field"><label><span id="label-donor-location">Subject Current Location</span> <span class="req" id="req-donor-location" style="display:none">*</span></label><input type="text" id="donor-location" placeholder="Street address or landmark"><div class="error-msg">Required</div></div>
     </div>
     <div class="dynamic-section" id="tier2-fields">
       <div class="form-row">
@@ -950,23 +1108,26 @@
           <select id="impairment-reason"><option value="">Select</option><option>Post-accident</option><option>Reasonable suspicion</option><option>No personal transportation</option><option>Safety protocol</option><option>Other (see notes)</option></select>
         </div>
         <div class="field"><label>Transport Preference</label>
-          <select id="transport-provider"><option value="">Auto-assign</option><option>Uber Health</option><option>DDI Fleet</option><option>Local Partner</option></select>
+          <select id="transport-provider"><option value="">Auto-assign — DDI-managed network</option><option>DDI-managed mobility network</option><option>DDI Fleet</option><option>Local credentialed partner</option></select>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section-label">Scheduling</div>
-  <div class="card">
-    <div class="form-row triple">
-      <div class="field"><label>Date <span class="req">*</span></label><input type="date" id="sched-date"><div class="error-msg">Required</div></div>
-      <div class="field"><label>Time <span class="req">*</span></label><input type="time" id="sched-time"><div class="error-msg">Required</div></div>
-      <div class="field"><label>Time Zone</label>
+  <div class="section-label" id="scheduling-section-label">Scheduling</div>
+  <div class="card" id="scheduling-card">
+    <div class="form-row triple" id="sched-datetime-row">
+      <div class="field" id="field-sched-date"><label><span id="label-sched-date">Date</span> <span class="req" id="req-sched-date">*</span></label><input type="date" id="sched-date"><div class="error-msg">Required</div></div>
+      <div class="field" id="field-sched-time"><label><span id="label-sched-time">Time</span> <span class="req" id="req-sched-time">*</span></label><input type="time" id="sched-time"><div class="error-msg">Required</div></div>
+      <div class="field" id="field-wrap-sched-tz"><label>Time Zone</label>
         <select id="sched-tz"><option>Eastern (ET)</option><option>Central (CT)</option><option>Mountain (MT)</option><option>Pacific (PT)</option></select>
       </div>
     </div>
-    <div class="form-row full">
-      <div class="field"><label>Service Location <span class="req">*</span></label><input type="text" id="collection-site" placeholder="Lab, clinic, facility, or address"><div class="error-msg">Required</div></div>
+    <div class="form-row full" id="field-wrap-collection-site">
+      <div class="field"><label><span id="label-collection-site">Service Location</span> <span class="req" id="req-collection-site">*</span></label><input type="text" id="collection-site" placeholder="Lab, clinic, facility, or address"><div class="error-msg">Required</div></div>
+    </div>
+    <div class="form-row full" id="field-wrap-courier-pickup" style="display:none">
+      <div class="field"><label><span id="label-courier-pickup">Pickup Address</span> <span class="req" id="req-courier-pickup">*</span></label><input type="text" id="courier-pickup" placeholder="Where we collect the package"><div class="error-msg">Required</div></div>
     </div>
   </div>
 
@@ -978,8 +1139,13 @@
 
 <!-- ═══════════ FORM: STEP 4 — PAYMENT & BILLING ═══════════ -->
 <div class="wizard-step" id="step-4">
-  <div class="step-title">Payment & Billing</div>
-  <div class="step-subtitle">Review your service charges and complete payment — or confirm your contract account.</div>
+  <div class="step-title" id="step4-title">Payment & Billing</div>
+  <div class="step-subtitle" id="step4-subtitle">Review your service charges and complete payment — or confirm your contract account.</div>
+
+  <div class="pay-scoped-notice" id="pay-scoped-notice" style="display:none">
+    <strong>ARENA pricing is dynamic — no flat rates.</strong>
+    Too many variables (mileage, timing, scale, PUDO complexity, payment model, optional valet) to quote at intake. Submit your event details; DDI delivers a scoped proposal after consultation.
+  </div>
 
   <!-- Contract client bypass -->
   <div id="pay-contract-bypass" style="display:none">
@@ -1162,24 +1328,437 @@
 </div>
 
 <script>
+// Live API — PythonAnywhere NEXUS backend (POST /prism/intake → email to service routing address)
+const PRISM_API_PRODUCTION = 'https://deedavis.pythonanywhere.com';
+
 let activeSvc = 'testing', activeSubSvc = 'drug', activeUrgency = 'routine', activeTier = 1;
 let activeEmail = 'testing@deedavis.biz', knownClient = null, currentStep = 1;
+let gateUserEmail = sessionStorage.getItem('prism_gate_email') || '';
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let calSelectedIso = null;
+
+function getApiBase() {
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return 'http://localhost:8000';
+  }
+  return PRISM_API_PRODUCTION;
+}
+
+/** Where intake POST goes — Netlify function when portal is live; else PythonAnywhere / local API */
+function getIntakeSubmitUrl() {
+  const host = location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1') {
+    return `${getApiBase()}/prism/intake`;
+  }
+  if (host.endsWith('.netlify.app') || host === 'portal.deedavis.biz') {
+    return '/.netlify/functions/prism-intake';
+  }
+  return `${PRISM_API_PRODUCTION}/prism/intake`;
+}
 let clientData = null; // full client data from CRM lookup
 let mode = 'gate'; // 'gate' | 'dashboard' | 'form'
 
-const svcLabels = {'testing-drug':'Drug & Alcohol Testing','testing-occhealth':'Occupational Health','testing-lead':'Lead Screening','fingerprint':'Fingerprinting & Biometrics','dna':'DNA / Paternity','nemt':'Medical Transportation','courier':'Courier & Logistics','background':'Background Screening','credentialing':'Medical Credentialing','workforce':'Workforce Compliance','notary':'Notary & Documents'};
-const allDynamic = ['drug-detail-wrap','occhealth-fields','lead-fields','fingerprint-fields','dna-fields','background-fields','credential-fields','workforce-fields','notary-fields'];
+const NEMT_PROGRAM = {
+  medicaid: { email: 'nemt@deedavis.biz', lane: 'MOB-A', label: 'Medicaid / MCO / Plan NEMT' },
+  medical: { email: 'nemt@deedavis.biz', lane: 'NEMT', label: 'Other Medical Mobility' },
+};
+
+function getNemtProgramMeta() {
+  const program = rawVal('nemt-program');
+  return NEMT_PROGRAM[program] || { email: 'nemt@deedavis.biz', lane: '', label: '' };
+}
+
+const COURIER_LEGAL_TYPES = new Set([
+  'Legal documents',
+  'Court filing / courthouse',
+  'Title / escrow documents',
+  'Permit running / agency filing',
+]);
+
+function syncCourierRoutingEmail() {
+  if (activeSvc !== 'courier') return;
+  const dtype = document.getElementById('courier-type')?.value || '';
+  activeEmail = COURIER_LEGAL_TYPES.has(dtype) ? 'notary@deedavis.biz' : 'courier@deedavis.biz';
+}
+
+function getCourierDeliveryMeta() {
+  const dtype = rawVal('courier-type');
+  const isLegal = COURIER_LEGAL_TYPES.has(dtype);
+  return {
+    email: isLegal ? 'notary@deedavis.biz' : 'courier@deedavis.biz',
+    lane: isLegal ? 'LEGAL' : 'MEDICAL',
+    label: dtype,
+  };
+}
+
+const svcLabels = {
+  'testing-drug': 'Drug & Alcohol Testing',
+  'testing-occhealth': 'Occupational Health',
+  'testing-lead': 'Lead Screening',
+  'fingerprint': 'Fingerprinting & Biometrics',
+  'dna': 'DNA / Paternity',
+  'nemt': 'NEMT & Medical Mobility',
+  'arena': 'ARENA — Event Navigation Administration',
+  'courier': 'Courier & Delivery',
+  'background': 'Background Screening',
+  'credentialing': 'Medical Credentialing',
+  'workforce': 'Workforce Compliance',
+  'notary': 'Notary & Documents',
+};
+const allDynamic = ['drug-detail-wrap','occhealth-fields','lead-fields','fingerprint-fields','dna-fields','background-fields','credential-fields','workforce-fields','notary-fields','nemt-fields','arena-fields','courier-fields'];
+
+// Per-service form tailoring — controls visibility, labels, and required fields
+const SERVICE_PROFILES = {
+  'testing-drug': {
+    step1: { showResponseTypes: true, tiers: [1, 2, 3], defaultTier: 1 },
+    step2: { showResultsDelivery: true },
+    step3: {
+      title: 'Donor & Scheduling',
+      subtitle: 'Donor information and preferred collection date, time, and site.',
+      labels: { first: 'Donor First Name', last: 'Donor Last Name', dob: 'Date of Birth', phone: 'Donor Phone', id: 'Employee / CDL #', location: 'Donor Current Location', schedDate: 'Collection Date', schedTime: 'Collection Time', site: 'Collection Site / Facility' },
+      sitePlaceholder: 'Lab, clinic, on-site address, or facility name',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: true },
+      require: { first: true, last: true, dob: false, phone: false, location: false, date: true, time: true, site: true },
+      detailRequired: []
+    }
+  },
+  'testing-occhealth': {
+    step1: { showResponseTypes: true, tiers: [1, 2, 3], defaultTier: 1 },
+    step2: { showResultsDelivery: true },
+    step3: {
+      title: 'Employee & Scheduling',
+      subtitle: 'Employee information and exam appointment details.',
+      labels: { first: 'Employee First Name', last: 'Employee Last Name', dob: 'Date of Birth', phone: 'Employee Phone', id: 'Employee ID', location: 'Employee Location', schedDate: 'Exam Date', schedTime: 'Exam Time', site: 'Exam Location / Clinic' },
+      sitePlaceholder: 'Clinic, Concentra, or on-site location',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: false, date: true, time: true, site: true },
+      detailRequired: ['occ-exam-type']
+    }
+  },
+  'testing-lead': {
+    step1: { showResponseTypes: true, tiers: [1, 2], defaultTier: 1 },
+    step2: { showResultsDelivery: true },
+    step3: {
+      title: 'Patient & Scheduling',
+      subtitle: 'Patient information and screening appointment details.',
+      labels: { first: 'Patient First Name', last: 'Patient Last Name', dob: 'Date of Birth', phone: 'Guardian / Contact Phone', id: 'Patient ID', location: 'Patient Address', schedDate: 'Screening Date', schedTime: 'Screening Time', site: 'Screening Location' },
+      sitePlaceholder: 'Clinic, mobile draw location, or site address',
+      show: { dob: true, phone: true, id: false, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: true, phone: true, location: false, date: true, time: true, site: true },
+      detailRequired: ['lead-test-type']
+    }
+  },
+  'fingerprint': {
+    step1: { showResponseTypes: true, tiers: [1, 2], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Applicant & Scheduling',
+      subtitle: 'Who is being fingerprinted and when/where should collection occur.',
+      labels: { first: 'First Name', last: 'Last Name', dob: 'Date of Birth', phone: 'Contact Phone', id: 'ORI / Agency Code', location: 'Current Location', schedDate: 'Appointment Date', schedTime: 'Appointment Time', site: 'Fingerprint Location' },
+      sitePlaceholder: 'Mobile location or livescan site address',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: true, phone: true, location: false, date: true, time: true, site: true },
+      detailRequired: ['fp-type']
+    }
+  },
+  'dna': {
+    step1: { showResponseTypes: true, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: true },
+    step3: {
+      title: 'Participant & Scheduling',
+      subtitle: 'Participant information and collection appointment.',
+      labels: { first: 'Participant First Name', last: 'Participant Last Name', dob: 'Date of Birth', phone: 'Contact Phone', id: 'Case / Court Reference #', location: 'Collection Address', schedDate: 'Collection Date', schedTime: 'Collection Time', site: 'Collection Site' },
+      sitePlaceholder: 'Collection location or mobile address',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: true, phone: true, location: true, date: true, time: true, site: true },
+      detailRequired: ['dna-type']
+    }
+  },
+  'notary': {
+    step1: { showResponseTypes: true, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Signing Details',
+      subtitle: 'Signer information and where/when notarization should occur.',
+      labels: { first: 'Signer First Name', last: 'Signer Last Name', dob: 'Date of Birth', phone: 'Contact Phone', id: 'File / Loan #', location: 'Signing Address', schedDate: 'Signing Date', schedTime: 'Signing Time', site: 'Signing Location' },
+      sitePlaceholder: 'Property, office, or signing address',
+      show: { dob: false, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: true, date: true, time: true, site: true },
+      detailRequired: ['notary-type']
+    }
+  },
+  'nemt': {
+    step1: { showResponseTypes: false, tiers: [2], defaultTier: 2 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Member & Trip Details',
+      subtitle: 'Passenger information, pickup/drop-off addresses, and appointment time.',
+      labels: { first: 'Member First Name', last: 'Member Last Name', dob: 'Date of Birth', phone: 'Member Phone', id: 'Member ID / Medicaid #', location: 'Pickup Address', schedDate: 'Trip Date', schedTime: 'Pickup Time', site: 'Drop-off / Appointment Address' },
+      sitePlaceholder: 'Medical facility, pharmacy, or destination address',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: true, date: true, time: true, site: true },
+      detailRequired: ['nemt-program', 'nemt-trip-type']
+    }
+  },
+  'arena': {
+    step1: { showResponseTypes: false, tiers: [2, 3], defaultTier: 2 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Event & Contact Details',
+      subtitle: 'Event information, venue, and day-of contact for ARENA program coordination.',
+      labels: { first: 'Contact First Name', last: 'Contact Last Name', dob: 'Date of Birth', phone: 'Day-of Phone', id: 'Event / PO Reference #', location: 'Primary Venue Address', schedDate: 'Event Start Date', schedTime: 'Load-in / Start Time', site: 'Primary PUDO / Staging Area' },
+      sitePlaceholder: 'Main pickup/drop-off zone or staging lot',
+      show: { dob: false, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: true, date: true, time: true, site: true },
+      detailRequired: ['event-type', 'event-scope', 'event-name']
+    }
+  },
+  'courier': {
+    step1: { showResponseTypes: true, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Pickup & Delivery',
+      subtitle: 'Package details, pickup window, and delivery destination.',
+      labels: { first: 'Contact First Name', last: 'Contact Last Name', dob: 'Date of Birth', phone: 'Contact Phone', id: 'Reference / PO #', location: 'Pickup Address', schedDate: 'Pickup Date', schedTime: 'Pickup Time', site: 'Delivery Address' },
+      sitePlaceholder: 'Delivery destination address',
+      show: { dob: false, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: true, date: true, time: true, site: true },
+      detailRequired: ['courier-type']
+    }
+  },
+  'background': {
+    step1: { showResponseTypes: true, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: true },
+    step3: {
+      title: 'Applicant Information',
+      subtitle: 'Applicant details for background screening.',
+      labels: { first: 'Applicant First Name', last: 'Applicant Last Name', dob: 'Date of Birth', phone: 'Applicant Phone', id: 'Employee / Applicant ID', location: 'Current City, State', schedDate: 'Requested Start Date', schedTime: 'Preferred Time', site: 'Work Location / Jurisdiction' },
+      sitePlaceholder: 'City, county, or work site (for jurisdiction)',
+      show: { dob: true, phone: false, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: true, phone: false, location: false, date: false, time: false, site: false },
+      detailRequired: ['bg-type']
+    }
+  },
+  'credentialing': {
+    step1: { showResponseTypes: false, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Provider Information',
+      subtitle: 'Provider details for credentialing services.',
+      labels: { first: 'Provider First Name', last: 'Provider Last Name', dob: 'Date of Birth', phone: 'Provider Phone', id: 'NPI / License #', location: 'Primary Practice State', schedDate: 'Target Start Date', schedTime: 'Preferred Contact Time', site: 'Primary Practice Location' },
+      sitePlaceholder: 'Hospital, clinic, or practice address',
+      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: false, date: false, time: false, site: false },
+      detailRequired: ['cred-type', 'cred-provider']
+    }
+  },
+  'workforce': {
+    step1: { showResponseTypes: false, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Program Contact',
+      subtitle: 'Primary contact for workforce compliance services.',
+      labels: { first: 'Contact First Name', last: 'Contact Last Name', dob: 'Date of Birth', phone: 'Contact Phone', id: 'Company / DOT #', location: 'Company Location', schedDate: 'Preferred Start Date', schedTime: 'Preferred Time', site: 'Primary Work Site' },
+      sitePlaceholder: 'Terminal, yard, or headquarters',
+      show: { dob: false, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, location: false, date: false, time: false, site: false },
+      detailRequired: ['wf-type']
+    }
+  }
+};
+
+function getServiceProfile() {
+  return SERVICE_PROFILES[getSvcKey()] || SERVICE_PROFILES['testing-drug'];
+}
+
+function setVisible(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? '' : 'none';
+}
+
+function setRequiredMarker(reqId, required) {
+  const el = document.getElementById(reqId);
+  if (el) el.style.display = required ? '' : 'none';
+}
+
+function syncTierButtons(tier) {
+  document.querySelectorAll('#response-type-row .opt-btn').forEach(btn => {
+    const t = parseInt(btn.dataset.tier, 10);
+    btn.classList.toggle('sel', t === tier);
+  });
+}
+
+function applyServiceProfile() {
+  const p = getServiceProfile();
+  const s3 = p.step3;
+
+  // Step 1 — response type options
+  const respSection = document.getElementById('response-type-section');
+  if (respSection) respSection.style.display = p.step1.showResponseTypes ? '' : 'none';
+  document.querySelectorAll('#response-type-row .opt-btn').forEach(btn => {
+    const t = parseInt(btn.dataset.tier, 10);
+    btn.style.display = p.step1.tiers.includes(t) ? '' : 'none';
+  });
+  if (!p.step1.tiers.includes(activeTier)) {
+    activeTier = p.step1.defaultTier;
+    syncTierButtons(activeTier);
+  }
+
+  // Step 2 — results delivery
+  setVisible('results-delivery-section', p.step2.showResultsDelivery);
+
+  // Step 3 — titles & labels
+  const t3t = document.getElementById('step3-title');
+  const t3s = document.getElementById('step3-subtitle');
+  if (t3t) t3t.textContent = s3.title;
+  if (t3s) t3s.textContent = s3.subtitle;
+  const L = s3.labels;
+  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  setText('label-donor-first', L.first);
+  setText('label-donor-last', L.last);
+  setText('label-donor-dob', L.dob);
+  setText('label-donor-phone', L.phone);
+  setText('label-donor-id', L.id);
+  setText('label-donor-location', L.location);
+  setText('label-sched-date', L.schedDate);
+  setText('label-sched-time', L.schedTime);
+  setText('label-collection-site', L.site);
+  const siteInput = document.getElementById('collection-site');
+  if (siteInput) siteInput.placeholder = s3.sitePlaceholder || '';
+
+  // Step 3 — field visibility
+  setVisible('field-wrap-donor-dob', s3.show.dob);
+  setVisible('field-wrap-donor-phone', s3.show.phone);
+  setVisible('field-wrap-donor-id', s3.show.id !== false);
+  setVisible('field-wrap-donor-location', s3.show.location);
+  setVisible('scheduling-section-label', s3.show.scheduling);
+  setVisible('scheduling-card', s3.show.scheduling);
+  setVisible('field-wrap-courier-pickup', !!s3.show.courierPickup);
+  setVisible('tier2-fields', !!s3.show.tier2DrugTransport && activeTier === 2);
+  document.getElementById('donor-count-wrap').style.display = (activeTier === 3 && p.step1.tiers.includes(3)) ? 'flex' : 'none';
+
+  // Required markers
+  const R = s3.require;
+  setRequiredMarker('req-donor-first', R.first);
+  setRequiredMarker('req-donor-last', R.last);
+  setRequiredMarker('req-donor-dob', R.dob);
+  setRequiredMarker('req-donor-phone', R.phone);
+  setRequiredMarker('req-donor-location', R.location);
+  setRequiredMarker('req-sched-date', R.date);
+  setRequiredMarker('req-sched-time', R.time);
+  setRequiredMarker('req-collection-site', R.site);
+  setRequiredMarker('req-courier-pickup', !!s3.show.courierPickup && R.location);
+}
+
+function validateField(id, type, required) {
+  const el = document.getElementById(id);
+  if (!el) return true;
+  const field = el.closest('.field');
+  if (!required) {
+    if (field) field.classList.remove('error');
+    return true;
+  }
+  const v = el.value.trim();
+  let valid = v.length > 0;
+  if (type === 'email') valid = valid && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if (field) field.classList.toggle('error', !valid);
+  if (!valid) { el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 400); }
+  return valid;
+}
 
 const SERVICE_LABELS = {
   dot: 'DOT Drug Test', non_dot: 'Non-DOT Drug Test', random: 'Random Selection',
   pre_employment: 'Pre-Employment', post_accident: 'Post-Accident',
   return_to_duty: 'Return to Duty', reasonable_suspicion: 'Reasonable Suspicion',
   follow_up: 'Follow-Up', fingerprint: 'Fingerprinting', dna: 'DNA Testing',
-  background: 'Background Check', notary: 'Notary', nemt: 'NEMT',
+  background: 'Background Check', notary: 'Notary', nemt: 'NEMT', arena: 'ARENA',
   courier: 'Courier', occ_health: 'Occupational Health', credentialing: 'Credentialing'
 };
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function getOrdersMyUrl(email) {
+  const host = location.hostname;
+  const q = `email=${encodeURIComponent(email)}`;
+  if (host.endsWith('.netlify.app') || host === 'portal.deedavis.biz') {
+    return `/.netlify/functions/prism-orders-my?${q}`;
+  }
+  return `${getApiBase()}/prism/orders/my?${q}`;
+}
+
+function parseOrderDate(order) {
+  const raw = order.date || order.sched_date || '';
+  if (!raw || raw === '—') return null;
+  if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+  const m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return `${m[3]}-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}`;
+  const d = new Date(raw);
+  return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+}
+
+function orderDisplayLabel(o) {
+  return o.service_label || SERVICE_LABELS[o.type] || o.type || 'Service';
+}
+
+function mergeOrdersById(a, b) {
+  const map = new Map();
+  [...a, ...b].forEach(o => { if (o && o.id) map.set(o.id, o); });
+  return Array.from(map.values()).sort((x, y) => {
+    const dx = parseOrderDate(x) || x.created_at || '';
+    const dy = parseOrderDate(y) || y.created_at || '';
+    return String(dy).localeCompare(String(dx));
+  });
+}
+
+function loadLocalOrders(email) {
+  if (!email) return [];
+  try {
+    const all = JSON.parse(localStorage.getItem('prism_my_orders') || '{}');
+    return all[email.toLowerCase()] || [];
+  } catch { return []; }
+}
+
+function saveLocalOrder(email, order) {
+  if (!email || !order?.id) return;
+  const key = email.toLowerCase();
+  const all = JSON.parse(localStorage.getItem('prism_my_orders') || '{}');
+  all[key] = mergeOrdersById([order], all[key] || []);
+  localStorage.setItem('prism_my_orders', JSON.stringify(all));
+}
+
+function buildPortalOrderFromSubmit(confNum, svcKey, svcLabel) {
+  const statusRaw = 'pending';
+  return {
+    id: confNum,
+    type: svcKey,
+    service_key: svcKey,
+    service_label: svcLabel,
+    subject: `${val('donor-first')} ${val('donor-last')}`.trim() || '—',
+    date: val('sched-date') !== '—' ? val('sched-date') : new Date().toLocaleDateString(),
+    time: val('sched-time') !== '—' ? val('sched-time') : '',
+    timezone: val('sched-tz') !== '—' ? val('sched-tz') : '',
+    location: val('collection-site') !== '—' ? val('collection-site') : val('donor-location'),
+    status: statusRaw,
+    priority: activeUrgency.toUpperCase(),
+    created_at: new Date().toISOString(),
+  };
+}
+
+async function fetchAndMergeOrders(email) {
+  if (!email || !clientData) return;
+  const local = loadLocalOrders(email);
+  let remote = [];
+  try {
+    const res = await fetch(getOrdersMyUrl(email));
+    if (res.ok) {
+      const data = await res.json();
+      remote = data.orders || [];
+    }
+  } catch (_) { /* offline — local only */ }
+  clientData.orders = mergeOrdersById(local, remote);
+}
 
 // Service pricing — from DDI service catalog
 const SERVICE_PRICING = {
@@ -1188,7 +1767,30 @@ const SERVICE_PRICING = {
   'testing-lead': { label: 'Lead Screening', base: 95.00 },
   'fingerprint': { label: 'Fingerprinting', base: 75.00 },
   'dna': { label: 'DNA / Paternity', base: 350.00 },
-  'nemt': { label: 'Medical Transportation', base: 45.00 },
+  'nemt': { label: 'NEMT & Medical Mobility', base: 45.00 },
+  'arena': {
+    label: 'ARENA Event Program',
+    scoped: true,
+    factorGroups: [
+      {
+        title: 'Trip & Mobility Variables',
+        items: [
+          'Mileage — trip distance drives fulfillment cost',
+          'Event timing — surge, peak windows, after-hours',
+          'Who\'s paying — passenger, organizer, or split',
+          'Event scale — attendee volume (500 vs. 50,000)'
+        ]
+      },
+      {
+        title: 'Program & Operations Variables',
+        items: [
+          'PUDO complexity — single gate vs. multi-entrance venue',
+          'DDI program management — comms, day-of command, scope',
+          'PRIME Valet (optional) — staffing, hours, venue size'
+        ]
+      }
+    ]
+  },
   'courier': { label: 'Courier & Logistics', base: 85.00 },
   'background': { label: 'Background Screening', base: 65.00 },
   'credentialing': { label: 'Medical Credentialing', base: 250.00 },
@@ -1289,30 +1891,30 @@ function lookupClient() {
   const email = document.getElementById('gate-email').value.trim().toLowerCase();
   if (!email || !email.includes('@')) { document.getElementById('gate-email').focus(); return; }
 
+  gateUserEmail = email;
+  sessionStorage.setItem('prism_gate_email', email);
+
   const loading = document.getElementById('gate-loading');
   const btn = document.getElementById('gate-btn');
   loading.style.display = 'block'; btn.disabled = true;
 
-  // Try CRM API first, fall back to mock data
-  const base = location.hostname === 'localhost' ? 'http://localhost:8000' : '';
-
-  // Fetch CRM + VERTEX billing in parallel
+  const base = getApiBase();
   const crmPromise = fetch(`${base}/prism/crm/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
   const billingPromise = fetch(`${base}/prism/billing/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
 
   Promise.all([crmPromise, billingPromise])
-    .then(([crmData, billingData]) => {
+    .then(async ([crmData, billingData]) => {
       loading.style.display = 'none'; btn.disabled = false;
 
       if (crmData && crmData.found) {
-        // Merge VERTEX billing data into CRM data
         if (billingData && billingData.found) {
           crmData.billing = billingData.billing;
           if (billingData.open_invoices) crmData.invoices = mergeInvoices(crmData.invoices, billingData.open_invoices);
         }
         clientData = crmData;
         knownClient = crmData.contact;
-        renderDashboard(crmData);
+        await fetchAndMergeOrders(email);
+        renderDashboard(clientData);
       } else {
         checkMockOrNew(email, billingData);
       }
@@ -1333,47 +1935,79 @@ function mergeInvoices(existing, fromVertex) {
 function checkMockOrNew(email, billingData) {
   if (MOCK_CLIENTS[email]) {
     clientData = MOCK_CLIENTS[email];
-    // If VERTEX returned billing data, merge it
     if (billingData && billingData.found) {
       clientData.billing = billingData.billing;
     }
     knownClient = clientData.contact;
-    renderDashboard(clientData);
+    fetchAndMergeOrders(email).then(() => renderDashboard(clientData));
   } else if (billingData && billingData.found) {
-    // VERTEX knows this client even if CRM doesn't
-    clientData = {
-      found: true,
-      contact: { email, company: billingData.client_name || '', name: '' },
-      billing: billingData.billing,
-      orders: [],
-      invoices: billingData.open_invoices || [],
-    };
-    knownClient = clientData.contact;
-    renderDashboard(clientData);
+    openDashboardForEmail(email, billingData);
   } else {
-    enterAsNew(email);
+    openDashboardForEmail(email, null);
   }
+}
+
+async function openDashboardForEmail(email, billingData) {
+  gateUserEmail = email;
+  sessionStorage.setItem('prism_gate_email', email);
+  clientData = {
+    found: true,
+    contact: {
+      email,
+      company: billingData?.client_name || '',
+      name: '',
+    },
+    billing: billingData?.found ? billingData.billing : null,
+    orders: [],
+    invoices: billingData?.open_invoices || [],
+  };
+  knownClient = clientData.contact;
+  await fetchAndMergeOrders(email);
+  renderDashboard(clientData);
+}
+
+function signOut() {
+  sessionStorage.removeItem('prism_gate_email');
+  gateUserEmail = '';
+  clientData = null;
+  knownClient = null;
+  mode = 'gate';
+  document.getElementById('client-dashboard').classList.remove('active');
+  document.getElementById('progress-wrap').classList.remove('active');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('entry-gate').style.display = '';
+  document.getElementById('gate-email').value = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.getElementById('gate-email').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') { e.preventDefault(); lookupClient(); }
 });
 
-function enterAsNew(email) {
+function enterAsNew(passedEmail, forceForm) {
+  const gateVal = document.getElementById('gate-email').value.trim().toLowerCase();
+  const email = (passedEmail || gateVal || '').trim().toLowerCase();
+  if (!forceForm && email && email.includes('@')) {
+    openDashboardForEmail(email, null);
+    return;
+  }
   mode = 'form';
   clientBillingTier = 'pay_at_booking';
   document.getElementById('entry-gate').style.display = 'none';
   document.getElementById('client-dashboard').classList.remove('active');
   document.getElementById('progress-wrap').classList.add('active');
-  document.getElementById('back-to-dash').classList.remove('visible');
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
   document.getElementById('step-1').classList.add('active');
   currentStep = 1;
   updateProgress(1);
-
-  if (email && typeof email === 'string') {
+  if (email && email.includes('@')) {
     document.getElementById('client-email').value = email;
+    if (!clientData) {
+      clientData = { found: true, contact: { email }, orders: [], invoices: [] };
+      knownClient = clientData.contact;
+    }
   }
+  document.getElementById('back-to-dash').classList.toggle('visible', !!clientData);
 }
 
 // ═══════ DASHBOARD RENDERING ═══════
@@ -1435,7 +2069,7 @@ function renderDashboard(data) {
           <div class="upcoming-day">${d.getDate()}</div>
         </div>
         <div class="upcoming-info">
-          <div class="upcoming-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="upcoming-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="upcoming-meta">${o.time || 'TBD'} · ${o.location || '—'}</div>
         </div>
         <div class="upcoming-badge ${badgeClass}">${o.status.replace('_',' ').toUpperCase()}</div>
@@ -1470,7 +2104,7 @@ function renderDashboard(data) {
       const resultClass = o.result === 'Negative' ? 'result-negative' : o.result === 'Positive' ? 'result-positive' : '';
       return `<tr>
         <td style="font-weight:600;font-size:12px;color:var(--text-muted)">${o.id}</td>
-        <td>${SERVICE_LABELS[o.type] || o.type}</td>
+        <td>${orderDisplayLabel(o)}</td>
         <td>${o.subject}</td>
         <td>${o.date}</td>
         <td class="${resultClass}">${o.result || '—'}</td>
@@ -1480,6 +2114,109 @@ function renderDashboard(data) {
     document.getElementById('recent-title').style.display = 'none';
     document.getElementById('recent-card').style.display = 'none';
   }
+
+  renderOrderCalendar(orders);
+}
+
+function renderOrderCalendar(orders) {
+  const label = document.getElementById('cal-month-label');
+  const grid = document.getElementById('cal-grid');
+  if (!label || !grid) return;
+
+  label.textContent = `${MONTHS_FULL[calMonth]} ${calYear}`;
+
+  const byDate = {};
+  (orders || []).forEach(o => {
+    const iso = parseOrderDate(o);
+    if (!iso) return;
+    if (!byDate[iso]) byDate[iso] = [];
+    byDate[iso].push(o);
+  });
+
+  const first = new Date(calYear, calMonth, 1);
+  const startPad = first.getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const todayIso = new Date().toISOString().slice(0, 10);
+  let html = '';
+
+  for (let i = 0; i < startPad; i++) {
+    html += '<div class="cal-day cal-empty"></div>';
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    const iso = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dayOrders = byDate[iso] || [];
+    const isToday = iso === todayIso;
+    const isSelected = iso === calSelectedIso;
+    let dots = '';
+    if (dayOrders.length) {
+      const statuses = new Set(dayOrders.map(o => o.status));
+      dots = '<div class="cal-day-dots">';
+      if (statuses.has('pending') || statuses.has('scheduled') || statuses.has('in_progress')) {
+        dots += `<span class="cal-dot pending" title="${dayOrders.length} order(s)"></span>`;
+      }
+      if (statuses.has('completed')) dots += '<span class="cal-dot completed"></span>';
+      if (!statuses.has('completed') && !statuses.has('pending') && !statuses.has('scheduled') && !statuses.has('in_progress')) {
+        dots += '<span class="cal-dot"></span>';
+      }
+      dots += '</div>';
+    }
+    html += `<div class="cal-day${isToday ? ' cal-today' : ''}${isSelected ? ' cal-selected' : ''}" data-iso="${iso}" onclick="selectCalDay('${iso}')">
+      <div class="cal-day-num">${day}</div>${dots}
+    </div>`;
+  }
+  grid.innerHTML = html;
+
+  if (calSelectedIso && byDate[calSelectedIso]) {
+    renderCalDayDetail(calSelectedIso, byDate[calSelectedIso]);
+  } else {
+    document.getElementById('cal-day-detail').classList.remove('active');
+  }
+}
+
+function selectCalDay(iso) {
+  calSelectedIso = iso;
+  const orders = clientData?.orders || [];
+  const dayOrders = orders.filter(o => parseOrderDate(o) === iso);
+  renderOrderCalendar(orders);
+  renderCalDayDetail(iso, dayOrders);
+}
+
+function renderCalDayDetail(iso, dayOrders) {
+  const panel = document.getElementById('cal-day-detail');
+  const title = document.getElementById('cal-day-detail-title');
+  const body = document.getElementById('cal-day-detail-body');
+  if (!panel || !title || !body) return;
+
+  if (!dayOrders.length) {
+    panel.classList.remove('active');
+    return;
+  }
+
+  const d = new Date(iso + 'T12:00:00');
+  title.textContent = `${MONTHS_FULL[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} — ${dayOrders.length} order${dayOrders.length > 1 ? 's' : ''}`;
+  body.innerHTML = dayOrders.map(o => {
+    const badge = (o.status || 'pending').replace('_', ' ').toUpperCase();
+    return `<div class="cal-order-item">
+      <div class="cal-order-time">${o.time || 'TBD'}</div>
+      <div class="cal-order-info">
+        <div class="cal-order-title">${orderDisplayLabel(o)} — ${o.subject}</div>
+        <div class="cal-order-meta">${o.id} · ${o.location || '—'} · ${badge}</div>
+      </div>
+    </div>`;
+  }).join('');
+  panel.classList.add('active');
+}
+
+function calPrevMonth() {
+  calMonth -= 1;
+  if (calMonth < 0) { calMonth = 11; calYear -= 1; }
+  renderOrderCalendar(clientData?.orders || []);
+}
+
+function calNextMonth() {
+  calMonth += 1;
+  if (calMonth > 11) { calMonth = 0; calYear += 1; }
+  renderOrderCalendar(clientData?.orders || []);
 }
 
 // ═══════ KPI PANEL LOGIC ═══════
@@ -1531,7 +2268,7 @@ function renderKpiPanel(type) {
       return `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:${s.bg};color:${s.color};font-weight:800;font-size:13px;">${MONTHS[d.getMonth()]}<br>${d.getDate()}</div>
         <div class="kpi-list-info">
-          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="kpi-list-sub">${o.time || 'TBD'} · ${o.location || '—'}</div>
           <div class="kpi-list-sub" style="margin-top:4px;"><strong>Order:</strong> ${o.id}</div>
         </div>
@@ -1550,7 +2287,7 @@ function renderKpiPanel(type) {
       html += pending.map(o => `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:var(--orange-light);color:var(--orange);">⏳</div>
         <div class="kpi-list-info">
-          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="kpi-list-sub">Scheduled: ${o.date} · ${o.location || '—'}</div>
         </div>
         <div class="kpi-list-right"><span class="kpi-list-badge badge-pending">PENDING</span></div>
@@ -1561,7 +2298,7 @@ function renderKpiPanel(type) {
       html += withResults.slice(0, 5).map(o => `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:var(--green-light);color:var(--green);">✓</div>
         <div class="kpi-list-info">
-          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="kpi-list-sub">${o.date} · Sent to ${c.email || '—'}</div>
         </div>
         <div class="kpi-list-right"><span class="kpi-list-badge badge-completed" style="background:var(--green-light);color:var(--green);">${o.result}</span></div>
@@ -1583,7 +2320,7 @@ function renderKpiPanel(type) {
       return `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:var(--green-light);color:var(--green);">✓</div>
         <div class="kpi-list-info">
-          <div class="kpi-list-title">${SERVICE_LABELS[o.type] || o.type} — ${o.subject}</div>
+          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="kpi-list-sub">${o.date} · ${o.location || '—'}</div>
           <div class="kpi-list-sub"><strong>Order:</strong> ${o.id}</div>
         </div>
@@ -1716,10 +2453,23 @@ function startNewRequest() {
   document.getElementById('step-1').classList.add('active');
   currentStep = 1;
   updateProgress(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showDashboard() {
   if (!clientData) return;
+  const email = clientData.contact?.email || gateUserEmail;
+  if (email) {
+    fetchAndMergeOrders(email).then(() => {
+      mode = 'dashboard';
+      document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('progress-wrap').classList.remove('active');
+      document.getElementById('client-dashboard').classList.add('active');
+      renderDashboard(clientData);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    return;
+  }
   mode = 'dashboard';
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
   document.getElementById('progress-wrap').classList.remove('active');
@@ -1738,19 +2488,24 @@ function pickSvc(el) {
   el.classList.add('active');
   document.getElementById('testing-sub').classList.toggle('visible', activeSvc === 'testing');
   showServiceDetails();
+  activeTier = getServiceProfile().step1.defaultTier;
+  syncTierButtons(activeTier);
+  applyServiceProfile();
+  syncCourierRoutingEmail();
 }
 function pickSub(el, sub) {
   activeSubSvc = sub;
   document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   showServiceDetails();
+  applyServiceProfile();
 }
 function showServiceDetails() {
   allDynamic.forEach(id => document.getElementById(id).classList.remove('visible'));
   const dc = document.getElementById('details-card');
   const dl = document.getElementById('details-label');
-  const key = activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc;
-  const map = {'testing-drug':'drug-detail-wrap','testing-occhealth':'occhealth-fields','testing-lead':'lead-fields','fingerprint':'fingerprint-fields','dna':'dna-fields','background':'background-fields','credentialing':'credential-fields','workforce':'workforce-fields','notary':'notary-fields'};
+  const key = getSvcKey();
+  const map = {'testing-drug':'drug-detail-wrap','testing-occhealth':'occhealth-fields','testing-lead':'lead-fields','fingerprint':'fingerprint-fields','dna':'dna-fields','background':'background-fields','credentialing':'credential-fields','workforce':'workforce-fields','notary':'notary-fields','nemt':'nemt-fields','arena':'arena-fields','courier':'courier-fields'};
   if (map[key]) { document.getElementById(map[key]).classList.add('visible'); dc.style.display = ''; dl.style.display = ''; }
   else { dc.style.display = 'none'; dl.style.display = 'none'; }
 }
@@ -1763,27 +2518,40 @@ function pickTier(el, n) {
   activeTier = n;
   el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
-  document.getElementById('tier2-fields').classList.toggle('visible', n === 2);
-  document.getElementById('donor-count-wrap').style.display = n === 3 ? 'flex' : 'none';
+  applyServiceProfile();
 }
 
 function validate(step) {
-  let ok = true;
-  const checks = {
-    2: [['client-email','email'],['client-name','text'],['client-contact','text'],['client-phone','text']],
-    3: [['donor-first','text'],['donor-last','text'],['sched-date','text'],['sched-time','text'],['collection-site','text']]
-  };
-  if (!checks[step]) return true;
-  checks[step].forEach(([id, type]) => {
-    const el = document.getElementById(id);
-    const field = el.closest('.field');
-    const v = el.value.trim();
-    let valid = v.length > 0;
-    if (type === 'email') valid = valid && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    field.classList.toggle('error', !valid);
-    if (!valid) { ok = false; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 400); }
-  });
-  return ok;
+  if (step === 2) {
+    let ok = true;
+    ok = validateField('client-email', 'email', true) && ok;
+    ok = validateField('client-name', 'text', true) && ok;
+    ok = validateField('client-contact', 'text', true) && ok;
+    ok = validateField('client-phone', 'text', true) && ok;
+    const p = getServiceProfile();
+    (p.step3.detailRequired || []).forEach(id => {
+      ok = validateField(id, 'text', true) && ok;
+    });
+    return ok;
+  }
+  if (step === 3) {
+    const p = getServiceProfile();
+    const R = p.step3.require;
+    let ok = true;
+    if (R.first) ok = validateField('donor-first', 'text', true) && ok;
+    if (R.last) ok = validateField('donor-last', 'text', true) && ok;
+    if (R.dob && p.step3.show.dob) ok = validateField('donor-dob', 'text', true) && ok;
+    if (R.phone && p.step3.show.phone) ok = validateField('donor-phone', 'text', true) && ok;
+    if (R.location && p.step3.show.location) ok = validateField('donor-location', 'text', true) && ok;
+    if (p.step3.show.scheduling) {
+      if (R.date) ok = validateField('sched-date', 'text', true) && ok;
+      if (R.time) ok = validateField('sched-time', 'text', true) && ok;
+      if (R.site) ok = validateField('collection-site', 'text', true) && ok;
+    }
+    if (p.step3.show.courierPickup && R.location) ok = validateField('courier-pickup', 'text', true) && ok;
+    return ok;
+  }
+  return true;
 }
 
 function updateProgress(step) {
@@ -1810,7 +2578,8 @@ function nextStep(to, fromClick) {
   currentStep = to;
   updateProgress(to);
   window.scrollTo({top: 0, behavior: 'smooth'});
-  if (to === 2) showServiceDetails();
+  if (to === 2) { showServiceDetails(); applyServiceProfile(); }
+  if (to === 3) applyServiceProfile();
   if (to === 4) renderPaymentStep();
   if (to === 5) renderPaymentConfirmation();
 }
@@ -1827,16 +2596,87 @@ function renderPaymentConfirmation() {
 function goToStep(to, click) { if (click && to <= currentStep) nextStep(to); }
 
 function val(id) { const el = document.getElementById(id); return el ? el.value.trim() || '—' : '—'; }
+function rawVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function getSvcKey() { return activeSvc === 'testing' ? `testing-${activeSubSvc}` : activeSvc; }
 function genConfirmNum() { const n=new Date(),p=v=>String(v).padStart(2,'0'); return `PRISM-${n.getFullYear()}${p(n.getMonth()+1)}${p(n.getDate())}-${p(n.getHours())}${p(n.getMinutes())}-${Math.floor(Math.random()*9000)+1000}`; }
+
+function buildIntakeDetails(svcKey) {
+  const d = {};
+  if (svcKey === 'testing-drug') d.panel = rawVal('drug-panel');
+  if (svcKey === 'testing-occhealth') { d.exam_type = rawVal('occ-exam-type'); d.compliance = rawVal('occ-compliance'); }
+  if (svcKey === 'testing-lead') { d.lead_test_type = rawVal('lead-test-type'); d.program = rawVal('lead-program'); }
+  if (svcKey === 'fingerprint') { d.fp_type = rawVal('fp-type'); d.purpose = rawVal('fp-purpose'); }
+  if (svcKey === 'dna') { d.dna_type = rawVal('dna-type'); d.participants = rawVal('dna-participants'); }
+  if (svcKey === 'background') { d.screening_type = rawVal('bg-type'); d.purpose = rawVal('bg-purpose'); }
+  if (svcKey === 'credentialing') { d.credential_service = rawVal('cred-type'); d.provider_type = rawVal('cred-provider'); }
+  if (svcKey === 'workforce') { d.compliance_service = rawVal('wf-type'); d.industry = rawVal('wf-industry'); }
+  if (svcKey === 'notary') d.notary_service = rawVal('notary-type');
+  if (svcKey === 'nemt') {
+    const meta = getNemtProgramMeta();
+    d.program_type = meta.label || rawVal('nemt-program');
+    d.mobility_lane = meta.lane;
+    d.trip_type = rawVal('nemt-trip-type');
+    d.leg_type = rawVal('nemt-leg-type');
+    d.appointment_purpose = rawVal('nemt-purpose');
+    d.member_id = rawVal('nemt-member-id') || rawVal('donor-id');
+    d.pickup_address = rawVal('donor-location');
+    d.dropoff_address = rawVal('collection-site');
+  }
+  if (svcKey === 'arena') {
+    d.program = 'ARENA';
+    d.execution_framework = 'PRIME';
+    d.mobility_lane = 'ARENA';
+    d.event_type = rawVal('event-type');
+    d.event_scope = rawVal('event-scope');
+    d.event_name = rawVal('event-name');
+    d.expected_volume = rawVal('event-volume');
+    d.venue = rawVal('event-venue');
+    d.trip_payment_model = rawVal('event-payment-model');
+    d.prime_valet_requested = !!document.getElementById('event-valet')?.checked;
+    d.pricing_model = 'scoped_per_event';
+    d.pudo_staging = rawVal('collection-site');
+    d.venue_address = rawVal('donor-location');
+  }
+  if (svcKey === 'courier') {
+    const cm = getCourierDeliveryMeta();
+    d.delivery_type = rawVal('courier-type');
+    d.courier_lane = cm.lane;
+    d.routing_email = cm.email || activeEmail;
+    d.temperature = rawVal('courier-temp');
+    d.package_description = rawVal('courier-package');
+    d.pickup_address = rawVal('donor-location');
+    d.delivery_address = rawVal('collection-site');
+  }
+  Object.keys(d).forEach(k => { if (!d[k]) delete d[k]; });
+  return d;
+}
+
+function submitIntakeOrder(apiPayload) {
+  const url = getIntakeSubmitUrl();
+  return fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(apiPayload),
+  }).then(async (r) => {
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || `Server error (${r.status})`);
+    return data;
+  });
+}
 
 function dispatch() {
   const tierNames = {1:'Mobile — We Come to You',2:'Coordinated Ride',3:'On-Site Group Event'};
   const confNum = genConfirmNum();
   const svcKey = getSvcKey();
+  if (svcKey === 'courier') syncCourierRoutingEmail();
   const svcLabel = svcLabels[svcKey] || activeSvc;
 
-  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${confNum}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`,'----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`,'----------------------------------------','SUBJECT',`Name:         ${val('donor-first')} ${val('donor-last')}`,`DOB:          ${val('donor-dob')}`,`Phone:        ${val('donor-phone')}`,`ID:           ${val('donor-id')}`,`Location:     ${val('donor-location')}`];
+  const p = getServiceProfile();
+  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${confNum}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`];
+  if (p.step2.showResultsDelivery) {
+    lines.push('----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`);
+  }
+  lines.push('----------------------------------------','SUBJECT',`Name:         ${val('donor-first')} ${val('donor-last')}`,`DOB:          ${val('donor-dob')}`,`Phone:        ${val('donor-phone')}`,`ID:           ${val('donor-id')}`,`Location:     ${val('donor-location')}`);
   if (activeTier===2){lines.push(`Reason:       ${val('impairment-reason')}`);lines.push(`Transport:    ${val('transport-provider')}`);}
   if (activeTier===3) lines.push(`Count:        ${val('donor-count')}`);
   lines.push('----------------------------------------','SCHEDULING',`Date:         ${val('sched-date')}`,`Time:         ${val('sched-time')} ${val('sched-tz')}`,`Location:     ${val('collection-site')}`);
@@ -1849,16 +2689,38 @@ function dispatch() {
   if(svcKey==='credentialing'){lines.push(`Credential:   ${val('cred-type')}`);lines.push(`Provider:     ${val('cred-provider')}`);}
   if(svcKey==='workforce'){lines.push(`Service:      ${val('wf-type')}`);lines.push(`Industry:     ${val('wf-industry')}`);}
   if(svcKey==='notary') lines.push(`Notary:       ${val('notary-type')}`);
+  if(svcKey==='nemt'){const nm=getNemtProgramMeta();lines.push(`Program:      ${nm.label||val('nemt-program')}`);lines.push(`Mobility:     ${nm.lane||'—'}`);lines.push(`Trip Type:    ${val('nemt-trip-type')}`);lines.push(`Leg:          ${val('nemt-leg-type')}`);lines.push(`Purpose:      ${val('nemt-purpose')}`);lines.push(`Member ID:    ${val('nemt-member-id')}`);}
+  if(svcKey==='arena'){lines.push(`Program:      ARENA`);lines.push(`Execution:    PRIME`);lines.push(`Pricing:      Dynamic — scoped proposal after consultation`);lines.push(`Event Type:   ${val('event-type')}`);lines.push(`Event Name:   ${val('event-name')}`);lines.push(`Scope:        ${val('event-scope')}`);lines.push(`Volume:       ${val('event-volume')}`);lines.push(`Venue:        ${val('event-venue')}`);lines.push(`Trip Pay:     ${val('event-payment-model')}`);if(document.getElementById('event-valet')?.checked)lines.push(`Valet:        PRIME Valet requested (optional add-on)`);}
+  if(svcKey==='courier'){const cm=getCourierDeliveryMeta();lines.push(`Delivery:     ${val('courier-type')}`);lines.push(`Courier Lane: ${cm.lane||'—'}`);lines.push(`Route To:     ${activeEmail}`);lines.push(`Temp Control: ${val('courier-temp')}`);lines.push(`Package:      ${val('courier-package')}`);lines.push(`Pickup:       ${val('courier-pickup')}`);}
   const payConf = getPaymentConfirmation();
-  const { total: orderTotal } = calculateOrderTotal();
-  lines.push('----------------------------------------','BILLING',`Amount:       $${orderTotal.toFixed(2)}`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
+  const { total: orderTotal, scoped: orderScoped } = calculateOrderTotal();
+  if (orderScoped) {
+    lines.push('----------------------------------------','BILLING',`Amount:       Dynamic — proposal after consultation`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
+  } else {
+    lines.push('----------------------------------------','BILLING',`Amount:       $${orderTotal.toFixed(2)}`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
+  }
   if (overrideAccepted) lines.push(`Override:     ${document.getElementById('override-code-input')?.value || '—'}`);
   lines.push('----------------------------------------',`Notes:        ${val('notes')}`,'========================================');
   const plainText = lines.join('\n');
 
-  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:{},billing_tier:clientBillingTier,payment_method:selectedPayMethod||(clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal};
-  const base = location.hostname==='localhost'?'http://localhost:8000':'';
-  fetch(`${base}/prism/intake`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiPayload)}).then(r=>r.json()).then(res=>{if(res.success)showStatus('success','ORDER RECEIVED — Routed to PRISM');}).catch(()=>{showStatus('error','AUTO-SUBMIT UNAVAILABLE — Use email or copy below');});
+  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:buildIntakeDetails(svcKey),billing_tier:clientBillingTier,payment_method:selectedPayMethod||(orderScoped?'proposal':clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal,pricing_model:orderScoped?'scoped_per_event':''};
+  submitIntakeOrder(apiPayload)
+    .then(res => {
+      if (res.success) {
+        const clientEmail = val('client-email');
+        const portalOrder = buildPortalOrderFromSubmit(confNum, svcKey, svcLabel);
+        if (clientEmail && clientEmail !== '—') {
+          saveLocalOrder(clientEmail, portalOrder);
+          if (clientData && clientData.contact?.email === clientEmail.toLowerCase()) {
+            clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
+          }
+        }
+        showStatus('success', `ORDER RECEIVED — Email sent to ${activeEmail}`);
+      }
+    })
+    .catch(err => {
+      showStatus('error', `AUTO-SUBMIT FAILED — ${err.message || 'Use Email to DDI below'}`);
+    });
   document.getElementById('nf-confirmation').value=confNum;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
   const fd=new FormData(document.getElementById('netlify-form'));fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(()=>{});
 
@@ -1868,10 +2730,10 @@ function dispatch() {
   body+=row('Company',val('client-name'))+row('Contact',val('client-contact'))+row('Email',val('client-email'));
   const c1=val('cc-email-1'),c2=val('cc-email-2');if(c1!=='—')body+=row('CC',c1);if(c2!=='—')body+=row('CC',c2);
   body+='<hr class="confirm-divider">'+row('Subject',`${val('donor-first')} ${val('donor-last')}`)+row('Date',val('sched-date'))+row('Time',`${val('sched-time')} ${val('sched-tz')}`)+row('Location',val('collection-site'));
-  body+='<hr class="confirm-divider">'+row('Amount',`$${orderTotal.toFixed(2)}`)+row('Payment',payConf.title)+row('Status',payConf.detail);
+  body+='<hr class="confirm-divider">'+row('Amount',orderScoped?'Dynamic — proposal after consultation':`$${orderTotal.toFixed(2)}`)+row('Payment',payConf.title)+row('Status',payConf.detail);
   body+='<hr class="confirm-divider"><div class="copy-label">Order Summary</div>';
   body+=`<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
-  body+=`<div class="confirm-actions"><a class="btn-email-c" href="${mailto}" target="_blank">Email to DDI</a><button class="btn-copy-c" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">Copy</button><button class="btn-print-c" onclick="window.print()">Print</button><button class="btn-close-c" onclick="closeOverlay()">Close</button></div>`;
+  body+=`<div class="confirm-actions"><a class="btn-email-c" href="${mailto}" target="_blank">Email to DDI</a><button class="btn-copy-c" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">Copy</button><button class="btn-print-c" onclick="window.print()">Print</button><button class="btn-close-c" onclick="goToDashboardAfterSubmit()">View My Orders</button><button class="btn-close-c" onclick="closeOverlay()">Close</button></div>`;
   document.getElementById('confirm-num-display').textContent=confNum;
   document.getElementById('confirm-body').innerHTML=body;
   document.getElementById('overlay').classList.add('active');
@@ -1884,15 +2746,51 @@ function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(
 function escJs(s){return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');}
 function closeOverlay(){document.getElementById('overlay').classList.remove('active');}
 
+function goToDashboardAfterSubmit() {
+  closeOverlay();
+  const email = val('client-email');
+  if (email && email !== '—') {
+    if (!clientData) {
+      openDashboardForEmail(email.toLowerCase(), null);
+    } else {
+      showDashboard();
+    }
+  }
+}
+
 // ═══════ PAYMENT STEP LOGIC ═══════
 let selectedPayMethod = null;
 let overrideAccepted = false;
 let clientBillingTier = 'pay_at_booking'; // default for new clients
 
+function isScopedPricing(svcKey) {
+  const key = svcKey || getSvcKey();
+  return !!(SERVICE_PRICING[key] && SERVICE_PRICING[key].scoped);
+}
+
 function calculateOrderTotal() {
   const svcKey = getSvcKey();
   const pricing = SERVICE_PRICING[svcKey];
-  if (!pricing) return { lines: [{ desc: svcLabels[svcKey] || 'Service', amount: 125.00 }], total: 125.00 };
+  if (!pricing) return { lines: [{ desc: svcLabels[svcKey] || 'Service', amount: 125.00 }], total: 125.00, scoped: false };
+
+  if (pricing.scoped && pricing.factorGroups) {
+    const lines = [];
+    pricing.factorGroups.forEach(g => {
+      lines.push({ desc: g.title, amount: null, note: '', isGroupHeader: true });
+      g.items.forEach(item => {
+        if (item.includes('Valet') && item.includes('optional') && !document.getElementById('event-valet')?.checked) return;
+        lines.push({ desc: item, amount: null, note: 'Variable', isFactor: true });
+      });
+    });
+    return { lines, total: 0, scoped: true };
+  }
+
+  if (pricing.scoped && pricing.components) {
+    const lines = pricing.components
+      .filter(c => !c.optional || (c.field && document.getElementById(c.field)?.checked))
+      .map(c => ({ desc: c.desc, amount: null, note: c.note, optional: !!c.optional }));
+    return { lines, total: 0, scoped: true };
+  }
 
   const lines = [];
   let base = pricing.base;
@@ -1928,12 +2826,12 @@ function calculateOrderTotal() {
     lines.push({ desc: 'Emergency / After-Hours', amount: EMERGENCY_SURCHARGE });
   }
 
-  const total = lines.reduce((sum, l) => sum + l.amount, 0);
-  return { lines, total };
+  const total = lines.reduce((sum, l) => sum + (l.amount || 0), 0);
+  return { lines, total, scoped: false };
 }
 
 function renderPaymentStep() {
-  const { lines, total } = calculateOrderTotal();
+  const { lines, total, scoped } = calculateOrderTotal();
   const billing = clientData?.billing || null;
 
   // Determine billing tier
@@ -1947,12 +2845,34 @@ function renderPaymentStep() {
 
   // Render line items
   const lineItemsEl = document.getElementById('pay-line-items');
-  lineItemsEl.innerHTML = lines.map(l =>
-    `<div class="pay-line"><div class="pay-line-desc">${l.desc}</div><div class="pay-line-price">$${l.amount.toFixed(2)}</div></div>`
-  ).join('');
+  lineItemsEl.innerHTML = lines.map(l => {
+    if (l.isGroupHeader) {
+      return `<div class="pay-line" style="background:var(--bg);border-bottom:1px solid var(--border)"><div class="pay-line-desc" style="font-weight:700;color:var(--text);font-size:12px;text-transform:uppercase;letter-spacing:.04em">${l.desc}</div><div class="pay-line-price pay-line-scoped">Factors</div></div>`;
+    }
+    if (l.amount == null) {
+      return `<div class="pay-line"><div class="pay-line-desc" style="padding-left:${l.isFactor ? '8px' : '0'}">${l.desc}${l.optional ? ' <span style="opacity:.65">(optional)</span>' : ''}</div><div class="pay-line-price pay-line-scoped">${l.note || 'Variable'}</div></div>`;
+    }
+    return `<div class="pay-line"><div class="pay-line-desc">${l.desc}</div><div class="pay-line-price">$${l.amount.toFixed(2)}</div></div>`;
+  }).join('');
 
-  document.getElementById('pay-total-badge').textContent = `$${total.toFixed(2)}`;
-  document.getElementById('pay-total-amount').textContent = `$${total.toFixed(2)}`;
+  const scopedNotice = document.getElementById('pay-scoped-notice');
+  const step4Title = document.getElementById('step4-title');
+  const step4Sub = document.getElementById('step4-subtitle');
+  if (scoped) {
+    if (scopedNotice) scopedNotice.style.display = 'block';
+    if (step4Title) step4Title.textContent = 'Scoping & Proposal';
+    if (step4Sub) step4Sub.textContent = 'ARENA pricing is dynamic — no flat rates. Submit event details for a scoped proposal after consultation. No payment at intake.';
+    document.getElementById('pay-total-badge').textContent = 'Dynamic';
+    document.getElementById('pay-total-label').textContent = 'Your Quote';
+    document.getElementById('pay-total-amount').textContent = 'After Consultation';
+  } else {
+    if (scopedNotice) scopedNotice.style.display = 'none';
+    if (step4Title) step4Title.textContent = 'Payment & Billing';
+    if (step4Sub) step4Sub.textContent = 'Review your service charges and complete payment — or confirm your contract account.';
+    document.getElementById('pay-total-badge').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('pay-total-label').textContent = 'Total Due';
+    document.getElementById('pay-total-amount').textContent = `$${total.toFixed(2)}`;
+  }
 
   // Reset override state
   overrideAccepted = false;
@@ -1971,6 +2891,13 @@ function renderPaymentStep() {
   cardOnFile.style.display = 'none';
   methodSection.style.display = 'none';
   overrideSection.style.display = 'none';
+
+  if (scoped) {
+    continueBtn.textContent = 'Submit Scoping Request →';
+    continueBtn.disabled = false;
+    selectedPayMethod = 'proposal';
+    return;
+  }
 
   if (clientBillingTier === 'contract') {
     contractBypass.style.display = 'block';
@@ -2060,7 +2987,7 @@ function validateOverride() {
   resultEl.style.background = 'var(--bg)';
   resultEl.style.color = 'var(--text-muted)';
 
-  const base = location.hostname === 'localhost' ? 'http://localhost:8000' : '';
+  const base = getApiBase();
   fetch(`${base}/prism/billing/validate-override`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -2106,7 +3033,10 @@ function validateOverride() {
 }
 
 function getPaymentConfirmation() {
-  const { total } = calculateOrderTotal();
+  const { total, scoped } = calculateOrderTotal();
+  if (scoped) {
+    return { icon: '📋', title: 'Scoping Request Submitted', detail: 'DDI will deliver a dynamic scoped proposal after consultation — no flat rates, no payment at intake', amount: 'After consultation' };
+  }
   if (clientBillingTier === 'contract' || overrideAccepted) {
     return { icon: '✓', title: 'Contract Account', detail: overrideAccepted ? `Override code accepted` : `Billed to ${clientData?.billing?.contract_id || 'contract'}`, amount: `$${total.toFixed(2)}` };
   } else if (clientBillingTier === 'card_on_file' && document.getElementById('pay-card-on-file-section')?.style.display !== 'none') {
@@ -2135,6 +3065,16 @@ function clearForm() {
   selectedPayMethod = null;
   overrideAccepted = false;
   nextStep(1);
+}
+
+// Initial form tailoring for default service (drug testing)
+showServiceDetails();
+applyServiceProfile();
+
+// Restore session — returning users see their dashboard + order calendar
+if (gateUserEmail && gateUserEmail.includes('@')) {
+  document.getElementById('gate-email').value = gateUserEmail;
+  lookupClient();
 }
 </script>
 </body>

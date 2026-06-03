@@ -230,6 +230,11 @@ PA_JAGGAER_SUPPORT_PHONE = "1-800-233-1121"
 # ─────────────────────────────────────────────────────────────────────────────
 CWC_LEGAL_NAME = "Cause We Care"
 CWC_EIN = "92-3602670"
+CWC_UEI = "VEJMFMVV6PQ1"  # UEI assigned — full SAM.gov registration NOT complete yet
+CWC_DBA = ""  # None on SAM
+CWC_ADDRESS_STREET = "755 W. Big Beaver Rd., Suite 2020"
+CWC_ADDRESS_CITY_STATE_ZIP = "Troy, Michigan 48084-4925"
+CWC_ADDRESS_FULL = f"{CWC_ADDRESS_STREET}, {CWC_ADDRESS_CITY_STATE_ZIP}"
 CWC_EMAIL_EXECUTIVE = "ddavis@cwecare.org"  # ED / primary — Dieasha D. Davis
 CWC_EMAIL_GENERAL = "info@cwecare.org"  # General org inbox
 CWC_PHONE = "248.376.4550"  # Same main line as DDI per master

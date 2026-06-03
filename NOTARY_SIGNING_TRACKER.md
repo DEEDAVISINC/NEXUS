@@ -1,5 +1,5 @@
 # NOTARY SIGNING PAYMENT TRACKER
-**Last Updated:** May 31, 2026
+**Last Updated:** June 2, 2026
 **Total Outstanding:** ~$1,500.00 (Cucchiara $75 received 5/28; stale received items cleared from outstanding)
 
 ---
@@ -40,7 +40,9 @@
 
 | Date | Company | Order # / File # | Borrower | Fee | Expected Payment | Status |
 |---|---|---|---|---|---|---|
+| 6/3/26 | Premium Closing Solutions | PMCS-247367 / LMI26232513 | Philipp Lueddecke (HELOC) | $80.00 | **7/25-7/31** (last week of month after June file) | **Wed 6/3 @ 1:00 PM** — Mount Clemens · 374 Harrington St · Philipp (586) 265-4919 · **Scanbacks required** · EDOCS |
 | 5/29/26 | ASAP Pro Notary Services | Snapdocs #292933 / File #29232 | William & Doris Herd (Gibson Kohl) | $125.00 | **~7/13/26** (~45 business days via Bill.com) | **Fri 5/29 @ 3:00 PM** — Rochester Hills · Confirm William (248) 318-4217 · Scanbacks by 5 PM · FedEx Fri/Sat AM · **Set up Bill.com direct deposit if not done** |
+| 6/3/26 | Title Processing Center | N26-0227NW | Kenneth & Rita Marie Rohan (Refi, 1st Only) | $100.00 | **7/7/26** (paid 7th of month after June file) | **Wed 6/3 @ 2:00 PM** — 13759 Ironwood Dr, Shelby Twp · Ken (586) 530-1300 · Scanbacks required · EDOCS · 2nd witness N/A |
 
 ---
 
@@ -119,7 +121,8 @@
 | **TBD** | **$90.00** | Signing Solutions Group (Paquette — mailed check, watch mailbox) |
 | **TBD** | **$75.00** | Premium Signature Services (Rachocki Refi — terms unknown) |
 | **July 16-31** | **$80.00** | Premium Closing Solutions — SILK TITLE (Barnes Refi — 75-day cycle) |
-| **TOTAL INCOMING** | **$1,500.00** | |
+| **July 25-31** | **$80.00** | Premium Closing Solutions — Lueddecke HELOC (June non-Silk file) |
+| **TOTAL INCOMING** | **$1,580.00** | |
 
 ---
 

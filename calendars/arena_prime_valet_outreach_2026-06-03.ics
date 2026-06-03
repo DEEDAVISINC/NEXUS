@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:arena-prime-valet-outreach-2026-06-03@deedavis.biz
+DTSTAMP:20260602T120000Z
+DTSTART;TZID=America/Detroit:20260603T180000
+DTEND;TZID=America/Detroit:20260603T193000
+SUMMARY:📧 SEND: PRIME Valet Sub Outreach (Towne Park · Soiree · PMC)
+DESCRIPTION:Send ARENA PRIME Valet subcontractor outreach emails.\n\nFolder: BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/\n\nOrder: (1) Towne Park — verify todd.cline@townepark.com first (2) Soiree Valet — confirm contact (3) PMC — confirm BD contact\n\nPre-send: USASpending checks + SUBCONTRACTOR_VETTING_CHECKLIST.md\n\nLog sends in WORKFLOW_CHECKLIST.md. Follow-up: 5 business days if no reply.
+LOCATION:Email — info@deedavis.biz
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:PRIME Valet outreach send in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:PRIME Valet outreach send in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

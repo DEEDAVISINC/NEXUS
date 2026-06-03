@@ -1,16 +1,15 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** May 31, 2026 @ 10:00 PM ET
+**Last Updated:** June 2, 2026 @ 11:30 PM ET
 
 ---
 
-## SESSION NOTE (May 31)
+## SESSION NOTE (June 2)
 
-- Outbound email master log created: `OUTBOUND_EMAIL_LOG.md` — grep before every send
-- MCO batch frozen — net-new only; Stephanie Logan duplicate logged (first send May 11)
-- FAP2026SS cap + email sent to Sandy Thompson
-- HAP Brian SDOH + Dana Oakland emails sent May 31
+- **Texas LRGVDC DPS #2026-02** — Transport-only submission package drafted in `SEND_TO_BUYER/DPS_2026-02_TRANSPORT/` (parked for Dee review — Jun 18 mandatory Weslaco conference + TX SOS)
+- LRGVDC questions draft updated (Q6 authorized rep, Q7 Attachment 6 N/A) — send by **Jun 26**
+- Texas tracks on free portals only (no BidNet)
 
-## TOTAL PIPELINE: $27M+ LIFETIME (Conservative)
+## TOTAL PIPELINE: $28M+ LIFETIME (Conservative)
 
 ---
 
@@ -36,13 +35,18 @@
 
 | Opportunity | Agency | Annual Revenue | DDI Margin | Lifetime | Win Prob | Due Date |
 |-------------|--------|----------------|------------|----------|----------|----------|
-| **Anchorage Background Checks** | Municipality of Anchorage | $40K | $16K (40%) | $160K (4yr) | 35% | **May 28** |
-| ~~**Hall County GA Drug Kits**~~ | ~~Hall County BOC~~ | ~~$85-130K~~ | ~~$50K (45%)~~ | ~~$300K (3yr)~~ | ~~25%~~ | **NO-GO (May 22)** |
-| **CCRTA Occ Medical** | CCRTA (Corpus Christi) | $48.5K | $17K (35%) | $242K (5yr) | 30% | **June 1** |
-| **DRPA Occ Health/Drug** | Delaware River Port Auth | $250K-1.2M | $100K+ | $1.5M+ (5yr) | 20% | **June 5** |
+| **DRPA Occ Medical/Drug** | Delaware River Port Auth | $250K-1.2M | $100K+ | $1.5M+ (5yr) | 20% | **June 5** |
 | **Minneapolis MPD Background** | City of Minneapolis | $80-140K | $50K+ | $700K (5yr) | 35% | **June 15** |
 | **VIA Transit Drug Testing** | VIA Metropolitan Transit | **$146K** | **$102K (70%)** | **$732K (5yr)** | 40% | **June 16** |
+| **SUNY Upstate Home Medical Courier** | SUNY Upstate | $1.5M NTE | TBD | 5yr | 15% | **June 17** ⚠️ county invoice blocker |
 | **Oakland County DTC Drug** | 52nd District Court | $65K | $45K (70%) | $325K (5yr) | 50% | **June 23** |
+| **LRGVDC AAA Transport (DPS)** | LRGVDC Weslaco TX | $100K–500K* | $25K–175K (30%)* | $300K–1.5M* | 35% | **Jul 10** |
+| **LRGVDC Title III RFP** | LRGVDC Weslaco TX | Transport slice only | — | — | 25% | **Jul 10** |
+| **HHSC Medicaid DRTS** | Texas HHSC | $500K–3M+* | $100K–900K (25%)* | Multi-yr | 15% | **Sep 15** |
+| **VA Madison NEMT IDIQ** | VA Middleton WI | TBD | TBD | 5yr | 20% | **Jun 22** |
+| **Nevada NET Broker** | NV Health Authority | Capitation | High risk | — | 10% | **Jul 6** |
+
+*ESTIMATED — see bid folder WORKFLOW_CHECKLIST.md
 
 ---
 
@@ -85,30 +89,20 @@
 
 ---
 
-## 3D INK SIGNATURES — DIRECT CLIENT PIPELINE (New)
+## 3D INK SIGNATURES — DIRECT CLIENT PIPELINE
 
-| Category | Targets Identified | Avg Contract Value | Total Pipeline | Status |
-|----------|-------------------|-------------------|----------------|--------|
-| **Hospitals** | 10 | $12K/yr | $120K | Outreach ready |
-| **Commercial Title** | 10 | $8K/yr | $80K | Outreach ready |
-| **Estate Attorneys** | 10 | $6K/yr | $60K | Outreach ready |
-| **Elder Care** | 10 | $5K/yr | $50K | Outreach ready |
-| **Immigration Attorneys** | 10 | $6K/yr | $60K | Outreach ready |
-| **Structured Settlement** | 50 | $4K/yr | $200K | Outreach ready |
-| **3D INK TOTAL** | 100+ | — | **$570K** | Email outreach starting |
-
-**+ Notary Permit Runner** (new service line — pricing updated to 2026 market rates: $100-200/run, $75-200/hr)
+| Category | Targets | Avg Contract | Total Pipeline | Status |
+|----------|---------|--------------|----------------|--------|
+| **Hospitals + Title + Legal + Elder + Immigration + Settlement** | 100+ | — | **$570K** | Outreach ready |
 
 ---
 
 ## NOTARY SIGNING INCOME (Active)
 
-| Metric | May 2026 |
+| Metric | Jun 2026 |
 |--------|----------|
-| **Signings Completed** | 10 |
-| **Revenue Earned** | $845 |
 | **Outstanding (all companies)** | $2,230 |
-| **Next big deposit** | June 22 — $785 (First Class x7 + Kriss Law + Doma) |
+| **Next big deposit** | June 22 — $785 |
 
 ---
 
@@ -118,39 +112,24 @@
 |--------|--------------|--------|
 | **Active Annual Revenue (HAP)** | $540K | $540K |
 | **Active Bids (UH if won)** | $4.74M | $4.74M |
-| **Active Bids (Other if won)** | $677K | $1.8M |
-| **Pipeline Annual (if all won)** | $27M+ | $32M+ |
-| **Risk-Adjusted Annual** | $7.2M | $9M |
+| **Active Bids (Other if won)** | $1.5M | $3.5M |
+| **Pipeline Annual (if all won)** | $28M+ | $34M+ |
+| **Risk-Adjusted Annual** | $7.5M | $9.5M |
 | **Active DDI Margin (HAP)** | $216K | $216K |
 | **Bid DDI Margin (UH if won)** | $2.15M | $2.15M |
-| **Risk-Adjusted Margin** | $3.2M | $4.0M |
-| **5-Year Lifetime Value** | $27M+ | $45M+ |
+| **Risk-Adjusted Margin** | $3.4M | $4.2M |
+| **5-Year Lifetime Value** | $28M+ | $48M+ |
 
 ---
 
 ## STRONGEST LEADS
 
-1. **University Health (San Antonio)** — $4.74M/year SUBMITTED. Roadie + Uber Health fulfillment CONFIRMED.
-2. **Oakland County DTC Drug Testing** — LOCAL. DDI is in Oakland County. Best value scoring. 50% win prob.
-3. **VIA Transit Drug Testing** — $146K/yr, 70% margin. Same city as University Health.
-4. **TrueCare Mississippi (CareSource)** — Existing CareSource relationship. 45% win probability.
-5. **Drug Testing C/TPA (Trucking)** — $1.175M pipeline at 70% margin. TPA model.
-6. **3D Ink Signatures Direct** — $570K pipeline. Eliminate middleman signing agencies. TPA model ready.
+1. **University Health (San Antonio)** — $4.74M/year SUBMITTED. Awaiting award.
+2. **Oakland County DTC Drug Testing** — LOCAL. 50% win prob. Due Jun 23.
+3. **VIA Transit Drug Testing** — $146K/yr, 70% margin. Due Jun 16.
+4. **Texas LRGVDC DPS Transport** — EDWOSB wedge into Rio Grande Valley AAA pool. Draft ready; Jun 18 conference gate.
+5. **HAP CareSource** — Live contract. Proof point for all NEMT/transport bids.
 
 ---
 
-## TODAY'S SESSION (May 27)
-
-- ✅ Uber Health ACH billing initiated — EIN, AP email, business details sent to Jeff Metz
-- ✅ Uber Health 3 account consolidation request submitted (personal, old business, current)
-- ✅ Uber Health follow-up call — **Mon June 1, 2:00 PM ET** (rescheduled from **Fri May 29**; confirm with Jeff)
-- ✅ Uber Health documents saved — one-pager, safety deck, FAQ legal overview
-- ✅ Senpex follow-up sent May 29 — San Antonio lab courier pricing (contact@senpex.com); response due June 4
-- ✅ Radar sweep run manually — 80 opportunities reviewed, Indiana DNA Collection Kits flagged
-- ✅ Sam Cilento (Lakota) requests Minneapolis MPD requirement docs — sent
-- ✅ Notary payments received — Kriss Law $300, Mosaic $60, First Class $75 (May 26 deposits)
-- ✅ PRISM system audit — all modules confirmed aligned with latest Uber Health docs
-
----
-
-**University Health is $10.7M margin over 5 years. Uber Health partnership operationalizing — ACH billing, pricing data, and 3P wheelchair access moving forward. Senpex fills the lab courier gap Uber can't. Every partner is a tool in the fulfillment belt — DDI keeps the contract, keeps the spread.**
+**Texas is on the board — LRGVDC draft parked until you're ready to decide on Weslaco travel. University Health is still the whale. One award changes the whole scoreboard.**

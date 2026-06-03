@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** May 30, 2026
+**Last Updated:** June 2, 2026
 
 ---
 
@@ -8,6 +8,7 @@
 
 | Task | Details | Status |
 |---|---|---|
+| **FMCSA Clearinghouse — identity verification** | **Deadline Jul 6, 2026.** DDI = **C/TPA** — must complete or **lose Clearinghouse access.** Steps: (1) https://clearinghouse.fmcsa.dot.gov → Log in (2) **My Dashboard → My Profile** (3) Click **Begin Identity Verification** (4) Follow prompts · Job aid in Learning Center · Ref: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md` · Phone 844-955-0207 | ⬜ **URGENT — do this week** |
 | **MDHHS SHIELD follow-up (Angela Medina + Aimee Surma)** | **May 30 follow-up SENT** (clean NEXUS email + forwarded May 3 package). May 3 Sat-night multi-attachment email may have been filtered — be ready to resend clean. **Primary:** Angela Medina **517-897-5203** / MedinaA@michigan.gov. **Trigger mid-June:** call Angela → direct LHD outreach per `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` | 🟡 **AWAITING ANGELA / AIMEE BACK** |
 | **Blue Cross Complete — Alina Pabin intro call** | **May 30 follow-up SENT** — offered weeks of **June 2 & June 9**, afternoons ET. **Do not send another touch until she responds.** Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` | 🟡 **AWAITING ALINA** |
 | **MHEF Capacity Building concept paper** | Inquiry done · Sayre replied Mar 27 — **submit in Fluxx** | ⬜ **$300K track** — see `MICHIGAN_FUNDER_MAP.md` |
@@ -20,6 +21,7 @@
 | **Log into HAP CareSource portal** | Check for trip requests, confirm DDI is active/receiving | ⬜ TODO |
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
+| **Jun 3 @ 6:00 PM ET** | **SEND: PRIME Valet sub outreach** — Towne Park · Soiree Valet · PMC · `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · Verify contacts + USASpending before send · Follow-up Jun 10 if no reply | ⬜ **SCHEDULED Jun 3 evening** |
 | **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
 
 ## ⏳ AWAITING RESPONSE
@@ -82,12 +84,13 @@ All pending MCO emails need audit before sending.
 
 | State | Task | Portal/Path | Deadline | Status |
 |---|---|---|---|---|
-| **Texas** | HHSC NEMT Open Enrollment (HHS0016482) | TMHP + TX SOS | **Sept 15, 2026** | ⬜ TODO — TPA prime, sub to Uber Health |
+| **Texas** | HHSC NEMT Open Enrollment (HHS0016482) / DRTS | **FREE:** resources.hhs.texas.gov/open-enrollment/hhs0016482 · TMHP + TX SOS | **Sept 15, 2026** | ⬜ TODO — docs in `TEXAS MEDICAID DRTS/RFP_ATTACHMENTS/` |
+| **Texas** | LRGVDC RFP #2026-03 AAA Title III | **FREE:** lrgvdc.org/procurement.html | **Jul 10, 2026** | ⬜ TODO — review RFP; transport-only may fit **DPS #2026-02** instead |
 | **North Carolina** | NC SOS Registration | ncsos.gov | Target: June 2026 | ⬜ TODO — **RADAR explore:** `RADAR HEALTHCARE MCO/NC_MEDICAID_EXPLORATION.md` |
 | **North Carolina** | NCTracks Enrollment (Transportation Broker 347E00000X) | nctracks.nc.gov | Target: June 2026 | ⬜ TODO — after SOS |
 | **North Carolina** | MCO Outreach (AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya) | Direct contact | Ongoing | ⬜ TODO — after NCTracks |
 | **Arizona** | MCO Outreach (Mercy Care, UHC AZ, Banner-University, Arizona Complete Health) | Direct contact | Ongoing | ⬜ TODO — **RADAR explore:** `RADAR HEALTHCARE MCO/AZ_AHCCCS_EXPLORATION.md` |
-| **Maine** | MaineCare NET recompete follow-up (Penquis + Waldo CAP) | mevss.hostams.com | **Jun 3, 2026** | ⬜ Follow-up — `CLIENT OUTREACH/MAINE NEMT TEAMING/` · Opp 0520260310 |
+| **Maine** | Pull RFP **0520260310** on Maine VSS · W-9 mail/fax | mevss.hostams.com · **VS0000032746** | ASAP | ✅ VSS registered · ✅ Follow-up sent Jun 3 (Penquis + Waldo) · ⬜ Pull sol · Next follow-up **Jun 17** — `MAINE NEMT TEAMING/` |
 
 ---
 
@@ -109,7 +112,8 @@ All pending MCO emails need audit before sending.
 | May 12 | Sandra Salas | Molina Texas | ❌ Declined — services in-house |
 | May 12 | Natalie Lukaszewicz | Centene Corporate | ✅ SENT (VP referral from Rick) |
 | May 11 | Stephanie Logan | Alabama Medicaid NEMT | **First email sent 7:53 PM ET** |
-| May 31 | Stephanie Logan (OOO auto) | Alabama Medicaid NEMT | **Duplicate send** — OOO until Jun 2 · NET → Bennett (active) + **Natasha Crusoe** (new) |
+| Jun 1 | Jason Giombetti | Elder Services of Worcester Area | **Next cycle ~2029** — LOI May 22 was hard deadline (not a no); next transport RFP in ~3 years; Dee thanked — **re-outreach when next RFP opens** |
+| Jun 1 | Beth Rubin (win) | Greene County CDJFS OH | **ON RFP NOTIFICATION LIST** — will notify for next NEMT RFP; Dee thanked — thread closed |
 
 ---
 
@@ -188,6 +192,14 @@ DDI should become an authorized distributor for forensic evidence collection kit
 | **1st Mon monthly** | EGrAMS + county opioid + CFSEM + MHEF monitor | Jul 6, Aug 3, Sep 7… |
 
 **Full session:** `SESSION_SUMMARY_MAY_30_2026.md`
+
+---
+
+## 🔮 FUTURE TODO — NOT ACTIVE YET
+
+| Item | Details | Trigger / When |
+|---|---|---|
+| **NY lead screening — Onondaga County CLPPP+ wedge** | NYS DOH runs CLPPP+ (20 counties incl. **Onondaga/Syracuse**). No MI-style MDHHS referral path — entry is **county LHD + CBO partner**, optionally **NYHER SCN** (HRSN, children under 6). Position **CWC navigates + DDI administers** same SHIELD model — complement county programs, not state cold pitch. Research: Onondaga County lead program contact → complement outreach. **Separate from SUNY courier bid.** Ref: conversation May 31, 2026; NYS DOH [lead programs](https://www.health.ny.gov/environmental/lead/programs_plans/index.htm) | After MDHHS SHIELD path clearer **or** if Syracuse/Onondaga relationship develops via SUNY/other NY work. Target: **Q3 2026** research pass |
 
 ---
 

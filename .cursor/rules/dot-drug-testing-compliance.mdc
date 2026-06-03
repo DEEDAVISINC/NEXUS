@@ -16,6 +16,7 @@ All detailed compliance documents are in:
 /Users/deedavis/NEXUS BACKEND/COMPLIANCE_KNOWLEDGE/
 ├── 49_CFR_PART_40_REFERENCE.md           ← DOT drug testing regulation breakdown
 ├── DOT_DRUG_TESTING_QUICK_REFERENCE.md   ← Drug testing cheat sheets
+├── CLEARINGHOUSE_IDENTITY_VERIFICATION.md ← FMCSA Clearinghouse ID verify (C/TPA deadline Jul 6, 2026)
 ├── FATAL_FLAW_CHECKLIST.md               ← What voids a drug test
 ├── DNA_TESTING_REFERENCE.md              ← AABB, chain of custody, legal vs informational
 ├── FINGERPRINTING_REFERENCE.md           ← FBI CJIS, SWFT, livescan, ORI codes
@@ -51,6 +52,12 @@ All detailed compliance documents are in:
 - FMCSA (trucking): 50% drug, 10% alcohol
 - FTA (transit): 50% drug, 10% alcohol
 
+### FMCSA Clearinghouse — Identity Verification (Jun 2026)
+- **Existing C/TPA accounts** (DDI) must complete identity verification by **July 6, 2026**
+- Path: Log in → **My Dashboard → My Profile** → **Begin Identity Verification**
+- After deadline: no Clearinghouse access until completed
+- Full detail: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md`
+
 ### Fatal Flaws (Test Cancelled)
 - No collector signature
 - No donor signature (uncorrected)
@@ -81,6 +88,12 @@ All detailed compliance documents are in:
 - Building pricing for drug testing RFPs
 - Comparing DOT vs non-DOT testing
 - Explaining post-accident decision tree
+
+**READ `CLEARINGHOUSE_IDENTITY_VERIFICATION.md` when:**
+- FMCSA Clearinghouse access, registration, or C/TPA account questions
+- User shares Clearinghouse news/email about identity verification
+- Before July 6, 2026 — remind DDI that existing **C/TPA** accounts must complete ID verify or lose access
+- Writing drug testing proposals that reference Clearinghouse queries/reporting
 
 **READ `FATAL_FLAW_CHECKLIST.md` when:**
 - Building PRISM inspection workflows

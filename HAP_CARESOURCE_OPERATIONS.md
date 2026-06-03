@@ -26,10 +26,20 @@
 
 ## RATES
 
-| Trip Type | DDI Rate |
-|-----------|----------|
-| **Standard ride** | $28.00 |
-| **Ambulatory assist / Wheelchair** | $35.00 |
+**HAP pays DDI flat per completed trip** (not mileage-based on DDI invoice):
+
+| Trip Type | DDI Rate (from HAP) |
+|-----------|---------------------|
+| **Standard ride / ambulatory** | **$28.00 flat** |
+| **Ambulatory assist / Wheelchair** | **$35.00 flat** |
+
+### Fulfillment vs margin (Uber Health — Jun 2, 2026)
+
+| | HAP pays DDI | Uber fulfillment (est.) | DDI gross |
+|--|--------------|-------------------------|-----------|
+| Short ambulatory | $28 | ~$5–$10 | ~$18–$23 |
+| Long ambulatory | $28 | up to ~$24 | ~$4–$8 |
+| Wheelchair | $35 | Uber 3P sparse Detroit — **Lyft WAV / sub** | TBD |
 
 ---
 
@@ -52,8 +62,8 @@ DDI receives trip requests through **three channels**:
 ## FULFILLMENT
 
 DDI dispatches rides through:
-- **Uber Health** — Standard rides, ambulatory
-- **Lyft Healthcare** — Standard rides, ambulatory
+- **Uber Health** — Standard rides, ambulatory (**~$5–$24/trip fulfillment cost per Jeff Metz Jun 2, 2026**)
+- **Lyft Healthcare** — **Primary for wheelchair (WAV)** — Uber 3P/WAV sparse in Detroit metro (Jun 2, 2026)
 - **Wheelchair-accessible partners** — TBD / local vendors as needed
 
 ---

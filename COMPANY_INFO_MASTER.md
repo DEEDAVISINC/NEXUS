@@ -266,9 +266,11 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 ## 🤲 AFFILIATED NONPROFIT: CAUSE WE CARE
 
 **Legal Name:** Cause We Care  
+**Doing Business As (DBA):** *(none — blank on SAM.gov)*  
 **Type:** 501(c)(3) Nonprofit Organization  
 **EIN:** 92-3602670  
-**Address:** 1221 Bowers St, Unit 2141, Birmingham, Michigan 48012  
+**Physical Address (SAM.gov):** 755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084-4925, USA  
+**Mailing (legacy on some grant drafts — verify before reuse):** 1221 Bowers St, Unit 2141, Birmingham, Michigan 48012  
 **EMAIL ROUTING (FYI — use the right inbox):**
 | Inbox | Address | Use for |
 |-------|---------|---------|
@@ -299,12 +301,20 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 - Gary Felton's veteran leadership opens veteran-focused grant funding and HIRE Vets recognition
 
 **Federal Credentials:**
-- **UEI:** VEJMFMVV6PQ1
+- **UEI:** **VEJMFMVV6PQ1** — entity registration **submitted** (await Active in SAM)
 - **EIN:** 92-3602670
+- **CAGE:** *(none until full SAM registration completes)*
+
+**SAM.gov Status:**
+- **UEI:** VEJMFMVV6PQ1
+- **Physical address on record:** 755 W. Big Beaver Rd., Ste 2020, Troy, MI 48084-4925, USA
+- **Entity registration submitted** — confirmation email to **nsa@deedavis.ink** — **no action required at this time** (await GSA validation / active status)
+- Prior renewal ref (if applicable): INC-GSAFSD8651858 — March 22, 2026
 
 **Registration Status:**
-- [x] SAM.gov — UEI VEJMFMVV6PQ1 — RENEWAL SUBMITTED March 22, 2026 — Ref: INC-GSAFSD8651858 — Expect validation instructions by March 26
-- [ ] Grants.gov applicant account — PENDING (activate after SAM renewal)
+- [x] **SAM.gov — ENTITY REGISTRATION SUBMITTED** — await confirmation email processing + **Active** status in SAM before federal bids / CAGE
+- [ ] SAM.gov shows **Active** registration — verify in portal when available
+- [ ] Grants.gov applicant account — PENDING (**after** SAM shows Active)
 - [ ] Community Foundation for SE Michigan portal — PENDING
 - [ ] Michigan Health Endowment Fund portal — PENDING
 - [x] GiveButter "Haircuts for Heroes" — ACTIVE — givebutter.com/haircutsforheroes/causewecare — Goal: $20K — needs promotion push
@@ -325,6 +335,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - **Oakland County Supplier Diversity Program** — Registered
 - **Sourcewell** — Active (cooperative purchasing — vehicle and equipment contracts)
 - **Kentucky VSS** — Registered (vss.ky.gov) — Vendor # KS0026951 — Since 02/15/2025 — **⚠️ Must submit Form SAS-63 with every Kentucky bid**
+- **Maine VSS** — Registered (mevss.hostams.com) — Vendor # **VS0000032746** — Since 06/03/2026 — **⚠️ Mail/fax Substitute W-9 per portal instructions**
 
 ---
 

@@ -1,0 +1,73 @@
+---
+description: Foreign entity registration only upon contract award — never proactive pre-bid filing (TPA model)
+alwaysApply: true
+---
+
+# Foreign Entity Registration — Upon Award Only (TPA)
+
+**Dee Davis Inc. does NOT foreign-qualify in a state because an opportunity exists there. That is not how a contract management TPA operates.**
+
+## The Rule
+
+**Default: NO foreign entity filing until a contract is awarded AND qualification is required to perform, invoice, or enroll.**
+
+Foreign qualification is **post-award compliance overhead** — not bid prep, not pipeline hygiene, not "get ready just in case."
+
+```
+Bid / pursue opportunity → NO SOS foreign filing
+Award + performance requires in-state qual → MI good standing → ONE state filing → operate
+```
+
+## Why (TPA Model)
+
+- DDI is **Michigan domestic** — SAM-registered, nationwide TPA. Bidding does not require 50-state SOS registrations.
+- Fulfillment is dispatched under DDI contract management — **not** "we must exist as a foreign corp everywhere we might bid."
+- SOS fees ($30–$750+; NV ~$725+ stack) are **recovered from contract revenue**, not speculative spend before award.
+
+## When Filing IS Allowed
+
+| Trigger | Action |
+|---|---|
+| **Contract awarded** and performance/invoicing/enrollment requires foreign qual | File in **that state only** — see `NEXUS_LEARNING/FOREIGN_ENTITY_REGISTRATION_FEES_50_STATES.md` |
+| **Solicitation pass/fail** requires foreign qualification **with the proposal** | File before submit — **only** if the RFP explicitly requires it |
+| **Award letter / kickoff** requires qual before start date | File in award week, before first invoice/trip/enrollment step |
+
+## When Filing Is FORBIDDEN (NEXUS Must Not Suggest)
+
+- ❌ "Register in [State] so you can bid this RFP"
+- ❌ "Cheap fee — file now while you're pursuing"
+- ❌ "Pre-qualify in FL/TX/LA for HAVEN pipeline" before any award
+- ❌ Adding foreign qual as a **pre-bid workflow step** in `WORKFLOW_CHECKLIST.md` unless solicitation requires it at proposal
+- ❌ Treating `FOREIGN_ENTITY_REGISTRATION_FEES_50_STATES.md` as a to-do list
+
+## Bid / Proposal Language (Default)
+
+When a state may eventually require qualification but **not at proposal**:
+
+> Dee Davis Inc. will complete foreign qualification in [State] upon contract award, prior to performance start, in compliance with [State] requirements.
+
+Do **not** imply DDI is already foreign-qualified in that state unless it is.
+
+## Revenue Analysis
+
+- May note **estimated post-award SOS fee** as a one-time performance cost after win — **not** as a bid-stage action item.
+- Do **not** block GO/NO-GO on "haven't filed foreign entity yet" unless the solicitation requires qual at submission.
+
+## Known Post-Award Gates (Not Pre-Bid)
+
+| Lane | Note |
+|---|---|
+| NY (e.g. SUNY / county invoice address) | File **after** award path confirms NY invoicing requirement — not because RFP is open |
+| MD Medicaid | Foreign qual is enrollment gate — **after** MD contract/Medicaid path is real |
+| Any state | File **before first invoice or regulated activity** in that state — not before bid |
+
+## Source of Truth for Fees (After Award Only)
+
+`NEXUS_LEARNING/FOREIGN_ENTITY_REGISTRATION_FEES_50_STATES.md` — lookup when a **win** triggers filing. Re-check SOS link the week you file.
+
+## Cross-References
+
+- `ddi-business-model.mdc` — prime/TPA model
+- `national-tpa-scope.mdc` — nationwide capability ≠ 50-state SOS pre-registration
+- `revenue-analysis.mdc` — post-award cost labeling
+- `bid-folder-organization.mdc` — do not add foreign qual to Steps 1–7 unless RFP requires at proposal

@@ -1,8 +1,19 @@
 {
-  "scan_date": "2026-05-30T09:30:38.990960",
-  "total_found": 74,
+  "scan_date": "2026-06-01T10:13:07.575916",
+  "total_found": 75,
   "min_days_to_bid": 5,
   "opportunities": [
+    {
+      "source": "SAM.gov",
+      "title": "48--VALVE,SOLENOID",
+      "agency": "DEPT OF DEFENSE.DEFENSE LOGISTICS AGENCY.DLA MARITIME.DLA MARITIME COLUMBUS.DLA LAND AND MARITIME",
+      "deadline": "2026-06-11",
+      "set_aside": "WOSB",
+      "url": "https://sam.gov/opp/0ce9cfdffb234499b156fe352e6a4966/view",
+      "type": "Combined Synopsis/Solicitation",
+      "posted": "2026-05-31",
+      "naics": "332911"
+    },
     {
       "source": "SAM.gov",
       "title": "HQMC DC P&R B&E Financial Management Support Services",
@@ -93,69 +104,90 @@
     },
     {
       "source": "BidNet Direct",
-      "title": "70Z03026QCLEV0053 - U.S. Coast Guard Sector Eastern Great Lakes Command Center HVAC Split Units ReplacementNew York14 day(s) leftPublished05/29/2026Closing06/13/20262695438532",
+      "title": "Construction management services for the Ross and Mary Whipple Family Forest Education CenterArkansas15 day(s) leftPublished06/01/2026Closing06/16/2026444045334280",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/statewide/70Z03026QCLEV0053-U-S-Coast-Guard-Sector-Eastern-Great-Lakes-Command-Center-HVAC-Split-Units-Replacement/2695438532?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/arkansas/solicitations/open-bids/statewide/Construction-management-services-for-the-Ross-and-Mary-Whipple-Family-Forest-Education-Center/444045334280?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Z1DA--612A4-19-016 | Renovate Outpatient Pharmacy and HVACCalifornia32 day(s) leftPublished05/29/2026Closing07/01/20262695252892",
+      "title": "TRAINING SOFTWARENew York22 hour(s) leftPublished06/01/2026Closing06/02/20269082578006",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Z1DA-612A4-19-016-Renovate-Outpatient-Pharmacy-and-HVAC/2695252892?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/TRAINING-SOFTWARE/0000426149?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Control Valve Parts - USNS ROBERT E. PEARYVirginia11 day(s) leftPublished05/29/2026Closing06/10/20262695404362",
+      "title": "2026 Sewer Rehabilitation by Open Cut Repairs, Contract 1 - South of 14 Mile RDMichigan23 day(s) leftPublished06/01/2026Closing06/24/20269083299054",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/virginia/solicitations/open-bids/statewide/Control-Valve-Parts-USNS-ROBERT-E-PEARY/2695404362?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/2026-Sewer-Rehabilitation-by-Open-Cut-Repairs-Contract-1-South-of-14-Mile-RD/0000426150?origin=0",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "66--TITRATOR, IN REPAIR/MODIFICATION OFPennsylvania30 day(s) leftPublished05/29/2026Closing06/29/20262695444652",
+      "title": "Master Agreement for Owner's Advisor Services for the City Hall Water Intrusion Repair ProjectCalifornia30 day(s) leftPublished06/01/2026Closing07/01/2026444045306379",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/66-TITRATOR-IN-REPAIR-MODIFICATION-OF/2695444652?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/california/solicitations/open-bids/statewide/Master-Agreement-for-Owner-s-Advisor-Services-for-the-City-Hall-Water-Intrusion-Repair-Project/444045306379?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "SOURCES SOUGHT NOTICE to identify firms capable of performing ATON Repair & Replace Work at Base Tongue Point/Columbia River, Astoria, OROregon11 day(s) leftPublished05/29/2026Closing06/10/20262695364582",
+      "title": "Welding training and certification for returning citizensPennsylvania28 day(s) leftPublished06/01/2026Closing06/29/2026444045334272",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/oregon/solicitations/open-bids/statewide/SOURCES-SOUGHT-NOTICE-to-identify-firms-capable-of-performing-ATON-Repair-Replace-Work-at-Base-Tongue-Point-Columbia-River-Astoria-OR/2695364582?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/pennsylvania/solicitations/open-bids/statewide/Welding-training-and-certification-for-returning-citizens/444045334272?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "Industrial Kitchen Equipment Maintenance Repair Parts And SuppliesArizona12 day(s) leftPublished05/29/2026Closing06/11/20268895291354",
+      "title": "New & Used VehiclesTexas37 day(s) leftPublished06/01/2026Closing07/08/2026444045109857",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/arizona/solicitations/open-bids/Industrial-Kitchen-Equipment-Maintenance-Repair-Parts-And-Supplies/0000423395?origin=0",
+      "url": "https://www.bidnetdirect.com/texas/solicitations/open-bids/statewide/New-Used-Vehicles/444045109857?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Interior and Exterior cleaning ServicesOklahoma16 day(s) leftPublished06/01/2026Closing06/17/2026444045334261",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/oklahoma/solicitations/open-bids/statewide/Interior-and-Exterior-cleaning-Services/444045334261?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Temporary Employment Services",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Temporary-Employment-Services/0000426095?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
     },
     {
       "source": "MITN (Michigan)",
@@ -224,26 +256,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/75-Panorama-GP-Antennas-for-Police-Vehicles/0000425812?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "CDTV Portable Equipment Upgrade",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/CDTV-Portable-Equipment-Upgrade/0000425898?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "PY25 CDBG Program, S. Washington Avenue Pavement Reconstruction",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/PY25-CDBG-Program-S-Washington-Avenue-Pavement-Reconstruction/0000425883?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },

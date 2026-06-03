@@ -30,6 +30,20 @@
 
 ---
 
+## OPERATIONAL NOTE: FMCSA CLEARINGHOUSE IDENTITY VERIFICATION (JUNE 2026)
+
+**Source:** FMCSA Clearinghouse News, posted June 1, 2026 · FMCSA subscriber email to info@deedavis.biz
+
+**NEXUS knowledge:** Existing registered **C/TPAs** (including DDI), MROs, SAPs, and certain employers must complete **identity verification by July 6, 2026** or lose Clearinghouse access until completed.
+
+**DDI path:** clearinghouse.fmcsa.dot.gov → Log in → **My Dashboard → My Profile** → **Begin Identity Verification**
+
+**Full reference:** `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md`
+
+**When NEXUS should surface this:** Clearinghouse emails/news, drug testing compliance questions, C/TPA program setup, active DOT/FMCSA bids (VIA, Oakland DTC, Yonkers, etc.) — not on unrelated tasks.
+
+---
+
 ## CORRECTION 1: VERTEX Scope
 
 ### ❌ WRONG: Forecasting in VERTEX

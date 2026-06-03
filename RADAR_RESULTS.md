@@ -1,9 +1,11 @@
 # RADAR RESULTS
-**Last compiled:** 2026-05-30 09:37 AM ET
+**Last compiled:** 2026-06-01 02:02 PM ET
 
 > **RADAR** = Revenue Acquisition Discovery And Reconnaissance.
-> Automated mining output only — **not** bid deadlines, pending tasks, or watch-list items.
+> **NET-NEW ONLY** — excludes anything already in bid folders, watch list, bid tracker, CO outreach, or healthcare exploration docs.
 > Re-run: `python3 nexus_scheduler.py --radar` · Compile only: `python3 compile_radar_results.py`
+
+**Pipeline index:** 279 known solicitation IDs · **Excluded this compile:** 7 · **Net-new finds:** 0
 
 ---
 
@@ -11,44 +13,23 @@
 
 | Channel | Last scan | Items | Detail file |
 |---------|-----------|-------|-------------|
-| Public portals (SAM + state/local) | 2026-05-30 | 74 | `portal_scan_results.json` |
-| Healthcare / MCO | 2026-05-30 | 83 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
-| AOG / Freight (488190) | 2026-05-30 | 0 | `aog_sam_cache.json` |
+| Public portals (SAM + state/local) | 2026-06-01 | 75 | `portal_scan_results.json` |
+| Healthcare / MCO | 2026-06-01 | 83 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
+| AOG / Freight (488190) | 2026-06-01 | 0 | `aog_sam_cache.json` |
 | Digital navigation (624190) | — | 26 | `digital_nav_sam_cache.json` |
 | Sources Sought / Presol (federal) | MAY23 | 41 DDI-fit | `NEW_SOURCES_SOUGHT_MAY23.md` |
 
 ---
 
-## GOVERNMENT — TOP FINDS (portal scan, DDI-fit)
+## NET-NEW — GOVERNMENT (portal scan)
 
-- **DNA Collection KitsBid DocumentsState Police001000000087598NB 26-87598. The purpose of this request is to create a contract for two types of DNA collection kits needed by ISP for distribution around t** | State of Indiana | Due TBD | — → **DDC**
-  - https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/
-
----
-
-## HEALTHCARE / MCO — HIGHLIGHTS
-
-- **Accessing Behavioral Health Services in Schools** | AZ | Arizona AHCCCS → **Review lane**
-- **Behavioral Health Services** | AZ | Arizona AHCCCS → **Review lane**
-- **Non-Emergency Medical Transportation** | AZ | Arizona AHCCCS → **Uber Health / Roadie**
-- **Tribal Regional Behavioral Health Authority (TRBHA)** | AZ | Arizona AHCCCS → **Review lane**
-- **Behavioral Health and Intellectual/​Developmental Disabilities Tailored Plan** | NC | NC Medicaid → **Review lane**
-- **Non-Emergency Medical Transportation (NEMT)** | NC | NC Medicaid → **Uber Health / Roadie**
-- **BEHAVIORAL HEALTH AND INTELLECTUAL/DEVELOPMENTAL DISABILITY TAILORED PLANS** | NC | NC Medicaid → **Review lane**
-- **NCDHHS Announces Medicaid Managed Care Regional Behavioral Health I/DD Tailored Plans** | NC | NC Medicaid → **Review lane**
+*No net-new DDI-fit portal opportunities — 75 scanned, 1 already in pipeline or not actionable.*
 
 ---
 
-## DIGITAL NAVIGATION / BENEFITS ENROLLMENT
+## NET-NEW — HEALTHCARE / MCO
 
-- **Q--EMERGENCY MEDICAL TECHNICIAN (EMT) SERVICES for AL** | —
-- **Cultural Resources Inspection Services ** | —
-- **R702-- Data Collection of Magnetic Resonance Imaging (MRI) for Neuromodulation Research** | —
-- **AJ11--Research Services - Public Health Approach to Firearm Injury  and Suicide Prevention    Pre-solicitation Notice with Intent to Sole Source** | —
-- **Sources Sought for Family Connection Services at Rock Island Arsenal** | —
-- **Family Advocacy Program (FAP) Annual Training Amended** | —
-- **Program for International Student Assessment (PISA)** | —
-- **99--Notice Regarding Dept. of the Interior, IBC, AQD to close contracts.** | —
+*No net-new healthcare/MCO solicitations — 83 scanned (mostly program pages), 5 excluded.*
 
 ---
 

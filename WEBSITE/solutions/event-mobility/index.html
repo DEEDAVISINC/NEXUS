@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ARENA — Access, Routing &amp; Event Navigation Administration. DEE DAVIS INC event mobility consultation and coordination TPA. EDWOSB prime contractor.">
+<title>ARENA — Event Mobility Consultation &amp; Coordination | DEE DAVIS INC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;font-size:16px;line-height:1.7;color:#333;background:#fff;overflow-x:hidden}
+:root{
+  --navy:#0a1628;--navy2:#112244;--blue:#1a3a6b;
+  --gold:#c9a84c;--white:#fff;--off:#f8f8f8;
+  --lg:#f0f2f5;--mg:#666;--border:#e0e0e0;--tl:#555
+}
+/* TOP BAR */
+.topbar{background:var(--navy);color:rgba(255,255,255,.75);font-size:.76rem;padding:.5rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;letter-spacing:.04em;flex-wrap:wrap;gap:.4rem}
+.topbar a{color:var(--gold);text-decoration:none}
+.tbl{display:flex;gap:.9rem;flex-wrap:wrap}
+.tbl a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.7rem;padding:.22rem .65rem;border:1px solid rgba(255,255,255,.2);transition:all .2s}
+.tbl a:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+/* HEADER */
+header{background:#fff;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:1000;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.hi{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.lw{display:flex;align-items:center;gap:1rem;text-decoration:none}
+.li{height:50px}
+.lt{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--navy);letter-spacing:.05em;line-height:1.2}
+.lt span{display:block;font-size:.6rem;font-weight:400;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
+nav ul{display:flex;list-style:none;gap:.1rem;align-items:center}
+nav ul li a{font-family:'Montserrat',sans-serif;font-size:.67rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);text-decoration:none;padding:.45rem .6rem;border-bottom:2px solid transparent;transition:all .2s}
+nav ul li a:hover,nav ul li a.on{color:var(--gold);border-bottom-color:var(--gold)}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,var(--blue) 100%);color:#fff;padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");opacity:.5}
+.hin{position:relative;max-width:800px;margin:0 auto}
+.htag{display:inline-block;background:var(--gold);color:var(--navy);font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.28rem .85rem;margin-bottom:1.1rem}
+.hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4.5vw,3.1rem);font-weight:800;line-height:1.1;margin-bottom:1rem}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:.98rem;color:rgba(255,255,255,.8);max-width:580px;margin:0 auto 2rem;line-height:1.8}
+.hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.bp{background:var(--gold);color:var(--navy);font-family:'Montserrat',sans-serif;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.78rem 1.75rem;text-decoration:none;border:2px solid var(--gold);transition:all .25s}
+.bp:hover{background:transparent;color:var(--gold)}
+.bo{background:transparent;color:#fff;font-family:'Montserrat',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.78rem 1.75rem;text-decoration:none;border:2px solid rgba(255,255,255,.38);transition:all .25s}
+.bo:hover{border-color:var(--gold);color:var(--gold)}
+/* STAT STRIP */
+.ss{background:var(--gold);padding:1.2rem 2rem}
+.ssi{max-width:1200px;margin:0 auto;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:1rem}
+.si2{text-align:center;font-family:'Montserrat',sans-serif}
+.si2 .n{font-size:1.55rem;font-weight:800;color:var(--navy);line-height:1}
+.si2 .l{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy2);margin-top:.18rem}
+/* SECTIONS */
+section{padding:5rem 2rem}
+.si{max-width:1200px;margin:0 auto}
+.stag{font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:flex;align-items:center;gap:.7rem}
+.stag::after{content:'';display:block;height:2px;width:38px;background:var(--gold)}
+h2.st{font-family:'Montserrat',sans-serif;font-size:clamp(1.4rem,2.4vw,2.1rem);font-weight:800;color:var(--navy);margin-bottom:.9rem;line-height:1.2}
+h2.st span{color:var(--gold)}
+.slead{font-size:.93rem;color:var(--tl);max-width:600px;line-height:1.8;margin-bottom:2.25rem}
+/* OVERVIEW */
+.ovs{background:#fff}
+.ovg{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:start}
+.ol{margin-top:1.4rem;padding:1.2rem 1.4rem;border-left:4px solid var(--gold);background:var(--lg);font-size:.9rem;font-style:italic;color:var(--navy);line-height:1.7}
+.ci{display:flex;align-items:flex-start;gap:.9rem;padding:1.15rem;border:1px solid var(--border);background:var(--off);margin-bottom:.7rem;transition:border-color .2s}
+.ci:hover{border-color:var(--gold)}
+.ck{width:32px;height:32px;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;font-weight:800}
+.ci h4{font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.18rem}
+.ci p{font-size:.82rem;color:var(--tl);line-height:1.6}
+/* MODEL */
+.ms{background:var(--navy);color:#fff}
+.ms .st{color:#fff}
+.ms .slead{color:rgba(255,255,255,.68)}
+.mg2{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2rem}
+.mc{background:rgba(255,255,255,.04);padding:2.4rem}
+.mc.pr{border-top:3px solid var(--gold)}
+.mc.fl{border-top:3px solid rgba(255,255,255,.12)}
+.mct{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem}
+.mc h3{font-family:'Montserrat',sans-serif;font-size:1.02rem;font-weight:700;color:#fff;margin-bottom:1.4rem}
+.mc ul{list-style:none}
+.mc ul li{font-size:.84rem;color:rgba(255,255,255,.7);padding:.48rem 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;gap:.65rem;align-items:flex-start}
+.mc ul li::before{content:'\2192';color:var(--gold);flex-shrink:0;font-size:.7rem;margin-top:.15rem}
+.mn{margin-top:1.4rem;padding:.9rem 1.15rem;background:rgba(201,168,76,.08);border-left:3px solid var(--gold);font-size:.79rem;color:rgba(255,255,255,.48);font-style:italic}
+/* DELIVERABLES */
+.ds{background:var(--off)}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:.9rem}
+.pc2{background:#fff;padding:1.85rem;border:1px solid var(--border);border-top:3px solid var(--gold);transition:box-shadow .2s,transform .2s}
+.pc2:hover{box-shadow:0 8px 22px rgba(0,0,0,.08);transform:translateY(-2px)}
+.pn{font-family:'Montserrat',sans-serif;font-size:2.3rem;font-weight:800;color:rgba(201,168,76,.18);line-height:1;margin-bottom:.45rem}
+.pc2 h3{font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.65rem}
+.pc2 p{font-size:.84rem;color:var(--tl);line-height:1.7}
+/* PRICING STRUCTURE (no published rates) */
+.prs{background:#fff}
+.pstruct-intro{max-width:640px;margin-bottom:2.5rem}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:.5rem}
+.pf-col{background:var(--off);border:1px solid var(--border);padding:2rem 1.75rem;border-top:3px solid var(--gold)}
+.pf-col h3{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:1.1rem}
+.pf-col ul{list-style:none}
+.pf-col ul li{font-size:.84rem;color:var(--tl);padding:.55rem 0;border-bottom:1px solid var(--border);line-height:1.65;display:flex;gap:.65rem;align-items:flex-start}
+.pf-col ul li:last-child{border-bottom:none}
+.pf-col ul li::before{content:'\2192';color:var(--gold);flex-shrink:0;font-size:.72rem;margin-top:.2rem;font-weight:700}
+.pf-col ul li strong{color:var(--navy);font-weight:600}
+.pf-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.25rem;padding-top:2rem;border-top:1px solid var(--border)}
+.pf-step{text-align:center;padding:0 .5rem}
+.pf-step-num{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:800;color:rgba(201,168,76,.35);line-height:1;margin-bottom:.45rem}
+.pf-step h4{font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:.35rem}
+.pf-step p{font-size:.78rem;color:var(--mg);line-height:1.55}
+.pf-cta{background:var(--navy);color:#fff;padding:1.75rem 2rem;margin-top:2.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.pf-cta-label{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.pf-cta p{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7;max-width:580px;margin:0}
+.pf-cta-btns{display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0}
+/* legacy pricing cards — unused on ARENA page */
+.prs .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:.9rem}
+.prc{border:1px solid var(--border);padding:2.3rem;position:relative;transition:box-shadow .2s}
+.prc:hover{box-shadow:0 8px 22px rgba(0,0,0,.08)}
+.prc.ft{border-color:var(--gold);border-top:4px solid var(--gold)}
+.prc.ft::before{content:'MOST COMMON';position:absolute;top:-1px;right:1.4rem;background:var(--gold);color:var(--navy);font-family:'Montserrat',sans-serif;font-size:.57rem;font-weight:700;letter-spacing:.12em;padding:.2rem .55rem}
+.prc h3{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mg);margin-bottom:.85rem}
+.pa{font-family:'Montserrat',sans-serif;font-size:1.85rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:.32rem}
+.pno{font-size:.74rem;color:var(--mg);margin-bottom:1.4rem}
+.prc ul{list-style:none}
+.prc ul li{font-size:.81rem;color:var(--tl);padding:.4rem 0;border-bottom:1px solid var(--border);display:flex;gap:.5rem;align-items:flex-start}
+.prc ul li::before{content:'\2713';color:var(--gold);font-weight:700;flex-shrink:0;font-size:.75rem}
+/* BUYERS */
+.bs{background:var(--lg)}
+.bg2{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4rem;margin-top:.9rem}
+.bc{background:#fff;padding:1.65rem 1.15rem;text-align:center;border:1px solid var(--border);border-bottom:3px solid transparent;transition:border-color .2s,box-shadow .2s}
+.bc:hover{border-bottom-color:var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.bi{font-size:1.8rem;margin-bottom:.6rem}
+.bc h3{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;color:var(--navy);margin-bottom:.38rem;text-transform:uppercase;letter-spacing:.04em}
+.bc p{font-size:.74rem;color:var(--mg);line-height:1.5}
+/* ATLAS */
+.as{background:var(--navy2);color:#fff;padding:4rem 2rem}
+.ain{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.ab2{display:inline-block;background:rgba(201,168,76,.14);border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.26rem .7rem;margin-bottom:.85rem}
+.at h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:800;color:#fff;margin-bottom:.9rem}
+.at h2 span{color:var(--gold)}
+.at p{font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:.7rem}
+.afg{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.af{padding:1.15rem;background:rgba(255,255,255,.05);border-left:2px solid var(--gold)}
+.af h4{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.28rem}
+.af p{font-size:.77rem;color:rgba(255,255,255,.52);line-height:1.5}
+/* CREDS */
+.cs{background:var(--off);padding:2.5rem 2rem;border-top:1px solid var(--border)}
+.cin{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:2.25rem;align-items:flex-start;justify-content:space-between}
+.cb h4{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.42rem}
+.cb p{font-size:.77rem;color:var(--mg);line-height:1.9}
+.cbadges{display:flex;gap:.42rem;flex-wrap:wrap}
+.cbadge{font-family:'Montserrat',sans-serif;font-size:.59rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);border:2px solid var(--gold);padding:.26rem .62rem;background:#fff}
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);padding:5rem 2rem;text-align:center;color:#fff}
+.cta h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.4rem,2.5vw,1.95rem);font-weight:800;margin-bottom:.9rem}
+.cta p{color:rgba(255,255,255,.74);max-width:520px;margin:0 auto 1.9rem;font-size:.91rem}
+.ctabtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.68);padding:3.5rem 2rem 2rem}
+.fi{max-width:1200px;margin:0 auto}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.75rem;margin-bottom:2.25rem}
+.fb h3{font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:800;color:#fff;letter-spacing:.08em;margin-bottom:.18rem}
+.fb .tl{font-size:.7rem;font-style:italic;color:var(--gold);margin-bottom:.85rem}
+.fb p{font-size:.77rem;line-height:1.8;color:rgba(255,255,255,.48)}
+.fc h4{font-family:'Montserrat',sans-serif;font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem}
+.fc ul{list-style:none}
+.fc ul li{margin-bottom:.42rem}
+.fc ul li a{font-size:.78rem;color:rgba(255,255,255,.52);text-decoration:none;transition:color .2s}
+.fc ul li a:hover{color:var(--gold)}
+.fbt{border-top:1px solid rgba(255,255,255,.1);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}
+.fcr{font-size:.68rem;color:rgba(255,255,255,.36);line-height:1.9}
+.fcp{font-size:.68rem;color:rgba(255,255,255,.3)}
+.fcp a{color:rgba(255,255,255,.36)}
+/* RESPONSIVE */
+@media(max-width:960px){
+  .ovg,.mg2,.ain,.fg{grid-template-columns:1fr;gap:2rem}
+  .ph,.pg{grid-template-columns:1fr 1fr}
+  .pf-grid,.pf-steps{grid-template-columns:1fr}
+  .bg2{grid-template-columns:repeat(2,1fr)}
+  nav{display:none}
+}
+@media(max-width:600px){
+  .ph,.pg,.bg2{grid-template-columns:1fr}
+  .ssi{justify-content:center;gap:1.5rem}
+  .topbar{flex-direction:column;gap:.38rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span><a href="mailto:info@deedavis.biz">info@deedavis.biz</a></span>
+  <div class="tbl">
+    <a href="https://deedavis.biz/contact">Request Proposal</a>
+    <a href="https://calendly.com/dee_davis_inc/15min">Schedule Consultation</a>
+    <a href="https://deedavis.biz/documents/capability-statement.pdf">Download Capability Statement</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="hi">
+    <a href="https://deedavis.biz" class="lw">
+      <img src="https://deedavis.biz/images/logo.png" alt="DEE DAVIS INC" class="li" onerror="this.style.display='none'">
+      <div class="lt">DEE DAVIS INC<span>"The Professionals' Professionals"</span></div>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="https://deedavis.biz/">Home</a></li>
+        <li><a href="https://deedavis.biz/about">About</a></li>
+        <li><a href="https://deedavis.biz/#solutions" class="on">Contract Sectors</a></li>
+        <li><a href="https://deedavis.biz/#platforms">Technology</a></li>
+        <li><a href="https://deedavis.biz/government-contracting">Gov Contracting</a></li>
+        <li><a href="https://deedavis.biz/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hin">
+    <div class="htag">ARENA &mdash; MOB-E &mdash; Access, Routing &amp; Event Navigation Administration</div>
+    <h1>ARENA<br><span>Event Mobility Consultation &amp; Coordination</span></h1>
+    <p>End-to-end event transportation program management for venues, universities, municipalities, and convention centers. DDI primes the program under the PRIME execution framework &mdash; you run the event.</p>
+    <div class="hbtns">
+      <a href="https://calendly.com/dee_davis_inc/15min" class="bp">Schedule Consultation</a>
+      <a href="https://deedavis.biz/contact" class="bo">Request Proposal</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="ss">
+  <div class="ssi">
+    <div class="si2"><div class="n">1</div><div class="l">Contract &middot; 1 Invoice</div></div>
+    <div class="si2"><div class="n">6</div><div class="l">Phase Delivery Model</div></div>
+    <div class="si2"><div class="n">$7M</div><div class="l">Sole-Source Eligible</div></div>
+    <div class="si2"><div class="n">4</div><div class="l">NAICS Codes</div></div>
+    <div class="si2"><div class="n">EDWOSB</div><div class="l">SBA Certified Prime</div></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="ovs">
+  <div class="si">
+    <div class="ovg">
+      <div>
+        <div class="stag">What We Do</div>
+        <h2 class="st">Transportation logistics shouldn&rsquo;t be <span>your event team&rsquo;s problem.</span></h2>
+        <p class="slead">Venues and event organizers are experts at what they do. Managing rider communications, geofenced pickup zones, driver briefings, and day-of escalations is not their core function &mdash; it&rsquo;s ours.</p>
+        <p style="font-size:.89rem;color:var(--tl);line-height:1.8;">DDI serves as the prime contractor and single accountable vendor for event mobility programs. We design the operation, manage the communications, and coordinate fulfillment &mdash; so your team stays focused on the event itself.</p>
+        <div class="ol">&ldquo;ARENA by DEE DAVIS INC provides event mobility consultation and coordination &mdash; designated pickup/drop-off planning, wayfinding, pre-event communications, and day-of operations oversight &mdash; with credentialed fulfillment dispatched nationwide under one EDWOSB contract through the PRIME execution framework.&rdquo;</div>
+      </div>
+      <div>
+        <div class="ci"><div class="ck">&#x2713;</div><div><h4>One Contract &middot; One Invoice</h4><p>DDI is your single point of accountability. No managing multiple vendors, platforms, or contacts on the buyer&rsquo;s side.</p></div></div>
+        <div class="ci"><div class="ck">&#x2713;</div><div><h4>EDWOSB Prime Contractor</h4><p>SBA-certified sole-source eligible up to $7M. Supports diversity spend goals at government and institutional buyers.</p></div></div>
+        <div class="ci"><div class="ck">&#x2713;</div><div><h4>Fulfillment Managed Behind DDI</h4><p>Credentialed mobility network operates under DDI&rsquo;s contract &mdash; invisible to the buyer, seamless in execution.</p></div></div>
+        <div class="ci"><div class="ck">&#x2713;</div><div><h4>ATLAS PM Technology Backbone</h4><p>Every deliverable, communication, and compliance checkpoint tracked in DDI&rsquo;s proprietary contract management platform.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MODEL -->
+<section class="ms">
+  <div class="si">
+    <div class="stag">The Model</div>
+    <h2 class="st">PRIME Leads. <span>Fulfillment Executes.</span></h2>
+    <p class="slead">Two clear lanes &mdash; DDI administers the ARENA program and holds the prime contract under PRIME. The mobility network executes trips behind it, invisible to the buyer.</p>
+    <div class="mg2">
+      <div class="mc pr">
+        <div class="mct">DDI / PRIME &mdash; Pickup, Routing &amp; Integrated Mobility Execution</div>
+        <h3>Consultation &amp; Coordination</h3>
+        <ul>
+          <li>Pre-event site assessment &amp; traffic flow analysis</li>
+          <li>Geofenced pickup/drop-off zone design</li>
+          <li>Wayfinding &amp; rider communications plan</li>
+          <li>Driver briefing templates and pre-event notifications</li>
+          <li>Road closure and ingress/egress coordination</li>
+          <li>Day-of command and real-time escalation management</li>
+          <li>Post-event close-out report delivered to buyer</li>
+        </ul>
+      </div>
+      <div class="mc fl">
+        <div class="mct">Fulfillment Network &mdash; Under PRIME / DDI Contract</div>
+        <h3>Trip Execution</h3>
+        <ul>
+          <li>Trip dispatch and driver assignment</li>
+          <li>GPS and mapping integrations</li>
+          <li>Platform push notifications</li>
+          <li>Trip execution and real-time monitoring</li>
+          <li>Trip data feed to DDI command</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="ds">
+  <div class="si">
+    <div class="stag">Engagement Scope</div>
+    <h2 class="st">What an ARENA <span>Engagement Delivers</span></h2>
+    <div class="ph">
+      <div class="pc2"><div class="pn">01</div><h3>Discovery</h3><p>Event type, anticipated volume, venue layout, peak arrival and departure windows. We map the full operational picture before a single zone is drawn.</p></div>
+      <div class="pc2"><div class="pn">02</div><h3>PUDO Design</h3><p>Geofenced pickup and drop-off zones, walking path mapping, capacity allocation by gate or entrance. Designed for flow &mdash; not just compliance.</p></div>
+      <div class="pc2"><div class="pn">03</div><h3>Communications Plan</h3><p>Rider instructions, driver briefings, and pre-event push notifications. Every stakeholder knows where to go before the day arrives.</p></div>
+      <div class="pc2"><div class="pn">04</div><h3>Operations Playbook</h3><p>Road closure mapping, surge window planning, escalation tree. Contingencies documented before they&rsquo;re needed.</p></div>
+      <div class="pc2"><div class="pn">05</div><h3>Day-of Command</h3><p>DDI holds the command role. Real-time adjustments, driver communications, and issue resolution managed through one point of contact.</p></div>
+      <div class="pc2"><div class="pn">06</div><h3>Close-out Report</h3><p>Trip volume, peak windows, issues logged, and recommendations for the next event. Your program improves every cycle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING STRUCTURE -->
+<section class="prs">
+  <div class="si">
+    <div class="stag">How Pricing Works</div>
+    <h2 class="st">Dynamic Pricing — <span>Too Many Variables for Flat Rates.</span></h2>
+    <div class="pstruct-intro">
+      <p class="slead" style="margin-bottom:.85rem">ARENA programs are scoped per event. We do not publish rate sheets — every engagement has a different cost profile driven by the variables below.</p>
+      <p style="font-size:.88rem;color:var(--tl);line-height:1.75;">Share your event details in a consultation. DDI builds a custom proposal with a line-item breakdown — trip mobility, program management, and optional PRIME Valet if needed — under one EDWOSB contract and one invoice.</p>
+    </div>
+    <div class="pf-grid">
+      <div class="pf-col">
+        <h3>Trip &amp; Mobility Variables</h3>
+        <ul>
+          <li><strong>Mileage</strong> — trip distance drives fulfillment cost on the mobility network</li>
+          <li><strong>Event timing</strong> — surge pricing, peak arrival/departure windows, after-hours load-out</li>
+          <li><strong>Who&rsquo;s paying</strong> — passenger-pay vs. organizer-pay vs. split / sponsor model</li>
+          <li><strong>Event scale</strong> — 500 attendees vs. 50,000 attendees changes volume and surge exposure</li>
+        </ul>
+      </div>
+      <div class="pf-col">
+        <h3>Program &amp; Operations Variables</h3>
+        <ul>
+          <li><strong>PUDO complexity</strong> — single gate vs. multi-entrance venue, staging lots, and geofence design</li>
+          <li><strong>DDI program management</strong> — communications plan, day-of command staffing, engagement scope and duration</li>
+          <li><strong>PRIME Valet (optional)</strong> — staffing headcount, hours on site, venue size and entry points</li>
+          <li><strong>Program type</strong> — single event vs. recurring season or annual venue program</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pf-steps">
+      <div class="pf-step"><div class="pf-step-num">1</div><h4>Consultation</h4><p>Event type, attendance, venue, dates, and payment model — we map the operational picture.</p></div>
+      <div class="pf-step"><div class="pf-step-num">2</div><h4>Scoped Proposal</h4><p>Custom line-item proposal built from your variables — mobility, PUDO, comms, command, valet if requested.</p></div>
+      <div class="pf-step"><div class="pf-step-num">3</div><h4>One Contract</h4><p>EDWOSB prime, one invoice, ATLAS PM tracking — DDI holds accountability from planning through close-out.</p></div>
+    </div>
+    <div class="pf-cta">
+      <div>
+        <div class="pf-cta-label">Ready for Your Scoped Proposal?</div>
+        <p>Tell us your event type, expected attendance, venue, and date. No published rates — we scope every program individually and deliver pricing built around your specific event.</p>
+      </div>
+      <div class="pf-cta-btns">
+        <a href="https://calendly.com/dee_davis_inc/15min" class="bp">Schedule Consultation</a>
+        <a href="https://deedavis.biz/contact" class="bo" style="color:rgba(255,255,255,.8)">Submit RFP</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPTIONAL ADD-ON: VALET -->
+<section style="background:var(--lg);padding:3.5rem 2rem;border-top:1px solid var(--border)">
+  <div class="si">
+    <div class="stag">Optional Add-On</div>
+    <h2 class="st">PRIME Valet Services <span>(Optional)</span></h2>
+    <p style="font-size:.92rem;color:var(--tl);max-width:680px;line-height:1.8;margin-bottom:2rem;">For venues and events that want a full-service ground transportation experience, DDI can include professional valet operations through DEPOINTE &mdash; coordinated under the same DDI prime contract, at no additional vendor management burden to the buyer.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+      <div style="background:#fff;padding:1.75rem;border:1px solid var(--border);border-left:3px solid var(--gold);">
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;">Guest Vehicle Staging</h4>
+        <p style="font-size:.83rem;color:var(--tl);line-height:1.65;">Professional valet staff manage guest vehicle intake, staging, and retrieval at designated venue entry points.</p>
+      </div>
+      <div style="background:#fff;padding:1.75rem;border:1px solid var(--border);border-left:3px solid var(--gold);">
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;">VIP &amp; Executive Service</h4>
+        <p style="font-size:.83rem;color:var(--tl);line-height:1.65;">White-glove valet for VIP entrances, executive arrivals, and premium guest experiences integrated into the broader mobility program.</p>
+      </div>
+      <div style="background:#fff;padding:1.75rem;border:1px solid var(--border);border-left:3px solid var(--gold);">
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;">Coordinated with PUDO Zones</h4>
+        <p style="font-size:.83rem;color:var(--tl);line-height:1.65;">Valet operations are mapped directly into the PUDO design &mdash; no conflicting traffic flows, no separate coordination layer.</p>
+      </div>
+    </div>
+    <p style="font-size:.78rem;color:var(--mg);font-style:italic;margin-top:1.25rem;">Valet is an optional add-on within the ARENA program — scoped from staffing headcount, hours on site, and venue layout. Fulfilled through DEPOINTE under the PRIME execution framework. Included in your custom proposal when requested.</p>
+  </div>
+</section>
+
+<!-- BUYERS -->
+<section class="bs">
+  <div class="si">
+    <div class="stag">Who We Serve</div>
+    <h2 class="st">Event Mobility for <span>Every Venue Type</span></h2>
+    <div class="bg2">
+      <div class="bc"><div class="bi">&#x1F3DF;&#xFE0F;</div><h3>Stadiums &amp; Arenas</h3><p>Sports events, concerts, recurring season programs</p></div>
+      <div class="bc"><div class="bi">&#x1F3AA;</div><h3>Festivals &amp; Outdoor</h3><p>High-volume, multi-gate ingress/egress coordination</p></div>
+      <div class="bc"><div class="bi">&#x1F3DB;&#xFE0F;</div><h3>Convention Centers</h3><p>Trade shows, conferences, out-of-town attendee logistics</p></div>
+      <div class="bc"><div class="bi">&#x1F393;</div><h3>Universities</h3><p>Back-to-school, game days, commencement, campus programs</p></div>
+      <div class="bc"><div class="bi">&#x1F3DB;&#xFE0F;</div><h3>Government &amp; Cities</h3><p>Public ceremonies &amp; festivals &mdash; EDWOSB advantage where applicable</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ATLAS -->
+<section class="as">
+  <div class="ain">
+    <div class="at">
+      <div class="ab2">Powered by Proprietary Technology</div>
+      <h2>ATLAS PM <span>Backs Every Engagement</span></h2>
+      <p>ATLAS PM is DDI&rsquo;s proprietary contract management platform &mdash; the operational backbone behind every engagement. Every deliverable, compliance checkpoint, and communication is tracked, documented, and reportable.</p>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.38);font-style:italic;">ATLAS PM is proprietary technology that powers our operations. It is not available for sale or licensing.</p>
+    </div>
+    <div class="afg">
+      <div class="af"><h4>Compliance Tracking</h4><p>Every milestone documented and audit-ready throughout the engagement lifecycle.</p></div>
+      <div class="af"><h4>Multi-Stakeholder Workflows</h4><p>Venue ops, DDI command, and fulfillment network &mdash; coordinated in one system.</p></div>
+      <div class="af"><h4>Real-Time Visibility</h4><p>Day-of performance tracked live. Issues logged and escalated immediately.</p></div>
+      <div class="af"><h4>Post-Event Reporting</h4><p>Trip volume, peak analysis, and actionable recommendations delivered to the buyer.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDS -->
+<div class="cs">
+  <div class="cin">
+    <div class="cb"><h4>ARENA &mdash; Program &amp; NAICS Codes</h4><p>485320 &mdash; Limousine Service<br>485999 &mdash; All Other Transit &amp; Ground Passenger Transportation<br>561920 &mdash; Convention &amp; Trade Show Organizers<br>541614 &mdash; Process, Physical Distribution &amp; Logistics Consulting</p></div>
+    <div class="cb"><h4>Federal Credentials</h4><p>CAGE: 8UMX3 &nbsp;|&nbsp; UEI: HJB4KNYJVGZ1<br>EIN: 84-4114181 &nbsp;|&nbsp; NPI: 1538939111<br>MC: 1647572 &nbsp;|&nbsp; US DOT: 4250594</p></div>
+    <div class="cb"><h4>Certifications</h4><div class="cbadges"><span class="cbadge">EDWOSB</span><span class="cbadge">WOSB</span><span class="cbadge">MBE</span><span class="cbadge">WBE</span><span class="cbadge">CMMC-AB</span></div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to Build Your ARENA Program?</h2>
+  <p>ARENA by DEE DAVIS INC delivers end-to-end event mobility consultation and coordination under the PRIME execution framework. EDWOSB sole-source eligible up to $7M.</p>
+  <div class="ctabtns">
+    <a href="https://calendly.com/dee_davis_inc/15min" class="bp">Schedule Consultation</a>
+    <a href="https://deedavis.biz/contact" class="bo">Request Proposal</a>
+    <a href="https://deedavis.biz/documents/capability-statement.pdf" class="bo">Download Capability Statement</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div class="fg">
+      <div class="fb">
+        <h3>DEE DAVIS INC</h3>
+        <div class="tl">&ldquo;The Professionals&rsquo; Professionals&rdquo;</div>
+        <p>755 W. Big Beaver Rd., Suite 2020<br>Troy, MI 48084<br><br><strong style="color:var(--gold)">Email:</strong> <a href="mailto:info@deedavis.biz" style="color:rgba(255,255,255,.52)">info@deedavis.biz</a></p>
+      </div>
+      <div class="fc">
+        <h4>Contract Sectors</h4>
+        <ul>
+          <li><a href="https://deedavis.biz/solutions/emergency-logistics">Emergency Logistics &amp; PM</a></li>
+          <li><a href="https://deedavis.biz/solutions/freight-logistics">Logistics &amp; Fleet</a></li>
+          <li><a href="https://deedavis.biz/solutions/healthcare-transportation">Healthcare Transportation</a></li>
+          <li><a href="https://deedavis.biz/solutions/business-continuity">Business Continuity</a></li>
+          <li><a href="https://deedavis.biz/solutions/federal-compliance">Federal Compliance</a></li>
+          <li><a href="https://deedavis.biz/solutions/professional-services">Professional Services</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h4>Technology Platforms</h4>
+        <ul>
+          <li><a href="https://deedavis.biz/platforms/atlas-pm">ATLAS PM</a></li>
+          <li><a href="https://deedavis.biz/platforms/fleetflow">FleetFlow&trade;</a></li>
+        </ul>
+        <h4 style="margin-top:1.2rem">Resources</h4>
+        <ul>
+          <li><a href="https://deedavis.biz/resources/capability-statements.html">Capability Statements</a></li>
+          <li><a href="https://deedavis.biz/resources/whitepapers.html">Whitepapers &amp; Guides</a></li>
+          <li><a href="https://deedavis.biz/resources/faqs.html">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="https://deedavis.biz/about">About Us</a></li>
+          <li><a href="https://deedavis.biz/portfolio">Portfolio &amp; Case Studies</a></li>
+          <li><a href="https://deedavis.biz/government-contracting">Government Contracting</a></li>
+          <li><a href="https://deedavis.biz/contact">Contact Us</a></li>
+          <li><a href="https://3d-ink-livescan.square.site">3D Ink Fingerprinting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbt">
+      <div class="fcr"><strong style="color:rgba(255,255,255,.44)">Federal Credentials:</strong> CAGE: 8UMX3 | UEI: HJB4KNYJVGZ1 | DUNS: 002636755 | NPI: 153893911 | MC: 1647572 | DOT: 4250594 | NMLS: 2099291<br><strong style="color:rgba(255,255,255,.44)">Certifications:</strong> EDWOSB | WOSB | WBE | MBE/NMSDC | CMMC-AB</div>
+      <div class="fcp">&copy; 2026 DEE DAVIS INC. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

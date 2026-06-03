@@ -86,7 +86,7 @@ These are the portals where Nexus can scan freely:
 |-------|--------|-----|-------|
 | **California** | Cal eProcure | caleprocure.ca.gov | Public search exists but JavaScript-heavy |
 | **Idaho** | IPRO | purchasing.idaho.gov | Links to bid opportunities, may need browser |
-| **Maine** | Procurement Portal | maine.gov/dafs/bbm/procurementservices | Some lists public, main bids in VSS (login) |
+| **Maine** | Maine VSS | mevss.hostams.com/PRDVSS1X1/AltSelfService | **REGISTERED** — Vendor # VS0000032746 (Jun 2026) |
 | **Nevada** | NevadaEPro | nevadaepro.com | Public bulletins visible, bid list needs login |
 | **New Jersey** | NJSTART | njstart.gov | Login for search, but PDF list available publicly |
 

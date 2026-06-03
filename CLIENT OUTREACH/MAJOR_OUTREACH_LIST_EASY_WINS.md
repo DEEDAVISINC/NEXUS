@@ -24,7 +24,7 @@
 |---|---|---|---|
 | **Alina Pabin** | Blue Cross Complete MI | Follow-up sent **May 30** | She responds → schedule intro |
 | **Angela Medina / Aimee Surma** | MDHHS CLPPP | Follow-up sent **May 30** | **Mid-June** → call 517-897-5203 |
-| **Jason Giombetti** | Worcester ESWA | LOI/email sent **May 31** | Follow up **Jun 7** if silent |
+| **Jason Giombetti** | Worcester ESWA | LOI/email May 31 · Jason Jun 1 | **Next cycle ~2029** — hard LOI this cycle · re-outreach when RFP opens |
 
 ---
 
@@ -36,7 +36,7 @@
 |---|---|---|---|---|---|---|
 | **1** | **HAP CareSource — SDOH / dual-eligible navigation** | Brian Grcevich | **Brian.Grcevich@CareSource.com** | Ask who owns **HRSN / benefits navigation** for HIDE SNP; MI Bridges 250+ apps | See **Email A** below · `CLIENT OUTREACH/MICHIGAN MCO NEMT HAVEN/HAP_CARESOURCE_BRIAN_FOLLOWUP.md` | 10 min |
 | **2** | **University Hospital Newark — debrief** | Jennifer Eliopoulos | **eliopoje@uhnj.org** · CC **uhpurchasing@uhnj.org** | On-file for transport recompete | `BIDS:RESOURCES/UNIVERSITY HOSPITAL NEWARK TRANSPORT DEBRIEF/SEND_TO_BUYER/DEBRIEF_EMAIL_READY.md` | 5 min |
-| **3** | **Greene County OH NEMT — debrief** | Beth Rubin | **beth.rubin@jfs.ohio.gov** | County NEMT vendor file | `BIDS:RESOURCES/GREENE COUNTY OH NEMT DEBRIEF/SEND_TO_BUYER/` | 5 min |
+| **3** | ~~**Greene County OH NEMT — debrief**~~ | Beth Rubin | **beth.rubin@jfs.ohio.gov** | ✅ **ON RFP LIST** — Jun 1 | `GREENE COUNTY OH NEMT DEBRIEF/` | Done |
 | **4** | **CareSource Ohio MyCare D-SNP** | Tye Hill (AVP Provider Relations) | **Tye.Hill@CareSource.com** · CC **Tracey.Rucker@CareSource.com** | Same parent as **Vendor ID 100000469269** (HAP MI) | `CLIENT OUTREACH/OHIO MCO NEMT HAVEN/OHIO_MCO_OUTREACH_EMAILS.md` Email 2 | 15 min + HAVEN PDF |
 | **5** | **Anthem Ohio MyCare D-SNP — overdue follow-up** | Shelley Brown | **OhioMedicaidProvider@anthem.com** (Shelley on thread) | NEMT TPA + navigation bundle for dual-eligible | `CLIENT OUTREACH/OHIO MCO NEMT HAVEN/OHIO_MCO_OUTREACH_EMAILS.md` Email 1 | 15 min + HAVEN PDF |
 
@@ -118,8 +118,8 @@
 |---|---|---|
 | Nevada NET **41NHA-S3848** | Capitation · broker-only · portal deadline **Jun 3** | NevadaEPro login · not outreach |
 | Pasco-Pinellas transport RFP | Full proposal · **Jun 18** | Exhibits · LOI status |
-| Worcester elder transport | Full proposal · **Jun 19** | Await Jason |
-| VA Madison NEMT | Competitive · **Jun 8** | GO/NO-GO |
+| Worcester elder transport | ~~Jun 19 proposal~~ | **Next cycle ~2029** — LOI gate this cycle |
+| VA Madison NEMT | Competitive · **Jun 22** (Amd 0002) | CONDITIONAL GO — WI sub |
 | Maine NET teaming | Regional slice · follow-up **Jun 3** | `CLIENT OUTREACH/MAINE NEMT TEAMING/` |
 | Federal CO cold pipeline | 100+ already emailed | `CLIENT OUTREACH/FEDERAL CO OUTREACH PIPELINE/CO_OUTREACH_TRACKER.md` |
 
@@ -129,7 +129,7 @@
 
 | Date | Sends |
 |---|---|
-| **Mon Jun 2** | #1 Brian (SDOH) · #2 Newark debrief · #3 Greene debrief |
+| **Mon Jun 2** | #1 Brian (SDOH) · #2 Newark debrief · ~~#3 Greene debrief~~ ✅ on RFP list |
 | **Tue Jun 3** | #4 CareSource OH · #5 Anthem OH · Maine Penquis/Waldo follow-up |
 | **Wed Jun 4** | #8 Molina FL · #9 Aetna Graves · #12 MVAA follow-up |
 | **Thu Jun 5** | #7 Molina portal + Jennifer Casbar · #6 Dana Drew Oakland |

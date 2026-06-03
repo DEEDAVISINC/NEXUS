@@ -1,6 +1,6 @@
 # DDI Strategic Knowledge Index
 
-**Last Updated:** May 30, 2026  
+**Last Updated:** June 1, 2026  
 **Purpose:** Master index — buyers, populations, community impact, foundations, scaling. NEXUS reads before grants, funding strategy, “who we serve,” and program pitches.
 
 ---
@@ -58,6 +58,7 @@
 | **Feast of Funds workbook (Step 5)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP5_PRIORITIES.md` | Execution priorities (MHEF concept, CFSEM) — not prep — copyable |
 | **Feast of Funds workbook (Step 6)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_STEP6_COMMITMENT.md` | Post-workbook commitments — copyable |
 | **Feast of Funds index (all steps)** | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/FEAST_OF_FUNDS_WORKBOOK_INDEX.md` | Steps 1–6 complete · aligned to ops status |
+| **Shared Vision meeting system** | `NEXUS_LEARNING/SHARED_VISION_CORPORATE_CLIENT_ATTRACTION_SYSTEM.md` | 3-stage org sales pipeline — 15-min explore → discovery → proposal close (Safi Media, DDI-adapted) |
 
 ---
 
@@ -73,7 +74,8 @@
 - `DDI_TPA_DIVISIONS.md` — 9 TPA divisions
 - `ALL_BUYERS_BY_SECTOR.md` — detailed buyer lists by NAICS
 - `GRANT_APPLICATION_PACKAGE/GRANT_ACTIVE_PIPELINE.md` — live grant tracker
-- `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md` — HAVEN pillars
+- **`NEXUS_LEARNING/FOREIGN_ENTITY_REGISTRATION_FEES_50_STATES.md`** — **Master: foreign corp fees all 50 states + DC** (ranked tiers, DDI priority states, NY SUNY path)
+- `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md` — HAVEN pillars + DDI priority foreign entity summary (FL/TX/LA/MD/NY)
 - `MDHHS_SHIELD_PILOT_PROPOSAL.md` — SHIELD KPIs and volume
 
 ---

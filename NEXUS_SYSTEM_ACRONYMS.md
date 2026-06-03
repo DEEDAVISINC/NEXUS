@@ -133,6 +133,34 @@ NEXUS Business Operating System
 
 ---
 
-**Last Updated:** February 13, 2026  
-**Total Systems:** 8  
-**Status:** 7 systems operational, PRISM in architecture phase
+### **Contract Sector Verticals** (NEXUS program brands — buyer-facing)
+
+| Brand | Full Name | Function | NEXUS execution |
+|-------|-----------|----------|-----------------|
+| **VITAL** | Verified Integrated Transport And Logistics | Healthcare / medical courier & pharma logistics TPA | PRISM + VERTEX |
+| **HAVEN** | Housing Assistance Vital Emergency Network | Disaster continuity — housing, MOB-B transport, medical continuity | ATLAS + PRISM + VERTEX |
+| **ARENA** | Access, Routing & Event Navigation Administration | Event mobility program brand — client-facing; venues, festivals, conventions, campuses buy **The ARENA Program** | ATLAS + PRISM + VERTEX |
+| ↳ **PRIME** | Pickup, Routing & Integrated Mobility Execution | Contracting & execution framework **within ARENA** — SOWs, contract vehicles, gov submissions; DDI as prime | ATLAS + PRISM dispatch |
+
+**Audience language (use consistently):**
+
+| Audience | Say |
+|----------|-----|
+| **Venue / buyer** | *The ARENA Program — managed by Dee Davis Inc.* |
+| **Contract / SOW** | *DDI PRIME — MOB-E Lane \| ARENA Program* |
+| **Government submission** | *ARENA \| PRIME Execution Framework \| EDWOSB Prime Contractor* |
+
+**Fulfillment stack (internal / contract — not buyer marketing copy):**
+- Trip execution fulfillment → credentialed mobility partners under PRIME (do not name consumer brands to prospects per network-protection rules)
+- Optional valet add-on → DEPOINTE under PRIME
+- **ARENA routing email:** `rides@deedavis.biz`
+- **Intake service key:** `arena`
+
+**ARENA tagline:** *One program. One prime. Every trip accounted for.*
+
+**ARENA pricing (website + PRISM intake — aligned):** Dynamic — no flat rates. Variables: mileage, timing/surge, payment model, event scale, PUDO complexity, program management scope, optional PRIME Valet. Consultation → scoped proposal → one contract. Intake collects event details only — no payment at intake.
+
+---
+
+**Last Updated:** May 31, 2026  
+**Total Systems:** 8 core modules + 3 sector verticals (VITAL, HAVEN, ARENA)

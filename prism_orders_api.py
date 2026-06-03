@@ -65,12 +65,17 @@ INTAKE_SERVICE_MAP = {
     'apostille': 'apostille',
     'process': 'process',
     'courier': 'medical_courier',
+    'credentialing': 'credentialing',
+    'workforce': 'workforce',
 }
 
 URGENCY_TO_PRIORITY = {
     'stat': 'STAT',
+    'emergency': 'STAT',
     'same-day': 'Same Day',
+    'priority': 'Same Day',
     'scheduled': 'Standard',
+    'routine': 'Standard',
 }
 
 TIER_FEE_BASE = {
@@ -79,6 +84,9 @@ TIER_FEE_BASE = {
     3: 250,   # On-Site Group Event
 }
 
+# Event programs quoted per engagement — no fee at intake
+SCOPED_PRICING_SERVICE_KEYS = frozenset({'arena', 'event-mobility'})
+
 SERVICE_ROUTING_EMAILS = {
     'testing-drug': 'testing@deedavis.biz',
     'testing-occhealth': 'testing@deedavis.biz',
@@ -86,12 +94,20 @@ SERVICE_ROUTING_EMAILS = {
     'fingerprint': 'screening@deedavis.biz',
     'background': 'screening@deedavis.biz',
     'dna': 'dna@deedavis.biz',
-    'nemt': 'rides@deedavis.biz',
+    'nemt': 'nemt@deedavis.biz',
+    'nemt-medicaid': 'nemt@deedavis.biz',
+    'arena': 'rides@deedavis.biz',
+    'event-mobility': 'rides@deedavis.biz',
+    'nemt-mobility': 'nemt@deedavis.biz',
     'transport': 'rides@deedavis.biz',
     'notary': 'notary@deedavis.biz',
     'apostille': 'notary@deedavis.biz',
     'process': 'notary@deedavis.biz',
     'courier': 'courier@deedavis.biz',
+    'courier-legal': 'notary@deedavis.biz',
+    'courier-medical': 'courier@deedavis.biz',
+    'credentialing': 'credentialing@deedavis.biz',
+    'workforce': 'compliance@deedavis.biz',
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -881,7 +897,7 @@ Created:       {order.get('created_at', '')}
 Priority:      {order.get('priority', 'Standard')}
 Service:       {order.get('service_label', '')}
 Tier:          {order.get('tier', 1)}
-Fee:           ${order.get('fee', 0)}
+Fee:           {('Dynamic — proposal after consultation (no flat rates)' if (order.get('billing') or {}).get('pricing_model') == 'scoped_per_event' or order.get('service_key') in SCOPED_PRICING_SERVICE_KEYS else f"${order.get('fee', 0)}")}
 ========================================
 
 CLIENT
@@ -905,8 +921,16 @@ Time:          {order.get('time', '')} {order.get('timezone', '')}
 Site:          {order.get('collection_site', '')}
 
 Notes:         {order.get('notes', '')}
-========================================
-View in PRISM Dashboard: http://localhost:3000 → PRISM → Orders
+"""
+    details = order.get('details') or {}
+    if details:
+        body += "\nSERVICE DETAILS\n"
+        for key, value in details.items():
+            if value and str(value).strip() not in ('', '—'):
+                label = key.replace('_', ' ').title()
+                body += f"{label + ':':14} {value}\n"
+    body += """========================================
+View in PRISM Dashboard: NEXUS → PRISM → Orders
 """
 
     try:
@@ -1396,6 +1420,16 @@ def create_intake_order():
     tier = int(data.get('tier', 1))
     fee = TIER_FEE_BASE.get(tier, 150)
 
+    details = dict(data.get('details') or {})
+    is_scoped_pricing = (
+        svc_key in SCOPED_PRICING_SERVICE_KEYS
+        or details.get('pricing_model') == 'scoped_per_event'
+        or data.get('pricing_model') == 'scoped_per_event'
+    )
+    if is_scoped_pricing:
+        fee = 0
+        details['pricing_model'] = 'scoped_per_event'
+
     if priority == 'STAT':
         fee = int(fee * 1.5)
     elif priority == 'Same Day':
@@ -1406,7 +1440,6 @@ def create_intake_order():
 
     routing_email = data.get('routing_email', SERVICE_ROUTING_EMAILS.get(svc_key, ADMIN_EMAIL))
 
-    details = dict(data.get('details') or {})
     channel = (data.get('channel') or '').strip().lower()
     if channel == 'law_firm' or svc_key == 'notary-law-firm':
         try:
@@ -1450,7 +1483,7 @@ def create_intake_order():
         'qc_status': 'pending',
         'workflow': _build_workflow(service_type),
         'workflow_stage': 0,
-        'workflow_stage_label': 'Order Received',
+        'workflow_stage_label': 'Scoping Request' if is_scoped_pricing else 'Order Received',
         'created_at': now.isoformat(),
         'updated_at': now.isoformat(),
     }
@@ -1461,17 +1494,36 @@ def create_intake_order():
     orders.insert(0, order)
     _save(ORDERS_FILE, orders)
 
+    # Sync to Airtable PRISM Orders (system of record for portal calendar)
+    try:
+        from prism_airtable_intake import sync_intake_order_to_airtable
+        airtable_id = sync_intake_order_to_airtable(order, data)
+        if airtable_id:
+            order['airtable_record_id'] = airtable_id
+            orders[0] = order
+            _save(ORDERS_FILE, orders)
+    except Exception as e:
+        print(f'PRISM Airtable intake sync skipped: {e}')
+
     # Billing data from intake form
     billing_tier = data.get('billing_tier', 'pay_at_booking')
     payment_method = data.get('payment_method', '')
     override_code = data.get('override_code', '')
-    order_total = float(data.get('order_total', fee) or fee)
+    if is_scoped_pricing:
+        order_total = 0.0
+        if not payment_method:
+            payment_method = 'proposal'
+    else:
+        order_total = float(data.get('order_total', fee) or fee)
     order['billing'] = {
         'tier': billing_tier,
         'payment_method': payment_method,
         'override_code': override_code,
         'order_total': order_total,
+        'pricing_model': 'scoped_per_event' if is_scoped_pricing else details.get('pricing_model', ''),
     }
+    if is_scoped_pricing:
+        order['fee'] = 0
 
     _fire_notification(order)
     _send_order_email_async(order)
@@ -1481,6 +1533,8 @@ def create_intake_order():
 
     # Fire VERTEX invoice creation async
     def _vertex_invoice():
+        if is_scoped_pricing or order_total <= 0:
+            return
         try:
             from vertex_automation import vertex_auto_trigger
             vertex_auto_trigger(
@@ -1503,6 +1557,75 @@ def create_intake_order():
     threading.Thread(target=_vertex_invoice, daemon=True).start()
 
     return jsonify({'success': True, 'order': order}), 201
+
+
+def _portal_order_status(status):
+    """Map PRISM ops status → client portal bucket."""
+    s = (status or 'New').lower().replace(' ', '_')
+    if s in ('complete', 'completed', 'closed', 'verified', 'documentation'):
+        return 'completed'
+    if s in ('in_progress', 'assigned'):
+        return 'in_progress'
+    if s in ('confirmed', 'scheduled'):
+        return 'scheduled'
+    return 'pending'
+
+
+def _order_to_portal_view(order):
+    """Shape stored order for PRISM client intake dashboard / calendar."""
+    return {
+        'id': order.get('id', ''),
+        'type': order.get('type') or order.get('service_key', ''),
+        'service_key': order.get('service_key', ''),
+        'service_label': order.get('service_label', ''),
+        'subject': (order.get('signer') or '').strip() or '—',
+        'date': order.get('date', ''),
+        'time': order.get('time', ''),
+        'timezone': order.get('timezone', ''),
+        'location': order.get('collection_site') or order.get('address', ''),
+        'status': _portal_order_status(order.get('status')),
+        'priority': order.get('priority', 'Standard'),
+        'result': order.get('result', ''),
+        'created_at': order.get('created_at', ''),
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════
+# GET /prism/orders/my  —  Orders for logged-in client (by email)
+# ═══════════════════════════════════════════════════════════════════
+
+@prism_orders.route('/prism/orders/my', methods=['GET'])
+def my_orders():
+    email = (request.args.get('email') or '').strip().lower()
+    if not email or '@' not in email:
+        return jsonify({'error': 'Valid email required'}), 400
+
+    json_orders = _load(ORDERS_FILE, [])
+    mine_json = [
+        o for o in json_orders
+        if (o.get('client_email') or '').strip().lower() == email
+    ]
+    portal_json = [_order_to_portal_view(o) for o in mine_json]
+
+    portal_airtable = []
+    try:
+        from prism_airtable_intake import fetch_portal_orders_by_email, merge_portal_orders
+        portal_airtable = fetch_portal_orders_by_email(email)
+        portal = merge_portal_orders(portal_airtable, portal_json)
+    except Exception as e:
+        print(f'PRISM Airtable my_orders fallback to JSON: {e}')
+        portal = portal_json
+
+    portal.sort(key=lambda x: str(x.get('created_at', '')), reverse=True)
+    return jsonify({
+        'orders': portal,
+        'total': len(portal),
+        'email': email,
+        'sources': {
+            'airtable': len(portal_airtable),
+            'json': len(portal_json),
+        },
+    })
 
 
 # ═══════════════════════════════════════════════════════════════════

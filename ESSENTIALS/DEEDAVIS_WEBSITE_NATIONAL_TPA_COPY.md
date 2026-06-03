@@ -107,6 +107,86 @@ DDI is the contract holder and program administrator. Collection sites, labs, MR
 
 ---
 
+### VITAL — Healthcare Logistics TPA (Dedicated Page)
+
+**Live URL (when deployed):** `https://deedavis.biz/solutions/vital`  
+**NEXUS source:** `WEBSITE/solutions/vital/index.html`
+
+**Short:** Nationwide healthcare logistics TPA — lab courier, pharmacy courier, and medical equipment transport under one contract, one compliance framework, PRISM/VITAL platform.
+
+**Learn-more blurb:**
+
+```
+VITAL (Verified Integrated Transport And Logistics) is DDI's healthcare courier program. Health systems contract with DDI once; we manage credentialed courier networks for specimens, prescriptions, controlled substances, and equipment — HIPAA, DEA, DOT, and CAP/CLIA aligned. Headquartered in Troy, Michigan; national dispatch in all 50 states.
+```
+
+**Homepage card suggestion:** Add under Contract Sectors → "VITAL Healthcare Logistics" linking to `/solutions/vital`.
+
+---
+
+### HAVEN — Disaster Response TPA (Dedicated Page)
+
+**Live URL (when deployed):** `https://deedavis.biz/solutions/haven`  
+**NEXUS source:** `WEBSITE/solutions/haven/index.html`
+
+**Short:** Nationwide disaster continuity TPA for **displaced plan members** (MOB-B) — housing, evacuation transport, and medical continuity when catastrophic events collapse local networks. Not routine plan NEMT.
+
+**Learn-more blurb:**
+
+```
+HAVEN (Housing Assistance Vital Emergency Network) is DDI's MCO disaster-mode program. When members are evacuated or displaced, DDI activates pre-built housing, credentialed mobility, and medical continuity networks under one contract — CMS Section 1135 aligned, one invoice, full compliance documentation. Headquartered in Troy, Michigan; national program administration.
+```
+
+**Homepage card suggestion:** Add under Contract Sectors → "HAVEN Disaster Response" linking to `/solutions/haven`. Pair with Business Continuity sector — HAVEN is member continuity, not generic COOP.
+
+---
+
+### ARENA — Access, Routing & Event Navigation Administration
+
+**Live URL (when deployed):** `https://deedavis.biz/solutions/event-mobility`  
+**NEXUS source:** `WEBSITE/solutions/event-mobility/index.html`
+
+**Short:** Nationwide event mobility TPA — PUDO design, rider/driver comms, day-of command, and trip fulfillment for stadiums, festivals, convention centers, universities, and municipal events. Separate from plan NEMT and HAVEN disaster continuity.
+
+**Learn-more blurb:**
+
+```
+ARENA is DDI's event mobility program — Access, Routing & Event Navigation Administration. One EDWOSB contract, one invoice, ATLAS PM tracking. We consult on geofenced pickup/drop-off zones, wayfinding, and day-of escalation; credentialed mobility partners execute trips under DDI management. National dispatch where the event is held.
+```
+
+**Homepage card suggestion:** Add under Contract Sectors → "ARENA" linking to `/solutions/event-mobility`.
+
+**Intake:** PRISM client portal service key `arena` → `rides@deedavis.biz`
+
+**Pricing model (website + PRISM intake — aligned May 2026):**
+- **Dynamic — no published flat rates.** Too many variables per event to quote off a sheet.
+- **Trip & mobility variables:** mileage, event timing/surge, who's paying, event scale
+- **Program variables:** PUDO complexity, DDI program management scope, optional PRIME Valet (DEPOINTE)
+- **Path:** Consultation → scoped line-item proposal → one EDWOSB contract / one invoice
+- Intake Step 4 = event details only; **no payment at intake**
+
+### PRIME — execution framework within ARENA
+
+**PRIME** = **P**ickup, **R**outing & **I**ntegrated **M**obility **E**xecution
+
+| Layer | Role |
+|-------|------|
+| **ARENA** | Program brand — what the client buys (navigation administration, PUDO, day-of command) |
+| **PRIME** | DDI prime-contractor execution framework on SOWs and gov submissions |
+| **Fulfillment** | Credentialed mobility partners under PRIME (trip dispatch) |
+| **DEPOINTE** | Optional valet add-on under PRIME |
+
+**Audience copy:**
+- Venue: *The ARENA Program — managed by Dee Davis Inc.*
+- Contract: *DDI PRIME — MOB-E Lane \| ARENA Program*
+- Gov submission: *ARENA \| PRIME Execution Framework \| EDWOSB Prime Contractor*
+
+---
+
+### ~~Event Mobility — Consultation & Coordination (MOB-E)~~ → **Renamed ARENA** (May 2026)
+
+---
+
 ### 4. Federal Security & Credentialing ⚠️ SWFT LANGUAGE FIX
 
 **DO NOT USE on website:** "DCSA SWFT authorized," "SWFT electronic fingerprinting," "Top 10% SWFT provider."
@@ -183,7 +263,7 @@ DDI and Cause We Care administer community navigation, enrollment assistance, an
 
 ```
 Dee Davis Inc. · Nationwide Contract Management TPA · Troy, MI HQ · 50 States + DC
-248.376.4550 · info@deedavis.biz · CAGE 8UMX3 · UEI HJB4KNYJVGZ1 · EDWOSB
+248.376.4550 · info@deedavis.biz · CAGE 8UMX3 · UEI HJB4KNYJVGZ1 · EDWOSB · Medicaid Provider · E-Verify Program Administrator
 ```
 
 ---

@@ -83,7 +83,18 @@ DDI must be legally authorized to do business in FL, TX, LA before signing contr
 | Certificate of Good Standing | ⬜ Not Started | Order from Michigan LARA | ~$10 |
 | Virtual Business Address | ⬜ Not Started | Anytime Mailbox or similar | ~$10-15/mo |
 
-**Total Entry Cost:** ~$920 filing + ~$1,380/year ongoing
+**Total Entry Cost (HAVEN FL+TX+LA):** ~$920 filing + ~$1,380/year ongoing
+
+### New York (SUNY Upstate — not HAVEN)
+| Item | Status | Action | Cost |
+|---|---|---|---|
+| Application for Authority (foreign corp) | ⬜ Not Started | File via [NY e-Corp](https://dos.ny.gov/e-corp-online-filing-system) | **$225** |
+| Certificate of Good Standing (MI) | ⬜ Not Started | Order from Michigan LARA | ~$10 |
+| NY office address (Onondaga) | ⬜ TBD | **3 Chevy Dr., East Syracuse, NY 13057** on authority filing + invoice | Lease/coworking (separate) |
+| Certificate of Assumed Name (d/b/a DDI) | ⬜ **Skip unless needed** | **Not required** if invoicing as **Dee Davis Inc.** | $0 |
+| Cushner confirm (invoice address) | ⬜ Pending | Email before filing — `CUSHNER_QA_2026-06-02.md` | — |
+
+**NY entry (filings only):** ~**$235** + address · Full pricing table: `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md` → *DDI Foreign Entity Registration*
 
 ---
 

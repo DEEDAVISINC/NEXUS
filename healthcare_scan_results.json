@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-05-31T15:05:18.102596",
-  "total_found": 71,
+  "scan_date": "2026-06-01T08:44:55.554580",
+  "total_found": 83,
   "opportunities": [
     {
       "source": "Arizona AHCCCS",
@@ -498,6 +498,90 @@
       "link": "http://veterans.portal.texas.gov/",
       "state": "TX",
       "type": "State Medicaid"
+    },
+    {
+      "source": "UMMS (Univ of Maryland)",
+      "title": "UMMS Open RFPs",
+      "link": "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp",
+      "state": "MD",
+      "type": "Hospital System"
+    },
+    {
+      "source": "UMMS (Univ of Maryland)",
+      "title": "In an ongoing effort to ensure equitability within our supply chain, the University of Maryland Medical System is committed to an open and transparent Request for Proposal (RFP) process. This page con",
+      "link": "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp",
+      "state": "MD",
+      "type": "Hospital System"
+    },
+    {
+      "source": "UMMS (Univ of Maryland)",
+      "title": "Should you have additional questions, please contact the UMMS representative listed in the RFP.",
+      "link": "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp",
+      "state": "MD",
+      "type": "Hospital System"
+    },
+    {
+      "source": "UMMS (Univ of Maryland)",
+      "title": "The University of Maryland Medical System, in an effort to provide prospective vendors maximum time to prepare and respond to a Request For Proposal/Request For Information, will be posting the upcomi",
+      "link": "https://www.umms.org/about/vendors-services/minority-business-program/open-rfp",
+      "state": "MD",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Inspira\u2019s Request for Proposal (RFP) Process",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "To ensure fairness, transparency and alignment with our strategic goals, Inspira Health uses a formal request for proposal (RFP) process to evaluate and select vendor partners for systems and services",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Prospective business partners can review active RFPs below, complete all required attachments within the specified timeline and submit one copy by email to the identified RFP contact. Proposals must c",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Vendors will have an opportunity to submit questions before completing RFP attachments. All questions must be directed by email to the designated RFP contact by the stated deadline. A deadline for que",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Inspira may invite prospective business partners to a virtual pre-proposal conference with the selection committee. This session offers the opportunity to engage with Inspira executive leadership and ",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Product or service demonstrations relevant to the RFP requirements",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Once proposals are received, Inspira\u2019s selection committee will conduct a thorough evaluation to identify the solution that best meets our needs. Proposals are reviewed using a numerical scoring syste",
+      "link": "https://www.inspirahealthnetwork.org/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
+    },
+    {
+      "source": "Inspira Health",
+      "title": "Request for Proposals (RFPs)",
+      "link": "/about-us/request-proposals-rfp",
+      "state": "NJ",
+      "type": "Hospital System"
     }
   ]
 }

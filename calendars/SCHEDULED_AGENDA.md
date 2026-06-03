@@ -226,7 +226,10 @@
 ## 2026-06-03 — Wednesday
 
 - **9:00 AM ET** — 🔥 **DEADLINE: NCS Partner Setup Must Be Complete (30-Day Window)** — National Crime Search channel partner agreement executed May 4. Setup MUST be complete within 30 days or commission payments forfeited. **Required:** (1) Upload DDI logo to co-branded portal, (2) Add link from deedavis.biz to NCS site, (3) Complete training with NCS rep. Contact: Travis Fink, CEO — travis@nationalcrimesearch.com / 479-695-2111. Portal: deedavisinc.nationalcrimesearch.com. `.ics`: `calendars/ncs_setup_deadline_2026-06-03.ics`
-- **1:00 PM ET** — 📋 **CWC OUTREACH: MHEF capacity building deadlines** — mihealthfund.org — concept paper window. CWC applicant. Begin Healthcare Access or Family Stability paper if due soon. `.ics`: `cwc_outreach_mhef_deadlines_2026-06-03.ics`
+- **1:00 PM ET** — 📝 **SIGNING: Philipp Lueddecke — HELOC $80** — Premium Closing Solutions · PMCS-247367 / LMI26232513 · 374 Harrington St, Mount Clemens · Philipp (586) 265-4919 · **Scanbacks required** · EDOCS · PCS 951-479-1450 · `.ics`: `calendars/pcs_lueddecke_signing_LMI26232513_2026-06-03.ics`
+- **2:00 PM ET** — 📝 **SIGNING: Kenneth & Rita Rohan — Refi $100** — Title Processing Center · File N26-0227NW · 13759 Ironwood Dr, Shelby Township · Ken (586) 530-1300 · Ken.Rohan@Champion-ventures.com · Property Tampa FL · **Scanbacks required** · EDOCS · 2nd witness N/A · TPC 813-444-1400 · `.ics`: `calendars/tpc_rohan_signing_N26-0227NW_2026-06-03.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: MHEF capacity building deadlines** — mihealthfund.org — concept paper window. CWC applicant. **Move to another day** — conflicts with Lueddecke signing. `.ics`: `cwc_outreach_mhef_deadlines_2026-06-03.ics`
+- **6:00 – 7:30 PM ET** — 📧 **SEND: PRIME Valet sub outreach** — Towne Park · Soiree Valet · PMC · Folder: `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · Verify contacts + USASpending before send · `.ics`: `calendars/arena_prime_valet_outreach_2026-06-03.ics`
 
 ---
 
@@ -272,7 +275,7 @@
 ## 2026-06-02 — Tuesday
 
 - **12:00 PM ET** — 📧 **CWC OUTREACH: Check BCC + MDHHS inbox** — Alina Pabin (BCC), Angela Medina/Aimee Surma (MDHHS). Check only — **do not send follow-ups.** If BCC responds → schedule 30-min call + `ALINA_MEETING_TALK_TRACK.md`. `.ics`: `cwc_outreach_check_bcc_mdhhs_inbox_2026-06-02.ics`
-- **1:00 – 1:25 PM ET** — 📞 **Dee Davis Inc. + Uber Health — Jeff Metz** — Zoom: https://uber.zoom.us/j/95238699419?pwd=IOG7laf5x4QbnSw3I6cBfRaRaZeybH.1 | ID **952 3869 9419** | PW **512360** | Guests: Jeff Metz (organizer), Christopher McNally (cmcnally@uber.com). **Topics:** HAP MI pricing, 3P/wheelchair Detroit, ACH billing, account consolidation. `.ics`: `calendars/uber_health_jeff_metz_2026-06-02.ics`
+- **1:00 – 1:25 PM ET** — 📞 **Dee Davis Inc. + Uber Health — Jeff Metz** — Zoom: https://uber.zoom.us/j/95238699419?pwd=IOG7laf5x4QbnSw3I6cBfRaRaZeybH.1 | ID **952 3869 9419** | PW **512360** | Guests: Jeff Metz, Christopher McNally. **PRIMARY:** NY Rx home-delivery mileage-band pricing (Jun 17 bid — quotes by Jun 10). **Also:** HAP MI pricing, Detroit 3P/wheelchair, ACH Net 30, account consolidation. **Prep:** `calendars/MEETING_NOTES_2026-06-02_UBER_HEALTH_JEFF_METZ.md` · **Call doc:** `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/UBER_HEALTH_JEFF_METZ_CALL.html` · `.ics`: `calendars/uber_health_jeff_metz_2026-06-02.ics`
 - **✓ DONE May 23** — ~~VIA IFB 26-374 questions~~ — Submitted to Kim Turner (kim.turner@viainfo.net). Monitor via.diversitycompliance.com for answers before bid (due Jun 16).
 
 ---
@@ -306,8 +309,6 @@
 ## 2026-06-08 — Monday
 
 - **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
-- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — William S. Middleton VA · 5-year · SAM 93414ce3396e45c4891cb0130cf77c14 · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-08.ics`
-
 ---
 
 ## 2026-06-09 — Tuesday
@@ -327,6 +328,7 @@
 
 ## 2026-06-22 — Monday
 
+- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — **36C25226Q0366** · Amendment 0002 extended · William S. Middleton VA · 5-year IQC · CO Scott Sands · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-22.ics`
 - **💰 BIGGEST PAYOUT — $785.00 expected:** First Class x7 ($525) + Kriss Law Bitti ($150) + Doma Title Rayes ($110). All transfer June 5 → deposit by June 22. **Did the $785 hit?** Doma Rayes is 5+ years old — if it doesn't clear, follow up.
 
 ---
@@ -357,9 +359,23 @@
 
 ---
 
+## 2026-06-18 — Thursday
+
+- **10:00 AM – 12:30 PM ET** (9–11:30 AM CT) — 📋 **PRE-PROPOSAL: LRGVDC AAA** — DPS #2026-02 Direct Purchase + RFP #2026-03 Title III. Transport track. `.ics`: `calendars/LRGVDC_AAA_PREPROPOSAL_2026-06-18.ics` · (repeat window **Jun 25** same hours)
+
+## 2026-06-26 — Friday
+
+- **6:00 PM ET** (5:00 PM CT) — 📧 **DEADLINE: LRGVDC written questions** — lrgvdc@lrgvdc.org · `SEND_TO_BUYER/QUESTIONS_LRGVDC_2026-06-26.md` · `.ics`: `calendars/LRGVDC_AAA_QUESTIONS_2026-06-26.ics`
+
+## 2026-07-10 — Friday
+
+- **6:00 PM ET** — 🔥 **DEADLINE: LRGVDC RFP #2026-03 — OAA Title III** — Lower Rio Grande Valley AAA (Weslaco). **FREE RFP:** lrgvdc.org/procurement.html · Folder: `BIDS:RESOURCES/TEXAS AAA TITLE III TRANSPORT/RFP_ATTACHMENTS/`. `.ics`: `calendars/TEXAS_AAA_TITLE_III_TRANSPORT_2026-07-10.ics`
+
+---
+
 ## 2026-09-15 — Monday
 
-- **Due by 5:00 PM CT** — 🔥 **Texas HHSC NEMT Open Enrollment (HHS0016482) — FINAL DEADLINE** — DDI applying as TPA prime, subcontracting ALL transport to Uber Health + local NEMT. Requirements: TX SOS registration, TMHP enrollment, insurance certs, HUB subcontracting plan, key personnel. Reimbursement: Metro $32.38, Suburban $59.64, Rural $76.22 per one-way leg. `.ics`: `calendars/texas_hhsc_nemt_oe_2026-09-15.ics`
+- **5:00 PM CT / 6:00 PM ET** — 🔥 **HHSC Open Enrollment HHS0016482 — Medicaid DRTS** — **FREE:** resources.hhs.texas.gov/open-enrollment/hhs0016482. Folder: `BIDS:RESOURCES/TEXAS MEDICAID DRTS/RFP_ATTACHMENTS/`. TX SOS + TMHP + HUB plan. `.ics`: `calendars/TEXAS_MEDICAID_DRTS_2026-09-15.ics`
 
 ---
 
@@ -382,6 +398,12 @@
 
 ---
 
+## 2026-06-17 — Tuesday
+
+- **9:00 AM ET** — 🔥 **BID DEADLINE: SUNY Upstate Home Medical Courier** — HMCS052626 · email cushnerm@upstate.edu · Folder `SUNY UPSTATE HOME MEDICAL COURIER/SEND_TO_BUYER/` · `.ics`: `SUNY_UPSTATE_HOME_MEDICAL_COURIER_2026-06-17.ics`
+
+---
+
 ## 2026-06-18 — Thursday
 
 - **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Oakland + Macomb** — If MDHHS trigger activated. SHIELD + community partner language. `.ics`: `cwc_outreach_lhd_oakland_macomb_2026-06-18.ics`
@@ -391,7 +413,13 @@
 
 ## 2026-06-19 — Friday
 
-- **4:00 PM ET** — 🔥 **BID DEADLINE: Worcester ESWA Elder Transport** — Confirm LOI waiver with jgiombetti@eswa.org first · Folder `WORCESTER ELDER TRANSPORT/` · `.ics`: `WORCESTER_ELDER_TRANSPORT_2026-06-19.ics`
+- ~~**4:00 PM ET** — 🔥 **BID DEADLINE: Worcester ESWA Elder Transport**~~ — **Not this cycle (Jun 1)** — LOI May 22 hard deadline; next RFP ~3 years · **re-outreach ~2029** · Folder `WORCESTER ELDER TRANSPORT - NEXT CYCLE ~2029/`
+
+---
+
+## 2026-06-15 — Monday
+
+- **12:00 PM ET** — 📋 **COMPLIANCE: FMCSA Clearinghouse ID verification (C/TPA)** — Complete by **Jul 6** or lose access · https://clearinghouse.fmcsa.dot.gov · `.ics`: `FMCSA_CLEARINGHOUSE_ID_VERIFY_2026-07-06.ics`
 
 ---
 
@@ -409,7 +437,8 @@
 
 ## 2026-07-06 — Monday
 
-- **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS GFOs · Wayne/Oakland/Macomb opioid grants · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-07-06.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS GFOs · Wayne/Oakland/Macomb grants · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-07-06.ics`
+- **5:00 PM ET** — 🔥 **HARD DEADLINE: FMCSA Clearinghouse identity verification** — C/TPAs lose access if not complete · `.ics`: `FMCSA_CLEARINGHOUSE_ID_VERIFY_2026-07-06.ics`
 - **5:00 PM ET** — 🔥 **BID DEADLINE: Nevada NHA NET Broker 41NHA-S3848** — Due 2:00 PM PT · NevadaEPro · Folder `NEVADA NET BROKER/` · `.ics`: `NEVADA_NET_BROKER_2026-07-06.ics`
 
 ---

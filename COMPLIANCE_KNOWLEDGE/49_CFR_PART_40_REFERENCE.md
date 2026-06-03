@@ -874,6 +874,7 @@ If employee cannot provide sufficient breath:
 **FMCSA Clearinghouse:**
 - Website: https://clearinghouse.fmcsa.dot.gov
 - Phone: 844-955-0207
+- **Identity verification (existing C/TPAs):** Deadline **July 6, 2026** — see `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md`
 
 ---
 
@@ -881,6 +882,7 @@ If employee cannot provide sufficient breath:
 
 | Date | Update |
 |---|---|
+| June 1, 2026 | FMCSA expanding identity verification to existing C/TPAs — see CLEARINGHOUSE_IDENTITY_VERIFICATION.md |
 | March 19, 2026 | Initial NEXUS knowledge base creation |
 
 ---

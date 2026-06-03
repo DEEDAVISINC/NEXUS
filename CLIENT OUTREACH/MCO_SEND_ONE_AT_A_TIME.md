@@ -132,7 +132,8 @@ EDWOSB | WOSB | WBENC | MBE | WBE | SBE | E-Verify Program Administrator
 ## 3 of 38 — Beth Rubin — Greene County OH debrief
 **Attach:** None
 - [x] **SENT** — Date: **2026-05-31**
-**TO:** beth.rubin@jfs.ohio.gov
+- [x] **REPLY (win)** — **2026-06-01 ~6:10 AM** — Beth will add DDI to notification list for next RFP · Dee thanked · **thread closed — do not re-email**
+**TO:** beth.rubin@jfs.ohio.gov · **Phone:** (937) 562-6450
 
 ```
 Subject: EDWOSB — County NEMT / Medicaid Transportation (Greene County)

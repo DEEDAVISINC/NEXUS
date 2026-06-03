@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:texas-aaa-title3-transport-2026-07-10@deedavis.biz
+DTSTAMP:20260602T120000Z
+DTSTART;TZID=America/Detroit:20260710T180000
+DTEND;TZID=America/Detroit:20260710T181500
+SUMMARY:🔥 DEADLINE: Texas AAA Title III OAA Transport
+DESCRIPTION:BidNet Texas State and Local — Area Agency on Aging Older Americans Act Services Under Title III (transportation access component). Folder: BIDS:RESOURCES/TEXAS AAA TITLE III TRANSPORT/ — Upgrade Texas portal before download.
+LOCATION:Texas (statewide — confirm AAA in RFP)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT48H
+DESCRIPTION:Texas AAA Title III transport due in 48 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Texas AAA Title III transport due in 2 hours
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

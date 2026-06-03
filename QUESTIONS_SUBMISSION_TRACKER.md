@@ -5,7 +5,7 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 
 **Rule:** If `WORKFLOW_CHECKLIST.md` says ✅ submitted, dashboard/calendar/agenda must not still show "questions due."
 
-**Last Updated:** May 31, 2026
+**Last Updated:** June 3, 2026
 
 ---
 
@@ -13,6 +13,8 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 
 | Solicitation | Agency | Questions Due | Submitted | Method | Contact | Folder |
 |---|---|---|---|---|---|---|
+| **41NHA-S3848** | Nevada Health Authority NET Broker | **Jun 8, 2026 @ 5 PM PT** | **Jun 3, 2026** | NevadaEPro Q&A | Heather Moon (portal only) | `BIDS:RESOURCES/NEVADA NET BROKER/` |
+| **HMCS052626 / CR 2135536** | SUNY Upstate Medical University | **None published** (email anytime before Jun 17 bid) | **Jun 2, 2026** | Email | cushnerm@upstate.edu | `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/` |
 | **IFB #26-374** | VIA Metropolitan Transit (San Antonio) | Jun 2, 2026 | **May 23, 2026** | Email | kim.turner@viainfo.net | `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/` |
 | **Event #001186** | Oakland County 52nd District Court (DTC) | Jun 1, 2026 | **May 23, 2026** | MITN / BidNet Direct | Michelle Brown | `BIDS:RESOURCES/OAKLAND COUNTY DTC DRUG TESTING/` |
 | **eSupplier RFP** | Minneapolis MPD Background Software | May 27, 2026 (answers) | **May 18, 2026** | Portal | Mohammed Walji | `BIDS:RESOURCES/MINNEAPOLIS MPD BACKGROUND SOFTWARE/` |
@@ -26,7 +28,6 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 
 | Solicitation | Agency | Questions Due | Status | Submit Via | Folder |
 |---|---|---|---|---|---|
-| **41NHA-S3848** | Nevada Health Authority NET Broker | **Jun 8, 2026 @ 5 PM PT** | Draft ready | **NevadaEPro Q&A only** (not email) | `BIDS:RESOURCES/NEVADA NET BROKER/QUESTIONS_ROUND2_SUBMIT_NEVADAEPRO.md` |
 | **FAP2026SS** | DAF Family Advocacy Program | Jun 6, 2026 | N/A — Sources Sought (email ✅ May 31; **survey required**) | Survey + email | `BIDS:RESOURCES/DAF FAMILY ADVOCACY/` |
 
 ---
@@ -38,6 +39,7 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 | IFB #26-374 (VIA) | May 23, 2026 | Monitor via.diversitycompliance.com | Check before pricing bid (due Jun 16) |
 | Event #001186 (Oakland DTC) | May 23, 2026 | MITN Q&A / addenda | Check before proposal build (due Jun 23) |
 | Minneapolis MPD | May 18, 2026 | ~May 27, 2026 | Pull answers from eSupplier before proposal (due Jun 15) |
+| **41NHA-S3848 (Nevada NET)** | Jun 3, 2026 | ~**Jun 17, 2026** (Round 2 answers) | Monitor NevadaEPro Q&A on bid 41NHA-S3848 |
 
 ---
 

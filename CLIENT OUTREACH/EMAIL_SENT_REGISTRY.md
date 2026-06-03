@@ -36,8 +36,13 @@ If found → **SKIP** unless follow-up date has passed AND Dee approved follow-u
 | 2026-05-31 | Brian.Grcevich@CareSource.com | Brian / HAP CareSource | SDOH navigation | `ACTIVE_RELATIONSHIP_STATUS.md` |
 | 2026-05-31 | Dana.Drew@CareSource.com | Dana / HAP CareSource | Oakland enrollment | `ACTIVE_RELATIONSHIP_STATUS.md` |
 | 2026-05-31 | (Jennifer Eliopoulos) | UH Newark | Debrief on-file | MCO queue #2 |
-| 2026-05-31 | (Beth Rubin) | Greene County OH | Debrief on-file | MCO queue #3 |
+| 2026-05-31 | beth.rubin@jfs.ohio.gov | Beth Rubin / Greene County CDJFS OH | County NEMT debrief | **ON RFP NOTIFICATION LIST** — Beth Jun 1 confirmed · thread closed |
+| 2026-06-01 | beth.rubin@jfs.ohio.gov | Beth Rubin / Greene County OH | Re: thank you | **Do not re-pitch** — wait for RFP notice |
 | 2026-05-31 | stephanie.logan@medicaid.alabama.gov | Stephanie Logan | **DUPLICATE — do not send again** | OOO auto-reply |
+| 2026-05-31 | jgiombetti@eswa.org | Jason Giombetti / ESWA | Elder Transportation RFP interest | **Next cycle ~2029** — hard LOI May 22 this cycle · not a no · re-outreach when RFP opens |
+| 2026-06-01 | jgiombetti@eswa.org | Jason Giombetti / ESWA | Re: thank you / next cycle | Thread closed this cycle · **reach out again ~2029** |
+| 2026-06-01 | cushnerm@upstate.edu | Michael Cushner / SUNY Upstate | HMCS052626 home medical courier | **Active bid** · reply received 10:28 AM · full due Jun 17 9 AM |
+| 2026-06-02 | cushnerm@upstate.edu | Michael Cushner / SUNY Upstate | HMCS052626 pricing clarifications | **Answered Jun 2 ~2 PM** — Onondaga invoice blocker · NTE hard $1.5M cap · see `CUSHNER_QA_2026-06-02.md` |
 
 ---
 

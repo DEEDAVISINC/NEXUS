@@ -896,8 +896,8 @@ ImprovMX is a forwarding service — not a full mail server. Military (.mil) mai
 
 ## TEAMING PARTNERS — ACTIVE OUTREACH
 
-- [x] **Penquis CAP (Maine)** — Teaming email sent 05/20/2026 to info@penquis.org ATTN Kara Hay (President & CEO). Re: MaineCare NET Broker Recompete (Opportunity 0520260310, ~$750M/10yr). DDI role = TPA management layer. Penquis = local transport operator (Penobscot, Piscataquis, Kennebec, Somerset). Transportation Director: Steven Richard. Follow-up: June 3, 2026.
-- [x] **Waldo Community Action Partners (Maine)** — Teaming email sent 05/20/2026 to info@waldocap.org ATTN Donna M. Kelley LCSW (President & CEO). Re: MaineCare NET Broker Recompete (same opp). DDI role = TPA management layer. Waldo CAP = local transport operator (MidCoast/Waldo County, 60 years service). Follow-up: June 3, 2026.
+- [x] **Penquis CAP (Maine)** — Teaming email sent 05/20/2026 to info@penquis.org ATTN Kara Hay (President & CEO). Re: MaineCare NET Broker Recompete (Opportunity 0520260310, ~$750M/10yr). DDI role = TPA management layer. Penquis = local transport operator (Penobscot, Piscataquis, Kennebec, Somerset). Transportation Director: Steven Richard. **Follow-up sent 06/03/2026.** Next follow-up: June 17, 2026.
+- [x] **Waldo Community Action Partners (Maine)** — Teaming email sent 05/20/2026 to info@waldocap.org ATTN Donna M. Kelley LCSW (President & CEO). Re: MaineCare NET Broker Recompete (same opp). DDI role = TPA management layer. Waldo CAP = local transport operator (MidCoast/Waldo County, 60 years service). **Follow-up sent 06/03/2026.** Next follow-up: June 17, 2026.
 
 ---
 

@@ -20,7 +20,7 @@
 | **MVAA grant inquiry** | ✅ Sent Mar 22 | `GRANT_ACTIVE_PIPELINE.md` |
 | **MDHHS CLPPP inquiry** | ✅ Sent Mar 22 | `GRANT_ACTIVE_PIPELINE.md` |
 | **MDHHS CSBG inquiry** | ✅ Sent Mar 22 | `GRANT_ACTIVE_PIPELINE.md` |
-| **Cause We Care SAM.gov renewal** | 🟡 Submitted Mar 22 — **awaiting DLA/CAGE validation** | Ref INC-GSAFSD8651858 · CAGE docs sent |
+| **Cause We Care SAM.gov** | 🟡 **Entity registration submitted** — UEI VEJMFMVV6PQ1 · confirm **nsa@deedavis.ink** · no action required | Await **Active** in SAM → Grants.gov |
 | **HAP CareSource NEMT contract** | ✅ Signed Mar 29 · **Vendor ID 100000469269** · Wayne + Macomb **live** | `PARTNERSHIPS/HAP_CARESOURCE_PARTNERSHIP_SUMMARY.md` |
 | **Uber Health / Jeff Metz** | ✅ AE assigned · dashboard live (May 15) | `PENDING_ACTIONS.md` |
 | **MI Bridges Community Partner** | ✅ Since May 2020 · 200+ applications | Documented in proposals |

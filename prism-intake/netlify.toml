@@ -1,0 +1,18 @@
+# PRISM Client Intake — deploy to portal.deedavis.biz
+# Netlify: New site → connect repo → Base directory: prism-intake → Publish: .
+
+[build]
+  publish = "."
+  command = "npm install"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  PRISM_API_BASE = "https://deedavis.pythonanywhere.com"

@@ -523,16 +523,25 @@ Same buyer DDI is already pursuing for NEMT. Add disaster response as a service 
 
 ---
 
-## STATE EXPANSION PLAN — ADDED MAY 9, 2026
+## DDI FOREIGN ENTITY REGISTRATION — FEES & FILINGS
 
-### Target States: Florida, Texas, Louisiana
+**Updated:** June 2, 2026  
+**Full 50-state master:** `NEXUS_LEARNING/FOREIGN_ENTITY_REGISTRATION_FEES_50_STATES.md` (all states + DC, ranked by cost, verification flags)  
+**Purpose:** DDI **priority states** for **Application for Authority** / foreign corporation registration.  
+**Home entity:** Dee Davis Inc. (Michigan) — attach **MI Certificate of Good Standing** (~$10 from LARA) to each filing unless noted.
 
-| State | Filing Fee | Registered Agent | Business Address | Total Entry Cost |
-|---|---|---|---|---|
-| **Florida** | ~$70 | Family (FREE) | Virtual (~$10-15/mo) | ~$190/yr |
-| **Texas** | $750 | Family (FREE) | Virtual (~$10-15/mo) | ~$870/yr |
-| **Louisiana** | $100 | Paid service (~$100/yr) | Virtual (~$10-15/mo) | ~$320/yr |
-| **TOTAL** | **$920** | | | **~$1,380/yr** |
+### Summary table
+
+| State | Trigger / lane | Filing (foreign corp) | Registered agent | NY / business address | Assumed name (DBA) | Est. entry cost |
+|---|---|---:|---|---|---|---:|
+| **Florida** | HAVEN / MCO | ~$70 | Family (FREE) | Virtual (~$10-15/mo) | Not required if legal name on contract | ~$80 + ~$120/yr address |
+| **Texas** | HAVEN / MCO | $750 | Family (FREE) | Virtual (~$10-15/mo) | Not required if legal name on contract | ~$760 + ~$120/yr address |
+| **Louisiana** | HAVEN / MCO | $125 ($130 online) | Paid (~$100/yr) | Virtual (~$10-15/mo) | Not required if legal name on contract | ~$135 + ~$220/yr RA+address |
+| **Maryland** | Medicaid / eMMA | ~$100 | ~$100-150/yr | TBD | Not required if legal name on contract | ~$200-250/yr |
+| **New York** | **SUNY Upstate HMCS052626** (pharmacy courier) | **$225** | NY DOS as agent (no fee) or paid (~$0-150/yr) | **3 Chevy Dr., East Syracuse, NY 13057** (Onondaga — on authority filing + invoice) | **Not required** — invoice as **Dee Davis Inc.** (no d/b/a DDI unless branding desired: +$25 DOS + $25 Onondaga co.) | **~$235-275** + address lease/coworking |
+| **HAVEN subtotal (FL+TX+LA)** | | **$945** | | | | **~$980 filing** + ~$460/yr ongoing (FL RA + LA RA + address) |
+
+*Assumed name / Certificate of Assumed Name is **optional** in every state when the invoice and contract use the legal entity name **Dee Davis Inc.***
 
 ### Foreign Corporation Registration Requirements
 
@@ -549,10 +558,32 @@ Same buyer DDI is already pursuing for NEMT. Add disaster response as a service 
 - Franchise tax: varies by revenue
 
 **Louisiana (SOS):**
-- File: Form SS326 — Application for Authority
-- Need: LA registered agent, Certificate of Good Standing from MI
+- File: Form SS326 — Application for Certificate of Authority
+- Fee: **$125** mail / **$130** online (CORA + $5 service charge)
+- Need: LA registered agent, Certificate of Good Standing from MI (≤90 days; use MI SOS cert)
 - Timeline: 24 hours (expedited) to 2 weeks
-- Annual report: minimal
+- Annual report: **$30**
+
+**Maryland (SDAT):**
+- File: Foreign entity registration with Maryland SDAT
+- Need: MD registered agent, Certificate of Good Standing from MI
+- **Required before Maryland Medicaid provider enrollment** (state gates enrollment on SOS filing)
+- URL: https://dat.maryland.gov/businesses
+- Cost: ~$100 filing + registered agent (~$100-150/year)
+- See also: `HAVEN/STRATEGY/HAVEN_MEDICAID_ENROLLMENT_BY_STATE.md`
+
+**New York (DOS) — ADDED JUNE 2, 2026:**
+- File: **Application for Authority** (foreign business corporation) — BCL §1304
+- Form: DOS Application for Authority (foreign corp)
+- Fee: **$225** (payable to NY Department of State)
+- Filing: **Online** via [NY e-Corp](https://dos.ny.gov/e-corp-online-filing-system) (mail also accepted)
+- Need: **Certificate of Existence / Good Standing** from Michigan (dated within one year, ~$10 from LARA)
+- **NY office address on filing:** 3 Chevy Dr., East Syracuse, NY 13057 (Onondaga County) — required for **SUNY Upstate HMCS052626** (buyer confirmed invoice issuer must be located in Onondaga County)
+- Registered agent: NY DOS can serve as agent for service of process (standard on authority application) or designate a NY registered agent
+- **Assumed name (d/b/a DDI): NOT required** if invoicing as **Dee Davis Inc.** — skip Certificate of Assumed Name unless using trade name on invoice (+$25 DOS + $25 Onondaga county fee if filed later)
+- Tax note: If DDI was already doing business in NY before filing, NY Tax Dept consent may be required — call **518-485-2639**
+- Ongoing: NY foreign corp biennial statement / compliance — verify current fee on [dos.ny.gov](https://dos.ny.gov)
+- Bid folder: `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/` · Buyer Q&A: `CUSHNER_QA_2026-06-02.md`
 
 ### Key Insight: MCO Contracting Path
 
@@ -632,7 +663,7 @@ DDI does NOT need direct Medicaid provider enrollment in these states. The path 
 - [ ] Confirm family registered agents in FL and TX
 - [ ] File Florida foreign corporation registration (~$70)
 - [ ] File Texas foreign corporation registration (~$750)
-- [ ] File Louisiana foreign corporation registration (~$100)
+- [ ] File Louisiana foreign corporation registration (~$125 mail / $130 online)
 - [ ] Set up virtual business addresses in FL/TX/LA (if not already have)
 - [ ] Obtain Certificates of Good Standing from Michigan
 

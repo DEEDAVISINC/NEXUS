@@ -1,9 +1,9 @@
 # RFQ NUMBER TRACKER
-**Last Updated:** February 4, 2026
+**Last Updated:** June 3, 2026
 
 ---
 
-## NEXT AVAILABLE RFQ NUMBER: **DDI-2026-049**
+## NEXT AVAILABLE RFQ NUMBER: **DDI-2026-051**
 
 ---
 
@@ -16,6 +16,8 @@
 | DDI-2026-003 | Feb 4, 2026 | Genesee Wood Poles | Brooks Manufacturing Co. | Ready to Send |
 | DDI-2026-004 | Feb 4, 2026 | Genesee Wood Poles | Koppers Inc. | Ready to Send |
 | DDI-2026-048 | Apr 17, 2026 | Multi-site urine drug testing network (internal) | TBD (lab/TPA) | Ready to Send — `KENTUCKY DMS MINE DRUG TESTING/SEND_TO_SUPPLIER/` |
+| DDI-2026-049 | Jun 1, 2026 | NY Rx home delivery fulfillment (internal) | Uber Health / Roadie / local CNY | Active — `SUNY UPSTATE HOME MEDICAL COURIER/INTERNAL_FULFILLMENT_PRICING_REQUESTS.md` |
+| DDI-2026-050 | Jun 3, 2026 | WI NEMT field services (internal) | Quality + Big River sent; Madison Area next | Sent: Sam, Big River · Pending: Madison Area · `VA MADISON NEMT/SEND_TO_SUBCONTRACTOR/` |
 
 ---
 

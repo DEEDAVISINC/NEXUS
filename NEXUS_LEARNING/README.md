@@ -167,6 +167,27 @@ STEP 3: Continuous Improvement
 
 ---
 
+### **SHARED_VISION_CORPORATE_CLIENT_ATTRACTION_SYSTEM.md**
+**Added:** June 1, 2026  
+**Source:** Safi Media — *The 10 Minute Corporate Client Attraction System* (Eleanor Beaton)
+
+**Contains:**
+- 3-stage meeting pipeline: Shared Vision (15 min) → Discovery (45–60 min) → Proposal Close
+- DDI-adapted booking scripts, warm-intro template, 15-minute agenda
+- Shared-vision signal checklist for federal, MCO, transit, hospital, AAA buyers
+- Integration with complement-not-replace, population lanes, outbound logging
+- Sector wedge table for first-touch RELATIONSHIP outreach
+
+**NEXUS use cases:**
+- Draft Shared Vision booking emails for MCO, agency, and corporate relationship targets
+- Classify opportunity type before choosing Shared Vision vs direct bid track
+- Generate 12-hour follow-up recaps and Stage 2 calendar events
+- Track pipeline metrics (SV → Discovery → Proposal → Award)
+
+**Cross-links:** `COMPLEMENT_NOT_REPLACE_ALL_TPA_SECTORS.md` · `DDI_BUYERS_AND_MARKETS.md` · `CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md`
+
+---
+
 ## ADDING NEW INTELLIGENCE
 
 When new market intelligence is identified:

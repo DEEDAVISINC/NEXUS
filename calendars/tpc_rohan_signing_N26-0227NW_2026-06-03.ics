@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Notary//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Signings
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:tpc-n26-0227nw-rohan@deedavis.biz
+DTSTAMP:20260602T120000Z
+DTSTART;TZID=America/Detroit:20260603T140000
+DTEND;TZID=America/Detroit:20260603T150000
+SUMMARY:📝 SIGNING: Rohan Refi ($100) — Title Processing Center
+DESCRIPTION:File: N26-0227NW\nSigners: Kenneth Rohan / Rita Marie Rohan\nPhone: 586-530-1300 (cell)\nEmail: Ken.Rohan@Champion-ventures.com\nType: Refi, 1st Only\nDocs: EDOCS\nScanbacks Required\n2nd Witness: N/A\n\nProperty: 1000 Water St #1403, Tampa, FL 33602\n\nCompany: Title Processing Center\nPhone: 813-444-1400\nbilling@titleprocessingcenter.com
+LOCATION:13759 Ironwood Dr, Shelby Township, MI 48315
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours - Rohan Refi
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes - Leave now
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

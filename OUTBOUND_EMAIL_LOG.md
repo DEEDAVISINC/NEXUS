@@ -17,8 +17,26 @@
 | — ET | Brian.Grcevich@CareSource.com | Brian Grcevich | HAP CareSource | HIDE SNP — Benefits & SDOH Navigation TPA | mco | MCO_SEND_ONE_AT_A_TIME.md #1 | SENT |
 | — ET | Dana.Drew@CareSource.com | Dana Drew | HAP CareSource | Oakland County — NEMT Vendor 100000469269 | mco | MCO_SEND_ONE_AT_A_TIME.md #1B | SENT |
 | — ET | (Jennifer Eliopoulos) | Jennifer Eliopoulos | University Health Newark | Debrief / on-file | mco | MCO_SEND_ONE_AT_A_TIME.md #2 | SENT |
-| — ET | (Beth Rubin) | Beth Rubin | Greene County OH | Debrief / on-file | mco | MCO_SEND_ONE_AT_A_TIME.md #3 | SENT |
+| — ET | beth.rubin@jfs.ohio.gov | Beth Rubin | Greene County CDJFS OH | Debrief / on-file NEMT | buyer | MCO_SEND_ONE_AT_A_TIME.md #3 | **ON RFP LIST** — Beth Jun 1: will add to next RFP notifications |
+| 15:45 ET | jgiombetti@eswa.org | Jason Giombetti | Elder Services of Worcester Area | EDWOSB Interest — Elder Transportation RFP | buyer | WORCESTER ELDER TRANSPORT - NEXT CYCLE ~2029 | **This cycle closed** — hard LOI May 22 · next RFP ~3 yrs · re-outreach ~2029 |
 | — ET | stephanie.logan@medicaid.alabama.gov | Stephanie Logan | Alabama Medicaid NEMT | NEMT TPA (duplicate) | mco | MCO queue #25 | **DUPLICATE — first send 2026-05-11** |
+
+---
+
+## 2026-06-01
+
+| Time | To | Contact | Organization | Subject | Category | Source file | Status |
+|------|-----|---------|--------------|---------|----------|-------------|--------|
+| ~07:57 ET | jgiombetti@eswa.org | Jason Giombetti | ESWA | Re: hard LOI deadline / next cycle ~3 years | buyer | Gmail reply | SENT — polite close · **re-outreach ~2029** |
+| ~06:10 ET | beth.rubin@jfs.ohio.gov | Beth Rubin | Greene County CDJFS OH | Re: thank you — on notification list | buyer | Gmail reply | SENT — **thread closed (win)** |
+| ~10:14 ET | cushnerm@upstate.edu | Michael Cushner | SUNY Upstate Medical University | NYS WBE Proposal Interest — Home Medical Courier HMCS052626 | buyer | SUNY UPSTATE HOME MEDICAL COURIER/SEND_TO_BUYER/ | SENT — cap statement PDF attached · **full proposal due Jun 17 @ 9 AM ET** |
+
+### Inbound replies (same thread)
+
+| Received | From | Summary |
+|----------|------|---------|
+| ~10:28 AM ET Jun 1 | cushnerm@upstate.edu / Michael Cushner | Rx-only scope · full package due 6/17 9 AM · worksheet re-attached · formal agreement post-selection · see `CUSHNER_REPLY_2026-06-01.md` |
+| Jun 2, 2026 | cushnerm@upstate.edu | Michael Cushner | SUNY Upstate Medical University | HMCS052626 — Worksheet Pricing Clarifications | buyer | SUNY UPSTATE HOME MEDICAL COURIER/SEND_TO_BUYER/QUESTIONS_FOR_CUSHNER_PRICING.md | **REPLIED Jun 2 ~2 PM** — Onondaga invoice blocker · NTE $1.5M hard cap · `CUSHNER_QA_2026-06-02.md` |
 
 ---
 

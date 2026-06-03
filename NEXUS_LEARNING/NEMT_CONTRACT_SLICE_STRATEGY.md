@@ -82,6 +82,7 @@ Headline **$750M / 10 yr** = **entire program**. DDI revenue = **DDI’s region(
 | **Michigan MA190000000912** | ~$103M tri-county broker | **Network vendor, MCO TPA, or co-awardee if split** — not default sole broker |
 | **AZ / NC MCO** | Plan-by-plan | **One MCO’s vendor** among many plans |
 | **CareSource HIDE** | One plan — **Wayne + Macomb** (Oakland pending) | **Named MCO vendor on that program** ✓ — not state tri-county broker |
+| **Nevada 41NHA-S3848** | Statewide NET capitation | **Pending Round 2 Q6** — multi-award / regional / teaming vs single prime; **NO-GO prime if single only** |
 
 ---
 
