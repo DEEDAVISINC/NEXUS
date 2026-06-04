@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const ADMIN_EMAIL = process.env.USER_EMAIL || 'info@deedavis.biz';
 const EMAIL_FROM = process.env.NEXUS_EMAIL || 'bids.deedavisinc@gmail.com';
 const EMAIL_PASSWORD = process.env.NEXUS_EMAIL_PASSWORD;
+const PRISM_API_BASE = (process.env.PRISM_API_BASE || 'https://deedavis.pythonanywhere.com').replace(/\/$/, '');
 
 const URGENCY_LABEL = {
   stat: 'STAT',
@@ -93,6 +94,39 @@ async function sendOrderEmail(data) {
   return routing;
 }
 
+/** Forward intake payload to NEXUS PRISM API → orders.json + Airtable (dashboard queue). */
+async function syncToNexusDashboard(data) {
+  const url = `${PRISM_API_BASE}/prism/intake`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const text = await res.text();
+    let parsed = {};
+    try {
+      parsed = text ? JSON.parse(text) : {};
+    } catch {
+      parsed = { error: text.slice(0, 300) };
+    }
+    if (!res.ok) {
+      return {
+        ok: false,
+        status: res.status,
+        error: parsed.error || `NEXUS API returned ${res.status}`,
+      };
+    }
+    return {
+      ok: true,
+      order: parsed.order,
+      order_id: parsed.order?.id || data.confirmation,
+    };
+  } catch (err) {
+    return { ok: false, error: err.message || 'NEXUS API unreachable' };
+  }
+}
+
 exports.handler = async (event) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -115,7 +149,53 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Missing client information' }) };
     }
 
-    const routing = await sendOrderEmail(data);
+    // Dashboard sync + email in parallel — order must land in NEXUS PRISM queue
+    const [apiResult, emailResult] = await Promise.allSettled([
+      syncToNexusDashboard(data),
+      sendOrderEmail(data),
+    ]);
+
+    const dashboard =
+      apiResult.status === 'fulfilled' && apiResult.value?.ok ? apiResult.value : null;
+    const dashboardSync = !!dashboard;
+    const dashboardError =
+      apiResult.status === 'fulfilled' && !apiResult.value?.ok
+        ? apiResult.value.error
+        : apiResult.status === 'rejected'
+          ? apiResult.reason?.message
+          : null;
+
+    let routing = data.routing_email || ADMIN_EMAIL;
+    let emailSent = false;
+    let emailError = null;
+    if (emailResult.status === 'fulfilled') {
+      emailSent = true;
+      routing = emailResult.value;
+    } else {
+      emailError = emailResult.reason?.message || 'Email failed';
+    }
+
+    if (!dashboardSync && !emailSent) {
+      return {
+        statusCode: 500,
+        headers: cors,
+        body: JSON.stringify({
+          error: `Could not reach PRISM dashboard (${dashboardError || 'unknown'}) and email failed (${emailError})`,
+          dashboard_sync: false,
+          email_sent: false,
+        }),
+      };
+    }
+
+    let message = '';
+    if (dashboardSync && emailSent) {
+      message = `Order ${dashboard.order_id || data.confirmation} queued in NEXUS PRISM — email sent to ${routing}`;
+    } else if (dashboardSync) {
+      message = `Order ${dashboard.order_id || data.confirmation} queued in NEXUS PRISM dashboard (email not sent: ${emailError})`;
+    } else {
+      message = `Email sent to ${routing} — PRISM dashboard sync pending (${dashboardError})`;
+    }
+
     return {
       statusCode: 200,
       headers: cors,
@@ -123,7 +203,11 @@ exports.handler = async (event) => {
         success: true,
         confirmation: data.confirmation,
         routing_email: routing,
-        message: `Order received — email sent to ${routing}`,
+        dashboard_sync: dashboardSync,
+        dashboard_order_id: dashboard?.order_id || null,
+        email_sent: emailSent,
+        dashboard_warning: dashboardSync ? null : dashboardError,
+        message,
       }),
     };
   } catch (err) {

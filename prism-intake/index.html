@@ -2766,7 +2766,14 @@ function dispatch() {
             clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
           }
         }
-        showStatus('success', `ORDER RECEIVED — Email sent to ${activeEmail}`);
+        let statusMsg = res.message || `ORDER RECEIVED — Email sent to ${activeEmail}`;
+        if (res.dashboard_sync) {
+          statusMsg = `ORDER QUEUED IN NEXUS PRISM — ${res.dashboard_order_id || confNum}`;
+          if (res.email_sent) statusMsg += ` · Email sent to ${activeEmail}`;
+        } else if (res.dashboard_warning) {
+          statusMsg = `ORDER EMAILED to ${activeEmail} — PRISM dashboard sync pending (backend offline)`;
+        }
+        showStatus('success', statusMsg);
       }
     })
     .catch(err => {
