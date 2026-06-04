@@ -582,6 +582,22 @@
   .pay-total-label { font-size: 14px; font-weight: 700; color: var(--text); }
   .pay-total-amount { font-size: 20px; font-weight: 800; color: var(--text); }
 
+  .pay-step-hint {
+    font-size: 12px; color: var(--text-muted); margin: 10px 0 4px; line-height: 1.5;
+    padding: 10px 14px; background: var(--blue-light); border-radius: var(--radius-sm);
+    border: 1px solid rgba(37, 99, 235, .15);
+  }
+  .pay-step-hint strong { color: var(--text); }
+  .pay-step-error {
+    display: none; margin-bottom: 12px; padding: 12px 16px; border-radius: var(--radius-sm);
+    background: var(--red-light); color: var(--red); font-size: 13px; font-weight: 600; line-height: 1.45;
+  }
+  .pay-step-error.visible { display: block; }
+  .pay-pre-square-note {
+    font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.5;
+    padding: 10px 12px; background: var(--bg); border-radius: var(--radius-sm);
+  }
+
   .billing-tier-badge {
     display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
     border-radius: var(--radius); font-size: 13px; font-weight: 700;
@@ -1208,10 +1224,15 @@
         <span class="pm-sub">Pay within 15 days</span>
       </div>
     </div>
+    <div class="pay-step-hint" id="pay-step-hint">
+      <strong>Select a payment method above</strong> to continue — Card, ACH, or Request Invoice.
+      Card charges via Square are coming soon; invoice and contract billing work today.
+    </div>
 
     <!-- Card input fields -->
     <div class="card-input-group" id="card-input-group">
       <div class="card">
+        <div class="pay-pre-square-note">Payment will be collected at booking once Square is connected. For now, choose <strong>Request Invoice</strong> or enter card details to acknowledge your preferred method.</div>
         <div class="card-input-row full">
           <div class="field"><label>Cardholder Name</label><input type="text" id="pay-card-name" placeholder="Name as it appears on card"></div>
         </div>
@@ -1271,6 +1292,8 @@
       <div class="override-result" id="override-result"></div>
     </div>
   </div>
+
+  <div class="pay-step-error" id="pay-step-error" role="alert"></div>
 
   <div class="nav-row">
     <button class="btn-back" onclick="nextStep(3)">← Back</button>
@@ -2564,14 +2587,42 @@ function updateProgress(step) {
   document.querySelectorAll('.prog-line').forEach((l,i) => l.classList.toggle('done', i+1 < step));
 }
 
+function showPayStepError(msg) {
+  const el = document.getElementById('pay-step-error');
+  const btn = document.getElementById('pay-continue-btn');
+  if (el) {
+    el.textContent = msg;
+    el.classList.add('visible');
+  }
+  if (btn) {
+    btn.classList.add('shake');
+    setTimeout(() => btn.classList.remove('shake'), 350);
+  }
+  document.getElementById('pay-method-section')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function clearPayStepError() {
+  document.getElementById('pay-step-error')?.classList.remove('visible');
+}
+
+function canProceedFromPaymentStep() {
+  if (isScopedPricing()) return true;
+  if (clientBillingTier === 'contract') return true;
+  if (clientBillingTier === 'card_on_file' && clientData?.billing?.card_on_file) return true;
+  if (overrideAccepted) return true;
+  if (selectedPayMethod) return true;
+  return false;
+}
+
 function nextStep(to, fromClick) {
   if (fromClick && to > currentStep) return;
   if (to > currentStep && !validate(currentStep)) return;
 
-  // Payment validation — must select a method or have contract/override
-  if (currentStep === 4 && to === 5 && clientBillingTier === 'pay_at_booking' && !overrideAccepted && !selectedPayMethod) {
+  if (currentStep === 4 && to === 5 && !canProceedFromPaymentStep()) {
+    showPayStepError('Select a payment method — Credit/Debit Card, ACH, or Request Invoice — then tap Continue.');
     return;
   }
+  if (currentStep === 4 && to === 5) clearPayStepError();
 
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
   document.getElementById(`step-${to}`).classList.add('active');
@@ -2892,10 +2943,14 @@ function renderPaymentStep() {
   methodSection.style.display = 'none';
   overrideSection.style.display = 'none';
 
+  const payHint = document.getElementById('pay-step-hint');
+  clearPayStepError();
+
   if (scoped) {
     continueBtn.textContent = 'Submit Scoping Request →';
     continueBtn.disabled = false;
     selectedPayMethod = 'proposal';
+    if (payHint) payHint.style.display = 'none';
     return;
   }
 
@@ -2905,6 +2960,8 @@ function renderPaymentStep() {
     detail.textContent = `Billed to contract ${billing.contract_id} · ${billing.payment_terms} terms · ${billing.contract_name}`;
     continueBtn.textContent = 'Continue →';
     continueBtn.disabled = false;
+    selectedPayMethod = 'contract';
+    if (payHint) payHint.style.display = 'none';
   } else if (clientBillingTier === 'card_on_file' && billing?.card_on_file) {
     cardOnFile.style.display = 'block';
     document.getElementById('saved-card-label').textContent = `${billing.card_on_file.brand} ending in ${billing.card_on_file.last4}`;
@@ -2913,14 +2970,17 @@ function renderPaymentStep() {
     overrideSection.style.display = 'block';
     continueBtn.textContent = `Pay $${total.toFixed(2)} & Continue →`;
     continueBtn.disabled = false;
+    selectedPayMethod = selectedPayMethod || 'card_on_file';
+    if (payHint) payHint.style.display = 'none';
   } else {
     methodSection.style.display = 'block';
     overrideSection.style.display = 'block';
-    continueBtn.textContent = `Pay $${total.toFixed(2)} & Continue →`;
-    continueBtn.disabled = true;
+    continueBtn.textContent = `Continue →`;
+    continueBtn.disabled = false;
     selectedPayMethod = null;
     document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
+    if (payHint) payHint.style.display = 'block';
   }
 
   // Update invoice display email
@@ -2934,14 +2994,24 @@ function selectPayMethod(method, el) {
   selectedPayMethod = method;
   document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
+  clearPayStepError();
 
   // Show relevant input group
   document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
   const groupId = method === 'card' ? 'card-input-group' : method === 'ach' ? 'ach-input-group' : 'invoice-input-group';
   document.getElementById(groupId).classList.add('visible');
 
-  // Enable continue button
-  document.getElementById('pay-continue-btn').disabled = false;
+  const payHint = document.getElementById('pay-step-hint');
+  if (payHint) payHint.style.display = 'none';
+
+  const continueBtn = document.getElementById('pay-continue-btn');
+  const { total } = calculateOrderTotal();
+  if (method === 'invoice') {
+    continueBtn.textContent = 'Continue with Invoice →';
+  } else {
+    continueBtn.textContent = total > 0 ? `Continue — $${total.toFixed(2)} at service →` : 'Continue →';
+  }
+  continueBtn.disabled = false;
 }
 
 function formatCardNumber(el) {
@@ -2963,6 +3033,8 @@ function toggleNewCard() {
   selectedPayMethod = null;
   document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.card-input-group').forEach(g => g.classList.remove('visible'));
+  const payHint = document.getElementById('pay-step-hint');
+  if (payHint) payHint.style.display = 'block';
 }
 
 function toggleAutopay() {
@@ -3002,8 +3074,11 @@ function validateOverride() {
         resultEl.textContent = `✓ ${data.message}`;
         continueBtn.textContent = 'Continue →';
         continueBtn.disabled = false;
+        clearPayStepError();
         document.getElementById('pay-method-section').style.display = 'none';
         document.getElementById('pay-card-on-file-section').style.display = 'none';
+        const payHint = document.getElementById('pay-step-hint');
+        if (payHint) payHint.style.display = 'none';
       } else {
         overrideAccepted = false;
         resultEl.className = 'override-result invalid';
@@ -3021,8 +3096,11 @@ function validateOverride() {
         resultEl.textContent = `✓ Override accepted (offline) — code "${code}" verified.`;
         continueBtn.textContent = 'Continue →';
         continueBtn.disabled = false;
+        clearPayStepError();
         document.getElementById('pay-method-section').style.display = 'none';
         document.getElementById('pay-card-on-file-section').style.display = 'none';
+        const payHint = document.getElementById('pay-step-hint');
+        if (payHint) payHint.style.display = 'none';
       } else {
         overrideAccepted = false;
         resultEl.className = 'override-result invalid';
