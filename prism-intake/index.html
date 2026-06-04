@@ -1180,7 +1180,7 @@
     </div>
     <div class="pay-line-items" id="pay-line-items"></div>
     <div class="pay-total-row">
-      <div class="pay-total-label">Total Due</div>
+      <div class="pay-total-label" id="pay-total-label">Total Due</div>
       <div class="pay-total-amount" id="pay-total-amount">$0.00</div>
     </div>
   </div>
@@ -2914,15 +2914,20 @@ function renderPaymentStep() {
     if (step4Title) step4Title.textContent = 'Scoping & Proposal';
     if (step4Sub) step4Sub.textContent = 'ARENA pricing is dynamic — no flat rates. Submit event details for a scoped proposal after consultation. No payment at intake.';
     document.getElementById('pay-total-badge').textContent = 'Dynamic';
-    document.getElementById('pay-total-label').textContent = 'Your Quote';
-    document.getElementById('pay-total-amount').textContent = 'After Consultation';
+    const labelElScoped = document.getElementById('pay-total-label');
+    const amountElScoped = document.getElementById('pay-total-amount');
+    if (labelElScoped) labelElScoped.textContent = 'Your Quote';
+    if (amountElScoped) amountElScoped.textContent = 'After Consultation';
   } else {
     if (scopedNotice) scopedNotice.style.display = 'none';
     if (step4Title) step4Title.textContent = 'Payment & Billing';
     if (step4Sub) step4Sub.textContent = 'Review your service charges and complete payment — or confirm your contract account.';
-    document.getElementById('pay-total-badge').textContent = `$${total.toFixed(2)}`;
-    document.getElementById('pay-total-label').textContent = 'Total Due';
-    document.getElementById('pay-total-amount').textContent = `$${total.toFixed(2)}`;
+    const badgeEl = document.getElementById('pay-total-badge');
+    const labelEl = document.getElementById('pay-total-label');
+    const amountElTotal = document.getElementById('pay-total-amount');
+    if (badgeEl) badgeEl.textContent = `$${total.toFixed(2)}`;
+    if (labelEl) labelEl.textContent = 'Total Due';
+    if (amountElTotal) amountElTotal.textContent = `$${total.toFixed(2)}`;
   }
 
   // Reset override state
