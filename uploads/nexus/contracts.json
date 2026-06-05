@@ -79,6 +79,21 @@
         ]
       },
       "timestamp": "2026-03-21T18:26:44.111832"
+    },
+    {
+      "id": "EVT-20260603230609-0003",
+      "type": "order_created",
+      "contract_id": "",
+      "source": "PRISM",
+      "target": "PIPELINE",
+      "details": {
+        "order_id": "TEST-INTAKE-001",
+        "service_type": "nemt",
+        "client_name": "Test Co",
+        "status": "Order Received",
+        "total_amount": 150
+      },
+      "timestamp": "2026-06-03T23:06:09.346772"
     }
   ]
 }

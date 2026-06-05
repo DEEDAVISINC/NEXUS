@@ -71,8 +71,7 @@ Expanded from April 2026 (new registrants only) to **all existing** C/TPAs, MROs
 ## NEXUS trackers
 
 - `PENDING_ACTIONS.md` — urgent priority row  
-- `calendars/FMCSA_CLEARINGHOUSE_ID_VERIFY_2026-07-06.ics` — reminder Jun 15 + hard deadline Jul 6  
-- `calendars/SCHEDULED_AGENDA.md` — same dates
+- **Calendar:** Do not add to `SCHEDULED_AGENDA.md` or open `.ics` until Dee explicitly approves
 
 ---
 

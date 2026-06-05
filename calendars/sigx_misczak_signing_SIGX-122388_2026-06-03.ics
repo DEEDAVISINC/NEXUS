@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Notary//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Signings
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:sigx-122388-misczak@deedavis.biz
+DTSTAMP:20260603T100000Z
+DTSTART;TZID=America/Detroit:20260603T120000
+DTEND;TZID=America/Detroit:20260603T130000
+SUMMARY:📝 SIGNING: Misczak Buyer ($100) — Signature Xcel
+DESCRIPTION:Order: SIGX-122388 | File: 26-1-6493\nSigners: Gary Misczak / Amy\nPhone: 586-709-1964 / 586-216-4136\nType: Buyer Only, 1st Only\nDocs: EDOCS\nScanbacks Required\n\nProperty: 4446 Buchanan Ave, Warren, MI 48092\n\nCompany: Signature Xcel / Sign X\nPhone: 480-530-7446\nClient: Amy Tush (Grand Strand Law Group) amy@grandstrandlawgroup.com
+LOCATION:4446 Buchanan Avenue, Warren, MI 48092
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Signing in 2 hours - Misczak Buyer
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Signing in 30 minutes - Leave for Warren
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

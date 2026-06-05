@@ -1,6 +1,6 @@
 # Active Relationship Status — Strategic Contacts
 
-**Last Updated:** June 1, 2026  
+**Last Updated:** June 5, 2026  
 **Source session:** `SESSION_SUMMARY_MAY_30_2026.md`  
 **Full context:** Section 6 (emails) + Section 10 in session summary
 
@@ -16,6 +16,41 @@
 | **Dana Drew** | HAP CareSource | Network / contracting | Oakland pending | **Oakland email sent May 31** | Await reply — Oakland activation status / portal steps |
 | **Beth Rubin** | Greene County CDJFS (OH) | Director | **On RFP notification list** | Debrief May 31 · **reply Jun 1** | **No email** — wait for next NEMT RFP notice · beth.rubin@jfs.ohio.gov · (937) 562-6450 |
 | **Jason Giombetti** | Elder Services of Worcester Area (MA) | Contracts Manager | **Next cycle ~2029** | Outreach May 31 · **reply Jun 1** | Hard LOI this cycle — **re-outreach when next transport RFP/presol drops** · jgiombetti@eswa.org · (508) 756-1545 ext. 109 |
+| **Amy Tush** | Grand Strand Law Group, LLC (SC) | Real Estate Paralegal | **✅ Closing successful 6/3** — Misczak 26-1-6493 | Amy thank-you | **CORRECTED email** — Misczak was routine; no upset narrative · `AMY_TUSH_THANK_YOU_3D_INK.md` |
+| **Gary Misczak** | Sonesta Michigan (**retired Ops Manager**) | Retired Operations Manager | Met at **Misczak signing 6/3** (SIGX-122388) | Personal rapport at table | **Mon 6/8 @ 12 PM ET** — thank-you text/call · `(586) 709-1964` · no HAVEN pitch · `gary_misczak_thankyou_2026-06-08.ics` |
+| **Stephanie Logan** | Alabama Medicaid Agency | Director, MH & NET | **✅ Active thread** — looped Bennett 6/3 | Bennett reviewing 6/4 | **HOLD** — they will reach out · no ping until ~Jun 18–25 · `ALABAMA_MEDICAID_NET_THREAD.md` |
+| **Bennett Emfinger** | Alabama Medicaid Agency | Interim Associate Director, NET | **Internal review** 6/4 — will reach out | DDI ack sent 6/4 | **Do nothing** — ball in their court · 334-353-5015 |
+
+---
+
+## Email Log — Alabama Medicaid (updated 6/5)
+
+### Bennett Emfinger — internal review (6/4)
+- **From:** Bennett.Emfinger@medicaid.alabama.gov
+- **CC:** Stephanie Logan
+- **Summary:** Thank you for info; will review and discuss internally; will reach out for questions / future communication
+- **DDI reply:** “Sounds good — let me know if any questions come up during your review.”
+- **Status:** **HOLD** until ~Jun 18–25 or until they write first
+
+### Stephanie Logan — NET intro → Bennett loop-in (6/3)
+- **From:** stephanie.logan@medicaid.alabama.gov
+- **CC:** Bennett Emfinger (Associate Director, NET)
+- **Subject:** RE: NEMT TPA Program Administration — DEE DAVIS INC | Alabama Medicaid
+- **Content:** Thank you for inquiry; Bennett included to facilitate discussion
+- **DDI reply:** Thanks for looping in Bennett; available after 12:00 PM ET
+- **Status:** **HOLD** 7 days — await their scheduling/questions
+
+---
+
+## Email Log — June 3, 2026
+
+### Grand Strand Law Group — Amy Tush (post-Misczak closing)
+- **From:** amy@grandstrandlawgroup.com (via netorg472697.onmicrosoft.com)
+- **To:** Dee + orders@signaturexcel.com
+- **Subject:** RE: Order #26-1-6493 for Misczak Completed - Closing Successful
+- **Content:** Thank you after successful closing
+- **DDI action:** Log 3D Ink relationship · draft thank-you reply (complement Sign X, MI overflow wedge)
+- **Dossier:** `CLIENT OUTREACH/GRAND STRAND LAW GROUP SIGNING/BUYER_INTEL.md`
 
 ---
 

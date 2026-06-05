@@ -51,8 +51,8 @@ Usage:
   python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
   python3 nexus_scheduler.py --sync-cos --days 7           # Custom look-back window
 
-For cron (recommended):
-  # RADAR full sweep — daily at 6:30 AM ET
+For cron (optional — launchd --loop is primary on this Mac):
+  # RADAR full sweep — daily at 6:30 AM ET (also wired in run_loop with catch-up windows)
   30 6 * * * cd /Users/deedavis/NEXUS\\ BACKEND && python3 nexus_scheduler.py --radar >> logs/radar.log 2>&1
 
   # Every 30 minutes — email + folder scan
@@ -509,6 +509,88 @@ def run_gbis_mine_all_pipeline():
 
 
 GBIS_DAILY_RUN_STATE = os.path.join(LOG_DIR, "gbis_last_daily_run.json")
+RADAR_DAILY_RUN_STATE = os.path.join(LOG_DIR, "radar_last_daily_run.json")
+RADAR_LOG_FILE = os.path.join(LOG_DIR, "radar.log")
+
+
+def _radar_now_et():
+    try:
+        from zoneinfo import ZoneInfo
+
+        return datetime.now(ZoneInfo("America/Detroit"))
+    except Exception:
+        return datetime.now()
+
+
+def _radar_completed_today_et() -> bool:
+    today = _radar_now_et().strftime("%Y-%m-%d")
+    try:
+        if os.path.exists(RADAR_DAILY_RUN_STATE):
+            with open(RADAR_DAILY_RUN_STATE, "r") as f:
+                data = json.load(f)
+            if data.get("date") == today and data.get("compile_ok"):
+                return True
+    except Exception:
+        pass
+    return False
+
+
+def _should_trigger_radar_daily_et():
+    """
+    Run full RADAR once per calendar day (America/Detroit).
+    Primary: 6:30–6:44 AM. Catch-up if Mac was asleep: 7:00–7:14, 12:00–12:14, 6:00–6:14 PM.
+    """
+    if _radar_completed_today_et():
+        return False
+    now = _radar_now_et()
+    windows = (
+        (6, 30, 45),
+        (7, 0, 15),
+        (12, 0, 15),
+        (18, 0, 15),
+    )
+    for hour, minute_start, minute_end in windows:
+        if now.hour == hour and minute_start <= now.minute < minute_end:
+            return True
+    return False
+
+
+def _mark_radar_daily_run_et(*, compile_ok: bool = True):
+    now = _radar_now_et()
+    try:
+        with open(RADAR_DAILY_RUN_STATE, "w") as f:
+            json.dump(
+                {
+                    "date": now.strftime("%Y-%m-%d"),
+                    "iso": now.isoformat(),
+                    "compile_ok": compile_ok,
+                },
+                f,
+                indent=2,
+            )
+    except Exception as e:
+        log.warning(f"Could not write RADAR daily run state: {e}")
+
+
+def run_radar_daily_scheduled():
+    """Full RADAR sweep + compile; append to logs/radar.log."""
+    log.info("--- RADAR DAILY (scheduled) ---")
+    try:
+        with open(RADAR_LOG_FILE, "a", encoding="utf-8") as rf:
+            rf.write(f"\n{'=' * 60}\nRADAR daily start {datetime.now().isoformat()}\n")
+    except Exception:
+        pass
+    results = run_radar()
+    compile_ok = bool(results.get("compile_radar"))
+    try:
+        with open(RADAR_LOG_FILE, "a", encoding="utf-8") as rf:
+            rf.write(
+                f"RADAR daily end {datetime.now().isoformat()} "
+                f"compile_ok={compile_ok} results={results}\n"
+            )
+    except Exception:
+        pass
+    return compile_ok
 
 
 def _should_run_gbis_daily_7am_et():
@@ -988,6 +1070,7 @@ def run_loop():
     log.info("  Agency forecasts:     daily")
     log.info("  AI scoring + alerts:  every 2 hours")
     log.info("  Quote follow-ups:     every 4 hours")
+    log.info("  RADAR full sweep:     daily 6:30 AM ET (+ 7 AM / noon / 6 PM catch-up) → RADAR_RESULTS.md")
     log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
     log.info("  Prime contractor mining: weekly")
     log.info("  JETA IATA market price: weekly (jet fuel $/bbl → JETA_MarketData)")
@@ -1067,6 +1150,13 @@ def run_loop():
         if now - last_healthcare >= HEALTHCARE_INTERVAL:
             run_healthcare_mco_scan()
             last_healthcare = now
+
+        # RADAR — full sweep + RADAR_RESULTS.md (6:30 AM primary; catch-up if Mac was asleep)
+        if _should_trigger_radar_daily_et():
+            if run_radar_daily_scheduled():
+                _mark_radar_daily_run_et(compile_ok=True)
+            else:
+                log.warning("RADAR daily run finished without compile — will retry next catch-up window")
 
         # GBIS autonomous grant discovery — daily 7:00 AM America/Detroit (same as POST /gbis/mine-all)
         if _should_run_gbis_daily_7am_et():

@@ -139,9 +139,14 @@ Last sweep: [timestamp] · Full file: RADAR_RESULTS.md
 
 | When | Action |
 |------|--------|
-| Daily 6:30 AM ET (target) | `nexus_scheduler.py --radar` via cron |
+| Daily **6:30 AM ET** (primary) | `run_radar()` via `nexus_scheduler.py --loop` (launchd) |
+| Catch-up if missed | **7:00–7:14 AM**, **12:00–12:14 PM**, **6:00–6:14 PM** ET — same day only, once when compile succeeds |
+| State file | `logs/radar_last_daily_run.json` (`compile_ok` must be true) |
+| Log | `logs/radar.log` |
 | Every session (if Dee asks) | Read `RADAR_RESULTS.md` — do not confuse with bid tracker |
 | After manual mining | `python3 compile_radar_results.py` |
+
+**Requires:** `com.deedavis.nexus-scheduler` launchd job running (`--loop`). Mac must be on during at least one window; catch-up covers sleep at 6:30.
 
 ---
 

@@ -25,7 +25,7 @@
 
 ## Session source — May 30, 2026
 
-**Full session record:** `SESSION_SUMMARY_MAY_30_2026.md`
+**Full session record:** `SESSION_SUMMARY_MAY_30_2026.md` · **PHC positioning (Jun 4):** `SESSION_SUMMARY_JUNE_4_2026.md` · `DDI_PHC_POSITIONING_LOCKED.md`
 
 | Topic | File |
 |-------|------|

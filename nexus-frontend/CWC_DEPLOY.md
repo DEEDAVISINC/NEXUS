@@ -77,6 +77,7 @@ For NEXUS builds, do **not** set `REACT_APP_PUBLIC_SITE=cwc`.
 | `https://www.cwecare.org` | Same (may redirect apex ↔ www within CWC site only) |
 | `https://cwecare.org/refer` | SHIELD family referral intake |
 | `https://cwecare.org/status` | Family case status lookup |
+| `https://cwecare.org/program-narrative` | DDI+CWC public health program narrative (funders/partners) |
 | `https://nexus.deedavis.biz` | NEXUS landing — **never** CWC |
 | `http://localhost:3000/cwc` | Local CWC preview |
 

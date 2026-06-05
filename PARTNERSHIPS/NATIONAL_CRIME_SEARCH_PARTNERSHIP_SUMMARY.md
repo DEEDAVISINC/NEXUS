@@ -41,7 +41,9 @@
 
 ## SETUP REQUIREMENTS (30-DAY DEADLINE: June 3, 2026)
 
-Per Exhibit B — must complete within 30 days of May 4, 2026:
+**⏸ POLICY (Jun 3, 2026):** Dee Davis Inc. **defers NCS portal activation** until the first background-screening contract is in hand or imminently submitting — no monthly/per-check spend without revenue to support it.
+
+Per Exhibit B — must complete within 30 days of May 4, 2026 *(deferred — accept commission forfeiture risk until contract trigger)*:
 
 - [x] Upload DDI logo to NCS co-branded site — ✅ Sent to Mark 5/16
 - [ ] Add link from deedavis.biz to NCS co-branded site

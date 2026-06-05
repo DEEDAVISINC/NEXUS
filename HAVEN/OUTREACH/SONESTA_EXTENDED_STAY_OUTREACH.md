@@ -79,6 +79,7 @@ EDWOSB | WOSB | WBENC | MBE | WBE | SBE
 - Keith Pierce — EVP & President, Franchise & Development
 
 **Sonesta Contact Paths:**
+- **Warm (Michigan):** Gary Misczak — retired Sonesta Michigan Operations Manager · (586) 709-1964 · met 6/3/2026 signing · see `SONESTA_MICHIGAN_WARM_CONTACT_MISCZAK.md`
 - Group inquiries: events.sonesta.com
 - Development/partnerships: development@sonesta.com, 617-658-1596
 - Sports/specialty groups: SportsCertified@sonesta.com

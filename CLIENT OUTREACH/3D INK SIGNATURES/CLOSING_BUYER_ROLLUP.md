@@ -11,9 +11,10 @@
 1. OCR each closing PDF (or drop in folder for batch OCR later).
 2. Extract **buyer** = who **assigns/pays** the signing agent (not the borrower surname on the file).
 3. Extract **title agent** = named person on CD / attorney block / “Title Agent” (e.g. **George T. Holler** on STONER).
-4. Add one row per **unique buyer entity**; increment **file count** when same buyer appears again.
-4. Link detailed dossier in `CLIENT OUTREACH/[BUYER NAME]/BUYER_INTEL.md`.
-5. **Never** store borrower SSN/DOB/full address in this file.
+4. Extract **loan officer** = CD **page 5 Contact Information** — LO name + **Contact NMLS ID** + lender org → log in **`LOAN_ORIGINATOR_ROLLUP.md`** (Wave 0 borrower-nav outreach).
+5. Add one row per **unique buyer entity**; increment **file count** when same buyer appears again.
+6. Link detailed dossier in `CLIENT OUTREACH/[BUYER NAME]/BUYER_INTEL.md`.
+7. **Never** store borrower SSN/DOB/full address in this file.
 
 ---
 
@@ -21,6 +22,7 @@
 
 | Priority | Buyer / firm | Title agent (named on docs) | Type | Ops contact | States | Files | Dossier | Outreach |
 |----------|--------------|------------------------------|------|-------------|--------|-------|---------|----------|
+| **A** | **Grand Strand Law Group, LLC** | **Amy Tush** (paralegal) | SC closing law firm · MI signings via coordinator | amy@grandstrandlawgroup.com · RE@grandstrandlawgroup.com · (843) 848-7184 | SC / **MI** | 1 | [BUYER_INTEL](../GRAND%20STRAND%20LAW%20GROUP%20SIGNING/BUYER_INTEL.md) | ✅ **Post-close 6/3/26** — thank-you + 3D Ink |
 | 1 | **Holler Law Firm, LLC** | **George T. Holler** | Loan closing attorney (GA refi) | scheduling@hollerlawfirm.com · 475-889-7557 · georgeh@hollerlawfirm.com | GA | 1 | [BUYER_INTEL](../HOLLER%20LAW%20FIRM%20SIGNING/BUYER_INTEL.md) | ⏸ |
 | 2 | **Garcia-Menocal P.L.** (Alfredo Garcia-Menocal P.A. on docs) | **Alfredo Garcia-Menocal** | FL closing / title attorney | (305) 553-3464 · lawgmp.com/contact | FL | 1 | [BUYER_INTEL](../ALFREDO%20GARCIA-MENOCAL%20SIGNING/BUYER_INTEL.md) | ⏸ |
 | 3 | **Title Plus Pros / John C. Goede, P.A.** | **Kris Unkrich** (Attn) · John C. Goede | Preparer / closer (Naples) | Kris Unkrich · (239) 202-0413 · (239) 331-5100 | FL | 1 | (see Garcia-Menocal dossier) | ⏸ |
@@ -46,6 +48,8 @@
 
 | Name | Firm | Email | Phone |
 |------|------|-------|-------|
+| Amy Tush | Grand Strand Law Group, LLC | amy@grandstrandlawgroup.com | (843) 848-7184 |
+| Grand Strand (new contracts) | Grand Strand Law Group, LLC | RE@grandstrandlawgroup.com | (843) 492-5422 |
 | George T. Holler | Holler Law Firm, LLC | georgeh@hollerlawfirm.com | (203) 301-4333 |
 | Holler scheduling | Holler Law Firm, LLC | scheduling@hollerlawfirm.com | (475) 889-7557 |
 | Alfredo Garcia-Menocal | Garcia-Menocal P.L. | lawgmp.com/contact | (305) 553-3464 |

@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** June 2, 2026
+**Last Updated:** June 4, 2026 (PHC session import + LHD package)
 
 ---
 
@@ -8,11 +8,12 @@
 
 | Task | Details | Status |
 |---|---|---|
-| **FMCSA Clearinghouse — identity verification** | **Deadline Jul 6, 2026.** DDI = **C/TPA** — must complete or **lose Clearinghouse access.** Steps: (1) https://clearinghouse.fmcsa.dot.gov → Log in (2) **My Dashboard → My Profile** (3) Click **Begin Identity Verification** (4) Follow prompts · Job aid in Learning Center · Ref: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md` · Phone 844-955-0207 | ⬜ **URGENT — do this week** |
-| **MDHHS SHIELD follow-up (Angela Medina + Aimee Surma)** | **May 30 follow-up SENT** (clean NEXUS email + forwarded May 3 package). May 3 Sat-night multi-attachment email may have been filtered — be ready to resend clean. **Primary:** Angela Medina **517-897-5203** / MedinaA@michigan.gov. **Trigger mid-June:** call Angela → direct LHD outreach per `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` | 🟡 **AWAITING ANGELA / AIMEE BACK** |
+| **FMCSA Clearinghouse — identity verification** | **Deadline Jul 6, 2026.** DDI = **C/TPA** — must complete or **lose Clearinghouse access.** Steps: (1) https://clearinghouse.fmcsa.dot.gov → Log in (2) **My Dashboard → My Profile** (3) Click **Begin Identity Verification** (4) Follow prompts · Ref: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md` · Phone 844-955-0207 · **Not on calendar until Dee approves** | ⬜ **URGENT — do this week** |
+| **MDHHS SHIELD follow-up (Angela Medina + Aimee Surma)** | **May 30 follow-up SENT**. **Trigger Jun 16:** if silent → direct LHD wave. **Emails READY:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/` · **Attach:** `DDI_CWC_PHC_Program_Narrative.pdf` · Call Angela **517-897-5203** optional before send | 🟡 **AWAITING — LHD PACKAGE READY** |
+| **Jun 4 — LHD director verification** | LinkedIn verify: Guzmán, Willette, Corsi, London, Moore. Call Macomb/Genesee/Kent to confirm emails. | ⬜ **TODAY** |
 | **Blue Cross Complete — Alina Pabin intro call** | **May 30 follow-up SENT** — offered weeks of **June 2 & June 9**, afternoons ET. **Do not send another touch until she responds.** Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` | 🟡 **AWAITING ALINA** |
 | **MHEF Capacity Building concept paper** | Inquiry done · Sayre replied Mar 27 — **submit in Fluxx** | ⬜ **$300K track** — see `MICHIGAN_FUNDER_MAP.md` |
-| **BCBSM Foundation concept paper** | Submit before **Aug 5, 2026** board review | ⬜ TODO — Healthcare Access program via CWC |
+| **BCBSM Foundation concept paper** | **⚠️ Summer concept due was May 27, 2026 — may be missed.** Email foundation@bcbsm.com TODAY. Outline: `CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md` · Full app window Aug 5 if invited | 🔴 **VERIFY DEADLINE NOW** |
 | **RENEW SCAC CODE (DFCL)** | **EXPIRED Feb 3, 2026.** Go to https://scaccode.com — renew for $97. If can't renew lapsed code, call NMFTA (866) 411-6632. Update company name from DEPOINTE → DEE DAVIS INC and address to Troy. **This is the single blocker for USPS HCR routes.** | ⬜ URGENT |
 | **Register on USPS Logistics Gateway** | After SCAC renewal → https://logistics.usps.com/ — register with DFCL code. This is the portal for Highway Contract Routes (DDI's current eSourcing registration is for small deliveries only). | ⬜ BLOCKED (needs SCAC) |
 | **Add freight NAICS to SAM.gov** | DDI needs ALL freight lanes visible: **484110** (local), **484121** (long-distance TL), **484122** (LTL), **484220** (specialized long-distance — heavy haul, tanker), **484230** (specialized — auto transport). DDI already has 484210 + 488510. Without these 5, DDI is invisible to reefer, flatbed, heavy haul, auto transport, and tanker contract searches. Log into SAM.gov → Edit Registration → NAICS Codes → Add all five. | ⬜ TODO |
@@ -21,7 +22,7 @@
 | **Log into HAP CareSource portal** | Check for trip requests, confirm DDI is active/receiving | ⬜ TODO |
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
-| **Jun 3 @ 6:00 PM ET** | **SEND: PRIME Valet sub outreach** — Towne Park · Soiree Valet · PMC · `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · Verify contacts + USASpending before send · Follow-up Jun 10 if no reply | ⬜ **SCHEDULED Jun 3 evening** |
+| **Jun 2 @ 1 PM ET** | **Uber Health — Jeff Metz** — NY Rx band pricing (Jun 17 bid) + MI/HAP/ACH · **Open:** `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/UBER_HEALTH_JEFF_METZ_CALL.html` | ⬜ |
 | **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
 
 ## ⏳ AWAITING RESPONSE
@@ -84,13 +85,12 @@ All pending MCO emails need audit before sending.
 
 | State | Task | Portal/Path | Deadline | Status |
 |---|---|---|---|---|
-| **Texas** | HHSC NEMT Open Enrollment (HHS0016482) / DRTS | **FREE:** resources.hhs.texas.gov/open-enrollment/hhs0016482 · TMHP + TX SOS | **Sept 15, 2026** | ⬜ TODO — docs in `TEXAS MEDICAID DRTS/RFP_ATTACHMENTS/` |
-| **Texas** | LRGVDC RFP #2026-03 AAA Title III | **FREE:** lrgvdc.org/procurement.html | **Jul 10, 2026** | ⬜ TODO — review RFP; transport-only may fit **DPS #2026-02** instead |
+| **Texas** | HHSC NEMT Open Enrollment (HHS0016482) | TMHP + TX SOS | **Sept 15, 2026** | ⬜ TODO — TPA prime, sub to Uber Health |
 | **North Carolina** | NC SOS Registration | ncsos.gov | Target: June 2026 | ⬜ TODO — **RADAR explore:** `RADAR HEALTHCARE MCO/NC_MEDICAID_EXPLORATION.md` |
 | **North Carolina** | NCTracks Enrollment (Transportation Broker 347E00000X) | nctracks.nc.gov | Target: June 2026 | ⬜ TODO — after SOS |
 | **North Carolina** | MCO Outreach (AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya) | Direct contact | Ongoing | ⬜ TODO — after NCTracks |
 | **Arizona** | MCO Outreach (Mercy Care, UHC AZ, Banner-University, Arizona Complete Health) | Direct contact | Ongoing | ⬜ TODO — **RADAR explore:** `RADAR HEALTHCARE MCO/AZ_AHCCCS_EXPLORATION.md` |
-| **Maine** | Pull RFP **0520260310** on Maine VSS · W-9 mail/fax | mevss.hostams.com · **VS0000032746** | ASAP | ✅ VSS registered · ✅ Follow-up sent Jun 3 (Penquis + Waldo) · ⬜ Pull sol · Next follow-up **Jun 17** — `MAINE NEMT TEAMING/` |
+| **Maine** | MaineCare NET recompete follow-up (Penquis + Waldo CAP) | mevss.hostams.com | **Jun 3, 2026** | ⬜ Follow-up — `CLIENT OUTREACH/MAINE NEMT TEAMING/` · Opp 0520260310 |
 
 ---
 
@@ -121,7 +121,7 @@ All pending MCO emails need audit before sending.
 
 | Contact | Company | Last Contact | Next Follow-Up |
 |---|---|---|---|
-| Bennett Emfinger | Alabama Medicaid NET | May 12 | Jun 9 (14 days from May 26) — **do not duplicate** while Natasha/Stephanie threads open |
+| Bennett Emfinger | Alabama Medicaid NET | May 12 | ~~Jun 9~~ **CANCELLED** — Bennett replied 6/4 (internal review); **HOLD until ~Jun 18–25** · `ALABAMA_MEDICAID_NET_THREAD.md` |
 | Natasha Crusoe | Alabama Medicaid NET | — | **Net-new** — per Stephanie OOO routing May 31 |
 | Stephanie Logan | Alabama Medicaid NEMT Director | **May 11 @ 7:53 PM ET** | **Jun 3** — after OOO return Jun 2 · **no re-send from queue** |
 | Kristen Halsey | CareSource Ohio | May 13 | May 20 (7 days) — SENT full service pitch |

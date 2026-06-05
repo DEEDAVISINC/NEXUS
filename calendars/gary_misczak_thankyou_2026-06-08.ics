@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Notary//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Follow-ups
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:gary-misczak-thankyou-20260608@deedavis.biz
+DTSTAMP:20260605T120000Z
+DTSTART;TZID=America/Detroit:20260608T120000
+DTEND;TZID=America/Detroit:20260608T121500
+SUMMARY:📧 Follow-up: Gary Misczak thank-you (Sonesta)
+DESCRIPTION:Gary Misczak — retired Sonesta Michigan Ops Manager\nMet at signing 6/3/2026 (SIGX-122388)\n\nACTION: Text or call thank-you — personal only, NO HAVEN pitch\nPhone: (586) 709-1964\n\nCopy message from:\nHAVEN/OUTREACH/SONESTA_MICHIGAN_WARM_CONTACT_MISCZAK.md\n\nCapture email if he shares it → update GPSS CONTACTS
+LOCATION:
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Gary Misczak thank-you — 30 min
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

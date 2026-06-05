@@ -1,14 +1,14 @@
 # TODAY'S AGENDA — Wednesday, June 3, 2026
 
-**Updated:** June 2, 2026 @ goodnight
+**Updated:** June 3, 2026 @ midday
 
 ---
 
 ## TOP 3 PRIORITIES
 
-1. **📋 NCS partner setup — due today (9 AM window)** — Logo, deedavis.biz link, training. Travis Fink / travis@nationalcrimesearch.com. **30-day forfeiture if incomplete.**
-2. **📝 Signings — Philipp Lueddecke HELOC @ 1 PM** (Mount Clemens, scanbacks) · **Rohan refi @ 2 PM** (Shelby Twp, scanbacks)
-3. **📧 PRIME Valet sub outreach @ 6 PM** — `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · USASpending check first
+1. **📝 12:00 PM → 1:00 PM — Two signings back-to-back** — Misczak Buyer $100 (Warren) then Lueddecke HELOC $80 (Mount Clemens) · scanbacks both · leave Warren on time
+2. **📧 PRIME Valet sub outreach @ 6 PM** — `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · USASpending check first
+3. **🔥 DRPA Occ Health/Drug — due Friday Jun 5** — folder `NJ DRPA OCC HEALTH DRUG TESTING/`
 
 ---
 
@@ -16,10 +16,16 @@
 
 | Time ET | Item |
 |---------|------|
-| **9:00 AM** | 🔥 NCS channel partner setup deadline |
-| **1:00 PM** | Signing — Philipp Lueddecke HELOC ($80) — Mount Clemens |
-| **2:00 PM** | Signing — Kenneth & Rita Rohan refi ($100) — Shelby Township |
+| **12:00 PM** | **Signing** — Gary Misczak Buyer ($100) — Signature Xcel · Warren · SIGX-122388 · scanbacks |
+| **1:00 PM** | **Signing** — Philipp Lueddecke HELOC ($80) — Mount Clemens · scanbacks |
+| **2:00 PM** | ~~Rohan refi~~ **→ Tue 6/9 @ 2:00 PM** — TPC N26-0227NW · Shelby Twp |
 | **6:00–7:30 PM** | PRIME Valet subcontractor outreach send window |
+
+---
+
+## DEFERRED (Dee decision Jun 3)
+
+- **NCS channel partner setup** — **Hold until first background-screening contract** to fund monthly/per-check costs. Agreement signed May 4; portal/training/link deferred. Revisit when Minneapolis MPD, Anchorage-class bid, or similar is **GO to submit**.
 
 ---
 
@@ -27,7 +33,7 @@
 
 | Date | Item |
 |------|------|
-| **Jun 4** | Senpex lab courier response due · SC newborn screening pre-bid (intel only) |
+| **Jun 4** | **PRISM intake ↔ NEXUS dashboard wire-up** (Netlify → `/prism/intake`) · PythonAnywhere reload · pricing/Square |
 | **Jun 5** | **DRPA Occ Health/Drug due** |
 | **Jun 10** | Fulfillment quotes due (SUNY — if still pursuing) |
 | **Jun 17 @ 9 AM** | SUNY Upstate courier submission (⚠️ county invoice blocker) |
@@ -47,6 +53,20 @@
 ## WAITING — DO NOT CHASE
 
 - Alina (BCC), Angela/Aimee (MDHHS), Daniel Rivera (Anthem OH), Natalie Centene (mid-July)
+
+---
+
+## TOMORROW — Thursday, June 4, 2026
+
+### PRISM Client Portal (`portal.deedavis.biz` / `ddi-prism-portal.netlify.app`)
+
+1. **Pricing deep dive** — align `SERVICE_PRICING` with catalog; NEMT estimate vs flat rate
+2. **Square integration** — Web Payments SDK or Checkout; replace placeholder card fields
+3. **Finish go-live** — Gmail app password on Netlify (if submit email still failing)
+4. **Custom domain** — `portal.deedavis.biz` CNAME if not done
+5. **Tier 2 backend** — PythonAnywhere reload + `setup_prism_intake_airtable.py` for order calendar by email
+
+*Payment step UI fix deployed Jun 3 (`308317b47`) — tiles + total should work after hard refresh.*
 
 ---
 

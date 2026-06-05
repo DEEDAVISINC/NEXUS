@@ -1,6 +1,6 @@
 # 3D Ink Signatures — Wave 1B Structured Settlement Tracker
 
-**Last Updated:** May 28, 2026  
+**Last Updated:** June 2, 2026  
 **Lane:** Structured settlement consultants / brokers — nationwide closing signings  
 **Copyable emails:** `SEND_TO_BUYER/WAVE1B_STRUCTURED_SETTLEMENT_SEND_NOW.md`  
 **Master research list (50 firms):** `CLIENT OUTREACH/STRUCTURED_SETTLEMENT_NOTARY_OUTREACH.md`
@@ -23,8 +23,9 @@
 | 8 | CW Settlements | info@cwsettlements.com | **READY** | — | — |
 | 9 | Finn Financial Group | Dan@FinnFinancialGroup.com | **READY** | — | — |
 | 10 | Jay Scarola | jscarola@sagesettlements.com | **READY** | — | — |
+| 11 | **CBC Settlement Funding** | info@cbcsettlementfunding.com | **READY** | — | — |
 
-**10 emails ready. Target: 9 sends (exclude Milestone HOLD) within 7 business days.**
+**11 emails ready. Target: 10 sends (exclude Milestone HOLD) within 7 business days.**
 
 ---
 
@@ -33,7 +34,8 @@
 1. **Logan** — Michigan-based, nationwide license, direct principal email  
 2. **Finn Financial** — direct to Dan (principal inbox)  
 3. **Jay Scarola** — direct consultant email  
-4. **Summit / Forge / CW / NFP / Chronovo / Milestone / Medivest** — batch the info@ inboxes
+4. **Summit / Forge / CW / NFP / Chronovo / Medivest** — batch the info@ inboxes  
+5. **CBC Settlement Funding** — settlement purchaser lane (court-order / transfer signings)
 
 ---
 

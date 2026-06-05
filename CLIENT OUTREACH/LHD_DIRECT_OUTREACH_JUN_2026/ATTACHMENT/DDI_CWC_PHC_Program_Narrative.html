@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDI + CWC | Public Health Consultation Program Narrative</title>
+<meta name="description" content="Dee Davis Inc. and Cause We Care — integrated public health program infrastructure for community navigation, healthcare access, and program administration across Michigan.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8860B;
+    --gold-light: #F5E6B8;
+    --gold-mid: #D4A92A;
+    --navy: #0A1628;
+    --navy-mid: #152240;
+    --navy-light: #1E3256;
+    --slate: #4A5568;
+    --mist: #F7F6F2;
+    --white: #FFFFFF;
+    --teal: #0D6E6E;
+    --teal-light: #E0F2F1;
+    --border: #E2DDD4;
+    --text: #1A1A2E;
+    --text-muted: #6B7280;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--mist);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  .header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-accent {
+    position: absolute;
+    top: 0; right: 0;
+    width: 340px; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(184,134,11,0.15) 100%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    padding: 3rem 3.5rem 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .doc-type {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .doc-type::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(184,134,11,0.3);
+    max-width: 80px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .header h1 span {
+    color: var(--gold-mid);
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .org-row {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .org-block {
+    padding: 1.1rem 1.4rem;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .org-divider {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .org-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .org-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .org-role {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 8px;
+  }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid rgba(184,134,11,0.4);
+    color: var(--gold-mid);
+    background: rgba(184,134,11,0.08);
+  }
+
+  .tag.teal {
+    border-color: rgba(13,110,110,0.5);
+    color: #4DB6AC;
+    background: rgba(13,110,110,0.1);
+  }
+
+  .gold-rule {
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-mid) 60%, transparent 100%);
+  }
+
+  .content { padding: 3rem 3.5rem; }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .statement {
+    background: var(--navy);
+    border-left: 4px solid var(--gold);
+    padding: 1.4rem 1.75rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 2rem;
+  }
+
+  .statement p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.82);
+    font-weight: 300;
+  }
+
+  .model-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .model-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .model-card-head {
+    padding: 0.85rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .model-card-head.ddi { background: var(--navy); }
+  .model-card-head.cwc { background: var(--teal); }
+
+  .model-card-head-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .ddi .model-card-head-dot { background: var(--gold-mid); }
+  .cwc .model-card-head-dot { background: #80CBC4; }
+
+  .model-card-head-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+
+  .model-card-head-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    margin-left: auto;
+  }
+
+  .model-card-body { padding: 1rem 1.2rem; }
+
+  .model-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  .model-item:last-child { border-bottom: none; }
+
+  .model-item::before {
+    content: '→';
+    color: var(--gold);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .cwc-card .model-item::before { color: var(--teal); }
+
+  .program-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .prog-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+  }
+
+  .prog-card-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .prog-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .prog-card-naics {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-family: 'DM Sans', monospace;
+  }
+
+  .prog-card-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 8px;
+  }
+
+  .prog-card-funder-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+
+  .prog-card-funder {
+    font-size: 11px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  .cred-section {
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .cred-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .cred-block-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cred-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 0;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(226,221,212,0.5);
+  }
+
+  .cred-row:last-child { border-bottom: none; }
+
+  .cred-key {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+
+  .cred-val {
+    color: var(--navy);
+    font-weight: 500;
+    text-align: right;
+    font-family: 'DM Sans', monospace;
+    font-size: 11px;
+  }
+
+  .badge-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+
+  .badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--navy);
+    color: var(--gold-mid);
+    border: 1px solid rgba(184,134,11,0.3);
+  }
+
+  .partner-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .partner-table th {
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    background: var(--mist);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .partner-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--slate);
+  }
+
+  .status-active {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+  }
+
+  .partner-name { font-weight: 600; color: var(--navy); }
+
+  .ask-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .ask-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    position: relative;
+  }
+
+  .ask-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .ask-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .ask-text {
+    font-size: 11.5px;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+
+  .footer {
+    background: var(--navy);
+    padding: 1.5rem 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-info {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+  }
+
+  .footer-info strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+
+  .footer-date {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    text-align: right;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 720px) {
+    .header-inner, .content { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .org-row, .model-grid, .cred-grid, .program-grid, .ask-grid { grid-template-columns: 1fr; }
+    .org-divider { display: none; }
+    .header h1 { font-size: 1.75rem; }
+  }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; max-width: 100%; }
+    .back-link { display: none; }
+    .ask-card, .prog-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-accent"></div>
+    <div class="header-inner">
+      <div class="doc-type">Public Health Consultation · Program Narrative</div>
+      <h1>Community-Based <span>Public Health</span><br>Program Infrastructure</h1>
+      <p class="header-sub">Dee Davis Inc. (DDI) &amp; Cause We Care (CWC) · June 2026</p>
+
+      <div class="org-row">
+        <div class="org-block">
+          <div class="org-label">Program Administrator</div>
+          <div class="org-name">Dee Davis Inc. (DDI)</div>
+          <div class="org-role">Nationwide Contract Management TPA · EDWOSB Prime Contractor</div>
+          <div class="tag-row">
+            <span class="tag">CAGE: 8UMX3</span>
+            <span class="tag">UEI: HJB4KNYJVGZ1</span>
+            <span class="tag">NPI: 1538939111</span>
+            <span class="tag">CHAMPS: 6309049</span>
+          </div>
+        </div>
+        <div class="org-divider"></div>
+        <div class="org-block">
+          <div class="org-label">Community Trust Layer</div>
+          <div class="org-name">Cause We Care (CWC)</div>
+          <div class="org-role">501(c)(3) · Community Navigation &amp; CHW Outreach</div>
+          <div class="tag-row">
+            <span class="tag teal">EIN: 92-3602670</span>
+            <span class="tag teal">501(c)(3) Active</span>
+            <span class="tag teal">MiBridges Partner Since 2020</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gold-rule"></div>
+
+  <div class="content">
+
+    <a href="/" class="back-link">← Back to Cause We Care</a>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">Program Identity</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="statement">
+        <p>DDI and CWC operate as an integrated public health program infrastructure — delivering community-based consultation, navigation, and program administration across environmental health, healthcare access, social determinants of health, and substance use compliance. CWC provides the community trust and navigation layer. DDI provides the operational and administrative backbone. Together they form a two-entity model with proven MDHHS validation and active state-level credentials. Headquartered in Troy, Michigan — program administration scales nationwide under DDI contract management.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">Two-Layer Delivery Model</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-card-head ddi">
+            <div class="model-card-head-dot"></div>
+            <div class="model-card-head-title">DDI — Administrative Layer</div>
+            <div class="model-card-head-sub">Prime / TPA</div>
+          </div>
+          <div class="model-card-body">
+            <div class="model-item">Prime contractor &amp; TPA for all programs</div>
+            <div class="model-item">Credentialing, dispatch, network management</div>
+            <div class="model-item">Compliance documentation &amp; audit-ready reporting</div>
+            <div class="model-item">Billing, invoicing, MCO &amp; payer coordination</div>
+            <div class="model-item">ATLAS PM technology backbone</div>
+            <div class="model-item">E-Verify Program Administrator</div>
+            <div class="model-item">EDWOSB sole-source eligible to $7M</div>
+            <div class="model-item">MiBridges Community Navigation Partner since May 2020</div>
+          </div>
+        </div>
+        <div class="model-card cwc-card">
+          <div class="model-card-head cwc">
+            <div class="model-card-head-dot"></div>
+            <div class="model-card-head-title">CWC — Community Layer</div>
+            <div class="model-card-head-sub">501(c)(3)</div>
+          </div>
+          <div class="model-card-body">
+            <div class="model-item">Community health worker outreach &amp; navigation</div>
+            <div class="model-item">MiBridges-certified benefits enrollment</div>
+            <div class="model-item">Lead screening compliance &amp; CLPPP follow-up</div>
+            <div class="model-item">Family intake &amp; case coordination</div>
+            <div class="model-item">Wayne Metro / Pontiac field credibility</div>
+            <div class="model-item">MDHHS-validated community partner</div>
+            <div class="model-item">Grant applicant for health-related GFOs</div>
+            <div class="model-item">MiBridges Community Navigation Partner since May 2020</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">Program Portfolio</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="program-grid">
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-01</div>
+          <div class="prog-card-title">Environmental Health Outreach &amp; Lead Screening Compliance</div>
+          <div class="prog-card-naics">NAICS 541690 · 923120</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">CDC, MDHHS CLPPP, CDBG, county health departments</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-02</div>
+          <div class="prog-card-title">Healthcare Access &amp; Transportation Equity</div>
+          <div class="prog-card-naics">NAICS 485999 · 541614</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">HRSA, MDHHS, MCO contracts, HRSN 1115 waiver</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-03</div>
+          <div class="prog-card-title">Substance Use Compliance Navigation</div>
+          <div class="prog-card-naics">NAICS 621999 · 541690</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">SAMHSA, DWIHN, county opioid settlement funds</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-04</div>
+          <div class="prog-card-title">Housing &amp; Health Stability</div>
+          <div class="prog-card-naics">NAICS 531390 · 621999</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">HRSN 1115 waiver, HUD, MSHDA, MCOs</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-05</div>
+          <div class="prog-card-title">CHW Community Navigation &amp; Benefits Access</div>
+          <div class="prog-card-naics">NAICS 621999 · 923120</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">HRSA, MCO value-based payments, MDHHS GFOs</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-card-num">P-06</div>
+          <div class="prog-card-title">Family Stability &amp; Child Health Documentation</div>
+          <div class="prog-card-naics">NAICS 621511 · 541690</div>
+          <div class="prog-card-divider"></div>
+          <div class="prog-card-funder-label">Target Funders</div>
+          <div class="prog-card-funder">Title IV-D, state child welfare, MCOs</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <span class="section-title">Verified Credentials</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="cred-section">
+        <div class="cred-grid">
+          <div class="cred-block">
+            <div class="cred-block-title">Dee Davis Inc. — Federal &amp; State</div>
+            <div class="cred-row"><span class="cred-key">CAGE</span><span class="cred-val">8UMX3</span></div>
+            <div class="cred-row"><span class="cred-key">UEI</span><span class="cred-val">HJB4KNYJVGZ1</span></div>
+            <div class="cred-row"><span class="cred-key">EIN</span><span class="cred-val">84-4114181</span></div>
+            <div class="cred-row"><span class="cred-key">NPI</span><span class="cred-val">1538939111</span></div>
+            <div class="cred-row"><span class="cred-key">MI Medicaid (CHAMPS)</span><span class="cred-val">6309049</span></div>
+            <div class="cred-row"><span class="cred-key">DUNS</span><span class="cred-val">002636755</span></div>
+            <div class="cred-row"><span class="cred-key">MC</span><span class="cred-val">1647572</span></div>
+            <div class="cred-row"><span class="cred-key">US DOT</span><span class="cred-val">4250594</span></div>
+            <div class="cred-row"><span class="cred-key">NMLS</span><span class="cred-val">2099291</span></div>
+            <div class="cred-row"><span class="cred-key">SAM.gov</span><span class="cred-val">Active</span></div>
+            <div class="cred-row"><span class="cred-key">E-Verify</span><span class="cred-val">Program Administrator</span></div>
+            <div class="cred-row"><span class="cred-key">MiBridges Partner</span><span class="cred-val">Since May 2020</span></div>
+          </div>
+          <div class="cred-block">
+            <div class="cred-block-title">Certifications</div>
+            <div class="badge-grid" style="margin-bottom:1.5rem">
+              <span class="badge">EDWOSB</span>
+              <span class="badge">WOSB</span>
+              <span class="badge">WBENC</span>
+              <span class="badge">MBE/NMSDC</span>
+              <span class="badge">WBE</span>
+              <span class="badge">CMMC-AB</span>
+              <span class="badge">CNTDA</span>
+              <span class="badge">SBE</span>
+            </div>
+            <div class="cred-block-title">Cause We Care — CWC</div>
+            <div class="cred-row"><span class="cred-key">EIN</span><span class="cred-val">92-3602670</span></div>
+            <div class="cred-row"><span class="cred-key">Status</span><span class="cred-val">501(c)(3) Active</span></div>
+            <div class="cred-row"><span class="cred-key">MiBridges Partner</span><span class="cred-val">Since May 2020</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <span class="section-title">Active Partnerships</span>
+        <div class="section-line"></div>
+      </div>
+      <table class="partner-table">
+        <thead>
+          <tr>
+            <th>Partner</th>
+            <th>Service Line</th>
+            <th>DDI Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="partner-name">HAP CareSource</span></td>
+            <td>Plan NEMT — Wayne &amp; Macomb Counties (MOB-A)</td>
+            <td>Contract Management TPA</td>
+            <td><span class="status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td><span class="partner-name">MDHHS</span></td>
+            <td>CLPPP / Environmental Health Bureau</td>
+            <td>Community Navigation Partner</td>
+            <td><span class="status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td><span class="partner-name">DDI-Managed Fulfillment Network</span></td>
+            <td>NEMT &amp; Medical Logistics</td>
+            <td>Credentialed Network Integration</td>
+            <td><span class="status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td><span class="partner-name">DePointe DNA</span></td>
+            <td>Legal DNA Collection &amp; Chain of Custody</td>
+            <td>DDI Program Division</td>
+            <td><span class="status-active">Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <span class="section-title">Immediate Contract Targets</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="ask-grid">
+        <div class="ask-card">
+          <div class="ask-num">01</div>
+          <div class="ask-text">MDHHS / LHD designated community-based PHC delivery partner for SHIELD program rollout</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">02</div>
+          <div class="ask-text">MCO subcontract for NEMT + PHC coordination — Molina, UHC Community, Priority Health</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">03</div>
+          <div class="ask-text">HRSN 1115 waiver community delivery partner designation — housing + SDOH programs</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">04</div>
+          <div class="ask-text">DWIHN subcontract — Substance Use Compliance Navigation Program</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">05</div>
+          <div class="ask-text">BCBSM Foundation concept paper — Healthcare Access &amp; Transportation Equity Program</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">06</div>
+          <div class="ask-text">Michigan Health Endowment Fund — CWC applicant, capacity building cycle 2026</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-info">
+      <strong>Dee Davis Inc.</strong> · 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+      info@deedavis.biz · 248.376.4550 · deedavis.biz<br>
+      <strong>Cause We Care</strong> · ddavis@cwecare.org · info@cwecare.org
+    </div>
+    <div class="footer-date">
+      June 2026<br>
+      Confidential &amp; Proprietary
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

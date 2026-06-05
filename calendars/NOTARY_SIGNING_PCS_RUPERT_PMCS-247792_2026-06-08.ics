@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Notary//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Signings
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:pmcs-247792-rupert-20260608@deedavis.biz
+DTSTAMP:20260604T220000Z
+DTSTART;TZID=America/Detroit:20260608T180000
+DTEND;TZID=America/Detroit:20260608T190000
+SUMMARY:📝 SIGNING: PCS — Andre Rupert Refi ($80)
+DESCRIPTION:Premium Closing Solutions — PMCS-247792 / 843148\nAndre Lamar Rupert — Refi, 1st Only\nFee: $80\n\n46970 Edgewater Drive, Macomb MI 48044\nAndre: (248) 254-2898 · andrerupert123@gmail.com\n\nNO scanbacks · ID copies required (upload or print in return)\nLETTER + LEGAL · 2 copies · single-sided\nDo NOT date Note · FedEx ship (not CVS/Walgreens)\nSign + scan Common Errors PDF\n\nPay: last week of July (non-Silk June file) · Deluxe eCheck\n951-479-1450 · accounting@premiumclosingsolutions.com
+LOCATION:46970 Edgewater Drive, Macomb, MI 48044
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:PCS Rupert signing — leave soon
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:PCS Rupert signing — 30 min
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

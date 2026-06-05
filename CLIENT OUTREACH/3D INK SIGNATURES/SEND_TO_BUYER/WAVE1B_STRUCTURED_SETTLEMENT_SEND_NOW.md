@@ -269,6 +269,32 @@ EDWOSB | WOSB | WBENC | MBE | WBE | SBE
 
 ---
 
+## 11. CBC SETTLEMENT FUNDING — SETTLEMENT PURCHASER / FUNDING
+
+**TO:** info@cbcsettlementfunding.com  
+**SUBJECT:** Nationwide Signing Support for Settlement Funding Closings — 3D Ink Signatures
+
+```
+Hi,
+
+Dee Davis Inc. operates 3D Ink Signatures — managed notary and signing-agent support for structured settlement and annuity funding firms that need reliable, compliant claimant and court-order signings across multiple states.
+
+We support transfer documents, court-order packages, and claimant appointments — mobile to homes and counsel offices; RON where state rules and document type allow. CNTDA-certified agents. One operations contact. One invoice. Full compliance documentation on every signing.
+
+If CBC Settlement Funding uses outside signing support for funding closings, I'd welcome the chance to be on your vendor list for overflow and multi-state files.
+
+Agency rate sheet attached. Available after 12:00 PM ET by email, Zoom, or FaceTime.
+
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc. | 3D Ink Signatures
+755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+248.376.4550 | info@deedavis.biz | deedavis.biz
+EDWOSB | WOSB | WBENC | MBE | WBE | SBE
+```
+
+---
+
 ## TIER 2 — NEXT (website form / ops contact research)
 
 Priority broker firms from master list — no verified corporate inbox yet:

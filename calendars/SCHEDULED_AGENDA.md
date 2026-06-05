@@ -226,10 +226,7 @@
 ## 2026-06-03 — Wednesday
 
 - **9:00 AM ET** — 🔥 **DEADLINE: NCS Partner Setup Must Be Complete (30-Day Window)** — National Crime Search channel partner agreement executed May 4. Setup MUST be complete within 30 days or commission payments forfeited. **Required:** (1) Upload DDI logo to co-branded portal, (2) Add link from deedavis.biz to NCS site, (3) Complete training with NCS rep. Contact: Travis Fink, CEO — travis@nationalcrimesearch.com / 479-695-2111. Portal: deedavisinc.nationalcrimesearch.com. `.ics`: `calendars/ncs_setup_deadline_2026-06-03.ics`
-- **1:00 PM ET** — 📝 **SIGNING: Philipp Lueddecke — HELOC $80** — Premium Closing Solutions · PMCS-247367 / LMI26232513 · 374 Harrington St, Mount Clemens · Philipp (586) 265-4919 · **Scanbacks required** · EDOCS · PCS 951-479-1450 · `.ics`: `calendars/pcs_lueddecke_signing_LMI26232513_2026-06-03.ics`
-- **2:00 PM ET** — 📝 **SIGNING: Kenneth & Rita Rohan — Refi $100** — Title Processing Center · File N26-0227NW · 13759 Ironwood Dr, Shelby Township · Ken (586) 530-1300 · Ken.Rohan@Champion-ventures.com · Property Tampa FL · **Scanbacks required** · EDOCS · 2nd witness N/A · TPC 813-444-1400 · `.ics`: `calendars/tpc_rohan_signing_N26-0227NW_2026-06-03.ics`
-- **1:00 PM ET** — 📋 **CWC OUTREACH: MHEF capacity building deadlines** — mihealthfund.org — concept paper window. CWC applicant. **Move to another day** — conflicts with Lueddecke signing. `.ics`: `cwc_outreach_mhef_deadlines_2026-06-03.ics`
-- **6:00 – 7:30 PM ET** — 📧 **SEND: PRIME Valet sub outreach** — Towne Park · Soiree Valet · PMC · Folder: `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · Verify contacts + USASpending before send · `.ics`: `calendars/arena_prime_valet_outreach_2026-06-03.ics`
+- **1:00 PM ET** — 📋 **CWC OUTREACH: MHEF capacity building deadlines** — mihealthfund.org — concept paper window. CWC applicant. Begin Healthcare Access or Family Stability paper if due soon. `.ics`: `cwc_outreach_mhef_deadlines_2026-06-03.ics`
 
 ---
 
@@ -282,7 +279,7 @@
 
 ## 2026-06-16 — Tuesday
 
-- **12:00 PM ET** — 🔥 **CWC OUTREACH: MDHHS trigger — go direct to LHDs** — If Angela/Aimee silent → **Wayne (Kennyle Johnson, interim — ready-to-launch SHIELD pitch) + Detroit (Denise Fair Razo — separate from Wayne; engage both by family location)**. Call Angela **517-897-5203**. `.ics`: `cwc_outreach_mdhhs_trigger_lhd_2026-06-16.ics`
+- **12:00 PM ET** — 🔥 **CWC OUTREACH: MDHHS trigger — go direct to LHDs** — If Angela/Aimee silent → **Wayne (Kennyle Johnson) + Detroit (Ali Abazeed)**. Emails: `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/JUN16_*.md` · Attach PHC narrative PDF. Call Angela **517-897-5203** optional. `.ics`: `cwc_outreach_mdhhs_trigger_lhd_2026-06-16.ics`
 - **2:00 PM CST / 3:00 PM ET** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374 — BID DUE** — Hard-copy sealed bid. Ship by June 12 via FedEx Priority Overnight. **GO** — Addendum No. 1 confirmed 2,662 tests/yr, $146K/yr, $732K lifetime (5 yr). Folder `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`
 
 ---
@@ -297,6 +294,9 @@
 ## 2026-06-04 — Thursday
 
 - **💰 PAYMENT DUE:** $435.00 deposit expected — Kriss Law Smith ($300) + Turbo Signing Warthen ($75) + Mosaic Aiad ($60). All transferred 5/20. **Did the $435 hit your account?**
+- **📋 LHD director verification** — **Partial complete:** Kent/Oakland/Muskegon verified · **Still call:** Macomb + Genesee. Report: `LHD_DIRECT_OUTREACH_JUN_2026/LHD_VERIFICATION_REPORT_JUNE_4_2026.md`. `.ics`: `cwc_outreach_lhd_linkedin_verify_2026-06-04.ics`
+- **🔴 BCBSM Foundation** — Summer concept paper due was **May 27** — email foundation@bcbsm.com today. Outline: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md`
+- **✓ IMPORTED** — PHC positioning locked + session summary `SESSION_SUMMARY_JUNE_4_2026.md` · Detroit contact updated to **Ali Abazeed**
 
 ---
 
@@ -308,7 +308,11 @@
 
 ## 2026-06-08 — Monday
 
+- **12:00 PM ET** — 📧 **FOLLOW-UP: Gary Misczak thank-you** — Retired Sonesta Michigan Ops Manager · met at signing 6/3 · text/call (586) 709-1964 · personal only, no HAVEN pitch · capture email if offered. `.ics`: `gary_misczak_thankyou_2026-06-08.ics`
+- **6:00 PM ET** — 📝 **SIGNING: Premium Closing Solutions — Andre Rupert (Refi)** — PMCS-247792 / 843148 · $80 · 46970 Edgewater Dr, Macomb · No scanbacks · ID copies · LETTER+LEGAL · FedEx ship. `.ics`: `NOTARY_SIGNING_PCS_RUPERT_PMCS-247792_2026-06-08.ics`
 - **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
+- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — William S. Middleton VA · 5-year · SAM 93414ce3396e45c4891cb0130cf77c14 · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-08.ics`
+
 ---
 
 ## 2026-06-09 — Tuesday
@@ -328,7 +332,6 @@
 
 ## 2026-06-22 — Monday
 
-- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — **36C25226Q0366** · Amendment 0002 extended · William S. Middleton VA · 5-year IQC · CO Scott Sands · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-22.ics`
 - **💰 BIGGEST PAYOUT — $785.00 expected:** First Class x7 ($525) + Kriss Law Bitti ($150) + Doma Title Rayes ($110). All transfer June 5 → deposit by June 22. **Did the $785 hit?** Doma Rayes is 5+ years old — if it doesn't clear, follow up.
 
 ---
@@ -359,28 +362,16 @@
 
 ---
 
-## 2026-06-18 — Thursday
-
-- **10:00 AM – 12:30 PM ET** (9–11:30 AM CT) — 📋 **PRE-PROPOSAL: LRGVDC AAA** — DPS #2026-02 Direct Purchase + RFP #2026-03 Title III. Transport track. `.ics`: `calendars/LRGVDC_AAA_PREPROPOSAL_2026-06-18.ics` · (repeat window **Jun 25** same hours)
-
-## 2026-06-26 — Friday
-
-- **6:00 PM ET** (5:00 PM CT) — 📧 **DEADLINE: LRGVDC written questions** — lrgvdc@lrgvdc.org · `SEND_TO_BUYER/QUESTIONS_LRGVDC_2026-06-26.md` · `.ics`: `calendars/LRGVDC_AAA_QUESTIONS_2026-06-26.ics`
-
-## 2026-07-10 — Friday
-
-- **6:00 PM ET** — 🔥 **DEADLINE: LRGVDC RFP #2026-03 — OAA Title III** — Lower Rio Grande Valley AAA (Weslaco). **FREE RFP:** lrgvdc.org/procurement.html · Folder: `BIDS:RESOURCES/TEXAS AAA TITLE III TRANSPORT/RFP_ATTACHMENTS/`. `.ics`: `calendars/TEXAS_AAA_TITLE_III_TRANSPORT_2026-07-10.ics`
-
----
-
 ## 2026-09-15 — Monday
 
-- **5:00 PM CT / 6:00 PM ET** — 🔥 **HHSC Open Enrollment HHS0016482 — Medicaid DRTS** — **FREE:** resources.hhs.texas.gov/open-enrollment/hhs0016482. Folder: `BIDS:RESOURCES/TEXAS MEDICAID DRTS/RFP_ATTACHMENTS/`. TX SOS + TMHP + HUB plan. `.ics`: `calendars/TEXAS_MEDICAID_DRTS_2026-09-15.ics`
+- **Due by 5:00 PM CT** — 🔥 **Texas HHSC NEMT Open Enrollment (HHS0016482) — FINAL DEADLINE** — DDI applying as TPA prime, subcontracting ALL transport to Uber Health + local NEMT. Requirements: TX SOS registration, TMHP enrollment, insurance certs, HUB subcontracting plan, key personnel. Reimbursement: Metro $32.38, Suburban $59.64, Rural $76.22 per one-way leg. `.ics`: `calendars/texas_hhsc_nemt_oe_2026-09-15.ics`
 
 ---
 
 ## 2026-06-05 — Friday
 
+- **3:00 PM ET** — 📝 **SIGNING: Premium Signature Services — Erald Ruci (Refi)** — PSS1-41104 / USAREF03302~a · $75 · 22622 Harper Ave, St. Clair Shores · LETTER+LEGAL · scanbacks · upload ID · do not change time without PSS. `.ics`: `NOTARY_SIGNING_PSS_RUCI_2026-06-05.ics`
+- **1:00 PM ET** — 📝 **SIGNING: JP Signings — Dana Stern (Seller)** — JPSI-8132 / SNH-2026-382 · $100 · 16150 Via Colico, Macomb 48042 · Witness + scanbacks + ID photo · Completion report within 75 min. `.ics`: `NOTARY_SIGNING_JP_STERN_MACOMB_2026-06-05.ics`
 - **1:00 PM ET** — 📋 **CWC OUTREACH: MDHHS HRSN waiver implementation lead** — Find who leads 1115 HRSN implementation. Position DDI/CWC as community delivery partner. `.ics`: `cwc_outreach_hrsn_lead_research_2026-06-05.ics`
 
 ---
@@ -406,7 +397,7 @@
 
 ## 2026-06-18 — Thursday
 
-- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Oakland + Macomb** — If MDHHS trigger activated. SHIELD + community partner language. `.ics`: `cwc_outreach_lhd_oakland_macomb_2026-06-18.ics`
+- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Oakland + Macomb + Genesee** — If MDHHS trigger activated. Emails: `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/JUN18_*.md` · Genesee = lead-screening tailored. `.ics`: `cwc_outreach_lhd_oakland_macomb_2026-06-18.ics`
 - **3:00 PM ET** — 🔥 **BID DEADLINE: Pasco-Pinellas AAA Senior Transport** — OAA/LSP RFP 2026 · agingcarefl.org · Folder `PASCO PINELLAS AAA TRANSPORT/` · `.ics`: `PASCO_PINELLAS_AAA_TRANSPORT_2026-06-18.ics`
 
 ---
@@ -417,15 +408,9 @@
 
 ---
 
-## 2026-06-15 — Monday
-
-- **12:00 PM ET** — 📋 **COMPLIANCE: FMCSA Clearinghouse ID verification (C/TPA)** — Complete by **Jul 6** or lose access · https://clearinghouse.fmcsa.dot.gov · `.ics`: `FMCSA_CLEARINGHOUSE_ID_VERIFY_2026-07-06.ics`
-
----
-
 ## 2026-06-20 — Saturday
 
-- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Kent + Muskegon** — Adam London (Kent). Early relationship building. `.ics`: `cwc_outreach_lhd_kent_muskegon_2026-06-20.ics`
+- **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Kent + Muskegon** — Emails: `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/JUN20_*.md` · Verify London + Moore before send. `.ics`: `cwc_outreach_lhd_kent_muskegon_2026-06-20.ics`
 
 ---
 
@@ -438,7 +423,6 @@
 ## 2026-07-06 — Monday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS GFOs · Wayne/Oakland/Macomb grants · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-07-06.ics`
-- **5:00 PM ET** — 🔥 **HARD DEADLINE: FMCSA Clearinghouse identity verification** — C/TPAs lose access if not complete · `.ics`: `FMCSA_CLEARINGHOUSE_ID_VERIFY_2026-07-06.ics`
 - **5:00 PM ET** — 🔥 **BID DEADLINE: Nevada NHA NET Broker 41NHA-S3848** — Due 2:00 PM PT · NevadaEPro · Folder `NEVADA NET BROKER/` · `.ics`: `NEVADA_NET_BROKER_2026-07-06.ics`
 
 ---

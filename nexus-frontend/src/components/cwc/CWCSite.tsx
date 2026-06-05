@@ -312,6 +312,13 @@ export default function CWCSite() {
               <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,.7)' }}>T: 517.225.3950</p>
               <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,.7)' }}>E: info@cwecare.org</p>
               <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,.7)' }}>cwecare.org</p>
+              <a
+                href="/program-narrative"
+                className="inline-block text-sm font-semibold mb-4 hover:underline"
+                style={{ color: YELLOW }}
+              >
+                Program Infrastructure (Partners) →
+              </a>
               <div className="flex gap-3">
                 {[
                   { name: 'Facebook', url: 'https://www.facebook.com/cwecare.org' },

@@ -72,6 +72,7 @@ Update the Alexa daily briefing file so it's ready for the morning flash briefin
 - File: `DAILY_BRIEFING.md`
 - Format: Short, spoken-word friendly. No markdown tables — Alexa reads it aloud.
 - Include: Top 3 priorities, any meetings with time, any urgent deadlines
+- Include one spoken line on **RADAR**: net-new count from `RADAR_RESULTS.md` (e.g. "RADAR found three new opportunities overnight" or "RADAR found nothing new today")
 - Keep it under 60 seconds of speaking time
 
 ---
@@ -82,6 +83,14 @@ Run ALL of these immediately:
 
 ### STEP 1: SHOW TODAY'S AGENDA
 Read `TODAY_AGENDA.md` **and** `calendars/SCHEDULED_AGENDA.md` for **today’s date** (America/Detroit — match the `## YYYY-MM-DD — [Weekday]` section). Present both: priorities from `TODAY_AGENDA.md`, plus any calls, meetings, or scheduled deadlines from the calendar mirror for that day.
+
+### STEP 1b: RADAR (MANDATORY)
+Read **`RADAR_RESULTS.md`** first (per `radar-system.mdc`). Present:
+- **Last compiled** date/time — if **>24 hours old** or missing, run `python3 nexus_scheduler.py --radar` before presenting (or tell Dee RADAR did not run overnight and offer refresh).
+- **Net-new finds** from the report (government + healthcare/MCO) with **partner fulfillment** on each line.
+- If net-new = 0, say so in one line — do not substitute bid tracker or pending actions as "RADAR."
+
+Overnight file: `logs/radar.log` · state: `logs/radar_last_daily_run.json`
 
 ### STEP 2: SHOW URGENT ITEMS
 Flag anything that is:

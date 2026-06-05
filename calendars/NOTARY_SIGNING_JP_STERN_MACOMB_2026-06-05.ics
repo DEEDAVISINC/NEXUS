@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:jpsi-8132-jp-signings-stern-20260605@deedavis.biz
+DTSTAMP:20260604T220000Z
+DTSTART;TZID=America/Detroit:20260605T130000
+DTEND;TZID=America/Detroit:20260605T140000
+SUMMARY:📝 SIGNING: JP Signings — Dana Stern (Seller)
+DESCRIPTION:JP Signings LLC — JPSI-8132 / SNH-2026-382\nDana Lynn Stern — Seller Only\nFee: $100\n\n16150 Via Colico, Macomb MI 48042\nSigner: (925) 457-8843\n\nREQUIRED: Witness · Scanbacks · ID photo at end of signing\nCompletion report + upload within 75 min after appt\nEDOCS\n\nPayment: 30-45 days from CLOSING (1st/15th) — signings@jpsignings.com\n619-357-6689
+LOCATION:16150 Via Colico, Macomb, MI 48042
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:JP Signings Stern — leave soon
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:JP Signings Stern — 30 min
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

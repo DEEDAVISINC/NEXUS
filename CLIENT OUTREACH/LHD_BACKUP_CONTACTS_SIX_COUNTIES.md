@@ -1,7 +1,7 @@
 # LHD Backup Contacts — Six Counties
 
 **Established:** May 30, 2026  
-**Last Updated:** May 30, 2026 — strategic flags (Wayne transition, Detroit split, Genesee competition, verify-before-outreach)  
+**Last Updated:** June 4, 2026 — LHD director contacts verified/updated per `SESSION_SUMMARY_JUNE_4_2026.md`  
 **Source session:** `SESSION_SUMMARY_MAY_30_2026.md`  
 **Trigger:** **Mid-June 2026** — if Angela Medina / Aimee Surma have not responded, go direct. You have everything you need.  
 **SHIELD context:** `MDHHS_SHIELD_PILOT_PROPOSAL.md`
@@ -21,9 +21,11 @@
 ### Detroit — separate from Wayne County (engage both)
 
 - **Detroit Health Department is independent** of Wayne County HHVS.
-- **Denise Fair Razo** runs Detroit's health department separately.
+- **Ali Abazeed, MPH, MPP** — Chief Public Health Officer (appointed by Mayor Mary Sheffield). Health in All Policies approach.
+- **Email:** health@detroitmi.gov · **Phone:** 313-876-4000
 - **SHIELD may need both** depending on **where families are located** — city vs. remainder of Wayne County.
-- **Launch sequence (if going direct mid-June):** Wayne County (Johnson) **and** Detroit (Fair Razo) — not either/or.
+- **Launch sequence (if going direct mid-June):** Wayne County (Johnson) **and** Detroit (Abazeed) — not either/or.
+- *Prior contact on file: Denise Fair Razo — superseded June 2026; verify Abazeed title before send.*
 
 ### Genesee County (Flint) — high-profile, competitive
 
@@ -80,35 +82,46 @@ Do **not** cold-email LHD leadership with wrong names. Wayne (Johnson), Detroit 
 - **Note:** Family location determines which LHD is primary contact
 
 ### Oakland County Health Division (Year 1–2)
-- **Director:** ⚠️ **Verify on LinkedIn before outreach** (Jun 4 prep)
+- **Health Officer:** Kate Guzmán, RN
+- **Email:** health@oakgov.com
 - **Address:** 1200 N. Telegraph Rd., Pontiac, MI 48341
 - **Phone:** 248-858-1280
+- **Confidence:** Confirmed — verify title on LinkedIn before send
 
 ### Macomb County Health Department (Year 1–2)
-- **Director:** ⚠️ **Verify on LinkedIn before outreach** (Jun 4 prep) — William Ridella last confirmed
+- **Director:** Krista Willette, RN, MSA — Health Department (2025 annual report)
+- **Director/Health Officer (dept-wide):** Andrew Cox, MPH, REHS
+- **Email:** krista.willette@macombgov.org — ⚠️ **call 586-469-5235 to confirm**
 - **Address:** 43525 Elizabeth Rd., Mt. Clemens, MI 48043
-- **Phone:** 586-469-5235
+- **Phone:** 586-469-5235 — **call to confirm**
 
 ---
 
 ## Expansion counties (Year 2–3)
 
 ### Genesee County Health Department
-- **Director:** Verify via LinkedIn if outreach planned
+- **Medical Director:** Dr. Michela Corsi, MD, MPH, MA — lead-screening pitch contact
+- **Health Officer:** Michelle Estell, RS, MSHA
+- **Env. Health Director:** William Hough — CLPPP ops alternate
+- **Email:** gchd-info@geneseecountymi.gov (Attn: Dr. Corsi) — mcorsi@gchd.us not publicly confirmed
 - **Address:** 324 S. Saginaw St., Suite 6, Flint, MI 48502
-- **Phone:** 810-257-3612
-- **Strategy:** Lead with **TPA + NEXUS differentiator** — crowded post-crisis field; don't lead as generic community navigator
+- **Phone:** 810-257-3612 — **call to confirm**
+- **Send date:** June 18 (if MDHHS trigger) — tailored lead-screening email
+- **Strategy:** Lead with **universal blood lead testing mandate + CLPPP follow-up**; TPA + NEXUS differentiator
 - **Note:** Flint Lead Exposure Registry (CDC-funded); high awareness, high need, **high competition**
 
 ### Kent County Health Department
-- **Health Officer:** Adam London (confirmed active 2025)
+- **Administrative Health Officer:** Dr. Adam London, PhD, RS, DAAS — ⚠️ **verify email before send**
+- **Email:** adam.london@kentcountymi.gov ✅ verified Jun 4, 2026
 - **Address:** 700 Fuller Ave. NE, Grand Rapids, MI 48503
-- **Phone:** 616-632-7100
+- **Phone:** 616-632-7100 — **call to confirm**
 
 ### Public Health of Muskegon County
-- **Director:** ⚠️ **Verify on LinkedIn before outreach** (Jun 4 prep)
+- **Health Officer & Director:** Kathy Moore
+- **Email:** publichealth@co.muskegon.mi.us
 - **Address:** 1903 Marquette Ave., Muskegon, MI 49442
 - **Phone:** 231-724-6246
+- **Confidence:** Confirmed — verify role on LinkedIn before send
 
 ---
 
@@ -126,11 +139,11 @@ Do **not** cold-email LHD leadership with wrong names. Wayne (Johnson), Detroit 
 
 ## Direct outreach sequence (if mid-June trigger)
 
-1. **Jun 16** — Wayne (Kennyle Johnson) + Detroit (Denise Fair Razo)
-2. **Jun 18** — Oakland + Macomb (after Jun 4 name verification)
-3. **Jun 20** — Kent (Adam London) + Muskegon (after verification)
+1. **Jun 16** — Wayne (Kennyle Johnson) + Detroit (Ali Abazeed)
+2. **Jun 18** — Oakland (Kate Guzmán) + Macomb (Krista Willette) + Genesee (Dr. Corsi — lead-screening pitch)
+3. **Jun 20** — Kent (Adam London) + Muskegon (Kathy Moore)
 
-Genesee — hold unless MDHHS intro or deliberate Year 2 push with differentiated pitch.
+**Emails ready:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/`
 
 ---
 

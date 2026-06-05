@@ -57,7 +57,8 @@ Dedupe any overlaps (some firms share metro numbers). Confirm phones and contact
 | 33 | CW Settlements, LLC | (800) 453-5414 | https://cwsettlements.com |
 | 34 | Jay Scarola (settlewithjay) | (561) 629-4992 | https://www.settlewithjay.com |
 | 35 | Settlement Planning Services Inc. (NC) | (919) 247-9070 | Confirm via firm site / NSSTA |
-| 36–50 | Life carriers (Pacific Life, MetLife, Berkshire channels, Independent Life, Symetra, Prudential, USAA Life, Cigna, Allstate, Western United, Athene, American General, Hartford, Guardian, Mutual of Omaha) | Main lines on each site | **Slower / different buyer** than brokers — use if you want breadth |
+| 36 | **CBC Settlement Funding, LLC** | (877) 313-1417 | https://cbcsettlementfunding.com — settlement purchaser / funding (Conshohocken, PA) |
+| 37–51 | Life carriers (Pacific Life, MetLife, Berkshire channels, Independent Life, Symetra, Prudential, USAA Life, Cigna, Allstate, Western United, Athene, American General, Hartford, Guardian, Mutual of Omaha) | Main lines on each site | **Slower / different buyer** than brokers — use if you want breadth |
 
 ---
 
@@ -77,6 +78,7 @@ Dedupe any overlaps (some firms share metro numbers). Confirm phones and contact
 | CW Settlements | info@cwsettlements.com | ✅ Yes | cwsettlements.com/contact | Southfield, MI office |
 | Finn Financial Group | Dan@FinnFinancialGroup.com | ✅ Yes | finnfinancialgroup.com/contact | Principal inbox |
 | Jay Scarola | jscarola@sagesettlements.com | ✅ Yes | settlewithjay.com/contact | |
+| **CBC Settlement Funding** | info@cbcsettlementfunding.com | ✅ Yes | cbcsettlementfunding.com/contact; LinkedIn company profile | **Buyer type:** settlement purchaser / funding (court-order & transfer signings) — Conshohocken, PA · (877) 313-1417 |
 | Milestone Consulting | info@milestoneseventh.com | ⚠️ **NOT VERIFIED** | milestoneseventh.com/contact shows **phones only** — no info@ on page | **Wrong lane?** Post-settlement trustee (mass tort payments), not structured settlement consultant. **Hold — remove from Wave 1B until ops contact confirmed** |
 
 **Form-only or consultant-specific (no single verified corporate inbox from main page):** Ringler (consultant directory), Arcadia, Synergy, Sage (form + phone), Structures (form; NSSTA may list individual `@structures.com` for members).

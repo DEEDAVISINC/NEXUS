@@ -36,6 +36,12 @@ function App() {
   const host = typeof window !== 'undefined' ? window.location.hostname : '';
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
 
+  // Static partner narrative — served from public/program-narrative.html
+  if (path === '/program-narrative') {
+    if (typeof window !== 'undefined') window.location.replace('/program-narrative.html');
+    return null;
+  }
+
   // CWC-only Netlify site sets REACT_APP_PUBLIC_SITE=cwc (see netlify.cwc.toml).
   const isCWC =
     process.env.REACT_APP_PUBLIC_SITE === 'cwc' ||

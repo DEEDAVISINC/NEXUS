@@ -841,6 +841,24 @@
 
 ---
 
+## 🏨 HOSPITALITY / HAVEN WARM CONTACTS
+
+### **Gary Misczak — Sonesta Michigan (Retired Operations Manager)** ⭐ WARM LEAD
+
+- **Phone (cell):** (586) 709-1964  
+- **Phone (alt — verify):** (586) 216-4136  
+- **Email:** **Unknown** — obtain on follow-up  
+- **Address:** 4446 Buchanan Ave, Warren, MI 48092  
+- **Organization:** Sonesta — **retired Operations Manager, Sonesta Michigan**  
+- **Type:** Networking / Hospitality — HAVEN warm intro path  
+- **How we know him:** 3D Ink notary signing 6/3/2026 (Signature Xcel SIGX-122388). Routine signing; **retired Sonesta Michigan Operations Manager** — HAVEN warm intro only.  
+- **Strategic value:** Warm path to Sonesta Michigan ops / property contacts vs. cold GSO outreach (`HAVEN/OUTREACH/SONESTA_EXTENDED_STAY_OUTREACH.md`). **Relationship first — do not pitch HAVEN on first touch.**  
+- **Detail file:** `HAVEN/OUTREACH/SONESTA_MICHIGAN_WARM_CONTACT_MISCZAK.md`  
+- **GPSS CONTACTS:** Run `add_gary_misczak_contact.py`  
+- **Status:** Added June 5, 2026 — follow-up optional, not urgent
+
+---
+
 ## 📝 NOTES & FOLLOW-UPS
 
 **🔴 URGENT (Next 48 Hours - Jan 29-30):**
