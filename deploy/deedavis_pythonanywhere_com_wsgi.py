@@ -40,4 +40,5 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(PROJECT_HOME, ".env"))
 
 # ── Flask application object (required name: application) ──────────
-from api_server import app as application  # noqa: E402
+# Slim PRISM-only on PA free tier. Full stack: from api_server import app as application
+from prism_pa_app import application  # noqa: E402
