@@ -853,6 +853,9 @@ def _load(filepath, default=None):
 
 
 def _save(filepath, data):
+    directory = os.path.dirname(filepath)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=2, default=str)
 
@@ -1411,6 +1414,20 @@ def _propagate_prism_to_vertex(order, contract_id, nxdata):
 
 @prism_orders.route('/prism/intake', methods=['POST'])
 def create_intake_order():
+    try:
+        return _create_intake_order_impl()
+    except OSError as e:
+        return jsonify({
+            'error': f'Could not save order (disk/path): {e}',
+            'hint': 'Run: mkdir -p uploads/prism && check PythonAnywhere disk quota',
+        }), 507
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e), 'type': type(e).__name__}), 500
+
+
+def _create_intake_order_impl():
     data = request.get_json(silent=True) or {}
 
     svc_key = data.get('service_key', 'notary')
