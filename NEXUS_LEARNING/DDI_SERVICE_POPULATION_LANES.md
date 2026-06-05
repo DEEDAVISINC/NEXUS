@@ -1,6 +1,6 @@
 # DDI Service Population Lanes — Funding & Program Alignment
 
-**Last Updated:** May 30, 2026  
+**Last Updated:** June 4, 2026  
 **Purpose:** Precise definition of **who DDI programs serve** (end populations), separate from **who signs the contract** (buyers). Required for grants, Medicaid/MCO proposals, FEMA/state EM narratives, foundation applications, and capability statements.  
 **Rule:** `.cursor/rules/service-population-lanes-funding.mdc`
 
@@ -28,6 +28,9 @@ Funders score **population fit**, **need**, and **continuity of care** — not g
 | **MOB-A** | **Plan NEMT (TPA 5)** | Enrolled **Medicaid/Medicare managed-care members** with authorized **non-emergency medical trips** (HIDE SNP dual-eligible, LTSS/SNP lines, county-enrolled populations) | MCOs, state Medicaid, CHAMPS; CMS HIDE/LTSS narratives |
 | **MOB-B** | **HAVEN continuity transport** | **Displaced plan members** and crisis populations needing **evacuation, continuity trips, pharmacy access** when disaster breaks normal networks — *not* routine benefit trips | MCO disaster clauses, Medicaid emergency waivers, FEMA, state EM, health plans (Rx/DME/home health continuity) |
 | **MOB-C** | **Freight & logistics (TPA 6)** | **No patient NEMT population** — shippers, agencies, **owner-operators**, disaster **supply chain** / critical cargo | FEMA logistics, USPS HCR, DOD, GSA, freight programs — **not** ACL/AAA senior mobility grants |
+| **MOB-E** | **Event mobility (consultation & coordination)** | **Event attendees, fans, conference guests, campus populations** — commercial/municipal venue PUDO programs; **not** enrolled plan members with medical trip authorizations | Cities, universities, convention centers, stadiums, corporate events — cash/corporate/municipal payer |
+
+**MOB-E detail:** `SERVICE LANE STRATEGIES/EVENT MOBILITY/EVENT_MOBILITY_CONSULTATION_COORDINATION.md` — DDI primes program design and day-of ops; fulfillment via credentialed mobility network. **Never merge MOB-E with MOB-A** (Medicaid NEMT) or **MOB-B** (HAVEN disaster continuity).
 
 **HAVEN full model (three pillars — funding hooks):**
 
