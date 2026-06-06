@@ -67,9 +67,9 @@ TIMEOUT_PROMPT = (
 )
 
 _GREETING = (
-    "Thanks for calling Dee Davis medical transportation. "
-    "This call may be recorded for quality. "
-    "I'm here to help schedule your ride."
+    "Thank you for trusting DDI. "
+    "I'm here to help you plan your agenda. "
+    "This call may be recorded for quality."
 )
 
 
@@ -92,7 +92,7 @@ def _prompt_for_slot(slot: str, slots: Optional[Dict[str, str]] = None) -> str:
         ),
         "member_medicaid_id": "And their Medicaid or member ID number?",
         "pickup_address": "Where should we pick them up? Street address and city is perfect.",
-        "dropoff_address": "And where are they going — the appointment or clinic address?",
+        "dropoff_address": "And where should we take them? Street address and city is perfect.",
         "pickup_when": "When do they need to be picked up? You can say something like tomorrow at nine A M.",
         "transport_type": (
             "Will a standard ride work, or do they need a wheelchair accessible vehicle?"
@@ -256,7 +256,7 @@ def _openai_parse_slot(slot: str, speech: str, session: Dict[str, Any]) -> Optio
         return None
     model = os.environ.get("PRISM_VOICE_OPENAI_MODEL", "gpt-4o-mini")
     system = (
-        "You extract one field from a NEMT medical transportation phone call. "
+        "You extract one field from a DDI ride-scheduling phone call. "
         "Return ONLY the extracted value as plain text, no JSON, no explanation. "
         "For confirm slot return exactly YES or NO."
     )
@@ -476,8 +476,8 @@ def _complete_twiml(confirmation: str) -> str:
         vr,
         speak_for_phone(
             f"You're all set. Your confirmation number is {conf_spoken}. "
-            "We'll text you the trip details shortly. "
-            "Thanks for calling Dee Davis — take care."
+            "We'll text you your trip details shortly. "
+            "Take care."
         ),
         base_url=base,
     )

@@ -152,6 +152,7 @@ def append_spoken(
 def speak_for_phone(text: str) -> str:
     """Light copy edits so TTS sounds natural on a phone line."""
     t = text
+    t = re.sub(r"\bDDI\b", "D D I", t)
     # Avoid robotic spelled-out URLs
     t = t.replace("deedavis.biz", "dee davis dot biz")
     t = t.replace("portal.deedavis.biz", "portal dot dee davis dot biz")
