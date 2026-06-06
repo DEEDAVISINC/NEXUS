@@ -9,8 +9,11 @@ Member-facing confirmation numbers:
   LANE      = population lane (MOB-A, MOB-B, MOB-C, MOB-E, TPA-1 … TPA-9)
   Example:  1-DDI-MOB-A-20260607-0042-7
 
-Staff exemption codes (rotating, hashed at rest):
-  EX-{YYYY}Q{Q}-{TYPE}-{RAND6}
+Staff exemption codes (rotating, hashed at rest, per MCO + program):
+  EX-{CONTRACT#}-{LANE}-{YYYY}Q{Q}-{TYPE}-{RAND6}
+  Example: EX-1-MOB-A-2026Q2-WVR-K7M3P9  (HAP CareSource · Plan NEMT)
+  MCO-wide: EX-1-ALL-2026Q2-EXM-XXXXXX
+  Legacy (migration): EX-{YYYY}Q{Q}-{TYPE}-{RAND6}
 
 Env:
   PRISM_EXEMPTION_PEPPER        HMAC secret for code hashing
@@ -77,9 +80,20 @@ LEGACY_DDI_RE = re.compile(
     r"^DDI-(?P<lane>[A-Z0-9]{3})-(?P<ch>[A-Z])-(?P<date>\d{8})-(?P<seq>\d{4})-(?P<chk>\d)$"
 )
 LEGACY_RE = re.compile(r"^PRISM(-V)?-", re.I)
-EXEMPTION_RE = re.compile(
+EXEMPTION_LANE_TOKEN = r"(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9]|ALL)"
+EXEMPTION_SCOPED_RE = re.compile(
+    rf"^EX-(?P<payer>\d+)-(?P<lane>{EXEMPTION_LANE_TOKEN})-(?P<period>\d{{4}}Q[1-4])-(?P<typ>[A-Z]{{3}})-(?P<rand>[A-Z0-9]{{6}})$"
+)
+EXEMPTION_LEGACY_RE = re.compile(
     r"^EX-(?P<period>\d{4}Q[1-4])-(?P<typ>[A-Z]{3})-(?P<rand>[A-Z0-9]{6})$"
 )
+
+# Default scopes to rotate when ops runs first-time setup (HAP live + enterprise)
+DEFAULT_EXEMPTION_SCOPES: List[Dict[str, Any]] = [
+    {"contract_payer_id": 1, "lane": "MOB-A", "label": "HAP CareSource · Plan NEMT"},
+    {"contract_payer_id": 1, "lane": "ALL", "label": "HAP CareSource · all programs"},
+    {"contract_payer_id": 0, "lane": "ALL", "label": "DDI Direct · enterprise ops"},
+]
 
 SERVICE_TO_LANE: Dict[str, str] = {
     "nemt": "MOB-A",
@@ -427,6 +441,61 @@ def _rand_suffix(n: int = 6) -> str:
     return "".join(secrets.choice(alphabet) for _ in range(n))
 
 
+def exemption_lane_token(lane: Optional[str]) -> str:
+    token = (lane or "ALL").strip().upper()
+    if token == "ALL":
+        return "ALL"
+    if LANE_TOKEN_RE.match(token):
+        return token
+    return "ALL"
+
+
+def exemption_scope_key(contract_payer_id: int, lane: str) -> str:
+    return f"{int(contract_payer_id)}:{exemption_lane_token(lane)}"
+
+
+def parse_exemption_code(plain: str) -> Optional[Dict[str, str]]:
+    code = (plain or "").strip().upper()
+    m = EXEMPTION_SCOPED_RE.match(code)
+    if m:
+        parts = dict(m.groupdict())
+        parts["format"] = "scoped"
+        return parts
+    m = EXEMPTION_LEGACY_RE.match(code)
+    if m:
+        parts = dict(m.groupdict())
+        parts["format"] = "legacy"
+        parts["payer"] = None
+        parts["lane"] = None
+        return parts
+    return None
+
+
+def _scope_matches_request(
+    entry: Dict[str, Any],
+    *,
+    contract_payer_id: Optional[int] = None,
+    lane: Optional[str] = None,
+) -> bool:
+    """Code must belong to the order's MCO/program (or MCO-wide ALL lane)."""
+    if contract_payer_id is None and not lane:
+        return True
+
+    ep = entry.get("contract_payer_id")
+    el = (entry.get("lane") or "").upper()
+    if ep is None and not el:
+        return True  # legacy global — honored during migration
+
+    req_payer = int(contract_payer_id) if contract_payer_id is not None else None
+    req_lane = exemption_lane_token(lane) if lane else None
+
+    if req_payer is not None and ep is not None and int(ep) != req_payer:
+        return False
+    if req_lane and el and el not in ("ALL", req_lane):
+        return False
+    return True
+
+
 def _load_exemption_registry() -> Dict[str, Any]:
     reg = _load(_EXEMPT_FILE, {})
     if not reg.get("period"):
@@ -435,13 +504,49 @@ def _load_exemption_registry() -> Dict[str, Any]:
     return reg
 
 
-def exemption_status() -> Dict[str, Any]:
+def _active_codes_by_scope(reg: Dict[str, Any]) -> Dict[str, List[Dict[str, Any]]]:
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+    for c in reg.get("codes", []):
+        if not c.get("active"):
+            continue
+        scope = c.get("scope") or exemption_scope_key(
+            int(c.get("contract_payer_id", 0)),
+            c.get("lane") or "ALL",
+        )
+        grouped.setdefault(scope, []).append(c)
+    return grouped
+
+
+def exemption_status(*, contract_payer_id: Optional[int] = None, lane: Optional[str] = None) -> Dict[str, Any]:
     reg = _load_exemption_registry()
+    grouped = _active_codes_by_scope(reg)
+    scopes_out: List[Dict[str, Any]] = []
+    for scope, codes in sorted(grouped.items()):
+        payer_s, lane_s = scope.split(":", 1)
+        pid = int(payer_s)
+        if contract_payer_id is not None and pid != int(contract_payer_id):
+            continue
+        if lane and lane_s not in (exemption_lane_token(lane), "ALL"):
+            continue
+        scopes_out.append(
+            {
+                "scope": scope,
+                "contract_payer_id": pid,
+                "contract_payer_name": contract_payer_label(pid),
+                "lane": lane_s,
+                "lane_description": LANE_DESCRIPTIONS.get(lane_s, "All programs under contract" if lane_s == "ALL" else lane_s),
+                "active_code_count": len(codes),
+                "types_active": sorted({c.get("type") for c in codes if c.get("type")}),
+            }
+        )
+
     active = [c for c in reg.get("codes", []) if c.get("active")]
     return {
         "period": reg.get("period"),
         "expires": reg.get("expires"),
         "active_code_count": len(active),
+        "scopes": scopes_out,
+        "default_scopes": DEFAULT_EXEMPTION_SCOPES,
         "types": list(EXEMPTION_TYPES.keys()),
         "rotation_days": int(os.environ.get("PRISM_EXEMPTION_ROTATION_DAYS", "90")),
         "next_rotation_recommended": reg.get("expires"),
@@ -454,13 +559,26 @@ def _audit_exemption(event: str, detail: Dict[str, Any]) -> None:
     _save(_EXEMPT_AUDIT_FILE, log[:500])
 
 
-def validate_exemption_code(plain: str, *, email: str = "", context: str = "") -> Dict[str, Any]:
+def validate_exemption_code(
+    plain: str,
+    *,
+    email: str = "",
+    context: str = "",
+    contract_payer_id: Optional[int] = None,
+    lane: Optional[str] = None,
+    mobility_lane: Optional[str] = None,
+) -> Dict[str, Any]:
     code = (plain or "").strip().upper()
     if not code:
         return {"valid": False, "message": "Exemption code required."}
 
-    if not EXEMPTION_RE.match(code):
+    parsed = parse_exemption_code(code)
+    if not parsed:
         return {"valid": False, "message": f'Code "{code}" format not recognized.'}
+
+    req_lane = mobility_lane or lane
+    if contract_payer_id is None and parsed.get("payer") is not None:
+        contract_payer_id = int(parsed["payer"])
 
     reg = _load_exemption_registry()
     today = datetime.now(EASTERN).date().isoformat()
@@ -472,10 +590,37 @@ def validate_exemption_code(plain: str, *, email: str = "", context: str = "") -
         }
 
     code_hash = _hash_exemption(code)
-    entry = next((c for c in reg.get("codes", []) if c.get("hash") == code_hash and c.get("active")), None)
+    candidates = [
+        c for c in reg.get("codes", []) if c.get("hash") == code_hash and c.get("active")
+    ]
+    entry = next(
+        (
+            c
+            for c in candidates
+            if _scope_matches_request(
+                c,
+                contract_payer_id=contract_payer_id,
+                lane=req_lane,
+            )
+        ),
+        None,
+    )
     if not entry:
-        _audit_exemption("rejected", {"code_prefix": code[:12], "email": email, "context": context})
-        return {"valid": False, "message": f'Code "{code}" not recognized or inactive.'}
+        if candidates:
+            msg = "This exemption code is not valid for this MCO/program."
+        else:
+            msg = f'Code "{code}" not recognized or inactive.'
+        _audit_exemption(
+            "rejected",
+            {
+                "code_prefix": code[:20],
+                "email": email,
+                "context": context,
+                "contract_payer_id": contract_payer_id,
+                "lane": req_lane,
+            },
+        )
+        return {"valid": False, "message": msg, "scope_mismatch": bool(candidates)}
 
     uses = int(entry.get("uses", 0))
     max_uses = int(entry.get("max_uses", 50))
@@ -485,66 +630,163 @@ def validate_exemption_code(plain: str, *, email: str = "", context: str = "") -
     entry["uses"] = uses + 1
     entry["last_used"] = datetime.now(EASTERN).isoformat()
     _save(_EXEMPT_FILE, reg)
-    _audit_exemption("accepted", {"type": entry.get("type"), "email": email, "context": context, "uses": entry["uses"]})
+    _audit_exemption(
+        "accepted",
+        {
+            "type": entry.get("type"),
+            "scope": entry.get("scope"),
+            "email": email,
+            "context": context,
+            "uses": entry["uses"],
+        },
+    )
 
     typ = entry.get("type", "OPS")
+    ep = entry.get("contract_payer_id")
+    el = entry.get("lane")
     return {
         "valid": True,
         "code": code,
         "type": typ.lower(),
         "exemption_type": typ,
         "source": "rotating_exemption",
+        "contract_payer_id": ep,
+        "contract_payer_name": contract_payer_label(int(ep)) if ep is not None else None,
+        "lane": el,
+        "scope": entry.get("scope"),
         "message": EXEMPTION_TYPES.get(typ, "Exemption accepted."),
         "uses_remaining": max(0, max_uses - entry["uses"]),
     }
+
+
+def _normalize_rotate_scopes(
+    *,
+    contract_payer_id: Optional[int] = None,
+    lane: Optional[str] = None,
+    scopes: Optional[List[Dict[str, Any]]] = None,
+    setup_defaults: bool = False,
+) -> List[Dict[str, Any]]:
+    if setup_defaults:
+        return [dict(s) for s in DEFAULT_EXEMPTION_SCOPES]
+    if scopes:
+        out: List[Dict[str, Any]] = []
+        for s in scopes:
+            pid = int(s.get("contract_payer_id", 0))
+            if pid not in CONTRACT_PAYER_REGISTRY:
+                continue
+            out.append(
+                {
+                    "contract_payer_id": pid,
+                    "lane": exemption_lane_token(s.get("lane")),
+                    "label": s.get("label") or contract_payer_label(pid),
+                }
+            )
+        return out
+    if contract_payer_id is not None:
+        pid = int(contract_payer_id)
+        if pid not in CONTRACT_PAYER_REGISTRY:
+            return []
+        return [
+            {
+                "contract_payer_id": pid,
+                "lane": exemption_lane_token(lane or ("MOB-A" if pid == 1 else "ALL")),
+                "label": contract_payer_label(pid),
+            }
+        ]
+    return []
 
 
 def rotate_exemption_codes(
     *,
     period: Optional[str] = None,
     types: Optional[List[str]] = None,
+    contract_payer_id: Optional[int] = None,
+    lane: Optional[str] = None,
+    scopes: Optional[List[Dict[str, Any]]] = None,
+    setup_defaults: bool = False,
     deactivate_previous: bool = True,
 ) -> Dict[str, Any]:
     period = period or _current_period()
     types = types or list(EXEMPTION_TYPES.keys())
+    scope_list = _normalize_rotate_scopes(
+        contract_payer_id=contract_payer_id,
+        lane=lane,
+        scopes=scopes,
+        setup_defaults=setup_defaults,
+    )
+    if not scope_list:
+        return {
+            "error": "Specify contract_payer_id + lane, scopes[], or setup_defaults=true",
+            "example_scoped_code": "EX-1-MOB-A-2026Q2-WVR-K7M3P9",
+        }
+
     reg = _load_exemption_registry()
+    target_scopes = {exemption_scope_key(s["contract_payer_id"], s["lane"]) for s in scope_list}
 
     if deactivate_previous:
         for c in reg.get("codes", []):
-            c["active"] = False
+            cscope = c.get("scope") or exemption_scope_key(
+                int(c.get("contract_payer_id", 0)),
+                c.get("lane") or "ALL",
+            )
+            if cscope in target_scopes:
+                c["active"] = False
 
-    plaintext_codes: Dict[str, str] = {}
+    plaintext_codes: Dict[str, Dict[str, str]] = {}
     new_entries: List[Dict[str, Any]] = []
 
-    for typ in types:
-        typ = typ.upper()
-        if typ not in EXEMPTION_TYPES:
-            continue
-        plain = f"EX-{period}-{typ}-{_rand_suffix()}"
-        plaintext_codes[typ] = plain
-        new_entries.append(
-            {
-                "hash": _hash_exemption(plain),
-                "type": typ,
-                "period": period,
-                "max_uses": DEFAULT_EXEMPTION_MAX_USES.get(typ, 50),
-                "uses": 0,
-                "active": True,
-                "created": datetime.now(EASTERN).isoformat(),
-            }
-        )
+    for scope_def in scope_list:
+        pid = int(scope_def["contract_payer_id"])
+        lane_token = exemption_lane_token(scope_def["lane"])
+        scope = exemption_scope_key(pid, lane_token)
+        plaintext_codes[scope] = {}
+
+        for typ in types:
+            typ = typ.upper()
+            if typ not in EXEMPTION_TYPES:
+                continue
+            plain = f"EX-{pid}-{lane_token}-{period}-{typ}-{_rand_suffix()}"
+            plaintext_codes[scope][typ] = plain
+            new_entries.append(
+                {
+                    "hash": _hash_exemption(plain),
+                    "type": typ,
+                    "period": period,
+                    "contract_payer_id": pid,
+                    "lane": lane_token,
+                    "scope": scope,
+                    "max_uses": DEFAULT_EXEMPTION_MAX_USES.get(typ, 50),
+                    "uses": 0,
+                    "active": True,
+                    "created": datetime.now(EASTERN).isoformat(),
+                }
+            )
 
     reg["period"] = period
     reg["expires"] = _period_end(period)
     reg.setdefault("codes", [])
     reg["codes"] = new_entries + reg["codes"]
     _save(_EXEMPT_FILE, reg)
-    _audit_exemption("rotated", {"period": period, "types": types})
+    _audit_exemption(
+        "rotated",
+        {"period": period, "types": types, "scopes": sorted(target_scopes)},
+    )
 
     return {
         "period": period,
         "expires": reg["expires"],
+        "scopes_rotated": [
+            {
+                "scope": exemption_scope_key(s["contract_payer_id"], s["lane"]),
+                "contract_payer_id": s["contract_payer_id"],
+                "contract_payer_name": contract_payer_label(int(s["contract_payer_id"])),
+                "lane": exemption_lane_token(s["lane"]),
+                "label": s.get("label"),
+            }
+            for s in scope_list
+        ],
         "codes": plaintext_codes,
+        "codes_flat": {f"{scope}:{typ}": val for scope, by_typ in plaintext_codes.items() for typ, val in by_typ.items()},
         "message": "Store these codes securely — they cannot be retrieved again.",
     }
 
@@ -568,17 +810,24 @@ def format_schema_public() -> Dict[str, Any]:
         "service_to_lane_default": SERVICE_TO_LANE,
         "channel_codes": CHANNEL_CODES,
         "channel_note": "Channel (V/W/P) stored on order metadata — not in public confirmation string.",
-        "exemption_format": "EX-{YYYY}Q{Q}-{TYPE}-{RAND6}",
-        "exemption_example": "EX-2026Q2-WVR-K7M3P9",
+        "exemption_format": "EX-{CONTRACT#}-{LANE}-{YYYY}Q{Q}-{TYPE}-{RAND6}",
+        "exemption_example": "EX-1-MOB-A-2026Q2-WVR-K7M3P9",
+        "exemption_example_mco_wide": "EX-1-ALL-2026Q2-EXM-K7M3P9",
+        "exemption_legacy_format": "EX-{YYYY}Q{Q}-{TYPE}-{RAND6}",
+        "exemption_lane_note": "Use ALL for MCO-wide codes; MOB-A/TPA-1/etc. for program-specific.",
+        "exemption_default_scopes": DEFAULT_EXEMPTION_SCOPES,
         "exemption_types": EXEMPTION_TYPES,
         "lane_reference": "NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md",
         "fraud_controls": [
             "Check digit on every confirmation number",
             "Daily sequence per contract payer + population lane",
             "Contract # identifies which MCO/agreement (1=HAP, 2=BCBSM, …)",
+            "Exemption codes scoped per contract + program lane (EX-1-MOB-A-…)",
+            "MCO-wide codes use ALL lane (EX-1-ALL-…)",
             "Exemption codes stored hashed — plaintext shown once at rotation",
             "Exemption period expiry (default quarterly)",
             "Per-code use limits with audit log",
+            "Validation rejects wrong MCO/program scope",
             "Public status lookup requires phone last-4 for voice bookings",
             "Legacy PRISM-* and DDI-* refs still honored during migration",
         ],

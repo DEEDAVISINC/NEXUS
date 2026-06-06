@@ -2436,11 +2436,41 @@ def validate_override():
     if not code:
         return jsonify({'valid': False, 'message': 'Override code required'}), 400
 
-    # Rotating exemption codes (EX-2026Q2-WVR-XXXXXX)
+    # Rotating exemption codes (EX-1-MOB-A-2026Q2-WVR-XXXXXX)
     if code.startswith('EX-'):
-        from prism_confirmation_ids import validate_exemption_code
+        from prism_confirmation_ids import (
+            confirmation_display_meta,
+            validate_exemption_code,
+        )
 
-        ex_result = validate_exemption_code(code, email=email, context='billing_override')
+        contract_payer_id = data.get('contract_payer_id')
+        lane = data.get('lane') or data.get('mobility_lane')
+        order_id = (data.get('order_id') or data.get('confirmation_ref') or '').strip()
+        meta = {}
+        if order_id and (contract_payer_id is None or not lane):
+            orders = _load(ORDERS_FILE, [])
+            order = next(
+                (o for o in orders if o.get('id') == order_id or o.get('confirmation_ref') == order_id),
+                None,
+            )
+            if order:
+                details = order.get('details') or {}
+                meta = confirmation_display_meta(order.get('confirmation_ref') or order_id)
+                if contract_payer_id is None:
+                    contract_payer_id = details.get('contract_payer_id')
+                    if contract_payer_id is None and meta.get('contract_payer_id') is not None:
+                        contract_payer_id = meta['contract_payer_id']
+                if not lane:
+                    lane = details.get('mobility_lane') or meta.get('population_lane')
+
+        ex_result = validate_exemption_code(
+            code,
+            email=email,
+            context='billing_override',
+            contract_payer_id=contract_payer_id,
+            lane=lane,
+            mobility_lane=lane,
+        )
         if ex_result.get('valid'):
             return jsonify({
                 'valid': True,
@@ -2614,11 +2644,17 @@ def confirmations_lookup(ref):
 
 @prism_orders.route('/prism/exemptions/status', methods=['GET'])
 def exemptions_status():
-    """Active exemption period metadata (no plaintext codes)."""
+    """Active exemption period metadata (no plaintext codes). Optional ?contract_payer_id=&lane="""
     from prism_confirmation_ids import admin_authorized, exemption_status
 
     auth = request.headers.get('Authorization', '')
-    payload = exemption_status()
+    payer_q = request.args.get('contract_payer_id')
+    lane_q = request.args.get('lane') or request.args.get('mobility_lane')
+    try:
+        payer_id = int(payer_q) if payer_q is not None and str(payer_q).strip() != '' else None
+    except (TypeError, ValueError):
+        payer_id = None
+    payload = exemption_status(contract_payer_id=payer_id, lane=lane_q)
     payload['admin'] = admin_authorized(auth)
     return jsonify(payload)
 
@@ -2626,8 +2662,14 @@ def exemptions_status():
 @prism_orders.route('/prism/exemptions/rotate', methods=['POST'])
 def exemptions_rotate():
     """
-    Generate new quarterly exemption codes. Requires Authorization: Bearer <PRISM_EXEMPTION_ADMIN_KEY>.
+    Generate new quarterly exemption codes per MCO/program scope.
+    Requires Authorization: Bearer <PRISM_EXEMPTION_ADMIN_KEY>.
     Plaintext codes returned once — store in 1Password / internal ops doc.
+
+    Body examples:
+      {"setup_defaults": true}  — HAP MOB-A + HAP ALL + DDI enterprise
+      {"contract_payer_id": 1, "lane": "MOB-A"}
+      {"scopes": [{"contract_payer_id": 1, "lane": "MOB-A"}, {"contract_payer_id": 2, "lane": "MOB-A"}]}
     """
     from prism_confirmation_ids import admin_authorized, rotate_exemption_codes
 
@@ -2635,21 +2677,48 @@ def exemptions_rotate():
         return jsonify({'error': 'Unauthorized — set PRISM_EXEMPTION_ADMIN_KEY on server'}), 401
 
     data = request.get_json(silent=True) or {}
+    payer_raw = data.get('contract_payer_id')
+    try:
+        payer_id = int(payer_raw) if payer_raw is not None and str(payer_raw).strip() != '' else None
+    except (TypeError, ValueError):
+        payer_id = None
+
     result = rotate_exemption_codes(
         period=(data.get('period') or '').strip().upper() or None,
         types=data.get('types'),
+        contract_payer_id=payer_id,
+        lane=data.get('lane') or data.get('mobility_lane'),
+        scopes=data.get('scopes'),
+        setup_defaults=bool(data.get('setup_defaults')),
         deactivate_previous=data.get('deactivate_previous', True),
     )
+    if result.get('error'):
+        return jsonify(result), 400
     return jsonify(result)
 
 
 @prism_orders.route('/prism/exemptions/validate', methods=['POST'])
 def exemptions_validate():
-    """Validate a rotating EX-… exemption code."""
+    """Validate a rotating EX-… exemption code (scoped per MCO + program lane)."""
     from prism_confirmation_ids import validate_exemption_code
 
     data = request.get_json(silent=True) or {}
     code = (data.get('code') or data.get('override_code') or '').strip()
     email = (data.get('email') or '').strip().lower()
     context = (data.get('context') or 'api').strip()
-    return jsonify(validate_exemption_code(code, email=email, context=context))
+    payer_raw = data.get('contract_payer_id')
+    try:
+        payer_id = int(payer_raw) if payer_raw is not None and str(payer_raw).strip() != '' else None
+    except (TypeError, ValueError):
+        payer_id = None
+    lane = data.get('lane') or data.get('mobility_lane')
+    return jsonify(
+        validate_exemption_code(
+            code,
+            email=email,
+            context=context,
+            contract_payer_id=payer_id,
+            lane=lane,
+            mobility_lane=lane,
+        )
+    )
