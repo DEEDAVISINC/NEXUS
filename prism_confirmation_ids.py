@@ -1,0 +1,585 @@
+"""
+PRISM Confirmation & Exemption ID System
+========================================
+
+Member-facing confirmation numbers:
+  {CONTRACT#}-DDI-{LANE}-{YYYYMMDD}-{SEQ4}-{CHK}
+
+  CONTRACT# = DDI MCO/contract sequence (1=HAP CareSource, 2=BCBSM, …)
+  LANE      = population lane (MOB-A, MOB-B, MOB-C, MOB-E, TPA-1 … TPA-9)
+  Example:  1-DDI-MOB-A-20260607-0042-7
+
+Staff exemption codes (rotating, hashed at rest):
+  EX-{YYYY}Q{Q}-{TYPE}-{RAND6}
+
+Env:
+  PRISM_EXEMPTION_PEPPER        HMAC secret for code hashing
+  PRISM_EXEMPTION_ADMIN_KEY     Bearer token for rotate/generate admin endpoints
+  PRISM_EXEMPTION_ROTATION_DAYS Default 90 (quarterly)
+"""
+
+from __future__ import annotations
+
+import hashlib
+import hmac
+import json
+import logging
+import os
+import re
+import secrets
+import string
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from zoneinfo import ZoneInfo
+
+logger = logging.getLogger("prism.confirmation")
+
+EASTERN = ZoneInfo("America/Detroit")
+
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads", "prism")
+_SEQ_FILE = os.path.join(_DATA_DIR, "confirmation_sequences.json")
+_EXEMPT_FILE = os.path.join(_DATA_DIR, "exemption_codes.json")
+_EXEMPT_AUDIT_FILE = os.path.join(_DATA_DIR, "exemption_audit.json")
+
+LANE_TOKEN_RE = re.compile(r"^(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9])$")
+
+# DDI contract / MCO sequence — order secured (NOT claims payer ID on Availity)
+CONTRACT_PAYER_REGISTRY: Dict[int, Dict[str, Any]] = {
+    0: {
+        "slug": "direct",
+        "name": "DDI Direct / Non-MCO",
+        "aliases": ["direct", "ddi direct", "non-mco", "commercial"],
+    },
+    1: {
+        "slug": "hap_caresource",
+        "name": "HAP CareSource",
+        "aliases": ["hap", "caresource", "hap caresource", "health alliance plan"],
+    },
+    2: {
+        "slug": "bcbsm",
+        "name": "Blue Cross Complete / BCBSM",
+        "aliases": ["bcbsm", "blue cross complete", "bcc", "blue cross complete of michigan"],
+    },
+    # 3: Molina — assign when contract executed
+    # 4: Priority Health
+    # 5: UnitedHealthcare Community Plan
+    # 6: Aetna Better Health Michigan
+}
+
+CONFIRMATION_RE = re.compile(
+    r"^(?P<payer>\d+)-DDI-(?P<lane>(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9]))-(?P<date>\d{8})-(?P<seq>\d{4})-(?P<chk>\d)$"
+)
+# Migration: prior build included channel letter (V/W/P)
+LEGACY_DDI_WITH_CH_RE = re.compile(
+    r"^DDI-(?P<lane>(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9]))-(?P<ch>[A-Z])-(?P<date>\d{8})-(?P<seq>\d{4})-(?P<chk>\d)$"
+)
+LEGACY_DDI_RE = re.compile(
+    r"^DDI-(?P<lane>[A-Z0-9]{3})-(?P<ch>[A-Z])-(?P<date>\d{8})-(?P<seq>\d{4})-(?P<chk>\d)$"
+)
+LEGACY_RE = re.compile(r"^PRISM(-V)?-", re.I)
+EXEMPTION_RE = re.compile(
+    r"^EX-(?P<period>\d{4}Q[1-4])-(?P<typ>[A-Z]{3})-(?P<rand>[A-Z0-9]{6})$"
+)
+
+SERVICE_TO_LANE: Dict[str, str] = {
+    "nemt": "MOB-A",
+    "transport": "MOB-A",
+    "medical_courier": "MOB-A",
+    "dot": "TPA-1",
+    "phlebotomy": "TPA-1",
+    "poct": "TPA-1",
+    "lead": "TPA-1",
+    "fingerprint": "TPA-2",
+    "dna": "TPA-3",
+    "notary": "TPA-4",
+    "notary-law-firm": "TPA-4",
+    "apostille": "TPA-4",
+    "courier": "MOB-C",
+    "freight": "MOB-C",
+    "background": "TPA-7",
+    "credentialing": "TPA-8",
+    "workforce": "TPA-9",
+    "navigation": "NAV-G",
+    "benefits": "NAV-G",
+    "event": "MOB-E",
+    "event_mobility": "MOB-E",
+    "haven": "MOB-B",
+    "haven_transport": "MOB-B",
+}
+
+LANE_DESCRIPTIONS: Dict[str, str] = {
+    "MOB-A": "Plan NEMT — enrolled members, authorized medical trips",
+    "MOB-B": "HAVEN continuity transport — displaced members, disaster mobility",
+    "MOB-C": "Freight & logistics — cargo, agencies, owner-operators",
+    "MOB-E": "Event mobility — venues, conferences, attendee PUDO",
+    "TPA-1": "Drug testing & occupational compliance",
+    "TPA-2": "Identity & biometric credentialing",
+    "TPA-3": "DNA & relationship testing",
+    "TPA-4": "Notary & document services",
+    "TPA-7": "Background screening",
+    "TPA-8": "Medical credentialing",
+    "TPA-9": "Workforce compliance",
+    "NAV-G": "Navigation & SDOH — benefits enrollment",
+}
+
+CHANNEL_CODES: Dict[str, str] = {
+    "voice": "V",
+    "web": "W",
+    "portal": "P",
+    "agent": "A",
+    "api": "X",
+    "law_firm": "L",
+    "sms": "S",
+    "email": "E",
+}
+
+EXEMPTION_TYPES: Dict[str, str] = {
+    "WVR": "Fee waiver — management authorized",
+    "EXM": "Billing exempt — contract / MCO / government",
+    "EXP": "Expedited / STAT handling",
+    "OPS": "Internal ops bypass",
+    "VIP": "Priority client handling",
+}
+
+DEFAULT_EXEMPTION_MAX_USES = {
+    "WVR": 25,
+    "EXM": 100,
+    "EXP": 50,
+    "OPS": 200,
+    "VIP": 30,
+}
+
+
+def _ensure_dir() -> None:
+    os.makedirs(_DATA_DIR, exist_ok=True)
+
+
+def _load(path: str, default: Any) -> Any:
+    _ensure_dir()
+    if not os.path.isfile(path):
+        return default
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+
+def _save(path: str, data: Any) -> None:
+    _ensure_dir()
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, default=str)
+    os.replace(tmp, path)
+
+
+def _pepper() -> bytes:
+    raw = (
+        os.environ.get("PRISM_EXEMPTION_PEPPER")
+        or os.environ.get("JWT_SECRET")
+        or "prism-dev-pepper-change-in-production"
+    )
+    return raw.encode("utf-8")
+
+
+def _check_digit(payload: str) -> str:
+    total = 0
+    for i, ch in enumerate(payload.replace("-", "")):
+        if ch.isdigit():
+            total += int(ch) * (i + 1)
+        elif ch.isalpha():
+            total += (ord(ch.upper()) - 55) * (i + 1)
+    return str(total % 10)
+
+
+def resolve_contract_payer_id(
+    *,
+    contract_payer_id: Optional[int] = None,
+    payer_name: Optional[str] = None,
+    client_company: Optional[str] = None,
+    details: Optional[Dict[str, Any]] = None,
+    service_key: Optional[str] = None,
+) -> int:
+    """
+    Resolve DDI contract # for confirmation prefix.
+    1 = HAP CareSource (first live MCO contract). 2 = BCBSM when secured.
+    """
+    details = details or {}
+
+    explicit = contract_payer_id or details.get("contract_payer_id") or details.get("mco_contract_id")
+    if explicit is not None:
+        try:
+            pid = int(explicit)
+            if pid in CONTRACT_PAYER_REGISTRY:
+                return pid
+        except (TypeError, ValueError):
+            pass
+
+    haystack = " ".join(
+        filter(
+            None,
+            [
+                payer_name or "",
+                client_company or "",
+                details.get("payer", ""),
+                details.get("mco", ""),
+                details.get("program_type", ""),
+            ],
+        )
+    ).lower()
+
+    for pid, info in CONTRACT_PAYER_REGISTRY.items():
+        if pid == 0:
+            continue
+        for alias in info.get("aliases", []):
+            if alias in haystack:
+                return pid
+
+    # Live HAP voice line / default NEMT until multi-MCO routing selects payer
+    if (service_key or "").lower() in ("nemt", "transport") or details.get("mobility_lane") == "MOB-A":
+        return 1
+
+    return 0
+
+
+def contract_payer_label(payer_id: int) -> str:
+    return CONTRACT_PAYER_REGISTRY.get(payer_id, {}).get("name", f"Contract {payer_id}")
+
+
+def resolve_lane_code(
+    service_key: str,
+    details: Optional[Dict[str, Any]] = None,
+    *,
+    mobility_lane: Optional[str] = None,
+) -> str:
+    """Map intake to DDI population lane (MOB-A/B/C/E, TPA-1…9, NAV-G)."""
+    details = details or {}
+    explicit = (mobility_lane or details.get("mobility_lane") or "").strip().upper()
+    if explicit and LANE_TOKEN_RE.match(explicit):
+        return explicit
+
+    program = (details.get("program_type") or details.get("program") or "").lower()
+    if "haven" in program or details.get("haven_mode") or details.get("havens_mode"):
+        return "MOB-B"
+
+    return SERVICE_TO_LANE.get((service_key or "").strip().lower(), "MOB-A")
+
+
+def channel_code(channel: Optional[str]) -> str:
+    return CHANNEL_CODES.get((channel or "web").strip().lower(), "W")
+
+
+def parse_confirmation_id(ref: str) -> Optional[Dict[str, str]]:
+    ref = (ref or "").strip().upper()
+    m = CONFIRMATION_RE.match(ref)
+    if m:
+        parts = m.groupdict()
+        body = f"{parts['payer']}-DDI-{parts['lane']}-{parts['date']}-{parts['seq']}"
+        if _check_digit(body) != parts["chk"]:
+            return None
+        return parts
+
+    m = LEGACY_DDI_WITH_CH_RE.match(ref) or LEGACY_DDI_RE.match(ref)
+    if m:
+        parts = m.groupdict()
+        body = f"DDI-{parts['lane']}-{parts['ch']}-{parts['date']}-{parts['seq']}"
+        if _check_digit(body) != parts["chk"]:
+            return None
+        parts["payer"] = None
+        return parts
+
+    return None
+
+
+def validate_confirmation_format(ref: str) -> bool:
+    if parse_confirmation_id(ref):
+        return True
+    return bool(LEGACY_RE.match((ref or "").strip()))
+
+
+def is_legacy_confirmation(ref: str) -> bool:
+    return bool(LEGACY_RE.match((ref or "").strip())) and not parse_confirmation_id(ref)
+
+
+def _next_sequence(payer_id: int, lane: str, day: str) -> int:
+    data = _load(_SEQ_FILE, {})
+    key = f"{day}:{payer_id}:{lane}"
+    seq = int(data.get(key, 0)) + 1
+    if seq > 9999:
+        seq = 1
+    data[key] = seq
+    _save(_SEQ_FILE, data)
+    return seq
+
+
+def generate_confirmation_id(
+    service_key: str,
+    channel: Optional[str] = None,
+    *,
+    when: Optional[datetime] = None,
+    details: Optional[Dict[str, Any]] = None,
+    mobility_lane: Optional[str] = None,
+    contract_payer_id: Optional[int] = None,
+    payer_name: Optional[str] = None,
+    client_company: Optional[str] = None,
+) -> str:
+    now = when or datetime.now(EASTERN)
+    details = dict(details or {})
+    if channel:
+        details.setdefault("_intake_channel", channel_code(channel))
+    lane = resolve_lane_code(service_key, details, mobility_lane=mobility_lane)
+    payer_id = resolve_contract_payer_id(
+        contract_payer_id=contract_payer_id,
+        payer_name=payer_name,
+        client_company=client_company,
+        details=details,
+        service_key=service_key,
+    )
+    day = now.strftime("%Y%m%d")
+    seq = _next_sequence(payer_id, lane, day)
+    body = f"{payer_id}-DDI-{lane}-{day}-{seq:04d}"
+    return f"{body}-{_check_digit(body)}"
+
+
+def confirmation_display_meta(ref: str, *, channel: Optional[str] = None) -> Dict[str, Any]:
+    parsed = parse_confirmation_id(ref)
+    if not parsed:
+        return {"ref": ref, "format": "legacy" if is_legacy_confirmation(ref) else "unknown"}
+    ch_rev = {v: k for k, v in CHANNEL_CODES.items()}
+    lane = parsed["lane"]
+    payer_raw = parsed.get("payer")
+    payer_id = int(payer_raw) if payer_raw else None
+    ch_code = parsed.get("ch") or channel
+    meta: Dict[str, Any] = {
+        "ref": ref,
+        "format": "ddi_contract_lane" if payer_id is not None else "ddi_structured_legacy",
+        "contract_payer_id": payer_id,
+        "contract_payer_name": contract_payer_label(payer_id) if payer_id is not None else None,
+        "population_lane": lane,
+        "lane_description": LANE_DESCRIPTIONS.get(lane, lane),
+        "date": parsed["date"],
+        "sequence": parsed["seq"],
+        "check_digit": parsed["chk"],
+    }
+    if ch_code:
+        meta["channel"] = ch_rev.get(ch_code, ch_code) if len(str(ch_code)) == 1 else ch_code
+    return meta
+
+
+def lookup_confirmation_public(
+    ref: str,
+    orders: List[Dict[str, Any]],
+    *,
+    phone_last4: Optional[str] = None,
+) -> Dict[str, Any]:
+    ref = (ref or "").strip()
+    order = next((o for o in orders if o.get("id") == ref or o.get("confirmation_ref") == ref), None)
+    if not order:
+        return {"found": False, "message": "Confirmation not found."}
+
+    voice = order.get("channel") == "voice" or (order.get("details") or {}).get("intake_channel") == "voice_ai"
+    if voice:
+        stored_last4 = (order.get("details") or {}).get("confirmation_phone_last4", "")
+        if stored_last4 and phone_last4:
+            if re.sub(r"\D", "", phone_last4)[-4:] != stored_last4:
+                return {"found": False, "message": "Confirmation not found."}
+        elif stored_last4 and not phone_last4:
+            return {
+                "found": True,
+                "requires_verification": True,
+                "message": "Enter the last four digits of the phone number used when booking.",
+            }
+
+    return {
+        "found": True,
+        "ref": ref,
+        "status": order.get("status", "Unknown"),
+        "service": order.get("service_label") or order.get("type", ""),
+        "date": order.get("date", ""),
+        "time": order.get("time", ""),
+        "meta": confirmation_display_meta(ref),
+    }
+
+
+def _hash_exemption(plain: str) -> str:
+    return hmac.new(_pepper(), plain.strip().upper().encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def _current_period(when: Optional[datetime] = None) -> str:
+    now = when or datetime.now(EASTERN)
+    q = (now.month - 1) // 3 + 1
+    return f"{now.year}Q{q}"
+
+
+def _period_end(period: str) -> str:
+    year = int(period[:4])
+    q = int(period[-1])
+    end_month = q * 3
+    if end_month == 12:
+        end = datetime(year, 12, 31, tzinfo=EASTERN)
+    else:
+        end = datetime(year, end_month + 1, 1, tzinfo=EASTERN) - timedelta(days=1)
+    return end.date().isoformat()
+
+
+def _rand_suffix(n: int = 6) -> str:
+    alphabet = string.ascii_uppercase + string.digits
+    return "".join(secrets.choice(alphabet) for _ in range(n))
+
+
+def _load_exemption_registry() -> Dict[str, Any]:
+    reg = _load(_EXEMPT_FILE, {})
+    if not reg.get("period"):
+        reg = {"period": _current_period(), "expires": _period_end(_current_period()), "codes": []}
+        _save(_EXEMPT_FILE, reg)
+    return reg
+
+
+def exemption_status() -> Dict[str, Any]:
+    reg = _load_exemption_registry()
+    active = [c for c in reg.get("codes", []) if c.get("active")]
+    return {
+        "period": reg.get("period"),
+        "expires": reg.get("expires"),
+        "active_code_count": len(active),
+        "types": list(EXEMPTION_TYPES.keys()),
+        "rotation_days": int(os.environ.get("PRISM_EXEMPTION_ROTATION_DAYS", "90")),
+        "next_rotation_recommended": reg.get("expires"),
+    }
+
+
+def _audit_exemption(event: str, detail: Dict[str, Any]) -> None:
+    log = _load(_EXEMPT_AUDIT_FILE, [])
+    log.insert(0, {"at": datetime.now(EASTERN).isoformat(), "event": event, **detail})
+    _save(_EXEMPT_AUDIT_FILE, log[:500])
+
+
+def validate_exemption_code(plain: str, *, email: str = "", context: str = "") -> Dict[str, Any]:
+    code = (plain or "").strip().upper()
+    if not code:
+        return {"valid": False, "message": "Exemption code required."}
+
+    if not EXEMPTION_RE.match(code):
+        return {"valid": False, "message": f'Code "{code}" format not recognized.'}
+
+    reg = _load_exemption_registry()
+    today = datetime.now(EASTERN).date().isoformat()
+    if reg.get("expires") and today > reg["expires"]:
+        return {
+            "valid": False,
+            "message": "Exemption period expired — request a current code from DDI ops.",
+            "period_expired": True,
+        }
+
+    code_hash = _hash_exemption(code)
+    entry = next((c for c in reg.get("codes", []) if c.get("hash") == code_hash and c.get("active")), None)
+    if not entry:
+        _audit_exemption("rejected", {"code_prefix": code[:12], "email": email, "context": context})
+        return {"valid": False, "message": f'Code "{code}" not recognized or inactive.'}
+
+    uses = int(entry.get("uses", 0))
+    max_uses = int(entry.get("max_uses", 50))
+    if uses >= max_uses:
+        return {"valid": False, "message": "This exemption code has reached its use limit."}
+
+    entry["uses"] = uses + 1
+    entry["last_used"] = datetime.now(EASTERN).isoformat()
+    _save(_EXEMPT_FILE, reg)
+    _audit_exemption("accepted", {"type": entry.get("type"), "email": email, "context": context, "uses": entry["uses"]})
+
+    typ = entry.get("type", "OPS")
+    return {
+        "valid": True,
+        "code": code,
+        "type": typ.lower(),
+        "exemption_type": typ,
+        "source": "rotating_exemption",
+        "message": EXEMPTION_TYPES.get(typ, "Exemption accepted."),
+        "uses_remaining": max(0, max_uses - entry["uses"]),
+    }
+
+
+def rotate_exemption_codes(
+    *,
+    period: Optional[str] = None,
+    types: Optional[List[str]] = None,
+    deactivate_previous: bool = True,
+) -> Dict[str, Any]:
+    period = period or _current_period()
+    types = types or list(EXEMPTION_TYPES.keys())
+    reg = _load_exemption_registry()
+
+    if deactivate_previous:
+        for c in reg.get("codes", []):
+            c["active"] = False
+
+    plaintext_codes: Dict[str, str] = {}
+    new_entries: List[Dict[str, Any]] = []
+
+    for typ in types:
+        typ = typ.upper()
+        if typ not in EXEMPTION_TYPES:
+            continue
+        plain = f"EX-{period}-{typ}-{_rand_suffix()}"
+        plaintext_codes[typ] = plain
+        new_entries.append(
+            {
+                "hash": _hash_exemption(plain),
+                "type": typ,
+                "period": period,
+                "max_uses": DEFAULT_EXEMPTION_MAX_USES.get(typ, 50),
+                "uses": 0,
+                "active": True,
+                "created": datetime.now(EASTERN).isoformat(),
+            }
+        )
+
+    reg["period"] = period
+    reg["expires"] = _period_end(period)
+    reg.setdefault("codes", [])
+    reg["codes"] = new_entries + reg["codes"]
+    _save(_EXEMPT_FILE, reg)
+    _audit_exemption("rotated", {"period": period, "types": types})
+
+    return {
+        "period": period,
+        "expires": reg["expires"],
+        "codes": plaintext_codes,
+        "message": "Store these codes securely — they cannot be retrieved again.",
+    }
+
+
+def admin_authorized(auth_header: Optional[str]) -> bool:
+    expected = (os.environ.get("PRISM_EXEMPTION_ADMIN_KEY") or "").strip()
+    if not expected or not auth_header:
+        return False
+    token = auth_header.replace("Bearer", "").strip()
+    return hmac.compare_digest(token, expected)
+
+
+def format_schema_public() -> Dict[str, Any]:
+    return {
+        "confirmation_format": "{CONTRACT#}-DDI-{LANE}-{YYYYMMDD}-{SEQ4}-{CHK}",
+        "confirmation_example": "1-DDI-MOB-A-20260607-0042-7",
+        "contract_payer_registry": {
+            str(k): v["name"] for k, v in CONTRACT_PAYER_REGISTRY.items()
+        },
+        "population_lanes": LANE_DESCRIPTIONS,
+        "service_to_lane_default": SERVICE_TO_LANE,
+        "channel_codes": CHANNEL_CODES,
+        "channel_note": "Channel (V/W/P) stored on order metadata — not in public confirmation string.",
+        "exemption_format": "EX-{YYYY}Q{Q}-{TYPE}-{RAND6}",
+        "exemption_example": "EX-2026Q2-WVR-K7M3P9",
+        "exemption_types": EXEMPTION_TYPES,
+        "lane_reference": "NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md",
+        "fraud_controls": [
+            "Check digit on every confirmation number",
+            "Daily sequence per contract payer + population lane",
+            "Contract # identifies which MCO/agreement (1=HAP, 2=BCBSM, …)",
+            "Exemption codes stored hashed — plaintext shown once at rotation",
+            "Exemption period expiry (default quarterly)",
+            "Per-code use limits with audit log",
+            "Public status lookup requires phone last-4 for voice bookings",
+            "Legacy PRISM-* and DDI-* refs still honored during migration",
+        ],
+    }

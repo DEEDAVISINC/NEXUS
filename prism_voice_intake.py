@@ -337,7 +337,21 @@ def _submit_nemt_order(session: Dict[str, Any], caller_phone: str) -> Dict[str, 
     slots = session.get("slots") or {}
     sched_date, sched_time = _split_pickup_when(slots.get("pickup_when", ""))
     transport = slots.get("transport_type", "ambulatory")
-    conf = f"PRISM-V-{datetime.now(EASTERN).strftime('%Y%m%d-%H%M')}-{uuid.uuid4().hex[:4].upper()}"
+    from prism_confirmation_ids import generate_confirmation_id
+
+    conf = generate_confirmation_id(
+        "nemt",
+        "voice",
+        details={
+            "mobility_lane": "MOB-A",
+            "program_type": "Medicaid / MCO / Plan NEMT",
+            "payer": "HAP CareSource",
+            "contract_payer_id": 1,
+        },
+        client_company="HAP CareSource Member",
+        payer_name="HAP CareSource",
+        contract_payer_id=1,
+    )
     member_phone = _clean_phone(caller_phone)
 
     intake_payload = {
@@ -373,6 +387,7 @@ def _submit_nemt_order(session: Dict[str, Any], caller_phone: str) -> Dict[str, 
             "dropoff_address": slots.get("dropoff_address", ""),
             "intake_channel": "voice_ai",
             "voice_call_sid": session.get("call_sid"),
+            "confirmation_phone_last4": re.sub(r"\D", "", member_phone)[-4:] if member_phone else "",
         },
         "billing_tier": "contract",
         "payment_method": "mco_billing",

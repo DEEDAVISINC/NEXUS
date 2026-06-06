@@ -31,6 +31,7 @@ AUTOMATED QC (Tier 1):
 import os
 import json
 import uuid
+import re
 import smtplib
 import threading
 from email.mime.text import MIMEText
@@ -1476,11 +1477,28 @@ def _create_intake_order_impl():
         fee = int(fee * 1.25)
 
     now = datetime.now()
-    conf = data.get('confirmation') or f"PRISM-{now.strftime('%Y%m%d-%H%M')}-{uuid.uuid4().hex[:4].upper()}"
+    from prism_confirmation_ids import channel_code, confirmation_display_meta, generate_confirmation_id
+
+    channel = (data.get('channel') or '').strip().lower()
+    incoming_conf = (data.get('confirmation') or '').strip()
+    if incoming_conf:
+        conf = incoming_conf
+    else:
+        conf = generate_confirmation_id(
+            svc_key,
+            channel or 'web',
+            details=details,
+            payer_name=data.get('payer') or details.get('payer'),
+            client_company=data.get('client_company', '') or data.get('client_name', ''),
+            contract_payer_id=details.get('contract_payer_id'),
+        )
+
+    sub_phone = re.sub(r'\D', '', data.get('subject_phone', '') or data.get('client_phone', '') or '')
+    if sub_phone and not details.get('confirmation_phone_last4'):
+        details['confirmation_phone_last4'] = sub_phone[-4:]
 
     routing_email = data.get('routing_email', SERVICE_ROUTING_EMAILS.get(svc_key, ADMIN_EMAIL))
 
-    channel = (data.get('channel') or '').strip().lower()
     if channel == 'law_firm' or svc_key == 'notary-law-firm':
         try:
             from prism_law_firm_notary_channel import extract_law_firm_account_payload
@@ -1492,6 +1510,8 @@ def _create_intake_order_impl():
 
     order = {
         'id': conf,
+        'confirmation_ref': conf,
+        'confirmation_meta': confirmation_display_meta(conf, channel=channel_code(channel or 'web')),
         'type': service_type,
         'service_key': svc_key,
         'channel': channel or None,
@@ -2416,7 +2436,24 @@ def validate_override():
     if not code:
         return jsonify({'valid': False, 'message': 'Override code required'}), 400
 
-    # Check local override file first
+    # Rotating exemption codes (EX-2026Q2-WVR-XXXXXX)
+    if code.startswith('EX-'):
+        from prism_confirmation_ids import validate_exemption_code
+
+        ex_result = validate_exemption_code(code, email=email, context='billing_override')
+        if ex_result.get('valid'):
+            return jsonify({
+                'valid': True,
+                'code': code,
+                'type': ex_result.get('type', 'exemption'),
+                'exemption_type': ex_result.get('exemption_type'),
+                'source': 'rotating_exemption',
+                'message': ex_result.get('message', 'Exemption accepted.'),
+                'uses_remaining': ex_result.get('uses_remaining'),
+            })
+        return jsonify(ex_result)
+
+    # Check local override file (legacy static codes)
     overrides = _load(BILLING_OVERRIDE_FILE, {})
     if not overrides:
         overrides = {
@@ -2555,3 +2592,64 @@ def create_override_code():
     }
     _save(BILLING_OVERRIDE_FILE, overrides)
     return jsonify({'success': True, 'code': code, 'override': overrides[code]})
+
+
+@prism_orders.route('/prism/confirmations/schema', methods=['GET'])
+def confirmations_schema():
+    """Public reference for confirmation + exemption ID formats."""
+    from prism_confirmation_ids import format_schema_public
+
+    return jsonify(format_schema_public())
+
+
+@prism_orders.route('/prism/confirmations/lookup/<ref>', methods=['GET'])
+def confirmations_lookup(ref):
+    """Limited public status lookup. Voice bookings require ?phone_last4=."""
+    from prism_confirmation_ids import lookup_confirmation_public
+
+    phone_last4 = (request.args.get('phone_last4') or '').strip()
+    orders = _load(ORDERS_FILE, [])
+    return jsonify(lookup_confirmation_public(ref, orders, phone_last4=phone_last4 or None))
+
+
+@prism_orders.route('/prism/exemptions/status', methods=['GET'])
+def exemptions_status():
+    """Active exemption period metadata (no plaintext codes)."""
+    from prism_confirmation_ids import admin_authorized, exemption_status
+
+    auth = request.headers.get('Authorization', '')
+    payload = exemption_status()
+    payload['admin'] = admin_authorized(auth)
+    return jsonify(payload)
+
+
+@prism_orders.route('/prism/exemptions/rotate', methods=['POST'])
+def exemptions_rotate():
+    """
+    Generate new quarterly exemption codes. Requires Authorization: Bearer <PRISM_EXEMPTION_ADMIN_KEY>.
+    Plaintext codes returned once — store in 1Password / internal ops doc.
+    """
+    from prism_confirmation_ids import admin_authorized, rotate_exemption_codes
+
+    if not admin_authorized(request.headers.get('Authorization', '')):
+        return jsonify({'error': 'Unauthorized — set PRISM_EXEMPTION_ADMIN_KEY on server'}), 401
+
+    data = request.get_json(silent=True) or {}
+    result = rotate_exemption_codes(
+        period=(data.get('period') or '').strip().upper() or None,
+        types=data.get('types'),
+        deactivate_previous=data.get('deactivate_previous', True),
+    )
+    return jsonify(result)
+
+
+@prism_orders.route('/prism/exemptions/validate', methods=['POST'])
+def exemptions_validate():
+    """Validate a rotating EX-… exemption code."""
+    from prism_confirmation_ids import validate_exemption_code
+
+    data = request.get_json(silent=True) or {}
+    code = (data.get('code') or data.get('override_code') or '').strip()
+    email = (data.get('email') or '').strip().lower()
+    context = (data.get('context') or 'api').strip()
+    return jsonify(validate_exemption_code(code, email=email, context=context))

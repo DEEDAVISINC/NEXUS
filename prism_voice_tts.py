@@ -157,5 +157,13 @@ def speak_for_phone(text: str) -> str:
     t = t.replace("deedavis.biz", "dee davis dot biz")
     t = t.replace("portal.deedavis.biz", "portal dot dee davis dot biz")
     # Confirmation IDs — add slight pauses via comma
+    t = re.sub(
+        r"(\d+)-DDI-(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9])-(\d{8})-(\d{4})-(\d)",
+        r"\1, D D I, \2 \3 \4, \5",
+        t,
+    )
+    t = re.sub(r"(DDI-(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9])-[A-Z]-\d{8}-\d{4})-(\d)", r"\1, \2", t)
+    t = re.sub(r"\bMOB-([ABCE])\b", r"mobility \1", t)
+    t = re.sub(r"\bTPA-(\d)\b", r"T P A \1", t)
     t = re.sub(r"(PRISM-V-\d{8}-\d{4})-(\w+)", r"\1, \2", t)
     return t
