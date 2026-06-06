@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PrismAgentDirectory from './PrismAgentDirectory';
+import PrismVoiceCallCenter from './PrismVoiceCallCenter';
 import { countDivisionAgents, PrismAgentRecord } from './prismAgentNetwork';
 
 // ─── TYPES ─────────────────────────────────────────────────────────
@@ -228,7 +229,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   onOpenPortal,
   onBack,
 }) => {
-  const [activeSection, setActiveSection] = useState<'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture'>('dashboard');
+  const [activeSection, setActiveSection] = useState<'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture' | 'voice'>('dashboard');
   const [showAgentPicker, setShowAgentPicker] = useState(false);
   const [assigningOrder, setAssigningOrder] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
@@ -305,6 +306,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   // Divisions that show scanbacks (results/documents to review)
   const SCANBACK_DIVISIONS = ['notary_legal', 'drug_testing', 'dna'];
   const showScanbacks = SCANBACK_DIVISIONS.includes(division.id);
+  const showVoiceIntake = division.id === 'transport';
 
   // Nav items config — filtered by division
   const NAV_ITEMS = [
@@ -317,6 +319,9 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
     { id: 'orders',    label: 'Orders',     badge: stats.pending + stats.scheduled + stats.inProgress, icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
     )},
+    ...(showVoiceIntake ? [{ id: 'voice', label: 'Voice Intake', icon: (
+      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
+    )}] : []),
     { id: 'agents',    label: 'Agent Network', badge: divisionAgentCount || undefined, icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     )},
@@ -1133,6 +1138,11 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
               </div>
             </div>
           </div>
+        )}
+
+        {/* ═══ VOICE INTAKE (NEMT call center) ═══ */}
+        {activeSection === 'voice' && (
+          <PrismVoiceCallCenter accent={division.solid} />
         )}
 
         {/* ═══ CAPTURE (Screenshot/Doc Drop) ═══ */}

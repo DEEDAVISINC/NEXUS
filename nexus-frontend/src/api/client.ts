@@ -248,6 +248,13 @@ export const api = {
   },
   getTracking: (orderId: string) => ApiClient.get(`/prism/tracking/${orderId}`),
   updateTracking: (orderId: string, data: any) => ApiClient.put(`/prism/tracking/${orderId}`, data),
+
+  /** PRISM Voice Intake — NEMT call center */
+  getPrismVoiceStatus: () => ApiClient.get('/prism/voice/status'),
+  getPrismVoiceCalls: (limit = 50) => ApiClient.get(`/prism/voice/calls?limit=${limit}`),
+  simulatePrismVoiceCall: (data: { call_sid?: string; speech: string; caller?: string }) =>
+    ApiClient.post('/prism/voice/simulate', data),
+
   /** PRISM DOT: collector operator due-diligence brief (49 CFR Part 40 basics / audit risk) */
   getPrismDotCollectorDueDiligence: () => ApiClient.get('/prism/dot/collector-due-diligence'),
 

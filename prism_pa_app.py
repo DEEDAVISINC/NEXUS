@@ -92,6 +92,17 @@ except ImportError as exc:
     def prism_unavailable(_path):
         return jsonify({'error': f'PRISM Orders API not loaded: {exc}'}), 503
 
+try:
+    from prism_voice_intake import prism_voice
+
+    app.register_blueprint(prism_voice)
+except ImportError as exc:
+    logger_msg = f'PRISM Voice Intake not loaded: {exc}'
+
+    @app.route('/prism/voice/<path:_path>', methods=['GET', 'POST'])
+    def prism_voice_unavailable(_path):
+        return jsonify({'error': logger_msg}), 503
+
 
 # PythonAnywhere WSGI entry point
 application = app
