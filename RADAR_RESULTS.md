@@ -1,5 +1,5 @@
 # RADAR RESULTS
-**Last compiled:** 2026-06-04 09:39 AM ET
+**Last compiled:** 2026-06-05 09:50 AM ET
 
 > **RADAR** = Revenue Acquisition Discovery And Reconnaissance.
 > **NET-NEW ONLY** — excludes anything already in bid folders, watch list, bid tracker, CO outreach, or healthcare exploration docs.
@@ -13,9 +13,9 @@
 
 | Channel | Last scan | Items | Detail file |
 |---------|-----------|-------|-------------|
-| Public portals (SAM + state/local) | 2026-06-04 | 73 | `portal_scan_results.json` |
-| Healthcare / MCO | 2026-06-04 | 79 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
-| AOG / Freight (488190) | 2026-06-04 | 0 | `aog_sam_cache.json` |
+| Public portals (SAM + state/local) | 2026-06-05 | 76 | `portal_scan_results.json` |
+| Healthcare / MCO | 2026-06-05 | 79 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
+| AOG / Freight (488190) | 2026-06-05 | 0 | `aog_sam_cache.json` |
 | Digital navigation (624190) | — | 31 | `digital_nav_sam_cache.json` |
 | Sources Sought / Presol (federal) | MAY23 | 41 DDI-fit | `NEW_SOURCES_SOUGHT_MAY23.md` |
 

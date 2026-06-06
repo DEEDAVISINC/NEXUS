@@ -1,5 +1,5 @@
 # NOTARY SIGNING PAYMENT TRACKER
-**Last Updated:** June 5, 2026
+**Last Updated:** June 5, 2026 — **Deposit Week** columns added
 **Total Outstanding:** ~$1,500.00 (Cucchiara $75 received 5/28; stale received items cleared from outstanding)
 
 ---
@@ -13,7 +13,43 @@
 
 **Use this to estimate** when no terms are listed on the order — then confirm on first payment.
 
+**Do not use “30–45 days” alone for cash planning.** Most of Dee’s volume is **batched** — use **Deposit Week** below.
+
+---
+
+## DEPOSIT WEEK — HOW TO READ THIS TRACKER
+
+**Deposit Week** = the calendar week you should expect money **in the bank** (not transfer email, not “30–45 days” text on the order).
+
+| Pay Type | Companies | How deposit week is set | Example |
+|---|---|---|---|
+| **VendorPay monthly batch** | First Class, Kriss Law, Doma, Mosaic (most) | Transfer ~**1st week** of month after signing month → deposit ~**3rd week** (~22nd) | May signings → **Week of 6/16–6/22** (deposit ~6/22) |
+| **VendorPay fast** | Turbo | ~21 days from signing | ~**Week of signing + 3** |
+| **PCS non-Silk** | Premium Closing Solutions | **Last week** of month after signing month | May PCS → **Week of 6/25–6/30** |
+| **PCS Silk** | PCS (H-######-SFB files) | ~75 days | **Week of 7/16–7/31** |
+| **TPC monthly** | Title Processing Center | **7th** of month after signing month | May file → **Week of 6/2–6/8** (6/7) |
+| **Rolling eCheck** | PSS, Signature Xcel, SSG, Melio, ZIL | 30–45 days from signing (can land any week) | 5/5 signing → **Week of 6/2–6/19** |
+| **Net 45** | Standard Notary, Signature One | 45 days from signing/service | 4/28 → **Week of 6/9–6/15** (~6/12) |
+| **From closing** | JP Signings, @SigningAgents/NTS, ASAP Pro | Clock starts at **closing** (+ batch rules for JP) | Stern → **TBD after close** |
+| **Mail check** | Signing Solutions Group | 30–45 days est. | **Week of 6/16–7/6** |
+
+### VendorPay batch rule (use when accepting First Class / Kriss / Doma orders)
+
+| Signing performed in… | Transfer batch (~) | **Deposit week** (~) |
+|---|---|---|
+| January | Early February | **Week of Feb 16–22** |
+| February | Early March | **Week of Mar 16–22** |
+| March | Early April | **Week of Apr 16–22** |
+| April | Early May | **Week of May 16–22** |
+| **May 2026** | **6/5/26** | **Week of 6/16–6/22** (~6/22) |
+| **June 2026** | ~7/7/26 | **Week of 7/14–7/21** (~7/22) |
+
+*Individual VendorPay items can clear early (e.g. Ahmed 6/5). Batch siblings still follow the row above.*
+
+---
+
 ### Exceptions — Different Clock or Method
+
 | Company / Type | Clock starts | Notes |
 |---|---|---|
 | **@SigningAgents / NTS** | **Closing date** | 30–45 days from closing, not signing |
@@ -24,7 +60,7 @@
 | **Title Processing Center** | Month completed | Paid **7th** of following month |
 | **Premium Closing Solutions** | Varies | Non-Silk: last week of following month; Silk: 75-day cycle |
 | **VendorPay companies** | Batch cycle | First Class, Kriss Law, Turbo, Mosaic, Doma — transfer ~1st week, deposit ~3rd week |
-| **Signing Solutions Group** | Signing date (est.) | Mailed check — no stated timeline; use 30–45 day default to watch mailbox |
+| **Signing Solutions Group** | Signing date (est.) | Mailed check — 30–45 day watch window |
 
 | Company | Payment Terms | Payment Method | Typical Fee | Contact |
 |---|---|---|---|---|
@@ -78,86 +114,74 @@
 
 ## SCHEDULED SIGNINGS — NOT YET PERFORMED
 
-| Date | Company | Order # / File # | Borrower | Fee | Expected Payment | Status |
-|---|---|---|---|---|---|---|
-| 6/5/26 | **JP Signings LLC** (SigningOrder.com) | JPSI-8132 / SNH-2026-382 | Dana Lynn Stern (Seller Only) | $100.00 | **30-45 days after closing** (1st or 15th pay run) | **Fri 6/5 @ 1:00 PM ET** · 16150 Via Colico, Macomb 48042 · Dana (925) 457-8843 · EDOCS · **Scanbacks** · **Provide witness** · ID photo at end · Completion report + upload within 75 min · Payment: signings@jpsignings.com |
-| 6/5/26 | Premium Signature Services (SigningOrder.com) | PSS1-41104 / USAREF03302~a | Erald Ruci (Refi, AHL) | $75.00 | **~7/5–7/20** (30–45 days from signing) | **Fri 6/5 @ 3:00 PM ET** (scheduled within 12–6 window) · Erald (313-407-4238) · 22622 Harper Ave, St. Clair Shores 48080 · Property: 1327 Ferris Ave, Lincoln Park · EDOCS · **Scanbacks** · LETTER+LEGAL print + borrower copy · Upload borrower ID · DO NOT change appt without PSS (310-227-1229) · Completion report + upload within 75 min after appt |
-| 6/3/26 | Premium Closing Solutions | PMCS-247367 / LMI26232513 | Philipp Lueddecke (HELOC) | $80.00 | **7/25-7/31** (last week of month after June file) | **Wed 6/3 @ 1:00 PM** — Mount Clemens · 374 Harrington St · Philipp (586) 265-4919 · **Scanbacks required** · EDOCS |
-| 5/29/26 | ASAP Pro Notary Services | Snapdocs #292933 / File #29232 | William & Doris Herd (Gibson Kohl) | $125.00 | **~7/13/26** (~45 business days via Bill.com) | **Fri 5/29 @ 3:00 PM** — Rochester Hills · Confirm William (248) 318-4217 · Scanbacks by 5 PM · FedEx Fri/Sat AM · **Set up Bill.com direct deposit if not done** |
-| 6/8/26 | Premium Closing Solutions | PMCS-247792 / 843148 | Andre Lamar Rupert (Refi, 1st Only) | $80.00 | **7/25–7/31** (non-Silk — last week of month after June close) | **Mon 6/8 @ 6:00 PM ET** · 46970 Edgewater Dr, Macomb 48044 · Andre (248) 254-2898 · andrerupert123@gmail.com · EDOCS · **No scanbacks** · **ID copies required** (upload or in return pack) · LETTER+LEGAL · 2 copies · single-sided · Do NOT date Note · FedEx ship (not CVS/Walgreens) · Sign/scan Common Errors PDF · 951-479-1450 |
-| 6/9/26 | Title Processing Center | N26-0227NW | Kenneth & Rita Marie Rohan (Refi, 1st Only) | $100.00 | **7/7/26** (paid 7th of month after June file) | **Tue 6/9 @ 2:00 PM** — 13759 Ironwood Dr, Shelby Twp · Ken (586) 530-1300 · Scanbacks · EDOCS · help@titleprocessingcenter.com |
+| Signing Date | Company | Order # | Borrower | Fee | Pay Type | **Est. Deposit Week** | Status |
+|---|---|---|---|---|---|---|---|
+| 6/5/26 | JP Signings LLC | JPSI-8132 | Dana Stern (Seller) | $100 | JP / from **closing** | **TBD** (1st or 15th after close) | **1:00 PM** Macomb · witness · scanbacks · ID photo |
+| 6/5/26 | Premium Signature Services | PSS1-41104 | Erald Ruci (Refi) | $75 | Rolling eCheck | **Week of 7/7–7/20** | **5:00 PM** St. Clair Shores · scanbacks |
+| 6/8/26 | Premium Closing Solutions | PMCS-247792 | Andre Rupert (Refi) | $80 | PCS non-Silk | **Week of 7/25–7/31** | 6 PM Macomb |
+| 6/9/26 | Title Processing Center | N26-0227NW | Rohan (Refi) | $100 | TPC monthly | **Week of 7/2–7/8** (7/7) | 2 PM Shelby Twp |
+
+| Completed — awaiting pay from prior session | | | | | | | |
+| 6/3/26 | Premium Closing Solutions | PMCS-247367 | Lueddecke (HELOC) | $80 | PCS non-Silk | **Week of 7/25–7/31** | Mount Clemens ✓ |
+| 5/29/26 | ASAP Pro | #292933 | Herd | $125 | Bill.com / closing | **Week of 7/7–7/13** (~7/13) | Rochester Hills ✓ |
 
 ---
 
-## OUTSTANDING PAYMENTS — ~$1,500.00
+## OUTSTANDING PAYMENTS — ~$1,425.00
 
-### Expected NOW — Due Any Day
+*Sorted by **Deposit Week**. “30–45 days” shown only in Notes when relevant.*
 
-| Date | Company | Order # / File # | Borrower | Fee | Expected Payment | Status |
-|---|---|---|---|---|---|---|
-| 4/28/26 | Standard Notary Services | STND-89730 / ce260264~b | John Cahill (Buyer Only) | $100.00 | **6/12** (Net 45 from 4/28) | DUE ~June 12 — NotaryPay Deluxe eCheck |
-| 4/25/26 | @SigningAgents / NTS | 2026-3409 | Maxine Smith (Reverse Closing) | $125.00 | **5/25 - 6/9** (30-45 days from 4/25) | **Payment inquiry SENT 6/4/26** to kevin@atsigningagents.com — awaiting reply |
+| Signing | Company | Order # | Borrower | Fee | Pay Type | **Deposit Week** | Status / Notes |
+|---|---|---|---|---|---|---|---|
+| 4/25/26 | @SigningAgents / NTS | 2026-3409 | Maxine Smith | $125 | From closing | **Week of 5/26–6/9** | Inquiry sent 6/4 — follow up 6/11 |
+| 5/1/26 | Title Processing Center | 266014-81~a | Shultz | $100 | TPC monthly | **Week of 6/2–6/8** (6/7) | May file |
+| 4/28/26 | Standard Notary Services | STND-89730 | Cahill | $100 | Net 45 | **Week of 6/9–6/15** (~6/12) | NotaryPay eCheck |
+| 5/5/26 | Premium Signature Services | PSS1-40607 | Rachocki | $75 | Rolling eCheck | **Week of 6/2–6/19** | Window open — watch email |
+| 5/9/26 | Signature One | SOSS-9475 | Castor | $65 | Net 45 | **Week of 6/16–6/22** (~6/23) | After funds received |
+| 5/12–5/22/26 | First Class ×5 | see below | Harder, MacCready, Mies, Hallman, Hauk | $375 | VendorPay batch | **Week of 6/16–6/22** (~6/22) | Transfer 6/5 |
+| 5/12/26 | Kriss Law | #13568 | Bitti | $150 | VendorPay batch | **Week of 6/16–6/22** (~6/22) | Transfer 6/5 |
+| 2/16/21 | Doma Title | #16022 | Rayes | $110 | VendorPay batch | **Week of 6/16–6/22** (~6/22) | 5+ yr old — watch 6/22 |
+| 5/22/26 | Signing Solutions Group | SSGR-18452 | Paquette | $90 | Mail check | **Week of 6/16–7/6** | Watch mailbox |
+| 5/11–5/21/26 | Premium Closing Solutions ×2 | PMCS-244720, PMCS-246232 | Foradori, Hood | $155 | PCS non-Silk | **Week of 6/25–6/30** | May batch |
+| 6/3/26 | Signature Xcel | SIGX-122388 | Misczak | $100 | Rolling eCheck | **Week of 7/2–7/18** | Closed 6/3 · Grand Strand |
+| 5/2/26 | Premium Closing Solutions | PMCS-243865 | Barnes (Silk) | $80 | PCS Silk | **Week of 7/16–7/31** | 75-day cycle |
 
-### Deposit Expected: June 7, 2026 (Title Processing Center — 7th of month)
+**VendorPay batch detail (all → Week of 6/16–6/22):**
 
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/1/26 | Title Processing Center | 266014-81~a | Steven Ralph Shultz (Seller + witness) | $100.00 | **6/7/26** | May file → paid June 7 |
-
-### Deposit Expected: June 22, 2026 (Transfers June 5)
-
-| Date | Company | Order # | Borrower | Fee | Transfers | Deposit By |
-|---|---|---|---|---|---|---|
-| 5/22/26 | First Class Signing Service | #951981 | Teresa Kay Harder | $90.00 | 6/5/26 | **6/22/26** |
-| 5/20/26 | First Class Signing Service | #952497 | MacCready | $90.00 | 6/5/26 | **6/22/26** |
-| 5/16/26 | First Class Signing Service | #951754 | Daniel Mies (HELOC) | $65.00 | 6/5/26 | **6/22/26** | **HELOC** · 20914 Lantz St, Clinton Twp · **Borrower digital/application friction** — proof point for In-Person Borrower Support lane |
-| 5/15/26 | First Class Signing Service | #948682 | Hallman | $90.00 | 6/5/26 | **6/22/26** |
-| 5/12/26 | First Class Signing Service | #950057 | Hauk | $40.00 | 6/5/26 | **6/22/26** |
-| 5/11/26 | First Class Signing Service | #948852 | Ahmed | $75.00 | 6/5/26 | **6/22/26** |
-| 5/12/26 | Kriss Law / Atlantic Closing | #13568 | Bitti | $150.00 | 6/5/26 | **6/22/26** |
-| 2/16/21 | Doma Title | #16022 | Rayes | $110.00 | 6/5/26 | **6/22/26** |
-| **Subtotal** | | | | **$710.00** | | **June 22** |
-
-### Deposit Expected: Mid-July to Early August — Premium Closing Solutions (Silk Title — 75-Day Cycle)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/2/26 | Premium Closing Solutions | PMCS-243865 / H-316268-SFB | Christina & Jared Barnes (Refi) | $80.00 | **7/16 - 7/31** (75-90 days from 5/2) | SILK TITLE file — longer cycle |
-
-### Deposit Expected: June 4–19 — Premium Signature Services (Rachocki — 30–45 days from 5/5)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/5/26 | Premium Signature Services | PSS1-40607 / NSWREF26989289 | Steven & Jennifer Rachocki (Refi) | $75.00 | **6/4–6/19** | Window open — watch for payment |
-
-### Deposit Expected: June 21 – July 6 — Signing Solutions Group (Paquette — mailed check)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/22/26 | Signing Solutions Group | SSGR-18452 / 26-48826-001 | Gerald & Kay Paquette (Seller + Witness) | $90.00 | **6/21–7/6** | Mailed check — watch mailbox |
-
-### Payment Pending — Completed Signings (Awaiting Pay)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 6/3/26 | Signature Xcel / Sign X | SIGX-122388 / 26-1-6493 | Gary Misczak (Buyer Only) | $100.00 | **7/3–7/18** | ✅ **Closing successful 6/3** — Grand Strand Law Group (Amy Tush) · 30–45 days from signing |
-
-### Deposit Expected: ~June 23 — Signature One Signing Services (Net 45)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/9/26 | Signature One Signing Services | SOSS-9475 / 26-151118 | Warren Castor (Deed) | $65.00 | **~6/23** (45 days from 5/9) | Net 45 — eCheck after funds received |
-
-### Deposit Expected: Last Week of June (6/25-6/30) — Premium Closing Solutions (May Non-Silk Files)
-
-| Date | Company | Order # / File # | Borrower | Fee | Expected | Status |
-|---|---|---|---|---|---|---|
-| 5/21/26 | Premium Closing Solutions | PMCS-246232 / LMI26232009 | Timothy L & Laura L Hood (HELOC Hybrid) | $80.00 | **6/25-6/30** | May file — regular schedule |
-| 5/11/26 | Premium Closing Solutions | PMCS-244720 / 5142915 | John Foradori (Refi) | $75.00 | **6/25-6/30** | May file — regular schedule |
+| Signing | Order # | Borrower | Fee |
+|---|---|---|---|
+| 5/22 | #951981 | Harder | $90 |
+| 5/20 | #952497 | MacCready | $90 |
+| 5/16 | #951754 | Mies (HELOC) | $65 |
+| 5/15 | #948682 | Hallman | $90 |
+| 5/12 | #950057 | Hauk | $40 |
 
 ---
 
-## PAYMENT CALENDAR — WHAT'S COMING WHEN
+## DEPOSIT WEEK CALENDAR — CASH IN BANK (not transfer emails)
+
+| Deposit Week | Expected in bank | Amount | What |
+|---|---|---|---|
+| **Week of 6/2–6/8** | ~6/7 | **$100** | TPC — Shultz |
+| **Week of 6/2–6/9** | any day | **$125** | NTS — Maxine Smith (if pays) |
+| **Week of 6/2–6/19** | any day | **$75** | PSS — Rachocki |
+| **Week of 6/9–6/15** | ~6/12 | **$100** | Standard Notary — Cahill |
+| **Week of 6/16–6/22** | ~6/22 | **$635** | **VendorPay batch** — First Class ×5 + Kriss Bitti + Doma Rayes |
+| **Week of 6/16–6/22** | ~6/23 | **$65** | Signature One — Castor |
+| **Week of 6/25–6/30** | last week Jun | **$155** | PCS May batch — Hood + Foradori |
+| **Week of 6/16–7/6** | mail | **$90** | SSG — Paquette check |
+| **Week of 7/2–7/18** | rolling | **$100** | Signature Xcel — Misczak |
+| **Week of 7/7–7/20** | rolling | **$75** | PSS — Ruci (after 6/5 signing) |
+| **Week of 7/7–7/13** | ~7/13 | **$125** | ASAP Pro — Herd |
+| **Week of 7/16–7/31** | PCS Silk | **$80** | PCS — Barnes |
+| **Week of 7/25–7/31** | PCS Jun batch | **$160** | PCS — Lueddecke + Rupert |
+| **TBD** | after close | **$100** | JP Signings — Stern |
+
+**Already received (outside batch):** Ahmed **$75** cleared **6/5** (First Class — early vs 6/22 batch).
+
+---
+
+## PAYMENT CALENDAR — LEGACY DATE VIEW
 
 | Date | Amount | From |
 |---|---|---|
@@ -165,7 +189,7 @@
 | **June 7** | **$100.00** | Title Processing Center (Steven Shultz — May file, paid 7th of following month) |
 | **~June 12** | **$100.00** | Standard Notary Services (John Cahill — Net 45 from 4/28) |
 | **June 4–19** | **$75.00** | Premium Signature Services (Rachocki — 30–45 days from 5/5) — **window open** |
-| **June 22** | **$710.00** | First Class x6 ($450) + Kriss Law Bitti ($150) + Doma Rayes ($110) |
+| **June 22** | **$635.00** | First Class x5 ($375) + Kriss Law Bitti ($150) + Doma Rayes ($110) |
 | **~June 23** | **$65.00** | Signature One (Warren Castor Deed — Net 45 from 5/9) |
 | **June 21–July 6** | **$90.00** | Signing Solutions Group (Paquette — mailed check) |
 | **June 25-30** | **$155.00** | Premium Closing Solutions — May non-Silk batch (Hood $80 + Foradori $75) |
@@ -174,13 +198,15 @@
 | **30–45 days after closing** | **$100.00** | JP Signings (Stern — paid 1st/15th; clock starts at **closing**, not signing) |
 | **July 16-31** | **$80.00** | Premium Closing Solutions — SILK TITLE (Barnes Refi — 75-day cycle) |
 | **July 25-31** | **$160.00** | Premium Closing Solutions — June non-Silk batch (Lueddecke $80 + Rupert $80) |
-| **TOTAL INCOMING** | **$1,935.00** | (JP Stern $100 excluded until closing date known) |
+| **TOTAL INCOMING** | **$1,860.00** | (JP Stern $100 excluded until closing date known) |
 
 ---
 
 ## ALERTS
 
-**Today 6/5:** JP Signings Stern **1:00 PM** (Macomb) → PSS Ruci **3:00 PM** (St. Clair Shores).
+**Today 6/5:** JP Signings Stern **1:00 PM** (Macomb) → Supplier Match Expo **~2:15 PM** (MotorCity Casino) → PSS Ruci **5:00 PM** (St. Clair Shores).
+
+**Received 6/5:** First Class **Ahmed #948852 — $75.00** cleared (VendorPay · 25 days from 5/11 signing).
 
 **Check this week:** 
 - **PSS Rachocki ($75)** — 30–45 day window from 5/5 is **open now** (due 6/4–6/19). Watch email / follow up if not received by 6/19.
@@ -201,6 +227,7 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 | 5/28/26 | Turbo Signing | #13822 | $75.00 | 15 days | Warthen — transferred 5/20, deposited 5/28 |
 | 5/28/26 | Premium Closing Solutions | PMCS-243837 + PMCS-242781 + PMCS-240906 | $225.00 | ~30 days | Hurban $65 (4/30) + Jijo James $80 (4/24) + PMCS-240906 $80 (4/03) — one e-check |
 | 5/28/26 | First Class Signing Service | #946251 | $75.00 | 28 days | Cucchiara — transferred 5/28, deposited 5/28 |
+| 6/5/26 | First Class Signing Service | #948852 | $75.00 | 25 days | Shuvi Ahmed — Sterling Heights · Mon 5/11 @ 9 AM · cleared 6/5 · in bank within 24 hrs (VendorPay) |
 
 ---
 
@@ -211,35 +238,37 @@ Over 5 years old. If VendorPay shows 6/5 transfer and 6/22 deposit — it may fi
 |---|---|
 | **Signings Completed** | 10 |
 | **Revenue Earned** | $845.00 |
-| **Revenue Collected** | $810 (as of 5/28) — Kriss Law $300, Mosaic $60, First Class $150 (Osteen + Cucchiara), Turbo $75, PCS $225 |
+| **Revenue Collected** | $885 (as of 6/5) — includes Ahmed $75 cleared 6/5 · prior: Kriss Law $300, Mosaic $60, First Class $150 (Osteen + Cucchiara), Turbo $75, PCS $225 |
 | **Expected Collection Month** | June 2026 (VendorPay) + late June (PCS) |
 
 ### Signing Detail — May 2026
-| Date | Company | Borrower | Fee |
-|---|---|---|---|
-| 5/22 | First Class | Teresa Kay Harder | $90 |
-| 5/21 | Premium Closing Solutions | Hood | $80 |
-| 5/20 | First Class | MacCready | $90 |
-| 5/16 | First Class | Mies | $65 |
-| 5/15 | First Class | Hallman | $90 |
-| 5/13 | Turbo Signing | Warthen | $75 |
-| 5/12 | Kriss Law | Bitti | $150 |
-| 5/12 | First Class | Hauk | $40 |
-| 5/11 | First Class | Ahmed | $75 |
-| 6/3 | Signature Xcel | Misczak (Grand Strand) | $100 |
-| 5/7 | Mosaic | Aiad | $60 |
+
+| Date | Company | Borrower | Fee | Pay Type | **Deposit Week** |
+|---|---|---|---|---|---|
+| 5/22 | First Class | Harder | $90 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/21 | Premium Closing Solutions | Hood | $80 | PCS non-Silk | **Week of 6/25–6/30** |
+| 5/20 | First Class | MacCready | $90 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/16 | First Class | Mies | $65 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/15 | First Class | Hallman | $90 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/13 | Turbo Signing | Warthen | $75 | VendorPay fast | Paid 5/28 ✓ |
+| 5/12 | Kriss Law | Bitti | $150 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/12 | First Class | Hauk | $40 | VendorPay batch | **Week of 6/16–6/22** |
+| 5/11 | First Class | Ahmed | $75 | VendorPay batch | Paid **6/5** ✓ (early) |
+| 5/7 | Mosaic | Aiad | $60 | VendorPay | Paid 5/26 ✓ |
+| 6/3 | Signature Xcel | Misczak | $100 | Rolling eCheck | **Week of 7/2–7/18** |
 
 ### April 2026
-| Date | Company | Borrower | Fee |
-|---|---|---|---|
-| 4/30 | First Class | Cucchiara | $75 |
-| 4/28 | Standard Notary Services | John Cahill | $100 |
-| 4/30 | Premium Closing Solutions | Hurban (Deed) | $65 |
-| 4/25 | @SigningAgents / NTS | Maxine Smith | $125 |
-| 4/24 | Premium Closing Solutions | Jijo James | $80 |
-| 4/3 | Premium Closing Solutions | PMCS-240906 (borrower TBD) | $80 |
-| 4/1 | First Class | Osteen | $75 |
+
+| Date | Company | Borrower | Fee | Pay Type | **Deposit Week** |
+|---|---|---|---|---|---|
+| 4/30 | First Class | Cucchiara | $75 | VendorPay | Paid 5/28 ✓ |
+| 4/28 | Standard Notary Services | Cahill | $100 | Net 45 | **Week of 6/9–6/15** |
+| 4/30 | Premium Closing Solutions | Hurban | $65 | PCS | Paid 5/28 ✓ |
+| 4/25 | @SigningAgents / NTS | Maxine Smith | $125 | From closing | **Week of 5/26–6/9** |
+| 4/24 | Premium Closing Solutions | Jijo James | $80 | PCS | Paid 5/28 ✓ |
+| 4/3 | Premium Closing Solutions | PMCS-240906 | $80 | PCS | Paid 5/28 ✓ |
+| 4/1 | First Class | Osteen | $75 | VendorPay | Paid 5/26 ✓ |
 
 ---
 
-*Updated every time Dee completes a signing. When payment hits, move from Outstanding to Received log. Flag anything overdue past expected deposit date.*
+*Updated every time Dee completes a signing. Log **Pay Type** + **Deposit Week** on each new row. When payment hits, move to Received log.*

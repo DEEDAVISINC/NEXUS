@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PrismAgentDirectory from './PrismAgentDirectory';
+import { countDivisionAgents, PrismAgentRecord } from './prismAgentNetwork';
 
 // ─── TYPES ─────────────────────────────────────────────────────────
 interface Client {
@@ -52,6 +54,50 @@ interface CapturedDoc {
   matched: boolean;
 }
 
+/** Map NEXUS `/prism/orders` API row → workspace order card */
+export function mapPrismApiOrderToWorkspace(o: Record<string, unknown>): Order {
+  const statusRaw = String(o.status || 'New').toLowerCase();
+  let status: Order['status'] = 'pending';
+  if (['complete', 'completed', 'verified', 'closed'].some((s) => statusRaw.includes(s))) {
+    status = 'completed';
+  } else if (['en route', 'arrived', 'in progress', 'departed'].some((s) => statusRaw.includes(s))) {
+    status = 'in_progress';
+  } else if (['agent assigned', 'confirmed', 'scheduled'].some((s) => statusRaw.includes(s))) {
+    status = 'scheduled';
+  } else if (statusRaw.includes('cancel')) {
+    status = 'cancelled';
+  } else if (statusRaw === 'new' || statusRaw.includes('order received')) {
+    status = 'pending';
+  }
+
+  const time = String(o.time || '');
+  const tz = String(o.timezone || '');
+
+  return {
+    id: String(o.id || ''),
+    clientId: String(o.client_email || o.client || 'unknown'),
+    clientName: String(o.client || '—'),
+    type: String(o.type || o.service_key || '—'),
+    subject: String(o.service_label || o.workflow_stage_label || o.type || 'Order'),
+    subjectInfo: {
+      name: String(o.signer || '—'),
+      phone: o.subject_phone ? String(o.subject_phone) : undefined,
+      email: o.subject_email ? String(o.subject_email) : o.client_email ? String(o.client_email) : undefined,
+      dob: o.subject_dob ? String(o.subject_dob) : undefined,
+    },
+    status,
+    scheduledDate: o.date ? String(o.date) : undefined,
+    scheduledTime: [time, tz].filter(Boolean).join(' ') || undefined,
+    location: String(o.collection_site || o.address || ''),
+    assignedAgent: o.agent ? String(o.agent) : undefined,
+    confirmationNumber: String(o.id || ''),
+    notes: String(o.notes || ''),
+    attachments: [],
+    createdAt: String(o.created_at || ''),
+    updatedAt: String(o.updated_at || o.created_at || ''),
+  };
+}
+
 interface TPADivisionWorkspaceProps {
   division: {
     id: string;
@@ -62,6 +108,15 @@ interface TPADivisionWorkspaceProps {
     serviceTypes: { id: string; label: string }[];
     partnerPortals: { id: string; name: string; url: string; icon: string }[];
   };
+  /** Live orders from GET /prism/orders (division-filtered by parent) */
+  orders?: Order[];
+  ordersLoading?: boolean;
+  onRefreshOrders?: () => void;
+  /** Nationwide field agent network from GET /prism/agents */
+  agents?: PrismAgentRecord[];
+  agentsLoading?: boolean;
+  agentSpecialtyLabels?: string[];
+  onAssignAgent?: (orderId: string, agent: PrismAgentRecord) => void | Promise<void>;
   onOpenPortal: (portal: { id: string; name: string; url: string; icon: string }) => void;
   onBack: () => void;
 }
@@ -163,10 +218,19 @@ const MOCK_ORDERS: Order[] = [
 // ─── COMPONENT ─────────────────────────────────────────────────────
 const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   division,
+  orders: ordersProp,
+  ordersLoading = false,
+  onRefreshOrders,
+  agents: agentsProp = [],
+  agentsLoading = false,
+  agentSpecialtyLabels = [],
+  onAssignAgent,
   onOpenPortal,
   onBack,
 }) => {
   const [activeSection, setActiveSection] = useState<'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture'>('dashboard');
+  const [showAgentPicker, setShowAgentPicker] = useState(false);
+  const [assigningOrder, setAssigningOrder] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderFilter, setOrderFilter] = useState<'all' | 'pending' | 'scheduled' | 'in_progress' | 'completed'>('all');
@@ -175,18 +239,37 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   const [dragOver, setDragOver] = useState(false);
   const [capturedDocs, setCapturedDocs] = useState<CapturedDoc[]>([]);
 
-  // Filter orders
-  const filteredOrders = orderFilter === 'all' 
-    ? MOCK_ORDERS 
-    : MOCK_ORDERS.filter(o => o.status === orderFilter);
+  /** Real API orders when parent passes them; mock only when prop omitted (dev) */
+  const displayOrders = ordersProp !== undefined ? ordersProp : MOCK_ORDERS;
 
-  // Stats
+  const filteredOrders = orderFilter === 'all'
+    ? displayOrders
+    : displayOrders.filter((o) => o.status === orderFilter);
+
+  const divisionTypes = division.serviceTypes.map((s) => s.id);
+
+  const divisionAgentCount = countDivisionAgents(agentsProp, divisionTypes, agentSpecialtyLabels);
+
   const stats = {
-    pending: MOCK_ORDERS.filter(o => o.status === 'pending').length,
-    scheduled: MOCK_ORDERS.filter(o => o.status === 'scheduled').length,
-    inProgress: MOCK_ORDERS.filter(o => o.status === 'in_progress').length,
-    completedToday: MOCK_ORDERS.filter(o => o.status === 'completed').length,
-    activeClients: MOCK_CLIENTS.filter(c => c.status === 'active').length,
+    pending: displayOrders.filter((o) => o.status === 'pending').length,
+    scheduled: displayOrders.filter((o) => o.status === 'scheduled').length,
+    inProgress: displayOrders.filter((o) => o.status === 'in_progress').length,
+    completedToday: displayOrders.filter((o) => o.status === 'completed').length,
+    activeClients: MOCK_CLIENTS.filter((c) => c.status === 'active').length,
+    unassigned: displayOrders.filter((o) => !o.assignedAgent && o.status !== 'completed' && o.status !== 'cancelled').length,
+  };
+
+  const handleAssignFromPicker = async (agent: PrismAgentRecord) => {
+    if (!selectedOrder || !onAssignAgent) return;
+    setAssigningOrder(true);
+    try {
+      await onAssignAgent(selectedOrder.id, agent);
+      setSelectedOrder({ ...selectedOrder, assignedAgent: agent.name, status: 'scheduled' });
+      setShowAgentPicker(false);
+      onRefreshOrders?.();
+    } finally {
+      setAssigningOrder(false);
+    }
   };
 
   // Handle file drop for capture
@@ -234,7 +317,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
     { id: 'orders',    label: 'Orders',     badge: stats.pending + stats.scheduled + stats.inProgress, icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
     )},
-    { id: 'agents',    label: 'Agents',     badge: 3, icon: (
+    { id: 'agents',    label: 'Agent Network', badge: divisionAgentCount || undefined, icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     )},
     // Scanbacks only for notary, drug testing, DNA
@@ -357,7 +440,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
               <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Today's Schedule</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {MOCK_ORDERS.filter(o => o.status === 'scheduled' || o.status === 'in_progress').map(order => (
+                {displayOrders.filter(o => o.status === 'scheduled' || o.status === 'in_progress').map(order => (
                   <div
                     key={order.id}
                     onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
@@ -378,18 +461,18 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                     </div>
                   </div>
                 ))}
-                {MOCK_ORDERS.filter(o => o.status === 'scheduled' || o.status === 'in_progress').length === 0 && (
+                {displayOrders.filter(o => o.status === 'scheduled' || o.status === 'in_progress').length === 0 && (
                   <p className="text-gray-500 text-sm text-center py-4">No scheduled orders today</p>
                 )}
               </div>
             </div>
 
             {/* Needs Attention */}
-            {MOCK_ORDERS.filter(o => o.status === 'pending').length > 0 && (
+            {displayOrders.filter(o => o.status === 'pending').length > 0 && (
               <div style={{ background: 'rgba(234,179,8,0.05)', border: '1px solid rgba(234,179,8,0.15)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: '#FCD34D', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Needs Attention</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {MOCK_ORDERS.filter(o => o.status === 'pending').map(order => (
+                  {displayOrders.filter(o => o.status === 'pending').map(order => (
                     <div
                       key={order.id}
                       onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
@@ -519,7 +602,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             </div>
 
             <div className="space-y-2">
-              {MOCK_ORDERS.filter(o => o.clientId === selectedClient.id).map(order => (
+              {displayOrders.filter(o => o.clientId === selectedClient.id).map(order => (
                 <div
                   key={order.id}
                   onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
@@ -539,7 +622,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                   </div>
                 </div>
               ))}
-              {MOCK_ORDERS.filter(o => o.clientId === selectedClient.id).length === 0 && (
+              {displayOrders.filter(o => o.clientId === selectedClient.id).length === 0 && (
                 <p className="text-gray-500 text-sm text-center py-8">No orders yet for this client</p>
               )}
             </div>
@@ -552,6 +635,16 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-xl font-bold">Orders</h1>
               <div className="flex items-center gap-2">
+                {onRefreshOrders && (
+                  <button
+                    type="button"
+                    onClick={onRefreshOrders}
+                    className="px-3 py-2 rounded-lg text-sm bg-gray-700 border border-gray-600 hover:bg-gray-600"
+                    disabled={ordersLoading}
+                  >
+                    {ordersLoading ? 'Refreshing…' : '↻ Refresh'}
+                  </button>
+                )}
                 <select
                   value={orderFilter}
                   onChange={(e) => setOrderFilter(e.target.value as any)}
@@ -574,6 +667,14 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             </div>
 
             <div className="space-y-2">
+              {ordersLoading && filteredOrders.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-8">Loading orders…</p>
+              )}
+              {!ordersLoading && filteredOrders.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-8">
+                  No orders yet for this division. Client portal submissions appear here automatically.
+                </p>
+              )}
               {filteredOrders.map(order => (
                 <div
                   key={order.id}
@@ -671,9 +772,20 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Assigned To</p>
-                      <p className="text-sm">{selectedOrder.assignedAgent || '—'}</p>
+                      <p className="text-sm">{selectedOrder.assignedAgent || 'Unassigned'}</p>
                     </div>
                   </div>
+                  {onAssignAgent && (
+                    <button
+                      type="button"
+                      disabled={assigningOrder}
+                      onClick={() => setShowAgentPicker(true)}
+                      className="mt-4 w-full px-4 py-2 rounded-lg font-semibold text-sm text-white transition hover:opacity-90 disabled:opacity-50"
+                      style={{ backgroundColor: division.solid }}
+                    >
+                      {assigningOrder ? 'Assigning…' : selectedOrder.assignedAgent ? 'Reassign Agent' : 'Assign Agent'}
+                    </button>
+                  )}
 
                   {selectedOrder.confirmationNumber && (
                     <div className="mt-4 pt-4 border-t border-gray-700">
@@ -751,52 +863,35 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
           </div>
         )}
 
-        {/* ═══ AGENTS ═══ */}
+        {/* ═══ AGENT NETWORK (searchable directory — scales to hundreds) ═══ */}
         {activeSection === 'agents' && (
           <div>
             <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Field Agents</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>3 agents on roster</p>
+                <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Agent Network</h1>
+                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                  Search nationwide · filter by division, state, and availability
+                </p>
               </div>
-              <button style={{ padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}>
-                + Add Agent
-              </button>
+              <a
+                href="/agent-portal"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '9px 18px', background: division.solid, color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, textDecoration: 'none' }}
+              >
+                + Recruit Agent
+              </a>
             </div>
-            <div style={{ padding: 28, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
-              {[
-                { id: 'a1', name: 'Sarah Martinez',  role: 'Mobile Collector',    status: 'active',  location: 'Troy, MI',       jobs: 12, rating: 4.9 },
-                { id: 'a2', name: 'Mobile Unit 1',    role: 'DOT Collection Van',  status: 'active',  location: 'Detroit Metro',  jobs: 8,  rating: 5.0 },
-                { id: 'a3', name: 'James Thompson',   role: 'Notary / Collector',  status: 'offline', location: 'Ann Arbor, MI',  jobs: 23, rating: 4.7 },
-              ].map(agent => (
-                <div key={agent.id} style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 20, cursor: 'pointer' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.background = '#1A1A22'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.background = '#14141A'; }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#1E1E26', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
-                      👤
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ fontWeight: 700, fontSize: 14, color: '#F9FAFB' }}>{agent.name}</p>
-                      <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>{agent.role}</p>
-                    </div>
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: agent.status === 'active' ? '#10B981' : '#6B7280', flexShrink: 0 }} />
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, textAlign: 'center' as const }}>
-                    {[
-                      { label: 'Location', value: agent.location },
-                      { label: 'Jobs/Mo',  value: String(agent.jobs) },
-                      { label: 'Rating',   value: `${agent.rating}★` },
-                    ].map(stat => (
-                      <div key={stat.label} style={{ background: '#0D0D12', borderRadius: 8, padding: '8px 6px' }}>
-                        <p style={{ fontSize: 10, color: 'rgba(107,114,128,0.6)', marginBottom: 3 }}>{stat.label}</p>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: '#E5E7EB', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{stat.value}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+            <div style={{ padding: 28 }}>
+              <PrismAgentDirectory
+                agents={agentsProp}
+                loading={agentsLoading}
+                accent={division.solid}
+                divisionName={division.name}
+                divisionTypes={divisionTypes}
+                agentSpecialtyLabels={agentSpecialtyLabels}
+                mode="directory"
+              />
             </div>
           </div>
         )}
@@ -1105,6 +1200,21 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
           </div>
         )}
       </div>
+
+      {showAgentPicker && selectedOrder && (
+        <PrismAgentDirectory
+          agents={agentsProp}
+          loading={agentsLoading}
+          accent={division.solid}
+          divisionName={division.name}
+          divisionTypes={divisionTypes}
+          agentSpecialtyLabels={agentSpecialtyLabels}
+          mode="picker"
+          pickerTitle={`Assign agent · ${selectedOrder.subjectInfo.name}`}
+          onSelectAgent={handleAssignFromPicker}
+          onClose={() => setShowAgentPicker(false)}
+        />
+      )}
     </div>
   );
 };

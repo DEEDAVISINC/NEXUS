@@ -233,7 +233,8 @@
 ## 2026-06-04 — Thursday
 
 - **10:00 AM ET** — 📋 **PRE-BID: SC Newborn Screening Courier (Intel Only)** — NO-GO on bid (requires direct employees). Attending for intel on SC DPH processes. Teams: https://teams.microsoft.com/meet/235127563810896?p=QPmvOOSo4HBLKeHFY8 | Meeting ID: 235 127 563 810 896 | Passcode: aa3FE2AM | Contact: Kelly Cobian (cobiankl@dph.sc.gov). ⚠️ No recording or AI tools allowed. `.ics`: `calendars/sc_newborn_screening_prebid_2026-06-04.ics`
-- **1:00 PM ET** — 📋 **CWC OUTREACH: Verify 3 LHD directors (LinkedIn)** — **Oakland, Macomb, Muskegon only** — week before direct outreach. Do not cold-email wrong names. Wayne/Detroit/Kent confirmed separately. `LHD_BACKUP_CONTACTS_SIX_COUNTIES.md`. `.ics`: `cwc_outreach_lhd_linkedin_verify_2026-06-04.ics`
+- **💰 PAYMENT DUE:** $435.00 deposit expected — Kriss Law Smith ($300) + Turbo Signing Warthen ($75) + Mosaic Aiad ($60). All transferred 5/20. **Did the $435 hit your account?**
+- **✓ IMPORTED** — PHC positioning locked + session summary `SESSION_SUMMARY_JUNE_4_2026.md` · Detroit contact updated to **Ali Abazeed**
 
 ---
 
@@ -288,15 +289,6 @@
 
 - **💰 PAYMENT CHECK:** @SigningAgents / NTS — $125.00 (Maxine Smith reverse closing, 4/25). 30-day mark. Check email for Deluxe eCheck.
 - **💰 PAYMENT CHECK:** Premium Closing Solutions — $145.00 (Jijo James $80 + Hurban $65). April files — last week of May payout. Check email for DeluxeChecks eCheck.
-
----
-
-## 2026-06-04 — Thursday
-
-- **💰 PAYMENT DUE:** $435.00 deposit expected — Kriss Law Smith ($300) + Turbo Signing Warthen ($75) + Mosaic Aiad ($60). All transferred 5/20. **Did the $435 hit your account?**
-- **📋 LHD director verification** — **Partial complete:** Kent/Oakland/Muskegon verified · **Still call:** Macomb + Genesee. Report: `LHD_DIRECT_OUTREACH_JUN_2026/LHD_VERIFICATION_REPORT_JUNE_4_2026.md`. `.ics`: `cwc_outreach_lhd_linkedin_verify_2026-06-04.ics`
-- **🔴 BCBSM Foundation** — Summer concept paper due was **May 27** — email foundation@bcbsm.com today. Outline: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md`
-- **✓ IMPORTED** — PHC positioning locked + session summary `SESSION_SUMMARY_JUNE_4_2026.md` · Detroit contact updated to **Ali Abazeed**
 
 ---
 
@@ -370,7 +362,8 @@
 
 ## 2026-06-05 — Friday
 
-- **3:00 PM ET** — 📝 **SIGNING: Premium Signature Services — Erald Ruci (Refi)** — PSS1-41104 / USAREF03302~a · $75 · 22622 Harper Ave, St. Clair Shores · LETTER+LEGAL · scanbacks · upload ID · do not change time without PSS. `.ics`: `NOTARY_SIGNING_PSS_RUCI_2026-06-05.ics`
+- **5:00 PM ET** — 📝 **SIGNING: Premium Signature Services — Erald Ruci (Refi)** — PSS1-41104 / USAREF03302~a · $75 · 22622 Harper Ave, St. Clair Shores · window 12–6 PM · LETTER+LEGAL · scanbacks · upload ID · PSS 310-227-1229 · orders@premium-ss.com · `.ics`: `NOTARY_SIGNING_PSS_RUCI_2026-06-05.ics`
+- **2:15–3:00 PM ET** — 📇 **SBA Supplier Matchmaking Expo — MotorCity Casino, Detroit** — After 1 PM signing · cards + face time (event 10 AM–3 PM) · 2901 Grand River Ave · SBA + GM · `.ics`: `SUPPLIER_MATCHMAKING_EXPO_2026-06-05.ics`
 - **1:00 PM ET** — 📝 **SIGNING: JP Signings — Dana Stern (Seller)** — JPSI-8132 / SNH-2026-382 · $100 · 16150 Via Colico, Macomb 48042 · Witness + scanbacks + ID photo · Completion report within 75 min. `.ics`: `NOTARY_SIGNING_JP_STERN_MACOMB_2026-06-05.ics`
 - **1:00 PM ET** — 📋 **CWC OUTREACH: MDHHS HRSN waiver implementation lead** — Find who leads 1115 HRSN implementation. Position DDI/CWC as community delivery partner. `.ics`: `cwc_outreach_hrsn_lead_research_2026-06-05.ics`
 
@@ -414,12 +407,6 @@
 
 ---
 
-## 2026-07-01 — Wednesday
-
-- **1:00 PM ET** — 📋 **CWC OUTREACH: Begin BCBSM Foundation concept paper** — Healthcare Access via CWC. Board review **Aug 5**. `.ics`: `cwc_outreach_bcbsm_concept_begin_2026-07-01.ics`
-
----
-
 ## 2026-07-06 — Monday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS GFOs · Wayne/Oakland/Macomb grants · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-07-06.ics`
@@ -433,12 +420,6 @@
 
 ---
 
-## 2026-07-21 — Tuesday
-
-- **2:00 PM ET** — 🔥 **CWC OUTREACH: Submit BCBSM Foundation concept paper** — Final review + submit via CWC (2 weeks before Aug 5 board). `.ics`: `cwc_outreach_bcbsm_concept_submit_2026-07-21.ics`
-
----
-
 ## 2026-08-03 — Monday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-08-03.ics`
@@ -448,3 +429,15 @@
 ## 2026-09-07 — Monday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-09-07.ics`
+
+---
+
+## 2026-09-30 — Wednesday
+
+- **1:00 PM ET** — 📋 **CWC OUTREACH: Begin BCBSM Foundation concept paper (Winter cycle)** — Return end of September. Healthcare Access primary; Environmental Health secondary if MDHHS momentum supports. Outline: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md` · `.ics`: `cwc_outreach_bcbsm_concept_begin_2026-09-30.ics`
+
+---
+
+## 2026-10-29 — Thursday
+
+- **2:00 PM ET** — 🔥 **CWC OUTREACH: Submit BCBSM Foundation concept paper** — Winter cycle deadline. Form: forms.office.com/r/wZdDebmJf9 · CWC applicant · foundation@bcbsm.com · `.ics`: `cwc_outreach_bcbsm_concept_submit_2026-10-29.ics`

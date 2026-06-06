@@ -9,13 +9,13 @@ X-WR-TIMEZONE:America/Detroit
 BEGIN:VEVENT
 UID:pss1-41104-ruci-20260605@deedavis.biz
 DTSTAMP:20260605T100000Z
-DTSTART;TZID=America/Detroit:20260605T150000
-DTEND;TZID=America/Detroit:20260605T160000
+DTSTART;TZID=America/Detroit:20260605T170000
+DTEND;TZID=America/Detroit:20260605T180000
 SUMMARY:📝 SIGNING: PSS — Erald Ruci Refi ($75)
 DESCRIPTION:Premium Signature Services — PSS1-41104 / USAREF03302~a\nErald Ruci — Refi, AHL\nFee: $75\n\n22622 Harper Ave, St. Clair Shores MI 48080\nProperty: 1327 Ferris Ave, Lincoln Park MI 48146\nSigner: (313) 407-4238\n\nREQUIRED: Scanbacks · LETTER + LEGAL print · Borrower copy set\nUpload borrower ID · Completion report within 75 min\nDO NOT change appt time without PSS approval (310-227-1229)\nEDOCS
 LOCATION:22622 Harper Ave, St. Clair Shores, MI 48080
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT2H
 DESCRIPTION:PSS Ruci signing — leave soon

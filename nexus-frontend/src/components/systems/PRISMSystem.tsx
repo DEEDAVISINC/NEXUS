@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { api } from '../../api/client';
 import PartnerWebview from '../PartnerWebview';
-import TPADivisionWorkspace from '../prism/TPADivisionWorkspace';
+import TPADivisionWorkspace, { mapPrismApiOrderToWorkspace } from '../prism/TPADivisionWorkspace';
 import PRISMHub from '../prism/PRISMHub';
+import { countDivisionNotifications } from '../prism/prismDivisionAlerts';
 
 // Check if we're running in Electron
 const isElectron = () => {
@@ -668,7 +669,7 @@ interface WorkflowGate { id: string; check: string; field?: string | null; rule:
 interface WorkflowStage { stage: string; label: string; auto: boolean; gates: WorkflowGate[]; }
 interface ScanbackUpload { attempt: number; uploaded_at: string; uploaded_by: string; pages: number; files: string[]; errors: { severity: string; page: number; description: string }[]; }
 interface ScanbackData { status: string; uploads: ScanbackUpload[]; reviewed_by?: string; reviewed_at?: string; }
-interface PrismOrder { id: string; type: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; qc_checklist?: QCItem[]; qc_status?: string; qc_progress?: number; workflow?: WorkflowStage[]; workflow_stage?: number; workflow_stage_label?: string; scanback?: ScanbackData; }
+interface PrismOrder { id: string; type: string; service_key?: string; status: string; agent: string; client: string; signer: string; address: string; date: string; time: string; fee: number; priority: string; qc_checklist?: QCItem[]; qc_status?: string; qc_progress?: number; workflow?: WorkflowStage[]; workflow_stage?: number; workflow_stage_label?: string; scanback?: ScanbackData; }
 interface PrismAgent { id: string; name: string; specialties: string[]; status: string; city: string; state: string; completionRate: number; onTimeRate: number; errorRate: number; rating: number; ordersCompleted: number; activeOrders: number; }
 interface PrismClient { id: string; name: string; type: string; services: string[]; orders: number; revenue: number; status: string; retainer: number; }
 
@@ -860,10 +861,6 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
 
   const currentDivision = PRISM_DIVISIONS.find(d => d.id === activeDivision);
 
-  const getDivisionOrders = (div: PrismDivision) => orders.filter(o => div.types.includes(o.type));
-  const getDivisionAgents = (div: PrismDivision) => agents.filter(a => a.specialties?.some(s => div.agentSpecialties.some(ds => s.toLowerCase().includes(ds.toLowerCase()))) || div.types.some(t => a.specialties?.map(s => s.toLowerCase()).includes(t)));
-  const getDivisionScanbacks = (div: PrismDivision) => scanbacks.filter(s => div.types.includes(s.type));
-
   const [orders, setOrders] = useState<PrismOrder[]>([]);
   const [agents, setAgents] = useState<PrismAgent[]>([]);
   const [clients, setClients] = useState<PrismClient[]>([]);
@@ -872,6 +869,9 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifPanel, setShowNotifPanel] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+
+  const getDivisionOrders = (div: PrismDivision) => orders.filter(o => div.types.includes(o.type));
+  const getDivisionScanbacks = (div: PrismDivision) => scanbacks.filter(s => div.types.includes(s.type));
 
   const loadPrismData = useCallback(async () => {
     setDataLoading(true);
@@ -1088,6 +1088,26 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const filteredScanbacks = scanbackFilter === 'all' ? scanbacks : scanbacks.filter(s => s.status === scanbackFilter);
   const filteredAgents = agentFilter === 'all' ? agents : agents.filter(a => a.status === agentFilter);
 
+  const divisionNotifications = useMemo(
+    () =>
+      countDivisionNotifications(
+        orders,
+        PRISM_DIVISIONS.map((d) => ({ id: d.id, types: d.types }))
+      ),
+    [orders]
+  );
+
+  const handleAssignAgent = useCallback(
+    async (orderId: string, agent: { name: string }) => {
+      await api.patch(`/prism/orders/${encodeURIComponent(orderId)}`, {
+        agent: agent.name,
+        status: 'Agent Assigned',
+      });
+      await loadPrismData();
+    },
+    [loadPrismData]
+  );
+
   // Build division config for TPADivisionWorkspace
   const getDivisionConfig = (div: typeof currentDivision) => {
     if (!div) return null;
@@ -1120,6 +1140,15 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       {useNewWorkspace && activeDivision && currentDivision && getDivisionConfig(currentDivision) && (
         <TPADivisionWorkspace
           division={getDivisionConfig(currentDivision)!}
+          orders={getDivisionOrders(currentDivision).map((o) =>
+            mapPrismApiOrderToWorkspace(o as unknown as Record<string, unknown>)
+          )}
+          ordersLoading={dataLoading}
+          onRefreshOrders={loadPrismData}
+          agents={agents}
+          agentsLoading={dataLoading}
+          agentSpecialtyLabels={currentDivision.agentSpecialties}
+          onAssignAgent={handleAssignAgent}
           onOpenPortal={(portal) => handleOpenPortal(
             { id: portal.id, name: portal.name, url: portal.url, icon: portal.icon, description: '', loginType: 'portal' as const, status: 'active' as const },
             currentDivision
@@ -1138,6 +1167,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             color: d.color,
             solid: d.solid,
           }))}
+          divisionNotifications={divisionNotifications}
           onSelectDivision={(divId) => enterDivision(divId)}
           onNewOrder={() => setShowNewOrderModal(true)}
         />

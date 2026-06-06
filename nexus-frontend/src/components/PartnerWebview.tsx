@@ -31,6 +31,16 @@ const PartnerWebview: React.FC<PartnerWebviewProps> = ({ url, name, icon, onClos
   const [currentUrl, setCurrentUrl] = useState(url);
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const openInSystemBrowser = () => {
+    const api = (window as any).electronAPI;
+    if (api?.openPartnerExternal) {
+      api.openPartnerExternal(currentUrl || url);
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   useEffect(() => {
     const webview = webviewRef.current;
@@ -39,23 +49,31 @@ const PartnerWebview: React.FC<PartnerWebviewProps> = ({ url, name, icon, onClos
     const handleLoadStart = () => setIsLoading(true);
     const handleLoadStop = () => {
       setIsLoading(false);
+      setLoadError(null);
       if (webview.canGoBack) setCanGoBack(webview.canGoBack());
       if (webview.canGoForward) setCanGoForward(webview.canGoForward());
     };
     const handleNavigate = (e: any) => {
       setCurrentUrl(e.url);
     };
+    const handleFailLoad = (e: any) => {
+      if (e?.isMainFrame === false) return;
+      setIsLoading(false);
+      setLoadError(e?.errorDescription || 'Page failed to load');
+    };
 
     webview.addEventListener('did-start-loading', handleLoadStart);
     webview.addEventListener('did-stop-loading', handleLoadStop);
     webview.addEventListener('did-navigate', handleNavigate);
     webview.addEventListener('did-navigate-in-page', handleNavigate);
+    webview.addEventListener('did-fail-load', handleFailLoad);
 
     return () => {
       webview.removeEventListener('did-start-loading', handleLoadStart);
       webview.removeEventListener('did-stop-loading', handleLoadStop);
       webview.removeEventListener('did-navigate', handleNavigate);
       webview.removeEventListener('did-navigate-in-page', handleNavigate);
+      webview.removeEventListener('did-fail-load', handleFailLoad);
     };
   }, []);
 
@@ -155,6 +173,14 @@ const PartnerWebview: React.FC<PartnerWebviewProps> = ({ url, name, icon, onClos
         </div>
 
         {/* Close button */}
+        <button
+          type="button"
+          onClick={openInSystemBrowser}
+          className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-gray-700 text-gray-200 hover:bg-gray-600 transition"
+          title="If sign-in fails in the panel, open in Chrome/Safari"
+        >
+          Browser ↗
+        </button>
         <button 
           onClick={onClose}
           className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition"
@@ -163,15 +189,24 @@ const PartnerWebview: React.FC<PartnerWebviewProps> = ({ url, name, icon, onClos
         </button>
       </div>
 
-      {/* Webview */}
+      {loadError && (
+        <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/30 text-amber-200 text-xs flex items-center justify-between gap-3">
+          <span>Load issue: {loadError}. Uber sign-in often needs the popup — try again, or use Browser ↗.</span>
+          <button type="button" onClick={reload} className="underline shrink-0">Retry</button>
+        </div>
+      )}
+
+      {/* Webview — Chrome UA + shared persist:partner session (see public/electron.js) */}
       <webview
         ref={webviewRef as any}
         src={url}
         className="flex-1 w-full"
-        style={{ height: 'calc(100% - 48px)' }}
-        // @ts-ignore - webview attributes
+        style={{ height: loadError ? 'calc(100% - 80px)' : 'calc(100% - 48px)' }}
+        // @ts-ignore - webview attributes (Electron)
         allowpopups="true"
         partition="persist:partner"
+        useragent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        webpreferences="contextIsolation=true, sandbox=false, nativeWindowOpen=true"
       />
     </div>
   );

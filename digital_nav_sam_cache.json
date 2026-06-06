@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "scannedAt": "2026-06-04T08:06:41.813589",
-  "postedFrom": "03/06/2026",
-  "postedTo": "06/04/2026",
+  "scannedAt": "2026-06-05T08:05:59.240295",
+  "postedFrom": "03/07/2026",
+  "postedTo": "06/05/2026",
   "count": 31,
   "opportunities": [
     {
@@ -39,18 +39,6 @@
       "typeOfSetAside": "",
       "type": "Special Notice",
       "uiLink": "https://sam.gov/workspace/contract/opp/212de11515774f7ea2abafee8138343d/view",
-      "matchReason": "NAICS 541720"
-    },
-    {
-      "title": "Program for International Student Assessment (PISA)",
-      "solicitationNumber": "IES26SS00002",
-      "department": "EDUCATION, DEPARTMENT OF.EDUCATION, DEPARTMENT OF.CONTRACTS AND ACQUISTIONS MANAGEMEN",
-      "responseDeadLine": "2026-05-21T12:00:00-04:00",
-      "postedDate": "2026-05-08",
-      "naicsCode": "541720",
-      "typeOfSetAside": "",
-      "type": "Sources Sought",
-      "uiLink": "https://sam.gov/workspace/contract/opp/451a7c5aa9a7430fa387e260b81a4148/view",
       "matchReason": "NAICS 541720"
     },
     {
@@ -114,18 +102,6 @@
       "matchReason": "NAICS 541720"
     },
     {
-      "title": "SERVICES TO SUPPORT CONFERENCE IN KYIV, UKRAINE",
-      "solicitationNumber": "PR16020216",
-      "department": "STATE, DEPARTMENT OF.STATE, DEPARTMENT OF.US EMBASSY KYIV",
-      "responseDeadLine": "2026-06-03T17:00:00+03:00",
-      "postedDate": "2026-05-20",
-      "naicsCode": "561499",
-      "typeOfSetAside": "No Set aside used",
-      "type": "Solicitation",
-      "uiLink": "https://sam.gov/workspace/contract/opp/b2de056f8fab4a68a72bd9f3b6c63040/view",
-      "matchReason": "NAICS 561499"
-    },
-    {
       "title": "Phase 1 Archeological Survey Mena-Oden Ranger District-AR",
       "solicitationNumber": "1244392Q0061",
       "department": "AGRICULTURE, DEPARTMENT OF.FOREST SERVICE.USDA-FS, CSA EAST 1",
@@ -142,11 +118,11 @@
       "solicitationNumber": "FAP2026SS",
       "department": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AF INSTALLATION & MISSION SUPPORT CENTER.FA8003  771 ENTERPRISE SOURCING SQ",
       "responseDeadLine": "2026-06-06T14:00:00-04:00",
-      "postedDate": "2026-05-11",
+      "postedDate": "2026-06-04",
       "naicsCode": "624190",
       "typeOfSetAside": "Total Small Business Set-Aside (FAR 19.5)",
       "type": "Sources Sought",
-      "uiLink": "https://sam.gov/workspace/contract/opp/6a83ebec8f1347ad8e3b93f26dc8593b/view",
+      "uiLink": "https://sam.gov/workspace/contract/opp/b9943b9a32e04f09923774e72ae7f448/view",
       "matchReason": "NAICS 624190"
     },
     {
@@ -294,6 +270,18 @@
       "matchReason": "NAICS 561499"
     },
     {
+      "title": "Delivery of Medically Tailored Meals",
+      "solicitationNumber": "36C26126Q0776",
+      "department": "VETERANS AFFAIRS, DEPARTMENT OF.VETERANS AFFAIRS, DEPARTMENT OF.261-NETWORK CONTRACT OFFICE 21 (36C261)",
+      "responseDeadLine": "2026-06-17T16:00:00-07:00",
+      "postedDate": "2026-06-04",
+      "naicsCode": "624210",
+      "typeOfSetAside": "No Set aside used",
+      "type": "Solicitation",
+      "uiLink": "https://sam.gov/workspace/contract/opp/ff65f9d9533d458c9d3cb6abe2394bf2/view",
+      "matchReason": "NAICS 624210"
+    },
+    {
       "title": "SCRATCHGRAVEL HILLS CULTURAL RESOURCE IN",
       "solicitationNumber": "140L3626Q0031",
       "department": "INTERIOR, DEPARTMENT OF THE.BUREAU OF LAND MANAGEMENT.MONTANA STATE OFFICE",
@@ -304,6 +292,18 @@
       "type": "Solicitation",
       "uiLink": "https://sam.gov/workspace/contract/opp/de0eaf08316041aab9272d38062fc72d/view",
       "matchReason": "NAICS 541720"
+    },
+    {
+      "title": "Request for Quotation",
+      "solicitationNumber": "28321326Q00000122",
+      "department": "SOCIAL SECURITY ADMINISTRATION.SOCIAL SECURITY ADMINISTRATION.SSA OFC OF ACQUISITION  GRANTS",
+      "responseDeadLine": "2026-06-26T13:00:00-04:00",
+      "postedDate": "2026-06-04",
+      "naicsCode": "561499",
+      "typeOfSetAside": "",
+      "type": "Solicitation",
+      "uiLink": "https://sam.gov/workspace/contract/opp/e975600979bb4863a9a390a2968dd089/view",
+      "matchReason": "NAICS 561499"
     },
     {
       "title": "Department of Education Small Business Innovation Research (SBIR) Phase IB 2026: Solicitation",

@@ -4,21 +4,22 @@
 **Program:** Community Health Matching Grant Program  
 **Applicant:** Cause We Care (501(c)(3)) · EIN 92-3602670  
 **DDI role:** Program administration partner (disclosed as subcontractor / teaming — not prime)  
-**Target cycle:** Summer 2026 — **⚠️ Concept paper due May 27, 2026 (PASSED)** · Full application window through **Aug 5, 2026** if concept invited  
-**Board review:** Nov 18, 2026  
-**Source:** https://www.bcbsm.com/foundation/grants/community-health/ · `DDI_PROGRAM_PACKAGING_STRATEGY.md`
+**Target cycle:** **Winter 2026** — return **end of September 2026** to build · concept paper due **October 29, 2026**  
+**Summer 2026 cycle:** Intentionally skipped (May 27 concept / Aug 5 review)  
+**Board review:** Nov 18, 2026 (Winter cycle awards)  
+**Source:** https://www.bcbsm.com/foundation/grants/community-health/ · `SESSION_SUMMARY_JUNE_4_2026.md` §12 · `DDI_PROGRAM_PACKAGING_STRATEGY.md`
 
 ---
 
-## ⚠️ DEADLINE ALERT — READ FIRST
+## DEADLINE — WINTER CYCLE (AUTHORITATIVE)
 
 | Milestone | Date | Status (as of Jun 4, 2026) |
 |---|---|---|
-| Concept paper due (Summer cycle) | **May 27, 2026** | **LIKELY MISSED** — confirm with foundation@bcbsm.com immediately |
-| Full application accepted until | Aug 5, 2026 | Only if concept paper accepted |
-| Applications reviewed | Nov 18, 2026 | Award announcement cycle |
-
-**Action if concept not yet submitted:** Email **foundation@bcbsm.com** today — ask if late concept submission is possible for Summer cycle or next cycle date.
+| Begin concept paper build | **End September 2026** (calendar: Sep 30) | Scheduled |
+| Concept paper due (Winter cycle) | **October 29, 2026** | Target deadline |
+| Board review / awards | Nov 18, 2026 | If concept invited to full application |
+| Submit form | forms.office.com/r/wZdDebmJf9 | CWC applicant |
+| Contact | foundation@bcbsm.com | Questions only |
 
 **Award range:** Typical $15K/yr × 2 years (max $25K/yr × 2). Matching funds required (10–25% if >30% Medicaid/uninsured population).
 
@@ -159,7 +160,8 @@ Bridge the gap between **Medicaid-enrolled and underserved residents** who miss 
 
 ## Submission checklist
 
-- [ ] Confirm concept paper status with foundation@bcbsm.com (May 27 deadline)
+- [ ] Begin outline fill **end September 2026**
+- [ ] Submit concept paper **October 29, 2026**
 - [ ] Request concept paper form from BCBSM website if not already submitted
 - [ ] CWC board approval / authorized signer
 - [ ] DDI-CWC teaming MOU or letter of support
@@ -178,4 +180,4 @@ Bridge the gap between **Medicaid-enrolled and underserved residents** who miss 
 
 ---
 
-*Outline ready July 1 prep — but verify concept deadline immediately. Last updated June 4, 2026.*
+*Winter cycle — build end Sept 2026, submit Oct 29, 2026. Last updated June 4, 2026.*

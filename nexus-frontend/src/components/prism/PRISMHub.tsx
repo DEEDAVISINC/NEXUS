@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 interface PRISMHubProps {
   divisions: { id: string; name: string; icon: string; color: string; solid: string }[];
+  /** Per-division count of orders needing ops attention */
+  divisionNotifications?: Record<string, number>;
   onSelectDivision: (id: string) => void;
   onNewOrder: () => void;
 }
@@ -31,6 +33,45 @@ const IconChevron = () => (
   </svg>
 );
 
+const IconBell = () => (
+  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+  </svg>
+);
+
+const NotificationBell: React.FC<{ count: number; accent: string }> = ({ count, accent }) => {
+  if (count <= 0) return null;
+  const label = count > 99 ? '99+' : String(count);
+  return (
+    <span
+      title={`${count} order${count === 1 ? '' : 's'} need attention`}
+      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: accent }}
+    >
+      <IconBell />
+      <span
+        style={{
+          position: 'absolute',
+          top: -7,
+          right: -8,
+          minWidth: 16,
+          height: 16,
+          padding: '0 4px',
+          borderRadius: 999,
+          background: accent,
+          color: '#fff',
+          fontSize: 9,
+          fontWeight: 800,
+          lineHeight: '16px',
+          textAlign: 'center',
+          boxShadow: '0 0 0 2px #14141A',
+        }}
+      >
+        {label}
+      </span>
+    </span>
+  );
+};
+
 // ─── Status pill ──────────────────────────────────────────────────────────────
 const StatusPill: React.FC<{ status: string }> = ({ status }) => {
   const cfg: Record<string, { label: string; bg: string; color: string }> = {
@@ -47,9 +88,10 @@ const StatusPill: React.FC<{ status: string }> = ({ status }) => {
   );
 };
 
-const PRISMHub: React.FC<PRISMHubProps> = ({ divisions, onSelectDivision, onNewOrder }) => {
+const PRISMHub: React.FC<PRISMHubProps> = ({ divisions, divisionNotifications = {}, onSelectDivision, onNewOrder }) => {
   const [search, setSearch] = useState('');
   const filtered = search ? divisions.filter(d => d.name.toLowerCase().includes(search.toLowerCase())) : divisions;
+  const totalAlerts = Object.values(divisionNotifications).reduce((sum, n) => sum + n, 0);
 
   return (
     <div style={{ minHeight: '100vh', background: '#0D0D12', color: '#E5E7EB', fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", sans-serif' }}>
@@ -79,7 +121,7 @@ const PRISMHub: React.FC<PRISMHubProps> = ({ divisions, onSelectDivision, onNewO
           {[
             { label: 'Scheduled Today', value: SCHEDULE.filter(s => s.status === 'scheduled').length,   color: '#60A5FA' },
             { label: 'In Progress',     value: SCHEDULE.filter(s => s.status === 'in_progress').length, color: '#A78BFA' },
-            { label: 'Needs Attention', value: ATTENTION.length,                                        color: '#FCD34D' },
+            { label: 'Needs Attention', value: totalAlerts,                                        color: '#FCD34D' },
             { label: 'Active Clients',  value: 12,                                                      color: '#34D399' },
             { label: 'MTD Revenue',     value: '$8,450',                                                color: '#FB923C' },
           ].map((kpi, i) => (
@@ -182,21 +224,28 @@ const PRISMHub: React.FC<PRISMHubProps> = ({ divisions, onSelectDivision, onNewO
             />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
-            {filtered.map(div => (
+            {filtered.map(div => {
+              const alertCount = divisionNotifications[div.id] || 0;
+              return (
               <button
                 key={div.id}
                 onClick={() => onSelectDivision(div.id)}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, cursor: 'pointer', textAlign: 'left' as const, transition: 'all 0.15s' }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: '#14141A',
+                  border: `1px solid ${alertCount > 0 ? div.color + '55' : 'rgba(255,255,255,0.06)'}`,
+                  borderRadius: 12, cursor: 'pointer', textAlign: 'left' as const, transition: 'all 0.15s',
+                }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#1A1A22'; e.currentTarget.style.borderColor = (div.color || '#F97316') + '40'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#14141A'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#14141A'; e.currentTarget.style.borderColor = alertCount > 0 ? div.color + '55' : 'rgba(255,255,255,0.06)'; }}
               >
                 <span style={{ fontSize: 20 }}>{div.icon}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontWeight: 600, fontSize: 13, color: '#F9FAFB', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{div.name}</p>
                 </div>
+                <NotificationBell count={alertCount} accent={div.solid || div.color || '#F97316'} />
                 <IconChevron />
               </button>
-            ))}
+            );})}
           </div>
         </div>
       </div>

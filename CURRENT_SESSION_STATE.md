@@ -19,8 +19,10 @@
 |---|---|
 | Program narrative (live + PDF source) | `nexus-frontend/public/program-narrative.html` · `GRANT_APPLICATION_PACKAGE/DDI_CWC_PHC_Program_Narrative.html` |
 | LHD emails (7 counties) | `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/` |
+| MCO community investment emails (3) | `CLIENT OUTREACH/MCO_COMMUNITY_INVESTMENT_JUN2026/SEND_TO_MCO/` |
 | Outreach workflow | `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/WORKFLOW_CHECKLIST.md` |
 | LHD contacts updated | `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` |
+| Session summary (authoritative) | `DDI_Session_Summary_June2026.md` · `SESSION_SUMMARY_JUNE_4_2026.md` |
 
 ### Triggers — do not skip
 | Date | Action |
@@ -29,8 +31,8 @@
 | **Jun 16** | If Angela/Aimee silent → send Wayne + Detroit LHD emails |
 | **Jun 18** | Oakland + Macomb + Genesee |
 | **Jun 20** | Kent + Muskegon |
-| **Jul 1** | Start BCBSM Foundation concept paper |
-| **Jul 21** | Submit BCBSM concept paper (board review Aug 5) |
+| **End Sep 2026** | Return — begin BCBSM Foundation concept paper (Winter cycle) |
+| **Oct 29, 2026** | Submit BCBSM concept paper — forms.office.com/r/wZdDebmJf9 |
 
 ### Awaiting (do not chase before trigger)
 - **Angela Medina / Aimee Surma (MDHHS)** — until Jun 16

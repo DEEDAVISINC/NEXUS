@@ -1,13 +1,13 @@
-Good morning Dee. Here is your NEXUS briefing for Wednesday, June 3, 2026.
+Good morning Dee. Here is your NEXUS briefing for Sunday, June 7, 2026.
 
-At one PM, Lueddecke HELOC signing in Mount Clemens. Scanbacks required.
+Today is a build day for money systems. Priority one: wire PRISM to VERTEX for HAP CareSource invoicing. Pull the provider manual from the CareSource portal first so billing rules are right.
 
-The Rohan refi at two PM is TBD.
+Priority two: Square sandbox on the client portal payment step.
 
-NCS setup is deferred until you have a background screening contract to pay for it.
+Priority three: restart Electron fully and test Uber Health login in PRISM. Use the Browser button if the popup still fails.
 
-This evening, PRIME Valet subcontractor outreach.
+Before you dive in, confirm whether DAF Family Advocacy Sources Sought went out yesterday by two PM, and whether DRPA was submitted Friday.
 
-Friday: DRPA bid due.
+Monday is heavy: VA Madison NEMT bid due at eleven AM, Gary Misczak thank-you at noon, and a signing in Macomb at six PM.
 
-Have a good Wednesday.
+Have a good Sunday.

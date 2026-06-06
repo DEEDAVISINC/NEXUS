@@ -33,7 +33,7 @@
 
 | Date | Time (ET) | Task | Type |
 |------|-----------|------|------|
-| **Tue Jun 16** | 12:00 PM | **MDHHS TRIGGER** — If Angela silent → direct LHD. **Wayne (Johnson, interim — pitch ready-to-launch wins) + Detroit (Fair Razo — separate jurisdiction, engage both)** | 🔥 Decision |
+| **Tue Jun 16** | 12:00 PM | **MDHHS TRIGGER** — If Angela silent → direct LHD. **Wayne (Johnson) + Detroit (Ali Abazeed — separate jurisdiction, engage both)** | 🔥 Decision |
 | **Thu Jun 18** | 1:00 PM | LHD direct outreach: Oakland + Macomb (if trigger activated). SHIELD + MDHHS community partner language | 📧 Outreach |
 | **Sat Jun 20** | 1:00 PM | LHD direct outreach: Kent (Adam London) + Muskegon. Year 2–3 counties — early relationship building | 📧 Outreach |
 
@@ -43,10 +43,15 @@
 
 | Date | Time (ET) | Task | Type |
 |------|-----------|------|------|
-| **Wed Jul 1** | 1:00 PM | Begin BCBSM Foundation concept paper (board review **Aug 5**). Healthcare Access program via CWC. Reference BCC alignment | 📋 Grant prep |
 | **Tue Jul 7** | 1:00 PM | Research Kresge Foundation Health/Human Services program officer (Troy HQ). Relationship-first — CWC pitch vehicle | 📋 Relationship |
-| **Wed Jul 15** | 4:30 PM | MCO outreach: Priority Health + UHC Community Plan (Region 10). **Only if BCC call done or dead.** Same TPA pitch as BCC | 📧 Outreach |
-| **Tue Jul 21** | 2:00 PM | **Submit BCBSM Foundation concept paper** — target 2 weeks before Aug 5 board review. Final review via CWC | 🔥 Deadline |
+| **Wed Jul 15** | 4:30 PM | MCO community investment outreach (Molina, UHC, Priority) — **no deadline; send when ready.** Package: `MCO_COMMUNITY_INVESTMENT_JUN2026/SEND_TO_MCO/` | 📧 Outreach |
+
+## September–October 2026 — BCBSM Foundation (Winter Cycle)
+
+| Date | Time (ET) | Task | Type |
+|------|-----------|------|------|
+| **Wed Sep 30** | 1:00 PM | **Begin BCBSM Foundation concept paper** — Healthcare Access primary; Environmental Health secondary if MDHHS momentum supports. Summer cycle skipped. | 📋 Grant prep |
+| **Thu Oct 29** | 2:00 PM | **Submit BCBSM Foundation concept paper** — Winter cycle deadline. Form: forms.office.com/r/wZdDebmJf9 | 🔥 Deadline |
 
 ---
 

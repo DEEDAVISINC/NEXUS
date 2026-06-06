@@ -499,6 +499,8 @@
   .btn-continue:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(176,141,62,.3); }
   .btn-continue:active { transform: translateY(0); }
   .btn-continue:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+  #btn-submit-request { background: linear-gradient(135deg,#16a34a,#15803d); }
+  #btn-submit-request:hover { box-shadow: 0 4px 16px rgba(22,163,74,.35); }
   .btn-back {
     background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius);
     padding: 15px 24px; color: var(--text-secondary); font-size: 14px; font-weight: 600;
@@ -537,6 +539,7 @@
   .confirm-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
   .confirm-actions a, .confirm-actions button { flex: 1; min-width: 100px; border-radius: var(--radius-sm); padding: 12px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; transition: all .15s; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
   .btn-email-c { background: var(--green-light); border: 1px solid rgba(22,163,74,.2); color: var(--green); }
+  .btn-submit-done { background: linear-gradient(135deg,#16a34a,#15803d); border: none; color: #fff; flex: 2 !important; }
   .btn-copy-c { background: var(--bg); border: 1px solid var(--border); color: var(--text-secondary); }
   .btn-copy-c.copied { background: var(--green-light); border-color: rgba(22,163,74,.2); color: var(--green); }
   .btn-print-c { background: var(--gold-light); border: 1px solid rgba(176,141,62,.15); color: var(--gold-text); }
@@ -1115,6 +1118,9 @@
       <div class="field" id="field-wrap-donor-phone"><label><span id="label-donor-phone">Phone</span> <span class="req" id="req-donor-phone" style="display:none">*</span></label><input type="tel" id="donor-phone" placeholder="(000) 000-0000"><div class="error-msg">Required</div></div>
       <div class="field" id="field-wrap-donor-id"><label><span id="label-donor-id">Subject ID / Employee #</span></label><input type="text" id="donor-id" placeholder="Optional"></div>
     </div>
+    <div class="form-row full" id="field-wrap-donor-email">
+      <div class="field"><label><span id="label-donor-email">Member / Rider Email</span> <span class="req" id="req-donor-email" style="display:none">*</span></label><input type="email" id="donor-email" placeholder="member@email.com — confirmation sent here"><div class="error-msg">Please enter a valid email</div><div class="help-text" id="donor-email-help">Trip confirmation is sent to you (requester) and the member/rider when an email is provided.</div></div>
+    </div>
     <div class="form-row full" id="field-wrap-donor-location">
       <div class="field"><label><span id="label-donor-location">Subject Current Location</span> <span class="req" id="req-donor-location" style="display:none">*</span></label><input type="text" id="donor-location" placeholder="Street address or landmark"><div class="error-msg">Required</div></div>
     </div>
@@ -1304,7 +1310,7 @@
 <!-- ═══════════ FORM: STEP 5 — NOTES + SUBMIT ═══════════ -->
 <div class="wizard-step" id="step-5">
   <div class="step-title">Review & Submit</div>
-  <div class="step-subtitle">Add any special instructions, then submit your service request.</div>
+  <div class="step-subtitle">Review your details, then click <strong>Submit Request</strong> — your order goes directly to Dee Davis Inc. operations (no separate email required).</div>
   <div class="card">
     <div class="form-row full">
       <div class="field"><label>Notes & Special Instructions</label>
@@ -1327,7 +1333,7 @@
 
   <div class="nav-row">
     <button class="btn-back" onclick="nextStep(4)">← Back</button>
-    <button class="btn-continue" onclick="dispatch()" style="background:linear-gradient(135deg,#16a34a,#15803d);">Submit Request</button>
+    <button class="btn-continue" id="btn-submit-request" onclick="dispatch()">Submit Request</button>
     <button class="btn-clear" onclick="clearForm()">Clear Form</button>
   </div>
 </div>
@@ -1368,13 +1374,17 @@ function getApiBase() {
   return PRISM_API_PRODUCTION;
 }
 
+function isPortalHost(host) {
+  return host.endsWith('.netlify.app') || host === 'portal.deedavis.biz';
+}
+
 /** Where intake POST goes — Netlify function when portal is live; else PythonAnywhere / local API */
 function getIntakeSubmitUrl() {
   const host = location.hostname;
   if (host === 'localhost' || host === '127.0.0.1') {
     return `${getApiBase()}/prism/intake`;
   }
-  if (host.endsWith('.netlify.app') || host === 'portal.deedavis.biz') {
+  if (isPortalHost(host)) {
     return '/.netlify/functions/prism-intake';
   }
   return `${PRISM_API_PRODUCTION}/prism/intake`;
@@ -1517,10 +1527,10 @@ const SERVICE_PROFILES = {
     step3: {
       title: 'Member & Trip Details',
       subtitle: 'Passenger information, pickup/drop-off addresses, and appointment time.',
-      labels: { first: 'Member First Name', last: 'Member Last Name', dob: 'Date of Birth', phone: 'Member Phone', id: 'Member ID / Medicaid #', location: 'Pickup Address', schedDate: 'Trip Date', schedTime: 'Pickup Time', site: 'Drop-off / Appointment Address' },
+      labels: { first: 'Member First Name', last: 'Member Last Name', dob: 'Date of Birth', phone: 'Member Phone', email: 'Member Email', id: 'Member ID / Medicaid #', location: 'Pickup Address', schedDate: 'Trip Date', schedTime: 'Pickup Time', site: 'Drop-off / Appointment Address' },
       sitePlaceholder: 'Medical facility, pharmacy, or destination address',
-      show: { dob: true, phone: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
-      require: { first: true, last: true, dob: false, phone: true, location: true, date: true, time: true, site: true },
+      show: { dob: true, phone: true, email: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: true, email: false, location: true, date: true, time: true, site: true },
       detailRequired: ['nemt-program', 'nemt-trip-type']
     }
   },
@@ -1642,6 +1652,7 @@ function applyServiceProfile() {
   setText('label-donor-last', L.last);
   setText('label-donor-dob', L.dob);
   setText('label-donor-phone', L.phone);
+  if (L.email) setText('label-donor-email', L.email);
   setText('label-donor-id', L.id);
   setText('label-donor-location', L.location);
   setText('label-sched-date', L.schedDate);
@@ -1653,6 +1664,7 @@ function applyServiceProfile() {
   // Step 3 — field visibility
   setVisible('field-wrap-donor-dob', s3.show.dob);
   setVisible('field-wrap-donor-phone', s3.show.phone);
+  setVisible('field-wrap-donor-email', !!s3.show.email);
   setVisible('field-wrap-donor-id', s3.show.id !== false);
   setVisible('field-wrap-donor-location', s3.show.location);
   setVisible('scheduling-section-label', s3.show.scheduling);
@@ -1667,6 +1679,7 @@ function applyServiceProfile() {
   setRequiredMarker('req-donor-last', R.last);
   setRequiredMarker('req-donor-dob', R.dob);
   setRequiredMarker('req-donor-phone', R.phone);
+  setRequiredMarker('req-donor-email', !!R.email);
   setRequiredMarker('req-donor-location', R.location);
   setRequiredMarker('req-sched-date', R.date);
   setRequiredMarker('req-sched-time', R.time);
@@ -1705,7 +1718,7 @@ const MONTHS_FULL = ['January','February','March','April','May','June','July','A
 function getOrdersMyUrl(email) {
   const host = location.hostname;
   const q = `email=${encodeURIComponent(email)}`;
-  if (host.endsWith('.netlify.app') || host === 'portal.deedavis.biz') {
+  if (isPortalHost(host)) {
     return `/.netlify/functions/prism-orders-my?${q}`;
   }
   return `${getApiBase()}/prism/orders/my?${q}`;
@@ -2565,6 +2578,11 @@ function validate(step) {
     if (R.last) ok = validateField('donor-last', 'text', true) && ok;
     if (R.dob && p.step3.show.dob) ok = validateField('donor-dob', 'text', true) && ok;
     if (R.phone && p.step3.show.phone) ok = validateField('donor-phone', 'text', true) && ok;
+    if (p.step3.show.email && document.getElementById('donor-email')?.value.trim()) {
+      ok = validateField('donor-email', 'email', !!R.email) && ok;
+    } else if (R.email && p.step3.show.email) {
+      ok = validateField('donor-email', 'email', true) && ok;
+    }
     if (R.location && p.step3.show.location) ok = validateField('donor-location', 'text', true) && ok;
     if (p.step3.show.scheduling) {
       if (R.date) ok = validateField('sched-date', 'text', true) && ok;
@@ -2716,6 +2734,12 @@ function submitIntakeOrder(apiPayload) {
 }
 
 function dispatch() {
+  const submitBtn = document.getElementById('btn-submit-request');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+  }
+
   const tierNames = {1:'Mobile — We Come to You',2:'Coordinated Ride',3:'On-Site Group Event'};
   const confNum = genConfirmNum();
   const svcKey = getSvcKey();
@@ -2727,7 +2751,7 @@ function dispatch() {
   if (p.step2.showResultsDelivery) {
     lines.push('----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`);
   }
-  lines.push('----------------------------------------','SUBJECT',`Name:         ${val('donor-first')} ${val('donor-last')}`,`DOB:          ${val('donor-dob')}`,`Phone:        ${val('donor-phone')}`,`ID:           ${val('donor-id')}`,`Location:     ${val('donor-location')}`);
+  lines.push('----------------------------------------','SUBJECT',`Name:         ${val('donor-first')} ${val('donor-last')}`,`DOB:          ${val('donor-dob')}`,`Phone:        ${val('donor-phone')}`,`Email:        ${val('donor-email')}`,`ID:           ${val('donor-id')}`,`Location:     ${val('donor-location')}`);
   if (activeTier===2){lines.push(`Reason:       ${val('impairment-reason')}`);lines.push(`Transport:    ${val('transport-provider')}`);}
   if (activeTier===3) lines.push(`Count:        ${val('donor-count')}`);
   lines.push('----------------------------------------','SCHEDULING',`Date:         ${val('sched-date')}`,`Time:         ${val('sched-time')} ${val('sched-tz')}`,`Location:     ${val('collection-site')}`);
@@ -2754,7 +2778,11 @@ function dispatch() {
   lines.push('----------------------------------------',`Notes:        ${val('notes')}`,'========================================');
   const plainText = lines.join('\n');
 
-  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:buildIntakeDetails(svcKey),billing_tier:clientBillingTier,payment_method:selectedPayMethod||(orderScoped?'proposal':clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal,pricing_model:orderScoped?'scoped_per_event':''};
+  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_email:val('donor-email'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:buildIntakeDetails(svcKey),billing_tier:clientBillingTier,payment_method:selectedPayMethod||(orderScoped?'proposal':clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal,pricing_model:orderScoped?'scoped_per_event':''};
+
+  document.getElementById('nf-confirmation').value=confNum;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
+  const fd=new FormData(document.getElementById('netlify-form'));fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(()=>{});
+
   submitIntakeOrder(apiPayload)
     .then(res => {
       if (res.success) {
@@ -2766,34 +2794,79 @@ function dispatch() {
             clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
           }
         }
-        let statusMsg = res.message || `ORDER RECEIVED — Email sent to ${activeEmail}`;
-        if (res.dashboard_sync) {
-          statusMsg = `ORDER QUEUED IN NEXUS PRISM — ${res.dashboard_order_id || confNum}`;
-          if (res.email_sent) statusMsg += ` · Email sent to ${activeEmail}`;
-        } else if (res.dashboard_warning) {
-          statusMsg = `ORDER EMAILED to ${activeEmail} — PRISM dashboard sync pending (backend offline)`;
-        }
-        showStatus('success', statusMsg);
       }
+      showConfirmOverlay({ confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err: null });
     })
     .catch(err => {
-      showStatus('error', `AUTO-SUBMIT FAILED — ${err.message || 'Use Email to DDI below'}`);
+      showConfirmOverlay({ confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res: null, err });
+    })
+    .finally(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Request';
+      }
     });
-  document.getElementById('nf-confirmation').value=confNum;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
-  const fd=new FormData(document.getElementById('netlify-form'));fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(()=>{});
+}
 
-  const mailto=`mailto:${activeEmail}?subject=${encodeURIComponent(`PRISM — ${confNum} — ${svcLabel}`)}&body=${encodeURIComponent(plainText)}`;
-  let body=`<div class="confirm-routing">ROUTED TO: ${activeEmail}</div><div id="submit-status" class="submit-status"></div>`;
-  body+=row('Confirmation',confNum)+row('Service',svcLabel)+row('Response',tierNames[activeTier])+row('Urgency',activeUrgency.toUpperCase())+row('Submitted',new Date().toLocaleString())+'<hr class="confirm-divider">';
-  body+=row('Company',val('client-name'))+row('Contact',val('client-contact'))+row('Email',val('client-email'));
-  const c1=val('cc-email-1'),c2=val('cc-email-2');if(c1!=='—')body+=row('CC',c1);if(c2!=='—')body+=row('CC',c2);
-  body+='<hr class="confirm-divider">'+row('Subject',`${val('donor-first')} ${val('donor-last')}`)+row('Date',val('sched-date'))+row('Time',`${val('sched-time')} ${val('sched-tz')}`)+row('Location',val('collection-site'));
-  body+='<hr class="confirm-divider">'+row('Amount',orderScoped?'Dynamic — proposal after consultation':`$${orderTotal.toFixed(2)}`)+row('Payment',payConf.title)+row('Status',payConf.detail);
-  body+='<hr class="confirm-divider"><div class="copy-label">Order Summary</div>';
-  body+=`<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
-  body+=`<div class="confirm-actions"><a class="btn-email-c" href="${mailto}" target="_blank">Email to DDI</a><button class="btn-copy-c" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">Copy</button><button class="btn-print-c" onclick="window.print()">Print</button><button class="btn-close-c" onclick="goToDashboardAfterSubmit()">View My Orders</button><button class="btn-close-c" onclick="closeOverlay()">Close</button></div>`;
-  document.getElementById('confirm-num-display').textContent=confNum;
-  document.getElementById('confirm-body').innerHTML=body;
+function showConfirmOverlay(ctx) {
+  const { confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err } = ctx;
+  const mailto = `mailto:${activeEmail}?subject=${encodeURIComponent(`PRISM — ${confNum} — ${svcLabel}`)}&body=${encodeURIComponent(plainText)}`;
+  const submitted = !!res?.success;
+  const synced = !!(res?.dashboard_sync);
+  const failed = !!err || !submitted;
+
+  document.querySelector('.confirm-title').textContent = failed
+    ? 'Submission Failed'
+    : 'Order Submitted';
+
+  let banner = '';
+  if (failed) {
+    banner = `<div class="submit-status error">SUBMIT FAILED — ${escHtml(err?.message || res?.error || 'Could not reach Dee Davis Inc. servers')}. Use backup email below or call 248.376.4550.</div>`;
+  } else if (synced) {
+    banner = `<div class="submit-status success">SUBMITTED TO DEE DAVIS INC. — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
+    const confirmParts = [];
+    const reqEmail = val('client-email');
+    const riderEmail = val('donor-email');
+    if (res.requester_confirmation_sent && reqEmail && reqEmail !== '—') confirmParts.push(`requester (${escHtml(reqEmail)})`);
+    if (res.rider_confirmation_sent && riderEmail && riderEmail !== '—') confirmParts.push(`member/rider (${escHtml(riderEmail)})`);
+    if (confirmParts.length) {
+      banner += `<div class="confirm-routing" style="margin-top:8px;font-size:12px;">Confirmation email sent to ${confirmParts.join(' and ')}</div>`;
+    } else if (res.email_sent) {
+      banner += `<div class="confirm-routing" style="margin-top:8px;font-size:12px;">Ops notification sent to ${escHtml(activeEmail)}</div>`;
+    }
+  } else {
+    banner = `<div class="submit-status success">SUBMITTED — Confirmation ${escHtml(confNum)}</div>`;
+    if (res.dashboard_warning) {
+      banner += `<div class="submit-status error" style="margin-top:8px;">Dashboard sync pending — ${escHtml(res.dashboard_warning)}</div>`;
+    }
+  }
+
+  let body = banner;
+  body += row('Confirmation', confNum) + row('Service', svcLabel) + row('Response', tierNames[activeTier]) + row('Urgency', activeUrgency.toUpperCase()) + row('Submitted', new Date().toLocaleString()) + '<hr class="confirm-divider">';
+  body += row('Company', val('client-name')) + row('Contact', val('client-contact')) + row('Email', val('client-email'));
+  const c1 = val('cc-email-1'), c2 = val('cc-email-2');
+  if (c1 !== '—') body += row('CC', c1);
+  if (c2 !== '—') body += row('CC', c2);
+  body += '<hr class="confirm-divider">' + row('Subject', `${val('donor-first')} ${val('donor-last')}`) + row('Date', val('sched-date')) + row('Time', `${val('sched-time')} ${val('sched-tz')}`) + row('Location', val('collection-site'));
+  body += '<hr class="confirm-divider">' + row('Amount', orderScoped ? 'Dynamic — proposal after consultation' : `$${orderTotal.toFixed(2)}`) + row('Payment', payConf.title) + row('Status', payConf.detail);
+  body += '<hr class="confirm-divider"><div class="copy-label">Order Summary</div>';
+  body += `<div class="copy-block" id="plain-text-block">${escHtml(plainText)}</div>`;
+
+  let actions = '<div class="confirm-actions">';
+  if (failed || (submitted && !synced)) {
+    actions += `<a class="btn-email-c" href="${mailto}" target="_blank">Send Backup Email</a>`;
+  }
+  if (submitted) {
+    actions += `<button type="button" class="btn-submit-done" onclick="goToDashboardAfterSubmit()">View My Orders</button>`;
+  }
+  actions += `<button type="button" class="btn-copy-c" id="copy-btn" onclick="copyText(\`${escJs(plainText)}\`)">Copy</button>`;
+  actions += `<button type="button" class="btn-print-c" onclick="window.print()">Print</button>`;
+  actions += `<button type="button" class="btn-close-c" onclick="closeOverlay()">Close</button>`;
+  actions += '</div>';
+  body += actions;
+
+  document.getElementById('confirm-num-display').textContent = confNum;
+  document.getElementById('confirm-body').innerHTML = body;
   document.getElementById('overlay').classList.add('active');
 }
 

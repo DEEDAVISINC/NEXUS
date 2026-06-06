@@ -915,6 +915,7 @@ SUBJECT
 Name:          {order.get('signer', '')}
 DOB:           {order.get('subject_dob', '')}
 Phone:         {order.get('subject_phone', '')}
+Email:         {order.get('subject_email', '')}
 ID:            {order.get('subject_id', '')}
 Location:      {order.get('address', '')}
 
@@ -1197,23 +1198,23 @@ def _fire_dayon_reminder(order: dict) -> None:
 
 def _send_confirmation_async(order):
     """
-    Fire a confirmation request to the subject/donor if a scheduled date is present.
+    Fire confirmation requests to the requester AND the member/rider when scheduled.
     Uses the NEXUS Confirmation Engine — non-blocking, daemon thread.
     """
-    # Only fire if there's actually a scheduled date/time on the order
     if not order.get('date') or not order.get('time'):
         return
 
-    # Who to notify: prefer subject phone/email, fall back to client
-    phone = order.get('subject_phone') or order.get('client_phone', '')
-    email = order.get('client_email', '')
-    name  = order.get('signer') or order.get('client_contact') or order.get('client', 'there')
+    requester_email = (order.get('client_email') or '').strip()
+    requester_phone = order.get('client_phone', '')
+    requester_name = order.get('client_contact') or order.get('client', 'there')
 
-    # Need at least one channel
-    if not phone and not email:
+    rider_email = (order.get('subject_email') or '').strip()
+    rider_phone = order.get('subject_phone', '')
+    rider_name = order.get('signer') or 'Member'
+
+    if not (requester_email or requester_phone or rider_email or rider_phone):
         return
 
-    # Map PRISM service type to confirmation event_type
     svc_map = {
         'dot':             'drug_test',
         'phlebotomy':      'occ_health',
@@ -1229,7 +1230,6 @@ def _send_confirmation_async(order):
     dt_str   = f"{order['date']} at {order['time']} {order.get('timezone', 'ET')}"
     location = order.get('address') or order.get('collection_site') or 'TBD — details to follow'
 
-    # Build who/what/why/bring from order data
     svc_labels = {
         'dot':             'DOT urine drug screen (5-panel)',
         'phlebotomy':      'Occupational health / blood draw',
@@ -1241,8 +1241,7 @@ def _send_confirmation_async(order):
         'medical_courier': 'Medical courier pickup',
     }
     what_str = svc_labels.get(order.get('service_key', ''), order.get('service_label', '') or 'Service appointment')
-    who_str  = 'Dee Davis Inc. — your assigned collector will contact you to confirm arrival'
-    why_str  = order.get('notes', '') or 'As requested through Dee Davis Inc.'
+    who_str  = 'Dee Davis Inc. — your assigned provider will contact you before arrival'
     bring_str = ''
     svc = order.get('service_key', '')
     if svc in ('dot', 'phlebotomy'):
@@ -1256,7 +1255,6 @@ def _send_confirmation_async(order):
 
     def _do():
         try:
-            # Add to NEXUS calendar
             from nexus_calendar_service import create_calendar_event
             svc_title = {
                 'dot': 'DOT Drug Screen', 'phlebotomy': 'Occ Health Appointment',
@@ -1265,35 +1263,60 @@ def _send_confirmation_async(order):
                 'medical_courier': 'Medical Courier Pickup', 'background': 'Background Check',
             }.get(svc, order.get('service_label', 'PRISM Appointment'))
             create_calendar_event(
-                title=f"{svc_title} — {name or order.get('client', '')}",
+                title=f"{svc_title} — {rider_name or order.get('client', '')}",
                 start_iso=order.get('date', '') + 'T' + (order.get('time', '09:00').replace(' ', '') or '09:00') + ':00',
                 location=location,
                 description=order.get('notes', ''),
                 system='PRISM',
                 event_type='appointment',
                 internal_id=order.get('id', ''),
-                party_name=name,
-                party_email=email,
-                party_phone=phone,
+                party_name=rider_name,
+                party_email=rider_email or requester_email,
+                party_phone=rider_phone or requester_phone,
             )
         except Exception:
             pass
         try:
             from nexus_confirmation_engine import send_confirmation_request
-            send_confirmation_request(
-                event_type=event_type,
-                party_name=name,
-                party_email=email,
-                party_phone=phone,
-                datetime_str=dt_str,
-                location=location,
-                internal_id=order.get('id', ''),
-                notes=order.get('notes', ''),
-                who=who_str,
-                what=what_str,
-                why=why_str,
-                bring=bring_str,
-            )
+
+            # Requester — booking confirmation (email preferred; SMS if no email)
+            if requester_email or requester_phone:
+                send_confirmation_request(
+                    event_type=event_type,
+                    party_name=requester_name,
+                    party_email=requester_email,
+                    party_phone=requester_phone if not requester_email else '',
+                    datetime_str=dt_str,
+                    location=location,
+                    internal_id=order.get('id', ''),
+                    notes=order.get('notes', ''),
+                    who=who_str,
+                    what=what_str,
+                    why=f"Request submitted for {rider_name}",
+                    bring=bring_str,
+                )
+
+            # Member/rider — skip duplicate if same email/phone as requester
+            rider_email_norm = rider_email.lower()
+            requester_email_norm = requester_email.lower()
+            same_email = rider_email_norm and rider_email_norm == requester_email_norm
+            same_phone = rider_phone and requester_phone and rider_phone == requester_phone
+
+            if (rider_email or rider_phone) and not (same_email or (not rider_email and same_phone)):
+                send_confirmation_request(
+                    event_type=event_type,
+                    party_name=rider_name,
+                    party_email=rider_email if not same_email else '',
+                    party_phone=rider_phone if not same_phone else '',
+                    datetime_str=dt_str,
+                    location=location,
+                    internal_id=order.get('id', ''),
+                    notes=order.get('notes', ''),
+                    who=who_str,
+                    what=what_str,
+                    why=order.get('notes', '') or 'Your scheduled service with Dee Davis Inc.',
+                    bring=bring_str,
+                )
         except Exception as exc:
             import logging
             logging.getLogger('prism.orders').warning('Confirmation engine error: %s', exc)
@@ -1484,6 +1507,7 @@ def _create_intake_order_impl():
         'signer': f"{data.get('subject_first', '')} {data.get('subject_last', '')}".strip(),
         'subject_dob': data.get('subject_dob', ''),
         'subject_phone': data.get('subject_phone', ''),
+        'subject_email': data.get('subject_email', ''),
         'subject_id': data.get('subject_id', ''),
         'address': data.get('subject_location', ''),
         'date': data.get('sched_date', now.strftime('%m/%d/%Y')),

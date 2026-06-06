@@ -1,7 +1,14 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** June 2, 2026 @ 11:30 PM ET
+**Last Updated:** June 6, 2026 @ late night ET
 
 ---
+
+## SESSION NOTE (June 6)
+
+- **PRISM Hub** — Division notification bells wired to live `/prism/orders` (needs-attention counts)
+- **PRISM division workspace** — Real API orders in NEMT workspace; **Agent Network** directory (search/pagination) replaces mock agent cards
+- **Electron partner webview** — Uber Health login fix (Chrome UA + OAuth popup modal) — **test after full Electron restart**
+- **Tomorrow:** CareSource provider manual lookup · PRISM→VERTEX invoicing ($28/$35 trips) · Square sandbox · Electron Uber login test
 
 ## SESSION NOTE (June 2)
 

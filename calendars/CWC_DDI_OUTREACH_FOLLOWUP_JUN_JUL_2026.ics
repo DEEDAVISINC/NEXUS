@@ -6,15 +6,15 @@ METHOD:PUBLISH
 X-WR-CALNAME:NEXUS CWC DDI Outreach
 X-WR-TIMEZONE:America/Detroit
 BEGIN:VEVENT
-UID:cwc-outreach-20260701-130000@deedavis.biz
-DTSTAMP:20260530T120000Z
-DTSTART;TZID=America/Detroit:20260701T130000
-DTEND;TZID=America/Detroit:20260701T140000
-SUMMARY:📋 GRANT PREP: Begin BCBSM Foundation Concept Paper
-DESCRIPTION:Healthcare Access and Transportation Equity via CWC. Board review Aug 5 2026. Reference BCC ecosystem alignment.
+UID:cwc-outreach-20260930-130000@deedavis.biz
+DTSTAMP:20260604T120000Z
+DTSTART;TZID=America/Detroit:20260930T130000
+DTEND;TZID=America/Detroit:20260930T140000
+SUMMARY:📋 GRANT PREP: Begin BCBSM Foundation Concept Paper (Winter Cycle)
+DESCRIPTION:Return end of September — build Healthcare Access concept paper via CWC. Decide primary vs Environmental Health based on MDHHS momentum. Outline: CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md
 LOCATION:NEXUS / Remote
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT2H
 DESCRIPTION:Task in 2 hours
@@ -27,15 +27,15 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:cwc-outreach-20260721-140000@deedavis.biz
-DTSTAMP:20260530T120000Z
-DTSTART;TZID=America/Detroit:20260721T140000
-DTEND;TZID=America/Detroit:20260721T150000
-SUMMARY:🔥 DEADLINE: Submit BCBSM Foundation Concept Paper
-DESCRIPTION:Submit via CWC — target 2 weeks before Aug 5 board review. Final review today.
+UID:cwc-outreach-20261029-140000@deedavis.biz
+DTSTAMP:20260604T120000Z
+DTSTART;TZID=America/Detroit:20261029T140000
+DTEND;TZID=America/Detroit:20261029T150000
+SUMMARY:🔥 DEADLINE: Submit BCBSM Foundation Concept Paper (Winter Cycle)
+DESCRIPTION:Concept paper due Oct 29 2026. Submit via forms.office.com/r/wZdDebmJf9 as CWC. Contact foundation@bcbsm.com
 LOCATION:NEXUS / Remote
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT2H
 DESCRIPTION:Task in 2 hours

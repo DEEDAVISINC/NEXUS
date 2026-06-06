@@ -13,13 +13,13 @@
 | **Jun 4 — LHD director verification** | LinkedIn verify: Guzmán, Willette, Corsi, London, Moore. Call Macomb/Genesee/Kent to confirm emails. | ⬜ **TODAY** |
 | **Blue Cross Complete — Alina Pabin intro call** | **May 30 follow-up SENT** — offered weeks of **June 2 & June 9**, afternoons ET. **Do not send another touch until she responds.** Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` | 🟡 **AWAITING ALINA** |
 | **MHEF Capacity Building concept paper** | Inquiry done · Sayre replied Mar 27 — **submit in Fluxx** | ⬜ **$300K track** — see `MICHIGAN_FUNDER_MAP.md` |
-| **BCBSM Foundation concept paper** | **⚠️ Summer concept due was May 27, 2026 — may be missed.** Email foundation@bcbsm.com TODAY. Outline: `CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md` · Full app window Aug 5 if invited | 🔴 **VERIFY DEADLINE NOW** |
+| **BCBSM Foundation concept paper** | **Winter cycle — return end Sept 2026.** Begin build **Sep 30** · Submit **Oct 29, 2026**. Summer cycle skipped. Outline: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md` · Form: forms.office.com/r/wZdDebmJf9 | 🟡 **SCHEDULED — SEP/OCT** |
 | **RENEW SCAC CODE (DFCL)** | **EXPIRED Feb 3, 2026.** Go to https://scaccode.com — renew for $97. If can't renew lapsed code, call NMFTA (866) 411-6632. Update company name from DEPOINTE → DEE DAVIS INC and address to Troy. **This is the single blocker for USPS HCR routes.** | ⬜ URGENT |
 | **Register on USPS Logistics Gateway** | After SCAC renewal → https://logistics.usps.com/ — register with DFCL code. This is the portal for Highway Contract Routes (DDI's current eSourcing registration is for small deliveries only). | ⬜ BLOCKED (needs SCAC) |
 | **Add freight NAICS to SAM.gov** | DDI needs ALL freight lanes visible: **484110** (local), **484121** (long-distance TL), **484122** (LTL), **484220** (specialized long-distance — heavy haul, tanker), **484230** (specialized — auto transport). DDI already has 484210 + 488510. Without these 5, DDI is invisible to reefer, flatbed, heavy haul, auto transport, and tanker contract searches. Log into SAM.gov → Edit Registration → NAICS Codes → Add all five. | ⬜ TODO |
 | ~~**University Health — Isabelle bid table email**~~ | ✅ **SENT May 29, 2026** — per-mile rates to Isabelle.Vallejo@uhtx.com | ✅ DONE |
 | **3D INK WAVE 1 + 1B — SEND OUTREACH** | **41 emails READY. Fri May 29 @ 5:00 PM ET — Session 1 (10 sends).** | 🟡 **5 PM ET** |
-| **Log into HAP CareSource portal** | Check for trip requests, confirm DDI is active/receiving | ⬜ TODO |
+| **Electron — Uber Health login in PRISM webview** | Fix pushed Jun 5: Chrome UA + OAuth popup modal + `persist:partner` session. **Test:** quit Electron fully → `npm run electron-dev` → PRISM → NEMT → Live Portals → Uber Health → sign in. Use **Browser ↗** if popup still fails. | ⬜ **TEST after restart**
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
 | **Jun 2 @ 1 PM ET** | **Uber Health — Jeff Metz** — NY Rx band pricing (Jun 17 bid) + MI/HAP/ACH · **Open:** `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/UBER_HEALTH_JEFF_METZ_CALL.html` | ⬜ |
@@ -185,8 +185,8 @@ DDI should become an authorized distributor for forensic evidence collection kit
 | **Jun 2** | Check BCC + MDHHS inbox (no follow-ups) | `.ics` inbox check |
 | **Jun 9** | BCC final follow-up if no response | `.ics` bcc final |
 | **Mid-June / Jun 16** | MDHHS trigger → direct LHD outreach | `LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` |
-| **Jul 21** | Submit BCBSM Foundation concept paper | Before Aug 5 board |
-| **Aug 5, 2026** | BCBSM Foundation board review #1 | `MICHIGAN_FUNDER_MAP.md` |
+| **Sep 30, 2026** | Begin BCBSM Foundation concept paper (Winter cycle) | `SESSION_SUMMARY_JUNE_4_2026.md` §12 |
+| **Oct 29, 2026** | Submit BCBSM Foundation concept paper | Winter cycle deadline |
 | **Sept 2026** | CDC CLPPP cooperative agreement cycle end | `MULTI_STATE_LANDSCAPE_RESEARCH.md` |
 | **Nov 18, 2026** | BCBSM Foundation board review #2 | `MICHIGAN_FUNDER_MAP.md` |
 | **1st Mon monthly** | EGrAMS + county opioid + CFSEM + MHEF monitor | Jul 6, Aug 3, Sep 7… |

@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DDI Calendar
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:supplier-matchmaking-expo-20260605@deedavis.biz
+DTSTAMP:20260605T100000Z
+DTSTART;TZID=America/Detroit:20260605T141500
+DTEND;TZID=America/Detroit:20260605T150000
+SUMMARY:📇 SBA Supplier Matchmaking Expo — MotorCity Casino (cards / face time)
+DESCRIPTION:2026 Supplier Matchmaking Expo — SBA + GM + New American Industrial Alliance\nAfter JP Stern signing (Macomb).\nDrop-in: business cards + show face. Event ends 3 PM.\n\nMotorCity Casino Hotel\n2901 Grand River Avenue\nDetroit, MI 48201\n\nEvent hours: 10:00 AM – 3:00 PM ET\nFree · suppliermatchmakingexpo.com\n\nStrategy: CLIENT OUTREACH/MICHIGAN MICH HIDE SNP/MICH_HIDE_SNP_MASTER_OUTREACH_JUN2026.md §8\n\nThen → PSS Ruci signing 5:00 PM St. Clair Shores.
+LOCATION:MotorCity Casino Hotel, 2901 Grand River Avenue, Detroit, MI 48201
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Leave Macomb for Supplier Match Expo (ends 3 PM)
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

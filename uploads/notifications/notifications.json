@@ -1,5 +1,27 @@
 [
   {
+    "id": "notif-fa808213",
+    "type": "new_order",
+    "severity": "medium",
+    "title": "New  Request",
+    "message": "Test \u2014  \u2014 Standard",
+    "order_id": "SMOKE-002",
+    "timestamp": "2026-06-05T23:31:29.715180",
+    "read": false,
+    "recipient": "admin"
+  },
+  {
+    "id": "notif-359ec317",
+    "type": "new_order",
+    "severity": "medium",
+    "title": "New  Request",
+    "message": "T \u2014  \u2014 Standard",
+    "order_id": "LOCAL-001",
+    "timestamp": "2026-06-05T23:26:45.546011",
+    "read": false,
+    "recipient": "admin"
+  },
+  {
     "id": "notif-12c4d7dc",
     "type": "new_order",
     "severity": "medium",

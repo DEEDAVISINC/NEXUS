@@ -26,6 +26,16 @@ AIRTABLE_API_KEY=...
 AIRTABLE_BASE_ID=...
 NEXUS_EMAIL=...
 NEXUS_EMAIL_PASSWORD=...
+
+# Rider/member SMS + confirmation engine (copy from local .env)
+TWILIO_ACCOUNT_SID=...
+TWILIO_AUTH_TOKEN=...
+TWILIO_FROM_NUMBER=+1...
+
+# Optional — SendGrid confirmations + confirm/cancel links
+SENDGRID_API_KEY=...
+SENDGRID_FROM_EMAIL=info@deedavis.biz
+NEXUS_CONFIRM_BASE_URL=https://nexus.deedavis.biz
 ```
 
 ---
@@ -60,9 +70,10 @@ Web tab → green **Reload** `deedavis.pythonanywhere.com` → wait 10 seconds.
 ## 5. Smoke tests (must all pass)
 
 ```bash
-# Health
-curl -s https://deedavis.pythonanywhere.com/health
-# Expect: {"service":"NEXUS Backend","status":"healthy",...}
+# Health + notification channel check
+curl -s https://deedavis.pythonanywhere.com/health | python3 -m json.tool
+# Expect: status healthy, notifications.twilio_configured true/false,
+#         notifications.missing_for_full_notifications lists any unset env vars
 
 # Create test order (intake)
 curl -s -X POST https://deedavis.pythonanywhere.com/prism/intake \

@@ -1,73 +1,51 @@
-# TODAY'S AGENDA — Wednesday, June 3, 2026
+# TODAY'S AGENDA — Sunday, June 7, 2026
 
-**Updated:** June 3, 2026 @ midday
+**Updated:** June 6, 2026 @ goodnight
 
 ---
 
 ## TOP 3 PRIORITIES
 
-1. **📝 12:00 PM → 1:00 PM — Two signings back-to-back** — Misczak Buyer $100 (Warren) then Lueddecke HELOC $80 (Mount Clemens) · scanbacks both · leave Warren on time
-2. **📧 PRIME Valet sub outreach @ 6 PM** — `BIDS:RESOURCES/ARENA PRIME VALET/SEND_TO_SUBCONTRACTOR/` · USASpending check first
-3. **🔥 DRPA Occ Health/Drug — due Friday Jun 5** — folder `NJ DRPA OCC HEALTH DRUG TESTING/`
+1. **💳 PRISM + VERTEX + CareSource invoicing** — Pull HAP provider manual from portal · wire trip complete → $28/$35 VERTEX line · Availity payer IDs (`MIMCDCS1` / `MIMCRCS1`)
+2. **💳 Square sandbox** — Wire Web Payments SDK to PRISM portal payment step (replace placeholders)
+3. **🖥️ Electron — test Uber Health login** — Full quit → `npm run electron-dev` → PRISM → Uber Health · confirm OAuth popup works
 
 ---
 
-## CALENDAR (Jun 3)
+## VERIFY FIRST (if not done today)
 
-| Time ET | Item |
-|---------|------|
-| **12:00 PM** | **Signing** — Gary Misczak Buyer ($100) — Signature Xcel · Warren · SIGX-122388 · scanbacks |
-| **1:00 PM** | **Signing** — Philipp Lueddecke HELOC ($80) — Mount Clemens · scanbacks |
-| **2:00 PM** | ~~Rohan refi~~ **→ Tue 6/9 @ 2:00 PM** — TPC N26-0227NW · Shelby Twp |
-| **6:00–7:30 PM** | PRIME Valet subcontractor outreach send window |
+| Item | Due | Action |
+|------|-----|--------|
+| **DAF FAP2026SS Sources Sought** | Was **Jun 6 @ 2 PM ET** | Confirm emailed Sandy Thompson + survey submitted — folder `DAF FAMILY ADVOCACY/SEND_TO_BUYER/` |
+| **DRPA Occ Health/Drug** | Was **Jun 5** | Confirm submitted or debrief — folder `NJ DRPA OCC HEALTH DRUG TESTING/` |
 
 ---
 
-## DEFERRED (Dee decision Jun 3)
-
-- **NCS channel partner setup** — **Hold until first background-screening contract** to fund monthly/per-check costs. Agreement signed May 4; portal/training/link deferred. Revisit when Minneapolis MPD, Anchorage-class bid, or similar is **GO to submit**.
-
----
-
-## THIS WEEK (remaining)
+## THIS WEEK (hard deadlines)
 
 | Date | Item |
 |------|------|
-| **Jun 4** | **PRISM intake ↔ NEXUS dashboard wire-up** (Netlify → `/prism/intake`) · PythonAnywhere reload · pricing/Square |
-| **Jun 5** | **DRPA Occ Health/Drug due** |
-| **Jun 10** | Fulfillment quotes due (SUNY — if still pursuing) |
-| **Jun 17 @ 9 AM** | SUNY Upstate courier submission (⚠️ county invoice blocker) |
-| **Jun 18** | **LRGVDC mandatory pre-app conference — Weslaco TX** (decide travel/rep) |
-| **Jun 26** | LRGVDC written questions due |
-| **Jul 10** | LRGVDC DPS + RFP due |
+| **Jun 8 Mon** | Gary Misczak thank-you follow-up (12 PM) · **Signing** Rupert refi Macomb (6 PM) · **VA Madison NEMT IDIQ due 11 AM** |
+| **Jun 9 Tue** | Rohan refi signing 2 PM · BCC final follow-up if silent (2:30 PM) · Strategy review MMCAP/AOG/IAC (12–2 PM) |
+| **Jun 15** | Minneapolis MPD Background |
+| **Jun 16** | VIA Transit Drug Testing |
+| **Jun 17** | SUNY Upstate Home Medical Courier (county invoice blocker) |
+| **Jun 23** | Oakland County DTC Drug |
 
 ---
 
-## PARKED — REVISIT WHEN READY
+## PRISM / PORTAL (carry-forward)
 
-- **Texas LRGVDC DPS #2026-02** — Draft in `SEND_TO_BUYER/DPS_2026-02_TRANSPORT/` · TX SOS · Jun 18 conference · pricing review
-- **Texas HHSC HHS0016482** — Sep 15 · docs downloaded
+- Netlify email env vars — confirm intake confirmations if not tested
+- PythonAnywhere git pull + reload (`prism_pa_app` health v1.0.1)
+- NEXUS frontend production deploy (division bells + agent network + real orders)
 
 ---
 
 ## WAITING — DO NOT CHASE
 
-- Alina (BCC), Angela/Aimee (MDHHS), Daniel Rivera (Anthem OH), Natalie Centene (mid-July)
+- Brian/Dana (HAP CareSource SDOH/Oakland), Alina (BCC), Angela/Aimee (MDHHS)
 
 ---
 
-## TOMORROW — Thursday, June 4, 2026
-
-### PRISM Client Portal (`portal.deedavis.biz` / `ddi-prism-portal.netlify.app`)
-
-1. **Pricing deep dive** — align `SERVICE_PRICING` with catalog; NEMT estimate vs flat rate
-2. **Square integration** — Web Payments SDK or Checkout; replace placeholder card fields
-3. **Finish go-live** — Gmail app password on Netlify (if submit email still failing)
-4. **Custom domain** — `portal.deedavis.biz` CNAME if not done
-5. **Tier 2 backend** — PythonAnywhere reload + `setup_prism_intake_airtable.py` for order calendar by email
-
-*Payment step UI fix deployed Jun 3 (`308317b47`) — tiles + total should work after hard refresh.*
-
----
-
-*Pipeline: `PIPELINE_TALLY.md` · Calendar mirror: `calendars/SCHEDULED_AGENDA.md`*
+*Pipeline: `PIPELINE_TALLY.md` · Calendar: `calendars/SCHEDULED_AGENDA.md`*

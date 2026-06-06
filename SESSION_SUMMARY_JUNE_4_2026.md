@@ -1,8 +1,8 @@
 # DDI + CWC Session Summary — June 4, 2026
 ## Public Health Consultation Strategy, Program Narrative & LHD Outreach Package
 
-**Imported to NEXUS:** June 4, 2026  
-**Related files:** `NEXUS_LEARNING/DDI_PHC_POSITIONING_LOCKED.md` · `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/` · `GRANT_APPLICATION_PACKAGE/DDI_CWC_PHC_Program_Narrative.html`
+**Imported to NEXUS:** June 4, 2026 (updated from `DDI_Session_Summary_June2026.md`)  
+**Related:** `NEXUS_LEARNING/DDI_PHC_POSITIONING_LOCKED.md` · `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/` · `CLIENT OUTREACH/MCO_COMMUNITY_INVESTMENT_JUN2026/`
 
 ---
 
@@ -14,7 +14,7 @@
 > DDI is a Contract Management TPA that designs, administers, and operates community-based public health programs — coordinating credentialed networks across transportation, environmental health, housing stability, and compliance services.
 
 **Public Health Consultation (PHC) framing:**
-DDI and CWC operate as integrated public health program infrastructure. This framing unlocks contract vehicles, LHD partnerships, and grant categories unavailable to vendors. CWC is the community trust and navigation layer. DDI is the operational and administrative backbone.
+DDI and CWC operate as integrated public health program infrastructure. CWC = community trust and navigation layer. DDI = operational and administrative backbone.
 
 ---
 
@@ -54,8 +54,6 @@ DDI and CWC operate as integrated public health program infrastructure. This fra
 | Email | ddavis@cwecare.org |
 | MiBridges | Community Navigation Partner since May 2020 |
 
-> **NEXUS correction (June 4 import):** Session draft listed CWC MiBridges as 2025. Source of truth (`COMPANY_INFO_MASTER.md`, `CWC_MI_BRIDGES_NAVIGATOR_REFERENCE.md`) — **both DDI and CWC since May 15, 2020.**
-
 ---
 
 ## 4. ACTIVE PARTNERSHIPS — CONFIRMED (INTERNAL ONLY)
@@ -63,15 +61,13 @@ DDI and CWC operate as integrated public health program infrastructure. This fra
 | Partner | Service Line | DDI Role | Status |
 |---|---|---|---|
 | HAP CareSource | Plan NEMT — Wayne & Macomb (MOB-A) | Contract Management TPA | Active |
-| DDI-Managed Fulfillment Network | NEMT & medical logistics | Credentialed network integration | Active |
-| DePointe DNA | Legal DNA collection & chain of custody | DDI program division | Active |
+| Uber Health | NEMT fulfillment (internal) | Subvendor integration | Active |
+| DDC / DePointe DNA | Legal DNA collection | Authorized distributor / program division | Active |
 | MDHHS | CLPPP / Environmental Health Bureau | Community navigation partner | Active |
 
-**Internal reference only (do NOT name in LHD/funder-facing docs):** Uber Health (NEMT fulfillment), DDC (lab partner for DePointe DNA).
+**NOT confirmed:** Lyft Healthcare · Quest Diagnostics (fee unpaid)
 
-**NOT listed as confirmed partners:**
-- Lyft Healthcare — no AE assigned, not active
-- Quest Diagnostics — partnership fee unpaid, not yet executed. Strategic target only.
+**Outbound rule:** LHD/MCO/funder docs use DDI-managed network language — no Uber/DDC names.
 
 ---
 
@@ -90,66 +86,54 @@ DDI and CWC operate as integrated public health program infrastructure. This fra
 
 ## 6. IMMEDIATE CONTRACT TARGETS
 
-1. MDHHS / LHD — designated community-based PHC delivery partner for SHIELD program rollout
+1. MDHHS / LHD — designated community-based PHC delivery partner for SHIELD rollout
 2. MCO subcontract — NEMT + PHC coordination (Molina, UHC Community, Priority Health)
-3. HRSN 1115 waiver — community delivery partner designation (housing + SDOH)
-4. DWIHN subcontract — Substance Use Compliance Navigation Program
-5. BCBSM Foundation concept paper — Healthcare Access & Transportation Equity Program
-6. Michigan Health Endowment Fund — CWC applicant, capacity building cycle 2026
+3. HRSN 1115 waiver — community delivery partner (housing + SDOH)
+4. DWIHN subcontract — Substance Use Compliance Navigation
+5. BCBSM Foundation concept paper — Healthcare Access (return **end Sept 2026**)
+6. Michigan Health Endowment Fund — CWC capacity building 2026
 
 ---
 
 ## 7. LHD OUTREACH — JUNE 16–20 SEND PACKAGE
 
-**Trigger:** If Angela Medina and Aimee Surma (MDHHS) have not responded by June 16, go direct to LHD directors.
+**Trigger:** If Angela Medina and Aimee Surma have not responded by **June 16**, go direct to LHD directors.
 
-**Email rules:** No call requests. DDI presents — they respond. Closing line: *"Our program narrative is enclosed for your review. We look forward to connecting at your department's convenience."* One email per send date. One attachment (`DDI_CWC_PHC_Program_Narrative.html` → PDF).
+**Rules:** No call requests. One email per send date. Attach `DDI_CWC_PHC_Program_Narrative.pdf`. Closing: *"Our program narrative is enclosed for your review. We look forward to connecting at your department's convenience."*
 
-**Package location:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/`
+**Package:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/`
 
 | Send Date | Director | Title | County/City | Email | Confidence |
 |---|---|---|---|---|---|
 | June 16 | Kennyle Johnson, MPH | Director, HHVS | Wayne County | hhvsdirector@waynecountymi.gov | Confirmed |
 | June 16 | Ali Abazeed, MPH, MPP | Chief Public Health Officer | Detroit | health@detroitmi.gov | Confirmed |
 | June 18 | Kate Guzmán, RN | Health Officer | Oakland County | health@oakgov.com | Confirmed |
-| June 18 | Krista Willette, RN, MSA | Director & Health Officer | Macomb County | krista.willette@macombgov.org | Inferred — verify |
-| June 18 | Dr. Michela Corsi, MD, MPH, MA | Medical Health Officer | Genesee County | mcorsi@gchd.us | Inferred — verify |
-| June 20 | Dr. Adam London, PhD, RS, DAAS | Administrative Health Officer | Kent County | alondon@kentcountymi.gov | Inferred — verify |
+| June 18 | Krista Willette, RN, MSA | Director, Health Department | Macomb County | krista.willette@macombgov.org | Verify — call (586) 469-5235 |
+| June 18 | Dr. Michela Corsi, MD, MPH, MA | Medical Director | Genesee County | gchd-info@geneseecountymi.gov (Attn: Corsi) | Verify — call (810) 257-3612 |
+| June 20 | Dr. Adam London, PhD, RS, DAAS | Administrative Health Officer | Kent County | adam.london@kentcountymi.gov | Verified Jun 4 |
 | June 20 | Kathy Moore | Health Officer & Director | Muskegon County | publichealth@co.muskegon.mi.us | Confirmed |
 
-**Verify before sending:**
-- Macomb: call (586) 469-5235
-- Genesee: call (810) 257-3612
-- Kent: call (616) 632-7100
-
-**Subject line (all except Genesee):** Community-Based Public Health Program Infrastructure — Dee Davis Inc. & Cause We Care
-
-**Genesee subject:** Community-Based Environmental Health & Lead Screening Program Infrastructure — Dee Davis Inc. & Cause We Care
-
-**Detroit note:** Ali Abazeed appointed by Mayor Mary Sheffield. Health in All Policies approach. Independent from Wayne County HHVS — engage both by family geography.
-
-**Genesee note:** Lead with Michigan universal blood lead testing mandate + CWC CLPPP follow-up. TPA + NEXUS differentiator in crowded post-crisis field.
+**Subjects:** Standard PHC subject (all except Genesee). Genesee: *Community-Based Environmental Health & Lead Screening Program Infrastructure — Dee Davis Inc. & Cause We Care*
 
 ---
 
 ## 8. DELIVERABLES PRODUCED THIS SESSION
 
-| Deliverable | Path |
-|---|---|
-| Program narrative (web + attachment) | `nexus-frontend/public/program-narrative.html` · `GRANT_APPLICATION_PACKAGE/DDI_CWC_PHC_Program_Narrative.html` |
-| LHD outreach emails (7 + Genesee variant) | `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/` |
-| PHC positioning lock | `NEXUS_LEARNING/DDI_PHC_POSITIONING_LOCKED.md` |
-| Outreach workflow | `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/WORKFLOW_CHECKLIST.md` |
+- `DDI_CWC_PHC_Program_Narrative.html` — LHD/MCO enclosure
+- Seven LHD emails + Genesee tailored variant — `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/`
+- Three MCO community investment emails — `MCO_COMMUNITY_INVESTMENT_JUN2026/SEND_TO_MCO/`
+- `NEXUS_LEARNING/DDI_PHC_POSITIONING_LOCKED.md`
+- `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md`
 
 ---
 
 ## 9. WHAT DOES NOT GO IN ANY DDI DOCUMENT
 
-- Lyft Healthcare as a partner (no AE assigned)
-- Quest Diagnostics as a contracted partner (fee unpaid)
-- DTMB #190000001418 (DDC's state contract — DDI is distributor, not contract holder)
-- Any MDHHS relationship described as a formal contract (community navigation partner + validated outreach — not a signed contract)
-- Uber Health, DDC, or other fulfillment brand names on LHD/funder-facing outreach (use DDI-managed network language)
+- Lyft Healthcare as partner
+- Quest as contracted partner
+- DTMB #190000001418 (DDC state contract)
+- MDHHS as formal contract (community navigation partner only)
+- Fulfillment brand names on outbound docs
 
 ---
 
@@ -157,14 +141,55 @@ DDI and CWC operate as integrated public health program infrastructure. This fra
 
 | Date | Action |
 |---|---|
-| June 4 | LinkedIn verify Oakland, Macomb, Muskegon, Genesee, Kent directors |
-| June 16 | LHD outreach — Wayne County + Detroit (if MDHHS trigger) |
-| June 18 | LHD outreach — Oakland, Macomb, Genesee |
-| June 20 | LHD outreach — Kent, Muskegon |
-| July 1 | Begin BCBSM Foundation concept paper (board reviews August 5) |
-| July 21 | Submit BCBSM Foundation concept paper |
-| Monthly | Monitor MDHHS EGrAMS, county opioid settlement cycles, CFSEM + Michigan Health Endowment Fund |
+| **June 16** | LHD outreach — Wayne County + Detroit |
+| **June 18** | LHD outreach — Oakland, Macomb, Genesee |
+| **June 20** | LHD outreach — Kent, Muskegon |
+| **End September 2026** | Return — begin BCBSM Foundation concept paper build |
+| **October 29, 2026** | BCBSM concept paper due (Winter cycle) |
+| Monthly | Monitor MDHHS EGrAMS, county opioid settlement, CFSEM, MHEF |
 
 ---
 
-*Session date: June 4, 2026 | NEXUS import complete*
+## 11. MCO COMMUNITY INVESTMENT OUTREACH PACKAGE
+
+Three emails ready. **No deadline.** Send any time. Same PHC narrative enclosure.
+
+### Molina Healthcare of Michigan
+- **Contact:** Terrisca Des Jardins, Plan President
+- **Email:** tdesjardins@molinahealthcare.com *(verify before send)*
+- **Angle:** MolinaCares Michigan Health Equity Initiative ($4.5M active) — invest in operational CWC/DDI infrastructure, not a new program pitch
+
+### UnitedHealthcare Community Plan of Michigan
+- **Contact:** Scott Waulters, SVP
+- **Email:** scott_waulters@uhc.com
+- **Angle:** Dual ask — NEMT Contract Management TPA (HAP model, Region 10) + community investment for SDOH/access/environmental health/housing
+
+### Priority Health
+- **Contact:** Praveen Thadani, President & CEO
+- **Email:** TBD — find before send
+- **Angle:** Priority Health for Good SDOH alignment · Submit funding request form same day — priorityhealth.com/about-us/funding-request
+
+**Files:** `CLIENT OUTREACH/MCO_COMMUNITY_INVESTMENT_JUN2026/SEND_TO_MCO/`
+
+---
+
+## 12. BCBSM FOUNDATION — RETURN DATE
+
+**Come back end of September 2026** to build the concept paper.
+
+| Field | Detail |
+|---|---|
+| Program | Healthcare Access & Transportation Equity (primary) or Environmental Health / Lead (secondary — decide Sept from MDHHS momentum) |
+| Applicant | Cause We Care |
+| Operational partner | Dee Davis Inc. |
+| Award | Up to $25,000/yr × 2 years (typical $15,000/yr) |
+| Match | 10% (CWC < $10M budget, >30% Medicaid/uninsured) |
+| Concept paper due | **October 29, 2026** (Winter cycle) |
+| Form | forms.office.com/r/wZdDebmJf9 |
+| Contact | foundation@bcbsm.com |
+
+**Note:** Summer 2026 cycle (May 27 concept / Aug 5 review) intentionally skipped.
+
+---
+
+*Session date: June 4, 2026 | NEXUS sync complete*

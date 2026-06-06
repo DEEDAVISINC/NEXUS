@@ -57,7 +57,7 @@
 | Funder | Focus | Est. range | Programs | Next action |
 |--------|-------|------------|----------|-------------|
 | **MHEF** | Capacity building, community health | Up to ~$300K | Healthcare Access, Substance Use, Family Stability | **Submit concept in Fluxx** — see ops status |
-| **BCBSM Foundation** | Community health matching | Varies | Healthcare Access, Substance Use | Concept paper before **Aug 5, 2026** board review |
+| **BCBSM Foundation** | Community health matching | Varies | Healthcare Access, Substance Use | **Winter cycle:** begin **end Sept 2026** · concept due **Oct 29, 2026** |
 | **Kresge Foundation** | Health equity, Detroit, human services | Varies | Healthcare Access, Family Stability, Housing | Relationship-first; CWC pitch vehicle |
 | **CFSEM** | Wayne, Oakland, Macomb | $5K–$50K+ | Family Stability, Healthcare Access | Register + SHIELD navigator pilot |
 | **Skillman Foundation** | Detroit children/youth | Varies | Family Stability | Secondary — monitor RFPs |
@@ -90,9 +90,10 @@
 | Date | Item |
 |------|------|
 | **Mid-June 2026** | MDHHS silence trigger → direct LHD outreach |
-| **Aug 5, 2026** | BCBSM Foundation board review #1 |
+| **End Sept 2026** | Begin BCBSM Foundation concept paper (Winter cycle) |
+| **Oct 29, 2026** | BCBSM Foundation concept paper due (Winter cycle) |
 | **Sept 2026** | CDC CLPPP cycle end |
-| **Nov 18, 2026** | BCBSM Foundation board review #2 |
+| **Nov 18, 2026** | BCBSM Foundation board review (Winter cycle awards) |
 | Ongoing | MHEF capacity building · EGrAMS GFOs · county settlement cycles |
 
 ---
