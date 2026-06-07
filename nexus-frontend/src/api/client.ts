@@ -255,6 +255,18 @@ export const api = {
   simulatePrismVoiceCall: (data: { call_sid?: string; speech: string; caller?: string }) =>
     ApiClient.post('/prism/voice/simulate', data),
 
+  /** PRISM NEMT — trip dispatch, eligibility, complete → VERTEX invoice */
+  getNemtOrderByPrism: (prismOrderId: string) =>
+    ApiClient.get(`/prism/nemt/orders/by-prism/${encodeURIComponent(prismOrderId)}`),
+  verifyNemtEligibility: (nemtOrderId: string, data?: Record<string, unknown>) =>
+    ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/verify-eligibility`, data || {}),
+  dispatchNemtOrder: (nemtOrderId: string, data?: Record<string, unknown>) =>
+    ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/dispatch`, data || {}),
+  completeNemtTrip: (nemtOrderId: string, data: Record<string, unknown>) =>
+    ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/complete`, data),
+  getNemtEligibilityChecklist: (nemtOrderId: string) =>
+    ApiClient.get(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/eligibility`),
+
   /** PRISM DOT: collector operator due-diligence brief (49 CFR Part 40 basics / audit risk) */
   getPrismDotCollectorDueDiligence: () => ApiClient.get('/prism/dot/collector-due-diligence'),
 

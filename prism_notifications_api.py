@@ -141,6 +141,8 @@ def _normalize_notification(raw: dict) -> dict:
         n['severity'] = 'warning'
     return n
 
+
+def create_notification(notif_type: str, message: str, order_id: str = '',
                         agent_id: str = '', agent_name: str = '',
                         metadata: dict = None) -> dict:
     """Create and persist a notification. Called by other PRISM modules."""

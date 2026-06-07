@@ -17,6 +17,8 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 app = Flask(__name__)
 CORS(app)
 
+_nemt_loaded = False
+
 
 def _mask_phone(raw: str) -> str:
     """Last 4 digits only — safe for health endpoint."""
@@ -78,6 +80,9 @@ def health_check():
         'service': 'NEXUS PRISM API',
         'version': '1.0.1',
         'mode': 'pa-minimal',
+        'modules': {
+            'nemt': _nemt_loaded,
+        },
         'notifications': notifications,
         'notifications_ready': all_channels,
     })
@@ -115,6 +120,19 @@ except ImportError as exc:
     @app.route('/prism/voice/<path:_path>', methods=['GET', 'POST'])
     def prism_voice_unavailable(_path):
         return jsonify({'error': logger_msg}), 503
+
+try:
+    from prism_nemt import prism_nemt
+
+    app.register_blueprint(prism_nemt)
+    _nemt_loaded = True
+except ImportError as exc:
+    _nemt_loaded = False
+    _nemt_err = f'PRISM NEMT API not loaded: {exc}'
+
+    @app.route('/prism/nemt/<path:_path>', methods=['GET', 'POST'])
+    def prism_nemt_unavailable(_path):
+        return jsonify({'error': _nemt_err}), 503
 
 
 # PythonAnywhere WSGI entry point

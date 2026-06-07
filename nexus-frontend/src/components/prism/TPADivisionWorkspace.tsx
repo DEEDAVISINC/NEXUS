@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { api } from '../../api/client';
 import PrismAgentDirectory from './PrismAgentDirectory';
 import PrismVoiceCallCenter from './PrismVoiceCallCenter';
 import PrismOpsFeed, { PrismNotification } from './PrismOpsFeed';
@@ -43,6 +44,9 @@ interface Order {
   attachments: { name: string; url: string; type: 'screenshot' | 'document' | 'result' }[];
   createdAt: string;
   updatedAt: string;
+  /** Linked NEMT pipeline order (HAP / MCO trips) */
+  nemtOrderId?: string;
+  vertexInvoiceId?: string;
 }
 
 interface CapturedDoc {
@@ -74,6 +78,10 @@ export function mapPrismApiOrderToWorkspace(o: Record<string, unknown>): Order {
 
   const time = String(o.time || '');
   const tz = String(o.timezone || '');
+  const details =
+    o.details && typeof o.details === 'object' && !Array.isArray(o.details)
+      ? (o.details as Record<string, unknown>)
+      : {};
 
   return {
     id: String(o.id || ''),
@@ -97,6 +105,8 @@ export function mapPrismApiOrderToWorkspace(o: Record<string, unknown>): Order {
     attachments: [],
     createdAt: String(o.created_at || ''),
     updatedAt: String(o.updated_at || o.created_at || ''),
+    nemtOrderId: details.nemt_order_id ? String(details.nemt_order_id) : undefined,
+    vertexInvoiceId: details.vertex_invoice_id ? String(details.vertex_invoice_id) : undefined,
   };
 }
 
@@ -254,6 +264,10 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   const [showNewClientModal, setShowNewClientModal] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [capturedDocs, setCapturedDocs] = useState<CapturedDoc[]>([]);
+  const [nemtBusy, setNemtBusy] = useState<string | null>(null);
+  const [nemtMsg, setNemtMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const isNemtDivision = division.id === 'transport';
 
   /** Real API orders when parent passes them; mock only when prop omitted (dev) */
   const displayOrders = ordersProp !== undefined ? ordersProp : MOCK_ORDERS;
@@ -285,6 +299,141 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
       onRefreshOrders?.();
     } finally {
       setAssigningOrder(false);
+    }
+  };
+
+  const resolveNemtOrderId = async (): Promise<string | null> => {
+    if (!selectedOrder) return null;
+    if (selectedOrder.nemtOrderId) return selectedOrder.nemtOrderId;
+    try {
+      const res = await api.getNemtOrderByPrism(selectedOrder.id);
+      if (res?.order_id) {
+        const nemtId = String(res.order_id);
+        setSelectedOrder({ ...selectedOrder, nemtOrderId: nemtId });
+        return nemtId;
+      }
+    } catch {
+      /* lookup failed */
+    }
+    return null;
+  };
+
+  const handleNemtVerify = async () => {
+    if (!selectedOrder) return;
+    setNemtBusy('verify');
+    setNemtMsg(null);
+    try {
+      const nemtId = await resolveNemtOrderId();
+      if (!nemtId) {
+        setNemtMsg({ ok: false, text: 'No NEMT order linked to this intake. Run voice simulate or create NEMT order first.' });
+        return;
+      }
+      const res = await api.verifyNemtEligibility(nemtId);
+      if (res?.error) {
+        setNemtMsg({ ok: false, text: String(res.error) });
+        return;
+      }
+      const passed = res.checklist?.eligible_to_dispatch;
+      setNemtMsg({
+        ok: !!passed,
+        text: passed
+          ? 'Eligibility verified — ready to dispatch.'
+          : `Eligibility incomplete (${res.checklist?.failed_count ?? '?'} checks failed).`,
+      });
+    } catch (e) {
+      setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Verify failed' });
+    } finally {
+      setNemtBusy(null);
+    }
+  };
+
+  const handleNemtDispatch = async () => {
+    if (!selectedOrder) return;
+    setNemtBusy('dispatch');
+    setNemtMsg(null);
+    try {
+      const nemtId = await resolveNemtOrderId();
+      if (!nemtId) {
+        setNemtMsg({ ok: false, text: 'No NEMT order linked to this intake.' });
+        return;
+      }
+      await api.verifyNemtEligibility(nemtId);
+      const res = await api.dispatchNemtOrder(nemtId, {
+        member_phone: selectedOrder.subjectInfo.phone || undefined,
+      });
+      if (res?.error) {
+        setNemtMsg({ ok: false, text: String(res.error) });
+        return;
+      }
+      setSelectedOrder({ ...selectedOrder, status: 'in_progress' });
+      setNemtMsg({ ok: true, text: 'Trip dispatched. Fulfillment platform notified or queued for manual dispatch.' });
+      onRefreshOrders?.();
+    } catch (e) {
+      setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Dispatch failed' });
+    } finally {
+      setNemtBusy(null);
+    }
+  };
+
+  const handleNemtComplete = async () => {
+    if (!selectedOrder) return;
+    setNemtBusy('complete');
+    setNemtMsg(null);
+    try {
+      const nemtId = await resolveNemtOrderId();
+      if (!nemtId) {
+        setNemtMsg({ ok: false, text: 'No NEMT order linked to this intake.' });
+        return;
+      }
+      let nemt = await api.getNemtOrderByPrism(selectedOrder.id);
+      if (nemt?.error) {
+        setNemtMsg({ ok: false, text: String(nemt.error) });
+        return;
+      }
+      const status = String(nemt.status || '');
+      if (status === 'scheduled') {
+        await api.verifyNemtEligibility(nemtId);
+        const disp = await api.dispatchNemtOrder(nemtId, {
+          member_phone: selectedOrder.subjectInfo.phone || undefined,
+        });
+        if (disp?.error) {
+          setNemtMsg({ ok: false, text: String(disp.error) });
+          return;
+        }
+      }
+      const now = new Date().toISOString();
+      const res = await api.completeNemtTrip(nemtId, {
+        actual_pickup_time: now,
+        actual_dropoff_time: now,
+        actual_mileage: 0,
+        auto_generate_claim: true,
+        member_phone: selectedOrder.subjectInfo.phone || undefined,
+      });
+      if (res?.error) {
+        setNemtMsg({ ok: false, text: String(res.error) });
+        return;
+      }
+      const invId =
+        res.order?.vertex_invoice_id ||
+        res.claim?.invoice?.id ||
+        res.claim?.invoice_id;
+      setSelectedOrder({
+        ...selectedOrder,
+        status: 'completed',
+        vertexInvoiceId: invId ? String(invId) : selectedOrder.vertexInvoiceId,
+        nemtOrderId: nemtId,
+      });
+      setNemtMsg({
+        ok: true,
+        text: invId
+          ? `Trip complete — VERTEX invoice generated (${invId}). Check Payments tab.`
+          : 'Trip complete — claim logged. Check Payments if invoice ID is pending.',
+      });
+      onRefreshOrders?.();
+    } catch (e) {
+      setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Complete failed' });
+    } finally {
+      setNemtBusy(null);
     }
   };
 
@@ -910,20 +1059,73 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Actions</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', backgroundColor: division.solid, cursor: 'pointer' }}>
-                      Schedule / Update
-                    </button>
-                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
-                      Add Confirmation #
-                    </button>
-                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
-                      Upload Document
-                    </button>
-                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', background: '#059669', cursor: 'pointer' }}>
-                      Mark Complete
-                    </button>
-                  </div>
+                  {isNemtDivision ? (
+                    <>
+                      {selectedOrder.nemtOrderId && (
+                        <p style={{ fontSize: 12, color: '#9CA3AF', marginBottom: 10, fontFamily: 'monospace' }}>
+                          NEMT: {selectedOrder.nemtOrderId.slice(0, 8)}…
+                        </p>
+                      )}
+                      {selectedOrder.vertexInvoiceId && (
+                        <p style={{ fontSize: 12, color: '#34D399', marginBottom: 10 }}>
+                          Invoice: {selectedOrder.vertexInvoiceId}
+                        </p>
+                      )}
+                      {nemtMsg && (
+                        <p style={{
+                          fontSize: 13,
+                          marginBottom: 10,
+                          padding: '8px 10px',
+                          borderRadius: 8,
+                          background: nemtMsg.ok ? 'rgba(5,150,105,0.15)' : 'rgba(220,38,38,0.15)',
+                          color: nemtMsg.ok ? '#6EE7B7' : '#FCA5A5',
+                        }}>
+                          {nemtMsg.text}
+                        </p>
+                      )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        <button
+                          type="button"
+                          disabled={!!nemtBusy || selectedOrder.status === 'completed'}
+                          onClick={handleNemtVerify}
+                          style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: nemtBusy ? 'wait' : 'pointer', opacity: nemtBusy || selectedOrder.status === 'completed' ? 0.6 : 1 }}
+                        >
+                          {nemtBusy === 'verify' ? 'Verifying…' : 'Verify Eligibility'}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={!!nemtBusy || selectedOrder.status === 'completed'}
+                          onClick={handleNemtDispatch}
+                          style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', backgroundColor: division.solid, cursor: nemtBusy ? 'wait' : 'pointer', opacity: nemtBusy || selectedOrder.status === 'completed' ? 0.6 : 1 }}
+                        >
+                          {nemtBusy === 'dispatch' ? 'Dispatching…' : 'Dispatch Trip'}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={!!nemtBusy || selectedOrder.status === 'completed'}
+                          onClick={handleNemtComplete}
+                          style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', background: '#059669', cursor: nemtBusy ? 'wait' : 'pointer', opacity: nemtBusy || selectedOrder.status === 'completed' ? 0.6 : 1 }}
+                        >
+                          {nemtBusy === 'complete' ? 'Closing trip…' : 'Mark Complete → Invoice'}
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', backgroundColor: division.solid, cursor: 'pointer' }}>
+                        Schedule / Update
+                      </button>
+                      <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
+                        Add Confirmation #
+                      </button>
+                      <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
+                        Upload Document
+                      </button>
+                      <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', background: '#059669', cursor: 'pointer' }}>
+                        Mark Complete
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>

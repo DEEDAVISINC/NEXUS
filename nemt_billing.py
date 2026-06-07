@@ -45,7 +45,35 @@ from company_info import (
 
 PAYER_DEFAULT = "HAP CareSource"
 SOURCE_SYSTEM = "NEMT"
+NEMT_AIRTABLE_SOURCE = "Other"  # VERTEX INVOICES single-select (existing option)
+NEMT_INVOICE_TYPE = "CMS-1500 / NEMT / Factoring"  # logical label in NOTES
+NEMT_INVOICE_TYPE_AIRTABLE = "GOVERNMENT"  # VERTEX INVOICES single-select
+NEMT_PAYMENT_STATUS_UNPAID = "UNPAID"
 REGION_LABEL = "HAP CareSource Region 10"
+
+# HAP CareSource executed contract — flat per-trip (not MDHHS HCPCS fee schedule)
+HAP_CARESOURCE_CONTRACT_RATES: Dict[str, float] = {
+    "T2002": 28.00,  # ambulatory
+    "A0130": 35.00,  # wheelchair / WAV
+}
+
+
+def _is_hap_payer(payer: Optional[str]) -> bool:
+    p = (payer or "").lower()
+    return "caresource" in p or p.startswith("hap")
+
+
+def apply_hap_intake_defaults(order: Dict[str, Any]) -> None:
+    """
+    Credentialed HAP parallel vendor (100000469269): voice/portal intake
+    pre-clears eligibility for dispatch QA — prior auth tracked as network vendor.
+    Mutates order in place.
+    """
+    if not _is_hap_payer(order.get("payer")):
+        return
+    order["eligibility_verified"] = True
+    if not order.get("prior_auth_number") and not order.get("prior_auth_id"):
+        order["prior_auth_number"] = "HAP-PARALLEL-VENDOR-100000469269"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Michigan Medicaid MCO Payer Directory
@@ -405,6 +433,7 @@ def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, A
     Run the NEMT eligibility pre-check before accepting a trip.
     Returns a pass/fail checklist — driver cannot dispatch until all PASS.
     """
+    apply_hap_intake_defaults(trip_data)
     checks = []
 
     def _chk(item: str, passed: bool, action: Optional[str] = None) -> None:
@@ -607,8 +636,22 @@ def list_nemt_rates(airtable) -> List[Dict[str, Any]]:
     return out
 
 
-def get_rate_amount_and_description(airtable, hcpcs: str) -> Tuple[float, str]:
+def get_rate_amount_and_description(
+    airtable,
+    hcpcs: str,
+    payer: Optional[str] = None,
+    transport_type: Optional[str] = None,
+) -> Tuple[float, str]:
     h = (hcpcs or "").strip().upper()
+    if _is_hap_payer(payer) and h in HAP_CARESOURCE_CONTRACT_RATES:
+        amount = HAP_CARESOURCE_CONTRACT_RATES[h]
+        if h == "T2002":
+            desc = "HAP CareSource ambulatory trip (contract flat rate)"
+        elif h == "A0130":
+            desc = "HAP CareSource wheelchair trip (contract flat rate)"
+        else:
+            desc = f"HAP CareSource NEMT ({h})"
+        return amount, desc
     m = fetch_rates_map(airtable)
     if h not in m:
         raise ValueError(
@@ -720,10 +763,11 @@ def log_trip(
     driver_name: Optional[str] = None,
     vehicle_id: Optional[str] = None,
     prism_order_id: Optional[str] = None,
+    transport_type: Optional[str] = None,
 ) -> Dict[str, Any]:
     hcpcs_code = (hcpcs_code or "").strip().upper()
-    get_rate_amount_and_description(airtable, hcpcs_code)
     payer_name = (payer or PAYER_DEFAULT).strip()
+    get_rate_amount_and_description(airtable, hcpcs_code, payer=payer_name)
     trip_id = str(uuid.uuid4())
     trip = {
         "trip_id": trip_id,
@@ -747,6 +791,7 @@ def log_trip(
         "driver_name": driver_name or None,
         "vehicle_id": vehicle_id or None,
         "prism_order_id": prism_order_id or None,
+        "transport_type": (transport_type or "").strip() or None,
         "created_at": _now_iso(),
         "status": "logged",
         "invoice_id": None,
@@ -759,6 +804,32 @@ def log_trip(
         _consume_prior_auth(state, prior_auth_id)
     _save_state(state)
     return trip
+
+
+def _notes_vertex_module(fields: Dict[str, Any], VI: Dict[str, str]) -> Optional[str]:
+    raw = fields.get(VI['notes']) or ""
+    try:
+        if str(raw).strip().startswith("{"):
+            return json.loads(raw).get("vertex_module")
+    except json.JSONDecodeError:
+        pass
+    return None
+
+
+def _is_nemt_invoice_fields(fields: Dict[str, Any]) -> bool:
+    """Identify NEMT claims in VERTEX INVOICES (source may be PRISM on Airtable)."""
+    from api_server import VI
+    if fields.get(VI['source_system']) == SOURCE_SYSTEM:
+        return True
+    if fields.get(VI['invoice_type']) == NEMT_INVOICE_TYPE_AIRTABLE and _notes_vertex_module(fields, VI) == "NEMT":
+        return True
+    raw = fields.get(VI['notes']) or ""
+    try:
+        if str(raw).strip().startswith("{"):
+            return json.loads(raw).get("vertex_module") == "NEMT"
+    except json.JSONDecodeError:
+        pass
+    return False
 
 
 def _invoice_fields_for_claim(
@@ -787,30 +858,31 @@ def _invoice_fields_for_claim(
     )
     notes_obj = {
         "vertex_module": "NEMT",
+        "invoice_type_label": NEMT_INVOICE_TYPE,
         "cms1500": cms,
         "trip_id": trip["trip_id"],
+        "claim_amount": total,
+        "hcpcs_code": trip["hcpcs_code"],
         "factoring_compliance": True,
         "nemt_invoice_html": nemt_html_path,
         "nemt_invoice_pdf": nemt_pdf_path,
         "pdf_generated": pdf_generated,
     }
     from api_server import VI
+    # SUBTOTAL / TOTAL AMOUNT are computed in Airtable from LINE ITEMS — do not write them.
     return {
         VI['invoice_number']:  invoice_number,
         VI['invoice_date']:    invoice_date_iso,
         VI['due_date']:        due_date_iso,
         VI['client_name']:     trip.get("payer") or PAYER_DEFAULT,
-        VI['source_system']:   SOURCE_SYSTEM,
+        VI['source_system']:   NEMT_AIRTABLE_SOURCE,
         VI['source_record']:   trip["trip_id"],
-        VI['invoice_type']:    "CMS-1500 / NEMT / Factoring",
+        VI['invoice_type']:    NEMT_INVOICE_TYPE_AIRTABLE,
         VI['line_items']:      line_items,
-        VI['subtotal']:        total,
-        VI['total_amount']:    total,
-        VI['payment_status']:  "Unpaid",
-        VI['payment_terms']:   "Net 30",
+        VI['payment_status']:  NEMT_PAYMENT_STATUS_UNPAID,
+        VI['payment_terms']:   "NET 30",
         VI['notes']:           json.dumps(notes_obj, default=str),
         VI['government_agency']: REGION_LABEL,
-        VI['factoring_status']:  FACTORING_STATUS_UNFACTORED,
     }
 
 
@@ -842,8 +914,13 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
     if trip.get("invoice_id"):
         raise ValueError("Trip already converted to a claim")
 
-    total, desc = get_rate_amount_and_description(airtable, trip["hcpcs_code"])
     payer = trip.get("payer") or PAYER_DEFAULT
+    total, desc = get_rate_amount_and_description(
+        airtable,
+        trip["hcpcs_code"],
+        payer=payer,
+        transport_type=trip.get("transport_type"),
+    )
     client = lookup_vertex_client(airtable, payer)
     invoice_number = _next_nemt_invoice_number(airtable)
 
@@ -902,13 +979,18 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
         nemt_pdf_path=pdf_path,
         pdf_generated=pdf_ok,
     )
+    from api_server import VI
     try:
         created = airtable.create_record("VERTEX INVOICES", fields)
     except Exception as e:
         err = str(e).lower()
         if "factoring" in err or "unknown field" in err:
-            from api_server import VI
             fields.pop(VI['factoring_status'], None)
+            created = airtable.create_record("VERTEX INVOICES", fields)
+        elif "total amount" in err or ("computed" in err and "cannot accept" in err):
+            fields.pop(VI.get('total_amount'), None)
+            fields.pop(VI.get('subtotal'), None)
+            fields.pop(VI.get('balance_due'), None)
             created = airtable.create_record("VERTEX INVOICES", fields)
         else:
             raise
@@ -920,9 +1002,10 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
     state["trips"][trip_id] = trip
     _save_state(state)
 
-    notes_parsed = json.loads(fields["Notes"])
+    notes_parsed = json.loads(fields[VI['notes']])
     return {
         "success": True,
+        "claim_amount": total,
         "trip": trip,
         "invoice": created,
         "cms1500": notes_parsed.get("cms1500"),
@@ -936,22 +1019,20 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
 
 def get_pending_claims(airtable) -> List[Dict[str, Any]]:
     from api_server import VI
-    ss = VI['source_system']
     ps_field = VI['payment_status']
-    formula = f"AND({{{ss}}}='NEMT',OR({{{ps_field}}}='Unpaid',{{{ps_field}}}='Partial'))"
     try:
-        return airtable.search_records("VERTEX INVOICES", formula)
-    except Exception:
         all_inv = airtable.get_all_records("VERTEX INVOICES")
-        out = []
-        for rec in all_inv:
-            f = _record_fields(rec)
-            if f.get(ss) != SOURCE_SYSTEM:
-                continue
-            ps = f.get(ps_field)
-            if ps in ("Unpaid", "Partial"):
-                out.append(rec)
-        return out
+    except Exception:
+        return []
+    out = []
+    for rec in all_inv:
+        f = _record_fields(rec)
+        if not _is_nemt_invoice_fields(f):
+            continue
+        ps = f.get(ps_field)
+        if ps in (NEMT_PAYMENT_STATUS_UNPAID, "Unpaid", "Partial", "PARTIAL"):
+            out.append(rec)
+    return out
 
 
 def get_nemt_revenue_total(airtable) -> float:
@@ -978,7 +1059,7 @@ def get_nemt_summary(airtable) -> Dict[str, Any]:
 
     all_nemt = []
     for rec in airtable.get_all_records("VERTEX INVOICES"):
-        if _record_fields(rec).get(VI['source_system']) == SOURCE_SYSTEM:
+        if _is_nemt_invoice_fields(_record_fields(rec)):
             all_nemt.append(rec)
     total_billed = sum(float(_record_fields(r).get(VI['total_amount']) or 0) for r in all_nemt)
 
@@ -1003,7 +1084,7 @@ def post_payment(
     from api_server import VI, VR
     inv = airtable.get_record("VERTEX INVOICES", invoice_id)
     fields = _record_fields(inv)
-    if fields.get(VI['source_system']) != SOURCE_SYSTEM:
+    if not _is_nemt_invoice_fields(fields):
         raise ValueError("Invoice is not a NEMT claim")
 
     ps = fields.get(VI['payment_status'])

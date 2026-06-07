@@ -179,6 +179,7 @@ def create_nemt_order(
     driver_name: Optional[str] = None,
     vehicle_id: Optional[str] = None,
     notes: Optional[str] = None,
+    prism_order_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     transport = TRANSPORT_TYPES.get(transport_type)
     if not transport:
@@ -208,6 +209,7 @@ def create_nemt_order(
         "driver_name": driver_name or None,
         "vehicle_id": vehicle_id or None,
         "notes": notes or "",
+        "prism_order_id": (prism_order_id or "").strip() or None,
         "status": "scheduled",
         "created_at": _now_iso(),
         "dispatched_at": None,
@@ -215,6 +217,12 @@ def create_nemt_order(
         "vertex_trip_id": None,
         "vertex_invoice_id": None,
     }
+
+    from nemt_billing import apply_hap_intake_defaults
+
+    apply_hap_intake_defaults(order)
+    if eligibility_verified:
+        order["eligibility_verified"] = True
 
     # Run eligibility checklist
     checklist = check_member_eligibility_checklist(order)
@@ -233,6 +241,60 @@ def create_nemt_order(
     })
 
     return order
+
+
+def find_nemt_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]:
+    """Resolve linked NEMT order from PRISM confirmation / order id."""
+    pid = (prism_order_id or "").strip()
+    if not pid:
+        return None
+    state = _load_state()
+    for order in state.get("orders", {}).values():
+        if order.get("prism_order_id") == pid:
+            return order
+    for order in state.get("orders", {}).values():
+        notes = order.get("notes") or ""
+        if pid in notes:
+            return order
+    return None
+
+
+def link_prism_nemt_order(prism_order_id: str, nemt_order_id: str) -> None:
+    """Persist PRISM ↔ NEMT link on the PRISM order details blob."""
+    try:
+        from prism_orders_api import ORDERS_FILE, _load, _save
+
+        orders = _load(ORDERS_FILE, [])
+        for i, o in enumerate(orders):
+            if o.get("id") == prism_order_id:
+                details = dict(o.get("details") or {})
+                details["nemt_order_id"] = nemt_order_id
+                orders[i]["details"] = details
+                orders[i]["updated_at"] = _now_iso()
+                _save(ORDERS_FILE, orders)
+                return
+    except Exception as exc:
+        print(f"PRISM↔NEMT link skipped: {exc}")
+
+
+def _sync_prism_order_complete(prism_order_id: str, vertex_invoice_id: Optional[str] = None) -> None:
+    """Mark PRISM intake order Complete after NEMT trip closes (bypasses UI QC gate)."""
+    try:
+        from prism_orders_api import ORDERS_FILE, _load, _save
+
+        orders = _load(ORDERS_FILE, [])
+        for i, o in enumerate(orders):
+            if o.get("id") == prism_order_id:
+                orders[i]["status"] = "Complete"
+                orders[i]["updated_at"] = _now_iso()
+                if vertex_invoice_id:
+                    details = dict(orders[i].get("details") or {})
+                    details["vertex_invoice_id"] = vertex_invoice_id
+                    orders[i]["details"] = details
+                _save(ORDERS_FILE, orders)
+                return
+    except Exception as exc:
+        print(f"PRISM order sync skipped: {exc}")
 
 
 def dispatch_order(
@@ -396,7 +458,8 @@ def complete_trip(
         prior_auth_number=order.get("prior_auth_number"),
         driver_name=order.get("driver_name"),
         vehicle_id=order.get("vehicle_id"),
-        prism_order_id=order_id,
+        prism_order_id=order.get("prism_order_id") or order_id,
+        transport_type=order.get("transport_type"),
     )
     order["vertex_trip_id"] = vertex_trip["trip_id"]
 
@@ -410,6 +473,14 @@ def complete_trip(
 
     state["orders"][order_id] = order
     _save_state(state)
+
+    vertex_invoice_id = None
+    if claim_result and isinstance(claim_result, dict):
+        vertex_invoice_id = (claim_result.get("invoice") or {}).get("id")
+
+    prism_id = order.get("prism_order_id")
+    if prism_id:
+        _sync_prism_order_complete(prism_id, vertex_invoice_id)
 
     # ─── LEARNING ENGINE: Log trip completed ──────────────────────────────────
     nxlearn('transport', order_id, 'trip_completed', {
@@ -747,7 +818,10 @@ def route_create_order():
             driver_name=data.get("driver_name"),
             vehicle_id=data.get("vehicle_id"),
             notes=data.get("notes"),
+            prism_order_id=data.get("prism_order_id"),
         )
+        if data.get("prism_order_id") and order.get("order_id"):
+            link_prism_nemt_order(data["prism_order_id"], order["order_id"])
         # ── Initial appointment confirmation + day-of reminder ──────────────
         # En route / arrived / departed tracking comes from Uber Health /
         # Lyft Healthcare webhooks once API credentials are active.
@@ -755,6 +829,43 @@ def route_create_order():
         return jsonify(order), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
+
+@prism_nemt.route("/prism/nemt/orders/by-prism/<prism_id>", methods=["GET"])
+def route_by_prism_order(prism_id: str):
+    order = find_nemt_order_by_prism_id(prism_id)
+    if not order:
+        return jsonify({
+            "error": "No NEMT order linked to this PRISM order",
+            "prism_order_id": prism_id,
+        }), 404
+    return jsonify(order)
+
+
+@prism_nemt.route("/prism/nemt/orders/<order_id>/verify-eligibility", methods=["POST"])
+def route_verify_eligibility(order_id: str):
+    """Ops QA: mark eligibility verified and refresh dispatch checklist."""
+    from nemt_billing import apply_hap_intake_defaults, check_member_eligibility_checklist
+
+    data = request.get_json(force=True) or {}
+    state = _load_state()
+    order = state.get("orders", {}).get(order_id)
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    apply_hap_intake_defaults(order)
+    order["eligibility_verified"] = True
+    order["eligibility_verified_at"] = _now_iso()
+    if data.get("prior_auth_number"):
+        order["prior_auth_number"] = data["prior_auth_number"]
+    if data.get("prior_auth_id"):
+        order["prior_auth_id"] = data["prior_auth_id"]
+
+    checklist = check_member_eligibility_checklist(order)
+    order["eligibility_checklist"] = checklist
+    state["orders"][order_id] = order
+    _save_state(state)
+    return jsonify({"order": order, "checklist": checklist})
 
 
 @prism_nemt.route("/prism/nemt/orders/<order_id>", methods=["GET"])
@@ -794,14 +905,14 @@ def route_dispatch(order_id: str):
 
 @prism_nemt.route("/prism/nemt/orders/<order_id>/complete", methods=["POST"])
 def route_complete(order_id: str):
-    from nexus_scheduler import get_airtable_client
+    from nexus_backend import AirtableClient
     data = request.get_json(force=True) or {}
     required = ["actual_pickup_time", "actual_dropoff_time", "actual_mileage"]
     missing = [f for f in required if not data.get(f) and data.get(f) != 0]
     if missing:
         return jsonify({"error": f"Missing: {', '.join(missing)}"}), 400
     try:
-        airtable = get_airtable_client()
+        airtable = AirtableClient()
         result = complete_trip(
             airtable=airtable,
             order_id=order_id,
@@ -916,9 +1027,9 @@ def route_register_driver():
 @prism_nemt.route("/prism/nemt/vertex-summary", methods=["GET"])
 def route_vertex_summary():
     """Billing summary from VERTEX — pending claims, total billed, total received."""
-    from nexus_scheduler import get_airtable_client
+    from nexus_backend import AirtableClient
     try:
-        airtable = get_airtable_client()
+        airtable = AirtableClient()
         return jsonify(get_nemt_summary(airtable))
     except Exception as e:
         return jsonify({"error": str(e)}), 500

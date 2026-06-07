@@ -92,6 +92,39 @@ curl -s -X POST https://deedavis.pythonanywhere.com/prism/intake \
 # Dashboard queue
 curl -s https://deedavis.pythonanywhere.com/prism/orders | head -c 500
 # Expect: JSON with orders array containing SMOKE-PRISM-001
+
+# NEMT module (dispatch / complete / invoice)
+curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders | python3 -m json.tool
+# Expect: {"orders": [...], "count": N}
+
+curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders/by-prism/SMOKE-PRISM-001
+# Expect: 404 until NEMT order linked, or order JSON when linked
+
+# After deploy — health should still show mode pa-minimal; NEMT must NOT 404:
+curl -s -o /dev/null -w "NEMT HTTP %{http_code}\n" https://deedavis.pythonanywhere.com/prism/nemt/orders
+# Expect: HTTP 200 and JSON {"orders":[...],"count":N}
+```
+
+**NEMT on PA (production Transport buttons):** Netlify PRISM uses `REACT_APP_API_BASE=https://deedavis.pythonanywhere.com`. Until NEMT routes are deployed, Transport **Verify / Dispatch / Complete** return 404 on production.
+
+Deploy checklist:
+1. `git pull origin main` on PA (includes `prism_pa_app.py` NEMT blueprint + `prism_nemt.py` + `nemt_billing.py`)
+2. Web tab → **Reload** `deedavis.pythonanywhere.com`
+3. Confirm: `curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders` → JSON, not HTML 404
+4. Voice intake on PA already creates linked NEMT orders via `prism_voice_intake.py`
+
+Local UI button test (before or after PA deploy):
+```bash
+# Terminal 1 — API (full stack with NEMT)
+cd ~/nexus-backend && source venv/bin/activate && python3 api_server.py
+
+# Terminal 2 — Frontend pointed at local API
+cd nexus-frontend && REACT_APP_API_BASE=http://127.0.0.1:8000 npm start
+
+# Seed a scheduled test order
+python3 scripts/seed_nemt_ui_test.py
+# Note prism_order_id from output → PRISM → Transport → Orders → open row
+# Click: Verify Eligibility → Dispatch Trip → Mark Complete → Invoice
 ```
 
 ---

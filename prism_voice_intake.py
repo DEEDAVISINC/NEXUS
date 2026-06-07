@@ -414,29 +414,33 @@ def _submit_nemt_order(session: Dict[str, Any], caller_phone: str) -> Dict[str, 
         logger.exception("PRISM intake from voice failed")
         raise RuntimeError(f"Could not create PRISM order: {exc}") from exc
 
+    prism_order_id = (prism_result.get("order") or {}).get("id") or conf
     nemt_result: Dict[str, Any] = {}
     try:
-        from nemt_billing import PAYER_DEFAULT
-        from prism_nemt import create_nemt_order
+        from prism_nemt import create_nemt_order, link_prism_nemt_order
 
         pickup_iso = f"{sched_date} {sched_time}".strip()
         nemt_order = create_nemt_order(
             member_medicaid_id=slots.get("member_medicaid_id", ""),
             member_name=slots.get("member_name", ""),
             member_dob=slots.get("member_dob", "Pending verification"),
-            payer=PAYER_DEFAULT,
+            payer="HAP CareSource",
             transport_type=transport,
             pickup_address=slots.get("pickup_address", ""),
             dropoff_address=slots.get("dropoff_address", ""),
             pickup_time=pickup_iso or sched_date,
             trip_purpose="Medical appointment",
             notes=f"Voice intake {conf} · call {session.get('call_sid', '')}",
+            prism_order_id=prism_order_id,
+            eligibility_verified=True,
         )
         nemt_result = nemt_order
+        if nemt_order.get("order_id"):
+            link_prism_nemt_order(prism_order_id, nemt_order["order_id"])
     except Exception as exc:
         logger.warning("NEMT order mirror skipped: %s", exc)
 
-    order_id = (prism_result.get("order") or {}).get("id") or conf
+    order_id = prism_order_id
     return {
         "confirmation": order_id,
         "prism": prism_result,
