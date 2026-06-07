@@ -275,6 +275,88 @@
   .badge-in-progress { background: var(--purple-light); color: var(--purple); }
   .badge-completed { background: var(--green-light); color: var(--green); }
 
+  .trip-actions {
+    display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0;
+  }
+  .trip-action-btn {
+    font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--card); color: var(--blue);
+    cursor: pointer; white-space: nowrap; transition: all .15s;
+  }
+  .trip-action-btn:hover { background: var(--blue-light); border-color: var(--blue); }
+  .trip-action-return { color: var(--purple); }
+  .trip-action-return:hover { background: var(--purple-light); border-color: var(--purple); }
+  .trip-action-repeat { color: var(--green); }
+  .trip-action-repeat:hover { background: var(--green-light); border-color: var(--green); }
+  .trip-action-recurring { color: var(--orange); }
+  .trip-action-recurring:hover { background: var(--orange-light); border-color: var(--orange); }
+  .nemt-rebook-banner {
+    background: var(--blue-light); border: 1px solid rgba(37,99,235,.2);
+    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+    font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .nemt-rebook-banner strong { color: var(--text); }
+  .nemt-urgent-banner {
+    background: var(--orange-light); border: 1px solid rgba(217,119,6,.35);
+    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+    font-size: 13px; color: #92400e; line-height: 1.55;
+  }
+  .nemt-urgent-banner strong { color: #78350f; }
+  .nemt-urgent-banner a { color: #b45309; font-weight: 700; text-decoration: none; }
+  .nemt-urgent-banner a:hover { text-decoration: underline; }
+  .nemt-repeat-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 8px; }
+  .nemt-repeat-row .field { flex: 1; margin: 0; }
+  .nemt-weekday-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 10px 0 14px;
+  }
+  .nemt-weekday-chip {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 8px 4px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--card); cursor: pointer; font-size: 11px; font-weight: 600;
+    color: var(--text-secondary); transition: all .15s; user-select: none;
+  }
+  .nemt-weekday-chip input { accent-color: var(--blue); }
+  .nemt-weekday-chip:has(input:checked) {
+    border-color: var(--blue); background: var(--blue-light); color: var(--blue);
+  }
+  .nemt-recurring-preview {
+    font-size: 12px; color: var(--text-secondary); margin: 10px 0 8px; line-height: 1.5;
+    padding: 10px 12px; background: var(--bg); border-radius: 8px; border: 1px dashed var(--border);
+  }
+  .nemt-recurring-preview strong { color: var(--text); }
+  .nemt-weekday-error { font-size: 12px; color: var(--red); display: none; margin-top: 4px; }
+  .nemt-weekday-error.visible { display: block; }
+  .nemt-scheduling-tips {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .nemt-scheduling-tips ul { margin: 8px 0 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.65; }
+  .nemt-scheduling-tips-title { font-size: 13px; font-weight: 700; color: var(--text); }
+
+  .nemt-return-prompt {
+    background: linear-gradient(135deg, var(--purple-light) 0%, var(--green-light) 100%);
+    border: 1px solid rgba(107,33,168,.25);
+    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .nemt-return-prompt-head { display: flex; align-items: flex-start; gap: 12px; }
+  .nemt-return-prompt-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+  .nemt-return-prompt-body { flex: 1; min-width: 0; }
+  .nemt-return-prompt-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .nemt-return-prompt-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+  .nemt-return-prompt-meta { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .nemt-return-prompt-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nemt-return-prompt-primary {
+    font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 8px;
+    border: none; background: var(--purple); color: #fff; cursor: pointer;
+  }
+  .nemt-return-prompt-primary:hover { filter: brightness(1.08); }
+  .nemt-return-prompt-secondary {
+    font-size: 12px; font-weight: 600; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text-muted); cursor: pointer;
+  }
+  .nemt-return-prompt-secondary:hover { background: var(--bg); }
+
   /* ── RESULTS WAITING ── */
   .results-waiting {
     background: var(--orange-light); border: 1px solid rgba(217,119,6,.2);
@@ -700,6 +782,10 @@
     .card-input-row { grid-template-columns: 1fr; }
     .override-row { flex-direction: column; }
     .recent-table { font-size: 12px; }
+    .upcoming-item { flex-wrap: wrap; }
+    .trip-actions { flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: flex-start; margin-top: 8px; }
+    .nemt-return-prompt-actions { flex-direction: column; }
+    .nemt-return-prompt-primary, .nemt-return-prompt-secondary { width: 100%; text-align: center; }
   }
   @media print {
     .overlay { position: static; background: none; backdrop-filter: none; padding: 0; }
@@ -815,9 +901,22 @@
   </div>
 
   <div id="results-waiting-area"></div>
+  <div id="nemt-return-prompt-area"></div>
 
   <div class="dash-section-title">Upcoming Appointments <span class="count" id="upcoming-count">0</span></div>
   <div class="upcoming-list" id="upcoming-list"></div>
+
+  <div class="nemt-scheduling-tips" id="nemt-scheduling-tips" style="display:none">
+    <div class="nemt-scheduling-tips-title">Medical trip scheduling</div>
+    <ul>
+      <li><strong>Rebook</strong> — same member and route, pick a new date. Our team reviews every request before dispatch.</li>
+      <li><strong>Return home</strong> — flips pickup and drop-off from your last trip (e.g. ride home after an appointment).</li>
+      <li><strong>+ Dates</strong> — add specific one-off dates manually (not a pattern).</li>
+      <li><strong>Repeat</strong> — daily, weekdays (Mon–Fri), weekly (pick days), every 2 weeks, or monthly — preview count before submit.</li>
+      <li>Trips needed <strong>within 48 hours</strong>? Call <strong>855-773-0035</strong> after 12:00 PM ET — portal requests need lead time for eligibility review.</li>
+      <li>Need help? Call <strong>855-773-0035</strong> anytime after 12:00 PM ET.</li>
+    </ul>
+  </div>
 
   <div class="compliance-strip" id="compliance-strip" style="display:none; margin-top: 20px;">
     <div class="compliance-item">
@@ -1104,6 +1203,8 @@
 <div class="wizard-step" id="step-3">
   <div class="step-title" id="step3-title">Subject & Scheduling</div>
   <div class="step-subtitle" id="step3-subtitle">Provide the subject's information and your preferred date and time.</div>
+  <div class="nemt-rebook-banner" id="nemt-rebook-banner" style="display:none"></div>
+  <div class="nemt-urgent-banner" id="nemt-urgent-banner" style="display:none" role="alert"></div>
   <div class="card" id="subject-card">
     <div class="donor-count-wrap" id="donor-count-wrap">
       <div class="donor-count-label">Estimated Number of Subjects</div>
@@ -1150,6 +1251,41 @@
     </div>
     <div class="form-row full" id="field-wrap-courier-pickup" style="display:none">
       <div class="field"><label><span id="label-courier-pickup">Pickup Address</span> <span class="req" id="req-courier-pickup">*</span></label><input type="text" id="courier-pickup" placeholder="Where we collect the package"><div class="error-msg">Required</div></div>
+    </div>
+    <div id="nemt-repeat-section" style="display:none; margin-top:16px;">
+      <div class="section-label" style="margin-top:0">Additional trip dates (optional)</div>
+      <p class="help-text" style="margin:0 0 10px">Same member and route — each date is a separate request reviewed by our team before dispatch.</p>
+      <div id="nemt-repeat-dates-list"></div>
+      <button type="button" class="trip-action-btn" style="margin-top:4px" onclick="addNemtRepeatDateRow()">+ Add another date</button>
+    </div>
+    <div id="nemt-recurring-section" style="display:none; margin-top:16px;">
+      <div class="section-label" style="margin-top:0">Repeat schedule</div>
+      <p class="help-text" style="margin:0 0 10px">Same member and route on a repeating pattern — dialysis, therapy, recurring appointments. Each generated date is a separate request reviewed before dispatch.</p>
+      <div class="form-row">
+        <div class="field"><label>Repeat frequency <span class="req">*</span></label>
+          <select id="nemt-recur-frequency" onchange="onNemtRecurFrequencyChange()">
+            <option value="daily">Daily</option>
+            <option value="weekdays">Every weekday (Mon–Fri)</option>
+            <option value="weekly" selected>Weekly (pick days)</option>
+            <option value="biweekly">Every 2 weeks</option>
+            <option value="monthly">Monthly (same date)</option>
+          </select>
+        </div>
+        <div class="field"><label>First trip date <span class="req">*</span></label><input type="date" id="nemt-recur-start"><div class="error-msg">Required</div></div>
+        <div class="field"><label>Pickup time <span class="req">*</span></label><input type="time" id="nemt-recur-time"><div class="error-msg">Required</div></div>
+      </div>
+      <div class="form-row" id="nemt-recur-duration-row">
+        <div class="field"><label id="nemt-recur-duration-label">For how long</label>
+          <select id="nemt-recur-duration"></select>
+        </div>
+      </div>
+      <div id="nemt-recur-weekly-days-wrap">
+        <div class="section-label" style="margin-top:4px;font-size:12px">Repeat on <span class="req">*</span></div>
+        <div class="nemt-weekday-grid" id="nemt-weekday-grid"></div>
+        <div class="nemt-weekday-error" id="nemt-weekday-error">Select at least one weekday.</div>
+      </div>
+      <div class="nemt-recurring-preview" id="nemt-recurring-preview">Select frequency, start date, and duration to preview trip count.</div>
+      <button type="button" class="trip-action-btn" onclick="previewNemtRecurringDates()">Update preview</button>
     </div>
   </div>
 
@@ -1391,6 +1527,638 @@ function getIntakeSubmitUrl() {
 }
 let clientData = null; // full client data from CRM lookup
 let mode = 'gate'; // 'gate' | 'dashboard' | 'form'
+let dashboardRefreshTimer = null;
+const DASHBOARD_REFRESH_MS = 60000;
+
+function portalStatusLabel(o) {
+  const ops = (o.ops_status || '').trim();
+  if (ops) return ops.replace(/_/g, ' ').toUpperCase();
+  return (o.status || 'pending').replace(/_/g, ' ').toUpperCase();
+}
+
+function startDashboardRefresh(email) {
+  stopDashboardRefresh();
+  if (!email || !email.includes('@')) return;
+  dashboardRefreshTimer = setInterval(async () => {
+    if (mode !== 'dashboard' || !clientData) return;
+    await fetchAndMergeOrders(email);
+    renderDashboard(clientData);
+  }, DASHBOARD_REFRESH_MS);
+}
+
+function stopDashboardRefresh() {
+  if (dashboardRefreshTimer) {
+    clearInterval(dashboardRefreshTimer);
+    dashboardRefreshTimer = null;
+  }
+}
+
+let nemtRebookContext = null; // { mode, sourceOrderId, sourceLabel }
+
+function isNemtPortalOrder(o) {
+  if (!o) return false;
+  if (o.rebook_eligible) return true;
+  const k = String(o.service_key || o.type || '').toLowerCase();
+  const label = String(o.service_label || '').toLowerCase();
+  return k === 'nemt' || k === 'transport' || label.includes('nemt') || label.includes('medical mobility');
+}
+
+const NEMT_RETURN_DISMISS_KEY = 'ddi_nemt_return_dismissed';
+
+function loadReturnDismissals() {
+  try {
+    const raw = localStorage.getItem(NEMT_RETURN_DISMISS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (_) { return []; }
+}
+
+function dismissReturnPrompt(orderId) {
+  if (!orderId) return;
+  const ids = loadReturnDismissals().filter(id => id !== orderId);
+  ids.unshift(orderId);
+  localStorage.setItem(NEMT_RETURN_DISMISS_KEY, JSON.stringify(ids.slice(0, 100)));
+  if (clientData?.orders) renderReturnHomePrompt(clientData.orders);
+}
+
+function isReturnLegOrder(o) {
+  const mode = String(o.rebook_mode || '').toLowerCase();
+  if (mode === 'return') return true;
+  const leg = String(o.nemt_leg_type || '').toLowerCase();
+  return leg.includes('return');
+}
+
+function hasReturnTripBooked(orders, outboundId) {
+  if (!outboundId || !orders?.length) return false;
+  return orders.some(o => {
+    if (o.id === outboundId) return false;
+    const src = String(o.rebook_source_id || '').trim();
+    if (src !== outboundId) return false;
+    const mode = String(o.rebook_mode || '').toLowerCase();
+    if (mode === 'return') return true;
+    return ['pending', 'scheduled', 'in_progress'].includes(o.status);
+  });
+}
+
+function orderCompletedWithinHours(o, hours = 72) {
+  const raw = o.updated_at || o.date;
+  if (!raw) return false;
+  const d = new Date(String(raw).includes('T') ? raw : `${raw}T23:59:00`);
+  if (Number.isNaN(d.getTime())) return false;
+  return (Date.now() - d.getTime()) < hours * 3600000;
+}
+
+function findReturnHomePromptCandidates(orders) {
+  const dismissed = new Set(loadReturnDismissals());
+  return (orders || []).filter(o =>
+    isNemtPortalOrder(o) &&
+    o.status === 'completed' &&
+    !isReturnLegOrder(o) &&
+    !hasReturnTripBooked(orders, o.id) &&
+    orderCompletedWithinHours(o, 72) &&
+    !dismissed.has(o.id)
+  ).sort((a, b) => {
+    const ta = new Date(a.updated_at || a.date || 0).getTime();
+    const tb = new Date(b.updated_at || b.date || 0).getTime();
+    return tb - ta;
+  });
+}
+
+function renderReturnHomePrompt(orders) {
+  const area = document.getElementById('nemt-return-prompt-area');
+  if (!area) return;
+  const candidates = findReturnHomePromptCandidates(orders);
+  if (!candidates.length) {
+    area.innerHTML = '';
+    return;
+  }
+  area.innerHTML = candidates.slice(0, 2).map(o => {
+    const dest = escHtml(o.dropoff_address || o.location || 'your appointment');
+    const subj = escHtml(o.subject || 'Member');
+    const id = escJs(o.id);
+    const when = escHtml(o.date || 'Today');
+    return `<div class="nemt-return-prompt" data-order-id="${escHtml(o.id)}">
+      <div class="nemt-return-prompt-head">
+        <div class="nemt-return-prompt-icon">🏠</div>
+        <div class="nemt-return-prompt-body">
+          <div class="nemt-return-prompt-title">Trip complete — need a ride home?</div>
+          <div class="nemt-return-prompt-sub">${subj} arrived at ${dest}. Schedule the return leg when you're ready — our team confirms before dispatch.</div>
+          <div class="nemt-return-prompt-actions">
+            <button type="button" class="nemt-return-prompt-primary" onclick="openNemtRebook('${id}','return')">Schedule return home</button>
+            <button type="button" class="nemt-return-prompt-secondary" onclick="dismissReturnPrompt('${id}')">Not now</button>
+          </div>
+          <div class="nemt-return-prompt-meta">Ref ${escHtml(o.id)} · ${when} · Return home swaps pickup and destination</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.dismissReturnPrompt = dismissReturnPrompt;
+
+function findPortalOrder(orderId) {
+  return (clientData?.orders || []).find(o => o.id === orderId) || null;
+}
+
+function setFieldValue(id, value) {
+  const el = document.getElementById(id);
+  if (!el || value == null || value === '' || value === '—') return;
+  el.value = value;
+}
+
+function selectOptionByText(selectId, text) {
+  const el = document.getElementById(selectId);
+  if (!el || !text) return;
+  const t = String(text).toLowerCase();
+  for (const opt of el.options) {
+    if (opt.value.toLowerCase() === t || opt.text.toLowerCase().includes(t) || t.includes(opt.text.toLowerCase())) {
+      el.value = opt.value;
+      return;
+    }
+  }
+  for (const opt of el.options) {
+    if (opt.text.toLowerCase().includes(t.split('/')[0].trim())) {
+      el.value = opt.value;
+      return;
+    }
+  }
+}
+
+function clearNemtRebookUi() {
+  nemtRebookContext = null;
+  const banner = document.getElementById('nemt-rebook-banner');
+  const repeatSec = document.getElementById('nemt-repeat-section');
+  const repeatList = document.getElementById('nemt-repeat-dates-list');
+  const recurSec = document.getElementById('nemt-recurring-section');
+  if (banner) { banner.style.display = 'none'; banner.innerHTML = ''; }
+  if (repeatSec) repeatSec.style.display = 'none';
+  if (repeatList) repeatList.innerHTML = '';
+  if (recurSec) recurSec.style.display = 'none';
+  document.getElementById('nemt-weekday-error')?.classList.remove('visible');
+  const preview = document.getElementById('nemt-recurring-preview');
+  if (preview) preview.textContent = 'Select frequency, start date, and duration to preview trip count.';
+}
+
+const NEMT_WEEKDAY_LABELS = [
+  { d: 0, short: 'Sun' }, { d: 1, short: 'Mon' }, { d: 2, short: 'Tue' }, { d: 3, short: 'Wed' },
+  { d: 4, short: 'Thu' }, { d: 5, short: 'Fri' }, { d: 6, short: 'Sat' },
+];
+
+const NEMT_RECUR_DURATION_OPTS = {
+  daily: [
+    { v: '7', l: '7 days' }, { v: '14', l: '14 days' }, { v: '30', l: '30 days' },
+    { v: '60', l: '60 days' }, { v: '90', l: '90 days' },
+  ],
+  weekdays: [
+    { v: '4', l: '4 weeks' }, { v: '8', l: '8 weeks' }, { v: '12', l: '12 weeks' }, { v: '16', l: '16 weeks' },
+  ],
+  weekly: [
+    { v: '4', l: '4 weeks' }, { v: '8', l: '8 weeks' }, { v: '12', l: '12 weeks' }, { v: '16', l: '16 weeks' },
+  ],
+  biweekly: [
+    { v: '4', l: '4 trips' }, { v: '8', l: '8 trips' }, { v: '12', l: '12 trips' }, { v: '24', l: '24 trips' },
+  ],
+  monthly: [
+    { v: '3', l: '3 months' }, { v: '6', l: '6 months' }, { v: '12', l: '12 months' },
+  ],
+};
+
+const NEMT_RECUR_LABELS = {
+  daily: 'Daily',
+  weekdays: 'Every weekday (Mon–Fri)',
+  weekly: 'Weekly',
+  biweekly: 'Every 2 weeks',
+  monthly: 'Monthly',
+};
+
+function getNemtRecurFrequency() {
+  return document.getElementById('nemt-recur-frequency')?.value || 'weekly';
+}
+
+function populateNemtRecurDurationOptions(freq) {
+  const sel = document.getElementById('nemt-recur-duration');
+  const label = document.getElementById('nemt-recur-duration-label');
+  if (!sel) return;
+  const opts = NEMT_RECUR_DURATION_OPTS[freq] || NEMT_RECUR_DURATION_OPTS.weekly;
+  sel.innerHTML = opts.map(o => `<option value="${o.v}">${o.l}</option>`).join('');
+  if (label) {
+    label.textContent = freq === 'daily' ? 'For how many days'
+      : freq === 'monthly' ? 'For how many months'
+      : freq === 'biweekly' ? 'Number of trips'
+      : 'For how many weeks';
+  }
+}
+
+function onNemtRecurFrequencyChange() {
+  const freq = getNemtRecurFrequency();
+  populateNemtRecurDurationOptions(freq);
+  const daysWrap = document.getElementById('nemt-recur-weekly-days-wrap');
+  if (daysWrap) daysWrap.style.display = freq === 'weekly' ? 'block' : 'none';
+  previewNemtRecurringDates();
+}
+
+function ensureNemtWeekdayGrid() {
+  const grid = document.getElementById('nemt-weekday-grid');
+  if (!grid || grid.children.length) return;
+  NEMT_WEEKDAY_LABELS.forEach(({ d, short }) => {
+    const chip = document.createElement('label');
+    chip.className = 'nemt-weekday-chip';
+    chip.innerHTML = `<input type="checkbox" class="nemt-weekday-cb" value="${d}" aria-label="${short}"> ${short}`;
+    chip.querySelector('input')?.addEventListener('change', () => previewNemtRecurringDates());
+    grid.appendChild(chip);
+  });
+  ['nemt-recur-start', 'nemt-recur-duration', 'nemt-recur-frequency'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', () => previewNemtRecurringDates());
+  });
+  document.getElementById('nemt-recur-time')?.addEventListener('change', () => previewNemtRecurringDates());
+}
+
+function getSelectedWeekdays() {
+  return [...document.querySelectorAll('.nemt-weekday-cb:checked')].map(el => parseInt(el.value, 10));
+}
+
+function parseLocalDateYmd(dateStr) {
+  const [y, m, d] = String(dateStr).split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function formatDateYmd(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function formatDateFriendly(dateStr) {
+  if (!dateStr) return '—';
+  const d = parseLocalDateYmd(dateStr);
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function weekdaySummary(days) {
+  const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return [...days].sort((a, b) => a - b).map(d => names[d]).join(', ');
+}
+
+function getRecurringTime() {
+  return rawVal('nemt-recur-time') || rawVal('sched-time') || '';
+}
+
+function getRecurringStartStr() {
+  return rawVal('nemt-recur-start') || rawVal('sched-date');
+}
+
+function getRecurringDuration() {
+  return parseInt(document.getElementById('nemt-recur-duration')?.value || '8', 10);
+}
+
+function generateRecurringTripDates() {
+  const freq = getNemtRecurFrequency();
+  const startStr = getRecurringStartStr();
+  const time = getRecurringTime();
+  const duration = getRecurringDuration();
+  if (!startStr || duration < 1) return [];
+
+  const start = parseLocalDateYmd(startStr);
+  const out = [];
+
+  if (freq === 'daily') {
+    const cursor = new Date(start);
+    for (let i = 0; i < duration; i++) {
+      out.push({ date: formatDateYmd(cursor), time });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return out;
+  }
+
+  if (freq === 'weekdays') {
+    const end = new Date(start);
+    end.setDate(end.getDate() + duration * 7 - 1);
+    const cursor = new Date(start);
+    while (cursor <= end) {
+      const dow = cursor.getDay();
+      if (dow >= 1 && dow <= 5) out.push({ date: formatDateYmd(cursor), time });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return out;
+  }
+
+  if (freq === 'weekly') {
+    const weekdays = getSelectedWeekdays();
+    if (!weekdays.length) return [];
+    const end = new Date(start);
+    end.setDate(end.getDate() + duration * 7 - 1);
+    const cursor = new Date(start);
+    while (cursor <= end) {
+      if (weekdays.includes(cursor.getDay())) out.push({ date: formatDateYmd(cursor), time });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return out;
+  }
+
+  if (freq === 'biweekly') {
+    const cursor = new Date(start);
+    for (let i = 0; i < duration; i++) {
+      out.push({ date: formatDateYmd(cursor), time });
+      cursor.setDate(cursor.getDate() + 14);
+    }
+    return out;
+  }
+
+  if (freq === 'monthly') {
+    for (let i = 0; i < duration; i++) {
+      const d = new Date(start);
+      d.setMonth(d.getMonth() + i);
+      out.push({ date: formatDateYmd(d), time });
+    }
+    return out;
+  }
+
+  return out;
+}
+
+function getRecurringPatternSummary() {
+  const freq = getNemtRecurFrequency();
+  const duration = getRecurringDuration();
+  const durSel = document.getElementById('nemt-recur-duration');
+  const durLabel = durSel?.selectedOptions?.[0]?.text || String(duration);
+  if (freq === 'weekly') {
+    const days = getSelectedWeekdays();
+    return `${NEMT_RECUR_LABELS.weekly}: ${weekdaySummary(days)} · ${durLabel}`;
+  }
+  return `${NEMT_RECUR_LABELS[freq] || freq} · ${durLabel}`;
+}
+
+function previewNemtRecurringDates() {
+  const preview = document.getElementById('nemt-recurring-preview');
+  if (!preview) return;
+  const freq = getNemtRecurFrequency();
+  if (!getRecurringStartStr()) {
+    preview.textContent = 'Select a first trip date to preview.';
+    updateNemtUrgentBanner();
+    return;
+  }
+  if (freq === 'weekly' && !getSelectedWeekdays().length) {
+    preview.textContent = 'Select at least one weekday (e.g. Mon, Wed, Fri for dialysis).';
+    updateNemtUrgentBanner();
+    return;
+  }
+  const dates = generateRecurringTripDates();
+  if (!dates.length) {
+    preview.textContent = 'No trips match — adjust frequency, start date, or duration.';
+    updateNemtUrgentBanner();
+    return;
+  }
+  const pattern = getRecurringPatternSummary();
+  preview.innerHTML = `<strong>${dates.length} trip${dates.length === 1 ? '' : 's'}</strong> · ${formatDateFriendly(dates[0].date)} – ${formatDateFriendly(dates[dates.length - 1].date)} · ${pattern} · pending team review on each date`;
+  updateNemtUrgentBanner();
+}
+
+function initNemtRecurringUi(order) {
+  ensureNemtWeekdayGrid();
+  setFieldValue('nemt-recur-start', '');
+  const tm = rawVal('sched-time');
+  if (tm) setFieldValue('nemt-recur-time', tm);
+  document.querySelectorAll('.nemt-weekday-cb').forEach(cb => { cb.checked = false; });
+  const freqEl = document.getElementById('nemt-recur-frequency');
+  if (freqEl) freqEl.value = 'weekly';
+  populateNemtRecurDurationOptions('weekly');
+  onNemtRecurFrequencyChange();
+  previewNemtRecurringDates();
+}
+
+function previewNemtWeeklyDates() { previewNemtRecurringDates(); }
+function generateWeeklyTripDates() { return generateRecurringTripDates(); }
+
+const NEMT_URGENT_HOURS = 48;
+const NEMT_DISPATCH_PHONE = '855-773-0035';
+let nemtSchedulingWatchersBound = false;
+
+function parseTripDateTime(dateStr, timeStr) {
+  if (!dateStr) return null;
+  const [y, m, d] = String(dateStr).split('-').map(Number);
+  const parts = (timeStr || '00:00').split(':');
+  const hh = parseInt(parts[0], 10) || 0;
+  const mm = parseInt(parts[1], 10) || 0;
+  const dt = new Date(y, m - 1, d, hh, mm, 0);
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+function isTripWithinHours(dateStr, timeStr, hours = NEMT_URGENT_HOURS) {
+  const dt = parseTripDateTime(dateStr, timeStr);
+  if (!dt) return false;
+  const diffMs = dt.getTime() - Date.now();
+  return diffMs >= 0 && diffMs < hours * 3600000;
+}
+
+function collectNemtScheduledTripDates() {
+  if (getSvcKey() !== 'nemt') return [];
+  const mode = nemtRebookContext?.mode;
+  if (mode === 'recurring' || mode === 'weekly') return generateRecurringTripDates().filter(d => d.date);
+  if (mode === 'repeat') return collectAllTripDatesForSubmit();
+  const date = rawVal('sched-date');
+  const time = rawVal('sched-time');
+  return date ? [{ date, time }] : [];
+}
+
+function updateNemtUrgentBanner() {
+  const el = document.getElementById('nemt-urgent-banner');
+  if (!el) return;
+  if (getSvcKey() !== 'nemt') {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+  const scheduled = collectNemtScheduledTripDates();
+  const urgent = scheduled.filter(d => isTripWithinHours(d.date, d.time, NEMT_URGENT_HOURS));
+  if (!urgent.length) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+  urgent.sort((a, b) => parseTripDateTime(a.date, a.time) - parseTripDateTime(b.date, b.time));
+  const soonest = urgent[0];
+  const when = `${formatDateFriendly(soonest.date)}${soonest.time ? ` at ${soonest.time}` : ''}`;
+  const countLine = urgent.length === 1
+    ? `Your trip on <strong>${when}</strong> is less than 48 hours away.`
+    : `<strong>${urgent.length} selected dates</strong> are within 48 hours (next: ${when}).`;
+  el.style.display = 'block';
+  el.innerHTML = `<strong>⚠️ Urgent trip — within 48 hours</strong><br>${countLine} For same-day or rush coordination, call <a href="tel:+18557730035">${NEMT_DISPATCH_PHONE}</a> (available after 12:00 PM ET). Portal requests are reviewed by our team before dispatch — calling ensures the fastest pickup.`;
+}
+
+function ensureNemtSchedulingWatchers() {
+  if (nemtSchedulingWatchersBound) return;
+  nemtSchedulingWatchersBound = true;
+  const handler = () => updateNemtUrgentBanner();
+  ['sched-date', 'sched-time', 'nemt-recur-start', 'nemt-recur-time', 'nemt-recur-duration', 'nemt-recur-frequency'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', handler);
+    document.getElementById(id)?.addEventListener('input', handler);
+  });
+  document.getElementById('nemt-repeat-dates-list')?.addEventListener('change', handler);
+  document.getElementById('nemt-weekday-grid')?.addEventListener('change', handler);
+}
+
+function addNemtRepeatDateRow() {
+  const list = document.getElementById('nemt-repeat-dates-list');
+  if (!list) return;
+  const idx = list.children.length;
+  const row = document.createElement('div');
+  row.className = 'nemt-repeat-row';
+  row.innerHTML = `
+    <div class="field"><label>Date</label><input type="date" class="nemt-repeat-date" data-idx="${idx}"></div>
+    <div class="field"><label>Pickup time</label><input type="time" class="nemt-repeat-time" data-idx="${idx}"></div>
+    <button type="button" class="trip-action-btn" onclick="this.parentElement.remove()">Remove</button>`;
+  list.appendChild(row);
+  const mainTime = rawVal('sched-time');
+  if (mainTime) row.querySelector('.nemt-repeat-time').value = mainTime;
+  updateNemtUrgentBanner();
+}
+
+function collectNemtRepeatDates() {
+  const rows = document.querySelectorAll('#nemt-repeat-dates-list .nemt-repeat-row');
+  const out = [];
+  rows.forEach(row => {
+    const d = row.querySelector('.nemt-repeat-date')?.value;
+    const t = row.querySelector('.nemt-repeat-time')?.value || rawVal('sched-time');
+    if (d) out.push({ date: d, time: t || '' });
+  });
+  return out;
+}
+
+function collectAllTripDatesForSubmit() {
+  if (nemtRebookContext?.mode === 'recurring' || nemtRebookContext?.mode === 'weekly') {
+    return generateRecurringTripDates();
+  }
+  const primary = { date: rawVal('sched-date'), time: rawVal('sched-time') };
+  const dates = [primary];
+  if (nemtRebookContext?.mode === 'repeat') {
+    collectNemtRepeatDates().forEach(d => dates.push(d));
+  }
+  return dates.filter(d => d.date);
+}
+
+function nemtTripActionsHtml(o) {
+  if (!isNemtPortalOrder(o)) return '';
+  const id = escJs(o.id);
+  return `<div class="trip-actions">
+    <button type="button" class="trip-action-btn" onclick="openNemtRebook('${id}','rebook')">Rebook</button>
+    <button type="button" class="trip-action-btn trip-action-return" onclick="openNemtRebook('${id}','return')">Return home</button>
+    <button type="button" class="trip-action-btn trip-action-repeat" onclick="openNemtRebook('${id}','repeat')">+ Dates</button>
+    <button type="button" class="trip-action-btn trip-action-recurring" onclick="openNemtRebook('${id}','recurring')">Repeat</button>
+  </div>`;
+}
+
+function prefillNemtFromOrder(order, mode) {
+  const pickup = order.pickup_address || order.address || '';
+  const dropoff = order.dropoff_address || order.collection_site || order.location || '';
+  let pick = pickup;
+  let drop = dropoff;
+  if (mode === 'return') {
+    pick = dropoff || pickup;
+    drop = pickup || dropoff;
+  }
+  setFieldValue('donor-first', order.subject_first || '');
+  setFieldValue('donor-last', order.subject_last || '');
+  if (!order.subject_first && order.subject && order.subject !== '—') {
+    const p = order.subject.trim().split(/\s+/);
+    setFieldValue('donor-first', p[0] || '');
+    setFieldValue('donor-last', p.slice(1).join(' ') || '');
+  }
+  setFieldValue('donor-dob', order.subject_dob || '');
+  setFieldValue('donor-phone', order.subject_phone || '');
+  setFieldValue('donor-email', order.subject_email || '');
+  setFieldValue('donor-id', order.subject_id || '');
+  setFieldValue('donor-location', pick);
+  setFieldValue('collection-site', drop);
+  setFieldValue('nemt-member-id', order.subject_id || '');
+  if (order.nemt_trip_type) selectOptionByText('nemt-trip-type', order.nemt_trip_type);
+  if (order.nemt_purpose) selectOptionByText('nemt-purpose', order.nemt_purpose);
+  if (order.nemt_program) {
+    const prog = String(order.nemt_program).toLowerCase();
+    if (prog.includes('mob-a') || prog.includes('medicaid') || prog.includes('mco') || prog.includes('plan')) {
+      setFieldValue('nemt-program', 'medicaid');
+    } else if (prog.includes('medical')) {
+      setFieldValue('nemt-program', 'medical');
+    }
+  }
+  setFieldValue('nemt-leg-type', mode === 'return' ? 'One-way' : (order.nemt_leg_type || 'One-way'));
+  if (order.client_company && order.client_company !== '—') setFieldValue('client-name', order.client_company);
+  if (order.client_contact) setFieldValue('client-contact', order.client_contact);
+  if (order.client_phone) setFieldValue('client-phone', order.client_phone);
+  setFieldValue('sched-date', '');
+  if (order.time && order.time !== 'TBD' && order.time !== '—') {
+    const tm = order.time.match(/(\d{1,2}):(\d{2})/);
+    if (tm) setFieldValue('sched-time', `${tm[1].padStart(2,'0')}:${tm[2]}`);
+  } else {
+    setFieldValue('sched-time', '');
+  }
+  const modeLabel = mode === 'return' ? 'Return trip'
+    : mode === 'repeat' ? 'Repeat trip series'
+    : (mode === 'recurring' || mode === 'weekly') ? 'Recurring trip series'
+    : 'Rebook';
+  const noteLine = `${modeLabel} (ref ${order.id}) — pending team review before dispatch.`;
+  const notesEl = document.getElementById('notes');
+  if (notesEl && !notesEl.value.includes(order.id)) {
+    notesEl.value = notesEl.value ? `${notesEl.value}\n${noteLine}` : noteLine;
+  }
+}
+
+function updateNemtRebookBanner(order, mode) {
+  const banner = document.getElementById('nemt-rebook-banner');
+  const repeatSec = document.getElementById('nemt-repeat-section');
+  const recurSec = document.getElementById('nemt-recurring-section');
+  if (!banner) return;
+  const isRecurring = mode === 'recurring' || mode === 'weekly';
+  const labels = {
+    rebook: 'Rebooking the same route — choose a new date and time below. Our team confirms eligibility before dispatch.',
+    return: 'Return trip — pickup and destination are swapped from your previous trip. Choose when you need the ride home.',
+    repeat: 'Manual dates — set the first date below, then add specific extra dates. Each date is reviewed separately.',
+    recurring: 'Repeat schedule — daily, weekdays, weekly, every 2 weeks, or monthly. Preview trip count before submit. Each date is reviewed before dispatch.',
+  };
+  const titles = { return: 'Return home', repeat: '+ Dates (manual)', recurring: 'Repeat schedule', rebook: 'Rebook trip' };
+  const key = isRecurring ? 'recurring' : mode;
+  banner.innerHTML = `<strong>${titles[key] || titles.rebook}</strong> — ${labels[key] || labels.rebook}<br><span style="font-size:12px;opacity:.85">Reference: ${escHtml(order.id)} · ${escHtml(order.subject || '')}</span>`;
+  banner.style.display = 'block';
+  if (repeatSec) repeatSec.style.display = mode === 'repeat' ? 'block' : 'none';
+  if (recurSec) recurSec.style.display = isRecurring ? 'block' : 'none';
+  if (mode === 'repeat') {
+    const list = document.getElementById('nemt-repeat-dates-list');
+    if (list && !list.children.length) addNemtRepeatDateRow();
+  }
+  if (isRecurring) initNemtRecurringUi(order);
+}
+
+function openNemtRebook(orderId, rebookMode) {
+  const order = findPortalOrder(orderId);
+  if (!order) {
+    alert('Trip not found. Refresh your dashboard and try again.');
+    return;
+  }
+  if (!isNemtPortalOrder(order)) {
+    alert('Rebook is available for medical mobility trips only.');
+    return;
+  }
+  const mode = rebookMode === 'weekly' ? 'recurring' : rebookMode;
+  nemtRebookContext = { mode, sourceOrderId: order.id, sourceLabel: orderDisplayLabel(order) };
+  stopDashboardRefresh();
+  mode = 'form';
+  document.getElementById('client-dashboard').classList.remove('active');
+  document.getElementById('progress-wrap').classList.add('active');
+  document.getElementById('back-to-dash').classList.add('visible');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  const nemtCard = document.querySelector('.svc-card[data-svc="nemt"]');
+  if (nemtCard) pickSvc(nemtCard);
+  prefillNemtFromOrder(order, mode);
+  updateNemtRebookBanner(order, mode);
+  document.getElementById('step-2').classList.add('active');
+  currentStep = 2;
+  updateProgress(2);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.openNemtRebook = openNemtRebook;
+window.addNemtRepeatDateRow = addNemtRepeatDateRow;
+window.previewNemtWeeklyDates = previewNemtWeeklyDates;
+window.previewNemtRecurringDates = previewNemtRecurringDates;
+window.onNemtRecurFrequencyChange = onNemtRecurFrequencyChange;
 
 const NEMT_PROGRAM = {
   medicaid: { email: 'nemt@deedavis.biz', lane: 'MOB-A', label: 'Medicaid / MCO / Plan NEMT' },
@@ -1685,6 +2453,8 @@ function applyServiceProfile() {
   setRequiredMarker('req-sched-time', R.time);
   setRequiredMarker('req-collection-site', R.site);
   setRequiredMarker('req-courier-pickup', !!s3.show.courierPickup && R.location);
+  ensureNemtSchedulingWatchers();
+  updateNemtUrgentBanner();
 }
 
 function validateField(id, type, required) {
@@ -1776,9 +2546,14 @@ function buildPortalOrderFromSubmit(confNum, svcKey, svcLabel) {
     time: val('sched-time') !== '—' ? val('sched-time') : '',
     timezone: val('sched-tz') !== '—' ? val('sched-tz') : '',
     location: val('collection-site') !== '—' ? val('collection-site') : val('donor-location'),
+    pickup_address: val('donor-location') !== '—' ? val('donor-location') : '',
+    dropoff_address: val('collection-site') !== '—' ? val('collection-site') : '',
     status: statusRaw,
     priority: activeUrgency.toUpperCase(),
     created_at: new Date().toISOString(),
+    rebook_eligible: svcKey === 'nemt',
+    rebook_source_id: nemtRebookContext?.sourceOrderId || '',
+    rebook_mode: nemtRebookContext?.mode || '',
   };
 }
 
@@ -2000,9 +2775,11 @@ async function openDashboardForEmail(email, billingData) {
   knownClient = clientData.contact;
   await fetchAndMergeOrders(email);
   renderDashboard(clientData);
+  startDashboardRefresh(email);
 }
 
 function signOut() {
+  stopDashboardRefresh();
   sessionStorage.removeItem('prism_gate_email');
   gateUserEmail = '';
   clientData = null;
@@ -2056,6 +2833,8 @@ function renderDashboard(data) {
 
   const c = data.contact;
   const orders = data.orders || [];
+  const dashEmail = (c.email || gateUserEmail || '').toLowerCase();
+  if (dashEmail) startDashboardRefresh(dashEmail);
 
   document.getElementById('dash-company-name').textContent = c.company || c.name || 'Your Account';
   document.getElementById('dash-contact-info').textContent = `${c.name || ''} · ${c.email || ''} · ${c.phone || ''}`;
@@ -2090,6 +2869,8 @@ function renderDashboard(data) {
     </div>`;
   } else { rwa.innerHTML = ''; }
 
+  renderReturnHomePrompt(orders);
+
   // Upcoming appointments
   document.getElementById('upcoming-count').textContent = upcoming.length;
   const uList = document.getElementById('upcoming-list');
@@ -2097,21 +2878,27 @@ function renderDashboard(data) {
     uList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No upcoming appointments</div>';
   } else {
     uList.innerHTML = upcoming.map(o => {
-      const d = new Date(o.date + 'T12:00:00');
-      const badgeClass = o.status === 'scheduled' ? 'badge-scheduled' : o.status === 'pending' ? 'badge-pending' : 'badge-in-progress';
+      const iso = parseOrderDate(o);
+      const d = iso ? new Date(iso + 'T12:00:00') : new Date();
+      const badgeClass = o.status === 'scheduled' ? 'badge-scheduled' : o.status === 'pending' ? 'badge-pending' : o.status === 'completed' ? 'badge-completed' : 'badge-in-progress';
       return `<div class="upcoming-item">
         <div class="upcoming-date-block">
           <div class="upcoming-month">${MONTHS[d.getMonth()]}</div>
-          <div class="upcoming-day">${d.getDate()}</div>
+          <div class="upcoming-day">${iso ? d.getDate() : '—'}</div>
         </div>
         <div class="upcoming-info">
-          <div class="upcoming-title">${orderDisplayLabel(o)} — ${o.subject}</div>
-          <div class="upcoming-meta">${o.time || 'TBD'} · ${o.location || '—'}</div>
+          <div class="upcoming-title">${orderDisplayLabel(o)} — ${escHtml(o.subject)}</div>
+          <div class="upcoming-meta">${escHtml(o.time || 'TBD')} · ${escHtml(o.location || '—')}</div>
         </div>
-        <div class="upcoming-badge ${badgeClass}">${o.status.replace('_',' ').toUpperCase()}</div>
+        ${nemtTripActionsHtml(o)}
+        <div class="upcoming-badge ${badgeClass}">${portalStatusLabel(o)}</div>
       </div>`;
     }).join('');
   }
+
+  const hasNemtHistory = orders.some(isNemtPortalOrder);
+  const tipsEl = document.getElementById('nemt-scheduling-tips');
+  if (tipsEl) tipsEl.style.display = hasNemtHistory ? 'block' : 'none';
 
   // Compliance strip (drug testing accounts)
   const comp = data.compliance;
@@ -2138,12 +2925,15 @@ function renderDashboard(data) {
     document.getElementById('recent-count').textContent = completed.length;
     document.getElementById('recent-body').innerHTML = completed.slice(0, 6).map(o => {
       const resultClass = o.result === 'Negative' ? 'result-negative' : o.result === 'Positive' ? 'result-positive' : '';
+      const actions = isNemtPortalOrder(o)
+        ? `<div style="margin-top:6px">${nemtTripActionsHtml(o)}${findReturnHomePromptCandidates(orders).some(c => c.id === o.id) ? '<div style="margin-top:6px;font-size:11px;color:var(--purple);font-weight:700">↳ Return home available</div>' : ''}</div>`
+        : '';
       return `<tr>
-        <td style="font-weight:600;font-size:12px;color:var(--text-muted)">${o.id}</td>
-        <td>${orderDisplayLabel(o)}</td>
-        <td>${o.subject}</td>
-        <td>${o.date}</td>
-        <td class="${resultClass}">${o.result || '—'}</td>
+        <td style="font-weight:600;font-size:12px;color:var(--text-muted)">${escHtml(o.id)}${actions}</td>
+        <td>${escHtml(orderDisplayLabel(o))}</td>
+        <td>${escHtml(o.subject)}</td>
+        <td>${escHtml(o.date)}</td>
+        <td class="${resultClass}">${escHtml(o.result || '—')}</td>
       </tr>`;
     }).join('');
   } else {
@@ -2356,12 +3146,13 @@ function renderKpiPanel(type) {
       return `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:var(--green-light);color:var(--green);">✓</div>
         <div class="kpi-list-info">
-          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
-          <div class="kpi-list-sub">${o.date} · ${o.location || '—'}</div>
-          <div class="kpi-list-sub"><strong>Order:</strong> ${o.id}</div>
+          <div class="kpi-list-title">${orderDisplayLabel(o)} — ${escHtml(o.subject)}</div>
+          <div class="kpi-list-sub">${escHtml(o.date)} · ${escHtml(o.location || '—')}</div>
+          <div class="kpi-list-sub"><strong>Order:</strong> ${escHtml(o.id)}</div>
+          ${isNemtPortalOrder(o) ? `<div style="margin-top:8px">${nemtTripActionsHtml(o)}</div>` : ''}
         </div>
         <div class="kpi-list-right">
-          <div style="font-size:13px;font-weight:700;color:${resultColor}">${o.result || '—'}</div>
+          <div style="font-size:13px;font-weight:700;color:${resultColor}">${escHtml(o.result || '—')}</div>
         </div>
       </div>`;
     }).join('');
@@ -2481,6 +3272,8 @@ function downloadInvoice(invId) {
 }
 
 function startNewRequest() {
+  stopDashboardRefresh();
+  clearNemtRebookUi();
   mode = 'form';
   document.getElementById('client-dashboard').classList.remove('active');
   document.getElementById('progress-wrap').classList.add('active');
@@ -2494,6 +3287,7 @@ function startNewRequest() {
 
 function showDashboard() {
   if (!clientData) return;
+  clearNemtRebookUi();
   const email = clientData.contact?.email || gateUserEmail;
   if (email) {
     fetchAndMergeOrders(email).then(() => {
@@ -2584,7 +3378,37 @@ function validate(step) {
       ok = validateField('donor-email', 'email', true) && ok;
     }
     if (R.location && p.step3.show.location) ok = validateField('donor-location', 'text', true) && ok;
-    if (p.step3.show.scheduling) {
+    const svcKey = getSvcKey();
+    const recurringMode = svcKey === 'nemt' && (nemtRebookContext?.mode === 'recurring' || nemtRebookContext?.mode === 'weekly');
+    if (recurringMode) {
+      ok = validateField('nemt-recur-start', 'text', true) && ok;
+      ok = validateField('nemt-recur-time', 'text', true) && ok;
+      const freq = getNemtRecurFrequency();
+      const wdErr = document.getElementById('nemt-weekday-error');
+      if (freq === 'weekly' && getSelectedWeekdays().length === 0) {
+        wdErr?.classList.add('visible');
+        ok = false;
+      } else {
+        wdErr?.classList.remove('visible');
+      }
+      const recurDates = generateRecurringTripDates();
+      if (recurDates.length === 0) {
+        previewNemtRecurringDates();
+        ok = false;
+      } else if (recurDates.length > 52) {
+        const preview = document.getElementById('nemt-recurring-preview');
+        if (preview) preview.textContent = 'More than 52 trips in one request — call 855-773-0035 for long-term standing schedules.';
+        ok = false;
+      } else {
+        previewNemtRecurringDates();
+        const notesEl = document.getElementById('notes');
+        const summary = `Repeat pattern: ${getRecurringPatternSummary()} · ${recurDates.length} trips`;
+        if (notesEl && !notesEl.value.includes('Repeat pattern:')) {
+          notesEl.value = notesEl.value ? `${notesEl.value}\n${summary}` : summary;
+        }
+      }
+      if (R.site) ok = validateField('collection-site', 'text', true) && ok;
+    } else if (p.step3.show.scheduling) {
       if (R.date) ok = validateField('sched-date', 'text', true) && ok;
       if (R.time) ok = validateField('sched-time', 'text', true) && ok;
       if (R.site) ok = validateField('collection-site', 'text', true) && ok;
@@ -2648,7 +3472,7 @@ function nextStep(to, fromClick) {
   updateProgress(to);
   window.scrollTo({top: 0, behavior: 'smooth'});
   if (to === 2) { showServiceDetails(); applyServiceProfile(); }
-  if (to === 3) applyServiceProfile();
+  if (to === 3) { applyServiceProfile(); updateNemtUrgentBanner(); }
   if (to === 4) renderPaymentStep();
   if (to === 5) renderPaymentConfirmation();
 }
@@ -2690,6 +3514,15 @@ function buildIntakeDetails(svcKey) {
     d.member_id = rawVal('nemt-member-id') || rawVal('donor-id');
     d.pickup_address = rawVal('donor-location');
     d.dropoff_address = rawVal('collection-site');
+    if (nemtRebookContext?.mode === 'recurring' || nemtRebookContext?.mode === 'weekly') {
+      d.recurring_pattern = {
+        frequency: getNemtRecurFrequency(),
+        duration: getRecurringDuration(),
+        duration_label: document.getElementById('nemt-recur-duration')?.selectedOptions?.[0]?.text || '',
+        weekdays: getNemtRecurFrequency() === 'weekly' ? getSelectedWeekdays() : [],
+        trip_count: generateRecurringTripDates().length,
+      };
+    }
   }
   if (svcKey === 'arena') {
     d.program = 'ARENA';
@@ -2733,6 +3566,54 @@ function submitIntakeOrder(apiPayload) {
   });
 }
 
+function buildIntakeApiPayload(confNum, schedDate, schedTime) {
+  const svcKey = getSvcKey();
+  const svcLabel = svcLabels[svcKey] || activeSvc;
+  const { total: orderTotal, scoped: orderScoped } = calculateOrderTotal();
+  const dateVal = schedDate || rawVal('sched-date');
+  const timeVal = schedTime || rawVal('sched-time');
+  return {
+    confirmation: confNum,
+    service_key: svcKey,
+    service_label: svcLabel,
+    urgency: activeUrgency,
+    tier: activeTier,
+    client_company: val('client-name'),
+    client_contact: val('client-contact'),
+    client_phone: val('client-phone'),
+    client_email: val('client-email'),
+    client_po: val('client-po'),
+    client_address: val('client-address'),
+    subject_first: val('donor-first'),
+    subject_last: val('donor-last'),
+    subject_dob: val('donor-dob'),
+    subject_phone: val('donor-phone'),
+    subject_email: val('donor-email'),
+    subject_id: val('donor-id'),
+    subject_location: val('donor-location'),
+    sched_date: dateVal,
+    sched_time: timeVal,
+    sched_tz: val('sched-tz'),
+    collection_site: val('collection-site'),
+    notes: val('notes'),
+    routing_email: activeEmail,
+    cc_email_1: val('cc-email-1'),
+    cc_email_2: val('cc-email-2'),
+    results_delivery: val('results-delivery-pref'),
+    fax_number: val('fax-number'),
+    fax_attn: val('fax-attn'),
+    crm_contact_id: knownClient ? knownClient.id : null,
+    details: buildIntakeDetails(svcKey),
+    billing_tier: clientBillingTier,
+    payment_method: selectedPayMethod || (orderScoped ? 'proposal' : clientBillingTier === 'contract' ? 'contract' : clientBillingTier === 'card_on_file' ? 'card_on_file' : ''),
+    override_code: overrideAccepted ? (document.getElementById('override-code-input')?.value || '') : '',
+    order_total: orderTotal,
+    pricing_model: orderScoped ? 'scoped_per_event' : '',
+    rebook_source_id: nemtRebookContext?.sourceOrderId || '',
+    rebook_mode: nemtRebookContext?.mode || '',
+  };
+}
+
 function dispatch() {
   const submitBtn = document.getElementById('btn-submit-request');
   if (submitBtn) {
@@ -2741,13 +3622,42 @@ function dispatch() {
   }
 
   const tierNames = {1:'Mobile — We Come to You',2:'Coordinated Ride',3:'On-Site Group Event'};
-  const confNum = genConfirmNum();
   const svcKey = getSvcKey();
   if (svcKey === 'courier') syncCourierRoutingEmail();
   const svcLabel = svcLabels[svcKey] || activeSvc;
+  const tripDates = (svcKey === 'nemt' && (nemtRebookContext?.mode === 'repeat' || nemtRebookContext?.mode === 'recurring' || nemtRebookContext?.mode === 'weekly'))
+    ? collectAllTripDatesForSubmit()
+    : [{ date: rawVal('sched-date'), time: rawVal('sched-time') }];
 
   const p = getServiceProfile();
-  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${confNum}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`];
+  const payConf = getPaymentConfirmation();
+  const { total: orderTotal, scoped: orderScoped } = calculateOrderTotal();
+
+  const runSubmissions = async () => {
+    const results = [];
+    for (const td of tripDates) {
+      const confNum = genConfirmNum();
+      const apiPayload = buildIntakeApiPayload(confNum, td.date, td.time);
+      const res = await submitIntakeOrder(apiPayload);
+      results.push({ confNum, res, td });
+      if (res.success) {
+        const clientEmail = val('client-email');
+        const portalOrder = buildPortalOrderFromSubmit(confNum, svcKey, svcLabel);
+        portalOrder.date = td.date;
+        portalOrder.time = td.time;
+        if (clientEmail && clientEmail !== '—') {
+          saveLocalOrder(clientEmail, portalOrder);
+          if (clientData && clientData.contact?.email === clientEmail.toLowerCase()) {
+            clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
+          }
+        }
+      }
+    }
+    return results;
+  };
+
+  const primaryConf = genConfirmNum();
+  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${primaryConf}${tripDates.length > 1 ? ` (+${tripDates.length - 1} more)` : ''}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`];
   if (p.step2.showResultsDelivery) {
     lines.push('----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`);
   }
@@ -2767,38 +3677,40 @@ function dispatch() {
   if(svcKey==='nemt'){const nm=getNemtProgramMeta();lines.push(`Program:      ${nm.label||val('nemt-program')}`);lines.push(`Mobility:     ${nm.lane||'—'}`);lines.push(`Trip Type:    ${val('nemt-trip-type')}`);lines.push(`Leg:          ${val('nemt-leg-type')}`);lines.push(`Purpose:      ${val('nemt-purpose')}`);lines.push(`Member ID:    ${val('nemt-member-id')}`);}
   if(svcKey==='arena'){lines.push(`Program:      ARENA`);lines.push(`Execution:    PRIME`);lines.push(`Pricing:      Dynamic — scoped proposal after consultation`);lines.push(`Event Type:   ${val('event-type')}`);lines.push(`Event Name:   ${val('event-name')}`);lines.push(`Scope:        ${val('event-scope')}`);lines.push(`Volume:       ${val('event-volume')}`);lines.push(`Venue:        ${val('event-venue')}`);lines.push(`Trip Pay:     ${val('event-payment-model')}`);if(document.getElementById('event-valet')?.checked)lines.push(`Valet:        PRIME Valet requested (optional add-on)`);}
   if(svcKey==='courier'){const cm=getCourierDeliveryMeta();lines.push(`Delivery:     ${val('courier-type')}`);lines.push(`Courier Lane: ${cm.lane||'—'}`);lines.push(`Route To:     ${activeEmail}`);lines.push(`Temp Control: ${val('courier-temp')}`);lines.push(`Package:      ${val('courier-package')}`);lines.push(`Pickup:       ${val('courier-pickup')}`);}
-  const payConf = getPaymentConfirmation();
-  const { total: orderTotal, scoped: orderScoped } = calculateOrderTotal();
   if (orderScoped) {
     lines.push('----------------------------------------','BILLING',`Amount:       Dynamic — proposal after consultation`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
   } else {
     lines.push('----------------------------------------','BILLING',`Amount:       $${orderTotal.toFixed(2)}`,`Payment:      ${payConf.title}`,`Detail:       ${payConf.detail}`);
   }
   if (overrideAccepted) lines.push(`Override:     ${document.getElementById('override-code-input')?.value || '—'}`);
+  if (tripDates.length > 1) {
+    lines.push('----------------------------------------', 'TRIP DATES', ...tripDates.map((td, i) => `${i + 1}. ${td.date} ${td.time || ''}`.trim()));
+  }
   lines.push('----------------------------------------',`Notes:        ${val('notes')}`,'========================================');
   const plainText = lines.join('\n');
 
-  const apiPayload = {confirmation:confNum,service_key:svcKey,service_label:svcLabel,urgency:activeUrgency,tier:activeTier,client_company:val('client-name'),client_contact:val('client-contact'),client_phone:val('client-phone'),client_email:val('client-email'),client_po:val('client-po'),client_address:val('client-address'),subject_first:val('donor-first'),subject_last:val('donor-last'),subject_dob:val('donor-dob'),subject_phone:val('donor-phone'),subject_email:val('donor-email'),subject_id:val('donor-id'),subject_location:val('donor-location'),sched_date:val('sched-date'),sched_time:val('sched-time'),sched_tz:val('sched-tz'),collection_site:val('collection-site'),notes:val('notes'),routing_email:activeEmail,cc_email_1:val('cc-email-1'),cc_email_2:val('cc-email-2'),results_delivery:val('results-delivery-pref'),fax_number:val('fax-number'),fax_attn:val('fax-attn'),crm_contact_id:knownClient?knownClient.id:null,details:buildIntakeDetails(svcKey),billing_tier:clientBillingTier,payment_method:selectedPayMethod||(orderScoped?'proposal':clientBillingTier==='contract'?'contract':clientBillingTier==='card_on_file'?'card_on_file':''),override_code:overrideAccepted?(document.getElementById('override-code-input')?.value||''):'',order_total:orderTotal,pricing_model:orderScoped?'scoped_per_event':''};
-
-  document.getElementById('nf-confirmation').value=confNum;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
+  document.getElementById('nf-confirmation').value=primaryConf;document.getElementById('nf-service').value=svcLabel;document.getElementById('nf-urgency').value=activeUrgency.toUpperCase();document.getElementById('nf-tier').value=tierNames[activeTier];document.getElementById('nf-routing').value=activeEmail;document.getElementById('nf-summary').value=plainText;
   const fd=new FormData(document.getElementById('netlify-form'));fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(()=>{});
 
-  submitIntakeOrder(apiPayload)
-    .then(res => {
-      if (res.success) {
-        const clientEmail = val('client-email');
-        const portalOrder = buildPortalOrderFromSubmit(confNum, svcKey, svcLabel);
-        if (clientEmail && clientEmail !== '—') {
-          saveLocalOrder(clientEmail, portalOrder);
-          if (clientData && clientData.contact?.email === clientEmail.toLowerCase()) {
-            clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
-          }
-        }
+  runSubmissions()
+    .then(results => {
+      const ok = results.filter(r => r.res?.success);
+      const fail = results.filter(r => !r.res?.success);
+      if (fail.length && !ok.length) {
+        throw new Error(fail[0].res?.error || 'Submission failed');
       }
-      showConfirmOverlay({ confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err: null });
+      const confNum = ok.length === 1 ? ok[0].confNum : `${ok.length} trips submitted`;
+      const res = ok[ok.length - 1]?.res || {};
+      if (ok.length > 1) {
+        res._multi = ok.map(r => r.confNum);
+      }
+      const returnSourceId = nemtRebookContext?.mode === 'return' ? nemtRebookContext.sourceOrderId : null;
+      if (returnSourceId && ok.length) dismissReturnPrompt(returnSourceId);
+      clearNemtRebookUi();
+      showConfirmOverlay({ confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err: null, multiCount: ok.length });
     })
     .catch(err => {
-      showConfirmOverlay({ confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res: null, err });
+      showConfirmOverlay({ confNum: primaryConf, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res: null, err });
     })
     .finally(() => {
       if (submitBtn) {
@@ -2809,7 +3721,7 @@ function dispatch() {
 }
 
 function showConfirmOverlay(ctx) {
-  const { confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err } = ctx;
+  const { confNum, svcLabel, tierNames, plainText, orderTotal, orderScoped, payConf, res, err, multiCount } = ctx;
   const mailto = `mailto:${activeEmail}?subject=${encodeURIComponent(`PRISM — ${confNum} — ${svcLabel}`)}&body=${encodeURIComponent(plainText)}`;
   const submitted = !!res?.success;
   const synced = !!(res?.dashboard_sync);
@@ -2817,13 +3729,17 @@ function showConfirmOverlay(ctx) {
 
   document.querySelector('.confirm-title').textContent = failed
     ? 'Submission Failed'
-    : 'Order Submitted';
+    : (multiCount && multiCount > 1 ? `${multiCount} Trips Submitted` : 'Order Submitted');
 
   let banner = '';
   if (failed) {
     banner = `<div class="submit-status error">SUBMIT FAILED — ${escHtml(err?.message || res?.error || 'Could not reach Dee Davis Inc. servers')}. Use backup email below or call 248.376.4550.</div>`;
   } else if (synced) {
-    banner = `<div class="submit-status success">SUBMITTED TO DEE DAVIS INC. — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
+    if (multiCount && multiCount > 1 && res._multi) {
+      banner = `<div class="submit-status success">${multiCount} trip requests queued in NEXUS PRISM — ${escHtml(res._multi.join(', '))}. Our team reviews each date before dispatch.</div>`;
+    } else {
+      banner = `<div class="submit-status success">SUBMITTED TO DEE DAVIS INC. — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
+    }
     const confirmParts = [];
     const reqEmail = val('client-email');
     const riderEmail = val('donor-email');
@@ -3233,6 +4149,7 @@ function clearForm() {
 // Initial form tailoring for default service (drug testing)
 showServiceDetails();
 applyServiceProfile();
+ensureNemtSchedulingWatchers();
 
 // Restore session — returning users see their dashboard + order calendar
 if (gateUserEmail && gateUserEmail.includes('@')) {

@@ -37,6 +37,7 @@ import threading
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timedelta as _timedelta
+from typing import Optional
 from flask import Blueprint, request, jsonify
 from dotenv import load_dotenv
 
@@ -995,6 +996,12 @@ _NEMT_RIDE_TRACKING_STATUSES = {'En Route', 'Arrived', 'Departed', 'Driver Assig
 _SKIP_STATUS_NOTIFY_SERVICES = set()  # No service fully skipped — NEMT handled below
 
 _STATUS_SMS = {
+    'Confirmed': (
+        "✅ Confirmed: your {what} with Dee Davis Inc.\n\n"
+        "Eligibility verified — we're preparing dispatch for your scheduled trip.\n\n"
+        "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
+        "Questions? Call/text 248.376.4550"
+    ),
     'Agent Assigned': (
         "📋 Update on your {what} with Dee Davis Inc.\n\n"
         "A collector has been assigned to your order and will contact you "
@@ -1081,7 +1088,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
         return
 
     phone = order.get('subject_phone') or order.get('client_phone', '')
-    email = order.get('client_email', '')
+    email = (order.get('client_email') or order.get('subject_email') or '').strip()
     name  = order.get('signer') or order.get('client_contact') or order.get('client', '')
 
     if not phone and not email:
@@ -1094,13 +1101,22 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
 
     # For completion, swap in the timeframe line
     if new_status == 'Complete':
-        timeframe = _COMPLETION_TIMEFRAMES.get(svc, 'per standard protocol')
-        body = (
-            f"✅ Your {what_str} is complete!\n\n"
-            f"Results: {timeframe}.\n"
-            f"Questions? Call Dee Davis Inc. at 248.376.4550.\n\n"
-            f"Ref: {ref}"
-        )
+        if svc in ('nemt', 'transport'):
+            body = (
+                f"✅ Your {what_str} with Dee Davis Inc. is complete.\n\n"
+                f"You have arrived at your destination.\n"
+                f"Need a ride home? Open portal.deedavis.biz → tap Return home on this trip.\n"
+                f"Questions? Call 248.376.4550.\n\n"
+                f"Ref: {ref}"
+            )
+        else:
+            timeframe = _COMPLETION_TIMEFRAMES.get(svc, 'per standard protocol')
+            body = (
+                f"✅ Your {what_str} is complete!\n\n"
+                f"Results: {timeframe}.\n"
+                f"Questions? Call Dee Davis Inc. at 248.376.4550.\n\n"
+                f"Ref: {ref}"
+            )
     else:
         body = template.format(
             what=what_str, dt_str=dt_str,
@@ -1483,6 +1499,9 @@ def _create_intake_order_impl():
     fee = TIER_FEE_BASE.get(tier, 150)
 
     details = dict(data.get('details') or {})
+    if data.get('rebook_source_id'):
+        details['rebook_source_id'] = data.get('rebook_source_id')
+        details['rebook_mode'] = data.get('rebook_mode') or ''
     is_scoped_pricing = (
         svc_key in SCOPED_PRICING_SERVICE_KEYS
         or details.get('pricing_model') == 'scoped_per_event'
@@ -1646,29 +1665,115 @@ def _portal_order_status(status):
     s = (status or 'New').lower().replace(' ', '_')
     if s in ('complete', 'completed', 'closed', 'verified', 'documentation'):
         return 'completed'
-    if s in ('in_progress', 'assigned'):
+    if s in (
+        'in_progress', 'assigned', 'dispatched',
+        'driver_assigned', 'en_route', 'arrived', 'departed',
+    ):
         return 'in_progress'
     if s in ('confirmed', 'scheduled'):
         return 'scheduled'
     return 'pending'
 
 
+def _order_portal_emails(order: dict) -> set:
+    """Emails that may log into portal.deedavis.biz for this order."""
+    out = set()
+    for key in ('client_email', 'subject_email'):
+        e = (order.get(key) or '').strip().lower()
+        if e and '@' in e:
+            out.add(e)
+    return out
+
+
+def sync_prism_order_status(
+    prism_order_id: str,
+    status: str,
+    *,
+    notify: bool = True,
+    details_patch: Optional[dict] = None,
+) -> bool:
+    """
+    Push ops milestone to PRISM orders.json so portal.deedavis.biz dashboard
+    and SMS/email notifications stay in sync with NEMT dispatch workflow.
+    Bypasses PATCH QC gate for automated NEMT completion paths.
+    """
+    pid = (prism_order_id or '').strip()
+    if not pid or not status:
+        return False
+    try:
+        orders = _load(ORDERS_FILE, [])
+        for i, o in enumerate(orders):
+            if o.get('id') != pid:
+                continue
+            orders[i]['status'] = status
+            orders[i]['updated_at'] = datetime.now().isoformat()
+            if details_patch:
+                details = dict(orders[i].get('details') or {})
+                details.update(details_patch)
+                orders[i]['details'] = details
+            _save(ORDERS_FILE, orders)
+            if notify:
+                _fire_status_notification(orders[i], status)
+            return True
+        return False
+    except Exception as exc:
+        print(f'PRISM order status sync skipped: {exc}')
+        return False
+
+
 def _order_to_portal_view(order):
     """Shape stored order for PRISM client intake dashboard / calendar."""
+    raw_status = order.get('status', '')
+    details = order.get('details') or {}
+    signer = (order.get('signer') or '').strip()
+    parts = signer.split(None, 1) if signer else []
+    first = parts[0] if parts else ''
+    last = parts[1] if len(parts) > 1 else ''
+    pickup = (
+        details.get('pickup_address')
+        or order.get('address', '')
+        or ''
+    ).strip()
+    dropoff = (
+        details.get('dropoff_address')
+        or order.get('collection_site', '')
+        or ''
+    ).strip()
+    svc_key = (order.get('service_key') or order.get('type') or '').lower()
     return {
         'id': order.get('id', ''),
         'type': order.get('type') or order.get('service_key', ''),
         'service_key': order.get('service_key', ''),
         'service_label': order.get('service_label', ''),
-        'subject': (order.get('signer') or '').strip() or '—',
+        'subject': signer or '—',
+        'subject_first': first,
+        'subject_last': last,
+        'subject_dob': order.get('subject_dob', ''),
+        'subject_phone': order.get('subject_phone', ''),
+        'subject_email': order.get('subject_email', ''),
+        'subject_id': order.get('subject_id', '') or details.get('member_id', ''),
+        'pickup_address': pickup,
+        'dropoff_address': dropoff,
+        'nemt_program': details.get('program_type') or details.get('mobility_lane') or '',
+        'nemt_trip_type': details.get('trip_type', ''),
+        'nemt_purpose': details.get('appointment_purpose', ''),
+        'nemt_leg_type': details.get('leg_type', ''),
+        'client_company': order.get('client', ''),
+        'client_contact': order.get('client_contact', ''),
+        'client_phone': order.get('client_phone', ''),
         'date': order.get('date', ''),
         'time': order.get('time', ''),
         'timezone': order.get('timezone', ''),
-        'location': order.get('collection_site') or order.get('address', ''),
-        'status': _portal_order_status(order.get('status')),
+        'location': dropoff or pickup or order.get('collection_site') or order.get('address', ''),
+        'status': _portal_order_status(raw_status),
+        'ops_status': raw_status,
         'priority': order.get('priority', 'Standard'),
         'result': order.get('result', ''),
         'created_at': order.get('created_at', ''),
+        'updated_at': order.get('updated_at', ''),
+        'rebook_eligible': svc_key in ('nemt', 'transport'),
+        'rebook_source_id': details.get('rebook_source_id', ''),
+        'rebook_mode': details.get('rebook_mode', ''),
     }
 
 
@@ -1685,7 +1790,7 @@ def my_orders():
     json_orders = _load(ORDERS_FILE, [])
     mine_json = [
         o for o in json_orders
-        if (o.get('client_email') or '').strip().lower() == email
+        if email in _order_portal_emails(o)
     ]
     portal_json = [_order_to_portal_view(o) for o in mine_json]
 
