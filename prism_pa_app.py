@@ -93,6 +93,19 @@ except ImportError as exc:
         return jsonify({'error': f'PRISM Orders API not loaded: {exc}'}), 503
 
 try:
+    from prism_notifications_api import prism_notifications
+
+    app.register_blueprint(prism_notifications)
+except ImportError as exc:
+    logger_msg_notif = f'PRISM Notifications API not loaded: {exc}'
+
+    @app.route('/prism/notifications', methods=['GET'])
+    @app.route('/prism/notifications/read', methods=['POST'])
+    def prism_notifications_unavailable():
+        return jsonify({'error': logger_msg_notif, 'notifications': [], 'unread': 0}), 503
+
+
+try:
     from prism_voice_intake import prism_voice
 
     app.register_blueprint(prism_voice)

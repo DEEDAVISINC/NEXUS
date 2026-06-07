@@ -1,7 +1,14 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** June 6, 2026 @ late night ET
+**Last Updated:** June 7, 2026 @ goodnight ET
 
 ---
+
+## SESSION NOTE (June 7)
+
+- **HAP billing ops** — Pay **once weekly** (not twice); **Wednesday = internal drain day** until portal manual confirms cutoff; each contract (HAP vs BCBSM vs others) gets its own billing profile — no shared Net 30 default
+- **ModivCare** — **Inbound only**; no proactive enrollment unless they reach out
+- **Mark Complete → VERTEX** — Approved in principle; wiring deferred
+- **Netlify portal** — 4 env vars confirmed on `ddi-prism-portal` (`PRISM_API_BASE` → PA)
 
 ## SESSION NOTE (June 6)
 

@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "scannedAt": "2026-06-05T08:05:59.240295",
-  "postedFrom": "03/07/2026",
-  "postedTo": "06/05/2026",
-  "count": 31,
+  "scannedAt": "2026-06-06T08:05:41.479150",
+  "postedFrom": "03/08/2026",
+  "postedTo": "06/06/2026",
+  "count": 34,
   "opportunities": [
     {
       "title": "Cultural Resources Inspection Services ",
@@ -282,6 +282,18 @@
       "matchReason": "NAICS 624210"
     },
     {
+      "title": "Food and Nutrition Board Food Forum",
+      "solicitationNumber": "75F40126Q00200",
+      "department": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF.FOOD AND DRUG ADMINISTRATION.FDA OFFICE OF ACQ  GRANT SVCS",
+      "responseDeadLine": "2026-06-20T14:00:00-04:00",
+      "postedDate": "2026-06-05",
+      "naicsCode": "541720",
+      "typeOfSetAside": "No Set aside used",
+      "type": "Presolicitation",
+      "uiLink": "https://sam.gov/workspace/contract/opp/a989ce7a269544c09783c380d2ccb931/view",
+      "matchReason": "NAICS 541720"
+    },
+    {
       "title": "SCRATCHGRAVEL HILLS CULTURAL RESOURCE IN",
       "solicitationNumber": "140L3626Q0031",
       "department": "INTERIOR, DEPARTMENT OF THE.BUREAU OF LAND MANAGEMENT.MONTANA STATE OFFICE",
@@ -342,6 +354,18 @@
       "matchReason": "NAICS 541720"
     },
     {
+      "title": "Land Management Integrated Resources (LMIR) National BPA",
+      "solicitationNumber": "1284LM26Q0095",
+      "department": "AGRICULTURE, DEPARTMENT OF.FOREST SERVICE.USDA-FS, CSA INTERMOUNTAIN 2",
+      "responseDeadLine": "2026-06-29T17:00:00-06:00",
+      "postedDate": "2026-06-05",
+      "naicsCode": "541720",
+      "typeOfSetAside": "Total Small Business Set-Aside (FAR 19.5)",
+      "type": "Special Notice",
+      "uiLink": "https://sam.gov/workspace/contract/opp/c0892dd810414fb1bec0342fddbbc8cc/view",
+      "matchReason": "NAICS 541720"
+    },
+    {
       "title": "MACPAC Analysis & Management of Administrative Data",
       "solicitationNumber": "202601",
       "department": "MEDICAID AND CHIP PAYMENT AND ACCESS COMMISSION.MEDICAID AND CHIP PAYMENT AND ACCESS COMMISSION.RESEARCH AND GRANTS",
@@ -352,6 +376,18 @@
       "type": "Solicitation",
       "uiLink": "https://sam.gov/workspace/contract/opp/8a457bde0b154ea5b2e2fa38a883650a/view",
       "matchReason": "NAICS 541720"
+    },
+    {
+      "title": "Exceptional Family Member Program (EFMP) Respite Care Services",
+      "solicitationNumber": "W9124J26RRESP",
+      "department": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.FDO SAM HOUSTON.W6QM MICC-FDO FT SAM HOUSTON",
+      "responseDeadLine": "2026-07-01T12:00:00-05:00",
+      "postedDate": "2026-06-05",
+      "naicsCode": "624190",
+      "typeOfSetAside": "Total Small Business Set-Aside (FAR 19.5)",
+      "type": "Combined Synopsis/Solicitation",
+      "uiLink": "https://sam.gov/workspace/contract/opp/4b95a328ea304d81a22579ec54264210/view",
+      "matchReason": "NAICS 624190"
     },
     {
       "title": "DLA-SM Broad Agency Announcement",

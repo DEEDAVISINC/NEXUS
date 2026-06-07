@@ -295,6 +295,7 @@
 ## 2026-06-07 — Sunday
 
 - **💰 PAYMENT DUE:** Title Processing Center — $100.00 (Steven Shultz, May file). They pay 7th of each month. **Check email for eCheck.**
+- **12:00 – 4:00 PM ET** — 📋 **PRISM FINISH-UP** — (1) Voice — PA reload, webhook, test call + simulator (2) PRISM→VERTEX $28/$35 trip complete (3) HAP provider manual from portal (4) Electron Uber Health login (5) confirmation email smoke test if time. **Monday = Twilio upgrade + member materials.** `.ics`: `prism_finish_up_2026-06-07.ics`
 
 ---
 
@@ -304,6 +305,7 @@
 - **6:00 PM ET** — 📝 **SIGNING: Premium Closing Solutions — Andre Rupert (Refi)** — PMCS-247792 / 843148 · $80 · 46970 Edgewater Dr, Macomb · No scanbacks · ID copies · LETTER+LEGAL · FedEx ship. `.ics`: `NOTARY_SIGNING_PCS_RUPERT_PMCS-247792_2026-06-08.ics`
 - **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
 - **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — William S. Middleton VA · 5-year · SAM 93414ce3396e45c4891cb0130cf77c14 · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-08.ics`
+- **2:00 – 3:30 PM ET** — 📋 **HAP VOICE INTAKE — GO-LIVE PREP** — (1) Upgrade Twilio — add card, removes trial message + member SMS (2) Rotate ElevenLabs key in `~/nexus-backend/.env` → Reload (3) **855-773-0035** on member card/flyer/CareSource packet (4) Optional: CNAM/toll-free branding “DDI” on caller ID. Test call after upgrade. `.ics`: `hap_voice_go_live_prep_2026-06-08.ics`
 
 ---
 

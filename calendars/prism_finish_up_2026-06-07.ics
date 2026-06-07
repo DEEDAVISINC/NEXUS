@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:prism-finish-up-2026-06-07@deedavis.biz
+DTSTAMP:20260606T190000Z
+DTSTART;TZID=America/Detroit:20260607T120000
+DTEND;TZID=America/Detroit:20260607T160000
+SUMMARY:📋 PRISM Finish-Up — Voice test, VERTEX billing, Uber login
+DESCRIPTION:Sunday PRISM block (before Monday HAP go-live prep):\n\n1) Voice — PA curl/reload, Twilio webhook check, test call + simulator\n2) PRISM→VERTEX — trip complete → $28/$35 invoice line (HAP rates)\n3) CareSource — pull provider manual from portal\n4) Electron — Uber Health login test in PRISM webview\n5) Confirmations — Netlify/SendGrid smoke test if time\n\nMonday = Twilio upgrade + member materials (separate block).
+LOCATION:NEXUS / PythonAnywhere / Electron
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:PRISM finish-up in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:PRISM finish-up in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

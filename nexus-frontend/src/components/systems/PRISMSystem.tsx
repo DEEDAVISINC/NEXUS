@@ -4,6 +4,7 @@ import PartnerWebview from '../PartnerWebview';
 import TPADivisionWorkspace, { mapPrismApiOrderToWorkspace } from '../prism/TPADivisionWorkspace';
 import PRISMHub from '../prism/PRISMHub';
 import { countDivisionNotifications } from '../prism/prismDivisionAlerts';
+import type { PrismNotification } from '../prism/PrismOpsFeed';
 
 // Check if we're running in Electron
 const isElectron = () => {
@@ -866,7 +867,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [clients, setClients] = useState<PrismClient[]>([]);
   const [prismStats, setPrismStats] = useState<any>(null);
   const [dataLoading, setDataLoading] = useState(true);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<PrismNotification[]>([]);
   const [showNotifPanel, setShowNotifPanel] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -911,6 +912,22 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       loadNotifications();
     } catch { /* empty */ }
   }, [loadNotifications]);
+
+  const handleOpsNotificationClick = useCallback((notif: PrismNotification) => {
+    const orderId = notif.order_id;
+    if (orderId) {
+      const order = orders.find((o) => o.id === orderId);
+      const serviceType = order?.type;
+      const div = serviceType
+        ? PRISM_DIVISIONS.find((d) => d.types.includes(serviceType))
+        : PRISM_DIVISIONS.find((d) => d.id === 'transport');
+      if (div) {
+        setActiveDivision(div.id);
+        setActiveTab('dashboard');
+      }
+    }
+    setShowNotifPanel(false);
+  }, [orders]);
 
   useEffect(() => { loadPrismData(); loadNotifications(); }, [loadPrismData, loadNotifications]);
 
@@ -1149,6 +1166,13 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
           agentsLoading={dataLoading}
           agentSpecialtyLabels={currentDivision.agentSpecialties}
           onAssignAgent={handleAssignAgent}
+          opsNotifications={notifications}
+          opsUnreadCount={unreadCount}
+          opsFeedOpen={showNotifPanel}
+          onToggleOpsFeed={() => setShowNotifPanel((v) => !v)}
+          onMarkOpsRead={(id) => markNotificationsRead([id])}
+          onMarkAllOpsRead={() => markNotificationsRead()}
+          onOpsNotificationClick={handleOpsNotificationClick}
           onOpenPortal={(portal) => handleOpenPortal(
             { id: portal.id, name: portal.name, url: portal.url, icon: portal.icon, description: '', loginType: 'portal' as const, status: 'active' as const },
             currentDivision
@@ -1168,6 +1192,13 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             solid: d.solid,
           }))}
           divisionNotifications={divisionNotifications}
+          opsNotifications={notifications}
+          opsUnreadCount={unreadCount}
+          opsFeedOpen={showNotifPanel}
+          onToggleOpsFeed={() => setShowNotifPanel((v) => !v)}
+          onMarkOpsRead={(id) => markNotificationsRead([id])}
+          onMarkAllOpsRead={() => markNotificationsRead()}
+          onOpsNotificationClick={handleOpsNotificationClick}
           onSelectDivision={(divId) => enterDivision(divId)}
           onNewOrder={() => setShowNewOrderModal(true)}
         />

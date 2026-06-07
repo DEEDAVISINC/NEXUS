@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PrismAgentDirectory from './PrismAgentDirectory';
 import PrismVoiceCallCenter from './PrismVoiceCallCenter';
+import PrismOpsFeed, { PrismNotification } from './PrismOpsFeed';
 import { countDivisionAgents, PrismAgentRecord } from './prismAgentNetwork';
 
 // ─── TYPES ─────────────────────────────────────────────────────────
@@ -118,6 +119,13 @@ interface TPADivisionWorkspaceProps {
   agentsLoading?: boolean;
   agentSpecialtyLabels?: string[];
   onAssignAgent?: (orderId: string, agent: PrismAgentRecord) => void | Promise<void>;
+  opsNotifications?: PrismNotification[];
+  opsUnreadCount?: number;
+  opsFeedOpen?: boolean;
+  onToggleOpsFeed?: () => void;
+  onMarkOpsRead?: (id: string) => void;
+  onMarkAllOpsRead?: () => void;
+  onOpsNotificationClick?: (n: PrismNotification) => void;
   onOpenPortal: (portal: { id: string; name: string; url: string; icon: string }) => void;
   onBack: () => void;
 }
@@ -226,6 +234,13 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   agentsLoading = false,
   agentSpecialtyLabels = [],
   onAssignAgent,
+  opsNotifications = [],
+  opsUnreadCount = 0,
+  opsFeedOpen = false,
+  onToggleOpsFeed,
+  onMarkOpsRead,
+  onMarkAllOpsRead,
+  onOpsNotificationClick,
   onOpenPortal,
   onBack,
 }) => {
@@ -416,12 +431,27 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                 <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB', letterSpacing: -0.3 }}>{division.name}</h1>
                 <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>Division Command Center</p>
               </div>
-              <button
-                onClick={() => setShowNewOrderModal(true)}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}
-              >
-                + New Order
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {onToggleOpsFeed && onMarkOpsRead && onMarkAllOpsRead && (
+                  <PrismOpsFeed
+                    notifications={opsNotifications}
+                    unreadCount={opsUnreadCount}
+                    open={opsFeedOpen}
+                    onToggle={onToggleOpsFeed}
+                    onMarkRead={onMarkOpsRead}
+                    onMarkAllRead={onMarkAllOpsRead}
+                    onSelectNotification={onOpsNotificationClick}
+                    accent={division.solid}
+                  />
+                )}
+                <button
+                  type="button"
+                  onClick={() => setShowNewOrderModal(true)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}
+                >
+                  + New Order
+                </button>
+              </div>
             </div>
 
             {/* KPI ribbon */}
@@ -441,6 +471,29 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             </div>
 
             <div style={{ padding: 28 }}>
+            {showVoiceIntake && opsNotifications.length > 0 && (
+              <div style={{ background: '#14141A', border: '1px solid rgba(20,184,166,0.2)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
+                <p style={{ fontSize: 11, fontWeight: 600, color: '#5EEAD4', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>
+                  Live Ops — Voice &amp; Intake
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {opsNotifications.slice(0, 5).map((n) => (
+                    <button
+                      key={n.id}
+                      type="button"
+                      onClick={() => {
+                        onMarkOpsRead?.(n.id);
+                        onOpsNotificationClick?.(n);
+                      }}
+                      style={{ textAlign: 'left', padding: '10px 12px', background: '#0D0D12', borderRadius: 8, border: '1px solid rgba(255,255,255,0.06)', cursor: 'pointer' }}
+                    >
+                      <p style={{ fontSize: 13, fontWeight: 600, color: '#F9FAFB' }}>{n.icon ? `${n.icon} ` : ''}{n.title}</p>
+                      <p style={{ fontSize: 11, color: 'rgba(156,163,175,0.85)', marginTop: 2 }}>{n.message}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Today's Schedule */}
             <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
               <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Today's Schedule</p>
@@ -636,24 +689,24 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
 
         {/* ═══ ORDERS ═══ */}
         {activeSection === 'orders' && !selectedOrder && (
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl font-bold">Orders</h1>
-              <div className="flex items-center gap-2">
+          <div style={{ padding: 24, color: '#F9FAFB' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+              <h1 style={{ fontSize: 22, fontWeight: 800 }}>Orders</h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 {onRefreshOrders && (
                   <button
                     type="button"
                     onClick={onRefreshOrders}
-                    className="px-3 py-2 rounded-lg text-sm bg-gray-700 border border-gray-600 hover:bg-gray-600"
                     disabled={ordersLoading}
+                    style={{ padding: '8px 14px', borderRadius: 9, fontSize: 14, fontWeight: 600, color: '#F9FAFB', background: '#374151', border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer' }}
                   >
                     {ordersLoading ? 'Refreshing…' : '↻ Refresh'}
                   </button>
                 )}
                 <select
                   value={orderFilter}
-                  onChange={(e) => setOrderFilter(e.target.value as any)}
-                  className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+                  onChange={(e) => setOrderFilter(e.target.value as typeof orderFilter)}
+                  style={{ padding: '8px 14px', borderRadius: 9, fontSize: 14, color: '#F9FAFB', background: '#374151', border: '1px solid rgba(255,255,255,0.15)' }}
                 >
                   <option value="all">All Orders</option>
                   <option value="pending">Pending</option>
@@ -662,47 +715,67 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                   <option value="completed">Completed</option>
                 </select>
                 <button
+                  type="button"
                   onClick={() => setShowNewOrderModal(true)}
-                  className="px-4 py-2 rounded-lg font-semibold text-sm text-white transition hover:opacity-90"
-                  style={{ backgroundColor: division.solid }}
+                  style={{ padding: '8px 16px', borderRadius: 9, fontWeight: 700, fontSize: 14, color: '#fff', border: 'none', cursor: 'pointer', backgroundColor: division.solid }}
                 >
                   + New Order
                 </button>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {ordersLoading && filteredOrders.length === 0 && (
-                <p className="text-gray-500 text-sm text-center py-8">Loading orders…</p>
+                <p style={{ fontSize: 15, color: '#9CA3AF', textAlign: 'center', padding: '32px 0' }}>Loading orders…</p>
               )}
               {!ordersLoading && filteredOrders.length === 0 && (
-                <p className="text-gray-500 text-sm text-center py-8">
+                <p style={{ fontSize: 15, color: '#9CA3AF', textAlign: 'center', padding: '32px 0' }}>
                   No orders yet for this division. Client portal submissions appear here automatically.
                 </p>
               )}
-              {filteredOrders.map(order => (
+              {filteredOrders.map((order) => (
                 <div
                   key={order.id}
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setSelectedOrder(order)}
-                  className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-gray-600 cursor-pointer transition"
+                  onKeyDown={(e) => e.key === 'Enter' && setSelectedOrder(order)}
+                  style={{
+                    background: '#14141A',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 14,
+                    padding: 18,
+                    cursor: 'pointer',
+                  }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
                       <span style={statusStyle(order.status)}>
                         {order.status.replace('_', ' ').toUpperCase()}
                       </span>
-                      <div>
-                        <p className="font-medium">{order.subjectInfo.name}</p>
-                        <p className="text-sm text-gray-400">{order.clientName}</p>
+                      <div style={{ minWidth: 0 }}>
+                        <p style={{ fontSize: 17, fontWeight: 700, color: '#FFFFFF' }}>{order.subjectInfo.name}</p>
+                        <p style={{ fontSize: 14, color: '#D1D5DB', marginTop: 2 }}>{order.clientName}</p>
+                        <p
+                          style={{
+                            fontSize: 13,
+                            fontFamily: 'ui-monospace, monospace',
+                            color: division.solid,
+                            marginTop: 6,
+                            fontWeight: 700,
+                          }}
+                        >
+                          {order.confirmationNumber || order.id}
+                        </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold">{order.type.toUpperCase()}</p>
-                      <p className="text-xs text-gray-500">{order.subject}</p>
+                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#F9FAFB' }}>{order.type.toUpperCase()}</p>
+                      <p style={{ fontSize: 13, color: '#D1D5DB', marginTop: 2 }}>{order.subject}</p>
                     </div>
                   </div>
                   {(order.scheduledDate || order.location) && (
-                    <div className="mt-2 pt-2 border-t border-gray-700 flex items-center gap-4 text-xs text-gray-400">
+                    <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: 14, color: '#D1D5DB' }}>
                       {order.scheduledDate && <span>📅 {order.scheduledDate} {order.scheduledTime}</span>}
                       {order.location && <span>📍 {order.location}</span>}
                       {order.assignedAgent && <span>👤 {order.assignedAgent}</span>}
@@ -716,149 +789,172 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
 
         {/* ═══ ORDER DETAIL ═══ */}
         {activeSection === 'orders' && selectedOrder && (
-          <div className="p-6">
-            <button onClick={() => setSelectedOrder(null)} className="text-gray-400 hover:text-white text-sm mb-4 flex items-center gap-1">
+          <div style={{ padding: 24, color: '#F9FAFB' }}>
+            <button
+              type="button"
+              onClick={() => setSelectedOrder(null)}
+              style={{ color: '#D1D5DB', fontSize: 14, marginBottom: 16, background: 'none', border: 'none', cursor: 'pointer' }}
+            >
               ← Back to Orders
             </button>
 
-            <div className="grid grid-cols-3 gap-6">
-              {/* Main Info */}
-              <div className="col-span-2 space-y-4">
-                <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-                  <div className="flex items-start justify-between mb-4">
+            {(selectedOrder.confirmationNumber || selectedOrder.id) && (
+              <div
+                style={{
+                  marginBottom: 20,
+                  padding: '18px 22px',
+                  borderRadius: 14,
+                  background: `linear-gradient(135deg, ${division.solid}22 0%, #14141A 100%)`,
+                  border: `2px solid ${division.solid}`,
+                  boxShadow: `0 0 24px ${division.solid}33`,
+                }}
+              >
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.2, color: '#E5E7EB', textTransform: 'uppercase', marginBottom: 8 }}>
+                  Confirmation ID
+                </p>
+                <p
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 800,
+                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+                    color: '#FFFFFF',
+                    letterSpacing: 0.5,
+                    wordBreak: 'break-all',
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {selectedOrder.confirmationNumber || selectedOrder.id}
+                </p>
+              </div>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 22 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
                     <div>
                       <span style={statusStyle(selectedOrder.status)}>
                         {selectedOrder.status.replace('_', ' ').toUpperCase()}
                       </span>
-                      <h1 className="text-xl font-bold mt-2">{selectedOrder.subjectInfo.name}</h1>
-                      <p className="text-gray-400">{selectedOrder.clientName}</p>
+                      <h1 style={{ fontSize: 24, fontWeight: 800, marginTop: 10, color: '#FFFFFF' }}>{selectedOrder.subjectInfo.name}</h1>
+                      <p style={{ fontSize: 15, color: '#D1D5DB', marginTop: 4 }}>{selectedOrder.clientName}</p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold" style={{ color: division.color }}>{selectedOrder.type.toUpperCase()}</p>
-                      <p className="text-sm text-gray-400">{selectedOrder.subject}</p>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontSize: 18, fontWeight: 800, color: division.solid }}>{selectedOrder.type.toUpperCase()}</p>
+                      <p style={{ fontSize: 14, color: '#D1D5DB', marginTop: 4 }}>{selectedOrder.subject}</p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs text-gray-500">DOB</p>
-                      <p className="text-sm">{selectedOrder.subjectInfo.dob || '—'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">CDL#</p>
-                      <p className="text-sm font-mono">{selectedOrder.subjectInfo.cdl || '—'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Phone</p>
-                      <p className="text-sm">{selectedOrder.subjectInfo.phone || '—'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">SSN (last 4)</p>
-                      <p className="text-sm font-mono">{selectedOrder.subjectInfo.ssn4 || '—'}</p>
-                    </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    {[
+                      { label: 'DOB', value: selectedOrder.subjectInfo.dob || '—' },
+                      { label: 'CDL#', value: selectedOrder.subjectInfo.cdl || '—', mono: true },
+                      { label: 'Phone', value: selectedOrder.subjectInfo.phone || '—' },
+                      { label: 'SSN (last 4)', value: selectedOrder.subjectInfo.ssn4 || '—', mono: true },
+                    ].map((field) => (
+                      <div key={field.label}>
+                        <p style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 4 }}>{field.label}</p>
+                        <p style={{ fontSize: 16, fontWeight: 600, color: '#F9FAFB', fontFamily: field.mono ? 'ui-monospace, monospace' : 'inherit' }}>{field.value}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Schedule Info */}
-                <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-                  <h3 className="font-bold mb-4">Schedule & Assignment</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs text-gray-500">Date</p>
-                      <p className="text-sm">{selectedOrder.scheduledDate || 'Not scheduled'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Time</p>
-                      <p className="text-sm">{selectedOrder.scheduledTime || '—'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Location</p>
-                      <p className="text-sm">{selectedOrder.location || '—'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Assigned To</p>
-                      <p className="text-sm">{selectedOrder.assignedAgent || 'Unassigned'}</p>
-                    </div>
+                <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 22 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 16 }}>Schedule & Assignment</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    {[
+                      { label: 'Date', value: selectedOrder.scheduledDate || 'Not scheduled' },
+                      { label: 'Time', value: selectedOrder.scheduledTime || '—' },
+                      { label: 'Location', value: selectedOrder.location || '—' },
+                      { label: 'Assigned To', value: selectedOrder.assignedAgent || 'Unassigned', highlight: !selectedOrder.assignedAgent },
+                    ].map((field) => (
+                      <div key={field.label}>
+                        <p style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 4 }}>{field.label}</p>
+                        <p style={{ fontSize: 16, fontWeight: 600, color: field.highlight ? '#FCD34D' : '#F9FAFB' }}>{field.value}</p>
+                      </div>
+                    ))}
                   </div>
                   {onAssignAgent && (
                     <button
                       type="button"
                       disabled={assigningOrder}
                       onClick={() => setShowAgentPicker(true)}
-                      className="mt-4 w-full px-4 py-2 rounded-lg font-semibold text-sm text-white transition hover:opacity-90 disabled:opacity-50"
-                      style={{ backgroundColor: division.solid }}
+                      style={{
+                        marginTop: 18,
+                        width: '100%',
+                        padding: '12px 16px',
+                        borderRadius: 10,
+                        border: 'none',
+                        fontWeight: 700,
+                        fontSize: 15,
+                        color: '#fff',
+                        cursor: assigningOrder ? 'wait' : 'pointer',
+                        opacity: assigningOrder ? 0.6 : 1,
+                        backgroundColor: division.solid,
+                      }}
                     >
                       {assigningOrder ? 'Assigning…' : selectedOrder.assignedAgent ? 'Reassign Agent' : 'Assign Agent'}
                     </button>
                   )}
-
-                  {selectedOrder.confirmationNumber && (
-                    <div className="mt-4 pt-4 border-t border-gray-700">
-                      <p className="text-xs text-gray-500">Confirmation #</p>
-                      <p className="text-sm font-mono font-bold" style={{ color: division.color }}>
-                        {selectedOrder.confirmationNumber}
-                      </p>
-                    </div>
-                  )}
                 </div>
 
-                {/* Notes */}
                 {selectedOrder.notes && (
-                  <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-                    <h3 className="font-bold mb-2">Notes</h3>
-                    <p className="text-sm text-gray-300">{selectedOrder.notes}</p>
+                  <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 22 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>Notes</h3>
+                    <p style={{ fontSize: 15, color: '#E5E7EB', lineHeight: 1.5 }}>{selectedOrder.notes}</p>
                   </div>
                 )}
               </div>
 
-              {/* Sidebar Actions */}
-              <div className="space-y-4">
-                <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-                  <h3 className="font-bold mb-3">Actions</h3>
-                  <div className="space-y-2">
-                    <button className="w-full px-4 py-2 rounded-lg font-semibold text-sm text-white transition hover:opacity-90" style={{ backgroundColor: division.solid }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Actions</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', backgroundColor: division.solid, cursor: 'pointer' }}>
                       Schedule / Update
                     </button>
-                    <button className="w-full px-4 py-2 rounded-lg font-semibold text-sm bg-gray-700 hover:bg-gray-600 transition">
+                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
                       Add Confirmation #
                     </button>
-                    <button className="w-full px-4 py-2 rounded-lg font-semibold text-sm bg-gray-700 hover:bg-gray-600 transition">
+                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', fontWeight: 600, fontSize: 14, color: '#F9FAFB', background: '#1F2937', cursor: 'pointer' }}>
                       Upload Document
                     </button>
-                    <button className="w-full px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 transition">
+                    <button type="button" style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, color: '#fff', background: '#059669', cursor: 'pointer' }}>
                       Mark Complete
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-                  <h3 className="font-bold mb-3">Attachments</h3>
+                <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Attachments</h3>
                   {selectedOrder.attachments.length > 0 ? (
-                    <div className="space-y-2">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {selectedOrder.attachments.map((att, i) => (
-                        <div key={i} className="flex items-center gap-2 p-2 bg-gray-700/50 rounded-lg text-sm">
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 10, background: '#0D0D12', borderRadius: 8, fontSize: 14, color: '#E5E7EB' }}>
                           <span>{att.type === 'screenshot' ? '📸' : att.type === 'document' ? '📄' : '📊'}</span>
-                          <span className="flex-1 truncate">{att.name}</span>
+                          <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{att.name}</span>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-sm">No attachments</p>
+                    <p style={{ fontSize: 14, color: '#9CA3AF' }}>No attachments</p>
                   )}
                 </div>
 
-                <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-                  <h3 className="font-bold mb-3">Open in Portal</h3>
-                  <div className="space-y-2">
-                    {division.partnerPortals.slice(0, 3).map(portal => (
+                <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Open in Portal</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {division.partnerPortals.slice(0, 3).map((portal) => (
                       <button
                         key={portal.id}
+                        type="button"
                         onClick={() => onOpenPortal(portal)}
-                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-gray-700 hover:bg-gray-600 transition"
+                        style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderRadius: 8, fontSize: 14, color: '#F9FAFB', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer' }}
                       >
                         <span>{portal.icon}</span>
                         <span>{portal.name}</span>
-                        <span className="ml-auto text-gray-500">→</span>
+                        <span style={{ marginLeft: 'auto', color: '#9CA3AF' }}>→</span>
                       </button>
                     ))}
                   </div>

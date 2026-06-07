@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:hap-voice-go-live-prep-2026-06-08@deedavis.biz
+DTSTAMP:20260606T180000Z
+DTSTART;TZID=America/Detroit:20260608T140000
+DTEND;TZID=America/Detroit:20260608T153000
+SUMMARY:📋 HAP Voice Intake — Go-Live Prep (Twilio + 855 materials)
+DESCRIPTION:Monday production prep before real HAP members:\n1) Upgrade Twilio (add card) — removes trial message; SMS any member\n2) Rotate ElevenLabs API key (old key in screenshot)\n3) Put 855-773-0035 on member card/flyer/CareSource packet\n4) Optional: start CNAM/toll-free branding for DDI caller ID\n\nVerify: curl deedavis.pythonanywhere.com/prism/voice/status\nTest call after Twilio upgrade.
+LOCATION:Twilio Console + PythonAnywhere + member materials
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:HAP Voice Go-Live Prep in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:HAP Voice Go-Live Prep in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

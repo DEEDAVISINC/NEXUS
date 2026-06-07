@@ -22,7 +22,8 @@
 | **Electron — Uber Health login in PRISM webview** | Fix pushed Jun 5: Chrome UA + OAuth popup modal + `persist:partner` session. **Test:** quit Electron fully → `npm run electron-dev` → PRISM → NEMT → Live Portals → Uber Health → sign in. Use **Browser ↗** if popup still fails. | ⬜ **TEST after restart**
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
-| **Jun 2 @ 1 PM ET** | **Uber Health — Jeff Metz** — NY Rx band pricing (Jun 17 bid) + MI/HAP/ACH · **Open:** `BIDS:RESOURCES/SUNY UPSTATE HOME MEDICAL COURIER/UBER_HEALTH_JEFF_METZ_CALL.html` | ⬜ |
+| **Jun 7 Sun @ 12 PM ET** | **PRISM Finish-Up** — Voice test · VERTEX $28/$35 · HAP manual · Uber login · `.ics`: `calendars/prism_finish_up_2026-06-07.ics` | ⬜ **TOMORROW** |
+| **Jun 8 Mon @ 2 PM ET** | **HAP Voice Intake — Go-Live Prep** — Upgrade Twilio · rotate ElevenLabs key · 855 on member materials · optional CNAM · test call · `.ics`: `calendars/hap_voice_go_live_prep_2026-06-08.ics` | ⬜ **MONDAY** |
 | **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
 
 ## ⏳ AWAITING RESPONSE

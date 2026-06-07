@@ -1,13 +1,19 @@
-Good morning Dee. Here is your NEXUS briefing for Sunday, June 7, 2026.
+Good morning Dee. Here is your NEXUS briefing for Monday, June 8, 2026.
 
-Today is a build day for money systems. Priority one: wire PRISM to VERTEX for HAP CareSource invoicing. Pull the provider manual from the CareSource portal first so billing rules are right.
+You have four items on the calendar today.
 
-Priority two: Square sandbox on the client portal payment step.
+At eleven A M Eastern, the VA Madison NEMT bid deadline. Handle that first.
 
-Priority three: restart Electron fully and test Uber Health login in PRISM. Use the Browser button if the popup still fails.
+At noon, follow up with Gary Misczak. Personal thank you only.
 
-Before you dive in, confirm whether DAF Family Advocacy Sources Sought went out yesterday by two PM, and whether DRPA was submitted Friday.
+At two P M, HAP voice go-live prep. Upgrade Twilio, rotate the ElevenLabs key, and get eight five five seven seven three zero zero three five on member materials. Test call after.
 
-Monday is heavy: VA Madison NEMT bid due at eleven AM, Gary Misczak thank-you at noon, and a signing in Macomb at six PM.
+At six P M, Andre Rupert signing in Macomb. Eighty dollars. FedEx ship when done.
 
-Have a good Sunday.
+Check whether the seventy-five dollar First Class Signing payment landed.
+
+If PRISM finish-up did not happen Sunday, still on the list: wire trip complete to Vertex at twenty-eight or thirty-five dollars, pull the HAP billing manual, and test Uber Health login in Electron.
+
+Urgent this week: FMCSA Clearinghouse identity verification due July sixth.
+
+Have a good night.

@@ -79,13 +79,13 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
         }}
       >
         {isPicker && (
-          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-            <p style={{ fontWeight: 700, fontSize: 15, color: '#F9FAFB' }}>{pickerTitle}</p>
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <p style={{ fontWeight: 800, fontSize: 18, color: '#FFFFFF' }}>{pickerTitle}</p>
             {onClose && (
               <button
                 type="button"
                 onClick={onClose}
-                style={{ background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', fontSize: 18 }}
+                style={{ background: '#374151', border: 'none', color: '#F9FAFB', cursor: 'pointer', fontSize: 16, width: 32, height: 32, borderRadius: 8 }}
               >
                 ✕
               </button>
@@ -104,12 +104,12 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
           style={{
             flex: '1 1 220px',
             minWidth: 200,
-            padding: '9px 14px',
+            padding: '10px 14px',
             borderRadius: 9,
-            border: '1px solid rgba(255,255,255,0.08)',
-            background: '#14141A',
-            color: '#F9FAFB',
-            fontSize: 13,
+            border: '1px solid rgba(255,255,255,0.14)',
+            background: '#252532',
+            color: '#FFFFFF',
+            fontSize: 14,
             outline: 'none',
           }}
         />
@@ -203,20 +203,20 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
           background: '#14141A',
         }}
       >
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: isPicker ? 14 : 13 }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'left' }}>
+            <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', textAlign: 'left', background: isPicker ? '#252532' : 'transparent' }}>
               {['Agent', 'Location', 'Specialties', 'Status', 'Jobs', 'Rating', isPicker ? '' : ''].map((h) => (
                 <th
                   key={h || 'action'}
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 10,
+                    padding: isPicker ? '12px 16px' : '10px 14px',
+                    fontSize: 11,
                     fontWeight: 700,
-                    color: 'rgba(107,114,128,0.8)',
+                    color: '#E5E7EB',
                     textTransform: 'uppercase',
                     letterSpacing: 0.6,
-                    width: h === '' && isPicker ? 80 : undefined,
+                    width: h === '' && isPicker ? 96 : undefined,
                   }}
                 >
                   {h}
@@ -265,32 +265,32 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
                     e.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <td style={{ padding: '12px 14px' }}>
-                    <p style={{ fontWeight: 600, color: '#F9FAFB' }}>{agent.name}</p>
-                    <p style={{ fontSize: 11, color: '#6B7280', marginTop: 2 }}>{agent.id}</p>
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px' }}>
+                    <p style={{ fontWeight: 700, fontSize: isPicker ? 15 : 14, color: '#FFFFFF' }}>{agent.name}</p>
+                    <p style={{ fontSize: 12, color: '#D1D5DB', marginTop: 3 }}>{agent.id}</p>
                   </td>
-                  <td style={{ padding: '12px 14px', color: '#D1D5DB' }}>{loc}</td>
-                  <td style={{ padding: '12px 14px', color: '#9CA3AF', maxWidth: 200 }}>
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px', color: '#F3F4F6', fontSize: isPicker ? 14 : 13 }}>{loc}</td>
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px', color: '#E5E7EB', maxWidth: 220, fontSize: isPicker ? 14 : 13 }}>
                     <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {specs}
                       {extraSpecs}
                     </span>
                   </td>
-                  <td style={{ padding: '12px 14px' }}>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, color: st.color }}>
-                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: st.color }} />
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: isPicker ? 14 : 12, fontWeight: 600, color: st.color }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: st.color }} />
                       {st.label}
                     </span>
                   </td>
-                  <td style={{ padding: '12px 14px', color: '#D1D5DB' }}>
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px', color: '#F3F4F6', fontSize: isPicker ? 14 : 13 }}>
                     {agent.activeOrders ?? 0} active
-                    <span style={{ color: '#6B7280', fontSize: 11 }}> / {agent.ordersCompleted ?? 0} done</span>
+                    <span style={{ color: '#D1D5DB', fontSize: 12 }}> / {agent.ordersCompleted ?? 0} done</span>
                   </td>
-                  <td style={{ padding: '12px 14px', color: '#FCD34D', fontWeight: 600 }}>
+                  <td style={{ padding: isPicker ? '14px 16px' : '12px 14px', color: '#FCD34D', fontWeight: 700, fontSize: isPicker ? 15 : 13 }}>
                     {(agent.rating ?? 0).toFixed(1)}★
                   </td>
                   {isPicker ? (
-                    <td style={{ padding: '12px 14px' }}>
+                    <td style={{ padding: '14px 16px' }}>
                       <button
                         type="button"
                         onClick={(e) => {
@@ -298,14 +298,15 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
                           onSelectAgent?.(agent);
                         }}
                         style={{
-                          padding: '6px 12px',
-                          borderRadius: 7,
+                          padding: '10px 16px',
+                          borderRadius: 8,
                           border: 'none',
                           background: accent,
                           color: '#fff',
-                          fontSize: 11,
-                          fontWeight: 700,
+                          fontSize: 13,
+                          fontWeight: 800,
                           cursor: 'pointer',
+                          minWidth: 72,
                         }}
                       >
                         Assign
@@ -381,7 +382,8 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
           position: 'fixed',
           inset: 0,
           zIndex: 60,
-          background: 'rgba(0,0,0,0.65)',
+          background: 'rgba(0,0,0,0.78)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -392,11 +394,12 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
         <div
           style={{
             width: '100%',
-            maxWidth: 920,
-            maxHeight: '85vh',
-            background: '#0D0D12',
+            maxWidth: 960,
+            maxHeight: '88vh',
+            background: '#1C1C26',
             borderRadius: 16,
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: '2px solid rgba(255,255,255,0.14)',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.55)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
@@ -413,12 +416,13 @@ const PrismAgentDirectory: React.FC<PrismAgentDirectoryProps> = ({
 };
 
 const selectStyle: React.CSSProperties = {
-  padding: '9px 12px',
+  padding: '10px 12px',
   borderRadius: 9,
-  border: '1px solid rgba(255,255,255,0.08)',
-  background: '#14141A',
-  color: '#E5E7EB',
-  fontSize: 12,
+  border: '1px solid rgba(255,255,255,0.14)',
+  background: '#252532',
+  color: '#FFFFFF',
+  fontSize: 13,
+  fontWeight: 500,
 };
 
 function pageBtnStyle(disabled: boolean): React.CSSProperties {

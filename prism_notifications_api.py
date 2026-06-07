@@ -107,10 +107,40 @@ NOTIFICATION_TYPES = {
         'severity': 'warning',
         'target': 'agent',
     },
+    'new_order': {
+        'icon': '📋',
+        'title': 'New Service Request',
+        'severity': 'info',
+        'target': 'admin',
+    },
+    'voice_intake': {
+        'icon': '📞',
+        'title': 'Voice Intake Completed',
+        'severity': 'info',
+        'target': 'admin',
+    },
 }
 
 
-def create_notification(notif_type: str, message: str, order_id: str = '',
+def _normalize_notification(raw: dict) -> dict:
+    """Unify legacy order-api rows with notification-api schema."""
+    n = dict(raw)
+    if not n.get('target') and n.get('recipient'):
+        n['target'] = n['recipient']
+    if not n.get('created_at') and n.get('timestamp'):
+        n['created_at'] = n['timestamp']
+    if not n.get('icon'):
+        type_info = NOTIFICATION_TYPES.get(n.get('type', ''), {})
+        n['icon'] = type_info.get('icon', '🔔')
+    if not n.get('title') and n.get('type'):
+        type_info = NOTIFICATION_TYPES.get(n['type'], {})
+        n['title'] = type_info.get('title', n['type'].replace('_', ' ').title())
+    if n.get('severity') == 'medium':
+        n['severity'] = 'info'
+    if n.get('severity') == 'high':
+        n['severity'] = 'warning'
+    return n
+
                         agent_id: str = '', agent_name: str = '',
                         metadata: dict = None) -> dict:
     """Create and persist a notification. Called by other PRISM modules."""
@@ -160,6 +190,7 @@ def get_notifications():
     limit = int(request.args.get('limit', 50))
 
     notifications = _load_json(NOTIFICATIONS_FILE)
+    notifications = [_normalize_notification(n) for n in notifications]
 
     if target:
         notifications = [n for n in notifications if n.get('target') == target]
@@ -169,8 +200,11 @@ def get_notifications():
     if unread_only:
         notifications = [n for n in notifications if not n.get('read')]
 
-    total_unread = sum(1 for n in _load_json(NOTIFICATIONS_FILE)
-                       if not n.get('read') and (not target or n.get('target') == target))
+    total_unread = sum(
+        1 for n in _load_json(NOTIFICATIONS_FILE)
+        if not n.get('read')
+        and (not target or _normalize_notification(n).get('target') == target)
+    )
 
     return jsonify({
         'success': True,

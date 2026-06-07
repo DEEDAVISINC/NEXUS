@@ -1,9 +1,14 @@
-# HAP CARESOURCE NEMT OPERATIONS — DEE DAVIS INC.
+# CARESOURCE NEMT OPERATIONS — DEE DAVIS INC.
 
-**Contract Type:** HAP CareSource Provider Agreement + Michigan LTSS Comp Schedule (MA_SNP) — NEMT credentialed service line  
-**Vendor ID:** 100000469269 (issued Apr 28, 2026 after credentialing; agreement signed Mar 29, 2026)  
+**Contracting party:** **CareSource** (HAP CareSource + Affiliates — per executed agreement, collectively “CareSource”)  
+**Plan / brand name:** HAP CareSource MI Coordinated Health (HIDE SNP) — joint venture marketing name on member/provider materials  
+**Contract type:** CareSource Provider Agreement + Michigan LTSS Comp Schedule (MA_SNP) — NEMT credentialed service line  
+**Vendor ID:** 100000469269 (issued Apr 28, 2026 after CareSource credentialing)  
+**Fully executed:** Mar 29, 2026 (DDI) · Mar 31, 2026 (CareSource — Michael Fantoni, National Network & Strategic Sourcing)  
+**Executed PDF:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CONTRACTS/CareSource_Michigan_LTSS_MA_SNP_Fully_Executed_2026-03-31.pdf`  
 **Go-Live:** Activate in portal — READY NOW  
-**Orientation Completed:** May 6, 2026 (Brian Grcevich)
+**Orientation Completed:** May 6, 2026 (Brian Grcevich)  
+**Orientation deck (archived):** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/ORIENTATION/Michigan_Combined_Provider_Orientation_2026_v2.pdf` (125 slides, Jun 2026 v2)
 
 ---
 
@@ -152,10 +157,54 @@ Dayton, OH 45401
 ## IMMEDIATE NEXT STEPS
 
 - [ ] **Activate in portal** — Turn on DDI's availability to receive trips
-- [ ] **Complete Model of Care training** — Required for MI Coordinated Health
+- [ ] **Complete Model of Care training** — Required for MI Coordinated Health (annual refresher)
 - [ ] **Complete FWA attestation** — HealthPlanResources.com
 - [ ] **First trip → First claim → First payment**
 - [ ] **Enroll in ECHO EFT** after first paper check received
+
+---
+
+## ORIENTATION 2026 v2 — KEY INTEL (Jun 2026 deck)
+
+### MICH plan facts (slides 6–7)
+- **Counties:** Wayne and Macomb only (Oakland not in deck geography — aligns with Oakland still pending)
+- **Population:** 21+, full Medicaid + Medicare enrolled
+- **Benefits:** LTSS, behavioral health, no in-network copays/deductibles (Part D exclusions apply)
+- **Branded as:** "Next Generation MyCare" internally
+
+### Member-facing NEMT vs DDI contract path (slides 90–91) — READ THIS
+HAP's **published vendor** for Medicaid + MICH transportation is **MTM (Medical Transportation Management)**:
+- **Member/provider scheduling line:** 1-866-733-8997
+- Routine trips: **48 hours** advance (Mon–Fri 7 AM–8 PM ET)
+- Urgent/discharge: **24/7/365**
+- Deck also cites 30 one-way / 15 round trips under 30 miles annually, then states **no trip limits for covered benefits** — confirm with Brian/Dana which applies to HIDE SNP NEMT line
+
+**Operational meaning:** Orientation trains providers that MTM is the transport vendor. DDI's credentialed NEMT line is **parallel** — trips should flow via **portal queue, care manager referral, or member calling DDI directly** (see workflow above). If members are still routed to MTM, that's the redirect loop — escalate with Dana/Brian, not Provider Services front line.
+
+### Waiver / LTSS (slides 42–51) — separate from NEMT TPA
+- Waiver claims via portal (custom fee schedule, ECHO payment, payer of last resort)
+- **Provider Sourcing** in portal — waiver service opportunities; case manager creates service plan after "interested"
+- **EVV:** HHAeXchange mandatory Jan 1, 2026 for home health / personal care (T1019, etc.) — not DDI NEMT lane unless expanding into PCA
+
+### SDOH / care coordination wedges (slides 104–105, 119–120)
+- **Care Managers** connect members to **community support services** — referral path for CWC Digital Navigation
+- **Community of Innovation (COI)** — complex members (SDOH, SUD, LTSS, child welfare) — ask Provider Services to connect; aligns with Brian SDOH thread (Vendor 100000469269)
+- **Care Management referral:** Portal → refer patient; same phone 1-833-230-2057 (MICH)
+
+### Credentialing / contracting (slide 17)
+- **Email:** providernetwork@hap.org
+- **Subject must include:** "Credentialing Status" or "Contracting Status"
+- **Include:** Type 1 + Type 2 NPI, TIN, provider name, address, phone, preferred email
+
+### Training & compliance (slides 14, 117, 129–130)
+| Item | Where |
+|------|--------|
+| Model of Care (MICH) | hap.org → HAP CareSource → Users → Provider Training → LMS → HealthPlanResources.com — **attest after viewing** |
+| Fraud/Waste/Abuse | HealthPlanResources.com — attest in portal |
+| Prior auth lookup | procedurelookup.caresource.com → MI MICH |
+
+### Other vendors on deck (slide 90) — not DDI lanes unless expanded
+CSS Health (MTM pharmacy), Delta Dental, NationsHearing, EyeMed, **MTM (transport)**, Express Scripts (PBM)
 
 ---
 

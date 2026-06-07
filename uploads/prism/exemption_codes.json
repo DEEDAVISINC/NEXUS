@@ -1,0 +1,52 @@
+{
+  "period": "2026Q2",
+  "expires": "2026-06-30",
+  "codes": [
+    {
+      "hash": "48237522819754b29e9c56e06aba21a9cd2570d8a1449dfd0438fe61547f9d32",
+      "type": "WVR",
+      "period": "2026Q2",
+      "max_uses": 25,
+      "uses": 1,
+      "active": true,
+      "created": "2026-06-06T15:54:43.462922-04:00",
+      "last_used": "2026-06-06T15:54:43.463420-04:00"
+    },
+    {
+      "hash": "35519a3ceb1e2aab534506d3f634ecdd287027ddcb757932668ea9e3781cd987",
+      "type": "EXM",
+      "period": "2026Q2",
+      "max_uses": 100,
+      "uses": 0,
+      "active": true,
+      "created": "2026-06-06T15:54:43.462985-04:00"
+    },
+    {
+      "hash": "7e9c2bf20f5a4ea34e88b8638a6037fe0a8be6b694dc5fc327ee3943f52127f2",
+      "type": "EXP",
+      "period": "2026Q2",
+      "max_uses": 50,
+      "uses": 0,
+      "active": true,
+      "created": "2026-06-06T15:54:43.463011-04:00"
+    },
+    {
+      "hash": "cce1a4e4fb5d90414543adf12bde5efcd0779ba1739be75e2d28c4b61455fae4",
+      "type": "OPS",
+      "period": "2026Q2",
+      "max_uses": 200,
+      "uses": 0,
+      "active": true,
+      "created": "2026-06-06T15:54:43.463031-04:00"
+    },
+    {
+      "hash": "7323f8f83f9b349f09a0acfbfee2de849faeee8d5cdcd9b1848ee8de29e627e1",
+      "type": "VIP",
+      "period": "2026Q2",
+      "max_uses": 30,
+      "uses": 0,
+      "active": true,
+      "created": "2026-06-06T15:54:43.463046-04:00"
+    }
+  ]
+}

@@ -9,8 +9,8 @@
 
 | Field | Value |
 |-------|-------|
-| **Counterparty** | HAP CareSource (CareSource Michigan) |
-| **Agreement type** | HAP CareSource Provider Agreement + Michigan LTSS Comp Schedule — **MA_SNP** |
+| **Counterparty** | **CareSource** (HAP CareSource + Affiliates — plan brand: HAP CareSource Michigan) |
+| **Agreement type** | **CareSource Provider Agreement** + Michigan LTSS Comp Schedule — **MA_SNP** |
 | **Signed** | March 29, 2026 |
 | **Vendor ID** | **100000469269** (issued ~Apr 28, 2026 after credentialing) |
 | **NPI** | 1538939111 |

@@ -1,0 +1,22 @@
+[
+  {
+    "at": "2026-06-06T15:54:43.463596-04:00",
+    "event": "accepted",
+    "type": "WVR",
+    "email": "",
+    "context": "",
+    "uses": 1
+  },
+  {
+    "at": "2026-06-06T15:54:43.463228-04:00",
+    "event": "rotated",
+    "period": "2026Q2",
+    "types": [
+      "WVR",
+      "EXM",
+      "EXP",
+      "OPS",
+      "VIP"
+    ]
+  }
+]

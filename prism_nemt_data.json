@@ -1,5 +1,85 @@
 {
-  "orders": {},
+  "orders": {
+    "14a15e67-96ca-4ce1-bf75-6f61f3885159": {
+      "order_id": "14a15e67-96ca-4ce1-bf75-6f61f3885159",
+      "member_medicaid_id": "1234567890",
+      "member_name": "Jane Doe",
+      "member_dob": "January 15 1980",
+      "payer": "HAP CareSource",
+      "transport_type": "ambulatory",
+      "transport_label": "Ambulatory (Seated)",
+      "hcpcs_code": "T2002",
+      "pickup_address": "123 Main Street Detroit Michigan",
+      "dropoff_address": "456 Clinic Drive Detroit Michigan",
+      "pickup_time": "tomorrow at 9 AM",
+      "appointment_time": null,
+      "trip_purpose": "Medical appointment",
+      "mileage": 0.0,
+      "eligibility_verified": false,
+      "prior_auth_id": null,
+      "prior_auth_number": null,
+      "driver_name": null,
+      "vehicle_id": null,
+      "notes": "Voice intake PRISM-V-20260606-1017-FFBA \u00b7 call sim-5dcbb33c",
+      "status": "scheduled",
+      "created_at": "2026-06-06T14:17:49Z",
+      "dispatched_at": null,
+      "completed_at": null,
+      "vertex_trip_id": null,
+      "vertex_invoice_id": null,
+      "eligibility_checklist": {
+        "eligible_to_dispatch": false,
+        "failed_count": 2,
+        "checks": [
+          {
+            "item": "Member Medicaid ID present",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "Member name recorded",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "Member DOB recorded",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "Eligibility verified with MCO",
+            "status": "FAIL",
+            "action": "Call 1-844-607-2831 or check MCO portal"
+          },
+          {
+            "item": "Prior auth on file (if required)",
+            "status": "FAIL",
+            "action": "Obtain prior auth before non-urgent scheduled trips"
+          },
+          {
+            "item": "Pickup address complete",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "Destination address complete",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "Medical appointment documented",
+            "status": "PASS",
+            "action": null
+          },
+          {
+            "item": "HCPCS code assigned",
+            "status": "PASS",
+            "action": null
+          }
+        ]
+      }
+    }
+  },
   "drivers": {
     "9a87d974-cc9a-4a0d-bd3a-be433adbd25d": {
       "driver_id": "9a87d974-cc9a-4a0d-bd3a-be433adbd25d",

@@ -865,18 +865,39 @@ def _fire_notification(order):
     """Push a notification into the PRISM notification feed."""
     notif_file = os.path.join(os.path.dirname(__file__), 'uploads', 'notifications', 'notifications.json')
     try:
+        details = order.get('details') or {}
+        intake_channel = details.get('intake_channel') or order.get('intake_channel')
+        is_voice = intake_channel == 'voice_ai'
+        notif_type = 'voice_intake' if is_voice else 'new_order'
+        priority = order.get('priority', 'Standard')
+        severity = 'warning' if priority == 'STAT' else 'info'
+        if priority == 'Same Day':
+            severity = 'medium'
+
         notifs = _load(notif_file, [])
         notifs.insert(0, {
-            'id': f'notif-{uuid.uuid4().hex[:8]}',
-            'type': 'new_order',
-            'severity': 'high' if order.get('priority') == 'STAT' else 'medium',
-            'title': f"New {order.get('service_label', 'Service')} Request",
-            'message': f"{order['client']} — {order['signer']} — {order['priority']}",
+            'id': f"NOTIF-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:4]}",
+            'type': notif_type,
+            'icon': '📞' if is_voice else '📋',
+            'severity': severity,
+            'title': (
+                'Voice Intake — NEMT Trip Booked'
+                if is_voice
+                else f"New {order.get('service_label', 'Service')} Request"
+            ),
+            'message': f"{order.get('client', '')} — {order.get('signer', '')} — {priority}",
+            'target': 'admin',
             'order_id': order['id'],
-            'timestamp': datetime.utcnow().isoformat(),
+            'created_at': datetime.utcnow().isoformat() + 'Z',
             'read': False,
-            'recipient': 'admin',
+            'metadata': {
+                'service_key': order.get('service_key'),
+                'intake_channel': intake_channel,
+                'routing_email': order.get('routing_email'),
+            },
         })
+        if len(notifs) > 500:
+            notifs = notifs[:500]
         _save(notif_file, notifs)
     except Exception:
         pass
