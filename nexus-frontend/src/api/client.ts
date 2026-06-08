@@ -262,6 +262,8 @@ export const api = {
     ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/verify-eligibility`, data || {}),
   dispatchNemtOrder: (nemtOrderId: string, data?: Record<string, unknown>) =>
     ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/dispatch`, data || {}),
+  setNemtRideTracking: (nemtOrderId: string, data: { rider_tracking_url: string; fulfillment_platform?: string }) =>
+    ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/ride-tracking`, data),
   completeNemtTrip: (nemtOrderId: string, data: Record<string, unknown>) =>
     ApiClient.post(`/prism/nemt/orders/${encodeURIComponent(nemtOrderId)}/complete`, data),
   getNemtEligibilityChecklist: (nemtOrderId: string) =>

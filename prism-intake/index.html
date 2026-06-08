@@ -3,67 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Client Portal | Dee Davis Inc.</title>
+<title>Program Portal | Dee Davis Inc.</title>
 <meta name="description" content="Schedule drug testing, fingerprinting, DNA, occupational health, NEMT, notary, courier, background screening, credentialing, and workforce compliance services.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230f172a'/><text x='50' y='62' text-anchor='middle' font-family='system-ui,sans-serif' font-size='36' font-weight='700' fill='%23b08d3e'>D</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #f4f5f7;
+    --navy: #0f172a;
+    --navy-mid: #1e293b;
+    --slate: #64748b;
+    --bg: #f1f5f9;
+    --surface: #f8fafc;
     --white: #ffffff;
     --card: #ffffff;
-    --border: #e0e3e8;
-    --border-hover: #c5c9d2;
-    --border-focus: #b08d3e;
-    --gold: #b08d3e;
-    --gold-light: #f5f0e3;
-    --gold-text: #8a6d2b;
-    --blue: #2563eb;
-    --blue-light: #eff4ff;
-    --green: #16a34a;
-    --green-light: #ecfdf5;
-    --red: #dc2626;
+    --border: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --border-focus: #0f172a;
+    --gold: #9a7b4f;
+    --gold-light: #f8f6f1;
+    --gold-text: #7a6238;
+    --blue: #1d4ed8;
+    --blue-light: #eff6ff;
+    --green: #15803d;
+    --green-light: #f0fdf4;
+    --red: #b91c1c;
     --red-light: #fef2f2;
-    --orange: #d97706;
+    --orange: #b45309;
     --orange-light: #fffbeb;
-    --purple: #7c3aed;
-    --purple-light: #f5f3ff;
-    --teal: #0d9488;
-    --teal-light: #ecfdf5;
-    --text: #1a1d23;
-    --text-secondary: #4b5060;
-    --text-muted: #8b919f;
+    --purple: #4338ca;
+    --purple-light: #eef2ff;
+    --teal: #0f766e;
+    --teal-light: #f0fdfa;
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --radius: 10px;
+    --radius: 8px;
     --radius-sm: 6px;
-    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+    --shadow: 0 1px 2px rgba(15,23,42,.05);
+    --shadow-md: 0 4px 6px -1px rgba(15,23,42,.07), 0 2px 4px -2px rgba(15,23,42,.05);
+    --shadow-lg: 0 10px 15px -3px rgba(15,23,42,.08), 0 4px 6px -4px rgba(15,23,42,.05);
   }
   html { scroll-behavior: smooth; }
   body {
-    background: linear-gradient(165deg, #eef2ff 0%, #f4f5f7 38%, #faf8f3 100%);
-    background-attachment: fixed;
-    color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased;
+    background: var(--bg);
+    color: var(--text); font-family: var(--sans); min-height: 100vh;
+    -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.5;
   }
 
   /* ── HEADER ── */
-  .site-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; }
-  .header-inner { max-width: 820px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .header-brand { display: flex; align-items: center; gap: 12px; }
-  .brand-mark {
-    width: 34px; height: 34px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 13px; color: #fff; letter-spacing: -0.5px;
+  .site-header {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 0 24px; box-shadow: var(--shadow);
   }
-  .brand-name { font-weight: 700; font-size: 15px; color: var(--text); }
-  .brand-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 1px; }
+  .header-inner {
+    max-width: 820px; margin: 0 auto; display: flex; align-items: center;
+    justify-content: space-between; height: 64px;
+  }
+  .header-brand { display: flex; align-items: center; gap: 14px; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    background: var(--navy); border: 1px solid var(--navy-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 11px; color: var(--gold); letter-spacing: 0.04em;
+  }
+  .brand-name { font-weight: 600; font-size: 15px; color: var(--text); letter-spacing: -0.01em; }
+  .brand-sub {
+    font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 1px;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
   .header-badge {
-    font-size: 10px; font-weight: 700; color: var(--gold-text);
-    background: var(--gold-light); padding: 4px 10px; border-radius: 20px;
-    letter-spacing: 0.5px;
+    font-size: 10px; font-weight: 600; color: var(--navy);
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 5px 12px; border-radius: var(--radius-sm);
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
 
   /* ── MAIN ── */
@@ -71,26 +86,28 @@
 
   /* ── ENTRY GATE ── */
   .entry-gate { max-width: 480px; margin: 0 auto; padding-top: 40px; }
-  .entry-title { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 8px; text-align: center; }
+  .entry-title { font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 8px; text-align: center; letter-spacing: -0.02em; }
   .entry-subtitle { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 28px; line-height: 1.6; }
-  .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
-  .entry-email-label { font-size: 13px; font-weight: 700; color: var(--gold-text); margin-bottom: 8px; display: block; }
+  .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-md); }
+  .entry-email-label {
+    font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; display: block;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
   .entry-email-input {
-    width: 100%; padding: 14px 16px; font-size: 16px; font-family: var(--sans);
-    border: 2px solid var(--gold); border-radius: var(--radius-sm);
-    background: var(--gold-light); color: var(--text); outline: none;
-    transition: all .2s;
+    width: 100%; padding: 12px 14px; font-size: 15px; font-family: var(--sans);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); color: var(--text); outline: none; transition: border-color .15s, box-shadow .15s;
   }
-  .entry-email-input:focus { box-shadow: 0 0 0 4px rgba(176,141,62,.12); }
-  .entry-email-input::placeholder { color: #b5a882; }
+  .entry-email-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,23,42,.08); }
+  .entry-email-input::placeholder { color: var(--text-muted); }
   .entry-btn {
-    width: 100%; margin-top: 16px; padding: 14px;
-    background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
-    border: none; border-radius: var(--radius); color: #fff;
-    font-size: 15px; font-weight: 700; cursor: pointer;
-    transition: all .2s; box-shadow: 0 2px 8px rgba(176,141,62,.25);
+    width: 100%; margin-top: 16px; padding: 13px;
+    background: var(--navy); border: 1px solid var(--navy);
+    border-radius: var(--radius-sm); color: #fff;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background .15s, box-shadow .15s;
   }
-  .entry-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(176,141,62,.3); }
+  .entry-btn:hover { background: var(--navy-mid); box-shadow: var(--shadow-md); }
   .entry-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
   .entry-or { text-align: center; color: var(--text-muted); font-size: 12px; margin: 16px 0; font-weight: 500; }
   .entry-new-btn {
@@ -108,25 +125,22 @@
   .client-dashboard { display: none; }
   .client-dashboard.active { display: block; }
   .dash-header {
-    background: linear-gradient(135deg, #1e293b 0%, #312e81 45%, #1a1d23 100%);
-    border-radius: var(--radius); padding: 28px 28px 24px;
-    margin-bottom: 20px; color: #fff; position: relative; overflow: hidden;
-    box-shadow: 0 8px 24px rgba(49,46,129,.25);
+    background: var(--navy); border-radius: var(--radius);
+    padding: 24px 28px; margin-bottom: 20px; color: #fff;
+    box-shadow: var(--shadow-lg); border-bottom: 3px solid var(--gold);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
   }
-  .dash-header::before {
-    content: ''; position: absolute; top: -40%; right: -10%; width: 220px; height: 220px;
-    background: radial-gradient(circle, rgba(176,141,62,.35) 0%, transparent 70%);
-    pointer-events: none;
+  .dash-header-main { flex: 1; min-width: 0; }
+  .dash-welcome {
+    font-size: 11px; color: rgba(255,255,255,.55); font-weight: 600; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.08em;
   }
-  .dash-header-main { position: relative; z-index: 1; }
-  .dash-welcome { font-size: 14px; color: rgba(255,255,255,.6); font-weight: 500; margin-bottom: 4px; }
-  .dash-company { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
-  .dash-contact { font-size: 13px; color: rgba(255,255,255,.5); }
+  .dash-company { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .dash-contact { font-size: 13px; color: rgba(255,255,255,.65); }
   .dash-whats-next {
-    display: inline-block; margin-top: 14px; padding: 6px 14px;
-    background: rgba(176,141,62,.2); border: 1px solid rgba(176,141,62,.35);
-    border-radius: 20px; font-size: 12px; font-weight: 700; color: var(--gold);
-    letter-spacing: 0.5px;
+    display: inline-block; margin-top: 14px; padding: 0;
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,.45);
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
   .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
   .stat-card {
@@ -135,21 +149,16 @@
     cursor: pointer; transition: all .2s; position: relative; overflow: hidden;
   }
   .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-    background: var(--border); transition: height .2s;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--border);
   }
-  .stat-card:hover::before { height: 5px; }
-  .stat-card.stat-card-blue::before { background: linear-gradient(90deg, #60a5fa, var(--blue)); }
-  .stat-card.stat-card-blue { background: linear-gradient(180deg, #eff6ff 0%, var(--card) 55%); }
-  .stat-card.stat-card-orange::before { background: linear-gradient(90deg, #fbbf24, var(--orange)); }
-  .stat-card.stat-card-orange { background: linear-gradient(180deg, #fffbeb 0%, var(--card) 55%); }
-  .stat-card.stat-card-green::before { background: linear-gradient(90deg, #4ade80, var(--green)); }
-  .stat-card.stat-card-green { background: linear-gradient(180deg, #ecfdf5 0%, var(--card) 55%); }
-  .stat-card.stat-card-purple::before { background: linear-gradient(90deg, #a78bfa, var(--purple)); }
-  .stat-card.stat-card-purple { background: linear-gradient(180deg, #f5f3ff 0%, var(--card) 55%); }
-  .stat-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .stat-card.active-kpi { border-color: var(--gold); box-shadow: 0 4px 16px rgba(176,141,62,.15); }
-  .stat-num { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .stat-card.stat-card-blue::before { background: var(--blue); }
+  .stat-card.stat-card-orange::before { background: var(--orange); }
+  .stat-card.stat-card-green::before { background: var(--green); }
+  .stat-card.stat-card-purple::before { background: var(--navy); }
+  .stat-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+  .stat-card.active-kpi { border-color: var(--navy); box-shadow: var(--shadow-md); }
+  .stat-num { font-size: 26px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
   .stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .stat-hint { font-size: 9px; color: var(--text-muted); margin-top: 4px; opacity: 0; transition: opacity .2s; }
   .stat-card:hover .stat-hint { opacity: 1; }
@@ -267,16 +276,18 @@
   }
 
   .dash-section-title {
-    font-size: 14px; font-weight: 700; color: var(--text); margin: 24px 0 12px;
+    font-size: 11px; font-weight: 600; color: var(--text-secondary); margin: 24px 0 12px;
     display: flex; align-items: center; gap: 8px;
+    text-transform: uppercase; letter-spacing: 0.08em;
   }
   .dash-section-title::before {
-    content: ''; width: 4px; height: 16px; border-radius: 4px;
-    background: linear-gradient(180deg, var(--gold), #9a7a30); flex-shrink: 0;
+    content: ''; width: 3px; height: 14px; border-radius: 1px;
+    background: var(--navy); flex-shrink: 0;
   }
   .dash-section-title .count {
-    font-size: 11px; background: var(--blue-light); color: var(--blue);
-    padding: 2px 8px; border-radius: 10px; font-weight: 700;
+    font-size: 10px; background: var(--surface); color: var(--navy);
+    padding: 2px 8px; border-radius: var(--radius-sm); font-weight: 600;
+    border: 1px solid var(--border); text-transform: none; letter-spacing: 0;
   }
 
   /* ── UPCOMING LIST ── */
@@ -284,18 +295,31 @@
   .upcoming-item {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 16px 18px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px;
-    transition: all .2s; border-left: 4px solid transparent;
+    transition: border-color .15s, box-shadow .15s;
+    border-left: 4px solid var(--sector-primary, var(--navy));
   }
-  .upcoming-item.upcoming-nemt { border-left-color: var(--purple); }
-  .upcoming-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .upcoming-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
   .upcoming-date-block {
     width: 52px; min-width: 52px; text-align: center;
-    background: var(--blue-light); border-radius: var(--radius-sm); padding: 8px 4px;
+    background: var(--sector-light, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--sector-primary, var(--border)) 28%, var(--border));
+    border-radius: var(--radius-sm); padding: 8px 4px;
   }
-  .upcoming-month { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
-  .upcoming-day { font-size: 20px; font-weight: 800; color: var(--blue); line-height: 1.1; }
+  .upcoming-month {
+    font-size: 10px; font-weight: 600; color: var(--sector-accent, var(--slate));
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .upcoming-day {
+    font-size: 20px; font-weight: 600; color: var(--sector-primary, var(--navy)); line-height: 1.1;
+  }
   .upcoming-info { flex: 1; min-width: 0; }
   .upcoming-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .upcoming-sector-tag {
+    display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 7px; border-radius: 4px; margin-right: 6px;
+    vertical-align: middle; color: var(--sector-primary); background: var(--sector-light);
+    border: 1px solid color-mix(in srgb, var(--sector-primary) 22%, var(--border));
+  }
   .upcoming-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
   .upcoming-badge {
     font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
@@ -306,44 +330,109 @@
   .badge-in-progress { background: var(--purple-light); color: var(--purple); }
   .badge-completed { background: var(--green-light); color: var(--green); }
 
-  .trip-actions-wrap { flex-shrink: 0; text-align: right; }
+  .trip-actions-wrap {
+    flex-shrink: 0; min-width: 200px;
+    border: 1px solid color-mix(in srgb, var(--sector-primary, #6b21a8) 32%, var(--border));
+    border-radius: var(--radius-sm);
+    background: var(--white); overflow: hidden;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--sector-primary, #6b21a8) 12%, transparent);
+  }
   .trip-actions-label {
-    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
-    color: var(--text-muted); margin-bottom: 6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--sector-primary, #6b21a8);
+    padding: 8px 12px 7px;
+    background: linear-gradient(90deg, var(--sector-light, #f5f3ff) 0%, #fff 100%);
+    border-bottom: 1px solid color-mix(in srgb, var(--sector-primary, #6b21a8) 18%, var(--border));
+    border-left: 3px solid var(--sector-primary, #6b21a8);
   }
   .trip-actions {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: stretch;
-    min-width: 176px;
+    display: flex; flex-direction: column;
   }
   .trip-action-btn {
-    font-size: 10px; font-weight: 800; padding: 8px 8px; border-radius: 999px;
-    border: none; color: #fff; cursor: pointer; white-space: nowrap;
-    transition: transform .15s, box-shadow .15s, filter .15s;
-    box-shadow: 0 2px 8px rgba(0,0,0,.14); letter-spacing: .02em;
+    font-size: 11px; font-weight: 700; padding: 10px 12px;
+    border-radius: 0; border: none; border-bottom: 1px solid rgba(255,255,255,.15);
+    cursor: pointer; transition: filter .12s, transform .12s; text-align: center;
+    box-shadow: none; letter-spacing: 0.02em; width: 100%;
   }
-  .trip-action-btn:hover {
-    transform: translateY(-2px); filter: brightness(1.06);
-    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  .trip-action-btn:last-child { border-bottom: none; }
+  .trip-action-btn:hover { filter: brightness(1.06); }
+  .trip-action-btn:active { transform: scale(0.99); }
+  .trip-action-return {
+    background: var(--sector-primary, #6b21a8); color: #fff; order: -1;
   }
-  .trip-action-btn:active { transform: translateY(0); }
-  .trip-action-rebook { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
-  .trip-action-return { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); }
-  .trip-action-repeat { background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%); }
-  .trip-action-recurring { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #422006; }
+  .trip-action-return:hover { filter: brightness(1.1); }
+  .trip-action-rebook {
+    background: var(--sector-accent, #0d9488); color: #fff;
+  }
+  .trip-action-repeat {
+    background: color-mix(in srgb, var(--sector-primary, #6b21a8) 14%, #fff);
+    color: var(--sector-primary, #6b21a8);
+    border-bottom: 1px solid color-mix(in srgb, var(--sector-primary, #6b21a8) 12%, var(--border));
+  }
+  .trip-action-recurring {
+    background: color-mix(in srgb, var(--sector-accent, #0d9488) 16%, #fff);
+    color: color-mix(in srgb, var(--sector-accent, #0d9488) 85%, #0f172a);
+    border-left: 3px solid var(--sector-accent, #0d9488);
+  }
   .trip-action-outline {
-    background: var(--white) !important; color: var(--blue) !important;
-    border: 1.5px solid var(--blue) !important; box-shadow: none !important;
-    border-radius: var(--radius-sm) !important; font-size: 12px !important;
-    padding: 8px 14px !important;
+    background: var(--white) !important; color: var(--sector-primary, var(--navy)) !important;
+    border: 1px solid color-mix(in srgb, var(--sector-primary, var(--border)) 35%, var(--border)) !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 12px !important; padding: 8px 14px !important; margin: 8px;
+    width: calc(100% - 16px); align-self: center;
   }
-  .trip-action-outline:hover { background: var(--blue-light) !important; box-shadow: var(--shadow) !important; }
+  .trip-action-outline:hover { background: var(--sector-light, var(--surface)) !important; }
+  .ride-track-wrap { margin-top: 10px; }
+  .ride-track-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 800;
+    text-decoration: none; color: #fff !important;
+    background: linear-gradient(135deg, var(--sector-solid, #6b21a8), var(--sector-accent, #0d9488));
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .ride-track-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .ride-track-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.35; }
+  .active-ride-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 16px; padding: 14px 18px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(107,33,168,0.12), rgba(13,148,136,0.1));
+    border: 1px solid rgba(107,33,168,0.25);
+  }
+  .active-ride-banner-title { font-size: 14px; font-weight: 800; color: var(--purple); }
+  .active-ride-banner-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
   .nemt-rebook-banner {
-    background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
-    border: 1px solid rgba(37,99,235,.25); border-left: 4px solid var(--blue);
-    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+    background: var(--blue-light); border: 1px solid var(--border);
+    border-left: 3px solid var(--blue); border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 14px;
     font-size: 13px; color: var(--text-secondary); line-height: 1.5;
   }
   .nemt-rebook-banner strong { color: var(--text); }
+  .nemt-return-summary {
+    border-left: 3px solid var(--sector-primary, var(--navy));
+    margin-bottom: 16px;
+  }
+  .nemt-return-summary-title {
+    font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px;
+  }
+  .nemt-return-summary-grid {
+    display: grid; gap: 8px; font-size: 13px; color: var(--text-secondary);
+  }
+  .nemt-return-summary-row { display: flex; gap: 8px; line-height: 1.45; }
+  .nemt-return-summary-row strong {
+    flex: 0 0 88px; color: var(--text-muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700;
+  }
+  .nemt-return-summary-row span { flex: 1; color: var(--text); font-weight: 500; }
+  .nemt-return-summary-meta {
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+  }
+  .nemt-return-quick .sched-time-highlight input[type="time"],
+  .nemt-rebook-quick .sched-time-highlight input[type="time"],
+  .nemt-rebook-quick .sched-date-highlight input[type="date"] {
+    border-color: var(--sector-primary, var(--navy));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sector-primary, var(--navy)) 12%, transparent);
+  }
   .nemt-urgent-banner {
     background: var(--orange-light); border: 1px solid rgba(217,119,6,.35);
     border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
@@ -375,38 +464,41 @@
   .nemt-weekday-error { font-size: 12px; color: var(--red); display: none; margin-top: 4px; }
   .nemt-weekday-error.visible { display: block; }
   .nemt-scheduling-tips {
-    background: linear-gradient(135deg, #faf5ff 0%, #eff6ff 100%);
-    border: 1px solid rgba(124,58,237,.15); border-left: 4px solid var(--purple);
-    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px;
-    box-shadow: var(--shadow);
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 3px solid var(--navy); border-radius: var(--radius);
+    padding: 16px 18px; margin-bottom: 16px; box-shadow: var(--shadow);
   }
-  .nemt-scheduling-tips ul { margin: 8px 0 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.65; }
-  .nemt-scheduling-tips-title { font-size: 13px; font-weight: 800; color: var(--purple); }
+  .nemt-scheduling-tips ul { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+  .nemt-scheduling-tips-title { font-size: 13px; font-weight: 600; color: var(--navy); letter-spacing: -0.01em; }
 
   .nemt-return-prompt {
-    background: linear-gradient(135deg, var(--purple-light) 0%, var(--green-light) 100%);
-    border: 1px solid rgba(107,33,168,.25);
-    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px;
-    box-shadow: var(--shadow);
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 3px solid var(--gold); border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow-md);
   }
-  .nemt-return-prompt-head { display: flex; align-items: flex-start; gap: 12px; }
-  .nemt-return-prompt-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+  .nemt-return-prompt-head { display: flex; align-items: flex-start; gap: 14px; }
+  .nemt-return-prompt-icon {
+    width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-sm);
+    background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600;
+  }
   .nemt-return-prompt-body { flex: 1; min-width: 0; }
-  .nemt-return-prompt-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-  .nemt-return-prompt-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
-  .nemt-return-prompt-meta { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .nemt-return-prompt-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .nemt-return-prompt-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 12px; }
+  .nemt-return-prompt-meta { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
   .nemt-return-prompt-actions { display: flex; flex-wrap: wrap; gap: 8px; }
   .nemt-return-prompt-primary {
-    font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 999px;
-    border: none; background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; cursor: pointer;
-    box-shadow: 0 3px 12px rgba(124,58,237,.35);
+    font-size: 13px; font-weight: 600; padding: 10px 18px; border-radius: var(--radius-sm);
+    border: none; background: var(--navy); color: #fff; cursor: pointer;
+    transition: background .15s;
   }
-  .nemt-return-prompt-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .nemt-return-prompt-primary:hover { background: var(--navy-mid); }
   .nemt-return-prompt-secondary {
-    font-size: 12px; font-weight: 600; padding: 10px 14px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--card); color: var(--text-muted); cursor: pointer;
+    font-size: 12px; font-weight: 600; padding: 10px 16px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--white); color: var(--text-secondary); cursor: pointer;
   }
-  .nemt-return-prompt-secondary:hover { background: var(--bg); }
+  .nemt-return-prompt-secondary:hover { background: var(--surface); border-color: var(--border-hover); }
 
   /* ── RESULTS WAITING ── */
   .results-waiting {
@@ -450,44 +542,39 @@
 
   /* ── NEW REQUEST BUTTON ── */
   .new-request-strip {
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fff 100%);
-    border: 2px solid rgba(176,141,62,.45); border-radius: var(--radius);
-    padding: 22px 20px; text-align: center; cursor: pointer; transition: all .2s; margin-top: 20px;
-    box-shadow: 0 4px 16px rgba(176,141,62,.12);
+    background: var(--navy); border: none; border-radius: var(--radius);
+    padding: 18px 22px; cursor: pointer; transition: background .15s, box-shadow .15s;
+    margin-top: 20px; box-shadow: var(--shadow-md);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
   }
-  .new-request-strip:hover {
-    border-color: var(--gold); background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    transform: translateY(-2px); box-shadow: 0 8px 24px rgba(176,141,62,.22);
-  }
+  .new-request-strip:hover { background: var(--navy-mid); box-shadow: var(--shadow-lg); }
+  .new-request-strip .nrs-left { display: flex; align-items: center; gap: 14px; text-align: left; }
   .new-request-strip .nrs-icon {
-    font-size: 32px; margin-bottom: 6px; display: inline-flex; width: 52px; height: 52px;
-    align-items: center; justify-content: center; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), #9a7a30); color: #fff; font-weight: 900;
-    box-shadow: 0 4px 12px rgba(176,141,62,.35);
+    font-size: 22px; margin: 0; display: inline-flex; width: 44px; height: 44px;
+    align-items: center; justify-content: center; border-radius: var(--radius-sm);
+    background: var(--gold); color: var(--navy); font-weight: 600; flex-shrink: 0;
   }
-  .new-request-strip .nrs-text { font-size: 16px; font-weight: 800; color: var(--text); }
-  .new-request-strip .nrs-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .new-request-strip .nrs-text { font-size: 15px; font-weight: 600; color: #fff; }
+  .new-request-strip .nrs-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 2px; }
+  .new-request-strip .nrs-arrow {
+    font-size: 18px; color: rgba(255,255,255,.5); font-weight: 400; flex-shrink: 0;
+  }
 
   /* ── ORDER CALENDAR ── */
   .order-calendar {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px 18px 14px; box-shadow: var(--shadow-md); margin-bottom: 20px;
-    position: relative; overflow: hidden;
+    padding: 16px 18px 14px; box-shadow: var(--shadow); margin-bottom: 20px;
   }
-  .order-calendar::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-    background: linear-gradient(90deg, var(--blue), var(--purple), var(--gold));
-  }
-  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .cal-header-title { font-size: 15px; font-weight: 800; color: var(--text); }
+  .order-calendar::before { display: none; }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .cal-header-title { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
   .cal-nav { display: flex; gap: 6px; }
   .cal-nav-btn {
-    width: 32px; height: 32px; border: none; border-radius: var(--radius-sm);
-    background: linear-gradient(135deg, var(--blue-light), #dbeafe); color: var(--blue);
-    font-size: 18px; line-height: 1; cursor: pointer; transition: all .15s;
-    box-shadow: var(--shadow);
+    width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); color: var(--navy);
+    font-size: 18px; line-height: 1; cursor: pointer; transition: background .12s, border-color .12s;
   }
-  .cal-nav-btn:hover { background: var(--blue); color: #fff; transform: scale(1.05); }
+  .cal-nav-btn:hover { background: var(--surface); border-color: var(--border-hover); }
   .cal-weekdays {
     display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px;
   }
@@ -525,12 +612,11 @@
   .cal-order-title { font-size: 13px; font-weight: 700; color: var(--text); }
   .cal-order-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
   .dash-signout {
-    margin-left: auto; font-size: 12px; font-weight: 600; color: var(--text-muted);
-    background: none; border: none; cursor: pointer; padding: 4px 8px;
+    flex-shrink: 0; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55);
+    background: transparent; border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-sm);
+    cursor: pointer; padding: 6px 12px; transition: color .15s, border-color .15s;
   }
-  .dash-signout:hover { color: var(--text); }
-  .dash-header { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
-  .dash-header-main { flex: 1; min-width: 200px; }
+  .dash-signout:hover { color: #fff; border-color: rgba(255,255,255,.45); }
 
   /* ── BACK TO DASHBOARD LINK ── */
   .back-to-dash {
@@ -567,7 +653,7 @@
   .wizard-step { display: none; animation: fadeIn .3s ease; }
   .wizard-step.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .step-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .step-title { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em; }
   .step-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
 
   /* ── CARDS ── */
@@ -579,10 +665,10 @@
     background: var(--white); border: 2px solid var(--border); border-radius: var(--radius);
     padding: 16px 14px; cursor: pointer; transition: all .2s; text-align: center;
   }
-  .svc-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .svc-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
   .svc-card.active {
-    border-color: var(--gold); background: linear-gradient(180deg, #fef9ee 0%, var(--gold-light) 100%);
-    box-shadow: 0 4px 16px rgba(176,141,62,.2);
+    border-color: var(--navy); background: var(--surface);
+    box-shadow: var(--shadow-md);
   }
   .svc-card .icon { font-size: 26px; margin-bottom: 8px; display: block; }
   .svc-card .name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
@@ -643,16 +729,16 @@
   /* ── NAV BUTTONS ── */
   .nav-row { display: flex; gap: 12px; margin-top: 28px; }
   .btn-continue {
-    flex: 1; background: linear-gradient(135deg, var(--gold) 0%, #9a7a30 100%);
-    border: none; border-radius: var(--radius); padding: 15px 28px;
-    color: #fff; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
-    cursor: pointer; transition: all .2s; box-shadow: 0 2px 8px rgba(176,141,62,.25);
+    flex: 1; background: var(--navy); border: 1px solid var(--navy);
+    border-radius: var(--radius-sm); padding: 14px 28px;
+    color: #fff; font-size: 14px; font-weight: 600; letter-spacing: 0.01em;
+    cursor: pointer; transition: background .15s, box-shadow .15s;
   }
-  .btn-continue:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(176,141,62,.3); }
-  .btn-continue:active { transform: translateY(0); }
-  .btn-continue:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-  #btn-submit-request { background: linear-gradient(135deg,#16a34a,#15803d); }
-  #btn-submit-request:hover { box-shadow: 0 4px 16px rgba(22,163,74,.35); }
+  .btn-continue:hover { background: var(--navy-mid); box-shadow: var(--shadow-md); }
+  .btn-continue:active { transform: none; }
+  .btn-continue:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+  #btn-submit-request { background: var(--green); border-color: var(--green); }
+  #btn-submit-request:hover { background: #166534; }
   .btn-back {
     background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius);
     padding: 15px 24px; color: var(--text-secondary); font-size: 14px; font-weight: 600;
@@ -853,8 +939,8 @@
     .override-row { flex-direction: column; }
     .recent-table { font-size: 12px; }
     .upcoming-item { flex-wrap: wrap; }
-    .trip-actions-wrap { width: 100%; text-align: left; margin-top: 8px; }
-    .trip-actions { grid-template-columns: 1fr 1fr; width: 100%; max-width: none; }
+    .trip-actions-wrap { width: 100%; margin-top: 12px; }
+    .trip-actions { width: 100%; }
     .nemt-return-prompt-actions { flex-direction: column; }
     .nemt-return-prompt-primary, .nemt-return-prompt-secondary { width: 100%; text-align: center; }
   }
@@ -863,6 +949,12 @@
     .confirm-card { box-shadow: none; max-height: none; }
     .confirm-actions, .submit-status { display: none !important; }
     .site-header, .site-footer, .progress-wrap { display: none !important; }
+  }
+
+  /* JotForm AI agent — floating chat (above portal UI, below modals) */
+  #JotformAgent-019e9f0b93a079c2a5ff74cdf534fafcdd5f {
+    position: relative;
+    z-index: 9000;
   }
 </style>
 </head>
@@ -878,9 +970,9 @@
   <div class="header-inner">
     <div class="header-brand">
       <div class="brand-mark">DDI</div>
-      <div><div class="brand-name">Dee Davis Inc.</div><div class="brand-sub">Client Portal</div></div>
+      <div><div class="brand-name">Dee Davis Inc.</div><div class="brand-sub">Program Portal</div></div>
     </div>
-    <div class="header-badge">EDWOSB Certified</div>
+    <div class="header-badge">Managed TPA</div>
   </div>
 </header>
 
@@ -902,8 +994,8 @@
 
 <!-- ═══════════ ENTRY GATE ═══════════ -->
 <div class="entry-gate" id="entry-gate">
-  <div class="entry-title">Welcome to PRISM</div>
-  <div class="entry-subtitle">Enter your email to view your order calendar, upcoming appointments, and history — or start a new service request.</div>
+  <div class="entry-title">Program portal sign-in</div>
+  <div class="entry-subtitle">Enter your email to view scheduled services, trip history, and compliance status — or submit a new request.</div>
   <div class="entry-card">
     <label class="entry-email-label">Your Business Email</label>
     <input type="email" class="entry-email-input" id="gate-email" placeholder="you@company.com" autofocus>
@@ -925,6 +1017,8 @@
     </div>
     <button type="button" class="dash-signout" onclick="signOut()">Sign out</button>
   </div>
+
+  <div id="active-ride-banner" style="display:none;"></div>
 
   <div class="dash-section-title">Order Calendar</div>
   <div class="order-calendar" id="order-calendar">
@@ -978,7 +1072,7 @@
   <div class="upcoming-list" id="upcoming-list"></div>
 
   <div class="nemt-scheduling-tips" id="nemt-scheduling-tips" style="display:none">
-    <div class="nemt-scheduling-tips-title">🚐 Medical trip scheduling</div>
+    <div class="nemt-scheduling-tips-title">Medical trip scheduling</div>
     <ul>
       <li><strong>Rebook</strong> — same member and route, pick a new date. Our team reviews every request before dispatch.</li>
       <li><strong>Return home</strong> — flips pickup and drop-off from your last trip (e.g. ride home after an appointment).</li>
@@ -1019,9 +1113,14 @@
   </div>
 
   <div class="new-request-strip" onclick="startNewRequest()">
-    <div class="nrs-icon">+</div>
-    <div class="nrs-text">New Service Request</div>
-    <div class="nrs-sub">Drug test, fingerprint, background check, courier, and more</div>
+    <div class="nrs-left">
+      <div class="nrs-icon">+</div>
+      <div>
+        <div class="nrs-text">New service request</div>
+        <div class="nrs-sub">Drug testing, fingerprinting, medical transport, courier, and more</div>
+      </div>
+    </div>
+    <div class="nrs-arrow" aria-hidden="true">→</div>
   </div>
 </div>
 
@@ -1213,7 +1312,7 @@
       </div>
       <div class="form-row">
         <div class="field" id="field-nemt-trip-type"><label>Trip Type <span class="req">*</span></label><select id="nemt-trip-type"><option value="">Select</option><option>Ambulatory</option><option>Wheelchair (WAV)</option><option>Stretcher / BLS</option></select><div class="error-msg">Required</div></div>
-        <div class="field"><label>Leg Type</label><select id="nemt-leg-type"><option>One-way</option><option>Return trip (schedule separately)</option></select></div>
+        <div class="field"><label>Leg Type</label><select id="nemt-leg-type"><option>One-way</option><option>Return trip (schedule separately)</option><option>Return leg (linked trip)</option></select></div>
       </div>
       <div class="form-row">
         <div class="field"><label>Appointment Purpose</label><select id="nemt-purpose"><option value="">Select</option><option>Medical appointment</option><option>Dialysis</option><option>Pharmacy</option><option>Lab / imaging</option><option>Therapy / rehab</option><option>Discharge</option><option>Other</option></select></div>
@@ -1275,6 +1374,7 @@
   <div class="step-title" id="step3-title">Subject & Scheduling</div>
   <div class="step-subtitle" id="step3-subtitle">Provide the subject's information and your preferred date and time.</div>
   <div class="nemt-rebook-banner" id="nemt-rebook-banner" style="display:none"></div>
+  <div class="nemt-return-summary card" id="nemt-return-summary" style="display:none"></div>
   <div class="nemt-urgent-banner" id="nemt-urgent-banner" style="display:none" role="alert"></div>
   <div class="card" id="subject-card">
     <div class="donor-count-wrap" id="donor-count-wrap">
@@ -1709,7 +1809,7 @@ function renderReturnHomePrompt(orders) {
     const when = escHtml(o.date || 'Today');
     return `<div class="nemt-return-prompt" data-order-id="${escHtml(o.id)}">
       <div class="nemt-return-prompt-head">
-        <div class="nemt-return-prompt-icon">🏠</div>
+        <div class="nemt-return-prompt-icon" aria-hidden="true">↩</div>
         <div class="nemt-return-prompt-body">
           <div class="nemt-return-prompt-title">Trip complete — need a ride home?</div>
           <div class="nemt-return-prompt-sub">${subj} arrived at ${dest}. Schedule the return leg when you're ready — our team confirms before dispatch.</div>
@@ -1756,6 +1856,7 @@ function selectOptionByText(selectId, text) {
 
 function clearNemtRebookUi() {
   nemtRebookContext = null;
+  clearNemtRebookQuickUi();
   const banner = document.getElementById('nemt-rebook-banner');
   const repeatSec = document.getElementById('nemt-repeat-section');
   const repeatList = document.getElementById('nemt-repeat-dates-list');
@@ -1987,13 +2088,25 @@ function previewNemtRecurringDates() {
 function initNemtRecurringUi(order) {
   ensureNemtWeekdayGrid();
   setFieldValue('nemt-recur-start', '');
-  const tm = rawVal('sched-time');
-  if (tm) setFieldValue('nemt-recur-time', tm);
+  setFieldValue('nemt-recur-time', '');
   document.querySelectorAll('.nemt-weekday-cb').forEach(cb => { cb.checked = false; });
   const freqEl = document.getElementById('nemt-recur-frequency');
   if (freqEl) freqEl.value = 'weekly';
   populateNemtRecurDurationOptions('weekly');
   onNemtRecurFrequencyChange();
+  if (order) {
+    const iso = parseOrderDate(order) || (order.date && String(order.date).match(/^\d{4}-\d{2}-\d{2}/) ? order.date : '');
+    if (iso) {
+      setFieldValue('nemt-recur-start', iso);
+      const dow = new Date(`${iso}T12:00:00`).getDay();
+      const cb = document.querySelector(`.nemt-weekday-cb[data-dow="${dow}"]`);
+      if (cb) cb.checked = true;
+    }
+    if (order.time && order.time !== 'TBD' && order.time !== '—') {
+      const tm = order.time.match(/(\d{1,2}):(\d{2})/);
+      if (tm) setFieldValue('nemt-recur-time', `${tm[1].padStart(2, '0')}:${tm[2]}`);
+    }
+  }
   previewNemtRecurringDates();
 }
 
@@ -2110,20 +2223,211 @@ function collectAllTripDatesForSubmit() {
 function nemtTripActionsHtml(o) {
   if (!isNemtPortalOrder(o)) return '';
   const id = escJs(o.id);
-  return `<div class="trip-actions-wrap">
-    <div class="trip-actions-label">Quick schedule</div>
+  const sector = orderSectorVars(o);
+  return `<div class="trip-actions-wrap" style="${sector.style}">
+    <div class="trip-actions-label">Trip scheduling</div>
+    ${rideTrackingHtml(o)}
     <div class="trip-actions">
-      <button type="button" class="trip-action-btn trip-action-rebook" onclick="openNemtRebook('${id}','rebook')">🔄 Rebook</button>
-      <button type="button" class="trip-action-btn trip-action-return" onclick="openNemtRebook('${id}','return')">🏠 Return</button>
-      <button type="button" class="trip-action-btn trip-action-repeat" onclick="openNemtRebook('${id}','repeat')">📅 + Dates</button>
-      <button type="button" class="trip-action-btn trip-action-recurring" onclick="openNemtRebook('${id}','recurring')">🔁 Repeat</button>
+      <button type="button" class="trip-action-btn trip-action-return" onclick="openNemtRebook('${id}','return')">Return home</button>
+      <button type="button" class="trip-action-btn trip-action-rebook" onclick="openNemtRebook('${id}','rebook')">Rebook trip</button>
+      <button type="button" class="trip-action-btn trip-action-repeat" onclick="openNemtRebook('${id}','repeat')">Add dates</button>
+      <button type="button" class="trip-action-btn trip-action-recurring" onclick="openNemtRebook('${id}','recurring')">Repeat schedule</button>
     </div>
   </div>`;
 }
 
+function isAllowedRideTrackingUrl(url) {
+  try {
+    const u = new URL((url || '').trim());
+    if (u.protocol !== 'https:') return false;
+    const h = u.hostname.toLowerCase();
+    if (h === 'trip.uber.com') return true;
+    if (h === 'lft.to') return true;
+    if (h === 'lyft.com' || h === 'www.lyft.com' || h === 'ride.lyft.com') return true;
+    if (h.endsWith('.lyft.com')) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+function rideTrackingHtml(o) {
+  const url = (o.ride_tracking_url || '').trim();
+  if (!isAllowedRideTrackingUrl(url)) return '';
+  if (!['scheduled', 'pending', 'in_progress'].includes(o.status)) return '';
+  const label = o.status === 'in_progress' ? 'Track live ride' : 'Track your ride';
+  return `<div class="ride-track-wrap">
+    <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">📍 ${label}</a>
+    <div class="ride-track-hint">Live driver location in your browser — no app required</div>
+  </div>`;
+}
+
+function renderActiveRideBanner(orders) {
+  const el = document.getElementById('active-ride-banner');
+  if (!el) return;
+  const active = (orders || []).filter(o => o.ride_tracking_active && isAllowedRideTrackingUrl(o.ride_tracking_url));
+  if (!active.length) {
+    el.innerHTML = '';
+    el.style.display = 'none';
+    return;
+  }
+  const o = active[0];
+  const url = o.ride_tracking_url.trim();
+  el.style.display = 'block';
+  el.innerHTML = `<div class="active-ride-banner"><div>
+    <div class="active-ride-banner-title">Driver en route — ${escHtml(o.subject)}</div>
+    <div class="active-ride-banner-sub">${escHtml(o.time || 'Today')} · ${escHtml(o.pickup_address || o.location || 'Pickup')} → ${escHtml(o.dropoff_address || 'Destination')}</div>
+  </div>
+  <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">📍 Track live ride</a></div>`;
+}
+
+function localDateIso(d = new Date()) {
+  const p = v => String(v).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+function enrichOrderForRebook(order) {
+  if (!order) return order;
+  const d = order.details || {};
+  return {
+    ...order,
+    pickup_address: (order.pickup_address || d.pickup_address || order.address || '').trim(),
+    dropoff_address: (order.dropoff_address || d.dropoff_address || order.collection_site || order.location || '').trim(),
+    nemt_trip_type: order.nemt_trip_type || d.trip_type || '',
+    nemt_purpose: order.nemt_purpose || d.appointment_purpose || '',
+    nemt_program: order.nemt_program || d.program_type || d.mobility_lane || '',
+    nemt_leg_type: order.nemt_leg_type || d.leg_type || '',
+    subject_id: order.subject_id || d.member_id || '',
+    subject_phone: order.subject_phone || d.member_phone || '',
+    subject_dob: order.subject_dob || d.member_dob || '',
+    client_company: order.client_company || order.client || '',
+  };
+}
+
+function prefillContactFromSession(order) {
+  const c = clientData?.contact || {};
+  const email = (c.email || gateUserEmail || '').toLowerCase();
+  const booker = email ? (loadBookerProfile(email) || {}) : {};
+  setFieldValue('client-email', order?.client_email || c.email || email);
+  setFieldValue('client-name', order?.client_company || c.company || booker.company || '');
+  setFieldValue('client-contact', order?.client_contact || c.name || booker.name || '');
+  setFieldValue('client-phone', order?.client_phone || c.phone || booker.phone || '');
+  setFieldValue('client-address', c.address || order?.client_address || '');
+}
+
+const NEMT_REBOOK_QUICK_MODES = new Set(['return', 'rebook', 'repeat', 'recurring']);
+
+const NEMT_REBOOK_QUICK_COPY = {
+  return: {
+    summaryTitle: 'Return home — trip details loaded',
+    summaryMeta: (id) => `Linked to outbound trip <strong>${escHtml(id)}</strong> · Pickup and destination are swapped from your appointment leg · Add pickup time below`,
+    stepTitle: 'Return Home — Pick Your Pickup Time',
+    stepSubtitle: 'Your member, route, and trip type are loaded from the outbound trip. Choose the date and time the driver should meet you at the appointment location.',
+    focusId: 'sched-time',
+    highlightId: 'field-sched-time',
+  },
+  rebook: {
+    summaryTitle: 'Rebook — same route loaded',
+    summaryMeta: (id) => `Based on trip <strong>${escHtml(id)}</strong> · Same member and addresses · Choose a new date and pickup time below`,
+    stepTitle: 'Rebook Trip — Choose New Date & Time',
+    stepSubtitle: 'Member, pickup, drop-off, and trip type are loaded from your previous trip. Update the schedule only.',
+    focusId: 'sched-date',
+    highlightId: 'field-sched-date',
+  },
+  repeat: {
+    summaryTitle: 'Add dates — same route loaded',
+    summaryMeta: (id) => `Based on trip <strong>${escHtml(id)}</strong> · Set the first date below, then add any extra dates · Each date is reviewed separately`,
+    stepTitle: 'Add Trip Dates',
+    stepSubtitle: 'Member and route are loaded. Pick the first date and time, then add more dates if needed.',
+    focusId: 'sched-date',
+    highlightId: 'field-sched-date',
+  },
+  recurring: {
+    summaryTitle: 'Repeat schedule — same route loaded',
+    summaryMeta: (id) => `Based on trip <strong>${escHtml(id)}</strong> · Set frequency and duration below · Each generated date is reviewed before dispatch`,
+    stepTitle: 'Repeat Schedule',
+    stepSubtitle: 'Member and route are loaded. Confirm the repeat pattern, start date, and pickup time.',
+    focusId: 'nemt-recur-start',
+    highlightId: null,
+  },
+};
+
+function nemtRebookDataReady(order) {
+  const o = enrichOrderForRebook(order);
+  const hasMember = !!(o.subject_first || o.subject_last || (o.subject && o.subject !== '—'));
+  const hasRoute = !!(o.pickup_address && o.dropoff_address);
+  const hasTripType = !!o.nemt_trip_type;
+  return hasMember && hasRoute && hasTripType;
+}
+
+function renderNemtRebookSummary(order, mode) {
+  const el = document.getElementById('nemt-return-summary');
+  if (!el) return;
+  const copy = NEMT_REBOOK_QUICK_COPY[mode] || NEMT_REBOOK_QUICK_COPY.rebook;
+  const member = `${rawVal('donor-first')} ${rawVal('donor-last')}`.trim() || order.subject || 'Member';
+  const pickup = rawVal('donor-location') || '—';
+  const dropoff = rawVal('collection-site') || '—';
+  const tripType = rawVal('nemt-trip-type') || '—';
+  el.innerHTML = `
+    <div class="nemt-return-summary-title">${copy.summaryTitle}</div>
+    <div class="nemt-return-summary-grid">
+      <div class="nemt-return-summary-row"><strong>Member</strong><span>${escHtml(member)}</span></div>
+      <div class="nemt-return-summary-row"><strong>Pickup</strong><span>${escHtml(pickup)}</span></div>
+      <div class="nemt-return-summary-row"><strong>Drop-off</strong><span>${escHtml(dropoff)}</span></div>
+      <div class="nemt-return-summary-row"><strong>Trip type</strong><span>${escHtml(tripType)}</span></div>
+    </div>
+    <div class="nemt-return-summary-meta">${typeof copy.summaryMeta === 'function' ? copy.summaryMeta(order.id) : copy.summaryMeta}</div>`;
+  el.style.display = 'block';
+}
+
+function applyNemtRebookQuickUi(order, mode) {
+  const copy = NEMT_REBOOK_QUICK_COPY[mode] || NEMT_REBOOK_QUICK_COPY.rebook;
+  document.getElementById('step-3')?.classList.add('nemt-rebook-quick');
+  const subjectCard = document.getElementById('subject-card');
+  if (subjectCard) subjectCard.style.display = 'none';
+  const siteRow = document.getElementById('field-wrap-collection-site');
+  if (siteRow) siteRow.style.display = 'none';
+  renderNemtRebookSummary(order, mode);
+  const t3t = document.getElementById('step3-title');
+  const t3s = document.getElementById('step3-subtitle');
+  if (t3t) t3t.textContent = copy.stepTitle;
+  if (t3s) t3s.textContent = copy.stepSubtitle;
+  document.getElementById('field-sched-time')?.classList.remove('sched-time-highlight');
+  document.getElementById('field-sched-date')?.classList.remove('sched-date-highlight');
+  if (copy.highlightId) document.getElementById(copy.highlightId)?.classList.add(copy.highlightId.includes('time') ? 'sched-time-highlight' : 'sched-date-highlight');
+  const schedRow = document.getElementById('sched-datetime-row');
+  if (schedRow) schedRow.style.display = mode === 'recurring' ? 'none' : '';
+  if (mode === 'repeat' || mode === 'recurring') updateNemtRebookBanner(order, mode);
+  setTimeout(() => document.getElementById(copy.focusId)?.focus(), 300);
+}
+
+function clearNemtRebookQuickUi() {
+  document.getElementById('step-3')?.classList.remove('nemt-rebook-quick', 'nemt-return-quick');
+  const subjectCard = document.getElementById('subject-card');
+  if (subjectCard) subjectCard.style.display = '';
+  const siteRow = document.getElementById('field-wrap-collection-site');
+  if (siteRow) siteRow.style.display = '';
+  const summary = document.getElementById('nemt-return-summary');
+  if (summary) { summary.style.display = 'none'; summary.innerHTML = ''; }
+  document.getElementById('field-sched-time')?.classList.remove('sched-time-highlight');
+  document.getElementById('field-sched-date')?.classList.remove('sched-date-highlight');
+  const schedRow = document.getElementById('sched-datetime-row');
+  if (schedRow) schedRow.style.display = '';
+}
+
+/** @deprecated use clearNemtRebookQuickUi */
+function clearNemtReturnHomeUi() { clearNemtRebookQuickUi(); }
+
+/** @deprecated use nemtRebookDataReady */
+function nemtReturnTripReady(order) { return nemtRebookDataReady(order); }
+
+/** @deprecated use applyNemtRebookQuickUi */
+function applyNemtReturnHomeUi(order) { applyNemtRebookQuickUi(order, 'return'); }
+
 function prefillNemtFromOrder(order, mode) {
-  const pickup = order.pickup_address || order.address || '';
-  const dropoff = order.dropoff_address || order.collection_site || order.location || '';
+  order = enrichOrderForRebook(order);
+  const pickup = order.pickup_address || '';
+  const dropoff = order.dropoff_address || '';
   let pick = pickup;
   let drop = dropoff;
   if (mode === 'return') {
@@ -2154,22 +2458,36 @@ function prefillNemtFromOrder(order, mode) {
       setFieldValue('nemt-program', 'medical');
     }
   }
-  setFieldValue('nemt-leg-type', mode === 'return' ? 'One-way' : (order.nemt_leg_type || 'One-way'));
-  if (order.client_company && order.client_company !== '—') setFieldValue('client-name', order.client_company);
-  if (order.client_contact) setFieldValue('client-contact', order.client_contact);
-  if (order.client_phone) setFieldValue('client-phone', order.client_phone);
-  setFieldValue('sched-date', '');
-  if (order.time && order.time !== 'TBD' && order.time !== '—') {
-    const tm = order.time.match(/(\d{1,2}):(\d{2})/);
-    if (tm) setFieldValue('sched-time', `${tm[1].padStart(2,'0')}:${tm[2]}`);
-  } else {
+  if (mode === 'return') {
+    setFieldValue('nemt-leg-type', 'Return leg (linked trip)');
+    setFieldValue('sched-date', localDateIso());
     setFieldValue('sched-time', '');
+  } else if (mode === 'rebook') {
+    setFieldValue('nemt-leg-type', order.nemt_leg_type || 'One-way');
+    setFieldValue('sched-date', '');
+    setFieldValue('sched-time', '');
+  } else if (mode === 'repeat' || mode === 'recurring') {
+    setFieldValue('nemt-leg-type', order.nemt_leg_type || 'One-way');
+    setFieldValue('sched-date', '');
+    setFieldValue('sched-time', '');
+  } else {
+    setFieldValue('nemt-leg-type', order.nemt_leg_type || 'One-way');
+    setFieldValue('sched-date', '');
+    if (order.time && order.time !== 'TBD' && order.time !== '—') {
+      const tm = order.time.match(/(\d{1,2}):(\d{2})/);
+      if (tm) setFieldValue('sched-time', `${tm[1].padStart(2, '0')}:${tm[2]}`);
+    } else {
+      setFieldValue('sched-time', '');
+    }
   }
-  const modeLabel = mode === 'return' ? 'Return trip'
+  prefillContactFromSession(order);
+  const modeLabel = mode === 'return' ? 'Return home trip'
     : mode === 'repeat' ? 'Repeat trip series'
     : (mode === 'recurring' || mode === 'weekly') ? 'Recurring trip series'
     : 'Rebook';
-  const noteLine = `${modeLabel} (ref ${order.id}) — pending team review before dispatch.`;
+  const noteLine = mode === 'return'
+    ? `Return leg linked to outbound ${order.id} — pickup at appointment, drop-off at home/residence. Pending team review before dispatch.`
+    : `${modeLabel} (ref ${order.id}) — pending team review before dispatch.`;
   const notesEl = document.getElementById('notes');
   if (notesEl && !notesEl.value.includes(order.id)) {
     notesEl.value = notesEl.value ? `${notesEl.value}\n${noteLine}` : noteLine;
@@ -2202,7 +2520,7 @@ function updateNemtRebookBanner(order, mode) {
 }
 
 function openNemtRebook(orderId, rebookMode) {
-  const order = findPortalOrder(orderId);
+  const order = enrichOrderForRebook(findPortalOrder(orderId));
   if (!order) {
     alert('Trip not found. Refresh your dashboard and try again.');
     return;
@@ -2211,8 +2529,8 @@ function openNemtRebook(orderId, rebookMode) {
     alert('Rebook is available for medical mobility trips only.');
     return;
   }
-  const mode = rebookMode === 'weekly' ? 'recurring' : rebookMode;
-  nemtRebookContext = { mode, sourceOrderId: order.id, sourceLabel: orderDisplayLabel(order) };
+  const rebookModeKey = rebookMode === 'weekly' ? 'recurring' : rebookMode;
+  nemtRebookContext = { mode: rebookModeKey, sourceOrderId: order.id, sourceLabel: orderDisplayLabel(order) };
   stopDashboardRefresh();
   mode = 'form';
   document.getElementById('client-dashboard').classList.remove('active');
@@ -2221,11 +2539,29 @@ function openNemtRebook(orderId, rebookMode) {
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
   const nemtCard = document.querySelector('.svc-card[data-svc="nemt"]');
   if (nemtCard) pickSvc(nemtCard);
-  prefillNemtFromOrder(order, mode);
-  updateNemtRebookBanner(order, mode);
-  document.getElementById('step-2').classList.add('active');
-  currentStep = 2;
-  updateProgress(2);
+  clearNemtRebookQuickUi();
+  prefillNemtFromOrder(order, rebookModeKey);
+  updateNemtRebookBanner(order, rebookModeKey);
+  applyServiceProfile();
+
+  const useQuickPath = NEMT_REBOOK_QUICK_MODES.has(rebookModeKey) && nemtRebookDataReady(order);
+  if (useQuickPath) {
+    applyNemtRebookQuickUi(order, rebookModeKey);
+    document.getElementById('step-3').classList.add('active');
+    currentStep = 3;
+    updateProgress(3);
+    updateNemtUrgentBanner();
+  } else {
+    if (NEMT_REBOOK_QUICK_MODES.has(rebookModeKey)) {
+      const banner = document.getElementById('nemt-rebook-banner');
+      if (banner) {
+        banner.innerHTML += `<br><span style="font-size:12px;color:#92400e">Some trip details were missing — confirm member, route, and trip type below before scheduling.</span>`;
+      }
+    }
+    document.getElementById('step-2').classList.add('active');
+    currentStep = 2;
+    updateProgress(2);
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 window.openNemtRebook = openNemtRebook;
@@ -2556,6 +2892,84 @@ const SERVICE_LABELS = {
   courier: 'Courier', occ_health: 'Occupational Health', credentialing: 'Credentialing'
 };
 
+/** PRISM service type colors — PRISM_MASTER.md §3 + PRISMSystem.tsx SERVICE_COLORS */
+const PRISM_SERVICE_COLORS = {
+  dot:             { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', border: '#F87171', short: 'DOT Test' },
+  'non-dot':       { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', border: '#F87171', short: 'Drug Test' },
+  phlebotomy:      { color: '#EF4444', solid: '#DC2626', bg: '#FEF2F2', border: '#F87171', short: 'Occ Health' },
+  dna:             { color: '#A855F7', solid: '#7C3AED', bg: '#FAF5FF', border: '#C084FC', short: 'DNA' },
+  fingerprint:     { color: '#4ADE80', solid: '#16A34A', bg: '#F0FDF4', border: '#86EFAC', short: 'Fingerprint' },
+  background:      { color: '#4ADE80', solid: '#16A34A', bg: '#F0FDF4', border: '#86EFAC', short: 'Background' },
+  notary:          { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', border: '#F472B6', short: 'Notary' },
+  nemt:            { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', border: '#2DD4BF', short: 'NEMT' },
+  courier:         { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', border: '#818CF8', short: 'Courier' },
+  medical_courier: { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', border: '#818CF8', short: 'Med Courier' },
+  rx_delivery:     { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', border: '#2DD4BF', short: 'Rx Delivery' },
+};
+
+function resolveOrderServiceColorKey(order) {
+  const k = String(order?.service_key || '').toLowerCase();
+  const t = String(order?.type || '').toLowerCase();
+  const label = String(order?.service_label || '').toLowerCase();
+
+  if (
+    k === 'notary' || k.startsWith('notary') || t === 'notary' ||
+    label.includes('notary') || label.includes('apostille') || label.includes('ron') ||
+    label.includes('process serv') || label.includes('signing agent')
+  ) return 'notary';
+
+  if (
+    k === 'fingerprint' || t === 'fingerprint' ||
+    label.includes('fingerprint') || label.includes('biometric') ||
+    label.includes('livescan') || label.includes('/eft')
+  ) return 'fingerprint';
+
+  if (k === 'background' || t === 'background' || label.includes('background check')) return 'background';
+
+  if (k === 'dna' || t === 'dna' || label.includes('dna') || label.includes('paternity')) return 'dna';
+
+  if (
+    k === 'nemt' || k === 'arena' || k === 'transport' || t === 'nemt' || t === 'arena' ||
+    label.includes('nemt') || label.includes('medical mobility') || label.includes('arena')
+  ) return 'nemt';
+
+  if (label.includes('rx') || label.includes('pharmacy')) return 'rx_delivery';
+
+  if (
+    k === 'courier' || t === 'courier' ||
+    (label.includes('courier') && !label.includes('legal'))
+  ) return label.includes('medical') || label.includes('specimen') ? 'medical_courier' : 'courier';
+
+  if (
+    k.startsWith('testing-occhealth') || k === 'testing-lead' || t === 'occ_health' ||
+    label.includes('occupational') || label.includes('phlebotom') || label.includes('lead screen')
+  ) return 'phlebotomy';
+
+  if (
+    k.startsWith('testing') ||
+    ['dot', 'non_dot', 'random', 'pre_employment', 'post_accident', 'return_to_duty',
+      'reasonable_suspicion', 'follow_up'].includes(t) ||
+    label.includes('drug') || label.includes('alcohol')
+  ) {
+    if (t === 'dot' || label.includes('(dot)') || label.includes('dot ')) return 'dot';
+    return 'non-dot';
+  }
+
+  if (k === 'workforce' || k === 'credentialing') return 'background';
+
+  return 'non-dot';
+}
+
+function orderSectorVars(order) {
+  const key = resolveOrderServiceColorKey(order);
+  const s = PRISM_SERVICE_COLORS[key] || PRISM_SERVICE_COLORS['non-dot'];
+  return {
+    key,
+    short: s.short,
+    style: `--sector-primary:${s.solid};--sector-accent:${s.color};--sector-light:${s.bg};--sector-border:${s.border};`
+  };
+}
+
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -2580,6 +2994,53 @@ function parseOrderDate(order) {
 
 function orderDisplayLabel(o) {
   return o.service_label || SERVICE_LABELS[o.type] || o.type || 'Service';
+}
+
+function loadBookerProfile(email) {
+  if (!email) return null;
+  try {
+    const all = JSON.parse(localStorage.getItem('prism_booker_profile') || '{}');
+    return all[email.toLowerCase()] || null;
+  } catch { return null; }
+}
+
+function saveBookerProfile(email, profile) {
+  if (!email || !profile) return;
+  const key = email.toLowerCase();
+  const name = (profile.name || '').trim();
+  if (!name) return;
+  try {
+    const all = JSON.parse(localStorage.getItem('prism_booker_profile') || '{}');
+    all[key] = {
+      name,
+      company: (profile.company || '').trim(),
+      phone: (profile.phone || '').trim(),
+      updated_at: new Date().toISOString(),
+    };
+    localStorage.setItem('prism_booker_profile', JSON.stringify(all));
+  } catch (_) { /* quota / private mode */ }
+}
+
+function bookerNameFromOrders(orders) {
+  const list = [...(orders || [])].sort((a, b) =>
+    String(b.created_at || b.date || '').localeCompare(String(a.created_at || a.date || ''))
+  );
+  for (const o of list) {
+    const n = (o.client_contact || '').trim();
+    if (n) return n;
+  }
+  return '';
+}
+
+function resolveBookerName(contact, orders, email) {
+  const c = contact || {};
+  const fromContact = (c.name || '').trim();
+  if (fromContact) return fromContact;
+  const fromOrders = bookerNameFromOrders(orders);
+  if (fromOrders) return fromOrders;
+  const saved = loadBookerProfile(email || c.email);
+  if (saved?.name) return saved.name.trim();
+  return '';
 }
 
 function mergeOrdersById(a, b) {
@@ -2610,12 +3071,17 @@ function saveLocalOrder(email, order) {
 
 function buildPortalOrderFromSubmit(confNum, svcKey, svcLabel) {
   const statusRaw = 'pending';
-  return {
+  const order = {
     id: confNum,
     type: svcKey,
     service_key: svcKey,
     service_label: svcLabel,
     subject: `${val('donor-first')} ${val('donor-last')}`.trim() || '—',
+    subject_first: rawVal('donor-first'),
+    subject_last: rawVal('donor-last'),
+    subject_phone: rawVal('donor-phone'),
+    subject_dob: rawVal('donor-dob'),
+    subject_id: rawVal('donor-id') || rawVal('nemt-member-id'),
     date: val('sched-date') !== '—' ? val('sched-date') : new Date().toLocaleDateString(),
     time: val('sched-time') !== '—' ? val('sched-time') : '',
     timezone: val('sched-tz') !== '—' ? val('sched-tz') : '',
@@ -2628,7 +3094,17 @@ function buildPortalOrderFromSubmit(confNum, svcKey, svcLabel) {
     rebook_eligible: svcKey === 'nemt',
     rebook_source_id: nemtRebookContext?.sourceOrderId || '',
     rebook_mode: nemtRebookContext?.mode || '',
+    client_contact: val('client-contact') !== '—' ? val('client-contact').trim() : '',
+    client_company: val('client-name') !== '—' ? val('client-name').trim() : '',
+    client_phone: val('client-phone') !== '—' ? val('client-phone').trim() : '',
   };
+  if (svcKey === 'nemt') {
+    order.nemt_trip_type = rawVal('nemt-trip-type');
+    order.nemt_purpose = rawVal('nemt-purpose');
+    order.nemt_program = rawVal('nemt-program');
+    order.nemt_leg_type = rawVal('nemt-leg-type');
+  }
+  return order;
 }
 
 async function fetchAndMergeOrders(email) {
@@ -2643,6 +3119,10 @@ async function fetchAndMergeOrders(email) {
     }
   } catch (_) { /* offline — local only */ }
   clientData.orders = mergeOrdersById(local, remote);
+  const bookerFromOrders = bookerNameFromOrders(clientData.orders);
+  if (bookerFromOrders && clientData.contact && !clientData.contact.name) {
+    clientData.contact.name = bookerFromOrders;
+  }
 }
 
 // Service pricing — from DDI service catalog
@@ -2795,6 +3275,7 @@ function lookupClient() {
         if (billingData && billingData.found) {
           crmData.billing = billingData.billing;
           if (billingData.open_invoices) crmData.invoices = mergeInvoices(crmData.invoices, billingData.open_invoices);
+          applyBillingContactHints(crmData.contact, billingData);
         }
         clientData = crmData;
         knownClient = crmData.contact;
@@ -2810,6 +3291,14 @@ function lookupClient() {
     });
 }
 
+function applyBillingContactHints(contact, billingData) {
+  if (!contact || !billingData?.found) return contact;
+  if (billingData.contact_name && !contact.name) contact.name = billingData.contact_name;
+  if (billingData.contact_phone && !contact.phone) contact.phone = billingData.contact_phone;
+  if (billingData.client_name && !contact.company) contact.company = billingData.client_name;
+  return contact;
+}
+
 function mergeInvoices(existing, fromVertex) {
   if (!existing) return fromVertex || [];
   if (!fromVertex) return existing;
@@ -2823,6 +3312,7 @@ function checkMockOrNew(email, billingData) {
     if (billingData && billingData.found) {
       clientData.billing = billingData.billing;
     }
+    applyBillingContactHints(clientData.contact, billingData);
     knownClient = clientData.contact;
     fetchAndMergeOrders(email).then(() => renderDashboard(clientData));
   } else if (billingData && billingData.found) {
@@ -2840,7 +3330,8 @@ async function openDashboardForEmail(email, billingData) {
     contact: {
       email,
       company: billingData?.client_name || '',
-      name: '',
+      name: billingData?.contact_name || '',
+      phone: billingData?.contact_phone || '',
     },
     billing: billingData?.found ? billingData.billing : null,
     orders: [],
@@ -2910,8 +3401,19 @@ function renderDashboard(data) {
   const dashEmail = (c.email || gateUserEmail || '').toLowerCase();
   if (dashEmail) startDashboardRefresh(dashEmail);
 
-  document.getElementById('dash-company-name').textContent = c.company || c.name || 'Your Account';
-  document.getElementById('dash-contact-info').textContent = `${c.name || ''} · ${c.email || ''} · ${c.phone || ''}`;
+  const bookerName = resolveBookerName(c, orders, dashEmail);
+  if (bookerName && c) c.name = bookerName;
+  if (bookerName) {
+    saveBookerProfile(dashEmail, { name: bookerName, company: c.company, phone: c.phone });
+  }
+
+  document.getElementById('dash-company-name').textContent = bookerName || '—';
+  const dashMeta = [];
+  const companyLine = (c.company || '').trim();
+  if (companyLine && companyLine !== bookerName) dashMeta.push(companyLine);
+  if (c.email) dashMeta.push(c.email);
+  if (c.phone) dashMeta.push(c.phone);
+  document.getElementById('dash-contact-info').textContent = dashMeta.join(' · ') || c.email || '—';
 
   // Pre-fill form fields for when they start a new request
   if (c.email) document.getElementById('client-email').value = c.email;
@@ -2944,6 +3446,7 @@ function renderDashboard(data) {
   } else { rwa.innerHTML = ''; }
 
   renderReturnHomePrompt(orders);
+  renderActiveRideBanner(orders);
 
   // Upcoming appointments
   document.getElementById('upcoming-count').textContent = upcoming.length;
@@ -2955,13 +3458,14 @@ function renderDashboard(data) {
       const iso = parseOrderDate(o);
       const d = iso ? new Date(iso + 'T12:00:00') : new Date();
       const badgeClass = o.status === 'scheduled' ? 'badge-scheduled' : o.status === 'pending' ? 'badge-pending' : o.status === 'completed' ? 'badge-completed' : 'badge-in-progress';
-      return `<div class="upcoming-item${isNemtPortalOrder(o) ? ' upcoming-nemt' : ''}">
+      const sector = orderSectorVars(o);
+      return `<div class="upcoming-item" style="${sector.style}">
         <div class="upcoming-date-block">
           <div class="upcoming-month">${MONTHS[d.getMonth()]}</div>
           <div class="upcoming-day">${iso ? d.getDate() : '—'}</div>
         </div>
         <div class="upcoming-info">
-          <div class="upcoming-title">${orderDisplayLabel(o)} — ${escHtml(o.subject)}</div>
+          <div class="upcoming-title"><span class="upcoming-sector-tag">${escHtml(sector.short)}</span>${orderDisplayLabel(o)} — ${escHtml(o.subject)}</div>
           <div class="upcoming-meta">${escHtml(o.time || 'TBD')} · ${escHtml(o.location || '—')}</div>
         </div>
         ${nemtTripActionsHtml(o)}
@@ -3101,6 +3605,7 @@ function renderCalDayDetail(iso, dayOrders) {
       <div class="cal-order-info">
         <div class="cal-order-title">${orderDisplayLabel(o)} — ${o.subject}</div>
         <div class="cal-order-meta">${o.id} · ${o.location || '—'} · ${badge}</div>
+        ${rideTrackingHtml(o)}
       </div>
     </div>`;
   }).join('');
@@ -3171,6 +3676,7 @@ function renderKpiPanel(type) {
           <div class="kpi-list-title">${orderDisplayLabel(o)} — ${o.subject}</div>
           <div class="kpi-list-sub">${o.time || 'TBD'} · ${o.location || '—'}</div>
           <div class="kpi-list-sub" style="margin-top:4px;"><strong>Order:</strong> ${o.id}</div>
+          ${rideTrackingHtml(o)}
         </div>
         <div class="kpi-list-right"><span class="kpi-list-badge" style="background:${s.bg};color:${s.color};">${badge}</span></div>
       </div>`;
@@ -3545,8 +4051,19 @@ function nextStep(to, fromClick) {
   currentStep = to;
   updateProgress(to);
   window.scrollTo({top: 0, behavior: 'smooth'});
-  if (to === 2) { showServiceDetails(); applyServiceProfile(); }
-  if (to === 3) { applyServiceProfile(); updateNemtUrgentBanner(); }
+  if (to === 2) {
+    if (nemtRebookContext && NEMT_REBOOK_QUICK_MODES.has(nemtRebookContext.mode)) clearNemtRebookQuickUi();
+    showServiceDetails();
+    applyServiceProfile();
+  }
+  if (to === 3) {
+    applyServiceProfile();
+    updateNemtUrgentBanner();
+    if (nemtRebookContext && NEMT_REBOOK_QUICK_MODES.has(nemtRebookContext.mode)) {
+      const src = enrichOrderForRebook(findPortalOrder(nemtRebookContext.sourceOrderId));
+      if (src && nemtRebookDataReady(src)) applyNemtRebookQuickUi(src, nemtRebookContext.mode);
+    }
+  }
   if (to === 4) renderPaymentStep();
   if (to === 5) renderPaymentConfirmation();
 }
@@ -3588,6 +4105,14 @@ function buildIntakeDetails(svcKey) {
     d.member_id = rawVal('nemt-member-id') || rawVal('donor-id');
     d.pickup_address = rawVal('donor-location');
     d.dropoff_address = rawVal('collection-site');
+    if (nemtRebookContext?.mode === 'return') {
+      d.trip_direction = 'return';
+      d.linked_outbound_trip_id = nemtRebookContext.sourceOrderId || '';
+      if (!d.leg_type || d.leg_type === 'One-way') d.leg_type = 'Return leg (linked trip)';
+    } else if (nemtRebookContext?.sourceOrderId) {
+      d.rebook_source_id = nemtRebookContext.sourceOrderId;
+      d.rebook_mode = nemtRebookContext.mode || '';
+    }
     if (nemtRebookContext?.mode === 'recurring' || nemtRebookContext?.mode === 'weekly') {
       d.recurring_pattern = {
         frequency: getNemtRecurFrequency(),
@@ -3719,9 +4244,16 @@ function dispatch() {
         const portalOrder = buildPortalOrderFromSubmit(confNum, svcKey, svcLabel);
         portalOrder.date = td.date;
         portalOrder.time = td.time;
+        if (res.nemt_order_id) portalOrder.nemt_order_id = res.nemt_order_id;
         if (clientEmail && clientEmail !== '—') {
           saveLocalOrder(clientEmail, portalOrder);
+          saveBookerProfile(clientEmail, {
+            name: val('client-contact'),
+            company: val('client-name'),
+            phone: val('client-phone'),
+          });
           if (clientData && clientData.contact?.email === clientEmail.toLowerCase()) {
+            if (clientData.contact) clientData.contact.name = val('client-contact');
             clientData.orders = mergeOrdersById([portalOrder], clientData.orders || []);
           }
         }
@@ -3808,11 +4340,14 @@ function showConfirmOverlay(ctx) {
   let banner = '';
   if (failed) {
     banner = `<div class="submit-status error">SUBMIT FAILED — ${escHtml(err?.message || res?.error || 'Could not reach Dee Davis Inc. servers')}. Use backup email below or call 248.376.4550.</div>`;
-  } else if (synced) {
+    } else if (synced) {
     if (multiCount && multiCount > 1 && res._multi) {
       banner = `<div class="submit-status success">${multiCount} trip requests queued in NEXUS PRISM — ${escHtml(res._multi.join(', '))}. Our team reviews each date before dispatch.</div>`;
     } else {
       banner = `<div class="submit-status success">SUBMITTED TO DEE DAVIS INC. — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
+    }
+    if (res.nemt_linked) {
+      banner += `<div class="confirm-routing" style="margin-top:8px;font-size:12px;">NEMT trip linked in operations — ready for eligibility review and dispatch.</div>`;
     }
     const confirmParts = [];
     const reqEmail = val('client-email');
@@ -3864,7 +4399,7 @@ function showStatus(t,m){const el=document.getElementById('submit-status');if(el
 function copyText(t){navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('copy-btn');b.textContent='Copied!';b.classList.add('copied');setTimeout(()=>{b.textContent='Copy';b.classList.remove('copied');},2500);}).catch(()=>{const bl=document.getElementById('plain-text-block');const r=document.createRange();r.selectNodeContents(bl);window.getSelection().removeAllRanges();window.getSelection().addRange(r);});}
 function row(k,v){return `<div class="confirm-row"><div class="confirm-key">${k}</div><div class="confirm-val">${v}</div></div>`;}
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function escJs(s){return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');}
+function escJs(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/`/g,'\\`').replace(/\$/g,'\\$');}
 function closeOverlay(){document.getElementById('overlay').classList.remove('active');}
 
 function goToDashboardAfterSubmit() {
@@ -4231,5 +4766,7 @@ if (gateUserEmail && gateUserEmail.includes('@')) {
   lookupClient();
 }
 </script>
+<div id="JotformAgent-019e9f0b93a079c2a5ff74cdf534fafcdd5f"></div>
+<script src="https://cdn.jotfor.ms/agent/embedjs/019e9f0b93a079c2a5ff74cdf534fafcdd5f/embed.js"></script>
 </body>
 </html>

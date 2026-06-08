@@ -49,29 +49,16 @@ def main() -> int:
     )
     order = intake.get("order") or {}
     prism_id = order.get("id") or intake.get("confirmation")
+    nemt_id = intake.get("nemt_order_id") or (order.get("details") or {}).get("nemt_order_id")
     if not prism_id:
         print("FAIL: no PRISM order id", intake, file=sys.stderr)
         return 1
 
-    nemt = _post(
-        "/prism/nemt/orders",
-        {
-            "member_medicaid_id": "UI-TEST-001",
-            "member_name": "UI Button Test Member",
-            "member_dob": "01/01/1980",
-            "payer": "HAP CareSource",
-            "transport_type": "ambulatory",
-            "pickup_address": "100 UI Test St, Detroit MI 48201",
-            "dropoff_address": "200 Clinic Rd, Detroit MI 48202",
-            "pickup_time": "2026-06-10 14:00",
-            "trip_purpose": "Medical appointment",
-            "eligibility_verified": True,
-            "prism_order_id": prism_id,
-            "notes": f"UI button test · PRISM {prism_id}",
-        },
-    )
-    nemt_id = nemt.get("order_id")
-    print(json.dumps({"prism_order_id": prism_id, "nemt_order_id": nemt_id, "status": nemt.get("status")}, indent=2))
+    if not nemt_id:
+        print("FAIL: NEMT auto-link missing — deploy latest prism_nemt.py + prism_orders_api.py", intake, file=sys.stderr)
+        return 1
+
+    print(json.dumps({"prism_order_id": prism_id, "nemt_order_id": nemt_id, "nemt_linked": True}, indent=2))
     return 0
 
 

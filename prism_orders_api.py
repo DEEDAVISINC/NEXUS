@@ -1606,6 +1606,18 @@ def _create_intake_order_impl():
     except Exception as e:
         print(f'PRISM Airtable intake sync skipped: {e}')
 
+    nemt_order_id = None
+    try:
+        from prism_nemt import create_nemt_from_prism_intake
+
+        nemt_order_id = create_nemt_from_prism_intake(order, data)
+        if nemt_order_id:
+            order.setdefault('details', {})['nemt_order_id'] = nemt_order_id
+            orders[0] = order
+            _save(ORDERS_FILE, orders)
+    except Exception as e:
+        print(f'PRISM NEMT auto-link skipped: {e}')
+
     # Billing data from intake form
     billing_tier = data.get('billing_tier', 'pay_at_booking')
     payment_method = data.get('payment_method', '')
@@ -1657,7 +1669,11 @@ def _create_intake_order_impl():
 
     threading.Thread(target=_vertex_invoice, daemon=True).start()
 
-    return jsonify({'success': True, 'order': order}), 201
+    payload = {'success': True, 'order': order}
+    if nemt_order_id:
+        payload['nemt_order_id'] = nemt_order_id
+        payload['nemt_linked'] = True
+    return jsonify(payload), 201
 
 
 def _portal_order_status(status):
@@ -1721,6 +1737,34 @@ def sync_prism_order_status(
         return False
 
 
+def _nemt_ride_tracking_for_prism_order(prism_order_id: str, details: dict) -> dict:
+    """Resolve guest ride tracking URL from PRISM details or linked NEMT ops order."""
+    url = (details.get('ride_tracking_url') or '').strip()
+    platform = (details.get('ride_tracking_platform') or '').strip()
+    if url:
+        return {'ride_tracking_url': url, 'ride_tracking_platform': platform}
+    pid = (prism_order_id or '').strip()
+    if not pid:
+        return {}
+    try:
+        from prism_nemt import find_nemt_order_by_prism_id
+
+        nemt = find_nemt_order_by_prism_id(pid)
+        if not nemt:
+            return {}
+        url = (nemt.get('rider_tracking_url') or '').strip()
+        if not url:
+            return {}
+        return {
+            'ride_tracking_url': url,
+            'ride_tracking_platform': (
+                nemt.get('fulfillment_platform') or platform
+            ),
+        }
+    except Exception:
+        return {}
+
+
 def _order_to_portal_view(order):
     """Shape stored order for PRISM client intake dashboard / calendar."""
     raw_status = order.get('status', '')
@@ -1740,6 +1784,10 @@ def _order_to_portal_view(order):
         or ''
     ).strip()
     svc_key = (order.get('service_key') or order.get('type') or '').lower()
+    tracking = _nemt_ride_tracking_for_prism_order(order.get('id', ''), details)
+    ride_tracking_url = tracking.get('ride_tracking_url', '')
+    ride_tracking_platform = tracking.get('ride_tracking_platform', '')
+    portal_status = _portal_order_status(raw_status)
     return {
         'id': order.get('id', ''),
         'type': order.get('type') or order.get('service_key', ''),
@@ -1765,7 +1813,7 @@ def _order_to_portal_view(order):
         'time': order.get('time', ''),
         'timezone': order.get('timezone', ''),
         'location': dropoff or pickup or order.get('collection_site') or order.get('address', ''),
-        'status': _portal_order_status(raw_status),
+        'status': portal_status,
         'ops_status': raw_status,
         'priority': order.get('priority', 'Standard'),
         'result': order.get('result', ''),
@@ -1774,6 +1822,13 @@ def _order_to_portal_view(order):
         'rebook_eligible': svc_key in ('nemt', 'transport'),
         'rebook_source_id': details.get('rebook_source_id', ''),
         'rebook_mode': details.get('rebook_mode', ''),
+        'nemt_order_id': details.get('nemt_order_id', ''),
+        'ride_tracking_url': ride_tracking_url,
+        'ride_tracking_platform': ride_tracking_platform,
+        'ride_tracking_active': bool(
+            ride_tracking_url
+            and portal_status in ('scheduled', 'pending', 'in_progress')
+        ),
     }
 
 
@@ -2472,6 +2527,8 @@ def billing_lookup():
     fields = vc.get('fields', {})
     payment_terms = fields.get('PAYMENT TERMS', 'Due on Receipt')
     client_name = fields.get('CLIENT NAME', '')
+    contact_name = (fields.get('CONTACT NAME') or '').strip()
+    contact_phone = (fields.get('PHONE') or '').strip()
 
     # Determine billing tier from payment terms
     is_contract = payment_terms in ('Net 15', 'Net 30', 'Net 45', 'Net 60')
@@ -2536,6 +2593,8 @@ def billing_lookup():
     return jsonify({
         'found': True,
         'client_name': client_name,
+        'contact_name': contact_name,
+        'contact_phone': contact_phone,
         'record_id': vc.get('id'),
         'billing': {
             'tier': tier,

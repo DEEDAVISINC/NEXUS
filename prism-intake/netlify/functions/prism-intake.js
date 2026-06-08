@@ -228,6 +228,8 @@ async function syncToNexusDashboard(data) {
       ok: true,
       order: parsed.order,
       order_id: parsed.order?.id || data.confirmation,
+      nemt_order_id: parsed.nemt_order_id || parsed.order?.details?.nemt_order_id || null,
+      nemt_linked: !!(parsed.nemt_linked || parsed.nemt_order_id),
     };
   } catch (err) {
     return { ok: false, error: err.message || 'NEXUS API unreachable' };
@@ -326,6 +328,8 @@ exports.handler = async (event) => {
         routing_email: routing,
         dashboard_sync: dashboardSync,
         dashboard_order_id: dashboard?.order_id || null,
+        nemt_order_id: dashboard?.nemt_order_id || null,
+        nemt_linked: !!dashboard?.nemt_linked,
         email_sent: anyEmailSent,
         ops_email_sent: opsEmailSent,
         requester_confirmation_sent: requesterConfirmationSent,

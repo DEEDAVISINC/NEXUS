@@ -259,6 +259,108 @@ def find_nemt_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]
     return None
 
 
+ALLOWED_RIDE_TRACKING_HOSTS = frozenset(
+    {
+        "trip.uber.com",
+        "lyft.com",
+        "www.lyft.com",
+        "ride.lyft.com",
+        "lft.to",  # Lyft SMS short links
+    }
+)
+
+
+def infer_fulfillment_platform_from_tracking_url(url: str) -> str:
+    """Map guest tracking URL host → fulfillment platform key."""
+    from urllib.parse import urlparse
+
+    host = (urlparse((url or "").strip()).netloc or "").lower()
+    if host == "trip.uber.com":
+        return "uber_health"
+    if host == "lft.to" or host.endswith("lyft.com"):
+        return "lyft_healthcare"
+    return ""
+
+
+def validate_ride_tracking_url(url: str) -> str:
+    """Official Uber Health / Lyft Concierge guest tracking links (open in new tab)."""
+    from urllib.parse import urlparse
+
+    u = (url or "").strip()
+    if not u:
+        raise ValueError("rider_tracking_url is required")
+    parsed = urlparse(u)
+    if parsed.scheme != "https":
+        raise ValueError("Tracking URL must use HTTPS")
+    host = (parsed.netloc or "").lower()
+    if host not in ALLOWED_RIDE_TRACKING_HOSTS and not host.endswith(".lyft.com"):
+        raise ValueError(
+            "Tracking URL must be a valid HTTPS guest trip tracking link from dispatch"
+        )
+    return u
+
+
+def _sync_ride_tracking_to_prism(nemt_order: Dict[str, Any]) -> None:
+    """Mirror rider tracking URL onto linked PRISM order for portal.deedavis.biz."""
+    prism_id = (nemt_order.get("prism_order_id") or "").strip()
+    url = (nemt_order.get("rider_tracking_url") or "").strip()
+    if not prism_id or not url:
+        return
+    try:
+        from prism_orders_api import ORDERS_FILE, _load, _save
+
+        orders = _load(ORDERS_FILE, [])
+        for i, o in enumerate(orders):
+            if o.get("id") != prism_id:
+                continue
+            details = dict(o.get("details") or {})
+            details["ride_tracking_url"] = url
+            details["ride_tracking_platform"] = (
+                nemt_order.get("fulfillment_platform")
+                or details.get("ride_tracking_platform")
+                or ""
+            )
+            details["ride_tracking_updated_at"] = (
+                nemt_order.get("rider_tracking_updated_at") or _now_iso()
+            )
+            orders[i]["details"] = details
+            orders[i]["updated_at"] = _now_iso()
+            raw_status = (o.get("status") or "").lower()
+            if nemt_order.get("status") == "dispatched" or raw_status in (
+                "confirmed",
+                "scheduled",
+                "new",
+            ):
+                orders[i]["status"] = "In Progress"
+            _save(ORDERS_FILE, orders)
+            return
+    except Exception as exc:
+        print(f"Ride tracking sync to PRISM skipped: {exc}")
+
+
+def set_nemt_ride_tracking(
+    order_id: str,
+    rider_tracking_url: str,
+    fulfillment_platform: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Persist guest tracking link on NEMT order and push to client portal."""
+    url = validate_ride_tracking_url(rider_tracking_url)
+    state = _load_state()
+    order = state.get("orders", {}).get(order_id)
+    if not order:
+        raise ValueError(f"NEMT order not found: {order_id}")
+
+    platform = (fulfillment_platform or "").strip() or infer_fulfillment_platform_from_tracking_url(url)
+    if platform:
+        order["fulfillment_platform"] = platform
+    order["rider_tracking_url"] = url
+    order["rider_tracking_updated_at"] = _now_iso()
+    state["orders"][order_id] = order
+    _save_state(state)
+    _sync_ride_tracking_to_prism(order)
+    return order
+
+
 def link_prism_nemt_order(prism_order_id: str, nemt_order_id: str) -> None:
     """Persist PRISM ↔ NEMT link on the PRISM order details blob."""
     try:
@@ -277,24 +379,194 @@ def link_prism_nemt_order(prism_order_id: str, nemt_order_id: str) -> None:
         print(f"PRISM↔NEMT link skipped: {exc}")
 
 
-def _sync_prism_order_complete(prism_order_id: str, vertex_invoice_id: Optional[str] = None) -> None:
-    """Mark PRISM intake order Complete after NEMT trip closes (bypasses UI QC gate)."""
-    try:
-        from prism_orders_api import ORDERS_FILE, _load, _save
+def _map_trip_type_label_to_transport(trip_type: str) -> str:
+    t = (trip_type or "").lower()
+    if "wheel" in t or "wav" in t:
+        return "wheelchair"
+    if "stretcher" in t or "bls" in t:
+        return "stretcher"
+    return "ambulatory"
 
-        orders = _load(ORDERS_FILE, [])
-        for i, o in enumerate(orders):
-            if o.get("id") == prism_order_id:
-                orders[i]["status"] = "Complete"
-                orders[i]["updated_at"] = _now_iso()
-                if vertex_invoice_id:
-                    details = dict(orders[i].get("details") or {})
-                    details["vertex_invoice_id"] = vertex_invoice_id
-                    orders[i]["details"] = details
-                _save(ORDERS_FILE, orders)
-                return
+
+def _intake_transport_type(order: Dict[str, Any], data: Dict[str, Any]) -> str:
+    details = order.get("details") or data.get("details") or {}
+    trip_type = details.get("trip_type") or data.get("trip_type") or ""
+    if trip_type:
+        return _map_trip_type_label_to_transport(trip_type)
+    tt = (data.get("transport_type") or details.get("transport_type") or "").lower()
+    if tt in TRANSPORT_TYPES:
+        return tt
+    return "ambulatory"
+
+
+def _intake_payer(order: Dict[str, Any], data: Dict[str, Any]) -> str:
+    details = order.get("details") or data.get("details") or {}
+    for src in (
+        details.get("payer"),
+        data.get("payer"),
+        data.get("client_company"),
+        order.get("client"),
+    ):
+        if not src:
+            continue
+        s = str(src).strip()
+        if "caresource" in s.lower() or s.lower().startswith("hap"):
+            return "HAP CareSource"
+        if s:
+            return s
+    program = (details.get("program_type") or details.get("mobility_lane") or "").lower()
+    if any(k in program for k in ("medicaid", "mco", "mob-a", "hap", "plan nemt")):
+        return "HAP CareSource"
+    return PAYER_DEFAULT
+
+
+def _normalize_intake_date(raw: str) -> str:
+    s = (raw or "").strip()
+    if not s:
+        return ""
+    if "/" in s:
+        for fmt in ("%m/%d/%Y", "%m/%d/%y"):
+            try:
+                return datetime.strptime(s, fmt).strftime("%Y-%m-%d")
+            except ValueError:
+                continue
+    return s
+
+
+def create_nemt_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) -> Optional[str]:
+    """
+    Create and link a NEMT ops order from a PRISM intake submission (web portal, voice, API).
+
+    Returns the NEMT order_id when created or already linked; None when not applicable or skipped.
+    """
+    svc_key = (order.get("service_key") or data.get("service_key") or "").lower()
+    if svc_key not in ("nemt", "transport"):
+        return None
+
+    prism_id = (order.get("id") or "").strip()
+    if not prism_id:
+        return None
+
+    if data.get("skip_nemt_auto_link"):
+        return None
+
+    existing = find_nemt_order_by_prism_id(prism_id)
+    if existing:
+        return existing.get("order_id")
+
+    details = dict(order.get("details") or data.get("details") or {})
+    channel = (data.get("channel") or order.get("channel") or "").strip().lower()
+    intake_channel = (details.get("intake_channel") or "").strip().lower()
+    voice_intake = channel == "voice" or intake_channel == "voice_ai"
+
+    pickup = (
+        details.get("pickup_address")
+        or data.get("subject_location")
+        or order.get("address")
+        or ""
+    ).strip()
+    dropoff = (
+        details.get("dropoff_address")
+        or data.get("collection_site")
+        or order.get("collection_site")
+        or ""
+    ).strip()
+    if not pickup or not dropoff:
+        print(f"NEMT auto-link skipped for {prism_id}: missing pickup or dropoff")
+        return None
+
+    member_id = (
+        details.get("member_id")
+        or data.get("subject_id")
+        or order.get("subject_id")
+        or ""
+    ).strip()
+    member_name = (order.get("signer") or "").strip()
+    if not member_name:
+        member_name = f"{data.get('subject_first', '')} {data.get('subject_last', '')}".strip()
+    member_dob = (
+        order.get("subject_dob") or data.get("subject_dob") or "Pending verification"
+    ).strip()
+
+    transport = _intake_transport_type(order, data)
+    payer = _intake_payer(order, data)
+
+    sched_date = _normalize_intake_date(data.get("sched_date") or order.get("date") or "")
+    sched_time = (data.get("sched_time") or order.get("time") or "").strip()
+    pickup_time = f"{sched_date} {sched_time}".strip() or sched_date or "TBD"
+
+    purpose = (
+        details.get("appointment_purpose")
+        or details.get("nemt_purpose")
+        or "Medical appointment"
+    ).strip()
+
+    notes_parts: List[str] = []
+    base_notes = (order.get("notes") or data.get("notes") or "").strip()
+    if base_notes:
+        notes_parts.append(base_notes)
+    if details.get("rebook_mode"):
+        notes_parts.append(
+            f"Rebook: {details.get('rebook_mode')} from {details.get('rebook_source_id', '')}"
+        )
+    if details.get("trip_direction") == "return":
+        notes_parts.append(
+            f"Return leg linked to {details.get('linked_outbound_trip_id', '')}"
+        )
+    notes_parts.append(f"Intake channel: {channel or intake_channel or 'web'}")
+    notes = " · ".join(notes_parts)
+
+    try:
+        nemt_order = create_nemt_order(
+            member_medicaid_id=member_id,
+            member_name=member_name,
+            member_dob=member_dob,
+            payer=payer,
+            transport_type=transport,
+            pickup_address=pickup,
+            dropoff_address=dropoff,
+            pickup_time=pickup_time,
+            trip_purpose=purpose,
+            notes=notes,
+            prism_order_id=prism_id,
+            eligibility_verified=voice_intake,
+        )
+        nemt_id = nemt_order.get("order_id")
+        if nemt_id:
+            link_prism_nemt_order(prism_id, nemt_id)
+            return nemt_id
+    except Exception as exc:
+        print(f"NEMT auto-link failed for {prism_id}: {exc}")
+    return None
+
+
+def _sync_prism_order_status(
+    prism_order_id: str,
+    status: str,
+    *,
+    notify: bool = True,
+    details_patch: Optional[Dict[str, Any]] = None,
+) -> None:
+    """Mirror NEMT ops milestones on linked PRISM order (portal + notifications)."""
+    if not prism_order_id:
+        return
+    try:
+        from prism_orders_api import sync_prism_order_status
+
+        sync_prism_order_status(
+            prism_order_id,
+            status,
+            notify=notify,
+            details_patch=details_patch,
+        )
     except Exception as exc:
         print(f"PRISM order sync skipped: {exc}")
+
+
+def _sync_prism_order_complete(prism_order_id: str, vertex_invoice_id: Optional[str] = None) -> None:
+    """Mark PRISM intake order Complete after NEMT trip closes."""
+    patch = {"vertex_invoice_id": vertex_invoice_id} if vertex_invoice_id else None
+    _sync_prism_order_status(prism_order_id, "Complete", notify=True, details_patch=patch)
 
 
 def dispatch_order(
@@ -305,6 +577,7 @@ def dispatch_order(
     pickup_lng: Optional[float] = None,
     dropoff_lat: Optional[float] = None,
     dropoff_lng: Optional[float] = None,
+    rider_tracking_url: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Dispatch a NEMT order via Uber Health or Lyft Healthcare.
@@ -403,6 +676,24 @@ def dispatch_order(
     state["orders"][order_id] = order
     _save_state(state)
 
+    prism_id = order.get("prism_order_id")
+    if prism_id:
+        _sync_prism_order_status(prism_id, "In Progress", notify=True)
+
+    tracking_error = None
+    if rider_tracking_url:
+        try:
+            tracking_platform = (
+                infer_fulfillment_platform_from_tracking_url(rider_tracking_url) or platform
+            )
+            order = set_nemt_ride_tracking(
+                order_id,
+                rider_tracking_url,
+                fulfillment_platform=tracking_platform,
+            )
+        except ValueError as exc:
+            tracking_error = str(exc)
+
     # ─── LEARNING ENGINE: Log driver assigned ─────────────────────────────────
     nxlearn('transport', order_id, 'driver_assigned', {
         'transport_type': transport_type,
@@ -411,7 +702,10 @@ def dispatch_order(
         'region': 'MI',
     })
 
-    return {"order": order, "dispatch": platform_response}
+    result: Dict[str, Any] = {"order": order, "dispatch": platform_response}
+    if tracking_error:
+        result["tracking_url_error"] = tracking_error
+    return result
 
 
 def complete_trip(
@@ -865,6 +1159,11 @@ def route_verify_eligibility(order_id: str):
     order["eligibility_checklist"] = checklist
     state["orders"][order_id] = order
     _save_state(state)
+
+    prism_id = order.get("prism_order_id")
+    if prism_id:
+        _sync_prism_order_status(prism_id, "Confirmed", notify=True)
+
     return jsonify({"order": order, "checklist": checklist})
 
 
@@ -897,8 +1196,27 @@ def route_dispatch(order_id: str):
             pickup_lng=data.get("pickup_lng"),
             dropoff_lat=data.get("dropoff_lat"),
             dropoff_lng=data.get("dropoff_lng"),
+            rider_tracking_url=data.get("rider_tracking_url"),
         )
         return jsonify(result)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@prism_nemt.route("/prism/nemt/orders/<order_id>/ride-tracking", methods=["POST"])
+def route_set_ride_tracking(order_id: str):
+    """
+    Ops: paste guest trip tracking link after manual dashboard dispatch.
+    Body: { "rider_tracking_url": "<https tracking URL>", "fulfillment_platform": "uber_health|lyft_healthcare" (optional — auto-detected) }
+    """
+    data = request.get_json(force=True) or {}
+    try:
+        order = set_nemt_ride_tracking(
+            order_id,
+            data.get("rider_tracking_url", ""),
+            fulfillment_platform=data.get("fulfillment_platform"),
+        )
+        return jsonify({"success": True, "order": order, "ride_tracking_url": order.get("rider_tracking_url")})
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
@@ -921,25 +1239,6 @@ def route_complete(order_id: str):
             actual_mileage=float(data["actual_mileage"]),
             auto_generate_claim=bool(data.get("auto_generate_claim", False)),
         )
-        # ── Completion notification to member ───────────────────────────────
-        state = _load_state()
-        order = state.get("orders", {}).get(order_id, {})
-        member_phone = data.get("member_phone") or order.get("_member_phone", "")
-        if member_phone:
-            def _notify_complete():
-                try:
-                    from nexus_confirmation_engine import _send_sms_raw
-                    transport_type = order.get("transport_type", "ambulatory")
-                    what_str = _TRANSPORT_LABELS.get(transport_type, "transport")
-                    _send_sms_raw(
-                        member_phone,
-                        f"✅ Your {what_str} with Dee Davis Inc. is complete.\n\n"
-                        f"You have arrived at your destination.\n"
-                        f"Questions? Call 248.376.4550 · Ref: {order_id}"
-                    )
-                except Exception:
-                    pass
-            threading.Thread(target=_notify_complete, daemon=True).start()
         return jsonify(result)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400

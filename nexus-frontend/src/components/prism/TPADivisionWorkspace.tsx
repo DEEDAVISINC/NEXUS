@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../../api/client';
 import PrismAgentDirectory from './PrismAgentDirectory';
 import PrismVoiceCallCenter from './PrismVoiceCallCenter';
@@ -47,6 +47,8 @@ interface Order {
   /** Linked NEMT pipeline order (HAP / MCO trips) */
   nemtOrderId?: string;
   vertexInvoiceId?: string;
+  /** Guest ride tracking link — shown on client portal dashboard */
+  rideTrackingUrl?: string;
 }
 
 interface CapturedDoc {
@@ -107,6 +109,7 @@ export function mapPrismApiOrderToWorkspace(o: Record<string, unknown>): Order {
     updatedAt: String(o.updated_at || o.created_at || ''),
     nemtOrderId: details.nemt_order_id ? String(details.nemt_order_id) : undefined,
     vertexInvoiceId: details.vertex_invoice_id ? String(details.vertex_invoice_id) : undefined,
+    rideTrackingUrl: details.ride_tracking_url ? String(details.ride_tracking_url) : undefined,
   };
 }
 
@@ -266,8 +269,23 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   const [capturedDocs, setCapturedDocs] = useState<CapturedDoc[]>([]);
   const [nemtBusy, setNemtBusy] = useState<string | null>(null);
   const [nemtMsg, setNemtMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [rideTrackingInput, setRideTrackingInput] = useState('');
 
   const isNemtDivision = division.id === 'transport';
+
+  const inferTrackingPlatform = (url: string): 'uber_health' | 'lyft_healthcare' => {
+    try {
+      const host = new URL(url.trim()).hostname.toLowerCase();
+      if (host === 'trip.uber.com') return 'uber_health';
+      return 'lyft_healthcare';
+    } catch {
+      return 'uber_health';
+    }
+  };
+
+  useEffect(() => {
+    setRideTrackingInput(selectedOrder?.rideTrackingUrl || '');
+  }, [selectedOrder?.id, selectedOrder?.rideTrackingUrl]);
 
   /** Real API orders when parent passes them; mock only when prop omitted (dev) */
   const displayOrders = ordersProp !== undefined ? ordersProp : MOCK_ORDERS;
@@ -358,8 +376,15 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
         return;
       }
       await api.verifyNemtEligibility(nemtId);
+      const trackingUrl = rideTrackingInput.trim();
       const res = await api.dispatchNemtOrder(nemtId, {
         member_phone: selectedOrder.subjectInfo.phone || undefined,
+        ...(trackingUrl
+          ? {
+              rider_tracking_url: trackingUrl,
+              fulfillment_platform: inferTrackingPlatform(trackingUrl),
+            }
+          : {}),
       });
       if (res?.error) {
         setNemtMsg({ ok: false, text: String(res.error) });
@@ -370,6 +395,40 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
       onRefreshOrders?.();
     } catch (e) {
       setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Dispatch failed' });
+    } finally {
+      setNemtBusy(null);
+    }
+  };
+
+  const handleSaveRideTracking = async () => {
+    if (!selectedOrder) return;
+    const url = rideTrackingInput.trim();
+    if (!url) {
+      setNemtMsg({ ok: false, text: 'Paste the guest trip tracking link from your dispatch dashboard.' });
+      return;
+    }
+    setNemtBusy('tracking');
+    setNemtMsg(null);
+    try {
+      const nemtId = await resolveNemtOrderId();
+      if (!nemtId) {
+        setNemtMsg({ ok: false, text: 'No NEMT order linked to this intake.' });
+        return;
+      }
+      const res = await api.setNemtRideTracking(nemtId, {
+        rider_tracking_url: url,
+        fulfillment_platform: inferTrackingPlatform(url),
+      });
+      if (res?.error) {
+        setNemtMsg({ ok: false, text: String(res.error) });
+        return;
+      }
+      const saved = String(res.ride_tracking_url || url);
+      setSelectedOrder({ ...selectedOrder, status: 'in_progress', rideTrackingUrl: saved });
+      setNemtMsg({ ok: true, text: 'Tracking link saved — visible on client portal dashboard.' });
+      onRefreshOrders?.();
+    } catch (e) {
+      setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Could not save tracking link' });
     } finally {
       setNemtBusy(null);
     }
@@ -1100,6 +1159,40 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                         >
                           {nemtBusy === 'dispatch' ? 'Dispatching…' : 'Dispatch Trip'}
                         </button>
+                        <div style={{ marginTop: 4 }}>
+                          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#9CA3AF', marginBottom: 6 }}>
+                            Guest ride tracking link
+                          </label>
+                          <input
+                            type="url"
+                            value={rideTrackingInput}
+                            onChange={(e) => setRideTrackingInput(e.target.value)}
+                            placeholder="Paste tracking URL from dispatch dashboard"
+                            disabled={!!nemtBusy || selectedOrder.status === 'completed'}
+                            style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)', background: '#0D0D12', color: '#F9FAFB', fontSize: 13, marginBottom: 8 }}
+                          />
+                          <button
+                            type="button"
+                            disabled={!!nemtBusy || selectedOrder.status === 'completed'}
+                            onClick={handleSaveRideTracking}
+                            style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', fontWeight: 600, fontSize: 13, color: '#E5E7EB', background: '#1F2937', cursor: nemtBusy ? 'wait' : 'pointer', opacity: nemtBusy || selectedOrder.status === 'completed' ? 0.6 : 1 }}
+                          >
+                            {nemtBusy === 'tracking' ? 'Saving…' : 'Save link → client portal'}
+                          </button>
+                          {selectedOrder.rideTrackingUrl && (
+                            <a
+                              href={selectedOrder.rideTrackingUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ display: 'inline-block', marginTop: 8, fontSize: 12, color: '#A78BFA' }}
+                            >
+                              Open current tracking link ↗
+                            </a>
+                          )}
+                          <p style={{ fontSize: 11, color: '#6B7280', marginTop: 6, lineHeight: 1.4 }}>
+                            Paste after dispatch. Member sees &quot;Track live ride&quot; on portal.deedavis.biz — no app required.
+                          </p>
+                        </div>
                         <button
                           type="button"
                           disabled={!!nemtBusy || selectedOrder.status === 'completed'}

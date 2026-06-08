@@ -98,7 +98,23 @@ curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders | python3 -m json.
 # Expect: {"orders": [...], "count": N}
 
 curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders/by-prism/SMOKE-PRISM-001
-# Expect: 404 until NEMT order linked, or order JSON when linked
+# Expect: 404 until NEMT order linked (web NEMT intake auto-links when pickup + dropoff present)
+
+# Web portal NEMT auto-link — include addresses in intake payload:
+curl -s -X POST https://deedavis.pythonanywhere.com/prism/intake \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_key": "nemt",
+    "client_email": "smoke@test.example.com",
+    "subject_first": "Smoke",
+    "subject_last": "Member",
+    "subject_location": "100 Test St, Detroit MI",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "sched_date": "2026-06-20",
+    "sched_time": "10:00 AM",
+    "details": {"trip_type": "Ambulatory", "mobility_lane": "MOB-A", "member_id": "SMOKE-001"}
+  }' | python3 -m json.tool
+# Expect: "nemt_linked": true, "nemt_order_id": "<uuid>"
 
 # After deploy — health should still show mode pa-minimal; NEMT must NOT 404:
 curl -s -o /dev/null -w "NEMT HTTP %{http_code}\n" https://deedavis.pythonanywhere.com/prism/nemt/orders
@@ -111,7 +127,7 @@ Deploy checklist:
 1. `git pull origin main` on PA (includes `prism_pa_app.py` NEMT blueprint + `prism_nemt.py` + `nemt_billing.py`)
 2. Web tab → **Reload** `deedavis.pythonanywhere.com`
 3. Confirm: `curl -s https://deedavis.pythonanywhere.com/prism/nemt/orders` → JSON, not HTML 404
-4. Voice intake on PA already creates linked NEMT orders via `prism_voice_intake.py`
+4. Web + voice intake create linked NEMT orders via `create_nemt_from_prism_intake()` in `prism_nemt.py`
 
 Local UI button test (before or after PA deploy):
 ```bash
