@@ -35,6 +35,9 @@ Effective January 1, 2026, Michigan's MI Health Link (MHL) program transitioned 
 
 **Rollout:** Regions 1, 8, and 10 launched January 1, 2026. Statewide expansion January 1, 2027.
 
+**Intel file:** `NEXUS_LEARNING/MICH_HIDE_SNP_STATE_MCO_AWARDS.md` — nine awardees, regional assignments, 7-yr capitation estimates ($6.88B total).  
+**TODO (deferred):** NEMT-only market size by plan → `PENDING_ACTIONS.md` Future TODO.
+
 ---
 
 ## SECTION 2 — NINE MICH MCOs — REGION 10 (WAYNE / MACOMB / OAKLAND)

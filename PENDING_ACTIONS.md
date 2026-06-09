@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** June 4, 2026 (PHC session import + LHD package)
+**Last Updated:** June 4, 2026 (MICH HIDE SNP intel + CareSource contract archive)
 
 ---
 
@@ -22,7 +22,9 @@
 | **Electron — Uber Health login in PRISM webview** | Fix pushed Jun 5: Chrome UA + OAuth popup modal + `persist:partner` session. **Test:** quit Electron fully → `npm run electron-dev` → PRISM → NEMT → Live Portals → Uber Health → sign in. Use **Browser ↗** if popup still fails. | ⬜ **TEST after restart**
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
-| **Jun 7 Sun @ 12 PM ET** | **PRISM Finish-Up** — Voice test · VERTEX $28/$35 · HAP manual · Uber login · `.ics`: `calendars/prism_finish_up_2026-06-07.ics` | ⬜ **TOMORROW** |
+| **Jun 7 Sun @ 12 PM ET** | **PRISM Finish-Up** — Voice test · VERTEX $28/$35 · HAP manual · Uber login · `.ics`: `calendars/prism_finish_up_2026-06-07.ics` | ⬜ **TODAY** |
+| **HAP CareSource — walkthrough prep** | **DEFERRED** until input→invoice wired — see `HAP_NEMT_PIPELINE_COMPLETION_GATE.md` · If they ask early, send one-pager only | ⏸ **AFTER PIPELINE** |
+| **HAP NEMT — wire Mark Complete → VERTEX $28/$35** | `TPADivisionWorkspace.tsx` static button → `POST /prism/nemt/orders/<id>/complete` | ⬜ **BUILD FIRST** |
 | **Jun 8 Mon @ 2 PM ET** | **HAP Voice Intake — Go-Live Prep** — Upgrade Twilio · rotate ElevenLabs key · 855 on member materials · optional CNAM · test call · `.ics`: `calendars/hap_voice_go_live_prep_2026-06-08.ics` | ⬜ **MONDAY** |
 | **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
 
@@ -200,6 +202,7 @@ DDI should become an authorized distributor for forensic evidence collection kit
 
 | Item | Details | Trigger / When |
 |---|---|---|
+| **MICH HIDE SNP — NEMT market size by plan** | Back into **NEMT-only** revenue by MCO: enrollment by plan/county × trip rates ($28/$35 HAP benchmark) × DDI margin model. Source data: `NEXUS_LEARNING/MICH_HIDE_SNP_STATE_MCO_AWARDS.md` (7-yr capitation table + regional awards). **Not total capitation** — NEMT slice only. | When Dee says go — after MICH outreach sends 2–5 |
 | **NY lead screening — Onondaga County CLPPP+ wedge** | NYS DOH runs CLPPP+ (20 counties incl. **Onondaga/Syracuse**). No MI-style MDHHS referral path — entry is **county LHD + CBO partner**, optionally **NYHER SCN** (HRSN, children under 6). Position **CWC navigates + DDI administers** same SHIELD model — complement county programs, not state cold pitch. Research: Onondaga County lead program contact → complement outreach. **Separate from SUNY courier bid.** Ref: conversation May 31, 2026; NYS DOH [lead programs](https://www.health.ny.gov/environmental/lead/programs_plans/index.htm) | After MDHHS SHIELD path clearer **or** if Syracuse/Onondaga relationship develops via SUNY/other NY work. Target: **Q3 2026** research pass |
 
 ---

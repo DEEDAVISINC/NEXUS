@@ -131,8 +131,8 @@ Dayton, OH 45401
 | Training | Status | Where |
 |----------|--------|-------|
 | Provider Orientation | ✅ Completed May 6, 2026 | |
-| Model of Care (MI Coordinated Health) | ⬜ Required annually | HAP Portal > Users > Provider Training > LMS |
-| Fraud, Waste & Abuse | ⬜ Required annually | HealthPlanResources.com (attest after completing) |
+| Model of Care (MI Coordinated Health) | ✅ Attested Jun 7, 2026 | secureforms.caresource.com/ProviderTraining |
+| Fraud, Waste & Abuse | ✅ Attested Jun 7, 2026 | secureforms.caresource.com/ProviderTraining |
 
 ---
 
@@ -156,11 +156,15 @@ Dayton, OH 45401
 
 ## IMMEDIATE NEXT STEPS
 
+- [ ] **Walkthrough readiness** — Complete gates in `HAP_CARESOURCE_WALKTHROUGH_READY.md` before scheduling call with CareSource
+- [ ] **Complete Model of Care training** — ✅ Attested Jun 7, 2026 (secureforms)
+- [ ] **Complete FWA attestation** — ✅ Attested Jun 7, 2026 (secureforms)
+- [ ] **Twilio upgrade + 855 test call** — Remove trial message before live member/demo calls
 - [ ] **Activate in portal** — Turn on DDI's availability to receive trips
-- [ ] **Complete Model of Care training** — Required for MI Coordinated Health (annual refresher)
-- [ ] **Complete FWA attestation** — HealthPlanResources.com
 - [ ] **First trip → First claim → First payment**
 - [ ] **Enroll in ECHO EFT** after first paper check received
+
+**Walkthrough package:** `HAP_CARESOURCE_WALKTHROUGH_READY.md` · One-pager: `SEND_TO_BUYER/HAP_NEMT_OPERATIONAL_READINESS_ONE_PAGER.md`
 
 ---
 
