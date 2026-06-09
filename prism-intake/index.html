@@ -384,21 +384,26 @@
   .trip-action-outline:hover { background: var(--sector-light, var(--surface)) !important; }
   .ride-track-wrap { margin-top: 10px; }
   .ride-track-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 18px; border-radius: 10px; font-size: 14px; font-weight: 800;
     text-decoration: none; color: #fff !important;
     background: linear-gradient(135deg, var(--sector-solid, #6b21a8), var(--sector-accent, #0d9488));
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 14px rgba(107,33,168,0.35);
+    animation: ride-track-pulse 2.4s ease-in-out infinite;
   }
-  .ride-track-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
-  .ride-track-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.35; }
+  .ride-track-btn:hover { filter: brightness(1.08); transform: translateY(-1px); animation: none; }
+  .ride-track-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+  @keyframes ride-track-pulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(107,33,168,0.35); }
+    50% { box-shadow: 0 4px 20px rgba(13,148,136,0.55); }
+  }
   .active-ride-banner {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    margin-bottom: 16px; padding: 14px 18px; border-radius: 12px;
-    background: linear-gradient(135deg, rgba(107,33,168,0.12), rgba(13,148,136,0.1));
-    border: 1px solid rgba(107,33,168,0.25);
+    margin-bottom: 16px; padding: 16px 18px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(107,33,168,0.14), rgba(13,148,136,0.12));
+    border: 2px solid rgba(107,33,168,0.35);
   }
-  .active-ride-banner-title { font-size: 14px; font-weight: 800; color: var(--purple); }
+  .active-ride-banner-title { font-size: 15px; font-weight: 800; color: var(--purple); }
   .active-ride-banner-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
   .nemt-rebook-banner {
     background: var(--blue-light); border: 1px solid var(--border);
@@ -1013,7 +1018,7 @@
       <div class="dash-welcome">Welcome back</div>
       <div class="dash-company" id="dash-company-name">—</div>
       <div class="dash-contact" id="dash-contact-info">—</div>
-      <div class="dash-whats-next">YOUR ORDERS &amp; SCHEDULE</div>
+      <div class="dash-whats-next">YOUR ORDERS &amp; SCHEDULE · 🔄 refreshes every 20 sec</div>
     </div>
     <button type="button" class="dash-signout" onclick="signOut()">Sign out</button>
   </div>
@@ -1699,12 +1704,47 @@ function getIntakeSubmitUrl() {
 let clientData = null; // full client data from CRM lookup
 let mode = 'gate'; // 'gate' | 'dashboard' | 'form'
 let dashboardRefreshTimer = null;
-const DASHBOARD_REFRESH_MS = 60000;
+const DASHBOARD_REFRESH_MS = 20000;
 
 function portalStatusLabel(o) {
-  const ops = (o.ops_status || '').trim();
-  if (ops) return ops.replace(/_/g, ' ').toUpperCase();
-  return (o.status || 'pending').replace(/_/g, ' ').toUpperCase();
+  const raw = (o.ops_status || o.status || 'pending').trim().toLowerCase().replace(/_/g, ' ');
+  const nemt = isNemtPortalOrder(o);
+  const labels = nemt ? {
+    'order received': '📥 Trip received',
+    'order validated': '✅ Trip confirmed',
+    'agent assigned': '🚗 Driver assigned',
+    'driver assigned': '🚗 Driver assigned',
+    'driver dispatched': '🚗 Driver dispatched',
+    'confirmed': '✅ Scheduled',
+    'scheduled': '📅 Scheduled',
+    'en route': '🚗 En route to pickup',
+    'driver en route to pickup': '🚗 En route to pickup',
+    'in progress': '🚗 Ride in progress',
+    'passenger transport': '🚗 Ride in progress',
+    'dispatched': '🚗 Dispatched',
+    'pending': '⏳ Pending',
+    'new': '📥 Received',
+    'complete': '✅ Complete',
+    'completed': '✅ Complete',
+  } : {
+    'order received': '📥 Received',
+    'order validated': '✅ Confirmed',
+    'agent assigned': '👤 Specialist assigned',
+    'confirmed': '✅ Confirmed',
+    'scheduled': '📅 Scheduled',
+    'en route': '🚗 En route',
+    'in progress': '🔬 In progress',
+    'pending': '⏳ Pending',
+    'new': '📥 Received',
+    'complete': '✅ Complete',
+    'completed': '✅ Complete',
+  };
+  for (const [key, label] of Object.entries(labels)) {
+    if (raw === key || raw.includes(key)) return label;
+  }
+  if (raw.includes('agent assigned')) return nemt ? '🚗 Driver assigned' : '👤 Assigned';
+  if (raw.includes('driver')) return '🚗 ' + raw.replace(/\b\w/g, c => c.toUpperCase());
+  return '⏳ ' + raw.replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function startDashboardRefresh(email) {
@@ -2241,7 +2281,8 @@ function isAllowedRideTrackingUrl(url) {
     const u = new URL((url || '').trim());
     if (u.protocol !== 'https:') return false;
     const h = u.hostname.toLowerCase();
-    if (h === 'trip.uber.com') return true;
+    if (h === 'trip.uber.com' || h === 'm.uber.com' || h === 'www.uber.com' || h === 'uber.com') return true;
+    if (h.endsWith('.uber.com')) return true;
     if (h === 'lft.to') return true;
     if (h === 'lyft.com' || h === 'www.lyft.com' || h === 'ride.lyft.com') return true;
     if (h.endsWith('.lyft.com')) return true;
@@ -2251,21 +2292,34 @@ function isAllowedRideTrackingUrl(url) {
   }
 }
 
+function hasRideTrackingLink(o) {
+  const url = (o?.ride_tracking_url || '').trim();
+  if (!url) return false;
+  return isAllowedRideTrackingUrl(url) || !!o.ride_tracking_active;
+}
+
 function rideTrackingHtml(o) {
   const url = (o.ride_tracking_url || '').trim();
-  if (!isAllowedRideTrackingUrl(url)) return '';
+  if (!hasRideTrackingLink(o)) return '';
   if (!['scheduled', 'pending', 'in_progress'].includes(o.status)) return '';
-  const label = o.status === 'in_progress' ? 'Track live ride' : 'Track your ride';
+  const live = o.status === 'in_progress';
+  const label = live ? '🚗 Track live ride' : '🗺️ Track your ride';
+  const hint = live
+    ? '📱 Live driver map in your browser — no app download'
+    : '📱 Tap when your driver is assigned — opens live map in browser';
   return `<div class="ride-track-wrap">
-    <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">📍 ${label}</a>
-    <div class="ride-track-hint">Live driver location in your browser — no app required</div>
+    <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">${label}</a>
+    <div class="ride-track-hint">${hint}</div>
   </div>`;
 }
 
 function renderActiveRideBanner(orders) {
   const el = document.getElementById('active-ride-banner');
   if (!el) return;
-  const active = (orders || []).filter(o => o.ride_tracking_active && isAllowedRideTrackingUrl(o.ride_tracking_url));
+  const active = (orders || []).filter(o =>
+    hasRideTrackingLink(o)
+    && ['scheduled', 'pending', 'in_progress'].includes(o.status)
+  );
   if (!active.length) {
     el.innerHTML = '';
     el.style.display = 'none';
@@ -2273,12 +2327,13 @@ function renderActiveRideBanner(orders) {
   }
   const o = active[0];
   const url = o.ride_tracking_url.trim();
+  const live = o.status === 'in_progress';
   el.style.display = 'block';
   el.innerHTML = `<div class="active-ride-banner"><div>
-    <div class="active-ride-banner-title">Driver en route — ${escHtml(o.subject)}</div>
-    <div class="active-ride-banner-sub">${escHtml(o.time || 'Today')} · ${escHtml(o.pickup_address || o.location || 'Pickup')} → ${escHtml(o.dropoff_address || 'Destination')}</div>
+    <div class="active-ride-banner-title">${live ? '🚗 Driver en route' : '🗺️ Ride tracking ready'} — ${escHtml(o.subject)}</div>
+    <div class="active-ride-banner-sub">⏱ ${escHtml(o.time || 'Today')} · 📍 ${escHtml(o.pickup_address || o.location || 'Pickup')} → 🏥 ${escHtml(o.dropoff_address || 'Destination')}</div>
   </div>
-  <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">📍 Track live ride</a></div>`;
+  <a class="ride-track-btn" href="${url.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">${live ? '🚗 Track live ride' : '🗺️ Open ride map'}</a></div>`;
 }
 
 function localDateIso(d = new Date()) {
@@ -3043,10 +3098,45 @@ function resolveBookerName(contact, orders, email) {
   return '';
 }
 
+function orderDedupeKey(o) {
+  if (!o) return '';
+  const d = parseOrderDate(o) || (o.date || '').slice(0, 10) || '';
+  const sub = (o.subject || '').trim().toLowerCase();
+  const svc = (o.service_key || o.type || '').toLowerCase();
+  return `${d}|${sub}|${svc}`;
+}
+
+function mergeOrderRecords(prev, next) {
+  if (!prev) return next;
+  if (!next) return prev;
+  const prefer = (String(next.id || '').startsWith('1-DDI-') || (next.ride_tracking_url && !prev.ride_tracking_url))
+    ? next : prev;
+  const other = prefer === next ? prev : next;
+  const merged = { ...other, ...prefer };
+  merged.ride_tracking_url = (next.ride_tracking_url || prev.ride_tracking_url || '').trim();
+  merged.ride_tracking_platform = next.ride_tracking_platform || prev.ride_tracking_platform || '';
+  merged.nemt_order_id = next.nemt_order_id || prev.nemt_order_id || '';
+  merged.ride_tracking_active = !!(
+    merged.ride_tracking_url
+    && ['scheduled', 'pending', 'in_progress'].includes(merged.status || 'pending')
+  );
+  return merged;
+}
+
 function mergeOrdersById(a, b) {
-  const map = new Map();
-  [...a, ...b].forEach(o => { if (o && o.id) map.set(o.id, o); });
-  return Array.from(map.values()).sort((x, y) => {
+  const byKey = new Map();
+  [...a, ...b].forEach(o => {
+    if (!o) return;
+    const key = o.id || orderDedupeKey(o);
+    if (!key) return;
+    byKey.set(key, mergeOrderRecords(byKey.get(key), o));
+  });
+  const byTrip = new Map();
+  for (const o of byKey.values()) {
+    const tk = orderDedupeKey(o);
+    byTrip.set(tk, mergeOrderRecords(byTrip.get(tk), o));
+  }
+  return Array.from(byTrip.values()).sort((x, y) => {
     const dx = parseOrderDate(x) || x.created_at || '';
     const dy = parseOrderDate(y) || y.created_at || '';
     return String(dy).localeCompare(String(dx));
@@ -3599,7 +3689,7 @@ function renderCalDayDetail(iso, dayOrders) {
   const d = new Date(iso + 'T12:00:00');
   title.textContent = `${MONTHS_FULL[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} — ${dayOrders.length} order${dayOrders.length > 1 ? 's' : ''}`;
   body.innerHTML = dayOrders.map(o => {
-    const badge = (o.status || 'pending').replace('_', ' ').toUpperCase();
+    const badge = portalStatusLabel(o);
     return `<div class="cal-order-item">
       <div class="cal-order-time">${o.time || 'TBD'}</div>
       <div class="cal-order-info">
@@ -3669,7 +3759,7 @@ function renderKpiPanel(type) {
       const d = new Date(o.date + 'T12:00:00');
       const colors = { scheduled: { bg: 'var(--blue-light)', color: 'var(--blue)' }, pending: { bg: 'var(--orange-light)', color: 'var(--orange)' }, in_progress: { bg: 'var(--purple-light)', color: 'var(--purple)' } };
       const s = colors[o.status] || colors.scheduled;
-      const badge = o.status.replace('_',' ').toUpperCase();
+      const badge = portalStatusLabel(o);
       return `<div class="kpi-list-item">
         <div class="kpi-list-icon" style="background:${s.bg};color:${s.color};font-weight:800;font-size:13px;">${MONTHS[d.getMonth()]}<br>${d.getDate()}</div>
         <div class="kpi-list-info">
@@ -4241,10 +4331,14 @@ function dispatch() {
       results.push({ confNum, res, td });
       if (res.success) {
         const clientEmail = val('client-email');
-        const portalOrder = buildPortalOrderFromSubmit(confNum, svcKey, svcLabel);
+        const apiOrder = res.order || {};
+        const orderId = apiOrder.id || apiOrder.confirmation_ref || confNum;
+        const portalOrder = buildPortalOrderFromSubmit(orderId, svcKey, svcLabel);
         portalOrder.date = td.date;
         portalOrder.time = td.time;
+        if (apiOrder.confirmation_ref) portalOrder.confirmation_ref = apiOrder.confirmation_ref;
         if (res.nemt_order_id) portalOrder.nemt_order_id = res.nemt_order_id;
+        if (res.nemt_linked) portalOrder.nemt_linked = true;
         if (clientEmail && clientEmail !== '—') {
           saveLocalOrder(clientEmail, portalOrder);
           saveBookerProfile(clientEmail, {

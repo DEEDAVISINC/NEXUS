@@ -1,7 +1,15 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** June 7, 2026 @ goodnight ET
+**Last Updated:** June 8, 2026 @ goodnight ET
 
 ---
+
+## SESSION NOTE (June 8)
+
+- **PRISM HAP pipeline — PRODUCTION GATE PASS** — PA `nemt_linked: True` after surgical deploy; portal + NEXUS UI on Netlify live
+- **Guest ride tracking** — Ops pastes Uber/Lyft URL in Transport → **📤 Save link** → member sees **🚗 Track live ride** on portal (NOT automatic; NOT Twilio)
+- **Portal UX** — Emoji status labels (no more "Agent Assigned"); order ID merge fix; 20s dashboard refresh
+- **PA deploy** — Full git clone failed (~370MB); curl hotfix works; consider PA upgrade or shallow clone before HAP volume
+- **Tomorrow:** Twilio **855** connect + voice prep · paste/save tracking URL end-to-end test · optional `prism_orders_api.py` curl on PA for Driver Assigned label
 
 ## SESSION NOTE (June 7)
 

@@ -1,19 +1,17 @@
-Good morning Dee. Here is your NEXUS briefing for Monday, June 8, 2026.
+Good morning Dee. Here is your NEXUS briefing for Tuesday, June 9, 2026.
 
-You have four items on the calendar today.
+Yesterday PRISM production passed the gate. NEMT auto-link works on PythonAnywhere. Portal and NEXUS are live on Netlify.
 
-At eleven A M Eastern, the VA Madison NEMT bid deadline. Handle that first.
+Your top three today.
 
-At noon, follow up with Gary Misczak. Personal thank you only.
+First, Twilio. Connect the eight five five number, finish voice prep, and test a call. Member SMS starts working once Twilio is upgraded with a card on file.
 
-At two P M, HAP voice go-live prep. Upgrade Twilio, rotate the ElevenLabs key, and get eight five five seven seven three zero zero three five on member materials. Test call after.
+Second, the tracking link test. In NEXUS Transport, paste a guest trip URL from dispatch and save it. Then check the member portal with the same email. You should see Track live ride with the car emoji. Twilio does not create that link. You paste it after dispatch.
 
-At six P M, Andre Rupert signing in Macomb. Eighty dollars. FedEx ship when done.
+Third, VA Madison. Final go or no-go is June tenth. Two days out. Wisconsin sub pricing is still the blocker.
 
-Check whether the seventy-five dollar First Class Signing payment landed.
+Calendar carryover from Sunday if missed: Gary Misczak at noon, Rupert signing at six PM Macomb.
 
-If PRISM finish-up did not happen Sunday, still on the list: wire trip complete to Vertex at twenty-eight or thirty-five dollars, pull the HAP billing manual, and test Uber Health login in Electron.
+HAP is live infrastructure. Tomorrow is prove the member experience: voice, tracking link, one trip to Vertex at twenty-eight or thirty-five dollars.
 
-Urgent this week: FMCSA Clearinghouse identity verification due July sixth.
-
-Have a good night.
+Have a good morning.

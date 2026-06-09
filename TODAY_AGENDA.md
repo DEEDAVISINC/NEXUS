@@ -1,31 +1,27 @@
-# TODAY'S AGENDA — June 8, 2026 (Monday)
+# TODAY'S AGENDA — June 9, 2026 (Tuesday)
 
-**Updated:** June 7, 2026 @ goodnight
-
----
-
-## TOP 3 — MONDAY
-
-1. **🔥 11:00 AM ET — VA Madison NEMT IDIQ deadline** — Folder `BIDS:RESOURCES/VA MADISON NEMT/` · confirm submission status first thing
-2. **📋 2:00 PM ET — HAP Voice Go-Live Prep** — Paid Twilio · rotate ElevenLabs key · **855-773-0035** on member materials · test call · `.ics`: `hap_voice_go_live_prep_2026-06-08.ics`
-3. **📝 6:00 PM ET — Signing: Andre Rupert (PCS refi)** — Macomb · $80 · FedEx ship · `.ics`: `NOTARY_SIGNING_PCS_RUPERT_PMCS-247792_2026-06-08.ics`
+**Updated:** June 8, 2026 @ goodnight
 
 ---
 
-## ALSO TODAY
+## TOP 3 — TUESDAY
 
-| Time | Item |
-|------|------|
-| **12:00 PM ET** | 📧 Gary Misczak thank-you — (586) 709-1964 · personal only |
-| **Morning** | 💰 First Class Signing — did **$75** (Osteen) hit the account? |
-| **Carry from Sunday** | PRISM→VERTEX $28/$35 test · HAP manual billing section · Uber login in Electron *(if not done Sun)* |
+1. **📞 Twilio + HAP voice** — Connect **855-773-0035** · webhook → PA · test call + member SMS (if not finished Monday)
+2. **🗺️ PRISM tracking link — end-to-end test** — Transport paste URL → **📤 Save link** → portal → **🚗 Track live ride**
+3. **📋 VA Madison NEMT** — **Final GO/NO-GO Jun 10** (tomorrow) · WI sub quotes · Prime NEMT (608) 618-5598
 
 ---
 
-## AWAITING (no chase today unless deadline)
+## CALENDAR — TUESDAY
 
-- **Alina Pabin (BCBSM)** — wait for her reply on intro call (follow-up sent May 30)
-- **MDHHS Angela/Aimee** — LHD trigger **Jun 16** if still silent
+- **12:00 – 2:00 PM ET** — Strategy review: MMCAP Infuse + AOG Direct + IAC Registration
+- **2:30 PM ET** — CWC BCC final follow-up (Alina) — only if no response
+
+---
+
+## CARRY FROM MONDAY (if not done)
+
+- Gary Misczak thank-you · HAP voice prep block · Rupert signing Macomb 6 PM
 
 ---
 
@@ -33,8 +29,15 @@
 
 | Date | Item |
 |------|------|
+| **Jun 10** | **VA Madison final GO/NO-GO** |
 | **Jun 15** | Minneapolis MPD Background |
-| **Jun 16** | VIA Transit Drug Testing (ship by Jun 12) · MDHHS→LHD trigger |
+| **Jun 16** | VIA Transit Drug Testing |
 | **Jun 17** | SUNY Upstate Courier |
-| **Jun 22** | VA Madison *(if not today)* · Notary deposit $785 |
+| **Jun 22** | **VA Madison NEMT submit** · Notary deposit $785 |
 | **Jun 23** | Oakland County DTC Drug |
+
+---
+
+## PA NOTE
+
+Consider upgrade before real HAP member volume — or keep curl deploy playbook for hotfixes.

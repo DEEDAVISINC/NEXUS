@@ -425,7 +425,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
       }
       const saved = String(res.ride_tracking_url || url);
       setSelectedOrder({ ...selectedOrder, status: 'in_progress', rideTrackingUrl: saved });
-      setNemtMsg({ ok: true, text: 'Tracking link saved — visible on client portal dashboard.' });
+      setNemtMsg({ ok: true, text: '✅ Tracking link saved — member will see 🚗 Track live ride on portal.' });
       onRefreshOrders?.();
     } catch (e) {
       setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Could not save tracking link' });
@@ -1161,13 +1161,13 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                         </button>
                         <div style={{ marginTop: 4 }}>
                           <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#9CA3AF', marginBottom: 6 }}>
-                            Guest ride tracking link
+                            🗺️ Guest ride tracking link
                           </label>
                           <input
                             type="url"
                             value={rideTrackingInput}
                             onChange={(e) => setRideTrackingInput(e.target.value)}
-                            placeholder="Paste tracking URL from dispatch dashboard"
+                            placeholder="Paste tracking URL from dispatch dashboard (trip.uber.com / lyft…)"
                             disabled={!!nemtBusy || selectedOrder.status === 'completed'}
                             style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)', background: '#0D0D12', color: '#F9FAFB', fontSize: 13, marginBottom: 8 }}
                           />
@@ -1177,7 +1177,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                             onClick={handleSaveRideTracking}
                             style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', fontWeight: 600, fontSize: 13, color: '#E5E7EB', background: '#1F2937', cursor: nemtBusy ? 'wait' : 'pointer', opacity: nemtBusy || selectedOrder.status === 'completed' ? 0.6 : 1 }}
                           >
-                            {nemtBusy === 'tracking' ? 'Saving…' : 'Save link → client portal'}
+                            {nemtBusy === 'tracking' ? 'Saving…' : '📤 Save link → client portal'}
                           </button>
                           {selectedOrder.rideTrackingUrl && (
                             <a
@@ -1186,11 +1186,11 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                               rel="noopener noreferrer"
                               style={{ display: 'inline-block', marginTop: 8, fontSize: 12, color: '#A78BFA' }}
                             >
-                              Open current tracking link ↗
+                              🚗 Open current tracking link ↗
                             </a>
                           )}
                           <p style={{ fontSize: 11, color: '#6B7280', marginTop: 6, lineHeight: 1.4 }}>
-                            Paste after dispatch. Member sees &quot;Track live ride&quot; on portal.deedavis.biz — no app required.
+                            Paste after dispatch. Member sees 🚗 Track live ride on portal.deedavis.biz — no app required.
                           </p>
                         </div>
                         <button

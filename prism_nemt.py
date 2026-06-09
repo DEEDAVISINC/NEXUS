@@ -262,6 +262,9 @@ def find_nemt_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]
 ALLOWED_RIDE_TRACKING_HOSTS = frozenset(
     {
         "trip.uber.com",
+        "m.uber.com",
+        "www.uber.com",
+        "uber.com",
         "lyft.com",
         "www.lyft.com",
         "ride.lyft.com",
@@ -275,7 +278,7 @@ def infer_fulfillment_platform_from_tracking_url(url: str) -> str:
     from urllib.parse import urlparse
 
     host = (urlparse((url or "").strip()).netloc or "").lower()
-    if host == "trip.uber.com":
+    if host == "trip.uber.com" or host.endswith(".uber.com"):
         return "uber_health"
     if host == "lft.to" or host.endswith("lyft.com"):
         return "lyft_healthcare"
@@ -293,7 +296,9 @@ def validate_ride_tracking_url(url: str) -> str:
     if parsed.scheme != "https":
         raise ValueError("Tracking URL must use HTTPS")
     host = (parsed.netloc or "").lower()
-    if host not in ALLOWED_RIDE_TRACKING_HOSTS and not host.endswith(".lyft.com"):
+    if host not in ALLOWED_RIDE_TRACKING_HOSTS and not host.endswith(
+        (".lyft.com", ".uber.com")
+    ):
         raise ValueError(
             "Tracking URL must be a valid HTTPS guest trip tracking link from dispatch"
         )

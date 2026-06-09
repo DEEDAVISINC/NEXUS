@@ -681,6 +681,12 @@ SERVICE_STAGE_OVERRIDES = {
         },
     },
     'nemt': {
+        'assigned': {
+            'label': 'Driver Assigned',
+            'gates': [
+                {'id': 'G-NE-0', 'check': 'Driver confirmed and assigned to trip', 'field': None, 'rule': 'manual'},
+            ],
+        },
         'en_route': {
             'label': 'Driver En Route to Pickup',
             'gates': [
@@ -1681,12 +1687,10 @@ def _portal_order_status(status):
     s = (status or 'New').lower().replace(' ', '_')
     if s in ('complete', 'completed', 'closed', 'verified', 'documentation'):
         return 'completed'
-    if s in (
-        'in_progress', 'assigned', 'dispatched',
-        'driver_assigned', 'en_route', 'arrived', 'departed',
-    ):
+    if s in ('in_progress', 'assigned', 'dispatched', 'driver_assigned',
+             'agent_assigned', 'en_route', 'arrived', 'departed'):
         return 'in_progress'
-    if s in ('confirmed', 'scheduled'):
+    if s in ('confirmed', 'scheduled', 'order_validated', 'validated'):
         return 'scheduled'
     return 'pending'
 
