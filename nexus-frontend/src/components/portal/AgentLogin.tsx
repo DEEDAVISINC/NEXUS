@@ -35,7 +35,7 @@ const AgentLogin: React.FC<AgentLoginProps> = ({ onLogin, onSwitchToRegister, er
               DDI
             </div>
             <div>
-              <p className="font-bold text-white text-sm">Dee Davis Inc.</p>
+              <p className="font-bold text-white text-sm">DDI</p>
               <p className="text-[10px] uppercase tracking-wider" style={{ color: '#2DD4BF' }}>Field Agent Portal</p>
             </div>
           </div>
@@ -159,7 +159,7 @@ const AgentLogin: React.FC<AgentLoginProps> = ({ onLogin, onSwitchToRegister, er
       {/* ─── FOOTER ──────────────────────────────────── */}
       <div className="w-full border-t px-6 py-4" style={{ background: 'rgba(15, 26, 46, 0.9)', borderColor: 'rgba(45, 212, 191, 0.1)' }}>
         <div className="max-w-md mx-auto flex items-center justify-between text-[11px]" style={{ color: '#475569' }}>
-          <span>© 2026 Dee Davis Inc. All rights reserved.</span>
+          <span>© 2026 DDI · Legal entity: Dee Davis Inc.</span>
           <div className="flex gap-4">
             <button className="hover:text-gray-300 transition">Privacy</button>
             <button className="hover:text-gray-300 transition">Terms</button>

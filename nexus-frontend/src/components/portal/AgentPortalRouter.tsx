@@ -82,7 +82,7 @@ const AgentPortalRouter: React.FC<AgentPortalRouterProps> = ({ onBackToNexus, sk
           <div className="max-w-md mx-auto flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-lg" style={{ background: 'linear-gradient(135deg, #EC4899, #DB2777)', boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)' }}>DDI</div>
             <div>
-              <p className="font-bold text-white text-sm">Dee Davis Inc.</p>
+              <p className="font-bold text-white text-sm">DDI</p>
               <p className="text-[10px] uppercase tracking-wider" style={{ color: '#2DD4BF' }}>Field Agent Portal</p>
             </div>
           </div>
@@ -95,7 +95,7 @@ const AgentPortalRouter: React.FC<AgentPortalRouterProps> = ({ onBackToNexus, sk
             </div>
             <h1 className="text-3xl font-black text-white mb-3">Application Submitted!</h1>
             <p className="mb-8" style={{ color: '#94A3B8' }}>
-              Thank you, {applicantName}! We've received your application to join the Dee Davis Inc. Field Agent Network. Here's what happens next:
+              Thank you, {applicantName}! We've received your application to join the DDI Field Agent Network. Here's what happens next:
             </p>
 
             <div className="rounded-2xl p-6 text-left mb-8" style={{ background: 'rgba(27, 42, 74, 0.7)', border: '1px solid rgba(45, 212, 191, 0.15)' }}>
@@ -137,7 +137,7 @@ const AgentPortalRouter: React.FC<AgentPortalRouterProps> = ({ onBackToNexus, sk
 
         <div className="w-full border-t px-6 py-4" style={{ background: 'rgba(15, 26, 46, 0.9)', borderColor: 'rgba(45, 212, 191, 0.1)' }}>
           <div className="max-w-md mx-auto text-center text-[11px]" style={{ color: '#475569' }}>
-            © 2026 Dee Davis Inc. All rights reserved.
+            © 2026 DDI · Legal entity: Dee Davis Inc.
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@ const AgentPortalRouter: React.FC<AgentPortalRouterProps> = ({ onBackToNexus, sk
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg" style={{ background: 'linear-gradient(135deg, #EC4899, #DB2777)', boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3)' }}>DDI</div>
               <div>
-                <h1 className="text-lg font-bold text-white">Dee Davis Inc.</h1>
+                <h1 className="text-lg font-bold text-white">DDI</h1>
                 <p className="text-[10px] uppercase tracking-wider" style={{ color: '#2DD4BF' }}>Field Agent Portal</p>
               </div>
             </div>

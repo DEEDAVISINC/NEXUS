@@ -14,7 +14,9 @@ const URGENCY_LABEL = {
   routine: 'Standard',
 };
 
-const DDI_PHONE = '248.376.4550';
+const BRAND_NAME = 'DDI';
+const LEGAL_ENTITY = 'Dee Davis Inc.';
+const DDI_PHONE = '855-773-0035';
 const DDI_EMAIL = 'info@deedavis.biz';
 
 function normEmail(v) {
@@ -89,7 +91,7 @@ function buildRequesterConfirmation(data) {
   const dropoff = data.collection_site || '—';
   return `Hi ${data.client_contact || data.client_company || 'there'},
 
-Your service request with Dee Davis Inc. has been received and queued for dispatch.
+Your service request with ${BRAND_NAME} has been received and queued for dispatch.
 
 Confirmation:  ${data.confirmation}
 Service:       ${data.service_label || 'Service Request'}
@@ -103,8 +105,9 @@ Our operations team will coordinate fulfillment per your schedule. You can track
 Questions? Call ${DDI_PHONE} or email ${DDI_EMAIL}.
 
 — PRISM Dispatch
-Dee Davis Inc.
+${BRAND_NAME}
 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084
+Legal entity: ${LEGAL_ENTITY}
 `;
 }
 
@@ -113,7 +116,7 @@ function buildRiderConfirmation(data) {
   const requester = data.client_company || data.client_contact || 'Your care coordinator';
   return `Hi ${member.split(' ')[0] || member},
 
-This confirms your scheduled service with Dee Davis Inc.
+This confirms your scheduled service with ${BRAND_NAME}.
 
 Confirmation:  ${data.confirmation}
 Service:       ${data.service_label || 'Medical mobility'}
@@ -126,7 +129,7 @@ Please be ready at your pickup location at the scheduled time. Your driver or co
 
 Questions? Call ${DDI_PHONE}.
 
-— Dee Davis Inc. / PRISM Dispatch
+— ${BRAND_NAME} / PRISM Dispatch
 `;
 }
 

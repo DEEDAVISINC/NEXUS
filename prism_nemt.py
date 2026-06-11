@@ -996,6 +996,7 @@ def _send_nemt_confirmation_async(order: Dict[str, Any], req_data: Dict[str, Any
             pass
         try:
             from nexus_confirmation_engine import send_confirmation_request
+            from company_info import BRAND_NAME
             send_confirmation_request(
                 event_type="nemt_ride",
                 party_name=name,
@@ -1005,7 +1006,7 @@ def _send_nemt_confirmation_async(order: Dict[str, Any], req_data: Dict[str, Any
                 location=location,
                 internal_id=ref,
                 notes=order.get("notes", ""),
-                who="Dee Davis Inc. NEMT — your driver will be assigned before pickup",
+                who=f"{BRAND_NAME} NEMT — your driver will be assigned before pickup",
                 what=what_str.capitalize(),
                 why=why_str,
                 bring=bring_str,

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Program Portal | Dee Davis Inc.</title>
+<title>Program Portal | DDI</title>
 <meta name="description" content="Schedule drug testing, fingerprinting, DNA, occupational health, NEMT, notary, courier, background screening, credentialing, and workforce compliance services.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230f172a'/><text x='50' y='62' text-anchor='middle' font-family='system-ui,sans-serif' font-size='36' font-weight='700' fill='%23b08d3e'>D</text></svg>">
@@ -765,6 +765,33 @@
   .footer-certs { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
   .cert-badge { font-size: 9px; font-weight: 700; color: var(--gold-text); background: var(--gold-light); padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
   .footer-legal { margin-top: 10px; font-size: 10px; color: var(--text-muted); }
+  .footer-hipaa {
+    margin-top: 14px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 10px; color: var(--text-secondary); line-height: 1.55;
+    text-align: left; max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  .footer-hipaa strong { color: var(--text); font-weight: 600; }
+  .footer-member-care { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .footer-member-care a { color: var(--blue); text-decoration: none; }
+
+  .member-care-bar {
+    background: var(--navy); color: rgba(255,255,255,.92); font-size: 12px; font-weight: 500;
+    text-align: center; padding: 8px 16px; line-height: 1.5;
+  }
+  .member-care-bar a { color: #fde68a; text-decoration: none; font-weight: 600; }
+  .member-care-bar a:hover { text-decoration: underline; }
+
+  .hipaa-notice {
+    background: var(--blue-light); border: 1px solid rgba(29,78,216,.15); border-radius: var(--radius-sm);
+    padding: 12px 14px; font-size: 11px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px;
+  }
+  .hipaa-notice strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; font-size: 11px; }
+  .hipaa-ack-row {
+    display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .hipaa-ack-row input { margin-top: 3px; flex-shrink: 0; }
+  .header-care { font-size: 11px; font-weight: 600; color: var(--blue); text-decoration: none; white-space: nowrap; }
+  .header-care:hover { text-decoration: underline; }
 
   /* ── OVERLAY ── */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
@@ -953,7 +980,7 @@
     .overlay { position: static; background: none; backdrop-filter: none; padding: 0; }
     .confirm-card { box-shadow: none; max-height: none; }
     .confirm-actions, .submit-status { display: none !important; }
-    .site-header, .site-footer, .progress-wrap { display: none !important; }
+    .site-header, .site-footer, .member-care-bar, .progress-wrap { display: none !important; }
   }
 
   /* JotForm AI agent — floating chat (above portal UI, below modals) */
@@ -975,11 +1002,17 @@
   <div class="header-inner">
     <div class="header-brand">
       <div class="brand-mark">DDI</div>
-      <div><div class="brand-name">Dee Davis Inc.</div><div class="brand-sub">Program Portal</div></div>
+      <div><div class="brand-name">DDI</div><div class="brand-sub">Program Portal</div></div>
     </div>
     <div class="header-badge">Managed TPA</div>
+    <a class="header-care" href="tel:+18557730035" title="Member care — call or text">855-773-0035</a>
   </div>
 </header>
+
+<div class="member-care-bar" id="member-care-bar">
+  Member care — call or text <a href="tel:+18557730035">855-773-0035</a> (after 12:00 PM ET)
+  · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>
+</div>
 
 <div class="progress-wrap" id="progress-wrap">
   <div class="progress-inner">
@@ -1001,6 +1034,10 @@
 <div class="entry-gate" id="entry-gate">
   <div class="entry-title">Program portal sign-in</div>
   <div class="entry-subtitle">Enter your email to view scheduled services, trip history, and compliance status — or submit a new request.</div>
+  <div class="hipaa-notice">
+    <strong>HIPAA &amp; privacy</strong>
+    Information you enter may include protected health information (PHI). DDI uses PHI only to schedule and coordinate services, status updates, and billing. We maintain administrative, physical, and technical safeguards. Where required by contract, we operate as a Business Associate. Questions: <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>.
+  </div>
   <div class="entry-card">
     <label class="entry-email-label">Your Business Email</label>
     <input type="email" class="entry-email-input" id="gate-email" placeholder="you@company.com" autofocus>
@@ -1009,6 +1046,9 @@
     <div class="entry-or">or</div>
     <button class="entry-new-btn" onclick="enterAsNew(null, true)">New Client — Schedule a Service</button>
   </div>
+  <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">
+    Need help now? Call or text <a href="tel:+18557730035" style="color:var(--blue);font-weight:600;">855-773-0035</a> (after 12:00 PM ET).
+  </p>
 </div>
 
 <!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
@@ -1019,6 +1059,9 @@
       <div class="dash-company" id="dash-company-name">—</div>
       <div class="dash-contact" id="dash-contact-info">—</div>
       <div class="dash-whats-next">YOUR ORDERS &amp; SCHEDULE · 🔄 refreshes every 20 sec</div>
+      <div class="dash-contact" style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.85);">
+        Member care: <a href="tel:+18557730035" style="color:#fde68a;">855-773-0035</a> · HIPAA-protected portal
+      </div>
     </div>
     <button type="button" class="dash-signout" onclick="signOut()">Sign out</button>
   </div>
@@ -1134,6 +1177,10 @@
   <div class="back-to-dash" id="back-to-dash" onclick="showDashboard()">← Back to Dashboard</div>
   <div class="step-title">Select a Service</div>
   <div class="step-subtitle">Choose your service type, urgency, and preferred response method.</div>
+  <div class="hipaa-notice">
+    <strong>HIPAA</strong>
+    Some services require health or identity information. Submit only what is needed for scheduling. Member care: <a href="tel:+18557730035">855-773-0035</a>.
+  </div>
 
   <div class="section-label">Service</div>
   <div class="service-grid" id="svc-grid">
@@ -1201,6 +1248,10 @@
 <div class="wizard-step" id="step-2">
   <div class="step-title">Contact & Service Details</div>
   <div class="step-subtitle">Confirm your information and select service-specific options.</div>
+  <div class="hipaa-notice">
+    <strong>HIPAA notice</strong>
+    Contact and health-related details submitted here are used only to deliver the service you request. Do not include more PHI than needed. DDI protects PHI under applicable privacy and security requirements.
+  </div>
   <div class="card">
     <div class="form-row full">
       <div class="field">
@@ -1216,6 +1267,12 @@
     <div class="form-row">
       <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" id="client-phone" placeholder="(000) 000-0000"><div class="error-msg">Required</div></div>
       <div class="field"><label>Account / PO #</label><input type="text" id="client-po" placeholder="Optional"></div>
+    </div>
+    <div class="form-row full">
+      <div class="hipaa-notice" style="margin-bottom:0;">
+        <strong>SMS &amp; calls</strong>
+        By providing a mobile number, you agree to receive transactional texts from DDI about this service (confirmations, reminders, trip status). Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Member care: <a href="tel:+18557730035">855-773-0035</a>.
+      </div>
     </div>
     <div class="form-row full">
       <div class="field"><label>Address / Site Location</label><input type="text" id="client-address" placeholder="Street, City, State, ZIP"></div>
@@ -1622,13 +1679,24 @@
 <!-- ═══════════ FORM: STEP 5 — NOTES + SUBMIT ═══════════ -->
 <div class="wizard-step" id="step-5">
   <div class="step-title">Review & Submit</div>
-  <div class="step-subtitle">Review your details, then click <strong>Submit Request</strong> — your order goes directly to Dee Davis Inc. operations (no separate email required).</div>
+  <div class="step-subtitle">Review your details, then click <strong>Submit Request</strong> — your order goes directly to DDI operations (no separate email required).</div>
+  <div class="hipaa-notice">
+    <strong>Before you submit</strong>
+    You confirm that information provided is accurate and may include PHI needed for service delivery. DDI will use it only to schedule, coordinate, and communicate about your order — not for unrelated marketing.
+  </div>
   <div class="card">
     <div class="form-row full">
       <div class="field"><label>Notes & Special Instructions</label>
         <textarea id="notes" placeholder="Access details, chain-of-custody notes, observed collection, multiple services, special requirements..."></textarea>
       </div>
     </div>
+  </div>
+
+  <div class="card">
+    <label class="hipaa-ack-row">
+      <input type="checkbox" id="hipaa-ack-checkbox">
+      <span>I understand that DDI may receive protected health information through this portal to deliver my requested services, and I agree to transactional SMS/calls at the phone number provided (STOP to opt out).</span>
+    </label>
   </div>
 
   <!-- Payment confirmation strip -->
@@ -1654,10 +1722,18 @@
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-brand">Dee Davis Inc.</div>
-    <div class="footer-address">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 · <a href="tel:2483764550">248.376.4550</a> · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a></div>
+    <div class="footer-brand">DDI</div>
+    <div class="footer-member-care">
+      Member care: <a href="tel:+18557730035">855-773-0035</a> call or text (after 12:00 PM ET)
+      · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>
+    </div>
+    <div class="footer-address">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
     <div class="footer-certs"><span class="cert-badge">EDWOSB</span><span class="cert-badge">WOSB</span><span class="cert-badge">WBENC</span><span class="cert-badge">MBE</span><span class="cert-badge">SBE</span></div>
-    <div class="footer-legal">CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · SAM.gov Registered</div>
+    <div class="footer-legal">Legal entity: Dee Davis Inc. · CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · SAM.gov Registered</div>
+    <div class="footer-hipaa">
+      <strong>HIPAA notice.</strong>
+      Protected health information (PHI) submitted through portal.deedavis.biz is used only to schedule and coordinate services, provide status updates, and support billing for your account. DDI maintains administrative, physical, and technical safeguards for PHI. Where required, we serve as a Business Associate under executed agreements. This portal is not for medical emergencies — call 911. Privacy questions: <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>.
+    </div>
   </div>
 </footer>
 
@@ -2155,6 +2231,7 @@ function generateWeeklyTripDates() { return generateRecurringTripDates(); }
 
 const NEMT_URGENT_HOURS = 48;
 const NEMT_DISPATCH_PHONE = '855-773-0035';
+const PORTAL_MEMBER_CARE_TEL = '+18557730035';
 let nemtSchedulingWatchersBound = false;
 
 function parseTripDateTime(dateStr, timeStr) {
@@ -4305,6 +4382,17 @@ function buildIntakeApiPayload(confNum, schedDate, schedTime) {
 
 function dispatch() {
   const submitBtn = document.getElementById('btn-submit-request');
+  const hipaaAck = document.getElementById('hipaa-ack-checkbox');
+  if (hipaaAck && !hipaaAck.checked) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Request';
+    }
+    alert('Please confirm the HIPAA & SMS notice on the review step before submitting.');
+    goToStep(5, true);
+    hipaaAck.focus();
+    return;
+  }
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting…';
@@ -4357,7 +4445,7 @@ function dispatch() {
   };
 
   const primaryConf = genConfirmNum();
-  const lines = ['PRISM SERVICE REQUEST — DEE DAVIS INC.','========================================',`Confirmation: ${primaryConf}${tripDates.length > 1 ? ` (+${tripDates.length - 1} more)` : ''}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`];
+  const lines = ['PRISM SERVICE REQUEST — DDI','========================================',`Confirmation: ${primaryConf}${tripDates.length > 1 ? ` (+${tripDates.length - 1} more)` : ''}`,`Submitted:    ${new Date().toLocaleString()}`,`Service:      ${svcLabel}`,`Response:     ${tierNames[activeTier]}`,`Urgency:      ${activeUrgency.toUpperCase()}`,'----------------------------------------','CLIENT',`Company:      ${val('client-name')}`,`Contact:      ${val('client-contact')}`,`Phone:        ${val('client-phone')}`,`Email:        ${val('client-email')}`,`PO/Account:   ${val('client-po')}`,`Address:      ${val('client-address')}`];
   if (p.step2.showResultsDelivery) {
     lines.push('----------------------------------------','RESULTS DELIVERY',`Results To:   ${val('client-email')}`,`CC:           ${val('cc-email-1')}`,`CC:           ${val('cc-email-2')}`,`Method:       ${val('results-delivery-pref')}`);
   }
@@ -4433,12 +4521,12 @@ function showConfirmOverlay(ctx) {
 
   let banner = '';
   if (failed) {
-    banner = `<div class="submit-status error">SUBMIT FAILED — ${escHtml(err?.message || res?.error || 'Could not reach Dee Davis Inc. servers')}. Use backup email below or call 248.376.4550.</div>`;
+    banner = `<div class="submit-status error">SUBMIT FAILED — ${escHtml(err?.message || res?.error || 'Could not reach DDI servers')}. Use backup email below or call ${NEMT_DISPATCH_PHONE}.</div>`;
     } else if (synced) {
     if (multiCount && multiCount > 1 && res._multi) {
       banner = `<div class="submit-status success">${multiCount} trip requests queued in NEXUS PRISM — ${escHtml(res._multi.join(', '))}. Our team reviews each date before dispatch.</div>`;
     } else {
-      banner = `<div class="submit-status success">SUBMITTED TO DEE DAVIS INC. — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
+      banner = `<div class="submit-status success">SUBMITTED TO DDI — Confirmation ${escHtml(res.dashboard_order_id || confNum)}. Your request is in our operations queue; dispatch will follow per your schedule.</div>`;
     }
     if (res.nemt_linked) {
       banner += `<div class="confirm-routing" style="margin-top:8px;font-size:12px;">NEMT trip linked in operations — ready for eligibility review and dispatch.</div>`;
@@ -4809,7 +4897,7 @@ function validateOverride() {
         overrideAccepted = false;
         resultEl.className = 'override-result invalid';
         resultEl.style.background = ''; resultEl.style.color = '';
-        resultEl.textContent = `✕ Code "${code}" not recognized. Contact DDI at 248.376.4550.`;
+        resultEl.textContent = `✕ Code "${code}" not recognized. Contact DDI at ${NEMT_DISPATCH_PHONE}.`;
       }
     });
 }

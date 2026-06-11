@@ -35,6 +35,8 @@ from zoneinfo import ZoneInfo
 
 logger = logging.getLogger("nexus.confirmation")
 
+from company_info import BRAND_NAME, COMPANY_NAME, member_care_phone_display, PHONE_PRIMARY
+
 EASTERN = ZoneInfo("America/Detroit")
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -134,12 +136,13 @@ def _build_sms(event_type: str, party_name: str, dt_str: str,
     """
     label = _EVENT_LABELS.get(event_type, "appointment")
     what_line  = what  or label.capitalize()
-    who_line   = who   or "Dee Davis Inc. (248.376.4550)"
+    care = member_care_phone_display()
+    who_line   = who   or f"{BRAND_NAME} ({care})"
     why_line   = why   or ""
     bring_line = bring or ""
 
     lines = [
-        f"Hi {party_name} — Dee Davis Inc. here.",
+        f"Hi {party_name} — {BRAND_NAME} here.",
         "",
         f"Here are your details for your upcoming {label}:",
         "",
@@ -158,7 +161,7 @@ def _build_sms(event_type: str, party_name: str, dt_str: str,
     if confirm_url:
         lines += [f"Confirm here: {confirm_url}", "", "— or —", ""]
     lines.append("Reply CONFIRM to confirm or CANCEL to cancel.")
-    lines.append("Questions? Call/text 248.376.4550")
+    lines.append(f"Questions? Call/text {care}")
 
     return "\n".join(lines)
 
@@ -171,7 +174,7 @@ def _build_email(event_type: str, party_name: str, dt_str: str,
     label     = _EVENT_LABELS.get(event_type, "appointment")
     label_cap = label.capitalize()
     what_val  = what  or label_cap
-    who_val   = who   or "Dee Davis Inc."
+    who_val   = who   or BRAND_NAME
     why_val   = why   or "—"
     bring_val = bring or ""
 
@@ -208,13 +211,14 @@ def _build_email(event_type: str, party_name: str, dt_str: str,
         f'<strong>📝 Additional Notes:</strong><br/>{notes}</div>'
     ) if notes else ""
 
+    care = member_care_phone_display()
     html = f"""
 <div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;color:#111;">
   <div style="background:#1e40af;padding:22px 28px;border-radius:8px 8px 0 0;">
     <h2 style="color:#fff;margin:0;font-size:20px;">
       {label_cap} — Please Confirm
     </h2>
-    <p style="color:#bfdbfe;margin:6px 0 0;font-size:14px;">Dee Davis Inc. · info@deedavis.biz · 248.376.4550</p>
+    <p style="color:#bfdbfe;margin:6px 0 0;font-size:14px;">{BRAND_NAME} · info@deedavis.biz · {care}</p>
   </div>
   <div style="background:#f9fafb;padding:28px;border:1px solid #e5e7eb;border-radius:0 0 8px 8px;">
     <p style="font-size:16px;">Hi <strong>{party_name}</strong>,</p>
@@ -259,9 +263,10 @@ def _build_email(event_type: str, party_name: str, dt_str: str,
 
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
     <p style="color:#6b7280;font-size:13px;">
-      Need to reschedule? Call or text <strong>248.376.4550</strong> or reply to this email.<br/>
-      <strong>Dee Davis Inc.</strong> · 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br/>
-      EDWOSB · WOSB · MBE · info@deedavis.biz
+      Need to reschedule? Call or text <strong>{care}</strong> or reply to this email.<br/>
+      <strong>{BRAND_NAME}</strong> · 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br/>
+      Legal entity: {COMPANY_NAME} · Member care: {care}<br/>
+      Office: {PHONE_PRIMARY} · EDWOSB · WOSB · MBE · info@deedavis.biz
     </p>
   </div>
 </div>
@@ -383,7 +388,7 @@ def _schedule_reminders(token: str, party_phone: str, party_email: str,
         if rec and rec["status"] == "pending":
             label = _EVENT_LABELS.get(event_type, "appointment")
             body = (
-                f"Reminder: Your {label} with Dee Davis Inc. on {dt_str} "
+                f"Reminder: Your {label} with {BRAND_NAME} on {dt_str} "
                 f"at {location} is still awaiting confirmation.\n"
                 f"Reply CONFIRM to confirm or CANCEL to cancel."
             )

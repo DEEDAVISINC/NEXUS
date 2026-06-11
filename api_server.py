@@ -443,12 +443,15 @@ def serve_ics(filename):
 # ─── NEXUS Confirmation Engine — system-wide appointment/meeting confirmations ───
 try:
     from nexus_confirmation_engine import mark_confirmed, mark_cancelled, get_pending_confirmations
+    from company_info import BRAND_NAME, member_care_phone_display
     from flask import render_template_string
+
+    _MEMBER_CARE = member_care_phone_display()
 
     _CONFIRM_PAGE = """
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><title>{{ title }} — Dee Davis Inc.</title>
+<head><meta charset="utf-8"><title>{{ title }} — """ + BRAND_NAME + """</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   body{font-family:Arial,sans-serif;background:#f0f9ff;display:flex;align-items:center;
@@ -466,7 +469,7 @@ try:
   <div class="icon">{{ icon }}</div>
   <h1>{{ title }}</h1>
   <p>{{ message }}</p>
-  <p class="ref">Dee Davis Inc. · 248.376.4550 · info@deedavis.biz</p>
+  <p class="ref">""" + BRAND_NAME + """ · """ + _MEMBER_CARE + """ · info@deedavis.biz</p>
 </div>
 </body>
 </html>"""
@@ -480,7 +483,7 @@ try:
                 icon="❓", color="#6b7280",
                 title="Link Not Found",
                 message="This confirmation link has expired or is invalid. "
-                        "Please contact Dee Davis Inc. at 248.376.4550."
+                        f"Please contact {BRAND_NAME} at {_MEMBER_CARE}."
             ), 404
         if result.get("already"):
             return render_template_string(
@@ -507,14 +510,14 @@ try:
                 icon="❓", color="#6b7280",
                 title="Link Not Found",
                 message="This link has expired or is invalid. "
-                        "Please contact Dee Davis Inc. at 248.376.4550."
+                        f"Please contact {BRAND_NAME} at {_MEMBER_CARE}."
             ), 404
         return render_template_string(
             _CONFIRM_PAGE,
             icon="❌", color="#dc2626",
             title="Appointment Cancelled",
             message=f"We've noted the cancellation for {result.get('party', 'you')}. "
-                    "Please call 248.376.4550 to reschedule."
+                    f"Please call {_MEMBER_CARE} to reschedule."
         )
 
     @app.route('/nexus/confirmations/pending', methods=['GET'])
@@ -24798,6 +24801,8 @@ def shield_twilio_inbound():
                 from nexus_confirmation_engine import (
                     _load_log, _clean_phone, mark_confirmed, mark_cancelled
                 )
+                from company_info import BRAND_NAME, member_care_phone_display
+                member_care = member_care_phone_display()
                 clean_from = _clean_phone(from_number)
                 pending = [
                     r for r in _load_log()
@@ -24811,13 +24816,13 @@ def shield_twilio_inbound():
                         mark_confirmed(rec['token'], channel='sms')
                         nexus_reply = (
                             "✅ Confirmed! We have your appointment on file. "
-                            "See you then. Questions? Call 248.376.4550"
+                            f"See you then. Questions? Call {member_care}"
                         )
                     elif keyword in ('CANCEL', 'NO'):
                         mark_cancelled(rec['token'], channel='sms')
                         nexus_reply = (
                             "We've noted your cancellation. "
-                            "Call Dee Davis Inc. at 248.376.4550 to reschedule."
+                            f"Call {BRAND_NAME} at {member_care} to reschedule."
                         )
             except Exception:
                 pass  # Fall through to SHIELD handler

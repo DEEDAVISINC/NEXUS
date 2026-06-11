@@ -9,7 +9,7 @@ api_server stack (GPSS, JETA, bid scanners, etc.) which can fail on PA free tier
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
@@ -78,7 +78,7 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'NEXUS PRISM API',
-        'version': '1.0.1',
+        'version': '1.0.2',
         'mode': 'pa-minimal',
         'modules': {
             'nemt': _nemt_loaded,
@@ -133,6 +133,59 @@ except ImportError as exc:
     @app.route('/prism/nemt/<path:_path>', methods=['GET', 'POST'])
     def prism_nemt_unavailable(_path):
         return jsonify({'error': _nemt_err}), 503
+
+
+@app.route('/shield/webhook/twilio-inbound', methods=['POST'])
+def shield_twilio_inbound():
+    """Twilio inbound SMS — CONFIRM/CANCEL for NEXUS confirmation engine."""
+    from_number = request.form.get('From', '')
+    body = request.form.get('Body', '').strip()
+    keyword = body.upper().split()[0] if body else ''
+
+    nexus_reply = None
+    if keyword in ('CONFIRM', 'CANCEL', 'YES', 'NO'):
+        try:
+            from nexus_confirmation_engine import (
+                _load_log, _clean_phone, mark_confirmed, mark_cancelled,
+            )
+            from company_info import BRAND_NAME, member_care_phone_display
+
+            member_care = member_care_phone_display()
+            clean_from = _clean_phone(from_number)
+            pending = [
+                r for r in _load_log()
+                if _clean_phone(r.get('party_phone', '')) == clean_from
+                and r.get('status') == 'pending'
+            ]
+            if pending:
+                rec = pending[0]
+                if keyword in ('CONFIRM', 'YES'):
+                    mark_confirmed(rec['token'], channel='sms')
+                    nexus_reply = (
+                        "✅ Confirmed! We have your appointment on file. "
+                        f"See you then. Questions? Call {member_care}"
+                    )
+                elif keyword in ('CANCEL', 'NO'):
+                    mark_cancelled(rec['token'], channel='sms')
+                    nexus_reply = (
+                        "We've noted your cancellation. "
+                        f"Call {BRAND_NAME} at {member_care} to reschedule."
+                    )
+        except Exception:
+            pass
+
+    if nexus_reply:
+        twiml = (
+            '<?xml version="1.0" encoding="UTF-8"?><Response>'
+            f'<Message>{nexus_reply}</Message>'
+            '</Response>'
+        )
+        return twiml, 200, {'Content-Type': 'text/xml'}
+
+    # Advanced Opt-Out handles HELP/STOP on the Messaging Service; empty TwiML OK.
+    return '<?xml version="1.0" encoding="UTF-8"?><Response></Response>', 200, {
+        'Content-Type': 'text/xml',
+    }
 
 
 # PythonAnywhere WSGI entry point

@@ -63,39 +63,6 @@ interface ClientPortalProps {
   clientCode: string;
 }
 
-// ─── MOCK DATA ──────────────────────────────────────────────────────────────
-const MOCK_CLIENT: ClientInfo = {
-  id: 'c1',
-  name: 'ABC Trucking Co.',
-  code: 'ABC-7X9K2',
-  contactName: 'Mike Johnson',
-  services: ['dot', 'non_dot', 'random', 'pre_employment', 'post_accident', 'return_to_duty'],
-  serviceCategory: 'drug_testing',
-};
-
-const MOCK_ORDERS: ClientOrder[] = [
-  { id: 'ORD-2026-0542', type: 'pre_employment', subject: 'James Wilson', status: 'scheduled', scheduledDate: '2026-05-19', scheduledTime: '10:00 AM', location: 'Quest Diagnostics - Troy, MI', notes: 'New driver hire', createdAt: '2026-05-17' },
-  { id: 'ORD-2026-0540', type: 'random', subject: 'Patricia Moore', status: 'scheduled', scheduledDate: '2026-05-21', scheduledTime: '2:00 PM', location: 'Quest Diagnostics - Southfield, MI', notes: 'Q2 random pool', createdAt: '2026-05-17' },
-  { id: 'ORD-2026-0538', type: 'post_accident', subject: 'Robert Chen', status: 'completed', scheduledDate: '2026-05-18', scheduledTime: '2:30 PM', location: 'On-site collection', notes: 'Minor incident', createdAt: '2026-05-18', result: 'Negative', resultFileUrl: '#', invoiceId: 'INV-2026-0089' },
-  { id: 'ORD-2026-0535', type: 'random', subject: 'Maria Garcia', status: 'completed', scheduledDate: '2026-05-15', scheduledTime: '9:00 AM', location: 'Quest Diagnostics - Southfield, MI', notes: 'Q2 random selection', createdAt: '2026-05-14', result: 'Negative', resultFileUrl: '#', invoiceId: 'INV-2026-0089' },
-  { id: 'ORD-2026-0530', type: 'dot', subject: 'Anthony Davis', status: 'completed', scheduledDate: '2026-05-10', scheduledTime: '11:00 AM', location: 'Quest Diagnostics - Troy, MI', notes: 'Annual DOT', createdAt: '2026-05-08', result: 'Negative', resultFileUrl: '#', invoiceId: 'INV-2026-0085' },
-  { id: 'ORD-2026-0525', type: 'pre_employment', subject: 'Lisa Thompson', status: 'completed', scheduledDate: '2026-05-05', scheduledTime: '1:00 PM', location: 'On-site collection', notes: 'New hire', createdAt: '2026-05-03', result: 'Negative', resultFileUrl: '#', invoiceId: 'INV-2026-0085' },
-];
-
-const MOCK_DOCUMENTS: ClientDocument[] = [
-  { id: 'd1', orderId: 'ORD-2026-0538', name: 'Lab Result - Robert Chen', type: 'result', date: '2026-05-18', downloadUrl: '#', subject: 'Robert Chen', status: 'ready' },
-  { id: 'd2', orderId: 'ORD-2026-0535', name: 'Lab Result - Maria Garcia', type: 'result', date: '2026-05-16', downloadUrl: '#', subject: 'Maria Garcia', status: 'ready' },
-  { id: 'd3', orderId: 'ORD-2026-0530', name: 'Lab Result - Anthony Davis', type: 'result', date: '2026-05-12', downloadUrl: '#', subject: 'Anthony Davis', status: 'ready' },
-  { id: 'd4', orderId: 'ORD-2026-0525', name: 'Lab Result - Lisa Thompson', type: 'result', date: '2026-05-07', downloadUrl: '#', subject: 'Lisa Thompson', status: 'ready' },
-  { id: 'd5', orderId: '', name: 'Q1 2026 Compliance Report', type: 'report', date: '2026-04-01', downloadUrl: '#', status: 'ready' },
-  { id: 'd6', orderId: '', name: 'Random Testing Pool Certificate', type: 'certificate', date: '2026-01-15', downloadUrl: '#', status: 'ready' },
-];
-
-const MOCK_INVOICES: Invoice[] = [
-  { id: 'INV-2026-0089', date: '2026-05-15', dueDate: '2026-06-14', amount: 250.00, status: 'pending', orderIds: ['ORD-2026-0538', 'ORD-2026-0535'], pdfUrl: '#' },
-  { id: 'INV-2026-0085', date: '2026-04-15', dueDate: '2026-05-15', amount: 375.00, status: 'paid', orderIds: ['ORD-2026-0530', 'ORD-2026-0525'], paidDate: '2026-05-10', pdfUrl: '#' },
-];
-
 const SERVICE_TYPES: Record<string, { label: string; color: string; short: string }> = {
   dot: { label: 'DOT Drug Test', color: '#2563EB', short: 'DOT' },
   non_dot: { label: 'Non-DOT Drug Test', color: '#7C3AED', short: 'Non-DOT' },
@@ -130,42 +97,36 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
   const [showPayModal, setShowPayModal] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
   const [newOrder, setNewOrder] = useState({ type: '', subjectName: '', subjectPhone: '', subjectDOB: '', subjectCDL: '', notes: '', urgent: false });
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPortalData = async () => {
       try {
-        // Attempt to load from PRISM/NEXUS backend API
         const res = await fetch(`/prism/client-portal/${clientCode}`);
         if (res.ok) {
           const data = await res.json();
           setClient(data.client ? {
             id: data.client.id,
             name: data.client.name,
-            code: data.client.code,
-            contactName: data.client.contact_name,
+            code: data.client.code || clientCode,
+            contactName: data.client.contact_name || '',
             services: data.client.services || [],
             serviceCategory: data.client.service_category || 'drug_testing',
           } : null);
-          if (data.orders?.length) setOrders(data.orders);
-          if (data.documents?.length) setDocuments(data.documents);
-          if (data.invoices?.length) setInvoices(data.invoices);
+          setOrders(data.orders || []);
+          setDocuments(data.documents || []);
+          setInvoices(data.invoices || []);
         } else {
-          // Fallback to mock data for development/demo
-          if (clientCode === 'ABC-7X9K2' || clientCode === 'demo') {
-            setClient(MOCK_CLIENT);
-            setOrders(MOCK_ORDERS);
-            setDocuments(MOCK_DOCUMENTS);
-            setInvoices(MOCK_INVOICES);
-          }
+          setClient(null);
+          setOrders([]);
+          setDocuments([]);
+          setInvoices([]);
         }
       } catch {
-        // API not running — use mock data for development
-        if (clientCode === 'ABC-7X9K2' || clientCode === 'demo') {
-          setClient(MOCK_CLIENT);
-          setOrders(MOCK_ORDERS);
-          setDocuments(MOCK_DOCUMENTS);
-          setInvoices(MOCK_INVOICES);
-        }
+        setClient(null);
+        setOrders([]);
+        setDocuments([]);
+        setInvoices([]);
       }
       setLoading(false);
     };
@@ -174,8 +135,8 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     try {
-      // Submit to PRISM/NEXUS backend — triggers service router
       const res = await fetch(`/prism/client-portal/${clientCode}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -192,20 +153,19 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
       if (res.ok) {
         const data = await res.json();
         const order: ClientOrder = {
-          id: data.order?.id || `ORD-2026-${String(Math.floor(Math.random() * 9000) + 1000)}`,
+          id: data.order?.id || `ORD-${Date.now()}`,
           type: newOrder.type, subject: newOrder.subjectName, status: 'pending',
           notes: newOrder.notes, createdAt: new Date().toISOString().split('T')[0],
         };
         setOrders([order, ...orders]);
       } else {
-        // Fallback: add locally anyway (offline/demo mode)
-        const order: ClientOrder = { id: `ORD-2026-${String(Math.floor(Math.random() * 9000) + 1000)}`, type: newOrder.type, subject: newOrder.subjectName, status: 'pending', notes: newOrder.notes, createdAt: new Date().toISOString().split('T')[0] };
-        setOrders([order, ...orders]);
+        const err = await res.json().catch(() => ({}));
+        setSubmitError((err as { error?: string }).error || 'Could not submit order. Try again or contact info@deedavis.biz.');
+        return;
       }
     } catch {
-      // API not running — local fallback
-      const order: ClientOrder = { id: `ORD-2026-${String(Math.floor(Math.random() * 9000) + 1000)}`, type: newOrder.type, subject: newOrder.subjectName, status: 'pending', notes: newOrder.notes, createdAt: new Date().toISOString().split('T')[0] };
-      setOrders([order, ...orders]);
+      setSubmitError('API unavailable. Check your connection or contact info@deedavis.biz.');
+      return;
     }
     setShowNewOrder(false);
     setNewOrder({ type: '', subjectName: '', subjectPhone: '', subjectDOB: '', subjectCDL: '', notes: '', urgent: false });
@@ -249,7 +209,7 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#111827', marginBottom: 8 }}>Link Expired or Invalid</h1>
           <p style={{ color: '#6B7280', marginBottom: 32 }}>Contact your account manager for a new link.</p>
-          <a href="mailto:info@deedavis.biz" style={{ padding: '14px 28px', background: '#111827', color: '#fff', borderRadius: 12, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Contact Dee Davis Inc.</a>
+          <a href="mailto:info@deedavis.biz" style={{ padding: '14px 28px', background: '#111827', color: '#fff', borderRadius: 12, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Contact DDI</a>
         </div>
       </div>
     );
@@ -274,7 +234,7 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
               <span style={{ color: '#fff', fontWeight: 800, fontSize: 11 }}>DDI</span>
             </div>
             <div>
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>Dee Davis Inc.</p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>DDI</p>
               <p style={{ fontSize: 11, color: '#9CA3AF' }}>Client Portal</p>
             </div>
           </div>
@@ -655,6 +615,9 @@ const ClientPortal: React.FC<ClientPortalProps> = ({ clientCode }) => {
                 <input type="checkbox" checked={newOrder.urgent} onChange={e => setNewOrder({ ...newOrder, urgent: e.target.checked })} style={{ width: 18, height: 18, accentColor: '#DC2626' }} />
                 <div><p style={{ fontWeight: 600, color: '#991B1B', fontSize: 13 }}>Urgent / Post-Accident</p><p style={{ fontSize: 11, color: '#B91C1C' }}>Within 8 hours</p></div>
               </label>
+              {submitError && (
+                <p style={{ fontSize: 13, color: '#B91C1C', background: '#FEF2F2', padding: '10px 12px', borderRadius: 8 }}>{submitError}</p>
+              )}
               <button type="submit" disabled={!newOrder.type || !newOrder.subjectName} style={{ padding: '16px', borderRadius: 14, border: 'none', fontWeight: 700, fontSize: 15, cursor: 'pointer', background: (!newOrder.type || !newOrder.subjectName) ? '#E5E7EB' : 'linear-gradient(135deg, #F97316, #EA580C)', color: (!newOrder.type || !newOrder.subjectName) ? '#9CA3AF' : '#fff', boxShadow: (!newOrder.type || !newOrder.subjectName) ? 'none' : '0 4px 16px rgba(249,115,22,0.3)' }}>
                 Submit Request
               </button>

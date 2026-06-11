@@ -43,6 +43,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from company_info import BRAND_NAME, member_care_phone_display, ops_alert_phone_e164
+
 prism_orders = Blueprint('prism_orders', __name__)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'uploads', 'prism')
@@ -1001,58 +1003,61 @@ def _send_order_email_async(order):
 _NEMT_RIDE_TRACKING_STATUSES = {'En Route', 'Arrived', 'Departed', 'Driver Assigned'}
 _SKIP_STATUS_NOTIFY_SERVICES = set()  # No service fully skipped — NEMT handled below
 
-_STATUS_SMS = {
-    'Confirmed': (
-        "✅ Confirmed: your {what} with Dee Davis Inc.\n\n"
-        "Eligibility verified — we're preparing dispatch for your scheduled trip.\n\n"
-        "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
-        "Questions? Call/text 248.376.4550"
-    ),
-    'Agent Assigned': (
-        "📋 Update on your {what} with Dee Davis Inc.\n\n"
-        "A collector has been assigned to your order and will contact you "
-        "before heading your way.\n\n"
-        "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
-        "Questions? Call/text 248.376.4550"
-    ),
-    'En Route': (
-        "🚗 Your collector is on the way!\n\n"
-        "📋 {what}\n"
-        "📍 Heading to: {location}\n"
-        "📅 Scheduled: {dt_str}\n\n"
-        "Please be ready at your location.\n"
-        "Ref: {ref} · Questions? 248.376.4550"
-    ),
-    'Arrived': (
-        "✅ Your collector has arrived!\n\n"
-        "📋 {what}\n"
-        "📍 {location}\n\n"
-        "Please come to the door / front desk now.\n"
-        "Ref: {ref} · Questions? 248.376.4550"
-    ),
-    'In Progress': (
-        "🔬 Your {what} is now in progress.\n\n"
-        "📍 {location}\n"
-        "Ref: {ref}\n\n"
-        "Dee Davis Inc. · 248.376.4550"
-    ),
-    'Complete': (
-        "✅ Your {what} is complete!\n\n"
-        "Results will be processed and delivered per standard protocol.\n"
-        "If you have questions, contact Dee Davis Inc. at 248.376.4550.\n\n"
-        "Ref: {ref}"
-    ),
-    'No Show': (
-        "⚠️ We attempted to complete your {what} but were unable to reach you "
-        "at {location}.\n\n"
-        "Please call Dee Davis Inc. at 248.376.4550 to reschedule.\n"
-        "Ref: {ref}"
-    ),
-    'Cancelled': (
-        "Your {what} (Ref: {ref}) has been cancelled.\n\n"
-        "To reschedule, call Dee Davis Inc. at 248.376.4550 or reply to this message."
-    ),
-}
+def _status_sms_templates() -> dict:
+    """Member-facing status SMS — always use care line, never desk."""
+    care = member_care_phone_display()
+    return {
+        'Confirmed': (
+            "✅ Confirmed: your {what} with {BRAND_NAME}\n\n"
+            "Eligibility verified — we're preparing dispatch for your scheduled trip.\n\n"
+            "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
+            f"Questions? Call/text {care}"
+        ),
+        'Agent Assigned': (
+            "📋 Update on your {what} with {BRAND_NAME}\n\n"
+            "A collector has been assigned to your order and will contact you "
+            "before heading your way.\n\n"
+            "📅 {dt_str}\n📍 {location}\nRef: {ref}\n\n"
+            f"Questions? Call/text {care}"
+        ),
+        'En Route': (
+            "🚗 Your collector is on the way!\n\n"
+            "📋 {what}\n"
+            "📍 Heading to: {location}\n"
+            "📅 Scheduled: {dt_str}\n\n"
+            "Please be ready at your location.\n"
+            f"Ref: {{ref}} · Questions? {care}"
+        ),
+        'Arrived': (
+            "✅ Your collector has arrived!\n\n"
+            "📋 {what}\n"
+            "📍 {location}\n\n"
+            "Please come to the door / front desk now.\n"
+            f"Ref: {{ref}} · Questions? {care}"
+        ),
+        'In Progress': (
+            "🔬 Your {what} is now in progress.\n\n"
+            "📍 {location}\n"
+            f"Ref: {{ref}}\n\n"
+            f"{BRAND_NAME} · {care}"
+        ),
+        'Complete': (
+            "✅ Your {what} is complete!\n\n"
+            "Results will be processed and delivered per standard protocol.\n"
+            f"If you have questions, contact {BRAND_NAME} at {care}.\n\n"
+            "Ref: {ref}"
+        ),
+        'No Show': (
+            "⚠️ We attempted to complete your {what} but were unable to reach you "
+            "at {location}.\n\n"
+            f"Please call {BRAND_NAME} at {care} to reschedule.\n"
+            "Ref: {ref}"
+        ),
+        'Cancelled': (
+            "Your {what} (Ref: {ref}) has been cancelled.\n\n"
+            f"To reschedule, call {BRAND_NAME} at {care} or reply to this message."
+        ),
+    }
 
 _SVC_LABELS_SHORT = {
     'dot':             'drug screen',
@@ -1089,7 +1094,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
     if svc in ('nemt', 'transport') and new_status in _NEMT_RIDE_TRACKING_STATUSES:
         return
 
-    template = _STATUS_SMS.get(new_status)
+    template = _status_sms_templates().get(new_status)
     if not template:
         return
 
@@ -1106,13 +1111,14 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
     ref       = order.get('id', '')
 
     # For completion, swap in the timeframe line
+    care = member_care_phone_display()
     if new_status == 'Complete':
         if svc in ('nemt', 'transport'):
             body = (
-                f"✅ Your {what_str} with Dee Davis Inc. is complete.\n\n"
+                f"✅ Your {what_str} with {BRAND_NAME} is complete.\n\n"
                 f"You have arrived at your destination.\n"
                 f"Need a ride home? Open portal.deedavis.biz → tap Return home on this trip.\n"
-                f"Questions? Call 248.376.4550.\n\n"
+                f"Questions? Call {care}.\n\n"
                 f"Ref: {ref}"
             )
         else:
@@ -1120,7 +1126,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
             body = (
                 f"✅ Your {what_str} is complete!\n\n"
                 f"Results: {timeframe}.\n"
-                f"Questions? Call Dee Davis Inc. at 248.376.4550.\n\n"
+                f"Questions? Call {BRAND_NAME} at {care}.\n\n"
                 f"Ref: {ref}"
             )
     else:
@@ -1129,7 +1135,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
             location=location, ref=ref, name=name or 'there'
         )
 
-    # Dee alert on No Show — immediate text to +12483764550
+    # Internal alert on No Show — ops mobile, not desk
     dee_alert = new_status == 'No Show'
 
     def _do() -> None:
@@ -1143,7 +1149,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
                 html = f"<p>Hi {name or 'there'},</p><p>{body.replace(chr(10), '<br/>')}</p>"
                 _send_email_raw(email, subj, html, cc='info@deedavis.biz')
             if dee_alert:
-                dee_phone = os.environ.get('DEE_PHONE', '')
+                dee_phone = ops_alert_phone_e164()
                 if dee_phone:
                     _send_sms_raw(
                         dee_phone,
@@ -1227,7 +1233,7 @@ def _fire_dayon_reminder(order: dict) -> None:
                 body += f"\n🎒 {bring}\n"
             body += (
                 f"\nRef: {ref}\n"
-                "Questions? Call/text Dee Davis Inc. at 248.376.4550"
+                f"Questions? Call/text {BRAND_NAME} at {member_care_phone_display()}"
             )
 
             from nexus_confirmation_engine import _send_sms_raw
@@ -1285,7 +1291,7 @@ def _send_confirmation_async(order):
         'medical_courier': 'Medical courier pickup',
     }
     what_str = svc_labels.get(order.get('service_key', ''), order.get('service_label', '') or 'Service appointment')
-    who_str  = 'Dee Davis Inc. — your assigned provider will contact you before arrival'
+    who_str  = '{BRAND_NAME} — your assigned provider will contact you before arrival'
     bring_str = ''
     svc = order.get('service_key', '')
     if svc in ('dot', 'phlebotomy'):
@@ -1358,7 +1364,7 @@ def _send_confirmation_async(order):
                     notes=order.get('notes', ''),
                     who=who_str,
                     what=what_str,
-                    why=order.get('notes', '') or 'Your scheduled service with Dee Davis Inc.',
+                    why=order.get('notes', '') or 'Your scheduled service with {BRAND_NAME}',
                     bring=bring_str,
                 )
         except Exception as exc:
@@ -2612,6 +2618,115 @@ def billing_lookup():
     })
 
 
+def _normalize_prism_vertex_invoice(rec: dict) -> dict:
+    """Flatten Airtable VERTEX INVOICES row for PRISM payments UI."""
+    from api_server import VI
+
+    fields = rec.get('fields') or {}
+    record_id = rec.get('id') or ''
+    total = float(fields.get(VI['total_amount']) or 0)
+    paid = float(fields.get(VI['amount_paid']) or 0)
+    balance = fields.get(VI['balance_due'])
+    if balance is None or balance == '':
+        balance = max(0.0, total - paid)
+    else:
+        balance = float(balance)
+
+    notes_raw = fields.get(VI['notes']) or ''
+    is_nemt = False
+    try:
+        notes_obj = json.loads(notes_raw) if isinstance(notes_raw, str) and notes_raw.strip().startswith('{') else {}
+        is_nemt = notes_obj.get('vertex_module') == 'NEMT'
+    except (json.JSONDecodeError, TypeError):
+        is_nemt = 'NEMT' in str(fields.get(VI['source_system']) or '')
+
+    return {
+        'record_id': record_id,
+        'invoice_number': fields.get(VI['invoice_number']) or record_id,
+        'client_name': fields.get(VI['client_name']) or '',
+        'amount': round(total, 2),
+        'amount_paid': round(paid, 2),
+        'balance_due': round(balance, 2),
+        'status': fields.get(VI['payment_status']) or 'Unpaid',
+        'date': fields.get(VI['invoice_date']) or '',
+        'due_date': fields.get(VI['due_date']) or '',
+        'source_system': fields.get(VI['source_system']) or '',
+        'payment_terms': fields.get(VI['payment_terms']) or '',
+        'pdf_path': f'/vertex/nemt/invoice/{record_id}/pdf' if is_nemt and record_id else None,
+    }
+
+
+def _summarize_prism_invoices(invoices: list) -> dict:
+    collected = pending = overdue = 0.0
+    for inv in invoices:
+        status = str(inv.get('status') or '').lower()
+        amt = float(inv.get('amount') or 0)
+        paid = float(inv.get('amount_paid') or 0)
+        balance = float(inv.get('balance_due') or 0)
+        if status == 'paid':
+            collected += paid or amt
+        elif status == 'overdue':
+            overdue += balance or amt
+        else:
+            pending += balance or max(0.0, amt - paid)
+    return {
+        'total_billed': round(sum(float(i.get('amount') or 0) for i in invoices), 2),
+        'collected': round(collected, 2),
+        'pending': round(pending, 2),
+        'overdue': round(overdue, 2),
+        'count': len(invoices),
+    }
+
+
+@prism_orders.route('/prism/billing/invoices', methods=['GET', 'POST'])
+def list_prism_billing_invoices():
+    """
+    VERTEX invoice details for PRISM Payments tab.
+    GET  ?ids=recA,recB&client_names=Name1|Name2
+    POST { "ids": [...], "client_names": [...] }
+    """
+    if request.method == 'POST':
+        data = request.get_json(silent=True) or {}
+        ids = [str(x).strip() for x in (data.get('ids') or []) if str(x).strip()]
+        client_names = [str(x).strip() for x in (data.get('client_names') or []) if str(x).strip()]
+    else:
+        ids = [x.strip() for x in (request.args.get('ids') or '').split(',') if x.strip()]
+        client_names = [x.strip() for x in (request.args.get('client_names') or '').split('|') if x.strip()]
+
+    if not ids and not client_names:
+        return jsonify({'invoices': [], 'summary': _summarize_prism_invoices([])})
+
+    at = _get_airtable()
+    if not at:
+        return jsonify({'error': 'VERTEX/Airtable unavailable', 'invoices': [], 'summary': _summarize_prism_invoices([])}), 503
+
+    from api_server import VI
+
+    by_id: dict = {}
+
+    for record_id in ids:
+        try:
+            rec = at.get_record('VERTEX INVOICES', record_id)
+            if rec:
+                by_id[rec.get('id')] = _normalize_prism_vertex_invoice(rec)
+        except Exception:
+            continue
+
+    if client_names:
+        try:
+            formulas = [f"FIND('{name.replace(chr(39), chr(39)+chr(39))}',{{{VI['client_name']}}})>0" for name in client_names]
+            formula = f"OR({','.join(formulas)})" if len(formulas) > 1 else formulas[0]
+            for rec in at.search_records('VERTEX INVOICES', formula):
+                rid = rec.get('id')
+                if rid:
+                    by_id[rid] = _normalize_prism_vertex_invoice(rec)
+        except Exception:
+            pass
+
+    invoices = sorted(by_id.values(), key=lambda x: x.get('date') or '', reverse=True)
+    return jsonify({'invoices': invoices, 'summary': _summarize_prism_invoices(invoices)})
+
+
 @prism_orders.route('/prism/billing/validate-override', methods=['POST'])
 def validate_override():
     """
@@ -2717,7 +2832,7 @@ def validate_override():
     return jsonify({
         'valid': False,
         'code': code,
-        'message': f'Code "{code}" not recognized. Contact DDI at 248.376.4550.',
+        'message': f'Code "{code}" not recognized. Contact DDI at {member_care_phone_display()}.',
     })
 
 

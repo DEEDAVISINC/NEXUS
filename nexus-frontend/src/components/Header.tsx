@@ -107,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'documents': return 'Quotes • Capability Statements • Supplier RFPs • Pricing Engine';
       case 'compass': return 'Contract Fulfillment • Delivery Tracking • Payments • Compliance';
       case 'prism': return 'Dispatch • Orders • Scanbacks • Inspection • Field Agents • See Every Detail';
-      case 'agent-portal': return 'My Orders • Scanbacks • Payments • Profile • Dee Davis Inc. Field Agent Network';
+      case 'agent-portal': return 'My Orders • Scanbacks • Payments • Profile • DDI Field Agent Network';
       case 'opportunity-hunter': return 'Live Federal Search • Quick Wins • Agency Intelligence • 3 Opportunities/Day Target';
       case 'alexa': return '98 Voice Commands • NEXUS Integration • Test Lab • All Systems Connected';
       case 'jeta': return 'Division of DEE DAVIS INC • Jet A / Jet A-1 • Mandates & Execution';

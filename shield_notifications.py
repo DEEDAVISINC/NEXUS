@@ -121,7 +121,7 @@ def _email_templates() -> Dict[str, Dict[str, str]]:
                 "</ul>"
                 "<p>You will be copied on status updates through service completion. "
                 "If you need anything, reply to this email or contact your DDI/CWC liaison.</p>"
-                "<p>— SHIELD · Dee Davis Inc + Cause We Care</p>"
+                "<p>— SHIELD · DDI + Cause We Care</p>"
             ),
         },
         "navigator_assigned_family": {
@@ -160,7 +160,7 @@ def _email_templates() -> Dict[str, Dict[str, str]]:
                 "<li><strong>Duration:</strong> {duration_days} days</li>"
                 "</ul>"
                 "<p>Thank you for the referral. We're here whenever your next family needs help.</p>"
-                "<p>— SHIELD · Dee Davis Inc + Cause We Care</p>"
+                "<p>— SHIELD · DDI + Cause We Care</p>"
             ),
         },
     }

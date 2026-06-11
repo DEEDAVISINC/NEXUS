@@ -115,7 +115,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-lg" style={{ background: 'linear-gradient(135deg, #EC4899, #DB2777)', boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)' }}>DDI</div>
             <div>
-              <p className="font-bold text-white text-sm">Dee Davis Inc.</p>
+              <p className="font-bold text-white text-sm">DDI</p>
               <p className="text-[10px] uppercase tracking-wider" style={{ color: '#2DD4BF' }}>Field Agent Application</p>
             </div>
           </div>
@@ -362,7 +362,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
                       className="w-5 h-5 rounded mt-0.5 flex-shrink-0 accent-yellow-500" />
                     <div>
                       <p className="font-semibold text-sm" style={{ color: '#F59E0B' }}>Background Check Authorization *</p>
-                      <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>I understand that Dee Davis Inc. will conduct a background check as part of the agent application process. I consent to this screening and understand that my application will not be processed without it.</p>
+                      <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>I understand that DDI (Dee Davis Inc.) will conduct a background check as part of the agent application process. I consent to this screening and understand that my application will not be processed without it.</p>
                     </div>
                   </label>
                 </div>
@@ -422,7 +422,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
                       className="w-5 h-5 rounded mt-0.5 flex-shrink-0 accent-teal-400" />
                     <div>
                       <p className="font-semibold text-sm">Terms of Service & Independent Contractor Agreement *</p>
-                      <p className="text-xs mt-1" style={{ color: '#64748B' }}>I agree to the Dee Davis Inc. Field Agent Terms of Service and acknowledge that I am operating as an independent contractor, not an employee.</p>
+                      <p className="text-xs mt-1" style={{ color: '#64748B' }}>I agree to the DDI Field Agent Terms of Service and acknowledge that I am operating as an independent contractor, not an employee.</p>
                     </div>
                   </label>
                   <label className="flex items-start gap-3 cursor-pointer rounded-xl p-4" style={{ background: 'rgba(15, 26, 46, 0.5)', border: '1px solid rgba(45, 212, 191, 0.15)' }}>
@@ -430,7 +430,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
                       className="w-5 h-5 rounded mt-0.5 flex-shrink-0 accent-teal-400" />
                     <div>
                       <p className="font-semibold text-sm">Non-Disclosure Agreement (NDA) *</p>
-                      <p className="text-xs mt-1" style={{ color: '#64748B' }}>I agree not to disclose client information, signer details, document contents, or any proprietary business information obtained through assignments with Dee Davis Inc.</p>
+                      <p className="text-xs mt-1" style={{ color: '#64748B' }}>I agree not to disclose client information, signer details, document contents, or any proprietary business information obtained through assignments with DDI.</p>
                     </div>
                   </label>
                 </div>
@@ -488,7 +488,7 @@ const AgentRegistration: React.FC<AgentRegistrationProps> = ({ onRegister, onSwi
       {/* ─── FOOTER ──────────────────────────────────── */}
       <div className="w-full border-t px-6 py-4" style={{ background: 'rgba(15, 26, 46, 0.9)', borderColor: 'rgba(45, 212, 191, 0.1)' }}>
         <div className="max-w-2xl mx-auto flex items-center justify-between text-[11px]" style={{ color: '#475569' }}>
-          <span>© 2026 Dee Davis Inc. All rights reserved.</span>
+          <span>© 2026 DDI · Legal entity: Dee Davis Inc.</span>
           <div className="flex gap-4">
             <button className="hover:text-gray-300 transition">Privacy</button>
             <button className="hover:text-gray-300 transition">Terms</button>

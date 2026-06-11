@@ -10,7 +10,8 @@ DO NOT hardcode company info anywhere else. Import from this module.
 # ─────────────────────────────────────────────────────────────────────────────
 # CONTACT
 # ─────────────────────────────────────────────────────────────────────────────
-COMPANY_NAME = "Dee Davis Inc."
+COMPANY_NAME = "Dee Davis Inc."  # Legal entity — contracts, SAM, signatures
+BRAND_NAME = "DDI"  # Member/client-facing ops — portal, SMS, voice, PRISM UI
 DBA = "The Professionals' Professionals"
 ADDRESS_STREET = "755 W. Big Beaver Rd., Suite 2020"
 ADDRESS_CITY = "Troy"
@@ -18,8 +19,11 @@ ADDRESS_STATE = "Michigan"
 ADDRESS_ZIP = "48084"
 ADDRESS_FULL = f"{ADDRESS_STREET}, {ADDRESS_CITY}, {ADDRESS_STATE} {ADDRESS_ZIP}"
 
-PHONE_PRIMARY = "248.376.4550"
-PHONE_ALT = "734.413.8310"
+PHONE_PRIMARY = "248.376.4550"  # Main office / desk — proposals, CO contact (NOT call center)
+PHONE_ALT = "734.413.8310"  # Mobile — internal ops alerts
+# Twilio toll-free — member/customer care, NEMT SMS, PRISM voice inbound (NOT desk)
+PHONE_MEMBER_CARE_DISPLAY = "855-773-0035"
+PHONE_MEMBER_CARE_E164 = "+18557730035"
 EMAIL = "info@deedavis.biz"
 WEBSITE = "deedavis.biz"
 
@@ -27,6 +31,39 @@ OWNER_NAME = "Dee Davis"
 # Formal legal name — signatures, government documents, buyer-facing email intro
 OWNER_FULL_NAME = "Dieasha D. Davis"
 OWNER_TITLE = "President & CEO"
+
+
+def member_care_phone_display() -> str:
+    """Member-facing care line for SMS/voice CTAs. Override via PRISM_MEMBER_CARE_PHONE."""
+    import os
+    import re
+
+    raw = (os.environ.get("PRISM_MEMBER_CARE_PHONE") or "").strip()
+    if not raw:
+        return PHONE_MEMBER_CARE_DISPLAY
+    digits = re.sub(r"\D", "", raw)
+    if len(digits) == 10:
+        return f"{digits[:3]}-{digits[3:6]}-{digits[6:]}"
+    if len(digits) == 11 and digits.startswith("1"):
+        return f"{digits[1:4]}-{digits[4:7]}-{digits[7:]}"
+    return PHONE_MEMBER_CARE_DISPLAY
+
+
+def ops_alert_phone_e164() -> str:
+    """Internal ops alerts (no-show, etc.). Mobile/ops — NOT the desk line."""
+    import os
+    import re
+
+    raw = (os.environ.get("OPS_ALERT_PHONE") or os.environ.get("DEE_PHONE") or "").strip()
+    if raw:
+        digits = re.sub(r"\D", "", raw)
+        if len(digits) == 10:
+            return f"+1{digits}"
+        if len(digits) == 11 and digits.startswith("1"):
+            return f"+{digits}"
+        return f"+{digits}" if digits else ""
+    digits = re.sub(r"\D", "", PHONE_ALT)
+    return f"+1{digits}" if len(digits) == 10 else ""
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HEALTHCARE PROVIDER IDS (MDHHS / CHAMPS / billing)

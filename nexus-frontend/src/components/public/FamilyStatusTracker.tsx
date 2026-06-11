@@ -463,7 +463,7 @@ export default function FamilyStatusTracker() {
                 <br />
                 <span className="text-[#1f3fae] font-black mt-1 block">Care. Navigate. Transform.</span>
                 <span className="text-[#1f3fae]/50 italic block text-[10px]">More than a mission — a movement.</span>
-                <span className="text-slate-300 block mt-0.5">Cause We Care + Dee Davis Inc · Partner in Michigan's lead-safe ecosystem</span>
+                <span className="text-slate-300 block mt-0.5">Cause We Care + DDI · Partner in Michigan's lead-safe ecosystem</span>
               </div>
             </div>
           </div>
