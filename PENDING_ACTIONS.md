@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** June 4, 2026 (MICH HIDE SNP intel + CareSource contract archive)
+**Last Updated:** June 1, 2026 (SHIELD complete framework synced · pilot launch gaps logged)
 
 ---
 
@@ -8,10 +8,11 @@
 
 | Task | Details | Status |
 |---|---|---|
+| **HAP CareSource — Brian Grcevich call** | **Wed Jun 10 @ 1:00 PM ET** — Non-medical waiver trips via CM service plan → DDI (Vendor 100000469269). Medical stays **MTM**. Prep: `HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md` · Brian **317-296-0519** | 🟢 **CONFIRMED** |
 | **FMCSA Clearinghouse — identity verification** | **Deadline Jul 6, 2026.** DDI = **C/TPA** — must complete or **lose Clearinghouse access.** Steps: (1) https://clearinghouse.fmcsa.dot.gov → Log in (2) **My Dashboard → My Profile** (3) Click **Begin Identity Verification** (4) Follow prompts · Ref: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md` · Phone 844-955-0207 · **Not on calendar until Dee approves** | ⬜ **URGENT — do this week** |
 | **MDHHS SHIELD follow-up (Angela Medina + Aimee Surma)** | **May 30 follow-up SENT**. **Trigger Jun 16:** if silent → direct LHD wave. **Emails READY:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/` · **Attach:** `DDI_CWC_PHC_Program_Narrative.pdf` · Call Angela **517-897-5203** optional before send | 🟡 **AWAITING — LHD PACKAGE READY** |
 | **Jun 4 — LHD director verification** | LinkedIn verify: Guzmán, Willette, Corsi, London, Moore. Call Macomb/Genesee/Kent to confirm emails. | ⬜ **TODAY** |
-| **Blue Cross Complete — Alina Pabin intro call** | **May 30 follow-up SENT** — offered weeks of **June 2 & June 9**, afternoons ET. **Do not send another touch until she responds.** Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` | 🟡 **AWAITING ALINA** |
+| **Blue Cross Complete — Alina Pabin intro call** | **May 30 follow-up SENT** — no reply. **Final touch Thu Jun 11 @ 2:30 PM** — HAP **replied Jun 7** (two-lane routing); Alina touch can proceed on schedule. Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` | 🟡 **THU 6/11** |
 | **MHEF Capacity Building concept paper** | Inquiry done · Sayre replied Mar 27 — **submit in Fluxx** | ⬜ **$300K track** — see `MICHIGAN_FUNDER_MAP.md` |
 | **BCBSM Foundation concept paper** | **Winter cycle — return end Sept 2026.** Begin build **Sep 30** · Submit **Oct 29, 2026**. Summer cycle skipped. Outline: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md` · Form: forms.office.com/r/wZdDebmJf9 | 🟡 **SCHEDULED — SEP/OCT** |
 | **RENEW SCAC CODE (DFCL)** | **EXPIRED Feb 3, 2026.** Go to https://scaccode.com — renew for $97. If can't renew lapsed code, call NMFTA (866) 411-6632. Update company name from DEPOINTE → DEE DAVIS INC and address to Troy. **This is the single blocker for USPS HCR routes.** | ⬜ URGENT |
@@ -24,9 +25,21 @@
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
 | **Jun 7 Sun @ 12 PM ET** | **PRISM Finish-Up** — Voice test · VERTEX $28/$35 · HAP manual · Uber login · `.ics`: `calendars/prism_finish_up_2026-06-07.ics` | ⬜ **TODAY** |
 | **HAP CareSource — walkthrough prep** | **DEFERRED** until input→invoice wired — see `HAP_NEMT_PIPELINE_COMPLETION_GATE.md` · If they ask early, send one-pager only | ⏸ **AFTER PIPELINE** |
-| **HAP NEMT — wire Mark Complete → VERTEX $28/$35** | `TPADivisionWorkspace.tsx` static button → `POST /prism/nemt/orders/<id>/complete` | ⬜ **BUILD FIRST** |
+| **HAP NEMT — Mark Complete → VERTEX + QC gate** | `TPADivisionWorkspace.tsx` → `POST /prism/nemt/orders/<id>/complete` + `nexus_qc_engine` | ✅ Wired — `auto_generate_claim: true`, QC record returned |
 | **Jun 8 Mon @ 2 PM ET** | **HAP Voice Intake — Go-Live Prep** — Upgrade Twilio · rotate ElevenLabs key · 855 on member materials · optional CNAM · test call · `.ics`: `calendars/hap_voice_go_live_prep_2026-06-08.ics` | ⬜ **MONDAY** |
-| **Register as FEMA TSP** | Email TSP Registration Form + insurance docs to FEMA-Transportation-Programs@fema.dhs.gov. Requires: DOT authority (✅ MC-1647572), SAM (✅), cargo insurance (verify limits). Then enroll in Syncada (U.S. Bank payment system). File rates during next Rate Filing Cycle. **Hurricane season starts June 1 — get registered NOW.** | ⬜ TODO |
+| **FEMA STOS (freight TSP)** | **MOB-C / Freight 1st Direct** — FTL, LTL, maritime, air, rail, TTHU. **Onboarding currently CLOSED** (per FEMA site). Monitor next open period · file rates in Rate Filing Cycle when eligible. **Not passenger or NEMT.** Contact: FEMA-Transportation-Programs@fema.dhs.gov | ⏸ **Monitor** — not HAVEN blocker |
+
+### SHIELD pilot launch gaps (`SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`)
+
+| Gap | Action | Status |
+|-----|--------|--------|
+| Quest/CRL BLL wholesale rate | Confirm before volume agreements | ⬜ |
+| Michigan mobile phlebotomist subs | 2–3 Detroit-area quotes for pediatric lead events | ⬜ |
+| CHAMPS 98960 under 6309049 | Verify active for MCO CHW billing | ⬜ |
+| Venous premium on rate card | +$125–$175 confirmatory upcharge | ⬜ |
+| FEMA TSP registration | Before hurricane season (HAVEN logistics) | ⬜ |
+| LHD referral channel | ≥1 county health dept active pre-launch | 🟡 LHD package ready Jun 16 |
+| MCIR portal access | Verify DDI can log BLL results directly | ⬜ |
 
 ## ⏳ AWAITING RESPONSE
 
@@ -186,7 +199,7 @@ DDI should become an authorized distributor for forensic evidence collection kit
 | Date | Item | Source |
 |------|------|--------|
 | **Jun 2** | Check BCC + MDHHS inbox (no follow-ups) | `.ics` inbox check |
-| **Jun 9** | BCC final follow-up if no response | `.ics` bcc final |
+| **Jun 11** | BCC final follow-up if no response (postponed from 6/9 — after HAP reply) | `cwc_outreach_bcc_final_followup_2026-06-11.ics` |
 | **Mid-June / Jun 16** | MDHHS trigger → direct LHD outreach | `LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` |
 | **Sep 30, 2026** | Begin BCBSM Foundation concept paper (Winter cycle) | `SESSION_SUMMARY_JUNE_4_2026.md` §12 |
 | **Oct 29, 2026** | Submit BCBSM Foundation concept paper | Winter cycle deadline |
@@ -195,6 +208,20 @@ DDI should become an authorized distributor for forensic evidence collection kit
 | **1st Mon monthly** | EGrAMS + county opioid + CFSEM + MHEF monitor | Jul 6, Aug 3, Sep 7… |
 
 **Full session:** `SESSION_SUMMARY_MAY_30_2026.md`
+
+---
+
+## 🌐 DDI WEBSITE UPDATE — deedavis.biz (not NEXUS app)
+
+**Tracker:** `WEBSITE/DEEDAVIS_BIZ_WEBSITE_UPDATE_TRACKER.md` — when Dee says **"DDI website update"** or **"update the website,"** read that file.
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **P0** | Deploy `WEBSITE/cwc-proof/` → **deedavis.biz/cwc-proof** (funder pitch QR) | ⬜ 404 today · `CWC_PROOF_NETLIFY_HOSTING.md` |
+| **P1** | Netlify batch deploy — VITAL, HAVEN, ARENA, 3D Ink hub + rate sheet (full `WEBSITE/` folder) | ⬜ Staged, not live |
+| **P1** | Homepage cleanup on Netlify — national TPA copy, sector cards, nav, **remove SWFT** | ⬜ `DEEDAVIS_WEBSITE_NATIONAL_TPA_COPY.md` |
+| **P2** | Add NCS partner link on deedavis.biz → deedavisinc.nationalcrimesearch.com | ⬜ `NATIONAL_CRIME_SEARCH_PARTNERSHIP_SUMMARY.md` |
+| **P3** | `/vendors` public RFQ board | ⬜ Design only — not built |
 
 ---
 

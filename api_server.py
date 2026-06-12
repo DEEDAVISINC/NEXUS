@@ -393,6 +393,13 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM NEMT Module not loaded: {e}")
 
+try:
+    from member_satisfaction_survey import member_survey
+    app.register_blueprint(member_survey)
+    print("✅ Member satisfaction survey registered")
+except ImportError as e:
+    print(f"⚠️ Member satisfaction survey not loaded: {e}")
+
 # Register PRISM Lyft Healthcare — WAV + scheduled ride fulfillment
 try:
     from prism_lyft_healthcare import prism_lyft_healthcare
@@ -424,6 +431,14 @@ try:
     print("✅ NEXUS Pipeline API registered (Central Nervous System)")
 except ImportError as e:
     print(f"⚠️ NEXUS Pipeline API not loaded: {e}")
+
+# Register NEXUS QC Engine — 9-pillar spine + VERTEX billing gate + MCO breakdown
+try:
+    from nexus_qc_api import nexus_qc
+    app.register_blueprint(nexus_qc)
+    print("✅ NEXUS QC Engine registered (/nexus/qc/* — MCO audit breakdown)")
+except ImportError as e:
+    print(f"⚠️ NEXUS QC Engine not loaded: {e}")
 
 # ─── NEXUS Calendar Service — system-wide calendar for all modules ───────────
 try:

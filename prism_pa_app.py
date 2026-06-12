@@ -20,6 +20,8 @@ CORS(app)
 _nemt_loaded = False
 _member_survey_loaded = False
 _member_survey_error = None
+_qc_loaded = False
+_qc_error = None
 
 
 def _mask_phone(raw: str) -> str:
@@ -80,13 +82,15 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'NEXUS PRISM API',
-        'version': '1.0.2',
+        'version': '1.0.3',
         'mode': 'pa-minimal',
         'modules': {
             'nemt': _nemt_loaded,
             'member_survey': _member_survey_loaded,
+            'nexus_qc': _qc_loaded,
         },
         'member_survey_error': _member_survey_error,
+        'nexus_qc_error': _qc_error,
         'notifications': notifications,
         'notifications_ready': all_channels,
     })
@@ -208,6 +212,16 @@ except ImportError as exc:
             'error': logger_msg_survey,
             'hint': 'Pull member_satisfaction_survey.py + member_trip_grade_audit_report.py and reload web app.',
         }), 503
+
+_qc_loaded = False
+_qc_error = None
+try:
+    from nexus_qc_api import nexus_qc
+
+    app.register_blueprint(nexus_qc)
+    _qc_loaded = True
+except ImportError as exc:
+    _qc_error = str(exc)
 
 
 # PythonAnywhere WSGI entry point

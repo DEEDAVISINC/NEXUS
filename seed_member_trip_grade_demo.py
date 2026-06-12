@@ -221,6 +221,14 @@ def main() -> None:
     log.extend(demos)
     _save_log(log)
 
+    try:
+        from seed_nexus_qc_demo import seed_qc_demo
+
+        qc = seed_qc_demo(sync_grades=True)
+        print(f"   QC demo: {len(qc['qc_ids'])} records → {qc['breakdown_url']}")
+    except Exception as exc:
+        print(f"  ⚠ QC demo seed skipped: {exc}")
+
     completed = sum(1 for r in demos if r.get("status") == "completed")
     pending = sum(1 for r in demos if r.get("status") != "completed")
     print(f"✅ Demo trip grades seeded — {completed} completed, {pending} awaiting grade")

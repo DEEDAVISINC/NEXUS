@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { api } from '../../api/client';
 import PrismAgentDirectory from './PrismAgentDirectory';
 import PrismVoiceCallCenter from './PrismVoiceCallCenter';
@@ -113,6 +113,86 @@ export function mapPrismApiOrderToWorkspace(o: Record<string, unknown>): Order {
   };
 }
 
+/** Map NEXUS `/prism/clients` API row → workspace client card */
+export function mapPrismApiClientToWorkspace(c: Record<string, unknown>): Client {
+  const statusRaw = String(c.status || 'active').toLowerCase();
+  let status: Client['status'] = 'active';
+  if (statusRaw.includes('inactive')) status = 'inactive';
+  else if (statusRaw.includes('pending')) status = 'pending';
+
+  return {
+    id: String(c.id || ''),
+    name: String(c.name || '—'),
+    contactName: String(c.contact_name || c.contactName || '—'),
+    contactEmail: String(c.email || c.contact_email || c.contactEmail || ''),
+    contactPhone: String(c.phone || c.contact_phone || c.contactPhone || ''),
+    portalLink: String(c.portal_code || c.portalLink || ''),
+    contractType: 'monthly',
+    activeOrders: Number(c.active_orders ?? c.activeOrders ?? 0),
+    totalOrders: Number(c.orders ?? c.totalOrders ?? 0),
+    status,
+    createdAt: String(c.created_at || c.createdAt || ''),
+  };
+}
+
+export interface DivisionScanback {
+  id: string;
+  orderId: string;
+  type: string;
+  agent: string;
+  client: string;
+  signer: string;
+  status: string;
+  pages: number;
+  uploadDate: string;
+  errors: { severity: string; page: number; description: string }[];
+}
+
+interface VertexInvoiceRow {
+  record_id: string;
+  invoice_number: string;
+  client_name: string;
+  amount: number;
+  amount_paid: number;
+  balance_due: number;
+  status: string;
+  date: string;
+  due_date: string;
+  source_system: string;
+  pdf_path?: string | null;
+}
+
+interface VertexInvoiceSummary {
+  total_billed: number;
+  collected: number;
+  pending: number;
+  overdue: number;
+  count: number;
+}
+
+const fmtUsd = (n: number) =>
+  n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
+
+function normalizeScanbackUiStatus(status: string): 'needs_review' | 'verified' | 'other' {
+  const s = status.toLowerCase();
+  if (s.includes('needs review') || s.includes('under review') || s.includes('errors found') || s.includes('correction')) {
+    return 'needs_review';
+  }
+  if (s.includes('verified') || s.includes('closed') || s.includes('complete')) {
+    return 'verified';
+  }
+  return 'other';
+}
+
+const EmptyPanel: React.FC<{ title: string; hint?: string }> = ({ title, hint }) => (
+  <div style={{ padding: '48px 28px', textAlign: 'center' }}>
+    <p style={{ fontSize: 14, fontWeight: 600, color: '#9CA3AF' }}>{title}</p>
+    {hint ? <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.6)', marginTop: 8 }}>{hint}</p> : null}
+  </div>
+);
+
 interface TPADivisionWorkspaceProps {
   division: {
     id: string;
@@ -127,6 +207,11 @@ interface TPADivisionWorkspaceProps {
   orders?: Order[];
   ordersLoading?: boolean;
   onRefreshOrders?: () => void;
+  /** Live clients from GET /prism/clients */
+  clients?: Client[];
+  clientsLoading?: boolean;
+  /** Scanbacks derived from orders (division-filtered by parent) */
+  scanbacks?: DivisionScanback[];
   /** Nationwide field agent network from GET /prism/agents */
   agents?: PrismAgentRecord[];
   agentsLoading?: boolean;
@@ -143,106 +228,15 @@ interface TPADivisionWorkspaceProps {
   onBack: () => void;
 }
 
-// ─── MOCK DATA (Replace with API calls) ────────────────────────────
-const MOCK_CLIENTS: Client[] = [
-  {
-    id: 'c1',
-    name: 'ABC Trucking Co.',
-    contactName: 'Mike Johnson',
-    contactEmail: 'mike@abctrucking.com',
-    contactPhone: '555-123-4567',
-    portalLink: 'ABC-7X9K2',
-    contractType: 'monthly',
-    activeOrders: 3,
-    totalOrders: 47,
-    status: 'active',
-    createdAt: '2026-01-15',
-  },
-  {
-    id: 'c2',
-    name: 'Metro Transit Authority',
-    contactName: 'Sarah Williams',
-    contactEmail: 'swilliams@metrotransit.gov',
-    contactPhone: '555-987-6543',
-    portalLink: 'MTA-3K7P9',
-    contractType: 'annual',
-    activeOrders: 12,
-    totalOrders: 234,
-    status: 'active',
-    createdAt: '2025-06-01',
-  },
-  {
-    id: 'c3',
-    name: 'Midwest Logistics LLC',
-    contactName: 'Tom Richards',
-    contactEmail: 'tom@midwestlog.com',
-    contactPhone: '555-456-7890',
-    portalLink: 'MWL-8N2X5',
-    contractType: 'per-test',
-    activeOrders: 0,
-    totalOrders: 15,
-    status: 'inactive',
-    createdAt: '2026-03-20',
-  },
-];
-
-const MOCK_ORDERS: Order[] = [
-  {
-    id: 'o1',
-    clientId: 'c1',
-    clientName: 'ABC Trucking Co.',
-    type: 'dot',
-    subject: 'Pre-Employment',
-    subjectInfo: { name: 'James Wilson', dob: '1985-03-15', cdl: 'D1234567', phone: '555-111-2222' },
-    status: 'scheduled',
-    scheduledDate: '2026-05-19',
-    scheduledTime: '10:00 AM',
-    location: 'Quest - Troy, MI',
-    assignedAgent: 'Mobile Unit 1',
-    notes: 'New driver hire, needs DOT physical same day',
-    attachments: [],
-    createdAt: '2026-05-17T10:30:00Z',
-    updatedAt: '2026-05-17T14:00:00Z',
-  },
-  {
-    id: 'o2',
-    clientId: 'c2',
-    clientName: 'Metro Transit Authority',
-    type: 'random',
-    subject: 'Random Selection',
-    subjectInfo: { name: 'Patricia Moore', dob: '1978-11-22', cdl: 'M9876543', phone: '555-333-4444' },
-    status: 'pending',
-    notes: 'From Q2 random pool selection',
-    attachments: [],
-    createdAt: '2026-05-18T08:00:00Z',
-    updatedAt: '2026-05-18T08:00:00Z',
-  },
-  {
-    id: 'o3',
-    clientId: 'c1',
-    clientName: 'ABC Trucking Co.',
-    type: 'post-accident',
-    subject: 'Post-Accident',
-    subjectInfo: { name: 'Robert Chen', dob: '1990-07-04', cdl: 'D7654321', phone: '555-555-6666' },
-    status: 'in_progress',
-    scheduledDate: '2026-05-18',
-    scheduledTime: '2:30 PM',
-    location: 'On-site - ABC Trucking Yard',
-    assignedAgent: 'Sarah M.',
-    confirmationNumber: 'CH-2026-05-18-001',
-    notes: 'Minor fender bender, no injuries. Alcohol test also required within 8 hrs.',
-    attachments: [{ name: 'incident_report.pdf', url: '#', type: 'document' }],
-    createdAt: '2026-05-18T11:00:00Z',
-    updatedAt: '2026-05-18T14:30:00Z',
-  },
-];
-
 // ─── COMPONENT ─────────────────────────────────────────────────────
 const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   division,
   orders: ordersProp,
   ordersLoading = false,
   onRefreshOrders,
+  clients: clientsProp = [],
+  clientsLoading = false,
+  scanbacks: scanbacksProp = [],
   agents: agentsProp = [],
   agentsLoading = false,
   agentSpecialtyLabels = [],
@@ -270,6 +264,11 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   const [nemtBusy, setNemtBusy] = useState<string | null>(null);
   const [nemtMsg, setNemtMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [rideTrackingInput, setRideTrackingInput] = useState('');
+  const [scanbackFilter, setScanbackFilter] = useState<'all' | 'needs_review' | 'verified'>('all');
+  const [vertexInvoiceRows, setVertexInvoiceRows] = useState<VertexInvoiceRow[]>([]);
+  const [vertexInvoiceSummary, setVertexInvoiceSummary] = useState<VertexInvoiceSummary | null>(null);
+  const [invoicesLoading, setInvoicesLoading] = useState(false);
+  const [portalCopied, setPortalCopied] = useState(false);
 
   const isNemtDivision = division.id === 'transport';
 
@@ -287,8 +286,138 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
     setRideTrackingInput(selectedOrder?.rideTrackingUrl || '');
   }, [selectedOrder?.id, selectedOrder?.rideTrackingUrl]);
 
-  /** Real API orders when parent passes them; mock only when prop omitted (dev) */
-  const displayOrders = ordersProp !== undefined ? ordersProp : MOCK_ORDERS;
+  const displayOrders = ordersProp ?? [];
+
+  const displayClients = useMemo(() => {
+    const enrich = (client: Client): Client => ({
+      ...client,
+      activeOrders: displayOrders.filter(
+        (o) => o.clientName === client.name && ['pending', 'scheduled', 'in_progress'].includes(o.status)
+      ).length,
+      totalOrders: displayOrders.filter((o) => o.clientName === client.name).length || client.totalOrders,
+    });
+
+    if (clientsProp.length > 0) {
+      return clientsProp.map(enrich);
+    }
+
+    const byName = new Map<string, Client>();
+    displayOrders.forEach((o) => {
+      const name = o.clientName || 'Unknown';
+      if (!byName.has(name)) {
+        byName.set(name, {
+          id: o.clientId || name,
+          name,
+          contactName: '—',
+          contactEmail: '',
+          contactPhone: '',
+          portalLink: '',
+          contractType: 'monthly',
+          activeOrders: 0,
+          totalOrders: 0,
+          status: 'active',
+          createdAt: o.createdAt || '',
+        });
+      }
+      const client = byName.get(name)!;
+      client.totalOrders += 1;
+      if (['pending', 'scheduled', 'in_progress'].includes(o.status)) {
+        client.activeOrders += 1;
+      }
+    });
+    return Array.from(byName.values());
+  }, [clientsProp, displayOrders]);
+
+  const filteredScanbacks = useMemo(() => {
+    if (scanbackFilter === 'all') return scanbacksProp;
+    return scanbacksProp.filter((s) => normalizeScanbackUiStatus(s.status) === scanbackFilter);
+  }, [scanbacksProp, scanbackFilter]);
+
+  const needsReviewCount = scanbacksProp.filter((s) => normalizeScanbackUiStatus(s.status) === 'needs_review').length;
+
+  const ordersByType = useMemo(() => {
+    const counts: Record<string, number> = {};
+    displayOrders.forEach((o) => {
+      const key = o.type || 'other';
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+  }, [displayOrders]);
+
+  const topClientsByVolume = useMemo(() => {
+    const map = new Map<string, number>();
+    displayOrders.forEach((o) => {
+      const name = o.clientName || 'Unknown';
+      map.set(name, (map.get(name) || 0) + 1);
+    });
+    const max = Math.max(1, ...Array.from(map.values()));
+    return Array.from(map.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([name, count]) => ({ name, orders: count, pct: Math.round((count / max) * 100) }));
+  }, [displayOrders]);
+
+  const vertexInvoices = useMemo(() => {
+    const seen = new Set<string>();
+    const rows: { id: string; client: string; date: string }[] = [];
+    displayOrders.forEach((o) => {
+      if (!o.vertexInvoiceId || seen.has(o.vertexInvoiceId)) return;
+      seen.add(o.vertexInvoiceId);
+      rows.push({
+        id: o.vertexInvoiceId,
+        client: o.clientName,
+        date: (o.updatedAt || o.createdAt || '').slice(0, 10) || '—',
+      });
+    });
+    return rows;
+  }, [displayOrders]);
+
+  useEffect(() => {
+    if (activeSection !== 'payments') return;
+
+    const ids = Array.from(new Set(displayOrders.map((o) => o.vertexInvoiceId).filter(Boolean))) as string[];
+    const clientNames = Array.from(new Set(displayClients.map((c) => c.name).filter(Boolean)));
+
+    if (ids.length === 0 && clientNames.length === 0) {
+      setVertexInvoiceRows([]);
+      setVertexInvoiceSummary(null);
+      return;
+    }
+
+    let cancelled = false;
+    setInvoicesLoading(true);
+
+    api
+      .post('/prism/billing/invoices', { ids, client_names: clientNames })
+      .then((data: { invoices?: VertexInvoiceRow[]; summary?: VertexInvoiceSummary }) => {
+        if (cancelled) return;
+        setVertexInvoiceRows(data.invoices || []);
+        setVertexInvoiceSummary(data.summary || null);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setVertexInvoiceRows([]);
+        setVertexInvoiceSummary(null);
+      })
+      .finally(() => {
+        if (!cancelled) setInvoicesLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeSection, displayOrders, displayClients]);
+
+  const copyPortalLink = (code: string) => {
+    if (!code) return;
+    const url = `${window.location.origin}/client/${code}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setPortalCopied(true);
+      window.setTimeout(() => setPortalCopied(false), 2000);
+    });
+  };
 
   const filteredOrders = orderFilter === 'all'
     ? displayOrders
@@ -303,7 +432,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
     scheduled: displayOrders.filter((o) => o.status === 'scheduled').length,
     inProgress: displayOrders.filter((o) => o.status === 'in_progress').length,
     completedToday: displayOrders.filter((o) => o.status === 'completed').length,
-    activeClients: MOCK_CLIENTS.filter((c) => c.status === 'active').length,
+    activeClients: displayClients.filter((c) => c.status === 'active').length,
     unassigned: displayOrders.filter((o) => !o.assignedAgent && o.status !== 'completed' && o.status !== 'cancelled').length,
   };
 
@@ -461,33 +590,41 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
         }
       }
       const now = new Date().toISOString();
+      const pickup = String(nemt.actual_pickup_time || nemt.pickup_time || now);
+      const dropoff = String(nemt.actual_dropoff_time || nemt.dropoff_time || now);
+      const mileage = Number(nemt.actual_mileage ?? nemt.mileage ?? 0);
       const res = await api.completeNemtTrip(nemtId, {
-        actual_pickup_time: now,
-        actual_dropoff_time: now,
-        actual_mileage: 0,
+        actual_pickup_time: pickup,
+        actual_dropoff_time: dropoff,
+        actual_mileage: Number.isFinite(mileage) ? mileage : 0,
         auto_generate_claim: true,
         member_phone: selectedOrder.subjectInfo.phone || undefined,
       });
       if (res?.error) {
-        setNemtMsg({ ok: false, text: String(res.error) });
+        const gateMsg = res.qc_gate_blocked
+          ? `${res.error} — fix QC pillars before billing (Verify Eligibility + Dispatch first).`
+          : String(res.error);
+        setNemtMsg({ ok: false, text: gateMsg });
         return;
       }
       const invId =
         res.order?.vertex_invoice_id ||
         res.claim?.invoice?.id ||
         res.claim?.invoice_id;
+      const qcId = res.qc_record?.qc_id;
+      const gateWarnings = res.qc_record?.gate_billing?.warnings?.length;
       setSelectedOrder({
         ...selectedOrder,
         status: 'completed',
         vertexInvoiceId: invId ? String(invId) : selectedOrder.vertexInvoiceId,
         nemtOrderId: nemtId,
       });
-      setNemtMsg({
-        ok: true,
-        text: invId
-          ? `Trip complete — VERTEX invoice generated (${invId}). Check Payments tab.`
-          : 'Trip complete — claim logged. Check Payments if invoice ID is pending.',
-      });
+      let successText = invId
+        ? `Trip complete — VERTEX invoice (${String(invId).slice(0, 12)}…).`
+        : 'Trip complete — claim logged.';
+      if (qcId) successText += ` QC record ${qcId}.`;
+      if (gateWarnings) successText += ' Member grade pending (normal — SMS sends after trip).';
+      setNemtMsg({ ok: true, text: successText });
       onRefreshOrders?.();
     } catch (e) {
       setNemtMsg({ ok: false, text: e instanceof Error ? e.message : 'Complete failed' });
@@ -612,7 +749,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
         {/* Partner portals */}
         <div style={{ padding: '10px 8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(107,114,128,0.6)', textTransform: 'uppercase', letterSpacing: 0.8, padding: '4px 12px', marginBottom: 4 }}>Live Portals</p>
-          {division.partnerPortals.slice(0, 4).map(portal => (
+          {division.partnerPortals.slice(0, 5).map(portal => (
             <button
               key={portal.id}
               onClick={() => onOpenPortal(portal)}
@@ -764,7 +901,9 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Clients</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>{MOCK_CLIENTS.length} accounts</p>
+                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                  {clientsLoading ? 'Loading…' : `${displayClients.length} accounts`}
+                </p>
               </div>
               <button
                 onClick={() => setShowNewClientModal(true)}
@@ -774,7 +913,10 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
               </button>
             </div>
             <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {MOCK_CLIENTS.map(client => {
+              {displayClients.length === 0 && !clientsLoading && (
+                <EmptyPanel title="No clients yet" hint="Clients appear from GET /prism/clients or from order client names." />
+              )}
+              {displayClients.map(client => {
                 const statusCfg = client.status === 'active'
                   ? { bg: 'rgba(16,185,129,0.12)', color: '#6EE7B7' }
                   : client.status === 'inactive'
@@ -847,11 +989,21 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
               <div className="bg-gray-700/50 rounded-lg p-3 flex items-center justify-between">
                 <div>
                   <p className="text-xs text-gray-500">Client Portal Link</p>
-                  <p className="text-sm font-mono">portal.deedavis.biz/t/{selectedClient.portalLink}</p>
+                  {selectedClient.portalLink ? (
+                    <p className="text-sm font-mono">{window.location.origin}/client/{selectedClient.portalLink}</p>
+                  ) : (
+                    <p className="text-sm text-gray-500">No portal code — add portal_code in clients.json</p>
+                  )}
                 </div>
-                <button className="px-3 py-1.5 bg-gray-600 hover:bg-gray-500 rounded-lg text-xs font-semibold transition">
-                  Copy Link
-                </button>
+                {selectedClient.portalLink && (
+                  <button
+                    type="button"
+                    onClick={() => copyPortalLink(selectedClient.portalLink)}
+                    className="px-3 py-1.5 bg-gray-600 hover:bg-gray-500 rounded-lg text-xs font-semibold transition"
+                  >
+                    {portalCopied ? 'Copied ✓' : 'Copy Link'}
+                  </button>
+                )}
               </div>
             </div>
 
@@ -868,7 +1020,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             </div>
 
             <div className="space-y-2">
-              {displayOrders.filter(o => o.clientId === selectedClient.id).map(order => (
+              {displayOrders.filter(o => o.clientName === selectedClient.name).map(order => (
                 <div
                   key={order.id}
                   onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
@@ -1120,6 +1272,24 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Actions</h3>
                   {isNemtDivision ? (
                     <>
+                      <div style={{ marginBottom: 12, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        <a
+                          href={`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}/nexus/qc/mco/breakdown.html?payer=HAP%20CareSource`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ fontSize: 12, color: '#A78BFA', fontWeight: 600 }}
+                        >
+                          📋 MCO QC Breakdown (9 pillars) ↗
+                        </a>
+                        <a
+                          href={`${process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000'}/prism/nemt/satisfaction/mco-packet.html?payer=HAP%20CareSource`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ fontSize: 12, color: '#6EE7B7', fontWeight: 600 }}
+                        >
+                          ⭐ Member Trip Grade Report ↗
+                        </a>
+                      </div>
                       {selectedOrder.nemtOrderId && (
                         <p style={{ fontSize: 12, color: '#9CA3AF', marginBottom: 10, fontFamily: 'monospace' }}>
                           NEMT: {selectedOrder.nemtOrderId.slice(0, 8)}…
@@ -1240,7 +1410,7 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                 <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: 18 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>Open in Portal</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {division.partnerPortals.slice(0, 3).map((portal) => (
+                    {division.partnerPortals.slice(0, 4).map((portal) => (
                       <button
                         key={portal.id}
                         type="button"
@@ -1298,40 +1468,61 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Scanbacks & Results</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>2 pending review</p>
+                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                  {needsReviewCount} pending review · {scanbacksProp.length} total
+                </p>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
-                {['All', 'Needs Review (2)', 'Verified'].map((label, i) => (
-                  <button key={label} style={{ padding: '7px 14px', borderRadius: 7, fontSize: 12, fontWeight: 500, cursor: 'pointer', background: i === 1 ? 'rgba(234,179,8,0.12)' : 'rgba(255,255,255,0.05)', color: i === 1 ? '#FCD34D' : '#9CA3AF', border: i === 1 ? '1px solid rgba(234,179,8,0.25)' : '1px solid rgba(255,255,255,0.07)' }}>
-                    {label}
+                {([
+                  { key: 'all' as const, label: 'All' },
+                  { key: 'needs_review' as const, label: `Needs Review (${needsReviewCount})` },
+                  { key: 'verified' as const, label: 'Verified' },
+                ]).map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => setScanbackFilter(tab.key)}
+                    style={{
+                      padding: '7px 14px',
+                      borderRadius: 7,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      background: scanbackFilter === tab.key ? 'rgba(234,179,8,0.12)' : 'rgba(255,255,255,0.05)',
+                      color: scanbackFilter === tab.key ? '#FCD34D' : '#9CA3AF',
+                      border: scanbackFilter === tab.key ? '1px solid rgba(234,179,8,0.25)' : '1px solid rgba(255,255,255,0.07)',
+                    }}
+                  >
+                    {tab.label}
                   </button>
                 ))}
               </div>
             </div>
             <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[
-                { id: 's1', orderId: 'ORD-2026-0542', subject: 'James Wilson',   type: 'DOT',          status: 'needs_review', labResult: 'Negative', receivedAt: '2026-05-18 11:30 AM' },
-                { id: 's2', orderId: 'ORD-2026-0541', subject: 'Patricia Moore',  type: 'Random',       status: 'needs_review', labResult: 'Pending',  receivedAt: '2026-05-18 10:15 AM' },
-                { id: 's3', orderId: 'ORD-2026-0538', subject: 'Robert Chen',    type: 'Post-Accident', status: 'verified',     labResult: 'Negative', receivedAt: '2026-05-17 4:00 PM' },
-              ].map(scan => {
-                const needsReview = scan.status === 'needs_review';
-                const resultColor = scan.labResult === 'Negative' ? '#34D399' : scan.labResult === 'Pending' ? '#FCD34D' : '#F87171';
+              {filteredScanbacks.length === 0 && (
+                <EmptyPanel title="No scanbacks in this division" hint="Orders with documentation uploads appear here after agents submit scanbacks." />
+              )}
+              {filteredScanbacks.map((scan) => {
+                const uiStatus = normalizeScanbackUiStatus(scan.status);
+                const needsReview = uiStatus === 'needs_review';
+                const verified = uiStatus === 'verified';
+                const statusLabel = verified ? 'Verified' : needsReview ? 'Needs Review' : scan.status;
                 return (
                   <div key={scan.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: '#14141A', border: `1px solid ${needsReview ? 'rgba(234,179,8,0.25)' : 'rgba(255,255,255,0.06)'}`, borderRadius: 11 }}>
-                    <div style={{ width: 42, height: 42, borderRadius: 10, background: needsReview ? 'rgba(234,179,8,0.1)' : 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke={needsReview ? '#FCD34D' : '#34D399'} strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <div style={{ width: 42, height: 42, borderRadius: 10, background: needsReview ? 'rgba(234,179,8,0.1)' : verified ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke={needsReview ? '#FCD34D' : verified ? '#34D399' : '#9CA3AF'} strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <p style={{ fontWeight: 700, fontSize: 14, color: '#F9FAFB' }}>{scan.subject}</p>
-                      <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>{scan.orderId} &nbsp;·&nbsp; {scan.type} &nbsp;·&nbsp; {scan.receivedAt}</p>
+                      <p style={{ fontWeight: 700, fontSize: 14, color: '#F9FAFB' }}>{scan.signer || scan.client}</p>
+                      <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                        {scan.orderId} &nbsp;·&nbsp; {scan.type} &nbsp;·&nbsp; {scan.uploadDate || '—'}
+                        {scan.pages > 0 ? ` · ${scan.pages} pg` : ''}
+                      </p>
                     </div>
                     <div style={{ textAlign: 'right' as const }}>
-                      <p style={{ fontWeight: 700, fontSize: 14, color: resultColor }}>{scan.labResult}</p>
-                      <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.6)', marginTop: 2 }}>{needsReview ? 'Needs Review' : 'Verified'}</p>
+                      <p style={{ fontWeight: 700, fontSize: 14, color: needsReview ? '#FCD34D' : verified ? '#34D399' : '#9CA3AF' }}>{statusLabel}</p>
+                      <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.6)', marginTop: 2 }}>{scan.agent}</p>
                     </div>
-                    <button style={{ padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: '#D1D5DB', fontSize: 12, cursor: 'pointer' }}>
-                      View →
-                    </button>
                   </div>
                 );
               })}
@@ -1344,22 +1535,19 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
           <div>
             <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
               <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Analytics</h1>
-              <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>Month-to-date performance</p>
+              <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>Live data from division orders</p>
             </div>
 
             {/* KPI ribbon */}
             <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.05)', background: '#0A0A0F' }}>
               {[
-                { label: 'Total Orders',       value: '47',       trend: '+12%', up: true  },
-                { label: 'Gross Revenue',       value: '$8,450',   trend: '+8%',  up: true  },
-                { label: 'Avg Turnaround',      value: '2.3 days', trend: '-15%', up: false },
-                { label: 'Client Rating',       value: '4.8 ★',   trend: '+0.2', up: true  },
+                { label: 'Total Orders', value: String(displayOrders.length) },
+                { label: 'Active', value: String(displayOrders.filter((o) => ['pending', 'scheduled', 'in_progress'].includes(o.status)).length) },
+                { label: 'Completed', value: String(displayOrders.filter((o) => o.status === 'completed').length) },
+                { label: 'Clients', value: String(displayClients.length) },
               ].map((s, i) => (
                 <div key={s.label} style={{ flex: 1, padding: '16px 22px', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                    <p style={{ fontSize: 24, fontWeight: 800, color: '#F9FAFB', letterSpacing: -0.5 }}>{s.value}</p>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: s.up ? '#34D399' : '#F87171' }}>{s.trend}</span>
-                  </div>
+                  <p style={{ fontSize: 24, fontWeight: 800, color: '#F9FAFB', letterSpacing: -0.5 }}>{s.value}</p>
                   <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.7)', marginTop: 3 }}>{s.label}</p>
                 </div>
               ))}
@@ -1369,49 +1557,52 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
               {/* Orders by Type bar chart */}
               <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 22 }}>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 20 }}>Orders by Type</p>
-                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', height: 160, gap: 10, paddingBottom: 8 }}>
-                  {[
-                    { label: 'DOT',      value: 65, color: '#F97316' },
-                    { label: 'Non-DOT',  value: 25, color: '#6366F1' },
-                    { label: 'Random',   value: 40, color: '#F59E0B' },
-                    { label: 'Pre-Emp',  value: 55, color: '#10B981' },
-                  ].map(bar => (
-                    <div key={bar.label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                      <div style={{ width: '100%', borderRadius: '4px 4px 0 0', backgroundColor: bar.color, height: `${bar.value * 1.5}px`, opacity: 0.85 }} />
-                      <span style={{ fontSize: 11, color: 'rgba(107,114,128,0.7)' }}>{bar.label}</span>
-                    </div>
-                  ))}
-                </div>
+                {ordersByType.length === 0 ? (
+                  <EmptyPanel title="No orders to chart" />
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', height: 160, gap: 10, paddingBottom: 8 }}>
+                    {ordersByType.map(([label, count]) => {
+                      const max = ordersByType[0][1];
+                      const height = Math.max(8, Math.round((count / max) * 120));
+                      return (
+                        <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                          <span style={{ fontSize: 10, color: '#9CA3AF' }}>{count}</span>
+                          <div style={{ width: '100%', borderRadius: '4px 4px 0 0', backgroundColor: division.solid, height: `${height}px`, opacity: 0.85 }} />
+                          <span style={{ fontSize: 10, color: 'rgba(107,114,128,0.7)', textAlign: 'center' }}>{label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              {/* Revenue trend placeholder */}
+              {/* Revenue — VERTEX integration */}
               <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 22 }}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 20 }}>Revenue Trend</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 20 }}>Billing</p>
                 <div style={{ height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 8 }}>
-                  <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="rgba(107,114,128,0.4)" strokeWidth="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                  <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.5)' }}>Chart integration coming soon</p>
+                  <p style={{ fontSize: 28, fontWeight: 800, color: '#34D399' }}>{vertexInvoices.length}</p>
+                  <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)' }}>VERTEX invoice{vertexInvoices.length === 1 ? '' : 's'} linked from completed orders</p>
                 </div>
               </div>
 
               {/* Top clients */}
               <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 22, gridColumn: '1 / -1' }}>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 16 }}>Top Clients by Volume</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {[
-                    { name: 'ABC Trucking Co.',       orders: 18, revenue: '$3,240', pct: 38 },
-                    { name: 'Metro Transit Authority', orders: 14, revenue: '$2,800', pct: 30 },
-                    { name: 'Midwest Logistics LLC',  orders: 9,  revenue: '$1,620', pct: 19 },
-                  ].map(c => (
-                    <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: '#E5E7EB', width: 220, flexShrink: 0 }}>{c.name}</p>
-                      <div style={{ flex: 1, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3 }}>
-                        <div style={{ width: `${c.pct}%`, height: '100%', background: '#F97316', borderRadius: 3 }} />
+                {topClientsByVolume.length === 0 ? (
+                  <EmptyPanel title="No client volume yet" hint="Complete orders to see client rankings." />
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {topClientsByVolume.map((c) => (
+                      <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: '#E5E7EB', width: 220, flexShrink: 0 }}>{c.name}</p>
+                        <div style={{ flex: 1, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3 }}>
+                          <div style={{ width: `${c.pct}%`, height: '100%', background: division.solid, borderRadius: 3 }} />
+                        </div>
+                        <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', width: 40, textAlign: 'right' as const }}>{c.orders}</p>
                       </div>
-                      <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', width: 40, textAlign: 'right' as const }}>{c.orders}</p>
-                      <p style={{ fontSize: 12, fontWeight: 600, color: '#34D399', width: 60, textAlign: 'right' as const }}>{c.revenue}</p>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1423,19 +1614,33 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Payments & Invoicing</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>Month-to-date billing</p>
+                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                  {invoicesLoading ? 'Loading from VERTEX…' : 'Live VERTEX invoice data'}
+                </p>
               </div>
-              <button style={{ padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}>
-                + Create Invoice
+              <button
+                type="button"
+                onClick={() => {
+                  setInvoicesLoading(true);
+                  const ids = Array.from(new Set(displayOrders.map((o) => o.vertexInvoiceId).filter(Boolean))) as string[];
+                  const clientNames = Array.from(new Set(displayClients.map((c) => c.name).filter(Boolean)));
+                  api.post('/prism/billing/invoices', { ids, client_names: clientNames }).then((data: { invoices?: VertexInvoiceRow[]; summary?: VertexInvoiceSummary }) => {
+                    setVertexInvoiceRows(data.invoices || []);
+                    setVertexInvoiceSummary(data.summary || null);
+                  }).finally(() => setInvoicesLoading(false));
+                }}
+                style={{ padding: '9px 18px', background: 'rgba(255,255,255,0.08)', color: '#E5E7EB', borderRadius: 9, fontWeight: 600, fontSize: 13, border: '1px solid rgba(255,255,255,0.12)', cursor: 'pointer' }}
+              >
+                ↻ Refresh
               </button>
             </div>
 
             {/* Summary ribbon */}
             <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.05)', background: '#0A0A0F' }}>
               {[
-                { label: 'Collected (MTD)', value: '$6,240', bg: 'rgba(16,185,129,0.08)',  border: 'rgba(16,185,129,0.15)',  color: '#34D399' },
-                { label: 'Pending',         value: '$2,180', bg: 'rgba(234,179,8,0.08)',   border: 'rgba(234,179,8,0.15)',   color: '#FCD34D' },
-                { label: 'Overdue',         value: '$450',   bg: 'rgba(239,68,68,0.08)',   border: 'rgba(239,68,68,0.15)',   color: '#FCA5A5' },
+                { label: 'Collected', value: fmtUsd(vertexInvoiceSummary?.collected ?? 0), bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.15)', color: '#34D399' },
+                { label: 'Pending', value: fmtUsd(vertexInvoiceSummary?.pending ?? 0), bg: 'rgba(234,179,8,0.08)', border: 'rgba(234,179,8,0.15)', color: '#FCD34D' },
+                { label: 'Overdue', value: fmtUsd(vertexInvoiceSummary?.overdue ?? 0), bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.15)', color: '#FCA5A5' },
               ].map((s, i) => (
                 <div key={s.label} style={{ flex: 1, padding: '18px 28px', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none', background: s.bg, borderBottom: `2px solid ${s.border}` }}>
                   <p style={{ fontSize: 24, fontWeight: 800, color: s.color, letterSpacing: -0.5 }}>{s.value}</p>
@@ -1445,35 +1650,60 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
             </div>
 
             <div style={{ padding: 28 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(156,163,175,0.6)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Recent Invoices</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {[
-                  { id: 'INV-2026-0089', client: 'ABC Trucking Co.',         amount: '$1,250', status: 'paid',    date: '2026-05-15' },
-                  { id: 'INV-2026-0088', client: 'Metro Transit Authority',  amount: '$3,400', status: 'pending', date: '2026-05-12' },
-                  { id: 'INV-2026-0087', client: 'Midwest Logistics LLC',    amount: '$450',   status: 'overdue', date: '2026-05-01' },
-                ].map(inv => {
-                  const cfg = inv.status === 'paid'
-                    ? { bg: 'rgba(16,185,129,0.12)',  color: '#34D399'  }
-                    : inv.status === 'pending'
-                    ? { bg: 'rgba(234,179,8,0.12)',   color: '#FCD34D'  }
-                    : { bg: 'rgba(239,68,68,0.12)',   color: '#FCA5A5'  };
-                  return (
-                    <div key={inv.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 11 }}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontWeight: 700, fontSize: 14, color: '#F9FAFB' }}>{inv.id}</p>
-                        <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>{inv.client} &nbsp;·&nbsp; {inv.date}</p>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(156,163,175,0.6)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>
+                VERTEX Invoices · {vertexInvoiceSummary?.count ?? vertexInvoiceRows.length} total · {fmtUsd(vertexInvoiceSummary?.total_billed ?? 0)} billed
+              </p>
+              {invoicesLoading && vertexInvoiceRows.length === 0 ? (
+                <EmptyPanel title="Loading VERTEX invoices…" />
+              ) : vertexInvoiceRows.length === 0 ? (
+                <EmptyPanel title="No VERTEX invoices for this division" hint="Complete NEMT trips or link client names to see invoices from Airtable VERTEX INVOICES." />
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {vertexInvoiceRows.map((inv) => {
+                    const statusKey = (inv.status || 'Unpaid').toLowerCase();
+                    const cfg = statusKey === 'paid'
+                      ? { bg: 'rgba(16,185,129,0.12)', color: '#34D399' }
+                      : statusKey === 'overdue'
+                      ? { bg: 'rgba(239,68,68,0.12)', color: '#FCA5A5' }
+                      : { bg: 'rgba(234,179,8,0.12)', color: '#FCD34D' };
+                    return (
+                      <div key={inv.record_id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 11 }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontWeight: 700, fontSize: 14, color: '#F9FAFB' }}>{inv.invoice_number}</p>
+                          <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                            {inv.client_name} &nbsp;·&nbsp; {inv.date || '—'}
+                            {inv.due_date ? ` · due ${inv.due_date}` : ''}
+                          </p>
+                        </div>
+                        <div style={{ textAlign: 'right' as const }}>
+                          <p style={{ fontWeight: 800, fontSize: 16, color: '#F9FAFB' }}>{fmtUsd(inv.amount)}</p>
+                          {inv.balance_due > 0 && inv.balance_due < inv.amount && (
+                            <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.6)', marginTop: 2 }}>Due {fmtUsd(inv.balance_due)}</p>
+                          )}
+                        </div>
+                        <span style={{ ...cfg, padding: '3px 10px', borderRadius: 6, fontSize: 10, fontWeight: 700, letterSpacing: 0.3 }}>
+                          {(inv.status || 'UNPAID').toUpperCase()}
+                        </span>
+                        {inv.pdf_path && (
+                          <a
+                            href={`${API_BASE}${inv.pdf_path}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: '#D1D5DB', fontSize: 12, textDecoration: 'none' }}
+                          >
+                            PDF
+                          </a>
+                        )}
                       </div>
-                      <p style={{ fontWeight: 800, fontSize: 16, color: '#F9FAFB' }}>{inv.amount}</p>
-                      <span style={{ ...cfg, padding: '3px 10px', borderRadius: 6, fontSize: 10, fontWeight: 700, letterSpacing: 0.3 }}>
-                        {inv.status.toUpperCase()}
-                      </span>
-                      <button style={{ padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: '#D1D5DB', fontSize: 12, cursor: 'pointer' }}>
-                        View
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
+              {vertexInvoices.length > 0 && vertexInvoiceRows.length === 0 && !invoicesLoading && (
+                <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.5)', marginTop: 16 }}>
+                  {vertexInvoices.length} order(s) have linked invoice IDs — VERTEX lookup returned no rows (check Airtable connection).
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -1506,7 +1736,11 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                     <label className="block text-xs font-semibold text-gray-400 mb-2">Client</label>
                     <select className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gray-500">
                       <option value="">Select client...</option>
-                      {MOCK_CLIENTS.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      {displayClients.length === 0 ? (
+                        <option value="">No clients — add via API or create order</option>
+                      ) : (
+                        displayClients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)
+                      )}
                     </select>
                   </div>
                   <div>

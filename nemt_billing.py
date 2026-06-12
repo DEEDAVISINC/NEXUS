@@ -20,6 +20,7 @@ Eligibility: required fields recorded per trip; verify via MCO portal before dis
 from __future__ import annotations
 
 import json
+import logging
 import os
 import threading
 import uuid
@@ -51,10 +52,18 @@ NEMT_INVOICE_TYPE_AIRTABLE = "GOVERNMENT"  # VERTEX INVOICES single-select
 NEMT_PAYMENT_STATUS_UNPAID = "UNPAID"
 REGION_LABEL = "HAP CareSource Region 10"
 
-# HAP CareSource executed contract — flat per-trip (not MDHHS HCPCS fee schedule)
+# HAP CareSource contract — base trip + loaded mileage (CareSource confirmed Jun 2026)
 HAP_CARESOURCE_CONTRACT_RATES: Dict[str, float] = {
-    "T2002": 28.00,  # ambulatory
-    "A0130": 35.00,  # wheelchair / WAV
+    "T2002": 28.00,  # ambulatory base
+    "A0130": 35.00,  # wheelchair / WAV base (CareSource confirmed Jun 2026)
+}
+HAP_CARESOURCE_MILEAGE_PER_MILE = 1.85
+
+# Mileage HCPCS by transport type (loaded miles on base trip)
+_HAP_MILEAGE_HCPCS: Dict[str, str] = {
+    "ambulatory": "T2003",
+    "wheelchair": "A0425",
+    "stretcher": "A0425",
 }
 
 
@@ -636,6 +645,16 @@ def list_nemt_rates(airtable) -> List[Dict[str, Any]]:
     return out
 
 
+def _hap_mileage_hcpcs(transport_type: Optional[str], base_hcpcs: str) -> str:
+    tt = (transport_type or "").strip().lower()
+    if tt in _HAP_MILEAGE_HCPCS:
+        return _HAP_MILEAGE_HCPCS[tt]
+    base = (base_hcpcs or "").strip().upper()
+    if base == "A0130":
+        return "A0425"
+    return "T2003"
+
+
 def get_rate_amount_and_description(
     airtable,
     hcpcs: str,
@@ -646,9 +665,9 @@ def get_rate_amount_and_description(
     if _is_hap_payer(payer) and h in HAP_CARESOURCE_CONTRACT_RATES:
         amount = HAP_CARESOURCE_CONTRACT_RATES[h]
         if h == "T2002":
-            desc = "HAP CareSource ambulatory trip (contract flat rate)"
+            desc = "HAP CareSource ambulatory trip (base rate)"
         elif h == "A0130":
-            desc = "HAP CareSource wheelchair trip (contract flat rate)"
+            desc = "HAP CareSource wheelchair trip (base rate)"
         else:
             desc = f"HAP CareSource NEMT ({h})"
         return amount, desc
@@ -658,6 +677,78 @@ def get_rate_amount_and_description(
             f"HCPCS {hcpcs!r} is not in the NEMT RATES table. Add it in Airtable or VERTEX NEMT Billing."
         )
     return m[h]["amount"], m[h]["description"]
+
+
+def compute_trip_claim(
+    airtable,
+    trip: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    HAP: base trip (T2002/A0130) + loaded mileage @ $1.85/mi.
+    Other payers: single HCPCS line from fee schedule.
+    """
+    payer = trip.get("payer") or PAYER_DEFAULT
+    hcpcs = (trip.get("hcpcs_code") or "").strip().upper()
+    mileage = max(0.0, float(trip.get("mileage") or 0))
+    transport_type = trip.get("transport_type")
+
+    if _is_hap_payer(payer) and hcpcs in HAP_CARESOURCE_CONTRACT_RATES:
+        base, base_desc = get_rate_amount_and_description(
+            airtable, hcpcs, payer=payer, transport_type=transport_type
+        )
+        line_items: List[Dict[str, Any]] = [
+            {
+                "description": base_desc,
+                "hcpcs": hcpcs,
+                "quantity": 1,
+                "rate": base,
+                "amount": round(base, 2),
+            }
+        ]
+        mileage_amount = 0.0
+        if mileage > 0:
+            mile_hcpcs = _hap_mileage_hcpcs(transport_type, hcpcs)
+            mileage_amount = round(mileage * HAP_CARESOURCE_MILEAGE_PER_MILE, 2)
+            line_items.append(
+                {
+                    "description": (
+                        f"HAP CareSource loaded mileage "
+                        f"({mileage:.1f} mi @ ${HAP_CARESOURCE_MILEAGE_PER_MILE:.2f}/mi)"
+                    ),
+                    "hcpcs": mile_hcpcs,
+                    "quantity": round(mileage, 1),
+                    "rate": HAP_CARESOURCE_MILEAGE_PER_MILE,
+                    "amount": mileage_amount,
+                }
+            )
+        total = round(base + mileage_amount, 2)
+        service_label = base_desc
+        if mileage_amount:
+            service_label = f"{base_desc} + {mileage:.1f} mi mileage"
+        return {
+            "total": total,
+            "line_items": line_items,
+            "service_type_label": service_label,
+            "primary_hcpcs": hcpcs,
+        }
+
+    total, desc = get_rate_amount_and_description(
+        airtable, hcpcs, payer=payer, transport_type=transport_type
+    )
+    return {
+        "total": round(total, 2),
+        "line_items": [
+            {
+                "description": desc,
+                "hcpcs": hcpcs,
+                "quantity": 1,
+                "rate": total,
+                "amount": round(total, 2),
+            }
+        ],
+        "service_type_label": desc,
+        "primary_hcpcs": hcpcs,
+    }
 
 
 def seed_placeholder_rates(airtable) -> Dict[str, Any]:
@@ -700,9 +791,45 @@ def build_cms1500_payload(
     trip: Dict[str, Any],
     invoice_number: str,
     line_charge: float,
+    claim_line_items: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """CMS-1500-oriented structure for Notes / audit (not a paper form engine)."""
     t = trip
+    dos_from = (t.get("pickup_time") or "")[:10]
+    dos_to = (t.get("dropoff_time") or "")[:10]
+    if claim_line_items:
+        box_24 = []
+        for li in claim_line_items:
+            qty = float(li.get("quantity") or 1)
+            rate = float(li.get("rate") or 0)
+            amt = float(li.get("amount") if li.get("amount") is not None else qty * rate)
+            box_24.append(
+                {
+                    "date_of_service_from": dos_from,
+                    "date_of_service_to": dos_to,
+                    "place_of_service": "41",
+                    "emergency": "N",
+                    "cpt_hcpcs": li.get("hcpcs") or t.get("hcpcs_code"),
+                    "modifier": "",
+                    "diagnosis_pointer": "1",
+                    "charges": round(amt, 2),
+                    "units": qty,
+                }
+            )
+    else:
+        box_24 = [
+            {
+                "date_of_service_from": dos_from,
+                "date_of_service_to": dos_to,
+                "place_of_service": "41",
+                "emergency": "N",
+                "cpt_hcpcs": t.get("hcpcs_code"),
+                "modifier": "",
+                "diagnosis_pointer": "1",
+                "charges": round(line_charge, 2),
+                "units": 1,
+            }
+        ]
     return {
         "form": "CMS-1500",
         "invoice_number": invoice_number,
@@ -712,19 +839,7 @@ def build_cms1500_payload(
         "box_2_patient_dob": t.get("member_dob"),
         "box_20_outside_lab": "No",
         "box_21_diagnosis": [],
-        "box_24_service_lines": [
-            {
-                "date_of_service_from": (t.get("pickup_time") or "")[:10],
-                "date_of_service_to": (t.get("dropoff_time") or "")[:10],
-                "place_of_service": "41",
-                "emergency": "N",
-                "cpt_hcpcs": t.get("hcpcs_code"),
-                "modifier": "",
-                "diagnosis_pointer": "1",
-                "charges": round(line_charge, 2),
-                "units": 1,
-            }
-        ],
+        "box_24_service_lines": box_24,
         "box_23_prior_auth": t.get("prior_auth_number"),
         "box_25_federal_tax_id": EIN,
         "box_33_billing_provider_name": COMPANY_NAME,
@@ -763,6 +878,7 @@ def log_trip(
     driver_name: Optional[str] = None,
     vehicle_id: Optional[str] = None,
     prism_order_id: Optional[str] = None,
+    nemt_order_id: Optional[str] = None,
     transport_type: Optional[str] = None,
 ) -> Dict[str, Any]:
     hcpcs_code = (hcpcs_code or "").strip().upper()
@@ -791,6 +907,7 @@ def log_trip(
         "driver_name": driver_name or None,
         "vehicle_id": vehicle_id or None,
         "prism_order_id": prism_order_id or None,
+        "nemt_order_id": nemt_order_id or None,
         "transport_type": (transport_type or "").strip() or None,
         "created_at": _now_iso(),
         "status": "logged",
@@ -839,23 +956,22 @@ def _invoice_fields_for_claim(
     line_description: str,
     invoice_date_iso: str,
     due_date_iso: str,
+    claim_line_items: Optional[List[Dict[str, Any]]] = None,
     nemt_html_path: Optional[str] = None,
     nemt_pdf_path: Optional[str] = None,
     pdf_generated: bool = False,
 ) -> Dict[str, Any]:
-    cms = build_cms1500_payload(trip, invoice_number, total)
-    line_items = json.dumps(
-        [
-            {
-                "description": line_description,
-                "hcpcs": trip["hcpcs_code"],
-                "quantity": 1,
-                "rate": total,
-                "amount": total,
-            }
-        ],
-        default=str,
-    )
+    items = claim_line_items or [
+        {
+            "description": line_description,
+            "hcpcs": trip["hcpcs_code"],
+            "quantity": 1,
+            "rate": total,
+            "amount": total,
+        }
+    ]
+    cms = build_cms1500_payload(trip, invoice_number, total, claim_line_items=items)
+    line_items = json.dumps(items, default=str)
     notes_obj = {
         "vertex_module": "NEMT",
         "invoice_type_label": NEMT_INVOICE_TYPE,
@@ -904,7 +1020,7 @@ def get_nemt_invoice_pdf_path_from_record(invoice_record: Any) -> Optional[str]:
     return None
 
 
-def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
+def generate_claim(airtable, trip_id: str, *, force_qc: bool = False, qc_override_reason: str = "") -> Dict[str, Any]:
     from nemt_factoring_invoice_html import generate_nemt_factoring_invoice_html
 
     state = _load_state()
@@ -914,13 +1030,47 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
     if trip.get("invoice_id"):
         raise ValueError("Trip already converted to a claim")
 
+    # ── VERTEX billing gate (9-pillar QC spine) ─────────────────────────────
+    try:
+        from nexus_qc_engine import (
+            assert_vertex_billing_gate,
+            mark_billing_complete,
+            sync_nemt_trip_from_order,
+        )
+
+        nemt_oid = trip.get("nemt_order_id")
+        if nemt_oid:
+            try:
+                import os
+                nemt_path = os.path.join(os.path.dirname(__file__), "prism_nemt_data.json")
+                if os.path.isfile(nemt_path):
+                    import json as _json
+                    with open(nemt_path, "r", encoding="utf-8") as nf:
+                        nemt_state = _json.load(nf)
+                    nemt_order = (nemt_state.get("orders") or {}).get(nemt_oid)
+                    if nemt_order:
+                        nemt_order = {**nemt_order, "order_id": nemt_oid, "vertex_trip_id": trip_id}
+                        sync_nemt_trip_from_order(nemt_order)
+            except Exception as sync_exc:
+                logging.getLogger("nemt_billing").warning("QC pre-sync failed: %s", sync_exc)
+
+        assert_vertex_billing_gate(
+            nemt_order_id=trip.get("nemt_order_id"),
+            prism_order_id=trip.get("prism_order_id"),
+            vertex_trip_id=trip_id,
+            force=force_qc,
+            override_reason=qc_override_reason,
+        )
+    except ValueError:
+        raise
+    except ImportError:
+        pass
+
     payer = trip.get("payer") or PAYER_DEFAULT
-    total, desc = get_rate_amount_and_description(
-        airtable,
-        trip["hcpcs_code"],
-        payer=payer,
-        transport_type=trip.get("transport_type"),
-    )
+    claim = compute_trip_claim(airtable, trip)
+    total = claim["total"]
+    desc = claim["service_type_label"]
+    claim_line_items = claim["line_items"]
     client = lookup_vertex_client(airtable, payer)
     invoice_number = _next_nemt_invoice_number(airtable)
 
@@ -952,8 +1102,10 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
         "member_id": trip.get("member_medicaid_id"),
         "trip_origin": trip.get("pickup_address"),
         "trip_destination": trip.get("dropoff_address"),
-        "hcpcs_code": trip["hcpcs_code"],
+        "hcpcs_code": claim.get("primary_hcpcs") or trip["hcpcs_code"],
         "service_type_label": desc,
+        "mileage": trip.get("mileage"),
+        "invoice_lines": claim_line_items,
         "unit_quantity": 1,
         "unit_rate": total,
         "total_amount": total,
@@ -967,7 +1119,7 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
         f.write(html_body)
     pdf_ok = write_pdf_from_html(html_path, pdf_path)
 
-    line_desc = f"NEMT {desc} — {trip['hcpcs_code']}"
+    line_desc = f"NEMT {desc}"
     fields = _invoice_fields_for_claim(
         trip,
         invoice_number,
@@ -975,6 +1127,7 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
         line_desc,
         invoice_date_iso=inv_date_iso,
         due_date_iso=due_date_iso,
+        claim_line_items=claim_line_items,
         nemt_html_path=html_path,
         nemt_pdf_path=pdf_path,
         pdf_generated=pdf_ok,
@@ -1001,6 +1154,18 @@ def generate_claim(airtable, trip_id: str) -> Dict[str, Any]:
     trip["claimed_at"] = _now_iso()
     state["trips"][trip_id] = trip
     _save_state(state)
+
+    try:
+        from nexus_qc_engine import mark_billing_complete
+
+        mark_billing_complete(
+            nemt_order_id=trip.get("nemt_order_id"),
+            vertex_trip_id=trip_id,
+            vertex_invoice_id=str(inv_id or ""),
+            invoice_number=invoice_number,
+        )
+    except ImportError:
+        pass
 
     notes_parsed = json.loads(fields[VI['notes']])
     return {

@@ -19,6 +19,7 @@ Provider Credentials:
 from __future__ import annotations
 
 import json
+import logging
 import os
 import threading
 import uuid
@@ -26,6 +27,8 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from flask import Blueprint, jsonify, request
+
+logger = logging.getLogger("prism.nemt")
 
 # ─── NEXUS LEARNING ENGINE INTEGRATION ────────────────────────────────────────
 try:
@@ -180,6 +183,8 @@ def create_nemt_order(
     vehicle_id: Optional[str] = None,
     notes: Optional[str] = None,
     prism_order_id: Optional[str] = None,
+    member_phone: Optional[str] = None,
+    member_email: Optional[str] = None,
 ) -> Dict[str, Any]:
     transport = TRANSPORT_TYPES.get(transport_type)
     if not transport:
@@ -209,6 +214,8 @@ def create_nemt_order(
         "driver_name": driver_name or None,
         "vehicle_id": vehicle_id or None,
         "notes": notes or "",
+        "member_phone": (member_phone or "").strip() or None,
+        "member_email": (member_email or "").strip().lower() or None,
         "prism_order_id": (prism_order_id or "").strip() or None,
         "status": "scheduled",
         "created_at": _now_iso(),
@@ -521,6 +528,19 @@ def create_nemt_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) -
     notes_parts.append(f"Intake channel: {channel or intake_channel or 'web'}")
     notes = " · ".join(notes_parts)
 
+    member_phone = (
+        details.get("member_phone")
+        or data.get("client_phone")
+        or data.get("subject_phone")
+        or order.get("client_phone")
+        or ""
+    ).strip()
+    member_email = (
+        (data.get("client_email") or order.get("client_email") or data.get("subject_email") or order.get("subject_email") or "")
+        .strip()
+        .lower()
+    )
+
     try:
         nemt_order = create_nemt_order(
             member_medicaid_id=member_id,
@@ -535,6 +555,8 @@ def create_nemt_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) -
             notes=notes,
             prism_order_id=prism_id,
             eligibility_verified=voice_intake,
+            member_phone=member_phone or None,
+            member_email=member_email or None,
         )
         nemt_id = nemt_order.get("order_id")
         if nemt_id:
@@ -758,6 +780,7 @@ def complete_trip(
         driver_name=order.get("driver_name"),
         vehicle_id=order.get("vehicle_id"),
         prism_order_id=order.get("prism_order_id") or order_id,
+        nemt_order_id=order_id,
         transport_type=order.get("transport_type"),
     )
     order["vertex_trip_id"] = vertex_trip["trip_id"]
@@ -790,10 +813,40 @@ def complete_trip(
         'region': 'MI',
     })
 
+    # ─── Member satisfaction survey (audit / performance record) ─────────────
+    try:
+        from member_satisfaction_survey import queue_trip_satisfaction_survey
+
+        queue_trip_satisfaction_survey(
+            nemt_order_id=order_id,
+            member_name=order.get("member_name", ""),
+            member_phone=order.get("member_phone") or "",
+            member_email=order.get("member_email") or "",
+            payer=order.get("payer", ""),
+            trip_purpose=order.get("trip_purpose", ""),
+            prism_order_id=order.get("prism_order_id"),
+            vertex_trip_id=order.get("vertex_trip_id"),
+            driver_name=order.get("driver_name"),
+            completed_at=order.get("completed_at"),
+        )
+    except Exception as exc:
+        logger.warning("Member survey queue failed: %s", exc)
+
+    # ─── QC spine — 9-pillar record per trip ─────────────────────────────────
+    qc_record = None
+    try:
+        from nexus_qc_engine import sync_nemt_trip_from_order
+
+        order_for_qc = {**order, "order_id": order_id, "contract_id": order.get("contract_id") or "HAP-CARESOURCE-NEMT"}
+        qc_record = sync_nemt_trip_from_order(order_for_qc)
+    except Exception as exc:
+        logger.warning("QC record sync failed: %s", exc)
+
     return {
         "order": order,
         "vertex_trip": vertex_trip,
         "claim": claim_result,
+        "qc_record": qc_record,
     }
 
 
@@ -954,6 +1007,19 @@ def _send_nemt_confirmation_async(order: Dict[str, Any], req_data: Dict[str, Any
     """
     phone = (req_data.get("member_phone") or "").strip()
     email = (req_data.get("member_email") or "").strip()
+
+    if phone and order.get("order_id"):
+        state = _load_state()
+        o = state.get("orders", {}).get(order["order_id"])
+        if o:
+            o["member_phone"] = phone
+            if email:
+                o["member_email"] = email.strip().lower()
+            state["orders"][order["order_id"]] = o
+            _save_state(state)
+            order["member_phone"] = phone
+            if email:
+                order["member_email"] = email.strip().lower()
 
     if not phone and not email:
         return
@@ -1119,6 +1185,7 @@ def route_create_order():
             vehicle_id=data.get("vehicle_id"),
             notes=data.get("notes"),
             prism_order_id=data.get("prism_order_id"),
+            member_phone=data.get("member_phone"),
         )
         if data.get("prism_order_id") and order.get("order_id"):
             link_prism_nemt_order(data["prism_order_id"], order["order_id"])
@@ -1247,7 +1314,10 @@ def route_complete(order_id: str):
         )
         return jsonify(result)
     except ValueError as e:
-        return jsonify({"error": str(e)}), 400
+        msg = str(e)
+        if "QC gate" in msg or "billing blocked" in msg.lower():
+            return jsonify({"error": msg, "qc_gate_blocked": True}), 403
+        return jsonify({"error": msg}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

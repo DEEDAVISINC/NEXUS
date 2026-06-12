@@ -283,6 +283,20 @@ def _handle_prism_service_complete(source_record_id: str, data: Dict, at) -> Dic
     if amount <= 0:
         return {"skipped": "No service amount"}
 
+    try:
+        from nexus_qc_engine import assert_vertex_billing_gate
+
+        assert_vertex_billing_gate(
+            prism_order_id=source_record_id,
+            force=bool(data.get("force_qc")),
+            override_reason=data.get("qc_override_reason", ""),
+        )
+    except ValueError as exc:
+        log.warning("[PRISM Service] QC gate blocked invoice: %s", exc)
+        return {"blocked": True, "error": str(exc)}
+    except ImportError:
+        pass
+
     line_item = json.dumps([{
         "description": service_type,
         "hcpcs": hcpcs,

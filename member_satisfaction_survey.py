@@ -662,6 +662,13 @@ def submit_survey_response(
         rec["audit_html_path"] = None
     _update_log_record(log, rec)
 
+    try:
+        from nexus_qc_engine import sync_member_grade_to_qc
+
+        sync_member_grade_to_qc(rec)
+    except Exception as exc:
+        logger.warning("QC pillar 6 sync failed: %s", exc)
+
     nxlearn_survey(rec)
     return {"success": True, "record": rec}
 

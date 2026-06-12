@@ -11,12 +11,18 @@ FILES=(
   prism_orders_api.py
   nexus_confirmation_engine.py
   prism_nemt.py
+  nemt_billing.py
   shield_notifications.py
   prism_voice_tts.py
   prism_voice_intake.py
   prism_pa_app.py
   member_satisfaction_survey.py
   member_trip_grade_audit_report.py
+  nexus_qc_engine.py
+  nexus_qc_api.py
+  nexus_qc_mco_audit_report.py
+  seed_member_trip_grade_demo.py
+  seed_nexus_qc_demo.py
 )
 
 echo "=== DDI branding sync → PythonAnywhere ==="
@@ -49,6 +55,11 @@ echo ""
 echo "✅ Files updated."
 echo "→ Web tab → Reload deedavis.pythonanywhere.com"
 echo ""
+echo ""
+echo "Optional demo data (HAP MCO preview):"
+echo "  python3 seed_member_trip_grade_demo.py"
+echo ""
 echo "After reload, verify:"
-echo "  curl -s https://deedavis.pythonanywhere.com/health | python3 -m json.tool | grep member_survey"
+echo "  curl -s https://deedavis.pythonanywhere.com/health | python3 -m json.tool | grep -E 'member_survey|nexus_qc'"
 echo "  curl -s -o /dev/null -w 'mco-packet HTTP %{http_code}\\n' 'https://deedavis.pythonanywhere.com/prism/nemt/satisfaction/mco-packet.html?payer=HAP%20CareSource'"
+echo "  curl -s -o /dev/null -w 'qc-breakdown HTTP %{http_code}\\n' 'https://deedavis.pythonanywhere.com/nexus/qc/mco/breakdown.html?payer=HAP%20CareSource'"
