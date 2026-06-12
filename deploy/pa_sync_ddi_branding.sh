@@ -15,6 +15,8 @@ FILES=(
   prism_voice_tts.py
   prism_voice_intake.py
   prism_pa_app.py
+  member_satisfaction_survey.py
+  member_trip_grade_audit_report.py
 )
 
 echo "=== DDI branding sync → PythonAnywhere ==="
@@ -23,7 +25,14 @@ for f in "${FILES[@]}"; do
   curl -fsSL "$RAW/$f" -o "$f.tmp" && mv "$f.tmp" "$f"
 done
 
-mkdir -p uploads/confirmations uploads/prism
+mkdir -p uploads/confirmations uploads/prism uploads/member_satisfaction uploads/member_satisfaction/audit assets
+
+if curl -fsSL "$RAW/assets/ddi_logo_base64.txt" -o assets/ddi_logo_base64.txt.tmp 2>/dev/null; then
+  mv assets/ddi_logo_base64.txt.tmp assets/ddi_logo_base64.txt
+  echo "  ✓ assets/ddi_logo_base64.txt"
+else
+  echo "  ⚠ assets/ddi_logo_base64.txt not on remote — logo falls back to cap statement extract if present"
+fi
 
 if [ -f .env ]; then
   if grep -q '^PRISM_VOICE_TRANSFER_NUMBER=' .env; then

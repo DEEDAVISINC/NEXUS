@@ -24,6 +24,8 @@
 
 **Not the same contract as MDHHS ModivCare broker MA190000000912** (state tri-county broker — separate opportunity).
 
+**Pharmacy / Rx home delivery:** **Not covered under HIDE SNP / MICH program** — confirmed Brian Grcevich (Jun 2026). Drug benefit = PBM/mail-order (Express Scripts, etc.), separate from LTSS. **VITAL lane is a different MCO contract path** — do not pitch pharmacy courier on HAP HIDE SNP calls.
+
 **Member Population:** ~4,500 members in program (Wayne + Macomb service area per orientation)  
 **Ride Benefit:** Unlimited rides (no trip cap)
 
@@ -31,30 +33,59 @@
 
 ## RATES
 
-**HAP pays DDI flat per completed trip** (not mileage-based on DDI invoice):
+**Source:** CareSource call — Jun 2026 ✅ **Confirmed:** ambulatory $28 base, WAV $35 base, **$1.85/mi loaded mileage all trip types**
 
-| Trip Type | DDI Rate (from HAP) |
-|-----------|---------------------|
-| **Standard ride / ambulatory** | **$28.00 flat** |
-| **Ambulatory assist / Wheelchair** | **$35.00 flat** |
+**HAP pays DDI:** base trip **+ loaded mileage**
 
-### Fulfillment vs margin (Uber Health — Jun 2, 2026)
+| Component | DDI Rate |
+|-----------|----------|
+| **Standard ride / ambulatory (base)** | **$28.00** |
+| **Wheelchair / WAV (base)** | **$35.00** |
+| **Loaded mileage (all trip types)** | **$1.85 per mile** |
+
+**Invoice formula:** `Base + (loaded miles × $1.85)`
+
+| Example | Calculation | HAP pays DDI |
+|---------|-------------|--------------|
+| Ambulatory, 3 mi | $28 + (3 × $1.85) | **$33.55** |
+| Ambulatory, 8 mi | $28 + (8 × $1.85) | **$42.80** |
+| Ambulatory, 15 mi | $28 + (15 × $1.85) | **$55.75** |
+| Wheelchair, 8 mi | $35 + (8 × $1.85) | **$49.80** |
+| Wheelchair, 15 mi | $35 + (15 × $1.85) | **$62.75** |
+
+**VERTEX / NEXUS billing:** `nemt_billing.compute_trip_claim()` — base HCPCS (T2002 / A0130) + mileage line (T2003 / A0425) at **$1.85/mi**. Ops must enter **actual loaded mileage** on Mark Complete.
+
+### Fulfillment vs margin (Uber Health — update with mileage)
 
 | | HAP pays DDI | Uber fulfillment (est.) | DDI gross |
 |--|--------------|-------------------------|-----------|
-| Short ambulatory | $28 | ~$5–$10 | ~$18–$23 |
-| Long ambulatory | $28 | up to ~$24 | ~$4–$8 |
-| Wheelchair | $35 | Uber 3P sparse Detroit — **Lyft WAV / sub** | TBD |
+| 3 mi ambulatory | ~$33.55 | ~$5–$10 | ~$23–$28 |
+| 8 mi ambulatory | ~$42.80 | ~$12–$20 | ~$22–$30 |
+| 15 mi ambulatory | ~$55.75 | up to ~$24 | ~$31–$32 |
+| Wheelchair, 8 mi | ~$49.80 | Lyft WAV / sub — TBD | TBD |
+| Wheelchair, 15 mi | ~$62.75 | Lyft WAV / sub — TBD | TBD |
 
 ---
 
-## HOW TRIPS COME TO DDI
+## HOW TRIPS COME TO DDI — TWO-LANE MODEL (Brian Grcevich, Jun 7, 2026)
 
-DDI receives trip requests through **three channels**:
+CareSource confirmed **two transportation categories** for HIDE SNP / Wayne + Macomb:
 
-1. **Members call DDI directly** — Member contacts DDI to schedule ride
-2. **Portal queue** — Trip requests appear in HAP CareSource provider portal
-3. **Care Manager referrals** — Care Management team sends transportation referrals
+| Category | Vendor | Routing |
+|----------|--------|---------|
+| **Medical transport** | **MTM** | Member/provider scheduling — **1-866-733-8997** (orientation deck) |
+| **Non-medical transport** | **DDI** (Vendor 100000469269) | **Care manager** creates **service plan** → authorizes trips |
+| **Pharmacy / Rx home delivery** | **Not in HIDE SNP** | Brian confirmed — not covered; PBM/mail-order only for drugs |
+
+**Pharmaceutical delivery is out of scope for this program.** Do not bundle VITAL into HAP HIDE SNP positioning.
+
+### DDI intake channels (confirm on Jun 8 call)
+
+1. **Care manager service plan authorization** — primary path per Brian  
+2. **Portal queue** — Trip requests in CareSource provider portal (if used for non-medical)  
+3. **Direct member/caregiver contact** — DDI intake line **855-773-0035** (confirm CM materials reference this for non-medical only)
+
+**Call scheduled:** Wed **Jun 10, 2026 · 1:00 PM ET** · Brian 317-296-0519 · Prep: `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md` · `.ics`: `calendars/CARESOURCE_BRIAN_ROUTING_CALL_2026-06-10.ics`
 
 ### Care Management Contact
 | Plan | Phone |
@@ -99,7 +130,8 @@ Dayton, OH 45401
 
 ## PORTAL ACCESS
 
-- **URL:** https://providerportal.caresource.com/MI/User/Login.aspx
+- **Login URL (PRISM Live Portals / daily ops):** https://providerportal.caresource.com/MI/User/Login.aspx?ReturnUrl=%2fMI%2fLogout.aspx
+- **HAP provider resources hub:** https://www.hap.org/providers (forms, policies — portal login linked from there)
 - **Login:** Set up May 6, 2026 ✅
 - **Capabilities:**
   - Check member eligibility
@@ -183,7 +215,7 @@ HAP's **published vendor** for Medicaid + MICH transportation is **MTM (Medical 
 - Urgent/discharge: **24/7/365**
 - Deck also cites 30 one-way / 15 round trips under 30 miles annually, then states **no trip limits for covered benefits** — confirm with Brian/Dana which applies to HIDE SNP NEMT line
 
-**Operational meaning:** Orientation trains providers that MTM is the transport vendor. DDI's credentialed NEMT line is **parallel** — trips should flow via **portal queue, care manager referral, or member calling DDI directly** (see workflow above). If members are still routed to MTM, that's the redirect loop — escalate with Dana/Brian, not Provider Services front line.
+**Operational meaning (updated Jun 7):** MTM is **correct** for **medical** transport. DDI is **non-medical** under **CM service plan** authorization — not a conflict to escalate; a **lane to operationalize**. Still need written SOP, CM directory, rates/codes for non-medical, and one validation trip.
 
 ### Waiver / LTSS (slides 42–51) — separate from NEMT TPA
 - Waiver claims via portal (custom fee schedule, ECHO payment, payer of last resort)
@@ -230,6 +262,60 @@ CSS Health (MTM pharmacy), Delta Dental, NationsHearing, EyeMed, **MTM (transpor
 - Pickup and dropoff addresses
 - Trip type (standard/ambulatory/wheelchair)
 - Confirmation of ride completion
+
+### Member Trip Grade — SMS-First (Audit / Performance Record)
+
+**No phone-call surveys.** After each completed trip, DDI sends a **text from 855-773-0035** with a mobile link to **grade** the ride. Portal is backup only if they log in before grading.
+
+| Grade | Meaning | Numeric (audit export) |
+|-------|---------|------------------------|
+| **A** | Excellent | 5 |
+| **B** | Good | 4 |
+| **C** | Fair | 3 |
+| **D** | Poor | 2 |
+| **F** | Unacceptable | 1 |
+
+Member grades three categories (tap A–F on phone):
+
+| Category | What they grade |
+|----------|-----------------|
+| **DDI overall** | Program / service experience |
+| **Driver / travel companion** | Courtesy, professionalism, assistance |
+| **Trip / travel** | Comfort, timeliness, ride quality |
+
+**SMS flow (won't be missed):**
+1. **Initial text** ~60 min after dropoff — "Grade your trip (A–F)" + link (~30 sec)
+2. **Reminder text** 24h later if no grade submitted (configurable)
+3. **Portal gate** — if they open portal before grading, modal blocks next schedule until each ride is graded
+
+- **Grade link:** SMS from **855-773-0035** → mobile form at `/member/survey/{token}`
+- **Portal gate:** blocking modal on portal.deedavis.biz before rebook / new NEMT
+- **Pending API:** `GET /prism/nemt/satisfaction/pending?email=&order_ids=`
+- **Submit API:** `POST /prism/nemt/satisfaction/submit` (JSON grades: `ddi_grade`, `driver_grade`, `trip_grade`)
+
+### Where survey audit records live (PRISM — not VERTEX or COMPASS)
+
+| Store | Path / API | What's in it |
+|-------|------------|--------------|
+| **Master log** | `uploads/member_satisfaction/survey_log.json` | Every trip grade — pending + completed, full detail |
+| **Per-trip archive** | `uploads/member_satisfaction/audit/YYYY/YYYY-MM-DD_{nemt_order_id}.json` | Immutable JSON written when member submits grade |
+| **Single trip (HTML)** | `GET /prism/nemt/satisfaction/trip/{nemt_order_id}.html` | Beautiful one-page scorecard — print to PDF |
+| **MCO packet (HTML)** | `GET /prism/nemt/satisfaction/mco-packet.html?payer=HAP%20CareSource` | Full summary + trip log — print to PDF for CareSource |
+| **Per-trip archive (HTML)** | `uploads/member_satisfaction/audit/YYYY/*.html` | Auto-saved when member grades (matches JSON) |
+| **Bulk export (CSV)** | `GET /prism/nemt/satisfaction/export.csv?payer=HAP%20CareSource` | Spreadsheet backup |
+
+Each detailed record includes: member name, payer, trip purpose, driver, grades (A–F + numeric), SMS sent/reminder timestamps, response channel, comments, and **trip_snapshot** (pickup/dropoff, times, mileage, transport type, VERTEX trip ID).
+
+**Billing audits** stay in **VERTEX**. **Contract CO reports** stay in **COMPASS**. **Member trip grade audits** stay in **PRISM** at the paths above.
+
+Include quarterly grade averages + A–F distribution in **MCO audit packets** (open `mco-packet.html` in Chrome → Print → Save as PDF).
+
+**How to build the quality section of an MCO packet:**
+1. Open `https://deedavis.pythonanywhere.com/prism/nemt/satisfaction/mco-packet.html?payer=HAP%20CareSource`
+2. Click **Save as PDF / Print** — summary stats, grade distribution chart, full trip table
+3. Attach individual trip HTML files from `uploads/member_satisfaction/audit/` if requested
+
+**Env:** `MEMBER_SURVEY_DELAY_MINUTES=60` · `MEMBER_SURVEY_REMINDER_HOURS=24` (0=off) · `NEXUS_CONFIRM_BASE_URL` or `PRISM_VOICE_BASE_URL` for links
 
 ---
 
