@@ -18,6 +18,8 @@ app = Flask(__name__)
 CORS(app)
 
 _nemt_loaded = False
+_member_survey_loaded = False
+_member_survey_error = None
 
 
 def _mask_phone(raw: str) -> str:
@@ -82,7 +84,9 @@ def health_check():
         'mode': 'pa-minimal',
         'modules': {
             'nemt': _nemt_loaded,
+            'member_survey': _member_survey_loaded,
         },
+        'member_survey_error': _member_survey_error,
         'notifications': notifications,
         'notifications_ready': all_channels,
     })
@@ -186,6 +190,24 @@ def shield_twilio_inbound():
     return '<?xml version="1.0" encoding="UTF-8"?><Response></Response>', 200, {
         'Content-Type': 'text/xml',
     }
+
+
+try:
+    from member_satisfaction_survey import member_survey
+
+    app.register_blueprint(member_survey)
+    _member_survey_loaded = True
+except ImportError as exc:
+    _member_survey_error = str(exc)
+    logger_msg_survey = f'Member satisfaction survey not loaded: {exc}'
+
+    @app.route('/member/survey/<path:_path>', methods=['GET', 'POST'])
+    @app.route('/prism/nemt/satisfaction/<path:_path>', methods=['GET', 'POST'])
+    def member_survey_unavailable(_path):
+        return jsonify({
+            'error': logger_msg_survey,
+            'hint': 'Pull member_satisfaction_survey.py + member_trip_grade_audit_report.py and reload web app.',
+        }), 503
 
 
 # PythonAnywhere WSGI entry point
