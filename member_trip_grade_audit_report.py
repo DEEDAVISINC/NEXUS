@@ -339,7 +339,16 @@ def _detail_item(key: str, val: Any, full: bool = False) -> str:
     return f'<div class="{cls}"><div class="detail-key">{_esc(key)}</div><div class="detail-val">{val if isinstance(val, str) and val.startswith("<") else _esc(val)}</div></div>'
 
 
-def _page_shell(title: str, kicker: str, h1: str, sub: str, meta: str, body: str) -> str:
+def _page_shell(
+    title: str,
+    kicker: str,
+    h1: str,
+    sub: str,
+    meta: str,
+    body: str,
+    *,
+    footer_tagline: str = "Member Trip Grade Report",
+) -> str:
     gen = datetime.now(EASTERN).strftime("%B %d, %Y · %I:%M %p ET")
     logo_hero = _logo_img(BRAND_NAME, "hero-logo-img")
     logo_footer = _logo_img(BRAND_NAME, "footer-logo-img")
@@ -356,7 +365,7 @@ def _page_shell(title: str, kicker: str, h1: str, sub: str, meta: str, body: str
 <h1>{h1}</h1><p class="hero-sub">{sub}</p></div></div></div>
 <div class="hero-meta">{meta}</div></header>
 <main class="body">{body}</main>
-<footer class="footer"><div class="footer-brand">{footer_logo_block}<div><strong>{_esc(COMPANY_NAME)}</strong> · {_esc(BRAND_NAME)} · Member Trip Grade Report</div></div>
+<footer class="footer"><div class="footer-brand">{footer_logo_block}<div><strong>{_esc(COMPANY_NAME)}</strong> · {_esc(BRAND_NAME)} · {_esc(footer_tagline)}</div></div>
 {_esc(ADDRESS_FULL)} · Member care {_esc(PHONE_MEMBER_CARE_DISPLAY)} · Desk {_esc(PHONE_PRIMARY)} · {_esc(EMAIL)} · {_esc(WEBSITE)}<br>
 Generated {_esc(gen)} · Confidential — MCO / quality audit</footer></div></body></html>"""
 
