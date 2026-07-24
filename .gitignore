@@ -11,6 +11,21 @@ BIDS:RESOURCES/
 nemt_billing_data.json
 nemt_billing_data.json.tmp
 
+# Live runtime order/PHI data — these diverge on the production server as real
+# orders come in. Tracking them in git causes: (1) PHI sitting in git history,
+# (2) production `git pull` conflicts/aborts whenever the live file has changed
+# since last pull (this is what silently blocked the CTS deploy on 2026-07-23).
+# Local working copies are kept — only removed from git tracking.
+prism_nemt_data.json
+prism_nemt_data.json.tmp
+uploads/prism/orders.json
+uploads/prism/bat/bat_orders.json
+uploads/prism/confirmation_sequences.json
+uploads/prism/voice_call_log.json
+uploads/prism/voice_sessions.json
+uploads/confirmations/confirmation_log.json
+workflow_queues_data.json
+
 # NEMT factoring invoices (HTML/PDF; may contain PHI)
 GENERATED_VERTEX_INVOICES/
 
