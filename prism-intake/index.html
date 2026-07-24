@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Program Portal | DDI</title>
-<meta name="description" content="Schedule drug testing, fingerprinting, DNA, occupational health, NEMT, notary, courier, background screening, credentialing, and workforce compliance services.">
+<title>DDI Service Intake</title>
+<meta name="description" content="Request and track DDI services — testing, screening, transport, courier, notary, and more.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230f172a'/><text x='50' y='62' text-anchor='middle' font-family='system-ui,sans-serif' font-size='36' font-weight='700' fill='%23b08d3e'>D</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -84,84 +85,276 @@
   /* ── MAIN ── */
   .main-wrap { max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }
 
-  /* ── ENTRY GATE ── */
-  .entry-gate { max-width: 480px; margin: 0 auto; padding-top: 40px; }
-  .entry-title { font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 8px; text-align: center; letter-spacing: -0.02em; }
-  .entry-subtitle { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 28px; line-height: 1.6; }
-  .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-md); }
-  .entry-email-label {
-    font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; display: block;
-    text-transform: uppercase; letter-spacing: 0.06em;
+  /* ── ENTRY GATE (split sign-in) ── */
+  body.gate-mode { background: #FAF8F4; }
+  body.gate-mode .site-header,
+  body.gate-mode .member-care-bar,
+  body.gate-mode .site-footer,
+  body.gate-mode .progress-wrap { display: none !important; }
+  body.gate-mode .main-wrap { max-width: none; padding: 0; margin: 0; }
+  .entry-gate {
+    display: none; width: 100%; min-height: 100vh;
+    font-family: 'Montserrat', var(--sans);
   }
+  body.gate-mode .entry-gate { display: flex; }
+  .portal-wrap { display: flex; min-height: 100vh; width: 100%; }
+  .portal-left {
+    background: #0B1E3D; flex: 0 0 340px; padding: 40px 32px;
+    display: flex; flex-direction: column; gap: 24px; position: relative; overflow: hidden;
+  }
+  .portal-left::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .portal-right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: #FAF8F4; }
+  .ddi-mark { display: flex; align-items: center; gap: 14px; position: relative; }
+  .ddi-logo {
+    width: 52px; height: 52px; border-radius: 6px; object-fit: contain;
+    background: rgba(255,255,255,0.96); padding: 3px; flex-shrink: 0;
+  }
+  .ddi-name { color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.2; }
+  .ddi-sub { color: rgba(201,168,76,0.7); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 2px; }
+  .portal-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; }
+  .portal-tagline { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500; line-height: 1.7; position: relative; }
+  .portal-tagline strong { color: #C9A84C; font-weight: 700; }
+  .feature-list { display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .feature-item { display: flex; gap: 12px; align-items: flex-start; }
+  .feature-item .emoji { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .feature-item .text { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.5; font-weight: 500; }
+  .left-footer { margin-top: auto; position: relative; }
+  .left-footer-text { font-size: 10px; color: rgba(255,255,255,0.25); line-height: 1.6; font-weight: 400; }
+  .signin-card { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 18px; }
+  .portal-title { font-size: 22px; font-weight: 700; color: #0B1E3D; letter-spacing: -0.01em; }
+  .portal-lead { font-size: 12px; color: #6B6458; line-height: 1.6; font-weight: 400; margin-top: 4px; }
+  .hipaa-card {
+    background: rgba(11,30,61,0.04); border: 0.5px solid rgba(11,30,61,0.08);
+    border-left: 3px solid #C9A84C; border-radius: 0 6px 6px 0; padding: 12px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .hipaa-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .hipaa-text { font-size: 11px; color: #6B6458; line-height: 1.6; }
+  .hipaa-text strong { color: #0B1E3D; font-weight: 600; }
+  .hipaa-text a { color: #0B1E3D; font-weight: 600; text-decoration: none; }
+  .hipaa-text a:hover { text-decoration: underline; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-size: 10px; font-weight: 700; color: #6B6458; letter-spacing: 0.15em; text-transform: uppercase; }
   .entry-email-input {
-    width: 100%; padding: 12px 14px; font-size: 15px; font-family: var(--sans);
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    background: var(--white); color: var(--text); outline: none; transition: border-color .15s, box-shadow .15s;
+    width: 100%; border: 1px solid #D9D4CA; border-radius: 6px; padding: 12px 16px;
+    font-size: 14px; font-family: 'Montserrat', var(--sans); color: #0B1E3D; background: #FFFFFF;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .entry-email-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,23,42,.08); }
-  .entry-email-input::placeholder { color: var(--text-muted); }
+  .entry-email-input::placeholder { color: #B5AFA5; }
+  .entry-email-input:focus { border-color: #0B1E3D; box-shadow: 0 0 0 3px rgba(11,30,61,0.08); }
   .entry-btn {
-    width: 100%; margin-top: 16px; padding: 13px;
-    background: var(--navy); border: 1px solid var(--navy);
-    border-radius: var(--radius-sm); color: #fff;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    transition: background .15s, box-shadow .15s;
+    width: 100%; background: #0B1E3D; color: #C9A84C; font-family: 'Montserrat', var(--sans);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s;
   }
-  .entry-btn:hover { background: var(--navy-mid); box-shadow: var(--shadow-md); }
-  .entry-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-  .entry-or { text-align: center; color: var(--text-muted); font-size: 12px; margin: 16px 0; font-weight: 500; }
+  .entry-btn:hover { background: #C9A84C; color: #0B1E3D; }
+  .entry-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .or-row { display: flex; align-items: center; gap: 12px; margin: 4px 0; }
+  .or-line { flex: 1; height: 0.5px; background: #D9D4CA; }
+  .or-text { font-size: 11px; color: #B5AFA5; font-weight: 500; }
   .entry-new-btn {
-    width: 100%; padding: 12px; background: var(--white);
-    border: 1.5px solid var(--border); border-radius: var(--radius);
-    color: var(--text-secondary); font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all .2s;
+    width: 100%; background: #C9A84C; color: #0B1E3D; font-family: 'Montserrat', var(--sans);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px; border: 2px solid #C9A84C; border-radius: 6px; cursor: pointer; transition: all 0.2s;
   }
-  .entry-new-btn:hover { border-color: var(--border-hover); color: var(--text); }
-  .entry-loading { display: none; text-align: center; padding: 12px; }
-  .entry-loading .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .7s linear infinite; }
+  .entry-new-btn:hover { background: transparent; color: #C9A84C; }
+  .help-row { text-align: center; font-size: 11px; color: #B5AFA5; }
+  .help-row a { color: #0B1E3D; font-weight: 600; text-decoration: none; }
+  .help-row a:hover { text-decoration: underline; }
+  .gate-support-bar {
+    background: #0B1E3D; padding: 10px 16px; border-radius: 6px; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); text-align: center; margin-top: 8px;
+  }
+  .gate-support-bar span { color: #C9A84C; }
+  .gate-support-bar a { color: #C9A84C; text-decoration: none; }
+  .gate-support-bar a:hover { text-decoration: underline; }
+  .entry-loading { display: none; text-align: center; padding: 12px; font-size: 12px; color: #6B6458; }
+  .entry-loading .spinner {
+    display: inline-block; width: 20px; height: 20px; border: 2px solid #D9D4CA;
+    border-top-color: #C9A84C; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 8px;
+  }
+  .gate-error {
+    font-size: 12px; color: #b91c1c; background: #fef2f2; border: 1px solid #fecaca;
+    padding: 10px 14px; border-radius: 6px; line-height: 1.5;
+  }
+  .entry-code-input { text-align: center; letter-spacing: 0.35em; font-size: 22px; font-weight: 700; }
+  .entry-secondary-btn {
+    width: 100%; margin-top: 8px; background: transparent; color: #0B1E3D;
+    font-family: 'Montserrat', var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 12px;
+    border: 1px solid #D9D4CA; border-radius: 6px; cursor: pointer; transition: all 0.2s;
+  }
+  .entry-secondary-btn:hover { border-color: #0B1E3D; }
+  .entry-secondary-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .entry-link-btn {
+    width: 100%; margin-top: 10px; background: transparent; border: none; color: #6B6458;
+    font-family: 'Montserrat', var(--sans); font-size: 11px; cursor: pointer; text-decoration: underline;
+  }
+  .email-verified-lock {
+    background: #f8fafc !important; color: #475569 !important; cursor: not-allowed;
+  }
+  .verified-email-note { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 768px) {
+    .portal-wrap { flex-direction: column; }
+    .portal-left { flex: none; padding: 28px 24px; }
+    .portal-right { padding: 28px 24px; }
+    .signin-card { max-width: 100%; }
+  }
 
-  /* ── CLIENT DASHBOARD ── */
+  /* ── CLIENT DASHBOARD (Montserrat shell) ── */
+  body.dashboard-mode { background: #FAF8F4; font-family: 'Montserrat', var(--sans); }
+  body.dashboard-mode .site-header,
+  body.dashboard-mode .member-care-bar,
+  body.dashboard-mode .site-footer { display: none !important; }
+  body.dashboard-mode .main-wrap { max-width: none; padding: 0; margin: 0; }
   .client-dashboard { display: none; }
   .client-dashboard.active { display: block; }
-  .dash-header {
-    background: var(--navy); border-radius: var(--radius);
-    padding: 24px 28px; margin-bottom: 20px; color: #fff;
-    box-shadow: var(--shadow-lg); border-bottom: 3px solid var(--gold);
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  .c-topbar { background: #0B1E3D; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .c-top-left { display: flex; align-items: center; gap: 12px; }
+  .c-top-logo { width: 32px; height: 32px; border-radius: 4px; object-fit: contain; background: rgba(255,255,255,0.96); padding: 2px; }
+  .c-top-name { color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .c-top-right { display: flex; align-items: center; gap: 16px; }
+  .c-top-help { font-size: 10px; color: rgba(255,255,255,0.45); font-weight: 500; }
+  .c-top-help a { color: #C9A84C; text-decoration: none; font-weight: 700; }
+  .c-top-help a:hover { text-decoration: underline; }
+  .c-top-btn, .dash-signout {
+    background: rgba(201,168,76,0.15); border: none; color: #C9A84C; font-family: 'Montserrat', var(--sans);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 4px; cursor: pointer; transition: all 0.15s;
   }
-  .dash-header-main { flex: 1; min-width: 0; }
-  .dash-welcome {
-    font-size: 11px; color: rgba(255,255,255,.55); font-weight: 600; margin-bottom: 6px;
-    text-transform: uppercase; letter-spacing: 0.08em;
+  .c-top-btn:hover, .dash-signout:hover { background: #C9A84C; color: #0B1E3D; }
+  .c-welcome { background: #0B1E3D; padding: 0 32px 24px; border-bottom: 3px solid #C9A84C; }
+  .c-welcome-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .c-welcome h2 { color: #fff; font-size: 20px; font-weight: 700; margin: 0; }
+  .c-welcome h2 span { color: #C9A84C; }
+  .c-welcome-sub { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; font-weight: 500; }
+  .c-welcome-email { font-size: 11px; color: rgba(255,255,255,0.35); font-weight: 400; text-align: right; }
+  .c-body { max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px; }
+  .c-stats, .dash-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .c-stat, .stat-card {
+    background: #fff; border-radius: 8px; padding: 18px; text-align: center; position: relative;
+    cursor: pointer; transition: box-shadow 0.15s; border: none; box-shadow: none;
   }
-  .dash-company { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
-  .dash-contact { font-size: 13px; color: rgba(255,255,255,.65); }
-  .dash-whats-next {
-    display: inline-block; margin-top: 14px; padding: 0;
-    font-size: 11px; font-weight: 600; color: rgba(255,255,255,.45);
-    letter-spacing: 0.06em; text-transform: uppercase;
+  .c-stat::before, .stat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 8px 8px 0 0;
   }
-  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-  .stat-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 18px 16px; text-align: center; box-shadow: var(--shadow);
-    cursor: pointer; transition: all .2s; position: relative; overflow: hidden;
+  .c-stat.s1::before, .stat-card.stat-card-blue::before { background: #C9A84C; }
+  .c-stat.s2::before, .stat-card.stat-card-orange::before { background: #E8A838; }
+  .c-stat.s3::before, .stat-card.stat-card-green::before { background: #2D8A56; }
+  .c-stat.s4::before, .stat-card.stat-card-purple::before { background: #0B1E3D; }
+  .c-stat:hover, .stat-card:hover { box-shadow: 0 4px 12px rgba(11,30,61,0.08); }
+  .c-stat.active-kpi, .stat-card.active-kpi { box-shadow: 0 0 0 2px #C9A84C; }
+  .c-stat-em { font-size: 22px; margin-bottom: 6px; }
+  .c-stat-num, .stat-num { font-size: 32px; font-weight: 800; color: #0B1E3D; line-height: 1; }
+  .c-stat-label, .stat-label { font-size: 10px; font-weight: 700; color: #8C8577; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px; }
+  .stat-hint { display: none; }
+  .c-section, .dash-section-title {
+    display: flex; align-items: center; gap: 10px; margin-top: 4px;
+    font-size: 12px; font-weight: 700; color: #0B1E3D; letter-spacing: 0.1em; text-transform: uppercase;
   }
-  .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--border);
+  .dash-section-title::before { display: none; }
+  .c-section-title { font-size: 12px; font-weight: 700; color: #0B1E3D; letter-spacing: 0.1em; text-transform: uppercase; }
+  .c-section-count, .dash-section-title .count {
+    background: rgba(201,168,76,0.12); color: #997A30; font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px; border: none; text-transform: none; letter-spacing: 0;
   }
-  .stat-card.stat-card-blue::before { background: var(--blue); }
-  .stat-card.stat-card-orange::before { background: var(--orange); }
-  .stat-card.stat-card-green::before { background: var(--green); }
-  .stat-card.stat-card-purple::before { background: var(--navy); }
-  .stat-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
-  .stat-card.active-kpi { border-color: var(--navy); box-shadow: var(--shadow-md); }
-  .stat-num { font-size: 26px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
-  .stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-hint { font-size: 9px; color: var(--text-muted); margin-top: 4px; opacity: 0; transition: opacity .2s; }
-  .stat-card:hover .stat-hint { opacity: 1; }
+  .c-section-line { flex: 1; height: 1px; background: #EDE9E0; }
+  .c-row { display: grid; grid-template-columns: 1fr 240px; gap: 16px; }
+  .c-card { background: #fff; border-radius: 8px; padding: 18px; }
+  .upcoming-list { display: flex; flex-direction: column; }
+  .appt, .upcoming-item { padding: 16px 0; border-bottom: 0.5px solid #F0EDE6; }
+  .appt:last-child, .upcoming-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .appt:first-child, .upcoming-item:first-child { padding-top: 0; }
+  .appt-top, .upcoming-item { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .appt-badge, .upcoming-sector-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 2px;
+    background: rgba(11,30,61,0.07); color: #0B1E3D; border: none;
+  }
+  .appt-info, .upcoming-info { flex: 1; min-width: 0; }
+  .appt-name, .upcoming-title { font-size: 13px; font-weight: 700; color: #0B1E3D; }
+  .appt-detail, .upcoming-meta { font-size: 11px; color: #8C8577; margin-top: 3px; line-height: 1.5; }
+  .appt-date { font-size: 11px; font-weight: 600; color: #997A30; text-align: right; flex-shrink: 0; white-space: nowrap; }
+  .appt-btns, .trip-actions-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; width: 100%; }
+  .appt-btn, .trip-action-btn {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 18px; border-radius: 6px; cursor: pointer; font-family: 'Montserrat', var(--sans); transition: all 0.15s;
+  }
+  .appt-btn.gold, .trip-action-btn.trip-action-rebook, .trip-action-btn.trip-action-return {
+    background: #C9A84C; color: #0B1E3D; border: none;
+  }
+  .appt-btn.gold:hover, .trip-action-btn.trip-action-rebook:hover, .trip-action-btn.trip-action-return:hover {
+    background: #0B1E3D; color: #C9A84C;
+  }
+  .appt-btn.outline, .trip-action-btn.trip-action-outline, .trip-action-btn.trip-action-repeat, .trip-action-btn.trip-action-recurring {
+    background: #fff; color: #0B1E3D; border: 1.5px solid #0B1E3D;
+  }
+  .appt-btn.outline:hover, .trip-action-btn.trip-action-outline:hover, .trip-action-btn.trip-action-repeat:hover, .trip-action-btn.trip-action-recurring:hover {
+    background: #0B1E3D; color: #fff;
+  }
+  .trip-actions-label { font-size: 10px; font-weight: 700; color: #8C8577; letter-spacing: 0.1em; text-transform: uppercase; width: 100%; }
+  .trip-actions { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
+  .c-contact { background: #fff; border-radius: 8px; padding: 16px; margin-top: 10px; }
+  .c-contact-title { font-size: 10px; font-weight: 700; color: #8C8577; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .c-contact-row { font-size: 11px; color: #0B1E3D; line-height: 1.8; font-weight: 500; }
+  .c-contact-row a { color: #997A30; text-decoration: none; font-weight: 600; }
+  .c-contact-row a:hover { text-decoration: underline; }
+  .c-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .c-act-btn, .new-request-strip {
+    font-family: 'Montserrat', var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    text-align: center; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .c-act-btn.gold, .new-request-strip { background: #C9A84C; color: #0B1E3D; }
+  .c-act-btn.gold:hover, .new-request-strip:hover { background: #0B1E3D; color: #C9A84C; box-shadow: none; }
+  .c-act-btn.navy { background: #0B1E3D; color: #C9A84C; }
+  .c-act-btn.navy:hover { background: #C9A84C; color: #0B1E3D; }
+  .client-dashboard .new-request-strip .nrs-left,
+  .client-dashboard .new-request-strip .nrs-arrow { display: none; }
+  .c-footer {
+    background: rgba(11,30,61,0.04); padding: 10px 32px; font-size: 10px; color: #8C8577;
+    display: flex; align-items: center; justify-content: space-between; border-top: 0.5px solid #EDE9E0;
+  }
+  .c-footer span { font-weight: 700; color: #0B1E3D; }
+  .c-footer a { color: #997A30; text-decoration: none; font-weight: 600; }
+  .c-footer a:hover { text-decoration: underline; }
+  .client-dashboard .order-calendar {
+    background: transparent; border: none; box-shadow: none; padding: 0; margin: 0;
+  }
+  .mini-cal-head, .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border: none; padding: 0; }
+  .mini-cal-month, .cal-header-title { font-size: 12px; font-weight: 700; color: #0B1E3D; }
+  .mini-cal-nav, .cal-nav { display: flex; gap: 6px; }
+  .mini-cal-nav span, .cal-nav-btn {
+    width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+    border-radius: 4px; color: #8C8577; cursor: pointer; font-size: 12px; transition: background 0.15s;
+    border: none; background: transparent; padding: 0;
+  }
+  .mini-cal-nav span:hover, .cal-nav-btn:hover { background: #F0EDE6; }
+  .mini-cal-grid, .cal-weekdays, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+  .cal-weekdays { margin-bottom: 2px; }
+  .mini-cal-day, .cal-weekday { font-size: 9px; font-weight: 700; color: #8C8577; padding: 4px 0; letter-spacing: 0.1em; }
+  .mini-cal-cell, .cal-day {
+    font-size: 11px; color: #0B1E3D; padding: 5px 0; border-radius: 4px; font-weight: 500; position: relative;
+    min-height: auto; border: none; background: transparent; cursor: pointer;
+  }
+  .cal-day:hover:not(.cal-empty) { background: #F0EDE6; }
+  .cal-day.cal-today, .mini-cal-cell.today { background: #C9A84C; color: #0B1E3D; font-weight: 700; }
+  .cal-day.has-event::after, .mini-cal-cell.has-event::after {
+    content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: #C9A84C;
+  }
+  .cal-day.cal-today.has-event::after, .mini-cal-cell.today.has-event::after { background: #0B1E3D; }
+  .cal-day.cal-selected { box-shadow: inset 0 0 0 2px #0B1E3D; }
+  .cal-day.cal-empty { visibility: hidden; }
+  .cal-day-dots { justify-content: center; }
+  .cal-dot { background: #C9A84C; width: 4px; height: 4px; }
+  .cal-day-detail { border-top: 0.5px solid #F0EDE6; margin-top: 10px; padding-top: 10px; }
+  #dash-company-name, #dash-contact-info { display: none; }
 
   /* ── KPI DETAIL PANEL ── */
   .kpi-panel { display: none; margin-bottom: 20px; animation: fadeIn .3s ease; }
@@ -545,27 +738,7 @@
   .compliance-bar { height: 4px; border-radius: 2px; background: var(--border); margin-top: 6px; overflow: hidden; }
   .compliance-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
 
-  /* ── NEW REQUEST BUTTON ── */
-  .new-request-strip {
-    background: var(--navy); border: none; border-radius: var(--radius);
-    padding: 18px 22px; cursor: pointer; transition: background .15s, box-shadow .15s;
-    margin-top: 20px; box-shadow: var(--shadow-md);
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  }
-  .new-request-strip:hover { background: var(--navy-mid); box-shadow: var(--shadow-lg); }
-  .new-request-strip .nrs-left { display: flex; align-items: center; gap: 14px; text-align: left; }
-  .new-request-strip .nrs-icon {
-    font-size: 22px; margin: 0; display: inline-flex; width: 44px; height: 44px;
-    align-items: center; justify-content: center; border-radius: var(--radius-sm);
-    background: var(--gold); color: var(--navy); font-weight: 600; flex-shrink: 0;
-  }
-  .new-request-strip .nrs-text { font-size: 15px; font-weight: 600; color: #fff; }
-  .new-request-strip .nrs-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 2px; }
-  .new-request-strip .nrs-arrow {
-    font-size: 18px; color: rgba(255,255,255,.5); font-weight: 400; flex-shrink: 0;
-  }
-
-  /* ── ORDER CALENDAR ── */
+  /* ── ORDER CALENDAR (wizard / legacy) ── */
   .order-calendar {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 16px 18px 14px; box-shadow: var(--shadow); margin-bottom: 20px;
@@ -796,6 +969,51 @@
   /* ── OVERLAY ── */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .overlay.active { display: flex; }
+
+  /* ── RIDE SURVEY GATE (one survey per completed trip before re-schedule) ── */
+  .survey-gate-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(15,23,42,.72);
+    backdrop-filter: blur(6px); z-index: 1100; align-items: center; justify-content: center; padding: 16px;
+  }
+  .survey-gate-overlay.active { display: flex; }
+  .survey-gate-card {
+    width: 100%; max-width: 440px; background: var(--white); border-radius: 16px;
+    box-shadow: 0 24px 48px rgba(15,23,42,.25); padding: 26px 22px 22px; max-height: 92vh; overflow-y: auto;
+  }
+  .survey-gate-badge {
+    display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase;
+    color: var(--purple); background: var(--purple-light); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
+  }
+  .survey-gate-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .survey-gate-sub { font-size: 14px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
+  .survey-gate-ref { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .survey-gate-scale { font-size: 11px; color: var(--text-muted); line-height: 1.45; margin-bottom: 14px; }
+  .survey-gate-progress { font-size: 12px; font-weight: 700; color: var(--orange); margin-bottom: 14px; }
+  .survey-field-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin: 14px 0 8px; }
+  .survey-grade-row { display: flex; gap: 6px; }
+  .survey-grade-row input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .survey-grade-row label {
+    flex: 1; text-align: center; padding: 10px 4px 8px; border: 2px solid var(--border); border-radius: 10px;
+    font-weight: 800; font-size: 18px; line-height: 1; color: var(--text-secondary); cursor: pointer;
+    transition: border-color .12s, background .12s, color .12s;
+  }
+  .survey-grade-row label span { display: block; font-size: 8px; font-weight: 700; margin-top: 4px; text-transform: uppercase; letter-spacing: .3px; color: var(--text-muted); }
+  .survey-grade-row input:checked + label { border-color: var(--navy); background: var(--navy); color: #fff; }
+  .survey-grade-row input:checked + label span { color: rgba(255,255,255,.75); }
+  .survey-gate-card textarea {
+    width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-size: 14px;
+    min-height: 72px; margin-top: 6px; resize: vertical; font-family: inherit;
+  }
+  .survey-gate-submit {
+    width: 100%; margin-top: 18px; padding: 14px; background: var(--navy); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .survey-gate-submit:disabled { opacity: .55; cursor: not-allowed; }
+  .survey-gate-error { color: var(--red); font-size: 13px; margin-top: 10px; display: none; }
+  .survey-gate-error.visible { display: block; }
+  .survey-gate-foot { font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: 14px; }
+  .new-request-strip.survey-gate-blocked { opacity: .55; cursor: not-allowed; }
+  .trip-action-btn.survey-gate-disabled { opacity: .45; pointer-events: none; }
   .confirm-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
   .confirm-header { background: linear-gradient(135deg, var(--gold), #9a7a30); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; border-radius: 13px 13px 0 0; }
   .confirm-title { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: 1px; }
@@ -955,6 +1173,16 @@
   }
 
   /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .c-topbar, .c-welcome { padding-left: 20px; padding-right: 20px; }
+    .c-body { padding: 20px; }
+    .c-stats, .dash-stats { grid-template-columns: repeat(2, 1fr); }
+    .c-row { grid-template-columns: 1fr; }
+    .c-actions { grid-template-columns: 1fr; }
+    .c-footer { padding: 10px 20px; flex-direction: column; gap: 4px; text-align: center; }
+    .appt-btns, .trip-actions-wrap { flex-direction: column; }
+    .appt-btn, .trip-action-btn { text-align: center; width: 100%; }
+  }
   @media (max-width: 700px) {
     .dash-stats { grid-template-columns: repeat(2, 1fr); }
     .service-grid { grid-template-columns: repeat(2, 1fr); }
@@ -990,7 +1218,7 @@
   }
 </style>
 </head>
-<body>
+<body class="gate-mode">
 
 <form name="prism-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="display:none" id="netlify-form">
   <input name="bot-field"><input name="confirmation" id="nf-confirmation"><input name="service" id="nf-service">
@@ -1002,15 +1230,15 @@
   <div class="header-inner">
     <div class="header-brand">
       <div class="brand-mark">DDI</div>
-      <div><div class="brand-name">DDI</div><div class="brand-sub">Program Portal</div></div>
+      <div><div class="brand-name">DDI</div><div class="brand-sub">Service Intake</div></div>
     </div>
-    <div class="header-badge">Managed TPA</div>
-    <a class="header-care" href="tel:+18557730035" title="Member care — call or text">855-773-0035</a>
+    <div class="header-badge">Intake</div>
+    <a class="header-care" href="tel:+18557730035" title="Questions? Call or text">855-773-0035</a>
   </div>
 </header>
 
 <div class="member-care-bar" id="member-care-bar">
-  Member care — call or text <a href="tel:+18557730035">855-773-0035</a> (after 12:00 PM ET)
+  Questions? Call or text <a href="tel:+18557730035">855-773-0035</a>
   · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>
 </div>
 
@@ -1032,154 +1260,234 @@
 
 <!-- ═══════════ ENTRY GATE ═══════════ -->
 <div class="entry-gate" id="entry-gate">
-  <div class="entry-title">Program portal sign-in</div>
-  <div class="entry-subtitle">Enter your email to view scheduled services, trip history, and compliance status — or submit a new request.</div>
-  <div class="hipaa-notice">
-    <strong>HIPAA &amp; privacy</strong>
-    Information you enter may include protected health information (PHI). DDI uses PHI only to schedule and coordinate services, status updates, and billing. We maintain administrative, physical, and technical safeguards. Where required by contract, we operate as a Business Associate. Questions: <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>.
+  <div class="portal-wrap">
+    <div class="portal-left">
+      <div class="ddi-mark">
+        <img class="ddi-logo" src="ddi-logo.png" alt="DDI" width="52" height="52">
+        <div>
+          <div class="ddi-name">DDI</div>
+          <div class="ddi-sub">Service Intake</div>
+        </div>
+      </div>
+      <div class="portal-divider"></div>
+      <div class="portal-tagline">
+        Your requests. Your schedule. Your status. One place.
+      </div>
+      <div class="portal-divider"></div>
+      <div class="feature-list">
+        <div class="feature-item"><span class="emoji">📅</span><div class="text">View upcoming and past requests</div></div>
+        <div class="feature-item"><span class="emoji">✅</span><div class="text">Compliance and program status</div></div>
+        <div class="feature-item"><span class="emoji">📋</span><div class="text">Submit new service requests</div></div>
+        <div class="feature-item"><span class="emoji">📂</span><div class="text">Results, records, and documentation</div></div>
+      </div>
+      <div class="left-footer">
+        <div class="portal-divider" style="margin-bottom:12px"></div>
+        <div class="left-footer-text">Troy, Michigan · Woman-owned</div>
+      </div>
+    </div>
+    <div class="portal-right">
+      <div class="signin-card">
+        <div>
+          <div class="portal-title">Sign in</div>
+          <div class="portal-lead" id="gate-lead">Sign in with your email to view your schedule or book a service. We verify every address before scheduling.</div>
+        </div>
+        <div class="hipaa-card">
+          <span class="hipaa-icon">🔒</span>
+          <div class="hipaa-text">
+            <strong>HIPAA &amp; privacy</strong><br>
+            Information you enter may include protected health information (PHI). DDI uses PHI only to schedule and coordinate services, status updates, and billing. We maintain administrative, physical, and technical safeguards. Where required by contract, we operate as a Business Associate. Questions: <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>.
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="gate-email">Your email</label>
+          <input class="entry-email-input" id="gate-email" type="email" placeholder="you@email.com" autocomplete="email" autofocus>
+        </div>
+        <div class="entry-loading" id="gate-loading"><span class="spinner"></span> <span id="gate-loading-text">Sending sign-in link&hellip;</span></div>
+        <p class="gate-error" id="gate-error" style="display:none" role="alert"></p>
+        <div id="gate-email-step">
+          <button class="entry-btn" id="gate-btn" type="button" onclick="requestSignIn()">Email me a sign-in link</button>
+        </div>
+        <div id="gate-code-step" style="display:none">
+          <p class="portal-lead" style="margin-top:0">Check your inbox. We sent a link and 6-digit code to <strong id="gate-sent-email"></strong> — use either one.</p>
+          <div class="field-group" style="margin-top:12px">
+            <label class="field-label" for="gate-code">6-digit code</label>
+            <input class="entry-email-input entry-code-input" id="gate-code" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6">
+          </div>
+          <button class="entry-btn" id="gate-verify-btn" type="button" onclick="verifySignInCode()">Sign in</button>
+          <button class="entry-secondary-btn" id="gate-resend-btn" type="button" onclick="requestSignIn(true)">Resend code</button>
+          <button class="entry-link-btn" type="button" onclick="backToEmailStep()">Use a different email</button>
+        </div>
+        <div class="or-row"><div class="or-line"></div><div class="or-text">or</div><div class="or-line"></div></div>
+        <button class="entry-new-btn" type="button" onclick="promptSignInToBook()">First time? Sign in to schedule</button>
+        <div class="help-row">Questions? Call or text <a href="tel:+18557730035">855-773-0035</a></div>
+        <div class="gate-support-bar">Questions · <span><a href="tel:+18557730035">855-773-0035</a></span> · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a></div>
+      </div>
+    </div>
   </div>
-  <div class="entry-card">
-    <label class="entry-email-label">Your Business Email</label>
-    <input type="email" class="entry-email-input" id="gate-email" placeholder="you@company.com" autofocus>
-    <div class="entry-loading" id="gate-loading"><div class="spinner"></div> Looking up your account...</div>
-    <button class="entry-btn" id="gate-btn" onclick="lookupClient()">Continue</button>
-    <div class="entry-or">or</div>
-    <button class="entry-new-btn" onclick="enterAsNew(null, true)">New Client — Schedule a Service</button>
-  </div>
-  <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">
-    Need help now? Call or text <a href="tel:+18557730035" style="color:var(--blue);font-weight:600;">855-773-0035</a> (after 12:00 PM ET).
-  </p>
 </div>
 
 <!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
 <div class="client-dashboard" id="client-dashboard">
-  <div class="dash-header">
-    <div class="dash-header-main">
-      <div class="dash-welcome">Welcome back</div>
-      <div class="dash-company" id="dash-company-name">—</div>
-      <div class="dash-contact" id="dash-contact-info">—</div>
-      <div class="dash-whats-next">YOUR ORDERS &amp; SCHEDULE · 🔄 refreshes every 20 sec</div>
-      <div class="dash-contact" style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.85);">
-        Member care: <a href="tel:+18557730035" style="color:#fde68a;">855-773-0035</a> · HIPAA-protected portal
-      </div>
+  <div class="c-topbar">
+    <div class="c-top-left">
+      <img class="c-top-logo" src="ddi-logo.png" alt="DDI" width="32" height="32">
+      <div class="c-top-name">DDI</div>
     </div>
-    <button type="button" class="dash-signout" onclick="signOut()">Sign out</button>
-  </div>
-
-  <div id="active-ride-banner" style="display:none;"></div>
-
-  <div class="dash-section-title">Order Calendar</div>
-  <div class="order-calendar" id="order-calendar">
-    <div class="cal-header">
-      <div class="cal-header-title" id="cal-month-label">—</div>
-      <div class="cal-nav">
-        <button type="button" class="cal-nav-btn" onclick="calPrevMonth()" aria-label="Previous month">‹</button>
-        <button type="button" class="cal-nav-btn" onclick="calNextMonth()" aria-label="Next month">›</button>
-      </div>
-    </div>
-    <div class="cal-weekdays">
-      <div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div>
-      <div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>
-    </div>
-    <div class="cal-grid" id="cal-grid"></div>
-    <div class="cal-day-detail" id="cal-day-detail">
-      <div class="cal-day-detail-title" id="cal-day-detail-title"></div>
-      <div id="cal-day-detail-body"></div>
+    <div class="c-top-right">
+      <div class="c-top-help">Questions? <a href="tel:+18557730035">855-773-0035</a></div>
+      <button type="button" class="c-top-btn dash-signout" onclick="signOut()">Sign out</button>
     </div>
   </div>
-
-  <div class="dash-stats" id="dash-stats">
-    <div class="stat-card stat-card-blue" onclick="toggleKpi('upcoming')"><div class="stat-num" id="stat-upcoming" style="color:var(--blue)">0</div><div class="stat-label">Upcoming</div><div class="stat-hint">Click to view</div></div>
-    <div class="stat-card stat-card-orange" onclick="toggleKpi('results')"><div class="stat-num" id="stat-pending" style="color:var(--orange)">0</div><div class="stat-label">Results Pending</div><div class="stat-hint">Click to view</div></div>
-    <div class="stat-card stat-card-green" onclick="toggleKpi('completed')"><div class="stat-num" id="stat-completed" style="color:var(--green)">0</div><div class="stat-label">Completed</div><div class="stat-hint">Click to view</div></div>
-    <div class="stat-card stat-card-purple" onclick="toggleKpi('invoices')"><div class="stat-num" id="stat-invoices" style="color:var(--purple)">0</div><div class="stat-label">Open Invoices</div><div class="stat-hint">Click to view</div></div>
-  </div>
-
-  <!-- KPI DETAIL PANELS -->
-  <div class="kpi-panel" id="kpi-upcoming">
-    <div class="kpi-panel-header"><div class="kpi-panel-title">Upcoming Appointments</div><button class="kpi-panel-close" onclick="closeKpi('upcoming')">✕</button></div>
-    <div class="kpi-panel-body" id="kpi-upcoming-body"></div>
-  </div>
-  <div class="kpi-panel" id="kpi-results">
-    <div class="kpi-panel-header"><div class="kpi-panel-title">Results & Pending Orders</div><button class="kpi-panel-close" onclick="closeKpi('results')">✕</button></div>
-    <div class="kpi-panel-body" id="kpi-results-body"></div>
-  </div>
-  <div class="kpi-panel" id="kpi-completed">
-    <div class="kpi-panel-header"><div class="kpi-panel-title">Completed Orders</div><button class="kpi-panel-close" onclick="closeKpi('completed')">✕</button></div>
-    <div class="kpi-panel-body" id="kpi-completed-body"></div>
-  </div>
-  <div class="kpi-panel" id="kpi-invoices">
-    <div class="kpi-panel-header"><div class="kpi-panel-title">Invoices & Payments</div><button class="kpi-panel-close" onclick="closeKpi('invoices')">✕</button></div>
-    <div class="kpi-panel-body" id="kpi-invoices-body"></div>
-  </div>
-
-  <div id="results-waiting-area"></div>
-  <div id="nemt-return-prompt-area"></div>
-
-  <div class="dash-section-title">Upcoming Appointments <span class="count" id="upcoming-count">0</span></div>
-  <div class="upcoming-list" id="upcoming-list"></div>
-
-  <div class="nemt-scheduling-tips" id="nemt-scheduling-tips" style="display:none">
-    <div class="nemt-scheduling-tips-title">Medical trip scheduling</div>
-    <ul>
-      <li><strong>Rebook</strong> — same member and route, pick a new date. Our team reviews every request before dispatch.</li>
-      <li><strong>Return home</strong> — flips pickup and drop-off from your last trip (e.g. ride home after an appointment).</li>
-      <li><strong>+ Dates</strong> — add specific one-off dates manually (not a pattern).</li>
-      <li><strong>Repeat</strong> — daily, weekdays (Mon–Fri), weekly (pick days), every 2 weeks, or monthly — preview count before submit.</li>
-      <li>Trips needed <strong>within 48 hours</strong>? Call <strong>855-773-0035</strong> after 12:00 PM ET — portal requests need lead time for eligibility review.</li>
-      <li>Need help? Call <strong>855-773-0035</strong> anytime after 12:00 PM ET.</li>
-    </ul>
-  </div>
-
-  <div class="compliance-strip" id="compliance-strip" style="display:none; margin-top: 20px;">
-    <div class="compliance-item">
-      <div class="compliance-label">Random Pool</div>
-      <div class="compliance-value compliance-ok" id="comp-random">Active</div>
-      <div class="compliance-bar"><div class="compliance-fill" id="comp-random-bar" style="width:100%; background:var(--green);"></div></div>
-    </div>
-    <div class="compliance-item">
-      <div class="compliance-label">Testing Rate (YTD)</div>
-      <div class="compliance-value" id="comp-rate">—</div>
-      <div class="compliance-bar"><div class="compliance-fill" id="comp-rate-bar" style="width:0; background:var(--blue);"></div></div>
-    </div>
-    <div class="compliance-item">
-      <div class="compliance-label">Next Random Selection</div>
-      <div class="compliance-value" id="comp-next-random">—</div>
-    </div>
-    <div class="compliance-item">
-      <div class="compliance-label">Clearinghouse</div>
-      <div class="compliance-value compliance-ok" id="comp-clearinghouse">Current</div>
-    </div>
-  </div>
-
-  <div class="dash-section-title" id="recent-title" style="display:none">Recent Orders <span class="count" id="recent-count">0</span></div>
-  <div class="card" id="recent-card" style="display:none">
-    <table class="recent-table">
-      <thead><tr><th>Order</th><th>Service</th><th>Subject</th><th>Date</th><th>Result</th></tr></thead>
-      <tbody id="recent-body"></tbody>
-    </table>
-  </div>
-
-  <div class="new-request-strip" onclick="startNewRequest()">
-    <div class="nrs-left">
-      <div class="nrs-icon">+</div>
+  <div class="c-welcome">
+    <div class="c-welcome-row">
       <div>
-        <div class="nrs-text">New service request</div>
-        <div class="nrs-sub">Drug testing, fingerprinting, medical transport, courier, and more</div>
+        <h2>Welcome back, <span id="dash-welcome-first">—</span></h2>
+        <div class="c-welcome-sub">Your requests and schedule</div>
+      </div>
+      <div class="c-welcome-email" id="dash-user-email">—</div>
+    </div>
+  </div>
+  <div id="active-ride-banner" style="display:none;"></div>
+  <div class="c-body">
+    <div class="c-stats dash-stats" id="dash-stats">
+      <div class="c-stat s1 stat-card stat-card-blue" onclick="toggleKpi('upcoming')">
+        <div class="c-stat-em">📅</div>
+        <div class="c-stat-num stat-num" id="stat-upcoming">0</div>
+        <div class="c-stat-label stat-label">Upcoming</div>
+      </div>
+      <div class="c-stat s2 stat-card stat-card-orange" onclick="toggleKpi('results')">
+        <div class="c-stat-em">⏳</div>
+        <div class="c-stat-num stat-num" id="stat-pending">0</div>
+        <div class="c-stat-label stat-label">Results pending</div>
+      </div>
+      <div class="c-stat s3 stat-card stat-card-green" onclick="toggleKpi('completed')">
+        <div class="c-stat-em">✅</div>
+        <div class="c-stat-num stat-num" id="stat-completed">0</div>
+        <div class="c-stat-label stat-label">Completed</div>
+      </div>
+      <div class="c-stat s4 stat-card stat-card-purple" onclick="toggleKpi('invoices')">
+        <div class="c-stat-em">💰</div>
+        <div class="c-stat-num stat-num" id="stat-invoices">0</div>
+        <div class="c-stat-label stat-label">Open invoices</div>
       </div>
     </div>
-    <div class="nrs-arrow" aria-hidden="true">→</div>
+    <div class="kpi-panel" id="kpi-upcoming">
+      <div class="kpi-panel-header"><div class="kpi-panel-title">Upcoming Appointments</div><button class="kpi-panel-close" onclick="closeKpi('upcoming')">✕</button></div>
+      <div class="kpi-panel-body" id="kpi-upcoming-body"></div>
+    </div>
+    <div class="kpi-panel" id="kpi-results">
+      <div class="kpi-panel-header"><div class="kpi-panel-title">Results & Pending Orders</div><button class="kpi-panel-close" onclick="closeKpi('results')">✕</button></div>
+      <div class="kpi-panel-body" id="kpi-results-body"></div>
+    </div>
+    <div class="kpi-panel" id="kpi-completed">
+      <div class="kpi-panel-header"><div class="kpi-panel-title">Completed Orders</div><button class="kpi-panel-close" onclick="closeKpi('completed')">✕</button></div>
+      <div class="kpi-panel-body" id="kpi-completed-body"></div>
+    </div>
+    <div class="kpi-panel" id="kpi-invoices">
+      <div class="kpi-panel-header"><div class="kpi-panel-title">Invoices & Payments</div><button class="kpi-panel-close" onclick="closeKpi('invoices')">✕</button></div>
+      <div class="kpi-panel-body" id="kpi-invoices-body"></div>
+    </div>
+    <div id="results-waiting-area"></div>
+    <div id="nemt-return-prompt-area"></div>
+    <div class="nemt-scheduling-tips" id="nemt-scheduling-tips" style="display:none">
+      <div class="nemt-scheduling-tips-title">Medical trip scheduling</div>
+      <ul>
+        <li><strong>Rebook</strong> — same member and route, pick a new date. Our team reviews every request before dispatch.</li>
+        <li><strong>Return home</strong> — flips pickup and drop-off from your last trip (e.g. ride home after an appointment).</li>
+        <li><strong>+ Dates</strong> — add specific one-off dates manually (not a pattern).</li>
+        <li><strong>Repeat</strong> — daily, weekdays (Mon–Fri), weekly (pick days), every 2 weeks, or monthly — preview count before submit.</li>
+        <li>Trips needed <strong>within 48 hours</strong>? Call <strong>855-773-0035</strong> — portal requests need lead time for eligibility review.</li>
+        <li>Need help? Call <strong>855-773-0035</strong>.</li>
+      </ul>
+    </div>
+    <div class="compliance-strip" id="compliance-strip" style="display:none;">
+      <div class="compliance-item">
+        <div class="compliance-label">Random Pool</div>
+        <div class="compliance-value compliance-ok" id="comp-random">Active</div>
+        <div class="compliance-bar"><div class="compliance-fill" id="comp-random-bar" style="width:100%; background:var(--green);"></div></div>
+      </div>
+      <div class="compliance-item">
+        <div class="compliance-label">Testing Rate (YTD)</div>
+        <div class="compliance-value" id="comp-rate">—</div>
+        <div class="compliance-bar"><div class="compliance-fill" id="comp-rate-bar" style="width:0; background:var(--blue);"></div></div>
+      </div>
+      <div class="compliance-item">
+        <div class="compliance-label">Next Random Selection</div>
+        <div class="compliance-value" id="comp-next-random">—</div>
+      </div>
+      <div class="compliance-item">
+        <div class="compliance-label">Clearinghouse</div>
+        <div class="compliance-value compliance-ok" id="comp-clearinghouse">Current</div>
+      </div>
+    </div>
+    <div class="c-row">
+      <div>
+        <div class="c-section dash-section-title">
+          <div class="c-section-title">📋 Upcoming appointments</div>
+          <div class="c-section-count count" id="upcoming-count">0</div>
+          <div class="c-section-line"></div>
+        </div>
+        <div class="c-card" style="margin-top:10px">
+          <div class="upcoming-list" id="upcoming-list"></div>
+        </div>
+      </div>
+      <div>
+        <div class="c-card order-calendar" id="order-calendar">
+          <div class="cal-header mini-cal-head">
+            <div class="cal-header-title mini-cal-month" id="cal-month-label">—</div>
+            <div class="cal-nav mini-cal-nav">
+              <button type="button" class="cal-nav-btn" onclick="calPrevMonth()" aria-label="Previous month">‹</button>
+              <button type="button" class="cal-nav-btn" onclick="calNextMonth()" aria-label="Next month">›</button>
+            </div>
+          </div>
+          <div class="cal-weekdays mini-cal-grid">
+            <div class="cal-weekday mini-cal-day">S</div><div class="cal-weekday mini-cal-day">M</div><div class="cal-weekday mini-cal-day">T</div>
+            <div class="cal-weekday mini-cal-day">W</div><div class="cal-weekday mini-cal-day">T</div><div class="cal-weekday mini-cal-day">F</div><div class="cal-weekday mini-cal-day">S</div>
+          </div>
+          <div class="cal-grid mini-cal-grid" id="cal-grid"></div>
+          <div class="cal-day-detail" id="cal-day-detail">
+            <div class="cal-day-detail-title" id="cal-day-detail-title"></div>
+            <div id="cal-day-detail-body"></div>
+          </div>
+        </div>
+        <div class="c-contact">
+          <div class="c-contact-title">📞 Need help?</div>
+          <div class="c-contact-row">
+            Call or text<br>
+            <a href="tel:+18557730035">855-773-0035</a><br><br>
+            <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dash-section-title c-section" id="recent-title" style="display:none">Recent requests <span class="count c-section-count" id="recent-count">0</span><div class="c-section-line"></div></div>
+    <div class="c-card" id="recent-card" style="display:none">
+      <table class="recent-table">
+        <thead><tr><th>Order</th><th>Service</th><th>Subject</th><th>Date</th><th>Result</th></tr></thead>
+        <tbody id="recent-body"></tbody>
+      </table>
+    </div>
+    <div class="c-actions">
+      <button type="button" class="c-act-btn gold new-request-strip" id="new-request-strip" onclick="guardedStartNewRequest()">🆕 Schedule a new service</button>
+      <button type="button" class="c-act-btn navy" onclick="toggleKpi('completed')">📂 View request history</button>
+    </div>
   </div>
+  <div class="c-footer">
+    <div>🔒 HIPAA-protected portal · <span>DDI</span></div>
+    <div><a href="mailto:info@deedavis.biz">info@deedavis.biz</a> · <a href="tel:+18557730035">855-773-0035</a></div>
+  </div>
+  <span id="dash-company-name" style="display:none">—</span>
+  <span id="dash-contact-info" style="display:none">—</span>
 </div>
 
 <!-- ═══════════ FORM: STEP 1 — SERVICE ═══════════ -->
 <div class="wizard-step" id="step-1">
   <div class="back-to-dash" id="back-to-dash" onclick="showDashboard()">← Back to Dashboard</div>
-  <div class="step-title">Select a Service</div>
-  <div class="step-subtitle">Choose your service type, urgency, and preferred response method.</div>
+  <div class="step-title">What do you need?</div>
+  <div class="step-subtitle">Pick a service — we handle testing, screening, transport, courier, notary, and more.</div>
   <div class="hipaa-notice">
     <strong>HIPAA</strong>
-    Some services require health or identity information. Submit only what is needed for scheduling. Member care: <a href="tel:+18557730035">855-773-0035</a>.
+    Some services require health or identity information. Submit only what is needed for scheduling. Questions? <a href="tel:+18557730035">855-773-0035</a>.
   </div>
 
   <div class="section-label">Service</div>
@@ -1198,6 +1506,10 @@
     </div>
     <div class="svc-card" data-svc="nemt" data-email="nemt@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">🚐</div><div class="name">NEMT &amp; Medical Mobility</div>
+    </div>
+    <div class="svc-card" data-svc="cts" data-email="cts@deedavis.biz" onclick="pickSvc(this)">
+      <div class="icon">🏠</div><div class="name">Community Transition</div>
+      <div class="name" style="font-size:10px;font-weight:500;opacity:.72;margin-top:2px">Molina LTSS · Referral</div>
     </div>
     <div class="svc-card" data-svc="arena" data-email="rides@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">🎟️</div><div class="name">ARENA</div>
@@ -1247,7 +1559,7 @@
 <!-- ═══════════ FORM: STEP 2 — CONTACT + DETAILS ═══════════ -->
 <div class="wizard-step" id="step-2">
   <div class="step-title">Contact & Service Details</div>
-  <div class="step-subtitle">Confirm your information and select service-specific options.</div>
+  <div class="step-subtitle">Tell us who&rsquo;s involved and what you need — we&rsquo;ll route it to the right team.</div>
   <div class="hipaa-notice">
     <strong>HIPAA notice</strong>
     Contact and health-related details submitted here are used only to deliver the service you request. Do not include more PHI than needed. DDI protects PHI under applicable privacy and security requirements.
@@ -1257,6 +1569,7 @@
       <div class="field">
         <label>Email Address <span class="req">*</span></label>
         <input type="email" id="client-email" placeholder="you@company.com">
+        <div class="verified-email-note" id="client-email-verified-note" style="display:none">Verified sign-in email — used for confirmations and cannot be changed here.</div>
         <div class="error-msg">Please enter a valid email</div>
       </div>
     </div>
@@ -1271,7 +1584,7 @@
     <div class="form-row full">
       <div class="hipaa-notice" style="margin-bottom:0;">
         <strong>SMS &amp; calls</strong>
-        By providing a mobile number, you agree to receive transactional texts from DDI about this service (confirmations, reminders, trip status). Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Member care: <a href="tel:+18557730035">855-773-0035</a>.
+        By providing a mobile number, you agree to receive transactional texts from DDI about this request (confirmations, reminders, status updates). Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Questions? <a href="tel:+18557730035">855-773-0035</a>.
       </div>
     </div>
     <div class="form-row full">
@@ -1380,6 +1693,61 @@
         <div class="field"><label>Appointment Purpose</label><select id="nemt-purpose"><option value="">Select</option><option>Medical appointment</option><option>Dialysis</option><option>Pharmacy</option><option>Lab / imaging</option><option>Therapy / rehab</option><option>Discharge</option><option>Other</option></select></div>
         <div class="field"><label>Member ID / Medicaid #</label><input type="text" id="nemt-member-id" placeholder="If applicable"></div>
       </div>
+    </div>
+    <div class="dynamic-section" id="cts-fields">
+      <p class="help-text" style="margin-top:0"><strong>Community Transition Services (CTS)</strong> — Molina HIDE SNP LTSS. This is a referral, not a trip request — no pickup/drop-off or appointment time needed. Routes to <strong>cts@</strong>. This case is authorized and billed to <strong>Molina Healthcare Michigan</strong> directly — never billed to the referring facility. <strong>Referral source must be a nursing facility discharge planner or a Molina Care Coordinator</strong> — CTS referrals are not accepted directly from members.</p>
+      <div class="form-row">
+        <div class="field" id="field-cts-referral-type"><label>Referral Source Type <span class="req">*</span></label>
+          <select id="cts-referral-type">
+            <option value="">Select</option>
+            <option>Nursing Facility Discharge Planner</option>
+            <option>Molina Care Coordinator</option>
+            <option>Other — see notes</option>
+          </select>
+          <div class="error-msg">Required</div>
+        </div>
+        <div class="field"><label>Referring Contact Name</label><input type="text" id="cts-referral-contact" placeholder="Discharge planner or Care Coordinator name"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Referring Contact Phone</label><input type="tel" id="cts-referral-phone" placeholder="(000) 000-0000"></div>
+        <div class="field"><label>Referring Contact Email</label><input type="email" id="cts-referral-email" placeholder="name@facility.org"></div>
+      </div>
+      <div class="form-row full">
+        <div class="field" id="field-cts-transition-from"><label>Transitioning From (Nursing Facility Name &amp; Address) <span class="req">*</span></label><input type="text" id="cts-transition-from" placeholder="Facility name and address"><div class="error-msg">Required</div></div>
+      </div>
+      <div class="form-row full">
+        <div class="field" id="field-cts-transition-to"><label>Transitioning To (Destination Address) <span class="req">*</span></label><input type="text" id="cts-transition-to" placeholder="Where the member is moving to"><div class="error-msg">Required</div></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Planned Move / Discharge Date</label><input type="date" id="cts-move-date"></div>
+        <div class="field"><label>PCSP Confirmed?</label>
+          <select id="cts-pcsp">
+            <option value="">Select</option>
+            <option value="yes">Yes — CTS is on the member's PCSP</option>
+            <option value="pending">Pending verification</option>
+            <option value="no">No / not yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Home Assessment Required?</label>
+          <select id="cts-home-assessment">
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Not sure yet</option>
+          </select>
+        </div>
+        <div class="field"><label>Initial Expense Category Requested</label>
+          <select id="cts-expense-category">
+            <option value="">Select</option>
+            <option value="Security Deposit">Security Deposit</option>
+            <option value="Utility Set-up">Utility Set-up</option>
+            <option value="Not yet determined">Not yet determined</option>
+          </select>
+        </div>
+      </div>
+      <p class="help-text">Only <strong>Security Deposit</strong> and <strong>Utility Set-up</strong> are accepted at this time (Furnishings/Moving Costs require an Article 2.9 subcontractor disclosure that has not been filed yet). Document upload isn't available in this form yet — email the actual invoice/quote for the expense item to <strong>cts@deedavis.biz</strong> once available; no case is authorized on a verbal estimate.</p>
     </div>
     <div class="dynamic-section" id="arena-fields">
       <p class="help-text" style="margin-top:0"><strong>ARENA</strong> — Access, Routing &amp; Event Navigation Administration. Trip execution runs on the <strong>PRIME</strong> framework. Pricing is <strong>dynamic</strong> (mileage, timing, scale, PUDO complexity, payment model) — no flat rates; proposal follows consultation. Routes to <strong>rides@</strong>.</p>
@@ -1681,8 +2049,8 @@
   <div class="step-title">Review & Submit</div>
   <div class="step-subtitle">Review your details, then click <strong>Submit Request</strong> — your order goes directly to DDI operations (no separate email required).</div>
   <div class="hipaa-notice">
-    <strong>Before you submit</strong>
-    You confirm that information provided is accurate and may include PHI needed for service delivery. DDI will use it only to schedule, coordinate, and communicate about your order — not for unrelated marketing.
+    <strong>HIPAA notice</strong>
+    You confirm that information provided is accurate and may include PHI needed for service delivery. DDI will use PHI only to schedule, coordinate, and communicate about your request — not for unrelated marketing.
   </div>
   <div class="card">
     <div class="form-row full">
@@ -1723,13 +2091,11 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">DDI</div>
+    <div class="footer-tagline" style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Service intake · Troy, Michigan</div>
     <div class="footer-member-care">
-      Member care: <a href="tel:+18557730035">855-773-0035</a> call or text (after 12:00 PM ET)
+      Questions? <a href="tel:+18557730035">855-773-0035</a> call or text
       · <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>
     </div>
-    <div class="footer-address">755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084</div>
-    <div class="footer-certs"><span class="cert-badge">EDWOSB</span><span class="cert-badge">WOSB</span><span class="cert-badge">WBENC</span><span class="cert-badge">MBE</span><span class="cert-badge">SBE</span></div>
-    <div class="footer-legal">Legal entity: Dee Davis Inc. · CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · SAM.gov Registered</div>
     <div class="footer-hipaa">
       <strong>HIPAA notice.</strong>
       Protected health information (PHI) submitted through portal.deedavis.biz is used only to schedule and coordinate services, provide status updates, and support billing for your account. DDI maintains administrative, physical, and technical safeguards for PHI. Where required, we serve as a Business Associate under executed agreements. This portal is not for medical emergencies — call 911. Privacy questions: <a href="mailto:info@deedavis.biz">info@deedavis.biz</a>.
@@ -1744,13 +2110,58 @@
   </div>
 </div>
 
+<div class="survey-gate-overlay" id="survey-gate-overlay" role="dialog" aria-modal="true" aria-labelledby="survey-gate-title">
+  <div class="survey-gate-card">
+    <div class="survey-gate-badge">Trip grade required</div>
+    <div class="survey-gate-title" id="survey-gate-title">Grade your trip</div>
+    <div class="survey-gate-sub">Tap a letter grade for each part of your ride. Same as the text we send after your trip — one grade per completed ride before you can schedule again.</div>
+    <div class="survey-gate-progress" id="survey-gate-progress"></div>
+    <div class="survey-gate-ref" id="survey-gate-ref"></div>
+    <div class="survey-gate-scale">A = Excellent · B = Good · C = Fair · D = Poor · F = Unacceptable</div>
+    <form id="survey-gate-form" onsubmit="submitSurveyGate(event)">
+      <input type="hidden" id="survey-gate-token" name="token" value="">
+      <label class="survey-field-label">DDI overall</label>
+      <div class="survey-grade-row">
+        <input type="radio" name="ddi_grade" id="sg-ddi-A" value="A" required><label for="sg-ddi-A">A<span>Excellent</span></label>
+        <input type="radio" name="ddi_grade" id="sg-ddi-B" value="B"><label for="sg-ddi-B">B<span>Good</span></label>
+        <input type="radio" name="ddi_grade" id="sg-ddi-C" value="C"><label for="sg-ddi-C">C<span>Fair</span></label>
+        <input type="radio" name="ddi_grade" id="sg-ddi-D" value="D"><label for="sg-ddi-D">D<span>Poor</span></label>
+        <input type="radio" name="ddi_grade" id="sg-ddi-F" value="F"><label for="sg-ddi-F">F<span>Unacceptable</span></label>
+      </div>
+      <label class="survey-field-label">Driver / travel companion</label>
+      <div class="survey-grade-row">
+        <input type="radio" name="driver_grade" id="sg-drv-A" value="A" required><label for="sg-drv-A">A<span>Excellent</span></label>
+        <input type="radio" name="driver_grade" id="sg-drv-B" value="B"><label for="sg-drv-B">B<span>Good</span></label>
+        <input type="radio" name="driver_grade" id="sg-drv-C" value="C"><label for="sg-drv-C">C<span>Fair</span></label>
+        <input type="radio" name="driver_grade" id="sg-drv-D" value="D"><label for="sg-drv-D">D<span>Poor</span></label>
+        <input type="radio" name="driver_grade" id="sg-drv-F" value="F"><label for="sg-drv-F">F<span>Unacceptable</span></label>
+      </div>
+      <label class="survey-field-label">Trip comfort &amp; travel</label>
+      <div class="survey-grade-row">
+        <input type="radio" name="trip_grade" id="sg-trip-A" value="A" required><label for="sg-trip-A">A<span>Excellent</span></label>
+        <input type="radio" name="trip_grade" id="sg-trip-B" value="B"><label for="sg-trip-B">B<span>Good</span></label>
+        <input type="radio" name="trip_grade" id="sg-trip-C" value="C"><label for="sg-trip-C">C<span>Fair</span></label>
+        <input type="radio" name="trip_grade" id="sg-trip-D" value="D"><label for="sg-trip-D">D<span>Poor</span></label>
+        <input type="radio" name="trip_grade" id="sg-trip-F" value="F"><label for="sg-trip-F">F<span>Unacceptable</span></label>
+      </div>
+      <label class="survey-field-label">Optional comment</label>
+      <textarea id="survey-gate-comments" name="comments" maxlength="1000" placeholder="Anything we should know? (optional)"></textarea>
+      <div class="survey-gate-error" id="survey-gate-error"></div>
+      <button type="submit" class="survey-gate-submit" id="survey-gate-submit">Submit grade</button>
+    </form>
+    <p class="survey-gate-foot">Grades support quality records for health plan audits. No PHI in comments. Need help? Text <a href="sms:+18557730035">855-773-0035</a>.</p>
+  </div>
+</div>
+
 <script>
 // Live API — PythonAnywhere NEXUS backend (POST /prism/intake → email to service routing address)
 const PRISM_API_PRODUCTION = 'https://deedavis.pythonanywhere.com';
 
 let activeSvc = 'testing', activeSubSvc = 'drug', activeUrgency = 'routine', activeTier = 1;
 let activeEmail = 'testing@deedavis.biz', knownClient = null, currentStep = 1;
+const PORTAL_SESSION_KEY = 'prism_portal_session';
 let gateUserEmail = sessionStorage.getItem('prism_gate_email') || '';
+let portalSession = sessionStorage.getItem(PORTAL_SESSION_KEY) || '';
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 let calSelectedIso = null;
@@ -1764,6 +2175,134 @@ function getApiBase() {
 
 function isPortalHost(host) {
   return host.endsWith('.netlify.app') || host === 'portal.deedavis.biz';
+}
+
+function needsPortalAuth() {
+  return isPortalHost(location.hostname);
+}
+
+function portalAuthHeaders() {
+  if (!portalSession) return {};
+  return { Authorization: `Bearer ${portalSession}` };
+}
+
+function portalAuthFetch(url, opts = {}) {
+  return fetch(url, {
+    ...opts,
+    headers: { ...portalAuthHeaders(), ...(opts.headers || {}) },
+  });
+}
+
+function clearPortalSession() {
+  portalSession = '';
+  sessionStorage.removeItem(PORTAL_SESSION_KEY);
+}
+
+function savePortalSession(token, email) {
+  portalSession = token;
+  sessionStorage.setItem(PORTAL_SESSION_KEY, token);
+  gateUserEmail = (email || '').trim().toLowerCase();
+  sessionStorage.setItem('prism_gate_email', gateUserEmail);
+}
+
+function showGateError(msg) {
+  const el = document.getElementById('gate-error');
+  if (!el) return;
+  if (msg) {
+    el.textContent = msg;
+    el.style.display = 'block';
+  } else {
+    el.textContent = '';
+    el.style.display = 'none';
+  }
+}
+
+function showEmailStep() {
+  const emailStep = document.getElementById('gate-email-step');
+  const codeStep = document.getElementById('gate-code-step');
+  if (emailStep) emailStep.style.display = 'block';
+  if (codeStep) codeStep.style.display = 'none';
+}
+
+function showCodeStep(email) {
+  const sent = document.getElementById('gate-sent-email');
+  if (sent) sent.textContent = email;
+  const emailStep = document.getElementById('gate-email-step');
+  const codeStep = document.getElementById('gate-code-step');
+  if (emailStep) emailStep.style.display = 'none';
+  if (codeStep) codeStep.style.display = 'block';
+  const codeEl = document.getElementById('gate-code');
+  if (codeEl) {
+    codeEl.value = '';
+    setTimeout(() => codeEl.focus(), 100);
+  }
+}
+
+function backToEmailStep() {
+  showGateError('');
+  showEmailStep();
+}
+
+function getVerifiedPortalEmail() {
+  return (gateUserEmail || '').trim().toLowerCase();
+}
+
+function hasPortalBookingAuth() {
+  if (!needsPortalAuth()) return true;
+  return !!(portalSession && getVerifiedPortalEmail().includes('@'));
+}
+
+function promptSignInToBook() {
+  if (hasPortalBookingAuth()) {
+    if (clientData) {
+      startNewRequest();
+    } else {
+      loadClientDashboard(getVerifiedPortalEmail());
+    }
+    return;
+  }
+  mode = 'gate';
+  setDashboardMode(false);
+  showEntryGate();
+  document.getElementById('client-dashboard')?.classList.remove('active');
+  document.getElementById('progress-wrap')?.classList.remove('active');
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  showEmailStep();
+  const email = document.getElementById('gate-email')?.value.trim().toLowerCase();
+  showGateError(
+    email
+      ? 'Sign in first — tap “Email me a sign-in link,” then schedule your service.'
+      : 'Enter your email and tap “Email me a sign-in link” before scheduling.'
+  );
+  document.getElementById('gate-email')?.focus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyVerifiedEmailLock() {
+  const el = document.getElementById('client-email');
+  const note = document.getElementById('client-email-verified-note');
+  if (!needsPortalAuth() || !hasPortalBookingAuth()) {
+    if (el) { el.readOnly = false; el.classList.remove('email-verified-lock'); }
+    if (note) note.style.display = 'none';
+    return;
+  }
+  const email = getVerifiedPortalEmail();
+  if (el) {
+    el.value = email;
+    el.readOnly = true;
+    el.classList.add('email-verified-lock');
+  }
+  if (note) note.style.display = 'block';
+}
+
+function prefillFormFromClientData() {
+  const email = getVerifiedPortalEmail();
+  if (email) document.getElementById('client-email').value = email;
+  const c = clientData?.contact || knownClient || {};
+  if (c.company) document.getElementById('client-name').value = c.company;
+  if (c.name) document.getElementById('client-contact').value = c.name;
+  if (c.phone) document.getElementById('client-phone').value = c.phone;
+  applyVerifiedEmailLock();
 }
 
 /** Where intake POST goes — Netlify function when portal is live; else PythonAnywhere / local API */
@@ -1781,6 +2320,185 @@ let clientData = null; // full client data from CRM lookup
 let mode = 'gate'; // 'gate' | 'dashboard' | 'form'
 let dashboardRefreshTimer = null;
 const DASHBOARD_REFRESH_MS = 20000;
+let pendingRideSurveys = [];
+let surveyGateBlocking = false;
+
+function getSatisfactionPendingUrl(email, phone, orderIds) {
+  const params = new URLSearchParams();
+  if (!isPortalHost(location.hostname) && email) params.set('email', email);
+  if (phone) params.set('phone', phone);
+  if (orderIds?.length) params.set('order_ids', orderIds.join(','));
+  const q = params.toString();
+  if (isPortalHost(location.hostname)) {
+    return `/.netlify/functions/prism-satisfaction-pending?${q}`;
+  }
+  return `${getApiBase()}/prism/nemt/satisfaction/pending?${q}`;
+}
+
+function getSatisfactionSubmitUrl() {
+  if (isPortalHost(location.hostname)) {
+    return '/.netlify/functions/prism-satisfaction-submit';
+  }
+  return `${getApiBase()}/prism/nemt/satisfaction/submit`;
+}
+
+function completedNemtOrderIds(orders) {
+  return (orders || [])
+    .filter(o => o.status === 'completed' && isNemtPortalOrder(o))
+    .map(o => o.id)
+    .filter(Boolean);
+}
+
+function updateSurveyGateUi() {
+  const strip = document.getElementById('new-request-strip');
+  if (strip) strip.classList.toggle('survey-gate-blocked', surveyGateBlocking);
+  document.querySelectorAll('.trip-action-btn').forEach(btn => {
+    btn.classList.toggle('survey-gate-disabled', surveyGateBlocking);
+  });
+}
+
+function hideSurveyGateModal() {
+  const modal = document.getElementById('survey-gate-overlay');
+  if (modal) modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function renderSurveyGateModal() {
+  const modal = document.getElementById('survey-gate-overlay');
+  const form = document.getElementById('survey-gate-form');
+  if (!modal || !form || !pendingRideSurveys.length) {
+    hideSurveyGateModal();
+    return;
+  }
+  const survey = pendingRideSurveys[0];
+  const tokenEl = document.getElementById('survey-gate-token');
+  const refEl = document.getElementById('survey-gate-ref');
+  const progEl = document.getElementById('survey-gate-progress');
+  const errEl = document.getElementById('survey-gate-error');
+  if (tokenEl) tokenEl.value = survey.token || '';
+  if (refEl) {
+    const when = survey.completed_at ? formatDateFriendly(String(survey.completed_at).slice(0, 10)) : 'Recent trip';
+    refEl.textContent = `Trip reference: ${survey.trip_ref || survey.prism_order_id || '—'} · ${when}`;
+  }
+  if (progEl) {
+    progEl.textContent = pendingRideSurveys.length > 1
+      ? `Trip grade 1 of ${pendingRideSurveys.length} — complete each ride before scheduling again`
+      : 'Submit your trip grade to schedule your next ride';
+  }
+  if (errEl) { errEl.textContent = ''; errEl.classList.remove('visible'); }
+  form.reset();
+  if (tokenEl) tokenEl.value = survey.token || '';
+  const submitBtn = document.getElementById('survey-gate-submit');
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit grade'; }
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function showSurveyGateModal() {
+  if (!pendingRideSurveys.length) {
+    hideSurveyGateModal();
+    return;
+  }
+  renderSurveyGateModal();
+}
+
+async function refreshSurveyGate() {
+  const email = (clientData?.contact?.email || gateUserEmail || '').toLowerCase();
+  if (!email || !email.includes('@') || mode !== 'dashboard') {
+    pendingRideSurveys = [];
+    surveyGateBlocking = false;
+    hideSurveyGateModal();
+    updateSurveyGateUi();
+    return;
+  }
+  const phone = (clientData?.contact?.phone || document.getElementById('client-phone')?.value || '').trim();
+  const orderIds = completedNemtOrderIds(clientData?.orders || []);
+  try {
+    const res = needsPortalAuth()
+      ? await portalAuthFetch(getSatisfactionPendingUrl(email, phone, orderIds))
+      : await fetch(getSatisfactionPendingUrl(email, phone, orderIds));
+    if (res.ok) {
+      const data = await res.json();
+      pendingRideSurveys = data.pending || [];
+      surveyGateBlocking = pendingRideSurveys.length > 0;
+    } else {
+      pendingRideSurveys = [];
+      surveyGateBlocking = false;
+    }
+  } catch (_) {
+    pendingRideSurveys = [];
+    surveyGateBlocking = false;
+  }
+  updateSurveyGateUi();
+  if (surveyGateBlocking) showSurveyGateModal();
+  else hideSurveyGateModal();
+}
+
+function requireSurveyGate() {
+  if (!surveyGateBlocking) return true;
+  showSurveyGateModal();
+  return false;
+}
+
+async function submitSurveyGate(ev) {
+  ev.preventDefault();
+  const form = document.getElementById('survey-gate-form');
+  const errEl = document.getElementById('survey-gate-error');
+  const submitBtn = document.getElementById('survey-gate-submit');
+  if (!form) return;
+  const token = (document.getElementById('survey-gate-token')?.value || '').trim();
+  const ddi = form.querySelector('input[name="ddi_grade"]:checked');
+  const drv = form.querySelector('input[name="driver_grade"]:checked');
+  const trip = form.querySelector('input[name="trip_grade"]:checked');
+  if (!ddi || !drv || !trip) {
+    if (errEl) { errEl.textContent = 'Please select a letter grade (A–F) for each category.'; errEl.classList.add('visible'); }
+    return;
+  }
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
+  if (errEl) errEl.classList.remove('visible');
+  try {
+    const res = await fetch(getSatisfactionSubmitUrl(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        token,
+        ddi_grade: ddi.value,
+        driver_grade: drv.value,
+        trip_grade: trip.value,
+        comments: (document.getElementById('survey-gate-comments')?.value || '').trim(),
+        channel: 'portal',
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'Could not save your grade. Try again or text 855-773-0035.');
+    }
+    pendingRideSurveys = pendingRideSurveys.filter(s => s.token !== token);
+    surveyGateBlocking = pendingRideSurveys.length > 0;
+    updateSurveyGateUi();
+    if (surveyGateBlocking) {
+      renderSurveyGateModal();
+    } else {
+      hideSurveyGateModal();
+    }
+  } catch (e) {
+    if (errEl) { errEl.textContent = e.message || 'Submission failed.'; errEl.classList.add('visible'); }
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit grade'; }
+  }
+}
+
+function guardedStartNewRequest() {
+  if (!requireSurveyGate()) return;
+  startNewRequest();
+}
+
+function guardedOpenNemtRebook(orderId, rebookMode) {
+  if (!requireSurveyGate()) return;
+  openNemtRebook(orderId, rebookMode);
+}
+window.guardedStartNewRequest = guardedStartNewRequest;
+window.guardedOpenNemtRebook = guardedOpenNemtRebook;
+window.submitSurveyGate = submitSurveyGate;
 
 function portalStatusLabel(o) {
   const raw = (o.ops_status || o.status || 'pending').trim().toLowerCase().replace(/_/g, ' ');
@@ -1930,7 +2648,7 @@ function renderReturnHomePrompt(orders) {
           <div class="nemt-return-prompt-title">Trip complete — need a ride home?</div>
           <div class="nemt-return-prompt-sub">${subj} arrived at ${dest}. Schedule the return leg when you're ready — our team confirms before dispatch.</div>
           <div class="nemt-return-prompt-actions">
-            <button type="button" class="nemt-return-prompt-primary" onclick="openNemtRebook('${id}','return')">Schedule return home</button>
+            <button type="button" class="nemt-return-prompt-primary" onclick="guardedOpenNemtRebook('${id}','return')">Schedule return home</button>
             <button type="button" class="nemt-return-prompt-secondary" onclick="dismissReturnPrompt('${id}')">Not now</button>
           </div>
           <div class="nemt-return-prompt-meta">Ref ${escHtml(o.id)} · ${when} · Return home swaps pickup and destination</div>
@@ -2283,7 +3001,7 @@ function updateNemtUrgentBanner() {
     ? `Your trip on <strong>${when}</strong> is less than 48 hours away.`
     : `<strong>${urgent.length} selected dates</strong> are within 48 hours (next: ${when}).`;
   el.style.display = 'block';
-  el.innerHTML = `<strong>⚠️ Urgent trip — within 48 hours</strong><br>${countLine} For same-day or rush coordination, call <a href="tel:+18557730035">${NEMT_DISPATCH_PHONE}</a> (available after 12:00 PM ET). Portal requests are reviewed by our team before dispatch — calling ensures the fastest pickup.`;
+  el.innerHTML = `<strong>⚠️ Urgent trip — within 48 hours</strong><br>${countLine} For same-day or rush coordination, call <a href="tel:+18557730035">${NEMT_DISPATCH_PHONE}</a>. Portal requests are reviewed by our team before dispatch — calling ensures the fastest pickup.`;
 }
 
 function ensureNemtSchedulingWatchers() {
@@ -2342,13 +3060,12 @@ function nemtTripActionsHtml(o) {
   const id = escJs(o.id);
   const sector = orderSectorVars(o);
   return `<div class="trip-actions-wrap" style="${sector.style}">
-    <div class="trip-actions-label">Trip scheduling</div>
     ${rideTrackingHtml(o)}
     <div class="trip-actions">
-      <button type="button" class="trip-action-btn trip-action-return" onclick="openNemtRebook('${id}','return')">Return home</button>
-      <button type="button" class="trip-action-btn trip-action-rebook" onclick="openNemtRebook('${id}','rebook')">Rebook trip</button>
-      <button type="button" class="trip-action-btn trip-action-repeat" onclick="openNemtRebook('${id}','repeat')">Add dates</button>
-      <button type="button" class="trip-action-btn trip-action-recurring" onclick="openNemtRebook('${id}','recurring')">Repeat schedule</button>
+      <button type="button" class="appt-btn gold trip-action-btn trip-action-rebook" onclick="guardedOpenNemtRebook('${id}','rebook')">📍 Trip scheduling</button>
+      <button type="button" class="appt-btn outline trip-action-btn trip-action-return" onclick="guardedOpenNemtRebook('${id}','return')">Return home</button>
+      <button type="button" class="appt-btn outline trip-action-btn trip-action-repeat" onclick="guardedOpenNemtRebook('${id}','repeat')">Add dates</button>
+      <button type="button" class="appt-btn outline trip-action-btn trip-action-recurring" onclick="guardedOpenNemtRebook('${id}','recurring')">Repeat schedule</button>
     </div>
   </div>`;
 }
@@ -2652,6 +3369,10 @@ function updateNemtRebookBanner(order, mode) {
 }
 
 function openNemtRebook(orderId, rebookMode) {
+  if (!hasPortalBookingAuth()) {
+    promptSignInToBook();
+    return;
+  }
   const order = enrichOrderForRebook(findPortalOrder(orderId));
   if (!order) {
     alert('Trip not found. Refresh your dashboard and try again.');
@@ -2676,6 +3397,7 @@ function openNemtRebook(orderId, rebookMode) {
   updateNemtRebookBanner(order, rebookModeKey);
   applyServiceProfile();
 
+  applyVerifiedEmailLock();
   const useQuickPath = NEMT_REBOOK_QUICK_MODES.has(rebookModeKey) && nemtRebookDataReady(order);
   if (useQuickPath) {
     applyNemtRebookQuickUi(order, rebookModeKey);
@@ -2696,7 +3418,7 @@ function openNemtRebook(orderId, rebookMode) {
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-window.openNemtRebook = openNemtRebook;
+window.openNemtRebook = guardedOpenNemtRebook;
 window.addNemtRepeatDateRow = addNemtRepeatDateRow;
 window.previewNemtWeeklyDates = previewNemtWeeklyDates;
 window.previewNemtRecurringDates = previewNemtRecurringDates;
@@ -2742,6 +3464,7 @@ const svcLabels = {
   'fingerprint': 'Fingerprinting & Biometrics',
   'dna': 'DNA / Paternity',
   'nemt': 'NEMT & Medical Mobility',
+  'cts': 'Community Transition Services (Molina)',
   'arena': 'ARENA — Event Navigation Administration',
   'courier': 'Courier & Delivery',
   'background': 'Background Screening',
@@ -2749,7 +3472,7 @@ const svcLabels = {
   'workforce': 'Workforce Compliance',
   'notary': 'Notary & Documents',
 };
-const allDynamic = ['drug-detail-wrap','occhealth-fields','lead-fields','fingerprint-fields','dna-fields','background-fields','credential-fields','workforce-fields','notary-fields','nemt-fields','arena-fields','courier-fields'];
+const allDynamic = ['drug-detail-wrap','occhealth-fields','lead-fields','fingerprint-fields','dna-fields','background-fields','credential-fields','workforce-fields','notary-fields','nemt-fields','cts-fields','arena-fields','courier-fields'];
 
 // Per-service form tailoring — controls visibility, labels, and required fields
 const SERVICE_PROFILES = {
@@ -2842,6 +3565,19 @@ const SERVICE_PROFILES = {
       show: { dob: true, phone: true, email: true, id: true, location: true, scheduling: true, tier2DrugTransport: false },
       require: { first: true, last: true, dob: false, phone: true, email: false, location: true, date: true, time: true, site: true },
       detailRequired: ['nemt-program', 'nemt-trip-type']
+    }
+  },
+  'cts': {
+    step1: { showResponseTypes: false, tiers: [1], defaultTier: 1 },
+    step2: { showResultsDelivery: false },
+    step3: {
+      title: 'Member Information',
+      subtitle: 'Basic information for the member transitioning — referral details are in the section above.',
+      labels: { first: 'Member First Name', last: 'Member Last Name', dob: 'Date of Birth', phone: 'Member Phone', email: 'Member Email', id: 'Medicaid / Member ID', location: 'Location', schedDate: 'Date', schedTime: 'Time', site: 'Site' },
+      sitePlaceholder: '',
+      show: { dob: true, phone: true, email: true, id: true, location: false, scheduling: false, tier2DrugTransport: false },
+      require: { first: true, last: true, dob: false, phone: false, email: false, location: false, date: false, time: false, site: false },
+      detailRequired: ['cts-referral-type', 'cts-transition-from', 'cts-transition-to']
     }
   },
   'arena': {
@@ -3021,7 +3757,8 @@ const SERVICE_LABELS = {
   return_to_duty: 'Return to Duty', reasonable_suspicion: 'Reasonable Suspicion',
   follow_up: 'Follow-Up', fingerprint: 'Fingerprinting', dna: 'DNA Testing',
   background: 'Background Check', notary: 'Notary', nemt: 'NEMT', arena: 'ARENA',
-  courier: 'Courier', occ_health: 'Occupational Health', credentialing: 'Credentialing'
+  courier: 'Courier', occ_health: 'Occupational Health', credentialing: 'Credentialing',
+  cts: 'Community Transition (CTS)', community_transition: 'Community Transition (CTS)'
 };
 
 /** PRISM service type colors — PRISM_MASTER.md §3 + PRISMSystem.tsx SERVICE_COLORS */
@@ -3034,6 +3771,7 @@ const PRISM_SERVICE_COLORS = {
   background:      { color: '#4ADE80', solid: '#16A34A', bg: '#F0FDF4', border: '#86EFAC', short: 'Background' },
   notary:          { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', border: '#F472B6', short: 'Notary' },
   nemt:            { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', border: '#2DD4BF', short: 'NEMT' },
+  cts:             { color: '#F59E0B', solid: '#D97706', bg: '#FFFBEB', border: '#FCD34D', short: 'CTS' },
   courier:         { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', border: '#818CF8', short: 'Courier' },
   medical_courier: { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', border: '#818CF8', short: 'Med Courier' },
   rx_delivery:     { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', border: '#2DD4BF', short: 'Rx Delivery' },
@@ -3059,6 +3797,11 @@ function resolveOrderServiceColorKey(order) {
   if (k === 'background' || t === 'background' || label.includes('background check')) return 'background';
 
   if (k === 'dna' || t === 'dna' || label.includes('dna') || label.includes('paternity')) return 'dna';
+
+  if (
+    k === 'cts' || k === 'community_transition' || k === 'community-transition' || t === 'community_transition' ||
+    label.includes('community transition')
+  ) return 'cts';
 
   if (
     k === 'nemt' || k === 'arena' || k === 'transport' || t === 'nemt' || t === 'arena' ||
@@ -3107,10 +3850,10 @@ const MONTHS_FULL = ['January','February','March','April','May','June','July','A
 
 function getOrdersMyUrl(email) {
   const host = location.hostname;
-  const q = `email=${encodeURIComponent(email)}`;
   if (isPortalHost(host)) {
-    return `/.netlify/functions/prism-orders-my?${q}`;
+    return '/.netlify/functions/prism-orders-my';
   }
+  const q = `email=${encodeURIComponent(email)}`;
   return `${getApiBase()}/prism/orders/my?${q}`;
 }
 
@@ -3200,9 +3943,18 @@ function mergeOrderRecords(prev, next) {
   return merged;
 }
 
+function isPortalOrderVisible(o) {
+  if (!o) return false;
+  const id = String(o.id || '');
+  if (/^(SMOKE-PORTAL-|NETLIFY-SMOKE-)/i.test(id)) return false;
+  const raw = String(o.ops_status || o.status || '').toLowerCase().replace(/\s+/g, '_');
+  return !['cancelled', 'canceled', 'deleted', 'void', 'voided'].includes(raw);
+}
+
 function mergeOrdersById(a, b) {
   const byKey = new Map();
   [...a, ...b].forEach(o => {
+    if (!isPortalOrderVisible(o)) return;
     if (!o) return;
     const key = o.id || orderDedupeKey(o);
     if (!key) return;
@@ -3224,7 +3976,7 @@ function loadLocalOrders(email) {
   if (!email) return [];
   try {
     const all = JSON.parse(localStorage.getItem('prism_my_orders') || '{}');
-    return all[email.toLowerCase()] || [];
+    return (all[email.toLowerCase()] || []).filter(isPortalOrderVisible);
   } catch { return []; }
 }
 
@@ -3279,7 +4031,9 @@ async function fetchAndMergeOrders(email) {
   const local = loadLocalOrders(email);
   let remote = [];
   try {
-    const res = await fetch(getOrdersMyUrl(email));
+    const res = needsPortalAuth()
+      ? await portalAuthFetch(getOrdersMyUrl(email))
+      : await fetch(getOrdersMyUrl(email));
     if (res.ok) {
       const data = await res.json();
       remote = data.orders || [];
@@ -3290,6 +4044,7 @@ async function fetchAndMergeOrders(email) {
   if (bookerFromOrders && clientData.contact && !clientData.contact.name) {
     clientData.contact.name = bookerFromOrders;
   }
+  if (mode === 'dashboard') refreshSurveyGate();
 }
 
 // Service pricing — from DDI service catalog
@@ -3300,6 +4055,21 @@ const SERVICE_PRICING = {
   'fingerprint': { label: 'Fingerprinting', base: 75.00 },
   'dna': { label: 'DNA / Paternity', base: 350.00 },
   'nemt': { label: 'NEMT & Medical Mobility', base: 45.00 },
+  'cts': {
+    label: 'Community Transition Services (Molina)',
+    scoped: true,
+    factorGroups: [
+      {
+        title: 'Authorization Case — Billed to Molina, Not the Referring Facility',
+        items: [
+          'No payment collected at intake — this is a referral, not a paid service request',
+          'T1028 Home Assessment — flat $150, only if required and completed',
+          'T2038 Authorization Sign-Off — negotiated per case from submitted invoices, no fixed rate',
+          'DDI reviews PCSP, expense documentation, and readiness checklist before authorizing'
+        ]
+      }
+    ]
+  },
   'arena': {
     label: 'ARENA Event Program',
     scoped: true,
@@ -3419,43 +4189,195 @@ const MOCK_CLIENTS = {
 };
 
 // ═══════ GATE LOGIC ═══════
+function showEntryGate() {
+  document.body.classList.add('gate-mode');
+  document.body.classList.remove('dashboard-mode');
+}
+
+function hideEntryGate() {
+  document.body.classList.remove('gate-mode');
+}
+
+function setDashboardMode(on) {
+  document.body.classList.toggle('dashboard-mode', !!on);
+  if (on) document.body.classList.remove('gate-mode');
+}
+
 function lookupClient() {
   const email = document.getElementById('gate-email').value.trim().toLowerCase();
   if (!email || !email.includes('@')) { document.getElementById('gate-email').focus(); return; }
-
+  if (needsPortalAuth()) {
+    requestSignIn();
+    return;
+  }
   gateUserEmail = email;
   sessionStorage.setItem('prism_gate_email', email);
+  loadClientDashboard(email);
+}
 
+async function requestSignIn(isResend) {
+  const email = document.getElementById('gate-email').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) { document.getElementById('gate-email').focus(); return; }
+  showGateError('');
   const loading = document.getElementById('gate-loading');
+  const loadingText = document.getElementById('gate-loading-text');
   const btn = document.getElementById('gate-btn');
-  loading.style.display = 'block'; btn.disabled = true;
-
-  const base = getApiBase();
-  const crmPromise = fetch(`${base}/prism/crm/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
-  const billingPromise = fetch(`${base}/prism/billing/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null);
-
-  Promise.all([crmPromise, billingPromise])
-    .then(async ([crmData, billingData]) => {
-      loading.style.display = 'none'; btn.disabled = false;
-
-      if (crmData && crmData.found) {
-        if (billingData && billingData.found) {
-          crmData.billing = billingData.billing;
-          if (billingData.open_invoices) crmData.invoices = mergeInvoices(crmData.invoices, billingData.open_invoices);
-          applyBillingContactHints(crmData.contact, billingData);
-        }
-        clientData = crmData;
-        knownClient = crmData.contact;
-        await fetchAndMergeOrders(email);
-        renderDashboard(clientData);
-      } else {
-        checkMockOrNew(email, billingData);
-      }
-    })
-    .catch(() => {
-      loading.style.display = 'none'; btn.disabled = false;
-      checkMockOrNew(email, null);
+  const resendBtn = document.getElementById('gate-resend-btn');
+  if (loading) loading.style.display = 'block';
+  if (loadingText) loadingText.textContent = isResend ? 'Sending a new code…' : 'Sending sign-in link…';
+  if (btn) btn.disabled = true;
+  if (resendBtn) resendBtn.disabled = true;
+  try {
+    const res = await fetch('/.netlify/functions/portal-auth-send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
     });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showGateError(data.error || 'Could not send sign-in email. Try again or call 855-773-0035.');
+      return;
+    }
+    gateUserEmail = email;
+    sessionStorage.setItem('prism_gate_email', email);
+    showCodeStep(email);
+  } catch (_) {
+    showGateError('Network error. Check your connection and try again.');
+  } finally {
+    if (loading) loading.style.display = 'none';
+    if (btn) btn.disabled = false;
+    if (resendBtn) resendBtn.disabled = false;
+  }
+}
+
+async function completeSignIn(payload) {
+  const res = await fetch('/.netlify/functions/portal-auth-verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    showGateError(data.error || 'Sign-in failed. Request a new code.');
+    showCodeStep(gateUserEmail || payload.email || '');
+    return false;
+  }
+  savePortalSession(data.session, data.email);
+  showGateError('');
+  await loadClientDashboard(data.email);
+  return true;
+}
+
+async function verifySignInCode() {
+  const email = (gateUserEmail || document.getElementById('gate-email').value).trim().toLowerCase();
+  const code = (document.getElementById('gate-code').value || '').replace(/\D/g, '');
+  if (!email || code.length !== 6) {
+    showGateError('Enter the 6-digit code from your email.');
+    document.getElementById('gate-code').focus();
+    return;
+  }
+  const btn = document.getElementById('gate-verify-btn');
+  if (btn) btn.disabled = true;
+  showGateError('');
+  try {
+    await completeSignIn({ email, code });
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+async function handleLoginTokenFromUrl(token) {
+  if (!token || !needsPortalAuth()) return;
+  showEntryGate();
+  const loading = document.getElementById('gate-loading');
+  const loadingText = document.getElementById('gate-loading-text');
+  if (loading) loading.style.display = 'block';
+  if (loadingText) loadingText.textContent = 'Signing you in…';
+  try {
+    const ok = await completeSignIn({ login_token: token });
+    if (!ok) showEmailStep();
+  } finally {
+    if (loading) loading.style.display = 'none';
+  }
+}
+
+async function restorePortalSession() {
+  if (!portalSession) return false;
+  try {
+    const res = await portalAuthFetch('/.netlify/functions/portal-auth-me');
+    if (!res.ok) {
+      clearPortalSession();
+      return false;
+    }
+    const data = await res.json();
+    gateUserEmail = data.email;
+    sessionStorage.setItem('prism_gate_email', data.email);
+    await loadClientDashboard(data.email);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+async function loadClientDashboard(email) {
+  const loading = document.getElementById('gate-loading');
+  const loadingText = document.getElementById('gate-loading-text');
+  const btn = document.getElementById('gate-btn');
+  if (loading) {
+    loading.style.display = 'block';
+    if (loadingText) loadingText.textContent = 'Loading your dashboard…';
+  }
+  if (btn) btn.disabled = true;
+
+  let crmData = null;
+  let billingData = null;
+
+  if (needsPortalAuth()) {
+    try {
+      const res = await portalAuthFetch('/.netlify/functions/portal-client-lookup');
+      if (res.status === 401) {
+        clearPortalSession();
+        if (loading) loading.style.display = 'none';
+        if (btn) btn.disabled = false;
+        showEntryGate();
+        showEmailStep();
+        showGateError('Your session expired. Sign in again.');
+        return;
+      }
+      if (res.ok) {
+        const bundle = await res.json();
+        crmData = bundle.crm;
+        billingData = bundle.billing;
+      }
+    } catch (_) { /* offline — new user path */ }
+  } else {
+    const base = getApiBase();
+    try {
+      const [crm, bill] = await Promise.all([
+        fetch(`${base}/prism/crm/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null),
+        fetch(`${base}/prism/billing/lookup?email=${encodeURIComponent(email)}`).then(r => r.json()).catch(() => null),
+      ]);
+      crmData = crm;
+      billingData = bill;
+    } catch (_) { /* fall through */ }
+  }
+
+  if (loading) loading.style.display = 'none';
+  if (btn) btn.disabled = false;
+
+  if (crmData && crmData.found) {
+    if (billingData && billingData.found) {
+      crmData.billing = billingData.billing;
+      if (billingData.open_invoices) crmData.invoices = mergeInvoices(crmData.invoices, billingData.open_invoices);
+      applyBillingContactHints(crmData.contact, billingData);
+    }
+    clientData = crmData;
+    knownClient = crmData.contact;
+    await fetchAndMergeOrders(email);
+    renderDashboard(clientData);
+  } else {
+    checkMockOrNew(email, billingData);
+  }
 }
 
 function applyBillingContactHints(contact, billingData) {
@@ -3512,24 +4434,36 @@ async function openDashboardForEmail(email, billingData) {
 
 function signOut() {
   stopDashboardRefresh();
+  clearPortalSession();
   sessionStorage.removeItem('prism_gate_email');
   gateUserEmail = '';
   clientData = null;
   knownClient = null;
   mode = 'gate';
+  setDashboardMode(false);
   document.getElementById('client-dashboard').classList.remove('active');
   document.getElementById('progress-wrap').classList.remove('active');
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
-  document.getElementById('entry-gate').style.display = '';
   document.getElementById('gate-email').value = '';
+  applyVerifiedEmailLock();
+  showGateError('');
+  showEmailStep();
+  showEntryGate();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.getElementById('gate-email').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') { e.preventDefault(); lookupClient(); }
 });
+document.getElementById('gate-code')?.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); verifySignInCode(); }
+});
 
 function enterAsNew(passedEmail, forceForm) {
+  if (needsPortalAuth()) {
+    promptSignInToBook();
+    return;
+  }
   const gateVal = document.getElementById('gate-email').value.trim().toLowerCase();
   const email = (passedEmail || gateVal || '').trim().toLowerCase();
   if (!forceForm && email && email.includes('@')) {
@@ -3538,7 +4472,8 @@ function enterAsNew(passedEmail, forceForm) {
   }
   mode = 'form';
   clientBillingTier = 'pay_at_booking';
-  document.getElementById('entry-gate').style.display = 'none';
+  setDashboardMode(false);
+  hideEntryGate();
   document.getElementById('client-dashboard').classList.remove('active');
   document.getElementById('progress-wrap').classList.add('active');
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
@@ -3556,14 +4491,38 @@ function enterAsNew(passedEmail, forceForm) {
 }
 
 // ═══════ DASHBOARD RENDERING ═══════
+function dashWelcomeFirst(name) {
+  if (!name || !String(name).trim()) return 'there';
+  return String(name).trim().split(/\s+/)[0];
+}
+
+function sectorBadgeEmoji(order) {
+  const key = resolveOrderServiceColorKey(order);
+  const map = {
+    nemt: '🚐', arena: '🎟️', courier: '📦', fingerprint: '🔐', dna: '🧬',
+    notary: '📜', background: '🔍', dot: '🧪', 'non-dot': '🧪', phlebotomy: '🩺',
+  };
+  return map[key] || '📋';
+}
+
+function apptDetailLine(o) {
+  const parts = [];
+  if (o.county || o.location) parts.push(o.county || o.location);
+  if (o.trip_purpose || o.trip_type) parts.push(o.trip_purpose || o.trip_type);
+  if (o.mobility) parts.push(o.mobility);
+  if (o.time) parts.push(o.time);
+  return parts.filter(Boolean).join(' · ') || 'Details pending';
+}
+
 function renderDashboard(data) {
   mode = 'dashboard';
-  document.getElementById('entry-gate').style.display = 'none';
+  setDashboardMode(true);
+  hideEntryGate();
   document.getElementById('progress-wrap').classList.remove('active');
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
   document.getElementById('client-dashboard').classList.add('active');
 
-  const c = data.contact;
+  const c = data.contact || {};
   const orders = data.orders || [];
   const dashEmail = (c.email || gateUserEmail || '').toLowerCase();
   if (dashEmail) startDashboardRefresh(dashEmail);
@@ -3573,6 +4532,11 @@ function renderDashboard(data) {
   if (bookerName) {
     saveBookerProfile(dashEmail, { name: bookerName, company: c.company, phone: c.phone });
   }
+
+  const welcomeEl = document.getElementById('dash-welcome-first');
+  if (welcomeEl) welcomeEl.textContent = dashWelcomeFirst(bookerName || c.name);
+  const emailEl = document.getElementById('dash-user-email');
+  if (emailEl) emailEl.textContent = c.email || dashEmail || '—';
 
   document.getElementById('dash-company-name').textContent = bookerName || '—';
   const dashMeta = [];
@@ -3624,19 +4588,25 @@ function renderDashboard(data) {
     uList.innerHTML = upcoming.map(o => {
       const iso = parseOrderDate(o);
       const d = iso ? new Date(iso + 'T12:00:00') : new Date();
-      const badgeClass = o.status === 'scheduled' ? 'badge-scheduled' : o.status === 'pending' ? 'badge-pending' : o.status === 'completed' ? 'badge-completed' : 'badge-in-progress';
       const sector = orderSectorVars(o);
-      return `<div class="upcoming-item" style="${sector.style}">
-        <div class="upcoming-date-block">
-          <div class="upcoming-month">${MONTHS[d.getMonth()]}</div>
-          <div class="upcoming-day">${iso ? d.getDate() : '—'}</div>
+      const dateShort = iso ? `${MONTHS[d.getMonth()]} ${d.getDate()}` : 'TBD';
+      const tripBtns = nemtTripActionsHtml(o);
+      const detailBtn = iso
+        ? `<button type="button" class="appt-btn outline" onclick="selectCalDay('${iso}')">📄 View details</button>`
+        : `<button type="button" class="appt-btn outline" onclick="toggleKpi('upcoming')">📄 View details</button>`;
+      const actionRow = tripBtns
+        ? `<div class="appt-btns">${tripBtns}${detailBtn}</div>`
+        : `<div class="appt-btns">${detailBtn}</div>`;
+      return `<div class="appt" style="${sector.style}">
+        <div class="appt-top">
+          <div class="appt-badge">${sectorBadgeEmoji(o)} ${escHtml(sector.short)}</div>
+          <div class="appt-info">
+            <div class="appt-name">${escHtml(orderDisplayLabel(o))} — ${escHtml(o.subject)}</div>
+            <div class="appt-detail">${escHtml(apptDetailLine(o))}</div>
+          </div>
+          <div class="appt-date">${dateShort}</div>
         </div>
-        <div class="upcoming-info">
-          <div class="upcoming-title"><span class="upcoming-sector-tag">${escHtml(sector.short)}</span>${orderDisplayLabel(o)} — ${escHtml(o.subject)}</div>
-          <div class="upcoming-meta">${escHtml(o.time || 'TBD')} · ${escHtml(o.location || '—')}</div>
-        </div>
-        ${nemtTripActionsHtml(o)}
-        <div class="upcoming-badge ${badgeClass}">${portalStatusLabel(o)}</div>
+        ${actionRow}
       </div>`;
     }).join('');
   }
@@ -3687,6 +4657,7 @@ function renderDashboard(data) {
   }
 
   renderOrderCalendar(orders);
+  refreshSurveyGate();
 }
 
 function renderOrderCalendar(orders) {
@@ -3694,7 +4665,7 @@ function renderOrderCalendar(orders) {
   const grid = document.getElementById('cal-grid');
   if (!label || !grid) return;
 
-  label.textContent = `${MONTHS_FULL[calMonth]} ${calYear}`;
+  label.textContent = `📅 ${MONTHS_FULL[calMonth]} ${calYear}`;
 
   const byDate = {};
   (orders || []).forEach(o => {
@@ -3711,7 +4682,7 @@ function renderOrderCalendar(orders) {
   let html = '';
 
   for (let i = 0; i < startPad; i++) {
-    html += '<div class="cal-day cal-empty"></div>';
+    html += '<div class="cal-day cal-empty mini-cal-cell empty">.</div>';
   }
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -3731,7 +4702,8 @@ function renderOrderCalendar(orders) {
       }
       dots += '</div>';
     }
-    html += `<div class="cal-day${isToday ? ' cal-today' : ''}${isSelected ? ' cal-selected' : ''}" data-iso="${iso}" onclick="selectCalDay('${iso}')">
+    const hasEvent = dayOrders.length > 0;
+    html += `<div class="cal-day mini-cal-cell${isToday ? ' cal-today today' : ''}${isSelected ? ' cal-selected' : ''}${hasEvent ? ' has-event' : ''}" data-iso="${iso}" onclick="selectCalDay('${iso}')">
       <div class="cal-day-num">${day}</div>${dots}
     </div>`;
   }
@@ -4019,9 +4991,14 @@ function downloadInvoice(invId) {
 }
 
 function startNewRequest() {
+  if (!hasPortalBookingAuth()) {
+    promptSignInToBook();
+    return;
+  }
   stopDashboardRefresh();
   clearNemtRebookUi();
   mode = 'form';
+  setDashboardMode(false);
   document.getElementById('client-dashboard').classList.remove('active');
   document.getElementById('progress-wrap').classList.add('active');
   document.getElementById('back-to-dash').classList.add('visible');
@@ -4029,6 +5006,7 @@ function startNewRequest() {
   document.getElementById('step-1').classList.add('active');
   currentStep = 1;
   updateProgress(1);
+  prefillFormFromClientData();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -4082,7 +5060,7 @@ function showServiceDetails() {
   const dc = document.getElementById('details-card');
   const dl = document.getElementById('details-label');
   const key = getSvcKey();
-  const map = {'testing-drug':'drug-detail-wrap','testing-occhealth':'occhealth-fields','testing-lead':'lead-fields','fingerprint':'fingerprint-fields','dna':'dna-fields','background':'background-fields','credentialing':'credential-fields','workforce':'workforce-fields','notary':'notary-fields','nemt':'nemt-fields','arena':'arena-fields','courier':'courier-fields'};
+  const map = {'testing-drug':'drug-detail-wrap','testing-occhealth':'occhealth-fields','testing-lead':'lead-fields','fingerprint':'fingerprint-fields','dna':'dna-fields','background':'background-fields','credentialing':'credential-fields','workforce':'workforce-fields','notary':'notary-fields','nemt':'nemt-fields','cts':'cts-fields','arena':'arena-fields','courier':'courier-fields'};
   if (map[key]) { document.getElementById(map[key]).classList.add('visible'); dc.style.display = ''; dl.style.display = ''; }
   else { dc.style.display = 'none'; dl.style.display = 'none'; }
 }
@@ -4100,6 +5078,7 @@ function pickTier(el, n) {
 
 function validate(step) {
   if (step === 2) {
+    applyVerifiedEmailLock();
     let ok = true;
     ok = validateField('client-email', 'email', true) && ok;
     ok = validateField('client-name', 'text', true) && ok;
@@ -4222,6 +5201,7 @@ function nextStep(to, fromClick) {
     if (nemtRebookContext && NEMT_REBOOK_QUICK_MODES.has(nemtRebookContext.mode)) clearNemtRebookQuickUi();
     showServiceDetails();
     applyServiceProfile();
+    applyVerifiedEmailLock();
   }
   if (to === 3) {
     applyServiceProfile();
@@ -4290,6 +5270,26 @@ function buildIntakeDetails(svcKey) {
       };
     }
   }
+  if (svcKey === 'cts') {
+    const refType = rawVal('cts-referral-type');
+    const refName = rawVal('cts-referral-contact');
+    d.referral_source_type = refType;
+    d.referral_contact_name = refName;
+    d.referral_source = [refType, refName].filter(Boolean).join(' — ');
+    d.referring_contact_phone = rawVal('cts-referral-phone');
+    d.referring_contact_email = rawVal('cts-referral-email');
+    d.transitioning_from = rawVal('cts-transition-from');
+    d.transitioning_to = rawVal('cts-transition-to');
+    d.planned_move_date = rawVal('cts-move-date');
+    d.referral_date = new Date().toISOString().slice(0, 10);
+    d.pcsp_confirmed = rawVal('cts-pcsp');
+    d.home_assessment_required = rawVal('cts-home-assessment');
+    d.initial_expense_category = rawVal('cts-expense-category');
+    d.member_id = rawVal('donor-id');
+    d.member_phone = rawVal('donor-phone');
+    d.member_email = rawVal('donor-email');
+    d.payer = 'Molina Healthcare Michigan';
+  }
   if (svcKey === 'arena') {
     d.program = 'ARENA';
     d.execution_framework = 'PRIME';
@@ -4321,12 +5321,21 @@ function buildIntakeDetails(svcKey) {
 
 function submitIntakeOrder(apiPayload) {
   const url = getIntakeSubmitUrl();
+  const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+  if (needsPortalAuth() && portalSession) {
+    headers.Authorization = `Bearer ${portalSession}`;
+  }
   return fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    headers,
     body: JSON.stringify(apiPayload),
   }).then(async (r) => {
     const data = await r.json().catch(() => ({}));
+    if (r.status === 401) {
+      clearPortalSession();
+      promptSignInToBook();
+      throw new Error(data.error || 'Sign in required before submitting.');
+    }
     if (!r.ok) throw new Error(data.error || `Server error (${r.status})`);
     return data;
   });
@@ -4338,6 +5347,9 @@ function buildIntakeApiPayload(confNum, schedDate, schedTime) {
   const { total: orderTotal, scoped: orderScoped } = calculateOrderTotal();
   const dateVal = schedDate || rawVal('sched-date');
   const timeVal = schedTime || rawVal('sched-time');
+  const contactEmail = (needsPortalAuth() && hasPortalBookingAuth())
+    ? getVerifiedPortalEmail()
+    : rawVal('client-email');
   return {
     confirmation: confNum,
     service_key: svcKey,
@@ -4347,7 +5359,7 @@ function buildIntakeApiPayload(confNum, schedDate, schedTime) {
     client_company: val('client-name'),
     client_contact: val('client-contact'),
     client_phone: val('client-phone'),
-    client_email: val('client-email'),
+    client_email: contactEmail || val('client-email'),
     client_po: val('client-po'),
     client_address: val('client-address'),
     subject_first: val('donor-first'),
@@ -4382,7 +5394,23 @@ function buildIntakeApiPayload(confNum, schedDate, schedTime) {
 
 function dispatch() {
   const submitBtn = document.getElementById('btn-submit-request');
+  if (needsPortalAuth() && !hasPortalBookingAuth()) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Request';
+    }
+    promptSignInToBook();
+    return;
+  }
   const hipaaAck = document.getElementById('hipaa-ack-checkbox');
+  if (getSvcKey() === 'nemt' && surveyGateBlocking) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Request';
+    }
+    requireSurveyGate();
+    return;
+  }
   if (hipaaAck && !hipaaAck.checked) {
     if (submitBtn) {
       submitBtn.disabled = false;
@@ -4463,6 +5491,7 @@ function dispatch() {
   if(svcKey==='workforce'){lines.push(`Service:      ${val('wf-type')}`);lines.push(`Industry:     ${val('wf-industry')}`);}
   if(svcKey==='notary') lines.push(`Notary:       ${val('notary-type')}`);
   if(svcKey==='nemt'){const nm=getNemtProgramMeta();lines.push(`Program:      ${nm.label||val('nemt-program')}`);lines.push(`Mobility:     ${nm.lane||'—'}`);lines.push(`Trip Type:    ${val('nemt-trip-type')}`);lines.push(`Leg:          ${val('nemt-leg-type')}`);lines.push(`Purpose:      ${val('nemt-purpose')}`);lines.push(`Member ID:    ${val('nemt-member-id')}`);}
+  if(svcKey==='cts'){lines.push(`Payer:        Molina Healthcare Michigan`);lines.push(`Referral By:  ${val('cts-referral-type')}`);lines.push(`Referrer:     ${val('cts-referral-contact')}`);lines.push(`From:         ${val('cts-transition-from')}`);lines.push(`To:           ${val('cts-transition-to')}`);lines.push(`Move Date:    ${val('cts-move-date')}`);lines.push(`PCSP:         ${val('cts-pcsp')}`);lines.push(`Home Assess:  ${val('cts-home-assessment')}`);lines.push(`Expense Cat:  ${val('cts-expense-category')}`);}
   if(svcKey==='arena'){lines.push(`Program:      ARENA`);lines.push(`Execution:    PRIME`);lines.push(`Pricing:      Dynamic — scoped proposal after consultation`);lines.push(`Event Type:   ${val('event-type')}`);lines.push(`Event Name:   ${val('event-name')}`);lines.push(`Scope:        ${val('event-scope')}`);lines.push(`Volume:       ${val('event-volume')}`);lines.push(`Venue:        ${val('event-venue')}`);lines.push(`Trip Pay:     ${val('event-payment-model')}`);if(document.getElementById('event-valet')?.checked)lines.push(`Valet:        PRIME Valet requested (optional add-on)`);}
   if(svcKey==='courier'){const cm=getCourierDeliveryMeta();lines.push(`Delivery:     ${val('courier-type')}`);lines.push(`Courier Lane: ${cm.lane||'—'}`);lines.push(`Route To:     ${activeEmail}`);lines.push(`Temp Control: ${val('courier-temp')}`);lines.push(`Package:      ${val('courier-package')}`);lines.push(`Pickup:       ${val('courier-pickup')}`);}
   if (orderScoped) {
@@ -4586,12 +5615,14 @@ function closeOverlay(){document.getElementById('overlay').classList.remove('act
 
 function goToDashboardAfterSubmit() {
   closeOverlay();
-  const email = val('client-email');
+  const email = getVerifiedPortalEmail() || val('client-email');
   if (email && email !== '—') {
-    if (!clientData) {
-      openDashboardForEmail(email.toLowerCase(), null);
-    } else {
+    if (clientData) {
       showDashboard();
+    } else if (needsPortalAuth() && hasPortalBookingAuth()) {
+      loadClientDashboard(email.toLowerCase());
+    } else if (!needsPortalAuth()) {
+      openDashboardForEmail(email.toLowerCase(), null);
     }
   }
 }
@@ -4904,6 +5935,9 @@ function validateOverride() {
 
 function getPaymentConfirmation() {
   const { total, scoped } = calculateOrderTotal();
+  if (getSvcKey() === 'cts') {
+    return { icon: '📋', title: 'Referral Submitted — No Payment at Intake', detail: 'DDI authorizes and bills Molina Healthcare Michigan directly under the HIDE SNP LTSS contract — never billed to the referring facility', amount: 'Billed to Molina' };
+  }
   if (scoped) {
     return { icon: '📋', title: 'Scoping Request Submitted', detail: 'DDI will deliver a dynamic scoped proposal after consultation — no flat rates, no payment at intake', amount: 'After consultation' };
   }
@@ -4942,11 +5976,25 @@ showServiceDetails();
 applyServiceProfile();
 ensureNemtSchedulingWatchers();
 
-// Restore session — returning users see their dashboard + order calendar
-if (gateUserEmail && gateUserEmail.includes('@')) {
-  document.getElementById('gate-email').value = gateUserEmail;
-  lookupClient();
-}
+// Restore session — magic link, saved session, or local dev email lookup
+(function initPortalAuth() {
+  const params = new URLSearchParams(location.search);
+  const loginToken = params.get('login');
+  if (loginToken && needsPortalAuth()) {
+    history.replaceState(null, '', location.pathname + location.hash);
+    handleLoginTokenFromUrl(loginToken);
+    return;
+  }
+  if (needsPortalAuth() && portalSession) {
+    if (gateUserEmail) document.getElementById('gate-email').value = gateUserEmail;
+    restorePortalSession();
+    return;
+  }
+  if (gateUserEmail && gateUserEmail.includes('@') && !needsPortalAuth()) {
+    document.getElementById('gate-email').value = gateUserEmail;
+    lookupClient();
+  }
+})();
 </script>
 <div id="JotformAgent-019e9f0b93a079c2a5ff74cdf534fafcdd5f"></div>
 <script src="https://cdn.jotfor.ms/agent/embedjs/019e9f0b93a079c2a5ff74cdf534fafcdd5f/embed.js"></script>

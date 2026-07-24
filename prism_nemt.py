@@ -447,14 +447,63 @@ def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) ->
     pcsp_raw = details.get("pcsp_confirmed") if "pcsp_confirmed" in details else data.get("pcsp_confirmed")
     pcsp_confirmed = None
     if pcsp_raw is not None:
-        pcsp_confirmed = str(pcsp_raw).strip().lower() in ("true", "yes", "y", "1")
+        pcsp_val = str(pcsp_raw).strip().lower()
+        if pcsp_val in ("true", "yes", "y", "1"):
+            pcsp_confirmed = True
+        elif pcsp_val in ("false", "no", "n", "0"):
+            pcsp_confirmed = False
+        # "pending" / "not sure" / blank -> leave as None (unconfirmed, not denied)
 
+    # Member's own contact info — prefer subject/donor fields over the
+    # referring facility's contact info (client_phone/client_email belong to
+    # the discharge planner or Care Coordinator, not the member).
     member_phone = (
-        details.get("member_phone") or data.get("client_phone") or order.get("client_phone") or ""
+        details.get("member_phone")
+        or data.get("subject_phone")
+        or order.get("subject_phone")
+        or data.get("client_phone")
+        or order.get("client_phone")
+        or ""
     ).strip()
     member_email = (
-        (data.get("client_email") or order.get("client_email") or "").strip().lower()
+        details.get("member_email")
+        or data.get("subject_email")
+        or order.get("subject_email")
+        or data.get("client_email")
+        or order.get("client_email")
+        or ""
+    ).strip().lower()
+
+    # Initial expense category requested at referral (Security Deposit /
+    # Utility Set-up only — Article 2.9 gate enforced downstream in
+    # create_community_transition_order via check_cts_expense_category_allowed).
+    # No dollar amount or supporting document at this stage — those come in
+    # later via the CTS case PATCH endpoint once invoices are collected.
+    initial_category = (
+        details.get("initial_expense_category") or data.get("initial_expense_category") or ""
+    ).strip()
+    expense_items = None
+    if initial_category and initial_category.lower() not in ("not yet determined", "unknown", "n/a", "none"):
+        expense_items = [{
+            "category": initial_category,
+            "requested_amount": 0,
+            "supporting_document": "",
+            "status": "requested_at_referral",
+        }]
+
+    home_assess_raw = (
+        details.get("home_assessment_required")
+        if "home_assessment_required" in details
+        else data.get("home_assessment_required")
     )
+    home_assessment_required = None
+    if home_assess_raw is not None:
+        ha_val = str(home_assess_raw).strip().lower()
+        if ha_val in ("true", "yes", "y", "1"):
+            home_assessment_required = True
+        elif ha_val in ("false", "no", "n", "0"):
+            home_assessment_required = False
+        # "not sure yet" / blank -> leave as None (undetermined)
 
     try:
         cts = create_community_transition_order(
@@ -466,6 +515,8 @@ def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) ->
             transitioning_to=transitioning_to,
             transitioning_from=transitioning_from,
             pcsp_confirmed=pcsp_confirmed,
+            expense_items=expense_items,
+            home_assessment_required=home_assessment_required,
             notes=(order.get("notes") or data.get("notes") or "").strip(),
             prism_order_id=prism_id,
             member_phone=member_phone or None,

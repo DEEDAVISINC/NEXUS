@@ -1637,6 +1637,9 @@ def _create_intake_order_impl():
         'updated_at': now.isoformat(),
     }
 
+    if service_type == 'community_transition':
+        order['workflow_stage_label'] = 'CTS Referral Received'
+
     _evaluate_auto_gates(order)
 
     orders = _load(ORDERS_FILE, [])
