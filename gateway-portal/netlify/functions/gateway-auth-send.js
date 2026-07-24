@@ -8,8 +8,16 @@ const {
   WINDOW_MS,
 } = require('./lib/portal-auth');
 
-const EMAIL_FROM = process.env.NEXUS_EMAIL || 'bids.deedavisinc@gmail.com';
-const EMAIL_PASSWORD = process.env.NEXUS_EMAIL_PASSWORD;
+// AUTH_EMAIL is the real Gmail account that authenticates to Gmail's SMTP relay.
+// FROM_EMAIL is what recipients see in the From: header — hr@deedavis.biz once
+// it's added + verified as a "Send mail as" alias on the AUTH_EMAIL account
+// (Gmail Settings -> Accounts and Import -> Send mail as -> Add another email
+// address). Until that alias is verified, Gmail silently sends as AUTH_EMAIL
+// regardless of what FROM_EMAIL says, so this is safe to set early.
+const AUTH_EMAIL = process.env.NEXUS_EMAIL || 'bids.deedavisinc@gmail.com';
+const AUTH_PASSWORD = process.env.NEXUS_EMAIL_PASSWORD;
+const FROM_EMAIL = process.env.GATEWAY_FROM_EMAIL || AUTH_EMAIL;
+const EMAIL_PASSWORD = AUTH_PASSWORD; // back-compat with the config-check below
 const PORTAL_ORIGIN = process.env.PORTAL_PUBLIC_URL || 'https://gateway.deedavis.biz';
 
 function buildSignInEmail(email, otp, link) {
@@ -96,15 +104,18 @@ exports.handler = async (event) => {
   try {
     const transport = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: EMAIL_FROM, pass: EMAIL_PASSWORD },
+      auth: { user: AUTH_EMAIL, pass: AUTH_PASSWORD },
     });
-    await transport.sendMail({
-      from: `"DDI GATEWAY Onboarding" <${EMAIL_FROM}>`,
+    const info = await transport.sendMail({
+      from: `"DDI GATEWAY Onboarding" <${FROM_EMAIL}>`,
       to: email,
       subject: mail.subject,
       text: mail.text,
       html: mail.html,
     });
+    console.log('gateway-auth-send OK:', JSON.stringify({
+      messageId: info.messageId, accepted: info.accepted, rejected: info.rejected, response: info.response,
+    }));
   } catch (err) {
     console.error('gateway-auth-send email error:', err);
     return {

@@ -45,8 +45,9 @@ SSL (Let's Encrypt) auto-provisions once DNS resolves.
 
 | Variable | Value |
 |----------|-------|
-| `NEXUS_EMAIL` | `bids.deedavisinc@gmail.com` |
-| `NEXUS_EMAIL_PASSWORD` | Gmail **App Password** (can reuse the same one PRISM portal uses) |
+| `NEXUS_EMAIL` | `bids.deedavisinc@gmail.com` — the real Gmail account that **authenticates** to Gmail's SMTP relay (unchanged, shared with the rest of NEXUS) |
+| `NEXUS_EMAIL_PASSWORD` | Gmail **App Password** for that account (can reuse the same one PRISM portal uses) |
+| `GATEWAY_FROM_EMAIL` | `hr@deedavis.biz` — what recipients **see** in the From: header. Requires `hr@deedavis.biz` to be added + verified as a **"Send mail as" alias** on the `bids.deedavisinc@gmail.com` Gmail account (Gmail Settings → Accounts and Import → Send mail as → Add another email address). Until verified, Gmail silently sends as `NEXUS_EMAIL` instead — harmless, just not branded yet. `hr@deedavis.biz` forwards to `bids.deedavisinc@gmail.com` via ImprovMX, so the verification link lands right there. |
 | `GATEWAY_API_BASE` | `https://deedavis.pythonanywhere.com` (same Flask app that serves PRISM + GATEWAY) |
 | `PORTAL_PUBLIC_URL` | `https://gateway.deedavis.biz` (magic links in email) |
 | `GATEWAY_AUTH_SECRET` | Long random string (32+ chars). **Recommended separate from `PORTAL_AUTH_SECRET`** so a PRISM client session can never double as a GATEWAY employee session. If omitted, falls back to `PORTAL_AUTH_SECRET`, then `NEXUS_EMAIL_PASSWORD`. |
