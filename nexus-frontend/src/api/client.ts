@@ -1230,4 +1230,21 @@ export const api = {
     ApiClient.put(`/nexus/hr/onboarding/${recordId}/status`, data),
   checkHrOnboardingCanWork: (recordId: string) => ApiClient.get(`/nexus/hr/onboarding/${recordId}/can-work`),
   getHrOnboardingAlerts: () => ApiClient.get('/nexus/hr/onboarding/alerts'),
+  updateHrOnboardingClassification: (
+    recordId: string,
+    data: {
+      boundedScope?: boolean; ownToolsSchedule?: boolean; worksOtherClients?: boolean;
+      noSupervisoryIntegration?: boolean; deliverableBasedPay?: boolean; routedToCounsel?: boolean;
+      notes?: string; actor?: string;
+    }
+  ) => ApiClient.put(`/nexus/hr/onboarding/${recordId}/classification`, data),
+  updateHrOnboardingAgenda: (
+    recordId: string,
+    data: { phase: string; index?: number; checked?: boolean; notes?: string; actor?: string }
+  ) => ApiClient.put(`/nexus/hr/onboarding/${recordId}/agenda`, data),
+  updateHrOnboardingMemberFacing: (recordId: string, data: { memberFacing: boolean; actor?: string }) =>
+    ApiClient.put(`/nexus/hr/onboarding/${recordId}/member-facing`, data),
+  getHrFdrAttestations: () => ApiClient.get('/nexus/hr/attestation'),
+  addHrFdrAttestation: (data: { year: number; attestorName: string; attestedDate?: string; referenceNotes?: string; actor?: string }) =>
+    ApiClient.post('/nexus/hr/attestation', data),
 };

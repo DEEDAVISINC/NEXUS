@@ -23,10 +23,29 @@ interface HRSystemProps {
 }
 
 interface PhaseItem { key: string; title: string; owner: string; items: string[]; }
-interface TrainingDef { name: string; recurring: boolean; }
-interface TrainingRow { status: string; due: string; certRef: string; completedBy: string; completedDate: string; }
+interface TrainingDef {
+  name: string; source: string; recurrence: string; interval_months: number | null;
+  recurrence_label: string; contractor_trigger: string; contractor_default: string;
+  cms_hard_deadline_days?: number; employee_only?: boolean;
+}
+interface TrainingRow {
+  status: string; due: string; certRef: string; completedBy: string; completedDate: string;
+  applicable?: 'yes' | 'no' | 'pending';
+}
 interface ScreeningEntry { date: string; result: string; notes: string; loggedBy: string; ts: string; }
 interface AuditEntry { ts: string; actor: string; action: string; }
+interface ComplianceState {
+  state: string; severity: 'none' | 'info' | 'warning' | 'critical'; nextDue: string | null; detail: string;
+}
+interface Classification {
+  boundedScope: boolean; ownToolsSchedule: boolean; worksOtherClients: boolean;
+  noSupervisoryIntegration: boolean; deliverableBasedPay: boolean;
+  notes: string; routedToCounsel: boolean; routedDate: string;
+}
+interface AgendaPhase { items: boolean[]; notes: string; }
+interface Attestation {
+  year: number; attested: boolean; attestorName: string; attestedDate: string; referenceNotes: string;
+}
 
 interface RosterRow {
   id: string;
@@ -35,15 +54,21 @@ interface RosterRow {
   division: string;
   startdate: string;
   status: 'Active' | 'Archived';
+  memberFacing: boolean;
   progress: number;
+  screening: string;
 }
 
 interface HRRecord extends RosterRow {
   checklist: Record<string, boolean[]>;
   training: TrainingRow[];
   exclusionLog: ScreeningEntry[];
+  classification: Classification | null;
+  agenda: Record<string, AgendaPhase>;
   auditLog: AuditEntry[];
   _progress?: number;
+  _trainingCompliance?: ComplianceState[];
+  _screening?: ComplianceState;
 }
 
 interface Config {
@@ -51,15 +76,24 @@ interface Config {
   phases_contractor: PhaseItem[];
   trainings: TrainingDef[];
   divisions: string[];
-  fwa_training_name: string;
-  fwa_deadline_days: number;
-  screening_stale_days: number;
+  agendas: Record<string, string[]>;
+  internal_target_days: number;
+  cms_hard_deadline_days: number;
+  screening_cadence_months: number;
 }
 
+interface AlertRow { id: string; name: string; division?: string; workerType?: string; training?: string; detail: string; nextDue: string | null; }
+
 interface Alerts {
-  fwa_training_overdue: { id: string; name: string; division: string; deadline: string }[];
-  screening_stale: { id: string; name: string; last_screened: string | null }[];
-  flagged_screenings_open: { id: string; name: string }[];
+  training_cms_hard_missed: AlertRow[];
+  training_internal_target_missed: AlertRow[];
+  training_recurrence_due: AlertRow[];
+  training_pending_scoping: AlertRow[];
+  screening_flagged_open: AlertRow[];
+  screening_never: AlertRow[];
+  screening_overdue: AlertRow[];
+  fdr_attestation_current_year: number;
+  fdr_attestation_on_file: boolean;
   active_count: number;
   alert_count: number;
 }
@@ -69,6 +103,23 @@ const TAB_IDS = ['dashboard', 'roster', 'detail'] as const;
 const WORKER_LABEL: Record<string, string> = {
   employee: 'Employee (W-2)',
   contractor: 'Contractor (1099)',
+};
+
+const SEVERITY_STYLE: Record<string, string> = {
+  critical: 'bg-red-900/30 border-red-500/50 text-red-300',
+  warning: 'bg-amber-900/20 border-amber-500/40 text-amber-300',
+  info: 'bg-blue-900/20 border-blue-500/40 text-blue-300',
+  none: 'bg-emerald-900/10 border-emerald-600/30 text-emerald-300',
+};
+
+const STATE_LABEL: Record<string, string> = {
+  cms_hard_missed: 'CMS 90-DAY FLOOR MISSED',
+  internal_target_missed: 'PAST 30-DAY TARGET',
+  recurrence_due: 'RECURRENCE DUE',
+  pending_scoping: 'PENDING SCOPING',
+  pending: 'NOT YET DUE',
+  not_applicable: 'N/A',
+  ok: 'CURRENT',
 };
 
 function csvEscape(v: unknown): string {
@@ -93,6 +144,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [config, setConfig] = useState<Config | null>(null);
   const [roster, setRoster] = useState<RosterRow[]>([]);
   const [alerts, setAlerts] = useState<Alerts | null>(null);
+  const [attestations, setAttestations] = useState<Attestation[]>([]);
   const [selected, setSelected] = useState<HRRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -103,12 +155,19 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [nhType, setNhType] = useState<'employee' | 'contractor'>('employee');
   const [nhDivision, setNhDivision] = useState('');
   const [nhStart, setNhStart] = useState('');
+  const [nhMemberFacing, setNhMemberFacing] = useState(true);
   const [adding, setAdding] = useState(false);
 
   // Screening form state (detail view)
   const [scrDate, setScrDate] = useState('');
   const [scrResult, setScrResult] = useState('Clear');
   const [scrNotes, setScrNotes] = useState('');
+
+  // Attestation form state (dashboard)
+  const [attYear, setAttYear] = useState<number>(new Date().getFullYear());
+  const [attName, setAttName] = useState('');
+  const [attNotes, setAttNotes] = useState('');
+  const [attSaving, setAttSaving] = useState(false);
 
   const persistActor = (v: string) => {
     setActor(v);
@@ -143,11 +202,19 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     } catch { setAlerts(null); }
   }, []);
 
+  const loadAttestations = useCallback(async () => {
+    try {
+      const res: any = await api.getHrFdrAttestations();
+      setAttestations(res?.attestations || []);
+    } catch { setAttestations([]); }
+  }, []);
+
   useEffect(() => {
     loadConfig();
     loadRoster();
     loadAlerts();
-  }, [loadConfig, loadRoster, loadAlerts]);
+    loadAttestations();
+  }, [loadConfig, loadRoster, loadAlerts, loadAttestations]);
 
   const openDetail = useCallback(async (id: string) => {
     try {
@@ -180,8 +247,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
         division: nhDivision,
         startdate: nhStart,
         actor,
+        ...( { memberFacing: nhMemberFacing } as any),
       });
-      setNhName(''); setNhDivision(''); setNhStart(''); setNhType('employee');
+      setNhName(''); setNhDivision(''); setNhStart(''); setNhType('employee'); setNhMemberFacing(true);
       await loadRoster();
       await loadAlerts();
     } catch (e: any) {
@@ -213,7 +281,48 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     await api.logHrOnboardingScreening(selected.id, { date: scrDate, result: scrResult, notes: scrNotes, actor });
     setScrDate(''); setScrResult('Clear'); setScrNotes('');
     await refreshSelected();
+    await loadRoster();
     await loadAlerts();
+  };
+
+  const updateClassification = async (field: keyof Classification, value: boolean | string) => {
+    if (!selected) return;
+    await api.updateHrOnboardingClassification(selected.id, { [field]: value, actor } as any);
+    await refreshSelected();
+  };
+
+  const updateAgenda = async (phase: string, index: number, checked: boolean) => {
+    if (!selected) return;
+    await api.updateHrOnboardingAgenda(selected.id, { phase, index, checked, actor });
+    await refreshSelected();
+  };
+
+  const updateAgendaNotes = async (phase: string, notes: string) => {
+    if (!selected) return;
+    await api.updateHrOnboardingAgenda(selected.id, { phase, notes, actor });
+    await refreshSelected();
+  };
+
+  const toggleMemberFacing = async () => {
+    if (!selected) return;
+    await api.updateHrOnboardingMemberFacing(selected.id, { memberFacing: !selected.memberFacing, actor });
+    await refreshSelected();
+    await loadAlerts();
+  };
+
+  const submitAttestation = async () => {
+    if (!attName.trim()) { alert('Enter the attesting officer\'s name.'); return; }
+    setAttSaving(true);
+    try {
+      await api.addHrFdrAttestation({ year: attYear, attestorName: attName.trim(), referenceNotes: attNotes, actor });
+      setAttName(''); setAttNotes('');
+      await loadAttestations();
+      await loadAlerts();
+    } catch (e: any) {
+      alert(e?.message || 'Could not save attestation');
+    } finally {
+      setAttSaving(false);
+    }
   };
 
   const archiveRecord = async (rec: RosterRow) => {
@@ -234,6 +343,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     lines.push([csvEscape('Worker Type'), csvEscape(WORKER_LABEL[rec.workerType])].join(','));
     lines.push([csvEscape('Division'), csvEscape(rec.division)].join(','));
     lines.push([csvEscape('Date of Hire/Engagement'), csvEscape(rec.startdate)].join(','));
+    lines.push([csvEscape('Member-Facing'), csvEscape(rec.memberFacing ? 'Yes' : 'No')].join(','));
     lines.push([csvEscape('Status'), csvEscape(rec.status)].join(','));
     lines.push([csvEscape('Exported'), csvEscape(new Date().toISOString())].join(','));
     lines.push('');
@@ -246,17 +356,29 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     });
     lines.push('');
     lines.push('TRAINING');
-    lines.push([csvEscape('Training'), csvEscape('Status'), csvEscape('Due'), csvEscape('Certificate/Ref'), csvEscape('Completed By'), csvEscape('Completed Date'), csvEscape('Recurring')].join(','));
+    lines.push([csvEscape('Training'), csvEscape('Applicable'), csvEscape('Status'), csvEscape('Completed Date'), csvEscape('Recurrence'), csvEscape('Compliance State'), csvEscape('Next Due')].join(','));
     config.trainings.forEach((t, i) => {
       const tr = rec.training[i] || ({} as TrainingRow);
-      lines.push([csvEscape(t.name), csvEscape(tr.status), csvEscape(tr.due), csvEscape(tr.certRef), csvEscape(tr.completedBy), csvEscape(tr.completedDate), csvEscape(t.recurring ? 'Annual' : 'One-time')].join(','));
+      const comp = rec._trainingCompliance?.[i];
+      lines.push([csvEscape(t.name), csvEscape(tr.applicable || 'yes'), csvEscape(tr.status), csvEscape(tr.completedDate), csvEscape(t.recurrence_label), csvEscape(comp?.state || ''), csvEscape(comp?.nextDue || '')].join(','));
     });
     lines.push('');
-    lines.push('EXCLUSION SCREENING LOG (OIG LEIE + GSA SAM.gov)');
+    lines.push('EXCLUSION SCREENING LOG (OIG LEIE + GSA SAM.gov — monthly cadence)');
     lines.push([csvEscape('Date'), csvEscape('Result'), csvEscape('Notes'), csvEscape('Logged By'), csvEscape('Timestamp')].join(','));
     (rec.exclusionLog || []).forEach((e) => {
       lines.push([csvEscape(e.date), csvEscape(e.result), csvEscape(e.notes), csvEscape(e.loggedBy), csvEscape(e.ts)].join(','));
     });
+    if (rec.classification) {
+      lines.push('');
+      lines.push('WORKER CLASSIFICATION DOCUMENTATION');
+      lines.push([csvEscape('Bounded scope of work'), csvEscape(rec.classification.boundedScope ? 'Yes' : 'No')].join(','));
+      lines.push([csvEscape('Own tools/schedule'), csvEscape(rec.classification.ownToolsSchedule ? 'Yes' : 'No')].join(','));
+      lines.push([csvEscape('Works for other clients'), csvEscape(rec.classification.worksOtherClients ? 'Yes' : 'No')].join(','));
+      lines.push([csvEscape('No supervisory integration'), csvEscape(rec.classification.noSupervisoryIntegration ? 'Yes' : 'No')].join(','));
+      lines.push([csvEscape('Deliverable-based pay'), csvEscape(rec.classification.deliverableBasedPay ? 'Yes' : 'No')].join(','));
+      lines.push([csvEscape('Routed to counsel'), csvEscape(rec.classification.routedToCounsel ? `Yes (${rec.classification.routedDate})` : 'No')].join(','));
+      lines.push([csvEscape('Notes'), csvEscape(rec.classification.notes)].join(','));
+    }
     lines.push('');
     lines.push('AUDIT LOG (append-only)');
     lines.push([csvEscape('Timestamp'), csvEscape('Actor'), csvEscape('Action')].join(','));
@@ -268,20 +390,33 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
 
   const exportRoster = () => {
     const lines: string[] = [];
-    lines.push([csvEscape('Name'), csvEscape('Worker Type'), csvEscape('Division'), csvEscape('Date of Hire/Engagement'), csvEscape('Status'), csvEscape('Completion %')].join(','));
+    lines.push([csvEscape('Name'), csvEscape('Worker Type'), csvEscape('Division'), csvEscape('Date of Hire/Engagement'), csvEscape('Status'), csvEscape('Completion %'), csvEscape('Screening State')].join(','));
     roster.forEach((r) => {
-      lines.push([csvEscape(r.name), csvEscape(WORKER_LABEL[r.workerType]), csvEscape(r.division), csvEscape(r.startdate), csvEscape(r.status), csvEscape(r.progress + '%')].join(','));
+      lines.push([csvEscape(r.name), csvEscape(WORKER_LABEL[r.workerType]), csvEscape(r.division), csvEscape(r.startdate), csvEscape(r.status), csvEscape(r.progress + '%'), csvEscape(r.screening)].join(','));
     });
     downloadCsv(`DDI_HR_Onboarding_Roster_${new Date().toISOString().slice(0, 10)}.csv`, lines);
   };
 
   const activeRoster = useMemo(() => roster.filter((r) => r.status === 'Active'), [roster]);
+  const currentYear = new Date().getFullYear();
+  const currentAttestation = attestations.find((a) => a.year === currentYear);
 
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'roster', label: 'Roster', icon: '🧑‍💼' },
-    { id: 'detail', label: 'New Hire Detail', icon: '🗂️' },
+    { id: 'detail', label: 'Onboarding Detail', icon: '🗂️' },
   ];
+
+  const AlertBadge: React.FC<{ row: AlertRow; icon: string; severity: 'critical' | 'warning' | 'info' }> = ({ row, icon, severity }) => (
+    <div className={`p-3 rounded-lg border flex justify-between items-center ${SEVERITY_STYLE[severity]}`}>
+      <span>
+        {icon} <span className="font-semibold">{row.name}</span>
+        {row.division ? ` (${row.division})` : ''}{row.workerType ? ` — ${WORKER_LABEL[row.workerType]}` : ''}
+        {row.training ? ` — ${row.training}` : ''}: {row.detail}
+      </span>
+      <button onClick={() => openDetail(row.id)} className={NEXUS_BTN_SECONDARY}>Open</button>
+    </div>
+  );
 
   return (
     <div className={NEXUS_SHELL_PAGE}>
@@ -293,8 +428,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
             </button>
             <h1 className={NEXUS_TITLE}>HR</h1>
             <p className={NEXUS_SUBTITLE}>
-              Employee (W-2) &amp; Contractor (1099) onboarding — Pre-boarding → Day 1 → Week 1 → 30/60/90 Day.
-              CMS FDR training + OIG LEIE/GSA SAM exclusion screening (42 CFR 422.504(d)). All divisions.
+              Automates the DDI New Hire &amp; Independent Contractor Onboarding SOPs — Pre-boarding → Day 1 → Week 1 → 30/60/90 Day
+              (employees) / Pre-Engagement → Start → Ongoing → Renewal (contractors). CMS FDR training recurrence,
+              monthly OIG LEIE/GSA SAM exclusion screening, annual FDR attestation, worker-classification documentation.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -305,7 +441,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               placeholder="e.g. DD"
               className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm text-white"
             />
-            <button type="button" onClick={() => { loadRoster(); loadAlerts(); }} className={NEXUS_BTN_SECONDARY}>
+            <button type="button" onClick={() => { loadRoster(); loadAlerts(); loadAttestations(); }} className={NEXUS_BTN_SECONDARY}>
               Refresh
             </button>
           </div>
@@ -336,32 +472,52 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <NexusMetricCard label="Active Roster" value={activeRoster.length} icon="🧑‍💼" accent="purple" />
-              <NexusMetricCard label="FWA Training Overdue" value={alerts?.fwa_training_overdue.length || 0} icon="⏰" accent={alerts?.fwa_training_overdue.length ? 'red' : 'green'} />
-              <NexusMetricCard label="Screening Stale (30d+)" value={alerts?.screening_stale.length || 0} icon="🔍" accent={alerts?.screening_stale.length ? 'yellow' : 'green'} />
-              <NexusMetricCard label="Flagged — Escalate" value={alerts?.flagged_screenings_open.length || 0} icon="🚨" accent={alerts?.flagged_screenings_open.length ? 'red' : 'green'} />
+              <NexusMetricCard label="CMS 90-Day Floor Missed" value={alerts?.training_cms_hard_missed.length || 0} icon="🚨" accent={alerts?.training_cms_hard_missed.length ? 'red' : 'green'} />
+              <NexusMetricCard label="Screening Overdue/Never" value={(alerts?.screening_overdue.length || 0) + (alerts?.screening_never.length || 0)} icon="🔍" accent={((alerts?.screening_overdue.length || 0) + (alerts?.screening_never.length || 0)) ? 'yellow' : 'green'} />
+              <NexusMetricCard label="Flagged — Escalate" value={alerts?.screening_flagged_open.length || 0} icon="🚨" accent={alerts?.screening_flagged_open.length ? 'red' : 'green'} />
             </div>
+
+            <NexusPanel title={`📋 Annual FDR Compliance Attestation — Calendar Year ${currentYear}`} className="mb-6">
+              {currentAttestation ? (
+                <div className="p-3 bg-emerald-900/15 border border-emerald-600/30 rounded-lg text-sm text-emerald-300">
+                  ✅ Attested by <strong>{currentAttestation.attestorName}</strong> on {currentAttestation.attestedDate}.
+                  {currentAttestation.referenceNotes ? ` Reference: ${currentAttestation.referenceNotes}` : ''}
+                </div>
+              ) : (
+                <>
+                  <div className="p-3 mb-3 bg-amber-900/20 border border-amber-500/40 rounded-lg text-sm text-amber-300">
+                    ⚠️ No attestation on file for {currentYear}. Per SOP Section 6, an authorized DDI representative
+                    (Compliance Officer / President) must attest annually that General Compliance/FWA training,
+                    Code of Conduct distribution, and OIG LEIE/GSA SAM screening are complete and current for all
+                    applicable personnel (employees and contractors touching Medicaid/Medicare-adjacent work).
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                    <input type="number" value={attYear} onChange={(e) => setAttYear(parseInt(e.target.value, 10) || currentYear)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+                    <input value={attName} onChange={(e) => setAttName(e.target.value)} placeholder="Attesting officer (e.g. Dieasha D. Davis)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+                    <input value={attNotes} onChange={(e) => setAttNotes(e.target.value)} placeholder="Reference notes (optional)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+                  </div>
+                  <button type="button" onClick={submitAttestation} disabled={attSaving} className={NEXUS_BTN_PRIMARY}>
+                    {attSaving ? 'Saving…' : `Attest for ${attYear}`}
+                  </button>
+                </>
+              )}
+              {attestations.length > 0 && (
+                <div className="mt-3 text-xs text-gray-500">
+                  Prior attestations on file: {attestations.filter(a => a.year !== currentYear).map(a => a.year).join(', ') || '—'}
+                </div>
+              )}
+            </NexusPanel>
 
             {alerts && alerts.alert_count > 0 && (
               <NexusPanel title="⚠️ Compliance Alerts — CMS FDR Audit Readiness (COMPASS)">
                 <div className="space-y-2 text-sm">
-                  {alerts.flagged_screenings_open.map((a) => (
-                    <div key={`flag-${a.id}`} className="p-3 bg-red-900/20 border border-red-500/40 rounded-lg flex justify-between items-center">
-                      <span className="text-red-300">🚨 {a.name} — open flagged exclusion screening, escalate to Compliance</span>
-                      <button onClick={() => openDetail(a.id)} className={NEXUS_BTN_SECONDARY}>Open</button>
-                    </div>
-                  ))}
-                  {alerts.fwa_training_overdue.map((a) => (
-                    <div key={`fwa-${a.id}`} className="p-3 bg-amber-900/20 border border-amber-500/40 rounded-lg flex justify-between items-center">
-                      <span className="text-amber-300">⏰ {a.name} ({a.division || 'no division'}) — FWA training overdue since {a.deadline}</span>
-                      <button onClick={() => openDetail(a.id)} className={NEXUS_BTN_SECONDARY}>Open</button>
-                    </div>
-                  ))}
-                  {alerts.screening_stale.map((a) => (
-                    <div key={`stale-${a.id}`} className="p-3 bg-yellow-900/10 border border-yellow-600/30 rounded-lg flex justify-between items-center">
-                      <span className="text-yellow-300">🔍 {a.name} — exclusion screening {a.last_screened ? `stale since ${a.last_screened}` : 'never logged'}</span>
-                      <button onClick={() => openDetail(a.id)} className={NEXUS_BTN_SECONDARY}>Open</button>
-                    </div>
-                  ))}
+                  {alerts.screening_flagged_open.map((a) => <AlertBadge key={`flag-${a.id}`} row={a} icon="🚨" severity="critical" />)}
+                  {alerts.training_cms_hard_missed.map((a, i) => <AlertBadge key={`hard-${a.id}-${i}`} row={a} icon="🚨" severity="critical" />)}
+                  {alerts.screening_never.map((a) => <AlertBadge key={`never-${a.id}`} row={a} icon="🔍" severity="critical" />)}
+                  {alerts.screening_overdue.map((a) => <AlertBadge key={`overdue-${a.id}`} row={a} icon="🔍" severity="warning" />)}
+                  {alerts.training_internal_target_missed.map((a, i) => <AlertBadge key={`soft-${a.id}-${i}`} row={a} icon="⏰" severity="warning" />)}
+                  {alerts.training_recurrence_due.map((a, i) => <AlertBadge key={`recur-${a.id}-${i}`} row={a} icon="🔁" severity="warning" />)}
+                  {alerts.training_pending_scoping.map((a, i) => <AlertBadge key={`scope-${a.id}-${i}`} row={a} icon="🧭" severity="info" />)}
                 </div>
               </NexusPanel>
             )}
@@ -378,6 +534,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                       <span className="font-bold text-white text-sm min-w-[140px]">{r.name}</span>
                       <span className="text-xs text-gray-400">{WORKER_LABEL[r.workerType]}</span>
                       <span className="text-xs text-gray-500">{r.division || '—'}</span>
+                      {r.screening !== 'ok' && r.screening !== 'pending' && (
+                        <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-red-900/40 text-red-300">{r.screening.replace('_', ' ')}</span>
+                      )}
                       <div className="flex-1 min-w-[100px] h-2 bg-gray-800 rounded overflow-hidden">
                         <div className="h-full bg-purple-500" style={{ width: `${r.progress}%` }} />
                       </div>
@@ -398,8 +557,8 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
         {/* ─────────── ROSTER ─────────── */}
         {resolvedTab === 'roster' && (
           <>
-            <NexusPanel title="Add New Hire">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+            <NexusPanel title="Add New Hire / Engagement">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
                 <input
                   value={nhName}
                   onChange={(e) => setNhName(e.target.value)}
@@ -418,15 +577,21 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                   type="date"
                   value={nhStart}
                   onChange={(e) => setNhStart(e.target.value)}
-                  title="Date of hire/engagement — anchors the 90-day FWA deadline and 10-year retention clock"
+                  title="Date of hire/engagement — anchors the 90-day CMS training floor and 10-year retention clock"
                   className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
                 />
+                <label className="flex items-center gap-2 text-xs text-gray-300 bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                  <input type="checkbox" checked={nhMemberFacing} onChange={(e) => setNhMemberFacing(e.target.checked)} className="w-4 h-4 accent-purple-500" />
+                  Member-facing role
+                </label>
               </div>
               <button type="button" onClick={handleAddHire} disabled={adding} className={NEXUS_BTN_PRIMARY}>
-                {adding ? 'Adding…' : 'Add New Hire'}
+                {adding ? 'Adding…' : 'Add New Hire / Engagement'}
               </button>
               <p className="text-xs text-gray-500 mt-2">
-                Date field = date of hire (anchors the CMS 90-day FWA/General Compliance deadline and the 10-year retention clock).
+                Date field = date of hire/engagement (anchors the CMS 90-day General Compliance/FWA + Medicare Fraud &amp; Abuse
+                floor and the 10-year retention clock). Member-facing controls whether Recipient Rights and Abuse &amp; Neglect
+                training recur annually.
               </p>
             </NexusPanel>
 
@@ -437,7 +602,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
 
             {roster.length === 0 ? (
               <div className="text-gray-400 text-sm p-6 border border-dashed border-gray-700 rounded-lg text-center">
-                No hires tracked yet. Use the form above to start onboarding.
+                No hires/engagements tracked yet. Use the form above to start onboarding.
               </div>
             ) : (
               <div className="space-y-2">
@@ -481,14 +646,26 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                       {selected.division || '—'} · {WORKER_LABEL[selected.workerType]} · Date of hire/engagement: {selected.startdate || '—'} · {selected._progress ?? 0}% complete
                     </p>
                   </div>
-                  <button type="button" onClick={() => exportRecord(selected)} className={NEXUS_BTN_SECONDARY}>
-                    Export Record (CSV)
-                  </button>
+                  <div className="flex gap-2">
+                    <button type="button" onClick={toggleMemberFacing} className={NEXUS_BTN_SECONDARY}>
+                      {selected.memberFacing ? '✓ Member-Facing Role' : '✗ Not Member-Facing'}
+                    </button>
+                    <button type="button" onClick={() => exportRecord(selected)} className={NEXUS_BTN_SECONDARY}>
+                      Export Record (CSV)
+                    </button>
+                  </div>
                 </div>
 
                 <div className="w-full h-2.5 bg-gray-800 rounded overflow-hidden mb-6">
                   <div className="h-full bg-purple-500" style={{ width: `${selected._progress ?? 0}%` }} />
                 </div>
+
+                {selected._screening && (
+                  <div className={`mb-4 p-3 rounded-lg text-sm border ${SEVERITY_STYLE[selected._screening.severity]}`}>
+                    🔍 Exclusion screening (monthly cadence): {selected._screening.detail}
+                    {selected._screening.nextDue ? ` · Next due: ${selected._screening.nextDue}` : ''}
+                  </div>
+                )}
 
                 {selected.workerType === 'contractor' && (
                   <div className="mb-4 p-3 bg-amber-900/15 border border-amber-500/30 rounded-lg text-sm text-amber-300">
@@ -515,48 +692,144 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                         );
                       })}
                     </div>
+
+                    {/* 30-Day Check-In Agenda — nested under the employee day30 phase, SOP Section 8 */}
+                    {p.key === 'day30' && config?.agendas?.day30 && (
+                      <div className="mt-4 pt-4 border-t border-gray-700/50">
+                        <h4 className="text-sm font-bold text-purple-300 mb-2">30-Day Check-In Agenda</h4>
+                        <div className="space-y-1 mb-3">
+                          {config.agendas.day30.map((item, i) => {
+                            const checked = !!selected.agenda?.day30?.items?.[i];
+                            return (
+                              <label key={i} className={`flex items-center gap-3 py-1 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
+                                <input type="checkbox" checked={checked} onChange={(e) => updateAgenda('day30', i, e.target.checked)} className="w-4 h-4 accent-purple-500" />
+                                {item}
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <textarea
+                          defaultValue={selected.agenda?.day30?.notes || ''}
+                          onBlur={(e) => updateAgendaNotes('day30', e.target.value)}
+                          placeholder="Check-in notes…"
+                          className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                          rows={2}
+                        />
+                      </div>
+                    )}
                   </NexusPanel>
                 ))}
 
-                <NexusPanel title="Required Training — CMS floor: FWA/General Compliance within 90 days of hire, annual thereafter" className="mb-4">
+                {/* Worker classification documentation — contractor track only */}
+                {selected.workerType === 'contractor' && selected.classification && (
+                  <NexusPanel title="Worker Classification — Documentation, Not Legal Advice" className="mb-4">
+                    <p className="text-xs text-gray-500 mb-3">
+                      Contemporaneous record of why this relationship supports independent-contractor status.
+                      A written label alone does not settle classification if practices look like employment.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                      {([
+                        ['boundedScope', 'Specific, bounded scope of work (not open-ended duties)'],
+                        ['ownToolsSchedule', 'Contractor sets own schedule / uses own tools where applicable'],
+                        ['worksOtherClients', 'Contractor works for other clients'],
+                        ['noSupervisoryIntegration', 'No integration into DDI\'s internal supervisory structure'],
+                        ['deliverableBasedPay', 'Deliverable/milestone-based pay (not hourly wage mirroring payroll)'],
+                      ] as [keyof Classification, string][]).map(([field, label]) => (
+                        <label key={field} className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={!!selected.classification?.[field]}
+                            onChange={(e) => updateClassification(field, e.target.checked)}
+                            className="w-4 h-4 accent-purple-500"
+                          />
+                          {label}
+                        </label>
+                      ))}
+                    </div>
+                    <textarea
+                      defaultValue={selected.classification?.notes || ''}
+                      onBlur={(e) => updateClassification('notes', e.target.value)}
+                      placeholder="Classification notes / basis…"
+                      className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white mb-3"
+                      rows={2}
+                    />
+                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!selected.classification?.routedToCounsel}
+                        onChange={(e) => updateClassification('routedToCounsel', e.target.checked)}
+                        className="w-4 h-4 accent-red-500"
+                      />
+                      <span className={selected.classification?.routedToCounsel ? 'text-red-300' : 'text-gray-300'}>
+                        Classification unclear — routed to legal counsel {selected.classification?.routedDate ? `(${selected.classification.routedDate})` : ''}
+                      </span>
+                    </label>
+                  </NexusPanel>
+                )}
+
+                <NexusPanel title="Required Training — DDI internal target: 30 days. CMS hard floor: General Compliance/FWA + Medicare Fraud & Abuse within 90 days of hire, annual thereafter." className="mb-4">
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs">
                       <thead>
                         <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
                           <th className="py-2 pr-2">Training</th>
+                          {selected.workerType === 'contractor' && <th className="py-2 pr-2">Applicable?</th>}
                           <th className="py-2 pr-2">Status</th>
-                          <th className="py-2 pr-2">Due</th>
                           <th className="py-2 pr-2">Cert/Ref</th>
                           <th className="py-2 pr-2">Completed By</th>
                           <th className="py-2 pr-2">Completed</th>
+                          <th className="py-2 pr-2">Compliance</th>
                         </tr>
                       </thead>
                       <tbody>
                         {(config?.trainings || []).map((t, i) => {
                           const tr = selected.training[i] || ({} as TrainingRow);
+                          const comp = selected._trainingCompliance?.[i];
+                          const isNA = comp?.state === 'not_applicable';
                           return (
-                            <tr key={i} className="border-b border-gray-800">
+                            <tr key={i} className={`border-b border-gray-800 ${isNA ? 'opacity-40' : ''}`}>
                               <td className="py-2 pr-2 text-gray-200">
                                 {t.name}
-                                {t.recurring && <span className="ml-1 text-[9px] px-1.5 py-0.5 bg-red-900/40 text-red-300 rounded font-bold">ANNUAL</span>}
+                                <div className="text-[9px] text-gray-500 mt-0.5">{t.source} · {t.recurrence_label}</div>
+                                {selected.workerType === 'contractor' && (
+                                  <div className="text-[9px] text-gray-600 mt-0.5">Trigger: {t.contractor_trigger}</div>
+                                )}
                               </td>
+                              {selected.workerType === 'contractor' && (
+                                <td className="py-2 pr-2">
+                                  {t.employee_only ? (
+                                    <span className="text-[10px] text-gray-500">N/A</span>
+                                  ) : (
+                                    <select value={tr.applicable || 'pending'} onChange={(e) => updateTraining(i, 'applicable', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white">
+                                      <option value="pending">Pending</option>
+                                      <option value="yes">Yes</option>
+                                      <option value="no">No</option>
+                                    </select>
+                                  )}
+                                </td>
+                              )}
                               <td className="py-2 pr-2">
-                                <select value={tr.status || 'Not Started'} onChange={(e) => updateTraining(i, 'status', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white">
+                                <select disabled={isNA} value={tr.status || 'Not Started'} onChange={(e) => updateTraining(i, 'status', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40">
                                   <option>Not Started</option>
                                   <option>In Progress</option>
                                   <option>Complete</option>
                                 </select>
                               </td>
                               <td className="py-2 pr-2">
-                                <input type="date" value={tr.due || ''} onChange={(e) => updateTraining(i, 'due', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white" />
+                                <input disabled={isNA} type="text" value={tr.certRef || ''} onChange={(e) => updateTraining(i, 'certRef', e.target.value)} placeholder="Cert #" className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
                               </td>
                               <td className="py-2 pr-2">
-                                <input type="text" value={tr.certRef || ''} onChange={(e) => updateTraining(i, 'certRef', e.target.value)} placeholder="Cert #" className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white" />
-                              </td>
-                              <td className="py-2 pr-2">
-                                <input type="text" value={tr.completedBy || ''} onChange={(e) => updateTraining(i, 'completedBy', e.target.value)} placeholder="Initials" className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white" />
+                                <input disabled={isNA} type="text" value={tr.completedBy || ''} onChange={(e) => updateTraining(i, 'completedBy', e.target.value)} placeholder="Initials" className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
                               </td>
                               <td className="py-2 pr-2 text-gray-500">{tr.completedDate || '—'}</td>
+                              <td className="py-2 pr-2">
+                                {comp && (
+                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap ${SEVERITY_STYLE[comp.severity]}`}>
+                                    {STATE_LABEL[comp.state] || comp.state}
+                                  </span>
+                                )}
+                                {comp?.nextDue && <div className="text-[9px] text-gray-500 mt-0.5">Next: {comp.nextDue}</div>}
+                              </td>
                             </tr>
                           );
                         })}
@@ -565,16 +838,18 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                   </div>
                 </NexusPanel>
 
-                <NexusPanel title="Exclusion Screening Log — OIG LEIE + GSA SAM.gov (required at hire and monthly thereafter)" className="mb-4">
+                <NexusPanel title="Exclusion Screening Log — OIG LEIE + GSA SAM.gov (at hire, then monthly for the life of employment/engagement)" className="mb-4">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <input type="date" value={scrDate} onChange={(e) => setScrDate(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
                     <select value={scrResult} onChange={(e) => setScrResult(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
                       <option>Clear</option>
                       <option>Flagged — escalated to Compliance</option>
+                      <option>Resolved — see notes</option>
                     </select>
                     <input type="text" value={scrNotes} onChange={(e) => setScrNotes(e.target.value)} placeholder="Notes (optional)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
                   </div>
                   <button type="button" onClick={submitScreening} className={NEXUS_BTN_PRIMARY}>Log Screening Entry</button>
+                  <p className="text-[10px] text-gray-500 mt-2">Append-only — corrections/resolutions are logged as new entries, never overwrites.</p>
 
                   <div className="mt-4 overflow-x-auto">
                     <table className="w-full text-xs">
@@ -593,10 +868,11 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                         ) : (
                           [...selected.exclusionLog].reverse().map((e, i) => {
                             const flagged = e.result?.startsWith('Flagged');
+                            const resolved = e.result?.startsWith('Resolved');
                             return (
                               <tr key={i} className="border-b border-gray-800">
                                 <td className="py-2 pr-2 text-gray-200">{e.date}</td>
-                                <td className={`py-2 pr-2 ${flagged ? 'text-red-400' : 'text-emerald-400'}`}>{e.result}</td>
+                                <td className={`py-2 pr-2 ${flagged ? 'text-red-400' : resolved ? 'text-blue-400' : 'text-emerald-400'}`}>{e.result}</td>
                                 <td className="py-2 pr-2 text-gray-400">{e.notes || '—'}</td>
                                 <td className="py-2 pr-2 text-gray-400">{e.loggedBy}</td>
                                 <td className="py-2 pr-2 text-gray-500">{e.ts?.slice(0, 16).replace('T', ' ')}</td>
