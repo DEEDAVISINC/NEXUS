@@ -1,6 +1,6 @@
 # PENDING ACTIONS — CHECK EVERY SESSION
 
-**Last Updated:** June 1, 2026 (SHIELD complete framework synced · pilot launch gaps logged)
+**Last Updated:** June 12, 2026 (Twilio voice/SMS live · CNAM only remaining)
 
 ---
 
@@ -8,7 +8,19 @@
 
 | Task | Details | Status |
 |---|---|---|
+| **Molina Healthcare of MI — HIDE SNP LTSS contract is EXECUTED** | Vendor ID 214337479, credentialed thru Jul 31, 2029. Fully executed agreement received Jul 22 (Non-Medical Transportation + Community Transition Services). Orientation (Jul 23 @ 10 AM ET) **attended**. | ✅ **DONE** |
+| **Molina — Availity Portal registration SUBMITTED (not yet active)** | Registered Jul 23 @ 9:12 AM. **App ID 63821858.** Availity confirmed: "registration is in process" — someone will contact via email in **3-5 business days** with activation status. **Cannot submit claims/check eligibility until activated.** Once active: confirm **NPI 1538939111 is entered** — LTSS orientation deck (Slide 8) warns claims deny for missing NPI on atypical providers. | 🟡 **PENDING — check back ~Jul 28-30** |
+| **Molina — LTSS Orientation Training Attestation — HARD GATE** | Per orientation deck (Sarah Fenton, Jul 23): **"You will not receive members until this form has been completed and submitted."** Attestation will be emailed after orientation — sign and return to `MHMLTSSContracting@MolinaHealthCare.Com` **immediately**. Nothing else matters (scope, rates, Availity) until this is done. | 🔴 **URGENT — check inbox tonight** |
+| **Molina — corrected contact routing (do NOT email Arielle for referrals)** | Per orientation: referrals are 100% member/Care-Coordinator-initiated — DDI cannot solicit or ask to be "added to a list." Contact for auth questions going forward = **LTSS Specialist** (MHM-LTSS-Specialist@MolinaHealthCare.Com), NOT Care Coordinators directly, NOT Arielle (contracting is closed out). Never request PA via Availity — fax only. Check member eligibility before every service (Availity or 855-322-4077). | ✅ **NOTED — routing corrected** |
+| **Molina — first payment defaults to virtual credit card (ECHO)** | Watch for ECHO "Quick Remit" email. If direct deposit preferred, need the **Draft Number** off first Explanation of Provider Payments (EPP) to register — instructions were attached to orientation invite. | ⬜ **TODO once first claim pays** |
+| **Molina — PRISM/VERTEX is code-ready** | `nemt_billing.py` now has full Molina LTSS payer config: contract rates (T2003 $27, A0130 $35, mileage S0215 $0.67/mi, S0209 $3.00/mi, T2038 Community Transition manual + T1028 $150 assessment), payer auto-detection, and a **hard-gate eligibility check** that blocks dispatch until both gates below clear. QC profile + ops doc: `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/QC_CONTRACT_PROFILE.md`, `MOLINA_HIDE_SNP_OPERATIONS.md`. | ✅ **DONE — code ready, gated on 2 flags below** |
+| **Molina — flip the 2 hard-gate flags once cleared** | In `nemt_billing.py`: `MOLINA_LTSS_ATTESTATION_ON_FILE = False` and `MOLINA_LTSS_AVAILITY_ACTIVE = False`. Flip each to `True` only when (1) attestation is signed & returned and (2) Availity is active with NPI 1538939111 confirmed. PRISM will not let a Molina trip pass eligibility check until both are `True` — this is intentional, not a bug. | ⬜ **WAITING on attestation + Availity above** |
+| ~~**Molina — verify Non-Medical Transportation is in final scope**~~ | ✅ **CONFIRMED Jul 23** — Attachment B (Statement of Work), page 15 of 25, Service Types checklist: both **☒ Non-Medical Transportation** and **☒ Community Transition Services** are checked. The Jul 8 portal glitch did not carry through to the executed agreement. | ✅ **DONE** |
+| **Molina — build revenue model from fee schedule** | Fee schedule for Non-Medical Transportation + Community Transition Services was sent Jul 8 as an attachment. Needs to be pulled and run through DDI's margin model (boutique/select cohort framing, not volume) so PIPELINE_TALLY.md numbers are real, not placeholders. | ⬜ **TODO** |
+| **Molina — confirm added to in-network provider directory** | Arielle confirmed (Jul 17) referrals are member-choice driven through Care Coordinators, and DDI is added to the internal provider list "once fully contracted." Contract is now executed — confirm DDI is live in that directory so Care Coordinators can actually route members. | ⬜ **TODO — follow up with Arielle** |
+|---|---|---|
 | **HAP CareSource — Brian Grcevich call** | **Wed Jun 10 @ 1:00 PM ET** — Non-medical waiver trips via CM service plan → DDI (Vendor 100000469269). Medical stays **MTM**. Prep: `HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md` · Brian **317-296-0519** | 🟢 **CONFIRMED** |
+| **MICH HIDE SNP — 8 MCO emails** | ✅ **Gmail scheduled Fri Jun 12 @ 7:04 PM ET** → delivers **Mon Jun 15, 8:00–9:45 AM ET**. Logged `OUTBOUND_EMAIL_LOG.md`. **Mon AM:** confirm Sent folder + flip log to SENT. **Follow-up Wed Jun 24 @ 12 PM ET** — non-responders only. **Do NOT send HAP.** | ✅ **QUEUED** |
 | **FMCSA Clearinghouse — identity verification** | **Deadline Jul 6, 2026.** DDI = **C/TPA** — must complete or **lose Clearinghouse access.** Steps: (1) https://clearinghouse.fmcsa.dot.gov → Log in (2) **My Dashboard → My Profile** (3) Click **Begin Identity Verification** (4) Follow prompts · Ref: `COMPLIANCE_KNOWLEDGE/CLEARINGHOUSE_IDENTITY_VERIFICATION.md` · Phone 844-955-0207 · **Not on calendar until Dee approves** | ⬜ **URGENT — do this week** |
 | **MDHHS SHIELD follow-up (Angela Medina + Aimee Surma)** | **May 30 follow-up SENT**. **Trigger Jun 16:** if silent → direct LHD wave. **Emails READY:** `CLIENT OUTREACH/LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/` · **Attach:** `DDI_CWC_PHC_Program_Narrative.pdf` · Call Angela **517-897-5203** optional before send | 🟡 **AWAITING — LHD PACKAGE READY** |
 | **Jun 4 — LHD director verification** | LinkedIn verify: Guzmán, Willette, Corsi, London, Moore. Call Macomb/Genesee/Kent to confirm emails. | ⬜ **TODAY** |
@@ -23,10 +35,11 @@
 | **Electron — Uber Health login in PRISM webview** | Fix pushed Jun 5: Chrome UA + OAuth popup modal + `persist:partner` session. **Test:** quit Electron fully → `npm run electron-dev` → PRISM → NEMT → Live Portals → Uber Health → sign in. Use **Browser ↗** if popup still fails. | ⬜ **TEST after restart**
 | **Email SouthStar (Jon/Luis)** | Ask about service contract financing (not just PO) for HAP contract | ⬜ TODO |
 | **CareSource Ohio (Kristen Halsey)** | 7-day follow-up due TODAY | ⬜ TODO |
-| **Jun 7 Sun @ 12 PM ET** | **PRISM Finish-Up** — Voice test · VERTEX $28/$35 · HAP manual · Uber login · `.ics`: `calendars/prism_finish_up_2026-06-07.ics` | ⬜ **TODAY** |
+| ~~**Jun 7 Sun @ 12 PM ET**~~ | ~~PRISM Finish-Up~~ | ✅ Voice + QC live on PA |
 | **HAP CareSource — walkthrough prep** | **DEFERRED** until input→invoice wired — see `HAP_NEMT_PIPELINE_COMPLETION_GATE.md` · If they ask early, send one-pager only | ⏸ **AFTER PIPELINE** |
 | **HAP NEMT — Mark Complete → VERTEX + QC gate** | `TPADivisionWorkspace.tsx` → `POST /prism/nemt/orders/<id>/complete` + `nexus_qc_engine` | ✅ Wired — `auto_generate_claim: true`, QC record returned |
-| **Jun 8 Mon @ 2 PM ET** | **HAP Voice Intake — Go-Live Prep** — Upgrade Twilio · rotate ElevenLabs key · 855 on member materials · optional CNAM · test call · `.ics`: `calendars/hap_voice_go_live_prep_2026-06-08.ics` | ⬜ **MONDAY** |
+| **HAP Voice Intake (855-773-0035)** | Twilio inbound → PRISM order + NEMT queue · member SMS · PA live | ✅ **LIVE** — tested |
+| **HAP 855 — Caller ID (CNAM)** | Register **DDI** display on outbound from **855-773-0035** (Twilio Trust Hub / toll-free CNAM) | ⬜ **ONLY REMAINING** telephony item · `deploy/PRISM_VOICE_INTAKE.md` |
 | **FEMA STOS (freight TSP)** | **MOB-C / Freight 1st Direct** — FTL, LTL, maritime, air, rail, TTHU. **Onboarding currently CLOSED** (per FEMA site). Monitor next open period · file rates in Rate Filing Cycle when eligible. **Not passenger or NEMT.** Contact: FEMA-Transportation-Programs@fema.dhs.gov | ⏸ **Monitor** — not HAVEN blocker |
 
 ### SHIELD pilot launch gaps (`SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`)
@@ -88,7 +101,9 @@ All pending MCO emails need audit before sending.
 
 | Task | Portal | Status |
 |---|---|---|
-| Add commodity code 9S3 | Michigan SIGMA VSS | ⬜ TODO |
+| Add commodity code **9S301** (NEMT) | Michigan SIGMA VSS | ⬜ **TODO — blocks auto-alert on recompete** |
+| **Maine VSS — Substitute W-9** | mevss.hostams.com | ⬜ Mail/fax per portal · Account active **Jun 15** — VS0000032746 / DEEDAVISINC |
+| **Texas TMHP — IAMOnline activate** | tmhp.com | ⬜ Activate link within **7 days** (email Jun 15) · User **DEEDAVISINC** · enrollment txn **D19273048** |
 | Florida Medicaid enrollment | FMMIS | ⏳ Question submitted #218601133 — awaiting guidance on TPA/broker enrollment |
 | Ohio Medicaid enrollment | ODM PNM/MITS | ⬜ Weekend |
 | Texas Medicaid enrollment | TMHP | ⬜ Weekend |
@@ -106,7 +121,7 @@ All pending MCO emails need audit before sending.
 | **North Carolina** | NCTracks Enrollment (Transportation Broker 347E00000X) | nctracks.nc.gov | Target: June 2026 | ⬜ TODO — after SOS |
 | **North Carolina** | MCO Outreach (AmeriHealth, Carolina Complete, Healthy Blue, UHC, Alliance, Partners, Trillium, Vaya) | Direct contact | Ongoing | ⬜ TODO — after NCTracks |
 | **Arizona** | MCO Outreach (Mercy Care, UHC AZ, Banner-University, Arizona Complete Health) | Direct contact | Ongoing | ⬜ TODO — **RADAR explore:** `RADAR HEALTHCARE MCO/AZ_AHCCCS_EXPLORATION.md` |
-| **Maine** | MaineCare NET recompete follow-up (Penquis + Waldo CAP) | mevss.hostams.com | **Jun 3, 2026** | ⬜ Follow-up — `CLIENT OUTREACH/MAINE NEMT TEAMING/` · Opp 0520260310 |
+| **Maine** | MaineCare NET recompete follow-up (Penquis + Waldo CAP) | mevss.hostams.com | **Jun 17, 2026** | ⬜ Follow-up — `CLIENT OUTREACH/MAINE NEMT TEAMING/` · Opp 0520260310 · **VSS active Jun 15** — VS0000032746 / DEEDAVISINC |
 
 ---
 
@@ -206,6 +221,15 @@ DDI should become an authorized distributor for forensic evidence collection kit
 | **Sept 2026** | CDC CLPPP cooperative agreement cycle end | `MULTI_STATE_LANDSCAPE_RESEARCH.md` |
 | **Nov 18, 2026** | BCBSM Foundation board review #2 | `MICHIGAN_FUNDER_MAP.md` |
 | **1st Mon monthly** | EGrAMS + county opioid + CFSEM + MHEF monitor | Jul 6, Aug 3, Sep 7… |
+| **Sep 14, 2026 @ 12 PM ET** | **CCAM-TAC quarterly scan (Tier C)** — `python3 nexus_scheduler.py --ccam-tac` + skim Partner/External in `CCAM_FTA_COORDINATION_INTEL.md` · `.ics`: `CCAM_TAC_QUARTERLY_CHECK.ics` | Quarterly (Dec 14, Mar 14, Jun 14, Sep 14…) |
+
+### Monitoring tiers (CCAM / grants — Jun 14, 2026)
+
+| Tier | Cadence | What |
+|------|---------|------|
+| **A — weekly** | RADAR / bid tracker / MCO Medicaid / SIGMA 9S3 (ModivCare) | Automated + manual deadline pass |
+| **B — monthly** | CWC grant pipeline | 1st Mon monthly row above |
+| **C — quarterly** | CCAM-TAC Partner + External + Community Rides + ICAM watch | Miner + 15-min human skim · **no CCAM email outreach** |
 
 **Full session:** `SESSION_SUMMARY_MAY_30_2026.md`
 
@@ -229,7 +253,7 @@ DDI should become an authorized distributor for forensic evidence collection kit
 
 | Item | Details | Trigger / When |
 |---|---|---|
-| **MICH HIDE SNP — NEMT market size by plan** | Back into **NEMT-only** revenue by MCO: enrollment by plan/county × trip rates ($28/$35 HAP benchmark) × DDI margin model. Source data: `NEXUS_LEARNING/MICH_HIDE_SNP_STATE_MCO_AWARDS.md` (7-yr capitation table + regional awards). **Not total capitation** — NEMT slice only. | When Dee says go — after MICH outreach sends 2–5 |
+| **MICH HIDE SNP — NEMT market size by plan** | Back into **NEMT-only** revenue by MCO after Jun 15 sends land. Source: `MICH_HIDE_SNP_STATE_MCO_AWARDS.md` | When Dee says go |
 | **NY lead screening — Onondaga County CLPPP+ wedge** | NYS DOH runs CLPPP+ (20 counties incl. **Onondaga/Syracuse**). No MI-style MDHHS referral path — entry is **county LHD + CBO partner**, optionally **NYHER SCN** (HRSN, children under 6). Position **CWC navigates + DDI administers** same SHIELD model — complement county programs, not state cold pitch. Research: Onondaga County lead program contact → complement outreach. **Separate from SUNY courier bid.** Ref: conversation May 31, 2026; NYS DOH [lead programs](https://www.health.ny.gov/environmental/lead/programs_plans/index.htm) | After MDHHS SHIELD path clearer **or** if Syracuse/Onondaga relationship develops via SUNY/other NY work. Target: **Q3 2026** research pass |
 
 ---

@@ -225,9 +225,10 @@ def create_nemt_order(
         "vertex_invoice_id": None,
     }
 
-    from nemt_billing import apply_hap_intake_defaults
+    from nemt_billing import apply_hap_intake_defaults, apply_molina_ltss_intake_defaults
 
     apply_hap_intake_defaults(order)
+    apply_molina_ltss_intake_defaults(order)
     if eligibility_verified:
         order["eligibility_verified"] = True
 
@@ -248,6 +249,34 @@ def create_nemt_order(
     })
 
     return order
+
+
+def cancel_nemt_order_for_prism(prism_order_id: str) -> bool:
+    """Cancel linked NEMT ops order when a PRISM intake order is removed."""
+    pid = (prism_order_id or "").strip()
+    if not pid:
+        return False
+    nemt = find_nemt_order_by_prism_id(pid)
+    if not nemt:
+        return False
+    order_id = nemt.get("order_id")
+    if not order_id:
+        return False
+    with _lock:
+        state = _load_state()
+        orders = state.get("orders", {})
+        order = orders.get(order_id)
+        if not order:
+            return False
+        if order.get("status") in ("completed", "cancelled"):
+            return order.get("status") == "cancelled"
+        order["status"] = "cancelled"
+        order["cancelled_at"] = _now_iso()
+        order["updated_at"] = _now_iso()
+        orders[order_id] = order
+        state["orders"] = orders
+        _save_state(state)
+    return True
 
 
 def find_nemt_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]:
@@ -422,11 +451,15 @@ def _intake_payer(order: Dict[str, Any], data: Dict[str, Any]) -> str:
         if not src:
             continue
         s = str(src).strip()
+        if "molina" in s.lower():
+            return "Molina Healthcare Michigan"
         if "caresource" in s.lower() or s.lower().startswith("hap"):
             return "HAP CareSource"
         if s:
             return s
     program = (details.get("program_type") or details.get("mobility_lane") or "").lower()
+    if any(k in program for k in ("molina", "hide snp", "ltss")):
+        return "Molina Healthcare Michigan"
     if any(k in program for k in ("medicaid", "mco", "mob-a", "hap", "plan nemt")):
         return "HAP CareSource"
     return PAYER_DEFAULT
@@ -1212,7 +1245,7 @@ def route_by_prism_order(prism_id: str):
 @prism_nemt.route("/prism/nemt/orders/<order_id>/verify-eligibility", methods=["POST"])
 def route_verify_eligibility(order_id: str):
     """Ops QA: mark eligibility verified and refresh dispatch checklist."""
-    from nemt_billing import apply_hap_intake_defaults, check_member_eligibility_checklist
+    from nemt_billing import apply_hap_intake_defaults, apply_molina_ltss_intake_defaults, check_member_eligibility_checklist
 
     data = request.get_json(force=True) or {}
     state = _load_state()
@@ -1221,6 +1254,7 @@ def route_verify_eligibility(order_id: str):
         return jsonify({"error": "Order not found"}), 404
 
     apply_hap_intake_defaults(order)
+    apply_molina_ltss_intake_defaults(order)
     order["eligibility_verified"] = True
     order["eligibility_verified_at"] = _now_iso()
     if data.get("prior_auth_number"):

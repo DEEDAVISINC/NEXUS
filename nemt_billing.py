@@ -84,6 +84,75 @@ def apply_hap_intake_defaults(order: Dict[str, Any]) -> None:
     if not order.get("prior_auth_number") and not order.get("prior_auth_id"):
         order["prior_auth_number"] = "HAP-PARALLEL-VENDOR-100000469269"
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Molina Healthcare of Michigan — HIDE SNP LTSS PSA (executed Jul 22, 2026)
+# Vendor ID 214337479 — credentialed thru Jul 31, 2029
+# Attachment B scope confirmed: Non-Medical Transportation (NMT) + Community
+# Transition Services (CTS). 100% of published HCBS fee schedule — no discount.
+# Source: MI - HCBS - DEE DAVIS INC dba DDI PSA (FFS) + Fee Schedule 04.01.2026
+# ─────────────────────────────────────────────────────────────────────────────
+MOLINA_LTSS_VENDOR_ID = "214337479"
+MOLINA_LTSS_NPI = NPI  # 1538939111 — must be entered in Availity profile or claims deny
+
+# Molina LTSS NMT base trip rates (Attachment B / fee schedule 04.01.2026)
+MOLINA_LTSS_CONTRACT_RATES: Dict[str, float] = {
+    "T2003": 27.00,  # NMT ambulatory base trip (Molina's own coding — differs from MDHHS FFS)
+    "A0130": 35.00,  # NMT wheelchair van base trip
+}
+MOLINA_LTSS_AMBULATORY_MILEAGE_PER_MILE = 0.67  # S0215
+MOLINA_LTSS_WHEELCHAIR_MILEAGE_PER_MILE = 3.00  # S0209
+MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT = 150.00  # T1028 — flat, per case
+MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS = "T2038"  # "Manual" — negotiated per case, no fixed rate
+
+_MOLINA_LTSS_MILEAGE_HCPCS: Dict[str, str] = {
+    "ambulatory": "S0215",
+    "wheelchair": "S0209",
+    "stretcher": "S0209",
+}
+
+# ── HARD GATES — flip to True only when confirmed. Blocks dispatch via
+#    check_member_eligibility_checklist() until both are cleared. Do NOT
+#    hardcode True speculatively — verify with Dee first. ──────────────────
+MOLINA_LTSS_ATTESTATION_ON_FILE = False  # Orientation Training Attestation signed & returned to MHMLTSSContracting@MolinaHealthCare.Com
+MOLINA_LTSS_AVAILITY_ACTIVE = False  # Availity App ID 63821858 activated + NPI 1538939111 confirmed entered
+
+
+def _is_molina_ltss_payer(payer: Optional[str]) -> bool:
+    p = (payer or "").lower()
+    return "molina" in p
+
+
+def apply_molina_ltss_intake_defaults(order: Dict[str, Any]) -> None:
+    """
+    Molina HIDE SNP LTSS (Vendor 214337479): unlike HAP, referrals are 100%
+    member/Care-Coordinator-initiated per the PCSP — eligibility is NOT
+    auto-verified. This only stamps provider identifiers and enforces the
+    two hard gates (attestation on file + Availity active) so PRISM cannot
+    silently dispatch a Molina trip before both are cleared.
+    Mutates order in place.
+    """
+    if not _is_molina_ltss_payer(order.get("payer")):
+        return
+    order["vendor_id"] = order.get("vendor_id") or MOLINA_LTSS_VENDOR_ID
+    order["npi_on_file"] = order.get("npi_on_file") or MOLINA_LTSS_NPI
+    order["referral_source"] = order.get("referral_source") or "Member / Care Coordinator (PCSP-authorized)"
+    holds: List[str] = []
+    if not MOLINA_LTSS_ATTESTATION_ON_FILE:
+        holds.append(
+            "Molina LTSS Orientation Training Attestation not on file — "
+            "no members may be received until signed & returned to MHMLTSSContracting@MolinaHealthCare.Com"
+        )
+    if not MOLINA_LTSS_AVAILITY_ACTIVE:
+        holds.append(
+            "Molina Availity portal not yet active (App ID 63821858) — "
+            "cannot verify eligibility or bill claims until activated + NPI 1538939111 confirmed"
+        )
+    if holds:
+        order["dispatch_hold"] = True
+        order["dispatch_hold_reason"] = " | ".join(holds)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Michigan Medicaid MCO Payer Directory
 # All six Michigan Medicaid Managed Care plans DDI can bill.
@@ -103,9 +172,25 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
     "Molina Healthcare Michigan": {
         "legal_name": "Molina Healthcare of Michigan, Inc.",
         "payer_id": "38217",
-        "region": "Statewide",
+        "region": "Statewide (HIDE SNP LTSS)",
+        "vendor_id": MOLINA_LTSS_VENDOR_ID,
+        "credentialed_thru": "2029-07-31",
+        "contract_type": "HIDE SNP LTSS PSA (FFS) — executed Jul 22, 2026",
+        "services": ["Non-Medical Transportation (NMT)", "Community Transition Services (CTS)"],
+        "npi_on_file": MOLINA_LTSS_NPI,
         "billing_address": "880 W. Long Lake Rd., Suite 600, Troy, MI 48098",
         "prior_auth_phone": "1-888-898-7969",
+        "ltss_eligibility_phone": "855-322-4077",
+        "pa_submission_method": "Fax only — never request prior auth via Availity",
+        "referral_model": "100% member / Care Coordinator-initiated (PCSP) — DDI cannot solicit placement on a list",
+        "contracting_contact": "Arielle Goodson (contracting closed out — do not email for referral/directory questions)",
+        "contracting_email": "MHMLTSSContracting@MolinaHealthCare.Com",
+        "ltss_specialist_email": "MHM-LTSS-Specialist@MolinaHealthCare.Com",
+        "orientation_completed": "2026-07-23 (Sarah Fenton)",
+        "orientation_attestation_status": "PENDING — HARD GATE, no members until signed & returned",
+        "availity_app_id": "63821858",
+        "availity_status": "Registered 2026-07-23, pending activation (~3-5 business days)",
+        "first_payment_method": "ECHO virtual credit card (Quick Remit) by default — Draft # off first EPP needed to switch to direct deposit",
         "claims_portal": "https://provider.molinahealthcare.com",
         "era_835": True,
     },
@@ -443,6 +528,7 @@ def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, A
     Returns a pass/fail checklist — driver cannot dispatch until all PASS.
     """
     apply_hap_intake_defaults(trip_data)
+    apply_molina_ltss_intake_defaults(trip_data)
     checks = []
 
     def _chk(item: str, passed: bool, action: Optional[str] = None) -> None:
@@ -466,6 +552,23 @@ def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, A
     _chk("Destination address complete", bool((trip_data.get("dropoff_address") or "").strip()))
     _chk("Medical appointment documented", bool((trip_data.get("trip_purpose") or "").strip()))
     _chk("HCPCS code assigned", bool((trip_data.get("hcpcs_code") or "").strip()))
+
+    if _is_molina_ltss_payer(trip_data.get("payer")):
+        _chk(
+            "Molina LTSS Orientation Attestation on file",
+            MOLINA_LTSS_ATTESTATION_ON_FILE,
+            action="Sign & return attestation to MHMLTSSContracting@MolinaHealthCare.Com — HARD GATE, no members until done",
+        )
+        _chk(
+            "Molina Availity portal active (NPI 1538939111 confirmed)",
+            MOLINA_LTSS_AVAILITY_ACTIVE,
+            action="Confirm Availity App ID 63821858 activated and NPI entered — check back ~Jul 28-30",
+        )
+        _chk(
+            "Member eligibility verified this visit (855-322-4077 or Availity)",
+            bool(trip_data.get("eligibility_verified")),
+            action="Molina Provider Manual requires eligibility check before EVERY service — not auto-verified for LTSS",
+        )
 
     failed = [c for c in checks if c["status"] == "FAIL"]
     return {
@@ -655,6 +758,24 @@ def _hap_mileage_hcpcs(transport_type: Optional[str], base_hcpcs: str) -> str:
     return "T2003"
 
 
+def _molina_ltss_mileage_hcpcs(transport_type: Optional[str], base_hcpcs: str) -> str:
+    tt = (transport_type or "").strip().lower()
+    if tt in _MOLINA_LTSS_MILEAGE_HCPCS:
+        return _MOLINA_LTSS_MILEAGE_HCPCS[tt]
+    base = (base_hcpcs or "").strip().upper()
+    if base == "A0130":
+        return "S0209"
+    return "S0215"
+
+
+def _molina_ltss_mileage_rate(transport_type: Optional[str], base_hcpcs: str) -> float:
+    tt = (transport_type or "").strip().lower()
+    base = (base_hcpcs or "").strip().upper()
+    if tt == "wheelchair" or base == "A0130":
+        return MOLINA_LTSS_WHEELCHAIR_MILEAGE_PER_MILE
+    return MOLINA_LTSS_AMBULATORY_MILEAGE_PER_MILE
+
+
 def get_rate_amount_and_description(
     airtable,
     hcpcs: str,
@@ -671,6 +792,25 @@ def get_rate_amount_and_description(
         else:
             desc = f"HAP CareSource NEMT ({h})"
         return amount, desc
+    if _is_molina_ltss_payer(payer) and h in MOLINA_LTSS_CONTRACT_RATES:
+        amount = MOLINA_LTSS_CONTRACT_RATES[h]
+        if h == "T2003":
+            desc = "Molina HIDE SNP LTSS — NMT ambulatory trip (base rate)"
+        elif h == "A0130":
+            desc = "Molina HIDE SNP LTSS — NMT wheelchair van trip (base rate)"
+        else:
+            desc = f"Molina HIDE SNP LTSS NMT ({h})"
+        return amount, desc
+    if _is_molina_ltss_payer(payer) and h == MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS:
+        raise ValueError(
+            "T2038 Community Transition Services is 'Manual' pricing on Molina's fee schedule — "
+            "negotiated per case. Contact the LTSS Specialist team for the authorized amount before billing."
+        )
+    if _is_molina_ltss_payer(payer) and h == "T1028":
+        return (
+            MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT,
+            "Molina HIDE SNP LTSS — Community Transition assessment (flat fee)",
+        )
     m = fetch_rates_map(airtable)
     if h not in m:
         raise ValueError(
@@ -730,6 +870,72 @@ def compute_trip_claim(
             "line_items": line_items,
             "service_type_label": service_label,
             "primary_hcpcs": hcpcs,
+        }
+
+    if _is_molina_ltss_payer(payer) and hcpcs in MOLINA_LTSS_CONTRACT_RATES:
+        base, base_desc = get_rate_amount_and_description(
+            airtable, hcpcs, payer=payer, transport_type=transport_type
+        )
+        line_items = [
+            {
+                "description": base_desc,
+                "hcpcs": hcpcs,
+                "quantity": 1,
+                "rate": base,
+                "amount": round(base, 2),
+            }
+        ]
+        mileage_amount = 0.0
+        if mileage > 0:
+            mile_hcpcs = _molina_ltss_mileage_hcpcs(transport_type, hcpcs)
+            mile_rate = _molina_ltss_mileage_rate(transport_type, hcpcs)
+            mileage_amount = round(mileage * mile_rate, 2)
+            line_items.append(
+                {
+                    "description": (
+                        f"Molina HIDE SNP LTSS NMT mileage "
+                        f"({mileage:.1f} mi @ ${mile_rate:.2f}/mi)"
+                    ),
+                    "hcpcs": mile_hcpcs,
+                    "quantity": round(mileage, 1),
+                    "rate": mile_rate,
+                    "amount": mileage_amount,
+                }
+            )
+        total = round(base + mileage_amount, 2)
+        service_label = base_desc
+        if mileage_amount:
+            service_label = f"{base_desc} + {mileage:.1f} mi mileage"
+        return {
+            "total": total,
+            "line_items": line_items,
+            "service_type_label": service_label,
+            "primary_hcpcs": hcpcs,
+        }
+
+    if _is_molina_ltss_payer(payer) and hcpcs == MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS:
+        assessment, assess_desc = get_rate_amount_and_description(airtable, "T1028", payer=payer)
+        return {
+            "total": assessment,
+            "line_items": [
+                {
+                    "description": "Molina HIDE SNP LTSS — Community Transition Services (T2038, 'Manual' — negotiate amount with LTSS Specialist before invoicing)",
+                    "hcpcs": hcpcs,
+                    "quantity": 1,
+                    "rate": None,
+                    "amount": None,
+                },
+                {
+                    "description": assess_desc,
+                    "hcpcs": "T1028",
+                    "quantity": 1,
+                    "rate": assessment,
+                    "amount": round(assessment, 2),
+                },
+            ],
+            "service_type_label": "Community Transition Services (manual) + assessment",
+            "primary_hcpcs": hcpcs,
+            "manual_pricing_required": True,
         }
 
     total, desc = get_rate_amount_and_description(
