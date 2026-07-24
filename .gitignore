@@ -25,6 +25,10 @@ uploads/prism/voice_call_log.json
 uploads/prism/voice_sessions.json
 uploads/confirmations/confirmation_log.json
 workflow_queues_data.json
+nexus_qc_contracts.json
+nexus_qc_records.json
+uploads/member_satisfaction/survey_log.json
+uploads/member_satisfaction/audit/
 
 # NEMT factoring invoices (HTML/PDF; may contain PHI)
 GENERATED_VERTEX_INVOICES/
