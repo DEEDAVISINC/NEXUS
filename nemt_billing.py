@@ -579,21 +579,98 @@ def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, A
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Molina HIDE SNP LTSS — Community Transition Services (CTS) readiness + billing
-# CTS is NOT a trip — no mileage, no pickup/dropoff, no driver. It tracks a
-# nursing-facility-to-community move authorized on the member's PCSP, a
-# one-time home/environment assessment (T1028, $150 flat), and PCSP-authorized
-# non-recurring setup expenses (T2038, "Manual" — no fixed rate on the fee
-# schedule; DDI must get the authorized dollar amount before incurring cost).
+# Molina HIDE SNP LTSS — Community Transition Services (CTS) "Authorization
+# Case" model. This is a case-management process, NOT a trip — no mileage,
+# no pickup/dropoff, no driver.
+#
+# Process (per Dee's CTS walkthrough, Jul 23 2026):
+#   1. Referral Received            — discharge planner / Care Coordinator
+#   2. Eligibility/PCSP Verification — CTS must be an approved PCSP service
+#   3. Documentation Collected       — real invoice/quote per expense item
+#   4. Home Assessment (if required) — T1028 ($150 flat) becomes billable
+#   5. Authorization Sign-Off        — DDI authorizes; T2038 becomes billable
+#      at the DDI-determined Amount Authorized (MI State Plan Medicaid funds
+#      the release — DDI does not cut the check)
+#   6. Funds Released / Case Closed  — Molina pays direct or DDI pass-through
+#      (mechanism unconfirmed — track via disbursement_mechanism)
+#   7. Documented for Audit
+#
+# Operative constraint: Furnishings/Moving Costs categories require
+# subcontractor disclosure under Article 2.9 of the executed PSA — NOT yet
+# filed. Only Security Deposit and Utility Set-up are accepted until then.
 # ─────────────────────────────────────────────────────────────────────────────
+
+MOLINA_LTSS_SUBCONTRACTOR_DISCLOSURE_FILED = False  # Article 2.9 — flip True once filed with Molina
+
+CTS_EXPENSE_CATEGORIES_OPEN = ("Security Deposit", "Utility Set-up")
+CTS_EXPENSE_CATEGORIES_REQUIRE_DISCLOSURE = ("Furnishings", "Moving Costs")
+CTS_ALL_EXPENSE_CATEGORIES = CTS_EXPENSE_CATEGORIES_OPEN + CTS_EXPENSE_CATEGORIES_REQUIRE_DISCLOSURE
+
+CTS_AUTHORIZATION_STATUSES = ("Pending", "Verified", "Authorized", "Denied")
+
+CTS_WORKFLOW_STAGES = (
+    "Referral Received",
+    "Eligibility/PCSP Verification",
+    "Documentation Collected",
+    "Home Assessment",
+    "Authorization Sign-Off",
+    "Funds Released / Case Closed",
+    "Documented for Audit",
+)
+
+
+def check_cts_expense_category_allowed(category: str) -> Tuple[bool, Optional[str]]:
+    """
+    Article 2.9 gate: Furnishings/Moving Costs require subcontractor
+    disclosure to Molina that has not been filed yet. Only Security Deposit
+    and Utility Set-up are accepted as a starting scope.
+    """
+    cat = (category or "").strip()
+    if cat in CTS_EXPENSE_CATEGORIES_REQUIRE_DISCLOSURE and not MOLINA_LTSS_SUBCONTRACTOR_DISCLOSURE_FILED:
+        return False, (
+            f"'{cat}' requires subcontractor disclosure under Article 2.9 of the executed "
+            "Molina HCBS PSA — not yet completed. Only Security Deposit and Utility Set-up "
+            "are accepted until this is filed."
+        )
+    if cat not in CTS_ALL_EXPENSE_CATEGORIES:
+        return False, f"Unknown expense category '{cat}'. Valid: {', '.join(CTS_ALL_EXPENSE_CATEGORIES)}"
+    return True, None
+
+
+def compute_cts_stage(cts_data: Dict[str, Any]) -> Tuple[int, str]:
+    """
+    Derive the current stage (1-7) of a CTS Authorization Case from field
+    state — mirrors Dee's 7-stage workflow rather than PRISM's generic
+    dispatch-order lifecycle (which doesn't fit a case with no driver/vehicle).
+    """
+    stage = 1
+    if (cts_data.get("referral_source") or "").strip() and (cts_data.get("referral_date") or "").strip():
+        stage = 2
+    if stage >= 2 and cts_data.get("pcsp_confirmed") is True:
+        stage = 3
+    expenses = cts_data.get("expense_items") or []
+    if stage >= 3 and expenses and all((e.get("supporting_document") or "").strip() for e in expenses):
+        stage = 4
+    if stage >= 4:
+        required = cts_data.get("home_assessment_required")
+        completed = bool(cts_data.get("home_assessment_completed"))
+        if required is False or (required is True and completed):
+            stage = 5
+    if stage >= 5 and cts_data.get("authorization_status") == "Authorized" and cts_data.get("amount_authorized"):
+        stage = 6
+    if stage >= 6 and cts_data.get("case_closed"):
+        stage = 7
+    return stage, CTS_WORKFLOW_STAGES[stage - 1]
+
 
 def check_cts_readiness_checklist(cts_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Community Transition Services pre-invoice readiness check.
-    Distinct from check_member_eligibility_checklist() — CTS has no
-    HCPCS/mileage/pickup fields and is gated on PCSP authorization dollars,
-    not per-trip eligibility. Both Molina hard gates (attestation + Availity)
-    still apply since CTS is billed under the same vendor/NPI.
+    Community Transition Services Authorization Case readiness check.
+    Distinct from check_member_eligibility_checklist() — CTS is a case-
+    management process gated on PCSP confirmation and DDI's own authorization
+    sign-off, not per-trip HCPCS/mileage eligibility. Both Molina hard gates
+    (attestation + Availity) still apply since CTS bills under the same
+    vendor/NPI.
     """
     apply_molina_ltss_intake_defaults(cts_data)
     checks: List[Dict[str, Any]] = []
@@ -615,89 +692,136 @@ def check_cts_readiness_checklist(cts_data: Dict[str, Any]) -> Dict[str, Any]:
         action="Confirm Availity App ID 63821858 activated and NPI entered — check back ~Jul 28-30",
     )
     _chk(
-        "PCSP / Care Coordinator authorization on file with approved dollar amount",
-        bool(cts_data.get("pcsp_authorized_amount")),
-        action="Get the authorized transition amount from the Care Coordinator / LTSS Specialist BEFORE incurring any expense",
+        "Referral source and date recorded",
+        bool((cts_data.get("referral_source") or "").strip()) and bool((cts_data.get("referral_date") or "").strip()),
+        action="Record the discharge planner / facility / Care Coordinator name+contact and referral date",
     )
     _chk(
-        "Transitioning FROM a nursing facility documented",
-        bool((cts_data.get("transitioning_from") or "").strip()),
-        action="Record the nursing facility name/address the member is leaving",
+        "PCSP Confirmation completed",
+        cts_data.get("pcsp_confirmed") is not None,
+        action="Confirm with the referral source / LTSS Specialist whether CTS is an approved service on this member's PCSP",
     )
+    if cts_data.get("pcsp_confirmed") is False:
+        _chk(
+            "PCSP shows CTS approved",
+            False,
+            action="PCSP does NOT list CTS as approved — PAUSE and get the PCSP updated before proceeding. Do not collect documentation or authorize funds.",
+        )
     _chk(
-        "Transitioning TO own residence documented",
+        "Transition destination address documented",
         bool((cts_data.get("transitioning_to") or "").strip()),
-        action="Record the new residence address where the member will live independently",
-    )
-    _chk(
-        "Home & environment assessment (T1028) completed",
-        bool(cts_data.get("assessment_completed")),
-        action="Complete and document the home/physical/family environment assessment before finalizing setup expenses",
+        action="Record the address the member is moving to",
     )
 
-    expenses = cts_data.get("itemized_expenses") or []
-    receipts_total = round(sum(float(e.get("amount") or 0) for e in expenses), 2)
-    authorized = cts_data.get("pcsp_authorized_amount")
+    expenses = cts_data.get("expense_items") or []
     if expenses:
-        within_budget = authorized is None or receipts_total <= float(authorized) + 0.01
+        for e in expenses:
+            cat = e.get("category") or ""
+            allowed, reason = check_cts_expense_category_allowed(cat)
+            _chk(f"Expense category '{cat or '(blank)'}' is currently accepted", allowed, action=reason)
+            _chk(
+                f"Supporting document uploaded for '{cat or '(blank)'}' (${e.get('requested_amount', 0)})",
+                bool((e.get("supporting_document") or "").strip()),
+                action="No verbal estimates accepted — attach the actual invoice/quote before authorization",
+            )
+    else:
         _chk(
-            f"Itemized expenses (${receipts_total:.2f}) within PCSP-authorized amount",
-            within_budget,
-            action="Expenses exceed the authorized amount — get updated authorization before submitting for payment",
+            "At least one documented expense item on file",
+            False,
+            action="Collect the actual invoice/quote per requested expense category before proceeding",
+        )
+
+    required = cts_data.get("home_assessment_required")
+    _chk(
+        "Home Assessment requirement determined (Y/N)",
+        required is not None,
+        action="Mark whether a home/environment assessment is required for this case",
+    )
+    if required is True:
+        _chk(
+            "Home & environment assessment (T1028) completed",
+            bool(cts_data.get("home_assessment_completed")),
+            action="Complete the physical suitability review before Authorization Sign-Off",
+        )
+
+    auth_status = cts_data.get("authorization_status") or "Pending"
+    _chk(
+        f"Authorization Status is not blank (currently '{auth_status}')",
+        bool(cts_data.get("authorization_status")),
+        action="Set Authorization Status: Pending / Verified / Authorized / Denied",
+    )
+    if auth_status == "Authorized":
+        _chk(
+            "Amount Authorized recorded",
+            bool(cts_data.get("amount_authorized")),
+            action="Enter the final confirmed Amount Authorized before this case can bill T2038",
         )
         _chk(
-            "Expenses are non-recurring only (no rent / recurring utilities)",
-            not any(str(e.get("recurring")).lower() in ("true", "1") for e in expenses),
-            action="Community Transition Services covers ONE-TIME setup costs only — remove recurring charges from the itemization",
+            "Payee recorded (landlord / utility company / vendor + payment details)",
+            bool((cts_data.get("payee") or "").strip()),
+            action="Record who funds are being released to",
         )
 
     failed = [c for c in checks if c["status"] == "FAIL"]
+    stage, stage_label = compute_cts_stage(cts_data)
     return {
         "eligible_to_invoice": len(failed) == 0,
         "failed_count": len(failed),
         "checks": checks,
-        "receipts_total": receipts_total,
+        "current_stage": stage,
+        "current_stage_label": stage_label,
     }
 
 
 def compute_cts_claim(cts_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Molina HIDE SNP LTSS Community Transition Services claim.
-    T1028 assessment ($150 flat, billed once) + T2038 (PCSP-authorized amount —
-    "Manual" on Molina's fee schedule, so DDI supplies the amount rather than
-    a fixed rate).
+
+    Billing trigger points (per Dee's walkthrough):
+      - T1028 ($150 flat) fires when Home Assessment is required AND
+        completed — no assessment required means no T1028 line at all.
+      - T2038 (rate TBD with Molina) fires when Authorization Sign-Off is
+        complete (authorization_status == "Authorized"), billed at the
+        DDI-determined Amount Authorized — never invented, never a
+        pre-negotiated cap from Molina.
     """
     line_items: List[Dict[str, Any]] = []
-    if cts_data.get("assessment_completed") and not cts_data.get("assessment_already_billed"):
+
+    required = cts_data.get("home_assessment_required")
+    completed = bool(cts_data.get("home_assessment_completed"))
+    if required and completed and not cts_data.get("assessment_already_billed"):
         line_items.append(
             {
-                "description": "Molina HIDE SNP LTSS — Community Transition assessment (flat fee)",
+                "description": "Molina HIDE SNP LTSS — Community Transition assessment (flat fee, confirmed rate)",
                 "hcpcs": "T1028",
                 "quantity": 1,
                 "rate": MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT,
                 "amount": MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT,
             }
         )
-    authorized = cts_data.get("pcsp_authorized_amount")
-    if authorized:
+
+    auth_status = cts_data.get("authorization_status")
+    amount_authorized = cts_data.get("amount_authorized")
+    if auth_status == "Authorized" and amount_authorized:
         line_items.append(
             {
                 "description": (
                     "Molina HIDE SNP LTSS — Community Transition Services, non-recurring "
-                    "setup expenses (T2038, PCSP-authorized amount)"
+                    "setup expenses (T2038, rate unconfirmed with Molina — billed at DDI's "
+                    "Amount Authorized from Authorization Sign-Off)"
                 ),
                 "hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
                 "quantity": 1,
-                "rate": float(authorized),
-                "amount": round(float(authorized), 2),
+                "rate": float(amount_authorized),
+                "amount": round(float(amount_authorized), 2),
             }
         )
     else:
         line_items.append(
             {
                 "description": (
-                    "Molina HIDE SNP LTSS — Community Transition Services (T2038, 'Manual' — "
-                    "awaiting PCSP-authorized amount from LTSS Specialist)"
+                    "Molina HIDE SNP LTSS — Community Transition Services (T2038, rate "
+                    "unconfirmed with Molina — awaiting Authorization Sign-Off)"
                 ),
                 "hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
                 "quantity": 1,
@@ -705,13 +829,14 @@ def compute_cts_claim(cts_data: Dict[str, Any]) -> Dict[str, Any]:
                 "amount": None,
             }
         )
+
     total = round(sum(li["amount"] for li in line_items if li.get("amount")), 2)
     return {
         "total": total,
         "line_items": line_items,
         "service_type_label": "Community Transition Services",
         "primary_hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
-        "manual_pricing_required": authorized is None,
+        "manual_pricing_required": not (auth_status == "Authorized" and amount_authorized),
     }
 
 

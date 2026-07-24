@@ -485,13 +485,21 @@ SERVICE_CATALOG = {
         'ddi_capable':      True,
         'lab_required':     False,
         'lab_partners':     [],
-        'collection_partners': ['Local furniture/moving vendors as needed for itemized purchases'],
-        'ddi_rate':         None,   # "Manual" on Molina fee schedule — negotiated per case, capped by PCSP-authorized amount
+        'collection_partners': [],   # DDI-direct case management — DDI does not front vendor costs; Molina/MI Medicaid funds release
+        'ddi_rate':         None,   # "Manual" on Molina fee schedule — billed at DDI's Amount Authorized from Authorization Sign-Off
         'sub_cost_low':     None,
         'sub_cost_high':    None,
         'ddi_direct_cost':  None,
         'lab_cost':         0,
-        'notes':            'Non-reoccurring expenses ONLY (security deposit, essential furnishings, moving costs, utility setup) for a member moving from a nursing facility into their own residence. Get the authorized dollar amount from the LTSS Specialist BEFORE incurring expenses. Retain itemized receipts for scanback/audit — no recurring charges (rent, ongoing utilities) allowed.',
+        'notes':            (
+            'Non-recurring setup expenses ONLY for a member moving from a nursing facility into their own '
+            'residence. STARTING SCOPE: Security Deposit and Utility Set-up only — Furnishings and Moving Costs '
+            'are blocked until subcontractor disclosure is filed under Article 2.9 of the executed Molina HCBS '
+            'PSA. Every expense item requires an actual invoice/quote (no verbal estimates). DDI executes its '
+            'own Authorization Sign-Off (Amount Authorized) based on documented need — Michigan State Plan '
+            'Medicaid is the funding source, DDI does not cut the check. Retain itemized receipts for '
+            'scanback/audit — no recurring charges (rent, ongoing utilities) allowed.'
+        ),
     },
 
     # ─── PRESCRIPTION DELIVERY ──────────────────────────────────────
