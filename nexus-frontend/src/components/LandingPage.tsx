@@ -749,21 +749,20 @@ END:VCALENDAR`;
       phase: '6. FINANCE'
     },
     {
-      id: 'jeta' as ViewType,
-      name: 'JETA',
-      fullName: 'JETA COURTIÈRE — Aviation Fuel Brokerage',
-      icon: '⛽',
-      description: 'Buyer pipeline • Deals • Outreach • Documents • Division of DEE DAVIS INC',
+      id: 'compass' as ViewType,
+      name: 'COMPASS',
+      fullName: 'CO Deliverables & Compliance',
+      icon: '🧭',
+      description: 'Government CO reports • Deliverables • Modifications • CPARS',
       stats: [
-        'Dashboard',
-        'Buyer Pipeline',
-        'Deal Manager',
-        'Outreach • Docs'
+        `${compassLive?.active_contracts || 0} CO Contract${(compassLive?.active_contracts || 0) !== 1 ? 's' : ''}`,
+        `${fmtK(compassLive?.total_value || 0)} Under Management`,
+        `${compassLive?.deliverables_pending || 0} Deliverables Pending`,
       ],
-      gradient: 'from-amber-600 to-orange-700',
+      gradient: 'from-yellow-600 to-red-600',
       status: 'online',
-      lastUsed: 'Shell',
-      phase: '7. FUEL'
+      lastUsed: (compassLive?.active_contracts || 0) > 0 ? 'Live' : 'Ready',
+      phase: '7. COMPLY'
     },
     {
       id: 'hr' as ViewType,
@@ -786,19 +785,20 @@ END:VCALENDAR`;
   // SUPPORT SYSTEMS - Available but secondary
   const supportSystems = [
     {
-      id: 'compass' as ViewType,
-      name: 'COMPASS',
-      fullName: 'CO Deliverables & Compliance',
-      icon: '🧭',
-      description: 'Government CO reports • Deliverables • Modifications • CPARS',
+      id: 'jeta' as ViewType,
+      name: 'JETA',
+      fullName: 'JETA COURTIÈRE — Aviation Fuel Brokerage',
+      icon: '⛽',
+      description: 'Buyer pipeline • Deals • Outreach • Documents • Division of DEE DAVIS INC',
       stats: [
-        `${compassLive?.active_contracts || 0} CO Contract${(compassLive?.active_contracts || 0) !== 1 ? 's' : ''}`,
-        `${fmtK(compassLive?.total_value || 0)} Under Management`,
-        `${compassLive?.deliverables_pending || 0} Deliverables Pending`,
+        'Dashboard',
+        'Buyer Pipeline',
+        'Deal Manager',
+        'Outreach • Docs'
       ],
-      gradient: 'from-yellow-600 to-red-600',
+      gradient: 'from-amber-600 to-orange-700',
       status: 'online',
-      lastUsed: (compassLive?.active_contracts || 0) > 0 ? 'Live' : 'Ready',
+      lastUsed: 'Shell',
     },
     {
       id: 'documents' as ViewType,
