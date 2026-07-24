@@ -88,9 +88,11 @@ def health_check():
             'nemt': _nemt_loaded,
             'member_survey': _member_survey_loaded,
             'nexus_qc': _qc_loaded,
+            'gateway': _gateway_loaded,
         },
         'member_survey_error': _member_survey_error,
         'nexus_qc_error': _qc_error,
+        'gateway_error': _gateway_error,
         'notifications': notifications,
         'notifications_ready': all_channels,
     })
@@ -222,6 +224,23 @@ try:
     _qc_loaded = True
 except ImportError as exc:
     _qc_error = str(exc)
+
+_gateway_loaded = False
+_gateway_error = None
+try:
+    from hr_onboarding_api import hr_onboarding
+
+    app.register_blueprint(hr_onboarding)
+    _gateway_loaded = True
+except ImportError as exc:
+    _gateway_error = str(exc)
+    logger_msg_gateway = f'GATEWAY (HR Onboarding) API not loaded: {exc}'
+
+    @app.route('/nexus/hr/onboarding/<path:_path>', methods=['GET', 'POST', 'PUT'])
+    @app.route('/nexus/hr/onboarding', methods=['GET', 'POST'])
+    @app.route('/nexus/hr/attestation', methods=['GET', 'POST'])
+    def gateway_unavailable(_path=None):
+        return jsonify({'error': logger_msg_gateway}), 503
 
 
 # PythonAnywhere WSGI entry point
