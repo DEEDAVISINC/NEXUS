@@ -112,11 +112,11 @@
             margin-bottom: 10px;
         }
         
-        .cover h1 .h { color: var(--housing); }
-        .cover h1 .a { color: var(--accent); }
-        .cover h1 .v { color: var(--transport); }
-        .cover h1 .e { color: var(--medical); }
-        .cover h1 .n { color: white; }
+        .cover h1 .h,
+        .cover h1 .a,
+        .cover h1 .v,
+        .cover h1 .e,
+        .cover h1 .n { color: #d97706; }
         
         .cover .acronym {
             font-size: 16px;
@@ -502,6 +502,64 @@
         tr:nth-child(even) {
             background: var(--light);
         }
+
+        .phase-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        .phase-table th,
+        .phase-table td {
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .phase-table tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .sla-table th {
+            background: var(--accent);
+        }
+
+        .mco-benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0;
+        }
+
+        .mco-benefit-list li {
+            padding: 10px 0 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .mco-benefit-list li:last-child {
+            border-bottom: none;
+        }
+
+        .urgency-callout {
+            background: #fef3c7;
+            border-left: 4px solid var(--accent);
+            padding: 14px 18px;
+            margin: 0 0 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #78350f;
+        }
+
+        .contract-vehicle-box {
+            background: var(--accent-light);
+            border: 1px solid #fcd34d;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin: 20px 0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
         
         /* Ecosystem */
         .ecosystem-visual {
@@ -539,6 +597,43 @@
         .eco-node.medical { background: var(--medical); }
         .eco-node.ddi { background: var(--accent); font-size: 15px; padding: 22px 28px; }
         .eco-node.mco { background: rgba(255,255,255,0.2); }
+        .eco-node.member { background: rgba(255,255,255,0.95); color: var(--primary); font-size: 14px; padding: 20px 24px; }
+
+        .ecosystem-bridge {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        .ecosystem-lanes {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .ecosystem-lane-arrows {
+            font-size: 18px;
+            opacity: 0.7;
+            margin: 6px 0 10px;
+            letter-spacing: 8px;
+        }
+
+        .hybrid-policy-box {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .hybrid-policy-box h4 {
+            margin: 0 0 10px;
+            color: var(--primary);
+        }
         
         .eco-arrow {
             font-size: 20px;
@@ -786,6 +881,21 @@
         @media print {
             body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             .section { page-break-after: always; }
+            .phase-table {
+                table-layout: fixed !important;
+                width: 100% !important;
+            }
+            .phase-table th,
+            .phase-table td {
+                font-size: 11px;
+                padding: 8px 10px;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .phase-table tr {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
         }
     </style>
 </head>
@@ -834,7 +944,7 @@
                     <div class="cover-certs">
                         <span class="cover-cert">EDWOSB</span>
                         <span class="cover-cert">WOSB</span>
-                        <span class="cover-cert">WBENC</span>
+                        <span class="cover-cert">WBE recert in progress — Great Lakes WBC</span>
                         <span class="cover-cert">MBE</span>
                         <span class="cover-cert">SBE</span>
                     </div>
@@ -853,16 +963,16 @@
             
             <div class="stat-grid">
                 <div class="stat-box">
-                    <div class="stat-number">2.5M+</div>
-                    <div class="stat-label">Members displaced by Hurricane Ian (2022)</div>
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Named storms — 2024 Atlantic hurricane season (above-average year)</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">$113B</div>
-                    <div class="stat-label">Insured losses from 2023 US disasters</div>
+                    <div class="stat-number">12,000+</div>
+                    <div class="stat-label">Structures destroyed — Jan 2025 Los Angeles wildfires</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-number">30-90</div>
-                    <div class="stat-label">Days of displacement per major event</div>
+                    <div class="stat-label">Days of displacement per major event (2025–2026 planning baseline)</div>
                 </div>
             </div>
             
@@ -924,24 +1034,27 @@
                     <div class="eco-node mco">MCO / Health Plan</div>
                     <div class="eco-arrow">→</div>
                     <div class="eco-node ddi">DDI / HAVEN</div>
-                    <div class="eco-arrow">→</div>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <div class="eco-node housing">🏠 Housing Network</div>
-                        <div class="eco-node transport">🚗 Transport Network</div>
-                        <div class="eco-node medical">💊 Medical Network</div>
-                    </div>
                 </div>
-                <div class="ecosystem-caption">DDI serves as the single coordination point, managing pre-built networks across all three service pillars</div>
+                <div class="ecosystem-bridge">
+                    <div class="ecosystem-lanes">
+                        <div class="eco-node housing">🏠 Housing</div>
+                        <div class="eco-node transport">🚗 Transport</div>
+                        <div class="eco-node medical">💊 Medical</div>
+                    </div>
+                    <div class="ecosystem-lane-arrows">↓ &nbsp; ↓ &nbsp; ↓</div>
+                    <div class="eco-node member">Enrolled Plan Member</div>
+                </div>
+                <div class="ecosystem-caption">Three service lanes branch from DDI to the member — housing, transport, and medical continuity under one TPA</div>
             </div>
             
             <h3>How It Works</h3>
             
-            <table>
+            <table class="phase-table">
                 <tr>
-                    <th>Phase</th>
-                    <th>Housing</th>
-                    <th>Transportation</th>
-                    <th>Medical Continuity</th>
+                    <th style="width:14%">Phase</th>
+                    <th style="width:29%">Housing</th>
+                    <th style="width:29%">Transportation</th>
+                    <th style="width:28%">Medical Continuity</th>
                 </tr>
                 <tr>
                     <td><strong>Pre-Disaster</strong></td>
@@ -974,6 +1087,7 @@
                     <td>Transition back to original providers when able</td>
                 </tr>
             </table>
+
         </div>
         
         <!-- SECTION 3: HOUSING DEEP DIVE -->
@@ -1315,16 +1429,82 @@
                     <td>Runs out of meds → crisis</td>
                     <td>Transferred to Dallas pharmacy, filled same day</td>
                 </tr>
+                <tr>
+                    <td><strong>Total Uncoordinated Cost</strong></td>
+                    <td><strong>$20,000+</strong></td>
+                    <td><strong>$800 in coordinated services</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>DDI Coordination Fee (Hybrid Model)</strong></td>
+                    <td>N/A</td>
+                    <td><strong>$9,000</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Total Cost to MCO (Coordinated)</strong></td>
+                    <td>N/A</td>
+                    <td><strong>$9,800</strong></td>
+                </tr>
                 <tr style="background: #d1fae5;">
-                    <td><strong>Total</strong></td>
-                    <td><strong>$20,000+ in avoidable costs</strong></td>
-                    <td><strong>~$800 in coordinated services</strong></td>
+                    <td><strong>MCO Savings vs. Uncoordinated</strong></td>
+                    <td>N/A</td>
+                    <td><strong>$10,200+</strong></td>
                 </tr>
             </table>
+
+            <div class="hybrid-policy-box">
+                <h4>How the $9,000 DDI Fee Breaks Down</h4>
+                <p>Maria is high-risk (dialysis + oxygen-dependent). Base coordination fee: <strong>$250 per member per day × 30 days displacement = $7,500</strong>. Avoided costs documented in NEXUS: $20,000 (prevented ER visit, prevented hospitalization, prevented dialysis miss, prevented Rx gap). Avoided cost capture: <strong>15% of costs above $10,000 threshold = 15% × $10,000 = $1,500</strong>. Total DDI fee: <strong>$7,500 + $1,500 = $9,000</strong>.</p>
+            </div>
+
+            <h3>HAVEN Coordination Fee — Hybrid Model (Policy)</h3>
+            <div class="hybrid-policy-box">
+                <p><strong>Structure:</strong> Base PMCD (per-member-per-day) by risk tier + 15% of documented avoided costs above $10,000 operational threshold.</p>
+                <p style="margin-top:10px;"><strong>Risk Tiers (Base PMCD):</strong></p>
+                <ul style="margin:8px 0 12px 20px;">
+                    <li>Standard displacement (stable chronic conditions): <strong>$100 PMCD</strong></li>
+                    <li>High-risk (dialysis, oxygen-dependent, complex Rx, mobility-impaired): <strong>$250 PMCD</strong></li>
+                    <li>Catastrophic multi-system failure: <strong>$400 PMCD</strong></li>
+                </ul>
+                <p><strong>Avoided Cost Categories (Tracked in NEXUS):</strong> Prevented ER visits · Avoided readmissions · Prevented missed dialysis treatments · Prevented missed or delayed medication fills · Avoided equipment/supply recollections · Prevented hospitalization from treatment interruption</p>
+                <p style="margin-top:12px;font-style:italic;color:var(--gray);">"DDI coordination fee is calculated as base per-member-per-day rate by risk tier plus 15% of documented avoided costs above $10,000 operational threshold. Fees are transparent, tracked in real-time through NEXUS Command Center, and fully documented for audit and compliance review."</p>
+            </div>
+
+            <h3>SLA Commitments</h3>
+            <table class="sla-table">
+                <tr>
+                    <th>SLA Commitment</th>
+                    <th>Target</th>
+                </tr>
+                <tr>
+                    <td>Disaster activation response</td>
+                    <td>Within 4 hours of MCO notification</td>
+                </tr>
+                <tr>
+                    <td>First member contact</td>
+                    <td>Within 24 hours of displacement confirmation</td>
+                </tr>
+                <tr>
+                    <td>Housing placement</td>
+                    <td>Within 48 hours of intake</td>
+                </tr>
+                <tr>
+                    <td>Transport scheduling</td>
+                    <td>Same day as housing placement</td>
+                </tr>
+                <tr>
+                    <td>DME delivery to temporary address</td>
+                    <td>Within 24–48 hours</td>
+                </tr>
+                <tr>
+                    <td>Prescription transfer</td>
+                    <td>Same day, pharmacy-to-pharmacy</td>
+                </tr>
+            </table>
+            <p style="font-size:12px;color:var(--gray);margin-top:8px;">KPIs tracked through NEXUS Command Center. Reported to MCO weekly during active event.</p>
             
             <div class="callout">
                 <h4>The Math</h4>
-                <p>One member, one disaster, $19,000+ in avoided costs. Multiply by 500 high-risk members per MCO per event. <strong>HAVEN doesn't cost money — it saves money.</strong></p>
+                <p>One member, one disaster, <strong>$10,200+ net savings</strong> to the MCO after coordination fees. Multiply by 500 high-risk members per MCO per event. <strong>HAVEN doesn't cost money — it saves money.</strong></p>
             </div>
         </div>
         
@@ -1382,13 +1562,12 @@
             
             <p>HAVEN provides a single TPA relationship that covers all three disaster continuity pillars. Instead of scrambling to coordinate housing, transport, and medical services during a crisis, you have one partner with pre-built networks ready to activate.</p>
             
-            <ul>
-                <li>Single contract for complete disaster continuity</li>
-                <li>Pre-built networks — no disaster-time vendor negotiations</li>
-                <li>Real-time member tracking and status reporting</li>
-                <li>Compliance documentation for CMS/state audits</li>
-                <li>Cost savings through coordinated care (avoided ER, hospitalizations)</li>
-                <li>EDWOSB partner for diversity procurement goals</li>
+            <ul class="mco-benefit-list">
+                <li><strong>Single contract</strong> — One agreement with DDI covers housing, transport, and medical continuity — no disaster-time vendor negotiations.</li>
+                <li><strong>Pre-built networks</strong> — Hotels, NEMT providers, DME suppliers, and home health agencies contracted before the storm hits.</li>
+                <li><strong>Real-time tracking</strong> — Member status, service delivery, and case closure tracked through NEXUS Command Center.</li>
+                <li><strong>Compliance documentation</strong> — CMS Section 1135 and state audit documentation prepared by DDI, not the MCO.</li>
+                <li><strong>Cost savings</strong> — Avoided ER visits and hospitalizations far exceed coordination fees — $10,200+ saved on a single high-risk member per event.</li>
             </ul>
             
             <h3>DDI's Role Across All Partnerships</h3>
@@ -1449,8 +1628,8 @@
                     <div class="stat-label"><strong>NEMT Coordination</strong><br>Medical transportation TPA services</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">🏥</div>
-                    <div class="stat-label"><strong>Occupational Health</strong><br>Physicals, fit testing, screenings</div>
+                    <div class="stat-number">📦</div>
+                    <div class="stat-label"><strong>VITAL Healthcare Logistics TPA</strong><br>Lab courier, Rx/DME continuity, HIPAA-aligned dispatch</div>
                 </div>
             </div>
             
@@ -1489,7 +1668,7 @@
                 </tr>
                 <tr>
                     <td><strong>Certifications</strong></td>
-                    <td>EDWOSB, WOSB, WBENC, MBE, WBE, SBE</td>
+                    <td>EDWOSB, WOSB, MBE, WBE (recert in progress — Great Lakes WBC), SBE</td>
                 </tr>
             </table>
         </div>
@@ -1514,6 +1693,10 @@
             </div>
             
             <h3>For MCOs</h3>
+            <div class="urgency-callout">Hurricane season is active as of June 1, 2026. MCO pre-disaster agreements and state EM vendor registration should be in place before the first named storm. (FEMA STOS is freight/cargo TSP only — not passenger NEMT — and onboarding is currently closed.)</div>
+            <div class="contract-vehicle-box">
+                HAVEN is available as: (a) an amendment to an existing DDI NEMT TPA agreement, (b) a standalone disaster continuity addendum, or (c) a direct MCO vendor contract. EDWOSB certification supports diversity procurement goals. SAM.gov active — CAGE 8UMX3, UEI HJB4KNYJVGZ1.
+            </div>
             <ul>
                 <li>Discovery call to discuss current disaster preparedness and gaps</li>
                 <li>Member population analysis (high-risk members, geographic distribution)</li>
@@ -1541,7 +1724,7 @@
                     <div class="contact-certs">
                         <span class="contact-cert">EDWOSB</span>
                         <span class="contact-cert">WOSB</span>
-                        <span class="contact-cert">WBENC</span>
+                        <span class="contact-cert">WBE recert in progress</span>
                         <span class="contact-cert">MBE</span>
                     </div>
                 </div>

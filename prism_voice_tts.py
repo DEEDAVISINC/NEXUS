@@ -159,7 +159,7 @@ def speak_for_phone(text: str) -> str:
     # Confirmation IDs — add slight pauses via comma
     t = re.sub(
         r"(\d+)-DDI-(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9])-(\d{8})-(\d{4})-(\d)",
-        r"\1, D D I, \2 \3 \4, \5",
+        r"\1, D D I, \2, \3, \4",
         t,
     )
     t = re.sub(r"(DDI-(?:MOB-[ABCE]|TPA-[1-9]|NAV-[A-Z0-9])-[A-Z]-\d{8}-\d{4})-(\d)", r"\1, \2", t)

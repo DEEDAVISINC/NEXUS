@@ -1,0 +1,78 @@
+{
+  "contracts": [
+    {
+      "id": "HAP-CARESOURCE-NEMT",
+      "title": "HAP CareSource — HIDE SNP / MICH NEMT",
+      "agency": "HAP CareSource",
+      "value": 0,
+      "status": "Active",
+      "contract_type": "MCO Vendor Agreement",
+      "service_type": "NEMT",
+      "program_line": "HIDE SNP · MI Coordinated Health (dual-eligible)",
+      "service_area": "Wayne + Macomb counties",
+      "champs_provider_id": "6309049",
+      "agreement_role": "DDI prime TPA — enrolled NEMT vendor; DDI invoices CareSource for authorized member trips (revenue agreement, not a spend contract)",
+      "source": {
+        "gpss_opportunity_id": "",
+        "rfp_number": "",
+        "solicitation_number": "",
+        "qc_registry": true
+      },
+      "systems": {
+        "atlas_project_id": "",
+        "compass_contract_id": "",
+        "prism_contract_id": "HAP-CARESOURCE-NEMT",
+        "qc_contract_id": "HAP-CARESOURCE-NEMT",
+        "vendor_id": "100000469269",
+        "vertex_invoices": []
+      },
+      "contacts": {
+        "co_name": "",
+        "co_email": "",
+        "cor_name": ""
+      },
+      "timeline": {
+        "identified": "",
+        "bid_submitted": "",
+        "won": "2026-03-31",
+        "executed": "2026-03-31",
+        "effective_date": "2026-04-28",
+        "start_date": "2026-04-28",
+        "end_date": "2027-04-28",
+        "term_note": "1 year from Effective Date; auto-renews annually per Art. 6.1"
+      },
+      "health": {
+        "overall": 100,
+        "compliance": "Green",
+        "deliverables_pct": 0,
+        "financials_pct": 0,
+        "orders_completed": 0,
+        "orders_total": 0
+      },
+      "naics": "485320",
+      "set_aside": "EDWOSB",
+      "prism_orders": [],
+      "profile_path": "BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md",
+      "contract_document": "CONTRACTS/CareSource_Michigan_LTSS_MA_SNP_Fully_Executed_2026-03-31.pdf",
+      "plan_name": "HAP CareSource Medicaid",
+      "payer": "HAP CareSource",
+      "created_at": "2026-06-11T21:55:20.477884-04:00",
+      "updated_at": "2026-06-13T16:00:00-04:00"
+    }
+  ],
+  "events": [
+    {
+      "id": "EVT-20260613120000-0001",
+      "type": "contract_registered",
+      "contract_id": "HAP-CARESOURCE-NEMT",
+      "source": "VAULT",
+      "target": "ALL",
+      "details": {
+        "title": "HAP CareSource — HIDE SNP / MICH NEMT",
+        "agency": "HAP CareSource",
+        "program_line": "HIDE SNP"
+      },
+      "timestamp": "2026-06-13T12:00:00-04:00"
+    }
+  ]
+}

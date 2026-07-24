@@ -1,4 +1,12 @@
-const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
+const LOCAL_API_DEFAULT = 'http://127.0.0.1:8000';
+const PRODUCTION_API = 'https://deedavis.pythonanywhere.com';
+
+const API_BASE = process.env.REACT_APP_API_BASE || LOCAL_API_DEFAULT;
+
+/** Voice/Twilio/ElevenLabs — live on PA; local NEXUS UI defaults here unless overridden. */
+export const VOICE_API_BASE =
+  process.env.REACT_APP_VOICE_API_BASE ||
+  (API_BASE !== LOCAL_API_DEFAULT ? API_BASE : PRODUCTION_API);
 
 export class ApiClient {
   static async get(endpoint: string) {
@@ -42,6 +50,20 @@ export class ApiClient {
   static async delete(endpoint: string) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'DELETE',
+    });
+    return response.json();
+  }
+
+  static async getVoice(endpoint: string) {
+    const response = await fetch(`${VOICE_API_BASE}${endpoint}`);
+    return response.json();
+  }
+
+  static async postVoice(endpoint: string, data: any) {
+    const response = await fetch(`${VOICE_API_BASE}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
     return response.json();
   }
@@ -249,11 +271,11 @@ export const api = {
   getTracking: (orderId: string) => ApiClient.get(`/prism/tracking/${orderId}`),
   updateTracking: (orderId: string, data: any) => ApiClient.put(`/prism/tracking/${orderId}`, data),
 
-  /** PRISM Voice Intake — NEMT call center */
-  getPrismVoiceStatus: () => ApiClient.get('/prism/voice/status'),
-  getPrismVoiceCalls: (limit = 50) => ApiClient.get(`/prism/voice/calls?limit=${limit}`),
+  /** PRISM Voice Intake — NEMT call center (defaults to production PA for live Twilio/ElevenLabs) */
+  getPrismVoiceStatus: () => ApiClient.getVoice('/prism/voice/status'),
+  getPrismVoiceCalls: (limit = 50) => ApiClient.getVoice(`/prism/voice/calls?limit=${limit}`),
   simulatePrismVoiceCall: (data: { call_sid?: string; speech: string; caller?: string }) =>
-    ApiClient.post('/prism/voice/simulate', data),
+    ApiClient.postVoice('/prism/voice/simulate', data),
 
   /** PRISM NEMT — trip dispatch, eligibility, complete → VERTEX invoice */
   getNemtOrderByPrism: (prismOrderId: string) =>
@@ -753,6 +775,8 @@ export const api = {
   // NEXUS PIPELINE — Central Nervous System
   // ═══════════════════════════════════════════════════════════
   getPipelineHealth: () => ApiClient.get('/nexus/pipeline/health'),
+  getNexusContracts: () => ApiClient.get('/nexus/vault'),
+  getNexusContract: (contractId: string) => ApiClient.get(`/nexus/vault/${contractId}`),
   getPipelineContracts: (status?: string) => {
     const params = status ? `?status=${status}` : '';
     return ApiClient.get(`/nexus/pipeline/contracts${params}`);

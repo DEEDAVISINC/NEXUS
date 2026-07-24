@@ -71,7 +71,7 @@ const PROGRAMS = [
     id: 'benefits-navigation',
     name: 'Benefits Navigation',
     tagline: 'MDHHS MI Bridges Community Partner',
-    description: 'Official MI Bridges navigators help Michigan families apply for SNAP, Medicaid, cash assistance, childcare, and energy help — from account setup through approval. CWC has been an MDHHS Community Partner since May 2020.',
+    description: 'Official MI Bridges navigators help Michigan families apply for SNAP, Medicaid, cash assistance, childcare, and energy help — from account setup through approval. CWC has been an MDHHS Community Partner since 2024.',
     icon: '📱',
   },
   {
@@ -126,7 +126,7 @@ const STATS = [
   { value: '500+', label: 'Families Served' },
   { value: '6', label: 'Active Programs' },
   { value: '50+', label: 'Benefits Applications' },
-  { value: '2020', label: 'MI Bridges Partner' },
+  { value: '2024', label: 'MI Bridges Partner' },
 ];
 
 /** Home / Programs card click → page */
@@ -361,9 +361,9 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
           <div className="inline-block mb-6 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider" style={{ background: 'rgba(245,194,62,.15)', color: YELLOW }}>
             501(c)(3) &middot; MI Bridges Community Partner &middot; Michigan
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-4" style={{ color: WHITE }}>
-            Cause We Care,{' '}
-            <span style={{ color: YELLOW }}>You Should Too.</span>
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-4">
+            <span className="block" style={{ color: WHITE }}>Cause We Care</span>
+            <span className="block" style={{ color: YELLOW }}>You Should Too.</span>
           </h1>
           <div className="mb-6">
             <p className="text-2xl sm:text-3xl font-black tracking-wide" style={{ color: YELLOW }}>Care. Navigate. Transform.</p>
@@ -440,7 +440,10 @@ function HomePage({ onNavigate }: { onNavigate: (p: Page) => void }) {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
             <h2 className="text-3xl sm:text-4xl font-black mb-4" style={{ color: BLUE }}>How Can I Help?</h2>
-            <p className="text-lg" style={{ color: BLUE_DARK }}>Cause We Care, You Should Too!</p>
+            <p className="text-lg leading-snug" style={{ color: BLUE_DARK }}>
+              <span className="block font-black">Cause We Care</span>
+              <span className="block font-black" style={{ color: BLUE }}>You Should Too!</span>
+            </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[

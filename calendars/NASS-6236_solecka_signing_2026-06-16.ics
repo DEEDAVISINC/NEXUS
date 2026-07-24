@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:nass-6236-solecka-20260616@deedavis.biz
+DTSTAMP:20260616T150000Z
+DTSTART;TZID=America/Detroit:20260616T120000
+DTEND;TZID=America/Detroit:20260616T140000
+SUMMARY:📝 SIGNING: Iwona Solecka (Seller) - NASS
+DESCRIPTION:National Signing Services LLC\nOrder: NASS-6236 | File: 26-181\nSigner: Iwona Solecka | 313-268-5137\nType: Seller | EDOCS | Scanbacks | Notary provides 1 witness\nFee: $75 (+$25 witness if billed)\nPay: Deluxe eCheck | 6/16 batch - expect 7/30/26\n\n888-210-8667 | accounting@nationalsigningservices.net
+LOCATION:16950 Country Ridge Ln, Macomb, MI 48044
+STATUS:CONFIRMED
+SEQUENCE:1
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Solecka signing in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Solecka signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

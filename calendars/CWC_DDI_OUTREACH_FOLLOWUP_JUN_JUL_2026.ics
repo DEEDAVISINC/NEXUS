@@ -50,13 +50,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cwc-outreach-20260609-143000@deedavis.biz
 DTSTAMP:20260530T120000Z
-DTSTART;TZID=America/Detroit:20260609T143000
-DTEND;TZID=America/Detroit:20260609T150000
+DTSTART;TZID=America/Detroit:20260611T143000
+DTEND;TZID=America/Detroit:20260611T150000
 SUMMARY:📧 BCC: Final Follow-Up If No Response
-DESCRIPTION:If Alina Pabin has not responded — one final professional touch. If she schedules\, prep BCC call guide. NO follow-up after this. apabin@mibluecrosscomplete.com
+DESCRIPTION:Postponed from Tue 6/9 — awaiting HAP CareSource reply first (Brian/Dana MTM routing Jun 7). If Alina still silent — one final scheduling touch. NO follow-up after Thu. apabin@mibluecrosscomplete.com
 LOCATION:NEXUS / Remote
 STATUS:CONFIRMED
-SEQUENCE:0
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT2H
 DESCRIPTION:Task in 2 hours

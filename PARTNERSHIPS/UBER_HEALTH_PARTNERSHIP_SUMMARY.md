@@ -201,14 +201,14 @@ DDI's Uber Health account is under Dee's personal email/Uber account. May need:
 
 **Setup for ACH:** Confirmed on Jun 2 call with Jeff Metz. Monitor first invoice cycle; request limit increase as HAP + bid volume grows.
 
-### Michigan Ambulatory Pricing (Jeff Metz — Jun 2, 2026)
+### Michigan Ambulatory Pricing (Jeff Metz — Jun 2, 2026; **HAP rates confirmed CareSource Jun 2026**)
 
 | Detail | Value |
 |--------|--------|
 | **Uber fulfillment range** | **~$5.00 – $24.00 per trip** (mileage-dependent) |
-| **HAP pays DDI (flat)** | **$28.00** standard ambulatory · **$35.00** WAV / ambulatory assist |
-| **DDI gross margin (ambulatory)** | **~$4 – $23/trip** before admin — best on short trips |
-| **Use** | HAP dispatch planning — route long trips carefully |
+| **HAP pays DDI** | **$28.00** ambulatory base · **$35.00** WAV base · **+ $1.85/mi** loaded mileage (all trip types) |
+| **DDI gross margin (ambulatory)** | **~$4 – $45/trip** before admin — base + mileage improves long-trip margin |
+| **Use** | HAP dispatch planning — capture loaded mileage on Mark Complete |
 | **Written band quote** | Request email confirmation if not yet received |
 
 ### Detroit Wheelchair / 3P NEMT (Jeff Metz — Jun 2, 2026)

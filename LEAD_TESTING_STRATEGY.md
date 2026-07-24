@@ -1,9 +1,11 @@
 # LEAD TESTING — COMPLETE MARKET STRATEGY
 
 **Created:** March 13, 2026  
+**Updated:** June 10, 2026 — market-validated mobile pricing + SHIELD framework  
 **Owner:** Dee Davis Inc.  
 **Status:** ACTIVE — Ready to Pursue  
-**Total Addressable Market (2026):** $3.4+ BILLION
+**Total Addressable Market (2026):** $3.4+ BILLION  
+**SHIELD program framework:** `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`
 
 ---
 
@@ -305,15 +307,33 @@ lead service line inventory
 
 ## PRICING MODEL
 
-### Blood Lead Level Testing (TPA)
+**Updated June 2026** — web-validated market research. Old internal mobile rates ($125–$200 all-in, phlebotomist cost $50–$90) were **below published market**. Nobody credible mobilizes for $50/draw; published collection-only floor is $70–$225+ (Michigan through national premium vendors).
 
-| Service | DDI Rate to Client | DDI Cost | Margin |
+**Market benchmarks (external sources, June 2026):**
+- Precision Diagnostic Solutions (lead-specific mobile): $65–$100/test + $750 half-day / $1,400 full-day event
+- Michigan mobile phlebotomy: $60–$115/visit (collection only; lab separate)
+- National mobile premium: $100–$225+ per visit
+- King County WA community BLL program: **$900,000 / 3 years** (public buyer scale)
+- Michigan Medicaid 83655 lab assay only: **$10.03** — NOT mobile program pricing
+
+### Blood Lead Level Testing (TPA) — SHIELD Rate Card
+
+| Service | DDI Rate to Client | DDI Cost (internal floor) | Margin |
 |---|---|---|---|
-| Community screening event (per person) | $100-$175 | $50-$75 | 40-55% |
-| Mobile collection (per person) | $125-$200 | $60-$90 | 45-55% |
-| Event coordination (per event) | $500-$1,500 | $200-$600 | 50-60% |
-| Nurse home visit | $221.74 (MDHHS rate) | $120-$150 | 30-45% |
-| CHW home visit | $110.00 (MDHHS rate) | $50-$70 | 35-55% |
+| Community event (25+ children) | $175–$225/person + $1,250–$1,750 event fee | $130–$180/person at volume | 35–50% |
+| Small event (10–24 children) | $200–$275/person + $1,500–$2,000 minimum | $150–$200/person | 35–50% |
+| Mobile home visit (1 child) | $275–$350 all-in | $100–$250 | 35–45% |
+| Additional child, same address | $125–$175 each | Marginal | 40–50% |
+| Venous confirmatory (mobile) | +$125–$175 | Lab + collection premium | 35–45% |
+| Half-day mobilization (standalone) | $1,250–$1,750 | $750–$1,100 vendor benchmark | 40–50% |
+| Full-day mobilization (standalone) | $2,000–$3,000 | $1,400+ vendor benchmark | 40–50% |
+| Per-test dispatch coordination | $99/test | ~$33 CHW units (verify CHAMPS) | TPA admin |
+| Nurse home visit | $221.74 (MDHHS rate) | $120–$150 | 30–45% |
+| CHW home visit | $110.00 (MDHHS rate) | $50–$70 | 35–55% |
+
+**30-child half-day example:** $1,500 event + $195/child × 30 = **$7,350 (~$245/child all-in)**
+
+**Internal cost stack (not client-facing):** mobile sub $75–$150/visit or $150–$250+ half-day · LeadCare II $8.96–$10.08/test · lab wholesale $9–$30 (pending) · supplies $5–$10 · travel allocation $15–$40 · DDI TPA admin $25–$50 → **floor $130–$290/person**
 
 ### Lead-Based Paint (Coordinator)
 
@@ -425,6 +445,7 @@ lead service line inventory
 | Document | Purpose |
 |---|---|
 | LEAD_TESTING_STRATEGY.md | This document — master strategy |
+| SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md | SHIELD dispatch model, service cascade, pilot sizing, rate card |
 | (Future) LEAD_TESTING_CAPABILITY_STATEMENT.html | Client-facing capability statement |
 | (Future) LEAD_TESTING_SUBCONTRACTOR_LIST.md | Vetted sub network |
 | (Future) LEAD_TESTING_PRICING_SHEET.xlsx | Detailed pricing by service |

@@ -108,6 +108,8 @@ const HEALTH_COLORS: Record<string, string> = {
   Red: 'text-red-400',
 };
 
+const TAB_IDS = TABS.map((t) => t.id);
+
 const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
   const [stats, setStats] = useState<Stats | null>(null);
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -116,7 +118,10 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
   const [communications, setCommunications] = useState<Communication[]>([]);
   const [modifications, setModifications] = useState<Modification[]>([]);
   const [healthReport, setHealthReport] = useState<HealthReport | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [healthLoading, setHealthLoading] = useState(false);
+  const [healthError, setHealthError] = useState<string | null>(null);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showContractForm, setShowContractForm] = useState(false);
   const [showDeliverableForm, setShowDeliverableForm] = useState(false);
@@ -150,16 +155,23 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
   const loadStats = useCallback(async () => {
     try {
       const res = await api.get('/compass/stats');
-      setStats(res); // API returns data directly, not wrapped in .data
-    } catch { /* no stats yet */ }
+      setStats(res);
+      setApiError(null);
+    } catch {
+      setApiError('Cannot reach NEXUS backend — start api_server.py on port 8000');
+    }
   }, []);
 
   const loadContracts = useCallback(async () => {
     setLoading(true);
     try {
       const res = await api.get('/compass/contracts');
-      setContracts(res.contracts || []); // API returns { contracts: [...] }
-    } catch { setContracts([]); }
+      setContracts(res.contracts || []);
+      setApiError(null);
+    } catch {
+      setContracts([]);
+      setApiError('Cannot reach NEXUS backend — start api_server.py on port 8000');
+    }
     setLoading(false);
   }, []);
 
@@ -173,11 +185,23 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
   }, []);
 
   const loadHealth = useCallback(async (id: string) => {
+    setHealthLoading(true);
+    setHealthError(null);
     try {
       const res = await api.get(`/compass/contracts/${id}/health`);
-      setHealthReport(res); // API returns data directly
-    } catch { setHealthReport(null); }
+      setHealthReport(res);
+    } catch {
+      setHealthReport(null);
+      setHealthError('Health data unavailable — check backend connection');
+    }
+    setHealthLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (!TAB_IDS.includes(activeTab)) {
+      setActiveTab('dashboard');
+    }
+  }, [activeTab, setActiveTab]);
 
   useEffect(() => {
     loadStats();
@@ -661,6 +685,21 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
             )}
           </div>
         </div>
+      ) : healthLoading ? (
+        <div className="text-center py-12 text-gray-500">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500 mx-auto mb-3" />
+          Loading health data…
+        </div>
+      ) : healthError ? (
+        <div className="text-center py-12">
+          <p className="text-red-400 mb-3">{healthError}</p>
+          <button
+            onClick={() => selectedContract && loadHealth(selectedContract.id)}
+            className="px-4 py-2 bg-teal-600 hover:bg-teal-500 rounded-lg text-sm"
+          >
+            Retry
+          </button>
+        </div>
       ) : healthReport ? (
         <div className="space-y-6">
           <button onClick={() => setSelectedContract(null)} className="text-sm text-blue-400 hover:text-blue-300">&larr; Portfolio view</button>
@@ -678,7 +717,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {Object.entries(healthReport.components).map(([key, comp]) => (
+              {Object.entries(healthReport.components || {}).map(([key, comp]) => (
                 <div key={key} className="bg-gray-700/50 rounded-lg p-4">
                   <div className="text-sm text-gray-400 capitalize">{key.replace('_', ' ')}</div>
                   <div className="flex items-baseline gap-2 mt-1">
@@ -707,7 +746,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
           </div>
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-500">Loading health data...</div>
+        <div className="text-center py-12 text-gray-500">Select a contract to view health metrics</div>
       )}
     </div>
   );
@@ -931,6 +970,18 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-6 py-6">
+        {apiError && (
+          <div className="mb-4 p-4 rounded-lg bg-red-500/15 border border-red-500/40 text-red-300 text-sm flex items-center justify-between gap-4">
+            <span>{apiError}</span>
+            <button
+              onClick={() => { loadStats(); loadContracts(); }}
+              className="shrink-0 px-3 py-1.5 bg-red-600 hover:bg-red-500 rounded-lg text-xs font-semibold"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Notification */}
         {notification && (
           <div className={`mb-4 p-3 rounded-lg text-sm font-medium ${
@@ -941,7 +992,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
           </div>
         )}
 
-        {loading ? (
+        {loading && contracts.length === 0 && !apiError ? (
           <div className="flex items-center justify-center py-20">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500" />
           </div>
@@ -953,6 +1004,7 @@ const COMPASSSystem: React.FC<COMPASSSystemProps> = ({ onBackToNexus, activeTab,
             {activeTab === 'communications' && renderCommunications()}
             {activeTab === 'modifications' && renderModifications()}
             {activeTab === 'performance' && renderPerformance()}
+            {!TAB_IDS.includes(activeTab) && renderDashboard()}
           </>
         )}
       </div>

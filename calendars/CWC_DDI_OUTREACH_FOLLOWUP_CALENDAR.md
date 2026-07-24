@@ -23,7 +23,8 @@
 
 | Date | Time (ET) | Task | Type |
 |------|-----------|------|------|
-| **Tue Jun 9** | 2:30 PM | **BCC:** If Alina has not responded — one final professional touch. If she schedules → use BCC call prep. **No follow-up after this.** (Strategy review also on calendar 12–2 PM — do BCC check first) | 📧 Outreach |
+| **Tue Jun 9** | — | ~~BCC final follow-up~~ → **moved to Thu Jun 11** (awaiting HAP reply) | — |
+| **Thu Jun 11** | 2:30 PM | **BCC:** If Alina still silent — one final scheduling touch **after HAP reply check**. No follow-up after Thu. | 📧 Outreach |
 | **Wed Jun 10** | 1:00 PM | Email Jennifer Casbar (jcasbar@mtm-inc.net) — Access2Care/MTM, Molina sub path. Contract Management NEMT TPA pitch | 📧 Outreach |
 | **Fri Jun 12** | 1:00 PM | Research county opioid settlement administrators — Wayne, Oakland, Macomb. Grant cycles + timelines. CWC applicant | 📋 Monitor |
 

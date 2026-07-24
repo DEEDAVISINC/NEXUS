@@ -1,7 +1,7 @@
-im mainly talking about adding to the website # 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
+# 📞 DEE DAVIS INC - MASTER COMPANY INFORMATION
 ## Always Use These Details for Future Documents
 
-**Last Updated:** April 7, 2026
+**Last Updated:** June 14, 2026
 
 ---
 
@@ -14,10 +14,21 @@ im mainly talking about adding to the website # 📞 DEE DAVIS INC - MASTER COMP
 755 W. Big Beaver Rd., Suite 2020  
 Troy, Michigan 48084
 
-**Phone:** 248.376.4550 ⭐ **USE THIS NUMBER FOR ALL FUTURE DOCUMENTS**  
-**Email:** info@deedavis.biz  
+### PHONE NUMBERS — WHERE EACH NUMBER GOES (Jun 2026)
+
+| Use | Number | Notes |
+|-----|--------|--------|
+| **President & CEO personal cell** | **248.376.4550** | Email signatures, bids, caps, CO outreach — **Dee’s personal line**; **not** on web; **do not** forward to Twilio |
+| **Websites & public web** | **855.773.0035** | Portal, deedavis.biz, all HTML — **never** 248.376.4550 on web |
+| **Google Voice (Troy)** | **248.270.8490** | **Forward all calls to +1 855-773-0035** (Twilio → PRISM voice) |
+| **Twilio member care** | **855.773.0035** | Voice inbound, SMS, member materials — webhook target for GV forward |
+
+**Email:** info@deedavis.biz — pair with **248.376.4550** on signatures (CEO personal — not changed).
+
+**Routing setup:** `deploy/PHONE_ROUTING_TWILIO.md`  
 **Website:** deedavis.biz  
 **Website copy (national TPA — all sectors):** `ESSENTIALS/DEEDAVIS_WEBSITE_NATIONAL_TPA_COPY.md`  
+**Website deploy backlog ("DDI website update"):** `WEBSITE/DEEDAVIS_BIZ_WEBSITE_UPDATE_TRACKER.md`  
 **Scope on all pages:** Nationwide contract management TPA — 50 states + DC. Troy, MI = headquarters only.
 
 ### MICHIGAN MILOGIN ACCOUNTS (Dieasha D. Davis — 3 profiles)
@@ -40,6 +51,15 @@ Use the **correct MiLogin** per system — do not mix them up.
 - **Federal / DOD / .mil:** bids.deedavisinc@gmail.com  
   **Note:** ImprovMX has .mil delivery limitation — always use the Gmail address for military and DOD contacts.
 - **NEXUS outbound bids:** bids.deedavisinc@gmail.com
+
+### GOOGLE ACCOUNT — NEXUS BIDS (bids.deedavisinc@gmail.com)
+
+| Field | Value |
+|---|---|
+| **Email** | bids.deedavisinc@gmail.com |
+| **Google Payment Identification Number** | **6409-3404-3699** |
+| **Use** | NEXUS outbound email, federal/DOD/.mil, Google Pay / payments profile on this account |
+| **Env var (NEXUS)** | `GOOGLE_PAYMENT_IDENTIFICATION_NUMBER` in `.env` |
 
 **Confidentiality footers (optional on outbound):** Full copy-paste blocks for **Dee Davis Inc.** and **Cause We Care** — `ESSENTIALS/EMAIL_FOOTER_TEMPLATES.md` — also defined in `company_info.py` as `EMAIL_FOOTER_CONFIDENTIAL_DDI` / `EMAIL_FOOTER_CONFIDENTIAL_CWC`.
 
@@ -154,7 +174,7 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 **What DDI Does NOT Do (yet):** Michigan state-level fingerprinting via IdentoGO/IDEMIA network. That requires separate state certification. Not competing with IdentoGO in Michigan.
 
 **State Partnerships:**
-- MDHHS Community Partner (Michigan Department of Health and Human Services) — DDI is listed on the MDHHS website as an official community partner. **MI Bridges Community Partner since May 15, 2020 (6+ years).** Digital benefits navigation — helping residents create accounts, apply for assistance (SNAP, Medicaid, cash, child care), navigate the online portal, and access referral services. **Past performance: DDI — 200+ benefits applications facilitated; CWC — 50+ benefits applications facilitated.**
+- MDHHS Community Partner (Michigan Department of Health and Human Services) — **Dee Davis Inc.:** MI Bridges Community Partner **since May 15, 2020**. **Cause We Care:** MI Bridges Community Partner **since 2024**. Do not merge these dates in funder-facing copy. Digital benefits navigation — helping residents create accounts, apply for assistance (SNAP, Medicaid, cash, child care), navigate the online portal, and access referral services. **Past performance: DDI — 200+ benefits applications facilitated; CWC — 50+ benefits applications facilitated.**
 - **MDHHS Environmental Health Bureau — Lead Safe Ecosystem Partner (April 23, 2026)** — CWC+DDI pitched and had favorably received a community navigation + program administration partnership model. **Positioning: "Partner in Michigan's lead-safe ecosystem."** See `🏛️ MDHHS PARTNERSHIP — LEAD SAFE ECOSYSTEM` section below for contacts, commitments, and deliverables.
 
 **Technical:**
@@ -278,13 +298,24 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 | **General organization** | **info@cwecare.org** | General inquiries, public routing, org-wide notices (board/team can triage) |
 
 **Phone:** 248.376.4550  
-**Website:** cwecare.org (currently 404 — needs restoration)  
+**Website:** cwecare.org — **LIVE** (dedicated Netlify site; deploy via `nexus-frontend/CWC_DEPLOY.md`)  
 **Founder/Executive Director:** Dieasha D. Davis  
 **Board Director (Veteran):** Gary C. Felton Jr. — U.S. Army Veteran  
 **Focus Areas:** Community health, social services, veteran support, underserved populations  
 
+**Mission & Vision (canonical — cwecare.org):**
+- **Public purpose:** We connect families to the resources they need — food security, safe housing, education essentials, health navigation, and community support — because every family deserves someone in their corner.
+- **Formal mission:** To connect Michigan families with the resources, support, and navigation they need to overcome hardship — without barriers, without judgment, and without delay.
+- **Tagline:** Cause We Care, You Should Too. · **Theme:** Care. Navigate. Transform.
+- **Vision:** A Michigan where no family faces crisis alone — community care as the standard, not the exception.
+
+**CWC + DDI structural alignment (grants / funders):**  
+`GRANT_APPLICATION_PACKAGE/CWC_GRANTS/CWC_DDI_MISSION_ALIGNMENT.html` (PDF via Chrome print) · companion `CWC_DDI_MISSION_ALIGNMENT.md`
+
+**MDHHS MI Bridges Community Partner:** Since **2024** *(DDI: since May 15, 2020 — separate entity, separate enrollment date)*
+
 **Active Programs:**
-- MIBridges benefits navigation (MDHHS Community Partner)
+- MIBridges benefits navigation (MDHHS Community Partner since 2024)
 - Community health outreach and lead-based paint awareness (Wayne Metro liaison)
 - Hair Cuts for Vets (Gary C. Felton Jr. program — veteran community engagement)
 - Veteran employment and hiring initiative
@@ -319,7 +350,7 @@ DDI provides biometric fingerprinting services through a partnership with **Lako
 - [ ] Michigan Health Endowment Fund portal — PENDING
 - [x] GiveButter "Haircuts for Heroes" — ACTIVE — givebutter.com/haircutsforheroes/causewecare — Goal: $20K — needs promotion push
 - [x] GiveButter "Kids in Comfort" — ACTIVE — givebutter.com/kidsincomfort — Goal: $40K — community underwear drive
-- [ ] Website cwecare.org — Currently 404, needs restoration or redirect
+- [x] Website cwecare.org — **LIVE** (Jun 2026) — mission on About page; homepage hero copy per live site
 
 **Source of Truth:** This section is the master reference for all Cause We Care grant
 applications, teaming agreements, and NEXUS GBIS pipeline records.
@@ -335,7 +366,37 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 - **Oakland County Supplier Diversity Program** — Registered
 - **Sourcewell** — Active (cooperative purchasing — vehicle and equipment contracts)
 - **Kentucky VSS** — Registered (vss.ky.gov) — Vendor # KS0026951 — Since 02/15/2025 — **⚠️ Must submit Form SAS-63 with every Kentucky bid**
-- **Maine VSS** — Registered (mevss.hostams.com) — Vendor # **VS0000032746** — Since 06/03/2026 — **⚠️ Mail/fax Substitute W-9 per portal instructions**
+- **Maine VSS** — **Active** (Advantage Self Service) — Vendor # **VS0000032746** — Activated **06/15/2026** — See **Maine VSS section below** — **⚠️ Mail/fax Substitute W-9 per portal instructions if not yet done**
+
+---
+
+## STATE OF MAINE — ADVANTAGE VSS (PROCUREMENT VENDOR)
+
+**Status:** **Certified user — active** (welcome email **June 15, 2026** from `ADVANTAGEME.SYSADM@maine.gov`)
+
+**System:** **Advantage Self Service (VSS)** — State of Maine Division of Purchases vendor/procurement portal ( **not** MaineCare Medicaid provider enrollment — that is a separate DHHS process).
+
+| Field | Value |
+|-------|-------|
+| **Portal URL** | https://mevss.hostams.com/PRDVSS1X1/AltSelfService |
+| **Vendor / Customer code** | **VS0000032746** |
+| **Headquarters Account Code** | **VS0000032746** |
+| **User ID (case sensitive)** | **DEEDAVISINC** |
+| **Headquarters legal name** | DEE DAVIS INC |
+| **Location name** | DEE DAVIS INC |
+| **Activation confirmed** | **June 15, 2026** |
+
+**What this is:** Maine **state procurement** vendor registration — view/respond to state RFPs, contracts, and grants posted on Maine VSS (e.g. DHHS solicitations such as MaineCare NET opp **0520260310**).
+
+**What this is NOT:** Approved **MaineCare Medicaid provider** status. DDI is **not** enrolled as a Maine Medicaid provider in this master file (active Medicaid: Michigan, Maryland only).
+
+**Remaining setup:**
+- [ ] **Substitute W-9** — mail/fax per portal instructions if not already submitted
+
+**Support:**
+- **VSS / procurement questions:** Maine Division of Purchases — **(207) 624-7340**
+- **Login / password:** Maine IT Help Desk — **(207) 624-7700**
+- Notification email is no-reply — do not reply to `ADVANTAGEME.SYSADM@maine.gov`
 
 ---
 
@@ -966,7 +1027,7 @@ MI SIGMA VSS: VS0245604
 
 *Master Company Information — Michigan CHAMPS section updated March 22, 2026; Texas TMHP portal noted May 10, 2026*  
 *Certifications Updated: E-Verify & SWFT Certified (established 2022) documented in master file*  
-*Correct Phone: 248.376.4550 — Verified and enforced across all documents*  
+*CEO personal (email only): 248.376.4550 · Websites & member calls: 855-773-0035 · GV 248.270.8490 forwards to 855*  
 *DDI_PROFILE in federal_forecasts_system.py synced with this file — Feb 10, 2026*
 *CHAMPS NEMT enrollment submitted 03/22/2026 — Application #20260323058125*
 
@@ -984,6 +1045,7 @@ MI SIGMA VSS: VS0245604
 - Cost to MDHHS: **Zero** — every service line funded through existing Medicaid MCO billing, court contracts, federal grant channels, or HRSN/HCBS waiver pathways
 
 **Reference documents (confidential, internal-use only):**
+- `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/CWC_DDI_MISSION_ALIGNMENT.html` — grant-ready structural + mission alignment (SHIELD · HAVEN · VITAL)
 - `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_MDHHS_Meeting_Brief.pdf` — full 3-page meeting brief (attendees, 8 outcomes, 6 next-steps, contact info)
 - `BIDS:RESOURCES/PARTNERSHIP DOCUMENTATIONS/CWC_DDI_Overview_OnePager.pdf` — 3-page one-pager (6 service lines, EHB-specific program fit, 3-point ask)
 

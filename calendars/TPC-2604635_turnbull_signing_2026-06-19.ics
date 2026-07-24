@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:tpc-2604635-turnbull-20260619@deedavis.biz
+DTSTAMP:20260616T160000Z
+DTSTART;TZID=America/Detroit:20260619T080000
+DTEND;TZID=America/Detroit:20260619T100000
+SUMMARY:📝 SIGNING: Sandra Turnbull (Seller) - TPC
+DESCRIPTION:Title Processing Center\nFile: 2604635\nSigner: Sandra Jean Turnbull | (586) 419-9223\nType: Seller Only | EDOCS\nFee: $100 (includes +$25 witness)\n\nWITNESS: Notary = witness 1 | BRING 2nd witness (not related to signer)\nWitness must print address below signature (no PO Box)\n\nSCANBACKS ASAP after signing\nConfirm appt time with seller (8 AM preferred)\nCall to confirm within 2 hrs of order receipt\n\nPay: TPC eCheck | 7th of month | expect 7/7/26\n813-444-1400 | billing@titleprocessingcenter.com
+LOCATION:14007 Billette Dr, Sterling Heights, MI 48313
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Turnbull signing in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Turnbull signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

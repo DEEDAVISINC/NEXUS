@@ -1,11 +1,12 @@
 /**
  * MI Bridges Community Partner resources — Cause We Care
  * Source: MDHHS Spring 2026 Community Partner Newsletter (May 19, 2026)
- * CWC + DDI — MDHHS MI Bridges Community Partner since May 15, 2020
+ * Cause We Care — MDHHS MI Bridges Community Partner since 2024
+ * Dee Davis Inc. — MDHHS MI Bridges Community Partner since May 15, 2020 (separate entity)
  */
 
 export const MI_BRIDGES_PARTNER = {
-  partnerSince: 'May 15, 2020',
+  partnerSince: '2024',
   role: 'Navigation Partner',
   lpocNote: 'Community partner accounts must be created before attending training or users may not be marked as trained.',
   partnerEmail: 'MDHHSCommunityPartners@michigan.gov',

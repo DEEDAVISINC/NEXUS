@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD · HAVEN · VITAL — Unified Funding Pitch | Cause We Care + Dee Davis Inc.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #1e3a5f;
+            --shield: #1e40af;
+            --shield-accent: #dc2626;
+            --haven: #92400e;
+            --haven-accent: #059669;
+            --vital: #0891b2;
+            --vital-accent: #7c3aed;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --gold: #d97706;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e2e8f0;
+            color: #0f172a;
+            line-height: 1.55;
+            font-size: 13px;
+        }
+
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto 24px;
+            background: var(--white);
+            min-height: 11in;
+            padding: 0.65in 0.75in;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .cover {
+            min-height: 11in;
+            background: linear-gradient(145deg, var(--navy) 0%, #0f172a 55%, #1e293b 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 50px;
+            margin: 0 auto 24px;
+            max-width: 8.5in;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            page-break-after: always;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .cover h1 {
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .cover h1 .shield { color: #60a5fa; }
+        .cover h1 .haven { color: #fbbf24; }
+        .cover h1 .vital { color: #22d3ee; }
+
+        .cover .subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            opacity: 0.92;
+            max-width: 620px;
+            margin: 0 auto 36px;
+        }
+
+        .cover-orgs {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .cover-org {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 16px 24px;
+            text-align: left;
+            min-width: 240px;
+        }
+
+        .cover-org strong { display: block; font-size: 14px; margin-bottom: 4px; }
+        .cover-org span { font-size: 11px; opacity: 0.8; }
+
+        .cover-proof {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 680px;
+            margin-top: 8px;
+        }
+
+        .proof-pill {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 14px 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .proof-pill strong { display: block; font-size: 15px; margin-bottom: 4px; color: #fbbf24; }
+
+        .page-header {
+            border-bottom: 3px solid var(--navy);
+            padding-bottom: 12px;
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .tag {
+            font-size: 10px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .lead {
+            font-size: 15px;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 16px;
+            line-height: 1.65;
+        }
+
+        .pitch-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+            border-left: 4px solid var(--shield);
+            padding: 18px 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 18px;
+            font-size: 13.5px;
+            line-height: 1.7;
+        }
+
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 18px 0;
+        }
+
+        .program-card {
+            border-radius: 12px;
+            padding: 18px 16px;
+            border: 1px solid var(--border);
+        }
+
+        .program-card.shield { border-top: 4px solid var(--shield); background: #eff6ff; }
+        .program-card.haven { border-top: 4px solid var(--haven); background: #fffbeb; }
+        .program-card.vital { border-top: 4px solid var(--vital); background: #ecfeff; }
+
+        .program-card h4 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .program-card.shield h4 { color: var(--shield); }
+        .program-card.haven h4 { color: var(--haven); }
+        .program-card.vital h4 { color: var(--vital); }
+
+        .program-card .lane {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .program-card p { font-size: 12px; color: #475569; }
+
+        .mob-b-callout {
+            background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 100%);
+            border: 2px solid var(--haven);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin: 16px 0 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #78350f;
+            text-align: center;
+            line-height: 1.5;
+            page-break-inside: avoid;
+        }
+
+        .mob-b-callout span {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: #92400e;
+            margin-top: 4px;
+        }
+
+        .sustainability-box {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-top: 16px;
+            page-break-inside: avoid;
+        }
+
+        .sustainability-box h3 {
+            margin: 0 0 10px;
+            font-size: 13px;
+        }
+
+        .sustainability-box ul.compact { margin: 0; }
+
+        .projection-source {
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-left: 3px solid var(--shield);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .budget-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+
+        .budget-bar-track {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            min-width: 60px;
+        }
+
+        .budget-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .budget-bar-fill.personnel { background: #059669; }
+        .budget-bar-fill.field { background: #0891b2; }
+        .budget-bar-fill.systems { background: #94a3b8; }
+
+        .budget-pct {
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--navy);
+            white-space: nowrap;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        .budget-summary-bar {
+            margin: 14px 0 6px;
+            page-break-inside: avoid;
+        }
+
+        .budget-summary-bar .stacked-bar {
+            display: flex;
+            height: 22px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .budget-summary-bar .seg-personnel {
+            background: #059669;
+            width: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .budget-summary-bar .seg-field {
+            background: #0891b2;
+            width: 8.33%;
+        }
+
+        .budget-summary-bar .seg-systems {
+            background: #94a3b8;
+            width: 1.67%;
+        }
+
+        .budget-summary-legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 10px;
+            color: var(--gray);
+        }
+
+        .budget-summary-legend strong { color: #059669; }
+
+        .budget-category {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--gray);
+        }
+
+        .page-program-def {
+            min-height: auto;
+        }
+
+        .edwosb-box.compact {
+            padding: 12px 16px;
+            margin: 12px 0;
+            font-size: 11.5px;
+        }
+
+        ul.compact { margin: 8px 0 8px 18px; }
+        ul.compact li { margin-bottom: 6px; font-size: 12.5px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 11.5px;
+        }
+
+        th {
+            background: var(--navy);
+            color: white;
+            padding: 10px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 9px 10px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td { background: var(--light); }
+
+        .status-ready { color: #059669; font-weight: 700; }
+        .status-hold { color: #d97706; font-weight: 700; }
+        .status-fail { color: #dc2626; font-weight: 700; }
+        .status-sent { color: #0369a1; font-weight: 700; }
+
+        table.funder-table {
+            font-size: 10px;
+        }
+
+        table.funder-table th,
+        table.funder-table td {
+            padding: 7px 6px;
+        }
+
+        .deadline {
+            font-weight: 600;
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        .deadline-urgent {
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .funder-footnote {
+            font-size: 10px;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+
+        .proof-qr-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin: 18px 0;
+            padding: 16px 18px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            page-break-inside: avoid;
+        }
+
+        .proof-qr-row img {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .proof-qr-copy h3 {
+            margin: 0 0 6px;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .proof-qr-copy p {
+            font-size: 11.5px;
+            color: #334155;
+            line-height: 1.55;
+            margin: 0 0 6px;
+        }
+
+        .proof-qr-url {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--shield);
+        }
+
+        .verified-table td:last-child {
+            font-weight: 700;
+            color: #059669;
+            white-space: nowrap;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .metric {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .metric .num { font-size: 22px; font-weight: 800; color: var(--shield); }
+        .metric .lbl { font-size: 10px; color: var(--gray); margin-top: 4px; }
+
+        .asks-keep-together {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .ask-banner {
+            background: var(--navy);
+            color: white;
+            border-radius: 12px;
+            padding: 18px 20px 16px;
+            margin: 6px 0 4px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .ask-banner.capital-asks {
+            grid-template-columns: repeat(3, 1fr);
+            background: linear-gradient(135deg, #0f172a 0%, var(--navy) 100%);
+            margin-bottom: 14px;
+        }
+
+        .ask-banner .ask-item {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .ask-banner .ask-item strong {
+            display: block;
+            font-size: 22px;
+            color: #fbbf24;
+            margin-bottom: 4px;
+        }
+
+        .ask-banner.capital-asks .ask-item strong { font-size: 24px; }
+
+        .ask-banner .ask-item span { font-size: 11px; opacity: 0.88; line-height: 1.45; display: block; }
+
+        .ask-dimension-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--shield);
+            margin: 10px 0 4px;
+        }
+
+        .distribution-mustfix {
+            background: #fef2f2;
+            border: 2px solid #f87171;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 12px 0;
+            font-size: 11px;
+            color: #991b1b;
+            font-weight: 600;
+            page-break-inside: avoid;
+        }
+
+        .ask-section-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 18px 0 0;
+        }
+
+        .ask-section-note {
+            font-size: 11px;
+            color: var(--gray);
+            margin: 4px 0 14px;
+        }
+
+        .kpi-governance {
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            margin: 4px 0 6px;
+            padding: 10px 14px;
+            background: #f1f5f9;
+            border-left: 3px solid var(--shield);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .kpi-commitment-note {
+            font-size: 10px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .metrics-subhead {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 14px 0 8px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .evidence-block {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 12px 0;
+        }
+
+        .gap-block {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin: 12px 0;
+            font-size: 12px;
+        }
+
+        .concept-section {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin: 14px 0;
+            font-size: 12.5px;
+            line-height: 1.7;
+            border: 1px solid var(--border);
+        }
+
+        .concept-section p { margin-bottom: 12px; }
+
+        .footer-bar {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--gray);
+        }
+
+        .certs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .cert {
+            background: var(--navy);
+            color: white;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .edwosb-box {
+            background: linear-gradient(135deg, #1e40af, #1e3a5f);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-size: 12px;
+        }
+
+        .main-package-end {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 11px;
+            color: #166534;
+            margin-top: 16px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .page-attachment {
+            page-break-before: always;
+            border-top: 6px solid var(--gold);
+        }
+
+        .attachment-banner {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px dashed var(--gold);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .attachment-banner .attachment-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .attachment-banner h2 {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 0 0 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .attachment-banner p {
+            font-size: 11px;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .page-header .tag-attachment {
+            background: var(--gold);
+            color: white;
+        }
+
+        .community-voice {
+            margin: 18px 0 20px;
+            page-break-inside: avoid;
+        }
+
+        .community-voice h3 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .voice-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-left: 4px solid var(--shield);
+            border-radius: 0 10px 10px 0;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+        }
+
+        .voice-card.partner {
+            border-left-color: var(--navy);
+        }
+
+        .voice-card.pending {
+            border-left-color: #cbd5e1;
+            border-style: dashed;
+            background: #fafafa;
+        }
+
+        .voice-card blockquote {
+            margin: 0;
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 500;
+            color: #1e293b;
+            line-height: 1.55;
+        }
+
+        .voice-card .attribution {
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--gray);
+            font-style: normal;
+            line-height: 1.5;
+        }
+
+        .voice-card .attribution strong {
+            color: var(--navy);
+        }
+
+        .voice-card .pending-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+
+        @media print {
+            body { background: white; }
+            .page, .cover {
+                box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+            .page {
+                min-height: auto;
+                page-break-after: always;
+                page-break-inside: avoid;
+                padding: 0.55in 0.65in;
+            }
+            .page-program-def { page-break-inside: avoid; }
+            .cover { page-break-after: always; }
+            .mob-b-callout, .sustainability-box { page-break-inside: avoid; }
+            .page-attachment { page-break-before: always; }
+            .attachment-banner { page-break-inside: avoid; }
+            .asks-keep-together, .ask-banner, .ask-banner .ask-item { page-break-inside: avoid; break-inside: avoid; }
+            .page-executive-financials { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+    <div class="cover-badge">Unified Funding Pitch Package · June 2026</div>
+    <h1>
+        <span class="shield">SHIELD</span> · <span class="haven">HAVEN</span> · <span class="vital">VITAL</span>
+    </h1>
+    <p class="subtitle">Continuity of Care Stack — one TPA infrastructure for lead-safe navigation, member displacement continuity, and healthcare logistics.</p>
+
+    <div class="cover-orgs">
+        <div class="cover-org">
+            <strong>Cause We Care</strong>
+            <span>501(c)(3) · EIN 92-3602670 · UEI VEJMFMVV6PQ1<br>Grant applicant · Community trust layer</span>
+        </div>
+        <div class="cover-org">
+            <strong>Dee Davis Inc.</strong>
+            <span>EDWOSB · UEI HJB4KNYJVGZ1 · CAGE 8UMX3<br>Program TPA · Contracts · Compliance · Billing</span>
+        </div>
+    </div>
+
+    <div class="cover-proof">
+        <div class="proof-pill"><strong>LIVE</strong>HAP CareSource NEMT<br>Vendor 100000469269</div>
+        <div class="proof-pill"><strong>6+ YRS</strong>MDHHS MI Bridges Partner<br>250+ combined apps*</div>
+        <div class="proof-pill"><strong>MDHHS EHB</strong>SHIELD demo accepted<br>LHD intros committed</div>
+    </div>
+
+    <p style="font-size:10px;margin-top:28px;opacity:0.75;letter-spacing:0.3px;">Main package: Pages 1–6 · Attachment A (MHEF Fluxx): Page 7 — detach before general distribution</p>
+</section>
+
+<!-- PAGE 1: EXECUTIVE PITCH -->
+<div class="page">
+    <div class="page-header">
+        <h2>The Undeniable Stack</h2>
+        <span class="tag">Executive Pitch</span>
+    </div>
+
+    <h3>30-Second Pitch</h3>
+    <div class="pitch-box">
+        Michigan now requires every child to be blood-lead tested at 12 and 24 months — but only ~20.3% were tested statewide in 2024. When a child tests elevated, families fall through the cracks. <strong>SHIELD</strong> is a <strong>continuity of care guarantee</strong> — dispatch screening, remove every barrier in real time, and when BLL is elevated activate the full cascade. When members lose housing or disasters break care, <strong>HAVEN</strong> keeps plan members connected to shelter, transport, and medications. <strong>VITAL</strong> runs lab, pharmacy, and DME logistics under one TPA. All three run on infrastructure that is already live: HAP CareSource NEMT (Vendor 100000469269), DDI MDHHS Community Partner since 2020 (CWC since 2024), and MDHHS Environmental Health partnership in motion — SHIELD demo accepted, six-county LHD introductions committed. We are not asking funders to bet on a concept — we are asking for capital to hire navigators and scale what is already operating.
+    </div>
+
+    <div class="community-voice">
+        <h3>Community Voice</h3>
+        <div class="voice-card partner">
+            <blockquote>&ldquo;The timing is perfect.&rdquo;</blockquote>
+            <p class="attribution"><strong>Angela Medina</strong> — Care Coordination Section Manager, MDHHS Environmental Health Bureau<br>April 23, 2026 partnership meeting · re: PA 146 of 2023 universal childhood lead testing mandate</p>
+        </div>
+        <div class="voice-card pending">
+            <p class="pending-label">Month 1 deliverable — after CHW hires</p>
+            <blockquote style="font-style:normal;font-size:12.5px;color:#64748b;">Family voice from Wayne County MI Bridges and SHIELD navigation — one permissioned quote from a family served. Slot reserved; no fabricated testimonials in this package.</blockquote>
+            <p class="attribution">Target: first elevated-BLL navigation closure story · CHW-captured · funders updated when available</p>
+        </div>
+    </div>
+
+    <h3>Problem → Solution → Proof</h3>
+    <div class="two-col">
+        <div>
+            <p class="lead" style="font-size:13px;"><strong style="color:var(--shield-accent);">PROBLEM</strong></p>
+            <ul class="compact">
+                <li>Universal lead testing law (MCL 333.5474d) — ~20.3% of children under 6 tested in 2024</li>
+                <li>Wayne County needs ~39,460 mandatory tests per year</li>
+                <li>MICH dual-eligible members homebound — fragmented couriers create care failures</li>
+                <li>After displacement, plans owe continuity — no single TPA coordinates it</li>
+            </ul>
+        </div>
+        <div>
+            <p class="lead" style="font-size:13px;"><strong style="color:#059669;">SOLUTION</strong></p>
+            <ul class="compact">
+                <li><strong>SHIELD</strong> — continuity-of-care guarantee: dispatch mandatory tests, remove barriers, elevated-BLL cascade → retest; billed to MCOs/Medicaid/private payers</li>
+                <li><strong>HAVEN (MOB-B)</strong> — housing + transport + Rx/DME when members are displaced</li>
+                <li><strong>VITAL</strong> — lab, pharmacy, DME under one HIPAA/DOT/DEA framework</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        <span>Cause We Care + Dee Davis Inc. · Continuity of Care Stack</span>
+        <span>Page 1 · June 2026</span>
+    </div>
+</div>
+
+<!-- PAGE 2: EXECUTIVE FINANCIALS (asks + KPIs — keep together for print) -->
+<div class="page page-executive-financials">
+    <div class="page-header">
+        <h2>The Undeniable Stack</h2>
+        <span class="tag">Scale · Capital · Commitments</span>
+    </div>
+
+    <div class="asks-keep-together">
+        <p class="ask-section-label">Where This Pitch Is Going</p>
+        <p class="ask-section-note">Full program scale at execution — <strong>revenue</strong> (what clients pay) and <strong>margin / lifetime value</strong> (what DDI retains) are separate dimensions. All figures are models, not grant caps.</p>
+
+        <p class="ask-dimension-label">Program revenue — billing at execution</p>
+        <div class="ask-banner">
+            <div class="ask-item"><strong>$613K–$1.17M</strong><span><strong>Y1 Wayne SHIELD pilot</strong> — dispatch-volume model (1,500–2,000 referrals)</span></div>
+            <div class="ask-item"><strong>$6.1M</strong><span><strong>Wayne at full 50% capture</strong> — mandatory-test scale target</span></div>
+            <div class="ask-item"><strong>$13.8M</strong><span><strong>Y1 four-county SHIELD revenue</strong> — Wayne + Oakland + Macomb + Genesee at scale</span></div>
+        </div>
+
+        <p class="ask-dimension-label">DDI margin &amp; lifetime contract value</p>
+        <div class="ask-banner">
+            <div class="ask-item"><strong>$2.1M–$2.4M</strong><span><strong>Wayne Y1 DDI gross margin</strong> — target scenario at 50% capture</span></div>
+            <div class="ask-item"><strong>$41.5M</strong><span><strong>3-year lifetime value</strong> — four counties · 50% capture · stacked SHIELD billing</span></div>
+        </div>
+
+        <p class="ask-section-label">Capital Asks</p>
+        <p class="ask-section-note">Near-term grant and contract dollars to hire navigators and activate rails — distinct from program revenue above.</p>
+        <div class="ask-banner capital-asks">
+            <div class="ask-item"><strong>$300K</strong><span><strong>MHEF Capacity Building</strong> — 5 CHWs + supervisor (RFP maximum)</span></div>
+            <div class="ask-item"><strong>$50K–$75K</strong><span><strong>CFSEM pilot</strong> — Wayne County · 2–3 CHWs · 12 months</span></div>
+            <div class="ask-item"><strong>$1.5M–$4M+</strong><span><strong>MCO TPA credentialing</strong> — VITAL + HAVEN + SHIELD + NEMT · 2–4 plans Y1</span></div>
+        </div>
+    </div>
+
+    <h3>Accountable Outcomes</h3>
+    <p class="kpi-governance">KPIs established at contract execution — performance tracked through NEXUS.</p>
+    <p class="kpi-commitment-note">Contract commitments at go-live — not historical results.</p>
+
+    <p class="metrics-subhead">Service delivery commitments</p>
+    <div class="metrics-row">
+        <div class="metric"><div class="num">&lt;48 hr</div><div class="lbl">First contact on elevated cases</div></div>
+        <div class="metric"><div class="num">90%+</div><div class="lbl">Tested within 14 days of referral</div></div>
+        <div class="metric"><div class="num">85%+</div><div class="lbl">Services verified complete</div></div>
+    </div>
+
+    <p class="metrics-subhead">Billing &amp; closure commitments</p>
+    <div class="metrics-row">
+        <div class="metric"><div class="num">95%+</div><div class="lbl">Clean first-pass claims</div></div>
+        <div class="metric"><div class="num">4.0+</div><div class="lbl">Family satisfaction at closure</div></div>
+        <div class="metric"><div class="num">&lt;90 days</div><div class="lbl">Referral to retest (elevated cases)</div></div>
+    </div>
+
+    <div class="footer-bar">
+        <span>Cause We Care + Dee Davis Inc. · Continuity of Care Stack</span>
+        <span>Page 2 · June 2026</span>
+    </div>
+</div>
+
+<!-- PAGE 3: THREE PROGRAMS -->
+<div class="page page-program-def">
+    <div class="page-header">
+        <h2>Three Programs · One Stack</h2>
+        <span class="tag">Program Definitions</span>
+    </div>
+
+    <div class="program-grid">
+        <div class="program-card shield">
+            <h4>SHIELD</h4>
+            <div class="lane">Family Stability · Healthcare Access</div>
+            <p>Continuity-of-care guarantee for Michigan's universal childhood BLL screening mandate (MCL 333.5474d) — DEPOINTE-style dispatch of mobile screeners, real-time barrier removal, elevated-BLL cascade through clearance. CHW workforce via Cause We Care; TPA ops and billing via Dee Davis Inc.</p>
+            <p style="margin-top:10px;font-size:11px;"><strong>Population:</strong> All children under 4 in Michigan (MCL 333.5474d) · Wayne pilot first · ~39,460 mandatory tests/yr at full Wayne scale</p>
+            <p style="margin-top:8px;font-size:10.5px;padding:8px 10px;background:rgba(30,64,175,0.08);border-left:3px solid var(--shield);border-radius:4px;"><strong>Billing:</strong> CHW navigation billed under Medicaid codes 98960, 98961, 98962 through CHAMPS provider ID 6309049. DDI bills MCOs and Medicaid FFS directly — not through MDHHS.</p>
+        </div>
+        <div class="program-card haven">
+            <h4>HAVEN</h4>
+            <div class="lane">MOB-B · Displacement Continuity</div>
+            <p>Member continuity when housing fails or disaster displaces plan members — shelter, dialysis transport, Rx/DME, home health reassignment under one TPA.</p>
+            <p style="margin-top:10px;font-size:11px;"><strong>Population:</strong> Displaced plan members nationally — activates when housing fails or disaster breaks care. MOB-B only. Not routine plan NEMT.</p>
+            <p style="margin-top:8px;font-size:10.5px;padding:8px 10px;background:rgba(146,64,14,0.08);border-left:3px solid var(--haven);border-radius:4px;"><strong>Operational proof (MOB-A, separate lane):</strong> HAP CareSource NEMT — Vendor 100000469269 · CHAMPS 6309049 · Wayne + Macomb live. Proves DDI can run MCO contracts at scale.</p>
+        </div>
+        <div class="program-card vital">
+            <h4>VITAL</h4>
+            <div class="lane">Healthcare Access · Logistics TPA</div>
+            <p>Healthcare logistics TPA — lab specimen courier, DEA-compliant pharmacy delivery, DME coordination — one HIPAA/DOT/DEA compliance framework for homebound members.</p>
+            <p style="margin-top:10px;font-size:11px;"><strong>Replaces</strong> 5–10 fragmented vendor relationships.</p>
+        </div>
+    </div>
+
+    <div class="mob-b-callout">
+        HAVEN = MOB-B only. Not a duplicate of plan NEMT.
+        <span>Plan NEMT (MOB-A) = daily medical trips · HAVEN (MOB-B) = displacement continuity when housing or disaster breaks care. Do not merge in MCO evaluation.</span>
+    </div>
+
+    <div class="edwosb-box compact">
+        <strong>Nationwide Contract Management TPA</strong> — Troy, MI headquarters · fulfillment per contract geography · EDWOSB prime
+    </div>
+
+    <div class="sustainability-box">
+        <h3>Sustainability Beyond Grant</h3>
+        <ul class="compact">
+            <li>Medicaid CHW codes (98960 family) + MCO SHIELD service billing</li>
+            <li>NEMT TPA fees — HAP live; Oakland + second MCO expansion</li>
+            <li>VITAL + HAVEN MCO admin fees (per-case / PMPM)</li>
+            <li>CFSEM + CLPPP + county opioid settlement (secondary)</li>
+        </ul>
+    </div>
+
+    <div class="footer-bar">
+        <span>Entity routing on Page 4 · MOB-A ≠ MOB-B</span>
+        <span>Page 3</span>
+    </div>
+</div>
+
+<!-- PAGE 4: EVIDENCE + BUDGET -->
+<div class="page">
+    <div class="page-header">
+        <h2>Evidence &amp; Budget</h2>
+        <span class="tag">Proof · Ask · Entity Routing</span>
+    </div>
+
+    <h3>Entity Routing — Do Not Mix on Applications</h3>
+    <table>
+        <thead>
+            <tr><th>Funder / Buyer</th><th>Applicant</th><th>Lead Program</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>MHEF Capacity Building</td><td>Cause We Care</td><td>SHIELD + stack proof</td></tr>
+            <tr><td>MHEF Healthy Kids / Aging</td><td>Cause We Care</td><td>SHIELD / VITAL + HAVEN</td></tr>
+            <tr><td>CFSEM</td><td>Cause We Care</td><td>SHIELD navigator pilot</td></tr>
+            <tr><td>MDHHS Environmental Health</td><td>CWC + DDI</td><td>SHIELD referrals (not MDHHS payment)</td></tr>
+            <tr><td>MCOs (AmeriHealth, Meridian, etc.)</td><td>Dee Davis Inc.</td><td>VITAL + HAVEN + SHIELD billing</td></tr>
+            <tr><td>HAP CareSource</td><td>Dee Davis Inc.</td><td>NEMT proof → HAVEN rider + VITAL scope</td></tr>
+            <tr><td>FEMA / State EM</td><td>Dee Davis Inc.</td><td>HAVEN (after TSP registration)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Operating Proof (Today)</h3>
+    <div class="evidence-block">
+        <ul class="compact">
+            <li><strong>HAP CareSource</strong> — Agreement executed Mar 29, 2026 · Vendor 100000469269 · NPI 1538939111 · CHAMPS 6309049 · Wayne + Macomb NEMT active</li>
+            <li><strong>MDHHS MI Bridges</strong> — DDI Community Partner since May 15, 2020 · CWC since 2024 · MiLogin davisd1221 · <strong>250+ combined</strong> benefits applications (DDI 200+ · CWC 50+)</li>
+            <li><strong>MDHHS Environmental Health</strong> — Apr 23, 2026 meeting (Angela Medina, Aimee Surma); SHIELD demo accepted; six-county LHD introductions committed; referral pipeline activating</li>
+            <li><strong>MHEF</strong> — Inquiry Mar 22; Sayre Corbin replied Mar 27 · grants@mihealthfund.org · 810-227-5212</li>
+            <li><strong>SHIELD / VITAL / HAVEN</strong> — Platforms built; master proposals complete; MDHHS partner portal demonstrated</li>
+        </ul>
+    </div>
+
+    <div class="gap-block">
+        <strong>Honest gap (builds trust):</strong> County-scale SHIELD outcome volume grows after CHW hires and LHD referral flow. Funding converts operating infrastructure into population outcomes — not startup R&amp;D.
+    </div>
+
+    <h3>Wayne Year-1 Projection (ESTIMATED — pilot dispatch model)</h3>
+    <p class="projection-source"><strong>Source:</strong> 1,500–2,000 screening referrals at 50% capture; 4.1% elevation rate among tested children. Full-scale Wayne at 50% mandatory-test capture = ~19,730 tests · ~809 elevated (SHIELD_REVENUE_MODEL.md). Not actuals.</p>
+    <div class="metrics-row">
+        <div class="metric"><div class="num">1,500–2,000</div><div class="lbl">Tests dispatched (pilot)</div></div>
+        <div class="metric"><div class="num">62–82</div><div class="lbl">Elevated cases (4.1%)</div></div>
+        <div class="metric"><div class="num">$613K–$1.17M</div><div class="lbl">Pilot Y1 revenue range</div></div>
+    </div>
+
+    <h3>Tiered Funding Architecture (Full Stack)</h3>
+    <table>
+        <thead>
+            <tr><th>Tier</th><th>Source</th><th>Year 1 Range</th><th>What It Funds</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>A — Program revenue</strong></td><td>MCO / Medicaid / private payer billing (SHIELD pilot)</td><td><strong>$613K–$1.17M</strong></td><td>Wayne Y1 dispatch-volume model (1,500–2,000 referrals)</td></tr>
+            <tr><td><strong>A — Program revenue</strong></td><td>MCO / Medicaid SHIELD (full capture)</td><td><strong>$6.1M</strong></td><td>Wayne 50% mandatory-test scale target</td></tr>
+            <tr><td><strong>A — Program revenue</strong></td><td>MCO TPA contracts (NEMT + VITAL + HAVEN)</td><td><strong>$1.5M–$4M+</strong></td><td>HAP scaling + 2–4 additional MI MCO vendor agreements (trip margin, PMPM, per-case admin)</td></tr>
+            <tr><td><strong>B — State grants</strong></td><td>MDHHS CLPPP / lead programs</td><td><strong>$250K–$1.35M</strong></td><td>SHIELD navigation + outreach (inquiry sent Mar 2026)</td></tr>
+            <tr><td><strong>B — Foundation</strong></td><td>MHEF Healthy Kids (parallel track)</td><td><strong>Pursue separately</strong></td><td>SHIELD youth lane — not limited to Capacity Building cap</td></tr>
+            <tr><td><strong>B — Foundation</strong></td><td>BCBSM Foundation (Oct 2026)</td><td><strong>TBD — concept Oct 29</strong></td><td>Healthcare Access stack</td></tr>
+            <tr><td><strong>C — Ramp capital</strong></td><td>MHEF Capacity Building</td><td><strong>Up to $300K</strong></td><td><em>Funder ceiling for this RFP line only</em> — 5 CHWs + supervisor seed</td></tr>
+            <tr><td><strong>C — Ramp capital</strong></td><td>CFSEM navigator pilot</td><td><strong>$50K–$75K</strong></td><td>2–3 CHWs · 12-month Wayne pilot · outcome data for scale-up</td></tr>
+            <tr><td><strong>D — Scale (Y2+)</strong></td><td>4-county SHIELD billing</td><td><strong>$13.8M/yr</strong></td><td>Wayne + Oakland + Macomb + Genesee at 50% capture (model)</td></tr>
+        </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--gray);margin-top:8px;">Sources: SHIELD_REVENUE_MODEL.md · GRANT_ACTIVE_PIPELINE.md · HAP_CARESOURCE_PARTNERSHIP_SUMMARY.md. MCO multi-plan range = estimate pending trip volume + contracting.</p>
+
+    <h3>MHEF Capacity Building Budget (This RFP — $300,000 max)</h3>
+    <table>
+        <thead>
+            <tr><th>Line Item</th><th>Amount</th><th>%</th><th>Allocation</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Community Health Workers (5 FTE × 12 mo)<br><span class="budget-category">Personnel</span></td>
+                <td>$225,000</td>
+                <td class="budget-pct">75%</td>
+                <td><div class="budget-bar-wrap"><div class="budget-bar-track"><div class="budget-bar-fill personnel" style="width:100%"></div></div></div></td>
+                <td>Wayne SHIELD caseload (15–25 active families each)</td>
+            </tr>
+            <tr>
+                <td>Navigator Supervisor (0.5–1 FTE)<br><span class="budget-category">Personnel</span></td>
+                <td>$45,000</td>
+                <td class="budget-pct">15%</td>
+                <td><div class="budget-bar-wrap"><div class="budget-bar-track"><div class="budget-bar-fill personnel" style="width:100%"></div></div></div></td>
+                <td>QA, SLA monitoring, MDHHS reporting, billing verification</td>
+            </tr>
+            <tr>
+                <td>CHW certification &amp; training<br><span class="budget-category">Field</span></td>
+                <td>$15,000</td>
+                <td class="budget-pct">5%</td>
+                <td><div class="budget-bar-wrap"><div class="budget-bar-track"><div class="budget-bar-fill field" style="width:100%"></div></div></div></td>
+                <td>Lead-safe education, MIBridges, MDHHS-aligned navigation</td>
+            </tr>
+            <tr>
+                <td>Travel, supplies, family support<br><span class="budget-category">Field</span></td>
+                <td>$10,000</td>
+                <td class="budget-pct">3%</td>
+                <td><div class="budget-bar-wrap"><div class="budget-bar-track"><div class="budget-bar-fill field" style="width:60%"></div></div></div></td>
+                <td>Home visits, lead-safe kits, transport co-pays</td>
+            </tr>
+            <tr>
+                <td>Technology &amp; compliance<br><span class="budget-category">Systems</span></td>
+                <td>$5,000</td>
+                <td class="budget-pct">2%</td>
+                <td><div class="budget-bar-wrap"><div class="budget-bar-track"><div class="budget-bar-fill systems" style="width:40%"></div></div></div></td>
+                <td>SHIELD/VERTEX scale, portal access, audit trail</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL (this grant only)</strong></td>
+                <td><strong>$300,000</strong></td>
+                <td><strong>100%</strong></td>
+                <td colspan="2">12-month Wayne activation — <em>not</em> full program cost</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="budget-summary-bar">
+        <strong style="font-size:12px;color:var(--navy);">90% goes directly to people — not overhead</strong>
+        <div class="stacked-bar">
+            <div class="seg-personnel">90% Personnel</div>
+            <div class="seg-field" title="8% field &amp; training"></div>
+            <div class="seg-systems" title="2% systems"></div>
+        </div>
+        <div class="budget-summary-legend">
+            <span><strong>90%</strong> CHWs + supervisor (direct personnel)</span>
+            <span>8% certification, travel &amp; family support</span>
+            <span>2% systems &amp; compliance</span>
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        <span>Attach HAP proof screenshot + SHIELD demo for grant submissions</span>
+        <span>Page 4</span>
+    </div>
+</div>
+
+<!-- PAGE 5: FUNDER TABLE -->
+<div class="page">
+    <div class="page-header">
+        <h2>Who to Pitch</h2>
+        <span class="tag">Master Funder Table</span>
+    </div>
+
+    <table class="funder-table">
+        <thead>
+            <tr><th>#</th><th>Funder / Buyer</th><th>Program(s)</th><th>Ask</th><th>Status</th><th>Deadline</th><th>Next Action</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td><strong>MCO stack</strong> — AmeriHealth → Humana</td><td>VITAL + HAVEN + SHIELD + NEMT</td><td><strong>$1.5M–$4M+</strong> Y1 TPA</td><td class="status-sent">HAP live · MI plan outreach queued</td><td class="deadline">Rolling — Jun–Jul 2026 stagger</td><td>AmeriHealth first · log OUTBOUND_EMAIL_LOG</td></tr>
+            <tr><td>2</td><td><strong>SHIELD billing</strong> — Wayne</td><td>SHIELD</td><td><strong>$613K–$1.17M</strong> pilot · <strong>$6.1M</strong> full capture</td><td>Post-referral flow</td><td class="deadline">Rolling — scales with LHD referrals</td><td>MDHHS + LHD intros + MCO creds</td></tr>
+            <tr><td>3</td><td><strong>MDHHS CLPPP</strong></td><td>SHIELD</td><td><strong>$250K–$1.35M</strong></td><td>Inquiry sent Mar 22</td><td class="deadline deadline-urgent">Follow-up <strong>Jun 16, 2026</strong> if no reply</td><td>CLPPP pathway + referral guidance</td></tr>
+            <tr><td>4</td><td><strong>MHEF</strong> — Capacity Building</td><td>CHW ramp only</td><td><strong>Up to $300K</strong> (cap)</td><td class="status-fail">Concept NOT submitted — Cycle 2 deadline May 14 PASSED</td><td class="deadline deadline-urgent">Feedback <strong>Jun 12</strong> · Full proposal <strong>Jul 15</strong> if invited</td><td>Contact Sayre · pivot Healthy Kids / next cycle</td></tr>
+            <tr><td>5</td><td><strong>MHEF</strong> — Healthy Kids</td><td>SHIELD youth</td><td>Parallel RFP</td><td>Not filed</td><td class="deadline">TBD — when RFP posts</td><td>Separate concept after CB</td></tr>
+            <tr><td>6</td><td><strong>CFSEM</strong></td><td>SHIELD pilot</td><td><strong>$50K–$75K</strong></td><td class="status-fail">Not started</td><td class="deadline deadline-urgent">Register <strong>Jun 6</strong> · LOI target <strong>Jun 13, 2026</strong></td><td>Register cfsem.org + submit LOI</td></tr>
+            <tr><td>7</td><td><strong>MDHHS</strong> — Medina / Surma</td><td>SHIELD</td><td>Referral pipeline</td><td>Demo accepted · LHD intros committed</td><td class="deadline deadline-urgent">LHD wave trigger <strong>Jun 16, 2026</strong> if silent</td><td>Call 517-897-5203 · direct LHD package ready</td></tr>
+            <tr><td>8</td><td><strong>HAP CareSource</strong> — Brian / Dana</td><td>HAVEN + VITAL + NEMT</td><td>Amendment + scale</td><td class="status-ready">NEMT live · HAP replied Jun 7</td><td class="deadline deadline-urgent">Brian routing call <strong>Jun 10, 2026</strong> @ 1 PM ET</td><td>HAVEN rider + VITAL scope conversation</td></tr>
+            <tr><td>9</td><td><strong>BCC</strong> — Alina Pabin</td><td>VITAL + HAVEN</td><td>30-min intro call</td><td class="status-sent">Follow-up sent May 30 — no reply</td><td class="deadline deadline-urgent">Final touch <strong>Jun 11, 2026</strong> @ 2:30 PM ET</td><td>One scheduling email if still silent — then pause</td></tr>
+            <tr><td>10</td><td><strong>MVAA</strong> FY27</td><td>CWC navigation</td><td>$4M+ pool</td><td>Inquiry sent Mar 22</td><td class="deadline">FY27 SVSPG RFP ~Apr 2026 — monitor awards</td><td>Watch portal · MiVHPG ~Fall 2026</td></tr>
+            <tr><td>11</td><td><strong>BCBSM Foundation</strong></td><td>Healthcare Access</td><td>Varies</td><td>Winter cycle</td><td class="deadline">Build starts <strong>Sep 30, 2026</strong> · concept due <strong>Oct 29, 2026</strong></td><td>Outline in BCBSM_FOUNDATION_CONCEPT_PAPER_OUTLINE.md</td></tr>
+            <tr><td>12</td><td><strong>FEMA STOS</strong> (freight TSP) / <strong>MI EM</strong></td><td><strong>MOB-C</strong> · HAVEN (state EM)</td><td>Registration</td><td>STOS <strong>CLOSED</strong></td><td class="deadline">Monitor next onboarding · MI EM vendor reg</td><td><strong>Not passenger/NEMT</strong> — FTL/LTL/air/rail/maritime/TTHU</td></tr>
+        </tbody>
+    </table>
+    <p class="funder-footnote">Execution calendar as of early June 2026 — confirm MHEF/CFSEM portal windows before submission.</p>
+
+    <h3>90-Day Execution</h3>
+    <table>
+        <thead><tr><th>Week</th><th>Action</th></tr></thead>
+        <tbody>
+            <tr><td>W1</td><td>Contact Sayre (MHEF) re: Cycle 2 miss · pivot Healthy Kids · Send AmeriHealth email · Register CFSEM</td></tr>
+            <tr><td>W2</td><td>Submit CFSEM LOI · Meridian + Molina emails · HAP rider conversation · MHEF feedback window (Jun 12)</td></tr>
+            <tr><td>W3</td><td>MDHHS call if needed · Humana MI email</td></tr>
+            <tr><td>W4</td><td>MHEF webinar · Compile HAP proof one-pager PDF</td></tr>
+            <tr><td>Jul+</td><td>CHW hires upon award · MI EM vendor registration (HAVEN) · monitor FEMA STOS next cycle (freight only)</td></tr>
+        </tbody>
+    </table>
+
+    <p style="font-size:10px;color:var(--gray);margin-top:12px;text-align:center;">Main pitch package continues on <strong>Contact &amp; Certifications</strong> (Page 6). MHEF Fluxx draft is <strong>Attachment A</strong> — detach before general funder mail.</p>
+
+    <div class="footer-bar">
+        <span>Log every send in OUTBOUND_EMAIL_LOG.md</span>
+        <span>Page 5</span>
+    </div>
+</div>
+
+<!-- PAGE 6: CONTACT — END OF MAIN PACKAGE -->
+<div class="page">
+    <div class="page-header">
+        <h2>Contact &amp; Certifications</h2>
+        <span class="tag">Main Package · Page 6 of 6</span>
+    </div>
+
+    <div class="two-col" style="margin-bottom:24px;">
+        <div>
+            <h3>Cause We Care (Grants)</h3>
+            <p style="font-size:13px;line-height:1.8;">
+                <strong>Dieasha D. Davis</strong><br>
+                Founder &amp; Executive Director<br>
+                248.376.4550 · ddavis@cwecare.org<br>
+                755 W. Big Beaver Rd., Suite 2020<br>
+                Troy, Michigan 48084<br>
+                EIN: 92-3602670 · UEI: VEJMFMVV6PQ1
+            </p>
+        </div>
+        <div>
+            <h3>Dee Davis Inc. (Contracts)</h3>
+            <p style="font-size:13px;line-height:1.8;">
+                <strong>Dieasha D. Davis</strong><br>
+                President &amp; CEO<br>
+                248.376.4550 · info@deedavis.biz<br>
+                deedavis.biz<br>
+                Troy, Michigan 48084<br>
+                CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · NPI: 1538939111
+            </p>
+        </div>
+    </div>
+
+    <div class="certs">
+        <span class="cert">EDWOSB</span>
+        <span class="cert">WOSB</span>
+        <span class="cert">MBE</span>
+        <span class="cert">WBE recert in progress — Great Lakes WBC</span>
+        <span class="cert">SBE</span>
+        <span class="cert">SAM ACTIVE</span>
+        <span class="cert">CHAMPS ENROLLED</span>
+        <span class="cert">E-Verify Program Administrator</span>
+    </div>
+
+    <div class="distribution-mustfix">🚨 MUST-FIX BEFORE DISTRIBUTION: Host <strong>DIGITAL_PROOF_SHEET.html</strong> at <strong>deedavis.biz/cwc-proof</strong> and verify the QR resolves. A 404 undermines the VERIFIED table below.</div>
+
+    <div class="proof-qr-row">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&amp;margin=6&amp;data=https%3A%2F%2Fdeedavis.biz%2Fcwc-proof" alt="QR code — Digital Operating Proof Sheet" width="120" height="120">
+        <div class="proof-qr-copy">
+            <h3>Scan — Digital Operating Proof</h3>
+            <p>One-page verification: HAP vendor record (100000469269), MDHHS Community Partner status, Environmental Health partnership milestones, entity IDs, and program infrastructure.</p>
+            <p class="proof-qr-url">deedavis.biz/cwc-proof</p>
+        </div>
+    </div>
+
+    <h3>Verified Operating Proof</h3>
+    <p style="font-size:11px;color:var(--gray);margin-bottom:10px;">Independently confirmable today — not pending build or startup R&amp;D.</p>
+    <table class="verified-table">
+        <thead><tr><th>Proof point</th><th>Status</th></tr></thead>
+        <tbody>
+            <tr><td>HAP CareSource NEMT — agreement Mar 29, 2026 · Vendor <strong>100000469269</strong> · CHAMPS <strong>6309049</strong> · Wayne + Macomb live</td><td>VERIFIED</td></tr>
+            <tr><td>MDHHS MI Bridges — DDI since May 15, 2020 · CWC since 2024 · <strong>250+</strong> combined applications</td><td>VERIFIED</td></tr>
+            <tr><td>MDHHS Environmental Health — SHIELD demo accepted Apr 23, 2026 · six-county LHD intros committed</td><td>VERIFIED</td></tr>
+            <tr><td>Dee Davis Inc. SAM.gov active · CAGE 8UMX3 · UEI HJB4KNYJVGZ1 · EDWOSB / WOSB / MBE / WBE</td><td>VERIFIED</td></tr>
+            <tr><td>SHIELD / HAVEN / VITAL platforms · master proposals complete · population lanes documented (MOB-A vs MOB-B)</td><td>VERIFIED</td></tr>
+            <tr><td>Cause We Care 501(c)(3) · EIN 92-3602670 · grant-ready applicant entity</td><td>VERIFIED</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Attachments for Submissions</h3>
+    <table>
+        <thead><tr><th>Document</th><th>File / Use</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Main package (PDF)</strong></td><td>Pages 1–6 only — Cover through Contact</td></tr>
+            <tr><td>Digital Operating Proof (QR)</td><td>DIGITAL_PROOF_SHEET.html → deedavis.biz/cwc-proof</td></tr>
+            <tr><td>VITAL / HAVEN / SHIELD proposals</td><td>Master proposal HTML files (on request)</td></tr>
+            <tr><td><strong>Attachment A</strong> — MHEF only</td><td>Detach Page 7+ · paste into Fluxx — <em>not</em> for general funder mail</td></tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top:16px;font-size:13px;font-weight:600;color:var(--navy);text-align:center;">
+        Operating infrastructure verified. Grant capital scales navigator staffing.
+    </p>
+
+    <div class="main-package-end">✓ End of main pitch package (Pages 1–6) · Attachment A follows for MHEF Fluxx submission only</div>
+
+    <div class="footer-bar">
+        <span>Prepared June 2026 · NEXUS Command Center</span>
+        <span>Page 6 · Main Package</span>
+    </div>
+</div>
+
+<!-- ATTACHMENT A: MHEF FLUXX SUBMISSION DRAFT -->
+<div class="page page-attachment">
+    <div class="attachment-banner">
+        <div class="attachment-label">Detachable Insert — Not Part of Main Narrative</div>
+        <h2>ATTACHMENT A — MHEF Fluxx Submission Draft</h2>
+        <p>For Michigan Health Endowment Fund Capacity Building portal only. Copy text below into Fluxx (2 pages / 10,000 characters max). Do not send this attachment to MCOs, MDHHS, or other funders unless they request a grant concept sample.</p>
+    </div>
+
+    <div class="page-header">
+        <h2>MHEF Capacity Building Concept</h2>
+        <span class="tag tag-attachment">Fluxx Paste-Ready</span>
+    </div>
+
+    <div class="concept-section">
+        <p><strong>ORGANIZATION</strong><br>
+        Cause We Care (501c3) · EIN 92-3602670 · Southeast Michigan<br>
+        Dieasha D. Davis, Founder &amp; Executive Director · 248.376.4550 · ddavis@cwecare.org<br>
+        Program infrastructure &amp; TPA: Dee Davis Inc. (EDWOSB, SAM Active UEI HJB4KNYJVGZ1)</p>
+
+        <p><strong>CAPACITY GAP WE ARE SOLVING</strong><br>
+        Cause We Care has built the systems, state relationships, and live payer contract to run population-scale health navigation — but we lack grant capital to hire community health workers at the volume Michigan's new universal childhood lead testing law requires. We are not seeking funds to design a program. We are seeking funds to staff a program that is already designed, demonstrated, and aligned with MDHHS Environmental Health Bureau priorities.</p>
+
+        <p><strong>PROGRAM: SHIELD — LEAD-SAFE NAVIGATION (PRIMARY)</strong><br>
+        Michigan's universal blood lead testing law (MCL 333.5474d) requires testing at 12 and 24 months. Only ~20.3% of Michigan children under 6 were tested in 2024. When a child tests elevated, families navigate abatement, housing, benefits, transportation, CLPPP, and retesting alone — or overstretched local health departments coordinate piecemeal.<br><br>
+        SHIELD provides one door: a continuity-of-care guarantee for Michigan's universal lead testing mandate — dispatch screening, remove every barrier in real time, and when BLL is elevated activate a verified service cascade (CHW home visit, MIBridges enrollment, NEMT, CLPPP referral, remediation coordination, emergency housing, retest) on the SHIELD platform with real-time accountability. Dee Davis Inc. bills MCOs, Medicaid FFS, and private payers — not MDHHS.</p>
+
+        <p><strong>SUPPORTING INFRASTRUCTURE (SAME TPA STACK)</strong><br>
+        • HAVEN — continuity for displaced plan members (housing + medical transport + Rx/DME) — MOB-B disaster/transition mode.<br>
+        • VITAL — lab, pharmacy, and DME logistics under one HIPAA/DOT/DEA TPA — serves homebound MICH and SHIELD families needing specimen and medication access.</p>
+
+        <p><strong>PROOF WE CAN EXECUTE</strong><br>
+        • HAP CareSource NEMT — Vendor 100000469269, CHAMPS 6309049, Wayne + Macomb live (signed Mar 29, 2026).<br>
+        • MDHHS MI Bridges — DDI partner since May 2020 · CWC since 2024 — 250+ combined benefits applications (DDI 200+; CWC 50+).<br>
+        • MDHHS Environmental Health Bureau — SHIELD demo accepted; six-county LHD introductions committed (Apr 23, 2026 meeting; Angela Medina, Aimee Surma); referral pipeline activating.<br>
+        • Defined KPIs: &lt;48 hr first contact; 90%+ tested within 14 days; 85%+ services verified complete; 95%+ clean claims; 4.0+ satisfaction.</p>
+
+        <p><strong>CAPACITY BUILDING REQUEST: $300,000 (12 MONTHS — THIS RFP MAXIMUM)</strong><br>
+        Hire and deploy 5 Community Health Workers + supervisor in Wayne County to activate SHIELD referrals from MDHHS/LHD channels. This grant is <strong>ramp capital only</strong>. Program-scale revenue is projected at <strong>$613K–$1.17M Year 1 Wayne pilot</strong> (dispatch-volume model) scaling to <strong>$6.1M</strong> at full 50% mandatory-test capture, plus <strong>$1.5M–$4M+</strong> from multi-MCO TPA contracts (VITAL + HAVEN + NEMT) — stacked funding architecture, not a single $300K program.</p>
+
+        <p><strong>SUSTAINABILITY</strong><br>
+        Recurring Medicaid CHW billing, MCO service fees, live NEMT TPA revenue, and additional MCO contracts (VITAL/HAVEN) — grant is growth capital, not permanent subsidy.</p>
+
+        <p>Dieasha D. Davis · Founder &amp; Executive Director, Cause We Care</p>
+    </div>
+
+    <p style="font-size:11px;color:var(--gray);margin-top:12px;"><strong>MHEF contact:</strong> Sayre Corbin · grants@mihealthfund.org · 810-227-5212 · Fluxx at mihealthfund.org</p>
+
+    <div class="footer-bar">
+        <span>Attachment A · Cause We Care · ddavis@cwecare.org · MHEF Fluxx only</span>
+        <span>Page 7 · Detach</span>
+    </div>
+</div>
+
+</body>
+</html>

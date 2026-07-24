@@ -73,6 +73,7 @@ Update the Alexa daily briefing file so it's ready for the morning flash briefin
 - Format: Short, spoken-word friendly. No markdown tables — Alexa reads it aloud.
 - Include: Top 3 priorities, any meetings with time, any urgent deadlines
 - Include one spoken line on **RADAR**: net-new count from `RADAR_RESULTS.md` (e.g. "RADAR found three new opportunities overnight" or "RADAR found nothing new today")
+- Include one spoken line on **GRANTS**: new live federal count from `GRANTS_RESULTS.md` (e.g. "GBIS found five new Grants.gov matches" or "No new federal grants since last compile")
 - Keep it under 60 seconds of speaking time
 
 ---
@@ -91,6 +92,15 @@ Read **`RADAR_RESULTS.md`** first (per `radar-system.mdc`). Present:
 - If net-new = 0, say so in one line — do not substitute bid tracker or pending actions as "RADAR."
 
 Overnight file: `logs/radar.log` · state: `logs/radar_last_daily_run.json`
+
+### STEP 1c: GRANTS / GBIS (MANDATORY)
+Read **`GRANTS_RESULTS.md`** (compiled from Airtable GBIS — **not** RADAR, **not** bid tracker). Present:
+- **Last compiled** date/time — if **>48 hours old** or missing, run `python3 nexus_scheduler.py --gbis` (or `--compile-grants` if Airtable is current).
+- **New live Grants.gov count** since last compile + top 3 **CWC / BOTH** matches with deadlines.
+- If new live = 0 but live total > 0, say: "No new federal NOFOs since last run; [N] live grants on file — top match: [name]."
+- **Tracked platforms** (Hello Alice, Amber, etc.) are not live NOFOs — mention separately only if Dee asks about small-business grants.
+
+State file: `logs/grants_results_last_compile.json` · refresh: `python3 nexus_scheduler.py --gbis`
 
 ### STEP 2: SHOW URGENT ITEMS
 Flag anything that is:

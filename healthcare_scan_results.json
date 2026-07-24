@@ -1,7 +1,42 @@
 {
-  "scan_date": "2026-06-06T08:05:48.591924",
-  "total_found": 79,
+  "scan_date": "2026-07-23T21:33:37.120230",
+  "total_found": 85,
   "opportunities": [
+    {
+      "source": "Alabama Medicaid",
+      "title": "Medicaid for the Elderly & Disabled",
+      "link": "https://medicaid.alabama.gov/content/3.0_Apply/3.2_Qualifying/3.2.5_Medicaid_EandD.aspx",
+      "state": "AL",
+      "type": "State Medicaid"
+    },
+    {
+      "source": "Alabama Medicaid",
+      "title": "Mental Health Services",
+      "link": "https://medicaid.alabama.gov/content/4.0_Programs/4.2_Medical_Services/4.2.6_Mental_Health.aspx",
+      "state": "AL",
+      "type": "State Medicaid"
+    },
+    {
+      "source": "Alabama Medicaid",
+      "title": "Rural Health Clinics (RHCs)",
+      "link": "https://medicaid.alabama.gov/content/4.0_Programs/4.4_Medical_Facilities/4.4.4_Rural_Clinics.aspx",
+      "state": "AL",
+      "type": "State Medicaid"
+    },
+    {
+      "source": "Alabama Medicaid",
+      "title": "Elderly & Disabled (E&D) Waiver",
+      "link": "https://medicaid.alabama.gov/content/6.0_LTC_Waivers/6.1_HCBS_Waivers/6.1.2_Elderly_Disabled_Waiver.aspx",
+      "state": "AL",
+      "type": "State Medicaid"
+    },
+    {
+      "source": "Alabama Medicaid",
+      "title": "Mental Health Forms",
+      "link": "https://medicaid.alabama.gov/content/9.0_Resources/9.4_Forms_Library/9.4.11_Mental_Health_Forms.aspx",
+      "state": "AL",
+      "type": "State Medicaid"
+    },
     {
       "source": "Arizona AHCCCS",
       "title": "Accessing Behavioral Health Services in Schools",
@@ -481,7 +516,7 @@
     {
       "source": "Texas HHSC",
       "title": "Program of All-Inclusive Care for the Elderly",
-      "link": "https://www.hhs.texas.gov/providers/long-term-care-providers/program-all-inclusive-care-elderly-pace",
+      "link": "https://www.hhs.texas.gov/providers/long-term-care-providers/program-all-inclusive-care-elderly",
       "state": "TX",
       "type": "State Medicaid"
     },
@@ -498,6 +533,13 @@
       "link": "http://veterans.portal.texas.gov/",
       "state": "TX",
       "type": "State Medicaid"
+    },
+    {
+      "source": "UMMS (Univ of Maryland)",
+      "title": "Request for Information - Cloud Suite Managed Services",
+      "link": "https://www.umms.org/-/media/files/umms/about-us/vendors-services/minority-business-program/rfps/request-for-information--cloud-suite-managed-services.pdf?upd=20260707130823",
+      "state": "MD",
+      "type": "Hospital System"
     },
     {
       "source": "Inspira Health",

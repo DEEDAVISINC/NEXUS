@@ -19,11 +19,14 @@ ADDRESS_STATE = "Michigan"
 ADDRESS_ZIP = "48084"
 ADDRESS_FULL = f"{ADDRESS_STREET}, {ADDRESS_CITY}, {ADDRESS_STATE} {ADDRESS_ZIP}"
 
-PHONE_PRIMARY = "248.376.4550"  # Main office / desk — proposals, CO contact (NOT call center)
+PHONE_PRIMARY = "248.376.4550"  # President & CEO personal cell — email/docs only; NOT websites; NOT Twilio
+PHONE_CEO_PERSONAL = PHONE_PRIMARY  # alias — do not forward to member care line
+PHONE_BUSINESS_GV = "248.270.8490"  # Google Voice Troy — forward to PHONE_MEMBER_CARE_E164
 PHONE_ALT = "734.413.8310"  # Mobile — internal ops alerts
-# Twilio toll-free — member/customer care, NEMT SMS, PRISM voice inbound (NOT desk)
+# Twilio toll-free — ALL public web, member care, NEMT SMS, PRISM voice inbound
 PHONE_MEMBER_CARE_DISPLAY = "855-773-0035"
 PHONE_MEMBER_CARE_E164 = "+18557730035"
+PHONE_WEBSITE_DISPLAY = PHONE_MEMBER_CARE_DISPLAY  # Never PHONE_PRIMARY on web
 EMAIL = "info@deedavis.biz"
 WEBSITE = "deedavis.biz"
 
@@ -49,8 +52,13 @@ def member_care_phone_display() -> str:
     return PHONE_MEMBER_CARE_DISPLAY
 
 
+def website_phone_display() -> str:
+    """Public website / HTML contact line — always Twilio member care (855), never CEO personal."""
+    return PHONE_WEBSITE_DISPLAY
+
+
 def ops_alert_phone_e164() -> str:
-    """Internal ops alerts (no-show, etc.). Mobile/ops — NOT the desk line."""
+    """Internal ops alerts (no-show, etc.). Mobile/ops — NOT CEO personal line."""
     import os
     import re
 

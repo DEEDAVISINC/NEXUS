@@ -42,7 +42,37 @@ def generate_nemt_factoring_invoice_html(ctx: Dict[str, Any]) -> str:
         f"<strong>HCPCS:</strong> {_esc(ctx.get('hcpcs_code'))}",
         f"<strong>Service type:</strong> {_esc(ctx.get('service_type_label'))}",
     ]
+    if ctx.get("mileage") not in (None, "", 0, 0.0):
+        detail_lines.append(f"<strong>Loaded mileage:</strong> {_esc(ctx.get('mileage'))} mi")
     detail_html = "<br>".join(detail_lines)
+
+    invoice_lines = ctx.get("invoice_lines") or []
+    if not invoice_lines:
+        invoice_lines = [
+            {
+                "description": f"Non-emergency medical transportation (NEMT) — {_esc(ctx.get('service_type_label'))} — HCPCS {_esc(ctx.get('hcpcs_code'))}",
+                "quantity": ctx.get("unit_quantity", 1),
+                "rate": ctx.get("unit_rate", total),
+                "amount": total,
+                "hcpcs": ctx.get("hcpcs_code"),
+            }
+        ]
+    tbody_rows = []
+    for li in invoice_lines:
+        qty = li.get("quantity", 1)
+        rate = float(li.get("rate") or 0)
+        amt = float(li.get("amount") if li.get("amount") is not None else rate)
+        hcpcs = _esc(li.get("hcpcs") or ctx.get("hcpcs_code"))
+        desc = _esc(li.get("description") or f"NEMT — HCPCS {hcpcs}")
+        tbody_rows.append(
+            f"""    <tr>
+      <td>{desc} — HCPCS {hcpcs}</td>
+      <td class="num">{_esc(qty)}</td>
+      <td class="num">${rate:,.2f}</td>
+      <td class="num">${amt:,.2f}</td>
+    </tr>"""
+        )
+    tbody_html = "\n".join(tbody_rows)
 
     assignment = _esc(ctx.get("assignment_language"))
     cert = _esc(ctx.get("certification_language"))
@@ -128,12 +158,7 @@ def generate_nemt_factoring_invoice_html(ctx: Dict[str, Any]) -> str:
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Non-emergency medical transportation (NEMT) — {_esc(ctx.get('service_type_label'))} — HCPCS {_esc(ctx.get('hcpcs_code'))}</td>
-      <td class="num">{_esc(ctx.get('unit_quantity', 1))}</td>
-      <td class="num">{rate_fmt}</td>
-      <td class="num">{total_fmt}</td>
-    </tr>
+{tbody_html}
   </tbody>
 </table>
 

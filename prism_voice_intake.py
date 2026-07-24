@@ -6,7 +6,7 @@ Inbound Twilio calls → structured slot collection → POST /prism/intake + NEM
 Env:
   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER  (required for live calls)
   PRISM_VOICE_BASE_URL   Public HTTPS base (e.g. https://deedavis.pythonanywhere.com)
-  PRISM_VOICE_TRANSFER_NUMBER  E.164 ops line for human handoff (+12483764550)
+  PRISM_VOICE_TRANSFER_NUMBER  E.164 ops line for human handoff (Google Voice / ops mobile — NOT CEO personal 248.376)
   OPENAI_API_KEY         Optional — improves speech parsing
   PRISM_VOICE_OPENAI_MODEL  Default gpt-4o-mini
   PRISM_VOICE_TTS        Twilio generative voice (default Polly.Ruth-Generative)
@@ -159,7 +159,8 @@ def _voice_base_url() -> str:
 
 
 def _transfer_number() -> str:
-    return _clean_phone(os.environ.get("PRISM_VOICE_TRANSFER_NUMBER", "2483764550"))
+    # Never default to PHONE_PRIMARY (CEO personal). Set Google Voice / ops mobile in env when ready.
+    return _clean_phone(os.environ.get("PRISM_VOICE_TRANSFER_NUMBER", ""))
 
 
 def _clean_phone(raw: str) -> str:
@@ -707,7 +708,7 @@ def voice_simulate():
     data = request.get_json(silent=True) or {}
     call_sid = data.get("call_sid") or f"sim-{uuid.uuid4().hex[:8]}"
     speech = data.get("speech", "")
-    caller = data.get("caller", "+12483764550")
+    caller = data.get("caller", "+15555550100")
 
     session = _get_session(call_sid)
     session.setdefault("caller_phone", caller)

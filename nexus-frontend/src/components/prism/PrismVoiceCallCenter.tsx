@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { api } from '../../api/client';
+import { api, VOICE_API_BASE } from '../../api/client';
 
 interface VoiceStatus {
   enabled: boolean;
@@ -28,6 +28,14 @@ interface VoiceCallRecord {
 
 interface PrismVoiceCallCenterProps {
   accent: string;
+}
+
+function ttsProviderLabel(provider?: string): string {
+  if (!provider) return '—';
+  if (provider === 'elevenlabs') return 'ElevenLabs';
+  if (provider === 'twilio_generative') return 'Twilio generative';
+  if (provider === 'twilio_neural') return 'Twilio neural';
+  return provider.replace(/_/g, ' ');
 }
 
 const PrismVoiceCallCenter: React.FC<PrismVoiceCallCenterProps> = ({ accent }) => {
@@ -98,6 +106,57 @@ const PrismVoiceCallCenter: React.FC<PrismVoiceCallCenterProps> = ({ accent }) =
     return '#9CA3AF';
   };
 
+  const elevenLabsActive =
+    status?.tts_provider === 'elevenlabs' || Boolean(status?.elevenlabs_configured);
+  const liveTtsLabel = ttsProviderLabel(status?.tts_provider);
+
+  const statusCards: Array<{
+    label: string;
+    headline: string;
+    hint: string;
+    color: string;
+    border?: string;
+  }> = [
+    {
+      label: 'Twilio',
+      headline: status?.twilio_configured ? 'Ready' : 'Setup needed',
+      hint: '855 member line · live calls',
+      color: status?.twilio_configured ? '#6EE7B7' : '#FCA5A5',
+    },
+    {
+      label: 'Live voice',
+      headline: elevenLabsActive ? 'Active' : liveTtsLabel,
+      hint: elevenLabsActive
+        ? `ElevenLabs · fallback ${status?.tts_voice || 'Twilio generative'}`
+        : liveTtsLabel,
+      color: elevenLabsActive ? accent : '#93C5FD',
+      border: elevenLabsActive ? `2px solid ${accent}55` : undefined,
+    },
+    {
+      label: 'ElevenLabs',
+      headline: elevenLabsActive ? 'Active' : status?.elevenlabs_configured ? 'Ready' : 'Not configured',
+      hint: elevenLabsActive
+        ? 'Premium human voice on live calls'
+        : status?.elevenlabs_configured
+          ? 'Key present — check PA env'
+          : 'Add ELEVENLABS_API_KEY on PythonAnywhere',
+      color: elevenLabsActive ? '#6EE7B7' : status?.elevenlabs_configured ? '#6EE7B7' : '#FCA5A5',
+      border: elevenLabsActive ? '2px solid rgba(16,185,129,0.35)' : undefined,
+    },
+    {
+      label: 'OpenAI',
+      headline: status?.openai_configured ? 'Ready' : 'Optional',
+      hint: status?.openai_configured ? 'Speech parsing' : 'Parsing works without it',
+      color: status?.openai_configured ? '#6EE7B7' : '#9CA3AF',
+    },
+    {
+      label: 'Active calls',
+      headline: String(activeSessions),
+      hint: activeSessions > 0 ? 'In progress now' : 'No live sessions',
+      color: activeSessions > 0 ? accent : '#9CA3AF',
+    },
+  ];
+
   return (
     <div style={{ padding: 24, maxWidth: 960 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24, gap: 16, flexWrap: 'wrap' }}>
@@ -105,6 +164,12 @@ const PrismVoiceCallCenter: React.FC<PrismVoiceCallCenterProps> = ({ accent }) =
           <h2 style={{ fontSize: 20, fontWeight: 800, color: '#F9FAFB', margin: 0 }}>Voice Intake — Call Center</h2>
           <p style={{ fontSize: 13, color: 'rgba(156,163,175,0.8)', marginTop: 6, maxWidth: 560 }}>
             HAP CareSource members call in → AI collects trip details → creates PRISM + NEMT orders automatically.
+          </p>
+          <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.85)', marginTop: 8 }}>
+            Status from <code style={{ color: '#A5B4FC' }}>{VOICE_API_BASE}</code>
+            {elevenLabsActive && (
+              <span style={{ marginLeft: 10, color: '#6EE7B7', fontWeight: 700 }}>· ElevenLabs active on production</span>
+            )}
           </p>
         </div>
         <button
@@ -116,21 +181,38 @@ const PrismVoiceCallCenter: React.FC<PrismVoiceCallCenterProps> = ({ accent }) =
         </button>
       </div>
 
+      {elevenLabsActive && (
+        <div
+          style={{
+            background: 'rgba(16,185,129,0.1)',
+            border: '1px solid rgba(52,211,153,0.35)',
+            borderRadius: 10,
+            padding: '12px 14px',
+            marginBottom: 16,
+            fontSize: 13,
+            color: '#A7F3D0',
+          }}
+        >
+          <strong style={{ color: '#6EE7B7' }}>Active: ElevenLabs</strong>
+          {' — '}Callers hear natural voice audio on <strong>855-773-0035</strong>. Twilio generative is fallback only.
+        </div>
+      )}
+
       {/* Status cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
-        {[
-          { label: 'Twilio', ok: status?.twilio_configured, hint: 'Live calls' },
-          { label: 'Voice', ok: true, hint: status?.tts_provider?.replace(/_/g, ' ') || 'generative', neutral: true },
-          { label: 'ElevenLabs', ok: status?.elevenlabs_configured, hint: status?.elevenlabs_configured ? 'Premium human voice' : 'Optional upgrade' },
-          { label: 'OpenAI', ok: status?.openai_configured, hint: 'Speech parsing' },
-          { label: 'Active calls', ok: activeSessions > 0, hint: String(activeSessions), neutral: true },
-        ].map((c) => (
-          <div key={c.label} style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16 }}>
+        {statusCards.map((c) => (
+          <div
+            key={c.label}
+            style={{
+              background: '#14141A',
+              border: c.border || '1px solid rgba(255,255,255,0.06)',
+              borderRadius: 12,
+              padding: 16,
+            }}
+          >
             <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(107,114,128,0.8)', textTransform: 'uppercase', letterSpacing: 0.8, margin: 0 }}>{c.label}</p>
-            <p style={{ fontSize: 18, fontWeight: 800, color: c.neutral ? accent : c.ok ? '#6EE7B7' : '#FCA5A5', margin: '6px 0 2px' }}>
-              {c.neutral ? c.hint : c.ok ? 'Ready' : 'Setup needed'}
-            </p>
-            {!c.neutral && <p style={{ fontSize: 11, color: 'rgba(156,163,175,0.6)', margin: 0 }}>{c.hint}</p>}
+            <p style={{ fontSize: 18, fontWeight: 800, color: c.color, margin: '6px 0 2px' }}>{c.headline}</p>
+            <p style={{ fontSize: 11, color: 'rgba(156,163,175,0.6)', margin: 0 }}>{c.hint}</p>
           </div>
         ))}
       </div>

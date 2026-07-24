@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: TC Communications - Fiber Optic Upgrade Equipme
+ nt
+DTSTART:20260619T000000
+DTEND:20260619T010000
+DTSTAMP:20260723T230142Z
+UID:recdy4EmsX9lxjIN4@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: TC Communications - Fiber Op
+ tic Upgrade Equipment\nAgency: \nSolicitation: \nDeadline: June 19\, 2026 
+ at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/rec
+ dy4EmsX9lxjIN4\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\n- 
+ 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 ACT
+ ION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Collect 
+ all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Final
+  review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerated b
+ y NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: TC Communications - Fiber Optic Upgrade Equipmen
+ t
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: TC Communications - Fiber Optic Upgrade Equipmen
+ t
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: TC Communications - Fiber Optic Upgrade Equipmen
+ t
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: TC Communications - Fiber Optic Upgrade Equipmen
+ t
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -23,6 +23,10 @@ Use `Cmd+P` in Cursor to open any file by name. Use the Grep or Glob tools to se
 
 | What You Need | Go To |
 |---|---|
+| **NEXUS app (start here)** | `nexus-frontend/` → `npm start` → **http://localhost:3000** |
+| **NOVA — Opportunity Hunter** | NEXUS → **NOVA** (`/?view=opportunity-hunter`) |
+| **HIDE SNP Revenue Model** | NEXUS → **DDCSS** → **HIDE SNP Revenue** tab (`/?view=ddcss&tab=hide-snp-revenue`) |
+| **HIDE SNP Revenue (live NEMT ops)** | NEXUS → **PRISM** → Transport → **HIDE SNP Revenue** (`/?view=prism&division=transport&section=revenue`) |
 | Company contact info (phone, address, certs) | `COMPANY_INFO_MASTER.md` |
 | Today's priorities | `TODAY_AGENDA.md` |
 | Today's meetings and scheduled calls | `calendars/SCHEDULED_AGENDA.md` → find today's date section |
@@ -32,7 +36,7 @@ Use `Cmd+P` in Cursor to open any file by name. Use the Grep or Glob tools to se
 | Pipeline revenue tally | `PIPELINE_TALLY.md` |
 | COs already emailed (don't re-email) | `CLIENT OUTREACH/FEDERAL CO OUTREACH PIPELINE/CO_OUTREACH_TRACKER.md` |
 | COs queued for outreach | `CLIENT OUTREACH/FEDERAL CO OUTREACH PIPELINE/PENDING_COS_FOR_LATER.md` |
-| Capability statement master template | `BIDS:RESOURCES/ESSENTIALS/DDI_CAP_STATEMENT_DONE.html` |
+| Capability statement master template | `BIDS:RESOURCES/DAF FAMILY ADVOCACY/SEND_TO_BUYER/FAP2026SS_Family_Advocacy_Capability_Statement.html` |
 | Quote response template | `GENERATED_RESPONSES/QUOTE_RESPONSE_TEMPLATE.html` |
 | Service pricing (what DDI charges) | `DEE_DAVIS_INC_COMPLETE_SERVICE_CATALOG.md` |
 | TPA division reference | `DDI_TPA_DIVISIONS.md` |
@@ -559,19 +563,33 @@ Contains: `OAKLAND COUNTY FLOW METERS/`, `OAKLAND COUNTY TREATED SALT/`, `OAKLAN
 
 ### `nexus-frontend/`
 
-**Purpose:** React frontend application for the NEXUS dashboard.
+**Purpose:** React frontend — **the NEXUS Command Center UI**. All interactive tools live here; no standalone HTML apps.
 
 **Path:** `/Users/deedavis/NEXUS BACKEND/nexus-frontend/`
 
 | Subfolder/File | Contents |
 |---|---|
 | `src/` | React source code |
+| `src/lib/nexusRoutes.ts` | Deep-link paths (`view`, `tab`, `division`, `section`) |
+| `src/components/systems/ddcss/HideSnpRevenueModel.tsx` | HIDE SNP revenue model (DDCSS + PRISM) |
+| `src/components/systems/NOVASystem.tsx` | NOVA opportunity hunter UI |
 | `src/api/client.ts` | API client configuration |
+| `public/hide-snp-revenue.html` | Legacy bookmark → redirects to DDCSS tab |
+| `public/opportunity-hunter.html` | Legacy bookmark → redirects to NOVA |
 | `build/` | Production build output |
-| `public/` | Static assets |
-| `node_modules/` | Installed dependencies |
 
-**When to touch this:** When updating the NEXUS web dashboard or fixing frontend issues.
+**Deep links (append to `http://localhost:3000`):**
+
+| Tool | URL |
+|---|---|
+| Landing | `/` |
+| NOVA | `/?view=opportunity-hunter` |
+| DDCSS → HIDE SNP Revenue | `/?view=ddcss&tab=hide-snp-revenue` |
+| PRISM → NEMT → Revenue | `/?view=prism&division=transport&section=revenue` |
+| GPSS | `/?view=gpss` |
+| VERTEX | `/?view=vertex` |
+
+**When to touch this:** UI changes, new module tabs, deep-link wiring. Backend API stays in `api_server.py` (port 8000).
 
 ---
 
@@ -974,4 +992,4 @@ When you don't know exactly where something is:
 
 *This guide exists so no time is wasted asking "where does that live?" Every folder has a job. Every file has a home. Know the map and operate with confidence.*
 
-**Last Updated:** May 4, 2026
+**Last Updated:** June 13, 2026

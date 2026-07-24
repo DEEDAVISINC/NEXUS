@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield' | 'calendar' | 'haven';
+export type ViewType = 'landing' | 'gpss' | 'ddcss' | 'atlas' | 'gbis' | 'vertex' | 'lbpc' | 'invoices' | 'documents' | 'quotes' | 'capstats' | 'vault' | 'compass' | 'prism' | 'agent-portal' | 'agent-login' | 'opportunity-hunter' | 'alexa' | 'jeta' | 'fleetflow-cape' | 'shield' | 'calendar' | 'haven';
 
 export type NexusRole = 'Ultimate Supervisor' | 'Supervisor' | 'Navigator' | 'Viewer';
 
@@ -84,6 +84,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'invoices': return '💰 NEXUS Invoices - Universal Invoicing System';
       case 'documents': return '📄 Document Generator - Quotes • Pricing • Proposals';
       case 'compass': return '🧭 COMPASS v1.0 - Post-Award Operations';
+      case 'vault': return '🔐 VAULT v1.0 - Master Contract Registry';
       case 'prism': return '🔮 PRISM v1.0 - Field Service Command Center';
       case 'agent-portal': return '🔮 PRISM Agent Portal';
       case 'opportunity-hunter': return '🌟 NOVA v1.0 - New Opportunity Vetting & Acquisition';
@@ -106,6 +107,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'invoices': return 'Government & Enterprise Compliant • All Systems • Real-Time Tracking';
       case 'documents': return 'Quotes • Capability Statements • Supplier RFPs • Pricing Engine';
       case 'compass': return 'Contract Fulfillment • Delivery Tracking • Payments • Compliance';
+      case 'vault': return 'Service · Vendor · Government · Commercial — agreements & IDs; money in VERTEX';
       case 'prism': return 'Dispatch • Orders • Scanbacks • Inspection • Field Agents • See Every Detail';
       case 'agent-portal': return 'My Orders • Scanbacks • Payments • Profile • DDI Field Agent Network';
       case 'opportunity-hunter': return 'Live Federal Search • Quick Wins • Agency Intelligence • 3 Opportunities/Day Target';

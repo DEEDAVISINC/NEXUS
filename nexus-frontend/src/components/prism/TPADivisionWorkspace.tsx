@@ -4,6 +4,17 @@ import PrismAgentDirectory from './PrismAgentDirectory';
 import PrismVoiceCallCenter from './PrismVoiceCallCenter';
 import PrismOpsFeed, { PrismNotification } from './PrismOpsFeed';
 import { countDivisionAgents, PrismAgentRecord } from './prismAgentNetwork';
+import HideSnpRevenueModel from '../systems/ddcss/HideSnpRevenueModel';
+import {
+  NEXUS_SHELL_PAGE,
+  NEXUS_TITLE,
+  NEXUS_SUBTITLE,
+  NEXUS_BTN_PRIMARY,
+  NEXUS_PANEL,
+  NexusMetricCard,
+  NexusPanel,
+  NexusListRow,
+} from '../shared/NexusDashboardShell';
 
 // ─── TYPES ─────────────────────────────────────────────────────────
 interface Client {
@@ -226,6 +237,9 @@ interface TPADivisionWorkspaceProps {
   onOpsNotificationClick?: (n: PrismNotification) => void;
   onOpenPortal: (portal: { id: string; name: string; url: string; icon: string }) => void;
   onBack: () => void;
+  /** Deep-link from App (?division=transport&section=revenue) */
+  initialSection?: 'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture' | 'voice' | 'revenue';
+  onNavigate?: (view: string, tab?: string) => void;
 }
 
 // ─── COMPONENT ─────────────────────────────────────────────────────
@@ -250,8 +264,12 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   onOpsNotificationClick,
   onOpenPortal,
   onBack,
+  initialSection,
+  onNavigate,
 }) => {
-  const [activeSection, setActiveSection] = useState<'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture' | 'voice'>('dashboard');
+  const [activeSection, setActiveSection] = useState<'dashboard' | 'clients' | 'orders' | 'agents' | 'scanbacks' | 'analytics' | 'payments' | 'capture' | 'voice' | 'revenue'>(
+    initialSection || 'dashboard'
+  );
   const [showAgentPicker, setShowAgentPicker] = useState(false);
   const [assigningOrder, setAssigningOrder] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
@@ -681,6 +699,9 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
     )},
     ...(showVoiceIntake ? [{ id: 'voice', label: 'Voice Intake', icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
+    )},
+    { id: 'revenue', label: 'HIDE SNP Revenue', icon: (
+      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     )}] : []),
     { id: 'agents',    label: 'Agent Network', badge: divisionAgentCount || undefined, icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
@@ -701,45 +722,51 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
   ];
 
   return (
-    <div style={{ display: 'flex', height: '100%', fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", sans-serif', background: '#0D0D12' }}>
+    <div className={`flex min-h-screen ${NEXUS_SHELL_PAGE}`}>
 
       {/* ─── SIDEBAR ─── */}
-      <div style={{ width: 220, background: '#0A0A0F', borderRight: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+      <div className="w-56 shrink-0 bg-gray-900/80 border-r border-gray-700/60 flex flex-col backdrop-blur-sm">
 
         {/* Division header */}
-        <div style={{ padding: '16px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="p-4 border-b border-gray-700/60">
           <button
+            type="button"
             onClick={onBack}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(156,163,175,0.6)', background: 'none', border: 'none', cursor: 'pointer', marginBottom: 14, padding: 0 }}
+            className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 mb-4 transition-colors"
           >
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
             Back to Hub
           </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 22 }}>{division.icon}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{division.icon}</span>
             <div>
-              <p style={{ fontWeight: 700, fontSize: 13, color: '#F9FAFB' }}>{division.name}</p>
-              <p style={{ fontSize: 10, color: 'rgba(107,114,128,0.7)', marginTop: 1 }}>TPA Division</p>
+              <p className="font-bold text-sm text-white">{division.name}</p>
+              <p className="text-[10px] text-gray-500 mt-0.5">TPA Division</p>
             </div>
           </div>
         </div>
 
         {/* Nav */}
-        <nav style={{ flex: 1, padding: '10px 8px', overflowY: 'auto' }}>
+        <nav className="flex-1 p-2 overflow-y-auto">
           {NAV_ITEMS.map(item => {
             const active = activeSection === item.id;
             return (
               <button
                 key={item.id}
+                type="button"
                 onClick={() => { setActiveSection(item.id as any); setSelectedClient(null); setSelectedOrder(null); }}
-                style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 2, background: active ? 'rgba(249,115,22,0.12)' : 'transparent', color: active ? '#FB923C' : 'rgba(156,163,175,0.7)', textAlign: 'left' as const, transition: 'all 0.12s', fontSize: 13, fontWeight: active ? 600 : 400 }}
-                onMouseEnter={e => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#E5E7EB'; }}}
-                onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(156,163,175,0.7)'; }}}
+                className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5 text-left text-sm transition-all ${
+                  active
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-lg shadow-purple-900/30'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
+                }`}
               >
                 {item.icon}
-                <span style={{ flex: 1 }}>{item.label}</span>
+                <span className="flex-1 truncate">{item.label}</span>
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span style={{ padding: '1px 6px', borderRadius: 5, fontSize: 10, fontWeight: 700, background: active ? 'rgba(251,146,60,0.2)' : 'rgba(255,255,255,0.08)', color: active ? '#FB923C' : '#9CA3AF' }}>{item.badge}</span>
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                    active ? 'bg-white/20 text-white' : 'bg-gray-700 text-gray-300'
+                  }`}>{item.badge}</span>
                 )}
               </button>
             );
@@ -747,36 +774,36 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
         </nav>
 
         {/* Partner portals */}
-        <div style={{ padding: '10px 8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(107,114,128,0.6)', textTransform: 'uppercase', letterSpacing: 0.8, padding: '4px 12px', marginBottom: 4 }}>Live Portals</p>
+        <div className="p-2 border-t border-gray-700/60">
+          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider px-3 mb-2">Live Portals</p>
           {division.partnerPortals.slice(0, 5).map(portal => (
             <button
               key={portal.id}
+              type="button"
               onClick={() => onOpenPortal(portal)}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12, color: 'rgba(156,163,175,0.7)', background: 'transparent', textAlign: 'left' as const, transition: 'all 0.12s' }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#E5E7EB'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(156,163,175,0.7)'; }}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-gray-400 hover:bg-gray-800 hover:text-gray-200 transition-all text-left"
             >
               <span>{portal.icon}</span>
-              <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{portal.name}</span>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', flexShrink: 0 }} />
+              <span className="flex-1 truncate">{portal.name}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
             </button>
           ))}
         </div>
       </div>
 
       {/* ─── MAIN CONTENT ─── */}
-      <div className="flex-1 overflow-y-auto" style={{ background: '#0D0D12' }}>
+      <div className="flex-1 overflow-y-auto p-8">
         {/* ═══ DASHBOARD ═══ */}
         {activeSection === 'dashboard' && (
-          <div>
-            {/* Header bar */}
-            <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#0D0D12' }}>
+          <div className="space-y-6 max-w-7xl mx-auto">
+            <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB', letterSpacing: -0.3 }}>{division.name}</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>Division Command Center</p>
+                <h1 className={NEXUS_TITLE}>
+                  {division.icon} {division.name}
+                </h1>
+                <p className={NEXUS_SUBTITLE}>Division Command Center</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className="flex items-center gap-3">
                 {onToggleOpsFeed && onMarkOpsRead && onMarkAllOpsRead && (
                   <PrismOpsFeed
                     notifications={opsNotifications}
@@ -789,39 +816,23 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                     accent={division.solid}
                   />
                 )}
-                <button
-                  type="button"
-                  onClick={() => setShowNewOrderModal(true)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}
-                >
+                <button type="button" onClick={() => setShowNewOrderModal(true)} className={NEXUS_BTN_PRIMARY}>
                   + New Order
                 </button>
               </div>
             </div>
 
-            {/* KPI ribbon */}
-            <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.05)', background: '#0A0A0F' }}>
-              {[
-                { label: 'Pending',         value: stats.pending,        color: '#FCD34D' },
-                { label: 'Scheduled',       value: stats.scheduled,      color: '#93C5FD' },
-                { label: 'In Progress',     value: stats.inProgress,     color: '#C4B5FD' },
-                { label: 'Completed Today', value: stats.completedToday, color: '#6EE7B7' },
-                { label: 'Active Clients',  value: stats.activeClients,  color: '#9CA3AF' },
-              ].map((s, i) => (
-                <div key={s.label} style={{ flex: 1, padding: '14px 20px', borderRight: i < 4 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-                  <p style={{ fontSize: 22, fontWeight: 800, color: s.color, letterSpacing: -0.5 }}>{s.value}</p>
-                  <p style={{ fontSize: 11, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>{s.label}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <NexusMetricCard label="Pending" value={stats.pending} icon="⏳" accent="yellow" />
+              <NexusMetricCard label="Scheduled" value={stats.scheduled} icon="📅" accent="blue" />
+              <NexusMetricCard label="In Progress" value={stats.inProgress} icon="⚡" accent="purple" />
+              <NexusMetricCard label="Completed Today" value={stats.completedToday} icon="✅" accent="green" />
+              <NexusMetricCard label="Active Clients" value={stats.activeClients} icon="👥" accent="teal" />
             </div>
 
-            <div style={{ padding: 28 }}>
             {showVoiceIntake && opsNotifications.length > 0 && (
-              <div style={{ background: '#14141A', border: '1px solid rgba(20,184,166,0.2)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#5EEAD4', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>
-                  Live Ops — Voice &amp; Intake
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <NexusPanel title="Live Ops — Voice & Intake" titleAccent="text-teal-300">
+                <div className="space-y-2">
                   {opsNotifications.slice(0, 5).map((n) => (
                     <button
                       key={n.id}
@@ -830,89 +841,86 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                         onMarkOpsRead?.(n.id);
                         onOpsNotificationClick?.(n);
                       }}
-                      style={{ textAlign: 'left', padding: '10px 12px', background: '#0D0D12', borderRadius: 8, border: '1px solid rgba(255,255,255,0.06)', cursor: 'pointer' }}
+                      className="w-full text-left p-3 bg-gray-700/50 rounded-lg border border-teal-500/20 hover:bg-gray-700/70 transition-all"
                     >
-                      <p style={{ fontSize: 13, fontWeight: 600, color: '#F9FAFB' }}>{n.icon ? `${n.icon} ` : ''}{n.title}</p>
-                      <p style={{ fontSize: 11, color: 'rgba(156,163,175,0.85)', marginTop: 2 }}>{n.message}</p>
+                      <p className="text-sm font-semibold text-white">
+                        {n.icon ? `${n.icon} ` : ''}{n.title}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">{n.message}</p>
                     </button>
                   ))}
                 </div>
-              </div>
+              </NexusPanel>
             )}
-            {/* Today's Schedule */}
-            <div style={{ background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(156,163,175,0.7)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Today's Schedule</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+
+            <NexusPanel title="Today's Schedule">
+              <div className="space-y-2">
                 {displayOrders.filter(o => o.status === 'scheduled' || o.status === 'in_progress').map(order => (
-                  <div
+                  <NexusListRow
                     key={order.id}
                     onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: '#0D0D12', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span style={{ ...statusStyle(order.status), flexShrink: 0 }}>
-                        {order.scheduledTime || 'TBD'}
-                      </span>
-                      <div>
-                        <p style={{ fontWeight: 600, fontSize: 14, color: '#F9FAFB' }}>{order.subjectInfo.name}</p>
-                        <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.8)', marginTop: 2 }}>{order.clientName} &nbsp;·&nbsp; {order.type.toUpperCase()}</p>
-                      </div>
+                    <span className="shrink-0 text-xs font-semibold text-purple-300 min-w-[4rem]">
+                      {order.scheduledTime || 'TBD'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-white">{order.subjectInfo.name}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {order.clientName} · {order.type.toUpperCase()}
+                      </p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right shrink-0">
                       <p className="text-xs text-gray-400">{order.location}</p>
                       {order.assignedAgent && <p className="text-xs text-gray-500">{order.assignedAgent}</p>}
                     </div>
-                  </div>
+                  </NexusListRow>
                 ))}
                 {displayOrders.filter(o => o.status === 'scheduled' || o.status === 'in_progress').length === 0 && (
-                  <p className="text-gray-500 text-sm text-center py-4">No scheduled orders today</p>
+                  <p className="text-gray-500 text-sm text-center py-6">No scheduled orders today</p>
                 )}
               </div>
-            </div>
+            </NexusPanel>
 
-            {/* Needs Attention */}
             {displayOrders.filter(o => o.status === 'pending').length > 0 && (
-              <div style={{ background: 'rgba(234,179,8,0.05)', border: '1px solid rgba(234,179,8,0.15)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#FCD34D', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 14 }}>Needs Attention</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div className={`${NEXUS_PANEL} border-yellow-500/30`}>
+                <h3 className="text-xl font-bold mb-4 text-yellow-300">Needs Attention</h3>
+                <div className="space-y-2">
                   {displayOrders.filter(o => o.status === 'pending').map(order => (
-                    <div
+                    <NexusListRow
                       key={order.id}
                       onClick={() => { setActiveSection('orders'); setSelectedOrder(order); }}
-                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'rgba(234,179,8,0.05)', borderRadius: 9, cursor: 'pointer', border: '1px solid rgba(234,179,8,0.1)' }}
+                      accentBorder="border-l-yellow-400"
                     >
-                      <div>
-                        <p style={{ fontWeight: 600, fontSize: 14, color: '#F9FAFB' }}>{order.subjectInfo.name}</p>
-                        <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.8)', marginTop: 2 }}>{order.clientName} &nbsp;·&nbsp; {order.type.toUpperCase()}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm text-white">{order.subjectInfo.name}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {order.clientName} · {order.type.toUpperCase()}
+                        </p>
                       </div>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#FCD34D' }}>NEEDS SCHEDULING →</span>
-                    </div>
+                      <span className="text-xs text-yellow-400 font-bold shrink-0">NEEDS SCHEDULING →</span>
+                    </NexusListRow>
                   ))}
                 </div>
               </div>
             )}
-            </div>{/* end padding wrapper */}
           </div>
         )}
 
         {/* ═══ CLIENTS (CRM) ═══ */}
         {activeSection === 'clients' && !selectedClient && (
-          <div>
-            <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className="space-y-6 max-w-7xl mx-auto">
+            <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h1 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>Clients</h1>
-                <p style={{ fontSize: 12, color: 'rgba(107,114,128,0.7)', marginTop: 2 }}>
+                <h1 className={NEXUS_TITLE}>Clients</h1>
+                <p className={NEXUS_SUBTITLE}>
                   {clientsLoading ? 'Loading…' : `${displayClients.length} accounts`}
                 </p>
               </div>
-              <button
-                onClick={() => setShowNewClientModal(true)}
-                style={{ padding: '9px 18px', background: '#F97316', color: '#fff', borderRadius: 9, fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}
-              >
+              <button type="button" onClick={() => setShowNewClientModal(true)} className={NEXUS_BTN_PRIMARY}>
                 + Add Client
               </button>
             </div>
-            <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="flex flex-col gap-2">
               {displayClients.length === 0 && !clientsLoading && (
                 <EmptyPanel title="No clients yet" hint="Clients appear from GET /prism/clients or from order client names." />
               )}
@@ -925,10 +933,9 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
                 return (
                   <button
                     key={client.id}
+                    type="button"
                     onClick={() => setSelectedClient(client)}
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#14141A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, cursor: 'pointer', textAlign: 'left' as const, width: '100%' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#1A1A22'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = '#14141A'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+                    className="w-full flex items-center justify-between p-5 bg-gradient-to-br from-gray-800 to-gray-900 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all text-left"
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 5 }}>
@@ -1768,6 +1775,12 @@ const TPADivisionWorkspace: React.FC<TPADivisionWorkspaceProps> = ({
         {/* ═══ VOICE INTAKE (NEMT call center) ═══ */}
         {activeSection === 'voice' && (
           <PrismVoiceCallCenter accent={division.solid} />
+        )}
+
+        {activeSection === 'revenue' && isNemtDivision && (
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            <HideSnpRevenueModel embedded onNavigate={onNavigate} />
+          </div>
         )}
 
         {/* ═══ CAPTURE (Screenshot/Doc Drop) ═══ */}

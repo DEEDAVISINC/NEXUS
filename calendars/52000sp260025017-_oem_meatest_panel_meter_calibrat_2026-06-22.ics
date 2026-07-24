@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: 52000SP260025017- OEM MEATEST Panel Meter Calib
+ rator
+DTSTART:20260622T000000
+DTEND:20260622T010000
+DTSTAMP:20260723T230150Z
+UID:recxLJfP1e2NzUxiI@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: 52000SP260025017- OEM MEATES
+ T Panel Meter Calibrator\nAgency: \nSolicitation: \nDeadline: June 22\, 20
+ 26 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3yJ7ma/
+ recxLJfP1e2NzUxiI\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days before\
+ n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n🎯 
+ ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. Colle
+ ct all quotes (2 days before)\n3. Complete bid forms (1 day before)\n4. Fi
+ nal review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGenerate
+ d by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 52000SP260025017- OEM MEATEST Panel Meter Calibr
+ ator
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 52000SP260025017- OEM MEATEST Panel Meter Calibr
+ ator
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 52000SP260025017- OEM MEATEST Panel Meter Calibr
+ ator
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: 52000SP260025017- OEM MEATEST Panel Meter Calibr
+ ator
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

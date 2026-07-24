@@ -1,13 +1,10 @@
-/** Proxy client order history from NEXUS API (GET /prism/orders/my?email=) */
+/** Proxy client order history — requires portal session (Bearer token) */
 const PRISM_API = process.env.PRISM_API_BASE || 'https://deedavis.pythonanywhere.com';
+const { sessionFromEvent, portalCors } = require('./lib/portal-auth');
 
 exports.handler = async (event) => {
-  const cors = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Content-Type': 'application/json',
-  };
+  const origin = event.headers?.origin || event.headers?.Origin;
+  const cors = portalCors(origin);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: cors, body: '' };
@@ -17,9 +14,9 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: cors, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const email = (event.queryStringParameters?.email || '').trim().toLowerCase();
-  if (!email || !email.includes('@')) {
-    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Valid email required' }) };
+  const email = sessionFromEvent(event);
+  if (!email) {
+    return { statusCode: 401, headers: cors, body: JSON.stringify({ error: 'Sign in required' }) };
   }
 
   try {

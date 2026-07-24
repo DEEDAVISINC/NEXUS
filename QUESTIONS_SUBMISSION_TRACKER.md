@@ -5,7 +5,7 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 
 **Rule:** If `WORKFLOW_CHECKLIST.md` says ✅ submitted, dashboard/calendar/agenda must not still show "questions due."
 
-**Last Updated:** June 3, 2026
+**Last Updated:** June 8, 2026
 
 ---
 
@@ -28,7 +28,8 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 
 | Solicitation | Agency | Questions Due | Status | Submit Via | Folder |
 |---|---|---|---|---|---|
-| **FAP2026SS** | DAF Family Advocacy Program | Jun 6, 2026 | N/A — Sources Sought (email ✅ May 31; **survey required**) | Survey + email | `BIDS:RESOURCES/DAF FAMILY ADVOCACY/` |
+| **546249** | City of Detroit / DDOT Specialized Transport | **Jun 8, 2026 @ 12:00 PM ET** | ❌ **MISSED** — period closed before submit | Bonfire Public Q&A | `BIDS:RESOURCES/DETROIT DDOT SPECIALIZED TRANSPORT/` |
+| **FAP2026SS** | DAF Family Advocacy Program | Jun 6, 2026 | N/A — Sources Sought (email ✅ May 31; **CO receipt ✅ Jun 8**; **❌ survey NOT submitted — overdue**) | Survey + email | `BIDS:RESOURCES/DAF FAMILY ADVOCACY/` |
 
 ---
 
@@ -37,7 +38,7 @@ When questions are submitted, update **this file** and the bid folder `WORKFLOW_
 | Solicitation | Submitted | Answers Expected | Action |
 |---|---|---|---|
 | IFB #26-374 (VIA) | May 23, 2026 | Monitor via.diversitycompliance.com | Check before pricing bid (due Jun 16) |
-| Event #001186 (Oakland DTC) | May 23, 2026 | MITN Q&A / addenda | Check before proposal build (due Jun 23) |
+| Event #001186 (Oakland DTC) | May 23, 2026 | **✅ Answers published Jun 11, 2026** (all 5) | Build proposal — due **Jun 30** per BidNet closing |
 | Minneapolis MPD | May 18, 2026 | ~May 27, 2026 | Pull answers from eSupplier before proposal (due Jun 15) |
 | **41NHA-S3848 (Nevada NET)** | Jun 3, 2026 | ~**Jun 17, 2026** (Round 2 answers) | Monitor NevadaEPro Q&A on bid 41NHA-S3848 |
 

@@ -9,7 +9,15 @@
     "orders": 1,
     "revenue": 187,
     "status": "Active",
-    "retainer": 0
+    "retainer": 0,
+    "portal_code": "WCH-61DA27",
+    "contact_name": "Lisa Thompson",
+    "email": "lthompson@waynecounty.example.com",
+    "phone": "313-555-8888",
+    "state": "MI",
+    "county": "Wayne",
+    "service_category": "fingerprinting",
+    "portal_created_at": "2026-05-31"
   },
   {
     "id": "CLT-285F12",
@@ -21,6 +29,14 @@
     "orders": 1,
     "revenue": 225,
     "status": "Active",
-    "retainer": 0
+    "retainer": 0,
+    "portal_code": "ACM-285F12",
+    "contact_name": "John Smith",
+    "email": "jsmith@acme.example.com",
+    "phone": "313-555-1234",
+    "state": "MI",
+    "county": "Macomb",
+    "service_category": "drug_testing",
+    "portal_created_at": "2026-05-31"
   }
 ]

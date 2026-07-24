@@ -83,9 +83,26 @@ CareSource confirmed **two transportation categories** for HIDE SNP / Wayne + Ma
 
 1. **Care manager service plan authorization** — primary path per Brian  
 2. **Portal queue** — Trip requests in CareSource provider portal (if used for non-medical)  
-3. **Direct member/caregiver contact** — DDI intake line **855-773-0035** (confirm CM materials reference this for non-medical only)
+3. **Direct member/caregiver contact** — **855-773-0035** (PRISM Voice Intake + SMS) — ✅ **LIVE**
 
 **Call scheduled:** Wed **Jun 10, 2026 · 1:00 PM ET** · Brian 317-296-0519 · Prep: `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md` · `.ics`: `calendars/CARESOURCE_BRIAN_ROUTING_CALL_2026-06-10.ics`
+
+---
+
+## MEMBER CARE LINE — STATUS
+
+| Item | Status |
+|------|--------|
+| **855-773-0035** (Twilio voice + SMS) | ✅ **LIVE** — tested |
+| Inbound → `/prism/voice/inbound` on PA | ✅ |
+| Voice agent → PRISM order + NEMT queue | ✅ |
+| Post-trip grade SMS from 855 | ✅ |
+| QC / MCO audit exports | ✅ |
+| **Caller ID (CNAM)** — “DDI” on outbound | ⬜ **ONLY REMAINING** |
+
+**248.376.4550** = President & CEO **personal cell** — email/CO correspondence only; **not** member call center.  
+Human handoff (optional): `PRISM_VOICE_TRANSFER_NUMBER` → Google Voice / ops mobile.  
+Full setup: `deploy/PRISM_VOICE_INTAKE.md`
 
 ### Care Management Contact
 | Plan | Phone |
@@ -189,9 +206,12 @@ Dayton, OH 45401
 ## IMMEDIATE NEXT STEPS
 
 - [ ] **Walkthrough readiness** — Complete gates in `HAP_CARESOURCE_WALKTHROUGH_READY.md` before scheduling call with CareSource
-- [ ] **Complete Model of Care training** — ✅ Attested Jun 7, 2026 (secureforms)
-- [ ] **Complete FWA attestation** — ✅ Attested Jun 7, 2026 (secureforms)
-- [ ] **Twilio upgrade + 855 test call** — Remove trial message before live member/demo calls
+- [x] **Complete Model of Care training** — ✅ Attested Jun 7, 2026 (secureforms)
+- [x] **Complete FWA attestation** — ✅ Attested Jun 7, 2026 (secureforms)
+- [x] **Twilio + 855 voice/SMS** — ✅ Live, tested (inbound voice intake + outbound member SMS)
+- [x] **PRISM voice → NEMT queue** — ✅ Live on PythonAnywhere
+- [x] **Member trip grades + QC MCO packets** — ✅ Live on PA
+- [ ] **Caller ID (CNAM)** — ⬜ **ONLY REMAINING** for member care line — register **DDI** display on **855-773-0035** outbound (see `deploy/PRISM_VOICE_INTAKE.md`)
 - [ ] **Activate in portal** — Turn on DDI's availability to receive trips
 - [ ] **First trip → First claim → First payment**
 - [ ] **Enroll in ECHO EFT** after first paper check received
@@ -316,6 +336,15 @@ Include quarterly grade averages + A–F distribution in **MCO audit packets** (
 3. Attach individual trip HTML files from `uploads/member_satisfaction/audit/` if requested
 
 **Env:** `MEMBER_SURVEY_DELAY_MINUTES=60` · `MEMBER_SURVEY_REMINDER_HOURS=24` (0=off) · `NEXUS_CONFIRM_BASE_URL` or `PRISM_VOICE_BASE_URL` for links
+
+### Full quality control (not grades alone)
+
+Member trip grades = **Pillar 4** of nine (HAP) / universal framework (all contracts).
+
+**System-wide QC master:** `NEXUS_QUALITY_CONTROL_FRAMEWORK.md`  
+**HAP instance:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/HAP_QUALITY_CONTROL_PLAN.md`
+
+**Still open for “full QC”:** Mark Complete → VERTEX billing wired in UI, formal grievance log (all lanes), OTP dashboard — see gap tables in both docs.
 
 ---
 

@@ -48,17 +48,19 @@ Headline **$750M / 10 yr** = **entire program**. DDI revenue = **DDI’s region(
 
 ---
 
-## Michigan — tri-county broker (MA190000000912)
+## Michigan — FFS broker recompete (RFP 260000002254)
 
 | Fact | Detail |
 |------|--------|
-| **Current state contract** | **Single broker** — ModivCare for Wayne, Oakland, Macomb (FFS slice) |
-| **Under the broker** | ModivCare must **establish a network of transportation providers** — multiple companies execute trips |
-| **MCO carve-in (Oct 2024+)** | Health plans increasingly manage NEMT for enrolled members — **multiple vendors by plan** (ModivCare, Access2Care/MTM, etc.) |
+| **New RFP** | **260000002254** — anticipated SIGMA posting **August 2026** |
+| **Expiring contract** | MA190000000912 — ModivCare for Wayne, Oakland, Macomb (FFS) — expires **Jul 31, 2026** |
+| **Scope signal** | MDHHS extending RFP to include **potential statewide FFS** NEMT (not only tri-county) |
+| **Under the broker** | Broker maintains provider network — multiple companies execute trips |
+| **MCO carve-in (Oct 2024+)** | Health plans manage NEMT for enrolled members — **separate lane** from this FFS broker RFP |
 
 **DDI goal on Michigan:**
-- **Not** default: replace ModivCare as sole tri-county broker  
-- **Yes:** MCO TPA (CareSource model live) · **network vendor under broker** · **teaming if RFP splits awards** · **admin slice if CLINs unbundled  
+- **Not** default: replace ModivCare as sole statewide FFS broker  
+- **Yes:** Named regional/multi-award role · **teaming** · **network vendor under broker** · **MCO TPA** (CareSource model live — do not conflate)  
 
 ---
 
@@ -79,7 +81,7 @@ Headline **$750M / 10 yr** = **entire program**. DDI revenue = **DDI’s region(
 | Opportunity | Program size | DDI target |
 |-------------|--------------|------------|
 | **Maine 0520260310** | ~$750M / 10 yr **total program** | **One of multiple awardees** — regional bid with Penquis/Waldo or own region; not whole NET |
-| **Michigan MA190000000912** | ~$103M tri-county broker | **Network vendor, MCO TPA, or co-awardee if split** — not default sole broker |
+| **Michigan 260000002254** | Tri-county ~$103M legacy; **statewide FFS TBD** | **Network vendor, co-awardee if split, or regional slice** — not default sole statewide prime |
 | **AZ / NC MCO** | Plan-by-plan | **One MCO’s vendor** among many plans |
 | **CareSource HIDE** | One plan — **Wayne + Macomb** (Oakland pending) | **Named MCO vendor on that program** ✓ — not state tri-county broker |
 | **Nevada 41NHA-S3848** | Statewide NET capitation | **Pending Round 2 Q6** — multi-award / regional / teaming vs single prime; **NO-GO prime if single only** |

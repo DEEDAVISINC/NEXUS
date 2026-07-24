@@ -2,8 +2,11 @@
 
 **Prepared by:** DDI / NEXUS
 **Date:** April 26, 2026
+**Updated:** June 10, 2026 — pilot dispatch-volume model added
 **For:** Internal — Dee Davis
 **Purpose:** Full revenue projection for DDI operating as TPA for universal childhood blood lead level testing in Michigan, per universal testing law (MCL 333.5474d, effective April 30, 2025).
+
+**Complete program framework:** `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`
 
 ---
 
@@ -186,7 +189,27 @@ When a child tests elevated (BLL >= 3.5 mcg/dL), the full SHIELD cascade activat
 
 ---
 
-## Year 1 — Wayne County (Full Year)
+## Year 1 Pilot — Wayne County (Dispatch Volume Model)
+
+**Use this for pilot planning and funder pitch Year 1.** Sized on **1,500–2,000 screening referrals dispatched** (50% capture of mandatory test population), not full-population billing at day one.
+
+| Revenue Stream | Volume | Rate | Estimated Revenue |
+|---|---|---|---|
+| Screening dispatch coordination | 1,500–2,000 tests | $99/test | $148,500–$198,000 |
+| Mobile event fees | 20–30 events | $1,500/event avg | $30,000–$45,000 |
+| Per-person mobile screening (events) | 500–750 children | $175–$225/person | $87,500–$168,750 |
+| CHW case management (elevated) | 62–82 cases | $3,800–$5,800/case | $235,600–$475,600 |
+| Abatement coordination | 40–60 cases | $500/case avg | $20,000–$30,000 |
+| HAVEN displacement | 15–25 families | $5,000–$9,000/family | $75,000–$225,000 |
+| Sibling screening dispatch | 80–120 siblings | $99/child | $7,920–$11,880 |
+| Post-abatement clearance | 55–75 cases | $150/case | $8,250–$11,250 |
+| **PILOT YEAR 1 TOTAL** | | | **$612,770–$1,165,480** |
+
+**Retired:** "25 families" pilot sizing. Pilot = dispatch volume + elevated cascade, not family count.
+
+---
+
+## Year 1 — Wayne County (Full Capture Model — Scale Target)
 
 DDI ramps through Year 1: conservative = 25% capture growing to 50%, target = 50% capture.
 
@@ -242,12 +265,13 @@ This is the target. The law says every child gets tested. DDI schedules every te
 
 ## Revenue Summary — Pipeline Tally Update
 
-| Scenario | Annual Revenue | DDI Annual Margin | 3-Year Value |
-|----------|---------------|-------------------|--------------|
-| **Year 1 (Wayne, 25% avg)** | $3.1M | $1.1M-$1.2M | $9.2M |
-| **Year 1 (Wayne, 50%)** | $6.1M | $2.1M-$2.4M | $18.4M |
-| **Year 2+ (4 Counties, 50%)** | $13.8M | $4.8M-$5.5M | $41.5M |
-| **Full Scale (4 Counties, 100%)** | $27.7M | $9.7M-$11.1M | $83.1M |
+| Scenario | Annual Revenue | DDI Annual Margin | 3-Year Value | Use for |
+|----------|---------------|-------------------|--------------|---------|
+| **Year 1 Pilot (Wayne, dispatch volume)** | **$613K–$1.17M** | TBD at execution | — | **Funder pitch, MHEF/CFSEM, pilot ops** |
+| **Year 1 (Wayne, 25% avg capture)** | $3.1M | $1.1M-$1.2M | $9.2M | Full-scale ramp model |
+| **Year 1 (Wayne, 50% capture)** | $6.1M | $2.1M-$2.4M | $18.4M | Full mandatory-test capture at scale |
+| **Year 2+ (4 Counties, 50%)** | $13.8M | $4.8M-$5.5M | $41.5M | Multi-county expansion |
+| **Full Scale (4 Counties, 100%)** | $27.7M | $9.7M-$11.1M | $83.1M | Universal law compliance target |
 
 ---
 

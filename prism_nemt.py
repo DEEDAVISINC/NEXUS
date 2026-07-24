@@ -287,7 +287,7 @@ def create_community_transition_order(
     referral_date: str,
     transitioning_to: str,
     transitioning_from: Optional[str] = None,
-    payer: str = "Molina Healthcare Michigan",
+    payer: str = "Unspecified — Pending Verification",
     pcsp_confirmed: Optional[bool] = None,
     expense_items: Optional[List[Dict[str, Any]]] = None,
     home_assessment_required: Optional[bool] = None,
@@ -297,8 +297,14 @@ def create_community_transition_order(
     member_email: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Molina HIDE SNP LTSS — Community Transition Services (CTS) Authorization
-    Case. Deliberately separate from create_nemt_order(): CTS has no
+    MCO/Medicaid LTSS — Community Transition Services (CTS) Authorization
+    Case. General service type — DDI's first live contract for this is
+    Molina HIDE SNP LTSS, but CTS is not exclusive to Molina; any MCO's
+    LTSS program can be the payer (set via the `payer` argument). Rate/
+    compliance rules pulled from nemt_billing are currently Molina-specific
+    (MOLINA_LTSS_* constants) because that's the only contract with terms
+    on file — extend those checks per-payer before onboarding a second one.
+    Deliberately separate from create_nemt_order(): CTS has no
     transport_type, mileage, or pickup/dropoff — it's a case-management
     process tracking a referral, PCSP confirmation, documented expense items
     (Security Deposit / Utility Set-up open; Furnishings / Moving Costs
@@ -328,7 +334,7 @@ def create_community_transition_order(
         "member_medicaid_id": (member_medicaid_id or "").strip(),
         "member_name": (member_name or "").strip(),
         "member_dob": (member_dob or "").strip(),
-        "payer": (payer or "Molina Healthcare Michigan").strip(),
+        "payer": (payer or "Unspecified — Pending Verification").strip(),
         "referral_source": (referral_source or "").strip(),
         "referral_date": (referral_date or "").strip(),
         "pcsp_confirmed": pcsp_confirmed,
@@ -394,10 +400,12 @@ def find_cts_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]:
 
 def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) -> Optional[str]:
     """
-    Create and link a Molina Community Transition Services (CTS) Authorization
-    Case from a PRISM intake submission. Unlike create_nemt_from_prism_intake(),
-    this does NOT require pickup/dropoff — CTS tracks a referral from a
-    discharge planner or Care Coordinator, not a ride request.
+    Create and link a Community Transition Services (CTS) Authorization Case
+    from a PRISM intake submission — any MCO, driven by the `cts-payer` field
+    the referrer selected (not hardcoded to Molina). Unlike
+    create_nemt_from_prism_intake(), this does NOT require pickup/dropoff —
+    CTS tracks a referral from a discharge planner or Care Coordinator, not
+    a ride request.
     """
     svc_key = (order.get("service_key") or data.get("service_key") or "").lower()
     if svc_key not in ("community_transition", "cts"):
@@ -505,6 +513,12 @@ def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) ->
             home_assessment_required = False
         # "not sure yet" / blank -> leave as None (undetermined)
 
+    # Member's MCO / health plan — selected by the referrer on the portal
+    # form (`cts-payer`). CTS is a general service type across MCOs, not
+    # Molina-exclusive, so this must come from the actual submission, never
+    # a hardcoded literal.
+    payer = (details.get("payer") or data.get("payer") or "").strip()
+
     try:
         cts = create_community_transition_order(
             member_medicaid_id=member_id,
@@ -514,6 +528,7 @@ def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) ->
             referral_date=referral_date,
             transitioning_to=transitioning_to,
             transitioning_from=transitioning_from,
+            payer=payer or "Unspecified — Pending Verification",
             pcsp_confirmed=pcsp_confirmed,
             expense_items=expense_items,
             home_assessment_required=home_assessment_required,
@@ -707,9 +722,12 @@ def _intake_payer(order: Dict[str, Any], data: Dict[str, Any]) -> str:
         if s:
             return s
     program = (details.get("program_type") or details.get("mobility_lane") or "").lower()
-    if any(k in program for k in ("molina", "hide snp", "ltss")):
+    # NOTE: "HIDE SNP" and "LTSS" are CMS/Medicaid plan *categories* — any MCO can
+    # run one. Only an actual company-name match should resolve to a specific
+    # payer here; category-only signals fall through to PAYER_DEFAULT.
+    if "molina" in program:
         return "Molina Healthcare Michigan"
-    if any(k in program for k in ("medicaid", "mco", "mob-a", "hap", "plan nemt")):
+    if "caresource" in program or "hap" in program:
         return "HAP CareSource"
     return PAYER_DEFAULT
 
@@ -1492,16 +1510,18 @@ def route_by_prism_order(prism_id: str):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Molina HIDE SNP LTSS — Community Transition Services (CTS) Authorization Case
-# Separate case type from NEMT trips: no mileage, no pickup/dropoff, no
-# driver. 7-stage workflow: Referral Received -> Eligibility/PCSP
-# Verification -> Documentation Collected -> Home Assessment -> Authorization
-# Sign-Off -> Funds Released/Case Closed -> Documented for Audit.
+# MCO/Medicaid LTSS — Community Transition Services (CTS) Authorization Case
+# General case type, not exclusive to one payer (first live contract: Molina
+# HIDE SNP LTSS). Separate case type from NEMT trips: no mileage, no
+# pickup/dropoff, no driver. 7-stage workflow: Referral Received ->
+# Eligibility/PCSP Verification -> Documentation Collected -> Home Assessment
+# -> Authorization Sign-Off -> Funds Released/Case Closed -> Documented for
+# Audit.
 # ─────────────────────────────────────────────────────────────────────────────
 
 @prism_nemt.route("/prism/nemt/cts", methods=["GET"])
 def route_list_cts_orders():
-    """List all Molina CTS Authorization Cases."""
+    """List all CTS Authorization Cases (any payer)."""
     state = _load_state()
     orders = list(state.get("cts_orders", {}).values())
     status_filter = request.args.get("status")
@@ -1531,7 +1551,7 @@ def route_create_cts_order():
             referral_date=data["referral_date"],
             transitioning_to=data["transitioning_to"],
             transitioning_from=data.get("transitioning_from"),
-            payer=data.get("payer") or "Molina Healthcare Michigan",
+            payer=data.get("payer") or "Unspecified — Pending Verification",
             pcsp_confirmed=data.get("pcsp_confirmed"),
             expense_items=data.get("expense_items") or [],
             home_assessment_required=data.get("home_assessment_required"),

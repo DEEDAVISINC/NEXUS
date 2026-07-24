@@ -266,6 +266,7 @@ def compile_radar() -> Path:
     healthcare = _load_json("healthcare_scan_results.json")
     aog = _load_json("aog_sam_cache.json")
     digital = _load_json("digital_nav_sam_cache.json")
+    ccam = _load_json("ccam_tac_grants_cache.json")
     ss_file = _latest_sources_sought()
     ss_summary = _parse_sources_sought_summary(ss_file) if ss_file else {}
 
@@ -320,6 +321,7 @@ def compile_radar() -> Path:
         )
     else:
         lines.append("| Sources Sought / Presol (federal) | — | — | `NEW_SOURCES_SOUGHT_*.md` (missing) |")
+    row("CCAM-TAC / FTA human-services grants", ccam, "ccam_tac_grants_cache.json", "total_found")
 
     lines.extend(["", "---", "", "## NET-NEW — GOVERNMENT (portal scan)", ""])
     if not top:
@@ -362,6 +364,39 @@ def compile_radar() -> Path:
         for o in digital_new:
             agency = (o.get("department") or o.get("agency") or "—")[:50]
             lines.append(f"- **{o.get('title', 'Untitled')}** | {agency}")
+
+    ccam_opps = (ccam or {}).get("opportunities") or []
+    ccam_action = [
+        o
+        for o in ccam_opps
+        if o.get("ddi_fit") in ("high", "medium")
+        and o.get("status") in ("tba", "watch", "rolling", "open_or_unknown")
+    ]
+    lines.extend(["", "---", "", "## CCAM-TAC / FTA GRANTS (human-services transport)", ""])
+    if not ccam:
+        lines.append("*No scan yet — run `python3 mine_ccam_tac_grants.py` or `python3 nexus_scheduler.py --radar`.*")
+    elif not ccam_action:
+        closed_n = sum(1 for o in ccam_opps if o.get("status") == "closed")
+        lines.append(
+            f"*{ccam.get('total_found', 0)} items tracked · {closed_n} closed · "
+            "0 open actionable — ICAM on watch via FTA/SAM. Quarterly manual review still runs.*"
+        )
+        for o in ccam_opps:
+            if o.get("ddi_fit") == "high" or o.get("status") == "watch":
+                lines.append(
+                    f"- **WATCH:** {o.get('title')} | {o.get('deadline', '—')} | "
+                    f"{o.get('fit_note', '')} → **{o.get('partner', 'Review')}**"
+                )
+    else:
+        for o in ccam_action:
+            lines.append(
+                f"- **{o.get('title')}** | Status: {o.get('status')} | Due: {o.get('deadline', '—')} | "
+                f"{o.get('fit_note', '')} → **{o.get('partner', 'Review')}**"
+            )
+            if o.get("url"):
+                lines.append(f"  - {o['url']}")
+    if ccam and ccam.get("errors"):
+        lines.append(f"- ⚠ Scan errors: {', '.join(ccam['errors'][:3])}")
 
     lines.extend([
         "",

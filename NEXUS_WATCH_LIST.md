@@ -1,6 +1,6 @@
 # NEXUS WATCH LIST — Solicitations to Monitor
 
-**Updated:** June 3, 2026
+**Updated:** July 23, 2026  
 **Purpose:** Track solicitations where DDI has introduced itself and is waiting for the full RFQ to drop. Check SAM.gov weekly for each item below.
 
 ---
@@ -9,14 +9,14 @@
 
 | Priority | Solicitation | Agency | Description | CO | CO Email | Status | Action |
 |---|---|---|---|---|---|---|---|
-| 🔴 **CRITICAL** | MA190000000912 (recompete TBD) | Michigan MDHHS / DTMB | **State Medicaid NEMT Broker — Wayne, Oakland, Macomb** (ModivCare incumbent). **Separate from CareSource MCO contract.** Expires July 31, 2026. ~$103M headline — **DDI target = slice**, not whole broker. | MDHHS Procurement | 517-335-5100 | Recompete FY2026 — SIGMA 9S3 | `NEMT_CONTRACT_SLICE_STRATEGY.md` |
+| 🔴 **CRITICAL** | **RFP 260000002254** (recompete of MA190000000912) | Michigan MDHHS | **FFS Medicaid NEMT Broker** — historically Wayne/Macomb/Oakland; **MDHHS extending to potential statewide FFS**. ModivCare expires Jul 31, 2026. Headline was ~$103M tri-county — statewide = larger. **DDI = slice / multi-award / teaming**, not default sole prime. Old RFP `190000000198` ≠ this. | Sarah Oumedian | OumedianS@michigan.gov | ⏳ **Anticipated Aug 2026** SIGMA · daily watch **9S301** + **260000002254** | `MICHIGAN NEMT BROKER RECOMPETE/` · email ready in SEND_TO_BUYER |
 | 🔴 **HIGH** | MVAA FY27 SVSPG | Michigan Veterans Affairs Agency | **Statewide Veteran Service Provision Grant — $4M+ pool.** Benefits navigation + veteran services. CWC inquiry sent Mar 22. FY27 cycle opens ~April–June 2026. | MVAAGrants@michigan.gov | MVAAGrants@michigan.gov | **Watch for FY27 RFP posting NOW** | Check MVAA grants page weekly. DDI/CWC: MI Bridges Community Partner since 2020, 250+ applications. Folder: `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/MVAA_GRANT_INQUIRY_EMAIL.md` |
 | 🔴 **HIGH** | MDHHS SHIELD (Wayne County) | Michigan MDHHS EHB | **Lead-safe navigation TPA** — childhood BLL testing + follow-up navigation (MIBridges enrollment, housing, NEMT). Proposal to Angela Medina / Aimee Surma Apr 30. Follow-up cal May 18. | Angela Medina / Aimee Surma | (via MDHHS) | **Awaiting MDHHS response** | `MDHHS_SHIELD_PILOT_PROPOSAL.md`. DDI prime TPA + CWC navigators. Not a grant — program contract path. |
 | 🟡 WATCH | Michigan Health Endowment Fund — Capacity Building | MI Health Fund | **Up to $300K** — organizational capacity. Sayre Corbin replied Mar 27: **RFP early April 2026**. CHI folded into Healthy Kids + Healthy Aging. | Sayre Corbin | grants@mihealthfund.org | **RFP may be open or imminent** | Subscribe mihealthfund.org. CWC applicant. Navigation/CHW fit. |
 | 🟡 WATCH | MDHHS CSBG | Michigan MDHHS BCAEO | **Community Services Block Grant subgrants** — benefits navigation, community services. Inquiry sent Mar 22. | MDHHS BCAEO | MDHHS-BCAEO@michigan.gov | Awaiting response | CWC + DDI MI Bridges past performance. |
 | 🟡 WATCH | MDHHS CLPPP | Michigan MDHHS CLPPP | **Lead prevention grants** — screening outreach + navigation. Inquiry sent Mar 22. | CLPPP | MDHHS-CLPPP@michigan.gov | Awaiting response | Ties to SHIELD lane. |
 | 🟡 WATCH | CareSource SDOH/HRSN | CareSource MCO | **Health-related social needs navigation** — MCO procurement. Active NEMT relationship (Brian Grcevich). | Brian Grcevich | (CareSource) | **SDOH email sent May 31 — await routing contact** | DDI prime TPA. MI Bridges proof. No solicitation posted yet. |
-| 🟡 WATCH | **FAP2026SS** | DAF / AFIMSC / 771 ESS | **Family Advocacy Program** — enterprise FAP personal/non-personal services. 76 installations, 2.6M families. NAICS 624190. Total SB set-aside. | Sandy Thompson | sandy.thompson@us.af.mil | **Sources Sought due Jun 6, 2026 @ 2 PM ET** — ✅ email sent May 31. **Survey still required.** | Folder: `BIDS:RESOURCES/DAF FAMILY ADVOCACY/`. Survey: forms.osi.apps.mil/r/dzLdYjzaFj. **Clinical sub needed before full RFP.** |
+| 🟡 WATCH | **FAP2026SS** | DAF / AFIMSC / 771 ESS | **Family Advocacy Program** — enterprise FAP personal/non-personal services. 76 installations, 2.6M families. NAICS 624190. Total SB set-aside. | Sandy Thompson / Michaela Desch | sandy.thompson@us.af.mil · michaela.desch@us.af.mil | **✅ Email + cap May 31** · **✅ Receipt Jun 8** · **❌ Survey missed Jun 6 — submit ASAP + notify Desch** | Folder: `BIDS:RESOURCES/DAF FAMILY ADVOCACY/`. Survey: forms.osi.apps.mil/r/dzLdYjzaFj. **Monitor SAM for full RFP.** |
 | 🔴 **HIGH** | **W912HQ26S011** | USACE / HECSA (Humphreys Engineer Center) | **Agency-wide EAP + Work-Life IDIQ** — ~24,000 employees CONUS/OCONUS. Single-award 5-yr IDIQ (1 base + 4 options). NAICS 624190. Full & open. Sources Sought closed **Jan 23, 2026** — **monitor SAM weekly for full RFP** (industry intel: performance ~May 2026). | Giorgiana Chen / Doug Pohlman | Giorgiana.Chen@usace.army.mil · Douglas.E.Pohlman@usace.army.mil | **EAP partner buildout** — identify licensed clinical EAP vendor (Neely-type) before RFP drops. Same lane as DAF FAP. | SAM: [W912HQ26S011](https://sam.gov/search/?index=opp&page=1&sort=-modifiedDate&solicitationNumber=W912HQ26S011). Incumbent district model: Neely EAP. |
 | 🟢 ACTIVE SEARCH | Digital Navigation / Benefits Enrollment (Nationwide) | SAM.gov + SIGMA + AAAs + ACL | **Digital navigator, benefits navigation, enrollment assistance, SDOH/HRSN, SHIP, ACA navigator.** NAICS 624190, 624210, 561499, 541720. | Various | Various | **RADAR lane wired May 29** — `mine_digital_navigation_sam.py` → `digital_nav_sam_cache.json`. Run: `python3 nexus_scheduler.py --digital-nav` | DDI **MI Bridges Community Partner since May 15, 2020** (250+ apps). CWC for 501(c)(3) grants. Report: `NEXUS_LEARNING/DIGITAL_NAVIGATION_RADAR_REPORT.md` |
 | 🟢 **NATIONAL** | Dual-eligible navigation | **620+ AAAs · 25 HRSN states · national MCOs** | SHIP, benefits nav, SDOH/HRSN, digital equity | Ongoing | Mine n4a + MCO + SAM · see national scan | `NEXUS_LEARNING/DUAL_ELIGIBLE_NAVIGATION_SCAN_2026-05-31.md` |
@@ -49,7 +49,7 @@
 | 🟢 **EXPLORE** | RADAR — AZ AHCCCS | Arizona AHCCCS | **MCO-by-MCO NEMT + BH signals** — no statewide broker; PT-28 / MCO TPA path. NEMT page, open solicitations, TRBHA, BH in schools. | Various MCOs | — | **Active exploration May 29** | Folder: `RADAR HEALTHCARE MCO/AZ_AHCCCS_EXPLORATION.md`. Weekly: open solicitations page. Uber AZ confirm Jun 1. |
 | 🟢 **EXPLORE** | RADAR — NC Medicaid | NC DHHS / NCTracks | **NEMT hybrid model** — PHP brokers (ModivCare/One Call) + DSS direct. BH/I-DD tailored plans watch. Enrollment broker = MAXIMUS (recompete intel only). | Various PHPs | — | **Active exploration — SOS Jun 1** | Folder: `RADAR HEALTHCARE MCO/NC_MEDICAID_EXPLORATION.md`. NCTracks 347E00000X after SOS. |
 | ~~🟡 REVIEW~~ | **491 260000002008** (Amend 1) | **MDHHS** | **FP — Alpena-Montmorency In-Home Family Services** · NAICS **624190** | **Jun 10 @ 3 PM ET** | **NO-GO — DDI prime** (Jun 3) — need local degreed UP staff | `MDHHS ALPENA IN-HOME FAMILY/` · team/sub only |
-| 🔴 **HIGH** | 0520260310 | Maine DHHS / DAFS | **MaineCare NET recompete.** 8 regions — **DDI = regional slice w/ Penquis/Waldo.** Initial May 20 · **Follow-up sent Jun 3.** | Penquis / Waldo CAP | info@penquis.org · info@waldocap.org | ⬜ Pull RFP Maine VSS · Await reply · **Next follow-up Jun 17** | `MAINE NEMT TEAMING/` |
+| 🔴 **HIGH** | 0520260310 | Maine DHHS / DAFS | **MaineCare NET recompete.** 8 regions — **DDI = regional slice w/ Penquis/Waldo.** Initial May 20 · **Follow-up sent Jun 3.** **VSS active Jun 15** — VS0000032746 / DEEDAVISINC | Penquis / Waldo CAP | info@penquis.org · info@waldocap.org | ⬜ Pull RFP on Maine VSS · Await reply · **Next follow-up Jun 17** | `MAINE NEMT TEAMING/` |
 
 ---
 
@@ -60,7 +60,7 @@
 | Priority | ID / Ref | Agency | Description | Due / Timing | Status | Folder |
 |---|---|---|---|---|---|---|
 | 🔴 **CRITICAL** | **41NHA-S3848** | **Nevada Health Authority** | **Statewide Medicaid NET broker** + secure BH transport + **ITS software** · $25M–$120M · Jan 2027–Dec 2030 · 15% admin cap | **Jul 6, 2026 @ 2:00 PM PT** | **CONDITIONAL GO** — ITS partner + NV license gates | `NEVADA NET BROKER/` · `GO_NO_GO_ANALYSIS.md` |
-| 🔴 **HIGH** | **36C25226Q0366** / V212 | **VA Madison WI (36C252)** | **NEMT IDIQ** — sedan + WAV + **stretcher** · 3,050 trips/yr est. · $9M ceiling · 100% SB | **Jun 22, 2026 @ 10:00 AM CDT** (Amd 0002) | **CONDITIONAL GO** — WI fleet sub by Jun 10 · CO Scott Sands | `VA MADISON NEMT/` |
+| 🔴 **HIGH** | **36C25226Q0366** / V212 | **VA Madison WI (36C252)** | **NEMT IDIQ** — sedan + WAV + **stretcher** · 3,050 trips/yr est. · $9M ceiling · 100% SB | **Finish Jun 21** · **Submit Jun 22 @ 10 AM CDT** (Amd 0002) | **GO — SUBMIT** · CO Scott Sands | `VA MADISON NEMT/` |
 | 🔴 **HIGH** | HMCS052626 / CR 2135536 | **SUNY Upstate Medical University** | Home medical courier · MWBE-only · up to $1.5M/yr · statewide | **Jun 17, 2026 @ 9:00 AM ET** | **GO** — contact cushnerm@upstate.edu · package in `SEND_TO_BUYER/` | `SUNY UPSTATE HOME MEDICAL COURIER/` |
 | 🔴 **HIGH** | OAA/LSP RFP 2026 | **AAA Pasco-Pinellas (FL)** | Senior transportation · 2027 + 5 renewals | **Jun 18, 2026 @ 3:00 PM ET** | **GO** — download RFP | `PASCO PINELLAS AAA TRANSPORT/` |
 | 🟡 NEXT CYCLE ~2029 | ESWA RFP | **Elder Services of Worcester Area (MA)** | Elder transport | LOI May 22 hard gate · **next RFP ~3 yrs** | — | Jason Giombetti jgiombetti@eswa.org | Re-outreach when presol/RFP drops | `WORCESTER ELDER TRANSPORT - NEXT CYCLE ~2029/` |
@@ -73,6 +73,16 @@
 | ~~⚫ PASS~~ | **42195** (est.) | **OCTA (CA)** | Ridership Program Consulting — employer surveys / AVR · $380K/2yr FTA | TBD (alert Jun 2026) | **NO-GO Jun 3** — TDM consulting, wrong lane, no CA PP | `ARCHIVE/OCTA RIDERSHIP CONSULTING - NO GO/` |
 
 **Portal adds for weekly scan:** [nevadaepro.com](https://nevadaepro.com) · [agingcarefl.org/request-for-proposal](https://agingcarefl.org/request-for-proposal/) · CA regional centers (NLACRC, ELARC) · AHCCCS open solicitations
+
+---
+
+## 🔭 FUTURE FEDERAL GRANTS — MONITOR ONLY (no action now)
+
+| Priority | Program | Agency | Description | Last NOFO | Status | Intel |
+|---|---|---|---|---|---|---|
+| 🟡 **FUTURE** | **ICAM Pilot** — Innovative Coordinated Access and Mobility | **FTA** | Competitive **capital** grants for mobility management, coordination technology, one-call centers — **NEMT + public transit coordination** for seniors, disabled, low-income. ~$5M/yr pool. | **FTA-2024-006-TPM-ICAM** closed Feb 13, 2024 | **Watch for next NOFO** | `NEXUS_LEARNING/CCAM_FTA_COORDINATION_INTEL.md` |
+| 🟢 **LOW** | **Community Rides Grants** | **FTA / National RTAP** | Rural/tribal **5311 transit leads** + partners · ~$800K/13 awards · SDOH + medical access · **2026 closed** (apps Aug 2025) | Mar 2026 awardees posted | **Watch 2027 cycle** — DDI **partner only**, not prime | `CCAM_FTA_COORDINATION_INTEL.md` · nationalrtap.org |
+| | **DDI wedge when active:** DEPOINTE / NEXUS·PRISM coordination infrastructure (team w/ 5310 recipient or transit authority — prime eligibility TBD per NOFO) | | | | | **ARENA:** tangential unless coordination-tech scope |
 
 ---
 

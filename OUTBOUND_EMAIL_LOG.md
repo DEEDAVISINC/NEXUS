@@ -10,10 +10,45 @@
 
 ---
 
+## 2026-06-12
+
+**MICH HIDE SNP boutique outreach — Gmail Schedule Send queued Fri 7:04 PM ET · delivers Mon Jun 15, 8:00–9:45 AM ET (staggered).**
+
+| Queued | Delivers ET | To | Contact | Organization | Subject | Category | Source | Status |
+|--------|-------------|-----|---------|--------------|---------|----------|--------|--------|
+| 7:04 PM | Mon 8:00 AM | patricia.a.graham@mimeridian.com | Patty Graham | Meridian | MICH HIDE SNP — Dual-Eligible Care Coordination \| Dee Davis Inc. | mco | MON_JUN16_01_MERIDIAN_GRAHAM.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 8:15 AM | michael.steele@molinahealthcare.com | Michael Steele | Molina MI | same | mco | MON_JUN16_02_MOLINA_STEELE.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 8:30 AM | ckincaid@priorityhealth.com | Carrie Kincaid | Priority Health | same | mco | MON_JUN16_03_PRIORITY_KINCAID.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 8:45 AM | scott_waulters@uhc.com | Scott Waulters | UHC CP MI | same | mco | MON_JUN16_04_UHC_WAULTERS.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 9:00 AM | edoeh@humana.com | Eric Doeh | Humana MI | same | mco | MON_JUN16_05_HUMANA_DOEH.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 9:15 AM | HarbitzJ@aetna.com | Jason Harbitz | Aetna MI | same | mco | MON_JUN16_06_AETNA_HARBITZ.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 9:30 AM | mholmquist@uphp.com | Melissa Holmquist | UPHP | same | mco | MON_JUN16_07_UPHP_HOLMQUIST.md | **GMAIL SCHEDULED** |
+| 7:04 PM | Mon 9:45 AM | cmcdade@amerihealthcaritas.com | Christopher McDade | AmeriHealth VIP | same | mco | MON_JUN16_08_AMERIHEALTH_MCDADE.md | **GMAIL SCHEDULED** |
+
+**Follow-up:** Wed **Jun 24, 2026 @ 12:00 PM ET** — non-responders only (7 business days after Mon Jun 15 send).  
+**Excluded:** HAP (live contract). **Mon AM:** flip status to SENT after Gmail delivers.
+
+---
+
+| Time | To | Contact | Organization | Subject | Category | Source file | Status |
+|------|-----|---------|--------------|---------|----------|-------------|--------|
+| ~4:25 PM ET | Brian.Grcevich@CareSource.com (+ Dana, Michael, MI_Network) | Brian / Dana / Michael | HAP CareSource | Re: non-medical routing — confirm Jun 8 @ 1 PM + 5 prep questions | mco | Gmail reply (user sent) | SENT |
+| — ET | Brian.Grcevich@CareSource.com; Dana.Drew@CareSource.com; Michael.Fantoni@CareSource.com (CC MI_Network@caresource.com) | Brian / Dana / Michael | HAP CareSource | HIDE SNP NEMT routing vs MTM orientation | mco | HAP CARESOURCE NEMT NETWORK/SEND_TO_BUYER/MEMBER_ROUTING_MTM_CONFLICT_EMAIL_READY.md | SENT |
+
+### Inbound replies (same thread)
+
+| Received | From | Summary |
+|----------|------|---------|
+| ~3:14 PM ET Jun 7 | Brian.Grcevich@CareSource.com | **Two lanes:** medical→MTM; non-medical→DDI via CM service plan. Call offered Jun 8 @ 1 PM. |
+| Jun 7 | Dana.Drew@caresource.com | Contract PDF referenced in thread (844114181) |
+
+---
+
 ## 2026-05-31
 
 | Time | To | Contact | Organization | Subject | Category | Source file | Status |
 |------|-----|---------|--------------|---------|----------|-------------|--------|
+| ~19:08 ET | sandy.thompson@us.af.mil; michaela.desch@us.af.mil | Sandy Thompson / Michaela Desch | DAF / 771 ESS — FAP | EDWOSB Interest — FAP2026SS Sources Sought | buyer | DAF FAMILY ADVOCACY/SEND_TO_BUYER/ | SENT — cap attached · **Receipt confirmed Jun 8 (Desch)** |
 | — ET | Brian.Grcevich@CareSource.com | Brian Grcevich | HAP CareSource | HIDE SNP — Benefits & SDOH Navigation TPA | mco | MCO_SEND_ONE_AT_A_TIME.md #1 | SENT |
 | — ET | Dana.Drew@CareSource.com | Dana Drew | HAP CareSource | Oakland County — NEMT Vendor 100000469269 | mco | MCO_SEND_ONE_AT_A_TIME.md #1B | SENT |
 | — ET | (Jennifer Eliopoulos) | Jennifer Eliopoulos | University Health Newark | Debrief / on-file | mco | MCO_SEND_ONE_AT_A_TIME.md #2 | SENT |

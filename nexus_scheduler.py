@@ -46,6 +46,8 @@ Usage:
   python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
   python3 nexus_scheduler.py --aog           # AOG / 488190 SAM scan only → aog_sam_cache.json (also runs inside --mine)
   python3 nexus_scheduler.py --compile-radar # Rebuild RADAR_RESULTS.md from caches (no full sweep)
+  python3 nexus_scheduler.py --compile-grants # Rebuild GRANTS_RESULTS.md from Airtable GBIS
+  python3 nexus_scheduler.py --ccam-tac       # CCAM-TAC grants scan only → ccam_tac_grants_cache.json
   python3 nexus_scheduler.py --digital-nav   # Digital navigation SAM scan → digital_nav_sam_cache.json
   python3 nexus_scheduler.py --sync-cos                    # Harvest SAM.gov COs → GPSS CONTACTS (manual only; not in --mine)
   python3 nexus_scheduler.py --sync-cos --limit-naics 5    # Quick targeted sweep (top 5 NAICS, low bandwidth)
@@ -497,8 +499,16 @@ def run_gbis_mine_all_pipeline():
         log.info(
             f"GBIS mine-all complete: {total_new} new rows "
             f"(foundations +{mich['imported']}, cwc_expansion +{cwc['imported']}, "
-            f"veteran +{vets['imported']}, grants.gov +{fed['imported']}, small business +{sm['imported']})"
+            f"veteran +{vets['imported']}, grants.gov +{fed['imported']} found {fed.get('found', 0)}, "
+            f"small business +{sm['imported']})"
         )
+        try:
+            from compile_grants_results import compile_grants
+
+            path = compile_grants()
+            log.info(f"GBIS compile complete → {path.name}")
+        except Exception as compile_err:
+            log.warning(f"GBIS compile failed: {compile_err}")
         return True
     except Exception as e:
         log.error(f"GBIS mine-all failed: {e}")
@@ -593,26 +603,28 @@ def run_radar_daily_scheduled():
     return compile_ok
 
 
-def _should_run_gbis_daily_7am_et():
-    """Once per calendar day, only in the 7:00–7:14 AM America/Detroit window."""
-    try:
-        from zoneinfo import ZoneInfo
-
-        now = datetime.now(ZoneInfo("America/Detroit"))
-    except Exception:
-        now = datetime.now()
-    if now.hour != 7 or now.minute >= 15:
-        return False
-    today = now.strftime("%Y-%m-%d")
+def _gbis_completed_today_et() -> bool:
+    today = _radar_now_et().strftime("%Y-%m-%d")
     try:
         if os.path.exists(GBIS_DAILY_RUN_STATE):
             with open(GBIS_DAILY_RUN_STATE, "r") as f:
                 data = json.load(f)
-            if data.get("date") == today:
-                return False
+            return data.get("date") == today
     except Exception:
         pass
-    return True
+    return False
+
+
+def _should_run_gbis_daily_et():
+    """Once per calendar day — primary 7:00 AM ET, catch-up noon if Mac was asleep."""
+    now = _radar_now_et()
+    if _gbis_completed_today_et():
+        return False
+    if now.hour == 7 and now.minute < 20:
+        return True
+    if now.hour == 12 and now.minute < 20:
+        return True
+    return False
 
 
 def _mark_gbis_daily_run_et():
@@ -995,8 +1007,23 @@ def run_radar():
     results["public_portals"] = run_public_portal_scan()
 
     # Channel 6: AI scoring + email alerts (process everything found above)
-    log.info("[RADAR 6/6] AI scoring & alerts...")
+    log.info("[RADAR 6/7] AI scoring & alerts...")
     results["ai_scoring"] = run_ai_scoring_and_alerts()
+
+    log.info("[RADAR 7/7] CCAM-TAC / FTA human-services grants...")
+    try:
+        from mine_ccam_tac_grants import mine_ccam_tac
+
+        ccam_data = mine_ccam_tac()
+        results["ccam_tac_grants"] = not ccam_data.get("errors") or ccam_data.get("total_found", 0) > 0
+        log.info(
+            "CCAM-TAC scan → %s items (%s actionable)",
+            ccam_data.get("total_found", 0),
+            ccam_data.get("actionable_count", 0),
+        )
+    except Exception as e:
+        log.warning("CCAM-TAC scan failed: %s", e)
+        results["ccam_tac_grants"] = False
 
     log.info("[RADAR COMPILE] Writing RADAR_RESULTS.md...")
     try:
@@ -1071,7 +1098,7 @@ def run_loop():
     log.info("  AI scoring + alerts:  every 2 hours")
     log.info("  Quote follow-ups:     every 4 hours")
     log.info("  RADAR full sweep:     daily 6:30 AM ET (+ 7 AM / noon / 6 PM catch-up) → RADAR_RESULTS.md")
-    log.info("  GBIS mine-all:        daily 7:00 AM ET (full grant pipeline)")
+    log.info("  GBIS mine-all:        daily 7:00 AM ET (+ noon catch-up) → GRANTS_RESULTS.md")
     log.info("  Prime contractor mining: weekly")
     log.info("  JETA IATA market price: weekly (jet fuel $/bbl → JETA_MarketData)")
     log.info("  VERTEX financial jobs: daily 6:00 AM ET (recurring invoices, collection, AI advisor, reconciliation)")
@@ -1158,8 +1185,8 @@ def run_loop():
             else:
                 log.warning("RADAR daily run finished without compile — will retry next catch-up window")
 
-        # GBIS autonomous grant discovery — daily 7:00 AM America/Detroit (same as POST /gbis/mine-all)
-        if _should_run_gbis_daily_7am_et():
+        # GBIS autonomous grant discovery — daily 7 AM + noon catch-up → GRANTS_RESULTS.md
+        if _should_run_gbis_daily_et():
             if run_gbis_mine_all_pipeline():
                 _mark_gbis_daily_run_et()
 
@@ -1214,6 +1241,22 @@ if __name__ == "__main__":
 
         path = compile_radar()
         print(f"Compiled {path}")
+    elif "--compile-grants" in args:
+        from compile_grants_results import compile_grants
+
+        path = compile_grants()
+        print(f"Compiled {path}")
+    elif "--ccam-tac" in args:
+        from mine_ccam_tac_grants import mine_ccam_tac
+        from compile_radar_results import compile_radar
+
+        data = mine_ccam_tac()
+        print(
+            f"CCAM-TAC: {data.get('total_found', 0)} items, "
+            f"{data.get('actionable_count', 0)} actionable → ccam_tac_grants_cache.json"
+        )
+        path = compile_radar()
+        print(f"Compiled {path}")
     elif "--digital-nav" in args:
         from mine_digital_navigation_sam import run_digital_nav_scan
 
@@ -1266,7 +1309,9 @@ if __name__ == "__main__":
         run_folder_scan()
         run_stale_detection()
     elif "--gbis" in args:
-        run_gbis_mine_all_pipeline()
+        ok = run_gbis_mine_all_pipeline()
+        if ok:
+            _mark_gbis_daily_run_et()
     elif "--primes" in args:
         run_prime_contractor_mining()
     elif "--vertex" in args:

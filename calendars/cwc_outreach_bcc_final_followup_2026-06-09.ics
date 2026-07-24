@@ -13,8 +13,8 @@ DTEND;TZID=America/Detroit:20260609T150000
 SUMMARY:📧 BCC: Final Follow-Up If No Response
 DESCRIPTION:If Alina Pabin has not responded — one final professional touch. If she schedules\, prep BCC call guide. NO follow-up after this. apabin@mibluecrosscomplete.com
 LOCATION:NEXUS / Remote
-STATUS:CONFIRMED
-SEQUENCE:0
+STATUS:CANCELLED
+SEQUENCE:1
 BEGIN:VALARM
 TRIGGER:-PT2H
 DESCRIPTION:Task in 2 hours

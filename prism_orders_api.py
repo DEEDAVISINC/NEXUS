@@ -218,8 +218,8 @@ SERVICE_QC_CHECKLISTS = {
         {'id': 'NEMT-9', 'check': 'HIPAA — passenger medical info protected?', 'severity': 'FATAL'},
     ],
     'community_transition': [
-        {'id': 'CTS-1', 'check': 'Molina LTSS Orientation Attestation on file?', 'severity': 'FATAL'},
-        {'id': 'CTS-2', 'check': 'Availity portal active with NPI 1538939111 confirmed?', 'severity': 'FATAL'},
+        {'id': 'CTS-1', 'check': 'If payer = Molina: LTSS Orientation Attestation on file? (Onboard equivalent gate before authorizing any other MCO\'s CTS.)', 'severity': 'FATAL'},
+        {'id': 'CTS-2', 'check': 'If payer = Molina: Availity portal active with NPI 1538939111 confirmed? (Onboard equivalent gate before authorizing any other MCO\'s CTS.)', 'severity': 'FATAL'},
         {'id': 'CTS-3', 'check': 'Referral source (discharge planner / facility / Care Coordinator) and referral date recorded?', 'severity': 'FATAL'},
         {'id': 'CTS-4', 'check': 'PCSP Confirmation completed — CTS is an approved service on the member\'s PCSP?', 'severity': 'FATAL'},
         {'id': 'CTS-5', 'check': 'Requested expense category is Security Deposit or Utility Set-up (Furnishings/Moving Costs blocked — Article 2.9 disclosure not filed)?', 'severity': 'FATAL'},
@@ -1679,7 +1679,7 @@ def _create_intake_order_impl():
             orders[0] = order
             _save(ORDERS_FILE, orders)
     except Exception as e:
-        print(f'PRISM CTS (Molina Community Transition) auto-link skipped: {e}')
+        print(f'PRISM CTS (Community Transition) auto-link skipped: {e}')
 
     # Billing data from intake form
     billing_tier = data.get('billing_tier', 'pay_at_booking')

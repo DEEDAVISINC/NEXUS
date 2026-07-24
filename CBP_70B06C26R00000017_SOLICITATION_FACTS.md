@@ -80,7 +80,7 @@
 - **Value** was “~$450M+” — that was **not** the SF 1449 **$19.0M** ceiling.  
 - **Set-aside** was “Full & Open” — SF 1449 face shows **HUBZone**; SAM governs.  
 - **NAICS** was 621399 — PDF text layer shows **621399** ⚠️ *Corrected from 621999 per SAM 4/22/2026 amendment* (reconcile with SAM).  
-- **`nexus_opportunity_hunter.html`** had `dueDate: 2026-04-10` and April 10 copy — **updated** to 2026-04-28.
+- **`nexus_opportunity_hunter.html`** (retired — use NEXUS **NOVA** at `/?view=opportunity-hunter`) had `dueDate: 2026-04-10` and April 10 copy — **updated** to 2026-04-28.
 
 ---
 

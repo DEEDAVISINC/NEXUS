@@ -6,7 +6,7 @@ import { SupplierSearchModal } from './modals/SupplierSearchModal';
 import { OpportunityDetailModal } from './modals/OpportunityDetailModal';
 
 interface LandingPageProps {
-  onEnterSystem: (system: ViewType) => void;
+  onEnterSystem: (system: ViewType, initialTab?: string) => void;
 }
 
 interface DashboardStats {
@@ -39,6 +39,20 @@ interface DashboardStats {
       active_leads: number;
       pipeline: number;
       tasks_due: number;
+    };
+    compass?: {
+      active_contracts: number;
+      total_value: number;
+      deliverables_pending: number;
+    };
+    vault?: {
+      total: number;
+      active: number;
+    };
+    vertex?: {
+      total_invoiced: number;
+      accounts_receivable: number;
+      unpaid_invoice_count: number;
     };
   };
   timestamp: string;
@@ -110,6 +124,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       atlas: { projects: 0, rfps_analyzed: 0, total_value: 0 },
       gbis: { active_grants: 0, applications: 0, awarded: 0 },
       lbpc: { active_leads: 0, pipeline: 0, tasks_due: 0 },
+      compass: { active_contracts: 0, total_value: 0, deliverables_pending: 0 },
+      vault: { total: 0, active: 0 },
+      vertex: { total_invoiced: 0, accounts_receivable: 0, unpaid_invoice_count: 0 },
     },
     timestamp: new Date().toISOString()
   }), []);
@@ -237,6 +254,29 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
             active_leads: l.totalLeads || l.active_leads || 0,
             pipeline: l.totalRecoveryPotential || l.total_surplus || 0,
             tasks_due: l.newLeads || l.tasks_due || 0,
+          };
+        }
+        const compassRes = await api.getCompassStats().catch(() => null);
+        if (compassRes && typeof compassRes === 'object') {
+          merged.systems.compass = {
+            active_contracts: compassRes.active_contracts || 0,
+            total_value: compassRes.total_value || 0,
+            deliverables_pending: compassRes.deliverables_pending || 0,
+          };
+        }
+        const vaultRes = await api.getNexusContracts().catch(() => null);
+        if (vaultRes && typeof vaultRes === 'object') {
+          merged.systems.vault = {
+            total: vaultRes.total || 0,
+            active: vaultRes.active_count || 0,
+          };
+        }
+        const vertexRes = await api.getVertexDashboard().catch(() => null);
+        if (vertexRes && typeof vertexRes === 'object') {
+          merged.systems.vertex = {
+            total_invoiced: vertexRes.total_invoiced || 0,
+            accounts_receivable: vertexRes.accounts_receivable || 0,
+            unpaid_invoice_count: vertexRes.unpaid_invoice_count || 0,
           };
         }
       } catch { /* fallback to zeros */ }
@@ -590,6 +630,12 @@ END:VCALENDAR`;
   ];
 
   // PRIMARY WORKFLOW SYSTEMS - Your daily drivers
+  const compassLive = stats.systems.compass;
+  const vaultLive = stats.systems.vault;
+  const vertexLive = stats.systems.vertex;
+  const fmtK = (n: number) =>
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
+
   const coreSystems = [
     {
       id: 'opportunity-hunter' as ViewType,
@@ -641,6 +687,22 @@ END:VCALENDAR`;
       phase: '3. PLAN'
     },
     {
+      id: 'vault' as ViewType,
+      name: 'VAULT',
+      fullName: 'Master Contract Registry',
+      icon: '🔐',
+      description: 'The file cabinet — service, vendor, government & commercial agreements',
+      stats: [
+        `${vaultLive?.active || 0} Active Agreement${(vaultLive?.active || 0) !== 1 ? 's' : ''}`,
+        `${vaultLive?.total || 0} In Vault`,
+        'HAP CareSource NEMT',
+      ],
+      gradient: 'from-amber-600 to-yellow-600',
+      status: 'online',
+      lastUsed: (vaultLive?.active || 0) > 0 ? 'Live' : 'Ready',
+      phase: '4. VAULT'
+    },
+    {
       id: 'prism' as ViewType,
       name: 'PRISM',
       fullName: 'Field Service Command Center',
@@ -655,23 +717,7 @@ END:VCALENDAR`;
       gradient: 'from-orange-500 to-amber-600',
       status: 'online',
       lastUsed: 'NEW! 🔥',
-      phase: '4. EXECUTE'
-    },
-    {
-      id: 'compass' as ViewType,
-      name: 'COMPASS',
-      fullName: 'Post-Award Fulfillment',
-      icon: '🧭',
-      description: 'Deliver contracts • Track compliance • Manage subcontractors',
-      stats: [
-        '0 Active Contracts',
-        '$0 Under Management',
-        'Nothing Falls Through!'
-      ],
-      gradient: 'from-yellow-600 to-red-600',
-      status: 'online',
-      lastUsed: 'COMING SOON',
-      phase: '5. DELIVER'
+      phase: '5. EXECUTE'
     },
     {
       id: 'vertex' as ViewType,
@@ -680,14 +726,13 @@ END:VCALENDAR`;
       icon: '💎',
       description: 'Invoices • Expenses • Revenue • P&L • QB Export',
       stats: [
-        'P&L Tracker (NEW!)',
-        'Invoices + Expenses',
-        'Revenue Tracking',
-        'Financial Reports'
+        `${fmtK(vertexLive?.total_invoiced || 0)} Invoiced`,
+        `${vertexLive?.unpaid_invoice_count || 0} Unpaid Invoice${(vertexLive?.unpaid_invoice_count || 0) !== 1 ? 's' : ''}`,
+        `${fmtK(vertexLive?.accounts_receivable || 0)} A/R`,
       ],
       gradient: 'from-purple-600 to-pink-600',
       status: 'online',
-      lastUsed: 'NEW! 🔥',
+      lastUsed: (vertexLive?.total_invoiced || 0) > 0 ? 'Live' : 'Ready',
       phase: '6. FINANCE'
     },
     {
@@ -712,6 +757,21 @@ END:VCALENDAR`;
   // SUPPORT SYSTEMS - Available but secondary
   const supportSystems = [
     {
+      id: 'compass' as ViewType,
+      name: 'COMPASS',
+      fullName: 'CO Deliverables & Compliance',
+      icon: '🧭',
+      description: 'Government CO reports • Deliverables • Modifications • CPARS',
+      stats: [
+        `${compassLive?.active_contracts || 0} CO Contract${(compassLive?.active_contracts || 0) !== 1 ? 's' : ''}`,
+        `${fmtK(compassLive?.total_value || 0)} Under Management`,
+        `${compassLive?.deliverables_pending || 0} Deliverables Pending`,
+      ],
+      gradient: 'from-yellow-600 to-red-600',
+      status: 'online',
+      lastUsed: (compassLive?.active_contracts || 0) > 0 ? 'Live' : 'Ready',
+    },
+    {
       id: 'documents' as ViewType,
       name: 'DOCUMENTS',
       fullName: 'Document & Pricing Hub',
@@ -727,8 +787,8 @@ END:VCALENDAR`;
       name: 'DDCSS',
       fullName: 'Corporate Sales System',
       icon: '💼',
-      description: 'Blueprint Framework • 6 Sectors • AI Copilot',
-      stats: ['Corporate Pipeline', 'Private Sector', 'B2B Sales'],
+      description: 'Blueprint Framework • MCO Revenue Model • 6 Sectors • AI Copilot',
+      stats: ['HIDE SNP Revenue Model', 'Corporate Pipeline', 'B2B Sales'],
       gradient: 'from-green-600 to-blue-600',
       status: 'online',
       lastUsed: 'Available'
@@ -881,6 +941,8 @@ END:VCALENDAR`;
   }, [opportunities, tasks]);
 
   const quickActions = [
+    { label: 'HIDE SNP Revenue', icon: '🚐', action: () => onEnterSystem('ddcss', 'hide-snp-revenue'), gradient: 'from-amber-600 to-amber-700' },
+    { label: 'NOVA Hunter', icon: '🌟', action: () => onEnterSystem('opportunity-hunter'), gradient: 'from-violet-600 to-indigo-700' },
     { label: 'Upload RFP', icon: '📄', action: () => onEnterSystem('gpss'), gradient: 'from-blue-600 to-blue-700' },
     { label: 'Request Quote', icon: '📋', action: () => onEnterSystem('documents'), gradient: 'from-cyan-600 to-cyan-700' },
     { label: 'Create Invoice', icon: '💰', action: () => onEnterSystem('invoices'), gradient: 'from-green-600 to-green-700' },
@@ -1454,7 +1516,7 @@ END:VCALENDAR`;
                   <span className="text-xs text-emerald-400 font-bold">{pipelineHealth.status?.toUpperCase()}</span>
                 </div>
                 <span className="text-xs text-gray-500 font-mono">
-                  {pipelineHealth.registry?.active_contracts || 0} contracts | {pipelineHealth.registry?.total_events || 0} events
+                  {pipelineHealth.registry?.active_contracts || 0} in vault | {pipelineHealth.registry?.total_events || 0} events
                 </span>
               </div>
 
@@ -1467,19 +1529,29 @@ END:VCALENDAR`;
                       { id: 'NOVA', label: 'NOVA', sub: 'Find', icon: '🔍' },
                       { id: 'GPSS', label: 'GPSS', sub: 'Bid', icon: '📋' },
                       { id: 'ATLAS', label: 'ATLAS', sub: 'Plan', icon: '📐' },
+                      { id: 'VAULT', label: 'VAULT', sub: 'Vault', icon: '🔐' },
                       { id: 'PRISM', label: 'PRISM', sub: 'Execute', icon: '⚡' },
-                      { id: 'COMPASS', label: 'COMPASS', sub: 'Manage', icon: '🧭' },
                       { id: 'VERTEX', label: 'VERTEX', sub: 'Invoice', icon: '💰' },
                     ];
                     const systems = pipelineHealth.systems || {};
+                    const clickableLifecycle = new Set(['VAULT', 'PRISM', 'VERTEX']);
+                    const lifecycleNav: Record<string, ViewType> = {
+                      VAULT: 'vault',
+                      PRISM: 'prism',
+                      VERTEX: 'vertex',
+                    };
                     return lifecycle.map((sys, i) => (
                       <React.Fragment key={sys.id}>
-                        <div className="flex flex-col items-center min-w-[72px]">
+                        <div
+                          className={`flex flex-col items-center min-w-[72px] ${clickableLifecycle.has(sys.id) ? 'cursor-pointer group' : ''}`}
+                          onClick={clickableLifecycle.has(sys.id) ? () => onEnterSystem(lifecycleNav[sys.id] || sys.id.toLowerCase() as ViewType) : undefined}
+                          title={clickableLifecycle.has(sys.id) ? `Open ${sys.label}` : undefined}
+                        >
                           <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center ${
                             systems[sys.id]?.status === 'online'
                               ? 'bg-emerald-500/15 border-2 border-emerald-500/50 shadow-lg shadow-emerald-500/10'
                               : 'bg-yellow-500/15 border-2 border-yellow-500/50'
-                          }`}>
+                          } ${clickableLifecycle.has(sys.id) ? 'group-hover:border-teal-400/70 group-hover:bg-teal-500/10' : ''}`}>
                             <span className="text-base leading-none">{sys.icon}</span>
                             <span className={`text-[9px] font-black mt-0.5 ${
                               systems[sys.id]?.status === 'online' ? 'text-emerald-400' : 'text-yellow-400'

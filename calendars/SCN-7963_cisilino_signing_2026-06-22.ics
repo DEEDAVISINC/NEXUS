@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:scn-7963-cisilino-20260622@deedavis.biz
+DTSTAMP:20260621T220500Z
+DTSTART;TZID=America/Detroit:20260622T163000
+DTEND;TZID=America/Detroit:20260622T180000
+SUMMARY:📝 SIGNING: Michael Cisilino (Seller) - Sin City
+DESCRIPTION:Sin City Notary LLC\nOrder: SCN-7963 | File: 118430-KLW\nSigner: Michael Cisilino | 313-844-7869 / 586-242-7266\nType: Mobile Seller · EDOCS (seller pkg)\nFee: $85 | Net 45 (~8/6/26)\n\nCALL/TEXT TO CONFIRM · log attempts in portal\nPRINT 2 SETS when docs arrive (markups on · blue ink)\nCollect ID front/back · upload to portal\n\nScanbacks within 2 hrs of 4:30 PM start\nWait approval before drop-off · 702-232-4921\nShip FedEx/UPS same day (no drop box)\nUpload shipping receipt photo\n\n702-721-7778 | Sin City Notary
+LOCATION:38100 Shoreline Dr, Harrison Township, MI 48045
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Cisilino signing in 2 hours — print 2 sets if not done
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Cisilino signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

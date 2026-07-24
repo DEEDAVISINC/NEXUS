@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-/** Shared session for PRISM partner portals (Uber Health, Quest, etc.) */
+/** Shared session for PRISM partner portals (Uber Health, HAP CareSource, Quest, etc.) */
 const PARTNER_PARTITION = 'persist:partner';
 
 /** Standard Chrome UA — many portals (incl. Uber OAuth) block or break on default Electron UA */
@@ -11,6 +11,18 @@ const CHROME_USER_AGENT =
 
 let mainWindow;
 const oauthWindows = new Set();
+
+/** SSO / login hosts — load inside partner webview to preserve dual-screen layout */
+const AUTH_URL_PATTERN =
+  /auth\.|login\.|oauth|sso\.|microsoftonline\.|okta\.|accounts\.google|fed\.|identity\.|signin\.|caresource\.|providerportal\./i;
+
+function isAuthUrl(url) {
+  try {
+    return AUTH_URL_PATTERN.test(new URL(url).hostname + new URL(url).pathname);
+  } catch {
+    return AUTH_URL_PATTERN.test(url);
+  }
+}
 
 function configurePartnerSession() {
   const partnerSession = session.fromPartition(PARTNER_PARTITION);
@@ -48,39 +60,59 @@ function openPartnerOAuthWindow(url, parentWindow) {
   });
 
   win.webContents.setUserAgent(CHROME_USER_AGENT);
+  attachPartnerBrowserHandlers(win.webContents, { allowInPlaceAuth: false });
   oauthWindows.add(win);
   win.on('closed', () => oauthWindows.delete(win));
   win.loadURL(url);
   return win;
 }
 
-function attachWebviewHandlers(contents) {
-  if (contents.getType() !== 'webview') return;
+/**
+ * Partner webviews + OAuth popup windows.
+ * Auth URLs load inside the right-pane webview so dual-screen layout stays intact.
+ */
+function attachPartnerBrowserHandlers(contents, opts = { allowInPlaceAuth: true }) {
+  const type = contents.getType();
+  if (type !== 'webview' && type !== 'window') return;
 
-  contents.setUserAgent(CHROME_USER_AGENT);
+  if (type === 'webview') {
+    contents.setUserAgent(CHROME_USER_AGENT);
+  }
 
-  // Uber / SSO login often opens auth.uber.com in a popup — route to modal window, same cookie jar
   contents.setWindowOpenHandler(({ url }) => {
-    if (url && /^https?:/i.test(url)) {
-      openPartnerOAuthWindow(url, mainWindow);
+    if (!url || !/^https?:/i.test(url)) {
+      return { action: 'allow' };
+    }
+
+    // HAP / Uber / Microsoft SSO — stay in webview, not Safari or a floating modal
+    if (opts.allowInPlaceAuth && type === 'webview' && isAuthUrl(url)) {
+      contents.loadURL(url);
       return { action: 'deny' };
     }
-    return { action: 'allow' };
+
+    openPartnerOAuthWindow(url, mainWindow);
+    return { action: 'deny' };
   });
 
   contents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
-    console.error('[NEXUS partner-webview] did-fail-load', {
+    console.error('[NEXUS partner-browser] did-fail-load', {
       errorCode,
       errorDescription,
       validatedURL,
+      type,
     });
   });
 
   contents.on('console-message', (_event, level, message, line, sourceId) => {
     if (isDev && level >= 2) {
-      console.warn('[partner-webview console]', message, sourceId, line);
+      console.warn('[partner-browser console]', message, sourceId, line);
     }
   });
+}
+
+function attachWebviewHandlers(contents) {
+  if (contents.getType() !== 'webview') return;
+  attachPartnerBrowserHandlers(contents, { allowInPlaceAuth: true });
 }
 
 function createWindow() {

@@ -1,7 +1,7 @@
 # HAP CARESOURCE — PARTNERSHIP / CONTRACT SUMMARY
 
 **Status:** ✅ **ACTIVE — Contract executed, Vendor ID issued**  
-**Last Updated:** May 29, 2026
+**Last Updated:** June 12, 2026
 
 ---
 
@@ -43,12 +43,18 @@
 
 ---
 
-## RATES (OPERATIONAL — ORIENTATION)
+## RATES (OPERATIONAL — CONFIRMED Jun 2026)
 
-| Trip type | Rate |
-|-----------|------|
-| Standard | $28.00 |
-| Ambulatory assist / wheelchair | $35.00 |
+**Formula:** `Base + (loaded miles × $1.85)`
+
+| Trip type | Base | Loaded mileage |
+|-----------|------|----------------|
+| Standard / ambulatory | $28.00 | $1.85/mi (all trip types) |
+| Wheelchair / WAV | $35.00 | $1.85/mi (all trip types) |
+
+**Examples:** 8 mi ambulatory = $42.80 · 15 mi wheelchair = $62.75
+
+Full rate card + margin model: `HAP_CARESOURCE_OPERATIONS.md`
 
 Contract rates follow **HAP CareSource HCBS Fee Schedule** (100% of schedule or State Medicaid FFS, whichever applies per LTSS comp schedule).
 

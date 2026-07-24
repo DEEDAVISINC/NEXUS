@@ -13,7 +13,9 @@ Michigan's universal blood lead testing law (MCL 333.5474d, effective April 30, 
 
 When a child does test elevated (4.1% of tested children statewide), the follow-up system is fragmented. Families are left to navigate abatement contractors, emergency housing, benefits enrollment, transportation, and clinical follow-up on their own — or rely on overstretched local health departments to coordinate it all.
 
-There is no unified system that schedules the test, tracks the result, activates follow-up services, verifies completion, and bills the payer. SHIELD is that system.
+There is no unified system that dispatches screening, removes barriers in real time, tracks results, activates follow-up services, verifies completion, and bills the payer. SHIELD is that system — a **continuity of care guarantee** anchored to MCL 333.5474d, not a one-time screening event.
+
+**Complete framework:** `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`
 
 ---
 
@@ -23,13 +25,29 @@ DDI proposes a **multi-year program** starting in Wayne County in which DDI oper
 
 This is not a short-term pilot that ends and leaves families without services. This is a full operational program designed to run continuously — because the law doesn't pause and neither should the families' access to care.
 
+**Year 1 pilot sizing:** 1,500–2,000 screening referrals dispatched (50% capture model) — **not** "25 families." Full-scale Wayne at 50% mandatory-test capture = ~$6.1M program revenue (see `SHIELD_REVENUE_MODEL.md`). Pilot Year 1 revenue estimate: **$612,770–$1,165,480**.
+
+### SHIELD Dispatch Model
+
+SHIELD operates like DEPOINTE (NEMT) and 3D Ink (notary network): DDI controls the network, dispatches certified mobile screeners through NEXUS, and bills the payer. DDI does not own equipment or employ phlebotomists directly.
+
+1. Referral in (MDHHS, LHD, MCO, MiBridges, pediatrician, school, community partner)
+2. DDI intake assesses barriers (transport, insurance, language, food, time)
+3. DDI dispatches mobile screener to home, daycare, church, school, or community event
+4. Fingerstick capillary BLL (LeadCare II) or venous sample to Quest/CRL via chain of custody
+5. Results in 3 minutes (POC) or 24–48 hours (lab)
+6. DDI logs in NEXUS, updates MCIR, routes case
+7. Non-elevated: education + follow-up → case closed
+8. Elevated: SHIELD cascade activates immediately (CHW, CLPPP, abatement, HAVEN if displacement)
+
 ### What DDI Does
 
-- **Schedules every mandatory BLL test** for children at 12 and 24 months — every child, every payer, no exceptions
-- **Manages the testing workflow** — routes families to Quest Diagnostics or LHD labs, arranges NEMT when needed, tracks results in SHIELD
+- **Dispatches every mandatory BLL test** for children at 12 and 24 months — every child, every payer, no exceptions
+- **Removes barriers in real time** — transport via DEPOINTE/NEMT, mobile screener to family, evening/weekend slots, multilingual CHW
+- **Manages the testing workflow** — mobile screeners, Quest/CRL lab chain of custody, MCIR updates, tracks results in SHIELD
 - **Activates the full service cascade** when a child tests elevated: navigator assigned, home visit conducted, CLPPP referral submitted, remediation coordinated, emergency housing placed, benefits enrolled, retesting scheduled
 - **Verifies every service delivery** through automated two-way confirmation (contractor confirms, family confirms, both sides verified before payment)
-- **Bills the payers directly** — MCOs, Medicaid FFS, and private insurers. Not MDHHS.
+- **Bills the payers directly** — MCOs, Medicaid FFS, and private insurers. Not MDHHS. CHW navigation services billed under Medicaid codes **98960, 98961, 98962** through CHAMPS provider ID **6309049**.
 - **Reports real-time outcomes** to MDHHS through a dedicated partner portal with live data on SLA compliance, service completion rates, and county-level metrics
 
 ### What CWC Does

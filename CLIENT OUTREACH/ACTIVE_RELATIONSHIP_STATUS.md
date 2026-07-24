@@ -8,12 +8,14 @@
 
 | Contact | Organization | Role | Status | Last Touch | Next Action |
 |---------|-------------|------|--------|------------|-------------|
-| **Alina Pabin** | Blue Cross Complete of Michigan | VP Provider Network | Follow-up sent May 30 — **awaiting response** | May 30, 2026 | Wait for her reply — **no additional touch** until she responds. Prep: `BIDS:RESOURCES/BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` |
+| **Alina Pabin** | Blue Cross Complete of Michigan | VP Provider Network | Follow-up sent May 30 — **awaiting response** | May 30, 2026 | **Final touch Thu 6/11 @ 2:30 PM** — postponed from 6/9 · **hold until HAP reply** (MTM routing Jun 7). Prep: `BCBSM NEMT PARTNERSHIP/ALINA_MEETING_TALK_TRACK.md` |
 | **Angela Medina** | MDHHS CLPPP / Environmental Health | Care Coordination Section Manager | Follow-up sent May 30 — **awaiting response** | May 30, 2026 | If silent by **mid-June**, call **517-897-5203**; then direct LHD outreach |
 | **Aimee Surma** | MDHHS CLPPP | — | CC'd May 30 follow-up | May 30, 2026 | Same trigger as Angela |
 | **Jennifer Casbar** | Access2Care / MTM | — | Not yet contacted | — | Molina MI sub path — jcasbar@mtm-inc.net |
-| **Brian Grcevich** | HAP CareSource | NEMT / Network | **Contract live** | **SDOH nav email sent May 31** | Await reply — who owns HRSN/SDOH for HIDE SNP. Oakland: separate Dana email pending |
-| **Dana Drew** | HAP CareSource | Network / contracting | Oakland pending | **Oakland email sent May 31** | Await reply — Oakland activation status / portal steps |
+| **Brian Grcevich** | HAP CareSource | MI LTSS Provider Relations | **Contract live** | **Jun 7:** Medical→MTM / Non-medical→DDI via CM service plan · **Call Wed Jun 10 @ 1 PM ET** | Brian 317-296-0519 · Prep: `HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md` |
+| **Arielle Goodson** | Molina Healthcare of Michigan | Contracting/Credentialing (248-729-0819) | **✅ CONTRACTING CLOSED OUT** — Vendor ID 214337479 credentialed thru Jul 31, 2029. Scope confirmed: Attachment B checkbox shows both NMT + Community Transition Services checked. Fee schedule on file (NMT $27-35/trip + mileage; Community Transition mostly "Manual" + $150 assessment). 100% of HCBS Fee Schedule, no discount. | Contract executed Jul 22 | **Contracting relationship is done — do not email Arielle for referral/directory questions.** Routing now goes to LTSS Specialist team. |
+| **Sarah Fenton** | Molina Healthcare of Michigan | Provider Services / LTSS Orientation (989-709-1335) | Ran Jul 23 LTSS Provider Orientation. **Will email Orientation Training Attestation — DDI cannot receive members until signed & returned.** | Jul 23 orientation | **URGENT: watch inbox for attestation, sign, return to MHMLTSSContracting@MolinaHealthCare.Com immediately.** Availity registered but not active (App ID 63821858, ~3-5 business days). Once active: confirm NPI 1538939111 entered (claims deny without it per orientation deck). Referrals are 100% member/Care-Coordinator-initiated — DDI cannot solicit placement on a list. Day-to-day auth questions → LTSS Specialist (MHM-LTSS-Specialist@MolinaHealthCare.Com), never Care Coordinators directly. Never request PA via Availity (fax only). Check eligibility before every service. Build volume-based revenue model in `DDI_NEMT_HIDE_SNP_REVENUE_MODEL.html`. |
+| **Dana Drew** | HAP CareSource | Network / contracting | Oakland pending | On Brian routing thread Jun 7 · Dana shared contract PDF in thread | Oakland activation after non-medical workflow documented |
 | **Beth Rubin** | Greene County CDJFS (OH) | Director | **On RFP notification list** | Debrief May 31 · **reply Jun 1** | **No email** — wait for next NEMT RFP notice · beth.rubin@jfs.ohio.gov · (937) 562-6450 |
 | **Jason Giombetti** | Elder Services of Worcester Area (MA) | Contracts Manager | **Next cycle ~2029** | Outreach May 31 · **reply Jun 1** | Hard LOI this cycle — **re-outreach when next transport RFP/presol drops** · jgiombetti@eswa.org · (508) 756-1545 ext. 109 |
 | **Amy Tush** | Grand Strand Law Group, LLC (SC) | Real Estate Paralegal | **✅ Closing successful 6/3** — Misczak 26-1-6493 | Amy thank-you | **CORRECTED email** — Misczak was routine; no upset narrative · `AMY_TUSH_THANK_YOU_3D_INK.md` |
@@ -55,6 +57,19 @@
 ---
 
 ## Email Log — May 31, 2026
+
+### HAP CareSource — Brian routing reply + call (Jun 7–8)
+- **Inbound Jun 7 ~3:14 PM:** Brian — **Medical transport → MTM.** **Non-medical → DDI** via **care manager service plan** authorization. Offered call **Jun 8 @ 1 PM ET**.
+- **Outbound Jun 7 ~4:25 PM:** Dee confirmed 1 PM ET; sent 5 prep questions (written workflow, CM awareness, non-medical rates, billing codes, validation trip).
+- **Call:** Wed **Jun 10, 2026 · 1:00 PM ET** · `.ics`: `calendars/CARESOURCE_BRIAN_ROUTING_CALL_2026-06-10.ics`
+
+### HAP CareSource — MTM routing / walkthrough (Jun 7)
+- **To:** Brian.Grcevich@CareSource.com; Dana.Drew@CareSource.com; Michael.Fantoni@CareSource.com
+- **CC:** MI_Network@caresource.com
+- **Subject:** HIDE SNP NEMT Routing — Vendor 100000469269 vs Provider Orientation (MTM) | Wayne & Macomb
+- **Purpose:** Orientation directs members to MTM; clarify routing to Vendor 100000469269; offer walkthrough + pilot trip
+- **Walkthrough prep:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/HAP_CARESOURCE_WALKTHROUGH_READY.md`
+- **Follow-up:** 7 days if no reply (~Jun 14)
 
 ### HAP CareSource — Brian Grcevich (SDOH / dual-eligible navigation)
 - **To:** Brian.Grcevich@CareSource.com

@@ -1,0 +1,79 @@
+---
+description: System-wide quality control for all DDI contracts and service lines — not HAP-only, not surveys-only.
+alwaysApply: true
+---
+
+# NEXUS Quality Control — System-Wide
+
+**Source of truth:** `NEXUS_QUALITY_CONTROL_FRAMEWORK.md`
+
+DDI is **prime on every contract.** QC is mandatory for **all services, all buyers, all lanes** — federal, state, MCO, municipal, commercial.
+
+## Module split (do not merge)
+
+| Module | QC owns |
+|--------|---------|
+| **PRISM** | Field delivery — dispatch gates, compliance modules, inspections, member/client feedback archives |
+| **VERTEX** | Billing — rates, units, timely filing, denials |
+| **COMPASS** | Contract — deliverables, CO reporting, POP, modifications |
+| **GPSS** | Pre-award compliance matrix + sub plan before bid release |
+
+Member trip grades (NEMT) = **one pillar** in PRISM. They do **not** replace grievance logs, OTP, billing scrub, or COMPASS deliverables.
+
+## Universal gate (every delivery)
+
+```
+Contract registered → Subs cleared (6 pillars) → Intake → Lane compliance → Execute → QC inspection → Feedback → VERTEX match → COMPASS close → Audit archive
+```
+
+**Fail any gate = STOP.** Do not bill. Do not mark period complete.
+
+## When a contract is won
+
+1. Register in **COMPASS**
+2. Create **`QC_CONTRACT_PROFILE.md`** in won bid folder (rates, SLAs, reporting cadence, subs, audit contact)
+3. Map CLINs/rates to **VERTEX**
+4. Enable lane **PRISM compliance module** for that service type
+
+## Service-line overlays
+
+Apply lane-specific QC from `NEXUS_QUALITY_CONTROL_FRAMEWORK.md`:
+- Drug testing → fatal flaws, MRO, Clearinghouse (`COMPLIANCE_KNOWLEDGE/`)
+- Fingerprinting → NFIQ, channel per contract (no SWFT unless master file updated)
+- DNA → AABB COC
+- Notary → scanback inspection, agent onboarding gate
+- NEMT → eligibility, OTP, mileage, member grades, grievances
+- Freight/courier → POD, SLA, DQ file when CDL
+- Facilities → sub QA walkthrough + photos
+- Product/reseller → spec match + buyer protection on RFQs
+
+## Audit readiness
+
+For any buyer request, produce within **2 business days**:
+- PRISM proof (order, inspection, trip snapshot, grade HTML/JSON)
+- VERTEX invoice crosswalk
+- COMPASS deliverable history
+- Grievance/incident log entries for that contract
+
+## Hard stops
+
+Do not mark a contract "operational" if:
+- No `QC_CONTRACT_PROFILE.md`
+- Subs on site without 6 pillars complete
+- Billing goes out without VERTEX rate match
+- MCO/federal contract has no grievance/incident path documented
+
+## Open system gaps (acknowledge — do not pretend done)
+
+- System-wide grievance log (all lanes) — **build required**
+- NEMT Mark Complete → VERTEX UI — **P0**
+- Background check + freight PRISM QC modules — **planned**
+- Unified QC dashboard — **planned**
+
+## Weekly check (when Dee ends session or asks for QC status)
+
+Report: open gate failures, expired sub COIs, grievances/F grades/fatal flaws, claim denials, deliverables due ≤14 days.
+
+---
+
+*Full QC ≠ member surveys. Full QC = prove every delivery, every contract, every time.*

@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:caresource-brian-routing-2026-06-10@deedavis.biz
+DTSTAMP:20260609T180000Z
+DTSTART;TZID=America/Detroit:20260610T130000
+DTEND;TZID=America/Detroit:20260610T140000
+SUMMARY:📞 CALL: Brian Grcevich — HAP Non-Medical Transport Routing
+DESCRIPTION:CareSource HIDE SNP — two-lane routing:\n• Medical transport → MTM\n• Non-medical waiver → CM service plan → DDI (Vendor 100000469269)\n\nBrian: 317-296-0519 · Brian.Grcevich@CareSource.com\nDana + Michael on thread.\n\nPREP: BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md\n\nGoals: written workflow, CM directory, non-medical rates/codes, validation trip.
+LOCATION:Phone — confirm Teams link on call if offered
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Brian call in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Brian call in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

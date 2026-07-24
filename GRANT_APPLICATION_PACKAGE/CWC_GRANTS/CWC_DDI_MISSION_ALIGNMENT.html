@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cause We Care & Dee Davis Inc — Structural and Mission Alignment for Public Health Contracting. SHIELD, HAVEN, VITAL programs.">
+<title>CWC / DDI Structural & Mission Alignment</title>
+<style>
+  body { font-family: 'Georgia', serif; background: #f7f6f2; color: #1e1e1e; margin: 0; padding: 0; }
+  .topbar { background: #0a1628; color: rgba(255,255,255,0.5); font-family: Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 40px; border-bottom: 2px solid #c9a84c; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .topbar strong { color: #c9a84c; }
+  header { background: #0a1628; padding: 40px; border-bottom: 3px solid #c9a84c; }
+  header h1 { font-family: Arial, sans-serif; font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  header h1 span { color: #c9a84c; }
+  header p { font-size: 0.9rem; color: rgba(255,255,255,0.6); max-width: 680px; }
+  main { max-width: 880px; margin: 0 auto; padding: 48px 40px 80px; }
+  h2 { font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 800; color: #0a1628; border-left: 4px solid #c9a84c; padding-left: 12px; margin: 40px 0 16px; }
+  h3 { font-family: Arial, sans-serif; font-size: 0.9rem; font-weight: 700; color: #0a1628; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .card { background: #fff; border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .card.gold { border-top: 3px solid #c9a84c; }
+  .card.blue { border-top: 3px solid #0a7abf; }
+  .card.pink { border-top: 3px solid #8a2252; }
+  .card.green { border-top: 3px solid #1a7a4a; }
+  .card.navy { border-top: 3px solid #0a1628; }
+  .card.amber { border-top: 3px solid #a07c1a; }
+  p { font-size: 0.88rem; line-height: 1.75; margin: 0 0 12px; }
+  ul { list-style: none; padding: 0; margin: 0 0 12px; }
+  ul li { font-size: 0.88rem; line-height: 1.7; padding: 4px 0 4px 20px; position: relative; border-bottom: 1px solid #eeece6; }
+  ul li:last-child { border-bottom: none; }
+  ul li::before { content: '—'; position: absolute; left: 0; color: #c9a84c; font-weight: 700; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .label { font-family: Arial, sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 8px; }
+  .highlight { background: #0a1628; color: #fff; border-radius: 8px; padding: 20px 24px; margin: 16px 0; font-size: 0.88rem; line-height: 1.75; }
+  .highlight strong { color: #c9a84c; }
+  .quote { background: #f7f6f2; border-left: 3px solid #c9a84c; padding: 14px 18px; font-size: 0.86rem; font-style: italic; color: #444; margin: 12px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { background: #0a1628; color: #c9a84c; font-family: Arial, sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 14px; text-align: left; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eeece6; vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f7f6f2; }
+  td:first-child { font-weight: 700; color: #0a1628; font-family: Arial, sans-serif; font-size: 0.8rem; }
+  .program-box { border-radius: 10px; padding: 24px 28px; margin-bottom: 18px; color: #fff; }
+  .program-box h3 { color: #fff; margin-top: 0; opacity: 0.85; }
+  .program-box .pname { font-family: Arial, sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 2px; }
+  .program-box .ptag { font-size: 0.85rem; opacity: 0.8; margin-bottom: 14px; font-style: italic; }
+  .program-box p { color: rgba(255,255,255,0.85); }
+  .program-box.shield { background: linear-gradient(135deg, #1a7a4a, #0f4f30); }
+  .program-box.haven { background: linear-gradient(135deg, #8a3a1a, #5c2510); }
+  .program-box.vital { background: linear-gradient(135deg, #0a7abf, #054a73); }
+  .program-box.arena { background: linear-gradient(135deg, #555, #2a2a2a); }
+  .caveat { font-size: 0.78rem; color: #f5e6a8; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 10px 14px; margin-top: 10px; }
+  footer { background: #0a1628; color: rgba(255,255,255,0.4); font-family: Arial, sans-serif; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 16px 40px; text-align: center; border-top: 2px solid #c9a84c; line-height: 1.8; }
+  footer strong { color: #c9a84c; }
+  @media print { body { background: #fff; } .card, .program-box { box-shadow: none; break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span><strong>CAUSE WE CARE</strong> &amp; <strong>DEE DAVIS INC.</strong> | Structural &amp; Mission Alignment</span>
+  <span>CONFIDENTIAL | GRANT-READY REFERENCE</span>
+</div>
+
+<header>
+  <h1>Structural &amp; Mission Alignment — <span>CWC × DDI</span></h1>
+  <p>How a 501(c)(3) nonprofit and a federally certified for-profit TPA share one mission, operate as distinct legal entities, and lawfully contract with one another to deliver public health outcomes.</p>
+</header>
+
+<main>
+
+  <!-- ═══ SECTION 1: THE TWO ENTITIES ═══ -->
+  <h2>1 — Two Entities, One Mission</h2>
+
+  <div class="card navy">
+    <p>Cause We Care (CWC) and Dee Davis Inc. (DDI) are separate, independently governed organizations. They are not divisions of one company, and CWC is not a fundraising arm of DDI. They are aligned because they were built to solve the same problem from two different legal postures — one as a community trust organization, one as a credentialed contract management firm — and that alignment is what makes the partnership between them lawful, defensible, and fundable.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card gold">
+      <h3>Cause We Care</h3>
+      <p><strong>Entity type:</strong> 501(c)(3) nonprofit</p>
+      <p><strong>EIN:</strong> 92-3602670 &nbsp;|&nbsp; <strong>UEI:</strong> VEJMFMVV6PQ1</p>
+      <p><strong>Role:</strong> Community trust layer. Boots-on-the-ground outreach, family navigation, and the public-facing relationship with the populations served.</p>
+      <p><strong>Recognition:</strong> MDHHS MI Bridges Community Partner since <strong>2024</strong></p>
+    </div>
+    <div class="card blue">
+      <h3>Dee Davis Inc.</h3>
+      <p><strong>Entity type:</strong> For-profit, federally certified EDWOSB / WOSB contract management TPA</p>
+      <p><strong>CAGE:</strong> 8UMX3 &nbsp;|&nbsp; <strong>UEI:</strong> HJB4KNYJVGZ1 &nbsp;|&nbsp; <strong>EIN:</strong> 84-4114181</p>
+      <p><strong>Role:</strong> Network operator and contract management TPA. Coordinates credentialed service networks, compliance, billing, and reporting.</p>
+      <p><strong>Recognition:</strong> MDHHS MI Bridges Community Partner since May 15, 2020</p>
+    </div>
+  </div>
+
+  <div class="card amber">
+    <h3>Why This Structure Is Not "Shady" — It Is the Model</h3>
+    <p>A for-profit operating company and a nonprofit with overlapping mission language are common and lawful when three conditions hold, and CWC/DDI satisfy all three:</p>
+    <ul>
+      <li><strong>Documented:</strong> Every dollar CWC pays DDI is tied to a written agreement, a defined scope, and a deliverable.</li>
+      <li><strong>Mission-aligned, not mission-identical:</strong> CWC raises funds and builds trust for the public good. DDI performs the technical/operational work that public good requires.</li>
+      <li><strong>Fair market value:</strong> DDI is paid what any TPA would charge for the same coordination work — not a markup designed to extract nonprofit funds.</li>
+    </ul>
+    <p>CWC does not pay DDI to "help it operate" in a general sense. CWC pays DDI for specific, contracted services — network coordination, compliance management, credentialing, reporting — that CWC does not have the infrastructure to perform itself. That is the entire purpose of a TPA.</p>
+  </div>
+
+  <!-- ═══ SECTION 2: THE BRAND THROUGH-LINE ═══ -->
+  <h2>2 — The Brand Through-Line</h2>
+
+  <div class="card pink">
+    <h3>Cause We Care — Core Identity</h3>
+    <p><strong>Headline:</strong> "Cause We Care, You Should Too"</p>
+    <p><strong>Tagline:</strong> Care, Navigate, Transform</p>
+    <p><strong>Theme line:</strong> More than a mission — a movement</p>
+    <div class="quote">We connect families to the resources they need — food security, safe housing, education essentials, health navigation, and community support — because every family deserves someone in their corner.</div>
+    <p><strong>Formal mission (About — cwecare.org):</strong> To connect Michigan families with the resources, support, and navigation they need to overcome hardship — without barriers, without judgment, and without delay.</p>
+    <p><strong>Program line:</strong> Six programs, one mission — make sure no family faces hardship alone.</p>
+  </div>
+
+  <p style="font-size:0.82rem;color:#666;font-style:italic;">Each DDI program below carries its own headline and tagline, purpose-built for its public health lane, while staying anchored to the CWC umbrella above.</p>
+
+  <div class="program-box shield">
+    <h3>Program Alignment</h3>
+    <div class="pname">SHIELD</div>
+    <div class="ptag">Cause We Care About Safe Homes — Screen, Educate, Prevent</div>
+    <p><strong>Public health basis:</strong> Michigan's universal childhood lead screening mandate (MCL 333.5474d, added by PA 146 of 2023) requires blood lead testing for minors at 12 and 24 months, with catch-up testing through age six if no prior record exists. This is a statewide, statutory public health obligation — not a discretionary program.</p>
+    <p><strong>Division of labor:</strong> CWC's outreach and family navigation network identifies and engages families who need screening, particularly in homes built before 1978 and other high-risk housing. DDI's TPA infrastructure coordinates the mobile screening logistics, lab relationships, CHW workforce, and CHAMPS billing/reporting layer that turns outreach into completed, billable, compliant screenings.</p>
+    <p><strong>Target audience:</strong> MDHHS (CLPPP Care Coordination Section) and state/county health departments.</p>
+    <p class="caveat">Positioning: Partner in Michigan's lead-safe ecosystem — referral partnership with MDHHS Environmental Health Bureau. Do not claim MDHHS grantee/subgrantee status unless formally awarded.</p>
+  </div>
+
+  <div class="program-box haven">
+    <h3>Program Alignment</h3>
+    <div class="pname">HAVEN</div>
+    <div class="ptag">Cause We Care When Disaster Strikes — House, Move, Heal</div>
+    <p><strong>Public health basis:</strong> When disaster displaces health plan members, housing, transportation, and medical continuity fail simultaneously. Members lose stable addresses, miss dialysis and medication, and disappear from care coordination systems — a documented, recurring crisis in declared disaster events nationally.</p>
+    <p><strong>Division of labor:</strong> CWC provides the community trust relationship and family-level navigation during displacement — the human contact families recognize and trust in crisis. DDI's TPA infrastructure provides the credentialed housing, transport, and medical network coordination, compliance documentation, and MCO/state billing relationship that makes continuity of care operationally possible.</p>
+    <p><strong>Target audience:</strong> State emergency management and health agencies in disaster-frequent states — Louisiana, Texas, Tennessee, Florida, and similarly positioned states.</p>
+    <p class="caveat">Population note: HAVEN serves displaced health plan members nationally (MOB-B). This population is distinct from, and must never be merged with, routine plan NEMT / enrolled-member daily transport (MOB-A) in funder-facing materials.</p>
+  </div>
+
+  <div class="program-box vital">
+    <h3>Program Alignment</h3>
+    <div class="pname">VITAL</div>
+    <div class="ptag">Cause We Care About Every Delivery — Specimen to Surgery, No Gaps</div>
+    <p><strong>Public health basis:</strong> Breaks in healthcare logistics — delayed lab specimens, missed medication deliveries, unavailable equipment — directly drive preventable readmissions and care failures. Medication non-adherence alone is linked to roughly 30% of hospital readmissions.</p>
+    <p><strong>Division of labor:</strong> CWC's community presence surfaces logistics gaps at the family and neighborhood level — patients who cannot get to a pharmacy, equipment that never arrives. DDI's TPA infrastructure operates the credentialed courier networks, chain-of-custody compliance (HIPAA, DEA, DOT, OSHA, CAP/CLIA), and health-system contracting that closes those gaps at scale.</p>
+    <p><strong>Target audience:</strong> State health agencies and health systems in the same disaster-relief geographies as HAVEN, where logistics continuity is part of the same continuity-of-care problem.</p>
+  </div>
+
+  <div class="program-box arena">
+    <h3>Program Alignment — Flagged for Further Work</h3>
+    <div class="pname">ARENA</div>
+    <div class="ptag">Not yet aligned to public health / CWC mission</div>
+    <p>ARENA (Access, Routing &amp; Event Navigation Administration — event mobility consultation and coordination) is presently positioned as a corporate/enterprise offering. It does not yet have a clear public health or community-navigation rationale connecting it to CWC's mission. Recommend treating ARENA as a standalone DDI commercial line for now, and revisiting alignment only if a specific public-health or accessibility angle (e.g., transportation equity at public events, ADA access coordination) is identified.</p>
+  </div>
+
+  <!-- ═══ SECTION 3: WHY THE STRUCTURE HOLDS UP ═══ -->
+  <h2>3 — Why This Structure Holds Up Under Review</h2>
+
+  <div class="card green">
+    <h3>What a Grant Reviewer or Funder Sees</h3>
+    <ul>
+      <li>A 501(c)(3) with a clear, public-facing mission and community navigation track record (CWC)</li>
+      <li>A federally certified, credentialed contract management TPA with active state and MCO relationships (DDI)</li>
+      <li>A written services relationship between the two, scoped to specific deliverables, priced at fair market value</li>
+      <li>No commingling of nonprofit funds into general DDI operations — CWC pays for defined services rendered, the same way it would pay any vendor</li>
+      <li>Outcomes that are documented, tied to the funded program, and reportable back to the funder</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Standing Language for Grant Narratives</h3>
+    <div class="quote">Cause We Care provides the community trust relationship, family navigation, and outreach infrastructure required to reach the populations this program serves. Dee Davis Inc., a federally certified contract management third-party administrator, is engaged under a documented services agreement to coordinate the credentialed service networks, compliance framework, and reporting infrastructure the program requires. This division of labor reflects each organization's core competency and ensures funds are directed toward services actually rendered, at fair market value, with outcomes tied directly to program goals.</div>
+  </div>
+
+  <div class="card">
+    <h3>Entity Routing — Do Not Mix on Applications</h3>
+    <table>
+      <thead>
+        <tr><th>Funder / Buyer</th><th>Lead Applicant</th><th>DDI Role</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MHEF / CFSEM / Foundations</td><td>Cause We Care</td><td>TPA / systems partner</td></tr>
+        <tr><td>MDHHS EHB / CLPPP</td><td>CWC + DDI (referral partner)</td><td>SHIELD TPA</td></tr>
+        <tr><td>MCOs / Hospitals</td><td>Dee Davis Inc.</td><td>Prime TPA</td></tr>
+        <tr><td>FEMA / State EM</td><td>Dee Davis Inc.</td><td>HAVEN continuity TPA</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══ SECTION 4: STANDING RULES ═══ -->
+  <h2>4 — Standing Rules — Never Violate</h2>
+
+  <div class="card navy">
+    <ul>
+      <li>CWC and DDI are always described as separate, independently governed organizations — never as one company with two names</li>
+      <li>Every CWC-to-DDI payment must map to a documented, scoped service — never described as general operating support</li>
+      <li>HAVEN's displaced-member population (MOB-B) is never merged with routine plan NEMT / enrolled-member daily transport (MOB-A) in funder-facing copy</li>
+      <li>Never name fulfillment network partners (labs, couriers, rideshare, etc.) in buyer- or funder-facing materials unless explicitly required by a sealed exhibit</li>
+      <li>WBENC / WOSB (Great Lakes WBC) — renewal in progress; expiration May 28, 2026 — include recertification caveat in external materials until renewed</li>
+      <li>Do not claim DCSA SWFT authorization — per COMPANY_INFO_MASTER.md</li>
+      <li>ARENA is not represented as public-health or CWC-mission-aligned until a specific rationale is developed and approved</li>
+      <li>Operating model for MDHHS materials: <strong>MDHHS refers. CWC navigates. DDI administers.</strong></li>
+      <li>Closing language in outreach: "I welcome the opportunity to connect." — no conditions attached</li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  <strong>CAUSE WE CARE</strong> &nbsp;|&nbsp; EIN: 92-3602670 &nbsp;|&nbsp; UEI: VEJMFMVV6PQ1 &nbsp;|&nbsp; ddavis@cwecare.org &nbsp;|&nbsp; cwecare.org<br>
+  <strong>DEE DAVIS INC.</strong> &nbsp;|&nbsp; EDWOSB · WOSB · MBE · WBE · SBE · E-Verify Program Administrator &nbsp;|&nbsp; CAGE: 8UMX3 · UEI: HJB4KNYJVGZ1 · EIN: 84-4114181<br>
+  Dieasha D. Davis, President &amp; CEO &nbsp;|&nbsp; 248.376.4550 &nbsp;|&nbsp; info@deedavis.biz &nbsp;|&nbsp; 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084<br>
+  <strong>CONFIDENTIAL — GRANT-READY REFERENCE</strong> &nbsp;|&nbsp; June 2026
+</footer>
+
+</body>
+</html>

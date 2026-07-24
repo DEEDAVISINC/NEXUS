@@ -191,7 +191,7 @@ const PartnerWebview: React.FC<PartnerWebviewProps> = ({ url, name, icon, onClos
 
       {loadError && (
         <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/30 text-amber-200 text-xs flex items-center justify-between gap-3">
-          <span>Load issue: {loadError}. Uber sign-in often needs the popup — try again, or use Browser ↗.</span>
+          <span>Load issue: {loadError}. Sign-in may need the popup — try again, or use Browser ↗.</span>
           <button type="button" onClick={reload} className="underline shrink-0">Retry</button>
         </div>
       )}

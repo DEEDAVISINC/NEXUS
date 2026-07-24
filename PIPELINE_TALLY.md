@@ -1,7 +1,13 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** June 8, 2026 @ goodnight ET
+**Last Updated:** June 12, 2026 ET
 
 ---
+
+## SESSION NOTE (June 12)
+
+- **Twilio + 855 voice/SMS** — ✅ **LIVE** and tested (inbound PRISM voice intake + outbound member SMS)
+- **Only telephony gap:** **CNAM** — register **DDI** caller ID on **855-773-0035** outbound
+- **QC spine + MCO audit HTML** — Live on PA (`nexus_qc`, mco-packet, breakdown)
 
 ## SESSION NOTE (June 8)
 
@@ -9,7 +15,6 @@
 - **Guest ride tracking** — Ops pastes Uber/Lyft URL in Transport → **📤 Save link** → member sees **🚗 Track live ride** on portal (NOT automatic; NOT Twilio)
 - **Portal UX** — Emoji status labels (no more "Agent Assigned"); order ID merge fix; 20s dashboard refresh
 - **PA deploy** — Full git clone failed (~370MB); curl hotfix works; consider PA upgrade or shallow clone before HAP volume
-- **Tomorrow:** Twilio **855** connect + voice prep · paste/save tracking URL end-to-end test · optional `prism_orders_api.py` curl on PA for Driver Assigned label
 
 ## SESSION NOTE (June 7)
 
@@ -40,6 +45,7 @@
 | Program | Status | Annual Revenue | DDI Margin | Lifetime Value |
 |---------|--------|----------------|------------|----------------|
 | **HAP CareSource MI HIDE SNP** | ✅ LIVE | $540K | $216K (40%) | $2.7M (5yr) |
+| **Molina Healthcare of Michigan — HIDE SNP LTSS** (Non-Medical Transportation + Community Transition Services — both confirmed in Attachment B scope) | ✅ **CONTRACT EXECUTED Jul 22** — orientation attended Jul 23, Availity pending activation | Rates confirmed: NMT $27/trip (T2003) or $35/trip wheelchair van (A0130) + $0.67-$3.00/mi. Community Transition mostly "Manual" negotiated + $150 assessment. **100% of published fee schedule — no discount.** Annual $ **pending member-choice referral volume** (member-driven, not guaranteed minimum) | TBD once volume known | TBD |
 
 ---
 

@@ -278,8 +278,15 @@
 
 ---
 
+## 2026-06-24 — Wednesday
+
+- **12:00 PM ET** — 📧 **FOLLOW-UP: MICH HIDE SNP MCO outreach** — Non-responders only from Mon Jun 15 boutique send. One touch. `.ics`: `mich_hide_snp_mco_send_monday_2026-06-15.ics`
+
+---
+
 ## 2026-06-16 — Tuesday
 
+- **12:00 PM ET** — 📝 **SIGNING: Iwona Solecka (Seller)** — National Signing Services · NASS-6236 · 16950 Country Ridge Ln, Macomb, MI 48044 · $75 (+$25 witness) · scanbacks · pay **7/30** Deluxe eCheck · `.ics`: `calendars/NASS-6236_solecka_signing_2026-06-16.ics`
 - **12:00 PM ET** — 🔥 **CWC OUTREACH: MDHHS trigger — go direct to LHDs** — If Angela/Aimee silent → **Wayne (Kennyle Johnson) + Detroit (Ali Abazeed)**. Emails: `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/JUN16_*.md` · Attach PHC narrative PDF. Call Angela **517-897-5203** optional. `.ics`: `cwc_outreach_mdhhs_trigger_lhd_2026-06-16.ics`
 - **2:00 PM CST / 3:00 PM ET** — 🔥 **VIA Metropolitan Transit — Drug & Alcohol Testing IFB 26-374 — BID DUE** — Hard-copy sealed bid. Ship by June 12 via FedEx Priority Overnight. **GO** — Addendum No. 1 confirmed 2,662 tests/yr, $146K/yr, $732K lifetime (5 yr). Folder `BIDS:RESOURCES/VIA TRANSIT DRUG TESTING/`
 
@@ -288,24 +295,25 @@
 ## 2026-05-25 — Monday (Memorial Day)
 
 - **💰 PAYMENT CHECK:** @SigningAgents / NTS — $125.00 (Maxine Smith reverse closing, 4/25). 30-day mark. Check email for Deluxe eCheck.
-- **💰 PAYMENT CHECK:** Premium Closing Solutions — $145.00 (Jijo James $80 + Hurban $65). April files — last week of May payout. Check email for DeluxeChecks eCheck.
+- **~~💰 PAYMENT CHECK:~~ ✅ RECEIVED May 28:** Premium Closing Solutions — **$225.00** eCheck (Hurban $65 + Jijo James $80 + PMCS-240906 $80). April batch.
 
 ---
 
 ## 2026-06-07 — Sunday
 
-- **💰 PAYMENT DUE:** Title Processing Center — $100.00 (Steven Shultz, May file). They pay 7th of each month. **Check email for eCheck.**
-- **12:00 – 4:00 PM ET** — 📋 **PRISM FINISH-UP** — (1) Voice — PA reload, webhook, test call + simulator (2) PRISM→VERTEX $28/$35 trip complete (3) HAP provider manual from portal (4) Electron Uber Health login (5) confirmation email smoke test if time. **Monday = Twilio upgrade + member materials.** `.ics`: `prism_finish_up_2026-06-07.ics`
+- **~~💰 PAYMENT DUE:~~ ✅ PAYMENT RECEIVED:** Title Processing Center — $100.00 (Steven Shultz, May file). eCheck received Jun 7, 2026.
+- **12:00 – 4:00 PM ET** — ~~📋 **PRISM FINISH-UP**~~ ✅ **Voice + QC live on PA** (Jun 2026). Remaining telephony: **CNAM only** on 855.
 
 ---
 
 ## 2026-06-08 — Monday
 
+- ~~**1:00 PM ET** — Brian Grcevich routing call~~ → **MOVED to Wed 6/10 @ 1 PM ET** (see 2026-06-10)
+- **12:00 PM ET** — 🔥 **QUESTIONS DUE: Detroit DDOT RFP 546249** — Specialized Transportation Operating Assistance · Bonfire Public Q&A only · Draft: `BIDS:RESOURCES/DETROIT DDOT SPECIALIZED TRANSPORT/QUESTIONS_FOR_BONFIRE.md`
 - **12:00 PM ET** — 📧 **FOLLOW-UP: Gary Misczak thank-you** — Retired Sonesta Michigan Ops Manager · met at signing 6/3 · text/call (586) 709-1964 · personal only, no HAVEN pitch · capture email if offered. `.ics`: `gary_misczak_thankyou_2026-06-08.ics`
 - **6:00 PM ET** — 📝 **SIGNING: Premium Closing Solutions — Andre Rupert (Refi)** — PMCS-247792 / 843148 · $80 · 46970 Edgewater Dr, Macomb · No scanbacks · ID copies · LETTER+LEGAL · FedEx ship. `.ics`: `NOTARY_SIGNING_PCS_RUPERT_PMCS-247792_2026-06-08.ics`
 - **💰 PAYMENT DUE:** First Class Signing Service — $75.00 (Osteen #935625). Transferred 5/22. **Did the $75 hit your account?**
-- **11:00 AM ET** — 🔥 **BID DEADLINE: VA Madison WI NEMT IDIQ** — William S. Middleton VA · 5-year · SAM 93414ce3396e45c4891cb0130cf77c14 · Folder `VA MADISON NEMT/` · `.ics`: `VA_MADISON_NEMT_2026-06-08.ics`
-- **2:00 – 3:30 PM ET** — 📋 **HAP VOICE INTAKE — GO-LIVE PREP** — (1) Upgrade Twilio — add card, removes trial message + member SMS (2) Rotate ElevenLabs key in `~/nexus-backend/.env` → Reload (3) **855-773-0035** on member card/flyer/CareSource packet (4) Optional: CNAM/toll-free branding “DDI” on caller ID. Test call after upgrade. `.ics`: `hap_voice_go_live_prep_2026-06-08.ics`
+- ~~**2:00 – 3:30 PM ET** — HAP VOICE INTAKE GO-LIVE PREP~~ ✅ **DONE** — Twilio + 855 voice/SMS live and tested. **Only remaining:** CNAM (“DDI” on caller ID). `.ics`: `hap_voice_go_live_prep_2026-06-08.ics`
 
 ---
 
@@ -313,7 +321,13 @@
 
 - **💰 PAYMENT CHECK:** @SigningAgents / NTS — If $125.00 (Maxine Smith) has NOT arrived yet, today is day 45. Email kevin@atsigningagents.com to inquire.
 - **12:00 – 2:00 PM ET** — 📋 **STRATEGY REVIEW — MMCAP + AOG + IAC** — Parked strategies ready for review. (1) MMCAP Infuse — last-mile partner for Cardinal Health, McKesson (`MMCAP_INFUSE_STRATEGY.md`). (2) AOG Direct — airlines + ports (`AOG_DIRECT_STRATEGY.md`). (3) IAC Registration — Indirect Air Carrier TSA certification, ~$598 total, 3-4 month timeline (`IAC_REGISTRATION_STRATEGY.md`). All use DDI TPA model. Review status, decide next steps. `.ics`: `calendars/STRATEGY_REVIEW_JUNE_2026-06-09.ics`
-- **2:30 PM ET** — 📧 **CWC OUTREACH: BCC final follow-up if no response** — Alina Pabin — one touch only if silent. No follow-up after today. `.ics`: `cwc_outreach_bcc_final_followup_2026-06-09.ics`
+- ~~**2:30 PM ET** — BCC final follow-up~~ → **MOVED to Thu 6/11** — awaiting HAP reply first
+
+---
+
+## 2026-06-11 — Thursday
+
+- **2:30 PM ET** — 📧 **CWC OUTREACH: BCC final follow-up if no response** — Alina Pabin (Blue Cross Complete). **Postponed from 6/9** — send only if still silent **and** HAP reply status clear. One touch · no follow-up after Thu. `.ics`: `cwc_outreach_bcc_final_followup_2026-06-11.ics`
 
 ---
 
@@ -321,17 +335,33 @@
 
 - **💰 PAYMENT DUE:** Standard Notary Services — $100.00 (John Cahill, Net 45 from 4/28). **Check email for NotaryPay Deluxe eCheck.**
 - **1:00 PM ET** — 📋 **CWC OUTREACH: County opioid settlement administrators** — Wayne, Oakland, Macomb grant admins + cycles. CWC applicant. `.ics`: `cwc_outreach_county_opioid_admins_2026-06-12.ics`
+- **✅ PREP DONE** — 📧 **MICH HIDE SNP MCO boutique outreach** — 8 emails staged for **Mon Jun 15, 8:00–10:00 AM ET** stagger. Checklist: `CLIENT OUTREACH/MICHIGAN MICH HIDE SNP/MICH_HIDE_SNP_MONDAY_SEND_CHECKLIST.md` · Copy from `SEND_READY/MON_JUN16_*.md` · `.ics`: `mich_hide_snp_mco_send_monday_2026-06-15.ics`
+
+---
+
+## 2026-06-15 — Monday
+
+- **8:00 – 10:00 AM ET** — 📧 **SEND: MICH HIDE SNP MCO outreach (8 MCOs, staggered)** — Meridian 8:00 · Molina 8:15 · Priority 8:30 ⚠️ verify ckincaid · UHC 8:45 · Humana 9:00 · Aetna 9:15 · UPHP 9:30 · AmeriHealth 9:45. **Do NOT send HAP.** Log each in `OUTBOUND_EMAIL_LOG.md`. `.ics`: `mich_hide_snp_mco_send_monday_2026-06-15.ics`
+
+---
+
+## 2026-06-21 — Sunday
+
+- ~~**12:00 – 6:00 PM ET** — FINISH BID: VA Madison NEMT~~ → **Rescheduled to Jun 28**
 
 ---
 
 ## 2026-06-22 — Monday
 
+- ~~**10:00 AM CDT** — SUBMIT: VA Madison NEMT~~ → **Rescheduled — due Jul 6 per Amendment 0003**
+- **4:30 PM ET** — 📝 **SIGNING: Michael Cisilino (Seller)** — Sin City Notary · **SCN-7963** / File **118430-KLW** · 38100 Shoreline Dr, Harrison Township, MI 48045 · **$85** Net 45 (~8/6) · **print 2 sets** (seller EDOCS) · blue ink · ID upload · **scanbacks by 6:30 PM** · FedEx/UPS · `.ics`: `calendars/SCN-7963_cisilino_signing_2026-06-22.ics`
 - **💰 BIGGEST PAYOUT — $785.00 expected:** First Class x7 ($525) + Kriss Law Bitti ($150) + Doma Title Rayes ($110). All transfer June 5 → deposit by June 22. **Did the $785 hit?** Doma Rayes is 5+ years old — if it doesn't clear, follow up.
 
 ---
 
 ## 2026-06-23 — Tuesday
 
+- **11:00 AM ET** — 📝 **SIGNING: Dawn Tomasi (Buyer)** — Title Processing Center · File **266808-92** · 2400 Judy Lane, Shelby Township, MI 48316 · **$100** · **PRINT EDOCS** (TPC emails) · **blue ink** · **2 witnesses** (notary + 2nd not related) · scanbacks ASAP · **FedEx same day** prepaid label · completion report within 75 min · pay **7/7** eCheck · `.ics`: `calendars/TPC-266808-92_tomasi_signing_2026-06-23.ics`
 - **💰 PAYMENT DUE:** Signature One Signing Services — $65.00 (Warren Castor deed, Net 45 from 5/9). **Check email for eCheck.**
 
 ---
@@ -339,6 +369,25 @@
 ## 2026-06-25 — Thursday
 
 - **💰 PAYMENT CHECK:** Premium Closing Solutions — $155.00 (Hood $80 + Foradori $75). May non-Silk files. Last week of June payout window opens. **Check email for DeluxeChecks eCheck through June 30.**
+
+---
+
+## 2026-06-28 — Sunday
+
+- **12:00 – 5:00 PM ET** — 📋 **PACK BID: Detroit DDOT RFP 546249** — Specialized Transportation Operating Assistance (MDOT grant) · Paste A/B/C + resume Word→PDF · sign D1 affidavits · upload Wayne County cert **#8928471** · `BIDS:RESOURCES/DETROIT DDOT SPECIALIZED TRANSPORT/SEND_TO_BUYER/SUBMISSION_PACKAGE_INDEX.md` · **Submit Wed Jul 1 @ 4:00 PM ET** (Bonfire) · `.ics`: `DETROIT_DDOT_546249_PACKAGING_2026-06-28.ics`
+- **12:00 – 6:00 PM ET** — 📋 **FINISH BID: VA Madison NEMT IDIQ** — **36C25226Q0366** — Complete full package: SF 1449 + Attachment 1 (35 CLINs) + Experience + PP + Management Plan + QCP + BAA + fleet LOI + C.6/C.7 · `BIDS:RESOURCES/VA MADISON NEMT/SEND_TO_BUYER/SUBMISSION_PACKAGE_INDEX.md` · RFP blanks in `RFP_ATTACHMENTS/` · **Submit Jul 6 @ 10 AM CDT** · `.ics`: `VA_MADISON_NEMT_FINISH_2026-06-28.ics`
+
+---
+
+## 2026-07-01 — Wednesday
+
+- **4:00 PM ET** — 🔥 **BID DEADLINE: Detroit DDOT RFP 546249** — Specialized Transportation Services Operating Assistance (MDOT grant) · EUNA Bonfire upload · Folder: `BIDS:RESOURCES/DETROIT DDOT SPECIALIZED TRANSPORT/` · `.ics`: `rfp_546249_detroit_ddot_specialized_transport_2026-07-01.ics`
+
+---
+
+## 2026-07-06 — Monday
+
+- **10:00 AM CDT (11:00 AM ET)** — 🔥 **SUBMIT: VA Madison WI NEMT IDIQ** — **36C25226Q0366** · CO Scott Sands scott.sands2@va.gov · Email per 52.212-1 · 7 MB max per email · Folder: `BIDS:RESOURCES/VA MADISON NEMT/SEND_TO_BUYER/` · `.ics`: `VA_MADISON_NEMT_SUBMIT_2026-07-06.ics`
 
 ---
 
@@ -353,6 +402,14 @@
 
 - **5:00 PM ET** — 📋 **MANDATORY: ELARC ARFPSHN Orientation (CA)** — Eastern LA Regional Center · ARFPSHN #1/#2 · 2:00 PM PT · Folder `ELARC ARFPSHN BH/` · `.ics`: `ELARC_ARFPSHN_ORIENTATION_2026-07-16.ics`
 - **💰 PAYMENT CHECK:** Premium Closing Solutions SILK — $80.00 (Barnes Refi, file H-316268-SFB). 75-day cycle from 5/2. Deposit window: July 16-31. **Check email for DeluxeChecks eCheck.**
+
+---
+
+---
+
+## 2026-09-14 — Monday
+
+- **12:00 PM ET** — 📋 **CCAM-TAC quarterly grant scan (Tier C)** — Run `python3 nexus_scheduler.py --ccam-tac` · skim Partner/External in `CCAM_FTA_COORDINATION_INTEL.md` · no CCAM outreach · `.ics`: `CCAM_TAC_QUARTERLY_CHECK.ics`
 
 ---
 
@@ -380,7 +437,9 @@
 
 ## 2026-06-10 — Wednesday
 
-- **1:00 PM ET** — 📧 **CWC OUTREACH: Jennifer Casbar — Access2Care/MTM** — jcasbar@mtm-inc.net · Molina sub path · NEMT TPA pitch. `.ics`: `cwc_outreach_jennifer_casbar_mtm_2026-06-10.ics`
+- **1:00 – 2:00 PM ET** — 📞 **CALL: Brian Grcevich — HAP Non-Medical Transport Routing** — Medical→MTM; non-medical→DDI via CM service plan (Vendor 100000469269). ~4,500–5,000 HIDE SNP members Wayne/Macomb. Brian: 317-296-0519. Prep: `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/BRIAN_ROUTING_CALL_PREP_2026-06-08.md`. `.ics`: `calendars/CARESOURCE_BRIAN_ROUTING_CALL_2026-06-10.ics`
+- **✓ PAID 6/10** — Maxine Smith #2026-3409 — **$125** Deluxe eCheck (46 days from closing · escalation closed)
+- **2:30 PM ET** — 📧 **CWC OUTREACH: Jennifer Casbar — Access2Care/MTM** — *Moved from 1 PM — Brian call priority.* jcasbar@mtm-inc.net · Molina sub path · NEMT TPA pitch. `.ics`: `cwc_outreach_jennifer_casbar_mtm_2026-06-10.ics`
 
 ---
 
@@ -394,11 +453,13 @@
 
 - **1:00 PM ET** — 📧 **CWC OUTREACH: LHD direct — Oakland + Macomb + Genesee** — If MDHHS trigger activated. Emails: `LHD_DIRECT_OUTREACH_JUN_2026/SEND_TO_LHD/JUN18_*.md` · Genesee = lead-screening tailored. `.ics`: `cwc_outreach_lhd_oakland_macomb_2026-06-18.ics`
 - **3:00 PM ET** — 🔥 **BID DEADLINE: Pasco-Pinellas AAA Senior Transport** — OAA/LSP RFP 2026 · agingcarefl.org · Folder `PASCO PINELLAS AAA TRANSPORT/` · `.ics`: `PASCO_PINELLAS_AAA_TRANSPORT_2026-06-18.ics`
+- **4:30 PM ET** — 📝 **SIGNING: Roger Sperow (Loan App)** — First Class · Order **#961945** · 14044 Masonic, Warren, MI 48088 · **$75** VendorPay · **CALL (248) 766-5526 to confirm** · scan/collect DL, mortgage stmt, HO ins, SS docs · **scanbacks ASAP by 6:30 PM** · 1 PDF Snapdocs · pay est **~7/22** · `.ics`: `calendars/FC-961945_sperow_signing_2026-06-18.ics`
 
 ---
 
 ## 2026-06-19 — Friday
 
+- **8:00 AM ET** — 📝 **SIGNING: Sandra Jean Turnbull (Seller)** — Title Processing Center · File **2604635** · 14007 Billette Dr, Sterling Heights, MI 48313 · **$100** (incl. +$25 witness) · **Bring 2nd witness** (notary = witness 1) · **Scanbacks ASAP** · Confirm time w/ seller (586) 419-9223 · Pay **7/7** eCheck · `.ics`: `calendars/TPC-2604635_turnbull_signing_2026-06-19.ics`
 - ~~**4:00 PM ET** — 🔥 **BID DEADLINE: Worcester ESWA Elder Transport**~~ — **Not this cycle (Jun 1)** — LOI May 22 hard deadline; next RFP ~3 years · **re-outreach ~2029** · Folder `WORCESTER ELDER TRANSPORT - NEXT CYCLE ~2029/`
 
 ---
@@ -419,6 +480,18 @@
 ## 2026-07-07 — Tuesday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Kresge Foundation program officer** — Health/Human Services PO. Troy HQ. Relationship-first via CWC. `.ics`: `cwc_outreach_kresge_officer_research_2026-07-07.ics`
+
+---
+
+## 2026-07-31 — Friday
+
+- **12:00 PM ET** — 🔥 **CHECK: ModivCare MA190000000912 expires — confirm bridge** — Recompete **RFP 260000002254** anticipated Aug 2026. Call/email Sarah Oumedian (OumedianS@michigan.gov / 517-335-1969) or MDHHS Procurement 517-335-5100. Folder: `MICHIGAN NEMT BROKER RECOMPETE/`. `.ics`: `calendars/MDHHS_NEMT_MA190000000912_EXPIRE_BRIDGE_2026-07-31.ics`
+
+---
+
+## 2026-08-01 — Saturday
+
+- **12:00 PM ET** — 🔥 **WATCH STARTS: MDHHS NEMT RFP 260000002254** — Daily SIGMA check for Open status (commodity **9S301**). FFS broker · tri-county + potential statewide. Folder: `MICHIGAN NEMT BROKER RECOMPETE/`. `.ics`: `calendars/MDHHS_NEMT_RFP_260000002254_AUG_WATCH_2026-08-01.ics`
 
 ---
 

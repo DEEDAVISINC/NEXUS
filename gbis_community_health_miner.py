@@ -877,26 +877,46 @@ class GBISCommunityHealthMiner:
                             agency=agency,
                         )
 
-                        # Assign applicant entity
+                        # Assign applicant entity (title + agency — API often empty desc/elig)
                         applicant = self.detector.assign_applicant_entity(
                             funder=agency,
                             description=description,
+                            title=title,
+                            eligibility=opp.get('eligibility', '') or '',
                         )
 
                         close_date = opp.get('closeDate', '')
+                        opp_number = (opp.get('number') or '').strip()
                         ent = map_applicant_to_entity(str(applicant))
-                        ceil = opp.get('awardCeiling')
-                        amt_note = f"Amount: Up to ${ceil:,.0f}" if ceil is not None else ''
+
+                        amount_line = ''
+                        if opp_number:
+                            try:
+                                from grant_amount_fetcher import fetch_grant_amounts
+
+                                info = fetch_grant_amounts(
+                                    grant_id=str(grant_id),
+                                    title=title,
+                                    opportunity_number=opp_number,
+                                )
+                                if info:
+                                    amount_line = info.display_line()
+                            except Exception:
+                                pass
+                        if not amount_line:
+                            ceil = opp.get('awardCeiling')
+                            amount_line = f"Amount: Up to ${ceil:,.0f}" if ceil is not None else ''
 
                         notes_parts = [
                             f"GRANT ID: {grant_id}",
+                            f"Opportunity Number: {opp_number}" if opp_number else '',
                             f"Type: Federal Government | Funding: Federal Grant",
                             f"Priority: High (80-89) | Score: 80",
                             f"Lane: {research_tags.get('Service Lane', 'Community Health & Research')} | Subtype: {research_tags.get('Research Subtype', 'Survey / Market Research')}",
                             f"Applicant: {applicant}",
                             f"Source: Grants.gov API — Research Lane",
                             f"Deadline: {close_date}" if close_date else '',
-                            amt_note,
+                            amount_line,
                         ]
                         record = {
                             'Grant Name': title[:255],
@@ -905,6 +925,7 @@ class GBISCommunityHealthMiner:
                             'Eligibility': opp.get('eligibility', ''),
                             'Notes': '\n'.join(p for p in notes_parts if p),
                             'Grant ID': str(grant_id),
+                            'Opportunity Number': opp_number,
                             'Deadline': close_date or '',
                             'Entity': ent,
                             'Grant Source Type': 'LIVE OPPORTUNITY',
@@ -994,11 +1015,12 @@ class GBISCommunityHealthMiner:
         if not grant_id:
             return False
         try:
+            from gbis_airtable_helpers import grant_id_from_fields
+
             records = self.airtable.get_all_records('GRANT OPPORTUNITIES')
             gid = str(grant_id)
             for r in records:
-                f = r.get('fields', {})
-                if str(f.get('Grant ID') or f.get('GRANT ID') or '') == gid:
+                if grant_id_from_fields(r.get('fields', {})) == gid:
                     return True
             return False
         except Exception:

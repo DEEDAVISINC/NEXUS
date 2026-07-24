@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import { EmailTemplateSystem } from './ddcss/EmailTemplateSystem';
+import HideSnpRevenueModel from './ddcss/HideSnpRevenueModel';
+import { ViewType } from '../Header';
 
 interface DDCSSSystemProps {
   onBackToNexus: () => void;
+  onNavigate?: (system: ViewType, initialTab?: string) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
 }
 
-const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
+const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
   const [apiKey, setApiKey] = useState('');
   const [copilotMessage, setCopilotMessage] = useState('');
   const [copilotMessages, setCopilotMessages] = useState([
@@ -253,6 +256,7 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
     { id: 'your-sectors', label: '🏢 Your 6 Sectors' },
     { id: 'ai-handler', label: '🤖 AI Response Handler' },
     { id: 'pipeline', label: '📈 Pipeline' },
+    { id: 'hide-snp-revenue', label: '🚐 HIDE SNP Revenue' },
     { id: 'mvp-discovery', label: '⭐ MVP Discovery' }
   ];
 
@@ -331,6 +335,14 @@ const DDCSSSystem: React.FC<DDCSSSystemProps> = ({ onBackToNexus, activeTab, set
                 <p className="text-gray-400">Your pipeline, your process, your next move</p>
               </div>
               <div className="flex gap-2">
+                <button onClick={() => setActiveTab('hide-snp-revenue')} className="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                  HIDE SNP Revenue
+                </button>
+                {onNavigate && (
+                  <button onClick={() => onNavigate('opportunity-hunter')} className="bg-violet-700 hover:bg-violet-600 px-4 py-2 rounded-lg font-semibold text-sm transition">
+                    NOVA Hunter
+                  </button>
+                )}
                 <button onClick={() => setActiveTab('pipeline')} className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
                   Open Pipeline
                 </button>
@@ -2716,6 +2728,19 @@ Close: "Based on what you've shared, we can help you build a $150K+ social enter
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* TAB: HIDE SNP REVENUE MODEL — MCO pipeline economics (TPA 5 NEMT) */}
+        {activeTab === 'hide-snp-revenue' && (
+          <div>
+            <div className="mb-4">
+              <h2 className="text-2xl font-bold mb-1">🚐 DDI NEMT — HIDE SNP Revenue Model</h2>
+              <p className="text-gray-400 text-sm">
+                MICH Region 10 · 9 MCOs · .5%–1% rider share · $20 net spread floor · Use before MCO negotiation (pairs with Pipeline tab).
+              </p>
+            </div>
+            <HideSnpRevenueModel embedded onNavigate={onNavigate} />
           </div>
         )}
 

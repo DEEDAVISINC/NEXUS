@@ -36,6 +36,8 @@
 | Executive summary — innovation/tech | ✅ | `03_GRANT_EXECUTIVE_SUMMARY.md` → Version C |
 | Pitch deck script (10 slides) | ✅ | `02_PITCH_DECK_SCRIPT.md` |
 | Cause We Care program descriptions | ✅ | `03_GRANT_EXECUTIVE_SUMMARY.md` → Version B |
+| CWC mission statement (formal + public) | ✅ | `COMPANY_INFO_MASTER.md` → Cause We Care · cwecare.org About |
+| CWC + DDI structural / mission alignment (SHIELD/HAVEN/VITAL) | ✅ | `CWC_GRANTS/CWC_DDI_MISSION_ALIGNMENT.html` |
 | Capability blurbs by service line | ✅ | `ESSENTIALS/DDI_CAPABILITY_BLURBS.md` |
 | Technology profile — NEXUS, FleetFlow, all systems | ✅ | `05_TECHNOLOGY_PROFILE.md` |
 | Technology blurbs by grant type | ✅ | `05_TECHNOLOGY_PROFILE.md` → bottom section |

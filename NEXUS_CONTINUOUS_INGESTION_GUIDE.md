@@ -70,8 +70,8 @@ python3 nexus_continuous_ingestion.py --daemon
 python3 nexus_continuous_ingestion.py --sam-only
 ```
 
-### 2. `nexus_opportunity_hunter_api.py`
-API endpoints for the Opportunity Hunter interface.
+### 2. `nexus_opportunity_hunter_api.py` + **NOVA** (`NOVASystem.tsx`)
+API endpoints for the Opportunity Hunter interface. **UI:** NEXUS frontend → **NOVA** (`/?view=opportunity-hunter`). Standalone `nexus_opportunity_hunter.html` retired.
 
 **New Endpoints:**
 - `GET /api/hunter/profile` — DDI profile + data freshness

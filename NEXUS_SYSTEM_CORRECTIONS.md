@@ -4,6 +4,82 @@
 
 ---
 
+## CORRECTION 0c: PHONE ON EMAIL vs WEB — NOT THE SAME RULE (Jun 2026)
+
+**248.376.4550** = **President & CEO personal cell** (Dieasha D. Davis). Stays on email signatures and business documents — **do not change Dee's signature number.**
+
+**248.376.4550 is NOT forwarded to Twilio** — personal line only. Member/public call path = **855** (+ GV **248.270** → **855**).
+
+**248.376.4550 must NOT appear on websites** — portal.deedavis.biz, deedavis.biz, CWC proof HTML, any public web page.
+
+| Channel | Number |
+|---------|--------|
+| **Email / PDF / CO correspondence** | **248.376.4550** (CEO personal) |
+| **Websites (all public HTML)** | **855.773.0035** — never 248.376.4550 |
+| **Google Voice 248.270.8490** | Forward to **+1 855-773-0035** (Twilio) |
+| **Twilio** | **855-773-0035** — PRISM voice webhooks |
+
+Setup: `deploy/PHONE_ROUTING_TWILIO.md`
+
+NEXUS: grep generated **HTML/website** output for `248.376` before publish. Email and Word/PDF outbound still use **248.376.4550** per `COMPANY_INFO_MASTER.md`.
+
+---
+
+## CORRECTION 0b: HAVEN ≠ HAP POPULATION (AUTHORITATIVE — Jun 2026)
+
+**HAVEN** = MOB-B disaster/displacement continuity for **displaced plan members** — national program (hurricane-prone states, FEMA/state EM, MCO disaster riders). **Not** a Michigan-specific program. **Not** the HAP CareSource enrolled member pool.
+
+**HAP CareSource NEMT** = MOB-A — ~4,500 dual-eligible members, Wayne + Macomb, Vendor 100000469269. That is **live plan NEMT proof for DDI as TPA**, not HAVEN's defined end population.
+
+**Do not** put HAP member counts, Wayne/Macomb geography, or "HAP baseline" on HAVEN program definition cards, population tables, or grant copy. HAP may appear under **operational proof** or **entity routing** (live MCO contract) — separate from HAVEN population lane.
+
+### Cross-document rule (funder + MCO copy)
+
+| Lane | Definition | Use in copy |
+|------|------------|-------------|
+| **MOB-A** | HAP NEMT daily medical trips — live contract proof for DDI as MCO TPA operator | **DDI credentialing proof only** — Vendor 100000469269 · CHAMPS 6309049 · Wayne + Macomb |
+| **MOB-B** | HAVEN displacement continuity — national program; activates when housing or disaster breaks care | **HAVEN population** = displaced plan members — not HAP enrollees |
+
+**Never** put HAP member counts on HAVEN population figures. **Never** merge MOB-A and MOB-B in any funder or MCO copy.
+
+### VITAL buyer split (Jun 2026)
+
+| Track | Use for | Never send to |
+|-------|---------|---------------|
+| **VITAL-HS** | Health system hospital courier consolidation (`VITAL_Master_Proposal.html`) | MCO evaluators, grant funders, MDHHS |
+| **VITAL-MCO** | Homebound MICH dual-eligible lab/Rx/DME (`THREE_PROGRAM_PITCH_PACKAGE`) | N/A — default for all funder/MCO outreach |
+
+Do not mix hospital $950K savings model with MCO pitch. See `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md`.
+
+### Logo consistency (unified stack)
+
+SHIELD = blue · HAVEN = gold/amber · VITAL = teal — **single program color per lettermark**. No rainbow per-letter lettermarks on standalone documents.
+
+### WBENC badge (May 2026 lapse)
+
+Remove WBENC or note: **WBE recertification in progress — Great Lakes WBC** on HAVEN, VITAL, SHIELD materials, and unified pitch.
+
+**Source:** Dee correction Jun 2026 · `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md` (HAP = credibility for pitches, not HAVEN geography).
+
+### SHIELD revenue tiering (Jun 2026 — authoritative)
+
+**Source:** `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md` · `SHIELD_REVENUE_MODEL.md` · `LEAD_TESTING_STRATEGY.md`
+
+| Tier | Figure | Meaning |
+|------|--------|---------|
+| **Y1 Wayne pilot** | **$612,770–$1,165,480** | 1,500–2,000 screening referrals dispatched · 50% capture model |
+| **Wayne full scale** | **~$6.1M** | 50% mandatory-test capture (~19,730 tests/yr) |
+| **Four-county Y1** | **~$13.8M** | Wayne + Oakland + Macomb + Genesee at scale (model) |
+| **3-year lifetime** | **~$41.5M** | Four counties · stacked SHIELD billing (model) |
+
+**Do not** cite $6.1M as Year 1 pilot revenue. **Retired:** "25 families" pilot sizing and $125–$200 all-in mobile rates (below market — use $175–$350/person per `LEAD_TESTING_STRATEGY.md`).
+
+**SHIELD population:** All children under 4 in Michigan (MCL 333.5474d) — Wayne pilot first. Not limited to elevated-BLL cases at intake.
+
+**SHIELD billing:** CHW codes **98960, 98961, 98962** through CHAMPS **6309049** — DDI bills MCOs and Medicaid FFS directly, not MDHHS.
+
+---
+
 ## CORRECTION 0: SWFT / DCSA — DDI vs LAKOTA (AUTHORITATIVE)
 
 **Source of truth:** `COMPANY_INFO_MASTER.md` (Federal/Compliance section) · `PARTNERSHIPS/LAKOTA_SOFTWARE_PARTNERSHIP_SUMMARY.md`

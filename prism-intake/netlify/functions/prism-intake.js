@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { sessionFromEvent, portalCors, normEmail } = require('./lib/portal-auth');
 
 const ADMIN_EMAIL = process.env.USER_EMAIL || 'info@deedavis.biz';
 const EMAIL_FROM = process.env.NEXUS_EMAIL || 'bids.deedavisinc@gmail.com';
@@ -18,11 +19,6 @@ const BRAND_NAME = 'DDI';
 const LEGAL_ENTITY = 'Dee Davis Inc.';
 const DDI_PHONE = '855-773-0035';
 const DDI_EMAIL = 'info@deedavis.biz';
-
-function normEmail(v) {
-  const s = (v || '').trim().toLowerCase();
-  return s && s.includes('@') ? s : '';
-}
 
 function subjectName(data) {
   return `${data.subject_first || ''} ${data.subject_last || ''}`.trim() || 'Member';
@@ -240,12 +236,8 @@ async function syncToNexusDashboard(data) {
 }
 
 exports.handler = async (event) => {
-  const cors = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Content-Type': 'application/json',
-  };
+  const origin = event.headers?.origin || event.headers?.Origin;
+  const cors = portalCors(origin);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: cors, body: '' };
@@ -255,11 +247,30 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: cors, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
+  const sessionEmail = sessionFromEvent(event);
+  if (!sessionEmail) {
+    return {
+      statusCode: 401,
+      headers: cors,
+      body: JSON.stringify({ error: 'Sign in required before submitting a request.' }),
+    };
+  }
+
   try {
     const data = JSON.parse(event.body || '{}');
     if (!data.client_email && !data.client_company) {
       return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Missing client information' }) };
     }
+
+    const clientEmail = normEmail(data.client_email);
+    if (clientEmail && clientEmail !== sessionEmail) {
+      return {
+        statusCode: 403,
+        headers: cors,
+        body: JSON.stringify({ error: 'Contact email must match your verified sign-in email.' }),
+      };
+    }
+    data.client_email = sessionEmail;
 
     const [apiResult, opsResult, confirmResult] = await Promise.allSettled([
       syncToNexusDashboard(data),

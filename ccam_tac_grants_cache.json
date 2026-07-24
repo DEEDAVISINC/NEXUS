@@ -1,0 +1,62 @@
+{
+  "scan_date": "2026-07-17T08:24:17.694408",
+  "source": "ccam-tac.org",
+  "pages_scanned": 5,
+  "total_found": 5,
+  "actionable_count": 1,
+  "watch_count": 1,
+  "errors": [],
+  "opportunities": [
+    {
+      "title": "US DOT Navigator",
+      "source": "partner_funding",
+      "url": "https://www.ccam-tac.org/partner-funding-opportunities/",
+      "deadline": "TBA",
+      "status": "tba",
+      "ddi_fit": "reference",
+      "fit_note": "Grant prep resource \u2014 not revenue",
+      "partner": "Review lane"
+    },
+    {
+      "title": "USDA Rural Economic Development Loan/Grant Program",
+      "source": "partner_funding",
+      "url": "https://www.ccam-tac.org/partner-funding-opportunities/",
+      "deadline": "Quarterly",
+      "status": "rolling",
+      "ddi_fit": "no-go",
+      "fit_note": "Wrong lane (infra / DOJ wandering / USDA utility RLF) or partner-only 5311 lead",
+      "partner": "Review lane"
+    },
+    {
+      "title": "FY 2026 BUILD Grants Notice of Funding Opportunity",
+      "source": "partner_funding",
+      "url": "https://www.ccam-tac.org/partner-funding-opportunities/",
+      "deadline": "February 24, 2026 at 5:00 pm eastern",
+      "status": "closed",
+      "ddi_fit": "no-go",
+      "fit_note": "Wrong lane (infra / DOJ wandering / USDA utility RLF) or partner-only 5311 lead",
+      "partner": "Review lane"
+    },
+    {
+      "title": "Innovative Coordinated Access and Mobility (ICAM) Pilot Program",
+      "source": "icam_program",
+      "url": "https://www.ccam-tac.org/innovative-coordinated-access-and-mobility-icam-pilot-program/",
+      "deadline": "TBA",
+      "status": "tba",
+      "ddi_fit": "high",
+      "fit_note": "Mobility management / NEMT / ICAM / CCAM coordination lane",
+      "partner": "NEXUS/PRISM coordination infra \u00b7 team w/ 5310 lead"
+    },
+    {
+      "title": "Community Rides Grants (National RTAP / FTA)",
+      "source": "community_rides",
+      "url": "https://www.ccam-tac.org/2026-community-rides-grants/",
+      "deadline": "2026 cycle closed (check National RTAP for 2027)",
+      "status": "closed",
+      "ddi_fit": "low",
+      "fit_note": "5311 transit must lead \u2014 DDI partner/sub only \u00b7 ~$60K avg",
+      "partner": "CWC navigation + DDI TPA if rural transit invites"
+    }
+  ],
+  "intel_file": "NEXUS_LEARNING/CCAM_FTA_COORDINATION_INTEL.md"
+}

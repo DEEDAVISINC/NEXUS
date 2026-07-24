@@ -1509,7 +1509,7 @@
     </div>
     <div class="svc-card" data-svc="cts" data-email="cts@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">🏠</div><div class="name">Community Transition</div>
-      <div class="name" style="font-size:10px;font-weight:500;opacity:.72;margin-top:2px">Molina LTSS · Referral</div>
+      <div class="name" style="font-size:10px;font-weight:500;opacity:.72;margin-top:2px">MCO LTSS · Referral</div>
     </div>
     <div class="svc-card" data-svc="arena" data-email="rides@deedavis.biz" onclick="pickSvc(this)">
       <div class="icon">🎟️</div><div class="name">ARENA</div>
@@ -1695,21 +1695,37 @@
       </div>
     </div>
     <div class="dynamic-section" id="cts-fields">
-      <p class="help-text" style="margin-top:0"><strong>Community Transition Services (CTS)</strong> — Molina HIDE SNP LTSS. This is a referral, not a trip request — no pickup/drop-off or appointment time needed. Routes to <strong>cts@</strong>. This case is authorized and billed to <strong>Molina Healthcare Michigan</strong> directly — never billed to the referring facility. <strong>Referral source must be a nursing facility discharge planner or a Molina Care Coordinator</strong> — CTS referrals are not accepted directly from members.</p>
+      <p class="help-text" style="margin-top:0"><strong>Community Transition Services (CTS)</strong> — MCO/Medicaid LTSS nursing facility-to-community transition support. This is a referral, not a trip request — no pickup/drop-off or appointment time needed. Routes to <strong>cts@</strong>. This case is authorized and billed to the member's <strong>MCO/health plan</strong> directly — never billed to the referring facility. <strong>Referral source must be a nursing facility discharge planner or a health plan Care Coordinator</strong> — CTS referrals are not accepted directly from members.</p>
       <div class="form-row">
-        <div class="field" id="field-cts-referral-type"><label>Referral Source Type <span class="req">*</span></label>
-          <select id="cts-referral-type">
+        <div class="field" id="field-cts-payer"><label>Member's MCO / Health Plan <span class="req">*</span></label>
+          <select id="cts-payer">
             <option value="">Select</option>
-            <option>Nursing Facility Discharge Planner</option>
-            <option>Molina Care Coordinator</option>
+            <option>Molina Healthcare Michigan</option>
+            <option>HAP CareSource</option>
+            <option>Meridian Health Plan</option>
+            <option>United Healthcare Community Plan</option>
+            <option>Aetna Better Health of Michigan</option>
+            <option>McLaren Health Plan</option>
+            <option>Priority Health Choice</option>
             <option>Other — see notes</option>
           </select>
           <div class="error-msg">Required</div>
         </div>
-        <div class="field"><label>Referring Contact Name</label><input type="text" id="cts-referral-contact" placeholder="Discharge planner or Care Coordinator name"></div>
+        <div class="field" id="field-cts-referral-type"><label>Referral Source Type <span class="req">*</span></label>
+          <select id="cts-referral-type">
+            <option value="">Select</option>
+            <option>Nursing Facility Discharge Planner</option>
+            <option>Health Plan Care Coordinator</option>
+            <option>Other — see notes</option>
+          </select>
+          <div class="error-msg">Required</div>
+        </div>
       </div>
       <div class="form-row">
+        <div class="field"><label>Referring Contact Name</label><input type="text" id="cts-referral-contact" placeholder="Discharge planner or Care Coordinator name"></div>
         <div class="field"><label>Referring Contact Phone</label><input type="tel" id="cts-referral-phone" placeholder="(000) 000-0000"></div>
+      </div>
+      <div class="form-row">
         <div class="field"><label>Referring Contact Email</label><input type="email" id="cts-referral-email" placeholder="name@facility.org"></div>
       </div>
       <div class="form-row full">
@@ -3464,7 +3480,7 @@ const svcLabels = {
   'fingerprint': 'Fingerprinting & Biometrics',
   'dna': 'DNA / Paternity',
   'nemt': 'NEMT & Medical Mobility',
-  'cts': 'Community Transition Services (Molina)',
+  'cts': 'Community Transition Services (CTS)',
   'arena': 'ARENA — Event Navigation Administration',
   'courier': 'Courier & Delivery',
   'background': 'Background Screening',
@@ -3577,7 +3593,7 @@ const SERVICE_PROFILES = {
       sitePlaceholder: '',
       show: { dob: true, phone: true, email: true, id: true, location: false, scheduling: false, tier2DrugTransport: false },
       require: { first: true, last: true, dob: false, phone: false, email: false, location: false, date: false, time: false, site: false },
-      detailRequired: ['cts-referral-type', 'cts-transition-from', 'cts-transition-to']
+      detailRequired: ['cts-payer', 'cts-referral-type', 'cts-transition-from', 'cts-transition-to']
     }
   },
   'arena': {
@@ -4056,11 +4072,11 @@ const SERVICE_PRICING = {
   'dna': { label: 'DNA / Paternity', base: 350.00 },
   'nemt': { label: 'NEMT & Medical Mobility', base: 45.00 },
   'cts': {
-    label: 'Community Transition Services (Molina)',
+    label: 'Community Transition Services (CTS)',
     scoped: true,
     factorGroups: [
       {
-        title: 'Authorization Case — Billed to Molina, Not the Referring Facility',
+        title: 'Authorization Case — Billed to the Member\'s MCO, Not the Referring Facility',
         items: [
           'No payment collected at intake — this is a referral, not a paid service request',
           'T1028 Home Assessment — flat $150, only if required and completed',
@@ -5288,7 +5304,7 @@ function buildIntakeDetails(svcKey) {
     d.member_id = rawVal('donor-id');
     d.member_phone = rawVal('donor-phone');
     d.member_email = rawVal('donor-email');
-    d.payer = 'Molina Healthcare Michigan';
+    d.payer = rawVal('cts-payer') || '';
   }
   if (svcKey === 'arena') {
     d.program = 'ARENA';
@@ -5491,7 +5507,7 @@ function dispatch() {
   if(svcKey==='workforce'){lines.push(`Service:      ${val('wf-type')}`);lines.push(`Industry:     ${val('wf-industry')}`);}
   if(svcKey==='notary') lines.push(`Notary:       ${val('notary-type')}`);
   if(svcKey==='nemt'){const nm=getNemtProgramMeta();lines.push(`Program:      ${nm.label||val('nemt-program')}`);lines.push(`Mobility:     ${nm.lane||'—'}`);lines.push(`Trip Type:    ${val('nemt-trip-type')}`);lines.push(`Leg:          ${val('nemt-leg-type')}`);lines.push(`Purpose:      ${val('nemt-purpose')}`);lines.push(`Member ID:    ${val('nemt-member-id')}`);}
-  if(svcKey==='cts'){lines.push(`Payer:        Molina Healthcare Michigan`);lines.push(`Referral By:  ${val('cts-referral-type')}`);lines.push(`Referrer:     ${val('cts-referral-contact')}`);lines.push(`From:         ${val('cts-transition-from')}`);lines.push(`To:           ${val('cts-transition-to')}`);lines.push(`Move Date:    ${val('cts-move-date')}`);lines.push(`PCSP:         ${val('cts-pcsp')}`);lines.push(`Home Assess:  ${val('cts-home-assessment')}`);lines.push(`Expense Cat:  ${val('cts-expense-category')}`);}
+  if(svcKey==='cts'){lines.push(`MCO/Payer:    ${val('cts-payer')}`);lines.push(`Referral By:  ${val('cts-referral-type')}`);lines.push(`Referrer:     ${val('cts-referral-contact')}`);lines.push(`From:         ${val('cts-transition-from')}`);lines.push(`To:           ${val('cts-transition-to')}`);lines.push(`Move Date:    ${val('cts-move-date')}`);lines.push(`PCSP:         ${val('cts-pcsp')}`);lines.push(`Home Assess:  ${val('cts-home-assessment')}`);lines.push(`Expense Cat:  ${val('cts-expense-category')}`);}
   if(svcKey==='arena'){lines.push(`Program:      ARENA`);lines.push(`Execution:    PRIME`);lines.push(`Pricing:      Dynamic — scoped proposal after consultation`);lines.push(`Event Type:   ${val('event-type')}`);lines.push(`Event Name:   ${val('event-name')}`);lines.push(`Scope:        ${val('event-scope')}`);lines.push(`Volume:       ${val('event-volume')}`);lines.push(`Venue:        ${val('event-venue')}`);lines.push(`Trip Pay:     ${val('event-payment-model')}`);if(document.getElementById('event-valet')?.checked)lines.push(`Valet:        PRIME Valet requested (optional add-on)`);}
   if(svcKey==='courier'){const cm=getCourierDeliveryMeta();lines.push(`Delivery:     ${val('courier-type')}`);lines.push(`Courier Lane: ${cm.lane||'—'}`);lines.push(`Route To:     ${activeEmail}`);lines.push(`Temp Control: ${val('courier-temp')}`);lines.push(`Package:      ${val('courier-package')}`);lines.push(`Pickup:       ${val('courier-pickup')}`);}
   if (orderScoped) {
@@ -5936,7 +5952,8 @@ function validateOverride() {
 function getPaymentConfirmation() {
   const { total, scoped } = calculateOrderTotal();
   if (getSvcKey() === 'cts') {
-    return { icon: '📋', title: 'Referral Submitted — No Payment at Intake', detail: 'DDI authorizes and bills Molina Healthcare Michigan directly under the HIDE SNP LTSS contract — never billed to the referring facility', amount: 'Billed to Molina' };
+    const ctsPayer = rawVal('cts-payer') || 'the member\'s MCO';
+    return { icon: '📋', title: 'Referral Submitted — No Payment at Intake', detail: `DDI authorizes and bills ${ctsPayer} directly under the LTSS contract — never billed to the referring facility`, amount: `Billed to ${ctsPayer}` };
   }
   if (scoped) {
     return { icon: '📋', title: 'Scoping Request Submitted', detail: 'DDI will deliver a dynamic scoped proposal after consultation — no flat rates, no payment at intake', amount: 'After consultation' };

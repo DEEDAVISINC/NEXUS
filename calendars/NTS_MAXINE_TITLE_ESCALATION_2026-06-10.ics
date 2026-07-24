@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:nts-maxine-title-escalation-20260610@deedavis.biz
+DTSTAMP:20260609T120000Z
+DTSTART;TZID=America/Detroit:20260610T120000
+DTEND;TZID=America/Detroit:20260610T123000
+SUMMARY:📧 ESCALATE: Maxine Smith #2026-3409 — Title Co if no Kevin reply
+DESCRIPTION:If kevin@atsigningagents.com has not replied to 6/9 follow-up — contact title company on the signing (from order/closing docs). Order 2026-3409 · Maxine Smith · reverse · closed 4/25/26 · $125 · NTS @SigningAgents. NTS file contact: Rafael Marzo rmarzo@ntsnational.com 630-778-0007 x2037. Ask whether title has remitted to NTS for this file.
+LOCATION:Remote
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Escalation check in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Escalation check in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

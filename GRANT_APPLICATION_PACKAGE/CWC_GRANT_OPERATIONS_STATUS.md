@@ -1,7 +1,7 @@
 # Cause We Care — Grant & Program Operations Status
 
 **Source of truth** — update this file when something moves.  
-**Last Updated:** May 30, 2026  
+**Last Updated:** June 10, 2026  
 **Replaces stale “register / send inquiry / finish workbook” language in older trackers.**  
 **Session record:** `SESSION_SUMMARY_MAY_30_2026.md` · **Funder tiers:** `NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`
 
@@ -23,7 +23,7 @@
 | **Cause We Care SAM.gov** | 🟡 **Entity registration submitted** — UEI VEJMFMVV6PQ1 · confirm **nsa@deedavis.ink** · no action required | Await **Active** in SAM → Grants.gov |
 | **HAP CareSource NEMT contract** | ✅ Signed Mar 29 · **Vendor ID 100000469269** · Wayne + Macomb **live** | `PARTNERSHIPS/HAP_CARESOURCE_PARTNERSHIP_SUMMARY.md` |
 | **Uber Health / Jeff Metz** | ✅ AE assigned · dashboard live (May 15) | `PENDING_ACTIONS.md` |
-| **MI Bridges Community Partner** | ✅ Since May 2020 · 200+ applications | Documented in proposals |
+| **MI Bridges Community Partner** | ✅ DDI since May 2020 · CWC since 2024 · 250+ combined applications | Documented in proposals |
 | **SHIELD Airtable / referral sources seeded** | ✅ MDHHS contacts + 6 LHD placeholders | `seed_shield_referral_source_accounts.py` |
 | **Funder target list / collaboration pod** | ✅ Documented | Feast workbook Steps 2–3 |
 | **Compelling story (SHIELD + HAVEN displacement)** | ✅ Written | `FEAST_OF_FUNDS_WORKBOOK_STEP4_CHECKUP.md` |
@@ -34,7 +34,7 @@
 
 | Item | Status | Next move |
 |------|--------|----------|
-| **MHEF Capacity Building RFP** | Inquiry done · reply logged · **RFP window early April 2026** | Register Fluxx (if not done) · **submit concept paper now** · webinar if offered |
+| **MHEF Capacity Building Cycle 2** | 🔴 **Concept NOT submitted** · deadline **May 14, 2026 PASSED** | Contact Sayre · pivot **Healthy Kids** · next CB cycle |
 | **MHEF Fluxx portal (CWC)** | May be partial | Confirm login at mihealthfund.org — mark ✅ here when confirmed |
 | **Health Fund email subscribe** | Unknown | One-time: footer signup at mihealthfund.org |
 | **MDHHS formal follow-up meeting** | Apr 23 met · May package sent · **May 30 follow-up SENT** | ⏳ Await meeting + LHD intros · **mid-June trigger** → direct LHDs per `CLIENT OUTREACH/LHD_BACKUP_CONTACTS_SIX_COUNTIES.md` · call Angela **517-897-5203** |
@@ -51,7 +51,7 @@
 
 | Priority | Action | Why it still matters |
 |----------|--------|---------------------|
-| **1** | **MHEF Capacity Building concept paper** (Fluxx) + attend CB webinar | **$300K track** — inquiry/reply done; **application not done** |
+| **1** | **MHEF** — contact Sayre re: missed Cycle 2 · **Healthy Kids** when RFP posts · **CFSEM LOI** | CB concept window closed May 14 — **pivot grant path** |
 | **2** | **CFSEM** — register + submit SHIELD navigator pilot | Rolling $5K–$50K — **not started** in pipeline |
 | **3** | **CHW Medicaid billing path** — MDHHS meeting + 1-800-292-2550 / CHAMPS taxonomy | Unlocks recurring pay for navigation work |
 | **4** | **CWC SAM validation** — chase if stalled (FSD 866-606-8220) | Unlocks HRSA, HUD, SSVF, SAMHSA |
@@ -77,14 +77,23 @@ Use **`CWC_GRANT_OPERATIONS_STATUS.md`** for webinar talking points: *“We did 
 
 ---
 
+## Unified pitch package (SHIELD + HAVEN + VITAL)
+
+**`CWC_GRANTS/THREE_PROGRAM_PITCH_PACKAGE.html`** — **primary** funder PDF (**5-page main package** + **Attachment A** MHEF Fluxx draft on Page 6). General funders: print Pages 1–5 only. Markdown companion: `THREE_PROGRAM_PITCH_PACKAGE.md` (Fluxx/email copy blocks).
+
+**`CWC_GRANTS/CWC_DDI_MISSION_ALIGNMENT.html`** — **structural / mission alignment** for grant attachments (CWC 501c3 + DDI TPA · SHIELD/HAVEN/VITAL · entity routing · compliance). PDF via Chrome print. Companion: `CWC_DDI_MISSION_ALIGNMENT.md`.
+
+---
+
 ## Files to read first each grant session
 
-1. **`CWC_GRANT_OPERATIONS_STATUS.md`** (this file)  
-2. **`GRANT_ACTIVE_PIPELINE.md`**  
-3. **`NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`** (tiered funders — May 30, 2026)  
-4. **`NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`** (which program → which funder)  
-5. **`CWC_GRANTS/MHEF_CAPACITY_BUILDING_INQUIRY.md`**  
-6. **`FEAST_OF_FUNDS_WORKBOOK_INDEX.md`**
+1. **`THREE_PROGRAM_PITCH_PACKAGE.md`** — copy/submit package  
+2. **`CWC_GRANT_OPERATIONS_STATUS.md`** (this file)  
+3. **`GRANT_ACTIVE_PIPELINE.md`**  
+4. **`NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`** (tiered funders — May 30, 2026)  
+5. **`NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`** (which program → which funder)  
+6. **`CWC_GRANTS/MHEF_CAPACITY_BUILDING_INQUIRY.md`**  
+7. **`FEAST_OF_FUNDS_WORKBOOK_INDEX.md`**
 
 ---
 

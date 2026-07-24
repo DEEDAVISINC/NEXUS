@@ -2,7 +2,19 @@
 
 **Purpose:** Persistent record of session findings, active work, and system corrections. Cursor reads this at session start.
 
-**Last Updated:** 2026-06-04
+**Last Updated:** 2026-06-10
+
+---
+
+## 🌐 DDI WEBSITE UPDATE — deedavis.biz
+
+**When Dee says "DDI website update" / "update the website"** → NOT the NEXUS app (`nexus.deedavis.biz`). She means the **marketing site** at **deedavis.biz**.
+
+**Tracker (source of truth):** `WEBSITE/DEEDAVIS_BIZ_WEBSITE_UPDATE_TRACKER.md`
+
+**Summary:** Staged HTML in `WEBSITE/` (VITAL, HAVEN, ARENA, 3D Ink, cwc-proof) — mostly **not deployed** to Netlify yet. Homepage live but needs national TPA copy + SWFT removal. P0: `/cwc-proof` for funder QR.
+
+Also in `PENDING_ACTIONS.md` → section **DDI WEBSITE UPDATE**.
 
 ---
 
@@ -40,7 +52,7 @@
 - **Brian / Dana (HAP CareSource)** — 7-day follow-up if silent
 
 ### Corrections applied June 4 import
-- CWC MiBridges → **since May 2020** (not 2025)
+- CWC MiBridges → **since 2024** · DDI MiBridges → **since May 2020** (separate entities — do not merge dates)
 - Detroit contact → **Ali Abazeed** (supersedes Denise Fair Razo on file)
 - Genesee → **in Jun 18 wave** (not hold)
 - Partner table in public narrative → no Uber/DDC names (internal session list only)

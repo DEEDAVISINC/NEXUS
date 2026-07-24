@@ -45,6 +45,8 @@
 | File | Location | Use |
 |------|----------|-----|
 | **Population lanes** | `NEXUS_LEARNING/DDI_SERVICE_POPULATION_LANES.md` | MOB-A (plan NEMT) vs MOB-B (HAVEN) vs MOB-C (freight); grant funder map |
+| **CCAM / FTA coordination intel** | `NEXUS_LEARNING/CCAM_FTA_COORDINATION_INTEL.md` | CCAM background; **ICAM Pilot** future watch (DEPOINTE/NEXUS coordination infra) |
+| **NEMT state profiles (50 + DC)** | `NEXUS_LEARNING/NEMT_STATE_PROFILES_REFERENCE.md` | Per-state Medicaid NEMT model, broker/buyer path, Michigan crosswalk |
 | **Buyers (who pays DDI)** | `NEXUS_LEARNING/DDI_BUYERS_AND_MARKETS.md` | Contracting buyers by system — NOT fulfillment partners |
 | **Outcomes when working** | `NEXUS_LEARNING/DDI_PROGRAM_OUTCOMES_WHEN_WORKING.md` | SHIELD, HAVEN, NEMT, PRISM, VERTEX — community + ops |
 | **Community impact (short)** | `NEXUS_LEARNING/DDI_COMMUNITY_IMPACT_SUMMARY.md` | Paste-ready community narrative |

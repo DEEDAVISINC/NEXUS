@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Helicopter Herbicide Spraying for Missouri Rive
+ r Sandbars
+DTSTART:20260706T000000
+DTEND:20260706T010000
+DTSTAMP:20260723T230144Z
+UID:recjpEAZlHfvWenKl@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Helicopter Herbicide Sprayin
+ g for Missouri River Sandbars\nAgency: \nSolicitation: \nDeadline: July 06
+ \, 2026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3y
+ J7ma/recjpEAZlHfvWenKl\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days be
+ fore\n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\n
+ 🎯 ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2. 
+ Collect all quotes (2 days before)\n3. Complete bid forms (1 day before)\n
+ 4. Final review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGen
+ erated by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Helicopter Herbicide Spraying for Missouri River
+  Sandbars
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Helicopter Herbicide Spraying for Missouri River
+  Sandbars
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Helicopter Herbicide Spraying for Missouri River
+  Sandbars
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Helicopter Herbicide Spraying for Missouri River
+  Sandbars
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

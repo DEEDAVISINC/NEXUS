@@ -32,6 +32,7 @@
 - [ ] Open `ATTACHMENT/DDI_CWC_PHC_Program_Narrative.html` in Chrome
 - [ ] Cmd+P → Save as PDF → `DDI_CWC_PHC_Program_Narrative.pdf`
 - [ ] Same PDF for all seven sends
+- **Jun 16 prep:** Send checklist ready → `JUN16_LHD_SEND_CHECKLIST.md`
 
 ---
 

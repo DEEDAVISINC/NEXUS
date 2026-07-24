@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header, { ViewType, NexusIdentity, getNexusIdentity } from './components/Header';
 import HIPAAGate from './components/shield/HIPAAGate';
 import LandingPage from './components/LandingPage';
@@ -15,6 +15,7 @@ import { CapStatSystem } from './components/systems/CapStatSystem';
 import { DocumentGenerator } from './components/systems/DocumentGenerator';
 import PRISMSystem from './components/systems/PRISMSystem';
 import COMPASSSystem from './components/systems/COMPASSSystem';
+import VaultSystem from './components/systems/VaultSystem';
 import FieldAgentPortal from './components/systems/FieldAgentPortal';
 import AgentPortalRouter from './components/portal/AgentPortalRouter';
 import NOVASystem from './components/systems/NOVASystem';
@@ -154,7 +155,36 @@ function NavigatorLogin() {
 function NexusApp() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [currentSystemTab, setCurrentSystemTab] = useState('dashboard');
+  const [prismDeepLink, setPrismDeepLink] = useState<{ division?: string; section?: string }>({});
   const [identity, setIdentity] = useState<NexusIdentity>(getNexusIdentity);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    const tab = params.get('tab');
+    const division = params.get('division');
+    const section = params.get('section');
+    if (viewParam) {
+      const resolvedView = (viewParam === 'contracts' ? 'vault' : viewParam) as ViewType;
+      setCurrentView(resolvedView);
+      const compassTabs = ['dashboard', 'contracts', 'deliverables', 'communications', 'modifications', 'performance'];
+      const vaultTabs = ['dashboard', 'registry', 'timeline'];
+      const vertexTabs = ['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'];
+      let validTab = tab;
+      if (resolvedView === 'compass' && tab && !compassTabs.includes(tab)) validTab = 'dashboard';
+      if (resolvedView === 'vault' && tab && !vaultTabs.includes(tab)) validTab = 'dashboard';
+      if (resolvedView === 'vertex' && tab && !vertexTabs.includes(tab)) validTab = 'dashboard';
+      if (validTab) setCurrentSystemTab(validTab);
+      else if (resolvedView !== 'landing') setCurrentSystemTab('dashboard');
+      if (resolvedView === 'prism' && (division || section)) {
+        setPrismDeepLink({
+          division: division || undefined,
+          section: section || undefined,
+        });
+      }
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const navigateToSystem = (system: ViewType, initialTab?: string) => {
     setCurrentView(system);
@@ -175,7 +205,14 @@ function NexusApp() {
       case 'gpss':
         return <GPSSSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'ddcss':
-        return <DDCSSSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+        return (
+          <DDCSSSystem
+            onBackToNexus={navigateToLanding}
+            onNavigate={navigateToSystem}
+            activeTab={currentSystemTab}
+            setActiveTab={setCurrentSystemTab}
+          />
+        );
       case 'atlas':
         return <ATLASSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'gbis':
@@ -192,10 +229,29 @@ function NexusApp() {
         return <QuoteSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'capstats':
         return <CapStatSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+      case 'vault':
+        return (
+          <VaultSystem
+            onBackToNexus={navigateToLanding}
+            onNavigate={navigateToSystem}
+            activeTab={currentSystemTab}
+            setActiveTab={setCurrentSystemTab}
+          />
+        );
       case 'compass':
         return <COMPASSSystem onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
       case 'prism':
-        return <PRISMSystem onBackToNexus={navigateToLanding} onNavigate={navigateToSystem} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;
+        return (
+          <PRISMSystem
+            onBackToNexus={navigateToLanding}
+            onNavigate={navigateToSystem}
+            activeTab={currentSystemTab}
+            setActiveTab={setCurrentSystemTab}
+            initialDivision={prismDeepLink.division}
+            initialDivisionSection={prismDeepLink.section}
+            onDeepLinkConsumed={() => setPrismDeepLink({})}
+          />
+        );
       case 'agent-portal':
         // Agent portal preview (from PRISM admin — no login wall)
         return <FieldAgentPortal onBackToNexus={navigateToLanding} activeTab={currentSystemTab} setActiveTab={setCurrentSystemTab} />;

@@ -35,7 +35,9 @@ DO NOT SKIP THESE. DO NOT WAIT TO BE ASKED.
 - Owner Name: Dieasha D. Davis (ALWAYS use full name on signatures — NEVER "Dee Davis")
 - Title: President & CEO
 - Company: Dee Davis Inc.
-- Phone: 248.376.4550 (NOT 248.247.5020)
+- Phone: **248.376.4550** on **email signatures and business documents** — President & CEO **personal cell** (NOT 248.247.5020). **Do not** forward this number to Twilio.
+- Never put 248.376.4550 on **websites** — portal and web use 855.773.0035
+- Google Voice **248.270.8490** forwards to **855** (see `deploy/PHONE_ROUTING_TWILIO.md`)
 - Address: 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 (NOT 48083)
 - Email: info@deedavis.biz
 - CAGE: 8UMX3

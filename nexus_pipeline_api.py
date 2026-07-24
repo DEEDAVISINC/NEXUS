@@ -99,6 +99,98 @@ def _find_contract_by_gpss(data, gpss_id):
     return None
 
 
+def _sync_qc_registry_to_pipeline() -> int:
+    """Mirror QC contract registry entries into the unified pipeline registry."""
+    try:
+        from nexus_qc_engine import list_contracts as qc_list, ensure_hap_contract_seed
+        ensure_hap_contract_seed()
+        qc_contracts = qc_list()
+    except Exception:
+        return 0
+
+    data = _load_contracts()
+    contracts = data.get('contracts', [])
+    existing_ids = {c.get('id') for c in contracts}
+    added = 0
+    now = datetime.now().isoformat()
+
+    for qc in qc_contracts:
+        cid = qc.get('contract_id')
+        if not cid or cid in existing_ids:
+            continue
+        lanes = qc.get("service_lanes") or ["nemt"]
+        if isinstance(lanes, str):
+            lanes = [lanes]
+        lane_label = ", ".join(str(x).upper() for x in lanes)
+        entry = {
+            "id": cid,
+            "title": f"{qc.get('buyer_name', 'Contract')} — {lane_label}".strip(" —"),
+            "agency": qc.get("buyer_name", ""),
+            "value": 0,
+            "status": "Active",
+            "contract_type": "MCO Vendor Agreement" if "nemt" in [str(x).lower() for x in lanes] else "Service Contract",
+            "service_type": lane_label,
+            "source": {
+                "gpss_opportunity_id": "",
+                "rfp_number": "",
+                "solicitation_number": "",
+                "qc_registry": True,
+            },
+            "systems": {
+                "atlas_project_id": "",
+                "compass_contract_id": "",
+                "prism_contract_id": cid,
+                "qc_contract_id": cid,
+                "vendor_id": qc.get("vendor_id", ""),
+                "vertex_invoices": [],
+            },
+            "contacts": {
+                "co_name": "",
+                "co_email": "",
+                "cor_name": "",
+            },
+            "timeline": {
+                "identified": "",
+                "bid_submitted": "",
+                "won": qc.get("registered_at", now),
+                "start_date": qc.get("pop_start") or "",
+                "end_date": qc.get("pop_end") or "",
+            },
+            "health": {
+                "overall": 100,
+                "compliance": "Green",
+                "deliverables_pct": 0,
+                "financials_pct": 0,
+                "orders_completed": 0,
+                "orders_total": 0,
+            },
+            "naics": "",
+            "set_aside": "",
+            "prism_orders": [],
+            "profile_path": qc.get("profile_path", ""),
+            "plan_name": qc.get("plan_name", ""),
+            "payer": qc.get("payer", ""),
+            "created_at": qc.get("registered_at", now),
+            "updated_at": now,
+        }
+        contracts.append(entry)
+        existing_ids.add(cid)
+        _log_event(
+            data,
+            "contract_synced_from_qc",
+            cid,
+            "QC",
+            "VAULT",
+            {"buyer": qc.get("buyer_name", ""), "lanes": lanes},
+        )
+        added += 1
+
+    if added:
+        data["contracts"] = contracts
+        _save_contracts(data)
+    return added
+
+
 # ═══════════════════════════════════════════════════════════════════
 # HEALTH CHECK
 # ═══════════════════════════════════════════════════════════════════
@@ -106,6 +198,7 @@ def _find_contract_by_gpss(data, gpss_id):
 @nexus_pipeline.route('/nexus/pipeline/health', methods=['GET'])
 def pipeline_health():
     """Full integration health check across all systems."""
+    _sync_qc_registry_to_pipeline()
     data = _load_contracts()
     prism_orders = _load_prism_orders()
 
@@ -124,7 +217,8 @@ def pipeline_health():
         'GPSS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Gov Proposals & Sales'},
         'ATLAS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Project Management'},
         'PRISM': {'status': 'online', 'orders': len(prism_orders), 'role': 'core', 'description': 'Field Operations'},
-        'COMPASS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Contract Compliance'},
+        'VAULT': {'status': 'online', 'role': 'core', 'description': 'Master Contract Registry'},
+        'COMPASS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'CO Deliverables & Compliance'},
         'VERTEX': {'status': 'online' if airtable_ok else 'degraded', 'role': 'core', 'description': 'Financial Management'},
         'DDCSS': {'status': 'online' if airtable_ok else 'degraded', 'role': 'support', 'description': 'Corporate Sales'},
         'GBIS': {'status': 'online', 'role': 'support', 'description': 'Grant Intelligence'},
@@ -190,12 +284,91 @@ def pipeline_health():
 @nexus_pipeline.route('/nexus/pipeline/contracts', methods=['GET'])
 def list_contracts():
     """List all contracts in the unified registry."""
+    _sync_qc_registry_to_pipeline()
     data = _load_contracts()
     status_filter = request.args.get('status')
     contracts = data.get('contracts', [])
     if status_filter:
         contracts = [c for c in contracts if c.get('status', '').lower() == status_filter.lower()]
     return jsonify({'contracts': contracts, 'total': len(contracts)})
+
+
+@nexus_pipeline.route('/nexus/contracts', methods=['GET'])
+def unified_contracts():
+    """Master contract list — QC registry synced into pipeline registry."""
+    _sync_qc_registry_to_pipeline()
+    data = _load_contracts()
+    contracts = data.get('contracts', [])
+    active = [c for c in contracts if c.get('status') == 'Active']
+    try:
+        from nexus_qc_engine import list_contracts as qc_list, ensure_hap_contract_seed
+        ensure_hap_contract_seed()
+        qc_entries = qc_list()
+    except Exception:
+        qc_entries = []
+
+    return jsonify({
+        'contracts': contracts,
+        'total': len(contracts),
+        'active_count': len(active),
+        'qc_registry_count': len(qc_entries),
+        'registry_source': 'nexus_pipeline + nexus_qc',
+    })
+
+
+@nexus_pipeline.route('/nexus/contracts/<contract_id>', methods=['GET'])
+def unified_contract_detail(contract_id):
+    """Single contract with QC + PRISM cross-links."""
+    _sync_qc_registry_to_pipeline()
+    data = _load_contracts()
+    contract = _find_contract(data, contract_id)
+    if not contract:
+        return jsonify({'error': f'Contract {contract_id} not found'}), 404
+
+    qc_detail = None
+    try:
+        from nexus_qc_engine import get_contract as qc_get, list_records
+        qc_detail = qc_get(contract_id)
+        if qc_detail:
+            qc_detail = {
+                **qc_detail,
+                'delivery_count': len(list_records(contract_id=contract_id, limit=500)),
+            }
+    except Exception:
+        pass
+
+    prism_orders = _load_prism_orders()
+    contract_orders = [o for o in prism_orders if o.get('contract_id') == contract_id]
+    events = [e for e in data.get('events', []) if e.get('contract_id') == contract_id]
+
+    return jsonify({
+        'contract': contract,
+        'qc': qc_detail,
+        'prism': {
+            'total_orders': len(contract_orders),
+            'completed': len([o for o in contract_orders if o.get('status') == 'Complete']),
+            'active': len([o for o in contract_orders if o.get('status') not in ('Complete', 'Cancelled')]),
+            'orders': contract_orders[:20],
+        },
+        'events': sorted(events, key=lambda e: e.get('timestamp', ''), reverse=True)[:30],
+        'links': {
+            'prism': f'?view=prism&division=transport',
+            'vertex': '?view=vertex&tab=nemt',
+            'compass': contract.get('systems', {}).get('compass_contract_id') or None,
+        },
+    })
+
+
+@nexus_pipeline.route('/nexus/vault', methods=['GET'])
+def vault_list():
+    """Alias for master contract registry (VAULT module)."""
+    return unified_contracts()
+
+
+@nexus_pipeline.route('/nexus/vault/<contract_id>', methods=['GET'])
+def vault_detail(contract_id):
+    """Alias for single vault record."""
+    return unified_contract_detail(contract_id)
 
 
 @nexus_pipeline.route('/nexus/pipeline/contracts/<contract_id>', methods=['GET'])

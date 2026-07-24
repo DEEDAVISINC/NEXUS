@@ -35,7 +35,7 @@ EXPECTED OUTCOMES:
 ### SHORT
 
 ```
-Problem: lead testing gaps + fragmented elevated-BLL follow-up + broken care after transport/disaster failures. Approach: SHIELD one-door navigation, live NEMT proof, HAVEN continuity. Outcomes: on-time testing, closed-loop remediation, live accountability data.
+Problem: lead testing gaps + fragmented elevated-BLL follow-up + broken care after transport/disaster failures. Approach: SHIELD continuity-of-care guarantee (dispatch + barrier removal + elevated cascade), live NEMT proof, HAVEN displacement continuity. Outcomes: on-time testing, closed-loop remediation, live accountability data.
 ```
 
 **Readiness:** ✅ **Strong** — aligned with MDHHS Environmental Health meeting (Apr 23, 2026) and PA 146 of 2023 timing.
@@ -53,7 +53,7 @@ PROMISING + OPERATING EVIDENCE (not startup theory):
 
 LIVE OPERATIONS — Dee Davis Inc. / Cause We Care:
 • HAP CareSource NEMT — Vendor ID 100000469269; CHAMPS 6309049; Wayne + Macomb active; Oakland pending; ~4,500 dual-eligible HIDE SNP members; trips invoiced via VERTEX (attach trip/SLA screenshots to MHEF/CFSEM; full SHIELD package + demo videos sent to MDHHS May 2026).
-• Cause We Care — MDHHS MI Bridges Community Partner since May 2020; 200+ benefits applications facilitated (documented community partner activity).
+• Cause We Care — MDHHS MI Bridges Community Partner since 2024; 50+ benefits applications facilitated (documented community partner activity).
 
 SHIELD — DEFINED METRICS (MDHHS-aligned, tracked in SHIELD/VERTEX):
 • Referral-to-first-contact < 48 hours

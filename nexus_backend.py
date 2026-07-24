@@ -11215,11 +11215,65 @@ class ResearchLaneDetector:
         'ASPE', 'CMS', 'MDHHS', 'Kresge', 'Robert Wood Johnson',
         'W.K. Kellogg', 'Michigan Health Endowment', 'Community Foundation',
         'Ralph C. Wilson', 'United Way',
+        # Full agency names (Grants.gov API often omits acronyms in agency field)
+        'Health Resources and Services',
+        'Substance Abuse and Mental Health',
+        'Mental Health Services Adminis',
+        'Food and Nutrition Service',
+        'Housing and Urban Development',
+        'Administration for Children',
+        'Administration for Community Living',
+        'Administration on Aging',
+        'Centers for Medicare',
+        'Centers for Disease Control',
+        'Health and Human Services',
+        'National Institute of Health',
+        'National Institutes of Health',
+        'Veterans Affairs', 'National Veterans', 'Veterans Health',
+        'Office of the National Coordinator',
+        'Office of Minority Health',
+        'Indian Health Service',
+        'Corporation for National',
+        'AmeriCorps',
     ]
 
     CWC_GRANT_KEYWORDS = [
         '501(c)(3)', 'nonprofit', 'non-profit', 'community-based organization',
         'cbo', 'charitable', 'foundation grant', 'community grant',
+        'institution of higher education', 'state government', 'local government',
+        'tribal organization', 'native american', 'faith-based',
+    ]
+
+    # DDI executes; CWC applies (teaming)
+    BOTH_DELIVERY_KEYWORDS = [
+        'community health worker', 'navigator', 'benefits enrollment',
+        'snap outreach', 'snap ', 'medicaid', 'mibridges',
+        'nemt', 'non-emergency medical', 'medical transportation',
+        'veteran', 'homeless', 'homelessness', 'supportive services',
+        'home delivered meals', 'meals on wheels', 'congregate meals',
+        'substance use', 'behavioral health', 'mental health',
+        'lead poisoning', 'lead screening', 'healthy homes',
+        'area agency on aging', 'older americans', 'aging services',
+        'digital navigator', 'sdoh', 'social determinants',
+        'care coordination', 'peer support', 'family stability',
+        'opioid', 'overdose', 'harm reduction', 'recovery support',
+        'housing instability', 'coordinated entry',
+    ]
+
+    DDI_GRANT_SIGNALS = [
+        'for-profit', 'for profit', 'small business concern', 'small business set-aside',
+        'woman-owned', 'wosb', 'edwosb', 'economically disadvantaged woman',
+        'sbir', 'sttr', 'commercial organization',
+        'small business administration', 'minority business development',
+        'women in apprenticeship', 'apprenticeship and nontraditional',
+    ]
+
+    # Unlikely CWC fit — deprioritize in GBIS compile (not hard exclude)
+    LOW_CWC_FIT_KEYWORDS = [
+        'broad agency announcement', 'clinical trial', 'um1 clinical',
+        'biomedical research', 'genomic', 'neuroscience', 'laboratory research',
+        'nasa', 'space technology', 'defense', 'army research', 'navy research',
+        'energy technology', 'scaleup', 'material command',
     ]
 
     def detect(self, title: str = '', description: str = '',
@@ -11256,30 +11310,44 @@ class ResearchLaneDetector:
         }
 
     def assign_applicant_entity(self, funder: str = '',
-                                description: str = '') -> str:
+                                description: str = '',
+                                title: str = '',
+                                eligibility: str = '') -> str:
         """
         Determines whether DDI or Cause We Care should apply for a GBIS grant.
-        Used only by GBIS — GPSS contracts always default to DDI.
+        Grants.gov API often returns empty description/eligibility — title + agency
+        must carry most of the signal.
         """
-        funder_lower = funder.lower()
-        desc_lower = description.lower()
-        combined = f"{funder_lower} {desc_lower}"
+        text = f"{funder} {title} {description} {eligibility}".lower()
 
-        is_cwc = (
-            any(f.lower() in combined for f in self.CWC_FUNDERS) or
-            any(kw in combined for kw in self.CWC_GRANT_KEYWORDS)
-        )
-        is_ddi = any(kw in combined for kw in [
-            'for-profit', 'small business', 'woman-owned', 'edwosb', 'wosb',
-            'small business set-aside', 'sbir', 'sttr',
-        ])
+        is_cwc_funder = any(f.lower() in text for f in self.CWC_FUNDERS)
+        is_cwc_elig = any(kw in text for kw in self.CWC_GRANT_KEYWORDS)
+        is_delivery = any(kw in text for kw in self.BOTH_DELIVERY_KEYWORDS)
+        is_ddi = any(kw in text for kw in self.DDI_GRANT_SIGNALS)
+        low_cwc_fit = any(kw in text for kw in self.LOW_CWC_FIT_KEYWORDS)
 
-        if is_cwc and is_ddi:
-            return 'DDI + Cause We Care (Teaming)'
-        elif is_cwc:
-            return 'Cause We Care'
-        else:
+        # Explicit small-business / SBIR lanes
+        if is_ddi and not (is_cwc_funder or is_cwc_elig):
             return 'DDI'
+
+        # Service delivery — CWC prime, DDI TPA executes
+        if is_delivery and (is_cwc_funder or is_cwc_elig) and not low_cwc_fit:
+            return 'DDI + Cause We Care (Teaming)'
+
+        # Federal health / human services — default CWC (not DDI) when API is sparse
+        if (is_cwc_funder or is_cwc_elig) and not low_cwc_fit:
+            if is_ddi and is_delivery:
+                return 'DDI + Cause We Care (Teaming)'
+            return 'Cause We Care'
+
+        # Title-only delivery signal with health-adjacent agency
+        if is_delivery and is_cwc_funder:
+            return 'DDI + Cause We Care (Teaming)'
+
+        if is_ddi:
+            return 'DDI'
+
+        return 'DDI'
 
     def _detect_subtype(self, text: str) -> str:
         if any(kw in text for kw in ['needs assessment', 'community health assessment',

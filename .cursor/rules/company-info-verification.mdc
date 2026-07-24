@@ -19,8 +19,10 @@ alwaysApply: true
 | **Title** | President & CEO |
 | **Company Name** | Dee Davis Inc. |
 | **Address** | 755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084 |
-| **Phone (Main Office)** | **248.376.4550** |
-| **Phone (Alternative)** | **734.413.8310** |
+| **Phone (email signatures & business documents)** | **248.376.4550** — **President & CEO personal cell** (not Twilio; do not forward to 855) |
+| **Phone (websites — ALWAYS)** | **855.773.0035** — never 248.376.4550 on web |
+| **Google Voice (Troy)** | **248.270.8490** → forward to **855-773-0035** |
+| **Member care line** | **855.773.0035** |
 | **Email** | info@deedavis.biz |
 | **Website** | deedavis.biz |
 | **CAGE Code** | 8UMX3 |
@@ -37,8 +39,8 @@ alwaysApply: true
 
 | Field | WRONG Value | CORRECT Value |
 |-------|-------------|---------------|
-| Phone | ~~248.247.5020~~ | **248.376.4550** |
-| Phone | ~~248-247-5020~~ | **248-376-4550** |
+| Phone (CEO personal — email/docs) | ~~248.247.5020~~ | **248.376.4550** — personal cell, not member line |
+| Phone on **websites** | ~~248.376.4550~~ | **855.773.0035** only |
 | Zip | ~~48083~~ | **48084** |
 | Email | ~~bids@deedavisinc.com~~ | **info@deedavis.biz** |
 | Website | ~~deedavisinc.com~~ | **deedavis.biz** |
@@ -50,7 +52,8 @@ alwaysApply: true
 
 **Before finalizing ANY generated document, verify:**
 
-- [ ] Phone number is 248.376.4550 (NOT 248.247.5020)
+- [ ] Email/docs phone is 248.376.4550 (CEO personal — NOT forwarded to Twilio)
+- [ ] **Websites** do NOT show 248.376.4550 — use 855 or 248.270.8490
 - [ ] Address is Troy, Michigan 48084 (NOT 48083)
 - [ ] Email is info@deedavis.biz
 - [ ] CAGE Code is 8UMX3

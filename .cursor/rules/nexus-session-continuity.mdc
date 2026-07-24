@@ -33,7 +33,8 @@ alwaysApply: true
 - **`NEXUS_LEARNING/MICHIGAN_FUNDER_MAP.md`** — Tier 1–4 funders (state, foundations, MCO, county opioid)
 - **`NEXUS_LEARNING/DDI_PROGRAM_PACKAGING_STRATEGY.md`** — Healthcare Access, Family Stability, Substance Use programs
 - **`CLIENT OUTREACH/ACTIVE_RELATIONSHIP_STATUS.md`** — BCC (Alina), MDHHS (Angela/Aimee), HAP status
-- **`RADAR_RESULTS.md`** — **RADAR compiled output (NEW opportunity mining). Read when Dee asks "what's on the RADAR" — NOT the bid tracker.**
+- **`RADAR_RESULTS.md`** — **RADAR compiled output (NEW contract/opportunity mining). Read when Dee asks "what's on the RADAR" — NOT the bid tracker.**
+- **`GRANTS_RESULTS.md`** — **GBIS compiled output (Grants.gov + tracked grant sources). Read every morning + when Dee asks about grants / Grants.gov — NOT RADAR, NOT bid tracker.**
 - `NEW_SOURCES_SOUGHT_MAR17.md` (or most recent `NEW_SOURCES_SOUGHT_*.md`) — latest federal sources sought digest
 - `NEXUS_WATCH_LIST.md` — solicitations being monitored for full RFQ release
 - `FORECAST_OPPORTUNITIES_TRACKER.md` — pipeline of upcoming opportunities
@@ -136,6 +137,22 @@ Present: new finds by channel + **partner fulfillment** on each line. Offer to p
 
 ---
 
+## GRANTS / GBIS — WHEN DEE ASKS ABOUT GRANTS OR GRANTS.GOV (MANDATORY)
+
+**GRANTS_RESULTS.md** = GBIS pipeline output — **federal NOFOs from Grants.gov + tracked foundation/platform sources in Airtable.**
+
+| Dee asks | Read / run | Do NOT substitute |
+|----------|------------|-------------------|
+| "What grants did we find?" / "Grants.gov?" / "GBIS?" | **`GRANTS_RESULTS.md`** first | ❌ `RADAR_RESULTS.md`, `BID_TRACKER_DASHBOARD.md`, `GRANT_ACTIVE_PIPELINE.md` alone |
+| "Refresh grants" / "Run GBIS" | `python3 nexus_scheduler.py --gbis` → then **`GRANTS_RESULTS.md`** | — |
+| Recompile only (no mine) | `python3 nexus_scheduler.py --compile-grants` | — |
+
+Present: new live Grants.gov count + top **CWC / BOTH** matches with deadlines. Note: DDI for-profit rarely qualifies as federal grant **prime** — CWC applies, DDI delivers.
+
+**Contracts ≠ grants. RADAR ≠ GBIS.**
+
+---
+
 ## WHAT TO DO AFTER READING
 
 After reading the above, the chat should be able to answer:
@@ -147,6 +164,7 @@ After reading the above, the chat should be able to answer:
 - What opportunities are being watched?
 - What new opportunities posted on vendor portals since last check?
 - **What did RADAR find?** (`RADAR_RESULTS.md` — only when Dee asks about RADAR)
+- **What did GBIS find?** (`GRANTS_RESULTS.md` — morning briefing + when Dee asks about grants)
 - **Which partners are waiting for contracts?** (Check `PARTNERSHIPS/PARTNERSHIPS_INDEX.md`)
 - **Which new opportunities match which partners?** (Present this proactively)
 
@@ -187,7 +205,8 @@ At the end of every session (or when Dee says "save everything" / "push to git")
 |---|---|
 | Company | Dee Davis Inc. |
 | Address | 755 W. Big Beaver Rd., Suite 2020, Troy, MI 48084 |
-| Phone | 248.376.4550 |
+| Phone (CEO personal — email/docs) | 248.376.4550 |
+| Member care / websites | 855.773.0035 |
 | Email | info@deedavis.biz |
 | CAGE | 8UMX3 |
 | UEI | HJB4KNYJVGZ1 |

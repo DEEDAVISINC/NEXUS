@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:tpc-266808-92-tomasi-20260623@deedavis.biz
+DTSTAMP:20260618T182400Z
+DTSTART;TZID=America/Detroit:20260623T110000
+DTEND;TZID=America/Detroit:20260623T130000
+SUMMARY:📝 SIGNING: Dawn Tomasi (Buyer) - TPC
+DESCRIPTION:Title Processing Center\nFile: 266808-92\nSigner: Dawn Tomasi | (972) 638-7699\nType: Buyer Only · Loan Purchase · 1st Only\nFee: $100 | TPC eCheck\n\nPRINT docs (TPC emails to notary)\nBuyer signs in BLUE ink as name appears\n\n2 WITNESSES: Notary = witness 1 | buyer brings 2nd (NOT related)\nWitness prints address below signature (no PO Box)\nRemind 2nd witness when confirming appt\n\nSCANBACKS ASAP after signing\nShip same day — prepaid FedEx label\nCompletion report within 75 min after appt\n\nCALL TO CONFIRM within 2 hrs of order\n813-444-1400 | billing@titleprocessingcenter.com\nPay: 7/7/26 eCheck (June file batch)
+LOCATION:2400 Judy Lane, Shelby Township, MI 48316
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Tomasi signing in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Tomasi signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

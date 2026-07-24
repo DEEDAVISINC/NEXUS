@@ -1,17 +1,11 @@
-Good morning Dee. Here is your NEXUS briefing for Tuesday, June 9, 2026.
+Good morning Dee. Here is your NEXUS briefing for Thursday, June 12, 2026.
 
-Yesterday PRISM production passed the gate. NEMT auto-link works on PythonAnywhere. Portal and NEXUS are live on Netlify.
+HAP member care is live. Twilio voice and SMS on eight five five seven seven three zero zero three five are tested and working on PythonAnywhere. PRISM voice intake, NEMT queue, trip grades, and QC audit exports are all up.
 
-Your top three today.
+Your top priority on telephony: caller ID only. Register DDI as the CNAM display name on outbound from the eight five five line so members see your business name, not a raw number.
 
-First, Twilio. Connect the eight five five number, finish voice prep, and test a call. Member SMS starts working once Twilio is upgraded with a card on file.
+Second, tracking link test if not done. In NEMT Transport, paste a guest trip URL and save it. Check the member portal for Track live ride.
 
-Second, the tracking link test. In NEXUS Transport, paste a guest trip URL from dispatch and save it. Then check the member portal with the same email. You should see Track live ride with the car emoji. Twilio does not create that link. You paste it after dispatch.
-
-Third, VA Madison. Final go or no-go is June tenth. Two days out. Wisconsin sub pricing is still the blocker.
-
-Calendar carryover from Sunday if missed: Gary Misczak at noon, Rupert signing at six PM Macomb.
-
-HAP is live infrastructure. Tomorrow is prove the member experience: voice, tracking link, one trip to Vertex at twenty-eight or thirty-five dollars.
+Third, Brian Grcevich call is Wednesday June tenth at one PM Eastern for non-medical routing. BCC Alina touch may be Thursday two thirty if still on the board.
 
 Have a good morning.

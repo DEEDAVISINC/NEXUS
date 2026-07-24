@@ -28,7 +28,7 @@ HAVEN is a proposed Disaster Recovery TPA vertical for Dee Davis Inc. The model 
 | **Vendor ID** | 100000469269 |
 | **Service Area** | Wayne County, Macomb County (Oakland pending) |
 | **Member Population** | 4,500 with unlimited rides |
-| **Rates** | $28 standard, $35 ambulatory/wheelchair |
+| **Rates** | $28 ambulatory / $35 WAV base + $1.85/mi loaded mileage |
 | **Status** | Portal LIVE — accepting trip requests |
 
 ### How This Changes the HAVEN Pitch

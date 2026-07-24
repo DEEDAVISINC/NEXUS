@@ -69,10 +69,16 @@ DDI already has most of the critical codes. Verify these are active:
 4. ⚠️ Follow FEMA on SAM.gov for solicitation alerts
 5. ⚠️ Contact local APEX Accelerator for FEMA-specific guidance (free)
 
-**FEMA Transportation Service Provider (TSP):**
-- If DDI wants to provide evacuation transport directly to FEMA
-- 2026 registration deadline has passed (Feb 20, 2026) — **target 2027 cycle**
-- Opens February 2027 for 2027 hurricane season
+**FEMA Transportation Service Provider (STOS) — freight/cargo only:**
+- **Scope:** FTL, LTL, maritime, air, rail, and Transportable Temporary Housing Units (TTHU) — **not passenger or NEMT**
+- **Lane:** MOB-C / Freight 1st Direct — separate from HAVEN member medical transport (MOB-B)
+- **Status (Jun 2026):** FEMA Tender of Service Program onboarding is **CLOSED** — monitor for next open period
+- **When open:** TSP registration + Syncada enrollment + Rate Filing Cycle — see `NEXUS_LEARNING/FREIGHT_PRICING_INTELLIGENCE.md`
+- **Contact:** FEMA-Transportation-Programs@fema.dhs.gov
+
+**HAVEN disaster transport (passenger / medical continuity):**
+- MCO pre-disaster agreements + credentialed NEMT/courier fulfillment under DDI TPA — **not** FEMA STOS
+- SAM.gov Disaster Response Registry (Step 1) + state EM vendor registration (Steps 4–7 below)
 
 **Time:** 30 minutes
 **Cost:** Free

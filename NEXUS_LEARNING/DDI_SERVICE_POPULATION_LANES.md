@@ -1,6 +1,6 @@
 # DDI Service Population Lanes — Funding & Program Alignment
 
-**Last Updated:** June 4, 2026  
+**Last Updated:** June 10, 2026  
 **Purpose:** Precise definition of **who DDI programs serve** (end populations), separate from **who signs the contract** (buyers). Required for grants, Medicaid/MCO proposals, FEMA/state EM narratives, foundation applications, and capability statements.  
 **Rule:** `.cursor/rules/service-population-lanes-funding.mdc`
 
@@ -40,7 +40,9 @@ Funders score **population fit**, **need**, and **continuity of care** — not g
 | Transport (MOB-B) | Displaced members — medical/pharmacy continuity mobility | MCO continuity, Medicaid waiver, state EM |
 | Medical continuity | Displaced **patients** — Rx, DME, home health interruption | Health plan benefits, PBM emergency, HRSA-style continuity |
 
-**Proof anchor (live):** HAP CareSource NEMT — Vendor ID 100000469269, Wayne + Macomb, ~4,500 dual-eligible members (per partnership docs). HAVEN pitches **extend this infrastructure** — not a startup transport company.
+**DDI TPA proof (live — MOB-A, not HAVEN population):** HAP CareSource NEMT — Vendor ID 100000469269, Wayne + Macomb, ~4,500 dual-eligible members (per partnership docs). Proves DDI can run MCO contracts; **do not** label that count as HAVEN's end population.
+
+**HAVEN (MOB-B) population:** Displaced plan members when housing/disaster breaks care — national disaster-continuity program (FL/TX/LA + MCO riders). HAVEN was **not** built as a Michigan/HAP member program.
 
 ---
 
@@ -63,8 +65,9 @@ Funders score **population fit**, **need**, and **continuity of care** — not g
 | Lane | Buyer | Population |
 |------|-------|------------|
 | Navigation / SDOH | State HHS, AAAs, MCOs, NTIA/ACL grantees | **Low-income households**, **older adults**, digital equity / benefits enrollees |
+| **SHIELD** (vertical) | LHDs, MDHHS EHB, MCOs, schools, Head Start | **All children under 4 in Michigan** (mandatory BLL screening — MCL 333.5474d). Wayne County pilot first. **Not** limited to elevated-BLL cases at intake. |
 | Facilities | Government/commercial facilities | **Building occupants** (indirect) |
-| HAVEN (vertical) | MCOs + insurers + FEMA/state EM | **Displaced** households + **MOB-B** + medical continuity patients |
+| HAVEN (vertical) | MCOs + insurers + FEMA/state EM | **Displaced plan members nationally** — MOB-B only. Activates when abatement or disaster breaks housing/care. **Not** HAP routine NEMT enrollees. **Not** routine plan NEMT. |
 
 ---
 
@@ -74,6 +77,7 @@ Use this when evaluating grants, cooperative agreements, or MCO RFPs.
 
 | Funder / program type | Lead population lane | DDI proof / wedge |
 |----------------------|----------------------|-------------------|
+| **MDHHS CLPPP / universal BLL mandate** | SHIELD — all children under 4 (MCL 333.5474d) | Wayne pilot; MDHHS EHB partnership; LHD referral channel |
 | **MCO / Medicaid NEMT** | MOB-A — HIDE SNP, LTSS, county slice | HAP CareSource live ops; CHAMPS 6309049 |
 | **MCO disaster addendum / HAVEN** | MOB-B + housing + medical continuity | Same MCO infra; FEMA-declaration activation |
 | **FEMA / state EM** | HAVEN displaced + MOB-B surge | TPA coordination, not fleet ownership |
@@ -118,9 +122,45 @@ Before submitting or presenting:
 
 ---
 
+## SHIELD · HAVEN · VITAL population discipline
+
+| Program | End population | NOT this population |
+|---------|----------------|---------------------|
+| **SHIELD** | All children under 4 in Michigan — mandatory BLL screening mandate (MCL 333.5474d). Wayne County pilot first. | Elevated-BLL-only at intake; adult occupational lead (separate lane) |
+| **HAVEN (MOB-B)** | Displaced plan members nationally — evacuation, continuity trips, Rx/DME when networks fail | HAP enrollees as HAVEN population; routine Medicaid NEMT (MOB-A) |
+| **VITAL-MCO** | Homebound MICH dual-eligible members — lab, Rx, DME logistics | Hospital lab managers (VITAL-HS track) |
+
+**Source:** `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md`
+
+---
+
+## VITAL buyer split (do not merge tracks)
+
+| Track | Audience | Document | Distribution rule |
+|-------|----------|----------|-------------------|
+| **VITAL-HS** | Health systems — hospital lab, pharmacy, equipment courier consolidation | `VITAL/VITAL_Master_Proposal.html` | Standalone hospital sales only. **Never** send to MCO evaluators, grant funders, or MDHHS contacts. |
+| **VITAL-MCO** | MCO homebound member services — MICH dual-eligible lab, Rx, DME coordination | `GRANT_APPLICATION_PACKAGE/CWC_GRANTS/THREE_PROGRAM_PITCH_PACKAGE.html` | All funder and MCO outreach uses this framing only. |
+
+**Savings models are separate:** VITAL-HS uses hospital recollection/surgery/sterile-processing figures (~$950K/yr example). VITAL-MCO uses readmission avoidance, missed-draw prevention, consolidated vendor admin, and unified audit documentation — **never mix hospital savings with MCO pitch.**
+
+---
+
+## Document branding — program logo colors (unified stack)
+
+| Program | Single lettermark color | Multi-color per-letter lettermarks |
+|---------|----------------------|-----------------------------------|
+| **SHIELD** | Blue (`#60a5fa` / `#1e40af`) | ❌ Banned on standalone docs |
+| **HAVEN** | Gold/amber (`#d97706` / `#fbbf24`) | ❌ Banned |
+| **VITAL** | Teal (`#22d3ee` / `#0891b2`) | ❌ Banned |
+
+**WBENC/WBE:** Certifications lapsed May 2026. Remove WBENC badge or note **WBE recertification in progress — Great Lakes WBC** on all standalone documents and unified pitch.
+
+---
+
 ## Cross-references
 
 - `DDI_TPA_DIVISIONS.md` — division structure
+- `SHIELD_PROGRAM_COMPLETE_FRAMEWORK.md` — SHIELD dispatch model, pricing, pilot sizing
 - `HAVEN/STRATEGY/HAVEN_DISASTER_RECOVERY_TPA_STRATEGY.md` — HAVEN pillars & MCO pitch
 - `NEMT_TPA_EXPANSION_STRATEGY.md` — HIDE SNP, MCO-direct strategy
 - `NEXUS_LEARNING/COMPLEMENT_NOT_REPLACE_ALL_TPA_SECTORS.md` — buyer wedges

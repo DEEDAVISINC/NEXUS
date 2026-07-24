@@ -1,5 +1,19 @@
 # PARTNER ACCOUNT UPDATES — ACTION TRACKER
-**Last Updated:** May 2, 2026
+**Last Updated:** June 10, 2026
+
+---
+
+## GOOGLE — NEXUS BIDS GMAIL (bids.deedavisinc@gmail.com)
+
+**Email:** bids.deedavisinc@gmail.com  
+**Google Payment Identification Number:** **6409-3404-3699**  
+**Use:** NEXUS outbound bids, federal/DOD/.mil, calendar, automated notifications, Google Pay on this account  
+**Source of truth:** `COMPANY_INFO_MASTER.md` → EMAIL ROUTING / GOOGLE ACCOUNT — NEXUS BIDS  
+**Env:** `NEXUS_EMAIL` + `GOOGLE_PAYMENT_IDENTIFICATION_NUMBER` in `.env`
+
+### STATUS (as of June 10, 2026)
+
+- [x] **Google Payment Identification Number** on file — **6409-3404-3699**
 
 ---
 

@@ -62,8 +62,29 @@ Portal email is sent **from** `bids.deedavisinc@gmail.com` via Netlify — **not
 | `NEXUS_EMAIL_PASSWORD` | Gmail **App Password** (16 chars, from Google Account → Security → App passwords) |
 | `USER_EMAIL` | `bids.deedavisinc@gmail.com` (ops copy inbox) |
 | `PRISM_API_BASE` | `https://deedavis.pythonanywhere.com` |
+| `PORTAL_PUBLIC_URL` | `https://portal.deedavis.biz` (magic links in email) |
+| `PORTAL_AUTH_SECRET` | Long random string (32+ chars). **Required for sign-in.** If omitted, falls back to `NEXUS_EMAIL_PASSWORD`. |
 
 After saving variables: **Deploys → Trigger deploy → Deploy site** (functions must rebuild).
+
+---
+
+## Step 6 — Sign-in security (magic link + code)
+
+Members sign in with **email → link or 6-digit code** (not password). Session lasts **30 days** on the same browser.
+
+**Flow:**
+1. Enter email → **Email me a sign-in link**
+2. Inbox receives link **and** 6-digit code (15-minute window)
+3. Click link **or** enter code → dashboard
+4. **Schedule a service** — contact email locked to verified address; unverified emails cannot submit
+5. Return visits: auto-restore session (no re-login unless signed out or expired)
+
+**Troubleshooting login:**
+- Check spam/junk for sender `bids.deedavisinc@gmail.com`
+- Code expires in 15 min — tap **Resend code**
+- Link and code both work — use whichever is easier
+- Still stuck: **855-773-0035**
 
 **Who gets what:**
 

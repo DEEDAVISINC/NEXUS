@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — DDI NEMT HIDE SNP Revenue Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;font-size:14px;line-height:1.6;color:#e0e0e0;background:#070e1a;overflow-x:hidden}
+:root{
+  --navy:#0a1628;--navy2:#0f1f3d;--panel:#111c30;--panel2:#162035;
+  --gold:#c9a84c;--gold2:#e8c96a;
+  --border:rgba(201,168,76,0.18);--border2:rgba(255,255,255,0.08);
+  --text:#d8dde8;--muted:#7a8ba8;--white:#fff;
+  --green:#1d9e75;--green-bg:rgba(29,158,117,0.12);--green-text:#5DCAA5;
+  --red:#c0392b;--red-bg:rgba(192,57,43,0.12);--red-text:#e87c73;
+  --amber:#c9a84c;--amber-bg:rgba(201,168,76,0.12);--amber-text:#e8c96a;
+  --blue:#1a5fa5;--blue-bg:rgba(26,95,165,0.15);--blue-text:#5ba3e0;
+}
+
+/* ── MODULE HEADER ── */
+.mod-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:0}
+.mod-topbar{background:#050c18;padding:.45rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-size:.65rem;letter-spacing:.08em;color:var(--muted)}
+.mod-topbar span{color:var(--gold)}
+.mod-titlebar{padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.mod-title-left{display:flex;align-items:center;gap:1rem}
+.mod-eyebrow{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.mod-name{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;letter-spacing:.04em}
+.mod-name span{color:var(--gold)}
+.mod-sub{font-size:.72rem;color:var(--muted);margin-top:.2rem;letter-spacing:.04em}
+.mod-badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.mbadge{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .65rem;border:1px solid var(--border);color:var(--gold);background:rgba(201,168,76,0.08)}
+
+/* ── NAV TABS ── */
+.mod-nav{background:var(--panel);border-bottom:1px solid var(--border2);padding:0 2rem;display:flex;gap:0}
+.nav-tab{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 1.25rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── PANEL LAYOUT ── */
+.mod-body{padding:1.75rem 2rem;max-width:1300px;margin:0 auto}
+.tool-panel{display:none}
+.tool-panel.active{display:block}
+
+/* ── SECTION LABELS ── */
+.sec-label{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.sec-label::after{content:'';display:block;height:1px;width:30px;background:var(--gold);opacity:.4}
+
+/* ── CONTROLS ── */
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.ctrl-card{background:var(--panel);border:1px solid var(--border2);padding:14px 16px}
+.ctrl-title{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.ctrl-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.ctrl-row:last-child{margin-bottom:0}
+.ctrl-lbl{font-size:.78rem;color:var(--muted);flex:1;min-width:100px}
+.ctrl-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--border2);outline:none;border-radius:2px}
+.ctrl-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--gold);border-radius:50%;cursor:pointer}
+.ctrl-val{font-size:.78rem;font-weight:600;color:var(--white);min-width:52px;text-align:right;font-family:'Montserrat',sans-serif}
+
+/* ── TOGGLE ROWS ── */
+.tog-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.tog-lbl{font-size:.72rem;color:var(--muted);margin-right:4px;font-family:'Montserrat',sans-serif;letter-spacing:.06em}
+.tb{padding:5px 13px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--muted);transition:all .15s}
+.tb:hover{border-color:var(--border);color:var(--text)}
+.tb.on{background:var(--amber-bg);color:var(--gold);border-color:var(--border)}
+
+/* ── SUMMARY METRICS ── */
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.met{background:var(--panel);border:1px solid var(--border2);border-top:2px solid var(--gold);padding:13px 15px}
+.met .ml{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.met .mv{font-size:1.25rem;font-weight:700;color:var(--white);font-family:'Montserrat',sans-serif}
+.met .ms{font-size:.7rem;color:var(--muted);margin-top:3px}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+thead tr{border-bottom:1px solid var(--border)}
+thead th{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 10px;text-align:right;white-space:nowrap}
+thead th:first-child{text-align:left}
+tbody tr{border-bottom:1px solid var(--border2)}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody tr.hap{background:rgba(29,158,117,.07);border-left:2px solid var(--green)}
+td{padding:8px 10px;color:var(--text);text-align:right;vertical-align:middle}
+td:first-child{text-align:left;font-weight:600;color:var(--white)}
+tr.total-row{border-top:1px solid var(--border);background:rgba(201,168,76,.06)}
+tr.total-row td{color:var(--white);font-weight:700}
+.gr{color:var(--green-text);font-weight:600}
+.co{color:var(--red-text);font-weight:600}
+.bl{color:var(--blue-text);font-weight:600}
+.am{color:var(--amber-text);font-weight:600}
+
+/* ── BADGES ── */
+.badge{font-family:'Montserrat',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;margin-left:5px}
+.ba{background:var(--green-bg);color:var(--green-text);border:1px solid rgba(29,158,117,.3)}
+.bp{background:var(--amber-bg);color:var(--amber-text);border:1px solid rgba(201,168,76,.3)}
+.bd{background:var(--red-bg);color:var(--red-text);border:1px solid rgba(192,57,43,.3)}
+
+/* ── STATUS PILLS ── */
+.spill{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.06em;padding:3px 9px;margin-left:4px}
+.spill-ok{background:var(--green-bg);color:var(--green-text);border:1px solid rgba(29,158,117,.3)}
+.spill-warn{background:var(--amber-bg);color:var(--amber-text);border:1px solid rgba(201,168,76,.3)}
+.spill-bad{background:var(--red-bg);color:var(--red-text);border:1px solid rgba(192,57,43,.3)}
+
+/* ── TARGET BANNER ── */
+.target-banner{border:1px solid rgba(29,158,117,.4);background:var(--green-bg);padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.target-big{font-family:'Montserrat',sans-serif;font-size:2.2rem;font-weight:800;color:var(--green-text);white-space:nowrap}
+.target-desc{font-size:.78rem;color:var(--muted);line-height:1.7}
+.target-desc strong{color:var(--white)}
+
+/* ── ANSWER BLOCK ── */
+.answer-block{padding:16px 20px;margin-bottom:16px;border:1px solid}
+.answer-block.ok{border-color:rgba(29,158,117,.4);background:var(--green-bg)}
+.answer-block.warn{border-color:rgba(201,168,76,.4);background:var(--amber-bg)}
+.answer-block.bad{border-color:rgba(192,57,43,.4);background:var(--red-bg)}
+.answer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:12px}
+.answer-item{text-align:center}
+.answer-lbl{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.answer-val{font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:800}
+.answer-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
+.verdict{font-size:.78rem;color:var(--muted);line-height:1.8;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;margin-top:4px}
+.verdict strong{color:var(--white)}
+
+/* ── WATERFALL BARS ── */
+.wf-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.wf-lbl{font-size:.72rem;color:var(--muted);min-width:190px}
+.wf-bar-wrap{flex:1;height:26px;background:var(--panel2);overflow:hidden}
+.wf-bar{height:100%;display:flex;align-items:center;padding-left:8px;font-size:.68rem;font-weight:600;transition:width .25s;font-family:'Montserrat',sans-serif}
+.wf-val{font-size:.72rem;font-weight:600;min-width:60px;text-align:right;font-family:'Montserrat',sans-serif}
+.hit-note{font-size:.72rem;color:var(--muted);margin-top:8px;padding:8px 12px;background:var(--panel);border-left:2px solid var(--border);line-height:1.7}
+.hit-note strong{color:var(--white)}
+
+/* ── WALKAWAY CARDS ── */
+.walkaway-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.wa-card{background:var(--panel);border:1px solid var(--border2);padding:13px 15px}
+.wa-scenario{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.wa-uber{font-size:.72rem;color:var(--muted);margin-bottom:9px}
+.wa-divider{border:none;border-top:1px solid var(--border2);margin:8px 0}
+.wa-row{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px}
+.wa-type{color:var(--muted)}
+.wa-min{font-weight:700;font-family:'Montserrat',sans-serif}
+
+/* ── MATRIX TABLE ── */
+.matrix-wrap{overflow-x:auto}
+.matrix-wrap table{font-size:.7rem}
+.matrix-wrap thead th{font-size:.58rem;padding:6px 7px}
+.matrix-wrap td{padding:5px 7px;font-size:.68rem;font-weight:600;font-family:'Montserrat',sans-serif}
+.cell-ok{background:rgba(29,158,117,.2);color:#5DCAA5}
+.cell-edge{background:rgba(201,168,76,.15);color:#e8c96a}
+.cell-bad{background:rgba(192,57,43,.15);color:#e87c73}
+.matrix-legend{display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--muted)}
+.leg-dot{width:10px;height:10px}
+
+/* ── SPREAD BARS ── */
+.bar-section{margin-bottom:18px}
+.bar-legend{display:flex;gap:14px;margin-bottom:10px}
+.ride-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.rt-label{font-size:.72rem;color:var(--muted);min-width:140px}
+.bar-track{flex:1;height:26px;background:var(--panel2);overflow:hidden;display:flex}
+.bar-cost{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5px;font-size:.65rem;font-weight:600;transition:width .2s;font-family:'Montserrat',sans-serif}
+.bar-spread{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5px;font-size:.65rem;font-weight:600;transition:width .2s;font-family:'Montserrat',sans-serif}
+.rt-total{font-size:.72rem;font-weight:600;min-width:52px;text-align:right;color:var(--white);font-family:'Montserrat',sans-serif}
+.rt-margin{font-size:.72rem;font-weight:700;min-width:52px;text-align:right;font-family:'Montserrat',sans-serif}
+
+/* ── CAVEAT ── */
+.caveat{font-size:.65rem;color:var(--muted);margin-top:16px;border-top:1px solid var(--border2);padding-top:12px;line-height:1.7}
+
+/* ── FOOTER ── */
+.mod-footer{background:#050c18;border-top:1px solid var(--border2);padding:.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-size:.6rem;color:var(--muted);letter-spacing:.06em;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.mod-footer span{color:var(--gold)}
+
+.divider{border:none;border-top:1px solid var(--border2);margin:16px 0}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     MODULE HEADER
+══════════════════════════════════════════════ -->
+<div class="mod-header">
+  <div class="mod-topbar">
+    <div>NEXUS COMMAND CENTER &nbsp;·&nbsp; <span>DEE DAVIS INC.</span> &nbsp;·&nbsp; INTERNAL USE ONLY — CONFIDENTIAL</div>
+    <div id="mod-timestamp"></div>
+  </div>
+  <div class="mod-titlebar">
+    <div class="mod-title-left">
+      <div>
+        <div class="mod-eyebrow">DDI NEMT TPA &nbsp;·&nbsp; Healthcare Transportation</div>
+        <div class="mod-name">HIDE SNP &nbsp;<span>Revenue Model</span></div>
+        <div class="mod-sub">MICH Region 10 &nbsp;·&nbsp; 9 MCOs &nbsp;·&nbsp; $20 Target Floor &nbsp;·&nbsp; .5%–1% Rule &nbsp;·&nbsp; CY2026</div>
+      </div>
+    </div>
+    <div class="mod-badges">
+      <div class="mbadge">HAP CARESOURCE — ACTIVE</div>
+      <div class="mbadge">EDWOSB · WOSB · MBE · WBE</div>
+      <div class="mbadge">CAGE 8UMX3 · UEI HJB4KNYJVGZ1</div>
+    </div>
+  </div>
+  <nav class="mod-nav">
+    <div class="nav-tab active" onclick="switchTab('tab-riders',this)">01 &nbsp; MCO Rider Breakdown</div>
+    <div class="nav-tab" onclick="switchTab('tab-spread',this)">02 &nbsp; Spread Margin Model</div>
+    <div class="nav-tab" onclick="switchTab('tab-floor',this)">03 &nbsp; $20 Floor Tracker</div>
+    <div class="nav-tab" onclick="switchTab('tab-negotiate',this)">04 &nbsp; Negotiation Solver</div>
+  </nav>
+</div>
+
+<div class="mod-body">
+
+<!-- ══════════════════════════════════════════════
+     TAB 01 — MCO RIDER BREAKDOWN
+══════════════════════════════════════════════ -->
+<div class="tool-panel active" id="tab-riders">
+  <div class="sec-label">MCO Rider Breakdown</div>
+
+  <div class="tog-row">
+    <span class="tog-lbl">Scenario:</span>
+    <button class="tb on" id="r1-scen-current" onclick="r1_setScen('current')">Current enrollment</button>
+    <button class="tb" id="r1-scen-expansion" onclick="r1_setScen('expansion')">Full eligible pool</button>
+    <span style="margin-left:14px" class="tog-lbl">DDI Ask:</span>
+    <button class="tb on" onclick="r1_setPct('both')" id="r1-p-both">.5% and 1%</button>
+    <button class="tb" onclick="r1_setPct('half')" id="r1-p-half">.5% only</button>
+    <button class="tb" onclick="r1_setPct('one')" id="r1-p-one">1% only</button>
+  </div>
+
+  <div class="summary-row" id="r1-summary"></div>
+
+  <div class="sec-label" id="r1-tbl-lbl" style="margin-top:4px">Per MCO — current enrollment</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>MCO</th>
+          <th>Enrolled</th>
+          <th>Daily riders (25%)</th>
+          <th id="r1-h1" class="am">.5% DDI riders</th>
+          <th id="r1-h2" class="gr">1% DDI riders</th>
+          <th id="r1-h3" class="am">.5% rides/mo</th>
+          <th id="r1-h4" class="gr">1% rides/mo</th>
+          <th id="r1-h5" class="am">.5% est rev/yr</th>
+          <th id="r1-h6" class="gr">1% est rev/yr</th>
+        </tr>
+      </thead>
+      <tbody id="r1-body"></tbody>
+    </table>
+  </div>
+  <div class="caveat">Enrollment: public data Feb 2026. 25% daily rider rate = working estimate. Revenue at $46.50/ride avg ($28 base + $1.85 × 10 mi), 4.5 rides/day, 30 days/mo. All figures are internal planning estimates. Fulfillment partners not named in buyer-facing materials. WBENC recertification pending.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 02 — SPREAD MARGIN MODEL
+══════════════════════════════════════════════ -->
+<div class="tool-panel" id="tab-spread">
+  <div class="sec-label">Spread Margin Model</div>
+
+  <div class="tog-row">
+    <span class="tog-lbl">Scenario:</span>
+    <button class="tb on" id="r2-scen-current" onclick="r2_setScen('current')">Current enrollment</button>
+    <button class="tb" id="r2-scen-expansion" onclick="r2_setScen('expansion')">Full eligible pool</button>
+    <span style="margin-left:14px" class="tog-lbl">DDI Ask:</span>
+    <button class="tb on" id="r2-p-half" onclick="r2_setPct('half')">.5%</button>
+    <button class="tb" id="r2-p-one" onclick="r2_setPct('one')">1%</button>
+  </div>
+
+  <div class="controls-grid">
+    <div class="ctrl-card">
+      <div class="ctrl-title">MCO rates — what DDI collects</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Sedan base rate</span><input type="range" id="r2-sedan" min="20" max="45" step="1" value="28" oninput="r2_render()"><span class="ctrl-val" id="r2-v-sedan">$28</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Wheelchair base rate</span><input type="range" id="r2-wc" min="25" max="60" step="1" value="35" oninput="r2_render()"><span class="ctrl-val" id="r2-v-wc">$35</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Per-mile rate (both)</span><input type="range" id="r2-mile" min="1.00" max="3.50" step="0.05" value="1.85" oninput="r2_render()"><span class="ctrl-val" id="r2-v-mile">$1.85</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Avg trip miles</span><input type="range" id="r2-miles" min="3" max="20" step="1" value="10" oninput="r2_render()"><span class="ctrl-val" id="r2-v-miles">10 mi</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">% wheelchair rides</span><input type="range" id="r2-wcpct" min="0" max="60" step="5" value="20" oninput="r2_render()"><span class="ctrl-val" id="r2-v-wcpct">20%</span></div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">Fulfillment cost — what DDI pays</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Best case</span><input type="range" id="r2-ulo" min="5" max="20" step="1" value="5" oninput="r2_render()"><span class="ctrl-val" id="r2-v-ulo">$5</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Planning / expected</span><input type="range" id="r2-umid" min="5" max="28" step="1" value="14" oninput="r2_render()"><span class="ctrl-val" id="r2-v-umid">$14</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Worst case</span><input type="range" id="r2-uhi" min="10" max="30" step="1" value="24" oninput="r2_render()"><span class="ctrl-val" id="r2-v-uhi">$24</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Rides per member/day</span><input type="range" id="r2-rpd" min="2" max="7" step="0.5" value="4.5" oninput="r2_render()"><span class="ctrl-val" id="r2-v-rpd">4.5</span></div>
+    </div>
+  </div>
+
+  <div class="bar-section">
+    <div class="sec-label">Per-ride spread — cost vs margin</div>
+    <div class="bar-legend">
+      <div class="leg"><div class="leg-dot" style="background:#c0392b"></div><span>Fulfillment cost</span></div>
+      <div class="leg"><div class="leg-dot" style="background:#1d9e75"></div><span>DDI spread (margin)</span></div>
+    </div>
+    <div id="r2-bars"></div>
+  </div>
+
+  <div class="summary-row" id="r2-summary"></div>
+
+  <div class="sec-label" id="r2-tbl-lbl">Per MCO — spread-based net revenue</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>MCO</th><th>DDI riders</th><th>Rides/mo</th>
+        <th class="bl">Gross/yr</th><th class="co">Cost/yr</th><th class="gr">Net spread/yr</th><th>Margin %</th>
+      </tr></thead>
+      <tbody id="r2-body"></tbody>
+    </table>
+  </div>
+  <div class="caveat">Fulfillment cost uses planning mid for table. Gross = MCO reimbursement collected. Net = gross minus fulfillment cost. Wheelchair surcharge applies to wc-mix % of rides. Internal planning estimates only. Fulfillment partners not named in buyer-facing materials. WBENC recertification pending.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 03 — $20 FLOOR TRACKER
+══════════════════════════════════════════════ -->
+<div class="tool-panel" id="tab-floor">
+  <div class="sec-label">$20 Target Floor Tracker</div>
+
+  <div class="target-banner">
+    <div class="target-big">$20.00</div>
+    <div class="target-desc"><strong>DDI minimum net spread per ride</strong> (MCO reimbursement minus fulfillment cost — not $20 per member or per month). Rate sliders move the floor check. Scenario / DDI Ask only scale how many rides that margin applies to.</div>
+  </div>
+
+  <div class="tog-row">
+    <span class="tog-lbl">Scenario:</span>
+    <button class="tb on" id="r3-scen-current" onclick="r3_setScen('current')">Current enrollment</button>
+    <button class="tb" id="r3-scen-expansion" onclick="r3_setScen('expansion')">Full eligible pool</button>
+    <span style="margin-left:14px" class="tog-lbl">DDI Ask:</span>
+    <button class="tb on" id="r3-p-half" onclick="r3_setPct('half')">.5%</button>
+    <button class="tb" id="r3-p-one" onclick="r3_setPct('one')">1%</button>
+  </div>
+  <div class="hit-note" id="r3-toggle-note" style="margin-bottom:14px;border-left-color:var(--gold)"></div>
+
+  <div class="controls-grid">
+    <div class="ctrl-card">
+      <div class="ctrl-title">MCO rates — what DDI collects</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Sedan base</span><input type="range" id="r3-sedan" min="20" max="45" step="1" value="28" oninput="r3_render()"><span class="ctrl-val" id="r3-v-sedan">$28</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Wheelchair base</span><input type="range" id="r3-wc" min="25" max="60" step="1" value="35" oninput="r3_render()"><span class="ctrl-val" id="r3-v-wc">$35</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Per-mile rate</span><input type="range" id="r3-mile" min="1.00" max="3.50" step="0.05" value="1.85" oninput="r3_render()"><span class="ctrl-val" id="r3-v-mile">$1.85</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Avg trip miles</span><input type="range" id="r3-miles" min="3" max="20" step="1" value="10" oninput="r3_render()"><span class="ctrl-val" id="r3-v-miles">10 mi</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">% wheelchair rides</span><input type="range" id="r3-wcpct" min="0" max="60" step="5" value="20" oninput="r3_render()"><span class="ctrl-val" id="r3-v-wcpct">20%</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Rides per member/day</span><input type="range" id="r3-rpd" min="2" max="7" step="0.5" value="4.5" oninput="r3_render()"><span class="ctrl-val" id="r3-v-rpd">4.5</span></div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">Fulfillment cost scenarios</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Best case</span><input type="range" id="r3-ulo" min="5" max="20" step="1" value="5" oninput="r3_render()"><span class="ctrl-val" id="r3-v-ulo">$5</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Planning / expected</span><input type="range" id="r3-umid" min="5" max="28" step="1" value="14" oninput="r3_render()"><span class="ctrl-val" id="r3-v-umid">$14</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Worst case</span><input type="range" id="r3-uhi" min="10" max="30" step="1" value="24" oninput="r3_render()"><span class="ctrl-val" id="r3-v-uhi">$24</span></div>
+    </div>
+  </div>
+
+  <div class="bar-section">
+    <div class="sec-label">Per-ride waterfall — blended ride type</div>
+    <div id="r3-waterfall"></div>
+    <div class="hit-note" id="r3-hitnote"></div>
+  </div>
+
+  <div class="summary-row" id="r3-summary"></div>
+
+  <div class="sec-label" id="r3-tbl-lbl">Per MCO — net revenue at $20 target</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>MCO</th><th>DDI riders</th><th>Rides/mo</th>
+        <th class="bl">Gross/yr</th><th class="co">Cost/yr</th><th class="gr">Net/yr</th><th>$/ride net</th><th>Status</th>
+      </tr></thead>
+      <tbody id="r3-body"></tbody>
+    </table>
+  </div>
+  <div class="caveat">$20 floor = DDI internal minimum net spread per ride. Planning cost used in table. All figures are internal estimates only. WBENC recertification pending.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 04 — NEGOTIATION SOLVER
+══════════════════════════════════════════════ -->
+<div class="tool-panel" id="tab-negotiate">
+  <div class="sec-label">Negotiation Floor Solver</div>
+
+  <div class="target-banner">
+    <div class="target-big">$20 floor</div>
+    <div class="target-desc"><strong>Reverse solver.</strong> Set your expected fulfillment cost and trip parameters — the model tells you the minimum MCO base rate you can accept before walking away from the table.</div>
+  </div>
+
+  <div class="controls-grid">
+    <div class="ctrl-card">
+      <div class="ctrl-title">Your operating assumptions</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Avg trip miles</span><input type="range" id="r4-miles" min="3" max="20" step="1" value="10" oninput="r4_render()"><span class="ctrl-val" id="r4-v-miles">10 mi</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Per-mile rate (MCO)</span><input type="range" id="r4-mile" min="1.00" max="3.50" step="0.05" value="1.85" oninput="r4_render()"><span class="ctrl-val" id="r4-v-mile">$1.85</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">% wheelchair rides</span><input type="range" id="r4-wcpct" min="0" max="60" step="5" value="20" oninput="r4_render()"><span class="ctrl-val" id="r4-v-wcpct">20%</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Rides per member/day</span><input type="range" id="r4-rpd" min="2" max="7" step="0.5" value="4.5" oninput="r4_render()"><span class="ctrl-val" id="r4-v-rpd">4.5</span></div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">MCO offer on the table</div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Fulfillment — best case</span><input type="range" id="r4-ulo" min="5" max="20" step="1" value="5" oninput="r4_render()"><span class="ctrl-val" id="r4-v-ulo">$5</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Fulfillment — planning</span><input type="range" id="r4-umid" min="5" max="28" step="1" value="14" oninput="r4_render()"><span class="ctrl-val" id="r4-v-umid">$14</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Fulfillment — worst case</span><input type="range" id="r4-uhi" min="10" max="30" step="1" value="24" oninput="r4_render()"><span class="ctrl-val" id="r4-v-uhi">$24</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Offered sedan base</span><input type="range" id="r4-osed" min="15" max="50" step="1" value="28" oninput="r4_render()"><span class="ctrl-val" id="r4-v-osed">$28</span></div>
+      <div class="ctrl-row"><span class="ctrl-lbl">Offered wheelchair base</span><input type="range" id="r4-owc" min="20" max="65" step="1" value="35" oninput="r4_render()"><span class="ctrl-val" id="r4-v-owc">$35</span></div>
+    </div>
+  </div>
+
+  <div class="answer-block ok" id="r4-answer">
+    <div class="answer-grid" id="r4-answer-grid"></div>
+    <div class="verdict" id="r4-verdict"></div>
+  </div>
+
+  <div class="sec-label">Minimum acceptable base rates — by fulfillment cost scenario</div>
+  <div class="walkaway-grid" id="r4-walkaway"></div>
+
+  <div class="sec-label">Rate matrix — does the offered sedan base clear $20?</div>
+  <div class="matrix-legend">
+    <div class="leg"><div class="leg-dot cell-ok" style="width:10px;height:10px"></div><span>Clears $20 floor</span></div>
+    <div class="leg"><div class="leg-dot cell-edge" style="width:10px;height:10px"></div><span>Within $2 of floor</span></div>
+    <div class="leg"><div class="leg-dot cell-bad" style="width:10px;height:10px"></div><span>Below floor — walk away</span></div>
+  </div>
+  <div class="matrix-wrap">
+    <table id="r4-matrix"></table>
+  </div>
+  <div class="caveat">Min base = $20 target + fulfillment cost − (per-mile rate × avg miles). Matrix rows = sedan base rates $20–$45. Columns = fulfillment cost $5–$28. Highlighted row = current offer. Fulfillment partners not named in buyer-facing materials. WBENC recertification pending.</div>
+</div>
+
+</div><!-- /mod-body -->
+
+<div class="mod-footer">
+  <div>NEXUS COMMAND CENTER &nbsp;·&nbsp; <span>DEE DAVIS INC.</span> &nbsp;·&nbsp; DDI NEMT TPA &nbsp;·&nbsp; HIDE SNP REVENUE MODEL &nbsp;·&nbsp; CONFIDENTIAL — INTERNAL USE ONLY</div>
+  <div>CAGE <span>8UMX3</span> &nbsp;·&nbsp; UEI <span>HJB4KNYJVGZ1</span> &nbsp;·&nbsp; EIN <span>84-4114181</span> &nbsp;·&nbsp; info@deedavis.biz</div>
+</div>
+
+<script>
+// ── SHARED DATA ──
+const TARGET = 20.00;
+const RIDER_RATE = 0.25;
+const DAYS = 30;
+const MCOS = [
+  {name:'HAP CareSource',     current:5990,  eligible:24400, active:true},
+  {name:'Meridian / WellCare',current:10300, eligible:41900, active:false},
+  {name:'Molina',             current:10300, eligible:41900, active:false},
+  {name:'Priority Health',    current:10300, eligible:41900, active:false},
+  {name:'UnitedHealthcare',   current:10300, eligible:41900, active:false},
+  {name:'Humana',             current:9000,  eligible:36700, active:false},
+  {name:'Aetna Better Health',current:8650,  eligible:35200, active:false},
+  {name:'UPHP',               current:4710,  eligible:19200, active:false},
+  {name:'AmeriHealth Caritas',current:4150,  eligible:16900, active:false},
+];
+function fmt(n){return Math.round(n).toLocaleString();}
+function fmtM(n){return '$'+(n/1e6).toFixed(2)+'M';}
+function fmtK(n){return n>=1e6?'$'+(n/1e6).toFixed(2)+'M':'$'+Math.round(n/1000)+'K';}
+function fmtD(n){return(n<0?'-$':'$')+Math.abs(n).toFixed(2);}
+function gv(id){return parseFloat(document.getElementById(id).value);}
+function sv(id,t){document.getElementById(id).textContent=t;}
+
+// timestamp
+(function(){
+  const el=document.getElementById('mod-timestamp');
+  const now=new Date();
+  el.textContent='Last updated: '+now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' · '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+})();
+
+// ── TAB SWITCH ──
+function switchTab(id,el){
+  document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+function setToggleOn(ids, activeId){
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('on', id===activeId);
+  });
+}
+
+// ══════════════════════════════════════════════
+// TAB 01 — RIDER BREAKDOWN
+// ══════════════════════════════════════════════
+let r1_scen='current', r1_pct='both';
+function r1_setScen(s){
+  r1_scen=s;
+  setToggleOn(['r1-scen-current','r1-scen-expansion'], s==='current'?'r1-scen-current':'r1-scen-expansion');
+  r1_render();
+}
+function r1_setPct(p){
+  r1_pct=p;
+  setToggleOn(['r1-p-both','r1-p-half','r1-p-one'], {'both':'r1-p-both','half':'r1-p-half','one':'r1-p-one'}[p]);
+  r1_render();
+}
+function r1_render(){
+  const AVG=46.50,RPD=4.5;
+  const showH=r1_pct==='both'||r1_pct==='half';
+  const showO=r1_pct==='both'||r1_pct==='one';
+  ['r1-h1','r1-h3','r1-h5'].forEach(id=>document.getElementById(id).style.display=showH?'':'none');
+  ['r1-h2','r1-h4','r1-h6'].forEach(id=>document.getElementById(id).style.display=showO?'':'none');
+  document.getElementById('r1-tbl-lbl').textContent='Per MCO — '+(r1_scen==='current'?'current enrollment':'full eligible pool')+' (25% daily rider assumption)';
+  let totEnr=0,totDR=0,totH=0,totO=0,totHR=0,totOR=0;
+  const rows=MCOS.map(m=>{
+    const enr=r1_scen==='current'?m.current:m.eligible;
+    const dr=Math.round(enr*RIDER_RATE);
+    const hr=Math.round(dr*0.005),or=Math.round(dr*0.01);
+    const hmo=Math.round(hr*RPD*DAYS),omo=Math.round(or*RPD*DAYS);
+    const hrev=hr*RPD*DAYS*12*AVG,orev=or*RPD*DAYS*12*AVG;
+    totEnr+=enr;totDR+=dr;totH+=hr;totO+=or;totHR+=hrev;totOR+=orev;
+    return `<tr class="${m.active?'hap':''}">
+      <td>${m.name}<span class="badge ${m.active?'ba':'bp'}">${m.active?'Active':'Outreach'}</span></td>
+      <td>${fmt(enr)}</td><td>${fmt(dr)}</td>
+      ${showH?`<td class="am">${fmt(hr)}</td>`:''}
+      ${showO?`<td class="gr">${fmt(or)}</td>`:''}
+      ${showH?`<td class="am">${fmt(hmo)}</td>`:''}
+      ${showO?`<td class="gr">${fmt(omo)}</td>`:''}
+      ${showH?`<td class="am">${fmtK(hrev)}</td>`:''}
+      ${showO?`<td class="gr">${fmtK(orev)}</td>`:''}
+    </tr>`;
+  });
+  rows.push(`<tr class="total-row">
+    <td>Total — all 9 MCOs</td><td>${fmt(totEnr)}</td><td>${fmt(totDR)}</td>
+    ${showH?`<td class="am">${fmt(totH)}</td>`:''}
+    ${showO?`<td class="gr">${fmt(totO)}</td>`:''}
+    ${showH?`<td class="am">${fmt(Math.round(totH*RPD*DAYS))}</td>`:''}
+    ${showO?`<td class="gr">${fmt(Math.round(totO*RPD*DAYS))}</td>`:''}
+    ${showH?`<td class="am">${fmtM(totHR)}</td>`:''}
+    ${showO?`<td class="gr">${fmtM(totOR)}</td>`:''}
+  </tr>`);
+  document.getElementById('r1-body').innerHTML=rows.join('');
+  const sumItems=[
+    {ml:'Total enrolled',mv:fmt(totEnr),ms:r1_scen==='current'?'CY2026 baseline':'Full eligible pool'},
+    {ml:'Est. daily riders',mv:fmt(Math.round(totEnr*RIDER_RATE)),ms:'25% utilization'},
+  ];
+  if(showH) sumItems.push({ml:'DDI at .5% — est rev/yr',mv:fmtM(totHR),ms:fmt(totH)+' riders'});
+  if(showO) sumItems.push({ml:'DDI at 1% — est rev/yr',mv:fmtM(totOR),ms:fmt(totO)+' riders'});
+  document.getElementById('r1-summary').style.gridTemplateColumns=`repeat(${sumItems.length},1fr)`;
+  document.getElementById('r1-summary').innerHTML=sumItems.map(d=>`<div class="met"><div class="ml">${d.ml}</div><div class="mv">${d.mv}</div><div class="ms">${d.ms}</div></div>`).join('');
+}
+r1_render();
+
+// ══════════════════════════════════════════════
+// TAB 02 — SPREAD MARGIN
+// ══════════════════════════════════════════════
+let r2_scen='current',r2_pct='half';
+function r2_setScen(s){
+  r2_scen=s;
+  setToggleOn(['r2-scen-current','r2-scen-expansion'], s==='current'?'r2-scen-current':'r2-scen-expansion');
+  r2_render();
+}
+function r2_setPct(p){
+  r2_pct=p;
+  setToggleOn(['r2-p-half','r2-p-one'], p==='half'?'r2-p-half':'r2-p-one');
+  r2_render();
+}
+function r2_render(){
+  const sedB=gv('r2-sedan'),wcB=gv('r2-wc'),mr=gv('r2-mile'),miles=gv('r2-miles'),wcP=gv('r2-wcpct')/100;
+  const ulo=gv('r2-ulo'),umid=gv('r2-umid'),uhi=gv('r2-uhi'),rpd=gv('r2-rpd');
+  const pm=r2_pct==='half'?0.005:0.01;
+  sv('r2-v-sedan','$'+sedB.toFixed(0));sv('r2-v-wc','$'+wcB.toFixed(0));
+  sv('r2-v-mile','$'+mr.toFixed(2));sv('r2-v-miles',miles.toFixed(0)+' mi');
+  sv('r2-v-wcpct',(wcP*100).toFixed(0)+'%');
+  sv('r2-v-ulo','$'+ulo.toFixed(0));sv('r2-v-umid','$'+umid.toFixed(0));sv('r2-v-uhi','$'+uhi.toFixed(0));
+  sv('r2-v-rpd',rpd.toFixed(1));
+  const sedR=sedB+miles*mr,wcR=wcB+miles*mr;
+  const blend=wcP*wcR+(1-wcP)*sedR;
+  const spLo=blend-ulo,spMid=blend-umid,spHi=blend-uhi;
+  const barItems=[
+    {lbl:'Sedan — best case',rate:sedR,cost:ulo},
+    {lbl:'Sedan — worst case',rate:sedR,cost:uhi},
+    {lbl:'Wheelchair — best case',rate:wcR,cost:ulo},
+    {lbl:'Wheelchair — worst case',rate:wcR,cost:uhi},
+  ];
+  document.getElementById('r2-bars').innerHTML=barItems.map(b=>{
+    const sp=b.rate-b.cost;const cw=Math.round((b.cost/b.rate)*100);const sw=100-cw;
+    return`<div class="ride-row">
+      <div class="rt-label">${b.lbl}</div>
+      <div class="bar-track">
+        <div class="bar-cost" style="width:${cw}%;background:#7a2020;color:#e87c73">${cw>15?fmtD(b.cost):''}</div>
+        <div class="bar-spread" style="width:${sw}%;background:#0f6e56;color:#5DCAA5">${sw>12?fmtD(sp):''}</div>
+      </div>
+      <div class="rt-total">${fmtD(b.rate)}</div>
+      <div class="rt-margin ${sp>=0?'gr':'co'}">${sp>=0?'+':''}${fmtD(sp)}</div>
+    </div>`;
+  }).join('');
+  let totDDI=0,totRmo=0,totG=0,totC=0,totN=0;
+  const rows=MCOS.map(m=>{
+    const enr=r2_scen==='current'?m.current:m.eligible;
+    const daily=Math.round(enr*RIDER_RATE);
+    const ddi=Math.round(daily*pm);
+    const rmo=Math.round(ddi*rpd*DAYS);
+    const ryr=rmo*12;
+    const g=ryr*blend,c=ryr*umid,n=g-c;
+    totDDI+=ddi;totRmo+=rmo;totG+=g;totC+=c;totN+=n;
+    const mp=(n/g*100).toFixed(0);
+    return`<tr class="${m.active?'hap':''}"><td>${m.name}<span class="badge ${m.active?'ba':'bp'}">${m.active?'Active':'Outreach'}</span></td>
+      <td>${fmt(ddi)}</td><td>${fmt(rmo)}</td>
+      <td class="bl">${fmtK(g)}</td><td class="co">(${fmtK(c)})</td>
+      <td class="${n>=0?'gr':'co'}">${fmtK(n)}</td><td class="${n>=0?'gr':'co'}">${mp}%</td></tr>`;
+  });
+  rows.push(`<tr class="total-row"><td>Total — all 9 MCOs</td><td>${fmt(totDDI)}</td><td>${fmt(totRmo)}</td>
+    <td class="bl">${fmtM(totG)}</td><td class="co">(${fmtM(totC)})</td>
+    <td class="${totN>=0?'gr':'co'}">${fmtM(totN)}</td>
+    <td class="${totN>=0?'gr':'co'}">${(totN/totG*100).toFixed(0)}%</td></tr>`);
+  document.getElementById('r2-body').innerHTML=rows.join('');
+  document.getElementById('r2-tbl-lbl').textContent='Per MCO — '+(r2_scen==='current'?'current enrollment':'full eligible pool')+' · '+(r2_pct==='half'?'.5%':'1%')+' DDI ask';
+  document.getElementById('r2-summary').innerHTML=[
+    {ml:'Blended rate / ride',mv:fmtD(blend),ms:(wcP*100).toFixed(0)+'% wc mix'},
+    {ml:'Net — best case',mv:fmtD(spLo),ms:'fulfillment at $'+ulo.toFixed(0)},
+    {ml:'Net — planning',mv:fmtD(spMid),ms:'fulfillment at $'+umid.toFixed(0)},
+    {ml:'Net — worst case',mv:fmtD(spHi),ms:'fulfillment at $'+uhi.toFixed(0)},
+  ].map(d=>`<div class="met"><div class="ml">${d.ml}</div><div class="mv">${d.mv}</div><div class="ms">${d.ms}</div></div>`).join('');
+}
+r2_render();
+
+// ══════════════════════════════════════════════
+// TAB 03 — $20 FLOOR TRACKER
+// ══════════════════════════════════════════════
+let r3_scen='current',r3_pct='half';
+function r3_setScen(s){
+  r3_scen=s;
+  setToggleOn(['r3-scen-current','r3-scen-expansion'], s==='current'?'r3-scen-current':'r3-scen-expansion');
+  r3_render();
+}
+function r3_setPct(p){
+  r3_pct=p;
+  setToggleOn(['r3-p-half','r3-p-one'], p==='half'?'r3-p-half':'r3-p-one');
+  r3_render();
+}
+function r3_render(){
+  const sedB=gv('r3-sedan'),wcB=gv('r3-wc'),mr=gv('r3-mile'),miles=gv('r3-miles'),wcP=gv('r3-wcpct')/100;
+  const ulo=gv('r3-ulo'),umid=gv('r3-umid'),uhi=gv('r3-uhi'),rpd=gv('r3-rpd');
+  const pm=r3_pct==='half'?0.005:0.01;
+  sv('r3-v-sedan','$'+sedB.toFixed(0));sv('r3-v-wc','$'+wcB.toFixed(0));
+  sv('r3-v-mile','$'+mr.toFixed(2));sv('r3-v-miles',miles.toFixed(0)+' mi');
+  sv('r3-v-wcpct',(wcP*100).toFixed(0)+'%');sv('r3-v-rpd',rpd.toFixed(1));
+  sv('r3-v-ulo','$'+ulo.toFixed(0));sv('r3-v-umid','$'+umid.toFixed(0));sv('r3-v-uhi','$'+uhi.toFixed(0));
+  const sedR=sedB+miles*mr,wcR=wcB+miles*mr;
+  const blend=wcP*wcR+(1-wcP)*sedR;
+  const spLo=blend-ulo,spMid=blend-umid,spHi=blend-uhi;
+  const maxBar=blend;
+  const wfItems=[
+    {lbl:'MCO rate collected (blended)',val:blend,bg:'#0f6e56',tc:'#5DCAA5',neg:false},
+    {lbl:'Fulfillment — best case ($'+ulo.toFixed(0)+')',val:ulo,bg:'#7a2020',tc:'#e87c73',neg:true},
+    {lbl:'Net spread — best case',val:spLo,bg:spLo>=TARGET?'#0f6e56':'#7a2020',tc:spLo>=TARGET?'#5DCAA5':'#e87c73',neg:false,isNet:true},
+    {lbl:'Fulfillment — planning ($'+umid.toFixed(0)+')',val:umid,bg:'#7a2020',tc:'#e87c73',neg:true},
+    {lbl:'Net spread — planning',val:spMid,bg:spMid>=TARGET?'#0f6e56':'#7a2020',tc:spMid>=TARGET?'#5DCAA5':'#e87c73',neg:false,isNet:true},
+    {lbl:'Fulfillment — worst case ($'+uhi.toFixed(0)+')',val:uhi,bg:'#7a2020',tc:'#e87c73',neg:true},
+    {lbl:'Net spread — worst case',val:spHi,bg:spHi>=TARGET?'#0f6e56':'#7a2020',tc:spHi>=TARGET?'#5DCAA5':'#e87c73',neg:false,isNet:true},
+  ];
+  document.getElementById('r3-waterfall').innerHTML=wfItems.map(i=>{
+    const w=Math.max(2,Math.min(100,(Math.abs(i.val)/maxBar)*100));
+    const tag=i.isNet?`<span class="${i.val>=TARGET?'gr':'co'}" style="margin-left:8px;font-size:.65rem">${i.val>=TARGET?'✓ hits $20':'✗ below $20'}</span>`:'';
+    return`<div class="wf-row">
+      <div class="wf-lbl">${i.lbl}</div>
+      <div class="wf-bar-wrap"><div class="wf-bar" style="width:${w}%;background:${i.bg};color:${i.tc}">${w>15?fmtD(Math.abs(i.val)):''}</div></div>
+      <div class="wf-val ${i.val>=0?(i.isNet?(i.val>=TARGET?'gr':'co'):'bl'):'co'}">${i.neg?'−$':' $'}${Math.abs(i.val).toFixed(2)}${tag}</div>
+    </div>`;
+  }).join('');
+  const maxU=blend-TARGET;
+  document.getElementById('r3-hitnote').innerHTML=maxU<=0
+    ?`<strong>Rate structure cannot hit $20 target.</strong> Blended rate ${fmtD(blend)} is below the floor.`
+    :`To protect the $20 floor, fulfillment cost must stay at or below <strong>${fmtD(maxU)}</strong> per ride. Best case ${fmtD(spLo)} ${spLo>=TARGET?'✓':'✗'} &nbsp;·&nbsp; Planning ${fmtD(spMid)} ${spMid>=TARGET?'✓':'✗'} &nbsp;·&nbsp; Worst case ${fmtD(spHi)} ${spHi>=TARGET?'✓':'✗'}`;
+  let totDDI=0,totRmo=0,totG=0,totC=0,totN=0;
+  const rows=MCOS.map(m=>{
+    const enr=r3_scen==='current'?m.current:m.eligible;
+    const ddi=Math.round(Math.round(enr*RIDER_RATE)*pm);
+    const rmo=Math.round(ddi*rpd*DAYS);
+    const ryr=rmo*12;
+    const g=ryr*blend,c=ryr*umid,n=g-c;
+    totDDI+=ddi;totRmo+=rmo;totG+=g;totC+=c;totN+=n;
+    const nr=blend-umid;const hit=nr>=TARGET;
+    return`<tr class="${m.active?'hap':''}"><td>${m.name}<span class="badge ${m.active?'ba':'bp'}">${m.active?'Active':'Outreach'}</span></td>
+      <td>${fmt(ddi)}</td><td>${fmt(rmo)}</td>
+      <td class="bl">${fmtK(g)}</td><td class="co">(${fmtK(c)})</td>
+      <td class="${n>=0?'gr':'co'}">${fmtK(n)}</td>
+      <td class="${hit?'gr':'co'}">${fmtD(nr)}</td>
+      <td><span class="spill ${hit?'spill-ok':'spill-bad'}">${hit?'✓ hits $20':'✗ below $20'}</span></td></tr>`;
+  });
+  rows.push(`<tr class="total-row"><td>Total — all 9 MCOs</td><td>${fmt(totDDI)}</td><td>${fmt(totRmo)}</td>
+    <td class="bl">${fmtM(totG)}</td><td class="co">(${fmtM(totC)})</td>
+    <td class="${totN>=0?'gr':'co'}">${fmtM(totN)}</td>
+    <td class="${(blend-umid)>=TARGET?'gr':'co'}">${fmtD(blend-umid)}</td>
+    <td><span class="spill ${(blend-umid)>=TARGET?'spill-ok':'spill-bad'}">${(blend-umid)>=TARGET?'✓ hits $20':'✗ below $20'}</span></td></tr>`);
+  document.getElementById('r3-body').innerHTML=rows.join('');
+  document.getElementById('r3-tbl-lbl').textContent='Per MCO — '+(r3_scen==='current'?'current enrollment':'full eligible pool')+' · '+(r3_pct==='half'?'.5%':'1%')+' DDI ask · $20 target floor';
+  document.getElementById('r3-summary').innerHTML=[
+    {ml:'Blended rate / ride',mv:fmtD(blend),ms:(wcP*100).toFixed(0)+'% wc mix'},
+    {ml:'Max fulfillment to hit $20',mv:fmtD(Math.max(0,maxU)),ms:'ceiling per ride'},
+    {ml:'Net / ride (planning)',mv:fmtD(spMid),ms:spMid>=TARGET?'✓ above floor':'✗ below floor'},
+    {ml:'Total net / yr',mv:fmtM(totN),ms:fmt(totDDI)+' DDI riders'},
+  ].map(d=>`<div class="met"><div class="ml">${d.ml}</div><div class="mv">${d.mv}</div><div class="ms">${d.ms}</div></div>`).join('');
+  const scenLabel=r3_scen==='current'?'current enrolled members (Feb 2026 baseline)':'full eligible dual pool (ceiling if every eligible member rides)';
+  const pctLabel=r3_pct==='half'?'.5% of daily riders':'1% of daily riders (2× volume vs .5%)';
+  document.getElementById('r3-toggle-note').innerHTML=
+    `<strong>What moves when you toggle:</strong> Scenario and DDI Ask change <strong>volume only</strong> — DDI riders, rides/mo, and total net/yr. `
+    +`They do <strong>not</strong> change $/ride net or ✓/✗ floor status (that comes from MCO rates vs fulfillment cost sliders). `
+    +`Now showing: <strong>${scenLabel}</strong> · <strong>${pctLabel}</strong> · net/ride stays <strong>${fmtD(spMid)}</strong>.`;
+}
+r3_render();
+
+// ══════════════════════════════════════════════
+// TAB 04 — NEGOTIATION SOLVER
+// ══════════════════════════════════════════════
+function r4_render(){
+  const miles=gv('r4-miles'),mr=gv('r4-mile'),wcP=gv('r4-wcpct')/100,rpd=gv('r4-rpd');
+  const ulo=gv('r4-ulo'),umid=gv('r4-umid'),uhi=gv('r4-uhi');
+  const oSed=gv('r4-osed'),oWc=gv('r4-owc');
+  sv('r4-v-miles',miles.toFixed(0)+' mi');sv('r4-v-mile','$'+mr.toFixed(2));
+  sv('r4-v-wcpct',(wcP*100).toFixed(0)+'%');sv('r4-v-rpd',rpd.toFixed(1));
+  sv('r4-v-ulo','$'+ulo.toFixed(0));sv('r4-v-umid','$'+umid.toFixed(0));sv('r4-v-uhi','$'+uhi.toFixed(0));
+  sv('r4-v-osed','$'+oSed.toFixed(0));sv('r4-v-owc','$'+oWc.toFixed(0));
+  const mileRev=miles*mr;
+  const minBase=(u)=>TARGET+u-mileRev;
+  const oSedRate=oSed+mileRev,oWcRate=oWc+mileRev;
+  const blend=wcP*oWcRate+(1-wcP)*oSedRate;
+  const spMid=blend-umid,above=spMid-TARGET;
+  const minSedMid=minBase(umid),minWcMid=minBase(umid);
+  const sedGap=oSed-minSedMid,wcGap=oWc-minWcMid;
+  let cls=above>=2?'ok':above>=-2?'warn':'bad';
+  document.getElementById('r4-answer').className='answer-block '+cls;
+  document.getElementById('r4-answer-grid').innerHTML=[
+    {lbl:'Blended rate collected',val:fmtD(blend),sub:(wcP*100).toFixed(0)+'% wc mix',vc:''},
+    {lbl:'Net spread at planning cost',val:fmtD(spMid),sub:'vs $20 floor',vc:spMid>=TARGET?'gr':'co'},
+    {lbl:above>=0?'Cushion above floor':'Gap below floor',val:fmtD(Math.abs(above)),sub:above>=0?'protected':'must negotiate',vc:above>=0?'gr':'co'},
+  ].map(d=>`<div class="answer-item"><div class="answer-lbl">${d.lbl}</div><div class="answer-val ${d.vc}">${d.val}</div><div class="answer-sub">${d.sub}</div></div>`).join('');
+  let verdict='';
+  if(spMid>=TARGET){
+    verdict=`At planning fulfillment cost of <strong>${fmtD(umid)}</strong>, the offered rates clear the $20 floor with <strong>${fmtD(above)} cushion per ride</strong>. Offered sedan base <strong>${fmtD(oSed)}</strong> is <strong>${fmtD(sedGap)} above</strong> the minimum required <strong>${fmtD(minSedMid)}</strong>. Accept the offer.`;
+  } else {
+    verdict=`At planning fulfillment cost of <strong>${fmtD(umid)}</strong>, the offered rates do not clear the $20 floor — DDI nets only <strong>${fmtD(spMid)}</strong> per ride. Counter: sedan base must be at least <strong>${fmtD(minSedMid)}</strong> (offered ${fmtD(oSed)}, gap <strong>${fmtD(Math.abs(sedGap))}</strong>). Do not sign below these numbers.`;
+  }
+  document.getElementById('r4-verdict').innerHTML=verdict;
+  const scens=[{label:'Best case',u:ulo},{label:'Planning',u:umid},{label:'Worst case',u:uhi}];
+  document.getElementById('r4-walkaway').innerHTML=scens.map(s=>{
+    const mn=minBase(s.u);const sedOk=oSed>=mn,wcOk=oWc>=mn;
+    return`<div class="wa-card">
+      <div class="wa-scenario">${s.label}</div>
+      <div class="wa-uber">Fulfillment cost: <strong>$${s.u.toFixed(0)}</strong></div>
+      <hr class="wa-divider">
+      <div class="wa-row"><span class="wa-type">Min sedan base</span><span class="wa-min ${sedOk?'gr':'co'}">${fmtD(mn)} ${sedOk?'✓':'✗'}</span></div>
+      <div class="wa-row"><span class="wa-type">Min wc base</span><span class="wa-min ${wcOk?'gr':'co'}">${fmtD(mn)} ${wcOk?'✓':'✗'}</span></div>
+      <div class="wa-row"><span class="wa-type">Miles revenue</span><span class="wa-min">${fmtD(mileRev)}</span></div>
+      <div class="wa-row"><span class="wa-type">Min total rate</span><span class="wa-min">${fmtD(mn+mileRev)}</span></div>
+    </div>`;
+  }).join('');
+  const uCols=[5,8,10,12,14,16,18,20,22,24,26,28];
+  const sedRows=[20,22,24,25,26,27,28,29,30,32,34,36,38,40,42,45];
+  const thead='<thead><tr><th>Sedan base ↓ / Fulfillment →</th>'+uCols.map(u=>`<th>$${u}</th>`).join('')+'</tr></thead>';
+  const tbody='<tbody>'+sedRows.map(sed=>{
+    const isOff=Math.round(oSed)===sed;
+    const cols=uCols.map(u=>{
+      const rate=sed+mileRev,sp=rate-u,diff=sp-TARGET;
+      let cls2=diff>=2?'cell-ok':diff>=0?'cell-edge':'cell-bad';
+      const outline=isOff?'outline:1.5px solid var(--gold);outline-offset:-2px;':'' ;
+      return`<td class="${cls2}" style="${outline}">${diff>=0?'+':''}${diff.toFixed(0)}</td>`;
+    }).join('');
+    return`<tr${isOff?' style="font-weight:700"':''}><td>${fmtD(sed)}${isOff?' ←':''}</td>${cols}</tr>`;
+  }).join('')+'</tbody>';
+  document.getElementById('r4-matrix').innerHTML=thead+tbody;
+}
+r4_render();
+</script>
+</body>
+</html>

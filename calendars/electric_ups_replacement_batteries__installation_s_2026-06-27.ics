@@ -1,0 +1,46 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DEE DAVIS INC//NEXUS//EN
+BEGIN:VEVENT
+SUMMARY:🚨 BID DEADLINE: Electric UPS Replacement Batteries & Installati
+ on Services
+DTSTART:20260627T000000
+DTEND:20260627T010000
+DTSTAMP:20260723T230149Z
+UID:recvWkkeHEzveFg6J@nexus.deedavis.biz
+DESCRIPTION:🚨 BID DEADLINE\n\nOpportunity: Electric UPS Replacement Bat
+ teries & Installation Services\nAgency: \nSolicitation: \nDeadline: June 2
+ 7\, 2026 at 12:00 AM\n\nAIRTABLE RECORD: https://airtable.com/appaJZqKVUn3
+ yJ7ma/recvWkkeHEzveFg6J\n\n⏰ REMINDERS SET:\n- 7 days before\n- 3 days b
+ efore\n- 1 day before\n- Morning of deadline\n- 2 hours before deadline\n\
+ n🎯 ACTION ITEMS:\n1. Send supplier quote requests (3-5 days before)\n2.
+  Collect all quotes (2 days before)\n3. Complete bid forms (1 day before)\
+ n4. Final review (morning of deadline)\n5. SUBMIT (before deadline!)\n\nGe
+ nerated by NEXUS Calendar Automation
+LOCATION:
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Electric UPS Replacement Batteries & Installatio
+ n Services
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Electric UPS Replacement Batteries & Installatio
+ n Services
+TRIGGER:-P3D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Electric UPS Replacement Batteries & Installatio
+ n Services
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BID DEADLINE: Electric UPS Replacement Batteries & Installatio
+ n Services
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

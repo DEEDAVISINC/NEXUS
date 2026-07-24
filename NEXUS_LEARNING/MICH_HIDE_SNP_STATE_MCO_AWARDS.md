@@ -228,6 +228,12 @@ Dual-eligible members can enroll in MICH in these counties **Jan 1, 2026**:
 
 ---
 
+## NEMT CONTRACT LANGUAGE (ALL 9 MCOs)
+
+**Appendix M & N** — full excerpts, broker rebuttal, TNC allowance: `MICH_HIDE_SNP_NEMT_CONTRACT_EXCERPTS.md`
+
+---
+
 ## OFFICIAL LINKS
 
 - [MDHHS — Updated awards (Dec 6, 2024)](https://www.michigan.gov/mdhhs/inside-mdhhs/newsroom/2024/12/06/mi-coordinated)

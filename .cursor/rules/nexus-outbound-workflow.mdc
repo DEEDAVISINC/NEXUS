@@ -131,7 +131,7 @@ alwaysApply: true
 
 10. **Certifications** — Full list: EDWOSB, WOSB, WBENC, MBE, SBE, E-Verify Program Administrator (do **not** list SWFT; see `COMPANY_INFO_MASTER.md`)
 
-11. **Contact grid** — Per `company-info-verification.mdc` (248.376.4550, info@deedavis.biz, Troy MI 48084)
+11. **Contact grid** — Per `company-info-verification.mdc` (248.376.4550 on caps/PDFs; not on websites)
 
 12. **Footer** — Certs + "Prepared for [Agency] — [Solicitation] | [Date]"
 
@@ -216,7 +216,8 @@ alwaysApply: true
 ### For ALL Documents
 
 Run these checks from `company-info-verification.mdc`:
-- [ ] Phone: 248.376.4550 (NOT 248.247.5020)
+- [ ] Email/docs phone: 248.376.4550 (NOT 248.247.5020)
+- [ ] Website/HTML outputs: NO 248.376.4550
 - [ ] Address: Troy, Michigan 48084 (NOT 48083)
 - [ ] Email: info@deedavis.biz (NOT bids@deedavisinc.com)
 - [ ] CAGE: 8UMX3
@@ -346,7 +347,7 @@ ACTION: Convert cap statement to PDF → Attach → Copy email → Send to [CO e
 → STEP 6: Apply ProposalBio to Technical Capability section (mirror buyer language, use agency name 3+ times, sensory language, story arc)
 → STEP 7: Build Compliance Matrix — one row per solicitation requirement, all showing COMPLIANT
 → STEP 8: Build Pricing table — use exact CLINs from solicitation
-→ STEP 9: Verify company info per `company-info-verification.mdc` (248.376.4550, info@deedavis.biz, 48084)
+→ STEP 9: Verify company info per `company-info-verification.mdc` (248.376.4550 on docs, not on web, info@deedavis.biz, 48084)
 → STEP 10: Save as `[SolNumber]_[Type]_Quote_Response.html` in `SEND_TO_BUYER/`
 → STEP 11: Tell Dee: "Quote response ready. Open in Chrome → Cmd+P → Save as PDF. [X] pages."
 
@@ -421,7 +422,7 @@ ACTION: Convert cap statement to PDF → Attach → Copy email → Send to [CO e
 
 4. **Supplier documents get ZERO buyer information.** This is a business survival rule, not a preference.
 
-5. **Company info comes from `company-info-verification.mdc`.** Phone is 248.376.4550. Email is info@deedavis.biz. ZIP is 48084. Period.
+5. **Company info comes from `company-info-verification.mdc`.** Email/docs: 248.376.4550. Websites: never 248.376.4550. Email info@deedavis.biz. ZIP 48084.
 
 6. **Cap statement colors come from `cap-statement-colors.mdc`.** Match the sector. Every time.
 

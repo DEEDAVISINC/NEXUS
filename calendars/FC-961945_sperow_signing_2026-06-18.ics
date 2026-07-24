@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:fc-961945-sperow-20260618@deedavis.biz
+DTSTAMP:20260618T144200Z
+DTSTART;TZID=America/Detroit:20260618T163000
+DTEND;TZID=America/Detroit:20260618T183000
+SUMMARY:📝 SIGNING: Roger Sperow (Loan App) - First Class
+DESCRIPTION:First Class Signing Service\nOrder: #961945\nSigners: Roger + Eileen Sperow | (248) 766-5526\nClient: eMortgage Funding LLC\nType: Loan App Signing | 98 pg package\nFee: $75 | VendorPay direct deposit\n\nCALL TO CONFIRM appt (required)\n\nCOLLECT/SCAN (leave with signers):\n- Driver License\n- Mortgage Statement\n- Homeowners Insurance info\n- SS 1099 2023/2024 or Award Letter\n\nSCANBACKS ASAP — by 6:30 PM EDT\nOne combined PDF → Snapdocs\nAcknowledge 4 checkboxes on order\n\nContacts if issues: Alex 248-595-4820 | Derek 248-251-1093\nPay: VendorPay batch | est deposit ~7/22/26
+LOCATION:14044 Masonic, Warren, MI 48088
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Sperow signing in 2 hours — confirm with signer
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Sperow signing in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

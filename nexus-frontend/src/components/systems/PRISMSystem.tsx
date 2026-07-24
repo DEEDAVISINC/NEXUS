@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { api } from '../../api/client';
 import PartnerWebview from '../PartnerWebview';
-import TPADivisionWorkspace, { mapPrismApiOrderToWorkspace } from '../prism/TPADivisionWorkspace';
-import PRISMHub from '../prism/PRISMHub';
+import TPADivisionWorkspace, { mapPrismApiOrderToWorkspace, mapPrismApiClientToWorkspace, DivisionScanback } from '../prism/TPADivisionWorkspace';
+import PRISMHub, { HubScheduleItem } from '../prism/PRISMHub';
 import { countDivisionNotifications } from '../prism/prismDivisionAlerts';
 import type { PrismNotification } from '../prism/PrismOpsFeed';
 
@@ -14,9 +14,12 @@ const isElectron = () => {
 
 interface PRISMSystemProps {
   onBackToNexus: () => void;
-  onNavigate?: (view: any) => void;
+  onNavigate?: (view: any, tab?: string) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  initialDivision?: string;
+  initialDivisionSection?: string;
+  onDeepLinkConsumed?: () => void;
 }
 
 // ─── SERVICE TYPE COLORS ───────────────────────────────────────────
@@ -33,6 +36,7 @@ const SERVICE_COLORS: Record<string, { color: string; solid: string; bg: string;
   'apostille':       { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Apostille',           icon: '🩷', border: '#F472B6' },
   'process':         { color: '#EC4899', solid: '#DB2777', bg: '#FDF2F8', label: 'Process Serving',     icon: '🩷', border: '#F472B6' },
   'nemt':            { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', label: 'NEMT / Transport',    icon: '🟢', border: '#2DD4BF' },
+  'community_transition': { color: '#F59E0B', solid: '#D97706', bg: '#FFFBEB', label: 'Community Transition (CTS)', icon: '🏠', border: '#FCD34D' },
   'medical_courier': { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Medical Courier',     icon: '🟣', border: '#818CF8' },
   'courier':         { color: '#6366F1', solid: '#4F46E5', bg: '#EEF2FF', label: 'Courier/Runner',      icon: '🟣', border: '#818CF8' },
   'rx_delivery':     { color: '#14B8A6', solid: '#0D9488', bg: '#F0FDFA', label: 'Rx Delivery',         icon: '💊', border: '#2DD4BF' },
@@ -45,6 +49,7 @@ const SERVICE_GROUPS: { id: string; label: string; icon: string; types: string[]
   { id: 'fingerprint',    label: 'Fingerprint / BG',     icon: '🟢', types: ['fingerprint', 'background'],   color: '#4ADE80', solid: '#16A34A' },
   { id: 'notary_legal',   label: 'Notary & Legal',       icon: '🩷', types: ['notary', 'ron', 'apostille', 'process'], color: '#EC4899', solid: '#DB2777' },
   { id: 'nemt',           label: 'NEMT / Transport',     icon: '🚐', types: ['nemt', 'rx_delivery'],          color: '#14B8A6', solid: '#0D9488' },
+  { id: 'community_transition', label: 'Community Transition (CTS)', icon: '🏠', types: ['community_transition', 'cts'], color: '#F59E0B', solid: '#D97706' },
   { id: 'courier',        label: 'Courier / Delivery',   icon: '📦', types: ['medical_courier', 'courier'],  color: '#6366F1', solid: '#4F46E5' },
 ];
 
@@ -79,6 +84,25 @@ const PARTNER_PORTALS: Record<string, PartnerPortal[]> = {
     { id: 'notarize', name: 'Notarize.com', url: 'https://app.notarize.com', icon: '📄', description: 'Additional RON platform', loginType: 'dashboard', status: 'pending' },
   ],
   transport: [
+    {
+      id: 'hap_caresource',
+      name: 'HAP CareSource Portal',
+      url: 'https://providerportal.caresource.com/MI/User/Login.aspx?ReturnUrl=%2fMI%2fLogout.aspx',
+      icon: '🏥',
+      description: 'MI login — eligibility, claims, prior auth (Vendor 100000469269)',
+      loginType: 'portal',
+      status: 'active',
+      credentials: 'Provider portal login set up May 6, 2026 · Support 1-833-230-2102',
+    },
+    {
+      id: 'hap_provider_resources',
+      name: 'HAP Provider Resources',
+      url: 'https://www.hap.org/providers',
+      icon: '📋',
+      description: 'HAP network hub — forms, prior auth policies, portal link',
+      loginType: 'portal',
+      status: 'active',
+    },
     { id: 'uber_health', name: 'Uber Health', url: 'https://health.uber.com', icon: '🚗', description: 'NEMT rides, WAV transport', loginType: 'dashboard', status: 'active', credentials: 'Dashboard live since May 15, 2026' },
     { id: 'uber_business', name: 'Uber Business Portal', url: 'https://business.uber.com', icon: '💼', description: 'Admin, reporting, expense management', loginType: 'portal', status: 'active' },
     { id: 'lyft_health', name: 'Lyft Healthcare', url: 'https://www.lyft.com/healthcare', icon: '🩷', description: 'NEMT, Lyft Assisted (door-to-door), Medicaid in 21 states. WAV via consumer app only.', loginType: 'dashboard', status: 'active', credentials: 'Account created — awaiting AE sales call' },
@@ -194,7 +218,7 @@ const PRISM_DIVISIONS: PrismDivision[] = [
   {
     id: 'transport',
     name: 'NEMT & Medical Transport',
-    subtitle: 'Non-Emergency Medical Transport • WAV • Stretcher • Uber Health',
+    subtitle: 'HAP CareSource NEMT • WAV • Uber Health • Claims & Eligibility',
     icon: '🚐',
     color: '#14B8A6',
     solid: '#0D9488',
@@ -203,6 +227,20 @@ const PRISM_DIVISIONS: PrismDivision[] = [
     agentSpecialties: ['NEMT Driver', 'WAV Driver', 'Stretcher Transport'],
     portalKey: 'transport',
     revenueTarget: '$2M–$10M',
+    status: 'active',
+  },
+  {
+        id: 'community_transition',
+        name: 'Community Transition (CTS)',
+        subtitle: 'MCO/Medicaid LTSS • Nursing Facility → Community • PCSP • Home Assessment • Authorization Cases (live: Molina)',
+    icon: '🔑',
+    color: '#EAB308',
+    solid: '#CA8A04',
+    gradient: 'from-yellow-600 to-yellow-800',
+    types: ['community_transition', 'cts'],
+    agentSpecialties: ['CTS Case Coordinator'],
+    portalKey: 'community_transition',
+    revenueTarget: '$25K–$100K',
     status: 'active',
   },
   {
@@ -734,19 +772,6 @@ const VENDOR_SOURCES: Record<string, { label: string; icon: string }> = {
   altisource: { label: 'Altisource', icon: '🔶' },
 };
 
-const MOCK_PROPERTY_ORDERS: PropertyWorkOrder[] = [
-  { id: 'FO-2026-001', property_address: '14520 Greenfield Rd', city: 'Detroit', state: 'MI', zip: '48227', property_type: 'single_family', program: 'hud_fsm', service_type: 'occupancy_check', status: 'assigned', priority: 'standard', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 6, photos_submitted: 0, condition_code: '', due_date: '03/23/2026', recurring: true, recurring_freq: 'monthly', fee: 35, notes: 'Monthly occupancy verification — check mailbox, lawn, windows', created_at: '2026-03-20T10:00:00' },
-  { id: 'FO-2026-002', property_address: '8831 Outer Dr', city: 'Detroit', state: 'MI', zip: '48213', property_type: 'single_family', program: 'hud_fsm', service_type: 'interior_inspection', status: 'on_site', priority: 'rush', assigned_to: 'iVueit Inspector #4412', vendor_source: 'ivueit', photos_required: 24, photos_submitted: 18, condition_code: 'C4-Poor', due_date: '03/21/2026', recurring: false, fee: 125, notes: 'Full interior — reported water damage in basement. Document all rooms + damage areas.', created_at: '2026-03-19T14:00:00' },
-  { id: 'FO-2026-003', property_address: '2200 Joslyn Ct', city: 'Pontiac', state: 'MI', zip: '48340', property_type: 'townhouse', program: 'va_reo', service_type: 'condition_report', status: 'photos_submitted', priority: 'standard', assigned_to: 'CS Field - Oakland Region', vendor_source: 'cs_field', photos_required: 18, photos_submitted: 18, condition_code: 'C3-Average', due_date: '03/24/2026', recurring: false, fee: 150, notes: 'VA REO — full property condition report needed for listing decision', created_at: '2026-03-18T09:00:00' },
-  { id: 'FO-2026-004', property_address: '6742 Maplewood Ave', city: 'Flint', state: 'MI', zip: '48505', property_type: 'single_family', program: 'hud_fsm', service_type: 'board_up', status: 'new', priority: 'rush', assigned_to: '', vendor_source: 'ddi_direct', photos_required: 12, photos_submitted: 0, condition_code: '', due_date: '03/22/2026', recurring: false, fee: 275, notes: 'Broken front window + side door open. Secure immediately. HUD priority.', created_at: '2026-03-21T08:00:00' },
-  { id: 'FO-2026-005', property_address: '310 W Huron St', city: 'Ann Arbor', state: 'MI', zip: '48103', property_type: 'condo', program: 'fannie_mae', service_type: 'damage_assessment', status: 'qc_review', priority: 'standard', assigned_to: 'VRM Inspector - Washtenaw', vendor_source: 'vrm', photos_required: 20, photos_submitted: 20, condition_code: 'C5-Distressed', due_date: '03/22/2026', recurring: false, fee: 175, notes: 'Fire damage — kitchen and adjacent bedroom. Insurance claim pending.', created_at: '2026-03-17T11:00:00' },
-  { id: 'FO-2026-006', property_address: '1455 Bewick St', city: 'Detroit', state: 'MI', zip: '48214', property_type: 'single_family', program: 'hud_fsm', service_type: 'lawn_maintenance', status: 'complete', priority: 'standard', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 4, photos_submitted: 4, condition_code: 'C3-Average', due_date: '03/20/2026', recurring: true, recurring_freq: 'biweekly', fee: 85, notes: 'Biweekly lawn cut — front and back. Photo before/after.', created_at: '2026-03-14T10:00:00' },
-  { id: 'FO-2026-007', property_address: '920 E Grand Blvd', city: 'Detroit', state: 'MI', zip: '48207', property_type: 'multi_family', program: 'bank_reo', service_type: 'winterization', status: 'report_pending', priority: 'rush', assigned_to: 'Altisource Tech #2287', vendor_source: 'altisource', photos_required: 16, photos_submitted: 16, condition_code: 'C4-Poor', due_date: '03/21/2026', recurring: false, fee: 325, notes: 'Drain all pipes, apply antifreeze to toilets/traps, shut off water main. Document every step.', created_at: '2026-03-19T13:00:00' },
-  { id: 'FO-2026-008', property_address: '3380 Sheridan Dr', city: 'Warren', state: 'MI', zip: '48091', property_type: 'single_family', program: 'usda_rd', service_type: 'occupancy_check', status: 'en_route', priority: 'standard', assigned_to: 'DDI Agent - Macomb', vendor_source: 'ddi_direct', photos_required: 6, photos_submitted: 0, condition_code: '', due_date: '03/21/2026', recurring: true, recurring_freq: 'monthly', fee: 35, notes: 'USDA Rural Dev property — monthly check, photograph front + mailbox + lawn condition', created_at: '2026-03-21T07:30:00' },
-  { id: 'FO-2026-009', property_address: '17200 Livernois Ave', city: 'Detroit', state: 'MI', zip: '48221', property_type: 'single_family', program: 'hud_fsm', service_type: 'debris_removal', status: 'assigned', priority: 'standard', assigned_to: 'CS Field - Wayne Region', vendor_source: 'cs_field', photos_required: 8, photos_submitted: 0, condition_code: '', due_date: '03/25/2026', recurring: false, fee: 200, notes: 'Illegal dumping on side lot. Clear all debris + photograph before/after.', created_at: '2026-03-20T15:00:00' },
-  { id: 'FO-2026-010', property_address: '5488 Chalmers St', city: 'Detroit', state: 'MI', zip: '48213', property_type: 'single_family', program: 'hud_fsm', service_type: 'preservation', status: 'assigned', priority: 'rush', assigned_to: 'DDI Agent - Metro Detroit', vendor_source: 'ddi_direct', photos_required: 14, photos_submitted: 0, condition_code: '', due_date: '03/22/2026', recurring: false, fee: 350, notes: 'Full preservation — lock change, board-up rear, debris clear, lawn initial cut. HUD FSM compliance.', created_at: '2026-03-21T09:00:00' },
-];
-
 // ─── HELPER COMPONENTS ─────────────────────────────────────────────
 const ServiceBadge: React.FC<{ type: string; size?: 'sm' | 'md' }> = ({ type, size = 'sm' }) => {
   const svc = SERVICE_COLORS[type] || SERVICE_COLORS['notary'];
@@ -776,7 +801,15 @@ const StatCard: React.FC<{ label: string; value: string | number; sub?: string; 
 );
 
 // ─── MAIN COMPONENT ────────────────────────────────────────────────
-const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
+const PRISMSystem: React.FC<PRISMSystemProps> = ({
+  onBackToNexus,
+  onNavigate,
+  activeTab,
+  setActiveTab,
+  initialDivision,
+  initialDivisionSection,
+  onDeepLinkConsumed,
+}) => {
   const [activeDivision, setActiveDivision] = useState<string | null>(null);
   const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
   const [divisionSection, setDivisionSection] = useState<'overview' | 'orders' | 'agents' | 'scanbacks'>('overview');
@@ -826,7 +859,6 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const [fieldOpsFilter, setFieldOpsFilter] = useState('all');
   const [fieldOpsView, setFieldOpsView] = useState<'list' | 'route' | 'photos'>('list');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
-  const [propertyOrders] = useState<PropertyWorkOrder[]>(MOCK_PROPERTY_ORDERS);
 
   const [credentialingOpen, setCredentialingOpen] = useState(false);
   const [credentialingCatalog, setCredentialingCatalog] = useState<{
@@ -853,6 +885,18 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       setActiveTab('dashboard');
     }
   };
+
+  useEffect(() => {
+    if (!initialDivision) return;
+    const valid = PRISM_DIVISIONS.some((d) => d.id === initialDivision);
+    if (valid) {
+      setActiveDivision(initialDivision);
+      setActiveTab('dashboard');
+    }
+    onDeepLinkConsumed?.();
+    // Deep link consumed once on mount when App passes initialDivision
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialDivision]);
 
   const exitDivision = () => {
     setActiveDivision(null);
@@ -1105,6 +1149,47 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const filteredScanbacks = scanbackFilter === 'all' ? scanbacks : scanbacks.filter(s => s.status === scanbackFilter);
   const filteredAgents = agentFilter === 'all' ? agents : agents.filter(a => a.status === agentFilter);
 
+  const todaySchedule = useMemo((): HubScheduleItem[] => {
+    const todayIso = new Date().toISOString().slice(0, 10);
+    const todayUs = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+
+    const isToday = (dateStr: string) => {
+      if (!dateStr) return false;
+      if (dateStr.startsWith(todayIso)) return true;
+      if (dateStr === todayUs) return true;
+      const normalized = dateStr.replace(/\//g, '-');
+      return normalized.startsWith(todayIso);
+    };
+
+    return orders
+      .filter((o) => isToday(o.date))
+      .slice(0, 25)
+      .map((o) => {
+        const div = PRISM_DIVISIONS.find((d) => d.types.includes(o.type));
+        const svc = SERVICE_COLORS[o.type];
+        let status: HubScheduleItem['status'] = 'scheduled';
+        const st = o.status || '';
+        if (['In Progress', 'En Route', 'Arrived', 'Departed'].some((s) => st.includes(s))) {
+          status = 'in_progress';
+        } else if (['Complete', 'Completed', 'Verified', 'Closed'].some((s) => st.includes(s))) {
+          status = 'completed';
+        } else if (st === 'New') {
+          status = 'pending';
+        }
+        return {
+          id: o.id,
+          time: o.time || '—',
+          subject: o.signer || svc?.label || o.type,
+          type: svc?.label || o.type,
+          client: o.client,
+          status,
+          divId: div?.id || PRISM_DIVISIONS[0].id,
+          color: div?.color || svc?.color || '#6366F1',
+        };
+      })
+      .sort((a, b) => a.time.localeCompare(b.time));
+  }, [orders]);
+
   const divisionNotifications = useMemo(
     () =>
       countDivisionNotifications(
@@ -1149,7 +1234,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
   const useNewWorkspace = true; // Toggle this to switch between old and new UI
 
   return (
-    <div className={`min-h-screen ${activePortal ? 'flex' : ''}`}>
+    <div className={`min-h-screen ${activePortal ? 'flex' : ''} bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900`}>
       {/* ─── MAIN PRISM CONTENT (full width or half width) ─── */}
       <div className={`${activePortal ? 'w-1/2 overflow-y-auto h-[calc(100vh-73px)] border-r border-gray-700' : 'w-full'}`}>
       
@@ -1157,11 +1242,20 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
       {useNewWorkspace && activeDivision && currentDivision && getDivisionConfig(currentDivision) && (
         <TPADivisionWorkspace
           division={getDivisionConfig(currentDivision)!}
+          initialSection={
+            initialDivisionSection === 'revenue' && currentDivision.id === 'transport'
+              ? 'revenue'
+              : undefined
+          }
+          onNavigate={onNavigate}
           orders={getDivisionOrders(currentDivision).map((o) =>
             mapPrismApiOrderToWorkspace(o as unknown as Record<string, unknown>)
           )}
           ordersLoading={dataLoading}
           onRefreshOrders={loadPrismData}
+          clients={clients.map((c) => mapPrismApiClientToWorkspace(c as unknown as Record<string, unknown>))}
+          clientsLoading={dataLoading}
+          scanbacks={getDivisionScanbacks(currentDivision) as DivisionScanback[]}
           agents={agents}
           agentsLoading={dataLoading}
           agentSpecialtyLabels={currentDivision.agentSpecialties}
@@ -1191,6 +1285,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
             color: d.color,
             solid: d.solid,
           }))}
+          todaySchedule={todaySchedule}
           divisionNotifications={divisionNotifications}
           opsNotifications={notifications}
           opsUnreadCount={unreadCount}
@@ -1201,6 +1296,7 @@ const PRISMSystem: React.FC<PRISMSystemProps> = ({ onBackToNexus, onNavigate, ac
           onOpsNotificationClick={handleOpsNotificationClick}
           onSelectDivision={(divId) => enterDivision(divId)}
           onNewOrder={() => setShowNewOrderModal(true)}
+          onBackToNexus={onBackToNexus}
         />
       )}
 

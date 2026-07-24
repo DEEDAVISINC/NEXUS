@@ -33,6 +33,7 @@ If found → **SKIP** unless follow-up date has passed AND Dee approved follow-u
 | 2026-05-29 | Isabelle.Vallejo@uhtx.com | University Health TX | Per-mile rates | `PENDING_ACTIONS.md` |
 | 2026-05-30 | apabin@mibluecrosscomplete.com | Alina Pabin / BCC | NEMT follow-up | `ACTIVE_RELATIONSHIP_STATUS.md` |
 | 2026-05-30 | MedinaA@michigan.gov, SurmaA@michigan.gov | Angela Medina / Aimee Surma MDHHS | SHIELD follow-up | `ACTIVE_RELATIONSHIP_STATUS.md` |
+| 2026-06-07 | Brian.Grcevich@CareSource.com (+ Dana, Michael; CC MI_Network) | Brian / Dana / Michael / HAP CareSource | HIDE SNP NEMT routing vs MTM orientation | `MEMBER_ROUTING_MTM_CONFLICT_EMAIL_READY.md` |
 | 2026-05-31 | Brian.Grcevich@CareSource.com | Brian / HAP CareSource | SDOH navigation | `ACTIVE_RELATIONSHIP_STATUS.md` |
 | 2026-05-31 | Dana.Drew@CareSource.com | Dana / HAP CareSource | Oakland enrollment | `ACTIVE_RELATIONSHIP_STATUS.md` |
 | 2026-05-31 | (Jennifer Eliopoulos) | UH Newark | Debrief on-file | MCO queue #2 |

@@ -20,24 +20,26 @@
 
 ---
 
-## HAP margin model (flat pay vs Uber fulfillment)
+## HAP margin model (base + loaded mileage vs Uber fulfillment)
 
-**HAP pays DDI flat** — not mileage-based on our side:
+**HAP pays DDI:** base trip **+ $1.85/mi loaded mileage** (confirmed CareSource Jun 2026)
 
 | HAP pays DDI | Trip type |
 |--------------|-----------|
-| **$28.00** | Standard / ambulatory |
-| **$35.00** | Ambulatory assist / wheelchair |
+| **$28.00 base** | Standard / ambulatory |
+| **$35.00 base** | Ambulatory assist / wheelchair |
+| **+ $1.85/mi** | Loaded mileage — all trip types |
 
 **Uber Health fulfillment (Jeff Jun 2):** ~**$5–$24/trip** by mileage (ambulatory).
 
 | Scenario | HAP revenue | Uber est. cost | DDI gross (before admin) |
 |----------|-------------|----------------|---------------------------|
-| Short ambulatory | $28 | ~$5–$10 | **~$18–$23** |
-| Long ambulatory | $28 | up to ~$24 | **~$4–$8** |
-| Wheelchair (HAP $35) | $35 | Uber 3P **sparse** — use **Lyft WAV / sub** | Model when Lyft quote in |
+| 3 mi ambulatory | $33.55 | ~$5–$10 | **~$23–$28** |
+| 8 mi ambulatory | $42.80 | ~$10–$18 | **~$24–$32** |
+| 15 mi ambulatory | $55.75 | up to ~$24 | **~$31–$45** |
+| Wheelchair, 8 mi ($35 + mi) | $49.80 | Uber 3P **sparse** — use **Lyft WAV / sub** | Model when Lyft quote in |
 
-**Takeaway:** Ambulatory on Uber works — margin is strongest on shorter trips. Long-mile ambulatory trips need monitoring (may approach breakeven at ~$24 Uber cost). **WAV:** don’t default to Uber 3P in Detroit — sparse.
+**Takeaway:** Mileage component improves DDI revenue on longer trips. **WAV:** don’t default to Uber 3P in Detroit — sparse.
 
 ---
 

@@ -10,10 +10,13 @@ interface VERTEXSystemProps {
   setActiveTab: (tab: string) => void;
 }
 
+const VERTEX_TAB_IDS = ['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'] as const;
+
 const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
   // Dashboard state
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
   
   // Invoices state
   const [invoices, setInvoices] = useState<any[]>([]);
@@ -81,25 +84,37 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
   // Load dashboard data on mount
   useEffect(() => {
+    if (!VERTEX_TAB_IDS.includes(activeTab as typeof VERTEX_TAB_IDS[number])) {
+      setActiveTab('dashboard');
+    }
+  }, [activeTab, setActiveTab]);
+
+  useEffect(() => {
     fetchDashboardData();
   }, []);
 
+  const resolvedTab = VERTEX_TAB_IDS.includes(activeTab as typeof VERTEX_TAB_IDS[number])
+    ? activeTab
+    : 'dashboard';
+
   // Load data when tab changes
   useEffect(() => {
-    if (activeTab === 'invoices') fetchInvoices();
-    else if (activeTab === 'expenses') fetchExpenses();
-    else if (activeTab === 'revenue') fetchRevenue();
-    else if (activeTab === 'reports') fetchReports();
-    else if (activeTab === 'financing') fetchFinancingReferrals();
-  }, [activeTab, invoiceFilters]);
+    if (resolvedTab === 'invoices') fetchInvoices();
+    else if (resolvedTab === 'expenses') fetchExpenses();
+    else if (resolvedTab === 'revenue') fetchRevenue();
+    else if (resolvedTab === 'reports') fetchReports();
+    else if (resolvedTab === 'financing') fetchFinancingReferrals();
+  }, [resolvedTab, invoiceFilters]);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
       const data = await api.getVertexDashboard();
       setDashboardData(data);
+      setApiError(null);
     } catch (error) {
       console.error('Error fetching VERTEX dashboard:', error);
+      setApiError('Cannot reach NEXUS backend — start api_server.py on port 8000');
       showNotification('Error loading dashboard data', 'error');
     } finally {
       setLoading(false);
@@ -1609,7 +1624,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
-              activeTab === tab
+              resolvedTab === tab
                 ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             }`}
@@ -1634,12 +1649,24 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
       {/* Content */}
       <div className="max-w-7xl mx-auto">
-        {activeTab === 'dashboard' && renderDashboard()}
-        {activeTab === 'invoices' && renderInvoices()}
-        {activeTab === 'expenses' && renderExpenses()}
-        {activeTab === 'revenue' && renderRevenue()}
-        {activeTab === 'reports' && renderReports()}
-        {activeTab === 'pnl' && (
+        {apiError && (
+          <div className="mb-6 p-4 rounded-lg bg-red-500/15 border border-red-500/40 text-red-300 text-sm flex items-center justify-between gap-4">
+            <span>{apiError}</span>
+            <button
+              onClick={fetchDashboardData}
+              className="shrink-0 px-3 py-1.5 bg-red-600 hover:bg-red-500 rounded-lg text-xs font-semibold text-white"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {resolvedTab === 'dashboard' && renderDashboard()}
+        {resolvedTab === 'invoices' && renderInvoices()}
+        {resolvedTab === 'expenses' && renderExpenses()}
+        {resolvedTab === 'revenue' && renderRevenue()}
+        {resolvedTab === 'reports' && renderReports()}
+        {resolvedTab === 'pnl' && (
           <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
             <div className="mb-4">
               <h2 className="text-xl font-bold text-white">Profit & Loss Tracker</h2>
@@ -1648,8 +1675,8 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             <PnLStatement />
           </div>
         )}
-        {activeTab === 'financing' && renderFinancing()}
-        {activeTab === 'nemt' && (
+        {resolvedTab === 'financing' && renderFinancing()}
+        {resolvedTab === 'nemt' && (
           <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-white">NEMT Medical Billing</h2>

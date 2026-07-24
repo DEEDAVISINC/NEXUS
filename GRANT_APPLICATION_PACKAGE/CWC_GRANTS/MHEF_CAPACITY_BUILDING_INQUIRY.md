@@ -14,23 +14,25 @@
 
 ---
 
-## CONTEXT (UPDATED)
+## CONTEXT (UPDATED — June 10, 2026)
 
-- **Capacity Building** — Up to ~$300K range (confirm in April RFP). Organizational growth.
+- **Capacity Building Cycle 2:** Concept papers due **May 14, 2026 — PASSED.** CWC did **not** submit. Feedback to applicants by **June 12, 2026**; invited full proposals due **July 15, 2026**.
+- **Capacity Building** — Up to ~$300K range. Organizational growth / CHW ramp seed.
 - **CHI / community-driven work** — Pursue via **Healthy Kids** and **Healthy Aging** RFPs when aligned, not a standalone CHI application.
 - **Portal:** Fluxx at mihealthfund.org — register CWC before applying.
 - **CWC advantage:** MDHHS Community Partner, CSH-trained, veteran programs, SE Michigan.
 
 ---
 
-## NEXT ACTIONS (May 30, 2026 — inquiry/reply ✅ done)
+## NEXT ACTIONS (June 10, 2026)
 
 - [x] **Inquiry sent** — March 22, 2026  
 - [x] **Sayre Corbin reply logged** — March 27, 2026  
 - [ ] **Subscribe** to Health Fund updates (mihealthfund.org footer) — confirm ☐  
 - [ ] **Register CWC** on Fluxx — confirm ☐  
-- [ ] **Capacity Building RFP** — concept paper in Fluxx (**primary grant action now**)  
-- [ ] **Webinar** — register when RFP posts  
+- [x] **Capacity Building Cycle 2 concept deadline** — **May 14, 2026 PASSED** — **concept NOT submitted** 🔴  
+- [ ] **Contact Sayre** — acknowledge miss · ask Healthy Kids timeline · confirm next CB cycle  
+- [ ] **Jul 15, 2026** — full proposal only if invited from Cycle 2 concept pool (N/A unless exception)  
 - [ ] **Healthy Kids / Healthy Aging** — review when aligned to SHIELD youth/senior lanes  
 
 **Status file:** `GRANT_APPLICATION_PACKAGE/CWC_GRANT_OPERATIONS_STATUS.md`
