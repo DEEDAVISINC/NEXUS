@@ -9,3 +9,35 @@ Second, tracking link test if not done. In NEMT Transport, paste a guest trip UR
 Third, Brian Grcevich call is Wednesday June tenth at one PM Eastern for non-medical routing. BCC Alina touch may be Thursday two thirty if still on the board.
 
 Have a good morning.
+
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+## FINANCIAL SNAPSHOT — July 24, 2026
+
+Net cash position: $0.00. Receivables outstanding: $0.00. Payables outstanding: $0.00. 30-day cash forecast: $0.00.

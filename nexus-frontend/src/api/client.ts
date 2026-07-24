@@ -1218,7 +1218,7 @@ export const api = {
   getHrOnboardingRoster: (includeArchived?: boolean) =>
     ApiClient.get(`/nexus/hr/onboarding${includeArchived ? '?include_archived=true' : ''}`),
   getHrOnboardingRecord: (recordId: string) => ApiClient.get(`/nexus/hr/onboarding/${recordId}`),
-  addHrOnboardingHire: (data: { name: string; workerType: string; division?: string; startdate?: string; actor?: string }) =>
+  addHrOnboardingHire: (data: { name: string; workerType: string; division?: string; startdate?: string; actor?: string; email?: string; memberFacing?: boolean }) =>
     ApiClient.post('/nexus/hr/onboarding', data),
   updateHrOnboardingChecklist: (recordId: string, data: { phase: string; index: number; checked: boolean; actor?: string }) =>
     ApiClient.put(`/nexus/hr/onboarding/${recordId}/checklist`, data),

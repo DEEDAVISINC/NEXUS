@@ -92,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'jeta': return '⛽ JETA COURTIÈRE — Aviation Fuel Brokerage';
       case 'shield': return '🛡️ SHIELD v1.0 — Lead Screening & MDHHS Referral';
       case 'haven': return '🏠 HAVEN v1.0 — Disaster Response TPA';
-      case 'hr': return '🧑‍💼 HR v1.0 — Employee & Contractor Onboarding';
+      case 'hr': return '🔑 GATEWAY v1.0 — Employee & Contractor Onboarding';
       default: return '🌐 NEXUS v1.0 - Master Control Center';
     }
   };
@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'jeta': return 'Division of DEE DAVIS INC • Jet A / Jet A-1 • Mandates & Execution';
       case 'shield': return 'DDI + CWC • MI PA 146 of 2023 • Referral Intake • Navigator Dashboard • AI Assistant';
       case 'haven': return 'Housing • Transport • Medical Continuity • FL · TX · LA · MI • MCO Pipeline';
-      case 'hr': return 'Pre-Boarding → Day 1 → Week 1 → 30/60/90 Day • CMS FDR Training • OIG/SAM Exclusion Screening • All Divisions';
+      case 'hr': return 'Pre-Boarding → Day 1 → Week 1 → 30/60/90 Day • CMS FDR Training • OIG/SAM Exclusion Screening • gateway.deedavis.biz Self-Service Portal • All Divisions';
       default: return 'Enterprise Command • 6 Systems • AI Powered';
     }
   };

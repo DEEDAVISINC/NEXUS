@@ -59,12 +59,23 @@ interface RosterRow {
   screening: string;
 }
 
+interface GatewayDocument {
+  key: string; label: string; filename: string; uploadedAt: string; sizeBytes: number;
+  localPath?: string; attachmentUrl?: string | null;
+}
+interface GatewayAcknowledgment {
+  key: string; label: string; typedName: string; ip: string; ts: string;
+}
+
 interface HRRecord extends RosterRow {
+  email?: string;
   checklist: Record<string, boolean[]>;
   training: TrainingRow[];
   exclusionLog: ScreeningEntry[];
   classification: Classification | null;
   agenda: Record<string, AgendaPhase>;
+  documents?: GatewayDocument[];
+  acknowledgments?: GatewayAcknowledgment[];
   auditLog: AuditEntry[];
   _progress?: number;
   _trainingCompliance?: ComplianceState[];
@@ -156,6 +167,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [nhDivision, setNhDivision] = useState('');
   const [nhStart, setNhStart] = useState('');
   const [nhMemberFacing, setNhMemberFacing] = useState(true);
+  const [nhEmail, setNhEmail] = useState('');
   const [adding, setAdding] = useState(false);
 
   // Screening form state (detail view)
@@ -247,9 +259,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
         division: nhDivision,
         startdate: nhStart,
         actor,
-        ...( { memberFacing: nhMemberFacing } as any),
+        ...( { memberFacing: nhMemberFacing, email: nhEmail.trim().toLowerCase() } as any),
       });
-      setNhName(''); setNhDivision(''); setNhStart(''); setNhType('employee'); setNhMemberFacing(true);
+      setNhName(''); setNhDivision(''); setNhStart(''); setNhType('employee'); setNhMemberFacing(true); setNhEmail('');
       await loadRoster();
       await loadAlerts();
     } catch (e: any) {
@@ -338,7 +350,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const exportRecord = (rec: HRRecord) => {
     if (!config) return;
     const lines: string[] = [];
-    lines.push('DDI NEXUS HR Onboarding Record Export');
+    lines.push('DDI NEXUS GATEWAY Onboarding Record Export');
     lines.push([csvEscape('Name'), csvEscape(rec.name)].join(','));
     lines.push([csvEscape('Worker Type'), csvEscape(WORKER_LABEL[rec.workerType])].join(','));
     lines.push([csvEscape('Division'), csvEscape(rec.division)].join(','));
@@ -426,11 +438,13 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
             <button type="button" onClick={onBackToNexus} className="text-sm text-gray-400 hover:text-white mb-2 transition-colors">
               ← NEXUS Command Center
             </button>
-            <h1 className={NEXUS_TITLE}>HR</h1>
+            <h1 className={NEXUS_TITLE}>GATEWAY</h1>
             <p className={NEXUS_SUBTITLE}>
               Automates the DDI New Hire &amp; Independent Contractor Onboarding SOPs — Pre-boarding → Day 1 → Week 1 → 30/60/90 Day
               (employees) / Pre-Engagement → Start → Ongoing → Renewal (contractors). CMS FDR training recurrence,
               monthly OIG LEIE/GSA SAM exclusion screening, annual FDR attestation, worker-classification documentation.
+              Self-service at <span className="text-teal-400">gateway.deedavis.biz</span> — new hires/contractors upload
+              documents and sign acknowledgments themselves.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -548,7 +562,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
             </NexusPanel>
 
             <p className="text-xs text-gray-500 mt-4">
-              This is HR onboarding for internal DDI employees &amp; engaged contractors only. Field agents (PRISM) and
+              GATEWAY handles onboarding for internal DDI employees &amp; engaged contractors only. Field agents (PRISM) and
               external subcontractors/suppliers (GPSS) follow the separate pipeline in NEXUS_ONBOARDING_SYSTEM.md.
             </p>
           </>
@@ -563,6 +577,14 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                   value={nhName}
                   onChange={(e) => setNhName(e.target.value)}
                   placeholder="Full name"
+                  className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                />
+                <input
+                  type="email"
+                  value={nhEmail}
+                  onChange={(e) => setNhEmail(e.target.value)}
+                  placeholder="Email (enables GATEWAY portal)"
+                  title="This email is how they sign in to the GATEWAY self-service portal at gateway.deedavis.biz — no email, no portal access"
                   className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
                 />
                 <select value={nhType} onChange={(e) => setNhType(e.target.value as 'employee' | 'contractor')} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
@@ -591,7 +613,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               <p className="text-xs text-gray-500 mt-2">
                 Date field = date of hire/engagement (anchors the CMS 90-day General Compliance/FWA + Medicare Fraud &amp; Abuse
                 floor and the 10-year retention clock). Member-facing controls whether Recipient Rights and Abuse &amp; Neglect
-                training recur annually.
+                training recur annually. Email is optional but strongly recommended — it's the only way this person can sign
+                into the <strong className="text-teal-400">GATEWAY portal</strong> (gateway.deedavis.biz) to upload their own
+                documents and sign acknowledgments themselves instead of HR chasing paperwork.
               </p>
             </NexusPanel>
 
@@ -666,6 +690,52 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                     {selected._screening.nextDue ? ` · Next due: ${selected._screening.nextDue}` : ''}
                   </div>
                 )}
+
+                {/* GATEWAY self-service portal activity — read-only, uploads/e-signs happen at gateway.deedavis.biz */}
+                <NexusPanel
+                  title={`🔑 GATEWAY Portal Activity ${selected.email ? `— ${selected.email}` : '— no email on file'}`}
+                  className="mb-4"
+                >
+                  {!selected.email ? (
+                    <p className="text-sm text-amber-300">
+                      No email on this record — {selected.name} cannot sign in to gateway.deedavis.biz. Add an email above to enable portal access.
+                    </p>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <h4 className="font-bold text-gray-300 mb-1.5">Documents Uploaded ({(selected.documents || []).length})</h4>
+                        {(selected.documents || []).length === 0 ? (
+                          <p className="text-gray-500">Nothing uploaded yet via the portal.</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {(selected.documents || []).map((d: any) => (
+                              <li key={d.key} className="text-gray-300">
+                                {d.attachmentUrl ? (
+                                  <a href={d.attachmentUrl} target="_blank" rel="noreferrer" className="text-teal-400 hover:underline">{d.label}</a>
+                                ) : <span>{d.label}</span>}
+                                <span className="text-gray-500"> — {d.filename} · {d.uploadedAt?.slice(0, 10)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-300 mb-1.5">Acknowledgments Signed ({(selected.acknowledgments || []).length})</h4>
+                        {(selected.acknowledgments || []).length === 0 ? (
+                          <p className="text-gray-500">Nothing signed yet via the portal.</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {(selected.acknowledgments || []).map((a: any) => (
+                              <li key={a.key} className="text-gray-300">
+                                {a.label} — <span className="text-gray-500">signed "{a.typedName}" on {a.ts?.slice(0, 10)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </NexusPanel>
 
                 {selected.workerType === 'contractor' && (
                   <div className="mb-4 p-3 bg-amber-900/15 border border-amber-500/30 rounded-lg text-sm text-amber-300">

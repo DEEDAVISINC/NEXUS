@@ -1,11 +1,11 @@
 # RADAR RESULTS
-**Last compiled:** 2026-07-17 08:24 AM ET
+**Last compiled:** 2026-07-24 08:35 AM ET
 
 > **RADAR** = Revenue Acquisition Discovery And Reconnaissance.
 > **NET-NEW ONLY** — excludes anything already in bid folders, watch list, bid tracker, CO outreach, or healthcare exploration docs.
 > Re-run: `python3 nexus_scheduler.py --radar` · Compile only: `python3 compile_radar_results.py`
 
-**Pipeline index:** 298 known solicitation IDs · **Excluded this compile:** 4 · **Net-new finds:** 2
+**Pipeline index:** 305 known solicitation IDs · **Excluded this compile:** 4 · **Net-new finds:** 1
 
 ---
 
@@ -13,19 +13,17 @@
 
 | Channel | Last scan | Items | Detail file |
 |---------|-----------|-------|-------------|
-| Public portals (SAM + state/local) | 2026-07-17 | 55 | `portal_scan_results.json` |
-| Healthcare / MCO | 2026-07-17 | 80 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
-| AOG / Freight (488190) | 2026-07-17 | 0 | `aog_sam_cache.json` |
+| Public portals (SAM + state/local) | 2026-07-24 | 69 | `portal_scan_results.json` |
+| Healthcare / MCO | 2026-07-24 | 85 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
+| AOG / Freight (488190) | 2026-07-24 | 0 | `aog_sam_cache.json` |
 | Digital navigation (624190) | — | 0 | `digital_nav_sam_cache.json` |
 | Sources Sought / Presol (federal) | MAY23 | 41 DDI-fit | `NEW_SOURCES_SOUGHT_MAY23.md` |
-| CCAM-TAC / FTA human-services grants | 2026-07-17 | 5 | `ccam_tac_grants_cache.json` |
+| CCAM-TAC / FTA human-services grants | 2026-07-24 | 5 | `ccam_tac_grants_cache.json` |
 
 ---
 
 ## NET-NEW — GOVERNMENT (portal scan)
 
-- **Drug and Alcohol Testing** | Michigan Local Government | Due TBD | — → **Review lane**
-  - https://www.bidnetdirect.com/mitn/solicitations/open-bids/Drug-and-Alcohol-Testing/0000430939?purchasingGroupId=8412351&origin=1
 - **Automated Fingerprint Identification SystemBid DocumentsState Police001000000085295RFP 27-85295The purpose of this engagement is to implement a modern AFIS platform that improves performance, reliabil** | State of Indiana | Due TBD | — → **Lakota**
   - https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/
 
@@ -33,7 +31,7 @@
 
 ## NET-NEW — HEALTHCARE / MCO
 
-*No net-new healthcare/MCO solicitations — 80 scanned (mostly program pages), 4 excluded.*
+*No net-new healthcare/MCO solicitations — 85 scanned (mostly program pages), 4 excluded.*
 
 ---
 

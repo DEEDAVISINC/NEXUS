@@ -1,0 +1,18 @@
+# GATEWAY Onboarding Portal — deploy to gateway.deedavis.biz
+# Netlify: New site → connect repo → Base directory: gateway-portal → Publish: .
+
+[build]
+  publish = "."
+  command = "npm install"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  GATEWAY_API_BASE = "https://deedavis.pythonanywhere.com"

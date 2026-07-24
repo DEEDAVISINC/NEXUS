@@ -863,10 +863,10 @@ END:VCALENDAR`;
     },
     {
       id: 'hr' as ViewType,
-      name: 'HR',
+      name: 'GATEWAY',
       fullName: 'Employee & Contractor Onboarding',
-      icon: '🧑‍💼',
-      description: 'W-2 employees • 1099 contractors • CMS FDR training • OIG/SAM exclusion screening',
+      icon: '🔑',
+      description: 'W-2 employees • 1099 contractors • CMS FDR training • OIG/SAM exclusion screening • gateway.deedavis.biz self-service portal',
       stats: [
         `${hrLive?.active_count ?? 0} Active`,
         `${hrLive?.alert_count ?? 0} Compliance Alert${(hrLive?.alert_count ?? 0) !== 1 ? 's' : ''}`,

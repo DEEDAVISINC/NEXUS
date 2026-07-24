@@ -1,14 +1,14 @@
 # GRANTS RESULTS — GBIS Pipeline
-**Last Compiled:** 2026-06-16 @ 9:20 PM ET
+**Last Compiled:** 2026-07-24 @ 12:12 PM ET
 
 ## Summary
 
 | Metric | Count |
 |--------|------:|
-| Total in GBIS (Airtable) | 228 |
-| Live Grants.gov NOFOs | 146 |
-| **CWC / BOTH (apply first)** | **58** |
-| DDI-only (verify eligibility) | 88 |
+| Total in GBIS (Airtable) | 469 |
+| Live Grants.gov NOFOs | 387 |
+| **CWC / BOTH (apply first)** | **153** |
+| DDI-only (verify eligibility) | 234 |
 | New since last compile | 0 |
 | Tracked platforms / foundations | 82 |
 
@@ -18,6 +18,8 @@ _Cause We Care primes federal grants. DDI delivers where noted as BOTH. Amounts 
 
 - **SNAP FRAUD FRAMEWORK IMPLEMENTATION GRANT** — Food and Nutrition Service | **Up to $750K/award | Program pool: $5M | ~10 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/15/2026 | [NOFO](https://www.grants.gov/search-results-detail/362812)
 - **FY2026 SNAP Healthy Fluid Milk Incentives &ndash; Cooperative Agreement** — Food and Nutrition Service | **Up to $4M/award | Program pool: $4M | ~1 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/16/2026 | [NOFO](https://www.grants.gov/search-results-detail/362832)
+- **FY 2026 SNAP Earnings Verification Support Grant** — Food and Nutrition Service | **Up to $4.30M/award | Program pool: $38M | ~53 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/19/2026 | [NOFO](https://www.grants.gov/search-results-detail/363216)
+- **FY 2026 SNAP Earnings Verification Support Grant** — Food and Nutrition Service | **Up to $4.30M/award | Program pool: $38M | ~53 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/19/2026 | [NOFO](https://www.grants.gov/search-results-detail/363216)
 - **Amendment - Grants for Adaptive Sports Programs for Disabled Veterans and Disabled Members of the Ar** — National Veterans Sports Programs | **Up to $750K/award** | Strong lane fit | Entity: **BOTH** | Deadline: 06/19/2026 | [NOFO](https://www.grants.gov/search-results-detail/362549)
 - **Rural Communities Opioid Response Program (RCORP)-Impact** — Health Resources and Services Administration | **Up to $750K/award | Program pool: $60M | ~80 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/08/2026 | [NOFO](https://www.grants.gov/search-results-detail/362284)
 - **Rural Communities Opioid Response Program (RCORP)-Planning** — Health Resources and Services Administration | **Up to $100K/award | Program pool: $4M | ~40 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/08/2026 | [NOFO](https://www.grants.gov/search-results-detail/362283)
@@ -31,11 +33,9 @@ _Cause We Care primes federal grants. DDI delivers where noted as BOTH. Amounts 
 - **Treatment and Recovery Services for Youth, Young Adults, and Families** — Substance Abuse and Mental Health Services Adminis | **Up to $545K/award | Program pool: $6.54M | ~12 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/16/2026 | [NOFO](https://www.grants.gov/search-results-detail/361580)
 - **Building Communities of Recovery** — Substance Abuse and Mental Health Services Admin | **Up to $350K/award | Program pool: $9.30M | ~27 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 07/16/2026 | [NOFO](https://www.grants.gov/search-results-detail/362465)
 - **Youth Homelessness NOFO for FY2024 and FY2025** — Department of Housing and Urban Development | **Up to $15M/award | Program pool: $193M | ~73 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/10/2026 | [NOFO](https://www.grants.gov/search-results-detail/362002)
-- **FY 2026 Continuum of Care Competition and Youth Homelessness Demonstration Program Grants NOFO** — Department of Housing and Urban Development | **Up to $25M/award | Program pool: $4.04B | ~7000 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/26/2026 | [NOFO](https://www.grants.gov/search-results-detail/361999)
-- **Rural Communities Opioid Response Program (RCORP)-Technical Assistance** — Health Resources and Services Administration | **Up to $10M/award | Program pool: $10M | ~1 awards** | Strong lane fit | Entity: **BOTH** | Deadline: TBD | [NOFO](https://www.grants.gov/search-results-detail/362834)
-- **FY 2026 Congressionally Directed Spending Projects** — Substance Abuse and Mental Health Services Adminis | **Up to $2.98M/award | Program pool: $54.31M | ~79 awards** | Possible fit | Entity: **BOTH** | Deadline: 07/13/2026 | [NOFO](https://www.grants.gov/search-results-detail/362773)
-- **State Pilot Program for Treatment for Pregnant and Postpartum Women** — Substance Abuse and Mental Health Services Adminis | **Up to $1.08M/award | Program pool: $5.40M | ~5 awards** | Possible fit | Entity: **BOTH** | Deadline: 07/15/2026 | [NOFO](https://www.grants.gov/search-results-detail/361583)
-- **Services Program for Residential Treatment for Pregnant and Postpartum Women** — Substance Abuse and Mental Health Services Adminis | **Up to $525K/award | Program pool: $5.25M | ~10 awards** | Possible fit | Entity: **BOTH** | Deadline: 07/16/2026 | [NOFO](https://www.grants.gov/search-results-detail/361585)
+- **Cooperative Agreements for Certified Community Behavioral Health Clinic (CCBHC) Planning Grants** — Substance Abuse and Mental Health Services Adminis | **Up to $1M/award | Program pool: $12M | ~12 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/17/2026 | [NOFO](https://www.grants.gov/search-results-detail/360982)
+- **The Primary Prevention Youth Homelessness Demonstration Program** — Administration for Children & Families - ACYF/FYSB | **Up to $500K/award | Program pool: $7M | ~14 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/17/2026 | [NOFO](https://www.grants.gov/search-results-detail/362099)
+- **The Primary Prevention Youth Homelessness Demonstration Program** — Administration for Children & Families - ACYF/FYSB | **Up to $500K/award | Program pool: $7M | ~14 awards** | Strong lane fit | Entity: **BOTH** | Deadline: 08/17/2026 | [NOFO](https://www.grants.gov/search-results-detail/362099)
 
 ## Live Federal — DDI-Only (often ineligible as prime — verify NOFO)
 
@@ -43,14 +43,14 @@ _Cause We Care primes federal grants. DDI delivers where noted as BOTH. Amounts 
 - **Rural Business Development Grant Program - Rural Transportation Systems** — Rural Business-Cooperative Service | **Up to $650K/award | Program pool: $995,500 | ~5 awards** | Strong lane fit | Entity: **DDI** | Deadline: 06/30/2026 | [NOFO](https://www.grants.gov/search-results-detail/362473)
 - **The Experimental Therapeutics Clinical Trials Network (ETCTN) Lead Academic Organizations (UM1 Clini** — National Institutes of Health | **Program pool: $11.80M | ~6 awards** | Strong lane fit | Entity: **DDI** | Deadline: 06/30/2026 | [NOFO](https://www.grants.gov/search-results-detail/359133)
 - **Advancing Behavioral Health in Corrections: Training and Policy Innovation Initiative** — National Institute of Corrections | **Up to $150K/award | Program pool: $150K | ~1 awards** | Strong lane fit | Entity: **DDI** | Deadline: 07/31/2026 | [NOFO](https://www.grants.gov/search-results-detail/362572)
-- **SEEDING CRITICAL ADVANCES FOR LEADING ENERGY TECHNOLOGIES WITH UNTAPPED POTENTIAL (SCALEUP) READY** — Advanced Research Projects Agency Energy | **Up to $20M/award** | Strong lane fit | Entity: **DDI** | Deadline: 09/29/2029 | [NOFO](https://www.grants.gov/search-results-detail/356623)
-- **DEVCOM ANALYSIS CENTER BROAD AGENCY ANNOUNCEMENT FOR APPLIED RESEARCH** — Dept of the Army -- Materiel Command | **~1000 awards** | Possible fit | Entity: **DDI** | Deadline: 01/04/2028 | [NOFO](https://www.grants.gov/search-results-detail/345241)
-- **Silvio O. Conte Digestive Diseases Research Core Centers (P30-Clinical Trial Optional)** — National Institutes of Health | **Up to $750K/award | Program pool: $4.80M | ~4 awards** | Possible fit | Entity: **DDI** | Deadline: 02/10/2027 | [NOFO](https://www.grants.gov/search-results-detail/360436)
-- **Advancing Global Health** — Bureau of Global Health Security and Diplomacy | **Up to $250M/award | Program pool: $2.15B | ~100 awards** | Possible fit | Entity: **DDI** | Deadline: 02/14/2027 | [NOFO](https://www.grants.gov/search-results-detail/362761)
-- **HEAL Initiative: Non-addictive Analgesic Therapeutics Development [Small Molecules and Biologics] to** — National Institutes of Health | **Program pool: $11M | ~3 awards** | Possible fit | Entity: **DDI** | Deadline: 02/20/2029 | [NOFO](https://www.grants.gov/search-results-detail/359161)
-- **UNITED STATES MILITARY ACADEMY Broad Agency Announcement** — Dept of the Army -- Materiel Command | **Amount TBD** | Possible fit | Entity: **DDI** | Deadline: 03/31/2027 | [NOFO](https://www.grants.gov/search-results-detail/325932)
-- **ARMY APPLICATIONS LAB BROAD AGENCY ANNOUNCEMENT FOR DISRUPTIVE APPLICATIONS** — Dept of the Army -- Materiel Command | **~1000 awards** | Possible fit | Entity: **DDI** | Deadline: 04/04/2029 | [NOFO](https://www.grants.gov/search-results-detail/355150)
-- **Predoctoral to Postdoctoral Transition Award (Parent F99/K00 - Clinical Trial Not Allowed)** — National Institutes of Health | **Amount TBD** | Possible fit | Entity: **DDI** | Deadline: 04/08/2029 | [NOFO](https://www.grants.gov/search-results-detail/359702)
+- **Enhancing Agricultural Opportunities for Military Veterans Competitive Grants Program** — National Institute of Food and Agriculture | **Up to $750K/award | Program pool: $2.85M | ~4 awards** | Strong lane fit | Entity: **DDI** | Deadline: 07/31/2026 | [NOFO](https://www.grants.gov/search-results-detail/363139)
+- **Enhancing Agricultural Opportunities for Military Veterans Competitive Grants Program** — National Institute of Food and Agriculture | **Up to $750K/award | Program pool: $2.85M | ~4 awards** | Strong lane fit | Entity: **DDI** | Deadline: 07/31/2026 | [NOFO](https://www.grants.gov/search-results-detail/363139)
+- **Rapid Reskill Employment Recovery National Dislocated Worker Grants** — Employment and Training Administration | **Up to $8M/award | Program pool: $50M | ~25 awards** | Strong lane fit | Entity: **DDI** | Deadline: 08/03/2026 | [NOFO](https://www.grants.gov/search-results-detail/362987)
+- **Rapid Reskill Employment Recovery National Dislocated Worker Grants** — Employment and Training Administration | **Up to $8M/award | Program pool: $50M | ~25 awards** | Strong lane fit | Entity: **DDI** | Deadline: 08/03/2026 | [NOFO](https://www.grants.gov/search-results-detail/362987)
+- **Young Trilateral Leaders (YTL) Summit** — U.S. Mission to South Korea | **Up to $250K/award | Program pool: $250K | ~1 awards** | Strong lane fit | Entity: **DDI** | Deadline: 08/05/2026 | [NOFO](https://www.grants.gov/search-results-detail/363267)
+- **Young Trilateral Leaders (YTL) Summit** — U.S. Mission to South Korea | **Up to $250K/award | Program pool: $250K | ~1 awards** | Strong lane fit | Entity: **DDI** | Deadline: 08/05/2026 | [NOFO](https://www.grants.gov/search-results-detail/363267)
+- **Leveraging Early Warning Early Response Systems to Promote Peace and Security in Sudan** — Bureau of Democracy Human Rights and Labor | **Up to $1.97M/award** | Strong lane fit | Entity: **DDI** | Deadline: 08/17/2026 | [NOFO](https://www.grants.gov/search-results-detail/363219)
+- **Leveraging Early Warning Early Response Systems to Promote Peace and Security in Sudan** — Bureau of Democracy Human Rights and Labor | **Up to $1.97M/award** | Strong lane fit | Entity: **DDI** | Deadline: 08/17/2026 | [NOFO](https://www.grants.gov/search-results-detail/363219)
 
 ## Tracked Platforms (check manually — not live NOFOs)
 

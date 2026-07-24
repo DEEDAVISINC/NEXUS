@@ -1360,5 +1360,1111 @@
     "award_max": 12000000.0,
     "expected_awards": 7,
     "source": "simpler_html"
+  },
+  "amount:O-COPS-2026-172655": {
+    "opportunity_number": "O-COPS-2026-172655",
+    "simpler_uuid": "2213b4a6-2f01-44cf-a5b8-d3c348a54f7e",
+    "program_funding": 2000000.0,
+    "award_min": null,
+    "award_max": 2000000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:F27AS00008": {
+    "opportunity_number": "F27AS00008",
+    "simpler_uuid": "e83aae66-837e-47e0-98f5-7a15dd60ba6c",
+    "program_funding": 46000000.0,
+    "award_min": 250001.0,
+    "award_max": 3000000.0,
+    "expected_awards": 25,
+    "source": "simpler_html"
+  },
+  "amount:O-BJA-2026-172662": {
+    "opportunity_number": "O-BJA-2026-172662",
+    "simpler_uuid": "b0ee7315-3f38-4234-aa95-f51e12ac9978",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 5600000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:USDA-NRCS-NHQ-FSCP-26-NOFO0001453": {
+    "opportunity_number": "USDA-NRCS-NHQ-FSCP-26-NOFO0001453",
+    "simpler_uuid": "32617965-5981-4f6d-904a-6856ed48769a",
+    "program_funding": 35000000.0,
+    "award_min": 75000.0,
+    "award_max": 3000000.0,
+    "expected_awards": 25,
+    "source": "simpler_html"
+  },
+  "amount:PAS-JAKARTA-FY26-08": {
+    "opportunity_number": "PAS-JAKARTA-FY26-08",
+    "simpler_uuid": "dc32e5aa-f2ae-45a7-8a17-043c18a1af3c",
+    "program_funding": 263114.0,
+    "award_min": 250000.0,
+    "award_max": 263114.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019410": {
+    "opportunity_number": "DFOP0019410",
+    "simpler_uuid": "76fb8005-b683-4691-868f-fc0d986088ca",
+    "program_funding": 500000000.0,
+    "award_min": 5000000.0,
+    "award_max": 50000000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:RFA-OH-27-056": {
+    "opportunity_number": "RFA-OH-27-056",
+    "simpler_uuid": "66b556a1-f978-4dbe-ae6b-4d23f799eb1a",
+    "program_funding": 2000000.0,
+    "award_min": null,
+    "award_max": 100000.0,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:USDA-NRCS-NHQ-WMBP-NOFO0001458": {
+    "opportunity_number": "USDA-NRCS-NHQ-WMBP-NOFO0001458",
+    "simpler_uuid": "676b4ce9-b544-4837-ae0f-75a8fd67512e",
+    "program_funding": 3000000.0,
+    "award_min": 100000.0,
+    "award_max": 1000000.0,
+    "expected_awards": 7,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019391": {
+    "opportunity_number": "DFOP0019391",
+    "simpler_uuid": "124ee9cd-d91b-4d7c-bcfb-e3bc2d7ee681",
+    "program_funding": null,
+    "award_min": 1000000.0,
+    "award_max": 1973000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0018712": {
+    "opportunity_number": "DFOP0018712",
+    "simpler_uuid": "de59d5bf-ef2c-4e55-a202-69ab35180db3",
+    "program_funding": 190000000.0,
+    "award_min": 250000.0,
+    "award_max": 30000000.0,
+    "expected_awards": 9,
+    "source": "simpler_html"
+  },
+  "amount:RFA-FD-26-014": {
+    "opportunity_number": "RFA-FD-26-014",
+    "simpler_uuid": "10c0d584-b356-49d0-8173-0e94a2eab1f5",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 125000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-CY-0016": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-CY-0016",
+    "simpler_uuid": "e55a1fc1-8bb7-438c-b126-74e27df3a02c",
+    "program_funding": 27000000.0,
+    "award_min": 100000.0,
+    "award_max": 350000.0,
+    "expected_awards": 77,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-YO-0044": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-YO-0044",
+    "simpler_uuid": "1b00bb62-7935-47f1-97dd-b81085a38769",
+    "program_funding": 4000000.0,
+    "award_min": 100000.0,
+    "award_max": 200000.0,
+    "expected_awards": 20,
+    "source": "simpler_html"
+  },
+  "amount:DE-FOA-0003634": {
+    "opportunity_number": "DE-FOA-0003634",
+    "simpler_uuid": "ebfc7bc7-65ea-4298-86a5-3682c9dbee45",
+    "program_funding": 65500000.0,
+    "award_min": 1.0,
+    "award_max": 28000000.0,
+    "expected_awards": 16,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-YY-0119": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-YY-0119",
+    "simpler_uuid": "ac6f1f13-944b-4709-833c-0cc3c46877c6",
+    "program_funding": 7000000.0,
+    "award_min": 350000.0,
+    "award_max": 500000.0,
+    "expected_awards": 14,
+    "source": "simpler_html"
+  },
+  "uuid:DFOP0019432": "aef0ef94-6736-4037-ba00-251b5c4cc2c4",
+  "amount:DFOP0019432": {
+    "opportunity_number": "DFOP0019432",
+    "simpler_uuid": "aef0ef94-6736-4037-ba00-251b5c4cc2c4",
+    "program_funding": 7000000.0,
+    "award_min": 2000000.0,
+    "award_max": 7000000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:RFA-FD-26-011": {
+    "opportunity_number": "RFA-FD-26-011",
+    "simpler_uuid": "64b21b29-7210-4d55-9630-29a9bbdf9dd8",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 5100000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:RFA-FD-26-013": {
+    "opportunity_number": "RFA-FD-26-013",
+    "simpler_uuid": "d2e906e4-b4b0-40d3-b20c-12c22bbddfe0",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 500000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:RFA-OH-27-032": {
+    "opportunity_number": "RFA-OH-27-032",
+    "simpler_uuid": "e0b00d08-7c83-4488-8b55-94bd733a57fa",
+    "program_funding": 12500000.0,
+    "award_min": null,
+    "award_max": 680000.0,
+    "expected_awards": 7,
+    "source": "simpler_html"
+  },
+  "amount:O-NIJ-2026-172659": {
+    "opportunity_number": "O-NIJ-2026-172659",
+    "simpler_uuid": "710ed451-0ac9-4f4e-a6c6-96fbab573915",
+    "program_funding": 3000000.0,
+    "award_min": null,
+    "award_max": 1500000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-27-044": {
+    "opportunity_number": "HRSA-27-044",
+    "simpler_uuid": "18c0a9f1-fe39-4c7a-8ffd-1d8c656d666f",
+    "program_funding": 4500000.0,
+    "award_min": null,
+    "award_max": 300000.0,
+    "expected_awards": 15,
+    "source": "simpler_html"
+  },
+  "amount:2026-NIST-MEP-02": {
+    "opportunity_number": "2026-NIST-MEP-02",
+    "simpler_uuid": "1be83608-dcf2-4539-97fa-414d4c8ecaaa",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 14,
+    "source": "simpler_html"
+  },
+  "amount:PAS-JOR-FY26-003": {
+    "opportunity_number": "PAS-JOR-FY26-003",
+    "simpler_uuid": "044975f7-d21d-49fa-a63e-30d9f258eae3",
+    "program_funding": 300000.0,
+    "award_min": 150000.0,
+    "award_max": 300000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:USDA-FS-2026-GLRI-CFP": {
+    "opportunity_number": "USDA-FS-2026-GLRI-CFP",
+    "simpler_uuid": "009984f3-5d56-4626-919f-fa5687db7d5b",
+    "program_funding": 3500000.0,
+    "award_min": null,
+    "award_max": 1000000.0,
+    "expected_awards": 6,
+    "source": "simpler_html"
+  },
+  "amount:RFA-OH-27-048": {
+    "opportunity_number": "RFA-OH-27-048",
+    "simpler_uuid": "53985854-67e4-4f78-a110-e444a3e4ca3f",
+    "program_funding": 5500000.0,
+    "award_min": 750000.0,
+    "award_max": 1100000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-27-055": {
+    "opportunity_number": "HRSA-27-055",
+    "simpler_uuid": "c7d4fdfb-bb99-4717-a08f-27b0ef4f1daa",
+    "program_funding": 19000000.0,
+    "award_min": null,
+    "award_max": 3800000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "uuid:PAS-JOR-FY26-004": "fccb684f-36c8-4f07-a47c-01127be69189",
+  "amount:PAS-JOR-FY26-004": {
+    "opportunity_number": "PAS-JOR-FY26-004",
+    "simpler_uuid": "fccb684f-36c8-4f07-a47c-01127be69189",
+    "program_funding": 100000.0,
+    "award_min": 80000.0,
+    "award_max": 100000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019436": {
+    "opportunity_number": "DFOP0019436",
+    "simpler_uuid": "1115c1ae-29fe-4c8c-a8c0-b1541ee6d285",
+    "program_funding": null,
+    "award_min": 2466250.0,
+    "award_max": 2466250.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:O-BJA-2026-172661": {
+    "opportunity_number": "O-BJA-2026-172661",
+    "simpler_uuid": "d1312f7c-db18-415a-aa6f-f272c6512b92",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 500000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "uuid:HHS-2026-ACF-ACYF-CO-0040": "14e416ba-c983-42f9-be72-003e5f8b4a28",
+  "amount:HHS-2026-ACF-ACYF-CO-0040": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-CO-0040",
+    "simpler_uuid": "14e416ba-c983-42f9-be72-003e5f8b4a28",
+    "program_funding": 10696000.0,
+    "award_min": 1500000.0,
+    "award_max": 2674000.0,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "amount:PDS-APS-FY26-01": {
+    "opportunity_number": "PDS-APS-FY26-01",
+    "simpler_uuid": "b72b08c2-cfde-4c1c-9ba2-deb5e9aec8a5",
+    "program_funding": 500000.0,
+    "award_min": 20000.0,
+    "award_max": 60000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "uuid:OFOP0002652": "f1b41b2b-3854-4172-a948-c1384445c3b1",
+  "amount:OFOP0002652": {
+    "opportunity_number": "OFOP0002652",
+    "simpler_uuid": "f1b41b2b-3854-4172-a948-c1384445c3b1",
+    "program_funding": 400000.0,
+    "award_min": 5000.0,
+    "award_max": 150000.0,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "amount:PD-SEOUL-FY26-04": {
+    "opportunity_number": "PD-SEOUL-FY26-04",
+    "simpler_uuid": "0f691e93-a50f-4572-a355-99d326407056",
+    "program_funding": 250000.0,
+    "award_min": 200000.0,
+    "award_max": 250000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:USDA-NIFA-OP-012079": {
+    "opportunity_number": "USDA-NIFA-OP-012079",
+    "simpler_uuid": "0dfc7ead-f6db-49de-9060-b1004cbef34e",
+    "program_funding": 9583300.0,
+    "award_min": 1000000.0,
+    "award_max": 2145845.0,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-CY-0160": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-CY-0160",
+    "simpler_uuid": "2a188bdf-3d4a-4021-9f9d-dafce74537ba",
+    "program_funding": 1800000.0,
+    "award_min": 1000000.0,
+    "award_max": 1800000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:DOS-KAZ-ALM-PDS-26-001": {
+    "opportunity_number": "DOS-KAZ-ALM-PDS-26-001",
+    "simpler_uuid": "da9ea956-a099-4ac0-ae24-3f9b001ee9a0",
+    "program_funding": null,
+    "award_min": 30000.0,
+    "award_max": 50000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:PAS-DJI-FY26-AIWAP": {
+    "opportunity_number": "PAS-DJI-FY26-AIWAP",
+    "simpler_uuid": "76106f3a-949e-4e42-9cea-8d4faaac015a",
+    "program_funding": null,
+    "award_min": 5000.0,
+    "award_max": 25000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "amount:PAS-DJI-FY2026-ELT": {
+    "opportunity_number": "PAS-DJI-FY2026-ELT",
+    "simpler_uuid": "d5fe3229-31fe-412d-b229-0dc221822052",
+    "program_funding": null,
+    "award_min": 5000.0,
+    "award_max": 25000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "amount:RFA-FD-26-009": {
+    "opportunity_number": "RFA-FD-26-009",
+    "simpler_uuid": "dfd24081-d0e0-4630-8988-bbe1ee8f2689",
+    "program_funding": 500000.0,
+    "award_min": null,
+    "award_max": 500000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-27-064": {
+    "opportunity_number": "HRSA-27-064",
+    "simpler_uuid": "7b438dcc-74fd-44b7-bb2e-fb6c5b92f391",
+    "program_funding": 300000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "amount:O-BJA-2026-172658": {
+    "opportunity_number": "O-BJA-2026-172658",
+    "simpler_uuid": "a73f981e-66ad-4ea6-a684-eaa46ca18ceb",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 200000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-27-062": {
+    "opportunity_number": "HRSA-27-062",
+    "simpler_uuid": "7472b3bc-2bef-4494-854d-146821158d74",
+    "program_funding": 12100000.0,
+    "award_min": 1.0,
+    "award_max": 686000.0,
+    "expected_awards": 22,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019426": {
+    "opportunity_number": "DFOP0019426",
+    "simpler_uuid": "cfd01f0a-d9c5-42c4-89e3-445d2b1bf16d",
+    "program_funding": null,
+    "award_min": 1973359.0,
+    "award_max": 1973359.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:AMERICANSPACESGAMEON-2026": {
+    "opportunity_number": "AMERICANSPACESGAMEON-2026",
+    "simpler_uuid": "9c2d325f-bb42-4d98-b60b-65422a5c38b8",
+    "program_funding": 8000.0,
+    "award_min": 3000.0,
+    "award_max": 8000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:AMERICANSPACESCYBERNEXT-2026": {
+    "opportunity_number": "AMERICANSPACESCYBERNEXT-2026",
+    "simpler_uuid": "c9928432-25de-46e2-96b7-f4d3cb4ca7b0",
+    "program_funding": null,
+    "award_min": 5000.0,
+    "award_max": 14000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:AMERICANSPACESSTARTUPLAB-2026": {
+    "opportunity_number": "AMERICANSPACESSTARTUPLAB-2026",
+    "simpler_uuid": "b3fc2fad-6829-4466-a040-8e5d7df3b6fc",
+    "program_funding": 53400.0,
+    "award_min": 10000.0,
+    "award_max": 53400.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0018819": {
+    "opportunity_number": "DFOP0018819",
+    "simpler_uuid": "6d742450-1fe2-4e7c-bcf8-0e876d7a00ba",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 25000000.0,
+    "expected_awards": 7,
+    "source": "simpler_html"
+  },
+  "amount:RFA-FD-26-012": {
+    "opportunity_number": "RFA-FD-26-012",
+    "simpler_uuid": "758eb232-aa13-4c39-a651-e6429d961b03",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 1100000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "uuid:DFOP0018586": "1d546072-0567-4724-ae03-7d9434ccd34b",
+  "uuid:HHS-2026-ACF-ACYF-AT-0015": "b4f5b5f3-605b-4391-9abe-3e667ab24122",
+  "amount:HHS-2026-ACF-ACYF-AT-0015": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-AT-0015",
+    "simpler_uuid": "b4f5b5f3-605b-4391-9abe-3e667ab24122",
+    "program_funding": 3250000.0,
+    "award_min": 350000.0,
+    "award_max": 600000.0,
+    "expected_awards": 7,
+    "source": "simpler_html"
+  },
+  "amount:LHC-2600-DC-0044": {
+    "opportunity_number": "LHC-2600-DC-0044",
+    "simpler_uuid": "b74b4ad6-6a81-4417-ad1b-11d011365946",
+    "program_funding": 97850000.0,
+    "award_min": 1500000.0,
+    "award_max": 4000000.0,
+    "expected_awards": 25,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0017180": {
+    "opportunity_number": "DFOP0017180",
+    "simpler_uuid": "d012ee5f-6d1a-4344-ad32-168ea9bcad98",
+    "program_funding": null,
+    "award_min": 475000.0,
+    "award_max": 475000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:LHC-2600-DC-0069": {
+    "opportunity_number": "LHC-2600-DC-0069",
+    "simpler_uuid": "7c069780-eefc-4889-9036-248615be6f4d",
+    "program_funding": 64000000.0,
+    "award_min": 2000000.0,
+    "award_max": 3000000.0,
+    "expected_awards": 32,
+    "source": "simpler_html"
+  },
+  "amount:LHC-2600-DC-0013": {
+    "opportunity_number": "LHC-2600-DC-0013",
+    "simpler_uuid": "9e865f15-36ed-4a24-9a59-fcbe70586ccd",
+    "program_funding": 239146935.0,
+    "award_min": 1000000.0,
+    "award_max": 7850000.0,
+    "expected_awards": 30,
+    "source": "simpler_html"
+  },
+  "amount:DHS-26-NPD-107-00-01": {
+    "opportunity_number": "DHS-26-NPD-107-00-01",
+    "simpler_uuid": "cf7687ca-0614-44a6-8f46-08723d8df092",
+    "program_funding": 3000000.0,
+    "award_min": 3000000.0,
+    "award_max": 3000000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "uuid:DFOP0019193": "f17beda0-bcb7-400b-af32-f0ab508a9f13",
+  "amount:DFOP0019193": {
+    "opportunity_number": "DFOP0019193",
+    "simpler_uuid": "f17beda0-bcb7-400b-af32-f0ab508a9f13",
+    "program_funding": null,
+    "award_min": 1000000.0,
+    "award_max": 50000000.0,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019396": {
+    "opportunity_number": "DFOP0019396",
+    "simpler_uuid": "5556a458-5a88-4c19-935e-0d2c5e65962b",
+    "program_funding": null,
+    "award_min": 2000000.0,
+    "award_max": 4932500.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019307": {
+    "opportunity_number": "DFOP0019307",
+    "simpler_uuid": "383a7c99-25c2-4513-abe7-457b61eb0840",
+    "program_funding": null,
+    "award_min": 1000000.0,
+    "award_max": 3000000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "uuid:OFOP0003355": "d79d439d-cddf-4676-9465-a5b391379bc2",
+  "amount:OFOP0003355": {
+    "opportunity_number": "OFOP0003355",
+    "simpler_uuid": "d79d439d-cddf-4676-9465-a5b391379bc2",
+    "program_funding": null,
+    "award_min": 500000.0,
+    "award_max": 1600000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:DFOP0019295": {
+    "opportunity_number": "DFOP0019295",
+    "simpler_uuid": "7d3254aa-9e54-4b41-ac71-81bb7b29cb04",
+    "program_funding": null,
+    "award_min": 1000000.0,
+    "award_max": 1973359.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "amount:NOAA-NOS-OCM-2026-33239": {
+    "opportunity_number": "NOAA-NOS-OCM-2026-33239",
+    "simpler_uuid": "339bdb45-a114-4b5e-94db-7bce9c7ac71b",
+    "program_funding": 8500000.0,
+    "award_min": 500000.0,
+    "award_max": 3000000.0,
+    "expected_awards": 20,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-OHSEPR-RR-0009": {
+    "opportunity_number": "HHS-2026-ACF-OHSEPR-RR-0009",
+    "simpler_uuid": "0af573de-cc62-4561-b8b3-00d1083a8ebf",
+    "program_funding": 750000.0,
+    "award_min": 375000.0,
+    "award_max": 375000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-AP-0003": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-AP-0003",
+    "simpler_uuid": "0f7454eb-e5b6-458a-86eb-4d874a9f9d8f",
+    "program_funding": 10000000.0,
+    "award_min": 750000.0,
+    "award_max": 900000.0,
+    "expected_awards": 12,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-AK-0014": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-AK-0014",
+    "simpler_uuid": "4d574990-cdad-42eb-aae7-8927c692ddf1",
+    "program_funding": 10000000.0,
+    "award_min": 250000.0,
+    "award_max": 450000.0,
+    "expected_awards": 21,
+    "source": "simpler_html"
+  },
+  "uuid:EPA-OLEM-OBLR-26-01": "acbefb46-056e-4d99-977d-c335039d5d59",
+  "amount:EPA-OLEM-OBLR-26-01": {
+    "opportunity_number": "EPA-OLEM-OBLR-26-01",
+    "simpler_uuid": "acbefb46-056e-4d99-977d-c335039d5d59",
+    "program_funding": 6000000.0,
+    "award_min": null,
+    "award_max": 300000.0,
+    "expected_awards": 20,
+    "source": "simpler_html"
+  },
+  "amount:RFA-OH-27-044": {
+    "opportunity_number": "RFA-OH-27-044",
+    "simpler_uuid": "0a382c1b-1a5e-42d9-b3cd-976729344eae",
+    "program_funding": 10000000.0,
+    "award_min": null,
+    "award_max": 2000000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:DE-FOA-0003627": {
+    "opportunity_number": "DE-FOA-0003627",
+    "simpler_uuid": "180a5fc1-4b88-47c2-afed-82351a6ec54b",
+    "program_funding": 150000000.0,
+    "award_min": 1.0,
+    "award_max": 150000000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:DE-FOA-0003623": {
+    "opportunity_number": "DE-FOA-0003623",
+    "simpler_uuid": "10eb83f1-b4d2-4d3e-b30f-af48d7d64e0a",
+    "program_funding": 50000000.0,
+    "award_min": 500000.0,
+    "award_max": 7000000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:DE-FOA-0003612": {
+    "opportunity_number": "DE-FOA-0003612",
+    "simpler_uuid": "0228b895-9cb3-4160-8acc-58709e75c3c7",
+    "program_funding": 293760000.0,
+    "award_min": 500000.0,
+    "award_max": 16000000.0,
+    "expected_awards": null,
+    "source": "simpler_html"
+  },
+  "uuid:DHS-26-IPAWS-138-00-01": "04602d50-416d-4874-9ac6-21f45ed99317",
+  "amount:DHS-26-IPAWS-138-00-01": {
+    "opportunity_number": "DHS-26-IPAWS-138-00-01",
+    "simpler_uuid": "04602d50-416d-4874-9ac6-21f45ed99317",
+    "program_funding": 48000000.0,
+    "award_min": 1000000.0,
+    "award_max": 10000000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-IHS-TMD-0001": {
+    "opportunity_number": "HHS-2026-IHS-TMD-0001",
+    "simpler_uuid": "7a3b7476-06bb-4877-97f1-eefa8deacc5a",
+    "program_funding": 2761000.0,
+    "award_min": 50.0,
+    "award_max": 300000.0,
+    "expected_awards": 16,
+    "source": "simpler_html"
+  },
+  "amount:USDA-FNA-SNAP-2026-EVS": {
+    "opportunity_number": "USDA-FNA-SNAP-2026-EVS",
+    "simpler_uuid": "145d1cb2-34a7-4f79-b927-341045f54938",
+    "program_funding": 38000000.0,
+    "award_min": 1.0,
+    "award_max": 4300000.0,
+    "expected_awards": 53,
+    "source": "simpler_html"
+  },
+  "amount:DHS-26-GPD-091-00-99": {
+    "opportunity_number": "DHS-26-GPD-091-00-99",
+    "simpler_uuid": "b7dc9f33-5b22-4af5-ba24-09b38ecc4b26",
+    "program_funding": 35000000.0,
+    "award_min": 100000.0,
+    "award_max": 6000000.0,
+    "expected_awards": 40,
+    "source": "simpler_html"
+  },
+  "amount:OFOP0003172": {
+    "opportunity_number": "OFOP0003172",
+    "simpler_uuid": "b5d804ee-7246-4dba-8343-d275167e4246",
+    "program_funding": null,
+    "award_min": 1500000.0,
+    "award_max": 2100000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:NTIA-PWSCIF-26-01": {
+    "opportunity_number": "NTIA-PWSCIF-26-01",
+    "simpler_uuid": "edf5f583-a404-4c35-9006-c3f4d6ade63c",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-JG-26-0054": {
+    "opportunity_number": "CDC-RFA-JG-26-0054",
+    "simpler_uuid": "264249e6-fdbb-4b1c-ac90-23b7d9b07b1b",
+    "program_funding": 5000000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-JG-26-0055": {
+    "opportunity_number": "CDC-RFA-JG-26-0055",
+    "simpler_uuid": "a3e91dba-dd69-4d33-8631-09544b5c72b9",
+    "program_funding": 35000000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-JG-26-0056": {
+    "opportunity_number": "CDC-RFA-JG-26-0056",
+    "simpler_uuid": "8454e463-cd43-4d0d-97a2-8a4310e0ce6b",
+    "program_funding": 75000000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-JG-26-0214": {
+    "opportunity_number": "CDC-RFA-JG-26-0214",
+    "simpler_uuid": "4697a157-f50d-4ca7-b5c7-78bd4a6942d2",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-JG-26-0044": {
+    "opportunity_number": "CDC-RFA-JG-26-0044",
+    "simpler_uuid": "475d7a04-f97b-4895-8eeb-f0261d383273",
+    "program_funding": 15500000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "uuid:DE-FOA-0003646": "5ed69538-0c16-44ad-a33e-ab3070585e12",
+  "amount:OFOP0002793": {
+    "opportunity_number": "OFOP0002793",
+    "simpler_uuid": "f68cb9f7-b817-435c-9cf2-8df9d6a205af",
+    "program_funding": 5000000.0,
+    "award_min": 25000.0,
+    "award_max": 500000.0,
+    "expected_awards": 15,
+    "source": "simpler_html"
+  },
+  "amount:SB-OCAPR-26-001": {
+    "opportunity_number": "SB-OCAPR-26-001",
+    "simpler_uuid": "c55857c6-55ef-453b-b9ce-37c31ba73a5b",
+    "program_funding": null,
+    "award_min": 75000.0,
+    "award_max": 400000.0,
+    "expected_awards": 27,
+    "source": "simpler_html"
+  },
+  "amount:DHS-26-MT-082-00-99": {
+    "opportunity_number": "DHS-26-MT-082-00-99",
+    "simpler_uuid": "2ced27b7-e42c-4062-8182-fbaa5fa4145d",
+    "program_funding": 1503100.0,
+    "award_min": 1.0,
+    "award_max": 1000000.0,
+    "expected_awards": 6,
+    "source": "simpler_html"
+  },
+  "amount:SB-OIT-STEP-2026-01": {
+    "opportunity_number": "SB-OIT-STEP-2026-01",
+    "simpler_uuid": "83f7a3f7-9a94-46dc-b9da-d8300efb69c1",
+    "program_funding": null,
+    "award_min": 100000.0,
+    "award_max": 900000.0,
+    "expected_awards": 55,
+    "source": "simpler_html"
+  },
+  "amount:SB-OEDWB-26-002": {
+    "opportunity_number": "SB-OEDWB-26-002",
+    "simpler_uuid": "a6ccc026-c52d-43af-a914-b9aa97bfa671",
+    "program_funding": null,
+    "award_min": 250000.0,
+    "award_max": 2084765.0,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:USDA-NIFA-OP-011940": {
+    "opportunity_number": "USDA-NIFA-OP-011940",
+    "simpler_uuid": "fdf64488-d478-4a9c-8518-17a976f3a07e",
+    "program_funding": 2853000.0,
+    "award_min": 300000.0,
+    "award_max": 750000.0,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "uuid:SB-OEDSC-26-001": "6483fcd5-d1f3-46d7-b05a-1917d54313ee",
+  "amount:SB-OEDSC-26-001": {
+    "opportunity_number": "SB-OEDSC-26-001",
+    "simpler_uuid": "6483fcd5-d1f3-46d7-b05a-1917d54313ee",
+    "program_funding": null,
+    "award_min": 17000000.0,
+    "award_max": 17000000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:RFA-TS-27-018": {
+    "opportunity_number": "RFA-TS-27-018",
+    "simpler_uuid": "53a50b75-bff2-46ac-835b-e5f063f44959",
+    "program_funding": 4500000.0,
+    "award_min": null,
+    "award_max": 500000.0,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:USDA-NIFA-OP-012058": {
+    "opportunity_number": "USDA-NIFA-OP-012058",
+    "simpler_uuid": "3b656526-871a-4bfe-b6cb-a2b9f23a6fa5",
+    "program_funding": 5000000.0,
+    "award_min": 200000.0,
+    "award_max": 1000000.0,
+    "expected_awards": 12,
+    "source": "simpler_html"
+  },
+  "uuid:VA-NCA-VLGP-FY2027": "8d1358e4-662b-4359-aa77-e553a65a6511",
+  "amount:VA-NCA-VLGP-FY2027": {
+    "opportunity_number": "VA-NCA-VLGP-FY2027",
+    "simpler_uuid": "8d1358e4-662b-4359-aa77-e553a65a6511",
+    "program_funding": 2200000.0,
+    "award_min": 50000.0,
+    "award_max": null,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACL-AOD-PRRC-0029": {
+    "opportunity_number": "HHS-2026-ACL-AOD-PRRC-0029",
+    "simpler_uuid": "fb87d531-3685-4b82-8b2f-b66395745ddd",
+    "program_funding": 30000000.0,
+    "award_min": 10000000.0,
+    "award_max": 10000000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "uuid:HHS-2026-ACL-AOA-LAEP-0055": "deb21960-8b7b-4507-84fd-3ad7a24fb22d",
+  "amount:HHS-2026-ACL-AOA-LAEP-0055": {
+    "opportunity_number": "HHS-2026-ACL-AOA-LAEP-0055",
+    "simpler_uuid": "deb21960-8b7b-4507-84fd-3ad7a24fb22d",
+    "program_funding": 1000000.0,
+    "award_min": 100000.0,
+    "award_max": 250000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACL-AOA-FPSG-0004": {
+    "opportunity_number": "HHS-2026-ACL-AOA-FPSG-0004",
+    "simpler_uuid": "c61435c4-1d9c-4e27-8cfa-5ee862448eba",
+    "program_funding": 1940162.0,
+    "award_min": 500000.0,
+    "award_max": 740162.0,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:ETA-TEGL-15-25": {
+    "opportunity_number": "ETA-TEGL-15-25",
+    "simpler_uuid": "3f64d1cd-e35b-4828-83a4-e1b7c56440ba",
+    "program_funding": 50000000.0,
+    "award_min": 2000000.0,
+    "award_max": 8000000.0,
+    "expected_awards": 25,
+    "source": "simpler_html"
+  },
+  "amount:HT942526NFRPNFRASA": {
+    "opportunity_number": "HT942526NFRPNFRASA",
+    "simpler_uuid": "4103fd92-3294-45d6-a7c8-45442d131a04",
+    "program_funding": 3600000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:HT942526NFRPIIRA": {
+    "opportunity_number": "HT942526NFRPIIRA",
+    "simpler_uuid": "275f8703-a2f9-4149-82fb-09b1f6d97229",
+    "program_funding": 6040000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 7,
+    "source": "simpler_html"
+  },
+  "amount:HT942526NFRPEHDA": {
+    "opportunity_number": "HT942526NFRPEHDA",
+    "simpler_uuid": "602d5ee2-0513-438d-b299-549ae9120bf6",
+    "program_funding": 1280000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 8,
+    "source": "simpler_html"
+  },
+  "amount:HT942526NFRPSIA": {
+    "opportunity_number": "HT942526NFRPSIA",
+    "simpler_uuid": "0602c16a-d91d-4dca-ab02-b981d9e9f88b",
+    "program_funding": 6400000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:HT942526CRRPTRA": {
+    "opportunity_number": "HT942526CRRPTRA",
+    "simpler_uuid": "ce4783ff-15da-4007-87b9-200205f2e5b6",
+    "program_funding": 4370000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:HT942526NFRPNFRALA": {
+    "opportunity_number": "HT942526NFRPNFRALA",
+    "simpler_uuid": "bc434bbb-4cab-42af-b33d-a4f41639d6e6",
+    "program_funding": 2400000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:USDA-FNA-FDPIR-NUT-ED-2026": {
+    "opportunity_number": "USDA-FNA-FDPIR-NUT-ED-2026",
+    "simpler_uuid": "58050220-63ea-40d6-96bb-6033906366b1",
+    "program_funding": 500000.0,
+    "award_min": 100000.0,
+    "award_max": 500000.0,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACL-AOD-DFLA-0025": {
+    "opportunity_number": "HHS-2026-ACL-AOD-DFLA-0025",
+    "simpler_uuid": "957d2e9d-be96-4405-9f65-ff381b3318ad",
+    "program_funding": 3000000.0,
+    "award_min": 1000000.0,
+    "award_max": 1200000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HT942526KCRPAKCIECSA": {
+    "opportunity_number": "HT942526KCRPAKCIECSA",
+    "simpler_uuid": "8449d556-e9af-4c4c-8279-32798bbeee19",
+    "program_funding": 2400000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 2,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-CA-0061": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-CA-0061",
+    "simpler_uuid": "ea2df025-71cb-442b-918b-865abb30560b",
+    "program_funding": 7500000.0,
+    "award_min": 300000.0,
+    "award_max": 750000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "uuid:CDC-RFA-DP-26-0233": "66291e56-a7ac-4531-97b8-c033fae496b3",
+  "amount:CDC-RFA-DP-26-0233": {
+    "opportunity_number": "CDC-RFA-DP-26-0233",
+    "simpler_uuid": "66291e56-a7ac-4531-97b8-c033fae496b3",
+    "program_funding": 32000000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 4,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACL-CIP-AAFP-0017": {
+    "opportunity_number": "HHS-2026-ACL-CIP-AAFP-0017",
+    "simpler_uuid": "86437da2-5b05-4bf9-ab6d-d76aba0b9ffe",
+    "program_funding": 4700000.0,
+    "award_min": 4700000.0,
+    "award_max": 4700000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HHS-2026-ACF-ACYF-CO-0055": {
+    "opportunity_number": "HHS-2026-ACF-ACYF-CO-0055",
+    "simpler_uuid": "589b3a7f-449c-4e07-a477-d0ae9d433628",
+    "program_funding": 6450000.0,
+    "award_min": 1500000.0,
+    "award_max": 2150000.0,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:SM-26-016": {
+    "opportunity_number": "SM-26-016",
+    "simpler_uuid": "81b749b3-d843-48e2-95c9-4bb20e4dbe5b",
+    "program_funding": 12000000.0,
+    "award_min": null,
+    "award_max": 1000000.0,
+    "expected_awards": 12,
+    "source": "simpler_html"
+  },
+  "amount:PA-FPH-27-001": {
+    "opportunity_number": "PA-FPH-27-001",
+    "simpler_uuid": "770eae58-b245-4431-a4b8-7b1aca9e917f",
+    "program_funding": 257000000.0,
+    "award_min": 200000.0,
+    "award_max": 22000000.0,
+    "expected_awards": 90,
+    "source": "simpler_html"
+  },
+  "amount:CMS-2L2-25-001": {
+    "opportunity_number": "CMS-2L2-25-001",
+    "simpler_uuid": "fc665e54-0a33-4b8d-910d-a8c912926219",
+    "program_funding": null,
+    "award_min": null,
+    "award_max": 90000.0,
+    "expected_awards": 6,
+    "source": "simpler_html"
+  },
+  "amount:CDC-RFA-TP22-2201": {
+    "opportunity_number": "CDC-RFA-TP22-2201",
+    "simpler_uuid": "42a1b238-2c19-47b4-ae58-f4a775231b78",
+    "program_funding": 500000000.0,
+    "award_min": 50000.0,
+    "award_max": 5000000.0,
+    "expected_awards": 113,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-26-045": {
+    "opportunity_number": "HRSA-26-045",
+    "simpler_uuid": "3e383aac-b66d-4266-b128-1482b10a286b",
+    "program_funding": 12000000.0,
+    "award_min": 905664.0,
+    "award_max": 1188684.0,
+    "expected_awards": 12,
+    "source": "simpler_html"
+  },
+  "uuid:CDC-RFA-CK-27-0046": "4e2240c3-a6ef-4034-be00-8d27dca92c4a",
+  "amount:CDC-RFA-CK-27-0046": {
+    "opportunity_number": "CDC-RFA-CK-27-0046",
+    "simpler_uuid": "4e2240c3-a6ef-4034-be00-8d27dca92c4a",
+    "program_funding": 25000000.0,
+    "award_min": 3000000.0,
+    "award_max": 25000000.0,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-27-099": {
+    "opportunity_number": "HRSA-27-099",
+    "simpler_uuid": "249a24a4-0bde-436f-bda0-f0bda09f21d0",
+    "program_funding": 125000000.0,
+    "award_min": 350000.0,
+    "award_max": 350000.0,
+    "expected_awards": 357,
+    "source": "simpler_html"
+  },
+  "amount:OFH-2600-DC-021D": {
+    "opportunity_number": "OFH-2600-DC-021D",
+    "simpler_uuid": "6dc1f71a-cc85-42ec-afa4-ffe919ad3ea3",
+    "program_funding": 10000000.0,
+    "award_min": 2000000.0,
+    "award_max": 10000000.0,
+    "expected_awards": 3,
+    "source": "simpler_html"
+  },
+  "amount:OFH-2600-DC-021B": {
+    "opportunity_number": "OFH-2600-DC-021B",
+    "simpler_uuid": "b8839b8c-5d83-4297-a5bf-942c486108f5",
+    "program_funding": 50100000.0,
+    "award_min": 1700000.0,
+    "award_max": 8900000.0,
+    "expected_awards": 5,
+    "source": "simpler_html"
+  },
+  "uuid:OFH-2600-DC-021A": "224cb740-46ae-4eab-bdb5-d858638ee591",
+  "amount:OFH-2600-DC-021A": {
+    "opportunity_number": "OFH-2600-DC-021A",
+    "simpler_uuid": "224cb740-46ae-4eab-bdb5-d858638ee591",
+    "program_funding": 10750000.0,
+    "award_min": 175000.0,
+    "award_max": 2500000.0,
+    "expected_awards": 34,
+    "source": "simpler_html"
+  },
+  "amount:SHTG-FY-26-02": {
+    "opportunity_number": "SHTG-FY-26-02",
+    "simpler_uuid": "0066353e-c7b8-40b7-9ccf-e465ea8e0fdd",
+    "program_funding": 12787000.0,
+    "award_min": null,
+    "award_max": 95000.0,
+    "expected_awards": 100,
+    "source": "simpler_html"
+  },
+  "amount:SHTG-FY-26-01": {
+    "opportunity_number": "SHTG-FY-26-01",
+    "simpler_uuid": "3aa9fa6e-3dea-48a3-99fe-d86956d97259",
+    "program_funding": 12787000.0,
+    "award_min": null,
+    "award_max": 215000.0,
+    "expected_awards": 100,
+    "source": "simpler_html"
+  },
+  "amount:RD-RBS-26-01-FIELDS": {
+    "opportunity_number": "RD-RBS-26-01-FIELDS",
+    "simpler_uuid": "30bdfbe8-643e-441c-bf78-d8737edd3682",
+    "program_funding": 500000000.0,
+    "award_min": 15000000.0,
+    "award_max": 150000000.0,
+    "expected_awards": 10,
+    "source": "simpler_html"
+  },
+  "amount:RFA-NS-27-011": {
+    "opportunity_number": "RFA-NS-27-011",
+    "simpler_uuid": "2f0a47ac-f1f7-4f45-a13b-5c689724e692",
+    "program_funding": 10000000.0,
+    "award_min": null,
+    "award_max": null,
+    "expected_awards": 1,
+    "source": "simpler_html"
+  },
+  "amount:HRSA-26-096": {
+    "opportunity_number": "HRSA-26-096",
+    "simpler_uuid": "b5f07f47-a9dd-4a54-bead-e6b351eb8e11",
+    "program_funding": 51079900.0,
+    "award_min": 1.0,
+    "award_max": 650000.0,
+    "expected_awards": 80,
+    "source": "simpler_html"
   }
 }

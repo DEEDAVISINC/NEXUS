@@ -41,3 +41,51 @@
 ## PA NOTE
 
 Consider upgrade before real HAP member volume — or keep curl deploy playbook for hotfixes.
+
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+## COLLECTION ACTIONS DUE — 2026-07-24
+
+_No collection actions due today. AR is current._
+
+
+---
+## FINANCIAL SNAPSHOT — 2026-07-24 06:14
+
+| Metric | Value |
+|---|---|
+| Net Cash Position | $0.00 |
+| Total AR Outstanding | $0.00 |
+| Total AP Outstanding | $0.00 |
+| Bank Balance | $0.00 |
+| Overall Margin | 0.0% |
+| 30-Day Cash Forecast | $0.00 |
+| 60-Day Cash Forecast | $0.00 |
+| High Alerts | 0 |
+

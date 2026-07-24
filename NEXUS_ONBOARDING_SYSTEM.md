@@ -35,18 +35,18 @@ The documents change based on who they are. The flow doesn't.
 
 ---
 
-## THE 4TH TRACK — HR (EMPLOYEE & CONTRACTOR ONBOARDING)
+## THE 4TH TRACK — GATEWAY (EMPLOYEE & CONTRACTOR ONBOARDING)
 
-**System:** `HR` (ViewType `'hr'` in the frontend) — separate from GPSS/PRISM because the compliance requirements are fundamentally different:
+**System:** `GATEWAY` (display name; ViewType `'hr'` in the frontend and all backend routes stay `/nexus/hr/*` for stability — "GATEWAY" is a branding layer, not a rename) — separate from GPSS/PRISM because the compliance requirements are fundamentally different. Named for the `/can-work` compliance gate at its core: nobody touches an MCO-facing task until they've cleared the gate.
 
-| Requirement | Suppliers/Subs/Field Agents (GPSS/PRISM) | Employees/Internal Contractors (HR) |
+| Requirement | Suppliers/Subs/Field Agents (GPSS/PRISM) | Employees/Internal Contractors (GATEWAY) |
 |---|---|---|
 | Identity verification | W-9, business license, SAM.gov | **Form I-9 + E-Verify** (employees only — not contractors) |
 | Government screening | SAM.gov exclusion (suppliers/subs) | **OIG LEIE + GSA SAM.gov exclusion — at hire AND monthly** |
 | Required training | Service-specific certs (DOT collector, notary, LiveScan) | **CMS FDR training curriculum** (FWA/General Compliance within 90 days + annual, HIPAA, PII, Recipient Rights, Code of Conduct, etc.) |
 | Why it exists | Protect the contract, protect the client relationship | **DDI is a First Tier, Downstream, and Related (FDR) entity under 42 CFR 422.504(d)** because DDI performs work under MCO/Medicaid contracts (CareSource, HIDE SNP — see `CLIENT OUTREACH/MICHIGAN MICH HIDE SNP/`). CMS requires health plans to flow these training/screening obligations down to every entity — including DDI's own internal staff — that touches that work. |
 
-**Two worker sub-types inside HR, each with its own phase checklist (not the same as employee vs field agent):**
+**Two worker sub-types inside GATEWAY, each with its own phase checklist (not the same as employee vs field agent):**
 - **Employee (W-2):** Pre-Boarding → Day 1 → Week 1 → 30 Days (incl. 30-Day Check-In Agenda sub-checklist) → 60/90-Day Check-ins. Includes I-9/E-Verify.
 - **Contractor (1099, internal/office role):** Pre-Engagement → Engagement Start → Ongoing → Renewal/Extension/Termination. No I-9/E-Verify (worker-classification risk — hard-excluded from the training catalog). Check-ins reference contract deliverables, not calendar-based performance reviews.
 
@@ -65,11 +65,48 @@ The documents change based on who they are. The flow doesn't.
 
 **Compliance gate:** `GET /nexus/hr/onboarding/<id>/can-work` mirrors PRISM's field-agent `can-work` check — returns `false` until the first onboarding phase is fully checked off, exclusion screening is current (not never-screened, not overdue on the monthly cadence, no open flagged match), and neither CMS-hard-floor training item (General Compliance/FWA, Medicare Fraud & Abuse) has missed its 90-day deadline. **Any system assigning an internal person to MCO/HIDE SNP-facing work (SHIELD, HAVEN, DDCSS) should check this gate first**, the same way PRISM checks `can-work` before dispatching a field agent.
 
-**Frontend:** `nexus-frontend/src/components/systems/HRSystem.tsx` — Dashboard (compliance alerts + annual attestation panel), Roster (add/list/archive), Detail (phase checklist incl. 30-day agenda + worker classification form for contractors, training table with recurrence/compliance badges, exclusion screening log with computed cadence banner, append-only audit log, CSV export). Tile lives in the NEXUS landing page under Support Systems.
+**Frontend (internal admin view):** `nexus-frontend/src/components/systems/HRSystem.tsx` — Dashboard (compliance alerts + annual attestation panel), Roster (add/list/archive, now with an email field that enables portal access), Detail (phase checklist incl. 30-day agenda + worker classification form for contractors, training table with recurrence/compliance badges, exclusion screening log with computed cadence banner, GATEWAY portal activity panel — read-only view of documents uploaded/acknowledgments signed by the person themselves, append-only audit log, CSV export). Tile lives in the NEXUS landing page under Support Systems as **GATEWAY**.
+
+### GATEWAY SELF-SERVICE PORTAL — gateway.deedavis.biz
+
+New hires and contractors do **not** log into NEXUS. They sign in at **gateway.deedavis.biz** with just their email (magic link + 6-digit code, no password) and get a sanitized, read-mostly view of their own record:
+
+- Onboarding checklist (read-only — HR/EM checks items off in NEXUS, not the portal)
+- Required training list with status/recurrence/next-due badges
+- Exclusion screening status (current/overdue — not the internal detail log)
+- **Document upload** — I-9 supporting docs / offer letter (employees) or W-9 / COI / signed IC agreement (contractors), stored on disk + pushed to the Airtable `DOCUMENTS` attachment field
+- **Acknowledgment e-sign** — typed full name + timestamp + IP for Handbook, Code of Conduct, NDA (catalog differs by worker type)
+
+**Architecture** (mirrors `prism-intake/` → portal.deedavis.biz — separate Netlify site, same stateless-JWT pattern, same Flask backend):
+
+```
+gateway-portal/                          ← separate Netlify site, deploys to gateway.deedavis.biz
+├── index.html                          ← single-page login + dashboard (vanilla JS, no build step)
+├── netlify.toml, _headers, package.json
+└── netlify/functions/
+    ├── lib/portal-auth.js              ← HMAC JWT + time-window OTP (own GATEWAY_AUTH_SECRET)
+    ├── gateway-auth-send.js            ← emails magic link + 6-digit code
+    ├── gateway-auth-verify.js          ← verifies code or link → issues 30-day session token
+    ├── gateway-auth-me.js              ← validates an existing session on page load
+    ├── gateway-my-record.js            ← GET  → proxies /nexus/hr/onboarding/self (session email only)
+    ├── gateway-upload.js               ← POST → proxies /nexus/hr/onboarding/self/documents
+    └── gateway-acknowledge.js          ← POST → proxies /nexus/hr/onboarding/self/acknowledge
+```
+
+Backend endpoints (in `hr_onboarding_api.py`, looked up by **email**, never internal record ID):
+```
+GET  /nexus/hr/onboarding/self?email=            — sanitized own-record view
+POST /nexus/hr/onboarding/self/documents          — base64 upload, validated against per-worker-type catalog
+POST /nexus/hr/onboarding/self/acknowledge        — typed-name e-sign, validated against per-worker-type catalog
+```
+
+Deploy steps: `gateway-portal/PORTAL_DOMAIN_SETUP.md`. Migration script for the four Airtable fields this needs (`EMAIL`, `DOCUMENTS`, `DOCUMENTS_JSON`, `ACKNOWLEDGMENTS_JSON`): `migrate_gateway_fields.py` (already run — fields are live on `NEXUS HR ONBOARDING`).
+
+**Getting someone onto the portal:** there's no separate invite step — as soon as HR adds their record in NEXUS **with an email address**, that email works at gateway.deedavis.biz immediately. The welcome/offer email should just include the portal URL.
 
 **System connections (see also `NEXUS_SYSTEM_INTEGRATION_MAP.md`):**
-- **COMPASS** — HR is the source of CMS FDR audit evidence (training completion + exclusion screening) that COMPASS surfaces when a buyer/MCO requests FDR compliance proof for a contract.
-- **VERTEX** — Active W-2 employees represent internal labor cost/overhead; VERTEX's expense/P&L views should be able to see HR's active headcount by division.
+- **COMPASS** — GATEWAY is the source of CMS FDR audit evidence (training completion + exclusion screening) that COMPASS surfaces when a buyer/MCO requests FDR compliance proof for a contract.
+- **VERTEX** — Active W-2 employees represent internal labor cost/overhead; VERTEX's expense/P&L views should be able to see GATEWAY's active headcount by division.
 - **SHIELD / HAVEN / DDCSS** — Before assigning internal staff to MCO-facing casework, check `can-work` first.
 
 ---

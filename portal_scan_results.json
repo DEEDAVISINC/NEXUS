@@ -1,40 +1,114 @@
 {
-  "scan_date": "2026-07-23T21:33:33.442519",
-  "total_found": 63,
+  "scan_date": "2026-07-24T14:54:11.252188",
+  "total_found": 69,
   "min_days_to_bid": 5,
   "opportunities": [
     {
       "source": "BidNet Direct",
-      "title": "Shuttle Transportation Services for Adult Education StudentsNew York12 day(s) leftPublished07/23/2026Closing08/05/20269418603156",
+      "title": "Construction Management and Inspection Services for Benning Road Bridges and Transportation ImprovementsDistrict of Columbia32 day(s) leftPublished07/24/2026Closing08/26/2026444107288193",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-york/solicitations/open-bids/Shuttle-Transportation-Services-for-Adult-Education-Students/0000431690?origin=0",
+      "url": "https://www.bidnetdirect.com/district-of-columbia/solicitations/open-bids/statewide/Construction-Management-and-Inspection-Services-for-Benning-Road-Bridges-and-Transportation-Improvements/444107288193?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "T0438\u2013Battery Chargers, Industrial Lifts, & Pallet Trucks Maintenance & Repair: StatewideNew Jersey91 day(s) leftPublished07/23/2026Closing10/23/2026444106225925",
+      "title": "RFB-42-27 DOC-Northpoint Training Center-Stair ReplacementKentucky32 day(s) leftPublished07/24/2026Closing08/26/2026444107458102",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-jersey/solicitations/open-bids/statewide/T0438-Battery-Chargers-Industrial-Lifts-Pallet-Trucks-Maintenance-Repair-Statewide/444106225925?origin=0&target=view",
+      "url": "https://www.bidnetdirect.com/kentucky/solicitations/open-bids/statewide/RFB-42-27-DOC-Northpoint-Training-Center-Stair-Replacement/444107458102?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
     },
     {
       "source": "BidNet Direct",
-      "title": "(OEM) PARTS AND REPAIRS FOR MERCER COUNTY OWNED STIHL AND MECO EQUIPMENTNew Jersey20 day(s) leftPublished07/23/2026Closing08/13/20269420737355",
+      "title": "Waterproofing & Repairs - Union Station Garage / WRAMassachusetts32 day(s) leftPublished07/24/2026Closing08/26/2026444107397672",
       "agency": "",
       "deadline": "Closing Date\u00a0(Oldest first)",
       "set_aside": "",
-      "url": "https://www.bidnetdirect.com/new-jersey/solicitations/open-bids/OEM-PARTS-AND-REPAIRS-FOR-MERCER-COUNTY-OWNED-STIHL-AND-MECO-EQUIPMENT/0000431673?origin=0",
+      "url": "https://www.bidnetdirect.com/massachusetts/solicitations/open-bids/statewide/Waterproofing-Repairs-Union-Station-Garage-WRA/444107397672?origin=0&target=view",
       "type": "Solicitation",
       "posted": "",
       "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Trembly White Readiness Center Generator Installation - AGDKansas32 day(s) leftPublished07/24/2026Closing08/25/2026444107449379",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/kansas/solicitations/open-bids/statewide/Trembly-White-Readiness-Center-Generator-Installation-AGD/444107449379?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Electrical Safety Program Consulting ServicesWashington31 day(s) leftPublished07/24/2026Closing08/25/2026444107449382",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/washington/solicitations/open-bids/statewide/Electrical-Safety-Program-Consulting-Services/444107449382?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "State Library Building - Plaza Deck RepairsSouth Carolina31 day(s) leftPublished07/24/2026Closing08/25/2026444107497678",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/south-carolina/solicitations/open-bids/statewide/State-Library-Building-Plaza-Deck-Repairs/444107497678?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "BidNet Direct",
+      "title": "Parts for Fecon BH074 SS3 Atterbury158130Indiana31 day(s) leftPublished07/24/2026Closing08/25/2026444107584255",
+      "agency": "",
+      "deadline": "Closing Date\u00a0(Oldest first)",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/indiana/solicitations/open-bids/statewide/Parts-for-Fecon-BH074-SS3-Atterbury158130/444107584255?origin=0&target=view",
+      "type": "Solicitation",
+      "posted": "",
+      "search_term": "janitorial"
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Sheriff's Department Dry Cleaning Services 2026 - 2027 - RE-BID",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Sheriff-s-Department-Dry-Cleaning-Services-2026-2027-RE-BID/0000431572?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "HVAC Electric Motors and Parts",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/HVAC-Electric-Motors-and-Parts/0000431606?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "MITN (Michigan)",
+      "title": "Recycling Collection & Transportation Services",
+      "agency": "Michigan Local Government",
+      "deadline": "",
+      "set_aside": "",
+      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Recycling-Collection-Transportation-Services/0000431760?purchasingGroupId=8412351&origin=1",
+      "type": "Solicitation",
+      "posted": ""
     },
     {
       "source": "MITN (Michigan)",
@@ -103,46 +177,6 @@
       "deadline": "",
       "set_aside": "",
       "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/New-Health-Community-Services-Building-Construction-Manager/0000431524?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Item #130 - HD Equipment Parts",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Item-130-HD-Equipment-Parts/0000431527?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Item #87 - Hardware & Tools",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Item-87-Hardware-Tools/0000431516?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "ERP/Training Portable Tactical Traps",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/ERP-Training-Portable-Tactical-Traps/0000431509?purchasingGroupId=8412351&origin=1",
-      "type": "Solicitation",
-      "posted": ""
-    },
-    {
-      "source": "MITN (Michigan)",
-      "title": "Item #226 - John Deere Parts & Service",
-      "agency": "Michigan Local Government",
-      "deadline": "",
-      "set_aside": "",
-      "url": "https://www.bidnetdirect.com/mitn/solicitations/open-bids/Item-226-John-Deere-Parts-Service/0000431489?purchasingGroupId=8412351&origin=1",
       "type": "Solicitation",
       "posted": ""
     },
@@ -236,19 +270,28 @@
     },
     {
       "source": "Indiana",
-      "title": "RFP 23420 Group 71022 - Business Consulting ServicesState of New York Executive Department - Office of General ServicesNAThe NASPO ValuePoint Request for Proposal (RFP) forBusiness Consulting Services",
+      "title": "Automated Fingerprint Identification System (AFIS)10:15 amConference Room 22 Harrison Hall",
       "agency": "State of Indiana",
       "deadline": "",
-      "url": "https://protect.checkpoint.com/v2/r01/___https:/ogs.ny.gov/procurement/bid-opportunities___.YzJ1OnN0YXRlb2ZpbmRpYW5hOmM6bzplOTE1NDE1Y2Y4MDBhNWRmMDMzMTQ1NGY4ODlhMDliMzo3OmUxZWI6OGQ0MzlkNmNjNjA4NmM2YWM0MGQyODJkZWFiNDk0YmFmYzRkOWRlN2FkMzI3M2M3Y2MwOTRjZDY2Mzk4NjVmMTpoOlQ6Tg",
+      "url": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MjdjM2FlM2QtM2E5MS00N2U1LTg2ZTktNGJlOGY4NzNlMzQ2%40thread.v2/0?context=%7b%22Tid%22%3a%222199bfba-a409-4f13-b0c4-18b45933d88d%22%2c%22Oid%22%3a%220aa7f703-98aa-488d-a109-74bf810916e7%22%7d",
       "type": "Solicitation",
       "posted": ""
     },
     {
       "source": "Indiana",
-      "title": "Bulk OxygenBid DocumentsVeterans Home005700000087841Sourcing event  0000087841 is for bulk  liquid oxygen. This request will result in a 4 year contract with a Vendor to supply and deliver bulk oxygen",
+      "title": "Social Security Disability Medical Consultation10:15 amConference Room 4 Wabash Hall",
       "agency": "State of Indiana",
       "deadline": "",
-      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "url": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2RiMWRjNGUtODc4ZS00ZjcxLWFjYmItM2FlNzI5YzUyYTM4%40thread.v2/0?context=%7b%22Tid%22%3a%222199bfba-a409-4f13-b0c4-18b45933d88d%22%2c%22Oid%22%3a%220aa7f703-98aa-488d-a109-74bf810916e7%22%7d",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "RFP 23420 Group 71022 - Business Consulting ServicesState of New York Executive Department - Office of General ServicesNAThe NASPO ValuePoint Request for Proposal (RFP) forBusiness Consulting Services",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://protect.checkpoint.com/v2/r01/___https:/ogs.ny.gov/procurement/bid-opportunities___.YzJ1OnN0YXRlb2ZpbmRpYW5hOmM6bzplOTE1NDE1Y2Y4MDBhNWRmMDMzMTQ1NGY4ODlhMDliMzo3OmUxZWI6OGQ0MzlkNmNjNjA4NmM2YWM0MGQyODJkZWFiNDk0YmFmYzRkOWRlN2FkMzI3M2M3Y2MwOTRjZDY2Mzk4NjVmMTpoOlQ6Tg",
       "type": "Solicitation",
       "posted": ""
     },
@@ -335,7 +378,7 @@
     },
     {
       "source": "Indiana",
-      "title": "Public-Facing Transaction PortalBid DocumentsMotor Vehicles002350000087000The Indiana Bureau of Motor Vehicles is undertaking Phase 2 of its E-Title initiative to further modernize the vehicle titling",
+      "title": "Drug Evaluation and Classification (DEC) ProgramBid DocumentsCriminal Justice Institute000320000084775The Indiana Criminal Justice Institute (ICJI) is seeking proposals to administer the Drug Evaluati",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -344,7 +387,7 @@
     },
     {
       "source": "Indiana",
-      "title": "Drug Evaluation and Classification (DEC) ProgramBid DocumentsCriminal Justice Institute000320000084775The Indiana Criminal Justice Institute (ICJI) is seeking proposals to administer the Drug Evaluati",
+      "title": "Public-Facing Transaction PortalBid DocumentsMotor Vehicles002350000087000The Indiana Bureau of Motor Vehicles is undertaking Phase 2 of its E-Title initiative to further modernize the vehicle titling",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -416,7 +459,7 @@
     },
     {
       "source": "Indiana",
-      "title": "Stone for Public Access Sites 158095Natural Resources003000000088015Responses to 003000000088015 can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber SimontonIN Dept of ",
+      "title": "Parts for Fecon BH074 SS3 Atterbury158130Bid DocumentsNatural Resources003000000088036Responses to 003000000088036  can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber ",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -425,7 +468,16 @@
     },
     {
       "source": "Indiana",
-      "title": "Parts for Fecon BH074 SS3 Atterbury158130Natural Resources003000000088036Responses to 003000000088036  can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber SimontonIN De",
+      "title": "Stone for Public Access Sites 158095Bid DocumentsNatural Resources003000000088015Responses to 003000000088015 can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber Simont",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Cutter and Welder for Ferdinand/Pike SF 158164Bid DocumentsNatural Resources003000000088037Responses to 003000000088037  can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:A",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -435,6 +487,15 @@
     {
       "source": "Indiana",
       "title": "DDB Medical ConsultationBid DocumentsFamily & Social Svcs Admin004050000087343RFP 26-87343 Indiana Family and Social Services Administration/The Indiana Disability Determination Bureau (DDB)\u00a0 are seek",
+      "agency": "State of Indiana",
+      "deadline": "",
+      "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
+      "type": "Solicitation",
+      "posted": ""
+    },
+    {
+      "source": "Indiana",
+      "title": "Sand for Lincoln SP  158244Bid DocumentsNatural Resources003000000088041Responses to 003000000088041  can be emailed to asimonton@dnr.in.gov OR faxed to (317) 972-3275 ORmailed to:Amber SimontonIN Dep",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",
@@ -461,7 +522,7 @@
     },
     {
       "source": "Indiana",
-      "title": "300 SP Concession Opportunity Interlake/RedbirdNatural Resources003000000088029RFQ# 003000000088029300 SP Concession Opportunity Interlake/Redbird Off-Road Vehicle Rental (ORV)Interlake ORV State Recr",
+      "title": "300 SP Concession Opportunity Interlake/RedbirdBid DocumentsNatural Resources003000000088029RFQ# 003000000088029300 SP Concession Opportunity Interlake/Redbird Off-Road Vehicle Rental (ORV)Interlake O",
       "agency": "State of Indiana",
       "deadline": "",
       "url": "https://www.in.gov/idoa/procurement/supplier-resource-center/requirements-to-do-business-with-the-state/bidder-profile-registration/manage-my-bidder-profile/",

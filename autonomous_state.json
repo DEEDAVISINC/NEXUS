@@ -1,17 +1,17 @@
 {
   "last_runs": {
-    "folder_scan": "2026-07-24T00:01:05.595383",
-    "opportunity_scan": "2026-07-23T21:18:43.413957",
-    "ai_scoring": "2026-07-23T23:27:25.351331",
-    "auto_package": "2026-07-23T23:28:14.542041",
-    "deadline_watch": "2026-07-23T23:30:03.037411",
-    "supplier_followup": "2026-07-23T21:27:16.956587",
-    "compass_monitor": "2026-07-23T21:27:17.607331",
-    "prism_compliance": "2026-07-23T21:27:17.982858",
-    "learning_cycle": "2026-07-23T21:27:18.026336",
+    "folder_scan": "2026-07-24T16:09:03.631786",
+    "opportunity_scan": "2026-07-24T14:46:41.888721",
+    "ai_scoring": "2026-07-24T14:49:16.048806",
+    "auto_package": "2026-07-24T15:51:10.690517",
+    "deadline_watch": "2026-07-24T15:53:02.045029",
+    "supplier_followup": "2026-07-24T14:51:11.069294",
+    "compass_monitor": "2026-07-24T15:29:14.966309",
+    "prism_compliance": "2026-07-24T09:27:25.145466",
+    "learning_cycle": "2026-07-24T15:29:14.984684",
     "morning_brief": "2026-07-23T21:28:52.746118"
   },
-  "cycle_count": 24359,
+  "cycle_count": 24967,
   "total_opportunities_found": 0,
   "total_packages_generated": 0,
   "total_alerts_sent": 0,
@@ -19,670 +19,6 @@
   "learning_adjustments": 0,
   "started_at": "2026-07-23T19:17:15.116490",
   "action_log": [
-    {
-      "timestamp": "2026-06-07T23:38:03.340239",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-07T23:53:04.648484",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T00:08:06.549785",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T00:23:07.971228",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T00:38:10.229775",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T00:38:52.739616",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "125 RED, 310 YELLOW, 17763 EXPIRED deadlines",
-      "items_processed": 18198,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T00:39:52.990890",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T00:54:54.759476",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T01:09:56.248491",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T01:24:57.482746",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T04:20:43.034494",
-      "task": "opportunity_scan",
-      "success": true,
-      "summary": "4/4 scan sources completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:23:25.396634",
-      "task": "ai_scoring",
-      "success": true,
-      "summary": "AI scoring completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:24:04.431556",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T04:24:45.269314",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "127 RED, 319 YELLOW, 17763 EXPIRED deadlines",
-      "items_processed": 18209,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:24:45.607626",
-      "task": "supplier_followup",
-      "success": true,
-      "summary": "Supplier follow-ups checked",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:24:45.979242",
-      "task": "compass_monitor",
-      "success": true,
-      "summary": "1 contracts monitored, 1 overdue deliverables, 1 warnings",
-      "items_processed": 4,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:24:46.231025",
-      "task": "prism_compliance",
-      "success": true,
-      "summary": "0 agents checked, 0 compliance flags",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T04:24:46.269031",
-      "task": "learning_cycle",
-      "success": true,
-      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T04:25:46.640445",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T04:40:48.810653",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T04:55:51.209815",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T05:10:53.596020",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T05:25:35.808506",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T05:26:14.510373",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "127 RED, 319 YELLOW, 17763 EXPIRED deadlines",
-      "items_processed": 18209,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T05:27:14.820187",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T05:42:17.271763",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T05:57:19.630314",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T06:12:22.078985",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T06:27:28.675114",
-      "task": "ai_scoring",
-      "success": true,
-      "summary": "AI scoring completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T06:28:07.728255",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T06:28:46.353047",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "127 RED, 319 YELLOW, 17763 EXPIRED deadlines",
-      "items_processed": 18209,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T06:29:46.681991",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T06:44:49.034980",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T06:59:51.262129",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T07:14:53.686194",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T07:29:34.871520",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T07:30:15.503875",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "128 RED, 325 YELLOW, 17763 EXPIRED deadlines",
-      "items_processed": 18216,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T07:31:15.668205",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T07:46:17.877540",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T08:01:20.210394",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T08:16:22.511544",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T11:19:14.391090",
-      "task": "opportunity_scan",
-      "success": true,
-      "summary": "4/4 scan sources completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:22:02.859834",
-      "task": "ai_scoring",
-      "success": true,
-      "summary": "AI scoring completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:22:46.535516",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T11:23:27.805806",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "128 RED, 334 YELLOW, 17764 EXPIRED deadlines",
-      "items_processed": 18226,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:23:28.140278",
-      "task": "supplier_followup",
-      "success": true,
-      "summary": "Supplier follow-ups checked",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:23:28.529102",
-      "task": "compass_monitor",
-      "success": true,
-      "summary": "1 contracts monitored, 1 overdue deliverables, 1 warnings",
-      "items_processed": 4,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:23:28.559520",
-      "task": "learning_cycle",
-      "success": true,
-      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T11:24:28.912246",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T11:39:30.298668",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T11:54:31.806919",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T12:09:33.385400",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T12:23:55.150477",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T12:24:35.102957",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "128 RED, 334 YELLOW, 17764 EXPIRED deadlines",
-      "items_processed": 18226,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T12:25:35.265548",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T12:40:36.564956",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T12:55:37.882327",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T13:10:39.256123",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T13:24:58.856124",
-      "task": "ai_scoring",
-      "success": true,
-      "summary": "AI scoring completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T13:25:39.596123",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T13:26:21.048175",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "128 RED, 334 YELLOW, 17764 EXPIRED deadlines",
-      "items_processed": 18226,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T13:27:21.235577",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T13:42:22.386803",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T13:57:23.757406",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:12:25.362290",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:27:27.694389",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:28:08.278915",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "128 RED, 334 YELLOW, 17764 EXPIRED deadlines",
-      "items_processed": 18226,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T14:29:08.614724",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:44:10.886611",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:46:55.315449",
-      "task": "morning_brief",
-      "success": true,
-      "summary": "Morning brief generated with 8 sections",
-      "items_processed": 8,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T14:59:56.844235",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T15:14:59.129508",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T18:19:26.442938",
-      "task": "opportunity_scan",
-      "success": true,
-      "summary": "4/4 scan sources completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:21:59.937489",
-      "task": "ai_scoring",
-      "success": true,
-      "summary": "AI scoring completed",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:22:43.240939",
-      "task": "auto_package",
-      "success": true,
-      "summary": "0 packages auto-generated (threshold: 75)",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T18:23:25.827441",
-      "task": "deadline_watch",
-      "success": true,
-      "summary": "130 RED, 346 YELLOW, 17765 EXPIRED deadlines",
-      "items_processed": 18241,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:23:26.219430",
-      "task": "supplier_followup",
-      "success": true,
-      "summary": "Supplier follow-ups checked",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:23:26.701908",
-      "task": "compass_monitor",
-      "success": true,
-      "summary": "1 contracts monitored, 1 overdue deliverables, 1 warnings",
-      "items_processed": 4,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:23:26.980363",
-      "task": "prism_compliance",
-      "success": true,
-      "summary": "0 agents checked, 0 compliance flags",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T18:23:27.015934",
-      "task": "learning_cycle",
-      "success": true,
-      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
-      "items_processed": 0,
-      "learning_logged": true
-    },
-    {
-      "timestamp": "2026-06-08T18:24:27.349802",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T18:39:29.626470",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
-    {
-      "timestamp": "2026-06-08T18:54:31.488540",
-      "task": "folder_scan",
-      "success": true,
-      "summary": "Folder scan + stale detection completed",
-      "items_processed": 0,
-      "learning_logged": false
-    },
     {
       "timestamp": "2026-06-08T19:09:33.269189",
       "task": "folder_scan",
@@ -4013,6 +3349,670 @@
     },
     {
       "timestamp": "2026-07-24T00:01:05.595334",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T00:16:06.982603",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T00:29:57.435867",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T00:31:48.499054",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T00:32:48.744911",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T00:47:50.905373",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T01:02:52.987579",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T01:17:55.143180",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T03:09:07.647911",
+      "task": "opportunity_scan",
+      "success": true,
+      "summary": "4/4 scan sources completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:11:58.152828",
+      "task": "ai_scoring",
+      "success": true,
+      "summary": "AI scoring completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:12:49.051504",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T03:13:37.342917",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:13:37.673825",
+      "task": "supplier_followup",
+      "success": true,
+      "summary": "Supplier follow-ups checked",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:14:37.902125",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T03:27:40.150233",
+      "task": "compass_monitor",
+      "success": true,
+      "summary": "1 contracts monitored, 3 overdue deliverables, 3 warnings",
+      "items_processed": 4,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:27:40.175413",
+      "task": "learning_cycle",
+      "success": true,
+      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T03:29:40.537521",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T03:44:42.486753",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T03:59:44.609836",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T04:14:33.997284",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T04:15:23.581188",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T04:16:23.871286",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T04:31:26.229419",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T04:46:28.212259",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T05:01:30.099490",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T05:15:11.097604",
+      "task": "ai_scoring",
+      "success": true,
+      "summary": "AI scoring completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T05:16:01.146970",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T05:16:51.078412",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T05:17:51.398361",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T05:32:53.449865",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T05:47:55.341190",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T06:02:57.507453",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T06:17:48.941081",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T06:18:37.069489",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T06:19:37.407287",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T06:34:39.568451",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T06:49:41.777609",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T07:04:43.769358",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T08:58:54.242263",
+      "task": "opportunity_scan",
+      "success": true,
+      "summary": "4/4 scan sources completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:01:35.864087",
+      "task": "ai_scoring",
+      "success": true,
+      "summary": "AI scoring completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:02:29.995929",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T09:03:21.176565",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:03:21.537592",
+      "task": "supplier_followup",
+      "success": true,
+      "summary": "Supplier follow-ups checked",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:04:21.736946",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T09:19:23.559729",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T09:27:25.145423",
+      "task": "prism_compliance",
+      "success": true,
+      "summary": "0 agents checked, 0 compliance flags",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T09:28:45.247406",
+      "task": "compass_monitor",
+      "success": true,
+      "summary": "1 contracts monitored, 3 overdue deliverables, 3 warnings",
+      "items_processed": 4,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:28:45.275473",
+      "task": "learning_cycle",
+      "success": true,
+      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T09:34:46.332584",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T09:49:47.767826",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T10:03:43.703699",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T10:04:34.630242",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T10:05:34.877705",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T10:20:36.426424",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T10:35:37.633759",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T10:50:38.997950",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T11:04:13.071421",
+      "task": "ai_scoring",
+      "success": true,
+      "summary": "AI scoring completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T11:05:05.002064",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T11:05:57.537733",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T11:06:57.762750",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T11:21:58.861972",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T11:37:00.018265",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T11:52:01.449000",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T12:06:56.063298",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T12:07:51.102124",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T12:08:51.287254",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T12:23:52.506923",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T12:38:53.495942",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T12:53:54.479566",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T14:46:41.888674",
+      "task": "opportunity_scan",
+      "success": true,
+      "summary": "4/4 scan sources completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T14:49:16.048787",
+      "task": "ai_scoring",
+      "success": true,
+      "summary": "AI scoring completed",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T14:50:13.127822",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T14:51:10.707398",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T14:51:11.069257",
+      "task": "supplier_followup",
+      "success": true,
+      "summary": "Supplier follow-ups checked",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T14:52:11.292900",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T15:07:12.428252",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T15:22:13.790888",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T15:29:14.966269",
+      "task": "compass_monitor",
+      "success": true,
+      "summary": "1 contracts monitored, 3 overdue deliverables, 3 warnings",
+      "items_processed": 4,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T15:29:14.984666",
+      "task": "learning_cycle",
+      "success": true,
+      "summary": "0 domains analyzed, 0 weight adjustments, 0 insights",
+      "items_processed": 0,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T15:37:15.663588",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T15:51:10.690425",
+      "task": "auto_package",
+      "success": true,
+      "summary": "0 packages auto-generated (threshold: 75)",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T15:53:02.044997",
+      "task": "deadline_watch",
+      "success": true,
+      "summary": "0 RED, 53 YELLOW, 23964 EXPIRED deadlines",
+      "items_processed": 24017,
+      "learning_logged": true
+    },
+    {
+      "timestamp": "2026-07-24T15:54:02.214096",
+      "task": "folder_scan",
+      "success": true,
+      "summary": "Folder scan + stale detection completed",
+      "items_processed": 0,
+      "learning_logged": false
+    },
+    {
+      "timestamp": "2026-07-24T16:09:03.631394",
       "task": "folder_scan",
       "success": true,
       "summary": "Folder scan + stale detection completed",

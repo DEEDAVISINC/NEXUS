@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """
-NEXUS HR Onboarding API
-========================
+NEXUS GATEWAY — HR Onboarding API
+====================================
+GATEWAY is the NEXUS module name for this system (branding layer over the
+original "HR Onboarding" build — routes stay at /nexus/hr/* for backend
+stability; the display name across the frontend and the self-service
+portal is GATEWAY). Named for the /can-work compliance gate at its core:
+nobody touches an MCO-facing task until they've cleared the gate.
+
 Automates the DDI New Hire Onboarding SOP (employees) and the DDI
 Independent Contractor Onboarding SOP (1099s) — internal personnel only,
 across all divisions (DEPOINTE, HAVEN, SHIELD, VITAL, ARENA/PRIME,
@@ -79,6 +85,15 @@ Endpoints:
   GET    /nexus/hr/onboarding/alerts                      — overdue training / stale screenings / attestation
   GET    /nexus/hr/attestation                            — list annual FDR attestations
   POST   /nexus/hr/attestation                            — record/update an annual FDR attestation
+
+GATEWAY SELF-SERVICE PORTAL (gateway.deedavis.biz — new hire/contractor
+facing, magic-link auth, no NEXUS login, mirrors the portal.deedavis.biz
+pattern used by PRISM client intake). These endpoints are looked up by
+EMAIL, not internal record id, and return a sanitized subset of the record
+— never the audit log, never other people's records:
+  GET    /nexus/hr/onboarding/self?email=                — own record + document/acknowledgment catalog
+  POST   /nexus/hr/onboarding/self/documents              — upload a required document (base64)
+  POST   /nexus/hr/onboarding/self/acknowledge            — typed-name e-sign acknowledgment (handbook, NDA, etc.)
 """
 
 import os
@@ -278,6 +293,39 @@ DIVISIONS = [
     '3D Ink Signatures/CNTDA', 'Freight 1st Direct', 'DEPOINTE DNA', 'Corporate/HR/Admin',
 ]
 
+# ─── GATEWAY self-service catalogs ────────────────────────────────
+# What the new hire/contractor is asked to upload or e-sign themselves,
+# via the GATEWAY portal (gateway.deedavis.biz), keyed by workerType.
+# 'key' must be unique within its list and is what the portal posts back —
+# never rename an existing key once contractors/employees may have used it,
+# only add new ones or retire (leave the key, drop from the active list).
+SELF_SERVICE_DOCUMENTS = {
+    'employee': [
+        {'key': 'i9_list_a_or_c', 'label': "I-9 Supporting Document — List A or List C (e.g. Passport, Social Security Card)"},
+        {'key': 'i9_list_b', 'label': "I-9 Supporting Document — List B (e.g. Driver's License / State ID)"},
+        {'key': 'offer_letter_signed', 'label': 'Signed Offer Letter'},
+    ],
+    'contractor': [
+        {'key': 'w9', 'label': 'W-9'},
+        {'key': 'coi', 'label': 'Certificate of Insurance (if required by the engagement)'},
+        {'key': 'ic_agreement_signed', 'label': 'Signed Independent Contractor Agreement / MSA'},
+    ],
+}
+
+SELF_SERVICE_ACKNOWLEDGMENTS = {
+    'employee': [
+        {'key': 'handbook', 'label': 'Employee Handbook'},
+        {'key': 'coi_policy', 'label': 'Code of Conduct / Conflict of Interest Policy'},
+        {'key': 'nda', 'label': 'Confidentiality / NDA'},
+    ],
+    'contractor': [
+        {'key': 'coi_policy', 'label': 'Code of Conduct (Contractor Flow-Down Obligation)'},
+        {'key': 'nda', 'label': 'Confidentiality / NDA'},
+    ],
+}
+
+DOCUMENTS_TABLE_FIELD = 'DOCUMENTS'  # Airtable multipleAttachments field name (see migrate_gateway_fields.py)
+
 # 30-Day Check-In Agenda — SOP Section 8, tracked as a structured sub-checklist
 # on the employee day30 phase (contractors don't get calendar-based "check-ins").
 AGENDAS = {
@@ -350,7 +398,7 @@ def _default_classification():
     }
 
 
-def _new_record(name, worker_type, division, startdate, member_facing=True):
+def _new_record(name, worker_type, division, startdate, member_facing=True, email=''):
     worker_type = worker_type if worker_type in ('employee', 'contractor') else 'employee'
     phases = phases_for(worker_type)
     checklist = {p['key']: [False] * len(p['items']) for p in phases}
@@ -358,6 +406,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True):
     return {
         'id': 'HR-' + uuid.uuid4().hex[:8].upper(),
         'name': name,
+        'email': (email or '').strip().lower(),
         'workerType': worker_type,
         'division': division or '',
         'startdate': startdate or '',
@@ -368,6 +417,8 @@ def _new_record(name, worker_type, division, startdate, member_facing=True):
         'exclusionLog': [],
         'classification': _default_classification() if worker_type == 'contractor' else None,
         'agenda': _default_agenda(),
+        'documents': [],
+        'acknowledgments': [],
         'auditLog': [{'ts': now, 'actor': 'system', 'action': 'Record created'}],
         'created': now,
         'airtable_id': None,
@@ -407,6 +458,7 @@ def _record_to_fields(rec):
     return {
         'RECORD_ID': rec['id'],
         'NAME': rec['name'],
+        'EMAIL': rec.get('email', ''),
         'WORKER_TYPE': 'Contractor (1099)' if rec['workerType'] == 'contractor' else 'Employee (W-2)',
         'DIVISION': rec.get('division', ''),
         'START_DATE': rec.get('startdate') or None,
@@ -417,6 +469,8 @@ def _record_to_fields(rec):
         'EXCLUSION_LOG_JSON': json.dumps(rec.get('exclusionLog', [])),
         'CLASSIFICATION_JSON': json.dumps(rec.get('classification')) if rec.get('classification') else '',
         'AGENDA_JSON': json.dumps(rec.get('agenda', {})),
+        'DOCUMENTS_JSON': json.dumps(rec.get('documents', [])),
+        'ACKNOWLEDGMENTS_JSON': json.dumps(rec.get('acknowledgments', [])),
         'AUDIT_LOG_JSON': json.dumps(rec.get('auditLog', [])),
     }
 
@@ -434,6 +488,7 @@ def _fields_to_record(airtable_record):
     return {
         'id': f.get('RECORD_ID') or airtable_record.get('id'),
         'name': f.get('NAME', ''),
+        'email': (f.get('EMAIL', '') or '').strip().lower(),
         'workerType': worker_type,
         'division': f.get('DIVISION', ''),
         'startdate': f.get('START_DATE', ''),
@@ -444,6 +499,8 @@ def _fields_to_record(airtable_record):
         'exclusionLog': _jload('EXCLUSION_LOG_JSON', []),
         'classification': _jload('CLASSIFICATION_JSON', None) if worker_type == 'contractor' else None,
         'agenda': _jload('AGENDA_JSON', _default_agenda()),
+        'documents': _jload('DOCUMENTS_JSON', []),
+        'acknowledgments': _jload('ACKNOWLEDGMENTS_JSON', []),
         'auditLog': _jload('AUDIT_LOG_JSON', []),
         'created': airtable_record.get('createdTime', ''),
         'airtable_id': airtable_record.get('id'),
@@ -466,6 +523,19 @@ def _find(record_id):
     records, from_airtable = _load_all()
     for r in records:
         if r['id'] == record_id:
+            return r, records, from_airtable
+    return None, records, from_airtable
+
+
+def _find_by_email(email):
+    """Lookup for the GATEWAY self-service portal — matches on EMAIL, active
+    records only (an archived record has no portal access)."""
+    email = (email or '').strip().lower()
+    if not email:
+        return None, [], False
+    records, from_airtable = _load_all()
+    for r in records:
+        if (r.get('email') or '').strip().lower() == email and r.get('status', 'Active') == 'Active':
             return r, records, from_airtable
     return None, records, from_airtable
 
@@ -727,6 +797,8 @@ def get_config():
         'internal_target_days': INTERNAL_TARGET_DAYS,
         'cms_hard_deadline_days': CMS_HARD_DEADLINE_DAYS,
         'screening_cadence_months': SCREENING_CADENCE_MONTHS,
+        'self_service_documents': SELF_SERVICE_DOCUMENTS,
+        'self_service_acknowledgments': SELF_SERVICE_ACKNOWLEDGMENTS,
     })
 
 
@@ -765,9 +837,12 @@ def add_hire():
     if not name:
         return jsonify({'error': 'name is required'}), 400
     member_facing = data.get('memberFacing', True)
-    rec = _new_record(name, data.get('workerType'), data.get('division'), data.get('startdate'), member_facing)
+    email = (data.get('email') or '').strip().lower()
+    rec = _new_record(name, data.get('workerType'), data.get('division'), data.get('startdate'), member_facing, email)
     actor = (data.get('actor') or '').strip() or 'unspecified'
     _log_audit(rec, actor, f'Record created by {actor}')
+    if email:
+        _log_audit(rec, actor, f'GATEWAY portal access enabled for {email}')
     _create(rec)
     return jsonify({'success': True, 'record': rec}), 201
 
@@ -1114,6 +1189,183 @@ def get_alerts():
         'active_count': len(records),
         'alert_count': alert_count,
     })
+
+
+# ═══════════════════════════════════════════════════════════════
+# GATEWAY SELF-SERVICE PORTAL — gateway.deedavis.biz
+# Looked up by EMAIL only. Never returns auditLog, exclusionLog detail
+# beyond the computed screening summary, or classification.routedToCounsel
+# notes — this is the new hire/contractor's own view, not the HR admin view.
+# ═══════════════════════════════════════════════════════════════
+
+import base64
+import re as _re
+
+DOCS_DIR = os.path.join(DATA_DIR, 'documents')
+os.makedirs(DOCS_DIR, exist_ok=True)
+
+
+def _safe_filename(name):
+    name = os.path.basename(name or 'upload')
+    name = _re.sub(r'[^A-Za-z0-9._-]', '_', name)
+    return name[:120] or 'upload'
+
+
+def _sanitized_self_record(rec):
+    """The subset of a GATEWAY record that's safe to hand back to the
+    new hire/contractor themselves over the portal."""
+    doc_catalog = SELF_SERVICE_DOCUMENTS.get(rec['workerType'], [])
+    ack_catalog = SELF_SERVICE_ACKNOWLEDGMENTS.get(rec['workerType'], [])
+    uploaded_keys = {d.get('key') for d in rec.get('documents', [])}
+    acked_keys = {a.get('key') for a in rec.get('acknowledgments', [])}
+
+    return {
+        'id': rec['id'],
+        'name': rec['name'],
+        'email': rec.get('email', ''),
+        'workerType': rec['workerType'],
+        'division': rec.get('division', ''),
+        'startdate': rec.get('startdate', ''),
+        'status': rec.get('status', 'Active'),
+        'progress': _progress(rec),
+        'phases': [{
+            'key': p['key'], 'title': p['title'], 'owner': p['owner'], 'items': p['items'],
+            'checked': rec.get('checklist', {}).get(p['key'], [False] * len(p['items'])),
+        } for p in phases_for(rec['workerType'])],
+        'training': [{
+            'name': TRAININGS[i]['name'],
+            'recurrence_label': TRAININGS[i]['recurrence_label'],
+            'status': (rec.get('training') or [{}])[i].get('status', 'Not Started') if i < len(rec.get('training') or []) else 'Not Started',
+            **training_compliance(rec, i, item),
+        } for i, item in enumerate(TRAININGS)],
+        'screening': screening_compliance(rec),
+        'documents': {
+            'catalog': [dict(d, uploaded=(d['key'] in uploaded_keys)) for d in doc_catalog],
+            'uploaded': rec.get('documents', []),
+        },
+        'acknowledgments': {
+            'catalog': [dict(a, acknowledged=(a['key'] in acked_keys)) for a in ack_catalog],
+            'signed': rec.get('acknowledgments', []),
+        },
+    }
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/self', methods=['GET'])
+def get_self_record():
+    email = request.args.get('email', '')
+    rec, _, _ = _find_by_email(email)
+    if not rec:
+        return jsonify({'error': 'No active GATEWAY record found for that email. Ask HR to confirm your record.'}), 404
+    return jsonify({'success': True, 'record': _sanitized_self_record(rec)})
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/self/documents', methods=['POST'])
+def upload_self_document():
+    data = request.get_json(force=True) or {}
+    email = data.get('email', '')
+    doc_key = (data.get('docType') or '').strip()
+    filename = _safe_filename(data.get('filename'))
+    content_b64 = data.get('contentBase64') or ''
+    content_type = data.get('contentType') or 'application/octet-stream'
+
+    rec, records, from_airtable = _find_by_email(email)
+    if not rec:
+        return jsonify({'error': 'No active GATEWAY record found for that email'}), 404
+
+    catalog = SELF_SERVICE_DOCUMENTS.get(rec['workerType'], [])
+    if doc_key not in {d['key'] for d in catalog}:
+        return jsonify({'error': f'"{doc_key}" is not a required document for this worker type'}), 400
+    if not content_b64:
+        return jsonify({'error': 'contentBase64 is required'}), 400
+
+    try:
+        raw = base64.b64decode(content_b64)
+    except Exception:
+        return jsonify({'error': 'contentBase64 could not be decoded'}), 400
+
+    if len(raw) > 8 * 1024 * 1024:
+        return jsonify({'error': 'File too large — 8MB max. Call 855-773-0035 for help.'}), 400
+
+    label = next((d['label'] for d in catalog if d['key'] == doc_key), doc_key)
+    now = datetime.utcnow().isoformat() + 'Z'
+
+    # Local disk copy — always, this is the durable record regardless of Airtable state.
+    rec_dir = os.path.join(DOCS_DIR, rec['id'])
+    os.makedirs(rec_dir, exist_ok=True)
+    stored_name = f'{doc_key}__{filename}'
+    with open(os.path.join(rec_dir, stored_name), 'wb') as f:
+        f.write(raw)
+
+    doc_entry = {
+        'key': doc_key, 'label': label, 'filename': filename,
+        'uploadedAt': now, 'sizeBytes': len(raw), 'localPath': stored_name, 'attachmentUrl': None,
+    }
+
+    # Best-effort push to Airtable's native attachment field so it shows up
+    # on the record in NEXUS, not just on disk.
+    if from_airtable and rec.get('airtable_id'):
+        try:
+            table = _airtable_table(HR_TABLE)
+            if table is not None:
+                result = table.upload_attachment(
+                    rec['airtable_id'], DOCUMENTS_TABLE_FIELD, filename,
+                    content=raw, content_type=content_type,
+                )
+                # Airtable's response keys the attachment list by FIELD ID, not
+                # field name — find the list containing our just-uploaded filename.
+                for field_val in (result.get('fields') or {}).values():
+                    if isinstance(field_val, list) and field_val and isinstance(field_val[0], dict) and 'url' in field_val[0]:
+                        match = next((a for a in field_val if a.get('filename') == filename), field_val[-1])
+                        doc_entry['attachmentUrl'] = match.get('url')
+                        break
+        except Exception:
+            pass  # local copy already saved — Airtable attachment is a bonus, not a blocker
+
+    # Replace any prior upload for this same doc key (re-upload overwrites the record, not the disk file).
+    docs = [d for d in rec.get('documents', []) if d.get('key') != doc_key]
+    docs.append(doc_entry)
+    rec['documents'] = docs
+    _log_audit(rec, f'self-service ({rec.get("email", "")})', f'Document uploaded: {label} ({filename})')
+    _persist(rec, records, from_airtable)
+
+    return jsonify({'success': True, 'document': doc_entry})
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/self/acknowledge', methods=['POST'])
+def acknowledge_self():
+    """Typed-name + timestamp + IP acknowledgment — the e-signature
+    equivalent for handbook/NDA/Code-of-Conduct items in the portal."""
+    data = request.get_json(force=True) or {}
+    email = data.get('email', '')
+    ack_key = (data.get('itemKey') or '').strip()
+    typed_name = (data.get('typedName') or '').strip()
+
+    if not typed_name:
+        return jsonify({'error': 'typedName is required to acknowledge'}), 400
+
+    rec, records, from_airtable = _find_by_email(email)
+    if not rec:
+        return jsonify({'error': 'No active GATEWAY record found for that email'}), 404
+
+    catalog = SELF_SERVICE_ACKNOWLEDGMENTS.get(rec['workerType'], [])
+    label = next((a['label'] for a in catalog if a['key'] == ack_key), None)
+    if not label:
+        return jsonify({'error': f'"{ack_key}" is not a required acknowledgment for this worker type'}), 400
+
+    now = datetime.utcnow().isoformat() + 'Z'
+    entry = {
+        'key': ack_key, 'label': label, 'typedName': typed_name,
+        'ip': request.headers.get('X-Forwarded-For', request.remote_addr or ''),
+        'ts': now,
+    }
+    acks = [a for a in rec.get('acknowledgments', []) if a.get('key') != ack_key]
+    acks.append(entry)
+    rec['acknowledgments'] = acks
+    _log_audit(rec, f'self-service ({rec.get("email", "")})',
+               f'Acknowledged/e-signed: "{label}" (typed name: {typed_name})')
+    _persist(rec, records, from_airtable)
+
+    return jsonify({'success': True, 'acknowledgment': entry})
 
 
 def create_hr_onboarding_routes(app):
