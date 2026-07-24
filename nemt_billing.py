@@ -578,6 +578,143 @@ def check_member_eligibility_checklist(trip_data: Dict[str, Any]) -> Dict[str, A
     }
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Molina HIDE SNP LTSS — Community Transition Services (CTS) readiness + billing
+# CTS is NOT a trip — no mileage, no pickup/dropoff, no driver. It tracks a
+# nursing-facility-to-community move authorized on the member's PCSP, a
+# one-time home/environment assessment (T1028, $150 flat), and PCSP-authorized
+# non-recurring setup expenses (T2038, "Manual" — no fixed rate on the fee
+# schedule; DDI must get the authorized dollar amount before incurring cost).
+# ─────────────────────────────────────────────────────────────────────────────
+
+def check_cts_readiness_checklist(cts_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Community Transition Services pre-invoice readiness check.
+    Distinct from check_member_eligibility_checklist() — CTS has no
+    HCPCS/mileage/pickup fields and is gated on PCSP authorization dollars,
+    not per-trip eligibility. Both Molina hard gates (attestation + Availity)
+    still apply since CTS is billed under the same vendor/NPI.
+    """
+    apply_molina_ltss_intake_defaults(cts_data)
+    checks: List[Dict[str, Any]] = []
+
+    def _chk(item: str, passed: bool, action: Optional[str] = None) -> None:
+        checks.append({"item": item, "status": "PASS" if passed else "FAIL", "action": action})
+
+    _chk("Member Medicaid ID present", bool((cts_data.get("member_medicaid_id") or "").strip()))
+    _chk("Member name recorded", bool((cts_data.get("member_name") or "").strip()))
+    _chk("Member DOB recorded", bool((cts_data.get("member_dob") or "").strip()))
+    _chk(
+        "Molina LTSS Orientation Attestation on file",
+        MOLINA_LTSS_ATTESTATION_ON_FILE,
+        action="Sign & return attestation to MHMLTSSContracting@MolinaHealthCare.Com — HARD GATE, no members until done",
+    )
+    _chk(
+        "Molina Availity portal active (NPI 1538939111 confirmed)",
+        MOLINA_LTSS_AVAILITY_ACTIVE,
+        action="Confirm Availity App ID 63821858 activated and NPI entered — check back ~Jul 28-30",
+    )
+    _chk(
+        "PCSP / Care Coordinator authorization on file with approved dollar amount",
+        bool(cts_data.get("pcsp_authorized_amount")),
+        action="Get the authorized transition amount from the Care Coordinator / LTSS Specialist BEFORE incurring any expense",
+    )
+    _chk(
+        "Transitioning FROM a nursing facility documented",
+        bool((cts_data.get("transitioning_from") or "").strip()),
+        action="Record the nursing facility name/address the member is leaving",
+    )
+    _chk(
+        "Transitioning TO own residence documented",
+        bool((cts_data.get("transitioning_to") or "").strip()),
+        action="Record the new residence address where the member will live independently",
+    )
+    _chk(
+        "Home & environment assessment (T1028) completed",
+        bool(cts_data.get("assessment_completed")),
+        action="Complete and document the home/physical/family environment assessment before finalizing setup expenses",
+    )
+
+    expenses = cts_data.get("itemized_expenses") or []
+    receipts_total = round(sum(float(e.get("amount") or 0) for e in expenses), 2)
+    authorized = cts_data.get("pcsp_authorized_amount")
+    if expenses:
+        within_budget = authorized is None or receipts_total <= float(authorized) + 0.01
+        _chk(
+            f"Itemized expenses (${receipts_total:.2f}) within PCSP-authorized amount",
+            within_budget,
+            action="Expenses exceed the authorized amount — get updated authorization before submitting for payment",
+        )
+        _chk(
+            "Expenses are non-recurring only (no rent / recurring utilities)",
+            not any(str(e.get("recurring")).lower() in ("true", "1") for e in expenses),
+            action="Community Transition Services covers ONE-TIME setup costs only — remove recurring charges from the itemization",
+        )
+
+    failed = [c for c in checks if c["status"] == "FAIL"]
+    return {
+        "eligible_to_invoice": len(failed) == 0,
+        "failed_count": len(failed),
+        "checks": checks,
+        "receipts_total": receipts_total,
+    }
+
+
+def compute_cts_claim(cts_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Molina HIDE SNP LTSS Community Transition Services claim.
+    T1028 assessment ($150 flat, billed once) + T2038 (PCSP-authorized amount —
+    "Manual" on Molina's fee schedule, so DDI supplies the amount rather than
+    a fixed rate).
+    """
+    line_items: List[Dict[str, Any]] = []
+    if cts_data.get("assessment_completed") and not cts_data.get("assessment_already_billed"):
+        line_items.append(
+            {
+                "description": "Molina HIDE SNP LTSS — Community Transition assessment (flat fee)",
+                "hcpcs": "T1028",
+                "quantity": 1,
+                "rate": MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT,
+                "amount": MOLINA_LTSS_COMMUNITY_TRANSITION_ASSESSMENT,
+            }
+        )
+    authorized = cts_data.get("pcsp_authorized_amount")
+    if authorized:
+        line_items.append(
+            {
+                "description": (
+                    "Molina HIDE SNP LTSS — Community Transition Services, non-recurring "
+                    "setup expenses (T2038, PCSP-authorized amount)"
+                ),
+                "hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
+                "quantity": 1,
+                "rate": float(authorized),
+                "amount": round(float(authorized), 2),
+            }
+        )
+    else:
+        line_items.append(
+            {
+                "description": (
+                    "Molina HIDE SNP LTSS — Community Transition Services (T2038, 'Manual' — "
+                    "awaiting PCSP-authorized amount from LTSS Specialist)"
+                ),
+                "hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
+                "quantity": 1,
+                "rate": None,
+                "amount": None,
+            }
+        )
+    total = round(sum(li["amount"] for li in line_items if li.get("amount")), 2)
+    return {
+        "total": total,
+        "line_items": line_items,
+        "service_type_label": "Community Transition Services",
+        "primary_hcpcs": MOLINA_LTSS_COMMUNITY_TRANSITION_HCPCS,
+        "manual_pricing_required": authorized is None,
+    }
+
+
 def _record_fields(rec: Any) -> Dict[str, Any]:
     """pyairtable Record or dict → fields dict."""
     if isinstance(rec, dict):

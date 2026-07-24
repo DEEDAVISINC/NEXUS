@@ -279,6 +279,166 @@ def cancel_nemt_order_for_prism(prism_order_id: str) -> bool:
     return True
 
 
+def create_community_transition_order(
+    member_medicaid_id: str,
+    member_name: str,
+    member_dob: str,
+    transitioning_from: str,
+    transitioning_to: str,
+    payer: str = "Molina Healthcare Michigan",
+    pcsp_authorized_amount: Optional[float] = None,
+    assessment_completed: bool = False,
+    assessment_date: Optional[str] = None,
+    itemized_expenses: Optional[List[Dict[str, Any]]] = None,
+    notes: Optional[str] = None,
+    prism_order_id: Optional[str] = None,
+    member_phone: Optional[str] = None,
+    member_email: Optional[str] = None,
+) -> Dict[str, Any]:
+    """
+    Molina HIDE SNP LTSS — Community Transition Services (CTS) record.
+    Deliberately separate from create_nemt_order(): CTS has no transport_type,
+    mileage, or pickup/dropoff — it tracks a nursing-facility-to-community
+    move, a home/environment assessment (T1028), and PCSP-authorized
+    non-recurring setup expenses (T2038).
+    """
+    from nemt_billing import apply_molina_ltss_intake_defaults, check_cts_readiness_checklist
+
+    cts_id = str(uuid.uuid4())
+    cts: Dict[str, Any] = {
+        "cts_id": cts_id,
+        "service_type": "community_transition",
+        "member_medicaid_id": (member_medicaid_id or "").strip(),
+        "member_name": (member_name or "").strip(),
+        "member_dob": (member_dob or "").strip(),
+        "payer": (payer or "Molina Healthcare Michigan").strip(),
+        "transitioning_from": (transitioning_from or "").strip(),
+        "transitioning_to": (transitioning_to or "").strip(),
+        "pcsp_authorized_amount": float(pcsp_authorized_amount) if pcsp_authorized_amount else None,
+        "assessment_completed": bool(assessment_completed),
+        "assessment_date": assessment_date,
+        "itemized_expenses": itemized_expenses or [],
+        "notes": notes or "",
+        "member_phone": (member_phone or "").strip() or None,
+        "member_email": (member_email or "").strip().lower() or None,
+        "prism_order_id": (prism_order_id or "").strip() or None,
+        "status": "intake",
+        "created_at": _now_iso(),
+        "updated_at": _now_iso(),
+        "invoiced_at": None,
+        "vertex_invoice_id": None,
+    }
+
+    apply_molina_ltss_intake_defaults(cts)
+    cts["readiness_checklist"] = check_cts_readiness_checklist(cts)
+
+    state = _load_state()
+    state.setdefault("cts_orders", {})[cts_id] = cts
+    _save_state(state)
+
+    nxlearn(
+        "transport",
+        cts_id,
+        "cts_order_created",
+        {
+            "payer": cts["payer"],
+            "has_authorization": bool(cts["pcsp_authorized_amount"]),
+        },
+    )
+
+    return cts
+
+
+def find_cts_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]:
+    """Resolve linked CTS record from a PRISM order id."""
+    pid = (prism_order_id or "").strip()
+    if not pid:
+        return None
+    state = _load_state()
+    for cts in state.get("cts_orders", {}).values():
+        if cts.get("prism_order_id") == pid:
+            return cts
+    return None
+
+
+def create_cts_from_prism_intake(order: Dict[str, Any], data: Dict[str, Any]) -> Optional[str]:
+    """
+    Create and link a Molina Community Transition Services (CTS) record from a
+    PRISM intake submission. Unlike create_nemt_from_prism_intake(), this does
+    NOT require pickup/dropoff — CTS tracks a nursing-facility-to-community
+    move, not a ride.
+    """
+    svc_key = (order.get("service_key") or data.get("service_key") or "").lower()
+    if svc_key not in ("community_transition", "cts"):
+        return None
+
+    prism_id = (order.get("id") or "").strip()
+    if not prism_id:
+        return None
+
+    if data.get("skip_nemt_auto_link"):
+        return None
+
+    existing = find_cts_order_by_prism_id(prism_id)
+    if existing:
+        return existing.get("cts_id")
+
+    details = dict(order.get("details") or data.get("details") or {})
+
+    member_id = (
+        details.get("member_id") or data.get("subject_id") or order.get("subject_id") or ""
+    ).strip()
+    member_name = (order.get("signer") or "").strip()
+    if not member_name:
+        member_name = f"{data.get('subject_first', '')} {data.get('subject_last', '')}".strip()
+    member_dob = (order.get("subject_dob") or data.get("subject_dob") or "Pending verification").strip()
+
+    transitioning_from = (
+        details.get("transitioning_from")
+        or details.get("nursing_facility")
+        or data.get("transitioning_from")
+        or ""
+    ).strip()
+    transitioning_to = (
+        details.get("transitioning_to")
+        or details.get("new_residence_address")
+        or data.get("transitioning_to")
+        or order.get("address")
+        or ""
+    ).strip()
+
+    authorized_raw = details.get("pcsp_authorized_amount") or data.get("pcsp_authorized_amount")
+    try:
+        authorized = float(authorized_raw) if authorized_raw not in (None, "") else None
+    except (TypeError, ValueError):
+        authorized = None
+
+    member_phone = (
+        details.get("member_phone") or data.get("client_phone") or order.get("client_phone") or ""
+    ).strip()
+    member_email = (
+        (data.get("client_email") or order.get("client_email") or "").strip().lower()
+    )
+
+    try:
+        cts = create_community_transition_order(
+            member_medicaid_id=member_id,
+            member_name=member_name,
+            member_dob=member_dob,
+            transitioning_from=transitioning_from,
+            transitioning_to=transitioning_to,
+            pcsp_authorized_amount=authorized,
+            notes=(order.get("notes") or data.get("notes") or "").strip(),
+            prism_order_id=prism_id,
+            member_phone=member_phone or None,
+            member_email=member_email or None,
+        )
+        return cts.get("cts_id")
+    except Exception as exc:
+        print(f"CTS auto-link failed for {prism_id}: {exc}")
+    return None
+
+
 def find_nemt_order_by_prism_id(prism_order_id: str) -> Optional[Dict[str, Any]]:
     """Resolve linked NEMT order from PRISM confirmation / order id."""
     pid = (prism_order_id or "").strip()
@@ -1240,6 +1400,130 @@ def route_by_prism_order(prism_id: str):
             "prism_order_id": prism_id,
         }), 404
     return jsonify(order)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Molina HIDE SNP LTSS — Community Transition Services (CTS)
+# Separate order type from NEMT trips: no mileage, no pickup/dropoff, no
+# driver. Tracks nursing-facility-to-community moves, the T1028 home
+# assessment, and PCSP-authorized T2038 non-recurring setup expenses.
+# ─────────────────────────────────────────────────────────────────────────────
+
+@prism_nemt.route("/prism/nemt/cts", methods=["GET"])
+def route_list_cts_orders():
+    """List all Molina Community Transition Services (CTS) records."""
+    state = _load_state()
+    orders = list(state.get("cts_orders", {}).values())
+    status_filter = request.args.get("status")
+    if status_filter:
+        orders = [o for o in orders if o.get("status") == status_filter]
+    orders.sort(key=lambda x: x.get("created_at") or "", reverse=True)
+    return jsonify({"cts_orders": orders, "count": len(orders)})
+
+
+@prism_nemt.route("/prism/nemt/cts", methods=["POST"])
+def route_create_cts_order():
+    """Manually log a new CTS record (ops entry — not via generic PRISM intake)."""
+    data = request.get_json(force=True) or {}
+    required = ["member_medicaid_id", "member_name", "member_dob", "transitioning_from", "transitioning_to"]
+    missing = [f for f in required if not data.get(f)]
+    if missing:
+        return jsonify({"error": f"Missing required fields: {', '.join(missing)}"}), 400
+    try:
+        cts = create_community_transition_order(
+            member_medicaid_id=data["member_medicaid_id"],
+            member_name=data["member_name"],
+            member_dob=data["member_dob"],
+            transitioning_from=data["transitioning_from"],
+            transitioning_to=data["transitioning_to"],
+            payer=data.get("payer") or "Molina Healthcare Michigan",
+            pcsp_authorized_amount=data.get("pcsp_authorized_amount"),
+            assessment_completed=bool(data.get("assessment_completed", False)),
+            assessment_date=data.get("assessment_date"),
+            itemized_expenses=data.get("itemized_expenses") or [],
+            notes=data.get("notes"),
+            prism_order_id=data.get("prism_order_id"),
+            member_phone=data.get("member_phone"),
+            member_email=data.get("member_email"),
+        )
+        return jsonify(cts), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@prism_nemt.route("/prism/nemt/cts/by-prism/<prism_id>", methods=["GET"])
+def route_cts_by_prism_order(prism_id: str):
+    cts = find_cts_order_by_prism_id(prism_id)
+    if not cts:
+        return jsonify({
+            "error": "No CTS record linked to this PRISM order",
+            "prism_order_id": prism_id,
+        }), 404
+    return jsonify(cts)
+
+
+@prism_nemt.route("/prism/nemt/cts/<cts_id>", methods=["GET"])
+def route_get_cts_order(cts_id: str):
+    state = _load_state()
+    cts = state.get("cts_orders", {}).get(cts_id)
+    if not cts:
+        return jsonify({"error": "CTS record not found"}), 404
+    return jsonify(cts)
+
+
+@prism_nemt.route("/prism/nemt/cts/<cts_id>", methods=["PATCH"])
+def route_update_cts_order(cts_id: str):
+    """Update PCSP authorization, assessment status, or itemized expenses. Refreshes readiness checklist."""
+    from nemt_billing import check_cts_readiness_checklist
+
+    data = request.get_json(force=True) or {}
+    state = _load_state()
+    cts = state.get("cts_orders", {}).get(cts_id)
+    if not cts:
+        return jsonify({"error": "CTS record not found"}), 404
+
+    if "pcsp_authorized_amount" in data:
+        try:
+            cts["pcsp_authorized_amount"] = float(data["pcsp_authorized_amount"]) if data["pcsp_authorized_amount"] not in (None, "") else None
+        except (TypeError, ValueError):
+            pass
+    if "assessment_completed" in data:
+        cts["assessment_completed"] = bool(data["assessment_completed"])
+        cts["assessment_date"] = data.get("assessment_date") or cts.get("assessment_date") or _now_iso()
+    if "itemized_expenses" in data:
+        cts["itemized_expenses"] = data["itemized_expenses"] or []
+    elif "add_expense" in data and data["add_expense"]:
+        cts.setdefault("itemized_expenses", []).append(data["add_expense"])
+    if "status" in data:
+        cts["status"] = data["status"]
+    if "notes" in data:
+        cts["notes"] = data["notes"]
+    if "transitioning_from" in data:
+        cts["transitioning_from"] = data["transitioning_from"]
+    if "transitioning_to" in data:
+        cts["transitioning_to"] = data["transitioning_to"]
+
+    cts["updated_at"] = _now_iso()
+    cts["readiness_checklist"] = check_cts_readiness_checklist(cts)
+
+    state.setdefault("cts_orders", {})[cts_id] = cts
+    _save_state(state)
+    return jsonify(cts)
+
+
+@prism_nemt.route("/prism/nemt/cts/<cts_id>/claim", methods=["GET"])
+def route_cts_claim_preview(cts_id: str):
+    """Preview the VERTEX claim (T1028 + T2038) for a CTS record before invoicing."""
+    from nemt_billing import compute_cts_claim, check_cts_readiness_checklist
+
+    state = _load_state()
+    cts = state.get("cts_orders", {}).get(cts_id)
+    if not cts:
+        return jsonify({"error": "CTS record not found"}), 404
+
+    readiness = check_cts_readiness_checklist(cts)
+    claim = compute_cts_claim(cts)
+    return jsonify({"cts_id": cts_id, "readiness": readiness, "claim": claim})
 
 
 @prism_nemt.route("/prism/nemt/orders/<order_id>/verify-eligibility", methods=["POST"])

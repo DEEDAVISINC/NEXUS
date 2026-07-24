@@ -61,6 +61,57 @@ Both gates are enforced in code — see `nemt_billing.py`: `MOLINA_LTSS_ATTESTAT
 
 **VERTEX / NEXUS billing:** `nemt_billing.compute_trip_claim()` — auto-detects Molina payer, applies base HCPCS (T2003/A0130) + mileage line (S0215/S0209). Ops must enter **actual loaded mileage** on Mark Complete, same as HAP.
 
+**CTS invoice formula:** `$150 assessment (T1028, billed once) + PCSP-authorized amount (T2038)` — computed by `nemt_billing.compute_cts_claim()`. DDI never guesses the T2038 dollar figure; it comes from the LTSS Specialist team and is entered against the CTS record before invoicing.
+
+---
+
+## COMMUNITY TRANSITION SERVICES (CTS) — SECONDARY SERVICE, FULL PRISM WORKFLOW
+
+**CTS is not a ride.** It's a one-time case-management service for a member moving from a nursing facility into their own residence — no mileage, no driver, no pickup/dropoff. PRISM tracks it as its own order type, separate from NMT trips.
+
+**What the service actually covers (per Provider Manual, MLTSS section p.141):** *"Non-reoccurring expenses for Members transitioning from a nursing facility to another residence where the Member is responsible for his or her own living arrangement."* Think: security deposit, essential furnishings (bed, table, chairs), moving costs, utility setup — **one-time only, never rent or recurring utilities.**
+
+### The CTS workflow (in order)
+
+```
+1. Care Coordinator authorizes CTS on the member's PCSP
+2. DDI gets the PCSP-authorized dollar amount from the LTSS Specialist team
+   (T2038 is "Manual" pricing — there is NO fixed rate to bill against until
+   this number is obtained)
+3. DDI completes the home & environment assessment (T1028, $150 flat)
+4. DDI coordinates/purchases the authorized non-recurring setup items,
+   keeping itemized receipts for every purchase
+5. Itemized total is checked against the authorized amount — PRISM flags
+   (does not silently allow) any overage
+6. Claim submitted: T1028 ($150) + T2038 (authorized amount)
+```
+
+### Where this lives in PRISM
+
+| Component | Function / config |
+|---|---|
+| Order creation (manual entry) | `prism_nemt.create_community_transition_order()` |
+| Order creation (from generic PRISM intake, `service_key=community_transition` or `cts`) | `prism_nemt.create_cts_from_prism_intake()` — auto-fires alongside the NEMT auto-link on every intake submission |
+| Readiness / pre-invoice checklist | `nemt_billing.check_cts_readiness_checklist()` — checks both Molina hard gates, PCSP authorization on file, transitioning-from/to documented, assessment completed, receipts within budget, no recurring charges |
+| Claim calculation | `nemt_billing.compute_cts_claim()` |
+| QC checklist (CTS-1 → CTS-9) | `prism_orders_api.SERVICE_QC_CHECKLISTS['community_transition']` |
+| Workflow stages | `prism_orders_api.SERVICE_STAGE_OVERRIDES['community_transition']` |
+| Required scanback docs | `prism_orders_api.SERVICE_EXPECTED_DOCS['community_transition']` — PCSP/CTS Authorization, Home & Environment Assessment (T1028), Itemized Expense Receipts, Proof of New Residence |
+| Routing/margin reference | `prism_service_router.SERVICE_CATALOG['community_transition_assessment']`, `['community_transition_services']` |
+
+### API routes (live once PRISM is running)
+
+| Route | Purpose |
+|---|---|
+| `GET /prism/nemt/cts` | List all CTS records |
+| `POST /prism/nemt/cts` | Manually log a new CTS record |
+| `GET /prism/nemt/cts/<cts_id>` | Get one CTS record |
+| `PATCH /prism/nemt/cts/<cts_id>` | Set `pcsp_authorized_amount`, mark `assessment_completed`, add/replace `itemized_expenses` |
+| `GET /prism/nemt/cts/<cts_id>/claim` | Preview the T1028+T2038 claim + readiness checklist before invoicing |
+| `GET /prism/nemt/cts/by-prism/<prism_id>` | Look up the CTS record linked to a PRISM order |
+
+**Same two hard gates apply.** `MOLINA_LTSS_ATTESTATION_ON_FILE` and `MOLINA_LTSS_AVAILITY_ACTIVE` block CTS readiness exactly like they block NMT dispatch — flipping them to `True` clears both service lines at once (same vendor/NPI).
+
 ---
 
 ## REFERRAL MODEL — DIFFERENT FROM HAP (CRITICAL)
@@ -104,6 +155,8 @@ Molina defaults new providers to **ECHO virtual credit card (Quick Remit)**. Wat
 | Eligibility checklist (gate-aware) | `nemt_billing.check_member_eligibility_checklist()` |
 | Trip pricing | `nemt_billing.compute_trip_claim()` |
 | PRISM payer auto-detection | `prism_nemt._intake_payer()` (matches "molina", "hide snp", "ltss") |
+| CTS order model + intake auto-link | `prism_nemt.create_community_transition_order()`, `create_cts_from_prism_intake()` |
+| CTS readiness checklist + claim | `nemt_billing.check_cts_readiness_checklist()`, `compute_cts_claim()` |
 | QC contract profile | `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/QC_CONTRACT_PROFILE.md` |
 
 **To go live:** once Dee confirms (1) attestation signed & returned and (2) Availity active with NPI confirmed, flip both flags in `nemt_billing.py` to `True`. No other code changes needed — PRISM will immediately start allowing Molina trips through the eligibility gate.

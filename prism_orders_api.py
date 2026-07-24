@@ -64,6 +64,8 @@ INTAKE_SERVICE_MAP = {
     'dna': 'dna',
     'nemt': 'nemt',
     'transport': 'nemt',
+    'community-transition': 'community_transition',
+    'cts': 'community_transition',
     'notary': 'notary',
     'notary-law-firm': 'notary',
     'apostille': 'apostille',
@@ -100,6 +102,7 @@ SERVICE_ROUTING_EMAILS = {
     'dna': 'dna@deedavis.biz',
     'nemt': 'nemt@deedavis.biz',
     'nemt-medicaid': 'nemt@deedavis.biz',
+    'community_transition': 'nemt@deedavis.biz',
     'arena': 'rides@deedavis.biz',
     'event-mobility': 'rides@deedavis.biz',
     'nemt-mobility': 'nemt@deedavis.biz',
@@ -213,6 +216,17 @@ SERVICE_QC_CHECKLISTS = {
         {'id': 'NEMT-7', 'check': 'ADA accessibility requirements met (if applicable)?', 'severity': 'FATAL'},
         {'id': 'NEMT-8', 'check': 'No-show documented with timestamp?', 'severity': 'CRITICAL'},
         {'id': 'NEMT-9', 'check': 'HIPAA — passenger medical info protected?', 'severity': 'FATAL'},
+    ],
+    'community_transition': [
+        {'id': 'CTS-1', 'check': 'Molina LTSS Orientation Attestation on file?', 'severity': 'FATAL'},
+        {'id': 'CTS-2', 'check': 'Availity portal active with NPI 1538939111 confirmed?', 'severity': 'FATAL'},
+        {'id': 'CTS-3', 'check': 'PCSP / Care Coordinator authorization on file with approved dollar amount?', 'severity': 'FATAL'},
+        {'id': 'CTS-4', 'check': 'Member is transitioning FROM a nursing facility (not already community-based)?', 'severity': 'FATAL'},
+        {'id': 'CTS-5', 'check': 'Home & environment assessment (T1028) completed and documented?', 'severity': 'CRITICAL'},
+        {'id': 'CTS-6', 'check': 'Expenses are non-recurring only (no rent, no recurring utility payments)?', 'severity': 'FATAL'},
+        {'id': 'CTS-7', 'check': 'Itemized expenses with receipts do not exceed PCSP-authorized amount?', 'severity': 'CRITICAL'},
+        {'id': 'CTS-8', 'check': 'Proof of new residence obtained (lease or address confirmation)?', 'severity': 'CRITICAL'},
+        {'id': 'CTS-9', 'check': 'Member signature / acknowledgment obtained?', 'severity': 'STANDARD'},
     ],
     'medical_courier': [
         {'id': 'MC-1', 'check': 'Courier trained in specimen handling and biohazard transport?', 'severity': 'FATAL'},
@@ -712,6 +726,24 @@ SERVICE_STAGE_OVERRIDES = {
             ],
         },
     },
+    'community_transition': {
+        'in_progress': {
+            'label': 'Assessment & Authorization',
+            'gates': [
+                {'id': 'G-CTS-1', 'check': 'PCSP authorization on file with approved dollar amount', 'field': None, 'rule': 'manual'},
+                {'id': 'G-CTS-2', 'check': 'Home & environment assessment (T1028) completed', 'field': None, 'rule': 'manual'},
+                {'id': 'G-CTS-3', 'check': 'Nursing facility (transitioning-from) documented', 'field': None, 'rule': 'manual'},
+            ],
+        },
+        'documentation': {
+            'label': 'Transition Expense Documentation',
+            'gates': [
+                {'id': 'G-CTS-4', 'check': 'New residence (transitioning-to) confirmed', 'field': None, 'rule': 'manual'},
+                {'id': 'G-CTS-5', 'check': 'Itemized receipts collected for all non-recurring expenses', 'field': None, 'rule': 'manual'},
+                {'id': 'G-CTS-6', 'check': 'Itemized total does not exceed PCSP-authorized amount', 'field': None, 'rule': 'manual'},
+            ],
+        },
+    },
     'medical_courier': {
         'in_progress': {
             'label': 'Specimen Pickup & Transport',
@@ -827,6 +859,10 @@ def _evaluate_auto_gates(order):
 def _update_workflow_position(order):
     """Advance current_stage to the furthest stage where all prior
     stages have all gates passed."""
+    raw_status = (order.get('status') or '').strip().lower()
+    if raw_status in _portal_hidden_statuses():
+        order['workflow_stage_label'] = 'Cancelled'
+        return
     workflow = order.get('workflow', [])
     current = 0
     for i, stage in enumerate(workflow):
@@ -1004,7 +1040,7 @@ _NEMT_RIDE_TRACKING_STATUSES = {'En Route', 'Arrived', 'Departed', 'Driver Assig
 _SKIP_STATUS_NOTIFY_SERVICES = set()  # No service fully skipped — NEMT handled below
 
 def _status_sms_templates() -> dict:
-    """Member-facing status SMS — always use care line, never desk."""
+    """Member-facing status SMS — always use care line, never CEO personal."""
     care = member_care_phone_display()
     return {
         'Confirmed': (
@@ -1135,7 +1171,7 @@ def _fire_status_notification(order: dict, new_status: str) -> None:
             location=location, ref=ref, name=name or 'there'
         )
 
-    # Internal alert on No Show — ops mobile, not desk
+    # Internal alert on No Show — ops mobile, not CEO personal
     dee_alert = new_status == 'No Show'
 
     def _do() -> None:
@@ -1630,6 +1666,18 @@ def _create_intake_order_impl():
     except Exception as e:
         print(f'PRISM NEMT auto-link skipped: {e}')
 
+    cts_id = None
+    try:
+        from prism_nemt import create_cts_from_prism_intake
+
+        cts_id = create_cts_from_prism_intake(order, data)
+        if cts_id:
+            order.setdefault('details', {})['cts_id'] = cts_id
+            orders[0] = order
+            _save(ORDERS_FILE, orders)
+    except Exception as e:
+        print(f'PRISM CTS (Molina Community Transition) auto-link skipped: {e}')
+
     # Billing data from intake form
     billing_tier = data.get('billing_tier', 'pay_at_booking')
     payment_method = data.get('payment_method', '')
@@ -1688,9 +1736,20 @@ def _create_intake_order_impl():
     return jsonify(payload), 201
 
 
+def _portal_hidden_statuses():
+    return {'cancelled', 'canceled', 'deleted', 'void', 'voided'}
+
+
+def _portal_order_hidden(order: dict) -> bool:
+    s = (order.get('status') or '').lower().replace(' ', '_')
+    return s in _portal_hidden_statuses()
+
+
 def _portal_order_status(status):
     """Map PRISM ops status → client portal bucket."""
     s = (status or 'New').lower().replace(' ', '_')
+    if s in _portal_hidden_statuses():
+        return 'cancelled'
     if s in ('complete', 'completed', 'closed', 'verified', 'documentation'):
         return 'completed'
     if s in ('in_progress', 'assigned', 'dispatched', 'driver_assigned',
@@ -1855,7 +1914,7 @@ def my_orders():
     json_orders = _load(ORDERS_FILE, [])
     mine_json = [
         o for o in json_orders
-        if email in _order_portal_emails(o)
+        if email in _order_portal_emails(o) and not _portal_order_hidden(o)
     ]
     portal_json = [_order_to_portal_view(o) for o in mine_json]
 
@@ -1915,6 +1974,36 @@ def get_order(order_id):
 # ═══════════════════════════════════════════════════════════════════
 # PATCH /prism/orders/<id>  —  Update status, assign agent, etc.
 # ═══════════════════════════════════════════════════════════════════
+
+@prism_orders.route('/prism/orders/<order_id>', methods=['DELETE'])
+def delete_order(order_id):
+    """Remove PRISM intake order and cancel linked NEMT trip (ops cleanup)."""
+    orders = _load(ORDERS_FILE, [])
+    idx = next((i for i, o in enumerate(orders) if o['id'] == order_id), None)
+    if idx is None:
+        return jsonify({'error': 'Order not found'}), 404
+
+    order = orders[idx]
+    nemt_cancelled = False
+    nemt_order_id = (order.get('details') or {}).get('nemt_order_id')
+    try:
+        from prism_nemt import cancel_nemt_order_for_prism
+
+        nemt_cancelled = cancel_nemt_order_for_prism(order_id)
+    except Exception as exc:
+        print(f'NEMT cancel on delete skipped: {exc}')
+
+    removed = orders.pop(idx)
+    _save(ORDERS_FILE, orders)
+
+    return jsonify({
+        'success': True,
+        'deleted': order_id,
+        'nemt_cancelled': nemt_cancelled,
+        'nemt_order_id': nemt_order_id,
+        'order': removed,
+    })
+
 
 @prism_orders.route('/prism/orders/<order_id>', methods=['PATCH'])
 def update_order(order_id):
@@ -2102,6 +2191,7 @@ SERVICE_EXPECTED_DOCS = {
     'apostille':       {'pages': 2, 'docs': ['Apostille Certificate Scan', 'Original Document Scan']},
     'process':         {'pages': 2, 'docs': ['Proof of Service / Affidavit', 'Photo Evidence']},
     'nemt':            {'pages': 2, 'docs': ['Trip Log / Manifest', 'Passenger Signature Form']},
+    'community_transition': {'pages': 4, 'docs': ['PCSP / CTS Authorization (approved amount)', 'Home & Environment Assessment (T1028)', 'Itemized Expense Receipts', 'Proof of New Residence']},
     'medical_courier': {'pages': 2, 'docs': ['Chain of Custody / Manifest', 'Delivery Confirmation']},
     'courier':         {'pages': 1, 'docs': ['Delivery Confirmation / POD']},
     'phlebotomy':      {'pages': 2, 'docs': ['Collection Form', 'Photo ID Verification']},

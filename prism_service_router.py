@@ -464,6 +464,36 @@ SERVICE_CATALOG = {
         'notes':            'DDI is the broker. All trips dispatched through network. DDI keeps broker margin.',
     },
 
+    # ─── COMMUNITY TRANSITION SERVICES (Molina HIDE SNP LTSS — secondary service) ──
+    'community_transition_assessment': {
+        'label':            'Community Transition Services — Home/Environment Assessment (T1028)',
+        'service_line':     'Community Transition Services',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': [],   # DDI-direct — case management, not fulfillment
+        'ddi_rate':         150,    # Molina fee schedule flat rate (T1028), no discount
+        'sub_cost_low':     None,
+        'sub_cost_high':    None,
+        'ddi_direct_cost':  0,
+        'lab_cost':         0,
+        'notes':            'Molina HIDE SNP LTSS. One-time assessment of home/physical/family environment for a member transitioning out of a nursing facility. DDI-direct, no sub routing — this is case management, not a trip.',
+    },
+    'community_transition_services': {
+        'label':            'Community Transition Services — Non-Recurring Setup Expenses (T2038)',
+        'service_line':     'Community Transition Services',
+        'ddi_capable':      True,
+        'lab_required':     False,
+        'lab_partners':     [],
+        'collection_partners': ['Local furniture/moving vendors as needed for itemized purchases'],
+        'ddi_rate':         None,   # "Manual" on Molina fee schedule — negotiated per case, capped by PCSP-authorized amount
+        'sub_cost_low':     None,
+        'sub_cost_high':    None,
+        'ddi_direct_cost':  None,
+        'lab_cost':         0,
+        'notes':            'Non-reoccurring expenses ONLY (security deposit, essential furnishings, moving costs, utility setup) for a member moving from a nursing facility into their own residence. Get the authorized dollar amount from the LTSS Specialist BEFORE incurring expenses. Retain itemized receipts for scanback/audit — no recurring charges (rent, ongoing utilities) allowed.',
+    },
+
     # ─── PRESCRIPTION DELIVERY ──────────────────────────────────────
     'rx_delivery_standard': {
         'label':            'Prescription Delivery — Standard (Same-Day)',
@@ -1548,26 +1578,70 @@ def api_credential_check():
 
 CLIENT_PORTAL_STORE = {}  # In production: Airtable PRISM_CLIENTS table
 
+PRISM_DATA_DIR = os.path.join(os.path.dirname(__file__), 'uploads', 'prism')
+PRISM_CLIENTS_FILE = os.path.join(PRISM_DATA_DIR, 'clients.json')
+PRISM_ORDERS_FILE = os.path.join(PRISM_DATA_DIR, 'orders.json')
+
+
+def _load_prism_json(path: str, default):
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return default
+
+
+def _client_portal_record(raw: dict, code: str) -> dict:
+    services = raw.get('services') or []
+    if isinstance(services, str):
+        services = [services]
+    return {
+        'id': raw.get('id'),
+        'code': code,
+        'name': raw.get('name', ''),
+        'contact_name': raw.get('contact_name') or raw.get('contactName', ''),
+        'contact_email': raw.get('email') or raw.get('contact_email') or raw.get('contactEmail', ''),
+        'contact_phone': raw.get('phone') or raw.get('contact_phone') or raw.get('contactPhone', ''),
+        'services': services,
+        'service_category': raw.get('service_category') or raw.get('type') or 'multi',
+        'state': raw.get('state', 'MI'),
+        'county': raw.get('county', ''),
+    }
+
 
 def _get_client_by_code(code: str) -> Optional[dict]:
-    """Fetch client record by magic link code. Maps to Airtable."""
+    """Fetch client record by magic link code. Maps to clients.json / portal store."""
     if code in CLIENT_PORTAL_STORE:
         return CLIENT_PORTAL_STORE[code]
-    # Fallback demo client
-    if code in ('demo', 'ABC-7X9K2'):
-        return {
-            'id': 'c1',
-            'code': code,
-            'name': 'ABC Trucking Co.',
-            'contact_name': 'Mike Johnson',
-            'contact_email': 'mike@abctrucking.com',
-            'services': ['dot_drug_test', 'non_dot_drug_test', 'post_accident_drug',
-                         'return_to_duty_test', 'random_pool'],
-            'service_category': 'drug_testing',
-            'state': 'MI',
-            'county': 'Oakland',
-        }
+
+    needle = (code or '').strip().upper()
+    if not needle:
+        return None
+
+    for raw in _load_prism_json(PRISM_CLIENTS_FILE, []):
+        portal = str(raw.get('portal_code') or raw.get('code') or '').upper()
+        cid = str(raw.get('id') or '').upper()
+        if portal == needle or cid == needle:
+            return _client_portal_record(raw, code)
+
     return None
+
+
+def _orders_for_client(client: dict) -> List[dict]:
+    """Return PRISM orders belonging to this client (by id or client name)."""
+    orders = _load_prism_json(PRISM_ORDERS_FILE, [])
+    cid = client.get('id')
+    cname = client.get('name')
+    cc = client.get('code')
+    matched = []
+    for o in orders:
+        if cid and o.get('client_id') == cid:
+            matched.append(o)
+        elif cname and o.get('client') == cname:
+            matched.append(o)
+        elif cc and o.get('client_code') == cc:
+            matched.append(o)
+    return matched
 
 
 @prism_router.route('/prism/client-portal/<client_code>', methods=['GET'])
@@ -1578,15 +1652,27 @@ def api_client_portal_home(client_code):
     if not client:
         return jsonify({'error': 'Invalid or expired link'}), 404
 
-    # In production these pull from Airtable tables:
-    # - PRISM_ORDERS (filtered by client_id)
-    # - PRISM_DOCUMENTS (filtered by client_id)
-    # - PRISM_INVOICES (filtered by client_id)
+    client_orders = _orders_for_client(client)
+    portal_orders = [
+        {
+            'id': o.get('id'),
+            'type': o.get('type') or o.get('service_key'),
+            'subject': o.get('signer') or o.get('service_label') or '',
+            'status': (o.get('status') or 'pending').lower().replace(' ', '_'),
+            'scheduledDate': o.get('date'),
+            'scheduledTime': o.get('time'),
+            'location': o.get('collection_site') or o.get('address'),
+            'notes': o.get('notes') or '',
+            'createdAt': (o.get('created_at') or '')[:10],
+        }
+        for o in client_orders
+    ]
+
     return jsonify({
         'client': client,
-        'orders': [],       # Populated from Airtable PRISM_ORDERS
-        'documents': [],    # Populated from Airtable PRISM_DOCUMENTS
-        'invoices': [],     # Populated from Airtable PRISM_INVOICES
+        'orders': portal_orders,
+        'documents': [],
+        'invoices': [],
         'services_available': [
             {
                 'type': svc_key,
@@ -1605,8 +1691,17 @@ def api_client_orders(client_code):
     client = _get_client_by_code(client_code)
     if not client:
         return jsonify({'error': 'Invalid link'}), 404
-    # Production: query Airtable PRISM_ORDERS where client_id = client['id']
-    return jsonify({'orders': []})
+    portal_orders = [
+        {
+            'id': o.get('id'),
+            'type': o.get('type') or o.get('service_key'),
+            'subject': o.get('signer') or '',
+            'status': (o.get('status') or 'pending').lower().replace(' ', '_'),
+            'createdAt': (o.get('created_at') or '')[:10],
+        }
+        for o in _orders_for_client(client)
+    ]
+    return jsonify({'orders': portal_orders})
 
 
 @prism_router.route('/prism/client-portal/<client_code>/orders', methods=['POST'])
