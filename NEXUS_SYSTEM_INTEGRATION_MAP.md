@@ -17,6 +17,7 @@
 | **COMPASS™** | Compliant Optimization & Messaging Performance Assessment System | Proposal QA | Integrated |
 | **PRISM** | Professional Resource Inspection & Service Management | Field service dispatch | Architecture Phase |
 | **DOCUMENTS** | Document Management System | File storage & retrieval | Core Infrastructure |
+| **HR** | Employee & Contractor Onboarding | Internal W-2/1099 onboarding, CMS FDR training, exclusion screening | Built |
 
 ---
 
@@ -210,7 +211,31 @@ PRISM (Dispatch & Execute)
     └── DDI margin: $35 tracked
 ```
 
-### 9. ALL SYSTEMS ↔ DOCUMENTS
+### 9. HR ↔ COMPASS + VERTEX + SHIELD/HAVEN/DDCSS (Internal Staff + Compliance + Financial)
+```
+HR (Internal Onboarding — W-2 Employee / 1099 Contractor)
+├── New hire added: "NEMT Coordinator, DEPOINTE division"
+│   ├── Pre-Boarding: I-9/E-Verify (employee) or IC Agreement + W-9 (contractor)
+│   ├── OIG LEIE + GSA SAM.gov exclusion screening logged (at hire, then monthly)
+│   └── CMS FDR training curriculum assigned (FWA due within 90 days of hire)
+│
+├── Compliance gate: GET /nexus/hr/onboarding/<id>/can-work
+│   └── SHIELD / HAVEN / DDCSS check this BEFORE assigning MCO/HIDE SNP-facing work
+│       (mirrors PRISM's field-agent can-work gate — same "no work until compliant" rule)
+│
+├── COMPASS integration
+│   └── HR is the source of FDR audit evidence (42 CFR 422.504(d)) COMPASS surfaces
+│       when a buyer/MCO (CareSource, HIDE SNP) requests compliance proof
+│
+└── VERTEX integration
+    └── Active W-2 headcount by division = internal labor cost/overhead visibility
+        (distinct from field agent/sub costs, which VERTEX already tracks per order)
+```
+
+**Retention note:** Unlike other systems, HR records are never hard-deleted — "Archive" is a status
+change only, preserving the full audit/training/screening history for the CMS-required 10-year window.
+
+### 10. ALL SYSTEMS ↔ DOCUMENTS
 ```
 DOCUMENTS (Universal File System)
 ├── GPSS proposals → /SEND_TO_BUYER/

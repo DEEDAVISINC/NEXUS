@@ -1209,4 +1209,25 @@ export const api = {
     ApiClient.post('/haven/outreach/agreement', { partner_type: partnerType, partner }),
   getHavenPipelineActions: (partner: Record<string, unknown>) =>
     ApiClient.post('/haven/outreach/actions', { partner }),
+
+  // ═══════════════════════════════════════════════════════════
+  // HR ONBOARDING — Internal W-2 Employee / 1099 Contractor onboarding
+  // (distinct from PRISM Field Agents & GPSS Suppliers/Subcontractors)
+  // ═══════════════════════════════════════════════════════════
+  getHrOnboardingConfig: () => ApiClient.get('/nexus/hr/onboarding/config'),
+  getHrOnboardingRoster: (includeArchived?: boolean) =>
+    ApiClient.get(`/nexus/hr/onboarding${includeArchived ? '?include_archived=true' : ''}`),
+  getHrOnboardingRecord: (recordId: string) => ApiClient.get(`/nexus/hr/onboarding/${recordId}`),
+  addHrOnboardingHire: (data: { name: string; workerType: string; division?: string; startdate?: string; actor?: string }) =>
+    ApiClient.post('/nexus/hr/onboarding', data),
+  updateHrOnboardingChecklist: (recordId: string, data: { phase: string; index: number; checked: boolean; actor?: string }) =>
+    ApiClient.put(`/nexus/hr/onboarding/${recordId}/checklist`, data),
+  updateHrOnboardingTraining: (recordId: string, data: { index: number; field: string; value: string; actor?: string }) =>
+    ApiClient.put(`/nexus/hr/onboarding/${recordId}/training`, data),
+  logHrOnboardingScreening: (recordId: string, data: { date: string; result: string; notes?: string; actor?: string }) =>
+    ApiClient.post(`/nexus/hr/onboarding/${recordId}/screening`, data),
+  updateHrOnboardingStatus: (recordId: string, data: { status: 'Active' | 'Archived'; actor?: string }) =>
+    ApiClient.put(`/nexus/hr/onboarding/${recordId}/status`, data),
+  checkHrOnboardingCanWork: (recordId: string) => ApiClient.get(`/nexus/hr/onboarding/${recordId}/can-work`),
+  getHrOnboardingAlerts: () => ApiClient.get('/nexus/hr/onboarding/alerts'),
 };

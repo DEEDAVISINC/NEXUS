@@ -20,15 +20,48 @@ The documents change based on who they are. The flow doesn't.
 
 ---
 
-## THREE PERSON TYPES
+## FOUR PERSON TYPES
 
 | Type | What They Do | Example | System |
 |------|-------------|---------|--------|
 | **Supplier** | Sells us products/materials | Grainger, Zoro, local distributors | GPSS |
 | **Subcontractor** | Performs services under DDI contract | Landscaping crew, HVAC company, janitorial | GPSS |
 | **Field Agent** | Performs mobile field services for DDI | Notary signing agent, drug test collector, fingerprint tech | PRISM |
+| **Employee/Contractor (Internal)** | Works inside DDI's own operation, not dispatched to a client site | NEMT coordinator, HAVEN/SHIELD navigator, corporate admin | **HR** |
 
-**Key insight:** A subcontractor and a field agent are both doing work *for* DDI. The difference is that field agents are dispatched through PRISM (individual mobile assignments), while subcontractors are scoped through GPSS (project-based contracts). Suppliers just sell us stuff.
+**Key insight:** A subcontractor and a field agent are both doing work *for* DDI, external to the company. Employees and internal 1099 contractors work *inside* DDI's operation — they run the divisions (DEPOINTE, HAVEN, SHIELD, VITAL, ARENA/PRIME, 3D Ink/CNTDA, Freight 1st Direct, DEPOINTE DNA, Corporate/HR/Admin) that dispatch field agents and manage subs. Suppliers just sell us stuff.
+
+**Do not confuse internal HR onboarding with PRISM/GPSS onboarding.** A NEMT coordinator hired to run DEPOINTE's dispatch desk goes through **HR** (this section). A driver dispatched to actually run a trip goes through **PRISM Field Agents**. Different compliance spine, different system, same "no work until compliant" principle.
+
+---
+
+## THE 4TH TRACK — HR (EMPLOYEE & CONTRACTOR ONBOARDING)
+
+**System:** `HR` (ViewType `'hr'` in the frontend) — separate from GPSS/PRISM because the compliance requirements are fundamentally different:
+
+| Requirement | Suppliers/Subs/Field Agents (GPSS/PRISM) | Employees/Internal Contractors (HR) |
+|---|---|---|
+| Identity verification | W-9, business license, SAM.gov | **Form I-9 + E-Verify** (employees only — not contractors) |
+| Government screening | SAM.gov exclusion (suppliers/subs) | **OIG LEIE + GSA SAM.gov exclusion — at hire AND monthly** |
+| Required training | Service-specific certs (DOT collector, notary, LiveScan) | **CMS FDR training curriculum** (FWA/General Compliance within 90 days + annual, HIPAA, PII, Recipient Rights, Code of Conduct, etc.) |
+| Why it exists | Protect the contract, protect the client relationship | **DDI is a First Tier, Downstream, and Related (FDR) entity under 42 CFR 422.504(d)** because DDI performs work under MCO/Medicaid contracts (CareSource, HIDE SNP — see `CLIENT OUTREACH/MICHIGAN MICH HIDE SNP/`). CMS requires health plans to flow these training/screening obligations down to every entity — including DDI's own internal staff — that touches that work. |
+
+**Two worker sub-types inside HR, each with its own phase checklist (not the same as employee vs field agent):**
+- **Employee (W-2):** Pre-Boarding → Day 1 → Week 1 → 30 Days → 60/90-Day Check-ins. Includes I-9/E-Verify.
+- **Contractor (1099, internal/office role):** Pre-Engagement → Engagement Start → Ongoing. No I-9/E-Verify (worker-classification risk). Check-ins reference contract deliverables, not calendar-based performance reviews.
+
+**Backend:** `hr_onboarding_api.py` (Flask blueprint `hr_onboarding`), Airtable table `NEXUS HR ONBOARDING` (primary) with automatic local-JSON fallback (`uploads/hr_onboarding/roster.json`) if the Airtable table isn't set up yet — same fallback pattern as `prism_compliance_api.py`.
+
+**Retention rule:** Records are **never hard-deleted**. "Archive" sets `STATUS = Archived` and keeps the full checklist/training/screening/audit history — required by the 10-year CMS FDR retention standard (42 CFR 422.504(d)). The audit log is server-side and append-only (every checklist toggle, training update, and screening entry writes an audit row automatically — this isn't just client-side decoration).
+
+**Compliance gate:** `GET /nexus/hr/onboarding/<id>/can-work` mirrors PRISM's field-agent `can-work` check — returns `false` until the first onboarding phase is fully checked off, at least one exclusion screening is on file, and there is no open flagged screening. **Any system assigning an internal person to MCO/HIDE SNP-facing work (SHIELD, HAVEN, DDCSS) should check this gate first**, the same way PRISM checks `can-work` before dispatching a field agent.
+
+**Frontend:** `nexus-frontend/src/components/systems/HRSystem.tsx` — Dashboard (compliance alerts), Roster (add/list/archive), Detail (phase checklist, training table, exclusion screening log, append-only audit log, CSV export). Tile lives in the NEXUS landing page under Support Systems.
+
+**System connections (see also `NEXUS_SYSTEM_INTEGRATION_MAP.md`):**
+- **COMPASS** — HR is the source of CMS FDR audit evidence (training completion + exclusion screening) that COMPASS surfaces when a buyer/MCO requests FDR compliance proof for a contract.
+- **VERTEX** — Active W-2 employees represent internal labor cost/overhead; VERTEX's expense/P&L views should be able to see HR's active headcount by division.
+- **SHIELD / HAVEN / DDCSS** — Before assigning internal staff to MCO-facing casework, check `can-work` first.
 
 ---
 

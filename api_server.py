@@ -257,6 +257,15 @@ try:
 except ImportError as e:
     print(f"⚠️ PRISM Compliance API not loaded: {e}")
 
+# Register HR Onboarding API — internal W-2 Employee / 1099 Contractor onboarding
+# (distinct from PRISM Field Agents / GPSS Suppliers & Subcontractors)
+try:
+    from hr_onboarding_api import hr_onboarding
+    app.register_blueprint(hr_onboarding)
+    print("✅ HR Onboarding API registered")
+except ImportError as e:
+    print(f"⚠️ HR Onboarding API not loaded: {e}")
+
 # Register PRISM Inspection Engine
 try:
     from prism_inspection_engine import prism_inspection

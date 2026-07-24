@@ -54,6 +54,10 @@ interface DashboardStats {
       accounts_receivable: number;
       unpaid_invoice_count: number;
     };
+    hr?: {
+      active_count: number;
+      alert_count: number;
+    };
   };
   timestamp: string;
 }
@@ -127,6 +131,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
       compass: { active_contracts: 0, total_value: 0, deliverables_pending: 0 },
       vault: { total: 0, active: 0 },
       vertex: { total_invoiced: 0, accounts_receivable: 0, unpaid_invoice_count: 0 },
+      hr: { active_count: 0, alert_count: 0 },
     },
     timestamp: new Date().toISOString()
   }), []);
@@ -277,6 +282,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnterSystem }) => {
             total_invoiced: vertexRes.total_invoiced || 0,
             accounts_receivable: vertexRes.accounts_receivable || 0,
             unpaid_invoice_count: vertexRes.unpaid_invoice_count || 0,
+          };
+        }
+        const hrRes = await api.getHrOnboardingAlerts().catch(() => null);
+        if (hrRes && typeof hrRes === 'object') {
+          merged.systems.hr = {
+            active_count: hrRes.active_count || 0,
+            alert_count: hrRes.alert_count || 0,
           };
         }
       } catch { /* fallback to zeros */ }
@@ -632,6 +644,7 @@ END:VCALENDAR`;
   // PRIMARY WORKFLOW SYSTEMS - Your daily drivers
   const compassLive = stats.systems.compass;
   const vaultLive = stats.systems.vault;
+  const hrLive = stats.systems.hr;
   const vertexLive = stats.systems.vertex;
   const fmtK = (n: number) =>
     n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
@@ -847,6 +860,21 @@ END:VCALENDAR`;
       gradient: 'from-amber-500 to-blue-700',
       status: 'online',
       lastUsed: 'NEW',
+    },
+    {
+      id: 'hr' as ViewType,
+      name: 'HR',
+      fullName: 'Employee & Contractor Onboarding',
+      icon: '🧑‍💼',
+      description: 'W-2 employees • 1099 contractors • CMS FDR training • OIG/SAM exclusion screening',
+      stats: [
+        `${hrLive?.active_count ?? 0} Active`,
+        `${hrLive?.alert_count ?? 0} Compliance Alert${(hrLive?.alert_count ?? 0) !== 1 ? 's' : ''}`,
+        'All Divisions',
+      ],
+      gradient: 'from-fuchsia-600 to-purple-700',
+      status: 'online',
+      lastUsed: (hrLive?.alert_count ?? 0) > 0 ? 'Needs review' : 'Ready',
     },
     {
       id: 'alexa' as ViewType,
