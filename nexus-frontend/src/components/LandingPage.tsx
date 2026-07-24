@@ -764,6 +764,22 @@ END:VCALENDAR`;
       status: 'online',
       lastUsed: 'Shell',
       phase: '7. FUEL'
+    },
+    {
+      id: 'hr' as ViewType,
+      name: 'GATEWAY',
+      fullName: 'Employee & Contractor Onboarding',
+      icon: '🔑',
+      description: 'W-2 employees • 1099 contractors • CMS FDR training • OIG/SAM exclusion screening • gateway.deedavis.biz self-service portal',
+      stats: [
+        `${hrLive?.active_count ?? 0} Active`,
+        `${hrLive?.alert_count ?? 0} Compliance Alert${(hrLive?.alert_count ?? 0) !== 1 ? 's' : ''}`,
+        'All Divisions',
+      ],
+      gradient: 'from-fuchsia-600 to-purple-700',
+      status: 'online',
+      lastUsed: (hrLive?.alert_count ?? 0) > 0 ? 'Needs review' : 'Ready',
+      phase: '8. TEAM'
     }
   ];
 
@@ -860,21 +876,6 @@ END:VCALENDAR`;
       gradient: 'from-amber-500 to-blue-700',
       status: 'online',
       lastUsed: 'NEW',
-    },
-    {
-      id: 'hr' as ViewType,
-      name: 'GATEWAY',
-      fullName: 'Employee & Contractor Onboarding',
-      icon: '🔑',
-      description: 'W-2 employees • 1099 contractors • CMS FDR training • OIG/SAM exclusion screening • gateway.deedavis.biz self-service portal',
-      stats: [
-        `${hrLive?.active_count ?? 0} Active`,
-        `${hrLive?.alert_count ?? 0} Compliance Alert${(hrLive?.alert_count ?? 0) !== 1 ? 's' : ''}`,
-        'All Divisions',
-      ],
-      gradient: 'from-fuchsia-600 to-purple-700',
-      status: 'online',
-      lastUsed: (hrLive?.alert_count ?? 0) > 0 ? 'Needs review' : 'Ready',
     },
     {
       id: 'alexa' as ViewType,
