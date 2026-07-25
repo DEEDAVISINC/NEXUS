@@ -581,18 +581,24 @@ def role_requires_company_email(role):
 #            staff, no specific tier) if blank/unmatched.
 #   DPTE  -> WHERE/WHY — division/program the hire CURRENTLY serves (see
 #            DIVISION_CODES below)
-#   🩵    -> WHICH ACCOUNT/CLIENT this hire's work is CURRENTLY tied to,
-#            shown as a COLOR EMOJI instead of a text code — per Dee: "so
-#            i tell you want remove the segement hap molina etc and
-#            replace at the end of the number by 🟠, 🟢, 🩵, 🔵, etc, i
+#   Ⓜ️    -> WHICH ACCOUNT(S)/CLIENT(S) this hire's work is CURRENTLY tied
+#            to, shown as COLOR EMOJI(S) instead of text codes — per Dee:
+#            "so i tell you want remove the segement hap molina etc and
+#            replace at the end of the number by 🟠, 🟢, Ⓜ️, 🔵, etc, i
 #            couldnt find a teal circle, thats why i used the heart." See
 #            'NEXUS HR ACCOUNT CODES' Airtable table's EMOJI column — no
 #            emoji appended at all if the account has none assigned yet
-#            (never invents a color). The plain-text account name is still
-#            stored on the record itself (see 'account' field) and still
-#            has a text ACCOUNT_CODE in that table for search/filtering —
-#            only the personnel-number SUFFIX shows the emoji instead of
-#            the text code.
+#            (never invents a color). A hire can be tied to MORE THAN ONE
+#            account at once — per Dee, Jul 2026: "an employee could have
+#            multiple segments" — the 'account' field then holds a comma-
+#            separated list (e.g. "Molina Healthcare of Michigan, CTS")
+#            and every matched emoji is appended back to back, in order,
+#            with no separator between them (see _account_emojis()). The
+#            plain-text account name(s) are still stored on the record
+#            itself (see 'account' field) and still have text
+#            ACCOUNT_CODE values in that table for search/filtering —
+#            only the personnel-number SUFFIX shows the emoji(s) instead
+#            of the text code(s).
 #
 # Answers Dee's questions in order: "how do I know a customer care agent
 # is working the HAP account vs the Molina account, or if they're a
@@ -680,11 +686,13 @@ def _account_code(account_name):
 
 
 def _account_emoji(account_name):
-    """Color emoji representing this account in the personnel-number
+    """Color emoji representing ONE account in the personnel-number
     suffix (replaces the old text ACCOUNT_CODE there — see Dee's emoji
     redesign in the block comment above). Returns '' — not a made-up
     emoji — if the account is blank or has no EMOJI assigned yet in
-    'NEXUS HR ACCOUNT CODES'."""
+    'NEXUS HR ACCOUNT CODES'. For hires tied to more than one account,
+    use _account_emojis() below — this single-lookup helper stays as the
+    building block it's built on."""
     account_name = (account_name or '').strip().lower()
     if not account_name:
         return ''
@@ -692,6 +700,25 @@ def _account_emoji(account_name):
         if row['name'].strip().lower() == account_name:
             return row.get('emoji', '')
     return ''  # unrecognized account — no emoji, never invents one
+
+
+def _account_emojis(account_field):
+    """A hire's 'account' field can hold MULTIPLE accounts, comma-
+    separated — per Dee, Jul 2026: "an employee could have multiple
+    segments." E.g. a supervisor working both Molina and CTS stores
+    account = "Molina Healthcare of Michigan, CTS" and the personnel
+    number carries BOTH emojis back to back: 🩵🏠 (no separator between
+    them — each is its own glyph, same rule as the single-account case).
+    Splits on commas, looks up each account's emoji via _account_emoji(),
+    and concatenates whatever is found IN THE ORDER GIVEN. Any account
+    with no emoji assigned is silently skipped (not replaced with a
+    fallback) — never invents a color. A single account with no comma
+    behaves exactly as before."""
+    account_field = (account_field or '').strip()
+    if not account_field:
+        return ''
+    parts = [p.strip() for p in account_field.split(',') if p.strip()]
+    return ''.join(_account_emoji(p) for p in parts)
 
 
 # ─── Level codes (seniority/hierarchy tier) ──────────────────────
@@ -750,14 +777,17 @@ def personnel_number_label(worker_type):
 def _personnel_number_suffix(division, account, level):
     """The mutable half of the personnel number — current level + division
     text codes, followed directly (no separating dash — it's a glyph, not
-    a text segment) by the account's color emoji, per Dee's redesign:
+    a text segment) by the account's color emoji(s), per Dee's redesign:
     "remove the segement hap molina etc and replace at the end of the
-    number by [emoji]." No emoji appended at all if the account has none
-    assigned in 'NEXUS HR ACCOUNT CODES' — never invents a color. Rebuilt
-    (not the core) any time an assignment changes."""
+    number by [emoji]." Supports MULTIPLE simultaneous accounts (Dee, Jul
+    2026: "an employee could have multiple segments") — 'account' can be a
+    single name or a comma-separated list; see _account_emojis(). No emoji
+    appended at all for an account with none assigned in
+    'NEXUS HR ACCOUNT CODES' — never invents a color. Rebuilt (not the
+    core) any time an assignment changes."""
     base = f'{_level_code(level)}-{_division_code(division)}'
-    emoji = _account_emoji(account)
-    return f'{base}{emoji}' if emoji else base
+    emojis = _account_emojis(account)
+    return f'{base}{emojis}' if emojis else base
 
 
 def _next_personnel_number_core(worker_type, startdate=None):
@@ -924,7 +954,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'name': name,
         'email': (email or '').strip().lower(),
         'role': (role or '').strip(),
-        'account': (account or '').strip(),    # CURRENT client/MCO contract this hire's work is tied to (blank = general, not account-specific)
+        'account': (account or '').strip(),    # CURRENT client/MCO contract(s) this hire's work is tied to — comma-separated if more than one (Dee, Jul 2026: "an employee could have multiple segments"), e.g. "Molina Healthcare of Michigan, CTS" (blank = general, not account-specific)
         'level': (level or '').strip(),        # CURRENT seniority tier — Agent/Supervisor/Manager/Director etc (blank = generic staff)
         'personnelNumberCore': personnel_core,  # PERMANENT — [SEQ]-[YYMM]-[EMP|VEN], generated once, never regenerated
         'personnelNumber': personnel_full,      # core + current-assignment suffix — see rebuild_personnel_number() for how the suffix updates on transfer/promotion
@@ -1394,7 +1424,7 @@ def add_hire():
     member_facing = data.get('memberFacing', True)
     email = (data.get('email') or '').strip().lower()
     role = (data.get('role') or '').strip()
-    account = (data.get('account') or '').strip()  # which client/MCO contract — see NEXUS HR ACCOUNT CODES
+    account = (data.get('account') or '').strip()  # which client/MCO contract(s) — see NEXUS HR ACCOUNT CODES. Comma-separated for hires tied to more than one (e.g. "Molina Healthcare of Michigan, CTS") — each gets its own emoji in the personnel number, concatenated in order.
     level = (data.get('level') or '').strip()      # seniority tier — see NEXUS HR LEVEL CODES
     override = data.get('provisionCompanyEmail')  # True/False/None — HR override of role-based default
     rec = _new_record(name, data.get('workerType'), data.get('division'), data.get('startdate'),
@@ -1667,7 +1697,11 @@ def update_assignment(record_id):
     number changes. Added Jul 2026 per Dee, after being asked what happens
     when someone moves departments or picks up new responsibilities:
     "the order of the segments are wrong, they should be the total
-    opposite, therefore the ending can change or be added to.\""""
+    opposite, therefore the ending can change or be added to." 'account'
+    may be a single name or a COMMA-SEPARATED list — "an employee could
+    have multiple segments" (Dee, Jul 2026) — e.g. a supervisor added to
+    a second account sends account="Molina Healthcare of Michigan, CTS"
+    and the personnel number carries both emojis back to back."""
     data = request.get_json(force=True) or {}
     actor = (data.get('actor') or '').strip() or 'unspecified'
 
