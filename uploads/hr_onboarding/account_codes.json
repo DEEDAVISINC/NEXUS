@@ -9,8 +9,8 @@
   {
     "name": "Molina Healthcare of Michigan",
     "code": "MOLN",
-    "status": "Pending",
-    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md. Emoji changed from \ud83e\ude75 to \u24c2\ufe0f per Dee, Jul 2026 \u2014 circled M for Molina.",
+    "status": "Live",
+    "notes": "HCBS PSA (FFS) fully executed Effective Date 2026-07-21. Vendor ID 214337479 (credentialed thru 2029-07-31). Attachment B: NMT + Community Transition Services. PDF: BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf. Go-live still gated on LTSS attestation + Availity activation. Emoji \u24c2\ufe0f per Dee, Jul 2026.",
     "emoji": "\u24c2\ufe0f"
   },
   {

@@ -2,16 +2,16 @@
   "contracts": [
     {
       "id": "HAP-CARESOURCE-NEMT",
-      "title": "HAP CareSource — HIDE SNP / MICH NEMT",
+      "title": "HAP CareSource \u2014 HIDE SNP / MICH NEMT",
       "agency": "HAP CareSource",
       "value": 0,
       "status": "Active",
       "contract_type": "MCO Vendor Agreement",
       "service_type": "NEMT",
-      "program_line": "HIDE SNP · MI Coordinated Health (dual-eligible)",
+      "program_line": "HIDE SNP \u00b7 MI Coordinated Health (dual-eligible)",
       "service_area": "Wayne + Macomb counties",
       "champs_provider_id": "6309049",
-      "agreement_role": "DDI prime TPA — enrolled NEMT vendor; DDI invoices CareSource for authorized member trips (revenue agreement, not a spend contract)",
+      "agreement_role": "DDI prime TPA \u2014 enrolled NEMT vendor; DDI invoices CareSource for authorized member trips (revenue agreement, not a spend contract)",
       "source": {
         "gpss_opportunity_id": "",
         "rfp_number": "",
@@ -58,6 +58,71 @@
       "payer": "HAP CareSource",
       "created_at": "2026-06-11T21:55:20.477884-04:00",
       "updated_at": "2026-06-13T16:00:00-04:00"
+    },
+    {
+      "id": "MOLINA-HIDE-SNP-LTSS",
+      "title": "Molina Healthcare of Michigan \u2014 HIDE SNP LTSS (HCBS PSA FFS)",
+      "agency": "Molina Healthcare of Michigan, Inc.",
+      "value": 0,
+      "status": "Active",
+      "contract_type": "MCO HCBS Provider Services Agreement (FFS)",
+      "service_type": "NEMT / NMT + Community Transition Services",
+      "program_line": "HIDE SNP \u00b7 MI Coordinated Health (dual-eligible) \u00b7 HCBS",
+      "service_area": "Statewide (MICH HIDE SNP LTSS)",
+      "champs_provider_id": "6309049",
+      "agreement_role": "DDI prime TPA \u2014 HCBS PSA; DDI invoices Molina for authorized NMT trips and CTS cases (revenue agreement)",
+      "source": {
+        "gpss_opportunity_id": "",
+        "rfp_number": "",
+        "solicitation_number": "",
+        "qc_registry": true
+      },
+      "systems": {
+        "atlas_project_id": "",
+        "compass_contract_id": "MOLINA-HIDE-SNP-LTSS",
+        "prism_contract_id": "MOLINA-HIDE-SNP-LTSS",
+        "qc_contract_id": "MOLINA-HIDE-SNP-LTSS",
+        "vendor_id": "214337479",
+        "vertex_invoices": []
+      },
+      "contacts": {
+        "co_name": "LTSS Specialist team",
+        "co_email": "MHM-LTSS-Specialist@MolinaHealthCare.Com",
+        "cor_name": "Sarah Fenton (Provider Services / Orientation)"
+      },
+      "timeline": {
+        "identified": "",
+        "bid_submitted": "",
+        "won": "2026-07-21",
+        "executed": "2026-07-21",
+        "provider_signed": "2026-07-17",
+        "molina_countersigned": "2026-07-21",
+        "effective_date": "2026-07-21",
+        "start_date": "2026-07-21",
+        "end_date": "2029-07-31",
+        "term_note": "Vendor ID 214337479 credentialed thru Jul 31, 2029; go-live gated on LTSS attestation + Availity"
+      },
+      "health": {
+        "overall": 70,
+        "compliance": "Yellow",
+        "deliverables_pct": 0,
+        "financials_pct": 0,
+        "orders_completed": 0,
+        "orders_total": 0,
+        "note": "Contract executed; dispatch/billing blocked until attestation + Availity hard gates clear"
+      },
+      "naics": "485320",
+      "set_aside": "EDWOSB",
+      "ein": "84-4114181",
+      "npi": "1538939111",
+      "prism_orders": [],
+      "profile_path": "BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/QC_CONTRACT_PROFILE.md",
+      "ops_path": "MOLINA_HIDE_SNP_OPERATIONS.md",
+      "contract_document": "BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf",
+      "plan_name": "Molina Michigan HCBS / MI Coordinated Health (HIDE SNP)",
+      "payer": "Molina Healthcare Michigan",
+      "created_at": "2026-07-25T14:16:31-04:00",
+      "updated_at": "2026-07-25T14:16:31-04:00"
     }
   ],
   "events": [
@@ -68,11 +133,26 @@
       "source": "VAULT",
       "target": "ALL",
       "details": {
-        "title": "HAP CareSource — HIDE SNP / MICH NEMT",
+        "title": "HAP CareSource \u2014 HIDE SNP / MICH NEMT",
         "agency": "HAP CareSource",
         "program_line": "HIDE SNP"
       },
       "timestamp": "2026-06-13T12:00:00-04:00"
+    },
+    {
+      "id": "EVT-20260725141631-MOLINA",
+      "type": "contract_registered",
+      "contract_id": "MOLINA-HIDE-SNP-LTSS",
+      "source": "VAULT",
+      "target": "ALL",
+      "details": {
+        "title": "Molina Healthcare of Michigan \u2014 HIDE SNP LTSS (HCBS PSA FFS)",
+        "agency": "Molina Healthcare of Michigan, Inc.",
+        "program_line": "HIDE SNP",
+        "effective_date": "2026-07-21",
+        "document": "Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf"
+      },
+      "timestamp": "2026-07-25T14:16:31-04:00"
     }
   ]
 }

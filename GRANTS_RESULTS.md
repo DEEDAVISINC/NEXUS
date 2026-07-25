@@ -1,14 +1,14 @@
 # GRANTS RESULTS — GBIS Pipeline
-**Last Compiled:** 2026-07-24 @ 12:12 PM ET
+**Last Compiled:** 2026-07-25 @ 12:14 PM ET
 
 ## Summary
 
 | Metric | Count |
 |--------|------:|
-| Total in GBIS (Airtable) | 469 |
-| Live Grants.gov NOFOs | 387 |
-| **CWC / BOTH (apply first)** | **153** |
-| DDI-only (verify eligibility) | 234 |
+| Total in GBIS (Airtable) | 482 |
+| Live Grants.gov NOFOs | 400 |
+| **CWC / BOTH (apply first)** | **163** |
+| DDI-only (verify eligibility) | 237 |
 | New since last compile | 0 |
 | Tracked platforms / foundations | 82 |
 

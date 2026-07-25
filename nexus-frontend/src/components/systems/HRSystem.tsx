@@ -22,7 +22,7 @@ interface HRSystemProps {
   setActiveTab: (tab: string) => void;
 }
 
-interface PhaseItem { key: string; title: string; owner: string; items: string[]; }
+interface PhaseItem { key: string; title: string; owner: string; items: string[]; fdrOnly?: boolean[]; ackDriven?: boolean[]; }
 interface TrainingDef {
   name: string; source: string; recurrence: string; interval_months: number | null;
   recurrence_label: string; contractor_trigger: string; contractor_default: string;
@@ -53,6 +53,11 @@ interface PortalActivity {
   lastIp?: string | null;
 }
 
+type BoardStatus = 'stuck' | 'working_on_it' | 'waiting' | 'done' | 'not_started';
+type BoardGroupBy = 'phase' | 'status' | 'division';
+type BoardView = 'table' | 'kanban';
+type FilterChip = 'all' | 'employees' | 'contractors' | 'needs_attention' | 'portal_waiting';
+
 interface RosterRow {
   id: string;
   name: string;
@@ -62,9 +67,13 @@ interface RosterRow {
   startdate: string;
   status: 'Active' | 'Archived';
   memberFacing: boolean;
+  fdrApplicable?: boolean;
   progress: number;
   screening: string;
   portalActivity?: PortalActivity;
+  phaseKey?: string;
+  phaseTitle?: string;
+  boardStatus?: BoardStatus;
 }
 
 interface GatewayDocument {
@@ -73,6 +82,7 @@ interface GatewayDocument {
 }
 interface GatewayAcknowledgment {
   key: string; label: string; typedName: string; ip: string; ts: string;
+  policyId?: string; version?: string; effectiveDate?: string; documentUrl?: string;
 }
 
 interface HRRecord extends RosterRow {
@@ -95,6 +105,7 @@ interface Config {
   phases_contractor: PhaseItem[];
   trainings: TrainingDef[];
   divisions: string[];
+  fdr_divisions?: string[];
   agendas: Record<string, string[]>;
   internal_target_days: number;
   cms_hard_deadline_days: number;
@@ -117,64 +128,7 @@ interface Alerts {
   alert_count: number;
 }
 
-/** CRM-style contact card for the roster grid — avatar, name, chips, progress ring. */
-const RosterCard: React.FC<{
-  r: RosterRow;
-  status: RosterStatus;
-  onOpen: () => void;
-  onArchive?: () => void;
-  compact?: boolean;
-}> = ({ r, status, onOpen, onArchive, compact }) => {
-  const days = daysSince(r.startdate);
-  return (
-    <div className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border ${
-      r.status === 'Archived' ? 'border-gray-700/40 opacity-60' : 'border-purple-500/20'
-    } p-4 flex flex-col gap-3 hover:border-purple-500/40 transition-all`}>
-      <div className="flex items-start gap-3">
-        <Avatar name={r.name} workerType={r.workerType} size={compact ? 'sm' : 'md'} />
-        <div className="min-w-0 flex-1">
-          <button type="button" onClick={onOpen} className="font-bold text-white text-sm hover:text-purple-300 transition-colors text-left truncate block w-full">
-            {r.name}
-          </button>
-          <div className="text-xs text-gray-400 truncate">
-            {WORKER_LABEL[r.workerType]}{r.division ? ` · ${r.division}` : ''}
-          </div>
-        </div>
-        <ProgressRing pct={r.progress} size={compact ? 40 : 48} strokeWidth={4} />
-      </div>
-
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-[11px] text-gray-500">
-          {days !== null ? (days >= 0 ? `Day ${days} of onboarding` : `Starts in ${Math.abs(days)}d`) : '—'}
-        </span>
-        {r.status === 'Archived' ? (
-          <span className="text-[10px] uppercase tracking-wide text-gray-500 border border-gray-600 px-1.5 py-0.5 rounded">Archived</span>
-        ) : (
-          <StatusChip status={status} />
-        )}
-      </div>
-
-      {r.status === 'Active' && (
-        <PortalActivityBadge activity={r.portalActivity} hasEmail={!!r.email} />
-      )}
-
-      {!compact && (
-        <div className="flex gap-2 pt-1 border-t border-gray-700/50">
-          <button type="button" onClick={onOpen} className="flex-1 text-xs font-semibold text-purple-300 hover:text-purple-200 py-1.5 transition-colors">
-            View Profile →
-          </button>
-          {onArchive && r.status === 'Active' && (
-            <button type="button" onClick={onArchive} className="text-xs px-2 py-1.5 text-red-400/80 hover:text-red-300 transition-colors">
-              Archive
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const TAB_IDS = ['dashboard', 'roster', 'detail'] as const;
+const TAB_IDS = ['board', 'dashboard', 'detail'] as const;
 
 const WORKER_LABEL: Record<string, string> = {
   employee: 'Employee (W-2)',
@@ -198,6 +152,46 @@ const STATE_LABEL: Record<string, string> = {
   ok: 'CURRENT',
 };
 
+const BOARD_STATUS_ORDER: BoardStatus[] = ['stuck', 'working_on_it', 'waiting', 'done', 'not_started'];
+
+const BOARD_STATUS_META: Record<BoardStatus, { label: string; pill: string; bar: string; kanban: string }> = {
+  stuck: {
+    label: 'Stuck',
+    pill: 'bg-[#e2445c] text-white border-[#e2445c]',
+    bar: 'bg-[#e2445c]',
+    kanban: 'border-[#e2445c]/40 bg-[#e2445c]/10',
+  },
+  working_on_it: {
+    label: 'Working on it',
+    pill: 'bg-[#fdab3d] text-gray-900 border-[#fdab3d]',
+    bar: 'bg-[#fdab3d]',
+    kanban: 'border-[#fdab3d]/40 bg-[#fdab3d]/10',
+  },
+  waiting: {
+    label: 'Waiting on portal',
+    pill: 'bg-[#579bfc] text-white border-[#579bfc]',
+    bar: 'bg-[#579bfc]',
+    kanban: 'border-[#579bfc]/40 bg-[#579bfc]/10',
+  },
+  done: {
+    label: 'Done',
+    pill: 'bg-[#00c875] text-gray-900 border-[#00c875]',
+    bar: 'bg-[#00c875]',
+    kanban: 'border-[#00c875]/40 bg-[#00c875]/10',
+  },
+  not_started: {
+    label: 'Not Started',
+    pill: 'bg-[#c4c4c4] text-gray-900 border-[#c4c4c4]',
+    bar: 'bg-[#c4c4c4]',
+    kanban: 'border-gray-500/40 bg-gray-800/40',
+  },
+};
+
+const GROUP_BAR_COLORS = [
+  'bg-purple-500', 'bg-pink-500', 'bg-teal-500', 'bg-blue-500',
+  'bg-amber-500', 'bg-emerald-500', 'bg-indigo-500', 'bg-rose-500',
+];
+
 function csvEscape(v: unknown): string {
   const s = v === undefined || v === null ? '' : String(v);
   return '"' + s.replace(/"/g, '""') + '"';
@@ -214,13 +208,6 @@ function downloadCsv(filename: string, lines: string[]) {
   URL.revokeObjectURL(url);
 }
 
-// ─────────────────────────── CRM-style presentation helpers ───────────────────────────
-// The compliance engine underneath is intentionally strict (CMS FDR citations, exclusion
-// screening cadence, audit trails). None of that belongs on the first screen someone sees.
-// These helpers turn raw roster/status data into something that reads like an onboarding
-// CRM (avatars, pipeline stages, plain-language status) — the regulatory detail still
-// exists, it just lives one click away in the "Compliance & Audit" tab.
-
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return '?';
@@ -234,7 +221,7 @@ const AVATAR_COLORS: Record<string, string> = {
 };
 
 const Avatar: React.FC<{ name: string; workerType: string; size?: 'sm' | 'md' | 'lg' }> = ({ name, workerType, size = 'md' }) => {
-  const dims = size === 'lg' ? 'w-16 h-16 text-lg' : size === 'sm' ? 'w-9 h-9 text-xs' : 'w-11 h-11 text-sm';
+  const dims = size === 'lg' ? 'w-16 h-16 text-lg' : size === 'sm' ? 'w-8 h-8 text-[10px]' : 'w-11 h-11 text-sm';
   return (
     <div className={`${dims} rounded-full bg-gradient-to-br ${AVATAR_COLORS[workerType] || AVATAR_COLORS.employee} flex items-center justify-center font-bold text-white shrink-0 shadow-lg`}>
       {initials(name)}
@@ -265,6 +252,19 @@ const ProgressRing: React.FC<{ pct: number; size?: number; strokeWidth?: number;
   );
 };
 
+const ProgressBar: React.FC<{ pct: number }> = ({ pct }) => {
+  const clamped = Math.max(0, Math.min(100, pct));
+  const color = clamped >= 100 ? 'bg-emerald-400' : clamped >= 50 ? 'bg-purple-400' : 'bg-amber-400';
+  return (
+    <div className="flex items-center gap-2 min-w-[100px]">
+      <div className="flex-1 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+        <div className={`h-full ${color} rounded-full transition-all`} style={{ width: `${clamped}%` }} />
+      </div>
+      <span className="text-[11px] text-gray-400 w-8 text-right">{Math.round(clamped)}%</span>
+    </div>
+  );
+};
+
 type RosterStatus = 'critical' | 'warning' | 'info' | 'complete' | 'on_track';
 
 const STATUS_CHIP_STYLE: Record<RosterStatus, string> = {
@@ -276,24 +276,20 @@ const STATUS_CHIP_STYLE: Record<RosterStatus, string> = {
 };
 
 const STATUS_CHIP_LABEL: Record<RosterStatus, string> = {
-  critical: '🚨 Needs Attention',
-  warning: '⏰ Attention Soon',
-  info: '🧭 Scoping Needed',
-  complete: '✅ Complete',
-  on_track: '🟣 On Track',
+  critical: 'Needs Attention',
+  warning: 'Attention Soon',
+  info: 'Scoping Needed',
+  complete: 'Complete',
+  on_track: 'On Track',
 };
 
 function daysSince(startdate?: string): number | null {
   if (!startdate) return null;
   const start = new Date(startdate);
   if (Number.isNaN(start.getTime())) return null;
-  const diff = Math.floor((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
-  return diff;
+  return Math.floor((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-/** Plain-language "last active" for GATEWAY portal visibility — this is what
- * lets Dee see whether the employee/contractor has even logged into
- * gateway.deedavis.biz yet, not just what they've uploaded/signed once they do. */
 function timeAgo(iso?: string | null): string {
   if (!iso) return 'Never signed in';
   const then = new Date(iso).getTime();
@@ -306,18 +302,27 @@ function timeAgo(iso?: string | null): string {
   if (hours < 24) return `${hours}h ago`;
   const days = Math.floor(hours / 24);
   if (days < 30) return `${days}d ago`;
-  const months = Math.floor(days / 30);
-  return `${months}mo ago`;
+  return `${Math.floor(days / 30)}mo ago`;
+}
+
+function resolveBoardStatus(r: RosterRow): BoardStatus {
+  return r.boardStatus || (r.progress >= 100 ? 'done' : 'not_started');
+}
+
+function portalLabel(r: RosterRow): string {
+  if (!r.email) return 'No access';
+  if (r.portalActivity?.lastLogin) return `Active ${timeAgo(r.portalActivity.lastLogin)}`;
+  return 'Invited';
 }
 
 const PortalActivityBadge: React.FC<{ activity?: PortalActivity; hasEmail: boolean }> = ({ activity, hasEmail }) => {
   if (!hasEmail) {
-    return <span className="text-[10px] text-gray-500">🔑 No portal access — add email</span>;
+    return <span className="text-[10px] text-gray-500">No portal access — add email</span>;
   }
   const logged = !!activity?.lastLogin;
   return (
     <span className={`text-[10px] font-semibold ${logged ? 'text-teal-400' : 'text-amber-400'}`}>
-      🔑 {logged ? `Portal: active ${timeAgo(activity?.lastLogin)}` : 'Portal: invited, not signed in yet'}
+      {logged ? `Portal: active ${timeAgo(activity?.lastLogin)}` : 'Portal: invited, not signed in yet'}
     </span>
   );
 };
@@ -328,7 +333,18 @@ const StatusChip: React.FC<{ status: RosterStatus; className?: string }> = ({ st
   </span>
 );
 
-/** Horizontal onboarding-stage pipeline — the visual "where are they right now" view. */
+const BoardStatusPill: React.FC<{ status: BoardStatus; className?: string }> = ({ status, className = '' }) => {
+  const meta = BOARD_STATUS_META[status] || BOARD_STATUS_META.not_started;
+  return (
+    <span
+      className={`inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full border whitespace-nowrap cursor-default ${meta.pill} ${className}`}
+      title="Status is driven by checklist / portal progress (read-only)"
+    >
+      {meta.label}
+    </span>
+  );
+};
+
 const StagePipeline: React.FC<{
   phases: PhaseItem[];
   checklist: Record<string, boolean[]>;
@@ -381,8 +397,52 @@ const StagePipeline: React.FC<{
   );
 };
 
+const RosterCard: React.FC<{
+  r: RosterRow;
+  status: RosterStatus;
+  onOpen: () => void;
+  compact?: boolean;
+}> = ({ r, status, onOpen, compact }) => {
+  const days = daysSince(r.startdate);
+  return (
+    <div className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border ${
+      r.status === 'Archived' ? 'border-gray-700/40 opacity-60' : 'border-purple-500/20'
+    } p-4 flex flex-col gap-3 hover:border-purple-500/40 transition-all`}>
+      <div className="flex items-start gap-3">
+        <Avatar name={r.name} workerType={r.workerType} size={compact ? 'sm' : 'md'} />
+        <div className="min-w-0 flex-1">
+          <button type="button" onClick={onOpen} className="font-bold text-white text-sm hover:text-purple-300 transition-colors text-left truncate block w-full">
+            {r.name}
+          </button>
+          <div className="text-xs text-gray-400 truncate">
+            {WORKER_LABEL[r.workerType]}{r.division ? ` · ${r.division}` : ''}
+          </div>
+        </div>
+        <ProgressRing pct={r.progress} size={compact ? 40 : 48} strokeWidth={4} />
+      </div>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] text-gray-500">
+          {days !== null ? (days >= 0 ? `Day ${days}` : `Starts in ${Math.abs(days)}d`) : '—'}
+        </span>
+        {r.status === 'Archived' ? (
+          <span className="text-[10px] uppercase tracking-wide text-gray-500 border border-gray-600 px-1.5 py-0.5 rounded">Archived</span>
+        ) : (
+          <div className="flex items-center gap-1.5">
+            <BoardStatusPill status={resolveBoardStatus(r)} />
+            <StatusChip status={status} />
+          </div>
+        )}
+      </div>
+      {r.status === 'Active' && (
+        <PortalActivityBadge activity={r.portalActivity} hasEmail={!!r.email} />
+      )}
+    </div>
+  );
+};
+
 const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
-  const resolvedTab = TAB_IDS.includes(activeTab as (typeof TAB_IDS)[number]) ? activeTab : 'dashboard';
+  const normalizedTab = activeTab === 'roster' ? 'board' : activeTab;
+  const resolvedTab = TAB_IDS.includes(normalizedTab as (typeof TAB_IDS)[number]) ? normalizedTab : 'board';
 
   const [config, setConfig] = useState<Config | null>(null);
   const [roster, setRoster] = useState<RosterRow[]>([]);
@@ -393,7 +453,6 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [apiError, setApiError] = useState<string | null>(null);
   const [actor, setActor] = useState<string>(() => localStorage.getItem('nexus_hr_actor') || '');
 
-  // Add-hire form state
   const [nhName, setNhName] = useState('');
   const [nhType, setNhType] = useState<'employee' | 'contractor'>('employee');
   const [nhDivision, setNhDivision] = useState('');
@@ -402,22 +461,27 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [nhEmail, setNhEmail] = useState('');
   const [adding, setAdding] = useState(false);
 
-  // Screening form state (detail view)
   const [scrDate, setScrDate] = useState('');
   const [scrResult, setScrResult] = useState('Clear');
   const [scrNotes, setScrNotes] = useState('');
 
-  // Attestation form state (dashboard)
   const [attYear, setAttYear] = useState<number>(new Date().getFullYear());
   const [attName, setAttName] = useState('');
   const [attNotes, setAttNotes] = useState('');
   const [attSaving, setAttSaving] = useState(false);
 
-  // Profile view state — which phase is expanded in the stage pipeline, and
-  // whether we're looking at the friendly Overview or the technical Compliance tab
   const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
   const [detailInnerTab, setDetailInnerTab] = useState<'overview' | 'compliance'>('overview');
   const [showAddHireForm, setShowAddHireForm] = useState(false);
+
+  const [boardView, setBoardView] = useState<BoardView>('table');
+  const [groupBy, setGroupBy] = useState<BoardGroupBy>('phase');
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterChip, setFilterChip] = useState<FilterChip>('all');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [emailDraft, setEmailDraft] = useState('');
+  const [emailSaving, setEmailSaving] = useState(false);
 
   const persistActor = (v: string) => {
     setActor(v);
@@ -466,10 +530,38 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     loadAttestations();
   }, [loadConfig, loadRoster, loadAlerts, loadAttestations]);
 
+  const closeDrawer = useCallback(() => {
+    setDrawerOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeDrawer();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [drawerOpen, closeDrawer]);
+
+  const openDrawer = useCallback(async (id: string) => {
+    try {
+      const res: any = await api.getHrOnboardingRecord(id);
+      setSelected(res);
+      setEmailDraft(res?.email || '');
+      setDetailInnerTab('overview');
+      setExpandedPhase(null);
+      setDrawerOpen(true);
+    } catch (e: any) {
+      setApiError(e?.message || 'Could not load record');
+    }
+  }, []);
+
   const openDetail = useCallback(async (id: string) => {
     try {
       const res: any = await api.getHrOnboardingRecord(id);
       setSelected(res);
+      setEmailDraft(res?.email || '');
+      setDrawerOpen(false);
       setActiveTab('detail');
       setDetailInnerTab('overview');
       setExpandedPhase(null);
@@ -482,6 +574,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     if (!selected) return;
     const res: any = await api.getHrOnboardingRecord(selected.id);
     setSelected(res);
+    setEmailDraft(res?.email || '');
   }, [selected]);
 
   const phasesFor = useCallback((workerType: string): PhaseItem[] => {
@@ -499,9 +592,10 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
         division: nhDivision,
         startdate: nhStart,
         actor,
-        ...( { memberFacing: nhMemberFacing, email: nhEmail.trim().toLowerCase() } as any),
+        ...({ memberFacing: nhMemberFacing, email: nhEmail.trim().toLowerCase() } as any),
       });
       setNhName(''); setNhDivision(''); setNhStart(''); setNhType('employee'); setNhMemberFacing(true); setNhEmail('');
+      setShowAddHireForm(false);
       await loadRoster();
       await loadAlerts();
     } catch (e: any) {
@@ -513,7 +607,12 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
 
   const toggleChecklist = async (phase: string, index: number, checked: boolean) => {
     if (!selected) return;
-    await api.updateHrOnboardingChecklist(selected.id, { phase, index, checked, actor });
+    const res = await api.updateHrOnboardingChecklist(selected.id, { phase, index, checked, actor }) as any;
+    if (res?.error) {
+      alert(res.error);
+      await refreshSelected();
+      return;
+    }
     await refreshSelected();
     await loadRoster();
     await loadAlerts();
@@ -562,6 +661,32 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     await loadAlerts();
   };
 
+  const updateDivision = async (division: string) => {
+    if (!selected) return;
+    try {
+      await api.updateHrOnboardingAssignment(selected.id, { division, actor });
+      await refreshSelected();
+      await loadRoster();
+      await loadAlerts();
+    } catch (e: any) {
+      alert(e?.message || 'Could not update division');
+    }
+  };
+
+  const saveEmail = async () => {
+    if (!selected) return;
+    setEmailSaving(true);
+    try {
+      await api.updateHrOnboardingEmail(selected.id, { email: emailDraft.trim().toLowerCase(), actor });
+      await refreshSelected();
+      await loadRoster();
+    } catch (e: any) {
+      alert(e?.message || 'Could not update email');
+    } finally {
+      setEmailSaving(false);
+    }
+  };
+
   const submitAttestation = async () => {
     if (!attName.trim()) { alert('Enter the attesting officer\'s name.'); return; }
     setAttSaving(true);
@@ -582,7 +707,10 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
       `Archive ${rec.name}? This record and its full audit/training/screening history are retained (10-year CMS FDR standard) — not deleted.`
     )) return;
     await api.updateHrOnboardingStatus(rec.id, { status: 'Archived', actor });
-    if (selected?.id === rec.id) setSelected(null);
+    if (selected?.id === rec.id) {
+      setSelected(null);
+      setDrawerOpen(false);
+    }
     await loadRoster();
     await loadAlerts();
   };
@@ -597,6 +725,8 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     lines.push([csvEscape('Date of Hire/Engagement'), csvEscape(rec.startdate)].join(','));
     lines.push([csvEscape('Member-Facing'), csvEscape(rec.memberFacing ? 'Yes' : 'No')].join(','));
     lines.push([csvEscape('Status'), csvEscape(rec.status)].join(','));
+    lines.push([csvEscape('Board Status'), csvEscape(resolveBoardStatus(rec))].join(','));
+    lines.push([csvEscape('Phase'), csvEscape(rec.phaseTitle || '')].join(','));
     lines.push([csvEscape('Exported'), csvEscape(new Date().toISOString())].join(','));
     lines.push('');
     lines.push('CHECKLIST');
@@ -642,9 +772,16 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
 
   const exportRoster = () => {
     const lines: string[] = [];
-    lines.push([csvEscape('Name'), csvEscape('Worker Type'), csvEscape('Division'), csvEscape('Date of Hire/Engagement'), csvEscape('Status'), csvEscape('Completion %'), csvEscape('Screening State')].join(','));
+    lines.push([
+      csvEscape('Name'), csvEscape('Worker Type'), csvEscape('Division'), csvEscape('Date of Hire/Engagement'),
+      csvEscape('Status'), csvEscape('Board Status'), csvEscape('Phase'), csvEscape('Completion %'), csvEscape('Screening State'),
+    ].join(','));
     roster.forEach((r) => {
-      lines.push([csvEscape(r.name), csvEscape(WORKER_LABEL[r.workerType]), csvEscape(r.division), csvEscape(r.startdate), csvEscape(r.status), csvEscape(r.progress + '%'), csvEscape(r.screening)].join(','));
+      lines.push([
+        csvEscape(r.name), csvEscape(WORKER_LABEL[r.workerType]), csvEscape(r.division), csvEscape(r.startdate),
+        csvEscape(r.status), csvEscape(resolveBoardStatus(r)), csvEscape(r.phaseTitle || ''),
+        csvEscape(r.progress + '%'), csvEscape(r.screening),
+      ].join(','));
     });
     downloadCsv(`DDI_HR_Onboarding_Roster_${new Date().toISOString().slice(0, 10)}.csv`, lines);
   };
@@ -653,9 +790,6 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const currentYear = new Date().getFullYear();
   const currentAttestation = attestations.find((a) => a.year === currentYear);
 
-  // Roll every alert bucket into a single "how worried should I be about this person"
-  // status so the roster cards can show one plain-language chip instead of raw
-  // compliance-state jargon.
   const rosterStatusById = useMemo(() => {
     const map = new Map<string, RosterStatus>();
     if (alerts) {
@@ -681,9 +815,69 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     return rosterStatusById.get(r.id) || (r.progress >= 100 ? 'complete' : 'on_track');
   }, [rosterStatusById]);
 
-  // Which phase should be open in the profile pipeline — defaults to the first
-  // incomplete phase (i.e. "where they actually are right now"), unless the
-  // user has clicked a different node on the pipeline.
+  const filteredBoardRows = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return activeRoster.filter((r) => {
+      if (filterChip === 'employees' && r.workerType !== 'employee') return false;
+      if (filterChip === 'contractors' && r.workerType !== 'contractor') return false;
+      if (filterChip === 'needs_attention') {
+        const s = statusForRow(r);
+        if (s !== 'critical' && s !== 'warning') return false;
+      }
+      if (filterChip === 'portal_waiting') {
+        const bs = resolveBoardStatus(r);
+        if (bs !== 'waiting' && !(!r.portalActivity?.lastLogin && !!r.email)) return false;
+      }
+      if (!q) return true;
+      return (
+        r.name.toLowerCase().includes(q)
+        || (r.email || '').toLowerCase().includes(q)
+        || (r.division || '').toLowerCase().includes(q)
+        || (r.phaseTitle || '').toLowerCase().includes(q)
+      );
+    });
+  }, [activeRoster, searchQuery, filterChip, statusForRow]);
+
+  const boardGroups = useMemo(() => {
+    type Group = { key: string; title: string; color: string; items: RosterRow[] };
+    const map = new Map<string, Group>();
+
+    const ensure = (key: string, title: string, colorIdx: number) => {
+      if (!map.has(key)) {
+        map.set(key, {
+          key,
+          title,
+          color: GROUP_BAR_COLORS[colorIdx % GROUP_BAR_COLORS.length],
+          items: [],
+        });
+      }
+      return map.get(key)!;
+    };
+
+    if (groupBy === 'status') {
+      BOARD_STATUS_ORDER.forEach((s, i) => {
+        ensure(s, BOARD_STATUS_META[s].label, i);
+      });
+      filteredBoardRows.forEach((r) => {
+        const s = resolveBoardStatus(r);
+        ensure(s, BOARD_STATUS_META[s].label, BOARD_STATUS_ORDER.indexOf(s)).items.push(r);
+      });
+    } else if (groupBy === 'division') {
+      filteredBoardRows.forEach((r) => {
+        const key = r.division || 'Unassigned';
+        ensure(key, key, map.size).items.push(r);
+      });
+    } else {
+      filteredBoardRows.forEach((r) => {
+        const key = r.phaseKey || 'unknown';
+        const title = r.phaseTitle || 'Unknown phase';
+        ensure(key, title, map.size).items.push(r);
+      });
+    }
+
+    return Array.from(map.values()).filter((g) => groupBy === 'status' || g.items.length > 0);
+  }, [filteredBoardRows, groupBy]);
+
   const currentPhases = useMemo(() => (selected ? phasesFor(selected.workerType) : []), [selected, phasesFor]);
   const defaultPhaseKey = useMemo(() => {
     if (!selected || currentPhases.length === 0) return null;
@@ -697,9 +891,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const activePhase = currentPhases.find((p) => p.key === activePhaseKey) || null;
 
   const tabs = [
+    { id: 'board', label: 'Board', icon: '📋' },
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'roster', label: 'Roster', icon: '🧑‍💼' },
-    { id: 'detail', label: 'Onboarding Detail', icon: '🗂️' },
+    { id: 'detail', label: 'Detail', icon: '🗂️' },
   ];
 
   const AlertBadge: React.FC<{ row: AlertRow; icon: string; severity: 'critical' | 'warning' | 'info' }> = ({ row, icon, severity }) => (
@@ -713,6 +907,441 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
     </div>
   );
 
+  const toggleGroup = (key: string) => {
+    setCollapsedGroups((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const renderDetailBody = (compact: boolean) => {
+    if (!selected) return null;
+    return (
+      <>
+        <div className="flex gap-2 mb-4">
+          {([
+            ['overview', 'Overview'],
+            ['compliance', 'Compliance'],
+          ] as const).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setDetailInnerTab(id)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${detailInnerTab === id ? NEXUS_TAB_ACTIVE : NEXUS_TAB_IDLE}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {detailInnerTab === 'overview' && (
+          <>
+            {selected._screening && selected._screening.severity !== 'none' && (
+              <div className={`mb-4 p-3 rounded-lg text-sm border ${SEVERITY_STYLE[selected._screening.severity]}`}>
+                {selected._screening.detail}
+                {selected._screening.nextDue ? ` · Next check: ${selected._screening.nextDue}` : ''}
+                <button type="button" onClick={() => setDetailInnerTab('compliance')} className="ml-2 underline hover:no-underline">Details →</button>
+              </div>
+            )}
+
+            <NexusPanel
+              title={`GATEWAY Portal ${selected.email ? `— ${selected.email}` : '— no email on file'}`}
+              className="mb-4"
+            >
+              <div className="flex flex-wrap items-end gap-2 mb-3">
+                <div className="flex-1 min-w-[180px]">
+                  <label className="text-[10px] text-gray-500 uppercase tracking-wide">Portal email</label>
+                  <input
+                    type="email"
+                    value={emailDraft}
+                    onChange={(e) => setEmailDraft(e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full mt-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                  />
+                </div>
+                <button type="button" onClick={saveEmail} disabled={emailSaving} className={NEXUS_BTN_SECONDARY}>
+                  {emailSaving ? 'Saving…' : 'Save email'}
+                </button>
+              </div>
+              {!selected.email ? (
+                <p className="text-sm text-amber-300">
+                  No email on this record — {selected.name} cannot sign in to gateway.deedavis.biz.
+                </p>
+              ) : (
+                <>
+                  <div className={`flex flex-wrap items-center gap-3 mb-4 pb-4 border-b border-gray-700/50 text-sm ${selected.portalActivity?.lastLogin ? 'text-teal-300' : 'text-amber-300'}`}>
+                    <span className="font-bold">
+                      {selected.portalActivity?.lastLogin
+                        ? `Last active: ${timeAgo(selected.portalActivity.lastLogin)}`
+                        : 'Has not signed in to gateway.deedavis.biz yet'}
+                    </span>
+                    {!!selected.portalActivity?.loginCount && (
+                      <span className="text-gray-500 text-xs">{selected.portalActivity.loginCount} visit{selected.portalActivity.loginCount === 1 ? '' : 's'}</span>
+                    )}
+                  </div>
+                  <div className={`grid grid-cols-1 ${compact ? '' : 'sm:grid-cols-2'} gap-4 text-sm`}>
+                    <div>
+                      <h4 className="font-bold text-gray-300 mb-1.5">Documents ({(selected.documents || []).length})</h4>
+                      {(selected.documents || []).length === 0 ? (
+                        <p className="text-gray-500">Nothing uploaded yet.</p>
+                      ) : (
+                        <ul className="space-y-1">
+                          {(selected.documents || []).map((d) => (
+                            <li key={d.key} className="text-gray-300">
+                              {d.attachmentUrl ? (
+                                <a href={d.attachmentUrl} target="_blank" rel="noreferrer" className="text-teal-400 hover:underline">{d.label}</a>
+                              ) : <span>{d.label}</span>}
+                              <span className="text-gray-500"> — {d.filename}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-300 mb-1.5">Acknowledgments ({(selected.acknowledgments || []).length})</h4>
+                      {(selected.acknowledgments || []).length === 0 ? (
+                        <p className="text-gray-500">Nothing signed yet — person must e-sign at gateway.deedavis.biz.</p>
+                      ) : (
+                        <ul className="space-y-1.5">
+                          {(selected.acknowledgments || []).map((a) => (
+                            <li key={a.key} className="text-gray-300">
+                              {a.documentUrl ? (
+                                <a href={a.documentUrl} target="_blank" rel="noreferrer" className="text-teal-400 hover:underline">{a.label}</a>
+                              ) : <span>{a.label}</span>}
+                              <span className="text-gray-500">
+                                {' '}— signed &quot;{a.typedName}&quot;
+                                {a.policyId ? ` · ${a.policyId}` : ''}
+                                {a.version ? ` v${a.version}` : ''}
+                                {a.ts ? ` · ${(a.ts || '').slice(0, 10)}` : ''}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </NexusPanel>
+
+            {selected.workerType === 'contractor' && (
+              <div className="mb-4 p-3 bg-amber-900/15 border border-amber-500/30 rounded-lg text-sm text-amber-300">
+                Contractor track: no I-9/E-Verify. Check-ins should reference contract deliverables, not employee-style supervision.
+              </div>
+            )}
+
+            <NexusPanel title="Onboarding Journey" className="mb-4">
+              <StagePipeline
+                phases={currentPhases}
+                checklist={selected.checklist || {}}
+                expanded={activePhaseKey}
+                onSelect={(key) => setExpandedPhase(key)}
+              />
+              {activePhase && (
+                <div className="mt-5 pt-5 border-t border-gray-700/50">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-bold text-purple-300">{activePhase.title}</h4>
+                    <span className="text-[10px] text-gray-500">Owner: {activePhase.owner}</span>
+                  </div>
+                  <div className="space-y-1">
+                    {activePhase.items.map((item, i) => {
+                      const fdrOnly = !!activePhase.fdrOnly?.[i];
+                      const fdrOff = !selected.fdrApplicable;
+                      if (fdrOnly && fdrOff) {
+                        return (
+                          <div key={i} className="flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm text-gray-600">
+                            <span className="w-4 text-center">—</span>
+                            <span className="line-through">{item}</span>
+                            <span className="text-[9px] font-bold uppercase tracking-wide text-gray-500 border border-gray-600 px-1.5 py-0.5 rounded">N/A — division</span>
+                          </div>
+                        );
+                      }
+                      const checked = !!selected.checklist?.[activePhase.key]?.[i];
+                      const ackDriven = !!activePhase.ackDriven?.[i];
+                      if (ackDriven) {
+                        return (
+                          <div key={i} className={`flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm ${checked ? 'text-gray-500 line-through' : 'text-gray-200'}`}>
+                            <input type="checkbox" checked={checked} disabled readOnly className="w-4 h-4 accent-purple-500 opacity-70" />
+                            <span>{item}</span>
+                            <span className="text-[9px] font-bold uppercase tracking-wide text-teal-400/90 border border-teal-500/30 px-1.5 py-0.5 rounded">
+                              {checked ? 'GATEWAY e-sign' : 'Awaiting GATEWAY e-sign'}
+                            </span>
+                            {fdrOnly && (
+                              <span className="text-[9px] font-bold uppercase tracking-wide text-amber-400/80 border border-amber-500/30 px-1.5 py-0.5 rounded">FDR</span>
+                            )}
+                          </div>
+                        );
+                      }
+                      return (
+                        <label key={i} className={`flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-200'}`}>
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={(e) => toggleChecklist(activePhase.key, i, e.target.checked)}
+                            className="w-4 h-4 accent-purple-500"
+                          />
+                          <span>{item}</span>
+                          {fdrOnly && (
+                            <span className="text-[9px] font-bold uppercase tracking-wide text-amber-400/80 border border-amber-500/30 px-1.5 py-0.5 rounded">FDR</span>
+                          )}
+                        </label>
+                      );
+                    })}
+                  </div>
+                  {activePhase.key === 'day30' && config?.agendas?.day30 && (
+                    <div className="mt-4 pt-4 border-t border-gray-700/50">
+                      <h4 className="text-sm font-bold text-purple-300 mb-2">30-Day Check-In Agenda</h4>
+                      <div className="space-y-1 mb-3">
+                        {config.agendas.day30.map((item, i) => {
+                          const checked = !!selected.agenda?.day30?.items?.[i];
+                          return (
+                            <label key={i} className={`flex items-center gap-3 py-1 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
+                              <input type="checkbox" checked={checked} onChange={(e) => updateAgenda('day30', i, e.target.checked)} className="w-4 h-4 accent-purple-500" />
+                              {item}
+                            </label>
+                          );
+                        })}
+                      </div>
+                      <textarea
+                        defaultValue={selected.agenda?.day30?.notes || ''}
+                        onBlur={(e) => updateAgendaNotes('day30', e.target.value)}
+                        placeholder="Check-in notes…"
+                        className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                        rows={2}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </NexusPanel>
+          </>
+        )}
+
+        {detailInnerTab === 'compliance' && (
+          <>
+            {!compact && (
+              <p className="text-xs text-gray-500 mb-4">
+                Audit trail — CMS FDR training, exclusion screening, classification, append-only action log.
+              </p>
+            )}
+
+            {selected.workerType === 'contractor' && selected.classification && (
+              <NexusPanel title="Worker Classification" className="mb-4">
+                <div className="grid grid-cols-1 gap-2 mb-3">
+                  {([
+                    ['boundedScope', 'Specific, bounded scope of work'],
+                    ['ownToolsSchedule', 'Own schedule / tools'],
+                    ['worksOtherClients', 'Works for other clients'],
+                    ['noSupervisoryIntegration', 'No supervisory integration'],
+                    ['deliverableBasedPay', 'Deliverable-based pay'],
+                  ] as [keyof Classification, string][]).map(([field, label]) => (
+                    <label key={field} className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!selected.classification?.[field]}
+                        onChange={(e) => updateClassification(field, e.target.checked)}
+                        className="w-4 h-4 accent-purple-500"
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+                <textarea
+                  defaultValue={selected.classification?.notes || ''}
+                  onBlur={(e) => updateClassification('notes', e.target.value)}
+                  placeholder="Classification notes…"
+                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white mb-3"
+                  rows={2}
+                />
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={!!selected.classification?.routedToCounsel}
+                    onChange={(e) => updateClassification('routedToCounsel', e.target.checked)}
+                    className="w-4 h-4 accent-red-500"
+                  />
+                  <span className={selected.classification?.routedToCounsel ? 'text-red-300' : 'text-gray-300'}>
+                    Routed to legal counsel {selected.classification?.routedDate ? `(${selected.classification.routedDate})` : ''}
+                  </span>
+                </label>
+              </NexusPanel>
+            )}
+
+            <NexusPanel title="Required Training" className="mb-4">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
+                      <th className="py-2 pr-2">Training</th>
+                      {selected.workerType === 'contractor' && <th className="py-2 pr-2">Applicable?</th>}
+                      <th className="py-2 pr-2">Status</th>
+                      {!compact && <th className="py-2 pr-2">Cert/Ref</th>}
+                      {!compact && <th className="py-2 pr-2">By</th>}
+                      <th className="py-2 pr-2">Completed</th>
+                      <th className="py-2 pr-2">Compliance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(config?.trainings || []).map((t, i) => {
+                      const tr = selected.training[i] || ({} as TrainingRow);
+                      const comp = selected._trainingCompliance?.[i];
+                      const isNA = comp?.state === 'not_applicable';
+                      return (
+                        <tr key={i} className={`border-b border-gray-800 ${isNA ? 'opacity-40' : ''}`}>
+                          <td className="py-2 pr-2 text-gray-200">
+                            {t.name}
+                            <div className="text-[9px] text-gray-500 mt-0.5">{t.recurrence_label}</div>
+                          </td>
+                          {selected.workerType === 'contractor' && (
+                            <td className="py-2 pr-2">
+                              {t.employee_only ? (
+                                <span className="text-[10px] text-gray-500">N/A</span>
+                              ) : (
+                                <select value={tr.applicable || 'pending'} onChange={(e) => updateTraining(i, 'applicable', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white">
+                                  <option value="pending">Pending</option>
+                                  <option value="yes">Yes</option>
+                                  <option value="no">No</option>
+                                </select>
+                              )}
+                            </td>
+                          )}
+                          <td className="py-2 pr-2">
+                            <select disabled={isNA} value={tr.status || 'Not Started'} onChange={(e) => updateTraining(i, 'status', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40">
+                              <option>Not Started</option>
+                              <option>In Progress</option>
+                              <option>Complete</option>
+                            </select>
+                          </td>
+                          {!compact && (
+                            <td className="py-2 pr-2">
+                              <input disabled={isNA} type="text" value={tr.certRef || ''} onChange={(e) => updateTraining(i, 'certRef', e.target.value)} placeholder="Cert #" className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
+                            </td>
+                          )}
+                          {!compact && (
+                            <td className="py-2 pr-2">
+                              <input disabled={isNA} type="text" value={tr.completedBy || ''} onChange={(e) => updateTraining(i, 'completedBy', e.target.value)} placeholder="Initials" className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
+                            </td>
+                          )}
+                          <td className="py-2 pr-2 text-gray-500">{tr.completedDate || '—'}</td>
+                          <td className="py-2 pr-2">
+                            {comp && (
+                              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap ${SEVERITY_STYLE[comp.severity]}`}>
+                                {STATE_LABEL[comp.state] || comp.state}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </NexusPanel>
+
+            <NexusPanel title="Exclusion Screening Log — OIG LEIE + GSA SAM" className="mb-4">
+              {!selected.fdrApplicable ? (
+                <div className="p-3 mb-3 bg-gray-800/60 border border-gray-600/40 rounded-lg text-sm text-gray-400">
+                  Not required for division <strong className="text-gray-300">{selected.division || '(unassigned)'}</strong>.
+                  Assign to DEPOINTE, HAVEN, SHIELD, VITAL, or Corporate/HR/Admin if this person needs OIG LEIE + GSA SAM.
+                </div>
+              ) : null}
+              <div className={`grid grid-cols-1 gap-2 mb-3 ${!selected.fdrApplicable ? 'opacity-40 pointer-events-none' : ''}`}>
+                <input type="date" value={scrDate} onChange={(e) => setScrDate(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+                <select value={scrResult} onChange={(e) => setScrResult(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
+                  <option>Clear</option>
+                  <option>Flagged — escalated to Compliance</option>
+                  <option>Resolved — see notes</option>
+                </select>
+                <input type="text" value={scrNotes} onChange={(e) => setScrNotes(e.target.value)} placeholder="Notes (optional)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+              </div>
+              <button type="button" onClick={submitScreening} disabled={!selected.fdrApplicable} className={NEXUS_BTN_PRIMARY}>Log Screening Entry</button>
+              <div className="mt-4 overflow-x-auto max-h-48 overflow-y-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
+                      <th className="py-2 pr-2">Date</th>
+                      <th className="py-2 pr-2">Result</th>
+                      <th className="py-2 pr-2">By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(selected.exclusionLog || []).length === 0 ? (
+                      <tr><td colSpan={3} className="py-4 text-center text-gray-500">No screening entries yet.</td></tr>
+                    ) : (
+                      [...selected.exclusionLog].reverse().map((e, i) => (
+                        <tr key={i} className="border-b border-gray-800">
+                          <td className="py-2 pr-2 text-gray-200">{e.date}</td>
+                          <td className="py-2 pr-2 text-gray-300">{e.result}</td>
+                          <td className="py-2 pr-2 text-gray-400">{e.loggedBy}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </NexusPanel>
+
+            <NexusPanel title="Audit Log">
+              <div className="overflow-x-auto max-h-48 overflow-y-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
+                      <th className="py-2 pr-2">When</th>
+                      <th className="py-2 pr-2">Actor</th>
+                      <th className="py-2 pr-2">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...(selected.auditLog || [])].reverse().map((a, i) => (
+                      <tr key={i} className="border-b border-gray-800">
+                        <td className="py-2 pr-2 text-gray-500 whitespace-nowrap">{a.ts?.slice(0, 16).replace('T', ' ')}</td>
+                        <td className="py-2 pr-2 text-gray-300">{a.actor}</td>
+                        <td className="py-2 pr-2 text-gray-300">{a.action}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </NexusPanel>
+
+            {onNavigate && !compact && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                <button type="button" onClick={() => onNavigate('compass', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open COMPASS</button>
+                <button type="button" onClick={() => onNavigate('vertex', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open VERTEX</button>
+              </div>
+            )}
+          </>
+        )}
+      </>
+    );
+  };
+
+  const addHireForm = (
+    <NexusPanel title="Add New Hire / Engagement" className="mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
+        <input value={nhName} onChange={(e) => setNhName(e.target.value)} placeholder="Full name" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+        <input type="email" value={nhEmail} onChange={(e) => setNhEmail(e.target.value)} placeholder="Email (enables GATEWAY portal)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+        <select value={nhType} onChange={(e) => setNhType(e.target.value as 'employee' | 'contractor')} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
+          <option value="employee">Employee (W-2)</option>
+          <option value="contractor">Independent Contractor (1099)</option>
+        </select>
+        <select value={nhDivision} onChange={(e) => setNhDivision(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
+          <option value="">Division / role area</option>
+          {(config?.divisions || []).map((d) => <option key={d} value={d}>{d}</option>)}
+        </select>
+        <input type="date" value={nhStart} onChange={(e) => setNhStart(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
+        <label className="flex items-center gap-2 text-xs text-gray-300 bg-gray-800 border border-gray-700 rounded px-3 py-2">
+          <input type="checkbox" checked={nhMemberFacing} onChange={(e) => setNhMemberFacing(e.target.checked)} className="w-4 h-4 accent-purple-500" />
+          Member-facing role
+        </label>
+      </div>
+      <p className="text-[11px] text-gray-500 mb-3">
+        OIG LEIE + GSA SAM follow <strong className="text-gray-400">division</strong>: required for
+        DEPOINTE, HAVEN, SHIELD, VITAL, Corporate/HR/Admin. Not required for Freight, 3D Ink/CNTDA, DEPOINTE DNA, ARENA/PRIME, or unassigned.
+      </p>
+      <button type="button" onClick={handleAddHire} disabled={adding} className={NEXUS_BTN_PRIMARY}>
+        {adding ? 'Adding…' : 'Add item'}
+      </button>
+    </NexusPanel>
+  );
+
   return (
     <div className={NEXUS_SHELL_PAGE}>
       <div className={`${NEXUS_SHELL_PAD} ${NEXUS_CONTAINER}`}>
@@ -723,16 +1352,9 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
             </button>
             <h1 className={NEXUS_TITLE}>GATEWAY</h1>
             <p className={NEXUS_SUBTITLE}>
-              Automates the DDI New Hire &amp; Independent Contractor Onboarding SOPs — Pre-boarding → Day 1 → Week 1 → 30/60/90 Day
-              (employees) / Pre-Engagement → Start → Ongoing → Renewal (contractors). CMS FDR training recurrence,
-              monthly OIG LEIE/GSA SAM exclusion screening, annual FDR attestation, worker-classification documentation.
-              Self-service at <span className="text-teal-400">gateway.deedavis.biz</span> — new hires/contractors upload
-              documents and sign acknowledgments themselves.
+              New hire &amp; contractor onboarding board — phases, CMS FDR training, exclusion screening.
+              Self-service portal at <span className="text-teal-400">gateway.deedavis.biz</span>.
             </p>
-            {/* Compliance posture badges — carried over from Dee's original Onboarding Tracker header
-                ("N ACTIVE" / "AUDIT LOG — APPEND-ONLY" / "10-YEAR RETENTION"). The checklist, training,
-                screening log, and audit log below are 100% admin-enterable right here — none of it
-                depends on gateway.deedavis.biz being used. The portal only adds self-service on top. */}
             <div className="flex flex-wrap gap-2 mt-3">
               <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-amber-500/40 bg-amber-900/15 text-amber-300">
                 {activeRoster.length} ACTIVE
@@ -766,7 +1388,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-4">
           {tabs.map((t) => (
             <button
               key={t.id}
@@ -779,6 +1401,42 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
           ))}
         </div>
 
+        {/* View switcher — monday-style */}
+        {(resolvedTab === 'board' || resolvedTab === 'dashboard') && (
+          <div className="flex flex-wrap items-center gap-1 mb-5 p-1 bg-gray-900/80 border border-purple-500/20 rounded-xl w-fit">
+            {([
+              { id: 'table' as const, label: 'Main Table', tab: 'board' as const },
+              { id: 'kanban' as const, label: 'Kanban', tab: 'board' as const },
+              { id: 'dashboard' as const, label: 'Dashboard', tab: 'dashboard' as const },
+            ]).map((v) => {
+              const active = resolvedTab === 'dashboard'
+                ? v.id === 'dashboard'
+                : v.id !== 'dashboard' && boardView === v.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => {
+                    if (v.tab === 'dashboard') {
+                      setActiveTab('dashboard');
+                    } else {
+                      setActiveTab('board');
+                      setBoardView(v.id as BoardView);
+                    }
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    active
+                      ? 'bg-purple-600 text-white shadow'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                  }`}
+                >
+                  {v.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* ─────────── DASHBOARD ─────────── */}
         {resolvedTab === 'dashboard' && (
           <>
@@ -789,19 +1447,17 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               <NexusMetricCard label="Flagged — Escalate" value={alerts?.screening_flagged_open.length || 0} icon="🚨" accent={alerts?.screening_flagged_open.length ? 'red' : 'green'} />
             </div>
 
-            <NexusPanel title={`📋 Annual FDR Compliance Attestation — Calendar Year ${currentYear}`} className="mb-6">
+            <NexusPanel title={`Annual FDR Compliance Attestation — Calendar Year ${currentYear}`} className="mb-6">
               {currentAttestation ? (
                 <div className="p-3 bg-emerald-900/15 border border-emerald-600/30 rounded-lg text-sm text-emerald-300">
-                  ✅ Attested by <strong>{currentAttestation.attestorName}</strong> on {currentAttestation.attestedDate}.
+                  Attested by <strong>{currentAttestation.attestorName}</strong> on {currentAttestation.attestedDate}.
                   {currentAttestation.referenceNotes ? ` Reference: ${currentAttestation.referenceNotes}` : ''}
                 </div>
               ) : (
                 <>
                   <div className="p-3 mb-3 bg-amber-900/20 border border-amber-500/40 rounded-lg text-sm text-amber-300">
-                    ⚠️ No attestation on file for {currentYear}. Per SOP Section 6, an authorized DDI representative
-                    (Compliance Officer / President) must attest annually that General Compliance/FWA training,
-                    Code of Conduct distribution, and OIG LEIE/GSA SAM screening are complete and current for all
-                    applicable personnel (employees and contractors touching Medicaid/Medicare-adjacent work).
+                    No attestation on file for {currentYear}. An authorized DDI representative must attest annually
+                    that General Compliance/FWA training, Code of Conduct, and OIG LEIE/GSA SAM screening are current.
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <input type="number" value={attYear} onChange={(e) => setAttYear(parseInt(e.target.value, 10) || currentYear)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
@@ -815,13 +1471,13 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               )}
               {attestations.length > 0 && (
                 <div className="mt-3 text-xs text-gray-500">
-                  Prior attestations on file: {attestations.filter(a => a.year !== currentYear).map(a => a.year).join(', ') || '—'}
+                  Prior attestations: {attestations.filter((a) => a.year !== currentYear).map((a) => a.year).join(', ') || '—'}
                 </div>
               )}
             </NexusPanel>
 
             {alerts && alerts.alert_count > 0 && (
-              <NexusPanel title="⚠️ Compliance Alerts — CMS FDR Audit Readiness (COMPASS)">
+              <NexusPanel title="Compliance Alerts — CMS FDR Audit Readiness">
                 <div className="space-y-2 text-sm">
                   {alerts.screening_flagged_open.map((a) => <AlertBadge key={`flag-${a.id}`} row={a} icon="🚨" severity="critical" />)}
                   {alerts.training_cms_hard_missed.map((a, i) => <AlertBadge key={`hard-${a.id}-${i}`} row={a} icon="🚨" severity="critical" />)}
@@ -838,115 +1494,249 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               {loading ? (
                 <p className="text-gray-400 text-sm">Loading roster…</p>
               ) : activeRoster.length === 0 ? (
-                <p className="text-gray-400 text-sm">No active employees or contractors yet. Add one in the Roster tab.</p>
+                <p className="text-gray-400 text-sm">No active items yet. Add one on the Board.</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {activeRoster.slice(0, 6).map((r) => (
-                    <RosterCard key={r.id} r={r} status={statusForRow(r)} onOpen={() => openDetail(r.id)} compact />
+                    <RosterCard key={r.id} r={r} status={statusForRow(r)} onOpen={() => openDrawer(r.id)} compact />
                   ))}
                 </div>
               )}
               {activeRoster.length > 6 && (
-                <button type="button" onClick={() => setActiveTab('roster')} className="text-xs text-purple-400 hover:text-purple-300 mt-3">
-                  View all {activeRoster.length} in Roster →
+                <button type="button" onClick={() => { setActiveTab('board'); setBoardView('table'); }} className="text-xs text-purple-400 hover:text-purple-300 mt-3">
+                  View all {activeRoster.length} on Board →
                 </button>
               )}
             </NexusPanel>
-
-            <p className="text-xs text-gray-500 mt-4">
-              GATEWAY handles onboarding for internal DDI employees &amp; engaged contractors only. Field agents (PRISM) and
-              external subcontractors/suppliers (GPSS) follow the separate pipeline in NEXUS_ONBOARDING_SYSTEM.md.
-            </p>
           </>
         )}
 
-        {/* ─────────── ROSTER ─────────── */}
-        {resolvedTab === 'roster' && (
+        {/* ─────────── BOARD ─────────── */}
+        {resolvedTab === 'board' && (
           <>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-white">Roster ({roster.length})</h3>
-              <div className="flex gap-2">
-                <button type="button" onClick={exportRoster} className={NEXUS_BTN_SECONDARY}>Export (CSV)</button>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[240px]">
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search board…"
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white w-full sm:w-56"
+                />
+                {([
+                  ['all', 'All'],
+                  ['employees', 'Employees'],
+                  ['contractors', 'Contractors'],
+                  ['needs_attention', 'Needs attention'],
+                  ['portal_waiting', 'Portal waiting'],
+                ] as [FilterChip, string][]).map(([id, label]) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setFilterChip(id)}
+                    className={`text-[11px] font-bold px-2.5 py-1.5 rounded-full border transition-all ${
+                      filterChip === id
+                        ? 'border-purple-400 bg-purple-600/30 text-purple-200'
+                        : 'border-gray-700 text-gray-400 hover:border-gray-500'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  value={groupBy}
+                  onChange={(e) => setGroupBy(e.target.value as BoardGroupBy)}
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white"
+                  title="Group by"
+                >
+                  <option value="phase">Group by Phase</option>
+                  <option value="status">Group by Status</option>
+                  <option value="division">Group by Division</option>
+                </select>
+                <button type="button" onClick={exportRoster} className={NEXUS_BTN_SECONDARY}>Export CSV</button>
                 <button type="button" onClick={() => setShowAddHireForm((v) => !v)} className={NEXUS_BTN_PRIMARY}>
-                  {showAddHireForm ? '✕ Cancel' : '+ New Hire / Engagement'}
+                  {showAddHireForm ? 'Cancel' : '+ Add item'}
                 </button>
               </div>
             </div>
 
-            {showAddHireForm && (
-            <NexusPanel title="Add New Hire / Engagement" className="mb-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
-                <input
-                  value={nhName}
-                  onChange={(e) => setNhName(e.target.value)}
-                  placeholder="Full name"
-                  className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
-                />
-                <input
-                  type="email"
-                  value={nhEmail}
-                  onChange={(e) => setNhEmail(e.target.value)}
-                  placeholder="Email (enables GATEWAY portal)"
-                  title="This email is how they sign in to the GATEWAY self-service portal at gateway.deedavis.biz — no email, no portal access"
-                  className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
-                />
-                <select value={nhType} onChange={(e) => setNhType(e.target.value as 'employee' | 'contractor')} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
-                  <option value="employee">Employee (W-2)</option>
-                  <option value="contractor">Independent Contractor (1099)</option>
-                </select>
-                <select value={nhDivision} onChange={(e) => setNhDivision(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
-                  <option value="">Division / role area</option>
-                  {(config?.divisions || []).map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
-                <input
-                  type="date"
-                  value={nhStart}
-                  onChange={(e) => setNhStart(e.target.value)}
-                  title="Date of hire/engagement — anchors the 90-day CMS training floor and 10-year retention clock"
-                  className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
-                />
-                <label className="flex items-center gap-2 text-xs text-gray-300 bg-gray-800 border border-gray-700 rounded px-3 py-2">
-                  <input type="checkbox" checked={nhMemberFacing} onChange={(e) => setNhMemberFacing(e.target.checked)} className="w-4 h-4 accent-purple-500" />
-                  Member-facing role
-                </label>
-              </div>
-              <button type="button" onClick={handleAddHire} disabled={adding} className={NEXUS_BTN_PRIMARY}>
-                {adding ? 'Adding…' : 'Add New Hire / Engagement'}
-              </button>
-              <p className="text-xs text-gray-500 mt-2">
-                Date field = date of hire/engagement (anchors the CMS 90-day General Compliance/FWA + Medicare Fraud &amp; Abuse
-                floor and the 10-year retention clock). Member-facing controls whether Recipient Rights and Abuse &amp; Neglect
-                training recur annually. Email is optional but strongly recommended — it's the only way this person can sign
-                into the <strong className="text-teal-400">GATEWAY portal</strong> (gateway.deedavis.biz) to upload their own
-                documents and sign acknowledgments themselves instead of HR chasing paperwork.
-              </p>
-            </NexusPanel>
-            )}
+            {showAddHireForm && addHireForm}
 
-            {roster.length === 0 ? (
-              <div className="text-gray-400 text-sm p-6 border border-dashed border-gray-700 rounded-lg text-center">
-                No hires/engagements tracked yet. Click "+ New Hire / Engagement" to start onboarding.
+            {loading ? (
+              <p className="text-gray-400 text-sm p-8 text-center">Loading board…</p>
+            ) : activeRoster.length === 0 ? (
+              <div className="border border-dashed border-purple-500/30 rounded-2xl bg-gray-900/50 p-12 text-center">
+                <div className="text-4xl mb-3 opacity-60">📋</div>
+                <h3 className="text-lg font-bold text-white mb-2">No items yet — add your first hire</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-md mx-auto">
+                  Start the onboarding board with a new employee or contractor. Checklist progress drives status automatically.
+                </p>
+                <button type="button" onClick={() => setShowAddHireForm(true)} className={NEXUS_BTN_PRIMARY}>
+                  + Add your first hire
+                </button>
+              </div>
+            ) : boardView === 'kanban' ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-3">
+                {BOARD_STATUS_ORDER.map((status) => {
+                  const items = filteredBoardRows.filter((r) => resolveBoardStatus(r) === status);
+                  const meta = BOARD_STATUS_META[status];
+                  return (
+                    <div key={status} className={`rounded-xl border ${meta.kanban} p-3 min-h-[220px]`}>
+                      <div className="flex items-center justify-between mb-3">
+                        <BoardStatusPill status={status} />
+                        <span className="text-[11px] text-gray-400 font-semibold">{items.length}</span>
+                      </div>
+                      <div className="space-y-2">
+                        {items.map((r) => (
+                          <button
+                            key={r.id}
+                            type="button"
+                            onClick={() => openDrawer(r.id)}
+                            className="w-full text-left bg-gray-900/80 border border-gray-700/60 rounded-lg p-3 hover:border-purple-500/40 transition-all"
+                          >
+                            <div className="flex items-start gap-2">
+                              <Avatar name={r.name} workerType={r.workerType} size="sm" />
+                              <div className="min-w-0 flex-1">
+                                <div className="text-sm font-bold text-white truncate">{r.name}</div>
+                                <div className="text-[11px] text-gray-400 truncate">
+                                  {r.phaseTitle || '—'} · {r.division || 'No division'}
+                                </div>
+                                <div className="mt-2"><ProgressBar pct={r.progress} /></div>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                        {items.length === 0 && (
+                          <p className="text-[11px] text-gray-500 text-center py-6">No items</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {roster.map((r) => (
-                  <RosterCard key={r.id} r={r} status={statusForRow(r)} onOpen={() => openDetail(r.id)} onArchive={() => archiveRecord(r)} />
-                ))}
+              <div className="space-y-4">
+                {boardGroups.map((group) => {
+                  const collapsed = !!collapsedGroups[group.key];
+                  return (
+                    <div key={group.key} className="rounded-xl border border-gray-700/60 bg-gray-900/40 overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => toggleGroup(group.key)}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800/50 transition-colors"
+                      >
+                        <span className={`w-1.5 h-6 rounded-full ${group.color}`} />
+                        <span className="text-sm font-bold text-white">{group.title}</span>
+                        <span className="text-[11px] text-gray-500 font-semibold bg-gray-800 px-2 py-0.5 rounded-full">
+                          {group.items.length}
+                        </span>
+                        <span className="ml-auto text-gray-500 text-xs">{collapsed ? '▸' : '▾'}</span>
+                      </button>
+
+                      {!collapsed && (
+                        <div className="overflow-x-auto border-t border-gray-800">
+                          <table className="w-full text-sm min-w-[980px]">
+                            <thead>
+                              <tr className="text-[10px] uppercase tracking-wide text-gray-500 text-left bg-gray-900/60">
+                                <th className="px-3 py-2 font-semibold">Item</th>
+                                <th className="px-3 py-2 font-semibold">Person type</th>
+                                <th className="px-3 py-2 font-semibold">Division</th>
+                                <th className="px-3 py-2 font-semibold">Status</th>
+                                <th className="px-3 py-2 font-semibold">Phase</th>
+                                <th className="px-3 py-2 font-semibold">Progress</th>
+                                <th className="px-3 py-2 font-semibold">Portal</th>
+                                <th className="px-3 py-2 font-semibold">Screening</th>
+                                <th className="px-3 py-2 font-semibold">Start date</th>
+                                <th className="px-3 py-2 font-semibold">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {group.items.map((r) => (
+                                <tr
+                                  key={r.id}
+                                  onClick={() => openDrawer(r.id)}
+                                  className="border-t border-gray-800/80 hover:bg-purple-500/5 cursor-pointer transition-colors"
+                                >
+                                  <td className="px-3 py-2.5">
+                                    <div className="flex items-center gap-2.5 min-w-[160px]">
+                                      <Avatar name={r.name} workerType={r.workerType} size="sm" />
+                                      <span className="font-semibold text-white truncate">{r.name}</span>
+                                    </div>
+                                  </td>
+                                  <td className="px-3 py-2.5 text-gray-300 text-xs whitespace-nowrap">
+                                    {r.workerType === 'employee' ? 'Employee' : 'Contractor'}
+                                  </td>
+                                  <td className="px-3 py-2.5 text-gray-300 text-xs">{r.division || '—'}</td>
+                                  <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+                                    <BoardStatusPill status={resolveBoardStatus(r)} />
+                                  </td>
+                                  <td className="px-3 py-2.5 text-gray-300 text-xs">{r.phaseTitle || '—'}</td>
+                                  <td className="px-3 py-2.5"><ProgressBar pct={r.progress} /></td>
+                                  <td className="px-3 py-2.5 text-xs text-gray-400 whitespace-nowrap">{portalLabel(r)}</td>
+                                  <td className="px-3 py-2.5 text-xs text-gray-400">{r.screening || '—'}</td>
+                                  <td className="px-3 py-2.5 text-xs text-gray-400 whitespace-nowrap">{r.startdate || '—'}</td>
+                                  <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+                                    <div className="flex gap-1">
+                                      <button
+                                        type="button"
+                                        onClick={() => openDetail(r.id)}
+                                        className="text-[11px] text-purple-300 hover:text-purple-200 px-2 py-1"
+                                      >
+                                        Detail
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => archiveRecord(r)}
+                                        className="text-[11px] text-red-400/80 hover:text-red-300 px-2 py-1"
+                                      >
+                                        Archive
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                              {group.items.length === 0 && (
+                                <tr>
+                                  <td colSpan={10} className="px-3 py-6 text-center text-gray-500 text-xs">No items in this group</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                          <button
+                            type="button"
+                            onClick={() => setShowAddHireForm(true)}
+                            className="w-full text-left px-4 py-2.5 text-xs text-gray-500 hover:text-purple-300 hover:bg-purple-500/5 border-t border-gray-800 transition-colors"
+                          >
+                            + Add item
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {filteredBoardRows.length === 0 && (
+                  <div className="text-center text-sm text-gray-500 py-10 border border-dashed border-gray-700 rounded-xl">
+                    No items match this filter.
+                  </div>
+                )}
               </div>
             )}
           </>
         )}
 
-        {/* ─────────── DETAIL ─────────── */}
+        {/* ─────────── DETAIL (full tab) ─────────── */}
         {resolvedTab === 'detail' && (
           <>
             {!selected ? (
               <NexusPanel title="Select a record">
-                <p className="text-gray-400 text-sm">Open a record from the Roster tab to view onboarding detail.</p>
+                <p className="text-gray-400 text-sm">Open a record from the Board (row click or Detail action) to view onboarding detail.</p>
+                <button type="button" onClick={() => setActiveTab('board')} className={`${NEXUS_BTN_SECONDARY} mt-3`}>
+                  Go to Board
+                </button>
               </NexusPanel>
             ) : (
               <>
-                {/* ── Profile header — the "contact card" view of an onboarding CRM ── */}
                 <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-purple-500/20 p-5 mb-4">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
@@ -960,398 +1750,119 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                           {selected.email || 'No email on file'}
                           {(() => { const d = daysSince(selected.startdate); return d !== null ? ` · Day ${d} of onboarding` : ''; })()}
                         </p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <StatusChip status={statusForRow(selected as unknown as RosterRow)} />
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          <BoardStatusPill status={resolveBoardStatus(selected)} />
+                          <StatusChip status={statusForRow(selected)} />
                           {selected.memberFacing && (
                             <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-teal-500/40 bg-teal-900/20 text-teal-300">Member-Facing</span>
+                          )}
+                          {selected.fdrApplicable ? (
+                            <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-amber-500/40 bg-amber-900/20 text-amber-300" title="OIG LEIE + GSA SAM required for this division">
+                              FDR / MCO · {selected.division || '—'}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-gray-600 bg-gray-800 text-gray-400" title="Division does not require OIG LEIE + GSA SAM">
+                              Non-FDR · {selected.division || 'unassigned'}
+                            </span>
                           )}
                           <PortalActivityBadge activity={selected.portalActivity} hasEmail={!!selected.email} />
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                      <ProgressRing pct={selected._progress ?? 0} size={64} strokeWidth={6} />
+                      <ProgressRing pct={selected._progress ?? selected.progress ?? 0} size={64} strokeWidth={6} />
                       <span className="text-[10px] text-gray-500">Onboarding progress</span>
                     </div>
                   </div>
-
-                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-700/50">
-                    <button type="button" onClick={toggleMemberFacing} className={NEXUS_BTN_SECONDARY}>
-                      {selected.memberFacing ? '✓ Member-Facing Role' : '✗ Not Member-Facing'}
-                    </button>
-                    <button type="button" onClick={() => exportRecord(selected)} className={NEXUS_BTN_SECONDARY}>
-                      Export Record (CSV)
-                    </button>
-                  </div>
-                </div>
-
-                {/* Inner tabs: friendly Overview (default) vs technical Compliance & Audit */}
-                <div className="flex gap-2 mb-4">
-                  {([
-                    ['overview', '👤 Overview'],
-                    ['compliance', '🛡️ Compliance & Audit'],
-                  ] as const).map(([id, label]) => (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => setDetailInnerTab(id)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${detailInnerTab === id ? NEXUS_TAB_ACTIVE : NEXUS_TAB_IDLE}`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-
-              {detailInnerTab === 'overview' && (
-                <>
-                {selected._screening && selected._screening.severity !== 'none' && (
-                  <div className={`mb-4 p-3 rounded-lg text-sm border ${SEVERITY_STYLE[selected._screening.severity]}`}>
-                    🔍 {selected._screening.detail}
-                    {selected._screening.nextDue ? ` · Next check: ${selected._screening.nextDue}` : ''}
-                    <button type="button" onClick={() => setDetailInnerTab('compliance')} className="ml-2 underline hover:no-underline">Details →</button>
-                  </div>
-                )}
-
-                {/* GATEWAY self-service portal activity — read-only, uploads/e-signs happen at gateway.deedavis.biz */}
-                <NexusPanel
-                  title={`🔑 GATEWAY Portal Activity ${selected.email ? `— ${selected.email}` : '— no email on file'}`}
-                  className="mb-4"
-                >
-                  {!selected.email ? (
-                    <p className="text-sm text-amber-300">
-                      No email on this record — {selected.name} cannot sign in to gateway.deedavis.biz. Add an email above to enable portal access.
-                    </p>
-                  ) : (
-                    <>
-                    <div className={`flex flex-wrap items-center gap-3 mb-4 pb-4 border-b border-gray-700/50 text-sm ${selected.portalActivity?.lastLogin ? 'text-teal-300' : 'text-amber-300'}`}>
-                      <span className="font-bold">
-                        {selected.portalActivity?.lastLogin
-                          ? `🟢 Last active in portal: ${timeAgo(selected.portalActivity.lastLogin)}`
-                          : '⚪ Has not signed in to gateway.deedavis.biz yet'}
-                      </span>
-                      {!!selected.portalActivity?.loginCount && (
-                        <span className="text-gray-500 text-xs">{selected.portalActivity.loginCount} visit{selected.portalActivity.loginCount === 1 ? '' : 's'} total</span>
-                      )}
-                      {selected.portalActivity?.lastLogin && (
-                        <span className="text-gray-500 text-xs">{new Date(selected.portalActivity.lastLogin).toLocaleString()}</span>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <h4 className="font-bold text-gray-300 mb-1.5">Documents Uploaded ({(selected.documents || []).length})</h4>
-                        {(selected.documents || []).length === 0 ? (
-                          <p className="text-gray-500">Nothing uploaded yet via the portal.</p>
-                        ) : (
-                          <ul className="space-y-1">
-                            {(selected.documents || []).map((d: any) => (
-                              <li key={d.key} className="text-gray-300">
-                                {d.attachmentUrl ? (
-                                  <a href={d.attachmentUrl} target="_blank" rel="noreferrer" className="text-teal-400 hover:underline">{d.label}</a>
-                                ) : <span>{d.label}</span>}
-                                <span className="text-gray-500"> — {d.filename} · {d.uploadedAt?.slice(0, 10)}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-gray-300 mb-1.5">Acknowledgments Signed ({(selected.acknowledgments || []).length})</h4>
-                        {(selected.acknowledgments || []).length === 0 ? (
-                          <p className="text-gray-500">Nothing signed yet via the portal.</p>
-                        ) : (
-                          <ul className="space-y-1">
-                            {(selected.acknowledgments || []).map((a: any) => (
-                              <li key={a.key} className="text-gray-300">
-                                {a.label} — <span className="text-gray-500">signed "{a.typedName}" on {a.ts?.slice(0, 10)}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </div>
-                    </>
-                  )}
-                </NexusPanel>
-
-                {selected.workerType === 'contractor' && (
-                  <div className="mb-4 p-3 bg-amber-900/15 border border-amber-500/30 rounded-lg text-sm text-amber-300">
-                    Contractor track: no I-9/E-Verify. Check-ins should reference contract deliverables, not
-                    employee-style supervision, to support worker classification.
-                  </div>
-                )}
-
-                <NexusPanel title="Onboarding Journey" className="mb-4">
-                  <StagePipeline
-                    phases={currentPhases}
-                    checklist={selected.checklist || {}}
-                    expanded={activePhaseKey}
-                    onSelect={(key) => setExpandedPhase(key)}
-                  />
-
-                  {activePhase && (
-                    <div className="mt-5 pt-5 border-t border-gray-700/50">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-sm font-bold text-purple-300">{activePhase.title}</h4>
-                        <span className="text-[10px] text-gray-500">Owner: {activePhase.owner}</span>
-                      </div>
-                      <div className="space-y-1">
-                        {activePhase.items.map((item, i) => {
-                          const checked = !!selected.checklist?.[activePhase.key]?.[i];
-                          return (
-                            <label key={i} className={`flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-200'}`}>
-                              <input
-                                type="checkbox"
-                                checked={checked}
-                                onChange={(e) => toggleChecklist(activePhase.key, i, e.target.checked)}
-                                className="w-4 h-4 accent-purple-500"
-                              />
-                              {item}
-                            </label>
-                          );
-                        })}
-                      </div>
-
-                      {/* 30-Day Check-In Agenda — nested under the employee day30 phase, SOP Section 8 */}
-                      {activePhase.key === 'day30' && config?.agendas?.day30 && (
-                        <div className="mt-4 pt-4 border-t border-gray-700/50">
-                          <h4 className="text-sm font-bold text-purple-300 mb-2">30-Day Check-In Agenda</h4>
-                          <div className="space-y-1 mb-3">
-                            {config.agendas.day30.map((item, i) => {
-                              const checked = !!selected.agenda?.day30?.items?.[i];
-                              return (
-                                <label key={i} className={`flex items-center gap-3 py-1 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
-                                  <input type="checkbox" checked={checked} onChange={(e) => updateAgenda('day30', i, e.target.checked)} className="w-4 h-4 accent-purple-500" />
-                                  {item}
-                                </label>
-                              );
-                            })}
-                          </div>
-                          <textarea
-                            defaultValue={selected.agenda?.day30?.notes || ''}
-                            onBlur={(e) => updateAgendaNotes('day30', e.target.value)}
-                            placeholder="Check-in notes…"
-                            className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
-                            rows={2}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </NexusPanel>
-                </>
-              )}
-
-              {detailInnerTab === 'compliance' && (
-                <>
-                <p className="text-xs text-gray-500 mb-4">
-                  This tab is the audit trail — CMS FDR training cadence, exclusion screening, worker classification, and
-                  the append-only action log. Pulled in full for any CMS/MCO compliance request.
-                </p>
-
-                {/* Worker classification documentation — contractor track only */}
-                {selected.workerType === 'contractor' && selected.classification && (
-                  <NexusPanel title="Worker Classification — Documentation, Not Legal Advice" className="mb-4">
-                    <p className="text-xs text-gray-500 mb-3">
-                      Contemporaneous record of why this relationship supports independent-contractor status.
-                      A written label alone does not settle classification if practices look like employment.
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-                      {([
-                        ['boundedScope', 'Specific, bounded scope of work (not open-ended duties)'],
-                        ['ownToolsSchedule', 'Contractor sets own schedule / uses own tools where applicable'],
-                        ['worksOtherClients', 'Contractor works for other clients'],
-                        ['noSupervisoryIntegration', 'No integration into DDI\'s internal supervisory structure'],
-                        ['deliverableBasedPay', 'Deliverable/milestone-based pay (not hourly wage mirroring payroll)'],
-                      ] as [keyof Classification, string][]).map(([field, label]) => (
-                        <label key={field} className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={!!selected.classification?.[field]}
-                            onChange={(e) => updateClassification(field, e.target.checked)}
-                            className="w-4 h-4 accent-purple-500"
-                          />
-                          {label}
-                        </label>
-                      ))}
-                    </div>
-                    <textarea
-                      defaultValue={selected.classification?.notes || ''}
-                      onBlur={(e) => updateClassification('notes', e.target.value)}
-                      placeholder="Classification notes / basis…"
-                      className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white mb-3"
-                      rows={2}
-                    />
-                    <label className="flex items-center gap-2 text-sm cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={!!selected.classification?.routedToCounsel}
-                        onChange={(e) => updateClassification('routedToCounsel', e.target.checked)}
-                        className="w-4 h-4 accent-red-500"
-                      />
-                      <span className={selected.classification?.routedToCounsel ? 'text-red-300' : 'text-gray-300'}>
-                        Classification unclear — routed to legal counsel {selected.classification?.routedDate ? `(${selected.classification.routedDate})` : ''}
-                      </span>
-                    </label>
-                  </NexusPanel>
-                )}
-
-                <NexusPanel title="Required Training — DDI internal target: 30 days. CMS hard floor: General Compliance/FWA + Medicare Fraud & Abuse within 90 days of hire, annual thereafter." className="mb-4">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-xs">
-                      <thead>
-                        <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
-                          <th className="py-2 pr-2">Training</th>
-                          {selected.workerType === 'contractor' && <th className="py-2 pr-2">Applicable?</th>}
-                          <th className="py-2 pr-2">Status</th>
-                          <th className="py-2 pr-2">Cert/Ref</th>
-                          <th className="py-2 pr-2">Completed By</th>
-                          <th className="py-2 pr-2">Completed</th>
-                          <th className="py-2 pr-2">Compliance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(config?.trainings || []).map((t, i) => {
-                          const tr = selected.training[i] || ({} as TrainingRow);
-                          const comp = selected._trainingCompliance?.[i];
-                          const isNA = comp?.state === 'not_applicable';
-                          return (
-                            <tr key={i} className={`border-b border-gray-800 ${isNA ? 'opacity-40' : ''}`}>
-                              <td className="py-2 pr-2 text-gray-200">
-                                {t.name}
-                                <div className="text-[9px] text-gray-500 mt-0.5">{t.source} · {t.recurrence_label}</div>
-                                {selected.workerType === 'contractor' && (
-                                  <div className="text-[9px] text-gray-600 mt-0.5">Trigger: {t.contractor_trigger}</div>
-                                )}
-                              </td>
-                              {selected.workerType === 'contractor' && (
-                                <td className="py-2 pr-2">
-                                  {t.employee_only ? (
-                                    <span className="text-[10px] text-gray-500">N/A</span>
-                                  ) : (
-                                    <select value={tr.applicable || 'pending'} onChange={(e) => updateTraining(i, 'applicable', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white">
-                                      <option value="pending">Pending</option>
-                                      <option value="yes">Yes</option>
-                                      <option value="no">No</option>
-                                    </select>
-                                  )}
-                                </td>
-                              )}
-                              <td className="py-2 pr-2">
-                                <select disabled={isNA} value={tr.status || 'Not Started'} onChange={(e) => updateTraining(i, 'status', e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40">
-                                  <option>Not Started</option>
-                                  <option>In Progress</option>
-                                  <option>Complete</option>
-                                </select>
-                              </td>
-                              <td className="py-2 pr-2">
-                                <input disabled={isNA} type="text" value={tr.certRef || ''} onChange={(e) => updateTraining(i, 'certRef', e.target.value)} placeholder="Cert #" className="w-20 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
-                              </td>
-                              <td className="py-2 pr-2">
-                                <input disabled={isNA} type="text" value={tr.completedBy || ''} onChange={(e) => updateTraining(i, 'completedBy', e.target.value)} placeholder="Initials" className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white disabled:opacity-40" />
-                              </td>
-                              <td className="py-2 pr-2 text-gray-500">{tr.completedDate || '—'}</td>
-                              <td className="py-2 pr-2">
-                                {comp && (
-                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap ${SEVERITY_STYLE[comp.severity]}`}>
-                                    {STATE_LABEL[comp.state] || comp.state}
-                                  </span>
-                                )}
-                                {comp?.nextDue && <div className="text-[9px] text-gray-500 mt-0.5">Next: {comp.nextDue}</div>}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </NexusPanel>
-
-                <NexusPanel title="Exclusion Screening Log — OIG LEIE + GSA SAM.gov (at hire, then monthly for the life of employment/engagement)" className="mb-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-                    <input type="date" value={scrDate} onChange={(e) => setScrDate(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
-                    <select value={scrResult} onChange={(e) => setScrResult(e.target.value)} className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white">
-                      <option>Clear</option>
-                      <option>Flagged — escalated to Compliance</option>
-                      <option>Resolved — see notes</option>
-                    </select>
-                    <input type="text" value={scrNotes} onChange={(e) => setScrNotes(e.target.value)} placeholder="Notes (optional)" className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white" />
-                  </div>
-                  <button type="button" onClick={submitScreening} className={NEXUS_BTN_PRIMARY}>Log Screening Entry</button>
-                  <p className="text-[10px] text-gray-500 mt-2">Append-only — corrections/resolutions are logged as new entries, never overwrites.</p>
-
-                  <div className="mt-4 overflow-x-auto">
-                    <table className="w-full text-xs">
-                      <thead>
-                        <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
-                          <th className="py-2 pr-2">Date</th>
-                          <th className="py-2 pr-2">Result</th>
-                          <th className="py-2 pr-2">Notes</th>
-                          <th className="py-2 pr-2">Logged By</th>
-                          <th className="py-2 pr-2">Timestamp</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(selected.exclusionLog || []).length === 0 ? (
-                          <tr><td colSpan={5} className="py-4 text-center text-gray-500">No screening entries logged yet.</td></tr>
-                        ) : (
-                          [...selected.exclusionLog].reverse().map((e, i) => {
-                            const flagged = e.result?.startsWith('Flagged');
-                            const resolved = e.result?.startsWith('Resolved');
-                            return (
-                              <tr key={i} className="border-b border-gray-800">
-                                <td className="py-2 pr-2 text-gray-200">{e.date}</td>
-                                <td className={`py-2 pr-2 ${flagged ? 'text-red-400' : resolved ? 'text-blue-400' : 'text-emerald-400'}`}>{e.result}</td>
-                                <td className="py-2 pr-2 text-gray-400">{e.notes || '—'}</td>
-                                <td className="py-2 pr-2 text-gray-400">{e.loggedBy}</td>
-                                <td className="py-2 pr-2 text-gray-500">{e.ts?.slice(0, 16).replace('T', ' ')}</td>
-                              </tr>
-                            );
-                          })
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </NexusPanel>
-
-                <NexusPanel title="Audit Log — append-only, 10-year retention per CMS FDR standard (42 CFR 422.504(d))">
-                  <div className="overflow-x-auto max-h-64 overflow-y-auto">
-                    <table className="w-full text-xs">
-                      <thead>
-                        <tr className="text-purple-400 uppercase text-[10px] tracking-wide text-left border-b border-gray-700">
-                          <th className="py-2 pr-2">Timestamp</th>
-                          <th className="py-2 pr-2">Actor</th>
-                          <th className="py-2 pr-2">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[...(selected.auditLog || [])].reverse().map((a, i) => (
-                          <tr key={i} className="border-b border-gray-800">
-                            <td className="py-2 pr-2 text-gray-500 whitespace-nowrap">{a.ts?.slice(0, 16).replace('T', ' ')}</td>
-                            <td className="py-2 pr-2 text-gray-300">{a.actor}</td>
-                            <td className="py-2 pr-2 text-gray-300">{a.action}</td>
-                          </tr>
+                  <div className="mt-4 pt-4 border-t border-gray-700/50 space-y-3">
+                    <label className="block text-xs text-gray-400">
+                      Division / manager assignment
+                      <select
+                        value={selected.division || ''}
+                        onChange={(e) => updateDivision(e.target.value)}
+                        className="mt-1 w-full max-w-md bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                      >
+                        <option value="">Unassigned (OIG/SAM N/A)</option>
+                        {(config?.divisions || []).map((d) => (
+                          <option key={d} value={d}>
+                            {d}{(config?.fdr_divisions || []).includes(d) ? ' · FDR' : ''}
+                          </option>
                         ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </NexusPanel>
-
-                {onNavigate && (
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <p className="w-full text-xs text-gray-500 mb-1">
-                      MCO/HIDE SNP-facing assignments should confirm the compliance gate first — Compass tracks contract-level FDR audit evidence.
+                      </select>
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      <button type="button" onClick={toggleMemberFacing} className={NEXUS_BTN_SECONDARY}>
+                        {selected.memberFacing ? '✓ Member-Facing Role' : '✗ Not Member-Facing'}
+                      </button>
+                      <button type="button" onClick={() => exportRecord(selected)} className={NEXUS_BTN_SECONDARY}>
+                        Export Record (CSV)
+                      </button>
+                      <button type="button" onClick={() => openDrawer(selected.id)} className={NEXUS_BTN_SECONDARY}>
+                        Open side panel
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-gray-500">
+                      OIG LEIE + GSA SAM follow this division — not a separate toggle.
                     </p>
-                    <button type="button" onClick={() => onNavigate('compass', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open COMPASS</button>
-                    <button type="button" onClick={() => onNavigate('vertex', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open VERTEX</button>
                   </div>
-                )}
-                </>
-              )}
+                </div>
+                {renderDetailBody(false)}
               </>
             )}
           </>
         )}
       </div>
+
+      {/* ─────────── ITEM DETAIL SIDE PANEL ─────────── */}
+      {drawerOpen && selected && (
+        <>
+          <button
+            type="button"
+            aria-label="Close panel backdrop"
+            onClick={closeDrawer}
+            className="fixed inset-0 bg-black/50 z-40"
+          />
+          <aside className="fixed top-0 right-0 h-full w-[min(100vw,460px)] z-50 bg-gradient-to-b from-gray-900 to-gray-950 border-l border-purple-500/30 shadow-2xl flex flex-col">
+            <div className="flex items-start justify-between gap-3 p-4 border-b border-gray-800">
+              <div className="flex items-start gap-3 min-w-0">
+                <Avatar name={selected.name} workerType={selected.workerType} size="md" />
+                <div className="min-w-0">
+                  <h3 className="text-lg font-bold text-white truncate">{selected.name}</h3>
+                  <p className="text-xs text-gray-400 truncate">
+                    {WORKER_LABEL[selected.workerType]}{selected.division ? ` · ${selected.division}` : ''}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    <BoardStatusPill status={resolveBoardStatus(selected)} />
+                    <StatusChip status={statusForRow(selected)} />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-2 shrink-0">
+                <ProgressRing pct={selected._progress ?? selected.progress ?? 0} size={52} strokeWidth={5} />
+                <button type="button" onClick={closeDrawer} className="text-gray-400 hover:text-white text-sm px-2">
+                  ✕ Close
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              {renderDetailBody(true)}
+            </div>
+            <div className="p-3 border-t border-gray-800 flex flex-wrap gap-2">
+              <button type="button" onClick={() => openDetail(selected.id)} className={NEXUS_BTN_PRIMARY}>
+                Open full Detail
+              </button>
+              <button type="button" onClick={() => exportRecord(selected)} className={NEXUS_BTN_SECONDARY}>
+                Export CSV
+              </button>
+              {selected.status === 'Active' && (
+                <button type="button" onClick={() => archiveRecord(selected)} className={NEXUS_BTN_SECONDARY}>
+                  Archive
+                </button>
+              )}
+            </div>
+          </aside>
+        </>
+      )}
     </div>
   );
 };

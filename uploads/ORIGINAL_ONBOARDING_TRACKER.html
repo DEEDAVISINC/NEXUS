@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — Onboarding Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;font-size:14px;line-height:1.6;color:#e0e0e0;background:#070e1a;overflow-x:hidden}
+:root{
+  --navy:#0a1628;--navy2:#0f1f3d;--panel:#111c30;--panel2:#162035;
+  --gold:#c9a84c;--gold2:#e8c96a;
+  --border:rgba(201,168,76,0.18);--border2:rgba(255,255,255,0.08);
+  --text:#d8dde8;--muted:#7a8ba8;--white:#fff;
+  --green:#1d9e75;--green-bg:rgba(29,158,117,0.12);--green-text:#5DCAA5;
+  --red:#c0392b;--red-bg:rgba(192,57,43,0.12);--red-text:#e87c73;
+  --amber:#c9a84c;--amber-bg:rgba(201,168,76,0.12);--amber-text:#e8c96a;
+  --blue:#1a5fa5;--blue-bg:rgba(26,95,165,0.15);--blue-text:#5ba3e0;
+}
+.mod-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:0}
+.mod-topbar{background:#050c18;padding:.45rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-size:.65rem;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap;gap:.4rem}
+.mod-topbar span{color:var(--gold)}
+.mod-titlebar{padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.mod-eyebrow{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.mod-name{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;letter-spacing:.04em}
+.mod-name span{color:var(--gold)}
+.mod-sub{font-size:.72rem;color:var(--muted);margin-top:.2rem;letter-spacing:.04em}
+.mod-badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.mbadge{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .65rem;border:1px solid var(--border);color:var(--gold);background:rgba(201,168,76,0.08)}
+.mod-nav{background:var(--panel);border-bottom:1px solid var(--border2);padding:0 2rem;display:flex;gap:0;flex-wrap:wrap}
+.nav-tab{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 1.25rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.mod-body{padding:1.75rem 2rem;max-width:1300px;margin:0 auto}
+.tool-panel{display:none}
+.tool-panel.active{display:block}
+.sec-label{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.sec-label::after{content:'';display:block;height:1px;width:30px;background:var(--gold);opacity:.4}
+.card{background:var(--panel);border:1px solid var(--border2);padding:16px 18px;margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.form-grid input,.form-grid select{background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;font-family:'Open Sans',sans-serif;font-size:.8rem;width:100%}
+.form-grid input:focus,.form-grid select:focus{outline:none;border-color:var(--gold)}
+.btn{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.1rem;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .15s}
+.btn:hover{background:rgba(201,168,76,0.12)}
+.btn-danger{border-color:var(--red-text);color:var(--red-text)}
+.btn-danger:hover{background:var(--red-bg)}
+.roster-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--panel);border:1px solid var(--border2);border-left:3px solid var(--gold);margin-bottom:8px;cursor:pointer;flex-wrap:wrap}
+.roster-row:hover{border-left-color:var(--gold2)}
+.roster-name{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--white);font-size:.85rem;min-width:160px}
+.roster-meta{font-size:.72rem;color:var(--muted);min-width:180px}
+.roster-progress-track{flex:1;min-width:120px;height:8px;background:var(--panel2);position:relative}
+.roster-progress-fill{height:100%;background:var(--gold);transition:width .2s}
+.roster-pct{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;color:var(--gold);min-width:40px;text-align:right}
+.phase-block{margin-bottom:18px}
+.phase-title{font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:var(--gold2);margin-bottom:8px;letter-spacing:.05em}
+.check-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border2);font-size:.8rem}
+.check-row:last-child{border-bottom:none}
+.check-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
+.check-row label{cursor:pointer;flex:1}
+.check-row.done label{color:var(--muted);text-decoration:line-through}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border2);color:var(--text)}
+select.status-select{background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;font-size:.75rem}
+.status-complete{color:var(--green-text)}
+.status-progress{color:var(--amber-text)}
+.status-notstarted{color:var(--muted)}
+.recur-tag{font-size:.62rem;padding:2px 6px;background:var(--red-bg);color:var(--red-text);font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:.05em;margin-left:6px}
+.empty-state{color:var(--muted);font-size:.85rem;padding:24px;text-align:center;border:1px dashed var(--border2)}
+.mod-footer{background:#050c18;border-top:1px solid var(--border2);padding:.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-size:.6rem;color:var(--muted);letter-spacing:.06em;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.mod-footer span{color:var(--gold)}
+.back-link{font-size:.72rem;color:var(--gold);cursor:pointer;margin-bottom:14px;display:inline-block}
+@media (max-width: 720px){
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="mod-header">
+  <div class="mod-topbar">
+    <div>NEXUS COMMAND CENTER &nbsp;·&nbsp; <span>DEE DAVIS INC.</span> &nbsp;·&nbsp; INTERNAL USE ONLY — CONFIDENTIAL</div>
+    <div id="mod-timestamp"></div>
+  </div>
+  <div class="mod-titlebar">
+    <div>
+      <div class="mod-eyebrow">HR &nbsp;·&nbsp; Employee Lifecycle</div>
+      <div class="mod-name">Onboarding <span>Tracker</span></div>
+      <div class="mod-sub">Pre-boarding &nbsp;→&nbsp; Day 1 &nbsp;→&nbsp; Week 1 &nbsp;→&nbsp; 30/60/90 Day &nbsp;·&nbsp; All Divisions</div>
+    </div>
+    <div class="mod-badges">
+      <div class="mbadge" id="roster-count-badge">0 ACTIVE</div>
+      <div class="mbadge">AUDIT LOG — APPEND-ONLY</div>
+      <div class="mbadge">10-YEAR RETENTION</div>
+    </div>
+  </div>
+</div>
+
+<div class="mod-nav">
+  <div class="nav-tab active" data-tab="roster">Roster</div>
+  <div class="nav-tab" data-tab="detail">New Hire Detail</div>
+</div>
+
+<div class="mod-body">
+
+  <!-- ROSTER PANEL -->
+  <div class="tool-panel active" id="panel-roster">
+    <div class="sec-label">Add New Hire</div>
+    <div class="card">
+      <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">
+        <input type="text" id="nh-name" placeholder="Full name">
+        <select id="nh-workertype">
+          <option value="employee">Employee (W-2)</option>
+          <option value="contractor">Independent Contractor (1099)</option>
+        </select>
+        <select id="nh-division">
+          <option value="">Division / role area</option>
+          <option>DEPOINTE (NEMT Coordination)</option>
+          <option>HAVEN</option>
+          <option>SHIELD</option>
+          <option>VITAL</option>
+          <option>ARENA/PRIME</option>
+          <option>3D Ink Signatures/CNTDA</option>
+          <option>Freight 1st Direct</option>
+          <option>DEPOINTE DNA</option>
+          <option>Corporate/HR/Admin</option>
+        </select>
+        <input type="date" id="nh-startdate" title="Date of hire/engagement — CMS anchor date for 90-day training deadline and 10-year retention">
+      </div>
+      <button class="btn" id="add-hire-btn">Add New Hire</button>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:8px">Date field = date of hire (anchors the CMS 90-day FWA/General Compliance deadline and the 10-year retention clock).</div>
+    </div>
+
+    <div class="sec-label" style="margin-top:24px">Active Roster</div>
+    <button class="btn" id="export-roster-btn" style="margin-bottom:12px">Export Full Roster Summary (CSV)</button>
+    <div id="roster-list"></div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div class="tool-panel" id="panel-detail">
+    <span class="back-link" id="back-to-roster">&larr; Back to roster</span>
+    <div id="detail-content"></div>
+  </div>
+
+</div>
+
+<div class="mod-footer">
+  <div>NEXUS · Onboarding Tracker v1.0 &nbsp;·&nbsp; Records retained 10 years per CMS FDR standard (42 CFR 422.504(d))</div>
+  <div>EIN <span>84-4114181</span> &nbsp;·&nbsp; CAGE <span>8UMX3</span></div>
+</div>
+
+<script>
+const PHASES_EMPLOYEE = [
+  {key:'preboard', title:'Phase 1 — Pre-Boarding', owner:'HR', items:[
+    'Offer letter signed and returned',
+    'Background check initiated',
+    'E-Verify case created',
+    'OIG LEIE exclusion list screening completed (at hire)',
+    'GSA SAM.gov exclusion/debarment screening completed (at hire)',
+    'IT ticket submitted (email, NEXUS, PRISM if applicable, hardware)',
+    'Division/manager assigned',
+    'Start date and date of hire confirmed in writing'
+  ]},
+  {key:'day1', title:'Phase 2 — Day One', owner:'HR + Manager', items:[
+    'I-9 completed in person (Section 1 + Section 2)',
+    'Signed acknowledgments: Handbook, Code of Conduct/COI, NDA',
+    'NEXUS account provisioned and tested',
+    'Introduction to manager, division team, and "What are we not seeing?" principle',
+    'Training assignment email sent'
+  ]},
+  {key:'week1', title:'Phase 3 — Week One', owner:'Manager', items:[
+    'Division-specific systems walkthrough (PRISM / relevant NEXUS modules)',
+    '"Coordinate, not provide" positioning review',
+    'Shadow a live CS interaction or workflow',
+    'Training progress check-in'
+  ]},
+  {key:'day30', title:'Phase 4 — First 30 Days', owner:'HR + Manager', items:[
+    'All required trainings completed',
+    'Role-specific competency check-in',
+    '30-day check-in meeting held'
+  ]},
+  {key:'day6090', title:'Phase 5 — 60/90-Day Check-Ins', owner:'Manager', items:[
+    '60-day: workload calibration, open questions addressed',
+    '90-day: performance review, compliance training current, E-Verify/I-9 file complete'
+  ]}
+];
+
+const PHASES_CONTRACTOR = [
+  {key:'preengage', title:'Phase 1 — Pre-Engagement', owner:'HR/Contracts', items:[
+    'Independent Contractor Agreement / MSA signed and executed',
+    'W-9 collected (not I-9 — E-Verify/I-9 do not apply to contractors)',
+    'OIG LEIE exclusion list screening completed',
+    'GSA SAM.gov exclusion/debarment screening completed',
+    'Business Associate Agreement (BAA) executed, if PHI access required',
+    'Certificate of insurance / liability coverage on file, if required',
+    'Scope of work / deliverables defined in writing',
+    'Worker-classification basis documented and retained in contractor file'
+  ]},
+  {key:'engagestart', title:'Phase 2 — Engagement Start', owner:'HR/Contracts', items:[
+    'Signed Confidentiality/NDA and Code of Conduct acknowledgment (contractual flow-down)',
+    'System access provisioned at minimum necessary scope for the engagement',
+    '"Coordinate, not provide" and confidentiality briefing',
+    'Required compliance training assigned'
+  ]},
+  {key:'ongoing', title:'Phase 3 — Ongoing', owner:'Engagement Manager', items:[
+    'Training and exclusion screening verified current before any MCO-facing task',
+    'Deliverable/milestone check-ins per contract terms (not calendar-based performance review)',
+    'Contract renewal, extension, or termination determination per contract terms'
+  ]}
+];
+
+function getPhases(workerType){
+  return workerType === 'contractor' ? PHASES_CONTRACTOR : PHASES_EMPLOYEE;
+}
+
+const TRAININGS = [
+  {name:'Identifying and Safeguarding PII', recurring:false},
+  {name:'HIPAA Training (Course For HIPAA)', recurring:false},
+  {name:'Medicare/Medicaid General Compliance (FWA)', recurring:true},
+  {name:'Medicare Fraud & Abuse', recurring:true},
+  {name:'Cultural Competence/Diversity', recurring:false},
+  {name:'Recipient Rights', recurring:false},
+  {name:'Abuse & Neglect: Reporting Requirements', recurring:false},
+  {name:'Anti-Harassment & Non-Discrimination', recurring:false},
+  {name:'Code of Conduct / COI Attestation', recurring:true},
+  {name:'E-Verify / Form I-9 Basics', recurring:false}
+];
+
+let roster = [];
+let currentId = null;
+let currentActor = '';
+
+function newRecord(name, division, startdate, workerType){
+  const id = 'nh_' + Date.now();
+  const phases = getPhases(workerType);
+  const checklist = {};
+  phases.forEach(p => { checklist[p.key] = p.items.map(() => false); });
+  const training = TRAININGS.map(t => ({status:'Not Started', due:'', certRef:'', completedBy:'', completedDate:''}));
+  const exclusionLog = [];
+  const auditLog = [{ts: new Date().toISOString(), actor:'system', action:'Record created'}];
+  return {id, name, division, startdate, workerType: workerType || 'employee', checklist, training, exclusionLog, auditLog};
+}
+
+function logAudit(rec, action){
+  const actor = (currentActor || '').trim() || 'unspecified';
+  if(!rec.auditLog) rec.auditLog = [];
+  rec.auditLog.push({ts: new Date().toISOString(), actor, action});
+}
+
+function fmtTs(ts){
+  try{ return new Date(ts).toLocaleString('en-US', {dateStyle:'medium', timeStyle:'short'}); }catch(e){ return ts; }
+}
+
+async function loadRoster(){
+  try{
+    const idx = await window.storage.get('onboarding:index', false);
+    const ids = idx ? JSON.parse(idx.value) : [];
+    roster = [];
+    for(const id of ids){
+      try{
+        const rec = await window.storage.get('onboarding:' + id, false);
+        if(rec) roster.push(JSON.parse(rec.value));
+      }catch(e){}
+    }
+  }catch(e){ roster = []; }
+  renderRoster();
+}
+
+async function saveIndex(){
+  const ids = roster.map(r => r.id);
+  await window.storage.set('onboarding:index', JSON.stringify(ids), false);
+}
+
+async function saveRecord(rec){
+  await window.storage.set('onboarding:' + rec.id, JSON.stringify(rec), false);
+}
+
+async function deleteRecord(id){
+  roster = roster.filter(r => r.id !== id);
+  await saveIndex();
+  try{ await window.storage.delete('onboarding:' + id, false); }catch(e){}
+  renderRoster();
+}
+
+function computeProgress(rec){
+  let total = 0, done = 0;
+  getPhases(rec.workerType).forEach(p => { rec.checklist[p.key].forEach(v => { total++; if(v) done++; }); });
+  rec.training.forEach(t => { total++; if(t.status === 'Complete') done++; });
+  return total ? Math.round((done/total)*100) : 0;
+}
+
+function renderRoster(){
+  const list = document.getElementById('roster-list');
+  document.getElementById('roster-count-badge').textContent = roster.length + ' ACTIVE';
+  if(roster.length === 0){
+    list.innerHTML = '<div class="empty-state">No new hires added yet. Use the form above to start tracking onboarding.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  roster.forEach(rec => {
+    const pct = computeProgress(rec);
+    const row = document.createElement('div');
+    row.className = 'roster-row';
+    row.innerHTML = `
+      <div class="roster-name">${rec.name}</div>
+      <div class="roster-meta">${rec.division || '—'} &nbsp;·&nbsp; ${rec.workerType === 'contractor' ? 'Contractor (1099)' : 'Employee (W-2)'} &nbsp;·&nbsp; Start: ${rec.startdate || '—'}</div>
+      <div class="roster-progress-track"><div class="roster-progress-fill" style="width:${pct}%"></div></div>
+      <div class="roster-pct">${pct}%</div>
+      <button class="btn btn-danger" data-id="${rec.id}" style="margin-left:auto">Remove</button>
+    `;
+    row.addEventListener('click', (e) => {
+      if(e.target.tagName === 'BUTTON') return;
+      openDetail(rec.id);
+    });
+    row.querySelector('button').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(confirm('Remove ' + rec.name + ' from the onboarding tracker?')) deleteRecord(rec.id);
+    });
+    list.appendChild(row);
+  });
+}
+
+function openDetail(id){
+  currentId = id;
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tab="detail"]').classList.add('active');
+  document.getElementById('panel-roster').classList.remove('active');
+  document.getElementById('panel-detail').classList.add('active');
+  renderDetail();
+}
+
+function renderDetail(){
+  const rec = roster.find(r => r.id === currentId);
+  if(!rec) return;
+  const container = document.getElementById('detail-content');
+  const pct = computeProgress(rec);
+
+  let html = `
+    <div class="sec-label">${rec.name} &nbsp;·&nbsp; ${rec.division || '—'} &nbsp;·&nbsp; ${rec.workerType === 'contractor' ? 'Contractor (1099)' : 'Employee (W-2)'} &nbsp;·&nbsp; Date of hire/engagement: ${rec.startdate || '—'} &nbsp;·&nbsp; ${pct}% Complete</div>
+    <div class="roster-progress-track" style="height:10px;margin-bottom:16px"><div class="roster-progress-fill" style="width:${pct}%"></div></div>
+    <div class="card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <label style="font-size:.72rem;color:var(--muted);white-space:nowrap">Your initials (recorded on every edit below):</label>
+      <input type="text" id="actor-initials" value="${currentActor}" placeholder="e.g. DD" style="background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:6px 10px;font-size:.8rem;max-width:100px">
+      <button class="btn" id="export-audit-btn" style="margin-left:auto">Export Record (CSV)</button>
+    </div>
+  `;
+  if(rec.workerType === 'contractor'){
+    html += `<div class="card" style="border-left:3px solid var(--amber);font-size:.75rem;color:var(--amber-text)">Contractor track: no I-9/E-Verify, no calendar-based performance reviews. Check-ins should reference contract deliverables, not employee-style supervision, to support worker classification.</div>`;
+  }
+
+  const phases = getPhases(rec.workerType);
+  phases.forEach(p => {
+    html += `<div class="phase-block"><div class="phase-title">${p.title} <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— Owner: ${p.owner}</span></div>`;
+    p.items.forEach((item, i) => {
+      const checked = rec.checklist[p.key][i];
+      html += `<div class="check-row ${checked ? 'done' : ''}">
+        <input type="checkbox" data-phase="${p.key}" data-idx="${i}" ${checked ? 'checked' : ''}>
+        <label>${item}</label>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div class="sec-label" style="margin-top:24px">Required training (CMS floor: FWA/General Compliance within 90 days of hire, annual thereafter)</div>
+    <table><thead><tr><th>Training</th><th>Status</th><th>Due date</th><th>Certificate/Ref #</th><th>Completed by</th><th>Completed date</th></tr></thead><tbody>`;
+  TRAININGS.forEach((t, i) => {
+    const tr = rec.training[i];
+    const statusClass = tr.status === 'Complete' ? 'status-complete' : tr.status === 'In Progress' ? 'status-progress' : 'status-notstarted';
+    html += `<tr>
+      <td>${t.name}${t.recurring ? '<span class="recur-tag">ANNUAL</span>' : ''}</td>
+      <td class="${statusClass}">
+        <select class="status-select" data-train="${i}">
+          <option ${tr.status==='Not Started'?'selected':''}>Not Started</option>
+          <option ${tr.status==='In Progress'?'selected':''}>In Progress</option>
+          <option ${tr.status==='Complete'?'selected':''}>Complete</option>
+        </select>
+      </td>
+      <td><input type="date" data-traindate="${i}" value="${tr.due}" style="background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;font-size:.75rem"></td>
+      <td><input type="text" data-certref="${i}" value="${tr.certRef || ''}" placeholder="Cert #" style="background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;font-size:.75rem;width:90px"></td>
+      <td><input type="text" data-completedby="${i}" value="${tr.completedBy || ''}" placeholder="Initials" style="background:var(--panel2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;font-size:.75rem;width:70px"></td>
+      <td style="color:var(--muted);font-size:.72rem">${tr.completedDate || '—'}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+
+  html += `<div class="sec-label" style="margin-top:24px">Exclusion screening log (OIG LEIE + GSA SAM — required at hire and monthly thereafter)</div>
+    <div class="card">
+      <div class="form-grid" style="grid-template-columns:1fr 1fr 2fr">
+        <input type="date" id="scr-date">
+        <select id="scr-result">
+          <option>Clear</option>
+          <option>Flagged — escalated to Compliance</option>
+        </select>
+        <input type="text" id="scr-notes" placeholder="Notes (optional)">
+      </div>
+      <button class="btn" id="add-screening-btn">Log screening entry</button>
+    </div>
+    <table><thead><tr><th>Date</th><th>Result</th><th>Notes</th><th>Logged by</th><th>Timestamp</th></tr></thead><tbody>`;
+  if((rec.exclusionLog || []).length === 0){
+    html += `<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:16px">No screening entries logged yet.</td></tr>`;
+  } else {
+    [...rec.exclusionLog].reverse().forEach(e => {
+      const flagged = e.result && e.result.indexOf('Flagged') === 0;
+      html += `<tr>
+        <td>${e.date}</td>
+        <td class="${flagged ? 'status-notstarted' : 'status-complete'}" style="${flagged ? 'color:var(--red-text)' : ''}">${e.result}</td>
+        <td>${e.notes || '—'}</td>
+        <td>${e.loggedBy}</td>
+        <td style="color:var(--muted);font-size:.7rem">${fmtTs(e.ts)}</td>
+      </tr>`;
+    });
+  }
+  html += `</tbody></table>`;
+
+  html += `<div class="sec-label" style="margin-top:24px">Audit log (append-only — 10-year retention per CMS FDR standard)</div>
+    <table><thead><tr><th>Timestamp</th><th>Actor</th><th>Action</th></tr></thead><tbody>`;
+  [...(rec.auditLog || [])].reverse().forEach(a => {
+    html += `<tr><td style="color:var(--muted);white-space:nowrap">${fmtTs(a.ts)}</td><td>${a.actor}</td><td>${a.action}</td></tr>`;
+  });
+  html += `</tbody></table>`;
+
+  container.innerHTML = html;
+
+  const actorInput = document.getElementById('actor-initials');
+  if(actorInput){
+    actorInput.addEventListener('input', (e) => { currentActor = e.target.value; });
+  }
+
+  container.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', async (e) => {
+      const phase = e.target.dataset.phase;
+      const idx = parseInt(e.target.dataset.idx);
+      const itemLabel = getPhases(rec.workerType).find(p => p.key === phase).items[idx];
+      rec.checklist[phase][idx] = e.target.checked;
+      logAudit(rec, `${e.target.checked ? 'Checked' : 'Unchecked'}: "${itemLabel}" (${phase})`);
+      await saveRecord(rec);
+      renderDetail();
+    });
+  });
+  container.querySelectorAll('.status-select').forEach(sel => {
+    sel.addEventListener('change', async (e) => {
+      const idx = parseInt(e.target.dataset.train);
+      const oldStatus = rec.training[idx].status;
+      rec.training[idx].status = e.target.value;
+      if(e.target.value === 'Complete' && !rec.training[idx].completedDate){
+        rec.training[idx].completedDate = new Date().toISOString().slice(0,10);
+      }
+      logAudit(rec, `Training "${TRAININGS[idx].name}" status changed: ${oldStatus} -> ${e.target.value}`);
+      await saveRecord(rec);
+      renderDetail();
+    });
+  });
+  container.querySelectorAll('input[type=date][data-traindate]').forEach(inp => {
+    inp.addEventListener('change', async (e) => {
+      const idx = parseInt(e.target.dataset.traindate);
+      rec.training[idx].due = e.target.value;
+      logAudit(rec, `Training "${TRAININGS[idx].name}" due date set: ${e.target.value}`);
+      await saveRecord(rec);
+    });
+  });
+  container.querySelectorAll('input[data-certref]').forEach(inp => {
+    inp.addEventListener('change', async (e) => {
+      const idx = parseInt(e.target.dataset.certref);
+      rec.training[idx].certRef = e.target.value;
+      logAudit(rec, `Training "${TRAININGS[idx].name}" certificate/reference recorded: ${e.target.value || '(cleared)'}`);
+      await saveRecord(rec);
+    });
+  });
+  container.querySelectorAll('input[data-completedby]').forEach(inp => {
+    inp.addEventListener('change', async (e) => {
+      const idx = parseInt(e.target.dataset.completedby);
+      rec.training[idx].completedBy = e.target.value;
+      logAudit(rec, `Training "${TRAININGS[idx].name}" completed-by recorded: ${e.target.value || '(cleared)'}`);
+      await saveRecord(rec);
+    });
+  });
+
+  const addScreeningBtn = document.getElementById('add-screening-btn');
+  if(addScreeningBtn){
+    addScreeningBtn.addEventListener('click', async () => {
+      const date = document.getElementById('scr-date').value;
+      const result = document.getElementById('scr-result').value;
+      const notes = document.getElementById('scr-notes').value.trim();
+      if(!date){ alert('Enter a screening date.'); return; }
+      const actor = (currentActor || '').trim() || 'unspecified';
+      rec.exclusionLog.push({date, result, notes, loggedBy: actor, ts: new Date().toISOString()});
+      logAudit(rec, `Exclusion screening logged: ${date}, result: ${result}${notes ? ', notes: ' + notes : ''}`);
+      await saveRecord(rec);
+      renderDetail();
+    });
+  }
+
+  const exportBtn = document.getElementById('export-audit-btn');
+  if(exportBtn){
+    exportBtn.addEventListener('click', () => exportRecord(rec));
+  }
+}
+
+function csvEscape(v){
+  const s = (v === undefined || v === null) ? '' : String(v);
+  return '"' + s.replace(/"/g, '""') + '"';
+}
+
+function exportRecord(rec){
+  const lines = [];
+  lines.push(['DDI NEXUS Onboarding Record Export'].join(','));
+  lines.push([csvEscape('Name'), csvEscape(rec.name)].join(','));
+  lines.push([csvEscape('Worker Type'), csvEscape(rec.workerType === 'contractor' ? 'Contractor (1099)' : 'Employee (W-2)')].join(','));
+  lines.push([csvEscape('Division'), csvEscape(rec.division)].join(','));
+  lines.push([csvEscape('Date of Hire/Engagement'), csvEscape(rec.startdate)].join(','));
+  lines.push([csvEscape('Exported'), csvEscape(new Date().toISOString())].join(','));
+  lines.push('');
+  lines.push(['CHECKLIST'].join(','));
+  lines.push([csvEscape('Phase'), csvEscape('Item'), csvEscape('Complete')].join(','));
+  getPhases(rec.workerType).forEach(p => {
+    p.items.forEach((item, i) => {
+      lines.push([csvEscape(p.title), csvEscape(item), csvEscape(rec.checklist[p.key][i] ? 'Yes' : 'No')].join(','));
+    });
+  });
+  lines.push('');
+  lines.push(['TRAINING'].join(','));
+  lines.push([csvEscape('Training'), csvEscape('Status'), csvEscape('Due'), csvEscape('Certificate/Ref'), csvEscape('Completed By'), csvEscape('Completed Date'), csvEscape('Recurring')].join(','));
+  TRAININGS.forEach((t, i) => {
+    const tr = rec.training[i];
+    lines.push([csvEscape(t.name), csvEscape(tr.status), csvEscape(tr.due), csvEscape(tr.certRef), csvEscape(tr.completedBy), csvEscape(tr.completedDate), csvEscape(t.recurring ? 'Annual' : 'One-time')].join(','));
+  });
+  lines.push('');
+  lines.push(['EXCLUSION SCREENING LOG'].join(','));
+  lines.push([csvEscape('Date'), csvEscape('Result'), csvEscape('Notes'), csvEscape('Logged By'), csvEscape('Timestamp')].join(','));
+  (rec.exclusionLog || []).forEach(e => {
+    lines.push([csvEscape(e.date), csvEscape(e.result), csvEscape(e.notes), csvEscape(e.loggedBy), csvEscape(e.ts)].join(','));
+  });
+  lines.push('');
+  lines.push(['AUDIT LOG (append-only)'].join(','));
+  lines.push([csvEscape('Timestamp'), csvEscape('Actor'), csvEscape('Action')].join(','));
+  (rec.auditLog || []).forEach(a => {
+    lines.push([csvEscape(fmtTs(a.ts)), csvEscape(a.actor), csvEscape(a.action)].join(','));
+  });
+
+  const csv = lines.join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'DDI_Onboarding_' + rec.name.replace(/\s+/g,'_') + '_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    if(tab.dataset.tab === 'roster'){
+      document.getElementById('panel-roster').classList.add('active');
+      renderRoster();
+    } else {
+      document.getElementById('panel-detail').classList.add('active');
+      if(currentId) renderDetail();
+    }
+  });
+});
+
+document.getElementById('export-roster-btn').addEventListener('click', () => {
+  const lines = [];
+  lines.push([csvEscape('Name'), csvEscape('Worker Type'), csvEscape('Division'), csvEscape('Date of Hire/Engagement'), csvEscape('Completion %'), csvEscape('Trainings Complete'), csvEscape('Trainings Total'), csvEscape('Exclusion Screenings Logged'), csvEscape('Last Audit Entry')].join(','));
+  roster.forEach(rec => {
+    const pct = computeProgress(rec);
+    const complete = rec.training.filter(t => t.status === 'Complete').length;
+    const lastAudit = (rec.auditLog && rec.auditLog.length) ? fmtTs(rec.auditLog[rec.auditLog.length-1].ts) : '—';
+    lines.push([csvEscape(rec.name), csvEscape(rec.workerType === 'contractor' ? 'Contractor (1099)' : 'Employee (W-2)'), csvEscape(rec.division), csvEscape(rec.startdate), csvEscape(pct + '%'), csvEscape(complete), csvEscape(TRAININGS.length), csvEscape((rec.exclusionLog||[]).length), csvEscape(lastAudit)].join(','));
+  });
+  const csv = lines.join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'DDI_Onboarding_Roster_Summary_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('back-to-roster').addEventListener('click', () => {
+  document.querySelector('[data-tab="roster"]').click();
+});
+
+document.getElementById('add-hire-btn').addEventListener('click', async () => {
+  const name = document.getElementById('nh-name').value.trim();
+  const workerType = document.getElementById('nh-workertype').value;
+  const division = document.getElementById('nh-division').value;
+  const startdate = document.getElementById('nh-startdate').value;
+  if(!name){ alert('Enter a name for the new hire.'); return; }
+  const rec = newRecord(name, division, startdate, workerType);
+  roster.push(rec);
+  await saveIndex();
+  await saveRecord(rec);
+  document.getElementById('nh-name').value = '';
+  document.getElementById('nh-division').value = '';
+  document.getElementById('nh-startdate').value = '';
+  document.getElementById('nh-workertype').value = 'employee';
+  renderRoster();
+});
+
+document.getElementById('mod-timestamp').textContent = new Date().toLocaleString('en-US', {dateStyle:'medium', timeStyle:'short'});
+
+loadRoster();
+</script>
+
+</body>
+</html>

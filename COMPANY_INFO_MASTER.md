@@ -65,7 +65,7 @@ Use the **correct MiLogin** per system — do not mix them up.
 | Account | Emoji | Status |
 |---|---|---|
 | CareSource (= HAP CareSource, one account — per Dee: *"caresource is hap, its orange"*) | 🟠 | Live |
-| Molina Healthcare of Michigan | Ⓜ️ (circled M — per Dee, replaced 🩵) | Pending |
+| Molina Healthcare of Michigan | Ⓜ️ (circled M — per Dee, replaced 🩵) | Live — HCBS PSA Effective 2026-07-21 (NMT + CTS); go-live gated on attestation + Availity |
 | Humana | 🟢 | Credentialing |
 | Blue Cross Complete (Dee's shorthand "BCBSM") | 🔵 | Awaiting follow-up |
 | Meridian Health Plan | 🟡 | Awaiting contract offer |
@@ -993,7 +993,7 @@ MI SIGMA VSS: VS0245604
 | MCO | Status | Vendor ID / Details |
 |---|---|---|
 | **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — **NEMT TPA, Wayne + Macomb counties** (Oakland pending). **This is the HAP CareSource Michigan plan** — per Dee: *"caresource is hap, its orange"* — one account, not two. Provider portal active. Dana Drew — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — orientation ✅ May 6, 2026. **Scope doc:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md` |
-| Molina Healthcare of Michigan | Pending | Troy HQ — same city as DDI |
+| Molina Healthcare of Michigan | ✅ **CONTRACTED** — HCBS PSA FFS Effective **2026-07-21** (Vendor ID 214337479 thru 2029-07-31). Attachment B: NMT + CTS. PDF: `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf`. Dispatch still gated on LTSS attestation + Availity. | Troy HQ — same city as DDI |
 | **Humana** | 🔄 **CREDENTIALING** | Active credentialing in progress as of Jul 2026 (per Dee). |
 | Meridian Health Plan | ⏳ **AWAITING CONTRACT OFFER** | Detroit HQ — largest MI Medicaid MCO. Waiting on Meridian to offer DDI the contract. |
 | UnitedHealthcare Community Plan | Pending | |

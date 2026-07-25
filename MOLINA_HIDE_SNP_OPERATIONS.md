@@ -4,8 +4,9 @@
 **Plan / program:** HIDE SNP LTSS (Non-Medical Transportation + Community Transition Services)
 **Contract type:** Molina Michigan HCBS Provider Services Agreement (PSA — FFS)
 **Vendor ID:** 214337479 (credentialed thru Jul 31, 2029)
-**Fully executed:** Jul 22, 2026
-**Executed PDF:** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-22.pdf`
+**Fully executed:** Jul 21, 2026 (Effective Date) — Provider signed Jul 17, 2026; Molina countersigned Jul 21, 2026
+**Executed PDF (source of truth):** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf`
+**Contract index:** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/README.md`
 **Orientation completed:** Jul 23, 2026 (Sarah Fenton, Provider Services / LTSS Orientation)
 **Orientation deck (archived):** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/ORIENTATION/Molina_LTSS_Provider_Orientation_2026-07-23.pptx`
 
@@ -24,7 +25,7 @@ Both gates are enforced in code — see `nemt_billing.py`: `MOLINA_LTSS_ATTESTAT
 
 ## SCOPE (Attachment B — visually confirmed)
 
-**Source of truth:** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-22.pdf`, page 15
+**Source of truth:** `BIDS:RESOURCES/MOLINA HIDE SNP LTSS NETWORK/CONTRACTS/Molina_HIDE_SNP_LTSS_PSA_Fully_Executed_2026-07-21.pdf`, Attachment B (page 15)
 
 | Service | Status |
 |---------|--------|

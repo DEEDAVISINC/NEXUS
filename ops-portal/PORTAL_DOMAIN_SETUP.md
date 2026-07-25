@@ -79,7 +79,7 @@ See `NEXUS_OPS_MASTER.md` § Security. Client idle watchdog ships with the shell
 4. Confirm desk board loads with can-work banner + accounts
 5. Leave idle ~13 min → warning; ~15 min → signed out
 
-**Backend:** Reload Flask on PythonAnywhere so `GET /ops/session` is registered (`ops_portal_api.py`). Until then, OTP eligibility still works via GATEWAY `/self` fallback.
+**Backend:** PythonAnywhere WSGI loads `prism_pa_app.py` (not `api_server.py`). OPS routes must be registered there. Smoke test: `curl https://deedavis.pythonanywhere.com/ops/health` → `{"ok":true,...}`.
 
 ---
 

@@ -243,5 +243,23 @@ except ImportError as exc:
         return jsonify({'error': logger_msg_gateway}), 503
 
 
+# NEXUS OPS Portal (ops.deedavis.biz) — session bridge + PRISM desk
+# WSGI loads prism_pa_app, not api_server — OPS must register here or /ops/* 404s.
+_ops_loaded = False
+_ops_error = None
+try:
+    from ops_portal_api import ops_portal
+
+    app.register_blueprint(ops_portal)
+    _ops_loaded = True
+except ImportError as exc:
+    _ops_error = str(exc)
+
+    @app.route('/ops/<path:_path>', methods=['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+    @app.route('/ops', methods=['GET'])
+    def ops_unavailable(_path=None):
+        return jsonify({'error': f'NEXUS OPS Portal API not loaded: {_ops_error}'}), 503
+
+
 # PythonAnywhere WSGI entry point
 application = app

@@ -227,7 +227,13 @@ Who created, submitted, approved/rejected, timestamps, reason codes — FDR/MCO 
 
 ---
 
-## PHASED BUILD
+## BUILD RULE — ONE PORTAL AT A TIME
+
+1. **Finish OPS** (desks, claim/release, supervisor layer) without stalling on GATEWAY Phase 1 paperwork.
+2. **Finish GATEWAY** credentialing for real hires in a dedicated session.
+3. **Wire hard** — turn off `OPS_RELAX_CAN_WORK` so desks require true GATEWAY `can-work`.
+
+Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employees for OPS smoke tests while GATEWAY still reports incomplete. Banner shows “OPS build mode.” Production = flag off.
 
 ### Phase A — OPS shell + security + GATEWAY gate
 - [x] Scaffold `ops-portal/` at `ops.deedavis.biz` / `ddi-ops-portal.netlify.app`
@@ -235,8 +241,9 @@ Who created, submitted, approved/rejected, timestamps, reason codes — FDR/MCO 
 - [x] Client idle watchdog (warn @ 13 min, logout @ 15)
 - [x] Flask `ops_portal_api.py` — `GET /ops/session` (can-work, accounts, level→role, desks)
 - [x] Netlify functions: `ops-auth-send`, `ops-auth-verify`, `ops-auth-me`, `ops-session`
-- [ ] Redeploy Flask on PythonAnywhere so `/ops/session` is live (portal falls back to GATEWAY `/self` for OTP eligibility until then)
+- [x] PythonAnywhere: `/ops/health` + `/ops/session` live via `prism_pa_app.py`
 - [ ] DNS CNAME `ops` → `ddi-ops-portal.netlify.app`
+- [ ] Turn off `OPS_RELAX_CAN_WORK` after GATEWAY Phase 1 is real for workforce
 
 ### Phase B — PRISM Desk MVP
 - [x] Queue by account (`GET /ops/prism/queue`) — HAP CareSource ↔ HR CareSource/`CSRC`
@@ -244,8 +251,8 @@ Who created, submitted, approved/rejected, timestamps, reason codes — FDR/MCO 
 - [x] Notes write-back (`PATCH /ops/prism/items/<id>`)
 - [x] Demo queue items in `uploads/ops/prism_demo_queue.json` when real board is thin
 - [x] OPS portal PRISM desk UI (claim / release / notes)
+- [x] Flask `/ops/prism/*` live on PythonAnywhere
 - [ ] Supervisor force-release UI polish (API supports `force` for supervisor/manager)
-- [ ] Redeploy Flask on PythonAnywhere for `/ops/prism/*`
 
 ### Phase C — Manager / supervisor ops layer
 - Aging boards

@@ -1,0 +1,272 @@
+/* GATEWAY — Onboarding Tracker visual system
+   Matches Dee's original NEXUS — Onboarding Tracker HTML (gold/navy Montserrat).
+   Scoped under .gwt-root so it doesn't leak into other NEXUS modules. */
+
+.gwt-root {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e0e0e0;
+  background: #070e1a;
+  min-height: 100vh;
+  --navy: #0a1628;
+  --navy2: #0f1f3d;
+  --panel: #111c30;
+  --panel2: #162035;
+  --gold: #c9a84c;
+  --gold2: #e8c96a;
+  --border: rgba(201, 168, 76, 0.18);
+  --border2: rgba(255, 255, 255, 0.08);
+  --text: #d8dde8;
+  --muted: #7a8ba8;
+  --white: #fff;
+  --green: #1d9e75;
+  --green-bg: rgba(29, 158, 117, 0.12);
+  --green-text: #5dcaa5;
+  --red: #c0392b;
+  --red-bg: rgba(192, 57, 43, 0.12);
+  --red-text: #e87c73;
+  --amber: #c9a84c;
+  --amber-bg: rgba(201, 168, 76, 0.12);
+  --amber-text: #e8c96a;
+  --blue: #1a5fa5;
+  --blue-bg: rgba(26, 95, 165, 0.15);
+  --blue-text: #5ba3e0;
+}
+
+.gwt-root .mod-header { background: var(--navy); border-bottom: 2px solid var(--gold); padding: 0; }
+.gwt-root .mod-topbar {
+  background: #050c18; padding: 0.45rem 2rem; display: flex; justify-content: space-between;
+  align-items: center; font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.08em; color: var(--muted); flex-wrap: wrap; gap: 0.4rem;
+}
+.gwt-root .mod-topbar span { color: var(--gold); }
+.gwt-root .mod-topbar button {
+  background: none; border: none; color: var(--gold); font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.08em; cursor: pointer; text-transform: uppercase;
+}
+.gwt-root .mod-topbar button:hover { color: var(--gold2); }
+.gwt-root .mod-titlebar {
+  padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.gwt-root .mod-eyebrow {
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem;
+}
+.gwt-root .mod-name {
+  font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 800;
+  color: #fff; letter-spacing: 0.04em;
+}
+.gwt-root .mod-name span { color: var(--gold); }
+.gwt-root .mod-sub {
+  font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.04em;
+}
+.gwt-root .mod-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.gwt-root .mbadge {
+  font-family: 'Montserrat', sans-serif; font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 0.22rem 0.65rem;
+  border: 1px solid var(--border); color: var(--gold); background: rgba(201, 168, 76, 0.08);
+}
+
+.gwt-root .mod-nav {
+  background: var(--panel); border-bottom: 1px solid var(--border2);
+  padding: 0 2rem; display: flex; gap: 0; flex-wrap: wrap; align-items: center;
+}
+.gwt-root .nav-tab {
+  font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem 1.25rem;
+  color: var(--muted); cursor: pointer; border: none; background: none;
+  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+}
+.gwt-root .nav-tab:hover { color: var(--text); }
+.gwt-root .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.gwt-root .nav-right {
+  margin-left: auto; display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0; flex-wrap: wrap;
+}
+.gwt-root .nav-right label { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
+.gwt-root .nav-right input {
+  width: 72px; background: var(--panel2); border: 1px solid var(--border2);
+  color: var(--text); padding: 5px 8px; font-size: 0.75rem;
+}
+.gwt-root .nav-right input:focus { outline: none; border-color: var(--gold); }
+
+.gwt-root .mod-body { padding: 1.75rem 2rem; max-width: 1300px; margin: 0 auto; }
+
+.gwt-root .sec-label {
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.gwt-root .sec-label::after {
+  content: ''; display: block; height: 1px; width: 30px; background: var(--gold); opacity: 0.4;
+}
+
+.gwt-root .card {
+  background: var(--panel); border: 1px solid var(--border2); padding: 16px 18px; margin-bottom: 16px;
+}
+.gwt-root .card.warn {
+  border-left: 3px solid var(--amber); font-size: 0.75rem; color: var(--amber-text);
+}
+.gwt-root .card.err {
+  border-left: 3px solid var(--red-text); font-size: 0.8rem; color: var(--red-text);
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+
+.gwt-root .form-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px;
+}
+.gwt-root .form-grid.cols-3 { grid-template-columns: 1fr 1fr 2fr; }
+.gwt-root .form-grid.cols-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+.gwt-root .form-grid input,
+.gwt-root .form-grid select,
+.gwt-root .form-grid textarea,
+.gwt-root input.gwt-input,
+.gwt-root select.gwt-input,
+.gwt-root textarea.gwt-input {
+  background: var(--panel2); border: 1px solid var(--border2); color: var(--text);
+  padding: 8px 10px; font-family: 'Open Sans', sans-serif; font-size: 0.8rem; width: 100%;
+}
+.gwt-root .form-grid input:focus,
+.gwt-root .form-grid select:focus,
+.gwt-root .form-grid textarea:focus,
+.gwt-root input.gwt-input:focus,
+.gwt-root select.gwt-input:focus,
+.gwt-root textarea.gwt-input:focus {
+  outline: none; border-color: var(--gold);
+}
+.gwt-root .chk-inline {
+  display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--text);
+  background: var(--panel2); border: 1px solid var(--border2); padding: 8px 10px;
+}
+.gwt-root .chk-inline input { width: 16px; height: 16px; accent-color: var(--gold); }
+
+.gwt-root .btn {
+  font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.1rem;
+  border: 1px solid var(--gold); color: var(--gold); background: transparent;
+  cursor: pointer; transition: all 0.15s;
+}
+.gwt-root .btn:hover { background: rgba(201, 168, 76, 0.12); }
+.gwt-root .btn:disabled { opacity: 0.45; cursor: default; }
+.gwt-root .btn-danger { border-color: var(--red-text); color: var(--red-text); }
+.gwt-root .btn-danger:hover { background: var(--red-bg); }
+.gwt-root .hint { font-size: 0.68rem; color: var(--muted); margin-top: 8px; }
+.gwt-root .hint a { color: var(--gold); }
+
+.gwt-root .roster-row {
+  display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+  background: var(--panel); border: 1px solid var(--border2); border-left: 3px solid var(--gold);
+  margin-bottom: 8px; cursor: pointer; flex-wrap: wrap;
+}
+.gwt-root .roster-row:hover { border-left-color: var(--gold2); }
+.gwt-root .roster-row.archived { opacity: 0.55; border-left-color: var(--muted); }
+.gwt-root .roster-name {
+  font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--white);
+  font-size: 0.85rem; min-width: 160px;
+}
+.gwt-root .roster-meta { font-size: 0.72rem; color: var(--muted); min-width: 200px; flex: 1; }
+.gwt-root .roster-progress-track {
+  flex: 1; min-width: 120px; height: 8px; background: var(--panel2); position: relative;
+}
+.gwt-root .roster-progress-fill { height: 100%; background: var(--gold); transition: width 0.2s; }
+.gwt-root .roster-pct {
+  font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700;
+  color: var(--gold); min-width: 40px; text-align: right;
+}
+.gwt-root .roster-actions { display: flex; gap: 8px; margin-left: auto; }
+
+.gwt-root .phase-block { margin-bottom: 18px; }
+.gwt-root .phase-title {
+  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+  color: var(--gold2); margin-bottom: 8px; letter-spacing: 0.05em;
+}
+.gwt-root .phase-title .owner {
+  color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0;
+}
+.gwt-root .check-row {
+  display: flex; align-items: center; gap: 10px; padding: 7px 0;
+  border-bottom: 1px solid var(--border2); font-size: 0.8rem;
+}
+.gwt-root .check-row:last-child { border-bottom: none; }
+.gwt-root .check-row input[type='checkbox'] {
+  width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0;
+}
+.gwt-root .check-row label { cursor: pointer; flex: 1; color: var(--text); }
+.gwt-root .check-row.done label { color: var(--muted); text-decoration: line-through; }
+
+.gwt-root table.gwt-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.gwt-root table.gwt-table th {
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--gold); text-align: left; padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.gwt-root table.gwt-table td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border2); color: var(--text); vertical-align: top;
+}
+.gwt-root select.status-select {
+  background: var(--panel2); border: 1px solid var(--border2); color: var(--text);
+  padding: 5px 8px; font-size: 0.75rem;
+}
+.gwt-root .status-complete { color: var(--green-text); }
+.gwt-root .status-progress { color: var(--amber-text); }
+.gwt-root .status-notstarted { color: var(--muted); }
+.gwt-root .recur-tag {
+  font-size: 0.62rem; padding: 2px 6px; background: var(--red-bg); color: var(--red-text);
+  font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 0.05em; margin-left: 6px;
+}
+.gwt-root .comp-tag {
+  font-size: 0.58rem; font-weight: 700; padding: 2px 6px; letter-spacing: 0.04em;
+  font-family: 'Montserrat', sans-serif; border: 1px solid;
+}
+.gwt-root .comp-tag.critical { background: var(--red-bg); color: var(--red-text); border-color: rgba(232, 124, 115, 0.4); }
+.gwt-root .comp-tag.warning { background: var(--amber-bg); color: var(--amber-text); border-color: var(--border); }
+.gwt-root .comp-tag.info { background: var(--blue-bg); color: var(--blue-text); border-color: rgba(91, 163, 224, 0.35); }
+.gwt-root .comp-tag.none { background: var(--green-bg); color: var(--green-text); border-color: rgba(93, 202, 165, 0.35); }
+
+.gwt-root .empty-state {
+  color: var(--muted); font-size: 0.85rem; padding: 24px; text-align: center;
+  border: 1px dashed var(--border2);
+}
+.gwt-root .back-link {
+  font-size: 0.72rem; color: var(--gold); cursor: pointer; margin-bottom: 14px;
+  display: inline-block; background: none; border: none; padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+.gwt-root .back-link:hover { color: var(--gold2); }
+
+.gwt-root .alert-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 10px 12px; margin-bottom: 8px; border: 1px solid; font-size: 0.8rem; flex-wrap: wrap;
+}
+.gwt-root .alert-row.critical { background: var(--red-bg); border-color: rgba(232, 124, 115, 0.4); color: var(--red-text); }
+.gwt-root .alert-row.warning { background: var(--amber-bg); border-color: var(--border); color: var(--amber-text); }
+.gwt-root .alert-row.info { background: var(--blue-bg); border-color: rgba(91, 163, 224, 0.35); color: var(--blue-text); }
+
+.gwt-root .mod-footer {
+  background: #050c18; border-top: 1px solid var(--border2); padding: 0.75rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: var(--muted);
+  letter-spacing: 0.06em; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+}
+.gwt-root .mod-footer span { color: var(--gold); }
+
+.gwt-root .portal-meta { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+.gwt-root .portal-meta.ok { color: var(--green-text); }
+.gwt-root .portal-meta.warn { color: var(--amber-text); }
+
+@media (max-width: 900px) {
+  .gwt-root .form-grid,
+  .gwt-root .form-grid.cols-5 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .gwt-root .form-grid,
+  .gwt-root .form-grid.cols-3,
+  .gwt-root .form-grid.cols-5 { grid-template-columns: 1fr; }
+  .gwt-root .mod-body { padding: 1.25rem 1rem; }
+  .gwt-root .mod-titlebar,
+  .gwt-root .mod-topbar,
+  .gwt-root .mod-nav,
+  .gwt-root .mod-footer { padding-left: 1rem; padding-right: 1rem; }
+}

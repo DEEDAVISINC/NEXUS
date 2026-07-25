@@ -533,7 +533,10 @@ function renderDesks(payload) {
     '<br><span style="font-size:11px;opacity:.85">' + (payload.email || '') + '</span>';
 
   const banner = $('gate-banner');
-  if (canWork) {
+  if (canWork && payload.canWorkRelaxed) {
+    banner.className = 'gate-banner';
+    banner.textContent = 'OPS build mode — desks unlocked for development. GATEWAY can-work still incomplete (finish GATEWAY later, then turn off OPS_RELAX_CAN_WORK).';
+  } else if (canWork) {
     banner.className = 'gate-banner ok';
     banner.textContent = 'GATEWAY can-work: clear. Desks unlocked for your assignment.';
   } else {

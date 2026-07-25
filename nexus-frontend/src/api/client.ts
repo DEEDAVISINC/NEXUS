@@ -1220,6 +1220,10 @@ export const api = {
   getHrOnboardingRecord: (recordId: string) => ApiClient.get(`/nexus/hr/onboarding/${recordId}`),
   addHrOnboardingHire: (data: { name: string; workerType: string; division?: string; startdate?: string; actor?: string; email?: string; memberFacing?: boolean }) =>
     ApiClient.post('/nexus/hr/onboarding', data),
+  updateHrOnboardingAssignment: (
+    recordId: string,
+    data: { division?: string; account?: string; level?: string; actor?: string }
+  ) => ApiClient.put(`/nexus/hr/onboarding/${recordId}/assignment`, data),
   updateHrOnboardingChecklist: (recordId: string, data: { phase: string; index: number; checked: boolean; actor?: string }) =>
     ApiClient.put(`/nexus/hr/onboarding/${recordId}/checklist`, data),
   updateHrOnboardingTraining: (recordId: string, data: { index: number; field: string; value: string; actor?: string }) =>
@@ -1244,6 +1248,8 @@ export const api = {
   ) => ApiClient.put(`/nexus/hr/onboarding/${recordId}/agenda`, data),
   updateHrOnboardingMemberFacing: (recordId: string, data: { memberFacing: boolean; actor?: string }) =>
     ApiClient.put(`/nexus/hr/onboarding/${recordId}/member-facing`, data),
+  updateHrOnboardingEmail: (recordId: string, data: { email: string; actor?: string }) =>
+    ApiClient.put(`/nexus/hr/onboarding/${recordId}/email`, data),
   getHrFdrAttestations: () => ApiClient.get('/nexus/hr/attestation'),
   addHrFdrAttestation: (data: { year: number; attestorName: string; attestedDate?: string; referenceNotes?: string; actor?: string }) =>
     ApiClient.post('/nexus/hr/attestation', data),

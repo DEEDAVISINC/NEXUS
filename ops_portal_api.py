@@ -20,6 +20,23 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 OPS_DATA_DIR = os.path.join(BASE_DIR, 'uploads', 'ops')
 DEMO_QUEUE_FILE = os.path.join(OPS_DATA_DIR, 'prism_demo_queue.json')
 
+# Build-time unlock: finish OPS without blocking on unfinished GATEWAY Phase 1.
+# Set OPS_RELAX_CAN_WORK=0 (or remove) when portals are wired for production.
+def _relax_can_work() -> bool:
+    return os.environ.get('OPS_RELAX_CAN_WORK', '').strip().lower() in ('1', 'true', 'yes', 'on')
+
+
+def _effective_can_work(rec: dict):
+    """Returns (ok, reason, relaxed). GATEWAY truth always computed; relax only for OPS desks."""
+    from hr_onboarding_api import _can_work_internal
+
+    ok, reason = _can_work_internal(rec)
+    if ok:
+        return True, reason, False
+    if _relax_can_work() and (rec.get('status') or '') == 'Active':
+        return True, f'OPS build mode — GATEWAY still blocked: {reason}', True
+    return False, reason, False
+
 LEVEL_TO_ROLE = {
     'SUP': 'supervisor',
     'DIR': 'supervisor',
@@ -88,9 +105,9 @@ def _role_from_level(level_name: str) -> str:
 
 
 def _build_session_payload(rec: dict) -> dict:
-    from hr_onboarding_api import _can_work_internal, _level_code
+    from hr_onboarding_api import _level_code
 
-    ok, reason = _can_work_internal(rec)
+    ok, reason, relaxed = _effective_can_work(rec)
     role = _role_from_level(rec.get('level') or '')
     accounts = _accounts_list(rec.get('account') or '')
     desks = []
@@ -124,6 +141,7 @@ def _build_session_payload(rec: dict) -> dict:
         'desks': desks,
         'canWork': bool(ok),
         'canWorkReason': reason,
+        'canWorkRelaxed': bool(relaxed),
         'sessionPolicy': {
             'idleMinutes': 15,
             'warnMinutes': 13,
@@ -133,7 +151,7 @@ def _build_session_payload(rec: dict) -> dict:
 
 
 def _person_from_email(email: str):
-    from hr_onboarding_api import _find_by_email, _can_work_internal
+    from hr_onboarding_api import _find_by_email
 
     email = (email or '').strip().lower()
     if not email or '@' not in email:
@@ -141,7 +159,7 @@ def _person_from_email(email: str):
     rec, _, _ = _find_by_email(email)
     if not rec:
         return None, None, 'No active GATEWAY record for that email'
-    ok, reason = _can_work_internal(rec)
+    ok, reason, _relaxed = _effective_can_work(rec)
     return rec, ok, reason
 
 
