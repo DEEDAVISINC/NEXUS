@@ -47,9 +47,16 @@ interface Attestation {
   year: number; attested: boolean; attestorName: string; attestedDate: string; referenceNotes: string;
 }
 
+interface PortalActivity {
+  lastLogin: string | null;
+  loginCount: number;
+  lastIp?: string | null;
+}
+
 interface RosterRow {
   id: string;
   name: string;
+  email?: string;
   workerType: 'employee' | 'contractor';
   division: string;
   startdate: string;
@@ -57,6 +64,7 @@ interface RosterRow {
   memberFacing: boolean;
   progress: number;
   screening: string;
+  portalActivity?: PortalActivity;
 }
 
 interface GatewayDocument {
@@ -145,6 +153,10 @@ const RosterCard: React.FC<{
           <StatusChip status={status} />
         )}
       </div>
+
+      {r.status === 'Active' && (
+        <PortalActivityBadge activity={r.portalActivity} hasEmail={!!r.email} />
+      )}
 
       {!compact && (
         <div className="flex gap-2 pt-1 border-t border-gray-700/50">
@@ -278,6 +290,37 @@ function daysSince(startdate?: string): number | null {
   const diff = Math.floor((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
   return diff;
 }
+
+/** Plain-language "last active" for GATEWAY portal visibility — this is what
+ * lets Dee see whether the employee/contractor has even logged into
+ * gateway.deedavis.biz yet, not just what they've uploaded/signed once they do. */
+function timeAgo(iso?: string | null): string {
+  if (!iso) return 'Never signed in';
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return 'Never signed in';
+  const diffMs = Date.now() - then;
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  const months = Math.floor(days / 30);
+  return `${months}mo ago`;
+}
+
+const PortalActivityBadge: React.FC<{ activity?: PortalActivity; hasEmail: boolean }> = ({ activity, hasEmail }) => {
+  if (!hasEmail) {
+    return <span className="text-[10px] text-gray-500">🔑 No portal access — add email</span>;
+  }
+  const logged = !!activity?.lastLogin;
+  return (
+    <span className={`text-[10px] font-semibold ${logged ? 'text-teal-400' : 'text-amber-400'}`}>
+      🔑 {logged ? `Portal: active ${timeAgo(activity?.lastLogin)}` : 'Portal: invited, not signed in yet'}
+    </span>
+  );
+};
 
 const StatusChip: React.FC<{ status: RosterStatus; className?: string }> = ({ status, className = '' }) => (
   <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border whitespace-nowrap ${STATUS_CHIP_STYLE[status]} ${className}`}>
@@ -902,11 +945,12 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                           {selected.email || 'No email on file'}
                           {(() => { const d = daysSince(selected.startdate); return d !== null ? ` · Day ${d} of onboarding` : ''; })()}
                         </p>
-                        <div className="flex gap-2 mt-2">
+                        <div className="flex items-center gap-2 mt-2">
                           <StatusChip status={statusForRow(selected as unknown as RosterRow)} />
                           {selected.memberFacing && (
                             <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-teal-500/40 bg-teal-900/20 text-teal-300">Member-Facing</span>
                           )}
+                          <PortalActivityBadge activity={selected.portalActivity} hasEmail={!!selected.email} />
                         </div>
                       </div>
                     </div>
@@ -963,6 +1007,20 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                       No email on this record — {selected.name} cannot sign in to gateway.deedavis.biz. Add an email above to enable portal access.
                     </p>
                   ) : (
+                    <>
+                    <div className={`flex flex-wrap items-center gap-3 mb-4 pb-4 border-b border-gray-700/50 text-sm ${selected.portalActivity?.lastLogin ? 'text-teal-300' : 'text-amber-300'}`}>
+                      <span className="font-bold">
+                        {selected.portalActivity?.lastLogin
+                          ? `🟢 Last active in portal: ${timeAgo(selected.portalActivity.lastLogin)}`
+                          : '⚪ Has not signed in to gateway.deedavis.biz yet'}
+                      </span>
+                      {!!selected.portalActivity?.loginCount && (
+                        <span className="text-gray-500 text-xs">{selected.portalActivity.loginCount} visit{selected.portalActivity.loginCount === 1 ? '' : 's'} total</span>
+                      )}
+                      {selected.portalActivity?.lastLogin && (
+                        <span className="text-gray-500 text-xs">{new Date(selected.portalActivity.lastLogin).toLocaleString()}</span>
+                      )}
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                       <div>
                         <h4 className="font-bold text-gray-300 mb-1.5">Documents Uploaded ({(selected.documents || []).length})</h4>
@@ -996,6 +1054,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                         )}
                       </div>
                     </div>
+                    </>
                   )}
                 </NexusPanel>
 

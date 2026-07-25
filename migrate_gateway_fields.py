@@ -8,6 +8,7 @@ Adds:
   DOCUMENTS              (multipleAttachments) — uploaded doc files
   DOCUMENTS_JSON         (multilineText)   — metadata mirror (local-fallback source of truth)
   ACKNOWLEDGMENTS_JSON   (multilineText)   — typed-name e-sign log
+  PORTAL_ACTIVITY_JSON   (multilineText)   — last login / visit count / IP from gateway.deedavis.biz
 
 Safe to re-run — skips fields that already exist.
 """
@@ -60,6 +61,7 @@ to_add = [
     ('DOCUMENTS', 'multipleAttachments', None),
     ('DOCUMENTS_JSON', 'multilineText', None),
     ('ACKNOWLEDGMENTS_JSON', 'multilineText', None),
+    ('PORTAL_ACTIVITY_JSON', 'multilineText', None),
 ]
 
 for field_name, field_type, options in to_add:

@@ -974,6 +974,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'agenda': _default_agenda(),
         'documents': [],
         'acknowledgments': [],
+        'portalActivity': {'lastLogin': None, 'loginCount': 0, 'lastIp': None},  # gateway.deedavis.biz visibility — see get_self_record()
         'auditLog': [{'ts': now, 'actor': 'system', 'action': 'Record created'}],
         'created': now,
         'airtable_id': None,
@@ -986,6 +987,40 @@ def _log_audit(rec, actor, action):
         'actor': (actor or '').strip() or 'unspecified',
         'action': action,
     })
+
+
+def _track_portal_activity(rec, records, from_airtable):
+    """Called on every GET /self — this is Dee's window into 'what is the
+    employee doing in their onboarding.' The portal itself never talks to
+    Airtable/NEXUS directly (it only knows the email/session), so this GET
+    is the single point of contact where we can log gateway.deedavis.biz
+    activity back into the record HR sees. Updates lastLogin/loginCount/
+    lastIp on every call (so "last active" is always accurate), but only
+    writes a new AUDIT_LOG line when the previous view was >4 hours ago —
+    otherwise every post-upload dashboard refresh would spam the audit log
+    with a dozen "signed in" entries per real visit."""
+    now_dt = datetime.utcnow()
+    now = now_dt.isoformat() + 'Z'
+    activity = rec.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None}
+    prior_login = activity.get('lastLogin')
+    is_new_session = True
+    if prior_login:
+        try:
+            prior_dt = datetime.fromisoformat(prior_login.replace('Z', ''))
+            is_new_session = (now_dt - prior_dt) > timedelta(hours=4)
+        except Exception:
+            is_new_session = True
+
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    activity['lastLogin'] = now
+    activity['loginCount'] = int(activity.get('loginCount') or 0) + 1
+    activity['lastIp'] = ip or activity.get('lastIp')
+    rec['portalActivity'] = activity
+
+    if is_new_session:
+        _log_audit(rec, f'self-service ({rec.get("email", "")})',
+                    f'Signed in to GATEWAY portal (visit #{activity["loginCount"]})')
+    _persist(rec, records, from_airtable)
 
 
 # ─── Local JSON fallback (roster) ────────────────────────────────
@@ -1038,6 +1073,7 @@ def _record_to_fields(rec):
         'AGENDA_JSON': json.dumps(rec.get('agenda', {})),
         'DOCUMENTS_JSON': json.dumps(rec.get('documents', [])),
         'ACKNOWLEDGMENTS_JSON': json.dumps(rec.get('acknowledgments', [])),
+        'PORTAL_ACTIVITY_JSON': json.dumps(rec.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
         'AUDIT_LOG_JSON': json.dumps(rec.get('auditLog', [])),
     }
 
@@ -1080,6 +1116,7 @@ def _fields_to_record(airtable_record):
         'agenda': _jload('AGENDA_JSON', _default_agenda()),
         'documents': _jload('DOCUMENTS_JSON', []),
         'acknowledgments': _jload('ACKNOWLEDGMENTS_JSON', []),
+        'portalActivity': _jload('PORTAL_ACTIVITY_JSON', {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
         'auditLog': _jload('AUDIT_LOG_JSON', []),
         'created': airtable_record.get('createdTime', ''),
         'airtable_id': airtable_record.get('id'),
@@ -1394,6 +1431,7 @@ def list_roster():
     roster = [{
         'id': r['id'],
         'name': r['name'],
+        'email': r.get('email', ''),
         'role': r.get('role', ''),
         'account': r.get('account', ''),
         'level': r.get('level', ''),
@@ -1407,6 +1445,7 @@ def list_roster():
         'memberFacing': r.get('memberFacing', True),
         'progress': _progress(r),
         'screening': screening_compliance(r)['state'],
+        'portalActivity': r.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None},
     } for r in records]
     return jsonify({
         'roster': roster,
@@ -2169,9 +2208,10 @@ def _sanitized_self_record(rec):
 @hr_onboarding.route('/nexus/hr/onboarding/self', methods=['GET'])
 def get_self_record():
     email = request.args.get('email', '')
-    rec, _, _ = _find_by_email(email)
+    rec, records, from_airtable = _find_by_email(email)
     if not rec:
         return jsonify({'error': 'No active GATEWAY record found for that email. Ask HR to confirm your record.'}), 404
+    _track_portal_activity(rec, records, from_airtable)
     return jsonify({'success': True, 'record': _sanitized_self_record(rec)})
 
 
