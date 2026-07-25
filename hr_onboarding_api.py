@@ -2240,7 +2240,7 @@ def upload_self_document():
         return jsonify({'error': 'contentBase64 could not be decoded'}), 400
 
     if len(raw) > 8 * 1024 * 1024:
-        return jsonify({'error': 'File too large — 8MB max. Call 855-773-0035 for help.'}), 400
+        return jsonify({'error': 'File too large — 8MB max. Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.'}), 400
 
     label = next((d['label'] for d in catalog if d['key'] == doc_key), doc_key)
     now = datetime.utcnow().isoformat() + 'Z'
