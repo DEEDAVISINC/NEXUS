@@ -10,8 +10,15 @@
     "name": "Molina Healthcare of Michigan",
     "code": "MOLN",
     "status": "Pending",
-    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md",
-    "emoji": "\ud83e\ude75"
+    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md. Emoji changed from \ud83e\ude75 to \u24c2\ufe0f per Dee, Jul 2026 \u2014 circled M for Molina.",
+    "emoji": "\u24c2\ufe0f"
+  },
+  {
+    "name": "HAVEN",
+    "code": "HAVN",
+    "status": "Program brand \u2014 active pitch/proposal stage",
+    "notes": "Housing Assistance Vital Emergency Network \u2014 disaster continuity: housing, MOB-B displaced-member transport, medical continuity. DDI internal program brand (ATLAS + PRISM + VERTEX execution per NEXUS_SYSTEM_ACRONYMS.md). No confirmed signed HAVEN contract yet \u2014 proposal/pitch stage. Emoji per Dee, Jul 2026.",
+    "emoji": "\ud83d\udea8\ud83c\udfd8\ufe0f"
   },
   {
     "name": "CareSource",
@@ -33,6 +40,13 @@
     "status": "Live",
     "notes": "Notary, signing agency, trust & estate execution, apostille, legal courier (CNTDA Division DBA). Dee\u2019s phrasing: \"3D Ink Signature Signings.\" Source: WEBSITE/solutions/professional-services/3d-ink-signatures/, GRAND STRAND LAW GROUP SIGNING client work. Emoji per Dee, Jul 2026.",
     "emoji": "\ud83d\udcdd"
+  },
+  {
+    "name": "VITAL",
+    "code": "VITL",
+    "status": "Program brand \u2014 active pitch/proposal stage",
+    "notes": "Verified Integrated Transport And Logistics \u2014 healthcare/medical courier & pharma logistics TPA (PRISM + VERTEX execution). Two tracks: VITAL-HS (hospital lab/pharmacy/equipment) and VITAL-MCO (homebound dual-eligible lab/Rx/DME). No confirmed signed VITAL contract yet \u2014 proposal/pitch stage. Emoji per Dee, Jul 2026.",
+    "emoji": "\ud83d\ude91\ud83d\udc8a"
   },
   {
     "name": "SHIELD",
