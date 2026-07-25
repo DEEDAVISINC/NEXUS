@@ -26,9 +26,12 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { itemKey, typedName } = body;
+  const { itemKey, typedName, policyOpened } = body;
   if (!itemKey || !typedName) {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'itemKey and typedName are required' }) };
+  }
+  if (!policyOpened) {
+    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Open and review the full policy before signing' }) };
   }
 
   try {
@@ -38,7 +41,7 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
         'X-Forwarded-For': event.headers?.['x-nf-client-connection-ip'] || event.headers?.['client-ip'] || '',
       },
-      body: JSON.stringify({ email, itemKey, typedName }),
+      body: JSON.stringify({ email, itemKey, typedName, policyOpened: true }),
     });
     const data = await res.json().catch(() => ({}));
     return { statusCode: res.status, headers: cors, body: JSON.stringify(data) };

@@ -1,0 +1,8 @@
+# Stable policy URLs (extensionless)
+/policies/employee-handbook   /policies/employee-handbook.html   200
+/policies/contractor-handbook /policies/contractor-handbook.html 200
+/policies/fdr-compliance      /policies/fdr-compliance.html      200
+/policies/code-of-conduct     /policies/code-of-conduct.html     200
+/policies/nda                 /policies/nda.html                 200
+/policies/hipaa               /policies/hipaa.html               200
+/policies/privacy             /policies/privacy.html             200

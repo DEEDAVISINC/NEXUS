@@ -266,6 +266,14 @@ try:
 except ImportError as e:
     print(f"⚠️ HR Onboarding API not loaded: {e}")
 
+# Register NEXUS OPS session bridge (workforce desks — ops.deedavis.biz)
+try:
+    from ops_portal_api import ops_portal
+    app.register_blueprint(ops_portal)
+    print("✅ NEXUS OPS Portal API registered")
+except ImportError as e:
+    print(f"⚠️ NEXUS OPS Portal API not loaded: {e}")
+
 # Register PRISM Inspection Engine
 try:
     from prism_inspection_engine import prism_inspection

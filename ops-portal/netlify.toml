@@ -1,0 +1,19 @@
+# NEXUS OPS — deploy to ops.deedavis.biz
+# Netlify: New site → connect repo → Base directory: ops-portal → Publish: .
+
+[build]
+  publish = "."
+  command = "npm install"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+[build.environment]
+  OPS_API_BASE = "https://deedavis.pythonanywhere.com"

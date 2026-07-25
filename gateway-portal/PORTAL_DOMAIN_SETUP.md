@@ -120,4 +120,6 @@ Same mechanism as the PRISM client portal — stateless HMAC JWT, no database:
 - `nexus.deedavis.biz` = NEXUS Command Center (separate Netlify site)
 - `portal.deedavis.biz` = PRISM client intake only
 - `gateway.deedavis.biz` = GATEWAY onboarding portal only (this site)
-- All three are separate Netlify sites hitting the **same** Flask backend on PythonAnywhere
+- `ops.deedavis.biz` = NEXUS OPS employee work portal (`ops-portal/` — separate site, separate auth secret)
+- Full domain map: `DDI_PORTAL_DOMAINS.md`
+- GATEWAY + OPS + nexus + portal are separate Netlify sites hitting the **same** Flask backend on PythonAnywhere

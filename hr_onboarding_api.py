@@ -156,6 +156,7 @@ Endpoints:
   PUT    /nexus/hr/onboarding/<id>/checklist              — toggle a checklist item
   PUT    /nexus/hr/onboarding/<id>/training               — update a training row (status/due/cert/applicable)
   POST   /nexus/hr/onboarding/<id>/screening              — log exclusion screening entry (append-only)
+  PUT    /nexus/hr/onboarding/<id>/email                  — add/change personal portal email (fires training assignment email)
   POST   /nexus/hr/onboarding/<id>/provision-email        — (re)provision the firstname.lastname@deedavis.biz alias
   PUT    /nexus/hr/onboarding/<id>/classification         — worker-classification documentation (contractor)
   PUT    /nexus/hr/onboarding/<id>/agenda                 — 30-day check-in agenda toggle/notes
@@ -238,6 +239,8 @@ REQUIRED_FIELDS = {
         {'name': 'COMPANY_EMAIL_OVERRIDE', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL_DECLINED', 'type': 'checkbox', 'options': {'icon': 'check', 'color': 'greenBright'}},
         {'name': 'TRAINING_ASSIGNMENT_EMAIL_SENT', 'type': 'singleLineText'},  # ISO timestamp — SOP Day One training email
+        {'name': 'FDR_APPLICABLE', 'type': 'checkbox', 'options': {'icon': 'check', 'color': 'greenBright'}},  # OIG LEIE + GSA SAM required
+        {'name': 'LETTERS_JSON', 'type': 'multilineText'},  # offer/welcome letter paths + generated timestamps
     ],
     ROLE_POLICY_TABLE: [
         {'name': 'ROLE', 'type': 'singleLineText'},
@@ -324,20 +327,25 @@ _airtable_ensure_fields()
 # CONFIG — single source of truth, server-side (mirrors the SOP text)
 # ═══════════════════════════════════════════════════════════════
 
+# Checklist items may be plain strings OR {text, fdr_only}.
+# fdr_only=True → OIG LEIE / GSA SAM / MCO-adjacent steps. Shown and enforced
+# only when the hire's division is in FDR_DIVISIONS (FDR / Medicaid-Medicare-
+# adjacent). Non-FDR divisions (Freight, 3D Ink/CNTDA, DNA, ARENA/PRIME, unassigned) skip them.
 PHASES_EMPLOYEE = [
     {'key': 'preboard', 'title': 'Phase 1 — Pre-Boarding', 'owner': 'HR', 'items': [
         'Offer letter signed and returned',
         'Background check initiated',
         'E-Verify case created (DDI is an E-Verify Program Administrator)',
-        'OIG LEIE exclusion list screening completed (at hire)',
-        'GSA SAM.gov exclusion/debarment screening completed (at hire)',
+        {'text': 'OIG LEIE exclusion list screening completed (at hire)', 'fdr_only': True},
+        {'text': 'GSA SAM.gov exclusion/debarment screening completed (at hire)', 'fdr_only': True},
         'IT ticket submitted: email, NEXUS access, PRISM access (if role requires), hardware',
         'Division/manager assigned',
         'Start date and date of hire confirmed in writing (anchors CMS 90-day training deadline + 10-year retention)',
     ]},
     {'key': 'day1', 'title': 'Phase 2 — Day One', 'owner': 'HR + Direct Manager', 'items': [
         'I-9 completed in person (Section 1 by employee, Section 2 by authorized rep within 3 business days)',
-        'Signed acknowledgments: Employee Handbook, Code of Conduct/Conflict of Interest, Confidentiality/NDA',
+        # Driven by GATEWAY e-sign — HR cannot manually complete without portal acknowledgments
+        'Signed acknowledgments in GATEWAY: Employee Handbook, Code of Conduct/COI, Confidentiality/NDA, HIPAA, Privacy (plus FDR P&P when division is FDR-adjacent)',
         'NEXUS account provisioned and tested',
         'Introduction to direct manager, division team, and "What are we not seeing?" principle',
         'Welcome/training assignment email sent',
@@ -363,28 +371,33 @@ PHASES_CONTRACTOR = [
     {'key': 'preengage', 'title': 'Phase 1 — Pre-Engagement', 'owner': 'HR/Contracts', 'items': [
         'Independent Contractor Agreement / MSA drafted and executed with specific written scope of work',
         'W-9 collected (NOT I-9 — E-Verify/I-9 do not apply to contractors; running E-Verify undermines status)',
-        'OIG LEIE exclusion list screening completed',
-        'GSA SAM.gov exclusion/debarment screening completed',
+        {'text': 'OIG LEIE exclusion list screening completed', 'fdr_only': True},
+        {'text': 'GSA SAM.gov exclusion/debarment screening completed', 'fdr_only': True},
         'Business Associate Agreement (BAA) executed, if the engagement involves any access to PHI',
         'Certificate of insurance / liability coverage collected, if required by contract or MCO relationship',
         'Payment terms confirmed as deliverable/milestone-based (NOT an hourly wage structure mirroring payroll)',
         'Worker-classification basis documented and retained (see Classification tab) — before engagement starts',
     ]},
     {'key': 'engagestart', 'title': 'Phase 2 — Engagement Start', 'owner': 'HR/Contracts', 'items': [
-        'Confidentiality/NDA signed',
-        'Code of Conduct acknowledgment signed — framed as a contractual flow-down obligation, not employee handbook',
+        # Each line driven by GATEWAY e-sign for the matching acknowledgment key
+        'Contractor Obligations Handbook acknowledged in GATEWAY',
+        'Confidentiality/NDA signed in GATEWAY',
+        'Code of Conduct acknowledgment signed in GATEWAY — contractual flow-down (not employee handbook)',
+        'HIPAA Compliance Policy acknowledged in GATEWAY',
+        'Privacy Policy acknowledged in GATEWAY',
+        {'text': 'FDR Compliance Policies & Procedures acknowledged in GATEWAY', 'fdr_only': True},
         'System access provisioned at minimum necessary scope for the engagement (not blanket NEXUS/PRISM access)',
         '"Coordinate, not provide" and confidentiality briefing',
         'Required compliance training assigned — scoped to actual engagement (see Training tab)',
     ]},
     {'key': 'ongoing', 'title': 'Phase 3 — Ongoing Engagement', 'owner': 'Engagement Manager', 'items': [
-        'Training and exclusion screening confirmed current before any MCO-facing task',
+        {'text': 'Training and exclusion screening confirmed current before any MCO-facing task', 'fdr_only': True},
         'Deliverable/milestone check-ins scheduled per the contract\'s own terms',
         'No fixed daily schedule, mandatory hours, or DDI-directed work method beyond scope of work',
     ]},
     {'key': 'renewal', 'title': 'Phase 4 — Renewal, Extension, or Termination', 'owner': 'HR/Contracts', 'items': [
         'Contract renewal/extension/termination decision made per the contract\'s own terms and notice provisions',
-        'If renewed: exclusion screening and training currency re-verified before renewal is executed',
+        {'text': 'If renewed: exclusion screening and training currency re-verified before renewal is executed', 'fdr_only': True},
         'If terminated: system access revoked, final invoice reconciled, contractor file closed out to retention',
     ]},
 ]
@@ -473,6 +486,19 @@ DIVISIONS = [
     'DEPOINTE (NEMT Coordination)', 'HAVEN', 'SHIELD', 'VITAL', 'ARENA/PRIME',
     '3D Ink Signatures/CNTDA', 'Freight 1st Direct', 'DEPOINTE DNA', 'Corporate/HR/Admin',
 ]
+
+# OIG LEIE + GSA SAM monthly screening is required only for divisions that
+# touch Medicaid/Medicare-adjacent / FDR / MCO work. Driven by division
+# assignment — not a separate manual flag (Dee, Jul 2026).
+FDR_DIVISIONS = frozenset({
+    'DEPOINTE (NEMT Coordination)',  # plan NEMT / MCO
+    'HAVEN',                         # MOB-B disaster continuity for plan members
+    'SHIELD',                        # benefits / navigation under MCO & state HHS
+    'VITAL',                         # healthcare logistics incl. VITAL-MCO track
+    'Corporate/HR/Admin',            # FDR attestation, CO/MCO correspondence, compliance ops
+})
+# Non-FDR by default: ARENA/PRIME, 3D Ink Signatures/CNTDA, Freight 1st Direct,
+# DEPOINTE DNA, blank/unassigned division.
 
 # ─── Company email policy (added Jul 2026) ────────────────────────
 # NOT every hire gets a @deedavis.biz alias — only roles that actually need
@@ -861,15 +887,192 @@ SELF_SERVICE_DOCUMENTS = {
     ],
 }
 
+# GATEWAY-hosted policy manuals (HTML on gateway.deedavis.biz). Version must
+# match policy_manuals.py / gateway-portal/policies/*.html footers.
+POLICY_VERSION = '1.0'
+POLICY_EFFECTIVE = '2026-07-25'
+GATEWAY_POLICIES_BASE = 'https://gateway.deedavis.biz/policies'
+
 SELF_SERVICE_ACKNOWLEDGMENTS = {
     'employee': [
-        {'key': 'handbook', 'label': 'Employee Handbook'},
-        {'key': 'coi_policy', 'label': 'Code of Conduct / Conflict of Interest Policy'},
-        {'key': 'nda', 'label': 'Confidentiality / NDA'},
+        {
+            'key': 'handbook',
+            'label': 'Employee Handbook',
+            'policyId': 'DDI-HR-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/employee-handbook',
+            'fdr_only': False,
+        },
+        {
+            'key': 'coi_policy',
+            'label': 'Code of Conduct / Conflict of Interest Policy',
+            'policyId': 'DDI-HR-003',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/code-of-conduct',
+            'fdr_only': False,
+        },
+        {
+            'key': 'nda',
+            'label': 'Confidentiality / NDA',
+            'policyId': 'DDI-HR-004',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/nda',
+            'fdr_only': False,
+        },
+        {
+            'key': 'hipaa_policy',
+            'label': 'HIPAA Compliance Policy',
+            'policyId': 'DDI-HIPAA-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/hipaa',
+            'fdr_only': False,
+        },
+        {
+            'key': 'privacy_policy',
+            'label': 'Privacy Policy',
+            'policyId': 'DDI-PRIV-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/privacy',
+            'fdr_only': False,
+        },
+        {
+            'key': 'fdr_policy',
+            'label': 'FDR Compliance Policies & Procedures',
+            'policyId': 'DDI-FDR-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/fdr-compliance',
+            'fdr_only': True,
+        },
     ],
     'contractor': [
-        {'key': 'coi_policy', 'label': 'Code of Conduct (Contractor Flow-Down Obligation)'},
-        {'key': 'nda', 'label': 'Confidentiality / NDA'},
+        {
+            'key': 'contractor_handbook',
+            'label': 'Contractor Obligations Handbook',
+            'policyId': 'DDI-HR-002',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/contractor-handbook',
+            'fdr_only': False,
+        },
+        {
+            'key': 'coi_policy',
+            'label': 'Code of Conduct (Contractor Flow-Down Obligation)',
+            'policyId': 'DDI-HR-003',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/code-of-conduct',
+            'fdr_only': False,
+        },
+        {
+            'key': 'nda',
+            'label': 'Confidentiality / NDA',
+            'policyId': 'DDI-HR-004',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/nda',
+            'fdr_only': False,
+        },
+        {
+            'key': 'hipaa_policy',
+            'label': 'HIPAA Compliance Policy',
+            'policyId': 'DDI-HIPAA-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/hipaa',
+            'fdr_only': False,
+        },
+        {
+            'key': 'privacy_policy',
+            'label': 'Privacy Policy',
+            'policyId': 'DDI-PRIV-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/privacy',
+            'fdr_only': False,
+        },
+        {
+            'key': 'fdr_policy',
+            'label': 'FDR Compliance Policies & Procedures',
+            'policyId': 'DDI-FDR-001',
+            'version': POLICY_VERSION,
+            'effectiveDate': POLICY_EFFECTIVE,
+            'documentUrl': f'{GATEWAY_POLICIES_BASE}/fdr-compliance',
+            'fdr_only': True,
+        },
+    ],
+}
+
+# Document uploads that auto-complete HR checklist lines (employee never ticks these).
+DOC_DRIVEN_CHECKLIST = {
+    'employee': [
+        {'phase': 'preboard', 'match': 'Offer letter signed', 'doc_keys': ['offer_letter_signed']},
+    ],
+    'contractor': [
+        {'phase': 'preengage', 'match': 'W-9 collected', 'doc_keys': ['w9']},
+        {'phase': 'preengage', 'match': 'Independent Contractor Agreement', 'doc_keys': ['ic_agreement_signed']},
+        {'phase': 'preengage', 'match': 'Certificate of insurance', 'doc_keys': ['coi']},
+    ],
+}
+
+# System flags that auto-complete HR checklist lines.
+FLAG_DRIVEN_CHECKLIST = {
+    'employee': [
+        {'phase': 'day1', 'match': 'Welcome/training assignment email sent', 'flag': 'trainingAssignmentEmailSent'},
+    ],
+    'contractor': [
+        {'phase': 'engagestart', 'match': 'Required compliance training assigned', 'flag': 'trainingAssignmentEmailSent'},
+    ],
+}
+
+# Checklist items completed only via GATEWAY e-sign (not HR checkbox alone).
+# match = substring of checklist item text; keys = required acknowledgment keys.
+ACK_DRIVEN_CHECKLIST = {
+    'employee': [
+        {
+            'phase': 'day1',
+            'match': 'Signed acknowledgments in GATEWAY',
+            'keys': ['handbook', 'coi_policy', 'nda', 'hipaa_policy', 'privacy_policy'],
+            'keys_fdr_extra': ['fdr_policy'],
+        },
+    ],
+    'contractor': [
+        {
+            'phase': 'engagestart',
+            'match': 'Contractor Obligations Handbook acknowledged',
+            'keys': ['contractor_handbook'],
+        },
+        {
+            'phase': 'engagestart',
+            'match': 'Confidentiality/NDA signed in GATEWAY',
+            'keys': ['nda'],
+        },
+        {
+            'phase': 'engagestart',
+            'match': 'Code of Conduct acknowledgment signed in GATEWAY',
+            'keys': ['coi_policy'],
+        },
+        {
+            'phase': 'engagestart',
+            'match': 'HIPAA Compliance Policy acknowledged',
+            'keys': ['hipaa_policy'],
+        },
+        {
+            'phase': 'engagestart',
+            'match': 'Privacy Policy acknowledged',
+            'keys': ['privacy_policy'],
+        },
+        {
+            'phase': 'engagestart',
+            'match': 'FDR Compliance Policies & Procedures acknowledged',
+            'keys': ['fdr_policy'],
+            'fdr_only': True,
+        },
     ],
 }
 
@@ -951,6 +1154,373 @@ def phases_for(worker_type):
     return PHASES_CONTRACTOR if worker_type == 'contractor' else PHASES_EMPLOYEE
 
 
+def _item_text(item):
+    return item['text'] if isinstance(item, dict) else item
+
+
+def _item_fdr_only(item):
+    if isinstance(item, dict):
+        return bool(item.get('fdr_only'))
+    return False
+
+
+def fdr_applicable_for_division(division):
+    """True when the assigned division touches FDR / MCO / Medicaid-Medicare-adjacent work."""
+    return (division or '').strip() in FDR_DIVISIONS
+
+
+def _fdr_applicable(rec):
+    """OIG LEIE + GSA SAM applicability — derived from division assignment.
+    Stored fdrApplicable is a cache for Airtable/reporting; division wins."""
+    if rec is None:
+        return False
+    return fdr_applicable_for_division(rec.get('division'))
+
+
+def _sync_fdr_from_division(rec, actor='system', log=True):
+    """Keep cached fdrApplicable aligned with division. Returns True if value changed."""
+    derived = fdr_applicable_for_division(rec.get('division'))
+    old = rec.get('fdrApplicable')
+    # Treat missing as "unknown" so first sync always writes the derived value
+    if old is not None and bool(old) == derived:
+        return False
+    rec['fdrApplicable'] = derived
+    if log:
+        div = (rec.get('division') or '').strip() or '(unassigned)'
+        _log_audit(
+            rec, actor,
+            f'FDR/MCO screening requirement set from division "{div}": '
+            f'{"required (OIG LEIE + GSA SAM)" if derived else "not required"}',
+        )
+    return True
+
+
+def _phase_public(phase):
+    """Config/API shape — items as strings + parallel fdrOnly flags."""
+    return {
+        'key': phase['key'],
+        'title': phase['title'],
+        'owner': phase['owner'],
+        'items': [_item_text(i) for i in phase['items']],
+        'fdrOnly': [_item_fdr_only(i) for i in phase['items']],
+    }
+
+
+def _phase_complete(rec, phase):
+    """Phase is complete when every applicable item is checked.
+    FDR-only items are skipped when fdrApplicable is False."""
+    vals = rec.get('checklist', {}).get(phase['key'], [])
+    fdr = _fdr_applicable(rec)
+    for i, item in enumerate(phase['items']):
+        if _item_fdr_only(item) and not fdr:
+            continue
+        if i >= len(vals) or not vals[i]:
+            return False
+    return True
+
+
+def _ack_catalog_for(rec):
+    """Acknowledgment catalog for this worker, omitting FDR-only policies when N/A."""
+    fdr = _fdr_applicable(rec)
+    catalog = SELF_SERVICE_ACKNOWLEDGMENTS.get(rec.get('workerType'), [])
+    return [a for a in catalog if not a.get('fdr_only') or fdr]
+
+
+def _acked_keys(rec):
+    return {a.get('key') for a in rec.get('acknowledgments', []) if a.get('key')}
+
+
+def _required_keys_for_rule(rec, rule):
+    if rule.get('fdr_only') and not _fdr_applicable(rec):
+        return []
+    keys = list(rule.get('keys') or [])
+    if _fdr_applicable(rec) and rule.get('keys_fdr_extra'):
+        keys.extend(rule['keys_fdr_extra'])
+    return keys
+
+
+def _find_ack_driven_rule(rec, phase_key, item_text):
+    for rule in ACK_DRIVEN_CHECKLIST.get(rec.get('workerType'), []):
+        if rule.get('phase') != phase_key:
+            continue
+        if rule.get('match') and rule['match'] in (item_text or ''):
+            return rule
+    return None
+
+
+def _is_evidence_driven_item(rec, phase_key, item_text):
+    """True when HR must not manually toggle — evidence from portal/system drives it."""
+    if _find_ack_driven_rule(rec, phase_key, item_text):
+        return True
+    wt = rec.get('workerType')
+    for dr in DOC_DRIVEN_CHECKLIST.get(wt, []):
+        if dr.get('phase') == phase_key and dr.get('match') in (item_text or ''):
+            return True
+    for fr in FLAG_DRIVEN_CHECKLIST.get(wt, []):
+        if fr.get('phase') == phase_key and fr.get('match') in (item_text or ''):
+            return True
+    return False
+
+
+def _ack_keys_satisfied(rec, keys):
+    if not keys:
+        return True
+    acked = _acked_keys(rec)
+    return all(k in acked for k in keys)
+
+
+def _doc_keys_on_file(rec):
+    return {d.get('key') for d in rec.get('documents', []) if d.get('key')}
+
+
+def _sync_ack_checklist(rec):
+    """Auto-set HR checklist boxes from evidence (e-sign, uploads, system flags).
+    Employees never tick these — NEXUS/GATEWAY evidence drives the state."""
+    changes = []
+    wt = rec.get('workerType')
+    phases = phases_for(wt)
+    checklist = rec.setdefault('checklist', {})
+    docs_on_file = _doc_keys_on_file(rec)
+
+    for phase in phases:
+        key = phase['key']
+        items = phase['items']
+        vals = list(checklist.get(key) or [])
+        while len(vals) < len(items):
+            vals.append(False)
+        for i, item in enumerate(items):
+            text = _item_text(item)
+            should = None
+
+            rule = _find_ack_driven_rule(rec, key, text)
+            if rule:
+                if rule.get('fdr_only') and not _fdr_applicable(rec):
+                    continue
+                required = _required_keys_for_rule(rec, rule)
+                if required:
+                    should = _ack_keys_satisfied(rec, required)
+
+            if should is None:
+                for dr in DOC_DRIVEN_CHECKLIST.get(wt, []):
+                    if dr.get('phase') == key and dr.get('match') in text:
+                        needed = dr.get('doc_keys') or []
+                        should = all(k in docs_on_file for k in needed)
+                        break
+
+            if should is None:
+                for fr in FLAG_DRIVEN_CHECKLIST.get(wt, []):
+                    if fr.get('phase') == key and fr.get('match') in text:
+                        should = bool(rec.get(fr.get('flag')))
+                        break
+
+            if should is None:
+                continue
+            if bool(vals[i]) != should:
+                vals[i] = should
+                changes.append(f'{key}[{i}]={"on" if should else "off"} ({text[:48]})')
+        checklist[key] = vals
+    return changes
+
+
+def _parse_start_date(rec):
+    raw = (rec.get('startdate') or '').strip()
+    if not raw:
+        return None
+    for fmt in ('%Y-%m-%d', '%m/%d/%Y', '%Y/%m/%d'):
+        try:
+            return datetime.strptime(raw[:10], fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def _days_since_start(rec):
+    start = _parse_start_date(rec)
+    if not start:
+        return None
+    return (datetime.utcnow().date() - start).days
+
+
+def _traffic_for_upload(rec, doc_key, label, overdue_days=3):
+    """green = on file; yellow = still needed; red = past start+overdue_days without file."""
+    on_file = doc_key in _doc_keys_on_file(rec)
+    if on_file:
+        return {
+            'key': f'doc_{doc_key}', 'label': label, 'status': 'green',
+            'statusLabel': 'Accepted', 'detail': 'Document received.',
+            'action': 'upload', 'docKey': doc_key,
+        }
+    days = _days_since_start(rec)
+    if days is not None and days > overdue_days:
+        return {
+            'key': f'doc_{doc_key}', 'label': label, 'status': 'red',
+            'statusLabel': 'Needs attention', 'detail': 'Upload required — past due relative to start date.',
+            'action': 'upload', 'docKey': doc_key,
+        }
+    return {
+        'key': f'doc_{doc_key}', 'label': label, 'status': 'yellow',
+        'statusLabel': 'More information needed', 'detail': 'Upload this document in GATEWAY.',
+        'action': 'upload', 'docKey': doc_key,
+    }
+
+
+def _portal_action_items(rec):
+    """Employee/contractor-facing tasks only — never HR-internal SOP steps.
+    Status is automated from evidence (uploads, e-sign, training, screening, letters)."""
+    items = []
+    letters = rec.get('letters') or {}
+    fdr = _fdr_applicable(rec)
+
+    # Letters (NEXUS-generated)
+    offer_ready = bool(letters.get('offerLetterPath'))
+    offer_signed = 'offer_letter_signed' in _doc_keys_on_file(rec) or 'ic_agreement_signed' in _doc_keys_on_file(rec)
+    if rec.get('workerType') == 'employee':
+        if offer_signed:
+            items.append({
+                'key': 'letter_offer', 'label': 'Offer letter', 'status': 'green',
+                'statusLabel': 'Accepted', 'detail': 'Signed offer letter on file.',
+                'action': 'download_offer',
+            })
+        elif offer_ready:
+            days = _days_since_start(rec)
+            st = 'red' if days is not None and days > 0 else 'yellow'
+            items.append({
+                'key': 'letter_offer', 'label': 'Offer letter', 'status': st,
+                'statusLabel': 'Needs attention' if st == 'red' else 'More information needed',
+                'detail': 'Download your offer letter, sign it, and upload the signed copy.',
+                'action': 'download_offer_and_upload', 'docKey': 'offer_letter_signed',
+            })
+        else:
+            items.append({
+                'key': 'letter_offer', 'label': 'Offer letter', 'status': 'yellow',
+                'statusLabel': 'More information needed',
+                'detail': 'Offer letter is being prepared by HR/NEXUS — refresh shortly.',
+                'action': None,
+            })
+    else:
+        # Contractor: IC agreement upload (letter still available as welcome/engagement packet)
+        items.append(_traffic_for_upload(rec, 'ic_agreement_signed', 'Signed Independent Contractor Agreement / MSA'))
+
+    welcome_sent = bool(rec.get('trainingAssignmentEmailSent'))
+    welcome_ready = bool(letters.get('welcomeLetterPath'))
+    if welcome_sent:
+        items.append({
+            'key': 'letter_welcome', 'label': 'Welcome / training assignment', 'status': 'green',
+            'statusLabel': 'Accepted', 'detail': 'Welcome and training assignment email delivered.',
+            'action': 'download_welcome' if welcome_ready else None,
+        })
+    else:
+        items.append({
+            'key': 'letter_welcome', 'label': 'Welcome / training assignment', 'status': 'yellow',
+            'statusLabel': 'More information needed',
+            'detail': 'Welcome packet pending — you will receive email when ready (also available here).',
+            'action': 'download_welcome' if welcome_ready else None,
+        })
+
+    # Document uploads (employee/contractor catalogs)
+    for d in SELF_SERVICE_DOCUMENTS.get(rec.get('workerType'), []):
+        if d['key'] in ('offer_letter_signed', 'ic_agreement_signed'):
+            continue  # already covered above
+        items.append(_traffic_for_upload(rec, d['key'], d['label']))
+
+    # Policy acknowledgments — one row per required policy
+    acked = _acked_keys(rec)
+    for a in _ack_catalog_for(rec):
+        if a['key'] in acked:
+            items.append({
+                'key': f'ack_{a["key"]}', 'label': a['label'], 'status': 'green',
+                'statusLabel': 'Accepted', 'detail': f'Signed ({a.get("policyId")} v{a.get("version")}).',
+                'action': 'view_policy', 'ackKey': a['key'], 'documentUrl': a.get('documentUrl'),
+            })
+        else:
+            days = _days_since_start(rec)
+            st = 'red' if days is not None and days > 3 else 'yellow'
+            items.append({
+                'key': f'ack_{a["key"]}', 'label': a['label'], 'status': st,
+                'statusLabel': 'Needs attention' if st == 'red' else 'More information needed',
+                'detail': 'Open the policy, scroll to the end, and e-sign with your full legal name.',
+                'action': 'sign_policy', 'ackKey': a['key'], 'documentUrl': a.get('documentUrl'),
+                'policyId': a.get('policyId'), 'version': a.get('version'), 'fdr_only': a.get('fdr_only'),
+            })
+
+    # Training rollup
+    training_states = []
+    for i, item in enumerate(TRAININGS):
+        row = (rec.get('training') or [{}])[i] if i < len(rec.get('training') or []) else {}
+        st = training_compliance(rec, i, item)
+        if st.get('state') == 'not_applicable':
+            continue
+        training_states.append(st)
+    if training_states:
+        if any(s.get('severity') == 'critical' for s in training_states):
+            items.append({
+                'key': 'training_rollup', 'label': 'Compliance training', 'status': 'red',
+                'statusLabel': 'Needs attention',
+                'detail': 'One or more required trainings missed a hard deadline — see Training section.',
+                'action': None,
+            })
+        elif all(s.get('state') == 'complete' for s in training_states):
+            items.append({
+                'key': 'training_rollup', 'label': 'Compliance training', 'status': 'green',
+                'statusLabel': 'Accepted', 'detail': 'All applicable trainings complete.',
+                'action': None,
+            })
+        else:
+            items.append({
+                'key': 'training_rollup', 'label': 'Compliance training', 'status': 'yellow',
+                'statusLabel': 'More information needed',
+                'detail': 'Complete assigned courses — status updates when HR logs completion or you finish assigned work.',
+                'action': None,
+            })
+
+    # Screening summary (FDR only) — employee sees status, not HR checklist steps
+    if fdr:
+        scr = screening_compliance(rec)
+        sev = scr.get('severity') or 'info'
+        state = scr.get('state') or ''
+        if state in ('current',) or sev == 'none':
+            st = 'green'
+            label = 'Accepted'
+        elif sev == 'critical' or state in ('overdue', 'flagged', 'never'):
+            st = 'red'
+            label = 'Needs attention'
+        else:
+            st = 'yellow'
+            label = 'More information needed'
+        items.append({
+            'key': 'screening', 'label': 'Exclusion screening (OIG LEIE / GSA SAM)', 'status': st,
+            'statusLabel': label, 'detail': scr.get('detail') or 'Handled by HR — status shown for your awareness.',
+            'action': None,
+        })
+
+    return items
+
+
+def _portal_progress(items):
+    if not items:
+        return 0
+    green = sum(1 for i in items if i.get('status') == 'green')
+    return int(round(100 * green / len(items)))
+
+
+def _phase_public_with_ack(phase, worker_type=None):
+    """Config shape including which checklist items are evidence-driven (auto)."""
+    base = _phase_public(phase)
+    wt = worker_type or ''
+    rules = (
+        ACK_DRIVEN_CHECKLIST.get(wt, [])
+        + DOC_DRIVEN_CHECKLIST.get(wt, [])
+        + FLAG_DRIVEN_CHECKLIST.get(wt, [])
+    )
+    ack_driven = []
+    for i, item in enumerate(phase['items']):
+        text = _item_text(item)
+        driven = any(r.get('phase') == phase['key'] and r.get('match') in text for r in rules)
+        ack_driven.append(driven)
+    base['ackDriven'] = ack_driven
+    return base
+
+
 # ─── Record construction ─────────────────────────────────────────
 
 def _training_rows(worker_type):
@@ -979,12 +1549,14 @@ def _default_classification():
 
 
 def _new_record(name, worker_type, division, startdate, member_facing=True, email='', role='',
-                 company_email_override=None, account='', level=''):
+                 company_email_override=None, account='', level='', fdr_applicable=None):
     worker_type = worker_type if worker_type in ('employee', 'contractor') else 'employee'
     phases = phases_for(worker_type)
     checklist = {p['key']: [False] * len(p['items']) for p in phases}
     now = datetime.utcnow().isoformat() + 'Z'
     personnel_core, personnel_full = _next_personnel_number(worker_type, division, startdate, account, level)
+    # FDR screening follows division — ignore client-supplied fdr_applicable
+    derived_fdr = fdr_applicable_for_division(division)
     return {
         'id': 'HR-' + uuid.uuid4().hex[:8].upper(),
         'name': name,
@@ -1003,6 +1575,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'startdate': startdate or '',
         'status': 'Active',
         'memberFacing': bool(member_facing),
+        'fdrApplicable': derived_fdr,  # derived from division — see FDR_DIVISIONS
         'checklist': checklist,
         'training': _training_rows(worker_type),
         'exclusionLog': [],
@@ -1010,6 +1583,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'agenda': _default_agenda(),
         'documents': [],
         'acknowledgments': [],
+        'letters': {},  # NEXUS-generated offer/welcome letter metadata — see gateway_letters.py
         'portalActivity': {'lastLogin': None, 'loginCount': 0, 'lastIp': None},  # gateway.deedavis.biz visibility — see get_self_record()
         'trainingAssignmentEmailSent': None,  # ISO ts when SOP Day One training assignment email was sent
         'auditLog': [{'ts': now, 'actor': 'system', 'action': 'Record created'}],
@@ -1134,7 +1708,8 @@ def _build_training_assignment_email(rec):
         instructions = [
             'Click each link above to access the training.',
             'Complete all modules/sections in full and retain your certificate of completion.',
-            f'Upload certificates in the GATEWAY portal ({portal}) — DDI logs contractor training in the same audit system used for employees, per CMS FDR requirements.',
+            'If the training or certification platform allows a secondary email for certificates or completion notifications, enter hr@deedavis.biz so HR receives a copy automatically.',
+            f'Upload certificates in the GATEWAY portal ({portal}) — DDI logs contractor training in the same audit system used for employees, per CMS FDR requirements. A copy to HR does not replace GATEWAY upload.',
             'Contact HR at hr@deedavis.biz or (248) 270-8490 NEXUS desk with any access issues before the deadline.',
         ]
         deadline_note = (
@@ -1157,7 +1732,8 @@ def _build_training_assignment_email(rec):
         instructions = [
             'Click each link above to access the training.',
             'Complete all modules/sections in full and download or save your certificate of completion for each course.',
-            f'Log each completion in the GATEWAY portal ({portal}): mark status Complete and enter the certificate/reference number and completion date. A certificate in your inbox does not count for CMS until it is logged.',
+            'If the training or certification platform allows a secondary email for certificates or completion notifications, enter hr@deedavis.biz so HR receives a copy automatically.',
+            f'Log each completion in the GATEWAY portal ({portal}): mark status Complete and enter the certificate/reference number and completion date. A certificate emailed to you or to HR does not count for CMS until it is logged in GATEWAY.',
             'Contact HR at hr@deedavis.biz or (248) 270-8490 NEXUS desk with any access issues before the deadline.',
         ]
         deadline_note = (
@@ -1165,7 +1741,10 @@ def _build_training_assignment_email(rec):
             f'General Compliance/FWA and Medicare Fraud &amp; Abuse is treated as a compliance event, not just a missed internal target.'
         )
 
-    instr_html = ''.join(f'<li>{x}</li>' for x in instructions)
+    def _bold_hr(s):
+        return s.replace('hr@deedavis.biz', '<b>hr@deedavis.biz</b>')
+
+    instr_html = ''.join(f'<li>{_bold_hr(x)}</li>' for x in instructions)
     instr_text = '\n'.join(f'{n}. {x}' for n, x in enumerate(instructions, 1))
     html = f'''<div style="font-family:Inter,Helvetica,Arial,sans-serif;max-width:720px;color:#0B1E3D;line-height:1.55">
 <p>Hi {first},</p>
@@ -1233,9 +1812,13 @@ def _smtp_send(to_email, subject, text, html):
 
 
 def _maybe_send_training_assignment_email(rec, records, from_airtable, reason='system'):
-    """Send SOP Day One training assignment email once per record.
-    Called when HR creates a hire with an email, and again on first portal
-    login if it still hasn't been sent (covers delayed email on file)."""
+    """Send SOP Day One training assignment email once per address on file.
+
+    RULE (Dee, Jul 2026): whichever way the personal/portal email lands on a
+    GATEWAY record — hire create, later HR edit, or first portal login backup —
+    the training assignment email MUST fire to that address (once per address).
+    Login never creates the record; it only signs in to an existing one.
+    """
     email = (rec.get('email') or '').strip().lower()
     if not email:
         return False
@@ -1257,6 +1840,45 @@ def _maybe_send_training_assignment_email(rec, records, from_airtable, reason='s
     _log_audit(rec, reason, f'Training assignment email sent to {email} ({reason})')
     _persist(rec, records, from_airtable)
     return True
+
+
+def _apply_portal_email(rec, records, from_airtable, new_email, actor='system', reason='email-set'):
+    """Set/update personal portal email on a GATEWAY record and fire training mail.
+
+    - Empty → address: enable portal + send training email
+    - Address A → address B: clear prior sent flag, send to B (new inbox needs the links)
+    - Same address already on file: no-op (training send still attempted if never marked sent)
+    """
+    new_email = (new_email or '').strip().lower()
+    old_email = (rec.get('email') or '').strip().lower()
+
+    if not new_email:
+        return {'ok': False, 'error': 'email is required', 'trainingSent': False}
+
+    if '@' not in new_email or '.' not in new_email.split('@')[-1]:
+        return {'ok': False, 'error': 'invalid email format', 'trainingSent': False}
+
+    email_changed = new_email != old_email
+    if email_changed:
+        rec['email'] = new_email
+        # New inbox = needs its own training assignment (even if old address already got one)
+        rec['trainingAssignmentEmailSent'] = None
+        if old_email:
+            _log_audit(rec, actor, f'Portal email changed: {old_email} -> {new_email}')
+        else:
+            _log_audit(rec, actor, f'GATEWAY portal access enabled for {new_email}')
+        _persist(rec, records, from_airtable)
+
+    sent = _maybe_send_training_assignment_email(
+        rec, records, from_airtable, reason=f'{reason} ({actor})'
+    )
+    return {
+        'ok': True,
+        'email': rec.get('email'),
+        'emailChanged': email_changed,
+        'trainingSent': bool(sent),
+        'trainingAssignmentEmailSent': rec.get('trainingAssignmentEmailSent'),
+    }
 
 
 # ─── Local JSON fallback (roster) ────────────────────────────────
@@ -1302,6 +1924,7 @@ def _record_to_fields(rec):
         'START_DATE': rec.get('startdate') or None,
         'STATUS': rec.get('status', 'Active'),
         'MEMBER_FACING': bool(rec.get('memberFacing', True)),
+        'FDR_APPLICABLE': bool(rec.get('fdrApplicable', True)),
         'CHECKLIST_JSON': json.dumps(rec.get('checklist', {})),
         'TRAINING_JSON': json.dumps(rec.get('training', [])),
         'EXCLUSION_LOG_JSON': json.dumps(rec.get('exclusionLog', [])),
@@ -1309,6 +1932,7 @@ def _record_to_fields(rec):
         'AGENDA_JSON': json.dumps(rec.get('agenda', {})),
         'DOCUMENTS_JSON': json.dumps(rec.get('documents', [])),
         'ACKNOWLEDGMENTS_JSON': json.dumps(rec.get('acknowledgments', [])),
+        'LETTERS_JSON': json.dumps(rec.get('letters') or {}),
         'PORTAL_ACTIVITY_JSON': json.dumps(rec.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
         'TRAINING_ASSIGNMENT_EMAIL_SENT': rec.get('trainingAssignmentEmailSent') or '',
         'AUDIT_LOG_JSON': json.dumps(rec.get('auditLog', [])),
@@ -1346,6 +1970,8 @@ def _fields_to_record(airtable_record):
         'startdate': f.get('START_DATE', ''),
         'status': f.get('STATUS', 'Active'),
         'memberFacing': bool(f.get('MEMBER_FACING', True)),
+        # Missing Airtable field → FDR-applicable (legacy / safe default)
+        'fdrApplicable': True if 'FDR_APPLICABLE' not in f else bool(f.get('FDR_APPLICABLE')),
         'checklist': _jload('CHECKLIST_JSON', {}),
         'training': _jload('TRAINING_JSON', []),
         'exclusionLog': _jload('EXCLUSION_LOG_JSON', []),
@@ -1353,6 +1979,7 @@ def _fields_to_record(airtable_record):
         'agenda': _jload('AGENDA_JSON', _default_agenda()),
         'documents': _jload('DOCUMENTS_JSON', []),
         'acknowledgments': _jload('ACKNOWLEDGMENTS_JSON', []),
+        'letters': _jload('LETTERS_JSON', {}) or {},
         'portalActivity': _jload('PORTAL_ACTIVITY_JSON', {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
         'trainingAssignmentEmailSent': (f.get('TRAINING_ASSIGNMENT_EMAIL_SENT') or '').strip() or None,
         'auditLog': _jload('AUDIT_LOG_JSON', []),
@@ -1586,8 +2213,14 @@ def all_training_compliance(rec, today=None):
 
 
 def screening_compliance(rec, today=None):
-    """Monthly OIG LEIE + GSA SAM.gov screening cadence, per SOP Section 5."""
+    """Monthly OIG LEIE + GSA SAM.gov screening cadence, per SOP Section 5.
+    Skipped entirely when the role is not FDR/MCO-adjacent (fdrApplicable=False)."""
     today = today or today_utc()
+    if not _fdr_applicable(rec):
+        return {
+            'state': 'not_applicable', 'severity': 'none', 'nextDue': None,
+            'detail': 'OIG LEIE / GSA SAM screening not required — this role is not FDR / Medicaid-Medicare-adjacent',
+        }
     log = rec.get('exclusionLog', [])
     hire_date = parse_date(rec.get('startdate'))
 
@@ -1617,10 +2250,15 @@ def screening_compliance(rec, today=None):
 def _progress(rec):
     total = 0
     done = 0
+    fdr = _fdr_applicable(rec)
     for p in phases_for(rec['workerType']):
         vals = rec.get('checklist', {}).get(p['key'], [])
-        total += len(p['items'])
-        done += sum(1 for v in vals if v)
+        for i, item in enumerate(p['items']):
+            if _item_fdr_only(item) and not fdr:
+                continue
+            total += 1
+            if i < len(vals) and vals[i]:
+                done += 1
     for i, item in enumerate(TRAININGS):
         comp = training_compliance(rec, i, item)
         if comp['state'] == 'not_applicable':
@@ -1630,6 +2268,46 @@ def _progress(rec):
         if idx_status_complete(rows, i):
             done += 1
     return round((done / total) * 100) if total else 0
+
+
+def _current_phase(rec):
+    """First incomplete onboarding phase — used for monday.com-style board grouping / Kanban."""
+    phases = phases_for(rec.get('workerType'))
+    if not phases:
+        return {'phaseKey': '', 'phaseTitle': '—'}
+    for p in phases:
+        if not _phase_complete(rec, p):
+            return {'phaseKey': p['key'], 'phaseTitle': p['title']}
+    last = phases[-1]
+    return {'phaseKey': last['key'], 'phaseTitle': last['title'], 'phaseComplete': True}
+
+
+def _board_status(rec, progress=None):
+    """monday.com-style status label for the board Status column.
+    stuck | working_on_it | waiting | done | not_started
+    """
+    if rec.get('status') == 'Archived':
+        return 'done'
+    pct = _progress(rec) if progress is None else progress
+    scr = screening_compliance(rec)
+    if scr.get('state') != 'not_applicable' and (
+        scr.get('severity') == 'critical' or scr.get('state') in ('never_screened', 'flagged_open')
+    ):
+        return 'stuck'
+    # Any CMS hard-floor training miss → stuck
+    for i, item in enumerate(TRAININGS):
+        comp = training_compliance(rec, i, item)
+        if comp.get('state') == 'cms_hard_missed':
+            return 'stuck'
+    if pct >= 100:
+        return 'done'
+    email = (rec.get('email') or '').strip()
+    portal = rec.get('portalActivity') or {}
+    if email and not portal.get('lastLogin') and pct < 40:
+        return 'waiting'
+    if pct <= 0:
+        return 'not_started'
+    return 'working_on_it'
 
 
 def idx_status_complete(rows, idx):
@@ -1643,16 +2321,21 @@ def idx_status_complete(rows, idx):
 @hr_onboarding.route('/nexus/hr/onboarding/config', methods=['GET'])
 def get_config():
     return jsonify({
-        'phases_employee': PHASES_EMPLOYEE,
-        'phases_contractor': PHASES_CONTRACTOR,
+        'phases_employee': [_phase_public_with_ack(p, 'employee') for p in PHASES_EMPLOYEE],
+        'phases_contractor': [_phase_public_with_ack(p, 'contractor') for p in PHASES_CONTRACTOR],
         'trainings': TRAININGS,
         'divisions': DIVISIONS,
+        'fdr_divisions': sorted(FDR_DIVISIONS),
         'agendas': AGENDAS,
         'internal_target_days': INTERNAL_TARGET_DAYS,
         'cms_hard_deadline_days': CMS_HARD_DEADLINE_DAYS,
         'screening_cadence_months': SCREENING_CADENCE_MONTHS,
         'self_service_documents': SELF_SERVICE_DOCUMENTS,
         'self_service_acknowledgments': SELF_SERVICE_ACKNOWLEDGMENTS,
+        'policy_version': POLICY_VERSION,
+        'policy_effective': POLICY_EFFECTIVE,
+        'gateway_policies_base': GATEWAY_POLICIES_BASE,
+        'ack_driven_checklist': ACK_DRIVEN_CHECKLIST,
     })
 
 
@@ -1666,25 +2349,35 @@ def list_roster():
     include_archived = request.args.get('include_archived', '').lower() == 'true'
     if not include_archived:
         records = [r for r in records if r.get('status', 'Active') != 'Archived']
-    roster = [{
-        'id': r['id'],
-        'name': r['name'],
-        'email': r.get('email', ''),
-        'role': r.get('role', ''),
-        'account': r.get('account', ''),
-        'level': r.get('level', ''),
-        'personnelNumber': r.get('personnelNumber', ''),
-        'personnelNumberCore': r.get('personnelNumberCore', ''),
-        'companyEmail': r.get('companyEmail', ''),
-        'workerType': r['workerType'],
-        'division': r.get('division', ''),
-        'startdate': r.get('startdate', ''),
-        'status': r.get('status', 'Active'),
-        'memberFacing': r.get('memberFacing', True),
-        'progress': _progress(r),
-        'screening': screening_compliance(r)['state'],
-        'portalActivity': r.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None},
-    } for r in records]
+    roster = []
+    for r in records:
+        # Division is source of truth — align cache before computing screening status
+        _sync_fdr_from_division(r, log=False)
+        pct = _progress(r)
+        phase = _current_phase(r)
+        roster.append({
+            'id': r['id'],
+            'name': r['name'],
+            'email': r.get('email', ''),
+            'role': r.get('role', ''),
+            'account': r.get('account', ''),
+            'level': r.get('level', ''),
+            'personnelNumber': r.get('personnelNumber', ''),
+            'personnelNumberCore': r.get('personnelNumberCore', ''),
+            'companyEmail': r.get('companyEmail', ''),
+            'workerType': r['workerType'],
+            'division': r.get('division', ''),
+            'startdate': r.get('startdate', ''),
+            'status': r.get('status', 'Active'),
+            'memberFacing': r.get('memberFacing', True),
+            'fdrApplicable': _fdr_applicable(r),
+            'progress': pct,
+            'phaseKey': phase.get('phaseKey', ''),
+            'phaseTitle': phase.get('phaseTitle', '—'),
+            'boardStatus': _board_status(r, pct),
+            'screening': screening_compliance(r)['state'],
+            'portalActivity': r.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None},
+        })
     return jsonify({
         'roster': roster,
         'count': len(roster),
@@ -1704,7 +2397,8 @@ def add_hire():
     account = (data.get('account') or '').strip()  # which client/MCO contract(s) — see NEXUS HR ACCOUNT CODES. Comma-separated for hires tied to more than one (e.g. "Molina Healthcare of Michigan, CTS") — each gets its own emoji in the personnel number, concatenated in order.
     level = (data.get('level') or '').strip()      # seniority tier — see NEXUS HR LEVEL CODES
     override = data.get('provisionCompanyEmail')  # True/False/None — HR override of role-based default
-    rec = _new_record(name, data.get('workerType'), data.get('division'), data.get('startdate'),
+    division = data.get('division')
+    rec = _new_record(name, data.get('workerType'), division, data.get('startdate'),
                        member_facing, email, role, company_email_override=override,
                        account=account, level=level)
     actor = (data.get('actor') or '').strip() or 'unspecified'
@@ -1713,6 +2407,12 @@ def add_hire():
     _log_audit(rec, actor, f'Record created by {actor} — {label} assigned: {rec["personnelNumber"]}')
     if email:
         _log_audit(rec, actor, f'GATEWAY portal access enabled for {email}')
+    div_label = (rec.get('division') or '').strip() or '(unassigned)'
+    _log_audit(
+        rec, actor,
+        f'FDR/MCO screening from division "{div_label}": '
+        f'{"required (OIG LEIE + GSA SAM)" if rec["fdrApplicable"] else "not required"}',
+    )
 
     # Company email is NOT provisioned here. It's deferred until
     # credentialing actually clears (the can-work gate) — see
@@ -1732,16 +2432,58 @@ def add_hire():
             reason = f'role "{role}" not on the company-email list' if role else 'no role specified'
             _log_audit(rec, actor, f'Company email not provisioned — {reason}')
 
+    # NEXUS generates offer + welcome letters at hire (employee downloads/signs in GATEWAY)
+    try:
+        from gateway_letters import generate_letters_for_record
+        generate_letters_for_record(rec)
+        _log_audit(rec, actor, 'Offer letter + welcome letter generated (NEXUS)')
+    except Exception as e:
+        _log_audit(rec, actor, f'Letter generation FAILED: {e}')
+
     _create(rec)
-    # SOP Day One: training assignment email goes out when HR puts the person
-    # in GATEWAY with an email on file — they do NOT create their own record by
-    # logging into the portal. First portal login is a backup send if this failed.
+    # SOP Day One: whichever way email lands on the record, training mail fires.
+    # Hire-create with email is path #1; PUT .../email is path #2; first portal
+    # login is backup if SMTP was down earlier.
     if email:
         records, from_airtable = _load_all()
         live = next((r for r in records if r['id'] == rec['id']), rec)
         _maybe_send_training_assignment_email(live, records, from_airtable, reason=f'hire-created ({actor})')
+        _sync_ack_checklist(live)
+        _persist(live, records, from_airtable)
         rec = live
     return jsonify({'success': True, 'record': rec}), 201
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/<record_id>/email', methods=['PUT'])
+def update_portal_email(record_id):
+    """Add or change the personal/portal email on an existing GATEWAY record.
+
+    This is the same training-email trigger as hire-create: as soon as an
+    address is on the record (or changed to a new inbox), the SOP Day One
+    training assignment email is sent. Portal login still does not create
+    records — it only signs in to one that already has this email.
+    """
+    data = request.get_json(force=True) or {}
+    actor = (data.get('actor') or '').strip() or 'unspecified'
+    new_email = data.get('email', '')
+
+    rec, records, from_airtable = _find(record_id)
+    if not rec:
+        return jsonify({'error': 'not found'}), 404
+
+    result = _apply_portal_email(
+        rec, records, from_airtable, new_email, actor=actor, reason='email-updated'
+    )
+    if not result.get('ok'):
+        return jsonify({'error': result.get('error') or 'failed'}), 400
+
+    return jsonify({
+        'success': True,
+        'record': rec,
+        'emailChanged': result.get('emailChanged'),
+        'trainingSent': result.get('trainingSent'),
+        'trainingAssignmentEmailSent': result.get('trainingAssignmentEmailSent'),
+    })
 
 
 @hr_onboarding.route('/nexus/hr/onboarding/<record_id>/provision-email', methods=['POST'])
@@ -1778,9 +2520,14 @@ def retry_provision_email(record_id):
 
 @hr_onboarding.route('/nexus/hr/onboarding/<record_id>', methods=['GET'])
 def get_detail(record_id):
-    rec, _, _ = _find(record_id)
+    rec, records, from_airtable = _find(record_id)
     if not rec:
         return jsonify({'error': 'not found'}), 404
+    dirty = _sync_fdr_from_division(rec, log=False)
+    if _sync_ack_checklist(rec):
+        dirty = True
+    if dirty:
+        _persist(rec, records, from_airtable)
     rec['_progress'] = _progress(rec)
     rec['_trainingCompliance'] = all_training_compliance(rec)
     rec['_screening'] = screening_compliance(rec)
@@ -1803,9 +2550,22 @@ def update_checklist(record_id):
         return jsonify({'error': 'invalid phase/index'}), 400
 
     idx = int(idx)
+    item_label = _item_text(phase_def['items'][idx])
+    if _is_evidence_driven_item(rec, phase, item_label):
+        # Re-sync from evidence, then refuse manual override
+        _sync_ack_checklist(rec)
+        current = bool((rec.get('checklist') or {}).get(phase, [False] * (idx + 1))[idx])
+        if checked != current:
+            return jsonify({
+                'error': 'This item is automated from GATEWAY evidence (e-sign, upload, or system email). '
+                         'It cannot be toggled manually in the HR dashboard.',
+            }), 400
+        _persist(rec, records, from_airtable)
+        rec['_progress'] = _progress(rec)
+        return jsonify({'success': True, 'record': rec, 'note': 'already in sync with evidence'})
+
     rec['checklist'].setdefault(phase, [False] * len(phase_def['items']))
     rec['checklist'][phase][idx] = checked
-    item_label = phase_def['items'][idx]
     _log_audit(rec, actor, f'{"Checked" if checked else "Unchecked"}: "{item_label}" ({phase})')
     _maybe_provision_company_email(rec, actor)
     _persist(rec, records, from_airtable)
@@ -1969,6 +2729,16 @@ def update_member_facing(record_id):
     return jsonify({'success': True, 'record': rec})
 
 
+@hr_onboarding.route('/nexus/hr/onboarding/<record_id>/fdr-applicable', methods=['PUT'])
+def update_fdr_applicable(record_id):
+    """FDR screening is derived from division — change division via /assignment instead."""
+    return jsonify({
+        'error': 'FDR/MCO screening is determined by division assignment. '
+                 'Update division via PUT /nexus/hr/onboarding/<id>/assignment. '
+                 f'FDR divisions: {", ".join(sorted(FDR_DIVISIONS))}',
+    }), 400
+
+
 @hr_onboarding.route('/nexus/hr/onboarding/<record_id>/assignment', methods=['PUT'])
 def update_assignment(record_id):
     """Transfer / promotion / added-responsibility endpoint. Updates the
@@ -2008,18 +2778,16 @@ def update_assignment(record_id):
     new_level = data['level'].strip() if 'level' in data else old_level
 
     core = rec.get('personnelNumberCore', '')
-    if not core:
-        # Legacy record from before personnelNumberCore existed — can't
-        # rebuild a suffix onto a core that was never generated. Refuse
-        # rather than silently inventing one.
-        return jsonify({'error': 'record has no personnelNumberCore — cannot rebuild; this record predates the core/suffix split'}), 409
-
-    new_number = rebuild_personnel_number(core, new_division, new_account, new_level)
+    new_number = old_number
+    if core:
+        new_number = rebuild_personnel_number(core, new_division, new_account, new_level)
+        rec['personnelNumber'] = new_number
+    # Legacy records without a core can still change division/account/level
+    # (needed so FDR screening can follow division). Personnel number stays as-is.
 
     rec['division'] = new_division
     rec['account'] = new_account
     rec['level'] = new_level
-    rec['personnelNumber'] = new_number
 
     changes = []
     if new_division != old_division:
@@ -2030,9 +2798,19 @@ def update_assignment(record_id):
         changes.append(f'level: "{old_level}" -> "{new_level}"')
 
     if changes:
-        _log_audit(rec, actor,
-                   f'Assignment updated ({"; ".join(changes)}) — '
-                   f'personnel number: {old_number} -> {new_number} (core unchanged: {core})')
+        if core:
+            _log_audit(rec, actor,
+                       f'Assignment updated ({"; ".join(changes)}) — '
+                       f'personnel number: {old_number} -> {new_number} (core unchanged: {core})')
+        else:
+            _log_audit(rec, actor,
+                       f'Assignment updated ({"; ".join(changes)}) — '
+                       f'personnel number unchanged (no personnelNumberCore on legacy record)')
+
+    # Division drives OIG LEIE + GSA SAM requirement (+ FDR P&P acknowledgment)
+    if new_division != old_division:
+        _sync_fdr_from_division(rec, actor=actor, log=True)
+        _sync_ack_checklist(rec)
 
     _persist(rec, records, from_airtable)
     return jsonify({'success': True, 'record': rec, 'oldPersonnelNumber': old_number, 'newPersonnelNumber': new_number})
@@ -2096,8 +2874,7 @@ def _can_work_internal(rec):
         return False, f'Onboarding status is {rec.get("status")}, not Active'
 
     first_phase = phases_for(rec['workerType'])[0]
-    first_phase_vals = rec.get('checklist', {}).get(first_phase['key'], [])
-    if not first_phase_vals or not all(first_phase_vals):
+    if not _phase_complete(rec, first_phase):
         return False, f'"{first_phase["title"]}" not complete'
 
     screening = screening_compliance(rec)
@@ -2408,12 +3185,19 @@ def _safe_filename(name):
 
 
 def _sanitized_self_record(rec):
-    """The subset of a GATEWAY record that's safe to hand back to the
-    new hire/contractor themselves over the portal."""
+    """Employee/contractor portal view — NOT the HR SOP checklist.
+
+    HR-only phases (background, E-Verify, IT tickets, manager intros, 30/60/90
+    meetings, classification, etc.) stay in the NEXUS GATEWAY admin dashboard.
+    Portal shows automated action items with green / yellow / red status only.
+    """
     doc_catalog = SELF_SERVICE_DOCUMENTS.get(rec['workerType'], [])
-    ack_catalog = SELF_SERVICE_ACKNOWLEDGMENTS.get(rec['workerType'], [])
+    ack_catalog = _ack_catalog_for(rec)
     uploaded_keys = {d.get('key') for d in rec.get('documents', [])}
-    acked_keys = {a.get('key') for a in rec.get('acknowledgments', [])}
+    acked_keys = _acked_keys(rec)
+    fdr = _fdr_applicable(rec)
+    portal_items = _portal_action_items(rec)
+    letters = rec.get('letters') or {}
 
     return {
         'id': rec['id'],
@@ -2428,11 +3212,19 @@ def _sanitized_self_record(rec):
         'division': rec.get('division', ''),
         'startdate': rec.get('startdate', ''),
         'status': rec.get('status', 'Active'),
-        'progress': _progress(rec),
-        'phases': [{
-            'key': p['key'], 'title': p['title'], 'owner': p['owner'], 'items': p['items'],
-            'checked': rec.get('checklist', {}).get(p['key'], [False] * len(p['items'])),
-        } for p in phases_for(rec['workerType'])],
+        'fdrApplicable': fdr,
+        'progress': _portal_progress(portal_items),
+        'phases': [],  # HR SOP checklist is admin-only — never shown on portal
+        'portalTasks': portal_items,
+        'statusLegend': [
+            {'status': 'green', 'label': 'Passed / accepted', 'meaning': 'Complete — we have what we need'},
+            {'status': 'yellow', 'label': 'More information needed', 'meaning': 'Action needed from you, or waiting on a document'},
+            {'status': 'red', 'label': 'Needs attention', 'meaning': 'Overdue or blocked — take action now'},
+        ],
+        'letters': {
+            'offerReady': bool(letters.get('offerLetterPath')),
+            'welcomeReady': bool(letters.get('welcomeLetterPath')),
+        },
         'training': [{
             'name': TRAININGS[i]['name'],
             'recurrence_label': TRAININGS[i]['recurrence_label'],
@@ -2441,7 +3233,8 @@ def _sanitized_self_record(rec):
         } for i, item in enumerate(TRAININGS)],
         'screening': screening_compliance(rec),
         'documents': {
-            'catalog': [dict(d, uploaded=(d['key'] in uploaded_keys)) for d in doc_catalog],
+            'catalog': [dict(d, uploaded=(d['key'] in uploaded_keys),
+                             status=('green' if d['key'] in uploaded_keys else 'yellow')) for d in doc_catalog],
             'uploaded': rec.get('documents', []),
         },
         'acknowledgments': {
@@ -2458,11 +3251,66 @@ def get_self_record():
     if not rec:
         return jsonify({'error': 'No active GATEWAY record found for that email. Ask HR to confirm your record.'}), 404
     _track_portal_activity(rec, records, from_airtable)
+    dirty = False
+    # Backfill letters for records created before letter generation existed
+    if not (rec.get('letters') or {}).get('offerLetterPath'):
+        try:
+            from gateway_letters import generate_letters_for_record
+            generate_letters_for_record(rec)
+            dirty = True
+        except Exception:
+            pass
+    if _sync_ack_checklist(rec):
+        dirty = True
+    if dirty:
+        _persist(rec, records, from_airtable)
     # Backup: if HR created the record without SMTP available (or email was
     # added later), first successful portal login fires the training email once.
     if not rec.get('trainingAssignmentEmailSent'):
         _maybe_send_training_assignment_email(rec, records, from_airtable, reason='first-portal-login')
     return jsonify({'success': True, 'record': _sanitized_self_record(rec)})
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/self/letters/<which>', methods=['GET'])
+def get_self_letter(which):
+    """Download NEXUS-generated offer or welcome letter HTML."""
+    if which not in ('offer', 'welcome'):
+        return jsonify({'error': 'which must be offer or welcome'}), 400
+    email = request.args.get('email', '')
+    rec, records, from_airtable = _find_by_email(email)
+    if not rec:
+        return jsonify({'error': 'No active GATEWAY record found for that email'}), 404
+    from gateway_letters import generate_letters_for_record, read_letter_html
+    if not (rec.get('letters') or {}).get('offerLetterPath'):
+        generate_letters_for_record(rec)
+        _persist(rec, records, from_airtable)
+    html = read_letter_html(rec, which)
+    if not html:
+        return jsonify({'error': 'Letter not available yet'}), 404
+    from flask import Response
+    return Response(html, mimetype='text/html; charset=utf-8')
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/self/policies', methods=['GET'])
+def get_self_policies():
+    """Required policy catalog for the logged-in hire (FDR-filtered)."""
+    email = request.args.get('email', '')
+    rec, _, _ = _find_by_email(email)
+    if not rec:
+        return jsonify({'error': 'No active GATEWAY record found for that email'}), 404
+    acked = _acked_keys(rec)
+    catalog = []
+    for a in _ack_catalog_for(rec):
+        catalog.append({
+            **{k: a[k] for k in ('key', 'label', 'policyId', 'version', 'effectiveDate', 'documentUrl', 'fdr_only') if k in a},
+            'acknowledged': a['key'] in acked,
+        })
+    return jsonify({
+        'success': True,
+        'fdrApplicable': _fdr_applicable(rec),
+        'policyVersion': POLICY_VERSION,
+        'catalog': catalog,
+    })
 
 
 @hr_onboarding.route('/nexus/hr/onboarding/self/documents', methods=['POST'])
@@ -2532,46 +3380,69 @@ def upload_self_document():
     docs.append(doc_entry)
     rec['documents'] = docs
     _log_audit(rec, f'self-service ({rec.get("email", "")})', f'Document uploaded: {label} ({filename})')
+    sync_changes = _sync_ack_checklist(rec)
+    if sync_changes:
+        _log_audit(rec, 'system', f'Checklist auto-synced from document upload: {"; ".join(sync_changes)}')
     _persist(rec, records, from_airtable)
 
-    return jsonify({'success': True, 'document': doc_entry})
+    return jsonify({'success': True, 'document': doc_entry, 'record': _sanitized_self_record(rec)})
 
 
 @hr_onboarding.route('/nexus/hr/onboarding/self/acknowledge', methods=['POST'])
 def acknowledge_self():
     """Typed-name + timestamp + IP acknowledgment — the e-signature
-    equivalent for handbook/NDA/Code-of-Conduct items in the portal."""
+    equivalent for handbook/NDA/Code-of-Conduct/FDR items in the portal.
+    Requires the signer to have opened the policy (policyOpened=true from portal)."""
     data = request.get_json(force=True) or {}
     email = data.get('email', '')
     ack_key = (data.get('itemKey') or '').strip()
     typed_name = (data.get('typedName') or '').strip()
+    policy_opened = bool(data.get('policyOpened'))
 
     if not typed_name:
         return jsonify({'error': 'typedName is required to acknowledge'}), 400
+    if not policy_opened:
+        return jsonify({'error': 'Open and review the full policy before signing'}), 400
 
     rec, records, from_airtable = _find_by_email(email)
     if not rec:
         return jsonify({'error': 'No active GATEWAY record found for that email'}), 404
 
-    catalog = SELF_SERVICE_ACKNOWLEDGMENTS.get(rec['workerType'], [])
-    label = next((a['label'] for a in catalog if a['key'] == ack_key), None)
-    if not label:
-        return jsonify({'error': f'"{ack_key}" is not a required acknowledgment for this worker type'}), 400
+    catalog = _ack_catalog_for(rec)
+    meta = next((a for a in catalog if a['key'] == ack_key), None)
+    if not meta:
+        return jsonify({'error': f'"{ack_key}" is not a required acknowledgment for this worker / division'}), 400
 
     now = datetime.utcnow().isoformat() + 'Z'
     entry = {
-        'key': ack_key, 'label': label, 'typedName': typed_name,
+        'key': ack_key,
+        'label': meta['label'],
+        'typedName': typed_name,
         'ip': request.headers.get('X-Forwarded-For', request.remote_addr or ''),
         'ts': now,
+        'policyId': meta.get('policyId', ''),
+        'version': meta.get('version', POLICY_VERSION),
+        'effectiveDate': meta.get('effectiveDate', POLICY_EFFECTIVE),
+        'documentUrl': meta.get('documentUrl', ''),
     }
     acks = [a for a in rec.get('acknowledgments', []) if a.get('key') != ack_key]
     acks.append(entry)
     rec['acknowledgments'] = acks
     _log_audit(rec, f'self-service ({rec.get("email", "")})',
-               f'Acknowledged/e-signed: "{label}" (typed name: {typed_name})')
+               f'Acknowledged/e-signed: "{meta["label"]}" ({meta.get("policyId")} v{meta.get("version")}; '
+               f'typed name: {typed_name})')
+    sync_changes = _sync_ack_checklist(rec)
+    if sync_changes:
+        _log_audit(rec, 'system',
+                   f'Checklist auto-synced from GATEWAY e-sign: {"; ".join(sync_changes)}')
     _persist(rec, records, from_airtable)
 
-    return jsonify({'success': True, 'acknowledgment': entry})
+    return jsonify({
+        'success': True,
+        'acknowledgment': entry,
+        'checklistSynced': sync_changes,
+        'record': _sanitized_self_record(rec),
+    })
 
 
 def create_hr_onboarding_routes(app):

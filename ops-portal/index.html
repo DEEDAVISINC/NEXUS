@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS OPS — Dee Davis Inc.</title>
+<style>
+  :root {
+    --navy: #070D18;
+    --navy2: #0F1C30;
+    --copper: #A8481A;
+    --copper2: #D97706;
+    --teal: #0F766E;
+    --teal2: #14B8A6;
+    --sky: #122a47;
+    --sky2: #1D4ED8;
+    --claims: #115E59;
+    --claims2: #0D9488;
+    --ink: #0A1628;
+    --paper: #E4EAF2;
+    --line: #C5CEDC;
+    --gray: #4B5C72;
+    --ok: #047857;
+    --warn: #B45309;
+    --crit: #B91C1C;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Avenir Next", Gill Sans, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(15,118,110,.16), transparent 45%),
+      radial-gradient(ellipse at 0% 100%, rgba(168,72,26,.14), transparent 40%),
+      var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  .hidden { display: none !important; }
+  .screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(180,83,9,.40), transparent 42%),
+      radial-gradient(ellipse at 85% 80%, rgba(15,118,110,.28), transparent 45%),
+      linear-gradient(155deg, #050A12 0%, #0F1C30 42%, #0A2A28 100%);
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 36px 32px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 28px 70px rgba(0,0,0,.55);
+    border-top: 5px solid transparent;
+    border-image: linear-gradient(90deg, var(--copper), var(--teal)) 1;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .brand .dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--copper), var(--teal));
+    box-shadow: 0 0 0 4px rgba(196,92,38,.18);
+  }
+  .brand .word {
+    font-weight: 800;
+    letter-spacing: .16em;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--navy2);
+  }
+  .brand .sub { font-size: 11px; color: var(--gray); margin-left: auto; }
+  h1 { font-size: 22px; margin: 0 0 8px; color: var(--navy2); font-weight: 700; }
+  p.lead { font-size: 14px; color: var(--gray); margin: 0 0 18px; line-height: 1.55; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .pill {
+    font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 999px;
+  }
+  .pill.prism { background: #1E3A5F; color: #BFDBFE; }
+  .pill.claims { background: #115E59; color: #99F6E4; }
+  .pill.more { background: #7C2D12; color: #FDBA74; }
+  label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gray); margin: 0 0 6px; }
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 14px;
+    color: var(--ink);
+    background: #FBFCFF;
+  }
+  input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(20,184,166,.2); }
+  .security-note {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #FDE68A;
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+    font-size: 11.5px;
+    color: #92400E;
+    line-height: 1.5;
+    margin: 14px 0 18px;
+  }
+  .security-note strong { color: #78350F; }
+  .footnote { font-size: 11.5px; color: var(--gray); text-align: center; margin-top: 14px; line-height: 1.5; }
+  .footnote a { color: var(--sky2); font-weight: 600; }
+  .msg {
+    padding: 10px 12px;
+    font-size: 12.5px;
+    margin-bottom: 14px;
+    line-height: 1.45;
+    border-radius: 8px;
+  }
+  .msg.err { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+  .msg.ok { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+  .msg.info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+  button.btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, #0A1628, #122a47 50%, #115E59);
+  }
+  button.btn:hover { filter: brightness(1.08); }
+  button.btn:disabled { opacity: .45; cursor: default; filter: none; }
+  button.btn.secondary {
+    background: #fff;
+    color: var(--navy2);
+    border: 1.5px solid var(--line);
+    margin-top: 8px;
+  }
+  button.btn.copper {
+    background: linear-gradient(135deg, #9A3412, #C2410C);
+  }
+  button.linkish {
+    background: none;
+    border: none;
+    color: var(--copper);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 0 0;
+    text-decoration: underline;
+  }
+
+  #idle-warn {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11,18,32,.78);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #idle-warn.show { display: flex; }
+  #idle-warn .box {
+    background: #fff;
+    max-width: 380px;
+    width: 100%;
+    padding: 28px 24px;
+    border-radius: 12px;
+    border-top: 5px solid var(--warn);
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+  }
+  #idle-warn h2 { margin: 0 0 8px; font-size: 18px; color: #92400E; }
+  #idle-warn p { margin: 0 0 18px; font-size: 13.5px; color: var(--gray); line-height: 1.5; }
+
+  .app-header {
+    display: flex;
+    background: linear-gradient(90deg, #050A12 0%, #0F1C30 50%, #0A3A36 100%);
+    color: #fff;
+    padding: 14px 24px;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 3px solid #9A3412;
+  }
+  .app-header .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #14B8A6;
+    box-shadow: 0 0 0 3px rgba(20,184,166,.3);
+  }
+  .app-header .word { font-weight: 800; letter-spacing: .14em; font-size: 12px; text-transform: uppercase; }
+  .app-header .who { margin-left: auto; font-size: 12px; color: #CBD5E1; text-align: right; }
+  .app-header button {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(94,234,212,.35);
+    color: #E0F2FE;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .app-header button:hover { background: rgba(20,184,166,.2); }
+  .app-body { max-width: 960px; margin: 0 auto; padding: 28px 20px 48px; }
+  .hero-strip {
+    background: linear-gradient(135deg, #0F1C30 0%, #122a47 45%, #115E59 100%);
+    border: 1px solid #1E3A5F;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 28px rgba(5,10,18,.18);
+    color: #E2E8F0;
+  }
+  .hero-strip h2 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #F8FAFC;
+  }
+  .hero-strip .meta-row { color: #94A3B8; }
+  .hero-strip .meta-row strong { color: #E2E8F0; }
+  .gate-banner {
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #991B1B;
+    background: linear-gradient(135deg, #7F1D1D, #991B1B);
+    color: #FEE2E2;
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .gate-banner.ok {
+    border-color: #047857;
+    background: linear-gradient(135deg, #064E3B, #047857);
+    color: #D1FAE5;
+  }
+  .desk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .desk {
+    position: relative;
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 20px 18px;
+    min-height: 168px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(15,30,61,.07);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .desk::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+  }
+  .desk.desk-prism::before { background: linear-gradient(180deg, #1D4ED8, #122a47); }
+  .desk.desk-claims::before { background: linear-gradient(180deg, #0D9488, #115E59); }
+  .desk.desk-more::before { background: linear-gradient(180deg, #C2410C, #7C2D12); }
+  .desk.desk-prism { background: linear-gradient(160deg, #F8FAFC 40%, #DBEAFE); }
+  .desk.desk-claims { background: linear-gradient(160deg, #F8FAFC 40%, #CCFBF1); }
+  .desk.desk-more { background: linear-gradient(160deg, #F8FAFC 40%, #FFEDD5); }
+  .desk:not(.locked):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(15,30,61,.12);
+  }
+  .desk.locked { opacity: .78; filter: saturate(.7); }
+  .desk h3 { margin: 0 0 6px; font-size: 16px; color: var(--navy2); }
+  .desk.desk-prism h3 { color: #1E3A5F; }
+  .desk.desk-claims h3 { color: #0F766E; }
+  .desk p { margin: 0 0 14px; font-size: 12.5px; color: var(--gray); line-height: 1.45; }
+  .desk .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+  }
+  .desk .tag.open { background: #064E3B; color: #A7F3D0; }
+  .desk .tag.lock { background: #7F1D1D; color: #FECACA; }
+  .desk .tag.soon { background: #78350F; color: #FDE68A; }
+  .meta-row { font-size: 12.5px; color: var(--gray); margin-bottom: 18px; line-height: 1.55; }
+  .meta-row strong { color: var(--ink); }
+  .acct-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .acct-pill {
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
+    background: #7C2D12; color: #FED7AA; border: 1px solid #C2410C;
+  }
+  .role-chip {
+    display: inline-block;
+    font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 6px;
+    background: #1E3A5F; color: #BFDBFE; margin-left: 6px;
+  }
+  .queue-bar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin-bottom: 16px;
+  }
+  .queue-bar h2 { margin: 0; font-size: 18px; color: #122a47; flex: 1; }
+  .queue-bar .btn { width: auto; padding: 10px 14px; }
+  .qcard {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 16px 14px;
+    margin-bottom: 12px;
+    border-left: 5px solid #1D4ED8;
+    box-shadow: 0 8px 22px rgba(15,30,61,.07);
+  }
+  .qcard.mine { border-left-color: #0F766E; background: linear-gradient(90deg, #F0FDFA, #fff 40%); }
+  .qcard.stat { border-left-color: #B91C1C; }
+  .qcard-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  .qcard-top h3 { margin: 0; font-size: 15px; color: var(--navy2); flex: 1; }
+  .qmeta { font-size: 12px; color: var(--gray); line-height: 1.5; margin-bottom: 10px; }
+  .qmeta strong { color: var(--ink); }
+  .qactions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .qactions .btn { width: auto; padding: 9px 12px; font-size: 11px; }
+  .qactions textarea {
+    width: 100%; min-height: 64px; margin: 8px 0 0;
+    border: 1.5px solid var(--line); border-radius: 8px; padding: 10px; font-size: 13px;
+  }
+  .empty {
+    padding: 28px; text-align: center; color: var(--gray);
+    border: 1px dashed var(--line); border-radius: 12px; background: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div id="idle-warn" role="alertdialog" aria-labelledby="idle-title">
+  <div class="box">
+    <h2 id="idle-title">Session ending</h2>
+    <p>No activity for a while. You will be signed out in under 2 minutes to protect member and company data.</p>
+    <button class="btn" type="button" id="idle-stay">Stay signed in</button>
+  </div>
+</div>
+
+<div id="view-login" class="screen">
+  <div class="card">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="word">NEXUS OPS</span>
+      <span class="sub">ops.deedavis.biz</span>
+    </div>
+    <h1>Workforce operations</h1>
+    <p class="lead">Sign in with your work email on file in GATEWAY. This is daily work — not onboarding.</p>
+    <div class="pill-row">
+      <span class="pill prism">PRISM Desk</span>
+      <span class="pill claims">Claims</span>
+      <span class="pill more">More desks</span>
+    </div>
+
+    <div id="login-msg" class="msg info hidden"></div>
+
+    <div id="step-email">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" placeholder="you@deedavis.biz">
+      <button class="btn" type="button" id="send-btn">Email me a sign-in code</button>
+    </div>
+
+    <div id="step-code" class="hidden">
+      <label for="code">6-digit code</label>
+      <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="000000">
+      <button class="btn" type="button" id="verify-btn">Sign in</button>
+      <button class="btn secondary" type="button" id="resend-btn">Resend code</button>
+      <button class="linkish" type="button" id="back-email">Use a different email</button>
+    </div>
+
+    <div class="security-note">
+      <strong>Session security.</strong> 15-minute idle logout · 12-hour maximum.
+      No long “stay signed in.” GATEWAY login cannot open OPS.
+    </div>
+    <div class="footnote">
+      Trouble? Call <a href="tel:+12482708490">(248) 270-8490</a> NEXUS desk or
+      <a href="mailto:hr@deedavis.biz">hr@deedavis.biz</a>.<br>
+      Onboarding: <a href="https://gateway.deedavis.biz">gateway.deedavis.biz</a>
+    </div>
+  </div>
+</div>
+
+<div id="view-app" class="hidden">
+  <header class="app-header">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="word">NEXUS OPS</span>
+    <span class="who" id="who-line"></span>
+    <button type="button" id="signout-btn">Sign out</button>
+  </header>
+  <div class="app-body">
+    <div id="panel-desks">
+      <div class="hero-strip">
+        <h2>Your desks</h2>
+        <div class="meta-row" id="meta-line" style="margin:0"></div>
+        <div class="acct-pills" id="acct-pills"></div>
+      </div>
+      <div id="gate-banner" class="gate-banner"></div>
+      <div class="desk-grid" id="desk-grid"></div>
+    </div>
+
+    <div id="panel-prism" class="hidden">
+      <div class="queue-bar">
+        <button class="btn secondary" type="button" id="back-desks">← Desks</button>
+        <h2>PRISM Desk</h2>
+        <button class="btn" type="button" id="refresh-queue">Refresh</button>
+      </div>
+      <div id="queue-msg" class="msg info hidden"></div>
+      <div id="queue-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SESSION_KEY = 'ops_session';
+const IDLE_MS = 15 * 60 * 1000;
+const WARN_MS = 13 * 60 * 1000;
+const REFRESH_MS = 4 * 60 * 1000;
+
+let lastActivity = Date.now();
+let warnShown = false;
+let refreshTimer = null;
+let idleTimer = null;
+let pendingEmail = '';
+
+function $(id) { return document.getElementById(id); }
+
+function showMsg(text, kind) {
+  const el = $('login-msg');
+  el.className = 'msg ' + (kind || 'info');
+  el.textContent = text;
+  el.classList.remove('hidden');
+}
+
+function clearMsg() {
+  $('login-msg').classList.add('hidden');
+}
+
+function getSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (_) { return null; }
+}
+
+function setSession(data) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  lastActivity = Date.now();
+  warnShown = false;
+  $('idle-warn').classList.remove('show');
+}
+
+function clearSession(reason) {
+  localStorage.removeItem(SESSION_KEY);
+  $('idle-warn').classList.remove('show');
+  showApp(false);
+  closePrismDesk();
+  if (reason) showMsg(reason, 'info');
+  $('step-email').classList.remove('hidden');
+  $('step-code').classList.add('hidden');
+}
+
+async function api(path, opts = {}) {
+  const session = getSession();
+  const headers = Object.assign({ 'Accept': 'application/json', 'Content-Type': 'application/json' }, opts.headers || {});
+  if (session && session.token) headers.Authorization = 'Bearer ' + session.token;
+  const res = await fetch('/.netlify/functions/' + path, Object.assign({}, opts, { headers }));
+  const data = await res.json().catch(() => ({}));
+  if (data.session && session) {
+    setSession(Object.assign({}, session, { token: data.session, email: data.email || session.email }));
+  }
+  return { res, data };
+}
+
+function touch() {
+  lastActivity = Date.now();
+  if (warnShown) {
+    warnShown = false;
+    $('idle-warn').classList.remove('show');
+  }
+}
+
+function tickIdle() {
+  if (!getSession()) return;
+  const elapsed = Date.now() - lastActivity;
+  if (elapsed >= IDLE_MS) {
+    clearSession('Signed out due to inactivity. Sign in again to continue.');
+    return;
+  }
+  if (elapsed >= WARN_MS && !warnShown) {
+    warnShown = true;
+    $('idle-warn').classList.add('show');
+  }
+}
+
+async function refreshSession() {
+  const session = getSession();
+  if (!session) return;
+  // Only refresh if user has been active recently (server sliding window)
+  if (Date.now() - lastActivity > IDLE_MS) {
+    clearSession('Signed out due to inactivity. Sign in again to continue.');
+    return;
+  }
+  const { res } = await api('ops-auth-me');
+  if (!res.ok) {
+    clearSession('Session expired. Sign in again.');
+  }
+}
+
+function showApp(on) {
+  $('view-login').classList.toggle('hidden', on);
+  $('view-app').classList.toggle('hidden', !on);
+}
+
+function deskTone(id) {
+  if (id === 'prism') return 'desk-prism';
+  if (id === 'claims') return 'desk-claims';
+  return 'desk-more';
+}
+
+function renderDesks(payload) {
+  const person = payload.person || {};
+  const canWork = !!payload.canWork;
+  const role = payload.opsRole || 'cca';
+  $('who-line').innerHTML =
+    (person.name || payload.email || '') +
+    ' <span class="role-chip">' + role + '</span>' +
+    '<br><span style="font-size:11px;opacity:.85">' + (payload.email || '') + '</span>';
+
+  const banner = $('gate-banner');
+  if (canWork) {
+    banner.className = 'gate-banner ok';
+    banner.textContent = 'GATEWAY can-work: clear. Desks unlocked for your assignment.';
+  } else {
+    banner.className = 'gate-banner';
+    banner.textContent = 'Desks locked — GATEWAY can-work failed: ' + (payload.canWorkReason || 'complete onboarding requirements') + '. You can stay signed in; finish items at gateway.deedavis.biz.';
+  }
+
+  $('meta-line').innerHTML =
+    '<strong>Level:</strong> ' + (person.level || '—') +
+    ' · <strong>Division:</strong> ' + (person.division || '—');
+
+  const pills = $('acct-pills');
+  pills.innerHTML = '';
+  const accounts = payload.accounts || [];
+  if (!accounts.length) {
+    pills.innerHTML = '<span class="acct-pill">No client account assigned yet</span>';
+  } else {
+    accounts.forEach(a => {
+      const s = document.createElement('span');
+      s.className = 'acct-pill';
+      s.textContent = (a.emoji ? a.emoji + ' ' : '') + a.name;
+      pills.appendChild(s);
+    });
+  }
+
+  const grid = $('desk-grid');
+  grid.innerHTML = '';
+  (payload.desks || []).forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'desk ' + deskTone(d.id) + (d.unlocked ? '' : ' locked');
+    let tagClass = 'soon';
+    let tagText = 'Coming soon';
+    if (d.status === 'ready' && d.unlocked) { tagClass = 'open'; tagText = 'Open'; }
+    else if (d.status === 'ready' && !d.unlocked) { tagClass = 'lock'; tagText = 'Locked'; }
+    el.innerHTML =
+      '<h3>' + d.label + '</h3>' +
+      '<p>' + (d.description || '') + (d.lockReason && !d.unlocked ? '<br><em>' + d.lockReason + '</em>' : '') + '</p>' +
+      '<span class="tag ' + tagClass + '">' + tagText + '</span>';
+    if (d.id === 'prism' && d.unlocked) {
+      const btn = document.createElement('button');
+      btn.className = 'btn copper';
+      btn.style.marginTop = '14px';
+      btn.textContent = 'Open PRISM queue';
+      btn.addEventListener('click', () => openPrismDesk());
+      el.appendChild(btn);
+    }
+    grid.appendChild(el);
+  });
+}
+
+function showQueueMsg(text, kind) {
+  const el = $('queue-msg');
+  if (!text) { el.classList.add('hidden'); return; }
+  el.className = 'msg ' + (kind || 'info');
+  el.textContent = text;
+  el.classList.remove('hidden');
+}
+
+function openPrismDesk() {
+  $('panel-desks').classList.add('hidden');
+  $('panel-prism').classList.remove('hidden');
+  loadQueue();
+}
+
+function closePrismDesk() {
+  $('panel-prism').classList.add('hidden');
+  $('panel-desks').classList.remove('hidden');
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+async function loadQueue() {
+  showQueueMsg('Loading queue…', 'info');
+  const { res, data } = await api('ops-prism-queue');
+  if (!res.ok) {
+    showQueueMsg(data.error || 'Could not load queue. If this persists, reload Flask on PythonAnywhere.', 'err');
+    $('queue-list').innerHTML = '';
+    return;
+  }
+  showQueueMsg('', 'info');
+  const items = data.items || [];
+  const list = $('queue-list');
+  if (!items.length) {
+    list.innerHTML = '<div class="empty">No open items in your account queue right now.</div>';
+    return;
+  }
+  const session = getSession();
+  const myEmail = (session && session.email) || '';
+  list.innerHTML = '';
+  items.forEach((item) => {
+    const mine = (item.claimedEmail || '').toLowerCase() === myEmail.toLowerCase();
+    const card = document.createElement('div');
+    card.className = 'qcard' + (mine ? ' mine' : '') + (item.priority === 'STAT' ? ' stat' : '');
+    const claimLabel = item.claimedBy
+      ? ('In progress — ' + esc(item.claimedBy))
+      : 'Unclaimed';
+    card.innerHTML =
+      '<div class="qcard-top"><h3>' + esc(item.memberName) + '</h3>' +
+      '<span class="tag ' + (mine ? 'open' : (item.claimedBy ? 'lock' : 'soon')) + '">' + esc(claimLabel) + '</span></div>' +
+      '<div class="qmeta">' +
+      '<strong>' + esc(item.payer || 'Payer') + '</strong> · ' + esc(item.priority || 'Standard') +
+      ' · Age ' + (item.slaAgeMinutes || 0) + 'm' +
+      (item.memberIdLast4 ? ' · ID ' + esc(item.memberIdLast4) : '') +
+      '<br><strong>When:</strong> ' + esc(item.pickupDate || '—') + ' ' + esc(item.pickupTime || '') +
+      ' · <strong>Status:</strong> ' + esc(item.status) +
+      (item.isDemo ? ' · <em>Demo item</em>' : '') +
+      (item.notesPreview ? '<br>' + esc(item.notesPreview) : '') +
+      '</div>' +
+      '<div class="qactions" data-id="' + esc(item.id) + '"></div>';
+    const actions = card.querySelector('.qactions');
+    if (!item.claimedBy) {
+      const claim = document.createElement('button');
+      claim.className = 'btn copper';
+      claim.textContent = 'Claim';
+      claim.addEventListener('click', () => prismAction('claim', item.id));
+      actions.appendChild(claim);
+    } else if (mine) {
+      const release = document.createElement('button');
+      release.className = 'btn secondary';
+      release.textContent = 'Release';
+      release.addEventListener('click', () => prismAction('release', item.id));
+      actions.appendChild(release);
+      const ta = document.createElement('textarea');
+      ta.placeholder = 'Case notes…';
+      ta.value = item.notes || '';
+      const save = document.createElement('button');
+      save.className = 'btn';
+      save.textContent = 'Save notes';
+      save.addEventListener('click', () => prismAction('patch', item.id, { notes: ta.value }));
+      actions.appendChild(save);
+      actions.appendChild(ta);
+    }
+    list.appendChild(card);
+  });
+}
+
+async function prismAction(action, id, extra) {
+  showQueueMsg('Updating…', 'info');
+  const body = Object.assign({ action, id }, extra || {});
+  const { res, data } = await api('ops-prism-action', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    showQueueMsg(data.error || 'Action failed', 'err');
+    return;
+  }
+  showQueueMsg(action === 'claim' ? 'Claimed.' : (action === 'release' ? 'Released.' : 'Saved.'), 'ok');
+  await loadQueue();
+}
+
+async function loadEntitlements() {
+  const { res, data } = await api('ops-session');
+  if (!res.ok) {
+    clearSession(data.error || 'Could not load OPS session.');
+    return;
+  }
+  showApp(true);
+  renderDesks(data);
+  touch();
+}
+
+async function sendCode() {
+  clearMsg();
+  const email = ($('email').value || '').trim().toLowerCase();
+  if (!email || !email.includes('@')) {
+    showMsg('Enter a valid email.', 'err');
+    return;
+  }
+  pendingEmail = email;
+  $('send-btn').disabled = true;
+  try {
+    const { res, data } = await api('ops-auth-send', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+    if (!res.ok) {
+      showMsg(data.error || 'Could not send code.', 'err');
+      return;
+    }
+    showMsg(data.message || 'Code sent.', 'ok');
+    $('step-email').classList.add('hidden');
+    $('step-code').classList.remove('hidden');
+    $('code').focus();
+  } catch (e) {
+    showMsg('Network error. Try again.', 'err');
+  } finally {
+    $('send-btn').disabled = false;
+  }
+}
+
+async function verifyCode(loginToken) {
+  clearMsg();
+  $('verify-btn').disabled = true;
+  try {
+    const body = loginToken
+      ? { login_token: loginToken }
+      : { email: pendingEmail || ($('email').value || '').trim().toLowerCase(), code: ($('code').value || '').trim() };
+    const { res, data } = await api('ops-auth-verify', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      showMsg(data.error || 'Sign-in failed.', 'err');
+      return;
+    }
+    setSession({ token: data.session, email: data.email, startedAt: Date.now() });
+    await loadEntitlements();
+  } catch (e) {
+    showMsg('Network error. Try again.', 'err');
+  } finally {
+    $('verify-btn').disabled = false;
+  }
+}
+
+async function boot() {
+  const params = new URLSearchParams(location.search);
+  const loginToken = params.get('login');
+  if (loginToken) {
+    history.replaceState({}, '', location.pathname);
+    await verifyCode(loginToken);
+    return;
+  }
+  const session = getSession();
+  if (session && session.token) {
+    const { res } = await api('ops-auth-me');
+    if (res.ok) {
+      await loadEntitlements();
+      return;
+    }
+    localStorage.removeItem(SESSION_KEY);
+  }
+  showApp(false);
+}
+
+$('send-btn').addEventListener('click', sendCode);
+$('resend-btn').addEventListener('click', sendCode);
+$('verify-btn').addEventListener('click', () => verifyCode());
+$('back-email').addEventListener('click', () => {
+  $('step-code').classList.add('hidden');
+  $('step-email').classList.remove('hidden');
+  clearMsg();
+});
+$('signout-btn').addEventListener('click', () => clearSession('Signed out.'));
+$('back-desks').addEventListener('click', closePrismDesk);
+$('refresh-queue').addEventListener('click', loadQueue);
+$('idle-stay').addEventListener('click', async () => {
+  touch();
+  await refreshSession();
+});
+$('code').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') verifyCode();
+});
+$('email').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendCode();
+});
+
+['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'].forEach((evt) => {
+  window.addEventListener(evt, touch, { passive: true });
+});
+idleTimer = setInterval(tickIdle, 15000);
+refreshTimer = setInterval(refreshSession, REFRESH_MS);
+
+boot();
+</script>
+</body>
+</html>

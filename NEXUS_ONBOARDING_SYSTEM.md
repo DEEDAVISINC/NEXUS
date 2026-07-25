@@ -55,7 +55,7 @@ The documents change based on who they are. The flow doesn't.
 - **10-item training catalog with real per-item recurrence:** refresher every 2 years (PII, Cultural Competence, Anti-Harassment), annual refresher (HIPAA), **annual reassigned at 11 months, not 12** (General Compliance/FWA, Medicare Fraud & Abuse, Code of Conduct/COI re-attestation), annual **only if the record is marked member-facing** (Recipient Rights, Abuse & Neglect), one-time employees-only (E-Verify/I-9 — contractors are hard-excluded).
 - **Two-tier training deadline:** every item has a 30-day DDI internal target; General Compliance/FWA and Medicare Fraud & Abuse additionally carry a 90-day CMS regulatory hard floor. Missing the 30-day target is a `warning`; missing the 90-day floor is a `critical` compliance event that **blocks the `can-work` gate**.
 - **Contractor training is scoped, not blanket-assigned** — each item carries an `applicable: yes/no/pending` tri-state the Engagement Manager sets per engagement, matching the contractor SOP's trigger table (e.g. HIPAA only if the scope involves PHI).
-- **Monthly OIG LEIE + GSA SAM.gov exclusion screening cadence**, computed from the last logged screening date (`add_months` helper) — not a flat 30-day window. Never-screened and overdue-monthly-rescreen both block `can-work`.
+- **Monthly OIG LEIE + GSA SAM.gov exclusion screening cadence**, computed from the last logged screening date (`add_months` helper) — not a flat 30-day window. Never-screened and overdue-monthly-rescreen both block `can-work`. **Applicability is division-driven** (`FDR_DIVISIONS` in `hr_onboarding_api.py`): DEPOINTE (NEMT), HAVEN, SHIELD, VITAL, Corporate/HR/Admin require OIG+SAM; Freight, 3D Ink/CNTDA, DEPOINTE DNA, ARENA/PRIME, and unassigned do not. Change division via `/assignment` — there is no separate FDR toggle.
 - **Annual FDR Compliance Attestation** (SOP Section 6) — a separate Airtable table (`NEXUS HR FDR ATTESTATION`), calendar-year cycle, independent of individual hire dates. Surfaced on the HR dashboard and in `/alerts`.
 - **Worker-classification documentation** (contractor track, SOP Section 10.1 / contractor SOP Section 8) — bounded scope, own tools/schedule, other clients, no supervisory integration, deliverable-based pay, plus a "routed to counsel" flag for genuinely unclear cases. Documentation, not legal advice.
 
@@ -65,17 +65,25 @@ The documents change based on who they are. The flow doesn't.
 
 **Compliance gate:** `GET /nexus/hr/onboarding/<id>/can-work` mirrors PRISM's field-agent `can-work` check — returns `false` until the first onboarding phase is fully checked off, exclusion screening is current (not never-screened, not overdue on the monthly cadence, no open flagged match), and neither CMS-hard-floor training item (General Compliance/FWA, Medicare Fraud & Abuse) has missed its 90-day deadline. **Any system assigning an internal person to MCO/HIDE SNP-facing work (SHIELD, HAVEN, DDCSS) should check this gate first**, the same way PRISM checks `can-work` before dispatching a field agent.
 
+**Downstream work portal:** Cleared employees do **not** stay in GATEWAY for daily work. They work in **NEXUS OPS** (`ops.deedavis.biz`) — sector desks (PRISM first, Claims/VERTEX next) that write back to NEXUS systems of record. OPS reads GATEWAY assignment (accounts/level) and enforces `can-work`. See **`NEXUS_OPS_MASTER.md`**.
+
 **Frontend (internal admin view):** `nexus-frontend/src/components/systems/HRSystem.tsx` — Dashboard (compliance alerts + annual attestation panel), Roster (add/list/archive, now with an email field that enables portal access), Detail (phase checklist incl. 30-day agenda + worker classification form for contractors, training table with recurrence/compliance badges, exclusion screening log with computed cadence banner, GATEWAY portal activity panel — read-only view of documents uploaded/acknowledgments signed by the person themselves, append-only audit log, CSV export). Tile lives in the NEXUS landing page under Support Systems as **GATEWAY**.
 
 ### GATEWAY SELF-SERVICE PORTAL — gateway.deedavis.biz
 
 New hires and contractors do **not** log into NEXUS. They sign in at **gateway.deedavis.biz** with just their email (magic link + 6-digit code, no password) and get a sanitized, read-mostly view of their own record:
 
-- Onboarding checklist (read-only — HR/EM checks items off in NEXUS, not the portal)
+- **Your Action Items** — employee-facing only; statuses are **automated** (green / yellow / red) from uploads, e-sign, training, screening, and letter generation. Employees do **not** check boxes. Full HR SOP phases (background, E-Verify, IT tickets, manager intros, 30/60/90 meetings, classification, etc.) stay in the **NEXUS GATEWAY admin dashboard** only.
+- **Legend:** Green = passed/accepted · Yellow = more information needed · Red = needs attention / overdue
+- **NEXUS-generated letters:** Offer letter + welcome letter (`gateway_letters.py`) created at hire; downloadable in portal; signed offer upload turns green when received
 - Required training list with status/recurrence/next-due badges
-- Exclusion screening status (current/overdue — not the internal detail log)
-- **Document upload** — I-9 supporting docs / offer letter (employees) or W-9 / COI / signed IC agreement (contractors), stored on disk + pushed to the Airtable `DOCUMENTS` attachment field
-- **Acknowledgment e-sign** — typed full name + timestamp + IP for Handbook, Code of Conduct, NDA (catalog differs by worker type)
+- Exclusion screening status summary for FDR divisions only (HR runs the checks — employee sees traffic-light status)
+- **Document upload** — I-9 supporting docs / signed offer (employees) or W-9 / COI / signed IC agreement (contractors)
+- **Policy acknowledgments (GATEWAY-hosted + e-sign)** — open full policy → scroll to end → typed full name + timestamp + IP. Catalog:
+  - Employees: **DDI-HR-001** Handbook, **DDI-HR-003** COI, **DDI-HR-004** NDA, **DDI-HIPAA-001** HIPAA, **DDI-PRIV-001** Privacy, and (FDR divisions only) **DDI-FDR-001** FDR P&P
+  - Contractors: **DDI-HR-002** Contractor Handbook, **DDI-HR-003**, **DDI-HR-004**, **DDI-HIPAA-001**, **DDI-PRIV-001**, and (FDR divisions only) **DDI-FDR-001**
+  - Hosted at `gateway.deedavis.biz/policies/*` · Formal HIPAA/Privacy PDFs also in `NEXUS DOCUMENTS/` (`hipaa_policy.py` / `privacy_policy.py`); other manuals via `python3 policy_manuals.py`
+  - Day One / Engagement Start checklist lines for these policies are **ack-driven** — HR cannot manually check them without portal signatures
 
 **Architecture** (mirrors `prism-intake/` → portal.deedavis.biz — separate Netlify site, same stateless-JWT pattern, same Flask backend):
 
@@ -96,9 +104,12 @@ gateway-portal/                          ← separate Netlify site, deploys to g
 Backend endpoints (in `hr_onboarding_api.py`, looked up by **email**, never internal record ID):
 ```
 GET  /nexus/hr/onboarding/self?email=            — sanitized own-record view
+GET  /nexus/hr/onboarding/self/policies?email=   — required policy catalog (FDR-filtered)
 POST /nexus/hr/onboarding/self/documents          — base64 upload, validated against per-worker-type catalog
-POST /nexus/hr/onboarding/self/acknowledge        — typed-name e-sign, validated against per-worker-type catalog
+POST /nexus/hr/onboarding/self/acknowledge        — typed-name e-sign (requires policyOpened); syncs checklist
 ```
+
+**FDR division list** (same as OIG/SAM): DEPOINTE (NEMT Coordination), HAVEN, SHIELD, VITAL, Corporate/HR/Admin — see `FDR_DIVISIONS` in `hr_onboarding_api.py`.
 
 Deploy steps: `gateway-portal/PORTAL_DOMAIN_SETUP.md`. Migration script for the four Airtable fields this needs (`EMAIL`, `DOCUMENTS`, `DOCUMENTS_JSON`, `ACKNOWLEDGMENTS_JSON`): `migrate_gateway_fields.py` (already run — fields are live on `NEXUS HR ONBOARDING`).
 

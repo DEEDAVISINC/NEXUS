@@ -9,10 +9,42 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Policy manuals (static HTML) — must win over SPA catch-all
+[[redirects]]
+  from = "/policies/employee-handbook"
+  to = "/policies/employee-handbook.html"
+  status = 200
+[[redirects]]
+  from = "/policies/contractor-handbook"
+  to = "/policies/contractor-handbook.html"
+  status = 200
+[[redirects]]
+  from = "/policies/fdr-compliance"
+  to = "/policies/fdr-compliance.html"
+  status = 200
+[[redirects]]
+  from = "/policies/code-of-conduct"
+  to = "/policies/code-of-conduct.html"
+  status = 200
+[[redirects]]
+  from = "/policies/nda"
+  to = "/policies/nda.html"
+  status = 200
+[[redirects]]
+  from = "/policies/hipaa"
+  to = "/policies/hipaa.html"
+  status = 200
+[[redirects]]
+  from = "/policies/privacy"
+  to = "/policies/privacy.html"
+  status = 200
+
+# SPA shell for portal routes (existing files still take precedence)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 [build.environment]
   GATEWAY_API_BASE = "https://deedavis.pythonanywhere.com"

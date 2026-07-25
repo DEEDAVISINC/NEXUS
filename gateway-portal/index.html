@@ -46,6 +46,10 @@
     margin-bottom: 16px; outline: none; transition: border-color .15s;
   }
   input:focus { border-color: var(--teal); }
+  .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .name-row .field { margin: 0; }
+  .name-row .field input { margin-bottom: 16px; }
+  @media (max-width: 420px) { .name-row { grid-template-columns: 1fr; } }
   button.btn {
     width: 100%; padding: 13px; border: none; border-radius: 8px; font-weight: 700; font-size: 13px;
     letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: opacity .15s; color: #fff;
@@ -58,6 +62,13 @@
   .msg { background: #ECFDF5; border: 1px solid #6EE7B7; color: #065F46; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; margin-bottom: 14px; }
   .footnote { font-size: 11.5px; color: var(--gray); margin-top: 18px; text-align: center; }
   .footnote a { color: var(--navy2); }
+  .security-note {
+    margin-top: 16px; padding: 12px 12px; border-radius: 8px;
+    background: #F8FAFC; border: 1px solid var(--line);
+    font-size: 11px; color: var(--gray); line-height: 1.45; text-align: left;
+  }
+  .security-note strong { color: var(--navy2); }
+  .security-note a { color: var(--navy2); }
 
   /* Dashboard */
   .app-header {
@@ -91,6 +102,29 @@
   .check-item.pending .icon { background: #F1F3F7; border: 1.5px solid var(--line); }
   .check-item.done span.txt { color: #9CA3AF; text-decoration: line-through; }
 
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 0 0 16px; padding: 12px 14px; background: #F8FAFC; border: 1px solid var(--line); border-radius: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gray); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-dot.green { background: var(--ok); }
+  .legend-dot.yellow { background: var(--warn); }
+  .legend-dot.red { background: var(--crit); }
+  .task-row {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+    padding: 14px 0; border-bottom: 1px solid #F1F3F7;
+  }
+  .task-row:last-child { border-bottom: none; }
+  .task-main { flex: 1; min-width: 0; }
+  .task-label { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .task-detail { font-size: 12px; color: var(--gray); margin-top: 3px; line-height: 1.4; }
+  .status-pill {
+    display: inline-block; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+  }
+  .status-pill.green { background: #ECFDF5; color: var(--ok); }
+  .status-pill.yellow { background: #FFFBEB; color: var(--warn); }
+  .status-pill.red { background: #FEF2F2; color: var(--crit); }
+  .task-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
   table.tt { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   table.tt th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--gray); padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
   table.tt td { padding: 10px 10px 10px 0; border-bottom: 1px solid #F1F3F7; vertical-align: top; }
@@ -109,10 +143,45 @@
   .upload-btn { background: var(--navy2); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11.5px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: .03em; }
   .upload-btn.done { background: var(--ok); }
   input[type=file] { display: none; }
-  .ack-form { display: flex; gap: 8px; align-items: center; }
+  .ack-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; }
   .ack-form input { margin: 0; padding: 8px 10px; font-size: 12.5px; width: 160px; }
-  .ack-form button { padding: 8px 14px; font-size: 11px; }
+  .ack-form button { padding: 8px 14px; font-size: 11px; width: auto; }
+  .ack-meta { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .ack-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .btn-secondary {
+    background: #fff; color: var(--navy2); border: 1.5px solid var(--navy2);
+    padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 700;
+    cursor: pointer; text-transform: uppercase; letter-spacing: .03em; width: auto;
+  }
+  .btn-secondary:hover { background: #F5F3FF; }
   .signed-tag { font-size: 11px; color: var(--ok); font-weight: 700; }
+  .ack-hint { font-size: 11px; color: var(--warn); margin-top: 4px; }
+  .policy-modal {
+    display: none; position: fixed; inset: 0; z-index: 100; background: rgba(15,26,46,.65);
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .policy-modal.open { display: flex; }
+  .policy-modal-card {
+    background: #fff; border-radius: 12px; width: min(920px, 100%); height: min(88vh, 900px);
+    display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4);
+  }
+  .policy-modal-head {
+    padding: 14px 18px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px; background: var(--navy); color: #fff;
+  }
+  .policy-modal-head h3 { margin: 0; font-size: 14px; flex: 1; }
+  .policy-modal-head button {
+    background: none; border: 1px solid #3A4A6B; color: #CBD5E1;
+    padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;
+  }
+  .policy-modal-frame { flex: 1; border: none; width: 100%; background: #fff; }
+  .policy-modal-foot {
+    padding: 12px 18px; border-top: 1px solid var(--line); background: #F7F8FA;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .policy-modal-foot .scroll-ok { font-size: 12px; color: var(--ok); font-weight: 700; }
+  .policy-modal-foot .scroll-need { font-size: 12px; color: var(--gray); }
 
   .contact-footer { text-align: center; font-size: 12px; color: var(--gray); padding: 20px 0 0; }
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
@@ -130,11 +199,21 @@
       <span class="sub">Onboarding Portal</span>
     </div>
     <h1>Sign in to your onboarding</h1>
-    <p class="lead">Enter the email Dee Davis Inc. has on file for you. We'll email a sign-in link <em>and</em> a 6-digit code (valid about 1 hour). Prefer the link if email is slow — one tap, no typing.</p>
+    <p class="lead">Enter your name and the email Dee Davis Inc. has on file for you. We'll email a personalized sign-in link <em>and</em> a 6-digit code (valid about 1 hour). Prefer the link if email is slow — one tap, no typing.</p>
     <div id="loginErr" class="err hidden"></div>
     <div id="loginMsg" class="msg hidden"></div>
 
     <div id="emailStep">
+      <div class="name-row">
+        <div class="field">
+          <label for="firstNameInput">First name</label>
+          <input type="text" id="firstNameInput" placeholder="First" autocomplete="given-name" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="lastNameInput">Last name</label>
+          <input type="text" id="lastNameInput" placeholder="Last" autocomplete="family-name" maxlength="60">
+        </div>
+      </div>
       <label for="emailInput">Email address</label>
       <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
       <button class="btn" id="sendCodeBtn" onclick="sendCode()">Email me a sign-in link</button>
@@ -151,6 +230,13 @@
       </div>
     </div>
 
+    <div class="security-note">
+      <strong>Authorized use &amp; privacy.</strong> GATEWAY is for Dee Davis Inc. workforce onboarding only.
+      Do not share your sign-in link or code. This portal may collect and store personally identifiable information
+      (and, where your role requires, information subject to privacy/HIPAA rules) for employment or engagement compliance.
+      Use only for authorized purposes. Report suspected misuse to
+      <a href="mailto:gc@deedavis.biz">gc@deedavis.biz</a>.
+    </div>
     <div class="footnote">Trouble signing in? Call <a href="tel:+12482708490">(248) 270-8490</a> NEXUS desk or email <a href="mailto:hr@deedavis.biz">hr@deedavis.biz</a>.</div>
   </div>
 </div>
@@ -180,8 +266,16 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><h3>Onboarding Checklist</h3><span class="count" id="phaseCount"></span></div>
-        <div class="panel-body" id="phasesBody"></div>
+        <div class="panel-head"><h3>Your Action Items</h3><span class="count" id="taskCount"></span></div>
+        <div class="panel-body">
+          <div class="legend" id="statusLegend">
+            <div class="legend-item"><span class="legend-dot green"></span><span><strong>Green</strong> — Passed / accepted</span></div>
+            <div class="legend-item"><span class="legend-dot yellow"></span><span><strong>Yellow</strong> — More information needed</span></div>
+            <div class="legend-item"><span class="legend-dot red"></span><span><strong>Red</strong> — Needs attention</span></div>
+          </div>
+          <p class="lead" style="margin-bottom:12px;font-size:12.5px;">Statuses update automatically when we receive your uploads, e-signatures, and training. HR-only steps (background checks, E-Verify, IT, manager meetings) are not shown here.</p>
+          <div id="tasksBody"></div>
+        </div>
       </div>
 
       <div class="panel">
@@ -205,8 +299,11 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><h3>Acknowledgments</h3><span class="count" id="ackCount"></span></div>
-        <div class="panel-body" id="ackBody"></div>
+        <div class="panel-head"><h3>Policy Acknowledgments</h3><span class="count" id="ackCount"></span></div>
+        <div class="panel-body">
+          <p class="lead" style="margin-bottom:14px;">Open each policy, scroll to the end, then type your full legal name to e-sign. Completing these updates your onboarding checklist automatically.</p>
+          <div id="ackBody"></div>
+        </div>
       </div>
 
       <div class="contact-footer">
@@ -217,10 +314,26 @@
   </div>
 </div>
 
+<!-- Policy viewer modal -->
+<div id="policyModal" class="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle">
+  <div class="policy-modal-card">
+    <div class="policy-modal-head">
+      <h3 id="policyModalTitle">Policy</h3>
+      <button type="button" onclick="closePolicyModal()">Close</button>
+    </div>
+    <iframe id="policyModalFrame" class="policy-modal-frame" title="Policy document"></iframe>
+    <div class="policy-modal-foot">
+      <span id="policyScrollStatus" class="scroll-need">Scroll to the end of the policy to enable signing.</span>
+      <button type="button" class="btn" id="policyMarkReadBtn" style="width:auto;margin-left:auto;" disabled onclick="confirmPolicyRead()">I have read this policy</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const FN = '/.netlify/functions';
 const SESSION_KEY = 'gateway_session';
 const EMAIL_KEY = 'gateway_pending_email';
+const NAME_KEY = 'gateway_pending_name';
 
 function getSession() { return localStorage.getItem(SESSION_KEY) || ''; }
 function setSession(token) { localStorage.setItem(SESSION_KEY, token); }
@@ -236,19 +349,31 @@ function showMsg(id, msg) {
   el.textContent = msg; el.classList.remove('hidden');
 }
 
+function readLoginName() {
+  const firstName = (document.getElementById('firstNameInput').value || '').trim().replace(/\s+/g, ' ');
+  const lastName = (document.getElementById('lastNameInput').value || '').trim().replace(/\s+/g, ' ');
+  return { firstName, lastName };
+}
+
 async function sendCode(isResend) {
   hideErr('loginErr');
+  const { firstName, lastName } = readLoginName();
   const email = document.getElementById('emailInput').value.trim();
+  if (!firstName) { showErr('loginErr', 'Enter your first name.'); return; }
+  if (!lastName) { showErr('loginErr', 'Enter your last name.'); return; }
   if (!email || !email.includes('@')) { showErr('loginErr', 'Enter a valid email address.'); return; }
   const btn = document.getElementById('sendCodeBtn');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
   try {
     const res = await fetch(`${FN}/gateway-auth-send`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, firstName, lastName }),
     });
     const data = await res.json();
     if (!res.ok) { showErr('loginErr', data.error || 'Could not send code.'); return; }
     localStorage.setItem(EMAIL_KEY, email);
+    localStorage.setItem(NAME_KEY, JSON.stringify({ firstName, lastName }));
     document.getElementById('emailStep').classList.add('hidden');
     document.getElementById('codeStep').classList.remove('hidden');
     // Resend within the same hour re-sends the SAME code — don't make people wait for a "new" one.
@@ -288,6 +413,7 @@ async function doVerify(payload) {
     if (!res.ok) { showErr('loginErr', data.error || 'Sign-in failed.'); return; }
     setSession(data.session);
     localStorage.removeItem(EMAIL_KEY);
+    localStorage.removeItem(NAME_KEY);
     await loadDashboard();
   } catch (e) {
     showErr('loginErr', 'Network error — try again.');
@@ -340,6 +466,10 @@ async function loadDashboard() {
 }
 
 let CURRENT_RECORD = null;
+/** key → true once user opened + scrolled + confirmed read in this browser session */
+const policyOpenedMap = {};
+let policyModalKey = '';
+let policyScrollOk = false;
 
 function renderRecord(rec) {
   CURRENT_RECORD = rec;
@@ -353,23 +483,58 @@ function renderRecord(rec) {
   document.getElementById('progressBar').style.width = `${rec.progress || 0}%`;
   document.getElementById('progressLabel').textContent = `${rec.progress || 0}% complete`;
 
-  // Phases
-  const phasesBody = document.getElementById('phasesBody');
-  phasesBody.innerHTML = '';
-  document.getElementById('phaseCount').textContent = `${rec.phases.length} phases`;
-  rec.phases.forEach(p => {
-    const block = document.createElement('div');
-    block.className = 'phase-block';
-    const doneCount = p.checked.filter(Boolean).length;
-    block.innerHTML = `<div class="phase-title">${p.title} <span class="phase-owner">— ${p.owner} · ${doneCount}/${p.items.length}</span></div>`;
-    p.items.forEach((label, i) => {
-      const done = !!p.checked[i];
-      const row = document.createElement('div');
-      row.className = `check-item ${done ? 'done' : 'pending'}`;
-      row.innerHTML = `<span class="icon">${done ? '✓' : ''}</span><span class="txt">${label}</span>`;
-      block.appendChild(row);
-    });
-    phasesBody.appendChild(block);
+  // Automated action items (no employee checkboxes — HR SOP phases stay in NEXUS admin)
+  const tasksBody = document.getElementById('tasksBody');
+  tasksBody.innerHTML = '';
+  const tasks = rec.portalTasks || [];
+  const greenN = tasks.filter(t => t.status === 'green').length;
+  document.getElementById('taskCount').textContent = `${greenN}/${tasks.length} accepted`;
+  if (Array.isArray(rec.statusLegend) && rec.statusLegend.length) {
+    const leg = document.getElementById('statusLegend');
+    leg.innerHTML = rec.statusLegend.map(l =>
+      `<div class="legend-item"><span class="legend-dot ${l.status}"></span><span><strong>${l.label}</strong> — ${l.meaning}</span></div>`
+    ).join('');
+  }
+  if (!tasks.length) {
+    tasksBody.innerHTML = '<p class="lead" style="margin:0;">No action items yet — refresh after HR finishes setting up your record.</p>';
+  }
+  tasks.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'task-row';
+    let actions = '';
+    if (t.action === 'download_offer' || t.action === 'download_offer_and_upload') {
+      actions += `<button type="button" class="btn-secondary" onclick="openLetter('offer')">Download offer letter</button>`;
+    }
+    if (t.action === 'download_welcome') {
+      actions += `<button type="button" class="btn-secondary" onclick="openLetter('welcome')">View welcome letter</button>`;
+    }
+    if (t.action === 'download_offer_and_upload' || t.action === 'upload' || t.docKey) {
+      const dk = t.docKey || '';
+      if (dk) {
+        const inputId = `taskfile_${dk}`;
+        actions += `<input type="file" id="${inputId}" onchange="uploadDoc('${dk}', this)">
+          <button type="button" class="upload-btn" onclick="document.getElementById('${inputId}').click()">Upload</button>`;
+      }
+    }
+    if ((t.action === 'sign_policy' || t.action === 'view_policy') && t.documentUrl) {
+      const label = JSON.stringify(t.label || 'Policy');
+      const url = JSON.stringify(t.documentUrl);
+      if (t.action === 'sign_policy' && t.ackKey) {
+        actions += `<button type="button" class="btn-secondary" onclick='openPolicyModal(${JSON.stringify(t.ackKey)}, ${label}, ${url})'>Open &amp; sign</button>`;
+      } else {
+        actions += `<a class="btn-secondary" style="display:inline-block;text-decoration:none;text-align:center;" href="${t.documentUrl}" target="_blank" rel="noopener">View policy</a>`;
+      }
+    }
+    row.innerHTML = `
+      <div class="task-main">
+        <div class="task-label">${t.label}</div>
+        <div class="task-detail">${t.detail || ''}</div>
+      </div>
+      <div class="task-actions">
+        <span class="status-pill ${t.status || 'yellow'}">${t.statusLabel || t.status || '—'}</span>
+        ${actions}
+      </div>`;
+    tasksBody.appendChild(row);
   });
 
   // Training
@@ -386,13 +551,19 @@ function renderRecord(rec) {
     trainingBody.appendChild(tr);
   });
 
-  // Screening
+  // Screening — OIG LEIE / GSA SAM only for FDR/MCO-adjacent roles
   const s = rec.screening || {};
-  document.getElementById('screeningBody').innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;">
-      ${badge(s.severity, s.state)}
-      <span style="font-size:13px;color:var(--gray);">${s.detail || ''}</span>
-    </div>`;
+  const screeningPanel = document.getElementById('screeningBody')?.closest('.panel');
+  if (s.state === 'not_applicable' || !rec.fdrApplicable) {
+    if (screeningPanel) screeningPanel.classList.add('hidden');
+  } else {
+    if (screeningPanel) screeningPanel.classList.remove('hidden');
+    document.getElementById('screeningBody').innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        ${badge(s.severity, s.state)}
+        <span style="font-size:13px;color:var(--gray);">${s.detail || ''}</span>
+      </div>`;
+  }
 
   // Documents
   const docsBody = document.getElementById('docsBody');
@@ -415,7 +586,7 @@ function renderRecord(rec) {
     docsBody.appendChild(row);
   });
 
-  // Acknowledgments
+  // Acknowledgments — open policy → scroll → typed-name e-sign
   const ackBody = document.getElementById('ackBody');
   ackBody.innerHTML = '';
   const ackCatalog = rec.acknowledgments.catalog || [];
@@ -423,21 +594,91 @@ function renderRecord(rec) {
   ackCatalog.forEach(a => {
     const row = document.createElement('div');
     row.className = 'ack-row';
+    const docUrl = a.documentUrl || '';
+    const ver = a.version ? `v${a.version}` : '';
+    const pid = a.policyId || '';
     if (a.acknowledged) {
       const signed = (rec.acknowledgments.signed || []).find(s => s.key === a.key);
+      const signedVer = signed && signed.version ? ` · ${signed.policyId || pid} v${signed.version}` : (pid ? ` · ${pid} ${ver}` : '');
       row.innerHTML = `
-        <div class="ack-label">${a.label}</div>
+        <div>
+          <div class="ack-label">${a.label}</div>
+          <div class="ack-meta">${signedVer}${docUrl ? ` · <a href="${docUrl}" target="_blank" rel="noopener">View policy</a>` : ''}</div>
+        </div>
         <div class="signed-tag">✓ Signed ${signed ? 'by ' + signed.typedName + ' on ' + (signed.ts || '').slice(0,10) : ''}</div>`;
     } else {
+      const opened = !!policyOpenedMap[a.key];
       row.innerHTML = `
-        <div class="ack-label">${a.label}</div>
-        <div class="ack-form">
-          <input type="text" id="ack_${a.key}" placeholder="Type your full name">
-          <button class="btn" style="width:auto;" onclick="signAck('${a.key}')">Sign</button>
+        <div>
+          <div class="ack-label">${a.label}</div>
+          <div class="ack-meta">${pid} ${ver}${a.fdr_only ? ' · FDR required for your division' : ''}</div>
+          ${opened ? '' : '<div class="ack-hint">Open and read the policy before signing</div>'}
+        </div>
+        <div class="ack-actions">
+          <button type="button" class="btn-secondary" onclick="openPolicyModal('${a.key}', ${JSON.stringify(a.label)}, ${JSON.stringify(docUrl)})">Open policy</button>
+          <div class="ack-form">
+            <input type="text" id="ack_${a.key}" placeholder="Type your full name" ${opened ? '' : 'disabled'}>
+            <button class="btn" id="signBtn_${a.key}" ${opened ? '' : 'disabled'} onclick="signAck('${a.key}')">Sign</button>
+          </div>
         </div>`;
     }
     ackBody.appendChild(row);
   });
+}
+
+function openPolicyModal(itemKey, label, documentUrl) {
+  if (!documentUrl) { alert('Policy URL missing — contact HR.'); return; }
+  policyModalKey = itemKey;
+  policyScrollOk = false;
+  document.getElementById('policyModalTitle').textContent = label || 'Policy';
+  const frame = document.getElementById('policyModalFrame');
+  const status = document.getElementById('policyScrollStatus');
+  const btn = document.getElementById('policyMarkReadBtn');
+  status.className = 'scroll-need';
+  status.textContent = 'Scroll to the end of the policy to enable signing.';
+  btn.disabled = true;
+  frame.onload = () => {
+    try {
+      const doc = frame.contentDocument || frame.contentWindow.document;
+      const onScroll = () => {
+        const el = doc.documentElement;
+        const body = doc.body;
+        const scrollTop = el.scrollTop || body.scrollTop;
+        const scrollH = el.scrollHeight || body.scrollHeight;
+        const clientH = el.clientHeight || body.clientHeight;
+        if (scrollTop + clientH >= scrollH - 40) {
+          policyScrollOk = true;
+          status.className = 'scroll-ok';
+          status.textContent = 'End of policy reached — confirm below.';
+          btn.disabled = false;
+        }
+      };
+      (doc.defaultView || frame.contentWindow).addEventListener('scroll', onScroll);
+      // Short policies may already fit on screen
+      setTimeout(onScroll, 200);
+    } catch (e) {
+      // Cross-origin shouldn't happen (same site) — allow confirm after open
+      policyScrollOk = true;
+      status.className = 'scroll-ok';
+      status.textContent = 'Policy opened — confirm you have read it.';
+      btn.disabled = false;
+    }
+  };
+  frame.src = documentUrl;
+  document.getElementById('policyModal').classList.add('open');
+}
+
+function closePolicyModal() {
+  document.getElementById('policyModal').classList.remove('open');
+  document.getElementById('policyModalFrame').src = 'about:blank';
+  policyModalKey = '';
+}
+
+function confirmPolicyRead() {
+  if (!policyModalKey || !policyScrollOk) return;
+  policyOpenedMap[policyModalKey] = true;
+  closePolicyModal();
+  if (CURRENT_RECORD) renderRecord(CURRENT_RECORD);
 }
 
 function fileToBase64(file) {
@@ -454,7 +695,7 @@ async function uploadDoc(docKey, inputEl) {
   if (!file) return;
   if (file.size > 8 * 1024 * 1024) { alert('File too large — 8MB max.'); return; }
   const statusEl = document.getElementById(`status_${docKey}`);
-  statusEl.textContent = 'Uploading…';
+  if (statusEl) statusEl.textContent = 'Uploading…';
   try {
     const contentBase64 = await fileToBase64(file);
     const res = await fetch(`${FN}/gateway-upload`, {
@@ -462,21 +703,48 @@ async function uploadDoc(docKey, inputEl) {
       body: JSON.stringify({ docType: docKey, filename: file.name, contentBase64, contentType: file.type }),
     });
     const data = await res.json();
-    if (!res.ok) { statusEl.textContent = data.error || 'Upload failed'; return; }
+    if (!res.ok) {
+      if (statusEl) statusEl.textContent = data.error || 'Upload failed';
+      else alert(data.error || 'Upload failed');
+      return;
+    }
     await loadDashboard();
   } catch (e) {
-    statusEl.textContent = 'Upload failed — try again.';
+    if (statusEl) statusEl.textContent = 'Upload failed — try again.';
+    else alert('Upload failed — try again.');
+  }
+}
+
+async function openLetter(which) {
+  try {
+    const res = await fetch(`${FN}/gateway-letter?which=${encodeURIComponent(which)}`, { headers: authHeaders() });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      alert(data.error || 'Letter not available yet.');
+      return;
+    }
+    const html = await res.text();
+    const w = window.open('', '_blank');
+    if (!w) { alert('Allow pop-ups to view your letter, or try again.'); return; }
+    w.document.write(html);
+    w.document.close();
+  } catch (e) {
+    alert('Could not open letter — try again.');
   }
 }
 
 async function signAck(itemKey) {
+  if (!policyOpenedMap[itemKey]) {
+    alert('Open and read the full policy before signing.');
+    return;
+  }
   const input = document.getElementById(`ack_${itemKey}`);
   const typedName = (input.value || '').trim();
   if (!typedName) { input.style.borderColor = '#DC2626'; return; }
   try {
     const res = await fetch(`${FN}/gateway-acknowledge`, {
       method: 'POST', headers: authHeaders(),
-      body: JSON.stringify({ itemKey, typedName }),
+      body: JSON.stringify({ itemKey, typedName, policyOpened: true }),
     });
     const data = await res.json();
     if (!res.ok) { alert(data.error || 'Could not record signature.'); return; }

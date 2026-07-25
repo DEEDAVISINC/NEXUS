@@ -20,12 +20,38 @@ const FROM_EMAIL = process.env.GATEWAY_FROM_EMAIL || AUTH_EMAIL;
 const EMAIL_PASSWORD = AUTH_PASSWORD; // back-compat with the config-check below
 const PORTAL_ORIGIN = process.env.PORTAL_PUBLIC_URL || 'https://gateway.deedavis.biz';
 
-function buildSignInEmail(email, otp, link) {
+function cleanNamePart(value) {
+  return String(value || '')
+    .replace(/[\u0000-\u001f<>&"'`]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 60);
+}
+
+function buildSignInEmail(email, otp, link, firstName, lastName) {
   const mins = Math.round(WINDOW_MS / 60000);
+  const first = cleanNamePart(firstName);
+  const last = cleanNamePart(lastName);
+  const fullName = [first, last].filter(Boolean).join(' ');
+  const greeting = first ? `Hi ${first},` : 'Hi,';
+  const greetingHtml = first
+    ? `<p style="font-size:15px;line-height:1.6">Hi <b>${first}</b>,</p>`
+    : '';
+  const nameLine = fullName
+    ? `\nThis sign-in was requested for ${fullName}.\n`
+    : '';
+  const nameLineHtml = fullName
+    ? `<p style="font-size:12px;color:#6B6458;line-height:1.6">Requested for <b>${fullName}</b>.</p>`
+    : '';
+
   return {
-    subject: `Your DDI GATEWAY sign-in code: ${otp}`,
+    subject: first
+      ? `${first}, your DDI GATEWAY sign-in code: ${otp}`
+      : `Your DDI GATEWAY sign-in code: ${otp}`,
     text: `DDI GATEWAY — Onboarding Portal — sign in
 
+${greeting}
+${nameLine}
 Fastest option — tap the link (no typing):
 ${link}
 
@@ -43,6 +69,8 @@ Questions? Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.
     html: `
 <div style="font-family:Montserrat,Inter,sans-serif;max-width:480px;color:#0B1E3D">
   <p style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">DDI GATEWAY — Onboarding Portal</p>
+  ${greetingHtml}
+  ${nameLineHtml}
   <p style="font-size:15px;line-height:1.6"><b>Fastest:</b> tap the button below (no typing).</p>
   <p style="margin:20px 0">
     <a href="${link}" style="display:inline-block;background:#0B1E3D;color:#2DD4BF;padding:14px 24px;text-decoration:none;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-radius:6px">Sign in to my onboarding</a>
@@ -97,10 +125,20 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Valid email required' }) };
   }
 
+  const firstName = cleanNamePart(body.firstName || body.first_name);
+  const lastName = cleanNamePart(body.lastName || body.last_name);
+  if (!firstName || !lastName) {
+    return {
+      statusCode: 400,
+      headers: cors,
+      body: JSON.stringify({ error: 'First name and last name are required' }),
+    };
+  }
+
   const loginToken = createLoginLinkToken(email, secret);
   const otp = otpForEmail(email, secret);
   const link = `${PORTAL_ORIGIN.replace(/\/$/, '')}/?login=${encodeURIComponent(loginToken)}`;
-  const mail = buildSignInEmail(email, otp, link);
+  const mail = buildSignInEmail(email, otp, link, firstName, lastName);
 
   try {
     const transport = nodemailer.createTransport({
