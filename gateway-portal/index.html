@@ -130,7 +130,7 @@
       <span class="sub">Onboarding Portal</span>
     </div>
     <h1>Sign in to your onboarding</h1>
-    <p class="lead">Enter the email Dee Davis Inc. has on file for you. We'll send a sign-in link and a 6-digit code — no password needed.</p>
+    <p class="lead">Enter the email Dee Davis Inc. has on file for you. We'll email a sign-in link <em>and</em> a 6-digit code (valid about 1 hour). Prefer the link if email is slow — one tap, no typing.</p>
     <div id="loginErr" class="err hidden"></div>
     <div id="loginMsg" class="msg hidden"></div>
 
@@ -251,7 +251,10 @@ async function sendCode(isResend) {
     localStorage.setItem(EMAIL_KEY, email);
     document.getElementById('emailStep').classList.add('hidden');
     document.getElementById('codeStep').classList.remove('hidden');
-    showMsg('loginMsg', isResend ? 'New code sent — check your inbox.' : 'Check your inbox for a link and a 6-digit code.');
+    // Resend within the same hour re-sends the SAME code — don't make people wait for a "new" one.
+    showMsg('loginMsg', isResend
+      ? 'Email re-sent. Same code still works for about an hour — check inbox + spam, or tap the Sign-in link in the email.'
+      : 'Email sent. Check inbox + spam. Fastest: tap “Sign in to my onboarding” in the email. Code is valid about 1 hour.');
   } catch (e) {
     showErr('loginErr', 'Network error — try again.');
   } finally {
@@ -267,9 +270,10 @@ function backToEmail() {
 
 async function verifyCode() {
   hideErr('loginErr');
-  const email = localStorage.getItem(EMAIL_KEY) || document.getElementById('emailInput').value.trim();
-  const code = document.getElementById('codeInput').value.trim();
-  if (!code) { showErr('loginErr', 'Enter the 6-digit code from your email.'); return; }
+  const email = (localStorage.getItem(EMAIL_KEY) || document.getElementById('emailInput').value || '').trim().toLowerCase();
+  const code = (document.getElementById('codeInput').value || '').replace(/\D/g, '');
+  if (!email) { showErr('loginErr', 'Email missing — go back and re-enter it.'); return; }
+  if (code.length !== 6) { showErr('loginErr', 'Enter the full 6-digit code from the newest email.'); return; }
   await doVerify({ email, code });
 }
 

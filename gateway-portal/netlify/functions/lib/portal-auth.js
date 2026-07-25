@@ -1,12 +1,15 @@
 /**
  * GATEWAY portal auth — HMAC JWT sessions + time-window OTP (no database).
- * Same email gets the same 6-digit code for 15 minutes; magic link works in that window.
- * (Adapted from prism-intake/netlify/functions/lib/portal-auth.js — same pattern,
- * separate CORS allow-list for gateway.deedavis.biz.)
+ * Same email gets the same 6-digit code for the current time window; magic link
+ * carries its own JWT expiry (independent of the window math).
+ *
+ * Window is 60 minutes (was 15) because OTP email often lands late — a short
+ * window made valid codes look "broken" by the time Dee opened the inbox.
  */
 const crypto = require('crypto');
 
-const WINDOW_MS = 15 * 60 * 1000;
+const WINDOW_MS = 60 * 60 * 1000; // 60 minutes per OTP window
+const OTP_ACCEPT_WINDOWS = 2; // current + previous = up to ~2 hours
 const SESSION_DAYS = 30;
 
 function getSecret() {
@@ -76,15 +79,18 @@ function otpForEmail(email, secret, windowOffset = 0) {
 function verifyOtp(email, code, secret) {
   const c = String(code || '').replace(/\D/g, '');
   if (c.length !== 6) return false;
-  return (
-    otpForEmail(email, secret, 0) === c ||
-    otpForEmail(email, secret, -1) === c
-  );
+  for (let off = 0; off < OTP_ACCEPT_WINDOWS; off++) {
+    if (otpForEmail(email, secret, -off) === c) return true;
+  }
+  return false;
 }
 
 function createLoginLinkToken(email, secret) {
+  // Embed the OTP that was emailed so the magic link stays valid for a full
+  // hour even if the HMAC window rolls — JWT exp is the single source of truth.
+  const otp = otpForEmail(email, secret, 0);
   return signJwt(
-    { purpose: 'login', email, win: timeWindow() },
+    { purpose: 'login', email, otp },
     secret,
     Math.floor(WINDOW_MS / 1000)
   );
@@ -93,9 +99,6 @@ function createLoginLinkToken(email, secret) {
 function verifyLoginLinkToken(token, secret) {
   const p = verifyJwt(token, secret, 'login');
   if (!p || !p.email) return null;
-  const win = p.win;
-  const now = timeWindow();
-  if (win !== now && win !== now - 1) return null;
   return normEmail(p.email);
 }
 

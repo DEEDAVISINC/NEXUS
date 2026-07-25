@@ -26,13 +26,13 @@ function buildSignInEmail(email, otp, link) {
     subject: `Your DDI GATEWAY sign-in code: ${otp}`,
     text: `DDI GATEWAY — Onboarding Portal — sign in
 
-Use either option below (both work for ${mins} minutes):
-
-1) Click this link:
+Fastest option — tap the link (no typing):
 ${link}
 
-2) Or enter this 6-digit code on the sign-in page:
+Or enter this 6-digit code on the sign-in page (valid about ${mins} minutes):
 ${otp}
+
+If you request another email within that hour, it will be the SAME code — you do not need to wait for a different one.
 
 If you did not request this, ignore this email.
 
@@ -43,12 +43,13 @@ Questions? Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.
     html: `
 <div style="font-family:Montserrat,Inter,sans-serif;max-width:480px;color:#0B1E3D">
   <p style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">DDI GATEWAY — Onboarding Portal</p>
-  <p style="font-size:15px;line-height:1.6">Your sign-in code (valid ${mins} minutes):</p>
-  <p style="font-size:32px;font-weight:800;letter-spacing:.25em;margin:16px 0">${otp}</p>
-  <p style="font-size:14px;line-height:1.6">Or tap the button — same result:</p>
+  <p style="font-size:15px;line-height:1.6"><b>Fastest:</b> tap the button below (no typing).</p>
   <p style="margin:20px 0">
     <a href="${link}" style="display:inline-block;background:#0B1E3D;color:#2DD4BF;padding:14px 24px;text-decoration:none;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-radius:6px">Sign in to my onboarding</a>
   </p>
+  <p style="font-size:15px;line-height:1.6">Or enter this code on the sign-in page (valid about ${mins} minutes):</p>
+  <p style="font-size:32px;font-weight:800;letter-spacing:.25em;margin:16px 0">${otp}</p>
+  <p style="font-size:12px;color:#6B6458;line-height:1.6">Resending within the hour emails the <b>same</b> code — check spam before waiting for a new one.</p>
   <p style="font-size:12px;color:#6B6458;line-height:1.6">Didn't request this? You can ignore this message.</p>
   <p style="font-size:11px;color:#B5AFA5;margin-top:24px">Questions · <a href="tel:+12482708490" style="color:#0B1E3D">(248) 270-8490</a> NEXUS desk · <a href="mailto:hr@deedavis.biz" style="color:#0B1E3D">hr@deedavis.biz</a></p>
 </div>`,

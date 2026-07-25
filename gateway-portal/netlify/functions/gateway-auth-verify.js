@@ -60,7 +60,7 @@ exports.handler = async (event) => {
         statusCode: 401,
         headers: cors,
         body: JSON.stringify({
-          error: 'That code did not match. Check the latest email or tap Resend for a new code.',
+          error: 'That code did not match. Use the 6 digits from the newest GATEWAY email (codes stay valid about 1 hour). Or tap the Sign-in link in that email — no typing needed.',
         }),
       };
     }
