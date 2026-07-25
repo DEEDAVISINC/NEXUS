@@ -106,15 +106,23 @@ exports.handler = async (event) => {
       service: 'gmail',
       auth: { user: AUTH_EMAIL, pass: AUTH_PASSWORD },
     });
+    // Deliverability rule: authenticate + envelope as the real Gmail account
+    // (AUTH_EMAIL). Putting hr@deedavis.biz in From: alone often lands OTP
+    // mail in spam when SPF/DKIM for deedavis.biz doesn't align with Gmail's
+    // relay. Visible From stays AUTH_EMAIL; Reply-To points at hr@ so replies
+    // still hit the HR alias. GATEWAY_FROM_EMAIL (hr@) is kept as Reply-To.
     const info = await transport.sendMail({
-      from: `"DDI GATEWAY Onboarding" <${FROM_EMAIL}>`,
+      from: `"DDI GATEWAY Onboarding" <${AUTH_EMAIL}>`,
+      replyTo: FROM_EMAIL !== AUTH_EMAIL ? FROM_EMAIL : undefined,
       to: email,
       subject: mail.subject,
       text: mail.text,
       html: mail.html,
+      envelope: { from: AUTH_EMAIL, to: email },
     });
     console.log('gateway-auth-send OK:', JSON.stringify({
       messageId: info.messageId, accepted: info.accepted, rejected: info.rejected, response: info.response,
+      from: AUTH_EMAIL, replyTo: FROM_EMAIL,
     }));
   } catch (err) {
     console.error('gateway-auth-send email error:', err);
