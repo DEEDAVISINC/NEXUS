@@ -1,42 +1,7 @@
 {
-  "scan_date": "2026-07-24T14:54:15.236590",
-  "total_found": 85,
+  "scan_date": "2026-07-24T20:52:56.202557",
+  "total_found": 80,
   "opportunities": [
-    {
-      "source": "Alabama Medicaid",
-      "title": "Medicaid for the Elderly & Disabled",
-      "link": "https://medicaid.alabama.gov/content/3.0_Apply/3.2_Qualifying/3.2.5_Medicaid_EandD.aspx",
-      "state": "AL",
-      "type": "State Medicaid"
-    },
-    {
-      "source": "Alabama Medicaid",
-      "title": "Mental Health Services",
-      "link": "https://medicaid.alabama.gov/content/4.0_Programs/4.2_Medical_Services/4.2.6_Mental_Health.aspx",
-      "state": "AL",
-      "type": "State Medicaid"
-    },
-    {
-      "source": "Alabama Medicaid",
-      "title": "Rural Health Clinics (RHCs)",
-      "link": "https://medicaid.alabama.gov/content/4.0_Programs/4.4_Medical_Facilities/4.4.4_Rural_Clinics.aspx",
-      "state": "AL",
-      "type": "State Medicaid"
-    },
-    {
-      "source": "Alabama Medicaid",
-      "title": "Elderly & Disabled (E&D) Waiver",
-      "link": "https://medicaid.alabama.gov/content/6.0_LTC_Waivers/6.1_HCBS_Waivers/6.1.2_Elderly_Disabled_Waiver.aspx",
-      "state": "AL",
-      "type": "State Medicaid"
-    },
-    {
-      "source": "Alabama Medicaid",
-      "title": "Mental Health Forms",
-      "link": "https://medicaid.alabama.gov/content/9.0_Resources/9.4_Forms_Library/9.4.11_Mental_Health_Forms.aspx",
-      "state": "AL",
-      "type": "State Medicaid"
-    },
     {
       "source": "Arizona AHCCCS",
       "title": "Accessing Behavioral Health Services in Schools",

@@ -106,7 +106,7 @@ ADDITIONAL REQUIREMENTS:
 - 30-day written cancellation notice to DDI required
 - Policy dates must cover the anticipated contract period: [Start] through [End]
 
-Please send the COI to: info@deedavis.biz
+Please send the COI to: gc@deedavis.biz
 
 Certificate Holder:
 Dee Davis Inc.

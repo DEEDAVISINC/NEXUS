@@ -1,5 +1,12 @@
 [
   {
+    "name": "Meridian Health Plan",
+    "code": "MER",
+    "status": "Awaiting contract offer",
+    "notes": "Detroit HQ, largest MI Medicaid MCO. Waiting on Meridian to offer DDI the contract opportunity (per Dee, Jul 2026). No emoji assigned yet. Source: COMPANY_INFO_MASTER.md.",
+    "emoji": ""
+  },
+  {
     "name": "Molina Healthcare of Michigan",
     "code": "MOLN",
     "status": "Pending",
@@ -30,15 +37,15 @@
   {
     "name": "Humana",
     "code": "HUMN",
-    "status": "Not yet engaged",
-    "notes": "No documented DDI relationship as of Jul 2026 \u2014 not in COMPANY_INFO_MASTER.md MCO list. Added at Dee\u2019s request for the personnel-number color scheme; flag/update status if a real relationship starts.",
+    "status": "Credentialing",
+    "notes": "Active credentialing in progress as of Jul 2026 (per Dee). Source: COMPANY_INFO_MASTER.md MCO table.",
     "emoji": "\ud83d\udfe2"
   },
   {
     "name": "Blue Cross Complete",
     "code": "BCBC",
-    "status": "Pending",
-    "notes": "Dee\u2019s shorthand: BCBSM. Alina Pabin (VP, Provider Network Management) responded 05/06/2026, scheduling intro call. Source: COMPANY_INFO_MASTER.md. Not yet a signed contract.",
+    "status": "Awaiting follow-up",
+    "notes": "Dee's shorthand: BCBSM. Alina Pabin (VP, Provider Network Management) responded 05/06/2026, intro call held. Post-Memorial Day follow-up sent early Jun 2026; awaiting her follow-up (per Dee, Jul 2026). Not yet a signed contract. Source: COMPANY_INFO_MASTER.md.",
     "emoji": "\ud83d\udd35"
   }
 ]

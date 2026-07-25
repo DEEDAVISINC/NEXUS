@@ -28,6 +28,10 @@ PHONE_MEMBER_CARE_DISPLAY = "855-773-0035"
 PHONE_MEMBER_CARE_E164 = "+18557730035"
 PHONE_WEBSITE_DISPLAY = PHONE_MEMBER_CARE_DISPLAY  # Never PHONE_PRIMARY on web
 EMAIL = "info@deedavis.biz"
+EMAIL_GC = "gc@deedavis.biz"  # Legal/compliance intake — NDAs, grievances, incidents, audit requests, HIPAA/BAA, disputes
+EMAIL_QC = "qc@deedavis.biz"  # Quality control intake — PRISM/VERTEX/COMPASS/GPSS inspections, sub performance, deliverable QA
+EMAIL_APAR = "apar@deedavis.biz"  # Accounts Payable/Receivable — invoices, remittance, payment status, VERTEX billing correspondence
+EMAIL_OPS_INBOX = "ops.ddinc@gmail.com"  # "OPERATIONS DDI" — Gmail forwarding target for gc@/qc@/apar@ aliases (ImprovMX) — NOT bids.deedavisinc@gmail.com. CONFIRMED LIVE via ImprovMX API Jul 2026 — see IMPROVMX_API_KEY in .env for future alias changes.
 WEBSITE = "deedavis.biz"
 
 OWNER_NAME = "Dee Davis"

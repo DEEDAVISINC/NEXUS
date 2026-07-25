@@ -61,7 +61,7 @@ Use the **correct MiLogin** per system — do not mix them up.
 - **Employee/Vendor Numbers (GATEWAY, Jul 2026, finalized after 4 rounds of Dee feedback):** every hire gets a personnel number the moment onboarding starts, format **`[SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[DIVISION][ACCOUNT EMOJI]`** — e.g. `0001-2607-EMP-AGT-DPTE🩵` = 1st hire that month/type, July 2026, W-2 employee, Agent level, DEPOINTE division, Molina account (🩵). No `DDI-` prefix (redundant — everything here is DDI, per Dee).
   - **Split into two parts, on purpose:** the **core** (`0001-2607-EMP` — sequence + hire month + worker type) is generated ONCE and **never changes again for that person's entire tenure**, no matter how many times they transfer or get promoted. The **suffix** (`AGT-DPTE🩵` — current level/division text + account color emoji) is **mutable** and rebuilds via `PUT /nexus/hr/onboarding/<id>/assignment` any time someone changes accounts, divisions, or gets promoted — every rebuild is logged in the append-only audit trail (old number -> new number), so nothing about assignment history is ever lost even though the visible number changes.
   - **Account is a color emoji, not a text code** — per Dee: *"remove the segement hap molina etc and replace at the end of the number by 🟠, 🟢, 🩵, 🔵, etc, i couldnt find a teal circle, thats why i used the heart."* Current palette (**'NEXUS HR ACCOUNT CODES'** Airtable table, `EMOJI` column): HAP CareSource = 🟠, Molina Healthcare of Michigan = 🩵 (heart, standing in for teal), Humana = 🟢, Blue Cross Complete (Dee's shorthand "BCBSM") = 🔵. CareSource and General have no emoji assigned yet — flag colors for those if wanted. **No emoji appended at all** if the account is blank or has none assigned — never invents a color. Text `ACCOUNT_CODE` values (CSRC, MOLN, HAP, etc.) still exist in that table for internal search/filtering — they just no longer appear in the personnel number itself.
-  - **Humana and Blue Cross Complete (BCBSM) were added to the color palette but are NOT current DDI relationships** — Humana has no documented relationship anywhere in this file; Blue Cross Complete is the tracked entity (Alina Pabin, SCHEDULING status) that Dee's "BCBSM" shorthand maps to. Both marked honestly in Airtable (`Not yet engaged` / `Pending`) rather than implied as live.
+  - **Humana, Blue Cross Complete (BCBSM), and Meridian are active relationships (confirmed by Dee, Jul 2026):** Humana = credentialing in progress; Blue Cross Complete = awaiting Alina Pabin's follow-up (she's the tracked entity Dee's "BCBSM" shorthand maps to); Meridian = DDI is waiting on Meridian to offer the contract opportunity. All three reflected in the `NEXUS HR ACCOUNT CODES` Airtable table `STATUS` field with these real statuses — not "not yet engaged."
   - Segment order was flipped per Dee, after being asked "what happens if they move to a different department or add responsibilities": *"the order of the segments are wrong, they should be the total opposite, therefore the ending can change or be added to."* Original order was `[DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ]` — flipped so the permanent part comes first and the part that changes over time is the tail end.
   - `EMP` = W-2 employee, `VEN` = 1099 contractor ("vendor number," Dee's terminology). `LEVEL` (seniority tier — **'NEXUS HR LEVEL CODES'** Airtable table, e.g. Agent=AGT, Supervisor=SUP, Manager=MGR, Director=DIR) edits live via `GET/POST /nexus/hr/level-codes`; account emoji edits live via `GET/POST /nexus/hr/account-codes` — no code change needed for either. Blank/unmatched level falls back to `STF` — never fabricated.
   - Answers all of Dee's questions in sequence: "how do i know that a customer care agent is working in the HAP account, or the MOLINA account... or if they are a manager, supervisor etc" (level is text, account is the color emoji) -> "what happens when they move to a different department" (only the suffix rebuilds — the permanent core, and every invoice/timesheet/CPARS doc that ever referenced it, still traces to the same person) -> "the ending can change or be added to" (mutable assignment moved to the very end) -> "replace ... by [emoji]" (account is now a color glyph, not a text code).
@@ -976,10 +976,11 @@ MI SIGMA VSS: VS0245604
 |---|---|---|
 | **CareSource** | ✅ **CONTRACT EXECUTED — Apr 28, 2026** | Vendor ID **100000469269** — **NEMT TPA, Wayne + Macomb counties** (Oakland pending). Provider portal active. Dana Drew — Dana.Drew@CareSource.com — 937.926.5848. Brian Grcevich — Brian.Grcevich@CareSource.com — orientation ✅ May 6, 2026. **Scope doc:** `BIDS:RESOURCES/HAP CARESOURCE NEMT NETWORK/CARESOURCE_CONTRACT_SCOPE.md` |
 | Molina Healthcare of Michigan | Pending | Troy HQ — same city as DDI |
-| Meridian Health Plan | Pending | Detroit HQ — largest MI Medicaid MCO |
+| **Humana** | 🔄 **CREDENTIALING** | Active credentialing in progress as of Jul 2026 (per Dee). |
+| Meridian Health Plan | ⏳ **AWAITING CONTRACT OFFER** | Detroit HQ — largest MI Medicaid MCO. Waiting on Meridian to offer DDI the contract. |
 | UnitedHealthcare Community Plan | Pending | |
 | Aetna Better Health | Pending | |
-| Blue Cross Complete | ⏳ **SCHEDULING** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026 (30-min intro). **Post–Memorial Day follow-up SENT** early June 2026 — availability weeks of **June 2 & June 9, afternoons ET**; awaiting her time. |
+| Blue Cross Complete | ⏳ **AWAITING FOLLOW-UP** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026 (30-min intro). **Post–Memorial Day follow-up SENT** early June 2026 — availability weeks of **June 2 & June 9, afternoons ET**; awaiting her follow-up (per Dee, Jul 2026). |
 | HAP CareSource | Pending | Related to CareSource contract above — confirm coverage |
 | McLaren Health Plan | Pending | Flint HQ |
 | Priority Health Choice | Pending | Grand Rapids |
@@ -990,7 +991,10 @@ MI SIGMA VSS: VS0245604
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
 - [x] **CareSource NEMT contract executed Apr 28, 2026** — Vendor ID 100000469269
 - [x] **Orientation with Brian Grcevich (CareSource)** — ✅ SCHEDULED May 6, 2026 1:00 PM ET — Teams meeting
-- [ ] **Continue MCO credentialing** — Molina, Meridian, UHC, Aetna, Blue Cross Complete, McLaren, Priority Health
+- [ ] **Humana** — credentialing in progress (Jul 2026)
+- [ ] **Blue Cross Complete** — awaiting Alina Pabin follow-up
+- [ ] **Meridian** — awaiting contract offer
+- [ ] **Continue MCO credentialing** — Molina, UHC, Aetna, McLaren, Priority Health
 - [ ] **Confirm with CareSource on orientation** — does this contract cover HAP CareSource (Michigan) as well?
 
 ### IMPORTANT NOTES:
