@@ -64,14 +64,24 @@ same fallback pattern used in prism_compliance_api.py. Writes use
 typecast=True so new single-select values (divisions, worker types) are
 accepted without a manual Airtable schema edit.
 
-EMPLOYEE/VENDOR NUMBER (added Jul 2026, revised same day per Dee — "should
-read in a way it's easy to know who what when where and why"): every
+EMPLOYEE/VENDOR NUMBER (added Jul 2026, revised TWICE same day per Dee —
+(1) "should read in a way it's easy to know who what when where and why,"
+then (2) "remove the DDI...it's redundant, we are DDI" + "how do i know
+that a customer care agent is working in the HAP account, or the MOLINA
+account, or how do we know if they are a manager, supervisor etc"): every
 record gets a personnelNumber the moment onboarding STARTS, format
-DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ], e.g. DDI-HAVN-EMP-2607-0001 =
-DDI employee, HAVEN division, started July 2026, 1st that
-division/type/month. EMP = W-2 employee, VEN = 1099 contractor (Dee's
-"vendor number"). Sequence resets per division+type+month bucket, not
-global — see DIVISION_CODES / _next_personnel_number() near DIVISIONS.
+[DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ], e.g.
+HAVN-CSRC-AGT-EMP-2607-0001 = HAVEN division, CareSource account, Agent
+level, W-2 employee, started July 2026, 1st in that exact division+
+account+level+type+month bucket. No "DDI-" prefix — redundant, every
+record here already is DDI. ACCOUNT (NEXUS HR ACCOUNT CODES) and LEVEL
+(NEXUS HR LEVEL CODES) are both live Airtable tables, same
+zero-code-change pattern as the role email policy — Dee/HR add a new
+client account the moment a contract goes live, and new seniority tiers
+any time. EMP = W-2 employee, VEN = 1099 contractor (Dee's "vendor
+number"). Blank/unmatched account falls back to GEN, blank/unmatched
+level falls back to STF — never invents a code. See DIVISION_CODES,
+ACCOUNT_CODE_FALLBACK, LEVEL_CODE_FALLBACK, and _next_personnel_number().
 
 COMPANY EMAIL AUTO-PROVISIONING (added Jul 2026, revised same day per Dee):
 NOT every hire gets a @deedavis.biz alias — only roles marked
@@ -118,13 +128,14 @@ new Airtable fields, only new options on existing single-select fields —
 so field creation is handled separately, automatically, via the Airtable
 Metadata API (_airtable_ensure_fields(), requires an API key with
 schema.bases:write, confirmed present Jul 2026). Runs once at module
-import for both HR_TABLE and ROLE_POLICY_TABLE, best-effort/non-blocking —
-if a field is ever missing (new field added to this file later, or
-someone deletes one in Airtable), it gets recreated on the next app
-restart with no manual Airtable UI step. Never creates the TABLES
-themselves (only fields on tables that already exist) — 'NEXUS HR
-ONBOARDING', 'NEXUS HR FDR ATTESTATION', and 'NEXUS HR ROLE EMAIL POLICY'
-already exist as of Jul 2026.
+import across HR_TABLE, ROLE_POLICY_TABLE, ACCOUNT_CODES_TABLE, and
+LEVEL_CODES_TABLE (see REQUIRED_FIELDS), best-effort/non-blocking — if a
+field is ever missing (new field added to this file later, or someone
+deletes one in Airtable), it gets recreated on the next app restart with
+no manual Airtable UI step. Never creates the TABLES themselves (only
+fields on tables that already exist) — 'NEXUS HR ONBOARDING', 'NEXUS HR
+FDR ATTESTATION', 'NEXUS HR ROLE EMAIL POLICY', 'NEXUS HR ACCOUNT CODES',
+and 'NEXUS HR LEVEL CODES' already exist as of Jul 2026.
 
 RETENTION RULE: Records are never hard-deleted. "Remove" from the roster
 = archive (STATUS -> Archived). All logs (audit, exclusion screening) are
@@ -150,6 +161,10 @@ Endpoints:
   POST   /nexus/hr/attestation                            — record/update an annual FDR attestation
   GET    /nexus/hr/role-email-policy                      — list roles + whether each gets a company email
   POST   /nexus/hr/role-email-policy                      — add/update a role's company-email policy (upsert)
+  GET    /nexus/hr/account-codes                          — list client/MCO accounts + personnel-number codes
+  POST   /nexus/hr/account-codes                          — add/update an account code (upsert)
+  GET    /nexus/hr/level-codes                            — list seniority tiers + personnel-number codes
+  POST   /nexus/hr/level-codes                            — add/update a level code (upsert)
 
 GATEWAY SELF-SERVICE PORTAL (gateway.deedavis.biz — new hire/contractor
 facing, magic-link auth, no NEXUS login, mirrors the portal.deedavis.biz
@@ -181,10 +196,14 @@ OFFBOARD_ALIAS_FORWARD = "gc@deedavis.biz"
 HR_TABLE = 'NEXUS HR ONBOARDING'
 ATTEST_TABLE = 'NEXUS HR FDR ATTESTATION'
 ROLE_POLICY_TABLE = 'NEXUS HR ROLE EMAIL POLICY'
+ACCOUNT_CODES_TABLE = 'NEXUS HR ACCOUNT CODES'
+LEVEL_CODES_TABLE = 'NEXUS HR LEVEL CODES'
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'uploads', 'hr_onboarding')
 LOCAL_FILE = os.path.join(DATA_DIR, 'roster.json')
 ATTEST_LOCAL_FILE = os.path.join(DATA_DIR, 'fdr_attestation.json')
 ROLE_POLICY_LOCAL_FILE = os.path.join(DATA_DIR, 'role_email_policy.json')
+ACCOUNT_CODES_LOCAL_FILE = os.path.join(DATA_DIR, 'account_codes.json')
+LEVEL_CODES_LOCAL_FILE = os.path.join(DATA_DIR, 'level_codes.json')
 os.makedirs(DATA_DIR, exist_ok=True)
 
 
@@ -199,6 +218,8 @@ os.makedirs(DATA_DIR, exist_ok=True)
 REQUIRED_FIELDS = {
     HR_TABLE: [
         {'name': 'ROLE', 'type': 'singleLineText'},
+        {'name': 'ACCOUNT', 'type': 'singleLineText'},
+        {'name': 'LEVEL', 'type': 'singleLineText'},
         {'name': 'PERSONNEL_NUMBER', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL_ERROR', 'type': 'singleLineText'},
@@ -208,6 +229,17 @@ REQUIRED_FIELDS = {
     ROLE_POLICY_TABLE: [
         {'name': 'ROLE', 'type': 'singleLineText'},
         {'name': 'REQUIRES_COMPANY_EMAIL', 'type': 'checkbox', 'options': {'icon': 'check', 'color': 'greenBright'}},
+        {'name': 'NOTES', 'type': 'singleLineText'},
+    ],
+    ACCOUNT_CODES_TABLE: [
+        {'name': 'ACCOUNT_NAME', 'type': 'singleLineText'},
+        {'name': 'ACCOUNT_CODE', 'type': 'singleLineText'},
+        {'name': 'STATUS', 'type': 'singleLineText'},
+        {'name': 'NOTES', 'type': 'singleLineText'},
+    ],
+    LEVEL_CODES_TABLE: [
+        {'name': 'LEVEL_NAME', 'type': 'singleLineText'},
+        {'name': 'LEVEL_CODE', 'type': 'singleLineText'},
         {'name': 'NOTES', 'type': 'singleLineText'},
     ],
 }
@@ -494,33 +526,43 @@ def role_requires_company_email(role):
     return False
 
 
-# ─── Employee / Vendor Number (added Jul 2026, revised same day per Dee:
-# "should read in a way it's easy to know who what when where and why") ──
-# Generated the moment onboarding STARTS (record creation), not at
+# ─── Employee / Vendor Number (added Jul 2026, revised twice same day per
+# Dee: (1) "should read in a way it's easy to know who what when where and
+# why," then (2) "remove the DDI...it's redundant, we are DDI" + "how do i
+# know that a customer care agent is working in the HAP account, or the
+# MOLINA account, or how do we know if they are a manager, supervisor
+# etc") — Generated the moment onboarding STARTS (record creation), not at
 # completion — distinct from the company email, which is deferred until
 # credentialing clears (see _maybe_provision_company_email()).
 #
-# FORMAT:  DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ]
-# EXAMPLE: DDI-HAVN-EMP-2607-0001
+# FORMAT:  [DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ]
+# EXAMPLE: HAVN-HAP-AGT-EMP-2607-0001
 #
 # Decoded left to right:
-#   DDI      -> company (who employs/engages this person)
-#   HAVN     -> WHERE + WHY — which division/program the hire serves
-#               (division IS the business reason for the hire — see
-#               DIVISION_CODES below for the full division->code map)
-#   EMP      -> WHAT/WHO — worker type: EMP (W-2 employee) or VEN (1099
-#               contractor/vendor — Dee's "vendor number")
-#   2607     -> WHEN — YYMM of the person's start date (falls back to
-#               today's date if startdate isn't set yet at creation time)
-#   0001     -> sequence, scoped to that exact division+type+month bucket
-#               (NOT a global counter) — "0001" means "1st HAVEN employee
-#               who started July 2026," not "the 1st employee ever." Keeps
-#               the number itself meaningful instead of an opaque
-#               ever-growing count.
+#   HAVN  -> WHERE/WHY — division/program the hire serves (see
+#            DIVISION_CODES below)
+#   HAP   -> WHICH ACCOUNT/CLIENT this hire's work is tied to — HAP
+#            CareSource, Molina, etc. See 'NEXUS HR ACCOUNT CODES'
+#            Airtable table — GEN (general/not account-specific) if blank
+#            or the account isn't a live, signed one yet. Answers "how do
+#            I know a customer care agent is working the HAP account vs
+#            the Molina account" — it's literally in the ID.
+#   AGT   -> SENIORITY/LEVEL — Agent, Supervisor, Manager, Director, etc.
+#            See 'NEXUS HR LEVEL CODES' Airtable table — STF (generic
+#            staff, no specific tier) if blank/unmatched. Answers "how do
+#            we know if they are a manager, supervisor, etc."
+#   EMP   -> WHO/WHAT — worker type: EMP (W-2 employee) or VEN (1099
+#            contractor/vendor — Dee's "vendor number")
+#   2607  -> WHEN — YYMM of the person's start date (falls back to today's
+#            date if startdate isn't set yet at creation time)
+#   0001  -> sequence, scoped to that exact division+account+level+type+
+#            month bucket (NOT a global counter) — keeps the number itself
+#            meaningful instead of an opaque ever-growing count.
 #
-# Anyone on the team should be able to read DDI-HAVN-EMP-2607-0001 and know
-# at a glance: DDI employee, HAVEN division, started July 2026, first one
-# that month — without opening the record.
+# No "DDI-" prefix — per Dee, redundant, since every record in this system
+# already is DDI. ACCOUNT and LEVEL are both Airtable-backed (like the
+# role email policy) — Dee/HR add new accounts the moment a contract goes
+# live, and new level tiers any time, with zero code changes.
 
 DIVISION_CODES = {
     'DEPOINTE (NEMT Coordination)': 'DPTE',
@@ -540,22 +582,122 @@ def _division_code(division):
     return DIVISION_CODES.get((division or '').strip(), DIVISION_CODE_FALLBACK)
 
 
+# ─── Account codes (which client/MCO contract a hire's work is tied to) ──
+ACCOUNT_CODE_FALLBACK = 'GEN'  # blank, or not yet a live/signed account
+_account_codes_cache = {'data': None, 'ts': 0.0}
+ACCOUNT_CODES_CACHE_TTL = 60
+
+
+def _load_account_codes(force=False):
+    now = datetime.utcnow().timestamp()
+    if not force and _account_codes_cache['data'] is not None and (now - _account_codes_cache['ts']) < ACCOUNT_CODES_CACHE_TTL:
+        return _account_codes_cache['data']
+    table = _airtable_table(ACCOUNT_CODES_TABLE)
+    rows = None
+    if table is not None:
+        try:
+            rows = []
+            for r in table.all():
+                f = r.get('fields', {})
+                name = (f.get('ACCOUNT_NAME') or '').strip()
+                code = (f.get('ACCOUNT_CODE') or '').strip()
+                if name and code:
+                    rows.append({'name': name, 'code': code, 'status': f.get('STATUS', ''), 'notes': f.get('NOTES', '')})
+            with open(ACCOUNT_CODES_LOCAL_FILE, 'w') as fp:
+                json.dump(rows, fp, indent=2)
+        except Exception:
+            rows = None
+    if rows is None:
+        if os.path.exists(ACCOUNT_CODES_LOCAL_FILE):
+            try:
+                with open(ACCOUNT_CODES_LOCAL_FILE, 'r') as fp:
+                    rows = json.load(fp)
+            except Exception:
+                rows = []
+        else:
+            rows = []
+    _account_codes_cache['data'] = rows
+    _account_codes_cache['ts'] = now
+    return rows
+
+
+def _account_code(account_name):
+    account_name = (account_name or '').strip().lower()
+    if not account_name:
+        return ACCOUNT_CODE_FALLBACK
+    for row in _load_account_codes():
+        if row['name'].strip().lower() == account_name:
+            return row['code']
+    return ACCOUNT_CODE_FALLBACK  # not blank, but not a recognized live account either — safe fallback, never invents a code
+
+
+# ─── Level codes (seniority/hierarchy tier) ──────────────────────
+LEVEL_CODE_FALLBACK = 'STF'  # blank/unmatched — generic staff, no specific tier
+_level_codes_cache = {'data': None, 'ts': 0.0}
+LEVEL_CODES_CACHE_TTL = 60
+
+
+def _load_level_codes(force=False):
+    now = datetime.utcnow().timestamp()
+    if not force and _level_codes_cache['data'] is not None and (now - _level_codes_cache['ts']) < LEVEL_CODES_CACHE_TTL:
+        return _level_codes_cache['data']
+    table = _airtable_table(LEVEL_CODES_TABLE)
+    rows = None
+    if table is not None:
+        try:
+            rows = []
+            for r in table.all():
+                f = r.get('fields', {})
+                name = (f.get('LEVEL_NAME') or '').strip()
+                code = (f.get('LEVEL_CODE') or '').strip()
+                if name and code:
+                    rows.append({'name': name, 'code': code, 'notes': f.get('NOTES', '')})
+            with open(LEVEL_CODES_LOCAL_FILE, 'w') as fp:
+                json.dump(rows, fp, indent=2)
+        except Exception:
+            rows = None
+    if rows is None:
+        if os.path.exists(LEVEL_CODES_LOCAL_FILE):
+            try:
+                with open(LEVEL_CODES_LOCAL_FILE, 'r') as fp:
+                    rows = json.load(fp)
+            except Exception:
+                rows = []
+        else:
+            rows = []
+    _level_codes_cache['data'] = rows
+    _level_codes_cache['ts'] = now
+    return rows
+
+
+def _level_code(level_name):
+    level_name = (level_name or '').strip().lower()
+    if not level_name:
+        return LEVEL_CODE_FALLBACK
+    for row in _load_level_codes():
+        if row['name'].strip().lower() == level_name:
+            return row['code']
+    return LEVEL_CODE_FALLBACK
+
+
 def personnel_number_label(worker_type):
     return 'Vendor Number' if worker_type == 'contractor' else 'Employee Number'
 
 
-def _next_personnel_number(worker_type, division=None, startdate=None):
-    """Builds the DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ] code described above.
-    Sequence is scoped to the division+type+month bucket (based on the
-    highest number already issued in that exact bucket, across whichever
-    backend is active — Airtable or local, see _load_all()). Not
-    concurrency-safe against simultaneous adds, but DDI's hiring volume/
-    admin-driven flow makes that an acceptable risk; revisit if that ever
-    changes."""
+def _next_personnel_number(worker_type, division=None, startdate=None, account=None, level=None):
+    """Builds the [DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ] code
+    described above. Sequence is scoped to that exact division+account+
+    level+type+month bucket (based on the highest number already issued in
+    that bucket, across whichever backend is active — Airtable or local,
+    see _load_all()). Not concurrency-safe against simultaneous adds, but
+    DDI's hiring volume/admin-driven flow makes that an acceptable risk;
+    revisit if that ever changes."""
     type_code = 'VEN' if worker_type == 'contractor' else 'EMP'
     div_code = _division_code(division)
+    acct_code = _account_code(account)
+    lvl_code = _level_code(level)
     dt = parse_date(startdate) or today_utc()
-    prefix = f'DDI-{div_code}-{type_code}-{dt.strftime("%y%m")}-'
+    prefix = f'{div_code}-{acct_code}-{lvl_code}-{type_code}-{dt.strftime("%y%m")}-'
     records, _ = _load_all()
     max_n = 0
     for r in records:
@@ -672,7 +814,8 @@ def _default_classification():
     }
 
 
-def _new_record(name, worker_type, division, startdate, member_facing=True, email='', role='', company_email_override=None):
+def _new_record(name, worker_type, division, startdate, member_facing=True, email='', role='',
+                 company_email_override=None, account='', level=''):
     worker_type = worker_type if worker_type in ('employee', 'contractor') else 'employee'
     phases = phases_for(worker_type)
     checklist = {p['key']: [False] * len(p['items']) for p in phases}
@@ -682,7 +825,9 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'name': name,
         'email': (email or '').strip().lower(),
         'role': (role or '').strip(),
-        'personnelNumber': _next_personnel_number(worker_type, division, startdate),  # Employee/Vendor Number — generated NOW, at onboarding start
+        'account': (account or '').strip(),    # which client/MCO contract this hire's work is tied to (blank = general, not account-specific)
+        'level': (level or '').strip(),        # seniority tier — Agent/Supervisor/Manager/Director etc (blank = generic staff)
+        'personnelNumber': _next_personnel_number(worker_type, division, startdate, account, level),  # Employee/Vendor Number — generated NOW, at onboarding start
         'companyEmail': '',                    # provisioned later, on credentialing completion — see _maybe_provision_company_email()
         'companyEmailError': '',                # set if provisioning attempt failed, so HR knows to retry manually
         'companyEmailOverride': company_email_override,  # True/False/None — HR override of the role-based default, captured at creation, acted on at credentialing completion
@@ -740,6 +885,8 @@ def _record_to_fields(rec):
         'NAME': rec['name'],
         'EMAIL': rec.get('email', ''),
         'ROLE': rec.get('role', ''),
+        'ACCOUNT': rec.get('account', ''),
+        'LEVEL': rec.get('level', ''),
         'PERSONNEL_NUMBER': rec.get('personnelNumber', ''),
         'COMPANY_EMAIL': rec.get('companyEmail', ''),
         'COMPANY_EMAIL_ERROR': rec.get('companyEmailError', ''),
@@ -779,6 +926,8 @@ def _fields_to_record(airtable_record):
         'name': f.get('NAME', ''),
         'email': (f.get('EMAIL', '') or '').strip().lower(),
         'role': f.get('ROLE', ''),
+        'account': f.get('ACCOUNT', ''),
+        'level': f.get('LEVEL', ''),
         'personnelNumber': f.get('PERSONNEL_NUMBER', ''),
         'companyEmail': f.get('COMPANY_EMAIL', ''),
         'companyEmailError': f.get('COMPANY_EMAIL_ERROR', ''),
@@ -1114,6 +1263,8 @@ def list_roster():
         'id': r['id'],
         'name': r['name'],
         'role': r.get('role', ''),
+        'account': r.get('account', ''),
+        'level': r.get('level', ''),
         'personnelNumber': r.get('personnelNumber', ''),
         'companyEmail': r.get('companyEmail', ''),
         'workerType': r['workerType'],
@@ -1140,9 +1291,12 @@ def add_hire():
     member_facing = data.get('memberFacing', True)
     email = (data.get('email') or '').strip().lower()
     role = (data.get('role') or '').strip()
+    account = (data.get('account') or '').strip()  # which client/MCO contract — see NEXUS HR ACCOUNT CODES
+    level = (data.get('level') or '').strip()      # seniority tier — see NEXUS HR LEVEL CODES
     override = data.get('provisionCompanyEmail')  # True/False/None — HR override of role-based default
     rec = _new_record(name, data.get('workerType'), data.get('division'), data.get('startdate'),
-                       member_facing, email, role, company_email_override=override)
+                       member_facing, email, role, company_email_override=override,
+                       account=account, level=level)
     actor = (data.get('actor') or '').strip() or 'unspecified'
 
     label = personnel_number_label(rec['workerType'])
@@ -1592,6 +1746,95 @@ def upsert_role_email_policy():
 
 
 # ═══════════════════════════════════════════════════════════════
+# ACCOUNT CODES — which client/MCO contract a hire's personnel number
+# encodes (e.g. CareSource -> CSRC, Molina -> MOLN)
+# ═══════════════════════════════════════════════════════════════
+# Backed by the 'NEXUS HR ACCOUNT CODES' Airtable table. Added per Dee:
+# "how do i know that a customer care agent is working in the HAP account,
+# or the MOLINA account" — the code is baked into the personnel number
+# itself (see _next_personnel_number()). Dee/HR add a new account the
+# moment a contract goes live — no code changes needed.
+
+@hr_onboarding.route('/nexus/hr/account-codes', methods=['GET'])
+def list_account_codes():
+    rows = _load_account_codes(force=True)
+    return jsonify({'accounts': rows, 'count': len(rows), 'fallbackCode': ACCOUNT_CODE_FALLBACK})
+
+
+@hr_onboarding.route('/nexus/hr/account-codes', methods=['POST'])
+def upsert_account_code():
+    data = request.get_json(force=True) or {}
+    name = (data.get('name') or '').strip()
+    code = (data.get('code') or '').strip().upper()
+    status = (data.get('status') or '').strip()
+    notes = (data.get('notes') or '').strip()
+    actor = (data.get('actor') or '').strip() or 'unspecified'
+
+    if not name or not code:
+        return jsonify({'error': 'name and code are both required'}), 400
+
+    table = _airtable_table(ACCOUNT_CODES_TABLE)
+    if table is None:
+        return jsonify({'error': 'NEXUS HR ACCOUNT CODES table is unreachable — check Airtable config'}), 503
+
+    try:
+        existing = next((r for r in table.all() if (r.get('fields', {}).get('ACCOUNT_NAME') or '').strip().lower() == name.lower()), None)
+        fields = {'ACCOUNT_NAME': name, 'ACCOUNT_CODE': code, 'STATUS': status, 'NOTES': notes}
+        if existing:
+            table.update(existing['id'], fields, typecast=True)
+        else:
+            table.create(fields, typecast=True)
+    except Exception as e:
+        return jsonify({'error': f'failed to write account code: {e}'}), 502
+
+    _load_account_codes(force=True)  # refresh cache immediately
+    return jsonify({'success': True, 'name': name, 'code': code, 'status': status, 'actor': actor}), 201
+
+
+# ═══════════════════════════════════════════════════════════════
+# LEVEL CODES — seniority/hierarchy tier a hire's personnel number
+# encodes (e.g. Agent -> AGT, Manager -> MGR)
+# ═══════════════════════════════════════════════════════════════
+# Backed by the 'NEXUS HR LEVEL CODES' Airtable table. Added per Dee:
+# "how do we know if they are a manager, supervisor etc" — the code is
+# baked into the personnel number itself (see _next_personnel_number()).
+
+@hr_onboarding.route('/nexus/hr/level-codes', methods=['GET'])
+def list_level_codes():
+    rows = _load_level_codes(force=True)
+    return jsonify({'levels': rows, 'count': len(rows), 'fallbackCode': LEVEL_CODE_FALLBACK})
+
+
+@hr_onboarding.route('/nexus/hr/level-codes', methods=['POST'])
+def upsert_level_code():
+    data = request.get_json(force=True) or {}
+    name = (data.get('name') or '').strip()
+    code = (data.get('code') or '').strip().upper()
+    notes = (data.get('notes') or '').strip()
+    actor = (data.get('actor') or '').strip() or 'unspecified'
+
+    if not name or not code:
+        return jsonify({'error': 'name and code are both required'}), 400
+
+    table = _airtable_table(LEVEL_CODES_TABLE)
+    if table is None:
+        return jsonify({'error': 'NEXUS HR LEVEL CODES table is unreachable — check Airtable config'}), 503
+
+    try:
+        existing = next((r for r in table.all() if (r.get('fields', {}).get('LEVEL_NAME') or '').strip().lower() == name.lower()), None)
+        fields = {'LEVEL_NAME': name, 'LEVEL_CODE': code, 'NOTES': notes}
+        if existing:
+            table.update(existing['id'], fields, typecast=True)
+        else:
+            table.create(fields, typecast=True)
+    except Exception as e:
+        return jsonify({'error': f'failed to write level code: {e}'}), 502
+
+    _load_level_codes(force=True)  # refresh cache immediately
+    return jsonify({'success': True, 'name': name, 'code': code, 'actor': actor}), 201
+
+
+# ═══════════════════════════════════════════════════════════════
 # ALERTS — for LandingPage feed + COMPASS FDR audit readiness
 # ═══════════════════════════════════════════════════════════════
 
@@ -1689,6 +1932,8 @@ def _sanitized_self_record(rec):
         'name': rec['name'],
         'email': rec.get('email', ''),
         'role': rec.get('role', ''),
+        'account': rec.get('account', ''),
+        'level': rec.get('level', ''),
         'personnelNumber': rec.get('personnelNumber', ''),
         'companyEmail': rec.get('companyEmail', ''),
         'workerType': rec['workerType'],

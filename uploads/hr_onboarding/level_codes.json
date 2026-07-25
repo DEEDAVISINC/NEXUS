@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Supervisor",
+    "code": "SUP",
+    "notes": "Leads a team of agents; first-line supervisory tier."
+  },
+  {
+    "name": "Director",
+    "code": "DIR",
+    "notes": "Senior leadership over a division/program (e.g. Program Manager \u2014 NEMT)."
+  },
+  {
+    "name": "Manager",
+    "code": "MGR",
+    "notes": "Manages supervisors/agents and a functional area or program."
+  },
+  {
+    "name": "Agent",
+    "code": "AGT",
+    "notes": "Front-line rep / individual contributor (e.g. NEMT coordinator, customer care agent)."
+  },
+  {
+    "name": "Staff",
+    "code": "STF",
+    "notes": "Generic staff / no specific tier assigned \u2014 default fallback."
+  }
+]

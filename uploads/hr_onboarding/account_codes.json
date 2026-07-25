@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Molina Healthcare of Michigan",
+    "code": "MOLN",
+    "status": "Pending",
+    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md"
+  },
+  {
+    "name": "CareSource",
+    "code": "CSRC",
+    "status": "Live",
+    "notes": "Contract executed Apr 28, 2026. Vendor ID 100000469269. NEMT TPA \u2014 Wayne + Macomb counties (Oakland pending). Source: COMPANY_INFO_MASTER.md"
+  },
+  {
+    "name": "HAP CareSource",
+    "code": "HAP",
+    "status": "Pending",
+    "notes": "Related to CareSource contract \u2014 coverage under that contract not yet confirmed. Source: COMPANY_INFO_MASTER.md"
+  },
+  {
+    "name": "General / Not Account-Specific",
+    "code": "GEN",
+    "status": "N/A",
+    "notes": "Default fallback for hires whose work is not tied to one specific client account (e.g. corporate/admin roles)."
+  }
+]
