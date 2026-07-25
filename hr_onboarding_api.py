@@ -187,7 +187,11 @@ import os
 import json
 import uuid
 import calendar
+import smtplib
+import ssl
 import requests
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime, date, timedelta
 from flask import Blueprint, request, jsonify
 
@@ -233,6 +237,7 @@ REQUIRED_FIELDS = {
         {'name': 'COMPANY_EMAIL_ERROR', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL_OVERRIDE', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL_DECLINED', 'type': 'checkbox', 'options': {'icon': 'check', 'color': 'greenBright'}},
+        {'name': 'TRAINING_ASSIGNMENT_EMAIL_SENT', 'type': 'singleLineText'},  # ISO timestamp — SOP Day One training email
     ],
     ROLE_POLICY_TABLE: [
         {'name': 'ROLE', 'type': 'singleLineText'},
@@ -868,6 +873,37 @@ SELF_SERVICE_ACKNOWLEDGMENTS = {
     ],
 }
 
+# Training assignment email — SOP Day One ("Welcome/training assignment email sent").
+# Links are the live course URLs Dee provided; estimated times are NOT invented (shown as Varies).
+# Employee gets the full catalog including E-Verify/I-9. Contractor gets the FDR core set
+# (no E-Verify/I-9) with a note that Engagement Manager may scope additional items.
+TRAINING_COURSE_LINKS = {
+    0: ('https://securityawareness.dcsa.mil/piiv2/index.htm', 'Launch Course'),
+    1: ('https://nalearning.org/hipaa/deedav1sinc', 'Register'),
+    2: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    3: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    4: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    5: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    6: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    7: ('https://www.dwctraining.com/Trainings/Lists', 'DWC Training Catalog'),
+    8: ('https://gateway.deedavis.biz/', 'Acknowledge in GATEWAY portal'),
+    9: ('https://www.e-verify.gov/', 'E-Verify.gov'),
+}
+TRAINING_DESCRIPTIONS = {
+    0: 'DCSA course covering PII/PHI definitions, safeguarding responsibilities, and penalties for non-compliance',
+    1: 'DDI-branded HIPAA compliance course via North American Learning Institute — registration required before starting',
+    2: 'CMS-required FWA/general compliance training for entities working under Medicare/Medicaid contracts (FDR requirement)',
+    3: 'Companion course to General Compliance Training covering fraud, waste, and abuse detection and reporting',
+    4: 'Cultural competency training for staff coordinating services across diverse member populations',
+    5: 'Covers the rights of Medicaid/behavioral health recipients and DDI\'s obligations in coordinating their care',
+    6: 'Mandatory reporting obligations for suspected abuse or neglect of members served',
+    7: 'Workplace conduct standards and non-discrimination policy training',
+    8: 'DDI internal policy review and signed attestation — required alongside FWA compliance training per CMS FDR standards',
+    9: 'Overview of E-Verify and I-9 employment eligibility verification — reflects DDI\'s role as an E-Verify Program Administrator',
+}
+# Contractor Day-One email: core FDR set from Dee's contractor variant (indices into TRAININGS).
+CONTRACTOR_TRAINING_EMAIL_INDICES = (0, 1, 2, 3, 8)
+
 DOCUMENTS_TABLE_FIELD = 'DOCUMENTS'  # Airtable multipleAttachments field name (see migrate_gateway_fields.py)
 
 # 30-Day Check-In Agenda — SOP Section 8, tracked as a structured sub-checklist
@@ -975,6 +1011,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'documents': [],
         'acknowledgments': [],
         'portalActivity': {'lastLogin': None, 'loginCount': 0, 'lastIp': None},  # gateway.deedavis.biz visibility — see get_self_record()
+        'trainingAssignmentEmailSent': None,  # ISO ts when SOP Day One training assignment email was sent
         'auditLog': [{'ts': now, 'actor': 'system', 'action': 'Record created'}],
         'created': now,
         'airtable_id': None,
@@ -1021,6 +1058,205 @@ def _track_portal_activity(rec, records, from_airtable):
         _log_audit(rec, f'self-service ({rec.get("email", "")})',
                     f'Signed in to GATEWAY portal (visit #{activity["loginCount"]})')
     _persist(rec, records, from_airtable)
+
+
+def _first_name(name):
+    parts = (name or '').strip().split()
+    return parts[0] if parts else 'there'
+
+
+def _training_due_date(rec):
+    """DDI internal 30-day target from date of hire/engagement."""
+    raw = (rec.get('startdate') or '').strip()
+    try:
+        hire = date.fromisoformat(raw[:10]) if raw else date.today()
+    except Exception:
+        hire = date.today()
+    return hire + timedelta(days=INTERNAL_TARGET_DAYS)
+
+
+def _training_email_indices(rec):
+    if rec.get('workerType') == 'contractor':
+        return list(CONTRACTOR_TRAINING_EMAIL_INDICES)
+    return list(range(len(TRAININGS)))
+
+
+def _build_training_assignment_email(rec):
+    """Employee vs contractor variants — wording from Dee's SOP training email templates."""
+    first = _first_name(rec.get('name'))
+    due = _training_due_date(rec).strftime('%B %d, %Y')
+    is_contractor = rec.get('workerType') == 'contractor'
+    portal = 'https://gateway.deedavis.biz'
+    indices = _training_email_indices(rec)
+
+    rows_html = []
+    rows_text = []
+    for i in indices:
+        t = TRAININGS[i]
+        link, link_label = TRAINING_COURSE_LINKS.get(i, (portal, 'GATEWAY portal'))
+        desc = TRAINING_DESCRIPTIONS.get(i, t.get('recurrence_label', ''))
+        name = t['name']
+        if is_contractor and i == 8:
+            name = 'Code of Conduct / Conflict of Interest Acknowledgment'
+            desc = 'Contractual flow-down obligation under your Independent Contractor Agreement — not an employee policy acknowledgment'
+        if is_contractor and i == 1:
+            desc = 'Required if your engagement involves PHI access — confirm with your Engagement Manager whether this applies to your scope'
+        rows_html.append(
+            f'<tr><td style="padding:8px;border:1px solid #E3E7EE;vertical-align:top"><b>{name}</b></td>'
+            f'<td style="padding:8px;border:1px solid #E3E7EE;vertical-align:top">{desc}</td>'
+            f'<td style="padding:8px;border:1px solid #E3E7EE;vertical-align:top"><a href="{link}">{link_label}</a></td>'
+            f'<td style="padding:8px;border:1px solid #E3E7EE;vertical-align:top">Varies</td></tr>'
+        )
+        rows_text.append(f'- {name}\n  {desc}\n  {link_label}: {link}\n  Estimated time: Varies')
+
+    table_html = (
+        '<table style="border-collapse:collapse;width:100%;font-size:13px;margin:16px 0">'
+        '<thead><tr style="background:#0F1A2E;color:#fff">'
+        '<th style="padding:8px;text-align:left">Training Name</th>'
+        '<th style="padding:8px;text-align:left">Description</th>'
+        '<th style="padding:8px;text-align:left">Link</th>'
+        '<th style="padding:8px;text-align:left">Est. Time</th>'
+        '</tr></thead><tbody>' + ''.join(rows_html) + '</tbody></table>'
+    )
+
+    if is_contractor:
+        subject = f'Action Required: Complete Your Assigned Training(s) Before {due}'
+        intro = (
+            f'Per your Independent Contractor Agreement with DEE DAVIS INC (DDI), the training(s) below '
+            f'are required before you begin work on any DDI engagement involving Medicaid/Medicare-adjacent '
+            f'coordination. Please complete each item by <b>{due}</b>.'
+        )
+        note = (
+            'Depending on your specific scope of work, your Engagement Manager may confirm that additional '
+            'items (e.g., Cultural Competence, Recipient Rights, Abuse & Neglect Reporting) also apply. '
+            'Confirm your specific list before assuming the full employee set applies.'
+        )
+        instructions = [
+            'Click each link above to access the training.',
+            'Complete all modules/sections in full and retain your certificate of completion.',
+            f'Upload certificates in the GATEWAY portal ({portal}) — DDI logs contractor training in the same audit system used for employees, per CMS FDR requirements.',
+            'Contact HR at hr@deedavis.biz or (248) 270-8490 NEXUS desk with any access issues before the deadline.',
+        ]
+        deadline_note = (
+            f'Training must be completed before you begin any work covered by your engagement '
+            f'(internal target: <b>{due}</b>). This is a condition of the engagement, not a probationary HR requirement.'
+        )
+    else:
+        subject = f'Action Required: Complete Your Assigned Training(s) by {due}'
+        intro = (
+            f'As part of DEE DAVIS INC\'s ongoing compliance and professional development standards, '
+            f'you are required to complete the training(s) listed below. Please review and complete each item by '
+            f'<b>{due}</b> (DDI\'s internal 30-day standard — note that Medicare/Medicaid General Compliance and '
+            f'Medicare Fraud &amp; Abuse carry a hard CMS compliance deadline of 90 days from your date of hire '
+            f'regardless of this internal target).'
+        )
+        note = (
+            'For any course linked to DWC Training (Detroit Wayne Connect), create a free account the first time. '
+            'For HIPAA Training (Course For HIPAA), complete registration before the course begins.'
+        )
+        instructions = [
+            'Click each link above to access the training.',
+            'Complete all modules/sections in full and download or save your certificate of completion for each course.',
+            f'Log each completion in the GATEWAY portal ({portal}): mark status Complete and enter the certificate/reference number and completion date. A certificate in your inbox does not count for CMS until it is logged.',
+            'Contact HR at hr@deedavis.biz or (248) 270-8490 NEXUS desk with any access issues before the deadline.',
+        ]
+        deadline_note = (
+            f'All training must be completed no later than <b>{due}</b>. Missing the 90-day CMS floor for '
+            f'General Compliance/FWA and Medicare Fraud &amp; Abuse is treated as a compliance event, not just a missed internal target.'
+        )
+
+    instr_html = ''.join(f'<li>{x}</li>' for x in instructions)
+    instr_text = '\n'.join(f'{n}. {x}' for n, x in enumerate(instructions, 1))
+    html = f'''<div style="font-family:Inter,Helvetica,Arial,sans-serif;max-width:720px;color:#0B1E3D;line-height:1.55">
+<p>Hi {first},</p>
+<p>{intro}</p>
+<p><b>Required Training(s):</b></p>
+{table_html}
+<p style="font-size:13px;color:#4B5563"><i>{note}</i></p>
+<p><b>Instructions:</b></p>
+<ol>{instr_html}</ol>
+<p><b>Deadline:</b> {deadline_note}</p>
+<p>Sign in to your onboarding: <a href="{portal}">{portal}</a></p>
+<p>If you have questions, reach out to HR as soon as possible.</p>
+<p>Thank you for your prompt attention to this.</p>
+<p>Best regards,<br>
+Dieasha D. Davis<br>
+President &amp; CEO<br>
+Dee Davis Inc.<br>
+(248) 376-4550 | hr@deedavis.biz</p>
+</div>'''
+    text = f'''Hi {first},
+
+{intro.replace('<b>', '').replace('</b>', '').replace('&amp;', '&')}
+
+Required Training(s):
+{chr(10).join(rows_text)}
+
+Note: {note}
+
+Instructions:
+{instr_text}
+
+Deadline: {deadline_note.replace('<b>', '').replace('</b>', '').replace('&amp;', '&')}
+
+Sign in: {portal}
+
+Best regards,
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc.
+(248) 376-4550 | hr@deedavis.biz
+'''
+    return subject, text, html
+
+
+def _smtp_send(to_email, subject, text, html):
+    """Send via Gmail SMTP (NEXUS_EMAIL / NEXUS_EMAIL_PASSWORD). Returns (ok, detail)."""
+    auth_email = os.environ.get('NEXUS_EMAIL', 'bids.deedavisinc@gmail.com')
+    auth_password = os.environ.get('NEXUS_EMAIL_PASSWORD', '')
+    from_display = os.environ.get('GATEWAY_FROM_EMAIL', 'hr@deedavis.biz')
+    if not auth_password:
+        return False, 'NEXUS_EMAIL_PASSWORD not configured'
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = subject
+    msg['From'] = f'DDI GATEWAY Onboarding <{auth_email}>'
+    msg['To'] = to_email
+    if from_display and from_display != auth_email:
+        msg['Reply-To'] = from_display
+    msg.attach(MIMEText(text, 'plain'))
+    msg.attach(MIMEText(html, 'html'))
+    ctx = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=ctx, timeout=30) as server:
+        server.login(auth_email, auth_password)
+        server.sendmail(auth_email, [to_email], msg.as_string())
+    return True, 'sent'
+
+
+def _maybe_send_training_assignment_email(rec, records, from_airtable, reason='system'):
+    """Send SOP Day One training assignment email once per record.
+    Called when HR creates a hire with an email, and again on first portal
+    login if it still hasn't been sent (covers delayed email on file)."""
+    email = (rec.get('email') or '').strip().lower()
+    if not email:
+        return False
+    if rec.get('trainingAssignmentEmailSent'):
+        return False
+    try:
+        subject, text, html = _build_training_assignment_email(rec)
+        ok, detail = _smtp_send(email, subject, text, html)
+    except Exception as e:
+        _log_audit(rec, reason, f'Training assignment email FAILED to {email}: {e}')
+        _persist(rec, records, from_airtable)
+        return False
+    if not ok:
+        _log_audit(rec, reason, f'Training assignment email FAILED to {email}: {detail}')
+        _persist(rec, records, from_airtable)
+        return False
+    now = datetime.utcnow().isoformat() + 'Z'
+    rec['trainingAssignmentEmailSent'] = now
+    _log_audit(rec, reason, f'Training assignment email sent to {email} ({reason})')
+    _persist(rec, records, from_airtable)
+    return True
 
 
 # ─── Local JSON fallback (roster) ────────────────────────────────
@@ -1074,6 +1310,7 @@ def _record_to_fields(rec):
         'DOCUMENTS_JSON': json.dumps(rec.get('documents', [])),
         'ACKNOWLEDGMENTS_JSON': json.dumps(rec.get('acknowledgments', [])),
         'PORTAL_ACTIVITY_JSON': json.dumps(rec.get('portalActivity') or {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
+        'TRAINING_ASSIGNMENT_EMAIL_SENT': rec.get('trainingAssignmentEmailSent') or '',
         'AUDIT_LOG_JSON': json.dumps(rec.get('auditLog', [])),
     }
 
@@ -1117,6 +1354,7 @@ def _fields_to_record(airtable_record):
         'documents': _jload('DOCUMENTS_JSON', []),
         'acknowledgments': _jload('ACKNOWLEDGMENTS_JSON', []),
         'portalActivity': _jload('PORTAL_ACTIVITY_JSON', {'lastLogin': None, 'loginCount': 0, 'lastIp': None}),
+        'trainingAssignmentEmailSent': (f.get('TRAINING_ASSIGNMENT_EMAIL_SENT') or '').strip() or None,
         'auditLog': _jload('AUDIT_LOG_JSON', []),
         'created': airtable_record.get('createdTime', ''),
         'airtable_id': airtable_record.get('id'),
@@ -1495,6 +1733,14 @@ def add_hire():
             _log_audit(rec, actor, f'Company email not provisioned — {reason}')
 
     _create(rec)
+    # SOP Day One: training assignment email goes out when HR puts the person
+    # in GATEWAY with an email on file — they do NOT create their own record by
+    # logging into the portal. First portal login is a backup send if this failed.
+    if email:
+        records, from_airtable = _load_all()
+        live = next((r for r in records if r['id'] == rec['id']), rec)
+        _maybe_send_training_assignment_email(live, records, from_airtable, reason=f'hire-created ({actor})')
+        rec = live
     return jsonify({'success': True, 'record': rec}), 201
 
 
@@ -2212,6 +2458,10 @@ def get_self_record():
     if not rec:
         return jsonify({'error': 'No active GATEWAY record found for that email. Ask HR to confirm your record.'}), 404
     _track_portal_activity(rec, records, from_airtable)
+    # Backup: if HR created the record without SMTP available (or email was
+    # added later), first successful portal login fires the training email once.
+    if not rec.get('trainingAssignmentEmailSent'):
+        _maybe_send_training_assignment_email(rec, records, from_airtable, reason='first-portal-login')
     return jsonify({'success': True, 'record': _sanitized_self_record(rec)})
 
 
