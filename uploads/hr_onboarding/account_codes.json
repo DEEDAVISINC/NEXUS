@@ -21,11 +21,25 @@
     "emoji": "\ud83d\udfe0"
   },
   {
+    "name": "CTS",
+    "code": "CTS",
+    "status": "Live",
+    "notes": "Community Transition Services \u2014 Molina HIDE SNP secondary service, executed in Attachment B (T2038 billing). Case management for members moving from a nursing facility into their own home \u2014 no mileage/driver, own 7-stage PRISM lifecycle, separate from general Molina NEMT trip dispatch (see MOLINA_HIDE_SNP_OPERATIONS.md). Home emoji per Dee, Jul 2026 \u2014 awaiting first real referral case per PENDING_ACTIONS.md.",
+    "emoji": "\ud83c\udfe0"
+  },
+  {
+    "name": "SHIELD",
+    "code": "SHLD",
+    "status": "Live",
+    "notes": "MDHHS lead-screening program (mandatory BLL screening, all MI children under 4, MCL 333.5474d) \u2014 Wayne County pilot first. DDI internal program, not an MCO account. shield_verification.py / shield_lead_screening.py per NEXUS_LEARNING/README.md. Emoji per Dee, Jul 2026.",
+    "emoji": "\ud83d\udee1\ufe0f"
+  },
+  {
     "name": "General / Not Account-Specific",
     "code": "GEN",
     "status": "N/A",
-    "notes": "Default fallback for hires whose work is not tied to one specific client account (e.g. corporate/admin roles).",
-    "emoji": ""
+    "notes": "Default fallback for hires whose work is not tied to one specific client account or program (e.g. corporate/admin roles). Color per Dee, Jul 2026.",
+    "emoji": "\u2b55\ufe0f"
   },
   {
     "name": "Humana",
