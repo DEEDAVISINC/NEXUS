@@ -25,7 +25,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 503,
       headers: cors,
-      body: JSON.stringify({ error: 'Sign-in unavailable. Call 855-773-0035.' }),
+      body: JSON.stringify({ error: 'Sign-in unavailable. Call (248) 270-8490 NEXUS desk.' }),
     };
   }
 

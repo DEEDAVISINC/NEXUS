@@ -45,7 +45,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 502,
       headers: cors,
-      body: JSON.stringify({ error: 'Upload failed. Try again or call 855-773-0035.' }),
+      body: JSON.stringify({ error: 'Upload failed. Try again or call (248) 270-8490 NEXUS desk.' }),
     };
   }
 };

@@ -36,7 +36,7 @@ ${otp}
 
 If you did not request this, ignore this email.
 
-Questions? Call 855-773-0035 or email info@deedavis.biz.
+Questions? Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.
 
 — Dee Davis Inc. GATEWAY Onboarding Portal
 `,
@@ -50,7 +50,7 @@ Questions? Call 855-773-0035 or email info@deedavis.biz.
     <a href="${link}" style="display:inline-block;background:#0B1E3D;color:#2DD4BF;padding:14px 24px;text-decoration:none;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-radius:6px">Sign in to my onboarding</a>
   </p>
   <p style="font-size:12px;color:#6B6458;line-height:1.6">Didn't request this? You can ignore this message.</p>
-  <p style="font-size:11px;color:#B5AFA5;margin-top:24px">Questions · <a href="tel:+18557730035" style="color:#0B1E3D">855-773-0035</a> · <a href="mailto:info@deedavis.biz" style="color:#0B1E3D">info@deedavis.biz</a></p>
+  <p style="font-size:11px;color:#B5AFA5;margin-top:24px">Questions · <a href="tel:+12482708490" style="color:#0B1E3D">(248) 270-8490</a> NEXUS desk · <a href="mailto:hr@deedavis.biz" style="color:#0B1E3D">hr@deedavis.biz</a></p>
 </div>`,
   };
 }
@@ -72,7 +72,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 503,
       headers: cors,
-      body: JSON.stringify({ error: 'Sign-in is temporarily unavailable. Call 855-773-0035 for help.' }),
+      body: JSON.stringify({ error: 'Sign-in is temporarily unavailable. Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.' }),
     };
   }
 
@@ -80,7 +80,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 503,
       headers: cors,
-      body: JSON.stringify({ error: 'Email service not configured. Call 855-773-0035 for help.' }),
+      body: JSON.stringify({ error: 'Email service not configured. Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.' }),
     };
   }
 
@@ -130,7 +130,7 @@ exports.handler = async (event) => {
       statusCode: 502,
       headers: cors,
       body: JSON.stringify({
-        error: 'Could not send sign-in email. Try again in a minute or call 855-773-0035.',
+        error: 'Could not send sign-in email. Try again in a minute or call (248) 270-8490 NEXUS desk.',
       }),
     };
   }

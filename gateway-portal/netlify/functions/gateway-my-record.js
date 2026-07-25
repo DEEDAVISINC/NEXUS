@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 502,
       headers: cors,
-      body: JSON.stringify({ error: 'Could not reach onboarding system. Call 855-773-0035 for help.' }),
+      body: JSON.stringify({ error: 'Could not reach onboarding system. Call (248) 270-8490 NEXUS desk or email hr@deedavis.biz.' }),
     };
   }
 };
