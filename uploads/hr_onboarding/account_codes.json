@@ -17,14 +17,7 @@
     "name": "CareSource",
     "code": "CSRC",
     "status": "Live",
-    "notes": "Contract executed Apr 28, 2026. Vendor ID 100000469269. NEMT TPA \u2014 Wayne + Macomb counties (Oakland pending). Source: COMPANY_INFO_MASTER.md",
-    "emoji": ""
-  },
-  {
-    "name": "HAP CareSource",
-    "code": "HAP",
-    "status": "Pending",
-    "notes": "Related to CareSource contract \u2014 coverage under that contract not yet confirmed. Source: COMPANY_INFO_MASTER.md",
+    "notes": "Contract executed Apr 28, 2026. Vendor ID 100000469269. NEMT TPA \u2014 Wayne + Macomb counties (Oakland pending). This IS the HAP CareSource Michigan plan \u2014 per Dee: \"caresource is hap, its orange\" \u2014 same account, one entry, no separate HAP CareSource row. Source: COMPANY_INFO_MASTER.md",
     "emoji": "\ud83d\udfe0"
   },
   {
