@@ -64,24 +64,30 @@ same fallback pattern used in prism_compliance_api.py. Writes use
 typecast=True so new single-select values (divisions, worker types) are
 accepted without a manual Airtable schema edit.
 
-EMPLOYEE/VENDOR NUMBER (added Jul 2026, revised TWICE same day per Dee —
-(1) "should read in a way it's easy to know who what when where and why,"
-then (2) "remove the DDI...it's redundant, we are DDI" + "how do i know
+EMPLOYEE/VENDOR NUMBER (added Jul 2026, revised THREE times same day per
+Dee — (1) "should read in a way it's easy to know who what when where and
+why," (2) "remove the DDI...it's redundant, we are DDI" + "how do i know
 that a customer care agent is working in the HAP account, or the MOLINA
-account, or how do we know if they are a manager, supervisor etc"): every
+account, or how do we know if they are a manager, supervisor etc," then
+(3) after being asked what happens when someone transfers or gets
+promoted — "the order of the segments are wrong, they should be the
+total opposite, therefore the ending can change or be added to"): every
 record gets a personnelNumber the moment onboarding STARTS, format
-[DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ], e.g.
-HAVN-CSRC-AGT-EMP-2607-0001 = HAVEN division, CareSource account, Agent
-level, W-2 employee, started July 2026, 1st in that exact division+
-account+level+type+month bucket. No "DDI-" prefix — redundant, every
-record here already is DDI. ACCOUNT (NEXUS HR ACCOUNT CODES) and LEVEL
-(NEXUS HR LEVEL CODES) are both live Airtable tables, same
-zero-code-change pattern as the role email policy — Dee/HR add a new
-client account the moment a contract goes live, and new seniority tiers
-any time. EMP = W-2 employee, VEN = 1099 contractor (Dee's "vendor
-number"). Blank/unmatched account falls back to GEN, blank/unmatched
-level falls back to STF — never invents a code. See DIVISION_CODES,
-ACCOUNT_CODE_FALLBACK, LEVEL_CODE_FALLBACK, and _next_personnel_number().
+[SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[ACCOUNT]-[DIVISION], e.g.
+0001-2607-EMP-AGT-MOLN-DPTE. Split into a PERMANENT core (SEQ-YYMM-TYPE,
+stored separately as personnelNumberCore, never regenerated) and a
+MUTABLE suffix (LEVEL-ACCOUNT-DIVISION — current assignment, rebuilt via
+PUT .../assignment whenever someone transfers accounts, changes
+divisions, or gets promoted, with every change logged to the append-only
+auditLog). No "DDI-" prefix — redundant, every record here already is
+DDI. ACCOUNT (NEXUS HR ACCOUNT CODES) and LEVEL (NEXUS HR LEVEL CODES)
+are both live Airtable tables, same zero-code-change pattern as the role
+email policy — Dee/HR add a new client account the moment a contract
+goes live, and new seniority tiers any time. EMP = W-2 employee, VEN =
+1099 contractor (Dee's "vendor number"). Blank/unmatched account falls
+back to GEN, blank/unmatched level falls back to STF — never invents a
+code. See DIVISION_CODES, ACCOUNT_CODE_FALLBACK, LEVEL_CODE_FALLBACK,
+_next_personnel_number(), and rebuild_personnel_number().
 
 COMPANY EMAIL AUTO-PROVISIONING (added Jul 2026, revised same day per Dee):
 NOT every hire gets a @deedavis.biz alias — only roles marked
@@ -154,6 +160,7 @@ Endpoints:
   PUT    /nexus/hr/onboarding/<id>/classification         — worker-classification documentation (contractor)
   PUT    /nexus/hr/onboarding/<id>/agenda                 — 30-day check-in agenda toggle/notes
   PUT    /nexus/hr/onboarding/<id>/member-facing          — toggle member-facing designation
+  PUT    /nexus/hr/onboarding/<id>/assignment              — transfer/promote: update current division/account/level, rebuild personnel-number suffix (core stays permanent)
   PUT    /nexus/hr/onboarding/<id>/status                 — archive / reactivate (soft only)
   GET    /nexus/hr/onboarding/<id>/can-work                — compliance gate check
   GET    /nexus/hr/onboarding/alerts                      — overdue training / stale screenings / attestation
@@ -220,6 +227,7 @@ REQUIRED_FIELDS = {
         {'name': 'ROLE', 'type': 'singleLineText'},
         {'name': 'ACCOUNT', 'type': 'singleLineText'},
         {'name': 'LEVEL', 'type': 'singleLineText'},
+        {'name': 'PERSONNEL_NUMBER_CORE', 'type': 'singleLineText'},
         {'name': 'PERSONNEL_NUMBER', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL', 'type': 'singleLineText'},
         {'name': 'COMPANY_EMAIL_ERROR', 'type': 'singleLineText'},
@@ -526,38 +534,63 @@ def role_requires_company_email(role):
     return False
 
 
-# ─── Employee / Vendor Number (added Jul 2026, revised twice same day per
-# Dee: (1) "should read in a way it's easy to know who what when where and
-# why," then (2) "remove the DDI...it's redundant, we are DDI" + "how do i
-# know that a customer care agent is working in the HAP account, or the
-# MOLINA account, or how do we know if they are a manager, supervisor
-# etc") — Generated the moment onboarding STARTS (record creation), not at
-# completion — distinct from the company email, which is deferred until
-# credentialing clears (see _maybe_provision_company_email()).
+# ─── Employee / Vendor Number (added Jul 2026, revised THREE times same
+# day per Dee: (1) "should read in a way it's easy to know who what when
+# where and why," (2) "remove the DDI...it's redundant, we are DDI" + "how
+# do i know that a customer care agent is working in the HAP account, or
+# the MOLINA account, or how do we know if they are a manager, supervisor
+# etc," then (3) — after being asked "what happens if they move to a
+# different department or add responsibilities" — "the order of the
+# segments are wrong, they should be the total opposite, therefore the
+# ending can change or be added to.") — Generated the moment onboarding
+# STARTS (record creation), not at completion — distinct from the company
+# email, which is deferred until credentialing clears (see
+# _maybe_provision_company_email()).
 #
-# FORMAT:  [DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ]
-# EXAMPLE: HAVN-HAP-AGT-EMP-2607-0001
+# FORMAT:  [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[ACCOUNT]-[DIVISION]
+# EXAMPLE: 0001-2607-EMP-AGT-MOLN-DPTE
 #
-# Decoded left to right:
-#   HAVN  -> WHERE/WHY — division/program the hire serves (see
-#            DIVISION_CODES below)
-#   HAP   -> WHICH ACCOUNT/CLIENT this hire's work is tied to — HAP
-#            CareSource, Molina, etc. See 'NEXUS HR ACCOUNT CODES'
-#            Airtable table — GEN (general/not account-specific) if blank
-#            or the account isn't a live, signed one yet. Answers "how do
-#            I know a customer care agent is working the HAP account vs
-#            the Molina account" — it's literally in the ID.
-#   AGT   -> SENIORITY/LEVEL — Agent, Supervisor, Manager, Director, etc.
-#            See 'NEXUS HR LEVEL CODES' Airtable table — STF (generic
-#            staff, no specific tier) if blank/unmatched. Answers "how do
-#            we know if they are a manager, supervisor, etc."
+# Split into two pieces on purpose:
+#
+#   CORE (never changes, ever)  ->  0001-2607-EMP
+#   SUFFIX (current assignment,
+#           updates on transfer
+#           or promotion)       ->  AGT-MOLN-DPTE
+#
+# CORE — permanent, like an SSN/EIN. Assigned once at hire, stored
+# separately as personnelNumberCore, and NEVER regenerated for that
+# person's entire tenure, no matter how many times their role, account,
+# or division changes later:
+#   0001  -> sequence, scoped ONLY to worker-type + hire-month (NOT
+#            division/account/level, precisely so it stays stable even
+#            when those change) — the Nth EMP or VEN hired that month
+#   2607  -> WHEN — YYMM of the person's start date (falls back to
+#            today's date if startdate isn't set yet at creation time)
 #   EMP   -> WHO/WHAT — worker type: EMP (W-2 employee) or VEN (1099
 #            contractor/vendor — Dee's "vendor number")
-#   2607  -> WHEN — YYMM of the person's start date (falls back to today's
-#            date if startdate isn't set yet at creation time)
-#   0001  -> sequence, scoped to that exact division+account+level+type+
-#            month bucket (NOT a global counter) — keeps the number itself
-#            meaningful instead of an opaque ever-growing count.
+#
+# SUFFIX — current assignment, rebuilt (not the core — just this part) any
+# time someone transfers, gets promoted, or picks up new responsibilities,
+# via PUT /nexus/hr/onboarding/<id>/assignment. Every rebuild is logged in
+# the append-only auditLog (old number -> new number), so nothing is lost
+# — anyone auditing a contract can trace a person's full assignment
+# history even though their number changed:
+#   AGT   -> SENIORITY/LEVEL — Agent, Supervisor, Manager, Director, etc.
+#            See 'NEXUS HR LEVEL CODES' Airtable table — STF (generic
+#            staff, no specific tier) if blank/unmatched.
+#   MOLN  -> WHICH ACCOUNT/CLIENT this hire's work is CURRENTLY tied to —
+#            CareSource, Molina, etc. See 'NEXUS HR ACCOUNT CODES'
+#            Airtable table — GEN (general/not account-specific) if blank
+#            or the account isn't a live, signed one yet.
+#   DPTE  -> WHERE/WHY — division/program the hire CURRENTLY serves (see
+#            DIVISION_CODES below)
+#
+# Answers Dee's two questions at once: "how do I know a customer care
+# agent is working the HAP account vs the Molina account, or if they're a
+# manager vs a supervisor" (it's in the suffix) AND "what happens when
+# they move to a different department" (only the suffix rebuilds — their
+# permanent core identity, and every invoice/timesheet/CPARS doc that ever
+# referenced their number, still traces back to the same person).
 #
 # No "DDI-" prefix — per Dee, redundant, since every record in this system
 # already is DDI. ACCOUNT and LEVEL are both Airtable-backed (like the
@@ -684,30 +717,57 @@ def personnel_number_label(worker_type):
     return 'Vendor Number' if worker_type == 'contractor' else 'Employee Number'
 
 
-def _next_personnel_number(worker_type, division=None, startdate=None, account=None, level=None):
-    """Builds the [DIVISION]-[ACCOUNT]-[LEVEL]-[EMP|VEN]-[YYMM]-[SEQ] code
-    described above. Sequence is scoped to that exact division+account+
-    level+type+month bucket (based on the highest number already issued in
-    that bucket, across whichever backend is active — Airtable or local,
-    see _load_all()). Not concurrency-safe against simultaneous adds, but
+def _personnel_number_suffix(division, account, level):
+    """The mutable half of the personnel number — current level, account,
+    division. Rebuilt (not the core) any time an assignment changes."""
+    return f'{_level_code(level)}-{_account_code(account)}-{_division_code(division)}'
+
+
+def _next_personnel_number_core(worker_type, startdate=None):
+    """The permanent half of the personnel number — [SEQ]-[YYMM]-[EMP|VEN].
+    Generated ONCE at hire and never regenerated for that person again,
+    no matter how many times their division/account/level change later.
+    Sequence is scoped ONLY to worker-type + hire-month (deliberately
+    excludes division/account/level so the core stays stable even when
+    those change) — based on the highest sequence already issued in that
+    bucket, across whichever backend is active (Airtable or local, see
+    _load_all()). Not concurrency-safe against simultaneous adds, but
     DDI's hiring volume/admin-driven flow makes that an acceptable risk;
     revisit if that ever changes."""
     type_code = 'VEN' if worker_type == 'contractor' else 'EMP'
-    div_code = _division_code(division)
-    acct_code = _account_code(account)
-    lvl_code = _level_code(level)
     dt = parse_date(startdate) or today_utc()
-    prefix = f'{div_code}-{acct_code}-{lvl_code}-{type_code}-{dt.strftime("%y%m")}-'
+    bucket_suffix = f'-{dt.strftime("%y%m")}-{type_code}'
     records, _ = _load_all()
     max_n = 0
     for r in records:
-        num = r.get('personnelNumber') or ''
-        if num.startswith(prefix):
+        core = r.get('personnelNumberCore') or ''
+        if core.endswith(bucket_suffix):
+            seq_part = core[:-len(bucket_suffix)]
             try:
-                max_n = max(max_n, int(num[len(prefix):]))
+                max_n = max(max_n, int(seq_part))
             except ValueError:
                 pass
-    return f'{prefix}{max_n + 1:04d}'
+    return f'{max_n + 1:04d}{bucket_suffix}'
+
+
+def _next_personnel_number(worker_type, division=None, startdate=None, account=None, level=None):
+    """Builds the [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[ACCOUNT]-[DIVISION] code
+    described in the block comment above. Returns (core, full) — core gets
+    stored once and never touched again; full is core + '-' + the current
+    assignment suffix, and gets REBUILT (not this function — see
+    rebuild_personnel_number()) whenever that assignment changes."""
+    core = _next_personnel_number_core(worker_type, startdate)
+    suffix = _personnel_number_suffix(division, account, level)
+    return core, f'{core}-{suffix}'
+
+
+def rebuild_personnel_number(core, division, account, level):
+    """Re-derives the full personnel number from a person's permanent core
+    plus a NEW current assignment — used by the /assignment endpoint when
+    someone transfers accounts, changes divisions, or gets promoted. The
+    core itself is never passed through _next_personnel_number_core()
+    again here — it's carried forward unchanged."""
+    return f'{core}-{_personnel_number_suffix(division, account, level)}'
 
 # ─── GATEWAY self-service catalogs ────────────────────────────────
 # What the new hire/contractor is asked to upload or e-sign themselves,
@@ -820,14 +880,16 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
     phases = phases_for(worker_type)
     checklist = {p['key']: [False] * len(p['items']) for p in phases}
     now = datetime.utcnow().isoformat() + 'Z'
+    personnel_core, personnel_full = _next_personnel_number(worker_type, division, startdate, account, level)
     return {
         'id': 'HR-' + uuid.uuid4().hex[:8].upper(),
         'name': name,
         'email': (email or '').strip().lower(),
         'role': (role or '').strip(),
-        'account': (account or '').strip(),    # which client/MCO contract this hire's work is tied to (blank = general, not account-specific)
-        'level': (level or '').strip(),        # seniority tier — Agent/Supervisor/Manager/Director etc (blank = generic staff)
-        'personnelNumber': _next_personnel_number(worker_type, division, startdate, account, level),  # Employee/Vendor Number — generated NOW, at onboarding start
+        'account': (account or '').strip(),    # CURRENT client/MCO contract this hire's work is tied to (blank = general, not account-specific)
+        'level': (level or '').strip(),        # CURRENT seniority tier — Agent/Supervisor/Manager/Director etc (blank = generic staff)
+        'personnelNumberCore': personnel_core,  # PERMANENT — [SEQ]-[YYMM]-[EMP|VEN], generated once, never regenerated
+        'personnelNumber': personnel_full,      # core + current-assignment suffix — see rebuild_personnel_number() for how the suffix updates on transfer/promotion
         'companyEmail': '',                    # provisioned later, on credentialing completion — see _maybe_provision_company_email()
         'companyEmailError': '',                # set if provisioning attempt failed, so HR knows to retry manually
         'companyEmailOverride': company_email_override,  # True/False/None — HR override of the role-based default, captured at creation, acted on at credentialing completion
@@ -887,6 +949,7 @@ def _record_to_fields(rec):
         'ROLE': rec.get('role', ''),
         'ACCOUNT': rec.get('account', ''),
         'LEVEL': rec.get('level', ''),
+        'PERSONNEL_NUMBER_CORE': rec.get('personnelNumberCore', ''),
         'PERSONNEL_NUMBER': rec.get('personnelNumber', ''),
         'COMPANY_EMAIL': rec.get('companyEmail', ''),
         'COMPANY_EMAIL_ERROR': rec.get('companyEmailError', ''),
@@ -928,6 +991,7 @@ def _fields_to_record(airtable_record):
         'role': f.get('ROLE', ''),
         'account': f.get('ACCOUNT', ''),
         'level': f.get('LEVEL', ''),
+        'personnelNumberCore': f.get('PERSONNEL_NUMBER_CORE', ''),
         'personnelNumber': f.get('PERSONNEL_NUMBER', ''),
         'companyEmail': f.get('COMPANY_EMAIL', ''),
         'companyEmailError': f.get('COMPANY_EMAIL_ERROR', ''),
@@ -1266,6 +1330,7 @@ def list_roster():
         'account': r.get('account', ''),
         'level': r.get('level', ''),
         'personnelNumber': r.get('personnelNumber', ''),
+        'personnelNumberCore': r.get('personnelNumberCore', ''),
         'companyEmail': r.get('companyEmail', ''),
         'workerType': r['workerType'],
         'division': r.get('division', ''),
@@ -1549,6 +1614,71 @@ def update_member_facing(record_id):
                    f'(affects Recipient Rights / Abuse & Neglect annual recurrence)')
     _persist(rec, records, from_airtable)
     return jsonify({'success': True, 'record': rec})
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/<record_id>/assignment', methods=['PUT'])
+def update_assignment(record_id):
+    """Transfer / promotion / added-responsibility endpoint. Updates the
+    CURRENT division/account/level and rebuilds ONLY the mutable suffix of
+    the personnel number — personnelNumberCore never changes, so every
+    invoice, timesheet, or CPARS document that ever referenced this
+    person's number still traces back to the same permanent identity. The
+    full before/after (old number, new number, old/new division/account/
+    level) is logged to the append-only auditLog — nothing about a
+    person's assignment history is ever lost, even though the visible
+    number changes. Added Jul 2026 per Dee, after being asked what happens
+    when someone moves departments or picks up new responsibilities:
+    "the order of the segments are wrong, they should be the total
+    opposite, therefore the ending can change or be added to.\""""
+    data = request.get_json(force=True) or {}
+    actor = (data.get('actor') or '').strip() or 'unspecified'
+
+    rec, records, from_airtable = _find(record_id)
+    if not rec:
+        return jsonify({'error': 'not found'}), 404
+
+    old_division = rec.get('division', '')
+    old_account = rec.get('account', '')
+    old_level = rec.get('level', '')
+    old_number = rec.get('personnelNumber', '')
+
+    # Only touch fields explicitly provided — this endpoint supports
+    # updating just one dimension (e.g. a promotion touches only level;
+    # an account transfer touches only account) without clobbering the
+    # others with blanks.
+    new_division = data['division'].strip() if 'division' in data else old_division
+    new_account = data['account'].strip() if 'account' in data else old_account
+    new_level = data['level'].strip() if 'level' in data else old_level
+
+    core = rec.get('personnelNumberCore', '')
+    if not core:
+        # Legacy record from before personnelNumberCore existed — can't
+        # rebuild a suffix onto a core that was never generated. Refuse
+        # rather than silently inventing one.
+        return jsonify({'error': 'record has no personnelNumberCore — cannot rebuild; this record predates the core/suffix split'}), 409
+
+    new_number = rebuild_personnel_number(core, new_division, new_account, new_level)
+
+    rec['division'] = new_division
+    rec['account'] = new_account
+    rec['level'] = new_level
+    rec['personnelNumber'] = new_number
+
+    changes = []
+    if new_division != old_division:
+        changes.append(f'division: "{old_division}" -> "{new_division}"')
+    if new_account != old_account:
+        changes.append(f'account: "{old_account}" -> "{new_account}"')
+    if new_level != old_level:
+        changes.append(f'level: "{old_level}" -> "{new_level}"')
+
+    if changes:
+        _log_audit(rec, actor,
+                   f'Assignment updated ({"; ".join(changes)}) — '
+                   f'personnel number: {old_number} -> {new_number} (core unchanged: {core})')
+
+    _persist(rec, records, from_airtable)
+    return jsonify({'success': True, 'record': rec, 'oldPersonnelNumber': old_number, 'newPersonnelNumber': new_number})
 
 
 @hr_onboarding.route('/nexus/hr/onboarding/<record_id>/status', methods=['PUT'])
