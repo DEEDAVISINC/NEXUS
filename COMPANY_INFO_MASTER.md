@@ -71,6 +71,8 @@ Use the **correct MiLogin** per system — do not mix them up.
 | Meridian Health Plan | 🟡 | Awaiting contract offer |
 | **SHIELD** — MDHHS lead-screening program (mandatory BLL screening, all MI children under 4, MCL 333.5474d) — DDI-internal program, not an MCO | 🛡️ | Live |
 | **CTS** — Community Transition Services, Molina HIDE SNP secondary service (Attachment B, T2038) — case management for nursing-facility-to-home transitions, own 7-stage PRISM lifecycle, separate from general Molina NEMT dispatch | 🏠 | Live (awaiting first referral) |
+| **3D Ink and Livescan Co** — fingerprinting/compliance DBA division | 🫆 | Live |
+| **3D Ink Signatures** — notary, signing agency, trust & estate execution, apostille, legal courier (CNTDA Division DBA) | 📝 | Live |
 | General / Not Account-Specific | ⭕️ | N/A |
 
 **No emoji appended at all** if the account is blank or has none assigned — never invents a color. Text `ACCOUNT_CODE` values (CSRC, MOLN, HUMN, SHLD, CTS, GEN, etc.) still exist in that table for internal search/filtering — they just no longer appear in the personnel number itself. More accounts/programs ("etc." per Dee) will be added the same way — no code change needed, just `POST /nexus/hr/account-codes`.

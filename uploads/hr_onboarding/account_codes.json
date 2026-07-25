@@ -28,11 +28,25 @@
     "emoji": "\ud83c\udfe0"
   },
   {
+    "name": "3D Ink Signatures",
+    "code": "3DSG",
+    "status": "Live",
+    "notes": "Notary, signing agency, trust & estate execution, apostille, legal courier (CNTDA Division DBA). Dee\u2019s phrasing: \"3D Ink Signature Signings.\" Source: WEBSITE/solutions/professional-services/3d-ink-signatures/, GRAND STRAND LAW GROUP SIGNING client work. Emoji per Dee, Jul 2026.",
+    "emoji": "\ud83d\udcdd"
+  },
+  {
     "name": "SHIELD",
     "code": "SHLD",
     "status": "Live",
     "notes": "MDHHS lead-screening program (mandatory BLL screening, all MI children under 4, MCL 333.5474d) \u2014 Wayne County pilot first. DDI internal program, not an MCO account. shield_verification.py / shield_lead_screening.py per NEXUS_LEARNING/README.md. Emoji per Dee, Jul 2026.",
     "emoji": "\ud83d\udee1\ufe0f"
+  },
+  {
+    "name": "3D Ink and Livescan Co",
+    "code": "3DIL",
+    "status": "Live",
+    "notes": "Fingerprinting and compliance services division (DBA under Dee Davis Inc). Livescan, ink-card (FD-258), mobile fingerprinting, capture + channel per contract. Source: COMPANY_INFO_MASTER.md DBA/Subsidiary Names. Emoji per Dee, Jul 2026.",
+    "emoji": "\ud83e\udec6"
   },
   {
     "name": "General / Not Account-Specific",
