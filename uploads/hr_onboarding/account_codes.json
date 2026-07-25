@@ -3,24 +3,42 @@
     "name": "Molina Healthcare of Michigan",
     "code": "MOLN",
     "status": "Pending",
-    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md"
+    "notes": "MCO credentialing in progress, not yet a signed contract. Source: COMPANY_INFO_MASTER.md",
+    "emoji": "\ud83e\ude75"
   },
   {
     "name": "CareSource",
     "code": "CSRC",
     "status": "Live",
-    "notes": "Contract executed Apr 28, 2026. Vendor ID 100000469269. NEMT TPA \u2014 Wayne + Macomb counties (Oakland pending). Source: COMPANY_INFO_MASTER.md"
+    "notes": "Contract executed Apr 28, 2026. Vendor ID 100000469269. NEMT TPA \u2014 Wayne + Macomb counties (Oakland pending). Source: COMPANY_INFO_MASTER.md",
+    "emoji": ""
   },
   {
     "name": "HAP CareSource",
     "code": "HAP",
     "status": "Pending",
-    "notes": "Related to CareSource contract \u2014 coverage under that contract not yet confirmed. Source: COMPANY_INFO_MASTER.md"
+    "notes": "Related to CareSource contract \u2014 coverage under that contract not yet confirmed. Source: COMPANY_INFO_MASTER.md",
+    "emoji": "\ud83d\udfe0"
   },
   {
     "name": "General / Not Account-Specific",
     "code": "GEN",
     "status": "N/A",
-    "notes": "Default fallback for hires whose work is not tied to one specific client account (e.g. corporate/admin roles)."
+    "notes": "Default fallback for hires whose work is not tied to one specific client account (e.g. corporate/admin roles).",
+    "emoji": ""
+  },
+  {
+    "name": "Humana",
+    "code": "HUMN",
+    "status": "Not yet engaged",
+    "notes": "No documented DDI relationship as of Jul 2026 \u2014 not in COMPANY_INFO_MASTER.md MCO list. Added at Dee\u2019s request for the personnel-number color scheme; flag/update status if a real relationship starts.",
+    "emoji": "\ud83d\udfe2"
+  },
+  {
+    "name": "Blue Cross Complete",
+    "code": "BCBC",
+    "status": "Pending",
+    "notes": "Dee\u2019s shorthand: BCBSM. Alina Pabin (VP, Provider Network Management) responded 05/06/2026, scheduling intro call. Source: COMPANY_INFO_MASTER.md. Not yet a signed contract.",
+    "emoji": "\ud83d\udd35"
   }
 ]

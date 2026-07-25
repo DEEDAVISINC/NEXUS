@@ -168,8 +168,8 @@ Endpoints:
   POST   /nexus/hr/attestation                            — record/update an annual FDR attestation
   GET    /nexus/hr/role-email-policy                      — list roles + whether each gets a company email
   POST   /nexus/hr/role-email-policy                      — add/update a role's company-email policy (upsert)
-  GET    /nexus/hr/account-codes                          — list client/MCO accounts + personnel-number codes
-  POST   /nexus/hr/account-codes                          — add/update an account code (upsert)
+  GET    /nexus/hr/account-codes                          — list client/MCO accounts + personnel-number color emoji
+  POST   /nexus/hr/account-codes                          — add/update an account's code/emoji/status (upsert)
   GET    /nexus/hr/level-codes                            — list seniority tiers + personnel-number codes
   POST   /nexus/hr/level-codes                            — add/update a level code (upsert)
 
@@ -242,6 +242,7 @@ REQUIRED_FIELDS = {
     ACCOUNT_CODES_TABLE: [
         {'name': 'ACCOUNT_NAME', 'type': 'singleLineText'},
         {'name': 'ACCOUNT_CODE', 'type': 'singleLineText'},
+        {'name': 'EMOJI', 'type': 'singleLineText'},  # color emoji shown in the personnel-number suffix — see _account_emoji()
         {'name': 'STATUS', 'type': 'singleLineText'},
         {'name': 'NOTES', 'type': 'singleLineText'},
     ],
@@ -547,15 +548,15 @@ def role_requires_company_email(role):
 # email, which is deferred until credentialing clears (see
 # _maybe_provision_company_email()).
 #
-# FORMAT:  [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[ACCOUNT]-[DIVISION]
-# EXAMPLE: 0001-2607-EMP-AGT-MOLN-DPTE
+# FORMAT:  [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[DIVISION][ACCOUNT EMOJI]
+# EXAMPLE: 0001-2607-EMP-AGT-DPTE🩵
 #
 # Split into two pieces on purpose:
 #
 #   CORE (never changes, ever)  ->  0001-2607-EMP
 #   SUFFIX (current assignment,
 #           updates on transfer
-#           or promotion)       ->  AGT-MOLN-DPTE
+#           or promotion)       ->  AGT-DPTE🩵
 #
 # CORE — permanent, like an SSN/EIN. Assigned once at hire, stored
 # separately as personnelNumberCore, and NEVER regenerated for that
@@ -578,19 +579,32 @@ def role_requires_company_email(role):
 #   AGT   -> SENIORITY/LEVEL — Agent, Supervisor, Manager, Director, etc.
 #            See 'NEXUS HR LEVEL CODES' Airtable table — STF (generic
 #            staff, no specific tier) if blank/unmatched.
-#   MOLN  -> WHICH ACCOUNT/CLIENT this hire's work is CURRENTLY tied to —
-#            CareSource, Molina, etc. See 'NEXUS HR ACCOUNT CODES'
-#            Airtable table — GEN (general/not account-specific) if blank
-#            or the account isn't a live, signed one yet.
 #   DPTE  -> WHERE/WHY — division/program the hire CURRENTLY serves (see
 #            DIVISION_CODES below)
+#   🩵    -> WHICH ACCOUNT/CLIENT this hire's work is CURRENTLY tied to,
+#            shown as a COLOR EMOJI instead of a text code — per Dee: "so
+#            i tell you want remove the segement hap molina etc and
+#            replace at the end of the number by 🟠, 🟢, 🩵, 🔵, etc, i
+#            couldnt find a teal circle, thats why i used the heart." See
+#            'NEXUS HR ACCOUNT CODES' Airtable table's EMOJI column — no
+#            emoji appended at all if the account has none assigned yet
+#            (never invents a color). The plain-text account name is still
+#            stored on the record itself (see 'account' field) and still
+#            has a text ACCOUNT_CODE in that table for search/filtering —
+#            only the personnel-number SUFFIX shows the emoji instead of
+#            the text code.
 #
-# Answers Dee's two questions at once: "how do I know a customer care
-# agent is working the HAP account vs the Molina account, or if they're a
-# manager vs a supervisor" (it's in the suffix) AND "what happens when
-# they move to a different department" (only the suffix rebuilds — their
-# permanent core identity, and every invoice/timesheet/CPARS doc that ever
-# referenced their number, still traces back to the same person).
+# Answers Dee's questions in order: "how do I know a customer care agent
+# is working the HAP account vs the Molina account, or if they're a
+# manager vs a supervisor" (level is text in the suffix, account is the
+# color emoji) -> "what happens when they move to a different department"
+# (only the suffix rebuilds — their permanent core identity, and every
+# invoice/timesheet/CPARS doc that ever referenced their number, still
+# traces back to the same person) -> "the order of the segments are wrong
+# ... the ending can change or be added to" (permanent core moved to the
+# front; mutable assignment moved to the very end) -> "remove the segment
+# hap molina etc and replace ... by [emoji]" (account is now a color glyph,
+# not a text code, at the very end).
 #
 # No "DDI-" prefix — per Dee, redundant, since every record in this system
 # already is DDI. ACCOUNT and LEVEL are both Airtable-backed (like the
@@ -635,7 +649,8 @@ def _load_account_codes(force=False):
                 name = (f.get('ACCOUNT_NAME') or '').strip()
                 code = (f.get('ACCOUNT_CODE') or '').strip()
                 if name and code:
-                    rows.append({'name': name, 'code': code, 'status': f.get('STATUS', ''), 'notes': f.get('NOTES', '')})
+                    rows.append({'name': name, 'code': code, 'status': f.get('STATUS', ''),
+                                 'notes': f.get('NOTES', ''), 'emoji': (f.get('EMOJI') or '').strip()})
             with open(ACCOUNT_CODES_LOCAL_FILE, 'w') as fp:
                 json.dump(rows, fp, indent=2)
         except Exception:
@@ -662,6 +677,21 @@ def _account_code(account_name):
         if row['name'].strip().lower() == account_name:
             return row['code']
     return ACCOUNT_CODE_FALLBACK  # not blank, but not a recognized live account either — safe fallback, never invents a code
+
+
+def _account_emoji(account_name):
+    """Color emoji representing this account in the personnel-number
+    suffix (replaces the old text ACCOUNT_CODE there — see Dee's emoji
+    redesign in the block comment above). Returns '' — not a made-up
+    emoji — if the account is blank or has no EMOJI assigned yet in
+    'NEXUS HR ACCOUNT CODES'."""
+    account_name = (account_name or '').strip().lower()
+    if not account_name:
+        return ''
+    for row in _load_account_codes():
+        if row['name'].strip().lower() == account_name:
+            return row.get('emoji', '')
+    return ''  # unrecognized account — no emoji, never invents one
 
 
 # ─── Level codes (seniority/hierarchy tier) ──────────────────────
@@ -718,9 +748,16 @@ def personnel_number_label(worker_type):
 
 
 def _personnel_number_suffix(division, account, level):
-    """The mutable half of the personnel number — current level, account,
-    division. Rebuilt (not the core) any time an assignment changes."""
-    return f'{_level_code(level)}-{_account_code(account)}-{_division_code(division)}'
+    """The mutable half of the personnel number — current level + division
+    text codes, followed directly (no separating dash — it's a glyph, not
+    a text segment) by the account's color emoji, per Dee's redesign:
+    "remove the segement hap molina etc and replace at the end of the
+    number by [emoji]." No emoji appended at all if the account has none
+    assigned in 'NEXUS HR ACCOUNT CODES' — never invents a color. Rebuilt
+    (not the core) any time an assignment changes."""
+    base = f'{_level_code(level)}-{_division_code(division)}'
+    emoji = _account_emoji(account)
+    return f'{base}{emoji}' if emoji else base
 
 
 def _next_personnel_number_core(worker_type, startdate=None):
@@ -751,11 +788,12 @@ def _next_personnel_number_core(worker_type, startdate=None):
 
 
 def _next_personnel_number(worker_type, division=None, startdate=None, account=None, level=None):
-    """Builds the [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[ACCOUNT]-[DIVISION] code
-    described in the block comment above. Returns (core, full) — core gets
-    stored once and never touched again; full is core + '-' + the current
-    assignment suffix, and gets REBUILT (not this function — see
-    rebuild_personnel_number()) whenever that assignment changes."""
+    """Builds the [SEQ]-[YYMM]-[EMP|VEN]-[LEVEL]-[DIVISION][ACCOUNT EMOJI]
+    code described in the block comment above. Returns (core, full) — core
+    gets stored once and never touched again; full is core + '-' + the
+    current assignment suffix (level-division text, account color emoji),
+    and gets REBUILT (not this function — see rebuild_personnel_number())
+    whenever that assignment changes."""
     core = _next_personnel_number_core(worker_type, startdate)
     suffix = _personnel_number_suffix(division, account, level)
     return core, f'{core}-{suffix}'
@@ -1896,6 +1934,7 @@ def upsert_account_code():
     data = request.get_json(force=True) or {}
     name = (data.get('name') or '').strip()
     code = (data.get('code') or '').strip().upper()
+    emoji = (data.get('emoji') or '').strip()  # color emoji shown in the personnel-number suffix — e.g. 🟠, 🩵, 🟢, 🔵
     status = (data.get('status') or '').strip()
     notes = (data.get('notes') or '').strip()
     actor = (data.get('actor') or '').strip() or 'unspecified'
@@ -1909,7 +1948,7 @@ def upsert_account_code():
 
     try:
         existing = next((r for r in table.all() if (r.get('fields', {}).get('ACCOUNT_NAME') or '').strip().lower() == name.lower()), None)
-        fields = {'ACCOUNT_NAME': name, 'ACCOUNT_CODE': code, 'STATUS': status, 'NOTES': notes}
+        fields = {'ACCOUNT_NAME': name, 'ACCOUNT_CODE': code, 'EMOJI': emoji, 'STATUS': status, 'NOTES': notes}
         if existing:
             table.update(existing['id'], fields, typecast=True)
         else:
@@ -1918,7 +1957,7 @@ def upsert_account_code():
         return jsonify({'error': f'failed to write account code: {e}'}), 502
 
     _load_account_codes(force=True)  # refresh cache immediately
-    return jsonify({'success': True, 'name': name, 'code': code, 'status': status, 'actor': actor}), 201
+    return jsonify({'success': True, 'name': name, 'code': code, 'emoji': emoji, 'status': status, 'actor': actor}), 201
 
 
 # ═══════════════════════════════════════════════════════════════
