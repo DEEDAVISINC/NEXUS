@@ -729,6 +729,21 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               Self-service at <span className="text-teal-400">gateway.deedavis.biz</span> — new hires/contractors upload
               documents and sign acknowledgments themselves.
             </p>
+            {/* Compliance posture badges — carried over from Dee's original Onboarding Tracker header
+                ("N ACTIVE" / "AUDIT LOG — APPEND-ONLY" / "10-YEAR RETENTION"). The checklist, training,
+                screening log, and audit log below are 100% admin-enterable right here — none of it
+                depends on gateway.deedavis.biz being used. The portal only adds self-service on top. */}
+            <div className="flex flex-wrap gap-2 mt-3">
+              <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-amber-500/40 bg-amber-900/15 text-amber-300">
+                {activeRoster.length} ACTIVE
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-amber-500/40 bg-amber-900/15 text-amber-300">
+                AUDIT LOG — APPEND-ONLY
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-amber-500/40 bg-amber-900/15 text-amber-300">
+                10-YEAR RETENTION
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <label className="text-xs text-gray-400 whitespace-nowrap">Your initials:</label>
