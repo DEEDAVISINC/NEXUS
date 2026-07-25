@@ -64,10 +64,14 @@ same fallback pattern used in prism_compliance_api.py. Writes use
 typecast=True so new single-select values (divisions, worker types) are
 accepted without a manual Airtable schema edit.
 
-EMPLOYEE/VENDOR NUMBER (added Jul 2026): every record gets a sequential
-personnelNumber the moment onboarding STARTS — DDI-EMP-#### for employees,
-DDI-VEN-#### for contractors (Dee's terminology: "vendor number") — see
-personnel_number_label() / _next_personnel_number() near DIVISIONS.
+EMPLOYEE/VENDOR NUMBER (added Jul 2026, revised same day per Dee — "should
+read in a way it's easy to know who what when where and why"): every
+record gets a personnelNumber the moment onboarding STARTS, format
+DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ], e.g. DDI-HAVN-EMP-2607-0001 =
+DDI employee, HAVEN division, started July 2026, 1st that
+division/type/month. EMP = W-2 employee, VEN = 1099 contractor (Dee's
+"vendor number"). Sequence resets per division+type+month bucket, not
+global — see DIVISION_CODES / _next_personnel_number() near DIVISIONS.
 
 COMPANY EMAIL AUTO-PROVISIONING (added Jul 2026, revised same day per Dee):
 NOT every hire gets a @deedavis.biz alias — only roles marked
@@ -486,26 +490,68 @@ def role_requires_company_email(role):
     return False
 
 
-# ─── Employee / Vendor Number (added Jul 2026) ────────────────────
+# ─── Employee / Vendor Number (added Jul 2026, revised same day per Dee:
+# "should read in a way it's easy to know who what when where and why") ──
 # Generated the moment onboarding STARTS (record creation), not at
 # completion — distinct from the company email, which is deferred until
-# credentialing clears (see _maybe_provision_company_email()). Employees
-# get "DDI-EMP-####", contractors get "DDI-VEN-####" (vendor number).
-EMPLOYEE_NUMBER_PREFIX = 'DDI-EMP-'
-VENDOR_NUMBER_PREFIX = 'DDI-VEN-'
+# credentialing clears (see _maybe_provision_company_email()).
+#
+# FORMAT:  DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ]
+# EXAMPLE: DDI-HAVN-EMP-2607-0001
+#
+# Decoded left to right:
+#   DDI      -> company (who employs/engages this person)
+#   HAVN     -> WHERE + WHY — which division/program the hire serves
+#               (division IS the business reason for the hire — see
+#               DIVISION_CODES below for the full division->code map)
+#   EMP      -> WHAT/WHO — worker type: EMP (W-2 employee) or VEN (1099
+#               contractor/vendor — Dee's "vendor number")
+#   2607     -> WHEN — YYMM of the person's start date (falls back to
+#               today's date if startdate isn't set yet at creation time)
+#   0001     -> sequence, scoped to that exact division+type+month bucket
+#               (NOT a global counter) — "0001" means "1st HAVEN employee
+#               who started July 2026," not "the 1st employee ever." Keeps
+#               the number itself meaningful instead of an opaque
+#               ever-growing count.
+#
+# Anyone on the team should be able to read DDI-HAVN-EMP-2607-0001 and know
+# at a glance: DDI employee, HAVEN division, started July 2026, first one
+# that month — without opening the record.
+
+DIVISION_CODES = {
+    'DEPOINTE (NEMT Coordination)': 'DPTE',
+    'HAVEN': 'HAVN',
+    'SHIELD': 'SHLD',
+    'VITAL': 'VITL',
+    'ARENA/PRIME': 'ARPR',
+    '3D Ink Signatures/CNTDA': 'CNTD',
+    'Freight 1st Direct': 'FRT1',
+    'DEPOINTE DNA': 'DDNA',
+    'Corporate/HR/Admin': 'CORP',
+}
+DIVISION_CODE_FALLBACK = 'GENL'  # division blank or not one of the above
+
+
+def _division_code(division):
+    return DIVISION_CODES.get((division or '').strip(), DIVISION_CODE_FALLBACK)
 
 
 def personnel_number_label(worker_type):
     return 'Vendor Number' if worker_type == 'contractor' else 'Employee Number'
 
 
-def _next_personnel_number(worker_type):
-    """Sequential per worker type, based on the highest number already
-    issued across whichever backend is active (Airtable or local — see
-    _load_all()). Not concurrency-safe against simultaneous adds, but
-    DDI's hiring volume/admin-driven flow makes that an acceptable risk;
-    revisit if that ever changes."""
-    prefix = VENDOR_NUMBER_PREFIX if worker_type == 'contractor' else EMPLOYEE_NUMBER_PREFIX
+def _next_personnel_number(worker_type, division=None, startdate=None):
+    """Builds the DDI-[DIVISION]-[EMP|VEN]-[YYMM]-[SEQ] code described above.
+    Sequence is scoped to the division+type+month bucket (based on the
+    highest number already issued in that exact bucket, across whichever
+    backend is active — Airtable or local, see _load_all()). Not
+    concurrency-safe against simultaneous adds, but DDI's hiring volume/
+    admin-driven flow makes that an acceptable risk; revisit if that ever
+    changes."""
+    type_code = 'VEN' if worker_type == 'contractor' else 'EMP'
+    div_code = _division_code(division)
+    dt = parse_date(startdate) or today_utc()
+    prefix = f'DDI-{div_code}-{type_code}-{dt.strftime("%y%m")}-'
     records, _ = _load_all()
     max_n = 0
     for r in records:
@@ -632,7 +678,7 @@ def _new_record(name, worker_type, division, startdate, member_facing=True, emai
         'name': name,
         'email': (email or '').strip().lower(),
         'role': (role or '').strip(),
-        'personnelNumber': _next_personnel_number(worker_type),  # Employee/Vendor Number — generated NOW, at onboarding start
+        'personnelNumber': _next_personnel_number(worker_type, division, startdate),  # Employee/Vendor Number — generated NOW, at onboarding start
         'companyEmail': '',                    # provisioned later, on credentialing completion — see _maybe_provision_company_email()
         'companyEmailError': '',                # set if provisioning attempt failed, so HR knows to retry manually
         'companyEmailOverride': company_email_override,  # True/False/None — HR override of the role-based default, captured at creation, acted on at credentialing completion
