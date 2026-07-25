@@ -1,0 +1,52 @@
+[
+  {
+    "role": "Navigator Supervisor",
+    "requiresCompanyEmail": true,
+    "notes": "SHIELD division. Source: NEXUS_LEARNING/DDI_12_18_MONTH_EXECUTION_WITH_CAPITAL.md hire order #3."
+  },
+  {
+    "role": "Billing / VERTEX Operations",
+    "requiresCompanyEmail": true,
+    "notes": "Corporate/HR/Admin. Source: hire order #1, same doc."
+  },
+  {
+    "role": "Compliance Officer",
+    "requiresCompanyEmail": true,
+    "notes": "Corporate/HR/Admin. FUTURE/CONDITIONAL - fractional, only if revenue >$2M. Source: hire order doc. Not a current hire."
+  },
+  {
+    "role": "Corporate Admin",
+    "requiresCompanyEmail": true,
+    "notes": "Corporate/HR/Admin. Source: NEXUS_ONBOARDING_SYSTEM.md person-type table example. CONFIRM - most likely candidate to flip to No if purely clerical."
+  },
+  {
+    "role": "Engagement Manager",
+    "requiresCompanyEmail": true,
+    "notes": "Corporate/HR/Admin. Internal GATEWAY function - scopes 1099 contractor training per engagement."
+  },
+  {
+    "role": "NEMT Coordinator",
+    "requiresCompanyEmail": true,
+    "notes": "DEPOINTE division. Source: NEXUS_ONBOARDING_SYSTEM.md / NEXUS_SYSTEM_INTEGRATION_MAP.md \u2014 literal hire example."
+  },
+  {
+    "role": "Dispatch / PRISM Coordinator",
+    "requiresCompanyEmail": true,
+    "notes": "Cross-division (courier/SHIELD/NEMT volume). Source: hire order #4, same doc."
+  },
+  {
+    "role": "Program Manager",
+    "requiresCompanyEmail": true,
+    "notes": "Division varies (NEMT/SHIELD/credentialing - use division field). Source: hire order #2 and #5, same doc."
+  },
+  {
+    "role": "HAVEN Navigator",
+    "requiresCompanyEmail": true,
+    "notes": "HAVEN division. Source: NEXUS_ONBOARDING_SYSTEM.md (\"HAVEN/SHIELD navigator\") + HAVEN_PARTNER_OUTREACH_TEMPLATES.md (\"DDI care coordinators\")."
+  },
+  {
+    "role": "SHIELD Navigator",
+    "requiresCompanyEmail": true,
+    "notes": "SHIELD division. = Community Health Worker (CHW) Navigator. Source: SHIELD_NAVIGATOR_TRAINING_GUIDE.md."
+  }
+]
