@@ -109,6 +109,59 @@ interface Alerts {
   alert_count: number;
 }
 
+/** CRM-style contact card for the roster grid — avatar, name, chips, progress ring. */
+const RosterCard: React.FC<{
+  r: RosterRow;
+  status: RosterStatus;
+  onOpen: () => void;
+  onArchive?: () => void;
+  compact?: boolean;
+}> = ({ r, status, onOpen, onArchive, compact }) => {
+  const days = daysSince(r.startdate);
+  return (
+    <div className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border ${
+      r.status === 'Archived' ? 'border-gray-700/40 opacity-60' : 'border-purple-500/20'
+    } p-4 flex flex-col gap-3 hover:border-purple-500/40 transition-all`}>
+      <div className="flex items-start gap-3">
+        <Avatar name={r.name} workerType={r.workerType} size={compact ? 'sm' : 'md'} />
+        <div className="min-w-0 flex-1">
+          <button type="button" onClick={onOpen} className="font-bold text-white text-sm hover:text-purple-300 transition-colors text-left truncate block w-full">
+            {r.name}
+          </button>
+          <div className="text-xs text-gray-400 truncate">
+            {WORKER_LABEL[r.workerType]}{r.division ? ` · ${r.division}` : ''}
+          </div>
+        </div>
+        <ProgressRing pct={r.progress} size={compact ? 40 : 48} strokeWidth={4} />
+      </div>
+
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] text-gray-500">
+          {days !== null ? (days >= 0 ? `Day ${days} of onboarding` : `Starts in ${Math.abs(days)}d`) : '—'}
+        </span>
+        {r.status === 'Archived' ? (
+          <span className="text-[10px] uppercase tracking-wide text-gray-500 border border-gray-600 px-1.5 py-0.5 rounded">Archived</span>
+        ) : (
+          <StatusChip status={status} />
+        )}
+      </div>
+
+      {!compact && (
+        <div className="flex gap-2 pt-1 border-t border-gray-700/50">
+          <button type="button" onClick={onOpen} className="flex-1 text-xs font-semibold text-purple-300 hover:text-purple-200 py-1.5 transition-colors">
+            View Profile →
+          </button>
+          {onArchive && r.status === 'Active' && (
+            <button type="button" onClick={onArchive} className="text-xs px-2 py-1.5 text-red-400/80 hover:text-red-300 transition-colors">
+              Archive
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const TAB_IDS = ['dashboard', 'roster', 'detail'] as const;
 
 const WORKER_LABEL: Record<string, string> = {
@@ -149,6 +202,142 @@ function downloadCsv(filename: string, lines: string[]) {
   URL.revokeObjectURL(url);
 }
 
+// ─────────────────────────── CRM-style presentation helpers ───────────────────────────
+// The compliance engine underneath is intentionally strict (CMS FDR citations, exclusion
+// screening cadence, audit trails). None of that belongs on the first screen someone sees.
+// These helpers turn raw roster/status data into something that reads like an onboarding
+// CRM (avatars, pipeline stages, plain-language status) — the regulatory detail still
+// exists, it just lives one click away in the "Compliance & Audit" tab.
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+const AVATAR_COLORS: Record<string, string> = {
+  employee: 'from-purple-500 to-pink-500',
+  contractor: 'from-teal-500 to-blue-500',
+};
+
+const Avatar: React.FC<{ name: string; workerType: string; size?: 'sm' | 'md' | 'lg' }> = ({ name, workerType, size = 'md' }) => {
+  const dims = size === 'lg' ? 'w-16 h-16 text-lg' : size === 'sm' ? 'w-9 h-9 text-xs' : 'w-11 h-11 text-sm';
+  return (
+    <div className={`${dims} rounded-full bg-gradient-to-br ${AVATAR_COLORS[workerType] || AVATAR_COLORS.employee} flex items-center justify-center font-bold text-white shrink-0 shadow-lg`}>
+      {initials(name)}
+    </div>
+  );
+};
+
+const ProgressRing: React.FC<{ pct: number; size?: number; strokeWidth?: number; label?: string }> = ({ pct, size = 56, strokeWidth = 5, label }) => {
+  const clamped = Math.max(0, Math.min(100, pct));
+  const r = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * r;
+  const offset = circumference * (1 - clamped / 100);
+  const color = clamped >= 100 ? '#34d399' : clamped >= 50 ? '#a78bfa' : '#fbbf24';
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={r} stroke="#374151" strokeWidth={strokeWidth} fill="none" />
+        <circle
+          cx={size / 2} cy={size / 2} r={r} stroke={color} strokeWidth={strokeWidth} fill="none"
+          strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 0.4s ease' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+        {label || `${Math.round(clamped)}%`}
+      </div>
+    </div>
+  );
+};
+
+type RosterStatus = 'critical' | 'warning' | 'info' | 'complete' | 'on_track';
+
+const STATUS_CHIP_STYLE: Record<RosterStatus, string> = {
+  critical: 'bg-red-900/30 border-red-500/50 text-red-300',
+  warning: 'bg-amber-900/20 border-amber-500/40 text-amber-300',
+  info: 'bg-blue-900/20 border-blue-500/40 text-blue-300',
+  complete: 'bg-emerald-900/20 border-emerald-500/40 text-emerald-300',
+  on_track: 'bg-purple-900/20 border-purple-500/40 text-purple-300',
+};
+
+const STATUS_CHIP_LABEL: Record<RosterStatus, string> = {
+  critical: '🚨 Needs Attention',
+  warning: '⏰ Attention Soon',
+  info: '🧭 Scoping Needed',
+  complete: '✅ Complete',
+  on_track: '🟣 On Track',
+};
+
+function daysSince(startdate?: string): number | null {
+  if (!startdate) return null;
+  const start = new Date(startdate);
+  if (Number.isNaN(start.getTime())) return null;
+  const diff = Math.floor((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
+  return diff;
+}
+
+const StatusChip: React.FC<{ status: RosterStatus; className?: string }> = ({ status, className = '' }) => (
+  <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border whitespace-nowrap ${STATUS_CHIP_STYLE[status]} ${className}`}>
+    {STATUS_CHIP_LABEL[status]}
+  </span>
+);
+
+/** Horizontal onboarding-stage pipeline — the visual "where are they right now" view. */
+const StagePipeline: React.FC<{
+  phases: PhaseItem[];
+  checklist: Record<string, boolean[]>;
+  expanded: string | null;
+  onSelect: (key: string) => void;
+}> = ({ phases, checklist, expanded, onSelect }) => {
+  const phaseComplete = (p: PhaseItem) => {
+    const items = checklist[p.key] || [];
+    return p.items.length > 0 && p.items.every((_, i) => items[i]);
+  };
+  const currentIdx = phases.findIndex((p) => !phaseComplete(p));
+  const activeIdx = currentIdx === -1 ? phases.length - 1 : currentIdx;
+
+  return (
+    <div className="flex items-center overflow-x-auto pb-2">
+      {phases.map((p, i) => {
+        const done = phaseComplete(p);
+        const isCurrent = i === activeIdx && !done;
+        const isSelected = expanded === p.key;
+        return (
+          <React.Fragment key={p.key}>
+            {i > 0 && (
+              <div className={`h-0.5 w-8 sm:w-12 shrink-0 ${i <= activeIdx ? 'bg-purple-500' : 'bg-gray-700'}`} />
+            )}
+            <button
+              type="button"
+              onClick={() => onSelect(p.key)}
+              className="flex flex-col items-center gap-1.5 shrink-0 group"
+              title={p.title}
+            >
+              <div className={[
+                'w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all',
+                done ? 'bg-emerald-500 border-emerald-400 text-white' :
+                  isCurrent ? 'bg-purple-600 border-purple-400 text-white ring-4 ring-purple-500/30' :
+                    'bg-gray-800 border-gray-600 text-gray-500',
+                isSelected ? 'scale-110' : 'group-hover:scale-105',
+              ].join(' ')}>
+                {done ? '✓' : i + 1}
+              </div>
+              <span className={`text-[10px] font-semibold text-center max-w-[80px] leading-tight ${
+                isCurrent ? 'text-purple-300' : done ? 'text-emerald-400' : 'text-gray-500'
+              }`}>
+                {p.title}
+              </span>
+            </button>
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
 const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTab, setActiveTab }) => {
   const resolvedTab = TAB_IDS.includes(activeTab as (typeof TAB_IDS)[number]) ? activeTab : 'dashboard';
 
@@ -180,6 +369,12 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const [attName, setAttName] = useState('');
   const [attNotes, setAttNotes] = useState('');
   const [attSaving, setAttSaving] = useState(false);
+
+  // Profile view state — which phase is expanded in the stage pipeline, and
+  // whether we're looking at the friendly Overview or the technical Compliance tab
+  const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
+  const [detailInnerTab, setDetailInnerTab] = useState<'overview' | 'compliance'>('overview');
+  const [showAddHireForm, setShowAddHireForm] = useState(false);
 
   const persistActor = (v: string) => {
     setActor(v);
@@ -233,6 +428,8 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
       const res: any = await api.getHrOnboardingRecord(id);
       setSelected(res);
       setActiveTab('detail');
+      setDetailInnerTab('overview');
+      setExpandedPhase(null);
     } catch (e: any) {
       setApiError(e?.message || 'Could not load record');
     }
@@ -413,6 +610,49 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
   const currentYear = new Date().getFullYear();
   const currentAttestation = attestations.find((a) => a.year === currentYear);
 
+  // Roll every alert bucket into a single "how worried should I be about this person"
+  // status so the roster cards can show one plain-language chip instead of raw
+  // compliance-state jargon.
+  const rosterStatusById = useMemo(() => {
+    const map = new Map<string, RosterStatus>();
+    if (alerts) {
+      const mark = (rows: AlertRow[], status: RosterStatus) => {
+        rows.forEach((r) => {
+          const existing = map.get(r.id);
+          const rank: Record<RosterStatus, number> = { critical: 3, warning: 2, info: 1, complete: 0, on_track: 0 };
+          if (!existing || rank[status] > rank[existing]) map.set(r.id, status);
+        });
+      };
+      mark(alerts.screening_flagged_open, 'critical');
+      mark(alerts.training_cms_hard_missed, 'critical');
+      mark(alerts.screening_never, 'critical');
+      mark(alerts.screening_overdue, 'warning');
+      mark(alerts.training_internal_target_missed, 'warning');
+      mark(alerts.training_recurrence_due, 'warning');
+      mark(alerts.training_pending_scoping, 'info');
+    }
+    return map;
+  }, [alerts]);
+
+  const statusForRow = useCallback((r: RosterRow): RosterStatus => {
+    return rosterStatusById.get(r.id) || (r.progress >= 100 ? 'complete' : 'on_track');
+  }, [rosterStatusById]);
+
+  // Which phase should be open in the profile pipeline — defaults to the first
+  // incomplete phase (i.e. "where they actually are right now"), unless the
+  // user has clicked a different node on the pipeline.
+  const currentPhases = useMemo(() => (selected ? phasesFor(selected.workerType) : []), [selected, phasesFor]);
+  const defaultPhaseKey = useMemo(() => {
+    if (!selected || currentPhases.length === 0) return null;
+    const firstIncomplete = currentPhases.find((p) => {
+      const items = selected.checklist?.[p.key] || [];
+      return !(p.items.length > 0 && p.items.every((_, i) => items[i]));
+    });
+    return (firstIncomplete || currentPhases[currentPhases.length - 1]).key;
+  }, [selected, currentPhases]);
+  const activePhaseKey = expandedPhase || defaultPhaseKey;
+  const activePhase = currentPhases.find((p) => p.key === activePhaseKey) || null;
+
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'roster', label: 'Roster', icon: '🧑‍💼' },
@@ -536,28 +776,22 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               </NexusPanel>
             )}
 
-            <NexusPanel title="Active Roster" className="mt-6">
+            <NexusPanel title="Currently Onboarding" className="mt-6">
               {loading ? (
                 <p className="text-gray-400 text-sm">Loading roster…</p>
               ) : activeRoster.length === 0 ? (
                 <p className="text-gray-400 text-sm">No active employees or contractors yet. Add one in the Roster tab.</p>
               ) : (
-                <div className="space-y-2">
-                  {activeRoster.slice(0, 8).map((r) => (
-                    <button key={r.id} type="button" onClick={() => openDetail(r.id)} className="w-full text-left p-3 bg-gray-700/40 rounded-lg border border-gray-600/50 hover:border-purple-500/40 transition-all flex flex-wrap items-center gap-3">
-                      <span className="font-bold text-white text-sm min-w-[140px]">{r.name}</span>
-                      <span className="text-xs text-gray-400">{WORKER_LABEL[r.workerType]}</span>
-                      <span className="text-xs text-gray-500">{r.division || '—'}</span>
-                      {r.screening !== 'ok' && r.screening !== 'pending' && (
-                        <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-red-900/40 text-red-300">{r.screening.replace('_', ' ')}</span>
-                      )}
-                      <div className="flex-1 min-w-[100px] h-2 bg-gray-800 rounded overflow-hidden">
-                        <div className="h-full bg-purple-500" style={{ width: `${r.progress}%` }} />
-                      </div>
-                      <span className="text-xs font-bold text-purple-400">{r.progress}%</span>
-                    </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {activeRoster.slice(0, 6).map((r) => (
+                    <RosterCard key={r.id} r={r} status={statusForRow(r)} onOpen={() => openDetail(r.id)} compact />
                   ))}
                 </div>
+              )}
+              {activeRoster.length > 6 && (
+                <button type="button" onClick={() => setActiveTab('roster')} className="text-xs text-purple-400 hover:text-purple-300 mt-3">
+                  View all {activeRoster.length} in Roster →
+                </button>
               )}
             </NexusPanel>
 
@@ -571,7 +805,18 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
         {/* ─────────── ROSTER ─────────── */}
         {resolvedTab === 'roster' && (
           <>
-            <NexusPanel title="Add New Hire / Engagement">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-white">Roster ({roster.length})</h3>
+              <div className="flex gap-2">
+                <button type="button" onClick={exportRoster} className={NEXUS_BTN_SECONDARY}>Export (CSV)</button>
+                <button type="button" onClick={() => setShowAddHireForm((v) => !v)} className={NEXUS_BTN_PRIMARY}>
+                  {showAddHireForm ? '✕ Cancel' : '+ New Hire / Engagement'}
+                </button>
+              </div>
+            </div>
+
+            {showAddHireForm && (
+            <NexusPanel title="Add New Hire / Engagement" className="mb-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
                 <input
                   value={nhName}
@@ -618,36 +863,16 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                 documents and sign acknowledgments themselves instead of HR chasing paperwork.
               </p>
             </NexusPanel>
-
-            <div className="flex items-center justify-between mt-6 mb-2">
-              <h3 className="text-lg font-bold text-white">Full Roster ({roster.length})</h3>
-              <button type="button" onClick={exportRoster} className={NEXUS_BTN_SECONDARY}>Export Roster Summary (CSV)</button>
-            </div>
+            )}
 
             {roster.length === 0 ? (
               <div className="text-gray-400 text-sm p-6 border border-dashed border-gray-700 rounded-lg text-center">
-                No hires/engagements tracked yet. Use the form above to start onboarding.
+                No hires/engagements tracked yet. Click "+ New Hire / Engagement" to start onboarding.
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {roster.map((r) => (
-                  <div key={r.id} className={`flex flex-wrap items-center gap-3 p-3 rounded-lg border ${r.status === 'Archived' ? 'bg-gray-800/30 border-gray-700/50 opacity-60' : 'bg-gray-700/40 border-gray-600/50'}`}>
-                    <button type="button" onClick={() => openDetail(r.id)} className="font-bold text-white text-sm min-w-[160px] text-left hover:text-purple-400">
-                      {r.name}
-                    </button>
-                    <span className="text-xs text-gray-400 min-w-[150px]">{WORKER_LABEL[r.workerType]} · {r.division || '—'}</span>
-                    <span className="text-xs text-gray-500">Start: {r.startdate || '—'}</span>
-                    {r.status === 'Archived' && <span className="text-[10px] uppercase tracking-wide text-gray-500 border border-gray-600 px-1.5 py-0.5 rounded">Archived</span>}
-                    <div className="flex-1 min-w-[100px] h-2 bg-gray-800 rounded overflow-hidden">
-                      <div className="h-full bg-purple-500" style={{ width: `${r.progress}%` }} />
-                    </div>
-                    <span className="text-xs font-bold text-purple-400">{r.progress}%</span>
-                    {r.status === 'Active' && (
-                      <button type="button" onClick={() => archiveRecord(r)} className="text-xs px-3 py-1.5 border border-red-500/40 text-red-400 rounded hover:bg-red-900/20 transition">
-                        Archive
-                      </button>
-                    )}
-                  </div>
+                  <RosterCard key={r.id} r={r} status={statusForRow(r)} onOpen={() => openDetail(r.id)} onArchive={() => archiveRecord(r)} />
                 ))}
               </div>
             )}
@@ -663,14 +888,35 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
               </NexusPanel>
             ) : (
               <>
-                <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                  <div>
-                    <h2 className="text-xl font-bold text-white">{selected.name}</h2>
-                    <p className="text-sm text-gray-400">
-                      {selected.division || '—'} · {WORKER_LABEL[selected.workerType]} · Date of hire/engagement: {selected.startdate || '—'} · {selected._progress ?? 0}% complete
-                    </p>
+                {/* ── Profile header — the "contact card" view of an onboarding CRM ── */}
+                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-purple-500/20 p-5 mb-4">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <Avatar name={selected.name} workerType={selected.workerType} size="lg" />
+                      <div>
+                        <h2 className="text-xl font-bold text-white">{selected.name}</h2>
+                        <p className="text-sm text-gray-400">
+                          {WORKER_LABEL[selected.workerType]}{selected.division ? ` · ${selected.division}` : ''}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          {selected.email || 'No email on file'}
+                          {(() => { const d = daysSince(selected.startdate); return d !== null ? ` · Day ${d} of onboarding` : ''; })()}
+                        </p>
+                        <div className="flex gap-2 mt-2">
+                          <StatusChip status={statusForRow(selected as unknown as RosterRow)} />
+                          {selected.memberFacing && (
+                            <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border border-teal-500/40 bg-teal-900/20 text-teal-300">Member-Facing</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <ProgressRing pct={selected._progress ?? 0} size={64} strokeWidth={6} />
+                      <span className="text-[10px] text-gray-500">Onboarding progress</span>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
+
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-700/50">
                     <button type="button" onClick={toggleMemberFacing} className={NEXUS_BTN_SECONDARY}>
                       {selected.memberFacing ? '✓ Member-Facing Role' : '✗ Not Member-Facing'}
                     </button>
@@ -680,14 +926,30 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                   </div>
                 </div>
 
-                <div className="w-full h-2.5 bg-gray-800 rounded overflow-hidden mb-6">
-                  <div className="h-full bg-purple-500" style={{ width: `${selected._progress ?? 0}%` }} />
+                {/* Inner tabs: friendly Overview (default) vs technical Compliance & Audit */}
+                <div className="flex gap-2 mb-4">
+                  {([
+                    ['overview', '👤 Overview'],
+                    ['compliance', '🛡️ Compliance & Audit'],
+                  ] as const).map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setDetailInnerTab(id)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${detailInnerTab === id ? NEXUS_TAB_ACTIVE : NEXUS_TAB_IDLE}`}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
 
-                {selected._screening && (
+              {detailInnerTab === 'overview' && (
+                <>
+                {selected._screening && selected._screening.severity !== 'none' && (
                   <div className={`mb-4 p-3 rounded-lg text-sm border ${SEVERITY_STYLE[selected._screening.severity]}`}>
-                    🔍 Exclusion screening (monthly cadence): {selected._screening.detail}
-                    {selected._screening.nextDue ? ` · Next due: ${selected._screening.nextDue}` : ''}
+                    🔍 {selected._screening.detail}
+                    {selected._screening.nextDue ? ` · Next check: ${selected._screening.nextDue}` : ''}
+                    <button type="button" onClick={() => setDetailInnerTab('compliance')} className="ml-2 underline hover:no-underline">Details →</button>
                   </div>
                 )}
 
@@ -739,56 +1001,78 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
 
                 {selected.workerType === 'contractor' && (
                   <div className="mb-4 p-3 bg-amber-900/15 border border-amber-500/30 rounded-lg text-sm text-amber-300">
-                    Contractor track: no I-9/E-Verify, no calendar-based performance reviews. Check-ins should reference
-                    contract deliverables, not employee-style supervision, to support worker classification.
+                    Contractor track: no I-9/E-Verify. Check-ins should reference contract deliverables, not
+                    employee-style supervision, to support worker classification.
                   </div>
                 )}
 
-                {phasesFor(selected.workerType).map((p) => (
-                  <NexusPanel key={p.key} title={`${p.title} — Owner: ${p.owner}`} className="mb-4">
-                    <div className="space-y-1">
-                      {p.items.map((item, i) => {
-                        const checked = !!selected.checklist?.[p.key]?.[i];
-                        return (
-                          <label key={i} className={`flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-200'}`}>
-                            <input
-                              type="checkbox"
-                              checked={checked}
-                              onChange={(e) => toggleChecklist(p.key, i, e.target.checked)}
-                              className="w-4 h-4 accent-purple-500"
-                            />
-                            {item}
-                          </label>
-                        );
-                      })}
-                    </div>
+                <NexusPanel title="Onboarding Journey" className="mb-4">
+                  <StagePipeline
+                    phases={currentPhases}
+                    checklist={selected.checklist || {}}
+                    expanded={activePhaseKey}
+                    onSelect={(key) => setExpandedPhase(key)}
+                  />
 
-                    {/* 30-Day Check-In Agenda — nested under the employee day30 phase, SOP Section 8 */}
-                    {p.key === 'day30' && config?.agendas?.day30 && (
-                      <div className="mt-4 pt-4 border-t border-gray-700/50">
-                        <h4 className="text-sm font-bold text-purple-300 mb-2">30-Day Check-In Agenda</h4>
-                        <div className="space-y-1 mb-3">
-                          {config.agendas.day30.map((item, i) => {
-                            const checked = !!selected.agenda?.day30?.items?.[i];
-                            return (
-                              <label key={i} className={`flex items-center gap-3 py-1 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
-                                <input type="checkbox" checked={checked} onChange={(e) => updateAgenda('day30', i, e.target.checked)} className="w-4 h-4 accent-purple-500" />
-                                {item}
-                              </label>
-                            );
-                          })}
-                        </div>
-                        <textarea
-                          defaultValue={selected.agenda?.day30?.notes || ''}
-                          onBlur={(e) => updateAgendaNotes('day30', e.target.value)}
-                          placeholder="Check-in notes…"
-                          className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
-                          rows={2}
-                        />
+                  {activePhase && (
+                    <div className="mt-5 pt-5 border-t border-gray-700/50">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-sm font-bold text-purple-300">{activePhase.title}</h4>
+                        <span className="text-[10px] text-gray-500">Owner: {activePhase.owner}</span>
                       </div>
-                    )}
-                  </NexusPanel>
-                ))}
+                      <div className="space-y-1">
+                        {activePhase.items.map((item, i) => {
+                          const checked = !!selected.checklist?.[activePhase.key]?.[i];
+                          return (
+                            <label key={i} className={`flex items-center gap-3 py-1.5 border-b border-gray-700/50 last:border-b-0 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-200'}`}>
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={(e) => toggleChecklist(activePhase.key, i, e.target.checked)}
+                                className="w-4 h-4 accent-purple-500"
+                              />
+                              {item}
+                            </label>
+                          );
+                        })}
+                      </div>
+
+                      {/* 30-Day Check-In Agenda — nested under the employee day30 phase, SOP Section 8 */}
+                      {activePhase.key === 'day30' && config?.agendas?.day30 && (
+                        <div className="mt-4 pt-4 border-t border-gray-700/50">
+                          <h4 className="text-sm font-bold text-purple-300 mb-2">30-Day Check-In Agenda</h4>
+                          <div className="space-y-1 mb-3">
+                            {config.agendas.day30.map((item, i) => {
+                              const checked = !!selected.agenda?.day30?.items?.[i];
+                              return (
+                                <label key={i} className={`flex items-center gap-3 py-1 text-sm cursor-pointer ${checked ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
+                                  <input type="checkbox" checked={checked} onChange={(e) => updateAgenda('day30', i, e.target.checked)} className="w-4 h-4 accent-purple-500" />
+                                  {item}
+                                </label>
+                              );
+                            })}
+                          </div>
+                          <textarea
+                            defaultValue={selected.agenda?.day30?.notes || ''}
+                            onBlur={(e) => updateAgendaNotes('day30', e.target.value)}
+                            placeholder="Check-in notes…"
+                            className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm text-white"
+                            rows={2}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </NexusPanel>
+                </>
+              )}
+
+              {detailInnerTab === 'compliance' && (
+                <>
+                <p className="text-xs text-gray-500 mb-4">
+                  This tab is the audit trail — CMS FDR training cadence, exclusion screening, worker classification, and
+                  the append-only action log. Pulled in full for any CMS/MCO compliance request.
+                </p>
 
                 {/* Worker classification documentation — contractor track only */}
                 {selected.workerType === 'contractor' && selected.classification && (
@@ -987,6 +1271,8 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
                     <button type="button" onClick={() => onNavigate('vertex', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open VERTEX</button>
                   </div>
                 )}
+                </>
+              )}
               </>
             )}
           </>
