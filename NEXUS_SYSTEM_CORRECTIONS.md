@@ -4,6 +4,33 @@
 
 ---
 
+## CORRECTION 0e: STALE BID CALENDAR / ALERT SPAM (Jul 27, 2026)
+
+**Problem:** `calendars/` held **6,000+** past BID DEADLINE `.ics` files; `deadline_alerts.json` held **24,000+** EXPIRED rows. Dashboard + Apple Calendar feed kept showing the same dead opportunities. Hourly calendar automation was also **rewriting DTSTAMP** on past files.
+
+**Fix:**
+1. Run `python3 cleanup_stale_nexus_deadlines.py --apply` (archives past auto-bid ICS → `calendars/ARCHIVE_EXPIRED/`, prunes expired alerts)
+2. `calendar_automation.py` skips past deadlines; does not regenerate them
+3. `nexus_autonomous.py` deadline watch **omits EXPIRED** from `deadline_alerts.json` (grace learning only ≤14 days)
+4. `/calendar/feed.ics` and `/calendar/events` skip ARCHIVE + past bid events
+
+**Do not** re-import `ARCHIVE_EXPIRED` into Apple Calendar. Refresh the live NEXUS feed after cleanup.
+
+---
+
+## CORRECTION 0d: MOLINA = NMT/NEMT **AND** CTS (Jul 2026)
+
+**Molina Healthcare of Michigan** (HIDE SNP LTSS PSA) is **not** a single NEMT queue.
+
+| Lane | Code | Meaning |
+|------|------|---------|
+| NMT / NEMT | `MOLN` Ⓜ️ | Transportation / trip dispatch |
+| **CTS** | `CTS` 🏠 | Community Transition Services (Attachment B / T2038) — NF-to-home case management; **separate PRISM lifecycle** |
+
+OPS: GATEWAY Molina assignment opens **MOLN + CTS**. CTS-only stays CTS-scoped. Never describe Molina work as NEMT-only.
+
+---
+
 ## CORRECTION 0c: PHONE ON EMAIL vs WEB — NOT THE SAME RULE (Jun 2026)
 
 **248.376.4550** = **President & CEO personal cell** (Dieasha D. Davis). Stays on email signatures and business documents — **do not change Dee's signature number.**

@@ -527,8 +527,22 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify
                         continue
 
                 hours_left = (deadline - now).total_seconds() / 3600
+                # Do NOT keep EXPIRED rows in deadline_alerts.json — they balloon
+                # into tens of thousands and spam the dashboard with dead bids.
+                # Learning for missed deadlines still runs via a short grace window below.
                 if hours_left < 0:
-                    alert_level = "EXPIRED"
+                    # Only learn if missed within last 14 days (avoid re-logging ancient Airtable junk)
+                    if hours_left >= -(14 * 24):
+                        self._learn(
+                            "bids",
+                            opp["id"],
+                            "expired",
+                            {
+                                "agency": fields.get("Agency Name", ""),
+                                "missed_by": abs(hours_left),
+                            },
+                        )
+                    continue
                 elif hours_left <= red_hours:
                     alert_level = "RED"
                 elif hours_left <= yellow_hours:
@@ -538,7 +552,7 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify
 
                 alerts.append({
                     "opportunity_id": opp['id'],
-                    "title": fields.get('Title', 'Unknown'),
+                    "title": fields.get('Title', 'Unknown') or fields.get('Name', 'Unknown'),
                     "agency": fields.get('Agency Name', ''),
                     "deadline": deadline_str,
                     "hours_left": round(hours_left, 1),
@@ -550,21 +564,15 @@ EDWOSB | WOSB | WBENC | MBE | SBE | E-Verify
 
             red_count = len([a for a in alerts if a["alert_level"] == "RED"])
             yellow_count = len([a for a in alerts if a["alert_level"] == "YELLOW"])
-            expired_count = len([a for a in alerts if a["alert_level"] == "EXPIRED"])
-            result["summary"] = f"{red_count} RED, {yellow_count} YELLOW, {expired_count} EXPIRED deadlines"
+            expired_count = 0
+            result["summary"] = f"{red_count} RED, {yellow_count} YELLOW (expired omitted from alert feed)"
 
-            # Save alerts for dashboard
+            # Save alerts for dashboard — live deadlines only
             alerts_path = os.path.join(BASE_DIR, "deadline_alerts.json")
             with open(alerts_path, 'w') as f:
                 json.dump({"alerts": alerts, "checked_at": now.isoformat()}, f, default=str)
 
-            # Learn from missed deadlines
-            if expired_count > 0:
-                for alert in alerts:
-                    if alert["alert_level"] == "EXPIRED":
-                        self._learn("bids", alert["opportunity_id"], "expired",
-                                    {"agency": alert["agency"], "missed_by": abs(alert["hours_left"])})
-                result["learning_logged"] = True
+            result["learning_logged"] = True
 
         except Exception as e:
             log.error(f"Deadline watch failed: {e}")

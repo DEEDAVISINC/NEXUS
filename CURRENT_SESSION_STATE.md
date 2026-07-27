@@ -6,6 +6,20 @@
 
 ---
 
+## 🧹 CLEANUP — STALE DEADLINES / CALENDAR / ALERTS (Jul 27, 2026)
+
+**Problem:** NEXUS kept resurfacing thousands of past bid deadlines (calendar + alert feed).
+
+**Done:**
+- Archived **6,275** past auto-generated BID DEADLINE `.ics` → `calendars/ARCHIVE_EXPIRED/` (gitignored)
+- Live `calendars/*.ics` now **~423** (future + protected meetings)
+- Pruned `deadline_alerts.json` **24,173 → 156** (expired dropped)
+- Fixed regenerators so past Airtable deadlines are **not** rewritten into `calendars/`
+- Calendar API (`/calendar/feed.ics`, `/calendar/events`) skips ARCHIVE + past bid events
+- Tool: `python3 cleanup_stale_nexus_deadlines.py --apply`
+
+---
+
 ## 🔴 ACTIVE — CAQH PROVIDER PORTAL (Jul 27, 2026)
 
 | Field | Value |

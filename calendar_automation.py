@@ -82,6 +82,10 @@ class CalendarAutomation:
             except ValueError:
                 print(f"❌ Could not parse deadline: {deadline}")
                 return None
+
+        # Do not regenerate past deadlines — they flood calendars/ and NEXUS UI
+        if deadline_dt.date() < datetime.now().date():
+            return None
         
         # Create calendar
         cal = Calendar()
@@ -367,11 +371,16 @@ Never miss a deadline again!
         records = table.all()
         
         processed = 0
+        skipped_past = 0
         for record in records:
             fields = record['fields']
             
             # Skip if no deadline
             if not fields.get('Deadline'):
+                continue
+
+            status = (fields.get('Status') or '')
+            if status in ('Closed', 'Lost', 'Won', 'Expired', 'Cancelled', 'Skipped', 'Archived'):
                 continue
             
             # Generate calendar file (but DON'T email - emails handled by daily reports)
@@ -389,8 +398,10 @@ Never miss a deadline again!
                 #
                 # Individual calendar files are still generated for manual download
                 processed += 1
+            else:
+                skipped_past += 1
         
-        print(f"✅ Processed {processed} new opportunities")
+        print(f"✅ Processed {processed} opportunities (skipped {skipped_past} past/invalid)")
         return processed
 
 

@@ -1,0 +1,81 @@
+{
+  "mode": "APPLY",
+  "as_of": "2026-07-27",
+  "run_at": "2026-07-27T19:43:52.395708",
+  "calendars": {
+    "moved_count": 6275,
+    "moved_sample": [
+      {
+        "file": "05f__ckc-135__filter_fluid_2026-03-26.ics",
+        "date": "2026-03-26"
+      },
+      {
+        "file": "1-18_swivel_and_link_assembly_2026-05-14.ics",
+        "date": "2026-05-14"
+      },
+      {
+        "file": "10--brush_sectionclean_2026-01-30.ics",
+        "date": "2026-01-30"
+      },
+      {
+        "file": "10--coverdrumentrance_2026-02-03.ics",
+        "date": "2026-02-03"
+      },
+      {
+        "file": "10--cutter_body_assyma_2026-02-03.ics",
+        "date": "2026-02-03"
+      },
+      {
+        "file": "10--drive_assemblygun_2026-02-03.ics",
+        "date": "2026-02-03"
+      },
+      {
+        "file": "10--elev_mass_cover_2026-01-30.ics",
+        "date": "2026-01-30"
+      },
+      {
+        "file": "10--index_drive_assembl_2026-01-30.ics",
+        "date": "2026-01-30"
+      },
+      {
+        "file": "10--pedestalgun_mount_2026-01-30.ics",
+        "date": "2026-01-30"
+      },
+      {
+        "file": "10--solenoidelectrical_in_repairmodification_of_2026-05-04.ics",
+        "date": "2026-05-04"
+      },
+      {
+        "file": "104_fw_network_equipment_2026-05-25.ics",
+        "date": "2026-05-25"
+      },
+      {
+        "file": "10x10_cobra_system_belden_cable_9768_2026-03-20.ics",
+        "date": "2026-03-20"
+      },
+      {
+        "file": "117th_alert_pad_crack_repair_2026-06-22.ics",
+        "date": "2026-06-22"
+      },
+      {
+        "file": "11f__c-5__ballscrew_assembly_2026-03-23.ics",
+        "date": "2026-03-23"
+      },
+      {
+        "file": "11f__c-5__panel_structural_ai_2026-03-19.ics",
+        "date": "2026-03-19"
+      }
+    ],
+    "kept_future": 155,
+    "kept_protected_past": 209,
+    "kept_non_bid_past": 53,
+    "skipped_unknown_date": 6,
+    "archive_dir": "/Users/deedavis/NEXUS BACKEND/calendars/ARCHIVE_EXPIRED"
+  },
+  "deadline_alerts": {
+    "exists": true,
+    "before": 24173,
+    "after": 156,
+    "dropped_expired": 24017
+  }
+}

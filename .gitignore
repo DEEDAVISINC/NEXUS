@@ -38,3 +38,6 @@ MILOGIN_ACCOUNTS.local.md
 
 # Local Netlify folder
 .netlify
+
+# Expired auto-generated bid calendar dumps (cleaned by cleanup_stale_nexus_deadlines.py)
+calendars/ARCHIVE_EXPIRED/

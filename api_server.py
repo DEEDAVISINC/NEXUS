@@ -266,6 +266,14 @@ try:
 except ImportError as e:
     print(f"⚠️ HR Onboarding API not loaded: {e}")
 
+# Register VERTEX HR — payroll/hours/pay calc (identity from GATEWAY)
+try:
+    from vertex_hr_api import vertex_hr
+    app.register_blueprint(vertex_hr)
+    print("✅ VERTEX HR API registered (/vertex/hr/*)")
+except ImportError as e:
+    print(f"⚠️ VERTEX HR API not loaded: {e}")
+
 # Register NEXUS OPS session bridge (workforce desks — ops.deedavis.biz)
 try:
     from ops_portal_api import ops_portal
@@ -1289,20 +1297,43 @@ def get_calendar_feed():
     Live iCalendar feed — subscribe to this URL in Apple Calendar.
     Combines ALL .ics files from calendars/ + GPSS deadlines into one feed.
     Apple Calendar will poll this URL automatically.
+    Skips ARCHIVE_EXPIRED/ and past auto-generated bid deadlines.
     """
     from flask import Response
+    import re as _re
     cal_dir = os.path.join(os.path.dirname(__file__), 'calendars')
     vevents = []
+    today = datetime.now().date()
+
+    def _ics_event_date(raw_block: str):
+        m = _re.search(r'DTSTART(?:;[^:]*)?:(\d{8})', raw_block)
+        if not m:
+            return None
+        try:
+            return datetime.strptime(m.group(1), '%Y%m%d').date()
+        except ValueError:
+            return None
+
+    def _is_stale_bid(raw_block: str, event_date) -> bool:
+        if event_date is None or event_date >= today:
+            return False
+        upper = raw_block.upper()
+        return ('BID DEADLINE' in upper) or ('BID DUE' in upper) or ('CRITICAL BID DEADLINE' in upper)
 
     if os.path.isdir(cal_dir):
         for fname in os.listdir(cal_dir):
             if not fname.endswith('.ics'):
+                continue
+            # Never serve archived expired bid dumps
+            if fname.startswith('ARCHIVE'):
                 continue
             try:
                 with open(os.path.join(cal_dir, fname), 'r') as f:
                     ics_text = f.read()
                 for block in ics_text.split('BEGIN:VEVENT')[1:]:
                     raw = block.split('END:VEVENT')[0]
+                    if _is_stale_bid(raw, _ics_event_date(raw)):
+                        continue
                     vevents.append('BEGIN:VEVENT\n' + raw.strip() + '\nEND:VEVENT')
             except Exception:
                 continue
@@ -1316,18 +1347,22 @@ def get_calendar_feed():
             if not deadline_str:
                 continue
             st = (fields.get('Status', '') or '').lower()
-            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined']):
+            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined', 'expired', 'cancelled', 'skipped']):
                 continue
             try:
                 if 'T' in deadline_str:
                     dt = datetime.fromisoformat(deadline_str.replace('Z', '+00:00'))
                 else:
                     dt = datetime.strptime(deadline_str, '%Y-%m-%d')
+                # Skip past Airtable deadlines in the live feed
+                dt_naive = dt.replace(tzinfo=None) if getattr(dt, 'tzinfo', None) else dt
+                if dt_naive.date() < today:
+                    continue
                 uid = opp.get('id', 'unknown') + '@nexus-ddi'
                 name = fields.get('Name', 'Opportunity')
                 value = fields.get('Estimated Value', '')
                 status = fields.get('Status', '')
-                dtstr = dt.strftime('%Y%m%dT%H%M%S')
+                dtstr = dt_naive.strftime('%Y%m%dT%H%M%S')
                 vevents.append(
                     f'BEGIN:VEVENT\n'
                     f'UID:{uid}\n'
@@ -1372,10 +1407,13 @@ def get_calendar_events():
     import re as _re
     cal_dir = os.path.join(os.path.dirname(__file__), 'calendars')
     events = []
+    today = datetime.now().date()
 
     if os.path.isdir(cal_dir):
         for fname in os.listdir(cal_dir):
             if not fname.endswith('.ics'):
+                continue
+            if fname.startswith('ARCHIVE'):
                 continue
             try:
                 with open(os.path.join(cal_dir, fname), 'r') as f:
@@ -1399,22 +1437,29 @@ def get_calendar_events():
                     dt = None
                     for fmt in ('%Y%m%dT%H%M%S', '%Y%m%dT%H%M%SZ', '%Y%m%d'):
                         try:
-                            dt = datetime.strptime(raw_start, fmt)
+                            dt = datetime.strptime(raw_start[:15] if 'T' in raw_start else raw_start[:8], fmt if 'T' in raw_start else '%Y%m%d')
                             break
                         except ValueError:
                             continue
 
-                    if dt and summary:
-                        events.append({
-                            'date': dt.strftime('%Y-%m-%d'),
-                            'time': dt.strftime('%I:%M %p') if 'T' in raw_start else '',
-                            'title': summary,
-                            'description': description[:300],
-                            'location': location,
-                            'status': status,
-                            'source': 'calendar',
-                            'file': fname,
-                        })
+                    if not (dt and summary):
+                        continue
+
+                    upper_summary = summary.upper()
+                    is_bid = ('BID DEADLINE' in upper_summary) or ('BID DUE' in upper_summary)
+                    if is_bid and dt.date() < today:
+                        continue
+
+                    events.append({
+                        'date': dt.strftime('%Y-%m-%d'),
+                        'time': dt.strftime('%I:%M %p') if 'T' in raw_start else '',
+                        'title': summary,
+                        'description': description[:300],
+                        'location': location,
+                        'status': status,
+                        'source': 'calendar',
+                        'file': fname,
+                    })
             except Exception:
                 continue
 
@@ -1428,7 +1473,7 @@ def get_calendar_events():
             if not deadline_str:
                 continue
             st = (fields.get('Status', '') or '').lower()
-            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined']):
+            if any(k in st for k in ['won', 'lost', 'archived', 'passed', 'declined', 'expired', 'cancelled', 'skipped']):
                 continue
             try:
                 if 'T' in deadline_str:
@@ -1466,14 +1511,15 @@ def get_calendar_events():
                     'description': f"AI: {ai_rec}\nSet-Aside: {fields.get('Set-Aside Type', 'N/A')}",
                     'location': fields.get('Performance Location', ''),
                     'status': fields.get('Source Status', ''),
-                    'source': 'gpss',
+                    'source': 'airtable',
+                    'file': '',
                 })
             except Exception:
                 continue
     except Exception:
         pass
 
-    events.sort(key=lambda e: e['date'])
+    events.sort(key=lambda e: e.get('date') or '')
     return jsonify({'events': events, 'count': len(events)})
 
 
