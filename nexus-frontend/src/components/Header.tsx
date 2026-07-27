@@ -103,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onBackToNexus, identity, o
       case 'ddcss': return 'Blueprint Framework • 6 Sectors • AI Powered';
       case 'atlas': return 'RFP Response Center • Portfolio Tracking • Daily Operations';
       case 'gbis': return 'Grant Discovery • AI Applications • 8 Divisions • ROI Tracking';
-      case 'vertex': return 'Invoices • Expenses • Revenue • Reports • AI Intelligence • QB/Gusto Export';
+      case 'vertex': return 'Invoices • HR Payroll • Expenses • Revenue • Reports • NEMT • Financing';
       case 'lbpc': return 'Surplus Recovery System • All 50 States • Automated Workflows';
       case 'invoices': return 'Government & Enterprise Compliant • All Systems • Real-Time Tracking';
       case 'documents': return 'Quotes • Capability Statements • Supplier RFPs • Pricing Engine';

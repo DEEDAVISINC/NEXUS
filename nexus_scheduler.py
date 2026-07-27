@@ -44,6 +44,7 @@ Usage:
   python3 nexus_scheduler.py --vertex-collect  # Run AR collection sweep + TODAY_AGENDA update
   python3 nexus_scheduler.py --vertex-advisor  # Run AI financial advisor + briefing update
   python3 nexus_scheduler.py --jeta-market     # JETA: sync IATA jet fuel $/bbl → Airtable JETA_MarketData
+  python3 nexus_scheduler.py --gateway-reminders  # GATEWAY onboarding Day 3/7/14 reminder emails
   python3 nexus_scheduler.py --aog           # AOG / 488190 SAM scan only → aog_sam_cache.json (also runs inside --mine)
   python3 nexus_scheduler.py --compile-radar # Rebuild RADAR_RESULTS.md from caches (no full sweep)
   python3 nexus_scheduler.py --compile-grants # Rebuild GRANTS_RESULTS.md from Airtable GBIS
@@ -966,6 +967,30 @@ def run_vertex_daily_jobs():
 # ============================================================================
 
 
+def run_gateway_onboarding_reminders(dry_run: bool = False):
+    """
+    GATEWAY hire reminders — Day 3 / 7 / 14 after start (or training email / created).
+    Skips principal owners, can-work clear, and hires with no open portal tasks.
+    """
+    log.info("=== GATEWAY ONBOARDING REMINDERS%s ===", " (dry-run)" if dry_run else "")
+    try:
+        from hr_onboarding_api import run_onboarding_reminders
+        summary = run_onboarding_reminders(dry_run=dry_run)
+        counts = summary.get("counts") or {}
+        log.info(
+            "GATEWAY reminders: sent=%s skipped=%s errors=%s",
+            counts.get("sent", 0),
+            counts.get("skipped", 0),
+            counts.get("errors", 0),
+        )
+        return True
+    except Exception as e:
+        log.error("GATEWAY onboarding reminders failed: %s", e)
+        return False
+
+
+
+
 def run_radar():
     """
     RADAR — Revenue Acquisition Discovery And Reconnaissance.
@@ -1322,6 +1347,8 @@ if __name__ == "__main__":
         run_vertex_ai_advisor()
     elif "--jeta-market" in args:
         run_jeta_market_price_sync()
+    elif "--gateway-reminders" in args:
+        run_gateway_onboarding_reminders(dry_run="--dry-run" in args)
     elif not args:
         run_all()
     else:

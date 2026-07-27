@@ -9,9 +9,28 @@ export const VOICE_API_BASE =
   (API_BASE !== LOCAL_API_DEFAULT ? API_BASE : PRODUCTION_API);
 
 export class ApiClient {
+  static async _parse(response: Response) {
+    const text = await response.text();
+    let data: any = null;
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { ok: false, error: text.slice(0, 200) || `HTTP ${response.status}` };
+      }
+    }
+    if (!response.ok) {
+      if (!data || typeof data !== 'object') data = {};
+      if (data.ok === undefined) data.ok = false;
+      if (!data.error) data.error = `HTTP ${response.status}`;
+      data.status = response.status;
+    }
+    return data;
+  }
+
   static async get(endpoint: string) {
     const response = await fetch(`${API_BASE}${endpoint}`);
-    return response.json();
+    return ApiClient._parse(response);
   }
 
   static async post(endpoint: string, data: any) {
@@ -22,7 +41,7 @@ export class ApiClient {
       },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return ApiClient._parse(response);
   }
 
   static async put(endpoint: string, data: any) {
@@ -33,7 +52,7 @@ export class ApiClient {
       },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return ApiClient._parse(response);
   }
 
   static async patch(endpoint: string, data: any) {
@@ -44,14 +63,14 @@ export class ApiClient {
       },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return ApiClient._parse(response);
   }
 
   static async delete(endpoint: string) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'DELETE',
     });
-    return response.json();
+    return ApiClient._parse(response);
   }
 
   static async getVoice(endpoint: string) {
@@ -612,6 +631,52 @@ export const api = {
     const query = params.toString();
     return ApiClient.get(`/vertex/revenue/summary${query ? `?${query}` : ''}`);
   },
+
+  // VERTEX HR — payroll / hours / Deluxe / tax liability (identity from GATEWAY)
+  getVertexHrHealth: () => ApiClient.get('/vertex/hr/health'),
+  getVertexHrDashboard: () => ApiClient.get('/vertex/hr/dashboard'),
+  getVertexHrCompany: () => ApiClient.get('/vertex/hr/company'),
+  putVertexHrCompany: (data: any) => ApiClient.put('/vertex/hr/company', data),
+  getVertexHrPeriod: (date?: string) =>
+    ApiClient.get(`/vertex/hr/period/current${date ? `?date=${encodeURIComponent(date)}` : ''}`),
+  syncVertexHrEmployees: (data?: any) => ApiClient.post('/vertex/hr/employees/sync', data || {}),
+  getVertexHrEmployees: (filters?: { payable?: boolean; q?: string }) => {
+    const params = new URLSearchParams();
+    if (filters?.payable) params.set('payable', '1');
+    if (filters?.q) params.set('q', filters.q);
+    const q = params.toString();
+    return ApiClient.get(`/vertex/hr/employees${q ? `?${q}` : ''}`);
+  },
+  putVertexHrEmployeeRate: (core: string, data: any) =>
+    ApiClient.put(`/vertex/hr/employees/${encodeURIComponent(core)}/rate`, data),
+  putVertexHrEmployeeTax: (core: string, data: any) =>
+    ApiClient.put(`/vertex/hr/employees/${encodeURIComponent(core)}/tax`, data),
+  getVertexHrTimesheets: (filters?: { status?: string; periodStart?: string; core?: string }) => {
+    const params = new URLSearchParams();
+    if (filters?.status) params.set('status', filters.status);
+    if (filters?.periodStart) params.set('periodStart', filters.periodStart);
+    if (filters?.core) params.set('personnelNumberCore', filters.core);
+    const q = params.toString();
+    return ApiClient.get(`/vertex/hr/timesheets${q ? `?${q}` : ''}`);
+  },
+  createVertexHrTimesheet: (data: any) => ApiClient.post('/vertex/hr/timesheets', data),
+  submitVertexHrTimesheet: (id: string, data?: any) =>
+    ApiClient.post(`/vertex/hr/timesheets/${encodeURIComponent(id)}/submit`, data || {}),
+  approveVertexHrTimesheet: (id: string, data?: any) =>
+    ApiClient.post(`/vertex/hr/timesheets/${encodeURIComponent(id)}/approve`, data || {}),
+  rejectVertexHrTimesheet: (id: string, data?: any) =>
+    ApiClient.post(`/vertex/hr/timesheets/${encodeURIComponent(id)}/reject`, data || {}),
+  previewVertexHrPayRun: (data: any) => ApiClient.post('/vertex/hr/pay-runs/preview', data),
+  finalizeVertexHrPayRun: (data: any) => ApiClient.post('/vertex/hr/pay-runs', data),
+  getVertexHrPayRuns: () => ApiClient.get('/vertex/hr/pay-runs'),
+  getVertexHrDeluxeExport: (payRunId?: string) =>
+    ApiClient.get(`/vertex/hr/export/deluxe-pay${payRunId ? `?id=${encodeURIComponent(payRunId)}` : ''}`),
+  markVertexHrDeluxePaid: (payRunId: string, data?: any) =>
+    ApiClient.post(`/vertex/hr/pay-runs/${encodeURIComponent(payRunId)}/mark-deluxe-paid`, data || {}),
+  getVertexHrTaxLiability: (payRunId?: string) =>
+    ApiClient.get(`/vertex/hr/tax-liability${payRunId ? `?payRunId=${encodeURIComponent(payRunId)}` : ''}`),
+  getVertexHrTaxDeposits: () => ApiClient.get('/vertex/hr/tax-deposits'),
+  postVertexHrTaxDeposit: (data: any) => ApiClient.post('/vertex/hr/tax-deposits', data),
 
   // VERTEX NEMT Medical Billing (HAP CareSource / CHAMPS)
   vertexNemtLogTrip: (data: any) => ApiClient.post('/vertex/nemt/log-trip', data),

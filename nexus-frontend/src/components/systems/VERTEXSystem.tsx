@@ -3,6 +3,7 @@ import { api } from '../../api/client';
 import { getNexusIdentity, isNexusSupervisor } from '../Header';
 import { PnLStatement } from './PnLEngine';
 import NEMTBillingSystem from './NEMTBillingSystem';
+import VERTEXHRPanel from './VERTEXHRPanel';
 
 interface VERTEXSystemProps {
   onBackToNexus: () => void;
@@ -10,7 +11,7 @@ interface VERTEXSystemProps {
   setActiveTab: (tab: string) => void;
 }
 
-const VERTEX_TAB_IDS = ['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'] as const;
+const VERTEX_TAB_IDS = ['dashboard', 'hr', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'] as const;
 
 const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, setActiveTab }) => {
   // Dashboard state
@@ -1619,7 +1620,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
 
       {/* Navigation Tabs */}
       <div className="mb-8 flex gap-4 overflow-x-auto">
-        {['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'].map((tab) => (
+        {['dashboard', 'hr', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -1630,6 +1631,7 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
             }`}
           >
             {tab === 'dashboard' && '💎 Dashboard'}
+            {tab === 'hr' && '👥 HR Payroll'}
             {tab === 'invoices' && '📄 Invoices'}
             {tab === 'expenses' && '💳 Expenses'}
             {tab === 'revenue' && '💵 Revenue'}
@@ -1662,6 +1664,11 @@ const VERTEXSystem: React.FC<VERTEXSystemProps> = ({ onBackToNexus, activeTab, s
         )}
 
         {resolvedTab === 'dashboard' && renderDashboard()}
+        {resolvedTab === 'hr' && (
+          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+            <VERTEXHRPanel />
+          </div>
+        )}
         {resolvedTab === 'invoices' && renderInvoices()}
         {resolvedTab === 'expenses' && renderExpenses()}
         {resolvedTab === 'revenue' && renderRevenue()}

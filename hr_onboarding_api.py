@@ -182,6 +182,9 @@ EMAIL, not internal record id, and return a sanitized subset of the record
   GET    /nexus/hr/onboarding/self?email=                — own record + document/acknowledgment catalog
   POST   /nexus/hr/onboarding/self/documents              — upload a required document (base64)
   POST   /nexus/hr/onboarding/self/acknowledge            — typed-name e-sign acknowledgment (handbook, NDA, etc.)
+  POST   /nexus/hr/onboarding/<id>/remind                 — send one onboarding reminder (manual)
+  POST   /nexus/hr/onboarding/reminders/run               — batch Day 3/7/14 reminders (scheduler)
+  GET    /nexus/hr/onboarding/reminders/preview           — who is due for a reminder (dry-run)
 """
 
 import os
@@ -1370,11 +1373,19 @@ def _portal_action_items(rec):
     items = []
     letters = rec.get('letters') or {}
     fdr = _fdr_applicable(rec)
+    principal = _is_principal_owner(rec)
 
-    # Letters (NEXUS-generated)
+    # Letters (NEXUS-generated) — founding principal skips offer/I-9 hire theater
     offer_ready = bool(letters.get('offerLetterPath'))
     offer_signed = 'offer_letter_signed' in _doc_keys_on_file(rec) or 'ic_agreement_signed' in _doc_keys_on_file(rec)
-    if rec.get('workerType') == 'employee':
+    if principal and rec.get('workerType') == 'employee':
+        items.append({
+            'key': 'letter_offer', 'label': 'Offer letter', 'status': 'green',
+            'statusLabel': 'N/A — principal',
+            'detail': 'Founding principal / owner — hire offer package not required.',
+            'action': 'download_offer' if offer_ready else None,
+        })
+    elif rec.get('workerType') == 'employee':
         if offer_signed:
             items.append({
                 'key': 'letter_offer', 'label': 'Offer letter', 'status': 'green',
@@ -1421,6 +1432,15 @@ def _portal_action_items(rec):
     for d in SELF_SERVICE_DOCUMENTS.get(rec.get('workerType'), []):
         if d['key'] in ('offer_letter_signed', 'ic_agreement_signed'):
             continue  # already covered above
+        # Principal does not upload I-9 supporting docs for self-hire
+        if principal and d['key'] in ('i9_list_a_or_c', 'i9_list_b'):
+            items.append({
+                'key': f'doc_{d["key"]}', 'label': d['label'], 'status': 'green',
+                'statusLabel': 'N/A — principal',
+                'detail': 'Not required for founding principal / owner.',
+                'action': None,
+            })
+            continue
         items.append(_traffic_for_upload(rec, d['key'], d['label']))
 
     # Policy acknowledgments — one row per required policy
@@ -1840,6 +1860,270 @@ def _maybe_send_training_assignment_email(rec, records, from_airtable, reason='s
     _log_audit(rec, reason, f'Training assignment email sent to {email} ({reason})')
     _persist(rec, records, from_airtable)
     return True
+
+
+# ─── Onboarding reminder emails (Day 3 / 7 / 14 + manual) ─────────
+# Incomplete portal tasks only. Skip principal owners and can-work clear.
+ONBOARDING_REMINDER_DAYS = (3, 7, 14)
+ONBOARDING_REMINDER_MIN_GAP_HOURS = 48
+GATEWAY_PORTAL_URL = 'https://gateway.deedavis.biz'
+
+
+def _onboarding_anchor_date(rec):
+    """Days-since clock: start date → training email sent → created_at."""
+    start = _parse_start_date(rec)
+    if start:
+        return start
+    for key in ('trainingAssignmentEmailSent', 'created_at', 'createdAt'):
+        raw = (rec.get(key) or '')[:10]
+        if not raw:
+            continue
+        try:
+            return datetime.strptime(raw, '%Y-%m-%d').date()
+        except ValueError:
+            continue
+    return None
+
+
+def _outstanding_onboarding_tasks(rec) -> list:
+    """Yellow/red portal tasks the hire still owes (human labels)."""
+    if _is_principal_owner(rec):
+        return []
+    out = []
+    for t in _portal_action_items(rec):
+        if (t.get('status') or '') not in ('yellow', 'red'):
+            continue
+        label = (t.get('label') or t.get('key') or '').strip()
+        if not label:
+            continue
+        detail = (t.get('detail') or '').strip()
+        out.append({
+            'key': t.get('key') or label,
+            'label': label,
+            'status': t.get('status'),
+            'detail': detail[:160],
+        })
+    return out
+
+
+def _reminder_history(rec) -> list:
+    raw = rec.get('onboardingReminders')
+    return list(raw) if isinstance(raw, list) else []
+
+
+def _days_since_anchor(rec):
+    anchor = _onboarding_anchor_date(rec)
+    if not anchor:
+        return None
+    return (datetime.utcnow().date() - anchor).days
+
+
+def _next_reminder_slot(rec):
+    """Which cadence slot is due now: 3, 7, 14, or None."""
+    days = _days_since_anchor(rec)
+    if days is None or days < ONBOARDING_REMINDER_DAYS[0]:
+        return None
+    sent_ns = {int(h.get('n') or 0) for h in _reminder_history(rec) if h.get('n')}
+    for n in ONBOARDING_REMINDER_DAYS:
+        if days >= n and n not in sent_ns:
+            return n
+    return None
+
+
+def _reminder_gap_ok(rec) -> bool:
+    hist = _reminder_history(rec)
+    if not hist:
+        return True
+    last = hist[-1].get('at') or ''
+    try:
+        last_dt = datetime.fromisoformat(str(last).replace('Z', ''))
+    except ValueError:
+        return True
+    return datetime.utcnow() - last_dt >= timedelta(hours=ONBOARDING_REMINDER_MIN_GAP_HOURS)
+
+
+def _build_onboarding_reminder_email(rec, outstanding: list, reminder_n: int):
+    first = _first_name(rec.get('name'))
+    portal = GATEWAY_PORTAL_URL
+    due = _training_due_date(rec).strftime('%B %d, %Y')
+    n_label = {3: 'first', 7: 'second', 14: 'final'}.get(reminder_n, 'follow-up')
+    subject = f'Reminder: Finish your DDI GATEWAY onboarding ({len(outstanding)} item{"s" if len(outstanding) != 1 else ""} open)'
+
+    rows_html = ''.join(
+        f'<li style="margin:0 0 8px"><b>{t["label"]}</b>'
+        f'{(" — " + t["detail"]) if t.get("detail") else ""}</li>'
+        for t in outstanding
+    )
+    rows_text = '\n'.join(
+        f'- {t["label"]}' + (f' — {t["detail"]}' if t.get('detail') else '')
+        for t in outstanding
+    )
+
+    html = f'''<div style="font-family:Inter,Helvetica,Arial,sans-serif;max-width:640px;color:#0B1E3D;line-height:1.55">
+<p>Hi {first},</p>
+<p>This is your <b>{n_label} reminder</b> that your Dee Davis Inc. onboarding in <b>GATEWAY</b> still has open items.
+Please finish these before your training target of <b>{due}</b> so we can clear you for work.</p>
+<p><b>Still needed:</b></p>
+<ul style="padding-left:20px">{rows_html}</ul>
+<p><b>What to do:</b></p>
+<ol>
+<li>Sign in at <a href="{portal}">{portal}</a></li>
+<li>Complete each open item (uploads, e-sign policies, training logs).</li>
+<li>Email <b>hr@deedavis.biz</b> if anything is blocked.</li>
+</ol>
+<p>Questions? Call the NEXUS desk at <b>(248) 270-8490</b> or email hr@deedavis.biz.</p>
+<p>Thank you,<br>
+Dieasha D. Davis<br>
+President &amp; CEO<br>
+Dee Davis Inc.<br>
+(248) 376-4550 | hr@deedavis.biz</p>
+</div>'''
+    text = f'''Hi {first},
+
+This is your {n_label} reminder that your Dee Davis Inc. onboarding in GATEWAY still has open items.
+Please finish these before your training target of {due} so we can clear you for work.
+
+Still needed:
+{rows_text}
+
+What to do:
+1. Sign in at {portal}
+2. Complete each open item (uploads, e-sign policies, training logs).
+3. Email hr@deedavis.biz if anything is blocked.
+
+Questions? (248) 270-8490 or hr@deedavis.biz
+
+Thank you,
+Dieasha D. Davis
+President & CEO
+Dee Davis Inc.
+(248) 376-4550 | hr@deedavis.biz
+'''
+    return subject, text, html
+
+
+def _eligible_for_onboarding_reminder(rec, force: bool = False):
+    """Returns (ok, reason, outstanding, slot_n)."""
+    if (rec.get('status') or '') != 'Active':
+        return False, 'not Active', [], None
+    if _is_principal_owner(rec):
+        return False, 'principal / owner — reminders N/A', [], None
+    email = (rec.get('email') or '').strip().lower()
+    if not email or '@' not in email:
+        return False, 'no portal email', [], None
+    ok_cw, _ = _can_work_internal(rec)
+    if ok_cw:
+        return False, 'can-work already clear', [], None
+    outstanding = _outstanding_onboarding_tasks(rec)
+    if not outstanding:
+        return False, 'no open portal tasks', [], None
+    if force:
+        hist = _reminder_history(rec)
+        next_n = len(hist) + 1
+        return True, 'manual', outstanding, next_n
+    if not _reminder_gap_ok(rec):
+        return False, 'sent within last 48 hours', outstanding, None
+    slot = _next_reminder_slot(rec)
+    if slot is None:
+        days = _days_since_anchor(rec)
+        if days is None:
+            return False, 'no start/anchor date', outstanding, None
+        if days < ONBOARDING_REMINDER_DAYS[0]:
+            return False, f'too early (day {days}; first reminder day {ONBOARDING_REMINDER_DAYS[0]})', outstanding, None
+        return False, 'all cadence reminders already sent', outstanding, None
+    return True, 'due', outstanding, slot
+
+
+def _send_onboarding_reminder(rec, records, from_airtable, actor='system', force: bool = False):
+    """Send one reminder. Returns dict with ok/skipped/error."""
+    ok, reason, outstanding, slot = _eligible_for_onboarding_reminder(rec, force=force)
+    email = (rec.get('email') or '').strip().lower()
+    if not ok:
+        return {
+            'ok': False,
+            'skipped': True,
+            'id': rec.get('id'),
+            'email': email,
+            'reason': reason,
+            'outstanding': len(outstanding),
+        }
+    try:
+        subject, text, html = _build_onboarding_reminder_email(rec, outstanding, slot)
+        sent_ok, detail = _smtp_send(email, subject, text, html)
+    except Exception as e:
+        _log_audit(rec, actor, f'Onboarding reminder FAILED to {email}: {e}')
+        _persist(rec, records, from_airtable)
+        return {'ok': False, 'id': rec.get('id'), 'email': email, 'error': str(e)}
+    if not sent_ok:
+        _log_audit(rec, actor, f'Onboarding reminder FAILED to {email}: {detail}')
+        _persist(rec, records, from_airtable)
+        return {'ok': False, 'id': rec.get('id'), 'email': email, 'error': detail}
+
+    now = datetime.utcnow().isoformat() + 'Z'
+    hist = _reminder_history(rec)
+    hist.append({
+        'at': now,
+        'n': slot,
+        'force': bool(force),
+        'outstanding': [t['label'] for t in outstanding],
+        'actor': actor,
+    })
+    rec['onboardingReminders'] = hist
+    rec['onboardingReminderLastAt'] = now
+    _log_audit(
+        rec, actor,
+        f'Onboarding reminder #{slot} sent to {email} '
+        f'({len(outstanding)} open: {", ".join(t["label"] for t in outstanding[:5])})',
+    )
+    _persist(rec, records, from_airtable)
+    return {
+        'ok': True,
+        'id': rec.get('id'),
+        'email': email,
+        'name': rec.get('name'),
+        'reminderN': slot,
+        'outstanding': [t['label'] for t in outstanding],
+    }
+
+
+def run_onboarding_reminders(force_all: bool = False, dry_run: bool = False):
+    """Batch runner for scheduler / API. Returns summary dict."""
+    records, from_airtable = _load_all()
+    sent, skipped, errors = [], [], []
+    for rec in records:
+        if (rec.get('status') or '') != 'Active':
+            continue
+        if dry_run:
+            ok, reason, outstanding, slot = _eligible_for_onboarding_reminder(rec, force=False)
+            row = {
+                'id': rec.get('id'),
+                'email': rec.get('email'),
+                'name': rec.get('name'),
+                'eligible': ok,
+                'reason': reason,
+                'slot': slot,
+                'outstanding': [t['label'] for t in outstanding],
+                'daysSinceAnchor': _days_since_anchor(rec),
+            }
+            (sent if ok else skipped).append(row)
+            continue
+        result = _send_onboarding_reminder(
+            rec, records, from_airtable, actor='scheduler', force=force_all,
+        )
+        if result.get('ok'):
+            sent.append(result)
+        elif result.get('error'):
+            errors.append(result)
+        else:
+            skipped.append(result)
+    return {
+        'ok': True,
+        'dryRun': dry_run,
+        'sent': sent,
+        'skipped': skipped,
+        'errors': errors,
+        'counts': {'sent': len(sent), 'skipped': len(skipped), 'errors': len(errors)},
+    }
 
 
 def _apply_portal_email(rec, records, from_airtable, new_email, actor='system', reason='email-set'):
@@ -2866,6 +3150,33 @@ def update_status(record_id):
 # COMPLIANCE GATE — mirrors PRISM's field-agent can-work check
 # ═══════════════════════════════════════════════════════════════
 
+# Founding principal / owner — same ultimate key as NEXUS OPS.
+# Skips employee Pre-Boarding theater (own offer letter, E-Verify-on-self).
+# Still requires Active + exclusion screening + CMS hard-floor training.
+GATEWAY_PRINCIPAL_EMAILS = frozenset({
+    'info@deedavis.biz',
+    'dieasha@deedavis.biz',
+    'dee@deedavis.biz',
+})
+
+
+def _is_principal_owner(rec) -> bool:
+    """President / CEO / owner — not a routine hire. Phase 1 HR checklist N/A."""
+    if not rec:
+        return False
+    if rec.get('canWorkOverride') is True or rec.get('principalOwner') is True:
+        return True
+    em = (rec.get('email') or '').strip().lower()
+    if em in GATEWAY_PRINCIPAL_EMAILS:
+        return True
+    blob = ' '.join([
+        str(rec.get('level') or ''),
+        str(rec.get('role') or ''),
+        str(rec.get('roleTitle') or ''),
+    ]).lower()
+    return any(k in blob for k in ('president', 'ceo', 'owner', 'founder'))
+
+
 def _can_work_internal(rec):
     """Shared logic behind the /can-work endpoint AND the company-email
     auto-provisioning trigger — 'credentialing complete' is defined as
@@ -2873,9 +3184,13 @@ def _can_work_internal(rec):
     if rec.get('status') != 'Active':
         return False, f'Onboarding status is {rec.get("status")}, not Active'
 
-    first_phase = phases_for(rec['workerType'])[0]
-    if not _phase_complete(rec, first_phase):
-        return False, f'"{first_phase["title"]}" not complete'
+    principal = _is_principal_owner(rec)
+    if not principal:
+        first_phase = phases_for(rec['workerType'])[0]
+        if not _phase_complete(rec, first_phase):
+            return False, f'"{first_phase["title"]}" not complete'
+    # Principal: Pre-Boarding / Pre-Engagement checklist does not gate can-work.
+    # Real employees/contractors still must finish Phase 1 (offer signed, etc.).
 
     screening = screening_compliance(rec)
     if screening['state'] in ('never_screened', 'flagged_open', 'overdue'):
@@ -2886,6 +3201,8 @@ def _can_work_internal(rec):
         if comp['state'] == 'cms_hard_missed':
             return False, f'{item["name"]}: {comp["detail"]}'
 
+    if principal:
+        return True, 'Compliant (principal / owner — Phase 1 hire checklist N/A)'
     return True, 'Compliant'
 
 
@@ -2927,7 +3244,48 @@ def can_work(record_id):
         return jsonify({'can_work': False, 'reason': 'not found'}), 404
 
     ok, reason = _can_work_internal(rec)
-    return jsonify({'can_work': ok, 'reason': reason})
+    return jsonify({
+        'can_work': ok,
+        'reason': reason,
+        'principalOwner': _is_principal_owner(rec),
+    })
+
+
+# ═══════════════════════════════════════════════════════════════
+# ONBOARDING REMINDER EMAILS — Day 3 / 7 / 14 + manual
+# ═══════════════════════════════════════════════════════════════
+
+@hr_onboarding.route('/nexus/hr/onboarding/<record_id>/remind', methods=['POST'])
+def remind_one(record_id):
+    """Manual HR send for one hire (bypasses Day 3/7/14 slot; still skips can-work clear)."""
+    data = request.get_json(force=True, silent=True) or {}
+    actor = (data.get('actor') or 'hr').strip() or 'hr'
+    force = data.get('force', True)
+    rec, records, from_airtable = _find(record_id)
+    if not rec:
+        return jsonify({'ok': False, 'error': 'not found'}), 404
+    result = _send_onboarding_reminder(
+        rec, records, from_airtable, actor=actor, force=bool(force),
+    )
+    status = 200 if result.get('ok') or result.get('skipped') else 502
+    return jsonify(result), status
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/reminders/preview', methods=['GET'])
+def reminders_preview():
+    """Dry-run: who would get a cadence reminder today."""
+    summary = run_onboarding_reminders(dry_run=True)
+    return jsonify(summary)
+
+
+@hr_onboarding.route('/nexus/hr/onboarding/reminders/run', methods=['POST'])
+def reminders_run():
+    """Batch send Day 3/7/14 reminders. Optional body: {\"dryRun\": true, \"forceAll\": false}."""
+    data = request.get_json(force=True, silent=True) or {}
+    dry_run = bool(data.get('dryRun') or data.get('dry_run'))
+    force_all = bool(data.get('forceAll') or data.get('force_all'))
+    summary = run_onboarding_reminders(force_all=force_all, dry_run=dry_run)
+    return jsonify(summary)
 
 
 # ═══════════════════════════════════════════════════════════════

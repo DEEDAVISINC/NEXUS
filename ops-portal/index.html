@@ -6,331 +6,451 @@
 <title>NEXUS OPS — Dee Davis Inc.</title>
 <style>
   :root {
-    --navy: #070D18;
-    --navy2: #0F1C30;
-    --copper: #A8481A;
-    --copper2: #D97706;
-    --teal: #0F766E;
-    --teal2: #14B8A6;
-    --sky: #122a47;
-    --sky2: #1D4ED8;
-    --claims: #115E59;
-    --claims2: #0D9488;
-    --ink: #0A1628;
-    --paper: #E4EAF2;
-    --line: #C5CEDC;
-    --gray: #4B5C72;
-    --ok: #047857;
-    --warn: #B45309;
-    --crit: #B91C1C;
+    --bg0: #111827;
+    --bg1: #1f2937;
+    --bg2: #374151;
+    --panel: linear-gradient(145deg, #1f2937 0%, #111827 100%);
+    --line: rgba(168, 85, 247, 0.22);
+    --line2: rgba(75, 85, 99, 0.55);
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --purple: #a855f7;
+    --pink: #ec4899;
+    --teal: #14b8a6;
+    --ok: #34d399;
+    --warn: #fbbf24;
+    --crit: #f87171;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: "Segoe UI", "Avenir Next", Gill Sans, Helvetica, Arial, sans-serif;
-    background:
-      radial-gradient(ellipse at 100% 0%, rgba(15,118,110,.16), transparent 45%),
-      radial-gradient(ellipse at 0% 100%, rgba(168,72,26,.14), transparent 40%),
-      var(--paper);
-    color: var(--ink);
     min-height: 100vh;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(ellipse at 20% 15%, rgba(168,85,247,.28), transparent 42%),
+      radial-gradient(ellipse at 85% 80%, rgba(236,72,153,.18), transparent 45%),
+      linear-gradient(160deg, #0b1220, #1a1030 50%, #111827);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
   }
   .hidden { display: none !important; }
+  .grad-title {
+    background: linear-gradient(90deg, #c084fc, #f472b6);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    font-weight: 800;
+  }
+
+  /* Login */
   .screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
     background:
-      radial-gradient(ellipse at 15% 10%, rgba(180,83,9,.40), transparent 42%),
-      radial-gradient(ellipse at 85% 80%, rgba(15,118,110,.28), transparent 45%),
-      linear-gradient(155deg, #050A12 0%, #0F1C30 42%, #0A2A28 100%);
+      radial-gradient(ellipse at 20% 15%, rgba(168,85,247,.28), transparent 42%),
+      radial-gradient(ellipse at 85% 80%, rgba(236,72,153,.18), transparent 45%),
+      linear-gradient(160deg, #0b1220, #1a1030 50%, #111827);
   }
   .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 36px 32px;
-    max-width: 440px;
-    width: 100%;
-    box-shadow: 0 28px 70px rgba(0,0,0,.55);
-    border-top: 5px solid transparent;
-    border-image: linear-gradient(90deg, var(--copper), var(--teal)) 1;
+    width: 100%; max-width: 460px; padding: 34px 30px; border-radius: 16px;
+    background: var(--panel); border: 1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
   }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 18px;
-  }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
   .brand .dot {
-    width: 11px; height: 11px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--copper), var(--teal));
-    box-shadow: 0 0 0 4px rgba(196,92,38,.18);
+    width: 12px; height: 12px; border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.2);
   }
   .brand .word {
-    font-weight: 800;
-    letter-spacing: .16em;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: var(--navy2);
+    font-weight: 800; letter-spacing: .16em; font-size: 12px; text-transform: uppercase;
+    background: linear-gradient(90deg, #c084fc, #f472b6);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .brand .sub { font-size: 11px; color: var(--gray); margin-left: auto; }
-  h1 { font-size: 22px; margin: 0 0 8px; color: var(--navy2); font-weight: 700; }
-  p.lead { font-size: 14px; color: var(--gray); margin: 0 0 18px; line-height: 1.55; }
+  .brand .sub { margin-left: auto; font-size: 11px; color: var(--muted); }
+  h1 { font-size: 24px; margin: 0 0 8px; font-weight: 800; color: #fff; }
+  p.lead { font-size: 14px; color: var(--muted); margin: 0 0 18px; line-height: 1.55; }
   .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
   .pill {
     font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
-    padding: 6px 10px; border-radius: 999px;
+    padding: 6px 10px; border-radius: 999px; border: 1px solid transparent;
   }
-  .pill.prism { background: #1E3A5F; color: #BFDBFE; }
-  .pill.claims { background: #115E59; color: #99F6E4; }
-  .pill.more { background: #7C2D12; color: #FDBA74; }
-  label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gray); margin: 0 0 6px; }
-  input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--line);
-    border-radius: 8px;
-    font-size: 15px;
+  .pill.prism { background: rgba(249,115,22,.15); color: #fdba74; border-color: rgba(249,115,22,.35); }
+  .pill.claims { background: rgba(168,85,247,.15); color: #e9d5ff; border-color: rgba(168,85,247,.35); }
+  .pill.more { background: rgba(236,72,153,.12); color: #fbcfe8; border-color: rgba(236,72,153,.3); }
+  label {
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 6px;
+  }
+  input, textarea {
+    width: 100%; padding: 12px 14px; border-radius: 10px; font-size: 15px;
+    border: 1px solid var(--line2); background: rgba(17,24,39,.75); color: var(--text);
     margin-bottom: 14px;
-    color: var(--ink);
-    background: #FBFCFF;
   }
-  input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(20,184,166,.2); }
+  input:focus, textarea:focus {
+    outline: none; border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168,85,247,.22);
+  }
   .security-note {
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #FDE68A;
-    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
-    font-size: 11.5px;
-    color: #92400E;
-    line-height: 1.5;
-    margin: 14px 0 18px;
+    padding: 12px 14px; border-radius: 10px; margin: 14px 0 18px;
+    border: 1px solid rgba(251,191,36,.35); background: rgba(251,191,36,.08);
+    font-size: 11.5px; color: #fde68a; line-height: 1.5;
   }
-  .security-note strong { color: #78350F; }
-  .footnote { font-size: 11.5px; color: var(--gray); text-align: center; margin-top: 14px; line-height: 1.5; }
-  .footnote a { color: var(--sky2); font-weight: 600; }
+  .security-note strong { color: #fbbf24; }
+  .footnote { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.5; }
+  .footnote a { color: #c084fc; font-weight: 600; }
   .msg {
-    padding: 10px 12px;
-    font-size: 12.5px;
-    margin-bottom: 14px;
-    line-height: 1.45;
-    border-radius: 8px;
+    padding: 10px 12px; font-size: 12.5px; margin-bottom: 14px; line-height: 1.45;
+    border-radius: 10px; border: 1px solid transparent;
   }
-  .msg.err { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
-  .msg.ok { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
-  .msg.info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+  .msg.err { background: rgba(248,113,113,.12); border-color: rgba(248,113,113,.35); color: #fecaca; }
+  .msg.ok { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.35); color: #a7f3d0; }
+  .msg.info { background: rgba(168,85,247,.12); border-color: rgba(168,85,247,.3); color: #e9d5ff; }
   button.btn {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    color: #fff;
-    background: linear-gradient(135deg, #0A1628, #122a47 50%, #115E59);
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+    cursor: pointer; color: #fff;
+    background: linear-gradient(90deg, #9333ea, #db2777);
+    box-shadow: 0 8px 20px rgba(147,51,234,.25);
   }
   button.btn:hover { filter: brightness(1.08); }
   button.btn:disabled { opacity: .45; cursor: default; filter: none; }
   button.btn.secondary {
-    background: #fff;
-    color: var(--navy2);
-    border: 1.5px solid var(--line);
-    margin-top: 8px;
+    background: #1f2937; color: #d1d5db; border: 1px solid var(--line2);
+    box-shadow: none; margin-top: 8px;
   }
   button.btn.copper {
-    background: linear-gradient(135deg, #9A3412, #C2410C);
+    background: linear-gradient(90deg, #ea580c, #f59e0b);
+    box-shadow: 0 8px 20px rgba(234,88,12,.25);
   }
   button.linkish {
-    background: none;
-    border: none;
-    color: var(--copper);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 8px 0 0;
-    text-decoration: underline;
+    background: none; border: none; color: #c084fc; font-size: 12px; font-weight: 600;
+    cursor: pointer; padding: 8px 0 0; text-decoration: underline;
   }
 
   #idle-warn {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(11,18,32,.78);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,.72); align-items: center; justify-content: center; padding: 24px;
   }
   #idle-warn.show { display: flex; }
   #idle-warn .box {
-    background: #fff;
-    max-width: 380px;
-    width: 100%;
-    padding: 28px 24px;
-    border-radius: 12px;
-    border-top: 5px solid var(--warn);
-    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    background: linear-gradient(145deg, #1f2937, #111827); max-width: 380px; width: 100%;
+    padding: 28px 24px; border-radius: 14px; border: 1px solid rgba(251,191,36,.4);
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
   }
-  #idle-warn h2 { margin: 0 0 8px; font-size: 18px; color: #92400E; }
-  #idle-warn p { margin: 0 0 18px; font-size: 13.5px; color: var(--gray); line-height: 1.5; }
+  #idle-warn h2 { margin: 0 0 8px; font-size: 18px; color: #fbbf24; }
+  #idle-warn p { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
 
   .app-header {
-    display: flex;
-    background: linear-gradient(90deg, #050A12 0%, #0F1C30 50%, #0A3A36 100%);
-    color: #fff;
+    display: flex; align-items: center; gap: 12px;
     padding: 14px 24px;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 3px solid #9A3412;
+    background: rgba(17,24,39,.55);
+    border-bottom: 1px solid var(--line);
   }
   .app-header .dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: #14B8A6;
-    box-shadow: 0 0 0 3px rgba(20,184,166,.3);
+    width: 12px; height: 12px; border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.2);
   }
-  .app-header .word { font-weight: 800; letter-spacing: .14em; font-size: 12px; text-transform: uppercase; }
-  .app-header .who { margin-left: auto; font-size: 12px; color: #CBD5E1; text-align: right; }
+  .app-header .word {
+    font-weight: 800; letter-spacing: .16em; font-size: 12px; text-transform: uppercase;
+    background: linear-gradient(90deg, #c084fc, #f472b6);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .app-header .who { margin-left: auto; font-size: 12px; color: var(--muted); text-align: right; }
+  .app-header .tc {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 12px;
+    background: rgba(15,23,42,.65); border: 1px solid var(--line2);
+  }
+  .app-header .tc .tc-meta { font-size: 11px; color: var(--muted); line-height: 1.25; min-width: 100px; }
+  .app-header .tc .tc-meta b { color: #e9d5ff; font-weight: 700; }
+  .app-header .tc.on { border-color: rgba(52,211,153,.45); box-shadow: 0 0 0 1px rgba(52,211,153,.15); }
+  .app-header .tc button.tc-side {
+    background: #1f2937; border: 1px solid var(--line2);
+    color: #d1d5db; padding: 7px 9px; border-radius: 10px; font-size: 10px; font-weight: 700; cursor: pointer;
+  }
   .app-header button {
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(94,234,212,.35);
-    color: #E0F2FE;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    cursor: pointer;
+    background: #1f2937; border: 1px solid var(--line2);
+    color: #d1d5db; padding: 8px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer;
   }
-  .app-header button:hover { background: rgba(20,184,166,.2); }
-  .app-body { max-width: 960px; margin: 0 auto; padding: 28px 20px 48px; }
-  .hero-strip {
-    background: linear-gradient(135deg, #0F1C30 0%, #122a47 45%, #115E59 100%);
-    border: 1px solid #1E3A5F;
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 10px 28px rgba(5,10,18,.18);
-    color: #E2E8F0;
+  .app-header button:hover { border-color: rgba(168,85,247,.45); color: #e9d5ff; }
+  .app-body { max-width: 920px; margin: 0 auto; padding: 28px 20px 56px; }
+
+  /* Same panel language as login .card */
+  .shell-card {
+    width: 100%;
+    padding: 28px 26px;
+    border-radius: 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    margin-bottom: 18px;
   }
-  .hero-strip h2 {
-    margin: 0 0 4px;
-    font-size: 18px;
-    color: #F8FAFC;
+  .shell-card h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.01em;
   }
-  .hero-strip .meta-row { color: #94A3B8; }
-  .hero-strip .meta-row strong { color: #E2E8F0; }
+  .shell-card .lead {
+    font-size: 14px; color: var(--muted); margin: 6px 0 0; line-height: 1.55;
+  }
+
+  .hero-strip { margin-bottom: 0; padding: 0; background: none; border: none; box-shadow: none; }
+  .hero-strip h2 { margin: 0 0 6px; }
+  .hero-strip .meta-row { color: var(--muted); margin: 0; }
+  .hero-strip .meta-row strong { color: #e5e7eb; }
   .gate-banner {
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid #991B1B;
-    background: linear-gradient(135deg, #7F1D1D, #991B1B);
-    color: #FEE2E2;
-    font-size: 13.5px;
-    line-height: 1.5;
-    margin-bottom: 16px;
+    padding: 12px 14px; border-radius: 10px; margin: 16px 0;
+    border: 1px solid rgba(248,113,113,.35); background: rgba(248,113,113,.1);
+    color: #fecaca; font-size: 13px; line-height: 1.5;
   }
   .gate-banner.ok {
-    border-color: #047857;
-    background: linear-gradient(135deg, #064E3B, #047857);
-    color: #D1FAE5;
+    border-color: rgba(52,211,153,.35); background: rgba(52,211,153,.1); color: #a7f3d0;
   }
+
+  .metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px; margin: 16px 0;
+  }
+  .metric {
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2); border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+  .metric .v { font-size: 24px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .metric .i { float: right; font-size: 20px; line-height: 1; }
+
   .desk-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 16px;
   }
   .desk {
-    position: relative;
-    border: 1px solid var(--line);
-    background: #fff;
-    padding: 20px 18px;
-    min-height: 168px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 28px rgba(15,30,61,.07);
-    transition: transform .15s, box-shadow .15s;
+    position: relative; min-height: 160px; padding: 18px 16px; border-radius: 12px;
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2); overflow: hidden;
+    transition: border-color .15s;
   }
   .desk::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 5px;
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, #a855f7, #ec4899);
   }
-  .desk.desk-prism::before { background: linear-gradient(180deg, #1D4ED8, #122a47); }
-  .desk.desk-claims::before { background: linear-gradient(180deg, #0D9488, #115E59); }
-  .desk.desk-more::before { background: linear-gradient(180deg, #C2410C, #7C2D12); }
-  .desk.desk-prism { background: linear-gradient(160deg, #F8FAFC 40%, #DBEAFE); }
-  .desk.desk-claims { background: linear-gradient(160deg, #F8FAFC 40%, #CCFBF1); }
-  .desk.desk-more { background: linear-gradient(160deg, #F8FAFC 40%, #FFEDD5); }
-  .desk:not(.locked):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 32px rgba(15,30,61,.12);
-  }
-  .desk.locked { opacity: .78; filter: saturate(.7); }
-  .desk h3 { margin: 0 0 6px; font-size: 16px; color: var(--navy2); }
-  .desk.desk-prism h3 { color: #1E3A5F; }
-  .desk.desk-claims h3 { color: #0F766E; }
-  .desk p { margin: 0 0 14px; font-size: 12.5px; color: var(--gray); line-height: 1.45; }
+  .desk.desk-prism::before { background: linear-gradient(180deg, #f97316, #f59e0b); }
+  .desk.desk-claims::before { background: linear-gradient(180deg, #a855f7, #ec4899); }
+  .desk:not(.locked):hover { border-color: rgba(168,85,247,.45); }
+  .desk.locked { opacity: .72; }
+  .desk h3 { margin: 0 0 6px; font-size: 16px; color: #fff; }
+  .desk p { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
   .desk .tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    padding: 5px 10px;
-    border-radius: 999px;
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .06em;
+    text-transform: uppercase; padding: 5px 10px; border-radius: 999px;
   }
-  .desk .tag.open { background: #064E3B; color: #A7F3D0; }
-  .desk .tag.lock { background: #7F1D1D; color: #FECACA; }
-  .desk .tag.soon { background: #78350F; color: #FDE68A; }
-  .meta-row { font-size: 12.5px; color: var(--gray); margin-bottom: 18px; line-height: 1.55; }
-  .meta-row strong { color: var(--ink); }
-  .acct-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .desk .tag.open { background: rgba(52,211,153,.15); color: #6ee7b7; border: 1px solid rgba(52,211,153,.3); }
+  .desk .tag.lock { background: rgba(248,113,113,.12); color: #fca5a5; border: 1px solid rgba(248,113,113,.3); }
+  .desk .tag.soon { background: rgba(251,191,36,.12); color: #fde68a; border: 1px solid rgba(251,191,36,.3); }
+  .meta-row { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .meta-row strong { color: #e5e7eb; }
+  .acct-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .acct-pill {
-    font-size: 11px; font-weight: 700;
-    padding: 4px 10px; border-radius: 999px;
-    background: #7C2D12; color: #FED7AA; border: 1px solid #C2410C;
+    font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px;
+    background: rgba(249,115,22,.15); color: #fdba74; border: 1px solid rgba(249,115,22,.35);
   }
   .role-chip {
-    display: inline-block;
-    font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
-    padding: 3px 8px; border-radius: 6px;
-    background: #1E3A5F; color: #BFDBFE; margin-left: 6px;
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .05em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 6px; margin-left: 6px;
+    background: rgba(168,85,247,.2); color: #e9d5ff; border: 1px solid rgba(168,85,247,.35);
   }
-  .queue-bar {
-    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-    margin-bottom: 16px;
+
+
+  .queue-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+  .queue-bar h2 { margin: 0; flex: 1; font-size: 24px; font-weight: 800; color: #fff; }
+  .queue-bar .btn { width: auto; padding: 10px 14px; margin-top: 0; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tab {
+    border: 1px solid var(--line2); background: #1f2937; color: #9ca3af;
+    border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 800; cursor: pointer;
   }
-  .queue-bar h2 { margin: 0; font-size: 18px; color: #122a47; flex: 1; }
-  .queue-bar .btn { width: auto; padding: 10px 14px; }
+  .tab.active {
+    background: linear-gradient(90deg, #9333ea, #db2777); color: #fff; border-color: transparent;
+  }
+  .search-row { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; }
+  .search-row input { margin: 0; flex: 1; background: rgba(17,24,39,.85); }
+  .kbd {
+    font-size: 10px; font-weight: 800; color: #c4b5fd;
+    border: 1px solid rgba(168,85,247,.35); border-radius: 6px; padding: 4px 7px;
+    background: rgba(168,85,247,.12);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 800; border-radius: 999px; padding: 4px 10px; white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .chip.new { background: rgba(96,165,250,.15); color: #93c5fd; border-color: rgba(96,165,250,.3); }
+  .chip.working { background: rgba(168,85,247,.18); color: #e9d5ff; border-color: rgba(168,85,247,.35); }
+  .chip.waiting { background: rgba(251,191,36,.12); color: #fde68a; border-color: rgba(251,191,36,.3); }
+  .chip.done { background: rgba(52,211,153,.12); color: #6ee7b7; border-color: rgba(52,211,153,.3); }
+  .chip.sla-ok { background: rgba(52,211,153,.12); color: #6ee7b7; border-color: rgba(52,211,153,.3); }
+  .chip.sla-tight { background: rgba(251,191,36,.12); color: #fde68a; border-color: rgba(251,191,36,.3); }
+  .chip.sla-overdue { background: rgba(248,113,113,.12); color: #fca5a5; border-color: rgba(248,113,113,.35); }
+  .chip.sla-unknown { background: rgba(107,114,128,.2); color: #d1d5db; border-color: rgba(107,114,128,.35); }
+  .chip.demo { background: rgba(148,163,184,.15); color: #cbd5e1; border-color: rgba(148,163,184,.4); }
+  .demo-filter { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 12px; }
+  .demo-filter select {
+    background: rgba(17,24,39,.75); color: #e9d5ff; border: 1px solid var(--line2);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px;
+  }
+  .qcard.demo-item { border-style: dashed; opacity: .92; }
+  .floor-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(168,85,247,.35);
+    background: rgba(168,85,247,.12); color: #e9d5ff; margin: 0 0 10px;
+  }
+  .floor-badge.care { border-color: rgba(20,184,166,.4); background: rgba(20,184,166,.12); color: #99f6e4; }
+  .floor-badge.supervisor { border-color: rgba(251,191,36,.4); background: rgba(251,191,36,.12); color: #fde68a; }
+  .floor-badge.management { border-color: rgba(96,165,250,.4); background: rgba(96,165,250,.12); color: #bfdbfe; }
+  .floor-badge.owner { border-color: rgba(244,114,182,.45); background: rgba(244,114,182,.14); color: #fbcfe8; }
+  .manage-section { margin: 0 0 18px; }
+  .manage-section h3 { margin: 0 0 8px; font-size: 14px; color: #e9d5ff; }
+  .manage-row {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+    padding: 12px 14px; margin-bottom: 8px; border-radius: 12px;
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2);
+  }
+  .manage-row .left { flex: 1; min-width: 180px; font-size: 13px; line-height: 1.45; color: #e5e7eb; }
+  .manage-row .left .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .manage-row .btn { width: auto; padding: 8px 12px; font-size: 11px; margin: 0; }
+
   .qcard {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 16px 16px 14px;
-    margin-bottom: 12px;
-    border-left: 5px solid #1D4ED8;
-    box-shadow: 0 8px 22px rgba(15,30,61,.07);
+    background: linear-gradient(145deg, rgba(55,65,81,.55), rgba(17,24,39,.9));
+    border: 1px solid var(--line2); border-radius: 14px; padding: 16px;
+    margin-bottom: 12px; border-left: 4px solid #14b8a6;
+    cursor: pointer; transition: transform .12s, border-color .12s, background .12s;
   }
-  .qcard.mine { border-left-color: #0F766E; background: linear-gradient(90deg, #F0FDFA, #fff 40%); }
-  .qcard.stat { border-left-color: #B91C1C; }
-  .qcard-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
-  .qcard-top h3 { margin: 0; font-size: 15px; color: var(--navy2); flex: 1; }
-  .qmeta { font-size: 12px; color: var(--gray); line-height: 1.5; margin-bottom: 10px; }
-  .qmeta strong { color: var(--ink); }
+  .qcard:hover {
+    transform: translateY(-1px); border-color: rgba(168,85,247,.4);
+    background: linear-gradient(145deg, rgba(75,85,99,.55), rgba(17,24,39,.95));
+  }
+  .qcard.mine { border-left-color: #a855f7; }
+  .qcard.stat, .qcard.overdue { border-left-color: #f87171; }
+  .qcard-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; }
+  .qcard-top h3 { margin: 0; font-size: 16px; color: #fff; flex: 1; min-width: 140px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .qmeta { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+  .qmeta strong { color: #e5e7eb; }
   .qactions { display: flex; flex-wrap: wrap; gap: 8px; }
   .qactions .btn { width: auto; padding: 9px 12px; font-size: 11px; }
-  .qactions textarea {
-    width: 100%; min-height: 64px; margin: 8px 0 0;
-    border: 1.5px solid var(--line); border-radius: 8px; padding: 10px; font-size: 13px;
-  }
   .empty {
-    padding: 28px; text-align: center; color: var(--gray);
-    border: 1px dashed var(--line); border-radius: 12px; background: #fff;
+    padding: 40px 24px; text-align: center; color: var(--muted);
+    border: 1px dashed rgba(168,85,247,.35); border-radius: 16px;
+    background: rgba(17,24,39,.45); font-size: 15px; line-height: 1.5;
   }
+  .empty .big { font-size: 32px; display: block; margin-bottom: 8px; }
+
+  .detail {
+    background: rgba(17,24,39,.45); border: 1px solid var(--line2); border-radius: 12px;
+    padding: 18px;
+  }
+  .detail-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .detail-head h2 { margin: 0; font-size: 24px; color: #fff; flex: 1; min-width: 180px; }
+  .detail-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px; margin-bottom: 16px;
+  }
+  .dfield {
+    background: rgba(55,65,81,.45); border: 1px solid var(--line2); border-radius: 12px; padding: 10px 12px;
+  }
+  .dfield .k { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .dfield .v { font-size: 14px; font-weight: 650; color: #fff; margin-top: 3px; }
+  .stepper { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+  .step {
+    font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 999px;
+    background: rgba(107,114,128,.25); color: #9ca3af; border: 1px solid var(--line2);
+  }
+  .step.done { background: rgba(52,211,153,.12); color: #6ee7b7; border-color: rgba(52,211,153,.3); }
+  .step.active {
+    background: linear-gradient(90deg, #9333ea, #db2777); color: #fff; border-color: transparent;
+  }
+  .step.todo { background: rgba(55,65,81,.5); color: #9ca3af; }
+  .next-action { margin-bottom: 16px; }
+  .next-action .btn { width: auto; min-width: 180px; }
+  .timeline { border-top: 1px solid var(--line2); padding-top: 14px; }
+  .timeline h3 { margin: 0 0 10px; font-size: 14px; color: #e9d5ff; }
+  .titem { border-left: 3px solid #a855f7; padding: 8px 0 8px 12px; margin-bottom: 8px; }
+  .titem .who { font-size: 12px; font-weight: 700; color: #fff; }
+  .titem .when { font-size: 11px; color: var(--muted); }
+  .titem .txt { font-size: 13px; color: #e5e7eb; margin-top: 3px; line-height: 1.45; }
+  .note-box { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .note-box textarea {
+    flex: 1; min-width: 220px; min-height: 70px; margin: 0;
+  }
+  .note-box .btn { width: auto; align-self: flex-end; margin: 0; }
+  .status-picks { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+  .status-picks button {
+    border: 1px solid var(--line2); background: #1f2937; color: #d1d5db;
+    border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+  .status-picks button.active {
+    border-color: transparent; color: #fff;
+    background: linear-gradient(90deg, #9333ea, #db2777);
+  }
+  .hint-row { font-size: 11px; color: var(--muted); margin: 0 0 12px; }
+  .detail strong { color: #e9d5ff; }
+  .day-board { margin-top: 8px; }
+  .agent-row {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    padding: 12px 14px; margin-bottom: 8px; border-radius: 12px;
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2);
+  }
+  .agent-row .name { flex: 1; min-width: 140px; font-weight: 700; color: #fff; }
+  .agent-row .stat { font-size: 12px; color: var(--muted); }
+  .agent-row .stat strong { color: #e5e7eb; }
+  .assign-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+  .assign-row input { margin: 0; flex: 1; min-width: 180px; }
+  .assign-row .btn { width: auto; margin: 0; }
+  .intake-block {
+    margin: 0 0 16px; padding: 14px; border-radius: 12px;
+    background: rgba(17,24,39,.45); border: 1px solid var(--line2);
+  }
+  .intake-block h3 { margin: 0 0 10px; font-size: 13px; color: #e9d5ff; }
+  .cal-strip { margin: 0 0 16px; }
+  .cal-strip h3 { margin: 0 0 10px; font-size: 14px; color: #e9d5ff; }
+  .cal-strip .sub { font-size: 11px; color: var(--muted); font-weight: 500; margin-left: 6px; }
+  .cal-row {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 14px; margin-bottom: 8px; border-radius: 12px;
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2);
+    cursor: pointer; text-align: left; width: 100%; color: inherit; font: inherit;
+  }
+  .cal-row:hover { border-color: rgba(168,85,247,.45); }
+  .cal-row .when {
+    min-width: 64px; font-weight: 800; font-size: 13px; color: #f9a8d4;
+  }
+  .cal-row .body { flex: 1; min-width: 0; }
+  .cal-row .title { font-weight: 700; color: #fff; font-size: 14px; }
+  .cal-row .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .callback-box {
+    margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+  .callback-box input[type="datetime-local"] {
+    margin: 0; flex: 1; min-width: 200px; font-size: 13px;
+  }
+  .callback-box input[type="text"] { margin: 0; flex: 1; min-width: 140px; }
+  .callback-box .btn { width: auto; margin: 0; }
+  .batch-bar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin: 0 0 12px; padding: 12px 14px; border-radius: 12px;
+    background: rgba(168,85,247,.12); border: 1px solid rgba(168,85,247,.35);
+  }
+  .batch-bar label { font-size: 13px; color: #e9d5ff; display: flex; gap: 8px; align-items: center; }
+  .batch-bar select { margin: 0; flex: 1; min-width: 180px; }
+  .batch-bar .btn { width: auto; margin: 0; }
+  .qcard .pick { margin-right: 8px; }
+  .agent-card {
+    padding: 14px; margin-bottom: 8px; border-radius: 12px;
+    background: rgba(17,24,39,.55); border: 1px solid var(--line2);
+  }
+  .agent-card .name { font-weight: 700; color: #fff; }
+  .agent-card .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -350,12 +470,12 @@
       <span class="word">NEXUS OPS</span>
       <span class="sub">ops.deedavis.biz</span>
     </div>
-    <h1>Workforce operations</h1>
-    <p class="lead">Sign in with your work email on file in GATEWAY. This is daily work — not onboarding.</p>
+    <h1>⚡ NEXUS OPS</h1>
+    <p class="lead">Workforce command center — same energy as PRISM. Sign in with your GATEWAY work email.</p>
     <div class="pill-row">
-      <span class="pill prism">PRISM Desk</span>
-      <span class="pill claims">Claims</span>
-      <span class="pill more">More desks</span>
+      <span class="pill prism">🔮 PRISM Desk</span>
+      <span class="pill claims">💎 Claims</span>
+      <span class="pill more">✨ More desks</span>
     </div>
 
     <div id="login-msg" class="msg info hidden"></div>
@@ -391,13 +511,19 @@
     <span class="dot" aria-hidden="true"></span>
     <span class="word">NEXUS OPS</span>
     <span class="who" id="who-line"></span>
+    <div class="tc" id="timeclock" title="On shift while signed into OPS → hours feed VERTEX HR">
+      <div class="tc-meta" id="tc-meta">Shift<br><b>—</b></div>
+      <button type="button" class="tc-side" id="tc-vertex" title="Send period hours to VERTEX HR">→ VERTEX</button>
+    </div>
     <button type="button" id="signout-btn">Sign out</button>
   </header>
   <div class="app-body">
-    <div id="panel-desks">
+    <div id="panel-desks" class="shell-card">
       <div class="hero-strip">
-        <h2>Your desks</h2>
-        <div class="meta-row" id="meta-line" style="margin:0"></div>
+        <h2>⚡ Your desks</h2>
+        <p class="lead">Pick a desk to start work. Same session rules as sign-in.</p>
+        <div id="floor-badge-home" class="floor-badge care">Care desk</div>
+        <div class="meta-row" id="meta-line" style="margin-top:12px"></div>
         <div class="acct-pills" id="acct-pills"></div>
       </div>
       <div id="gate-banner" class="gate-banner"></div>
@@ -405,13 +531,62 @@
     </div>
 
     <div id="panel-prism" class="hidden">
-      <div class="queue-bar">
-        <button class="btn secondary" type="button" id="back-desks">← Desks</button>
-        <h2>PRISM Desk</h2>
-        <button class="btn" type="button" id="refresh-queue">Refresh</button>
+      <div id="prism-queue-view" class="shell-card">
+        <div class="queue-bar">
+          <button class="btn secondary" type="button" id="back-desks">← Desks</button>
+          <h2>🔮 PRISM Queue</h2>
+          <button class="btn" type="button" id="refresh-queue">Refresh</button>
+        </div>
+        <div class="metrics" id="queue-metrics"></div>
+        <div id="floor-badge-desk" class="floor-badge care">Care desk</div>
+        <div class="tabs" id="queue-tabs">
+          <button type="button" class="tab hidden" data-view="manage" id="tab-manage">🏢 Manage</button>
+          <button type="button" class="tab hidden" data-view="live" id="tab-live">📡 Live</button>
+          <button type="button" class="tab active" data-view="mine">📋 Mine</button>
+          <button type="button" class="tab" data-view="pool">🌊 Unassigned</button>
+          <button type="button" class="tab" data-view="all">🗂️ Queue</button>
+          <button type="button" class="tab hidden" data-view="agents" id="tab-agents">👥 Agents</button>
+          <button type="button" class="tab" data-view="day" id="tab-day">📅 Calendar</button>
+        </div>
+        <div id="manage-board" class="day-board hidden"></div>
+        <div id="live-board" class="day-board hidden"></div>
+        <div id="queue-tools">
+          <div class="search-row">
+            <input id="queue-search" type="search" placeholder="Search name, MCO ID, referral #, phone…" autocomplete="off">
+            <span class="kbd">/</span>
+          </div>
+          <p class="hint-row" id="queue-hint">Shortcuts: <span class="kbd">N</span> next case · <span class="kbd">/</span> search</p>
+          <div class="demo-filter" id="demo-filter">
+            <label for="demo-mode" style="margin:0">Queue source</label>
+            <select id="demo-mode">
+              <option value="all">All (real + demo)</option>
+              <option value="hide">Real only (hide demo)</option>
+              <option value="only">Demo only (training)</option>
+            </select>
+            <span class="hint-row" id="demo-count" style="margin:0"></span>
+          </div>
+          <div id="batch-bar" class="batch-bar hidden">
+            <label><input type="checkbox" id="select-all-orders"> Select all</label>
+            <select id="batch-agent"><option value="">Assign selected to…</option></select>
+            <button class="btn copper" type="button" id="batch-assign-btn">👥 Batch assign</button>
+            <span id="batch-count" class="hint-row" style="margin:0">0 selected</span>
+          </div>
+        </div>
+        <div id="queue-msg" class="msg info hidden"></div>
+        <div id="queue-list"></div>
+        <div id="agents-board" class="day-board hidden"></div>
+        <div id="day-board" class="day-board hidden"></div>
       </div>
-      <div id="queue-msg" class="msg info hidden"></div>
-      <div id="queue-list"></div>
+
+      <div id="prism-detail-view" class="shell-card hidden">
+        <div class="queue-bar">
+          <button class="btn secondary" type="button" id="back-queue">← Queue</button>
+          <h2>📌 Referral Detail</h2>
+          <button class="btn" type="button" id="refresh-detail">Refresh</button>
+        </div>
+        <div id="detail-msg" class="msg info hidden"></div>
+        <div id="detail-root" class="detail"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -427,8 +602,47 @@ let warnShown = false;
 let refreshTimer = null;
 let idleTimer = null;
 let pendingEmail = '';
+let queueView = 'mine';
+let queueItems = [];
+let openItemId = null;
+let searchTimer = null;
+let sessionPayload = null;
+let opsRole = 'cca';
+let agentRoster = [];
+let selectedOrderIds = new Set();
+let demoMode = localStorage.getItem('opsDemoMode') || 'all'; // all | hide | only
+let opsCaps = {};
+let opsFloor = 'care';
 
 function $(id) { return document.getElementById(id); }
+
+function caps() {
+  return opsCaps || {};
+}
+
+function isSupervisor() {
+  return !!caps().assign || opsRole === 'supervisor' || opsRole === 'manager' || opsRole === 'admin';
+}
+
+function isManager() {
+  return !!caps().managementFloor || opsRole === 'manager' || opsRole === 'admin';
+}
+
+function floorLabel(floor) {
+  if (floor === 'owner') return 'Owner floor — all sectors + all abilities';
+  if (floor === 'management') return 'Management floor — oversight + Care desk';
+  if (floor === 'supervisor') return 'Supervisor floor — assign tools + Care desk';
+  return 'Care desk — Request + work assigned cases';
+}
+
+function paintFloorBadges() {
+  ['floor-badge-home', 'floor-badge-desk'].forEach((id) => {
+    const el = $(id);
+    if (!el) return;
+    el.className = 'floor-badge ' + (opsFloor || 'care');
+    el.textContent = floorLabel(opsFloor);
+  });
+}
 
 function showMsg(text, kind) {
   const el = $('login-msg');
@@ -456,13 +670,17 @@ function setSession(data) {
 }
 
 function clearSession(reason) {
-  localStorage.removeItem(SESSION_KEY);
-  $('idle-warn').classList.remove('show');
-  showApp(false);
-  closePrismDesk();
-  if (reason) showMsg(reason, 'info');
-  $('step-email').classList.remove('hidden');
-  $('step-code').classList.add('hidden');
+  // Fire-and-forget end shift; don't block UI logout
+  endOpsShift(reason || 'ops-logout').finally(() => {
+    localStorage.removeItem(SESSION_KEY);
+    $('idle-warn').classList.remove('show');
+    showApp(false);
+    closePrismDesk();
+    paintTimeclock({ ok: false });
+    if (reason) showMsg(reason, 'info');
+    $('step-email').classList.remove('hidden');
+    $('step-code').classList.add('hidden');
+  });
 }
 
 async function api(path, opts = {}) {
@@ -483,6 +701,8 @@ function touch() {
     warnShown = false;
     $('idle-warn').classList.remove('show');
   }
+  // Throttled heartbeat — proves they are active in OPS
+  maybeHeartbeat(false);
 }
 
 function tickIdle() {
@@ -524,9 +744,15 @@ function deskTone(id) {
 }
 
 function renderDesks(payload) {
+  sessionPayload = payload || {};
   const person = payload.person || {};
   const canWork = !!payload.canWork;
   const role = payload.opsRole || 'cca';
+  opsRole = role;
+  opsFloor = payload.floor || 'care';
+  opsCaps = payload.capabilities || {};
+  applyRoleChrome();
+  paintFloorBadges();
   $('who-line').innerHTML =
     (person.name || payload.email || '') +
     ' <span class="role-chip">' + role + '</span>' +
@@ -535,10 +761,13 @@ function renderDesks(payload) {
   const banner = $('gate-banner');
   if (canWork && payload.canWorkRelaxed) {
     banner.className = 'gate-banner';
-    banner.textContent = 'OPS build mode — desks unlocked for development. GATEWAY can-work still incomplete (finish GATEWAY later, then turn off OPS_RELAX_CAN_WORK).';
+    const steps = (payload.opsReadiness && payload.opsReadiness.toGoLive) || [];
+    banner.textContent = 'OPS build mode — desks unlocked while GATEWAY can-work is incomplete. Before go-live: '
+      + (steps.length ? steps.join(' · ') : 'turn off OPS_RELAX_CAN_WORK on PythonAnywhere.');
   } else if (canWork) {
     banner.className = 'gate-banner ok';
-    banner.textContent = 'GATEWAY can-work: clear. Desks unlocked for your assignment.';
+    banner.textContent = 'GATEWAY can-work: clear. Desks unlocked for your assignment.'
+      + (payload.opsReadiness && payload.opsReadiness.gatewayCanWorkEnforced ? ' (relax mode off — production gate on)' : '');
   } else {
     banner.className = 'gate-banner';
     banner.textContent = 'Desks locked — GATEWAY can-work failed: ' + (payload.canWorkReason || 'complete onboarding requirements') + '. You can stay signed in; finish items at gateway.deedavis.biz.';
@@ -571,15 +800,16 @@ function renderDesks(payload) {
     let tagText = 'Coming soon';
     if (d.status === 'ready' && d.unlocked) { tagClass = 'open'; tagText = 'Open'; }
     else if (d.status === 'ready' && !d.unlocked) { tagClass = 'lock'; tagText = 'Locked'; }
+    const icon = d.id === 'prism' ? '🔮 ' : (d.id === 'claims' ? '💎 ' : '✨ ');
     el.innerHTML =
-      '<h3>' + d.label + '</h3>' +
+      '<h3>' + icon + d.label + '</h3>' +
       '<p>' + (d.description || '') + (d.lockReason && !d.unlocked ? '<br><em>' + d.lockReason + '</em>' : '') + '</p>' +
       '<span class="tag ' + tagClass + '">' + tagText + '</span>';
     if (d.id === 'prism' && d.unlocked) {
       const btn = document.createElement('button');
       btn.className = 'btn copper';
       btn.style.marginTop = '14px';
-      btn.textContent = 'Open PRISM queue';
+      btn.textContent = '⚡ Open PRISM queue';
       btn.addEventListener('click', () => openPrismDesk());
       el.appendChild(btn);
     }
@@ -595,15 +825,40 @@ function showQueueMsg(text, kind) {
   el.classList.remove('hidden');
 }
 
+function showDetailMsg(text, kind) {
+  const el = $('detail-msg');
+  if (!text) { el.classList.add('hidden'); return; }
+  el.className = 'msg ' + (kind || 'info');
+  el.textContent = text;
+  el.classList.remove('hidden');
+}
+
 function openPrismDesk() {
   $('panel-desks').classList.add('hidden');
   $('panel-prism').classList.remove('hidden');
+  // Role floors: management → Manage; supervisor → Live; agents → Mine (care always available)
+  if (isManager()) queueView = 'manage';
+  else if (isSupervisor()) queueView = 'live';
+  else queueView = 'mine';
+  showQueuePanel();
   loadQueue();
 }
 
 function closePrismDesk() {
   $('panel-prism').classList.add('hidden');
   $('panel-desks').classList.remove('hidden');
+  openItemId = null;
+}
+
+function showQueuePanel() {
+  $('prism-queue-view').classList.remove('hidden');
+  $('prism-detail-view').classList.add('hidden');
+  openItemId = null;
+}
+
+function showDetailPanel() {
+  $('prism-queue-view').classList.add('hidden');
+  $('prism-detail-view').classList.remove('hidden');
 }
 
 function esc(s) {
@@ -612,84 +867,1094 @@ function esc(s) {
   }[c]));
 }
 
+function careChipClass(care) {
+  if (care === 'Working') return 'working';
+  if (care === 'Waiting on Auth') return 'waiting';
+  if (care === 'Done') return 'done';
+  return 'new';
+}
+
+function slaChipClass(tone) {
+  if (tone === 'overdue') return 'sla-overdue';
+  if (tone === 'tight') return 'sla-tight';
+  if (tone === 'ok') return 'sla-ok';
+  return 'sla-unknown';
+}
+
+function formatSla(item) {
+  const rem = item.slaMinutesRemaining;
+  let clock = '';
+  if (rem == null) clock = '—';
+  else if (rem < 0) clock = Math.abs(rem) + 'm late';
+  else if (rem < 60) clock = rem + 'm left';
+  else clock = Math.floor(rem / 60) + 'h ' + (rem % 60) + 'm left';
+  return (item.slaEmoji || '⚪') + ' ' + (item.slaLabel || 'SLA') + ' · ' + clock;
+}
+
+function emptyCopy() {
+  if (queueView === 'mine') return { big: '✨', text: "Nothing assigned to you yet — wait for a supervisor" };
+  if (queueView === 'pool') return { big: '🌊', text: 'Unassigned queue is clear — Request when work appears' };
+  if (queueView === 'agents') return { big: '👥', text: 'No active agents in your sectors' };
+  return { big: '🗂️', text: 'No matching orders in your sectors' };
+}
+
+function hasMyRequest(item) {
+  const session = getSession();
+  const myEmail = ((session && session.email) || '').toLowerCase();
+  return (item.assignmentRequests || []).some((r) => (r.email || '').toLowerCase() === myEmail);
+}
+
+function setQueueTabs() {
+  document.querySelectorAll('#queue-tabs .tab').forEach((btn) => {
+    btn.classList.toggle('active', btn.getAttribute('data-view') === queueView);
+  });
+}
+
 async function loadQueue() {
+  setQueueTabs();
+  applyRoleChrome();
+  paintFloorBadges();
+  if (queueView === 'manage') {
+    await loadManageBoard();
+    return;
+  }
+  if (queueView === 'day') {
+    await loadMyDay();
+    return;
+  }
+  if (queueView === 'agents') {
+    await loadAgentsBoard();
+    return;
+  }
+  if (queueView === 'live') {
+    await loadLiveBoard();
+    return;
+  }
+  $('day-board').classList.add('hidden');
+  $('agents-board').classList.add('hidden');
+  $('live-board').classList.add('hidden');
+  $('manage-board').classList.add('hidden');
+  $('queue-list').classList.remove('hidden');
+  $('queue-tools').classList.remove('hidden');
+  if (isSupervisor()) await loadAgentRoster();
   showQueueMsg('Loading queue…', 'info');
-  const { res, data } = await api('ops-prism-queue');
+  const q = ($('queue-search').value || '').trim();
+  const demSel = $('demo-mode');
+  if (demSel) demSel.value = demoMode;
+  const qs = 'ops-prism-queue?view=' + encodeURIComponent(queueView)
+    + '&demo=' + encodeURIComponent(demoMode)
+    + (q ? '&q=' + encodeURIComponent(q) : '');
+  const { res, data } = await api(qs);
   if (!res.ok) {
-    showQueueMsg(data.error || 'Could not load queue. If this persists, reload Flask on PythonAnywhere.', 'err');
+    showQueueMsg(data.error || 'Could not load queue.', 'err');
     $('queue-list').innerHTML = '';
+    queueItems = [];
     return;
   }
   showQueueMsg('', 'info');
-  const items = data.items || [];
+  queueItems = data.items || [];
+  const overdue = queueItems.filter((i) => i.slaTone === 'overdue').length;
+  const tight = queueItems.filter((i) => i.slaTone === 'tight').length;
+  const unclaimed = queueItems.filter((i) => !i.claimedBy).length;
+  const counts = data.counts || {};
+  const demoN = counts.demo != null ? counts.demo : queueItems.filter((i) => i.isDemo).length;
+  const realN = counts.real != null ? counts.real : queueItems.filter((i) => !i.isDemo).length;
+  const dc = $('demo-count');
+  if (dc) dc.textContent = '📦 Real ' + realN + ' · 🧪 Demo ' + demoN;
+  $('queue-metrics').innerHTML =
+    '<div class="metric"><span class="i">📥</span><div class="k">In view</div><div class="v">' + queueItems.length + '</div></div>' +
+    '<div class="metric"><span class="i">📦</span><div class="k">Real</div><div class="v">' + realN + '</div></div>' +
+    '<div class="metric"><span class="i">🧪</span><div class="k">Demo</div><div class="v">' + demoN + '</div></div>' +
+    '<div class="metric"><span class="i">🌊</span><div class="k">Unassigned</div><div class="v">' + unclaimed + '</div></div>' +
+    '<div class="metric"><span class="i">🟡</span><div class="k">Tight</div><div class="v">' + tight + '</div></div>' +
+    '<div class="metric"><span class="i">🔴</span><div class="k">Overdue</div><div class="v">' + overdue + '</div></div>';
   const list = $('queue-list');
-  if (!items.length) {
-    list.innerHTML = '<div class="empty">No open items in your account queue right now.</div>';
+  if (!queueItems.length) {
+    const e = emptyCopy();
+    list.innerHTML = '<div class="empty"><span class="big">' + e.big + '</span>' + e.text
+      + (demoMode === 'hide' ? '<br><span style="font-size:13px;opacity:.8">Demo items are hidden — switch Queue source if training.</span>' : '')
+      + '</div>';
     return;
   }
   const session = getSession();
   const myEmail = (session && session.email) || '';
   list.innerHTML = '';
-  items.forEach((item) => {
+  queueItems.forEach((item) => {
     const mine = (item.claimedEmail || '').toLowerCase() === myEmail.toLowerCase();
     const card = document.createElement('div');
-    card.className = 'qcard' + (mine ? ' mine' : '') + (item.priority === 'STAT' ? ' stat' : '');
-    const claimLabel = item.claimedBy
-      ? ('In progress — ' + esc(item.claimedBy))
-      : 'Unclaimed';
+    card.className = 'qcard'
+      + (mine ? ' mine' : '')
+      + (item.isDemo ? ' demo-item' : '')
+      + (item.priority === 'STAT' || item.slaTone === 'overdue' ? ' overdue' : '');
+    const pick = isSupervisor()
+      ? '<input type="checkbox" class="pick" data-id="' + esc(item.id) + '"' + (selectedOrderIds.has(item.id) ? ' checked' : '') + '>'
+      : '';
     card.innerHTML =
-      '<div class="qcard-top"><h3>' + esc(item.memberName) + '</h3>' +
-      '<span class="tag ' + (mine ? 'open' : (item.claimedBy ? 'lock' : 'soon')) + '">' + esc(claimLabel) + '</span></div>' +
+      '<div class="qcard-top">' + pick + '<h3>' + esc(item.memberName) + '</h3>' +
+      '<div class="chip-row">' +
+      '<span class="chip ' + careChipClass(item.careStatus) + '">' + esc((item.careEmoji || '') + ' ' + (item.careLabel || item.careStatus || 'New')) + '</span>' +
+      '<span class="chip ' + slaChipClass(item.slaTone) + '">' + esc(formatSla(item)) + '</span>' +
+      (item.isDemo ? '<span class="chip demo">🧪 Demo</span>' : '<span class="chip done">📦 Real</span>') +
+      '</div></div>' +
       '<div class="qmeta">' +
-      '<strong>' + esc(item.payer || 'Payer') + '</strong> · ' + esc(item.priority || 'Standard') +
-      ' · Age ' + (item.slaAgeMinutes || 0) + 'm' +
+      '<strong>' + esc(item.payer || 'Payer') + '</strong> · ' + esc(laneLabel(item)) + ' · ' + esc(item.priority || 'Standard') +
+      (item.authorization ? ' · Auth ' + esc(item.authorization) : '') +
       (item.memberIdLast4 ? ' · ID ' + esc(item.memberIdLast4) : '') +
       '<br><strong>When:</strong> ' + esc(item.pickupDate || '—') + ' ' + esc(item.pickupTime || '') +
-      ' · <strong>Status:</strong> ' + esc(item.status) +
-      (item.isDemo ? ' · <em>Demo item</em>' : '') +
+      (item.claimedBy ? ' · 👤 ' + esc(item.claimedBy) : ' · 🌊 Unassigned') +
+      ((!item.claimedBy && item.requestCount) ? ' · 🙋 ' + item.requestCount + ' request' + (item.requestCount === 1 ? '' : 's') : '') +
       (item.notesPreview ? '<br>' + esc(item.notesPreview) : '') +
       '</div>' +
-      '<div class="qactions" data-id="' + esc(item.id) + '"></div>';
+      '<div class="qactions"></div>';
     const actions = card.querySelector('.qactions');
-    if (!item.claimedBy) {
-      const claim = document.createElement('button');
-      claim.className = 'btn copper';
-      claim.textContent = 'Claim';
-      claim.addEventListener('click', () => prismAction('claim', item.id));
-      actions.appendChild(claim);
-    } else if (mine) {
-      const release = document.createElement('button');
-      release.className = 'btn secondary';
-      release.textContent = 'Release';
-      release.addEventListener('click', () => prismAction('release', item.id));
-      actions.appendChild(release);
-      const ta = document.createElement('textarea');
-      ta.placeholder = 'Case notes…';
-      ta.value = item.notes || '';
-      const save = document.createElement('button');
-      save.className = 'btn';
-      save.textContent = 'Save notes';
-      save.addEventListener('click', () => prismAction('patch', item.id, { notes: ta.value }));
-      actions.appendChild(save);
-      actions.appendChild(ta);
+    const openBtn = document.createElement('button');
+    openBtn.className = 'btn';
+    openBtn.textContent = 'Open →';
+    openBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openDetail(item.id); });
+    actions.appendChild(openBtn);
+    if (!isSupervisor() && !item.claimedBy) {
+      const reqBtn = document.createElement('button');
+      reqBtn.className = hasMyRequest(item) ? 'btn secondary' : 'btn copper';
+      reqBtn.type = 'button';
+      reqBtn.textContent = hasMyRequest(item) ? '🙋 Requested' : '🙋 Request';
+      reqBtn.disabled = hasMyRequest(item);
+      reqBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        prismAction('request', item.id, null, false);
+      });
+      actions.appendChild(reqBtn);
     }
+    const pickEl = card.querySelector('.pick');
+    if (pickEl) {
+      pickEl.addEventListener('click', (ev) => ev.stopPropagation());
+      pickEl.addEventListener('change', () => {
+        if (pickEl.checked) selectedOrderIds.add(item.id);
+        else selectedOrderIds.delete(item.id);
+        updateBatchCount();
+      });
+    }
+    card.addEventListener('click', () => openDetail(item.id));
     list.appendChild(card);
+  });
+  updateBatchCount();
+}
+
+async function loadLiveBoard() {
+  $('queue-tools').classList.add('hidden');
+  $('queue-list').classList.add('hidden');
+  $('agents-board').classList.add('hidden');
+  $('day-board').classList.add('hidden');
+  $('manage-board').classList.add('hidden');
+  $('live-board').classList.remove('hidden');
+  showQueueMsg('Loading live PRISM board…', 'info');
+  const { res, data } = await api('ops-prism-live');
+  if (!res.ok) {
+    showQueueMsg(data.error || 'Could not load live board.', 'err');
+    $('live-board').innerHTML = '';
+    return;
+  }
+  showQueueMsg('', 'info');
+  const c = data.counts || {};
+  const care = c.byCare || {};
+  const lane = c.byLane || {};
+  $('queue-metrics').innerHTML =
+    '<div class="metric"><span class="i">📡</span><div class="k">Open now</div><div class="v">' + (c.open || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">🌊</span><div class="k">Unassigned</div><div class="v">' + (c.unassigned || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">🔴</span><div class="k">Overdue</div><div class="v">' + (c.overdue || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">✅</span><div class="k">Done today</div><div class="v">' + (c.completedToday || 0) + '</div></div>';
+
+  const laneHtml = Object.keys(lane).length
+    ? '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px">' +
+      Object.keys(lane).map((k) =>
+        '<span class="chip new">' + esc(k.toUpperCase()) + ' ' + lane[k] + '</span>'
+      ).join('') + '</div>'
+    : '';
+
+  const careHtml =
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px">' +
+      '<span class="chip new">🆕 ' + (care.New || 0) + '</span>' +
+      '<span class="chip working">🔧 ' + (care.Working || 0) + '</span>' +
+      '<span class="chip waiting">⏳ ' + (care['Waiting on Auth'] || 0) + '</span>' +
+      '<span class="chip done">✅ ' + (care.Done || 0) + '</span>' +
+    '</div>';
+
+  const agents = data.byAgent || [];
+  const agentHtml = agents.length
+    ? '<p class="lead" style="margin:12px 0 8px">👥 Work by agent</p>' + agents.map((a) =>
+        '<div class="agent-row">' +
+          '<div class="name">' + esc(a.name || a.email || 'Agent') + '</div>' +
+          '<div class="stat">Open <strong>' + (a.open || 0) + '</strong></div>' +
+          '<div class="stat">Working <strong>' + (a.working || 0) + '</strong></div>' +
+          '<div class="stat">Overdue <strong>' + (a.overdue || 0) + '</strong></div>' +
+        '</div>'
+      ).join('')
+    : '<div class="empty"><span class="big">✨</span>No open PRISM work right now</div>';
+
+  const activity = data.recentActivity || [];
+  const actHtml = activity.length
+    ? '<p class="lead" style="margin:16px 0 8px">📝 Recent activity (PRISM)</p>' +
+      activity.slice(0, 15).map((a) =>
+        '<button type="button" class="cal-row" data-order="' + esc(a.orderId || '') + '">' +
+          '<div class="when">' + esc((a.ts || '').replace('T', ' ').slice(5, 16)) + '</div>' +
+          '<div class="body"><div class="title">' + esc(a.memberName || a.orderId || '') + '</div>' +
+          '<div class="meta">' + esc((a.actor || '') + ' · ' + (a.text || '')) + '</div></div></button>'
+      ).join('')
+    : '';
+
+  const open = data.openItems || [];
+  const openHtml = open.length
+    ? '<p class="lead" style="margin:16px 0 8px">🗂️ Open orders — click to open</p>' +
+      open.slice(0, 25).map((item) =>
+        '<button type="button" class="cal-row" data-order="' + esc(item.id || '') + '">' +
+          '<div class="when">' + esc(item.careEmoji || '📋') + '</div>' +
+          '<div class="body"><div class="title">' + esc(item.memberName || '') + '</div>' +
+          '<div class="meta">' + esc((item.payer || '') + ' · ' + (item.claimedBy || 'Unassigned') + ' · ' + formatSla(item)) + '</div></div></button>'
+      ).join('')
+    : '';
+
+  const board = $('live-board');
+  board.innerHTML =
+    '<h3 style="margin:0 0 8px;color:#e9d5ff">📡 Everything in PRISM <span class="sub">source of record</span></h3>' +
+    '<p class="hint-row" style="margin:0 0 12px">Open · unassigned · overdue · lanes · agents · activity — full picture</p>' +
+    careHtml + laneHtml + agentHtml + openHtml + actHtml;
+
+  board.querySelectorAll('.cal-row').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-order');
+      if (id) openDetail(id);
+    });
   });
 }
 
-async function prismAction(action, id, extra) {
-  showQueueMsg('Updating…', 'info');
+async function loadAgentsBoard() {
+  $('queue-tools').classList.add('hidden');
+  $('queue-list').classList.add('hidden');
+  $('day-board').classList.add('hidden');
+  $('live-board').classList.add('hidden');
+  $('manage-board').classList.add('hidden');
+  $('agents-board').classList.remove('hidden');
+  showQueueMsg('Loading agent network…', 'info');
+  await loadAgentRoster();
+  showQueueMsg('', 'info');
+  $('queue-metrics').innerHTML =
+    '<div class="metric"><span class="i">👥</span><div class="k">Agents</div><div class="v">' + agentRoster.length + '</div></div>' +
+    '<div class="metric"><span class="i">✅</span><div class="k">Can work</div><div class="v">' + agentRoster.filter((a) => a.canWork).length + '</div></div>' +
+    '<div class="metric"><span class="i">🔒</span><div class="k">Locked</div><div class="v">' + agentRoster.filter((a) => !a.canWork).length + '</div></div>';
+  const board = $('agents-board');
+  if (!agentRoster.length) {
+    board.innerHTML = '<div class="empty"><span class="big">👥</span>No active agents yet — add them in GATEWAY</div>';
+    return;
+  }
+  board.innerHTML = '<p class="lead" style="margin:0 0 12px">👥 Full agent network — assign queue work from Unassigned / Queue tabs</p>' +
+    agentRoster.map((a) =>
+      '<div class="agent-card">' +
+        '<div class="name">' + esc(a.name || a.email) + (a.canWork ? '' : ' · 🔒') + '</div>' +
+        '<div class="meta">' + esc(a.email) + ' · ' + esc(a.level || a.opsRole || '') +
+          ' · ' + esc((a.accountCodes || []).join(', ') || 'no account') +
+          (a.division ? ' · ' + esc(a.division) : '') +
+        '</div>' +
+      '</div>'
+    ).join('');
+}
+
+function formatCalTime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return String(iso).slice(11, 16) || '—';
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Detroit' });
+}
+
+function laneLabel(item) {
+  const lane = (item.serviceLane || item.serviceType || item.type || '').toLowerCase();
+  if (lane === 'cts') return '🏠 CTS';
+  if (lane === 'nmt') return '🚗 NMT';
+  if (lane === 'nemt') return '🚑 NEMT';
+  return item.serviceType || item.type || 'Service';
+}
+
+function renderCalendarStrip(events) {
+  const list = events || [];
+  let body;
+  if (!list.length) {
+    body = '<div class="empty" style="margin:0"><span class="big">📅</span>No PRISM pickups or callbacks on the calendar for today</div>';
+  } else {
+    body = list.map((ev) =>
+      '<button type="button" class="cal-row" data-order="' + esc(ev.orderId || '') + '">' +
+        '<div class="when">' + esc(formatCalTime(ev.startAt)) + '</div>' +
+        '<div class="body">' +
+          '<div class="title">' + esc((ev.emoji || '📅') + ' ' + (ev.title || 'Event')) + '</div>' +
+          '<div class="meta">' + esc((ev.payer || '') + (ev.claimedBy ? ' · 👤 ' + ev.claimedBy : ' · 🌊 Pool') + (ev.note ? ' · ' + ev.note : '')) + '</div>' +
+        '</div>' +
+      '</button>'
+    ).join('');
+  }
+  return '<div class="cal-strip">' +
+    '<h3>📅 Today <span class="sub">sourced from PRISM</span></h3>' +
+    body +
+  '</div>';
+}
+
+async function loadMyDay() {
+  $('queue-tools').classList.add('hidden');
+  $('queue-list').classList.add('hidden');
+  $('agents-board').classList.add('hidden');
+  $('live-board').classList.add('hidden');
+  $('manage-board').classList.add('hidden');
+  $('day-board').classList.remove('hidden');
+  showQueueMsg('Loading calendar…', 'info');
+  const [dayRes, calRes] = await Promise.all([
+    api('ops-prism-day'),
+    api('ops-prism-calendar'),
+  ]);
+  const { res, data } = dayRes;
+  if (!res.ok) {
+    showQueueMsg(data.error || 'Could not load My Day.', 'err');
+    $('day-board').innerHTML = '';
+    $('queue-metrics').innerHTML = '';
+    return;
+  }
+  showQueueMsg('', 'info');
+  const c = data.counts || {};
+  const avgClose = c.avgMinutesToClose != null ? (c.avgMinutesToClose + 'm') : '—';
+  const calEvents = (calRes.res && calRes.res.ok) ? (calRes.data.events || []) : [];
+  $('queue-metrics').innerHTML =
+    '<div class="metric"><span class="i">📅</span><div class="k">On calendar</div><div class="v">' + calEvents.length + '</div></div>' +
+    '<div class="metric"><span class="i">📥</span><div class="k">New today</div><div class="v">' + (c.newToday || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">🔴</span><div class="k">Overdue</div><div class="v">' + (c.overdue || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">✅</span><div class="k">Completed</div><div class="v">' + (c.completedToday || 0) + '</div></div>';
+
+  const board = $('day-board');
+  let html = renderCalendarStrip(calEvents);
+  if (data.teamView) {
+    const agents = data.byAgent || [];
+    html += '<p class="lead" style="margin:16px 0 12px">👥 Team — open work by agent</p>';
+    if (!agents.length) {
+      html += '<div class="empty"><span class="big">✨</span>Team queue is clear</div>';
+    } else {
+      html += agents.map((a) =>
+        '<div class="agent-row">' +
+          '<div class="name">' + esc(a.name || a.email || 'Agent') + '</div>' +
+          '<div class="stat">Open <strong>' + (a.open || 0) + '</strong></div>' +
+          '<div class="stat">Working <strong>' + (a.working || 0) + '</strong></div>' +
+          '<div class="stat">Overdue <strong>' + (a.overdue || 0) + '</strong></div>' +
+        '</div>'
+      ).join('');
+    }
+  } else if (!calEvents.length) {
+    html += '<div class="empty"><span class="big">📋</span>Open Mine or Pool to work cases. Schedule callbacks from referral detail.</div>';
+  }
+  board.innerHTML = html;
+  board.querySelectorAll('.cal-row').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-order');
+      if (id) openDetail(id);
+    });
+  });
+}
+
+function renderStepper(stepper) {
+  const steps = (stepper && stepper.steps) || ['Received', 'Assigned', 'In Progress', 'Completed'];
+  const active = (stepper && stepper.activeIndex) || 0;
+  return '<div class="stepper">' + steps.map((s, i) => {
+    let cls = 'todo';
+    if (i < active) cls = 'done';
+    if (i === active) cls = 'active';
+    const mark = i < active ? '✓ ' : (i === active ? '● ' : '');
+    return '<span class="step ' + cls + '">' + mark + esc(s) + '</span>';
+  }).join('') + '</div>';
+}
+
+function renderTimeline(activity) {
+  const rows = (activity || []).slice().reverse();
+  if (!rows.length) {
+    return '<div class="titem"><div class="txt">No activity yet — add the first note below.</div></div>';
+  }
+  return rows.map((a) => {
+    const when = (a.ts || '').replace('T', ' ').replace('Z', '').slice(0, 16);
+    return '<div class="titem">' +
+      '<div class="who">' + esc(a.actor || a.actorEmail || 'Agent') + '</div>' +
+      '<div class="when">' + esc(when) + '</div>' +
+      '<div class="txt">' + esc(a.text || '') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+async function openDetail(id) {
+  openItemId = id;
+  showDetailPanel();
+  showDetailMsg('Loading referral…', 'info');
+  if (isSupervisor()) await loadAgentRoster();
+  const { res, data } = await api('ops-prism-action', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'get', id }),
+  });
+  if (!res.ok) {
+    showDetailMsg(data.error || 'Could not load referral', 'err');
+    return;
+  }
+  showDetailMsg('', 'info');
+  await renderDetail(data.item || {});
+}
+
+function applyRoleChrome() {
+  const agentsTab = $('tab-agents');
+  const liveTab = $('tab-live');
+  const manageTab = $('tab-manage');
+  const batchBar = $('batch-bar');
+  const hint = $('queue-hint');
+  const sp = sessionPayload || {};
+  const sectors = (sp.accountCodes || (sp.accounts || []).map((a) => a.code).filter(Boolean) || []).join(', ') || 'your accounts';
+  if (manageTab) manageTab.classList.toggle('hidden', !isManager());
+  if (isSupervisor()) {
+    if (agentsTab) agentsTab.classList.remove('hidden');
+    if (liveTab) liveTab.classList.remove('hidden');
+    if (batchBar) batchBar.classList.remove('hidden');
+    if (hint) {
+      if (opsRole === 'admin') {
+        hint.innerHTML = 'Owner floor — all sectors. Manage + Live + Care desk (Mine). Assign / batch from Queue.';
+      } else if (isManager()) {
+        hint.innerHTML = 'Management floor — sectors: ' + esc(sectors) + '. Oversight on Manage; Care desk still on Mine.';
+      } else {
+        hint.innerHTML = 'Supervisor floor — sectors: ' + esc(sectors) + '. Assign from Live/Queue; Care desk on Mine (assign to yourself to work cases).';
+      }
+    }
+  } else {
+    if (agentsTab) agentsTab.classList.add('hidden');
+    if (liveTab) liveTab.classList.add('hidden');
+    if (batchBar) batchBar.classList.add('hidden');
+    if (hint) hint.innerHTML = 'Care desk — sectors: ' + esc(sectors) + '. Pool = Request. Supervisor or management assigns.';
+  }
+}
+
+async function loadManageBoard() {
+  $('queue-tools').classList.add('hidden');
+  $('queue-list').classList.add('hidden');
+  $('agents-board').classList.add('hidden');
+  $('day-board').classList.add('hidden');
+  $('live-board').classList.add('hidden');
+  $('manage-board').classList.remove('hidden');
+  showQueueMsg('Loading management floor…', 'info');
+  if (isSupervisor()) await loadAgentRoster();
+
+  const [reqRes, ageRes, readyRes] = await Promise.all([
+    api('ops-prism-oversight?panel=requests'),
+    api('ops-prism-oversight?panel=aging'),
+    isManager()
+      ? api('ops-prism-oversight?panel=readiness')
+      : Promise.resolve({ res: { ok: true }, data: { counts: {}, blocked: [], ready: [], relaxed: [] } }),
+  ]);
+
+  if (!reqRes.res.ok && !ageRes.res.ok) {
+    showQueueMsg((reqRes.data && reqRes.data.error) || 'Could not load management floor.', 'err');
+    $('manage-board').innerHTML = '';
+    return;
+  }
+  showQueueMsg('', 'info');
+
+  const reqs = (reqRes.data && reqRes.data.items) || [];
+  const buckets = (ageRes.data && ageRes.data.buckets) || {};
+  const ageCounts = (ageRes.data && ageRes.data.counts) || {};
+  const overdueCats = (ageRes.data && ageRes.data.overdueCategories) || {};
+  const bySev = overdueCats.bySeverity || {};
+  const byReason = overdueCats.byReason || {};
+  const bySector = overdueCats.bySector || {};
+  const canEscalate = !!(ageRes.data && ageRes.data.canEscalate);
+  const readyCounts = (readyRes.data && readyRes.data.counts) || {};
+  const blocked = (readyRes.data && readyRes.data.blocked) || [];
+  const relaxed = (readyRes.data && readyRes.data.relaxed) || [];
+  const overdueMode = localStorage.getItem('opsOverdueMode') || 'severity'; // severity | reason | sector
+
+  const critN = (bySev.critical && bySev.critical.count) || 0;
+  const highN = (bySev.high && bySev.high.count) || 0;
+  const modN = (bySev.moderate && bySev.moderate.count) || 0;
+
+  $('queue-metrics').innerHTML =
+    '<div class="metric"><span class="i">🙋</span><div class="k">Requests</div><div class="v">' + reqs.length + '</div></div>' +
+    '<div class="metric"><span class="i">🟥</span><div class="k">Critical SLA</div><div class="v">' + critN + '</div></div>' +
+    '<div class="metric"><span class="i">🟠</span><div class="k">High SLA</div><div class="v">' + highN + '</div></div>' +
+    '<div class="metric"><span class="i">🟡</span><div class="k">Just breached</div><div class="v">' + modN + '</div></div>' +
+    '<div class="metric"><span class="i">🔴</span><div class="k">Overdue total</div><div class="v">' + (ageCounts.overdue || 0) + '</div></div>' +
+    '<div class="metric"><span class="i">🚧</span><div class="k">Blocked staff</div><div class="v">' + (readyCounts.blocked || 0) + '</div></div>';
+
+  function rowOpen(id) {
+    return '<button class="btn" type="button" data-open="' + esc(id) + '">Open →</button>';
+  }
+  function assignQuick(id, email, name) {
+    if (!email) return '';
+    return '<button class="btn copper" type="button" data-assign-id="' + esc(id) + '" data-assign-email="' + esc(email) + '" data-assign-name="' + esc(name || email) + '">👥 Assign ' + esc((name || email).split(' ')[0] || 'agent') + '</button>';
+  }
+
+  let reqHtml = '<div class="manage-section"><h3>🙋 Request inbox</h3>';
+  if (!reqs.length) {
+    reqHtml += '<p class="hint-row">No pending requests in your sectors.</p>';
+  } else {
+    reqs.forEach((item) => {
+      const first = (item.requests || [])[0] || {};
+      reqHtml +=
+        '<div class="manage-row">' +
+          '<div class="left"><strong>' + esc(item.memberName || 'Member') + '</strong>' +
+          '<div class="sub">' + esc(item.payer || '') + ' · ' + esc(item.lane || '') +
+          ' · 🙋 ' + (item.requestCount || 0) + ' — ' +
+          esc((item.requests || []).map((r) => r.name || r.email).join(', ')) + '</div></div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
+            assignQuick(item.id, first.email, first.name) +
+            rowOpen(item.id) +
+          '</div></div>';
+    });
+  }
+  reqHtml += '</div>';
+
+  function overdueRowHtml(r) {
+        const sev = r.severity || {};
+    const reason = r.reason || {};
+    const sector = r.sector || {};
+    const past = r.minutesPastDue != null ? r.minutesPastDue + 'm late' : '';
+    return (
+      '<div class="manage-row">' +
+        '<div class="left"><strong>' + esc(r.memberName || 'Member') + '</strong>' +
+        '<div class="sub">' +
+          esc(sector.emoji || '🏢') + ' ' + esc(sector.label || sector.key || '—') +
+          ' · ' + esc(sev.emoji || '🔴') + ' ' + esc(sev.label || 'Overdue') +
+          ' · ' + esc(reason.emoji || '') + ' ' + esc(reason.label || '') +
+          (past ? ' · ' + past : '') +
+          '<br>' + esc(r.priority || 'Standard') +
+          ' · ' + esc(r.claimedBy || 'Unassigned') +
+          (canEscalate ? ' · ⚡ Escalate eligible' : '') +
+        '</div></div>' +
+        rowOpen(r.id) +
+      '</div>'
+    );
+  }
+
+  function categoryBlock(cat) {
+    if (!cat) return '';
+    let h = '<div class="manage-section" style="margin-left:4px;padding-left:10px;border-left:3px solid rgba(248,113,113,.35)">' +
+      '<h3 style="font-size:13px">' + esc(cat.emoji || '') + ' ' + esc(cat.label || '') +
+      ' (' + (cat.count || 0) + ')</h3>' +
+      '<p class="hint-row" style="margin:0 0 8px">' + esc(cat.hint || '') + '</p>';
+    const items = cat.items || [];
+    if (!items.length) {
+      h += '<p class="hint-row">Clear.</p></div>';
+      return h;
+    }
+    items.slice(0, 15).forEach((r) => { h += overdueRowHtml(r); });
+    if (items.length > 15) {
+      h += '<p class="hint-row">+' + (items.length - 15) + ' more — open Queue filtered by overdue</p>';
+    }
+    h += '</div>';
+    return h;
+  }
+
+  function overdueHtml() {
+    let h = '<div class="manage-section"><h3>🔴 Overdue SLA — categorized</h3>' +
+      '<div class="demo-filter" style="margin:0 0 10px">' +
+        '<label for="overdue-mode" style="margin:0">Group by</label>' +
+        '<select id="overdue-mode">' +
+          '<option value="severity"' + (overdueMode === 'severity' ? ' selected' : '') + '>How late (severity)</option>' +
+          '<option value="reason"' + (overdueMode === 'reason' ? ' selected' : '') + '>Why stuck (reason)</option>' +
+          '<option value="sector"' + (overdueMode === 'sector' ? ' selected' : '') + '>Sector (HAP-NEMT / MOL-CTS…)</option>' +
+        '</select>' +
+        '<span class="hint-row" style="margin:0">Total overdue: ' + (ageCounts.overdue || 0) + '</span>' +
+      '</div>';
+    if (!(ageCounts.overdue || 0)) {
+      h += '<p class="hint-row">No overdue SLAs in your sectors.</p></div>';
+      return h;
+    }
+    if (overdueMode === 'reason') {
+      ['stat', 'unassigned', 'waitingAuth', 'stalled'].forEach((k) => {
+        h += categoryBlock(byReason[k]);
+      });
+    } else if (overdueMode === 'sector') {
+      const keys = Object.keys(bySector);
+      if (!keys.length) {
+        h += '<p class="hint-row">No sector buckets yet.</p>';
+      } else {
+        keys.forEach((k) => { h += categoryBlock(bySector[k]); });
+      }
+    } else {
+      ['critical', 'high', 'moderate'].forEach((k) => {
+        h += categoryBlock(bySev[k]);
+      });
+    }
+    h += '</div>';
+    return h;
+  }
+
+  function bucketHtml(title, emoji, rows) {
+    let h = '<div class="manage-section"><h3>' + emoji + ' ' + title + ' (' + (rows || []).length + ')</h3>';
+    if (!(rows || []).length) {
+      h += '<p class="hint-row">Clear.</p></div>';
+      return h;
+    }
+    (rows || []).slice(0, 12).forEach((r) => {
+      h +=
+        '<div class="manage-row">' +
+          '<div class="left"><strong>' + esc(r.memberName || 'Member') + '</strong>' +
+          '<div class="sub">' + esc(r.payer || '') + ' · ' + esc(r.claimedBy || 'Unassigned') +
+          ' · ' + esc(r.slaLabel || r.slaTone || '') +
+          '</div></div>' +
+          rowOpen(r.id) +
+        '</div>';
+    });
+    h += '</div>';
+    return h;
+  }
+
+  let readyHtml = '<div class="manage-section"><h3>✅ Workforce readiness</h3>';
+  if (!isManager()) {
+    readyHtml += '<p class="hint-row">Management floor only.</p>';
+  } else {
+    readyHtml +=
+      '<p class="hint-row">Ready ' + (readyCounts.ready || 0) +
+      ' · Blocked ' + (readyCounts.blocked || 0) +
+      ' · Build-mode relaxed ' + (readyCounts.relaxed || 0) + '</p>';
+    if (!blocked.length && !relaxed.length) {
+      readyHtml += '<p class="hint-row">All visible staff are can-work clear (or none in sectors).</p>';
+    }
+    blocked.forEach((p) => {
+      readyHtml +=
+        '<div class="manage-row"><div class="left"><strong>' + esc(p.name || p.email) + '</strong>' +
+        '<div class="sub">🚧 Blocked — ' + esc(p.canWorkReason || 'can-work failed') +
+        ' · ' + esc((p.accountCodes || []).join(', ')) + '</div></div></div>';
+    });
+    relaxed.forEach((p) => {
+      readyHtml +=
+        '<div class="manage-row"><div class="left"><strong>' + esc(p.name || p.email) + '</strong>' +
+        '<div class="sub">⚠️ OPS build mode — GATEWAY still: ' + esc(p.canWorkReason || '') + '</div></div></div>';
+    });
+  }
+  readyHtml += '</div>';
+
+  const board = $('manage-board');
+  board.innerHTML =
+    '<p class="lead" style="margin:0 0 12px">🏢 Management floor — requests, aging, workforce. Care desk stays on Mine / Queue.</p>' +
+    reqHtml +
+    overdueHtml() +
+    bucketHtml('Tight SLA', '🟡', buckets.tight) +
+    bucketHtml('Unassigned pool', '🌊', buckets.unassigned) +
+    bucketHtml('Waiting on Auth', '⏳', buckets.waitingAuth) +
+    readyHtml;
+
+  const odSel = $('overdue-mode');
+  if (odSel) {
+    odSel.addEventListener('change', () => {
+      localStorage.setItem('opsOverdueMode', odSel.value || 'severity');
+      loadManageBoard();
+    });
+  }
+
+  board.querySelectorAll('[data-open]').forEach((btn) => {
+    btn.addEventListener('click', () => openDetail(btn.getAttribute('data-open')));
+  });
+  board.querySelectorAll('[data-assign-id]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-assign-id');
+      const email = btn.getAttribute('data-assign-email');
+      await prismAction('assign', id, { assigneeEmail: email }, false);
+      await loadManageBoard();
+    });
+  });
+}
+
+async function loadAgentRoster() {
+  if (!isSupervisor()) { agentRoster = []; return; }
+  const { res, data } = await api('ops-prism-agents');
+  if (!res.ok) { agentRoster = []; return; }
+  agentRoster = data.agents || [];
+  const sel = $('batch-agent');
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Assign selected to…</option>' +
+    agentRoster.map((a) =>
+      '<option value="' + esc(a.email) + '">' + esc((a.name || a.email) + (a.canWork ? '' : ' (locked)')) + '</option>'
+    ).join('');
+  if (cur) sel.value = cur;
+}
+
+function updateBatchCount() {
+  const el = $('batch-count');
+  if (el) el.textContent = selectedOrderIds.size + ' selected';
+}
+
+async function renderDetail(item) {
+  const session = getSession();
+  const myEmail = (session && session.email) || '';
+  const mine = (item.claimedEmail || '').toLowerCase() === myEmail.toLowerCase();
+  const root = $('detail-root');
+  let nextHtml = '';
+  if (item.claimedBy) {
+    nextHtml = '<span class="chip waiting">👤 Assigned to ' + esc(item.claimedBy) + '</span>';
+  } else if (hasMyRequest(item)) {
+    nextHtml = '<span class="chip waiting">🙋 Requested — waiting for supervisor</span>';
+  } else {
+    nextHtml = '<span class="chip new">🌊 Unassigned — Request, then supervisor assigns</span>';
+  }
+
+  let assignHtml = '';
+  if (isSupervisor()) {
+    const reqs = item.assignmentRequests || [];
+    const reqNote = reqs.length
+      ? '<div class="hint-row" style="margin:8px 0 0">🙋 ' + reqs.length + ' request' + (reqs.length === 1 ? '' : 's') + ': ' +
+        esc(reqs.map((r) => r.name || r.email).join(', ')) + '</div>'
+      : '';
+    const opts = agentRoster.length
+      ? agentRoster.map((a) => '<option value="' + esc(a.email) + '"' +
+          ((item.claimedEmail || '').toLowerCase() === (a.email || '').toLowerCase() ? ' selected' : '') +
+          '>' + esc(a.name || a.email) + '</option>').join('')
+      : '';
+    assignHtml =
+      reqNote +
+      '<div class="assign-row">' +
+        '<select id="assign-email"><option value="">Assign to agent…</option>' + opts + '</select>' +
+        '<button class="btn copper" type="button" id="detail-assign">👥 Assign</button>' +
+        (!item.claimedBy
+          ? '<button class="btn secondary" type="button" id="detail-assign-me">📋 Assign to me (Care desk)</button>'
+          : '') +
+        (item.claimedBy
+          ? '<button class="btn secondary" type="button" id="detail-release">' +
+            (item.needsForceRelease ? '⚠️ Force unassign' : '↩️ Unassign') + '</button>'
+          : '') +
+      '</div>';
+  } else if (!item.claimedBy) {
+    assignHtml =
+      '<div class="assign-row">' +
+        (hasMyRequest(item)
+          ? '<button class="btn secondary" type="button" disabled>🙋 Requested</button>'
+          : '<button class="btn copper" type="button" id="detail-request">🙋 Request</button>') +
+      '</div>';
+  }
+
+  const statusBtns = (item.allowedCareStatuses || []).map((s) => {
+    const active = s.key === item.careStatus ? ' active' : '';
+    return '<button type="button" class="' + active + '" data-care="' + esc(s.key) + '">' +
+      esc((s.emoji || '') + ' ' + (s.label || s.key)) + '</button>';
+  }).join('');
+
+  const notes = item.intakeNotes || item.notes || '';
+  root.innerHTML =
+    '<div class="detail-head">' +
+      '<h2>' + esc(item.memberName || 'Member') + '</h2>' +
+      '<div class="chip-row">' +
+        '<span class="chip ' + careChipClass(item.careStatus) + '">' + esc((item.careEmoji || '') + ' ' + (item.careLabel || 'New')) + '</span>' +
+        '<span class="chip ' + slaChipClass(item.slaTone) + '">' + esc(formatSla(item)) + '</span>' +
+        (item.isDemo ? '<span class="chip demo">🧪 Demo</span>' : '<span class="chip done">📦 Real</span>') +
+      '</div>' +
+    '</div>' +
+    renderStepper(item.stepper) +
+    '<div class="intake-block">' +
+      '<h3>📋 Referral intake</h3>' +
+      '<div class="detail-grid">' +
+        '<div class="dfield"><div class="k">Member name</div><div class="v">' + esc(item.memberName || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Member ID</div><div class="v">' + esc(item.memberId || item.memberIdLast4 || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Phone</div><div class="v">' + esc(item.memberPhone || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">MCO / Source</div><div class="v">' + esc(item.payer || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Referral #</div><div class="v">' + esc(item.id || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Auth #</div><div class="v">' + esc(item.authorization || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Service / lane</div><div class="v">' + esc(laneLabel(item)) + '</div></div>' +
+        '<div class="dfield"><div class="k">Date received</div><div class="v">' + esc(item.dateReceived || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Pickup</div><div class="v">' + esc((item.pickupDate || '—') + (item.pickupTime ? ' · ' + item.pickupTime : '')) + '</div></div>' +
+        '<div class="dfield"><div class="k">Priority</div><div class="v">' + esc(item.priority || 'Standard') + '</div></div>' +
+        '<div class="dfield"><div class="k">Assigned to</div><div class="v">' + esc(item.claimedBy || '🌊 Pool') + '</div></div>' +
+        '<div class="dfield"><div class="k">Account</div><div class="v">' + esc(item.accountCode || '—') + '</div></div>' +
+        '<div class="dfield"><div class="k">Callback</div><div class="v">' + esc(item.callbackAt ? formatCalTime(item.callbackAt) + (item.callbackNote ? ' · ' + item.callbackNote : '') : '—') + '</div></div>' +
+      '</div>' +
+      (notes ? '<p class="hint-row" style="margin:12px 0 0"><strong style="color:#e9d5ff">Intake notes:</strong> ' + esc(notes) + '</p>' : '') +
+      '<div class="callback-box">' +
+        '<input id="callback-at" type="datetime-local">' +
+        '<input id="callback-note" type="text" placeholder="Callback note (optional)">' +
+        '<button class="btn secondary" type="button" id="save-callback">📞 Schedule on PRISM</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="next-action">' + nextHtml + assignHtml + '</div>' +
+    '<div><strong style="font-size:13px;color:#e9d5ff">Set status</strong>' +
+      '<div class="status-picks" id="status-picks">' + statusBtns + '</div></div>' +
+    '<div class="timeline">' +
+      '<h3>📝 Activity</h3>' +
+      '<div id="timeline-list">' + renderTimeline(item.activity) + '</div>' +
+      '<div class="note-box">' +
+        '<textarea id="activity-note" placeholder="Add a note (saved to audit trail — not editable later)"></textarea>' +
+        '<button class="btn" type="button" id="save-note">➕ Add note</button>' +
+      '</div>' +
+    '</div>';
+
+  if (isSupervisor() && !agentRoster.length) await loadAgentRoster();
+  const requestBtn = $('detail-request');
+  if (requestBtn) requestBtn.addEventListener('click', () => prismAction('request', item.id, null, true));
+  const releaseBtn = $('detail-release');
+  if (releaseBtn) {
+    releaseBtn.addEventListener('click', async () => {
+      if (item.needsForceRelease) {
+        const who = item.claimedBy || 'the agent';
+        const ok = window.confirm(
+          'Force unassign?\n\n'
+          + (item.memberName || 'This referral') + ' is in progress ('
+          + (item.careLabel || item.careStatus || 'Working') + ').\n'
+          + 'Assigned to: ' + who + '\n\n'
+          + 'This pulls it back to the unassigned pool and resets care status to New.'
+        );
+        if (!ok) return;
+        await prismAction('release', item.id, { force: true }, true);
+        return;
+      }
+      await prismAction('release', item.id, null, true);
+    });
+  }
+  const assignBtn = $('detail-assign');
+  if (assignBtn) {
+    assignBtn.addEventListener('click', async () => {
+      const email = ($('assign-email').value || '').trim().toLowerCase();
+      if (!email || !email.includes('@')) {
+        showDetailMsg('Pick an agent from the list.', 'err');
+        return;
+      }
+      await prismAction('assign', item.id, { assigneeEmail: email }, true);
+    });
+  }
+  const assignMeBtn = $('detail-assign-me');
+  if (assignMeBtn) {
+    assignMeBtn.addEventListener('click', async () => {
+      const session = getSession();
+      const email = ((session && session.email) || '').trim().toLowerCase();
+      if (!email) { showDetailMsg('Session missing email.', 'err'); return; }
+      await prismAction('assign', item.id, { assigneeEmail: email }, true);
+    });
+  }
+  const saveCb = $('save-callback');
+  if (saveCb) {
+    if (item.callbackAt) {
+      try {
+        const d = new Date(item.callbackAt);
+        if (!Number.isNaN(d.getTime())) {
+          const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+          $('callback-at').value = local;
+        }
+      } catch (e) { /* ignore */ }
+    }
+    if (item.callbackNote) $('callback-note').value = item.callbackNote;
+    saveCb.addEventListener('click', async () => {
+      const raw = ($('callback-at').value || '').trim();
+      if (!raw) { showDetailMsg('Pick a callback date/time.', 'err'); return; }
+      const iso = new Date(raw).toISOString();
+      const note = ($('callback-note').value || '').trim();
+      await prismAction('callback', item.id, { callbackAt: iso, note: note }, true);
+    });
+  }
+  $('save-note').addEventListener('click', async () => {
+    const text = ($('activity-note').value || '').trim();
+    if (!text) { showDetailMsg('Type a note first.', 'err'); return; }
+    await prismAction('patch', item.id, { activityNote: text }, true);
+  });
+  document.querySelectorAll('#status-picks button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const care = btn.getAttribute('data-care');
+      prismAction('patch', item.id, { careStatus: care }, true);
+    });
+  });
+}
+
+async function prismAction(action, id, extra, stayOnDetail) {
+  const msg = stayOnDetail ? showDetailMsg : showQueueMsg;
+  msg('Updating…', 'info');
   const body = Object.assign({ action, id }, extra || {});
   const { res, data } = await api('ops-prism-action', {
     method: 'POST',
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    showQueueMsg(data.error || 'Action failed', 'err');
+    if (action === 'release' && data.code === 'FORCE_RELEASE_REQUIRED' && !(extra && extra.force)) {
+      const who = data.assignedTo || 'the agent';
+      const ok = window.confirm(
+        'Force unassign?\n\nThis referral is in progress'
+        + (data.careStatus ? ' (' + data.careStatus + ')' : '') + '.\n'
+        + 'Assigned to: ' + who + '\n\n'
+        + 'Confirm to pull it back to the unassigned pool.'
+      );
+      if (!ok) {
+        msg('Unassign cancelled.', 'info');
+        return;
+      }
+      return prismAction('release', id, Object.assign({}, extra || {}, { force: true }), stayOnDetail);
+    }
+    msg(data.error || 'Action failed', 'err');
     return;
   }
-  showQueueMsg(action === 'claim' ? 'Claimed.' : (action === 'release' ? 'Released.' : 'Saved.'), 'ok');
-  await loadQueue();
+  const okText = action === 'assign' || action === 'batch-assign' ? '👥 Assigned'
+    : (action === 'request' ? '🙋 Request sent — waiting for supervisor'
+      : (action === 'callback' ? '📞 Callback saved on PRISM'
+        : (action === 'release'
+          ? (data.forced ? '⚠️ Force-unassigned — back to pool' : '↩️ Back to unassigned')
+          : (extra && extra.activityNote ? '📝 Note saved' : 'Updated'))));
+  msg(okText, 'ok');
+  maybeHeartbeat(true, action);
+  if (action === 'batch-assign') {
+    selectedOrderIds.clear();
+    updateBatchCount();
+    await loadQueue();
+    return;
+  }
+  if (stayOnDetail || openItemId) {
+    await openDetail(id);
+  } else {
+    await loadQueue();
+  }
+}
+
+async function runBatchAssign() {
+  if (!isSupervisor()) return;
+  const email = ($('batch-agent').value || '').trim().toLowerCase();
+  const ids = Array.from(selectedOrderIds);
+  if (!email) { showQueueMsg('Pick an agent for batch assign.', 'err'); return; }
+  if (!ids.length) { showQueueMsg('Select one or more orders first.', 'err'); return; }
+  await prismAction('batch-assign', ids[0], { assigneeEmail: email, orderIds: ids }, false);
+}
+
+function openNextCase() {
+  if (!queueItems.length) {
+    showQueueMsg("Queue's clear — nice work ✨", 'ok');
+    return;
+  }
+  const session = getSession();
+  const myEmail = ((session && session.email) || '').toLowerCase();
+  const prefer = queueItems.find((i) => !i.claimedBy)
+    || queueItems.find((i) => (i.claimedEmail || '').toLowerCase() === myEmail)
+    || queueItems[0];
+  if (prefer) openDetail(prefer.id);
+}
+
+let tcStatus = null;
+let tcTimer = null;
+let tcLastHeartbeat = 0;
+
+function fmtMins(m) {
+  const n = Math.max(0, Number(m) || 0);
+  const h = Math.floor(n / 60);
+  const min = Math.floor(n % 60);
+  return h + 'h ' + String(min).padStart(2, '0') + 'm';
+}
+
+function paintTimeclock(status) {
+  tcStatus = status || null;
+  const box = $('timeclock');
+  const meta = $('tc-meta');
+  if (!box || !meta) return;
+  if (!status || status.ok === false) {
+    box.classList.remove('on');
+    meta.innerHTML = 'Shift<br><b>—</b>';
+    return;
+  }
+  const on = !!status.clockedIn;
+  box.classList.toggle('on', on);
+  const today = status.todayHours != null ? status.todayHours.toFixed(2) + 'h today' : fmtMins(status.todayMinutes);
+  const events = status.workEvents ? (' · ' + status.workEvents + ' acts') : '';
+  if (on) {
+    meta.innerHTML = 'On shift · ' + fmtMins(status.openElapsedMinutes) + events + '<br><b>' + today + '</b>';
+  } else {
+    meta.innerHTML = 'Off shift<br><b>' + today + '</b>';
+  }
+}
+
+async function startOpsShift() {
+  if (!getSession()) return null;
+  try {
+    const { res, data } = await api('ops-timeclock', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'session-start', source: 'ops-login' }),
+    });
+    if (res.ok) {
+      paintTimeclock(data.status || data);
+      return data;
+    }
+    paintTimeclock({ ok: false });
+    return null;
+  } catch (_) {
+    paintTimeclock({ ok: false });
+    return null;
+  }
+}
+
+async function endOpsShift(reason) {
+  const session = getSession();
+  if (!session || !session.token) return;
+  try {
+    await api('ops-timeclock', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'session-end', reason: reason || 'ops-logout', source: reason || 'ops-logout' }),
+    });
+  } catch (_) { /* logout continues */ }
+}
+
+async function maybeHeartbeat(workEvent, eventLabel) {
+  if (!getSession()) return;
+  const now = Date.now();
+  // Heartbeat at most every 60s unless it's a real work event
+  if (!workEvent && now - tcLastHeartbeat < 60000) return;
+  tcLastHeartbeat = now;
+  try {
+    const body = { action: 'heartbeat' };
+    if (workEvent) {
+      body.workEvent = true;
+      if (eventLabel) body.event = eventLabel;
+    }
+    const { res, data } = await api('ops-timeclock', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+    if (res.ok && data.status) paintTimeclock(data.status);
+  } catch (_) { /* ignore */ }
+}
+
+function tcFlash(text, ok) {
+  const el = $('queue-msg');
+  if (el && !$('panel-prism').classList.contains('hidden')) {
+    showQueueMsg(text, ok ? 'ok' : 'err');
+    return;
+  }
+  const banner = $('gate-banner');
+  if (banner) {
+    const prev = banner.textContent;
+    const prevClass = banner.className;
+    banner.className = 'gate-banner' + (ok ? ' ok' : '');
+    banner.textContent = text;
+    setTimeout(() => { banner.className = prevClass; banner.textContent = prev; }, 3500);
+    return;
+  }
+  window.alert(text);
+}
+
+async function sendHoursToVertex() {
+  if (!getSession()) return;
+  if (!window.confirm('Send this pay period’s closed OPS shift hours to VERTEX HR as a draft timesheet?')) return;
+  $('tc-vertex').disabled = true;
+  try {
+    const { res, data } = await api('ops-timeclock', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'send-to-vertex' }),
+    });
+    if (!res.ok) {
+      tcFlash(data.error || 'Could not send to VERTEX', false);
+      return;
+    }
+    tcFlash('VERTEX draft ' + ((data.timesheet || {}).id || '') + ' · ' + (data.hours || 0) + 'h', true);
+  } catch (_) {
+    tcFlash('VERTEX send failed', false);
+  } finally {
+    $('tc-vertex').disabled = false;
+  }
+}
+
+function startTimeclockTicker() {
+  if (tcTimer) clearInterval(tcTimer);
+  tcTimer = setInterval(() => {
+    if (tcStatus && tcStatus.clockedIn && tcStatus.openPunch) {
+      const elapsed = (() => {
+        try {
+          const start = new Date(String(tcStatus.openPunch.inAt).replace('Z', ''));
+          return (Date.now() - start.getTime()) / 60000;
+        } catch (_) { return tcStatus.openElapsedMinutes || 0; }
+      })();
+      paintTimeclock(Object.assign({}, tcStatus, { openElapsedMinutes: elapsed }));
+    }
+  }, 30000);
 }
 
 async function loadEntitlements() {
@@ -701,6 +1966,13 @@ async function loadEntitlements() {
   showApp(true);
   renderDesks(data);
   touch();
+  // Sign-in = on the clock
+  if (data.canWork) {
+    await startOpsShift();
+  } else {
+    paintTimeclock({ ok: true, clockedIn: false, todayHours: 0, todayMinutes: 0 });
+  }
+  startTimeclockTicker();
 }
 
 async function sendCode() {
@@ -785,8 +2057,45 @@ $('back-email').addEventListener('click', () => {
   clearMsg();
 });
 $('signout-btn').addEventListener('click', () => clearSession('Signed out.'));
+$('tc-vertex').addEventListener('click', () => { touch(); sendHoursToVertex(); });
 $('back-desks').addEventListener('click', closePrismDesk);
+$('back-queue').addEventListener('click', () => { showQueuePanel(); loadQueue(); });
 $('refresh-queue').addEventListener('click', loadQueue);
+$('refresh-detail').addEventListener('click', () => { if (openItemId) openDetail(openItemId); });
+document.querySelectorAll('#queue-tabs .tab').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    queueView = btn.getAttribute('data-view') || 'mine';
+    loadQueue();
+  });
+});
+$('queue-search').addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(loadQueue, 250);
+});
+const demoModeSel = $('demo-mode');
+if (demoModeSel) {
+  demoModeSel.value = demoMode;
+  demoModeSel.addEventListener('change', () => {
+    demoMode = demoModeSel.value || 'all';
+    localStorage.setItem('opsDemoMode', demoMode);
+    loadQueue();
+  });
+}
+const batchBtn = $('batch-assign-btn');
+if (batchBtn) batchBtn.addEventListener('click', runBatchAssign);
+const selectAll = $('select-all-orders');
+if (selectAll) {
+  selectAll.addEventListener('change', () => {
+    selectedOrderIds.clear();
+    if (selectAll.checked) {
+      queueItems.forEach((i) => { if (i.id) selectedOrderIds.add(i.id); });
+    }
+    document.querySelectorAll('#queue-list .pick').forEach((cb) => {
+      cb.checked = selectAll.checked;
+    });
+    updateBatchCount();
+  });
+}
 $('idle-stay').addEventListener('click', async () => {
   touch();
   await refreshSession();
@@ -796,6 +2105,22 @@ $('code').addEventListener('keydown', (e) => {
 });
 $('email').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendCode();
+});
+
+window.addEventListener('keydown', (e) => {
+  const tag = (e.target && e.target.tagName) || '';
+  const typing = tag === 'INPUT' || tag === 'TEXTAREA';
+  if (!getSession() || $('panel-prism').classList.contains('hidden')) return;
+  if (e.key === '/' && !typing) {
+    e.preventDefault();
+    showQueuePanel();
+    $('queue-search').focus();
+    return;
+  }
+  if ((e.key === 'n' || e.key === 'N') && !typing && !$('prism-queue-view').classList.contains('hidden')) {
+    e.preventDefault();
+    openNextCase();
+  }
 });
 
 ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'].forEach((evt) => {

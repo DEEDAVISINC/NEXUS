@@ -170,7 +170,7 @@ function NexusApp() {
       setCurrentView(resolvedView);
       const compassTabs = ['dashboard', 'contracts', 'deliverables', 'communications', 'modifications', 'performance'];
       const vaultTabs = ['dashboard', 'registry', 'timeline'];
-      const vertexTabs = ['dashboard', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'];
+      const vertexTabs = ['dashboard', 'hr', 'invoices', 'expenses', 'revenue', 'reports', 'pnl', 'financing', 'nemt'];
       let validTab = tab;
       if (resolvedView === 'compass' && tab && !compassTabs.includes(tab)) validTab = 'dashboard';
       if (resolvedView === 'vault' && tab && !vaultTabs.includes(tab)) validTab = 'dashboard';

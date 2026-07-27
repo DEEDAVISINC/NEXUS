@@ -1304,7 +1304,7 @@ const HRSystem: React.FC<HRSystemProps> = ({ onBackToNexus, onNavigate, activeTa
             {onNavigate && !compact && (
               <div className="flex flex-wrap gap-2 mt-4">
                 <button type="button" onClick={() => onNavigate('compass', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open COMPASS</button>
-                <button type="button" onClick={() => onNavigate('vertex', 'dashboard')} className={NEXUS_BTN_SECONDARY}>Open VERTEX</button>
+                <button type="button" onClick={() => onNavigate('vertex', 'hr')} className={NEXUS_BTN_SECONDARY}>Open VERTEX HR Payroll</button>
               </div>
             )}
           </>

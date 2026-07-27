@@ -110,13 +110,18 @@ OPS does **not** re-hire people. It reads GATEWAY.
 
 | Role | Desks | Can |
 |---|---|---|
-| **CCA** | PRISM (account-scoped) | View queue, claim/release, update trip notes/status within policy |
+| **CCA / Agent** | PRISM (employed sectors only) | **Mine** + work assigned cases; pool = **Request** only — **cannot self-assign** |
 | **Claims entry** | Claims / VERTEX | Draft + submit claims; fix returns |
-| **Manager (authorizer)** | Claims (+ optional PRISM) | Approve / reject / return claims; see drain board |
-| **Supervisor** | Multi-account / multi-desk | Force-assign, force-release, break-glass logout, overflow |
+| **Supervisor** | PRISM (employed sectors) | **Supervisor floor** + **Care desk**: assign / batch / force-unassign / live / agents / request inbox / aging view. Work cases via **Assign to me** → Mine |
+| **Manager** | PRISM (+ Claims later) | **Management floor** + Care desk: everything supervisor has + workforce readiness + aging escalate flag; still sector-scoped unless owner |
+| **Admin / Owner** | **Ultimate key** — all desks, all sectors | **Owner floor** — Dieasha / `info@deedavis.biz` (+ aliases): all floors + company-wide |
 | **NEXUS admin** | All (Command Center) | Not a substitute for OPS — override + audit live in NEXUS |
 
-Phase A/B may ship **CCA + Supervisor** only; add Claims roles in Phase D.
+**Locked (Jul 26, 2026):**
+- Same site: `ops.deedavis.biz` — **role floors**, not separate domains
+- Supervisors **can** do Care desk work (Assign to me → Mine)
+- Owner sits above the supervisor ↔ management split
+- Roles still come only from GATEWAY levels
 
 ---
 
@@ -139,12 +144,32 @@ Trip/order.payer  →  normalize to HR account code  →  filter queue to CCAs w
 | Rule | Behavior |
 |---|---|
 | Affinity | Payer/account must match CCA assignment |
-| Pull model (default) | Auto-route to **queue**; human **claims** work item |
-| Overflow | Supervisor / multi-account after N minutes unclaimed |
-| Force | Supervisor can force-assign / force-release |
+| Push model (locked) | Orders land in **Unassigned**; **only supervisors/managers assign** (single or batch) to agents |
+| Agent network | Supervisors/managers see agents who share **employed sectors** (owner sees all) |
+| Queue scope | Supervisors/managers = employed sectors only; **owner/admin** = all accounts |
 | Partners | Never name fulfillment brands in OPS UI |
 
-**HAP CareSource** = one desk/account for routing purposes (align with existing NEMT payer catalog + HR account codes).
+### Sector labels (what people see vs GATEWAY codes)
+
+**Workforce UI shows BUYER-LANE names.** Raw HR codes stay internal for routing only.
+
+| Desk label (show this) | Internal code | Notes |
+|---|---|---|
+| **HAP-NEMT** | `CSRC` | HAP CareSource NEMT |
+| **MOL-NEMT** | `MOLN` | Molina NMT / NEMT dispatch |
+| **MOL-CTS** | `CTS` | Molina Community Transition (own lifecycle) |
+| **MER-NEMT** | `MER` | Meridian NEMT |
+| **HAVN** | `HAVN` | HAVEN continuity |
+
+**Add more as contracts are secured** — extend `SECTOR_DISPLAY` + `PAYER_TO_CODES` in `ops_portal_api.py`, plus GATEWAY account code. Naming pattern: `BUYER-LANE` (e.g. `BCBS-NEMT`, `AETNA-CTS`).
+
+**Molina** = **two product lanes under one PSA** (never treat as NEMT-only):
+| Lane | Desk label | HR code | What it is |
+|---|---|---|---|
+| **NMT / NEMT** | MOL-NEMT | `MOLN` Ⓜ️ | Trip dispatch / transportation |
+| **CTS** | MOL-CTS | `CTS` 🏠 | Community Transition Services (Attachment B / T2038) |
+
+GATEWAY assignment of Molina (`MOLN`) also opens the **CTS** queue in OPS. CTS-only assignment stays CTS-scoped. Employees can hold both: `Molina Healthcare of Michigan, CTS` → Ⓜ️🏠.
 
 ---
 
@@ -152,24 +177,46 @@ Trip/order.payer  →  normalize to HR account code  →  filter queue to CCAs w
 
 **Purpose:** Customer care / coordination work on PRISM trips & related ops — writes back to PRISM.
 
-### MVP screens
-1. **My queue** — account-scoped; oldest / SLA-sensitive first  
-2. **Trip / case detail** — eligibility checklist, notes, status, voice/confirmation refs  
-3. **Claim / release** — lock so two CCAs don’t work the same member  
-4. **Supervisor board** — unclaimed aging, force-assign  
+**Product feel (locked Jul 25, 2026):** Care desk, not gray admin. Emoji status/SLA/actions/empty states. Keep PHI (names/IDs) clean — personality on chips and chrome only.
+
+### Four screens only (resist more nav)
+1. **My Queue** — Mine + Pool (grab unassigned)  
+2. **Referral Detail** — member + SLA + one next action + activity timeline  
+3. **Search** — one bar: name / MCO ID / referral # / phone  
+4. **My Day / Team** (supervisor) — **calendar first** (PRISM pickups + callbacks), then counts + by-agent  
+   - `GET /ops/prism/calendar` — always derived from PRISM orders (source of record)  
+   - `POST …/callback` — writes `ops_callback_at` on the order, then best-effort NEXUS calendar sync  
+   - `GET /ops/prism/day` · supervisor `POST …/assign` (agent email)  
+   - Rule: **everything falls back to PRISM** — OPS never owns a separate calendar store
+
+### Care status chips
+| Chip | Meaning |
+|---|---|
+| 🆕 New | Unworked / just received |
+| 🔧 Working | Claimed / in progress |
+| ⏳ Waiting on Auth | Blocked on auth / info |
+| ✅ Done | Closed |
+
+### SLA urgency
+🟢 On track · 🟡 Tight · 🔴 Overdue — countdown is the #1 desk feature.
+
+### Progress stepper
+Received → Assigned → In Progress → Completed
 
 ### Backend (new or extend)
 - `GET /ops/session` — me + desks + accounts + can-work  
-- `GET /ops/prism/queue` — filtered by session accounts  
-- `POST /ops/prism/items/<id>/claim`  
-- `POST /ops/prism/items/<id>/release`  
-- `PATCH /ops/prism/items/<id>` — allowed fields only; audit  
+- `GET /ops/prism/queue` — `view=mine|pool|all`, `q=` search  
+- `POST /ops/prism/items/<id>/claim` · `/release`  
+- `GET|PATCH /ops/prism/items/<id>` — careStatus, **append-only** `activityNote`  
+- SLA due from priority (STAT 2h / Same Day 8h / Standard 24h) or `ops_sla_due_at`  
 - Existing PRISM/NEMT APIs remain system of record; OPS is a controlled façade  
+- **Calendar:** pickup times + `ops_callback_at` on the order → My Day strip; optional write-behind to `/nexus/calendar` with `system=PRISM`  
 
 ### Explicit non-goals (PRISM Desk MVP)
 - Field agent scanbacks (different portal / later role)  
 - Partner dispatch branding  
 - Full NEXUS admin chrome  
+- React/Supabase rewrite — stay Netlify + Flask until desk UX is boringly solid  
 
 ---
 
@@ -227,13 +274,50 @@ Who created, submitted, approved/rejected, timestamps, reason codes — FDR/MCO 
 
 ---
 
+## TIMECLOCK (locked Jul 26, 2026)
+
+**OPS is the employee timeclock — not GATEWAY.**
+
+```
+GATEWAY can-work clear → OPS clock in/out (shift hours)
+                      → VERTEX HR timesheet / pay run
+```
+
+| Layer | Time / pay role |
+|---|---|
+| **GATEWAY** | Identity + clearance only — **no** punch / hours |
+| **OPS** | Clock in / clock out · shift log · (later) suggest hours to VERTEX |
+| **VERTEX HR** | Rates · approve hours into pay · Deluxe / tax |
+
+Status: **MVP live** — **OPS sign-in = on shift**; **sign-out / idle = off shift**. Header shows shift time + activity. **→ VERTEX** sends period hours to VERTEX HR.
+
+| Piece | Location |
+|---|---|
+| Session start | `POST /ops/timeclock/session-start` (on login) |
+| Heartbeat / work | `POST /ops/timeclock/heartbeat` (activity + desk actions) |
+| Session end | `POST /ops/timeclock/session-end` (sign-out / idle) |
+| Data | `uploads/ops/timeclock.json` |
+| Netlify | `ops-portal/netlify/functions/ops-timeclock.js` |
+| UI | Header “On shift” indicator (no separate Clock in button) |
+
+Requires GATEWAY `can-work` (or OPS relax) to start a shift. Sync employee in VERTEX HR before **→ VERTEX**.
+
+---
+
 ## BUILD RULE — ONE PORTAL AT A TIME
 
 1. **Finish OPS** (desks, claim/release, supervisor layer) without stalling on GATEWAY Phase 1 paperwork.
 2. **Finish GATEWAY** credentialing for real hires in a dedicated session.
 3. **Wire hard** — turn off `OPS_RELAX_CAN_WORK` so desks require true GATEWAY `can-work`.
+4. **OPS timeclock** — punch in/out → hours into VERTEX HR (after desks are solid).
 
-Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employees for OPS smoke tests while GATEWAY still reports incomplete. Banner shows “OPS build mode.” Production = flag off.
+Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employees for OPS smoke tests while GATEWAY still reports incomplete. Banner shows “OPS build mode” + go-live checklist from `/ops/session` (`opsReadiness.toGoLive`). Production = flag off (`OPS_RELAX_CAN_WORK=0` or unset).
+
+**Off-ramp (do not flip until workforce is real):**
+1. GATEWAY `can-work` passes for Active staff who need desks
+2. Prefer real PRISM orders; use queue **Real only (hide demo)** for live ops
+3. Set `OPS_RELAX_CAN_WORK=0` (or unset) on PythonAnywhere and reload webapp
+4. Confirm banner shows can-work enforced (not build mode)
 
 ### Phase A — OPS shell + security + GATEWAY gate
 - [x] Scaffold `ops-portal/` at `ops.deedavis.biz` / `ddi-ops-portal.netlify.app`
@@ -242,8 +326,10 @@ Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employe
 - [x] Flask `ops_portal_api.py` — `GET /ops/session` (can-work, accounts, level→role, desks)
 - [x] Netlify functions: `ops-auth-send`, `ops-auth-verify`, `ops-auth-me`, `ops-session`
 - [x] PythonAnywhere: `/ops/health` + `/ops/session` live via `prism_pa_app.py`
+- [x] Session/health surfaces `relaxCanWork` + `opsReadiness.toGoLive` (UI banner)
 - [ ] DNS CNAME `ops` → `ddi-ops-portal.netlify.app`
-- [ ] Turn off `OPS_RELAX_CAN_WORK` after GATEWAY Phase 1 is real for workforce
+- [x] Principal/owner `can-work` path (Dieasha / `info@`) — Phase 1 hire checklist N/A; see `GATEWAY_PHASE1_STATUS.md`
+- [ ] Turn off `OPS_RELAX_CAN_WORK` after first real employee clears Phase 1 (owner already true without relax)
 
 ### Phase B — PRISM Desk MVP
 - [x] Queue by account (`GET /ops/prism/queue`) — HAP CareSource ↔ HR CareSource/`CSRC`
@@ -252,12 +338,18 @@ Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employe
 - [x] Demo queue items in `uploads/ops/prism_demo_queue.json` when real board is thin
 - [x] OPS portal PRISM desk UI (claim / release / notes)
 - [x] Flask `/ops/prism/*` live on PythonAnywhere
-- [ ] Supervisor force-release UI polish (API supports `force` for supervisor/manager)
+- [x] Supervisor force-release — API `force=true` + UI confirm (Working / Waiting on Auth / In Progress)
+- [x] Demo filter — `?demo=all|hide|only` + portal Queue source control + Real/Demo chips
 
-### Phase C — Manager / supervisor ops layer
-- Aging boards
-- Break-glass logout
-- Escalation hooks for unclaimed / drain (PRISM side)
+### Phase C — Manager / supervisor ops layer (role floors)
+- [x] Same `ops.deedavis.biz` — role floors (`care` / `supervisor` / `management` / `owner`)
+- [x] Session `floor` + `capabilities` matrix from GATEWAY level
+- [x] Supervisors keep Care desk (`Assign to me`)
+- [x] Request inbox (`GET /ops/prism/requests`)
+- [x] Aging board (`GET /ops/prism/aging`)
+- [x] Workforce readiness — management (`GET /ops/prism/readiness`)
+- [ ] Break-glass logout
+- [ ] Escalation hooks for unclaimed / drain (PRISM side)
 
 ### Phase D — Claims desk + drain timers
 - Draft → submit → authorize
@@ -309,7 +401,7 @@ Build-time flag: `OPS_RELAX_CAN_WORK=1` on PythonAnywhere unlocks Active employe
 - [ ] 15-minute idle logs them out (server + client)  
 - [ ] Claim locks a trip; second CCA cannot double-work it  
 - [ ] Status/notes write back into PRISM and show in NEXUS  
-- [ ] Supervisor can force-release  
+- [x] Supervisor can force-release  
 - [ ] Audit row for login, claim, update, logout  
 
 Claims MVP (Phase D) adds: submit without self-approve; manager authorize; drain breach visibility.
