@@ -2,7 +2,22 @@
 
 **Purpose:** Persistent record of session findings, active work, and system corrections. Cursor reads this at session start.
 
-**Last Updated:** 2026-06-10
+**Last Updated:** 2026-07-27
+
+---
+
+## 🔴 ACTIVE — CAQH PROVIDER PORTAL (Jul 27, 2026)
+
+| Field | Value |
+|---|---|
+| **CAQH Provider ID** | **16876320** |
+| **Named** | Dieasha Davis |
+| **Status** | INVITED — register / profile / attest incomplete |
+| **Portal** | https://proview.caqh.org/pr |
+| **Full record** | `CREDENTIALING/CAQH_PROVIDER_PORTAL.md` |
+| **Also in** | `COMPANY_INFO_MASTER.md`, `company_info.py`, `PENDING_ACTIONS.md` |
+
+**Next action:** Complete CAQH registration + attestation this week (needed for Humana + MCO credentialing).
 
 ---
 

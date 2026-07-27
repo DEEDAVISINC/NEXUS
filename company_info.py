@@ -78,10 +78,14 @@ def ops_alert_phone_e164() -> str:
     return f"+1{digits}" if len(digits) == 10 else ""
 
 # ─────────────────────────────────────────────────────────────────────────────
-# HEALTHCARE PROVIDER IDS (MDHHS / CHAMPS / billing)
+# HEALTHCARE PROVIDER IDS (MDHHS / CHAMPS / CAQH / billing)
 # ─────────────────────────────────────────────────────────────────────────────
 NPI = "1538939111"
 CHAMPS_PROVIDER_ID = "6309049"
+# CAQH Provider Data Portal (ProView) — invited Jul 27, 2026; register + attest still required
+CAQH_PROVIDER_ID = "16876320"
+CAQH_PORTAL_URL = "https://proview.caqh.org/pr"
+CAQH_STATUS = "INVITED"  # INVITED | REGISTERED | ATTESTED — flip when Dee completes each step
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FEDERAL CREDENTIALS

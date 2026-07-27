@@ -444,6 +444,7 @@ applications, teaming agreements, and NEXUS GBIS pipeline records.
 
 **Healthcare:**
 - NPI: 1538939111 (Healthcare Provider)
+- **CAQH Provider ID: 16876320** — Welcome email received **Jul 27, 2026** from CAQH Provider Data Portal (`ProviewSystemAdministrator@proview.caqh.org`). Named on file: **Dieasha Davis**. Address on invite: 755 W. Big Beaver Rd, Suite 2020. **Status: INVITED — registration / profile / attestation NOT yet complete.** Portal: https://proview.caqh.org/pr · Support: 888-599-1771. Note: CAQH access does **not** equal plan participation — still must contract with each organization separately.
 - Active Medicaid Provider (**Michigan**, **Maryland**). **Texas:** TMHP portal login / **Provider Administrator** on enrollment transaction **D19273048** only — **Texas Medicaid provider enrollment not yet applied / not submitted** per Dee; TMHP access can exist before a complete application.
 
 **Transportation/Logistics:**
@@ -981,6 +982,7 @@ MI SIGMA VSS: VS0245604
 | **Specialty** | Non-Emergency Transportation Agency / No Subspecialty |
 | **Specialty** | NEMT (Non-Emergency Medical Transportation) |
 | **NPI** | 1538939111 |
+| **CAQH Provider ID** | **16876320** — invited Jul 27, 2026; register + attest at proview.caqh.org (not yet complete) |
 | **Taxonomy Code** | 347E00000X (Transportation Broker) |
 | **Ownership Type** | Corporate - Non Charitable |
 | **Managing Employee** | Dieasha D. Davis |
@@ -1008,6 +1010,7 @@ MI SIGMA VSS: VS0245604
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
 - [x] **CareSource NEMT contract executed Apr 28, 2026** — Vendor ID 100000469269
 - [x] **Orientation with Brian Grcevich (CareSource)** — ✅ SCHEDULED May 6, 2026 1:00 PM ET — Teams meeting
+- [ ] **CAQH Provider Data Portal** — ID **16876320** invited Jul 27, 2026 → register → complete profile → set authorization → attest + upload docs
 - [ ] **Humana** — credentialing in progress (Jul 2026)
 - [ ] **Blue Cross Complete** — awaiting Alina Pabin follow-up
 - [ ] **Meridian** — awaiting contract offer

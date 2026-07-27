@@ -230,7 +230,8 @@
 - State Medicaid telehealth provider enrollment
 
 **Build Checklist:**
-- [ ] CAQH ProView registered credentialing organization
+- [x] CAQH ProView — **Provider ID 16876320 issued Jul 27, 2026** (Dieasha Davis). Status: INVITED — register + profile + attest still required. Record: `CREDENTIALING/CAQH_PROVIDER_PORTAL.md`
+- [ ] CAQH ProView registered as credentialing **organization** (TPA 8 ops — separate from personal Provider ID above)
 - [ ] State medical board fingerprinting requirements matrix (all 50 states)
 - [ ] NPDB querying access (requires registration at npdb.hrsa.gov)
 - [ ] License monitoring software/NEXUS module
