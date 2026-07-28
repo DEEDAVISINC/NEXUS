@@ -1002,7 +1002,7 @@ MI SIGMA VSS: VS0245604
 | Aetna Better Health | Pending | |
 | Blue Cross Complete | ⏳ **AWAITING FOLLOW-UP** | Alina Pabin (VP, Provider Network Management) — apabin@mibluecrosscomplete.com — responded 05/06/2026 (30-min intro). **Post–Memorial Day follow-up SENT** early June 2026 — availability weeks of **June 2 & June 9, afternoons ET**; awaiting her follow-up (per Dee, Jul 2026). |
 | McLaren Health Plan | Pending | Flint HQ |
-| Priority Health Choice | Pending | Grand Rapids |
+| **Priority Health Choice** | 🔄 **PRISM PORTAL ACCOUNT APPROVED** (Jul 28, 2026) | Priority Health **prism** provider portal (not DDI PRISM). Username: **`info@deedavis.biz.prism`**. Set password via email link (**expires ~Aug 7, 2026**). Support: 800.942.4765 opt 5. Group/facility access = separate approval (~+2 days). **Portal ≠ contract.** Record: `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md` | Grand Rapids |
 
 ### ACTIONS NEEDED:
 
@@ -1010,6 +1010,7 @@ MI SIGMA VSS: VS0245604
 - [x] **APPROVED 03/23/2026** — Provider ID 6309049, Active through 12/31/2999
 - [x] **CareSource NEMT contract executed Apr 28, 2026** — Vendor ID 100000469269
 - [x] **Orientation with Brian Grcevich (CareSource)** — ✅ SCHEDULED May 6, 2026 1:00 PM ET — Teams meeting
+- [ ] **Priority Health prism** — set password for `info@deedavis.biz.prism` (link expires ~Aug 7, 2026) → then confirm group/facility access email
 - [ ] **CAQH Provider Data Portal** — ID **16876320** invited Jul 27, 2026 → register → complete profile → set authorization → attest + upload docs
 - [ ] **Humana** — credentialing in progress (Jul 2026)
 - [ ] **Blue Cross Complete** — awaiting Alina Pabin follow-up
