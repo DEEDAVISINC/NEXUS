@@ -1,0 +1,95 @@
+{
+  "version": "2026-07-28",
+  "note": "Machine-readable payer profiles for VERTEX medical billing. Human source of truth: VERTEX_PAYER_PROFILES_HAP_MOLINA.md. Rates and windows must match signed contracts.",
+  "payers": {
+    "hap_caresource": {
+      "legal_name": "Health Alliance Plan / CareSource Michigan",
+      "plan_brand": "HAP CareSource MI Coordinated Health (HIDE SNP)",
+      "vendor_id": "100000469269",
+      "npi": "1538939111",
+      "champs_id": "6309049",
+      "geography": {
+        "live_counties": ["Wayne", "Macomb"],
+        "pending_counties": ["Oakland"],
+        "statewide": false
+      },
+      "services_in_scope": ["NEMT_NON_MEDICAL_LTSS"],
+      "services_out_of_scope": ["MTM_MEDICAL_NEMT", "PHARMACY_RX_DELIVERY"],
+      "clearinghouse": {
+        "name": "Availity",
+        "payer_ids": {
+          "medicaid": "MIMCDCS1",
+          "mi_coordinated_health": "MIMCRCS1",
+          "directory_legacy": "68069"
+        }
+      },
+      "timely_filing_days": 365,
+      "dispute_days": null,
+      "appeal_days": null,
+      "rates": {
+        "T2002": 28.0,
+        "A0130": 35.0,
+        "mileage_per_mile": 1.85,
+        "mileage_hcpcs": {"ambulatory": "T2003", "wheelchair": "A0425", "stretcher": "A0425"}
+      },
+      "remittance": {"first_pay": "ECHO", "eft_phone": "1-888-834-3511"},
+      "eligibility": {
+        "auto_verify_on_intake": true,
+        "require_portal_confirm_before_claim": true
+      },
+      "volume_monitor": {
+        "alert_if_zero_trips_days": 14,
+        "active_when": "vendor_credentialed"
+      },
+      "nexus_code_key": "HAP CareSource"
+    },
+    "molina_mi_ltss": {
+      "legal_name": "Molina Healthcare of Michigan, Inc.",
+      "plan_brand": "HIDE SNP LTSS",
+      "vendor_id": "214337479",
+      "credentialed_thru": "2029-07-31",
+      "npi": "1538939111",
+      "champs_id": "6309049",
+      "availity_app_id": "63821858",
+      "geography": {"statewide": true},
+      "services_in_scope": ["NMT", "CTS"],
+      "cts_open_categories": ["security_deposit", "utility_setup"],
+      "cts_blocked_until_article_29": ["furnishings", "moving_costs"],
+      "clearinghouse": {
+        "name": "Availity",
+        "payer_ids": {
+          "electronic": "38334",
+          "legacy_incorrect": "38217"
+        }
+      },
+      "timely_filing_days": 365,
+      "dispute_days": 120,
+      "dispute_method": "CDRF",
+      "appeal_days": 90,
+      "rates": {
+        "T2003": 27.0,
+        "A0130": 35.0,
+        "S0215": 0.67,
+        "S0209": 3.0,
+        "T1028": 150.0,
+        "T2038": "manual"
+      },
+      "prior_auth": {"channel": "fax_only", "ban": ["availity_pa_request"]},
+      "remittance": {"first_pay": "ECHO_VCC", "era": "ECHO"},
+      "eligibility": {
+        "auto_verify_on_intake": false,
+        "phone": "855-322-4077",
+        "require_verified_every_service": true
+      },
+      "hard_gates": [
+        "MOLINA_LTSS_ATTESTATION_ON_FILE",
+        "MOLINA_LTSS_AVAILITY_ACTIVE"
+      ],
+      "volume_monitor": {
+        "alert_if_zero_trips_days": 14,
+        "active_when": "both_hard_gates_true"
+      },
+      "nexus_code_key": "Molina Healthcare Michigan"
+    }
+  }
+}
