@@ -483,6 +483,12 @@
 
 ---
 
+## 2026-07-28 — Tuesday
+
+- **(Today)** — ✅ **Priority Health prism account APPROVED** — email from `phprism@priorityhealth.com`. Username: **`info@deedavis.biz.prism`**. Set password from that email (10-day link). Support: 800.942.4765 opt 5. Record: `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md`. **Not DDI PRISM.**
+
+---
+
 ## 2026-07-31 — Friday
 
 - **12:00 PM ET** — 🔥 **CHECK: ModivCare MA190000000912 expires — confirm bridge** — Recompete **RFP 260000002254** anticipated Aug 2026. Call/email Sarah Oumedian (OumedianS@michigan.gov / 517-335-1969) or MDHHS Procurement 517-335-5100. Folder: `MICHIGAN NEMT BROKER RECOMPETE/`. `.ics`: `calendars/MDHHS_NEMT_MA190000000912_EXPIRE_BRIDGE_2026-07-31.ics`
@@ -498,6 +504,12 @@
 ## 2026-08-03 — Monday
 
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-08-03.ics`
+
+---
+
+## 2026-08-05 — Wednesday
+
+- **12:00 PM ET** — 📋 **Priority Health prism — set password before link expires** — Username `info@deedavis.biz.prism`. Link from Jul 28 email expires ~Aug 7. `.ics`: `calendars/PRIORITY_HEALTH_PRISM_PASSWORD_2026-08-05.ics`
 
 ---
 
