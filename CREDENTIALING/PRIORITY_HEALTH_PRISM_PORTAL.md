@@ -7,6 +7,8 @@
 > **NAMING WARNING:** Priority Health’s portal is branded **“prism”** (lowercase).  
 > This is **NOT** Dee Davis Inc. / NEXUS **PRISM** (dispatch/QC). Do not merge the two in docs or ops.
 
+> **PASTE NOTE (Jul 28):** Trailing “arielle / Press tab to insert” in the Gmail paste was **autocomplete UI noise only** — disregard. Not a Priority Health contact and not related to this portal approval.
+
 ---
 
 ## Account Record
