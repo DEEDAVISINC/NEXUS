@@ -75,12 +75,25 @@ def _is_hap_payer(payer: Optional[str]) -> bool:
 def apply_hap_intake_defaults(order: Dict[str, Any]) -> None:
     """
     Credentialed HAP parallel vendor (100000469269): voice/portal intake
-    pre-clears eligibility for dispatch QA — prior auth tracked as network vendor.
+    pre-clears eligibility for *dispatch* QA — prior auth tracked as network vendor.
+
+    IRONCLAD (Jul 2026): does NOT silently invent a clean audit trail for claims.
+    Stamps method + timestamp. Claim scrub still requires eligibility_portal_confirmed
+    (or explicit override) before VERTEX invoice.
     Mutates order in place.
     """
     if not _is_hap_payer(order.get("payer")):
         return
     order["eligibility_verified"] = True
+    order["eligibility_verification_method"] = order.get("eligibility_verification_method") or (
+        "HAP parallel vendor credentialed intake (Vendor 100000469269) — "
+        "portal confirmation required before claim"
+    )
+    if not order.get("eligibility_verified_at"):
+        order["eligibility_verified_at"] = datetime.utcnow().isoformat() + "Z"
+    # Never auto-set portal confirmed — ops must flip after Availity/CareSource check
+    if "eligibility_portal_confirmed" not in order:
+        order["eligibility_portal_confirmed"] = False
     if not order.get("prior_auth_number") and not order.get("prior_auth_id"):
         order["prior_auth_number"] = "HAP-PARALLEL-VENDOR-100000469269"
 
@@ -161,6 +174,7 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
     "HAP CareSource": {
         "legal_name": "Health Alliance Plan / CareSource Michigan",
         "payer_id": "68069",
+        "availity_payer_ids": ["MIMCDCS1", "MIMCRCS1"],  # Medicaid / MA — confirm before 837 submit
         "region": "Region 10 (Southeast Michigan — Wayne, Oakland, Macomb, Monroe, Washtenaw, Livingston)",
         "executed_service_counties": ["Wayne", "Macomb"],
         "pending_service_counties": ["Oakland"],
@@ -168,10 +182,13 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "prior_auth_phone": "1-844-607-2831",
         "claims_portal": "https://michigan.caresource.com",
         "era_835": True,
+        "timely_filing_days": 365,
     },
     "Molina Healthcare Michigan": {
         "legal_name": "Molina Healthcare of Michigan, Inc.",
-        "payer_id": "38217",
+        # Clearinghouse / ECHO payer ID per orientation + EFT PDF (NOT 38217 — that collides with Priority)
+        "payer_id": "38334",
+        "payer_id_legacy_incorrect": "38217",
         "region": "Statewide (HIDE SNP LTSS)",
         "vendor_id": MOLINA_LTSS_VENDOR_ID,
         "credentialed_thru": "2029-07-31",
@@ -194,15 +211,22 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "first_payment_method": "ECHO virtual credit card (Quick Remit) by default — Draft # off first EPP needed to switch to direct deposit",
         "claims_portal": "https://provider.molinahealthcare.com",
         "era_835": True,
+        "timely_filing_days": 365,
     },
     "Priority Health": {
         "legal_name": "Priority Health",
-        "payer_id": "38217",
+        "payer_id": "38217",  # Distinct from Molina 38334 — verify with Priority Health prism before first 837
         "region": "Statewide (Priority Health Choice)",
         "billing_address": "1231 E. Beltline Ave. NE, Grand Rapids, MI 49525",
         "prior_auth_phone": "1-800-942-0954",
         "claims_portal": "https://www.priorityhealth.com/provider",
         "era_835": True,
+        "timely_filing_days": 365,
+        "prism_portal": {
+            "username": "info@deedavis.biz.prism",
+            "status": "ACCOUNT APPROVED Jul 28, 2026 — set password before ~Aug 7",
+            "record": "CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md",
+        },
     },
     "Aetna Better Health": {
         "legal_name": "Aetna Better Health of Michigan",
@@ -212,6 +236,7 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "prior_auth_phone": "1-866-316-3784",
         "claims_portal": "https://providers.aetnabetterhealth.com/mi",
         "era_835": True,
+        "timely_filing_days": 365,
     },
     "McLaren Health Plan": {
         "legal_name": "McLaren Health Plan Community",
@@ -221,6 +246,7 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "prior_auth_phone": "1-888-327-0671",
         "claims_portal": "https://www.mclarenhealthplan.org/provider",
         "era_835": True,
+        "timely_filing_days": 365,
     },
     "Blue Cross Complete": {
         "legal_name": "Blue Cross Complete of Michigan",
@@ -230,6 +256,7 @@ MICHIGAN_MCO_PAYERS: Dict[str, Dict[str, Any]] = {
         "prior_auth_phone": "1-888-228-0657",
         "claims_portal": "https://www.bcbsm.com/providers",
         "era_835": True,
+        "timely_filing_days": 365,
     },
 }
 
@@ -1498,6 +1525,22 @@ def generate_claim(airtable, trip_id: str, *, force_qc: bool = False, qc_overrid
         raise ValueError(f"Trip not found: {trip_id}")
     if trip.get("invoice_id"):
         raise ValueError("Trip already converted to a claim")
+
+    # ── Claim scrub + timely filing (ironclad pre-invoice gate) ─────────────
+    from vertex_medical_billing_scrub import assert_claim_scrub_pass
+
+    scrub = assert_claim_scrub_pass(
+        trip,
+        existing_trips=state.get("trips") or {},
+        require_hap_portal_confirm=os.environ.get("VERTEX_HAP_REQUIRE_PORTAL_CONFIRM", "1") != "0",
+    )
+    if scrub.get("warnings"):
+        logging.getLogger("nemt_billing").warning(
+            "Claim scrub warnings trip=%s: %s", trip_id, "; ".join(scrub["warnings"])
+        )
+    trip["claim_scrub"] = scrub
+    state["trips"][trip_id] = trip
+    _save_state(state)
 
     # ── VERTEX billing gate (9-pillar QC spine) ─────────────────────────────
     try:

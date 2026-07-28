@@ -3,6 +3,18 @@ const PRODUCTION_API = 'https://deedavis.pythonanywhere.com';
 
 const API_BASE = process.env.REACT_APP_API_BASE || LOCAL_API_DEFAULT;
 
+/** Optional — must match server VERTEX_NEMT_API_TOKEN / NEXUS_INTERNAL_API_TOKEN when set */
+const NEXUS_INTERNAL_TOKEN =
+  process.env.REACT_APP_NEXUS_INTERNAL_TOKEN || process.env.REACT_APP_VERTEX_NEMT_API_TOKEN || '';
+
+function _authHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  const headers: Record<string, string> = { ...extra };
+  if (NEXUS_INTERNAL_TOKEN) {
+    headers['X-NEXUS-Token'] = NEXUS_INTERNAL_TOKEN;
+  }
+  return headers;
+}
+
 /** Voice/Twilio/ElevenLabs — live on PA; local NEXUS UI defaults here unless overridden. */
 export const VOICE_API_BASE =
   process.env.REACT_APP_VOICE_API_BASE ||
@@ -29,16 +41,18 @@ export class ApiClient {
   }
 
   static async get(endpoint: string) {
-    const response = await fetch(`${API_BASE}${endpoint}`);
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      headers: _authHeaders(),
+    });
     return ApiClient._parse(response);
   }
 
   static async post(endpoint: string, data: any) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'POST',
-      headers: {
+      headers: _authHeaders({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(data),
     });
     return ApiClient._parse(response);
@@ -47,9 +61,9 @@ export class ApiClient {
   static async put(endpoint: string, data: any) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'PUT',
-      headers: {
+      headers: _authHeaders({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(data),
     });
     return ApiClient._parse(response);
@@ -58,9 +72,9 @@ export class ApiClient {
   static async patch(endpoint: string, data: any) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'PATCH',
-      headers: {
+      headers: _authHeaders({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(data),
     });
     return ApiClient._parse(response);
@@ -69,6 +83,7 @@ export class ApiClient {
   static async delete(endpoint: string) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'DELETE',
+      headers: _authHeaders(),
     });
     return ApiClient._parse(response);
   }

@@ -17269,9 +17269,35 @@ def create_vertex_revenue():
 
 # -------------------- VERTEX NEMT MEDICAL BILLING --------------------
 
+def _require_vertex_nemt_token():
+    """
+    Opt-in auth for VERTEX NEMT write endpoints.
+    Set VERTEX_NEMT_API_TOKEN (or NEXUS_INTERNAL_API_TOKEN) in env.
+    Client sends X-NEXUS-Token or Authorization: Bearer <token>.
+    If token env is unset, requests are allowed (dev) but a warning is logged once.
+    """
+    import os
+    expected = (os.environ.get('VERTEX_NEMT_API_TOKEN') or os.environ.get('NEXUS_INTERNAL_API_TOKEN') or '').strip()
+    if not expected:
+        if not getattr(_require_vertex_nemt_token, '_warned', False):
+            print('⚠️ VERTEX NEMT API token not set — write endpoints are open. Set VERTEX_NEMT_API_TOKEN for ironclad auth.')
+            _require_vertex_nemt_token._warned = True
+        return None
+    got = (request.headers.get('X-NEXUS-Token') or '').strip()
+    auth = (request.headers.get('Authorization') or '').strip()
+    if auth.lower().startswith('bearer '):
+        got = got or auth[7:].strip()
+    if got != expected:
+        return jsonify({'success': False, 'error': 'Unauthorized — invalid or missing X-NEXUS-Token'}), 401
+    return None
+
+
 @app.route('/vertex/nemt/log-trip', methods=['POST'])
 def vertex_nemt_log_trip():
     """Log a completed NEMT trip (local store); HCPCS validated against NEMT RATES in Airtable."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
     try:
         from nemt_billing import log_trip
 
@@ -17300,6 +17326,9 @@ def vertex_nemt_log_trip():
 @app.route('/vertex/nemt/generate-claim', methods=['POST'])
 def vertex_nemt_generate_claim():
     """Create CMS-1500-style claim as VERTEX INVOICES row (Pending)."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
     try:
         from nemt_billing import generate_claim
 
@@ -17308,7 +17337,12 @@ def vertex_nemt_generate_claim():
         if not trip_id:
             return jsonify({'success': False, 'error': 'trip_id required'}), 400
         airtable = AirtableClient()
-        result = generate_claim(airtable, trip_id)
+        result = generate_claim(
+            airtable,
+            trip_id,
+            force_qc=bool(d.get('force_qc')),
+            qc_override_reason=d.get('qc_override_reason') or '',
+        )
         return jsonify(result)
     except ValueError as e:
         return jsonify({'success': False, 'error': str(e)}), 400
@@ -17357,6 +17391,9 @@ def vertex_nemt_get_rates():
 @app.route('/vertex/nemt/rates/<record_id>', methods=['PUT'])
 def vertex_nemt_update_rate(record_id):
     """Update HCPCS, description, and/or rate amount for one NEMT RATES row."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
     try:
         from nemt_billing import update_nemt_rate
 
@@ -17380,6 +17417,9 @@ def vertex_nemt_update_rate(record_id):
 @app.route('/vertex/nemt/rates/seed', methods=['POST'])
 def vertex_nemt_seed_rates():
     """Create placeholder T2002 / A0130 / A0380 rows at $0.00 when missing."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
     try:
         from nemt_billing import seed_placeholder_rates
 
@@ -17394,6 +17434,9 @@ def vertex_nemt_seed_rates():
 @app.route('/vertex/nemt/post-payment', methods=['POST'])
 def vertex_nemt_post_payment():
     """ERA-style payment: mark invoice Paid, post VERTEX REVENUE."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
     try:
         from nemt_billing import post_payment
 

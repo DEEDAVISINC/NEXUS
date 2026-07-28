@@ -524,11 +524,18 @@ def assert_vertex_billing_gate(
         vertex_trip_id=vertex_trip_id,
     )
     if not rec:
-        return {
-            "allowed": True,
-            "skipped": True,
-            "reason": "No QC record — gate not enforced (legacy trip)",
-        }
+        # Ironclad default: no QC record = block (legacy opt-out via env)
+        allow_legacy = os.environ.get("VERTEX_QC_ALLOW_LEGACY", "0") == "1"
+        if allow_legacy:
+            return {
+                "allowed": True,
+                "skipped": True,
+                "reason": "No QC record — gate not enforced (legacy trip; VERTEX_QC_ALLOW_LEGACY=1)",
+            }
+        raise ValueError(
+            "VERTEX billing blocked — no QC record. Complete the trip via PRISM Mark Complete "
+            "(auto QC sync) or set VERTEX_QC_ALLOW_LEGACY=1 only for audited legacy exceptions."
+        )
 
     gate = evaluate_billing_gate(rec)
     rec["gate_billing"] = gate
