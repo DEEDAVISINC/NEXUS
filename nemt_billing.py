@@ -52,6 +52,33 @@ NEMT_INVOICE_TYPE_AIRTABLE = "GOVERNMENT"  # VERTEX INVOICES single-select
 NEMT_PAYMENT_STATUS_UNPAID = "UNPAID"
 REGION_LABEL = "HAP CareSource Region 10"
 
+# Claim lifecycle (VERTEX medical billing status machine)
+CLAIM_STATUS_DRAFT = "draft"              # trip logged, not scrubbed/invoiced
+CLAIM_STATUS_SCRUBBED = "scrubbed"        # scrub passed (transient before invoice)
+CLAIM_STATUS_INVOICED = "invoiced"        # VERTEX invoice created — ready to submit to payer
+CLAIM_STATUS_SUBMITTED = "submitted"      # sent via Availity / clearinghouse
+CLAIM_STATUS_PAID = "paid"
+CLAIM_STATUS_PARTIAL = "partial"
+CLAIM_STATUS_DENIED = "denied"
+CLAIM_STATUS_DISPUTED = "disputed"        # CDRF / dispute clock running
+CLAIM_STATUS_APPEALED = "appealed"
+
+CLAIM_STATUS_TRANSITIONS: Dict[str, Tuple[str, ...]] = {
+    CLAIM_STATUS_DRAFT: (CLAIM_STATUS_SCRUBBED, CLAIM_STATUS_INVOICED),
+    CLAIM_STATUS_SCRUBBED: (CLAIM_STATUS_INVOICED,),
+    CLAIM_STATUS_INVOICED: (CLAIM_STATUS_SUBMITTED, CLAIM_STATUS_DENIED),
+    CLAIM_STATUS_SUBMITTED: (
+        CLAIM_STATUS_PAID,
+        CLAIM_STATUS_PARTIAL,
+        CLAIM_STATUS_DENIED,
+    ),
+    CLAIM_STATUS_PARTIAL: (CLAIM_STATUS_PAID, CLAIM_STATUS_DISPUTED, CLAIM_STATUS_APPEALED),
+    CLAIM_STATUS_DENIED: (CLAIM_STATUS_DISPUTED, CLAIM_STATUS_APPEALED),
+    CLAIM_STATUS_DISPUTED: (CLAIM_STATUS_APPEALED, CLAIM_STATUS_PAID, CLAIM_STATUS_PARTIAL),
+    CLAIM_STATUS_APPEALED: (CLAIM_STATUS_PAID, CLAIM_STATUS_PARTIAL, CLAIM_STATUS_DENIED),
+    CLAIM_STATUS_PAID: (),
+}
+
 # HAP CareSource contract — base trip + loaded mileage (CareSource confirmed Jun 2026)
 HAP_CARESOURCE_CONTRACT_RATES: Dict[str, float] = {
     "T2002": 28.00,  # ambulatory base
@@ -1407,14 +1434,176 @@ def log_trip(
         "transport_type": (transport_type or "").strip() or None,
         "created_at": _now_iso(),
         "status": "logged",
+        "claim_status": CLAIM_STATUS_DRAFT,
         "invoice_id": None,
         "invoice_number": None,
     }
+    # Stamp payer profile clocks / clearinghouse IDs early
+    try:
+        from vertex_payer_profiles import claim_clocks_for_payer
+
+        clocks = claim_clocks_for_payer(payer_name)
+        trip["payer_profile_key"] = clocks.get("profile_key")
+        trip["payer_clocks"] = clocks
+        ch = clocks.get("clearinghouse") or {}
+        if ch.get("payer_ids"):
+            trip["clearinghouse"] = ch
+        # Prefer electronic clearinghouse payer id when profile has one
+        ids = ch.get("payer_ids") or {}
+        electronic = ids.get("electronic") or ids.get("medicaid") or ids.get("mi_coordinated_health")
+        if electronic:
+            trip["clearinghouse_payer_id"] = electronic
+        elif trip.get("payer_id") is None and ids.get("directory_legacy"):
+            trip["payer_id"] = ids.get("directory_legacy")
+    except Exception:
+        pass
     state = _load_state()
     state.setdefault("trips", {})[trip_id] = trip
     # Consume a prior auth trip unit if auth_id is provided
     if prior_auth_id:
         _consume_prior_auth(state, prior_auth_id)
+    _save_state(state)
+    return trip
+
+
+def _find_trip_by_invoice(state: Dict[str, Any], invoice_id: str) -> Optional[Dict[str, Any]]:
+    for t in (state.get("trips") or {}).values():
+        if str(t.get("invoice_id") or "") == str(invoice_id):
+            return t
+    return None
+
+
+def _set_claim_status(
+    trip: Dict[str, Any],
+    new_status: str,
+    *,
+    extra: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    current = trip.get("claim_status") or CLAIM_STATUS_DRAFT
+    allowed = CLAIM_STATUS_TRANSITIONS.get(current, ())
+    # Allow idempotent set
+    if new_status == current:
+        return trip
+    if new_status not in allowed and current not in (CLAIM_STATUS_DRAFT, CLAIM_STATUS_SCRUBBED):
+        # Soften: allow forward jumps from invoiced→paid via post_payment path
+        if not (
+            current == CLAIM_STATUS_INVOICED
+            and new_status in (CLAIM_STATUS_PAID, CLAIM_STATUS_PARTIAL, CLAIM_STATUS_SUBMITTED)
+        ) and not (
+            current == CLAIM_STATUS_SUBMITTED
+            and new_status in (CLAIM_STATUS_PAID, CLAIM_STATUS_PARTIAL, CLAIM_STATUS_DENIED)
+        ):
+            raise ValueError(
+                f"Invalid claim_status transition {current} → {new_status}. "
+                f"Allowed from {current}: {allowed}"
+            )
+    trip["claim_status"] = new_status
+    trip["claim_status_updated_at"] = _now_iso()
+    hist = list(trip.get("claim_status_history") or [])
+    hist.append({"status": new_status, "at": _now_iso(), **(extra or {})})
+    trip["claim_status_history"] = hist[-50:]
+    if extra:
+        trip.update({k: v for k, v in extra.items() if k not in ("at", "status")})
+    return trip
+
+
+def mark_claim_submitted(
+    trip_id: str,
+    *,
+    submission_ref: Optional[str] = None,
+    submitted_via: str = "Availity",
+) -> Dict[str, Any]:
+    """Mark invoiced claim as submitted to clearinghouse."""
+    state = _load_state()
+    trip = (state.get("trips") or {}).get(trip_id)
+    if not trip:
+        raise ValueError(f"Trip not found: {trip_id}")
+    if not trip.get("invoice_id"):
+        raise ValueError("Claim must be invoiced before submit")
+    # Allow invoiced → submitted
+    if trip.get("claim_status") == CLAIM_STATUS_DRAFT:
+        trip["claim_status"] = CLAIM_STATUS_INVOICED
+    _set_claim_status(
+        trip,
+        CLAIM_STATUS_SUBMITTED,
+        extra={
+            "submitted_at": _now_iso(),
+            "submission_ref": submission_ref,
+            "submitted_via": submitted_via,
+        },
+    )
+    state["trips"][trip_id] = trip
+    _save_state(state)
+    return trip
+
+
+def mark_claim_denied(
+    trip_id: str,
+    *,
+    denial_reason: str,
+    carc: Optional[str] = None,
+    rarc: Optional[str] = None,
+    remittance_date: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Record denial + compute dispute/appeal deadlines from payer profile."""
+    from datetime import date as _date
+    from vertex_payer_profiles import appeal_days, dispute_days
+
+    state = _load_state()
+    trip = (state.get("trips") or {}).get(trip_id)
+    if not trip:
+        raise ValueError(f"Trip not found: {trip_id}")
+    remit = remittance_date or _date.today().isoformat()
+    try:
+        remit_d = datetime.strptime(remit[:10], "%Y-%m-%d").date()
+    except ValueError:
+        remit_d = _date.today()
+    d_days = dispute_days(trip.get("payer"))
+    a_days = appeal_days(trip.get("payer"))
+    extra: Dict[str, Any] = {
+        "denied_at": _now_iso(),
+        "denial_reason": denial_reason,
+        "denial_carc": carc,
+        "denial_rarc": rarc,
+        "remittance_date": remit_d.isoformat(),
+    }
+    if d_days:
+        extra["dispute_due_date"] = (remit_d + timedelta(days=d_days)).isoformat()
+        extra["dispute_days"] = d_days
+    if a_days:
+        extra["appeal_due_date"] = (remit_d + timedelta(days=a_days)).isoformat()
+        extra["appeal_days"] = a_days
+    # Force path to denied from invoiced/submitted/partial
+    cur = trip.get("claim_status")
+    if cur == CLAIM_STATUS_INVOICED:
+        trip["claim_status"] = CLAIM_STATUS_SUBMITTED
+    _set_claim_status(trip, CLAIM_STATUS_DENIED, extra=extra)
+    state["trips"][trip_id] = trip
+    _save_state(state)
+    return trip
+
+
+def mark_claim_appealed(
+    trip_id: str,
+    *,
+    appeal_ref: Optional[str] = None,
+    notes: Optional[str] = None,
+) -> Dict[str, Any]:
+    state = _load_state()
+    trip = (state.get("trips") or {}).get(trip_id)
+    if not trip:
+        raise ValueError(f"Trip not found: {trip_id}")
+    cur = trip.get("claim_status")
+    if cur == CLAIM_STATUS_DENIED:
+        pass
+    elif cur not in (CLAIM_STATUS_DISPUTED, CLAIM_STATUS_PARTIAL):
+        raise ValueError(f"Cannot appeal from status {cur}")
+    _set_claim_status(
+        trip,
+        CLAIM_STATUS_APPEALED,
+        extra={"appealed_at": _now_iso(), "appeal_ref": appeal_ref, "appeal_notes": notes},
+    )
+    state["trips"][trip_id] = trip
     _save_state(state)
     return trip
 
@@ -1539,6 +1728,26 @@ def generate_claim(airtable, trip_id: str, *, force_qc: bool = False, qc_overrid
             "Claim scrub warnings trip=%s: %s", trip_id, "; ".join(scrub["warnings"])
         )
     trip["claim_scrub"] = scrub
+    trip["claim_status"] = CLAIM_STATUS_SCRUBBED
+    trip["payer_clocks"] = scrub.get("payer_clocks") or trip.get("payer_clocks")
+    if scrub.get("timely_filing", {}).get("filing_deadline"):
+        trip["timely_filing_deadline"] = scrub["timely_filing"]["filing_deadline"]
+    try:
+        from vertex_payer_profiles import clearinghouse_snapshot
+
+        ch = clearinghouse_snapshot(trip.get("payer"))
+        if ch.get("payer_ids"):
+            trip["clearinghouse"] = ch
+            ids = ch["payer_ids"]
+            trip["clearinghouse_payer_id"] = (
+                ids.get("electronic")
+                or ids.get("medicaid")
+                or ids.get("mi_coordinated_health")
+                or trip.get("clearinghouse_payer_id")
+            )
+            trip["payer_profile_key"] = ch.get("profile_key")
+    except Exception:
+        pass
     state["trips"][trip_id] = trip
     _save_state(state)
 
@@ -1664,6 +1873,15 @@ def generate_claim(airtable, trip_id: str, *, force_qc: bool = False, qc_overrid
     trip["invoice_id"] = inv_id
     trip["invoice_number"] = invoice_number
     trip["claimed_at"] = _now_iso()
+    _set_claim_status(
+        trip,
+        CLAIM_STATUS_INVOICED,
+        extra={
+            "invoice_id": inv_id,
+            "invoice_number": invoice_number,
+            "claim_amount": total,
+        },
+    )
     state["trips"][trip_id] = trip
     _save_state(state)
 
@@ -1814,16 +2032,44 @@ def post_payment(
     }
     revenue = airtable.create_record("VERTEX REVENUE", revenue_fields)
 
+    # Sync claim_status on local trip
+    trip = None
+    state = _load_state()
+    trip = _find_trip_by_invoice(state, invoice_id)
+    if trip:
+        target = CLAIM_STATUS_PAID if new_status == "Paid" else CLAIM_STATUS_PARTIAL
+        cur = trip.get("claim_status")
+        if cur == CLAIM_STATUS_INVOICED:
+            trip["claim_status"] = CLAIM_STATUS_SUBMITTED
+            trip.setdefault("submitted_at", _now_iso())
+        try:
+            _set_claim_status(
+                trip,
+                target,
+                extra={
+                    "paid_at": _now_iso(),
+                    "amount_paid": pay_amt,
+                    "era_reference": era_reference,
+                },
+            )
+        except ValueError:
+            trip["claim_status"] = target
+            trip["claim_status_updated_at"] = _now_iso()
+        state["trips"][trip["trip_id"]] = trip
+        _save_state(state)
+
     return {
         "success": True,
         "invoice_id": invoice_id,
         "invoice_update": update_fields,
         "revenue": revenue,
+        "trip": trip,
+        "claim_status": (trip or {}).get("claim_status"),
     }
 
 
 def list_logged_trips() -> List[Dict[str, Any]]:
     state = _load_state()
     trips = list(state.get("trips", {}).values())
-    trips.sort(key=lambda x: x.get("created_at") or "", reverse=True)
+    trips.sort(key=lambda t: t.get("created_at") or "", reverse=True)
     return trips

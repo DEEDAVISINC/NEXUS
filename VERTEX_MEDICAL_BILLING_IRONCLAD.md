@@ -24,6 +24,10 @@ Invoice generation ≠ payer submission — scrub/gates first; Availity/837 next
 | HAP eligibility audit stamps + portal confirm flag | ✅ |
 | QC gate: no QC record = **block** (legacy opt-out `VERTEX_QC_ALLOW_LEGACY=1`) | ✅ |
 | Opt-in API token for NEMT write endpoints (`VERTEX_NEMT_API_TOKEN`) | ✅ |
+| HAP + Molina payer profiles (`VERTEX_PAYER_PROFILES.json`) wired into scrub + trips | ✅ `vertex_payer_profiles.py` |
+| Claim status machine: draft → scrubbed → invoiced → submitted → paid/partial/denied → disputed/appealed | ✅ |
+| Denial stamps dispute/appeal due dates from profile (Molina 120/90) | ✅ |
+| API: `/vertex/nemt/claims/<trip_id>/submit\|deny\|appeal` + `/payer-profiles` | ✅ |
 | Regression tests | ✅ `test_vertex_medical_billing_ironclad.py` |
 
 **Run tests:**
@@ -41,6 +45,7 @@ python3 test_vertex_medical_billing_ironclad.py
 | Molina Availity active + NPI 1538939111 | ⬜ False | Activate App 63821858 → flip `MOLINA_LTSS_AVAILITY_ACTIVE` |
 | Priority Health prism password | ⬜ | Set password for `info@deedavis.biz.prism` before ~Aug 7 |
 | Set `VERTEX_NEMT_API_TOKEN` in production `.env` | ⬜ | Match `REACT_APP_NEXUS_INTERNAL_TOKEN` in frontend build |
+| Confirm HAP dispute/appeal days from contract | ⬜ null in profile | Update `VERTEX_PAYER_PROFILES.json` when known |
 
 ---
 
@@ -49,8 +54,8 @@ python3 test_vertex_medical_billing_ironclad.py
 | Gap | Risk | Priority |
 |---|---|---|
 | No 837P / Availity auto-submit | Claims never leave DDI automatically | P1 |
-| No 835 ERA parse / denial queue | Manual remits only | P1 |
-| No appeal / dispute clocks (90/120) | Money left on table | P1 |
+| No 835 ERA parse / denial queue UI | Manual remits only | P1 |
+| Phase 6 volume monitor (zero-trip alerts) | Silent pipeline | P2 |
 | Priority / Aetna / McLaren / BCC rate engines | Stub directory only | P2 |
 | Encrypt local `nemt_billing_data.json` PHI | Disk plaintext | P2 |
 

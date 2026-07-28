@@ -17,13 +17,14 @@ Ironclad rules (Jul 2026):
 
 from __future__ import annotations
 
+import os
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Tuple
 
-# Days from date of service to last day claim may be filed
+# Fallback when VERTEX_PAYER_PROFILES.json has no match
 PAYER_TIMELY_FILING_DAYS: Dict[str, int] = {
-    "molina": 365,  # Orientation deck B6 — within 365 days of DOS
-    "hap": 365,  # CareSource / HAP MI — use 365 until contract says otherwise
+    "molina": 365,
+    "hap": 365,
     "caresource": 365,
     "priority": 365,
     "aetna": 365,
@@ -78,7 +79,12 @@ def _payer_key(payer: Optional[str]) -> str:
 
 
 def timely_filing_days_for_payer(payer: Optional[str]) -> int:
-    return PAYER_TIMELY_FILING_DAYS.get(_payer_key(payer), PAYER_TIMELY_FILING_DAYS["default"])
+    try:
+        from vertex_payer_profiles import timely_filing_days
+
+        return timely_filing_days(payer, default=PAYER_TIMELY_FILING_DAYS["default"])
+    except Exception:
+        return PAYER_TIMELY_FILING_DAYS.get(_payer_key(payer), PAYER_TIMELY_FILING_DAYS["default"])
 
 
 def check_timely_filing(
@@ -134,6 +140,7 @@ def check_timely_filing(
             if remaining is not None and remaining <= 30
             else None
         ),
+        "filing_deadline": (dos + timedelta(days=limit)).isoformat(),
     }
 
 
@@ -160,6 +167,24 @@ def scrub_nemt_trip_for_claim(
     checks: Dict[str, str] = {}
 
     payer = trip.get("payer")
+    try:
+        from vertex_payer_profiles import claim_clocks_for_payer, require_hap_portal_confirm as _prof_hap
+
+        # Profile drives HAP portal rule when env not forcing off
+        if os.environ.get("VERTEX_HAP_REQUIRE_PORTAL_CONFIRM", "1") == "0":
+            require_hap_portal_confirm = False
+        else:
+            require_hap_portal_confirm = _prof_hap(payer, env_default=require_hap_portal_confirm)
+        payer_clocks = claim_clocks_for_payer(payer)
+    except Exception:
+        payer_clocks = {
+            "profile_key": None,
+            "timely_filing_days": timely_filing_days_for_payer(payer),
+            "dispute_days": None,
+            "appeal_days": None,
+            "clearinghouse": {},
+        }
+
     medicaid_id = (trip.get("member_medicaid_id") or "").strip()
     if not medicaid_id:
         blocking.append("Member Medicaid ID missing")
@@ -307,6 +332,7 @@ def scrub_nemt_trip_for_claim(
         "blocking": blocking,
         "warnings": warnings,
         "timely_filing": filing,
+        "payer_clocks": payer_clocks,
         "checks": checks,
         "scrubbed_at": datetime.utcnow().isoformat() + "Z",
     }

@@ -17484,6 +17484,98 @@ def vertex_nemt_invoice_pdf(invoice_id):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/vertex/nemt/claims/<trip_id>/submit', methods=['POST'])
+def vertex_nemt_claim_submit(trip_id):
+    """Mark invoiced claim as submitted to clearinghouse (Availity)."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
+    try:
+        from nemt_billing import mark_claim_submitted
+
+        d = request.json or {}
+        trip = mark_claim_submitted(
+            trip_id,
+            submission_ref=d.get('submission_ref'),
+            submitted_via=d.get('submitted_via') or 'Availity',
+        )
+        return jsonify({'success': True, 'trip': trip, 'claim_status': trip.get('claim_status')})
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_claim_submit: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/claims/<trip_id>/deny', methods=['POST'])
+def vertex_nemt_claim_deny(trip_id):
+    """Record denial + stamp dispute/appeal due dates from payer profile."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
+    try:
+        from nemt_billing import mark_claim_denied
+
+        d = request.json or {}
+        reason = (d.get('denial_reason') or d.get('reason') or '').strip()
+        if not reason:
+            return jsonify({'success': False, 'error': 'denial_reason required'}), 400
+        trip = mark_claim_denied(
+            trip_id,
+            denial_reason=reason,
+            carc=d.get('carc'),
+            rarc=d.get('rarc'),
+            remittance_date=d.get('remittance_date'),
+        )
+        return jsonify({'success': True, 'trip': trip, 'claim_status': trip.get('claim_status')})
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_claim_deny: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/claims/<trip_id>/appeal', methods=['POST'])
+def vertex_nemt_claim_appeal(trip_id):
+    """Mark denied/disputed claim as appealed."""
+    denied = _require_vertex_nemt_token()
+    if denied:
+        return denied
+    try:
+        from nemt_billing import mark_claim_appealed
+
+        d = request.json or {}
+        trip = mark_claim_appealed(
+            trip_id,
+            appeal_ref=d.get('appeal_ref'),
+            notes=d.get('notes'),
+        )
+        return jsonify({'success': True, 'trip': trip, 'claim_status': trip.get('claim_status')})
+    except ValueError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        print(f"vertex_nemt_claim_appeal: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/vertex/nemt/payer-profiles', methods=['GET'])
+def vertex_nemt_payer_profiles():
+    """Return HAP/Molina payer profiles (clearinghouse IDs + clocks)."""
+    try:
+        from vertex_payer_profiles import load_payer_profiles, get_payer_profile
+
+        payer = request.args.get('payer')
+        if payer:
+            prof = get_payer_profile(payer)
+            if not prof:
+                return jsonify({'success': False, 'error': f'No profile for payer: {payer}'}), 404
+            return jsonify({'success': True, 'profile': prof})
+        return jsonify({'success': True, 'profiles': load_payer_profiles()})
+    except Exception as e:
+        print(f"vertex_nemt_payer_profiles: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @app.route('/vertex/revenue/summary', methods=['GET'])
 def get_revenue_summary():
     """Get revenue summary statistics"""

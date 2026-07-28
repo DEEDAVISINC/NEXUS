@@ -18,12 +18,24 @@ from vertex_medical_billing_scrub import (  # noqa: E402
     scrub_nemt_trip_for_claim,
 )
 from nemt_billing import (  # noqa: E402
+    CLAIM_STATUS_DENIED,
+    CLAIM_STATUS_DRAFT,
+    CLAIM_STATUS_INVOICED,
+    CLAIM_STATUS_SUBMITTED,
     HAP_CARESOURCE_CONTRACT_RATES,
     HAP_CARESOURCE_MILEAGE_PER_MILE,
     MICHIGAN_MCO_PAYERS,
     MOLINA_LTSS_CONTRACT_RATES,
     MOLINA_LTSS_AMBULATORY_MILEAGE_PER_MILE,
     apply_hap_intake_defaults,
+    mark_claim_denied,
+    mark_claim_submitted,
+)
+from vertex_payer_profiles import (  # noqa: E402
+    claim_clocks_for_payer,
+    clearinghouse_snapshot,
+    resolve_profile_key,
+    timely_filing_days,
 )
 
 
@@ -145,6 +157,117 @@ class TestQcLegacyGate(unittest.TestCase):
             self.assertTrue(r.get("skipped"))
         finally:
             os.environ.pop("VERTEX_QC_ALLOW_LEGACY", None)
+
+
+class TestPayerProfiles(unittest.TestCase):
+    def test_resolve_hap_and_molina(self):
+        self.assertEqual(resolve_profile_key("HAP CareSource"), "hap_caresource")
+        self.assertEqual(resolve_profile_key("Molina Healthcare Michigan"), "molina_mi_ltss")
+
+    def test_timely_from_json(self):
+        self.assertEqual(timely_filing_days("HAP CareSource"), 365)
+        self.assertEqual(timely_filing_days("Molina Healthcare Michigan"), 365)
+
+    def test_molina_dispute_appeal(self):
+        clocks = claim_clocks_for_payer("Molina Healthcare Michigan")
+        self.assertEqual(clocks["dispute_days"], 120)
+        self.assertEqual(clocks["appeal_days"], 90)
+        self.assertEqual(clocks["clearinghouse"]["payer_ids"].get("electronic"), "38334")
+
+    def test_hap_clearinghouse_ids(self):
+        ch = clearinghouse_snapshot("HAP CareSource")
+        self.assertEqual(ch["payer_ids"].get("medicaid"), "MIMCDCS1")
+        self.assertEqual(ch["payer_ids"].get("mi_coordinated_health"), "MIMCRCS1")
+
+    def test_scrub_attaches_payer_clocks(self):
+        from vertex_medical_billing_scrub import scrub_nemt_trip_for_claim
+
+        trip = {
+            "trip_id": "T-PROF-1",
+            "payer": "Molina Healthcare Michigan",
+            "member_medicaid_id": "A123456789",
+            "pickup_address": "1 Main St",
+            "dropoff_address": "2 Oak",
+            "hcpcs_code": "T2003",
+            "mileage": 5.0,
+            "pickup_time": date.today().isoformat() + "T14:00:00",
+            "provider_npi": "1538939111",
+        }
+        r = scrub_nemt_trip_for_claim(trip)
+        self.assertIn("payer_clocks", r)
+        self.assertEqual(r["payer_clocks"]["profile_key"], "molina_mi_ltss")
+        self.assertEqual(r["timely_filing"]["limit_days"], 365)
+
+
+class TestClaimStatusMachine(unittest.TestCase):
+    def setUp(self):
+        import nemt_billing as nb
+
+        self._orig_data = nb._data_file
+        self._tmp = ROOT / ".test_nemt_billing_data_tmp.json"
+        if self._tmp.exists():
+            self._tmp.unlink()
+        nb._data_file = lambda: str(self._tmp)  # type: ignore
+        self.nb = nb
+
+    def tearDown(self):
+        self.nb._data_file = self._orig_data
+        if self._tmp.exists():
+            self._tmp.unlink()
+
+    def test_log_trip_starts_draft_with_profile(self):
+        trip = self.nb.log_trip(
+            None,
+            member_medicaid_id="A999",
+            pickup_time=date.today().isoformat() + "T12:00:00",
+            dropoff_time=date.today().isoformat() + "T13:00:00",
+            pickup_address="A",
+            dropoff_address="B",
+            mileage=3.0,
+            trip_purpose="medical",
+            hcpcs_code="T2002",
+            payer="HAP CareSource",
+        )
+        self.assertEqual(trip["claim_status"], CLAIM_STATUS_DRAFT)
+        self.assertEqual(trip.get("payer_profile_key"), "hap_caresource")
+        self.assertTrue(
+            trip.get("clearinghouse_payer_id") in ("MIMCDCS1", "MIMCRCS1")
+            or trip.get("clearinghouse")
+        )
+
+    def test_submit_and_deny_sets_clocks(self):
+        trip = self.nb.log_trip(
+            None,
+            member_medicaid_id="A888",
+            pickup_time=date.today().isoformat() + "T12:00:00",
+            dropoff_time=date.today().isoformat() + "T13:00:00",
+            pickup_address="A",
+            dropoff_address="B",
+            mileage=4.0,
+            trip_purpose="medical",
+            hcpcs_code="T2003",
+            payer="Molina Healthcare Michigan",
+        )
+        trip_id = trip["trip_id"]
+        # Simulate invoiced without Airtable
+        state = self.nb._load_state()
+        state["trips"][trip_id]["invoice_id"] = "inv-test"
+        state["trips"][trip_id]["claim_status"] = CLAIM_STATUS_INVOICED
+        self.nb._save_state(state)
+
+        submitted = mark_claim_submitted(trip_id, submission_ref="AVAIL-1")
+        self.assertEqual(submitted["claim_status"], CLAIM_STATUS_SUBMITTED)
+
+        denied = mark_claim_denied(
+            trip_id,
+            denial_reason="CO-16",
+            remittance_date=date.today().isoformat(),
+        )
+        self.assertEqual(denied["claim_status"], CLAIM_STATUS_DENIED)
+        self.assertEqual(denied.get("dispute_days"), 120)
+        self.assertEqual(denied.get("appeal_days"), 90)
+        self.assertTrue(denied.get("dispute_due_date"))
+        self.assertTrue(denied.get("appeal_due_date"))
 
 
 if __name__ == "__main__":
