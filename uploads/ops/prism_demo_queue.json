@@ -1,24 +1,39 @@
 [
   {
     "id": "OPS-DEMO-HAP-001",
-    "status": "New",
+    "status": "In Progress",
     "type": "nemt",
     "service_key": "nemt",
     "client": "HAP CareSource Member",
     "signer": "Jordan Avery",
     "priority": "Same Day",
-    "notes": "Demo trip \u2014 dialysis return. Confirm pickup window.",
+    "notes": "Dialysis return \u2014 confirm pickup window.",
+    "authorization": "AUTH-HAP-77821",
     "date": "2026-07-25",
     "time": "14:30",
-    "created_at": "2026-07-25T13:17:57.952417",
+    "created_at": "2026-07-25T13:17:57",
     "ops_demo": true,
     "ops_account_code": "CSRC",
+    "ops_care_status": "Working",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T13:17:57Z",
+        "actor": "NEXUS Intake",
+        "actorEmail": "system@deedavis.biz",
+        "type": "intake",
+        "text": "\ud83d\udce5 Referral received from HAP CareSource"
+      }
+    ],
     "details": {
       "payer": "HAP CareSource",
       "member_medicaid_id": "MC123456789",
+      "member_phone": "3135550142",
+      "authorization": "AUTH-HAP-77821",
       "pickup_date": "2026-07-25",
       "pickup_time": "14:30"
-    }
+    },
+    "ops_claimed_email": "agent@deedavis.biz",
+    "ops_claimed_by": "Test Agent"
   },
   {
     "id": "OPS-DEMO-HAP-002",
@@ -28,15 +43,29 @@
     "client": "HAP CareSource Member",
     "signer": "Riley Morgan",
     "priority": "Standard",
-    "notes": "Demo trip \u2014 specialist follow-up. Needs eligibility check.",
+    "notes": "Specialist follow-up \u2014 eligibility check needed.",
+    "authorization": "AUTH-HAP-99014",
     "date": "2026-07-25",
     "time": "16:00",
-    "created_at": "2026-07-25T13:17:57.952436",
+    "created_at": "2026-07-25T10:00:00",
+    "ops_sla_due_at": "2026-07-25T18:00:00",
     "ops_demo": true,
     "ops_account_code": "CSRC",
+    "ops_care_status": "New",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T10:00:00Z",
+        "actor": "NEXUS Intake",
+        "actorEmail": "system@deedavis.biz",
+        "type": "intake",
+        "text": "\ud83d\udce5 Referral received from HAP CareSource"
+      }
+    ],
     "details": {
       "payer": "HAP CareSource",
       "member_medicaid_id": "MC987654321",
+      "member_phone": "2485550199",
+      "authorization": "AUTH-HAP-99014",
       "pickup_date": "2026-07-25",
       "pickup_time": "16:00"
     }
@@ -49,17 +78,68 @@
     "client": "Molina Member",
     "signer": "Casey Quinn",
     "priority": "STAT",
-    "notes": "Demo Molina trip \u2014 only visible to Molina-assigned CCAs.",
+    "notes": "STAT Molina NMT \u2014 needs same-hour coordination.",
+    "authorization": "AUTH-MOL-1120",
     "date": "2026-07-25",
     "time": "11:15",
-    "created_at": "2026-07-25T13:17:57.952444",
+    "created_at": "2026-07-25T09:00:00",
+    "ops_sla_due_at": "2026-07-25T11:00:00",
     "ops_demo": true,
     "ops_account_code": "MOLN",
+    "ops_care_status": "New",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T09:00:00Z",
+        "actor": "NEXUS Intake",
+        "actorEmail": "system@deedavis.biz",
+        "type": "intake",
+        "text": "\ud83d\udce5 Molina NMT referral received (MOLN lane)"
+      }
+    ],
     "details": {
       "payer": "Molina Healthcare Michigan",
+      "service_lane": "nmt",
       "member_medicaid_id": "ML555444333",
+      "member_phone": "5175550166",
+      "authorization": "AUTH-MOL-1120",
       "pickup_date": "2026-07-25",
       "pickup_time": "11:15"
+    }
+  },
+  {
+    "id": "OPS-DEMO-MOL-CTS-001",
+    "status": "New",
+    "type": "cts",
+    "service_key": "cts",
+    "client": "Molina CTS Member",
+    "signer": "Avery Brooks",
+    "priority": "Standard",
+    "notes": "CTS \u2014 nursing facility to community transition (T2038). Confirm housing + care plan touchpoints.",
+    "authorization": "AUTH-MOL-CTS-2201",
+    "date": "2026-07-25",
+    "time": "13:00",
+    "created_at": "2026-07-25T11:30:00",
+    "ops_demo": true,
+    "ops_account_code": "CTS",
+    "ops_care_status": "New",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T11:30:00Z",
+        "actor": "NEXUS Intake",
+        "actorEmail": "system@deedavis.biz",
+        "type": "intake",
+        "text": "\ud83d\udce5 Molina CTS referral received (CTS lane \u2014 not NMT)"
+      }
+    ],
+    "details": {
+      "payer": "Molina Healthcare Michigan",
+      "service_type": "cts",
+      "service_lane": "cts",
+      "member_medicaid_id": "ML777888999",
+      "member_phone": "3135550177",
+      "authorization": "AUTH-MOL-CTS-2201",
+      "pickup_date": "2026-07-28",
+      "pickup_time": "10:00"
     }
   }
 ]

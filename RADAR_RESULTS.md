@@ -1,5 +1,5 @@
 # RADAR RESULTS
-**Last compiled:** 2026-07-27 08:56 AM ET
+**Last compiled:** 2026-08-02 08:28 AM ET
 
 > **RADAR** = Revenue Acquisition Discovery And Reconnaissance.
 > **NET-NEW ONLY** — excludes anything already in bid folders, watch list, bid tracker, CO outreach, or healthcare exploration docs.
@@ -13,12 +13,12 @@
 
 | Channel | Last scan | Items | Detail file |
 |---------|-----------|-------|-------------|
-| Public portals (SAM + state/local) | 2026-07-27 | 68 | `portal_scan_results.json` |
-| Healthcare / MCO | 2026-07-27 | 80 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
-| AOG / Freight (488190) | 2026-07-27 | 0 | `aog_sam_cache.json` |
+| Public portals (SAM + state/local) | 2026-08-02 | 70 | `portal_scan_results.json` |
+| Healthcare / MCO | 2026-08-02 | 80 | `HEALTHCARE_OPPORTUNITIES_REPORT.md` |
+| AOG / Freight (488190) | 2026-08-02 | 0 | `aog_sam_cache.json` |
 | Digital navigation (624190) | — | 0 | `digital_nav_sam_cache.json` |
-| Sources Sought / Presol (federal) | MAY23 *(stale digest — refresh with new mine)* | 41 DDI-fit | `NEW_SOURCES_SOUGHT_MAY23.md` |
-| CCAM-TAC / FTA human-services grants | 2026-07-27 | 5 | `ccam_tac_grants_cache.json` |
+| Sources Sought / Presol (federal) | MAY23 | 41 DDI-fit | `NEW_SOURCES_SOUGHT_MAY23.md` |
+| CCAM-TAC / FTA human-services grants | 2026-08-02 | 5 | `ccam_tac_grants_cache.json` |
 
 ---
 

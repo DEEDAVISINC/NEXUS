@@ -1,40 +1,15 @@
 # PIPELINE REVENUE TALLY
-**Last Updated:** June 12, 2026 ET
+**Last Updated:** August 3, 2026 @ 7:15 AM ET
 
 ---
 
-## SESSION NOTE (June 12)
+## SESSION NOTE (August 1–3)
 
-- **Twilio + 855 voice/SMS** — ✅ **LIVE** and tested (inbound PRISM voice intake + outbound member SMS)
-- **Only telephony gap:** **CNAM** — register **DDI** caller ID on **855-773-0035** outbound
-- **QC spine + MCO audit HTML** — Live on PA (`nexus_qc`, mco-packet, breakdown)
-
-## SESSION NOTE (June 8)
-
-- **PRISM HAP pipeline — PRODUCTION GATE PASS** — PA `nemt_linked: True` after surgical deploy; portal + NEXUS UI on Netlify live
-- **Guest ride tracking** — Ops pastes Uber/Lyft URL in Transport → **📤 Save link** → member sees **🚗 Track live ride** on portal (NOT automatic; NOT Twilio)
-- **Portal UX** — Emoji status labels (no more "Agent Assigned"); order ID merge fix; 20s dashboard refresh
-- **PA deploy** — Full git clone failed (~370MB); curl hotfix works; consider PA upgrade or shallow clone before HAP volume
-
-## SESSION NOTE (June 7)
-
-- **HAP billing ops** — Pay **once weekly** (not twice); **Wednesday = internal drain day** until portal manual confirms cutoff; each contract (HAP vs BCBSM vs others) gets its own billing profile — no shared Net 30 default
-- **ModivCare** — **Inbound only**; no proactive enrollment unless they reach out
-- **Mark Complete → VERTEX** — Approved in principle; wiring deferred
-- **Netlify portal** — 4 env vars confirmed on `ddi-prism-portal` (`PRISM_API_BASE` → PA)
-
-## SESSION NOTE (June 6)
-
-- **PRISM Hub** — Division notification bells wired to live `/prism/orders` (needs-attention counts)
-- **PRISM division workspace** — Real API orders in NEMT workspace; **Agent Network** directory (search/pagination) replaces mock agent cards
-- **Electron partner webview** — Uber Health login fix (Chrome UA + OAuth popup modal) — **test after full Electron restart**
-- **Tomorrow:** CareSource provider manual lookup · PRISM→VERTEX invoicing ($28/$35 trips) · Square sandbox · Electron Uber login test
-
-## SESSION NOTE (June 2)
-
-- **Texas LRGVDC DPS #2026-02** — Transport-only submission package drafted in `SEND_TO_BUYER/DPS_2026-02_TRANSPORT/` (parked for Dee review — Jun 18 mandatory Weslaco conference + TX SOS)
-- LRGVDC questions draft updated (Q6 authorized rep, Q7 Attachment 6 N/A) — send by **Jun 26**
-- Texas tracks on free portals only (no BidNet)
+- **Humana Dual Integrated MI credentialing started** — Abby Davidson (Supervisor IN & MI, Contracting) invited DDI into Quickbase. Online submit blocked by Taxonomy Warning (MI + transportation/LTSS not available online). Reply SENT Aug 1 ~6:12 PM ET — awaiting Abby path (manual packet / DAAA / unlock). Playbook: `CREDENTIALING/HUMANA_MI_CREDENTIALING.md`
+- **Priority Health prism** — password still open; deferred; do after 12:00 PM ET Mon Aug 3 (link expires ~Aug 7). Username `info@deedavis.biz.prism`
+- **CAQH 16876320** — still INVITED; register/attest + authorize Humana
+- **Molina LTSS** — contract executed; Availity approved (Customer ID 3878016); verify NPI on org profile; Open Forum Aug 13
+- **HAP CareSource** — live NEMT TPA proof point
 
 ## TOTAL PIPELINE: $28M+ LIFETIME (Conservative)
 
@@ -45,7 +20,9 @@
 | Program | Status | Annual Revenue | DDI Margin | Lifetime Value |
 |---------|--------|----------------|------------|----------------|
 | **HAP CareSource MI HIDE SNP** | ✅ LIVE | $540K | $216K (40%) | $2.7M (5yr) |
-| **Molina Healthcare of Michigan — HIDE SNP LTSS** (Non-Medical Transportation + Community Transition Services — both confirmed in Attachment B scope) | ✅ **CONTRACT EXECUTED Jul 22** — orientation attended Jul 23, Availity pending activation | Rates confirmed: NMT $27/trip (T2003) or $35/trip wheelchair van (A0130) + $0.67-$3.00/mi. Community Transition mostly "Manual" negotiated + $150 assessment. **100% of published fee schedule — no discount.** Annual $ **pending member-choice referral volume** (member-driven, not guaranteed minimum) | TBD once volume known | TBD |
+| **Molina Healthcare of Michigan — HIDE SNP LTSS** (NMT + CTS) | ✅ CONTRACTED · Availity approved Jul 29 (Cust **3878016**) · verify NPI | Volume-driven (member choice); fee schedule 100% published | TBD | TBD |
+| **Humana Dual Integrated MI** | 🔄 CREDENTIALING — awaiting Abby after Quickbase block | TBD | TBD | TBD |
+| **Priority Health Choice** | 🔄 prism portal approved — set password | TBD | TBD | TBD |
 
 ---
 
@@ -59,22 +36,13 @@
 
 ---
 
-## ACTIVE BIDS — HARD DEADLINES
+## ACTIVE BIDS / WATCH (selected)
 
-| Opportunity | Agency | Annual Revenue | DDI Margin | Lifetime | Win Prob | Due Date |
-|-------------|--------|----------------|------------|----------|----------|----------|
-| **DRPA Occ Medical/Drug** | Delaware River Port Auth | $250K-1.2M | $100K+ | $1.5M+ (5yr) | 20% | **June 5** |
-| **Minneapolis MPD Background** | City of Minneapolis | $80-140K | $50K+ | $700K (5yr) | 35% | **June 15** |
-| **VIA Transit Drug Testing** | VIA Metropolitan Transit | **$146K** | **$102K (70%)** | **$732K (5yr)** | 40% | **June 16** |
-| **SUNY Upstate Home Medical Courier** | SUNY Upstate | $1.5M NTE | TBD | 5yr | 15% | **June 17** ⚠️ county invoice blocker |
-| **Oakland County DTC Drug** | 52nd District Court | $65K | $45K (70%) | $325K (5yr) | 50% | **June 23** |
-| **LRGVDC AAA Transport (DPS)** | LRGVDC Weslaco TX | $100K–500K* | $25K–175K (30%)* | $300K–1.5M* | 35% | **Jul 10** |
-| **LRGVDC Title III RFP** | LRGVDC Weslaco TX | Transport slice only | — | — | 25% | **Jul 10** |
-| **HHSC Medicaid DRTS** | Texas HHSC | $500K–3M+* | $100K–900K (25%)* | Multi-yr | 15% | **Sep 15** |
-| **VA Madison NEMT IDIQ** | VA Middleton WI | TBD | TBD | 5yr | 20% | **Jun 22** |
-| **Nevada NET Broker** | NV Health Authority | Capitation | High risk | — | 10% | **Jul 6** |
-
-*ESTIMATED — see bid folder WORKFLOW_CHECKLIST.md
+| Opportunity | Agency | Notes | Due / Status |
+|-------------|--------|-------|--------------|
+| **MDHHS NEMT RFP 260000002254** | MDHHS | SIGMA watch — commodity 9S301 | Watch started Aug 1 |
+| **HHSC Medicaid DRTS** | Texas HHSC | Large | Sep 15 |
+| Prior June/July bid deadlines | Various | Many past — confirm awards vs archive in tracker | Check `BID_TRACKER_DASHBOARD.md` |
 
 ---
 
@@ -125,15 +93,6 @@
 
 ---
 
-## NOTARY SIGNING INCOME (Active)
-
-| Metric | Jun 2026 |
-|--------|----------|
-| **Outstanding (all companies)** | $2,230 |
-| **Next big deposit** | June 22 — $785 |
-
----
-
 ## SUMMARY TOTALS
 
 | Metric | Conservative | Target |
@@ -153,11 +112,11 @@
 ## STRONGEST LEADS
 
 1. **University Health (San Antonio)** — $4.74M/year SUBMITTED. Awaiting award.
-2. **Oakland County DTC Drug Testing** — LOCAL. 50% win prob. Due Jun 23.
-3. **VIA Transit Drug Testing** — $146K/yr, 70% margin. Due Jun 16.
-4. **Texas LRGVDC DPS Transport** — EDWOSB wedge into Rio Grande Valley AAA pool. Draft ready; Jun 18 conference gate.
-5. **HAP CareSource** — Live contract. Proof point for all NEMT/transport bids.
+2. **HAP CareSource** — Live contract. Proof for all MCO talks.
+3. **Molina LTSS** — Contracted; get referrals + verify Availity NPI.
+4. **Humana Dual Integrated** — Contracting engaged (Abby); clear the path.
+5. **Priority Health** — Portal approved; password then network path.
 
 ---
 
-**Texas is on the board — LRGVDC draft parked until you're ready to decide on Weslaco travel. University Health is still the whale. One award changes the whole scoreboard.**
+**Two live MCO contracts and a third in Humana's contracting queue. Finish the portals — that's how volume shows up.**

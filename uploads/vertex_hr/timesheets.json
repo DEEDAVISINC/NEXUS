@@ -1,0 +1,23 @@
+[
+  {
+    "id": "TS-B839A87C11",
+    "personnelNumberCore": "0003-2607-EMP",
+    "personnelNumber": "0003-2607-EMP-DIR-CORP",
+    "name": "Dieasha D. Davis",
+    "email": "info@deedavis.biz",
+    "workerType": "employee",
+    "periodStart": "2026-07-13",
+    "periodEnd": "2026-07-26",
+    "regularHours": 80.0,
+    "otHours": 0.0,
+    "ptoHours": 0.0,
+    "unpaidHours": 0.0,
+    "notes": "",
+    "status": "Approved",
+    "createdAt": "2026-07-26T11:48:36.816960",
+    "createdBy": "info@deedavis.biz",
+    "submittedAt": "2026-07-26T11:48:36.817542",
+    "approvedAt": "2026-07-26T11:48:36.817542",
+    "approvedBy": "info@deedavis.biz"
+  }
+]

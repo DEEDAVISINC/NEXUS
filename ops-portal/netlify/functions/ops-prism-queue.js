@@ -18,10 +18,14 @@ exports.handler = async (event) => {
   }
 
   const qs = event.queryStringParameters || {};
-  const mine = qs.mine === '1' ? '&mine=1' : '';
+  const params = new URLSearchParams({ email: refreshed.email });
+  if (qs.view) params.set('view', qs.view);
+  if (qs.mine === '1') params.set('mine', '1');
+  if (qs.q) params.set('q', qs.q);
+  if (qs.demo) params.set('demo', qs.demo);
   try {
     const res = await fetch(
-      `${OPS_API}/ops/prism/queue?email=${encodeURIComponent(refreshed.email)}${mine}`,
+      `${OPS_API}/ops/prism/queue?${params.toString()}`,
       { headers: { Accept: 'application/json' } }
     );
     const data = await res.json().catch(() => ({}));

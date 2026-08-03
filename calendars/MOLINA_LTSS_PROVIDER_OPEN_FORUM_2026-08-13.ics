@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:molina-ltss-open-forum-20260813@deedavis.biz
+DTSTAMP:20260729T145100Z
+DTSTART;TZID=America/Detroit:20260813T100000
+DTEND;TZID=America/Detroit:20260813T110000
+SUMMARY:📞 MEETING: Molina LTSS Provider Open Forum (Jul/Aug 2026)
+DESCRIPTION:Registered — confirmation email Jul 29, 2026 from Molina Healthcare (Sarah Fenton).\n\nEvent: [EXTERNAL] July/August 2026 LTSS Provider Open Forum\nWhen: Thu Aug 13, 2026 10:00–11:00 AM ET\nOrganizer: Molina Healthcare / Fenton, Sarah\nPlatform: Microsoft Teams (join via registration email)\n\nNote: Morning time set by Molina — Dee registered. Bring NPI 1538939111 / Vendor 214337479 questions if needed.\nGmail "brian.Grcevich" line on paste = autocomplete noise — ignore.
+LOCATION:Microsoft Teams (Molina — join from registration email)
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Molina LTSS Open Forum in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Molina LTSS Open Forum in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

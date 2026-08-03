@@ -12497,9 +12497,521 @@
       "is_positive": false,
       "is_negative": false,
       "is_terminal": false
+    },
+    {
+      "id": "19a10abcc97d",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260725",
+      "action": "discovered",
+      "timestamp": "2026-07-25T19:59:39.054446",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "03e98627022e",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260725",
+      "action": "discovered",
+      "timestamp": "2026-07-25T19:59:39.069896",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "fc58d07d73b7",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260725",
+      "action": "discovered",
+      "timestamp": "2026-07-25T19:59:39.082625",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "a20532103054",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260725",
+      "action": "discovered",
+      "timestamp": "2026-07-25T19:59:39.094311",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "75a1a6f96a27",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260725_19",
+      "action": "scored",
+      "timestamp": "2026-07-25T19:59:42.433975",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "c01710c35e87",
+      "domain": "intelligence",
+      "entity_id": "compass_monitor_20260725",
+      "action": "reviewed",
+      "timestamp": "2026-07-25T21:36:58.690572",
+      "metadata": {
+        "warnings": 3,
+        "overdue": 3
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "4f9ed23153c6",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260725_22",
+      "action": "scored",
+      "timestamp": "2026-07-25T22:02:43.597249",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "2776b82a071d",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T02:03:46.916491",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "668bbc17f2cc",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T02:03:46.937650",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "8e9ca7f2ba95",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T02:03:46.954034",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "a80463cf87cb",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T02:03:46.966351",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d36eaa5afe39",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260726_02",
+      "action": "scored",
+      "timestamp": "2026-07-26T02:06:35.044899",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d9883ccc354f",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260726",
+      "action": "rfq_sent",
+      "timestamp": "2026-07-26T02:08:08.777033",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "85f19d6eed5e",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T20:56:39.161284",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "44c43ab514d7",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T20:56:39.175446",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "ec7c19c2a7ee",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T20:56:39.184687",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "0477a73de95d",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260726",
+      "action": "discovered",
+      "timestamp": "2026-07-26T20:56:39.194283",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "1222a2775851",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260726_20",
+      "action": "scored",
+      "timestamp": "2026-07-26T20:58:52.191952",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "48ee93e0f52f",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260726",
+      "action": "rfq_sent",
+      "timestamp": "2026-07-26T21:00:29.011811",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "ed03706ddc66",
+      "domain": "intelligence",
+      "entity_id": "compass_monitor_20260726",
+      "action": "reviewed",
+      "timestamp": "2026-07-26T21:00:29.484567",
+      "metadata": {
+        "warnings": 3,
+        "overdue": 3
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "d35d0c7b9fb3",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260726_23",
+      "action": "scored",
+      "timestamp": "2026-07-26T23:01:21.287437",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "3f0e06c9c4d3",
+      "domain": "opportunities",
+      "entity_id": "scan_federal_20260727",
+      "action": "discovered",
+      "timestamp": "2026-07-27T03:05:46.258852",
+      "metadata": {
+        "source": "federal",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "7d5dd0b5cd00",
+      "domain": "opportunities",
+      "entity_id": "scan_portals_20260727",
+      "action": "discovered",
+      "timestamp": "2026-07-27T03:05:46.278486",
+      "metadata": {
+        "source": "portals",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "3aa9616f2539",
+      "domain": "opportunities",
+      "entity_id": "scan_state_local_20260727",
+      "action": "discovered",
+      "timestamp": "2026-07-27T03:05:46.292206",
+      "metadata": {
+        "source": "state_local",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "713b8aff2299",
+      "domain": "opportunities",
+      "entity_id": "scan_public_20260727",
+      "action": "discovered",
+      "timestamp": "2026-07-27T03:05:46.303794",
+      "metadata": {
+        "source": "public",
+        "scan_success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "6e05a3e21469",
+      "domain": "opportunities",
+      "entity_id": "scoring_cycle_20260727_03",
+      "action": "scored",
+      "timestamp": "2026-07-27T03:08:04.541380",
+      "metadata": {
+        "cycle": "autonomous",
+        "success": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "b9c6aae47f6c",
+      "domain": "suppliers",
+      "entity_id": "followup_cycle_20260727",
+      "action": "rfq_sent",
+      "timestamp": "2026-07-27T03:09:41.200080",
+      "metadata": {
+        "type": "followup_check",
+        "autonomous": true
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
+    },
+    {
+      "id": "ecd710db4b58",
+      "domain": "intelligence",
+      "entity_id": "compass_monitor_20260727",
+      "action": "reviewed",
+      "timestamp": "2026-07-27T03:09:41.666975",
+      "metadata": {
+        "warnings": 3,
+        "overdue": 3
+      },
+      "is_positive": false,
+      "is_negative": false,
+      "is_terminal": false
     }
   ],
   "insights": [
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 0% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-07-27T03:09:41.700352"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-07-27T03:09:41.700359"
+    },
+    {
+      "title": "8.2 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-27T03:09:41.700361"
+    },
+    {
+      "title": "6.5 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-27T03:09:41.700363"
+    },
+    {
+      "title": "uber_health is a winner (Transport & Courier)",
+      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-27T03:09:41.700365"
+    },
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 0% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-07-26T21:00:29.806932"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-07-26T21:00:29.806951"
+    },
+    {
+      "title": "8.2 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-26T21:00:29.806953"
+    },
+    {
+      "title": "6.5 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-26T21:00:29.806954"
+    },
+    {
+      "title": "uber_health is a winner (Transport & Courier)",
+      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-26T21:00:29.806955"
+    },
+    {
+      "title": "Opportunity Mining: Needs attention",
+      "body": "Only 0% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "opportunities",
+      "domain": "opportunities",
+      "generated_at": "2026-07-25T21:36:58.724825"
+    },
+    {
+      "title": "Bid Workflow: Needs attention",
+      "body": "Only 20% positive rate. Review strategy for this area.",
+      "impact": "high",
+      "category": "bids",
+      "domain": "bids",
+      "generated_at": "2026-07-25T21:36:58.724828"
+    },
+    {
+      "title": "8.2 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-25T21:36:58.724830"
+    },
+    {
+      "title": "6.5 is a winner (Transport & Courier)",
+      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-25T21:36:58.724831"
+    },
+    {
+      "title": "uber_health is a winner (Transport & Courier)",
+      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
+      "impact": "high",
+      "category": "transport",
+      "domain": "transport",
+      "generated_at": "2026-07-25T21:36:58.724832"
+    },
     {
       "title": "Opportunity Mining: Needs attention",
       "body": "Only 0% positive rate. Review strategy for this area.",
@@ -13179,126 +13691,6 @@
       "category": "transport",
       "domain": "transport",
       "generated_at": "2026-06-09T22:11:22.412630"
-    },
-    {
-      "title": "Opportunity Mining: Needs attention",
-      "body": "Only 0% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "opportunities",
-      "domain": "opportunities",
-      "generated_at": "2026-06-09T15:10:42.204222"
-    },
-    {
-      "title": "Bid Workflow: Needs attention",
-      "body": "Only 20% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "bids",
-      "domain": "bids",
-      "generated_at": "2026-06-09T15:10:42.204228"
-    },
-    {
-      "title": "8.2 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T15:10:42.204230"
-    },
-    {
-      "title": "6.5 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T15:10:42.204233"
-    },
-    {
-      "title": "uber_health is a winner (Transport & Courier)",
-      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T15:10:42.204235"
-    },
-    {
-      "title": "Opportunity Mining: Needs attention",
-      "body": "Only 0% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "opportunities",
-      "domain": "opportunities",
-      "generated_at": "2026-06-09T08:14:34.010370"
-    },
-    {
-      "title": "Bid Workflow: Needs attention",
-      "body": "Only 20% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "bids",
-      "domain": "bids",
-      "generated_at": "2026-06-09T08:14:34.010382"
-    },
-    {
-      "title": "8.2 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T08:14:34.010385"
-    },
-    {
-      "title": "6.5 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T08:14:34.010387"
-    },
-    {
-      "title": "uber_health is a winner (Transport & Courier)",
-      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T08:14:34.010389"
-    },
-    {
-      "title": "Opportunity Mining: Needs attention",
-      "body": "Only 0% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "opportunities",
-      "domain": "opportunities",
-      "generated_at": "2026-06-09T01:23:52.422485"
-    },
-    {
-      "title": "Bid Workflow: Needs attention",
-      "body": "Only 20% positive rate. Review strategy for this area.",
-      "impact": "high",
-      "category": "bids",
-      "domain": "bids",
-      "generated_at": "2026-06-09T01:23:52.422492"
-    },
-    {
-      "title": "8.2 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"8.2\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T01:23:52.422495"
-    },
-    {
-      "title": "6.5 is a winner (Transport & Courier)",
-      "body": "100% positive rate for Trip Distance=\"6.5\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T01:23:52.422497"
-    },
-    {
-      "title": "uber_health is a winner (Transport & Courier)",
-      "body": "100% positive rate for Fulfillment Partner=\"uber_health\". Double down on this.",
-      "impact": "high",
-      "category": "transport",
-      "domain": "transport",
-      "generated_at": "2026-06-09T01:23:52.422499"
     }
   ],
   "learned_weights": {},
@@ -14705,19 +15097,61 @@
       "events_count": 887,
       "insights_generated": 5,
       "weights_updated": false
+    },
+    {
+      "timestamp": "2026-07-25T21:36:58.724839",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence",
+        "transport"
+      ],
+      "events_count": 894,
+      "insights_generated": 5,
+      "weights_updated": false
+    },
+    {
+      "timestamp": "2026-07-26T21:00:29.806963",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence",
+        "transport"
+      ],
+      "events_count": 908,
+      "insights_generated": 5,
+      "weights_updated": false
+    },
+    {
+      "timestamp": "2026-07-27T03:09:41.700375",
+      "domains_analyzed": [
+        "opportunities",
+        "outreach",
+        "bids",
+        "suppliers",
+        "intelligence",
+        "transport"
+      ],
+      "events_count": 916,
+      "insights_generated": 5,
+      "weights_updated": false
     }
   ],
   "stats": {
-    "total_events": 888,
+    "total_events": 916,
     "events_by_domain": {
-      "opportunities": 710,
+      "opportunities": 732,
       "outreach": 3,
       "bids": 6,
-      "suppliers": 119,
-      "intelligence": 30,
+      "suppliers": 122,
+      "intelligence": 33,
       "transport": 20
     },
-    "total_analyses": 106,
-    "last_analysis": "2026-07-25T15:36:07.541778"
+    "total_analyses": 109,
+    "last_analysis": "2026-07-27T03:09:41.700371"
   }
 }

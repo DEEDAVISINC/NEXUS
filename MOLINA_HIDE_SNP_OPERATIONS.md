@@ -17,9 +17,9 @@
 DDI **cannot receive members** until both of these clear:
 
 1. **Orientation Training Attestation** — must be signed and returned to `MHMLTSSContracting@MolinaHealthCare.Com`. Watch inbox — Sarah Fenton said this would be emailed after the Jul 23 orientation.
-2. **Availity portal activation** — registered Jul 23 (App ID 63821858), Availity confirmed 3-5 business days to activate (~Jul 28-30). Once active, confirm NPI **1538939111** is entered in the provider profile — atypical providers (NEMT has no professional licensure) deny claims without it.
+2. **Availity portal activation** — ✅ **APPROVED Jul 29, 2026**. App ID **63821858** · Customer ID **3878016**. Log in → Manage My Organization. **Still required:** confirm NPI **1538939111** is on the organization profile — atypical providers (NEMT has no professional licensure) deny claims without it. Record: `CREDENTIALING/AVAILITY_PORTAL.md`
 
-Both gates are enforced in code — see `nemt_billing.py`: `MOLINA_LTSS_ATTESTATION_ON_FILE` and `MOLINA_LTSS_AVAILITY_ACTIVE`. PRISM's `check_member_eligibility_checklist()` will fail dispatch automatically until Dee confirms both are done and flips these flags to `True`.
+Both gates are enforced in code — see `nemt_billing.py`: `MOLINA_LTSS_ATTESTATION_ON_FILE` and `MOLINA_LTSS_AVAILITY_ACTIVE`. **Both flipped `True` Jul 29, 2026** (attestation done + Availity approved). PRISM eligibility still requires per-service verification before dispatch.
 
 ---
 

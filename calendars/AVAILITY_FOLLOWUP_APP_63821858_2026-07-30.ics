@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:availity-followup-63821858-20260730@deedavis.biz
+DTSTAMP:20260729T131500Z
+DTSTART;TZID=America/Detroit:20260730T120000
+DTEND;TZID=America/Detroit:20260730T123000
+SUMMARY:📞 FOLLOW-UP: Availity App 63821858 activation status
+DESCRIPTION:Molina / Availity registration received Jul 23 — 3-5 business days ends Jul 30.\n\nActions:\n1. Availity → Manage My Organization → check App ID 63821858\n2. Or call 1.800.282.4548 with App ID 63821858\n3. When ACTIVE: confirm NPI 1538939111 on profile → tell NEXUS to flip MOLINA_LTSS_AVAILITY_ACTIVE\n\nDo NOT bill Molina until Availity gate is True.
+LOCATION:Availity Portal / 1.800.282.4548
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Availity follow-up in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Availity follow-up in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

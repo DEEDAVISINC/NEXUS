@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dee Davis Inc//NEXUS Bid Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEXUS Bids
+X-WR-TIMEZONE:America/Detroit
+
+BEGIN:VEVENT
+UID:priority-humana-enrollment-20260801@deedavis.biz
+DTSTAMP:20260729T132500Z
+DTSTART;TZID=America/Detroit:20260801T120000
+DTEND;TZID=America/Detroit:20260801T160000
+SUMMARY:📋 ENROLLMENT: Priority Health + Humana credentialing
+DESCRIPTION:Complete Priority Health and Humana enrollment to start/advance credentialing.\n\nPRIORITY HEALTH:\n- Set password for prism username info@deedavis.biz.prism (link expires ~Aug 7)\n- Confirm portal access\; watch for group/facility approval email (~+2 days)\n- Record: CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md\n- Support: 800.942.4765 opt 5\n\nHUMANA:\n- Advance credentialing enrollment (active relationship — credentialing in progress)\n- CAQH Provider ID 16876320 — register/attest if not done (needed for MCO credentialing)\n- Portal: https://proview.caqh.org/pr\n\nNote: Portal enrollment ≠ executed contract. Goal = start credentialing process.
+LOCATION:Priority Health prism + Humana / CAQH
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+DESCRIPTION:Priority + Humana enrollment in 2 hours
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Priority + Humana enrollment in 30 minutes
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR

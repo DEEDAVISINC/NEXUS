@@ -1,0 +1,19 @@
+{
+  "legalName": "Dee Davis Inc.",
+  "ein": "XX-TEST",
+  "michiganAccountId": "",
+  "miUiaEmployerNumber": "",
+  "miUiaRatePercent": 2.7,
+  "federalDepositSchedule": "monthly",
+  "defaultPayFrequency": "biweekly",
+  "periodAnchor": "2026-01-05",
+  "payRail": "Deluxe eChecks",
+  "taxRails": [
+    "EFTPS.gov",
+    "Michigan Treasury",
+    "Michigan UIA"
+  ],
+  "address": "755 W. Big Beaver Rd., Suite 2020, Troy, Michigan 48084",
+  "updatedAt": "2026-07-26T11:58:52.724412",
+  "updatedBy": "info@deedavis.biz"
+}

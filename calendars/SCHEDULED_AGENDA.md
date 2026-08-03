@@ -489,6 +489,12 @@
 
 ---
 
+## 2026-07-30 — Thursday
+
+- **(Optional / skip if done)** — 📞 Availity App 63821858 follow-up — **APPROVED EARLY Jul 29** (Customer ID **3878016**). Prefer: log in + verify NPI **1538939111** on org profile. `.ics`: `calendars/AVAILITY_FOLLOWUP_APP_63821858_2026-07-30.ics` · Record: `CREDENTIALING/AVAILITY_PORTAL.md`
+
+---
+
 ## 2026-07-31 — Friday
 
 - **12:00 PM ET** — 🔥 **CHECK: ModivCare MA190000000912 expires — confirm bridge** — Recompete **RFP 260000002254** anticipated Aug 2026. Call/email Sarah Oumedian (OumedianS@michigan.gov / 517-335-1969) or MDHHS Procurement 517-335-5100. Folder: `MICHIGAN NEMT BROKER RECOMPETE/`. `.ics`: `calendars/MDHHS_NEMT_MA190000000912_EXPIRE_BRIDGE_2026-07-31.ics`
@@ -497,19 +503,34 @@
 
 ## 2026-08-01 — Saturday
 
+- **12:00–4:00 PM ET** — 📋 **ENROLLMENT: Priority Health + Humana credentialing** — Humana path started (Abby invite; Quickbase taxonomy warning; reply SENT awaiting Abby). **Priority prism deferred to Sun Aug 2.** CAQH **16876320** still open. `.ics`: `calendars/PRIORITY_HUMANA_ENROLLMENT_2026-08-01.ics`
 - **12:00 PM ET** — 🔥 **WATCH STARTS: MDHHS NEMT RFP 260000002254** — Daily SIGMA check for Open status (commodity **9S301**). FFS broker · tri-county + potential statewide. Folder: `MICHIGAN NEMT BROKER RECOMPETE/`. `.ics`: `calendars/MDHHS_NEMT_RFP_260000002254_AUG_WATCH_2026-08-01.ics`
+
+---
+
+## 2026-08-02 — Sunday
+
+- **12:00 PM ET** — 📋 **Priority Health prism — set password** — Username `info@deedavis.biz.prism`. Jul 28 email link (expires ~Aug 7). Chrome. Support 800.942.4765 opt 5. **Not DDI PRISM. Portal ≠ contract.** Record: `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md`. `.ics`: `calendars/PRIORITY_HEALTH_PRISM_PASSWORD_2026-08-02.ics`
 
 ---
 
 ## 2026-08-03 — Monday
 
+- **12:00 PM ET** — 📋 **Priority Health prism — set password** — Username `info@deedavis.biz.prism`. Jul 28 email link (expires ~Aug 7). Deferred from Aug 1–2. Record: `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md`
 - **1:00 PM ET** — 📋 **CWC OUTREACH: Monthly monitor (1st Mon)** — EGrAMS · county opioid · CFSEM · MHEF. `.ics`: `cwc_outreach_monthly_monitor_2026-08-03.ics`
+- **Anytime** — Check Abby Davidson (Humana) reply; CAQH **16876320** attest if not done
 
 ---
 
 ## 2026-08-05 — Wednesday
 
 - **12:00 PM ET** — 📋 **Priority Health prism — set password before link expires** — Username `info@deedavis.biz.prism`. Link from Jul 28 email expires ~Aug 7. `.ics`: `calendars/PRIORITY_HEALTH_PRISM_PASSWORD_2026-08-05.ics`
+
+---
+
+## 2026-08-13 — Thursday
+
+- **10:00–11:00 AM ET** — 📞 **Molina LTSS Provider Open Forum (Jul/Aug 2026)** — Registered Jul 29. Organizer Sarah Fenton / Molina Healthcare. Microsoft Teams — join from registration email. `.ics`: `calendars/MOLINA_LTSS_PROVIDER_OPEN_FORUM_2026-08-13.ics`
 
 ---
 

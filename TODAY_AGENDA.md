@@ -1,42 +1,33 @@
-# TODAY'S AGENDA — July 27, 2026 (Monday)
+# TODAY'S AGENDA — August 3, 2026 (Monday)
 
-**Updated:** July 26, 2026 evening — parked GATEWAY dry-run; VERTEX review next
+**Updated:** August 3, 2026 ~7:15 AM ET — goodnight handoff
 
 ---
 
 ## TOP 3 — MONDAY
 
-1. **🚪 GATEWAY Phase 1 dry-run** — Create test employee → portal uploads/e-sign → HR checklist + screening → confirm `can-work` true  
-2. **🔓 Turn off `OPS_RELAX_CAN_WORK`** on PythonAnywhere → reload → confirm OPS banner is not “build mode”  
-3. **🧪 OPS smoke-test** — agent + `info@` with real can-work (no relax)
+1. **📋 Priority Health prism — set password** (after 12:00 PM ET) — Username `info@deedavis.biz.prism` · Jul 28 email · expires ~**Aug 7** · Chrome · 800.942.4765 opt 5 · `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md`
+2. **Humana — check Abby Davidson reply** — If she answered, execute her path same day. If silent, leave it (sent Sat). Playbook: `CREDENTIALING/HUMANA_MI_CREDENTIALING.md`
+3. **CAQH 16876320** — register / attest / authorize Humana (still needed for MCO credentialing)
 
 ---
 
-## PARKED FROM SUNDAY (Jul 26)
+## ALSO TODAY
 
-- ✅ Onboarding reminder emails Day 3/7/14 — live on PA  
-- ✅ Principal/owner Phase 1 path for `info@`  
-- ⏸ GATEWAY test-employee dry-run (couldn’t finish Sunday — **do Monday**)
-
----
-
-## AFTER GATEWAY OFF-RAMP
-
-- Phase C leftovers: break-glass logout, escalation hooks  
-- Phase D: Claims desk + drain timers  
-- **OPS timeclock** — clock in/out in OPS → feed hours to VERTEX HR (not GATEWAY)  
-
-
+- **1:00 PM ET** — CWC monthly monitor (1st Mon): EGrAMS · county opioid · CFSEM · MHEF
+- **Molina Availity** — confirm NPI **1538939111** on org profile (Customer ID 3878016)
+- **MDHHS NEMT RFP watch** — SIGMA check commodity **9S301** / RFP 260000002254
 
 ---
 
-## VERTEX (Sunday evening / carry)
+## WAITING
 
-Review VERTEX finance + VERTEX HR — status, gaps, next build.  
-See `VERTEX_HR_MASTER.md` · Deluxe eChecks + EFTPS/MI (no Gusto/Square).
+- Abby Davidson (Humana) — path after Quickbase taxonomy warning
+- Priority group/facility access email — after password set
 
 ---
 
-## PA NOTE
+## LATER THIS WEEK
 
-`OPS_RELAX_CAN_WORK` stays on until Monday Phase 1 dry-run clears.
+- **Wed Aug 5** — Priority password backup reminder (if Mon slips)
+- **Thu Aug 13 10:00 AM ET** — Molina LTSS Provider Open Forum (registered)

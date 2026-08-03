@@ -15,7 +15,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | ✅ **ACCOUNT APPROVED** — password not yet set |
+| **Status** | ✅ **ACCOUNT APPROVED** — password not yet set — **enrollment block scheduled Sat Aug 1, 2026 12–4 PM ET** |
 | **Email on file** | info@deedavis.biz |
 | **Username format** | `{email}.prism` → **`info@deedavis.biz.prism`** |
 | **Password** | Set via email “Set Password” link (expires **~Aug 7, 2026** — 10 days from invite) |
@@ -39,7 +39,7 @@ Email note: provider groups/facilities requested are a **separate** approval by 
 
 ## Required Steps
 
-1. [ ] **TODAY / this week:** Click **Set Password** in the Jul 28 email (link expires in 10 days)
+1. [ ] **Sun Aug 2 after 12:00 PM ET:** Click **Set Password** in the Jul 28 email (link expires ~Aug 7) — deferred from Aug 1 Humana block
 2. [ ] Log in with username **`info@deedavis.biz.prism`**
 3. [ ] Store password in DDI password manager (not in git)
 4. [ ] Watch inbox for **provider group / facility access approved** email (~+2 days)
@@ -47,6 +47,7 @@ Email note: provider groups/facilities requested are a **separate** approval by 
 6. [ ] Update this file + `COMPANY_INFO_MASTER.md` when password set + when group access lands
 7. [ ] Contracting / network participation still separate — follow Priority Health Choice / HIDE SNP path as needed
 
+**Calendar:** `calendars/PRIORITY_HEALTH_PRISM_PASSWORD_2026-08-02.ics` (backup reminder still on Aug 5 if needed)
 ---
 
 ## Related

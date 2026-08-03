@@ -1,0 +1,38 @@
+[
+  {
+    "id": "TC-2B2E544F92",
+    "email": "info@deedavis.biz",
+    "name": "Dieasha D. Davis",
+    "personnelNumberCore": "0003-2607-EMP",
+    "personnelNumber": "0003-2607-EMP-DIR-CORP",
+    "inAt": "2026-07-26T23:06:23Z",
+    "inAtEt": "2026-07-26",
+    "outAt": "2026-07-26T23:06:23Z",
+    "minutes": 0.0,
+    "note": "",
+    "source": "ops"
+  },
+  {
+    "id": "TC-9CFF080530",
+    "email": "info@deedavis.biz",
+    "name": "Dieasha D. Davis",
+    "personnelNumberCore": "0003-2607-EMP",
+    "personnelNumber": "0003-2607-EMP-DIR-CORP",
+    "inAt": "2026-07-27T14:56:05Z",
+    "inAtEt": "2026-07-27",
+    "outAt": "2026-07-27T14:56:06Z",
+    "minutes": 0.02,
+    "lastActiveAt": "2026-07-27T14:56:06Z",
+    "workEvents": 1,
+    "note": "",
+    "source": "ops-login",
+    "sessionSource": "ops-login",
+    "workEventLog": [
+      {
+        "at": "2026-07-27T14:56:06Z",
+        "event": "claim"
+      }
+    ],
+    "outReason": "ops-logout"
+  }
+]

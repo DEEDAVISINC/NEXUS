@@ -41,8 +41,8 @@ python3 test_vertex_medical_billing_ironclad.py
 
 | Gate | Status | Action |
 |---|---|---|
-| Molina LTSS attestation on file | ⬜ False | Sign/return → then flip `MOLINA_LTSS_ATTESTATION_ON_FILE` |
-| Molina Availity active + NPI 1538939111 | ⬜ False | Activate App 63821858 → flip `MOLINA_LTSS_AVAILITY_ACTIVE` |
+| Molina LTSS attestation on file | ✅ True (Jul 29) | Signed/returned — Dee confirmed |
+| Molina Availity active + NPI 1538939111 | ✅ True (Jul 29) | App approved — Customer ID **3878016**. **Verify NPI still on org profile after login** |
 | Priority Health prism password | ⬜ | Set password for `info@deedavis.biz.prism` before ~Aug 7 |
 | Set `VERTEX_NEMT_API_TOKEN` in production `.env` | ⬜ | Match `REACT_APP_NEXUS_INTERNAL_TOKEN` in frontend build |
 | Confirm HAP dispute/appeal days from contract | ⬜ null in profile | Update `VERTEX_PAYER_PROFILES.json` when known |

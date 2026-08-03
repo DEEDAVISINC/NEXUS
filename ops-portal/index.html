@@ -881,13 +881,36 @@ function slaChipClass(tone) {
   return 'sla-unknown';
 }
 
+/** Human age/SLA clock — never dump raw minutes for long spans (e.g. 61854m). */
+function fmtDuration(mins) {
+  const n = Math.max(0, Math.floor(Math.abs(Number(mins) || 0)));
+  if (n < 60) return n + 'm';
+  if (n < 24 * 60) {
+    const h = Math.floor(n / 60);
+    const m = n % 60;
+    return m ? (h + 'h ' + m + 'm') : (h + 'h');
+  }
+  const days = Math.floor(n / (24 * 60));
+  if (days < 30) {
+    const h = Math.floor((n % (24 * 60)) / 60);
+    return (days < 7 && h) ? (days + 'd ' + h + 'h') : (days + 'd');
+  }
+  if (days < 365) {
+    const mo = Math.max(1, Math.floor(days / 30));
+    const remD = days % 30;
+    return (mo < 3 && remD) ? (mo + 'mo ' + remD + 'd') : (mo + 'mo');
+  }
+  const y = Math.floor(days / 365);
+  const remMo = Math.floor((days % 365) / 30);
+  return remMo ? (y + 'y ' + remMo + 'mo') : (y + 'y');
+}
+
 function formatSla(item) {
   const rem = item.slaMinutesRemaining;
   let clock = '';
   if (rem == null) clock = '—';
-  else if (rem < 0) clock = Math.abs(rem) + 'm late';
-  else if (rem < 60) clock = rem + 'm left';
-  else clock = Math.floor(rem / 60) + 'h ' + (rem % 60) + 'm left';
+  else if (rem < 0) clock = fmtDuration(Math.abs(rem)) + ' late';
+  else clock = fmtDuration(rem) + ' left';
   return (item.slaEmoji || '⚪') + ' ' + (item.slaLabel || 'SLA') + ' · ' + clock;
 }
 
@@ -998,6 +1021,7 @@ async function loadQueue() {
       '</div></div>' +
       '<div class="qmeta">' +
       '<strong>' + esc(item.payer || 'Payer') + '</strong> · ' + esc(laneLabel(item)) + ' · ' + esc(item.priority || 'Standard') +
+      ' · Age ' + fmtDuration(item.slaAgeMinutes || 0) +
       (item.authorization ? ' · Auth ' + esc(item.authorization) : '') +
       (item.memberIdLast4 ? ' · ID ' + esc(item.memberIdLast4) : '') +
       '<br><strong>When:</strong> ' + esc(item.pickupDate || '—') + ' ' + esc(item.pickupTime || '') +
@@ -1215,7 +1239,7 @@ async function loadMyDay() {
   }
   showQueueMsg('', 'info');
   const c = data.counts || {};
-  const avgClose = c.avgMinutesToClose != null ? (c.avgMinutesToClose + 'm') : '—';
+  const avgClose = c.avgMinutesToClose != null ? fmtDuration(c.avgMinutesToClose) : '—';
   const calEvents = (calRes.res && calRes.res.ok) ? (calRes.data.events || []) : [];
   $('queue-metrics').innerHTML =
     '<div class="metric"><span class="i">📅</span><div class="k">On calendar</div><div class="v">' + calEvents.length + '</div></div>' +
@@ -1408,7 +1432,7 @@ async function loadManageBoard() {
         const sev = r.severity || {};
     const reason = r.reason || {};
     const sector = r.sector || {};
-    const past = r.minutesPastDue != null ? r.minutesPastDue + 'm late' : '';
+    const past = r.minutesPastDue != null ? fmtDuration(r.minutesPastDue) + ' late' : '';
     return (
       '<div class="manage-row">' +
         '<div class="left"><strong>' + esc(r.memberName || 'Member') + '</strong>' +

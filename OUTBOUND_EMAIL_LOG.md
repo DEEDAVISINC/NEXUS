@@ -10,6 +10,14 @@
 
 ---
 
+## 2026-08-01
+
+| Time | To | Contact | Organization | Subject | Category | Source file | Status |
+|------|-----|---------|--------------|---------|----------|-------------|--------|
+| ~6:12 PM ET | Abby Davidson (reply to Humana invite thread) | Abby Davidson — Supervisor IN & MI, Contracting Negotiations Midwest | Humana | RE: Humana network invite — Quickbase market/taxonomy warning (Dee Davis Inc.) | mco | CREDENTIALING/REPLY_ABBY_DAVIDSON_TAXONOMY_WARNING.md | **SENT** — awaiting path (manual packet / DAAA / Quickbase unlock) |
+
+---
+
 ## 2026-06-12
 
 **MICH HIDE SNP boutique outreach — Gmail Schedule Send queued Fri 7:04 PM ET · delivers Mon Jun 15, 8:00–9:45 AM ET (staggered).**

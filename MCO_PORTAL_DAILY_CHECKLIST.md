@@ -1,5 +1,5 @@
 # MCO VENDOR PORTAL MANUAL CHECK LIST
-**Generated:** July 28, 2026 at 08:59 AM
+**Generated:** August 02, 2026 at 08:02 AM
 
 These portals require login. Check each one for NEMT, transportation, and courier RFPs.
 
@@ -70,15 +70,9 @@ These portals require login. Check each one for NEMT, transportation, and courie
 ---
 
 ## Priority Health - Michigan
-- **URL:** https://www.priorityhealth.com/provider (portal brand: **prism** — not DDI PRISM)
-- **Brands:** Priority Health / Priority Health Choice
-- **Account:** ✅ Approved Jul 28, 2026 — username **`info@deedavis.biz.prism`**
-- **Action:** Set password from `phprism@priorityhealth.com` email before **~Aug 7, 2026**
-- **Support:** 800.942.4765 option 5 · Chrome preferred
-- **Record:** `CREDENTIALING/PRIORITY_HEALTH_PRISM_PORTAL.md`
-- **Notes:** Michigan Medicaid / HIDE SNP MCO. Portal login ≠ network contract. Group/facility access = separate approval email.
-- [ ] Password set
-- [ ] Group/facility access email received
+- **URL:** https://www.priorityhealth.com/provider
+- **Brands:** Priority Health
+- **Notes:** Michigan Medicaid.
 - [ ] Checked today
 
 ---

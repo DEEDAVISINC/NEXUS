@@ -1,0 +1,15 @@
+[
+  {
+    "id": "TAX-14EAC2D309",
+    "channel": "eftps",
+    "amount": 100.5,
+    "confirmationNumber": "TEST123",
+    "periodStart": "",
+    "periodEnd": "",
+    "payRunId": "",
+    "depositedAt": "2026-07-26T11:56:38",
+    "actorEmail": "info@deedavis.biz",
+    "notes": "",
+    "createdAt": "2026-07-26T11:56:38.487354"
+  }
+]

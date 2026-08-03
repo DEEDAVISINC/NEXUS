@@ -154,8 +154,8 @@ _MOLINA_LTSS_MILEAGE_HCPCS: Dict[str, str] = {
 # ── HARD GATES — flip to True only when confirmed. Blocks dispatch via
 #    check_member_eligibility_checklist() until both are cleared. Do NOT
 #    hardcode True speculatively — verify with Dee first. ──────────────────
-MOLINA_LTSS_ATTESTATION_ON_FILE = False  # Orientation Training Attestation signed & returned to MHMLTSSContracting@MolinaHealthCare.Com
-MOLINA_LTSS_AVAILITY_ACTIVE = False  # Availity App ID 63821858 activated + NPI 1538939111 confirmed entered
+MOLINA_LTSS_ATTESTATION_ON_FILE = True  # Orientation Training Attestation signed & returned — Dee confirmed Jul 29, 2026
+MOLINA_LTSS_AVAILITY_ACTIVE = True  # Availity approved Jul 29, 2026 — App 63821858 / Customer ID 3878016. Verify NPI 1538939111 on org profile at first login.
 
 
 def _is_molina_ltss_payer(payer: Optional[str]) -> bool:

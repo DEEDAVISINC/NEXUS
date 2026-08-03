@@ -242,6 +242,28 @@ except ImportError as exc:
     def gateway_unavailable(_path=None):
         return jsonify({'error': logger_msg_gateway}), 503
 
+# VERTEX HR — payroll / hours / pay calc (GATEWAY = identity)
+_vertex_hr_loaded = False
+_vertex_hr_error = None
+try:
+    from vertex_hr_api import vertex_hr
+
+    app.register_blueprint(vertex_hr)
+    _vertex_hr_loaded = True
+    print('✅ VERTEX HR API registered on PA app (/vertex/hr/*)')
+except ImportError as exc:
+    _vertex_hr_error = str(exc)
+    print(f'⚠️ VERTEX HR not loaded on PA app: {exc}')
+
+
+# NEXUS Calendar — shared event store (OPS calendar write-behind uses this)
+try:
+    from nexus_calendar_service import nexus_calendar
+
+    app.register_blueprint(nexus_calendar)
+    print('✅ NEXUS Calendar Service registered on PA app (/nexus/calendar/*)')
+except ImportError as exc:
+    print(f'⚠️ NEXUS Calendar not loaded on PA app: {exc}')
 
 # NEXUS OPS Portal (ops.deedavis.biz) — session bridge + PRISM desk
 # WSGI loads prism_pa_app, not api_server — OPS must register here or /ops/* 404s.

@@ -1,0 +1,6517 @@
+[
+  {
+    "id": "SMOKE-CTS-001",
+    "confirmation_ref": "SMOKE-CTS-001",
+    "confirmation_meta": {
+      "ref": "SMOKE-CTS-001",
+      "format": "unknown"
+    },
+    "type": "notary",
+    "service_key": "cts",
+    "channel": null,
+    "service_label": "Community Transition Services (Molina)",
+    "status": "Order Validated",
+    "agent": "",
+    "client": "Smoke Test SNF",
+    "client_contact": "Test Discharge Planner",
+    "client_phone": "3135550101",
+    "client_email": "smoke@test.example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Smoke Testcase",
+    "subject_dob": "1950-01-01",
+    "subject_phone": "3135550199",
+    "subject_email": "",
+    "subject_id": "MOLSMOKE001",
+    "address": "",
+    "date": "07/24/2026",
+    "time": "",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "Automated smoke test - safe to delete",
+    "routing_email": "info@deedavis.biz",
+    "details": {
+      "referral_source_type": "Nursing Facility Discharge Planner",
+      "referral_contact_name": "Test Discharge Planner",
+      "referral_source": "Nursing Facility Discharge Planner \u2014 Test Discharge Planner",
+      "transitioning_from": "Smoke Test SNF, 1 Test St, Detroit MI",
+      "transitioning_to": "2 Test Ave, Detroit MI",
+      "pcsp_confirmed": "yes",
+      "home_assessment_required": "yes",
+      "initial_expense_category": "Security Deposit",
+      "confirmation_phone_last4": "0199"
+    },
+    "qc_checklist": [
+      {
+        "id": "NOT-1",
+        "check": "Active notary commission for this state?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-2",
+        "check": "Signer identity verified with acceptable ID?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-3",
+        "check": "Signer appeared willingly (no duress)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-4",
+        "check": "Correct notarial act performed (acknowledgment vs jurat)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-5",
+        "check": "Journal entry completed with all required fields?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-6",
+        "check": "Seal/stamp affixed clearly and completely?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-7",
+        "check": "Certificate wording matches state requirements?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-07-24T02:41:45.416349"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-07-24T02:41:45.416349"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-07-24T02:41:45.416349"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-07-24T02:41:45.416349"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-07-24T02:41:45.416349"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Notarization",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NOT-1",
+            "check": "Signer identity verified with acceptable ID",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-2",
+            "check": "Signer appeared willingly (no duress)",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-3",
+            "check": "Correct notarial act performed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Journal + Seal",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NOT-4",
+            "check": "Journal entry completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-5",
+            "check": "Seal/stamp affixed clearly",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-6",
+            "check": "Document scanned and uploaded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 1,
+    "workflow_stage_label": "Order Validated",
+    "created_at": "2026-07-24T02:41:45.409797",
+    "updated_at": "2026-07-24T02:41:45.409797"
+  },
+  {
+    "id": "NETLIFY-SMOKE-20260614-223813",
+    "confirmation_ref": "NETLIFY-SMOKE-20260614-223813",
+    "confirmation_meta": {
+      "ref": "NETLIFY-SMOKE-20260614-223813",
+      "format": "unknown"
+    },
+    "type": "medical_courier",
+    "service_key": "courier",
+    "channel": null,
+    "service_label": "Courier Smoke Test",
+    "status": "Order Received",
+    "agent": "",
+    "client": "Portal Smoke Test",
+    "client_contact": "NEXUS Smoke",
+    "client_phone": "",
+    "client_email": "portal-smoke@test.deedavis.biz",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "",
+    "date": "2026-06-21",
+    "time": "3:00 PM",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "AUTO SMOKE TEST \u2014 removed per ops cleanup",
+    "routing_email": "info@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "MC-1",
+        "check": "Courier trained in specimen handling and biohazard transport?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-2",
+        "check": "Specimen packaging meets DOT/IATA standards?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-3",
+        "check": "Temperature requirements maintained during transport?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-4",
+        "check": "Chain of custody form accompanies specimen?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-5",
+        "check": "Pickup and delivery timestamps documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-6",
+        "check": "Recipient signature obtained at delivery?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "MC-7",
+        "check": "Spill kit available in transport vehicle?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:14.674380"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:14.674380"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:14.674380"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:14.674380"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Specimen Pickup & Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-MC-1",
+            "check": "Specimen packaging meets DOT/IATA standards",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-MC-2",
+            "check": "Temperature requirements maintained",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-MC-3",
+            "check": "Chain of custody form with specimen",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Delivery Confirmed",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-MC-4",
+            "check": "Recipient signature obtained at lab",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-MC-5",
+            "check": "Pickup/delivery timestamps documented",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-15T02:38:14.674151",
+    "updated_at": "2026-06-15T02:41:20.865319",
+    "qc_progress": 0
+  },
+  {
+    "id": "SMOKE-PORTAL-20260614-223812-NEMT",
+    "confirmation_ref": "SMOKE-PORTAL-20260614-223812-NEMT",
+    "confirmation_meta": {
+      "ref": "SMOKE-PORTAL-20260614-223812-NEMT",
+      "format": "unknown"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "NEMT Smoke Test",
+    "status": "Driver Assigned",
+    "agent": "",
+    "client": "Portal Smoke Test",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "portal-smoke@test.deedavis.biz",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Smoke Rider",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI 48201",
+    "date": "2026-06-20",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI 48202",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "AUTO SMOKE TEST \u2014 removed per ops cleanup",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "mobility_lane": "MOB-A",
+      "member_id": "SMOKE-PORTAL-001",
+      "nemt_order_id": "d17d5c36-73d4-4600-b764-d428af1c479b"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.538452"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Driver Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-0",
+            "check": "Driver confirmed and assigned to trip",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 2,
+    "workflow_stage_label": "Driver Assigned",
+    "created_at": "2026-06-15T02:38:13.538053",
+    "updated_at": "2026-06-15T02:41:20.628337",
+    "qc_progress": 0
+  },
+  {
+    "id": "SMOKE-PORTAL-20260614-223812-NOT",
+    "confirmation_ref": "SMOKE-PORTAL-20260614-223812-NOT",
+    "confirmation_meta": {
+      "ref": "SMOKE-PORTAL-20260614-223812-NOT",
+      "format": "unknown"
+    },
+    "type": "notary",
+    "service_key": "notary",
+    "channel": null,
+    "service_label": "Notary Smoke Test",
+    "status": "Order Received",
+    "agent": "",
+    "client": "Portal Smoke Test",
+    "client_contact": "NEXUS Smoke",
+    "client_phone": "",
+    "client_email": "portal-smoke@test.deedavis.biz",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "",
+    "date": "2026-06-20",
+    "time": "2:00 PM",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "AUTO SMOKE TEST \u2014 removed per ops cleanup",
+    "routing_email": "notary@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "NOT-1",
+        "check": "Active notary commission for this state?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-2",
+        "check": "Signer identity verified with acceptable ID?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-3",
+        "check": "Signer appeared willingly (no duress)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-4",
+        "check": "Correct notarial act performed (acknowledgment vs jurat)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-5",
+        "check": "Journal entry completed with all required fields?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-6",
+        "check": "Seal/stamp affixed clearly and completely?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-7",
+        "check": "Certificate wording matches state requirements?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.287164"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.287164"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.287164"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-15T02:38:13.287164"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Notarization",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NOT-1",
+            "check": "Signer identity verified with acceptable ID",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-2",
+            "check": "Signer appeared willingly (no duress)",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-3",
+            "check": "Correct notarial act performed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Journal + Seal",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NOT-4",
+            "check": "Journal entry completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-5",
+            "check": "Seal/stamp affixed clearly",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-6",
+            "check": "Document scanned and uploaded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-15T02:38:13.280309",
+    "updated_at": "2026-06-15T02:41:20.258313",
+    "qc_progress": 0
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0009-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0009-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0009-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0009",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "x@test.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "A B",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "1 A St, Detroit MI",
+    "date": "2026-06-27",
+    "time": "9:00 AM",
+    "timezone": "EST",
+    "collection_site": "2 B Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "LINK-CHK",
+      "nemt_order_id": "55d04d99-1bb7-4424-8e3e-ba2c26a0f752"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.963404"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.963404"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.963404"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.963404"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.963404"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:46:53.951341",
+    "updated_at": "2026-06-09T03:46:53.951341"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0008-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0008-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0008-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0008",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "dee@deedavis.biz",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Prod Check",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-26",
+    "time": "2:00 PM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "PROD-GATE-001",
+      "nemt_order_id": "3030fef1-5b0d-4dc8-8961-0c60d3b46494"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.647747"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.647747"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.647747"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.647747"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:53.647747"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:46:53.631290",
+    "updated_at": "2026-06-09T03:46:53.631290"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0007-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0007-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0007-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0007",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "test@example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "X Y",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-25",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "RELOAD-TEST-3",
+      "nemt_order_id": "5b8f5a01-0e1b-434d-8610-211480346ff0"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:00.579909"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:00.579909"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:00.579909"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:00.579909"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:46:00.579909"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:46:00.533636",
+    "updated_at": "2026-06-09T03:46:00.533636"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0006-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0006-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0006-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0006",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "test@example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "X Y",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-25",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "RELOAD-TEST-2"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:44:19.710823"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:44:19.710823"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:44:19.710823"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:44:19.710823"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:44:19.710823"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:44:19.696437",
+    "updated_at": "2026-06-09T03:44:19.696437"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0005-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0005-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0005-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0005",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "pa-check@test.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "A B",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-25",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "PA-CHECK"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:32.798449"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:32.798449"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:32.798449"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:32.798449"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:32.798449"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:38:32.782517",
+    "updated_at": "2026-06-09T03:38:32.782517"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0004-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0004-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0004-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0004",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "test@example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "X Y",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-25",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "member_id": "RELOAD-TEST"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:04.137553"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:04.137553"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:04.137553"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:04.137553"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-09T03:38:04.137553"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-09T03:38:04.101613",
+    "updated_at": "2026-06-09T03:38:04.101613"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0003-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0003-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0003-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0003",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "dee@deedavis.biz",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Portal Smoke",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-22",
+    "time": "9:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "mobility_lane": "MOB-A",
+      "member_id": "PORTAL-SMOKE-001"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:18:31.722335"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:18:31.722335"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:18:31.722335"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:18:31.722335"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:18:31.722335"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-08T16:18:31.706684",
+    "updated_at": "2026-06-08T16:18:31.706684"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0002-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0002-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0002-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0002",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "smoke2@test.example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Smoke Member2",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-21",
+    "time": "11:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "mobility_lane": "MOB-A",
+      "member_id": "SMOKE-AUTO-002"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:53.968744"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:53.968744"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:53.968744"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:53.968744"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:53.968744"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-08T16:17:53.952064",
+    "updated_at": "2026-06-08T16:17:53.952064"
+  },
+  {
+    "id": "1-DDI-MOB-A-20260608-0001-3",
+    "confirmation_ref": "1-DDI-MOB-A-20260608-0001-3",
+    "confirmation_meta": {
+      "ref": "1-DDI-MOB-A-20260608-0001-3",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 1,
+      "contract_payer_name": "HAP CareSource",
+      "population_lane": "MOB-A",
+      "lane_description": "Plan NEMT \u2014 enrolled members, authorized medical trips",
+      "date": "20260608",
+      "sequence": "0001",
+      "check_digit": "3",
+      "channel": "web"
+    },
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "smoke@test.example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "Smoke Member",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "100 Test St, Detroit MI",
+    "date": "2026-06-20",
+    "time": "10:00 AM",
+    "timezone": "EST",
+    "collection_site": "200 Clinic Rd, Detroit MI",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "trip_type": "Ambulatory",
+      "mobility_lane": "MOB-A",
+      "member_id": "SMOKE-AUTO-001"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:38.427651"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:38.427651"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:38.427651"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:38.427651"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-08T16:17:38.427651"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-08T16:17:38.376474",
+    "updated_at": "2026-06-08T16:17:38.376474"
+  },
+  {
+    "id": "0-DDI-TPA-4-20260607-0002-2",
+    "confirmation_ref": "0-DDI-TPA-4-20260607-0002-2",
+    "confirmation_meta": {
+      "ref": "0-DDI-TPA-4-20260607-0002-2",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 0,
+      "contract_payer_name": "DDI Direct / Non-MCO",
+      "population_lane": "TPA-4",
+      "lane_description": "Notary & document services",
+      "date": "20260607",
+      "sequence": "0002",
+      "check_digit": "2",
+      "channel": "web"
+    },
+    "type": "notary",
+    "service_key": "notary",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "",
+    "date": "06/07/2026",
+    "time": "",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "notary@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "NOT-1",
+        "check": "Active notary commission for this state?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-2",
+        "check": "Signer identity verified with acceptable ID?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-3",
+        "check": "Signer appeared willingly (no duress)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-4",
+        "check": "Correct notarial act performed (acknowledgment vs jurat)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-5",
+        "check": "Journal entry completed with all required fields?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-6",
+        "check": "Seal/stamp affixed clearly and completely?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-7",
+        "check": "Certificate wording matches state requirements?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T23:56:03.743955"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T23:56:03.743955"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Notarization",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NOT-1",
+            "check": "Signer identity verified with acceptable ID",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-2",
+            "check": "Signer appeared willingly (no duress)",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-3",
+            "check": "Correct notarial act performed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Journal + Seal",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NOT-4",
+            "check": "Journal entry completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-5",
+            "check": "Seal/stamp affixed clearly",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-6",
+            "check": "Document scanned and uploaded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-07T23:56:03.716530",
+    "updated_at": "2026-06-07T23:56:03.716530"
+  },
+  {
+    "id": "0-DDI-TPA-4-20260607-0001-2",
+    "confirmation_ref": "0-DDI-TPA-4-20260607-0001-2",
+    "confirmation_meta": {
+      "ref": "0-DDI-TPA-4-20260607-0001-2",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 0,
+      "contract_payer_name": "DDI Direct / Non-MCO",
+      "population_lane": "TPA-4",
+      "lane_description": "Notary & document services",
+      "date": "20260607",
+      "sequence": "0001",
+      "check_digit": "2",
+      "channel": "web"
+    },
+    "type": "notary",
+    "service_key": "notary",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "",
+    "date": "06/07/2026",
+    "time": "",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "notary@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "NOT-1",
+        "check": "Active notary commission for this state?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-2",
+        "check": "Signer identity verified with acceptable ID?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-3",
+        "check": "Signer appeared willingly (no duress)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-4",
+        "check": "Correct notarial act performed (acknowledgment vs jurat)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-5",
+        "check": "Journal entry completed with all required fields?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-6",
+        "check": "Seal/stamp affixed clearly and completely?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-7",
+        "check": "Certificate wording matches state requirements?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T17:39:22.119564"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T17:39:22.119564"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Notarization",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NOT-1",
+            "check": "Signer identity verified with acceptable ID",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-2",
+            "check": "Signer appeared willingly (no duress)",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-3",
+            "check": "Correct notarial act performed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Journal + Seal",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NOT-4",
+            "check": "Journal entry completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-5",
+            "check": "Seal/stamp affixed clearly",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-6",
+            "check": "Document scanned and uploaded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-07T17:39:22.079369",
+    "updated_at": "2026-06-07T17:39:22.079369"
+  },
+  {
+    "id": "0-DDI-TPA-4-20260606-0001-6",
+    "confirmation_ref": "0-DDI-TPA-4-20260606-0001-6",
+    "confirmation_meta": {
+      "ref": "0-DDI-TPA-4-20260606-0001-6",
+      "format": "ddi_contract_lane",
+      "contract_payer_id": 0,
+      "contract_payer_name": "DDI Direct / Non-MCO",
+      "population_lane": "TPA-4",
+      "lane_description": "Notary & document services",
+      "date": "20260606",
+      "sequence": "0001",
+      "check_digit": "6",
+      "channel": "web"
+    },
+    "type": "notary",
+    "service_key": "notary",
+    "channel": null,
+    "service_label": "",
+    "status": "Order Received",
+    "agent": "",
+    "client": "",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_email": "",
+    "subject_id": "",
+    "address": "",
+    "date": "06/07/2026",
+    "time": "",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "notary@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "NOT-1",
+        "check": "Active notary commission for this state?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-2",
+        "check": "Signer identity verified with acceptable ID?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-3",
+        "check": "Signer appeared willingly (no duress)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-4",
+        "check": "Correct notarial act performed (acknowledgment vs jurat)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-5",
+        "check": "Journal entry completed with all required fields?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-6",
+        "check": "Seal/stamp affixed clearly and completely?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NOT-7",
+        "check": "Certificate wording matches state requirements?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T00:01:51.472547"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-07T00:01:51.472547"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "En Route / Scheduled",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ENR-1",
+            "check": "Agent confirmed appointment",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Notarization",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NOT-1",
+            "check": "Signer identity verified with acceptable ID",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-2",
+            "check": "Signer appeared willingly (no duress)",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-3",
+            "check": "Correct notarial act performed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Journal + Seal",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NOT-4",
+            "check": "Journal entry completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-5",
+            "check": "Seal/stamp affixed clearly",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NOT-6",
+            "check": "Document scanned and uploaded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-07T00:01:51.444478",
+    "updated_at": "2026-06-07T00:01:51.444478"
+  },
+  {
+    "id": "PRISM-20260606-0028-7083",
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "NEMT & Medical Mobility",
+    "status": "Agent Assigned",
+    "agent": "",
+    "client": "BPPC",
+    "client_contact": "CASE MANAGEMENT",
+    "client_phone": "3135551212",
+    "client_email": "ddavis@bppc.consulting",
+    "client_po": "\u2014",
+    "client_address": "500 WOODWARD AVE DETROIT MICHIGAN 48202",
+    "signer": "IMA RIDER",
+    "subject_dob": "2000-02-02",
+    "subject_phone": "2487779311",
+    "subject_id": "\u2014",
+    "address": "52 PILGRIM ST, HIGHLAND PARK MICHIGAN 48203",
+    "date": "2026-06-12",
+    "time": "17:00",
+    "timezone": "Eastern (ET)",
+    "collection_site": "500 WOODWARD AVE, DETROIT, MICHIGAN 48202",
+    "fee": 85,
+    "priority": "Standard",
+    "tier": 2,
+    "notes": "N/A",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "program_type": "Medicaid / MCO / Plan NEMT",
+      "mobility_lane": "MOB-A",
+      "trip_type": "Ambulatory",
+      "leg_type": "One-way",
+      "appointment_purpose": "Medical appointment",
+      "pickup_address": "52 PILGRIM ST, HIGHLAND PARK MICHIGAN 48203",
+      "dropoff_address": "500 WOODWARD AVE, DETROIT, MICHIGAN 48202"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T04:28:50.855002"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 2,
+    "workflow_stage_label": "Agent Assigned",
+    "created_at": "2026-06-06T04:28:50.854457",
+    "updated_at": "2026-07-25T22:51:12.487375",
+    "ops_claimed_by": "Dieasha D. Davis",
+    "ops_claimed_email": "info@deedavis.biz",
+    "ops_claimed_at": "2026-07-25T22:51:12.487341",
+    "ops_care_status": "Working",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T22:51:12.487368Z",
+        "actor": "Dieasha D. Davis",
+        "actorEmail": "info@deedavis.biz",
+        "type": "claim",
+        "text": "\ud83d\ude4b Assigned to me"
+      }
+    ]
+  },
+  {
+    "id": "PRISM-20260605-2128-3483",
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "NEMT & Medical Mobility",
+    "status": "Agent Assigned",
+    "agent": "",
+    "client": "BPPC",
+    "client_contact": "D DAVIS",
+    "client_phone": "3135662323",
+    "client_email": "ddavis@bppc.consulting",
+    "client_po": "\u2014",
+    "client_address": "6989 HIGHWAY , DETROIT MICHIGAN 48207",
+    "signer": "JAXXY JAXSON",
+    "subject_dob": "2000-12-17",
+    "subject_phone": "6166161616",
+    "subject_id": "\u2014",
+    "address": "100 WOODWARD AVE DETROIT MICHIGAN 48202",
+    "date": "2026-06-12",
+    "time": "17:30",
+    "timezone": "Eastern (ET)",
+    "collection_site": "52 PILGRIM HIGHLAND PARK MICHIGAN 48203",
+    "fee": 85,
+    "priority": "Standard",
+    "tier": 2,
+    "notes": "\u2014",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {
+      "program_type": "Medicaid / MCO / Plan NEMT",
+      "mobility_lane": "MOB-A",
+      "trip_type": "Ambulatory",
+      "leg_type": "One-way",
+      "appointment_purpose": "Other",
+      "pickup_address": "100 WOODWARD AVE DETROIT MICHIGAN 48202",
+      "dropoff_address": "52 PILGRIM HIGHLAND PARK MICHIGAN 48203"
+    },
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-06T01:28:11.885182"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 2,
+    "workflow_stage_label": "Agent Assigned",
+    "created_at": "2026-06-06T01:28:11.884541",
+    "updated_at": "2026-06-06T01:28:11.884541"
+  },
+  {
+    "id": "SMOKE-LIVE-003",
+    "type": "nemt",
+    "service_key": "nemt",
+    "channel": null,
+    "service_label": "NEMT Test",
+    "status": "Pending Info",
+    "agent": "",
+    "client": "Smoke Test Co",
+    "client_contact": "",
+    "client_phone": "",
+    "client_email": "smoke@test.example.com",
+    "client_po": "",
+    "client_address": "",
+    "signer": "",
+    "subject_dob": "",
+    "subject_phone": "",
+    "subject_id": "",
+    "address": "",
+    "date": "06/05/2026",
+    "time": "",
+    "timezone": "EST",
+    "collection_site": "",
+    "fee": 150,
+    "priority": "Standard",
+    "tier": 1,
+    "notes": "",
+    "routing_email": "nemt@deedavis.biz",
+    "details": {},
+    "qc_checklist": [
+      {
+        "id": "NEMT-1",
+        "check": "Driver license current and matches state requirements?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-2",
+        "check": "Vehicle insurance current with required minimums ($1M+)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-3",
+        "check": "Vehicle inspection current (daily pre-trip completed)?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-4",
+        "check": "Passenger identity verified before transport?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-5",
+        "check": "Pick-up and drop-off times documented?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-6",
+        "check": "Passenger signature obtained on trip log?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-7",
+        "check": "ADA accessibility requirements met (if applicable)?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-8",
+        "check": "No-show documented with timestamp?",
+        "severity": "CRITICAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      },
+      {
+        "id": "NEMT-9",
+        "check": "HIPAA \u2014 passenger medical info protected?",
+        "severity": "FATAL",
+        "completed": false,
+        "completed_by": null,
+        "completed_at": null
+      }
+    ],
+    "qc_status": "pending",
+    "workflow": [
+      {
+        "stage": "received",
+        "label": "Order Received",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-RCV-1",
+            "check": "Client company name provided",
+            "field": "client",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-05T23:34:11.859351"
+          },
+          {
+            "id": "G-RCV-2",
+            "check": "Subject / donor name provided",
+            "field": "signer",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-RCV-3",
+            "check": "Service type confirmed",
+            "field": "type",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-05T23:34:11.859351"
+          }
+        ]
+      },
+      {
+        "stage": "validated",
+        "label": "Order Validated",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-VAL-1",
+            "check": "Scheduling date set",
+            "field": "date",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-05T23:34:11.859351"
+          },
+          {
+            "id": "G-VAL-2",
+            "check": "Service location / address confirmed",
+            "field": "address",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-VAL-3",
+            "check": "Client contact info on file",
+            "field": "client_email",
+            "rule": "not_empty",
+            "passed": true,
+            "passed_by": "System",
+            "passed_at": "2026-06-05T23:34:11.859351"
+          }
+        ]
+      },
+      {
+        "stage": "assigned",
+        "label": "Agent Assigned",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-ASN-1",
+            "check": "Field agent assigned",
+            "field": "agent",
+            "rule": "not_empty",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "en_route",
+        "label": "Driver En Route to Pickup",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-1",
+            "check": "Driver confirmed and dispatched",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-2",
+            "check": "Vehicle pre-trip inspection completed",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "in_progress",
+        "label": "Passenger Transport",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-NE-3",
+            "check": "Passenger identity verified",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-4",
+            "check": "Passenger picked up \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-5",
+            "check": "Passenger delivered \u2014 timestamp logged",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "qc_review",
+        "label": "QC Review",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-QC-1",
+            "check": "All FATAL QC items passed",
+            "field": null,
+            "rule": "qc_fatal_pass",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "documentation",
+        "label": "Trip Documentation",
+        "auto": true,
+        "gates": [
+          {
+            "id": "G-NE-6",
+            "check": "Trip log signed by passenger",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          },
+          {
+            "id": "G-NE-7",
+            "check": "Mileage and times recorded",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "delivered",
+        "label": "Results Delivered",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-DLV-1",
+            "check": "Results / documents sent to client",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "billed",
+        "label": "Billed",
+        "auto": false,
+        "gates": [
+          {
+            "id": "G-BIL-1",
+            "check": "Invoice generated and sent",
+            "field": null,
+            "rule": "manual",
+            "passed": false,
+            "passed_by": null,
+            "passed_at": null
+          }
+        ]
+      },
+      {
+        "stage": "complete",
+        "label": "Complete",
+        "auto": true,
+        "gates": []
+      }
+    ],
+    "workflow_stage": 0,
+    "workflow_stage_label": "Order Received",
+    "created_at": "2026-06-05T23:34:11.858591",
+    "updated_at": "2026-07-25T22:52:55.210237",
+    "ops_claimed_by": "Dieasha D. Davis",
+    "ops_claimed_email": "info@deedavis.biz",
+    "ops_claimed_at": "2026-07-25T22:52:12.453820",
+    "ops_care_status": "Waiting on Auth",
+    "ops_activity": [
+      {
+        "ts": "2026-07-25T22:52:12.453849Z",
+        "actor": "Dieasha D. Davis",
+        "actorEmail": "info@deedavis.biz",
+        "type": "claim",
+        "text": "\ud83d\ude4b Assigned to me"
+      },
+      {
+        "ts": "2026-07-25T22:52:55.210223Z",
+        "actor": "Dieasha D. Davis",
+        "actorEmail": "info@deedavis.biz",
+        "type": "status",
+        "text": "\u23f3 Status \u2192 Waiting on Auth"
+      }
+    ],
+    "ops_last_edit_by": "info@deedavis.biz"
+  }
+]
